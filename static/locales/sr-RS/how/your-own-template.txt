@@ -4,7 +4,7 @@
 
 А @Structure је као рецепт са празнинама које треба попунити.Ево шаблона балона који узима боју и ознаку и зна како да се прикаже:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` боја: color величина: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Небо').show()

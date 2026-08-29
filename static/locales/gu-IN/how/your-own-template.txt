@@ -4,7 +4,7 @@
 
 અ @Structure ખાલી જગ્યાઓ ભરવાની રેસીપી જેવી છે.અહીં એક ફુગ્ગાનો નમૂનો છે જે રંગ અને લેબલ લે છે, અને પોતાને કેવી રીતે દર્શાવવું તે જાણે છે:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` રંગ: color કદ: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'આકાશ').show()

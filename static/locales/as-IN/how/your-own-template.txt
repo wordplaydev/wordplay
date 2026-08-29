@@ -4,7 +4,7 @@
 
 উঃ  @Structure  পূৰণ কৰিবলৈ খালী ঠাই থকা ৰেচিপিৰ দৰে।ইয়াত এটা বেলুন টেমপ্লেট আছে যিয়ে এটা ৰং আৰু এটা লেবেল লয়, আৰু নিজকে কেনেকৈ দেখুৱাব জানে:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈 \label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈 \label\` ৰং: color আকাৰ: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'আকাশ').show()

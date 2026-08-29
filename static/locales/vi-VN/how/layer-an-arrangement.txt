@@ -6,8 +6,8 @@ Vì các bậc là bước của một thang âm chứ không phải cao độ c
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune nhạcCụ: Instrument.flute)
+		Track(tune nhạcCụ: Instrument.synthBass chìaKhóa: -12semitones âmLượng: 60%)
 	])\
 
 Hai giọng, một danh sách. Sửa giai điệu thì bass đi theo, vì chỉ có một giai điệu để sửa.
@@ -16,10 +16,10 @@ Bây giờ hãy lấp đầy xung quanh nó. Các hợp âm muốn có nhịp đ
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune nhạcCụ: Instrument.flute cânBằngTráiPhải: 0)
+		Track(tune nhạcCụ: Instrument.synthBass chìaKhóa: -12semitones âmLượng: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] nhạcCụ: Instrument.synthPad nhịp: 2beats âmLượng: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] nhạcCụ: Instrument.drums nhịp: 0.5beats âmLượng: 45%)
 	])\
 
 Hãy để ý âm lượng: chỉ có sáo là ở mức tối đa. Các phần ở âm lượng tối đa không cộng lại thành một ban nhạc to hơn, mà thành một ban nhạc đục hơn, vì mọi thứ vang lên cùng lúc đều phải đi qua cùng một cái loa. Hãy bắt đầu giai điệu ở \100%\ và đặt mọi thứ khác thấp xuống dưới nó.

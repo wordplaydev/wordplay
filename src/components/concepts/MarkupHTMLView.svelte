@@ -38,6 +38,7 @@
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
         DOCS_SYMBOL,
+        EDIT_SYMBOL,
         FORMATTED_SYMBOL,
         REVERT_SYMBOL,
     } from '@parser/Symbols';
@@ -108,6 +109,13 @@
         );
     }
 
+    /** A locale template and the inputs to concretize it with. */
+    function isTemplate(
+        m: typeof markup,
+    ): m is [LocaleTextsAccessor, Record<string, TemplateInput>] {
+        return Array.isArray(m) && m[0] instanceof Function;
+    }
+
     /** Expand `$term` word-list references (primary locale) before a locale
      *  string is parsed to Markup. The concretize pipeline resolves terms
      *  itself, but these branches build Markup directly via `Markup.words`, so
@@ -122,9 +130,8 @@
         else if (isPerLocale(markup))
             return markup.perLocale($locales) ?? Markup.words('?');
         // If markup was given as an accessor and inputs, concretize it with the inputs
-        else if (Array.isArray(markup) && markup[0] instanceof Function) {
-            const accessor = markup[0];
-            const inputs = markup[1] as Record<string, TemplateInput>;
+        else if (isTemplate(markup)) {
+            const [accessor, inputs] = markup;
             const words = $locales.getWithAnnotations(accessor);
             return (
                 Markup.words(
@@ -196,45 +203,86 @@
     let editedText = $state('');
     let editorView = $state<HTMLTextAreaElement | undefined>(undefined);
 
-    /** Localizable in two modes:
-     *   1. `markup` is a plain locale accessor (not a template array).
-     *   2. Caller supplies an explicit `overrideKey` + `sourceText` (used by
-     *      tutorial dialog, whose markup doesn't live in the locale tree). */
-    let isLocalizable = $derived(
-        overrideKey !== undefined ||
-            (markup instanceof Function && !(markup instanceof Markup)),
-    );
+    /** Everything the localization editor needs about this markup, from whichever markup form
+     *  produced it. Undefined means it isn't editable, which is what keeps an edit affordance
+     *  that couldn't save from ever rendering. */
+    type Localizable = {
+        /** Dotted storage key in LocalizationDexie. */
+        key: string;
+        /** Annotation-free template text: the editor's seed, and the baseline that decides
+         *  whether an edit is stored or the override deleted. */
+        raw: string;
+        /** The accessor, for the Localizer's English reference and input chips. Undefined for
+         *  `overrideKey` callers, whose text has no place in the locale tree. */
+        accessor: LocaleTextsAccessor | undefined;
+        /** Inputs to re-concretize an override with, when the original had any. */
+        inputs: Record<string, TemplateInput> | undefined;
+    };
 
-    /** The raw text used as the editor's initial value. For locale-accessor markup
-     *  this is the resolved annotation-free locale string; for an explicit
-     *  `overrideKey` it's the caller-supplied `sourceText`. */
-    let rawText = $derived.by(() => {
-        if (overrideKey !== undefined) return sourceText ?? '';
-        if (!(markup instanceof Function)) return '';
-        const text = $locales.getWithAnnotations(markup);
-        return withoutAnnotations(
-            Array.isArray(text) ? text.join('\n\n') : text,
-        );
+    let source = $derived.by<Localizable | undefined>(() => {
+        // An explicit key wins: a glossary term's id is dynamic and tutorial dialog lives in
+        // another file, so neither has a locale-tree accessor at all.
+        if (overrideKey !== undefined)
+            return {
+                key: overrideKey,
+                raw: sourceText ?? '',
+                accessor: undefined,
+                inputs: undefined,
+            };
+
+        let accessor: LocaleTextsAccessor | undefined;
+        let inputs: Record<string, TemplateInput> | undefined;
+        if (markup instanceof Function && !(markup instanceof Markup))
+            accessor = markup;
+        else if (isTemplate(markup)) [accessor, inputs] = markup;
+        // A concretized markup reports the template it came from, which is how a conflict
+        // explanation or an evaluation step becomes editable without its call site handing
+        // anything up. Covers both the `Markup` and `{perLocale}` forms, since `parsed` is
+        // already the resolved primary markup for each.
+        else if (parsed.source !== undefined)
+            ({ accessor, inputs } = parsed.source);
+        if (accessor === undefined) return undefined;
+
+        const key = accessorToLocalePath(accessor)?.toString();
+        if (key === undefined) return undefined;
+
+        const text = $locales.getWithAnnotations(accessor);
+        return {
+            key,
+            raw: withoutAnnotations(
+                Array.isArray(text) ? text.join('\n\n') : text,
+            ),
+            accessor,
+            inputs,
+        };
     });
 
-    /** Storage key for the override: caller-supplied `overrideKey` wins; otherwise
-     *  we parse it from the accessor. */
-    let storageKey = $derived(
-        overrideKey !== undefined
-            ? overrideKey
-            : markup instanceof Function
-              ? accessorToLocalePath(markup)?.toString()
-              : undefined,
-    );
+    let isLocalizable = $derived(source !== undefined);
+    let rawText = $derived(source?.raw ?? '');
+    let storageKey = $derived(source?.key);
     const activeLocaleString = $derived(toLocaleString($locales.getLocale()));
-    let override = $derived(
-        storageKey !== undefined
-            ? $localeEdits.get(activeLocaleString)?.get(storageKey)
-            : undefined,
-    );
+    // An edit's value can be a whole list (a glossary term's forms, edited on
+    // the localization workspace's Glossary tab); this editor only ever shows
+    // one string, and no list-valued path reaches it.
+    let override = $derived.by(() => {
+        if (storageKey === undefined) return undefined;
+        const value = $localeEdits.get(activeLocaleString)?.get(storageKey);
+        return typeof value === 'string' ? value : undefined;
+    });
 
-    /** Parsed markup for display in localizing mode, using the override if one exists. */
-    let displayParsed = $derived(override ? Markup.words(override) : parsed);
+    /** Parsed markup for display in localizing mode, using the override if one exists. An
+     *  override goes through the same transformation `parsed` applied to the locale string —
+     *  terms expanded, and concretized when the original had inputs — so an edited template
+     *  still reads like the message it replaces rather than showing `$name`. */
+    let displayParsed = $derived.by(() => {
+        if (override === undefined) return parsed;
+        const words = Markup.words(rt(override));
+        // concretize returns undefined when an input has no value, which a mistyped `$name`
+        // in a draft can cause; showing the raw words beats blanking the message.
+        return source?.inputs === undefined
+            ? words
+            : (words.concretize($locales, source.inputs) ?? words);
+    });
     let displaySpaces = $derived(displayParsed.spaces);
     let displayParagraphsAndLists = $derived(
         toParagraphsAndLists(displayParsed),
@@ -313,9 +361,16 @@
         return result;
     });
 
+    // `$derived` is lazy but `$effect` is not, so the gates are read *before* `source` —
+    // otherwise every MarkupHTMLView on every page would reflect its accessor.
     $effect(() => {
-        if (localizing && markup instanceof Function)
-            localizing.focused = editing ? markup : undefined;
+        if (localizing === undefined || !localizing.on || !editing) return;
+        const accessor = source?.accessor;
+        localizing.focused = accessor;
+        // Clear only our own, so a sibling re-rendering can't blank the open editor's.
+        return () => {
+            if (localizing.focused === accessor) localizing.focused = undefined;
+        };
     });
 
     async function startEditing() {
@@ -475,41 +530,36 @@
                     >{/if}
             </div>
         {:else}
-            <span class="edit-button"
-                ><Button
-                    tip={(l) => l.ui.localize.button.edit}
-                    action={startEditing}
-                    background="salient"
-                    size="inherit"
-                    wrap={true}
-                >
-                    {#if placeholder && displayParsed
-                            .toText()
-                            .trim().length === 0}
-                        <LocalizedText path={placeholder} />
-                    {:else if displaySpaces}
-                        {#if inline}
-                            {#each displayParsed.asLine().paragraphs[0].segments as segment}
-                                <SegmentHTMLView
-                                    {segment}
-                                    spaces={displaySpaces}
-                                    alone={false}
-                                />
-                            {/each}
-                        {:else}
-                            <div class="markup" class:note>
-                                {@render paragraphsView(
-                                    displayParagraphsAndLists,
-                                    displaySpaces,
-                                )}{#if displayParsed.isMachineTranslated() && !override}<MachineTranslatedAnnotation
-                                    />{/if}
-                            </div>
-                        {/if}
-                    {:else}
-                        unable to render markup without spaces
-                    {/if}
-                    {#if override}<LocallyRevisedAnnotation />{/if}
-                </Button></span
+            <!-- The markup renders exactly as it does outside localization mode, and the
+                 edit affordance sits beside it rather than wrapping it. Markup can contain
+                 concept links and rendered code, which are themselves interactive: nesting
+                 those inside a button is invalid HTML, swallows their clicks, and fails axe's
+                 nested-interactive rule. This is the shape a Link already uses for the same
+                 reason. -->
+            <span class="editable" class:block={!inline}
+                >{#if placeholder && displayParsed
+                        .toText()
+                        .trim().length === 0}<LocalizedText
+                        path={placeholder}
+                    />{:else if displaySpaces}{#if inline}{#each displayParsed.asLine().paragraphs[0].segments as segment}<SegmentHTMLView
+                                {segment}
+                                spaces={displaySpaces}
+                                alone={false}
+                            />{/each}{:else}<div class="markup" class:note>
+                            {@render paragraphsView(
+                                displayParagraphsAndLists,
+                                displaySpaces,
+                            )}{#if displayParsed.isMachineTranslated() && !override}<MachineTranslatedAnnotation
+                                />{/if}
+                        </div>{/if}{:else}unable to render markup without spaces{/if}{#if override}<LocallyRevisedAnnotation
+                    />{/if}<span class="edit-button"
+                    ><Button
+                        tip={(l) => l.ui.localize.button.edit}
+                        action={startEditing}
+                        background
+                        size="inherit">{EDIT_SYMBOL}</Button
+                    ></span
+                ></span
             >
         {/if}
     </span>
@@ -660,12 +710,33 @@
         display: block;
     }
 
-    .edit-button :global(button) {
+    /* Marks the markup as editable, carrying the elevated treatment the whole-text button
+       used to. The ✎ trails the content so it reads as attached to it. */
+    .editable {
+        display: inline;
+        padding: var(--wordplay-spacing-half);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+    }
+
+    .editable.block {
         display: block;
-        width: 100%;
-        text-align: start;
-        font-weight: inherit;
-        white-space: normal;
+    }
+
+    .edit-button {
+        margin-inline-start: var(--wordplay-spacing-half);
+        white-space: nowrap;
+    }
+
+    /* Block prose puts the affordance on its own line, where it reads as an action on the
+       box rather than a stray glyph in the text; pin it to the trailing edge. */
+    .editable.block .edit-button {
+        display: block;
+        width: fit-content;
+        margin-inline-start: auto;
+        margin-block-start: var(--wordplay-spacing-half);
     }
 
     .edit-actions {

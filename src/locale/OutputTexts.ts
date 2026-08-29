@@ -74,6 +74,23 @@ type OutputTexts = {
         /** The blurriness of the shadow */
         blur: NameAndDoc;
     };
+    /** A speech bubble showing what a phrase is saying or thinking */
+    Bubble: NameAndDoc & {
+        /** What the bubble shows; give it a Say instead of text to have it spoken aloud too */
+        text: NameAndDoc;
+        /** Which side of the phrase the bubble sits on, as an arrow; unset lets the stage choose */
+        side: NameAndDoc;
+        /** Whether the bubble is speech or thought */
+        kind: NameAndDoc;
+        /** The color of the bubble's text; ø means the phrase's own color */
+        color: NameAndDoc;
+        /** The color the bubble is filled with */
+        background: NameAndDoc;
+        /** How big the bubble's text is; ø means the phrase's own size */
+        size: NameAndDoc;
+        /** The boundary at which to wrap the bubble's text to another line */
+        wrap: NameAndDoc;
+    };
     /** A sequence of characters */
     Phrase: NameAndDoc & {
         /** The characters to render */
@@ -90,9 +107,11 @@ type OutputTexts = {
         matter: NameAndDoc;
         /** The shadow properties for the phrase */
         aura: NameAndDoc;
-        /** [formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: non-optional pose, $6: optional color name */
+        /** The optional speech bubble showing what the phrase is saying */
+        bubble: NameAndDoc;
+        /** [formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: non-optional pose, $6: optional color name, $7: optional speech bubble text */
         defaultDescription: Template<
-            ['text', 'name', 'size', 'face', 'animation', 'color']
+            ['text', 'name', 'size', 'face', 'animation', 'color', 'bubble']
         >;
     } & TypeTexts;
     /** The whole stage view and settings to control its appearance */
@@ -151,6 +170,12 @@ type OutputTexts = {
         duration: NameAndDoc;
         /** The transition style of transitions */
         style: NameAndDoc;
+        /** Whether to paint the shape's inside */
+        filled: NameAndDoc;
+        /** Whether to paint the shape's outline */
+        stroked: NameAndDoc;
+        /** Text drawn along the shape's outline */
+        glyphs: NameAndDoc;
     };
     /** A text-to-speech output that speaks a plain text literal */
     Say: NameAndDoc & {
@@ -330,6 +355,19 @@ type OutputTexts = {
         /** Vertical center of the circle */
         y: NameAndDoc;
         /** Z coordinate the circle */
+        z: NameAndDoc;
+    };
+    /** An arbitrary path form, drawn through a list of places */
+    Path: NameAndDoc & {
+        /** The places the path passes through */
+        points: NameAndDoc;
+        /** Whether the path joins back to its first place */
+        closed: NameAndDoc;
+        /** Whether the path curves through its places instead of turning at them */
+        smooth: NameAndDoc;
+        /** How wide to draw the path */
+        thickness: NameAndDoc;
+        /** The depth the whole path lies at */
         z: NameAndDoc;
     };
     /** A regular polygon form */

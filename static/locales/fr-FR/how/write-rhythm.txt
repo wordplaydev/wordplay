@@ -6,7 +6,7 @@ Une liste de nombres simples donne à chaque note la même durée, ce qui ressem
 
 \Music([
 		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums battement: 0.5beats)
 	])\
 
 La première note du piano est suivie de trois silences, elle sonne donc pendant quatre temps. La grille de la batterie est d'un demi-temps, donc ses huit entrées remplissent quatre temps tandis que les huit du piano en remplissent huit — la batterie tourne deux fois pendant que le piano tourne une fois. Les pistes bouclent sur leurs propres longueurs, et c'est ainsi qu'un seul nombre crée une polyrythmie.
@@ -23,7 +23,7 @@ Compter les silences devient fatigant, alors tu peux écrire la durée sur le no
 			1𝅘𝅥𝅮𝅭
 			8𝅘𝅥𝅯
 			5𝅗𝅥
-		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
+		] instrument: Instrument.trumpet battement: 1𝅘𝅥))\
 
 Cela fait deux mesures de quatre temps. \𝅝\ est une ronde, \𝅗𝅥\ une blanche, \𝅘𝅥\ une noire, \𝅘𝅥𝅮\ une croche et \𝅘𝅥𝅯\ une double croche, et le point \𝅭\ rend n'importe laquelle d'entre elles moitié plus longue — donc \𝅘𝅥𝅮𝅭\ est la croche pointée qui pousse cette marche vers l'avant. La rangée de symboles sous l'éditeur te les propose après que tu tapes un nombre.
 

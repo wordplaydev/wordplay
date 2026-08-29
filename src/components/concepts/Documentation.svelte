@@ -7,6 +7,7 @@
     import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
+    import Link from '@components/app/Link.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
     import {
@@ -271,45 +272,75 @@
         ),
     );
 
-    // order of how-tos shown in the Guide panel
-    // 1: all bookmarked how-tos first
-    // 2: then how-tos from the gallery that the project is in, if applicable (must be in project view and project must be in gallery)
-    // 3: then all other how-tos, if applicable (if filter is set to all, project is not in gallery, or )
-    let galleryHowConcepts: GalleryHowConcept[] = $derived(
+    /** A gallery's how-tos, under the gallery's own name. */
+    type HowToGroup = {
+        /** The gallery, when we can name it; undefined for the bookmarks group
+         *  and for a gallery we can't resolve. */
+        gallery: Gallery | undefined;
+        /** Stable key for the `{#each}`, since `gallery` may be undefined. */
+        id: string;
+        concepts: GalleryHowConcept[];
+    };
+
+    /** Which how-tos are in scope: the project's own gallery plus bookmarks when
+     *  the filter is on, otherwise everything the creator can reach. */
+    let scopedHowTos: GalleryHowTo[] = $derived(
+        galleryID && galleryOnly
+            ? [...galleryHowTos, ...allBookmarks]
+            : HowTos.allAccessiblePublishedHowTos,
+    );
+
+    /** The bookmarked how-tos, across every gallery. Their own group, because
+     *  grouping by gallery would otherwise scatter them. */
+    let bookmarkedConcepts: GalleryHowConcept[] = $derived(
         index
-            ? (galleryID && galleryOnly
-                  ? [...galleryHowTos, ...allBookmarks]
-                  : HowTos.allAccessiblePublishedHowTos
-              )
+            ? scopedHowTos
+                  .filter((ht) => ht.hasBookmarker($user?.uid ?? ''))
                   .map((ht) => index.getGalleryHowConcept(ht.getHowToId()))
                   .filter((c): c is GalleryHowConcept => c !== undefined)
-                  .toSorted((a, b) => {
-                      let aBookmarked = a.howTo.hasBookmarker($user?.uid ?? '');
-                      let bBookmarked = b.howTo.hasBookmarker($user?.uid ?? '');
-
-                      if (aBookmarked && !bBookmarked) {
-                          return -1;
-                      } else if (!aBookmarked && bBookmarked) {
-                          return 1;
-                      } else if (galleryID) {
-                          let aInGallery =
-                              a.howTo.getHowToGalleryId() === galleryID;
-                          let bInGallery =
-                              b.howTo.getHowToGalleryId() === galleryID;
-
-                          if (aInGallery && !bInGallery) {
-                              return -1;
-                          } else if (!aInGallery && bInGallery) {
-                              return 1;
-                          } else {
-                              return 0;
-                          }
-                      } else {
-                          return 0;
-                      }
-                  })
             : [],
     );
+
+    /**
+     * The rest, grouped by the gallery that shared them (#1277). The gallery's
+     * name comes from the caches the gallery listener already fills — every
+     * accessible how-to belongs to a gallery in one of them — so naming a group
+     * costs no fetch. The project's own gallery leads; the rest follow by name.
+     */
+    let galleryHowGroups: HowToGroup[] = $derived.by(() => {
+        if (index === undefined) return [];
+        const groups = new Map<string, HowToGroup>();
+        for (const howTo of scopedHowTos) {
+            if (howTo.hasBookmarker($user?.uid ?? '')) continue;
+            const concept = index.getGalleryHowConcept(howTo.getHowToId());
+            if (concept === undefined) continue;
+            const id = howTo.getHowToGalleryId();
+            let group = groups.get(id);
+            if (group === undefined) {
+                group = {
+                    gallery:
+                        Galleries.accessibleGalleries.get(id) ??
+                        Galleries.expandedScopeGalleries.get(id),
+                    id,
+                    concepts: [],
+                };
+                groups.set(id, group);
+            }
+            group.concepts.push(concept);
+        }
+        return [...groups.values()].toSorted((a, b) => {
+            if (galleryID) {
+                if (a.id === galleryID && b.id !== galleryID) return -1;
+                if (b.id === galleryID && a.id !== galleryID) return 1;
+            }
+            // An unnameable gallery sorts last rather than under an empty name.
+            if (a.gallery === undefined) return b.gallery === undefined ? 0 : 1;
+            if (b.gallery === undefined) return -1;
+            return a.gallery
+                .getName($locales)
+                .localeCompare(b.gallery.getName($locales));
+        });
+    });
 
     // Keep the search box and the navigation history in sync. The box (`query`) and
     // the top search location are two views of the same thing; these two guarded,
@@ -584,7 +615,7 @@
                 <!-- Glossary matches first (usually one or two), shown as
                      glossary entries; clicking the word jumps to the entry. -->
                 {#each glossaryResults as term (term.id)}
-                    <GlossaryEntry id={term.id} word={term.word} />
+                    <GlossaryEntry id={term.id} />
                 {/each}
                 {#each results.slice(0, resultLimit) as [concept, text]}
                     {@const match = text[0]}
@@ -683,12 +714,17 @@
                                 }}
                             />
                         {/if}
-                        {#if galleryHowConcepts.length > 0}
-                            <Subheader
-                                text={(l) => l.ui.docs.how.category.gallery}
-                            />
+                        <!-- Gallery how-tos live here rather than on the
+                             galleries page (#1277), grouped by the gallery that
+                             shared them so each group can link to that gallery's
+                             how-to space — the only way in for a gallery whose
+                             projects you can't see. The groups sit alongside the
+                             built-in categories below, since a gallery is the
+                             category here. -->
+                        {#if bookmarkedConcepts.length > 0}
+                            <Subheader text={(l) => l.ui.docs.how.bookmarked} />
                             <div class="howtos">
-                                {#each galleryHowConcepts as how (how.getHowToId())}
+                                {#each bookmarkedConcepts as how (how.getHowToId())}
                                     <ConceptPreview
                                         concept={how}
                                         node={how.getRepresentation()}
@@ -697,6 +733,29 @@
                                 {/each}
                             </div>
                         {/if}
+                        {#each galleryHowGroups as group (group.id)}
+                            <Subheader wrap>
+                                {#if group.gallery}
+                                    <Link to={`/gallery/${group.id}/howto`}
+                                        >{group.gallery.getName($locales)}</Link
+                                    >
+                                {:else}
+                                    <LocalizedText
+                                        path={(l) =>
+                                            l.ui.docs.how.category.gallery}
+                                    />
+                                {/if}
+                            </Subheader>
+                            <div class="howtos">
+                                {#each group.concepts as how (how.getHowToId())}
+                                    <ConceptPreview
+                                        concept={how}
+                                        node={how.getRepresentation()}
+                                        elide
+                                    />
+                                {/each}
+                            </div>
+                        {/each}
 
                         {@const builtInHowTo = index.concepts.filter(
                             (c) => c instanceof HowConcept,

@@ -12,7 +12,7 @@ import { toTokens } from '@parser/toTokens';
  * and analyzing them produces spurious conflicts. Real programs never start with an annotation symbol
  * or a `xx|` language tag, so skipping these is safe.
  */
-function isNonProgram(code: string): boolean {
+function isNonProgram(code: string, allowDocs: boolean): boolean {
     const trimmed = code.trim();
     return (
         trimmed.startsWith(HIGHLIGHT_SYMBOL) ||
@@ -20,8 +20,10 @@ function isNonProgram(code: string): boolean {
         /^[a-z]{2,3}\s*\|/.test(trimmed) ||
         // A `¶…¶` doc block inside the "code" means this is a meta-example demonstrating doc/markup
         // syntax, not a program; analyzing it tokenizes the doc's prose as references (spurious
-        // UnknownName). Real programs don't contain the doc delimiter.
-        trimmed.includes(DOCS_SYMBOL)
+        // UnknownName). Real programs don't contain the doc delimiter — except the landing page's
+        // tour examples, which open with a `¶doc¶` describing what they show, which is why callers
+        // that only rename identifiers (and never analyze the whole example) can ask for them.
+        (!allowDocs && trimmed.includes(DOCS_SYMBOL))
     );
 }
 
@@ -60,7 +62,13 @@ export type DocExample = {
  * so conflict analysis sees the author's exact code rather than canonical-spacing `toWordplay()`.
  * Shared by the locale verifier and the defect-annotation codemod so they agree on every example.
  */
-export default function getDocExamples(doc: string): DocExample[] {
+export default function getDocExamples(
+    doc: string,
+    /** Whether to include examples containing a `¶…¶` doc. Off by default, since analyzing one
+     *  reads its prose as references; on for callers that rewrite identifiers rather than
+     *  analyze, which would otherwise miss every landing-page tour example. */
+    allowDocs = false,
+): DocExample[] {
     const tokens = toTokens(DOCS_SYMBOL + doc + DOCS_SYMBOL);
     const spaces = tokens.getSpaces();
     const all = parseDoc(tokens)
@@ -96,5 +104,5 @@ export default function getDocExamples(doc: string): DocExample[] {
                     .filter((token) => !token.isSymbol(Sym.End)).length,
             };
         })
-        .filter((example) => !isNonProgram(example.code));
+        .filter((example) => !isNonProgram(example.code, allowDocs));
 }

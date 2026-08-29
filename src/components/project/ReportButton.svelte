@@ -3,38 +3,31 @@
     import { getAnnouncer } from '@components/project/Contexts';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import { DB, locales } from '@db/Database';
-    import { firestore } from '@db/firebase';
+    import sendReport from '@db/moderation/report';
     import type Project from '@db/projects/Project';
-    import { addDoc, collection } from 'firebase/firestore';
 
     interface Props {
         project: Project;
-        /** The reporter. Reporting requires an account: an anonymous report is
-         *  unaccountable and un-rate-limitable, and the rules require the
-         *  report to name its own author. */
-        uid: string;
     }
 
-    let { project, uid }: Props = $props();
+    // No uid: the callable takes the reporter from the caller's own auth token,
+    // which is the only account it will accept — an anonymous report is
+    // unaccountable and un-rate-limitable. A uid passed in here would look
+    // authoritative and never be read.
+    let { project }: Props = $props();
 
     const announce = getAnnouncer();
 
-    /** Reported once already in this session. Reporting twice does nothing —
-     *  the document ID is the project and reporter together — so say so rather
-     *  than letting someone press it repeatedly into the void. */
+    /** Reported once already in this session. Reporting twice genuinely does
+     *  nothing now — the report's document id is derived from what's being
+     *  reported, so a second press joins the existing request — but say so
+     *  rather than letting someone press it repeatedly into the void. */
     let sent = $state(false);
 
     async function report() {
-        if (firestore === undefined || sent) return;
+        if (sent) return;
         try {
-            await DB.write(
-                addDoc(collection(firestore, 'reports'), {
-                    project: project.getID(),
-                    reporter: uid,
-                    time: Date.now(),
-                    resolved: false,
-                }),
-            );
+            await sendReport({ kind: 'project', subject: project.getID() });
         } catch (error) {
             DB.reportBanner((l) => l.ui.banner.saveFailed, error);
             return;

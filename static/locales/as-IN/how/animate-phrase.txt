@@ -4,14 +4,14 @@
 
 উদাহৰণস্বৰূপে, এই মেকুৰীটোক ঘূৰি আৰু স্থানান্তৰিত কৰি অলপ নাচিবলৈ দিওঁ:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' জিৰণিলোৱা: Sequence({
+			0%: Pose(ঘূৰ্ণন: 0°)
+			15%: Pose(ঘূৰ্ণন: 15°)
+			30%: Pose(ঘূৰ্ণন: 0°)
+			45%: Pose(অফছেট: Place(-0.25m))
+			60%: Pose(অফছেট: Place(0.25m))
+			75%: Pose(অফছেট: Place(-0.25m))
+			90%: Pose(অফছেট: Place(0m))
 		} 2s))\
 
 এই উদাহৰণত ক  @Sequence  ভিন্নৰ  @Pose .

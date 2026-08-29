@@ -19,6 +19,8 @@ import Node from '@nodes/Node';
 import Source from '@nodes/Source';
 import type Conflict from '@conflicts/Conflict';
 import type { Resolution } from '@conflicts/Conflict';
+import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
+import type Markup from '@nodes/Markup';
 
 // Conflict classes referenced below.
 import { BorrowCycle } from '@conflicts/BorrowCycle';
@@ -121,6 +123,28 @@ function locate<C extends Conflict>(
     }
     const context = project.getContext(source);
     const resolutions = conflict.getResolutions(context, Templates);
+
+    // Every conflict's prose has to be reachable from localization mode, which means every
+    // message and every resolution description must report the locale string it was
+    // concretized from. Checked here rather than in a list of its own so each conflict below
+    // inherits it, and checked by *resolving* the path so a source naming somewhere that
+    // doesn't exist can't pass.
+    const editable = (markup: Markup) => {
+        expect(markup.source).toBeDefined();
+        const path =
+            markup.source === undefined
+                ? undefined
+                : accessorToLocalePath(markup.source.accessor);
+        expect(typeof path?.resolve(DefaultLocale)).toBe('string');
+    };
+    editable(
+        conflict
+            .getMessage(context, Templates)
+            .explanation(DefaultLocales, context),
+    );
+    for (const resolution of resolutions)
+        editable(resolution.description(DefaultLocales, context));
+
     return { conflict, resolutions, project, source, context };
 }
 
@@ -650,6 +674,27 @@ describe.skip('InvalidProperty', () => {
 describe('DuplicateLanguage', () => {
     test('repeated language tag → repair (drop the second)', () => {
         expectRepair("'hi'/en_en", DuplicateLanguage);
+    });
+
+    test('a language named twice, once by code and once by name → repair', () => {
+        expectRepair("'hi'/es_Spanish", DuplicateLanguage);
+    });
+
+    test('repairing a repeated region keeps the regions that were not repeated', () => {
+        // The repair used to filter the *language* extras for a duplicate
+        // region and rebuild without regionExtras at all, so fixing
+        // `/en-US_CA_US` deleted `_CA` along with the duplicate.
+        const { resolutions, context } = locate(
+            "'hi'/en-US_CA_US",
+            DuplicateLanguage,
+        );
+        const repair = resolutions[0];
+        expect(repair.kind).toBe('repair');
+        if (repair.kind !== 'repair') return;
+        const { newProject } = repair.mediator(context, DefaultLocales);
+        expect(newProject.getSources()[0].getCode().toString()).toBe(
+            "'hi'/en-US_CA",
+        );
     });
 });
 

@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 タップしてね' selectable: ⊤ name: 'タップ')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 タップしてね' 選択可能: ⊤ 名前: 'タップ')
+		Music(Track(tapped ? [1 5 8] [] 楽器: Instrument.bell ループ: ⊥) 再生: tapped)
 	])\
 
 次の評価でリストがまた空になっても心配いりません——始まった音符は、いつも最後まで鳴ります。省けないのは\replay\です。二回タップすると、二回目のタップは一回目とまったく同じ音楽を作ります。だから何も変わらず、もう一度は鳴りません。\replay\は、こう言うための方法です。/もう一度、今すぐ/。 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ キーを押してね' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] 楽器: Instrument.piano ループ: ⊥) 再生: struck)
 	])\
 
 注目してください。\∆ key\は自分の行で計算され、値のテスト\key = ' '\は別々に起こります。もし一つの条件としてまとめて書くと、関係のない次のキーでも音がまた鳴ってしまいます。なぜなら\key\ は今も空白として読まれます。

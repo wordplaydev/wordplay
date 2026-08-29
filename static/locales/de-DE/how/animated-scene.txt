@@ -5,17 +5,17 @@ Manchmal möchten wir Geschichten erzählen, Liedtexte zeigen oder Gedichte anim
 Stellen Sie sich beispielsweise vor, wir wollten den kurzen Kinderreim „Jack be Nimble“ animieren.Wir könnten eine @Scene das jede Zeile als @Phrase und durch Festlegen der @Phrase/duration jeder Zeile, die @Scene würde weitergehen, wenn jede Phrase fertig ist.
 
 \Scene([
-		Phrase('Jack sei flink' duration: 1s)
-		Phrase('Jack, sei schnell' duration: 1s)
-		Phrase('Jack springt über den Kerzenständer' duration: 1s)
+		Phrase('Jack sei flink' Dauer: 1s)
+		Phrase('Jack, sei schnell' Dauer: 1s)
+		Phrase('Jack springt über den Kerzenständer' Dauer: 1s)
 	])\
 
 @Scene werde warten auf eine @Sequence muss auch gemacht werden. Lasst uns die Kerzenlinie springen lassen!
 
 \Scene([
-		Phrase('Jack sei flink' duration: 1s)
-		Phrase('Jack, sei schnell' duration: 1s)
-		Phrase('Jack springt über den Kerzenständer' entering: Sequence.bounce(duration: 1s))
+		Phrase('Jack sei flink' Dauer: 1s)
+		Phrase('Jack, sei schnell' Dauer: 1s)
+		Phrase('Jack springt über den Kerzenständer' Eingabe: Sequence.bounce(Dauer: 1s))
 	])\
 
 @Scene kann auch eine @Group von Text und wartet, bis der gesamte Inhalt fertig animiert ist.
@@ -24,8 +24,8 @@ Stellen Sie sich beispielsweise vor, wir wollten den kurzen Kinderreim „Jack b
 		Group(Stack() [
 				Phrase('Jack sei flink')
 				Phrase('Jack, sei schnell')
-			] duration: 2s)
-		Phrase('Jack springt über den Kerzenständer' entering: Sequence.bounce(duration: 1s))
+			] Dauer: 2s)
+		Phrase('Jack springt über den Kerzenständer' Eingabe: Sequence.bounce(Dauer: 1s))
 	])\
 
 interactive-scene

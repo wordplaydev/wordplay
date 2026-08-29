@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'мени') ? '▶ притисни да почнеш' '🏃 трчи!' 1m)
-		(phase = 'мени') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'мени') ? Music(Track(theme инструмент: Instrument.bell) темпо: 72beats/min) Music(Track(theme инструмент: Instrument.synth) темпо: 132beats/min)
 	])\
 
 Обе песме су истих осам бројева. Мења се само инструмент и темпо, а већ звучи као другачије дело — јер степени говоре *који корак лествице*, а не коју висину тона, па их  @Music  може другачије протумачити. Дај му \размера: 🎼.хармонскиМол\ и иста мелодија постаје злокобна, а да ниједна нота није поново написана.
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('резултат \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] инструмент: Instrument.drums) темпо: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Притисни довољно пута и бубњеви ударају двоструко јаче него на почетку. Кратка, ударна нота чини то чујним — испод дугих, задржаних нота промену темпа је тешко осетити.

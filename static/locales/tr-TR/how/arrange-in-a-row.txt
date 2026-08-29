@@ -7,9 +7,9 @@ Bazen metinlerin düzgün bir şekilde yan yana durmasını isteriz.Bunu şu şe
 A  @Row Karakterleri üst, orta veya alt kenarlarından hizalayabilir ve aralarına boşluk ekleyebilirsiniz.İşte aynı meyve, ancak bu sefer alt kısmı hizalanmış ve biraz boşluk bırakılmış şekilde:
 
 \Group(Row('>' 0.5m) [
-		Phrase('🍎' size: 2m)
-		Phrase('🍌' size: 1m)
-		Phrase('🍇' size: 3m)
+		Phrase('🍎' boyut: 2m)
+		Phrase('🍌' boyut: 1m)
+		Phrase('🍇' boyut: 3m)
 	])\
 
 O\'>'\anlatıyor @Row Her şeyi alt kenarı boyunca hizalamayı deneyin.\'<'\üst veya üst için\'|'\orta için.O\0.5m\Her karakter arasındaki boşluktur.

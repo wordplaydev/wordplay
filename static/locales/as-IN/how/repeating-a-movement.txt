@@ -5,13 +5,13 @@
 বৰঞ্চ আমি ব্যৱহাৰ কৰিব পাৰো  @Sequence  সৈতে  @Phrase  কিবা এটাক একাধিকবাৰ পুনৰাবৃত্তি কৰিবলৈ! বিশেষকৈ,আমি count in ব্যৱহাৰ কৰিব পাৰো  @Sequence  আৰু এটা ছেট ভংগীমা কিমানবাৰ হয় সেইটো বাছি লওক। উদাহৰণ স্বৰূপে, ইয়াত বাস্কেটবল দুবাৰ ওপৰলৈ তললৈ উঠা-নমা কৰা হৈছে। 
 
 \Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀' প্ৰৱেশকৰা: Sequence({
+					0%: Pose(অফছেট: Place(y: 0.25m))
+					25%: Pose(অফছেট: Place(y: 0m))
+					50%: Pose(অফছেট: Place(y: -0.25m))
+					75%: Pose(অফছেট: Place(y: 0m))
+					100%: Pose(অফছেট: Place(y: 0.25m))
+				} হিচাপকৰা: 2x সময়কাল: 2s))
 	])\
 
 animate-phrase, shake-phrase

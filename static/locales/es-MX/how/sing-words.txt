@@ -7,8 +7,8 @@ Instrumento.voz\ es la única que puede decir algo. Dale a su  @Track  un  @Trac
 Music(
 	Track(
 		[1 2 3 5 3 1]
-		words: 'la la la la la la'
-		instrument: Instrument.voice
+		palabras: 'la la la la la la'
+		instrumento: Instrument.voice
 	)
 	tempo: 120beats/min
 )\
@@ -42,8 +42,8 @@ Una vocal sola es una sílaba perfectamente buena. Cantarlas en fila es la forma
 Music(
 	Track(
 		[1 2 3 4 5]
-		words: 'a e i o u'
-		instrument: Instrument.voice
+		palabras: 'a e i o u'
+		instrumento: Instrument.voice
 	)
 	tempo: 90beats/min
 )\
@@ -72,8 +72,8 @@ j\ es la /y/ en /yes/. Pon una delante de una vocal y tendrás una palabra:
 Music(
 	Track(
 		[5 5 3 3 1]
-		words: 'ʃi si mi lo ʌp'
-		instrument: Instrument.voice
+		palabras: 'ʃi si mi lo ʌp'
+		instrumento: Instrument.voice
 	)
 	tempo: 100beats/min
 )\
@@ -84,8 +84,8 @@ Una sílaba también puede extenderse a lo largo de varias notas. Termínala con
 Music(
 	Track(
 		[1 2 3 2 1]
-		words: 'glo--- ri'
-		instrument: Instrument.voice
+		palabras: 'glo--- ri'
+		instrumento: Instrument.voice
 	)
 	tempo: 140beats/min
 )\
@@ -107,8 +107,8 @@ Stage(
 		Music(
 			Track(
 				[1 2 3 5 3 1]
-				words: 'ðɪs ɪz ə soŋ tə si'
-				instrument: Instrument.voice
+				palabras: 'ðɪs ɪz ə soŋ tə si'
+				instrumento: Instrument.voice
 			)
 			tempo: 100beats/min
 		)

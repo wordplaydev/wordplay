@@ -1,3 +1,4 @@
+import { pickReadableName } from '@locale/getConceptName';
 import { getBind } from '@locale/getBind';
 import { describeColorLocalized } from '@output/Color/BasicColors';
 import { STAGE_SYMBOL } from '@parser/Symbols';
@@ -15,7 +16,6 @@ import {
 import { FallbackFontFamilies } from '@basis/faces/FallbackFonts';
 import toStructure from '@basis/toStructure';
 import type Locales from '@locale/Locales';
-import { getFirstText } from '@locale/LocaleText';
 import type Evaluator from '@runtime/Evaluator';
 import Color from '@output/Color/Color';
 import { Form } from '@output/Output/Shape/Form';
@@ -27,9 +27,11 @@ import Place from '@output/Place/Place';
 import Pose, { DefinitePose } from '@output/animation/Pose';
 import type RenderContext from '@output/RenderContext';
 import Say from '@output/Output/Say';
+import resolveBubbles, {
+    type BubbleChild,
+} from '@output/Bubble/resolveBubbles';
 import type Sequence from '@output/animation/Sequence';
 import Shape from '@output/Output/Shape/Shape';
-import { Stack } from '@output/Arrangement/Stack';
 import { getTypeStyle, toOutput, toOutputList } from '@output/Output/toOutput';
 import { getOutputInput } from '@output/Output/Valued';
 
@@ -198,6 +200,19 @@ export default class Stage extends Output {
         return says;
     }
 
+    /** The `Say`s carried by speech bubbles on the content, in source order.
+     * Kept apart from `getSays` because a bubble is already the visual rendering
+     * of what it speaks, so it must not also be captioned. */
+    getBubbleSays(): Say[] {
+        const says: Say[] = [];
+        for (const child of this.content) {
+            const say = child?.getBubbleSay();
+            if (say !== undefined) says.push(say);
+            if (child instanceof Group) says.push(...child.getBubbleSays());
+        }
+        return says;
+    }
+
     /** All the music in the content, in source order. Like getSays, this
      * consciously skips the overlay. */
     getMusic(): Music[] {
@@ -211,6 +226,7 @@ export default class Stage extends Output {
 
     getLayout(context: RenderContext) {
         const places: [Output, Place][] = [];
+        const children: BubbleChild[] = [];
         let left = 0,
             right = 0,
             bottom = 0,
@@ -236,6 +252,13 @@ export default class Stage extends Output {
                               0,
                           );
                 places.push([child, place]);
+                children.push({
+                    output: child,
+                    place,
+                    width: layout.width,
+                    height: layout.height,
+                    overflow: layout.overflow,
+                });
 
                 if (place.x < left) left = place.x;
                 if (place.x + layout.width > right)
@@ -250,18 +273,34 @@ export default class Stage extends Output {
             }
         }
 
+        // Speech bubbles are decoration — they move nothing and resize nothing —
+        // but they are still words a viewer has to be able to read, so the box
+        // the camera frames has to include them. Folded into the bounds rather
+        // than kept beside them so the editor's grid spans what is framed, and
+        // so the off-stage hint counts a bubble as content; a larger box only
+        // makes that hint fire less, which is the safe direction.
+        const { sides, overflow } = resolveBubbles(
+            children,
+            { left, right, top, bottom },
+            context,
+        );
+
         return {
             output: this,
-            left,
-            right,
-            top,
-            bottom,
+            left: overflow ? Math.min(left, overflow.left) : left,
+            right: overflow ? Math.max(right, overflow.right) : right,
+            top: overflow ? Math.max(top, overflow.top) : top,
+            bottom: overflow ? Math.min(bottom, overflow.bottom) : bottom,
+            // Deliberately the content's own size, not the bounds': a bubble
+            // must not resize the stage or anything laid out inside it.
             width: right - left,
             height: top - bottom,
             ascent: top - bottom,
             descent: 0,
             places,
             nearest,
+            overflow,
+            sides,
         };
     }
 
@@ -272,8 +311,8 @@ export default class Stage extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextValue
             ? this.name.text
-            : locales.getPrimaryPlainText((l) =>
-                  getFirstText(l.output.Group.names),
+            : locales.getPrimaryPlainText(
+                  (l) => pickReadableName(l.output.Group.names) ?? '',
               );
     }
 
@@ -516,58 +555,27 @@ export function toStage(
         // No stages and no other outputs: nothing renderable.
         if (outputs.length === 0) return undefined;
 
-        // Outputs that are heard rather than seen (Music, Say) never belong in the
-        // stack: they'd contribute a stack padding of empty space around nothing,
-        // and a Group box the creator can select but not see. They ride along as
-        // direct Stage children instead, which is all getMusic() and the speech
-        // synthesizer need.
+        // Every output the program made becomes a direct child of the stage,
+        // placed exactly where it asked to be — the same treatment the strays
+        // beside an explicit stage get above, and what typing them into a
+        // stage's own content list would have given them.
+        //
+        // Several visible outputs used to be collected into a synthesized Group
+        // with a Stack arrangement, which took away four things a creator never
+        // gave up: a Stack computes each child's y and never reads its
+        // `place.y`; the placeless group was then recentered by the stage,
+        // translating every child's x by half the measured group width;
+        // Physics.sync skips anything whose parent is a Group; and the palette's
+        // move constraints refuse the y axis under a Stack. So two phrases with
+        // places rendered nowhere near where they said, and could not be
+        // dragged back.
+        //
+        // Visible output still comes first, with what's only heard (Music, Say)
+        // riding along after it: content order is draw order, and a Music has
+        // nothing to draw.
         const seen = outputs.filter((output) => output.occupiesSpace());
         const heard = outputs.filter((output) => !output.occupiesSpace());
-
-        // At most one visible output: no arrangement to make, so put everything
-        // on the Stage directly, just like a program that returned one Phrase.
-        if (seen.length <= 1)
-            return wrapInStage(evaluator, value, [...seen, ...heard], namer);
-
-        // Multiple visible outputs: collect them into a Group with a Stack
-        // arrangement, then wrap that Group in a Stage. This is the same
-        // implicit wrap idea as a single Phrase becoming a Stage — just
-        // extended to "multiple things become a stacked group on a Stage."
-        const stackArrangement = new Stack(
-            value,
-            new TextValue(value.creator, '|'),
-            new NumberValue(value.creator, new Decimal(1)),
-        );
-        const group = new Group(
-            value,
-            stackArrangement,
-            seen,
-            undefined, // matter
-            undefined, // size
-            undefined, // face
-            undefined, // place
-            namer.getName(undefined, value),
-            undefined, // description
-            false, // selectable
-            undefined, // background
-            new DefinitePose(
-                value,
-                undefined,
-                1,
-                new Place(value, 0, 0, 0),
-                0,
-                1,
-                false,
-                false,
-            ),
-            undefined, // entering
-            undefined, // resting
-            undefined, // moving
-            undefined, // exiting
-            0, // duration
-            DefaultStyle,
-        );
-        return wrapInStage(evaluator, value, [group, ...heard], namer);
+        return wrapInStage(evaluator, value, [...seen, ...heard], namer);
     }
 
     // Otherwise, we require a structure value.

@@ -1,7 +1,7 @@
+import { pickReadableName } from '@locale/getConceptName';
 import toStructure from '@basis/toStructure';
 import { getBind } from '@locale/getBind';
 import { TYPE_SYMBOL } from '@parser/Symbols';
-import { getFirstText } from '@locale/LocaleText';
 import type Locales from '@locale/Locales';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
@@ -65,8 +65,14 @@ export class Circle extends Form {
     }
 
     toCSSClip() {
-        const { x, y, radius } = this.getCoordinates();
-        return `circle(${radius}px at ${y}px ${x}px)`;
+        // Stage pixels, not the bounding box's: a clip-path is resolved against the clipped
+        // element, while the frame's border SVG is drawn in box coordinates and *then*
+        // translated onto it. Reading getCoordinates here put the clip a radius down and right
+        // of the border framing it, and the x/y swap was invisible only because a circle's
+        // box-relative centre has x equal to y.
+        return `circle(${this.radius * PX_PER_METER}px at ${
+            this.x * PX_PER_METER
+        }px ${-this.y * PX_PER_METER}px)`;
     }
 
     toSVGPath(offsetX: number, offsetY: number) {
@@ -79,8 +85,8 @@ export class Circle extends Form {
     }
 
     getDescription(locales: Locales): string {
-        return locales.getPrimaryPlainText((l) =>
-            getFirstText(l.output.Circle.names),
+        return locales.getPrimaryPlainText(
+            (l) => pickReadableName(l.output.Circle.names) ?? '',
         );
     }
 }

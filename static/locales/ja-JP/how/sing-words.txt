@@ -2,7 +2,7 @@
 
 パレットの中の @Instrument すべての中で、\🔈.🤖\だけが何かを言えるものです。その @Track に @Track/words をあたえると、1音符につき1音節ずつ歌います:
 
-\Music(Track([1 2 3 5 3 1] words: 'ラ ラ ラ ラ ラ ラ' instrument: Instrument.voice) tempo: 120beats/min)\
+\Music(Track([1 2 3 5 3 1] 言葉: 'ラ ラ ラ ラ ラ ラ' 楽器: Instrument.voice) テンポ: 120beats/min)\
 
 6つの音節、6つの音符。ここでは空白がすべての文法です。空白は、1つの音節が終わり、次が始まる場所をしめします。休符は音節をとらないので、言葉は実際に聞こえる音符にのります。音符より少ない音節を書くと、最初からやりなおします。まったく書かないと、声は/あ/という音をのばします。だから声はいつも何かを歌います。
 
@@ -16,7 +16,7 @@
 
 母音は、それだけでも立派な音のかたまりです。母音を一列に並べて歌ってみると、それぞれの音のちがいがいちばんよく聞きとれます。
 
-\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+\Music(Track([1 2 3 4 5] 言葉: 'a e i o u' 楽器: Instrument.voice) テンポ: 90beats/min)\
 
 子音は、たいてい思ったとおりの音です。\p
 b
@@ -31,11 +31,11 @@ l
 r
 w\ これらはどれも、英語とほぼ同じように聞こえます。学ぶ価値があるのは、英語では二文字で書きあらわす音と、位置がずれた一文字です。\ʃ\ は /sh/、\ʒ\ は /s/ の中の /measure/、\θ\ は /th/ の中の /thin/、\ð\ は /th/は次の単語にあります /this/、\ŋ\ は次の単語の /ng/ は次の単語にあります /sing/、そして \j\ は次の単語の /y/ は次の単語にあります /yes/。母音の前に一つ置くと、単語になります：
 
-\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+\Music(Track([5 5 3 3 1] 言葉: 'ʃi si mi lo ʌp' 楽器: Instrument.voice) テンポ: 100beats/min)\
 
 一つの音節を、いくつもの音符にまたがって伸ばすこともできます。音節の終わりにハイフンを付けると、ハイフン一つごとに、もう一つの音符の間その音が続きます。一つの音節にまたがるこの音符の連なりが、賛美歌や子守歌に、その形を与えます：
 
-\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+\Music(Track([1 2 3 2 1] 言葉: 'glo--- ri' 楽器: Instrument.voice) テンポ: 140beats/min)\
 
 三つのハイフンは \glo\ を四つの音符にわたって運び、その後 \ri\ が最後の音符に着きます。声が分からないものは、拒むのではなく飛ばします。だから、曲を壊さずに、いろいろ試すことができます。
 
@@ -44,7 +44,7 @@ w\ これらはどれも、英語とほぼ同じように聞こえます。学�
 \beat: Beat()
 Stage([
 		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
-		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+		Music(Track([1 2 3 5 3 1] 言葉: 'ðɪs ɪz ə soŋ tə si' 楽器: Instrument.voice) テンポ: 100beats/min)
 	])\
 
 @Downbeat/parts  は、トラックごとに同じ音節を持ちます。二人の歌い手を、一緒にではなく、別々に描きたいときに使えます。

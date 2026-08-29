@@ -4,7 +4,7 @@
 
 ए  @Structure यह एक ऐसी रेसिपी की तरह है जिसमें भरने के लिए खाली स्थान हैं।यहां एक गुब्बारे का टेम्पलेट है जो एक रंग और एक लेबल लेता है, और खुद को प्रदर्शित करना जानता है:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` रंग: color आकार: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'आकाश').show()

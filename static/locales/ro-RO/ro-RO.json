@@ -304,15 +304,20 @@
             "description": "$~documentare$language[ în $language|], $#words[$#words cuvânt|$words cuvinte|$words de cuvinte]",
             "emotion": "serious",
             "doc": [
-                "$~Eu formatez lucrurile în mod bogat cu @Markup, cum ar fi explicații pentru unele dintre @Program ale tale, sau chiar cuvintele pe care le pui pe scenă cu @Phrase.",
-                "De exemplu, pot merge înaintea oricărui @expression:",
+                "$~Formatez lucrurile în mod bogat cu @Markup, cum ar fi explicații pentru unele dintre @Program ale tale, sau chiar cuvintele pe care le pui pe scenă cu @Phrase.",
+                "De exemplu, pot să apar înainte de orice @expression:",
                 "\\¶Chiar ar trebui să fie 7?¶\n7\\",
-                "De exemplu, mă poți pune înaintea lui @Bind:",
-                "\\¶Măsor cât de înalt este cineva¶\nînălțime: 5m\\🪲",
-                "Sau înaintea unui @FunctionDefinition:",
-                "\\¶Adun două numere¶\nƒ suma(a•# b•#) a + b\\",
-                "Sau înaintea unui @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "De exemplu, mă poți pune înainte de @Bind:",
+                "\\¶Măsor cât de înalt este cineva¶\nînălțime2: 5m\\🪲",
+                "Sau înainte de un @FunctionDefinition:",
+                "\\¶Adun două numere¶\nƒ sumă2(a2•# b2•#) a2 + b2\\",
+                "Sau înainte de un @StructureDefinition:",
+                "\\¶Țin minte numele și fructul preferat al oamenilor¶\n•persoană(nume3•'' fruct•'')\\",
+                "Mă poți pune și chiar la începutul lui @Program ca să spui despre ce este întreaga reprezentație",
+                "\\¶Acest program spune salut¶\n\n'salut!'\\",
+                "Îmi poți da un @Language ca să-i ajuți pe alții să afle în ce limbă sunt scris:",
+                "\\¶Sunt o documentare în engleză¶\ndurată2: 5s\\🪲",
+                "Știai că poți face o listă cu mine? Du-te și vorbește cu @Docs."
             ]
         },
         "Docs": {
@@ -344,19 +349,20 @@
             "emotion": "eager",
             "doc": [
                 "$~Sunt o etichetă de limbă și lucrez cu @Name și @Doc!",
-                "Sunt foarte bun la a face *foarte clar* în ce limbă este scris ceva. Doar o mică linie oblică și câteva litere, și nimeni nu va fi vreodată confuz despre limba în care este un text.",
-                "De exemplu, dacă vrei să spui „Limbă” dar să arăți clar că este în engleză:",
-                "\\'Limbă'\\",
+                "Mă pricep foarte bine să fac *foarte clar* în ce limbă este scris ceva. Doar o mică linie oblică și câteva litere, și nimeni nu va mai fi vreodată confuz în privința limbii unui text.",
+                "De exemplu, dacă vrei să scrii „Limbă”, dar să arăți clar că este în engleză:",
+                "\\'Limbă'/ro\\",
                 "Poți face asta pentru un @Name:",
-                "\\sunet: 'miau'\\🪲",
-                "…sau un @Doc:",
-                "\\¶Onomatopee¶\nsunet: 'miau'\\🪲",
-                "Uneori textul nu este într-o singură limbă — este un *amestec*. Ca Spanglish, unde spaniola și engleza se îmbină. Pentru acestea, enumeră fiecare limbă cu o liniuță de subliniere între ele. Prima este cea *principală* — aceea pe care o folosesc când trebuie să aleg (de exemplu, ca să aleg ce semne de citare să folosesc).",
-                "\\'Salut, domnule!'\\",
+                "\\sunet2: 'miau'\\🪲",
+                "…sau pentru un @Doc:",
+                "\\¶Onomatopee¶\nsunet2: 'miau'\\🪲",
+                "Uneori textul nu este scris într-o singură limbă — este un *amestec*. Ca spanglish, unde spaniola și engleza se amestecă. Pentru astfel de cazuri, scrie fiecare limbă cu o linie de subliniere între ele. Prima este limba *principală* — pe aceea o folosesc atunci când trebuie să aleg (de exemplu, ca să aleg ce fel de ghilimele să folosesc).",
+                "\\\"Hola gentleman!\"/es_en\\",
                 "\\¶Un salut bilingv¶\nhello/es_en: 'Hola domnule!'\\🪲",
-                "Poți adăuga și o singură @region, după o cratimă, la fel ca la o singură limbă:",
-                "\\'Salut, domnule!'\\",
-                "Nu există o limită pentru câte limbi poți enumera — doar nu repeta aceeași limbă de două ori; îți voi spune dacă o faci. Există multe <coduri de limbă din 2 litere@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> pe care le înțeleg. Dacă nu folosești unul dintre acestea, îți voi spune și asta."
+                "Poți adăuga și o singură @region, după o liniuță, exact ca la o singură limbă:",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
+                "Nu există o limită pentru câte limbi poți scrie în listă — doar să nu repeți aceeași limbă de două ori; te voi anunța dacă faci asta.",
+                "Poți scrie o limbă folosind <codul ei din 2 litere@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> sau *numele* ei, în acea limbă sau în engleză — `/es`, `/Español` și `/Spanish` înseamnă același lucru, la fel ca `/es-MX`, `/es-México` și `/es-Mexico`. Majusculele și accentele nu contează, așa că `/ESPANOL` funcționează la fel de bine. Un nume care are un spațiu în el se scrie fără spațiu, ca `/BahasaIndonesia`, pentru că o etichetă este mereu un singur cuvânt. Dacă nu recunosc o limbă sau o regiune, te voi anunța."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -373,6 +379,11 @@
                     "name": "$~limbă duplicată",
                     "explanation": "$~Ai folosit codul limbii „ $code ” de două ori. Etichetele pentru limbi mixte ar trebui să listeze fiecare limbă o singură dată.",
                     "resolution": "$~Eliminați eticheta duplicată * $code *"
+                },
+                "UnknownRegion": {
+                    "name": "$~regiune necunoscută",
+                    "explanation": "$~Nu cunosc această regiune",
+                    "resolution": "$~Elimină această regiune"
                 }
             }
         },
@@ -557,9 +568,11 @@
             "description": "$~exemplu de cod $code",
             "emotion": "serious",
             "doc": [
-                "$~Păstrez un exemplu de cod într-un @Doc, așa:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "Exemplul evidențiat apare ca previzualizare în spațiul @how și în @guide."
+                "$~Păstrez un exemplu de cod în interiorul unui @Doc, așa:",
+                "\\¶Iată un exemplu de adunare: \\1 + 2\\¶\n3 + 4\\",
+                "Dacă folosești Exemple în instrucțiunile tale, poți marca un Exemplu ca fiind evidențiat.",
+                "\\¶Iată un exemplu evidențiat: \\1 + 2\\⭐¶\n3 + 4\\",
+                "Exemplul evidențiat este afișat ca previzualizare în spațiul @how și în @guide."
             ]
         },
         "Mention": {
@@ -912,8 +925,11 @@
             "emotion": "eager",
             "doc": [
                 "$~Sunt orice @expression, dar cu un @Doc!",
-                "Ca să mă creezi, pune doar un @Doc înaintea unei expresii și mă vei obține:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "Ca să mă creezi, pune doar un @Doc înainte de o expresie, și mă vei obține:",
+                "\\dubluplus: 1\n(2 × dubluplus) +\n\t¶Hai să o facem puțin mai mare¶\n\t1\\",
+                "Sunt de folos pentru a face un comentariu despre o parte a unui program.",
+                "Dacă pui 👀 în @Doc, pot să evidențiez și expresia:",
+                "\\¶Uită-te la mine! 👀¶\n1 + 1\\"
             ],
             "start": "$~Să evaluăm expresia"
         },
@@ -1014,7 +1030,7 @@
                 "$~Sunt o intrare dată unei @Evaluate. Numele meu corespunde numelui intrării din @FunctionDefinition sau @StructureDefinition care este evaluată.",
                 "Sunt de ajutor cu funcțiile care au multe valori implicite, unde vrei doar să suprascrii o anumită intrare, fără a oferi tot restul.",
                 "De exemplu, @Phrase are foarte multe valori implicite pentru a-i controla stilul. Să presupunem că vrei să dai niște @Text și o @Color, dar nimic altceva în lista de input. Mă poți folosi pentru asta:",
-                "\\Phrase('Sunt mov!' color: Color(50% 52 300°))\\"
+                "\\Phrase('Sunt mov!' culoare: Color(50% 52 300°))\\"
             ],
             "start": "$~Hai să-mi evaluăm valoarea."
         },
@@ -2069,8 +2085,8 @@
             "description": "$~exemplu de cod extern$languages[ în $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Afișez cod evidențiat prin sintaxă, scris în alte limbaje de programare, astfel încât creatorii care deja programează să poată compara.",
-                "Scrieți câte o variantă pentru fiecare limbă sub forma unei etichete de două litere, a unei bare și a codului, de exemplu \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~Arăt cod colorat sintactic scris în alte limbaje de programare, ca să poată compara creatorii care deja scriu cod.",
+                "Scrie câte o variantă pentru fiecare limbă, ca o etichetă de două litere, o bară, și codul, astfel \\py| a = 5\\js| let a = 5;\\. Cititorul vede varianta care corespunde limbii alese de el. Sunt acceptate Python (py), JavaScript (js) și Java (jv)."
             ]
         },
         "Localized": {
@@ -2493,7 +2509,7 @@
                 "\\'Există doar două moduri de a-ți trăi viața. Unul este ca și cum nimic nu ar fi un miracol. Celălalt este ca și cum totul ar fi un miracol.'\\",
                 "\\'一日三秋'\\",
                 "Doar ține minte să mă închizi dacă mă deschizi și folosește simbolul potrivit. Altfel nu voi ști că ai terminat cu cuvintele tale.",
-                "\\'salut'\\",
+                "\\'salut'/ro'hola'/es-MX\\",
                 "Mă poți eticheta și cu limbi și chiar îmi poți da mai multe traduceri. Eu voi produce oricare limbă este selectată acum, dacă există o limbă potrivită.",
                 "Dacă vrei să mă creezi cu alte valori, poți face așa:",
                 "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
@@ -2653,7 +2669,7 @@
                         "\\'salut'.majuscule()\\",
                         "Literele au majuscule și minuscule doar în unele sisteme de scriere, așa că textul dintr-un sistem de scriere fără ele, cum ar fi japoneza sau araba, rămâne neschimbat.",
                         "Eticheta mea de limbă decide ce reguli se folosesc. Turca are un i cu punct și un i fără punct, iar doar textul etichetat ca turcă le scrie cu majuscule după regulile turcești:",
-                        "\\'iyi'.majuscule()\\",
+                        "\\'iyi'/tr.majuscule()\\",
                         "\\'iyi'.majuscule()\\"
                     ],
                     "names": ["$~majuscule"],
@@ -2851,7 +2867,7 @@
                 "remainder": {
                     "doc": [
                         "$~Mă împart la @Number dat, dar dau restul:",
-                        "\\10% 2\\",
+                        "\\10 % 2\\",
                         "\\10m % 2\\",
                         "\\10m/s % 3\\"
                     ],
@@ -3652,19 +3668,19 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Pot să iau o listă și să fac o listă nouă cu valorile ei sortate. Uite așa:",
+                        "$~Pot lua o listă și pot face o listă nouă cu valorile ei sortate. Așa:",
                         "\\[1 5 8 0 2].sortat()\\",
-                        "Pot face asta și pentru valori de tip @Text, în ordine alfabetică. O literă mare este sortată lângă cea mică corespunzătoare, așa că un cuvânt nu ajunge la sfârșit doar pentru că începe cu literă mare:",
+                        "Pot face asta și pentru valori @Text, în ordine alfabetică. O literă mare este sortată lângă cea mică corespunzătoare, astfel încât un cuvânt nu ajunge la final doar pentru că începe cu literă mare:",
                         "\\['Portocală' 'kiwi' 'Banană' 'măr'].sortat()\\",
-                        "Iar dacă ai o listă de valori care nu sunt de tip @Number sau @Text, îmi poți da un @FunctionDefinition care transformă fiecare element într-un @Number sau un @Text, ca să pot să le sortez. De exemplu, aici avem o listă de liste de lungimi diferite; dacă îmi dai o funcție care transformă fiecare listă în lungimea ei, pot să sortez după lungime.",
+                        "Iar dacă ai o listă de valori care nu sunt @Number sau @Text, îmi poți da o @FunctionDefinition care transformă fiecare element într-un @Number sau un @Text, ca să pot să le sortez. De exemplu, aici avem o listă de liste de lungimi diferite; dacă îmi dai o funcție care transformă fiecare listă în lungimea ei, pot sorta după lungime.",
                         "\\[[1] [2 3] [4 8 12] [8]].sortat(ƒ(listă2) listă2.lungime())\\",
-                        "O funcție care face @Text este modul în care sortezi după un cuvânt calculat, în loc de valoarea în sine. Aici sortez numele după cel din urmă:",
+                        "O funcție care creează @Text este modul în care sortezi după un cuvânt pe care îl calculezi, în loc de valoarea în sine. Aici sortez numele după ultimul nume:",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortat(\n\tƒ(nume2•'') (nume2 ÷ ' ').dura()\n)\\"
                     ],
                     "names": "$~sortat",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition opțional folosit pentru a sorta o listă @value. Ar trebui să transforme valoarea într-un @Number sau un @Text care poate fi folosit pentru sortarea listei.",
+                            "doc": "$~@FunctionDefinition opțională, folosită pentru a sorta o listă @value. Ar trebui să transforme valoarea într-un @Number sau un @Text care poate fi folosit pentru a sorta lista.",
                             "names": "$~secvențiator"
                         }
                     ],
@@ -4234,7 +4250,7 @@
                 "/apăsare rapidă!/",
                 "Deci, cea mai bună modalitate de a o utiliza este să creezi o performanță cu fraze selectabile denumite @Phrase , și apoi să folosești o @Reaction pentru a decide ce să faci când este ales acel nume.",
                 "Iată cel mai simplu exemplu:",
-                "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Group(\nStack() \n[\nPhrase('one' selectabil:⊤ nume:'1') \nPhrase('two' selectabil:⊤ nume:'2') \nPhrase(Choice())\n]\n)\\",
                 "Copiați acest cod în editor și apoi selectați una dintre cele două @Phrase . Veți vedea că a treia @Phrase arată numele selectat."
             ],
             "names": ["$~Alegere"]
@@ -4401,7 +4417,7 @@
                 "\\Vorbire()\\",
                 "Acest lucru e perfect pentru cei care pot vorbi o @language, dar încă învață să o citească sau să o scrie (și altele)...",
                 "Poți indica un cod de limbă ca să recunoască vorbirea într-o anumită limbă:",
-                "\\Vorbire(language: 'es-MX')\\",
+                "\\Vorbire(limbă: 'es-MX')\\",
                 "Dacă nu indici nicio limbă, se folosește limba ta preferată.",
                 "Recunoașterea vorbirii are nevoie de acces la microfon și de conexiune la Internet (te rog dă acces!). De asemenea, pot exista limite de utilizare, așa că nu o lăsa pornită prea mult timp (nuuuu)!"
             ],
@@ -4434,7 +4450,7 @@
                 "/bzzzzzzz/",
                 "Această @List reprezintă în esență o imagine, dar depinde de tine să decizi ce să faci cu ea.",
                 "Ai putea încerca să reprezinți imaginea cu o grămadă de @Phrase , ceea ce ar putea arăta destul de interesant! Încearcă să copiezi asta...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' loc: Place((x - 1) × 0.5m y × -0.5m) culoare: color durată: 0s\n)\n)\n)\n)\n)\\",
                 "Dar ai putea analiza culorile și pentru a decide dacă o lumină era aprinsă sau stinsă sau dacă o anumită culoare era comună, permițând publicului să influențeze o reprezentație cu culorile pe care le arată."
             ],
             "names": ["$~Cameră"],
@@ -4477,13 +4493,13 @@
                 "/Boop boop boop/",
                 "Pentru a controla temporizarea, poți fie să setezi @Phrase.duration pentru fiecare ieșire, care va afișa această durată înainte de a trece la următoarea, fie să utilizezi orice tranziții @Phrase.entering sau @Phrase.exiting pe care le-ai fi setat. Dacă le setezi la @Sequence , aceasta va folosi durata acesteia.",
                 "Toate acestea vă permit să faceți lucruri precum acest mic @Scene , care afișează aceste trei fraze în secvență:",
-                "\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "\\Scene([\n\tPhrase('Hello' durată: 1s)\n\tPhrase('How are you?' durată: 2s rotaţie: 5° intrând: Pose(rotaţie: 0°))\n\tPhrase('I am fine')\n])\\",
                 "Vedeți cum prima ieșire este afișată timp de o secundă, apoi următoarea timp de două secunde, dar animată la o rotație de cinci grade, și apoi arată ultima?",
                 "Poți crea secvențe foarte elaborate de ieșiri și animații cu @Scene și chiar poți face porțiuni din ele dinamice sau interactive, ca în cazul oricărui alt @Phrase sau @Group .",
                 "Dacă aveți o ieșire animată imbricată (un @Group cu @Phrase animată în interior), @Scene va aștepta ca tot conținutul animat din @Group să se termine.",
                 "A, și un ultim mic secret! Poți chiar să pui @Boolean în listă, iar dacă este \\⊥\\ , @Scene se va opri și va aștepta ca valoarea să devină adevărată.",
                 "De exemplu, dacă vrei să creezi o secvență de @Phrase și să avansezi doar atunci când @Button se schimbă, poți face astfel:",
-                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' durată: 0.25s rotaţie: 5° intrând: Pose(rotaţie: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "Vezi cum se întrerupe după fiecare @Phrase și așteaptă ca @Button să se schimbe înainte de a avansa?"
             ],
             "names": ["$~Scenă"],
@@ -4535,7 +4551,7 @@
                 "Există multe moduri de a plasa @Output pe @Stage: dă-le un @Place explicit, folosește @Motion și lasă gravitația să facă treaba, sau pune-le într-un @Group pentru a fi aranjate.",
                 "Dar uneori vrei să oferi /spectatorilor/ controlul asupra locului unde merge @Output pe @Stage.",
                 "Iată cum funcționează: fă un @Placement și dă-l unui @Place al unui @Output:",
-                "\\Fraza('salut' place: Plasament())\\",
+                "\\Fraza('salut' loc: Plasament())\\",
                 "Apoi, de fiecare dată când spectatorii folosesc o @key săgeată sau apasă pe scenă, @Placement va face un nou @Place care se mișcă în direcția dorită.",
                 "Încearcă să copiezi asta în programul tău și să miști @Output cu indicatorul sau cu tastatura.",
                 "Poți personaliza @Placement, activând și dezactivând mișcarea pe anumite dimensiuni, schimbând cât de departe se mișcă un @Place și @Place inițial cu care începe fluxul."
@@ -4648,7 +4664,7 @@
                 "Dă-i niște text și un font, și va trasa conturul fiecărui glif punct cu punct.",
                 "\\Contour('a' \"Noto Sans\")\\",
                 "Introduceți acele valori @Place într-o @List de @Phrase pentru a vedea conturul desenat ca puncte:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' loc: point)))\\",
                 "Puteți scala conturul cu un @Number de metri, puteți muta originea acestuia cu un @Place , puteți alege o grosime a fontului, puteți activa italic și puteți seta `spațierea` dintre puncte ca distanță în metri. O `spațiere` mai mică trasează conturul mai îndeaproape, cu puncte distanțate uniform atât de-a lungul liniilor, cât și de-a lungul curbelor.",
                 "Unele glife, cum ar fi emoji-urile colorate, nu au contur, deci nu adaugă puncte. În timp ce preia fontul, îți va oferi o @List goală, apoi o va completa când este gata."
             ],
@@ -4726,8 +4742,8 @@
                 "Toate proprietățile mele sunt opționale. Dă-mi părți de dată pentru a descrie o dată:",
                 "\\📅(2026 7 1) → ''\\",
                 "Sau doar părți de oră, pentru o oră din zi:",
-                "\\📅(hour: 15 minute: 30) → ''\\",
-                "Dacă nu îmi dai nicio parte, mă transform în data și ora curentă, oriunde rulează programul. Dacă lași părți deoparte, orice parte mai mare decât cea mai mare pe care ai dat-o vine din data și ora curentă, iar părțile mai mici încep de la începutul lor: astfel \\📅(month: 12) → ''\\ este 1 decembrie al acestui an, la miezul nopții. Transformarea mea arată doar tipurile de părți pe care le-ai dat: părțile de dată fac o dată, părțile de oră fac o oră, iar amândouă le fac pe amândouă:",
+                "\\📅(oră: 15 minut: 30) → ''\\",
+                "Dacă nu îmi dai nicio parte, mă transform în data și ora curentă, oriunde rulează programul. Dacă lași părți deoparte, orice parte mai mare decât cea mai mare pe care ai dat-o vine din data și ora curentă, iar părțile mai mici încep de la începutul lor: astfel \\📅(lună: 12) → ''\\ este 1 decembrie al acestui an, la miezul nopții. Transformarea mea arată doar tipurile de părți pe care le-ai dat: părțile de dată fac o dată, părțile de oră fac o oră, iar amândouă le fac pe amândouă:",
                 "\\📅() → ''\\",
                 "Proprietatea mea @Moment.timezone acceptă un nume standard de fus orar IANA, cum ar fi \\'America/Los_Angeles'\\ sau \\'Asia/Tokyo'\\; dacă îl lași \\ø\\, folosesc fusul orar al dispozitivului pe care rulează programul. Proprietatea mea @Moment.calendar acceptă un nume de calendar Unicode, cum ar fi \\'gregory'\\, \\'ebraică'\\, sau \\'japoneză'\\; dacă îl lași \\ø\\, folosesc calendarul din regiunea cititorului. Proprietățile mele @Moment.year, @Moment.month și @Moment.day sunt în acel calendar:",
                 "\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
@@ -4800,7 +4816,7 @@
                 "În spatele scenei, @Face folosește un model de învățare automată. Prima dată când îl folosești într-un program, modelul are nevoie de câteva secunde pentru a se descărca și o mică față care se rotește apare în colțul din dreapta sus al scenei în timp ce se încarcă. După aceea rămâne salvat și pornește instantaneu.",
                 "La fiecare cadru, @Face îți dă o @Expression. Uită-te acolo pentru lista completă de intrări și ce înseamnă ele.",
                 "Acest exemplu arată un emoji care se potrivește cu fața ta oriunde este fața ta reală:",
-                "\\față: 🙂()\n💬((față.zâmbind ? '😀' față.gurăDeschisă ? '😮' '😐') place: față.loc)\\"
+                "\\față: 🙂()\n💬((față.zâmbind ? '😀' față.gurăDeschisă ? '😮' '😐') loc: față.loc)\\"
             ],
             "names": ["$~Față"],
             "frequency": {
@@ -4821,9 +4837,9 @@
                 "La fiecare cadru, @Objects îți dă o @List de @Thing, ordonate după cât de sigur este modelul, cu cel mai sigur primul. Uită-te la @Thing pentru ce îți spune fiecare.",
                 "Modelul doar ghicește, așa că uneori va greși sau nu va vedea nimic. Cere o valoare `confidence` mai mare ca să auzi doar presupunerile de care este cel mai sigur.",
                 "Iată un exemplu care etichetează tot ce vede camera:",
-                "\\🎭(📦() ↦ 💬(⬚.nume place: ⬚.loc))\\",
+                "\\🎭(📦() ↦ 💬(⬚.nume loc: ⬚.loc))\\",
                 "Poți de asemenea să cauți doar un singur fel de lucru și să ignori restul:",
-                "\\lucruri: 📦(category: 'cat')\n💬(lucruri.📏() > 0 ? '🐈' '…')\\"
+                "\\lucruri: 📦(categorie: 'cat')\n💬(lucruri.📏() > 0 ? '🐈' '…')\\"
             ],
             "names": ["$~Obiecte"],
             "inputs": [
@@ -4950,7 +4966,7 @@
                 "Aici trei piese se schimbă pe rând, așa că un număr diferit de instrumente sună la fiecare beat — iar rombul crește cu oricâte instrumente cântă:",
                 "\\bătaie: Bătaie()\n🎭([\n\t\t💬('◆' ((bătaie.instrumente.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Dă-mi un nume de @Music și aud doar acea muzică. Două beat-uri ascultă mai jos, aceleași două muzici: cel de sus aude totul, așa că pâlpâie între ambele nume pe măsură ce fiecare muzică ajunge la un beat, iar cel de jos aude doar toba și nu spune niciodată altceva. Această diferență este filtrul.",
-                "\\tot: Bătaie()\ndoarToba: Bătaie('tic')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(tot.nume 1.4m)\n\t\t\t\t💬(doarToba.nume 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tic')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'clopoțel')\n\t])\\",
+                "\\tot: Bătaie()\ndoarToba: Bătaie('tic')\n🎭([\n\t\t🔳(\n\t\t\t⬇(umplutură: 0.5m)\n\t\t\t[\n\t\t\t\t💬(tot.nume 1.4m)\n\t\t\t\t💬(doarToba.nume 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min nume: 'tic')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min nume: 'clopoțel')\n\t])\\",
                 "Orice conduc eu se adaugă /pe lângă/ redarea pe care a ales-o privitorul; tu adaugi la ea, niciodată nu o înlocuiești."
             ],
             "name": {
@@ -5284,10 +5300,22 @@
                 "doc": "$~Stilul de animație de utilizat atunci când vă mutați într-un alt loc pe scenă.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
+            "defaultDescription": "$~$size[$size metri |]frază $text $name[numit $name|] $face[$face|] $animation $color[$color|] $bubble[spunând $bubble|]",
             "changing": {
                 "doc": "$~Numele unui efect care rulează atunci când textul meu se schimbă, pe durata mea @Phrase.duration, atenuat de stilul meu @Phrase.style. Dacă \\ø\\, textul meu se schimbă instantaneu. Dacă 'edit', șterg textul vechi până la ce au în comun textul vechi și cel nou, apoi scriu textul nou. Dacă 'rewrite', scriu textul nou peste cel vechi, înlocuind câte un simbol pe rând într-o ordine aleatoare. Dacă 'random', fiecare dintre simbolurile mele se rotește prin simboluri aleatoare din limba textului meu (sau din scrierea sa, când limba este necunoscută), potrivind litera mare sau mică a textului meu, ca o mașină de joc, până când se oprește pe textul nou. Cu text @FormattedLiteral, simbolurile care se schimbă preiau formatarea textului nou în timpul efectului.",
                 "names": "$~seSchimbă"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Bula de vorbire care arată ce spun, îndreptată chiar spre mine. Aici pot apărea patru lucruri diferite.",
+                    "Text simplu, pe care îl arăt și nimic mai mult:",
+                    "\\Fraza('un' balon: 'salut!')\\",
+                    "Text formatat, dacă vrei cuvinte cu *aldine* sau /cursive/ în ceea ce spun.",
+                    "Un @Say, pe care îl arăt *și* îl rostesc cu voce tare:",
+                    "\\Fraza('un' balon: Cuvânt('salut!'))\\",
+                    "Un @Bubble, când vrei să alegi din ce parte vorbesc, să-l transformi într-un gând sau să-i dai o culoare."
+                ],
+                "names": "$~balon"
             }
         },
         "Arrangement": {
@@ -5299,7 +5327,7 @@
             "names": ["$~Rând"],
             "description": "$~rând cu $#count[$#count frază sau grup|$count fraze și grupuri|$count de fraze și grupuri]",
             "alignment": {
-                "doc": "$~Dacă textul se aliniază la început, la centru sau la sfârșit pe fiecare @column.",
+                "doc": "$~Dacă să aliniez conținutul la început, la centru sau la sfârșitul fiecărui @column — sau, cu \\'_'\\, pe linia de bază pe care stau cuvintele, ca literele de înălțimi diferite să se citească pe un singur rând.",
                 "names": "$~aliniere"
             },
             "padding": {
@@ -5375,7 +5403,7 @@
                 "names": "$~selectabil"
             },
             "color": {
-                "doc": "$~Culoarea bordurilor mele.",
+                "doc": "$~Culoarea mea. Mă umplu cu ea, cu excepția cazului în care am un fundal, caz în care ea colorează marginea mea.",
                 "names": "$~culoare"
             },
             "background": {
@@ -5429,6 +5457,18 @@
             "style": {
                 "doc": "$~Stilul de animație pe care ar trebui să-l folosesc.",
                 "names": "$~stil"
+            },
+            "filled": {
+                "doc": "$~Dacă să-mi colorez interiorul. Nu am interior decât dacă mă închid, deci un @Path deschis nu este niciodată umplut.",
+                "names": "$~umplut"
+            },
+            "stroked": {
+                "doc": "$~Dacă să-mi desenez conturul. Fără umplere și fără contur sunt invizibil, ceea ce este o modalitate de a face o barieră care oprește lucrurile fără să fie văzută.",
+                "names": "$~conturat"
+            },
+            "glyphs": {
+                "doc": "$~Text de desenat de-a lungul conturului meu, repetat până îl umple. Nu am cuvinte decât dacă îmi dai tu câteva.",
+                "names": "$~simboluri"
             }
         },
         "Say": {
@@ -5733,7 +5773,7 @@
                 "sway": {
                     "doc": [
                         "$~Mă înclin înainte și înapoi în jurul centrului unui @Output, ca ceva ce atârnă într-o briză ușoară. Sunt o animație bună de repaus, pentru că un /angle/ mic pare „viu” fără să atragă atenția.",
-                        "\\💬('🐈' resting: 💃.legănare(10°))\\"
+                        "\\💬('🐈' odihnă: 💃.legănare(10°))\\"
                     ],
                     "names": ["$~legănare"],
                     "angle": {
@@ -5744,7 +5784,7 @@
                 "bounce": {
                     "doc": [
                         "$~Fac un @Output să sară până la /height/ și să aterizeze, turtindu-se puțin la urcare și la coborâre. Dă-mi un @Phrase care tocmai a sosit și îl voi face să pară că are greutate.",
-                        "\\💬('🐈' resting: 💃.sări(3m))\\"
+                        "\\💬('🐈' odihnă: 💃.sări(3m))\\"
                     ],
                     "names": ["$~sări"],
                     "height": {
@@ -5755,42 +5795,42 @@
                 "spin": {
                     "doc": [
                         "$~Rotesc un @Output complet în jurul centrului său, de la 360° înapoi la 0°. Alege-mă ca animație de repaus și mă voi roti pentru totdeauna.",
-                        "\\💬('🐈' resting: 💃.rotire(2s))\\"
+                        "\\💬('🐈' odihnă: 💃.rotire(2s))\\"
                     ],
                     "names": ["$~rotire"]
                 },
                 "fadein": {
                     "doc": [
                         "$~Aduc un @Output de la invizibil la complet vizibil. Sunt gândit pentru /intrare/, când ceva sosește pe scenă.",
-                        "\\💬('🐈' entering: 💃.estompare(1s))\\"
+                        "\\💬('🐈' intrând: 💃.estompare(1s))\\"
                     ],
                     "names": ["$~estompare"]
                 },
                 "fadeout": {
                     "doc": [
                         "$~Duc un @Output de la complet vizibil la invizibil. Sunt gândit pentru /ieșire/, când ceva părăsește scena.",
-                        "\\💬('🐈' exiting: 💃.estompareieșire(duration: 1s))\\"
+                        "\\💬('🐈' ieșire: 💃.estompareieșire(durată: 1s))\\"
                     ],
                     "names": ["estompareieșire"]
                 },
                 "popup": {
                     "doc": [
                         "$~Fac un @Output să crească din nimic, depășind mărimea sa reală, apoi să revină. Acea mică depășire face ca o sosire să pară jucăușă în loc de mecanică.",
-                        "\\💬('🐈' entering: 💃.popup(0.5s))\\"
+                        "\\💬('🐈' intrând: 💃.popup(0.5s))\\"
                     ],
                     "names": ["$~popup"]
                 },
                 "shake": {
                     "doc": [
                         "$~Trag brusc un @Output înainte și înapoi în mai multe direcții. Par „nu”, sau ceva care zornăie. Mă mișc repede, așa că păstrează-mă scurt.",
-                        "\\💬('🐈' resting: 💃.scutura(0.5s count: 3x))\\"
+                        "\\💬('🐈' odihnă: 💃.scutura(0.5s conta: 3x))\\"
                     ],
                     "names": ["$~scutura"]
                 },
                 "pulse": {
                     "doc": [
                         "$~Măresc un @Output până la /amount/ și înapoi, o dată. Sunt cea mai liniștită modalitate de a spune „privește aici” fără a muta nimic din loc.",
-                        "\\💬('🐈' resting: 💃.puls(1.2))\\"
+                        "\\💬('🐈' odihnă: 💃.puls(1.2))\\"
                     ],
                     "names": ["$~puls"],
                     "amount": {
@@ -5801,7 +5841,7 @@
                 "heartbeat": {
                     "doc": [
                         "$~Dau două bătăi rapide de mărire și apoi mă odihnesc, ritmul unei bătăi de inimă. Sunt mai urgent decât /pulse/-ul unui @Sequence și mai natural decât /flash/.",
-                        "\\💬('🐈' resting: 💃.bătaiainimii(1.4 1s))\\"
+                        "\\💬('🐈' odihnă: 💃.bătaiainimii(1.4 1s))\\"
                     ],
                     "names": ["$~bătaiainimii"],
                     "amount": {
@@ -5812,7 +5852,7 @@
                 "tada": {
                     "doc": [
                         "$~Sărbătoresc: o mică micșorare, apoi o mărire cu o legănare înainte și înapoi. Sunt pentru câștig, terminare și reușită.",
-                        "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
+                        "\\💬('🐈' odihnă: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
@@ -5823,7 +5863,7 @@
                 "wiggle": {
                     "doc": [
                         "$~Alunec un @Output dintr-o parte în alta în timp ce îl înclin, fiecare legănare fiind mai mică decât cea de dinainte. Sunt o scuturare cu un pic mai multă personalitate.",
-                        "\\💬('🐈' resting: 💃.semișcă(8°))\\"
+                        "\\💬('🐈' odihnă: 💃.semișcă(8°))\\"
                     ],
                     "names": ["$~semișcă"],
                     "angle": {
@@ -5835,21 +5875,21 @@
                     "doc": [
                         "$~Fac un @Output să clipească între vizibil și invizibil de două ori, estompându-mă pe parcurs. Sunt greu de ratat — ceea ce înseamnă și că sunt greu de ignorat, așa că folosește-mă rar.",
                         "Clipesc repede, așa că un privitor sensibil la clipiri m-ar putea găsi neplăcut. Încetinește-mă cu un /duration/ mai lung dacă mă voi repeta.",
-                        "\\💬('🐈' resting: 💃.bliț(1s))\\"
+                        "\\💬('🐈' odihnă: 💃.bliț(1s))\\"
                     ],
                     "names": ["$~bliț"]
                 },
                 "zoomin": {
                     "doc": [
                         "$~Fac un @Output să crească din nimic până la mărimea completă. Spre deosebire de /popup/, nu depășesc — sunt sosirea mai simplă și mai calmă.",
-                        "\\💬('🐈' entering: 💃.mărire(0.5s))\\"
+                        "\\💬('🐈' intrând: 💃.mărire(0.5s))\\"
                     ],
                     "names": ["$~mărire"]
                 },
                 "fadeinup": {
                     "doc": [
                         "$~Fac un @Output să apară estompat în timp ce îl alunec în sus, la locul lui, dintr-o /distance/ de mai jos.",
-                        "\\💬('🐈' entering: 💃.estomparesus(2m))\\"
+                        "\\💬('🐈' intrând: 💃.estomparesus(2m))\\"
                     ],
                     "names": ["estomparesus"],
                     "distance": {
@@ -5860,7 +5900,7 @@
                 "fadeindown": {
                     "doc": [
                         "$~Fac un @Output să apară estompat în timp ce îl alunec în jos, la locul lui, dintr-o /distance/ de mai sus.",
-                        "\\💬('🐈' entering: 💃.estomparejos(2m))\\"
+                        "\\💬('🐈' intrând: 💃.estomparejos(2m))\\"
                     ],
                     "names": ["estomparejos"],
                     "distance": {
@@ -5871,7 +5911,7 @@
                 "fadeinleft": {
                     "doc": [
                         "$~Fac un @Output să apară estompat în timp ce îl alunec spre dreapta, la locul lui, dintr-o /distance/ din stânga.",
-                        "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
+                        "\\💬('🐈' intrând: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
                     "distance": {
@@ -5882,7 +5922,7 @@
                 "fadeinright": {
                     "doc": [
                         "$~Fac un @Output să apară treptat în timp ce îl aduc spre stânga la locul lui, de la /distance/ spre dreapta.",
-                        "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
+                        "\\💬('🐈' intrând: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
@@ -5893,7 +5933,7 @@
                 "rotatein": {
                     "doc": [
                         "$~Rotesc un @Output la locul lui în timp ce îl fac să apară treptat, pornind rotit cu /angle/ și terminând drept.",
-                        "\\💬('🐈' entering: 💃.rotație(180°))\\"
+                        "\\💬('🐈' intrând: 💃.rotație(180°))\\"
                     ],
                     "names": ["$~rotație"],
                     "angle": {
@@ -5904,14 +5944,14 @@
                 "zoomout": {
                     "doc": [
                         "$~Micșorez un @Output de la mărimea completă până la nimic.",
-                        "\\💬('🐈' exiting: 💃.micșorare(0.5s))\\"
+                        "\\💬('🐈' ieșire: 💃.micșorare(0.5s))\\"
                     ],
                     "names": ["$~micșorare"]
                 },
                 "fadeoutup": {
                     "doc": [
                         "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ în sus.",
-                        "\\💬('🐈' exiting: 💃.estompareieșiresus(2m))\\"
+                        "\\💬('🐈' ieșire: 💃.estompareieșiresus(2m))\\"
                     ],
                     "names": ["estompareieșiresus"],
                     "distance": {
@@ -5922,7 +5962,7 @@
                 "fadeoutdown": {
                     "doc": [
                         "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ în jos.",
-                        "\\💬('🐈' exiting: 💃.fadeoutdown(2m))\\"
+                        "\\💬('🐈' ieșire: 💃.fadeoutdown(2m))\\"
                     ],
                     "names": ["$~fadeoutdown"],
                     "distance": {
@@ -5933,7 +5973,7 @@
                 "fadeoutleft": {
                     "doc": [
                         "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ spre stânga.",
-                        "\\💬('🐈' exiting: 💃.estomparelastânga(2m))\\"
+                        "\\💬('🐈' ieșire: 💃.estomparelastânga(2m))\\"
                     ],
                     "names": ["$~estomparelastânga"],
                     "distance": {
@@ -5944,7 +5984,7 @@
                 "fadeoutright": {
                     "doc": [
                         "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ spre dreapta.",
-                        "\\💬('🐈' exiting: 💃.estompeazăcomplet(2m))\\"
+                        "\\💬('🐈' ieșire: 💃.estompeazăcomplet(2m))\\"
                     ],
                     "names": ["$~estompeazăcomplet"],
                     "distance": {
@@ -5955,7 +5995,7 @@
                 "rotateout": {
                     "doc": [
                         "$~Rotesc un @Output pentru a-l îndepărta în timp ce îl fac să dispară treptat, terminând rotit cu /angle/.",
-                        "\\💬('🐈' exiting: 💃.rotireieșire(180°))\\"
+                        "\\💬('🐈' ieșire: 💃.rotireieșire(180°))\\"
                     ],
                     "names": ["rotireieșire"],
                     "angle": {
@@ -5967,14 +6007,14 @@
                     "doc": [
                         "$~Trec un @Output prin fiecare nuanță a curcubeului și înapoi la punctul de plecare.",
                         "Schimb culoarea repede, așa că o persoană sensibilă la lumini care clipesc poate să nu se simtă bine. O /duration/ mai lungă mă face mult mai blând.",
-                        "\\💬('🐈' resting: 💃.curcubeu(3s))\\"
+                        "\\💬('🐈' odihnă: 💃.curcubeu(3s))\\"
                     ],
                     "names": ["$~curcubeu"]
                 },
                 "swing": {
                     "doc": [
                         "$~Legăn un @Output ca un pendul, până la /angle/ și apoi înapoi prin arce tot mai mici până se oprește. Spre deosebire de /sway/, eu mă opresc.",
-                        "\\💬('🐈' resting: 💃.leagăn(20°))\\"
+                        "\\💬('🐈' odihnă: 💃.leagăn(20°))\\"
                     ],
                     "names": ["$~leagăn"],
                     "angle": {
@@ -5985,14 +6025,14 @@
                 "blink": {
                     "doc": [
                         "$~Sting un @Output și îl aprind la loc fără estompare între, așa cum clipește un cursor. /flash/ se estompează; eu tai brusc.",
-                        "\\💬('🐈' resting: 💃.clipire(1s))\\"
+                        "\\💬('🐈' odihnă: 💃.clipire(1s))\\"
                     ],
                     "names": ["$~clipire"]
                 },
                 "nod": {
                     "doc": [
                         "$~Cobor un @Output în jos și înapoi în sus de două ori, ca o mișcare de aprobare a capului. Sunt cel mai blând mod de a spune „da”.",
-                        "\\💬('🐈' resting: 💃.aprobare(0.4m))\\"
+                        "\\💬('🐈' odihnă: 💃.aprobare(0.4m))\\"
                     ],
                     "names": ["$~aprobare"],
                     "distance": {
@@ -6003,7 +6043,7 @@
                 "dim": {
                     "doc": [
                         "$~Estompez un @Output până la /amount/ și înapoi la maxim, fără să îl ascund vreodată. Sunt pentru a arăta că ceva așteaptă sau este inactiv.",
-                        "\\💬('🐈' resting: 💃.întunecare(20% 2s))\\"
+                        "\\💬('🐈' odihnă: 💃.întunecare(20% 2s))\\"
                     ],
                     "names": ["$~întunecare"],
                     "amount": {
@@ -6014,7 +6054,7 @@
                 "slidein": {
                     "doc": [
                         "$~Alunec un @Output la locul lui de oriunde dorești, fără estompare. Dă-mi un @Place și voi porni de acolo și voi termina la odihnă, așa că o singură animație acoperă toate direcțiile.",
-                        "\\💬('🐈' entering: 💃.glisareînăuntru(📍(0m -4m)))\\"
+                        "\\💬('🐈' intrând: 💃.glisareînăuntru(📍(0m -4m)))\\"
                     ],
                     "names": ["$~glisareînăuntru"],
                     "from": {
@@ -6025,7 +6065,7 @@
                 "slideout": {
                     "doc": [
                         "$~Eu mut un @Output oriunde vrei tu, fără estompare. Dă-mi un @Place și voi termina acolo, așa că o singură animație acoperă orice direcție.",
-                        "\\💬('🐈' exiting: 💃.glisareînafară(📍(0m -4m)))\\"
+                        "\\💬('🐈' ieșire: 💃.glisareînafară(📍(0m -4m)))\\"
                     ],
                     "names": ["$~glisareînafară"],
                     "to": {
@@ -6036,7 +6076,7 @@
                 "float": {
                     "doc": [
                         "$~Eu ridic încet un @Output cu /distance/ și îl las jos. Dă-mi o /duration/ lungă și voi face ceva să pară fără greutate.",
-                        "\\💬('🐈' resting: 💃.plutire(0.5m 3s))\\"
+                        "\\💬('🐈' odihnă: 💃.plutire(0.5m 3s))\\"
                     ],
                     "names": ["$~plutire"],
                     "distance": {
@@ -6047,7 +6087,7 @@
                 "drift": {
                     "doc": [
                         "$~Eu mut încet un @Output cu /distance/ într-o parte și înapoi. Sunt /float/, dar lateral.",
-                        "\\💬('🐈' resting: 💃.deriva(0.5m 3s))\\"
+                        "\\💬('🐈' odihnă: 💃.deriva(0.5m 3s))\\"
                     ],
                     "names": ["$~deriva"],
                     "distance": {
@@ -6058,7 +6098,7 @@
                 "orbit": {
                     "doc": [
                         "$~Eu port un @Output pe un cerc cu /radius/, aducându-l înapoi de unde a plecat. Sunt singura animație predefinită care urmează o cale în loc să meargă înainte și înapoi.",
-                        "\\💬('🐈' resting: 💃.orbită(2m 4s))\\"
+                        "\\💬('🐈' odihnă: 💃.orbită(2m 4s))\\"
                     ],
                     "names": ["$~orbită"],
                     "radius": {
@@ -6069,7 +6109,7 @@
                 "glow": {
                     "doc": [
                         "$~Eu luminez un @Output spre /color/ și îl las să revină, ca ceva care se încălzește și se răcește. Spre deosebire de /rainbow/, eu rămân la o singură nuanță.",
-                        "\\💬('🐈' resting: 💃.strălucire(🌈.portocale 2s))\\"
+                        "\\💬('🐈' odihnă: 💃.strălucire(🌈.portocale 2s))\\"
                     ],
                     "names": ["$~strălucire"],
                     "color": {
@@ -6215,9 +6255,9 @@
                 "$~ÎI ARĂT @Output REZULTATUL TĂU. SALUT. URMEAZĂ AICI. SPUNE-MI CE SĂ ARĂT ȘI ȚI-L VOI ARĂTA.",
                 "\\Stage([Phrase('stufffffff')])\\",
                 "DACĂ VREI, DĂ-MI UN FUNDAL @Color ȘI VOI LUMINA SCENA ÎN CONSECINȚĂ.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
+                "\\Stage([Phrase('stufffffff')] fundal: Color(75% 50 100°))\\",
                 "ÎMI POȚI DA ȘI O CHEMINĂ PENTRU O CADRU ȘI O VOI DECUPA.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
+                "\\Stage([Phrase('stufffffff')] fundal: Color(75% 50 100°) cadru: Rectangle(-1m -1m 1m 1m))\\"
             ],
             "names": ["$~Etapă"],
             "content": {
@@ -6488,17 +6528,17 @@
                 "Notele sunt numere. 1 este prima notă a scalei — cea pe care o melodie sună terminată — 2 este următoarea notă mai sus, iar 8 este din nou acea primă notă, cu o octavă mai sus. ø este o pauză, adică liniște. Numerele continuă dincolo de ambele capete: 9 este a doua notă cu o octavă mai sus, iar 0 și -1 coboară sub prima.",
                 "O /scală/ este mica mulțime de note din care este construită o piesă, iar ce note sunt acelea dă cea mai mare parte a dispoziției. @Music/scale este \\🎼.major\\ dacă nu spui altfel, ceea ce sună luminos; \\🎼.minor\\ sună mai trist din exact aceleași numere. O /cheie/ este cât de sus sau de jos stă întreaga piesă, stabilită de @Music/key. Iar @Music/tempo este cât de repede merge, în beat-uri pe minut — un beat este pulsul constant pe care ai bate din palme odată cu el.",
                 "Deoarece notele sunt numere, nu tonuri fixe, toate trei se pot schimba fără a atinge melodia. Acestea sunt aceleași trei note, mai triste, mai joase și mai lente:",
-                "\\🎼(🎶([1 3 5]) scale: 🎼.minor key: -5semitones tempo: 60beats/min)\\",
+                "\\🎼(🎶([1 3 5]) gamă: 🎼.minor cheie: -5semitones tempo: 60beats/min)\\",
                 "O piesă începe din nou când ajunge la capătul ei, așa că o listă scurtă este un riff care cântă la nesfârșit. Acesta este lung de patru beat-uri, cu pauze în goluri:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
                 "Dă-mi o listă de piese și cântă în același timp, fiecare cu propriul instrument, viteză și volum. Aici o tobă mare și o tobă mică țin ritmul în timp ce un hi-hat merge cu viteză dublă — un poliritm dintr-un singur număr. Tobele sunt un set, nu tonuri, așa că numerele lor aleg piese din set în loc de note:",
-                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 bătaie: 0.5beats volum: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
                 "Numerele dintre acolade sună împreună ca un acord, iar o valoare de notă scrisă pe un număr dă acelei intrări propria lungime. Aici două acorduri de notă întreagă țin dedesubtul unei melodii în mișcare:",
-                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volum: 50%)\n\t])\\",
                 "Orice creează numere poate crea muzică. Această melodie se amestecă într-o ordine nouă și urmează cât de tare vorbești:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].amestecat())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
                 "Nimeni nu trebuie să mă audă. @Beat raportează fiecare beat pe măsură ce sună, ca să poți desena muzica la fel de bine cum o cânți, alături de orice vizualizare a ales privitorul. @Beat are mereu un @Downbeat, ca să-l poți citi fără a verifica nimic:",
-                "\\bătaie: Bătaie()\nnumărare: bătaie.număr\n🎭([\n\t\t💬('◆' size: 1m + ((numărare % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((numărare % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "\\bătaie: Bătaie()\nnumărare: bătaie.număr\n🎭([\n\t\t💬('◆' dimensiune: 1m + ((numărare % 4) = 0 ? 2m 0m) loc: 📍(-2m 2m))\n\t\t💬('◆' dimensiune: 1m + ((numărare % 4) = 2 ? 2m 0m) loc: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
                 "Nu am un aspect propriu de stilizat, așa că nu iau niciuna dintre intrările obișnuite de aspect — nici dimensiune, loc, culoare sau animație. Cum apar este alegerea privitorului, făcută în setările lui, și este ancorat de scenă în loc să fie plasat în aranjamentul tău; nu ocup loc, așa că punându-mă într-un @Row sau un @Stack nu mută niciodată nimic de lângă mine. Ca să desenezi muzica singur, folosește @Beat: îți dă fiecare beat pe măsură ce sună, ca să conduci orice output vrei.",
                 "Continui să cânt de-a lungul evaluărilor: editează-mi notele în timp ce cânt și schimbarea se îmbină la următorul beat în loc să repornească, ceea ce face ca schimbarea unei melodii în timpul cântării să pară muzicală. Ca să mă cânți din nou de la început, vezi @Music/replay; ca să mă ții pe loc și să continui din același loc, vezi @Music/pause."
             ],
@@ -6517,7 +6557,7 @@
                     "Unitatea este semitonul. Un semiton este cel mai mic pas din muzica occidentală: pe un pian este distanța de la o clapă la următoarea, numărând și clapele negre, iar douăsprezece dintre ele fac o octavă. Așa că \\cheie: 12semitones\\🪲 este aceeași piesă cu o octavă mai sus, \\cheie: -12semitones\\🪲 cu o octavă mai jos, iar \\cheie: 2semitones\\🪲 o împinge puțin mai sus.",
                     "Aici se întâlnesc două numărători, și sunt ușor de confundat. Notele numără /pași de scală/, unde octava este \\8\\: de la \\1\\ până la \\8\\ este o octavă. O cheie numără /semitonuri/, unde octava este \\12\\. Ambele descriu aceeași distanță — cei opt pași de la \\1\\ la \\8\\ ai unei scale de șapte note acoperă douăsprezece semitonuri. O cheie se măsoară în semitonuri pentru că un semiton are aceeași mărime în fiecare scală, în timp ce un pas nu are: scala pentatonică din @Music/scale are cinci note pe octavă, iar cea majoră are șapte, așa că deplasarea prin pași ar muta fiecare o distanță diferită, în timp ce \\12semitones\\ este o octavă în toate.",
                     "Pentru că este doar un număr, o cheie poate veni de oriunde. Aici întreaga piesă urcă două semitonuri în timp ce /sus/ este alegerea — un @Choice are nevoie de ceva selectabil pe scenă de citit, așa că cele două fraze sunt cele care o fac să funcționeze:",
-                    "\\🎭([\n\t\t💬('sus' selectable: ⊤ name: 'sus' place: 📍(-2m 0m))\n\t\t💬('acasă' selectable: ⊤ name: 'acasă' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'sus' ? 2semitones 0semitones))\n\t])\\"
+                    "\\🎭([\n\t\t💬('sus' selectabil: ⊤ nume: 'sus' loc: 📍(-2m 0m))\n\t\t💬('acasă' selectabil: ⊤ nume: 'acasă' loc: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) cheie: (🔘() = 'sus' ? 2semitones 0semitones))\n\t])\\"
                 ],
                 "names": "$~cheie"
             },
@@ -6538,7 +6578,7 @@
                 "doc": [
                     "$~Când acest lucru este \\⊤\\ la o evaluare, o iau de la capăt, chiar dacă niciuna dintre notele mele nu s-a schimbat.",
                     "Acest lucru este pentru sunetul care răspunde unui eveniment, nu pentru cel care cântă continuu. Dacă un răspuns corect cântă un clinchet, atunci două răspunsuri corecte la rând produc exact aceeași muzică, așa că nimic nu s-ar schimba și nimic nu s-ar auzi din nou. Eu sunt felul în care spui /din nou, acum/ — alege /corect/ de două ori mai jos și face clinchet de două ori:",
-                    "\\🎭([\n\t\t💬('corect' selectable: ⊤ name: 'corect' place: 📍(-2m 0m))\n\t\t💬('greșit' selectable: ⊤ name: 'greșit' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'corect') ⊥)\n\t])\\",
+                    "\\🎭([\n\t\t💬('corect' selectabil: ⊤ nume: 'corect' loc: 📍(-2m 0m))\n\t\t💬('greșit' selectabil: ⊤ nume: 'greșit' loc: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 buclă: ⊥) reluare: ∆ 🔘() ? (🔘() = 'corect') ⊥)\n\t])\\",
                     "Dă-mi o condiție /momentană/, una care este adevărată doar la evaluarea provocată de eveniment, cum ar fi \\∆ 🔘()\\ de mai sus. O condiție de durată cum ar fi \\score > 10\\🪲 rămâne adevărată odată ce devine adevărată, așa că m-ar reporni la fiecare evaluare de atunci încolo."
                 ],
                 "names": "$~reluare"
@@ -6634,7 +6674,7 @@
                 "doc": [
                     "$~Cât timp acest lucru este \\⊤\\ mă țin pe loc, iar când revine la \\⊥\\ continui chiar de la ritmul pe care m-am oprit.",
                     "Acest lucru mă face diferit de @Music/replay: replay înseamnă /o ia de la capăt/, iar eu înseamnă /așteaptă aici/. O notă care încă se auzea când m-am oprit se cântă cât a mai rămas din ea când încep din nou, așa că oprirea în mijlocul unui acord lung nu îl pierde. Alege /ține/ și /mergi/ mai jos:",
-                    "\\🎭([\n\t\t💬('ține' selectable: ⊤ name: 'ține' place: 📍(-2m 0m))\n\t\t💬('mergi' selectable: ⊤ name: 'mergi' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'ține')\n\t])\\",
+                    "\\🎭([\n\t\t💬('ține' selectabil: ⊤ nume: 'ține' loc: 📍(-2m 0m))\n\t\t💬('mergi' selectabil: ⊤ nume: 'mergi' loc: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pauză: 🔘() = 'ține')\n\t])\\",
                     "Spre deosebire de reluare, vreau o condiție /durabilă/, una care rămâne adevărată atât timp cât vrei liniștea. Numărul meu de @Beat așteaptă cu mine și continuă de unde a rămas, în loc să înceapă din nou de la zero."
                 ],
                 "names": "$~pauză"
@@ -6646,7 +6686,7 @@
                 "Notele mele sunt numere, aceleași numere pe care le explică @Music — 1 este prima notă a scării, 8 este acea notă cu o octavă mai sus, ø este o pauză, iar numerele între acolade precum \\{1 3 5}\\ sună împreună ca un acord:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
                 "Notele nu trebuie să fie întregi. \\1.5\\ este între prima notă și a doua, iar amândouă se aud — cea mai apropiată mai tare — așa că mutarea unui număr pe note sună ca apăsarea multor clape de pian:",
-                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] bătaie: 0.5beats))\\",
                 "Setează-mi @Track/mash la \\⊥\\ și un asemenea număr îndoaie o notă în afara tonului în loc să cânte două.",
                 "Fiecare intrare durează @Track/beat, care este o bătaie dacă nu îl schimbi. Schimbarea lui reașază totul ce cânt deodată.",
                 "Când o intrare trebuie să fie mai lungă sau mai scurtă decât restul, scrie lungimea chiar pe număr ca o valoare a notei. \\8𝅗𝅥\\ este o notă de jumătate — de două ori mai lungă decât o bătaie — și nu are nevoie de nimic în jur:",
@@ -6697,7 +6737,7 @@
                 "names": "$~amestecare"
             },
             "words": {
-                "doc": "$~Silabele pe care @Instrument/voice să le cânte. O silabă pentru fiecare notă, separate prin spații, așa că \\'sol mi fa'\\ cântă trei note, iar spațiile sunt cele care spun unde se termină o silabă și unde începe următoarea.\n\nPauzele nu iau nicio silabă, așa că un vers ajunge pe notele care chiar sună. Dacă sunt mai puține silabe decât note, ele o iau de la început în loc să tacă. Dacă nu există deloc, vocea ține un sunet /uh/.\n\nTermină o silabă cu o liniuță ca s-o ții și peste nota următoare, câte o notă în plus pentru fiecare liniuță — așa cânți o singură silabă pe mai multe note. În \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ acoperă primele două note, apoi \\mi\\ și \\so\\ iau câte una fiecare.\n\nScrierea este <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, unde fiecare literă este un sunet. Apasă 🤖 sub editor ca să vezi fiecare sunet și să îl auzi. Literele pe care nu le recunosc sunt sărite. Orice instrument în afară de voce mă ignoră, așa că un vers rămâne dacă schimbi @Track/instrument și te întorci.",
+                "doc": "$~Silabele pe care @Instrument/voice să le cânte. O silabă pentru fiecare notă, separate prin spații, așa că \\'sol mi fa'\\ cântă trei note, iar spațiile sunt cele care spun unde se termină o silabă și unde începe următoarea.\n\nPauzele nu iau nicio silabă, așa că un vers ajunge pe notele care chiar sună. Dacă sunt mai puține silabe decât note, ele o iau de la început în loc să tacă. Dacă nu există deloc, vocea ține un sunet /uh/.\n\nTermină o silabă cu o liniuță ca s-o ții și peste nota următoare, câte o notă în plus pentru fiecare liniuță — așa cânți o singură silabă pe mai multe note. În \\🎶([1 2 3 4] cuvinte: 'la- mi so')\\, \\la\\ acoperă primele două note, apoi \\mi\\ și \\so\\ iau câte una fiecare.\n\nScrierea este <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, unde fiecare literă este un sunet. Apasă 🤖 sub editor ca să vezi fiecare sunet și să îl auzi. Literele pe care nu le recunosc sunt sărite. Orice instrument în afară de voce mă ignoră, așa că un vers rămâne dacă schimbi @Track/instrument și te întorci.",
                 "names": "$~cuvinte"
             }
         },
@@ -6706,7 +6746,7 @@
                 "$~Sunt o intrare dintr-un @Track care poartă propriul volum, sau o lungime pe care nicio valoare de notă nu o poate scrie.",
                 "Majoritatea notelor ar trebui să rămână numere simple, iar majoritatea lungimilor sunt mai scurte scrise pe numărul însuși: \\1𝅗𝅥\\ este o doime. Merit folosit când o notă are nevoie de propriul volum, sau de o lungime care cade între valori — și pentru că \\♪(1 2beats ÷ 3)\\ spune mult mai mult decât \\1\\, folosirea mea peste tot ar îngropa notele care contează.",
                 "O triolă este aritmetică cinstită: \\♪(1 2beats ÷ 3)\\ spune că trei dintre acestea umplu două bătăi. Lungimea mea poate fi și o valoare de notă, deci \\♪(1 1𝅗𝅥)\\ și \\♪(1 2beats)\\ sunt aceleași două bătăi.",
-                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+                "\\🎼(🎶([1 1 ♪(5 2beats volum: 60%) ø]))\\"
             ],
             "names": ["$~Notă"],
             "degree": {
@@ -6732,56 +6772,56 @@
                 "piano": {
                     "doc": [
                         "$~Un pian. Înregistrat de la unul real și acordat, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~pian"]
                 },
                 "violin": {
                     "doc": [
                         "$~O vioară. Înregistrată de la una reală și acordată, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~vioară"]
                 },
                 "drums": {
                     "doc": [
                         "$~O tobă. Înregistrată și un set, nu acordată: numerele aleg o parte din set, nu o notă — \\1\\ tobă mare, \\2\\ tobă mică, \\3\\ fus, \\4\\ talger, \\5\\ tom-tom, \\6\\ clopoțel de vacă — și \\7\\ revine înapoi la toba mare.",
-                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6] bătaie: 2beats buclă: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~tobe"]
                 },
                 "flute": {
                     "doc": [
                         "$~Un flaut. Înregistrat de la unul real și acordat, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~flaut"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~O trompetă. Înregistrată de la una reală și acordată, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~trompetă"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Un saxofon, un tenor. Înregistrat de la unul real și acordat, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~saxofon"]
                 },
                 "bell": {
                     "doc": [
                         "$~Un clopot — clopoței de orchestră, cei loviți cu un ciocănel. Înregistrat și acordat, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~clopoțel"]
                 },
                 "didgeridoo": {
                     "doc": [
                         "$~Un didgeridoo, din Australia aborigenă. Înregistrat de la unul real și acordat, așa că numerele aleg notele, deși este un instrument cu ton continuu și rămâne jos.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
                     ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
@@ -6789,62 +6829,62 @@
                     "names": ["$~pisică", "$~miau"],
                     "doc": [
                         "$~O pisică — de fapt un set întreg dintr-una. Înregistrată de la o pisică reală și un set, nu acordată: numerele aleg ce spune pisica, nu o notă — \\1\\ iritată, \\2\\ cerșind, \\3\\ flămândă, \\4\\ protestând, \\5\\ implorând, \\6\\ doritoare, \\7\\ deranjată, \\8\\ speriată, \\9\\ sensibilă, \\10\\ liniștit, \\11\\ singuratic, \\12\\ torcând — și \\13\\ se întoarce înapoi la iritat. Pentru o pisică ce cântă note în schimb, vezi \\🔈.😺\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] bătaie: 2beats buclă: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
                     ]
                 },
                 "dog": {
                     "names": ["$~câine", "$~lătrat"],
                     "doc": [
                         "$~Un câine — de fapt, o întreagă trusă de câini. Înregistrat de la câini reali, și este o trusă, nu un instrument acordat: numerele aleg ce lătrat auzi în loc de o notă, mergând de la cel mai grav la cel mai ascuțit — \\1\\ răgușit, \\2\\ avertizare, \\3\\ pază, \\4\\ alertă, \\5\\ insistent, \\6\\ cerând, \\7\\ anunțând, \\8\\ nerăbdător, \\9\\ entuziasmat, \\10\\ nervos, \\11\\ chelălăind, \\12\\ ascuțit — și \\13\\ se întoarce înapoi la răgușit. Pentru un câine ce cântă note în schimb, vezi \\🔈.🐕\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] bătaie: 2beats buclă: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
                     ]
                 },
                 "synth": {
                     "doc": [
                         "$~Un sunet principal de sintetizator: luminos și zumzăitor, și nu se rușinează că este făcut din oscilatoare. Sintetizat, nu înregistrat, și acordat, deci numerele aleg note.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~sintetizator"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~Un bas de sintetizator: gros și jos. Sintetizat, nu înregistrat, și acordat, deci numerele aleg note.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~sintetizatorBas"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~Un sunet de fundal de sintetizator: moale, lent la apariție, și bun pentru a ține un acord sub toate celelalte. Sintetizat, nu înregistrat, și acordat, deci numerele aleg note.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~sintetizatorPad"]
                 },
                 "pitchedCat": {
                     "doc": [
                         "$~Aceeași pisică, acordată. Dintre cele douăsprezece înregistrări pe care le cântă trusa \\🔈.🐱\\, aceasta este cea care ține un ton constant, și este acordată, nu o trusă, deci numerele aleg note și poți scrie o melodie cu ea. Cântată departe de nota la care a fost înregistrată, un mieunat începe să sune întins în loc de cântat, deci se simte cel mai bine într-o octavă sau cam așa de la mijloc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~pisicăCuNote"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Aceiași câini, acordați. Dintre toate lătratele din care este făcut setul, acesta ține o notă constantă. Este acordat pe note, nu doar un set, așa că numerele aleg notele și poți scrie o melodie cu el. Când este cântat departe de nota la care a fost înregistrat, un lătrat începe să sune întins, nu lătrat. De aceea sună cel mai bine într-o octavă sau două față de mijloc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~câineCuNote"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~O chitară clasică, cu corzi de nailon ciupite cu degetele, nu cu o pană. Este înregistrată de la una reală și acordată pe note, așa că numerele aleg notele. Aceasta este cea la care se referă simplul \\guitar\\, așa că proiectele mai vechi care cereau o chitară o cântă pe aceasta.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~chitarăAcustică", "$~chitară"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~O chitară electro-acustică — un corp gol cu un traductor înăuntru, cu corzi de oțel, așa că sună mai luminos și mai lung decât cea de nailon \\🔈.🎸\\. Este înregistrată de la una reală și acordată pe note, așa că numerele aleg notele.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~chitarăElectrică"]
                 },
@@ -6853,7 +6893,7 @@
                         "$~O voce care cântă, făcută din filtre în loc să fie înregistrată de la o persoană. Are înălțime, așa că numerele aleg notele.",
                         "Sunt un sintetizator, ca @Instrument/synth — nu o imitație a unui cântăreț. Gura mea rămâne la fel de mare oricât de sus sau de jos cânt, ceea ce niciun gât adevărat nu poate face. De aceea sun ca o mașină care imită o persoană și de aceea nu sun nici a bărbat, nici a femeie.",
                         "Dă-i lui @Track un @Track/words și le cânt, o silabă pentru fiecare notă. Fără nimic, țin un sunet /uh/, așa că mereu cânt ceva.",
-                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "\\🎼(🎶([1 2 3 5] cuvinte: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
                         "Silabele sunt scrise în <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alfabet în care fiecare literă este un /sunet/ în loc de o scriere — așa că \\'ʃi'\\ este sunetul de la începutul cuvântului /she/, indiferent de limba în care scrii. Apasă 🤖 sub editor ca să vezi toate sunetele pe care le pot face și să auzi fiecare sunet."
                     ],
                     "names": ["$~voce"]
@@ -6861,7 +6901,7 @@
                 "harmonica": {
                     "doc": [
                         "$~O muzicuță, tipul cromatic cu un buton pe partea laterală. Înregistrată de la una reală și acordată, așa că numerele aleg notele.",
-                        "\\Muzică(\n\tPistă([1] beat: 4beats loop: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
+                        "\\Muzică(\n\tPistă([1] bătaie: 4beats buclă: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~muzicuță"]
                 }
@@ -6871,6 +6911,71 @@
                 "Cei mai mulți dintre noi avem /ton/, ceea ce înseamnă că numerele unei piese aleg note, iar numerele mai mari sună mai înalt. Restul sunt /kit-uri/: un număr alege un sunet dintr-o listă numerotată în loc de o notă, așa că o piesă se citește ca ritm, nu ca melodie, iar numerele de după sfârșitul listei se întorc înapoi la începutul ei.",
                 "Cei mai mulți dintre noi suntem și înregistrări reale, luate de la instrumente pe care oamenii chiar le-au cântat. Sintetizatoarele nu imită nimic — ele sunt construite din oscilatoare, iar acela este sunetul pe care trebuie să îl aibă. Fiecare dintre noi spune mai jos ce fel este."
             ]
+        },
+        "Path": {
+            "doc": "$~Sunt un traseu desenat printr-o listă de locuri, util pentru linii, curbe și dealuri pe @Stage.",
+            "names": ["$~Cale"],
+            "points": {
+                "doc": "$~Locurile prin care trec, în ordine. Stau întins, așa că folosesc propriul meu z, nu adâncimea vreunui loc.",
+                "names": "$~puncte"
+            },
+            "closed": {
+                "doc": "$~Dacă să-mi unesc ultimul loc înapoi cu primul.",
+                "names": "$~închis"
+            },
+            "smooth": {
+                "doc": "$~Dacă să mă curbez prin locurile mele în loc să cotesc la ele. Locurile mele nu se mișcă în niciun caz.",
+                "names": "$~neted"
+            },
+            "thickness": {
+                "doc": "$~Cât de lat să fiu desenat.",
+                "names": "$~grosime"
+            },
+            "z": {
+                "doc": "$~Adâncimea la care stau.",
+                "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Arăt ce spune un @Phrase, într-o baloană care arată chiar spre el. Dă-mă unui @Phrase.bubble al unei fraze și lasă literele să vorbească:",
+                "\\Fraza('un' balon: 'salut!')\\",
+                "Dă-mi un @Say în loc de text și voi fi rostit cu voce tare, pe lângă faptul că sunt arătat.",
+                "Schimbă-mi @Bubble.kind într-un gând și devin o baloană de gândire în loc de vorbire.",
+                "Sunt o decorație, așa că nimic pe scenă nu se dă la o parte ca să-mi facă loc — dar @Stage se asigură că ajung să fiu vizibil."
+            ],
+            "names": ["$~Balon"],
+            "text": {
+                "doc": [
+                    "$~Ce arăt. Dă-mi text simplu, sau text formatat dacă vrei cuvinte *îngroșate* sau /cursive/.",
+                    "Dă-mi un @Say în loc și voi fi rostit cu voce tare, pe lângă faptul că sunt arătat. Atunci țin locul cuvintelor care apar de obicei la baza @Stage, pentru că ale mele sunt deja pe ecran, lângă cine le-a spus."
+                ],
+                "names": "$~text"
+            },
+            "side": {
+                "doc": "$~De care parte a @Phrase stau, ca o săgeată. Dacă \\ø\\, @Stage mă pune acolo unde stau cel mai puțin în cale și alege din nou de fiecare dată când lucrurile se mișcă.",
+                "names": "$~parte"
+            },
+            "kind": {
+                "doc": "$~Dacă sunt ceva spus (\\'💬'\\) sau ceva gândit (\\'💭'\\). Un gând lasă în urmă cercuri spre cel care gândește, în loc de un vârf, și are colțuri rotunjite.",
+                "names": "$~fel"
+            },
+            "color": {
+                "doc": "$~@Color cuvintelor mele. Dacă \\ø\\, folosesc culoarea proprie a @Phrase.",
+                "names": "$~culoare"
+            },
+            "background": {
+                "doc": "$~@Color cu care sunt umplut. Dacă \\ø\\, sunt umplut cu fundalul a orice pe care sunt desenat.",
+                "names": "$~fundal"
+            },
+            "size": {
+                "doc": "$~Cât de mari sunt cuvintele mele. Dacă \\ø\\, au dimensiunea normală a textului pe @Stage — nu dimensiunea celui care vorbește, pentru că un personaj înalt de câțiva metri ar face un zid de cuvinte.",
+                "names": "$~mărime"
+            },
+            "wrap": {
+                "doc": "$~Limita la care îmi trec cuvintele pe o linie nouă.",
+                "names": "$~încadrare"
+            }
         }
     },
     "ui": {
@@ -6966,7 +7071,7 @@
                     "format": "$~format detectat"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~alege o culoare de pe ecranul tău"
                 }
             },
             "logo": {
@@ -7185,8 +7290,8 @@
                 "curators": {
                     "header": "$~Curatori",
                     "explanation": [
-                        "$~Curatorii pot edita proiectele și setările galeriei și pot discuta despre toate proiectele.",
-                        "Curatorii sunt responsabili de moderarea conținutului chat-urilor asociate cu proiectele și instrucțiunile din galerie. Chat-urile raportate de creatori pot fi găsite pe<gallery moderation dashboard@://galleries/moderation> ./"
+                        "$~Curatorii pot edita proiectele și setările galeriei și pot discuta pe orice proiect.",
+                        "/Curatorii verifică ce este semnalat în galeria lor — proiecte, instrucțiuni și discuțiile care le însoțesc — din <pagina de moderare@://moderate>. Decizia unui curator se aplică doar galeriei lui; nu este niciodată una dintre <regulile@://rights> Wordplay./"
                     ]
                 },
                 "creators": {
@@ -7226,11 +7331,11 @@
         },
         "gallerymoderation": {
             "header": "$~Moderare galerie",
-            "description": "$~Următoarele mesaje din galeriile pe care le gestionați au fost raportate de utilizatori pentru moderare.",
+            "description": "$~Ce ți-au cerut oamenii să verifici, cel mai vechi primul. O decizie arată ce reguli s-au încălcat, iar cel care a creat lucrul este anunțat ce ai decis.",
             "labels": {
                 "message": "$~mesaj",
-                "reporter": "$~reporter",
-                "action": "$~acțiuni ale moderatorului"
+                "action": "$~acțiuni ale moderatorului",
+                "reason": "$~ce reguli a încălcat"
             },
             "view": {
                 "label": "$~vizualizare chat",
@@ -7245,7 +7350,11 @@
                 "tip": "$~Acest mesaj nu încalcă regulile"
             },
             "empty": "$~Niciun mesaj nu necesită moderare",
-            "error": "$~Trebuie să fii autentificat pentru a modera galerii"
+            "error": "$~Trebuie să fii autentificat pentru a modera galerii",
+            "note": {
+                "description": "$~ce să-i spui persoanei care a scris mesajul",
+                "placeholder": "$~spune-le ceva (opțional)"
+            }
         },
         "howto": {
             "galleryView": {
@@ -7386,7 +7495,7 @@
                 },
                 "collaborators": "$~scris de",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~vezi instrucțiuni"
                 }
             },
             "configuration": {
@@ -7686,10 +7795,6 @@
                 "fit": {
                     "on": "$~controlează zoom-ul manual",
                     "off": "$~potrivește zoom-ul la conținut"
-                },
-                "paint": {
-                    "off": "$~locul de ieșire",
-                    "on": "$~producție de vopsea"
                 }
             },
             "field": {
@@ -7823,11 +7928,30 @@
                 "show": "$~arată totul"
             },
             "snap": {
-                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
-                "withOutput": "$?",
-                "withGrid": "$?",
-                "aligned": "$?",
-                "none": "$?"
+                "anchors": [
+                    "$~centru orizontal",
+                    "$~margine stângă",
+                    "$~margine dreaptă",
+                    "$~centru vertical",
+                    "$~margine de jos",
+                    "$~margine de sus",
+                    "$~linia de bază"
+                ],
+                "withOutput": "$~$anchor cu $target al lui $targetAnchor",
+                "withGrid": "$~$anchor pe grilă",
+                "aligned": "$~$constraints, la $place",
+                "none": "$~nimic cu care să se alinieze pe $direction"
+            },
+            "removed": "$~$#count[$#count element de ieșire șters|$#count elemente de ieșire șterse|$#count de elemente de ieșire șterse]",
+            "notRemovable": "$~care nu poate fi șters singur",
+            "drew": "$~$#count[am desenat un traseu cu $#count punct; desenarea este oprită|am desenat un traseu cu $#count puncte; desenarea este oprită|am desenat un traseu cu $#count de puncte; desenarea este oprită]",
+            "drawing": "$~$#count[$#count punct, la $place|$#count puncte, ultimul la $place|$#count de puncte, ultimul la $place]",
+            "point": {
+                "label": "$~punctul $number din $#count, la $place",
+                "moved": "$~punctul $number la $place",
+                "added": "$~punct adăugat $number",
+                "removed": "$~punct eliminat $number",
+                "last": "$~un traseu are nevoie de cel puțin două puncte"
             }
         },
         "timeline": {
@@ -8082,7 +8206,8 @@
                     "header": "$~Ghiduri",
                     "explanation": "$~/Exemple scurte care arată cum se fac lucrurile în @wordplay. Apasă pe redare în orice previzualizare pentru a o vedea rulând, apoi deschide-o pentru a citi cum funcționează./"
                 },
-                "conceptHowTos": "$~Cum se face"
+                "conceptHowTos": "$~Cum se face",
+                "bookmarked": "$~Salvat la favorite"
             },
             "tour": {
                 "launch": "$~faceți un tur al ghidului",
@@ -8151,8 +8276,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~lasă proiectul să-și aleagă singur simbolul de previzualizare, în funcție de ce arată",
+                            "$~fixează un simbol ales de tine"
                         ]
                     },
                     "research": {
@@ -8478,10 +8603,20 @@
                     "projectChatHeader": "$~Mesaj nou în proiectul „ $name ”",
                     "howToChatHeader": "$~Mesaj nou în instrucțiunile „ $title ”",
                     "moderationHeader": "$~Mesajul din „ $name ” necesită acțiune de moderare",
-                    "link": "$~detalii"
+                    "link": "$~detalii",
+                    "reportedHeader": "$~Ceva ce ai făcut în „$title” a fost raportat și este verificat",
+                    "reportReceivedHeader": "$~Raportul tău despre „$title” a fost trimis persoanei responsabile",
+                    "decisionHeader": "$~S-a luat o decizie despre ceva ce ai făcut în „$title”",
+                    "outcomeHeader": "$~S-a luat o decizie despre ce ai raportat în „$title”",
+                    "because": "$~Pentru că:",
+                    "note": "$~Ei au spus:"
                 },
                 "delete": "$~ștergeți această notificare",
-                "popup": "$~$#count[o notificare|$#count notificări|$count de notificări]"
+                "popup": "$~$#count[o notificare|$#count notificări|$count de notificări]",
+                "moderate": {
+                    "label": "$~verifică conținutul raportat",
+                    "tip": "$~mergi la lucrurile care așteaptă să fie verificate de tine"
+                }
             },
             "locale": {
                 "header": "$~Limbă",
@@ -8727,11 +8862,7 @@
                 "down": "$~mută acest conținut în jos",
                 "edit": "$~editează acest conținut",
                 "sequence": "$~convertiți în secvență",
-                "createPhrase": "$~creează o frază, afișând valoarea existentă ca text",
-                "createGroup": "$~creați un Grup, încadrând orice Frază existentă",
-                "createStage": "$~creați o Scenă, încadrând orice Grup sau Frază existentă",
                 "editMode": "$~treci la modul de editare",
-                "createMusic": "$~adaugă @Music în program",
                 "previousTrack": "$~arată @Track anterioară",
                 "nextTrack": "$~arată @Track următoare",
                 "addTrack": "$~adaugă o @Track",
@@ -8749,15 +8880,9 @@
                 "rewind": "$~întoarce-te la început"
             },
             "prompt": {
-                "offerPhrase": "$~Ar trebui să includ această valoare într-o frază @Phrase ?",
-                "offerGroup": "$~Ar trebui să încadrez acest conținut într-un @Group , ca să îl poți aranja?",
-                "offerStage": "$~Ar trebui să încadrez acest conținut într-un @Stage , astfel încât să poți controla iluminarea, culoarea și cadrele?",
-                "select": "$~Pentru a edita, selectează un 💬, 🔳, ⬟ sau 🎭 în cod, sau selectează output pe @Stage.",
+                "select": "$~Pentru a edita ceva, selectează-l în codul tău sau pe @Stage. Pentru a adăuga ceva nou, folosește butoanele + de mai sus.",
                 "editing": "$~Editează-mă!",
-                "offerShape": "$~Ar trebui să încapăl acest @Form în @Shape pentru a-l afișa pe @Stage ?",
-                "offerNothing": "$~Nimic aici încă! Ar trebui să adaug o @Phrase pentru a începe?",
-                "readonly": "$~Aceste valori sunt *doar pentru citire* în acest mod. Treci la modul ✏️ *editare* ca să le schimbi.",
-                "offerMusic": "$~Vrei să adaugi @Music? Pot să încep cu câteva note cu care să te joci."
+                "readonly": "$~Aceste valori sunt *doar pentru citire* în acest mod. Treci la modul ✏️ *editare* ca să le schimbi."
             },
             "field": {
                 "coordinate": "$~editați coordonatele",
@@ -8855,6 +8980,28 @@
                 },
                 "report": "$~Ce am importat",
                 "reportExplanation": "$~Un @Music poate păstra cea mai mare parte din ce descrie un fișier MIDI, dar nu chiar totul. Iată ce s-a schimbat la intrare."
+            },
+            "toolbar": {
+                "label": "$~adaugă ieșire",
+                "addPhrase": "$~adaugă o frază",
+                "wrapPhrase": "$~arată această valoare ca frază",
+                "addRectangle": "$~adaugă o formă dreptunghiulară",
+                "addCircle": "$~adaugă o formă rotundă",
+                "addPolygon": "$~adaugă o formă cu mai multe laturi",
+                "wrapForm": "$~arată această formă pe scenă, învelind-o într-o formă",
+                "group": "$~adună ceea ce ai selectat într-un grup",
+                "groupEmpty": "$~selectează niște ieșiri ca să le aduni într-un grup",
+                "groupScattered": "$~un grup poate aduna doar ieșiri care sunt în același loc",
+                "groupKind": "$~un grup poate conține o frază, un grup, o vorbire sau o muzică, dar nu o formă sau scena",
+                "addStage": "$~învelește totul într-o scenă, ca să poți controla lumina, culoarea și cadrele",
+                "stageExists": "$~există deja o scenă",
+                "addMusic": "$~adaugă muzică, începând cu câteva note cu care să te joci",
+                "addSay": "$~adaugă o vorbire, care este rostită cu voce tare",
+                "addPath": "$~adaugă o linie pe care o poți îndoi și cu care poți desena",
+                "draw": {
+                    "off": "$~desenează un traseu pe scenă",
+                    "on": "$~oprește desenarea"
+                }
             }
         },
         "save": {
@@ -8943,7 +9090,7 @@
                 }
             },
             "strings": "$~Șiruri de traducere",
-            "emotion": "Choose an emotion",
+            "emotion": "$~Alege o emoție",
             "invalidName": "$~Nu este un nume valid pentru jocuri de cuvinte",
             "invalidConceptLinks": "$~Aceste legături conceptuale nu se rezolvă în limba curentă. Ai scris greșit una sau ai eliminat-o intenționat?",
             "guidance": "$~Ghid pentru această limbă",
@@ -8969,6 +9116,23 @@
                 "invalidKey": "$~O cheie trebuie să înceapă cu o literă și să folosească doar litere și numere, în orice limbă.",
                 "duplicateKey": "$~Această limbă are deja un cuvânt cu acea cheie.",
                 "reservedKey": "$~Acea cheie este deja folosită pentru o valoare șablon, așa că nu poate fi un cuvânt."
+            },
+            "glossary": {
+                "header": "$~Alte forme scrise",
+                "description": "$~Glosarul explică cuvintele pe care le întâlnesc cei care învață. Fiecare termen are un cuvânt principal, iar aici poți adăuga celelalte moduri în care acel cuvânt se scrie în această limbă — la plural, cu alte terminații sau un alt cuvânt cu același înțeles. Când scrii un text, poți lega oricare dintre ele cu @ și cuvântul, iar tot cuvântul rămâne parte din legătură. Fiecare limbă își scrie propria listă, așa că adaugă atâtea forme câte are nevoie limba ta.",
+                "reference": "$~în engleză",
+                "empty": "$~Încă nu există alte forme.",
+                "form": {
+                    "description": "$~un alt mod în care se scrie acest termen",
+                    "placeholder": "$~formă"
+                },
+                "add": "$~adaugă această formă la termen",
+                "remove": "$~șterge această formă din termen",
+                "ownWord": "$~Acesta este cuvântul propriu al termenului, care funcționează deja de unul singur.",
+                "otherWord": "$~Acesta este cuvântul pentru $term, așa că nu ar fi clar la ce termen te referi.",
+                "conceptName": "$~Documentarea definește deja acest cuvânt, așa că o legătură la el ar duce acolo în schimb.",
+                "alreadyUsed": "$~Aceasta este deja o formă a $term, așa că nu ar fi clar la ce termen te referi.",
+                "searchOnly": "$~O legătură se termină la un spațiu sau un simbol, așa că această formă va ajuta doar la căutare."
             }
         },
         "page": {
@@ -9027,8 +9191,8 @@
                     "example": {
                         "phrase": "$~\\¶Frazele apar pe scenă, în orice culoare, cu orice strălucire și mișcare îți place.¶\nFraza(\n\t'salut!'\n\t6m\n\tculoare: Culoare(60% 90 200°)\n\taură: Aură(Culoare(80% 80 200°) 0.3m)\n\todihnă: Secvenţă.legănare(8°)\n)\\",
                         "music": "$~\\¶Muzica este note pe instrumente reale, la un tempo, într-o tonalitate. Scena desenează ce aude.¶\nMuzică(\n\tPistă([1 3 5 8 5 3] instrument: Instrument.pian)\n\ttempo: 120beats/min\n)\\",
-                        "hello": "$~\\¶Codul poate reacționa la o intrare precum @Time, iar textul poate fi în mai multe limbi și poate fi rostit.¶\nsaluturi: ['salut' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nsalut: saluturi.aleatoriu() … ∆ Timp(1000ms) … saluturi.aleatoriu(\n\t\t)\nFraza(salut 4m)\nCuvânt(salut)\\",
-                        "keys": "$~\\¶Codul poate reacționa la pointeri, taste, clicuri și atingeri.¶\ncheie2: Cheie()\nclic: Buton()\nfețe: ['🙂' '😮' '😎' '🤩']\ncare: 1 … ∆ cheie2 | ∆ clic … (care % 4) + 1\nEtapă(\n\t[Fraza(fețe[care] 5m loc: Indicator())]\n\tloc: Loc(0m 0m -12m)\n)\\",
+                        "hello": "$~\\¶Codul poate reacționa la o intrare precum @Time, iar textul poate fi în mai multe limbi și poate fi rostit.¶\nsaluturi: ['salut'/ro 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nsalut: saluturi.aleatoriu() … ∆ Timp(1000ms) … saluturi.aleatoriu(\n\t\t)\nFraza(salut 4m)\nCuvânt(salut)\\",
+                        "keys": "$~\\¶Codul poate reacționa la mișcări ale cursorului, taste, clicuri și atingeri.¶\ncheie2: Cheie()\nclic: Buton()\nfețe: ['🙂' '😮' '😎' '🤩']\ncare: 1 … ∆ cheie2 | ∆ clic … (care % 4) + 1\nEtapă(\n\t[Fraza(fețe[care] 5m loc: Indicator() balon: 'salut')]\n\tloc: Loc(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Așază textul în pagină și fă-l selectabil.¶\nfruct: ƒ(e•'') Fraza(e 3m nume: e selectabil: ⊤)\nales: Alegere()\narătat: '?' … ∆ ales … ales\nGrup(\n\tStivă(umplutură: 1m)\n\t[\n\t\tFraza(arătat 4m)\n\t\tGrup(\n\t\t\tRând(umplutură: 1m)\n\t\t\t[fruct('🍎') fruct('🍐') fruct('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Discută cu programe și folosește forma fonturilor și a simbolurilor.¶\nmesaj: Chat()\ncuvânt2: 'salut' … ∆ mesaj … mesaj\nlinie: Contur(cuvânt2 'Noto Sans' 8m)\nsecunde: 0 … ∆ Timp(30ms) … secunde + 1\narătat: ((linie.lungime() × secunde) ÷ 66).rotunjireînjos() + 1\npuncte: linie.subsecvență(1 arătat).traduce(\n\t\tƒ(p) Fraza('•' loc: p)\n\t)\nEtapă(puncte.cu(Fraza(cuvânt2 8m opacitate: 15%)))\\",
                         "pile": "$~\\¶Textul poate avea fizică.¶\naruncă: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFraza(\n\t\t\temoji\n\t\t\t2m\n\t\t\tloc: Mişcare(Loc(x2 y2) Viteză(vx 0m/s))\n\t\t\tmaterie: Materie(1kg 0.55 0.06 0.5)\n\t\t)\nEtapă(\n\t[\n\t\taruncă('🍎' -2m 5m 2.2m/s)\n\t\taruncă('🍊' 2m 7m -2.6m/s)\n\t\taruncă('🍋' -1m 9m 1.4m/s)\n\t\taruncă('🍇' 1.5m 11m -1.9m/s)\n\t\taruncă('🫐' 0.5m 15m -1.2m/s)\n\t\tFigură(Dreptunghi(-4m -3m 4m -3.6m))\n\t\tFigură(Dreptunghi(-4.6m 4m -4m -3m))\n\t\tFigură(Dreptunghi(4m 4m 4.6m -3m))\n\t]\n)\\",
@@ -9051,8 +9215,8 @@
                         "title": "$~Wordplay este multilingv",
                         "bullets": [
                             "$~• Fiecare element al limbajului de programare are un nume în fiecare limbă, așa că poți citi codul în cuvinte pe care le cunoști deja.",
-                            "• Și numele pe care le alegi tu pot fi multilingve:\n\\pisică2: '🐈'\nFraza(pisică2)\\",
-                            "• Textul poartă o limbă și arată limba pe care publicul tău o citește: \\'salut'\\.",
+                            "• Și numele pe care le alegi tu pot fi multilingve:\n\\pisică2/ro, gato/es: '🐈'\nFraza(pisică2)\\",
+                            "• Textul poartă o limbă și arată limba pe care publicul tău o citește: \\'salut'/ro'hola'/es\\.",
                             "• Site-ul este disponibil în 29 de limbi și poți alege mai multe deodată; textul apare în fiecare dintre ele.",
                             "• Poți ajuta la traducerea @wordplay chiar din aplicație, la <localize//localize>."
                         ]
@@ -9252,11 +9416,18 @@
                 "readingLevelOk": "$~Acest text se citește clar pentru nivelul de citire țintă.",
                 "tabs": {
                     "label": "$~secțiune",
-                    "labels": ["$~Despre", "$~Text", "$~Termeni", "$~Trimite"],
+                    "labels": [
+                        "$~Despre",
+                        "$~Text",
+                        "$~Termeni",
+                        "$~Glosar",
+                        "$~Trimite"
+                    ],
                     "tips": [
                         "$~cum funcționează localizarea și note pentru cei care scriu această limbă",
                         "$~răsfoiește și modifică textul platformei",
                         "$~definește fraze pe care le poți refolosi în textul acestei limbi",
+                        "$~adaugă pluralele și celelalte moduri de scriere ale termenilor din această limbă",
                         "$~verifică modificările tale și trimite-le"
                     ]
                 },
@@ -9467,40 +9638,33 @@
                 "section": {
                     "tabs": {
                         "label": "$~tip de galerie",
-                        "labels": [
-                            "$~Al tău",
-                            "$~Exemple",
-                            "$~Ghiduri",
-                            "$~Public"
-                        ],
+                        "labels": ["$~Al tău", "$~Exemple", "$~Public"],
                         "tips": [
                             "$~galerii pe care le organizezi sau la care contribui",
                             "$~galerii selectate de dezvoltatorii Wordplay",
-                            "$~instrucțiuni împărtășite de galeriile din care faci parte",
                             "$~galerii pe care creatorii le-au făcut publice"
                         ]
                     },
                     "own": [
-                        "$~Contribuie la o galerie la care ești invitat sau creează-ți propria galerie cu o anumită temă și invită și alte persoane.",
-                        "Curatorii sunt responsabili de moderarea conținutului din galerii folosind<gallery moderation dashboard@://galleries/moderation> ./"
+                        "$~Contribuie la o galerie la care ești invitat sau administrează propria ta galerie cu o temă anume și invită și alți oameni.",
+                        "/Curatorii verifică ce este semnalat în galeria lor, din <pagina de moderare@://moderate>./"
                     ],
                     "examples": "$~Acestea sunt galerii atent selecționate de dezvoltatorii @wordplay. Sunt puncte de plecare bune pentru învățare și inspirație.",
-                    "howtos": "$~Puteți vizualiza și interacționa cu instrucțiunile din aceste galerii, dar nu puteți vedea proiectele lor decât dacă galeria sau proiectele sunt publice.",
-                    "public": "$~Acestea sunt galerii pe care creatorii @wordplay le-au făcut publice. Vezi ce au făcut alții pentru inspirație!"
+                    "public": "$~Acestea sunt galerii pe care creatorii @wordplay le-au făcut publice. Oricine poate cere ca galeria lui să fie listată aici, iar un moderator o citește întâi ca să se asigure că este terminată și respectă regulile. O galerie poate fi scoasă din această listă în orice moment, din orice motiv. Sunt arătate într-o ordine diferită la fiecare vizită, astfel încât fiecare galerie își are rândul aproape de vârf."
                 },
                 "button": {
-                    "newgallery": "$~galerie nouă",
-                    "more": {
-                        "label": "$~Mai mult...",
-                        "tip": "$~Încarcă mai multe galerii"
-                    }
+                    "newgallery": "$~galerie nouă"
                 },
                 "error": {
-                    "nogalleryedits": "$~Trebuie să fii<logged in@://login> pentru a crea și modifica galerii."
+                    "nogalleryedits": "$~Trebuie să fii<logged in@://login> pentru a crea și modifica galerii.",
+                    "nopublic": "$~Nicio galerie nu a fost aprobată încă pentru această listă. Revino în curând!"
                 },
                 "search": {
-                    "description": "$~Căutați exemple de proiecte de galerie",
-                    "noResults": "$~Nu s-au găsit rezultate."
+                    "description": "$~Caută exemple și galerii publice",
+                    "noResults": "$~Nu s-au găsit rezultate.",
+                    "galleries": "$~Galerii",
+                    "examples": "$~Proiecte exemplu",
+                    "projects": "$~Proiecte din galerii publice"
                 }
             },
             "characters": {
@@ -9975,29 +10139,28 @@
             "rights": {
                 "header": "$~Drepturi",
                 "content": [
-                    "$~Hi!",
-                    "Să stabilim câteva așteptări cu privire la drepturile dumneavoastră și ale noastre (și în lumina politicii, cum ar fi<COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> şi<GDPR@https://gdpr.eu/compliance-checklist-us-companies/> ).",
-                    "Primul lucru de știut este că nu suntem o entitate comercială. Suntem un proiect de cercetare bazat pe comunitate, găzduit de o universitate non-profit. Scopul nostru este să creăm o platformă care să vă aducă bucurie și să ne ajute să facem descoperiri despre o lume a informaticii mai echitabilă și mai dreaptă. Nu avem niciun interes să câștigăm bani pe această platformă; orice bani pe care îi strângem (de obicei prin finanțare publică) sunt folosiți pentru a susține platforma, nu pentru a îmbogăți pe nimeni care lucrează la ea (sau contribuie la ea).",
-                    "Deoarece nu urmărim profitul, aceasta înseamnă și că nu putem face nicio promisiune cu privire la fiabilitatea, disponibilitatea sau longevitatea acestei platforme. Acestea fiind spuse,<Amy@https://amyjko.phd> este dedicată pe termen lung menținerii acestuia și, în calitate de profesoară titulară, are un loc de muncă destul de stabil.",
-                    "Asta ne aduce la *date*. Iată ce colectăm și stocăm în cloud:",
-                    "• *Proiectele* dumneavoastră. Stocăm orice proiecte la care contribuiți și modificările aduse acestora, cu excepția cazului în care respectivele proiecte par să conțină informații de identificare personală, cum ar fi numere de telefon, adrese de e-mail, nume de utilizator, coduri de identificare fiscală sau adrese.",
-                    "• *Setările* tale. Acestea includ limbile pe care le alegi, preferințele de animație și progresul tutorialului. Toate celelalte sunt stocate doar pe dispozitivul tău.",
-                    "• *Activitate* agregată. Urmărim conectările și paginile pe care le vizitați, dar nu într-un mod care să vă poată identifica, să vă poată urmări pe site sau pe alte site-uri. Folosim Google Analytics în modul „consimțământ refuzat”, care colectează doar informații minime neidentificabile despre vizualizările paginilor, fără a stoca cookie-uri sau a trimite informații despre adresa IP către Google. Folosim aceste informații agregate pentru a ajuta la strângerea de fonduri prin raportarea gradului de utilizare a platformei.",
-                    "Nu depozităm nimic altceva. Al nostru<source@https://github.com/amyjko/wordplay/tree/main/src> este public, deci oricine poate verifica acest lucru și raporta orice urmărire neintenționată.",
-                    "*Tu* deții datele tale, nu noi. Asta înseamnă:",
-                    "• Tu controlezi cine poate accesa proiectele tale. Acestea sunt private în mod implicit, dar le poți partaja cu persoane, grupuri sau le poți face complet publice.",
-                    "• Puteți șterge complet orice proiect sau propriul cont în orice moment.",
-                    "• Puteți obține oricând un export al oricărui proiect sau al întregului cont.",
-                    "Iată cum vom folosi și cum nu vom folosi datele dumneavoastră:",
-                    "• Nu vom partaja datele dumneavoastră cu nimeni, cu excepția cazului în care acest lucru este impus în mod explicit de lege. Este întotdeauna posibil ca datele dumneavoastră să fie luate fără permisiune (o „încălcare a securității datelor”). Dacă descoperim că s-a întâmplat acest lucru, vă vom notifica în acest sens folosind adresa de e-mail pe care ne-ați partajat-o.",
-                    "• Nu vă vom contacta prin intermediul adresei dvs. de e-mail decât dacă 1) faceți o modificare a contului care ne obligă la acest lucru, 2) ne dați consimțământul explicit pentru a vă contacta sau 3) în cazul încălcării securității datelor menționate mai sus.",
-                    "• Este posibil să analizăm proiecte, galerii și modalități de creare a conținutului pe platformă pentru a înțelege ce creează fiecare și cum îl creează. Este posibil să distribuim aceste informații agregate și anonimizate în publicații academice. Vom face acest lucru numai sub supravegherea unui comitet instituțional de evaluare, așa cum prevede legea federală a SUA.",
-                    "În final, o notă despre exprimare. Puteți spune orice doriți pe această platformă în modul *privat*. Proiectele sunt private în mod implicit și, dacă le partajați cu anumite adrese de e-mail, acestea sunt considerate în continuare private. Nu vom modera nimic din proiectele private.",
-                    "Însă a face un proiect *public* sau a-l include într-o galerie publică este un privilegiu. Aceasta este o platformă creată pentru dragoste, afirmare, respect și demnitate. Prin urmare, ne așteptăm ca niciunul dintre conținuturile tale *publice* să nu:"
+                    "$~Bună!",
+                    "Hai să stabilim câteva lucruri clare despre drepturile tale și ale noastre (și ținând cont de reguli precum <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> și <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Primul lucru pe care trebuie să-l știi este că noi nu suntem o firmă comercială. Suntem un proiect de cercetare făcut de o comunitate, găzduit de o universitate non-profit. Scopul nostru este să creăm o platformă care să-ți aducă bucurie și care să ne ajute să descoperim o lume a calculatoarelor mai dreaptă și mai echitabilă. Nu vrem să facem bani din această platformă. Orice bani strângem (de obicei prin finanțare publică) sunt folosiți doar pentru a menține platforma în funcțiune, nu pentru a îmbogăți pe cineva care lucrează la ea (sau contribuie la ea).",
+                    "Pentru că nu căutăm profit, asta înseamnă și că nu putem promite nimic despre cât de sigură, disponibilă sau durabilă va fi această platformă. Totuși, <Amy@https://amyjko.phd> s-a angajat pe termen lung să o susțină, iar ca profesoară titulară, are un loc de muncă destul de stabil.",
+                    "Asta ne aduce la *date*. Iată ce strângem și păstrăm în cloud:",
+                    "• *Proiectele* tale. Păstrăm orice proiect la care contribui și modificările tale, cu excepția cazului în care aceste proiecte par să conțină informații care te-ar putea identifica personal, cum ar fi numere de telefon, adrese de email, nume de utilizator, coduri fiscale sau adrese.",
+                    "• *Setările* tale. Aici includem limbile pe care le alegi, preferințele tale de animație și progresul tău în tutorial. Tot restul este păstrat doar pe dispozitivul tău.",
+                    "• *Activitatea* generală. Urmărim autentificările și paginile pe care le vizitezi, dar nu într-un mod care te poate identifica, urmări pe tot site-ul sau urmări pe alte site-uri. Folosim Google Analytics în modul „consimțământ refuzat”, care strânge doar informații minime, neidentificabile, despre vizualizările paginilor, fără să salveze cookie-uri sau să trimită adresa ta de IP către Google. Folosim aceste informații generale ca să obținem finanțare, arătând cât de mult este folosită platforma.",
+                    "Nu păstrăm nimic altceva. <Codul nostru sursă@https://github.com/amyjko/wordplay/tree/main/src> este public, așa că oricine poate verifica asta și poate semnala orice urmărire neintenționată.",
+                    "*Tu* deții datele tale, nu noi. Asta înseamnă că:",
+                    "• Tu controlezi cine poate accesa proiectele tale. Sunt private în mod implicit, dar le poți împărtăși cu anumite persoane, cu grupuri, sau le poți face complet publice.",
+                    "• Poți șterge complet orice proiect sau propriul cont, oricând.",
+                    "• Poți obține o copie exportată a oricărui proiect sau a întregului tău cont, oricând.",
+                    "Iată cum vom folosi și cum nu vom folosi datele tale:",
+                    "• Nu vom împărtăși datele tale cu nimeni, decât dacă legea ne obligă în mod explicit. Există mereu posibilitatea ca datele tale să fie luate fără voie (o „scurgere de date”). Dacă descoperim că s-a întâmplat asta, te vom anunța folosind adresa de email pe care ne-ai dat-o.",
+                    "• Nu te vom contacta prin adresa ta de email decât dacă: 1) faci o schimbare de cont care ne obligă să o facem, 2) ne dai voie în mod explicit să te contactăm, sau 3) în cazul unei scurgeri de date, așa cum am explicat mai sus.",
+                    "• Putem analiza proiectele, galeriile și instrucțiunile de pe platformă, ca să înțelegem ce creează toată lumea și cum o face. Putem împărtăși aceste observații generale și anonimizate în publicații academice. Vom face asta doar sub supravegherea unei comisii de etică instituțională, așa cum cere legea federală din Statele Unite.",
+                    "În final, câteva cuvinte despre exprimare. Proiectele sunt private în mod implicit, iar dacă împărtășești un proiect doar cu anumite persoane, el rămâne privat. Mai jos explicăm exact cine verifică ce împărtășești, în funcție de cine îl poate vedea.",
+                    "Dar să faci un proiect *public*, sau să-l incluzi într-o galerie publică, este un privilegiu. Aceasta este o platformă făcută cu iubire, susținere, respect și demnitate. De aceea, așteptăm ca niciun conținut *public* al tău să nu:"
                 ],
                 "consequences": [
-                    "$~Chat-urile pentru proiecte și tutoriale care se află în galerii publice sau private sunt supuse moderării de către curatorii galeriei. Puteți raporta curatorilor mesajele care încalcă aceste reguli ale comunității folosind butonul de raportare de lângă fiecare mesaj, iar curatorii pot aproba sau elimina mesajele.",
-                    "Dacă găsim un proiect sau o galerie care încalcă aceste reguli, vom avertiza creatorii înainte ca aceștia să îl vizualizeze sau îi vom bloca vizualizarea. Dacă încălcați în mod repetat aceste reguli, veți pierde privilegiul de a posta public."
+                    "$~Dacă găsim un proiect sau o galerie care încalcă aceste reguli, îi vom avertiza pe creatori înainte ca alții să îl vadă, sau vom bloca vizualizarea lui. Dacă încalci aceste reguli în mod repetat, vei pierde privilegiul de a publica lucruri în mod public."
                 ],
                 "license": [
                     "$~Încă un lucru despre a face un proiect *public*. Proiectele publice sunt împărtășite sub <licența Creative Commons Atribuire-Distribuire în condiții identice@https://creativecommons.org/licenses/by-sa/4.0/>. Asta înseamnă că oricine poate /remixa/ proiectul tău public — poate să facă propria copie a lui și să o schimbe — iar tu poți remixa proiectul oricui altcuiva.",
@@ -10013,6 +10176,17 @@
                     "$~Iată exact ce se întâmplă dacă un conținut public de-al tău încalcă aceste reguli. Un moderator îl verifică, el nu mai este public, iar tu primești un avertisment în notificările tale care spune despre care este vorba. Oricine este autentificat poate cere unui moderator să verifice un conținut public, folosind butonul de raportare de pe el.",
                     "După trei avertismente încă poți face proiecte, încă le poți partaja cu oamenii pe care îi alegi și încă poți folosi tot restul de aici. Ce pierzi este posibilitatea de a face ceva public.",
                     "Dacă crezi că un avertisment a fost o greșeală, sau a trecut mult timp de atunci și ai vrea să partajezi din nou public, scrie-ne la hi@wordplay.dev și spune-ne numele tău de utilizator și motivul. O persoană va citi mesajul tău."
+                ],
+                "responsibility": [
+                    "$~Cine analizează ce trimiți depinde de cine îl poate vedea.",
+                    "• *Trimis fără nimeni, sau doar cu persoane numite de tine.* Nimeni nu îl analizează. Nici noi, nici altcineva.",
+                    "• *Într-o galerie cu alte persoane în ea.* Curatorii acelei galerii îl analizează, la fel și discuțiile care îl însoțesc. Asta este valabil fie că galeria este publică sau nu: persoanele din ea îți pot vedea munca, deci cineva de acolo răspunde pentru ea.",
+                    "• *Într-o galerie publică.* Curatorii ei îl analizează, și noi la fel, pentru că oricine îl poate găsi.",
+                    "• *Public, dar nu într-o galerie.* Noi îl analizăm.",
+                    "Oricine poate vedea ceva poate cere ca acel lucru să fie analizat, folosind butonul de semnalare de pe el. Nu îi spunem niciodată persoanei care l-a creat cine a făcut semnalarea.",
+                    "Semnalarea unui mesaj de chat îl ascunde cât timp cineva îl analizează. Asta se întâmplă o singură dată pentru fiecare mesaj: dacă mesajul rămâne și cineva îl semnalează din nou, rămâne vizibil cât timp este analizat a doua oară. Îți poți vedea mereu propriile cuvinte.",
+                    "O decizie arată care dintre regulile de mai sus au fost încălcate și poate avea o notă de la cel care a decis. Vei primi ambele în notificările tale.",
+                    "Decizia unui curator de galerie se aplică doar galeriei sale. Nu este unul dintre avertismentele de mai jos și nu poate niciodată să îți ia dreptul de a trimite lucruri public."
                 ]
             },
             "donate": {
@@ -10422,7 +10596,7 @@
             "property": "$~Dacă proiectul are această proprietate"
         },
         "error": {
-            "notmod": "$~Se pare că nu ești moderator. Dacă ți s-au acordat recent privilegii de moderator, este posibil să fie nevoie să te autentifici din nou. Dacă nu, consultă wiki-ul pentru a afla cum să soliciți privilegii de moderare."
+            "notmod": "$~Nu ai nimic de analizat aici. Moderatorii Wordplay analizează conținutul public, iar curatorii unei galerii analizează ce se află în galeria lor. Dacă ai primit recent drepturi de moderator, s-ar putea să trebuiască să te autentifici din nou."
         },
         "report": {
             "button": "$~Alertează un moderator",
@@ -10441,6 +10615,44 @@
             "banned": "$~Ai fost avertizat de trei ori despre conținut public, așa că nu mai poți face proiecte sau galerii publice. Poți în continuare să faci proiecte și să le împarți cu persoanele pe care le alegi tu. Dacă crezi că este o greșeală, sau dacă s-a întâmplat cu mult timp în urmă și vrei să faci din nou lucruri publice, scrie-ne la hi@wordplay.dev și spune-ne numele tău de utilizator și motivul.",
             "warned": "$~Un conținut public de-al tău a încălcat regulile de partajare, așa că nu mai este public. Acesta este avertismentul $#count[1|$#count|$count]. $#remaining[Încă unul și nu vei mai putea face nimic public.|După încă $#remaining nu vei mai putea face nimic public.|După încă $remaining nu vei mai putea face nimic public.]",
             "notification": "$~Avertismentul $#count[1|$#count|$count] despre ceva ce ai făcut public."
+        },
+        "queue": {
+            "label": "$~ce să verifici",
+            "labels": ["$~proiecte", "$~galerii", "$~mesaje"],
+            "tips": [
+                "$~verifică proiectele pe care oamenii le-au făcut publice",
+                "$~verifică galeriile care cer să fie listate public",
+                "$~verifică mesajele pe care oamenii le-au semnalat în galeriile pe care le administrezi"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Un moderator citește galeria ta pentru a decide dacă poate fi listată public. Până atunci, doar persoanele cu care ai partajat legătura o pot vedea.",
+            "approved": "$~Galeria ta este listată pe <pagina galeriilor publice@://galleries?tab=public>! Poate fi scoasă de pe acea listă în orice moment, din orice motiv.",
+            "denied": "$~Un moderator a decis să nu îți listeze galeria public. Poți continua să lucrezi la ea și să o faci publică din nou pentru a cere a doua oară.",
+            "explain": "$~Această galerie cere să fie listată public. Uită-te la ea și la proiectele ei și decide dacă este suficient de terminată ca să fie arătată tuturor.",
+            "done": "$~Nicio galerie nu așteaptă o decizie. Îți mulțumim!",
+            "approve": {
+                "label": "$~listeaz-o",
+                "tip": "$~listează această galerie pe pagina galeriilor publice"
+            },
+            "deny": {
+                "label": "$~nu o listezi",
+                "tip": "$~ține această galerie în afara paginii galeriilor publice"
+            },
+            "skip": {
+                "label": "$~treci peste",
+                "tip": "$~lasă această galerie pentru ca un alt moderator să decidă"
+            },
+            "notification": {
+                "approved": "$~$name este acum listat public.",
+                "denied": "$~$name nu a fost listat public."
+            }
+        },
+        "responsibility": {
+            "none": "$~Nimeni nu analizează ce trimiți aici. Este vizibil doar pentru tine și persoanele pe care le alegi.",
+            "curators": "$~Curatorii de la <$name@://galleries> analizează ce este trimis aici, inclusiv discuțiile.",
+            "both": "$~Curatorii de la <$name@://galleries> analizează ce este trimis aici, la fel și moderatorii Wordplay, pentru că oricine poate vedea asta.",
+            "platform": "$~<Moderatorii@://rights> Wordplay analizează acest lucru, pentru că oricine îl poate vedea."
         }
     },
     "gallery": {

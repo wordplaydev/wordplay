@@ -1,21 +1,29 @@
 Buat video dari kamera
 
-Itu  @Camera  Stream adalah cara yang bagus untuk mendapatkan kisi-kisi warna dari dunia. Bagaimana jika kita ingin melihat warna-warna itu, menciptakan kembali gambar tersebut?  @Camera  melihat?
+Aliran  @Camera  adalah cara bagus untuk mendapatkan kisi warna dari dunia nyata. Bagaimana jika kita ingin melihat warna-warna itu, membuat ulang gambar yang dilihat oleh  @Camera ?
 
-Kita bisa menggunakan  @Grid  tata letak untuk sebuah  @Group , Dan  @List/combine  fungsi untuk mengubah warna menjadi daftar  @Phrase  yang kita berikan kepada  @Grid .
+Kita bisa memakai tata letak  @Grid  untuk  @Group , dan fungsi  @List/combine  untuk mengubah warna menjadi daftar  @Phrase  yang kita berikan ke  @Grid .
 
 \width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+Stage(
+	[
+		Group(
+			Grid(height width 0m)
+			colors.combine(
+				[]
+				ƒ(phrases row) [
 						:phrases
-						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
-					]))
-	])\
+						:row ↦ Phrase("⬤" warna: ⬚ lamanya: 0s)
+					]
+			)
+		)
+	]
+)\
 
-Contoh ini menyusun daftar frasa, mengubah setiap warna menjadi lingkaran dengan warna spesifik tersebut.
+Contoh ini membuat daftar frasa, mengubah tiap warna menjadi lingkaran dengan warna tertentu.
 
-Berhati-hatilah dengan  @Camera  Stream: menghasilkan banyak input! Anda perlu menjaga lebar dan tinggi gambar tetap kecil.
+Hati-hati dengan aliran  @Camera : aliran ini menghasilkan banyak masukan! Sebaiknya kamu membuat lebar dan tinggi gambar tetap kecil.
 
 interactive-scene

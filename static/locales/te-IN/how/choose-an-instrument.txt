@@ -7,10 +7,10 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: 'పియానో')
-				Phrase('🎻' selectable: ⊤ name: 'వయోలిన్')
+				Phrase('🎹' ఎంచుకోదగినది: ⊤ పేరు: 'పియానో')
+				Phrase('🎻' ఎంచుకోదగినది: ⊤ పేరు: 'వయోలిన్')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'వయోలిన్') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] వాయిద్యం: (picked = 'వయోలిన్') ? Instrument.violin Instrument.piano))
 	])\
 
 ఎంపిక చేయదగిన రెండు పదబంధాలే దీన్ని పని చేయిస్తాయి —  @Choice  కు చదవడానికి ఏమీ ఉండదు, వేదికపై ఏదైనా \ఎంచుకోదగినది: ⊤\ అయితే తప్ప.
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon ఎంచుకోదగినది: ⊤ పేరు: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] వాయిద్యం: current.sound))
 	])\
 
 నాలుగవ స్వరాన్ని జోడించడం ఇప్పుడు ఒక్క వరుస, మరియు బటన్ దానంతట అదే కనిపిస్తుంది. \found•ø ?\ రక్షణను గమనించండి:  @List/find  ఏదీ సరిపోనప్పుడు \ø\ ను తిరిగి ఇస్తుంది, ఎవరూ ఎంచుకోకముందు జరిగేది అదే — మరియు ప్రత్యామ్నాయం ఒక పూర్తి \🎙\ అయి ఉండాలి, ఎందుకంటే \current\ అదే అవుతానని వాగ్దానం చేస్తుంది.

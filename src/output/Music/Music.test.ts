@@ -15,7 +15,6 @@ import NumberValue from '@values/NumberValue';
 import { toStage } from '@output/Output/Stage';
 import { NameGenerator } from '@output/Output/Stage';
 import Music, { MaxTracks, toMusic } from '@output/Music/Music';
-import Group from '@output/Output/Group';
 import { toInstrument } from '@output/Music/Instrument';
 import { degreeToSemitones } from '@output/Music/degrees';
 import { Scales } from '@output/Music/scales';
@@ -198,16 +197,18 @@ test('music alongside one phrase makes no implicit group', () => {
     expect(stage?.getMusic()).toHaveLength(1);
 });
 
-test('music alongside several phrases groups only the phrases', () => {
+test('music alongside several phrases leaves the phrases on the stage', () => {
+    // Several visible outputs used to be collected into a synthesized Stack
+    // group, which threw away their places. They are stage children now, so a
+    // music beside them changes nothing about where they land.
     const stage = stageFrom(
         "Music(Track([1 2 3]))\nPhrase('hi')\nPhrase('there')",
     );
     expect(stage?.content.map((output) => output?.constructor.name)).toEqual([
-        'Group',
+        'Phrase',
+        'Phrase',
         'Music',
     ]);
-    const group = stage?.content[0];
-    expect(group instanceof Group ? group.content.length : undefined).toBe(2);
     expect(stage?.getMusic()).toHaveLength(1);
 });
 

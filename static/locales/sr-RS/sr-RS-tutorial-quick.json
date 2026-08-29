@@ -28,7 +28,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~У већини програмских језика, програм је списак наредби које рачунару кажу шта да *уради*, као што је исписивање вредности:",
-                            "$~\\py | print('здраво')\\js|console.log('hi')\\jv | System.out.println('здраво')\n;\\",
+                            "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~У @wordplay-у, програми су *изрази* који кажу какав треба да буде /резултат/ програма, а не како треба да га направи.",
                             "$~Овај програм израчунава вредност \\'здраво'\\, која се затим приказује на бини. Без команде за исписивање, само @expression који каже коју вредност треба израчунати."
                         ],
@@ -38,7 +38,7 @@
                             "Bind",
                             "neutral",
                             "$~У другим језицима, *променљива* је именована посуда за вредност, и њена вредност се може мењати:",
-                            "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
+                            "\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
                             "$~У @wordplay-у, именоване вредности се никада не могу мењати. Оне су „непроменљиве“, што значи да им се не могу доделити нове вредности. Зато их зовемо @Bind уместо променљива, јер не могу да се мењају.",
                             "$~Ускоро ћемо причати о томе како писати интерактивне програме без променљивих које се могу мењати."
                         ]
@@ -58,7 +58,7 @@
                             "Conditional",
                             "neutral",
                             "$~Други програмски језици обично имају *if* наредбу која ради различите ствари на основу услова:",
-                            "$~\\py | num = 5\nif\nnum < 5\n:\nprint('мање')\nиначе:\n\tprint('више')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('мање')\n;\nelse\nSystem.out.println('више')\n;\\",
+                            "\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
                             "$~У @wordplay-у, све је @expression, па је @Conditional *израз* написан са условом, затим \\?\\, па истинит израз и неистинит израз. Нису потребне кључне речи"
                         ],
                         null,
@@ -67,7 +67,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Неки језици такође имају *switch* наредбу која ради различите ствари на основу вредности:",
-                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('један')\n\t;break;\n\tcase\n\t2: System.out.println('два')\n\t;break;\n\tdefault: System.out.println('много')\n\t;break;\n}\\",
+                            "\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv| switch (n) {\n  case 1: System.out.println(\"one\"); break;\n  case 2: System.out.println(\"two\"); break;\n  default: System.out.println(\"many\"); break;\n}\\",
                             "$~@wordplay има @Match, који бира резултат на основу вредности."
                         ],
                         null,
@@ -76,7 +76,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Неки језици такође имају *null coalescing* оператор који даје подразумевану вредност када је променљива null или недефинисана:",
-                            "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
+                            "\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
                             "$~@wordplay има @Otherwise оператор који постиже исти резултат."
                         ]
                     ]
@@ -102,7 +102,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~Већина језика има много „основних“ типова вредности.",
-                            "$~\\py | number\n:1\nтекст: 'здраво'\nлогичкаВредност: True\nништа: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'ћао'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
+                            "\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
                             "$~@wordplay има сличну синтаксу за ове типове, али ти такође дозвољава да додаш друге информације, као што су ознаке језика за вишејезични текст и јединице на бројевима."
                         ],
                         null,
@@ -118,7 +118,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Програмски језици такође имају начине за прављење збирки вредности, као што су листе, скупови и мапе (често познате као речници или хешеви):",
-                            "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'а': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('а' 1)\n\t\t\t\t\t;\\",
+                            "\\py| list = [1, 2, 3]\nset = {1, 2, 3}\nmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv| let array = [1, 2, 3];\nlet set = new java.util.HashSet<>([1, 2, 3]);\nlet map = new java.util.HashMap<>();\nmap.put(\"a\", 1);\\",
                             "$~@wordplay користи другачију синтаксу за ове збирке, а најуочљивије је што користи размаке уместо запета да раздваја вредности."
                         ],
                         null,
@@ -133,7 +133,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Неки програмски језици ти дозвољавају да одредиш тип променљиве, како би осигурао да су сви начини на које користиш променљиву исправни:",
-                            "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
+                            "\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
                             "$~@wordplay такође има тип, али типови су *изведени*. Обично их не мораш да наводиш сам, али понекад мораш, ако не могу да се изведу. Тип листе такође може да именује тип за свако место у листи, као \\[# '']\\ за листу тачно две ствари: број, па реч."
                         ],
                         null,
@@ -142,7 +142,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Програмски језици обично нуде начин да направиш и сопствене типове података, како би спојио више вредности у једну структуру података:",
-                            "$~\\py | class\nљубимац:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
+                            "\\py| class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv| public class Pet {\n    private String name;\n    private int age;\n    public Pet(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\",
                             "$~@wordplay користи другачију синтаксу да дефинише @Structure, користећи \\•\\ да представи тип података, затим @name, па поља у структури."
                         ]
                     ]
@@ -158,7 +158,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Честа радња у програмирању је претварање података из једног типа у други. На пример, можда желимо да претворимо број у текстуалну вредност:",
-                            "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
+                            "\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
                             "$~Све @wordplay вредности имају @Convert конструкцију која ти омогућава да претвараш између типова. Овај пример претвара \\1m\\ у стопе, а затим у @Text. Сваки тип вредности има читаву збирку подржаних претварања"
                         ],
                         null,
@@ -167,7 +167,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~За збирке вредности као што су листе и низови, други програмски језици користе конструкције као што су *for* и *while* петље да направе нову збирку од вредности постојеће збирке.",
-                            "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
+                            "\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
                             "$~@wordplay има једноставну @Translate* конструкцију која користи \\↦\\ симбол: она прави нову @List, @Set или @Map, замењујући сваку ставку (коју представља \\⬚\\ @placeholder) новом вредношћу. Ово удвостручује сваку ставку и прави \\[2 4 6]\\.",
                             "$~Постоје и моћније ствари као што су @List.translate и @List.combine, у случају да ти требају сложеније радње."
                         ],
@@ -182,7 +182,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Сваки програмски језик има функције, које ти омогућавају да дефинишеш блокове кода које можеш поново користити, а који примају улаз и на основу њега производе излаз, било које сложености:",
-                            "$~\\py | def\ngreet(n)\n:\nreturn\n'здраво ' + n\nprint(greet('Стих'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn 'здраво ' + n ;\n\t}\n}\nGreeter.greet('Стих')\\",
+                            "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
                             "$~@wordplay такође подржава дефиниције функција, али са симболом ƒ. Као и сви Wordplay програми, функције морају да израчунају неку вредност."
                         ]
                     ]
@@ -200,7 +200,7 @@
                             "Stage",
                             "neutral",
                             "$~Други програмски језици исписују текст у конзолу, цртају на платну или мењају веб-страницу:",
-                            "$~\\py | print('здраво')\\js| document.body.append('hi')\\jv | System.out.println('ћао')\n;\\",
+                            "\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
                             "$~Излаз у @wordplay-у је типографски: @Phrase, @Group или @Stage, који приказује стилизован, анимиран и интерактиван текст на екрану, или који чита читач екрана.",
                             "$~Пример испод приказује @Stage са једном @Phrase која има анимацију мирног увеличавања."
                         ],
@@ -212,7 +212,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~Већина програмских језика има начин да прими улаз од корисника:",
-                            "$~\\py | name = input('Како се зовеш?')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
+                            "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
                             "$~Улаз у @wordplay-у долази из *токова*, који су посебне вредности које се мењају током времена, као одговор на улаз, и изазивају да Wordplay програм поново израчуна вредност са новом вредношћу тока.",
                             "$~Овај програм, на пример, користи @Time ток да покреће окретање емоџија глобуса. Сваки пут када @Time() ток откуца нову вредност, програм поново израчунава са новом вредношћу, ажурирајући вредност програма на @Stage."
                         ],
@@ -222,7 +222,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Интерактивност у већини других програмских језика значи регистровање обрађивача догађаја и повратних позива:",
-                            "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'Здраво!')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
                             "$~У @wordplay-у, за интерактивност можемо само користити токове као што су @Button, @Key и @Pointer да направимо интерактивне елементе. Текст ове @Phrase зависи од тога да ли је @Button кликнут, користећи @Conditional да провери да ли се @Button ток @Changed."
                         ],
                         null,
@@ -237,7 +237,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Други програмски језици ти дозвољавају да мењаш вредности променљивих током извршавања, што може бити корисно за прављење динамичких и интерактивних апликација. Али захтевају да запамтиш да ажурираш вредности на правим местима, и да ажурираш оно што се приказује на екрану када се те вредности промене:",
-                            "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'Кликови: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
                             "$~@wordplay ово поједностављује користећи @Reaction @expression, који почиње од почетне вредности, проверава услов који се односи на улазе токова, и ажурира вредност израза на основу промена тока. У овом примеру, сваки пут када се @Button ток промени, ажурирамо вредност бројача, а то ажурира @Phrase приказану на @Stage."
                         ]
                     ]
@@ -260,7 +260,7 @@
                             "FunctionDefinition",
                             "angry",
                             "$~Други језици избацују *грешке* — знак да је програм урадио нешто што није дозвољено:",
-                            "$~\\py | 1 + 'здраво'\\js|1 + 'hello'\\jv | 1 + 'здраво'\\",
+                            "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
                             "$~@wordplay грешке зове *сукоби*: две ствари које не могу обе бити истините, као што је сабирање броја и текста у програму испод.",
                             "$~Wordplay ће подвући сукобе и приказати их у бочној траци @UI/conflict. Такође ће понудити предлоге за решавање сукоба, да би се проблем поправио."
                         ],
@@ -270,7 +270,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Већина програмских језика нуди неку врсту алата за отклањање грешака да помогне ствараоцима да разумеју и реше проблеме у свом коду. Али многи само користе наредбе за исписивање да провере вредности променљивих у конзоли:",
-                            "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
+                            "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
                             "$~@wordplay пружа напреднији начин за отклањање грешака. Омогућава ти да идеш *напред* и *назад* кроз његово извршавање. Притисни дугме за отклањање грешака ⏸️ у пребацивачу режима @UI/modeSwitcher изнад позорнице да уђеш у режим *отклањања грешака*. Вредност сваког израза појављује се поред њега у коду, а @UI/stepControls извршавају корак у било ком смеру. Тако можеш да гледаш како се вредност гради.",
                             "$~Желиш више упутстава? Дугме @UI/debugtour у области за отклањање грешака даје вођену туру кроз ова дугмад."
                         ]

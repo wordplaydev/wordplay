@@ -5,13 +5,13 @@
 त्यसको सट्टा, हामी  @Sequence  लाई  @Phrase  सँग प्रयोग गरेर केही कुरालाई धेरै पटक दोहोर्याउन सक्छौं! खास गरी,हामी  @Sequence  मा गणना प्रयोग गरेर पोजहरूको एउटा समूह कति पटक हुन्छ भनेर छनोट गर्न सक्छौं। उदाहरणका लागि, यहाँ एउटा बास्केटबल माथि र तल दुई पटक उफ्रिँदै छ। 
 
 \Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀' प्रवेशगर्दै: Sequence({
+					0%: Pose(अफसेट: Place(y: 0.25m))
+					25%: Pose(अफसेट: Place(y: 0m))
+					50%: Pose(अफसेट: Place(y: -0.25m))
+					75%: Pose(अफसेट: Place(y: 0m))
+					100%: Pose(अफसेट: Place(y: 0.25m))
+				} count: 2x अवधि: 2s))
 	])\
 
 animate-phrase, shake-phrase

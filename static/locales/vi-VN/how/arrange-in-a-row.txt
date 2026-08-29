@@ -7,9 +7,9 @@
 MỘT  @Row Bạn cũng có thể sắp xếp các ký tự theo cạnh trên, giữa hoặc dưới, và thêm khoảng cách giữa chúng.Đây là cùng một loại trái cây, nhưng được đặt thẳng đứng ở phía dưới, chừa ra một chút khoảng trống:
 
 \Group(Row('>' 0.5m) [
-		Phrase('🍎' size: 2m)
-		Phrase('🍌' size: 1m)
-		Phrase('🍇' size: 3m)
+		Phrase('🍎' kíchcỡ: 2m)
+		Phrase('🍌' kíchcỡ: 1m)
+		Phrase('🍇' kíchcỡ: 3m)
 	])\
 
 Cái\'>'\kể cho @Row Sắp xếp mọi thứ thẳng hàng dọc theo cạnh dưới. Hãy thử\'<'\cho hàng đầu hoặc\'|'\cho phần giữa.Cái\0.5m\là khoảng cách giữa mỗi ký tự.

@@ -18,10 +18,10 @@
 మీరు ప్రతి కణం ఒకే పరిమాణంలో ఉండాలని కోరుకుంటే, ఇవ్వండి @Grid వెడల్పు, ఎత్తు కూడా ఉంటాయి. దానివల్ల అక్షరాలు వేర్వేరు పరిమాణాల్లో ఉన్నప్పటికీ, వాటి చతురస్రాలలో చక్కగా అమరి ఉంటాయి:
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' పరిమాణం: 1m)
+		Phrase('🐶' పరిమాణం: 1.5m)
+		Phrase('🦊' పరిమాణం: 0.5m)
+		Phrase('🐻' పరిమాణం: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

@@ -9,9 +9,10 @@ import {
 /**
  * Upgrade-on-load coverage for galleries. Old gallery docs in Firestore are
  * upgraded when read (deserializeGallery → upgradeGallery), so a regression in
- * the upgrade chain silently corrupts every pre-v2 gallery on load. These tests
- * pin the v1 → v2 (how-to space) migration the way Project.persistence pins the
- * project chain and HowToDatabase pins upgradeHowTo.
+ * the upgrade chain silently corrupts every pre-v3 gallery on load. These tests
+ * pin the v1 → v2 (how-to space) and v2 → v3 (curated public listing, #1311)
+ * migrations the way Project.persistence pins the project chain and
+ * HowToDatabase pins upgradeHowTo.
  */
 
 /** A minimal v1 gallery doc — the shape that predates the how-to space. */
@@ -80,5 +81,74 @@ describe('upgradeGallery (upgrade-on-load)', () => {
         const gallery = deserializeGallery(makeV1());
         expect(gallery.data.v).toBe(GallerySchemaLatestVersion);
         expect(gallery.getID()).toBe('g1');
+    });
+});
+
+/**
+ * The v2 → v3 migration (#1311). Public galleries predate curation, so what
+ * happens to one that is already public is the whole question: it goes into the
+ * queue rather than being grandfathered in, since "nobody has looked at this"
+ * is exactly the state the version exists to make visible.
+ */
+describe('upgradeGallery to v3 (curated public listing)', () => {
+    function makeV2(isPublic: boolean) {
+        return {
+            ...makeV1(),
+            v: 2 as const,
+            public: isPublic,
+            howTos: [],
+            howToExpandedVisibility: false,
+            howToExpandedGalleries: [],
+            howToViewers: {},
+            howToViewersFlat: [],
+            howToGuidingQuestions: [],
+            howToReactions: {},
+        };
+    }
+
+    it('queues an already-public v2 gallery for review', () => {
+        const upgraded = upgradeGallery(makeV2(true));
+        expect(upgraded.moderation).toBe('pending');
+        expect(upgraded.public).toBe(true);
+    });
+
+    it('leaves a private v2 gallery unrequested', () => {
+        expect(upgradeGallery(makeV2(false)).moderation).toBe('unrequested');
+    });
+
+    it('starts every upgraded gallery with no findings against it', () => {
+        const upgraded = upgradeGallery(makeV2(true));
+        expect(upgraded.moderatedAt).toBe(null);
+        expect(Object.values(upgraded.flags).every((f) => f === null)).toBe(
+            true,
+        );
+    });
+
+    it('carries a v1 doc all the way to v3', () => {
+        // makeV1 is public, so it lands in the queue like a v2 one.
+        const upgraded = upgradeGallery(makeV1());
+        expect(upgraded.v).toBe(GallerySchemaLatestVersion);
+        expect(upgraded.moderation).toBe('pending');
+        expect(GallerySchema.safeParse(upgraded).success).toBe(true);
+    });
+
+    it('only lists a gallery that is both public and approved', () => {
+        const approved = deserializeGallery({
+            ...makeV2(true),
+            v: 3,
+            moderation: 'approved',
+            moderatedAt: 1,
+            flags: {
+                dehumanization: false,
+                violence: false,
+                disclosure: false,
+                misinformation: false,
+            },
+        });
+        expect(approved.isListed()).toBe(true);
+        // Withdrawing public sharing unlists it without any new decision.
+        expect(approved.asPublic(false).isListed()).toBe(false);
+        // And approval is what the request is for: pending is not listed.
+        expect(deserializeGallery(makeV2(true)).isListed()).toBe(false);
     });
 });

@@ -6,8 +6,8 @@
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune বাদ্যযন্ত্ৰ: Instrument.flute)
+		Track(tune বাদ্যযন্ত্ৰ: Instrument.synthBass চাবি: -12semitones ধ্বনিমাত্ৰা: 60%)
 	])\
 
 দুটা মাত, এখন তালিকা। সুৰটো সম্পাদনা কৰক আৰু বেছে ইয়াক অনুসৰণ কৰিব, কিয়নো সম্পাদনা কৰিবলৈ মাত্ৰ এটা সুৰেই আছে।
@@ -16,10 +16,10 @@ Music([
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune বাদ্যযন্ত্ৰ: Instrument.flute পেন: 0)
+		Track(tune বাদ্যযন্ত্ৰ: Instrument.synthBass চাবি: -12semitones ধ্বনিমাত্ৰা: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] বাদ্যযন্ত্ৰ: Instrument.synthPad তাল: 2beats ধ্বনিমাত্ৰা: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] বাদ্যযন্ত্ৰ: Instrument.drums তাল: 0.5beats ধ্বনিমাত্ৰা: 45%)
 	])\
 
 ভলিউমবোৰ চাওক: কেৱল বাঁহীটোহে পূৰা ভলিউমত আছে। পূৰা ভলিউমত থকা অংশবোৰে এটা ডাঙৰ শব্দৰ দল নহয়, বৰং এটা ঘোলা শব্দৰ দল গঠন কৰে, কিয়নো একেলগে বাজি থকা সকলোবোৰে একেটা স্পীকাৰৰ মাজেৰে যাব লাগে। সুৰটো \100%\ ত আৰম্ভ কৰক আৰু বাকী সকলোবোৰ ইয়াৰ তলত থওক।

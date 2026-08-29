@@ -12,6 +12,6 @@
 
 你还可以选择一种历法，比如日本历法，并用字体来设置时钟的样式：
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' 表面: 'Doto')\
 
 count-with-time

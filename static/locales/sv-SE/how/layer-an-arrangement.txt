@@ -7,7 +7,7 @@ Eftersom stegen är steg i en skala och inte fasta toner, kan en hel baslinje va
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
 		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune instrument: Instrument.synthBass tonart: -12semitones volym: 60%)
 	])\
 
 Två röster, en lista. Ändra melodin så följer basen med, eftersom det bara finns en melodi att ändra.
@@ -16,10 +16,10 @@ Fyll nu ut runt den. Ackord vill ha sin egen rytm i stället för melodins, och 
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune instrument: Instrument.flute panorering: 0)
+		Track(tune instrument: Instrument.synthBass tonart: -12semitones volym: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad takt: 2beats volym: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums takt: 0.5beats volym: 45%)
 	])\
 
 Håll koll på volymerna: bara flöjten är på full styrka. Delar på full volym blir inte ett starkare band, de blir ett grumligare, eftersom allt som låter samtidigt måste rymmas genom samma högtalare. Börja melodin på \100%\ och lägg allt annat under den.

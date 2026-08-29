@@ -304,20 +304,20 @@
             "description": "$~tài liệu$language[ bằng $language|], $#words[$words từ]",
             "emotion": "serious",
             "doc": [
-                "$~Tôi định dạng đẹp mắt mọi thứ bằng @Markup, như lời giải thích cho một phần @Program của bạn, hoặc thậm chí những từ bạn đặt lên sân khấu bằng @Phrase.",
+                "$~Tôi định dạng phong phú mọi thứ bằng @Markup, như phần giải thích cho một số @Program của bạn, hoặc thậm chí là những từ bạn đặt lên sân khấu bằng @Phrase.",
                 "Ví dụ, tôi có thể đứng trước bất kỳ @expression nào:",
                 "\\¶Cái này thật sự phải là 7 sao?¶\n7\\",
                 "Ví dụ, bạn có thể đặt tôi trước @Bind:",
-                "\\¶Tôi đo xem ai đó cao bao nhiêu¶\nchiềuCao: 5m\\🪲",
+                "\\¶Tôi đo xem một người cao bao nhiêu¶\nchiềuCao2: 5m\\🪲",
                 "Hoặc trước một @FunctionDefinition:",
-                "\\¶Tôi cộng hai số¶\nƒ tổng(a•# b•#) a + b\\",
+                "\\¶Tôi cộng hai số¶\nƒ tổng2(a2•# b2•#) a2 + b2\\",
                 "Hoặc trước một @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\",
-                "You can also place me at the very beginning of @Program to say what the whole performance is about",
-                "\\¶This program says hello¶",
-                "'hello!'\\",
-                "You can give me a @Language to help others know what language I'm written in:",
-                "\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶Tôi ghi nhớ tên và loại trái cây yêu thích của mọi người¶\n•người(tên3•'' tráiCây•'')\\",
+                "Bạn cũng có thể đặt tôi ở ngay đầu @Program để nói xem toàn bộ buổi trình diễn nói về điều gì",
+                "\\¶Chương trình này nói xin chào¶\n\n'xin chào!'\\",
+                "Bạn có thể cho tôi một @Language để giúp người khác biết tôi được viết bằng ngôn ngữ nào:",
+                "\\¶Tôi là tài liệu tiếng Anh¶\nthờiLượng: 5s\\🪲",
+                "Bạn có biết bạn có thể tạo một danh sách gồm những cái như tôi không? Hãy đi hỏi @Docs."
             ]
         },
         "Docs": {
@@ -349,19 +349,20 @@
             "emotion": "eager",
             "doc": [
                 "$~Tôi là một thẻ ngôn ngữ và tôi làm việc với @Name và @Doc!",
-                "Tôi rất giỏi làm cho *thật rõ ràng* văn bản được viết bằng ngôn ngữ nào. Chỉ cần một dấu gạch chéo nhỏ và vài chữ cái, không ai còn nhầm lẫn về ngôn ngữ của một đoạn văn bản nữa.",
-                "Ví dụ, nếu bạn muốn nói \"Ngôn ngữ\" nhưng làm rõ nó bằng tiếng Anh:",
-                "\\'Ngôn ngữ'\\",
+                "Tôi rất giỏi trong việc làm cho *rõ ràng như pha lê* một thứ được viết bằng ngôn ngữ nào. Chỉ cần một dấu gạch chéo nhỏ và vài chữ cái, không ai sẽ nhầm lẫn về ngôn ngữ của một đoạn văn bản nữa.",
+                "Ví dụ, nếu bạn muốn nói \"Ngôn ngữ\" nhưng muốn làm rõ đó là tiếng Anh:",
+                "\\'Ngôn ngữ'/vi\\",
                 "Bạn có thể làm điều này cho một @Name:",
                 "\\âmThanh: 'meo meo'\\🪲",
                 "…hoặc một @Doc:",
                 "\\¶Từ tượng thanh¶\nâmThanh: 'meo meo'\\🪲",
-                "Đôi khi văn bản không chỉ có một ngôn ngữ — nó là một *sự pha trộn*. Giống như Spanglish, nơi tiếng Tây Ban Nha và tiếng Anh hòa vào nhau. Với những trường hợp đó, hãy liệt kê từng ngôn ngữ với một dấu gạch dưới ở giữa. Ngôn ngữ đầu tiên là ngôn ngữ *chính* — đó là ngôn ngữ tôi dùng khi phải chọn một (ví dụ, để chọn loại dấu ngoặc kép nào).",
-                "\\'Xin chào quý ông!'\\",
-                "\\¶Một lời chào song ngữ¶\nhello/es_en: 'Xin chào quý ông!'\\🪲",
+                "Đôi khi văn bản không chỉ là một ngôn ngữ — mà là một *sự pha trộn*. Giống như Spanglish, nơi tiếng Tây Ban Nha và tiếng Anh hòa lẫn vào nhau. Với những trường hợp đó, hãy liệt kê từng ngôn ngữ với dấu gạch dưới ở giữa. Ngôn ngữ đầu tiên là ngôn ngữ *chính* — đó là ngôn ngữ tôi dùng khi phải chọn (ví dụ, để chọn loại dấu ngoặc kép nào sẽ dùng).",
+                "\\\"Hola gentleman!\"/es_en\\",
+                "\\¶Một lời chào bằng hai ngôn ngữ¶\nhello/es_en: 'Xin chào quý ông!'\\🪲",
                 "Bạn cũng có thể thêm một @region duy nhất, sau một dấu gạch ngang, giống như với một ngôn ngữ duy nhất:",
-                "\\'Xin chào quý ông!'\\",
-                "Không có giới hạn về số ngôn ngữ bạn có thể liệt kê — chỉ cần đừng lặp lại cùng một ngôn ngữ hai lần; tôi sẽ báo cho bạn biết nếu bạn làm vậy. Có nhiều <mã ngôn ngữ 2 chữ cái@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> mà tôi hiểu. Nếu bạn không dùng một trong số đó, tôi cũng sẽ báo cho bạn biết."
+                "\\\"Hola gentleman!\"/es_en-MX\\",
+                "Không có giới hạn về số lượng ngôn ngữ bạn có thể liệt kê — chỉ đừng lặp lại cùng một ngôn ngữ hai lần; tôi sẽ báo cho bạn biết nếu bạn làm vậy.",
+                "Bạn có thể viết một ngôn ngữ bằng <mã 2 chữ cái@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> hoặc bằng *tên* của nó, viết bằng chính ngôn ngữ đó hoặc bằng tiếng Anh — `/es`, `/Español`, và `/Spanish` đều có nghĩa giống nhau, và `/es-MX`, `/es-México`, và `/es-Mexico` cũng vậy. Chữ hoa và dấu không quan trọng, nên `/ESPANOL` cũng dùng được. Một tên có khoảng trắng sẽ được viết không có khoảng trắng, như `/BahasaIndonesia`, vì thẻ luôn là một từ liền. Nếu tôi không nhận ra một ngôn ngữ hoặc một vùng đất, tôi sẽ báo cho bạn biết."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -378,6 +379,11 @@
                     "name": "$~ngôn ngữ trùng lặp",
                     "explanation": "$~Bạn đã sử dụng ngôn ngữ ' $code ' hai lần. Thẻ đa ngôn ngữ chỉ nên liệt kê mỗi ngôn ngữ một lần.",
                     "resolution": "$~Xóa thẻ * $code * trùng lặp"
+                },
+                "UnknownRegion": {
+                    "name": "$~vùng đất không xác định",
+                    "explanation": "$~Tôi không biết vùng đất này",
+                    "resolution": "$~Xóa vùng đất này"
                 }
             }
         },
@@ -562,9 +568,11 @@
             "description": "$~ví dụ mã số $code",
             "emotion": "serious",
             "doc": [
-                "$~Tôi giữ một ví dụ nhỏ về mã số bên trong một @Doc, như thế này:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "Ví dụ được tô sáng hiện ra như bản xem trước trong khoảng @how và @guide."
+                "$~Tôi giữ một đoạn mã số ví dụ bên trong một @Doc, như thế này:",
+                "\\¶Đây là một ví dụ về phép cộng: \\1 + 2\\¶\n3 + 4\\",
+                "Nếu bạn đang dùng các Ví dụ trong bài làm cách nào để của mình, bạn có thể gắn nhãn nổi bật cho một Ví dụ.",
+                "\\¶Đây là một ví dụ được đánh dấu nổi bật: \\1 + 2\\⭐¶\n3 + 4\\",
+                "Ví dụ được gắn nhãn nổi bật sẽ được hiển thị làm bản xem trước trong không gian @how và @guide."
             ]
         },
         "Mention": {
@@ -916,9 +924,12 @@
             "description": "$~$expression đã có tài liệu",
             "emotion": "eager",
             "doc": [
-                "$~Tôi là bất kỳ @expression nào, nhưng với một @Doc!",
+                "$~Tôi là bất kỳ @expression nào, nhưng có thêm một @Doc!",
                 "Để tạo ra tôi, chỉ cần đặt một @Doc trước một biểu thức, và bạn sẽ có tôi:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "\\gấpĐôiCộng: 1\n(2 × gấpĐôiCộng) +\n\t¶Hãy làm cho nó to hơn một chút¶\n\t1\\",
+                "Tôi hữu ích để ghi chú về một phần nào đó của chương trình.",
+                "Nếu bạn đặt 👀 vào @Doc, tôi cũng có thể làm nổi bật biểu thức đó:",
+                "\\¶Nhìn tôi này! 👀¶\n1 + 1\\"
             ],
             "start": "$~Hãy đánh giá biểu thức này."
         },
@@ -1019,7 +1030,7 @@
                 "$~Tôi là một tham số đầu vào được truyền cho @Evaluate. Tên của tôi tương ứng với tên của tham số đầu vào trong @FunctionDefinition hoặc @StructureDefinition đang được đánh giá.",
                 "Tôi có thể hỗ trợ xử lý các hàm có nhiều giá trị mặc định, trong trường hợp bạn chỉ muốn ghi đè một giá trị đầu vào cụ thể mà không cần cung cấp tất cả các giá trị khác.",
                 "Ví dụ, @Phrase có rất nhiều giá trị mặc định để điều khiển kiểu dáng của nó. Giả sử bạn muốn gán một số @Text và @Color, nhưng không muốn thêm bất cứ thứ gì khác vào danh sách đầu vào của nó. Bạn có thể sử dụng tôi để làm điều đó:",
-                "\\Phrase('Tôi màu tím!' color: Color(50% 52 300°))\\"
+                "\\Phrase('Tôi màu tím!' màusắc: Color(50% 52 300°))\\"
             ],
             "start": "$~Hãy cùng đánh giá giá trị của tôi."
         },
@@ -2074,8 +2085,8 @@
             "description": "$~ví dụ mã số bên ngoài$languages[ bằng $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Tôi hiển thị mã được tô sáng cú pháp, được viết bằng các ngôn ngữ lập trình khác, để những người sáng tạo đã biết lập trình có thể so sánh.",
-                "Viết một biến thể cho mỗi ngôn ngữ dưới dạng thẻ hai chữ cái, dấu gạch ngang và mã, ví dụ: \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~Tôi hiển thị mã số có tô sáng cú pháp được viết bằng các ngôn ngữ lập trình khác, để những người sáng tạo đã biết viết mã có thể so sánh.",
+                "Hãy viết mỗi phiên bản cho một ngôn ngữ dưới dạng nhãn hai chữ cái, một dấu gạch đứng, rồi đến mã số, ví dụ như \\py| a = 5\\js| let a = 5;\\. Người đọc sẽ thấy phiên bản khớp với ngôn ngữ họ đã chọn. Hỗ trợ Python (py), JavaScript (js) và Java (jv)."
             ]
         },
         "Localized": {
@@ -2498,7 +2509,7 @@
                 "\\'Chỉ có hai cách để sống cuộc đời của bạn. Một là sống như thể không có gì là điều kỳ diệu. Cách kia là sống như thể mọi thứ đều là điều kỳ diệu.'\\",
                 "\\'一日三秋'\\",
                 "Chỉ cần nhớ đóng tớ lại nếu bạn đã mở tớ ra, và dùng đúng ký hiệu tương ứng. Nếu không, tớ sẽ không biết là bạn đã viết xong lời của mình.",
-                "\\'xin chào'\\",
+                "\\'xin chào'/vi'hola'/es-MX\\",
                 "Bạn cũng có thể gắn thẻ ngôn ngữ cho tớ, và thậm chí đưa nhiều bản dịch. Tớ sẽ đánh giá theo những ngôn ngữ đang được chọn hiện tại, nếu có một ngôn ngữ khớp.",
                 "Nếu bạn muốn tạo ra tớ cùng vài giá trị khác, bạn có thể làm thế này:",
                 "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
@@ -2658,7 +2669,7 @@
                         "\\'xin chào'.chữHoa()\\",
                         "Chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, nên văn bản thuộc hệ chữ viết không có sự phân biệt này, như tiếng Nhật hay tiếng Ả Rập, sẽ không thay đổi.",
                         "Thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào. Tiếng Thổ Nhĩ Kỳ có chữ i có chấm và i không chấm, và chỉ văn bản được gắn thẻ là tiếng Thổ Nhĩ Kỳ mới viết hoa chúng theo cách của tiếng Thổ Nhĩ Kỳ:",
-                        "\\'iyi'.chữHoa()\\",
+                        "\\'iyi'/tr.chữHoa()\\",
                         "\\'iyi'.chữHoa()\\"
                     ],
                     "names": ["$~chữHoa"],
@@ -3113,7 +3124,7 @@
             "conversion": {
                 "text": "$~Đây là cách biểu diễn chữ số của tôi bằng ký tự @Text tiếng Ả Rập.",
                 "list": [
-                    "$~Tôi chuyển đổi một số thành một danh sách các số từ 1 đến bất kỳ số nào được cung cấp. Ví dụ:",
+                    "$~Tôi chuyển đổi một số thành một danh sách các số từ \\1\\ đến bất kỳ số nào được cung cấp. Ví dụ:",
                     "\\10→[]\\"
                 ],
                 "unit": "$from → $to"
@@ -3656,19 +3667,19 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Mình có thể lấy một danh sách, và tạo ra một danh sách mới với các giá trị đã được sắp xếp. Ví dụ như thế này:",
+                        "$~Tôi có thể nhận một danh sách, và tạo ra một danh sách mới với các giá trị đã được sắp xếp. Như thế này:",
                         "\\[1 5 8 0 2].đãsắpxếp()\\",
-                        "Mình cũng có thể làm điều đó với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ cái viết hoa được sắp xếp cạnh chữ cái viết thường của nó, nên một từ sẽ không bị đưa xuống cuối chỉ vì bắt đầu bằng chữ hoa:",
+                        "Tôi cũng có thể làm điều đó với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ cái viết hoa được sắp xếp ngay cạnh chữ cái viết thường của nó, nên một từ không bị đẩy xuống cuối chỉ vì bắt đầu bằng chữ hoa:",
                         "\\['Cam' 'kiwi' 'Chuối' 'táo'].đãsắpxếp()\\",
-                        "Và nếu bạn có một danh sách các giá trị không phải là @Number hay @Text, bạn có thể đưa cho mình một @FunctionDefinition để biến mỗi phần tử thành một @Number hoặc một @Text để mình có thể sắp xếp nó. Ví dụ, ở đây chúng ta có một danh sách các danh sách với độ dài khác nhau; nếu bạn đưa cho mình một hàm biến mỗi danh sách thành độ dài của nó, mình có thể sắp xếp theo độ dài của chúng.",
+                        "Và nếu bạn có một danh sách các giá trị không phải @Number hay @Text, bạn có thể đưa cho tôi một @FunctionDefinition biến mỗi phần tử thành một @Number hoặc một @Text để tôi có thể sắp xếp nó. Ví dụ, đây là một danh sách các danh sách có độ dài khác nhau; nếu bạn đưa cho tôi một hàm biến mỗi danh sách thành độ dài của nó, tôi có thể sắp xếp theo độ dài của chúng.",
                         "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách2) danhSách2.chiềudài()\n)\\",
-                        "Một hàm tạo ra @Text là cách bạn sắp xếp theo một từ mà bạn tính toán ra, thay vì theo chính giá trị đó. Ở đây mình sắp xếp các tên theo họ:",
+                        "Một hàm tạo ra @Text là cách bạn sắp xếp theo một từ mà bạn tính toán, thay vì theo chính giá trị đó. Ở đây tôi sắp xếp tên theo họ:",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên2•'') (tên2 ÷ ' ').cuốicùng()\n)\\"
                     ],
                     "names": "$~đãsắpxếp",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó cần biến giá trị thành một @Number hoặc một @Text để có thể dùng cho việc sắp xếp danh sách.",
+                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên biến giá trị thành một @Number hoặc một @Text có thể dùng để sắp xếp danh sách.",
                             "names": "$~bộđiềukhiểntrìnhtự"
                         }
                     ],
@@ -4238,7 +4249,7 @@
                 "/Tiếng gõ lách cách!/",
                 "Vì vậy, cách tốt nhất để sử dụng nó là tạo một màn trình diễn với các cụm từ có thể chọn được đặt tên @Phrase , và sau đó sử dụng @Reaction để quyết định hành động cần thực hiện khi tên đó được chọn.",
                 "Đây là ví dụ đơn giản nhất:",
-                "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Group(\nStack() \n[\nPhrase('one' cóthểlựachọn:⊤ tên:'1') \nPhrase('two' cóthểlựachọn:⊤ tên:'2') \nPhrase(Choice())\n]\n)\\",
                 "Sao chép đoạn mã này vào trình soạn thảo rồi chọn một trong hai @Phrase . Bạn sẽ thấy @Phrase thứ ba hiển thị tên đã được chọn."
             ],
             "names": ["$~Sựlựachọn"]
@@ -4403,7 +4414,7 @@
                 "/bzzzzzzz/",
                 "Về cơ bản, @List đại diện cho một hình ảnh, nhưng bạn sẽ quyết định sử dụng nó như thế nào.",
                 "Bạn có thể thử thể hiện hình ảnh bằng nhiều @Phrase , trông sẽ khá thú vị đấy! Hãy thử sao chép đoạn mã này...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' vịTrí: Place((x - 1) × 0.5m y × -0.5m) màusắc: color khoảngthờigian: 0s\n)\n)\n)\n)\n)\\",
                 "Nhưng bạn cũng có thể phân tích màu sắc để quyết định xem đèn có bật hay tắt, hoặc liệu một màu cụ thể có phổ biến hay không, cho phép khán giả tác động đến màn trình diễn bằng màu sắc mà họ thể hiện."
             ],
             "names": ["$~Máyảnh"],
@@ -4426,13 +4437,13 @@
                 "/Boop boop boop/",
                 "Để điều khiển thời gian, bạn có thể đặt @Phrase.duration trên mỗi đầu ra, và nó sẽ hiển thị cái đó trong khoảng thời gian đó trước khi chuyển sang cái tiếp theo, và dùng bất kỳ chuyển cảnh @Phrase.entering hoặc @Phrase.exiting nào mà bạn đã đặt. Nếu bạn đặt chúng thành một @Sequence, nó sẽ dùng thời lượng của sequence đó.",
                 "Tất cả những điều đó cho phép bạn làm những thứ như @Scene nhỏ này, hiển thị ba cụm từ này theo trình tự:",
-                "\\🎬([\n\t\tCụmtừ('Xin chào' duration: 1s)\n\t\tCụmtừ('Bạn khỏe không?' duration: 2s rotation: 5° entering: 🤪(rotation: 0°))\n\t\tCụmtừ('Mình khỏe')\n\t])\\",
+                "\\🎬([\n\t\tCụmtừ('Xin chào' khoảngthờigian: 1s)\n\t\tCụmtừ('Bạn khỏe không?' khoảngthờigian: 2s xoay: 5° vào: 🤪(xoay: 0°))\n\t\tCụmtừ('Mình khỏe')\n\t])\\",
                 "Thấy đầu ra đầu tiên được hiển thị trong một giây, rồi cái tiếp theo trong hai giây, nhưng có chuyển động xoay năm độ, rồi nó hiển thị cái cuối cùng chứ?",
                 "Bạn có thể tạo ra những trình tự đầu ra và chuyển động rất công phu với @Scene, và thậm chí làm cho các phần của chúng động hoặc tương tác, như với bất kỳ @Phrase hoặc @Group nào khác.",
                 "Nếu bạn có đầu ra động được lồng vào nhau (một @Group có @Phrase động bên trong), @Scene sẽ chờ cho tất cả nội dung động trong @Group hoàn thành.",
                 "À, và một bí mật nhỏ cuối cùng! Bạn thậm chí có thể đặt @Boolean vào danh sách, và nếu chúng là \\⊥\\, @Scene sẽ tạm dừng và chờ cho nó trở thành đúng.",
                 "Ví dụ, nếu bạn muốn tạo một trình tự @Phrase và chỉ tiến tới khi @Button thay đổi, bạn có thể làm thế này:",
-                "\\nhấp: ∆ 🖱()\n🎬([\n\t\tCụmtừ('Xin chào')\n\t\tnhấp\n\t\tCụmtừ('Bạn khỏe không?' duration: 0.25s rotation: 5° entering: 🤪(rotation: 0°))\n\t\tnhấp\n\t\tCụmtừ('Mình khỏe')\n\t])\\",
+                "\\nhấp: ∆ 🖱()\n🎬([\n\t\tCụmtừ('Xin chào')\n\t\tnhấp\n\t\tCụmtừ('Bạn khỏe không?' khoảngthờigian: 0.25s xoay: 5° vào: 🤪(xoay: 0°))\n\t\tnhấp\n\t\tCụmtừ('Mình khỏe')\n\t])\\",
                 "Thấy nó tạm dừng sau mỗi @Phrase, và chờ @Button thay đổi trước khi tiến tới chứ?"
             ],
             "names": ["$~Bốicảnh"],
@@ -4454,7 +4465,7 @@
             "names": ["$~Cửđộng"],
             "place": {
                 "doc": "$~Điểm xuất phát.",
-                "names": "$~địađiểm"
+                "names": "$~vịTrí"
             },
             "velocity": {
                 "doc": "$~Vận tốc ban đầu",
@@ -4484,7 +4495,7 @@
                 "Có nhiều cách để đặt @Output trên @Stage: cho chúng một @Place rõ ràng, dùng @Motion và để trọng lực làm việc, hoặc đặt chúng vào một @Group để được sắp xếp.",
                 "Nhưng đôi khi bạn muốn cho /khán giả/ quyền điều khiển nơi @Output đi trên @Stage.",
                 "Đây là cách nó hoạt động: tạo một @Placement và đưa nó cho @Place của một @Output:",
-                "\\Cụmtừ('chào' place: Vịtrí())\\",
+                "\\Cụmtừ('chào' vịTrí: Vịtrí())\\",
                 "Sau đó, bất cứ khi nào khán giả dùng một phím mũi tên @key hoặc nhấp hay chạm vào sân khấu, @Placement sẽ tạo ra một @Place mới di chuyển theo hướng mong muốn.",
                 "Hãy thử sao chép cái này vào chương trình của bạn và di chuyển @Output bằng con trỏ hoặc bàn phím.",
                 "Bạn có thể tùy chỉnh @Placement, bật và tắt chuyển động theo một số chiều nhất định, thay đổi mức độ di chuyển của một @Place, và @Place ban đầu mà luồng khởi đầu."
@@ -4599,7 +4610,7 @@
                 "\\Lờinói()\\",
                 "Điều này rất hoàn hảo cho những ai có thể nói một @language nhưng vẫn đang học đọc hoặc viết nó (và hơn thế nữa)...",
                 "Bạn có thể chỉ định một mã ngôn ngữ để nhận diện lời nói bằng một ngôn ngữ cụ thể:",
-                "\\Lờinói(language: 'es-MX')\\",
+                "\\Lờinói(ngônngữ: 'es-MX')\\",
                 "Nếu không chỉ định ngôn ngữ, nó sẽ mặc định dùng ngôn ngữ ưa thích của bạn.",
                 "Nhận diện giọng nói cần quyền truy cập micrô và kết nối Internet (hãy cho phép truy cập nhé!). Ngoài ra, có thể có giới hạn sử dụng, nên đừng để nó bật quá lâu (khôôông)!"
             ],
@@ -4652,7 +4663,7 @@
                 "Hãy cung cấp cho nó một đoạn văn bản và một kiểu phông chữ, và nó sẽ đồ lại đường viền của từng ký tự từng điểm một.",
                 "\\Contour('a' \"Noto Sans\")\\",
                 "Hãy đưa các giá trị @Place đó vào một @List gồm @Phrase để thấy đường viền được vẽ dưới dạng các chấm:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' vịTrí: point)))\\",
                 "Bạn có thể điều chỉnh kích thước đường viền bằng @Number of meters, di chuyển điểm gốc bằng @Place , chọn độ đậm phông chữ, bật chế độ in nghiêng và đặt `spacing` giữa các điểm theo khoảng cách tính bằng mét. `spacing` nhỏ hơn sẽ vẽ đường viền sát hơn, với các điểm cách đều nhau dọc theo cả đường thẳng và đường cong.",
                 "Một số ký tự, như biểu tượng cảm xúc màu sắc, không có đường viền, vì vậy chúng không được tính điểm. Trong khi tải phông chữ, nó sẽ trả về một @List trống, sau đó sẽ điền thông tin vào khi hoàn tất."
             ],
@@ -4804,7 +4815,7 @@
                 "Đằng sau hậu trường, @Face dùng một mô hình học máy. Lần đầu tiên bạn dùng nó trong một chương trình, mô hình mất vài giây để tải xuống, và một khuôn mặt nhỏ đang quay xuất hiện ở góc trên bên phải của sân khấu trong khi nó tải. Sau đó nó được lưu lại và bắt đầu ngay lập tức.",
                 "Mỗi khung hình, @Face cho bạn một @Expression. Hãy xem ở đó để biết danh sách đầy đủ các đầu vào và ý nghĩa của chúng.",
                 "Ví dụ này cho thấy một biểu tượng cảm xúc khớp với khuôn mặt của bạn ở bất cứ nơi nào khuôn mặt thật của bạn ở đó:",
-                "\\khuônMặt: 🙂()\nCụmtừ((khuônMặt.cườiTươi ? '😀' khuônMặt.miệngMở ? '😮' '😐') place: khuônMặt.vịTrí)\\"
+                "\\khuônMặt: 🙂()\nCụmtừ((khuônMặt.cườiTươi ? '😀' khuônMặt.miệngMở ? '😮' '😐') vịTrí: khuônMặt.vịTrí)\\"
             ],
             "names": ["$~KhuônMặt"],
             "frequency": {
@@ -4825,9 +4836,9 @@
                 "Mỗi khung hình, @Objects đưa cho bạn một @List gồm @Thing, được sắp xếp theo mức độ chắc chắn của mô hình, thứ chắc chắn nhất đứng đầu. Hãy xem @Thing để biết mỗi thứ cho bạn biết điều gì.",
                 "Mô hình chỉ đang đoán, nên đôi khi nó sẽ sai, hoặc không thấy gì cả. Hãy yêu cầu `confidence` cao hơn để chỉ nghe những phán đoán mà nó chắc chắn nhất.",
                 "Đây là một ví dụ ghi nhãn mọi thứ mà máy ảnh nhìn thấy:",
-                "\\🎭(📦() ↦ Cụmtừ(⬚.tên place: ⬚.vịTrí))\\",
+                "\\🎭(📦() ↦ Cụmtừ(⬚.tên vịTrí: ⬚.vịTrí))\\",
                 "Bạn cũng có thể chỉ tìm một loại đồ vật, và bỏ qua những thứ còn lại:",
-                "\\nhữngThứ: 📦(category: 'cat')\nCụmtừ(nhữngThứ.📏() > 0 ? '🐈' '…')\\"
+                "\\nhữngThứ: 📦(danhMục: 'cat')\nCụmtừ(nhữngThứ.📏() > 0 ? '🐈' '…')\\"
             ],
             "names": ["$~ĐốiTượng"],
             "inputs": [
@@ -4948,9 +4959,9 @@
             "doc": [
                 "$~Tôi đưa ra một @value mới mỗi khi @Music phát tới một nhịp, nhờ vậy bạn có thể tạo hình ảnh chuyển động theo nhạc. Tôi luôn có một @Downbeat cho bạn, nên bạn có thể đọc nó ngay lập tức: trước khi có nhạc nào phát, tôi nằm ở nhịp không mà không phát ra âm thanh, và \\tempo\\ của tôi giữ ở mức không cho tới khi nhạc bắt đầu.",
                 "Ở đây ba bản nhạc thay phiên nhau, nên số nhạc cụ phát ra khác nhau trên mỗi nhịp — và hình thoi lớn lên theo số nhạc cụ đang phát:",
-                "\\nhịp: Nhịp()\n🎭([\n\t\tCụmtừ('◆' ((nhịp.nhạcCụ.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "\\nhịp: Nhịp()\n🎭([\n\t\tCụmtừ('◆' ((nhịp.nhạcCụ.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] nhạcCụ: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] nhạcCụ: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] nhạcCụ: 🔈.🔔)\n\t\t\t]\n\t\t\tnhịpĐộ: 100beats/min\n\t\t)\n\t])\\",
                 "Hãy cho tôi một tên @Music và tôi chỉ nghe bản nhạc đó. Hai nhịp bên dưới đang lắng nghe, cùng hai bản nhạc đó: cái trên nghe tất cả, nên nó nhấp nháy giữa hai tên khi mỗi bản nhạc tới một nhịp, còn cái dưới chỉ nghe tiếng trống và không bao giờ nói điều gì khác. Sự khác biệt đó chính là bộ lọc.",
-                "\\mọiThứ: Nhịp()\nchỉCáiTrống: Nhịp('tích tắc')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\tCụmtừ(mọiThứ.tên 1.4m)\n\t\t\t\tCụmtừ(chỉCáiTrống.tên 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tích tắc')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'tiếng chuông')\n\t])\\",
+                "\\mọiThứ: Nhịp()\nchỉCáiTrống: Nhịp('tích tắc')\n🎭([\n\t\t🔳(\n\t\t\t⬇(đệm: 0.5m)\n\t\t\t[\n\t\t\t\tCụmtừ(mọiThứ.tên 1.4m)\n\t\t\t\tCụmtừ(chỉCáiTrống.tên 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] nhạcCụ: 🔈.🥁) nhịpĐộ: 120beats/min tên: 'tích tắc')\n\t\t🎼(🎶([5 5 5] nhạcCụ: 🔈.🔔) nhịpĐộ: 90beats/min tên: 'tiếng chuông')\n\t])\\",
                 "Bất cứ điều gì tôi điều khiển đều là /bổ sung thêm/ cho cách hiển thị mà người xem đã chọn; bạn đang thêm vào nó, chứ không bao giờ thay thế nó."
             ],
             "name": {
@@ -5088,7 +5099,7 @@
             },
             "place": {
                 "doc": "$~Vị trí trên sân khấu mà tôi nên đứng. Nội dung bên trong tôi sẽ được sắp xếp tương đối so với vị trí đó.",
-                "names": "$~địađiểm"
+                "names": "$~vịTrí"
             },
             "name": {
                 "doc": ["$~Giống như @Phrase.name!"],
@@ -5186,7 +5197,7 @@
             },
             "place": {
                 "doc": "$~Đây là vị trí trên sân khấu mà tôi nên đứng.",
-                "names": "$~địađiểm"
+                "names": "$~vịTrí"
             },
             "wrap": {
                 "doc": "$~Vị trí mà tôi nên xuống dòng các ký hiệu hoặc \\ø\\ nếu tôi không nên xuống dòng chúng.",
@@ -5284,10 +5295,22 @@
                 "doc": "$~Phong cách hoạt hình được sử dụng khi di chuyển đến một vị trí khác trên sân khấu.",
                 "names": "$~phongcách"
             },
-            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
+            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
             "changing": {
                 "doc": "$~Tên của một hiệu ứng để phát khi văn bản của tôi thay đổi, trong khoảng @Phrase.duration của tôi, được làm mượt bởi @Phrase.style của tôi. Nếu \\ø\\, văn bản của tôi thay đổi ngay lập tức. Nếu là 'edit', tôi xóa văn bản cũ trở lại phần mà văn bản cũ và mới cùng chia sẻ, rồi gõ ra văn bản mới. Nếu là 'rewrite', tôi gõ văn bản mới đè lên văn bản cũ, thay thế từng ký hiệu một theo thứ tự ngẫu nhiên. Nếu là 'random', mỗi ký hiệu của tôi quay qua các ký hiệu ngẫu nhiên từ ngôn ngữ của văn bản của tôi (hoặc chữ viết của nó, khi không biết ngôn ngữ), khớp với chữ hoa chữ thường của văn bản của tôi, giống như một máy quay may mắn, cho đến khi nó dừng ở văn bản mới. Với văn bản @FormattedLiteral, các ký hiệu đang thay đổi sẽ mang định dạng của văn bản mới trong lúc diễn ra hiệu ứng.",
                 "names": "$~đangThayĐổi"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Bong bóng thoại cho thấy tôi đang nói gì, chỉ thẳng vào tôi. Có bốn thứ có thể đặt vào đây.",
+                    "Văn bản thường, tôi chỉ hiện ra và không làm gì thêm:",
+                    "\\Cụmtừ('một' bongBóng: 'xin chào!')\\",
+                    "Văn bản có định dạng, nếu bạn muốn có chữ *đậm* hay /nghiêng/ trong lời tôi nói.",
+                    "Một @Say, tôi vừa hiện ra *vừa* đọc to lên:",
+                    "\\Cụmtừ('một' bongBóng: Nói('xin chào!'))\\",
+                    "Một @Bubble, khi bạn muốn chọn tôi nói từ phía nào, đổi thành một suy nghĩ thay vì lời nói, hoặc đặt cho nó một màu."
+                ],
+                "names": "$~bongBóng"
             }
         },
         "Arrangement": {
@@ -5299,7 +5322,7 @@
             "names": ["$~Hàngngang"],
             "description": "$~hàng gồm $#count[$count cụm từ hoặc nhóm]",
             "alignment": {
-                "doc": "$~Có nên căn văn bản ở đầu, giữa, hay cuối trên mỗi @column hay không.",
+                "doc": "$~Có nên xếp nội dung của tôi vào đầu, giữa, hay cuối mỗi @column — hay, với \\'_'\\, theo đường cơ sở mà các chữ dựa vào, để những chữ cái có chiều cao khác nhau vẫn đọc thành một dòng.",
                 "names": "$~sựcănchỉnh"
             },
             "padding": {
@@ -5375,7 +5398,7 @@
                 "names": "$~cóthểlựachọn"
             },
             "color": {
-                "doc": "$~Màu sắc của viền trang trí nhà tôi.",
+                "doc": "$~Màu của tôi. Tôi tô bằng màu đó, trừ khi tôi có nền, khi đó nó tô màu cho viền của tôi.",
                 "names": "$~màusắc"
             },
             "background": {
@@ -5429,6 +5452,18 @@
             "style": {
                 "doc": "$~Tôi nên sử dụng phong cách hoạt hình nào.",
                 "names": "$~phongcách"
+            },
+            "filled": {
+                "doc": "$~Có tô màu bên trong mình hay không. Mình không có bên trong trừ khi mình khép kín, nên một @Path chưa khép kín thì không bao giờ được tô.",
+                "names": "$~đãTôĐầy"
+            },
+            "stroked": {
+                "doc": "$~Có vẽ đường viền của mình hay không. Không có màu tô và không có đường viền thì mình trở nên vô hình, đây là một cách để tạo ra một rào chắn ngăn mọi thứ mà không bị nhìn thấy.",
+                "names": "$~đãVẽViền"
+            },
+            "glyphs": {
+                "doc": "$~Chữ để vẽ dọc theo đường viền của mình, lặp lại cho đến khi lấp đầy. Mình không có chữ nào trừ khi bạn cho mình một ít.",
+                "names": "$~chữTượngHình"
             }
         },
         "Form": {
@@ -5718,7 +5753,7 @@
                 "sway": {
                     "doc": [
                         "$~Tôi nghiêng qua nghiêng lại quanh tâm của một @Output, giống như thứ gì đó đang treo trong làn gió nhẹ. Tôi là một chuyển động nghỉ tốt, vì một /angle/ nhỏ trông như “có sự sống” mà không kéo sự chú ý.",
-                        "\\Cụmtừ('🐈' resting: 💃.đungđưa(10°))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.đungđưa(10°))\\"
                     ],
                     "names": ["đungđưa"],
                     "angle": {
@@ -5729,7 +5764,7 @@
                 "bounce": {
                     "doc": [
                         "$~Tôi nhảy một @Output lên tới /height/ rồi để nó đáp xuống, hơi bẹp lại một chút khi lên và khi xuống. Cho tôi một @Phrase vừa mới đến và tôi sẽ làm nó có cảm giác có trọng lượng.",
-                        "\\Cụmtừ('🐈' resting: 💃.tunglên(3m))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.tunglên(3m))\\"
                     ],
                     "names": ["$~tunglên"],
                     "height": {
@@ -5740,42 +5775,42 @@
                 "spin": {
                     "doc": [
                         "$~Tôi quay một @Output trọn một vòng quanh tâm của nó, từ 360° về lại 0°. Đặt tôi làm chuyển động nghỉ và tôi sẽ quay mãi mãi.",
-                        "\\Cụmtừ('🐈' resting: 💃.quay(2s))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.quay(2s))\\"
                     ],
                     "names": ["$~quay"]
                 },
                 "fadein": {
                     "doc": [
                         "$~Tôi đưa một @Output từ vô hình đến hoàn toàn hiện rõ. Tôi dành cho việc /entering/, khi thứ gì đó đang tới sân khấu.",
-                        "\\Cụmtừ('🐈' entering: 💃.mờdần(1s))\\"
+                        "\\Cụmtừ('🐈' vào: 💃.mờdần(1s))\\"
                     ],
                     "names": ["$~mờdần"]
                 },
                 "fadeout": {
                     "doc": [
                         "$~Tôi đưa một @Output từ hoàn toàn hiện rõ đến vô hình. Tôi dành cho việc /exiting/, khi thứ gì đó đang rời sân khấu.",
-                        "\\Cụmtừ('🐈' exiting: 💃.mờdầntắt(duration: 1s))\\"
+                        "\\Cụmtừ('🐈' thoátra: 💃.mờdầntắt(khoảngthờigian: 1s))\\"
                     ],
                     "names": ["mờdầntắt"]
                 },
                 "popup": {
                     "doc": [
                         "$~Tôi làm một @Output lớn lên từ hư không, vượt quá kích thước thật của nó, rồi lắng về đúng chỗ. Chính cái vượt quá nhỏ đó làm cho sự xuất hiện có cảm giác vui tươi thay vì máy móc.",
-                        "\\Cụmtừ('🐈' entering: 💃.cửasổbậtlên(0.5s))\\"
+                        "\\Cụmtừ('🐈' vào: 💃.cửasổbậtlên(0.5s))\\"
                     ],
                     "names": ["$~cửasổbậtlên"]
                 },
                 "shake": {
                     "doc": [
                         "$~Tôi giật một @Output qua lại theo nhiều hướng. Tôi được hiểu là “không”, hoặc như thứ gì đó đang rung lắc. Tôi di chuyển nhanh, nên hãy giữ tôi ngắn.",
-                        "\\Cụmtừ('🐈' resting: 💃.lắc(0.5s count: 3x))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.lắc(0.5s đếm: 3x))\\"
                     ],
                     "names": ["$~lắc"]
                 },
                 "pulse": {
                     "doc": [
                         "$~Tôi phóng to một @Output lên tới /amount/ rồi thu nhỏ lại, một lần. Tôi là cách yên lặng nhất để nói “nhìn đây” mà không làm thứ gì lệch chỗ.",
-                        "\\Cụmtừ('🐈' resting: 💃.xung(1.2))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.xung(1.2))\\"
                     ],
                     "names": ["$~xung"],
                     "amount": {
@@ -5786,7 +5821,7 @@
                 "heartbeat": {
                     "doc": [
                         "$~Tôi đập to lên hai nhịp nhanh rồi nghỉ, giống nhịp của một trái tim. Tôi khẩn cấp hơn /pulse/ của @Sequence và tự nhiên hơn /flash/.",
-                        "\\Cụmtừ('🐈' resting: 💃.nhịptim(1.4 1s))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.nhịptim(1.4 1s))\\"
                     ],
                     "names": ["$~nhịptim"],
                     "amount": {
@@ -5797,7 +5832,7 @@
                 "tada": {
                     "doc": [
                         "$~Tôi ăn mừng: hơi thu nhỏ, rồi phóng to lên với một cái lắc qua lại. Tôi dành cho việc chiến thắng, hoàn thành và làm đúng.",
-                        "\\Cụmtừ('🐈' resting: 💃.tada(1.2 1s))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
@@ -5808,7 +5843,7 @@
                 "wiggle": {
                     "doc": [
                         "$~Tôi trượt một @Output qua lại trong khi nghiêng nó, mỗi cú đưa nhỏ hơn cú trước. Tôi là một cái lắc có thêm một chút cá tính.",
-                        "\\Cụmtừ('🐈' resting: 💃.lắclư(8°))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.lắclư(8°))\\"
                     ],
                     "names": ["$~lắclư"],
                     "angle": {
@@ -5820,21 +5855,21 @@
                     "doc": [
                         "$~Tôi nháy một @Output giữa hiện rõ và vô hình hai lần, mờ dần khi tôi làm vậy. Tôi khó bỏ qua — điều đó cũng có nghĩa là tôi khó phớt lờ, nên hãy dùng tôi tiết kiệm.",
                         "Tôi nháy nhanh, nên người xem nhạy cảm với nhấp nháy có thể thấy tôi khó chịu. Hãy làm tôi chậm lại với /duration/ dài hơn nếu tôi sẽ lặp lại.",
-                        "\\Cụmtừ('🐈' resting: 💃.đènflash(1s))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.đènflash(1s))\\"
                     ],
                     "names": ["$~đènflash"]
                 },
                 "zoomin": {
                     "doc": [
                         "$~Tôi làm một @Output lớn lên từ hư không đến kích thước đầy đủ. Khác với /popup/, tôi không vượt quá — tôi là sự xuất hiện đơn giản hơn, êm dịu hơn.",
-                        "\\Cụmtừ('🐈' entering: 💃.phóngto(0.5s))\\"
+                        "\\Cụmtừ('🐈' vào: 💃.phóngto(0.5s))\\"
                     ],
                     "names": ["$~phóngto"]
                 },
                 "fadeinup": {
                     "doc": [
                         "$~Tôi làm một @Output mờ hiện lên trong khi trượt nó lên đúng chỗ từ /distance/ bên dưới.",
-                        "\\Cụmtừ('🐈' entering: 💃.mờdầnlên(2m))\\"
+                        "\\Cụmtừ('🐈' vào: 💃.mờdầnlên(2m))\\"
                     ],
                     "names": ["$~mờdầnlên"],
                     "distance": {
@@ -5845,7 +5880,7 @@
                 "fadeindown": {
                     "doc": [
                         "$~Tôi làm một @Output mờ hiện lên trong khi trượt nó xuống đúng chỗ từ /distance/ bên trên.",
-                        "\\Cụmtừ('🐈' entering: 💃.hiệnxuống(2m))\\"
+                        "\\Cụmtừ('🐈' vào: 💃.hiệnxuống(2m))\\"
                     ],
                     "names": ["hiệnxuống"],
                     "distance": {
@@ -5856,7 +5891,7 @@
                 "fadeinleft": {
                     "doc": [
                         "$~Tôi làm một @Output mờ hiện lên trong khi trượt nó sang phải đúng chỗ từ /distance/ bên trái.",
-                        "\\Cụmtừ('🐈' entering: 💃.mờdầnbêntrái(2m))\\"
+                        "\\Cụmtừ('🐈' vào: 💃.mờdầnbêntrái(2m))\\"
                     ],
                     "names": ["$~mờdầnbêntrái"],
                     "distance": {
@@ -5867,7 +5902,7 @@
                 "fadeinright": {
                     "doc": [
                         "$~Tôi làm cho một @Output hiện dần lên trong khi trượt nó về bên trái vào vị trí, từ /distance/ ở bên phải.",
-                        "\\Cụmtừ('🐈' entering: 💃.mờdầnbênphải(2m))\\"
+                        "\\Cụmtừ('🐈' vào: 💃.mờdầnbênphải(2m))\\"
                     ],
                     "names": ["$~mờdầnbênphải"],
                     "distance": {
@@ -5878,7 +5913,7 @@
                 "rotatein": {
                     "doc": [
                         "$~Tôi xoay một @Output vào vị trí trong khi làm cho nó hiện dần lên, bắt đầu xoay một góc /angle/ và kết thúc thẳng đứng.",
-                        "\\Cụmtừ('🐈' entering: 💃.xoaytrong(180°))\\"
+                        "\\Cụmtừ('🐈' vào: 💃.xoaytrong(180°))\\"
                     ],
                     "names": ["$~xoaytrong"],
                     "angle": {
@@ -5889,14 +5924,14 @@
                 "zoomout": {
                     "doc": [
                         "$~Tôi thu nhỏ một @Output từ kích thước đầy đủ xuống còn không gì cả.",
-                        "\\Cụmtừ('🐈' exiting: 💃.thunhỏ(0.5s))\\"
+                        "\\Cụmtừ('🐈' thoátra: 💃.thunhỏ(0.5s))\\"
                     ],
                     "names": ["$~thunhỏ"]
                 },
                 "fadeoutup": {
                     "doc": [
                         "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó lên trên một khoảng /distance/.",
-                        "\\Cụmtừ('🐈' exiting: 💃.mờdầntắtlên(2m))\\"
+                        "\\Cụmtừ('🐈' thoátra: 💃.mờdầntắtlên(2m))\\"
                     ],
                     "names": ["mờdầntắtlên"],
                     "distance": {
@@ -5907,7 +5942,7 @@
                 "fadeoutdown": {
                     "doc": [
                         "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó xuống dưới một khoảng /distance/.",
-                        "\\Cụmtừ('🐈' exiting: 💃.mờdầnxuống(2m))\\"
+                        "\\Cụmtừ('🐈' thoátra: 💃.mờdầnxuống(2m))\\"
                     ],
                     "names": ["$~mờdầnxuống"],
                     "distance": {
@@ -5918,7 +5953,7 @@
                 "fadeoutleft": {
                     "doc": [
                         "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó sang bên trái một khoảng /distance/.",
-                        "\\Cụmtừ('🐈' exiting: 💃.mờdầntắttrái(2m))\\"
+                        "\\Cụmtừ('🐈' thoátra: 💃.mờdầntắttrái(2m))\\"
                     ],
                     "names": ["mờdầntắttrái"],
                     "distance": {
@@ -5929,7 +5964,7 @@
                 "fadeoutright": {
                     "doc": [
                         "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó sang bên phải một khoảng /distance/.",
-                        "\\Cụmtừ('🐈' exiting: 💃.mờdầnhoàntoàn(2m))\\"
+                        "\\Cụmtừ('🐈' thoátra: 💃.mờdầnhoàntoàn(2m))\\"
                     ],
                     "names": ["$~mờdầnhoàntoàn"],
                     "distance": {
@@ -5940,7 +5975,7 @@
                 "rotateout": {
                     "doc": [
                         "$~Tôi xoay một @Output đi trong khi làm cho nó mờ dần đi, kết thúc xoay một góc /angle/.",
-                        "\\Cụmtừ('🐈' exiting: 💃.xoayvòng(180°))\\"
+                        "\\Cụmtừ('🐈' thoátra: 💃.xoayvòng(180°))\\"
                     ],
                     "names": ["$~xoayvòng"],
                     "angle": {
@@ -5952,14 +5987,14 @@
                     "doc": [
                         "$~Tôi cho một @Output đi qua mọi sắc màu của cầu vồng rồi trở về nơi tôi bắt đầu.",
                         "Tôi đổi màu rất nhanh, nên người xem nhạy cảm với ánh sáng nhấp nháy có thể thấy khó chịu. Một /duration/ dài hơn sẽ làm tôi dịu dàng hơn nhiều.",
-                        "\\Cụmtừ('🐈' resting: 💃.cầuvồng(3s))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.cầuvồng(3s))\\"
                     ],
                     "names": ["$~cầuvồng"]
                 },
                 "swing": {
                     "doc": [
                         "$~Tôi đung đưa một @Output như một con lắc, ra đến /angle/ rồi quay trở lại qua những vòng cung nhỏ dần cho đến khi nó dừng lại. Khác với /sway/, tôi lắng lại.",
-                        "\\Cụmtừ('🐈' resting: 💃.đungĐưa(20°))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.đungĐưa(20°))\\"
                     ],
                     "names": ["$~đungĐưa"],
                     "angle": {
@@ -5970,14 +6005,14 @@
                 "blink": {
                     "doc": [
                         "$~Tôi tắt một @Output rồi bật lại mà không mờ dần ở giữa, giống như một con trỏ nhấp nháy. /flash/ làm mờ dần; còn tôi cắt ngay.",
-                        "\\Cụmtừ('🐈' resting: 💃.nháyMắt(1s))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.nháyMắt(1s))\\"
                     ],
                     "names": ["$~nháyMắt"]
                 },
                 "nod": {
                     "doc": [
                         "$~Tôi nhúng một @Output xuống rồi lên lại hai lần, giống như một cái gật đầu đồng ý. Tôi là cách nhẹ nhàng nhất để nói “vâng”.",
-                        "\\Cụmtừ('🐈' resting: 💃.gậtĐầu(0.4m))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.gậtĐầu(0.4m))\\"
                     ],
                     "names": ["$~gậtĐầu"],
                     "distance": {
@@ -5988,7 +6023,7 @@
                 "dim": {
                     "doc": [
                         "$~Tôi làm cho một @Output mờ dần xuống đến /amount/ rồi trở lại đầy đủ, mà không bao giờ ẩn nó đi. Tôi dùng để cho thấy có điều gì đó đang chờ hoặc không hoạt động.",
-                        "\\Cụmtừ('🐈' resting: 💃.mờĐi(20% 2s))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.mờĐi(20% 2s))\\"
                     ],
                     "names": ["$~mờĐi"],
                     "amount": {
@@ -5999,7 +6034,7 @@
                 "slidein": {
                     "doc": [
                         "$~Tôi trượt một @Output vào vị trí từ bất cứ nơi nào bạn thích, mà không mờ dần. Hãy cho tôi một @Place và tôi sẽ bắt đầu ở đó rồi kết thúc ở trạng thái nghỉ, nên một hiệu ứng động bao trùm mọi hướng.",
-                        "\\Cụmtừ('🐈' entering: 💃.trượtVào(📍(0m -4m)))\\"
+                        "\\Cụmtừ('🐈' vào: 💃.trượtVào(📍(0m -4m)))\\"
                     ],
                     "names": ["$~trượtVào"],
                     "from": {
@@ -6010,7 +6045,7 @@
                 "slideout": {
                     "doc": [
                         "$~Tôi trượt một @Output đi tới bất cứ nơi nào bạn thích, mà không mờ dần. Hãy cho tôi một @Place và tôi sẽ kết thúc ở đó, nên một hoạt ảnh bao gồm mọi hướng.",
-                        "\\Cụmtừ('🐈' exiting: 💃.trượtRa(📍(0m -4m)))\\"
+                        "\\Cụmtừ('🐈' thoátra: 💃.trượtRa(📍(0m -4m)))\\"
                     ],
                     "names": ["$~trượtRa"],
                     "to": {
@@ -6021,7 +6056,7 @@
                 "float": {
                     "doc": [
                         "$~Tôi làm một @Output trôi từ từ lên trên một khoảng /distance/ rồi trở xuống. Hãy cho tôi một /duration/ dài và tôi sẽ làm cho thứ gì đó trông như không trọng lượng.",
-                        "\\Cụmtừ('🐈' resting: 💃.trôiNổi(0.5m 3s))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.trôiNổi(0.5m 3s))\\"
                     ],
                     "names": ["$~trôiNổi"],
                     "distance": {
@@ -6032,7 +6067,7 @@
                 "drift": {
                     "doc": [
                         "$~Tôi làm một @Output trôi từ từ sang bên một khoảng /distance/ rồi trở lại. Tôi là /float/, nhưng theo chiều ngang.",
-                        "\\Cụmtừ('🐈' resting: 💃.trôiDạt(0.5m 3s))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.trôiDạt(0.5m 3s))\\"
                     ],
                     "names": ["$~trôiDạt"],
                     "distance": {
@@ -6043,7 +6078,7 @@
                 "orbit": {
                     "doc": [
                         "$~Tôi mang một @Output đi quanh một vòng tròn có /radius/, rồi trở về nơi nó bắt đầu. Tôi là hoạt ảnh định sẵn duy nhất vẽ ra một đường đi thay vì đi tới đi lui.",
-                        "\\Cụmtừ('🐈' resting: 💃.quỹĐạo(2m 4s))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.quỹĐạo(2m 4s))\\"
                     ],
                     "names": ["$~quỹĐạo"],
                     "radius": {
@@ -6054,7 +6089,7 @@
                 "glow": {
                     "doc": [
                         "$~Tôi làm một @Output sáng lên hướng về /color/ rồi để nó mờ trở lại, giống như thứ gì đó ấm lên rồi nguội đi. Khác với /rainbow/, tôi giữ nguyên một màu.",
-                        "\\Cụmtừ('🐈' resting: 💃.phátSáng(🌈.quảcam 2s))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.phátSáng(🌈.quảcam 2s))\\"
                     ],
                     "names": ["$~phátSáng"],
                     "color": {
@@ -6066,7 +6101,7 @@
         },
         "Place": {
             "doc": "$~Tôi là một vị trí trên @Stage. Tất cả các đầu vào của tôi đều là tùy chọn, vì theo mặc định tôi ở vị trí trung tâm.",
-            "names": ["$~Địađiểm"],
+            "names": ["$~VịTrí"],
             "x": {
                 "doc": "$~Vị trí trên trục x.",
                 "names": "$~x"
@@ -6160,9 +6195,9 @@
                 "$~Tôi sẽ cho khán giả xem @Output của bạn. Chào. Lên sân khấu nào. Hãy cho tôi biết bạn muốn cho xem gì và tôi sẽ cho xem.",
                 "\\Stage([Phrase('stufffffff')])\\",
                 "NẾU BẠN MUỐN, HÃY CHO TÔI BIẾT PHÔNG NỀN @Color VÀ TÔI SẼ CHIẾU SÁNG SÂN KHẤU CHO PHÙ HỢP.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
+                "\\Stage([Phrase('stufffffff')] lýlịch: Color(75% 50 100°))\\",
                 "Bạn cũng có thể cung cấp cho tôi khung viền và tôi sẽ cắt ảnh.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
+                "\\Stage([Phrase('stufffffff')] lýlịch: Color(75% 50 100°) khung: Rectangle(-1m -1m 1m 1m))\\"
             ],
             "names": ["$~Sânkhấu"],
             "content": {
@@ -6183,7 +6218,7 @@
             },
             "place": {
                 "doc": "$~NẾU TÔI LÀ MỘT CHIẾC MÁY ẢNH, ĐÂY LÀ NƠI TÔI ĐANG NHÌN",
-                "names": "$~địađiểm"
+                "names": "$~vịTrí"
             },
             "name": {
                 "doc": ["$~GIỐNG VỚI @Phrase.name!"],
@@ -6328,7 +6363,7 @@
             "names": ["$~Cửchỉ"],
             "place": {
                 "doc": "$~Vị trí bàn tay trên sân khấu.",
-                "names": ["$~địađiểm"]
+                "names": ["$~vịTrí"]
             },
             "open": {
                 "doc": "$~\\⊤\\ nếu bàn tay mở ra (từ 3 ngón trở lên duỗi ra), \\⊥\\ nếu nó là nắm đấm.",
@@ -6488,17 +6523,17 @@
                 "Nốt nhạc là các con số. 1 là nốt đầu tiên của thang âm — nốt mà một giai điệu nghe như đã kết thúc — 2 là nốt tiếp theo cao hơn, và 8 lại là nốt đầu tiên đó, nhưng cao hơn một quãng tám. ø là một nốt nghỉ, tức là sự im lặng. Các con số vẫn tiếp tục vượt qua cả hai đầu: 9 là nốt thứ hai cao hơn một quãng tám, còn 0 và -1 bước xuống dưới nốt đầu tiên.",
                 "Một /thang âm/ là tập hợp nhỏ các nốt mà một bản nhạc được xây dựng nên, và việc chọn những nốt nào chiếm phần lớn tâm trạng của nó. @Music/scale là \\🎼.trưởng\\ trừ khi bạn nói khác đi, nghe tươi sáng; \\🎼.thứ\\ nghe buồn hơn từ chính những con số y hệt. Một /tông/ là mức cao hay thấp của toàn bản nhạc, được đặt bởi @Music/key. Và @Music/tempo là tốc độ chạy của nó, tính bằng số nhịp mỗi phút — một nhịp là mạch đập đều đặn mà bạn có thể vỗ tay theo.",
                 "Vì các nốt là con số chứ không phải cao độ cố định, cả ba đều có thể thay đổi mà không đụng tới giai điệu. Đây vẫn là ba nốt đó, buồn hơn, thấp hơn, và chậm hơn:",
-                "\\🎼(🎶([1 3 5]) scale: 🎼.thứ key: -5semitones tempo: 60beats/min)\\",
+                "\\🎼(🎶([1 3 5]) thangÂm: 🎼.thứ chìaKhóa: -5semitones nhịpĐộ: 60beats/min)\\",
                 "Một bản nhạc bắt đầu lại khi tới cuối, nên một danh sách ngắn là một đoạn nhạc lặp phát mãi mãi. Cái này dài bốn nhịp, với các nốt nghỉ xen giữa:",
-                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "\\🎼(🎶([1 ø 5 ø]) nhịpĐộ: 90beats/min)\\",
                 "Hãy đưa cho tôi một danh sách các bản nhạc và chúng phát cùng lúc, mỗi bản với nhạc cụ, tốc độ, và âm lượng riêng. Ở đây một trống bass và một trống snare giữ nhịp trong khi hi-hat chạy với tốc độ gấp đôi — một đa nhịp điệu tạo ra từ một con số. Trống là một bộ dụng cụ chứ không có cao độ, nên các con số của chúng chọn từng phần của bộ trống thay vì các nốt:",
-                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] nhạcCụ: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] nhạcCụ: 🔈.🥁 nhịp: 0.5beats âmLượng: 30%)\n\t]\n\tnhịpĐộ: 96beats/min\n)\\",
                 "Các con số bên trong dấu ngoặc nhọn vang lên cùng nhau thành một hợp âm, và một giá trị nốt viết trên một con số cho mục đó độ dài riêng. Ở đây hai hợp âm nốt tròn giữ ở dưới một giai điệu đang chuyển động:",
-                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] nhạcCụ: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] nhạcCụ: 🔈.🎹 âmLượng: 50%)\n\t])\\",
                 "Bất cứ thứ gì tạo ra số đều có thể tạo ra nhạc. Giai điệu này tự xáo trộn thành một trật tự mới, và đi theo độ to của giọng bạn đang nói:",
-                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].xáotrộn())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].xáotrộn())\n\tnhịpĐộ: (60 + (🎤() × 120)) × 1beats/min\n)\\",
                 "Không ai bắt buộc phải nghe tôi. @Beat báo cáo mỗi nhịp khi nó vang lên, nên bạn có thể vẽ nhạc cũng như phát nhạc, bên cạnh bất kỳ hình ảnh nào mà người xem chọn. @Beat luôn có một @Downbeat, nên bạn có thể đọc nó mà không cần kiểm tra gì:",
-                "\\nhịp: Nhịp()\nđếm: nhịp.đếm\n🎭([\n\t\tCụmtừ('◆' size: 1m + ((đếm % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\tCụmtừ('◆' size: 1m + ((đếm % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "\\nhịp: Nhịp()\nđếm: nhịp.đếm\n🎭([\n\t\tCụmtừ('◆' kíchcỡ: 1m + ((đếm % 4) = 0 ? 2m 0m) vịTrí: 📍(-2m 2m))\n\t\tCụmtừ('◆' kíchcỡ: 1m + ((đếm % 4) = 2 ? 2m 0m) vịTrí: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] nhạcCụ: 🔈.🥁))\n\t])\\",
                 "Tôi không có vẻ ngoài riêng để tạo kiểu, nên tôi không nhận các đầu vào về vẻ ngoài thông thường — không kích thước, vị trí, màu sắc, hay hoạt ảnh. Cách tôi xuất hiện là lựa chọn của người xem, thực hiện trong phần cài đặt của họ, và nó được neo vào sân khấu chứ không đặt trong bố cục của bạn; tôi không chiếm chỗ, nên đặt tôi trong một @Row hay một @Stack không bao giờ làm dịch chuyển bất cứ thứ gì bên cạnh tôi. Để tự vẽ nhạc, hãy dùng @Beat: nó trao cho bạn mỗi nhịp khi nó vang lên, để điều khiển bất kỳ đầu ra nào bạn thích.",
                 "Tôi tiếp tục phát qua các lần đánh giá: chỉnh sửa các nốt của tôi trong khi tôi đang phát và thay đổi sẽ ghép vào ở nhịp tiếp theo thay vì khởi động lại, đó là điều khiến việc thay đổi một giai điệu giữa lúc phát nghe có tính âm nhạc. Để phát tôi lại từ đầu, xem @Music/replay; để giữ tôi đứng yên và tiếp tục ở cùng chỗ, xem @Music/pause."
             ],
@@ -6517,7 +6552,7 @@
                     "Đơn vị là nửa cung. Một nửa cung là bước nhỏ nhất trong nhạc phương Tây: trên một cây đàn dương cầm nó là khoảng cách từ một phím tới phím ngay kế bên, tính cả các phím đen, và mười hai cái làm thành một quãng tám. Vậy nên \\chìaKhóa: 12semitones\\🪲 là cùng bản cao hơn một quãng tám, \\chìaKhóa: -12semitones\\🪲 thấp hơn một quãng tám, và \\chìaKhóa: 2semitones\\🪲 nhích nó lên một chút.",
                     "Hai cách đếm gặp nhau ở đây, và chúng dễ bị nhầm. Các nốt đếm /bước scale/, ở đó quãng tám là \\8\\: từ \\1\\ lên tới \\8\\ là một quãng tám. Một chìa khóa đếm /nửa cung/, ở đó quãng tám là \\12\\. Cả hai mô tả cùng một khoảng cách — tám bước từ \\1\\ tới \\8\\ của một scale bảy nốt trải dài mười hai nửa cung. Một chìa khóa được đo bằng nửa cung vì một nửa cung có cùng kích cỡ trong mọi scale, còn một bước thì không: pentatonic của @Music/scale có năm nốt cho một quãng tám và major có bảy, nên dịch theo bước sẽ dời mỗi cái một khoảng cách khác nhau, trong khi \\12semitones\\ là một quãng tám trong tất cả chúng.",
                     "Vì nó chỉ là một con số, một chìa khóa có thể tới từ bất cứ đâu. Ở đây cả bản nâng lên hai nửa cung khi /lên/ là lựa chọn — một @Choice cần thứ gì đó chọn được trên sân khấu để đọc, nên hai cụm chữ là thứ khiến nó hoạt động:",
-                    "\\🎭([\n\t\tCụmtừ('lên' selectable: ⊤ name: 'lên' place: 📍(-2m 0m))\n\t\tCụmtừ('trang chủ' selectable: ⊤ name: 'trang chủ' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'lên' ? 2semitones 0semitones))\n\t])\\"
+                    "\\🎭([\n\t\tCụmtừ('lên' cóthểlựachọn: ⊤ tên: 'lên' vịTrí: 📍(-2m 0m))\n\t\tCụmtừ('trang chủ' cóthểlựachọn: ⊤ tên: 'trang chủ' vịTrí: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) chìaKhóa: (🔘() = 'lên' ? 2semitones 0semitones))\n\t])\\"
                 ],
                 "names": "$~chìaKhóa"
             },
@@ -6538,7 +6573,7 @@
                 "doc": [
                     "$~Khi cái này là \\⊤\\ trong một lần chạy, tôi bắt đầu lại từ đầu, ngay cả khi không nốt nào của tôi thay đổi.",
                     "Cái này dành cho âm thanh đáp lại một sự kiện thay vì chơi liên tục. Nếu một câu trả lời đúng phát tiếng ding, thì hai câu trả lời đúng liền nhau tạo ra đúng cùng bản nhạc, nên sẽ không có gì thay đổi và không có gì vang lên lại. Tôi là cách bạn nói /lại đi, ngay bây giờ/ — chọn /đúng/ hai lần bên dưới và nó ding hai lần:",
-                    "\\🎭([\n\t\tCụmtừ('đúng' selectable: ⊤ name: 'đúng' place: 📍(-2m 0m))\n\t\tCụmtừ('sai' selectable: ⊤ name: 'sai' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'đúng') ⊥)\n\t])\\",
+                    "\\🎭([\n\t\tCụmtừ('đúng' cóthểlựachọn: ⊤ tên: 'đúng' vịTrí: 📍(-2m 0m))\n\t\tCụmtừ('sai' cóthểlựachọn: ⊤ tên: 'sai' vịTrí: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] nhạcCụ: 🔈.🔔 vòngLặp: ⊥) phátLại: ∆ 🔘() ? (🔘() = 'đúng') ⊥)\n\t])\\",
                     "Đưa cho tôi một điều kiện /nhất thời/, cái chỉ đúng trong lần chạy mà sự kiện gây ra, như \\∆ 🔘()\\ ở trên. Một điều kiện kéo dài như \\score > 10\\🪲 giữ đúng một khi nó trở thành đúng, nên nó sẽ khởi động lại tôi trong mỗi lần chạy kể từ đó."
                 ],
                 "names": "$~phátLại"
@@ -6634,7 +6669,7 @@
                 "doc": [
                     "$~Trong khi cái này là \\⊤\\ tôi đứng yên, và khi nó trở về \\⊥\\ tôi tiếp tục từ đúng nhịp mà tôi đã dừng.",
                     "Đây là điều khiến tôi khác với @Music/replay: replay nghĩa là /bắt đầu lại/, còn tôi nghĩa là /chờ ở đây/. Một nốt vẫn còn đang vang khi tôi dừng sẽ chơi hết phần còn lại của nó khi tôi bắt đầu lại, nên dừng giữa một hợp âm dài không làm mất nó. Chọn /giữ/ và /đi/ bên dưới:",
-                    "\\🎭([\n\t\tCụmtừ('giữ' selectable: ⊤ name: 'giữ' place: 📍(-2m 0m))\n\t\tCụmtừ('đi' selectable: ⊤ name: 'đi' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'giữ')\n\t])\\",
+                    "\\🎭([\n\t\tCụmtừ('giữ' cóthểlựachọn: ⊤ tên: 'giữ' vịTrí: 📍(-2m 0m))\n\t\tCụmtừ('đi' cóthểlựachọn: ⊤ tên: 'đi' vịTrí: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] nhạcCụ: 🔈.🎹) tạmDừng: 🔘() = 'giữ')\n\t])\\",
                     "Khác với phát lại, tôi muốn một điều kiện /lâu dài/, một điều kiện giữ đúng chừng nào bạn còn muốn sự im lặng. Bộ đếm @Beat của tôi chờ cùng tôi và tiếp tục từ chỗ nó đang dừng, thay vì bắt đầu lại từ số không."
                 ],
                 "names": "$~tạmDừng"
@@ -6646,7 +6681,7 @@
                 "Các nốt của tôi là những con số, cũng chính những con số mà @Music giải thích — 1 là nốt đầu tiên của thang âm, 8 là nốt đó cao lên một quãng tám, ø là một nốt nghỉ, và những con số trong dấu ngoặc nhọn như \\{1 3 5}\\ vang lên cùng nhau thành một hợp âm:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
                 "Các nốt không cần phải là số nguyên. \\1.5\\ nằm giữa nốt đầu tiên và nốt thứ hai, và cả hai đều vang lên — nốt gần hơn thì to hơn — nên khi trượt một con số qua các nốt nghe như đang gõ mạnh các phím đàn dương cầm:",
-                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] nhịp: 0.5beats))\\",
                 "Đặt @Track/mash của tôi thành \\⊥\\ và một con số như vậy sẽ bẻ cong một nốt lệch khỏi cao độ thay vì chơi hai nốt.",
                 "Mỗi mục kéo dài bằng @Track/beat của tôi, tức là một phách trừ khi bạn thay đổi nó. Thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi cùng một lúc.",
                 "Khi một mục cần dài hơn hoặc ngắn hơn phần còn lại, hãy viết độ dài ngay trên con số đó như một giá trị nốt. \\8𝅗𝅥\\ là một nốt trắng — dài gấp đôi một phách — và không cần gì bao quanh nó:",
@@ -6655,9 +6690,9 @@
                 "Những thứ này khó tìm, nên hàng ký hiệu bên dưới trình soạn thảo sẽ cung cấp chúng bất cứ khi nào con trỏ của bạn nằm ngay sau một con số của tôi.",
                 "Một dấu lặng không thể mang giá trị, vì \\ø\\ không phải là con số. Hai dấu lặng liền nhau dài gấp đôi, và với bất cứ điều gì tinh tế hơn thì có @Note.",
                 "Khi một nốt đơn cần âm lượng riêng, hoặc một độ dài mà không giá trị nào diễn tả được, hãy bọc nốt đó trong một @Note. Chỉ dùng nó ở nơi bạn cần: một con số trần trụi thì dễ đọc hơn, nên hầu hết các bản nhạc chẳng có cái nào cả, và sự hiếm hoi đó chính là điều khiến một @Note nổi bật như một sự kiện.",
-                "\\tếBào: [1 3 5 3]\n🎼(\n\t🎶(\n\t\ttếBào\n\t\t.withList(tếBào.dịch(ƒ(n•#) n + 2))\n\t\t.withList(tếBào.đảongược())\n\t\t.withList(tếBào.dịch(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "\\tếBào: [1 3 5 3]\n🎼(\n\t🎶(\n\t\ttếBào\n\t\t.withList(tếBào.dịch(ƒ(n•#) n + 2))\n\t\t.withList(tếBào.đảongược())\n\t\t.withList(tếBào.dịch(ƒ(n2•#) 8 - n2))\n\t\tnhạcCụ: 🔈.🎹\n\t)\n)\\",
                 "Thêm các dấu lặng vào là tất cả những gì một vòng cần: cả hai phần giữ cùng số nhịp, nên chúng đi cùng bước thay vì trôi xa nhau. Trải hai danh sách thành một bằng : là cách chúng được tạo nên, vì \\append\\ cần cả hai danh sách giữ cùng một kiểu thứ.",
-                "\\giaiĐiệu: [1 2 3 1 1 2 3 1 3 4 5 ø]\nnghỉ: [ø ø ø ø]\n🎼([\n\t\t🎶([:giaiĐiệu :nghỉ] instrument: 🔈.🪈)\n\t\t🎶([:nghỉ :giaiĐiệu] instrument: 🔈.🎻)\n\t])\\"
+                "\\giaiĐiệu: [1 2 3 1 1 2 3 1 3 4 5 ø]\nnghỉ: [ø ø ø ø]\n🎼([\n\t\t🎶([:giaiĐiệu :nghỉ] nhạcCụ: 🔈.🪈)\n\t\t🎶([:nghỉ :giaiĐiệu] nhạcCụ: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~BảnNhạc"],
             "notes": {
@@ -6697,7 +6732,7 @@
                 "names": "$~nghiềnNát"
             },
             "words": {
-                "doc": "$~Các âm tiết để @Instrument/voice hát. Mỗi nốt một âm tiết, cách nhau bằng khoảng trắng, nên \\'son mi fa'\\ hát ba nốt và các khoảng trắng cho biết một âm tiết kết thúc ở đâu và âm tiết tiếp theo bắt đầu.\n\nCác nốt nghỉ không cần âm tiết, nên lời hát rơi vào những nốt thực sự có tiếng. Nếu có ít âm tiết hơn số nốt, chúng sẽ bắt đầu lại từ đầu thay vì im lặng. Nếu hoàn toàn không có âm tiết nào, giọng hát giữ một âm /uh/.\n\nKết thúc một âm tiết bằng dấu gạch nối để giữ nó qua nốt tiếp theo nữa, thêm một nốt cho mỗi dấu gạch nối — đó là cách bạn hát một âm tiết qua nhiều nốt. Trong \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ bao gồm hai nốt đầu tiên, rồi \\mi\\ và \\so\\ mỗi cái lấy một nốt.\n\nCách viết là <Bảng Chữ Cái Ngữ Âm Quốc Tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, trong đó mỗi chữ cái là một âm. Nhấn 🤖 dưới trình soạn thảo để xem mọi âm và nghe nó. Những chữ cái tôi không nhận ra sẽ bị bỏ qua. Mọi nhạc cụ khác ngoài giọng hát đều bỏ qua tôi, nên lời hát vẫn còn khi bạn đổi @Track/instrument rồi đổi lại.",
+                "doc": "$~Các âm tiết để @Instrument/voice hát. Mỗi nốt một âm tiết, cách nhau bằng khoảng trắng, nên \\'son mi fa'\\ hát ba nốt và các khoảng trắng cho biết một âm tiết kết thúc ở đâu và âm tiết tiếp theo bắt đầu.\n\nCác nốt nghỉ không cần âm tiết, nên lời hát rơi vào những nốt thực sự có tiếng. Nếu có ít âm tiết hơn số nốt, chúng sẽ bắt đầu lại từ đầu thay vì im lặng. Nếu hoàn toàn không có âm tiết nào, giọng hát giữ một âm /uh/.\n\nKết thúc một âm tiết bằng dấu gạch nối để giữ nó qua nốt tiếp theo nữa, thêm một nốt cho mỗi dấu gạch nối — đó là cách bạn hát một âm tiết qua nhiều nốt. Trong \\🎶([1 2 3 4] từNgữ: 'la- mi so')\\, \\la\\ bao gồm hai nốt đầu tiên, rồi \\mi\\ và \\so\\ mỗi cái lấy một nốt.\n\nCách viết là <Bảng Chữ Cái Ngữ Âm Quốc Tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, trong đó mỗi chữ cái là một âm. Nhấn 🤖 dưới trình soạn thảo để xem mọi âm và nghe nó. Những chữ cái tôi không nhận ra sẽ bị bỏ qua. Mọi nhạc cụ khác ngoài giọng hát đều bỏ qua tôi, nên lời hát vẫn còn khi bạn đổi @Track/instrument rồi đổi lại.",
                 "names": "$~từNgữ"
             }
         },
@@ -6706,7 +6741,7 @@
                 "$~Tôi là một mục trong một @Track mang âm lượng riêng, hoặc một độ dài mà không giá trị nốt nào ghi được.",
                 "Hầu hết các nốt nên giữ là số trần, và hầu hết các độ dài viết ngắn gọn hơn trên chính con số: \\1𝅗𝅥\\ là một nốt trắng. Đáng dùng tôi khi một nốt cần âm lượng riêng, hoặc một độ dài nằm giữa các giá trị — và vì \\♪(1 2beats ÷ 3)\\ nói nhiều hơn nhiều so với \\1\\, dùng tôi ở mọi nơi sẽ chôn vùi những nốt quan trọng.",
                 "Một chùm ba là phép tính trung thực: \\♪(1 2beats ÷ 3)\\ cho biết ba nốt này lấp đầy hai phách. Độ dài của tôi cũng có thể là một giá trị nốt, nên \\♪(1 1𝅗𝅥)\\ và \\♪(1 2beats)\\ là cùng hai phách đó.",
-                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+                "\\🎼(🎶([1 1 ♪(5 2beats âmLượng: 60%) ø]))\\"
             ],
             "names": ["$~NốtNhạc"],
             "degree": {
@@ -6732,56 +6767,56 @@
                 "piano": {
                     "doc": [
                         "$~Một cây đàn piano. Được ghi âm từ đàn thật, và có cao độ, nên các con số chọn nốt nhạc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎹) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~đànPiano"]
                 },
                 "violin": {
                     "doc": [
                         "$~Một cây đàn violin. Được ghi âm từ đàn thật, và có cao độ, nên các con số chọn nốt nhạc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎻) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~đànVĩCầm"]
                 },
                 "drums": {
                     "doc": [
                         "$~Một bộ trống. Được ghi âm, và là một bộ trống chứ không có cao độ: các con số chọn một phần của bộ trống thay vì một nốt nhạc — \\1\\ trống bass, \\2\\ trống snare, \\3\\ chũm chọe hi-hat, \\4\\ chũm chọe, \\5\\ trống tom tom, \\6\\ chuông bò — và \\7\\ quay vòng trở lại trống bass.",
-                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6] nhịp: 2beats vòngLặp: ⊥ nhạcCụ: 🔈.🥁) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~trống"]
                 },
                 "flute": {
                     "doc": [
                         "$~Một cây sáo. Được ghi âm từ sáo thật, và có cao độ, nên các con số chọn nốt nhạc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🪈) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~sáo"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~Một cây kèn trumpet. Được ghi âm từ kèn thật, và có cao độ, nên các con số chọn nốt nhạc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎺) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~kènTrumpet"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Một cây kèn saxophone, loại tenor. Được ghi âm từ kèn thật, và có cao độ, nên các con số chọn nốt nhạc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎷) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~kènSaxophone"]
                 },
                 "bell": {
                     "doc": [
                         "$~Một cái chuông — chuông dàn nhạc, loại được gõ bằng dùi. Được ghi âm, và có cao độ, nên các con số chọn nốt nhạc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🔔) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~chuông"]
                 },
                 "didgeridoo": {
                     "doc": [
                         "$~Một cây didgeridoo, từ người bản địa Úc. Được ghi âm từ nhạc cụ thật, và có cao độ, nên các con số chọn nốt nhạc, dù đây là nhạc cụ tạo âm ngân dài và luôn ở âm trầm.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🪵) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~kènDidgeridoo"]
                 },
@@ -6789,62 +6824,62 @@
                     "names": ["$~mèo", "$~meoMeo"],
                     "doc": [
                         "$~Một con mèo — thật ra là cả một bộ tiếng mèo. Được ghi âm từ mèo thật, và là một bộ tiếng chứ không có cao độ: các con số chọn điều con mèo đang nói thay vì một nốt nhạc — \\1\\ bực bội, \\2\\ nài nỉ, \\3\\ đói bụng, \\4\\ phản đối, \\5\\ van xin, \\6\\ ao ước, \\7\\ khó chịu, \\8\\ sợ hãi, \\9\\ nhạy cảm, \\10\\ được an ủi, \\11\\ cô đơn, \\12\\ kêu gừ gừ — và \\13\\ quay trở lại thành khó chịu. Để xem một chú mèo chơi nốt nhạc thay vào đó, hãy xem \\🔈.😺\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] nhịp: 2beats vòngLặp: ⊥ nhạcCụ: 🔈.🐱) nhịpĐộ: 60beats/min)\\"
                     ]
                 },
                 "dog": {
                     "names": ["$~chó", "$~sủa"],
                     "doc": [
                         "$~Một chú chó — thật ra là cả một bộ chúng. Được thu âm từ những chú chó thật, và là một bộ chứ không theo cao độ: các con số chọn tiếng sủa mà bạn nghe thấy thay vì một nốt nhạc, chạy từ trầm nhất đến chói nhất — \\1\\ cộc cằn, \\2\\ cảnh báo, \\3\\ canh giữ, \\4\\ báo động, \\5\\ khăng khăng, \\6\\ đòi hỏi, \\7\\ thông báo, \\8\\ hăng hái, \\9\\ phấn khích, \\10\\ nôn nóng, \\11\\ sủa oăng oẳng, \\12\\ the thé — và \\13\\ quay trở lại thành cộc cằn. Để xem một chú chó chơi nốt nhạc thay vào đó, hãy xem \\🔈.🐕\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] nhịp: 2beats vòngLặp: ⊥ nhạcCụ: 🔈.🐶) nhịpĐộ: 60beats/min)\\"
                     ]
                 },
                 "synth": {
                     "doc": [
                         "$~Một tiếng dẫn của bộ tổng hợp: sáng và rè, và không ngại ngùng về việc được tạo từ các bộ dao động. Được tổng hợp chứ không thu âm, và theo cao độ, nên các con số chọn nốt nhạc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎛) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~đànTổngHợp"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~Một tiếng trầm của bộ tổng hợp: dày và thấp. Được tổng hợp chứ không thu âm, và theo cao độ, nên các con số chọn nốt nhạc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎚) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~đànBassTổngHợp"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~Một tiếng đệm của bộ tổng hợp: nhẹ nhàng, đến chậm rãi, và hợp để giữ một hợp âm bên dưới mọi thứ khác. Được tổng hợp chứ không thu âm, và theo cao độ, nên các con số chọn nốt nhạc.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.☁) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~đànPadTổngHợp"]
                 },
                 "pitchedCat": {
                     "doc": [
                         "$~Vẫn chú mèo đó, nhưng đã chỉnh cao độ. Trong mười hai bản thu mà bộ \\🔈.🐱\\ chơi, đây là bản giữ một cao độ ổn định, và nó theo cao độ chứ không phải một bộ, nên các con số chọn nốt nhạc và bạn có thể viết một giai điệu với nó. Khi chơi xa nốt mà nó được thu âm, tiếng meo bắt đầu nghe như bị kéo giãn thay vì được hát, nên nó dễ chịu nhất trong khoảng một quãng tám quanh nốt giữa.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.😺) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~mèoTheoCaoĐộ"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Vẫn những chú chó đó, nhưng đã được chỉnh âm. Trong tất cả tiếng sủa mà bộ âm được lấy ra, đây là tiếng giữ cao độ ổn định, và nó có cao độ chứ không phải là một bộ âm, nên các số sẽ chọn nốt và bạn có thể viết một giai điệu bằng nó. Nếu chơi cách xa nốt mà nó được ghi âm, tiếng sủa bắt đầu nghe như bị kéo dãn thay vì sủa, nên nó hay nhất khi ở trong khoảng một quãng tám gần nốt giữa.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🐕) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~chóTheoCaoĐộ"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~Một cây đàn ghi-ta cổ điển, với dây ni-lông được gảy bằng ngón tay chứ không phải bằng miếng gảy. Được ghi âm từ một cây đàn thật, và có cao độ, nên các số sẽ chọn nốt. Đây là loại mà chữ \\guitar\\ đơn giản ám chỉ, nên các dự án cũ yêu cầu một cây ghi-ta sẽ chơi loại này.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎸) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~ghiTaThùng", "$~ghiTa"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~Một cây ghi-ta điện-mộc — thân rỗng có bộ thu âm bên trong, dây thép, nên nó vang sáng hơn và lâu hơn cây đàn ni-lông \\🔈.🎸\\. Được ghi âm từ một cây đàn thật, và có cao độ, nên các số sẽ chọn nốt.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.⚡) nhịpĐộ: 60beats/min)\\"
                     ],
                     "names": ["$~ghiTaĐiện"]
                 },
@@ -6853,7 +6888,7 @@
                         "$~Một giọng hát, được tạo ra từ các bộ lọc chứ không phải thu âm từ một người. Có cao độ, nên các con số chọn nốt nhạc.",
                         "Tôi là một máy tổng hợp âm thanh, giống như @Instrument/synth — không phải bắt chước một ca sĩ. Miệng tôi giữ nguyên kích thước dù tôi hát cao hay thấp, điều mà không cổ họng thật nào làm được. Đó là lý do tôi nghe giống như một cỗ máy đang giả giọng một người, và tại sao tôi nghe không giống đàn ông cũng không giống phụ nữ.",
                         "Hãy cho @Track của tôi một @Track/words và tôi sẽ hát chúng, mỗi nốt một âm tiết. Nếu không có, tôi giữ một âm /uh/, nên tôi luôn hát điều gì đó.",
-                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "\\🎼(🎶([1 2 3 5] từNgữ: 'la la la la' nhạcCụ: 🔈.🤖) nhịpĐộ: 120beats/min)\\",
                         "Các âm tiết được viết bằng <Bảng Chữ Cái Ngữ Âm Quốc Tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, một bảng chữ cái trong đó mỗi chữ cái là một /âm/ chứ không phải một cách viết — nên \\'ʃi'\\ là âm ở đầu từ /cô ấy/, dù bạn viết bằng ngôn ngữ nào. Nhấn 🤖 bên dưới trình soạn thảo để xem mọi âm mà tôi có thể tạo ra và nghe từng âm một."
                     ],
                     "names": ["$~giọngNói"]
@@ -6861,7 +6896,7 @@
                 "harmonica": {
                     "doc": [
                         "$~Một cây khẩu cầm, loại có nút bấm bên hông. Được thu âm từ một cây thật, và được chỉnh cao độ, nên các con số sẽ chọn nốt nhạc.",
-                        "\\ÂmNhạc(\n\tBảnNhạc([1] beat: 4beats loop: ⊥ instrument: NhạcCụ.🌬)\n\ttempo: 60beats/min\n)\\"
+                        "\\ÂmNhạc(\n\tBảnNhạc([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: NhạcCụ.🌬)\n\tnhịpĐộ: 60beats/min\n)\\"
                     ],
                     "names": ["$~kènHarmonica"]
                 }
@@ -6871,6 +6906,71 @@
                 "Hầu hết chúng tôi thuộc loại /có cao độ/, nghĩa là các con số của một bản nhạc chọn nốt và số càng lớn thì nghe càng cao. Số còn lại là /bộ/: một con số chọn một âm thanh từ một danh sách được đánh số thay vì một nốt, nên một bản nhạc được đọc như nhịp điệu chứ không phải giai điệu, và các con số vượt quá cuối danh sách sẽ quay vòng về đầu.",
                 "Hầu hết chúng tôi cũng là những bản thu thật, lấy mẫu từ các nhạc cụ mà con người thật sự đã chơi. Các bộ tổng hợp âm không bắt chước gì cả — chúng được tạo ra từ các bộ dao động, và đó là âm thanh vốn có của chúng. Mỗi chúng tôi đều ghi rõ ở dưới mình thuộc loại nào."
             ]
+        },
+        "Path": {
+            "doc": "$~Mình là một đường đi được vẽ qua một danh sách các vị trí, hữu ích cho các đường thẳng, đường cong, và các ngọn đồi trên @Stage.",
+            "names": ["$~ĐườngDẫn"],
+            "points": {
+                "doc": "$~Các vị trí mình đi qua, theo thứ tự. Mình nằm phẳng, nên mình dùng độ sâu z của riêng mình thay vì độ sâu của bất kỳ vị trí nào.",
+                "names": "$~điểm"
+            },
+            "closed": {
+                "doc": "$~Có nối vị trí cuối cùng của mình trở lại vị trí đầu tiên hay không.",
+                "names": "$~đãĐóng"
+            },
+            "smooth": {
+                "doc": "$~Có uốn cong qua các vị trí của mình thay vì rẽ ngoặt tại đó hay không. Dù thế nào thì các vị trí của mình cũng không di chuyển.",
+                "names": "$~mượt"
+            },
+            "thickness": {
+                "doc": "$~Vẽ mình rộng bao nhiêu.",
+                "names": "$~độDày"
+            },
+            "z": {
+                "doc": "$~Độ sâu mình nằm ở đó.",
+                "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Tôi cho thấy một @Phrase đang nói gì, trong một bong bóng chỉ thẳng vào người đó. Đưa tôi vào @Phrase.bubble của một câu và để các chữ cái lên tiếng:",
+                "\\Cụmtừ('a' bongBóng: 'chào bạn!')\\",
+                "Đưa cho tôi một @Say thay vì chữ, tôi sẽ được đọc to lên chứ không chỉ hiện ra thôi.",
+                "Đổi @Bubble.kind của tôi thành một suy nghĩ, tôi sẽ biến thành bong bóng suy nghĩ.",
+                "Tôi chỉ là vật trang trí, nên không có gì trên sân khấu phải nhường chỗ cho tôi — nhưng @Stage vẫn luôn giữ tôi trong tầm nhìn."
+            ],
+            "names": ["$~BongBóng"],
+            "text": {
+                "doc": [
+                    "$~Điều tôi cho thấy. Đưa cho tôi chữ thường, hoặc chữ có định dạng nếu bạn muốn có từ *đậm* hay /nghiêng/.",
+                    "Đưa cho tôi một @Say thay vì chữ, tôi sẽ được đọc to lên chứ không chỉ hiện ra thôi. Khi đó tôi thay cho những chữ thường xuất hiện ở chân @Stage, vì chữ của tôi đã ở ngay trên màn hình, cạnh người nói."
+                ],
+                "names": "$~vănBản"
+            },
+            "side": {
+                "doc": "$~Tôi nằm ở phía nào của @Phrase, thể hiện bằng một mũi tên. Nếu \\ø\\, @Stage sẽ đặt tôi ở nơi ít vướng nhất, và chọn lại mỗi khi mọi thứ di chuyển.",
+                "names": "$~cạnh"
+            },
+            "kind": {
+                "doc": "$~Tôi là điều được nói (\\'💬'\\) hay điều được nghĩ (\\'💭'\\). Một suy nghĩ để lại các vòng tròn hướng về phía người nghĩ thay vì một điểm nhọn, và các góc được bo tròn.",
+                "names": "$~loại"
+            },
+            "color": {
+                "doc": "$~@Color của chữ tôi. Nếu \\ø\\, tôi dùng chính màu của @Phrase.",
+                "names": "$~màuSắc"
+            },
+            "background": {
+                "doc": "$~@Color mà tôi được tô đầy bên trong. Nếu \\ø\\, tôi được tô bằng màu nền của thứ mà tôi được vẽ lên.",
+                "names": "$~nền"
+            },
+            "size": {
+                "doc": "$~Chữ của tôi lớn cỡ nào. Nếu \\ø\\, chúng sẽ có kích thước chữ bình thường trên @Stage — không phải kích thước của người đang nói, vì một nhân vật cao vài mét sẽ tạo ra cả một bức tường chữ.",
+                "names": "$~kíchThước"
+            },
+            "wrap": {
+                "doc": "$~Ranh giới mà tại đó tôi xuống dòng chữ của mình.",
+                "names": "$~gói"
+            }
         }
     },
     "ui": {
@@ -6966,7 +7066,7 @@
                     "format": "$~định dạng được phát hiện"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~chọn một màu từ màn hình của bạn"
                 }
             },
             "logo": {
@@ -7185,8 +7285,8 @@
                 "curators": {
                     "header": "$~Người phụ trách",
                     "explanation": [
-                        "$~Người quản lý có thể chỉnh sửa các dự án và cài đặt thư viện, cũng như trò chuyện về tất cả các dự án.",
-                        "Người quản lý chịu trách nhiệm kiểm duyệt nội dung các cuộc trò chuyện liên quan đến các dự án và hướng dẫn trong thư viện. Các cuộc trò chuyện do người tạo báo cáo có thể được tìm thấy trên <bảng điều khiển kiểm duyệt thư viện@://galleries/moderation>./"
+                        "$~Người phụ trách có thể chỉnh sửa các dự án và cài đặt phòng trưng bày, và trò chuyện trên mọi dự án.",
+                        "/Người phụ trách xem xét những gì được báo cáo trong phòng trưng bày của họ — dự án, làm cách nào để, và các cuộc trò chuyện đi kèm — từ <trang kiểm duyệt@://moderate>. Quyết định của người phụ trách chỉ áp dụng cho phòng trưng bày của họ; đó không bao giờ là một trong các <quyền@://rights> của Wordplay./"
                     ]
                 },
                 "creators": {
@@ -7226,11 +7326,11 @@
         },
         "gallerymoderation": {
             "header": "$~Kiểm duyệt thư viện ảnh",
-            "description": "$~Các tin nhắn sau đây trong các thư viện ảnh mà bạn quản lý đã được người dùng báo cáo để yêu cầu kiểm duyệt.",
+            "description": "$~Những gì mọi người đã nhờ bạn xem xét, cái cũ nhất trước. Một quyết định cho biết những quy tắc nào đã bị vi phạm, và người tạo ra thứ đó sẽ được biết bạn đã quyết định gì.",
             "labels": {
                 "message": "$~tin nhắn",
-                "reporter": "$~phóng viên",
-                "action": "$~hành động của người điều hành"
+                "action": "$~hành động của người điều hành",
+                "reason": "$~những quy tắc nào đã bị vi phạm"
             },
             "view": {
                 "label": "$~xem trò chuyện",
@@ -7245,7 +7345,11 @@
                 "tip": "$~Tin nhắn này không vi phạm các nguyên tắc."
             },
             "empty": "$~Không có tin nhắn nào cần kiểm duyệt",
-            "error": "$~Bạn phải đăng nhập để quản lý thư viện ảnh."
+            "error": "$~Bạn phải đăng nhập để quản lý thư viện ảnh.",
+            "note": {
+                "description": "$~nói gì với người đã viết tin nhắn",
+                "placeholder": "$~nói điều gì đó với họ (không bắt buộc)"
+            }
         },
         "howto": {
             "galleryView": {
@@ -7386,7 +7490,7 @@
                 },
                 "collaborators": "$~được viết bởi",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~xem làm cách nào để"
                 }
             },
             "configuration": {
@@ -7686,10 +7790,6 @@
                 "fit": {
                     "on": "$~điều khiển thu phóng thủ công",
                     "off": "$~Điều chỉnh thu phóng cho phù hợp với nội dung"
-                },
-                "paint": {
-                    "off": "$~đặt đầu ra",
-                    "on": "$~lượng sơn đầu ra"
                 }
             },
             "field": {
@@ -7823,11 +7923,30 @@
                 "show": "$~hiện tất cả"
             },
             "snap": {
-                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
-                "withOutput": "$?",
-                "withGrid": "$?",
-                "aligned": "$?",
-                "none": "$?"
+                "anchors": [
+                    "$~tâm ngang",
+                    "$~cạnh trái",
+                    "$~cạnh phải",
+                    "$~tâm dọc",
+                    "$~cạnh dưới",
+                    "$~cạnh trên",
+                    "$~đường cơ sở"
+                ],
+                "withOutput": "$~$anchor với $target của $targetAnchor",
+                "withGrid": "$~$anchor trên lưới",
+                "aligned": "$~$constraints, tại $place",
+                "none": "$~không có gì để canh với $direction"
+            },
+            "removed": "$~$#count[đã xóa $#count đầu ra]",
+            "notRemovable": "$~không thể tự xóa một mình",
+            "drew": "$~$#count[đã vẽ một đường đi với $#count điểm; việc vẽ đã tắt]",
+            "drawing": "$~$#count[$#count điểm, tại $place]",
+            "point": {
+                "label": "$~điểm $number trong số $#count, tại $place",
+                "moved": "$~điểm $number đến $place",
+                "added": "$~đã thêm điểm $number",
+                "removed": "$~đã xóa điểm $number",
+                "last": "$~một đường đi cần ít nhất hai điểm"
             }
         },
         "timeline": {
@@ -8078,7 +8197,8 @@
                     "header": "$~Hướng dẫn",
                     "explanation": "$~/Các ví dụ ngắn minh họa cách thực hiện các thao tác trong @wordplay. Bấm nút phát trên bất kỳ bản xem trước nào để xem nó hoạt động, sau đó mở nó ra để đọc hướng dẫn./"
                 },
-                "conceptHowTos": "$~Làm cách nào để"
+                "conceptHowTos": "$~Làm cách nào để",
+                "bookmarked": "$~Đã đánh dấu"
             },
             "tour": {
                 "launch": "$~tham quan hướng dẫn viên.",
@@ -8147,8 +8267,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~để dự án tự chọn hình biểu tượng xem trước dựa trên nội dung nó hiển thị",
+                            "$~ghim một hình biểu tượng bạn chọn"
                         ]
                     },
                     "research": {
@@ -8213,7 +8333,7 @@
                     "layout": {
                         "label": "$~cách trình bày",
                         "labels": [
-                            "$~tự động",
+                            "$~tự động",
                             "$~hàng ngang",
                             "$~ngăn xếp",
                             "$~hai",
@@ -8240,7 +8360,7 @@
                             "$~2 lần",
                             "$~5 lần",
                             "$~10 lần",
-                            "$~tự động"
+                            "$~tự động"
                         ],
                         "tips": [
                             "$~tắt hoạt ảnh",
@@ -8256,7 +8376,7 @@
                     },
                     "dark": {
                         "label": "$~chủ đề",
-                        "labels": ["$~ánh sáng", "$~tối tăm", "$~tự động"],
+                        "labels": ["$~ánh sáng", "$~tối tăm", "$~tự động"],
                         "tips": [
                             "$~màu sáng hơn",
                             "$~màu tối hơn",
@@ -8471,10 +8591,20 @@
                     "projectChatHeader": "$~Thông báo mới trong dự án \"$name\"",
                     "howToChatHeader": "$~Thông báo mới trong hướng dẫn \"$title\"",
                     "moderationHeader": "$~Tin nhắn trong \"$name\" cần được kiểm duyệt.",
-                    "link": "$~chi tiết"
+                    "link": "$~chi tiết",
+                    "reportedHeader": "$~Có thứ bạn làm trong \"$title\" đã bị báo cáo và đang được xem xét",
+                    "reportReceivedHeader": "$~Báo cáo của bạn về \"$title\" đã được gửi đến người phụ trách",
+                    "decisionHeader": "$~Đã có quyết định về thứ bạn làm trong \"$title\"",
+                    "outcomeHeader": "$~Đã có quyết định về điều bạn đã báo cáo trong \"$title\"",
+                    "because": "$~Vì nó:",
+                    "note": "$~Họ nói:"
                 },
                 "delete": "$~xóa thông báo này",
-                "popup": "$~$#count[$count thông báo]"
+                "popup": "$~$#count[$count thông báo]",
+                "moderate": {
+                    "label": "$~xem xét nội dung bị báo cáo",
+                    "tip": "$~đi đến những thứ đang chờ bạn xem xét"
+                }
             },
             "locale": {
                 "header": "$~Ngôn ngữ",
@@ -8720,11 +8850,7 @@
                 "down": "$~di chuyển nội dung này xuống",
                 "edit": "$~Chỉnh sửa nội dung này",
                 "sequence": "$~chuyển đổi thành chuỗi",
-                "createPhrase": "$~Tạo một cụm từ, hiển thị giá trị hiện có dưới dạng văn bản.",
-                "createGroup": "$~Tạo một Nhóm, bao bọc bất kỳ Cụm từ hiện có nào.",
-                "createStage": "$~Tạo một Giai đoạn, bao bọc bất kỳ Nhóm hoặc Cụm từ hiện có nào.",
                 "editMode": "$~chuyển sang chế độ chỉnh sửa",
-                "createMusic": "$~thêm @Music vào chương trình",
                 "previousTrack": "$~hiển thị @Track trước đó",
                 "nextTrack": "$~hiển thị @Track tiếp theo",
                 "addTrack": "$~thêm một @Track",
@@ -8742,15 +8868,9 @@
                 "rewind": "$~quay lại từ đầu"
             },
             "prompt": {
-                "offerPhrase": "$~Tôi có nên bọc giá trị này trong @Phrase không?",
-                "offerGroup": "$~Tôi có nên đặt nội dung này vào trong @Group để bạn sắp xếp không?",
-                "offerStage": "$~Tôi có nên bọc nội dung này trong thẻ @Stage để bạn có thể điều khiển ánh sáng, màu sắc và khung hình không?",
-                "select": "$~Để chỉnh sửa, hãy chọn một 💬, 🔳, ⬟, hoặc 🎭 trong mã số, hoặc chọn đầu ra trên @Stage.",
+                "select": "$~Để chỉnh sửa một thứ gì đó, hãy chọn nó trong mã số của bạn hoặc trên @Stage. Để thêm thứ mới, hãy dùng các nút + ở phía trên.",
                 "editing": "$~Hãy chỉnh sửa tôi!",
-                "offerShape": "$~Tôi có nên bọc @Form này trong @Shape để hiển thị nó trên @Stage không?",
-                "offerNothing": "$~Chưa có gì ở đây cả! Tôi có nên thêm @Phrase để bắt đầu không?",
-                "readonly": "$~Các giá trị này *chỉ đọc* trong chế độ này. Hãy chuyển sang chế độ ✏️ *chỉnh sửa* để thay đổi chúng.",
-                "offerMusic": "$~Bạn muốn thêm @Music không? Mình có thể giúp bạn bắt đầu với vài nốt nhạc để thử nghiệm."
+                "readonly": "$~Các giá trị này *chỉ đọc* trong chế độ này. Hãy chuyển sang chế độ ✏️ *chỉnh sửa* để thay đổi chúng."
             },
             "field": {
                 "coordinate": "$~chỉnh sửa tọa độ",
@@ -8848,6 +8968,28 @@
                 },
                 "report": "$~Những gì tôi đã nhập vào",
                 "reportExplanation": "$~Một @Music có thể chứa hầu hết những gì mà một tệp MIDI mô tả, nhưng không phải tất cả. Đây là những gì đã thay đổi khi nhập vào."
+            },
+            "toolbar": {
+                "label": "$~thêm đầu ra",
+                "addPhrase": "$~thêm một cụm từ",
+                "wrapPhrase": "$~hiển thị giá trị này dưới dạng cụm từ",
+                "addRectangle": "$~thêm một hình chữ nhật",
+                "addCircle": "$~thêm một hình tròn",
+                "addPolygon": "$~thêm một hình nhiều cạnh",
+                "wrapForm": "$~hiển thị hình dạng này trên sân khấu bằng cách bọc nó trong một hình",
+                "group": "$~gom những gì bạn đã chọn thành một nhóm",
+                "groupEmpty": "$~chọn một số kết quả để gom chúng thành một nhóm",
+                "groupScattered": "$~một nhóm chỉ có thể gom những kết quả ở cùng một vị trí",
+                "groupKind": "$~một nhóm có thể chứa một cụm từ, một nhóm khác, lời nói, hoặc âm nhạc, nhưng không thể chứa một hình hoặc sân khấu",
+                "addStage": "$~bọc mọi thứ trong một sân khấu, để bạn có thể điều khiển ánh sáng, màu sắc và khung hình",
+                "stageExists": "$~đã có một sân khấu rồi",
+                "addMusic": "$~thêm âm nhạc, bắt đầu với vài nốt nhạc để thử nghiệm",
+                "addSay": "$~thêm lời nói, được đọc to lên",
+                "addPath": "$~thêm một đường thẳng bạn có thể uốn cong và vẽ với nó",
+                "draw": {
+                    "off": "$~vẽ một đường đi trên sân khấu",
+                    "on": "$~ngừng vẽ"
+                }
             }
         },
         "save": {
@@ -8938,11 +9080,11 @@
                     "example": {
                         "phrase": "$~\\¶Cụm từ xuất hiện trên sân khấu, với bất kỳ màu sắc, ánh sáng và chuyển động nào bạn muốn.¶\nCụmtừ(\n\t'xin chào!'\n\t6m\n\tmàusắc: Màusắc(60% 90 200°)\n\thàoquang: Hàoquang(Màusắc(80% 80 200°) 0.3m)\n\tnghỉngơi: Sựliêntiếp.đungđưa(8°)\n)\\",
                         "music": "$~\\¶Âm nhạc là những nốt nhạc trên nhạc cụ thật, với một nhịp độ, trong một âm giai. Sân khấu vẽ ra những gì nó nghe được.¶\nÂmNhạc(\n\tBảnNhạc([1 3 5 8 5 3] nhạcCụ: NhạcCụ.đànPiano)\n\tnhịpĐộ: 120beats/min\n)\\",
-                        "hello": "$~\\¶Mã số có thể phản ứng với dữ liệu đầu vào như @Time, và văn bản có thể đa ngôn ngữ và được đọc lên.¶\nnhữngLờiChào: ['xin chào' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nxinChào: nhữngLờiChào.ngẫunhiên() … ∆ Thờigian(1000ms) … nhữngLờiChào.ngẫunhiên(\n\t\t)\nCụmtừ(xinChào 4m)\nNói(xinChào)\\",
-                        "keys": "$~\\¶Mã số có thể phản ứng với con trỏ, phím bấm, cú nhấp chuột và cái chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[Cụmtừ(khuônMặt2[cáiNào] 5m địađiểm: Contrỏ())]\n\tđịađiểm: Địađiểm(0m 0m -12m)\n)\\",
+                        "hello": "$~\\¶Mã số có thể phản ứng với dữ liệu đầu vào như @Time, và văn bản có thể đa ngôn ngữ và được đọc lên.¶\nnhữngLờiChào: ['xin chào'/vi 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nxinChào: nhữngLờiChào.ngẫunhiên() … ∆ Thờigian(1000ms) … nhữngLờiChào.ngẫunhiên(\n\t\t)\nCụmtừ(xinChào 4m)\nNói(xinChào)\\",
+                        "keys": "$~\\¶Mã số có thể phản ứng với con trỏ, phím, cú nhấp chuột và cú chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[\n\t\tCụmtừ(\n\t\t\tkhuônMặt2[cáiNào]\n\t\t\t5m\n\t\t\tvịTrí: Contrỏ()\n\t\t\tbongBóng: 'chào'\n\t\t)\n\t]\n\tvịTrí: VịTrí(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Bố cục văn bản và làm cho nó có thể chọn được.¶\ntráiCây: ƒ(e•'') Cụmtừ(e 3m tên: e cóthểlựachọn: ⊤)\nđãChọn: Sựlựachọn()\nđãHiện: '?' … ∆ đãChọn … đãChọn\nNhóm(\n\tNgănxếp(đệm: 1m)\n\t[\n\t\tCụmtừ(đãHiện 4m)\n\t\tNhóm(\n\t\t\tHàngngang(đệm: 1m)\n\t\t\t[tráiCây('🍎') tráiCây('🍐') tráiCây('🍒')]\n\t\t)\n\t]\n)\\",
-                        "letters": "$~\\¶Trò chuyện với chương trình và dùng hình dạng của phông chữ và ký hiệu.¶\ntinNhắn: Tròchuyện()\ntừ3: 'chào' … ∆ tinNhắn … tinNhắn\ndòng: Đườngviền(từ3 'Noto Sans' 8m)\ntiếngTíchTắc: 0 … ∆ Thờigian(30ms) … tiếngTíchTắc + 1\nđãHiện: ((dòng.chiềudài() × tiếngTíchTắc) ÷ 66).làmtrònxuống(\n\t) + 1\ndấuChấm: dòng.chuỗicon(1 đãHiện).dịch(\n\t\tƒ(p) Cụmtừ('•' địađiểm: p)\n\t)\nSânkhấu(dấuChấm.với(Cụmtừ(từ3 8m độmờđục: 15%)))\\",
-                        "pile": "$~\\¶Văn bản cũng có thể có vật lý.¶\ntung: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tCụmtừ(\n\t\t\temoji\n\t\t\t2m\n\t\t\tđịađiểm: Cửđộng(Địađiểm(x2 y2) Vậntốc(vx 0m/s))\n\t\t\tvấnđề: Vấnđề(1kg 0.55 0.06 0.5)\n\t\t)\nSânkhấu(\n\t[\n\t\ttung('🍎' -2m 5m 2.2m/s)\n\t\ttung('🍊' 2m 7m -2.6m/s)\n\t\ttung('🍋' -1m 9m 1.4m/s)\n\t\ttung('🍇' 1.5m 11m -1.9m/s)\n\t\ttung('🫐' 0.5m 15m -1.2m/s)\n\t\tHìnhdạng(Hìnhchữnhật(-4m -3m 4m -3.6m))\n\t\tHìnhdạng(Hìnhchữnhật(-4.6m 4m -4m -3m))\n\t\tHìnhdạng(Hìnhchữnhật(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "letters": "$~\\¶Trò chuyện với chương trình và dùng hình dạng của phông chữ và ký hiệu.¶\ntinNhắn: Tròchuyện()\ntừ3: 'chào' … ∆ tinNhắn … tinNhắn\ndòng: Đườngviền(từ3 'Noto Sans' 8m)\ntiếngTíchTắc: 0 … ∆ Thờigian(30ms) … tiếngTíchTắc + 1\nđãHiện: ((dòng.chiềudài() × tiếngTíchTắc) ÷ 66).làmtrònxuống(\n\t) + 1\ndấuChấm: dòng.chuỗicon(1 đãHiện).dịch(\n\t\tƒ(p) Cụmtừ('•' vịTrí: p)\n\t)\nSânkhấu(dấuChấm.với(Cụmtừ(từ3 8m độmờđục: 15%)))\\",
+                        "pile": "$~\\¶Văn bản cũng có thể có vật lý.¶\ntung: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tCụmtừ(\n\t\t\temoji\n\t\t\t2m\n\t\t\tvịTrí: Cửđộng(VịTrí(x2 y2) Vậntốc(vx 0m/s))\n\t\t\tvấnđề: Vấnđề(1kg 0.55 0.06 0.5)\n\t\t)\nSânkhấu(\n\t[\n\t\ttung('🍎' -2m 5m 2.2m/s)\n\t\ttung('🍊' 2m 7m -2.6m/s)\n\t\ttung('🍋' -1m 9m 1.4m/s)\n\t\ttung('🍇' 1.5m 11m -1.9m/s)\n\t\ttung('🫐' 0.5m 15m -1.2m/s)\n\t\tHìnhdạng(Hìnhchữnhật(-4m -3m 4m -3.6m))\n\t\tHìnhdạng(Hìnhchữnhật(-4.6m 4m -4m -3m))\n\t\tHìnhdạng(Hìnhchữnhật(4m 4m 4.6m -3m))\n\t]\n)\\",
                         "listen": "$~\\¶Mã số có thể phản ứng với @Volume và @Pitch của micro của bạn.¶\nCụmtừ(\n\t'📣'\n\t1m + (Âmlượng() × 8m)\n\txoay: (Sânbóngđá() ÷ 1hz) × 0.1°\n)\\",
                         "smile": "$~\\¶Mã số có thể phản ứng với @Face của bạn, và những thứ khác trên @Camera.¶\nCụmtừ(\n\tKhuônMặt().cườiTươi ? '😄 cảm ơn bạn!' '🙂 mỉm cười với máy quay'\n\t2m\n)\\"
                     }
@@ -8962,8 +9104,8 @@
                         "title": "$~Wordplay là đa ngôn ngữ",
                         "bullets": [
                             "$~• Mỗi tính năng của ngôn ngữ lập trình đều có tên trong mọi ngôn ngữ, nên mã số hiển thị bằng những từ bạn đã biết.",
-                            "• Tên của riêng bạn cũng có thể đa ngôn ngữ:\n\\mèo2: '🐈'\nCụmtừ(mèo2)\\",
-                            "• Văn bản mang theo một ngôn ngữ, và hiển thị bằng ngôn ngữ mà khán giả của bạn đọc được: \\'xin chào'\\.",
+                            "• Tên của riêng bạn cũng có thể đa ngôn ngữ:\n\\mèo2/vi, gato/es: '🐈'\nCụmtừ(mèo2)\\",
+                            "• Văn bản mang theo một ngôn ngữ, và hiển thị bằng ngôn ngữ mà khán giả của bạn đọc được: \\'xin chào'/vi'hola'/es\\.",
                             "• Trang này có 29 ngôn ngữ và bạn có thể chọn nhiều hơn một lúc; chữ sẽ hiện ra bằng từng ngôn ngữ.",
                             "• Bạn có thể giúp dịch chính @wordplay, ngay trong ứng dụng tại <localize//localize>."
                         ]
@@ -9277,40 +9419,33 @@
                 "section": {
                     "tabs": {
                         "label": "$~loại phòng trưng bày",
-                        "labels": [
-                            "$~Trân trọng,",
-                            "$~Ví dụ",
-                            "$~Hướng dẫn",
-                            "$~Công cộng"
-                        ],
+                        "labels": ["$~Trân trọng,", "$~Ví dụ", "$~Công cộng"],
                         "tips": [
                             "$~các phòng trưng bày mà bạn quản lý hoặc đóng góp vào",
                             "$~các phòng trưng bày được tuyển chọn bởi các nhà phát triển Wordplay",
-                            "$~làm cách nào để được chia sẻ bởi các phòng trưng bày mà bạn tham gia",
                             "$~các phòng trưng bày mà những người sáng tạo đã công khai"
                         ]
                     },
                     "own": [
-                        "$~Hãy đóng góp vào một triển lãm mà bạn được mời tham gia, hoặc tự mình tổ chức một triển lãm theo chủ đề riêng và mời những người khác cùng tham gia.",
-                        "Người quản lý chịu trách nhiệm kiểm duyệt nội dung trong các thư viện ảnh bằng cách sử dụng bảng điều khiển kiểm duyệt thư viện ảnh <gallery moderation dashboard@://galleries/moderation>./"
+                        "$~Đóng góp cho một phòng trưng bày mà bạn được mời tham gia, hoặc tự phụ trách phòng trưng bày của riêng bạn với một chủ đề cụ thể, và mời người khác tham gia.",
+                        "/Người phụ trách xem xét những gì được báo cáo trong phòng trưng bày của họ, từ <trang kiểm duyệt@://moderate>./"
                     ],
                     "examples": "$~Đây là những bộ sưu tập hình ảnh được tuyển chọn từ các nhà phát triển @wordplay. Chúng là những điểm khởi đầu tốt để học hỏi và tìm kiếm nguồn cảm hứng.",
-                    "howtos": "$~Bạn có thể xem và tương tác với các hướng dẫn trong các thư viện này, nhưng bạn không thể xem các dự án của chúng trừ khi thư viện hoặc dự án đó được công khai.",
-                    "public": "$~Đây là những bộ sưu tập hình ảnh do những người sáng tạo @wordplay công khai. Hãy xem những tác phẩm của người khác để lấy cảm hứng!"
+                    "public": "$~Đây là những phòng trưng bày mà người tạo @wordplay đã công khai. Ai cũng có thể xin đưa phòng trưng bày của mình vào danh sách này, và một người kiểm duyệt sẽ xem qua trước để chắc chắn nó đã hoàn thành và tuân theo quy định. Một phòng trưng bày có thể bị gỡ khỏi danh sách này bất cứ lúc nào, vì bất kỳ lý do gì. Chúng được hiển thị theo thứ tự khác nhau mỗi lần bạn ghé thăm, để mỗi phòng trưng bày đều có lượt xuất hiện ở đầu danh sách."
                 },
                 "button": {
-                    "newgallery": "$~phòng trưng bày mới",
-                    "more": {
-                        "label": "$~hơn...",
-                        "tip": "$~Tải thêm bộ sưu tập ảnh"
-                    }
+                    "newgallery": "$~phòng trưng bày mới"
                 },
                 "error": {
-                    "nogalleryedits": "$~Bạn phải đăng nhập vào <địa chỉ email> để tạo và chỉnh sửa thư viện ảnh."
+                    "nogalleryedits": "$~Bạn phải đăng nhập vào <địa chỉ email> để tạo và chỉnh sửa thư viện ảnh.",
+                    "nopublic": "$~Chưa có phòng trưng bày nào được duyệt vào danh sách này. Hãy quay lại kiểm tra sau nhé!"
                 },
                 "search": {
-                    "description": "$~Tìm kiếm các dự án trong thư viện ảnh ví dụ",
-                    "noResults": "$~Không tìm thấy kết quả nào."
+                    "description": "$~Tìm ví dụ và các phòng trưng bày công khai",
+                    "noResults": "$~Không tìm thấy kết quả nào.",
+                    "galleries": "$~Phòng trưng bày",
+                    "examples": "$~Dự án ví dụ",
+                    "projects": "$~Dự án trong các phòng trưng bày công khai"
                 }
             },
             "characters": {
@@ -9785,29 +9920,28 @@
             "rights": {
                 "header": "$~Quyền",
                 "content": [
-                    "$~Xin chào!",
-                    "Hãy cùng đặt ra một số kỳ vọng về quyền của bạn và của chúng tôi (cũng dựa theo chính sách, chẳng hạn như <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> và <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
-                    "Điều đầu tiên cần biết là chúng tôi không phải là một tổ chức thương mại. Chúng tôi là một dự án nghiên cứu dựa trên cộng đồng, đặt tại một trường đại học phi lợi nhuận. Mục tiêu của chúng tôi là tạo ra một nền tảng mang lại niềm vui cho bạn và giúp chúng tôi khám phá về một thế giới máy tính công bằng và bình đẳng hơn. Chúng tôi không có ý định kiếm tiền trên nền tảng này; bất kỳ khoản tiền nào chúng tôi thu được (thường thông qua nguồn tài trợ công) đều được dùng để duy trì nền tảng, chứ không phải để làm giàu cho bất kỳ ai làm việc trên nó (hoặc đóng góp cho nó).",
-                    "Vì chúng tôi không tìm kiếm lợi nhuận, điều này cũng có nghĩa là chúng tôi không thể hứa hẹn gì về độ tin cậy, khả năng sử dụng, hay tuổi thọ của nền tảng này. Dù vậy, <Amy@https://amyjko.phd> cam kết duy trì nó lâu dài, và với tư cách là một giáo sư biên chế, cô ấy có một công việc khá ổn định.",
-                    "Điều đó đưa chúng ta đến với *dữ liệu*. Đây là những gì chúng tôi thu thập và lưu trữ trên đám mây:",
-                    "• *Dự án* của bạn. Chúng tôi lưu trữ bất kỳ dự án nào bạn đóng góp và những thay đổi của bạn với chúng, trừ khi những dự án đó có vẻ chứa thông tin nhận dạng cá nhân như số điện thoại, địa chỉ email, tên người dùng, mã số thuế, hay địa chỉ nhà.",
-                    "• *Cài đặt* của bạn. Điều này bao gồm các ngôn ngữ bạn chọn, tùy chọn hoạt hình của bạn, và tiến trình bài học của bạn. Mọi thứ khác chỉ được lưu trên thiết bị của bạn.",
-                    "• *Hoạt động* tổng hợp. Chúng tôi theo dõi lượt đăng nhập và các trang bạn ghé thăm, nhưng không theo cách có thể nhận dạng bạn, theo dõi bạn khắp trang web, hay theo dõi bạn trên các trang web khác. Chúng tôi dùng Google Analytics ở chế độ 'từ chối đồng ý', chế độ này chỉ thu thập thông tin tối thiểu không nhận dạng được về lượt xem trang, mà không lưu cookie hay gửi thông tin địa chỉ IP cho Google. Chúng tôi dùng thông tin tổng hợp này để giúp huy động tài trợ bằng cách báo cáo mức độ nền tảng được sử dụng.",
-                    "Chúng tôi không lưu trữ bất kỳ thứ gì khác. <Mã nguồn@https://github.com/amyjko/wordplay/tree/main/src> của chúng tôi là công khai, nên bất kỳ ai cũng có thể kiểm chứng điều này, và báo cáo bất kỳ hành vi theo dõi ngoài ý muốn nào.",
-                    "*Bạn* sở hữu dữ liệu của mình, không phải chúng tôi. Điều đó có nghĩa là:",
-                    "• Bạn kiểm soát ai có thể truy cập dự án của bạn. Theo mặc định, chúng là riêng tư, nhưng bạn có thể chia sẻ với cá nhân, nhóm, hoặc làm cho chúng hoàn toàn công khai.",
-                    "• Bạn có thể xóa hoàn toàn bất kỳ dự án nào hoặc tài khoản của chính mình bất cứ lúc nào.",
-                    "• Bạn có thể lấy bản xuất của bất kỳ dự án nào hoặc toàn bộ tài khoản của mình bất cứ lúc nào.",
-                    "Đây là cách chúng tôi sẽ và sẽ không sử dụng dữ liệu của bạn:",
-                    "• Chúng tôi sẽ không chia sẻ dữ liệu của bạn với bất kỳ ai, trừ khi pháp luật yêu cầu rõ ràng. Luôn có khả năng dữ liệu của bạn bị lấy đi mà không được phép (một 'vụ rò rỉ dữ liệu'). Nếu chúng tôi phát hiện điều này đã xảy ra, chúng tôi sẽ thông báo cho bạn qua email mà bạn đã chia sẻ với chúng tôi.",
-                    "• Chúng tôi sẽ không liên hệ với bạn qua địa chỉ email của bạn trừ khi bạn 1) thực hiện một thay đổi tài khoản buộc chúng tôi phải làm vậy, 2) bạn cho phép rõ ràng để chúng tôi liên hệ, hoặc 3) trong trường hợp rò rỉ dữ liệu nêu trên.",
-                    "• Chúng tôi có thể phân tích các dự án, phòng trưng bày, và nội dung làm cách nào để trên nền tảng để hiểu mọi người đang tạo ra gì và tạo ra như thế nào. Chúng tôi có thể chia sẻ những hiểu biết tổng hợp, ẩn danh này trong các ấn phẩm học thuật. Chúng tôi chỉ làm điều này dưới sự giám sát của một hội đồng đánh giá của tổ chức, theo yêu cầu của luật liên bang Mỹ.",
-                    "Cuối cùng, một lưu ý về quyền tự do ngôn luận. Bạn có thể nói bất cứ điều gì bạn muốn trên nền tảng này ở chế độ *riêng tư*. Theo mặc định, các dự án là riêng tư, và nếu bạn chia sẻ chúng với những địa chỉ email cụ thể, chúng vẫn được xem là riêng tư. Chúng tôi sẽ không kiểm duyệt bất cứ điều gì trong các dự án riêng tư.",
-                    "Nhưng làm cho một dự án trở nên *công khai*, hoặc đưa nó vào một phòng trưng bày công khai, là một đặc quyền. Đây là một nền tảng được tạo ra vì tình yêu thương, sự khẳng định, sự tôn trọng và phẩm giá. Do đó, chúng tôi mong rằng không có nội dung *công khai* nào của bạn sẽ:"
+                    "$~Chào bạn!",
+                    "Hãy cùng nói rõ về quyền của bạn và của chúng tôi (cũng dựa theo các quy định như <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> và <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Điều đầu tiên bạn cần biết là chúng tôi không phải một tổ chức kinh doanh. Chúng tôi là một dự án nghiên cứu cộng đồng, thuộc một trường đại học phi lợi nhuận. Mục tiêu của chúng tôi là tạo ra một nền tảng mang lại niềm vui cho bạn, và giúp chúng tôi khám phá một thế giới lập trình công bằng và bình đẳng hơn. Chúng tôi không có ý định kiếm tiền từ nền tảng này. Bất kỳ khoản tiền nào chúng tôi nhận được (thường qua tài trợ công) đều dùng để duy trì nền tảng, không để làm giàu cho bất kỳ ai làm việc hay đóng góp cho nó.",
+                    "Vì không tìm kiếm lợi nhuận, chúng tôi cũng không thể hứa hẹn gì về độ tin cậy, thời gian hoạt động, hay tuổi thọ của nền tảng này. Dù vậy, <Amy@https://amyjko.phd> cam kết duy trì nền tảng lâu dài, và với vị trí giáo sư biên chế, cô ấy có một công việc khá ổn định.",
+                    "Điều đó dẫn chúng ta đến *dữ liệu*. Đây là những gì chúng tôi thu thập và lưu trữ trên đám mây:",
+                    "• *Dự án* của bạn. Chúng tôi lưu mọi dự án bạn đóng góp và các thay đổi của bạn với chúng, trừ khi những dự án đó có vẻ chứa thông tin có thể nhận diện cá nhân, như số điện thoại, địa chỉ email, tên người dùng, mã số thuế, hoặc địa chỉ nhà.",
+                    "• *Cài đặt* của bạn. Bao gồm các ngôn ngữ bạn chọn, tùy chọn hoạt ảnh, và tiến độ bài học của bạn. Mọi thứ khác chỉ được lưu trên thiết bị của bạn.",
+                    "• *Hoạt động* tổng hợp. Chúng tôi theo dõi lượt đăng nhập và các trang bạn ghé thăm, nhưng không theo cách có thể nhận diện bạn, theo dõi bạn trên toàn trang, hay theo dõi bạn trên các trang khác. Chúng tôi dùng Google Analytics ở chế độ 'từ chối đồng ý', chỉ thu thập thông tin tối thiểu không thể nhận diện về lượt xem trang, không lưu cookie, và không gửi thông tin địa chỉ IP cho Google. Chúng tôi dùng thông tin tổng hợp này để giúp gây quỹ, bằng cách báo cáo mức độ sử dụng nền tảng.",
+                    "Chúng tôi không lưu trữ gì khác. <Mã nguồn@https://github.com/amyjko/wordplay/tree/main/src> của chúng tôi là công khai, nên bất kỳ ai cũng có thể kiểm chứng điều này, và báo cáo bất kỳ hành vi theo dõi ngoài ý muốn nào.",
+                    "*Bạn* sở hữu dữ liệu của bạn, không phải chúng tôi. Điều đó có nghĩa là:",
+                    "• Bạn quyết định ai có thể xem dự án của bạn. Mặc định chúng ở chế độ riêng tư, nhưng bạn có thể chia sẻ chúng với cá nhân, nhóm, hoặc công khai hoàn toàn.",
+                    "• Bạn có thể xóa hoàn toàn bất kỳ dự án nào, hoặc tài khoản của chính mình, bất cứ lúc nào.",
+                    "• Bạn có thể xuất bất kỳ dự án nào, hoặc toàn bộ tài khoản của mình, bất cứ lúc nào.",
+                    "Sau đây là cách chúng tôi sẽ và sẽ không sử dụng dữ liệu của bạn:",
+                    "• Chúng tôi sẽ không chia sẻ dữ liệu của bạn với bất kỳ ai, trừ khi pháp luật yêu cầu rõ ràng. Luôn có khả năng dữ liệu của bạn bị lấy đi mà không được phép (gọi là 'vi phạm dữ liệu'). Nếu phát hiện điều này xảy ra, chúng tôi sẽ báo cho bạn qua địa chỉ email bạn đã cung cấp cho chúng tôi.",
+                    "• Chúng tôi sẽ không liên hệ với bạn qua email, trừ khi 1) bạn thực hiện một thay đổi tài khoản yêu cầu chúng tôi phải làm vậy, 2) bạn đồng ý rõ ràng cho chúng tôi liên hệ, hoặc 3) trong trường hợp vi phạm dữ liệu nêu trên.",
+                    "• Chúng tôi có thể phân tích các dự án, phòng trưng bày, và nội dung làm cách nào để trên nền tảng, nhằm hiểu mọi người đang tạo ra gì và tạo ra như thế nào. Chúng tôi có thể chia sẻ những hiểu biết tổng hợp, ẩn danh này trong các công bố học thuật. Chúng tôi chỉ làm điều này dưới sự giám sát của một hội đồng đạo đức nghiên cứu, theo yêu cầu của luật liên bang Hoa Kỳ.",
+                    "Cuối cùng, một lưu ý về phát ngôn. Mặc định các dự án ở chế độ riêng tư, và việc chia sẻ một dự án với những người cụ thể vẫn giữ nó ở chế độ riêng tư. Sau đây là chính xác ai sẽ xem xét những gì bạn chia sẻ, tùy theo ai có thể thấy nó.",
+                    "Nhưng việc đưa một dự án thành *công khai*, hoặc đưa vào một phòng trưng bày công khai, là một đặc quyền. Đây là một nền tảng được tạo ra vì tình yêu, sự công nhận, sự tôn trọng, và phẩm giá. Vì vậy, chúng tôi mong rằng không nội dung *công khai* nào của bạn sẽ:"
                 ],
                 "consequences": [
-                    "$~Các cuộc trò chuyện về dự án và hướng dẫn trong các thư viện công cộng hoặc riêng tư đều phải được người quản lý thư viện kiểm duyệt. Bạn có thể báo cáo các tin nhắn vi phạm quy định cộng đồng này cho người quản lý bằng nút báo cáo bên cạnh mỗi tin nhắn, và người quản lý có thể phê duyệt hoặc xóa tin nhắn.",
-                    "Nếu chúng tôi phát hiện dự án hoặc bộ sưu tập nào vi phạm các quy tắc này, chúng tôi sẽ cảnh báo người tạo trước khi họ xem hoặc chặn quyền xem. Nếu bạn liên tục vi phạm các quy tắc này, bạn sẽ mất quyền đăng bài công khai."
+                    "$~Nếu chúng tôi phát hiện một dự án hoặc phòng trưng bày vi phạm những quy tắc này, chúng tôi sẽ cảnh báo người tạo trước khi họ xem nó, hoặc chặn không cho xem nó. Nếu bạn vi phạm những quy tắc này nhiều lần, bạn sẽ mất quyền đăng nội dung công khai."
                 ],
                 "license": [
                     "$~Còn một điều nữa về việc tạo một dự án *công khai*. Các dự án công khai được chia sẻ theo <giấy phép Creative Commons Attribution-ShareAlike@https://creativecommons.org/licenses/by-sa/4.0/>. Điều đó nghĩa là bất kỳ ai cũng có thể /phối lại/ dự án công khai của bạn — tạo bản sao của riêng họ và thay đổi nó — và bạn cũng có thể phối lại dự án của bất kỳ ai khác.",
@@ -9823,6 +9957,17 @@
                     "$~Đây là chính xác những gì xảy ra nếu nội dung công khai của bạn vi phạm các quy tắc này. Một người kiểm duyệt sẽ xem xét nó, nó sẽ không còn công khai nữa, và bạn sẽ nhận được một cảnh báo trong thông báo của mình cho biết đó là nội dung nào. Bất kỳ ai đã đăng nhập đều có thể yêu cầu người kiểm duyệt xem xét nội dung công khai bằng cách dùng nút báo cáo trên nội dung đó.",
                     "Sau ba lần cảnh báo, bạn vẫn có thể tạo dự án, vẫn có thể chia sẻ chúng với những người bạn chọn, và vẫn có thể dùng mọi thứ khác ở đây. Điều bạn mất là khả năng công khai bất cứ thứ gì.",
                     "Nếu bạn nghĩ một cảnh báo là sai sót, hoặc đó là chuyện đã lâu rồi và bạn muốn chia sẻ công khai lại, hãy viết thư tới hi@wordplay.dev và cho chúng tôi biết tên tài khoản của bạn cùng lý do. Sẽ có người đọc thư của bạn."
+                ],
+                "responsibility": [
+                    "$~Ai xem xét những gì bạn chia sẻ tùy thuộc vào việc ai có thể nhìn thấy nó.",
+                    "• *Chỉ chia sẻ với không ai, hoặc chỉ với những người bạn nêu tên.* Không ai xem xét nó cả. Không phải chúng tôi, không phải ai khác.",
+                    "• *Trong một phòng trưng bày có người khác.* Người quản lý phòng trưng bày đó xem xét nó, cùng với những cuộc trò chuyện đi kèm. Điều này đúng dù phòng trưng bày đó có công khai hay không: những người trong đó có thể xem tác phẩm của bạn, nên ai đó ở đó phải chịu trách nhiệm về nó.",
+                    "• *Trong một phòng trưng bày công khai.* Người quản lý phòng trưng bày đó xem xét nó, và chúng tôi cũng vậy, vì ai cũng có thể tìm thấy nó.",
+                    "• *Công khai, nhưng không nằm trong phòng trưng bày nào.* Chúng tôi xem xét nó.",
+                    "Bất kỳ ai nhìn thấy được một thứ gì đó đều có thể yêu cầu xem xét nó, bằng cách dùng nút báo cáo trên đó. Chúng tôi không bao giờ nói cho người tạo ra nó biết ai đã yêu cầu.",
+                    "Báo cáo một tin nhắn trò chuyện sẽ ẩn nó đi trong khi có người xem xét. Điều này chỉ xảy ra một lần cho mỗi tin nhắn: nếu tin nhắn được giữ lại và có người báo cáo lần nữa, nó vẫn hiển thị trong khi được xem xét lần thứ hai. Bạn luôn có thể xem được lời của chính mình.",
+                    "Một quyết định sẽ cho biết quy tắc nào ở trên bị vi phạm, và có thể kèm theo ghi chú từ người đưa ra quyết định. Bạn sẽ nhận được cả hai trong phần thông báo của mình.",
+                    "Quyết định của một người quản lý phòng trưng bày chỉ áp dụng cho phòng trưng bày của họ. Đó không phải là một trong những cảnh báo bên dưới, và nó không bao giờ có thể khiến bạn mất khả năng chia sẻ công khai."
                 ]
             },
             "donate": {
@@ -9997,12 +10142,14 @@
                         "$~Giới thiệu",
                         "$~Văn bản",
                         "$~Thuật ngữ",
+                        "$~Sổ tay từ ngữ",
                         "$~Gửi đi"
                     ],
                     "tips": [
                         "$~cách dịch hoạt động, và ghi chú cho những người viết ngôn ngữ này",
                         "$~xem và chỉnh sửa văn bản của nền tảng",
                         "$~đặt các cụm từ mà bạn có thể dùng lại trong văn bản của ngôn ngữ này",
+                        "$~thêm các dạng số nhiều và cách viết khác của từ này trong ngôn ngữ này",
                         "$~xem lại các chỉnh sửa của bạn và gửi đi"
                     ]
                 },
@@ -10140,7 +10287,7 @@
                 }
             },
             "strings": "$~Chuỗi dịch",
-            "emotion": "Choose an emotion",
+            "emotion": "$~Chọn một cảm xúc",
             "invalidName": "$~Không phải là tên chơi chữ hợp lệ.",
             "reference": "$~Tài liệu tham khảo tiếng Anh",
             "invalidConceptLinks": "$~Các liên kết khái niệm này không hoạt động trong ngôn ngữ hiện tại. Bạn có viết sai chính tả một trong số chúng, hay cố tình xóa chúng đi?",
@@ -10183,6 +10330,23 @@
                 "invalidKey": "$~Một chìa khóa phải bắt đầu bằng một chữ cái và chỉ dùng chữ cái và chữ số, trong bất kỳ ngôn ngữ nào.",
                 "duplicateKey": "$~Ngôn ngữ này đã có một từ với chìa khóa đó rồi.",
                 "reservedKey": "$~Chìa khóa đó đã được dùng cho một giá trị mẫu, nên nó không thể là một từ."
+            },
+            "glossary": {
+                "header": "$~Các cách viết khác",
+                "description": "$~Sổ tay từ ngữ giải thích các từ mà người học gặp phải. Mỗi từ có một dạng chính, và ở đây bạn có thể thêm những cách viết khác của từ đó trong ngôn ngữ này — dạng số nhiều, đuôi từ khác, hoặc một từ khác có nghĩa giống nhau. Khi viết văn bản, bạn có thể liên kết bất kỳ dạng nào bằng ký hiệu @ và từ đó, và cả từ vẫn thuộc về liên kết. Mỗi ngôn ngữ tự viết danh sách của mình, vì vậy hãy thêm bao nhiêu dạng mà ngôn ngữ của bạn cần.",
+                "reference": "$~trong tiếng Anh",
+                "empty": "$~Chưa có cách viết khác.",
+                "form": {
+                    "description": "$~một cách viết khác của từ này",
+                    "placeholder": "$~dạng viết"
+                },
+                "add": "$~thêm dạng viết này vào từ",
+                "remove": "$~xóa dạng viết này khỏi từ",
+                "ownWord": "$~Đây là từ chính của thuật ngữ này, và nó đã có thể dùng riêng được rồi.",
+                "otherWord": "$~Đây là từ dùng cho $term, nên sẽ không rõ bạn muốn nói đến thuật ngữ nào.",
+                "conceptName": "$~Tài liệu đã giải thích từ này rồi, nên một liên kết đến nó sẽ dẫn đến đó thay vì đây.",
+                "alreadyUsed": "$~Đây đã là một dạng viết của $term rồi, nên sẽ không rõ bạn muốn nói đến thuật ngữ nào.",
+                "searchOnly": "$~Một liên kết kết thúc ở dấu cách hoặc ký hiệu, nên dạng viết này chỉ giúp cho việc tìm kiếm."
             }
         },
         "tour": {
@@ -10431,7 +10595,7 @@
             "property": "$~Liệu dự án có thuộc tính này hay không."
         },
         "error": {
-            "notmod": "$~Có vẻ như bạn không phải là người điều hành. Nếu gần đây bạn được cấp quyền điều hành, bạn có thể cần đăng nhập lại. Nếu không, hãy xem hướng dẫn trên wiki để biết cách yêu cầu quyền điều hành."
+            "notmod": "$~Không có gì ở đây để bạn xem xét cả. Người kiểm duyệt của Wordplay xem xét nội dung công khai, và người quản lý của một phòng trưng bày xem xét những gì trong phòng trưng bày của họ. Nếu bạn vừa mới được cấp quyền kiểm duyệt, bạn có thể cần đăng nhập lại."
         },
         "report": {
             "button": "$~Báo cáo cho người kiểm duyệt",
@@ -10450,6 +10614,44 @@
             "banned": "$~Bạn đã bị cảnh báo về nội dung công khai ba lần, vì vậy bạn không thể công khai dự án hoặc phòng trưng bày nữa. Bạn vẫn có thể tạo dự án, và vẫn có thể chia sẻ chúng với những người bạn chọn. Nếu bạn nghĩ đây là một sai sót, hoặc việc đó xảy ra đã lâu và bạn muốn chia sẻ công khai trở lại, hãy viết thư tới hi@wordplay.dev và cho chúng tôi biết tên người dùng của bạn cùng lý do.",
             "warned": "$~Một số nội dung công khai của bạn đã vi phạm các quy tắc chia sẻ, nên nó không còn công khai nữa. Đây là cảnh báo $#count[$count]. $#remaining[Sau $remaining lần nữa, bạn sẽ không còn có thể công khai bất cứ thứ gì.]",
             "notification": "$~Cảnh báo thứ $#count[$count] về một thứ bạn đã chia sẻ công khai."
+        },
+        "queue": {
+            "label": "$~cần xem xét gì",
+            "labels": ["$~dự án", "$~phòng trưng bày", "$~tin nhắn"],
+            "tips": [
+                "$~xem lại các dự án mà mọi người đã công khai",
+                "$~xem xét các phòng trưng bày xin được liệt kê công khai",
+                "$~xem lại các tin nhắn mà mọi người đã báo cáo trong các phòng trưng bày bạn quản lý"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Một người kiểm duyệt đang xem phòng trưng bày của bạn để quyết định xem có thể liệt kê nó công khai hay không. Trước khi đó, chỉ những người bạn chia sẻ liên kết mới có thể xem được.",
+            "approved": "$~Phòng trưng bày của bạn đã được liệt kê trên <trang phòng trưng bày công khai@://galleries?tab=public>! Nó có thể bị gỡ khỏi danh sách đó bất cứ lúc nào, vì bất kỳ lý do gì.",
+            "denied": "$~Một người kiểm duyệt đã quyết định không liệt kê phòng trưng bày của bạn công khai. Bạn có thể tiếp tục làm việc và công khai lại nó để xin xét duyệt lần nữa.",
+            "explain": "$~Phòng trưng bày này đang xin được liệt kê công khai. Hãy xem qua nó và các dự án của nó, rồi quyết định xem nó đã đủ hoàn thiện để cho mọi người xem chưa.",
+            "done": "$~Không có phòng trưng bày nào đang chờ quyết định. Cảm ơn bạn!",
+            "approve": {
+                "label": "$~liệt kê nó",
+                "tip": "$~liệt kê phòng trưng bày này trên trang phòng trưng bày công khai"
+            },
+            "deny": {
+                "label": "$~đừng liệt kê nó",
+                "tip": "$~giữ phòng trưng bày này ngoài trang phòng trưng bày công khai"
+            },
+            "skip": {
+                "label": "$~bỏ qua",
+                "tip": "$~để phòng trưng bày này cho một người kiểm duyệt khác quyết định"
+            },
+            "notification": {
+                "approved": "$~$name hiện đã được liệt kê công khai.",
+                "denied": "$~$name đã không được liệt kê công khai."
+            }
+        },
+        "responsibility": {
+            "none": "$~Không ai xem xét những gì bạn chia sẻ ở đây cả. Nó chỉ hiển thị với bạn và những người bạn chọn.",
+            "curators": "$~Người quản lý của <$name@://galleries> xem xét những gì được chia sẻ ở đây, kể cả nội dung trò chuyện.",
+            "both": "$~Người quản lý của <$name@://galleries> xem xét những gì được chia sẻ ở đây, và người kiểm duyệt của Wordplay cũng vậy, vì ai cũng có thể xem được.",
+            "platform": "$~<Người kiểm duyệt@://rights> của Wordplay xem xét điều này, vì ai cũng có thể xem được."
         }
     },
     "gallery": {

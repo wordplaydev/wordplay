@@ -5,13 +5,13 @@ Czasami chcemy, aby postać poruszała się w ten sam sposób kilka razy!Wpisywa
 Zamiast tego możemy użyć @Sequence  z  @Phrase sprawić, by coś powtórzyło się wiele razy! Dokładniej,możemy użyć liczenia w @Sequence i wybierz, ile razy zestaw póz się pojawi. Na przykład,Oto piłka do koszykówki odbijająca się dwa razy w górę i w dół.
 
 \Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀' wstępowanie: Sequence({
+					0%: Pose(zrównoważyć: Place(y: 0.25m))
+					25%: Pose(zrównoważyć: Place(y: 0m))
+					50%: Pose(zrównoważyć: Place(y: -0.25m))
+					75%: Pose(zrównoważyć: Place(y: 0m))
+					100%: Pose(zrównoważyć: Place(y: 0.25m))
+				} liczyć: 2x czastrwania: 2s))
 	])\
 
 animate-phrase, shake-phrase

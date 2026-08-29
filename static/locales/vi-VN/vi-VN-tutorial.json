@@ -3830,7 +3830,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~Và nếu bạn muốn một cách sắp xếp rất cụ thể? Bạn có thể sử dụng @Free và cho tôi biết chính xác vị trí bạn muốn đặt tất cả các cụm từ. Chỉ cần đảm bảo cung cấp vị trí cho mỗi @Phrase, nếu không tôi sẽ chỉ đặt nó tại \\Place(0m 0m\\)."
+                            "$~Và nếu bạn muốn một cách sắp xếp rất cụ thể? Bạn có thể sử dụng @Free và cho tôi biết chính xác vị trí bạn muốn đặt tất cả các cụm từ. Chỉ cần đảm bảo cung cấp vị trí cho mỗi @Phrase, nếu không tôi sẽ chỉ đặt nó tại \\Place(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -4648,7 +4648,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Bạn biết đấy, @Bind hoạt động với rất nhiều ký tự khác, bao gồm cả @Evaluate — bạn đã thấy chúng khi đặt tên cho một input @FunctionDefinition, ví dụ như \\Pose(color: _)\\ — và chúng ta sẽ làm quen với một vài ký tự khác nữa. @Bind, bạn có mặt để trình diễn không?"
+                            "$~Bạn biết đấy, @Bind hoạt động với rất nhiều ký tự khác, bao gồm cả @Evaluate — bạn đã thấy chúng khi đặt tên cho một input @FunctionDefinition, ví dụ như \\Pose(màusắc: _)\\ — và chúng ta sẽ làm quen với một vài ký tự khác nữa. @Bind, bạn có mặt để trình diễn không?"
                         ],
                         [
                             "Bind",
@@ -5749,7 +5749,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~Ừ, kiểu vậy. Hừm… à, chúng ta cần phải lên sân khấu. @Text, bạn có phiền lập danh sách mọi người không? Chúng ta sẽ chuyển danh sách đó thành \\Character>s."
+                            "$~Ừ, kiểu vậy. Hừm… à, chúng ta cần phải lên sân khấu. @Text, bạn có phiền lập danh sách mọi người không? Chúng ta sẽ chuyển danh sách đó thành \\Character\\s."
                         ],
                         [
                             "Text",

@@ -967,6 +967,27 @@ type UITexts = {
         allSelected: Template<['count']>;
         /** [plain] Announced when the selection is cleared */
         cleared: string;
+        /** [plain] Announced when selected output is deleted from the program. $#count is how many went. */
+        removed: Template<['#count']>;
+        /** [plain] Announced when a path is drawn on stage. $#count is how many points it has. */
+        drew: Template<['#count']>;
+        /** [plain] Announced as a path is built point by point. $#count is how many points it has so far, $place where the last one went. */
+        drawing: Template<['#count', 'place']>;
+        /** What a @Path's individual point handles say. */
+        point: {
+            /** [plain] A point handle's label. $number is which point it is, $#count how many there are, $place where it sits. */
+            label: Template<['number', '#count', 'place']>;
+            /** [plain] Announced when a point is moved. $number is which point, $place where it went. */
+            moved: Template<['number', 'place']>;
+            /** [plain] Announced when a point is added. $number is which point it became. */
+            added: Template<['number']>;
+            /** [plain] Announced when a point is removed. $number is which point it was. */
+            removed: Template<['number']>;
+            /** [plain] Announced when a point can't be removed, because a path needs two. */
+            last: string;
+        };
+        /** [plain] Announced when selected output can't be deleted, because it isn't something the program can do without */
+        notRemovable: string;
         /** [plain] Announced when an output moved on stage. $name is the output, $direction is which way it went, $place is where it landed. */
         moved: Template<['name', 'direction', 'place']>;
         /** [plain] The eight directions an output can move, starting at up and proceeding clockwise: up, up and right, right, down and right, down, down and left, left, up and left. */
@@ -1001,8 +1022,6 @@ type UITexts = {
             grid: ToggleText;
             /** Toggle whether output is fit to window */
             fit: ToggleText;
-            /** Toggle whether painting or placing */
-            paint: ToggleText;
         };
         field: {
             key: {
@@ -1363,14 +1382,6 @@ type UITexts = {
             edit: string;
             /** [plain] Convert a pose to a sequence */
             sequence: string;
-            /** [plain] The button that creates a phrase when there is none */
-            createPhrase: string;
-            /** [plain] The button that creates a group when there is none */
-            createGroup: string;
-            /** [plain] The button that creates a stage when there is none */
-            createStage: string;
-            /** [plain] The button that adds music to the program */
-            createMusic: string;
             /** [plain] The button that shows the previous track of a music */
             previousTrack: string;
             /** [plain] The button that shows the next track of a music */
@@ -1404,19 +1415,44 @@ type UITexts = {
             /** [plain] The button in the palette's read-only prompt that switches to edit mode */
             editMode: string;
         };
+        /** The row of buttons at the top of the palette that add output */
+        toolbar: {
+            /** [plain] The ARIA label for the row of buttons that add output */
+            label: string;
+            /** [plain] The button that adds a @Phrase */
+            addPhrase: string;
+            /** [plain] The button that adds a @Phrase, when it will show the program's existing value as text instead */
+            wrapPhrase: string;
+            /** [plain] The button that adds a @Shape shaped like a rectangle */
+            addRectangle: string;
+            /** [plain] The button that adds a @Shape shaped like a circle */
+            addCircle: string;
+            /** [plain] The button that adds a @Shape shaped like a polygon */
+            addPolygon: string;
+            /** [plain] The button that adds a @Shape shaped like a drawn path */
+            addPath: string;
+            /** Toggle for drawing a @Path on stage by dragging, clicking, or with the arrow keys */
+            draw: ToggleText;
+            /** [plain] A shape button, when it will show the @Form the program already has instead of adding a new one */
+            wrapForm: string;
+            /** [plain] The button that collects the selected output into a @Group */
+            group: string;
+            /** [plain] The group button, when nothing is selected to group */
+            groupEmpty: string;
+            /** [plain] The group button, when the selected output is in more than one place */
+            groupScattered: string;
+            /** [plain] The group button, when something selected is not allowed inside a @Group */
+            groupKind: string;
+            /** [plain] The button that wraps everything in a @Stage */
+            addStage: string;
+            /** [plain] The stage button, when there is already a @Stage */
+            stageExists: string;
+            /** [plain] The button that adds @Music */
+            addMusic: string;
+            /** [plain] The button that adds a @Say */
+            addSay: string;
+        };
         prompt: {
-            /** [formatted] The text offering to create a phrase in the palette without a stage */
-            offerPhrase: FormattedText;
-            /** [formatted] The text offering to create a group in the palette without a stage */
-            offerGroup: FormattedText;
-            /** [formatted] The text offering to create a stage in the palette without a stage */
-            offerStage: FormattedText;
-            /** [formatted] The text offering to wrap a form in a shape, or create a shape, in the palette */
-            offerShape: FormattedText;
-            /** [formatted] The text offering to add a placeholder phrase when the program has no output */
-            offerNothing: FormattedText;
-            /** [formatted] The text offering to add music to the program */
-            offerMusic: FormattedText;
             /** [formatted] Prompt if no selection */
             select: FormattedText;
             /** [formatted] The text prompting the creator to edit the selected output */
@@ -1810,11 +1846,25 @@ type UITexts = {
                 howToChatHeader: Template<['title']>;
                 /** [plain] Title for a moderation-required notification, with $1 as the project name */
                 moderationHeader: Template<['name']>;
+                /** [plain] Title for a notice that something the reader made was reported and is being reviewed. Never says who reported it. */
+                reportedHeader: Template<['title']>;
+                /** [plain] Title for a notice confirming the reader's report reached whoever is responsible */
+                reportReceivedHeader: Template<['title']>;
+                /** [plain] Title for a notice that a decision was made about something the reader made */
+                decisionHeader: Template<['title']>;
+                /** [plain] Title for a notice that a decision was made about something the reader reported */
+                outcomeHeader: Template<['title']>;
+                /** [plain] Label before the list of rules a decision found were broken */
+                because: string;
+                /** [plain] Label before a moderator's note to the person whose content it was */
+                note: string;
                 /** [plain] Link label to view notification details */
                 link: string;
             };
             /** [plain] Tooltip for the button that deletes a notification */
             delete: string;
+            /** The link to the moderation queue, shown only to someone responsible for reviewing something */
+            moderate: ButtonText;
             /** [plain] Said to screen readers when notifications arrive. Carries
              *  the count, because a live region handed the same string twice
              *  stays silent — a constant here is heard once and never again. */
@@ -2084,6 +2134,35 @@ type UITexts = {
             duplicateKey: string;
             /** [plain] Error shown when a term key collides with a template input name and so can't be used */
             reservedKey: string;
+        };
+        /** The glossary's other written forms: the plurals, conjugations, and
+         *  synonyms a reference to a term may also use. Each locale writes its
+         *  own, so how many a language needs is its own business. */
+        glossary: {
+            /** [plain] Header for the glossary forms editor section */
+            header: string;
+            /** [formatted] An explanation of a term's other written forms */
+            description: FormattedText;
+            /** [plain] Label above the English forms shown as a reference beside a term */
+            reference: string;
+            /** [plain] Shown beside a term that has no other written forms yet, as an invitation to add some */
+            empty: string;
+            /** The field for a new written form of a term */
+            form: FieldText;
+            /** [plain] Tooltip for the button that adds a written form to a term */
+            add: string;
+            /** [plain] Tooltip for the button that removes a written form from a term */
+            remove: string;
+            /** [formatted] Error shown when a form is the term's own word, which already works on its own */
+            ownWord: FormattedText;
+            /** [formatted] Error shown when a form is another term's word, so a reference to it would be ambiguous. $term = that term's word */
+            otherWord: Template<['term']>;
+            /** [formatted] Error shown when a form is the name of something the documentation already defines, which a reference finds first */
+            conceptName: FormattedText;
+            /** [formatted] Error shown when a form is already a written form of another term. $term = that term's word */
+            alreadyUsed: Template<['term']>;
+            /** [formatted] Note shown when a form contains something a reference can't include, so it only helps searching */
+            searchOnly: FormattedText;
         };
         /** [formatted] An explanation of the localization editor */
         description: FormattedText;

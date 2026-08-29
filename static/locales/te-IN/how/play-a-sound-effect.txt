@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 నన్ను తట్టు' selectable: ⊤ name: 'తట్టు')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 నన్ను తట్టు' ఎంచుకోదగినది: ⊤ పేరు: 'తట్టు')
+		Music(Track(tapped ? [1 5 8] [] వాయిద్యం: Instrument.bell లూప్: ⊥) మళ్ళీప్లే: tapped)
 	])\
 
 తర్వాతి మూల్యాంకనంలోనే జాబితా మళ్ళీ ఖాళీ అయిపోతుందని బాధపడకు — మొదలైన ఒక నోట్ ఎప్పుడూ చివరి వరకు వినిపిస్తుంది. నువ్వు వదిలిపెట్టలేని విషయం \replay\. రెండుసార్లు తట్టు, రెండో తట్టు మొదటి దానితో సరిగ్గా అదే సంగీతాన్ని ఇస్తుంది, కాబట్టి ఏదీ మారలేదు, ఏదీ మళ్ళీ వినిపించదు; \replay\ అనేది నీవు /మళ్ళీ, ఇప్పుడు/ అని చెప్పే విధానం. 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ ఒక కీని నొక్కు' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] వాయిద్యం: Instrument.piano లూప్: ⊥) మళ్ళీప్లే: struck)
 	])\
 
 గమనించు, \∆ key\ దాని స్వంత లైన్‌లో లెక్కించబడుతుంది మరియు value పరీక్ష \key = ' '\ విడిగా జరుగుతుంది. రెండింటినీ కలిపి ఒకే condition గా రాస్తే, \key\ ఇప్పటికీ ఒక ఖాళీగా చదవబడుతుంది.

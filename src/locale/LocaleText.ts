@@ -17,6 +17,7 @@ import type { PhotosensitivityTexts } from '@locale/PhotosensitivityTexts';
 import type { KeywordId } from '@parser/Keywords';
 import type OutputTexts from '@locale/OutputTexts';
 import { Regions, type RegionCode } from '@locale/Regions';
+import { getRegionName } from '@locale/tagNames';
 import { DraftLocales } from '@locale/SupportedLocales';
 import type GlossaryTexts from '@locale/GlossaryTexts';
 import type TermsTexts from '@locale/TermsTexts';
@@ -233,9 +234,11 @@ export function getLocaleRegions(locale: string | Locale): RegionCode[] {
     } else return locale.regions;
 }
 
+/** Each of a locale's regions named the way people there name it — "México",
+ *  not "Mexico" — matching how the language beside it is already shown in its
+ *  own language rather than in English. */
 export function getLocaleRegionNames(locale: string | Locale): string[] {
-    const regions = getLocaleRegions(locale);
-    return regions.map((r) => Regions[r]?.en).filter((r) => r !== undefined);
+    return getLocaleRegions(locale).map(getRegionName);
 }
 
 export function isLocaleDraft(locale: string): boolean {

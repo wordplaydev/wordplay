@@ -6,8 +6,8 @@ Como os graus são passos de uma escala e não notas fixas, toda uma linha de ba
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune instrumento: Instrument.flute)
+		Track(tune instrumento: Instrument.synthBass chave: -12semitones volume: 60%)
 	])\
 
 Duas vozes, uma lista. Edita a melodia e o baixo segue-a, porque há apenas uma melodia para editar.
@@ -16,10 +16,10 @@ Agora preenche à volta dela. Os acordes querem o seu próprio ritmo, e não o d
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune instrumento: Instrument.flute panorâmica: 0)
+		Track(tune instrumento: Instrument.synthBass chave: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrumento: Instrument.synthPad batida: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrumento: Instrument.drums batida: 0.5beats volume: 45%)
 	])\
 
 Observa os volumes: só a flauta está no máximo. Partes no volume máximo não se somam numa banda mais alta, somam-se numa banda mais confusa, porque tudo o que soa ao mesmo tempo tem de passar pela mesma coluna. Começa a melodia em \100%\ e coloca tudo o resto por baixo dela.

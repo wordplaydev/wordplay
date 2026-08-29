@@ -7,11 +7,11 @@
 \Scene([
 		Phrase('나를 클릭해')
 		Button()
-		Phrase('다시 클릭해줘' duration: 1s)
+		Phrase('다시 클릭해줘' 지속: 1s)
 		Button()
-		Phrase('아니, 정말이에요, 최대한 세게 클릭해 주세요!!' duration: 1s)
+		Phrase('아니, 정말이에요, 최대한 세게 클릭해 주세요!!' 지속: 1s)
 		Button()
-		Phrase('아직 나를 클릭하지 않았나요?' duration: 1s)
+		Phrase('아직 나를 클릭하지 않았나요?' 지속: 1s)
 	])\
 
 그 @Scene 첫 번째를 보여줍니다 @Phrase , 그런 다음 기다립니다 @Button 사실이라면, 그것이 사실이라면 다음으로 넘어갑니다. @Phrase .
@@ -21,11 +21,11 @@
 \Scene([
 		Phrase('거기 누구 있어요?')
 		Volume() > .5
-		Phrase("들리지 않아요. 다시 말씀해 주시겠어요?" duration: 1s)
+		Phrase("들리지 않아요. 다시 말씀해 주시겠어요?" 지속: 1s)
 		Volume() > .7
-		Phrase('더 크게 말해주세요...' duration: 1s)
+		Phrase('더 크게 말해주세요...' 지속: 1s)
 		Volume() > .9
-		Phrase('오, 안녕하세요!' duration: 1s)
+		Phrase('오, 안녕하세요!' 지속: 1s)
 	])\
 
 animated-scene

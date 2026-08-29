@@ -5,18 +5,18 @@
 ఇలా చేయండి, మనం కలిసి చేయవచ్చు @Phrase తో @Placement :
 
 \Stage([
-		Phrase('నన్ను కదిలించు' place: Placement())
-	] place: Place(0m 0m -10m))\
+		Phrase('నన్ను కదిలించు' స్థానం: Placement())
+	] స్థానం: Place(0m 0m -10m))\
 
 కీబోర్డ్ బాణాలను ఉపయోగించడం లేదా @Stage అప్‌డేట్ చేస్తుంది @Placement , దీనివల్ల @Phrase ఆ దిశగా కదలడానికి.
 
 అయితే, మీకు తెలుసా, అది @Placement తో ఉపయోగించవచ్చు/ఏదైనా/అది పడుతుంది @Place ?ఉదాహరణకు ఒక @Stage కలిగి ఉంది @Place అది తన కెమెరా ఎక్కడ గురిపెడుతుందో నిర్ణయిస్తుంది.సెట్ చేయడానికి ప్రయత్నిద్దాం @Placement ఒక కోసం @Stage యొక్క స్థలం, మరియు ఏమి జరుగుతుందో చూడండి.
 
 \Stage([
-		Phrase('🐈' place: Place(-2m 2m))
-		Phrase('🐈' place: Place(2m -2m))
-		Phrase('🐈' place: Place(-1m 3m))
-	] place: Placement(Place(0m 0m -10m)))\
+		Phrase('🐈' స్థానం: Place(-2m 2m))
+		Phrase('🐈' స్థానం: Place(2m -2m))
+		Phrase('🐈' స్థానం: Place(-1m 3m))
+	] స్థానం: Placement(Place(0m 0m -10m)))\
 
 అది కెమెరాను కదిలిస్తుంది! (గమనిక: మేము ప్రారంభిస్తాము @Placement తో\z\విలువ\10m\తద్వారా కెమెరా అన్నింటి నుండి వెనక్కి తగ్గుతుంది.)
 

@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'μενού') ? '▶ πάτα για να ξεκινήσεις' '🏃 τρέξε!' 1m)
-		(phase = 'μενού') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'μενού') ? Music(Track(theme όργανο: Instrument.bell) ρυθμός: 72beats/min) Music(Track(theme όργανο: Instrument.synth) ρυθμός: 132beats/min)
 	])\
 
 Και τα δύο τραγούδια είναι οι ίδιοι οκτώ αριθμοί. Αλλάζει μόνο το όργανο και ο ρυθμός, και ήδη ακούγεται σαν διαφορετικό κομμάτι — επειδή οι βαθμίδες λένε *ποιο σκαλί της κλίμακας*, όχι ποιος τόνος, οπότε ένα  @Music  μπορεί να τους ερμηνεύσει ξανά. Δώσ' του \κλίμακα: 🎼.αρμονικόΜινόρε\ και ο ίδιος σκοπός γίνεται απειλητικός χωρίς να ξαναγραφτεί ούτε μία νότα.
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('παρτιτούρα \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] όργανο: Instrument.drums) ρυθμός: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Πάτα αρκετές φορές και τα τύμπανα χτυπούν δύο φορές πιο δυνατά από ό,τι στην αρχή. Μια σύντομη, κρουστή νότα είναι αυτό που το κάνει να ακούγεται — κάτω από μακρόχρονες νότες η αλλαγή ρυθμού είναι δύσκολο να τη νιώσεις.

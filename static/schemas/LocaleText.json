@@ -1152,7 +1152,7 @@
             "description": "[formatted] Represents a string that is in Wordplay markup formatted syntax. Tagging the alias makes any bare `FormattedText` field default to the formatted editor; fields with their own (untagged) comment are still flagged.",
             "type": "string"
         },
-        "FunctionText<[def-alias-1170802340-6029-6294-1170802340-0-11145,def-alias-1170802340-6029-6294-1170802340-0-11145]>": {
+        "FunctionText<[def-alias-1170802340-6079-6344-1170802340-0-11328,def-alias-1170802340-6079-6344-1170802340-0-11328]>": {
             "additionalProperties": false,
             "properties": {
                 "doc": {
@@ -1176,7 +1176,7 @@
             "required": ["doc", "inputs", "names"],
             "type": "object"
         },
-        "FunctionText<[def-alias-1170802340-6029-6294-1170802340-0-11145]>": {
+        "FunctionText<[def-alias-1170802340-6079-6344-1170802340-0-11328]>": {
             "additionalProperties": false,
             "properties": {
                 "doc": {
@@ -1379,11 +1379,11 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "and": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "not": {
@@ -1391,11 +1391,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "or": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -1454,19 +1454,19 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "combine": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "ends": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "has": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
@@ -1478,15 +1478,15 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "repeat": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "starts": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "uppercase": {
@@ -1548,7 +1548,7 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "add": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "all": {
@@ -1590,7 +1590,7 @@
                                             "type": "object"
                                         },
                                         "append": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "combine": {
@@ -1632,7 +1632,7 @@
                                             "type": "object"
                                         },
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "filter": {
@@ -1716,11 +1716,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "has": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "join": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "last": {
@@ -1732,7 +1732,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "random": {
@@ -1740,7 +1740,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "replace": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%2Cdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
@@ -1748,7 +1748,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansAll": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansFirst": {
@@ -1802,7 +1802,7 @@
                                             "type": "object"
                                         },
                                         "subsequence": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%2Cdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -1970,7 +1970,7 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "filter": {
@@ -2012,15 +2012,15 @@
                                             "type": "object"
                                         },
                                         "notequals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "remove": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "set": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%2Cdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
@@ -2066,7 +2066,7 @@
                                             "type": "object"
                                         },
                                         "unset": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -2135,11 +2135,11 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -2281,7 +2281,7 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "add": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arccos": {
@@ -2301,11 +2301,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "divide": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "equal": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "exp": {
@@ -2313,39 +2313,39 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "greaterOrEqual": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "greaterThan": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lessOrEqual": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lessThan": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "log": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "max": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "min": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "multiply": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "positive": {
@@ -2353,15 +2353,15 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "power": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "remainder": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "root": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "round": {
@@ -2381,7 +2381,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "subtract": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "tan": {
@@ -3098,15 +3098,15 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "add": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "difference": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "filter": {
@@ -3148,15 +3148,15 @@
                                             "type": "object"
                                         },
                                         "intersection": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "remove": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
@@ -3202,7 +3202,7 @@
                                             "type": "object"
                                         },
                                         "union": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -3268,11 +3268,11 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -3321,11 +3321,11 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -3383,23 +3383,23 @@
                                     "description": "Functions in the type",
                                     "properties": {
                                         "combine": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "ends": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "equals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "has": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "index": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
@@ -3411,19 +3411,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "matches": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "`≈` — whether a pattern matches the whole text. See LANGUAGE.md."
                                         },
                                         "notequals": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "repeat": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "replace": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%2Cdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
@@ -3431,19 +3431,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "search": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "`⌕` — search the text for a pattern, returning a list of Result."
                                         },
                                         "segment": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "starts": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "subsequence": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%2Cdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "trim": {
@@ -8768,10 +8768,34 @@
                                                 "resolution"
                                             ],
                                             "type": "object"
+                                        },
+                                        "UnknownRegion": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "explanation": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] The text that describes this conflict on the node which generated it."
+                                                },
+                                                "name": {
+                                                    "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                                                    "type": "string"
+                                                },
+                                                "resolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] Action description for the repair this conflict offers"
+                                                }
+                                            },
+                                            "required": [
+                                                "explanation",
+                                                "name",
+                                                "resolution"
+                                            ],
+                                            "type": "object"
                                         }
                                     },
                                     "required": [
                                         "UnknownLanguage",
+                                        "UnknownRegion",
                                         "MissingLanguage",
                                         "DuplicateLanguage"
                                     ],
@@ -13150,6 +13174,60 @@
                             ],
                             "type": "object"
                         },
+                        "Bubble": {
+                            "additionalProperties": false,
+                            "description": "A speech bubble showing what a phrase is saying or thinking",
+                            "properties": {
+                                "background": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The color the bubble is filled with"
+                                },
+                                "color": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The color of the bubble's text; ø means the phrase's own color"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "kind": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether the bubble is speech or thought"
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "side": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Which side of the phrase the bubble sits on, as an arrow; unset lets the stage choose"
+                                },
+                                "size": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How big the bubble's text is; ø means the phrase's own size"
+                                },
+                                "text": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "What the bubble shows; give it a Say instead of text to have it spoken aloud too"
+                                },
+                                "wrap": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The boundary at which to wrap the bubble's text to another line"
+                                }
+                            },
+                            "required": [
+                                "background",
+                                "color",
+                                "doc",
+                                "kind",
+                                "names",
+                                "side",
+                                "size",
+                                "text",
+                                "wrap"
+                            ],
+                            "type": "object"
+                        },
                         "Circle": {
                             "additionalProperties": false,
                             "description": "A circle form",
@@ -13262,7 +13340,7 @@
                                     "type": "object"
                                 },
                                 "darker": {
-                                    "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                    "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                     "description": "`darker()` — a new color with lightness decreased by a percent (5% by default)."
                                 },
                                 "description": {
@@ -13303,7 +13381,7 @@
                                     "description": "0-360, a color wheel"
                                 },
                                 "lighter": {
-                                    "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                    "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                     "description": "`lighter()` — a new color with lightness increased by a percent (5% by default)."
                                 },
                                 "lightness": {
@@ -13315,7 +13393,7 @@
                                     "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
                                 },
                                 "random": {
-                                    "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6029-6294-1170802340-0-11145%2Cdef-alias-1170802340-6029-6294-1170802340-0-11145%5D%3E",
+                                    "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6079-6344-1170802340-0-11328%2Cdef-alias-1170802340-6079-6344-1170802340-0-11328%5D%3E",
                                     "description": "The static `Color.random()` function that produces a random color. With no inputs it picks a random basic color; with one color it keeps that color's lightness and chroma but randomizes the hue; with two colors it randomizes each LCH value within their range."
                                 }
                             },
@@ -14117,6 +14195,50 @@
                             "$ref": "#/definitions/NameAndDoc",
                             "description": "The base interface for Phrase, Group, and Stage, and other types of Output"
                         },
+                        "Path": {
+                            "additionalProperties": false,
+                            "description": "An arbitrary path form, drawn through a list of places",
+                            "properties": {
+                                "closed": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether the path joins back to its first place"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "points": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The places the path passes through"
+                                },
+                                "smooth": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether the path curves through its places instead of turning at them"
+                                },
+                                "thickness": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How wide to draw the path"
+                                },
+                                "z": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The depth the whole path lies at"
+                                }
+                            },
+                            "required": [
+                                "closed",
+                                "doc",
+                                "names",
+                                "points",
+                                "smooth",
+                                "thickness",
+                                "z"
+                            ],
+                            "type": "object"
+                        },
                         "Phrase": {
                             "additionalProperties": false,
                             "description": "A sequence of characters",
@@ -14133,6 +14255,10 @@
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The background color behind a phrase, group, or stage"
                                 },
+                                "bubble": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The optional speech bubble showing what the phrase is saying"
+                                },
                                 "changing": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The name of the effect used to animate changes to the text, played over the duration and eased by the style; ø means the text changes instantly"
@@ -14142,8 +14268,8 @@
                                     "description": "The color of characters in a phrase, group, or stage"
                                 },
                                 "defaultDescription": {
-                                    "$ref": "#/definitions/Template%3C%5B%22text%22%2C%22name%22%2C%22size%22%2C%22face%22%2C%22animation%22%2C%22color%22%5D%3E",
-                                    "description": "[formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: non-optional pose, $6: optional color name"
+                                    "$ref": "#/definitions/Template%3C%5B%22text%22%2C%22name%22%2C%22size%22%2C%22face%22%2C%22animation%22%2C%22color%22%2C%22bubble%22%5D%3E",
+                                    "description": "[formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: non-optional pose, $6: optional color name, $7: optional speech bubble text"
                                 },
                                 "description": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -14246,6 +14372,7 @@
                                 "alignment",
                                 "aura",
                                 "background",
+                                "bubble",
                                 "changing",
                                 "color",
                                 "defaultDescription",
@@ -15333,6 +15460,10 @@
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "Pose or sequence for when a phrase, group, or stage is leaving stage"
                                 },
+                                "filled": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether to paint the shape's inside"
+                                },
                                 "flipx": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "Whether a phrase, group, or stage is flipped horizontally"
@@ -15344,6 +15475,10 @@
                                 "form": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The kind of shape and its details"
+                                },
+                                "glyphs": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Text drawn along the shape's outline"
                                 },
                                 "moving": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -15381,6 +15516,10 @@
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "Whether a phrase, group, or stage is selectable by Choice"
                                 },
+                                "stroked": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether to paint the shape's outline"
+                                },
                                 "style": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The transition style of transitions"
@@ -15394,9 +15533,11 @@
                                 "duration",
                                 "entering",
                                 "exiting",
+                                "filled",
                                 "flipx",
                                 "flipy",
                                 "form",
+                                "glyphs",
                                 "moving",
                                 "name",
                                 "names",
@@ -15406,6 +15547,7 @@
                                 "rotation",
                                 "scale",
                                 "selectable",
+                                "stroked",
                                 "style"
                             ],
                             "type": "object"
@@ -15808,6 +15950,7 @@
                         "Output",
                         "Group",
                         "Aura",
+                        "Bubble",
                         "Phrase",
                         "Stage",
                         "Shape",
@@ -15819,6 +15962,7 @@
                         "Form",
                         "Rectangle",
                         "Circle",
+                        "Path",
                         "Polygon",
                         "Pose",
                         "Sequence",
@@ -17393,10 +17537,22 @@
                                         "howToNotifications": {
                                             "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
                                         },
+                                        "moderate": {
+                                            "$ref": "#/definitions/ButtonText",
+                                            "description": "The link to the moderation queue, shown only to someone responsible for reviewing something"
+                                        },
                                         "notification": {
                                             "additionalProperties": false,
                                             "description": "Templates for the title of each notification kind",
                                             "properties": {
+                                                "because": {
+                                                    "description": "[plain] Label before the list of rules a decision found were broken",
+                                                    "type": "string"
+                                                },
+                                                "decisionHeader": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] Title for a notice that a decision was made about something the reader made"
+                                                },
                                                 "howToChatHeader": {
                                                     "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
                                                     "description": "[plain] Title for a new how-to chat message notification, with $1 as the how-to title"
@@ -17413,9 +17569,25 @@
                                                     "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
                                                     "description": "[plain] Title for a moderation-required notification, with $1 as the project name"
                                                 },
+                                                "note": {
+                                                    "description": "[plain] Label before a moderator's note to the person whose content it was",
+                                                    "type": "string"
+                                                },
+                                                "outcomeHeader": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] Title for a notice that a decision was made about something the reader reported"
+                                                },
                                                 "projectChatHeader": {
                                                     "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
                                                     "description": "[plain] Title for a new project chat message notification, with $1 as the project name"
+                                                },
+                                                "reportReceivedHeader": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] Title for a notice confirming the reader's report reached whoever is responsible"
+                                                },
+                                                "reportedHeader": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] Title for a notice that something the reader made was reported and is being reviewed. Never says who reported it."
                                                 }
                                             },
                                             "required": [
@@ -17423,6 +17595,12 @@
                                                 "projectChatHeader",
                                                 "howToChatHeader",
                                                 "moderationHeader",
+                                                "reportedHeader",
+                                                "reportReceivedHeader",
+                                                "decisionHeader",
+                                                "outcomeHeader",
+                                                "because",
+                                                "note",
                                                 "link"
                                             ],
                                             "type": "object"
@@ -17442,6 +17620,7 @@
                                         "explanation",
                                         "header",
                                         "howToNotifications",
+                                        "moderate",
                                         "notification",
                                         "open",
                                         "popup"
@@ -18030,6 +18209,10 @@
                                     "additionalProperties": false,
                                     "description": "Everything related to how to content",
                                     "properties": {
+                                        "bookmarked": {
+                                            "description": "[plain] The subheader for how-tos the creator bookmarked, shown above the per-gallery groups",
+                                            "type": "string"
+                                        },
                                         "category": {
                                             "additionalProperties": false,
                                             "description": "[plain] The category names",
@@ -18103,6 +18286,7 @@
                                     "required": [
                                         "explain",
                                         "category",
+                                        "bookmarked",
                                         "related",
                                         "conceptHowTos",
                                         "howToGalleryButton"
@@ -18924,16 +19108,28 @@
                                             "description": "[plain] Labels the message for display",
                                             "type": "string"
                                         },
-                                        "reporter": {
-                                            "description": "[plain] Labels the username of the user who reported the message",
+                                        "reason": {
+                                            "description": "[plain] Labels the section where a curator says which rules the message broke",
                                             "type": "string"
                                         }
                                     },
-                                    "required": [
-                                        "message",
-                                        "reporter",
-                                        "action"
-                                    ],
+                                    "required": ["message", "reason", "action"],
+                                    "type": "object"
+                                },
+                                "note": {
+                                    "additionalProperties": false,
+                                    "description": "The optional note a curator writes to whoever sent the message",
+                                    "properties": {
+                                        "description": {
+                                            "description": "[plain] Describes the note field for screen readers",
+                                            "type": "string"
+                                        },
+                                        "placeholder": {
+                                            "description": "[plain] Shown in the empty note field",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["description", "placeholder"],
                                     "type": "object"
                                 },
                                 "remove": {
@@ -18949,6 +19145,7 @@
                                 "header",
                                 "description",
                                 "labels",
+                                "note",
                                 "view",
                                 "remove",
                                 "keep",
@@ -19546,6 +19743,75 @@
                                     ],
                                     "type": "object"
                                 },
+                                "glossary": {
+                                    "additionalProperties": false,
+                                    "description": "The glossary's other written forms: the plurals, conjugations, and synonyms a reference to a term may also use. Each locale writes its own, so how many a language needs is its own business.",
+                                    "properties": {
+                                        "add": {
+                                            "description": "[plain] Tooltip for the button that adds a written form to a term",
+                                            "type": "string"
+                                        },
+                                        "alreadyUsed": {
+                                            "$ref": "#/definitions/Template%3C%5B%22term%22%5D%3E",
+                                            "description": "[formatted] Error shown when a form is already a written form of another term. $term = that term's word"
+                                        },
+                                        "conceptName": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Error shown when a form is the name of something the documentation already defines, which a reference finds first"
+                                        },
+                                        "description": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] An explanation of a term's other written forms"
+                                        },
+                                        "empty": {
+                                            "description": "[plain] Shown beside a term that has no other written forms yet, as an invitation to add some",
+                                            "type": "string"
+                                        },
+                                        "form": {
+                                            "$ref": "#/definitions/FieldText",
+                                            "description": "The field for a new written form of a term"
+                                        },
+                                        "header": {
+                                            "description": "[plain] Header for the glossary forms editor section",
+                                            "type": "string"
+                                        },
+                                        "otherWord": {
+                                            "$ref": "#/definitions/Template%3C%5B%22term%22%5D%3E",
+                                            "description": "[formatted] Error shown when a form is another term's word, so a reference to it would be ambiguous. $term = that term's word"
+                                        },
+                                        "ownWord": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Error shown when a form is the term's own word, which already works on its own"
+                                        },
+                                        "reference": {
+                                            "description": "[plain] Label above the English forms shown as a reference beside a term",
+                                            "type": "string"
+                                        },
+                                        "remove": {
+                                            "description": "[plain] Tooltip for the button that removes a written form from a term",
+                                            "type": "string"
+                                        },
+                                        "searchOnly": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Note shown when a form contains something a reference can't include, so it only helps searching"
+                                        }
+                                    },
+                                    "required": [
+                                        "header",
+                                        "description",
+                                        "reference",
+                                        "empty",
+                                        "form",
+                                        "add",
+                                        "remove",
+                                        "ownWord",
+                                        "otherWord",
+                                        "conceptName",
+                                        "alreadyUsed",
+                                        "searchOnly"
+                                    ],
+                                    "type": "object"
+                                },
                                 "guidance": {
                                     "description": "[plain] Label for the section that shows this locale's writing guidance",
                                     "type": "string"
@@ -19735,6 +20001,7 @@
                                 "guidanceToggle",
                                 "guidanceEmpty",
                                 "terms",
+                                "glossary",
                                 "description",
                                 "toggle",
                                 "button",
@@ -19885,6 +20152,14 @@
                                     ],
                                     "type": "object"
                                 },
+                                "drawing": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22place%22%5D%3E",
+                                    "description": "[plain] Announced as a path is built point by point. $#count is how many points it has so far, $place where the last one went."
+                                },
+                                "drew": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                    "description": "[plain] Announced when a path is drawn on stage. $#count is how many points it has."
+                                },
                                 "farther": {
                                     "description": "[plain] Announced when an output moved away from the viewer",
                                     "type": "string"
@@ -20015,6 +20290,10 @@
                                     "description": "[plain] Screen-reader instructions for selecting multiple outputs on stage with the keyboard",
                                     "type": "string"
                                 },
+                                "notRemovable": {
+                                    "description": "[plain] Announced when selected output can't be deleted, because it isn't something the program can do without",
+                                    "type": "string"
+                                },
                                 "options": {
                                     "additionalProperties": false,
                                     "properties": {
@@ -20063,6 +20342,44 @@
                                         "retry"
                                     ],
                                     "type": "object"
+                                },
+                                "point": {
+                                    "additionalProperties": false,
+                                    "description": "What a",
+                                    "properties": {
+                                        "added": {
+                                            "$ref": "#/definitions/Template%3C%5B%22number%22%5D%3E",
+                                            "description": "[plain] Announced when a point is added. $number is which point it became."
+                                        },
+                                        "label": {
+                                            "$ref": "#/definitions/Template%3C%5B%22number%22%2C%22%23count%22%2C%22place%22%5D%3E",
+                                            "description": "[plain] A point handle's label. $number is which point it is, $#count how many there are, $place where it sits."
+                                        },
+                                        "last": {
+                                            "description": "[plain] Announced when a point can't be removed, because a path needs two.",
+                                            "type": "string"
+                                        },
+                                        "moved": {
+                                            "$ref": "#/definitions/Template%3C%5B%22number%22%2C%22place%22%5D%3E",
+                                            "description": "[plain] Announced when a point is moved. $number is which point, $place where it went."
+                                        },
+                                        "removed": {
+                                            "$ref": "#/definitions/Template%3C%5B%22number%22%5D%3E",
+                                            "description": "[plain] Announced when a point is removed. $number is which point it was."
+                                        }
+                                    },
+                                    "required": [
+                                        "label",
+                                        "moved",
+                                        "added",
+                                        "removed",
+                                        "last"
+                                    ],
+                                    "type": "object"
+                                },
+                                "removed": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                    "description": "[plain] Announced when selected output is deleted from the program. $#count is how many went."
                                 },
                                 "selected": {
                                     "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22count%22%5D%3E",
@@ -20190,13 +20507,9 @@
                                         "grid": {
                                             "$ref": "#/definitions/ToggleText",
                                             "description": "Toggle whether grid is shown"
-                                        },
-                                        "paint": {
-                                            "$ref": "#/definitions/ToggleText",
-                                            "description": "Toggle whether painting or placing"
                                         }
                                     },
-                                    "required": ["grid", "fit", "paint"],
+                                    "required": ["grid", "fit"],
                                     "type": "object"
                                 },
                                 "tour": {
@@ -20255,6 +20568,11 @@
                                 "deselected",
                                 "allSelected",
                                 "cleared",
+                                "removed",
+                                "drew",
+                                "drawing",
+                                "point",
+                                "notRemovable",
                                 "moved",
                                 "directions",
                                 "closer",
@@ -21600,16 +21918,12 @@
                                             "additionalProperties": false,
                                             "description": "Buttons on the gallery page",
                                             "properties": {
-                                                "more": {
-                                                    "$ref": "#/definitions/ButtonText",
-                                                    "description": "Button for showing more galleries"
-                                                },
                                                 "newgallery": {
                                                     "description": "[plain] Create a new gallery tip",
                                                     "type": "string"
                                                 }
                                             },
-                                            "required": ["newgallery", "more"],
+                                            "required": ["newgallery"],
                                             "type": "object"
                                         },
                                         "error": {
@@ -21619,9 +21933,16 @@
                                                 "nogalleryedits": {
                                                     "description": "[plain] When the creator is not logged in.",
                                                     "type": "string"
+                                                },
+                                                "nopublic": {
+                                                    "description": "[plain] When no galleries have been approved for public listing yet.",
+                                                    "type": "string"
                                                 }
                                             },
-                                            "required": ["nogalleryedits"],
+                                            "required": [
+                                                "nogalleryedits",
+                                                "nopublic"
+                                            ],
                                             "type": "object"
                                         },
                                         "header": {
@@ -21634,20 +21955,35 @@
                                         },
                                         "search": {
                                             "additionalProperties": false,
-                                            "description": "Search functionality for example gallery projects",
+                                            "description": "Searching the built-in examples and the public galleries",
                                             "properties": {
                                                 "description": {
                                                     "description": "[plain] Description for the search field",
                                                     "type": "string"
                                                 },
+                                                "examples": {
+                                                    "description": "[plain] Heading above matching projects from the built-in example galleries",
+                                                    "type": "string"
+                                                },
+                                                "galleries": {
+                                                    "description": "[plain] Heading above matching galleries",
+                                                    "type": "string"
+                                                },
                                                 "noResults": {
                                                     "description": "[plain] No search results message",
+                                                    "type": "string"
+                                                },
+                                                "projects": {
+                                                    "description": "[plain] Heading above matching projects from public galleries",
                                                     "type": "string"
                                                 }
                                             },
                                             "required": [
                                                 "description",
-                                                "noResults"
+                                                "noResults",
+                                                "galleries",
+                                                "examples",
+                                                "projects"
                                             ],
                                             "type": "object"
                                         },
@@ -21658,10 +21994,6 @@
                                                 "examples": {
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Prompt for the built-in galleries"
-                                                },
-                                                "howtos": {
-                                                    "$ref": "#/definitions/FormattedText",
-                                                    "description": "[formatted] Prompt for how-tos shared by galleries the creator belongs to"
                                                 },
                                                 "own": {
                                                     "description": "[formatted] Prompt for galleries the creator curates or contributes to",
@@ -21675,15 +22007,14 @@
                                                     "description": "[formatted] Prompt for galleries creators have made public"
                                                 },
                                                 "tabs": {
-                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
-                                                    "description": "Labels and tooltips for the four gallery tabs"
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                                                    "description": "Labels and tooltips for the three gallery tabs"
                                                 }
                                             },
                                             "required": [
                                                 "tabs",
                                                 "own",
                                                 "examples",
-                                                "howtos",
                                                 "public"
                                             ],
                                             "type": "object"
@@ -22535,8 +22866,8 @@
                                             "description": "[formatted] Notice rendered after the server accepts a submitted batch. The backend opens a GitHub pull request and returns its URL; the success Notice combines this text with a link the contributor can click to view and comment on the PR."
                                         },
                                         "tabs": {
-                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
-                                            "description": "Tab switcher for the workspace: about/guidance, the string editor, the word list (terms), and submission."
+                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                                            "description": "Tab switcher for the workspace: about/guidance, the string editor, the word list (terms), the glossary's per-locale written forms, and submission."
                                         },
                                         "toSubmit": {
                                             "description": "[plain] Tooltip/label for the button at the bottom of the string editor that jumps to the submission tab",
@@ -23469,6 +23800,13 @@
                                             },
                                             "type": "array"
                                         },
+                                        "responsibility": {
+                                            "description": "[formatted] Who is responsible for reviewing what you share, by who can see it (#938). One paragraph per level, in the order a creator meets them, then what reporting does and what a decision carries.",
+                                            "items": {
+                                                "$ref": "#/definitions/FormattedText"
+                                            },
+                                            "type": "array"
+                                        },
                                         "warnings": {
                                             "description": "[formatted] How warnings work, what three of them mean, and how to ask for public sharing back.",
                                             "items": {
@@ -23480,6 +23818,7 @@
                                     "required": [
                                         "header",
                                         "content",
+                                        "responsibility",
                                         "consequences",
                                         "warnings",
                                         "license",
@@ -23732,22 +24071,6 @@
                                             "description": "[plain] The button that removes every note from the track being shown",
                                             "type": "string"
                                         },
-                                        "createGroup": {
-                                            "description": "[plain] The button that creates a group when there is none",
-                                            "type": "string"
-                                        },
-                                        "createMusic": {
-                                            "description": "[plain] The button that adds music to the program",
-                                            "type": "string"
-                                        },
-                                        "createPhrase": {
-                                            "description": "[plain] The button that creates a phrase when there is none",
-                                            "type": "string"
-                                        },
-                                        "createStage": {
-                                            "description": "[plain] The button that creates a stage when there is none",
-                                            "type": "string"
-                                        },
                                         "down": {
                                             "description": "[plain] Move child down in list",
                                             "type": "string"
@@ -23846,10 +24169,6 @@
                                         "down",
                                         "edit",
                                         "sequence",
-                                        "createPhrase",
-                                        "createGroup",
-                                        "createStage",
-                                        "createMusic",
                                         "previousTrack",
                                         "nextTrack",
                                         "addTrack",
@@ -24181,30 +24500,6 @@
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] The text prompting the creator to edit the selected output"
                                         },
-                                        "offerGroup": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] The text offering to create a group in the palette without a stage"
-                                        },
-                                        "offerMusic": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] The text offering to add music to the program"
-                                        },
-                                        "offerNothing": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] The text offering to add a placeholder phrase when the program has no output"
-                                        },
-                                        "offerPhrase": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] The text offering to create a phrase in the palette without a stage"
-                                        },
-                                        "offerShape": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] The text offering to wrap a form in a shape, or create a shape, in the palette"
-                                        },
-                                        "offerStage": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] The text offering to create a stage in the palette without a stage"
-                                        },
                                         "readonly": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] Shown at the top of the palette in step and play modes, explaining that values are read-only"
@@ -24215,12 +24510,6 @@
                                         }
                                     },
                                     "required": [
-                                        "offerPhrase",
-                                        "offerGroup",
-                                        "offerStage",
-                                        "offerShape",
-                                        "offerNothing",
-                                        "offerMusic",
                                         "select",
                                         "editing",
                                         "readonly"
@@ -24292,6 +24581,100 @@
                                     "required": ["button", "field", "preset"],
                                     "type": "object"
                                 },
+                                "toolbar": {
+                                    "additionalProperties": false,
+                                    "description": "The row of buttons at the top of the palette that add output",
+                                    "properties": {
+                                        "addCircle": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        },
+                                        "addMusic": {
+                                            "description": "[plain] The button that adds",
+                                            "type": "string"
+                                        },
+                                        "addPath": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        },
+                                        "addPhrase": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        },
+                                        "addPolygon": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        },
+                                        "addRectangle": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        },
+                                        "addSay": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        },
+                                        "addStage": {
+                                            "description": "[plain] The button that wraps everything in a",
+                                            "type": "string"
+                                        },
+                                        "draw": {
+                                            "$ref": "#/definitions/ToggleText",
+                                            "description": "Toggle for drawing a"
+                                        },
+                                        "group": {
+                                            "description": "[plain] The button that collects the selected output into a",
+                                            "type": "string"
+                                        },
+                                        "groupEmpty": {
+                                            "description": "[plain] The group button, when nothing is selected to group",
+                                            "type": "string"
+                                        },
+                                        "groupKind": {
+                                            "description": "[plain] The group button, when something selected is not allowed inside a",
+                                            "type": "string"
+                                        },
+                                        "groupScattered": {
+                                            "description": "[plain] The group button, when the selected output is in more than one place",
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "description": "[plain] The ARIA label for the row of buttons that add output",
+                                            "type": "string"
+                                        },
+                                        "stageExists": {
+                                            "description": "[plain] The stage button, when there is already a",
+                                            "type": "string"
+                                        },
+                                        "wrapForm": {
+                                            "description": "[plain] A shape button, when it will show the",
+                                            "type": "string"
+                                        },
+                                        "wrapPhrase": {
+                                            "description": "[plain] The button that adds a",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "label",
+                                        "addPhrase",
+                                        "wrapPhrase",
+                                        "addRectangle",
+                                        "addCircle",
+                                        "addPolygon",
+                                        "addPath",
+                                        "draw",
+                                        "wrapForm",
+                                        "group",
+                                        "groupEmpty",
+                                        "groupScattered",
+                                        "groupKind",
+                                        "addStage",
+                                        "stageExists",
+                                        "addMusic",
+                                        "addSay"
+                                    ],
+                                    "type": "object"
+                                },
                                 "tour": {
                                     "additionalProperties": false,
                                     "description": "Interactive tour explaining the palette tile",
@@ -24341,6 +24724,7 @@
                                 "label",
                                 "labels",
                                 "button",
+                                "toolbar",
                                 "prompt",
                                 "music",
                                 "field",
@@ -27017,6 +27401,72 @@
                     "$ref": "#/definitions/FlagDescriptions",
                     "description": "[formatted] Content moderation rules that creators promise to follow. See en-US.json for ground truth language."
                 },
+                "gallery": {
+                    "additionalProperties": false,
+                    "description": "Curated public gallery listing (#1311). A gallery being public is its curator's request; a moderator's approval is what lists it.",
+                    "properties": {
+                        "approve": {
+                            "$ref": "#/definitions/ButtonText",
+                            "description": "The moderator's button that lists a gallery publicly"
+                        },
+                        "approved": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a curator whose gallery is listed publicly"
+                        },
+                        "denied": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a curator whose gallery was not accepted for the public list"
+                        },
+                        "deny": {
+                            "$ref": "#/definitions/ButtonText",
+                            "description": "The moderator's button that refuses to list a gallery"
+                        },
+                        "done": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a moderator when no gallery is waiting for a decision"
+                        },
+                        "explain": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a moderator above a gallery awaiting a decision"
+                        },
+                        "notification": {
+                            "additionalProperties": false,
+                            "description": "The notification headers a curator gets when a decision is made. The gallery's name rides along so a decision about a second gallery isn't read as a repeat of the first.",
+                            "properties": {
+                                "approved": {
+                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                    "description": "[formatted] A gallery is now listed publicly"
+                                },
+                                "denied": {
+                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                    "description": "[formatted] A gallery was not accepted for the public list"
+                                }
+                            },
+                            "required": ["approved", "denied"],
+                            "type": "object"
+                        },
+                        "pending": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a curator whose gallery is waiting for a decision"
+                        },
+                        "skip": {
+                            "$ref": "#/definitions/ButtonText",
+                            "description": "The moderator's button that leaves a gallery for someone else to decide"
+                        }
+                    },
+                    "required": [
+                        "pending",
+                        "approved",
+                        "denied",
+                        "explain",
+                        "done",
+                        "approve",
+                        "deny",
+                        "skip",
+                        "notification"
+                    ],
+                    "type": "object"
+                },
                 "moderate": {
                     "$ref": "#/definitions/HeaderAndExplanationText",
                     "description": "Moderation view text"
@@ -27024,6 +27474,10 @@
                 "progress": {
                     "$ref": "#/definitions/Template%3C%5B%22moderated%22%2C%22remaining%22%5D%3E",
                     "description": "[formatted] Progress message"
+                },
+                "queue": {
+                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                    "description": "Which queue the moderator is working through: projects, galleries, or reported messages. Appended to, never inserted into: locales-fix pads a positional array by appending, so a label added in the middle would shift every locale's existing labels onto the wrong tabs."
                 },
                 "report": {
                     "additionalProperties": false,
@@ -27057,6 +27511,30 @@
                         "announce",
                         "flagged"
                     ],
+                    "type": "object"
+                },
+                "responsibility": {
+                    "additionalProperties": false,
+                    "description": "Who reviews a piece of content, said wherever a creator can see it (#938). One sentence per level of the responsibility ladder, all derived from the same rule the server enforces — a surface that said something else would be promising a reviewer nobody assigned.",
+                    "properties": {
+                        "both": {
+                            "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                            "description": "[formatted] Its gallery's curators and Wordplay's moderators both do. $name is the gallery."
+                        },
+                        "curators": {
+                            "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                            "description": "[formatted] A gallery's curators review it. $name is the gallery."
+                        },
+                        "none": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Nothing here is shared widely enough for anyone to review it."
+                        },
+                        "platform": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Wordplay's moderators review it, because anyone can see it."
+                        }
+                    },
+                    "required": ["none", "curators", "both", "platform"],
                     "type": "object"
                 },
                 "strike": {
@@ -27112,12 +27590,15 @@
                 "blocked",
                 "unmoderated",
                 "moderate",
+                "queue",
                 "flags",
                 "progress",
                 "done",
                 "button",
                 "report",
                 "strike",
+                "responsibility",
+                "gallery",
                 "error"
             ],
             "type": "object"
@@ -27240,6 +27721,9 @@
             "type": "string"
         },
         "Template<[\"#count\",\"notes\"]>": {
+            "type": "string"
+        },
+        "Template<[\"#count\",\"place\"]>": {
             "type": "string"
         },
         "Template<[\"#count\",\"scale\",\"semitones\"]>": {
@@ -27536,6 +28020,12 @@
         "Template<[\"node\",\"type\"]>": {
             "type": "string"
         },
+        "Template<[\"number\",\"#count\",\"place\"]>": {
+            "type": "string"
+        },
+        "Template<[\"number\",\"place\"]>": {
+            "type": "string"
+        },
         "Template<[\"number\",\"unit\"]>": {
             "type": "string"
         },
@@ -27668,7 +28158,10 @@
         "Template<[\"template\"]>": {
             "type": "string"
         },
-        "Template<[\"text\",\"name\",\"size\",\"face\",\"animation\",\"color\"]>": {
+        "Template<[\"term\"]>": {
+            "type": "string"
+        },
+        "Template<[\"text\",\"name\",\"size\",\"face\",\"animation\",\"color\",\"bubble\"]>": {
             "type": "string"
         },
         "Template<[\"text\",\"reminder\"]>": {

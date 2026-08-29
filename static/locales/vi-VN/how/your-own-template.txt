@@ -4,7 +4,7 @@ Tạo mẫu nhân vật của riêng bạn
 
 MỘT  @Structure Nó giống như một công thức nấu ăn với những chỗ trống cần điền vào.Đây là một mẫu bóng bay chỉ cần chọn màu sắc và nhãn, và nó biết cách tự hiển thị:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` màusắc: color kíchcỡ: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Bầu trời').show()

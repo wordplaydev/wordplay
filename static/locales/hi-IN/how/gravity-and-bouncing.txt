@@ -5,7 +5,7 @@
 @Motion नियंत्रण/कहाँ/एक चरित्र समय के साथ विकसित होता है। हम इसका उपयोग करते हैं।\place\ एक के लिए  @Phrase इसे ऊँचाई से शुरू करें ताकि यह गिर सके।हमें गिरने के लिए किसी सहारे की भी जरूरत है, वरना हमारा किरदार हमेशा के लिए गिरता ही रहेगा! @Shape एक विस्तृत के साथ @Rectangle इससे बढ़िया फर्श बनता है:
 
 \Stage([
-		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Phrase('🍎' स्थल: Motion(Place(0m 5m)) पदार्थ: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@
 बदलने के लिए/Bouncy/या कैसे/भारी/एक किरदार है, उसे अपना खुद का रूप दें। @Matter . @Matter इसके लिए द्रव्यमान, उछाल और घर्षण की आवश्यकता होती है:
 
 \Stage([
-		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
-		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Phrase('⚽' स्थल: Motion(Place(-2m 5m)) पदार्थ: Matter(1kg 0.9 0.2))
+		Phrase('🪨' स्थल: Motion(Place(2m 5m)) पदार्थ: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

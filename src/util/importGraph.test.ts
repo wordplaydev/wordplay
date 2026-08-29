@@ -227,6 +227,25 @@ test('resolving a color needs no basis', () => {
  * a fixed vocabulary rather than a description per font, which is what keeps it
  * to one step instead of growing with the catalogue.
  *
+ * Paths on stage (#167) add **no file** to any of these five — the counts below are
+ * unchanged, and nothing here reaches `Shape/Path.ts`, `Drawing.svelte.ts` or
+ * `PathHandles.svelte`: a Form is only ever constructed by `createDefaultShares`, which
+ * none of these entries evaluate, and drawing hangs off ProjectView, which none of them
+ * reach either. Every hundredth of an MB it costs is en-US.json, which every page carries
+ * — the `Path` block's docs and names, the two new `Shape` flags, one toolbar tip, and the
+ * announcements for drawing a path and editing its points. Three of the five had the slack
+ * to absorb it; Page and projects moved a hundredth for the form, galleries a hundredth
+ * more for the point handles.
+ *
+ * Speech bubbles (#75) add **no file** to any of these five, and the counts
+ * below are unchanged: `Bubble.ts` is only ever constructed by
+ * `createDefaultShares`, which none of these entries evaluate, and
+ * `AnimatedText.svelte` hangs off the stage's output views, which none of them
+ * reach. The landing page's +0.01MB is en-US.json, which every page carries —
+ * the `Bubble` block's docs and names for seven inputs, the `Phrase.bubble`
+ * input, and the clause the description template gained so a spoken line is
+ * described once rather than twice. The other four had the slack to absorb it.
+ *
  * The layout's last +0.01MB is alignment guides (#117): the seven anchor words
  * and the four sentences naming what a moved output lined up with, in
  * en-US.json, which every page carries. The snapping itself is not in this
@@ -234,13 +253,118 @@ test('resolving a color needs no basis', () => {
  * reached only from the stage's output views, so no entry here reaches them and
  * no file count moves. The other four budgets had enough slack to absorb the
  * text.
+ *
+ * Language and region names as tags (#1220) add **three files** to all five:
+ * `locale/tagNames.ts`, the region-name table it indexes
+ * (`locale/regionNames.generated.ts`), and `conflicts/UnknownRegion.ts`. These
+ * are reached through `nodes/Language.ts`, which every one of these entries
+ * already carries, and they have to be — a tag is resolved while conflicts are
+ * computed, so the name tables cannot be deferred behind a dynamic import the
+ * way a rarely-used view can. The +0.03MB is almost entirely the region table's
+ * 19KB — 249 regions, each with its own-language name, the language that named
+ * it, and CLDR's English name and alternates — plus the new conflict's strings
+ * in en-US.json, which every page carries. It sits beside `LanguageCode.ts`,
+ * which holds the same shape of data for languages, is four times larger, and
+ * is already on every one of these pages.
+ *
+ * Completing a tag as it's typed adds **no file** and +0.01MB: the prefix
+ * matcher in `tagNames.ts`, the completion method on `Language`, and the two
+ * dispatch branches in `PossibleEdits.ts` all live in modules these entries
+ * already carry. The file counts below are unchanged, which is the useful
+ * signal — this is code weight, not new reach.
+ *
+ * Searching galleries (#299) adds **one file** to `galleries` alone —
+ * `routes/[[locale]]/galleries/search.ts`, the `Searchable<Gallery>` adapter —
+ * and no file anywhere else. Searching a public gallery's *projects* needs the
+ * language runtime to parse them, and deliberately reaches it through the same
+ * `DB.loadProjects()` dynamic import the examples search already used: the
+ * "no page-wide chrome reaches the language runtime" test above is what caught
+ * a static import of `ProjectsDatabase` for the collection name, which would
+ * have put ~2MB on a page that shows gallery cards.
+ *
+ * Curated public galleries (#1311) add **no file** to any of these five and
+ * +0.01MB across all of them: the gallery schema's new moderation fields and
+ * the moderation state's shared zod schema live in `db/galleries/Gallery.ts`
+ * and `db/projects/Moderation.ts`, which every one of these entries already
+ * carries, and the new text sits in en-US.json, which every page carries. The
+ * moderator's gallery queue and the curator's notice are their own route
+ * components and reach none of these. File counts are unchanged, which is the
+ * signal that matters — this is code and text weight, not new reach.
+ *
+ * The glossary forms editor (#1244) adds **no file** to any of these five —
+ * `GlossaryFormsEditor.svelte` is reached only from `/localize`, which is not
+ * an entry here — and one budget moves by 0.01MB: the fifteen strings the
+ * editor needs, in en-US.json, which every page carries. `galleries` is simply
+ * the entry that had no slack left; the other four absorbed the same text.
+ *
+ * Editable annotations (#1275) add **no file** to any of these five and move
+ * each budget by 0.01MB, `galleries` (which had the least slack) by 0.02.
+ * Modules every page already carried grew: the accessor reflection became a
+ * recording proxy, `Markup` gained the source a concretized markup reports,
+ * `MarkupHTMLView` and `LocalizedText` gained the derivation that reads it, and
+ * `Node`, `Doc`, and `getDocLocales` gained the accessors they hand over —
+ * together ~8KB of code and the reasoning for it. `DefaultLocale`, which the
+ * reflection now reads to refuse a path en-US hasn't written, was already
+ * reachable from all five and costs ~100 bytes of import. File counts are
+ * unchanged, which is the signal that matters: this is weight, not reach.
+ *
+ * The landing page's last +0.01MB is localizing concept links off the index
+ * (#572 fallout): `getConceptName` gained a lookup by concept id, and
+ * `ConceptLinkUI` uses it where there is no `ConceptIndex` to resolve against —
+ * which is every page in this table, since none of them may build one. Before
+ * it, every `@Volume` and `@Phrase` on the landing page rendered its English id
+ * in all 29 translated locales. Both files were already reachable from all five
+ * entries, so the file counts do not move and no subgraph is added; the four
+ * other budgets absorbed the same ~4.5KB without moving at all.
+ *
+ * Adding a locale (fa-AF, #1229) moves `+layout` and `projects` by 0.01MB and
+ * the other three not at all. It adds no file and no subgraph — just ~76 bytes
+ * in two modules every page already carried: one line in `SupportedLocales.ts`
+ * and one in `choosePrompts.generated.ts`, whose Persian phrase is the larger
+ * half. These two entries are simply the ones with less than that much slack.
+ * Expect this pair to move again, by about this much, each time a locale lands.
+ *
+ * The durable notice inbox (#938) adds **three files** to every entry and moves
+ * each byte budget a little. `Database` watches the signed-in creator's inbox
+ * the same way it watches their strikes, so the three modules behind it —
+ * the schema and its defensive reader, the pure function that turns a notice
+ * into a route, and the store — are reachable from everything. None of them
+ * imports a `Project`, which is the reachability the test below actually
+ * guards. What they replace is not a module but code inside two databases: the
+ * pushed writes that put a notification in a map the moment a snapshot arrived,
+ * which is why a notification was lost on reload and why "clear all" meant two
+ * different things. Expect this to come back down when the derived
+ * chat-moderation walk goes away with the gallery dashboard.
+ *
+ * Converging chat moderation (#938) is **net +1 file** on every entry, and a
+ * little weight with it. `ChatDatabase` now reaches the two callables that own
+ * reporting and deciding — a participant naming their own reviewers, or setting
+ * their own reported message back to `approved`, are things a client must not
+ * be able to do — which is +2. Deleting `src/db/notifications.svelte.ts` gives
+ * one back: the in-memory map it held, and the moderation queue exported from
+ * the notification component beside it, are both replaced by server state.
+ *
+ * Delivering a decision to the people it is about (#938) moves `Page` and
+ * `projects` by 0.01MB and adds no file. It is the text: four notice headers,
+ * the two labels that introduce which rule a decision found broken and the
+ * note that came with it, and the way in to the moderation queue — all in
+ * `en-US.json`, which every entry carries. `Moderation.ts`, which the bell now
+ * reads flag descriptions from, was already reachable from all five.
+ *
+ * Saying who moderates what (#938) moves `Page` by 0.01MB and nothing else. It
+ * adds no file: the rights page's paragraph on speech grew by ~78 bytes when
+ * the blanket "we won't moderate anything in private projects" became the true
+ * statement — a private project is unmoderated, and putting it in a gallery
+ * makes that gallery's curators responsible for it and its chat. It lives in
+ * `en-US.json`, which every entry here carries, and `Page` is simply the one
+ * with less than that much slack.
  */
 test.each([
-    ['src/routes/+layout.svelte', 488, 3.51],
-    ['src/components/app/Page.svelte', 510, 3.74],
-    ['src/routes/[[locale]]/+page.svelte', 525, 3.83],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 528, 3.83],
-    ['src/routes/[[locale]]/projects/+page.svelte', 536, 3.86],
+    ['src/routes/+layout.svelte', 495, 3.6],
+    ['src/components/app/Page.svelte', 517, 3.84],
+    ['src/routes/[[locale]]/+page.svelte', 532, 3.93],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 536, 3.94],
+    ['src/routes/[[locale]]/projects/+page.svelte', 543, 3.96],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

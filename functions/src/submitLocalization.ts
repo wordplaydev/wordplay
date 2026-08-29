@@ -5,11 +5,13 @@
  * Inputs
  *  - `locale`: BCP-47 locale code the edits target (e.g. "fr-FR").
  *  - `description`: contributor's free-text rationale for the batch.
- *  - `edits`: map of override-key → revised string. Keys come from the same
+ *  - `edits`: map of override-key → revised value. Keys come from the same
  *    `LocalizationDexie` table the client uses, so they cover both regular
  *    locale paths (e.g. `ui.dialog.share.header`) and tutorial paths
  *    (e.g. `tutorial.acts.0.scenes.1.title`). A trailing numeric segment on a
- *    regular locale key indicates a tuple-element edit (e.g. `…labels.0`).
+ *    regular locale key indicates a tuple-element edit (e.g. `…labels.0`). A
+ *    list value replaces a whole leaf, which only a path a locale writes for
+ *    itself may take — see `isListEditPath`.
  *
  * Output
  *  - `prUrl`: URL of the resulting GitHub PR on success.
@@ -28,6 +30,14 @@ import { HttpsError, onCall } from 'firebase-functions/v2/https';
 import prettier from 'prettier';
 import type { StringAnalysis } from 'shared-types';
 import { analyze } from './analyzeLocalization.js';
+import {
+    englishDisplay,
+    isListEditPath,
+    listDisplay,
+    parseOverrideKey,
+    resolveAtPath,
+    setAtPath,
+} from './localeEditPaths.js';
 
 const REPO_OWNER = 'wordplaydev';
 const REPO_NAME = 'wordplay';
@@ -47,7 +57,7 @@ const cors = {
 export type SubmitLocalizationInputs = {
     locale: string;
     description: string;
-    edits: Record<string, string>;
+    edits: Record<string, string | string[]>;
 };
 
 export type SubmitLocalizationOutput = {
@@ -60,92 +70,6 @@ const LIMITS = {
     maxValueLength: 10000,
     maxDescriptionLength: 5000,
 };
-
-// ---------------------------------------------------------------------------
-// JSON path utilities
-// ---------------------------------------------------------------------------
-
-/** Parse an override key into (basePath, optional tuple index). Mirrors the
- *  client-side parseOverrideKey: a trailing all-digit segment is treated as
- *  an array index. */
-function parseOverrideKey(key: string): {
-    path: string;
-    index: number | undefined;
-} {
-    const lastDot = key.lastIndexOf('.');
-    const tail = lastDot === -1 ? '' : key.slice(lastDot + 1);
-    if (lastDot !== -1 && /^\d+$/.test(tail)) {
-        return { path: key.slice(0, lastDot), index: parseInt(tail, 10) };
-    }
-    return { path: key, index: undefined };
-}
-
-/** Walk a record along dotted segments and return the leaf value, or undefined
- *  if any step fails. */
-function resolveAtPath(root: Record<string, unknown>, path: string): unknown {
-    let node: unknown = root;
-    for (const seg of path.split('.').filter((s) => s.length > 0)) {
-        if (typeof node !== 'object' || node === null) return undefined;
-        node = (node as Record<string, unknown>)[seg];
-    }
-    return node;
-}
-
-/** Coerce a resolved en-US value into a single display string for the PR table.
- *  Locale leaves can be plain strings, tuple-element strings (selected by `index`),
- *  or paragraph arrays (`FormattedText[]`) edited as a single combined value — the
- *  last case has no index, so we join paragraphs with blank lines. Anything else
- *  (object, mismatched index, missing path) collapses to empty. */
-function englishDisplay(value: unknown, index: number | undefined): string {
-    if (typeof value === 'string') return value;
-    if (Array.isArray(value)) {
-        if (index !== undefined) {
-            const item = value[index];
-            return typeof item === 'string' ? item : '';
-        }
-        if (value.every((v) => typeof v === 'string'))
-            return value.join('\n\n');
-    }
-    return '';
-}
-
-/** Walk a record along dotted segments (and an optional tuple index) and
- *  assign `value`. Throws if the path doesn't exist; we'd rather fail loudly
- *  than silently drop a contributor's edit. Array assignments require the
- *  index to be in-bounds. */
-function setAtPath(
-    root: Record<string, unknown>,
-    path: string,
-    index: number | undefined,
-    value: string,
-): void {
-    const segments = path.split('.').filter((s) => s.length > 0);
-    if (segments.length === 0) throw new Error(`Empty path: ${path}`);
-    let node: unknown = root;
-    for (let i = 0; i < segments.length - 1; i++) {
-        if (typeof node !== 'object' || node === null)
-            throw new Error(
-                `Cannot descend into ${segments.slice(0, i).join('.')}`,
-            );
-        node = (node as Record<string, unknown>)[segments[i]];
-    }
-    if (typeof node !== 'object' || node === null)
-        throw new Error(`Parent of ${path} is not an object`);
-    const leafKey = segments[segments.length - 1];
-    const parent = node as Record<string, unknown>;
-
-    if (index === undefined) {
-        parent[leafKey] = value;
-        return;
-    }
-
-    const target = parent[leafKey];
-    if (!Array.isArray(target))
-        throw new Error(`${path} is not an array; can't set index ${index}`);
-    if (index < 0 || index >= target.length)
-        throw new Error(`Index ${index} out of bounds for ${path}`);
-    target[index] = value;
-}
 
 // ---------------------------------------------------------------------------
 // File path resolution
@@ -447,12 +371,15 @@ export const submitLocalizationBundle = onCall<
             'Too many edits in one bundle.',
         );
     for (const [key, value] of entries) {
-        if (typeof value !== 'string')
+        // A list replaces a whole leaf; `setAtPath` decides which paths may
+        // take one, and rejects every other.
+        const items = Array.isArray(value) ? value : [value];
+        if (items.some((item) => typeof item !== 'string'))
             throw new HttpsError(
                 'invalid-argument',
-                `Edit for "${key}" is not a string.`,
+                `Edit for "${key}" is not a string or a list of strings.`,
             );
-        if (value.length > LIMITS.maxValueLength)
+        if (items.some((item) => item.length > LIMITS.maxValueLength))
             throw new HttpsError(
                 'invalid-argument',
                 `Edit for "${key}" exceeds maximum length.`,
@@ -467,8 +394,8 @@ export const submitLocalizationBundle = onCall<
         );
 
     // Split edits into locale vs tutorial groups by key prefix.
-    const localeEdits: { key: string; value: string }[] = [];
-    const tutorialEdits: { key: string; value: string }[] = [];
+    const localeEdits: { key: string; value: string | string[] }[] = [];
+    const tutorialEdits: { key: string; value: string | string[] }[] = [];
     for (const [key, value] of entries) {
         if (key.startsWith(`${TUTORIAL_KEY_PREFIX}.`))
             tutorialEdits.push({ key, value });
@@ -513,17 +440,30 @@ export const submitLocalizationBundle = onCall<
         key: string;
         sourceEnglish: string;
         edited: string;
+        /** True for a list a locale writes for itself. Such a row is left out
+         *  of the analysis pass: back-translating and reading-level-scoring a
+         *  word list says nothing, and en-US's list isn't its source. */
+        ownList: boolean;
     }[] = [];
 
     try {
         for (const { key, value } of localeEdits) {
             const { path, index } = parseOverrideKey(key);
+            const ownList = Array.isArray(value) && isListEditPath(path);
+            // Read what the locale had before the write, since a list's "before"
+            // is its own previous list rather than anything in en-US.
+            const before = ownList
+                ? listDisplay(resolveAtPath(targetLocaleFile!.json, path))
+                : englishDisplay(
+                      resolveAtPath(sourceLocaleFile.json, path),
+                      index,
+                  );
             setAtPath(targetLocaleFile!.json, path, index, value);
-            const english = resolveAtPath(sourceLocaleFile.json, path);
             summaryRows.push({
                 key,
-                sourceEnglish: englishDisplay(english, index),
-                edited: value,
+                sourceEnglish: before,
+                edited: Array.isArray(value) ? listDisplay(value) : value,
+                ownList,
             });
         }
         for (const { key, value } of tutorialEdits) {
@@ -536,7 +476,8 @@ export const submitLocalizationBundle = onCall<
             summaryRows.push({
                 key,
                 sourceEnglish: englishDisplay(english, index),
-                edited: value,
+                edited: Array.isArray(value) ? listDisplay(value) : value,
+                ownList: false,
             });
         }
     } catch (e) {
@@ -554,7 +495,9 @@ export const submitLocalizationBundle = onCall<
     const analysis = await analyze({
         locale,
         sourceLocale: 'en-US',
-        strings: summaryRows.map((r) => ({ key: r.key, text: r.edited })),
+        strings: summaryRows
+            .filter((r) => !r.ownList)
+            .map((r) => ({ key: r.key, text: r.edited })),
         glossary: extractGlossaryWords(targetLocaleFile?.json),
         backTranslate: locale !== 'en-US',
     });
@@ -566,6 +509,8 @@ export const submitLocalizationBundle = onCall<
         const a = analysisByKey.get(r.key);
         return {
             ...r,
+            // A row left out of the analysis has no back-translation, which is
+            // the honest thing to show for a word list nobody translated.
             backtranslation:
                 locale === 'en-US' ? r.edited : (a?.backTranslation ?? ''),
             analysis: a,

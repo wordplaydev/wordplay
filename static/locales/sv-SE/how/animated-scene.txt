@@ -5,17 +5,17 @@ Ibland vill vi berätta historier, visa sångtexter eller ge liv åt poesi.För 
 Tänk dig till exempel att vi vill animera den korta barnramsan "Jack be Nimble".Vi skulle kunna göra en @Scene som har varje rad som en @Phrase , och genom att ställa in @Phrase/duration av varje rad, den @Scene skulle gå vidare när varje fras är klar.
 
 \Scene([
-		Phrase('Jack, var smidig' duration: 1s)
-		Phrase('Jack, var snabb' duration: 1s)
-		Phrase('Jack hoppar över ljusstaken' duration: 1s)
+		Phrase('Jack, var smidig' varaktighet: 1s)
+		Phrase('Jack, var snabb' varaktighet: 1s)
+		Phrase('Jack hoppar över ljusstaken' varaktighet: 1s)
 	])\
 
 @Scene kommer att vänta på en @Sequence måste också göras. Låt oss få ljuskön att hoppa!
 
 \Scene([
-		Phrase('Jack, var smidig' duration: 1s)
-		Phrase('Jack, var snabb' duration: 1s)
-		Phrase('Jack hoppar över ljusstaken' entering: Sequence.bounce(duration: 1s))
+		Phrase('Jack, var smidig' varaktighet: 1s)
+		Phrase('Jack, var snabb' varaktighet: 1s)
+		Phrase('Jack hoppar över ljusstaken' gårin: Sequence.bounce(varaktighet: 1s))
 	])\
 
 @Scene kan också ta en @Group av text också, och den kommer att vänta på att allt dess innehåll ska vara klart med animeringen.
@@ -24,8 +24,8 @@ Tänk dig till exempel att vi vill animera den korta barnramsan "Jack be Nimble"
 		Group(Stack() [
 				Phrase('Jack, var smidig')
 				Phrase('Jack, var snabb')
-			] duration: 2s)
-		Phrase('Jack hoppar över ljusstaken' entering: Sequence.bounce(duration: 1s))
+			] varaktighet: 2s)
+		Phrase('Jack hoppar över ljusstaken' gårin: Sequence.bounce(varaktighet: 1s))
 	])\
 
 interactive-scene

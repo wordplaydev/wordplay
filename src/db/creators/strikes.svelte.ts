@@ -20,7 +20,7 @@ export const StrikesCollection = 'strikes';
  * The signed-in creator's moderation record, as a module-level store so the
  * share dialog and the notification bell share one copy without plumbing. Same
  * pattern as [translation budget](src/db/translationBudget.svelte.ts) and
- * [notifications](src/db/notifications.svelte.ts).
+ * [notices](src/db/moderation/notices.svelte.ts).
  *
  * `undefined` means "not known yet or nothing to know" — a creator who has
  * never been found to break a rule has no document at all, which is the
@@ -89,5 +89,11 @@ function toStrikes(data: unknown): Strikes | undefined {
         strikes: Array.isArray(record.strikes) ? record.strikes : [],
         banned: record.banned === true,
         bannedAt: typeof record.bannedAt === 'number' ? record.bannedAt : null,
+        // A curator's decisions about this creator (#938). Absent on records
+        // written before curators could decide anything, and never counted —
+        // only `count` decides whether public sharing is lost.
+        ...(Array.isArray(record.findings)
+            ? { findings: record.findings }
+            : {}),
     };
 }

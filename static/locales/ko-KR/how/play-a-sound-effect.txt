@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 나를 눌러요' selectable: ⊤ name: '누르기')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 나를 눌러요' 선택가능: ⊤ 이름: '누르기')
+		Music(Track(tapped ? [1 5 8] [] 악기: Instrument.bell 반복: ⊥) 다시재생: tapped)
 	])\
 
 바로 다음 계산에서 목록이 다시 비워진다고 걱정하지 마세요 — 이미 시작된 음은 언제나 끝까지 재생됩니다. 빠뜨릴 수 없는 것은 \replay\입니다. 두 번 누르면 두 번째 누름은 첫 번째와 똑같은 음악을 만들어 냅니다. 그래서 아무것도 바뀌지 않고 다시 소리도 나지 않습니다. \replay\는 /지금 다시/라고 말하는 방법입니다. 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '이 일어났는지에 따라 정할 수 있습니다:' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] 악기: Instrument.piano 반복: ⊥) 다시재생: struck)
 	])\
 
 ⌨ 키를 누르세요\∆ key\를 살펴보세요. \key = ' '\는 자기만의 줄에서 계산되고, 값 검사 \key\ 여전히 공백으로 읽힙니다.

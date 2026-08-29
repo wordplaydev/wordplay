@@ -7,10 +7,10 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: 'पियानो')
-				Phrase('🎻' selectable: ⊤ name: 'भायोलिन')
+				Phrase('🎹' छनोटगर्नमिल्ने: ⊤ नाम: 'पियानो')
+				Phrase('🎻' छनोटगर्नमिल्ने: ⊤ नाम: 'भायोलिन')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'भायोलिन') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] बाजा: (picked = 'भायोलिन') ? Instrument.violin Instrument.piano))
 	])\
 
 यी दुई छान्न मिल्ने वाक्यांशहरूले नै यसलाई काम गराउँछन् —  @Choice  सँग पढ्न केही हुँदैन जबसम्म स्टेजमा केही कुरा \छान्नमिल्ने: ⊤\ हुँदैन।
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon छनोटगर्नमिल्ने: ⊤ नाम: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] बाजा: current.sound))
 	])\
 
 अब चौथो आवाज थप्न एउटै लाइन पुग्छ, र बटन आफैं देखा पर्छ। \found•ø ?\ गार्डलाई ध्यान दिनुहोस्:  @List/find  ले केही पनि नमिल्दा \ø\ फिर्ता दिन्छ, जुन कसैले छान्नु अघि हुन्छ — र फलब्याक पूरै एउटा \🎙\ नै हुनुपर्छ, किनकि \current\ ले त्यही हुने वाचा गर्छ।

@@ -28,7 +28,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~في معظم لغات البرمجة، البرنامج هو قائمة من الأوامر التي تخبر الحاسوب بما *يجب فعله*، مثل طباعة @value:",
-                            "$~\\py | print('مرحبًا')\\js|console.log('hi')\\jv | System.out.println('مرحبًا')\n;\\",
+                            "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~في @wordplay، البرامج هي *تعبيرات* تقول ما يجب أن تكون /نتيجة/ البرنامج، لا كيف يجب أن ينتجها.",
                             "$~هذا البرنامج يُقيَّم إلى القيمة \\'مرحبًا'\\، والتي تظهر بعد ذلك على المسرح. لا يوجد أمر طباعة، فقط @expression يقول ما القيمة التي يجب التوصل إليها."
                         ],
@@ -38,7 +38,7 @@
                             "Bind",
                             "neutral",
                             "$~في لغات أخرى، *المتغير* هو حاوية لها اسم تحتوي على @value، ويمكن أن تتغير قيمته:",
-                            "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
+                            "\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
                             "$~في @wordplay، القيم المسمّاة لا يمكن أن تتغير أبدًا. فهي 'ثابتة'، أي لا يمكن إعطاؤها قيمًا جديدة. لهذا نسمّيها @Bind بدلًا من @variable، لأنها لا يمكن أن تتغير.",
                             "$~سنتحدث قريبًا عن كيفية كتابة برامج تفاعلية بدون متغيرات يمكن أن تتغير."
                         ]
@@ -58,7 +58,7 @@
                             "Conditional",
                             "neutral",
                             "$~عادةً ما يكون للغات البرمجة الأخرى أمر *إذا* لفعل أشياء مختلفة بناءً على @condition:",
-                            "$~\\py | num = 5\nif\nnum < 5\n:\nprint('أقل')\nوإلا:\n\tprint('أكثر')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('أقل')\n;\nelse\nSystem.out.println('أكثر')\n;\\",
+                            "\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
                             "$~في @wordplay، كل شيء هو @expression، لذا فإن @Conditional هو *تعبير* يُكتب بشرط، ثم \\?\\، ثم تعبير صحيح وتعبير خاطئ. لا حاجة لأي كلمات مفتاحية"
                         ],
                         null,
@@ -67,7 +67,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~بعض اللغات لديها أيضًا أمر *switch* لفعل أشياء مختلفة بناءً على @value:",
-                            "$~\\py | n = 1\nmatch\nن3:\n\tcase\n1\n:print('one')\ncase\n2\n:print('two')\ncase\n_: print('كثير')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('واحد')\n\t;break;\n\tcase\n\t2: System.out.println('اثنان')\n\t;break;\n\tdefault: System.out.println('كثير')\n\t;break;\n}\\",
+                            "\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv| switch (n) {\n  case 1: System.out.println(\"one\"); break;\n  case 2: System.out.println(\"two\"); break;\n  default: System.out.println(\"many\"); break;\n}\\",
                             "$~لدى @wordplay @Match، الذي يختار نتيجة بناءً على القيمة."
                         ],
                         null,
@@ -76,7 +76,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~بعض اللغات لديها أيضًا @operator *دمج القيم الفارغة* لتوفير @value افتراضية عندما تكون @variable فارغة أو غير معرَّفة:",
-                            "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
+                            "\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
                             "$~يملك @wordplay العامل @Otherwise لتحقيق نفس النتيجة."
                         ]
                     ]
@@ -102,7 +102,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~تملك أغلب اللغات أنواعًا 'أساسية' كثيرة من @value.",
-                            "$~\\py | number\n:1\nنص2: 'مرحبًا'\nمنطقي: True\nلاشيء2: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'مرحبًا'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
+                            "\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
                             "$~يملك @wordplay صياغة مشابهة لهذه الأنواع، لكنه يسمح أيضًا بإضافة معلومات أخرى، مثل علامات @language للنصوص متعددة اللغات والوحدات على الأرقام."
                         ],
                         null,
@@ -118,7 +118,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~تملك لغات البرمجة أيضًا طرقًا لإنشاء مجموعات من القيم، مثل القوائم والمجموعات والخرائط (وتُعرف غالبًا بالقواميس أو الجداول التجزيئية):",
-                            "$~\\py | list = [\n\t\t1\n\t\t,2,3]\n\t\tset = {\n\t\t\t\t1\n\t\t\t\t,2,3}\n\t\t\t\tmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('أ' 1)\n\t\t\t\t\t;\\",
+                            "\\py| list = [1, 2, 3]\nset = {1, 2, 3}\nmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv| let array = [1, 2, 3];\nlet set = new java.util.HashSet<>([1, 2, 3]);\nlet map = new java.util.HashMap<>();\nmap.put(\"a\", 1);\\",
                             "$~يستخدم @wordplay صياغة مختلفة لهذه المجموعات، وأبرزها استخدام المسافات للفصل بين القيم بدلًا من الفواصل."
                         ],
                         null,
@@ -133,7 +133,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~تسمح بعض لغات البرمجة بتحديد @type الخاص بـ @variable، حتى تتأكد من أن كل طرق استخدامك للمتغير صحيحة:",
-                            "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
+                            "\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
                             "$~لغة @wordplay لها أنواع أيضًا، لكن الأنواع *مستنتَجة*. غالبًا لا تحتاج إلى تحديدها بنفسك، لكن أحيانًا قد تضطر لذلك إن تعذّر استنتاجها. يمكن لنوع القائمة أيضًا أن يسمّي نوعًا لكل مكان في القائمة، مثل\\[# '']\\ لقائمة تحتوي على شيئين بالضبط: رقم، ثم كلمة."
                         ],
                         null,
@@ -142,7 +142,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~تقدّم لغات البرمجة عادةً طريقة لإنشاء أنواع بيانات مخصّصة أيضًا، لدمج عدة قيم في بنية بيانات واحدة:",
-                            "$~\\py | class\nحيوانأليف:\n\tdef\n_\n_\ninit\n_\n_(\n\tself\n\t,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(\n\t\tString\n\t\tname\n\t\t,intage){\n\t\tthis.name = name\n\t\t;\n\t\tthis.age = age\n\t\t;\n\t\t}\n\t\t}\\",
+                            "\\py| class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv| public class Pet {\n    private String name;\n    private int age;\n    public Pet(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\",
                             "$~يستخدم @wordplay صياغة مختلفة لتعريف @Structure، باستخدام \\•\\ لتمثيل نوع البيانات، ثم @name، ثم الحقول داخل البنية."
                         ]
                     ]
@@ -158,7 +158,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~من العمليات الشائعة في البرمجة تحويل البيانات من @type إلى آخر. على سبيل المثال، قد نريد تحويل رقم إلى @value نصّي:",
-                            "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
+                            "\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
                             "$~تملك جميع قيم @wordplay بنية @Convert تتيح لك التحويل بين الأنواع. يحوّل هذا المثال \\1m\\ إلى أقدام، ثم إلى @Text. لكل نوع من القيم مجموعة كاملة من التحويلات المدعومة"
                         ],
                         null,
@@ -167,7 +167,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~بالنسبة لمجموعات القيم مثل القوائم والمصفوفات، تستخدم لغات البرمجة الأخرى بُنى مثل حلقات *for* و*while* لبناء مجموعة جديدة من قيم مجموعة موجودة.",
-                            "$~\\py | n = [\n\t\t1\n\t\t,2,3]\n\t\t#Listcomprehension\n\t\t[\n\t\t\tn\n\n\n\n\t\t\t2\n\t\t\t)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(\n\tn -> n\n\n\n\n\t2\n)\n;\n}\\",
+                            "\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
                             "$~يملك @wordplay بنية @Translate* بسيطة تستخدم \\↦\\ رمز: يبني @List أو @Set أو @Map جديدًا، ويستبدل كل عنصر (يُمثَّله \\⬚\\ @placeholder)، بـ@value جديد. هذا يضاعف كل عنصر لصنع \\[2 4 6]\\.",
                             "$~توجد أيضًا أدوات أقوى مثل @List.translate و@List.combine، إن احتجت عمليات أكثر تعقيدًا."
                         ],
@@ -182,7 +182,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~في كل لغة برمجة توجد دوال، تسمح لك بتعريف @blocks قابلة لإعادة الاستخدام من الكود، تأخذ مُدخلات وتنتج مخرجات بناءً عليها، مهما بلغ تعقيدها:",
-                            "$~\\py | def\ngreet(n)\n:\nreturn\n'مرحبًا ' + n\nprint(greet('قصيدة'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn\n\t\t'مرحبًا ' + n\n\t\t;\n\t}\n}\nGreeter.greet('قصيدة')\\",
+                            "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
                             "$~تدعم @wordplay أيضًا تعريف الدوال، لكن برمز ƒ. ومثل كل برامج Wordplay، يجب أن تُنتج الدوال @value."
                         ]
                     ]
@@ -200,7 +200,7 @@
                             "Stage",
                             "neutral",
                             "$~لغات البرمجة الأخرى تطبع نصًا في وحدة التحكم، أو ترسم على لوحة، أو تعدّل صفحة ويب:",
-                            "$~\\py | print('مرحبًا')\\js| document.body.append('hi')\\jv | System.out.println('مرحبًا')\n;\\",
+                            "\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
                             "$~مخرجات @wordplay طباعية: @Phrase أو @Group أو @Stage، تُظهر نصًا منسّقًا ومتحركًا وتفاعليًا على الشاشة، أو يقرأه قارئ الشاشة.",
                             "$~يُظهر المثال أدناه @Stage يحتوي @Phrase واحدًا له حركة تكبير وتصغير أثناء السكون."
                         ],
@@ -212,7 +212,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~معظم لغات البرمجة لديها طريقة لأخذ مُدخل من المستخدم:",
-                            "$~\\py | name = input('ما اسمك؟')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
+                            "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
                             "$~تأتي مُدخلات @wordplay من *التدفقات*، وهي قيم خاصة تتغير مع الوقت، استجابةً للمُدخل، وتجعل برنامج Wordplay يُعاد تقييمه بالقيمة الجديدة للتدفق.",
                             "$~يستخدم هذا البرنامج، على سبيل المثال، تدفق @Time لتحريك دوران رمز الكرة الأرضية. في كل مرة يصل فيها تدفق @Time() إلى @value جديد، يُعاد تقييم البرنامج بالقيمة الجديدة، فيُحدَّث ما يظهر منه على @Stage."
                         ],
@@ -222,7 +222,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~التفاعلية في معظم لغات البرمجة الأخرى تعني تسجيل معالِجات أحداث ودوال استدعاء:",
-                            "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'مرحبًا!')\n\nroot = tk.Tk()\nlabel = tk.Label(\n\t\troot\n\t\t,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.زر(\n\t\t\troot\n\t\t\t,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
                             "$~في @wordplay، يمكننا فقط استخدام تدفقات مثل @Button و@Key و@Pointer لصنع عناصر تفاعلية. نص هذا @Phrase يعتمد على ما إذا كان @Button قد نُقر عليه، باستخدام @Conditional للتحقق مما إذا كان تدفق @Button قد @Changed."
                         ],
                         null,
@@ -237,7 +237,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~تسمح لك لغات البرمجة الأخرى بتغيير قيم المتغيرات أثناء تشغيل البرنامج، وهذا مفيد لصنع تطبيقات ديناميكية وتفاعلية. لكنها تتطلب منك أن تتذكر تحديث القيم في الأماكن الصحيحة، وتحديث ما يظهر على الشاشة عند تغيّر تلك القيم:",
-                            "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'النقرات: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(\n\t\troot\n\t\t,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.زر(\n\t\t\troot\n\t\t\t,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
                             "$~تبسّط @wordplay هذا باستخدام @Reaction @expression، الذي يبدأ بقيمة أولية، ويتحقق من @condition يشير إلى مُدخلات التدفق، ويحدّث قيمة التعبير بناءً على تغيّرات التدفق. في هذا المثال، في كل مرة يتغيّر فيها تدفق @Button، نحدّث قيمة العدّاد، وهذا يحدّث @Phrase الظاهر على @Stage."
                         ]
                     ]
@@ -260,7 +260,7 @@
                             "FunctionDefinition",
                             "angry",
                             "$~اللغات الأخرى تُطلق *أخطاء* — وهي علامة على أن البرنامج قام بشيء غير مسموح به:",
-                            "$~\\py | 1 + 'مرحبًا'\\js|1 + 'hello'\\jv | 1 + 'مرحبًا'\\",
+                            "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
                             "$~يُطلق على الأخطاء في @wordplay اسم *تعارضات*: أمران لا يمكن أن يكونا صحيحين معًا، مثل جمع رقم مع نص في البرنامج أدناه.",
                             "$~سيضع Wordplay خطًا تحت التعارضات ويعرضها في الشريط الجانبي @UI/conflict. كما سيقترح حلولًا لإصلاح المشكلة."
                         ],
@@ -270,7 +270,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~تقدّم معظم لغات البرمجة أدوات تصحيح لمساعدة صانعي البرامج على فهم وحل المشكلات في كودهم. لكن كثيرًا منها يستخدم فقط جملًا للطباعة لفحص قيم المتغيرات في نافذة طرفية:",
-                            "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
+                            "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
                             "$~يقدّم @wordplay تجربة تصحيح أكثر تطورًا، تتيح لك التنقل *للأمام* و*للخلف* عبر خطوات التنفيذ. اضغط زر التصحيح ⏸️ في مبدّل الأوضاع @UI/modeSwitcher فوق المسرح للدخول إلى وضع *التصحيح*: تظهر قيمة كل تعبير بجانبه في الكود، ويمكنك @UI/stepControls التنقل بين خطوات التنفيذ في أي اتجاه، لتشاهد كيف تُبنى القيمة.",
                             "$~الأوضاع الأخرى مهمة أيضًا: وضع *التحرير* ✏️ يُستخدم لتغيير البرنامج بينما يبقى المسرح ثابتًا، ووضع *التشغيل* ▶️ يشغّله مباشرة، ويستجيب للمدخلات في الوقت الحقيقي."
                         ]

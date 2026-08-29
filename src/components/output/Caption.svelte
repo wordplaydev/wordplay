@@ -8,9 +8,9 @@
      words linger — see caption.ts. -->
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
-    import { CaptionHold } from '@components/output/caption';
+    import { captionFor, CaptionHold } from '@components/output/caption';
     import { animationDuration, captionSize } from '@db/Database';
-    import { SaySource, speakingNow } from '@output/Speech/speech';
+    import { speakingNow } from '@output/Speech/speech';
     import { onDestroy } from 'svelte';
     import { fade } from 'svelte/transition';
 
@@ -20,9 +20,12 @@
     // The bus is the single decision: whatever it reports speaking for `Say` is
     // what this shows. Another source holding the voice reads as stopped here,
     // which is what it is — a preempting utterance drops the Say it displaced.
+    // A `Say` a `Phrase`'s speech bubble carries opts out: the bubble already
+    // shows those words, attached to the speaker, which is what this band is
+    // standing in for when there is nothing on stage saying them.
     $effect(() => {
         const now = $speakingNow;
-        hold.speaking(now?.source === SaySource ? now.text : undefined);
+        hold.speaking(captionFor(now));
     });
 
     onDestroy(() => hold.stop());

@@ -1,4 +1,9 @@
-import { CaptionHold, CaptionHoldTime } from '@components/output/caption';
+import {
+    captionFor,
+    CaptionHold,
+    CaptionHoldTime,
+} from '@components/output/caption';
+import { SaySource } from '@output/Speech/speech';
 import { describe, expect, test } from 'vitest';
 
 /** A manual clock, so the hold's timing is asserted rather than waited out. */
@@ -123,5 +128,31 @@ describe('teardown', () => {
         harnessed.hold.stop();
         harnessed.hold.speaking('hello');
         expect(harnessed.shown).toEqual(['hello', 'hello']);
+    });
+});
+
+describe('deciding what to caption', () => {
+    test('a Say on stage is captioned', () => {
+        expect(
+            captionFor({ source: SaySource, text: 'hello', captioned: true }),
+        ).toBe('hello');
+    });
+
+    test("a speech bubble's Say is not captioned", () => {
+        // The bubble already shows these words attached to the speaker, so a
+        // floor caption of them would put the same line on screen twice.
+        expect(
+            captionFor({ source: SaySource, text: 'hello', captioned: false }),
+        ).toBeUndefined();
+    });
+
+    test('another source holding the voice captions nothing', () => {
+        expect(
+            captionFor({ source: 'music:song', text: 'la', captioned: true }),
+        ).toBeUndefined();
+    });
+
+    test('silence captions nothing', () => {
+        expect(captionFor(undefined)).toBeUndefined();
     });
 });

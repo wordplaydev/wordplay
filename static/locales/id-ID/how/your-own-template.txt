@@ -4,7 +4,7 @@ Terkadang Anda menginginkan banyak karakter yang terlihat hampir sama, tetapi de
 
 A  @Structure  Ini seperti resep dengan bagian-bagian kosong yang perlu diisi.Berikut templat balon yang menerima warna dan label, dan tahu cara menampilkan dirinya sendiri:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈 \label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈 \label\` warna: color ukuran: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Langit').show()

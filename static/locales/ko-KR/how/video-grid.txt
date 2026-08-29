@@ -1,21 +1,29 @@
-카메라로 비디오 만들기
+카메라로 영상 만들기
 
-그 @Camera 스트림은 세상의 색상 그리드를 얻는 좋은 방법입니다.우리가 그 색상을 보고 이미지를 다시 만들고 싶다면 어떻게 해야 할까요? @Camera 보시나요?
+ @Camera  스트림은 세상의 색을 격자 모양으로 가져오는 좋은 방법입니다. 그 색들을 다시 보여줘서,  @Camera 이 보는 그림을 그대로 만들어 보면 어떨까요?
 
-우리는 사용할 수 있습니다 @Grid 레이아웃 @Group , 그리고  @List/combine 색상을 목록으로 변환하는 기능 @Phrase 우리가 주는 것 @Grid .
+ @Grid  레이아웃을  @Group 에 쓰고,  @List/combine  함수로 색들을  @Phrase  목록으로 바꿔서 @Grid 에 넘겨줍시다.
 
 \width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+Stage(
+	[
+		Group(
+			Grid(height width 0m)
+			colors.combine(
+				[]
+				ƒ(phrases row) [
 						:phrases
-						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
-					]))
-	])\
+						:row ↦ Phrase("⬤" 색상: ⬚ 지속: 0s)
+					]
+			)
+		)
+	]
+)\
 
-이 예제는 각 색상을 특정 색상의 원으로 변환하여 구문 목록을 작성합니다.
+이 예제는 문구 목록을 만들어서, 각 색을 그 색을 가진 원으로 바꿉니다.
 
-조심하세요 @Camera 스트림: 입력이 많기 때문에 이미지의 너비와 높이를 작게 유지하는 것이 좋습니다.
+ @Camera  스트림은 조심해서 써야 합니다: 입력이 아주 많이 생깁니다! 이미지의 너비와 높이를 작게 유지하세요.
 
 interactive-scene

@@ -9,6 +9,7 @@ import {
     getTermDefinition,
     type GlossaryFormIndex,
 } from '@locale/Glossary';
+import { findConceptEntry } from '@locale/getConceptName';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
@@ -369,20 +370,16 @@ export default class ConceptLink extends Content {
         if (concept instanceof GlossaryName)
             return concept.id in locale.glossary;
 
-        // See which section of the locale has the concept name, if any.
-        const section = [
-            locale.node,
-            locale.input,
-            locale.output,
-            locale.basis,
-        ].find((c) => concept.name in c);
+        // See which section of the locale has the concept name, if any. Shared
+        // with `getConceptNameById`, which reads the name a link displays where
+        // there is no ConceptIndex — a link that validates here but whose name
+        // can't be found there would render as its raw English id.
+        const entry = findConceptEntry(locale, concept.name);
 
         // Valid if we found it, and no property was specified, or it was, and the concept has it
         // by canonical key or by one of its localized names, since runtime resolution accepts both.
-        if (section === undefined) return false;
+        if (entry === undefined) return false;
         if (concept.property === undefined) return true;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const entry = (section as Record<string, any>)[concept.name];
         return (
             concept.property in entry ||
             hasLocalizedProperty(entry, concept.property) ||

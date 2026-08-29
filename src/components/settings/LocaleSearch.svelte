@@ -3,6 +3,7 @@
     import { Languages } from '@locale/LanguageCode';
     import type { Locale } from '@locale/Locale';
     import { Regions } from '@locale/Regions';
+    import { foldTagName, getRegionName } from '@locale/tagNames';
 
     /** Filter a list of locale-bearing items by a query that matches an item's
      *  native name, Latin name, region code, or region name. Matching is
@@ -25,6 +26,7 @@
                 info?.en ?? '', // Latin name, e.g. "Spanish"
                 ...locale.regions, // region code, e.g. "MX"
                 ...locale.regions.map((r) => Regions[r]?.en ?? ''), // region name, e.g. "Mexico"
+                ...locale.regions.map(getRegionName), // its own name, e.g. "México"
             ]
                 .join(' ')
                 .toLocaleLowerCase(languages);
@@ -70,6 +72,18 @@
         if (fold(en, languages).startsWith(query)) return 2;
         if (native !== undefined && fold(native, languages).startsWith(query))
             return 3;
+        // Last, and lowest, the tag resolver's own fold: it ignores accents and
+        // spaces, so "espanol" reaches Español and "cotedivoire" reaches Côte
+        // d'Ivoire, on the keyboard the reader actually has.
+        const loose = foldTagName(query);
+        if (
+            loose.length > 0 &&
+            [en, native].some(
+                (name) =>
+                    name !== undefined && foldTagName(name).startsWith(loose),
+            )
+        )
+            return 4;
         return undefined;
     }
 
@@ -100,14 +114,22 @@
             .sort((a, b) => a.label.localeCompare(b.label)));
     }
 
-    /** Every region, as dropdown options ordered by English name. */
+    /** Every region, as dropdown options ordered by name. Labelled the way
+     *  languages are — the region's own name, then the English one — so a
+     *  reader sees "México (Mexico)" rather than a bare code. */
     export function allRegionOptions(): CodeOption[] {
         return (allRegions ??= Object.entries(Regions)
             .map(([code, meta]) => ({
                 value: code,
-                label: `${meta.en} (${code})`,
+                label: regionLabel(code, meta.en),
             }))
             .sort((a, b) => a.label.localeCompare(b.label)));
+    }
+
+    /** "México (Mexico)", or just "Mexico" where the two are the same word. */
+    function regionLabel(code: string, en: string): string {
+        const name = getRegionName(code);
+        return name === en ? en : `${name} (${en})`;
     }
 
     /** The languages `query` prefix-matches, best first. An empty query matches everything,
@@ -136,8 +158,8 @@
             .map(({ value, label }) => ({ value, label }));
     }
 
-    /** The regions `query` prefix-matches, best first. Regions carry only English names
-     *  and no population, so ties fall through to alphabetical order. */
+    /** The regions `query` prefix-matches, best first. Regions carry no
+     *  population, so ties fall through to alphabetical order. */
     export function matchRegions(
         query: string,
         languages: LanguageCode[],
@@ -146,13 +168,19 @@
         if (q.length === 0) return allRegionOptions();
         return Object.entries(Regions)
             .flatMap(([code, meta]) => {
-                const order = rank(q, code, meta.en, undefined, languages);
+                const order = rank(
+                    q,
+                    code,
+                    meta.en,
+                    getRegionName(code),
+                    languages,
+                );
                 return order === undefined
                     ? []
                     : [
                           {
                               value: code,
-                              label: `${meta.en} (${code})`,
+                              label: regionLabel(code, meta.en),
                               rank: order,
                               reach: -1,
                           },

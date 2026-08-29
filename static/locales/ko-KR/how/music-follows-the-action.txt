@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = '메뉴') ? '▶ 눌러서 시작하기' '🏃 달려!' 1m)
-		(phase = '메뉴') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = '메뉴') ? Music(Track(theme 악기: Instrument.bell) 박자빠르기: 72beats/min) Music(Track(theme 악기: Instrument.synth) 박자빠르기: 132beats/min)
 	])\
 
 두 곡은 똑같은 여덟 개의 숫자입니다. 악기와 빠르기만 바뀌었는데도 벌써 다른 곡처럼 들립니다 — 왜냐하면 음계 단계는 *음계의 어느 단계인지*를 말하지, 어떤 음높이인지를 말하지 않기 때문입니다. 그래서  @Music  가 그것들을 다시 해석할 수 있습니다. 여기에 \크기: 🎼.화성단음계\ 을 건네주면, 음표를 하나도 다시 쓰지 않았는데도 같은 곡이 불길하게 바뀝니다.
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('악보 \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] 악기: Instrument.drums) 박자빠르기: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 충분히 여러 번 누르면 드럼이 처음보다 두 배 세게 몰아붙입니다. 짧고 타악기 같은 음표가 그것을 들리게 해줍니다 — 길게 이어진 음표 아래에서는 빠르기 변화를 느끼기 어렵습니다.

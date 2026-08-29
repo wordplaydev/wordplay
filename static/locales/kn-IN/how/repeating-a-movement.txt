@@ -5,13 +5,13 @@
 ಬದಲಾಗಿ, ನಾವು ಬಳಸಬಹುದು @Sequence ಜೊತೆಗೆ @Phrase ಏನನ್ನಾದರೂ ಹಲವು ಬಾರಿ ಪುನರಾವರ್ತಿಸುವಂತೆ ಮಾಡಲು! ನಿರ್ದಿಷ್ಟವಾಗಿ,ನಾವು ಎಣಿಕೆಯನ್ನು ಬಳಸಬಹುದು @Sequence ಮತ್ತು ಒಂದು ಸೆಟ್ ಭಂಗಿಗಳು ಎಷ್ಟು ಬಾರಿ ನಡೆಯುತ್ತವೆ ಎಂಬುದನ್ನು ಆರಿಸಿ. ಉದಾಹರಣೆಗೆ,ಇಲ್ಲಿ ಬ್ಯಾಸ್ಕೆಟ್‌ಬಾಲ್ ಎರಡು ಬಾರಿ ಮೇಲಕ್ಕೆ ಮತ್ತು ಕೆಳಕ್ಕೆ ಪುಟಿಯುತ್ತಿದೆ.
 
 \Stage([
-		Phrase('🏀 🏀 🏀 ಕನ್ನಡ' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀 🏀 🏀 ಕನ್ನಡ' ಪ್ರವೇಶಿಸುವುದು: Sequence({
+					0%: Pose(ಆಫ್‌ಸೆಟ್: Place(ವೈ: 0.25m))
+					25%: Pose(ಆಫ್‌ಸೆಟ್: Place(ವೈ: 0m))
+					50%: Pose(ಆಫ್‌ಸೆಟ್: Place(ವೈ: -0.25m))
+					75%: Pose(ಆಫ್‌ಸೆಟ್: Place(ವೈ: 0m))
+					100%: Pose(ಆಫ್‌ಸೆಟ್: Place(ವೈ: 0.25m))
+				} ಎಣಿಕೆ: 2x ಅವಧಿ: 2s))
 	])\
 
 animate-phrase, shake-phrase

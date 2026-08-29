@@ -2,16 +2,16 @@
 
 有时你想在屏幕上显示一系列选项，并根据观众的选择执行相应的操作。为此，我们需要做两件事：
 
-• 一个或多个 @Phrase 标记为可选，并具有唯一名称（例如，\Phrase('选项 1' selectable: ⊤ name: '一')\）
+• 一个或多个 @Phrase 标记为可选，并具有唯一名称（例如，\Phrase('选项 1' 可选择的: ⊤ 名字: '一')\）
 • 一个 @Choice ，这会变成 @Phrase 最近选择的名称。
 
 举个例子，这里我们显示三个选项，每个选项都有一个唯一的名称。
 
 \option: Choice()
 Group(Stack() [
-		Phrase('选项 1' selectable: ⊤ name: '一')
-		Phrase('选项 2' selectable: ⊤ name: '二')
-		Phrase('选项 3' selectable: ⊤ name: '三')
+		Phrase('选项 1' 可选择的: ⊤ 名字: '一')
+		Phrase('选项 2' 可选择的: ⊤ 名字: '二')
+		Phrase('选项 3' 可选择的: ⊤ 名字: '三')
 		Phrase(option)
 	])\
 

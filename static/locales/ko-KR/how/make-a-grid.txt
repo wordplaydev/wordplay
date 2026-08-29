@@ -18,10 +18,10 @@
 모든 셀의 크기를 동일하게 하려면, @Grid 너비와 높이도 지정해야 합니다. 이렇게 하면 글자 크기가 다르더라도 각 글자가 사각형 안에 깔끔하게 유지됩니다.
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' 크기: 1m)
+		Phrase('🐶' 크기: 1.5m)
+		Phrase('🦊' 크기: 0.5m)
+		Phrase('🐻' 크기: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

@@ -304,15 +304,20 @@
             "description": "$~documentation$language[ en $language|], $#words[$#words palabra|$words palabras|$words palabras]",
             "emotion": "serious",
             "doc": [
-                "$~Doy formato enriquecido a las cosas con @Markup, como explicaciones de alguno de tus @Program, o incluso las palabras que pones en el escenario con @Phrase.",
+                "$~Doy formato completo a las cosas con @Markup, como explicaciones de algunos de tus @Program, o hasta las palabras que pones en el escenario con @Phrase.",
                 "Por ejemplo, puedo ir antes de cualquier @expression:",
                 "\\¶¿De verdad se supone que esto sea 7?¶\n7\\",
-                "Por ejemplo, me puedes poner antes de @Bind:",
-                "\\¶yo mido qué tan alto es alguien¶\naltura: 5m\\🪲",
+                "Por ejemplo, puedes ponerme antes de @Bind:",
+                "\\¶mido qué tan alta es una persona¶\naltura2: 5m\\🪲",
                 "O antes de un @FunctionDefinition:",
-                "\\¶sumo dos números¶\nƒ suma(a•# b•#) a + b\\",
+                "\\¶sumo dos números¶\nƒ suma2(a2•# b2•#) a2 + b2\\",
                 "O antes de un @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶recuerdo el nombre y la fruta favorita de las personas¶\n•persona(nombre2•'' fruta•'')\\",
+                "También puedes ponerme justo al principio de @Program para decir de qué trata toda la actuación",
+                "\\¶este programa dice hola¶\n\n'¡hola!'\\",
+                "Puedes darme un @Language para ayudar a que otras personas sepan en qué idioma estoy escrito:",
+                "\\¶soy un documento en inglés¶\nduración2: 5s\\🪲",
+                "¿Sabías que puedes hacer una lista de mí? Ve a hablar con @Docs."
             ]
         },
         "Docs": {
@@ -344,19 +349,20 @@
             "emotion": "eager",
             "doc": [
                 "$~¡Soy una etiqueta de idioma y trabajo con @Name y @Doc!",
-                "Soy muy buena para dejar *bien claro* en qué idioma está escrito algo. Con una pequeña diagonal y un par de letras, nadie se confundirá nunca sobre en qué idioma está algún texto.",
+                "Soy muy buena para dejar *bien claro* en qué idioma está escrito algo. Solo con una pequeña diagonal y unas letras, nadie tendrá dudas sobre en qué idioma está un texto.",
                 "Por ejemplo, si quieres decir \"Idioma\" pero dejar claro que está en inglés:",
-                "\\'Idioma'\\",
+                "\\'Idioma'/es\\",
                 "Puedes hacer esto con un @Name:",
                 "\\sonido: 'miau'\\🪲",
-                "…o un @Doc:",
+                "…o con un @Doc:",
                 "\\¶Onomatopeya¶\nsonido: 'miau'\\🪲",
-                "A veces el texto no es de un solo idioma — es una *mezcla*. Como el espanglish, donde el español y el inglés se combinan. Para esos casos, lista cada idioma con un guion bajo entre ellos. El primero es el *principal* — ese es el que uso cuando tengo que elegir (por ejemplo, para escoger qué comillas usar).",
+                "A veces un texto no es de un solo idioma, sino una *mezcla*. Como el spanglish, donde el español y el inglés se combinan. Para esos casos, escribe cada idioma separado por un guion bajo. El primero es el *principal*: ese es el que uso cuando tengo que elegir algo (por ejemplo, para decidir qué comillas usar).",
                 "\\\"Hola gentleman!\"/es_en\\",
-                "\\¶A bilingual greeting¶/es_en\nhello/es_en: '¡Hola, caballero!'\\🪲",
-                "También puedes añadir un solo @region, después de un guion, igual que con un solo idioma:",
+                "\\¶A bilingual greeting¶\nhello/es_en: '¡Hola caballero!'\\🪲",
+                "También puedes agregar una sola @region, después de un guion, igual que con un solo idioma:",
                 "\\\"Hola gentleman!\"/es_en-MX\\",
-                "No hay límite en cuántos idiomas puedes listar — solo no repitas el mismo dos veces; te avisaré si lo haces. Hay muchos <códigos de idioma de 2 letras@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> que entiendo. Si no usas uno de esos, también te avisaré."
+                "No hay límite de cuántos idiomas puedes escribir en la lista, solo no repitas el mismo dos veces; si lo haces, te lo diré.",
+                "Puedes escribir un idioma con su <código de 2 letras@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> o con su *nombre*, en ese idioma o en inglés. `/es`, `/Español` y `/Spanish` significan lo mismo, y también `/es-MX`, `/es-México` y `/es-Mexico`. Las mayúsculas y los acentos no importan, así que `/ESPANOL` también funciona. Un nombre con espacio se escribe sin el espacio, como `/BahasaIndonesia`, porque una etiqueta es una sola palabra. Si no reconozco un idioma o una región, te lo diré."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -373,6 +379,11 @@
                     "name": "$~idioma duplicado",
                     "explanation": "$~Usaste el idioma '$code' dos veces. Las etiquetas de idiomas mezclados deben listar cada idioma solo una vez.",
                     "resolution": "$~quitar la etiqueta *$code* duplicada"
+                },
+                "UnknownRegion": {
+                    "name": "$~región desconocida",
+                    "explanation": "$~no conozco esta región",
+                    "resolution": "$~quitar esta región"
                 }
             }
         },
@@ -530,8 +541,10 @@
             "emotion": "serious",
             "doc": [
                 "$~Guardo un ejemplo de código dentro de un @Doc, así:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "El ejemplo resaltado se muestra como la vista previa en el espacio @how y en el @guide."
+                "\\¶aquí hay un ejemplo de suma: \\1 + 2\\¶\n3 + 4\\",
+                "Si usas Ejemplos en tus guías prácticas, puedes marcar uno como destacado.",
+                "\\¶aquí hay un ejemplo destacado: \\1 + 2\\⭐¶\n3 + 4\\",
+                "El ejemplo destacado se muestra como la vista previa en el espacio de @how y en @guide."
             ]
         },
         "Mention": {
@@ -884,8 +897,11 @@
             "emotion": "eager",
             "doc": [
                 "$~¡Soy cualquier @expression, pero con un @Doc!",
-                "Para crearme, solo pon un @Doc antes de una expresión, y me obtendrás:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "Para crearme, solo pon un @Doc antes de una expresión, y ahí estaré:",
+                "\\dobleplus: 1\n(2 × dobleplus) +\n\t¶hagámoslo un poco más grande¶\n\t1\\",
+                "Soy útil para hacer un comentario sobre alguna parte de un programa.",
+                "Si pones 👀 en el @Doc, también puedo resaltar la expresión:",
+                "\\¶¡mírame! 👀¶\n1 + 1\\"
             ],
             "start": "$~Evaluemos la expresión"
         },
@@ -2069,8 +2085,8 @@
             "description": "$~ejemplo de código externo$languages[ en $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Muestro código con resaltado de sintaxis escrito en otros lenguajes de programación, para que las creadoras que ya programan puedan comparar.",
-                "Escribe una variante por idioma con una etiqueta de dos letras, una barra y el código, como \\py | a = 5\\js| let a = 5;\\.Thereaderseestheonematchingtheirchosenlanguage.Python(py),JavaScript(js),andJava(jv)aresupported."
+                "$~Muestro código con resaltado de sintaxis escrito en otros lenguajes de programación, para que las creadoras que ya saben programar puedan comparar.",
+                "Escribe una variante por idioma como una etiqueta de dos letras, una barra y el código, así \\py| a = 5\\js| let a = 5;\\. Quien lee ve la que coincide con el idioma que eligió. Se admiten Python (py), JavaScript (js) y Java (jv)."
             ]
         },
         "Localized": {
@@ -2653,7 +2669,7 @@
                         "\\'hola'.mayúsculas()\\",
                         "Las letras solo tienen mayúsculas y minúsculas en algunos sistemas de escritura, así que el texto en un sistema de escritura sin ellas, como el japonés o el árabe, no cambia.",
                         "Mi etiqueta de idioma decide qué reglas usar. El turco tiene una i con punto y una i sin punto, y solo el texto etiquetado como turco las convierte a mayúscula a la manera turca:",
-                        "\\'iyi'.mayúsculas()\\",
+                        "\\'iyi'/tr.mayúsculas()\\",
                         "\\'iyi'.mayúsculas()\\"
                     ],
                     "names": ["$~mayúsculas"],
@@ -3651,25 +3667,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Puedo tomar una lista y hacer una lista nueva con sus valores ordenados. Así:",
+                        "$~Puedo tomar una lista y crear una nueva lista con sus valores ordenados. Así:",
                         "\\[1 5 8 0 2].ordenado()\\",
-                        "También puedo hacerlo con valores de tipo @Text, en orden alfabético. Una letra mayúscula se ordena junto a su versión minúscula, así que una palabra no se manda al final solo por empezar con mayúscula:",
+                        "También puedo hacerlo con valores de @Text, en orden alfabético. Una letra mayúscula se ordena junto a su versión minúscula, así que una palabra no se manda al final solo por empezar con mayúscula:",
                         "\\['Naranja' 'kiwi' 'Plátano' 'manzana'].ordenado()\\",
-                        "Y si tienes una lista de valores que no son @Number ni @Text, puedes darme un @FunctionDefinition que convierta cada elemento en un @Number o un @Text para que yo pueda ordenarlo. Por ejemplo, aquí tenemos una lista de listas de distintos tamaños; si me das una función que convierta cada lista en su tamaño, puedo ordenarlas por tamaño.",
-                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(\n\tƒ(lista2) lista2.longitud()\n)\\",
-                        "Una función que crea @Text es la forma de ordenar por una palabra que tú calculas, en vez de por el valor mismo. Aquí ordeno nombres por el apellido:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].ordenado(\n\tƒ(nombre2•'') (nombre2 ÷ ' ').última()\n)\\"
+                        "Y si tienes una lista de valores que no son @Number ni @Text, puedes darme una @FunctionDefinition que convierta cada elemento en un @Number o un @Text para que pueda ordenarlo. Por ejemplo, aquí tenemos una lista de listas de diferentes tamaños; si me das una función que convierte cada lista en su tamaño, puedo ordenarlas según ese tamaño.",
+                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(\n\tƒ(lista3) lista3.longitud()\n)\\",
+                        "Una función que crea @Text es la manera de ordenar según una palabra que tú calculas, en vez de según el valor mismo. Aquí ordeno nombres según el último:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].ordenado(\n\tƒ(nombre3•'') (nombre3 ÷ ' ').última()\n)\\"
                     ],
                     "names": "ordenado",
                     "inputs": [
                         {
-                            "doc": "$~El @FunctionDefinition opcional para ordenar una lista @value. Debe convertir el valor en un @Number o un @Text que se pueda usar para ordenar la lista.",
+                            "doc": "$~La @FunctionDefinition opcional para ordenar una lista @value. Debe convertir el valor en un @Number o un @Text que se pueda usar para ordenar la lista.",
                             "names": "sequenciador"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~El @value que se convertirá en un @Number o un @Text.",
+                            "doc": "$~La @value que se convertirá en un @Number o un @Text.",
                             "names": "valor"
                         }
                     ]
@@ -4233,7 +4249,7 @@
                 "/¡clic tap!/",
                 "Así que la mejor manera de usarlo es crear una actuación con frases seleccionables con nombre @Phrase, y luego usar un @Reaction para decidir qué hacer cuando se elige ese nombre.",
                 "Aquí está el ejemplo más simple:",
-                "\\Grupo(\n\tPila()\n\t[\n\t\tFrase('uno' selectable: ⊤ name: '1')\n\t\tFrase('dos' selectable: ⊤ name: '2')\n\t\tFrase(Elección())\n\t]\n)\\",
+                "\\Grupo(\n\tPila()\n\t[\n\t\tFrase('uno' seleccionable: ⊤ nombre: '1')\n\t\tFrase('dos' seleccionable: ⊤ nombre: '2')\n\t\tFrase(Elección())\n\t]\n)\\",
                 "Copia esto en el editor y luego selecciona una de las dos @Phrase. Verás que la tercera @Phrase muestra el nombre que se seleccionó."
             ],
             "names": ["Elección"]
@@ -4398,7 +4414,7 @@
                 "/bzzzzzzz/",
                 "Ese @List básicamente representa una imagen, pero tú decides qué hacer con ella.",
                 "Podrías intentar representar la imagen con un montón de @Phrase, ¡lo cual se vería muy padre! Intenta copiar esto...",
-                "\\colores: Cámara(32px 24px 33ms)\n\nEscenario(\n\tcolores.combinar(\n\t\t[]\n\t\tƒ(frases•[Phrase] fila•[Color] y•#)\n\t\t\tfrases.adjuntar(\n\t\t\t\tfila.traducir(\n\t\t\t\t\tƒ(color•Color x•#)\n\t\t\t\t\t\tFrase(\n\t\t\t\t\t\t\t'o'\n\t\t\t\t\t\t\tplace: Lugar((x - 1) × 0.5m y × -0.5m)\n\t\t\t\t\t\t\tcolor: color\n\t\t\t\t\t\t\tduration: 0s\n\t\t\t\t\t\t)\n\t\t\t\t)\n\t\t\t)\n\t)\n)\\",
+                "\\colores: Cámara(32px 24px 33ms)\n\nEscenario(\n\tcolores.combinar(\n\t\t[]\n\t\tƒ(frases•[Phrase] fila•[Color] y•#)\n\t\t\tfrases.adjuntar(\n\t\t\t\tfila.traducir(\n\t\t\t\t\tƒ(color•Color x•#)\n\t\t\t\t\t\tFrase(\n\t\t\t\t\t\t\t'o'\n\t\t\t\t\t\t\tlugar: Lugar((x - 1) × 0.5m y × -0.5m)\n\t\t\t\t\t\t\tcolor: color\n\t\t\t\t\t\t\tduración: 0s\n\t\t\t\t\t\t)\n\t\t\t\t)\n\t\t\t)\n\t)\n)\\",
                 "Pero también podrías analizar los colores para decidir si una luz estaba encendida o apagada, o si un color en particular era común, dejando que el público influya en una actuación con los colores que muestra."
             ],
             "names": ["Cámara"],
@@ -4421,13 +4437,13 @@
                 "/Bip bip bip/",
                 "Para controlar el tiempo, puedes ajustar el @Phrase.duration en cada salida, y lo mostrará durante ese tiempo antes de pasar al siguiente, y usará las transiciones @Phrase.entering o @Phrase.exiting que hayas ajustado. Si las ajustas a un @Sequence, usará su duración.",
                 "Todo eso te permite hacer cosas como este pequeño @Scene, que muestra estas tres frases en secuencia:",
-                "\\🎬(\n\t[\n\t\tFrase('Hola' duration: 1s)\n\t\tFrase(\n\t\t\t'¿Cómo estás?'\n\t\t\tduration: 2s\n\t\t\trotation: 5°\n\t\t\tentering: 🤪(rotation: 0°)\n\t\t)\n\t\tFrase('Estoy bien')\n\t]\n)\\",
+                "\\🎬(\n\t[\n\t\tFrase('Hola' duración: 1s)\n\t\tFrase(\n\t\t\t'¿Cómo estás?'\n\t\t\tduración: 2s\n\t\t\trotación: 5°\n\t\t\tentrando: 🤪(rotación: 0°)\n\t\t)\n\t\tFrase('Estoy bien')\n\t]\n)\\",
                 "¿Ves cómo la primera salida se muestra por un segundo, luego la siguiente por dos segundos, pero animada con una rotación de cinco grados, y después muestra la última?",
                 "Puedes hacer secuencias muy elaboradas de salida y animaciones con @Scene, e incluso hacer partes de ellas dinámicas o interactivas, como con cualquier otro @Phrase o @Group.",
                 "Si tienes una salida animada que está anidada (un @Group con @Phrase animado dentro), @Scene esperará a que todo el contenido animado del @Group termine.",
                 "¡Ah, y un último pequeño secreto! Incluso puedes poner @Boolean en la lista, y si son \\⊥\\, el @Scene se pausará y esperará a que se vuelva verdadero.",
                 "Por ejemplo, si quisieras hacer una secuencia de @Phrase y avanzar solo cuando @Button cambie, podrías hacer esto:",
-                "\\clic: ∆ Botón()\n🎬(\n\t[\n\t\tFrase('Hola')\n\t\tclic\n\t\tFrase(\n\t\t\t'¿Cómo estás?'\n\t\t\tduration: 0.25s\n\t\t\trotation: 5°\n\t\t\tentering: 🤪(rotation: 0°)\n\t\t)\n\t\tclic\n\t\tFrase('Estoy bien')\n\t]\n)\\",
+                "\\clic: ∆ Botón()\n🎬(\n\t[\n\t\tFrase('Hola')\n\t\tclic\n\t\tFrase(\n\t\t\t'¿Cómo estás?'\n\t\t\tduración: 0.25s\n\t\t\trotación: 5°\n\t\t\tentrando: 🤪(rotación: 0°)\n\t\t)\n\t\tclic\n\t\tFrase('Estoy bien')\n\t]\n)\\",
                 "¿Ves cómo se pausa después de cada @Phrase, y espera a que @Button cambie antes de avanzar?"
             ],
             "names": ["$~Escena"],
@@ -4479,7 +4495,7 @@
                 "Hay muchas formas de colocar @Output en @Stage: darles un @Place explícito, usar @Motion y dejar que la gravedad haga su trabajo, o ponerlos en un @Group para acomodarlos.",
                 "Pero a veces quieres darle al /público/ el control de dónde va @Output en @Stage.",
                 "Así funciona: haz un @Placement y dáselo al @Place de un @Output:",
-                "\\Frase('hola' place: Ubicación())\\",
+                "\\Frase('hola' lugar: Ubicación())\\",
                 "Luego, cada vez que el público use una flecha @key o haga clic o toque el escenario, el @Placement hará un nuevo @Place que se mueve en la dirección deseada.",
                 "Intenta copiar esto a tu programa y mover el @Output con el puntero o el teclado.",
                 "Puedes personalizar el @Placement, activando y desactivando el movimiento en ciertas dimensiones, cambiando qué tan lejos se mueve un @Place, y el @Place inicial con el que empieza el flujo."
@@ -4594,7 +4610,7 @@
                 "\\🎙()\\",
                 "Esto es perfecto para quienes pueden hablar un @language pero todavía están aprendiendo a leerlo o escribirlo (y más)...",
                 "Puedes indicar un código de idioma para reconocer el habla en un idioma específico:",
-                "\\🎙(language: 'es-MX')\\",
+                "\\🎙(idioma: 'es-MX')\\",
                 "Si no indicas ningún idioma, se usa tu idioma preferido de forma predeterminada.",
                 "El reconocimiento de voz necesita acceso al micrófono y conexión a Internet (¡por favor da acceso!). Además, puede haber límites de uso, así que ¡no lo dejes encendido demasiado tiempo (nooooo)!"
             ],
@@ -4629,7 +4645,7 @@
                 "Detrás de escena, @Hand usa un modelo de aprendizaje automático. La primera vez que lo usas en un programa, el modelo tarda unos segundos en descargarse, y aparece una manita giratoria en la esquina superior derecha del escenario mientras carga. Después queda guardado y comienza al instante.",
                 "En cada cuadro, @Hand te da un @Gesture: mira ahí para ver la lista completa de entradas y qué significan.",
                 "Prueba esto: muestra un emoji que combina con la pose de tu mano dondequiera que esté tu mano real:",
-                "\\mano: 🖐()\nFrase((mano.abierta ? '🖐' '✊') place: mano.lugar)\\"
+                "\\mano: 🖐()\nFrase((mano.abierta ? '🖐' '✊') lugar: mano.lugar)\\"
             ],
             "names": ["$~Mano"],
             "frequency": {
@@ -4647,7 +4663,7 @@
                 "Dale un texto y un tipo de fuente, y trazará el contorno de cada glifo punto por punto.",
                 "\\🖋('a' \"Noto Sans\")\\",
                 "Da esos valores @Place a un @List de @Phrase para ver el contorno dibujado como puntos:",
-                "\\Escenario(\n\t🖋('a' \"Noto Sans\" 10m).traducir(\n\t\tƒ(punto) Frase('•' place: punto)\n\t)\n)\\",
+                "\\Escenario(\n\t🖋('a' \"Noto Sans\" 10m).traducir(\n\t\tƒ(punto) Frase('•' lugar: punto)\n\t)\n)\\",
                 "Puedes escalar el contorno con un @Number de metros, mover su origen con un @Place, elegir un grosor de fuente, activar la cursiva y definir el `spacing` entre puntos como una distancia en metros. Un `spacing` más pequeño traza el contorno con más detalle, con puntos separados de forma pareja tanto en las líneas como en las curvas.",
                 "Algunos glifos, como los emoji de color, no tienen contorno, así que no agregan puntos. Mientras obtiene la fuente, te dará un @List vacío, y luego lo llenará cuando esté listo."
             ],
@@ -4725,11 +4741,11 @@
                 "Todas mis propiedades son opcionales. Dame partes de fecha para describir una fecha:",
                 "\\📅(2026 7 1) → ''\\",
                 "O solo partes de hora, para una hora del día:",
-                "\\📅(hour: 15 minute: 30) → ''\\",
-                "Si no me das ninguna parte, me convierto en la fecha y la hora actuales, donde sea que se ejecute el programa. Si dejas fuera partes, cualquier parte más grande que la más grande que diste viene de la fecha y la hora actuales, y las partes más pequeñas empiezan en su inicio: así que \\📅(month: 12) → ''\\ es el 1 de diciembre de este año, a la medianoche. Al convertirme, solo muestro las clases de partes que me diste: las partes de fecha hacen una fecha, las partes de hora hacen una hora, y ambas hacen ambas:",
+                "\\📅(hora: 15 minuto: 30) → ''\\",
+                "Si no me das ninguna parte, me convierto en la fecha y la hora actuales, donde sea que se ejecute el programa. Si dejas fuera partes, cualquier parte más grande que la más grande que diste viene de la fecha y la hora actuales, y las partes más pequeñas empiezan en su inicio: así que \\📅(mes: 12) → ''\\ es el 1 de diciembre de este año, a la medianoche. Al convertirme, solo muestro las clases de partes que me diste: las partes de fecha hacen una fecha, las partes de hora hacen una hora, y ambas hacen ambas:",
                 "\\📅() → ''\\",
                 "Mi @Moment.timezone toma un nombre estándar de zona horaria IANA como \\'America/Los_Angeles'\\ o \\'Asia/Tokio'\\; si lo dejas \\ø\\, uso la zona horaria del dispositivo donde corre el programa. Mi @Moment.calendar toma un nombre de calendario Unicode como \\'gregory'\\, \\'hebreo'\\, o \\'japonés'\\; si lo dejas \\ø\\, uso el calendario de la región de quien lee. Mis @Moment.year, @Moment.month y @Moment.day están en ese calendario:",
-                "\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "\\📅(5786 10 4 calendario: 'hebrew') → ''\\",
                 "Al convertirme a @Text, me doy formato para la región de quien lee: el mismo Momento se muestra distinto en English, 中文 o हिन्दी, y cambia cuando cambia la región de quien lee.",
                 "Mis @Moment.era, @Moment.week y @Moment.weekday son informativos: @Now los llena cuando hace Momentos, pero se ignoran al dar formato.",
                 "Si quieres un flujo de Momentos que se actualice conforme pasa el tiempo —un reloj— mira @Now. Si quieres los milisegundos transcurridos desde que empezó tu programa —para animación— mira @Time."
@@ -4799,7 +4815,7 @@
                 "Detrás de escena, @Face usa un modelo de aprendizaje automático. La primera vez que lo usas en un programa, el modelo tarda unos segundos en descargarse, y aparece un pequeño rostro girando en la esquina superior derecha del escenario mientras carga. Después queda guardado y comienza al instante.",
                 "En cada cuadro, @Face te da un @Expression. Búscalo ahí para ver la lista completa de entradas y qué significan.",
                 "Este ejemplo muestra un emoji que coincide con tu rostro dondequiera que esté tu rostro real:",
-                "\\cara: 🙂()\nFrase(\n\t(cara.sonriendo ? '😀' cara.bocaAbierta ? '😮' '😐')\n\tplace: cara.lugar\n)\\"
+                "\\cara: 🙂()\nFrase(\n\t(cara.sonriendo ? '😀' cara.bocaAbierta ? '😮' '😐')\n\tlugar: cara.lugar\n)\\"
             ],
             "names": ["$~Cara"],
             "frequency": {
@@ -4820,9 +4836,9 @@
                 "En cada cuadro, @Objects te da un @List de @Thing, ordenados según qué tan seguro está el modelo, con el más seguro primero. Mira @Thing para ver qué te dice cada uno.",
                 "El modelo solo adivina, así que a veces se equivocará, o no verá nada en absoluto. Pide una `confidence` más alta para escuchar solo las suposiciones de las que está más seguro.",
                 "Aquí hay un ejemplo que etiqueta todo lo que ve la cámara:",
-                "\\Escenario(📦() ↦ Frase(⬚.nombre place: ⬚.lugar))\\",
+                "\\Escenario(📦() ↦ Frase(⬚.nombre lugar: ⬚.lugar))\\",
                 "También puedes buscar solo un tipo de cosa e ignorar el resto:",
-                "\\cosas: 📦(category: 'cat')\nFrase(cosas.longitud() > 0 ? '🐈' '…')\\"
+                "\\cosas: 📦(categoría: 'cat')\nFrase(cosas.longitud() > 0 ? '🐈' '…')\\"
             ],
             "names": ["$~Objetos"],
             "inputs": [
@@ -4943,9 +4959,9 @@
             "doc": [
                 "$~Te doy un @value nuevo cada vez que @Music al reproducirse llega a un pulso, así que puedes crear imágenes que se muevan con la música. Siempre tengo un @Downbeat para ti, para que lo puedas leer de inmediato: antes de que suene cualquier música me quedo en el pulso cero sin nada sonando, y mi \\tempo\\ se queda en cero hasta que comienza.",
                 "Aquí tres pistas se turnan, así que suena un número distinto de instrumentos en cada tiempo — y el diamante crece según cuántos estén tocando:",
-                "\\pulso: Pulso()\nEscenario(\n\t[\n\t\tFrase(\n\t\t\t'◆'\n\t\t\t((pulso.instrumentos.longitud() · 1.4m) + 0.6m)\n\t\t)\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t]\n)\\",
+                "\\pulso: Pulso()\nEscenario(\n\t[\n\t\tFrase(\n\t\t\t'◆'\n\t\t\t((pulso.instrumentos.longitud() · 1.4m) + 0.6m)\n\t\t)\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrumento: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrumento: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrumento: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t]\n)\\",
                 "Dame un nombre @Music y escucho solo esa música. Dos tiempos escuchan abajo, la misma música doble: el de arriba escucha todo, así que parpadea entre ambos nombres cuando cada música llega a un tiempo, y el de abajo escucha solo el tambor y nunca dice nada más. Esa diferencia es el filtro.",
-                "\\todo: Pulso()\nsoloElTambor: Pulso('tic')\nEscenario(\n\t[\n\t\tGrupo(\n\t\t\tPila(padding: 0.5m)\n\t\t\t[\n\t\t\t\tFrase(todo.nombre 1.4m)\n\t\t\t\tFrase(soloElTambor.nombre 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(\n\t\t\t🎶([1 ø] instrument: 🔈.🥁)\n\t\t\ttempo: 120beats/min\n\t\t\tname: 'tic'\n\t\t)\n\t\t🎼(\n\t\t\t🎶([5 5 5] instrument: 🔈.🔔)\n\t\t\ttempo: 90beats/min\n\t\t\tname: 'campanada'\n\t\t)\n\t]\n)\\",
+                "\\todo: Pulso()\nsoloElTambor: Pulso('tic')\nEscenario(\n\t[\n\t\tGrupo(\n\t\t\tPila(relleno: 0.5m)\n\t\t\t[\n\t\t\t\tFrase(todo.nombre 1.4m)\n\t\t\t\tFrase(soloElTambor.nombre 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(\n\t\t\t🎶([1 ø] instrumento: 🔈.🥁)\n\t\t\ttempo: 120beats/min\n\t\t\tnombre: 'tic'\n\t\t)\n\t\t🎼(\n\t\t\t🎶([5 5 5] instrumento: 🔈.🔔)\n\t\t\ttempo: 90beats/min\n\t\t\tnombre: 'campanada'\n\t\t)\n\t]\n)\\",
                 "Lo que yo controle se /suma/ al dibujado que la persona espectadora eligió; le agregas algo, nunca lo reemplazas."
             ],
             "name": {
@@ -5167,7 +5183,7 @@
                 "También puedes darme, si quieres, todo lo que puede hacer un @Output, como cambiar mi tamaño, fuente y rotación, y hacer todos mis increíbles bailes con @Pose y @Sequence.",
                 "También puedes seleccionarme en @Stage y editarme con la paleta 🎨 de al lado: es una gran forma de probar diferentes fuentes y elegir la /face/ correcta para tu @Text."
             ],
-            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|]",
+            "defaultDescription": "$~$size[$size metro |]frase $text $name[llamada $name|] $face[$face|] $animation $color[$color|] $bubble[diciendo $bubble|]",
             "text": {
                 "doc": "$~Los caracteres que se muestran en @Stage, un @TextLiteral o @FormattedLiteral.",
                 "names": "texto"
@@ -5283,6 +5299,18 @@
             "changing": {
                 "doc": "$~El nombre de un efecto que se reproduce cuando mi texto cambia, durante mi @Phrase.duration, suavizado por mi @Phrase.style. Si \\ø\\, mi texto cambia al instante. Si es 'edit', borro el texto viejo hasta lo que el texto viejo y el nuevo comparten, y luego escribo el texto nuevo. Si es 'rewrite', escribo el texto nuevo sobre el viejo, reemplazando un símbolo a la vez en orden aleatorio. Si es 'random', cada uno de mis símbolos gira entre símbolos aleatorios del idioma de mi texto (o su escritura, cuando el idioma es desconocido), respetando las mayúsculas y minúsculas de mi texto, como una máquina tragamonedas, hasta que se detiene en el texto nuevo. Con texto @FormattedLiteral, los símbolos que cambian toman el formato del texto nuevo durante el efecto.",
                 "names": "$~cambiando"
+            },
+            "bubble": {
+                "doc": [
+                    "$~El globo de diálogo que muestra lo que digo, apuntando justo hacia mí. Aquí pueden ir cuatro cosas distintas.",
+                    "Texto simple, que solo muestro y nada más:",
+                    "\\Frase('un' burbuja: '¡hola!')\\",
+                    "Texto con formato, si quieres palabras en *negrita* o /cursiva/ en lo que digo.",
+                    "Un @Say, que muestro *y* digo en voz alta:",
+                    "\\Frase('un' burbuja: decir('¡hola!'))\\",
+                    "Un @Bubble, cuando quieras elegir de qué lado hablo, convertirlo en un pensamiento, o darle un color."
+                ],
+                "names": "$~burbuja"
             }
         },
         "Arrangement": {
@@ -5294,7 +5322,7 @@
             "doc": "$~Soy @Row, un @Arrangement horizontal de @Output, con espacio opcional en medio. ¿Ya conociste a mi gemelo, @Stack?",
             "description": "$~fila de $#count[$#count frase o grupo|$count frases y grupos|$count frases y grupos]",
             "alignment": {
-                "doc": "$~Si el texto se alinea al inicio, al centro o al final en cada @column.",
+                "doc": "$~Si mi contenido se alinea al inicio, al centro o al final de cada @column, o, con \\'_'\\, en la línea base donde se apoyan sus palabras, para que letras de diferentes alturas se lean como una sola línea.",
                 "names": "alineación"
             },
             "padding": {
@@ -5370,7 +5398,7 @@
                 "names": "seleccionable"
             },
             "color": {
-                "doc": "El color de mis bordes.",
+                "doc": "$~Mi color. Me relleno con él, a menos que tenga un fondo, en cuyo caso colorea mi borde.",
                 "names": "color"
             },
             "background": {
@@ -5424,6 +5452,18 @@
             "style": {
                 "doc": "El estilo de animación que debería usar.",
                 "names": "estilo"
+            },
+            "filled": {
+                "doc": "$~Si se debe pintar mi interior. No tengo interior a menos que me cierre, así que un @Path abierto nunca se rellena.",
+                "names": "$~relleno"
+            },
+            "stroked": {
+                "doc": "$~Si se debe pintar mi contorno. Sin relleno y sin contorno soy invisible, lo cual es una manera de hacer una barrera que detiene cosas sin que se vean.",
+                "names": "$~conContorno"
+            },
+            "glyphs": {
+                "doc": "$~Texto para dibujar a lo largo de mi contorno, repetido hasta llenarlo. No tengo palabras a menos que me des algunas.",
+                "names": "$~glifos"
             }
         },
         "Form": {
@@ -5713,7 +5753,7 @@
                 "sway": {
                     "doc": [
                         "$~Me inclino de un lado a otro alrededor del centro de un @Output, como algo que cuelga con una brisa suave. Soy una buena animación de descanso, porque un /ángulo/ pequeño se ve “vivo” sin llamar la atención.",
-                        "\\Frase('🐈' resting: Secuencia.vaivén(10°))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.vaivén(10°))\\"
                     ],
                     "names": ["vaivén"],
                     "angle": {
@@ -5724,7 +5764,7 @@
                 "bounce": {
                     "doc": [
                         "$~Yo hago que un @Output salte hasta /height/ y lo dejo caer, aplastándose un poco al subir y bajar. Dame un @Phrase que acaba de llegar y haré que sienta que tiene peso.",
-                        "\\Frase('🐈' resting: Secuencia.rebote(3m))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.rebote(3m))\\"
                     ],
                     "names": ["rebote"],
                     "height": {
@@ -5735,42 +5775,42 @@
                 "spin": {
                     "doc": [
                         "$~Yo giro un @Output por completo alrededor de su centro, de 360° de vuelta a 0°. Ponme como animación de descanso y seguiré girando para siempre.",
-                        "\\Frase('🐈' resting: Secuencia.girar(2s))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.girar(2s))\\"
                     ],
                     "names": ["girar"]
                 },
                 "fadein": {
                     "doc": [
                         "$~Yo traigo un @Output de invisible a totalmente visible. Soy para /entrar/, cuando algo llega al escenario.",
-                        "\\Frase('🐈' entering: Secuencia.aparecer(1s))\\"
+                        "\\Frase('🐈' entrando: Secuencia.aparecer(1s))\\"
                     ],
                     "names": ["aparecer"]
                 },
                 "fadeout": {
                     "doc": [
                         "$~Yo llevo un @Output de totalmente visible a invisible. Soy para /salir/, cuando algo deja el escenario.",
-                        "\\Frase('🐈' exiting: Secuencia.desvanecer(duration: 1s))\\"
+                        "\\Frase('🐈' saliendo: Secuencia.desvanecer(duración: 1s))\\"
                     ],
                     "names": ["$~desvanecer"]
                 },
                 "popup": {
                     "doc": [
                         "$~Yo hago crecer un @Output desde la nada, me paso un poco de su tamaño real y luego regreso. Ese pequeño exceso es lo que hace que una llegada se sienta juguetona en vez de mecánica.",
-                        "\\Frase('🐈' entering: Secuencia.surgir(0.5s))\\"
+                        "\\Frase('🐈' entrando: Secuencia.surgir(0.5s))\\"
                     ],
                     "names": ["surgir"]
                 },
                 "shake": {
                     "doc": [
                         "$~Yo sacudo un @Output de un lado a otro en varias direcciones. Me leo como un “no”, o como algo que traquetea. Me muevo rápido, así que mantenme corta.",
-                        "\\Frase('🐈' resting: Secuencia.temblor(0.5s count: 3x))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.temblor(0.5s cuenta: 3x))\\"
                     ],
                     "names": ["temblor"]
                 },
                 "pulse": {
                     "doc": [
                         "$~Yo agrando un @Output hasta /amount/ y lo regreso, una sola vez. Soy la forma más callada de decir “mira aquí” sin mover nada de su lugar.",
-                        "\\Frase('🐈' resting: Secuencia.pulsar(1.2))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.pulsar(1.2))\\"
                     ],
                     "names": ["$~pulsar"],
                     "amount": {
@@ -5781,7 +5821,7 @@
                 "heartbeat": {
                     "doc": [
                         "$~Yo doy dos latidos rápidos de tamaño y luego descanso, el ritmo de un latido del corazón. Soy más urgente que el /pulso/ de @Sequence y más orgánica que /flash/.",
-                        "\\Frase('🐈' resting: Secuencia.latido(1.4 1s))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.latido(1.4 1s))\\"
                     ],
                     "names": ["$~latido"],
                     "amount": {
@@ -5792,7 +5832,7 @@
                 "tada": {
                     "doc": [
                         "$~Yo celebro: un pequeño encogimiento, luego crezco con un meneo de un lado a otro. Soy para ganar, terminar y hacerlo bien.",
-                        "\\Frase('🐈' resting: Secuencia.tada(1.2 1s))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
@@ -5803,7 +5843,7 @@
                 "wiggle": {
                     "doc": [
                         "$~Yo deslizo un @Output de un lado a otro mientras lo inclino, con cada balanceo más pequeño que el anterior. Soy una sacudida con un poco más de personalidad.",
-                        "\\Frase('🐈' resting: Secuencia.menear(8°))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.menear(8°))\\"
                     ],
                     "names": ["$~menear"],
                     "angle": {
@@ -5815,21 +5855,21 @@
                     "doc": [
                         "$~Yo parpadeo un @Output entre visible e invisible dos veces, desvaneciéndome poco a poco. Soy difícil de no ver, lo que también significa que soy difícil de ignorar, así que úsame con moderación.",
                         "Parpadeo rápido, así que alguien sensible a los destellos podría sentirse incómodo conmigo. Ralentízame con una /duration/ más larga si voy a repetirme.",
-                        "\\Frase('🐈' resting: Secuencia.destello(1s))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.destello(1s))\\"
                     ],
                     "names": ["$~destello"]
                 },
                 "zoomin": {
                     "doc": [
                         "$~Yo hago crecer un @Output desde la nada hasta su tamaño completo. A diferencia de /popup/, no me paso del tamaño; soy la llegada más sencilla y tranquila.",
-                        "\\Frase('🐈' entering: Secuencia.acercar(0.5s))\\"
+                        "\\Frase('🐈' entrando: Secuencia.acercar(0.5s))\\"
                     ],
                     "names": ["$~acercar"]
                 },
                 "fadeinup": {
                     "doc": [
                         "$~Yo hago aparecer un @Output mientras lo deslizo hacia arriba a su lugar desde /distance/ más abajo.",
-                        "\\Frase('🐈' entering: Secuencia.aparecerarriba(2m))\\"
+                        "\\Frase('🐈' entrando: Secuencia.aparecerarriba(2m))\\"
                     ],
                     "names": ["$~aparecerarriba"],
                     "distance": {
@@ -5840,7 +5880,7 @@
                 "fadeindown": {
                     "doc": [
                         "$~Hago que un @Output aparezca poco a poco mientras se desliza hacia abajo hasta su lugar desde /distance/ más arriba.",
-                        "\\Frase('🐈' entering: Secuencia.aparecerabajo(2m))\\"
+                        "\\Frase('🐈' entrando: Secuencia.aparecerabajo(2m))\\"
                     ],
                     "names": ["$~aparecerabajo"],
                     "distance": {
@@ -5851,7 +5891,7 @@
                 "fadeinleft": {
                     "doc": [
                         "$~Hago que un @Output aparezca poco a poco mientras se desliza hacia la derecha hasta su lugar desde /distance/ a la izquierda.",
-                        "\\Frase('🐈' entering: Secuencia.aparecerizquierda(2m))\\"
+                        "\\Frase('🐈' entrando: Secuencia.aparecerizquierda(2m))\\"
                     ],
                     "names": ["$~aparecerizquierda"],
                     "distance": {
@@ -5862,7 +5902,7 @@
                 "fadeinright": {
                     "doc": [
                         "$~Hago que un @Output aparezca poco a poco mientras se desliza hacia la izquierda hasta su lugar desde /distance/ a la derecha.",
-                        "\\Frase('🐈' entering: Secuencia.aparecerderecha(2m))\\"
+                        "\\Frase('🐈' entrando: Secuencia.aparecerderecha(2m))\\"
                     ],
                     "names": ["$~aparecerderecha"],
                     "distance": {
@@ -5873,7 +5913,7 @@
                 "rotatein": {
                     "doc": [
                         "$~Giro un @Output hasta su lugar mientras aparece poco a poco, comenzando girado /angle/ y terminando derecho.",
-                        "\\Frase('🐈' entering: Secuencia.girarentrar(180°))\\"
+                        "\\Frase('🐈' entrando: Secuencia.girarentrar(180°))\\"
                     ],
                     "names": ["$~girarentrar"],
                     "angle": {
@@ -5884,14 +5924,14 @@
                 "zoomout": {
                     "doc": [
                         "$~Encojo un @Output desde su tamaño completo hasta desaparecer.",
-                        "\\Frase('🐈' exiting: Secuencia.alejar(0.5s))\\"
+                        "\\Frase('🐈' saliendo: Secuencia.alejar(0.5s))\\"
                     ],
                     "names": ["$~alejar"]
                 },
                 "fadeoutup": {
                     "doc": [
                         "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distance/ hacia arriba.",
-                        "\\Frase('🐈' exiting: Secuencia.desaparecerarriba(2m))\\"
+                        "\\Frase('🐈' saliendo: Secuencia.desaparecerarriba(2m))\\"
                     ],
                     "names": ["$~desaparecerarriba"],
                     "distance": {
@@ -5902,7 +5942,7 @@
                 "fadeoutdown": {
                     "doc": [
                         "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distance/ hacia abajo.",
-                        "\\Frase('🐈' exiting: Secuencia.desaparecerabajo(2m))\\"
+                        "\\Frase('🐈' saliendo: Secuencia.desaparecerabajo(2m))\\"
                     ],
                     "names": ["$~desaparecerabajo"],
                     "distance": {
@@ -5913,7 +5953,7 @@
                 "fadeoutleft": {
                     "doc": [
                         "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distance/ hacia la izquierda.",
-                        "\\Frase('🐈' exiting: Secuencia.desaparecerizquierda(2m))\\"
+                        "\\Frase('🐈' saliendo: Secuencia.desaparecerizquierda(2m))\\"
                     ],
                     "names": ["$~desaparecerizquierda"],
                     "distance": {
@@ -5924,7 +5964,7 @@
                 "fadeoutright": {
                     "doc": [
                         "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distance/ hacia la derecha.",
-                        "\\Frase('🐈' exiting: Secuencia.desaparecerderecha(2m))\\"
+                        "\\Frase('🐈' saliendo: Secuencia.desaparecerderecha(2m))\\"
                     ],
                     "names": ["$~desaparecerderecha"],
                     "distance": {
@@ -5935,7 +5975,7 @@
                 "rotateout": {
                     "doc": [
                         "$~Giro un @Output para que se vaya mientras desaparece poco a poco, terminando girado /angle/.",
-                        "\\Frase('🐈' exiting: Secuencia.girarsalir(180°))\\"
+                        "\\Frase('🐈' saliendo: Secuencia.girarsalir(180°))\\"
                     ],
                     "names": ["$~girarsalir"],
                     "angle": {
@@ -5947,14 +5987,14 @@
                     "doc": [
                         "$~Hago que un @Output pase por todos los tonos del arcoíris y regrese al punto donde comencé.",
                         "Cambio de color rápidamente, así que una persona sensible a los destellos puede sentirse incómoda conmigo. Una /duration/ más larga me hace mucho más suave.",
-                        "\\Frase('🐈' resting: Secuencia.arcoíris(3s))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.arcoíris(3s))\\"
                     ],
                     "names": ["$~arcoíris"]
                 },
                 "swing": {
                     "doc": [
                         "$~Balanceo un @Output como un péndulo, hasta /angle/ y luego de regreso con arcos cada vez más pequeños hasta que se detiene. A diferencia de /sway/, yo me detengo.",
-                        "\\Frase('🐈' resting: Secuencia.columpio(20°))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.columpio(20°))\\"
                     ],
                     "names": ["$~columpio"],
                     "angle": {
@@ -5965,14 +6005,14 @@
                 "blink": {
                     "doc": [
                         "$~Apago un @Output y lo vuelvo a encender sin ninguna transición, como parpadea un cursor. /flash/ se desvanece; yo corto.",
-                        "\\Frase('🐈' resting: Secuencia.parpadeo(1s))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.parpadeo(1s))\\"
                     ],
                     "names": ["$~parpadeo"]
                 },
                 "nod": {
                     "doc": [
                         "$~Bajo un @Output y lo subo de nuevo dos veces, como un gesto de acuerdo con la cabeza. Soy la forma más suave de decir “sí”.",
-                        "\\Frase('🐈' resting: Secuencia.asentir(0.4m))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.asentir(0.4m))\\"
                     ],
                     "names": ["$~asentir"],
                     "distance": {
@@ -5983,7 +6023,7 @@
                 "dim": {
                     "doc": [
                         "$~Desvanezco un @Output hasta /amount/ y lo regreso a su plenitud, sin ocultarlo nunca. Sirvo para mostrar que algo está esperando o inactivo.",
-                        "\\Frase('🐈' resting: Secuencia.atenuar(20% 2s))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.atenuar(20% 2s))\\"
                     ],
                     "names": ["$~atenuar"],
                     "amount": {
@@ -5994,7 +6034,7 @@
                 "slidein": {
                     "doc": [
                         "$~Deslizo un @Output hasta su lugar desde donde quieras, sin desvanecerlo. Dame un @Place y comenzaré ahí y terminaré en reposo, así una sola animación cubre todas las direcciones.",
-                        "\\Frase(\n\t'🐈'\n\tentering: Secuencia.deslizarHaciaDentro(Lugar(0m -4m))\n)\\"
+                        "\\Frase(\n\t'🐈'\n\tentrando: Secuencia.deslizarHaciaDentro(Lugar(0m -4m))\n)\\"
                     ],
                     "names": ["$~deslizarHaciaDentro"],
                     "from": {
@@ -6005,7 +6045,7 @@
                 "slideout": {
                     "doc": [
                         "$~Deslizo un @Output hacia donde quieras, sin desvanecerlo. Dame un @Place y terminaré ahí, así una sola animación cubre todas las direcciones.",
-                        "\\Frase(\n\t'🐈'\n\texiting: Secuencia.deslizarHaciaFuera(Lugar(0m -4m))\n)\\"
+                        "\\Frase(\n\t'🐈'\n\tsaliendo: Secuencia.deslizarHaciaFuera(Lugar(0m -4m))\n)\\"
                     ],
                     "names": ["$~deslizarHaciaFuera"],
                     "to": {
@@ -6016,7 +6056,7 @@
                 "float": {
                     "doc": [
                         "$~Elevo un @Output lentamente por /distance/ y lo bajo de nuevo. Dame una /duration/ larga y haré que algo parezca sin peso.",
-                        "\\Frase('🐈' resting: Secuencia.flotar(0.5m 3s))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.flotar(0.5m 3s))\\"
                     ],
                     "names": ["$~flotar"],
                     "distance": {
@@ -6027,7 +6067,7 @@
                 "drift": {
                     "doc": [
                         "$~Muevo un @Output lentamente /distance/ hacia un lado y de regreso. Soy /float/, pero de lado.",
-                        "\\Frase('🐈' resting: Secuencia.vagar(0.5m 3s))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.vagar(0.5m 3s))\\"
                     ],
                     "names": ["$~vagar"],
                     "distance": {
@@ -6038,7 +6078,7 @@
                 "orbit": {
                     "doc": [
                         "$~Llevo un @Output alrededor de un círculo de /radius/, regresándolo a donde comenzó. Soy la única animación predefinida que traza un camino en lugar de ir y venir.",
-                        "\\Frase('🐈' resting: Secuencia.orbitar(2m 4s))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.orbitar(2m 4s))\\"
                     ],
                     "names": ["$~orbitar"],
                     "radius": {
@@ -6049,7 +6089,7 @@
                 "glow": {
                     "doc": [
                         "$~Ilumino un @Output hacia /color/ y dejo que se desvanezca de nuevo, como algo que se calienta y se enfría. A diferencia de /rainbow/, me quedo en un solo tono.",
-                        "\\Frase('🐈' resting: Secuencia.brillar(🌈.naranja 2s))\\"
+                        "\\Frase('🐈' inmóvil: Secuencia.brillar(🌈.naranja 2s))\\"
                     ],
                     "names": ["$~brillar"],
                     "color": {
@@ -6155,9 +6195,9 @@
                 "$~YO MUESTRO TU @Output AL PÚBLICO. HOLA. AQUÍ EL ESCENARIO. DIME QUÉ MOSTRAR Y YO LO MOSTRARÉ.",
                 "\\Escenario([Frase('cosassssss')])\\",
                 "SI QUIERES, DAME UN @Color DE FONDO Y YO ILUMINARÉ EL ESCENARIO SEGÚN ESO.",
-                "\\Escenario([Frase('cosaaaaas')] background: 🌈(75% 50 100°))\\",
+                "\\Escenario([Frase('cosaaaaas')] fondo: 🌈(75% 50 100°))\\",
                 "TAMBIÉN PUEDES DARME UN BORDE DE MARCO Y YO RECORTARÉ.",
-                "\\Escenario(\n\t[Frase('cosaaaaas')]\n\tbackground: 🌈(75% 50 100°)\n\tframe: Rectángulo(-1m -1m 1m 1m)\n)\\"
+                "\\Escenario(\n\t[Frase('cosaaaaas')]\n\tfondo: 🌈(75% 50 100°)\n\tmarco: Rectángulo(-1m -1m 1m 1m)\n)\\"
             ],
             "names": ["Escenario"],
             "content": {
@@ -6483,17 +6523,17 @@
                 "Las notas son números. 1 es la primera nota de la escala — en la que una melodía suena terminada — 2 es la siguiente nota hacia arriba, y 8 es esa primera nota otra vez, una octava más alta. ø es un silencio, o sea, callar. Los números siguen más allá de ambos extremos: 9 es la segunda nota una octava arriba, y 0 y -1 bajan por debajo de la primera.",
                 "Una /escala/ es el pequeño conjunto de notas con el que se construye una pieza, y qué notas son forma casi todo su ánimo. @Music/scale es \\🎼.mayor\\ a menos que digas otra cosa, que suena brillante; \\🎼.menor\\ suena más triste con exactamente los mismos números. Una /clave/ es qué tan alta o baja está toda la pieza, y la fija @Music/key. Y @Music/tempo es qué tan rápido va, en pulsos por minuto — un pulso es el latido constante que seguirías con aplausos.",
                 "Como las notas son números en vez de tonos fijos, los tres pueden cambiar sin tocar la melodía. Estas son las mismas tres notas, más tristes, más bajas y más lentas:",
-                "\\🎼(\n\t🎶([1 3 5])\n\tscale: 🎼.menor\n\tkey: -5semitones\n\ttempo: 60beats/min\n)\\",
+                "\\🎼(\n\t🎶([1 3 5])\n\tescala: 🎼.menor\n\tclave: -5semitones\n\ttempo: 60beats/min\n)\\",
                 "Una pista vuelve a empezar cuando llega a su final, así que una lista corta es un riff que suena para siempre. Esta dura cuatro pulsos, con silencios en los huecos:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
                 "Dame una lista de pistas y suenan al mismo tiempo, cada una con su propio instrumento, velocidad y volumen. Aquí un bombo y una caja llevan el pulso mientras un charles corre al doble de velocidad — una polirritmia a partir de un solo número. La batería es un kit, no tiene tono, así que sus números eligen piezas del kit en vez de notas:",
-                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶(\n\t\t\t[3 3 3 3 3 3 3 3]\n\t\t\tinstrument: 🔈.🥁\n\t\t\tbeat: 0.5beats\n\t\t\tvolume: 30%\n\t\t)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrumento: 🔈.🥁)\n\t\t🎶(\n\t\t\t[3 3 3 3 3 3 3 3]\n\t\t\tinstrumento: 🔈.🥁\n\t\t\tpulso: 0.5beats\n\t\t\tvolumen: 30%\n\t\t)\n\t]\n\ttempo: 96beats/min\n)\\",
                 "Los números dentro de llaves suenan juntos como un acorde, y un valor de nota escrito sobre un número le da a esa entrada su propia duración. Aquí dos acordes de nota entera se sostienen debajo de una melodía en movimiento:",
-                "\\🎼(\n\t[\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t]\n)\\",
+                "\\🎼(\n\t[\n\t\t🎶([1 2 3 5 3 2 1 ø] instrumento: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrumento: 🔈.🎹 volumen: 50%)\n\t]\n)\\",
                 "Cualquier cosa que haga números puede hacer música. Esta melodía se revuelve en un nuevo orden y sigue qué tan fuerte estás hablando:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].mezclado())\n\ttempo: (60 + (Volumen() · 120)) · 1beats/min\n)\\",
                 "Nadie tiene que oírme. @Beat reporta cada pulso conforme suena, así que puedes dibujar la música además de tocarla, junto a la visualización que la persona que mira haya elegido. @Beat siempre tiene un @Downbeat, así que puedes leerlo sin revisar nada:",
-                "\\pulso: Pulso()\nconteo: pulso.conteo\nEscenario(\n\t[\n\t\tFrase(\n\t\t\t'◆'\n\t\t\tsize: 1m + ((conteo % 4) = 0 ? 2m 0m)\n\t\t\tplace: Lugar(-2m 2m)\n\t\t)\n\t\tFrase(\n\t\t\t'◆'\n\t\t\tsize: 1m + ((conteo % 4) = 2 ? 2m 0m)\n\t\t\tplace: Lugar(2m 2m)\n\t\t)\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t]\n)\\",
+                "\\pulso: Pulso()\nconteo: pulso.conteo\nEscenario(\n\t[\n\t\tFrase(\n\t\t\t'◆'\n\t\t\ttamaño: 1m + ((conteo % 4) = 0 ? 2m 0m)\n\t\t\tlugar: Lugar(-2m 2m)\n\t\t)\n\t\tFrase(\n\t\t\t'◆'\n\t\t\ttamaño: 1m + ((conteo % 4) = 2 ? 2m 0m)\n\t\t\tlugar: Lugar(2m 2m)\n\t\t)\n\t\t🎼(🎶([1 ø 5 ø] instrumento: 🔈.🥁))\n\t]\n)\\",
                 "No tengo un aspecto propio que estilizar, así que no tomo ninguna de las entradas de apariencia habituales — nada de tamaño, lugar, color ni animación. Mi aspecto lo elige quien mira, en su configuración, y estoy anclado al escenario en vez de colocado en tu diseño; no ocupo espacio, así que ponerme en un @Row o un @Stack nunca mueve nada a mi lado. Para dibujar la música tú misma, usa @Beat: te entrega cada pulso conforme suena, para mover la salida que quieras.",
                 "Sigo tocando entre evaluaciones: edita mis notas mientras estoy tocando y el cambio se une en el siguiente pulso en vez de reiniciar, y eso es lo que hace que cambiar una melodía en medio de la reproducción se sienta musical. Para tocarme de nuevo desde el principio, mira @Music/replay; para detenerme y retomar en el mismo lugar, mira @Music/pause."
             ],
@@ -6512,7 +6552,7 @@
                     "La unidad es semitonos. Un semitono es el paso más pequeño en la música occidental: en un piano es la distancia de una tecla a la siguiente, contando las teclas negras, y doce de ellos forman una octava. Así que \\clave: 12semitones\\🪲 es la misma pieza una octava más arriba, \\clave: -12semitones\\🪲 una octava más abajo, y \\clave: 2semitones\\🪲 la empuja un poco hacia arriba.",
                     "Aquí se juntan dos maneras de contar, y es fácil confundirlas. Las notas cuentan /pasos de escala/, donde la octava es \\8\\: de \\1\\ hasta \\8\\ es una octava. Una clave cuenta /semitonos/, donde la octava es \\12\\. Ambas describen la misma distancia — los ocho pasos de \\1\\ a \\8\\ de una escala de siete notas abarcan doce semitonos. Una clave se mide en semitonos porque un semitono tiene el mismo tamaño en toda escala, mientras que un paso no: la pentatónica de @Music/scale tiene cinco notas por octava y la mayor tiene siete, así que desplazar por pasos movería cada una una distancia distinta, mientras que \\12semitones\\ es una octava en todas ellas.",
                     "Como solo es un número, una clave puede venir de cualquier lado. Aquí toda la pieza sube dos semitonos mientras /arriba/ está elegido — un @Choice necesita algo seleccionable en el escenario para leer, así que las dos frases son lo que lo hace funcionar:",
-                    "\\Escenario(\n\t[\n\t\tFrase(\n\t\t\t'arriba'\n\t\t\tselectable: ⊤\n\t\t\tname: 'arriba'\n\t\t\tplace: Lugar(-2m 0m)\n\t\t)\n\t\tFrase(\n\t\t\t'inicio'\n\t\t\tselectable: ⊤\n\t\t\tname: 'inicio'\n\t\t\tplace: Lugar(2m 0m)\n\t\t)\n\t\t🎼(\n\t\t\t🎶([1 3 5 8 5 3])\n\t\t\tkey: (Elección() = 'arriba' ? 2semitones 0semitones)\n\t\t)\n\t]\n)\\"
+                    "\\Escenario(\n\t[\n\t\tFrase(\n\t\t\t'arriba'\n\t\t\tseleccionable: ⊤\n\t\t\tnombre: 'arriba'\n\t\t\tlugar: Lugar(-2m 0m)\n\t\t)\n\t\tFrase(\n\t\t\t'inicio'\n\t\t\tseleccionable: ⊤\n\t\t\tnombre: 'inicio'\n\t\t\tlugar: Lugar(2m 0m)\n\t\t)\n\t\t🎼(\n\t\t\t🎶([1 3 5 8 5 3])\n\t\t\tclave: (Elección() = 'arriba' ? 2semitones 0semitones)\n\t\t)\n\t]\n)\\"
                 ],
                 "names": "$~clave"
             },
@@ -6533,7 +6573,7 @@
                 "doc": [
                     "$~Cuando esto es \\⊤\\ en una evaluación, empiezo desde el principio, aunque ninguna de mis notas haya cambiado.",
                     "Esto es para el sonido que responde a un evento en lugar de sonar de manera continua. Si una respuesta correcta reproduce un sonido, entonces dos respuestas correctas seguidas producen exactamente la misma música, así que nada cambiaría y nada sonaría de nuevo. Yo soy como dices /otra vez, ahora/: elige /correcto/ dos veces abajo y suena dos veces:",
-                    "\\Escenario(\n\t[\n\t\tFrase(\n\t\t\t'correcto'\n\t\t\tselectable: ⊤\n\t\t\tname: 'correcto'\n\t\t\tplace: Lugar(-2m 0m)\n\t\t)\n\t\tFrase(\n\t\t\t'incorrecto'\n\t\t\tselectable: ⊤\n\t\t\tname: 'incorrecto'\n\t\t\tplace: Lugar(2m 0m)\n\t\t)\n\t\t🎼(\n\t\t\t🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥)\n\t\t\treplay: ∆ Elección() ? (Elección() = 'correcto') ⊥\n\t\t)\n\t]\n)\\",
+                    "\\Escenario(\n\t[\n\t\tFrase(\n\t\t\t'correcto'\n\t\t\tseleccionable: ⊤\n\t\t\tnombre: 'correcto'\n\t\t\tlugar: Lugar(-2m 0m)\n\t\t)\n\t\tFrase(\n\t\t\t'incorrecto'\n\t\t\tseleccionable: ⊤\n\t\t\tnombre: 'incorrecto'\n\t\t\tlugar: Lugar(2m 0m)\n\t\t)\n\t\t🎼(\n\t\t\t🎶([1 5 8] instrumento: 🔈.🔔 bucle: ⊥)\n\t\t\trepetir: ∆ Elección() ? (Elección() = 'correcto') ⊥\n\t\t)\n\t]\n)\\",
                     "Dame una condición /momentánea/, una que sea verdadera solo en la evaluación que causó el evento, como la \\∆ Elección()\\ de arriba. Una condición duradera como \\score > 10\\🪲 sigue siendo verdadera una vez que se vuelve verdadera, así que me reiniciaría en cada evaluación desde ese momento."
                 ],
                 "names": "$~repetir"
@@ -6629,7 +6669,7 @@
                 "doc": [
                     "$~Mientras esto sea \\⊤\\ me quedo quieto, y cuando vuelve a \\⊥\\ sigo desde el mismo pulso en que me detuve.",
                     "Esto es lo que me hace diferente de @Music/replay: repetir significa /empezar de nuevo/, y yo quiero decir /esperar aquí/. Una nota que aún sonaba cuando me detuve termina de sonar con lo que le quedaba cuando vuelvo a empezar, así que detenerme a mitad de un acorde largo no lo pierde. Elige /esperar/ y /seguir/ abajo:",
-                    "\\Escenario(\n\t[\n\t\tFrase(\n\t\t\t'sostener'\n\t\t\tselectable: ⊤\n\t\t\tname: 'sostener'\n\t\t\tplace: Lugar(-2m 0m)\n\t\t)\n\t\tFrase(\n\t\t\t'ir'\n\t\t\tselectable: ⊤\n\t\t\tname: 'ir'\n\t\t\tplace: Lugar(2m 0m)\n\t\t)\n\t\t🎼(\n\t\t\t🎶([1 3 5 8 5 3] instrument: 🔈.🎹)\n\t\t\tpause: Elección() = 'sostener'\n\t\t)\n\t]\n)\\",
+                    "\\Escenario(\n\t[\n\t\tFrase(\n\t\t\t'sostener'\n\t\t\tseleccionable: ⊤\n\t\t\tnombre: 'sostener'\n\t\t\tlugar: Lugar(-2m 0m)\n\t\t)\n\t\tFrase(\n\t\t\t'ir'\n\t\t\tseleccionable: ⊤\n\t\t\tnombre: 'ir'\n\t\t\tlugar: Lugar(2m 0m)\n\t\t)\n\t\t🎼(\n\t\t\t🎶([1 3 5 8 5 3] instrumento: 🔈.🎹)\n\t\t\tpausa: Elección() = 'sostener'\n\t\t)\n\t]\n)\\",
                     "A diferencia de repetir, yo quiero una condición /duradera/, una que se mantenga verdadera todo el tiempo que quieras el silencio. Mi conteo de @Beat espera conmigo y sigue donde estaba, en vez de empezar otra vez desde cero."
                 ],
                 "names": "$~pausa"
@@ -6641,7 +6681,7 @@
                 "Mis notas son números, los mismos números que @Music explica — 1 es la primera nota de la escala, 8 es esa nota una octava arriba, ø es un silencio, y los números entre llaves como \\{1 3 5}\\ suenan juntos como un acorde:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
                 "Las notas no tienen que ser enteras. \\1.5\\ está entre la primera nota y la segunda, y las dos suenan — la más cercana más fuerte — así que deslizar un número por las notas suena como aplastar las teclas de un piano:",
-                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] pulso: 0.5beats))\\",
                 "Pon mi @Track/mash en \\⊥\\ y un número así dobla una nota fuera de tono en vez de tocar dos.",
                 "Cada entrada dura mi @Track/beat, que es un pulso a menos que lo cambies. Cambiarlo vuelve a acomodar en la cuadrícula todo lo que toco a la vez.",
                 "Cuando una entrada debe ser más larga o más corta que las demás, escribe la duración en el número mismo como valor de nota. \\8𝅗𝅥\\ es una blanca — dura el doble que un pulso — y no necesita nada a su alrededor:",
@@ -6650,9 +6690,9 @@
                 "Estos son difíciles de encontrar, así que la fila de símbolos debajo del editor te los ofrece siempre que tu cursor esté justo después de un número mío.",
                 "Un silencio no puede llevar un valor, porque \\ø\\ no es un número. Dos silencios seguidos duran el doble, y para algo más fino está @Note.",
                 "Cuando una sola nota necesita su propio volumen, o una duración que ningún valor puede escribir, envuelve esa en un @Note. Úsalo solo donde lo necesites: un número simple es más fácil de leer, así que la mayoría de las pistas no tienen ninguno, y esa rareza es lo que hace que un @Note destaque como un evento.",
-                "\\celda: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcelda\n\t\t.adjuntar(\n\t\t\tcelda.traducir(ƒ(n•#) n + 2)\n\t\t)\n\t\t.adjuntar(\n\t\t\tcelda.inverso()\n\t\t)\n\t\t.adjuntar(\n\t\t\tcelda.traducir(ƒ(n2•#) 8 - n2)\n\t\t)\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "\\celda: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcelda\n\t\t.adjuntar(\n\t\t\tcelda.traducir(ƒ(n•#) n + 2)\n\t\t)\n\t\t.adjuntar(\n\t\t\tcelda.inverso()\n\t\t)\n\t\t.adjuntar(\n\t\t\tcelda.traducir(ƒ(n2•#) 8 - n2)\n\t\t)\n\t\tinstrumento: 🔈.🎹\n\t)\n)\\",
                 "Rellenar con silencios es todo lo que necesita una ronda: ambas partes mantienen el mismo número de pulsos, así que van al mismo paso en vez de separarse. Unir dos listas en una con : es como se construyen, porque \\append\\ necesita que ambas listas contengan el mismo tipo de cosa.",
-                "\\melodía: [1 2 3 1 1 2 3 1 3 4 5 ø]\nsilencio: [ø ø ø ø]\n🎼(\n\t[\n\t\t🎶([:melodía :silencio] instrument: 🔈.🪈)\n\t\t🎶([:silencio :melodía] instrument: 🔈.🎻)\n\t]\n)\\"
+                "\\melodía: [1 2 3 1 1 2 3 1 3 4 5 ø]\nsilencio: [ø ø ø ø]\n🎼(\n\t[\n\t\t🎶([:melodía :silencio] instrumento: 🔈.🪈)\n\t\t🎶([:silencio :melodía] instrumento: 🔈.🎻)\n\t]\n)\\"
             ],
             "names": ["$~Pista"],
             "notes": {
@@ -6692,7 +6732,7 @@
                 "names": "$~mezcla"
             },
             "words": {
-                "doc": "$~Las sílabas para que @Instrument/voice cante. Una sílaba por nota, separadas por espacios, así que \\'so mi fa'\\ canta tres notas y los espacios son los que dicen dónde termina una sílaba y comienza la siguiente.\n\nLos silencios no toman sílaba, así que una letra cae en las notas que realmente suenan. Si hay menos sílabas que notas, comienzan de nuevo desde el principio en vez de quedar en silencio. Si no hay ninguna, la voz sostiene un sonido /uh/.\n\nTermina una sílaba con un guion para sostenerla también en la siguiente nota, una nota más por cada guion — así es como cantas una sílaba sobre varias notas. En \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ cubre las primeras dos notas, luego \\mi\\ y \\so\\ toman una cada una.\n\nLa escritura es el <Alfabeto Fonético Internacional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, donde cada letra es un sonido. Presiona 🤖 debajo del editor para ver cada sonido y escucharlo. Las letras que no reconozco se omiten. Todo instrumento que no sea la voz me ignora, así que una letra sobrevive al cambiar @Track/instrument y volver.",
+                "doc": "$~Las sílabas para que @Instrument/voice cante. Una sílaba por nota, separadas por espacios, así que \\'so mi fa'\\ canta tres notas y los espacios son los que dicen dónde termina una sílaba y comienza la siguiente.\n\nLos silencios no toman sílaba, así que una letra cae en las notas que realmente suenan. Si hay menos sílabas que notas, comienzan de nuevo desde el principio en vez de quedar en silencio. Si no hay ninguna, la voz sostiene un sonido /uh/.\n\nTermina una sílaba con un guion para sostenerla también en la siguiente nota, una nota más por cada guion — así es como cantas una sílaba sobre varias notas. En \\🎶([1 2 3 4] palabras: 'la- mi so')\\, \\la\\ cubre las primeras dos notas, luego \\mi\\ y \\so\\ toman una cada una.\n\nLa escritura es el <Alfabeto Fonético Internacional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, donde cada letra es un sonido. Presiona 🤖 debajo del editor para ver cada sonido y escucharlo. Las letras que no reconozco se omiten. Todo instrumento que no sea la voz me ignora, así que una letra sobrevive al cambiar @Track/instrument y volver.",
                 "names": "$~palabras"
             }
         },
@@ -6701,7 +6741,7 @@
                 "$~Soy una entrada en un @Track que lleva su propio volumen, o una duración que ningún valor de nota puede escribir.",
                 "La mayoría de las notas deben quedar como números simples, y la mayoría de las duraciones se escriben más cortas sobre el número mismo: \\1𝅗𝅥\\ es una nota de medio. Valgo la pena cuando una nota necesita su propio volumen, o una duración que cae entre los valores — y como \\♪(1 2beats ÷ 3)\\ dice mucho más que \\1\\, usarme en todas partes enterraría las notas que importan.",
                 "Un tresillo es aritmética honesta: \\♪(1 2beats ÷ 3)\\ dice que tres de estos llenan dos tiempos. Mi duración también puede ser un valor de nota, así que \\♪(1 1𝅗𝅥)\\ y \\♪(1 2beats)\\ son los mismos dos tiempos.",
-                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+                "\\🎼(🎶([1 1 ♪(5 2beats volumen: 60%) ø]))\\"
             ],
             "names": ["$~Nota"],
             "degree": {
@@ -6727,56 +6767,56 @@
                 "piano": {
                     "doc": [
                         "$~Un piano. Grabado de uno real, y afinado, así que los números eligen notas.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.🎹)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~🎹", "$~piano"]
                 },
                 "violin": {
                     "doc": [
                         "$~Un violín. Grabado de uno real, y afinado, así que los números eligen notas.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.🎻)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~violín"]
                 },
                 "drums": {
                     "doc": [
                         "$~Una batería. Grabada, y es un kit en lugar de estar afinada: los números eligen una pieza del kit en lugar de una nota — \\1\\ bombo, \\2\\ tarola, \\3\\ charles, \\4\\ platillo, \\5\\ tom, \\6\\ cencerro — y \\7\\ vuelve otra vez al bombo.",
-                        "\\🎼(\n\t🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1 2 3 4 5 6] pulso: 2beats bucle: ⊥ instrumento: 🔈.🥁)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~tambores"]
                 },
                 "flute": {
                     "doc": [
                         "$~Una flauta. Grabada de una real, y afinada, así que los números eligen notas.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.🪈)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~flauta"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~Una trompeta. Grabada de una real, y afinada, así que los números eligen notas.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.🎺)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~trompeta"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Un saxofón, uno tenor. Grabado de uno real, y afinado, así que los números eligen notas.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.🎷)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~saxofón"]
                 },
                 "bell": {
                     "doc": [
                         "$~Una campana — campanas de orquesta, del tipo que se golpea con un mazo. Grabada, y afinada, así que los números eligen notas.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.🔔)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~campana"]
                 },
                 "didgeridoo": {
                     "doc": [
                         "$~Un didgeridoo, de los pueblos aborígenes de Australia. Grabado de uno real, y afinado, así que los números eligen notas, aunque es un instrumento de zumbido y se mantiene grave.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.🪵)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~🪵", "$~didgeridoo"]
                 },
@@ -6784,62 +6824,62 @@
                     "names": ["$~gato", "$~miau"],
                     "doc": [
                         "$~Un gato — en realidad todo un kit de uno solo. Grabado de un gato real, y es un kit en lugar de estar afinado: los números eligen lo que el gato dice en lugar de una nota — \\1\\ irritado, \\2\\ suplicando, \\3\\ hambriento, \\4\\ protestando, \\5\\ suplicante, \\6\\ anhelante, \\7\\ molesto, \\8\\ asustado, \\9\\ sensible, \\10\\ reconfortado, \\11\\ solitario, \\12\\ ronroneando — y \\13\\ vuelve otra vez a irritado. Para un gato que toca notas en su lugar, mira \\🔈.😺\\.",
-                        "\\🎼(\n\t🎶(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\tbeat: 2beats\n\t\tloop: ⊥\n\t\tinstrument: 🔈.🐱\n\t)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\tpulso: 2beats\n\t\tbucle: ⊥\n\t\tinstrumento: 🔈.🐱\n\t)\n\ttempo: 60beats/min\n)\\"
                     ]
                 },
                 "dog": {
                     "names": ["$~perro", "$~guau"],
                     "doc": [
                         "$~Un perro — todo un conjunto de ellos, en realidad. Grabados de perros reales, y es un conjunto, no algo afinado: los números eligen qué ladrido escuchas en vez de una nota, del más grave al más agudo — \\1\\ áspero, \\2\\ advirtiendo, \\3\\ vigilando, \\4\\ alerta, \\5\\ insistiendo, \\6\\ exigiendo, \\7\\ anunciando, \\8\\ ansioso, \\9\\ emocionado, \\10\\ impaciente, \\11\\ ladrando fuerte, \\12\\ chillón — y \\13\\ vuelve otra vez a áspero. Para un perro que toca notas en su lugar, mira \\🔈.🐕\\.",
-                        "\\🎼(\n\t🎶(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\tbeat: 2beats\n\t\tloop: ⊥\n\t\tinstrument: 🔈.🐶\n\t)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\tpulso: 2beats\n\t\tbucle: ⊥\n\t\tinstrumento: 🔈.🐶\n\t)\n\ttempo: 60beats/min\n)\\"
                     ]
                 },
                 "synth": {
                     "doc": [
                         "$~Una melodía de sintetizador: brillante y zumbona, sin pena de estar hecha de osciladores. Es sintetizada, no grabada, y afinada, así que los números eligen las notas.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.🎛)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~sintetizador"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~Un bajo de sintetizador: grueso y bajo. Es sintetizado, no grabado, y afinado, así que los números eligen las notas.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.🎚)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~bajoSintetizador"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~Un pad de sintetizador: suave, tarda en llegar y sirve para sostener un acorde debajo de todo lo demás. Es sintetizado, no grabado, y afinado, así que los números eligen las notas.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.☁)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~padSintetizador"]
                 },
                 "pitchedCat": {
                     "doc": [
                         "$~El mismo gato, afinado. De las doce grabaciones que toca el kit \\🔈.🐱\\, esta es la que mantiene un tono constante, y es afinada en lugar de un kit, así que los números eligen las notas y puedes escribir una melodía con ella. Si se toca lejos de la nota en que se grabó, un maullido empieza a sonar estirado en vez de cantado, así que se siente mejor dentro de una octava más o menos del centro.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.😺)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~gatoAfinado"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Los mismos perros, afinados. De todos los ladridos de los que se sacó el kit, este es el que mantiene un tono constante, y es afinado en lugar de un kit, así que los números eligen las notas y puedes escribir una melodía con él. Si se toca lejos de la nota en que se grabó, un ladrido empieza a sonar estirado en vez de ladrado, así que se siente mejor dentro de una octava más o menos del centro.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.🐕)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~perroAfinado"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~Una guitarra clásica, con cuerdas de nylon que se tocan con los dedos y no con una púa. Grabada de una guitarra real, y afinada, así que los números eligen las notas. Esta es la que significa \\guitar\\ a secas, así que los proyectos más viejos que pidieron una guitarra tocan esta.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.🎸)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~guitarraAcustica", "$~guitarra"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~Una guitarra electroacústica: un cuerpo hueco con una pastilla dentro, con cuerdas de acero, así que suena más brillante y por más tiempo que la de nylon \\🔈.🎸\\. Grabada de una guitarra real, y afinada, así que los números eligen las notas.",
-                        "\\🎼(\n\t🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡)\n\ttempo: 60beats/min\n)\\"
+                        "\\🎼(\n\t🎶([1] pulso: 4beats bucle: ⊥ instrumento: 🔈.⚡)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~guitarraElectrica"]
                 },
@@ -6848,7 +6888,7 @@
                         "$~Una voz que canta, hecha con filtros en vez de grabada de una persona. Afinada, así que los números eligen las notas.",
                         "Soy un sintetizador, como @Instrument/synth, no una imitación de una cantante. Mi boca queda del mismo tamaño por muy alto o muy bajo que cante, algo que ninguna garganta real puede hacer. Por eso sueno como una máquina imitando a una persona, y por eso no sueno ni como hombre ni como mujer.",
                         "Dale a mi @Track un @Track/words y los canto, una sílaba por nota. Sin nada, sostengo un sonido /uh/, así que siempre canto algo.",
-                        "\\🎼(\n\t🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖)\n\ttempo: 120beats/min\n)\\",
+                        "\\🎼(\n\t🎶([1 2 3 5] palabras: 'la la la la' instrumento: 🔈.🤖)\n\ttempo: 120beats/min\n)\\",
                         "Las sílabas se escriben en el <Alfabeto Fonético Internacional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alfabeto donde cada letra es un /sonido/ y no una forma de escribir, así que \\'ʃi'\\ es el ruido al inicio de /she/, en el idioma que escribas. Presiona 🤖 debajo del editor para ver cada sonido que puedo hacer y oír cada uno."
                     ],
                     "names": ["$~voz"]
@@ -6856,7 +6896,7 @@
                 "harmonica": {
                     "doc": [
                         "$~Una armónica, del tipo cromático que tiene un botón a un lado. Se grabó de una armónica real y se afinó, así que los números eligen las notas.",
-                        "\\Música(\n\tPista([1] beat: 4beats loop: ⊥ instrument: Instrumento.🌬)\n\ttempo: 60beats/min\n)\\"
+                        "\\Música(\n\tPista([1] pulso: 4beats bucle: ⊥ instrumento: Instrumento.🌬)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~armónica"]
                 }
@@ -6866,6 +6906,71 @@
                 "La mayoría somos /afinados/, o sea que los números de una pista eligen las notas y los números más grandes suenan más agudos. Los demás son /kits/: un número elige un sonido de una lista numerada en vez de una nota, así que una pista se lee como ritmo y no como melodía, y los números que pasan el final de la lista dan la vuelta a su inicio.",
                 "La mayoría también somos grabaciones reales, tomadas de instrumentos que la gente de verdad tocó. Los sintetizadores no imitan nada: están hechos de osciladores, y ese es el sonido que deben tener. Cada uno de nosotros dice abajo cuál es."
             ]
+        },
+        "Path": {
+            "doc": "$~Soy un camino dibujado a través de una lista de lugares, útil para líneas, curvas y colinas en @Stage.",
+            "names": ["$~Trazo"],
+            "points": {
+                "doc": "$~Los lugares por los que paso, en orden. Estoy plano, así que uso mi propia z en vez de la profundidad de cualquier lugar.",
+                "names": "$~puntos"
+            },
+            "closed": {
+                "doc": "$~Si se debe unir mi último lugar de vuelta con mi primero.",
+                "names": "$~cerrado"
+            },
+            "smooth": {
+                "doc": "$~Si se debe curvar a través de mis lugares en vez de girar en ellos. Mis lugares no se mueven de ninguna manera.",
+                "names": "$~suave"
+            },
+            "thickness": {
+                "doc": "$~Qué tan ancho dibujarme.",
+                "names": "$~grosor"
+            },
+            "z": {
+                "doc": "$~La profundidad en la que estoy.",
+                "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Muestro lo que dice un @Phrase, en una burbuja que apunta justo hacia esa persona. Dame el @Phrase.bubble de una frase y deja que las letras hablen:",
+                "\\Frase('un' burbuja: '¡hola!')\\",
+                "Dame un @Say en lugar de texto y me pronunciarán en voz alta además de mostrarme.",
+                "Cambia mi @Bubble.kind a un pensamiento y me convierto en una burbuja de pensamiento.",
+                "Soy una decoración, así que nada en el escenario se mueve para hacerme espacio — pero el @Stage sí se asegura de que quede a la vista."
+            ],
+            "names": ["$~Burbuja"],
+            "text": {
+                "doc": [
+                    "$~Lo que muestro. Dame texto simple, o texto con formato si quieres palabras en *negrita* o /cursiva/.",
+                    "Dame un @Say en su lugar y me pronunciarán en voz alta además de mostrarme. Entonces reemplazo las palabras que normalmente aparecen al pie del @Stage, ya que las mías ya están en pantalla junto a quien las dijo."
+                ],
+                "names": "$~texto"
+            },
+            "side": {
+                "doc": "$~De qué lado del @Phrase me coloco, como una flecha. Si \\ø\\, el @Stage me coloca donde menos estorbe, y elige de nuevo cada vez que algo se mueve.",
+                "names": "$~lado"
+            },
+            "kind": {
+                "doc": "$~Si soy algo dicho (\\'💬'\\) o algo pensado (\\'💭'\\). Un pensamiento traza círculos hacia quien piensa en lugar de una punta, y sus bordes se redondean.",
+                "names": "$~tipo"
+            },
+            "color": {
+                "doc": "$~El @Color de mis palabras. Si \\ø\\, uso el propio color del @Phrase.",
+                "names": "$~color"
+            },
+            "background": {
+                "doc": "$~El @Color con el que me relleno. Si \\ø\\, me relleno con el fondo de aquello sobre lo que estoy dibujada.",
+                "names": "$~fondo"
+            },
+            "size": {
+                "doc": "$~Qué tan grandes son mis palabras. Si \\ø\\, son del tamaño normal del texto en el @Stage — no del tamaño de quien habla, ya que un personaje de varios metros de altura formaría una pared de palabras.",
+                "names": "$~tamaño"
+            },
+            "wrap": {
+                "doc": "$~El límite en el que mis palabras pasan a otra línea.",
+                "names": "$~ajuste"
+            }
         }
     },
     "ui": {
@@ -6961,7 +7066,7 @@
                     "format": "$~formato detectado"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~elegir un color de tu pantalla"
                 }
             },
             "logo": {
@@ -7160,7 +7265,7 @@
                     "header": "Curadoras",
                     "explanation": [
                         "$~Las curadoras pueden editar los proyectos y la configuración de la galería, y chatear en todos los proyectos.",
-                        "/Las curadoras se encargan de moderar el contenido de los chats de los proyectos y las guías prácticas de la galería. Los chats que las creadoras reporten aparecen en el <panel de moderación de la galería@://galleries/moderation>./"
+                        "/Las curadoras revisan lo que se reporta en su galería —proyectos, guías prácticas y los chats que los acompañan— desde la <página de moderación@://moderate>. La decisión de una curadora aplica solo a su propia galería; nunca es una de las <advertencias@://rights> de Wordplay./"
                     ]
                 },
                 "creators": {
@@ -7429,10 +7534,6 @@
                 "fit": {
                     "on": "controlar zoom manualmente",
                     "off": "ajustar zoom al contenido"
-                },
-                "paint": {
-                    "off": "colocar salida",
-                    "on": "pintar salida"
                 }
             },
             "field": {
@@ -7566,11 +7667,30 @@
                 "show": "$~mostrar todo"
             },
             "snap": {
-                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
-                "withOutput": "$?",
-                "withGrid": "$?",
-                "aligned": "$?",
-                "none": "$?"
+                "anchors": [
+                    "$~centro horizontal",
+                    "$~borde izquierdo",
+                    "$~borde derecho",
+                    "$~centro vertical",
+                    "$~borde inferior",
+                    "$~borde superior",
+                    "$~línea base"
+                ],
+                "withOutput": "$~$anchor con $target de $targetAnchor",
+                "withGrid": "$~$anchor en la cuadrícula",
+                "aligned": "$~$constraints, en $place",
+                "none": "$~nada con qué alinear en $direction"
+            },
+            "removed": "$~$#count[$#count salida eliminada|$#count salidas eliminadas|$#count salidas eliminadas]",
+            "notRemovable": "$~que no se puede eliminar por sí sola",
+            "drew": "$~$#count[dibujó un camino con $#count punto; el dibujo está apagado|dibujó un camino con $#count puntos; el dibujo está apagado|dibujó un camino con $#count puntos; el dibujo está apagado]",
+            "drawing": "$~$#count[$#count punto, en $place|$#count puntos, el último en $place|$#count puntos, el último en $place]",
+            "point": {
+                "label": "$~punto $number de $#count, en $place",
+                "moved": "$~punto $number a $place",
+                "added": "$~agregó el punto $number",
+                "removed": "$~quitó el punto $number",
+                "last": "$~un camino necesita al menos dos puntos"
             }
         },
         "timeline": {
@@ -7682,7 +7802,8 @@
                     "header": "$~Guías prácticas",
                     "explanation": "$~/Ejemplos cortos que muestran cómo hacer cosas en @wordplay. Presiona reproducir en cualquier vista previa para verlo funcionar, luego ábrelo para leer cómo funciona./"
                 },
-                "conceptHowTos": "$~Guía práctica"
+                "conceptHowTos": "$~Guía práctica",
+                "bookmarked": "$~Guardado"
             },
             "mode": {
                 "browse": {
@@ -7886,8 +8007,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~dejar que el proyecto elija su propio glifo de vista previa según lo que muestra",
+                            "$~fijar un glifo que tú elijas"
                         ]
                     },
                     "research": {
@@ -8330,10 +8451,20 @@
                     "projectChatHeader": "$~Nuevo mensaje en el proyecto \"$name\"",
                     "howToChatHeader": "$~Nuevo mensaje en la guía práctica \"$title\"",
                     "link": "$~detalles",
-                    "moderationHeader": "$~El mensaje en \"$name\" requiere una acción de moderación"
+                    "moderationHeader": "$~El mensaje en \"$name\" requiere una acción de moderación",
+                    "reportedHeader": "$~Algo que hiciste en \"$title\" fue reportado y está siendo revisado",
+                    "reportReceivedHeader": "$~Tu reporte sobre \"$title\" fue enviado a la persona responsable",
+                    "decisionHeader": "$~Se tomó una decisión sobre algo que hiciste en \"$title\"",
+                    "outcomeHeader": "$~Se tomó una decisión sobre lo que reportaste en \"$title\"",
+                    "because": "$~Porque:",
+                    "note": "$~Dijeron:"
                 },
                 "delete": "$~eliminar esta notificación",
-                "popup": "$~$#count[1 notificación|$#count notificaciones|$count notificaciones]"
+                "popup": "$~$#count[1 notificación|$#count notificaciones|$count notificaciones]",
+                "moderate": {
+                    "label": "$~revisar contenido reportado",
+                    "tip": "$~ir a las cosas que esperan tu revisión"
+                }
             }
         },
         "palette": {
@@ -8366,11 +8497,7 @@
                 "down": "mover este contenido hacia abajo",
                 "edit": "editar este contenido",
                 "sequence": "$~convertir a Secuencia",
-                "createPhrase": "crear una Frase, mostrando el valor existente como texto",
-                "createGroup": "crear un Grupo, envolviendo cualquier Frase existente",
-                "createStage": "crear un Escenario, envolviendo cualquier Grupo o Frase existente",
                 "editMode": "$~cambiar al modo de edición",
-                "createMusic": "$~agregar @Music al programa",
                 "previousTrack": "$~mostrar el @Track anterior",
                 "nextTrack": "$~mostrar el siguiente @Track",
                 "addTrack": "$~agregar un @Track",
@@ -8388,15 +8515,9 @@
                 "rewind": "$~regresar al comienzo"
             },
             "prompt": {
-                "offerPhrase": "$~¿Envuelvo este valor en un @Phrase?",
-                "offerGroup": "$~¿Envuelvo este contenido en un @Group, para que puedas acomodarlo?",
-                "offerStage": "$~¿Envuelvo este contenido en un @Stage, para que puedas controlar la iluminación, el color y los cuadros?",
                 "editing": "¡Edítame!",
-                "select": "$~Para editar, selecciona un 💬, 🔳, ⬟ o 🎭 en el código, o selecciona la salida en el @Stage.",
-                "offerShape": "$~¿Envuelvo este @Form en @Shape para mostrarlo en @Stage?",
-                "offerNothing": "$~¡Aquí no hay nada todavía! ¿Agrego un @Phrase para comenzar?",
-                "readonly": "$~La paleta es de *solo lectura* en este modo. Cambia al modo ✏️ *edición* para hacer cambios.",
-                "offerMusic": "$~¿Quieres agregar @Music? Puedo darte unas cuantas notas para empezar a jugar."
+                "select": "$~Para editar algo, selecciónalo en tu código o en el @Stage. Para agregar algo nuevo, usa los botones + de arriba.",
+                "readonly": "$~La paleta es de *solo lectura* en este modo. Cambia al modo ✏️ *edición* para hacer cambios."
             },
             "field": {
                 "coordinate": "editar coordenada",
@@ -8494,6 +8615,28 @@
                 },
                 "report": "$~Lo que importé",
                 "reportExplanation": "$~Un @Music puede guardar casi todo lo que describe un archivo MIDI, pero no todo. Esto es lo que cambió al entrar."
+            },
+            "toolbar": {
+                "label": "$~agregar salida",
+                "addPhrase": "$~agregar una frase",
+                "wrapPhrase": "$~mostrar este valor como una frase",
+                "addRectangle": "$~agregar una forma rectangular",
+                "addCircle": "$~agregar una forma redonda",
+                "addPolygon": "$~agregar una forma de muchos lados",
+                "wrapForm": "$~muestra esta forma en el escenario envolviéndola en una figura",
+                "group": "$~reunir lo que seleccionaste en un grupo",
+                "groupEmpty": "$~selecciona algo de salida para reunirlo en un grupo",
+                "groupScattered": "$~un grupo solo puede reunir salida que esté en el mismo lugar",
+                "groupKind": "$~un grupo puede contener una frase, un grupo, voz o música, pero no una figura ni el escenario",
+                "addStage": "$~envuelve todo en un escenario, así puedes controlar la iluminación, el color y los cuadros",
+                "stageExists": "$~ya existe un escenario",
+                "addMusic": "$~agrega música, comenzando con algunas notas para experimentar",
+                "addSay": "$~agrega voz, que se pronuncia en voz alta",
+                "addPath": "$~agrega una línea que puedas doblar y con la que puedas dibujar",
+                "draw": {
+                    "off": "$~dibuja un camino en el escenario",
+                    "on": "$~deja de dibujar"
+                }
             }
         },
         "save": {
@@ -8584,8 +8727,8 @@
                     "example": {
                         "phrase": "$~\\¶Las frases aparecen en el escenario, en cualquier color, brillo y movimiento que quieras.¶\nFrase(\n\t'¡hola!'\n\t6m\n\tcolor: Color(60% 90 200°)\n\taura: Aura(Color(80% 80 200°) 0.3m)\n\tinmóvil: Secuencia.vaivén(8°)\n)\\",
                         "music": "$~\\¶La música son notas en instrumentos reales, a un tempo, en una clave. El escenario dibuja lo que escucha.¶\nMúsica(\n\tPista([1 3 5 8 5 3] instrumento: Instrumento.piano)\n\ttempo: 120beats/min\n)\\",
-                        "hello": "$~\\¶El código puede reaccionar a una entrada como @Time, y el texto puede ser multilingüe y hablado.¶\nholas: ['hola' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhola: holas.azar() … ∆ Tiempo(1000ms) … holas.azar()\nFrase(hola 4m)\ndecir(hola)\\",
-                        "keys": "$~\\¶El código puede reaccionar a punteros, teclas, clics y toques.¶\nclave2: Tecla()\nclic2: Botón()\ncaras: ['🙂' '😮' '😎' '🤩']\ncuál: 1 … ∆ clave2 | ∆ clic2 … (cuál % 4) + 1\nEscenario(\n\t[Frase(caras[cuál] 5m lugar: Puntero())]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
+                        "hello": "$~\\¶El código puede reaccionar a una entrada como @Time, y el texto puede ser multilingüe y hablado.¶\nholas: ['hola'/es 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhola: holas.azar() … ∆ Tiempo(1000ms) … holas.azar()\nFrase(hola 4m)\ndecir(hola)\\",
+                        "keys": "$~\\¶El código puede reaccionar a punteros, teclas, clics y toques.¶\nclave2: Tecla()\nclic2: Botón()\ncaras: ['🙂' '😮' '😎' '🤩']\ncuál: 1 … ∆ clave2 | ∆ clic2 … (cuál % 4) + 1\nEscenario(\n\t[Frase(caras[cuál] 5m lugar: Puntero() burbuja: 'hola')]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Acomoda el texto y hazlo seleccionable.¶\nfruta: ƒ(e•'') Frase(e 3m nombre: e seleccionable: ⊤)\nelegido: Elección()\nmostrado: '?' … ∆ elegido … elegido\nGrupo(\n\tPila(relleno: 1m)\n\t[\n\t\tFrase(mostrado 4m)\n\t\tGrupo(\n\t\t\tFila(relleno: 1m)\n\t\t\t[fruta('🍎') fruta('🍐') fruta('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Conversa con programas y usa la forma de las fuentes y los símbolos.¶\nmensaje: Charla()\npalabra2: 'hola' … ∆ mensaje … mensaje\nlínea: Contorno(palabra2 'Noto Sans' 8m)\ntics: 0 … ∆ Tiempo(30ms) … tics + 1\nmostrado: ((línea.longitud() × tics) ÷ 66).rondearBajo() + 1\npuntos: línea.subsecuencia(1 mostrado).traducir(\n\t\tƒ(p) Frase('•' lugar: p)\n\t)\nEscenario(puntos.agregar(Frase(palabra2 8m opacidad: 15%)))\\",
                         "pile": "$~\\¶El texto puede tener física.¶\nlanzar: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFrase(\n\t\t\temoji\n\t\t\t2m\n\t\t\tlugar: Movimiento(Lugar(x2 y2) Velocidad(vx 0m/s))\n\t\t\tmateria: Materia(1kg 0.55 0.06 0.5)\n\t\t)\nEscenario(\n\t[\n\t\tlanzar('🍎' -2m 5m 2.2m/s)\n\t\tlanzar('🍊' 2m 7m -2.6m/s)\n\t\tlanzar('🍋' -1m 9m 1.4m/s)\n\t\tlanzar('🍇' 1.5m 11m -1.9m/s)\n\t\tlanzar('🫐' 0.5m 15m -1.2m/s)\n\t\tFigura(Rectángulo(-4m -3m 4m -3.6m))\n\t\tFigura(Rectángulo(-4.6m 4m -4m -3m))\n\t\tFigura(Rectángulo(4m 4m 4.6m -3m))\n\t]\n)\\",
@@ -8608,8 +8751,8 @@
                         "title": "$~Wordplay es multilingüe",
                         "bullets": [
                             "$~• Cada característica del lenguaje de programación tiene un nombre en cada idioma, así que el código se lee con palabras que ya conoces.",
-                            "• Tus propios nombres también pueden ser multilingües:\n\\gato: '🐈'\nFrase(gato)\\",
-                            "• El texto lleva un idioma, y muestra el idioma que tu público lee: \\'hola'\\.",
+                            "• Tus propios nombres también pueden ser multilingües:\n\\gato/es, cat/en: '🐈'\nFrase(gato)\\",
+                            "• El texto lleva un idioma, y muestra el idioma que tu público lee: \\'hola'/es'hola'/es\\.",
                             "• El sitio está en 29 idiomas y puedes elegir más de uno a la vez; el texto aparece en cada uno.",
                             "• Puedes ayudar a traducir @wordplay mismo, dentro de la aplicación en <localize//localize>."
                         ]
@@ -8811,42 +8954,35 @@
                 "header": "Galerías",
                 "prompt": "$~Las galerías son colecciones de proyectos, a menudo reunidos alrededor de un tema, y organizados por ti o por otras creadoras.",
                 "button": {
-                    "more": {
-                        "label": "$~más...",
-                        "tip": "$~cargar más galerías"
-                    },
                     "newgallery": "$~nueva galería"
                 },
                 "section": {
                     "tabs": {
                         "label": "$~tipo de galería",
-                        "labels": [
-                            "$~Tuyas",
-                            "$~Ejemplos",
-                            "$~Guías prácticas",
-                            "$~Públicas"
-                        ],
+                        "labels": ["$~Tuyas", "$~Ejemplos", "$~Públicas"],
                         "tips": [
                             "$~galerías que curas o a las que contribuyes",
                             "$~galerías curadas por las desarrolladoras de Wordplay",
-                            "$~guías prácticas compartidas por galerías a las que perteneces",
                             "$~galerías que las creadoras hicieron públicas"
                         ]
                     },
                     "own": [
-                        "$~Contribuye a una galería a la que te inviten, o cura tu propia galería con un tema en particular e invita a otras personas.",
-                        "/Las curadoras son responsables de moderar el contenido de las galerías usando el <panel de moderación de galerías@://galleries/moderation>./"
+                        "$~Contribuye a una galería a la que te invitaron, o crea tu propia galería con un tema particular, e invita a otras personas.",
+                        "/Las curadoras revisan lo que se reporta en su galería, desde la <página de moderación@://moderate>./"
                     ],
                     "examples": "$~Estas son galerías curadas por las desarrolladoras de @wordplay. Son buenos puntos de partida para aprender e inspirarte.",
-                    "howtos": "$~Puedes ver las guías prácticas de estas galerías e interactuar con ellas, pero no puedes ver sus proyectos a menos que la galería o los proyectos sean públicos.",
-                    "public": "$~Estas son galerías que las creadoras de @wordplay hicieron públicas. ¡Mira lo que otras personas han hecho para inspirarte!"
+                    "public": "$~Estas son galerías que creadoras de @wordplay hicieron públicas. Cualquiera puede pedir que su galería aparezca aquí, y una moderadora la revisa primero para asegurarse de que esté terminada y siga las reglas. Una galería puede quitarse de esta lista en cualquier momento, por cualquier razón. Se muestran en un orden distinto cada vez que visitas, así que cada galería tiene su turno cerca de la parte de arriba."
                 },
                 "error": {
-                    "nogalleryedits": "$~Debes <iniciar sesión@://login> para crear y cambiar galerías."
+                    "nogalleryedits": "$~Debes <iniciar sesión@://login> para crear y cambiar galerías.",
+                    "nopublic": "$~Todavía no se ha aprobado ninguna galería para esta lista. ¡Vuelve pronto!"
                 },
                 "search": {
-                    "description": "$~buscar proyectos de ejemplo en la galería",
-                    "noResults": "$~No se encontraron resultados."
+                    "description": "$~buscar ejemplos y galerías públicas",
+                    "noResults": "$~No se encontraron resultados.",
+                    "galleries": "$~Galerías",
+                    "examples": "$~Proyectos de ejemplo",
+                    "projects": "$~Proyectos en galerías públicas"
                 }
             },
             "about": {
@@ -8968,28 +9104,27 @@
                 "header": "Derechos",
                 "content": [
                     "$~¡Hola!",
-                    "Vamos a dejar claras algunas expectativas sobre tus derechos y los nuestros (también a la luz de normas como la <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> y el <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
-                    "Lo primero que debes saber es que no somos una entidad comercial. Somos un proyecto de investigación basado en la comunidad, alojado en una universidad sin fines de lucro. Nuestra meta es crear una plataforma que te dé alegría y nos ayude a hacer descubrimientos sobre un mundo de la computación más justo y equitativo. No tenemos interés en ganar dinero con esta plataforma; todo el dinero que reunimos (por lo general con fondos públicos) se usa para sostener la plataforma, no para enriquecer a quien trabaja en ella (o contribuye a ella).",
-                    "Como no buscamos ganancias, esto también significa que no podemos hacer ninguna promesa sobre la fiabilidad, la disponibilidad o la duración de esta plataforma. Dicho eso, <Amy@https://amyjko.phd> tiene un compromiso a largo plazo de sostenerla, y como es profesora con plaza fija, tiene un trabajo bastante estable.",
-                    "Esto nos lleva a los *datos*. Esto es lo que reunimos y guardamos en la nube:",
-                    "• Tus *proyectos*. Guardamos cualquier proyecto que aportes y tus cambios en ellos, a menos que esos proyectos parezcan tener información que te identifique personalmente, como números de teléfono, correos electrónicos, nombres de usuaria, identificadores fiscales o direcciones.",
-                    "• Tu *configuración*. Esto incluye los idiomas que eliges, tus preferencias de animación y tu avance en el tutorial. Todo lo demás se guarda solo en tu dispositivo.",
-                    "• *Actividad* en conjunto. Registramos los inicios de sesión y las páginas que visitas, pero no de una forma que pueda identificarte, seguirte por el sitio o seguirte por otros sitios. Usamos Google Analytics en modo de 'consentimiento denegado', que solo reúne información mínima y no identificable sobre las vistas de página, sin guardar cookies ni enviar información de dirección IP a Google. Usamos esta información en conjunto para ayudar a conseguir fondos, informando cuánto se usa la plataforma.",
-                    "No guardamos nada más. Nuestro <código fuente@https://github.com/amyjko/wordplay/tree/main/src> es público, así que cualquiera puede verificar esto e informar sobre cualquier seguimiento no intencionado.",
-                    "*Tú* eres dueña de tus datos, no nosotras. Eso significa:",
-                    "• Tú controlas quién puede acceder a tus proyectos. Son privados de forma predeterminada, pero puedes compartirlos con personas, con grupos o hacerlos completamente públicos.",
+                    "Vamos a explicar tus derechos y los nuestros (también a la luz de leyes como la <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> y el <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Lo primero que debes saber es que no somos una empresa comercial. Somos un proyecto de investigación comunitario que forma parte de una universidad sin fines de lucro. Nuestra meta es crear una plataforma que te dé alegría y que nos ayude a descubrir un mundo de la computación más justo e igualitario. No nos interesa ganar dinero con esta plataforma. El dinero que reunimos (normalmente por medio de fondos públicos) se usa para mantener la plataforma, no para enriquecer a nadie que trabaje en ella ni a quienes contribuyen en ella.",
+                    "Como no buscamos ganancias, tampoco podemos prometer que esta plataforma sea confiable, esté siempre disponible o dure para siempre. Aun así, <Amy@https://amyjko.phd> está comprometida a largo plazo con mantenerla, y como es profesora titular, tiene un puesto bastante estable.",
+                    "Eso nos lleva a los *datos*. Esto es lo que reunimos y guardamos en la nube:",
+                    "• Tus *proyectos*. Guardamos cualquier proyecto en el que contribuyas y los cambios que hagas, a menos que esos proyectos parezcan tener información que pueda identificarte personalmente, como números de teléfono, correos electrónicos, nombres de usuario, identificadores fiscales o domicilios.",
+                    "• Tu *configuración*. Esto incluye los idiomas que elijas, tus preferencias de animación y tu progreso en el tutorial. Todo lo demás se guarda solo en tu dispositivo.",
+                    "• *Actividad* general. Registramos los inicios de sesión y las páginas que visitas, pero no de una forma que pueda identificarte, seguirte dentro del sitio o seguirte en otros sitios. Usamos Google Analytics en modo de 'consentimiento denegado', que solo reúne información mínima y no identificable sobre las páginas vistas, sin guardar cookies ni enviar la dirección IP a Google. Usamos esta información general para ayudar a conseguir fondos, mostrando cuánto se usa la plataforma.",
+                    "No guardamos nada más. Nuestro <código fuente@https://github.com/amyjko/wordplay/tree/main/src> es público, así que cualquiera puede verificar esto y reportar cualquier seguimiento no intencionado.",
+                    "*Tú* eres dueña de tus datos, no nosotros. Esto significa que:",
+                    "• Tú decides quién puede ver tus proyectos. Son privados por defecto, pero puedes compartirlos con personas, grupos, o hacerlos totalmente públicos.",
                     "• Puedes borrar por completo cualquier proyecto o tu propia cuenta en cualquier momento.",
-                    "• Puedes obtener una exportación de cualquier proyecto o de toda tu cuenta en cualquier momento.",
-                    "Así usaremos y no usaremos tus datos:",
-                    "• No compartiremos tus datos con nadie, salvo que la ley lo exija de forma explícita. Siempre es posible que tus datos se tomen sin permiso (una 'violación de datos'). Si descubrimos que esto pasó, te avisaremos usando el correo electrónico que compartiste con nosotras.",
-                    "• No te contactaremos por tu correo electrónico a menos que 1) hagas un cambio de cuenta que nos obligue a hacerlo, 2) nos des permiso explícito para comunicarnos contigo, o 3) en el caso de violación de datos mencionado arriba.",
-                    "• Podemos analizar los proyectos, las galerías y las guías prácticas de la plataforma para entender qué está creando cada quien y cómo lo hace. Podemos compartir estas ideas en conjunto y anónimas en publicaciones académicas. Solo haremos esto bajo la supervisión de un comité de revisión institucional, como lo exige la ley federal de Estados Unidos.",
-                    "Por último, una nota sobre la expresión. Puedes decir lo que quieras en esta plataforma en *privado*. Los proyectos son privados de forma predeterminada, y si los compartes con correos electrónicos específicos, siguen siendo privados. No moderaremos nada en los proyectos privados.",
-                    "Pero hacer un proyecto *público*, o incluirlo en una galería pública, es un privilegio. Esta es una plataforma hecha para el amor, la afirmación, el respeto y la dignidad. Por eso, esperamos que ninguno de tu contenido *público*:"
+                    "• Puedes obtener una copia exportada de cualquier proyecto o de toda tu cuenta en cualquier momento.",
+                    "Así es como usaremos y no usaremos tus datos:",
+                    "• No compartiremos tus datos con nadie, a menos que la ley lo exija explícitamente. Siempre existe la posibilidad de que tus datos sean tomados sin permiso (una 'filtración de datos'). Si descubrimos que esto ha pasado, te avisaremos usando el correo electrónico que compartiste con nosotros.",
+                    "• No te contactaremos por correo electrónico a menos que 1) hagas un cambio en tu cuenta que lo requiera, 2) nos den permiso explícito para escribirte, o 3) ocurra una filtración de datos como se explicó arriba.",
+                    "• Podemos analizar proyectos, galerías y guías prácticas de la plataforma para entender qué está creando la gente y cómo lo hace. Podemos compartir estos hallazgos generales y anónimos en publicaciones académicas. Solo haremos esto bajo la supervisión de una junta de revisión institucional, como lo exige la ley federal de los Estados Unidos.",
+                    "Por último, una nota sobre la libertad de expresión. Los proyectos son privados por defecto, y compartir uno con personas específicas lo mantiene privado. A continuación se explica exactamente quién revisa lo que compartes, según quién pueda verlo.",
+                    "Pero hacer un proyecto *público*, o incluirlo en una galería pública, es un privilegio. Esta es una plataforma hecha con amor, afirmación, respeto y dignidad. Por eso, esperamos que ninguno de tus contenidos *públicos*:"
                 ],
                 "consequences": [
-                    "$~Los chats de los proyectos y las guías prácticas que están en galerías públicas o privadas están sujetos a la moderación de las curadoras de la galería. Puedes reportar a las curadoras los mensajes que violen estas normas de la comunidad usando el botón de reporte junto a cada mensaje, y las curadoras pueden aprobar o quitar los mensajes.",
-                    "Si encontramos un proyecto o una galería que viola estas reglas, avisaremos a las creadoras antes de que lo vean, o impediremos que se vea. Si violas estas reglas repetidamente, perderás el privilegio de publicar en público."
+                    "$~Si encontramos un proyecto o una galería que rompa estas reglas, avisaremos a quienes lo crearon antes de que alguien lo vea, o bloquearemos su visualización. Si rompes estas reglas varias veces, perderás el privilegio de publicar contenido público."
                 ],
                 "license": [
                     "$~Una cosa más sobre hacer un proyecto *público*. Los proyectos públicos se comparten bajo la <licencia Creative Commons Atribución-CompartirIgual@https://creativecommons.org/licenses/by-sa/4.0/>. Eso significa que cualquiera puede /remezclar/ tu proyecto público — hacer su propia copia y cambiarla — y tú puedes remezclar el de cualquier otra persona.",
@@ -9005,6 +9140,17 @@
                     "$~esto es exactamente lo que pasa si tu contenido público rompe estas reglas. una persona moderadora lo revisa, deja de ser público, y recibes una advertencia en tus notificaciones que dice cuál es. cualquiera que tenga sesión iniciada puede pedirle a una persona moderadora que revise contenido público usando el botón de reportar que aparece en él.",
                     "después de tres advertencias, todavía puedes crear proyectos, seguir compartiéndolos con quien tú elijas, y seguir usando todo lo demás aquí. lo que pierdes es la capacidad de hacer algo público.",
                     "si crees que una advertencia fue un error, o pasó hace mucho tiempo y te gustaría volver a compartir públicamente, escribe a hi@wordplay.dev y cuéntanos tu nombre de usuaria y por qué. una persona lo leerá."
+                ],
+                "responsibility": [
+                    "$~Quién revisa lo que compartes depende de quién puede verlo.",
+                    "• *Compartido con nadie, o solo con personas que nombraste.* Nadie lo revisa. Ni nosotros, ni nadie.",
+                    "• *En una galería con otras personas.* Las curadoras de esa galería lo revisan, junto con los chats que la acompañan. Esto es así sin importar si la galería es pública o no: las personas que están en ella pueden ver tu trabajo, así que alguien ahí es responsable de eso.",
+                    "• *En una galería pública.* Sus curadoras lo revisan, y nosotros también, porque cualquiera puede encontrarlo.",
+                    "• *Público, y no en una galería.* Nosotros lo revisamos.",
+                    "Cualquiera que pueda ver algo puede pedir que se revise, usando el botón de reportar. Nunca le decimos a quien lo creó quién lo reportó.",
+                    "Reportar un mensaje de chat lo oculta mientras alguien lo revisa. Eso pasa una sola vez por mensaje: si se mantiene y alguien lo reporta otra vez, queda visible mientras se revisa por segunda vez. Siempre puedes ver tus propias palabras.",
+                    "Una decisión dice cuáles de las reglas de arriba se rompieron, y puede llevar una nota de quien decidió. Recibirás ambas cosas en tus notificaciones.",
+                    "La decisión de una curadora de galería aplica solo a su galería. No es una de las advertencias de abajo, y nunca puede quitarte la posibilidad de compartir públicamente."
                 ]
             },
             "donate": {
@@ -9643,12 +9789,14 @@
                         "$~Acerca de",
                         "$~Texto",
                         "$~Términos",
+                        "$~Glosario",
                         "$~Enviar"
                     ],
                     "tips": [
                         "$~cómo funciona la localización y notas para quienes escriben este idioma",
                         "$~explorar y editar el texto de la plataforma",
                         "$~definir frases que puedes reutilizar en el texto de este idioma",
+                        "$~agrega los plurales y otras formas de escribir los términos de este idioma",
                         "$~revisar tus ediciones y enviarlas"
                     ]
                 },
@@ -9942,7 +10090,7 @@
                 },
                 "collaborators": "$~escrita por",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~ver guía práctica"
                 }
             },
             "configuration": {
@@ -10017,11 +10165,11 @@
         },
         "gallerymoderation": {
             "header": "$~Moderación de galerías",
-            "description": "$~Las usuarias reportaron los siguientes mensajes para moderación en las galerías que curas.",
+            "description": "$~Lo que otras personas te han pedido revisar, del más antiguo al más nuevo. Una decisión dice cuáles reglas se rompieron, y a quien hizo la cosa se le dice qué decidiste.",
             "labels": {
                 "message": "$~mensaje",
-                "reporter": "$~quien reporta",
-                "action": "$~acciones de moderación"
+                "action": "$~acciones de moderación",
+                "reason": "$~qué reglas rompió"
             },
             "view": {
                 "label": "$~ver chat",
@@ -10036,7 +10184,11 @@
                 "tip": "$~este mensaje no viola las guías"
             },
             "empty": "$~Ningún mensaje necesita moderación",
-            "error": "$~Debes iniciar sesión para moderar galerías"
+            "error": "$~Debes iniciar sesión para moderar galerías",
+            "note": {
+                "description": "$~qué decirle a quien escribió el mensaje",
+                "placeholder": "$~decirles algo (opcional)"
+            }
         },
         "emoji": {
             "noCharacters": "$~Crear un personaje personalizado",
@@ -10137,7 +10289,7 @@
                 }
             },
             "strings": "$~Textos de traducción",
-            "emotion": "Choose an emotion",
+            "emotion": "$~elegir una emoción",
             "invalidName": "$~No es un nombre válido de Wordplay",
             "reference": "$~Referencia en inglés",
             "invalidConceptLinks": "$~Estos enlaces de conceptos no funcionan en el idioma actual. ¿Escribiste alguno mal o lo quitaste a propósito?",
@@ -10180,6 +10332,23 @@
                 "invalidKey": "$~Una clave debe comenzar con una letra y usar solo letras y números, en cualquier idioma.",
                 "duplicateKey": "$~Este idioma ya tiene una palabra con esa clave.",
                 "reservedKey": "$~Esa clave ya se usa para un valor de plantilla, así que no puede ser una palabra."
+            },
+            "glossary": {
+                "header": "$~Otras formas escritas",
+                "description": "$~El glosario explica palabras que quien aprende va conociendo. Cada término tiene una palabra principal, y aquí puedes agregar las otras formas en que esa palabra se escribe en este idioma: plurales, otras terminaciones, u otra palabra que signifique lo mismo. Al escribir un texto, puedes enlazar cualquiera de ellas con @ y la palabra, y toda la palabra queda como parte del enlace. Cada idioma escribe su propia lista, así que agrega tantas formas como tu idioma necesite.",
+                "reference": "$~en inglés",
+                "empty": "$~Todavía no hay otras formas.",
+                "form": {
+                    "description": "$~otra forma en que se escribe este término",
+                    "placeholder": "$~forma"
+                },
+                "add": "$~agregar esta forma al término",
+                "remove": "$~quitar esta forma del término",
+                "ownWord": "$~Esta es la palabra propia del término, que ya funciona por sí sola.",
+                "otherWord": "$~Esta es la palabra para $term, así que no quedaría claro a qué término te refieres.",
+                "conceptName": "$~La documentación ya define esta palabra, así que un enlace a ella iría ahí en su lugar.",
+                "alreadyUsed": "$~Esta ya es una forma de $term, así que no quedaría claro a qué término te refieres.",
+                "searchOnly": "$~Un enlace termina en un espacio o un símbolo, así que esta forma solo ayudará en las búsquedas."
             }
         },
         "tour": {
@@ -10428,7 +10597,7 @@
         },
         "done": "$~¡Nada más que moderar!",
         "error": {
-            "notmod": "$~Parece que no eres moderador. Si te dieron privilegios de moderador hace poco, puede que necesites iniciar sesión otra vez. Si no, mira la wiki para saber cómo pedir privilegios de moderación."
+            "notmod": "$~No hay nada aquí para que revises. Las moderadoras de Wordplay revisan el contenido público, y las curadoras de una galería revisan lo que hay en su galería. Si hace poco te dieron privilegios de moderadora, puede ser que necesites iniciar sesión de nuevo."
         },
         "report": {
             "button": "$~alertar a moderadora",
@@ -10447,6 +10616,44 @@
             "banned": "$~Ya te advertimos tres veces sobre contenido público, así que ya no puedes hacer públicos tus proyectos o galerías. Todavía puedes crear proyectos y compartirlos con las personas que elijas. Si crees que esto es un error, o pasó hace mucho tiempo y quieres volver a compartir de forma pública, escribe a hi@wordplay.dev y dinos tu nombre de usuario y por qué.",
             "warned": "$~Algo de tu contenido público rompió las reglas para compartir, así que ya no es público. Esta es la advertencia $#count[1|$#count|$count]. $#remaining[Con una advertencia más ya no podrás hacer nada público.|Después de $#remaining advertencias más ya no podrás hacer nada público.|Después de $remaining advertencias más ya no podrás hacer nada público.]",
             "notification": "$~Advertencia $#count[1|$#count|$count] sobre algo que compartiste públicamente."
+        },
+        "queue": {
+            "label": "$~qué revisar",
+            "labels": ["$~proyectos", "$~galerías", "$~mensajes"],
+            "tips": [
+                "$~revisar proyectos que la gente hizo públicos",
+                "$~revisar galerías que piden aparecer públicamente",
+                "$~revisar mensajes que la gente reportó en galerías que curas"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Una moderadora está revisando tu galería para decidir si puede aparecer públicamente. Hasta entonces, solo las personas con quienes compartas el enlace pueden verla.",
+            "approved": "$~¡Tu galería aparece en la <página de galerías públicas@://galleries?tab=public>! Puede quitarse de esa lista en cualquier momento, por cualquier razón.",
+            "denied": "$~Una moderadora decidió no mostrar tu galería públicamente. Puedes seguir trabajando en ella y hacerla pública otra vez para pedirlo de nuevo.",
+            "explain": "$~Esta galería pide aparecer públicamente. Mírala junto con sus proyectos, y decide si está lo bastante terminada para mostrarla a todas las personas.",
+            "done": "$~No hay galerías esperando una decisión. ¡Gracias!",
+            "approve": {
+                "label": "$~mostrarla",
+                "tip": "$~mostrar esta galería en la página de galerías públicas"
+            },
+            "deny": {
+                "label": "$~no mostrarla",
+                "tip": "$~mantener esta galería fuera de la página de galerías públicas"
+            },
+            "skip": {
+                "label": "$~saltar",
+                "tip": "$~dejar esta galería para que otra moderadora decida"
+            },
+            "notification": {
+                "approved": "$~$name ahora aparece públicamente.",
+                "denied": "$~$name no fue mostrado públicamente."
+            }
+        },
+        "responsibility": {
+            "none": "$~Nadie revisa lo que compartes aquí. Solo lo pueden ver tú y las personas que elijas.",
+            "curators": "$~Las curadoras de <$name@://galleries> revisan lo que se comparte aquí, incluyendo su chat.",
+            "both": "$~Las curadoras de <$name@://galleries> revisan lo que se comparte aquí, y las moderadoras de Wordplay también, porque cualquiera puede verlo.",
+            "platform": "$~Las <moderadoras@://rights> de Wordplay revisan esto, porque cualquiera puede verlo."
         }
     },
     "gallery": {

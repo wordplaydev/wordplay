@@ -3818,7 +3818,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~Och om du ville ha en väldigt specifik uppställning? Du kan använda @Free och tala om för mig exakt var du vill ha alla fraser. Se bara till att ge en plats till varje @Phrase, annars placerar jag den bara vid \\Plats(0m 0m\\)."
+                            "$~Och om du ville ha en väldigt specifik uppställning? Du kan använda @Free och tala om för mig exakt var du vill ha alla fraser. Se bara till att ge en plats till varje @Phrase, annars placerar jag den bara vid \\Plats(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -5713,7 +5713,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~Ja, sådär. Hm... oj, vi måste stå på scen. @Text, kan du göra en lista över alla? Vi förvandlar det till \\Character>s."
+                            "$~Ja, sådär. Hm... oj, vi måste stå på scen. @Text, kan du göra en lista över alla? Vi förvandlar det till \\Character\\s."
                         ],
                         [
                             "Text",

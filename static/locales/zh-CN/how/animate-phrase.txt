@@ -4,14 +4,14 @@
 
 例如，让我们通过旋转和移动让这只猫跳跳舞：
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' 休息: Sequence({
+			0%: Pose(旋转: 0°)
+			15%: Pose(旋转: 15°)
+			30%: Pose(旋转: 0°)
+			45%: Pose(偏移: Place(-0.25m))
+			60%: Pose(偏移: Place(0.25m))
+			75%: Pose(偏移: Place(-0.25m))
+			90%: Pose(偏移: Place(0m))
 		} 2s))\
 
 此示例使用 @Sequence 不同的 @Pose 。

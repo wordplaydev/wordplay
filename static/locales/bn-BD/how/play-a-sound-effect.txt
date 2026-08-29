@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 আমাকে চাপো' selectable: ⊤ name: 'চাপো')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 আমাকে চাপো' নির্বাচনযোগ্য: ⊤ নাম: 'চাপো')
+		Music(Track(tapped ? [1 5 8] [] বাদ্যযন্ত্র: Instrument.bell লুপ: ⊥) পুনরায়বাজানো: tapped)
 	])\
 
 চিন্তা কোরো না যে পরের মূল্যায়নেই তালিকাটি আবার খালি হয়ে যায় — যে সুর শুরু হয়ে গেছে তা সবসময় তার শেষ পর্যন্ত বাজে। যেটা তুমি বাদ দিতে পারবে না তা হলো \replay\। দুবার চাপো, আর দ্বিতীয় চাপটি প্রথমটির মতোই ঠিক একই সুর তৈরি করে, তাই কিছুই বদলায়নি আর কিছুই আবার বাজবে না; \replay\ হলো এভাবে বলা /আবার, এখন/। 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ একটি কী চাপো' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] বাদ্যযন্ত্র: Instrument.piano লুপ: ⊥) পুনরায়বাজানো: struck)
 	])\
 
 লক্ষ্য করো যে \∆ key\ তার নিজের লাইনে হিসাব করা হয় আর মান পরীক্ষা \key = ' '\ আলাদাভাবে ঘটে। একসাথে একটি condition হিসেবে লিখলে, শব্দটি পরের অসম্পর্কিত কী-তে আবার বাজবে যখন \key\ এখনও একটি ফাঁকা জায়গা হিসেবে পড়া হয়।

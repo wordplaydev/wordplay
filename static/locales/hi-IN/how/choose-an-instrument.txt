@@ -7,10 +7,10 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: 'पियानो')
-				Phrase('🎻' selectable: ⊤ name: 'वायलिन')
+				Phrase('🎹' चुननेयोग्य: ⊤ नाम: 'पियानो')
+				Phrase('🎻' चुननेयोग्य: ⊤ नाम: 'वायलिन')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'वायलिन') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] वाद्य: (picked = 'वायलिन') ? Instrument.violin Instrument.piano))
 	])\
 
 ये दो चुने जा सकने वाले वाक्यांश ही इसे काम करने लायक बनाते हैं —  @Choice  के पास पढ़ने के लिए कुछ नहीं होता जब तक मंच पर कोई चीज़ \चयनयोग्य: ⊤\ न हो।
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon चुननेयोग्य: ⊤ नाम: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] वाद्य: current.sound))
 	])\
 
 अब चौथी आवाज़ जोड़ना एक ही पंक्ति में हो जाता है, और बटन अपने आप दिखाई देता है। \found•ø ?\ सुरक्षा पर ध्यान दें:  @List/find  तब \ø\ वापस देता है जब कुछ भी मेल नहीं खाता, जो तब होता है जब किसी ने अभी तक कुछ नहीं चुना — और बदले वाली चीज़ को पूरा \🎙\ होना चाहिए, क्योंकि \current\ यही होने का वादा करता है।

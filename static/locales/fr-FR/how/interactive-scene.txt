@@ -8,11 +8,11 @@ Pour ce faire, nous pouvons utiliser un @Scene , mais mettre @Boolean valeurs en
 Scene([
 		Phrase('click me')
 		Button()
-		Phrase('click me again' duration: 1s)
+		Phrase('click me again' durée: 1s)
 		Button()
-		Phrase('no really, click me as hard as you can!!' duration: 1s)
+		Phrase('no really, click me as hard as you can!!' durée: 1s)
 		Button()
-		Phrase('have you clicked me yet?' duration: 1s)
+		Phrase('have you clicked me yet?' durée: 1s)
 	])
 \
 
@@ -24,11 +24,11 @@ Vous pouvez utiliser tout ce que vous voulez pour avancer, à condition que ce s
 Scene([
 		Phrase('is anyone there?')
 		Volume() > .5
-		Phrase("I can't hear you, say again?" duration: 1s)
+		Phrase("I can't hear you, say again?" durée: 1s)
 		Volume() > .7
-		Phrase('louder please...' duration: 1s)
+		Phrase('louder please...' durée: 1s)
 		Volume() > .9
-		Phrase('oh, hi!' duration: 1s)
+		Phrase('oh, hi!' durée: 1s)
 	])
 \
 

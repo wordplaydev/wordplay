@@ -4,14 +4,14 @@
 
 ಉದಾಹರಣೆಗೆ, ಈ ಬೆಕ್ಕನ್ನು ತಿರುಗಿಸಿ ಮತ್ತು ಸ್ಥಳಾಂತರಿಸುವ ಮೂಲಕ ಸ್ವಲ್ಪ ನೃತ್ಯ ಮಾಡೋಣ:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' ವಿಶ್ರಾಂತಿ: Sequence({
+			0%: Pose(ತಿರುಗುವಿಕೆ: 0°)
+			15%: Pose(ತಿರುಗುವಿಕೆ: 15°)
+			30%: Pose(ತಿರುಗುವಿಕೆ: 0°)
+			45%: Pose(ಆಫ್‌ಸೆಟ್: Place(-0.25m))
+			60%: Pose(ಆಫ್‌ಸೆಟ್: Place(0.25m))
+			75%: Pose(ಆಫ್‌ಸೆಟ್: Place(-0.25m))
+			90%: Pose(ಆಫ್‌ಸೆಟ್: Place(0m))
 		} 2s))\
 
 ಈ ಉದಾಹರಣೆಯು @Sequence ವಿಭಿನ್ನವಾದ @Pose .

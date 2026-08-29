@@ -12,6 +12,6 @@
 
 আপুনি এটা কেলেণ্ডাৰো বাছি ল'ব পাৰে, যেনে জাপানী কেলেণ্ডাৰ, আৰু ঘড়ীটোক এটা ফন্টেৰে সজাব পাৰে:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' চেহেৰা: 'Doto')\
 
 count-with-time

@@ -8,11 +8,11 @@
 
 \¶참고: 다른 프로젝트에 대한 갤러리를 확인하세요<예@https://wordplay.dev/project/example-Layers?play>이미지를 레이어링하는 것.¶Stage([
 		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(2m 3 0m -12m 0m) 회전: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
-	] place: Place(0m 10m -30m))\
+		Shape(Rectangle(-11m -9m 11m -12m 10m) 회전: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) 회전: -25°)
+	] 위치: Place(0m 10m -30m))\
 
 레이어를 활용하면 정말 멋진 작품을 만들 수 있어요! 한번 만들어 보세요!
 

@@ -9,10 +9,17 @@ type PageText = {
     labels: {
         /** [plain] Labels the message for display */
         message: string;
-        /** [plain] Labels the username of the user who reported the message */
-        reporter: string;
+        /** [plain] Labels the section where a curator says which rules the message broke */
+        reason: string;
         /** [plain] Labels for the buttons that allow taking moderation action */
         action: string;
+    };
+    /** The optional note a curator writes to whoever sent the message */
+    note: {
+        /** [plain] Describes the note field for screen readers */
+        description: string;
+        /** [plain] Shown in the empty note field */
+        placeholder: string;
     };
     /** Button for vieweing the chat the message originated from */
     view: ButtonText;

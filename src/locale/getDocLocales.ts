@@ -1,6 +1,7 @@
 import { parseLocaleDoc } from '@locale/LocaleText';
 import Docs from '@nodes/Docs';
 import Doc from '@nodes/Doc';
+import type { MarkupSource } from '@nodes/Markup';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
@@ -15,14 +16,17 @@ export function getDocLocales(
     locales: Locales,
     select: (locale: LocaleText) => DocText,
 ): Docs {
+    // The accessor is right here in the signature, so a built-in's docs can report where
+    // their text lives and be edited in localization mode wherever they're shown. A doc a
+    // creator wrote is parsed from their own source and carries nothing, so it stays inert.
+    const source: MarkupSource = { accessor: select, inputs: {} };
     return new Docs(
-        locales
-            .getLocales()
-            .map((locale) =>
-                parseLocaleDoc(
-                    toDocString(selectTranslation(locale, select)),
-                ).withLanguage(localeToLanguage(locale)),
-            ) as [Doc, ...Doc[]],
+        locales.getLocales().map((locale) => {
+            const doc = parseLocaleDoc(
+                toDocString(selectTranslation(locale, select)),
+            ).withLanguage(localeToLanguage(locale));
+            return doc.withMarkup(doc.markup.withSource(source));
+        }) as [Doc, ...Doc[]],
     );
 }
 
@@ -46,10 +50,12 @@ export function getTemplatedDocLocales(
             // markup in a translated template are honored. The Markup goes into the Doc
             // as it is, rather than being serialized and reparsed, which would lose its
             // spacing.
-            const markup = locales.concretize(
-                toDocString(selectTranslation(locale, select)),
-                inputs(locale),
-            );
+            const markup = locales
+                .concretize(
+                    toDocString(selectTranslation(locale, select)),
+                    inputs(locale),
+                )
+                .withSource({ accessor: select, inputs: inputs(locale) });
             return new Doc(
                 new Token(DOCS_SYMBOL, Sym.Doc),
                 markup,

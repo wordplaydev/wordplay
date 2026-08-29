@@ -15,6 +15,7 @@ import path from 'path';
 import type Log from '@util/verify-locales/Log';
 import getTranslator from '@util/verify-locales/getTranslator';
 import writeFormatted from '@util/verify-locales/writeFormatted';
+import { retargetExamplesIn } from '@util/verify-locales/retargetExampleNames';
 
 /**
  * Verify and optionally translate how-to content for a locale
@@ -38,6 +39,9 @@ export async function verifyHowTo(
      *  how-tos share the locale run's system prompt (one cache entry) and the
      *  locale's own `guidance` conventions apply here too. */
     localeText?: LocaleText,
+    /** Whether to rewrite a how-to whose examples name inputs the locale no longer declares.
+     *  Verify reports them instead, so it stays read-only. */
+    fix = false,
 ): Promise<void> {
     // Skip English locale - it's the source
     if (locale === 'en-US') return;
@@ -67,6 +71,20 @@ export async function verifyHowTo(
         );
 
     if (englishFiles.length === 0) return;
+
+    // Bring every how-to's examples back in line with the names this locale declares. Runs
+    // in every mode, before the missing-file check below returns: a how-to's examples spell
+    // names that live in the locale file, so re-translating one of those names strands them
+    // (#1323), and the repair is deterministic, so it doesn't need a translation run.
+    if (localeText !== undefined)
+        retargetHowToExamples(
+            log,
+            englishHowToDir,
+            targetHowToDir,
+            englishFiles,
+            localeText,
+            fix,
+        );
 
     if (!translateContent) {
         // Verification is read-only: just check for missing files (don't create
@@ -117,6 +135,7 @@ export async function verifyHowTo(
                 sourceLocale,
                 targetLocale,
                 override,
+                howtoIds !== undefined && howtoIds.length > 0,
                 backend,
                 localeText,
             );
@@ -131,6 +150,57 @@ export async function verifyHowTo(
     } else {
         log.good(`No files needed translation`);
     }
+}
+
+/**
+ * Retarget the named inputs in each localized how-to's `\…\` examples to the names the
+ * locale declares, writing the `.txt` sources when fixing. The generated `<code>-how.json`
+ * bundle is rebuilt from these by `buildHowToBundle`, so the sources are what to repair.
+ */
+function retargetHowToExamples(
+    log: Log,
+    englishDir: string,
+    targetDir: string,
+    filenames: string[],
+    locale: LocaleText,
+    fix: boolean,
+): void {
+    let renamed = 0;
+    let divergent = 0;
+    let refused = 0;
+    for (const filename of filenames) {
+        const targetPath = path.join(targetDir, filename);
+        if (!fs.existsSync(targetPath)) continue;
+        let english: string;
+        let localized: string;
+        try {
+            english = fs.readFileSync(path.join(englishDir, filename), 'utf8');
+            localized = fs.readFileSync(targetPath, 'utf8');
+        } catch {
+            continue;
+        }
+        const result = retargetExamplesIn(english, localized, locale);
+        renamed += result.renamed;
+        divergent += result.divergent;
+        refused += result.refused;
+        if (fix && result.text !== localized)
+            fs.writeFileSync(targetPath, result.text);
+    }
+
+    if (renamed > 0)
+        log[fix ? 'good' : 'warning'](
+            fix
+                ? `Renamed ${renamed} input(s) in how-to examples to the name this locale declares.`
+                : `${renamed} input(s) in how-to examples don't use the name this locale declares. Run "npm run locales-fix" to retarget them.`,
+        );
+    if (refused > 0)
+        log.warning(
+            `Left ${refused} how-to example(s) alone: retargeting them would have introduced a conflict.`,
+        );
+    if (divergent > 0)
+        log.warning(
+            `${divergent} how-to example(s) no longer have the same shape as their en-US source, so their names can't be retargeted.`,
+        );
 }
 
 /**
@@ -179,15 +249,27 @@ export function localizedExampleIsSound(
  * Byte equality is a safe test: a real translation of prose is never identical
  * to its source, and a false positive costs one wasted re-translation rather
  * than any lost work.
+ *
+ * The `named` case closes the sibling gap that comment describes. A how-to's
+ * `.txt` carries no `$~` at all, so `override && isMachineTranslated` is false
+ * for *every* translated how-to, and a translation that came back damaged —
+ * stray English glue beside a restored `@link`, a lost space after a period —
+ * could not be redone by any means short of deleting the file. Naming a how-to
+ * with `+howto:<id>` has already answered the question the byte-equality
+ * heuristic exists to answer ("which of these 36 do I redo?"), so under
+ * `override` an explicit id is the trigger.
  */
 export function howToNeedsTranslation(
     english: string,
     target: string,
     isNewFile: boolean,
     override: boolean,
+    /** Whether this how-to was named explicitly with `+howto:<id>`. */
+    named = false,
 ): boolean {
     if (isNewFile) return true;
     if (target === english) return true;
+    if (override && named) return true;
     return override && isMachineTranslated(target);
 }
 
@@ -206,6 +288,8 @@ async function translateHowToFile(
     sourceLocale: string,
     targetLocale: string,
     override: boolean,
+    /** Whether `+howto:<id>` named this file, rather than it being one of all 36. */
+    named: boolean,
     translator: Translator,
     localeText: LocaleText | undefined,
 ): Promise<boolean> {
@@ -235,7 +319,13 @@ async function translateHowToFile(
     }
 
     if (
-        !howToNeedsTranslation(englishContent, targetLines, isNewFile, override)
+        !howToNeedsTranslation(
+            englishContent,
+            targetLines,
+            isNewFile,
+            override,
+            named,
+        )
     )
         return false;
 

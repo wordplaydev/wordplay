@@ -20,6 +20,7 @@
             .map((promise) => `• ${promise}`)
             .join('\n\n')}
     />
+    <MarkupHTMLView markup={(l) => l.ui.page.rights.responsibility} />
     <MarkupHTMLView markup={(l) => l.ui.page.rights.consequences} />
     <MarkupHTMLView markup={(l) => l.ui.page.rights.warnings} />
     <MarkupHTMLView markup={(l) => l.ui.page.rights.license} />

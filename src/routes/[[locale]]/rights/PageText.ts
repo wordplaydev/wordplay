@@ -5,6 +5,12 @@ type PageText = {
     header: string;
     /** [formatted] Paragraphs for the rights page */
     content: FormattedText[];
+    /**
+     * [formatted] Who is responsible for reviewing what you share, by who can
+     * see it (#938). One paragraph per level, in the order a creator meets
+     * them, then what reporting does and what a decision carries.
+     */
+    responsibility: FormattedText[];
     /** [formatted] The consequences of violating a promise. */
     consequences: FormattedText[];
     /** [formatted] How warnings work, what three of them mean, and how to ask for public sharing back. */

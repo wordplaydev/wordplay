@@ -11,6 +11,7 @@
  */
 
 import { z } from 'zod';
+import { ModerationStateSchema } from './Moderation';
 
 /** Schema for the cursor position path */
 const PathSchema = z.array(
@@ -68,12 +69,7 @@ const ProjectSchemaV1 = z.object({
     /** An optional gallery ID, indicating which gallery this project is in. */
     gallery: z.nullable(z.string()),
     /** Moderation state */
-    flags: z.object({
-        dehumanization: z.nullable(z.boolean()),
-        violence: z.nullable(z.boolean()),
-        disclosure: z.nullable(z.boolean()),
-        misinformation: z.nullable(z.boolean()),
-    }),
+    flags: ModerationStateSchema,
 });
 
 /** v2 adds a PII approved list */

@@ -151,6 +151,12 @@ function createGallery(
         creators: [],
         public: true,
         featured: true,
+        // The developers' own galleries, so already curated. `words` stays
+        // empty on purpose: their projects are searched in full rather than
+        // through the prefilter it exists for.
+        moderation: 'approved',
+        moderatedAt: null,
+        flags: moderatedFlags(),
         howTos: [],
         howToExpandedVisibility: false,
         howToExpandedGalleries: [],
@@ -214,6 +220,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'FloatingFoods',
                 'AnimatedName',
                 'WordplayTrace',
+                'Colors',
             ],
             locales,
         ),
@@ -232,6 +239,10 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Christmas',
                 'Easing',
                 'Echo',
+                'Laughing',
+                'Layouts',
+                'Mumble',
+                'WildTransforms',
             ],
             locales,
         ),
@@ -276,7 +287,14 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [localeToString(l), l.gallery.stories]),
             ),
-            ['Pears', 'JapaneseClass', 'PersonalMap', 'SlideShow'],
+            [
+                'Pears',
+                'Dialog',
+                'JapaneseClass',
+                'PersonalMap',
+                'SlideShow',
+                'AdoboRecipe',
+            ],
             locales,
         ),
         createGallery(

@@ -1,28 +1,42 @@
 Śledź stan gry
 
-Większość gier śledzi postępy rozgrywki na wielu płaszczyznach: zdobywanie punktów, pozycje graczy i inne szczegóły.Za każdym razem, gdy pojawiają się jakieś dane wejściowe, stan ten ulega zmianie i wówczas chcemy wyświetlić nowe dane wyjściowe w odpowiedzi.
+Większość gier śledzi wiele rzeczy w miarę jej przebiegu: punkty, pozycje graczy i inne szczegóły są ważne.Za każdym razem, gdy pojawia się jakieś wejście, ten stan się zmienia, a my chcemy pokazać nowe wyjście w odpowiedzi.
 
-Ogólny schemat każdej gry obejmuje trzy rzeczy:
+Ogólny wzorzec dla każdej gry robi trzy rzeczy:
 
-• Zdefiniuj strukturę danych stanu gry, aby przechowywać wszystkie dane stanu gry• Zdefiniuj reakcję, która tworzy nowy stan gry na podstawie poprzedniego stanu gry, gdy tylko pojawi się nowy sygnał wejściowy.• Zrób @Stage  z  @Group  I  @Phrase aby pokazać stan gry
+• Zdefiniuj strukturę danych stanu gry, aby przechować cały stan gry• Zdefiniuj reakcję, która tworzy nowy stan gry na podstawie poprzedniego stanu gry, kiedy tylko pojawi się nowe wejście• Stwórz  @Stage  z  @Group  i  @Phrase  aby pokazać stan gry
 
-Wyobraźmy sobie na przykład prostą grę polegającą na wpisywaniu tajnych słów do pola tekstowego i zdobywaniu punktu za każdym razem, gdy ktoś odgadnie tajne słowo:
+Na przykład wyobraźmy sobie prostą grę, w której wpisujesz tajne słowa w polu tekstowym i zdobywasz punkt za każdym razem, gdy zgadniesz tajne słowo:
 
 \•Game(secrets•[''] points•#)
 state: Game(['kot' 'pies'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
-Stage(state.points = state.secrets.length() ? [Phrase("wygrywasz!")] [
-			Group(Stack() [
+Stage(
+	state.points = state.secrets.length() ? [
+			Phrase("wygrałeś!")
+		] [
+			Group(
+				Stack()
+				[
 					Phrase("zgadnij moje tajne słowa")
-					Phrase(`\state.secrets.length() - state.points\więcej sekretów`) 				]) 		])\
+					Phrase(
+						`\state.secrets.length() - state.points\ więcej tajemnic`
+					)
+				]
+			)
+		]
+)\
 
-Przyjrzyjmy się temu bliżej.
+Rozłóżmy to na części.
 
-• Pierwsza linia,\•Game(secrets•[''] points•#)\mówi,/Utwórz strukturę danych o nazwie\Game\który przechowuje listę sekretów i punktów/• Druga linijka mówi/Stan gry zaczyna się od listy sekretów i zerowych punktów. Za każdym razem, gdy\Chat\zmiany, jeśli wprowadzone słowo znajduje się na liście sekretów, to utwórz nowy stan gry ze zwiększonymi punktami o jeden/.• Za każdym razem, gdy program dokonuje ponownej oceny (gdy\Chat\zmiany), pokaż etap. Jeśli liczba punktów jest równa liczbie sekretów, pokaż zwycięski etap. Jeśli nie, pokaż monit i liczbę pozostałych sekretów.
+• Pierwsza linia, \•gra(sekrety•[''] punkty2•#)\ mówi, /Stwórz strukturę danych o nazwie \Game\, która przechowuje listę tajnych słów i punktów/. \[
+	''
+]\ oznacza /listę dowolnej liczby słów/. Jeśli zamiast tego chcesz listę o dokładnej długości, możesz nazwać typ dla każdego miejsca na niej: \[
+	#'']\ to lista dwóch rzeczy: liczby, a potem słowa.• Druga linia mówi /Stan gry zaczyna się od listy sekretów i zera punktów. Za każdym razem, gdy \Pogawędzić\ się zmienia, jeśli wpisane słowo znajduje się na liście sekretów, tworzony jest nowy stan gry z liczbą punktów zwiększoną o jeden/.• Za każdym razem, gdy program się przelicza (gdy \Pogawędzić\ się zmienia), pokazywana jest scena. Jeśli liczba punktów jest równa liczbie sekretów, pokazywana jest scena zwycięstwa. Jeśli nie, pokazywany jest komunikat oraz liczba pozostałych sekretów.
 
-W tym przykładzie występują pewne problemy:
+Ten przykład ma pewne problemy:
 
-• Jeśli odgadną tajne słowo wiele razy, dostaną więcej punktów! Nasz stan gry może również wymagać zapamiętania, co zostało odgadnięte, więc każde słowo jest liczone tylko dwa razy.• Jeśli gracz wpisze więcej niż jedno słowo, czy powinno to zostać policzone?
+• Jeśli gracz odgadnie sekretne słowo wiele razy, dostaje więcej punktów! Nasz stan gry musiałby też zapamiętywać, co zostało odgadnięte, żeby każde słowo liczyło się tylko raz.• Jeśli gracz wpisze wiele słów naraz, czy powinny się one liczyć?
 
-Bardziej zaawansowane stany gry i aktualizacje gry pomogłyby nam poradzić sobie z takimi przypadkami.
+Bardziej rozbudowane stany gry i sposoby ich aktualizacji pomogłyby nam poradzić sobie z takimi przypadkami.
 
 track-points

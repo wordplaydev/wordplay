@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'మెనూ') ? '▶ మొదలుపెట్టడానికి నొక్కండి' '🏃 పరుగెత్తు!' 1m)
-		(phase = 'మెనూ') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'మెనూ') ? Music(Track(theme వాయిద్యం: Instrument.bell) వేగం: 72beats/min) Music(Track(theme వాయిద్యం: Instrument.synth) వేగం: 132beats/min)
 	])\
 
 రెండు పాటలూ ఒకే ఎనిమిది సంఖ్యలే. వాయిద్యం మరియు వేగం మాత్రమే మారతాయి, అయినా అది ఇప్పటికే వేరే పాటలా వినిపిస్తుంది — ఎందుకంటే డిగ్రీలు *స్కేల్‌లో ఏ మెట్టు అని చెబుతాయి*, ఏ పిచ్ అని కాదు, కాబట్టి ఒక  @Music  వాటిని కొత్తగా అర్థం చేసుకోగలదు. దానికి \పరిమాణం: 🎼.harmonicMinor\ ఇస్తే, ఒక్క నోటు కూడా తిరిగి రాయకుండా అదే పాట భయంకరంగా మారుతుంది.
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('స్కోరు \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] వాయిద్యం: Instrument.drums) వేగం: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 తగినన్ని సార్లు నొక్కితే డ్రమ్‌లు మొదట్లో కంటే రెండింతలు గట్టిగా కొడతాయి. ఇది వినిపించేలా చేసేది ఒక చిన్న, తట్టే నోటు — పొడవుగా పట్టుకున్న నోట్ల కింద వేగం మార్పును అనుభవించడం కష్టం.

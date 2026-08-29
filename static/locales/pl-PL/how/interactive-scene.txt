@@ -7,11 +7,11 @@ Aby to zrobić, możemy użyć @Scene , ale połóż @Boolean wartości pomiędz
 \Scene([
 		Phrase('kliknij mnie')
 		Button()
-		Phrase('kliknij mnie ponownie' duration: 1s)
+		Phrase('kliknij mnie ponownie' czastrwania: 1s)
 		Button()
-		Phrase('nie, serio, kliknij mnie tak mocno jak potrafisz!!' duration: 1s)
+		Phrase('nie, serio, kliknij mnie tak mocno jak potrafisz!!' czastrwania: 1s)
 		Button()
-		Phrase('kliknąłeś już na mnie?' duration: 1s)
+		Phrase('kliknąłeś już na mnie?' czastrwania: 1s)
 	])\
 
 Ten @Scene pokazuje pierwszy @Phrase , a następnie czeka na @Button być prawdą, a gdy już nią jest, przechodzi do następnej @Phrase .
@@ -21,11 +21,11 @@ Możesz wykorzystać cokolwiek chcesz, byleby było to prawdą lub fałszem.Na p
 \Scene([
 		Phrase('jest tam ktoś?')
 		Volume() > .5
-		Phrase("Nie słyszę Cię. Powiedz jeszcze raz?" duration: 1s)
+		Phrase("Nie słyszę Cię. Powiedz jeszcze raz?" czastrwania: 1s)
 		Volume() > .7
-		Phrase('głośniej proszę...' duration: 1s)
+		Phrase('głośniej proszę...' czastrwania: 1s)
 		Volume() > .9
-		Phrase('O, cześć!' duration: 1s)
+		Phrase('O, cześć!' czastrwania: 1s)
 	])\
 
 animated-scene

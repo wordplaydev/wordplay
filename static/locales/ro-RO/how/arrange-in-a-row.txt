@@ -7,9 +7,9 @@ Uneori vrem ca textele să stea unele lângă altele, într-un rând ordonat.Put
 O  @Row  De asemenea, poate alinia caracterele după marginile lor superioare, din mijloc sau inferioare și poate adăuga spațiu între ele.Iată același fruct, dar aliniat în partea de jos, cu puțin spațiu de respirație:
 
 \Group(Row('>' 0.5m) [
-		Phrase('🍎' size: 2m)
-		Phrase('🍌' size: 1m)
-		Phrase('🍇' size: 3m)
+		Phrase('🍎' dimensiune: 2m)
+		Phrase('🍌' dimensiune: 1m)
+		Phrase('🍇' dimensiune: 3m)
 	])\
 
 Cel/Cea/Cei/Cele \'>'\ spune  @Row  să alinieze totul de-a lungul marginii sale inferioare. Încercați \'<'\ pentru partea de sus sau \'|'\ pentru mijloc.Cel/Cea/Cei/Cele \0.5m\ este spațiul dintre fiecare caracter.

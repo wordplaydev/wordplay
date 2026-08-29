@@ -18,6 +18,7 @@ import type Evaluator from '@runtime/Evaluator';
 import type { OutputInfo, OutputInfoSet } from '@output/animation/Animator';
 import { Circle } from '@output/Output/Shape/Circle';
 import type { Form } from '@output/Output/Shape/Form';
+import { Path } from '@output/Output/Shape/Path';
 import { Polygon } from '@output/Output/Shape/Polygon';
 import { Rectangle } from '@output/Output/Shape/Rectangle';
 import Group from '@output/Output/Group';
@@ -255,6 +256,43 @@ export default class Physics {
                     regularPolygonVertices(polygon.sides, radius),
                 ) ?? RAPIER.ColliderDesc.ball(radius),
             polygon.getZ(),
+        );
+    }
+
+    /**
+     * Create a path barrier.
+     *
+     * A polyline rather than a hull, because a path is a boundary and not a body: it has no
+     * inside, so things rest on it from either side and a concave one — a valley, a hill — keeps
+     * its shape instead of being filled in by its own hull. It reads the same flattened points
+     * the renderer draws, so a smoothed path collides with the curve that is on screen rather
+     * than the points behind it.
+     */
+    createPath(path: Path, rotation: number | undefined) {
+        const points = path.getPixelPoints();
+        // Fewer than two points is a dot, which bounds nothing.
+        if (points.length < 2) return undefined;
+
+        // getPixelPoints is relative to the bounding box's top left, in y-down pixels — already
+        // the engine's y direction. Recenter on the box so the fixed body's translation carries
+        // the position, like every other barrier here.
+        const width = path.getWidth() * PX_PER_METER;
+        const height = path.getHeight() * PX_PER_METER;
+        const vertices = new Float32Array(points.length * 2);
+        for (const [index, point] of points.entries()) {
+            vertices[index * 2] = point.x - width / 2;
+            vertices[index * 2 + 1] = point.y - height / 2;
+        }
+
+        const x = (path.getLeft() + path.getWidth() / 2) * PX_PER_METER;
+        const y = -(path.getTop() - path.getHeight() / 2) * PX_PER_METER;
+
+        return this.createBarrierBody(
+            x,
+            y,
+            ((rotation ?? 0) * Math.PI) / 180,
+            (RAPIER) => RAPIER.ColliderDesc.polyline(vertices),
+            path.getZ(),
         );
     }
 
@@ -580,7 +618,12 @@ export default class Physics {
                               ? this.createCircle(barrier.form)
                               : barrier.form instanceof Polygon
                                 ? this.createPolygon(barrier.form)
-                                : undefined;
+                                : barrier.form instanceof Path
+                                  ? this.createPath(
+                                        barrier.form,
+                                        barrier.pose.rotation,
+                                    )
+                                  : undefined;
 
                     if (created) {
                         // Named barriers appear in Collision rebounds by name

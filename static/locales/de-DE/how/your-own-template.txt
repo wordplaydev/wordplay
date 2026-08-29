@@ -4,7 +4,7 @@ Manchmal wünscht man sich viele Charaktere, die fast gleich aussehen, sich aber
 
 A  @Structure ist wie ein Rezept mit Lücken zum Ausfüllen.Hier ist eine Ballonvorlage, die eine Farbe und eine Beschriftung benötigt und weiß, wie sie sich selbst anzeigt:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` Farbe: color Größe: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Himmel').show()

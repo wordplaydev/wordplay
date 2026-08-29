@@ -107,6 +107,7 @@ export function getConceptGroups(
                 c instanceof StructureConcept &&
                 (c.definition === project.shares.output.Color ||
                     c.definition === project.shares.output.Aura ||
+                    c.definition === project.shares.output.Bubble ||
                     c.definition === project.shares.output.Pose),
         );
         const other: Concept[] = concepts.filter(

@@ -19,7 +19,7 @@ export type TranslationRefusal = 'over-budget' | 'unauthenticated' | 'failed';
  * The creator's translation budget, as a module-level store so every surface
  * that translates — the project languages dialog now, chat and how-tos later —
  * shares one meter and one error without plumbing. Same pattern as
- * [notifications](src/db/notifications.svelte.ts).
+ * [notices](src/db/moderation/notices.svelte.ts).
  */
 export const budget = $state<{
     /** Characters spent today, as the server counts them. */

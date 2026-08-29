@@ -5,17 +5,17 @@
 我们可以使用 @Phrase/offset 结合 @Random 和 @Time 来实现这一点。
 
 \offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('你好' offset: Place(offset 0m))\
+Phrase('你好' 偏移: Place(offset 0m))\
 
-这段代码会创建一个名为 offset 的值，它会在每次时间变化时被更新为一个新的随机值。然后，这个 offset 会被用来控制 @Phrase 的偏移位置，从而让文字产生抖动效果。
+这段代码会创建一个名为 \offset\ 的值，它会在每次时间变化时被更新为一个新的随机值。然后，这个 offset 会被用来控制 @Phrase 的偏移位置，从而让文字产生抖动效果。
 
 如果我们想更精确地控制震动的节奏和幅度，可以使用 @Sequence 制作重复播放的随机抖动动画。
 
-\Phrase('你好' resting: Sequence({
-			0%: Pose(offset: Place(Random(-.2m .2m)))
-			15%: Pose(offset: Place(Random(-.2m .2m)))
-			60%: Pose(offset: Place(Random(-.2m .2m)))
-			75%: Pose(offset: Place(Random(-.2m .2m)))
+\Phrase('你好' 休息: Sequence({
+			0%: Pose(偏移: Place(Random(-.2m .2m)))
+			15%: Pose(偏移: Place(Random(-.2m .2m)))
+			60%: Pose(偏移: Place(Random(-.2m .2m)))
+			75%: Pose(偏移: Place(Random(-.2m .2m)))
 		} 0.1s))\
 
 在这个例子中，系统只在开始时生成一次随机值，但会将这些值组织成一个可重复播放的序列，从而形成持续的抖动动画效果。

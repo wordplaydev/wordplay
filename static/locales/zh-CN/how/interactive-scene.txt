@@ -8,11 +8,11 @@
 \Scene([
 		Phrase('点击我')
 		Button()
-		Phrase('再次点击我' duration: 1s)
+		Phrase('再次点击我' 持续时间: 1s)
 		Button()
-		Phrase('不，真的，用尽全力点击我！！' duration: 1s)
+		Phrase('不，真的，用尽全力点击我！！' 持续时间: 1s)
 		Button()
-		Phrase('你點擊我了嗎？' duration: 1s)
+		Phrase('你點擊我了嗎？' 持续时间: 1s)
 	])\
 
 这个 @Scene 会先显示第一个 @Phrase，然后等待 @Button 变为 true。
@@ -25,11 +25,11 @@
 \Scene([
 		Phrase('有人在吗？')
 		Volume() > .5
-		Phrase("我听不见，再说一遍？" duration: 1s)
+		Phrase("我听不见，再说一遍？" 持续时间: 1s)
 		Volume() > .7
-		Phrase('请大声点...' duration: 1s)
+		Phrase('请大声点...' 持续时间: 1s)
 		Volume() > .9
-		Phrase('噢，嗨！' duration: 1s)
+		Phrase('噢，嗨！' 持续时间: 1s)
 	])\
 
 animated-scene

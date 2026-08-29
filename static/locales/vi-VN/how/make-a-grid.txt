@@ -18,10 +18,10 @@ MỘT  @Grid Chương trình yêu cầu nhập số hàng, số cột và khoả
 Nếu bạn muốn tất cả các ô có cùng kích thước, hãy cung cấp @Grid Cả chiều rộng và chiều cao nữa. Bằng cách đó, các ký tự sẽ nằm gọn gàng bên trong các ô vuông của chúng, ngay cả khi chúng có kích thước khác nhau:
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' kíchcỡ: 1m)
+		Phrase('🐶' kíchcỡ: 1.5m)
+		Phrase('🦊' kíchcỡ: 0.5m)
+		Phrase('🐻' kíchcỡ: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

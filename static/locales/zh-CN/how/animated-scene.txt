@@ -5,24 +5,24 @@
 例如，假设我们想要将童谣“Jack be Nimble”制作成动画。我们可以做一个每一行都是 @Phrase 的 @Scene，并通过设置每行的 @Phrase/duration， 让@Scene 每完成一个短语就会推进。
 
 \Scene([
-		Phrase('杰克很灵活' duration: 1s)
-		Phrase('杰克很敏捷' duration: 1s)
-		Phrase('杰克跳过蜡烛杆' duration: 1s)
+		Phrase('杰克很灵活' 持续时间: 1s)
+		Phrase('杰克很敏捷' 持续时间: 1s)
+		Phrase('杰克跳过蜡烛杆' 持续时间: 1s)
 	])\
 
 @Scene 会等待 @Sequence 完成。让我们让蜡烛线跳起来！
 
 \Scene([
-		Phrase('杰克很灵活' duration: 1s)
-		Phrase('杰克很敏捷' duration: 1s)
-		Phrase('杰克跳过蜡烛杆' entering: Sequence.bounce(duration: 1s))
+		Phrase('杰克很灵活' 持续时间: 1s)
+		Phrase('杰克很敏捷' 持续时间: 1s)
+		Phrase('杰克跳过蜡烛杆' 进入: Sequence.bounce(时长: 1s))
 	])\
 
 @Scene 还可以用一个 @Group 的文本，它将等待所有内容来完成动画。
 
 \Scene([
-		Group(Stack() [Phrase('杰克很灵活') Phrase('杰克很敏捷')] duration: 2s)
-		Phrase('杰克跳过蜡烛杆' entering: Sequence.bounce(duration: 1s))
+		Group(Stack() [Phrase('杰克很灵活') Phrase('杰克很敏捷')] 持续时间: 2s)
+		Phrase('杰克跳过蜡烛杆' 进入: Sequence.bounce(时长: 1s))
 	])\
 
 interactive-scene

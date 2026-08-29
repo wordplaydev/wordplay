@@ -12,6 +12,6 @@ Du kennst den Namen der Zeitzone nicht? Schreibe einfach eine Stadt, die du kenn
 
 Du kannst auch einen Kalender auswählen, wie den japanischen Kalender, und die Uhr mit einer Schriftart gestalten:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' gesicht: 'Doto')\
 
 count-with-time

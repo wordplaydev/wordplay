@@ -332,7 +332,6 @@
                             "那你覺得呢，導演？我們繼續去和其他字符聊聊吧？"
                         ],
                         ["ExpressionPlaceholder", "excited", "很高興認識你！"],
-                        ["ExpressionPlaceholder", "excited", "很高興認識你！"],
                         null,
                         { "fit": "#DarkVoid" },
                         [
@@ -356,7 +355,6 @@
                             "eager",
                             "嘿！無法理解（Unparsable） @UnparsableExpression ？是你嗎？"
                         ],
-                        ["UnparsableExpression", "neutral", "ㄐ%ㄓ$ㄜ|"],
                         ["UnparsableExpression", "neutral", "ㄐ%ㄓ$ㄜ|"],
                         null,
                         { "fit": "#Symbol c iise we dvk" },
@@ -414,15 +412,15 @@
                         [
                             "UnparsableExpression",
                             "eager",
-                            "$~（舉例來說，試著輸入 \\]\\。看看你是不是沒辦法在少了 @conflict 的情況下輸入它？如果你是用 @blocks 🖱️ 編輯，我們不會讓你輸入 \\]\\；如果你是用文字 ⌨️ 編輯，就會產生衝突。）"
+                            "$~/CNNNDN KDKLSL oOOLLlllll PPOLSLSO liiiiiiis、sdllslll、xck we ifolls a./"
                         ],
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "（比如說，你可以試著輸入一些亂打的符號 \\][\\ 。你會發現我們完全不懂，這並沒有任何意義，而這正是我要表達的。）"
+                            "$~（舉例來說，試著輸入 \\]\\。看看你是不是沒辦法在少了 @conflict 的情況下輸入它？如果你是用 @blocks 🖱️ 編輯，我們不會讓你輸入 \\]\\；如果你是用文字 ⌨️ 編輯，就會產生衝突。）"
                         ],
                         null,
-                        { "edit": "][", "conflicts": true, "sidebar": true },
+                        { "edit": "]", "conflicts": true, "sidebar": true },
                         [
                             "UnparsableExpression",
                             "eager",
@@ -509,7 +507,6 @@
                             "函式（Function）@FunctionDefinition ？"
                         ],
                         null,
-                        ["FunctionDefinition", "curious", "是我！你在哪裡？"],
                         ["FunctionDefinition", "curious", "是我！你在哪裡？"],
                         [
                             "Evaluate",
@@ -915,7 +912,7 @@
                             "所以你可能會想，/如果我想在某些文本中直接寫出@Text？這個符號呢？ /",
                             "好吧，也許你不想知道這一點，但我還是要告訴你！",
                             "$~在任何 @Text 裡，只要連續給我兩個就好！我會把它解讀成一個 @Text，而不是空的 @expression，反正那也沒有任何意義。",
-                            "試著把其中一個反斜線刪掉，你就會看到它又恢復原本的作用。"
+                            "試著把 \\\\ 刪掉，你就會看到斜線又恢復原本的作用。"
                         ],
                         {
                             "edit": "\"I'm just \\\\regular\\\\ text, not a template.\""
@@ -1362,7 +1359,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "嗯，「1.01 腳趾」？是的，謝謝@Number，這些是…有趣的例子。當你進行數字運算時它們非常有用，對嗎？"
+                            "嗯，\\1.01toes\\？是的，謝謝 @Number，這些是…有趣的例子。當你進行數字運算時它們非常有用，對嗎？"
                         ],
                         null,
                         [
@@ -3739,7 +3736,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~如果您想要一個非常具體的安排呢？您可以使用@Free 並告訴我您想要所有短語的確切位置。只需確保為每個@Phrase 提供一個位置，否則我會將其放在 \\📍(0m 0m\\) 處。"
+                            "$~如果您想要一個非常具體的安排呢？您可以使用@Free 並告訴我您想要所有短語的確切位置。只需確保為每個@Phrase 提供一個位置，否則我會將其放在 \\📍(0m 0m)\\ 處。"
                         ],
                         {
                             "edit": [
@@ -4549,7 +4546,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~您知道，@Bind 可以與許多其他角色配合使用，包括 @Evaluate - 當您命名 @FunctionDefinition 輸入時您會看到它們，如 \\🤪(color: _)\\ - 我們將會見其中一些其他人。 @Bind，你會來示範嗎？"
+                            "$~您知道，@Bind 可以與許多其他角色配合使用，包括 @Evaluate - 當您命名 @FunctionDefinition 輸入時您會看到它們，如 \\🤪(色彩: _)\\ - 我們將會見其中一些其他人。 @Bind，你會來示範嗎？"
                         ],
                         [
                             "Bind",
@@ -5594,7 +5591,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "太棒了！嗯……，我們還需要站上舞台。@Text，你可以幫我們列出所有人嗎？我們會把名單轉成\\角色。"
+                            "太棒了！嗯……，我們還需要站上舞台。@Text，你可以幫我們列出所有人嗎？我們會把名單轉成 \\Character\\。"
                         ],
                         ["Text", "excited", "沒問題。這樣可以嗎？"],
                         {

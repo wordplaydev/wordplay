@@ -8,11 +8,11 @@
 
 \¶Напомена: Погледајте галерију за други пројекат<пример@https://wordplay.dev/project/example-Layers?play>слојевитог наношења слика.¶Stage([
 		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(2m 3 0m -12m 0m) ротација: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
-	] place: Place(0m 10m -30m))\
+		Shape(Rectangle(-11m -9m 11m -12m 10m) ротација: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) ротација: -25°)
+	] место: Place(0m 10m -30m))\
 
 Могли бисте направити неке стварно кул ствари са слојевима! Пробајте!
 

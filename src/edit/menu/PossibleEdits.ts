@@ -395,6 +395,22 @@ function getFieldAssignments(fieldPosition: FieldPosition, edit: EditContext) {
     const fieldInfo = parent.getFieldNamed(field);
     if (fieldInfo === undefined) return [];
 
+    // A locale tag's fields are all `Sym`-typed, so getPossibleNodes yields
+    // nothing for them and this slot's menu would be empty. The useful offer at
+    // an empty tag is the one a text caret after the slash gets: whole tags.
+    if (parent instanceof Language) {
+        const tagParent = parent.getParent(context);
+        return tagParent === undefined
+            ? []
+            : parent
+                  .getPossibleCompletions(parent.slash, edit)
+                  .filter((replacement) => !replacement.isEqualTo(parent))
+                  .map(
+                      (replacement) =>
+                          new Replace(context, tagParent, parent, replacement),
+                  );
+    }
+
     // Get the current value of the field.
     const fieldValue = parent.getField(field);
 
@@ -762,6 +778,34 @@ function getRelativeFieldEdits(
                         new Replace(context, parent, anchorNode, replacement),
                 ),
             ];
+        } else if (anchorNode instanceof Token && parent instanceof Language) {
+            // Completing a locale tag being typed (`/`, `/en`, `/en-U`). A tag's
+            // parts are tokens rather than nodes, so the field-driven paths
+            // below can't offer them at all — `Sym.Name` is a wildcard kind (see
+            // getPossibleNodes). The token the caret sits after says which part
+            // is being typed, and the whole tag is what gets replaced, one level
+            // up — the same shape as the token anchor in getNodeRevisions.
+            const tagParent = parent.getParent(context);
+            if (tagParent !== undefined)
+                edits = [
+                    ...edits,
+                    ...parent
+                        .getPossibleCompletions(anchorNode, edit)
+                        // Nothing downstream drops a suggestion equal to what's
+                        // already there: getPossibleNodes' equal-node filter is
+                        // on a path we don't take, and removeDuplicates only
+                        // compares edits to each other.
+                        .filter((replacement) => !replacement.isEqualTo(parent))
+                        .map(
+                            (replacement) =>
+                                new Replace(
+                                    context,
+                                    tagParent,
+                                    parent,
+                                    replacement,
+                                ),
+                        ),
+                ];
         }
     }
 

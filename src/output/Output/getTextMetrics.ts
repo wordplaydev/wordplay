@@ -28,7 +28,11 @@ export default function getTextMetrics(
 ): TextMetrics | undefined {
     const context = getRenderingContext();
     if (context === null || canvas === null) return undefined;
-    canvas.style.writingMode = layout;
+    // Only assign when it changes: a vertical phrase followed by its always
+    // horizontal speech bubble otherwise alternates this property once per
+    // segment, and a style write per measurement is the shape of the recalc
+    // regression that animation already had once.
+    if (canvas.style.writingMode !== layout) canvas.style.writingMode = layout;
     context.font = cssFont;
     return context.measureText(text);
 }

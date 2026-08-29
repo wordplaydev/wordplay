@@ -304,15 +304,20 @@
             "description": "$~dokumentation$language[ på $language|], $#words[$words ord|$words ord]",
             "emotion": "serious",
             "doc": [
-                "$~Jag formaterar saker fint med @Markup, som förklaringar av några av dina @Program, eller till och med orden du sätter på scenen med @Phrase.",
-                "Till exempel kan jag stå före vilket @expression som helst:",
-                "\\¶Ska det här verkligen vara 7?¶\n7\\",
+                "$~Jag formaterar saker med @Markup, till exempel förklaringar av några av dina @Program, eller till och med orden du sätter på scen med @Phrase.",
+                "Till exempel kan jag stå före valfritt @expression:",
+                "\\¶Ska detta verkligen vara 7?¶\n7\\",
                 "Till exempel kan du placera mig före @Bind:",
-                "\\¶Jag mäter hur lång någon är¶\nhöjd: 5m\\🪲",
+                "\\¶Jag mäter hur lång någon är¶\nhöjd2: 5m\\🪲",
                 "Eller före en @FunctionDefinition:",
-                "\\¶Jag adderar två tal¶\nƒ summa(a•# b•#) a + b\\",
+                "\\¶Jag lägger ihop två tal¶\nƒ summa2(a2•# b2•#) a2 + b2\\",
                 "Eller före en @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶Jag kommer ihåg folks namn och favoritfrukt¶\n•person(namn3•'' frukt•'')\\",
+                "Du kan också placera mig allra först i @Program för att säga vad hela föreställningen handlar om",
+                "\\¶Det här programmet säger hej¶\n\n'hej!'\\",
+                "Du kan ge mig ett @Language för att hjälpa andra veta vilket språk jag är skriven i:",
+                "\\¶Jag är ett dokument på engelska¶\nvaraktighet2: 5s\\🪲",
+                "Visste du att du kan göra en lista av mig? Gå och prata med @Docs."
             ]
         },
         "Docs": {
@@ -343,20 +348,21 @@
             "description": "$~språk $language[$language|ospecificerat]$region[, område $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Jag är en språkmärkning och jag arbetar med @Name och @Doc!",
-                "Jag är riktigt bra på att göra det *kristallklart* vilket språk något är skrivet på. Bara ett litet snedstreck och ett par bokstäver, så blir ingen förvirrad om vilket språk en text är på.",
-                "Till exempel, om du vill säga \"Språk\" men göra tydligt att det är på engelska:",
-                "\\'Språk'\\",
-                "Du kan göra detta för @Name:",
+                "$~Jag är en språktagg och jag jobbar ihop med @Name och @Doc!",
+                "Jag är riktigt bra på att göra det *helt klart* vilket språk något är skrivet på. Bara ett litet snedstreck och några bokstäver, och ingen blir osäker på vilket språk en text har.",
+                "Om du till exempel vill skriva \"Language\" men visa att det är engelska:",
+                "\\'Språk'/sv\\",
+                "Du kan göra så här för ett @Name:",
                 "\\ljud: 'mjau'\\🪲",
-                "…eller en @Doc:",
-                "\\¶Onomatopoeia¶\nljud: 'mjau'\\🪲",
-                "Ibland är text inte bara ett språk — det är en *blandning*. Som spanglish, där spanska och engelska smälter samman. För dessa listar du varje språk med ett understreck mellan dem. Det första är det *primära* — det är det jag använder när jag måste välja (till exempel för att välja vilka citattecken jag ska använda).",
-                "\\'Hej herrn!'\\",
+                "…eller för ett @Doc:",
+                "\\¶Onomatopoesi¶\nljud: 'mjau'\\🪲",
+                "Ibland är text inte bara ett språk — det är en *blandning*. Som Spanglish, där spanska och engelska blandas. Då listar du varje språk med ett understreck mellan dem. Det första är det *huvudsakliga* — det är det jag använder när jag måste välja (till exempel för att bestämma vilka citattecken som ska användas).",
+                "\\\"Hola gentleman!\"/es_en\\",
                 "\\¶En tvåspråkig hälsning¶\nhello/es_en: 'Hola gentleman!'\\🪲",
-                "Du kan också lägga till ett enda @region, efter ett bindestreck, precis som med ett enda språk:",
-                "\\'Hej herrn!'\\",
-                "Det finns ingen gräns för hur många språk du kan lista — bara upprepa inte samma två gånger; jag säger till om du gör det. Det finns många <2-bokstavsspråkkoder@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> som jag förstår. Om du inte använder en av dessa säger jag också till."
+                "Du kan också lägga till ett @region, efter ett bindestreck, precis som med ett enda språk:",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
+                "Det finns ingen gräns för hur många språk du kan lista — bara upprepa inte samma språk två gånger; jag säger till om du gör det.",
+                "Du kan skriva ett språk med dess <2-bokstavskod@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> eller med dess *namn*, på det språket eller på engelska — `/es`, `/Español` och `/Spanish` betyder alla samma sak, och det gör även `/es-MX`, `/es-México` och `/es-Mexico`. Stora bokstäver och accenter spelar ingen roll, så `/ESPANOL` funkar också. Ett namn med mellanslag skrivs utan mellanslaget, som `/BahasaIndonesia`, eftersom en tagg alltid är ett enda ord. Om jag inte känner igen ett språk eller ett område säger jag till."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -373,6 +379,11 @@
                     "name": "$~dubblett av språk",
                     "explanation": "$~Du använde språket ' $code ' två gånger. Taggar för blandspråk bör bara lista varje språk en gång.",
                     "resolution": "$~Ta bort dubbletten * $code * tagg"
+                },
+                "UnknownRegion": {
+                    "name": "$~okänt område",
+                    "explanation": "$~Jag känner inte igen detta område",
+                    "resolution": "$~Ta bort detta område"
                 }
             }
         },
@@ -557,9 +568,11 @@
             "description": "$~kodexempel $code",
             "emotion": "serious",
             "doc": [
-                "$~Jag håller ett exempel på lite kod inuti ett @Doc, så här:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "Det markerade exemplet visas som förhandsvisning i @how-utrymmet och @guide."
+                "$~Jag rymmer en exempelbit koda inuti en @Doc, som denna:",
+                "\\¶Här är ett exempel på addition: \\1 + 2\\¶\n3 + 4\\",
+                "Om du använder exempel i dina hur man-guider, kan du märka ett exempel som en höjdpunkt.",
+                "\\¶Här är ett markerat exempel: \\1 + 2\\⭐¶\n3 + 4\\",
+                "Det markerade exemplet visas som förhandsvisning i @how-rummet och @guide."
             ]
         },
         "Mention": {
@@ -911,9 +924,12 @@
             "description": "$~dokumenterat $expression",
             "emotion": "eager",
             "doc": [
-                "$~Jag är vilket @expression som helst, men med ett @Doc!",
-                "För att skapa mig, sätt bara ett @Doc före ett uttryck, så får du mig:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "$~Jag är vilket @expression som helst, men med en @Doc!",
+                "För att göra mig, sätt bara en @Doc före ett uttryck, och du får mig:",
+                "\\dubbelpluss: 1\n(2 × dubbelpluss) +\n\t¶Låt oss göra den lite större¶\n\t1\\",
+                "Jag är bra för att göra en kommentar om någon del av ett program.",
+                "Om du sätter 👀 i @Doc, kan jag också markera uttrycket:",
+                "\\¶Titta på mig! 👀¶\n1 + 1\\"
             ],
             "start": "$~Låt oss utvärdera uttrycket"
         },
@@ -2069,8 +2085,8 @@
             "description": "$~externt kodexempel$languages[ i $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Jag visar syntaxmarkerad kod skriven i andra programmeringsspråk, så att skapare som redan kodar kan jämföra.",
-                "Skriv en variant per språk som en tvåbokstavstagg, en stapel och koden, som \\py| a = 5\\ js| låt a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~Jag visar syntaxmarkerad koda skriven i andra programmeringsspråk, så att skapare som redan kan koda kan jämföra.",
+                "Skriv en variant per språk som en tvåbokstavstagg, ett streck och koden, som \\py| a = 5\\js| let a = 5;\\. Läsaren ser den som matchar deras valda språk. Python (py), JavaScript (js) och Java (jv) stöds."
             ]
         },
         "Localized": {
@@ -2493,7 +2509,7 @@
                 "\\'Det finns bara två sätt att leva sitt liv. Ett är som om ingenting är ett mirakel. Det andra är som om allting är ett mirakel.'\\",
                 "\\'一日三秋'\\",
                 "Kom bara ihåg att stänga mig om du öppnar mig, och använd den matchande symbolen. Annars vet jag inte att du är klar med dina ord.",
-                "\\'hej'\\",
+                "\\'hej'/sv'hola'/es-MX\\",
                 "Du kan också märka mig med språk, och till och med ge flera översättningar. Jag blir det språk som är valt just nu, om det finns ett matchande språk.",
                 "Om du vill skapa mig med några andra värden kan du göra så här:",
                 "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
@@ -2653,7 +2669,7 @@
                         "\\'hej'.versaler()\\",
                         "Bokstäver har bara skiftläge i vissa skriftsystem, så text i ett skriftsystem utan det, som japanska eller arabiska, ändras inte.",
                         "Min språktagg avgör vilka regler som ska användas. Turkiska har ett i med prick och ett i utan prick, och bara text taggad som turkiska görs om till versaler på det turkiska sättet:",
-                        "\\'iyi'.versaler()\\",
+                        "\\'iyi'/tr.versaler()\\",
                         "\\'iyi'.versaler()\\"
                     ],
                     "names": ["$~versaler"],
@@ -3649,25 +3665,25 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Jag kan ta en lista och göra en ny lista med dess värden sorterade. Så här:",
+                        "$~Jag kan ta en lista och göra en ny lista med värdena sorterade. Så här:",
                         "\\[1 5 8 0 2].sorterad()\\",
-                        "Jag kan också göra det för @Text-värden, i bokstavsordning. En stor bokstav sorteras bredvid sin lilla bokstav, så ett ord hamnar inte sist bara för att det börjar med en stor bokstav:",
+                        "Jag kan också göra det för @Text-värden, i alfabetisk ordning. En stor bokstav sorteras bredvid sin lilla motsvarighet, så ett ord hamnar inte sist bara för att det börjar med en stor bokstav:",
                         "\\['Apelsin' 'kiwi' 'Banan' 'äpple'].sorterad()\\",
-                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör om varje element till en @Number eller en @Text så att jag kan sortera den. Här har vi till exempel en lista med listor av olika längd. Om du ger mig en funktion som gör om varje lista till dess längd, kan jag sortera efter längden.",
+                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör varje värde till en @Number eller en @Text så att jag kan sortera den. Här har vi till exempel en lista med listor av olika längd; om du ger mig en funktion som gör varje lista till dess längd, kan jag sortera efter längden.",
                         "\\[[1] [2 3] [4 8 12] [8]].sorterad(ƒ(lista2) lista2.längd())\\",
-                        "En funktion som ger @Text är hur du sorterar efter ett ord du räknar ut, istället för efter själva värdet. Här sorterar jag namn efter efternamnet:",
+                        "En funktion som gör @Text är hur du sorterar efter ett ord du räknar fram, istället för efter värdet självt. Här sorterar jag namn efter det sista:",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorterad(\n\tƒ(namn2•'') (namn2 ÷ ' ').sista()\n)\\"
                     ],
                     "names": "$~sorterad",
                     "inputs": [
                         {
-                            "doc": "$~Den valfria @FunctionDefinition som används för att sortera en lista @value. Den ska göra om värdet till en @Number eller en @Text som kan användas för att sortera listan.",
+                            "doc": "$~Den valfria @FunctionDefinition som används för att sortera en lista @value. Den ska göra värdet till en @Number eller en @Text som kan användas för att sortera listan.",
                             "names": "$~sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value som ska göras om till en @Number eller en @Text.",
+                            "doc": "$~Den @value som ska göras till en @Number eller en @Text.",
                             "names": "$~värde"
                         }
                     ]
@@ -4231,7 +4247,7 @@
                 "/klicka, tryck!/",
                 "Så det bästa sättet att använda det är att skapa en föreställning med namngivna, valbara fraser @Phrase , och sedan använda en @Reaction för att bestämma vad som ska göras när det namnet är valt.",
                 "Här är det enklaste exemplet:",
-                "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Group(\nStack() \n[\nPhrase('one' valbara:⊤ namn:'1') \nPhrase('two' valbara:⊤ namn:'2') \nPhrase(Choice())\n]\n)\\",
                 "Kopiera detta till redigeraren och välj sedan en av de två @Phrase . Du kommer att se att den tredje @Phrase visar namnet som valdes."
             ],
             "names": ["$~Val"]
@@ -4396,7 +4412,7 @@
                 "/bzzzzzzzz/",
                 "Den @List representerar i huvudsak en bild, men det är upp till dig att bestämma vad du ska göra med den.",
                 "Du kan försöka representera bilden med en massa @Phrase , vilket skulle kunna se ganska coolt ut! Försök att kopiera det här...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' plats: Place((x - 1) × 0.5m y × -0.5m) färg: color varaktighet: 0s\n)\n)\n)\n)\n)\\",
                 "Men man kunde också analysera färgerna för att avgöra om ett ljus var tänt eller släckt, eller om en viss färg var vanlig, och låta publiken påverka en föreställning med de färger de visar."
             ],
             "names": ["$~Kamera"],
@@ -4419,13 +4435,13 @@
                 "/Bopp boop boop/",
                 "För att kontrollera timingen kan du antingen ställa in @Phrase.duration på varje utgång, så visas den så länge innan den går vidare till nästa, och använda de @Phrase.entering eller @Phrase.exiting övergångar du eventuellt har ställt in. Om du ställer in dem till en @Sequence kommer den att använda dess varaktighet.",
                 "Allt detta låter dig göra saker som den här lilla @Scene , som visar dessa tre fraser i följd:",
-                "\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "\\Scene([\n\tPhrase('Hello' varaktighet: 1s)\n\tPhrase('How are you?' varaktighet: 2s rotation: 5° gårin: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
                 "Ser du hur den första utgången visas i en sekund, sedan nästa i två sekunder, men animerad till en femgraders rotation, och sedan visar den den sista?",
                 "Du kan skapa mycket avancerade sekvenser av utdata och animationer med @Scene , och till och med göra delar av dem dynamiska eller interaktiva, precis som med vilken annan @Phrase eller @Group som helst.",
                 "Om du har animerad utdata som är kapslad (en @Group med animerad @Phrase inuti), kommer @Scene att vänta tills allt animerat innehåll i @Group är klart.",
                 "Och en sista liten hemlighet! Du kan till och med lägga till @Boolean i listan, och om de är \\⊥\\ kommer @Scene att pausa och vänta på att det ska bli sant.",
                 "Om du till exempel vill skapa en sekvens av @Phrase och bara gå vidare när @Button ändras, kan du göra så här:",
-                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' varaktighet: 0.25s rotation: 5° gårin: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "Ser du hur den pausar efter varje @Phrase och väntar på att @Button ska ändras innan den går vidare?"
             ],
             "names": ["$~Scen"],
@@ -4477,7 +4493,7 @@
                 "Det finns många sätt att placera @Output på @Stage: ge dem en tydlig @Place, använd @Motion och låt gravitationen göra jobbet, eller lägg dem i en @Group för att ordnas.",
                 "Men ibland vill du ge /publiken/ kontroll över var @Output hamnar på @Stage.",
                 "Så här fungerar det: skapa en @Placement och ge den till en @Output @Place:",
-                "\\Fras('hej' place: Placering())\\",
+                "\\Fras('hej' plats: Placering())\\",
                 "Sedan, varje gång publiken använder en piltangent @key eller klickar eller trycker på scenen, kommer @Placement att skapa en ny @Place som rör sig i önskad riktning.",
                 "Pröva att kopiera detta till ditt program och flytta @Output med pekaren eller tangentbordet.",
                 "Du kan anpassa @Placement, slå på och av rörelse i vissa riktningar, ändra hur långt en @Place rör sig, och den första @Place som strömmen börjar med."
@@ -4592,7 +4608,7 @@
                 "\\Tal()\\",
                 "Det här är perfekt för dem som kan tala ett @language men fortfarande lär sig att läsa eller skriva det (och mer)...",
                 "Du kan ange en språkkod för att känna igen tal på ett visst språk:",
-                "\\Tal(language: 'es-MX')\\",
+                "\\Tal(språk: 'es-MX')\\",
                 "Om inget språk anges används ditt föredragna språk.",
                 "Taligenkänning kräver tillgång till mikrofon och internetanslutning (ge tillgång, tack!). Det kan också finnas användningsgränser, så låt den inte vara på för länge (neeej)!"
             ],
@@ -4645,7 +4661,7 @@
                 "Ge den lite text och ett teckensnitt, så kommer den att spåra varje teckens kontur punkt för punkt.",
                 "\\Contour('a' \"Noto Sans\")\\",
                 "Mata in dessa @Place -värden till en @List med @Phrase för att se konturen ritad som punkter:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' plats: point)))\\",
                 "Du kan skala konturen med ett @Number of meters, flytta dess origo med ett @Place , välja en teckensnittsvikt, aktivera kursiv stil och ställa in `spacing` mellan punkter som ett avstånd i meter. Ett mindre `spacing` följer konturen närmare, med jämnt fördelade punkter längs både linjer och kurvor.",
                 "Vissa tecken, som färgemoji, har ingen kontur, så de lägger inte till några punkter. Medan den hämtar teckensnittet ger den dig en tom @List och fyller sedan i den när den är klar."
             ],
@@ -4723,11 +4739,11 @@
                 "Alla mina egenskaper är valfria. Ge mig datumdelar för att beskriva ett datum:",
                 "\\📅(2026 7 1) → ''\\",
                 "Eller bara tidsdelar, för en tid på dygnet:",
-                "\\📅(hour: 15 minute: 30) → ''\\",
-                "Om du inte ger mig några delar alls, omvandlar jag till aktuellt datum och tid, där programmet än körs. Om du utelämnar delar, kommer varje del som är större än den största du gav från aktuellt datum och tid, och mindre delar börjar från sin början: så \\📅(month: 12) → ''\\ är 1 december i år, vid midnatt. När jag omvandlas visas bara de sorters delar du gav: datumdelar ger ett datum, tidsdelar ger en tid, och båda ger båda:",
+                "\\📅(timme: 15 minut: 30) → ''\\",
+                "Om du inte ger mig några delar alls, omvandlar jag till aktuellt datum och tid, där programmet än körs. Om du utelämnar delar, kommer varje del som är större än den största du gav från aktuellt datum och tid, och mindre delar börjar från sin början: så \\📅(månad: 12) → ''\\ är 1 december i år, vid midnatt. När jag omvandlas visas bara de sorters delar du gav: datumdelar ger ett datum, tidsdelar ger en tid, och båda ger båda:",
                 "\\📅() → ''\\",
                 "Min @Moment.timezone tar ett standardnamn för tidszon enligt IANA, som \\'America/Los_Angeles'\\ eller \\'Asien/Tokyo'\\; om du lämnar den \\ø\\, använder jag tidszonen på enheten där programmet körs. Min @Moment.calendar tar ett Unicode-kalendernamn som \\'gregory'\\, \\'hebreiska'\\, eller \\'japanska'\\; om du lämnar den \\ø\\, använder jag kalendern för läsarens språkinställning. Min @Moment.year, @Moment.month och @Moment.day är i den kalendern:",
-                "\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "\\📅(5786 10 4 kalender: 'hebrew') → ''\\",
                 "När jag omvandlas till @Text formateras jag för läsarens språkinställning: samma Moment visas olika på engelska, 中文 eller हिन्दी, och ändras när läsarens språkinställning ändras.",
                 "Min @Moment.era, @Moment.week och @Moment.weekday är informativa: @Now fyller i dem när den skapar Moment, men de ignoreras vid formatering.",
                 "Om du vill ha en ström av Moment som uppdateras när tiden går — en klocka — se @Now. Om du vill ha antalet millisekunder som gått sedan ditt program startade — för animering — se @Time."
@@ -4797,7 +4813,7 @@
                 "Bakom kulisserna använder @Face en maskininlärningsmodell. Första gången du använder den i ett program tar modellen några sekunder att ladda ner, och ett litet snurrande ansikte syns i övre högra hörnet av scenen medan den laddas. Efter det ligger den kvar i cacheminnet och startar direkt.",
                 "För varje bildruta ger @Face dig ett @Expression. Titta där för hela listan med indata och vad de betyder.",
                 "Detta exempel visar en emoji som matchar ditt ansikte var ditt riktiga ansikte än är:",
-                "\\ansikte: 🙂()\n💬((ansikte.leende ? '😀' ansikte.munÖppen ? '😮' '😐') place: ansikte.plats)\\"
+                "\\ansikte: 🙂()\n💬((ansikte.leende ? '😀' ansikte.munÖppen ? '😮' '😐') plats: ansikte.plats)\\"
             ],
             "names": ["$~Ansikte"],
             "frequency": {
@@ -4818,9 +4834,9 @@
                 "För varje bildruta ger @Objects dig en @List av @Thing, sorterad efter hur säker modellen är, med den säkraste först. Titta på @Thing för att se vad var och en berättar för dig.",
                 "Modellen gissar bara, så ibland har den fel eller ser ingenting alls. Be om en högre `confidence` för att bara höra de gissningar den är säkrast på.",
                 "Här är ett exempel som märker allt kameran ser:",
-                "\\🎭(📦() ↦ 💬(⬚.namn place: ⬚.plats))\\",
+                "\\🎭(📦() ↦ 💬(⬚.namn plats: ⬚.plats))\\",
                 "Du kan också leta efter bara en sorts sak och strunta i resten:",
-                "\\saker: 📦(category: 'cat')\n💬(saker.📏() > 0 ? '🐈' '…')\\"
+                "\\saker: 📦(kategori: 'cat')\n💬(saker.📏() > 0 ? '🐈' '…')\\"
             ],
             "names": ["$~Objekt"],
             "inputs": [
@@ -4935,7 +4951,7 @@
                 "Här turas tre spår om, så ett olika antal instrument låter på varje taktslag — och diamanten växer med hur många som spelar:",
                 "\\slag: Takt()\n🎭([\n\t\t💬('◆' ((slag.instrument.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Ge mig ett @Music-namn så hör jag bara den musiken. Två taktslag lyssnar nedan, på samma två musiker: det övre hör allt, så det växlar mellan båda namnen när varje musik når ett taktslag, och det nedre hör bara trumman och säger aldrig något annat. Den skillnaden är filtret.",
-                "\\allt: Takt()\nbaraTrumman: Takt('tick')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(allt.namn 1.4m)\n\t\t\t\t💬(baraTrumman.namn 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tick')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'klang')\n\t])\\",
+                "\\allt: Takt()\nbaraTrumman: Takt('tick')\n🎭([\n\t\t🔳(\n\t\t\t⬇(stoppning: 0.5m)\n\t\t\t[\n\t\t\t\t💬(allt.namn 1.4m)\n\t\t\t\t💬(baraTrumman.namn 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min namn: 'tick')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min namn: 'klang')\n\t])\\",
                 "Vad jag än styr sker /utöver/ den återgivning som betraktaren har valt; du lägger till den, du ersätter den aldrig."
             ],
             "name": {
@@ -5269,10 +5285,22 @@
                 "doc": "$~Animeringsstilen som ska användas när du flyttar till en annan plats på scenen.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
+            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
             "changing": {
                 "doc": "$~Namnet på en effekt som ska spelas när min text ändras, under min @Phrase.duration, mjukad av min @Phrase.style. Om \\ø\\, ändras min text direkt. Om 'edit' suddar jag bort den gamla texten tillbaka till det som den gamla och nya texten delar, och skriver sedan ut den nya texten. Om 'rewrite' skriver jag den nya texten över den gamla och byter ut en symbol i taget i slumpmässig ordning. Om 'random' snurrar var och en av mina symboler genom slumpmässiga symboler från min texts språk (eller dess skrift, när språket är okänt), och matchar min texts stora och små bokstäver, som en enarmad bandit, tills den landar på den nya texten. Med @FormattedLiteral-text tar de ändrade symbolerna den nya textens formatering under effekten.",
                 "names": "$~ändras"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Pratbubblan som visar vad jag säger, pekar rakt på mig. Fyra olika saker kan finnas här.",
+                    "Vanlig text, som jag bara visar utan mer:",
+                    "\\Fras('en' bubbla: 'hej!')\\",
+                    "Formaterad text, om du vill ha *fetstilta* eller /kursiva/ ord i det jag säger.",
+                    "En @Say, som jag *både* visar och säger högt:",
+                    "\\Fras('en' bubbla: Säga('hej!'))\\",
+                    "En @Bubble, när du vill välja vilken sida jag pratar från, göra den till en tanke istället, eller ge den en färg."
+                ],
+                "names": "$~bubbla"
             }
         },
         "Arrangement": {
@@ -5284,7 +5312,7 @@
             "names": ["$~Rad"],
             "description": "$~rad med $#count[$count fras eller grupp|$count fraser och grupper]",
             "alignment": {
-                "doc": "$~Om text ska riktas in vid början, mitten eller slutet på varje @column.",
+                "doc": "$~Om innehållet mitt ska ligga i början, mitten eller slutet av varje @column — eller, med \\'_'\\, på baslinjen som orden ligger på, så att bokstäver med olika höjd ser ut som en rak rad.",
                 "names": "$~inriktning"
             },
             "padding": {
@@ -5360,7 +5388,7 @@
                 "names": "$~valbara"
             },
             "color": {
-                "doc": "$~Färgen på mina bårder.",
+                "doc": "$~Min färg. Jag fylls med den, om jag inte har en bakgrund. Då färgar den istället min kant.",
                 "names": "$~färg"
             },
             "background": {
@@ -5414,6 +5442,18 @@
             "style": {
                 "doc": "$~Animationsstilen jag borde använda.",
                 "names": "$~stil"
+            },
+            "filled": {
+                "doc": "$~Om insidan ska målas. Jag har ingen insida om jag inte är sluten, så en öppen @Path fylls aldrig.",
+                "names": "$~fylld"
+            },
+            "stroked": {
+                "doc": "$~Om konturen ska målas. Utan fyllning och utan kontur är jag osynlig, vilket är ett sätt att göra en barriär som stoppar saker utan att synas.",
+                "names": "$~streckad"
+            },
+            "glyphs": {
+                "doc": "$~Text som ritas längs konturen, upprepad tills den fyller den. Jag har inga ord om du inte ger mig några.",
+                "names": "$~tecken"
             }
         },
         "Form": {
@@ -5703,7 +5743,7 @@
                 "sway": {
                     "doc": [
                         "$~Jag lutar fram och tillbaka runt mitten av en @Output, som något som hänger i en lätt bris. Jag är en bra viloanimation, eftersom en liten /angle/ ser \"levande\" ut utan att dra till sig uppmärksamhet.",
-                        "\\💬('🐈' resting: 💃.vingla(10°))\\"
+                        "\\💬('🐈' vilande: 💃.vingla(10°))\\"
                     ],
                     "names": ["$~vingla"],
                     "angle": {
@@ -5714,7 +5754,7 @@
                 "bounce": {
                     "doc": [
                         "$~Jag hoppar upp en @Output till /height/ och låter den landa, och den klämmer ihop sig lite på väg upp och ner. Ge mig en @Phrase som just kom, så får jag den att kännas som att den har tyngd.",
-                        "\\💬('🐈' resting: 💃.studsa(3m))\\"
+                        "\\💬('🐈' vilande: 💃.studsa(3m))\\"
                     ],
                     "names": ["$~studsa"],
                     "height": {
@@ -5725,42 +5765,42 @@
                 "spin": {
                     "doc": [
                         "$~Jag snurrar en @Output hela varvet runt sin mitt, från 360° tillbaka till 0°. Sätt mig som en viloanimation, så fortsätter jag snurra för alltid.",
-                        "\\💬('🐈' resting: 💃.snurra(2s))\\"
+                        "\\💬('🐈' vilande: 💃.snurra(2s))\\"
                     ],
                     "names": ["$~snurra"]
                 },
                 "fadein": {
                     "doc": [
                         "$~Jag tar en @Output från osynlig till helt synlig. Jag är gjord för /entering/, när något kommer in på scenen.",
-                        "\\💬('🐈' entering: 💃.blekna(1s))\\"
+                        "\\💬('🐈' gårin: 💃.blekna(1s))\\"
                     ],
                     "names": ["$~blekna"]
                 },
                 "fadeout": {
                     "doc": [
                         "$~Jag tar en @Output från helt synlig till osynlig. Jag är gjord för /exiting/, när något lämnar scenen.",
-                        "\\💬('🐈' exiting: 💃.tonaut(duration: 1s))\\"
+                        "\\💬('🐈' avslutar: 💃.tonaut(varaktighet: 1s))\\"
                     ],
                     "names": ["$~tonaut"]
                 },
                 "popup": {
                     "doc": [
                         "$~Jag växer en @Output från ingenting, går förbi dess riktiga storlek och lägger mig sedan tillbaka. Den lilla översvängen gör att en ankomst känns lekfull i stället för mekanisk.",
-                        "\\💬('🐈' entering: 💃.popup(0.5s))\\"
+                        "\\💬('🐈' gårin: 💃.popup(0.5s))\\"
                     ],
                     "names": ["$~popup"]
                 },
                 "shake": {
                     "doc": [
                         "$~Jag rycker en @Output fram och tillbaka i flera riktningar. Jag läses som \"nej\", eller som något som skallrar. Jag rör mig snabbt, så håll mig kort.",
-                        "\\💬('🐈' resting: 💃.skaka(0.5s count: 3x))\\"
+                        "\\💬('🐈' vilande: 💃.skaka(0.5s räkna: 3x))\\"
                     ],
                     "names": ["$~skaka"]
                 },
                 "pulse": {
                     "doc": [
                         "$~Jag skalar upp en @Output till /amount/ och tillbaka ner, en gång. Jag är det tystaste sättet att säga \"titta här\" utan att flytta något ur läge.",
-                        "\\💬('🐈' resting: 💃.puls(1.2))\\"
+                        "\\💬('🐈' vilande: 💃.puls(1.2))\\"
                     ],
                     "names": ["$~puls"],
                     "amount": {
@@ -5771,7 +5811,7 @@
                 "heartbeat": {
                     "doc": [
                         "$~Jag ger två snabba skalslag och vilar sedan, i takt med ett hjärtslag. Jag är mer brådskande än /pulse/ hos @Sequence och mer organisk än /flash/.",
-                        "\\💬('🐈' resting: 💃.hjärtslag(1.4 1s))\\"
+                        "\\💬('🐈' vilande: 💃.hjärtslag(1.4 1s))\\"
                     ],
                     "names": ["$~hjärtslag"],
                     "amount": {
@@ -5782,7 +5822,7 @@
                 "tada": {
                     "doc": [
                         "$~Jag firar: en liten krympning, sedan en skalning upp med ett vickande fram och tillbaka. Jag är till för att vinna, avsluta och lyckas.",
-                        "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
+                        "\\💬('🐈' vilande: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
@@ -5793,7 +5833,7 @@
                 "wiggle": {
                     "doc": [
                         "$~Jag glider en @Output från sida till sida medan jag lutar den, och varje sväng blir mindre än den förra. Jag är en skakning med lite mer personlighet.",
-                        "\\💬('🐈' resting: 💃.vicka(8°))\\"
+                        "\\💬('🐈' vilande: 💃.vicka(8°))\\"
                     ],
                     "names": ["$~vicka"],
                     "angle": {
@@ -5805,21 +5845,21 @@
                     "doc": [
                         "$~Jag blinkar en @Output mellan synlig och osynlig två gånger, och tonar bort medan jag gör det. Jag är svår att missa — vilket också betyder att jag är svår att ignorera, så använd mig sparsamt.",
                         "Jag blinkar snabbt, så en tittare som är känslig för blinkningar kan tycka att jag är obehaglig. Sakta ner mig med en längre /duration/ om jag ska upprepas.",
-                        "\\💬('🐈' resting: 💃.flash(1s))\\"
+                        "\\💬('🐈' vilande: 💃.flash(1s))\\"
                     ],
                     "names": ["$~flash"]
                 },
                 "zoomin": {
                     "doc": [
                         "$~Jag växer en @Output från ingenting till full storlek. Till skillnad från /popup/ går jag inte förbi målet — jag är den enklare, lugnare ankomsten.",
-                        "\\💬('🐈' entering: 💃.zoomain(0.5s))\\"
+                        "\\💬('🐈' gårin: 💃.zoomain(0.5s))\\"
                     ],
                     "names": ["$~zoomain"]
                 },
                 "fadeinup": {
                     "doc": [
                         "$~Jag tonar in en @Output medan jag glider upp den på plats från /distance/ nedanför.",
-                        "\\💬('🐈' entering: 💃.fadeinup(2m))\\"
+                        "\\💬('🐈' gårin: 💃.fadeinup(2m))\\"
                     ],
                     "names": ["$~fadeinup"],
                     "distance": {
@@ -5830,7 +5870,7 @@
                 "fadeindown": {
                     "doc": [
                         "$~Jag tonar in en @Output medan jag glider ner den på plats från /distance/ ovanför.",
-                        "\\💬('🐈' entering: 💃.fadeindown(2m))\\"
+                        "\\💬('🐈' gårin: 💃.fadeindown(2m))\\"
                     ],
                     "names": ["$~fadeindown"],
                     "distance": {
@@ -5841,7 +5881,7 @@
                 "fadeinleft": {
                     "doc": [
                         "$~Jag tonar in en @Output medan jag glider den åt höger på plats från /distance/ till vänster.",
-                        "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
+                        "\\💬('🐈' gårin: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
                     "distance": {
@@ -5852,7 +5892,7 @@
                 "fadeinright": {
                     "doc": [
                         "$~Jag tonar in en @Output samtidigt som jag glider den åt vänster till sin plats, från /distance/ åt höger.",
-                        "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
+                        "\\💬('🐈' gårin: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
@@ -5863,7 +5903,7 @@
                 "rotatein": {
                     "doc": [
                         "$~Jag snurrar en @Output till sin plats samtidigt som jag tonar in den. Den börjar vriden med /angle/ och slutar upprätt.",
-                        "\\💬('🐈' entering: 💃.rotera(180°))\\"
+                        "\\💬('🐈' gårin: 💃.rotera(180°))\\"
                     ],
                     "names": ["$~rotera"],
                     "angle": {
@@ -5874,14 +5914,14 @@
                 "zoomout": {
                     "doc": [
                         "$~Jag krymper en @Output från full storlek ner till ingenting.",
-                        "\\💬('🐈' exiting: 💃.zoomaut(0.5s))\\"
+                        "\\💬('🐈' avslutar: 💃.zoomaut(0.5s))\\"
                     ],
                     "names": ["$~zoomaut"]
                 },
                 "fadeoutup": {
                     "doc": [
                         "$~Jag tonar ut en @Output samtidigt som jag glider den /distance/ uppåt.",
-                        "\\💬('🐈' exiting: 💃.fadeoutup(2m))\\"
+                        "\\💬('🐈' avslutar: 💃.fadeoutup(2m))\\"
                     ],
                     "names": ["$~fadeoutup"],
                     "distance": {
@@ -5892,7 +5932,7 @@
                 "fadeoutdown": {
                     "doc": [
                         "$~Jag tonar ut en @Output samtidigt som jag glider den /distance/ nedåt.",
-                        "\\💬('🐈' exiting: 💃.fadeoutdown(2m))\\"
+                        "\\💬('🐈' avslutar: 💃.fadeoutdown(2m))\\"
                     ],
                     "names": ["$~fadeoutdown"],
                     "distance": {
@@ -5903,7 +5943,7 @@
                 "fadeoutleft": {
                     "doc": [
                         "$~Jag tonar ut en @Output samtidigt som jag glider den /distance/ åt vänster.",
-                        "\\💬('🐈' exiting: 💃.tonautvänster(2m))\\"
+                        "\\💬('🐈' avslutar: 💃.tonautvänster(2m))\\"
                     ],
                     "names": ["$~tonautvänster"],
                     "distance": {
@@ -5914,7 +5954,7 @@
                 "fadeoutright": {
                     "doc": [
                         "$~Jag tonar ut en @Output samtidigt som jag glider den /distance/ åt höger.",
-                        "\\💬('🐈' exiting: 💃.tonauthöger(2m))\\"
+                        "\\💬('🐈' avslutar: 💃.tonauthöger(2m))\\"
                     ],
                     "names": ["$~tonauthöger"],
                     "distance": {
@@ -5925,7 +5965,7 @@
                 "rotateout": {
                     "doc": [
                         "$~Jag snurrar bort en @Output samtidigt som jag tonar ut den. Den slutar vriden med /angle/.",
-                        "\\💬('🐈' exiting: 💃.roteraut(180°))\\"
+                        "\\💬('🐈' avslutar: 💃.roteraut(180°))\\"
                     ],
                     "names": ["$~roteraut"],
                     "angle": {
@@ -5937,14 +5977,14 @@
                     "doc": [
                         "$~Jag låter en @Output gå igenom alla regnbågens färger och tillbaka till där jag började.",
                         "Jag byter färg snabbt, så någon som är känslig för blinkande kan tycka att jag känns obehaglig. En längre /duration/ gör mig mycket mildare.",
-                        "\\💬('🐈' resting: 💃.regnbåge(3s))\\"
+                        "\\💬('🐈' vilande: 💃.regnbåge(3s))\\"
                     ],
                     "names": ["$~regnbåge"]
                 },
                 "swing": {
                     "doc": [
                         "$~Jag svänger en @Output som en pendel, ut till /angle/ och sedan tillbaka genom mindre och mindre bågar tills den kommer till ro. Till skillnad från /sway/ stannar jag.",
-                        "\\💬('🐈' resting: 💃.gunga(20°))\\"
+                        "\\💬('🐈' vilande: 💃.gunga(20°))\\"
                     ],
                     "names": ["$~gunga"],
                     "angle": {
@@ -5955,14 +5995,14 @@
                 "blink": {
                     "doc": [
                         "$~Jag stänger av en @Output och sätter på den igen utan toning emellan, så som en markör blinkar. /flash/ tonar; jag klipper.",
-                        "\\💬('🐈' resting: 💃.blinka(1s))\\"
+                        "\\💬('🐈' vilande: 💃.blinka(1s))\\"
                     ],
                     "names": ["$~blinka"]
                 },
                 "nod": {
                     "doc": [
                         "$~Jag doppar en @Output ner och upp igen två gånger, som en nick av instämmande. Jag är det mildaste sättet att säga ”ja”.",
-                        "\\💬('🐈' resting: 💃.nicka(0.4m))\\"
+                        "\\💬('🐈' vilande: 💃.nicka(0.4m))\\"
                     ],
                     "names": ["$~nicka"],
                     "distance": {
@@ -5973,7 +6013,7 @@
                 "dim": {
                     "doc": [
                         "$~Jag tonar ner en @Output till /amount/ och tillbaka till full, utan att någonsin dölja den. Jag används för att visa att något väntar eller är inaktivt.",
-                        "\\💬('🐈' resting: 💃.dämpa(20% 2s))\\"
+                        "\\💬('🐈' vilande: 💃.dämpa(20% 2s))\\"
                     ],
                     "names": ["$~dämpa"],
                     "amount": {
@@ -5984,7 +6024,7 @@
                 "slidein": {
                     "doc": [
                         "$~Jag glider en @Output på plats från var du än vill, utan toning. Ge mig en @Place så börjar jag där och slutar i vila, så att en animation täcker varje riktning.",
-                        "\\💬('🐈' entering: 💃.glidin(📍(0m -4m)))\\"
+                        "\\💬('🐈' gårin: 💃.glidin(📍(0m -4m)))\\"
                     ],
                     "names": ["$~glidin"],
                     "from": {
@@ -5995,7 +6035,7 @@
                 "slideout": {
                     "doc": [
                         "$~Jag glider undan en @Output till vart du vill, utan att tona bort. Ge mig en @Place så slutar jag där, så en animation täcker alla riktningar.",
-                        "\\💬('🐈' exiting: 💃.glidut(📍(0m -4m)))\\"
+                        "\\💬('🐈' avslutar: 💃.glidut(📍(0m -4m)))\\"
                     ],
                     "names": ["$~glidut"],
                     "to": {
@@ -6006,7 +6046,7 @@
                 "float": {
                     "doc": [
                         "$~Jag driver en @Output långsamt upp med /distance/ och tillbaka ner. Ge mig en lång /duration/ så får jag något att se viktlöst ut.",
-                        "\\💬('🐈' resting: 💃.sväva(0.5m 3s))\\"
+                        "\\💬('🐈' vilande: 💃.sväva(0.5m 3s))\\"
                     ],
                     "names": ["$~sväva"],
                     "distance": {
@@ -6017,7 +6057,7 @@
                 "drift": {
                     "doc": [
                         "$~Jag driver en @Output långsamt /distance/ åt sidan och tillbaka. Jag är /float/, i sidled.",
-                        "\\💬('🐈' resting: 💃.driva(0.5m 3s))\\"
+                        "\\💬('🐈' vilande: 💃.driva(0.5m 3s))\\"
                     ],
                     "names": ["$~driva"],
                     "distance": {
@@ -6028,7 +6068,7 @@
                 "orbit": {
                     "doc": [
                         "$~Jag bär en @Output runt en cirkel med /radius/, och den återvänder till där den började. Jag är den enda fördefinierade animationen som ritar en bana i stället för att gå fram och tillbaka.",
-                        "\\💬('🐈' resting: 💃.kretslopp(2m 4s))\\"
+                        "\\💬('🐈' vilande: 💃.kretslopp(2m 4s))\\"
                     ],
                     "names": ["$~kretslopp"],
                     "radius": {
@@ -6039,7 +6079,7 @@
                 "glow": {
                     "doc": [
                         "$~Jag lyser upp en @Output mot /color/ och låter den tona tillbaka, som något som värms upp och svalnar. Till skillnad från /rainbow/ håller jag mig i en färgton.",
-                        "\\💬('🐈' resting: 💃.glöd(🌈.orange 2s))\\"
+                        "\\💬('🐈' vilande: 💃.glöd(🌈.orange 2s))\\"
                     ],
                     "names": ["$~glöd"],
                     "color": {
@@ -6145,9 +6185,9 @@
                 "$~JAG VISAR DITT @Output FÖR PUBLIKEN. HEJ. SCEN HÄR. BERÄTTA MIG VAD JAG SKA VISA SÅ VISAR JAG DET.",
                 "\\Stage([Phrase('stufffffff')])\\",
                 "OM DU VILL, GE MIG EN BAKGRUND @Color SÅ LJUSAR JAG SCENEN DÄREFTER.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
+                "\\Stage([Phrase('stufffffff')] bakgrund: Color(75% 50 100°))\\",
                 "DU KAN OCKSÅ GE MIG EN RAMKANT SÅ BESKÄR JAG.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
+                "\\Stage([Phrase('stufffffff')] bakgrund: Color(75% 50 100°) ram: Rectangle(-1m -1m 1m 1m))\\"
             ],
             "names": ["$~Etapp"],
             "content": {
@@ -6473,17 +6513,17 @@
                 "Noter är tal. 1 är den första noten i skalan — den som en melodi låter avslutad på — 2 är nästa not uppåt, och 8 är den första noten igen, en oktav högre. ø är en paus, som är tystnad. Talen fortsätter förbi båda ändarna: 9 är den andra noten en oktav upp, och 0 och -1 stegar under den första.",
                 "En /skala/ är den lilla uppsättning noter som ett stycke byggs av, och vilka noter det är avgör det mesta av stämningen. @Music/scale är \\🎼.dur\\ om du inte säger något annat, vilket låter ljust; \\🎼.moll\\ låter sorgligare av exakt samma tal. En /tonart/ är hur högt eller lågt hela stycket ligger, satt av @Music/key. Och @Music/tempo är hur snabbt det går, i taktslag per minut — ett taktslag är den jämna puls du skulle klappa med till.",
                 "Eftersom noterna är tal och inte fasta tonhöjder kan alla tre ändras utan att röra melodin. Detta är samma tre noter, sorgligare, lägre och långsammare:",
-                "\\🎼(🎶([1 3 5]) scale: 🎼.moll key: -5semitones tempo: 60beats/min)\\",
+                "\\🎼(🎶([1 3 5]) skala: 🎼.moll tonart: -5semitones tempo: 60beats/min)\\",
                 "Ett spår börjar om när det når sitt slut, så en kort lista är en slinga som spelar för alltid. Denna är fyra taktslag lång, med pauser i mellanrummen:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
                 "Ge mig en lista med spår så spelar de samtidigt, var och en med sitt eget instrument, sin egen hastighet och sin egen volym. Här håller en bastrumma och en virveltrumma takten medan en hi-hat går i dubbel hastighet — en polyrytm av ett enda tal. Trummor är ett trumset snarare än tonhöjder, så deras tal väljer delar av trumsetet i stället för noter:",
-                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 takt: 0.5beats volym: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
                 "Tal inom klamrar låter tillsammans som ett ackord, och ett notvärde skrivet på ett tal ger den posten sin egen längd. Här håller två helnotsackord under en rörlig melodi:",
-                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volym: 50%)\n\t])\\",
                 "Allt som skapar tal kan skapa musik. Denna melodi blandar om sig själv i en ny ordning, och följer hur högt du talar:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].blandade())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
                 "Ingen behöver höra mig. @Beat rapporterar varje taktslag när det låter, så du kan rita musiken lika väl som spela den, tillsammans med vilken visualisering betraktaren än valde. @Beat har alltid ett @Downbeat, så du kan läsa det utan att kolla efter något:",
-                "\\slag: Takt()\nantal: slag.räkna\n🎭([\n\t\t💬('◆' size: 1m + ((antal % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((antal % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "\\slag: Takt()\nantal: slag.räkna\n🎭([\n\t\t💬('◆' storlek: 1m + ((antal % 4) = 0 ? 2m 0m) plats: 📍(-2m 2m))\n\t\t💬('◆' storlek: 1m + ((antal % 4) = 2 ? 2m 0m) plats: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
                 "Jag har inget eget utseende att styla, så jag tar inga av de vanliga utseendeindata — ingen storlek, plats, färg eller animering. Hur jag ser ut är betraktarens val, gjort i deras inställningar, och det är förankrat till scenen snarare än placerat i din layout; jag tar ingen plats, så att sätta mig i en @Row eller en @Stack flyttar aldrig något bredvid mig. För att rita musiken själv, använd @Beat: den ger dig varje taktslag när det låter, för att styra vilken utdata du vill.",
                 "Jag fortsätter spela genom utvärderingar: ändra mina noter medan jag spelar så vävs ändringen in vid nästa taktslag i stället för att starta om, vilket är det som gör att ändra en melodi mitt i spelningen känns musikaliskt. För att spela mig igen från början, se @Music/replay; för att hålla mig stilla och ta upp på samma ställe, se @Music/pause."
             ],
@@ -6502,7 +6542,7 @@
                     "Enheten är halvtoner. En halvton är det minsta steget i västerländsk musik: på ett piano är det avståndet från en tangent till den allra närmaste, räknat med de svarta tangenterna, och tolv av dem bildar en oktav. Så \\nyckel: 12semitones\\🪲 är samma stycke en oktav högre, \\nyckel: -12semitones\\🪲 en oktav lägre, och \\nyckel: 2semitones\\🪲 knuffar det uppåt lite.",
                     "Två räkningar möts här, och de är lätta att blanda ihop. Toner räknar /skalsteg/, där oktaven är \\8\\: från \\1\\ upp till \\8\\ är en oktav. En nyckel räknar /halvtoner/, där oktaven är \\12\\. Båda beskriver samma avstånd — de åtta stegen från \\1\\ till \\8\\ i en sjutonsskala spänner över tolv halvtoner. En nyckel mäts i halvtoner eftersom en halvton är lika stor i varje skala, medan ett steg inte är det: @Music/scale pentatonik har fem toner till en oktav och dur har sju, så att förskjuta med steg skulle flytta var och en av dem olika långt, medan \\12semitones\\ är en oktav i dem alla.",
                     "Eftersom det bara är ett tal kan en nyckel komma varifrån som helst. Här lyfts hela stycket två halvtoner medan /upp/ är valet — ett @Choice behöver något valbart på scenen att läsa, så de två fraserna är det som får det att fungera:",
-                    "\\🎭([\n\t\t💬('upp' selectable: ⊤ name: 'upp' place: 📍(-2m 0m))\n\t\t💬('hem' selectable: ⊤ name: 'hem' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'upp' ? 2semitones 0semitones))\n\t])\\"
+                    "\\🎭([\n\t\t💬('upp' valbara: ⊤ namn: 'upp' plats: 📍(-2m 0m))\n\t\t💬('hem' valbara: ⊤ namn: 'hem' plats: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) tonart: (🔘() = 'upp' ? 2semitones 0semitones))\n\t])\\"
                 ],
                 "names": "$~tonart"
             },
@@ -6523,7 +6563,7 @@
                 "doc": [
                     "$~När detta är \\⊤\\ vid en utvärdering börjar jag om från början, även när ingen av mina toner har ändrats.",
                     "Detta är för ljud som svarar på en händelse i stället för att spela oavbrutet. Om ett rätt svar spelar ett pling, så ger två rätta svar i rad exakt samma musik, så inget skulle ändras och inget skulle låta igen. Jag är hur du säger /igen, nu/ — välj /rätt/ två gånger nedan så plingar det två gånger:",
-                    "\\🎭([\n\t\t💬('rätt' selectable: ⊤ name: 'rätt' place: 📍(-2m 0m))\n\t\t💬('fel' selectable: ⊤ name: 'fel' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'rätt') ⊥)\n\t])\\",
+                    "\\🎭([\n\t\t💬('rätt' valbara: ⊤ namn: 'rätt' plats: 📍(-2m 0m))\n\t\t💬('fel' valbara: ⊤ namn: 'fel' plats: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) spelaom: ∆ 🔘() ? (🔘() = 'rätt') ⊥)\n\t])\\",
                     "Ge mig ett /tillfälligt/ villkor, ett som bara är sant på den utvärdering händelsen orsakade, som \\∆ 🔘()\\ ovan. Ett bestående villkor som \\score > 10\\🪲 förblir sant när det väl blir sant, så det skulle starta om mig vid varje utvärdering från och med då."
                 ],
                 "names": "$~spelaom"
@@ -6619,7 +6659,7 @@
                 "doc": [
                     "$~Medan detta är \\⊤\\ håller jag stilla, och när det går tillbaka till \\⊥\\ fortsätter jag från precis det taktslag jag stannade på.",
                     "Detta är det som gör mig annorlunda från @Music/replay: replay betyder /börja om/, och jag betyder /vänta här/. En ton som fortfarande lät när jag stannade spelar ut det som var kvar av den när jag börjar igen, så att stanna mitt i ett långt ackord förlorar det inte. Välj /håll/ och /gå/ nedan:",
-                    "\\🎭([\n\t\t💬('håll' selectable: ⊤ name: 'håll' place: 📍(-2m 0m))\n\t\t💬('gå' selectable: ⊤ name: 'gå' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'håll')\n\t])\\",
+                    "\\🎭([\n\t\t💬('håll' valbara: ⊤ namn: 'håll' plats: 📍(-2m 0m))\n\t\t💬('gå' valbara: ⊤ namn: 'gå' plats: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) paus: 🔘() = 'håll')\n\t])\\",
                     "Till skillnad från omspelning vill jag ha ett /varaktigt/ villkor, ett som förblir sant så länge du vill ha tystnaden. Min @Beat-räkning väntar med mig och tar vid där den var, i stället för att börja om på noll."
                 ],
                 "names": "$~paus"
@@ -6631,7 +6671,7 @@
                 "Mina toner är tal, samma tal som @Music förklarar — 1 är skalans första ton, 8 är den tonen en oktav upp, ø är en paus, och tal inom klamrar som \\{1 3 5}\\ ljuder tillsammans som ett ackord:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
                 "Toner behöver inte vara hela. \\1.5\\ ligger mellan första och andra tonen, och båda spelas — den närmare högre — så att glida ett tal över tonerna låter som att slå på pianotangenter:",
-                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] takt: 0.5beats))\\",
                 "Sätt min @Track/mash till \\⊥\\ så böjer ett sådant tal en ton ur stämning i stället för att spela två.",
                 "Varje post varar min @Track/beat, vilket är ett taktslag om du inte ändrar det. Att ändra det rutar om allt jag spelar på en gång.",
                 "När en post ska vara längre eller kortare än de andra, skriv längden på själva talet som ett notvärde. \\8𝅗𝅥\\ är en halvnot — dubbelt så lång som ett taktslag — och behöver inget runtom sig:",
@@ -6682,7 +6722,7 @@
                 "names": "$~mosa"
             },
             "words": {
-                "doc": "$~Stavelserna som @Instrument/voice ska sjunga. En stavelse per ton, åtskilda med mellanslag, så \\'so mi fa'\\ sjunger tre toner och mellanslagen visar var en stavelse slutar och nästa börjar.\n\nPauser tar ingen stavelse, så en text landar på de toner som faktiskt låter. Om det finns färre stavelser än toner börjar de om från början istället för att tystna. Om det inte finns några alls håller rösten ett /uh/-ljud.\n\nAvsluta en stavelse med ett bindestreck för att hålla den över nästa ton också, en ton till för varje bindestreck — så sjunger du en stavelse över flera toner. I \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ täcker de första två tonerna, sedan \\mi\\ och \\so\\ tar en var.\n\nStavningen är det <internationella fonetiska alfabetet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, där varje bokstav är ett ljud. Tryck på 🤖 under redigeraren för att se varje ljud och höra det. Bokstäver jag inte känner igen hoppas över. Alla instrument utom rösten ignorerar mig, så en text överlever att du ändrar @Track/instrument och tillbaka.",
+                "doc": "$~Stavelserna som @Instrument/voice ska sjunga. En stavelse per ton, åtskilda med mellanslag, så \\'so mi fa'\\ sjunger tre toner och mellanslagen visar var en stavelse slutar och nästa börjar.\n\nPauser tar ingen stavelse, så en text landar på de toner som faktiskt låter. Om det finns färre stavelser än toner börjar de om från början istället för att tystna. Om det inte finns några alls håller rösten ett /uh/-ljud.\n\nAvsluta en stavelse med ett bindestreck för att hålla den över nästa ton också, en ton till för varje bindestreck — så sjunger du en stavelse över flera toner. I \\🎶([1 2 3 4] ord: 'la- mi so')\\, \\la\\ täcker de första två tonerna, sedan \\mi\\ och \\so\\ tar en var.\n\nStavningen är det <internationella fonetiska alfabetet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, där varje bokstav är ett ljud. Tryck på 🤖 under redigeraren för att se varje ljud och höra det. Bokstäver jag inte känner igen hoppas över. Alla instrument utom rösten ignorerar mig, så en text överlever att du ändrar @Track/instrument och tillbaka.",
                 "names": "$~ord"
             }
         },
@@ -6691,7 +6731,7 @@
                 "$~Jag är en post i ett @Track som bär sin egen volym, eller en längd inget notvärde kan stava.",
                 "De flesta toner ska förbli bara tal, och de flesta längder är kortare skrivna på själva talet: \\1𝅗𝅥\\ är en halvnot. Jag är värd att ta fram när en ton behöver sin egen volym, eller en längd som faller mellan värdena — och eftersom \\♪(1 2beats ÷ 3)\\ säger så mycket mer än \\1\\, skulle det begrava tonerna som betyder något att använda mig överallt.",
                 "En triol är ärlig aritmetik: \\♪(1 2beats ÷ 3)\\ säger att tre av dessa fyller två slag. Min längd kan vara ett notvärde också, så \\♪(1 1𝅗𝅥)\\ och \\♪(1 2beats)\\ är samma två slag.",
-                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+                "\\🎼(🎶([1 1 ♪(5 2beats volym: 60%) ø]))\\"
             ],
             "names": ["$~Not"],
             "degree": {
@@ -6717,56 +6757,56 @@
                 "piano": {
                     "doc": [
                         "$~Ett piano. Inspelat från ett riktigt piano och stämt, så att siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~🎹", "$~piano"]
                 },
                 "violin": {
                     "doc": [
                         "$~En fiol. Inspelad från en riktig fiol och stämd, så att siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~fiol"]
                 },
                 "drums": {
                     "doc": [
                         "$~Ett trumset. Inspelat, och ett set snarare än stämt: siffror väljer en del av trumsetet i stället för en ton — \\1\\ bastrumma, \\2\\ virveltrumma, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tomtom, \\6\\ koskälla — och \\7\\ börjar om igen vid bastrumman.",
-                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6] takt: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~trummor"]
                 },
                 "flute": {
                     "doc": [
                         "$~En flöjt. Inspelad från en riktig flöjt och stämd, så att siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~flöjt"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~En trumpet. Inspelad från en riktig trumpet och stämd, så att siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~🎺", "$~trumpet"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~En saxofon, en tenor. Inspelad från en riktig saxofon och stämd, så att siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~saxofon"]
                 },
                 "bell": {
                     "doc": [
                         "$~En klocka — orkesterklockor, den sorten man slår på med en klubba. Inspelad och stämd, så att siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~klocka"]
                 },
                 "didgeridoo": {
                     "doc": [
                         "$~En didgeridoo, från aboriginernas Australien. Inspelad från en riktig didgeridoo och stämd, så att siffror väljer toner, fast den är ett droninstrument och håller sig lågt.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
                     ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
@@ -6774,62 +6814,62 @@
                     "names": ["$~katt", "$~mjau"],
                     "doc": [
                         "$~En katt — faktiskt ett helt set av en katt. Inspelad från en riktig katt, och ett set snarare än stämt: siffror väljer vad katten säger i stället för en ton — \\1\\ irriterad, \\2\\ tiggande, \\3\\ hungrig, \\4\\ protesterande, \\5\\ bönande, \\6\\ längtande, \\7\\ störd, \\8\\ rädd, \\9\\ känslig, \\10\\ tröstad, \\11\\ ensam, \\12\\ spinnande — och \\13\\ går tillbaka till irriterad. För en katt som spelar toner istället, se \\🔈.😺\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] takt: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
                     ]
                 },
                 "dog": {
                     "names": ["$~hund", "$~skäll"],
                     "doc": [
                         "$~En hund — en hel uppsättning av dem, faktiskt. Inspelad från riktiga hundar, och en uppsättning istället för tonad: siffror väljer vilket skall du hör istället för en ton, från djupast till skarpast — \\1\\ barsk, \\2\\ varnande, \\3\\ vaktande, \\4\\ på alerten, \\5\\ enträget, \\6\\ krävande, \\7\\ tillkännagivande, \\8\\ ivrig, \\9\\ upprymd, \\10\\ otålig, \\11\\ gläfsande, \\12\\ gäll — och \\13\\ går tillbaka till barsk. För en hund som spelar toner istället, se \\🔈.🐕\\.",
-                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] takt: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
                     ]
                 },
                 "synth": {
                     "doc": [
                         "$~En syntledstämma: ljus och surrande, och utan att skämmas för att vara gjord av oscillatorer. Syntetiserad istället för inspelad, och tonad, så siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~synt"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~En syntbas: fyllig och låg. Syntetiserad istället för inspelad, och tonad, så siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~syntBas"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~En syntpad: mjuk, långsam att komma fram, och bra för att hålla ett ackord under allt annat. Syntetiserad istället för inspelad, och tonad, så siffror väljer toner.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~syntPad"]
                 },
                 "pitchedCat": {
                     "doc": [
                         "$~Samma katt, stämd. Av de tolv inspelningar som uppsättningen \\🔈.🐱\\ spelar är detta den som håller en jämn tonhöjd, och den är tonad istället för en uppsättning, så siffror väljer toner och du kan skriva en melodi med den. Spelad långt från tonen den spelades in på börjar ett jamande låta uttänjt istället för sjunget, så den trivs bäst inom en oktav eller så från mitten.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~tonsattKatt"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Samma hundar, stämda. Av alla skall som satsen är gjord av är detta det som håller en jämn tonhöjd. Den är tonad i stället för en sats, så tal väljer noter och du kan skriva en melodi med den. Om den spelas långt från noten den spelades in vid börjar ett skall låta uttöjt i stället för som ett skall. Därför trivs den bäst inom en oktav eller så från mitten.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~tonsattHund"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~En klassisk gitarr, med nylonsträngar som knäpps med fingrarna i stället för ett plektrum. Inspelad från en riktig, och tonad, så tal väljer noter. Detta är den som enbart \\guitar\\ betyder, så äldre projekt som bad om en gitarr spelar denna.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~akustiskGitarr", "$~gitarr"]
                 },
                 "electricGuitar": {
                     "doc": [
                         "$~En elektroakustisk gitarr — en ihålig kropp med en mikrofon i, med stålsträngar, så den klingar ljusare och längre än nylon-\\🔈.🎸\\. Inspelad från en riktig, och tonad, så tal väljer noter.",
-                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                        "\\🎼(🎶([1] takt: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~elGitarr"]
                 },
@@ -6838,7 +6878,7 @@
                         "$~En sångröst, byggd av filter istället för inspelad från en människa. Tonad, så att tal väljer toner.",
                         "Jag är en synt, som @Instrument/synth — inte en imitation av en sångare. Min mun håller samma storlek hur högt eller lågt jag än sjunger, vilket ingen riktig strupe kan göra. Därför låter jag som en maskin som härmar en människa, och därför låter jag varken som en man eller en kvinna.",
                         "Ge min @Track en @Track/words så sjunger jag dem, en stavelse per ton. Utan någon håller jag ett /uh/-ljud, så jag sjunger alltid något.",
-                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "\\🎼(🎶([1 2 3 5] ord: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
                         "Stavelserna stavas i det <internationella fonetiska alfabetet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, ett alfabet där varje bokstav är ett /ljud/ istället för en stavning — så \\'ʃi'\\ är ljudet i början av /she/, oavsett vilket språk du skriver på. Tryck på 🤖 under redigeraren för att se alla ljud jag kan göra och höra vart och ett."
                     ],
                     "names": ["$~röst"]
@@ -6846,7 +6886,7 @@
                 "harmonica": {
                     "doc": [
                         "$~En munspel, av den kromatiska sorten med en knapp på sidan. Inspelad från en riktig, och stämd, så att siffror väljer toner.",
-                        "\\Musik(\n\tSpår([1] beat: 4beats loop: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
+                        "\\Musik(\n\tSpår([1] takt: 4beats loop: ⊥ instrument: 🔈.🌬)\n\ttempo: 60beats/min\n)\\"
                     ],
                     "names": ["$~munspel"]
                 }
@@ -6856,6 +6896,71 @@
                 "De flesta av oss har /tonhöjd/, vilket betyder att ett spårs siffror väljer toner och större siffror låter högre. Resten är /satser/: en siffra väljer ett ljud från en numrerad lista i stället för en ton, så ett spår läses som rytm snarare än melodi, och siffror efter listans slut viker tillbaka till dess början.",
                 "De flesta av oss är också riktiga inspelningar, tagna från instrument som människor faktiskt spelade. Synthesizrarna härmar ingenting — de är byggda av oscillatorer, och det är ljudet de är menade att ha. Var och en av oss säger nedan vilket vi är."
             ]
+        },
+        "Path": {
+            "doc": "$~Jag är en bana ritad genom en lista med platser, bra för linjer, kurvor och kullar på @Stage.",
+            "names": ["$~Väg"],
+            "points": {
+                "doc": "$~Platserna jag passerar genom, i ordning. Jag ligger platt, så jag använder mitt eget djup i stället för djupet hos någon plats.",
+                "names": "$~punkter"
+            },
+            "closed": {
+                "doc": "$~Om min sista plats ska kopplas tillbaka till min första.",
+                "names": "$~stängd"
+            },
+            "smooth": {
+                "doc": "$~Om jag ska kurva genom mina platser i stället för att vända vid dem. Mina platser rör sig inte i något av fallen.",
+                "names": "$~mjuk"
+            },
+            "thickness": {
+                "doc": "$~Hur bred jag ska ritas.",
+                "names": "$~tjocklek"
+            },
+            "z": {
+                "doc": "$~Djupet jag ligger på.",
+                "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Jag visar vad en @Phrase säger, i en pratbubbla som pekar rakt mot den. Ge mig till en phrase sin @Phrase.bubble och låt bokstäverna prata:",
+                "\\Fras('en' bubbla: 'hej!')\\",
+                "Ge mig en @Say istället för text så blir jag uppläst högt och visad samtidigt.",
+                "Ändra min @Bubble.kind till en tanke, så blir jag en tankebubbla istället.",
+                "Jag är en dekoration, så inget på scenen flyttar sig för att göra plats åt mig — men @Stage ser till att jag ändå syns."
+            ],
+            "names": ["$~Bubbla"],
+            "text": {
+                "doc": [
+                    "$~Det jag visar. Ge mig vanlig text, eller formaterad text om du vill ha *fetstil* eller /kursiv/ text.",
+                    "Ge mig en @Say istället, så blir jag uppläst högt och visad samtidigt. Då ersätter jag texten som annars visas längst ner vid @Stage, eftersom min text redan står bredvid den som sa den."
+                ],
+                "names": "$~text"
+            },
+            "side": {
+                "doc": "$~Vilken sida av @Phrase jag sitter på, som en pil. Om \\ø\\, placerar @Stage mig där jag är minst i vägen, och väljer om varje gång saker flyttas.",
+                "names": "$~sida"
+            },
+            "kind": {
+                "doc": "$~Om jag är något som sägs (\\'💬'\\) eller något som tänks (\\'💭'\\). En tanke drar cirklar mot den som tänker istället för en spets, och har rundade hörn.",
+                "names": "$~sort"
+            },
+            "color": {
+                "doc": "$~@Color på mina ord. Om \\ø\\, använder jag @Phrase-ens egen färg.",
+                "names": "$~färg"
+            },
+            "background": {
+                "doc": "$~@Color jag är fylld med. Om \\ø\\, fylls jag med bakgrunden av det jag ritas på.",
+                "names": "$~bakgrund"
+            },
+            "size": {
+                "doc": "$~Hur stora mina ord är. Om \\ø\\, är de i den storlek text vanligtvis har på @Stage — inte storleken på den som talar, eftersom en figur som är flera meter hög skulle ge en vägg av ord.",
+                "names": "$~storlek"
+            },
+            "wrap": {
+                "doc": "$~Gränsen där jag bryter mina ord till en ny rad.",
+                "names": "$~radbryt"
+            }
         }
     },
     "ui": {
@@ -6951,7 +7056,7 @@
                     "format": "$~upptäckt format"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~välj en färg från din skärm"
                 }
             },
             "logo": {
@@ -7170,8 +7275,8 @@
                 "curators": {
                     "header": "$~Kuratorer",
                     "explanation": [
-                        "$~Kuratorer kan redigera projekten och galleriets inställningar samt chatta på alla projekt.",
-                        "/Kuratorer ansvarar för att moderera innehållet i chattarna som hör till projekt och hur man i galleriet. Chattar som rapporterats av skapare finns på <galleriets modereringspanel@://galleries/moderation>./"
+                        "$~Kuratorer kan ändra projekt och galleriinställningar, och chatta i alla projekt.",
+                        "/Kuratorer granskar det som rapporteras i deras galleri — projekt, hur man-guider och chatten som hör till dem — från <modereringssidan@://moderate>. En kurators beslut gäller bara för deras eget galleri. Det är aldrig en av Wordplays <varningar@://rights>./"
                     ]
                 },
                 "creators": {
@@ -7436,10 +7541,6 @@
                 "fit": {
                     "on": "$~kontrollera zoomen manuellt",
                     "off": "$~anpassa zoom till innehåll"
-                },
-                "paint": {
-                    "off": "$~placera utgång",
-                    "on": "$~färgutgång"
                 }
             },
             "field": {
@@ -7573,11 +7674,30 @@
                 "show": "$~visa allt"
             },
             "snap": {
-                "anchors": ["$?", "$?", "$?", "$?", "$?", "$?", "$?"],
-                "withOutput": "$?",
-                "withGrid": "$?",
-                "aligned": "$?",
-                "none": "$?"
+                "anchors": [
+                    "$~horisontell mitt",
+                    "$~vänsterkant",
+                    "$~högerkant",
+                    "$~vertikal mitt",
+                    "$~nederkant",
+                    "$~överkant",
+                    "$~baslinje"
+                ],
+                "withOutput": "$~$anchor med $target's $targetAnchor",
+                "withGrid": "$~$anchor på rutnätet",
+                "aligned": "$~$constraints, vid $place",
+                "none": "$~inget att rikta in med $direction"
+            },
+            "removed": "$~$#count[$#count utdata borttagen|$#count utdata borttagna]",
+            "notRemovable": "$~som inte kan tas bort på egen hand",
+            "drew": "$~$#count[ritade en bana med $#count punkt; ritning är av|ritade en bana med $#count punkter; ritning är av]",
+            "drawing": "$~$#count[$#count punkt, vid $place|$#count punkter, senaste vid $place]",
+            "point": {
+                "label": "$~punkt $number av $#count, vid $place",
+                "moved": "$~punkt $number till $place",
+                "added": "$~lade till punkt $number",
+                "removed": "$~tog bort punkt $number",
+                "last": "$~en bana behöver minst två punkter"
             }
         },
         "timeline": {
@@ -7689,7 +7809,8 @@
                     "header": "$~Instruktioner",
                     "explanation": "$~/Korta exempel som visar hur man gör saker i @wordplay. Tryck på play i valfri förhandsgranskning för att se den köras, öppna den sedan för att läsa hur den fungerar./"
                 },
-                "conceptHowTos": "$~Instruktioner"
+                "conceptHowTos": "$~Instruktioner",
+                "bookmarked": "$~Bokmärkt"
             },
             "mode": {
                 "browse": {
@@ -7893,8 +8014,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~låt projektet själv välja sin förhandsvisningssymbol utifrån vad det visar",
+                            "$~fäst en symbol du väljer"
                         ]
                     },
                     "research": {
@@ -8331,10 +8452,20 @@
                     "projectChatHeader": "$~Nytt meddelande i projektet \"$name\"",
                     "howToChatHeader": "$~Nytt meddelande i instruktionsguiden \"$title\"",
                     "link": "$~detaljer",
-                    "moderationHeader": "$~Meddelandet i \"$name\" kräver modereringsåtgärd"
+                    "moderationHeader": "$~Meddelandet i \"$name\" kräver modereringsåtgärd",
+                    "reportedHeader": "$~Något du gjorde i \"$title\" har anmälts och granskas nu",
+                    "reportReceivedHeader": "$~Din anmälan om \"$title\" har skickats till den som ansvarar",
+                    "decisionHeader": "$~Ett beslut har tagits om något du gjorde i \"$title\"",
+                    "outcomeHeader": "$~Ett beslut har tagits om det du anmälde i \"$title\"",
+                    "because": "$~Eftersom det:",
+                    "note": "$~De sa:"
                 },
                 "delete": "$~radera den här aviseringen",
-                "popup": "$~$#count[1 avisering|$count aviseringar]"
+                "popup": "$~$#count[1 avisering|$count aviseringar]",
+                "moderate": {
+                    "label": "$~granska anmält innehåll",
+                    "tip": "$~gå till det som väntar på att du ska granska det"
+                }
             }
         },
         "collaborate": {
@@ -8466,11 +8597,7 @@
                 "down": "$~flytta detta innehåll nedåt",
                 "edit": "$~redigera detta innehåll",
                 "sequence": "$~konvertera till Sequence",
-                "createPhrase": "$~skapa en fras som visar det befintliga värdet som text",
-                "createGroup": "$~skapa en grupp och slå in alla befintliga fraser",
-                "createStage": "$~skapa en scen, linda en befintlig grupp eller fras",
                 "editMode": "$~byt till redigeringsläge",
-                "createMusic": "$~lägg till @Music i programmet",
                 "previousTrack": "$~visa den föregående @Track",
                 "nextTrack": "$~visa nästa @Track",
                 "addTrack": "$~lägg till en @Track",
@@ -8488,15 +8615,9 @@
                 "rewind": "$~gå tillbaka till början"
             },
             "prompt": {
-                "offerPhrase": "$~Ska jag slå in det här värdet i en @Phrase ?",
-                "offerGroup": "$~Ska jag slå in det här innehållet i en @Group så att du kan ordna det?",
-                "offerStage": "$~Ska jag lägga in det här innehållet i en @Stage så att du kan styra ljussättning, färg och ramar?",
                 "editing": "$~Redigera mig!",
-                "select": "$~För att redigera, välj en 💬, 🔳, ⬟ eller 🎭 i koden, eller välj utdata på @Stage.",
-                "offerShape": "$~Ska jag linda in denna @Form i @Shape för att visa den på @Stage ?",
-                "offerNothing": "$~Inget här än! Ska jag lägga till en @Phrase för att komma igång?",
-                "readonly": "$~Dessa värden är *skrivskyddade* i det här läget. Byt till ✏️ *redigeringsläge* för att ändra dem.",
-                "offerMusic": "$~Vill du lägga till @Music? Jag kan börja med några toner som du kan leka med."
+                "select": "$~För att ändra något, välj det i din kod eller på @Stage. För att lägga till något nytt, använd plus-knapparna ovanför.",
+                "readonly": "$~Dessa värden är *skrivskyddade* i det här läget. Byt till ✏️ *redigeringsläge* för att ändra dem."
             },
             "field": {
                 "coordinate": "$~redigera koordinat",
@@ -8594,6 +8715,28 @@
                 },
                 "report": "$~Vad jag importerade",
                 "reportExplanation": "$~En @Music kan innehålla det mesta av vad en MIDI-fil beskriver, men inte allt. Här är vad som ändrades på vägen in."
+            },
+            "toolbar": {
+                "label": "$~lägg till utdata",
+                "addPhrase": "$~lägg till en fras",
+                "wrapPhrase": "$~visa detta värde som en fras",
+                "addRectangle": "$~lägg till en rektangulär form",
+                "addCircle": "$~lägg till en rund form",
+                "addPolygon": "$~lägg till en mångsidig form",
+                "wrapForm": "$~visa denna form på scenen genom att lägga in den i en form",
+                "group": "$~samla det du valde till en grupp",
+                "groupEmpty": "$~välj något resultat för att samla det till en grupp",
+                "groupScattered": "$~en grupp kan bara samla resultat som är på samma plats",
+                "groupKind": "$~en grupp kan innehålla en fras, en grupp, tal eller musik, men inte en form eller scenen",
+                "addStage": "$~lägg allt i en scen, så du kan styra ljus, färg och bildrutor",
+                "stageExists": "$~det finns redan en scen",
+                "addMusic": "$~lägg till musik, med några toner att börja leka med",
+                "addSay": "$~lägg till tal, som uttalas högt",
+                "addPath": "$~lägg till en linje du kan böja och rita med",
+                "draw": {
+                    "off": "$~rita en bana på scenen",
+                    "on": "$~sluta rita"
+                }
             }
         },
         "save": {
@@ -8684,8 +8827,8 @@
                     "example": {
                         "phrase": "$~\\¶Fraser visas på scenen, i vilken färg, glöd och rörelse du vill.¶\nFras(\n\t'hej!'\n\t6m\n\tfärg: Färg(60% 90 200°)\n\taura: Aura(Färg(80% 80 200°) 0.3m)\n\tvilande: Sekvens.vingla(8°)\n)\\",
                         "music": "$~\\¶Musik är toner på riktiga instrument, i ett tempo, i en tonart. Scenen ritar det den hör.¶\nMusik(\n\tSpår([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
-                        "hello": "$~\\¶Koden kan reagera på inmatning som @Time, och text kan vara flerspråkig och talad.¶\nhejsan: ['hej' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhej: hejsan.slumpmässig() … ∆ Tid(1000ms) … hejsan.slumpmässig(\n\t\t)\nFras(hej 4m)\nSäga(hej)\\",
-                        "keys": "$~\\¶Koden kan reagera på pekare, tangenter, klick och tryck.¶\nnyckel2: Nyckel()\nklick: Knapp()\nansikten: ['🙂' '😮' '😎' '🤩']\nvilken: 1 … ∆ nyckel2 | ∆ klick … (vilken % 4) + 1\nEtapp(\n\t[Fras(ansikten[vilken] 5m plats: Pekare())]\n\tplats: Plats(0m 0m -12m)\n)\\",
+                        "hello": "$~\\¶Koden kan reagera på inmatning som @Time, och text kan vara flerspråkig och talad.¶\nhejsan: ['hej'/sv 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhej: hejsan.slumpmässig() … ∆ Tid(1000ms) … hejsan.slumpmässig(\n\t\t)\nFras(hej 4m)\nSäga(hej)\\",
+                        "keys": "$~\\¶Kod kan reagera på pekare, tangenter, klick och tryck.¶\nnyckel2: Nyckel()\nklick: Knapp()\nansikten: ['🙂' '😮' '😎' '🤩']\nvilken: 1 … ∆ nyckel2 | ∆ klick … (vilken % 4) + 1\nEtapp(\n\t[Fras(ansikten[vilken] 5m plats: Pekare() bubbla: 'hej')]\n\tplats: Plats(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Placera text och gör den markerbar.¶\nfrukt: ƒ(e•'') Fras(e 3m namn: e valbara: ⊤)\nvald: Val()\nvisad: '?' … ∆ vald … vald\nGrupp(\n\tStack(stoppning: 1m)\n\t[\n\t\tFras(visad 4m)\n\t\tGrupp(\n\t\t\tRad(stoppning: 1m)\n\t\t\t[frukt('🍎') frukt('🍐') frukt('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Chatta med program och använd formen på typsnitt och symboler.¶\nmeddelande: Chatta()\nord3: 'hej' … ∆ meddelande … meddelande\nrad: Kontur(ord3 'Noto Sans' 8m)\ntick: 0 … ∆ Tid(30ms) … tick + 1\nvisad: ((rad.längd() × tick) ÷ 66).rundaner() + 1\npunkter: rad.efterföljande(1 visad).översätta(\n\t\tƒ(p) Fras('•' plats: p)\n\t)\nEtapp(punkter.med(Fras(ord3 8m opacitet: 15%)))\\",
                         "pile": "$~\\¶Text kan ha fysik.¶\nkasta: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFras(\n\t\t\temoji\n\t\t\t2m\n\t\t\tplats: Rörelse(Plats(x2 y2) Hastighet(vx 0m/s))\n\t\t\tmateria: Materia(1kg 0.55 0.06 0.5)\n\t\t)\nEtapp(\n\t[\n\t\tkasta('🍎' -2m 5m 2.2m/s)\n\t\tkasta('🍊' 2m 7m -2.6m/s)\n\t\tkasta('🍋' -1m 9m 1.4m/s)\n\t\tkasta('🍇' 1.5m 11m -1.9m/s)\n\t\tkasta('🫐' 0.5m 15m -1.2m/s)\n\t\tFigur(Rektangel(-4m -3m 4m -3.6m))\n\t\tFigur(Rektangel(-4.6m 4m -4m -3m))\n\t\tFigur(Rektangel(4m 4m 4.6m -3m))\n\t]\n)\\",
@@ -8708,8 +8851,8 @@
                         "title": "$~Wordplay är flerspråkigt",
                         "bullets": [
                             "$~• Varje egenskap i programmeringsspråket har ett namn på varje språk, så koden går att läsa med ord du redan kan.",
-                            "• Dina egna namn kan också vara flerspråkiga:\n\\katt2: '🐈'\nFras(katt2)\\",
-                            "• Text har ett språk, och visas på det språk din publik läser: \\'hej'\\.",
+                            "• Dina egna namn kan också vara flerspråkiga:\n\\katt2/sv, gato/es: '🐈'\nFras(katt2)\\",
+                            "• Text har ett språk, och visas på det språk din publik läser: \\'hej'/sv'hola'/es\\.",
                             "• Själva webbplatsen finns på 29 språk och du kan välja fler än ett åt gången. Texten visas på alla valda språk.",
                             "• Du kan hjälpa till att översätta @wordplay direkt i appen på <localize//localize>."
                         ]
@@ -9021,42 +9164,35 @@
                 "header": "$~Gallerier",
                 "prompt": "$~Gallerier är samlingar av projekt, ofta kring ett tema, som du eller andra skapare väljer ut.",
                 "button": {
-                    "more": {
-                        "label": "$~mer...",
-                        "tip": "$~ladda fler gallerier"
-                    },
                     "newgallery": "$~nytt galleri"
                 },
                 "section": {
                     "tabs": {
                         "label": "$~gallerityp",
-                        "labels": [
-                            "$~Din",
-                            "$~Exempel",
-                            "$~Instruktioner",
-                            "$~Offentlig"
-                        ],
+                        "labels": ["$~Din", "$~Exempel", "$~Offentlig"],
                         "tips": [
                             "$~gallerier som du sköter eller bidrar till",
                             "$~utvalda gallerier från Wordplay-utvecklarna",
-                            "$~hur man-guider som delas av gallerier du tillhör",
                             "$~gallerier som skapare har gjort offentliga"
                         ]
                     },
                     "own": [
-                        "$~Bidra till ett galleri du är inbjuden till, eller skapa ditt eget galleri med ett visst tema och bjud in andra.",
-                        "/Kuratorer ansvarar för att moderera innehållet i gallerier med hjälp av <gallery moderation dashboard@://galleries/moderation>./"
+                        "$~Bidra till ett galleri du är inbjuden till, eller kuratera ditt eget galleri med ett visst tema, och bjud in andra.",
+                        "/Kuratorer granskar det som rapporteras i deras galleri, från <modereringssidan@://moderate>./"
                     ],
                     "examples": "$~Detta är utvalda gallerier från utvecklarna av @wordplay. De är bra utgångspunkter för att lära sig och hitta inspiration.",
-                    "howtos": "$~Du kan visa och interagera med instruktionerna i dessa gallerier, men du kan inte se deras projekt om inte galleriet eller projekten är offentliga.",
-                    "public": "$~Det här är gallerier som skapare av @wordplay har gjort offentliga. Se vad andra har skapat för inspiration!"
+                    "public": "$~Det här är galleri:er som @wordplay skapare har gjort publika. Vem som helst kan be om att få sitt galleri listat här, och en moderator läser igenom det först för att se till att det är klart och följer reglerna. Ett galleri kan tas bort från listan när som helst, av vilken anledning som helst. De visas i en annan ordning varje gång du besöker sidan, så alla galleri:er får chansen att hamna högst upp."
                 },
                 "error": {
-                    "nogalleryedits": "$~Du måste vara <inloggad@://login> för att skapa och ändra gallerier."
+                    "nogalleryedits": "$~Du måste vara <inloggad@://login> för att skapa och ändra gallerier.",
+                    "nopublic": "$~Inga galleri:er har blivit godkända för den här listan än. Kom tillbaka snart!"
                 },
                 "search": {
-                    "description": "$~Sök exempel på galleriprojekt",
-                    "noResults": "$~Inga resultat hittades."
+                    "description": "$~Sök bland exempel och publika galleri:er",
+                    "noResults": "$~Inga resultat hittades.",
+                    "galleries": "$~Galleri:er",
+                    "examples": "$~Exempelprojekt",
+                    "projects": "$~Projekt i publika galleri:er"
                 }
             },
             "about": {
@@ -9178,28 +9314,27 @@
                 "header": "$~Rättigheter",
                 "content": [
                     "$~Hej!",
-                    "Låt oss förklara dina rättigheter och våra (även med tanke på regler som <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> och <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
-                    "Det första du bör veta är att vi inte är ett företag. Vi är ett forskningsprojekt som bygger på gemenskap och finns på ett universitet utan vinstsyfte. Vårt mål är att skapa en plattform som ger dig glädje och hjälper oss att göra upptäckter om en mer rättvis värld av datorer. Vi vill inte tjäna pengar på denna plattform. De pengar vi samlar in (oftast genom offentliga bidrag) används för att hålla plattformen igång, inte för att göra någon som arbetar med den (eller bidrar till den) rik.",
-                    "Eftersom vi inte söker vinst kan vi inte heller lova något om hur pålitlig, tillgänglig eller långvarig denna plattform är. Med det sagt är <Amy@https://amyjko.phd> engagerad i att hålla den igång på lång sikt, och som fast anställd professor har hon en ganska stabil tjänst.",
-                    "Det för oss till *data*. Här är vad vi samlar in och lagrar i molnet:",
-                    "• Dina *projekt*. Vi lagrar alla projekt du bidrar med och dina ändringar av dem, om inte projekten verkar innehålla personlig information som telefonnummer, e-postadresser, användarnamn, skatteidentifierare eller adresser.",
-                    "• Dina *inställningar*. Detta inkluderar de språk du väljer, dina inställningar för animationer och hur långt du har kommit i handledningen. Allt annat lagras bara på din enhet.",
-                    "• Samlad *aktivitet*. Vi håller reda på inloggningar och de sidor du besöker, men inte på ett sätt som kan identifiera dig, följa dig över webbplatsen eller följa dig över andra webbplatser. Vi använder Google Analytics i läget 'samtycke nekat', som bara samlar in minimal information som inte kan identifiera dig om sidvisningar, utan att lagra kakor eller skicka IP-adressinformation till Google. Vi använder denna samlade information för att hjälpa till att samla in pengar genom att rapportera hur mycket plattformen används.",
-                    "Vi lagrar inget annat. Vår <källkod@https://github.com/amyjko/wordplay/tree/main/src> är offentlig, så vem som helst kan kontrollera detta och rapportera oavsiktlig spårning.",
-                    "*Du* äger dina data, inte vi. Det betyder:",
-                    "• Du bestämmer vem som kan komma åt dina projekt. De är privata från början, men du kan dela dem med enskilda personer, grupper eller göra dem helt offentliga.",
-                    "• Du kan när som helst helt ta bort ett projekt eller ditt eget konto.",
-                    "• Du kan när som helst få ut en export av ett projekt eller hela ditt konto.",
-                    "Så här kommer vi att använda dina data, och så här kommer vi inte att göra det:",
-                    "• Vi delar inte dina data med någon, om inte lagen uttryckligen kräver det. Det är alltid möjligt att dina data tas utan tillåtelse (ett 'dataintrång'). Om vi upptäcker att detta har hänt meddelar vi dig via den e-postadress du har delat med oss.",
-                    "• Vi kontaktar dig inte via din e-postadress om du inte 1) gör en kontoändring som kräver det, 2) uttryckligen ger oss tillåtelse att höra av oss, eller 3) i fallet med dataintrång ovan.",
-                    "• Vi kan analysera projekt, gallerier och hur man-innehåll på plattformen för att förstå vad alla skapar och hur de gör det. Vi kan dela dessa samlade, anonymiserade insikter i akademiska publikationer. Vi gör bara detta under övervakning av en granskningsnämnd, som USA:s federala lag kräver.",
-                    "Slutligen, en kommentar om yttrande. Du får säga vad du vill på denna plattform *privat*. Projekt är privata från början, och om du delar dem med särskilda e-postadresser räknas de fortfarande som privata. Vi granskar inget i privata projekt.",
-                    "Men att göra ett projekt *offentligt*, eller att ta med det i ett offentligt galleri, är en förmån. Detta är en plattform gjord för kärlek, bekräftelse, respekt och värdighet. Därför förväntar vi oss att inget av ditt *offentliga* innehåll kommer att:"
+                    "Låt oss förklara vad som gäller för dina och våra rättigheter (bland annat utifrån regler som <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> och <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Först behöver du veta att vi inte är ett företag. Vi är ett forskningsprojekt som drivs av ett universitet utan vinstsyfte. Målet vårt är att skapa en plattform som ger dig glädje och hjälper oss att upptäcka hur datorer kan bli mer rättvisa för alla. Vi vill inte tjäna pengar på plattformen. De pengar vi får in (oftast från offentliga bidrag) används för att driva plattformen, inte för att berika någon som jobbar med den eller bidrar till den.",
+                    "Eftersom vi inte vill tjäna pengar kan vi inte lova något om hur pålitlig, tillgänglig eller långvarig plattformen kommer att vara. Men <Amy@https://amyjko.phd> tänker jobba med detta länge, och som fast anställd professor har hon ett ganska tryggt jobb.",
+                    "Då kommer vi till *data*. Det här samlar vi in och sparar i molnet:",
+                    "• Dina *projekt*. Vi sparar de projekt du bidrar med och de ändringar du gör i dem, om projekten inte verkar innehålla personlig information som telefonnummer, e-postadresser, användarnamn, personnummer eller adresser.",
+                    "• Dina *inställningar*. Det gäller de språk du väljer, dina val för animationer och hur långt du kommit i handledningen. Allt annat sparas bara på din egen enhet.",
+                    "• Samlad *aktivitet*. Vi räknar inloggningar och vilka sidor du besöker, men inte på ett sätt som kan identifiera dig, följa dig på webbplatsen eller följa dig till andra webbplatser. Vi använder Google Analytics i läget \"samtycke nekat\", som bara samlar in väldigt lite information om sidvisningar. Det sparar inga kakor och skickar ingen IP-adress till Google. Vi använder den samlade informationen för att visa hur mycket plattformen används, vilket hjälper oss att söka bidrag.",
+                    "Vi sparar inget annat. Vår <källkod@https://github.com/amyjko/wordplay/tree/main/src> är öppen för alla, så vem som helst kan kontrollera detta och rapportera om vi spårar något vi inte borde.",
+                    "*Du* äger din data, inte vi. Det betyder:",
+                    "• Du bestämmer vem som får se dina projekt. De är privata från start, men du kan dela dem med enskilda personer, grupper, eller göra dem helt öppna för alla.",
+                    "• Du kan när som helst ta bort ett projekt helt, eller ta bort ditt eget konto.",
+                    "• Du kan när som helst få en kopia av ett projekt eller av hela ditt konto.",
+                    "Så här kommer vi att använda din data, och så här kommer vi inte att använda den:",
+                    "• Vi delar inte din data med någon, om det inte krävs enligt lag. Det kan alltid hända att någon tar din data utan tillåtelse (ett \"dataintrång\"). Om vi upptäcker att det har hänt kommer vi att berätta det för dig via den e-postadress du har gett oss.",
+                    "• Vi kontaktar dig inte via e-post om inte 1) du gör en ändring av kontot som kräver det, 2) du uttryckligen ger oss tillåtelse att höra av oss, eller 3) det handlar om ett dataintrång som ovan.",
+                    "• Vi kan undersöka projekt, gallerier och hur man-guider på plattformen för att förstå vad alla skapar och hur de gör det. Vi kan dela sådana samlade och anonyma resultat i vetenskapliga texter. Det gör vi bara under uppsikt av en etikprövningsnämnd, precis som amerikansk federal lag kräver.",
+                    "Till sist, några ord om det du säger och delar. Projekt är privata från start, och om du delar ett projekt med vissa personer förblir det privat. Här nedan förklarar vi exakt vem som granskar det du delar, beroende på vem som kan se det.",
+                    "Men att göra ett projekt *öppet för alla*, eller lägga det i ett öppet galleri, är en förmån. Den här plattformen finns till för kärlek, uppmuntran, respekt och värdighet. Därför förväntar vi oss att inget av ditt *öppna* innehåll gör något av följande:"
                 ],
                 "consequences": [
-                    "$~Chattar för projekt och instruktioner som finns i offentliga eller privata gallerier modereras av galleriets kuratorer. Du kan rapportera meddelanden som bryter mot dessa communityriktlinjer till kuratorerna med hjälp av rapportknappen bredvid varje meddelande, och kuratorerna kan godkänna eller ta bort meddelanden.",
-                    "Om vi hittar ett projekt eller galleri som bryter mot dessa regler kommer vi att varna skaparna innan de ser det, eller blockera det från att visas. Om du upprepade gånger bryter mot dessa regler förlorar du rätten att publicera inlägg offentligt."
+                    "$~Om vi hittar ett projekt eller galleri som bryter mot de här reglerna varnar vi den som skapat det innan andra får se det, eller så blockerar vi det helt. Om du bryter mot reglerna flera gånger förlorar du rätten att dela saker öppet."
                 ],
                 "license": [
                     "$~En sak till om att göra ett projekt *offentligt*. Offentliga projekt delas under <Creative Commons Erkännande-DelaLika-licensen@https://creativecommons.org/licenses/by-sa/4.0/>. Det betyder att vem som helst kan /remixa/ ditt offentliga projekt — göra sin egen kopia av det och ändra det — och du kan remixa någon annans.",
@@ -9215,6 +9350,17 @@
                     "$~Här är exakt vad som händer om ditt offentliga innehåll bryter mot dessa regler. En moderator granskar det, det slutar vara offentligt, och du får en varning i dina aviseringar som säger vilket innehåll det gäller. Vem som helst som är inloggad kan be en moderator titta på offentligt innehåll genom att använda rapportknappen på det.",
                     "Efter tre varningar kan du fortfarande skapa projekt, fortfarande dela dem med dem du väljer, och fortfarande använda allt annat här. Det du förlorar är möjligheten att göra något offentligt.",
                     "Om du tycker att en varning var ett misstag, eller om det var länge sedan och du vill dela offentligt igen, skriv till hi@wordplay.dev och berätta ditt användarnamn och varför. En person kommer att läsa det."
+                ],
+                "responsibility": [
+                    "$~Vem som granskar det du delar beror på vem som kan se det.",
+                    "• *Delat med ingen, eller bara med personer du valt.* Ingen granskar det. Inte vi, inte någon annan.",
+                    "• *I ett galleri med andra personer i.* Det galleriets kuratorer granskar det, och chattarna som hör till. Det gäller oavsett om galleriet är offentligt eller inte: personerna i det kan se ditt arbete, så någon där ansvarar för det.",
+                    "• *I ett offentligt galleri.* Dess kuratorer granskar det, och det gör vi också, eftersom vem som helst kan hitta det.",
+                    "• *Offentligt, men inte i något galleri.* Vi granskar det.",
+                    "Vem som helst som kan se något kan be om att det granskas, genom att använda rapportknappen på det. Vi berättar aldrig för personen som skapade det vem som frågade.",
+                    "Att rapportera ett chattmeddelande gömmer det medan någon tittar på det. Det händer bara en gång per meddelande: om det behålls och någon rapporterar det igen, förblir det synligt medan det granskas en andra gång. Du kan alltid se dina egna ord.",
+                    "Ett beslut visar vilka av reglerna ovan som bröts, och kan innehålla en kommentar från den som bestämde. Du får båda i dina meddelanden.",
+                    "En galleri-kurators beslut gäller för deras galleri. Det är inte en av varningarna nedan, och det kan aldrig ta bort din möjlighet att dela offentligt."
                 ]
             },
             "donate": {
@@ -9736,11 +9882,18 @@
                 "readingLevelOk": "$~Detta läses tydligt för den avsedda läsnivån.",
                 "tabs": {
                     "label": "$~avsnitt",
-                    "labels": ["$~Om", "$~Text", "$~Termer", "$~Skicka in"],
+                    "labels": [
+                        "$~Om",
+                        "$~Text",
+                        "$~Termer",
+                        "$~Ordlista",
+                        "$~Skicka in"
+                    ],
                     "tips": [
                         "$~hur översättning fungerar, och anteckningar för dem som skriver detta språk",
                         "$~bläddra bland och redigera plattformens text",
                         "$~skapa fraser du kan återanvända i detta språks text",
+                        "$~lägg till pluralformer och andra sätt att stava detta språkets termer",
                         "$~granska dina ändringar och skicka in dem"
                     ]
                 },
@@ -9918,7 +10071,7 @@
                 },
                 "collaborators": "$~skriven av",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~visa hur man"
                 }
             },
             "configuration": {
@@ -9993,11 +10146,11 @@
         },
         "gallerymoderation": {
             "header": "$~Gallerimoderering",
-            "description": "$~Följande meddelanden i gallerier som du hanterar har rapporterats av användare för moderering.",
+            "description": "$~Det andra har bett dig granska, äldst först. Ett beslut visar vilka regler som bröts, och den som skapade det får veta vad du bestämde.",
             "labels": {
                 "message": "$~meddelande",
-                "reporter": "$~reporter",
-                "action": "$~moderatoråtgärder"
+                "action": "$~moderatoråtgärder",
+                "reason": "$~vilka regler den bröt mot"
             },
             "view": {
                 "label": "$~visa chatten",
@@ -10012,7 +10165,11 @@
                 "tip": "$~detta meddelande bryter inte mot riktlinjerna"
             },
             "empty": "$~Inga meddelanden kräver moderering",
-            "error": "$~Du måste vara inloggad för att moderera gallerier"
+            "error": "$~Du måste vara inloggad för att moderera gallerier",
+            "note": {
+                "description": "$~vad du vill säga till den som skrev meddelandet",
+                "placeholder": "$~säg något till dem (valfritt)"
+            }
         },
         "emoji": {
             "noCharacters": "$~Skapa en anpassad karaktär",
@@ -10110,7 +10267,7 @@
                 }
             },
             "strings": "$~Översättningssträngar",
-            "emotion": "Choose an emotion",
+            "emotion": "$~Välj en känsla",
             "invalidName": "$~Inte ett giltigt Wordplay-namn",
             "reference": "$~Engelsk referens",
             "invalidConceptLinks": "$~Dessa konceptlänkar fungerar inte i det aktuella språket. Stavade du fel på en, eller tog du bort den med flit?",
@@ -10153,6 +10310,23 @@
                 "invalidKey": "$~En nyckel måste börja med en bokstav och får bara innehålla bokstäver och siffror, på vilket språk som helst.",
                 "duplicateKey": "$~Det här språket har redan ett ord med den nyckeln.",
                 "reservedKey": "$~Den nyckeln används redan för ett mallvärde, så den kan inte vara ett ord."
+            },
+            "glossary": {
+                "header": "$~Andra skrivsätt",
+                "description": "$~Ordlistan förklarar ord som eleverna möter. Varje term har ett huvudord, och här kan du lägga till andra sätt att skriva ordet på detta språk — pluralformer, andra ändelser, eller ett annat ord som betyder samma sak. När du skriver text kan du länka till något av dem med @ och ordet, och hela ordet är då en del av länken. Varje språk skriver sin egen lista, så lägg till så många eller så få former som ditt språk behöver.",
+                "reference": "$~på engelska",
+                "empty": "$~Inga andra former ännu.",
+                "form": {
+                    "description": "$~ett annat sätt att skriva denna term",
+                    "placeholder": "$~form"
+                },
+                "add": "$~lägg till denna form till termen",
+                "remove": "$~ta bort denna form från termen",
+                "ownWord": "$~Detta är termens eget ord, som redan fungerar av sig själv.",
+                "otherWord": "$~Detta är ordet för $term, så det skulle vara otydligt vilken term du menade.",
+                "conceptName": "$~Dokumentationen definierar redan detta ord, så en länk till det skulle gå dit istället.",
+                "alreadyUsed": "$~Detta är redan en form av $term, så det skulle vara otydligt vilken term du menade.",
+                "searchOnly": "$~En länk slutar vid ett mellanslag eller en symbol, så denna form hjälper bara vid sökning."
             }
         },
         "tour": {
@@ -10401,7 +10575,7 @@
         },
         "done": "$~Inget annat att moderera!",
         "error": {
-            "notmod": "$~Det verkar som att du inte är moderator. Om du nyligen har fått moderatorbehörighet kan du behöva logga in igen. Om inte, se wikin för information om hur du begär modereringsbehörighet."
+            "notmod": "$~Det finns inget här för dig att granska. Wordplays moderatorer granskar offentligt innehåll, och ett galleris kuratorer granskar det som finns i deras galleri. Om du nyligen fick moderatorrättigheter kan du behöva logga in igen."
         },
         "report": {
             "button": "$~Varna moderator",
@@ -10420,6 +10594,44 @@
             "banned": "$~Du har blivit varnad om offentligt innehåll tre gånger, så du kan inte längre göra projekt eller gallerier offentliga. Du kan fortfarande skapa projekt, och fortfarande dela dem med personer du väljer. Om du tror detta är ett misstag, eller det var länge sedan och du vill dela offentligt igen, skriv till hi@wordplay.dev och berätta ditt användarnamn och varför.",
             "warned": "$~Något av ditt offentliga innehåll bröt delningsreglerna, så det är inte längre offentligt. Detta är varning $#count[1|$count]. $#remaining[En till och du kan inte längre göra något offentligt.|Efter $remaining till kan du inte längre göra något offentligt.]",
             "notification": "$~Varning $#count[1|$count] om något du delade offentligt."
+        },
+        "queue": {
+            "label": "$~vad ska granskas",
+            "labels": ["$~projekt", "$~galleri:er", "$~meddelanden"],
+            "tips": [
+                "$~granska projekt som folk har gjort offentliga",
+                "$~granska galleri:er som vill listas publikt",
+                "$~granska meddelanden som folk har anmält i galleri du sköter"
+            ]
+        },
+        "gallery": {
+            "pending": "$~En moderator läser ditt galleri för att avgöra om det kan listas publikt. Tills då kan bara de du delar länken med se det.",
+            "approved": "$~Ditt galleri är listat på <sidan för publika galleri:er@://galleries?tab=public>! Det kan tas bort från listan när som helst, av vilken anledning som helst.",
+            "denied": "$~En moderator bestämde sig för att inte lista ditt galleri publikt. Du kan fortsätta arbeta med det och göra det publikt igen för att fråga en andra gång.",
+            "explain": "$~Det här galleriet vill listas publikt. Titta på det och dess projekt, och avgör om det är klart nog att visa för alla.",
+            "done": "$~Inga galleri:er väntar på ett beslut. Tack!",
+            "approve": {
+                "label": "$~lista det",
+                "tip": "$~lista detta galleri på sidan för publika galleri:er"
+            },
+            "deny": {
+                "label": "$~lista inte det",
+                "tip": "$~håll detta galleri borta från sidan för publika galleri:er"
+            },
+            "skip": {
+                "label": "$~hoppa över",
+                "tip": "$~lämna detta galleri till en annan moderator att bestämma"
+            },
+            "notification": {
+                "approved": "$~$name är nu listat publikt.",
+                "denied": "$~$name listades inte publikt."
+            }
+        },
+        "responsibility": {
+            "none": "$~Ingen granskar det du delar här. Det syns bara för dig och de personer du väljer.",
+            "curators": "$~Kuratorerna för <$name@://galleries> granskar det som delas här, inklusive chatten.",
+            "both": "$~Kuratorerna för <$name@://galleries> granskar det som delas här, och det gör även Wordplays moderatorer, eftersom vem som helst kan se det.",
+            "platform": "$~Wordplays <moderators@://rights> granskar detta, eftersom vem som helst kan se det."
         }
     },
     "gallery": {

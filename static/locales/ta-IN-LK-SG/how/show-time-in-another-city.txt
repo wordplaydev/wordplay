@@ -12,6 +12,6 @@
 
 ஜப்பானிய நாட்காட்டி போன்ற ஒரு நாட்காட்டியையும் தேர்ந்தெடுக்கலாம், மேலும் ஒரு எழுத்துருவால் கடிகாரத்தை அழகுபடுத்தலாம்:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' முகம்: 'Doto')\
 
 count-with-time

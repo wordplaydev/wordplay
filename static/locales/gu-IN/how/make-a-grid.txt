@@ -18,10 +18,10 @@
 જો તમે દરેક કોષનું કદ સમાન રાખવા માંગતા હો, તો આપો @Grid પહોળાઈ અને ઊંચાઈ પણ. આ રીતે અક્ષરો તેમના ચોરસની અંદર સરસ રીતે રહે છે, ભલે તેઓ અલગ અલગ કદના હોય:
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' કદ: 1m)
+		Phrase('🐶' કદ: 1.5m)
+		Phrase('🦊' કદ: 0.5m)
+		Phrase('🐻' કદ: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

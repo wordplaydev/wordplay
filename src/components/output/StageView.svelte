@@ -51,6 +51,7 @@
     import {
         getAnimatingNodes,
         getAnnouncer,
+        getDrawing,
         getEvaluation,
         getSelectedOutput,
         getStageScene,
@@ -74,7 +75,6 @@
         inspectable?: boolean;
         fit: boolean;
         grid: boolean;
-        painting: boolean;
         background: boolean;
         /** The camera actually rendered: the program's or the platform's base focus, with the
          * audience's pan/zoom offset composed onto it. Read by OutputView for hit testing. */
@@ -103,7 +103,6 @@
         inspectable = editable,
         fit = $bindable(),
         grid = $bindable(),
-        painting = $bindable(),
         background,
         renderedFocus = $bindable(),
         focusAdjusted = $bindable(false),
@@ -182,6 +181,7 @@
 
     const announcer = getAnnouncer();
     const selectedOutput = getSelectedOutput();
+    const drawing = getDrawing();
 
     // Publish a way to lay out what's on stage, which is what anything moving
     // output lines up against (#117). Done from here because this is where the
@@ -210,7 +210,39 @@
     // owns the move is sometimes OutputView (a pointer drag) and sometimes an
     // individual output view (the arrow keys), and neither is an ancestor here.
     let moving = $derived(editable && (selectedOutput?.moving ?? false));
+    /** How wide the stroke preview is drawn, in pixels. Shared with the CSS below through a
+     *  custom property so the box padded for it and the stroke painted in it agree. */
+    const StrokePreviewWidth = 6;
+
     let guides = $derived(moving ? (selectedOutput?.guides ?? []) : []);
+
+    // The stroke in progress, as an SVG positioned in the root group's own space. An SVG
+    // rather than divs (which the grid and guides use) because a stroke is an arbitrary
+    // polyline; its box has to be padded by the stroke width, since half of a stroke falls
+    // outside the geometry it follows and would be clipped away.
+    let strokePreview = $derived.by(() => {
+        const points = drawing?.points ?? [];
+        if (points.length < 2) return undefined;
+        const xs = points.map((point) => point.x * PX_PER_METER);
+        const ys = points.map((point) => -point.y * PX_PER_METER);
+        const pad = StrokePreviewWidth;
+        const left = Math.min(...xs) - pad;
+        const top = Math.min(...ys) - pad;
+        return {
+            left,
+            top,
+            width: Math.max(...xs) - left + pad,
+            height: Math.max(...ys) - top + pad,
+            d: `M ${points
+                .map(
+                    (point, index) =>
+                        `${point.x * PX_PER_METER - left} ${
+                            -point.y * PX_PER_METER - top
+                        }`,
+                )
+                .join(' L ')}`,
+        };
+    });
     // The grid is drawn faintly during a move for positioning clarity, even when
     // the creator has it off — but only its own toggle makes moving snap to it.
     let showGrid = $derived(grid || moving);
@@ -463,7 +495,7 @@
             // Measure empty output only where a creator can act on it — the same
             // condition the selection chrome uses, so a placeholder never appears
             // without a palette to edit it in.
-            $evaluation?.playing === false && !painting && inspectable,
+            $evaluation?.playing === false && !drawing?.armed && inspectable,
             adapting,
         );
     });
@@ -937,7 +969,7 @@
         class:readonly={!editable}
         class:changed
         class:editing={$evaluation?.playing === false &&
-            !painting &&
+            !drawing?.armed &&
             inspectable}
         aria-label={stage.description?.text ?? stage.getDescription($locales)}
         data-id={stage.getHTMLID()}
@@ -1111,6 +1143,38 @@
                     style:height={guide.axis === 'x' ? `${to - from}px` : null}
                 ></div>
             {/each}
+            <!-- The stroke being drawn (#167). Drawn here for the same reason the guides
+                 above are: inside the root group it inherits the camera transform the output
+                 itself gets, so a metre is PX_PER_METER pixels and y is negated, with no
+                 camera arithmetic of its own. It is a preview only — nothing has reached the
+                 program yet, and won't until the pointer is released. -->
+            <!-- Where the keyboard's next point would go. Only while the stage holds keyboard
+                 focus, which is exactly when the arrows would move it: shown whenever the
+                 pencil was on, it sat in the middle of the stage with nothing to say to
+                 someone drawing with a pointer, and read as a control that couldn't be
+                 focused. During a drag the pointer is already the cursor. -->
+            {#if drawing?.armed && !drawing.dragging}
+                <div
+                    class="stroke-cursor"
+                    aria-hidden="true"
+                    style:left="{drawing.cursor.x * PX_PER_METER}px"
+                    style:top="{-drawing.cursor.y * PX_PER_METER}px"
+                ></div>
+            {/if}
+            {#if strokePreview !== undefined}
+                <svg
+                    class="stroke"
+                    aria-hidden="true"
+                    style:--stroke-preview-width="{StrokePreviewWidth}px"
+                    style:left="{strokePreview.left}px"
+                    style:top="{strokePreview.top}px"
+                    width={strokePreview.width}
+                    height={strokePreview.height}
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d={strokePreview.d} />
+                </svg>
+            {/if}
             <!-- Render exiting nodes -->
             {#each Array.from(exiting.entries()) as [name, info] (name)}
                 {#if info.output instanceof Phrase}
@@ -1327,5 +1391,66 @@
     .guide.grid {
         background-color: var(--grid-color);
         opacity: 0.7;
+    }
+
+    /* The stroke being drawn (#167). Highlight-coloured and semi-transparent so it reads as a
+       preview of something not yet in the program, rather than as output already on stage. */
+    .stroke {
+        position: absolute;
+        pointer-events: none;
+        overflow: visible;
+        z-index: 1;
+    }
+
+    /* The keyboard's drawing cursor: a crosshair, which reads as a place a thing will go,
+       where the ring this used to be read as a button that couldn't be pressed. Hidden until
+       the stage holds keyboard focus, since that is the only time the arrows move it. */
+    .stroke-cursor {
+        display: none;
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        margin-left: -7.5px;
+        margin-top: -7.5px;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    :global(.value:focus-within) .stroke-cursor {
+        display: block;
+    }
+
+    /* Two thin rules crossing at the point itself, so what it marks is the intersection
+       rather than the middle of a shape. */
+    .stroke-cursor::before,
+    .stroke-cursor::after {
+        content: '';
+        position: absolute;
+        background: var(--wordplay-highlight-color);
+    }
+
+    .stroke-cursor::before {
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: var(--wordplay-border-width);
+        margin-top: calc(var(--wordplay-border-width) / -2);
+    }
+
+    .stroke-cursor::after {
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: var(--wordplay-border-width);
+        margin-left: calc(var(--wordplay-border-width) / -2);
+    }
+
+    .stroke path {
+        fill: none;
+        stroke: var(--wordplay-highlight-color);
+        stroke-width: var(--stroke-preview-width);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        opacity: 0.8;
     }
 </style>

@@ -2,7 +2,7 @@
 
 팔레트에 있는 모든  @Instrument  중에서 \🔈.🤖\ 만이 무언가를 말할 수 있습니다. 그  @Track  에  @Track/words  를 주면, 한 음마다 한 음절씩 노래합니다:
 
-\Music(Track([1 2 3 5 3 1] words: '라 라 라 라 라 라' instrument: Instrument.voice) tempo: 120beats/min)\
+\Music(Track([1 2 3 5 3 1] 단어: '라 라 라 라 라 라' 악기: Instrument.voice) 박자빠르기: 120beats/min)\
 
 여섯 음절, 여섯 음. 여기서는 띄어쓰기가 모든 문법입니다. 한 음절이 끝나고 다음 음절이 시작되는 곳을 알려줍니다. 쉼표는 음절을 차지하지 않으므로, 낱말은 실제로 들리는 음에 놓입니다. 음보다 음절을 적게 쓰면 처음부터 다시 시작합니다. 아무것도 쓰지 않으면 목소리는 /어/ 소리를 이어가므로, 언제나 무언가를 노래합니다.
 
@@ -16,7 +16,7 @@
 
 모음 하나만으로도 완전히 좋은 음절이 됩니다. 모음을 줄지어 노래하면 서로를 가장 뚜렷하게 구별해 들을 수 있습니다:
 
-\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+\Music(Track([1 2 3 4 5] 단어: 'a e i o u' 악기: Instrument.voice) 박자빠르기: 90beats/min)\
 
 자음은 대부분 여러분이 예상하는 소리와 비슷합니다: \p
 b
@@ -31,11 +31,11 @@ l
 r
 w\ 모두 영어에서 나는 소리와 거의 같습니다. 배울 만한 것은 영어에서 두 글자로 쓰는 소리와, 자리를 옮긴 글자 하나입니다. \ʃ\ 는 /sh/, \ʒ\ 는 /s/ 소리입니다, /measure/, \θ\ 는 /th/ 소리입니다, /thin/, \ð\ 는 /th/ (단어 /this/, \ŋ\) 의 소리이고, /ng/ (단어 /sing/) 의 소리이며, \j\ 는 /y/ (단어 /yes/) 의 소리입니다. 모음 앞에 하나를 붙이면 단어가 됩니다:
 
-\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+\Music(Track([5 5 3 3 1] 단어: 'ʃi si mi lo ʌp' 악기: Instrument.voice) 박자빠르기: 100beats/min)\
 
 한 음절을 여러 음에 걸쳐 늘일 수도 있습니다. 끝에 붙임표를 붙이면, 붙임표 하나마다 음을 하나씩 더 이어서 소리를 냅니다. 이렇게 한 음절이 여러 음에 걸쳐 이어지는 소리가 찬송가와 자장가에 특유의 모양을 만들어 줍니다:
 
-\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+\Music(Track([1 2 3 2 1] 단어: 'glo--- ri' 악기: Instrument.voice) 박자빠르기: 140beats/min)\
 
 세 개의 붙임표는 \glo\ 를 네 음에 걸쳐 이어주고, 그 뒤에 \ri\ 가 마지막 음에 놓입니다. 목소리가 알아보지 못하는 것은 거부하지 않고 그냥 건너뜁니다. 그래서 곡을 망치지 않고 이것저것 시도해 볼 수 있습니다.
 
@@ -44,7 +44,7 @@ w\ 모두 영어에서 나는 소리와 거의 같습니다. 배울 만한 것�
 \beat: Beat()
 Stage([
 		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
-		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+		Music(Track([1 2 3 5 3 1] 단어: 'ðɪs ɪz ə soŋ tə si' 악기: Instrument.voice) 박자빠르기: 100beats/min)
 	])\
 
 @Downbeat/parts  는 트랙마다 같은 음절을 담고 있습니다. 두 명의 가수를 함께가 아니라 따로 표현하고 싶을 때 쓸 수 있습니다.

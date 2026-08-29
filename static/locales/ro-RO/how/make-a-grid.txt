@@ -18,10 +18,10 @@ Asta face o grădină de fructe și legume de 2 pe 3!
 Dacă vrei ca fiecare celulă să aibă aceeași dimensiune, dă  @Grid  o lățime și o înălțime. În acest fel, caracterele rămân perfect în interiorul pătratelor lor, chiar dacă au dimensiuni diferite:
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' dimensiune: 1m)
+		Phrase('🐶' dimensiune: 1.5m)
+		Phrase('🦊' dimensiune: 0.5m)
+		Phrase('🐻' dimensiune: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

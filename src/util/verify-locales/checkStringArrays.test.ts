@@ -40,7 +40,39 @@ test('markup elements with out-of-example breaks are split on fix', () => {
         target,
         true,
     );
-    expect(fixed.node.Paragraph.doc).toEqual(['$~uno', 'dos', example]);
+    // `$!` rather than `$~`: the split grew the array, so it uncovered text that
+    // was hidden inside another element. See the next test.
+    expect(fixed.node.Paragraph.doc).toEqual(['$!uno', 'dos', example]);
+});
+
+test('a split that grows a markup array re-queues the document', () => {
+    // The paragraphs a split uncovers were never sent to a translator — nothing
+    // could see them — so they are untranslated by construction. Leaving the
+    // status at `$~` (or at nothing) would mean nothing ever translates them,
+    // which is exactly how three doc arrays shipped English in 29 locales.
+    const target = copyLocale();
+    target.node.Paragraph.doc = ['$~translated\n\nstill English'];
+    const fixed = checkStringArrays(
+        collectingLog().log,
+        DefaultLocale,
+        target,
+        true,
+    );
+    expect(fixed.node.Paragraph.doc).toEqual(['$!translated', 'still English']);
+});
+
+test('an unwritten document stays unwritten when a split grows it', () => {
+    // `$?` outranks `$!`: there is no translation to keep, so the document
+    // should still fall back loudly rather than look like a revision.
+    const target = copyLocale();
+    target.node.Paragraph.doc = ['$?one\n\ntwo'];
+    const fixed = checkStringArrays(
+        collectingLog().log,
+        DefaultLocale,
+        target,
+        true,
+    );
+    expect(fixed.node.Paragraph.doc).toEqual(['$?one', 'two']);
 });
 
 test('markup annotations are moved to the first element only on fix', () => {

@@ -3802,7 +3802,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~A jeśli chcesz bardzo konkretnego układu? Możesz użyć @Free i powiedzieć mi dokładnie, gdzie chcesz wszystkie frazy. Upewnij się tylko, że podasz miejsce każdej @Phrase, w przeciwnym razie po prostu umieszczę ją w \\Place(0m 0m\\)."
+                            "$~A jeśli chcesz bardzo konkretnego układu? Możesz użyć @Free i powiedzieć mi dokładnie, gdzie chcesz wszystkie frazy. Upewnij się tylko, że podasz miejsce każdej @Phrase, w przeciwnym razie po prostu umieszczę ją w \\Place(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -4616,7 +4616,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Wiesz, @Bind współpracuje z wieloma innymi znakami, w tym @Evaluate — widziałeś je, gdy nazywałeś dane wejściowe @FunctionDefinition, jak w \\Pose(color: _)\\ — i poznamy kilka z tych innych osób. @Bind, będziesz w pobliżu, żeby pokazać demonstrację?"
+                            "$~Wiesz, @Bind współpracuje z wieloma innymi znakami, w tym @Evaluate — widziałeś je, gdy nazywałeś dane wejściowe @FunctionDefinition, jak w \\Pose(kolor: _)\\ — i poznamy kilka z tych innych osób. @Bind, będziesz w pobliżu, żeby pokazać demonstrację?"
                         ],
                         [
                             "Bind",
@@ -5709,7 +5709,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~Tak, właśnie tak. Hm… och, musimy być na scenie. @Text, czy mógłbyś zrobić listę wszystkich? Zmienimy to na \\Character>s."
+                            "$~Tak, właśnie tak. Hm… och, musimy być na scenie. @Text, czy mógłbyś zrobić listę wszystkich? Zmienimy to na \\Character\\s."
                         ],
                         [
                             "Text",

@@ -1,8 +1,10 @@
 import { createSceneDefinition } from '@input/Scene/Scene';
 import { createAuraType } from '@output/Aura/Aura';
+import { createBubbleType } from '@output/Bubble/Bubble';
 import { createFormType } from '@output/Output/Shape/Form';
 import { createRectangleType } from '@output/Output/Shape/Rectangle';
 import { createCircleType } from '@output/Output/Shape/Circle';
+import { createPathType } from '@output/Output/Shape/Path';
 import { createPolygonType } from '@output/Output/Shape/Polygon';
 import { createSourceType } from '@output/Output/Source';
 import { createButtonDefinition } from '@input/Button/Button';
@@ -104,6 +106,7 @@ export default function createDefaultShares(locales: Locales) {
         Pose: createPoseType(locales),
         Sequence: createSequenceType(locales),
         Aura: createAuraType(locales),
+        Bubble: createBubbleType(locales),
         Color: ColorType,
         Place: PlaceType,
         Matter: MatterType,
@@ -117,6 +120,7 @@ export default function createDefaultShares(locales: Locales) {
         Rectangle: createRectangleType(locales),
         Circle: createCircleType(locales),
         Polygon: createPolygonType(locales),
+        Path: createPathType(locales),
         Arrangement: createArrangementType(locales),
         Stack: createStackType(locales),
         Row: createRowType(locales),

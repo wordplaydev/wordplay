@@ -4,14 +4,14 @@
 
 @Pointer 新鮮な @Place ポインターが移動するたびに。それを使うなら @Place として @Phrase の\place\そうすれば、キャラクターは私たちが指し示した場所に移動します。
 
-\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+\Stage([Phrase('🐈' 位置: Pointer())] 位置: Place(0m 0m -10m))\
 
 これで完了です！マウスを動かすか、指をドラッグすると、猫がついてきます。
 
 引き出すことで、より面白いことができます\x\ そして \y\から @Place 。こちらは、常にポインターの1メートル上空に浮かんでいるアヒルです。
 
 \Stage([
-		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
-	] place: Place(0m 0m -10m))\
+		Phrase('🦆' 位置: Place(Pointer().x Pointer().y + 1m))
+	] 位置: Place(0m 0m -10m))\
 
 move-phrase, count-with-time

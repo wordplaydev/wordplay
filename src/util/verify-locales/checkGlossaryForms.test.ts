@@ -12,9 +12,13 @@ function localeWithForms(forms: string[]): LocaleText {
 }
 
 function check(forms: string[], fix = false) {
-    const log = collectingLog().log;
+    const { log, lines } = collectingLog();
     const revised = checkGlossaryForms(log, localeWithForms(forms), fix);
-    return { errors: log.errorCount, forms: revised.glossary.parameter.forms };
+    return {
+        errors: log.errorCount,
+        forms: revised.glossary.parameter.forms,
+        lines,
+    };
 }
 
 test('en-US passes, so the forms it ships are all live and unambiguous', () => {
@@ -72,4 +76,24 @@ test('an unreferenceable form warns but does not fail', () => {
     expect(check(['parameter lists']).errors).toBe(0);
     // Something a reference can't contain at all warns rather than erring.
     expect(check(['parameters!']).errors).toBe(0);
+});
+
+test('each problem says what is wrong, in its own words', () => {
+    // The rules live in `glossaryFormProblem`, but the messages live here, so
+    // pin them: an extraction that quietly reworded one would still pass every
+    // count-based test above.
+    const message = (forms: string[]) => check(forms).lines.join('\n');
+    expect(message(['parameter'])).toContain("the term's own word or id");
+    expect(message(['value'])).toContain('is the word or id of term "value"');
+    expect(message(['Phrase'])).toContain("is a documented concept's name");
+    expect(message(['parameters', 'Parameters'])).toContain(
+        'is already a form of term "parameter"',
+    );
+    expect(message(['$~parameters'])).toContain(
+        'has a write-status annotation',
+    );
+    expect(message([' '])).toContain('has an empty form');
+    expect(message(['parameters!'])).toContain(
+        "contains something a reference can't include",
+    );
 });

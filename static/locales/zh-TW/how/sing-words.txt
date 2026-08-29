@@ -2,7 +2,7 @@
 
 在調色盤裡的每個  @Instrument  中，\🔈.🤖\ 是唯一能說話的。給它的  @Track  一個  @Track/words ，它就會把它們唱出來，一個音符對一個音節：
 
-\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+\Music(Track([1 2 3 5 3 1] 文字: 'la la la la la la' 樂器: Instrument.voice) 速度: 120beats/min)\
 
 六個音節，六個音符。這裡的空格就是全部的文法——它們說明一個音節在哪裡停止，下一個在哪裡開始。休止符不佔音節，所以文字會落在你真正聽到的音符上。如果你寫的音節比音符少，它們就會從頭再開始；如果完全不寫，聲音就會維持一個 /uh/ 的聲音，所以它總是會唱出些什麼。
 
@@ -16,7 +16,7 @@
 
 母音單獨出現時，本身就是一個完整的音節。把它們一個接一個地唱出來，是分辨每個音最清楚的方法：
 
-\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+\Music(Track([1 2 3 4 5] 文字: 'a e i o u' 樂器: Instrument.voice) 速度: 90beats/min)\
 
 大部分子音看起來就跟你想的一樣：\p
 b
@@ -31,11 +31,11 @@ l
 r
 w\ 的發音大致都和英語裡的一樣。真正值得學的，是英語用兩個字母拼出來的那些音，還有一個位置改變了的字母。\ʃ\ 是 /sh/、\ʒ\ 是 /s/ 在 /measure/、\θ\ 是 /th/ 在 /thin/、\ð\ 是 /th/，在 /this/，\ŋ\ 就是 /ng/，在 /sing/ 中的音，還有 \j\ 就是 /y/，在 /yes/ 中的音。在母音前面放一個，你就得到一個字：
 
-\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+\Music(Track([5 5 3 3 1] 文字: 'ʃi si mi lo ʌp' 樂器: Instrument.voice) 速度: 100beats/min)\
 
 一個音節也可以延伸到好幾個音上。用連字號結尾，每加一個連字號，這個音節就多維持一個音——單一音節上連續的多個音，讓聖歌和搖籃曲有了形狀：
 
-\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+\Music(Track([1 2 3 2 1] 文字: 'glo--- ri' 樂器: Instrument.voice) 速度: 140beats/min)\
 
 這三個連字號讓 \glo\ 延續四個音，接著 \ri\ 落在最後一個音上。任何聲音無法辨認的東西，它會跳過而不是拒絕，所以你可以盡情嘗試，不會弄壞旋律。
 
@@ -44,7 +44,7 @@ w\ 的發音大致都和英語裡的一樣。真正值得學的，是英語用�
 \beat: Beat()
 Stage([
 		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
-		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+		Music(Track([1 2 3 5 3 1] 文字: 'ðɪs ɪz ə soŋ tə si' 樂器: Instrument.voice) 速度: 100beats/min)
 	])\
 
 @Downbeat/parts  有著逐軌相同的音節，如果你想把兩位歌手分開畫，而不是畫在一起。

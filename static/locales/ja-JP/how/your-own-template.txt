@@ -4,7 +4,7 @@
 
 A @Structure それは、空欄を埋める必要のあるレシピのようなものだ。色とラベルを入力するだけで、自動的に表示される風船のテンプレートはこちらです。
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` 色: color 大きさ: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) '空').show()

@@ -18,10 +18,10 @@ Detta blir en frukt- och grönsaksträdgård på 2 x 3!
 Om du vill att varje cell ska vara lika stor, ge @Grid en bredd och höjd också. På så sätt håller sig tecknen prydligt inuti sina rutor, även om de har olika storlekar:
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' storlek: 1m)
+		Phrase('🐶' storlek: 1.5m)
+		Phrase('🦊' storlek: 0.5m)
+		Phrase('🐻' storlek: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

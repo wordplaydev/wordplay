@@ -4,7 +4,7 @@ Czasami chcesz mieć wiele postaci, które wyglądają prawie tak samo, ale ró�
 
 A  @Structure jest jak przepis z lukami, które trzeba wypełnić.Oto szablon balonu, który przyjmuje kolor i etykietę oraz potrafi się wyświetlać:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` kolor: color rozmiar: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Niebo').show()

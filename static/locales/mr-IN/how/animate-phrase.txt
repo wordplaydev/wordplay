@@ -4,16 +4,22 @@
 
 उदाहरणार्थ, या मांजरीला फिरवून आणि हलवून थोडेसे नाचवूया:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
-		} 2s))\
+\Phrase(
+	'🐈'
+	स्थिर: Sequence(
+		{
+			0%: Pose(फिरवणे: 0°)
+			15%: Pose(फिरवणे: 15°)
+			30%: Pose(फिरवणे: 0°)
+			45%: Pose(सरकाव: Place(-0.25m))
+			60%: Pose(सरकाव: Place(0.25m))
+			75%: Pose(सरकाव: Place(-0.25m))
+			90%: Pose(सरकाव: Place(0m))
+		}
+		2s
+	)
+)\
 
-हे उदाहरण वापरते a @Sequence वेगवेगळ्या प्रकारचे @Pose .
+हे उदाहरण वापरते @Sequence वेगवेगळ्या प्रकारचे @Pose.
 
 move-phrase, shake-phrase

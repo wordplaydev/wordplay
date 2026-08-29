@@ -12,6 +12,6 @@ Hindi mo alam ang pangalan ng time zone? Isulat mo lang ang isang lungsod na ala
 
 Maaari ka ring pumili ng kalendaryo, tulad ng kalendaryong Hapon, at bigyan ng estilo ang orasan gamit ang isang font:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' mukha: 'Doto')\
 
 count-with-time

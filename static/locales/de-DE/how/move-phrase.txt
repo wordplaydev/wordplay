@@ -4,17 +4,17 @@ Manchmal ist es hilfreich, eine @Phrase beweglich mit Tastatur, Maus oder Finger
 
 Tun Sie dies, wir können kombinieren @Phrase  mit  @Placement :
 
-\Stage([Phrase('bewege mich' place: Placement())] place: Place(0m 0m -10m))\
+\Stage([Phrase('bewege mich' Ort: Placement())] Ort: Place(0m 0m -10m))\
 
 Mit den Pfeiltasten oder einem Klick auf das @Stage aktualisiert die @Placement , was dazu führt, dass @Phrase um sich in diese Richtung zu bewegen.
 
 Wussten Sie aber, dass @Placement kann verwendet werden mit/irgendetwas/das dauert eine @Place ?Zum Beispiel ein @Stage hat eine @Place das bestimmt, wohin die Kamera zeigt.Versuchen wir, eine @Placement für eine @Stage 's Platz und sehen Sie, was passiert.
 
 \Stage([
-		Phrase('🐈' place: Place(-2m 2m))
-		Phrase('🐈' place: Place(2m -2m))
-		Phrase('🐈' place: Place(-1m 3m))
-	] place: Placement(Place(0m 0m -10m)))\
+		Phrase('🐈' Ort: Place(-2m 2m))
+		Phrase('🐈' Ort: Place(2m -2m))
+		Phrase('🐈' Ort: Place(-1m 3m))
+	] Ort: Placement(Place(0m 0m -10m)))\
 
 Das bringt die Kamera in Bewegung! (Hinweis: Wir starten die @Placement mit einem\z\Wert von\10m\sodass die Kamera von allem zurückgesetzt ist.)
 

@@ -6,8 +6,8 @@
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune వాయిద్యం: Instrument.flute)
+		Track(tune వాయిద్యం: Instrument.synthBass కీ: -12semitones వాల్యూమ్: 60%)
 	])\
 
 రెండు స్వరాలు, ఒక్క జాబితా. రాగాన్ని మార్చండి, బాస్ దానిని అనుసరిస్తుంది, ఎందుకంటే మార్చడానికి ఒకే ఒక రాగం ఉంది.
@@ -16,10 +16,10 @@ Music([
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune వాయిద్యం: Instrument.flute పాన్: 0)
+		Track(tune వాయిద్యం: Instrument.synthBass కీ: -12semitones వాల్యూమ్: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] వాయిద్యం: Instrument.synthPad బీట్: 2beats వాల్యూమ్: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] వాయిద్యం: Instrument.drums బీట్: 0.5beats వాల్యూమ్: 45%)
 	])\
 
 వాల్యూమ్‌లను గమనించండి: పిల్లనగ్రోవి మాత్రమే పూర్తి స్థాయిలో ఉంది. పూర్తి వాల్యూమ్‌లో ఉన్న భాగాలు కలిసి బిగ్గరగా వినిపించే బృందం కావు, అవి మరింత గజిబిజిగా అవుతాయి, ఎందుకంటే ఒకేసారి వినిపించే ప్రతిదీ ఒకే స్పీకర్ ద్వారా సరిపోవాలి. రాగాన్ని \100%\ వద్ద మొదలుపెట్టి, మిగతా అన్నింటినీ దాని కింద ఉంచండి.

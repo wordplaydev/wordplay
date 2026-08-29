@@ -22,11 +22,9 @@
     let languageNames = $derived(
         getLocaleLanguages(locale).map((code) => Languages[code]?.name ?? code),
     );
-    let regions = $derived(
-        typeof locale === 'string'
-            ? getLocaleRegionNames(locale)
-            : locale.regions,
-    );
+    // Both shapes go through the same namer; a `Locale` object used to render
+    // bare codes here while a locale string rendered names.
+    let regions = $derived(getLocaleRegionNames(locale));
     let draft = $derived(
         typeof locale === 'string' ? isLocaleDraft(locale) : false,
     );

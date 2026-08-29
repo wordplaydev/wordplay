@@ -18,10 +18,10 @@ Ini menghasilkan kebun buah dan sayuran berukuran 2 x 3!
 Jika Anda ingin setiap sel memiliki ukuran yang sama, berikan  @Grid  serta lebar dan tinggi juga. Dengan begitu, karakter akan tetap rapi di dalam kotaknya, meskipun ukurannya berbeda:
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' ukuran: 1m)
+		Phrase('🐶' ukuran: 1.5m)
+		Phrase('🦊' ukuran: 0.5m)
+		Phrase('🐻' ukuran: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

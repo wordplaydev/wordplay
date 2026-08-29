@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 לחץ עליי' selectable: ⊤ name: 'לחיצה')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 לחץ עליי' ניתןלבחירה: ⊤ שם: 'לחיצה')
+		Music(Track(tapped ? [1 5 8] [] כלינגינה: Instrument.bell לולאה: ⊥) נגןשוב: tapped)
 	])\
 
 אל תדאג שהרשימה מתרוקנת שוב כבר בהערכה הבאה — תו שכבר התחיל תמיד מתנגן עד סופו. מה שאי אפשר להשמיט הוא \replay\. לחץ פעמיים והלחיצה השנייה תפיק בדיוק את אותה מוזיקה כמו הראשונה, אז שום דבר לא השתנה ושום דבר לא היה נשמע שוב; \replay\ הוא הדרך לומר /שוב, עכשיו/. 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ לחץ על מקש' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] כלינגינה: Instrument.piano לולאה: ⊥) נגןשוב: struck)
 	])\
 
 שים לב ש\∆ key\ מחושב בשורה נפרדת משלו, ובדיקת הערך \key = ' '\ קורית בנפרד. אילו נכתבו יחד כ condition אחד, הצליל היה מופעל שוב במקש הבא שאינו קשור בזמן ש\key\ עדיין נקרא כרווח.

@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'メニュー') ? '▶ 押して始める' '🏃 走れ！' 1m)
-		(phase = 'メニュー') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'メニュー') ? Music(Track(theme 楽器: Instrument.bell) テンポ: 72beats/min) Music(Track(theme 楽器: Instrument.synth) テンポ: 132beats/min)
 	])\
 
 どちらの曲も同じ八つの数字です。楽器とテンポだけが変わり、それだけでもう別の曲のように聞こえます。なぜなら、音度は次のことを表すからです：*音階の何番目の段か*、どの音の高さかではありません。だから  @Music  はそれらを別の意味に読みかえられます。これを渡すと \拡大縮小: 🎼.和声的短音階\、一つの音符も書きかえずに、同じ曲が不気味に変わります。
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('スコア \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] 楽器: Instrument.drums) テンポ: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 十分な回数を押すと、ドラムは始まったときの二倍の力で刻みます。短くて打楽器のような音符が、それを聞こえるようにします。長く伸ばす音符の下では、テンポの変化は感じにくいのです。

@@ -1,28 +1,42 @@
-Oyun durumunu takip edin
+Oyun durumunu takip et
 
-Çoğu oyun, oyun ilerledikçe birden fazla şeyi takip eder: puanlar, oyuncuların pozisyonları ve diğer ayrıntıların hepsi önemlidir.Her seferinde bir girdi olduğunda, bu durum değişir ve sonra yanıt olarak yeni bir çıktı görüntülemek isteriz.
+Çoğu oyun ilerledikçe birçok şeyi takip eder: puanlar, oyuncu konumları ve başka ayrıntılar hep önemlidir.Her yeni girdi geldiğinde, bu durum değişir. Bunun ardından, buna karşılık yeni bir çıktı göstermek isteriz.
 
-Herhangi bir oyun için genel bir kalıp üç şeyi yapar:
+Herhangi bir oyun için genel bir kalıp üç şey yapar:
 
-• Tüm oyun durumlarını depolamak için bir oyun durumu veri yapısı tanımlayın• Yeni bir girdi olduğunda önceki oyun durumuna dayalı olarak yeni bir oyun durumu oluşturan bir tepki tanımlayın• Bir tane yapın @Stage  ile  @Group  Ve  @Phrase oyun durumunu göstermek için
+• Tüm oyun durumunu saklamak için bir oyun durumu veri yapısı tanımlamak• Yeni bir girdi geldiğinde önceki oyun durumuna göre yeni bir oyun durumu oluşturan bir tepki tanımlamak• Oyun durumunu göstermek için  @Stage  ile birlikte  @Group  ve  @Phrase  olan bir 
 
-Örneğin, bir metin kutusuna gizli kelimeler yazmayı ve her gizli kelime tahmin edildiğinde bir puan almayı içeren basit bir oyun hayal edelim:
+Örneğin, bir metin kutusuna gizli kelimeler yazmayı içeren basit bir oyun düşünelim. Her gizli kelime doğru tahmin edildiğinde bir puan kazanılıyor:
 
 \•Game(secrets•[''] points•#)
 state: Game(['kedi' 'köpek'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
-Stage(state.points = state.secrets.length() ? [Phrase("sen kazandın!")] [
-			Group(Stack() [
+Stage(
+	state.points = state.secrets.length() ? [
+			Phrase("kazandın!")
+		] [
+			Group(
+				Stack()
+				[
 					Phrase("gizli kelimelerimi tahmin et")
-					Phrase(`\state.secrets.length() - state.points\daha fazla sır`) 				]) 		])\
+					Phrase(
+						`\state.secrets.length() - state.points\ daha fazla gizli kelime`
+					)
+				]
+			)
+		]
+)\
 
-Bunu biraz açalım.
+Bunu adım adım inceleyelim.
 
-• İlk satır,\•Game(secrets•[''] points•#)\diyor ki,/Adında bir veri yapısı oluşturun\Game\sırların ve noktaların bir listesini saklayan/• İkinci satırda şöyle yazıyor/Oyun durumu sırlar listesi ve sıfır puanla başlar. Her seferinde\Chat\değişiklikler, girilen kelime sırlar listesindeyse, puanlar bir artırılarak yeni bir oyun durumu oluşturulur/.• Program her yeniden değerlendirildiğinde (program\Chat\değişiklikler), bir aşamayı gösterir. Puan sayısı sır sayısına eşitse, kazanan bir aşama gösterilir. Değilse, bir istem ve kalan sır sayısını gösterir.
+• İlk satır, \•oyun(sırlar•[''] puanlar•#)\ şunu söyler: /Gizli kelimelerin ve puanların bir listesini saklayan \Game\ adlı bir veri yapısı oluştur/. \[
+	''
+]\ şu anlama gelir: /herhangi sayıda kelimeden oluşan bir liste/. Bunun yerine tam olarak belirli bir uzunlukta bir liste istiyorsan, içindeki her yer için bir tip belirtebilirsin: \[
+	#'']\ bir sayı ve ardından bir kelimeden oluşan iki şeylik bir listedir.• İkinci satır şunu söylüyor: /Oyun durumu, bir gizli kelime listesi ve sıfır puanla başlar. Her \Sohbet\ değiştiğinde, girilen kelime gizli kelime listesindeyse, puanı bir artırarak yeni bir oyun durumu oluştur/.• Program her yeniden değerlendiğinde (\Sohbet\ değiştiğinde), bir sahne göster. Puan sayısı gizli kelime sayısına eşitse, kazanma sahnesini göster. Değilse, bir istem ve kalan gizli kelime sayısını göster.
 
 Bu örnekte bazı sorunlar var:
 
-• Gizli bir kelimeyi birden fazla kez tahmin ederlerse daha fazla puan alırlar! Oyun durumumuzun neyin tahmin edildiğini de hatırlaması gerekebilir, bu yüzden her kelime yalnızca iki kez sayılır.• Oyuncu birden fazla kelime girerse, bu sayılır mı?
+• Oyuncu bir gizli kelimeyi birden çok kez tahmin ederse, daha fazla puan alır! Oyun durumumuzun, hangi kelimelerin tahmin edildiğini de hatırlaması gerekebilir, böylece her kelime en fazla iki kez sayılır.• Oyuncu birden fazla kelime girerse, bu sayılmalı mı?
 
-Daha gelişmiş oyun durumları ve oyun güncellemeleri bu tür durumlarla başa çıkmamıza yardımcı olacaktır.
+Daha gelişmiş oyun durumları ve oyun güncellemeleri, bu durumları ele almamıza yardımcı olur.
 
 track-points

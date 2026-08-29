@@ -5,7 +5,7 @@
 @Motion 제어/어디/캐릭터는 시간이 지남에 따라 변합니다. 우리는 그것을 다음과 같이 사용합니다.\place\~을 위해 @Phrase 높이 올려놓아서 떨어지게 하는 거죠.또한, 넘어질 때 받쳐줄 무언가가 필요해요. 그렇지 않으면 우리 캐릭터가 계속해서 떨어질 테니까요! @Shape 넓은 범위로 @Rectangle 바닥재로 아주 좋습니다:
 
 \Stage([
-		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Phrase('🍎' 위치: Motion(Place(0m 5m)) 문제: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@
 방식을 바꾸려면/탄력 있는/또는 어떻게/무거운/캐릭터란, 당신만의 개성을 부여하는 것입니다. @Matter . @Matter 질량, 탄성, 마찰력이 필요합니다.
 
 \Stage([
-		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
-		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Phrase('⚽' 위치: Motion(Place(-2m 5m)) 문제: Matter(1kg 0.9 0.2))
+		Phrase('🪨' 위치: Motion(Place(2m 5m)) 문제: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

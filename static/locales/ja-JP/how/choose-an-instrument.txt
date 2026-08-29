@@ -7,10 +7,10 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: 'ピアノ')
-				Phrase('🎻' selectable: ⊤ name: 'バイオリン')
+				Phrase('🎹' 選択可能: ⊤ 名前: 'ピアノ')
+				Phrase('🎻' 選択可能: ⊤ 名前: 'バイオリン')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'バイオリン') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] 楽器: (picked = 'バイオリン') ? Instrument.violin Instrument.piano))
 	])\
 
 この二つの選べるフレーズがしくみを作ります。 @Choice  は、ステージ上の何かが次の状態でないと、読むものがありません \選択できる: ⊤\。
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon 選択可能: ⊤ 名前: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] 楽器: current.sound))
 	])\
 
 四つ目の音を追加するのは、いまでは一行です。ボタンはひとりでに現れます。次の点に注意してください \found•ø ?\ のガード：  @List/find  は次を返します \ø\ は、何も一致しないときに返されます。これは、だれもまだ選んでいないときに起こります。そして、予備の値は必ずまるごと次のものでなければなりません \🎙\。なぜなら、それが次のものが約束する形だからです \current\。

@@ -1,3 +1,4 @@
+import { pickReadableName } from '@locale/getConceptName';
 import StructureValue from '@values/StructureValue';
 import {
     SupportedFontsFamiliesType,
@@ -7,7 +8,6 @@ import toStructure from '@basis/toStructure';
 import { describeColorLocalized } from '@output/Color/BasicColors';
 import { getBind } from '@locale/getBind';
 import type Locales from '@locale/Locales';
-import { getFirstText } from '@locale/LocaleText';
 import { GROUP_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
@@ -21,6 +21,7 @@ import type Pose from '@output/animation/Pose';
 import type { DefinitePose } from '@output/animation/Pose';
 import type RenderContext from '@output/RenderContext';
 import Say from '@output/Output/Say';
+import resolveBubbles from '@output/Bubble/resolveBubbles';
 import type Sequence from '@output/animation/Sequence';
 import type { NameGenerator } from '@output/Output/Stage';
 import TextValue from '@values/TextValue';
@@ -129,6 +130,29 @@ export default class Group extends Output {
 
     getLayout(context: RenderContext) {
         const layout = this.layout.getLayout(this.content, context);
+        // Bubbles are resolved here rather than in each of the four
+        // arrangements: this is the one place that has every child, the place
+        // the arrangement gave it, and a single point to return the answer from.
+        // A child's own layout is memoized, so asking again costs a lookup.
+        const { sides, overflow } = resolveBubbles(
+            layout.places.map(([output, place]) => {
+                const child = output.getLayout(context);
+                return {
+                    output,
+                    place,
+                    width: child.width,
+                    height: child.height,
+                    overflow: child.overflow,
+                };
+            }),
+            {
+                left: layout.left,
+                right: layout.right,
+                top: layout.top,
+                bottom: layout.bottom,
+            },
+            context,
+        );
         return {
             output: this,
             left: layout.left,
@@ -141,6 +165,10 @@ export default class Group extends Output {
             descent: 0,
             places: layout.places,
             nearest: layout.nearest,
+            // Passed up rather than folded in: only the stage turns overflow
+            // into bounds, since only the stage's bounds reach the camera.
+            overflow,
+            sides,
         };
     }
 
@@ -166,6 +194,19 @@ export default class Group extends Output {
         return says;
     }
 
+    /** The `Say`s carried by speech bubbles on the content, recursively, in
+     * source order. Kept apart from `getSays` because a bubble is already the
+     * visual rendering of what it speaks, so it must not also be captioned. */
+    getBubbleSays(): Say[] {
+        const says: Say[] = [];
+        for (const child of this.content) {
+            const say = child?.getBubbleSay();
+            if (say !== undefined) says.push(say);
+            if (child instanceof Group) says.push(...child.getBubbleSays());
+        }
+        return says;
+    }
+
     /** All the music in the content, recursively, in source order. */
     getMusic(): Music[] {
         const music: Music[] = [];
@@ -183,8 +224,8 @@ export default class Group extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextValue
             ? this.name.text
-            : locales.getPrimaryPlainText((l) =>
-                  getFirstText(l.output.Group.names),
+            : locales.getPrimaryPlainText(
+                  (l) => pickReadableName(l.output.Group.names) ?? '',
               );
     }
 

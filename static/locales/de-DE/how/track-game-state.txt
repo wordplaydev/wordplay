@@ -1,28 +1,42 @@
-Behalten Sie den Spielstatus im Auge
+Behalte den Spielzustand im Blick
 
-Bei den meisten Spielen werden im Verlauf des Spiels mehrere Dinge verfolgt: Punkte, Spielerpositionen und andere Details sind alle wichtig.Bei jeder Eingabe ändert sich der Status und wir möchten als Reaktion darauf eine neue Ausgabe anzeigen.
+Die meisten Spiele behalten viele Dinge im Blick, während sie laufen: Punkte, Spielerpositionen und andere Details sind wichtig.Jedes Mal, wenn es eine Eingabe gibt, ändert sich der Zustand. Danach wollen wir eine neue Ausgabe zeigen, als Antwort darauf.
 
-Ein allgemeines Muster für jedes Spiel bewirkt drei Dinge:
+Ein allgemeines Muster für jedes Spiel macht drei Dinge:
 
-• Definieren Sie eine Spielstatus-Datenstruktur, um den gesamten Spielstatus zu speichern• Definieren Sie eine Reaktion, die einen neuen Spielstatus basierend auf dem vorherigen Spielstatus erstellt, wenn neue Eingaben vorliegen• Machen Sie eine @Stage  mit  @Group  Und  @Phrase um den Spielstand anzuzeigen
+• Lege eine Datenstruktur für den Spielzustand fest, um den ganzen Spielzustand zu speichern• Lege eine Reaktion fest, die aus dem alten Spielzustand einen neuen macht, sobald es eine neue Eingabe gibt• Erstelle eine  @Stage  mit  @Group  und  @Phrase , um den Spielzustand zu zeigen
 
-Stellen wir uns beispielsweise ein einfaches Spiel vor, bei dem man geheime Wörter in ein Textfeld eingibt und jedes Mal einen Punkt bekommt, wenn ein geheimes Wort erraten wird:
+Stellen wir uns zum Beispiel ein einfaches Spiel vor: Man tippt geheime Wörter in ein Textfeld und bekommt jedes Mal einen Punkt, wenn man ein geheimes Wort errät.
 
 \•Game(secrets•[''] points•#)
 state: Game(['Katze' 'Hund'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
-Stage(state.points = state.secrets.length() ? [Phrase("du gewinnst!")] [
-			Group(Stack() [
-					Phrase("errate meine geheimen Worte")
-					Phrase(`\state.secrets.length() - state.points\mehr Geheimnisse`) 				]) 		])\
+Stage(
+	state.points = state.secrets.length() ? [
+			Phrase("du hast gewonnen!")
+		] [
+			Group(
+				Stack()
+				[
+					Phrase("errate meine geheimen Wörter")
+					Phrase(
+						`\state.secrets.length() - state.points\ weitere Geheimnisse`
+					)
+				]
+			)
+		]
+)\
 
-Lassen Sie uns das aufschlüsseln.
+Schauen wir uns das genauer an.
 
-• Die erste Zeile,\•Game(secrets•[''] points•#)\sagt,/Erstellen Sie eine Datenstruktur namens\Game\das eine Liste von Geheimnissen und Punkten speichert/• Die zweite Zeile lautet/Der Spielstand beginnt mit einer Liste von Geheimnissen und null Punkten. Jedes Mal, wenn die\Chat\Änderungen, wenn das eingegebene Wort in der Liste der Geheimnisse ist, dann machen Sie einen neuen Spielzustand mit den um eins erhöhten Punkten/.• Jedes Mal, wenn das Programm neu bewertet (wenn die\Chat\Änderungen), zeigen Sie eine Stufe an. Wenn die Anzahl der Punkte der Anzahl der Geheimnisse entspricht, wird eine Gewinnstufe angezeigt. Wenn nicht, zeigen Sie eine Eingabeaufforderung und die Anzahl der verbleibenden Geheimnisse an.
+• Die erste Zeile, \•spiel(geheimnisse•[''] punkte•#)\ sagt: /Erstelle eine Datenstruktur namens \Game\, die eine Liste von Geheimnissen und Punkten speichert/. Das \[
+	''
+]\ bedeutet /eine Liste mit einer beliebigen Anzahl von Wörtern/. Wenn du stattdessen eine Liste mit einer genauen Länge willst, kannst du für jeden Platz darin einen Typ angeben: \[
+	#'']\ ist eine Liste aus zwei Dingen: einer Zahl und einem Wort.• Die zweite Zeile sagt /Der Spielzustand beginnt mit einer Liste von Geheimnissen und null Punkten. Jedes Mal, wenn sich der \Plaudern\ ändert, wird geprüft: Wenn das eingegebene Wort in der Liste der Geheimnisse steht, wird ein neuer Spielzustand mit einem Punkt mehr erzeugt/.• Jedes Mal, wenn das Programm neu ausgewertet wird (wenn sich der \Plaudern\ ändert), wird eine Bühne gezeigt. Wenn die Anzahl der Punkte gleich der Anzahl der Geheimnisse ist, wird eine Gewinn-Bühne gezeigt. Wenn nicht, werden eine Aufforderung und die Anzahl der verbleibenden Geheimnisse gezeigt.
 
-Dieses Beispiel weist einige Probleme auf:
+Dieses Beispiel hat einige Probleme:
 
-• Wenn sie ein geheimes Wort mehrmals erraten, erhalten sie mehr Punkte! Unser Spielstatus muss sich möglicherweise auch merken, was erraten wurde, sodass jedes Wort nur zweimal gezählt wird.• Soll es zählen, wenn der Spieler mehrere Wörter eingibt?
+• Wenn jemand ein geheimes Wort mehrmals errät, bekommt er mehr Punkte! Unser Spielzustand müsste sich auch merken, was schon geraten wurde, damit jedes Wort nur einmal zählt.• Wenn der Spieler mehrere Wörter eingibt, sollte das dann zählen?
 
-Ausgefeiltere Spielzustände und Spielaktualisierungen würden uns bei der Bewältigung dieser Fälle helfen.
+Klügere Spielzustände und Spielaktualisierungen würden uns helfen, diese Fälle zu behandeln.
 
 track-points

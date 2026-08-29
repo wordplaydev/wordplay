@@ -6,8 +6,8 @@ Dwie rzeczy sprawiają, że to efekt dźwiękowy, a nie piosenka. \pętla: ⊥\ 
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 dotknij mnie' selectable: ⊤ name: 'dotknij')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 dotknij mnie' wybieralny: ⊤ nazwa: 'dotknij')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell pętla: ⊥) powtórka: tapped)
 	])\
 
 Nie martw się, że lista znów się opróżnia przy kolejnym obliczeniu — nuta, która się zaczęła, zawsze gra do końca. Tego, czego nie możesz pominąć, to \replay\. Dotknij dwa razy, a drugie dotknięcie tworzy dokładnie tę samą muzykę co pierwsze, więc nic się nie zmieniło i nic nie zabrzmiałoby ponownie; \replay\ to sposób, żeby powiedzieć /znowu, teraz/. 
@@ -20,7 +20,7 @@ Ponieważ nuty to po prostu lista, możesz je wybrać na podstawie tego, *co* si
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ naciśnij klawisz' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano pętla: ⊥) powtórka: struck)
 	])\
 
 Zauważ, że \∆ key\ jest obliczane w osobnej linii, a sprawdzenie wartości \key = ' '\ odbywa się osobno. Zapisane razem jako jeden warunek, dźwięk odezwałby się ponownie przy następnym niezwiązanym klawiszu, gdy \key\ nadal odczytywane jako spacja.

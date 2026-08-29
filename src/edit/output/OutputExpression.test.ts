@@ -51,3 +51,19 @@ test("an animation's pass-through inputs read like Sequence's own", () => {
     // Its own input is readable too, which is what drives the parameter slider.
     expect(output.getNumberProperty('angle')).toBe(10);
 });
+
+test('a Say is editable output with its text to edit', () => {
+    // Say was the one output kind the palette knew nothing about, so selecting
+    // one showed the empty "nothing selected" prompt instead of its text.
+    const { project, evaluate } = lastEvaluate("Say('hello')");
+    const output = new OutputExpression(project, evaluate, DefaultLocales);
+    expect(output.isOutput()).toBe(true);
+    expect(output.getType()).toBe(project.shares.output.Say);
+    expect(
+        output
+            .getEditableProperties()
+            .map((property) => property.getName(DefaultLocales)),
+    ).toEqual([
+        DefaultLocales.getName(project.shares.output.Say.inputs[0].names),
+    ]);
+});

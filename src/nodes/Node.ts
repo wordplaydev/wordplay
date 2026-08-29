@@ -756,14 +756,16 @@ export default abstract class Node {
      * Given a locale and a context, generate a description of the node.
      * */
     getDescription(locales: Locales, context: Context): Markup {
-        const text = locales.getTextStructure(this.getLocalePath());
-        return locales.concretize(
-            // Is there a description? Use that. Otherwise just use the name.
-            this.hasDescription(locales)
-                ? (text as DescriptiveNodeText).description
-                : text.name,
-            this.getDescriptionInputs(locales, context),
-        );
+        const path = this.getLocalePath();
+        const inputs = this.getDescriptionInputs(locales, context);
+        // Concretized through an accessor rather than a template resolved here, so the markup
+        // reports where its text came from and a node's description is editable in
+        // localization mode wherever it renders. Which of the two accessors runs is decided
+        // out here, by the same test that picks the text, so the locale path one of them
+        // records can never disagree with the branch that produced the text.
+        return this.hasDescription(locales)
+            ? locales.concretize((l) => describedText(path(l)), inputs)
+            : locales.concretize((l) => path(l).name, inputs);
     }
 
     /** Whether this node type has a distinct authored description (vs. falling back to its name). */
@@ -1147,4 +1149,11 @@ export function isFieldPosition(value: any): value is FieldPosition {
         'field' in value &&
         typeof value.field === 'string'
     );
+}
+
+/** A node text's description, or its name when it has none. Narrowed with `in` rather than a
+ *  cast; the recorder that reflects a locale path answers `in` as present, so this records
+ *  `description`, which is the branch it is only ever used on. */
+function describedText(text: NodeText | DescriptiveNodeText): string {
+    return 'description' in text ? text.description : text.name;
 }

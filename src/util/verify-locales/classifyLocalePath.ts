@@ -46,6 +46,18 @@ export function classifyPair(path: LocalePath): LocaleStringKind {
     return classifyLocalePath([...path.path, path.key]);
 }
 
+/** Whether a field is tagged `[emotion]` — an emotion identifier from a closed
+ *  set, not prose. Scoped by the tag rather than the key name for the reason
+ *  `isNameTextPath` is: `ui.localize.emotion` is a `[plain]` ARIA label that
+ *  merely shares the key, and a `pair.key === 'emotion'` filter hid it from the
+ *  verifier, the translator, and the localization workspace, so it shipped as
+ *  English in all 29 locales. The 126 genuinely `[emotion]` fields must stay
+ *  excluded: `createUnwrittenLocale` marks every checkable pair `$?`, so a new
+ *  locale would otherwise machine-translate the enum value `serious`. */
+export function isEmotionPath(segments: (string | number)[]): boolean {
+    return /\[emotion\]/.test(resolveDescription(segments) ?? '');
+}
+
 /** Whether a path is a glossary term's `forms` — the extra written forms of a
  *  term. Like the top-level `terms` and `guidance`, these are content a locale
  *  writes for itself rather than a translation of en-US, so the tooling neither

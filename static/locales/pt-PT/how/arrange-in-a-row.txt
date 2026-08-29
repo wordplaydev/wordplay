@@ -7,9 +7,9 @@ Por vezes, queremos que o texto fique lado a lado, numa linha organizada.Podemos
 UM  @Row Também é possível alinhar os caracteres pelas margens superior, central ou inferior e adicionar espaço entre eles.Aqui está a mesma fruta, mas alinhada na parte inferior com um pouco de espaço entre elas:
 
 \Group(Row('>' 0.5m) [
-		Phrase('🍎' size: 2m)
-		Phrase('🍌' size: 1m)
-		Phrase('🍇' size: 3m)
+		Phrase('🍎' tamanho: 2m)
+		Phrase('🍌' tamanho: 1m)
+		Phrase('🍇' tamanho: 3m)
 	])\
 
 O \'>'\diz ao @Row para alinhar tudo ao longo da borda inferior. Tente\'<'\para cima ou\'|'\para o meio.O \0.5m\é o espaço entre cada caractere.

@@ -4,14 +4,14 @@
 
 उदाहरण के लिए, आइए इस बिल्ली को घुमाकर और स्थानांतरित करके थोड़ा सा नचाएं:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' विश्राम: Sequence({
+			0%: Pose(घुमाव: 0°)
+			15%: Pose(घुमाव: 15°)
+			30%: Pose(घुमाव: 0°)
+			45%: Pose(ऑफ़सेट: Place(-0.25m))
+			60%: Pose(ऑफ़सेट: Place(0.25m))
+			75%: Pose(ऑफ़सेट: Place(-0.25m))
+			90%: Pose(ऑफ़सेट: Place(0m))
 		} 2s))\
 
 यह उदाहरण एक का उपयोग करता है @Sequence अलग-अलग @Pose .

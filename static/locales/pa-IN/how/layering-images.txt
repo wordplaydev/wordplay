@@ -8,11 +8,11 @@
 
 \¶ਨੋਟ: ਕਿਸੇ ਹੋਰ ਪ੍ਰੋਜੈਕਟ ਲਈ ਗੈਲਰੀ ਦੇਖੋ।<ਉਦਾਹਰਣ@https://wordplay.dev/project/example-Layers?play>ਲੇਅਰਿੰਗ ਚਿੱਤਰਾਂ ਦਾ।¶Stage([
 		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(2m 3 0m -12m 0m) ਰੋਟੇਸ਼ਨ: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
-	] place: Place(0m 10m -30m))\
+		Shape(Rectangle(-11m -9m 11m -12m 10m) ਰੋਟੇਸ਼ਨ: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) ਰੋਟੇਸ਼ਨ: -25°)
+	] ਸਥਾਨ: Place(0m 10m -30m))\
 
 ਤੁਸੀਂ ਪਰਤਾਂ ਨਾਲ ਕੁਝ ਬਹੁਤ ਵਧੀਆ ਚੀਜ਼ਾਂ ਬਣਾ ਸਕਦੇ ਹੋ! ਇਸਨੂੰ ਅਜ਼ਮਾਓ!
 

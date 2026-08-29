@@ -11,9 +11,9 @@ Un  @Row  también puede alinear los caracteres por su borde superior, medio o i
 Group(
 	Row('>' 0.5m)
 	[
-		Phrase('🍎' size: 2m)
-		Phrase('🍌' size: 1m)
-		Phrase('🍇' size: 3m)
+		Phrase('🍎' tamaño: 2m)
+		Phrase('🍌' tamaño: 1m)
+		Phrase('🍇' tamaño: 3m)
 	]
 )\
 

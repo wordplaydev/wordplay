@@ -8,7 +8,7 @@ Không có cách nào để *dừng* một  @Music  — điều làm nó dừng 
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'trình đơn') ? '▶ nhấn để bắt đầu' '🏃 chạy!' 1m)
-		(phase = 'trình đơn') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'trình đơn') ? Music(Track(theme nhạcCụ: Instrument.bell) nhịpĐộ: 72beats/min) Music(Track(theme nhạcCụ: Instrument.synth) nhịpĐộ: 132beats/min)
 	])\
 
 Cả hai bài hát đều là tám con số giống nhau. Chỉ có nhạc cụ và nhịp độ thay đổi, và nó đã nghe như một bản nhạc khác — vì các bậc cho biết *bước nào của thang âm*, chứ không phải cao độ nào, nên một  @Music  có thể diễn giải lại chúng. Đưa cho nó \tỉLệ: 🎼.thứHòaÂm\ và cùng một giai điệu ấy trở nên đáng sợ mà không cần viết lại nốt nào.
@@ -19,7 +19,7 @@ Nửa còn lại là âm nhạc uốn theo liên tục với diễn biến của
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('điểm số \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] nhạcCụ: Instrument.drums) nhịpĐộ: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Nhấn đủ nhiều lần thì tiếng trống dồn mạnh gấp đôi lúc bắt đầu. Một nốt ngắn, gõ nhịp là điều làm ta nghe được sự thay đổi đó — dưới những nốt ngân dài, việc đổi nhịp độ rất khó cảm nhận.

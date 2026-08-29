@@ -1930,13 +1930,17 @@ export default class ProjectsDatabase {
         if (gallery)
             await this.database.Galleries.removeProject(project, gallery);
 
+        // Delete the corresponding chat, if there is one — before the project,
+        // and awaited. The chat rules read the project to check that whoever is
+        // deleting owns it, so deleting the project first would leave nothing
+        // to check against and orphan the chat, which would keep granting its
+        // participants read access to a conversation whose project is gone.
+        await this.database.Chats.deleteChat(id);
+
         // Delete the project doc
         await this.database.track(
             deleteDoc(doc(firestore, ProjectsCollection, id)),
         );
-
-        // Delete the corresponding chat, if there is one.
-        this.database.Chats.deleteChat(id);
 
         // Delete from the local cache.
         this.deleteLocalProject(id);

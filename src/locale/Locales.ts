@@ -554,7 +554,18 @@ export default class Locales {
             typeof textOrQuery === 'string'
                 ? textOrQuery
                 : this.get(textOrQuery);
-        return this.concretizer(this, template, inputs);
+        return this.concretizer(
+            this,
+            template,
+            inputs,
+            // Given an accessor, the markup reports where its template came from, which is how
+            // a conflict explanation becomes editable in localization mode without its call
+            // site knowing anything. A caller that resolved the template itself has to hand
+            // its accessor over deliberately (see Node.getDescription).
+            typeof textOrQuery === 'string'
+                ? undefined
+                : { accessor: textOrQuery, inputs },
+        );
     }
 
     getTermByID(id: string) {

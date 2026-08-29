@@ -4,17 +4,17 @@
 
 આ કરો, આપણે ભેગા કરી શકીએ છીએ @Phrase સાથે @Placement :
 
-\Stage([Phrase('મને ખસેડો' place: Placement())] place: Place(0m 0m -10m))\
+\Stage([Phrase('મને ખસેડો' સ્થળ: Placement())] સ્થળ: Place(0m 0m -10m))\
 
 કીબોર્ડ તીરનો ઉપયોગ કરીને અથવા પર ક્લિક કરીને @Stage અપડેટ કરશે @Placement , જેના કારણે @Phrase તે દિશામાં આગળ વધવા માટે.
 
 શું તમે જાણો છો કે, @Placement સાથે વાપરી શકાય છે/કંઈપણ/તે લે છે @Place ?ઉદાહરણ તરીકે a @Stage પાસે છે @Place તે નક્કી કરે છે કે તેનો કેમેરા ક્યાં નિર્દેશ કરી રહ્યો છે.ચાલો સેટ કરવાનો પ્રયાસ કરીએ @Placement માટે @Stage ની જગ્યા, અને જુઓ શું થાય છે.
 
 \Stage([
-		Phrase('🐈' place: Place(-2m 2m))
-		Phrase('🐈' place: Place(2m -2m))
-		Phrase('🐈' place: Place(-1m 3m))
-	] place: Placement(Place(0m 0m -10m)))\
+		Phrase('🐈' સ્થળ: Place(-2m 2m))
+		Phrase('🐈' સ્થળ: Place(2m -2m))
+		Phrase('🐈' સ્થળ: Place(-1m 3m))
+	] સ્થળ: Placement(Place(0m 0m -10m)))\
 
 એનાથી કેમેરા ખસે છે! (નોંધ: આપણે શરૂ કરીએ છીએ @Placement સાથે\z\નું મૂલ્ય\10m\જેથી કેમેરા બધાથી દૂર રહે.)
 

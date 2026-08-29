@@ -6,8 +6,10 @@ import {
     leadingAnnotations,
     mismatchedConceptLinks,
     mismatchedPluralBranch,
+    restoreConceptLinks,
     restoreReferences,
     splitDocParagraphs,
+    splitMarkupAndCode,
     unclosedInCode,
 } from './protect';
 
@@ -72,12 +74,84 @@ test('hasOutOfExampleBreak only flags breaks outside examples', () => {
     );
 });
 
+test('an apostrophe in a ¶doc¶ does not leave the example open', () => {
+    // en-US `node.Doc.doc[8]`, which is where this was found: the `'` in
+    // "people's" is inside the doc, so it is prose, not a delimiter. Counting it
+    // makes the quotes odd, the example never closes, and every paragraph after
+    // it is protected as code — which is how five English paragraphs shipped in
+    // 29 locales while `npm run locales` stayed green.
+    const doc =
+        "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\";
+    expect(splitMarkupAndCode(`${doc}\n\nAnd prose after it.`)).toEqual([
+        { kind: 'code', text: doc },
+        { kind: 'markup', text: '\n\nAnd prose after it.' },
+    ]);
+    expect(hasOutOfExampleBreak(`${doc}\n\nAnd prose after it.`)).toBe(true);
+    expect(splitDocParagraphs(`${doc}\n\nAnd prose after it.`)).toEqual([
+        doc,
+        'And prose after it.',
+    ]);
+});
+
+test('an example still nests inside a ¶doc¶', () => {
+    // A doc is prose, but `\…\` still opens an example inside it, so the whole
+    // thing stays one code segment rather than closing at the inner delimiter.
+    const doc = "\\¶Here's an example: \\1 + 2\\¶3 + 4\\";
+    expect(splitMarkupAndCode(doc)).toEqual([{ kind: 'code', text: doc }]);
+});
+
+test('an external example is one segment, tags and all', () => {
+    // `\py| a = 5\js| let a = 5;\` holds three `\` of its own, so toggling on
+    // each one leaves it open and protects the prose after it as code. That is
+    // why the one string in the corpus using an external example shipped its
+    // trailing sentence in English in every locale.
+    const external = '\\py| a = 5\\js| let a = 5;\\';
+    expect(
+        splitMarkupAndCode(`like ${external}. The reader sees one.`),
+    ).toEqual([
+        { kind: 'markup', text: 'like ' },
+        { kind: 'code', text: external },
+        { kind: 'markup', text: '. The reader sees one.' },
+    ]);
+});
+
+test('a quote outside a ¶doc¶ still delimits', () => {
+    // The doc rule must not disarm quotes in code generally: an identifier that
+    // picked up an apostrophe still swallows what follows, which is what
+    // `hasUnclosedText` reports.
+    expect(splitMarkupAndCode("\\o'brien: 5\\ after")).toEqual([
+        { kind: 'code', text: "\\o'brien: 5\\ after" },
+    ]);
+});
+
 test('leadingAnnotations extracts the marker prefix', () => {
     expect(leadingAnnotations('$~foo')).toBe('$~');
     expect(leadingAnnotations('$?$~foo')).toBe('$?$~');
     expect(leadingAnnotations('plain')).toBe('');
     // A mid-string $name mention is not an annotation.
     expect(leadingAnnotations('the $value is')).toBe('');
+});
+
+test('restoring a link tidies the spacing the model padded it with', () => {
+    // A masked link is a foreign object in the sentence and models pad it, which
+    // restores to double spaces and a floating period.
+    const links = ['@Sequence', '@Pose'];
+    expect(restoreConceptLinks('वापरते  ⟦0⟧  प्रकारचे  ⟦1⟧  .', links)).toBe(
+        'वापरते @Sequence प्रकारचे @Pose.',
+    );
+});
+
+test('tidying a restored link leaves French punctuation spacing alone', () => {
+    // French requires a space before ; : ! ?, so only . and , lose one.
+    expect(
+        restoreConceptLinks('Voir ⟦0⟧ ; et ⟦1⟧ !', ['@Sequence', '@Pose']),
+    ).toBe('Voir @Sequence ; et @Pose !');
+});
+
+test('tidying a restored link never eats a line break', () => {
+    expect(restoreConceptLinks('end ⟦0⟧\n  next', ['@Pose'])).toBe(
+        'end @Pose\n  next',
+    );
 });
 
 test('restoreReferences only restores links the translation lost', () => {

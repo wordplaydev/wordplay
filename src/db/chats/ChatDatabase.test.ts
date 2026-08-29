@@ -1,5 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { SerializedChat, SerializedMessage } from './ChatDatabase.svelte';
+import type {
+    SerializedChat,
+    SerializedChatUnknownVersion,
+    SerializedMessage,
+} from './ChatDatabase.svelte';
 
 type Op = {
     kind: 'set' | 'update' | 'delete';
@@ -21,14 +25,32 @@ vi.mock('firebase/firestore', () => ({
         _op: 'arrayRemove',
         elements,
     })),
-    doc: vi.fn((_firestore: unknown, collection: string, id: string) => ({
-        _ref: { collection, id },
+    // `collection` and `doc` model real paths rather than returning undefined.
+    // The stub they replace is why nothing caught a document-id range query
+    // whose bounds were the same string, and so matched nothing, ever.
+    collection: vi.fn((_firestore: unknown, ...segments: string[]) => ({
+        _path: segments.join('/'),
     })),
+    // Both call shapes: doc(firestore, 'chats', id) and doc(collectionRef, id).
+    doc: vi.fn((parent: unknown, ...rest: string[]) => {
+        const path =
+            typeof parent === 'object' &&
+            parent !== null &&
+            '_path' in parent &&
+            typeof parent._path === 'string'
+                ? [parent._path, ...rest]
+                : rest;
+        return {
+            _ref: {
+                collection: path.slice(0, -1).join('/'),
+                id: path[path.length - 1],
+            },
+        };
+    }),
     setDoc: vi.fn(async () => {}),
     updateDoc: vi.fn(async () => {}),
     deleteDoc: vi.fn(async () => {}),
     deleteField: vi.fn(() => ({ _op: 'deleteField' })),
-    documentId: vi.fn(() => ({ _fieldPath: 'documentId' })),
     getDocs: vi.fn(async () => ({ docs: [] })),
     runTransaction: vi.fn(
         async (
@@ -57,8 +79,7 @@ vi.mock('firebase/firestore', () => ({
         },
     ),
     onSnapshot: vi.fn(() => () => {}),
-    collection: vi.fn(),
-    query: vi.fn(),
+    query: vi.fn((c: unknown) => c),
     where: vi.fn(),
     getDoc: vi.fn(async () => ({ exists: () => false })),
 }));
@@ -67,23 +88,17 @@ vi.mock('@db/firebase', () => ({
     firestore: { _fake: true },
 }));
 
-// Notifications is consumed at the top of ChatDatabase; we only need a stub.
-vi.mock('@db/notifications.svelte', () => ({
-    notifications: { add: vi.fn() },
-}));
+vi.mock('@db/moderation/report', () => ({ default: vi.fn() }));
+vi.mock('@db/moderation/moderate', () => ({ default: vi.fn() }));
 
 vi.mock('@db/Database', () => ({
     HowTos: {},
     Projects: {},
 }));
 
-import {
-    deleteDoc,
-    getDocs,
-    onSnapshot,
-    setDoc,
-    updateDoc,
-} from 'firebase/firestore';
+import sendModerate from '@db/moderation/moderate';
+import sendReport from '@db/moderation/report';
+import { getDocs, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import Chat, { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
 
 function makeChat(
@@ -92,6 +107,7 @@ function makeChat(
 ): Chat {
     return new Chat({
         v: 3,
+        moderation: {},
         project: 'project-1',
         participants: ['user-1', 'user-2', 'user-3'],
         messages,
@@ -223,176 +239,71 @@ describe('ChatDatabase granular message operations', () => {
     });
 
     describe('reportMessage', () => {
-        it('uses a transaction that mutates the matching message in-place', async () => {
-            const existingMessage: SerializedMessage = {
+        it('asks the callable rather than writing the chat, and never names the reporter', async () => {
+            // Reporting moved server-side in #938: a participant naming their
+            // own reviewers is the same mistake as a creator clearing their own
+            // strikes, and the report carries the message's text out of a
+            // document every participant can read.
+            const existing: SerializedMessage = {
                 id: 'm1',
                 time: 1000,
                 creator: 'user-2',
                 text: 'flagged content',
             };
-            transactionReadSnap = {
-                exists: () => true,
-                data: () => ({
-                    v: 2,
-                    project: 'project-1',
-                    participants: ['user-1', 'user-2'],
-                    messages: [existingMessage],
-                    unread: [],
-                    type: 'project',
-                }),
-            };
 
-            await db.reportMessage(
-                makeChat({}, [existingMessage]),
-                existingMessage,
-                'user-1',
-            );
+            await db.reportMessage(makeChat({}, [existing]), existing);
 
-            expect(lastTransactionOps).toHaveLength(1);
-            expect(lastTransactionOps[0]).toMatchObject({
-                kind: 'update',
-                ref: { _ref: { collection: 'chats', id: 'project-1' } },
+            expect(sendReport).toHaveBeenCalledWith({
+                kind: 'chat',
+                subject: 'project-1',
+                message: 'm1',
             });
-            const data = lastTransactionOps[0].data as {
-                messages: SerializedMessage[];
-            };
-            expect(data.messages).toHaveLength(1);
-            expect(data.messages[0]).toMatchObject({
+            // Nothing about the reporter, and no write to the chat document.
+            expect(lastTransactionOps).toHaveLength(0);
+        });
+
+        it('reflects the pending state locally so the message hides at once', async () => {
+            const existing: SerializedMessage = {
                 id: 'm1',
-                moderation: 'pending',
-                reporter: 'user-1',
-            });
+                time: 1000,
+                creator: 'user-2',
+                text: 'flagged content',
+            };
+            await db.reportMessage(makeChat({}, [existing]), existing);
+            expect(db.chats.get('project-1')?.getMessageModeration('m1')).toBe(
+                'pending',
+            );
         });
     });
 
     describe('moderateMessage', () => {
-        it('uses a transaction that updates moderation status on the matching message', async () => {
-            const existingMessage: SerializedMessage = {
+        it('asks the callable, carrying the reason the decision found', async () => {
+            const existing: SerializedMessage = {
                 id: 'm1',
                 time: 1000,
                 creator: 'user-2',
                 text: 'flagged content',
-                moderation: 'pending',
-                reporter: 'user-1',
-            };
-            transactionReadSnap = {
-                exists: () => true,
-                data: () => ({
-                    v: 2,
-                    project: 'project-1',
-                    participants: ['user-1', 'user-2'],
-                    messages: [existingMessage],
-                    unread: [],
-                    type: 'project',
-                }),
             };
 
             await db.moderateMessage(
-                makeChat({}, [existingMessage]),
-                existingMessage,
+                makeChat({}, [existing]),
+                existing,
                 'removed',
-                'mod-uid',
+                { violence: true },
+                'Please keep it kind.',
             );
 
-            const data = lastTransactionOps[0].data as {
-                messages: SerializedMessage[];
-            };
-            expect(data.messages[0]).toMatchObject({
-                id: 'm1',
-                moderation: 'removed',
-                moderator: 'mod-uid',
-            });
-        });
-
-        it('deletes the removed message from every translation sidecar', async () => {
-            const existingMessage: SerializedMessage = {
-                id: 'm1',
-                time: 1000,
-                creator: 'user-2',
-                text: 'flagged content',
-                moderation: 'pending',
-                reporter: 'user-1',
-            };
-            transactionReadSnap = {
-                exists: () => true,
-                data: () => ({
-                    v: 2,
-                    project: 'project-1',
-                    participants: ['user-1', 'user-2'],
-                    messages: [existingMessage],
-                    unread: [],
-                    type: 'project',
+            expect(sendModerate).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    kind: 'chat',
+                    subject: 'project-1',
+                    message: 'm1',
+                    flags: { violence: true },
+                    note: 'Please keep it kind.',
+                    // A curator's decision is never a platform warning.
+                    strike: false,
                 }),
-            };
-            (getDocs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
-                docs: [
-                    {
-                        ref: {
-                            _ref: {
-                                collection: 'chatTranslations',
-                                id: 'project-1~es',
-                            },
-                        },
-                    },
-                    {
-                        ref: {
-                            _ref: {
-                                collection: 'chatTranslations',
-                                id: 'project-1~fr',
-                            },
-                        },
-                    },
-                ],
-            });
-
-            await db.moderateMessage(
-                makeChat({}, [existingMessage]),
-                existingMessage,
-                'removed',
-                'mod-uid',
             );
-
-            expect(updateDoc).toHaveBeenCalledTimes(2);
-            const calls = (updateDoc as unknown as ReturnType<typeof vi.fn>)
-                .mock.calls;
-            for (const [ref, data] of calls) {
-                expect(ref).toMatchObject({
-                    _ref: { collection: 'chatTranslations' },
-                });
-                expect(data).toEqual({ m1: { _op: 'deleteField' } });
-            }
-        });
-
-        it('leaves translation sidecars untouched when the message is approved', async () => {
-            const existingMessage: SerializedMessage = {
-                id: 'm1',
-                time: 1000,
-                creator: 'user-2',
-                text: 'flagged content',
-                moderation: 'pending',
-                reporter: 'user-1',
-            };
-            transactionReadSnap = {
-                exists: () => true,
-                data: () => ({
-                    v: 2,
-                    project: 'project-1',
-                    participants: ['user-1', 'user-2'],
-                    messages: [existingMessage],
-                    unread: [],
-                    type: 'project',
-                }),
-            };
-
-            await db.moderateMessage(
-                makeChat({}, [existingMessage]),
-                existingMessage,
-                'approved',
-                'mod-uid',
-            );
-
-            expect(getDocs).not.toHaveBeenCalled();
-            expect(updateDoc).not.toHaveBeenCalled();
         });
     });
 
@@ -415,7 +326,7 @@ describe('ChatDatabase granular message operations', () => {
                 setDoc as unknown as ReturnType<typeof vi.fn>
             ).mock.calls[0];
             expect(ref).toMatchObject({
-                _ref: { collection: 'chatTranslations', id: 'project-1~es' },
+                _ref: { collection: 'chats/project-1/translations', id: 'es' },
             });
             expect(data).toEqual({ m1: 'hola', m2: 'mundo' });
             expect(options).toEqual({ merge: true });
@@ -451,7 +362,7 @@ describe('ChatDatabase granular message operations', () => {
             const [ref] = (onSnapshot as unknown as ReturnType<typeof vi.fn>)
                 .mock.calls[0];
             expect(ref).toMatchObject({
-                _ref: { collection: 'chatTranslations', id: 'project-1~es' },
+                _ref: { collection: 'chats/project-1/translations', id: 'es' },
             });
         });
 
@@ -476,7 +387,8 @@ describe('ChatDatabase granular message operations', () => {
             transactionReadSnap = {
                 exists: () => true,
                 data: () => ({
-                    v: 2,
+                    v: 3,
+                    moderation: {},
                     project: 'project-1',
                     participants: ['user-1', 'user-2'],
                     messages: [existingMessage],
@@ -499,7 +411,7 @@ describe('ChatDatabase granular message operations', () => {
             });
         });
 
-        it('deletes the message from every translation sidecar', async () => {
+        it('deletes the message from every language the chat has cached', async () => {
             const existingMessage: SerializedMessage = {
                 id: 'm1',
                 time: 1000,
@@ -522,8 +434,8 @@ describe('ChatDatabase granular message operations', () => {
                     {
                         ref: {
                             _ref: {
-                                collection: 'chatTranslations',
-                                id: 'project-1~es',
+                                collection: 'chats/project-1/translations',
+                                id: 'es',
                             },
                         },
                     },
@@ -540,70 +452,9 @@ describe('ChatDatabase granular message operations', () => {
                 updateDoc as unknown as ReturnType<typeof vi.fn>
             ).mock.calls[0];
             expect(ref).toMatchObject({
-                _ref: { collection: 'chatTranslations', id: 'project-1~es' },
+                _ref: { collection: 'chats/project-1/translations', id: 'es' },
             });
             expect(data).toEqual({ m1: { _op: 'deleteField' } });
-        });
-    });
-
-    describe('deleteChat', () => {
-        it('deletes the chat doc and every translation sidecar for it', async () => {
-            (getDocs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
-                docs: [
-                    {
-                        ref: {
-                            _ref: {
-                                collection: 'chatTranslations',
-                                id: 'project-1~es',
-                            },
-                        },
-                    },
-                    {
-                        ref: {
-                            _ref: {
-                                collection: 'chatTranslations',
-                                id: 'project-1~fr',
-                            },
-                        },
-                    },
-                ],
-            });
-
-            await db.deleteChat('project-1');
-
-            expect(deleteDoc).toHaveBeenCalledTimes(3);
-            const calls = (deleteDoc as unknown as ReturnType<typeof vi.fn>)
-                .mock.calls;
-            expect(calls[0][0]).toMatchObject({
-                _ref: { collection: 'chats', id: 'project-1' },
-            });
-            expect(calls.slice(1).map(([ref]) => ref)).toEqual(
-                expect.arrayContaining([
-                    expect.objectContaining({
-                        _ref: {
-                            collection: 'chatTranslations',
-                            id: 'project-1~es',
-                        },
-                    }),
-                    expect.objectContaining({
-                        _ref: {
-                            collection: 'chatTranslations',
-                            id: 'project-1~fr',
-                        },
-                    }),
-                ]),
-            );
-        });
-
-        it('does not touch translation sidecars when the chat doc delete fails', async () => {
-            (
-                deleteDoc as unknown as ReturnType<typeof vi.fn>
-            ).mockRejectedValueOnce(new Error('offline'));
-
-            await db.deleteChat('project-1');
-
-            expect(getDocs).not.toHaveBeenCalled();
-            expect(mockDatabase.reportBanner).toHaveBeenCalled();
         });
     });
 });
@@ -613,8 +464,68 @@ describe('ChatDatabase granular message operations', () => {
  * arrives (upgradeChat), so a regression silently corrupts every pre-v2/v3 chat on
  * load. v1 → v2 adds the `type` discriminator; v2 → v3 adds an optional `language`.
  */
+describe('withMergedMessages', () => {
+    // Every call site is `incoming.withMergedMessages(existingLocalMessages)`,
+    // so which side wins a collision decides whether a moderator's decision can
+    // be shadowed by a stale local copy of the same message. It must be the
+    // incoming one.
+    it('keeps a local-only message the incoming chat has not seen yet', () => {
+        const incoming = makeChat({}, [
+            { id: 'm1', time: 1, creator: 'user-1', text: 'landed' },
+        ]);
+        const merged = incoming.withMergedMessages([
+            { id: 'm2', time: 2, creator: 'user-1', text: 'still sending' },
+        ]);
+        expect(merged.getMessages().map((m) => m.id)).toEqual(['m1', 'm2']);
+    });
+
+    it('lets the incoming copy win a collision, so a decision is not shadowed', () => {
+        // A decision lives on the chat's moderation map now, not on the
+        // message, and the map is not merged per-message: whatever the incoming
+        // chat says is what stands. A stale local copy therefore cannot hide a
+        // takedown, which is what this asserted before the move.
+        const incoming = makeChat({ moderation: { m1: 'removed' } }, [
+            { id: 'm1', time: 1, creator: 'user-1', text: 'hi' },
+        ]);
+        const merged = incoming.withMergedMessages([
+            { id: 'm1', time: 1, creator: 'user-1', text: 'hi' },
+        ]);
+        expect(merged.getMessageModeration('m1')).toBe('removed');
+    });
+
+    it('sorts the result by time', () => {
+        const incoming = makeChat({}, [
+            { id: 'm3', time: 3, creator: 'user-1', text: 'c' },
+        ]);
+        const merged = incoming.withMergedMessages([
+            { id: 'm1', time: 1, creator: 'user-1', text: 'a' },
+        ]);
+        expect(merged.getMessages().map((m) => m.time)).toEqual([1, 3]);
+    });
+});
+
 describe('upgradeChat (upgrade-on-load)', () => {
-    it('upgrades a v1 doc to v3, defaulting type to project and language to undefined', () => {
+    /** A v2 chat carrying a `moderation` map the v2 type doesn't declare —
+     *  which is the whole point: it is what a document looks like after the
+     *  callables have written to it but before the migration has run. Built by
+     *  spread rather than as one literal, since the field is genuinely not part
+     *  of the v2 shape. */
+    function v2WithModeration(
+        messages: SerializedChatUnknownVersion['messages'],
+        moderation: Record<string, string>,
+    ): SerializedChatUnknownVersion {
+        const base: SerializedChatUnknownVersion = {
+            v: 2,
+            project: 'p1',
+            participants: ['u1'],
+            messages,
+            unread: [],
+            type: 'project',
+        };
+        return { ...base, ...{ moderation } };
+    }
+
+    it('upgrades a v1 doc all the way to the current shape', () => {
         const v1 = {
             v: 1 as const,
             project: 'p1',
@@ -623,6 +534,9 @@ describe('upgradeChat (upgrade-on-load)', () => {
             unread: ['u2'],
         };
         const upgraded = upgradeChat(v1);
+        // v1 chains all the way through: the upgrader is recursive, so a
+        // document that has sat untouched since v1 lands on the current shape
+        // rather than one step along.
         expect(upgraded.v).toBe(3);
         expect(upgraded.type).toBe('project');
         expect(upgraded.language).toBeUndefined();
@@ -634,28 +548,115 @@ describe('upgradeChat (upgrade-on-load)', () => {
         expect(upgraded.unread).toEqual(['u2']);
     });
 
-    it('upgrades a v2 doc to v3, preserving all fields', () => {
-        const v2 = {
-            v: 2 as const,
+    it('upgrades a v2 doc to v3, lifting moderation off its messages', () => {
+        const upgraded = upgradeChat({
+            v: 2,
             project: 'p1',
             participants: ['u1'],
-            messages: [],
+            messages: [
+                {
+                    id: 'm1',
+                    time: 1,
+                    creator: 'u1',
+                    text: 'hi',
+                    moderation: 'removed',
+                    reporter: 'u2',
+                    moderator: 'u3',
+                },
+            ],
             unread: [],
-            type: 'howto' as const,
-        };
-        const upgraded = upgradeChat(v2);
+            type: 'howto',
+        });
         expect(upgraded.v).toBe(3);
-        expect(upgraded.type).toBe('howto');
-        expect(upgraded.language).toBeUndefined();
-        expect(upgraded.project).toBe('p1');
+        expect(upgraded.moderation).toEqual({ m1: 'removed' });
+        // The reporter's identity is gone from the chat entirely — the whole
+        // point of the move. Asserted on the object the listener actually uses,
+        // which is this one and not zod's parse of it.
+        expect(upgraded.messages[0]).not.toHaveProperty('reporter');
+        expect(upgraded.messages[0]).not.toHaveProperty('moderator');
+        expect(upgraded.messages[0]).not.toHaveProperty('moderation');
     });
 
-    it('a v3 doc with a language field round-trips unchanged', () => {
+    it('keeps a decision the server already wrote onto a v2 document', () => {
+        // Rules, client, and functions all deploy together, so between that
+        // deploy and the migration a chat sits at v2 while the callables write
+        // the v3 map onto it — the Admin SDK writes one field, it doesn't bump
+        // the version. Rebuilding the map from the messages alone would throw
+        // that away, and a message someone had just reported would read as
+        // deleted rather than as waiting for review.
+        const upgraded = upgradeChat(
+            v2WithModeration(
+                [
+                    { id: 'm1', time: 1, creator: 'u1', text: null },
+                    { id: 'm2', time: 2, creator: 'u1', text: 'hi' },
+                ],
+                { m1: 'pending' },
+            ),
+        );
+        expect(upgraded.moderation.m1).toBe('pending');
+    });
+
+    it('prefers the chat’s own map over a leftover field on a message', () => {
+        // The message-level value is the stale one: it is what the old client
+        // wrote, and the map is what the server has decided since.
+        const upgraded = upgradeChat(
+            v2WithModeration(
+                [
+                    {
+                        id: 'm1',
+                        time: 1,
+                        creator: 'u1',
+                        text: 'hi',
+                        moderation: 'pending',
+                    },
+                ],
+                { m1: 'removed' },
+            ),
+        );
+        expect(upgraded.moderation.m1).toBe('removed');
+    });
+
+    it('ignores a moderation map that is not one', () => {
+        const upgraded = upgradeChat(
+            v2WithModeration(
+                [{ id: 'm1', time: 1, creator: 'u1', text: 'hi' }],
+                { m1: 'nonsense' },
+            ),
+        );
+        expect(upgraded.moderation).toEqual({});
+    });
+
+    it('an already-latest v3 doc upgrades to itself', () => {
         const v3: SerializedChat = {
             v: 3,
             project: 'p1',
             participants: ['u1'],
             messages: [],
+            moderation: {},
+            unread: [],
+            type: 'howto' as const,
+        };
+        expect(upgradeChat(v3)).toEqual(v3);
+    });
+
+    // `language` was added to v3 in place rather than as a v4, so a document
+    // written before it existed and one written after are both v3 and both have
+    // to survive the upgrader untouched.
+    it('a v3 doc carries its language through unchanged', () => {
+        const v3: SerializedChat = {
+            v: 3,
+            project: 'p1',
+            participants: ['u1'],
+            messages: [
+                {
+                    id: 'm1',
+                    time: 1,
+                    creator: 'u1',
+                    text: 'hola',
+                    language: 'es-MX',
+                },
+            ],
+            moderation: {},
             unread: [],
             type: 'project',
             language: 'en-US',

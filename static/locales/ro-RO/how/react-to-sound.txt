@@ -4,13 +4,13 @@ Crește personajele cu ajutorul sunetului
 
 Putem folosi acel număr pentru a controla orice — dimensiunea unui  @Phrase , rotația sa, culoarea sa.
 
-\Phrase('📣' size: (Volume() × 5m) + 1m)\
+\Phrase('📣' dimensiune: (Volume() × 5m) + 1m)\
 
 Când e liniște, megafonul este \1m\ înalt. Când țipi, poate crește până la \6m\ înalt.
 
 Vrei un soare care se rotește mai repede cu cât ești mai zgomotos?
 
-\Phrase('🌞' rotation: Volume() × 360°)\
+\Phrase('🌞' rotaţie: Volume() × 360°)\
 
 Încearcă să aplaudi sau să fredonezi și urmărește ce se întâmplă.(Este posibil ca prima dată când computerul solicită permisiunea de a utiliza microfonul.)
 

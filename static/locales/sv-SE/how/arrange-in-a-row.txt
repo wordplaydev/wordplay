@@ -7,9 +7,9 @@ Ibland vill vi att text ska stå bredvid varandra i en snygg rad.Det kan vi gör
 En @Row kan också rada upp tecken längs deras övre, mitten- eller nedre kanter, och lägga till mellanrum mellan dem.Här är samma frukt, men bottenjusterad med lite andrum:
 
 \Group(Row('>' 0.5m) [
-		Phrase('🍎' size: 2m)
-		Phrase('🍌' size: 1m)
-		Phrase('🍇' size: 3m)
+		Phrase('🍎' storlek: 2m)
+		Phrase('🍌' storlek: 1m)
+		Phrase('🍇' storlek: 3m)
 	])\
 
 Den\'>'\berättar för @Row att rikta in allt längs dess nedre kant. Försök\'<'\för toppen eller\'|'\för mitten.Den\0.5m\är mellanrummet mellan varje tecken.

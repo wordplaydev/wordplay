@@ -12,6 +12,6 @@ Nie znasz nazwy strefy czasowej? Po prostu wpisz miasto, które znasz — @wordp
 
 Możesz też wybrać kalendarz, jak kalendarz japoński, i nadać zegarowi styl za pomocą czcionki:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' twarz: 'Doto')\
 
 count-with-time

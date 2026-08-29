@@ -51,8 +51,11 @@ beforeEach(() => {
 
 afterEach(async () => {
     // Retire anything idling in its grace period, so the module-level source
-    // map carries no state into the next test.
-    await vi.runAllTimersAsync();
+    // map carries no state into the next test. Advance past the grace period
+    // rather than draining with runAllTimers: test files share a module graph,
+    // so "every pending timer" includes other modules' repeating ones, and
+    // draining those runs until vitest calls it an infinite loop.
+    await vi.advanceTimersByTimeAsync(PastGrace);
     vi.useRealTimers();
     vi.unstubAllGlobals();
 });

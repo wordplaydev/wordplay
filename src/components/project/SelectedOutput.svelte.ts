@@ -83,6 +83,23 @@ export default class SelectedOutput {
     // the two ends are three levels apart and the gesture owner isn't always the same component.
     guides: Guide[] = $state([]);
 
+    // Which of a selected @Path's point handles has keyboard focus, so it can be restored
+    // after the re-mount every revision causes. Local state can't do this: the handles are
+    // rebuilt with the shape, so a moved point would lose focus and the next key would go
+    // nowhere — which made a run of edits stop after the first one.
+    pointFocused: number | undefined = $state(undefined);
+
+    // Non-null while a @Path's point is being dragged: which point, where it was when the
+    // gesture began, and where the pointer started. Like rotationDragging and sizeDragging,
+    // this lives here rather than in the handle, because the handle re-mounts on every
+    // revision and would drop the gesture after its first frame.
+    pointDragging: {
+        index: number;
+        from: { x: number; y: number };
+        startX: number;
+        startY: number;
+    } | null = $state(null);
+
     // True when the size handle has keyboard focus, so it can be restored after re-mount.
     sizeFocused: boolean = $state(false);
 
@@ -250,6 +267,29 @@ export default class SelectedOutput {
 
     stopRotating() {
         this.rotationDragging = null;
+        this.adjusting = false;
+        this.dragging = false;
+        this.interacting = false;
+    }
+
+    setPointFocused(index: number | undefined) {
+        this.pointFocused = index;
+    }
+
+    startDraggingPoint(
+        index: number,
+        from: { x: number; y: number },
+        startX: number,
+        startY: number,
+    ) {
+        this.pointDragging = { index, from, startX, startY };
+        this.adjusting = true;
+        this.dragging = true;
+        this.interacting = true;
+    }
+
+    stopDraggingPoint() {
+        this.pointDragging = null;
         this.adjusting = false;
         this.dragging = false;
         this.interacting = false;

@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'মেনু') ? '▶ আৰম্ভ কৰিবলৈ টিপা' '🏃 দৌৰা!' 1m)
-		(phase = 'মেনু') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'মেনু') ? Music(Track(theme বাদ্যযন্ত্ৰ: Instrument.bell) গতি: 72beats/min) Music(Track(theme বাদ্যযন্ত্ৰ: Instrument.synth) গতি: 132beats/min)
 	])\
 
 দুয়োটা গীতেই একেই আঠটা সংখ্যা। কেৱল বাদ্যযন্ত্ৰ আৰু গতি সলনি হয়, আৰু ইতিমধ্যে ই এটা বেলেগ গীতৰ দৰে শুনা যায় — কাৰণ ডিগ্ৰীবোৰে কয় *স্কেলৰ কোনটো খোজ*, কোনটো পিচ নহয়, সেয়ে এটা  @Music এ ইয়াক নতুনকৈ ব্যাখ্যা কৰিব পাৰে। ইয়াক \মাপ: 🎼.harmonicMinor\ দিয়া আৰু এটা টোকাও নিলিখাকৈ একেই সুৰটো ভয়ংকৰ হৈ পৰে।
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('স্কোৰ \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] বাদ্যযন্ত্ৰ: Instrument.drums) গতি: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 যথেষ্টবাৰ টিপা আৰু ঢোলবোৰে আৰম্ভ কৰাতকৈ দুগুণ জোৰেৰে বাজে। এটা চুটি, তালযুক্ত টোকাইহে সেয়া শুনিবলৈ দিয়ে — দীঘলীয়া ধৰি ৰখা টোকাৰ তলত গতিৰ সলনি অনুভৱ কৰা টান।

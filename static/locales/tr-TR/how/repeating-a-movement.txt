@@ -5,13 +5,13 @@ Bazen bir karakterin aynı şekilde birkaç kez hareket etmesini isteriz!Aynı s
 Bunun yerine şunu kullanabiliriz: @Sequence  ile  @Phrase bir şeyi birden fazla kez tekrar ettirmek! Özellikle,sayımı kullanabiliriz @Sequence ve bir poz setinin kaç kez gerçekleşeceğini seçin. Örneğin,İşte iki kez yukarı aşağı zıplayan bir basketbol topu.
 
 \Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀' giriş: Sequence({
+					0%: Pose(telafietmek: Place(ve: 0.25m))
+					25%: Pose(telafietmek: Place(ve: 0m))
+					50%: Pose(telafietmek: Place(ve: -0.25m))
+					75%: Pose(telafietmek: Place(ve: 0m))
+					100%: Pose(telafietmek: Place(ve: 0.25m))
+				} saymak: 2x süre: 2s))
 	])\
 
 animate-phrase, shake-phrase

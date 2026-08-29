@@ -21,6 +21,14 @@ it's value stores a 'Rebound' object that contains the object collided with.¶/e
 choice/en,चारा/hi: Collision('me'/en,'मैं'/hi)
 name/en,नाम/hi: (choice = ø ? "" choice.object)
 
+¶The words are written one line at a time, so this joins them back into a
+single run for the speech bubble to wrap however it likes.¶/en
+¶शब्द एक-एक पंक्ति में लिखे गए हैं, इसलिए यह उन्हें वापस एक ही धारा में जोड़ता है
+ताकि बातचीत का बुलबुला उन्हें अपनी तरह से लपेट सके।¶/hi
+ƒ flow(lines•[`…`])
+	lines.length() < 2 ? lines[1]
+		lines.subsequence(2).combine(lines[1] ƒ(acc next) acc + ` ` + next)
+
 ¶This 'otherwise' checks the name of the collided object
 and chooses a list of formatted text based on the name.
 If there's no name, it defaults to starting text.
@@ -128,8 +136,7 @@ where/en,किधर/hi: Placement(📍(0m 0m))
 
 ¶This takes all of the content above and renders it,
 putting each landmark on stage in a particular location
-and converting the list of formatted text for the current
-about text into a stack of phrases with a background.
+and giving the bird a speech bubble holding the current about text.
 Each landmark needs a name and matter in order for the collision
 stream to check collisions.¶/en
 ¶यह ऊपर सब मंच पर दिखाता हैं। हर स्थान मंच पर किसी जगह डालता हैं, और
@@ -141,16 +148,23 @@ Stage(
 		Phrase(`@ellipsis/CuteDuckie` name: "California"/en,"कॅलिफ़ोर्निया"/hi place: Place(-10m 0m) matter: Matter() size: 1.4m)
 		Phrase('🏕' name: "India"/en,"भारत"/hi place: Place(5m -6m) matter: Matter())
 		Phrase(`@ellipsis/GoDawgs` name: "Washington"/en,"वाशिंटन"/hi place: Place(-10m 6m) matter: Matter() size: 1.4m)
-		Phrase('🐤' name: "me"/en,"मैं"/hi place: where matter: Matter() moving: 💃({
+		Phrase(
+			'🐤'
+			name: "me"/en,"मैं"/hi
+			place: where
+			matter: Matter()
+			moving: 💃({
 					0%: 🤪()
 					50%: 🤪(offset: 📍(0m 1m 0m))
 					100%: 🤪(offset: 📍(0m 0m 0m))
-				} ⏳: 0.5s))
-		Group(
-			Stack('<' padding: 0.5m)
-			about.translate(ƒ(line) Phrase(line 0.5m duration: 0s))
-			place: (where.x:where.x + 1m).y:where.y + 1m
-			background: 🌈(100% 0 0°)
+				} ⏳: 0.5s)
+			bubble: Bubble(
+				flow(about)
+				size: 0.5m
+				wrap: 9m
+				color: 🌈(0% 0 0°)
+				background: 🌈(100% 0 0°)
+			)
 		)
 	]
 	background: 🌈(18% 72 280°)

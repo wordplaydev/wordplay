@@ -7,7 +7,7 @@ Deoarece gradele sunt trepte ale unei game, nu note fixe, o întreagă linie de 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
 		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune instrument: Instrument.synthBass cheie: -12semitones volum: 60%)
 	])\
 
 Două voci, o singură listă. Modifică melodia și basul o urmează, pentru că există o singură melodie de modificat.
@@ -16,10 +16,10 @@ Acum completează în jurul ei. Acordurile vor ritmul lor propriu, nu pe cel al 
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune instrument: Instrument.flute balans: 0)
+		Track(tune instrument: Instrument.synthBass cheie: -12semitones volum: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad bătaie: 2beats volum: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums bătaie: 0.5beats volum: 45%)
 	])\
 
 Urmărește volumele: doar flautul este la maxim. Părțile la volum maxim nu se adună într-o trupă mai puternică, ci într-una mai neclară, pentru că totul ce sună în același timp trebuie să treacă prin același difuzor. Pornește melodia la \100%\ și strânge totul restul sub ea.

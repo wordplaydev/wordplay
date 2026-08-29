@@ -1,28 +1,42 @@
-Håll koll på spelets status
+Håll koll på spelets tillstånd
 
-De flesta spel spårar flera saker allt eftersom spelet fortskrider: poäng, spelarpositioner och andra detaljer är alla viktiga.Varje gång det finns någon indata ändras det tillståndet, och sedan vill vi visa ny utdata som svar.
+De flesta spel håller koll på flera saker medan spelet pågår: poäng, spelarpositioner och andra detaljer är alla viktiga.Varje gång det kommer indata ändras tillståndet, och då vill vi visa ny utdata som svar.
 
-Ett generellt mönster för vilket spel som helst gör tre saker:
+Ett allmänt mönster för alla spel gör tre saker:
 
-• Definiera en datastruktur för speltillstånd för att lagra allt speltillstånd• Definiera en reaktion som skapar ett nytt speltillstånd baserat på föregående speltillstånd när det finns ny inmatning• Gör en @Stage med @Group och @Phrase för att visa spelets status
+• Skapa en datastruktur för spelets tillstånd, som lagrar hela spelets tillstånd• Skapa en reaktion som gör ett nytt spel­tillstånd utifrån det förra spel­tillståndet varje gång det kommer ny indata• Skapa en  @Stage  med  @Group  och  @Phrase  för att visa spelets tillstånd
 
-Låt oss till exempel föreställa oss ett enkelt spel som går ut på att skriva hemliga ord i en textruta och få en poäng varje gång ett hemligt ord gissas:
+Låt oss till exempel tänka oss ett enkelt spel där man skriver hemliga ord i en textruta och får en poäng varje gång man gissar ett hemligt ord:
 
 \•Game(secrets•[''] points•#)
 state: Game(['katt' 'hund'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
-Stage(state.points = state.secrets.length() ? [Phrase("du vinner!")] [
-			Group(Stack() [
+Stage(
+	state.points = state.secrets.length() ? [
+			Phrase("du vinner!")
+		] [
+			Group(
+				Stack()
+				[
 					Phrase("gissa mina hemliga ord")
-					Phrase(`\state.secrets.length() - state.points\fler hemligheter`) 				]) 		])\
+					Phrase(
+						`\state.secrets.length() - state.points\ fler hemligheter`
+					)
+				]
+			)
+		]
+)\
 
-Låt oss bryta ner det här.
+Låt oss gå igenom detta steg för steg.
 
-• Den första raden,\•Game(secrets•[''] points•#)\säger,/Skapa en datastruktur som heter\Game\som lagrar en lista med hemligheter och punkter/• Den andra raden säger/Speltillståndet börjar med en lista över hemligheter och noll poäng. Varje gång\Chat\ändringar, om det inmatade ordet finns i listan över hemligheter, skapa då ett nytt spelläge med poängen ökade med ett/.• Varje gång programmet omvärderas (när\Chat\ändringar), visar ett steg. Om antalet poäng är lika med antalet hemligheter visas ett vinnande steg. Om inte, visar en prompt och antalet återstående hemligheter.
+• Den första raden, \•spel(hemligheter•[''] poäng•#)\ säger, /Skapa en datastruktur som heter \Game\ som lagrar en lista med hemligheter och poäng/. \[
+	''
+]\ betyder /en lista med hur många ord som helst/. Om du istället ville ha en lista med exakt längd kan du ange en typ för varje plats i den: \[
+	#'']\ är en lista med två saker, ett tal och sedan ett ord.• Den andra raden säger /Spelets tillstånd börjar med en lista av hemligheter och noll poäng. Varje gång \Chatta\ ändras, om ordet som skrevs in finns i listan av hemligheter, skapa ett nytt spelläge med poängen ökad med ett/.• Varje gång programmet räknas om (när \Chatta\ ändras), visa en scen. Om antalet poäng är lika med antalet hemligheter, visa en vinnande scen. Om inte, visa en fråga och antalet hemligheter som är kvar.
 
-Det här exemplet har vissa problem:
+Det här exemplet har några problem:
 
-• Om de gissar ett hemligt ord flera gånger får de fler poäng! Vårt spelläge kan också behöva komma ihåg vad som gissades, så varje ord räknas bara två gånger.• Om spelaren skriver in flera ord, ska det räknas?
+• Om spelaren gissar ett hemligt ord flera gånger, får de fler poäng! Vårt spelläge kanske också behöver komma ihåg vad som redan gissats, så att varje ord bara räknas en gång.• Om spelaren skriver in flera ord, ska det räknas?
 
-Mer sofistikerade speltillstånd och speluppdateringar skulle hjälpa oss att hantera dessa fall.
+Mer avancerade spellägen och spelperioder skulle hjälpa oss att hantera dessa fall.
 
 track-points

@@ -20,6 +20,7 @@
     import GalleryHowConcept from '@concepts/GalleryHowConcept';
     import { locales } from '@db/Database';
     import ConceptRef from '@locale/ConceptRef';
+    import { getConceptNameById } from '@locale/getConceptName';
     import type TermRef from '@locale/TermRef';
     import ConceptLink, {
         CharacterName,
@@ -249,6 +250,27 @@
     function hideTip() {
         hint.hide();
     }
+
+    /**
+     * The name for a concept there is no index to resolve — in practice the
+     * landing page, which may not build one (it needs a `Project` and a `Basis`
+     * that `importGraph.test.ts` forbids page-wide chrome from reaching), so
+     * every `@Volume` there read "Volume" in all 29 translated locales. The
+     * chain is walked here rather than through `Locales.get`, which is private,
+     * but the rule is its: the first locale that wrote a name wins, id last.
+     * No symbolic subscript — this is prose, not the guide's reference surface.
+     */
+    function unindexedName(name: ConceptName): string {
+        for (const locale of $locales.getLocales()) {
+            const localized = getConceptNameById(
+                locale,
+                name.name,
+                name.property,
+            );
+            if (localized !== undefined) return localized;
+        }
+        return name.property ? `${name.name}.${name.property}` : name.name;
+    }
 </script>
 
 {#if term}<TermView {term} />
@@ -289,16 +311,13 @@
     {:else if match instanceof CharacterName}
         <CharacterView name={match} />
     {:else if match instanceof ConceptName}
-        <!-- No index available to resolve the concept (e.g. /updates). Link to
-             the guide, displaying a subconcept as `Owner.member` and encoding
-             it as `Owner/member` so the guide's concept param resolves it. -->
+        <!-- No index to resolve the concept (e.g. the landing page). The label comes
+     from locale text (see `unindexedName`); the URL keeps the English id, which
+     is what the guide resolves, encoding a subconcept as `Owner/member`. -->
         <Link
             to={`/guide?concept=${encodeURIComponent(
                 match.property ? `${match.name}/${match.property}` : match.name,
-            )}`}
-            >{match.property
-                ? `${match.name}.${match.property}`
-                : match.name}</Link
+            )}`}>{unindexedName(match)}</Link
         >
     {:else if typeof match === 'string'}
         <Link to={`/guide?concept=${encodeURIComponent(match)}`}>{match}</Link>

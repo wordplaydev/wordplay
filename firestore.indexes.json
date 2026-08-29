@@ -9,7 +9,25 @@
                     "order": "ASCENDING"
                 },
                 {
+                    "fieldPath": "moderation",
+                    "order": "ASCENDING"
+                },
+                {
                     "fieldPath": "featured",
+                    "order": "DESCENDING"
+                },
+                {
+                    "fieldPath": "id",
+                    "order": "ASCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "galleries",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "moderation",
                     "order": "ASCENDING"
                 },
                 {
@@ -172,6 +190,42 @@
             "collectionGroup": "reports",
             "queryScope": "COLLECTION",
             "fields": [
+                {
+                    "fieldPath": "resolved",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "time",
+                    "order": "ASCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "reports",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "moderators",
+                    "arrayConfig": "CONTAINS"
+                },
+                {
+                    "fieldPath": "resolved",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "time",
+                    "order": "ASCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "reports",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "platform",
+                    "order": "ASCENDING"
+                },
                 {
                     "fieldPath": "resolved",
                     "order": "ASCENDING"

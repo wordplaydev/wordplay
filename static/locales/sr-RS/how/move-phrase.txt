@@ -4,17 +4,17 @@
 
 Уради ово, можемо се спојити @Phrase са @Placement :
 
-\Stage([Phrase('помери ме' place: Placement())] place: Place(0m 0m -10m))\
+\Stage([Phrase('помери ме' место: Placement())] место: Place(0m 0m -10m))\
 
 Коришћењем стрелица на тастатури или кликом на @Stage ће ажурирати @Placement , узрокујући @Phrase да се креће у том правцу.
 
 Да ли сте, међутим, знали да @Placement може се користити са/било шта/то захтева @Place ?На пример @Stage има @Place који одређује где је камера усмерена.Хајде да покушамо да поставимо @Placement за @Stage место, и видећемо шта ће се десити.
 
 \Stage([
-		Phrase('🐈' place: Place(-2m 2m))
-		Phrase('🐈' place: Place(2m -2m))
-		Phrase('🐈' place: Place(-1m 3m))
-	] place: Placement(Place(0m 0m -10m)))\
+		Phrase('🐈' место: Place(-2m 2m))
+		Phrase('🐈' место: Place(2m -2m))
+		Phrase('🐈' место: Place(-1m 3m))
+	] место: Placement(Place(0m 0m -10m)))\
 
 То покреће камеру! (Напомена: почињемо @Placement са\z\вредност\10m\тако да је камера удаљена од свега.)
 

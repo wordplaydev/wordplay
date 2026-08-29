@@ -8,7 +8,7 @@ Não há forma de *parar* uma  @Music  — o que a para é não estar no  @Stage
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'menu') ? '▶ carrega para começar' '🏃 corre!' 1m)
-		(phase = 'menu') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'menu') ? Music(Track(theme instrumento: Instrument.bell) andamento: 72beats/min) Music(Track(theme instrumento: Instrument.synth) andamento: 132beats/min)
 	])\
 
 As duas canções são os mesmos oito números. Só mudam o instrumento e o andamento, e já soa como uma peça diferente — porque os graus dizem *qual passo da escala*, e não qual a altura do som, por isso um  @Music  pode reinterpretá-los. Dá-lhe \escala: 🎼.menorHarmónica\ e a mesma melodia torna-se sinistra sem que uma nota seja reescrita.
@@ -19,7 +19,7 @@ A outra metade é música que se dobra continuamente com o rumo das coisas. Muda
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('pontuação \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] instrumento: Instrument.drums) andamento: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Carrega vezes suficientes e os tambores tocam com o dobro da força em relação ao início. Uma nota curta e percussiva é o que torna isto percetível — sob notas longas e sustentadas, uma mudança de andamento é difícil de sentir.

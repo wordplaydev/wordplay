@@ -6,8 +6,8 @@
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune ਸਾਜ਼: Instrument.flute)
+		Track(tune ਸਾਜ਼: Instrument.synthBass ਕੁੰਜੀ: -12semitones ਆਵਾਜ਼: 60%)
 	])\
 
 ਦੋ ਆਵਾਜ਼ਾਂ, ਇੱਕ ਸੂਚੀ। ਧੁਨ ਨੂੰ ਬਦਲੋ ਅਤੇ ਬਾਸ ਉਸ ਦੇ ਮਗਰ ਚੱਲਦਾ ਹੈ, ਕਿਉਂਕਿ ਬਦਲਣ ਲਈ ਸਿਰਫ਼ ਇੱਕੋ ਧੁਨ ਹੈ।
@@ -16,10 +16,10 @@ Music([
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune ਸਾਜ਼: Instrument.flute ਪੈਨ: 0)
+		Track(tune ਸਾਜ਼: Instrument.synthBass ਕੁੰਜੀ: -12semitones ਆਵਾਜ਼: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] ਸਾਜ਼: Instrument.synthPad ਤਾਲ: 2beats ਆਵਾਜ਼: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] ਸਾਜ਼: Instrument.drums ਤਾਲ: 0.5beats ਆਵਾਜ਼: 45%)
 	])\
 
 ਆਵਾਜ਼ਾਂ ਵੱਲ ਧਿਆਨ ਦਿਓ: ਸਿਰਫ਼ ਬੰਸਰੀ ਪੂਰੀ ਆਵਾਜ਼ 'ਤੇ ਹੈ। ਪੂਰੀ ਆਵਾਜ਼ ਵਾਲੇ ਹਿੱਸੇ ਮਿਲ ਕੇ ਉੱਚੀ ਆਵਾਜ਼ ਵਾਲਾ ਬੈਂਡ ਨਹੀਂ ਬਣਾਉਂਦੇ, ਸਗੋਂ ਗੜਬੜ ਵਾਲਾ ਬਣਾਉਂਦੇ ਹਨ, ਕਿਉਂਕਿ ਇੱਕੋ ਵੇਲੇ ਵੱਜਣ ਵਾਲੀ ਹਰ ਚੀਜ਼ ਨੂੰ ਇੱਕੋ ਸਪੀਕਰ ਵਿੱਚੋਂ ਲੰਘਣਾ ਪੈਂਦਾ ਹੈ। ਧੁਨ ਨੂੰ \100%\ ਤੋਂ ਸ਼ੁਰੂ ਕਰੋ ਅਤੇ ਬਾਕੀ ਸਭ ਕੁਝ ਇਸ ਦੇ ਹੇਠਾਂ ਰੱਖੋ।

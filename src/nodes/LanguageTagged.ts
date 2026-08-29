@@ -13,11 +13,7 @@ export abstract class LanguageTagged extends Node {
 
     /** The primary (first) language code on this tag, if any. */
     getLanguage(): LanguageCode | undefined {
-        const locale =
-            this.language === undefined
-                ? undefined
-                : this.language.getLanguageText();
-        return locale ? (locale.split('-')[0] as LanguageCode) : undefined;
+        return this.language?.getLanguageCode();
     }
 
     /** Every language code on this tag in source order. For monolingual tags
@@ -26,9 +22,7 @@ export abstract class LanguageTagged extends Node {
      *  that need to treat a multilingual tag as a member of MULTIPLE language
      *  buckets — e.g. RootView's per-language editor filter. */
     getLanguages(): LanguageCode[] {
-        return this.language
-            ? (this.language.getLanguageCodes() as LanguageCode[])
-            : [];
+        return this.language ? this.language.getLanguageCodes() : [];
     }
 }
 

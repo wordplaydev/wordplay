@@ -5,13 +5,13 @@
 代わりに、 @Sequence  と  @Phrase 何かを何度も繰り返すこと！具体的には、カウントを使用することができます @Sequence ポーズセットの回数を選択します。例えば、バスケットボールが上下に2回跳ねています。
 
 \Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀' 登場: Sequence({
+					0%: Pose(ずれ: Place(y: 0.25m))
+					25%: Pose(ずれ: Place(y: 0m))
+					50%: Pose(ずれ: Place(y: -0.25m))
+					75%: Pose(ずれ: Place(y: 0m))
+					100%: Pose(ずれ: Place(y: 0.25m))
+				} 回数: 2x 長さ: 2s))
 	])\
 
 animate-phrase, shake-phrase

@@ -5,17 +5,17 @@ Por vezes queremos contar histórias, mostrar letras de canções ou animar poes
 Por exemplo, imagine que queríamos animar a pequena canção infantil "Jack be Nimble".Poderíamos fazer um @Scene que tem cada linha como um @Phrase e definindo o @Phrase/duration de cada linha, o @Scene avançaria quando cada frase estivesse concluída.
 
 \Scene([
-		Phrase('Jack seja ágil' duration: 1s)
-		Phrase('Jack, seja rápido.' duration: 1s)
-		Phrase('O Jack saltou por cima do castiçal.' duration: 1s)
+		Phrase('Jack seja ágil' duração: 1s)
+		Phrase('Jack, seja rápido.' duração: 1s)
+		Phrase('O Jack saltou por cima do castiçal.' duração: 1s)
 	])\
 
 @Scene aguardarei por um @Sequence Ainda falta fazer isso. Vamos fazer subir a linha da vela!
 
 \Scene([
-		Phrase('Jack seja ágil' duration: 1s)
-		Phrase('Jack, seja rápido.' duration: 1s)
-		Phrase('O Jack saltou por cima do castiçal.' entering: Sequence.bounce(duration: 1s))
+		Phrase('Jack seja ágil' duração: 1s)
+		Phrase('Jack, seja rápido.' duração: 1s)
+		Phrase('O Jack saltou por cima do castiçal.' entrando: Sequence.bounce(duração: 1s))
 	])\
 
 @Scene também pode fazer um @Group também de texto, e aguardará até que todo o seu conteúdo termine a animação.
@@ -24,8 +24,8 @@ Por exemplo, imagine que queríamos animar a pequena canção infantil "Jack be 
 		Group(Stack() [
 				Phrase('Jack seja ágil')
 				Phrase('Jack, seja rápido.')
-			] duration: 2s)
-		Phrase('O Jack saltou por cima do castiçal.' entering: Sequence.bounce(duration: 1s))
+			] duração: 2s)
+		Phrase('O Jack saltou por cima do castiçal.' entrando: Sequence.bounce(duração: 1s))
 	])\
 
 interactive-scene

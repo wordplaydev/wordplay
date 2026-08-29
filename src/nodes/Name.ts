@@ -6,8 +6,14 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { type SymType } from '@nodes/Sym';
 import { ExpressionStartKeywordSyms } from '@parser/Keywords';
-import { BasisTypeSymbols, COMMA_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
+import {
+    BasisTypeSymbols,
+    COMMA_SYMBOL,
+    NOT_SYMBOL,
+    SymbolNameRegEx,
+} from '@parser/Symbols';
 import { OperatorRegEx } from '@parser/Tokenizer';
+import { lowerCase } from '@unicode/casing';
 import { EmojiTestRegex } from '@unicode/emoji';
 import { Purpose } from '@concepts/Purpose';
 import { Emotion } from '../lore/Emotion';
@@ -21,9 +27,6 @@ import type { Grammar, Replacement } from '@nodes/Node';
 import Node, { node, optional } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
-
-/** A name made entirely of Unicode symbols, with no letters or digits. */
-const SymbolNameRegEx = /^\p{S}+$/u;
 
 export default class Name extends LanguageTagged {
     readonly name: Token;
@@ -210,11 +213,12 @@ export default class Name extends LanguageTagged {
     }
 
     getLowerCaseName(): string | undefined {
+        // Through `lowerCase`, not `toLocaleLowerCase` directly: a tag Intl
+        // rejects — including the `😀` symbolic-name code — is a RangeError,
+        // and should degrade to the root mapping instead.
         return this.name === undefined
             ? undefined
-            : this.name
-                  .getText()
-                  .toLocaleLowerCase(this.language?.getLanguageCode());
+            : lowerCase(this.name.getText(), this.language?.getBCP47());
     }
 
     isEqualTo(alias: Node) {

@@ -4,7 +4,7 @@
 
 ਏ @Structure ਇਹ ਇੱਕ ਵਿਅੰਜਨ ਵਾਂਗ ਹੈ ਜਿਸ ਵਿੱਚ ਖਾਲੀ ਥਾਂਵਾਂ ਭਰੀਆਂ ਜਾਂਦੀਆਂ ਹਨ।ਇੱਥੇ ਇੱਕ ਗੁਬਾਰੇ ਦਾ ਟੈਂਪਲੇਟ ਹੈ ਜੋ ਇੱਕ ਰੰਗ ਅਤੇ ਇੱਕ ਲੇਬਲ ਲੈਂਦਾ ਹੈ, ਅਤੇ ਜਾਣਦਾ ਹੈ ਕਿ ਆਪਣੇ ਆਪ ਨੂੰ ਕਿਵੇਂ ਦਿਖਾਉਣਾ ਹੈ:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` ਰੰਗ: color ਆਕਾਰ: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'ਅਸਮਾਨ').show()

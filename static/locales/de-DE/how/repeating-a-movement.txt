@@ -5,13 +5,13 @@ Manchmal möchten wir, dass sich eine Figur mehrere Male auf die gleiche Weise b
 Stattdessen können wir verwenden @Sequence  mit  @Phrase etwas mehrmals wiederholen! Genauer gesagt,wir können die Zählung in @Sequence und wählen Sie, wie oft eine Pose ausgeführt wird. Zum Beispiel:hier ist ein Basketball, der zweimal auf und ab springt.
 
 \Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀' Eingabe: Sequence({
+					0%: Pose(Versatz: Place(j: 0.25m))
+					25%: Pose(Versatz: Place(j: 0m))
+					50%: Pose(Versatz: Place(j: -0.25m))
+					75%: Pose(Versatz: Place(j: 0m))
+					100%: Pose(Versatz: Place(j: 0.25m))
+				} zählen: 2x Dauer: 2s))
 	])\
 
 animate-phrase, shake-phrase

@@ -4,14 +4,14 @@
 
 ਉਦਾਹਰਣ ਵਜੋਂ, ਆਓ ਇਸ ਬਿੱਲੀ ਨੂੰ ਘੁੰਮਾਉਣ ਅਤੇ ਸ਼ਿਫਟ ਕਰਨ ਲਈ ਥੋੜ੍ਹਾ ਜਿਹਾ ਨੱਚਣ ਲਈ ਮਜਬੂਰ ਕਰੀਏ:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' ਆਰਾਮ: Sequence({
+			0%: Pose(ਰੋਟੇਸ਼ਨ: 0°)
+			15%: Pose(ਰੋਟੇਸ਼ਨ: 15°)
+			30%: Pose(ਰੋਟੇਸ਼ਨ: 0°)
+			45%: Pose(ਆਫਸੈੱਟ: Place(-0.25m))
+			60%: Pose(ਆਫਸੈੱਟ: Place(0.25m))
+			75%: Pose(ਆਫਸੈੱਟ: Place(-0.25m))
+			90%: Pose(ਆਫਸੈੱਟ: Place(0m))
 		} 2s))\
 
 ਇਹ ਉਦਾਹਰਣ ਇੱਕ ਦੀ ਵਰਤੋਂ ਕਰਦੀ ਹੈ @Sequence ਵੱਖ-ਵੱਖ @Pose .

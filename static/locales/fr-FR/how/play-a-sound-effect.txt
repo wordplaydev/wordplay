@@ -6,8 +6,8 @@ Deux choses en font un effet sonore plutôt qu'une chanson. \boucle: ⊥\ dit au
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 tape-moi' selectable: ⊤ name: 'tape')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 tape-moi' sélectionnable: ⊤ nom: 'tape')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell boucle: ⊥) rejouer: tapped)
 	])\
 
 Ne t'inquiète pas si la liste se vide de nouveau dès l'évaluation suivante — une note qui a commencé joue toujours jusqu'à la fin. Ce que tu ne peux pas laisser de côté, c'est \replay\. Tape deux fois : la deuxième tape produit exactement la même musique que la première, donc rien n'a changé et rien ne se rejouerait ; \replay\ est la façon de dire /encore, maintenant/. 
@@ -20,7 +20,7 @@ Comme les notes ne sont qu'une liste, tu peux les choisir selon *ce qui* s'est p
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ appuie sur une touche' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano boucle: ⊥) rejouer: struck)
 	])\
 
 Remarque que \∆ key\ est calculé sur sa propre ligne et que le test de valeur \key = ' '\ se fait séparément. Écrites ensemble comme une seule condition, le son se déclencherait de nouveau à la prochaine touche sans rapport, tandis que \key\ toujours lu comme un espace.

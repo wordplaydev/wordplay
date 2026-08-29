@@ -1,21 +1,29 @@
-カメラからビデオを作成する
+カメラから映像を作る
 
-その @Camera ストリームは、世界中の色のグリッドを取得するのに最適な方法です。もし私たちがそれらの色を見たいなら、画像を再現して @Camera 見えますか？
+ @Camera  ストリームは、世界の色をマス目のように取り出すのにとても便利です。もし、その色を使って  @Camera  が見ている画像を再現できたらどうでしょうか？
 
-私たちは @Grid レイアウト @Group 、 そして  @List/combine 色をリストに変換する関数 @Phrase 私たちが与える @Grid 。
+そこで、 @Grid  のレイアウトを  @Group  に使い、 @List/combine  関数で色を  @Phrase  のリストに変換してから、 @Grid  に渡します。
 
 \width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+Stage(
+	[
+		Group(
+			Grid(height width 0m)
+			colors.combine(
+				[]
+				ƒ(phrases row) [
 						:phrases
-						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
-					]))
-	])\
+						:row ↦ Phrase("⬤" 色: ⬚ 時間: 0s)
+					]
+			)
+		)
+	]
+)\
 
-この例では、各色を特定の色を持つ円に変換して、フレーズのリストを作成します。
+この例では、それぞれの色を円に変えて、フレーズのリストを作ります。
 
-注意してください @Camera ストリーム: 大量の入力が生成されます。画像の幅と高さは小さく保つようにしてください。
+ @Camera  ストリームには気をつけてください。とても多くの入力を作り出します。画像の幅と高さは小さくしておきましょう。
 
 interactive-scene

@@ -18,10 +18,10 @@ A @Grid 行数、列数、セル間の間隔を尋ねます。
 すべてのセルを同じサイズにしたい場合は、 @Grid 幅と高さも指定できます。そうすることで、文字のサイズが異なっていても、文字がそれぞれの枠内にきちんと収まります。
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' 大きさ: 1m)
+		Phrase('🐶' 大きさ: 1.5m)
+		Phrase('🦊' 大きさ: 0.5m)
+		Phrase('🐻' 大きさ: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

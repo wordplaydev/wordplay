@@ -1,6 +1,7 @@
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
 import type { LocaleTextsAccessor } from '@locale/Locales';
+import BooleanLiteral from '@nodes/BooleanLiteral';
 import Evaluate from '@nodes/Evaluate';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Unit from '@nodes/Unit';
@@ -19,7 +20,20 @@ function meters(name: LocaleTextsAccessor): OutputProperty {
     );
 }
 
-/** The editable inputs of a Shape's form (Rectangle, Circle, or Polygon), as number fields. */
+/** A yes/no field property. */
+function flag(name: LocaleTextsAccessor): OutputProperty {
+    return new OutputProperty(
+        name,
+        'bool',
+        false,
+        false,
+        (expr) => expr instanceof BooleanLiteral,
+        () => BooleanLiteral.make(false),
+    );
+}
+
+/** The editable inputs of a Shape's form. A Path's points are edited on stage rather than
+ *  here, since a list of places isn't a field; everything else about one is. */
 export default function getFormProperties(
     project: Project,
     _locales: Locales,
@@ -55,6 +69,13 @@ export default function getFormProperties(
             meters((l) => l.output.Polygon.x.names),
             meters((l) => l.output.Polygon.y.names),
             meters((l) => l.output.Polygon.z.names),
+        ];
+    if (form.is(project.shares.output.Path, context))
+        return [
+            flag((l) => l.output.Path.closed.names),
+            flag((l) => l.output.Path.smooth.names),
+            meters((l) => l.output.Path.thickness.names),
+            meters((l) => l.output.Path.z.names),
         ];
     return [];
 }

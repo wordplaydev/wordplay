@@ -8,11 +8,11 @@
 
 \¶नोट: किसी अन्य प्रोजेक्ट के लिए गैलरी देखें<उदाहरण@https://wordplay.dev/project/example-Layers?play>छवियों को स्तरित करने की.¶Stage([
 		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(2m 3 0m -12m 0m) घुमाव: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
-	] place: Place(0m 10m -30m))\
+		Shape(Rectangle(-11m -9m 11m -12m 10m) घुमाव: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) घुमाव: -25°)
+	] स्थल: Place(0m 10m -30m))\
 
 आप परतों से कुछ बहुत ही बढ़िया चीज़ें बना सकते हैं! इसे आज़माएँ!
 

@@ -100,6 +100,35 @@ export async function translateDeduped(
     );
     return units.map((unit) => byText.get(unit) ?? null);
 }
+/**
+ * Translate only the units this run hasn't already produced under the same key,
+ * mapping remembered results back into place.
+ *
+ * `translateDeduped` dedupes within one request; this remembers across them,
+ * which matters because the bulk phase is sliced into several calls so it can
+ * checkpoint — without it, every duplicate straddling a slice boundary would be
+ * bought twice. Only successes are remembered: a `null` is a failure, and a
+ * later slice asking again is a retry, not waste.
+ */
+export async function translateMemoized(
+    units: string[],
+    memo: Map<string, string>,
+    keyOf: (unit: string) => string,
+    translateMissing: (pending: string[]) => Promise<(string | null)[]>,
+): Promise<(string | null)[]> {
+    const pending = units.filter((unit) => !memo.has(keyOf(unit)));
+    const translated =
+        pending.length > 0 ? await translateMissing(pending) : [];
+    const fresh = new Map<string, string | null>(
+        pending.map((unit, index) => [unit, translated[index] ?? null]),
+    );
+    for (const [unit, value] of fresh)
+        if (value !== null) memo.set(keyOf(unit), value);
+    return units.map(
+        (unit) => memo.get(keyOf(unit)) ?? fresh.get(unit) ?? null,
+    );
+}
+
 // The request-chunking policy lives in a dependency-free module so browser code
 // (the in-app project translator) can share the same bounds; re-exported here so
 // this file's importers and chunkUnits.test.ts are unchanged.
@@ -542,47 +571,92 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                 log.say(
                     `Reusing translations for ${units.length - unique.length} duplicate segments`,
                 );
-            const translated: (string | null)[] = [];
-            let done = 0;
-            // A phase can be thousands of segments, and without per-chunk
-            // reporting the run is silent between chunks — indistinguishable
-            // from being stuck, and read as exactly that.
-            for (const chunk of chunkUnits(unique)) {
-                const characters = chunk.reduce(
-                    (total, unit) => total + unit.length,
-                    0,
+            // Reuse anything this run already translated under the same system
+            // prompt and model. `translateDeduped` only dedupes within a single
+            // call, and the bulk phase is now sliced into several so it can
+            // checkpoint — without this, every duplicate straddling a slice
+            // boundary would be bought twice. It also spans the locale file,
+            // both tutorials, and the how-tos, which were separate calls before.
+            const keyOf = (unit: string) =>
+                `${this.systemId(system)}\u0000${model}\u0000${unit}`;
+            const remembered = unique.filter((unit) =>
+                this.translationMemo.has(keyOf(unit)),
+            ).length;
+            if (remembered > 0)
+                log.say(
+                    `Reusing ${remembered} segments already translated in this run`,
                 );
-                done += chunk.length;
-                const started = Date.now();
-                const elapsed = () =>
-                    ((Date.now() - started) / 1000).toFixed(1);
-                try {
-                    translated.push(
-                        ...(await this.translateChunk(
-                            log,
-                            chunk,
-                            system,
-                            sourceLocale,
-                            targetLocale,
-                            model,
-                        )),
-                    );
-                    log.say(
-                        `${done}/${unique.length} text segments, ${characters} chars in ${elapsed()}s`,
-                    );
-                } catch (error) {
-                    failures++;
-                    translated.push(...chunk.map(() => null));
-                    // A failed chunk is a sibling of the successes around it,
-                    // not a level above them — one outcome of the same loop.
-                    log.bad(
-                        `Chunk of ${chunk.length} segments (${characters} chars) failed after ${elapsed()}s: ${describeClaudeError(error)}`,
-                    );
-                }
-            }
-            return translated;
+            return translateMemoized(
+                unique,
+                this.translationMemo,
+                keyOf,
+                async (pending) => {
+                    const translated: (string | null)[] = [];
+                    let done = 0;
+                    // A phase can be thousands of segments, and without per-chunk
+                    // reporting the run is silent between chunks — indistinguishable
+                    // from being stuck, and read as exactly that.
+                    for (const chunk of chunkUnits(pending)) {
+                        const characters = chunk.reduce(
+                            (total, unit) => total + unit.length,
+                            0,
+                        );
+                        done += chunk.length;
+                        const started = Date.now();
+                        const elapsed = () =>
+                            ((Date.now() - started) / 1000).toFixed(1);
+                        try {
+                            translated.push(
+                                ...(await this.translateChunk(
+                                    log,
+                                    chunk,
+                                    system,
+                                    sourceLocale,
+                                    targetLocale,
+                                    model,
+                                )),
+                            );
+                            log.say(
+                                `${done}/${pending.length} text segments, ${characters} chars in ${elapsed()}s`,
+                            );
+                        } catch (error) {
+                            failures++;
+                            translated.push(...chunk.map(() => null));
+                            // A failed chunk is a sibling of the successes around it,
+                            // not a level above them — one outcome of the same loop.
+                            log.bad(
+                                `Chunk of ${chunk.length} segments (${characters} chars) failed after ${elapsed()}s: ${describeClaudeError(error)}`,
+                            );
+                        }
+                    }
+                    return translated;
+                },
+            );
         });
         return { results, failures };
+    }
+
+    /**
+     * Translations this instance has already produced, keyed by the system
+     * prompt and model that produced them plus the source string. The system
+     * prompt is what makes reuse exactly safe: it already encodes the source and
+     * target locales, whether the strings are glossary terms, and the target's
+     * glossary and conventions, so an identical key means an identical request.
+     * The model is separate because it is chosen by `options.names` rather than
+     * baked into the prompt.
+     */
+    private readonly translationMemo = new Map<string, string>();
+
+    /** Short ids for system prompts, so the memo's keys don't each carry a copy
+     *  of a ~6KB prompt. */
+    private readonly systemIds = new Map<string, number>();
+    private systemId(system: string): number {
+        let id = this.systemIds.get(system);
+        if (id === undefined) {
+            id = this.systemIds.size;
+            this.systemIds.set(system, id);
+        }
+        return id;
     }
 
     /** Cache of loaded target locale texts, used to localize embedded examples'

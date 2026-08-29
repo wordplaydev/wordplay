@@ -5,9 +5,22 @@ import type Conflict from '@conflicts/Conflict';
 import DuplicateLanguage from '@conflicts/DuplicateLanguage';
 import MissingLanguage from '@conflicts/MissingLanguage';
 import UnknownLanguage from '@conflicts/UnknownLanguage';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import UnknownRegion from '@conflicts/UnknownRegion';
+import type {
+    EditContext,
+    InsertContext,
+    ReplaceContext,
+} from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import { Languages } from '@locale/LanguageCode';
+import {
+    completeLanguageTag,
+    completeRegionTag,
+    getRegionName,
+    MaxTagCompletions,
+    resolveLanguageCode,
+    resolveRegionCode,
+} from '@locale/tagNames';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -34,6 +47,53 @@ const SupportedRegionCodes = Array.from(
         ),
     ),
 );
+
+/** What a tag token means: its resolved code where it names one, and the text
+ *  the author wrote where it doesn't. Every accessor that *serializes* a tag
+ *  uses this rather than the strictly-resolved form, because a value's tag is
+ *  also how `TextValue` knows it has a tag at all — dropping an unrecognized
+ *  code would silently untag `'hi'/aaa` and stop it round-tripping. */
+function meaningOf(
+    text: string,
+    resolve: (text: string) => string | undefined,
+): string {
+    return resolve(text) ?? text;
+}
+
+/** The given texts with any two that mean the same thing collapsed to the
+ *  first spelling of it. */
+function uniqueByMeaning(
+    texts: string[],
+    resolve: (text: string) => string | undefined,
+): string[] {
+    const byMeaning = new Map<string, string>();
+    for (const text of texts) {
+        const key = meaningOf(text, resolve);
+        if (!byMeaning.has(key)) byMeaning.set(key, text);
+    }
+    return [...byMeaning.values()];
+}
+
+/** How a tag token reads in a description: what the author wrote, followed by
+ *  the other form of it — a code gets its name ("es (español)"), a name gets
+ *  its code ("español (es)"). Both forms help, and which one is missing depends
+ *  on how the author wrote it. Unrecognized text is left as written. */
+function describeTagToken<Code extends string>(
+    text: string | undefined,
+    resolve: (text: string) => Code | undefined,
+    nameOf: (code: Code) => string | undefined,
+): string | undefined {
+    if (text === undefined) return undefined;
+    const code = resolve(text);
+    if (code === undefined) return text;
+    // Written as a code: add the name, unless the code has none worth adding.
+    if (text === code) {
+        const name = nameOf(code);
+        return name === undefined || name === code ? text : `${text} (${name})`;
+    }
+    // Written as a name: add the code, which is the part a reader can't infer.
+    return `${text} (${code})`;
+}
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -107,12 +167,17 @@ export default class Language extends Node {
     ): Language | undefined {
         if (a === undefined) return b;
         if (b === undefined) return a;
-        const langs = [
-            ...new Set([...a.getLanguageTexts(), ...b.getLanguageTexts()]),
-        ];
-        const regions = [
-            ...new Set([...a.getRegionTexts(), ...b.getRegionTexts()]),
-        ];
+        // Deduplicate by what each text *means*, not how it is spelled, or
+        // `/Español + /es` would produce `/Español_es` — a DuplicateLanguage
+        // conflict manufactured by `+`. The first spelling seen is the one kept.
+        const langs = uniqueByMeaning(
+            [...a.getLanguageTexts(), ...b.getLanguageTexts()],
+            resolveLanguageCode,
+        );
+        const regions = uniqueByMeaning(
+            [...a.getRegionTexts(), ...b.getRegionTexts()],
+            resolveRegionCode,
+        );
         return Language.make(
             langs[0],
             regions[0],
@@ -187,6 +252,18 @@ export default class Language extends Node {
         ];
     }
 
+    /** The regions this tag's primary language is actually used in, which is
+     *  what makes `/en-` offer `US GB CA AU …` instead of every region some
+     *  shipped locale happens to name (which is where `/en-BR` came from).
+     *  Falls back to the shipped regions for a language that lists none. */
+    getLikelyRegions(): string[] {
+        const language = this.getLanguageCode();
+        const regions = language ? Languages[language]?.regions : undefined;
+        return regions !== undefined && regions.length > 0
+            ? regions.map((region) => String(region))
+            : SupportedRegionCodes;
+    }
+
     /** Variants of this tag with one more language or region added, drawn from
      *  supported locales (skipping codes already present). Lets autocomplete
      *  grow a tag into a multilingual / multi-region one. Empty for an
@@ -195,22 +272,27 @@ export default class Language extends Node {
         const langs = this.getLanguageTexts();
         if (langs.length === 0) return [];
         const regions = this.getRegionTexts();
+        // Membership is by resolved code, so a tag already saying `/Español`
+        // is never offered `es` as an addition.
+        const haveLanguage = new Set<string>(this.getLanguageCodes());
+        const haveRegion = new Set<string>(this.getRegionCodes());
+
+        // Nothing can be *added* to a tag whose parts don't yet name anything:
+        // `/en-U` is a region being typed, not a tag missing a part, and
+        // extending it would keep the half-typed `U` as the primary region and
+        // complete nothing. Completion handles that case instead.
+        if (
+            haveLanguage.size !== langs.length ||
+            haveRegion.size !== regions.length
+        )
+            return [];
 
         const extensions: Language[] = [];
-        // Add another language as an extra.
-        for (const language of SupportedLanguageCodes)
-            if (!langs.includes(language))
-                extensions.push(
-                    Language.make(
-                        langs[0],
-                        regions[0],
-                        [...langs.slice(1), language],
-                        regions.slice(1),
-                    ),
-                );
-        // Add another region (becomes the primary region if there is none).
-        for (const region of SupportedRegionCodes)
-            if (!regions.includes(region))
+        // Add a region first: someone who typed `/en` overwhelmingly wants
+        // `-US`, and multilingual tags are the rare case. (Becomes the primary
+        // region if there is none.)
+        for (const region of this.getLikelyRegions())
+            if (!haveRegion.has(region))
                 extensions.push(
                     Language.make(
                         langs[0],
@@ -221,7 +303,143 @@ export default class Language extends Node {
                             : [...regions.slice(1), region],
                     ),
                 );
+        // Then another language as an extra.
+        for (const language of SupportedLanguageCodes)
+            if (!haveLanguage.has(language))
+                extensions.push(
+                    Language.make(
+                        langs[0],
+                        regions[0],
+                        [...langs.slice(1), language],
+                        regions.slice(1),
+                    ),
+                );
         return extensions;
+    }
+
+    /** This tag's region texts, read straight off the fields rather than through
+     *  `getRegionTokens`, which is gated on there being a language and so
+     *  reports nothing for a half-written tag. */
+    private getRawRegionTexts(): string[] {
+        return [
+            ...(this.region ? [this.region] : []),
+            ...this.regionExtras.filter((token) => token.isSymbol(Sym.Name)),
+        ].map((token) => token.getText());
+    }
+
+    /** Which part of the tag a caret just after `anchor` is completing, and what
+     *  has been typed of it. Located by token identity, since two parts of a tag
+     *  can hold the same text. Undefined for the slash, dash, and joins, which
+     *  type no text of their own. */
+    private locateTagPart(
+        anchor: Token,
+    ):
+        | { part: 'language' | 'region'; index: number; prefix: string }
+        | undefined {
+        if (anchor === this.language)
+            return { part: 'language', index: 0, prefix: anchor.getText() };
+        if (anchor === this.region)
+            return { part: 'region', index: 0, prefix: anchor.getText() };
+        const extraIndex = (tokens: Token[]) => {
+            let index = 0;
+            for (const token of tokens) {
+                if (!token.isSymbol(Sym.Name)) continue;
+                index++;
+                if (token === anchor) return index;
+            }
+            return undefined;
+        };
+        const language = extraIndex(this.extras);
+        if (language !== undefined)
+            return {
+                part: 'language',
+                index: language,
+                prefix: anchor.getText(),
+            };
+        const region = extraIndex(this.regionExtras);
+        if (region !== undefined)
+            return { part: 'region', index: region, prefix: anchor.getText() };
+        return undefined;
+    }
+
+    /** This tag with one part's text replaced, keeping every other part as the
+     *  author wrote it. */
+    private withTagPart(
+        part: 'language' | 'region',
+        index: number,
+        text: string,
+    ): Language {
+        const langs = this.getLanguageTexts();
+        const regions = this.getRawRegionTexts();
+        const replaced = [...(part === 'language' ? langs : regions)];
+        replaced[index] = text;
+        const newLangs = part === 'language' ? replaced : langs;
+        const newRegions = part === 'region' ? replaced : regions;
+        return Language.make(
+            newLangs[0],
+            newRegions[0],
+            newLangs.slice(1),
+            newRegions.slice(1),
+        );
+    }
+
+    /**
+     * Completions for a tag being typed, for a caret just after `anchor`.
+     *
+     * A tag's parts are tokens rather than nodes, so nothing the menu's
+     * field-driven paths offer can reach them (`Sym.Name` is a wildcard — see
+     * `getPossibleNodes`). This is what a caret beside a tag gets instead, and
+     * the anchor token is what says which part is being typed.
+     */
+    getPossibleCompletions(anchor: Token, edit: EditContext): Language[] {
+        // The slash: nothing typed yet, so offer whole tags. Deliberately the
+        // shipped locales rather than all 262 languages, which is a wall.
+        if (anchor === this.slash) return Language.getPossibleLanguages(edit);
+
+        // A `_` join: they're adding a part, which is what extensions are.
+        if (anchor.isSymbol(Sym.LanguageJoin))
+            return this.getPossibleExtensions();
+
+        // The dash: a region is coming, so offer only regions.
+        if (anchor === this.dash)
+            return this.getLikelyRegions().map((region) =>
+                this.withTagPart('region', 0, region),
+            );
+
+        const typing = this.locateTagPart(anchor);
+        if (typing === undefined) return [];
+        const { part, index, prefix } = typing;
+
+        // When what's typed already names something, they've finished this part
+        // and the useful offer is what can be added to it — a region first.
+        const resolve =
+            part === 'language' ? resolveLanguageCode : resolveRegionCode;
+        const extensions =
+            resolve(prefix) === undefined ? [] : this.getPossibleExtensions();
+
+        // Otherwise complete it, in whichever form they were typing.
+        const taken = new Set<string>(
+            part === 'language'
+                ? this.getLanguageCodes()
+                : this.getRegionCodes(),
+        );
+        const likely = part === 'region' ? this.getLikelyRegions() : [];
+        const completions = (
+            part === 'language'
+                ? completeLanguageTag(prefix)
+                : completeRegionTag(prefix)
+        )
+            .filter(({ code }) => !taken.has(code))
+            // A region the language is actually used in first, so `/en-U` leads
+            // with `US` rather than every region whose code starts with U.
+            .sort(
+                (a, b) =>
+                    Number(likely.includes(b.code)) -
+                    Number(likely.includes(a.code)),
+            )
+            .map(({ text }) => this.withTagPart(part, index, text));
+
+        return [...extensions, ...completions].slice(0, MaxTagCompletions);
     }
 
     getDescriptor(): NodeDescriptor {
@@ -289,35 +507,41 @@ export default class Language extends Node {
             return conflicts;
         }
 
-        // Unknown-language conflict per individual language token.
+        // Unknown-language conflict per individual language token. A token
+        // names a language by code or by name; neither is a conflict.
         for (const token of languageTokens) {
-            if (!(token.getText() in Languages))
+            if (resolveLanguageCode(token.getText()) === undefined)
                 conflicts.push(new UnknownLanguage(this, token));
         }
 
-        // Duplicate-language conflict: same code appearing twice in the tag.
-        const seen = new Map<string, Token>();
-        for (const token of languageTokens) {
-            const text = token.getText();
-            const prior = seen.get(text);
-            if (prior !== undefined) {
-                conflicts.push(new DuplicateLanguage(this, prior, token));
-            } else {
-                seen.set(text, token);
-            }
+        const regionTokens = this.getRegionTokens();
+
+        // Unknown-region conflict per individual region token.
+        for (const token of regionTokens) {
+            if (resolveRegionCode(token.getText()) === undefined)
+                conflicts.push(new UnknownRegion(this, token));
         }
 
-        // Duplicate-region conflict: same region appearing twice in the tag.
-        const seenRegions = new Map<string, Token>();
-        for (const token of this.getRegionTokens()) {
-            const text = token.getText();
-            const prior = seenRegions.get(text);
-            if (prior !== undefined) {
-                conflicts.push(new DuplicateLanguage(this, prior, token));
-            } else {
-                seenRegions.set(text, token);
+        // Duplicate conflicts compare what each token *means*, so `/es_Spanish`
+        // is caught: it names one language twice, however it spells it.
+        const duplicates = (
+            tokens: Token[],
+            resolve: (text: string) => string | undefined,
+            which: 'language' | 'region',
+        ) => {
+            const seen = new Map<string, Token>();
+            for (const token of tokens) {
+                const key = meaningOf(token.getText(), resolve);
+                const prior = seen.get(key);
+                if (prior !== undefined)
+                    conflicts.push(
+                        new DuplicateLanguage(this, prior, token, which),
+                    );
+                else seen.set(key, token);
             }
-        }
+        };
+        duplicates(languageTokens, resolveLanguageCode, 'language');
+        duplicates(regionTokens, resolveRegionCode, 'region');
 
         return conflicts;
     }
@@ -337,11 +561,25 @@ export default class Language extends Node {
         return this.getLanguageTokens().map((t) => t.getText());
     }
 
-    /** All language-code texts that resolve to a recognized LanguageCode. */
+    /** Every language this tag names, as codes, however it spells them.
+     *  Deduplicated, since `/es_Spanish` names one language twice. */
     getLanguageCodes(): LanguageCode[] {
-        return this.getLanguageTexts().filter(
-            (text): text is LanguageCode => text in Languages,
-        );
+        const codes: LanguageCode[] = [];
+        for (const text of this.getLanguageTexts()) {
+            const code = resolveLanguageCode(text);
+            if (code !== undefined && !codes.includes(code)) codes.push(code);
+        }
+        return codes;
+    }
+
+    /** Every region this tag names, as codes, however it spells them. */
+    getRegionCodes(): RegionCode[] {
+        const codes: RegionCode[] = [];
+        for (const text of this.getRegionTexts()) {
+            const code = resolveRegionCode(text);
+            if (code !== undefined && !codes.includes(code)) codes.push(code);
+        }
+        return codes;
     }
 
     /** Primary (first) language code text, if any. */
@@ -355,12 +593,28 @@ export default class Language extends Node {
      *  value is suitable as a `TextValue.format` payload. Returns undefined
      *  for an empty tag. */
     getTagString(): string | undefined {
-        const langs = this.getLanguageTexts();
+        const langs = this.getMeaningfulLanguages();
         if (langs.length === 0) return undefined;
-        const regions = this.getRegionTexts();
+        const regions = this.getMeaningfulRegions();
         return regions.length > 0
             ? `${langs.join('_')}-${regions.join('_')}`
             : langs.join('_');
+    }
+
+    /** This tag's languages as codes where they name one and as written where
+     *  they don't, deduplicated by meaning. The serializing form. */
+    private getMeaningfulLanguages(): string[] {
+        return uniqueByMeaning(
+            this.getLanguageTexts(),
+            resolveLanguageCode,
+        ).map((text) => meaningOf(text, resolveLanguageCode));
+    }
+
+    /** This tag's regions, in the same resolve-or-raw form. */
+    private getMeaningfulRegions(): string[] {
+        return uniqueByMeaning(this.getRegionTexts(), resolveRegionCode).map(
+            (text) => meaningOf(text, resolveRegionCode),
+        );
     }
 
     /** A BCP-47 language tag using only the primary language and region (e.g.
@@ -370,8 +624,15 @@ export default class Language extends Node {
     getBCP47(): string | undefined {
         const language = this.getLanguageText();
         if (language === undefined) return undefined;
+        // Resolve-or-raw, so `/Español-México` becomes the valid `es-MX` while
+        // an unrecognized code still reaches Intl as written. Every consumer
+        // (countWords, pattern/segment, collation) already degrades a tag Intl
+        // rejects to the root locale rather than throwing.
+        const code = meaningOf(language, resolveLanguageCode);
         const region = this.getRegionText();
-        return region ? `${language}-${region}` : language;
+        return region
+            ? `${code}-${meaningOf(region, resolveRegionCode)}`
+            : code;
     }
 
     /** All region-name tokens in source order: primary first, then extras. */
@@ -394,10 +655,16 @@ export default class Language extends Node {
         return this.language ? this.region?.getText() : undefined;
     }
 
-    /** Primary (first) language code, if it resolves to a recognized LanguageCode. */
+    /** Primary language, as a code, if this tag names one. Read from the full
+     *  list rather than the first token, so a tag whose primary is unknown but
+     *  whose extra is known still has a language. */
     getLanguageCode(): LanguageCode | undefined {
-        const lang = this.getLanguageText();
-        return lang && lang in Languages ? (lang as LanguageCode) : undefined;
+        return this.getLanguageCodes()[0];
+    }
+
+    /** Primary region, as a code, if this tag names one. */
+    getRegionCode(): RegionCode | undefined {
+        return this.getRegionCodes()[0];
     }
 
     /** True if this tag has more than one language. */
@@ -411,13 +678,13 @@ export default class Language extends Node {
 
     /** True if any language in this tag matches the locale's language. */
     isLocaleLanguage(locale: Locale) {
-        return this.getLanguageTexts().some((text) => text === locale.language);
+        return this.getLanguageCodes().some((code) => code === locale.language);
     }
 
     /** True if this tag's regions and the given locale's regions match, where
      *  match means both are empty or they share at least one region. */
     isLocaleRegion(locale: Locale) {
-        const regions = this.getRegionTexts();
+        const regions = this.getRegionCodes();
         return (
             (regions.length === 0 && locale.regions.length === 0) ||
             regions.some((region) => locale.regions.includes(region))
@@ -426,9 +693,9 @@ export default class Language extends Node {
 
     /** One Locale per language in the tag, all sharing this tag's regions. */
     getLocaleIDs(): Locale[] {
-        const regions = this.getRegionTexts() as RegionCode[];
-        return this.getLanguageTexts().map((language) => ({
-            language: language as LanguageCode,
+        const regions = this.getRegionCodes();
+        return this.getLanguageCodes().map((language) => ({
+            language,
             regions,
         }));
     }
@@ -438,8 +705,8 @@ export default class Language extends Node {
      *  combination Locale carrying the full language list. Lets pickers
      *  surface each language on its own AND the multilingual combo. */
     getPickerLocaleIDs(): Locale[] {
-        const regions = this.getRegionTexts() as RegionCode[];
-        const languages = this.getLanguageTexts() as LanguageCode[];
+        const regions = this.getRegionCodes();
+        const languages = this.getLanguageCodes();
         if (languages.length === 0) return [];
         const result: Locale[] = languages.map((language) => ({
             language,
@@ -460,18 +727,20 @@ export default class Language extends Node {
         return this.getLocaleIDs()[0];
     }
 
+    /** Two tags are equal when they mean the same thing, so `/es` equals
+     *  `/Español`. Unrecognized codes compare as written, so `/aaa` still
+     *  differs from `/bbb`. */
     isEqualTo(lang: Node) {
         if (!(lang instanceof Language)) return false;
-        const a = this.getLanguageTexts();
-        const b = lang.getLanguageTexts();
-        if (a.length !== b.length) return false;
-        for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
-        const aRegions = this.getRegionTexts();
-        const bRegions = lang.getRegionTexts();
-        if (aRegions.length !== bRegions.length) return false;
-        for (let i = 0; i < aRegions.length; i++)
-            if (aRegions[i] !== bRegions[i]) return false;
-        return true;
+        const same = (a: string[], b: string[]) =>
+            a.length === b.length &&
+            a.every((text, index) => text === b[index]);
+        return (
+            same(
+                this.getMeaningfulLanguages(),
+                lang.getMeaningfulLanguages(),
+            ) && same(this.getMeaningfulRegions(), lang.getMeaningfulRegions())
+        );
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Language;
@@ -484,8 +753,16 @@ export default class Language extends Node {
         __: Context,
     ): Record<string, TemplateInput> {
         return {
-            language: this.language?.getText(),
-            region: this.region?.getText(),
+            language: describeTagToken(
+                this.language?.getText(),
+                resolveLanguageCode,
+                (code) => Languages[code]?.name,
+            ),
+            region: describeTagToken(
+                this.region?.getText(),
+                resolveRegionCode,
+                getRegionName,
+            ),
         };
     }
 

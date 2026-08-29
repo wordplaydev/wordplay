@@ -108,6 +108,17 @@ export function getGlossaryFormIndex(locale: LocaleText): GlossaryFormIndex {
     return index;
 }
 
+/** The raw (annotated) word for a glossary id in one locale, or '' if absent.
+ *  Raw rather than stripped because it seeds the inline editor and decides
+ *  whether the machine-translated badge shows; use `withoutAnnotations` for
+ *  anything displayed. Iterates entries so a runtime string id needs no unsafe
+ *  keyof cast. */
+export function getTermWordString(locale: LocaleText, id: string): string {
+    for (const [key, entry] of Object.entries(locale.glossary))
+        if (key === id) return entry.word;
+    return '';
+}
+
 /** The raw (unconcretized) definition string for a glossary id in one locale,
  *  or '' if absent. Iterates entries so a runtime string id needs no unsafe
  *  keyof cast. Use as a `LocaleTextAccessor`, e.g. with `getMultilingualMarkup`. */

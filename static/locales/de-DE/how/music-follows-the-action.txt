@@ -8,7 +8,7 @@ Es gibt keine Möglichkeit, *anzuhalten* eine  @Music  — was sie stoppt, ist, 
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'Menü') ? '▶ drücken zum Starten' '🏃 los!' 1m)
-		(phase = 'Menü') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'Menü') ? Music(Track(theme Instrument: Instrument.bell) Tempo: 72beats/min) Music(Track(theme Instrument: Instrument.synth) Tempo: 132beats/min)
 	])\
 
 Beide Lieder sind dieselben acht Zahlen. Nur das Instrument und das Tempo ändern sich, und schon klingt es wie ein anderes Stück — denn Stufen sagen, *welche Stufe der Tonleiter*, nicht welche Tonhöhe, sodass ein  @Music  sie neu deuten kann. Gib ihm \skalieren: 🎼.harmonischMoll\ und dieselbe Melodie wird bedrohlich, ohne dass ein Ton neu geschrieben wird.
@@ -19,7 +19,7 @@ Die andere Hälfte ist Musik, die sich stetig danach richtet, wie es gerade läu
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('Partitur \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] Instrument: Instrument.drums) Tempo: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Drücke oft genug, und die Trommeln schlagen doppelt so kräftig wie am Anfang. Eine kurze, schlagende Note macht das hörbar — unter langen gehaltenen Noten ist eine Tempoänderung schwer zu spüren.

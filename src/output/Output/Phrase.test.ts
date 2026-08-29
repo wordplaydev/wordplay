@@ -62,3 +62,41 @@ test("a Phrase's writing layout defaults to ø (inherit the render context)", ()
     // An untagged phrase therefore has no explicit direction.
     expect(phraseFrom("Phrase('hi')")?.direction).toBeUndefined();
 });
+
+test("a Phrase's bubble reaches output in each of its three forms", () => {
+    expect(phraseFrom("Phrase('a')")?.bubble).toBeUndefined();
+
+    // Bare text: shown, not spoken.
+    const shown = phraseFrom("Phrase('a' bubble: 'hello')");
+    expect(shown?.bubble?.getShortDescription()).toBe('hello');
+    expect(shown?.bubble?.say).toBeUndefined();
+    // An unset side means "choose one for me", which the stage does at layout.
+    expect(shown?.bubble?.getSide()).toBeUndefined();
+    expect(shown?.bubble?.isThought()).toBe(false);
+
+    // A Say: shown *and* spoken, which is what keeps the two from diverging.
+    const spoken = phraseFrom("Phrase('a' bubble: Say('hello'))");
+    expect(spoken?.bubble?.getShortDescription()).toBe('hello');
+    expect(spoken?.bubble?.say).toBeDefined();
+
+    // The full structure.
+    const styled = phraseFrom(
+        "Phrase('a' bubble: Bubble('hi' '→' '💭' wrap: 4m))",
+    );
+    expect(styled?.bubble?.getShortDescription()).toBe('hi');
+    expect(styled?.bubble?.getSide()).toBe('→');
+    expect(styled?.bubble?.isThought()).toBe(true);
+    expect(styled?.bubble?.wrap).toBe(4);
+});
+
+test('the inputs before a Phrase’s bubble still read where they should', () => {
+    // Every input is read by fixed position, so a new one at the end must not
+    // shift what the ones before it resolve to.
+    const phrase = phraseFrom(
+        "Phrase('a' wrap: 3m alignment: '>' matter: Matter() bubble: 'hi')",
+    );
+    expect(phrase?.wrap).toBe(3);
+    expect(phrase?.alignment).toBe('>');
+    expect(phrase?.matter).toBeDefined();
+    expect(phrase?.bubble?.getShortDescription()).toBe('hi');
+});

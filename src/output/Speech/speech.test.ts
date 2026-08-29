@@ -76,7 +76,11 @@ describe('the shell actually reaches the platform', () => {
 
     test('speakingNow reports the source and the words', () => {
         speech.speak(SaySource, [utterance('one'), utterance('two')]);
-        expect(get(speakingNow)).toEqual({ source: SaySource, text: 'one' });
+        expect(get(speakingNow)).toEqual({
+            source: SaySource,
+            text: 'one',
+            captioned: true,
+        });
     });
 
     test('speakingNow follows a batch to the next utterance', () => {
@@ -84,7 +88,11 @@ describe('the shell actually reaches the platform', () => {
         // rather than reporting the batch it was handed.
         speech.speak(SaySource, [utterance('one'), utterance('two')]);
         synth.spoken[0].onend?.();
-        expect(get(speakingNow)).toEqual({ source: SaySource, text: 'two' });
+        expect(get(speakingNow)).toEqual({
+            source: SaySource,
+            text: 'two',
+            captioned: true,
+        });
     });
 
     test('finishing one speaks the next', () => {

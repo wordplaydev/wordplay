@@ -7,11 +7,11 @@
 \Scene([
 		Phrase('クリックしてください')
 		Button()
-		Phrase('もう一度クリックしてください' duration: 1s)
+		Phrase('もう一度クリックしてください' 時間: 1s)
 		Button()
-		Phrase('いや、本当に、思いっきりクリックしてください！！' duration: 1s)
+		Phrase('いや、本当に、思いっきりクリックしてください！！' 時間: 1s)
 		Button()
-		Phrase('もうクリックしましたか？' duration: 1s)
+		Phrase('もうクリックしましたか？' 時間: 1s)
 	])\
 
 その @Scene 最初のものを表示 @Phrase 、その後、 @Button 真実であると証明され、真実であれば次の段階に進む @Phrase 。
@@ -21,11 +21,11 @@
 \Scene([
 		Phrase('誰かいますか？')
 		Volume() > .5
-		Phrase("聞こえないのですが、もう一度言っていただけますか？" duration: 1s)
+		Phrase("聞こえないのですが、もう一度言っていただけますか？" 時間: 1s)
 		Volume() > .7
-		Phrase('もっと大きな声でお願いします…' duration: 1s)
+		Phrase('もっと大きな声でお願いします…' 時間: 1s)
 		Volume() > .9
-		Phrase('ああ、こんにちは！' duration: 1s)
+		Phrase('ああ、こんにちは！' 時間: 1s)
 	])\
 
 animated-scene

@@ -6,8 +6,8 @@
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune 악기: Instrument.flute)
+		Track(tune 악기: Instrument.synthBass 키: -12semitones 음량: 60%)
 	])\
 
 두 개의 목소리, 하나의 목록. 곡조를 고치면 베이스도 그것을 따라갑니다. 고칠 곡조가 하나뿐이기 때문입니다.
@@ -16,10 +16,10 @@ Music([
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune 악기: Instrument.flute 좌우균형: 0)
+		Track(tune 악기: Instrument.synthBass 키: -12semitones 음량: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] 악기: Instrument.synthPad 비트: 2beats 음량: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] 악기: Instrument.drums 비트: 0.5beats 음량: 45%)
 	])\
 
 소리 크기를 잘 보세요. 플루트만 최대입니다. 모든 부분이 최대 소리 크기라고 해서 밴드가 더 커지는 것은 아닙니다. 오히려 더 탁해집니다. 모든 소리가 동시에 나면서 같은 스피커 하나를 지나가야 하기 때문입니다. 멜로디를 \100%\ 에서 시작하고 나머지는 모두 그 아래에 넣으세요.

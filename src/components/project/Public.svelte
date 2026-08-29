@@ -11,6 +11,8 @@
         type ModerationState,
     } from '@db/projects/Moderation';
     import Notice from '@components/app/Notice.svelte';
+    import ResponsibilityNotice from '@components/moderation/ResponsibilityNotice.svelte';
+    import type { Visibility } from 'shared-types';
     import {
         isBanned,
         strikes,
@@ -28,6 +30,12 @@
         /** Whether to title the section. Off inside the share dialog, where the
          *  tab already names it; on where this sits among other sections. */
         header?: boolean;
+        /** What is being shared, so this can say who reviews it (#938). A
+         *  creator deciding whether to make something public should learn who
+         *  can review it before they do, not after someone reports it. */
+        visibility?: Visibility | undefined;
+        /** The gallery's name, when the answer names one. */
+        galleryName?: string;
     }
 
     let {
@@ -36,6 +44,8 @@
         flags = undefined,
         header = true,
         checkStanding = false,
+        visibility = undefined,
+        galleryName = '',
     }: Props = $props();
 
     // A creator's own standing, which decides whether the control below is
@@ -51,6 +61,10 @@
 <MarkupHTMLView
     markup={(l) => l.ui.dialog.share.subheader.public.explanation}
 />
+
+{#if visibility}
+    <ResponsibilityNotice {visibility} gallery={galleryName} />
+{/if}
 
 <MarkupHTMLView
     markup={Object.values($locales.getTextStructure((l) => l.moderation.flags))

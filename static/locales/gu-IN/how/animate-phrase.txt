@@ -4,14 +4,14 @@
 
 ઉદાહરણ તરીકે, ચાલો આ બિલાડીને ફેરવીને અને શિફ્ટ કરીને થોડું નાચીએ:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' આરામ: Sequence({
+			0%: Pose(પરિભ્રમણ: 0°)
+			15%: Pose(પરિભ્રમણ: 15°)
+			30%: Pose(પરિભ્રમણ: 0°)
+			45%: Pose(ઓફસેટ: Place(-0.25m))
+			60%: Pose(ઓફસેટ: Place(0.25m))
+			75%: Pose(ઓફસેટ: Place(-0.25m))
+			90%: Pose(ઓફસેટ: Place(0m))
 		} 2s))\
 
 આ ઉદાહરણ a નો ઉપયોગ કરે છે @Sequence અલગ અલગ @Pose .

@@ -6,8 +6,8 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 ਮੈਨੂੰ ਟੈਪ ਕਰੋ' selectable: ⊤ name: 'ਟੈਪ')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 ਮੈਨੂੰ ਟੈਪ ਕਰੋ' ਚੋਣਯੋਗ: ⊤ ਨਾਮ: 'ਟੈਪ')
+		Music(Track(tapped ? [1 5 8] [] ਸਾਜ਼: Instrument.bell ਚੱਕਰ: ⊥) ਮੁੜਚਲਾਓ: tapped)
 	])\
 
 ਇਸ ਗੱਲ ਦੀ ਚਿੰਤਾ ਨਾ ਕਰੋ ਕਿ ਅਗਲੇ ਹੀ ਮੁਲਾਂਕਣ 'ਤੇ ਸੂਚੀ ਦੁਬਾਰਾ ਖਾਲੀ ਹੋ ਜਾਂਦੀ ਹੈ — ਜਿਹੜਾ ਸੁਰ ਸ਼ੁਰੂ ਹੋ ਚੁੱਕਾ ਹੈ ਉਹ ਹਮੇਸ਼ਾ ਆਪਣੇ ਅੰਤ ਤੱਕ ਚੱਲਦਾ ਹੈ। ਜੋ ਤੁਸੀਂ ਛੱਡ ਨਹੀਂ ਸਕਦੇ ਉਹ ਹੈ \replay\। ਦੋ ਵਾਰ ਟੈਪ ਕਰੋ ਤੇ ਦੂਜਾ ਟੈਪ ਪਹਿਲੇ ਵਰਗਾ ਹੀ ਬਿਲਕੁਲ ਉਹੀ ਸੰਗੀਤ ਬਣਾਉਂਦਾ ਹੈ, ਇਸ ਲਈ ਕੁਝ ਨਹੀਂ ਬਦਲਿਆ ਤੇ ਕੁਝ ਦੁਬਾਰਾ ਨਹੀਂ ਵੱਜੇਗਾ; \replay\ ਇਸ ਤਰ੍ਹਾਂ ਤੁਸੀਂ ਕਹਿੰਦੇ ਹੋ /ਦੁਬਾਰਾ, ਹੁਣੇ/। 
@@ -20,7 +20,7 @@ Stage([
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ ਇੱਕ ਕੁੰਜੀ ਦਬਾਓ' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] ਸਾਜ਼: Instrument.piano ਚੱਕਰ: ⊥) ਮੁੜਚਲਾਓ: struck)
 	])\
 
 ਧਿਆਨ ਦਿਓ ਕਿ \∆ key\ ਆਪਣੀ ਲਾਈਨ 'ਤੇ ਕੱਢਿਆ ਜਾਂਦਾ ਹੈ ਤੇ value ਦੀ ਜਾਂਚ \key = ' '\ ਵੱਖਰੇ ਤੌਰ 'ਤੇ ਹੁੰਦੀ ਹੈ। ਜੇ ਇਕੱਠੇ ਇੱਕ ਸ਼ਰਤ ਵਜੋਂ ਲਿਖੀ ਜਾਵੇ, ਤਾਂ ਆਵਾਜ਼ ਅਗਲੀ ਗੈਰ-ਸੰਬੰਧਿਤ ਕੁੰਜੀ 'ਤੇ ਦੁਬਾਰਾ ਵੱਜੇਗੀ ਜਦੋਂ ਕਿ \key\ ਹਾਲੇ ਵੀ ਇੱਕ ਖਾਲੀ ਥਾਂ ਵਜੋਂ ਪੜ੍ਹਿਆ ਜਾਂਦਾ ਹੈ।

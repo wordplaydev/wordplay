@@ -64,6 +64,7 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'FloatingFoods',
             'AnimatedName',
             'WordplayTrace',
+            'Colors',
         ],
     },
     Motion: {
@@ -80,6 +81,10 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'Christmas',
             'Easing',
             'Echo',
+            'Laughing',
+            'Layouts',
+            'Mumble',
+            'WildTransforms',
         ],
     },
     Music: {
@@ -120,7 +125,14 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
         localeKey: 'stories',
         name: 'Stories',
         description: 'Interactive stories and narratives.',
-        projects: ['Pears', 'JapaneseClass', 'PersonalMap', 'SlideShow'],
+        projects: [
+            'Pears',
+            'Dialog',
+            'JapaneseClass',
+            'PersonalMap',
+            'SlideShow',
+            'AdoboRecipe',
+        ],
     },
     Tools: {
         localeKey: 'tools',

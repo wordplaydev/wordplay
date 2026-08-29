@@ -7,9 +7,9 @@ Terkadang kita menginginkan teks tersusun rapi berdampingan dalam satu baris.Kit
 A  @Row  Anda juga dapat menyusun karakter berdasarkan tepi atas, tengah, atau bawahnya, dan menambahkan spasi di antara karakter-karakter tersebut.Ini buah yang sama, tetapi posisinya lebih rendah dengan sedikit ruang bernapas:
 
 \Group(Row('>' 0.5m) [
-		Phrase('🍎' size: 2m)
-		Phrase('🍌' size: 1m)
-		Phrase('🍇' size: 3m)
+		Phrase('🍎' ukuran: 2m)
+		Phrase('🍌' ukuran: 1m)
+		Phrase('🍇' ukuran: 3m)
 	])\
 
 Itu \'>'\ memberitahu  @Row  untuk menyelaraskan semuanya di sepanjang tepi bawahnya. Cobalah \'<'\ untuk bagian atas atau \'|'\ untuk bagian tengah.Itu \0.5m\ adalah spasi di antara setiap karakter.

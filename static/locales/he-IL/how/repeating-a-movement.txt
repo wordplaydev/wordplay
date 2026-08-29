@@ -5,13 +5,13 @@
 במקום זאת, נוכל להשתמש @Sequence עם @Phrase לגרום למשהו לחזור על עצמו מספר פעמים! באופן ספציפי,אנחנו יכולים להשתמש בספירה ב @Sequence ולבחור כמה פעמים מתרחשת סדרת תנוחות. לדוגמה,הנה כדורסל שקופץ למעלה ולמטה פעמיים.
 
 \Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀' כניסה: Sequence({
+					0%: Pose(לקזז: Place(י: 0.25m))
+					25%: Pose(לקזז: Place(י: 0m))
+					50%: Pose(לקזז: Place(י: -0.25m))
+					75%: Pose(לקזז: Place(י: 0m))
+					100%: Pose(לקזז: Place(י: 0.25m))
+				} לספור: 2x משך: 2s))
 	])\
 
 animate-phrase, shake-phrase

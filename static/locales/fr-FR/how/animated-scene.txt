@@ -5,17 +5,17 @@ Parfois, nous voulons raconter des histoires, montrer des paroles ou animer de l
 Par exemple, imaginons que nous voulions animer la courte comptine « Jack be Nimble ».Nous pourrions faire un @Scene qui a chaque ligne comme un @Phrase , et en définissant le @Phrase/duration de chaque ligne, le @Scene avancerait lorsque chaque phrase serait terminée.
 
 \Scene([
-		Phrase('Jack, sois agile' duration: 1s)
-		Phrase('Jack, fais vite' duration: 1s)
-		Phrase('Jack saute par-dessus le chandelier' duration: 1s)
+		Phrase('Jack, sois agile' durée: 1s)
+		Phrase('Jack, fais vite' durée: 1s)
+		Phrase('Jack saute par-dessus le chandelier' durée: 1s)
 	])\
 
 @Scene attendra un @Sequence À faire aussi. Faisons sauter la ligne des bougies !
 
 \Scene([
-		Phrase('Jack, sois agile' duration: 1s)
-		Phrase('Jack, fais vite' duration: 1s)
-		Phrase('Jack saute par-dessus le chandelier' entering: Sequence.bounce(duration: 1s))
+		Phrase('Jack, sois agile' durée: 1s)
+		Phrase('Jack, fais vite' durée: 1s)
+		Phrase('Jack saute par-dessus le chandelier' entrer: Sequence.bounce(durée: 1s))
 	])\
 
 @Scene peut également prendre un @Group de texte aussi, et il attendra que tout son contenu termine l'animation.
@@ -24,8 +24,8 @@ Par exemple, imaginons que nous voulions animer la courte comptine « Jack be Ni
 		Group(Stack() [
 				Phrase('Jack, sois agile')
 				Phrase('Jack, fais vite')
-			] duration: 2s)
-		Phrase('Jack saute par-dessus le chandelier' entering: Sequence.bounce(duration: 1s))
+			] durée: 2s)
+		Phrase('Jack saute par-dessus le chandelier' entrer: Sequence.bounce(durée: 1s))
 	])\
 
 interactive-scene

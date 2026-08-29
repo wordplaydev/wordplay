@@ -10,6 +10,7 @@ import type Node from '@nodes/Node';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import { getLanguageTagName } from './languageTagName';
 import { getUnitKey, getUnitName } from './unitName';
 
 /**
@@ -39,6 +40,11 @@ export default function getMenuNoteMarkup(
     const unitName =
         unit === undefined ? undefined : getUnitName(unit, locales);
     if (unitName !== undefined) return Markup.words(unitName);
+
+    // Likewise every locale-tag suggestion shares one doc, so name the language
+    // and region the tag stands for instead.
+    const tagName = getLanguageTagName(node);
+    if (tagName !== undefined) return Markup.words(tagName);
 
     const named =
         definition ??

@@ -5,7 +5,7 @@ A co jeśli chcemy, aby postać upadła, odbiła się od podłogi lub była popy
 @Motion sterowanie/Gdzie/postać jest w czasie. Używamy jej jako\place\dla @Phrase , uruchamiając go wysoko, aby mógł spaść.Potrzebujemy też czegoś, na co możemy spaść, bo inaczej nasza postać będzie spadać w nieskończoność! @Shape z szerokim @Rectangle tworzy ładną podłogę:
 
 \Stage([
-		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Phrase('🍎' miejsce: Motion(Place(0m 5m)) materiał: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@ Jabłko startuje z wysokości pięciu metrów i spada pod wpływem grawitacji.Ki
 Aby zmienić sposób/sprężysty/lub jak/ciężki/postać jest, daj jej swoją własną @Matter . @Matter wymaga masy, sprężystości i tarcia:
 
 \Stage([
-		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
-		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Phrase('⚽' miejsce: Motion(Place(-2m 5m)) materiał: Matter(1kg 0.9 0.2))
+		Phrase('🪨' miejsce: Motion(Place(2m 5m)) materiał: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

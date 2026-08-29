@@ -111,6 +111,8 @@ type DocumentationText = {
         explain: HeaderAndExplanationText;
         /** [plain] The category names */
         category: Record<keyof typeof HowToCategories, string>;
+        /** [plain] The subheader for how-tos the creator bookmarked, shown above the per-gallery groups */
+        bookmarked: string;
         /** [plain] The subheader for related how to's */
         related: string;
         /** [plain] The heading for the list of how-tos relevant to a concept, shown in the concept sidebar */

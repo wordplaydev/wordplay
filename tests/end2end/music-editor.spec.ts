@@ -425,7 +425,14 @@ test('importing a large MIDI file finishes rather than hanging', async ({
     // the quadratic path ever comes back, this fails instead of freezing a tab
     // for someone to discover by hand.
     const started = Date.now();
-    await palette.locator('input[type="file"]').setInputFiles({
+    // Found page-wide by uiid rather than under the palette. The toolbar the
+    // importer sits in moves items that don't fit into a popup portaled to
+    // <body>, so whether this input is inside the palette at all depends on the
+    // window's width; and the toolbar's hidden measurement copy of every item
+    // is a second file input inside the palette, which is what made
+    // `palette.locator('input[type="file"]')` ambiguous. Only the real input
+    // keeps its uiid — the toolbar strips them from the measurement copy.
+    await page.locator('[data-uiid="midiPicker"]').setInputFiles({
         name: 'big.mid',
         mimeType: 'audio/midi',
         buffer: midiBytes(4, 800),

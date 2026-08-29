@@ -9,14 +9,14 @@ bucle: ⊥\ le dice al  @Track  que reproduzca sus notas una vez en lugar de par
 tapped: ∆ Button()
 Stage(
 	[
-		Phrase('👆 tócame' selectable: ⊤ name: 'toca')
+		Phrase('👆 tócame' seleccionable: ⊤ nombre: 'toca')
 		Music(
 			Track(
 				tapped ? [1 5 8] []
-				instrument: Instrument.bell
-				loop: ⊥
+				instrumento: Instrument.bell
+				bucle: ⊥
 			)
-			replay: tapped
+			repetir: tapped
 		)
 	]
 )\
@@ -40,10 +40,10 @@ Stage(
 		Music(
 			Track(
 				struck ? [((key = ' ') ? 1 8)] []
-				instrument: Instrument.piano
-				loop: ⊥
+				instrumento: Instrument.piano
+				bucle: ⊥
 			)
-			replay: struck
+			repetir: struck
 		)
 	]
 )\

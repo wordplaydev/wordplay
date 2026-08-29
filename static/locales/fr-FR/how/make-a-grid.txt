@@ -18,10 +18,10 @@ Cela permet de créer un potager de 2 x 3 pieds !
 Si vous souhaitez que toutes les cellules aient la même taille, donnez @Grid une largeur et une hauteur également. Ainsi, les caractères restent bien à l'intérieur de leurs carrés, même s'ils sont de tailles différentes :
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' taille: 1m)
+		Phrase('🐶' taille: 1.5m)
+		Phrase('🦊' taille: 0.5m)
+		Phrase('🐻' taille: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

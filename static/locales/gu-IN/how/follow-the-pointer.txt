@@ -4,14 +4,14 @@
 
 @Pointer આપણને તાજગી આપે છે @Place દર વખતે જ્યારે પોઇન્ટર ખસે છે.જો આપણે તેનો ઉપયોગ કરીએ @Place તરીકે @Phrase ની\place\, આપણે જ્યાં પણ નિર્દેશ કરીશું ત્યાં પાત્ર જશે.
 
-\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+\Stage([Phrase('🐈' સ્થળ: Pointer())] સ્થળ: Place(0m 0m -10m))\
 
 બસ! તમારા માઉસને ખસેડો અથવા તમારી આંગળી ખેંચો, અને બિલાડીને અનુસરતી જુઓ.
 
 તમે બહાર કાઢીને વધુ રસપ્રદ વસ્તુઓ કરી શકો છો\x\અને\y\થી @Place .અહીં એક બતક છે જે હંમેશા પોઇન્ટરથી એક મીટર ઉપર તરતી રહે છે:
 
 \Stage([
-		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
-	] place: Place(0m 0m -10m))\
+		Phrase('🦆' સ્થળ: Place(Pointer().x Pointer().y + 1m))
+	] સ્થળ: Place(0m 0m -10m))\
 
 move-phrase, count-with-time

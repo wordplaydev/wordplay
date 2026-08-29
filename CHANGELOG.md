@@ -4,19 +4,108 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.31.1 - 2026-08-26
+## 0.33.0 - 2026-08-29
 
 ### Added
 
+- 🌐 We added support for Persian (`fa-AF`)! (#1229).
+- 🔔 You now hear what happens after something is reported. If someone reports something you made, we tell you, and we tell you what was decided and which rules it broke. If you were the one who reported it, we tell you what happened too. We never say who reported something. (#938)
+- 🤝 Every place where you share something now tells you who can review it — including when the answer is nobody. (#938)
+- ⚑ You can now report a project in a private gallery to that gallery's curators. Before, you could only report things that anyone could see. (#938)
+- 💬 When someone reviews a message, they can now say which rules it broke and write a note to the person who sent it. Both come to you with the decision. (#938)
+
+### Changed
+
+- 🔔 Your notifications now last. They stay after you reload the page, they follow you to your other devices, and once you clear one it stays cleared. (#938)
+- 🤝 Who reviews what you share now follows who can see it. Nobody reviews a project you keep to yourself. A gallery's curators review what's in their gallery, including its chats. We review anything anyone can see. The [rights page](https://wordplay.dev/rights) explains all of it. (#938)
+- 🔒 A reported message is now really hidden while someone looks at it. Before, it was only hidden on screen, and the words were still there for anyone who looked closely. (#938)
+- 🚩 Reporting a message hides it once. If it's kept and someone reports it again, it stays visible the second time, so reporting can't be used to keep someone quiet. (#938)
+- 🤝 Reported messages now wait on the moderation page along with everything else to review, instead of on their own page. Your notifications will take you there. (#938)
+
+### Fixed
+
+- 🔒 Your notifications no longer stay after you sign out. On a shared computer, the next person could see warnings meant for you. (#938)
+- 🔔 Turning off how-to notifications no longer clears all your other notifications too. (#938)
+- 🔔 You now hear about messages that came in while you were away. Before, we only told you about ones that arrived while the page was open. (#938)
+- 🔔 Several reported messages in one project now show as several notifications instead of one that never went away. (#938)
+- 🐛 The report flag on a chat message no longer opens the report box for every message at once. (#938)
+- 🐛 Reporting the same thing twice no longer makes two reports. (#938)
+- 🔒 Only the person who owns a project can delete its chat now. Before, anyone in the chat could delete the whole conversation. (#938)
+
+## 0.32.1 - 2026-08-28
+
+### Added
+
+- 🔍 You can now search the [galleries](https://wordplay.dev/galleries). Type a word and you'll see galleries whose name or description matches it, example projects, and projects from galleries people have shared. (#299)
+- 🤝 Getting your gallery onto the galleries page is now a request: a moderator reads it first and decides whether to list it. Your gallery page tells you whether it's waiting, listed, or turned down, and you get a notice when that changes. (#1311)
+- 📚 Six examples that weren't in any gallery are now in one, so you can find them: Adobo Recipe, Color Show, Laughing, Layouts, Mumble, and Wild Transforms.
+- 🌐 We made it possible to add the other spellings of a glossary word — the plurals and endings each language needs — so a link like `@parameters` holds the whole word instead of stopping partway. If you help translate Wordplay, there's a new Glossary tab where you add and remove them. (#1244)
+- 📖 We made it easier to fix a glossary word or what it means: you can now change it right where you see it in the [Guide](https://wordplay.dev/guide), instead of finding it in a long list of text. (#1244)
+- 🌐 If you help translate Wordplay, you can now fix the notes the editor shows about problems in your code — both the short name of the problem and the sentence explaining it — right where you read them, instead of finding them in a long list. The parts the sentence fills in for itself, like the name of the thing that's wrong, stay put while you edit, and the note reads normally again once you save. (#1275)
+- 📖 In the same way, you can now fix what the editor says a piece of code is, and the help text for anything built in, wherever those show up. (#1275)
+
+### Changed
+
+- 📖 How-tos shared in a gallery now live in the [Guide](https://wordplay.dev/guide) with all the other how-tos, grouped under the gallery that shared them. They used to sit on the galleries page, which is for galleries. (#1277)
+- 🤝 The galleries page now shows public galleries in a different order each visit, so every one gets a turn near the top. It also says so when none have been listed yet, instead of showing an empty space. (#1311)
+
+### Fixed
+
+- 🌐 In localization mode, some text showed an edit button that quietly threw your change away when you saved it, and a few would have saved it to the wrong place, replacing a whole group of text with one sentence. A button now appears only where there's really something to change. (#1275)
+- 🌙 In dark mode, the highlighted word in a search result was too pale to read on its yellow background. It's dark now, like every other yellow highlight in Wordplay.
+- 🌐 The Python, JavaScript, and Java samples in the [tutorial](https://wordplay.dev/learn) had been translated along with the words around them, which broke the code in all 29 languages. Code reads the same for everyone, so we put it back the way it's written.
+- 📖 About 50 tutorial lines told you to try something without showing it — a sentence about using `+` with no `+` in it. We put the missing examples back in Portuguese, Spanish, Hindi, and Chinese.
+- 📖 In the Spanish and Chinese tutorials, some characters said the same line twice. We kept the better wording and dropped the repeat.
+- 🌐 The examples that teach language tags had lost their tags in every language, showing `'hello'` where they meant `'hello'/en`. They teach what they're for again, and text that is meant to stay in another language is no longer translated away.
+- 📖 Three how-tos — drawing the music, keeping track of a game, and the video grid — were missing examples we had added to the English ones. They're up to date in every language now.
+- 🌐 We fixed names that had been translated into the wrong word, so you can type what the [Guide](https://wordplay.dev/guide) shows. In eleven languages the word for the kind of thing a list holds had become the word for being kind, in Polish a `Set` was the verb for arranging things, and five Hebrew names carried marks nobody types. (#1324)
+
+## 0.32.0 - 2026-08-26
+
+### Added
+
+- 🗨️ Give a @Phrase a `bubble` and it says something in a speech bubble that points right at it, so letters can talk to each other. Put words in it, or a @Say so it's spoken out loud as well as shown, or a @Bubble to pick a color or make it a thought instead. (#75)
+- 🗨️ A bubble finds its own place: above whoever is speaking, or off to one side if something is already there. Your stage makes room for it too, so what someone says is never off screen. (#75)
+- 🗨️ We added a new example called Dialog to the [galleries](https://wordplay.dev/galleries), where two letters talk about how strange it is that letters talk. (#75)
+- 📐 A @Row can now line its content up on the baseline, the line that letters sit on, so a short `a` and a tall `b` read as one line instead of two. Choose `_` for the row's alignment.
 - 🔠 Every font now says what it looks like, so you can pick one without seeing it. The font chooser reads "Creepster, a textured face, strong and old-fashioned" instead of just the name, and a phrase tells you what face it's wearing. There are 12 words for the shape of the letters and 13 for how a font feels, and they're translated into every language Wordplay speaks. (#298)
 - 📐 Things on your stage now line up with each other when you move them. Drag one near another and it snaps to its left or right edge, its middle, or the line its letters sit on, and a line shows you what it lined up with. Turn the grid on and it snaps to the grid too. Hold Alt or Option while you drag to place it anywhere you want. (#117)
 - 📐 You can line things up with the keyboard too. Arrow keys move whatever you picked, and holding shift while you press an arrow jumps it straight to the next thing it can line up with that way. Wordplay says where it landed and what it lined up with, so you can lay out a stage without seeing it. (#117)
+- 🧱 The palette now has a row of + buttons across the top for adding things to your stage: a phrase, a rectangle, a circle, a many-sided shape, a line, music, or speech. It stays put while you scroll, and it's there whether or not you've picked something. Before, a character offered to add one thing at a time and stopped offering once you had one, so a second phrase meant writing it yourself.
+- 🧱 A new thing lands below whatever is already on your stage instead of on top of it, and Wordplay picks it for you so you can start changing it right away. If you picked something first, the new thing goes in beside it.
+- 🔳 Pick two or more things on your stage and press 🔳 to collect them into a @Group. When it can't, the button says why. (#119)
+- 🔣 You can now make a circle or a many-sided shape, not just a rectangle. Each has its own button, and each shape now has a symbol you can type: `▭`, `●`, and `⬢`.
+- ✏️ You can now draw on your stage. Press the pencil in the palette, then drag to sweep out a line, or click once for each place you want it to bend. Arrow keys move a dot around and Enter drops a point, so you can draw without a mouse, and Escape finishes. Wordplay tidies the line up when you let go, so a wobbly drag doesn't leave hundreds of points in your code. (#167)
+- ✏️ The pencil turns itself off once you've drawn a line, so you won't start another one by accident when you meant to pick the line you already have. If your program is empty, pressing it gives you a @Stage to draw on. (#167)
+- 📐 A new shape, @Path, draws a line through a list of places, and you can type it as `╱`. Ask for `closed` to join the last place back to the first, `smooth` to curve through your places instead of turning at them, and `thickness` to say how thick to draw it. It takes a plain list of places, so anything that makes places can draw one — including @Contour, which traces the outline of letters. (#167)
+- 📐 Pick a line you drew and every place on it gets a handle. Drag one to bend the line, or use the arrow keys. Enter adds a place halfway along, and Delete takes one away. (#167)
+- 🧲 A @Path on your @Stage stops things by its real shape, so you can draw a hill or a valley and watch things roll into it. Circles and many-sided shapes already stopped things by their own shape; lines do now too. (#167)
+- 🔠 Give a shape `glyphs` and Wordplay writes that text along its edge, over and over until it fills. Words can run around a circle or a hexagon, and a line can be drawn out of letters instead of ink. (#167)
+- 🎨 Shapes now have `filled` and `stroked`, so you can have just an outline, or neither — which is how you make a wall that stops things without being seen.
+- 🌐 You can now write a language tag with the language's name, not just its code: `'hola'/Español`, `'hola'/Spanish`, and `'hola'/es` all mean the same thing, and so do `/es-México` and `/es-MX`. Capitals and accents don't matter, so `/espanol` works too. (#1220)
+- 🚦 Wordplay now tells you when it doesn't know the region in a language tag, the way it already did for the language. Before, a misspelled one like `/en-Merica` quietly meant nothing. (#1220)
+- 💡 You can now finish a language tag by typing part of one. Type `/esp` and pick `/español`, `/span` and pick `/Spanish`, or `/en-U` and pick `/en-US` — and once you've typed something, every language and region is offered, not just the ones Wordplay speaks. (#1220)
+
+### Changed
+
+- 🗨️ Three examples now use speech bubbles instead of words placed by hand: the map that tells you about a place when you bump into it, the face that says your mood, and the story Pears. (#75)
+- 📐 When your program shows more than one thing, they now go exactly where you put them. Wordplay used to quietly gather them into a @Group and stack them, which threw away the up-and-down part of every place you wrote and moved the side-to-side part too. Things with no place of their own now sit on top of each other in the middle, so give them a place — or write a @Group yourself if stacking is what you wanted.
+- 🌐 The [language chooser](https://wordplay.dev/) now writes each region in its own language, so you'll see "México" and "日本" instead of "Mexico" and "Japan". You can still search for either one. (#1220)
+- 💡 When you pick a language tag from the menu, it now says which language the tag is for, so `/es` reads as "español" and `/es-MX` as "español (México)". Before, every choice showed the same sentence. (#1220)
+- 🌐 After you type a language, we now offer the places where people speak it — `/en` offers `-US`, `-GB`, and `-CA` — instead of every place Wordplay happens to know. Adding a second language is still there, just further down the list. (#1220)
 
 ### Fixed
 
 - 🔠 The font chooser used to read a font's markers out loud as "no tilde asterisk caret slash", and read the writing a font supports in that writing's own letters, so an English voice said "Ελληνικά" letter by letter. Now it says "no light, bold, extra, italic" and "Greek", while still showing the symbols and the letters on screen. (#298)
 - 🖱️ Sometimes you'd click something on your stage and nothing would happen — it got a blue outline but no handles, and the arrow keys wouldn't move it. That could last until you changed your code again. Now a click always finds what you clicked on.
 - 🔍 Your stage used to zoom in and out while you dragged something across it, which made things hard to place. Now it holds still while you move and fits your work again once you let go. If it ends up further out than you want, restart your program and it will frame everything fresh.
+- 🗣️ Screen readers used to read the name of a group or a shape as its symbol, saying "white square button" where they meant "group". Now they say the word.
+- 🐛 When a language tag named the same region twice, letting Wordplay fix it also deleted the other regions you had listed. Now it only removes the repeat. (#1220)
+- 💡 The menu wouldn't help you write a language tag at all. Typing `'hi'/` offered no languages, `'hi'/en` offered no regions, and `'hi'/en-U` wouldn't finish into `/en-US`. Now each of them offers what comes next. (#1220)
+- ✍️ Adding something to your program used to pull your project's description up onto the first line of your code.
+- 🎨 Picking a @Say used to show an empty palette. Now you can edit what it says there, like anything else.
+- 🐛 A small shape was drawn lower than the box that picks it, so its outline, its turn and resize handles, and the shape itself all sat in different places. They line up now.
+- 🎨 Using a circle or a many-sided shape as your stage's `frame` cut out the wrong part of the stage. The piece that showed and the edge drawn around it were nowhere near each other.
 
 ## 0.31.0 - 2026-08-25
 

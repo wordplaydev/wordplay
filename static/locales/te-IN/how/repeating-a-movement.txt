@@ -5,13 +5,13 @@
 బదులుగా, మనం ఉపయోగించవచ్చు @Sequence తో @Phrase ఏదైనా పదే పదే పునరావృతం అయ్యేలా చేయడానికి! ప్రత్యేకంగా,మనం లెక్కింపును ఉపయోగించవచ్చు @Sequence మరియు ఎన్నిసార్లు భంగిమలు వేయాలో ఎంచుకోండి. ఉదాహరణకు,ఇదిగో ఒక బాస్కెట్‌బాల్ రెండుసార్లు పైకి క్రిందికి ఎగిరిపడుతోంది.
 
 \Stage([
-		Phrase('🏀 🏀 తెలుగు' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀 🏀 తెలుగు' ప్రవేశించడం: Sequence({
+					0%: Pose(ఆఫ్‌సెట్: Place(వై: 0.25m))
+					25%: Pose(ఆఫ్‌సెట్: Place(వై: 0m))
+					50%: Pose(ఆఫ్‌సెట్: Place(వై: -0.25m))
+					75%: Pose(ఆఫ్‌సెట్: Place(వై: 0m))
+					100%: Pose(ఆఫ్‌సెట్: Place(వై: 0.25m))
+				} లెక్కించు: 2x వ్యవధి: 2s))
 	])\
 
 animate-phrase, shake-phrase

@@ -12,6 +12,6 @@
 
 మీరు ఒక క్యాలెండర్‌ను కూడా ఎంచుకోవచ్చు, ఉదాహరణకు జపనీస్ క్యాలెండర్, ఇంకా ఒక ఫాంట్‌తో గడియారానికి శైలిని ఇవ్వవచ్చు:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' ముఖం: 'Doto')\
 
 count-with-time

@@ -1,13 +1,28 @@
 /**
- * How long what was said stays on screen after the voice stops.
+ * What the caption shows, and how long it stays after the voice stops.
  *
- * *What* is said isn't decided here at all — `speech.ts` holds the one utterance
- * the platform was handed, and the caption renders that — so this module answers
- * only the question a viewer's eyes ask that their ears don't: how long do the
- * words linger? Kept out of the component the way `announcerQueue.ts` is kept
- * out of `Announcer.svelte`, because the timing is the part worth testing and a
- * component is the part that isn't.
+ * `speech.ts` holds the one utterance the platform was handed, and the caption
+ * renders that, so the only decisions here are which utterances this band is
+ * for and how long the words linger. Kept out of the component the way
+ * `announcerQueue.ts` is kept out of `Announcer.svelte`, because those are the
+ * parts worth testing and a component is the part that isn't.
  */
+import { SaySource, type CurrentSpeech } from '@output/Speech/speech';
+
+/**
+ * The words this band should show for what is being spoken, or undefined when
+ * it should show nothing.
+ *
+ * Two utterances are skipped, for opposite reasons. Another source holding the
+ * voice (a music track) is not what this band captions. And a `Say` carried by a
+ * `Phrase`'s speech bubble opts out with `captioned: false`: the bubble already
+ * shows those words, attached to the speaker, which is what this band stands in
+ * for when nothing on stage is saying them — captioning it too would put the
+ * same line on screen twice.
+ */
+export function captionFor(now: CurrentSpeech | undefined): string | undefined {
+    return now?.source === SaySource && now.captioned ? now.text : undefined;
+}
 
 /**
  * How long a caption stays after the voice stops.

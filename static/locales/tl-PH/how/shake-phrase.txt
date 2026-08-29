@@ -11,7 +11,7 @@ Lumilikha ito ng isang halaga na tinatawag na\offset\na nagbabago sa isang bagon
 
 Kung gusto nating mas tumpak na kontrolin ang pagyanig, maaari tayong gumamit ng @Sequence para gumawa ng random na animation ng pag-alog na nauulit.
 
-\Phrase('kumusta' resting: Sequence({
+\Phrase('kumusta' nagpapahinga: Sequence({
 			0%: Pose(offset: Place(Random(-.2m .2m)))
 			15%: Pose(offset: Place(Random(-.2m .2m)))
 			60%: Pose(offset: Place(Random(-.2m .2m)))

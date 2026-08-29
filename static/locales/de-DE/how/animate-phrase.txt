@@ -4,14 +4,14 @@ Charaktere können eine Ruheanimation haben, die wiederholt wird, während sie s
 
 Lassen Sie uns beispielsweise diese Katze ein wenig tanzen, indem wir sie rotieren und verschieben lassen:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' Ruhen: Sequence({
+			0%: Pose(Drehung: 0°)
+			15%: Pose(Drehung: 15°)
+			30%: Pose(Drehung: 0°)
+			45%: Pose(Versatz: Place(-0.25m))
+			60%: Pose(Versatz: Place(0.25m))
+			75%: Pose(Versatz: Place(-0.25m))
+			90%: Pose(Versatz: Place(0m))
 		} 2s))\
 
 Dieses Beispiel verwendet eine @Sequence von verschiedenen @Pose .

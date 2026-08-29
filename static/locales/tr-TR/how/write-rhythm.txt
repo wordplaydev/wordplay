@@ -5,8 +5,8 @@ Yalın sayılardan oluşan bir liste her notaya aynı uzunluğu verir; bu da kur
 @Track/beat  ölçüyü belirler. Her yalın giriş o kadar sürer — ve her \ø\ de öyle; bu yüzden es koymak bir notayı uzatmanın en kolay yoludur:
 
 \Music([
-		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+		Track([1 ø ø ø 5 ø 8 ø] çalgı: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] çalgı: Instrument.drums vuruş: 0.5beats)
 	])\
 
 Piyanonun ilk notasından sonra üç es gelir, bu yüzden dört vuruş boyunca çalar. Davulun ölçüsü yarım vuruştur, bu yüzden onun sekiz girişi dört vuruşu doldururken piyanonun sekiz girişi sekiz vuruşu doldurur — davul, piyano bir kez dönerken iki kez döner. Parçalar kendi uzunluklarına göre döner; bir sayının nasıl çokritmi oluşturduğu da budur.
@@ -23,7 +23,7 @@ Esleri saymak yorucu olur, bu yüzden uzunluğu doğrudan sayının üzerine yaz
 			1𝅘𝅥𝅮𝅭
 			8𝅘𝅥𝅯
 			5𝅗𝅥
-		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
+		] çalgı: Instrument.trumpet vuruş: 1𝅘𝅥))\
 
 Bu, dörder vuruşluk iki ölçüdür. \𝅝\ bir tam notadır, \𝅗𝅥\ bir yarım, \𝅘𝅥\ bir dörtlük, \𝅘𝅥𝅮\ bir sekizlik ve \𝅘𝅥𝅯\ bir on altılık, nokta ise \𝅭\ bunların herhangi birini yarısı kadar daha uzun yapar — böylece \𝅘𝅥𝅮𝅭\ bu marşı ileri fırlatan noktalı sekizliktir. Düzenleyicinin altındaki simge satırı, bir sayı yazdıktan sonra bunları sana sunar.
 

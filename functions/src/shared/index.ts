@@ -145,6 +145,10 @@ export type Strikes = {
     banned: boolean;
     /** When that happened, in epoch milliseconds, or null if it hasn't. */
     bannedAt: number | null;
+    /** Decisions a gallery's curator made about them, in a gallery that was
+     *  public at the time (#938). Never counted, never a ban — see `Finding`.
+     *  Absent on records written before curators could decide anything. */
+    findings?: Finding[];
 };
 
 /** What `moderateProject` is called with. */
@@ -168,4 +172,298 @@ export type ModerateProjectInputs = {
 export type ModerateProjectOutput = {
     count: number;
     banned: boolean;
+};
+
+/**
+ * How a gallery stands with the moderators (#1311). Mirrors the union in
+ * src/db/galleries/Gallery.ts; the two are compared by
+ * src/db/galleries/galleryModerationSync.test.ts.
+ */
+export type GalleryModeration =
+    'unrequested' | 'pending' | 'approved' | 'denied';
+
+/** What `moderateGallery` is called with. */
+export type ModerateGalleryInputs = {
+    /** The gallery being decided on. */
+    gallery: string;
+    /** Whether it may be listed publicly. */
+    decision: 'approved' | 'denied';
+    /** The flag states to write, by flag name. All false or null for a denial
+     *  on quality grounds — a gallery can be too unfinished to list without
+     *  breaking any rule, and only a rule broken withdraws `public`. */
+    flags: Record<string, boolean | null>;
+};
+
+/** What it answers with, so the moderator sees what their decision did. */
+export type ModerateGalleryOutput = {
+    moderation: GalleryModeration;
+    /** Whether the decision also withdrew the gallery's public sharing. */
+    unpublished: boolean;
+};
+
+// RESPONSIBILITY (#938)
+/** The kinds of thing a report can be about. */
+export type ReportSubjectKind = 'project' | 'gallery' | 'chat' | 'howto';
+
+/**
+ * A moderatable thing's visibility, in the only terms responsibility depends
+ * on. Deliberately plain data rather than a `Project`/`Gallery` wrapper, so the
+ * callable can pass raw Firestore documents and the client can pass either.
+ */
+export type Visibility = {
+    /** Whether the thing itself is readable by anyone. */
+    public: boolean;
+    /** The gallery it's in, or null. */
+    gallery: string | null;
+    /** Whether that gallery is publicly listed. False when `gallery` is null. */
+    galleryPublic: boolean;
+    /** Everyone who can see the gallery: curators ∪ creators. Empty when
+     *  `gallery` is null. */
+    galleryMembers: string[];
+    /** Whose thing it is, or null for an unclaimed one. */
+    owner: string | null;
+};
+
+/** Who reviews what's reported about a thing, derived from its visibility. */
+export type Responsibility =
+    | { kind: 'none' }
+    | { kind: 'curators'; gallery: string }
+    | { kind: 'both'; gallery: string }
+    | { kind: 'platform' };
+
+// FUNCTION report (#938)
+/**
+ * A request that someone responsible review a piece of content.
+ *
+ * One collection for every subject kind, because who reviews a thing is decided
+ * by its visibility rather than by what kind of thing it is, and both dashboards
+ * ask the same question of it. Written only by the `report` and `moderate`
+ * callables through the Admin SDK: a reporter can't be trusted to say who may
+ * review their report, and a chat report moves someone else's words out of the
+ * chat document.
+ */
+export type SerializedReport = {
+    v: 2;
+    kind: ReportSubjectKind;
+    /** The project, gallery, or how-to id. For a chat, the chat's id. */
+    subject: string;
+    /** Which message, when the subject is a chat. */
+    message?: string;
+    /** The gallery the subject was in when it was reported, or null. */
+    gallery: string | null;
+    /**
+     * Who may review this: the responsible gallery's curators at report time.
+     *
+     * Denormalized, like `chats.participants` and `howtos.viewersFlat`, so the
+     * read rule is an array-contains with no `get()` — a join here would spend
+     * the per-query document-access budget that src/db/firestoreLimits.ts
+     * describes, and a query over more galleries than the budget is denied
+     * whole. It routes reads only: the `moderate` callable re-derives
+     * responsibility from the subject's *current* visibility before allowing a
+     * decision, so a stale list can mis-route but never mis-authorize.
+     */
+    moderators: string[];
+    /** Whether Wordplay's moderators are also responsible for it. */
+    platform: boolean;
+    /** Who made the thing. Addresses the decision notice; never shown to a
+     *  reporter. */
+    author: string | null;
+    /** Everyone who has asked for this review, deduplicated. Never leaves the
+     *  server except to someone responsible. */
+    reporters: string[];
+    /** When it was first raised. The queue's sort key. */
+    time: number;
+    /**
+     * A reported chat message's own text, moved here when it was reported.
+     *
+     * This is what makes "temporarily removed" true rather than a client-side
+     * `{#if}` over words every participant can still read — and what lets
+     * someone review a message in a private gallery without being given read
+     * access to the conversation around it.
+     */
+    text?: string;
+    /** True once the message has been kept: the takedown is spent, so a later
+     *  report reopens the review without hiding it again. */
+    kept?: boolean;
+    /** Whether anyone still needs to look at it. */
+    resolved: boolean;
+    /** Whether the decision found it broke a rule. */
+    upheld?: boolean;
+    /** Who decided. */
+    moderator?: string;
+    /** When, in epoch milliseconds. */
+    moderatedAt?: number;
+    /** Which rules the decision found broken, by flag name. */
+    flags?: Record<string, boolean | null>;
+    /** What the decider said to the author. Never shown to a reporter: it may
+     *  quote the content. */
+    note?: string;
+};
+
+/** What `report` is called with. */
+export type ReportInputs = {
+    kind: ReportSubjectKind;
+    subject: string;
+    /** Required when `kind` is 'chat'. */
+    message?: string;
+};
+
+/** What it answers with, so the reporter learns their report landed and who
+ *  will see it. */
+export type ReportOutput = {
+    /** How many people have now asked for this review. */
+    reporters: number;
+    /** Who is responsible, so the client can say so rather than guess. */
+    responsibility: Responsibility;
+};
+
+// NOTICES (#938)
+/**
+ * What a notice in a creator's inbox is about.
+ *
+ * The split is not "moderation versus everything else" — it is whether the
+ * recipient can see the document the notice is about. A notice is **written**
+ * when they cannot: a reporter may never read `reports`, so the outcome of
+ * their report has to be delivered, which is the substance of #938. A notice is
+ * **derived** when they can: an unread chat, a new how-to, and a gallery's
+ * listing state are all readable from documents the client already syncs, so
+ * writing those would put a per-user document write on the app's hottest path.
+ * Only their dismissal is stored.
+ */
+export type WrittenNoticeKind =
+    /** Someone asked for a review of something you are responsible for. */
+    | 'review-requested'
+    /** Something you made was reported. Never says who reported it. */
+    | 'reported'
+    /** Your report reached whoever is responsible. */
+    | 'report-received'
+    /** A decision was made about something you made. */
+    | 'decision'
+    /** A decision was made about something you reported. */
+    | 'outcome';
+
+export type DerivedNoticeKind =
+    /** Unread messages in a conversation. */
+    | 'chat-message'
+    /** A how-to was published in a gallery you are in. */
+    | 'howto-published'
+    /** A gallery you curate was accepted for the public listing. */
+    | 'gallery-listed'
+    /** A gallery you curate was not accepted. */
+    | 'gallery-denied'
+    /** A moderator warned you about public content (#193). */
+    | 'warning'
+    /** A message in a chat you curate is awaiting review. */
+    | 'review-needed';
+
+export type NoticeKind = WrittenNoticeKind | DerivedNoticeKind;
+
+/** What a notice points at, so its link is data rather than a chain of ifs. */
+export type NoticeSubject = {
+    kind: ReportSubjectKind;
+    id: string;
+    /** The gallery it's in, when the route needs one. */
+    gallery: string | null;
+    /** Which message, for a chat. */
+    message?: string;
+};
+
+export type SerializedNotice = {
+    /** Stable, so a retry writes once and a dismissal stays dismissed. */
+    id: string;
+    kind: NoticeKind;
+    subject: NoticeSubject;
+    /** A label captured when it was written — a project's name, a gallery's,
+     *  a how-to's title. Captured rather than looked up because the thing may
+     *  be gone, or unreadable, by the time this is read. */
+    title: string;
+    /** Epoch milliseconds. The one ordering for written and derived alike. */
+    time: number;
+    /** Which rules a decision found broken, by flag name. */
+    flags?: string[];
+    /** A moderator's note. Only ever on a notice to the author — a note written
+     *  for them may quote the content, which a reporter must not see. */
+    note?: string;
+    /** Which warning this is, when a decision carried one. */
+    count?: number;
+};
+
+/**
+ * A creator's inbox, at `notices/{uid}`.
+ *
+ * One document rather than a subcollection: the entire access pattern is "read
+ * all of mine", a subcollection would need its own rules block and index, and
+ * this mirrors `strikes/{uid}` and `usage/{uid}`, which are the same shape of
+ * server-written, self-readable record.
+ */
+export type SerializedNotices = {
+    v: 1;
+    /** Server-appended, newest last, capped at MAX_NOTICES. */
+    notices: SerializedNotice[];
+    /** Ids the reader has dismissed — derived ones too, which is what makes
+     *  "clear" mean one thing for every kind and survive a device change. */
+    dismissed: string[];
+    /** When the bell was last opened; anything newer is unread. */
+    readAt: number;
+};
+
+/** How many notices an inbox keeps. Older ones fall off the front, the way a
+ *  chat trims its oldest messages: an inbox is a recent-events list, not an
+ *  archive, and the document has a size limit either way. */
+export const MAX_NOTICES = 100;
+
+// FUNCTION moderate (#938)
+/**
+ * One decision recorded by a gallery's curator, on `strikes/{uid}.findings`.
+ *
+ * Deliberately content-free, and only ever recorded when the gallery was
+ * *public*. A curator's decision is classroom management, not a platform
+ * warning: it never changes `count`, never leads to a ban, and never carries
+ * the text or the note, because exporting a private gallery's internal
+ * moderation to the platform is not what a teacher removing a message means.
+ * What it does is let a platform moderator see a pattern that spans galleries.
+ */
+export type Finding = {
+    /** The gallery whose curator decided. */
+    gallery: string;
+    /** What kind of thing it was about. */
+    kind: ReportSubjectKind;
+    /** Which guidelines it broke, by flag name. */
+    flags: string[];
+    /** When, in epoch milliseconds. */
+    time: number;
+    /** The decision this came from, so a retry can't record it twice. */
+    decision: string;
+};
+
+/** What `moderate` is called with. */
+export type ModerateInputs = {
+    kind: ReportSubjectKind;
+    subject: string;
+    /** Which message, when the subject is a chat. */
+    message?: string;
+    /** The flag states to write, by flag name. */
+    flags: Record<string, boolean | null>;
+    /** What the decider wants the author to know. Only ever delivered to the
+     *  author: a note written for them may quote the content, which whoever
+     *  reported it must not be shown. */
+    note?: string;
+    /** Galleries only: whether it may be listed publicly. */
+    listing?: 'approved' | 'denied';
+    /** Whether this counts as a warning. Honoured only from a platform
+     *  moderator deciding something the platform is responsible for. */
+    strike: boolean;
+    /** Identifies this decision, so submitting it twice warns and notifies
+     *  once. One per time a decider is shown a thing. */
+    decision: string;
+};
+
+/** What it answers with, so the decider sees what they just caused. */
+export type ModerateOutput = {
+    /** The author's warning count after the decision. */
+    count: number;
+    /** Whether they have now lost public sharing. */
+    banned: boolean;
+    /** Who was responsible, as the server computed it. */
+    responsibility: Responsibility;
 };

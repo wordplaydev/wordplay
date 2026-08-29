@@ -11,7 +11,6 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { DB } from '@db/Database';
-    import { isModerator } from '@db/projects/Moderation';
     import { localeGoto } from '@util/localeGoto';
     import { updateProfile, type User } from 'firebase/auth';
     import ChangeEmail from './ChangeEmail.svelte';
@@ -26,8 +25,6 @@
 
     let creator = $derived(Creator.from(user));
 
-    let moderator = $state(false);
-
     // Items (across every domain) with edits not yet saved online. Logout wipes
     // the local cache, so it discards them; warn when there are any, but never
     // block, since a save that keeps failing would trap someone signed in.
@@ -37,11 +34,6 @@
      *  store (not just the unwrapped value via props) so we can republish
      *  after Firebase mutates the user in place — see `rename`. */
     const userStore = getUser();
-
-    // When the user changes, check if they're a moderator.
-    $effect(() => {
-        isModerator(user).then((mod) => (moderator = mod));
-    });
 
     function rename(name: string) {
         // Firebase mutates `user.displayName` in place on success. The user
@@ -109,14 +101,6 @@
         </Action>
     {/if}
     <Action><DeleteAccount {user} /></Action>
-    {#if moderator}
-        <Action>
-            <span
-                >You're a moderator. Go <Link to="/moderate">moderate</Link
-                >?</span
-            >
-        </Action>
-    {/if}
 </div>
 
 <style>

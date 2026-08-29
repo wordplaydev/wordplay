@@ -14,12 +14,18 @@ import type {
     EmailExistsInputs,
     EmailExistsOutput,
     GetLLMTranslationsInputs,
+    ModerateGalleryInputs,
+    ModerateInputs,
     ModerateProjectInputs,
+    ReportInputs,
 } from 'shared-types';
 
 import compactProjectUpdatesHandler from './compactProjectUpdates.js';
 import createClassHandler from './createClass.js';
+import moderateGalleryHandler from './moderateGallery.js';
+import moderateHandler from './moderate.js';
 import moderateProjectHandler from './moderateProject.js';
+import reportHandler from './report.js';
 import emailExistsHandler from './emailExists.js';
 import galleryEditedHandler from './galleryEdited.js';
 import getCreatorsHandler from './getCreators.js';
@@ -131,10 +137,23 @@ export const compactProjectUpdates = onSchedule(
  * Given a teacher user ID, credential information for several students, and
  * a name and description for a class, create a class and return it's ID
  */
+/** #938: asking whoever is responsible to review something. */
+export const report = onCall<ReportInputs>(cors, reportHandler);
+
+/** #938: a decision by whoever is responsible, and its consequences. Supersedes
+ *  moderateProject and moderateGallery, which stay one release as shims. */
+export const moderate = onCall<ModerateInputs>(cors, moderateHandler);
+
 /** #193: a moderator's decision about a project, and its consequences. */
 export const moderateProject = onCall<ModerateProjectInputs>(
     cors,
     moderateProjectHandler,
+);
+
+/** #1311: a moderator's decision about whether a gallery may be listed. */
+export const moderateGallery = onCall<ModerateGalleryInputs>(
+    cors,
+    moderateGalleryHandler,
 );
 
 export const createClass = onCall<

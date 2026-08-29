@@ -18,10 +18,10 @@ Isto cria uma horta de frutas e legumes de 2 por 3!
 Se pretender que todas as células tenham o mesmo tamanho, dê @Grid também uma largura e uma altura. Desta forma, as personagens ficam perfeitamente dentro dos seus quadrados, mesmo que tenham tamanhos diferentes:
 
 \Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' size: 1m)
-		Phrase('🐶' size: 1.5m)
-		Phrase('🦊' size: 0.5m)
-		Phrase('🐻' size: 2m)
+		Phrase('🐈' tamanho: 1m)
+		Phrase('🐶' tamanho: 1.5m)
+		Phrase('🦊' tamanho: 0.5m)
+		Phrase('🐻' tamanho: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

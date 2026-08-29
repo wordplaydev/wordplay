@@ -7,7 +7,12 @@ interface LocaleEdit {
     locale: string;
     /** Serialized LocalePath, e.g. "ui.localize.button.edit", or a tutorial path. */
     path: string;
-    value: string;
+    /** The revised text, or the whole revised list for a path whose value is a
+     *  list a locale writes for itself — today only a glossary term's `forms`.
+     *  A list is one thing a translator edits, so it is one edit: two edits in
+     *  one bundle can't then fight over the same index. The value isn't indexed
+     *  and an array is structured-cloneable, so this needs no Dexie version. */
+    value: string | string[];
 }
 
 class LocalizationDexie extends Dexie {
@@ -32,16 +37,16 @@ class LocalizationDexie extends Dexie {
 /** Reactive store mirroring all locally-saved locale edits, keyed by locale
  *  string → map of (path → value). Components read the inner map for the
  *  active locale so edits made under one locale don't appear under another. */
-export const localeEdits = writable<Map<string, Map<string, string>>>(
-    new Map(),
-);
+export const localeEdits = writable<
+    Map<string, Map<string, string | string[]>>
+>(new Map());
 
 let db: LocalizationDexie | undefined;
 
 if (browser) {
     db = new LocalizationDexie();
     db.edits.toArray().then((all) => {
-        const next = new Map<string, Map<string, string>>();
+        const next = new Map<string, Map<string, string | string[]>>();
         for (const { locale, path, value } of all) {
             let inner = next.get(locale);
             if (inner === undefined) {
@@ -93,13 +98,15 @@ export async function deleteLocaleEdit(
 export async function saveLocaleEdit(
     locale: string,
     path: string,
-    value: string,
+    value: string | string[],
 ): Promise<void> {
     if (!db) return;
     // Update the store immediately so the UI reacts without waiting for Dexie.
     localeEdits.update((map) => {
         const next = new Map(map);
-        const inner = new Map(next.get(locale) ?? []);
+        const inner = new Map<string, string | string[]>(
+            next.get(locale) ?? [],
+        );
         inner.set(path, value);
         next.set(locale, inner);
         return next;

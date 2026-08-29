@@ -395,13 +395,19 @@
                 "\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\🪲",
                 "You can add a single @region too, after a dash, just like with a single language:",
                 "\\\"Hola gentleman!\"/es_en-MX\\",
-                "There's no limit to how many languages you can list — just don't repeat the same one twice; I'll let you know if you do. There are many <2-letter language codes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> that I understand. If you don't use one of those, I'll let you know too."
+                "There's no limit to how many languages you can list — just don't repeat the same one twice; I'll let you know if you do.",
+                "You can write a language by its <2-letter code@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> or by its *name*, in that language or in English — `/es`, `/Español`, and `/Spanish` all mean the same thing, and so do `/es-MX`, `/es-México`, and `/es-Mexico`. Capitals and accents don't matter, so `/ESPANOL` works too. A name with a space in it gets written without the space, like `/BahasaIndonesia`, because a tag is all one word. If I don't recognize a language or a region, I'll let you know."
             ],
             "conflict": {
                 "UnknownLanguage": {
                     "name": "unknown language",
                     "explanation": "I don't know this language",
                     "resolution": "Remove this language code"
+                },
+                "UnknownRegion": {
+                    "name": "unknown region",
+                    "explanation": "I don't know this region",
+                    "resolution": "Remove this region"
                 },
                 "MissingLanguage": {
                     "name": "missing language",
@@ -3804,7 +3810,7 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$! I can take a list, and make a new list with its values sorted. Like this:",
+                        " I can take a list, and make a new list with its values sorted. Like this:",
                         "\\[1 5 8 0 2].sorted()\\",
                         "I can also do it for @Text values, in alphabetical order. A capital letter sorts next to its lowercase one, so a word isn't sent to the end just for starting with a capital:",
                         "\\['Orange' 'kiwi' 'Banana' 'apple'].sorted()\\",
@@ -3816,13 +3822,13 @@
                     "names": "sorted",
                     "inputs": [
                         {
-                            "doc": "$! The optional @FunctionDefinition to use to sort a list @value. It should turn the value into a @Number or a @Text that can be used for sorting the list.",
+                            "doc": " The optional @FunctionDefinition to use to sort a list @value. It should turn the value into a @Number or a @Text that can be used for sorting the list.",
                             "names": "sequencer"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$! The @value to turn into a @Number or a @Text.",
+                            "doc": " The @value to turn into a @Number or a @Text.",
                             "names": "value"
                         }
                     ]
@@ -5237,6 +5243,18 @@
                 "doc": "The optional @Aura to show behind me. Make me glow!",
                 "names": "aura"
             },
+            "bubble": {
+                "doc": [
+                    "The speech bubble showing what I'm saying, pointing right at me. Four different things can go here.",
+                    "Plain text, which I show and nothing more:",
+                    "\\Phrase('a' bubble: 'hello!')\\",
+                    "Formatted text, if you want *bold* or /italic/ words in what I say.",
+                    "A @Say, which I show *and* speak out loud:",
+                    "\\Phrase('a' bubble: Say('hello!'))\\",
+                    "A @Bubble, when you want to choose which side I speak from, make it a thought instead, or give it a color."
+                ],
+                "names": "bubble"
+            },
             "name": {
                 "doc": [
                     "A name you give me! This is helpful for many things.",
@@ -5317,7 +5335,7 @@
                 "doc": "The animation style to use when moving to a different place on stage.",
                 "names": "style"
             },
-            "defaultDescription": "$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|]"
+            "defaultDescription": "$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]"
         },
         "Arrangement": {
             "doc": "I am an inspiration to the many other kinds of arrangement in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
@@ -5328,7 +5346,7 @@
             "names": ["➡", "Row"],
             "description": "row of $#count[$count phrase or group|$count phrases and groups]",
             "alignment": {
-                "doc": "Whether to align text at the start, center, or end on each @column.",
+                "doc": "Whether to line my content up at the start, center, or end of each @column — or, with \\'_'\\, on the baseline its words sit on, so letters of different heights read as one line.",
                 "names": "alignment"
             },
             "padding": {
@@ -5379,7 +5397,7 @@
                 "I'm an @Arrangement that lets each @Output sit wherever its @Place says. I'm like, whatever. Sit wherever you want! Just sit somewhere! Make sure all the @Output you give me have a @Place, otherwise they won't know where to go.",
                 "Oh, and remember that the @Place you give each @Output is relative to the @Group's @Place! So if you're wondering why things aren't appearing where you expect, try giving the @Group a place too."
             ],
-            "names": ["Free"],
+            "names": ["❖", "Free"],
             "description": "free-form $#count[$count output|$count outputs]"
         },
         "Shape": {
@@ -5404,7 +5422,7 @@
                 "names": "selectable"
             },
             "color": {
-                "doc": "The color of my borders.",
+                "doc": "My color. I fill with it, unless I have a background, in which case it colors my border.",
                 "names": "color"
             },
             "background": {
@@ -5458,6 +5476,18 @@
             "style": {
                 "doc": "The animation style I should use.",
                 "names": "style"
+            },
+            "filled": {
+                "doc": "Whether to paint my inside. I have no inside unless I close, so an open @Path is never filled.",
+                "names": "filled"
+            },
+            "stroked": {
+                "doc": "Whether to paint my outline. With no fill and no outline I am invisible, which is one way to make a barrier that stops things without being seen.",
+                "names": "stroked"
+            },
+            "glyphs": {
+                "doc": "Text to draw along my outline, repeated until it fills. I have no words unless you give me some.",
+                "names": "glyphs"
             }
         },
         "Say": {
@@ -5873,7 +5903,7 @@
         },
         "Rectangle": {
             "doc": "I am a rectangle, useful for making @Stage have a boundary the size of your choosing.",
-            "names": ["Rectangle"],
+            "names": ["▭", "Rectangle"],
             "left": {
                 "doc": "The left edge of the stage on the x-axis",
                 "names": "left"
@@ -5897,7 +5927,7 @@
         },
         "Circle": {
             "doc": "I am a circle, useful for making shapes on @Stage.",
-            "names": ["Circle"],
+            "names": ["●", "Circle"],
             "radius": {
                 "doc": "The radius of the circle",
                 "names": "radius"
@@ -5915,9 +5945,33 @@
                 "names": "z"
             }
         },
+        "Path": {
+            "doc": "I am a path drawn through a list of places, useful for lines, curves, and hills on @Stage.",
+            "names": ["╱", "Path"],
+            "points": {
+                "doc": "The places I pass through, in order. I lie flat, so I use my own z rather than the depth of any place.",
+                "names": "points"
+            },
+            "closed": {
+                "doc": "Whether to join my last place back to my first.",
+                "names": "closed"
+            },
+            "smooth": {
+                "doc": "Whether to curve through my places instead of turning at them. My places do not move either way.",
+                "names": "smooth"
+            },
+            "thickness": {
+                "doc": "How wide to draw me.",
+                "names": "thickness"
+            },
+            "z": {
+                "doc": "The depth I lie at.",
+                "names": "z"
+            }
+        },
         "Polygon": {
             "doc": "I am a 'regular' polygon with equal length sides and angles, useful for making shapes on @Stage.",
-            "names": ["Polygon"],
+            "names": ["⬢", "Polygon"],
             "radius": {
                 "doc": "The radius of the polygon",
                 "names": "radius"
@@ -6743,6 +6797,47 @@
                 "names": "offsetY"
             }
         },
+        "Bubble": {
+            "doc": [
+                "I show what a @Phrase is saying, in a bubble that points right at them. Give me to a phrase's @Phrase.bubble and let the letters talk:",
+                "\\Phrase('a' bubble: 'hello!')\\",
+                "Give me a @Say instead of text and I'll be spoken out loud as well as shown.",
+                "Change my @Bubble.kind to a thought and I become a thought bubble instead.",
+                "I'm a decoration, so nothing on stage moves aside to make room for me — but the @Stage does make sure I end up in view."
+            ],
+            "names": ["🗨", "Bubble"],
+            "text": {
+                "doc": [
+                    "What I show. Give me plain text, or formatted text if you want *bold* or /italic/ words.",
+                    "Give me a @Say instead and I'll be spoken out loud as well as shown. I then stand in for the words that usually appear at the foot of the @Stage, since mine are already on screen next to whoever said them."
+                ],
+                "names": "text"
+            },
+            "side": {
+                "doc": "Which side of the @Phrase I sit on, as an arrow. If \\ø\\, the @Stage puts me wherever I'm least in the way, and chooses again whenever things move.",
+                "names": "side"
+            },
+            "kind": {
+                "doc": "Whether I'm something said (\\'💬'\\) or something thought (\\'💭'\\). A thought trails circles toward the thinker instead of a point, and rounds off.",
+                "names": "kind"
+            },
+            "color": {
+                "doc": "The @Color of my words. If \\ø\\, I use the @Phrase's own color.",
+                "names": "color"
+            },
+            "background": {
+                "doc": "The @Color I'm filled with. If \\ø\\, I'm filled with the background of whatever I'm drawn on.",
+                "names": "background"
+            },
+            "size": {
+                "doc": "How big my words are. If \\ø\\, they're the size text normally is on the @Stage — not the size of whoever is speaking, since a character several meters tall would make a wall of words.",
+                "names": "size"
+            },
+            "wrap": {
+                "doc": "The boundary at which I wrap my words to another line.",
+                "names": "wrap"
+            }
+        },
         "Stage": {
             "doc": [
                 "I SHOW YOUR @Output TO THE AUDIENCE. HI. STAGE HERE. TELL ME WHAT TO SHOW AND I WILL SHOW IT.",
@@ -7216,7 +7311,7 @@
                     "header": "Curators",
                     "explanation": [
                         "Curators can edit the projects and gallery settings, and chat on all projects.",
-                        "/Curators are responsible for moderating the content of the chats associated with projects and how-tos in the gallery. Chats reported by creators can be found on the <gallery moderation dashboard@://galleries/moderation>./"
+                        "/Curators review what's reported in their gallery — projects, how-tos, and the chats that go with them — from the <moderation page@://moderate>. A curator's decision applies to their own gallery; it is never one of Wordplay's <warnings@://rights>./"
                     ]
                 },
                 "creators": {
@@ -7255,11 +7350,11 @@
         },
         "gallerymoderation": {
             "header": "Gallery Moderation",
-            "description": "The following messages in galleries that you curate have been reported by users for moderation.",
+            "description": "What people have asked you to review, oldest first. A decision says which rules it found were broken, and whoever made the thing is told what you decided.",
             "labels": {
                 "message": "message",
-                "reporter": "reporter",
-                "action": "moderator actions"
+                "action": "moderator actions",
+                "reason": "which rules it broke"
             },
             "view": {
                 "label": "view chat",
@@ -7274,7 +7369,11 @@
                 "tip": "this message does not violate guidelines"
             },
             "empty": "No messages require moderation",
-            "error": "You must be logged in to moderate galleries"
+            "error": "You must be logged in to moderate galleries",
+            "note": {
+                "description": "what to say to whoever wrote the message",
+                "placeholder": "say something to them (optional)"
+            }
         },
         "howto": {
             "galleryView": {
@@ -7764,6 +7863,17 @@
             "deselected": "$name deselected, $count selected",
             "allSelected": "all outputs selected, $count selected",
             "cleared": "selection cleared",
+            "removed": "$#count[$#count output deleted|$#count outputs deleted]",
+            "drew": "$#count[drew a path with $#count point; drawing is off|drew a path with $#count points; drawing is off]",
+            "drawing": "$#count[$#count point, at $place|$#count points, last at $place]",
+            "point": {
+                "label": "point $number of $#count, at $place",
+                "moved": "point $number to $place",
+                "added": "added point $number",
+                "removed": "removed point $number",
+                "last": "a path needs at least two points"
+            },
+            "notRemovable": "that can't be deleted on its own",
             "moved": "$name moved $direction to $place",
             "directions": [
                 "up",
@@ -7804,10 +7914,6 @@
                 "fit": {
                     "on": "control zoom manually",
                     "off": "fit zoom to content"
-                },
-                "paint": {
-                    "off": "place output",
-                    "on": "paint output"
                 }
             },
             "field": {
@@ -8171,6 +8277,7 @@
                     "video": "use a camera",
                     "gallery": "created by your fellow Wordplay directors"
                 },
+                "bookmarked": "Bookmarked",
                 "related": "Not what you're looking for?",
                 "conceptHowTos": "How-to",
                 "howToGalleryButton": {
@@ -8561,10 +8668,20 @@
                     "projectChatHeader": "New message in project \"$name\"",
                     "howToChatHeader": "New message in how-to \"$title\"",
                     "moderationHeader": "Message in \"$name\" requires moderation action",
-                    "link": "details"
+                    "link": "details",
+                    "reportedHeader": "Something you made in \"$title\" was reported and is being reviewed",
+                    "reportReceivedHeader": "Your report about \"$title\" was sent to whoever is responsible",
+                    "decisionHeader": "A decision was made about something you made in \"$title\"",
+                    "outcomeHeader": "A decision was made about what you reported in \"$title\"",
+                    "because": "Because it:",
+                    "note": "They said:"
                 },
                 "delete": "delete this notification",
-                "popup": "$#count[1 notification|$count notifications]"
+                "popup": "$#count[1 notification|$count notifications]",
+                "moderate": {
+                    "label": "review reported content",
+                    "tip": "go to the things waiting for you to review"
+                }
             },
             "locale": {
                 "header": "Language",
@@ -8817,10 +8934,6 @@
                 "down": "move this content down",
                 "edit": "edit this content",
                 "sequence": "convert to Sequence",
-                "createPhrase": "create a Phrase, showing the existing value as text",
-                "createGroup": "create a Group, wrapping any existing Phrase",
-                "createStage": "create a Stage, wrapping any existing Group or Phrase",
-                "createMusic": "add @Music to the program",
                 "previousTrack": "show the previous @Track",
                 "nextTrack": "show the next @Track",
                 "addTrack": "add a @Track",
@@ -8838,14 +8951,30 @@
                 "unmakeChord": "reduce this chord to one note",
                 "editMode": "switch to edit mode"
             },
+            "toolbar": {
+                "label": "add output",
+                "addPhrase": "add a phrase",
+                "wrapPhrase": "show this value as a phrase",
+                "addRectangle": "add a rectangular shape",
+                "addCircle": "add a round shape",
+                "addPolygon": "add a many-sided shape",
+                "addPath": "add a line you can bend and draw with",
+                "draw": {
+                    "off": "draw a path on stage",
+                    "on": "stop drawing"
+                },
+                "wrapForm": "show this form on stage by wrapping it in a shape",
+                "group": "collect what you selected into a group",
+                "groupEmpty": "select some output to collect it into a group",
+                "groupScattered": "a group can only collect output that is in the same place",
+                "groupKind": "a group can hold a phrase, a group, speech, or music, but not a shape or the stage",
+                "addStage": "wrap everything in a stage, so you can control lighting, color, and frames",
+                "stageExists": "there is already a stage",
+                "addMusic": "add music, starting with a few notes to play with",
+                "addSay": "add speech, which is spoken out loud"
+            },
             "prompt": {
-                "offerPhrase": "Shall I wrap this value in a @Phrase?",
-                "offerGroup": "Shall I wrap this content in a @Group, so you can arrange them?",
-                "offerStage": "Shall I wrap this content in a @Stage, so you can control lighting, color, and frames?",
-                "offerShape": "Shall I wrap this @Form in @Shape to show it on @Stage?",
-                "offerNothing": "Nothing here yet! Shall I add a @Phrase to get started?",
-                "offerMusic": "Want to add @Music? I can start you off with a few notes to play with.",
-                "select": "To edit, select a 💬, 🔳, ⬟, or 🎭 in code, or select output on the @Stage.",
+                "select": "To edit something, select it in your code or on the @Stage. To add something new, use the + buttons above.",
                 "editing": "Edit me!",
                 "readonly": "The palette is *read-only* in this mode. Switch to ✏️ *edit* mode to make changes."
             },
@@ -9025,6 +9154,23 @@
                 "duplicateKey": "This language already has a word with that key.",
                 "reservedKey": "That key is already used for a template value, so it can't be a word."
             },
+            "glossary": {
+                "header": "Other written forms",
+                "description": "The glossary explains words learners meet. Each term has one main word, and here you can add the other ways that word gets written in this language — plurals, other endings, or another word that means the same. When writing text, you can link any of them with @ and the word, and the whole word stays part of the link. Every language writes its own list, so add as many or as few as your language needs.",
+                "reference": "in English",
+                "empty": "No other forms yet.",
+                "form": {
+                    "description": "another way this term is written",
+                    "placeholder": "form"
+                },
+                "add": "add this form to the term",
+                "remove": "remove this form from the term",
+                "ownWord": "This is the term’s own word, which already works on its own.",
+                "otherWord": "This is the word for $term, so it would be unclear which term you meant.",
+                "conceptName": "The documentation already defines this word, so a link to it would go there instead.",
+                "alreadyUsed": "This is already a form of $term, so it would be unclear which term you meant.",
+                "searchOnly": "A link ends at a space or a symbol, so this form will only help searching."
+            },
             "description": "Welcome to localization mode! You can suggest improvements to the text in the @wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
             "toggle": {
                 "mode": {
@@ -9119,7 +9265,7 @@
                         "phrase": "\\¶Phrases appear on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
                         "music": "\\¶Music is notes on real instruments, at a tempo, in a key. The stage draws what it hears.¶\nMusic(\n\tTrack([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "\\¶Code can react to input like @Time, and text can be multilingual and spoken.¶\nhellos: ['hello'/en 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhello: hellos.random() … ∆ Time(1000ms) … hellos.random()\nPhrase(hello 4m)\nSay(hello)\\",
-                        "keys": "\\¶Code can react to pointers, keys, clicks, and taps.¶\nkey: Key()\nclick: Button()\nfaces: ['🙂' '😮' '😎' '🤩']\nwhich: 1 … ∆ key | ∆ click … (which % 4) + 1\nStage([Phrase(faces[which] 5m place: Pointer())] place: Place(0m 0m -12m))\\",
+                        "keys": "\\¶Code can react to pointers, keys, clicks, and taps.¶\nkey: Key()\nclick: Button()\nfaces: ['🙂' '😮' '😎' '🤩']\nwhich: 1 … ∆ key | ∆ click … (which % 4) + 1\nStage([Phrase(faces[which] 5m place: Pointer() bubble: 'hi')] place: Place(0m 0m -12m))\\",
                         "choose": "\\¶Layout text and make it selectable.¶\nfruit: ƒ(e•'') Phrase(e 3m name: e selectable: ⊤)\npicked: Choice()\nshown: '?' … ∆ picked … picked\nGroup(Stack(padding: 1m) [\n\tPhrase(shown 4m)\n\tGroup(Row(padding: 1m) [fruit('🍎') fruit('🍐') fruit('🍒')])\n])\\",
                         "letters": "\\¶Chat with programs and use the shape of fonts and symbols.¶\nmessage: Chat()\nword: 'hi' … ∆ message … message\nline: Contour(word 'Noto Sans' 8m)\nticks: 0 … ∆ Time(30ms) … ticks + 1\nshown: ((line.length() × ticks) ÷ 66).roundDown() + 1\ndots: line.subsequence(1 shown).translate(ƒ(p) Phrase('•' place: p))\nStage(dots.add(Phrase(word 8m opacity: 15%)))\\",
                         "pile": "\\¶Text can have physics.¶\ntoss: ƒ(emoji•'' x•#m y•#m vx•#m/s) \nPhrase(\n\temoji 2m\n\tplace: Motion(Place(x y) Velocity(vx 0m/s))\n\tmatter: Matter(1kg 0.55 0.06 0.5)\n)\nStage(\n\t[\n\t\ttoss('🍎' -2m 5m 2.2m/s)\n\t\ttoss('🍊' 2m 7m -2.6m/s)\n\t\ttoss('🍋' -1m 9m 1.4m/s)\n\t\ttoss('🍇' 1.5m 11m -1.9m/s)\n\t\ttoss('🫐' 0.5m 15m -1.2m/s)\n\t\tShape(Rectangle(-4m -3m 4m -3.6m))\n\t\tShape(Rectangle(-4.6m 4m -4m -3m))\n\t\tShape(Rectangle(4m 4m 4.6m -3m))\n\t]\n)\\",
@@ -9287,11 +9433,12 @@
                 ],
                 "tabs": {
                     "label": "section",
-                    "labels": ["About", "Text", "Terms", "Submit"],
+                    "labels": ["About", "Text", "Terms", "Glossary", "Submit"],
                     "tips": [
                         "how localizing works, and notes for people writing this language",
                         "browse and edit the platform's text",
                         "define phrases you can reuse across this language's text",
+                        "add the plurals and other spellings this language's terms can be written as",
                         "review your edits and send them in"
                     ]
                 },
@@ -9580,35 +9727,33 @@
                 "section": {
                     "tabs": {
                         "label": "gallery kind",
-                        "labels": ["Yours", "Examples", "How-tos", "Public"],
+                        "labels": ["Yours", "Examples", "Public"],
                         "tips": [
                             "galleries you curate or contribute to",
                             "curated galleries from the Wordplay developers",
-                            "how-tos shared by galleries you belong to",
                             "galleries creators have made public"
                         ]
                     },
                     "own": [
                         "Contribute to a gallery you're invited to, or curate your own gallery with a particular theme, and invite others.",
-                        "/Curators are responsible for moderating the content in galleries using the <gallery moderation dashboard@://galleries/moderation>./"
+                        "/Curators review what's reported in their gallery, from the <moderation page@://moderate>./"
                     ],
                     "examples": "These are curated galleries from the @wordplay developers. They are good starting points for learning and inspiration.",
-                    "howtos": "You can view and interact with the how-tos in these galleries, but you can't see their projects unless the gallery or projects are public.",
-                    "public": "These are galleries that @wordplay creators have made public. See what others have made for inspiration!"
+                    "public": "These are galleries that @wordplay creators have made public. Anyone can ask for their gallery to be listed here, and a moderator reads it first to make sure it is finished and follows the rules. A gallery can be taken off this list at any time, for any reason. They are shown in a different order each visit, so every gallery gets a turn near the top."
                 },
                 "button": {
-                    "newgallery": "new gallery",
-                    "more": {
-                        "label": "more...",
-                        "tip": "load more galleries"
-                    }
+                    "newgallery": "new gallery"
                 },
                 "error": {
-                    "nogalleryedits": "You must be <logged in@://login> to create and change galleries."
+                    "nogalleryedits": "You must be <logged in@://login> to create and change galleries.",
+                    "nopublic": "No galleries have been approved for this list yet. Check back soon!"
                 },
                 "search": {
-                    "description": "Search example gallery projects",
-                    "noResults": "No results found."
+                    "description": "Search examples and public galleries",
+                    "noResults": "No results found.",
+                    "galleries": "Galleries",
+                    "examples": "Example projects",
+                    "projects": "Projects in public galleries"
                 }
             },
             "characters": {
@@ -10101,11 +10246,10 @@
                     "• We won't share your data with anyone, unless explicitly required by law. It's always possible that your data is taken without permission (a 'data breach'). If we discover that this has happened, we will notify you that this has happened using the email you've shared with us.",
                     "• We won't contact you via your email address unless you 1) make an account change that requires us to, 2) you explicitly give us consent to reach out, or 3) in the case of data breach above.",
                     "• We may analyze projects, galleries, and how to content on the platform to understand what everyone is making and how they are making it. We may share these aggregated, anonymized insights in academic publications. We will only do this under the supervision of an institutional review board, as mandated by U.S. federal law.",
-                    "Finally, a note about speech. You can say anything you want on this platform in *private*. Projects are private by default, and if you share them with specific email addresses, they are still considered private. We won't moderate anything in private projects.",
+                    "Finally, a note about speech. Projects are private by default, and sharing one with specific people keeps it private. What follows is exactly who reviews what you share, depending on who can see it.",
                     "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect that none of your *public* content will:"
                 ],
                 "consequences": [
-                    "Chats for projects and how-tos that are in public or private galleries are subject to moderation by the gallery curators. You can report messages that violate these community guidelines to the curators using the report button next to each message, and curators can approve or remove messages.",
                     "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
                 ],
                 "warnings": [
@@ -10122,6 +10266,17 @@
                     "One last choice, and it is entirely yours. We sometimes write and talk about Wordplay — in research papers, in talks, and in what we show teachers and families. We would love to show what people actually make with it, but we will not show your project unless you say we can.",
                     "Every project has a *Research* setting in its sharing options, and it starts off. Turning it on lets us show that one project as an example, without your name, your username, or anything else that says the account is yours. It is per project, so saying yes to one says nothing about the others.",
                     "You can turn it off any time. Turning it off means we stop using your project in anything new, but it can't take back something we already published or presented."
+                ],
+                "responsibility": [
+                    "Who reviews what you share depends on who can see it.",
+                    "• *Shared with no one, or only with people you named.* Nobody reviews it. Not us, not anyone.",
+                    "• *In a gallery with other people in it.* That gallery's curators review it, and the chats that go with it. This is true whether or not the gallery is public: the people in it can see your work, so someone there is responsible for it.",
+                    "• *In a public gallery.* Its curators review it, and so do we, because anyone can find it.",
+                    "• *Public, and not in a gallery.* We review it.",
+                    "Anyone who can see something can ask for it to be reviewed, using the report button on it. We never tell the person who made it who asked.",
+                    "Reporting a chat message hides it while someone looks. That happens once per message: if it's kept and someone reports it again, it stays visible while it's looked at a second time. You can always see your own words.",
+                    "A decision says which of the rules above it found were broken, and can carry a note from whoever decided. You'll get both in your notifications.",
+                    "A gallery curator's decision applies to their gallery. It is not one of the warnings below, and it can never cost you the ability to share publicly."
                 ]
             },
             "donate": {
@@ -10430,6 +10585,15 @@
             "header": "Moderate",
             "explanation": "Review this project and decide if it's content does any of the following. If it does, content will be warned or blocked. You can skip if you're unsure."
         },
+        "queue": {
+            "label": "what to review",
+            "labels": ["projects", "galleries", "messages"],
+            "tips": [
+                "review projects people have made public",
+                "review galleries asking to be listed publicly",
+                "review messages people reported in galleries you curate"
+            ]
+        },
         "flags": {
             "violence": "Incite, encourage, or celebrate violence, harm, or self harm to anyone.",
             "dehumanization": "Dehumanize individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance.",
@@ -10467,8 +10631,37 @@
             "warned": "Some public content of yours broke the sharing rules, so it is no longer public. This is warning $#count[1|$count]. $#remaining[One more and you will no longer be able to make anything public.|After $remaining more you will no longer be able to make anything public.]",
             "notification": "Warning $#count[1|$count] about something you shared publicly."
         },
+        "gallery": {
+            "pending": "A moderator is reading your gallery to decide whether it can be listed publicly. Until then, only people you share the link with can see it.",
+            "approved": "Your gallery is listed on the <public galleries page@://galleries?tab=public>! It can be taken off that list at any time, for any reason.",
+            "denied": "A moderator decided not to list your gallery publicly. You can keep working on it and make it public again to ask a second time.",
+            "explain": "This gallery is asking to be listed publicly. Look at it and its projects, and decide whether it is finished enough to show everyone.",
+            "done": "No galleries are waiting for a decision. Thank you!",
+            "approve": {
+                "label": "list it",
+                "tip": "list this gallery on the public galleries page"
+            },
+            "deny": {
+                "label": "don't list it",
+                "tip": "keep this gallery off the public galleries page"
+            },
+            "skip": {
+                "label": "skip",
+                "tip": "leave this gallery for another moderator to decide"
+            },
+            "notification": {
+                "approved": "$name is now listed publicly.",
+                "denied": "$name was not listed publicly."
+            }
+        },
         "error": {
-            "notmod": "It looks like you're not a moderator. If you were recently given moderator privileges, you may need to login again. If not, see the wiki for how to request moderation privileges."
+            "notmod": "There's nothing here for you to review. Wordplay's moderators review public content, and a gallery's curators review what's in their gallery. If you were recently given moderator privileges, you may need to log in again."
+        },
+        "responsibility": {
+            "none": "Nobody reviews what you share here. It's only visible to you and the people you choose.",
+            "curators": "The curators of <$name@://galleries> review what's shared here, including its chat.",
+            "both": "The curators of <$name@://galleries> review what's shared here, and so do Wordplay's moderators, because anyone can see it.",
+            "platform": "Wordplay's <moderators@://rights> review this, because anyone can see it."
         }
     },
     "photosensitivity": {

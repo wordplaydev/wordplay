@@ -6,8 +6,8 @@
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune ವಾದ್ಯ: Instrument.flute)
+		Track(tune ವಾದ್ಯ: Instrument.synthBass ಕೀ: -12semitones ಶಬ್ದದಗಾತ್ರ: 60%)
 	])\
 
 ಎರಡು ಧ್ವನಿಗಳು, ಒಂದೇ ಪಟ್ಟಿ. ರಾಗವನ್ನು ಬದಲಾಯಿಸಿ, ಬೇಸ್ ಅದನ್ನೇ ಅನುಸರಿಸುತ್ತದೆ, ಏಕೆಂದರೆ ಬದಲಾಯಿಸಲು ಇರುವುದು ಒಂದೇ ರಾಗ.
@@ -16,10 +16,10 @@ Music([
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune ವಾದ್ಯ: Instrument.flute ಪ್ಯಾನ್: 0)
+		Track(tune ವಾದ್ಯ: Instrument.synthBass ಕೀ: -12semitones ಶಬ್ದದಗಾತ್ರ: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] ವಾದ್ಯ: Instrument.synthPad ತಾಳ: 2beats ಶಬ್ದದಗಾತ್ರ: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] ವಾದ್ಯ: Instrument.drums ತಾಳ: 0.5beats ಶಬ್ದದಗಾತ್ರ: 45%)
 	])\
 
 ಸದ್ದಿನ ಪ್ರಮಾಣಗಳನ್ನು ಗಮನಿಸಿ: ಕೊಳಲು ಮಾತ್ರ ಪೂರ್ಣ ಪ್ರಮಾಣದಲ್ಲಿದೆ. ಪೂರ್ಣ ಸದ್ದಿನ ಭಾಗಗಳು ಜೋರಾದ ವಾದ್ಯಗುಂಪಾಗಿ ಸೇರುವುದಿಲ್ಲ, ಬದಲಿಗೆ ಗೊಂದಲಮಯವಾದ ಒಂದಾಗಿ ಸೇರುತ್ತವೆ, ಏಕೆಂದರೆ ಒಟ್ಟಿಗೆ ಸದ್ದು ಮಾಡುವ ಎಲ್ಲವೂ ಒಂದೇ ಸ್ಪೀಕರ್ ಮೂಲಕ ಹೊರಬರಬೇಕು. ರಾಗವನ್ನು \100%\ ನಲ್ಲಿ ಆರಂಭಿಸಿ ಮತ್ತು ಉಳಿದೆಲ್ಲವನ್ನೂ ಅದರ ಕೆಳಗೆ ಸೇರಿಸಿ.

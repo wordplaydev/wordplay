@@ -5,8 +5,8 @@ Eine Liste aus blanken Zahlen gibt jeder Note dieselbe Länge. Das klingt wie ei
 @Track/beat  legt das Raster fest. Jeder blanke Eintrag dauert so lange — und ebenso jede \ø\, weshalb Pausen der einfachste Weg sind, eine Note länger klingen zu lassen:
 
 \Music([
-		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+		Track([1 ø ø ø 5 ø 8 ø] Instrument: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] Instrument: Instrument.drums Schlag: 0.5beats)
 	])\
 
 Auf die erste Note des Klaviers folgen drei Pausen, also klingt sie vier Schläge lang. Das Raster des Schlagzeugs ist ein halber Schlag, also füllen seine acht Einträge vier Schläge, während die acht des Klaviers acht füllen — das Schlagzeug läuft zweimal durch, während das Klavier einmal durchläuft. Spuren wiederholen sich in ihrer eigenen Länge. So macht eine einzige Zahl eine Polyrhythmik.
@@ -23,7 +23,7 @@ Pausen zu zählen wird anstrengend, also kannst du die Länge direkt auf die Zah
 			1𝅘𝅥𝅮𝅭
 			8𝅘𝅥𝅯
 			5𝅗𝅥
-		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
+		] Instrument: Instrument.trumpet Schlag: 1𝅘𝅥))\
 
 Das sind zwei Takte mit je vier Schlägen. \𝅝\ ist eine ganze Note, \𝅗𝅥\ eine halbe, \𝅘𝅥\ eine Viertel, \𝅘𝅥𝅮\ eine Achtel und \𝅘𝅥𝅯\ eine Sechzehntel, und der Punkt \𝅭\ macht jede von ihnen um die Hälfte länger — also \𝅘𝅥𝅮𝅭\ ist die punktierte Achtel, die diesen Marsch nach vorne treibt. Die Symbolzeile unter dem Editor bietet sie an, nachdem du eine Zahl getippt hast.
 

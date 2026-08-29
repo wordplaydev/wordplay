@@ -1,34 +1,55 @@
 Desenează ce cântă muzica
 
-Muzica pe care o auzi este doar jumătate din poveste. Fluxul  @Beat  îți dă toată starea playerului de fiecare dată când sună o bătaie, așa că poți desena tot ce se întâmplă. 
+Muzica pe care o auzi este doar jumătate din poveste. Fluxul  @Beat  îți dă toată starea player-ului de fiecare dată când sună un timp, ca să poți desena ce se întâmplă. 
 
-@Beat  are mereu un  @Downbeat  pe care să ți-l dea, așa că îl poți citi imediat. Înainte să înceapă vreo muzică, stă pe bătaia zero, fără să cânte nimic:
+@Beat  are mereu o  @Downbeat  de dat, ca să o poți citi imediat. Înainte să pornească muzica, este pe timpul zero și nimic nu cântă:
 
 \beat: Beat()
 count: beat.count
-Stage([
-		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
+Stage(
+	[
+		Phrase('🥁' dimensiune: ((count % 4) = 0) ? 2m 1m)
 		Music(Track([1 1 1 1] instrument: Instrument.drums))
-	])\
+	]
+)\
 
-Numărul \count\ crește cu unu la fiecare bătaie, așa că \count % 4\ este \0\ la fiecare a patra — accentul principal — și toba sare.
+Numărul \count\ crește cu unu la fiecare timp, așa că \count % 4\ este \0\ la fiecare al patrulea timp — timpul tare — și toba sare.
 
-Aceasta este toată muzica exprimată printr-un singur număr. Dar un  @Downbeat  duce cu el și o listă \parts\, câte un  @Part  pentru fiecare  @Track , iar un  @Part  știe ce face vocea lui chiar acum: \pitch\, \volume\, \pan\ și dacă este \sounding\. Desenează-le și obții fiecare voce separat, în loc de amestec:
+Aceasta e toată muzica exprimată printr-un singur număr. Dar o  @Downbeat  păstrează și o listă de \parts\, una  @Part  pentru fiecare  @Track , iar o  @Part  știe ce face vocea ei chiar acum: \pitch\, ei\volume\, ei\pan\, ei și dacă este \sounding\.
 
 \beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
-Stage([
+ƒ dot(p•Part)•Phrase Phrase(
+		'⬤'
+		0.4m + (p.volume · 1m)
+		loc: Place(
+			(p.pan · 3) · 1m
+			((height(p) · 0.2) - 1) · 1m
+		)
+	)
+Stage(
+	[
 		:parts.translate(ƒ(p•Part) dot(p))
-		Music([
-				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-			])
-	])\
+		Music(
+			[
+				Track(
+					[1 ø 5 ø]
+					instrument: Instrument.piano
+					balans: -1
+				)
+				Track(
+					[ø 8 ø 12]
+					instrument: Instrument.bell
+					balans: 1
+				)
+			]
+		)
+	]
+)\
 
-Fiecare punct stă acolo unde stă pista lui: \pan\ îl pune la stânga sau la dreapta, \pitch\ îl pune sus sau jos. Fiindcă \sounding\ rămâne adevărat cât timp o notă lungă încă răsună, o notă ținută își păstrează punctul în loc să se stingă.
+Desenează-le și primești fiecare voce separat, nu doar mixul: Fiecare punct stă unde stă pista lui: \pan\ îl pune la stânga sau la dreapta, \pitch\ îl pune sus sau jos. Fiindcă \sounding\ rămâne adevărat cât timp o notă lungă încă sună, o notă ținută își păstrează punctul în loc să dispară.
 
-Uită-te la mica \height\ funcție: \pitch\ este o /listă/, deoarece un acord sună mai multe note deodată, iar dacă ceri unei liste primul element, primești fie un număr, fie \ø\. Când declari că funcția returnează un \#\, asta o readuce la un număr cu care poți face calcule.
+Urmărește micul \height\ funcție. \pitch\ este o /listă/, pentru că un acord sună mai multe note în același timp, așa că \p.pitch[1]\ ia cea mai joasă notă din tot ce sună. Acel număr este în \semitones\, și împărțirea la \1semitones\ este ceea ce îl transformă într-un număr simplu, pe care îl poți combina cu \0.2\ și cu \1m\ de mai jos. Declararea funcției ca \#\ nu este suficientă de la sine: un simplu \#\ înseamnă /orice/ unitate, nu /nicio/ unitate, așa că va accepta fără probleme semitonurile și abia o linie mai jos se va plânge de ele.
 
 play-a-sound-effect, react-to-sound, count-with-time

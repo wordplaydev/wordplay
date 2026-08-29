@@ -9,11 +9,11 @@ Nhìn này! Đây là con rùa mình làm chỉ bằng các hình khối!Hãy th
 \¶Lưu ý: Hãy xem thư viện ảnh để xem thêm dự án khác.<ví dụ@https://wordplay.dev/project/example-Layers?play>về việc xếp lớp các hình ảnh.¶
 Stage([
 		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(2m 3 0m -12m 0m) xoay: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
-	] place: Place(0m 10m -30m))\
+		Shape(Rectangle(-11m -9m 11m -12m 10m) xoay: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) xoay: -25°)
+	] vịTrí: Place(0m 10m -30m))\
 
 Bạn có thể tạo ra những thứ thực sự tuyệt vời bằng cách sử dụng các lớp! Hãy thử xem!
 

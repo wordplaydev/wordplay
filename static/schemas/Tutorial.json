@@ -648,6 +648,10 @@
                     "type": "string"
                 },
                 {
+                    "const": "Bubble",
+                    "type": "string"
+                },
+                {
                     "const": "Phrase",
                     "type": "string"
                 },
@@ -689,6 +693,10 @@
                 },
                 {
                     "const": "Circle",
+                    "type": "string"
+                },
+                {
+                    "const": "Path",
                     "type": "string"
                 },
                 {

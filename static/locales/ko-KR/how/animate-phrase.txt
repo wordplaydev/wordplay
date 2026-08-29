@@ -4,14 +4,14 @@
 
 예를 들어, 고양이를 회전하고 이동시켜서 약간 춤추게 만들어 보겠습니다.
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' 쉬고있는: Sequence({
+			0%: Pose(회전: 0°)
+			15%: Pose(회전: 15°)
+			30%: Pose(회전: 0°)
+			45%: Pose(오프셋: Place(-0.25m))
+			60%: Pose(오프셋: Place(0.25m))
+			75%: Pose(오프셋: Place(-0.25m))
+			90%: Pose(오프셋: Place(0m))
 		} 2s))\
 
 이 예제에서는 다음을 사용합니다. @Sequence 다양한 @Pose .

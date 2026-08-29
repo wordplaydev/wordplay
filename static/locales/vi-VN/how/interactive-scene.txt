@@ -7,11 +7,11 @@ Tạo một chuỗi cảnh tương tác
 \Scene([
 		Phrase('bấm vào đây')
 		Button()
-		Phrase('bấm vào đây lần nữa' duration: 1s)
+		Phrase('bấm vào đây lần nữa' khoảngthờigian: 1s)
 		Button()
-		Phrase('Không, hãy nhấn mạnh hết sức có thể vào tôi!!' duration: 1s)
+		Phrase('Không, hãy nhấn mạnh hết sức có thể vào tôi!!' khoảngthờigian: 1s)
 		Button()
-		Phrase('Bạn đã nhấp vào tôi chưa?' duration: 1s)
+		Phrase('Bạn đã nhấp vào tôi chưa?' khoảngthờigian: 1s)
 	])\
 
 Cái @Scene hiển thị cái đầu tiên @Phrase sau đó chờ đợi @Button Điều đó là sự thật, và một khi đã đúng, nó sẽ tiến đến giai đoạn tiếp theo. @Phrase .
@@ -21,11 +21,11 @@ Bạn có thể sử dụng bất cứ thứ gì bạn muốn để tiến lên,
 \Scene([
 		Phrase('Có ai ở đó không?')
 		Volume() > .5
-		Phrase("Tôi không nghe rõ, bạn nói lại được không?" duration: 1s)
+		Phrase("Tôi không nghe rõ, bạn nói lại được không?" khoảngthờigian: 1s)
 		Volume() > .7
-		Phrase('Làm ơn nói to hơn...' duration: 1s)
+		Phrase('Làm ơn nói to hơn...' khoảngthờigian: 1s)
 		Volume() > .9
-		Phrase('Ồ, chào!' duration: 1s)
+		Phrase('Ồ, chào!' khoảngthờigian: 1s)
 	])\
 
 animated-scene

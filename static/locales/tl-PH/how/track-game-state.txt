@@ -1,28 +1,42 @@
 Subaybayan ang estado ng laro
 
-Karamihan sa mga laro ay sumusubaybay sa maraming bagay habang umuusad ang laro: mga puntos, posisyon ng manlalaro, at iba pang mga detalye ay pawang mahalaga.Sa bawat oras na mayroong ilang input, nagbabago ang estado na iyon, at pagkatapos ay gusto nating magpakita ng bagong output, bilang tugon.
+Karamihan sa mga laro ay sumusubaybay ng maraming bagay habang umuusad ang laro: ang puntos, posisyon ng manlalaro, at iba pang detalye ay mahalaga.Tuwing may input, nagbabago ang estadong iyon, at pagkatapos, gusto nating magpakita ng bagong output bilang tugon.
 
-Ang pangkalahatang padron para sa anumang laro ay may tatlong ginagawa:
+May pangkalahatang pattern para sa anumang laro na gumagawa ng tatlong bagay:
 
-• Magtakda ng istruktura ng datos ng estado ng laro, upang iimbak ang lahat ng estado ng laro• Magtakda ng reaksyon na bubuo ng bagong estado ng laro batay sa nakaraang estado ng laro tuwing may bagong input• Gumawa ng @Stage kasama @Group at @Phrase upang ipakita ang estado ng laro
+• Gumawa ng estruktura ng datos para sa estado ng laro, para itago ang lahat ng estado ng laro• Gumawa ng reaksyon na gumagawa ng bagong estado ng laro base sa naunang estado, tuwing may bagong input• Gumawa ng  @Stage  na may  @Group  at  @Phrase  para ipakita ang estado ng laro
 
-Halimbawa, isipin natin ang isang simpleng laro na kinabibilangan ng pag-type ng mga sikretong salita sa isang text box, at pagkuha ng puntos sa bawat oras na mahulaan ang isang sikretong salita:
+Halimbawa, isipin natin ang isang simpleng laro kung saan nagta-type ka ng mga lihim na salita sa isang text box, at nakakakuha ka ng isang puntos tuwing tama ang hulang lihim na salita:
 
 \•Game(secrets•[''] points•#)
 state: Game(['pusa' 'aso'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
-Stage(state.points = state.secrets.length() ? [Phrase("panalo ka!")] [
-			Group(Stack() [
-					Phrase("hulaan ang aking mga sikretong salita")
-					Phrase(`\state.secrets.length() - state.points\mas maraming sikreto`) 				]) 		])\
+Stage(
+	state.points = state.secrets.length() ? [
+			Phrase("panalo ka!")
+		] [
+			Group(
+				Stack()
+				[
+					Phrase("hulaan ang aking mga lihim na salita")
+					Phrase(
+						`\state.secrets.length() - state.points\ pang lihim`
+					)
+				]
+			)
+		]
+)\
 
-Suriin natin ito.
+Suriin natin ito nang paisa-isa.
 
-• Ang unang linya,\•Game(secrets•[''] points•#)\sabi,/Gumawa ng istruktura ng datos na tinatawag na\Game\na nag-iimbak ng listahan ng mga sikreto at mga punto/• Ang pangalawang linya ay nagsasabing/Ang estado ng laro ay nagsisimula sa isang listahan ng mga sikreto at mga sero puntos. Sa bawat oras na ang\Chat\mga pagbabago, kung ang salitang ipinasok ay nasa listahan ng mga sikreto, gumawa ng bagong estado ng laro na may mga puntos na nadaragdagan ng isa/.• Sa bawat pagkakataong muling susuriin ng programa (kapag ang\Chat\(mga pagbabago), magpakita ng isang yugto. Kung ang bilang ng mga puntos ay katumbas ng bilang ng mga sikreto, ipapakita ang isang panalong yugto. Kung hindi, magpakita ng isang prompt at ang bilang ng mga natitirang sikreto.
+• Ang unang linya, \•laro(mgaLihim•[''] mgaPuntos•#)\ ay nagsasabing, /Gumawa ng estruktura ng datos na tinatawag na \Game\ na nag-iimbak ng listahan ng mga lihim at puntos/. Ang \[
+	''
+]\ ay nangangahulugang /isang listahan ng anumang bilang ng mga salita/. Kung gusto mo ng listahan na may eksaktong haba sa halip, maaari kang magbigay ng pangalan ng uri para sa bawat puwesto rito: \[
+	#'']\ ay listahan ng dalawang bagay, isang numero at pagkatapos ay isang salita.• Sinasabi ng pangalawang linya na /Ang estado ng laro ay nagsisimula sa isang listahan ng mga sikreto at zero na puntos. Tuwing nagbabago ang \Makipagchat\ , kung ang salitang ipinasok ay nasa listahan ng mga sikreto, gumawa ng bagong estado ng laro na may puntos na dinagdagan ng isa/.• Tuwing muling sinusuri ng programa (kapag nagbago ang \Makipagchat\ ), nagpapakita ito ng entablado. Kung ang bilang ng puntos ay katumbas ng bilang ng mga sikreto, ipinapakita ang isang entabladong pandaigdig. Kung hindi, ipinapakita ang isang paalala at ang bilang ng mga sikretong natitira.
 
-Ang halimbawang ito ay may ilang mga problema:
+May ilang problema ang halimbawang ito:
 
-• Kung mahulaan nila ang isang sikretong salita nang maraming beses, makakakuha sila ng mas maraming puntos! Maaaring kailanganin din ng ating estado ng laro na matandaan kung ano ang nahulaan, kaya ang bawat salita ay binibilang lamang nang dalawang beses.• Kung maraming salita ang ilalagay ng manlalaro, dapat ba itong mabilang?
+• Kung hulaan nila ang isang sikretong salita ng maraming beses, mas maraming puntos ang makukuha nila! Maaaring kailangan din ng ating estado ng laro na tandaan kung ano ang nahulaan na, para bawat salita ay bibilangin lamang nang dalawang beses.• Kung nagpasok ang manlalaro ng maraming salita, dapat ba itong bilangin?
 
-Ang mas sopistikadong mga estado ng laro at mga update sa laro ay makakatulong sa amin na mahawakan ang mga kasong ito.
+Ang mas masusing mga estado ng laro at mga pag-update ng laro ay makakatulong sa atin na hawakan ang mga kasong ito.
 
 track-points

@@ -4,17 +4,17 @@ Czasami pomocne jest zrobienie @Phrase można przesuwać za pomocą klawiatury, 
 
 Zrób to, możemy połączyć @Phrase  z  @Placement :
 
-\Stage([Phrase('przenieś mnie' place: Placement())] place: Place(0m 0m -10m))\
+\Stage([Phrase('przenieś mnie' miejsce: Placement())] miejsce: Place(0m 0m -10m))\
 
 Za pomocą strzałek klawiatury lub klikając na @Stage zaktualizuje @Placement , powodując @Phrase aby podążać w tym kierunku.
 
 Czy jednak wiedziałeś, że @Placement można używać z/wszystko/to zajmuje @Place ?Na przykład @Stage ma @Place który określa, w którym kierunku skierowana jest kamera.Spróbujmy ustawić @Placement dla @Stage 's miejsce i zobacz co się stanie.
 
 \Stage([
-		Phrase('🐈' place: Place(-2m 2m))
-		Phrase('🐈' place: Place(2m -2m))
-		Phrase('🐈' place: Place(-1m 3m))
-	] place: Placement(Place(0m 0m -10m)))\
+		Phrase('🐈' miejsce: Place(-2m 2m))
+		Phrase('🐈' miejsce: Place(2m -2m))
+		Phrase('🐈' miejsce: Place(-1m 3m))
+	] miejsce: Placement(Place(0m 0m -10m)))\
 
 To sprawia, że kamera się porusza! (Uwaga: zaczynamy @Placement z\z\wartość\10m\(tak, aby kamera była odsunięta od wszystkiego.)
 

@@ -7,11 +7,11 @@
 \Scene([
 		Phrase('انقر هنا')
 		Button()
-		Phrase('انقر هنا مرة أخرى' duration: 1s)
+		Phrase('انقر هنا مرة أخرى' مدة: 1s)
 		Button()
-		Phrase('لا، حقاً، اضغط عليّ بكل قوتك!!' duration: 1s)
+		Phrase('لا، حقاً، اضغط عليّ بكل قوتك!!' مدة: 1s)
 		Button()
-		Phrase('هل نقرت عليّ بعد؟' duration: 1s)
+		Phrase('هل نقرت عليّ بعد؟' مدة: 1s)
 	])\
 
 ال  @Scene يُظهر الأول @Phrase ثم ينتظر @Button لكي يكون صحيحًا، وبمجرد أن يصبح كذلك، ينتقل إلى المرحلة التالية @Phrase .
@@ -21,11 +21,11 @@
 \Scene([
 		Phrase('هل يوجد أحد هنا؟')
 		Volume() > .5
-		Phrase("لا أسمعك، هل يمكنك أن تعيد ما قلته؟" duration: 1s)
+		Phrase("لا أسمعك، هل يمكنك أن تعيد ما قلته؟" مدة: 1s)
 		Volume() > .7
-		Phrase('أرجو رفع الصوت...' duration: 1s)
+		Phrase('أرجو رفع الصوت...' مدة: 1s)
 		Volume() > .9
-		Phrase('أهلاً!' duration: 1s)
+		Phrase('أهلاً!' مدة: 1s)
 	])\
 
 animated-scene

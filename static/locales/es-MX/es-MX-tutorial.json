@@ -185,7 +185,7 @@
                             "neutral",
                             "Por ejemplo, intenta escribir \\'hola'\\ en el editor de allí.",
                             "(No te preocupes por cometer errores, siempre puedes volver al original usando *revertir* @UI/revertProject).",
-                            "¿Escribiste algo? Ese es mi amigo, se llama @Text. ¿Ya los conociste? Lo evalúan como \\'hello'\\, luego yo pongo \\'hello'\\ en el escenario. Intenta cambiar \\'hola'\\ con otra cosa. Lo mostraré en su lugar. Evaluó de inmediato todo lo que escribas y muestro el resultado."
+                            "¿Escribiste algo? Ese es mi amigo, se llama @Text. ¿Ya los conociste? Se evalúan como \\'hola'\\ o cualquier texto que escribas, y luego ese texto se coloca en el escenario. Intenta cambiar tu texto por otra cosa. Mostraré eso en su lugar. Así que evalúo de inmediato lo que escribas y muestro el resultado."
                         ],
                         null,
                         [
@@ -194,7 +194,7 @@
                             "Las instrucciones pueden ser tan sofisticadas como quieras, pero existen algunas reglas.",
                             "$~Por ejemplo, yo produzco un solo *@value* y muestro ese valor en el escenario. Ese único valor puede ser tan complejo como quieras, y mientras yo sepa cómo mostrarlo, lo haré.",
                             "$~Si me das más de un @expression, reuniré sus valores en una *lista* y la mostraré.",
-                            "Por ejemplo, intenta agregar otra instrucción después de \\'hola'\\, cualquier palabra que quieras, entre comillas."
+                            "Por ejemplo, intenta agregar otra línea y escribe la palabra que quieras, entre comillas."
                         ],
                         null,
                         [
@@ -3783,7 +3783,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~¿Y si quisieras un arreglo muy específico? Podrías usar @Free y decirme exactamente dónde quieres todas las frases. Solo asegúrate de darle un lugar a cada @Phrase, de lo contrario simplemente la colocaré en \\Lugar(0m 0m\\)."
+                            "$~¿Y si quisieras un arreglo muy específico? Podrías usar @Free y decirme exactamente dónde quieres todas las frases. Solo asegúrate de darle un lugar a cada @Phrase, de lo contrario simplemente la colocaré en \\Lugar(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -5669,16 +5669,11 @@
                         [
                             "Evaluate",
                             "happy",
-                            "Sí, así está bien. Hm… oh, necesitamos estar en el escenario. @Text, ¿te importaría hacer una lista de todos? Lo convertiremos en \\Personaje>s."
+                            "Sí, así está bien. Hm… oh, necesitamos estar en el escenario. @Text, ¿te importaría hacer una lista de todos? Lo convertiremos en \\Character\\s."
                         ],
                         [
                             "Text",
                             "excited",
-                            "$~Con mucho gusto, querida. ¿Así está bien?"
-                        ],
-                        [
-                            "Text",
-                            "happy",
                             "Es un placer, mi querido. ¿Servirá esto?"
                         ],
                         {
@@ -5690,12 +5685,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~¡Sí, está genial! Ahora solo necesitamos convertirlos en personajes. @List, ¿podemos traducirlos? @FunctionDefinition, ¿nos ayudas?"
-                        ],
-                        [
-                            "Evaluate",
-                            "happy",
-                            "¡Sí, está genial! Solo necesitamos convertirlos en personajes ahora. @List, ¿podemos traducirlos? ¿@FunctionDefinition, nos ayudarás?"
+                            "¡Sí, está genial! Solo necesitamos convertirlos en personajes ahora. @List, ¿podemos traducirlos? @FunctionDefinition, ¿nos ayudarás?"
                         ],
                         ["List", "happy", "¡Traducción, 1, 2, 3! ¿Así?"],
                         {

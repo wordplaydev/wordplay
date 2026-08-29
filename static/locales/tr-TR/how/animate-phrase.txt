@@ -4,14 +4,14 @@ Karakterler hareket etmedikleri sırada tekrarlanan bir dinlenme animasyonuna sa
 
 Örneğin, bu kediyi döndürüp kaydırarak biraz dans ettirelim:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' dinlenme: Sequence({
+			0%: Pose(rotasyon: 0°)
+			15%: Pose(rotasyon: 15°)
+			30%: Pose(rotasyon: 0°)
+			45%: Pose(telafietmek: Place(-0.25m))
+			60%: Pose(telafietmek: Place(0.25m))
+			75%: Pose(telafietmek: Place(-0.25m))
+			90%: Pose(telafietmek: Place(0m))
 		} 2s))\
 
 Bu örnek bir @Sequence farklı @Pose .

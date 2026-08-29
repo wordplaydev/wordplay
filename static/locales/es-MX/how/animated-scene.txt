@@ -7,9 +7,9 @@ Por ejemplo, imagina que queremos animar la rima infantil corta "Jack be Nimble"
 \
 Scene(
 	[
-		Phrase('Jack sé ágil' duration: 1s)
-		Phrase('Jack sé rápido' duration: 1s)
-		Phrase('Jack salta sobre la vela' duration: 1s)
+		Phrase('Jack sé ágil' duración: 1s)
+		Phrase('Jack sé rápido' duración: 1s)
+		Phrase('Jack salta sobre la vela' duración: 1s)
 	]
 )\
 
@@ -18,11 +18,11 @@ Scene(
 \
 Scene(
 	[
-		Phrase('Jack sé ágil' duration: 1s)
-		Phrase('Jack sé rápido' duration: 1s)
+		Phrase('Jack sé ágil' duración: 1s)
+		Phrase('Jack sé rápido' duración: 1s)
 		Phrase(
 			'Jack salta sobre la vela'
-			entering: Sequence.bounce(duration: 1s)
+			entrando: Sequence.bounce(duración: 1s)
 		)
 	]
 )\
@@ -35,11 +35,11 @@ Scene(
 		Group(
 			Stack()
 			[Phrase('Jack sé ágil') Phrase('Jack sé rápido')]
-			duration: 2s
+			duración: 2s
 		)
 		Phrase(
 			'Jack salta sobre la vela'
-			entering: Sequence.bounce(duration: 1s)
+			entrando: Sequence.bounce(duración: 1s)
 		)
 	]
 )\

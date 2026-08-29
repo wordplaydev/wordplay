@@ -19,6 +19,9 @@ import { toTokens } from '@parser/toTokens';
 import checkDocContent from '@util/verify-locales/checkDocContent';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
+import checkExampleNames from '@util/verify-locales/checkExampleNames';
+import checkPointedNames from '@util/verify-locales/checkPointedNames';
+import checkTypedInputNames from '@util/verify-locales/checkTypedInputNames';
 import checkDegenerateNames from '@util/verify-locales/checkDegenerateNames';
 import checkNames from '@util/verify-locales/checkNames';
 import checkOperatorKeywords from '@util/verify-locales/checkOperatorKeywords';
@@ -26,8 +29,10 @@ import checkRedundantNames from '@util/verify-locales/checkRedundantNames';
 import checkAnnotations from '@util/verify-locales/checkAnnotations';
 import checkStringArrays from '@util/verify-locales/checkStringArrays';
 import checkTerms from '@util/verify-locales/checkTerms';
+import checkUntranslated from '@util/verify-locales/checkUntranslated';
 import classifyLocalePath, {
     classifyPair,
+    isEmotionPath,
     isGlossaryFormsPath,
     isNameTextPath,
 } from '@util/verify-locales/classifyLocalePath';
@@ -86,8 +91,10 @@ export function createUnwrittenLocale(): LocaleText {
 export function getCheckableLocalePairs(locale: LocaleText): LocalePath[] {
     // Find the translatable pairs
     return getKeyTemplatePairs(locale).filter((pair) => {
-        // Emotion? Skip it.
-        if (pair.key === 'emotion') return false;
+        // An emotion identifier is from a closed set, not prose. Keyed off the
+        // `[emotion]` tag, never the key name: `ui.localize.emotion` is a
+        // `[plain]` ARIA label that happens to share it.
+        if (isEmotionPath([...pair.path, pair.key])) return false;
 
         // Top level declaration? Skip it.
         if (
@@ -144,6 +151,9 @@ export async function verifyLocale(
      *  locale texts) and usage accounting span the whole locale run rather than
      *  one call. Undefined = the env-selected backend, constructed on demand. */
     translator?: Translator,
+    /** Called with a complete, valid locale partway through translation so the
+     *  caller can persist progress; see `CHECKPOINT_PATHS`. */
+    checkpoint?: (partial: LocaleText) => Promise<void>,
 ): Promise<[LocaleText, boolean]> {
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
@@ -178,6 +188,12 @@ export async function verifyLocale(
     if (locale !== 'en-US')
         revisedText = checkRedundantNames(log, DefaultLocale, revisedText, fix);
 
+    // Prose that is still the English and says so nowhere. Never en-US, whose every
+    // string is identical to itself. Before the translation pass below, so the `$?`
+    // this marks is honored by the same run.
+    if (locale !== 'en-US')
+        revisedText = checkUntranslated(log, DefaultLocale, revisedText, fix);
+
     // After checkRedundantNames, so an alias this check adds isn't judged (and
     // possibly removed) as an en-US duplicate in the same run.
     revisedText = checkOperatorKeywords(log, DefaultLocale, revisedText, fix);
@@ -189,6 +205,34 @@ export async function verifyLocale(
     // Validate the per-locale glossary forms: no collisions with words, ids, or
     // concept names, and nothing unreferenceable.
     revisedText = checkGlossaryForms(log, revisedText, fix);
+
+    // Vowel points first: they change names, and everything below reads names. Hebrew is
+    // written without them and nobody types them into code, so a pointed name is an
+    // identifier no creator can enter.
+    if (locale !== 'en-US')
+        revisedText = checkPointedNames(log, revisedText, fix);
+
+    // Then the type/input agreement, which reads the names the strip just settled.
+    if (locale !== 'en-US')
+        revisedText = checkTypedInputNames(
+            log,
+            DefaultLocale,
+            revisedText,
+            fix,
+        );
+
+    // After the name checks above, so an example is retargeted to the name this run settled
+    // on rather than one about to be repaired, and before the doc checks below, so the
+    // conflict check analyzes the retargeted example rather than the stale one. Applied on a
+    // translate run too, not just `fix`: translating is when names change, so it is exactly
+    // the run whose examples would otherwise be left naming the old word.
+    if (locale !== 'en-US')
+        revisedText = checkExampleNames(
+            log,
+            DefaultLocale,
+            revisedText,
+            fix || translate,
+        );
 
     // Don't warn if we're checking the example locale.
     revisedText = await checkLocale(
@@ -203,14 +247,24 @@ export async function verifyLocale(
         translatedPaths,
         localeFilter,
         translator,
+        checkpoint,
     );
+
+    // Again, because `checkLocale` is where this run's own name translations land: a name
+    // Phase 2a rewrote strands every already-translated example that spelled the old word,
+    // and leaving that to the next run is what made the divergence look permanent. Costs one
+    // pass over the examples, and only on a run that could have changed a name.
+    if (translate && locale !== 'en-US')
+        revisedText = checkExampleNames(log, DefaultLocale, revisedText, true);
 
     return [revisedText, JSON.stringify(revisedText) !== JSON.stringify(text)];
 }
 
 // Whether to (re)machine-translate this string: it's unwritten ($?), explicitly marked Revised ($!)
 // to force a per-string re-translation from en-US, or machine-translated ($~) and we're overriding.
-function shouldStringBeMachineTranslated(
+// Exported because this is what makes a checkpoint durable: a saved string carries $~, so a re-run
+// skips it and pays only for what is still $?.
+export function shouldStringBeMachineTranslated(
     text: string,
     override: boolean,
 ): boolean {
@@ -238,6 +292,8 @@ async function checkLocale(
     localeFilter?: (path: LocalePath) => boolean,
     /** The run's shared translation backend; see verifyLocale. */
     translator?: Translator,
+    /** Persist partial progress during translation; see verifyLocale. */
+    checkpoint?: (partial: LocaleText) => Promise<void>,
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
@@ -271,8 +327,10 @@ async function checkLocale(
                           shouldStringBeMachineTranslated(s, override),
                       );
             })
-            // Don't translate emotions; those have meaning.
-            .filter(({ key }) => key !== 'emotion')
+            // Don't translate emotions; those are identifiers from a closed
+            // set. Keyed off the `[emotion]` tag, never the key name — see
+            // `isEmotionPath`.
+            .filter((path) => !isEmotionPath([...path.path, path.key]))
             // Don't translate names that are symbolic operators.
             .map((path) => {
                 if (path.key !== 'names') return path;
@@ -323,6 +381,7 @@ async function checkLocale(
                 translatedPaths,
                 translator,
                 itemNeedsTranslation,
+                checkpoint,
             );
         }
     }
@@ -676,6 +735,20 @@ function repairLocale(
     return revised;
 }
 
+/**
+ * How many paths one slice of the bulk translation phase covers before the
+ * caller's checkpoint runs.
+ *
+ * That phase is the long pole of a locale run — over an hour for a new one — and
+ * it used to write nothing until it finished, so a process killed partway lost
+ * every string it had paid for. Sliced this way it saves every few minutes, and
+ * a saved string needs no other bookkeeping to be durable: it carries `$~`, which
+ * `shouldStringBeMachineTranslated` skips, so a re-run pays only for what is
+ * still `$?`. Each save re-serializes the whole locale (~1MB, a few hundred ms
+ * through Prettier), which is why this isn't per chunk.
+ */
+export const CHECKPOINT_PATHS = 200;
+
 export async function translateLocale(
     log: Log,
     source: LocaleText,
@@ -696,6 +769,9 @@ export async function translateLocale(
         path: LocalePath,
         existing: string | undefined,
     ) => boolean,
+    /** Called with `revised` after each phase and each slice of the bulk phase,
+     *  so a caller can write progress to disk; see `CHECKPOINT_PATHS`. */
+    checkpoint?: (partial: LocaleText) => Promise<void>,
 ) {
     const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
 
@@ -918,6 +994,7 @@ export async function translateLocale(
         ))
     )
         return revised;
+    if (glossaryWords.length > 0) await checkpoint?.(revised);
 
     // Phase 2 is itself split so that construct names (NameText) are translated
     // and written into `revised` BEFORE the docs that embed `\code\` examples.
@@ -939,9 +1016,30 @@ export async function translateLocale(
         ))
     )
         return revised;
+    if (namePaths.length > 0) await checkpoint?.(revised);
+
     // Phase 2b: everything else, now that `revised` carries the localized names, so
     // embedded examples retarget their library references to those names.
-    await phase(`${otherPaths.length} remaining strings`, otherPaths, revised);
+    //
+    // Sliced so the caller can persist progress as it goes. Slicing is only safe
+    // because the slices partition `otherPaths`: `indicesFor` memoizes per path
+    // and its first answer wins, so a path appearing in two slices would send one
+    // set of array elements and write back another. Everything else `apply` needs
+    // — the source strings and the `translations.shift()` write-back — is rebuilt
+    // per call, so lockstep holds within a slice.
+    const slices: LocalePath[][] = [];
+    for (let index = 0; index < otherPaths.length; index += CHECKPOINT_PATHS)
+        slices.push(otherPaths.slice(index, index + CHECKPOINT_PATHS));
+    for (const [index, slice] of slices.entries()) {
+        await phase(
+            slices.length > 1
+                ? `${slice.length} remaining strings (${index + 1}/${slices.length})`
+                : `${slice.length} remaining strings`,
+            slice,
+            revised,
+        );
+        await checkpoint?.(revised);
+    }
 
     return revised;
 }

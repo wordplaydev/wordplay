@@ -7,10 +7,10 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: '피아노')
-				Phrase('🎻' selectable: ⊤ name: '바이올린')
+				Phrase('🎹' 선택가능: ⊤ 이름: '피아노')
+				Phrase('🎻' 선택가능: ⊤ 이름: '바이올린')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = '바이올린') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] 악기: (picked = '바이올린') ? Instrument.violin Instrument.piano))
 	])\
 
 선택 가능한 두 개의 문구가 이것을 작동하게 해요 —  @Choice 은 무대 위의 무언가가 선택 가능하지 않으면 읽을 것이 없어요\선택가능: ⊤\.
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon 선택가능: ⊤ 이름: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] 악기: current.sound))
 	])\
 
 이제 네 번째 목소리를 더하는 것은 한 줄이면 돼요. 그리고 버튼은 저절로 나타나요. \found•ø ?\ 보호 장치를 잘 보세요:  @List/find 은 맞는 것이 없을 때 \ø\을 돌려줘요. 아직 아무도 고르지 않았을 때 바로 이런 일이 일어나요. 그리고 대비책은 반드시 완전한 \연설\이어야 해요. 왜냐하면 그것이 바로 \current\이 약속하는 것이기 때문이에요.

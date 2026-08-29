@@ -7,10 +7,10 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: '鋼琴')
-				Phrase('🎻' selectable: ⊤ name: '小提琴')
+				Phrase('🎹' 可選擇的: ⊤ 名字: '鋼琴')
+				Phrase('🎻' 可選擇的: ⊤ 名字: '小提琴')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = '小提琴') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] 樂器: (picked = '小提琴') ? Instrument.violin Instrument.piano))
 	])\
 
 這兩個可選的詞句就是讓它運作的關鍵—— @Choice  沒有東西可讀，除非舞台上有某個東西是 \可選取的: ⊤\。
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon 可選擇的: ⊤ 名字: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] 樂器: current.sound))
 	])\
 
 現在加入第四種聲音只要一行，按鈕會自己出現。請注意 \found•ø ?\ 的防護： @List/find  在沒有東西符合時會回傳 \ø\，也就是在有人選擇之前發生的情況——而備用值必須是一個完整的 \🎙\，因為這正是 \current\ 承諾會提供的東西。

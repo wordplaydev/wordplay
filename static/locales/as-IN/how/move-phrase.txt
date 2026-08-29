@@ -4,17 +4,17 @@
 
 এইটো কৰক, আমি একত্ৰিত কৰিব পাৰো  @Phrase  সৈতে  @Placement :
 
-\Stage([Phrase('মোক লৰচৰ কৰক' place: Placement())] place: Place(0m 0m -10m))\
+\Stage([Phrase('মোক লৰচৰ কৰক' স্থান: Placement())] স্থান: Place(0m 0m -10m))\
 
 কিবৰ্ডৰ কাঁড় চিহ্ন ব্যৱহাৰ কৰা বা ক্লিক কৰা  @Stage  আপডেট কৰিব  @Placement , যাৰ ফলত...  @Phrase  সেই দিশত আগবাঢ়িবলৈ।
 
 আপুনি অৱশ্যে সেই কথা জানেনে  @Placement  ৰ সৈতে ব্যৱহাৰ কৰিব পাৰি /যিকোনো/ যে লয় ক  @Place ? যেনে ক  @Stage  has a  @Place  ইয়াৰ কেমেৰাই ক'লৈ আঙুলিয়াইছে সেইটো নিৰ্ধাৰণ কৰে।ক ছেট কৰিবলৈ চেষ্টা কৰোঁ আহক  @Placement  কাৰণ ক  @Stage ৰ ঠাইত, আৰু চাওক কি হয়।
 
 \Stage([
-		Phrase('🐈' place: Place(-2m 2m))
-		Phrase('🐈' place: Place(2m -2m))
-		Phrase('🐈' place: Place(-1m 3m))
-	] place: Placement(Place(0m 0m -10m)))\
+		Phrase('🐈' স্থান: Place(-2m 2m))
+		Phrase('🐈' স্থান: Place(2m -2m))
+		Phrase('🐈' স্থান: Place(-1m 3m))
+	] স্থান: Placement(Place(0m 0m -10m)))\
 
 সেইটোৱে কেমেৰাটো লৰচৰ কৰে! (বি:দ্ৰ: আমি আৰম্ভ কৰোঁ...  @Placement  with a \z\ মূল্যৰ \10m\ যাতে কেমেৰাটো সকলো বস্তুৰ পৰা পিছুৱাই ৰখা হয়।)
 

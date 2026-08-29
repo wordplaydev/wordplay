@@ -3818,7 +3818,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~Dan jika Anda menginginkan susunan yang sangat spesifik? Anda bisa menggunakan @Free dan beri tahu saya persis di mana Anda ingin semua frasa tersebut berada. Pastikan untuk memberikan tempat untuk setiap @Phrase, jika tidak, saya hanya akan menempatkannya di \\Place(0m 0m\\)."
+                            "$~Dan jika Anda menginginkan susunan yang sangat spesifik? Anda bisa menggunakan @Free dan beri tahu saya persis di mana Anda ingin semua frasa tersebut berada. Pastikan untuk memberikan tempat untuk setiap @Phrase, jika tidak, saya hanya akan menempatkannya di \\Place(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -4648,7 +4648,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Anda tahu, @Bind bekerja dengan banyak karakter lain, termasuk @Evaluate — Anda melihatnya saat Anda memberi nama input @FunctionDefinition, seperti \\Pose(color: _)\\ — dan kita akan bertemu beberapa karakter lain ini. @Bind, apakah Anda akan hadir untuk mendemonstrasikannya?"
+                            "$~Anda tahu, @Bind bekerja dengan banyak karakter lain, termasuk @Evaluate — Anda melihatnya saat Anda memberi nama input @FunctionDefinition, seperti \\Pose(warna: _)\\ — dan kita akan bertemu beberapa karakter lain ini. @Bind, apakah Anda akan hadir untuk mendemonstrasikannya?"
                         ],
                         [
                             "Bind",
@@ -5745,7 +5745,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~Ya, seperti itu. Hm… oh, kita harus naik panggung. @Text, bisakah kamu membuat daftar semua orang? Kita akan mengubahnya menjadi \\Character>s."
+                            "$~Ya, seperti itu. Hm… oh, kita harus naik panggung. @Text, bisakah kamu membuat daftar semua orang? Kita akan mengubahnya menjadi \\Character\\s."
                         ],
                         [
                             "Text",

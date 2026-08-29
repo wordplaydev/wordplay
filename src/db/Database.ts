@@ -41,6 +41,7 @@ import { WordplayDexie } from '@db/WordplayDexie';
 import SettingsDatabase from '@db/settings/SettingsDatabase';
 import retryableLoad from '@util/retryableLoad';
 import { syncStrikes } from '@db/creators/strikes.svelte';
+import { syncNotices } from '@db/moderation/notices.svelte';
 
 // Intercept console.log and console.error
 
@@ -1006,6 +1007,11 @@ export class Database {
         // gates the public-sharing control and raises a notification, and both
         // must be about whoever is signed in now.
         syncStrikes(user);
+
+        // The creator's inbox (#938). Watched the same way and for the same
+        // reason: a decision about something they made, or something they
+        // reported, can land while the app is open.
+        syncNotices(user);
 
         if (user === null) {
             // Logout (or an involuntary auth drop): tear down every realtime

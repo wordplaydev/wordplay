@@ -5,8 +5,8 @@ Uma lista de números simples dá a cada nota a mesma duração, o que soa como 
 @Track/beat  define a grelha. Cada entrada simples dura esse tempo — e o mesmo acontece com cada \ø\, que é o que faz das pausas a forma mais fácil de prolongar uma nota:
 
 \Music([
-		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+		Track([1 ø ø ø 5 ø 8 ø] instrumento: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] instrumento: Instrument.drums batida: 0.5beats)
 	])\
 
 A primeira nota do piano é seguida por três pausas, por isso soa durante quatro tempos. A grelha do tambor é meio tempo, por isso as suas oito entradas preenchem quatro tempos enquanto as oito do piano preenchem oito — o tambor dá a volta duas vezes por cada volta do piano. As faixas repetem-se com os seus próprios comprimentos, e é assim que um só número cria um polirritmo.
@@ -23,7 +23,7 @@ Contar pausas torna-se cansativo, por isso podes escrever a duração no própri
 			1𝅘𝅥𝅮𝅭
 			8𝅘𝅥𝅯
 			5𝅗𝅥
-		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
+		] instrumento: Instrument.trumpet batida: 1𝅘𝅥))\
 
 São dois compassos de quatro tempos. \𝅝\ é uma semibreve, \𝅗𝅥\ uma mínima, \𝅘𝅥\ uma semínima, \𝅘𝅥𝅮\ uma colcheia e \𝅘𝅥𝅯\ uma semicolcheia, e o ponto \𝅭\ torna qualquer uma delas metade mais longa — por isso \𝅘𝅥𝅮𝅭\ é a colcheia pontuada que dá impulso a esta marcha. A linha de símbolos por baixo do editor oferece-as depois de escreveres um número.
 

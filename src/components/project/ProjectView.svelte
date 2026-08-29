@@ -116,6 +116,8 @@
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
+    import Drawing from '@components/output/Drawing.svelte.ts';
+    import type { OutputInfoSet } from '@output/animation/Animator';
     import { writable, type Readable, type Writable } from 'svelte/store';
     import Characters from '../../lore/BasisCharacters';
     import {
@@ -158,7 +160,6 @@
     import { zoomGauge, zoomPercent } from '@components/output/fit';
     import { withMonoEmoji } from '@unicode/emoji';
     import OutputView from '@components/output/OutputView.svelte';
-    import type PaintingConfiguration from '@components/output/PaintingConfiguration';
     import Palette from '@components/palette/Palette.svelte';
     import type Bounds from '@components/project/Bounds';
     import {
@@ -183,6 +184,8 @@
         setResetKeyboardIdle,
         setRevealPalette,
         setSelectedOutput,
+        setDrawing,
+        setStageScene,
         type ConceptPath,
         type EditorState,
         type EmphasizedConflict,
@@ -541,6 +544,18 @@
     /** Make the project global selected output and set it in a context. */
     let selectedOutput = new SelectedOutput();
     setSelectedOutput(selectedOutput);
+
+    /** The channel StageView publishes the stage's layout on (#117). Created
+     *  here rather than in OutputView because the palette reads it too, to
+     *  place new output clear of what's already there, and the two are sibling
+     *  tiles — this is their nearest common ancestor. */
+    const stageScene = writable<(() => OutputInfoSet) | undefined>(undefined);
+    setStageScene(stageScene);
+
+    // The stage's drawing mode (#167), owned here because the toggle, the gesture, and the
+    // preview are in three different tiles.
+    const drawing = new Drawing();
+    setDrawing(drawing);
 
     /** The centralized announcer, for narrating mode changes to screen readers. */
     const announce = getAnnouncer();
@@ -1368,14 +1383,6 @@
         revealPalette();
         openTour = 'palette';
     }
-
-    /** Undefined or an object defining painting configuration */
-    let painting = $state(false);
-    let paintingConfig = $state<PaintingConfiguration>({
-        characters: 'a',
-        size: 1,
-        font: $locales.getUnannotatedPrimaryText((l) => l.ui.font.app),
-    });
 
     /** Get the store of how tos stored in the locales database. */
     let howToStore = Locales.howTos;
@@ -3079,7 +3086,7 @@
                                      own creators have the share dialog, and
                                      nobody can report what isn't public. -->
                                 {#if tile.kind === TileKind.Output && reportable && isAuthenticated($user)}
-                                    <ReportButton {project} uid={$user.uid} />
+                                    <ReportButton {project} />
                                 {/if}
                             {/snippet}
 
@@ -3424,11 +3431,9 @@
                                         ]}
                                         bind:fit
                                         bind:grid
-                                        bind:painting
                                         bind:hasStagePlace
                                         bind:focusAdjusted
                                         bind:zoom={stageZoom}
-                                        {paintingConfig}
                                         bind:background={outputBackground}
                                         editable={editableNow}
                                         selectable={editableAndCurrent &&

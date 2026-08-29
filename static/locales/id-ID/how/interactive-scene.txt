@@ -7,11 +7,11 @@ Untuk melakukan ini, kita bisa menggunakan  @Scene , tapi letakkan  @Boolean  ni
 \Scene([
 		Phrase('klik saya')
 		Button()
-		Phrase('klik saya lagi' duration: 1s)
+		Phrase('klik saya lagi' lamanya: 1s)
 		Button()
-		Phrase('Tidak, sungguh, klik saya sekeras mungkin!!' duration: 1s)
+		Phrase('Tidak, sungguh, klik saya sekeras mungkin!!' lamanya: 1s)
 		Button()
-		Phrase('Apakah Anda sudah mengklik saya?' duration: 1s)
+		Phrase('Apakah Anda sudah mengklik saya?' lamanya: 1s)
 	])\
 
 Itu  @Scene  menunjukkan yang pertama  @Phrase lalu menunggu  @Button  agar menjadi kenyataan, dan begitu terbukti benar, maka akan berlanjut ke tahap berikutnya.  @Phrase .
@@ -21,11 +21,11 @@ Anda dapat menggunakan apa pun yang Anda inginkan untuk menyampaikan argumen, as
 \Scene([
 		Phrase('Apakah ada orang di sana?')
 		Volume() > .5
-		Phrase("Aku tidak bisa mendengarmu, ulangi lagi?" duration: 1s)
+		Phrase("Aku tidak bisa mendengarmu, ulangi lagi?" lamanya: 1s)
 		Volume() > .7
-		Phrase('Tolong lebih keras...' duration: 1s)
+		Phrase('Tolong lebih keras...' lamanya: 1s)
 		Volume() > .9
-		Phrase('Oh, hai!' duration: 1s)
+		Phrase('Oh, hai!' lamanya: 1s)
 	])\
 
 animated-scene

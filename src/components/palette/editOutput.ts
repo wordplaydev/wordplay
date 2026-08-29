@@ -16,7 +16,6 @@ import Unit from '@nodes/Unit';
 import Decimal from 'decimal.js';
 import type { Database } from '@db/Database';
 import type Locales from '@locale/Locales';
-import Convert from '@nodes/Convert';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import ListLiteral from '@nodes/ListLiteral';
 import ListType from '@nodes/ListType';
@@ -26,7 +25,6 @@ import TextType from '@nodes/TextType';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import { getPlaceExpression } from '@output/Place/getOrCreatePlace';
 import { getFormAnchor, translateFormTo } from '@edit/output/editShape';
-import { PHRASE_SYMBOL } from '@parser/Symbols';
 
 export function getNumber(given: Expression): number | undefined {
     const measurement =
@@ -579,135 +577,6 @@ function wrapTarget(project: Project):
     };
 }
 
-/** The output-creation actions the no-selection palette offers for a given output state. Pure, so
- *  it can be unit-tested without mounting the component. `placeholder` is the distinct "start from
- *  nothing" action (add a placeholder Phrase); the others transform existing output/text. */
-export type OutputOffer =
-    'placeholder' | 'phrase' | 'shape' | 'group' | 'stage' | 'music';
-
-export function offersFor(
-    kind: OutputKind,
-    stageExists: boolean,
-    /**
-     * True when the output is a LIST rather than one value — either several
-     * result statements, or one expression that evaluates to a list.
-     *
-     * A @Phrase is made from a single value, so there is nothing to offer
-     * otherwise: `addSoloPhrase` refuses a program with more than one result
-     * statement, and an offer whose action does nothing is worse than no offer.
-     */
-    isList = false,
-): OutputOffer[] {
-    // No output at all: there's nothing to wrap, so offer to start with a placeholder Phrase — or
-    // with music, which needs nothing to wrap and is a whole program on its own.
-    if (kind === 'none') return ['placeholder', 'music'];
-
-    const offers: OutputOffer[] = [];
-    // Make a Phrase out of a single statement that isn't already output: text,
-    // or a value that can be shown as text. Never out of output — a @Phrase
-    // around a @Stage is not a thing, and neither is one around a @Music, which
-    // is output you hear.
-    if (!isList && (kind === 'text' || kind === 'value')) offers.push('phrase');
-    // Wrap a bare Form in a Shape.
-    if (kind === 'form') offers.push('shape');
-    // Wrap a Phrase/Say in a Group (Group excludes Shape and Stage); not if a Stage already exists.
-    if (!stageExists && (kind === 'phrase' || kind === 'say'))
-        offers.push('group');
-    // Wrap a single output in a Stage; not for a bare Form (Shape-wrap first), an existing Stage, or
-    // when a Stage already exists.
-    if (
-        !stageExists &&
-        (kind === 'phrase' ||
-            kind === 'group' ||
-            kind === 'shape' ||
-            kind === 'say')
-    )
-        offers.push('stage');
-    // Music is heard rather than seen, so it wraps nothing and displaces nothing: it can be added
-    // alongside whatever is already there, in every state.
-    offers.push('music');
-    return offers;
-}
-
-/** Make a Phrase: from nothing (welcome), from existing text (reuse), or from a value (as text via
- *  Convert). Only valid for the `none`/`text`/`value` states — never wraps an output or Form. */
-export function addSoloPhrase(
-    db: Database,
-    project: Project,
-): Project | undefined {
-    const { block, results } = getOutputExpression(project);
-    const { kind } = classifyOutput(project);
-    if (kind !== 'none' && kind !== 'text' && kind !== 'value') return;
-    // Only the empty or single-value cases make a sensible single Phrase.
-    if (results.length > 1) return;
-
-    const last = results[0];
-    const text =
-        last === undefined
-            ? TextLiteral.make(db.Locales.getLocale().ui.phrases.welcome)
-            : last instanceof TextLiteral || last instanceof FormattedLiteral
-              ? last
-              : Convert.make(last, TextType.make());
-
-    const phrase = Evaluate.make(Reference.make(PHRASE_SYMBOL), [text]);
-
-    const revised = project.withRevisedNodes([
-        last ? [last, phrase] : [block, block.withStatement(phrase)],
-    ]);
-    Projects.reviseProject(revised);
-    return revised;
-}
-
-/** Make a Shape: wrap a bare Form output in a Shape, or create a placeholder Shape when there's no
- *  output. */
-export function addShape(db: Database, project: Project): Project | undefined {
-    const { block } = getOutputExpression(project);
-    const { kind, expression } = classifyOutput(project);
-    const locales = db.Locales.getLocaleSet();
-
-    let revised: Project | undefined;
-    if (kind === 'form' && expression !== undefined) {
-        const shape = Evaluate.make(
-            project.shares.output.Shape.getReference(locales),
-            [expression],
-        );
-        revised = project.withRevisedNodes([[expression, shape]]);
-    } else if (kind === 'none') {
-        const shape = createPlaceholderShape(project, locales);
-        revised = project.withRevisedNodes([
-            [block, block.withStatement(shape)],
-        ]);
-    }
-    if (revised) Projects.reviseProject(revised);
-    return revised;
-}
-
-/** Wrap a Phrase/Say output (or a whole list of them) in a Group with a Stack layout. Group content
- *  excludes Shape/Stage. */
-export function addGroup(db: Database, project: Project): Project | undefined {
-    const { kind } = classifyOutput(project);
-    if (kind !== 'phrase' && kind !== 'say') return;
-
-    const target = wrapTarget(project);
-    if (target === undefined) return;
-
-    const locales = db.Locales.getLocaleSet();
-    const group = Evaluate.make(
-        project.shares.output.Group.getReference(locales),
-        [
-            Evaluate.make(
-                project.shares.output.Stack.getReference(locales),
-                [],
-            ),
-            target.content,
-        ],
-    );
-
-    const revised = project.withRevisedNodes(target.replace(group));
-    Projects.reviseProject(revised);
-    return revised;
-}
-
 /** Wrap the program's output in a Stage, or create a Stage with a placeholder when there's no
  *  output. Bails if a Stage already exists anywhere. */
 export function addStage(db: Database, project: Project): Project | undefined {
@@ -745,54 +614,6 @@ export function addStage(db: Database, project: Project): Project | undefined {
             [block, block.withStatement(stage)],
         ]);
     }
-    Projects.reviseProject(revised);
-    return revised;
-}
-
-/**
- * Add a `Music` to the program, seeded with one track of a rising scale so
- * there is something to hear and something to edit.
- *
- * Unlike the other offers this wraps nothing. Music is heard rather than seen,
- * and `Stage.content` accepts it, so it goes into the stage when there is one
- * and otherwise becomes another result of the program's block — which is a
- * list of outputs, the same shape two phrases already make.
- */
-export function addMusic(db: Database, project: Project): Project | undefined {
-    const locales = db.Locales.getLocaleSet();
-    const output = project.shares.output;
-
-    const music = Evaluate.make(output.Music.getReference(locales), [
-        Evaluate.make(output.Track.getReference(locales), [
-            ListLiteral.make(
-                [1, 2, 3, 4, 5].map((degree) => NumberLiteral.make(degree)),
-            ),
-        ]),
-    ]);
-
-    const stage = getStage(project);
-    const content =
-        stage === undefined
-            ? undefined
-            : stage.getInput(
-                  output.Stage.inputs[0],
-                  project.getNodeContext(stage),
-              );
-
-    // Into the stage's content when there is one, so it plays as part of the
-    // stage rather than as a second, competing output.
-    const revised =
-        content instanceof ListLiteral
-            ? project.withRevisedNodes([
-                  [content, ListLiteral.make([...content.values, music])],
-              ])
-            : project.withRevisedNodes([
-                  [
-                      getOutputExpression(project).block,
-                      getOutputExpression(project).block.withStatement(music),
-                  ],
-              ]);
-
     Projects.reviseProject(revised);
     return revised;
 }

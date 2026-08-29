@@ -14,6 +14,8 @@
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
     import Public from '@components/project/Public.svelte';
+    import { galleryVisibility } from '@db/moderation/visibility';
+    import GalleryModerationNotice from './GalleryModerationNotice.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
@@ -369,6 +371,7 @@
             {/if}
 
             {#if $user && gallery.getCurators().includes($user.uid)}
+                <GalleryModerationNotice {gallery} />
                 <Public
                     isPublic={gallery.isPublic()}
                     set={(choice) => {
@@ -376,6 +379,8 @@
                             ? Galleries.edit(gallery.asPublic(choice === 1))
                             : undefined;
                     }}
+                    visibility={galleryVisibility(gallery)}
+                    galleryName={gallery.getName($locales)}
                 />
                 <HeaderAndExplanation
                     text={(l) => l.ui.gallery.subheader.delete}

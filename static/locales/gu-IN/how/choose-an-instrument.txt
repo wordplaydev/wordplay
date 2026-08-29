@@ -7,10 +7,10 @@
 \picked: Choice()
 Stage([
 		Group(Row() [
-				Phrase('🎹' selectable: ⊤ name: 'પિયાનો')
-				Phrase('🎻' selectable: ⊤ name: 'વાયોલિન')
+				Phrase('🎹' પસંદકરીશકાયતેવું: ⊤ નામ: 'પિયાનો')
+				Phrase('🎻' પસંદકરીશકાયતેવું: ⊤ નામ: 'વાયોલિન')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'વાયોલિન') ? Instrument.violin Instrument.piano))
+		Music(Track([1 3 5 6 5 3] વાદ્ય: (picked = 'વાયોલિન') ? Instrument.violin Instrument.piano))
 	])\
 
 બે પસંદ કરી શકાય તેવા શબ્દસમૂહો જ આ કામ કરાવે છે —  @Choice  પાસે વાંચવા માટે કંઈ નથી, જ્યાં સુધી સ્ટેજ પર કંઈક \પસંદકરીશકાયતેવું: ⊤\ ન હોય.
@@ -28,9 +28,9 @@ found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
 Stage([
 		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon પસંદકરીશકાયતેવું: ⊤ નામ: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Music(Track([1 3 5 6 5 3] વાદ્ય: current.sound))
 	])\
 
 ચોથો અવાજ ઉમેરવો હવે એક લીટીનું કામ છે, અને બટન જાતે જ દેખાય છે. \found•ø ?\ ના રક્ષણને ધ્યાનમાં લો:  @List/find  જ્યારે કંઈ મળતું ન આવે ત્યારે \ø\ પાછું આપે છે, જે કોઈ પસંદ કરે તે પહેલાં થાય છે — અને પાછું આપવાનું મૂલ્ય આખું \ભાષણ\ હોવું જોઈએ, કારણ કે \current\ એ જ હોવાનું વચન આપે છે.

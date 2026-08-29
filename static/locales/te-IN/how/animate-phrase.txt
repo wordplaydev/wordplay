@@ -4,14 +4,14 @@
 
 ఉదాహరణకు, ఈ పిల్లిని తిప్పడం మరియు మార్చడం ద్వారా కొంచెం నృత్యం చేద్దాం:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' విశ్రాంతి: Sequence({
+			0%: Pose(భ్రమణం: 0°)
+			15%: Pose(భ్రమణం: 15°)
+			30%: Pose(భ్రమణం: 0°)
+			45%: Pose(ఆఫ్‌సెట్: Place(-0.25m))
+			60%: Pose(ఆఫ్‌సెట్: Place(0.25m))
+			75%: Pose(ఆఫ్‌సెట్: Place(-0.25m))
+			90%: Pose(ఆఫ్‌సెట్: Place(0m))
 		} 2s))\
 
 ఈ ఉదాహరణ a ని ఉపయోగిస్తుంది @Sequence భిన్నమైన @Pose .

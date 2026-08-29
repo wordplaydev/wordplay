@@ -5,7 +5,7 @@
 @Motion ਕੰਟਰੋਲ/ਕਿੱਥੇ/ਇੱਕ ਪਾਤਰ ਸਮੇਂ ਦੇ ਨਾਲ ਹੁੰਦਾ ਹੈ। ਅਸੀਂ ਇਸਨੂੰ ਇਸ ਤਰ੍ਹਾਂ ਵਰਤਦੇ ਹਾਂ\place\ਲਈ ਇੱਕ @Phrase , ਇਸਨੂੰ ਉੱਚਾ ਕਰਕੇ ਸ਼ੁਰੂ ਕਰਨਾ ਤਾਂ ਜੋ ਇਹ ਡਿੱਗ ਸਕੇ।ਸਾਨੂੰ ਵੀ ਕਿਸੇ ਚੀਜ਼ 'ਤੇ ਡਿੱਗਣ ਦੀ ਲੋੜ ਹੈ, ਨਹੀਂ ਤਾਂ ਸਾਡਾ ਕਿਰਦਾਰ ਹਮੇਸ਼ਾ ਡਿੱਗਦਾ ਰਹੇਗਾ! A @Shape ਚੌੜੇ ਨਾਲ @Rectangle ਇੱਕ ਵਧੀਆ ਫਰਸ਼ ਬਣਾਉਂਦਾ ਹੈ:
 
 \Stage([
-		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Phrase('🍎' ਸਥਾਨ: Motion(Place(0m 5m)) ਮਾਮਲਾ: Matter())
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 
@@ -14,8 +14,8 @@
 ਕਿਵੇਂ ਬਦਲਣਾ ਹੈ/ਉਛਾਲ/ਜਾਂ ਕਿਵੇਂ/ਭਾਰੀ/ਇੱਕ ਪਾਤਰ ਹੈ, ਇਸਨੂੰ ਆਪਣਾ ਦਿਓ @Matter . @Matter ਇੱਕ ਪੁੰਜ, ਇੱਕ ਉਛਾਲ, ਅਤੇ ਇੱਕ ਰਗੜ ਲੈਂਦਾ ਹੈ:
 
 \Stage([
-		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
-		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Phrase('⚽' ਸਥਾਨ: Motion(Place(-2m 5m)) ਮਾਮਲਾ: Matter(1kg 0.9 0.2))
+		Phrase('🪨' ਸਥਾਨ: Motion(Place(2m 5m)) ਮਾਮਲਾ: Matter(5kg 0.1 0.8))
 		Shape(Rectangle(-10m 0m 10m -5m))
 	])\
 

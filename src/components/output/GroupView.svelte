@@ -243,6 +243,7 @@
             <PhraseView
                 phrase={child}
                 place={childPlace}
+                bubbleSide={layout.sides?.get(child)}
                 focus={offsetFocus}
                 {interactive}
                 parentAscent={root ? 0 : layout.height}
@@ -293,7 +294,7 @@
             style="transform: translate({clip.getLeft() *
                 PX_PER_METER}px, {-clip.getTop() * PX_PER_METER}px)"
         >
-            <path class="border" d={clip.toSVGPath(0, 0)} />
+            <path class="border" d={clip.toClipSVGPath(0, 0)} />
         </svg>
     {/if}
     <!-- Rotate/resize handles for a selected (non-root) group, only when editable since they mutate the program. -->

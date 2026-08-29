@@ -23,7 +23,15 @@
     import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import Bind from '@nodes/Bind';
-    import { BORROW_SYMBOL, MUSIC_SYMBOL } from '@parser/Symbols';
+    import { MUSIC_SYMBOL } from '@parser/Symbols';
+
+    /**
+     * The arrow on the import button. Deliberately not `BORROW_SYMBOL` (`↓`),
+     * which the import writes into the program as a `↓ borrow` line: from the
+     * creator's side this is a file going up out of their computer, and a down
+     * arrow on a file picker reads as a download.
+     */
+    const UPLOAD_GLYPH = '↑';
     import readMusic, { musicsIn } from '@edit/output/editableMusic';
     import type { LocaleTextsAccessor } from '@locale/Locales';
     import type { TemplateInput } from '@locale/Locales';
@@ -332,14 +340,17 @@
         tip={(l) => l.ui.palette.button.importMIDI}
         active={editable && !importing}
         action={() => picker?.click()}
-        icon={`${BORROW_SYMBOL}${MUSIC_SYMBOL}`}
-        large
+        icon={`${UPLOAD_GLYPH}${MUSIC_SYMBOL}`}
     ></Button>
     <!-- The real input is hidden because a bare file input can't be styled to
-         match the toolbar; the button above is its label and does the work. -->
+         match the toolbar; the button above is its label and does the work.
+         The uiid is how a test reaches this one input: the toolbar this sits in
+         renders a hidden measurement copy of every item, and strips identifying
+         attributes from it, so only the real input keeps the uiid. -->
     <input
         type="file"
         accept=".mid,.midi,audio/midi"
+        data-uiid="midiPicker"
         bind:this={picker}
         onchange={choose}
         aria-label={$locales.getPrimaryPlainText(

@@ -12,6 +12,6 @@ Não sabes o nome do fuso horário? Escreve uma cidade que conheças — o @word
 
 Também podes escolher um calendário, como o calendário japonês, e dar estilo ao relógio com uma fonte:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' fonte: 'Doto')\
 
 count-with-time

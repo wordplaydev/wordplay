@@ -9,11 +9,11 @@
 \¶বি:দ্ৰ: আন এটা প্ৰকল্পৰ বাবে গেলেৰীখন চাওক <উদাহৰণ@https://wordplay.dev/project/example-Layers?play> লেয়াৰিং ছবিৰ।¶
 Stage([
 		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(2m 3 0m -12m 0m) ঘূৰ্ণন: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
-	] place: Place(0m 10m -30m))\
+		Shape(Rectangle(-11m -9m 11m -12m 10m) ঘূৰ্ণন: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) ঘূৰ্ণন: -25°)
+	] স্থান: Place(0m 10m -30m))\
 
 আপুনি স্তৰৰ সৈতে সঁচাকৈয়ে শীতল বস্তু কিছুমান বনাব পাৰে! চেষ্টা কৰি চাওকচোন!
 

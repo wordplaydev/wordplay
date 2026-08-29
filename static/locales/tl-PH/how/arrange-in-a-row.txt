@@ -7,9 +7,9 @@ Minsan gusto natin na ang teksto ay magkatabi sa isang maayos na linya.Magagawa 
 Isang @Row maaari ring ihanay ang mga karakter sa pamamagitan ng kanilang mga gilid sa itaas, gitna, o ibaba, at magdagdag ng espasyo sa pagitan ng mga ito.Narito ang parehong prutas, ngunit nakahanay sa ilalim na may kaunting espasyo para makahinga:
 
 \Group(Row('>' 0.5m) [
-		Phrase('🍎' size: 2m)
-		Phrase('🍌' size: 1m)
-		Phrase('🍇' size: 3m)
+		Phrase('🍎' laki: 2m)
+		Phrase('🍌' laki: 1m)
+		Phrase('🍇' laki: 3m)
 	])\
 
 Ang\'>'\nagsasabi sa @Row para ihanay ang lahat sa ilalim na gilid nito. Subukan\'<'\para sa itaas o\'|'\para sa gitna.Ang\0.5m\ay ang espasyo sa pagitan ng bawat karakter.

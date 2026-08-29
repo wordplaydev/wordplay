@@ -4,10 +4,10 @@ Ang mga karakter ay maaaring magkaroon ng resting animation na nauulit habang hi
 
 Halimbawa, hayaan nating sumayaw nang kaunti ang pusang ito sa pamamagitan ng pagpapaikot at pagpapagalaw nito:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
+\Phrase('🐈' nagpapahinga: Sequence({
+			0%: Pose(pagikot: 0°)
+			15%: Pose(pagikot: 15°)
+			30%: Pose(pagikot: 0°)
 			45%: Pose(offset: Place(-0.25m))
 			60%: Pose(offset: Place(0.25m))
 			75%: Pose(offset: Place(-0.25m))

@@ -8,7 +8,7 @@
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'القائمة') ? '▶ اضغط للبدء' '🏃 اركض!' 1m)
-		(phase = 'القائمة') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'القائمة') ? Music(Track(theme آلة: Instrument.bell) إيقاع: 72beats/min) Music(Track(theme آلة: Instrument.synth) إيقاع: 132beats/min)
 	])\
 
 كلتا الأغنيتين هما الأرقام الثمانية نفسها. فقط الآلة والسرعة تتغيران، وقد أصبحت تبدو كأنها مقطوعة مختلفة — لأن الدرجات تقول *أي خطوة من السلّم*، وليس أي نغمة، لذا يمكن لـ  @Music  أن يعيد تفسيرها. أعطه \مقياس: 🎼.هارمونيصغير\ ويتحوّل اللحن نفسه إلى لحن مخيف دون إعادة كتابة أي نغمة.
@@ -19,7 +19,7 @@ Stage([
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('النتيجة \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] آلة: Instrument.drums) إيقاع: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 اضغط عددًا كافيًا من المرات وستضرب الطبول بضعف قوتها في البداية. النغمة القصيرة الإيقاعية هي ما يجعل ذلك مسموعًا — فتحت النغمات الطويلة الممتدة يصعب الإحساس بتغيّر السرعة.

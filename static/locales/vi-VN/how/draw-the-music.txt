@@ -1,34 +1,55 @@
-Vẽ những gì bản nhạc đang chơi
+Vẽ theo âm nhạc đang phát
 
-Âm nhạc bạn nghe được chỉ là một nửa của nó. Luồng  @Beat  trao cho bạn toàn bộ trạng thái của trình phát mỗi khi một nhịp vang lên, nên bạn có thể vẽ bất cứ điều gì đang diễn ra. 
+Âm nhạc mà em nghe được chỉ là một nửa câu chuyện. Dòng  @Beat  trao cho em toàn bộ trạng thái của trình phát mỗi khi có một nhịp vang lên, để em có thể vẽ ra bất cứ điều gì đang diễn ra. 
 
-@Beat  luôn có một  @Downbeat  để trao cho bạn, nên bạn có thể đọc nó ngay lập tức. Trước khi bất kỳ bản nhạc nào bắt đầu, nó nằm ở nhịp không mà không có gì chơi:
+@Beat  luôn có một  @Downbeat  để trao cho em, nên em có thể đọc nó ngay lập tức. Trước khi bản nhạc nào bắt đầu, nó đứng ở nhịp số không, chưa có gì phát ra:
 
 \beat: Beat()
 count: beat.count
-Stage([
-		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] instrument: Instrument.drums))
-	])\
+Stage(
+	[
+		Phrase('🥁' kíchcỡ: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] nhạcCụ: Instrument.drums))
+	]
+)\
 
-Giá trị \count\ tăng lên một mỗi nhịp, nên \count % 4\ là \0\ ở mỗi nhịp thứ tư — nhịp mạnh — và cái trống nhảy lên.
+Số \count\ tăng thêm một sau mỗi nhịp, nên \count % 4\ là \0\ ở mỗi nhịp thứ tư — nhịp mạnh — và trống nhảy lên.
 
-Đó là toàn bộ bản nhạc dưới dạng một con số. Nhưng một  @Downbeat  cũng mang theo một danh sách \parts\, một  @Part  cho mỗi  @Track , và một  @Part  biết chính giọng của nó đang làm gì ngay lúc này: \pitch\ của nó, \volume\ của nó, \pan\ của nó, và liệu nó có đang \sounding\. Vẽ những thứ đó và bạn sẽ có được từng giọng riêng biệt thay vì bản hòa trộn:
+Đó là toàn bộ bản nhạc gói gọn trong một con số. Nhưng một  @Downbeat  cũng mang theo một danh sách \parts\ , mỗi  @Part  ứng với một  @Track , và một  @Part  biết bè của chính nó đang làm gì ngay lúc này: \pitch\ của nó, \volume\ của nó, \pan\ của nó, và liệu nó có đang \sounding\ hay không. Hãy vẽ những thứ đó ra và em sẽ thấy từng bè riêng biệt thay vì bản phối trộn:
 
 \beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
-Stage([
+ƒ dot(p•Part)•Phrase Phrase(
+		'⬤'
+		0.4m + (p.volume · 1m)
+		vịTrí: Place(
+			(p.pan · 3) · 1m
+			((height(p) · 0.2) - 1) · 1m
+		)
+	)
+Stage(
+	[
 		:parts.translate(ƒ(p•Part) dot(p))
-		Music([
-				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-			])
-	])\
+		Music(
+			[
+				Track(
+					[1 ø 5 ø]
+					nhạcCụ: Instrument.piano
+					cânBằngTráiPhải: -1
+				)
+				Track(
+					[ø 8 ø 12]
+					nhạcCụ: Instrument.bell
+					cânBằngTráiPhải: 1
+				)
+			]
+		)
+	]
+)\
 
-Mỗi chấm nằm ở nơi bản nhạc của nó nằm: \pan\ đặt nó sang trái hoặc phải, \pitch\ đặt nó lên cao hoặc xuống thấp. Bởi vì \sounding\ vẫn đúng trong khi một nốt dài vẫn còn ngân, một nốt được giữ sẽ giữ nguyên chấm của nó thay vì nhấp nháy tắt đi.
+Mỗi chấm đứng ở vị trí của rãnh âm của nó: \pan\ đặt nó sang trái hay phải, \pitch\ đặt nó lên cao hay xuống thấp. Vì \sounding\ vẫn giữ đúng trong khi một nốt dài còn đang ngân vang, một nốt được giữ sẽ giữ nguyên chấm của nó thay vì biến mất.
 
-Hãy xem hàm nhỏ \height\: \pitch\ là một /danh sách/, vì một hợp âm phát ra nhiều nốt cùng lúc, và khi hỏi danh sách về mục đầu tiên của nó thì bạn sẽ nhận lại hoặc một số hoặc \ø\. Việc khai báo rằng hàm trả về một \#\ là điều đưa nó trở lại thành một số mà bạn có thể làm phép tính.
+Hãy xem \height\ hàm. \pitch\ là một /danh sách/, vì một hợp âm vang lên nhiều nốt cùng lúc, nên \p.pitch[1]\ lấy nốt thấp nhất trong số các nốt đang vang. Số đó nằm trong \semitones\, và chia cho \1semitones\ là cách biến nó thành một số thường để có thể kết hợp với \0.2\ và \1m\ ở bên dưới. Khai báo hàm là \#\ thôi thì chưa đủ: một \#\ trơn có nghĩa là /bất kỳ/ đơn vị nào, chứ không phải /không có/ đơn vị nào, nên nó sẽ vui vẻ chấp nhận các nửa cung rồi lại phàn nàn về chúng ngay ở dòng sau.
 
 play-a-sound-effect, react-to-sound, count-with-time

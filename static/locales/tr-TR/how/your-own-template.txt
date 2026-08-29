@@ -4,7 +4,7 @@ Bazen görünüş olarak neredeyse aynı, ancak aralarında çok az fark olan bi
 
 A  @Structure Boşlukları doldurulması gereken bir yemek tarifi gibidir.İşte bir renk ve bir etiket alan ve kendini nasıl göstereceğini bilen bir balon şablonu:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` renk: color boyut: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Gökyüzü').show()

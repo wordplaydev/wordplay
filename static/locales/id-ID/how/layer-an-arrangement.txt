@@ -6,8 +6,8 @@ Karena derajat adalah langkah dari sebuah tangga nada, bukan nada tetap, seluruh
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track(tune alatMusik: Instrument.flute)
+		Track(tune alatMusik: Instrument.synthBass kunci: -12semitones volume: 60%)
 	])\
 
 Dua suara, satu daftar. Ubah lagunya dan bas akan mengikuti, karena hanya ada satu lagu untuk diubah.
@@ -16,10 +16,10 @@ Sekarang isi bagian di sekitarnya. Akor ingin ritmenya sendiri, bukan ritme melo
 
 \tune: [1 5 8 5 6 3 1 ø]
 Music([
-		Track(tune instrument: Instrument.flute pan: 0)
-		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+		Track(tune alatMusik: Instrument.flute geser: 0)
+		Track(tune alatMusik: Instrument.synthBass kunci: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] alatMusik: Instrument.synthPad ketukan: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] alatMusik: Instrument.drums ketukan: 0.5beats volume: 45%)
 	])\
 
 Perhatikan volumenya: hanya seruling yang berada pada volume penuh. Bagian-bagian pada volume penuh tidak membuat band terdengar lebih keras, tetapi lebih kacau, karena semua yang berbunyi sekaligus harus melewati pengeras suara yang sama. Mulailah melodi pada \100%\ dan letakkan semua yang lain di bawahnya.

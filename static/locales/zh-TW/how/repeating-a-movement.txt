@@ -5,13 +5,13 @@
 相反，我們可以使用 @Sequence  和 @Phrase 讓某件事重複多次！具體來說，我們可以使用計數 @Sequence 並選出一組姿勢出現的次數。例如，這是一個籃球上下彈跳兩次。
 
 \Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
+		Phrase('🏀' 進入: Sequence({
+					0%: Pose(偏移: Place(y: 0.25m))
+					25%: Pose(偏移: Place(y: 0m))
+					50%: Pose(偏移: Place(y: -0.25m))
+					75%: Pose(偏移: Place(y: 0m))
+					100%: Pose(偏移: Place(y: 0.25m))
+				} 計數: 2x 長度: 2s))
 	])\
 
 animate-phrase, shake-phrase

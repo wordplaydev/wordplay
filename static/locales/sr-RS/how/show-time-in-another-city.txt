@@ -12,6 +12,6 @@
 
 Такође можеш да изабереш календар, као јапански календар, и да украсиш сат фонтом:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' лице: 'Doto')\
 
 count-with-time

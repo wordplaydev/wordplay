@@ -22,6 +22,7 @@ import {
 } from '@util/verify-locales/contentCategories';
 import type LocalePath from '@util/verify-locales/LocalePath';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import { retargetTutorialExamples } from '@util/verify-locales/retargetExampleNames';
 import type Log from '@util/verify-locales/Log';
 import TutorialSchema, {
     getDefaultTutorial,
@@ -31,6 +32,7 @@ import {
     unclosedInCode,
 } from '@util/verify-locales/protect';
 import Validator from '@util/verify-locales/Validator';
+import { CHECKPOINT_PATHS } from '@util/verify-locales/verifyLocale';
 import { alignTutorialLines } from '@util/verify-locales/syncTutorialStructure';
 import getTranslator from '@util/verify-locales/getTranslator';
 import { TranslationFailedAdvice } from '@util/verify-locales/getTranslator';
@@ -70,6 +72,8 @@ export async function verifyTutorial(
      *  and usage accounting span the whole locale run. Undefined = the
      *  env-selected backend, constructed on demand. */
     translator?: Translator,
+    /** Persist partial progress during translation; see CHECKPOINT_PATHS. */
+    checkpoint?: (partial: Tutorial) => Promise<void>,
 ): Promise<Tutorial | undefined> {
     const validate = Validator.compile(TutorialSchema);
     const valid = validate(tutorial);
@@ -112,6 +116,7 @@ export async function verifyTutorial(
             targets,
             mode,
             translator,
+            checkpoint,
         );
 
     // What's still unwritten once everything that was going to run has run.
@@ -236,13 +241,14 @@ export function queuedForTranslation(text: string, override: boolean): boolean {
  * Whether a cleanly dropped `\…\` pair should fail the run rather than warn.
  *
  * It is real damage — the reader is told to "just use `\+\`" and the `+` isn't
- * there — but ~170 dialog strings across 26 locales are in that state today,
- * and each needs a re-translation to repair, so failing on them would make
- * every run red with no cheap fix. The breakages that *do* fail (an orphaned
- * delimiter, an unclosed literal) are a set small enough to repair in one
- * sitting. Flip this once the rest have been re-translated.
+ * there. ~170 dialog strings across 26 locales were in that state when the check
+ * landed, so it warned rather than failed while the backlog was worked off: the
+ * machine-translated ones were re-translated, and the last 46 — hand-written
+ * prose a model would only overwrite — were repaired by hand against the en-US
+ * source. The count is zero, so drift fails like everything else now; a run that
+ * goes red here means a translation just lost an example it was teaching.
  */
-const DelimiterDriftIsFatal = false;
+const DelimiterDriftIsFatal = true;
 
 export type DialogDelimiterProblem = {
     /** Which paragraph of the line: always ≥ 2, since 0 and 1 are the character
@@ -398,6 +404,15 @@ async function checkTutorial(
     // repair: the fallback below rewrites a link from the English at that index whenever the link
     // counts happen to match, so a correct translation gets replaced with a stranger's concept.
     const counterparts = alignTutorialLines(defaultTutorial, revised);
+    // Bring every dialog example's named inputs back in line with the names this locale
+    // declares. A stored example spells names that live in the locale file, not here, so
+    // re-translating one of those names strands every example that used it (#1323).
+    const exampleNames = retargetTutorialExamples(
+        revised,
+        defaultTutorial,
+        locale,
+        repair,
+    );
     revised.acts.forEach((act, actIndex) =>
         act.scenes.forEach((scene, sceneIndex) =>
             scene.lines.forEach((line, lineIndex) => {
@@ -548,6 +563,21 @@ async function checkTutorial(
         ),
     );
 
+    if (exampleNames.renamed > 0)
+        log[repair ? 'good' : 'warning'](
+            repair
+                ? `Renamed ${exampleNames.renamed} input(s) in this tutorial's examples to the name this locale declares.`
+                : `${exampleNames.renamed} input(s) in this tutorial's examples don't use the name this locale declares. Run "npm run locales-fix" to retarget them.`,
+        );
+    if (exampleNames.refused > 0)
+        log.warning(
+            `Left ${exampleNames.refused} tutorial example(s) alone: retargeting them would have introduced a conflict.`,
+        );
+    if (exampleNames.divergent > 0)
+        log.warning(
+            `${exampleNames.divergent} tutorial example(s) no longer have the same shape as their en-US source, so their names can't be retargeted.`,
+        );
+
     const pairs = getTranslatableTutorialPairs(revised);
 
     const automated = pairs.filter(({ value }) =>
@@ -617,7 +647,8 @@ export function createUnwrittenTutorial(
  * untranslatable — `withoutAnnotations('$?')` is the empty string, so the translator was handed
  * nothing, returned nothing, and the string stayed `$?` on every future run.
  */
-async function translateTutorial(
+/** Exported for testing, like the other internals above. */
+export async function translateTutorial(
     log: Log,
     /** The tutorial's locale text, passed to the backend as the target so the
      *  tutorial shares the locale run's system prompt (one cache entry, not
@@ -628,6 +659,9 @@ async function translateTutorial(
     targets: TutorialTarget[] = [],
     mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
     translator: Translator = getTranslator(),
+    /** Called with a complete, valid tutorial partway through translation so the
+     *  caller can persist progress; see CHECKPOINT_PATHS. */
+    checkpoint?: (partial: Tutorial) => Promise<void>,
 ): Promise<Tutorial> {
     // Get the key/value pairs to translate, narrowed to the requested act/scene
     // scope (if any).
@@ -651,20 +685,21 @@ async function translateTutorial(
     // $~ on machine-translated strings — so without this an override run would re-mark an
     // already-marked string and accumulate markers ($~$~$~…).
     const source = getDefaultTutorial(mode);
-    const sourceStrings = unwritten
-        .map((path) => {
-            const english = path.resolve(source);
-            const match =
-                typeof english === 'string' &&
-                withoutAnnotations(english) !== ''
-                    ? english
-                    : path.resolve(tutorial);
-            return match === undefined || Array.isArray(match)
-                ? undefined
-                : withoutAnnotations(match);
-        })
-        .filter((s) => s !== undefined)
-        .flat();
+    const sourceStringsFor = (paths: LocalePath[]) =>
+        paths
+            .map((path) => {
+                const english = path.resolve(source);
+                const match =
+                    typeof english === 'string' &&
+                    withoutAnnotations(english) !== ''
+                        ? english
+                        : path.resolve(tutorial);
+                return match === undefined || Array.isArray(match)
+                    ? undefined
+                    : withoutAnnotations(match);
+            })
+            .filter((s) => s !== undefined)
+            .flat();
 
     // See if the region of the target language is supported and append it if so.
     const targetLocale = await translator.getTargetLocale(
@@ -677,47 +712,66 @@ async function translateTutorial(
         `Translating ${unwritten.length} unwritten strings ("${Unwritten}")`,
     );
 
-    const translations = await translator.translate(
-        translating,
-        sourceStrings,
-        sourceLocale,
-        targetLocale,
-        localeText,
-    );
+    // Translate one slice of paths and write the results into `revised`. Returns
+    // false on a hard failure, which aborts the rest. The source strings and the
+    // `translations.shift()` write-back are built from the same slice, so they
+    // stay in lockstep the way they did when this was one call over everything.
+    const apply = async (paths: LocalePath[]): Promise<boolean> => {
+        const sourceStrings = sourceStringsFor(paths);
+        if (sourceStrings.length === 0) return true;
 
-    if (translations === undefined) {
-        translating.bad(TranslationFailedAdvice);
-        return revised;
-    }
+        const translations = await translator.translate(
+            translating,
+            sourceStrings,
+            sourceLocale,
+            targetLocale,
+            localeText,
+        );
 
-    // For each of the untranslated strings, update the revised tutorial with the translated string.
-    for (const path of unwritten) {
-        // Resolve the path value from source
-        const match = path.resolve(tutorial);
-        if (match !== undefined) {
-            if (
-                Array.isArray(match) &&
-                match.every((s) => typeof s === 'string') // make sure it's an array of strings
-            ) {
-                const value = [];
-                for (let i = 0; i < match.length; i++) {
-                    let next = translations.shift();
-                    if (next) {
-                        // Add translation mark, so we remember this is machine translated and needs to be checked.
-                        value.push(`${MachineTranslated}${next.trim()}`);
+        if (translations === undefined) {
+            translating.bad(TranslationFailedAdvice);
+            return false;
+        }
+
+        // For each of the untranslated strings, update the revised tutorial with the translated string.
+        for (const path of paths) {
+            // Resolve the path value from source
+            const match = path.resolve(tutorial);
+            if (match !== undefined) {
+                if (
+                    Array.isArray(match) &&
+                    match.every((s) => typeof s === 'string') // make sure it's an array of strings
+                ) {
+                    const value = [];
+                    for (let i = 0; i < match.length; i++) {
+                        let next = translations.shift();
+                        if (next) {
+                            // Add translation mark, so we remember this is machine translated and needs to be checked.
+                            value.push(`${MachineTranslated}${next.trim()}`);
+                        }
                     }
-                }
-                path.repair(revised, value);
-            } else if (typeof match === 'string') {
-                let translation = translations.shift();
-                if (translation) {
-                    path.repair(
-                        revised,
-                        `${MachineTranslated}${translation.trim()}`, // single string translation and update
-                    );
+                    path.repair(revised, value);
+                } else if (typeof match === 'string') {
+                    let translation = translations.shift();
+                    if (translation) {
+                        path.repair(
+                            revised,
+                            `${MachineTranslated}${translation.trim()}`, // single string translation and update
+                        );
+                    }
                 }
             }
         }
+        return true;
+    };
+
+    // Sliced so the caller can persist progress as it goes: a tutorial is a
+    // single write at the end of its mode, so a process killed partway through
+    // lost every string it had paid for. See CHECKPOINT_PATHS.
+    for (let index = 0; index < unwritten.length; index += CHECKPOINT_PATHS) {
+        if (!(await apply(unwritten.slice(index, index + CHECKPOINT_PATHS))))
+            return revised;
+        await checkpoint?.(revised);
     }
 
     // Return the translated tutorial

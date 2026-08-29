@@ -5,8 +5,8 @@ Một danh sách chỉ gồm các số trần khiến mọi nốt có cùng đ�
 @Track/beat  tạo ra lưới. Mỗi mục trần kéo dài đúng khoảng đó — và mỗi \ø\ cũng vậy, đó là lý do dấu lặng là cách dễ nhất để giữ ngân một nốt:
 
 \Music([
-		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+		Track([1 ø ø ø 5 ø 8 ø] nhạcCụ: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] nhạcCụ: Instrument.drums nhịp: 0.5beats)
 	])\
 
 Nốt đầu tiên của đàn piano được theo sau bởi ba dấu lặng, nên nó ngân trong bốn phách. Lưới của trống là nửa phách, nên tám mục của nó lấp đầy bốn phách trong khi tám mục của piano lấp đầy tám phách — trống quay lại hai lần trong khi piano quay lại một lần. Các bè lặp lại theo độ dài riêng của chúng, đó là cách một con số tạo ra nhịp điệu đa tầng.
@@ -23,7 +23,7 @@ Nốt đầu tiên của đàn piano được theo sau bởi ba dấu lặng, n�
 			1𝅘𝅥𝅮𝅭
 			8𝅘𝅥𝅯
 			5𝅗𝅥
-		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
+		] nhạcCụ: Instrument.trumpet nhịp: 1𝅘𝅥))\
 
 Đó là hai ô nhịp, mỗi ô bốn phách. \𝅝\ là một nốt tròn, \𝅗𝅥\ là nửa (nốt trắng), \𝅘𝅥\ là một phần tư (nốt đen), \𝅘𝅥𝅮\ là một phần tám (nốt móc đơn) và \𝅘𝅥𝅯\ là một phần mười sáu (nốt móc kép), và dấu chấm \𝅭\ làm cho bất kỳ nốt nào dài thêm một nửa — nên \𝅘𝅥𝅮𝅭\ là nốt móc đơn có chấm giúp khúc hành khúc này tiến về phía trước. Hàng ký hiệu dưới trình soạn thảo sẽ hiện ra sau khi bạn gõ một con số.
 

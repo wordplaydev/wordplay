@@ -52,6 +52,19 @@ export default async function writeFormatted(
         ? fs.readFileSync(filePath, 'utf8')
         : undefined;
     if (existing === output) return false;
-    if (write) fs.writeFileSync(filePath, output);
+    // Write to a sibling temp file and rename over the target, so a process
+    // killed mid-write can never leave a half-written file behind. A truncated
+    // locale JSON fails the next run's parse, which for a long translation run
+    // means losing everything it had checkpointed.
+    if (write) {
+        const temp = `${filePath}.${process.pid}.tmp`;
+        try {
+            fs.writeFileSync(temp, output);
+            fs.renameSync(temp, filePath);
+        } catch (error) {
+            fs.rmSync(temp, { force: true });
+            throw error;
+        }
+    }
     return true;
 }

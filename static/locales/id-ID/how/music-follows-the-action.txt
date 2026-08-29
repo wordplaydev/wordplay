@@ -8,7 +8,7 @@ Tidak ada cara untuk *menghentikan* sebuah  @Music  — yang menghentikannya ada
 theme: [1 ø 3 ø 5 ø 6 ø]
 Stage([
 		Phrase((phase = 'menu') ? '▶ tekan untuk mulai' '🏃 lari!' 1m)
-		(phase = 'menu') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'menu') ? Music(Track(theme alatMusik: Instrument.bell) tempo: 72beats/min) Music(Track(theme alatMusik: Instrument.synth) tempo: 132beats/min)
 	])\
 
 Kedua lagu memakai delapan angka yang sama. Hanya alat musik dan temponya yang berbeda, dan lagunya sudah terdengar seperti karya yang berbeda — karena derajat menyatakan *langkah mana dari tangga nada*, bukan nada mana, sehingga sebuah  @Music  bisa menafsirkannya kembali. Berikan padanya \skala: 🎼.minorHarmonik\ dan lagu yang sama menjadi menyeramkan tanpa satu not pun ditulis ulang.
@@ -19,7 +19,7 @@ Bagian lainnya adalah musik yang berubah terus-menerus mengikuti keadaan. Mengub
 urgency: (score ÷ 10).min(1)
 Stage([
 		Phrase('skor \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Music(Track([1 5 8 5] alatMusik: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Tekan cukup banyak kali dan drumnya bermain dua kali lebih kuat daripada saat mulai. Not pendek yang berketuk membuat perubahan itu terdengar — di bawah not panjang yang ditahan, perubahan tempo sulit dirasakan.

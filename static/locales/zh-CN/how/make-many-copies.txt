@@ -10,7 +10,7 @@
 
 为了让每个副本略有不同，请使用翻译后得到的数字：
 
-\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\
+\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' 尺寸: n × 0.5m)))\
 
 每颗星都比上一颗更大，因为\n\从\1\ 到 \8\。
 

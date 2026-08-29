@@ -6,8 +6,8 @@ Dalawang bagay ang gumagawa nitong "sound effect" sa halip na kanta. \loop: ⊥\
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 pindutin mo ako' selectable: ⊤ name: 'pindutin')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+		Phrase('👆 pindutin mo ako' mapipili: ⊤ pangalan: 'pindutin')
+		Music(Track(tapped ? [1 5 8] [] instrumento: Instrument.bell loop: ⊥) iReplay: tapped)
 	])\
 
 Huwag kang mag-alala na nauubusan uli ng laman ang listahan sa susunod na pagsusuri — ang notang nagsimula na ay palaging tumutugtog hanggang sa dulo nito. Ang hindi mo maaaring alisin ay \replay\. Pindutin nang dalawang beses at ang pangalawang pindot ay gumagawa ng eksaktong parehong musika gaya ng una, kaya walang nagbago at walang tutunog uli; \replay\ ang paraan mo para sabihing /uli, ngayon/. 
@@ -20,7 +20,7 @@ Dahil ang mga nota ay isa lang listahan, maaari mong pagpasyahan ang mga ito bat
 struck: ∆ key
 Stage([
 		Phrase(struck ? key '⌨ pindutin ang isang key' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrumento: Instrument.piano loop: ⊥) iReplay: struck)
 	])\
 
 Pansinin na ang \∆ key\ ay isinasaayos sa sarili nitong linya at ang pagsusuri ng value na \key = ' '\ ay nangyayari nang hiwalay. Kapag pinagsama bilang isang kundisyon, muling tutunog ang tunog sa susunod na hindi kaugnay na key habang \key\ pa rin ay binabasa bilang isang puwang.

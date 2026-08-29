@@ -7,6 +7,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import LocalizationQuality from '@components/localization/LocalizationQuality.svelte';
     import TemplateInputsPanel from '@components/localization/TemplateInputsPanel.svelte';
+    import GlossaryFormsEditor from '@components/localization/GlossaryFormsEditor.svelte';
     import TermsEditor from '@components/localization/TermsEditor.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
@@ -58,6 +59,7 @@
     import { Emotion } from '../../../lore/Emotion';
     import { isTutorialKey } from '../../../tutorial/TutorialPath';
     import { localizeFields } from './localizeSearch';
+    import parseOverrideKey from './overrideKey';
 
     /** qualityChoice value meaning "show only unwritten or machine-translated strings". */
     const QUALITY_NEEDS_WORK = 1;
@@ -66,9 +68,16 @@
      *  serialize with a leading dot). Shown in its own block, not in the list. */
     const GUIDANCE_PATH = '.guidance';
 
+    /** A glossary term's other written forms, which the Glossary tab edits as a
+     *  whole list. They carry the `[plain]` tag, so without this they would also
+     *  appear here as a positional tuple, and a leftover per-index edit landing
+     *  after a whole-list one would overwrite an element — or, if the new list
+     *  were shorter, reject the entire bundle. */
+    const FORMS_PATH = /^glossary\.[^.]+\.forms$/;
+
     /** Which workspace tab is showing: 0 about/guidance, 1 the string editor,
-     *  2 the word list (terms), 3 submission. Defaults to the about tab so
-     *  first-time contributors get oriented. */
+     *  2 the word list (terms), 3 the glossary's written forms, 4 submission.
+     *  Defaults to the about tab so first-time contributors get oriented. */
     let tab = $state(0);
 
     /** Result of the last submit attempt. */
@@ -292,6 +301,7 @@
                 // reference and doesn't belong in the list; it gets its own
                 // block at the top of the page instead.
                 p.toString() !== GUIDANCE_PATH &&
+                !FORMS_PATH.test(p.toString()) &&
                 (schema === undefined ||
                     getEditorType(getDescription(p.toString())) !== undefined),
         );
@@ -630,26 +640,18 @@
             node = record[seg];
         }
         if (typeof node === 'string') return withoutAnnotations(node);
-        if (Array.isArray(node) && index !== undefined) {
-            const item = node[index];
-            if (typeof item === 'string') return withoutAnnotations(item);
+        if (Array.isArray(node)) {
+            if (index !== undefined) {
+                const item = node[index];
+                if (typeof item === 'string') return withoutAnnotations(item);
+                return '';
+            }
+            // A whole list — a glossary term's forms — reads as words, the way
+            // the bundle shows the revised list beside it.
+            if (node.every((item) => typeof item === 'string'))
+                return node.map(withoutAnnotations).join(', ');
         }
         return '';
-    }
-
-    /** Split an override key into its locale path and optional tuple index. Override
-     *  keys for single strings look like `ui.foo.bar`; tuple-element keys append the
-     *  index, e.g. `ui.foo.labels.0`. */
-    function parseOverrideKey(key: string): {
-        path: string;
-        index: number | undefined;
-    } {
-        const lastDot = key.lastIndexOf('.');
-        const tail = lastDot === -1 ? '' : key.slice(lastDot + 1);
-        if (lastDot !== -1 && /^\d+$/.test(tail)) {
-            return { path: key.slice(0, lastDot), index: parseInt(tail, 10) };
-        }
-        return { path: key, index: undefined };
     }
 
     /** The English (DefaultLocale) text for the currently-selected cell. Shown below
@@ -678,16 +680,20 @@
         activeLocaleString === toLocaleString(DefaultLocale),
     );
 
-    /** Pending edits for just the active locale (path → revised text). */
+    /** Pending edits for just the active locale (path → revised text, or a
+     *  whole revised list for a path the Glossary tab owns). */
     const activeLocaleEdits = $derived(
-        $localeEdits.get(activeLocaleString) ?? new Map<string, string>(),
+        $localeEdits.get(activeLocaleString) ??
+            new Map<string, string | string[]>(),
     );
 
-    const currentOverride = $derived(
-        currentKey !== undefined
-            ? activeLocaleEdits.get(currentKey)
-            : undefined,
-    );
+    const currentOverride = $derived.by(() => {
+        if (currentKey === undefined) return undefined;
+        const value = activeLocaleEdits.get(currentKey);
+        // A list-valued edit is never selected here — its path is excluded from
+        // the string list — so this editor only ever shows a string.
+        return typeof value === 'string' ? value : undefined;
+    });
 
     let editedText = $state('');
     $effect(() => {
@@ -765,7 +771,11 @@
             .map(([key, value]) => ({
                 key,
                 source: sourceTextFor(key),
-                value,
+                // A list reads as words rather than as the array the wire
+                // carries, so a contributor can review what they wrote…
+                value: Array.isArray(value) ? value.join(', ') : value,
+                // …but it is the array that's submitted.
+                revision: value,
             })),
     );
 
@@ -784,6 +794,11 @@
         // About tab, so send guidance edits there instead of the Text tab.
         if (overrideKey === GUIDANCE_PATH) {
             tab = 0;
+            return;
+        }
+        // A term's forms are a whole list, edited on the Glossary tab.
+        if (FORMS_PATH.test(overrideKey)) {
+            tab = 3;
             return;
         }
         const { path, index } = parseOverrideKey(overrideKey);
@@ -822,13 +837,13 @@
             {
                 locale: string;
                 description: string;
-                edits: Record<string, string>;
+                edits: Record<string, string | string[]>;
             },
             { prUrl: string }
         >(functions, 'submitLocalizationBundle');
 
-        const edits: Record<string, string> = {};
-        for (const { key, value } of bundleItems) edits[key] = value;
+        const edits: Record<string, string | string[]> = {};
+        for (const { key, revision } of bundleItems) edits[key] = revision;
         let prUrl: string;
         try {
             const response = await submitLocalizationBundle({
@@ -894,8 +909,9 @@
                 tabs={(l) => l.ui.page.localize.tabs}
                 choice={tab}
                 select={(c) => (tab = c)}
-                icons={['📖', '✍️', '🔤', '📤']}
+                icons={['📖', '✍️', '🔤', '📚', '📤']}
                 annotations={[
+                    undefined,
                     undefined,
                     undefined,
                     undefined,
@@ -927,6 +943,10 @@
 
                     {#if tab === 2}
                         <TermsEditor />
+                    {/if}
+
+                    {#if tab === 3}
+                        <GlossaryFormsEditor />
                     {/if}
 
                     {#if tab === 1}
@@ -1217,7 +1237,7 @@
                                 <Button
                                     tip={(l) => l.ui.page.localize.toSubmit}
                                     action={() => {
-                                        tab = 3;
+                                        tab = 4;
                                     }}
                                     background
                                     ><LocalizedText
@@ -1230,7 +1250,7 @@
                         </section>
                     {/if}
 
-                    {#if tab === 3}
+                    {#if tab === 4}
                         <section class="submit">
                             <h2>
                                 <LocalizedText
