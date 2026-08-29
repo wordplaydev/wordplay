@@ -123,7 +123,16 @@ for (const doc of snapshot.docs) {
         if (pending >= LIMIT) await flush();
     }
 
-    batch.update(doc.ref, { v: 3, moderation, messages });
+    // v1 chats predate the `type` field that v2 added, and v3 still requires
+    // it — a document jumped straight from v1 to v3 without one fails
+    // ChatSchema.parse on every client, so the conversation simply stops
+    // loading. Default it exactly as the client's own v1 upgrade does.
+    batch.update(doc.ref, {
+        v: 3,
+        moderation,
+        messages,
+        ...(chat.type === undefined ? { type: 'project' } : {}),
+    });
     migrated++;
     if (++pending >= LIMIT) await flush();
 }
