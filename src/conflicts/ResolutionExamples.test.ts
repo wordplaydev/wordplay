@@ -19,6 +19,8 @@ import Node from '@nodes/Node';
 import Source from '@nodes/Source';
 import type Conflict from '@conflicts/Conflict';
 import type { Resolution } from '@conflicts/Conflict';
+import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
+import type Markup from '@nodes/Markup';
 
 // Conflict classes referenced below.
 import { BorrowCycle } from '@conflicts/BorrowCycle';
@@ -121,6 +123,28 @@ function locate<C extends Conflict>(
     }
     const context = project.getContext(source);
     const resolutions = conflict.getResolutions(context, Templates);
+
+    // Every conflict's prose has to be reachable from localization mode, which means every
+    // message and every resolution description must report the locale string it was
+    // concretized from. Checked here rather than in a list of its own so each conflict below
+    // inherits it, and checked by *resolving* the path so a source naming somewhere that
+    // doesn't exist can't pass.
+    const editable = (markup: Markup) => {
+        expect(markup.source).toBeDefined();
+        const path =
+            markup.source === undefined
+                ? undefined
+                : accessorToLocalePath(markup.source.accessor);
+        expect(typeof path?.resolve(DefaultLocale)).toBe('string');
+    };
+    editable(
+        conflict
+            .getMessage(context, Templates)
+            .explanation(DefaultLocales, context),
+    );
+    for (const resolution of resolutions)
+        editable(resolution.description(DefaultLocales, context));
+
     return { conflict, resolutions, project, source, context };
 }
 

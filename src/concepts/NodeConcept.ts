@@ -9,6 +9,7 @@ import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import type Locales from '@locale/Locales';
 import type { Emotion } from '../lore/Emotion';
 import type Markup from '@nodes/Markup';
+import type { MarkupSource } from '@nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
 import Concept from '@concepts/Concept';
 import type { PurposeType } from '@concepts/Purpose';
@@ -56,10 +57,21 @@ export default class NodeConcept extends Concept {
     }
 
     getDocs(locales: Locales): Markup[] {
+        const path = this.template.getLocalePath();
+        // Same reason as getDocLocales: report where the text lives so it can be edited where
+        // it's read. A node's doc is built here rather than there, so it stamps its own.
+        const source: MarkupSource = {
+            accessor: (l) => path(l).doc,
+            inputs: {},
+        };
         return locales
             .getLocales()
-            .map((l) => this.template.getLocalePath()(l))
-            .map((text) => docToMarkup(text.doc).concretize(locales, {}))
+            .map((l) => path(l))
+            .map((text) =>
+                docToMarkup(text.doc)
+                    .concretize(locales, {})
+                    ?.withSource(source),
+            )
             .filter((m) => m !== undefined);
     }
 

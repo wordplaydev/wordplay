@@ -5,7 +5,7 @@ import { BULLET_SYMBOL, MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
 import type { FontWeight } from '@basis/faces/Fonts';
 import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
+import type { LocaleTextsAccessor, TemplateInput } from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type { FormattedText } from '@output/Output/Phrase';
 import Spaces from '@parser/Spaces';
@@ -24,6 +24,22 @@ import Words from '@nodes/Words';
 export type MarkupMetadata = { unwritten: boolean; machineTranslated: boolean };
 
 /**
+ * Where a concretized markup came from: the locale accessor whose template produced it, and
+ * the inputs it was concretized with. This is what lets the localization editor offer a
+ * conflict explanation for editing — it names the key to save under, and re-concretizes an
+ * override with the same runtime values so the message still reads like itself.
+ *
+ * Only {@link Markup.concretize} sets it, and only from the accessor form of
+ * {@link Locales.concretize}: text a creator wrote has no locale path, and neither does a
+ * *fragment* of a template (a first sentence, a single paragraph), which must never claim to
+ * be the template — saving it would overwrite the whole string with part of itself.
+ */
+export type MarkupSource = {
+    accessor: LocaleTextsAccessor;
+    inputs: Record<string, TemplateInput>;
+};
+
+/**
  * To refer to an input, use a $, followed by the number of the input desired,
  * starting from 1.
  *
@@ -34,17 +50,20 @@ export default class Markup extends Content {
     readonly spaces: Spaces | undefined;
     readonly metadata:
         { unwritten: boolean; machineTranslated: boolean } | undefined;
+    readonly source: MarkupSource | undefined;
 
     constructor(
         content: Paragraph[],
         spaces: Spaces | undefined = undefined,
         metadata: MarkupMetadata | undefined = undefined,
+        source: MarkupSource | undefined = undefined,
     ) {
         super();
 
         this.paragraphs = content;
         this.spaces = spaces;
         this.metadata = metadata;
+        this.source = source;
 
         this.computeChildren();
     }
@@ -138,6 +157,8 @@ export default class Markup extends Content {
             .flat();
     }
 
+    /** Note the arity: `Content.concretize` takes a third `replacements` argument, so a
+     *  source can't ride along here. A caller that has one applies it with `withSource`. */
     concretize(
         locales: Locales,
         inputs: Record<string, TemplateInput>,
@@ -161,7 +182,14 @@ export default class Markup extends Content {
         // Remap the first token of all replaced nodes with the first token of the replacement.
         return concrete.some((p) => p === undefined)
             ? undefined
-            : new Markup(concrete as Paragraph[], newSpaces);
+            : new Markup(
+                  concrete as Paragraph[],
+                  newSpaces,
+                  undefined,
+                  // Keep the source we already had, which is what carries a doc's origin
+                  // through Docs.getMarkup's input-free concretize.
+                  this.source,
+              );
     }
 
     /**
@@ -187,7 +215,7 @@ export default class Markup extends Content {
         let spaces = this.spaces;
         for (const [original, replacement] of replacements)
             spaces = spaces?.withReplacement(original, replacement);
-        return new Markup(paragraphs, spaces, this.metadata);
+        return new Markup(paragraphs, spaces, this.metadata, this.source);
     }
 
     /**
@@ -416,7 +444,11 @@ export default class Markup extends Content {
     }
 
     withMetadata(metadata: MarkupMetadata) {
-        return new Markup(this.paragraphs, this.spaces, metadata);
+        return new Markup(this.paragraphs, this.spaces, metadata, this.source);
+    }
+
+    withSource(source: MarkupSource) {
+        return new Markup(this.paragraphs, this.spaces, this.metadata, source);
     }
 
     isMachineTranslated() {

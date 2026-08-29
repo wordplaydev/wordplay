@@ -290,6 +290,11 @@
         transition:fade|local={{ duration: $animationDuration }}
         onclick={handleClick}
         onkeydown={(event) => {
+            // Only the row's own keystrokes toggle it. In localization mode the bubble can
+            // hold an open markup editor, and FormattedEditor doesn't stop propagation for
+            // ordinary characters — so without this, Space would be swallowed by the
+            // preventDefault below and Enter would collapse the row mid-edit.
+            if (event.target !== event.currentTarget) return;
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
                 toggle();

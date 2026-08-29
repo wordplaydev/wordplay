@@ -38,9 +38,11 @@
     import { tick } from 'svelte';
 
     interface Props {
-        /** A property-access accessor on the locale tree. Must be a literal `(l) => l.a.b.c`
-         *  for the inline editor's path extraction to work. May resolve to any subtree;
-         *  use `extras` to navigate the rest of the way to a string.
+        /** A property-access accessor on the locale tree. It may compose and branch — the
+         *  path is recovered by running it against a recorder, not by reading its source —
+         *  but it must *return* a place in the tree rather than a value computed from one,
+         *  or no editor is offered. May resolve to any subtree; use `extras` to navigate the
+         *  rest of the way to a string.
          *
          *  Optional only because tutorial-text usage may supply `overrideKey` +
          *  `sourceText` instead, which bypasses locale-tree path resolution. */
@@ -176,7 +178,10 @@
     });
 
     /** Effective storage key for the override: caller-supplied `overrideKey` wins;
-     *  otherwise we parse it from the accessor + extras. */
+     *  otherwise we parse it from the accessor + extras. Undefined means this text has no
+     *  place in the locale tree to save to, and the edit affordance is not rendered at all —
+     *  `commitEdit` used to return early on that, so the button appeared and the edit was
+     *  silently thrown away. */
     let storageKey = $derived.by(() => {
         if (overrideKey !== undefined) return overrideKey;
         if (path === undefined) return undefined;
@@ -267,7 +272,7 @@
 {/snippet}
 
 {#if editOnly}
-    {#if localizing?.on}
+    {#if localizing?.on && storageKey !== undefined}
         {#if editing}
             <span
                 class="localized-wrapper editing inline"
@@ -289,7 +294,7 @@
     {#if markup}<MarkupHTMLView markup={text}
         ></MarkupHTMLView>{:else}{displayText}{/if}{#if isMT}<MachineTranslatedAnnotation
         />{/if}
-{:else if localizing?.on}
+{:else if localizing?.on && storageKey !== undefined}
     <span
         class="localized-wrapper"
         class:tip-badge={tipIcon && !editing}

@@ -13,6 +13,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📚 Six examples that weren't in any gallery are now in one, so you can find them: Adobo Recipe, Color Show, Laughing, Layouts, Mumble, and Wild Transforms.
 - 🌐 We made it possible to add the other spellings of a glossary word — the plurals and endings each language needs — so a link like `@parameters` holds the whole word instead of stopping partway. If you help translate Wordplay, there's a new Glossary tab where you add and remove them. (#1244)
 - 📖 We made it easier to fix a glossary word or what it means: you can now change it right where you see it in the [Guide](https://wordplay.dev/guide), instead of finding it in a long list of text. (#1244)
+- 🌐 If you help translate Wordplay, you can now fix the notes the editor shows about problems in your code — both the short name of the problem and the sentence explaining it — right where you read them, instead of finding them in a long list. The parts the sentence fills in for itself, like the name of the thing that's wrong, stay put while you edit, and the note reads normally again once you save. (#1275)
+- 📖 In the same way, you can now fix what the editor says a piece of code is, and the help text for anything built in, wherever those show up. (#1275)
 
 ### Changed
 
@@ -21,6 +23,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- 🌐 In localization mode, some text showed an edit button that quietly threw your change away when you saved it, and a few would have saved it to the wrong place, replacing a whole group of text with one sentence. A button now appears only where there's really something to change. (#1275)
 - 🌙 In dark mode, the highlighted word in a search result was too pale to read on its yellow background. It's dark now, like every other yellow highlight in Wordplay.
 - 🌐 The Python, JavaScript, and Java samples in the [tutorial](https://wordplay.dev/learn) had been translated along with the words around them, which broke the code in all 29 languages. Code reads the same for everyone, so we put it back the way it's written.
 - 📖 About 50 tutorial lines told you to try something without showing it — a sentence about using `+` with no `+` in it. We put the missing examples back in Portuguese, Spanish, Hindi, and Chinese.

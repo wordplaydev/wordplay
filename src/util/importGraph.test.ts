@@ -296,13 +296,24 @@ test('resolving a color needs no basis', () => {
  * an entry here — and one budget moves by 0.01MB: the fifteen strings the
  * editor needs, in en-US.json, which every page carries. `galleries` is simply
  * the entry that had no slack left; the other four absorbed the same text.
+ *
+ * Editable annotations (#1275) add **no file** to any of these five and move
+ * each budget by 0.01MB, `galleries` (which had the least slack) by 0.02.
+ * Modules every page already carried grew: the accessor reflection became a
+ * recording proxy, `Markup` gained the source a concretized markup reports,
+ * `MarkupHTMLView` and `LocalizedText` gained the derivation that reads it, and
+ * `Node`, `Doc`, and `getDocLocales` gained the accessors they hand over —
+ * together ~8KB of code and the reasoning for it. `DefaultLocale`, which the
+ * reflection now reads to refuse a path en-US hasn't written, was already
+ * reachable from all five and costs ~100 bytes of import. File counts are
+ * unchanged, which is the signal that matters: this is weight, not reach.
  */
 test.each([
-    ['src/routes/+layout.svelte', 491, 3.57],
-    ['src/components/app/Page.svelte', 513, 3.81],
-    ['src/routes/[[locale]]/+page.svelte', 528, 3.89],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 532, 3.9],
-    ['src/routes/[[locale]]/projects/+page.svelte', 539, 3.93],
+    ['src/routes/+layout.svelte', 491, 3.58],
+    ['src/components/app/Page.svelte', 513, 3.82],
+    ['src/routes/[[locale]]/+page.svelte', 528, 3.9],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 532, 3.92],
+    ['src/routes/[[locale]]/projects/+page.svelte', 539, 3.94],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

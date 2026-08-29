@@ -115,6 +115,16 @@ export default class Doc extends LanguageTagged {
         return Purpose.Documentation;
     }
 
+    withMarkup(markup: Markup) {
+        return new Doc(
+            this.open,
+            markup,
+            this.close,
+            this.language,
+            this.separator,
+        );
+    }
+
     withLanguage(language: Language) {
         return new Doc(this.open, this.markup, this.close, language);
     }

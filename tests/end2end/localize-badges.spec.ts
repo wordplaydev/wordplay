@@ -1,12 +1,16 @@
-import fs from 'fs';
-import path from 'path';
-import type LocaleText from '../../src/locale/LocaleText';
 import {
     expect,
     test,
     type Locator,
     type Page,
 } from '../../playwright/fixtures';
+import {
+    enUS,
+    localizeButton,
+    localizeOn,
+    settled,
+    text,
+} from '../helpers/localize';
 
 /**
  * Localization mode's 💭 tip badges are pinned to their control's corner rather
@@ -15,52 +19,6 @@ import {
  * editable do legitimately grow (the label becomes a button), so the subjects here
  * are all label-less: an icon-only Button, a Toggle, and a TextField.
  */
-
-/** Drop a leading write-status annotation ($?, $!, $~) the way the app does. */
-function text(value: string) {
-    return value.replace(/^\$[?!~]/, '');
-}
-
-const enUS: LocaleText = JSON.parse(
-    fs.readFileSync(path.resolve('src', 'locale', 'en-US.json'), 'utf8'),
-);
-
-/**
- * Localization mode is per page load. Returns once the mode is on.
- *
- * The footer toggle is found by its accessible name, NOT by its ✎ glyph: every
- * owned project card on /projects renders an edit button with the same glyph, and
- * those precede the footer in DOM order. A glyph locator therefore opens a project
- * instead of toggling the mode as soon as the account owns one — which is
- * whenever another spec sharing this worker's account has created a project.
- */
-async function localizeOn(page: Page) {
-    // Idempotent: these specs share an authenticated account, so the mode may
-    // already be on from a sibling test, and clicking again would turn it off.
-    // Wait for the toggle in either state first — `count()` doesn't wait, so
-    // asking before the footer renders reads zero and skips the click.
-    const enter = localizeButton(page, 'off');
-    const leave = localizeButton(page, 'on');
-    await expect(enter.or(leave)).toBeVisible({ timeout: 20000 });
-    if ((await leave.count()) === 0) await enter.click();
-    await expect(page.getByText('Localize', { exact: true })).toBeVisible();
-    await settled(page);
-}
-
-/**
- * Wait for markup that embeds code to finish arriving. Examples, node
- * references, and values load the language runtime on demand and show a
- * stand-in until it lands (see SegmentHTMLView), so a box measured before then
- * is a layout that is still one chunk away from final.
- */
-/** The footer's localize toggle button, found by accessible name rather than
- *  by its ✎ glyph: project cards use the same glyph and precede the footer, so
- *  a glyph locator silently measures a card instead. */
-function localizeButton(page: Page, state: 'on' | 'off') {
-    return page.getByRole('button', {
-        name: text(enUS.ui.localize.toggle.mode[state]),
-    });
-}
 
 /** The toggle whichever mode it's currently in, for measuring it. */
 function localizeButtonEitherState(page: Page) {
@@ -82,10 +40,6 @@ function localizeGroup(page: Page, state: 'on' | 'off') {
     return localizeButton(page, state).locator(
         'xpath=ancestor::span[contains(@class,"toggle-group")][1]',
     );
-}
-
-async function settled(page: Page) {
-    await expect(page.locator('.rich-loading')).toHaveCount(0);
 }
 
 /**

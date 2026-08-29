@@ -16,13 +16,12 @@
      * the global-search results, and the localization workspace's Glossary tab,
      * so a glossary match is recognizable wherever it appears.
      *
-     * Both fields are editable in localization mode. Neither can be addressed by
-     * a literal `(l) => l.a.b.c` accessor, since the term id is dynamic and
-     * `accessorToLocalePath` recovers a path by reflecting an accessor's source
-     * — so both use the explicit `overrideKey` + `sourceText` pair instead, the
-     * same escape hatch tutorial dialog uses. The source text is the raw
-     * annotated string: it seeds the editor and decides whether the
-     * machine-translated badge shows.
+     * Both fields are editable in localization mode. Neither is read by an accessor that
+     * names a place in the locale tree — both go through helpers that compute a string from
+     * it, which is what `accessorToLocalePath` declines — so both use the explicit
+     * `overrideKey` + `sourceText` pair instead, the same escape hatch tutorial dialog uses.
+     * The source text is the raw annotated string: it seeds the editor and decides whether
+     * the machine-translated badge shows.
      */
     let { id }: { id: string } = $props();
 
