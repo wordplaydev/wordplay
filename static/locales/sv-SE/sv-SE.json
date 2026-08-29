@@ -7275,8 +7275,8 @@
                 "curators": {
                     "header": "$~Kuratorer",
                     "explanation": [
-                        "$~Kuratorer kan redigera projekten och galleriets inställningar samt chatta på alla projekt.",
-                        "/Kuratorer ansvarar för att moderera innehållet i chattarna som hör till projekt och hur man i galleriet. Chattar som rapporterats av skapare finns på <galleriets modereringspanel@://galleries/moderation>./"
+                        "$~Kuratorer kan ändra projekt och galleriinställningar, och chatta i alla projekt.",
+                        "/Kuratorer granskar det som rapporteras i deras galleri — projekt, hur man-guider och chatten som hör till dem — från <modereringssidan@://moderate>. En kurators beslut gäller bara för deras eget galleri. Det är aldrig en av Wordplays <varningar@://rights>./"
                     ]
                 },
                 "creators": {
@@ -8452,10 +8452,20 @@
                     "projectChatHeader": "$~Nytt meddelande i projektet \"$name\"",
                     "howToChatHeader": "$~Nytt meddelande i instruktionsguiden \"$title\"",
                     "link": "$~detaljer",
-                    "moderationHeader": "$~Meddelandet i \"$name\" kräver modereringsåtgärd"
+                    "moderationHeader": "$~Meddelandet i \"$name\" kräver modereringsåtgärd",
+                    "reportedHeader": "$~Något du gjorde i \"$title\" har anmälts och granskas nu",
+                    "reportReceivedHeader": "$~Din anmälan om \"$title\" har skickats till den som ansvarar",
+                    "decisionHeader": "$~Ett beslut har tagits om något du gjorde i \"$title\"",
+                    "outcomeHeader": "$~Ett beslut har tagits om det du anmälde i \"$title\"",
+                    "because": "$~Eftersom det:",
+                    "note": "$~De sa:"
                 },
                 "delete": "$~radera den här aviseringen",
-                "popup": "$~$#count[1 avisering|$count aviseringar]"
+                "popup": "$~$#count[1 avisering|$count aviseringar]",
+                "moderate": {
+                    "label": "$~granska anmält innehåll",
+                    "tip": "$~gå till det som väntar på att du ska granska det"
+                }
             }
         },
         "collaborate": {
@@ -9151,8 +9161,8 @@
                         ]
                     },
                     "own": [
-                        "$~Bidra till ett galleri du är inbjuden till, eller skapa ditt eget galleri med ett visst tema och bjud in andra.",
-                        "/Kuratorer ansvarar för att moderera innehållet i gallerier med hjälp av <gallery moderation dashboard@://galleries/moderation>./"
+                        "$~Bidra till ett galleri du är inbjuden till, eller kuratera ditt eget galleri med ett visst tema, och bjud in andra.",
+                        "/Kuratorer granskar det som rapporteras i deras galleri, från <modereringssidan@://moderate>./"
                     ],
                     "examples": "$~Detta är utvalda gallerier från utvecklarna av @wordplay. De är bra utgångspunkter för att lära sig och hitta inspiration.",
                     "public": "$~Det här är galleri:er som @wordplay skapare har gjort publika. Vem som helst kan be om att få sitt galleri listat här, och en moderator läser igenom det först för att se till att det är klart och följer reglerna. Ett galleri kan tas bort från listan när som helst, av vilken anledning som helst. De visas i en annan ordning varje gång du besöker sidan, så alla galleri:er får chansen att hamna högst upp."
@@ -9288,28 +9298,27 @@
                 "header": "$~Rättigheter",
                 "content": [
                     "$~Hej!",
-                    "Låt oss förklara dina rättigheter och våra (även med tanke på regler som <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> och <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
-                    "Det första du bör veta är att vi inte är ett företag. Vi är ett forskningsprojekt som bygger på gemenskap och finns på ett universitet utan vinstsyfte. Vårt mål är att skapa en plattform som ger dig glädje och hjälper oss att göra upptäckter om en mer rättvis värld av datorer. Vi vill inte tjäna pengar på denna plattform. De pengar vi samlar in (oftast genom offentliga bidrag) används för att hålla plattformen igång, inte för att göra någon som arbetar med den (eller bidrar till den) rik.",
-                    "Eftersom vi inte söker vinst kan vi inte heller lova något om hur pålitlig, tillgänglig eller långvarig denna plattform är. Med det sagt är <Amy@https://amyjko.phd> engagerad i att hålla den igång på lång sikt, och som fast anställd professor har hon en ganska stabil tjänst.",
-                    "Det för oss till *data*. Här är vad vi samlar in och lagrar i molnet:",
-                    "• Dina *projekt*. Vi lagrar alla projekt du bidrar med och dina ändringar av dem, om inte projekten verkar innehålla personlig information som telefonnummer, e-postadresser, användarnamn, skatteidentifierare eller adresser.",
-                    "• Dina *inställningar*. Detta inkluderar de språk du väljer, dina inställningar för animationer och hur långt du har kommit i handledningen. Allt annat lagras bara på din enhet.",
-                    "• Samlad *aktivitet*. Vi håller reda på inloggningar och de sidor du besöker, men inte på ett sätt som kan identifiera dig, följa dig över webbplatsen eller följa dig över andra webbplatser. Vi använder Google Analytics i läget 'samtycke nekat', som bara samlar in minimal information som inte kan identifiera dig om sidvisningar, utan att lagra kakor eller skicka IP-adressinformation till Google. Vi använder denna samlade information för att hjälpa till att samla in pengar genom att rapportera hur mycket plattformen används.",
-                    "Vi lagrar inget annat. Vår <källkod@https://github.com/amyjko/wordplay/tree/main/src> är offentlig, så vem som helst kan kontrollera detta och rapportera oavsiktlig spårning.",
-                    "*Du* äger dina data, inte vi. Det betyder:",
-                    "• Du bestämmer vem som kan komma åt dina projekt. De är privata från början, men du kan dela dem med enskilda personer, grupper eller göra dem helt offentliga.",
-                    "• Du kan när som helst helt ta bort ett projekt eller ditt eget konto.",
-                    "• Du kan när som helst få ut en export av ett projekt eller hela ditt konto.",
-                    "Så här kommer vi att använda dina data, och så här kommer vi inte att göra det:",
-                    "• Vi delar inte dina data med någon, om inte lagen uttryckligen kräver det. Det är alltid möjligt att dina data tas utan tillåtelse (ett 'dataintrång'). Om vi upptäcker att detta har hänt meddelar vi dig via den e-postadress du har delat med oss.",
-                    "• Vi kontaktar dig inte via din e-postadress om du inte 1) gör en kontoändring som kräver det, 2) uttryckligen ger oss tillåtelse att höra av oss, eller 3) i fallet med dataintrång ovan.",
-                    "• Vi kan analysera projekt, gallerier och hur man-innehåll på plattformen för att förstå vad alla skapar och hur de gör det. Vi kan dela dessa samlade, anonymiserade insikter i akademiska publikationer. Vi gör bara detta under övervakning av en granskningsnämnd, som USA:s federala lag kräver.",
-                    "Slutligen, en kommentar om yttrande. Du får säga vad du vill på denna plattform *privat*. Projekt är privata från början, och om du delar dem med särskilda e-postadresser räknas de fortfarande som privata. Vi granskar inget i privata projekt.",
-                    "Men att göra ett projekt *offentligt*, eller att ta med det i ett offentligt galleri, är en förmån. Detta är en plattform gjord för kärlek, bekräftelse, respekt och värdighet. Därför förväntar vi oss att inget av ditt *offentliga* innehåll kommer att:"
+                    "Låt oss förklara vad som gäller för dina och våra rättigheter (bland annat utifrån regler som <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> och <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Först behöver du veta att vi inte är ett företag. Vi är ett forskningsprojekt som drivs av ett universitet utan vinstsyfte. Målet vårt är att skapa en plattform som ger dig glädje och hjälper oss att upptäcka hur datorer kan bli mer rättvisa för alla. Vi vill inte tjäna pengar på plattformen. De pengar vi får in (oftast från offentliga bidrag) används för att driva plattformen, inte för att berika någon som jobbar med den eller bidrar till den.",
+                    "Eftersom vi inte vill tjäna pengar kan vi inte lova något om hur pålitlig, tillgänglig eller långvarig plattformen kommer att vara. Men <Amy@https://amyjko.phd> tänker jobba med detta länge, och som fast anställd professor har hon ett ganska tryggt jobb.",
+                    "Då kommer vi till *data*. Det här samlar vi in och sparar i molnet:",
+                    "• Dina *projekt*. Vi sparar de projekt du bidrar med och de ändringar du gör i dem, om projekten inte verkar innehålla personlig information som telefonnummer, e-postadresser, användarnamn, personnummer eller adresser.",
+                    "• Dina *inställningar*. Det gäller de språk du väljer, dina val för animationer och hur långt du kommit i handledningen. Allt annat sparas bara på din egen enhet.",
+                    "• Samlad *aktivitet*. Vi räknar inloggningar och vilka sidor du besöker, men inte på ett sätt som kan identifiera dig, följa dig på webbplatsen eller följa dig till andra webbplatser. Vi använder Google Analytics i läget \"samtycke nekat\", som bara samlar in väldigt lite information om sidvisningar. Det sparar inga kakor och skickar ingen IP-adress till Google. Vi använder den samlade informationen för att visa hur mycket plattformen används, vilket hjälper oss att söka bidrag.",
+                    "Vi sparar inget annat. Vår <källkod@https://github.com/amyjko/wordplay/tree/main/src> är öppen för alla, så vem som helst kan kontrollera detta och rapportera om vi spårar något vi inte borde.",
+                    "*Du* äger din data, inte vi. Det betyder:",
+                    "• Du bestämmer vem som får se dina projekt. De är privata från start, men du kan dela dem med enskilda personer, grupper, eller göra dem helt öppna för alla.",
+                    "• Du kan när som helst ta bort ett projekt helt, eller ta bort ditt eget konto.",
+                    "• Du kan när som helst få en kopia av ett projekt eller av hela ditt konto.",
+                    "Så här kommer vi att använda din data, och så här kommer vi inte att använda den:",
+                    "• Vi delar inte din data med någon, om det inte krävs enligt lag. Det kan alltid hända att någon tar din data utan tillåtelse (ett \"dataintrång\"). Om vi upptäcker att det har hänt kommer vi att berätta det för dig via den e-postadress du har gett oss.",
+                    "• Vi kontaktar dig inte via e-post om inte 1) du gör en ändring av kontot som kräver det, 2) du uttryckligen ger oss tillåtelse att höra av oss, eller 3) det handlar om ett dataintrång som ovan.",
+                    "• Vi kan undersöka projekt, gallerier och hur man-guider på plattformen för att förstå vad alla skapar och hur de gör det. Vi kan dela sådana samlade och anonyma resultat i vetenskapliga texter. Det gör vi bara under uppsikt av en etikprövningsnämnd, precis som amerikansk federal lag kräver.",
+                    "Till sist, några ord om det du säger och delar. Projekt är privata från start, och om du delar ett projekt med vissa personer förblir det privat. Här nedan förklarar vi exakt vem som granskar det du delar, beroende på vem som kan se det.",
+                    "Men att göra ett projekt *öppet för alla*, eller lägga det i ett öppet galleri, är en förmån. Den här plattformen finns till för kärlek, uppmuntran, respekt och värdighet. Därför förväntar vi oss att inget av ditt *öppna* innehåll gör något av följande:"
                 ],
                 "consequences": [
-                    "$~Chattar för projekt och instruktioner som finns i offentliga eller privata gallerier modereras av galleriets kuratorer. Du kan rapportera meddelanden som bryter mot dessa communityriktlinjer till kuratorerna med hjälp av rapportknappen bredvid varje meddelande, och kuratorerna kan godkänna eller ta bort meddelanden.",
-                    "Om vi hittar ett projekt eller galleri som bryter mot dessa regler kommer vi att varna skaparna innan de ser det, eller blockera det från att visas. Om du upprepade gånger bryter mot dessa regler förlorar du rätten att publicera inlägg offentligt."
+                    "$~Om vi hittar ett projekt eller galleri som bryter mot de här reglerna varnar vi den som skapat det innan andra får se det, eller så blockerar vi det helt. Om du bryter mot reglerna flera gånger förlorar du rätten att dela saker öppet."
                 ],
                 "license": [
                     "$~En sak till om att göra ett projekt *offentligt*. Offentliga projekt delas under <Creative Commons Erkännande-DelaLika-licensen@https://creativecommons.org/licenses/by-sa/4.0/>. Det betyder att vem som helst kan /remixa/ ditt offentliga projekt — göra sin egen kopia av det och ändra det — och du kan remixa någon annans.",
@@ -9325,6 +9334,17 @@
                     "$~Här är exakt vad som händer om ditt offentliga innehåll bryter mot dessa regler. En moderator granskar det, det slutar vara offentligt, och du får en varning i dina aviseringar som säger vilket innehåll det gäller. Vem som helst som är inloggad kan be en moderator titta på offentligt innehåll genom att använda rapportknappen på det.",
                     "Efter tre varningar kan du fortfarande skapa projekt, fortfarande dela dem med dem du väljer, och fortfarande använda allt annat här. Det du förlorar är möjligheten att göra något offentligt.",
                     "Om du tycker att en varning var ett misstag, eller om det var länge sedan och du vill dela offentligt igen, skriv till hi@wordplay.dev och berätta ditt användarnamn och varför. En person kommer att läsa det."
+                ],
+                "responsibility": [
+                    "$~Vem som granskar det du delar beror på vem som kan se det.",
+                    "• *Delat med ingen, eller bara med personer du valt.* Ingen granskar det. Inte vi, inte någon annan.",
+                    "• *I ett galleri med andra personer i.* Det galleriets kuratorer granskar det, och chattarna som hör till. Det gäller oavsett om galleriet är offentligt eller inte: personerna i det kan se ditt arbete, så någon där ansvarar för det.",
+                    "• *I ett offentligt galleri.* Dess kuratorer granskar det, och det gör vi också, eftersom vem som helst kan hitta det.",
+                    "• *Offentligt, men inte i något galleri.* Vi granskar det.",
+                    "Vem som helst som kan se något kan be om att det granskas, genom att använda rapportknappen på det. Vi berättar aldrig för personen som skapade det vem som frågade.",
+                    "Att rapportera ett chattmeddelande gömmer det medan någon tittar på det. Det händer bara en gång per meddelande: om det behålls och någon rapporterar det igen, förblir det synligt medan det granskas en andra gång. Du kan alltid se dina egna ord.",
+                    "Ett beslut visar vilka av reglerna ovan som bröts, och kan innehålla en kommentar från den som bestämde. Du får båda i dina meddelanden.",
+                    "En galleri-kurators beslut gäller för deras galleri. Det är inte en av varningarna nedan, och det kan aldrig ta bort din möjlighet att dela offentligt."
                 ]
             },
             "donate": {
@@ -10110,11 +10130,11 @@
         },
         "gallerymoderation": {
             "header": "$~Gallerimoderering",
-            "description": "$~Följande meddelanden i gallerier som du hanterar har rapporterats av användare för moderering.",
+            "description": "$~Det andra har bett dig granska, äldst först. Ett beslut visar vilka regler som bröts, och den som skapade det får veta vad du bestämde.",
             "labels": {
                 "message": "$~meddelande",
-                "reporter": "$~reporter",
-                "action": "$~moderatoråtgärder"
+                "action": "$~moderatoråtgärder",
+                "reason": "$~vilka regler den bröt mot"
             },
             "view": {
                 "label": "$~visa chatten",
@@ -10129,7 +10149,11 @@
                 "tip": "$~detta meddelande bryter inte mot riktlinjerna"
             },
             "empty": "$~Inga meddelanden kräver moderering",
-            "error": "$~Du måste vara inloggad för att moderera gallerier"
+            "error": "$~Du måste vara inloggad för att moderera gallerier",
+            "note": {
+                "description": "$~vad du vill säga till den som skrev meddelandet",
+                "placeholder": "$~säg något till dem (valfritt)"
+            }
         },
         "emoji": {
             "noCharacters": "$~Skapa en anpassad karaktär",
@@ -10535,7 +10559,7 @@
         },
         "done": "$~Inget annat att moderera!",
         "error": {
-            "notmod": "$~Det verkar som att du inte är moderator. Om du nyligen har fått moderatorbehörighet kan du behöva logga in igen. Om inte, se wikin för information om hur du begär modereringsbehörighet."
+            "notmod": "$~Det finns inget här för dig att granska. Wordplays moderatorer granskar offentligt innehåll, och ett galleris kuratorer granskar det som finns i deras galleri. Om du nyligen fick moderatorrättigheter kan du behöva logga in igen."
         },
         "report": {
             "button": "$~Varna moderator",
@@ -10557,10 +10581,11 @@
         },
         "queue": {
             "label": "$~vad ska granskas",
-            "labels": ["$~projekt", "$~galleri:er"],
+            "labels": ["$~projekt", "$~galleri:er", "$~meddelanden"],
             "tips": [
-                "$~granska projekt som folk har gjort publika",
-                "$~granska galleri:er som vill listas publikt"
+                "$~granska projekt som folk har gjort offentliga",
+                "$~granska galleri:er som vill listas publikt",
+                "$~granska meddelanden som folk har anmält i galleri du sköter"
             ]
         },
         "gallery": {
@@ -10585,6 +10610,12 @@
                 "approved": "$~$name är nu listat publikt.",
                 "denied": "$~$name listades inte publikt."
             }
+        },
+        "responsibility": {
+            "none": "$~Ingen granskar det du delar här. Det syns bara för dig och de personer du väljer.",
+            "curators": "$~Kuratorerna för <$name@://galleries> granskar det som delas här, inklusive chatten.",
+            "both": "$~Kuratorerna för <$name@://galleries> granskar det som delas här, och det gör även Wordplays moderatorer, eftersom vem som helst kan se det.",
+            "platform": "$~Wordplays <moderators@://rights> granskar detta, eftersom vem som helst kan se det."
         }
     },
     "gallery": {

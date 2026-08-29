@@ -45,6 +45,18 @@ function sameWords(a: string[], b: string[]): boolean {
  * to the fields this function itself writes: its own write comes back through
  * the same trigger, and counting that as a change would re-review forever.
  */
+/** Whether the people who may review this gallery's reports have changed. */
+export function curatorsChanged(
+    before: Record<string, unknown> | undefined,
+    after: Record<string, unknown>,
+): boolean {
+    // A new gallery has no reports to fix up, so only a real change counts.
+    if (before === undefined) return false;
+    const was = [...((before.curators as string[]) ?? [])].sort();
+    const now = [...((after.curators as string[]) ?? [])].sort();
+    return JSON.stringify(was) !== JSON.stringify(now);
+}
+
 export function galleryContentChanged(
     before: Record<string, unknown> | undefined,
     after: Record<string, unknown>,
@@ -237,6 +249,27 @@ export default async function galleryEdited(
 
         if (Object.keys(self).length > 0)
             updates.push({ ref: galleryStore.doc(after.id), data: self });
+    }
+
+    // Who may review this gallery's open reports (#938). `moderators` is
+    // denormalized onto each report so the curator queue's read rule is an
+    // array-contains rather than a get() of this document — see
+    // SerializedReport.moderators — which means a change of curators has to be
+    // pushed out to the reports rather than joined at read time. Only reports
+    // still awaiting review: a resolved one is a record of who decided, and
+    // rewriting it would rewrite history. This is a promptness fix, not a
+    // security one — the `moderate` callable re-derives responsibility from
+    // current visibility before allowing any decision, so a stale list can only
+    // fail to show someone a report, never let the wrong person act on one.
+    if (after && curatorsChanged(before, after)) {
+        const curators: string[] = after.curators ?? [];
+        const open = await db
+            .collection('reports')
+            .where('gallery', '==', after.id)
+            .where('resolved', '==', false)
+            .get();
+        for (const report of open.docs)
+            updates.push({ ref: report.ref, data: { moderators: curators } });
     }
 
     return flush();

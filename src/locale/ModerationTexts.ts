@@ -16,8 +16,11 @@ export type ModerationTexts = {
     unmoderated: HeaderAndExplanationText;
     /** Moderation view text */
     moderate: HeaderAndExplanationText;
-    /** Which queue the moderator is working through: projects or galleries */
-    queue: ModeText<[string, string]>;
+    /** Which queue the moderator is working through: projects, galleries, or
+     *  reported messages. Appended to, never inserted into: locales-fix pads a
+     *  positional array by appending, so a label added in the middle would
+     *  shift every locale's existing labels onto the wrong tabs. */
+    queue: ModeText<[string, string, string]>;
     /** [formatted] Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
     flags: FlagDescriptions;
     /** [formatted] Progress message */
@@ -60,6 +63,22 @@ export type ModerationTexts = {
         warned: Template<['#count', '#remaining']>;
         /** [plain] The notification saying a warning has arrived */
         notification: Template<['#count']>;
+    };
+    /**
+     * Who reviews a piece of content, said wherever a creator can see it
+     * (#938). One sentence per level of the responsibility ladder, all derived
+     * from the same rule the server enforces — a surface that said something
+     * else would be promising a reviewer nobody assigned.
+     */
+    responsibility: {
+        /** [formatted] Nothing here is shared widely enough for anyone to review it. */
+        none: FormattedText;
+        /** [formatted] A gallery's curators review it. $name is the gallery. */
+        curators: Template<['name']>;
+        /** [formatted] Its gallery's curators and Wordplay's moderators both do. $name is the gallery. */
+        both: Template<['name']>;
+        /** [formatted] Wordplay's moderators review it, because anyone can see it. */
+        platform: FormattedText;
     };
     /** Curated public gallery listing (#1311). A gallery being public is its
      *  curator's request; a moderator's approval is what lists it. */

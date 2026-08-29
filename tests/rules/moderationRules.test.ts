@@ -120,55 +120,137 @@ afterAll(async () => {
     await env.cleanup();
 });
 
-describe('reports: anyone signed in may raise one, only moderators may read', () => {
+describe('reports: nobody writes one, and only the responsible may read', () => {
     const runID = Date.now().toString(36);
+    const Curated = `report-${runID}-curated`;
+    const Platform = `report-${runID}-platform`;
 
-    it('a signed-in viewer can report a project as themselves', async () => {
-        await assertSucceeds(
-            as(Users.Stranger).doc(`reports/report-${runID}-ok`).set({
-                project: Projects.Public,
-                reporter: Users.Stranger,
+    beforeAll(async () => {
+        // Seeded past the rules, because after #938 no client may write one:
+        // the `report` and `moderate` callables own this collection.
+        await env.withSecurityRulesDisabled(async (context) => {
+            const db = context.firestore();
+            await db.doc(`reports/${Curated}`).set({
+                v: 2,
+                kind: 'chat',
+                subject: 'some-chat',
+                message: 'm1',
+                gallery: Galleries.Pending,
+                moderators: [Users.Owner],
+                platform: false,
+                author: Users.Banned,
+                reporters: [Users.Stranger],
                 time: 1,
                 resolved: false,
-            }),
-        );
-    });
-
-    it('nobody can report in someone else’s name', async () => {
-        await assertFails(
-            as(Users.Stranger).doc(`reports/report-${runID}-forged`).set({
-                project: Projects.Public,
-                reporter: Users.Owner,
+            });
+            await db.doc(`reports/${Platform}`).set({
+                v: 2,
+                kind: 'project',
+                subject: Projects.Public,
+                gallery: null,
+                moderators: [],
+                platform: true,
+                author: Users.Owner,
+                reporters: [Users.Stranger],
                 time: 1,
                 resolved: false,
-            }),
-        );
+            });
+        });
     });
 
-    it('a report cannot arrive already resolved', async () => {
-        // Resolution is a moderator's word, not the reporter's.
+    it('nobody can raise one directly any more, not even naming themselves', async () => {
+        // A reporter who could write this would be naming their own reviewers,
+        // which is the same mistake as a creator clearing their own strikes.
         await assertFails(
-            as(Users.Stranger).doc(`reports/report-${runID}-preresolved`).set({
-                project: Projects.Public,
-                reporter: Users.Stranger,
-                time: 1,
-                resolved: true,
-            }),
+            as(Users.Stranger)
+                .doc(`reports/${runID}-forged`)
+                .set({
+                    v: 2,
+                    kind: 'project',
+                    subject: Projects.Public,
+                    gallery: null,
+                    moderators: [],
+                    platform: true,
+                    author: Users.Owner,
+                    reporters: [Users.Stranger],
+                    time: 1,
+                    resolved: false,
+                }),
         );
     });
 
-    it('a report is not readable by the reporter, the creator, or a stranger', async () => {
+    it('not even a moderator can write one', async () => {
+        await assertFails(
+            as(Users.Mod, { mod: true })
+                .doc(`reports/${Platform}`)
+                .update({ resolved: true }),
+        );
+    });
+
+    it('the reporter cannot read the report they filed', async () => {
         // A report is a request for review, not a public accusation.
-        for (const uid of [Users.Stranger, Users.Owner, Users.Banned])
-            await assertFails(as(uid).doc(`reports/report-${runID}-ok`).get());
+        await assertFails(as(Users.Stranger).doc(`reports/${Platform}`).get());
     });
 
-    it('a moderator can read and resolve reports', async () => {
-        const mod = as(Users.Mod, { mod: true });
-        await assertSucceeds(mod.doc(`reports/report-${runID}-ok`).get());
+    it('nor can the author it is about', async () => {
+        await assertFails(as(Users.Owner).doc(`reports/${Platform}`).get());
+        await assertFails(as(Users.Banned).doc(`reports/${Curated}`).get());
+    });
+
+    it('a moderator reads what the platform is responsible for', async () => {
         await assertSucceeds(
-            mod.doc(`reports/report-${runID}-ok`).update({ resolved: true }),
+            as(Users.Mod, { mod: true }).doc(`reports/${Platform}`).get(),
         );
+    });
+
+    it("but not a private gallery's own business", async () => {
+        // A classroom's moderation is its curators', not the platform's.
+        await assertFails(
+            as(Users.Mod, { mod: true }).doc(`reports/${Curated}`).get(),
+        );
+    });
+
+    it('a curator reads the reports routed to them', async () => {
+        await assertSucceeds(as(Users.Owner).doc(`reports/${Curated}`).get());
+    });
+
+    it('and a curator of some other gallery does not', async () => {
+        await assertFails(as(Users.Banned).doc(`reports/${Curated}`).get());
+    });
+
+    it('a curator can list their queue without a get() of the gallery', async () => {
+        // The whole reason `moderators` is denormalized: rules allow only ~10
+        // document accesses per query, so a join here would deny the query
+        // outright once a curator had more galleries than that budget.
+        await assertSucceeds(
+            as(Users.Owner)
+                .collection('reports')
+                .where('moderators', 'array-contains', Users.Owner)
+                .where('resolved', '==', false)
+                .orderBy('time')
+                .get(),
+        );
+    });
+
+    it('a legacy v1 report is returned by neither queue', async () => {
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context.firestore().doc(`reports/${runID}-legacy`).set({
+                project: Projects.Public,
+                reporter: Users.Stranger,
+                time: 1,
+                resolved: false,
+            });
+        });
+        // It carries neither indexed field, so it can't match — which is why
+        // ReportMigration.js has to run, and why running it late loses a
+        // report rather than exposing one.
+        const queue = await as(Users.Mod, { mod: true })
+            .collection('reports')
+            .where('platform', '==', true)
+            .where('resolved', '==', false)
+            .get();
+        if (queue.docs.some((doc) => doc.id === `${runID}-legacy`))
+            throw new Error('a v1 report should not appear in the new queue');
     });
 });
 

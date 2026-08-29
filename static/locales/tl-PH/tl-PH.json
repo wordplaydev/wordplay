@@ -7287,8 +7287,8 @@
                 "curators": {
                     "header": "$~Mga Kurator",
                     "explanation": [
-                        "$~Maaaring i-edit ng mga curator ang mga proyekto at mga setting ng gallery, at makipag-chat sa lahat ng proyekto.",
-                        "/Ang mga curator ang may pananagutan sa pagmo-moderate ng nilalaman ng mga chat na nauugnay sa mga proyekto at mga how-to sa gallery. Ang mga chat na iniulat ng mga tagalikha ay matatagpuan sa <gallery moderation dashboard@://galleries/moderation>./"
+                        "$~Maaaring baguhin ng mga tagapangasiwa ang mga proyekto at ang mga setting ng galeriya, at makipag-chat sa lahat ng proyekto.",
+                        "/Sinusuri ng mga tagapangasiwa ang mga naiulat sa kanilang galeriya — mga proyekto, mga kung paano gawin, at ang mga chat na kasama nito — mula sa <pahina ng moderation@://moderate>. Ang desisyon ng isang tagapangasiwa ay para lamang sa sarili niyang galeriya; hindi ito kailanman isa sa mga <babala@://rights> ng Wordplay./"
                     ]
                 },
                 "creators": {
@@ -7328,11 +7328,11 @@
         },
         "gallerymoderation": {
             "header": "$~Pagmo-moderate ng Gallery",
-            "description": "$~Ang mga sumusunod na mensahe sa mga gallery na iyong pinangangasiwaan ay iniulat na ng mga user para sa moderasyon.",
+            "description": "$~Ang mga hiniling sa iyo ng ibang tao na suriin, mula sa pinakaluma. Sinasabi ng desisyon kung anong mga alituntunin ang nalabag, at sinasabihan ang gumawa ng bagay kung ano ang naging desisyon mo.",
             "labels": {
                 "message": "$~mensahe",
-                "reporter": "$~reporter",
-                "action": "$~mga aksyon ng moderator"
+                "action": "$~mga aksyon ng moderator",
+                "reason": "$~kung aling mga patakaran ang nilabag nito"
             },
             "view": {
                 "label": "$~tingnan ang chat",
@@ -7347,7 +7347,11 @@
                 "tip": "$~hindi lumalabag sa mga alituntunin ang mensaheng ito"
             },
             "empty": "$~Walang mensaheng nangangailangan ng moderasyon",
-            "error": "$~Dapat kang naka-log in sa mga moderate na gallery"
+            "error": "$~Dapat kang naka-log in sa mga moderate na gallery",
+            "note": {
+                "description": "$~ano ang sasabihin sa sumulat ng mensahe",
+                "placeholder": "$~magsabi ng kahit ano sa kanila (opsyonal)"
+            }
         },
         "howto": {
             "galleryView": {
@@ -8588,10 +8592,20 @@
                     "projectChatHeader": "$~Bagong mensahe sa proyektong \"$name\"",
                     "howToChatHeader": "$~Bagong mensahe sa kung paano gawin ang \"$title\"",
                     "moderationHeader": "$~Ang mensahe sa \"$name\" ay nangangailangan ng aksyon sa pagmo-moderate",
-                    "link": "$~mga detalye"
+                    "link": "$~mga detalye",
+                    "reportedHeader": "$~May ginawa ka sa \"$title\" na iniulat, at sinusuri ito ngayon",
+                    "reportReceivedHeader": "$~Naipadala na ang ulat mo tungkol sa \"$title\" sa taong responsable dito",
+                    "decisionHeader": "$~May desisyon na ginawa tungkol sa isang bagay na ginawa mo sa \"$title\"",
+                    "outcomeHeader": "$~May desisyon na ginawa tungkol sa iniulat mo sa \"$title\"",
+                    "because": "$~Dahil ito:",
+                    "note": "$~Sinabi nila:"
                 },
                 "delete": "$~burahin ang notipikasyong ito",
-                "popup": "$~$#count[1 abiso|$count na abiso]"
+                "popup": "$~$#count[1 abiso|$count na abiso]",
+                "moderate": {
+                    "label": "$~suriin ang naiulat na nilalaman",
+                    "tip": "$~pumunta sa mga bagay na naghihintay sa iyo para suriin"
+                }
             },
             "locale": {
                 "header": "$~Wika",
@@ -9501,8 +9515,8 @@
                         ]
                     },
                     "own": [
-                        "$~Mag-ambag sa isang gallery kung saan ka iniimbitahan, o bumuo ng sarili mong gallery na may partikular na tema, at anyayahan ang iba.",
-                        "/Ang mga curator ang may pananagutan sa pagmo-moderate ng nilalaman sa mga gallery gamit ang <gallery moderation dashboard@://galleries/moderation>./"
+                        "$~Mag-ambag sa isang galeriya na iniimbitahan ka, o pangasiwaan ang sarili mong galeriya na may partikular na tema, at mag-imbita ng iba.",
+                        "/Sinusuri ng mga tagapangasiwa ang naiulat sa kanilang galeriya, mula sa <pahina ng moderation@://moderate>./"
                     ],
                     "examples": "$~Ito ay mga piniling gallery mula sa mga developer ng @wordplay. Ang mga ito ay magagandang panimulang punto para sa pag-aaral at inspirasyon.",
                     "public": "$~Ito ang mga gallery na ginawang pampubliko ng @wordplay na tagalikha. Puwedeng humiling ang sinuman na ilista ang kanilang gallery dito, at babasahin muna ito ng isang moderator para tiyakin na tapos na ito at sumusunod sa mga alituntunin. Puwedeng alisin ang isang gallery sa listahang ito anumang oras, sa kahit anong dahilan. Ipinapakita ang mga ito sa ibang pagkasunod-sunod sa bawat pagbisita, para may pagkakataon ang bawat gallery na mapunta sa itaas."
@@ -9994,29 +10008,28 @@
             "rights": {
                 "header": "$~Mga Karapatan",
                 "content": [
-                    "$~Kumusta!",
-                    "Magtakda tayo ng ilang inaasahan tungkol sa iyong mga karapatan at sa amin (pati na rin dahil sa patakaran, gaya ng <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> at <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
-                    "Ang unang dapat malaman ay hindi kami isang komersyal na entidad. Kami ay isang proyekto ng pananaliksik na nakabatay sa komunidad, na nasa loob ng isang unibersidad na hindi kumikita. Layunin naming gumawa ng isang platform na nagbibigay sa iyo ng saya at tumutulong sa aming makatuklas ng higit na patas at makatarungang mundo ng computing. Wala kaming interes na kumita mula sa platform na ito; anumang perang naipon namin (kadalasan mula sa pampublikong pondo) ay ginagamit para mapanatili ang platform, hindi para pagyamanin ang sinumang nagtatrabaho rito (o tumutulong dito).",
-                    "Dahil hindi kami naghahangad ng kita, nangangahulugan din ito na hindi kami makakapangako tungkol sa pagiging maaasahan, pagiging available, o katagalan ng platform na ito. Gayunpaman, si <Amy@https://amyjko.phd> ay nakatuon sa mahabang panahon para mapanatili ito, at bilang isang tenured na propesor, matatag ang kanyang trabaho.",
-                    "Dala tayo nito sa *data*. Ito ang tinitipon at iniimbak namin sa cloud:",
-                    "• Ang iyong mga *proyekto*. Iniimbak namin ang anumang proyektong iniambag mo at ang iyong mga pagbabago dito, maliban kung ang mga proyektong iyon ay may impormasyong nakakakilala sa tao gaya ng mga numero ng telepono, email address, username, tax identifier, o address.",
-                    "• Ang iyong mga *setting*. Kabilang dito ang mga wikang pinili mo, ang iyong mga kagustuhan sa animation, at ang iyong progreso sa tutorial. Ang lahat ng iba pa ay iniimbak sa iyong device lang.",
-                    "• Pinagsama-samang *aktibidad*. Sinusubaybayan namin ang mga login at ang mga pahinang binibisita mo, ngunit hindi sa paraang makakakilala sa iyo, makakasubaybay sa iyo sa buong site, o makakasubaybay sa iyo sa ibang mga site. Gumagamit kami ng Google Analytics sa 'consent denied' mode, na tumitipon lamang ng kaunting impormasyong hindi nakakakilala tungkol sa mga tingin sa pahina, nang hindi nag-iimbak ng cookie, o nagpapadala ng impormasyon ng IP address sa Google. Ginagamit namin ang pinagsama-samang impormasyong ito para tumulong maglikom ng pondo sa pamamagitan ng pag-uulat kung gaano kadalas ginagamit ang platform.",
-                    "Wala kaming iniimbak na iba pa. Ang aming <pinagmulan@https://github.com/amyjko/wordplay/tree/main/src> ay pampubliko, kaya kahit sino ay makakapag-beripika nito, at makakapag-ulat ng anumang hindi sinasadyang pagsubaybay.",
-                    "*Ikaw* ang may-ari ng iyong data, hindi kami. Ibig sabihin:",
-                    "• Ikaw ang kumokontrol kung sino ang makaka-access sa iyong mga proyekto. Sila ay pribado bilang default, ngunit maaari mo silang ibahagi sa mga indibidwal, grupo, o gawing ganap na pampubliko.",
-                    "• Maaari mong ganap na burahin ang anumang proyekto o ang iyong sariling account anumang oras.",
-                    "• Maaari kang kumuha ng export ng anumang proyekto o ng iyong buong account anumang oras.",
-                    "Ito kung paano namin gagamitin at hindi gagamitin ang iyong data:",
-                    "• Hindi namin ibabahagi ang iyong data sa sinuman, maliban kung hayagang hinihiling ng batas. Palaging posible na ang iyong data ay kunin nang walang pahintulot (isang 'data breach'). Kung matuklasan namin na nangyari ito, aabisuhan ka namin gamit ang email na ibinahagi mo sa amin.",
-                    "• Hindi ka namin kokontakin sa pamamagitan ng iyong email address maliban kung 1) gumawa ka ng pagbabago sa account na nangangailangan nito, 2) hayagan mong bigyan kami ng pahintulot na makipag-ugnayan, o 3) sa kaso ng data breach sa itaas.",
-                    "• Maaari naming suriin ang mga proyekto, gallery, at nilalaman ng kung paano gawin sa platform para maunawaan kung ano ang ginagawa ng lahat at kung paano nila ito ginagawa. Maaari naming ibahagi ang mga pinagsama-sama at hindi nakakakilalang mga natuklasang ito sa mga akademikong publikasyon. Gagawin lang namin ito sa ilalim ng pangangasiwa ng isang institutional review board, gaya ng iniaatas ng pederal na batas ng U.S.",
-                    "Sa wakas, isang tala tungkol sa pananalita. Maaari mong sabihin ang anumang gusto mo sa platform na ito nang *pribado*. Ang mga proyekto ay pribado bilang default, at kung ibabahagi mo ang mga ito sa mga tiyak na email address, itinuturing pa rin silang pribado. Hindi namin mamo-moderate ang anuman sa mga pribadong proyekto.",
-                    "Ngunit ang paggawa ng isang proyektong *pampubliko*, o pagsama nito sa isang pampublikong gallery, ay isang pribilehiyo. Ito ay isang platform na ginawa para sa pagmamahal, pagkilala, paggalang, at dignidad. Kaya naman, inaasahan namin na wala sa iyong *pampublikong* nilalaman ang:"
+                    "$~Kamusta!",
+                    "Simulan natin sa mga inaasahan tungkol sa mga karapatan mo at sa amin (alinsunod din sa batas, tulad ng <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> at <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Una sa lahat, hindi kami isang kompanyang kumikita. Isa kaming proyektong pananaliksik na nakabatay sa komunidad, at nasa ilalim kami ng isang unibersidad na hindi kumikita. Layunin naming gumawa ng isang plataporma na nagbibigay sa iyo ng saya, at tumutulong sa amin na tumuklas ng mas patas at makatarungang mundo ng computing. Wala kaming hangaring kumita mula sa platapormang ito. Anumang perang natitipon namin (kadalasan mula sa pondo ng pamahalaan) ay ginagamit lamang para mapanatili ang plataporma, hindi para pagyamanin ang sinumang gumagawa rito (o nag-aambag dito).",
+                    "Dahil hindi kami naghahangad ng tubo, nangangahulugan din ito na hindi kami makakapangako tungkol sa pagiging maaasahan, pagiging available, o kung gaano katagal tatakbo ang platapormang ito. Gayunpaman, nakatuon si <Amy@https://amyjko.phd> sa pangmatagalang pagpapanatili nito, at bilang isang matibay na propesor sa unibersidad, medyo matatag ang kanyang trabaho.",
+                    "Dinadala tayo nito sa *datos*. Narito ang mga impormasyong tinitipon at itinatago namin sa ulap (cloud):",
+                    "• Ang iyong mga *proyekto*. Itinatago namin ang anumang proyektong iyong iniambag at ang mga binago mo rito, maliban kung lumilitaw na naglalaman ang mga proyektong ito ng impormasyong makakakilala sa iyo nang personal, tulad ng numero ng telepono, email address, username, tax identifier, o address.",
+                    "• Ang iyong mga *setting*. Kasama rito ang mga wikang pinili mo, mga kagustuhan mo sa animation, at ang iyong pag-unlad sa tutorial. Ang lahat ng iba pa ay nakaimbak lamang sa iyong sariling device.",
+                    "• Kabuuang *aktibidad*. Sinusubaybayan namin ang mga pag-login at ang mga pahinang binisita mo, pero hindi sa paraang makakakilala sa iyo, makakasubaybay sa iyo sa buong site, o makakasubaybay sa iyo sa ibang mga site. Gumagamit kami ng Google Analytics sa modong 'consent denied,' na kumukuha lamang ng kaunting impormasyong hindi nakakakilala tungkol sa mga pagtingin sa pahina, nang hindi nag-iimbak ng cookies, o nagpapadala ng impormasyon ng IP address sa Google. Ginagamit namin ang kabuuang impormasyong ito para makatulong sa paghingi ng pondo sa pamamagitan ng pag-uulat kung gaano kalawak ang paggamit sa plataporma.",
+                    "Wala na kaming iba pang itinatago. Ang aming <source@https://github.com/amyjko/wordplay/tree/main/src> ay bukas sa publiko, kaya kahit sino ay maaaring tumingin at tiyakin ito, at magsumbong kung may hindi sinasadyang pagsubaybay.",
+                    "*Ikaw* ang may-ari ng iyong datos, hindi kami. Ibig sabihin nito:",
+                    "• Ikaw ang kumokontrol kung sino ang maaaring makakita ng iyong mga proyekto. Pribado ang mga ito bilang default, pero maaari mo itong ibahagi sa mga tao, mga grupo, o gawing ganap na pampubliko.",
+                    "• Maaari mong ganap na tanggalin ang anumang proyekto o ang iyong sariling account anumang oras.",
+                    "• Maaari kang kumuha ng kopya ng anumang proyekto o ng buong account mo anumang oras.",
+                    "Narito kung paano namin gagamitin, at hindi gagamitin, ang iyong datos:",
+                    "• Hindi namin ibabahagi ang iyong datos kaninuman, maliban kung talagang kinakailangan ito ng batas. Posible pa rin na makuha ang iyong datos nang walang pahintulot (tinatawag itong 'data breach'). Kung matuklasan naming nangyari ito, ipapaalam namin sa iyo gamit ang email na ibinahagi mo sa amin.",
+                    "• Hindi ka namin kokontakin sa pamamagitan ng iyong email address maliban kung 1) may ginawa kang pagbabago sa account na nangangailangan nito, 2) malinaw kang nagbigay sa amin ng pahintulot na makipag-ugnayan sa iyo, o 3) kung nangyari ang data breach na binanggit sa itaas.",
+                    "• Maaari naming suriin ang mga proyekto, gallery, at kung paano gawin na nilalaman sa plataporma upang maunawaan kung ano ang ginagawa ng lahat at kung paano nila ito ginagawa. Maaari naming ibahagi ang mga kabuuan at hindi nakakakilalang natuklasan na ito sa mga akademikong publikasyon. Gagawin lamang namin ito sa ilalim ng pangangasiwa ng institutional review board, ayon sa itinatakda ng batas pederal ng Estados Unidos.",
+                    "Bilang huli, isang paalala tungkol sa pananalita. Pribado ang mga proyekto bilang default, at ang pagbabahagi nito sa tiyak na mga tao ay nananatiling pribado ito. Ang sumusunod ay eksaktong kung sino ang sumusuri sa iyong ibinabahagi, depende kung sino ang makakakita nito.",
+                    "Pero ang paggawa ng isang proyekto na *pampubliko*, o ang paglalagay nito sa isang pampublikong gallery, ay isang pribilehiyo. Ang platapormang ito ay ginawa para sa pagmamahal, pagpapatibay, paggalang, at dignidad. Kaya naman, inaasahan namin na wala sa iyong *pampublikong* nilalaman ang:"
                 ],
                 "consequences": [
-                    "$~Ang mga chat para sa mga proyekto at mga how-to na nasa mga pampubliko o pribadong gallery ay sasailalim sa moderasyon ng mga gallery curator. Maaari mong iulat ang mga mensaheng lumalabag sa mga alituntunin ng komunidad na ito sa mga curator gamit ang buton ng ulat sa tabi ng bawat mensahe, at maaaring aprubahan o alisin ng mga curator ang mga mensahe.",
-                    "Kung makakahanap kami ng proyekto o gallery na lumalabag sa mga patakarang ito, babalaan namin ang mga tagalikha bago nila ito tingnan, o haharangan ang mga ito na hindi ito matingnan. Kung paulit-ulit mong lalabagin ang mga patakarang ito, mawawalan ka ng pribilehiyong mag-post sa publiko."
+                    "$~Kung makakita kami ng isang proyekto o gallery na lumalabag sa mga tuntuning ito, babalaan namin ang mga gumawa nito bago ito matingnan ng iba, o hahadlangan namin ito upang hindi na ito makita. Kung paulit-ulit mong nilalabag ang mga tuntuning ito, mawawalan ka ng pribilehiyong maglathala nang pampubliko."
                 ],
                 "license": [
                     "$~Isa pang bagay tungkol sa paggawa ng proyektong *pampubliko*. Ang mga pampublikong proyekto ay ibinabahagi sa ilalim ng <Creative Commons Attribution-ShareAlike license@https://creativecommons.org/licenses/by-sa/4.0/>. Ibig sabihin, kahit sino ay maaaring mag-/remix/ ng iyong pampublikong proyekto — gumawa ng sariling kopya nito at baguhin ito — at maaari mo ring i-remix ang proyekto ng iba.",
@@ -10032,6 +10045,17 @@
                     "$~Narito nang eksakto ang mangyayari kung sumira sa mga alituntuning ito ang iyong pampublikong nilalaman. Susuriin ito ng isang moderator, hihinto ito sa pagiging pampubliko, at makakatanggap ka ng babala sa iyong mga notification na nagsasabi kung alin ito. Sinumang naka-sign in ay maaaring humingi sa isang moderator na tingnan ang pampublikong nilalaman gamit ang pindutan ng ulat dito.",
                     "Pagkatapos ng tatlong babala, maaari ka pa ring gumawa ng mga proyekto, ibahagi pa rin ang mga ito sa mga taong pinili mo, at gamitin pa rin ang lahat ng iba pa dito. Ang mawawala sa iyo ay ang kakayahang gumawa ng anumang pampubliko.",
                     "Kung sa tingin mo ay mali ang isang babala, o matagal na itong nangyari at gusto mong magbahagi nang pampubliko muli, sumulat sa hi@wordplay.dev at sabihin sa amin ang iyong username at dahilan. May taong babasa nito."
+                ],
+                "responsibility": [
+                    "$~Ang sinuman ang sumusuri sa ibinahagi mo ay nakadepende sa kung sino ang makakakita nito.",
+                    "• *Ibinahagi sa walang sinuman, o sa mga taong pinangalanan mo lang.* Walang sumusuri nito. Hindi kami, hindi rin ang iba.",
+                    "• *Nasa isang gallery kasama ang ibang tao.* Sinusuri ito ng mga curator ng gallery na iyon, kasama ang mga chat na kalakip nito. Totoo ito, gallery man ito na pampubliko o hindi: makikita ng mga taong nasa gallery ang iyong gawa, kaya may isang tao roon na may pananagutan dito.",
+                    "• *Nasa isang pampublikong gallery.* Sinusuri ito ng mga curator nito, at sinusuri rin namin, dahil kahit sino ay makakahanap nito.",
+                    "• *Pampubliko, at hindi nasa isang gallery.* Sinusuri namin ito.",
+                    "Sinuman ang makakakita ng isang bagay ay maaaring humiling na suriin ito, gamit ang pindutang ulat na nakalagay dito. Hindi namin sinasabi sa gumawa nito kung sino ang humiling.",
+                    "Ang pag-uulat ng isang chat message ay nagtatago nito habang sinusuri ito ng isang tao. Nangyayari ito nang isang beses bawat mensahe: kung napanatili ito at may nag-ulat muli nito, mananatili itong nakikita habang sinusuri ito sa ikalawang pagkakataon. Palagi mong makikita ang sarili mong mga salita.",
+                    "Ang isang desisyon ay nagsasabi kung alin sa mga tuntunin sa itaas ang natagpuang nalabag, at maaaring may kalakip na tala mula sa nagdesisyon. Makukuha mo ang parehong ito sa iyong mga abiso.",
+                    "Ang desisyon ng isang curator ng gallery ay umaaplay sa kanilang gallery lang. Hindi ito isa sa mga babala sa ibaba, at hindi kailanman maaaring maalis dahil dito ang kakayahan mong magbahagi nang pampubliko."
                 ]
             },
             "donate": {
@@ -10560,7 +10584,7 @@
             "property": "$~Kung ang proyekto ay may ganitong katangian"
         },
         "error": {
-            "notmod": "$~Mukhang hindi ka isang moderator. Kung kamakailan ka lang nabigyan ng mga pribilehiyo bilang moderator, maaaring kailanganin mong mag-login muli. Kung hindi, tingnan ang wiki para sa kung paano humiling ng mga pribilehiyo bilang moderator."
+            "notmod": "$~Walang dito na kailangan mong suriin. Sinusuri ng mga moderator ng Wordplay ang pampublikong nilalaman, at sinusuri ng mga curator ng isang gallery ang nasa kanilang gallery. Kung kamakailan ka lang binigyan ng karapatan bilang moderator, maaaring kailanganin mong mag-log in ulit."
         },
         "report": {
             "button": "$~Alertuhan ang moderator",
@@ -10582,10 +10606,11 @@
         },
         "queue": {
             "label": "$~ano ang susuriin",
-            "labels": ["$~mga proyekto", "$~mga gallery"],
+            "labels": ["$~mga proyekto", "$~mga gallery", "$~mga mensahe"],
             "tips": [
                 "$~suriin ang mga proyektong ginawang pampubliko ng mga tao",
-                "$~suriin ang mga gallery na humihiling na ilista nang pampubliko"
+                "$~suriin ang mga gallery na humihiling na ilista nang pampubliko",
+                "$~suriin ang mga mensaheng ini-report ng mga tao sa mga gallery na iyong pinangangasiwaan"
             ]
         },
         "gallery": {
@@ -10610,6 +10635,12 @@
                 "approved": "$~Naka-lista na ngayon nang pampubliko ang $name.",
                 "denied": "$~Hindi na-lista nang pampubliko ang $name."
             }
+        },
+        "responsibility": {
+            "none": "$~Walang sumusuri sa ibinabahagi mo dito. Ikaw at ang mga taong pinili mo lang ang makakakita nito.",
+            "curators": "$~Sinusuri ng mga curator ng <$name@://galleries> ang ibinabahagi dito, kasama ang chat nito.",
+            "both": "$~Sinusuri ng mga curator ng <$name@://galleries> ang ibinabahagi dito, at sinusuri rin ito ng mga moderator ng Wordplay, dahil kahit sino ay makakakita nito.",
+            "platform": "$~Sinusuri ito ng mga <moderators@://rights> ng Wordplay, dahil kahit sino ay makakakita nito."
         }
     },
     "gallery": {

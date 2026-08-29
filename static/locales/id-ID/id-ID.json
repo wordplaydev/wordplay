@@ -7291,8 +7291,8 @@
                 "curators": {
                     "header": "$~Kurator",
                     "explanation": [
-                        "$~Kurator dapat mengedit proyek dan pengaturan galeri, serta mengobrol di semua proyek.",
-                        "Kurator bertanggung jawab untuk memoderasi konten obrolan yang terkait dengan proyek dan panduan di galeri. Obrolan yang dilaporkan oleh kreator dapat ditemukan di [tautan obrolan].<gallery moderation dashboard@://galleries/moderation> ./"
+                        "$~Kurator dapat mengubah proyek dan pengaturan galeri, serta mengobrol di semua proyek.",
+                        "/Kurator memeriksa apa yang dilaporkan di galeri mereka — proyek, cara, dan obrolan yang menyertainya — dari <halaman moderasi@://moderate>. Keputusan seorang kurator berlaku untuk galeri miliknya sendiri; itu bukan salah satu <peringatan@://rights> resmi dari Wordplay./"
                     ]
                 },
                 "creators": {
@@ -7332,11 +7332,11 @@
         },
         "gallerymoderation": {
             "header": "$~Moderasi Galeri",
-            "description": "$~Pesan-pesan berikut di galeri yang Anda kurasi telah dilaporkan oleh pengguna untuk dimoderasi.",
+            "description": "$~Hal-hal yang orang minta kamu periksa, dari yang paling lama. Sebuah keputusan menyebutkan aturan mana yang dilanggar, dan orang yang membuatnya diberi tahu tentang keputusan itu.",
             "labels": {
                 "message": "$~pesan",
-                "reporter": "$~reporter",
-                "action": "$~tindakan moderator"
+                "action": "$~tindakan moderator",
+                "reason": "$~aturan mana yang dilanggar"
             },
             "view": {
                 "label": "$~lihat obrolan",
@@ -7351,7 +7351,11 @@
                 "tip": "$~Pesan ini tidak melanggar pedoman."
             },
             "empty": "$~Tidak ada pesan yang memerlukan moderasi.",
-            "error": "$~Anda harus masuk terlebih dahulu untuk memoderasi galeri."
+            "error": "$~Anda harus masuk terlebih dahulu untuk memoderasi galeri.",
+            "note": {
+                "description": "$~apa yang harus dikatakan kepada orang yang menulis pesan itu",
+                "placeholder": "$~katakan sesuatu kepada mereka (boleh dikosongkan)"
+            }
         },
         "howto": {
             "galleryView": {
@@ -8600,10 +8604,20 @@
                     "projectChatHeader": "$~Pesan baru dalam proyek \" $name \"",
                     "howToChatHeader": "$~Pesan baru dalam panduan \" $title \"",
                     "moderationHeader": "$~Pesan di \" $name \" memerlukan tindakan moderasi",
-                    "link": "$~detail"
+                    "link": "$~detail",
+                    "reportedHeader": "$~Sesuatu yang kamu buat di \"$title\" telah dilaporkan dan sedang ditinjau",
+                    "reportReceivedHeader": "$~Laporanmu tentang \"$title\" telah dikirim ke orang yang bertanggung jawab",
+                    "decisionHeader": "$~Sebuah keputusan telah dibuat tentang sesuatu yang kamu buat di \"$title\"",
+                    "outcomeHeader": "$~Sebuah keputusan telah dibuat tentang apa yang kamu laporkan di \"$title\"",
+                    "because": "$~Karena hal itu:",
+                    "note": "$~Mereka berkata:"
                 },
                 "delete": "$~Hapus pemberitahuan ini",
-                "popup": "$~$#count[$count pemberitahuan]"
+                "popup": "$~$#count[$count pemberitahuan]",
+                "moderate": {
+                    "label": "$~tinjau konten yang dilaporkan",
+                    "tip": "$~buka hal-hal yang menunggu untuk ditinjau"
+                }
             },
             "locale": {
                 "header": "$~Bahasa",
@@ -9620,8 +9634,8 @@
                         ]
                     },
                     "own": [
-                        "$~Berkontribusilah pada galeri yang Anda diundang, atau kurasi galeri Anda sendiri dengan tema tertentu, dan undang orang lain.",
-                        "Kurator bertanggung jawab untuk memoderasi konten di galeri menggunakan<gallery moderation dashboard@://galleries/moderation> ./"
+                        "$~Ikut membantu galeri yang mengundangmu, atau buat galeri sendiri dengan tema tertentu, lalu undang orang lain.",
+                        "/Kurator memeriksa apa yang dilaporkan di galeri mereka, dari <halaman moderasi@://moderate>./"
                     ],
                     "examples": "$~Ini adalah galeri pilihan dari para pengembang @wordplay. Galeri-galeri ini merupakan titik awal yang baik untuk belajar dan mendapatkan inspirasi.",
                     "public": "$~Ini adalah galeri yang telah dibuat publik oleh @wordplay pembuat. Siapa pun dapat meminta agar galerinya ditampilkan di sini, dan seorang moderator membacanya terlebih dahulu untuk memastikan galeri itu selesai dan mengikuti aturan. Sebuah galeri dapat dihapus dari daftar ini kapan saja, untuk alasan apa pun. Galeri ditampilkan dalam urutan yang berbeda setiap kunjungan, sehingga setiap galeri mendapat giliran berada di dekat bagian atas."
@@ -10114,28 +10128,27 @@
                 "header": "$~Hak-hak",
                 "content": [
                     "$~Hai!",
-                    "Mari kita tetapkan beberapa ekspektasi tentang hak Anda dan hak kita (juga dengan mempertimbangkan kebijakan, seperti...)<COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> Dan<GDPR@https://gdpr.eu/compliance-checklist-us-companies/> ).",
-                    "Hal pertama yang perlu Anda ketahui adalah bahwa kami bukanlah entitas komersial. Kami adalah proyek penelitian berbasis komunitas yang berada di universitas nirlaba. Tujuan kami adalah menciptakan platform yang memberikan Anda kegembiraan dan membantu kami membuat penemuan tentang dunia komputasi yang lebih adil dan setara. Kami tidak tertarik menghasilkan uang dari platform ini; uang apa pun yang kami kumpulkan (biasanya melalui pendanaan publik) digunakan untuk mempertahankan platform, bukan untuk memperkaya siapa pun yang bekerja di dalamnya (atau berkontribusi padanya).",
-                    "Karena kami tidak mencari keuntungan, ini juga berarti bahwa kami tidak dapat memberikan janji apa pun tentang keandalan, ketersediaan, atau keberlangsungan platform ini. Meskipun demikian,<Amy@https://amyjko.phd> berkomitmen jangka panjang untuk mempertahankannya, dan sebagai profesor tetap, dia memiliki pekerjaan yang cukup stabil.",
-                    "Itu membawa kita ke *data*. Inilah yang kita kumpulkan dan simpan di cloud:",
-                    "• Proyek Anda. Kami menyimpan semua proyek yang Anda kontribusikan dan perubahan yang Anda lakukan pada proyek tersebut, kecuali jika proyek tersebut tampaknya berisi informasi yang dapat mengidentifikasi Anda secara pribadi, seperti nomor telepon, alamat email, nama pengguna, nomor identifikasi pajak, atau alamat.",
-                    "• Pengaturan Anda. Ini termasuk bahasa yang Anda pilih, preferensi animasi Anda, dan kemajuan tutorial Anda. Semua hal lainnya hanya tersimpan di perangkat Anda.",
-                    "• *Aktivitas* agregat. Kami melacak login dan halaman yang Anda kunjungi, tetapi bukan dengan cara yang dapat mengidentifikasi Anda, melacak Anda di seluruh situs, atau melacak Anda di situs lain. Kami menggunakan Google Analytics dalam mode 'persetujuan ditolak', yang hanya mengumpulkan informasi minimal yang tidak dapat diidentifikasi tentang tampilan halaman, tanpa menyimpan cookie, atau mengirim informasi alamat IP ke Google. Kami menggunakan informasi agregat ini untuk membantu penggalangan dana dengan melaporkan seberapa banyak platform ini digunakan.",
-                    "Kami tidak menyimpan apa pun selain itu. Kami<source@https://github.com/amyjko/wordplay/tree/main/src> Bersifat publik, sehingga siapa pun dapat memverifikasinya, dan melaporkan pelacakan yang tidak disengaja.",
-                    "*Anda* yang memiliki data Anda, bukan kami. Itu artinya:",
-                    "• Anda mengontrol siapa yang dapat mengakses proyek Anda. Secara default, proyek bersifat pribadi, tetapi Anda dapat membagikannya dengan individu, grup, atau membuatnya sepenuhnya publik.",
-                    "• Anda dapat menghapus sepenuhnya proyek apa pun atau akun Anda sendiri kapan saja.",
-                    "• Anda dapat mengekspor proyek apa pun atau seluruh akun Anda kapan saja.",
-                    "Berikut cara kami akan dan tidak akan menggunakan data Anda:",
-                    "• Kami tidak akan membagikan data Anda kepada siapa pun, kecuali jika secara eksplisit diwajibkan oleh hukum. Selalu ada kemungkinan data Anda diambil tanpa izin (disebut 'pelanggaran data'). Jika kami menemukan bahwa hal ini telah terjadi, kami akan memberi tahu Anda melalui email yang telah Anda berikan kepada kami.",
-                    "• Kami tidak akan menghubungi Anda melalui alamat email Anda kecuali jika Anda 1) melakukan perubahan akun yang mengharuskan kami untuk melakukannya, 2) Anda secara eksplisit memberi kami izin untuk menghubungi Anda, atau 3) dalam kasus pelanggaran data seperti yang disebutkan di atas.",
-                    "• Kami dapat menganalisis proyek, galeri, dan konten panduan di platform untuk memahami apa yang dibuat setiap orang dan bagaimana mereka membuatnya. Kami dapat membagikan wawasan yang telah dianonimkan dan dikumpulkan ini dalam publikasi akademis. Kami hanya akan melakukan ini di bawah pengawasan dewan peninjau institusional, sebagaimana diamanatkan oleh hukum federal AS.",
-                    "Terakhir, catatan tentang kebebasan berbicara. Anda dapat mengatakan apa pun yang Anda inginkan di platform ini secara *pribadi*. Proyek bersifat pribadi secara default, dan jika Anda membagikannya dengan alamat email tertentu, proyek tersebut tetap dianggap pribadi. Kami tidak akan memoderasi apa pun di proyek pribadi.",
-                    "Namun, mempublikasikan sebuah proyek, atau memasukkannya ke dalam galeri publik, adalah sebuah hak istimewa. Ini adalah platform yang dibuat untuk cinta, penegasan, rasa hormat, dan martabat. Oleh karena itu, kami mengharapkan bahwa tidak satu pun dari konten *publik* Anda akan:"
+                    "Ayo kita bahas hak kamu dan hak kami (juga sesuai aturan, seperti <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> dan <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Hal pertama yang perlu kamu tahu: kami bukan perusahaan bisnis. Kami adalah proyek riset berbasis komunitas yang ada di sebuah universitas nirlaba. Tujuan kami adalah membuat platform yang membuat kamu senang, dan membantu kami menemukan hal-hal baru tentang dunia komputer yang lebih adil dan setara. Kami tidak ingin mencari uang dari platform ini. Uang yang kami kumpulkan (biasanya dari dana publik) dipakai untuk menjaga platform ini tetap berjalan, bukan untuk menguntungkan siapa pun yang mengerjakannya (atau yang ikut berkontribusi).",
+                    "Karena kami tidak mencari keuntungan, kami juga tidak bisa berjanji soal keandalan, ketersediaan, atau berapa lama platform ini akan tetap ada. Meski begitu, <Amy@https://amyjko.phd> berkomitmen jangka panjang untuk menjaga platform ini. Sebagai profesor tetap, posisinya cukup stabil.",
+                    "Sekarang mari kita bahas *data*. Berikut yang kami kumpulkan dan simpan di cloud:",
+                    "• *Proyek* kamu. Kami menyimpan proyek yang kamu buat dan perubahan yang kamu lakukan, kecuali proyek itu tampak memuat informasi pribadi yang bisa dikenali, seperti nomor telepon, alamat email, nama pengguna, nomor identitas pajak, atau alamat rumah.",
+                    "• *Pengaturan* kamu. Ini termasuk bahasa yang kamu pilih, pengaturan animasi, dan kemajuan tutorial kamu. Semua hal lain hanya disimpan di perangkat kamu sendiri.",
+                    "• *Aktivitas* secara keseluruhan. Kami mencatat kapan kamu masuk dan halaman yang kamu kunjungi, tetapi tidak dengan cara yang bisa mengenali kamu, melacak kamu di dalam situs, atau melacak kamu di situs lain. Kami memakai Google Analytics dalam mode 'persetujuan ditolak', yang hanya mengumpulkan sedikit informasi tanpa identitas tentang tampilan halaman, tanpa menyimpan cookie, dan tanpa mengirim alamat IP ke Google. Kami memakai informasi ini untuk membantu mencari dana, dengan melaporkan seberapa banyak platform ini dipakai.",
+                    "Kami tidak menyimpan hal lain apa pun. <Kode sumber@https://github.com/amyjko/wordplay/tree/main/src> kami bersifat terbuka untuk umum, jadi siapa saja bisa memeriksanya, dan melaporkan jika ada pelacakan yang tidak semestinya.",
+                    "*Kamu* pemilik datamu, bukan kami. Artinya:",
+                    "• Kamu yang mengatur siapa yang bisa melihat proyekmu. Secara default proyekmu bersifat pribadi, tapi kamu bisa membagikannya ke orang tertentu, ke kelompok, atau membuatnya benar-benar terbuka untuk umum.",
+                    "• Kamu bisa menghapus sepenuhnya proyek mana pun, atau akunmu sendiri, kapan saja.",
+                    "• Kamu bisa mengambil salinan (ekspor) proyek mana pun, atau seluruh akunmu, kapan saja.",
+                    "Berikut cara kami memakai atau tidak memakai datamu:",
+                    "• Kami tidak akan membagikan datamu ke siapa pun, kecuali memang diwajibkan oleh hukum. Selalu ada kemungkinan datamu diambil tanpa izin (disebut 'pelanggaran data'). Jika kami menemukan hal ini terjadi, kami akan memberitahumu lewat email yang sudah kamu bagikan ke kami.",
+                    "• Kami tidak akan menghubungimu lewat email, kecuali 1) kamu melakukan perubahan akun yang mengharuskan kami menghubungimu, 2) kamu memberi izin secara jelas untuk kami menghubungimu, atau 3) terjadi pelanggaran data seperti disebut di atas.",
+                    "• Kami mungkin menganalisis proyek, galeri, dan panduan cara di platform ini untuk memahami apa yang dibuat orang-orang dan bagaimana mereka membuatnya. Kami mungkin membagikan hasil pengamatan ini dalam bentuk yang digabung dan tanpa identitas dalam publikasi ilmiah. Kami hanya akan melakukan ini di bawah pengawasan dewan etik lembaga, sesuai yang diwajibkan hukum federal Amerika Serikat.",
+                    "Terakhir, catatan tentang ucapan atau isi tulisan. Proyek bersifat pribadi secara default, dan membagikannya ke orang tertentu tetap membuatnya pribadi. Berikut ini adalah penjelasan siapa yang memeriksa apa yang kamu bagikan, sesuai siapa yang bisa melihatnya.",
+                    "Tapi membuat proyek menjadi *publik*, atau memasukkannya ke galeri publik, adalah sebuah keistimewaan. Platform ini dibuat dengan cinta, dukungan, rasa hormat, dan penghargaan pada martabat setiap orang. Karena itu, kami berharap tidak ada isi *publik* milikmu yang:"
                 ],
                 "consequences": [
-                    "$~Obrolan untuk proyek dan panduan yang ada di galeri publik atau pribadi tunduk pada moderasi oleh kurator galeri. Anda dapat melaporkan pesan yang melanggar pedoman komunitas ini kepada kurator menggunakan tombol laporkan di sebelah setiap pesan, dan kurator dapat menyetujui atau menghapus pesan tersebut.",
-                    "Jika kami menemukan proyek atau galeri yang melanggar aturan ini, kami akan memperingatkan pembuatnya sebelum mereka melihatnya, atau memblokirnya agar tidak dapat dilihat. Jika Anda berulang kali melanggar aturan ini, Anda akan kehilangan hak istimewa untuk memposting secara publik."
+                    "$~Jika kami menemukan proyek atau galeri yang melanggar aturan ini, kami akan memperingatkan pembuatnya sebelum orang lain melihatnya, atau memblokirnya agar tidak bisa dilihat. Jika kamu berulang kali melanggar aturan ini, kamu akan kehilangan hak untuk membagikan isi secara publik."
                 ],
                 "license": [
                     "$~Satu hal lagi tentang membuat proyek menjadi *publik*. Proyek publik dibagikan dengan <lisensi Creative Commons Attribution-ShareAlike@https://creativecommons.org/licenses/by-sa/4.0/>. Artinya, siapa pun boleh me-/remix/ proyek publikmu — membuat salinan sendiri dan mengubahnya — dan kamu boleh me-remix proyek milik orang lain.",
@@ -10151,6 +10164,17 @@
                     "$~Berikut ini yang terjadi jika konten publikmu melanggar aturan ini. Seorang moderator akan memeriksanya, konten itu berhenti menjadi publik, dan kamu mendapat peringatan di notifikasimu yang menyebutkan konten mana yang dimaksud. Siapa pun yang sudah masuk bisa meminta moderator memeriksa konten publik dengan tombol lapor pada konten tersebut.",
                     "Setelah tiga peringatan, kamu masih bisa membuat proyek, masih bisa membagikannya kepada orang yang kamu pilih, dan masih bisa memakai semua fitur lain di sini. Yang kamu kehilangan adalah kemampuan untuk membuat sesuatu menjadi publik.",
                     "Jika kamu merasa sebuah peringatan adalah kesalahan, atau peringatan itu sudah lama dan kamu ingin berbagi secara publik lagi, tulis surat ke hi@wordplay.dev dan beri tahu kami nama penggunamu serta alasannya. Seseorang akan membacanya."
+                ],
+                "responsibility": [
+                    "$~Siapa yang memeriksa apa yang kamu bagikan tergantung pada siapa yang bisa melihatnya.",
+                    "• *Dibagikan ke tidak ada orang, atau hanya ke orang yang kamu sebut namanya.* Tidak ada yang memeriksanya. Bukan kami, bukan siapa pun.",
+                    "• *Di galeri yang ada orang lain di dalamnya.* Kurator galeri itu memeriksanya, begitu juga obrolan yang menyertainya. Ini berlaku baik galeri itu publik atau tidak: orang-orang di dalamnya bisa melihat karyamu, jadi ada orang di sana yang bertanggung jawab atasnya.",
+                    "• *Di galeri publik.* Kuratornya memeriksanya, dan kami juga, karena siapa saja bisa menemukannya.",
+                    "• *Publik, dan tidak berada di galeri.* Kami yang memeriksanya.",
+                    "Siapa saja yang bisa melihat sesuatu bisa meminta agar hal itu diperiksa, dengan menggunakan tombol lapor pada hal itu. Kami tidak pernah memberi tahu pembuatnya siapa yang melaporkan.",
+                    "Melaporkan pesan obrolan akan menyembunyikannya sementara ada yang memeriksanya. Ini terjadi sekali untuk setiap pesan: jika pesan itu tetap disimpan dan seseorang melaporkannya lagi, pesan itu akan tetap terlihat selama diperiksa untuk kedua kalinya. Kamu selalu bisa melihat kata-katamu sendiri.",
+                    "Sebuah keputusan menyatakan aturan mana di atas yang dianggap dilanggar, dan bisa disertai catatan dari orang yang membuat keputusan itu. Kamu akan menerima keduanya di notifikasimu.",
+                    "Keputusan kurator galeri berlaku untuk galerinya sendiri. Itu bukan salah satu dari peringatan di bawah ini, dan tidak akan pernah membuatmu kehilangan kemampuan untuk berbagi secara publik."
                 ]
             },
             "donate": {
@@ -10560,7 +10584,7 @@
             "property": "$~Apakah proyek tersebut memiliki properti ini?"
         },
         "error": {
-            "notmod": "$~Sepertinya Anda bukan moderator. Jika Anda baru-baru ini diberi hak akses moderator, Anda mungkin perlu masuk lagi. Jika belum, lihat wiki untuk mengetahui cara meminta hak akses moderasi."
+            "notmod": "$~Tidak ada yang perlu kamu periksa di sini. Moderator Wordplay memeriksa konten publik, dan kurator galeri memeriksa apa yang ada di galeri mereka. Jika kamu baru saja diberi hak moderator, kamu mungkin perlu masuk lagi."
         },
         "report": {
             "button": "$~Beri tahu moderator",
@@ -10582,10 +10606,11 @@
         },
         "queue": {
             "label": "$~apa yang perlu diperiksa",
-            "labels": ["$~proyek", "$~galeri"],
+            "labels": ["$~proyek", "$~galeri", "$~pesan"],
             "tips": [
-                "$~periksa proyek yang telah dipublikasikan orang lain",
-                "$~periksa galeri yang meminta untuk dicantumkan secara publik"
+                "$~tinjau proyek yang telah dipublikasikan orang lain",
+                "$~periksa galeri yang meminta untuk dicantumkan secara publik",
+                "$~tinjau pesan yang dilaporkan orang di galeri yang kamu kelola"
             ]
         },
         "gallery": {
@@ -10610,6 +10635,12 @@
                 "approved": "$~$name sekarang tercantum secara publik.",
                 "denied": "$~$name tidak dicantumkan secara publik."
             }
+        },
+        "responsibility": {
+            "none": "$~Tidak ada yang memeriksa apa yang kamu bagikan di sini. Ini hanya bisa dilihat olehmu dan orang-orang yang kamu pilih.",
+            "curators": "$~Kurator dari <$name@://galleries> memeriksa apa yang dibagikan di sini, termasuk obrolannya.",
+            "both": "$~Kurator dari <$name@://galleries> memeriksa apa yang dibagikan di sini, begitu juga moderator Wordplay, karena siapa saja bisa melihatnya.",
+            "platform": "$~<moderators@://rights> Wordplay memeriksa ini, karena siapa saja bisa melihatnya."
         }
     },
     "gallery": {

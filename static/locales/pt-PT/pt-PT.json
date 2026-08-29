@@ -7285,8 +7285,8 @@
                 "curators": {
                     "header": "Curadores",
                     "explanation": [
-                        "Os curadores podem editar os projetos e as definições da galeria, bem como conversar sobre todos os projetos.",
-                        "Os curadores são responsáveis por moderar o conteúdo dos chats relacionados com projetos e tutoriais na galeria. Os chats denunciados pelos criadores podem ser encontrados no <painel de moderação da galeria@://galleries/moderation>."
+                        "$~Os curadores podem editar os projetos e as definições da galeria, e podem conversar em todos os projetos.",
+                        "/Os curadores analisam o que é reportado na sua galeria — projetos, comos, e as conversas que os acompanham — a partir da <página de moderação@://moderate>. A decisão de um curador aplica-se apenas à sua própria galeria; nunca é um dos <avisos@://rights> do Wordplay./"
                     ]
                 },
                 "creators": {
@@ -7326,11 +7326,11 @@
         },
         "gallerymoderation": {
             "header": "$~Moderação de Galeria",
-            "description": "As seguintes mensagens nas galerias que gere foram denunciadas pelos utilizadores para moderação.",
+            "description": "$~O que lhe pediram para analisar, dos mais antigos para os mais recentes. Uma decisão indica que regras foram violadas, e quem criou o conteúdo é informado da decisão tomada.",
             "labels": {
                 "message": "mensagem",
-                "reporter": "repórter",
-                "action": "ações do moderador"
+                "action": "ações do moderador",
+                "reason": "$~que regras foram quebradas"
             },
             "view": {
                 "label": "ver chat",
@@ -7345,7 +7345,11 @@
                 "tip": "Esta mensagem não viola as orientações."
             },
             "empty": "Nenhuma mensagem requer moderação.",
-            "error": "Precisa de estar logado para moderar galerias."
+            "error": "Precisa de estar logado para moderar galerias.",
+            "note": {
+                "description": "$~o que dizer a quem escreveu a mensagem",
+                "placeholder": "$~dizer-lhe algo (opcional)"
+            }
         },
         "howto": {
             "galleryView": {
@@ -8584,10 +8588,20 @@
                     "projectChatHeader": "Nova mensagem no projeto \"$name\"",
                     "howToChatHeader": "Nova mensagem no tutorial \"$title\"",
                     "moderationHeader": "A mensagem em \"$name\" requer moderação.",
-                    "link": "detalhes"
+                    "link": "detalhes",
+                    "reportedHeader": "$~Algo que fez em \"$title\" foi denunciado e está a ser revisto",
+                    "reportReceivedHeader": "$~A sua denúncia sobre \"$title\" foi enviada ao responsável",
+                    "decisionHeader": "$~Foi tomada uma decisão sobre algo que fez em \"$title\"",
+                    "outcomeHeader": "$~Foi tomada uma decisão sobre o que denunciou em \"$title\"",
+                    "because": "$~Porque:",
+                    "note": "$~Disseram:"
                 },
                 "delete": "apagar esta notificação",
-                "popup": "$~$#count[1 notificação|$#count notificações|$count notificações]"
+                "popup": "$~$#count[1 notificação|$#count notificações|$count notificações]",
+                "moderate": {
+                    "label": "$~rever conteúdo denunciado",
+                    "tip": "$~ir para as coisas à espera de ser revistas por si"
+                }
             },
             "locale": {
                 "header": "Idioma",
@@ -9493,8 +9507,8 @@
                         ]
                     },
                     "own": [
-                        "Contribua para uma galeria para a qual seja convidado ou organize a sua própria galeria com um tema específico e convide outras pessoas.",
-                        "Os curadores são responsáveis por moderar o conteúdo das galerias utilizando o <painel de moderação da galeria@://galleries/moderation>."
+                        "$~Contribua para uma galeria para a qual foi convidado(a), ou seja curador(a) da sua própria galeria com um tema específico, e convide outras pessoas.",
+                        "/Os curadores analisam o que é reportado na sua galeria, a partir da <página de moderação@://moderate>./"
                     ],
                     "examples": "Estas são galerias selecionadas pelos desenvolvedores do @wordplay. São ótimos pontos de partida para aprendizagem e inspiração.",
                     "public": "$~Estas são galerias que @wordplay criadores(as) tornaram públicas. Qualquer pessoa pode pedir para que a sua galeria apareça aqui. Um(a) moderador(a) lê a galeria primeiro para confirmar que está terminada e que segue as regras. Uma galeria pode ser retirada desta lista a qualquer momento, por qualquer motivo. As galerias aparecem numa ordem diferente em cada visita, para que todas tenham a sua vez perto do topo."
@@ -9986,29 +10000,28 @@
             "rights": {
                 "header": "Direitos",
                 "content": [
-                    "Olá!",
-                    "Vamos estabelecer algumas expectativas sobre os seus direitos e os nossos (também à luz de políticas como a <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> e o <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
-                    "A primeira coisa a saber é que não somos uma entidade empresarial. Somos um projeto de investigação comunitária sediado numa universidade sem fins lucrativos. O nosso objetivo é criar uma plataforma que lhe traga alegria e nos ajude a fazer descobertas sobre um mundo da computação mais equitativo e justo. Não temos qualquer interesse em lucrar com esta plataforma; qualquer dinheiro que angariarmos (geralmente através de financiamento público) é utilizado para manter a plataforma, e não para enriquecer ninguém que nela trabalhe (ou contribua para ela).",
-                    "Como não visamos o lucro, isto também significa que não podemos fazer promessas sobre a fiabilidade, disponibilidade ou longevidade desta plataforma. Posto isto, <Amy@https://amyjko.phd> está empenhada na sua manutenção a longo prazo e, como professora catedrática, tem um emprego bastante estável.",
-                    "Isto leva-nos aos *dados*. Eis o que recolhemos e armazenamos na nuvem:",
-                    "• Os seus *projetos*. Armazenamos todos os projetos para os quais contribui e as alterações que lhes faz, a menos que esses projetos pareçam conter informações de identificação pessoal, como números de telefone, endereços de e-mail, nomes de utilizador, identificadores fiscais ou endereços.",
-                    "• As suas *configurações*. Isto inclui os idiomas que escolher, as suas preferências de animação e o seu progresso no tutorial. Tudo o resto fica armazenado apenas no seu dispositivo.",
-                    "• Atividade agregada. Monitorizamos os logins e as páginas que visita, mas não de forma que lhe permita identificá-lo, rastreá-lo em todo o site ou noutros sites. Utilizamos o Google Analytics no modo \"consentimento negado\", que recolhe apenas informações mínimas e não identificáveis sobre as visualizações de página, sem armazenar cookies ou enviar informações de endereço IP para o Google. Utilizamos estas informações agregadas para ajudar na angariação de fundos, relatando o quanto a plataforma está a ser utilizada.",
-                    "Não armazenamos mais nada. O nosso <source@https://github.com/amyjko/wordplay/tree/main/src> é público, pelo que qualquer pessoa pode verificar isto e reportar qualquer rastreio não intencional.",
-                    "*Você* é o dono dos seus dados, não nós. Isto significa:",
-                    "• Você controla quem pode aceder aos seus projetos. São privados por defeito, mas pode partilhá-los com indivíduos, grupos ou torná-los totalmente públicos.",
-                    "• Pode eliminar completamente qualquer projeto ou a sua própria conta a qualquer momento.",
-                    "• Pode exportar qualquer projeto ou toda a sua conta a qualquer momento.",
-                    "Eis como utilizaremos e não utilizaremos os seus dados:",
-                    "• Não partilharemos os seus dados com ninguém, a menos que sejamos expressamente obrigados por lei. É sempre possível que os seus dados sejam obtidos sem a sua permissão (uma \"violação de dados\"). Caso isso aconteça, iremos notificá-lo através do e-mail que nos forneceu.",
-                    "• Não entraremos em contacto consigo através do seu endereço de e-mail, a menos que 1) faça uma alteração à sua conta que o exija, 2) nos dê consentimento explícito para entrarmos em contacto consigo ou 3) no caso de violação de dados acima mencionado.",
-                    "• Podemos analisar projetos, galerias e conteúdos explicativos na plataforma para compreender o que todos estão a criar e como o estão a criar. Podemos partilhar estas informações agregadas e anonimizadas em publicações académicas. Fá-lo-emos apenas sob a supervisão de um comité de ética em investigação, conforme exigido pela legislação federal dos EUA.",
-                    "Por fim, uma observação sobre a liberdade de expressão. Pode dizer o que quiser nesta plataforma em *privado*. Os projetos são privados por defeito e, mesmo que os partilhe com endereços de e-mail específicos, continuarão a ser considerados privados. Não moderaremos nada em projetos privados.",
-                    "Mas tornar um projeto *público*, ou incluí-lo numa galeria pública, é um privilégio. Esta é uma plataforma criada para o amor, a afirmação, o respeito e a dignidade. Assim, esperamos que nenhum dos seus conteúdos *públicos*:"
+                    "$~Olá!",
+                    "Vamos definir algumas expectativas sobre os seus direitos e os nossos (também à luz de políticas como a <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> e o <RGPD@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "A primeira coisa a saber é que não somos uma entidade comercial. Somos um projeto de investigação comunitário, sediado numa universidade sem fins lucrativos. O nosso objetivo é criar uma plataforma que lhe traga alegria e nos ajude a fazer descobertas sobre um mundo da computação mais justo e equitativo. Não temos qualquer interesse em ganhar dinheiro com esta plataforma. Qualquer dinheiro que reunamos (normalmente através de financiamento público) é usado para sustentar a plataforma, não para enriquecer quem trabalha nela (ou quem contribui para ela).",
+                    "Como não procuramos lucro, isto também significa que não podemos fazer promessas sobre a fiabilidade, a disponibilidade ou a duração desta plataforma. Dito isto, <Amy@https://amyjko.phd> está comprometida a longo prazo em mantê-la, e, como professora com lugar efetivo, tem um trabalho bastante estável.",
+                    "Isto leva-nos aos *dados*. Eis o que reunimos e guardamos na nuvem:",
+                    "• Os seus *projetos*. Guardamos quaisquer projetos com que contribua e as suas alterações a eles, a não ser que esses projetos pareçam conter informação pessoal identificável, como números de telefone, endereços de email, nomes de utilizador, números de identificação fiscal ou moradas.",
+                    "• As suas *definições*. Isto inclui os idiomas que escolhe, as suas preferências de animação e o seu progresso no tutorial. Tudo o resto fica guardado apenas no seu dispositivo.",
+                    "• *Atividade* agregada. Registamos as entradas na conta e as páginas que visita, mas não de uma forma que possa identificá-lo(a), seguir os seus passos pelo site ou seguir os seus passos por outros sites. Usamos o Google Analytics em modo de 'consentimento negado', que apenas reúne informação mínima e não identificável sobre visualizações de páginas, sem guardar cookies nem enviar informação do endereço IP à Google. Usamos esta informação agregada para ajudar a angariar financiamento, mostrando o quanto a plataforma está a ser usada.",
+                    "Não guardamos mais nada. O nosso <código-fonte@https://github.com/amyjko/wordplay/tree/main/src> é público, para que qualquer pessoa possa verificar isto e denunciar qualquer rastreio não pretendido.",
+                    "*Você* é o(a) dono(a) dos seus dados, não nós. Isto significa que:",
+                    "• Controla quem pode aceder aos seus projetos. Eles são privados por predefinição, mas pode partilhá-los com pessoas, grupos, ou torná-los completamente públicos.",
+                    "• Pode eliminar por completo qualquer projeto ou a sua própria conta a qualquer momento.",
+                    "• Pode obter uma exportação de qualquer projeto ou de toda a sua conta a qualquer momento.",
+                    "Eis como vamos e não vamos usar os seus dados:",
+                    "• Não vamos partilhar os seus dados com ninguém, a não ser que a lei o exija explicitamente. É sempre possível que os seus dados sejam obtidos sem autorização (uma 'violação de dados'). Se descobrirmos que isto aconteceu, vamos avisá-lo(a) através do email que partilhou connosco.",
+                    "• Não vamos contactá-lo(a) através do seu endereço de email, a não ser que: 1) faça uma alteração na conta que nos obrigue a isso, 2) dê o seu consentimento explícito para o fazermos, ou 3) no caso de uma violação de dados, como referido acima.",
+                    "• Podemos analisar projetos, galerias e conteúdos de ajuda na plataforma para perceber o que todos estão a criar e como o estão a fazer. Podemos partilhar estas informações agregadas e anónimas em publicações académicas. Só faremos isto sob a supervisão de uma comissão de ética institucional, conforme exigido pela lei federal dos Estados Unidos.",
+                    "Por fim, uma nota sobre a liberdade de expressão. Os projetos são privados por predefinição, e partilhar um projeto com pessoas específicas mantém-no privado. Ninguém modera um projeto privado. Colocar um projeto numa galeria é diferente: todas as pessoas nessa galeria podem vê-lo, pelo que os(as) curadores(as) dessa galeria são responsáveis por ele e pela sua conversa, seja a galeria pública ou não.",
+                    "Mas tornar um projeto *público*, ou incluí-lo numa galeria pública, é um privilégio. Esta é uma plataforma feita com amor, afirmação, respeito e dignidade. Por isso, esperamos que nenhum dos seus conteúdos *públicos*:"
                 ],
                 "consequences": [
-                    "Os chats de projetos e tutoriais em galerias públicas ou privadas estão sujeitos à moderação dos curadores. Pode denunciar mensagens que violem estas diretrizes da comunidade aos curadores, utilizando o botão de denúncia ao lado de cada mensagem. Os curadores podem aprovar ou remover as mensagens.",
-                    "Se encontrarmos um projeto ou galeria que viole estas regras, avisaremos os criadores antes de o visualizarem ou bloquearemos a visualização. Se violar estas regras repetidamente, perderá o privilégio de publicar publicamente."
+                    "$~Se encontrarmos um projeto ou galeria que viole estas regras, avisamos os criadores antes de o verem, ou impedimos que seja visto. Se violar estas regras repetidamente, perde o privilégio de publicar conteúdos publicamente."
                 ],
                 "license": [
                     "$~Mais uma coisa sobre tornar um projeto *público*. Os projetos públicos são partilhados sob a <licença Creative Commons Atribuição-CompartilhaIgual@https://creativecommons.org/licenses/by-sa/4.0/>. Isso significa que qualquer pessoa pode /remisturar/ o teu projeto público — fazer a sua própria cópia dele e mudá-lo — e tu podes remisturar o de qualquer outra pessoa.",
@@ -10024,6 +10037,17 @@
                     "$~Aqui está exatamente o que acontece se o seu conteúdo público não cumprir estas regras. Um(a) moderador(a) revê-o, ele deixa de ser público, e recebe um aviso nas suas notificações a dizer qual é. Qualquer pessoa com sessão iniciada pode pedir a um(a) moderador(a) que analise conteúdo público usando o botão de denúncia nesse conteúdo.",
                     "Após três avisos, ainda pode criar projetos, ainda pode partilhá-los com as pessoas que escolher, e ainda pode usar tudo o resto aqui. O que perde é a capacidade de tornar algo público.",
                     "Se acha que um aviso foi um erro, ou se foi há muito tempo e gostaria de voltar a partilhar publicamente, escreva para hi@wordplay.dev e diga-nos o seu nome de utilizador e o motivo. Uma pessoa vai ler a sua mensagem."
+                ],
+                "responsibility": [
+                    "$~Quem analisa o que partilha depende de quem o pode ver.",
+                    "• *Partilhado com ninguém, ou apenas com pessoas que indicou.* Ninguém o analisa. Nem nós, nem mais ninguém.",
+                    "• *Numa galeria com outras pessoas.* Os curadores dessa galeria analisam-no, assim como as conversas que o acompanham. Isto aplica-se quer a galeria seja pública ou não: as pessoas que lá estão podem ver o seu trabalho, por isso alguém ali é responsável por ele.",
+                    "• *Numa galeria pública.* Os seus curadores analisam-no, e nós também, porque qualquer pessoa o pode encontrar.",
+                    "• *Público, e fora de uma galeria.* Nós analisamo-lo.",
+                    "Qualquer pessoa que consiga ver algo pode pedir que seja analisado, usando o botão de reportar. Nunca dizemos a quem criou o conteúdo quem fez o pedido.",
+                    "Reportar uma mensagem de conversa esconde-a enquanto alguém a analisa. Isto acontece uma vez por mensagem: se for mantida e alguém a reportar de novo, fica visível enquanto é analisada uma segunda vez. Pode sempre ver as suas próprias palavras.",
+                    "Uma decisão indica quais das regras acima foram violadas, e pode incluir uma nota de quem decidiu. Vai receber ambas nas suas notificações.",
+                    "A decisão de um curador de galeria aplica-se apenas à sua galeria. Não é um dos avisos abaixo, e nunca pode fazer com que perca a capacidade de partilhar publicamente."
                 ]
             },
             "donate": {
@@ -10549,7 +10573,7 @@
             "property": "Se o projeto possuir esta propriedade"
         },
         "error": {
-            "notmod": "Parece que não é moderador. Se recebeu privilégios de moderador recentemente, poderá ter de fazer login novamente. Caso contrário, consulte o wiki para saber como solicitar privilégios de moderação."
+            "notmod": "$~Não há aqui nada para analisar. Os moderadores do Wordplay analisam conteúdo público, e os curadores de uma galeria analisam o que está na sua galeria. Se recebeu privilégios de moderador(a) recentemente, pode ser necessário iniciar sessão novamente."
         },
         "report": {
             "button": "$~Alertar moderador(a)",
@@ -10571,10 +10595,11 @@
         },
         "queue": {
             "label": "$~o que rever",
-            "labels": ["$~projetos", "$~galerias"],
+            "labels": ["$~projetos", "$~galerias", "$~mensagens"],
             "tips": [
                 "$~rever projetos que as pessoas tornaram públicos",
-                "$~rever galerias que pedem para ser listadas publicamente"
+                "$~rever galerias que pedem para ser listadas publicamente",
+                "$~rever mensagens denunciadas nas galerias que cura"
             ]
         },
         "gallery": {
@@ -10599,6 +10624,12 @@
                 "approved": "$~$name está agora listada publicamente.",
                 "denied": "$~$name não foi listada publicamente."
             }
+        },
+        "responsibility": {
+            "none": "$~Ninguém analisa o que partilha aqui. Só é visível para si e para as pessoas que escolher.",
+            "curators": "$~Os curadores de <$name@://galleries> analisam o que é partilhado aqui, incluindo as suas conversas.",
+            "both": "$~Os curadores de <$name@://galleries> analisam o que é partilhado aqui, e os moderadores do Wordplay também, porque qualquer pessoa o pode ver.",
+            "platform": "$~Os <moderadores@://rights> do Wordplay analisam isto, porque qualquer pessoa o pode ver."
         }
     },
     "gallery": {

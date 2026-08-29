@@ -7290,8 +7290,8 @@
                 "curators": {
                     "header": "$~Curatori",
                     "explanation": [
-                        "$~Curatorii pot edita proiectele și setările galeriei și pot discuta despre toate proiectele.",
-                        "Curatorii sunt responsabili de moderarea conținutului chat-urilor asociate cu proiectele și instrucțiunile din galerie. Chat-urile raportate de creatori pot fi găsite pe<gallery moderation dashboard@://galleries/moderation> ./"
+                        "$~Curatorii pot edita proiectele și setările galeriei și pot discuta pe orice proiect.",
+                        "/Curatorii verifică ce este semnalat în galeria lor — proiecte, instrucțiuni și discuțiile care le însoțesc — din <pagina de moderare@://moderate>. Decizia unui curator se aplică doar galeriei lui; nu este niciodată una dintre <regulile@://rights> Wordplay./"
                     ]
                 },
                 "creators": {
@@ -7331,11 +7331,11 @@
         },
         "gallerymoderation": {
             "header": "$~Moderare galerie",
-            "description": "$~Următoarele mesaje din galeriile pe care le gestionați au fost raportate de utilizatori pentru moderare.",
+            "description": "$~Ce ți-au cerut oamenii să verifici, cel mai vechi primul. O decizie arată ce reguli s-au încălcat, iar cel care a creat lucrul este anunțat ce ai decis.",
             "labels": {
                 "message": "$~mesaj",
-                "reporter": "$~reporter",
-                "action": "$~acțiuni ale moderatorului"
+                "action": "$~acțiuni ale moderatorului",
+                "reason": "$~ce reguli a încălcat"
             },
             "view": {
                 "label": "$~vizualizare chat",
@@ -7350,7 +7350,11 @@
                 "tip": "$~Acest mesaj nu încalcă regulile"
             },
             "empty": "$~Niciun mesaj nu necesită moderare",
-            "error": "$~Trebuie să fii autentificat pentru a modera galerii"
+            "error": "$~Trebuie să fii autentificat pentru a modera galerii",
+            "note": {
+                "description": "$~ce să-i spui persoanei care a scris mesajul",
+                "placeholder": "$~spune-le ceva (opțional)"
+            }
         },
         "howto": {
             "galleryView": {
@@ -8599,10 +8603,20 @@
                     "projectChatHeader": "$~Mesaj nou în proiectul „ $name ”",
                     "howToChatHeader": "$~Mesaj nou în instrucțiunile „ $title ”",
                     "moderationHeader": "$~Mesajul din „ $name ” necesită acțiune de moderare",
-                    "link": "$~detalii"
+                    "link": "$~detalii",
+                    "reportedHeader": "$~Ceva ce ai făcut în „$title” a fost raportat și este verificat",
+                    "reportReceivedHeader": "$~Raportul tău despre „$title” a fost trimis persoanei responsabile",
+                    "decisionHeader": "$~S-a luat o decizie despre ceva ce ai făcut în „$title”",
+                    "outcomeHeader": "$~S-a luat o decizie despre ce ai raportat în „$title”",
+                    "because": "$~Pentru că:",
+                    "note": "$~Ei au spus:"
                 },
                 "delete": "$~ștergeți această notificare",
-                "popup": "$~$#count[o notificare|$#count notificări|$count de notificări]"
+                "popup": "$~$#count[o notificare|$#count notificări|$count de notificări]",
+                "moderate": {
+                    "label": "$~verifică conținutul raportat",
+                    "tip": "$~mergi la lucrurile care așteaptă să fie verificate de tine"
+                }
             },
             "locale": {
                 "header": "$~Limbă",
@@ -9616,8 +9630,8 @@
                         ]
                     },
                     "own": [
-                        "$~Contribuie la o galerie la care ești invitat sau creează-ți propria galerie cu o anumită temă și invită și alte persoane.",
-                        "Curatorii sunt responsabili de moderarea conținutului din galerii folosind<gallery moderation dashboard@://galleries/moderation> ./"
+                        "$~Contribuie la o galerie la care ești invitat sau administrează propria ta galerie cu o temă anume și invită și alți oameni.",
+                        "/Curatorii verifică ce este semnalat în galeria lor, din <pagina de moderare@://moderate>./"
                     ],
                     "examples": "$~Acestea sunt galerii atent selecționate de dezvoltatorii @wordplay. Sunt puncte de plecare bune pentru învățare și inspirație.",
                     "public": "$~Acestea sunt galerii pe care creatorii @wordplay le-au făcut publice. Oricine poate cere ca galeria lui să fie listată aici, iar un moderator o citește întâi ca să se asigure că este terminată și respectă regulile. O galerie poate fi scoasă din această listă în orice moment, din orice motiv. Sunt arătate într-o ordine diferită la fiecare vizită, astfel încât fiecare galerie își are rândul aproape de vârf."
@@ -10109,29 +10123,28 @@
             "rights": {
                 "header": "$~Drepturi",
                 "content": [
-                    "$~Hi!",
-                    "Să stabilim câteva așteptări cu privire la drepturile dumneavoastră și ale noastre (și în lumina politicii, cum ar fi<COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> şi<GDPR@https://gdpr.eu/compliance-checklist-us-companies/> ).",
-                    "Primul lucru de știut este că nu suntem o entitate comercială. Suntem un proiect de cercetare bazat pe comunitate, găzduit de o universitate non-profit. Scopul nostru este să creăm o platformă care să vă aducă bucurie și să ne ajute să facem descoperiri despre o lume a informaticii mai echitabilă și mai dreaptă. Nu avem niciun interes să câștigăm bani pe această platformă; orice bani pe care îi strângem (de obicei prin finanțare publică) sunt folosiți pentru a susține platforma, nu pentru a îmbogăți pe nimeni care lucrează la ea (sau contribuie la ea).",
-                    "Deoarece nu urmărim profitul, aceasta înseamnă și că nu putem face nicio promisiune cu privire la fiabilitatea, disponibilitatea sau longevitatea acestei platforme. Acestea fiind spuse,<Amy@https://amyjko.phd> este dedicată pe termen lung menținerii acestuia și, în calitate de profesoară titulară, are un loc de muncă destul de stabil.",
-                    "Asta ne aduce la *date*. Iată ce colectăm și stocăm în cloud:",
-                    "• *Proiectele* dumneavoastră. Stocăm orice proiecte la care contribuiți și modificările aduse acestora, cu excepția cazului în care respectivele proiecte par să conțină informații de identificare personală, cum ar fi numere de telefon, adrese de e-mail, nume de utilizator, coduri de identificare fiscală sau adrese.",
-                    "• *Setările* tale. Acestea includ limbile pe care le alegi, preferințele de animație și progresul tutorialului. Toate celelalte sunt stocate doar pe dispozitivul tău.",
-                    "• *Activitate* agregată. Urmărim conectările și paginile pe care le vizitați, dar nu într-un mod care să vă poată identifica, să vă poată urmări pe site sau pe alte site-uri. Folosim Google Analytics în modul „consimțământ refuzat”, care colectează doar informații minime neidentificabile despre vizualizările paginilor, fără a stoca cookie-uri sau a trimite informații despre adresa IP către Google. Folosim aceste informații agregate pentru a ajuta la strângerea de fonduri prin raportarea gradului de utilizare a platformei.",
-                    "Nu depozităm nimic altceva. Al nostru<source@https://github.com/amyjko/wordplay/tree/main/src> este public, deci oricine poate verifica acest lucru și raporta orice urmărire neintenționată.",
-                    "*Tu* deții datele tale, nu noi. Asta înseamnă:",
-                    "• Tu controlezi cine poate accesa proiectele tale. Acestea sunt private în mod implicit, dar le poți partaja cu persoane, grupuri sau le poți face complet publice.",
-                    "• Puteți șterge complet orice proiect sau propriul cont în orice moment.",
-                    "• Puteți obține oricând un export al oricărui proiect sau al întregului cont.",
-                    "Iată cum vom folosi și cum nu vom folosi datele dumneavoastră:",
-                    "• Nu vom partaja datele dumneavoastră cu nimeni, cu excepția cazului în care acest lucru este impus în mod explicit de lege. Este întotdeauna posibil ca datele dumneavoastră să fie luate fără permisiune (o „încălcare a securității datelor”). Dacă descoperim că s-a întâmplat acest lucru, vă vom notifica în acest sens folosind adresa de e-mail pe care ne-ați partajat-o.",
-                    "• Nu vă vom contacta prin intermediul adresei dvs. de e-mail decât dacă 1) faceți o modificare a contului care ne obligă la acest lucru, 2) ne dați consimțământul explicit pentru a vă contacta sau 3) în cazul încălcării securității datelor menționate mai sus.",
-                    "• Este posibil să analizăm proiecte, galerii și modalități de creare a conținutului pe platformă pentru a înțelege ce creează fiecare și cum îl creează. Este posibil să distribuim aceste informații agregate și anonimizate în publicații academice. Vom face acest lucru numai sub supravegherea unui comitet instituțional de evaluare, așa cum prevede legea federală a SUA.",
-                    "În final, o notă despre exprimare. Puteți spune orice doriți pe această platformă în modul *privat*. Proiectele sunt private în mod implicit și, dacă le partajați cu anumite adrese de e-mail, acestea sunt considerate în continuare private. Nu vom modera nimic din proiectele private.",
-                    "Însă a face un proiect *public* sau a-l include într-o galerie publică este un privilegiu. Aceasta este o platformă creată pentru dragoste, afirmare, respect și demnitate. Prin urmare, ne așteptăm ca niciunul dintre conținuturile tale *publice* să nu:"
+                    "$~Bună!",
+                    "Hai să stabilim câteva lucruri clare despre drepturile tale și ale noastre (și ținând cont de reguli precum <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> și <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Primul lucru pe care trebuie să-l știi este că noi nu suntem o firmă comercială. Suntem un proiect de cercetare făcut de o comunitate, găzduit de o universitate non-profit. Scopul nostru este să creăm o platformă care să-ți aducă bucurie și care să ne ajute să descoperim o lume a calculatoarelor mai dreaptă și mai echitabilă. Nu vrem să facem bani din această platformă. Orice bani strângem (de obicei prin finanțare publică) sunt folosiți doar pentru a menține platforma în funcțiune, nu pentru a îmbogăți pe cineva care lucrează la ea (sau contribuie la ea).",
+                    "Pentru că nu căutăm profit, asta înseamnă și că nu putem promite nimic despre cât de sigură, disponibilă sau durabilă va fi această platformă. Totuși, <Amy@https://amyjko.phd> s-a angajat pe termen lung să o susțină, iar ca profesoară titulară, are un loc de muncă destul de stabil.",
+                    "Asta ne aduce la *date*. Iată ce strângem și păstrăm în cloud:",
+                    "• *Proiectele* tale. Păstrăm orice proiect la care contribui și modificările tale, cu excepția cazului în care aceste proiecte par să conțină informații care te-ar putea identifica personal, cum ar fi numere de telefon, adrese de email, nume de utilizator, coduri fiscale sau adrese.",
+                    "• *Setările* tale. Aici includem limbile pe care le alegi, preferințele tale de animație și progresul tău în tutorial. Tot restul este păstrat doar pe dispozitivul tău.",
+                    "• *Activitatea* generală. Urmărim autentificările și paginile pe care le vizitezi, dar nu într-un mod care te poate identifica, urmări pe tot site-ul sau urmări pe alte site-uri. Folosim Google Analytics în modul „consimțământ refuzat”, care strânge doar informații minime, neidentificabile, despre vizualizările paginilor, fără să salveze cookie-uri sau să trimită adresa ta de IP către Google. Folosim aceste informații generale ca să obținem finanțare, arătând cât de mult este folosită platforma.",
+                    "Nu păstrăm nimic altceva. <Codul nostru sursă@https://github.com/amyjko/wordplay/tree/main/src> este public, așa că oricine poate verifica asta și poate semnala orice urmărire neintenționată.",
+                    "*Tu* deții datele tale, nu noi. Asta înseamnă că:",
+                    "• Tu controlezi cine poate accesa proiectele tale. Sunt private în mod implicit, dar le poți împărtăși cu anumite persoane, cu grupuri, sau le poți face complet publice.",
+                    "• Poți șterge complet orice proiect sau propriul cont, oricând.",
+                    "• Poți obține o copie exportată a oricărui proiect sau a întregului tău cont, oricând.",
+                    "Iată cum vom folosi și cum nu vom folosi datele tale:",
+                    "• Nu vom împărtăși datele tale cu nimeni, decât dacă legea ne obligă în mod explicit. Există mereu posibilitatea ca datele tale să fie luate fără voie (o „scurgere de date”). Dacă descoperim că s-a întâmplat asta, te vom anunța folosind adresa de email pe care ne-ai dat-o.",
+                    "• Nu te vom contacta prin adresa ta de email decât dacă: 1) faci o schimbare de cont care ne obligă să o facem, 2) ne dai voie în mod explicit să te contactăm, sau 3) în cazul unei scurgeri de date, așa cum am explicat mai sus.",
+                    "• Putem analiza proiectele, galeriile și instrucțiunile de pe platformă, ca să înțelegem ce creează toată lumea și cum o face. Putem împărtăși aceste observații generale și anonimizate în publicații academice. Vom face asta doar sub supravegherea unei comisii de etică instituțională, așa cum cere legea federală din Statele Unite.",
+                    "În final, câteva cuvinte despre exprimare. Proiectele sunt private în mod implicit, iar dacă împărtășești un proiect doar cu anumite persoane, el rămâne privat. Mai jos explicăm exact cine verifică ce împărtășești, în funcție de cine îl poate vedea.",
+                    "Dar să faci un proiect *public*, sau să-l incluzi într-o galerie publică, este un privilegiu. Aceasta este o platformă făcută cu iubire, susținere, respect și demnitate. De aceea, așteptăm ca niciun conținut *public* al tău să nu:"
                 ],
                 "consequences": [
-                    "$~Chat-urile pentru proiecte și tutoriale care se află în galerii publice sau private sunt supuse moderării de către curatorii galeriei. Puteți raporta curatorilor mesajele care încalcă aceste reguli ale comunității folosind butonul de raportare de lângă fiecare mesaj, iar curatorii pot aproba sau elimina mesajele.",
-                    "Dacă găsim un proiect sau o galerie care încalcă aceste reguli, vom avertiza creatorii înainte ca aceștia să îl vizualizeze sau îi vom bloca vizualizarea. Dacă încălcați în mod repetat aceste reguli, veți pierde privilegiul de a posta public."
+                    "$~Dacă găsim un proiect sau o galerie care încalcă aceste reguli, îi vom avertiza pe creatori înainte ca alții să îl vadă, sau vom bloca vizualizarea lui. Dacă încalci aceste reguli în mod repetat, vei pierde privilegiul de a publica lucruri în mod public."
                 ],
                 "license": [
                     "$~Încă un lucru despre a face un proiect *public*. Proiectele publice sunt împărtășite sub <licența Creative Commons Atribuire-Distribuire în condiții identice@https://creativecommons.org/licenses/by-sa/4.0/>. Asta înseamnă că oricine poate /remixa/ proiectul tău public — poate să facă propria copie a lui și să o schimbe — iar tu poți remixa proiectul oricui altcuiva.",
@@ -10147,6 +10160,17 @@
                     "$~Iată exact ce se întâmplă dacă un conținut public de-al tău încalcă aceste reguli. Un moderator îl verifică, el nu mai este public, iar tu primești un avertisment în notificările tale care spune despre care este vorba. Oricine este autentificat poate cere unui moderator să verifice un conținut public, folosind butonul de raportare de pe el.",
                     "După trei avertismente încă poți face proiecte, încă le poți partaja cu oamenii pe care îi alegi și încă poți folosi tot restul de aici. Ce pierzi este posibilitatea de a face ceva public.",
                     "Dacă crezi că un avertisment a fost o greșeală, sau a trecut mult timp de atunci și ai vrea să partajezi din nou public, scrie-ne la hi@wordplay.dev și spune-ne numele tău de utilizator și motivul. O persoană va citi mesajul tău."
+                ],
+                "responsibility": [
+                    "$~Cine analizează ce trimiți depinde de cine îl poate vedea.",
+                    "• *Trimis fără nimeni, sau doar cu persoane numite de tine.* Nimeni nu îl analizează. Nici noi, nici altcineva.",
+                    "• *Într-o galerie cu alte persoane în ea.* Curatorii acelei galerii îl analizează, la fel și discuțiile care îl însoțesc. Asta este valabil fie că galeria este publică sau nu: persoanele din ea îți pot vedea munca, deci cineva de acolo răspunde pentru ea.",
+                    "• *Într-o galerie publică.* Curatorii ei îl analizează, și noi la fel, pentru că oricine îl poate găsi.",
+                    "• *Public, dar nu într-o galerie.* Noi îl analizăm.",
+                    "Oricine poate vedea ceva poate cere ca acel lucru să fie analizat, folosind butonul de semnalare de pe el. Nu îi spunem niciodată persoanei care l-a creat cine a făcut semnalarea.",
+                    "Semnalarea unui mesaj de chat îl ascunde cât timp cineva îl analizează. Asta se întâmplă o singură dată pentru fiecare mesaj: dacă mesajul rămâne și cineva îl semnalează din nou, rămâne vizibil cât timp este analizat a doua oară. Îți poți vedea mereu propriile cuvinte.",
+                    "O decizie arată care dintre regulile de mai sus au fost încălcate și poate avea o notă de la cel care a decis. Vei primi ambele în notificările tale.",
+                    "Decizia unui curator de galerie se aplică doar galeriei sale. Nu este unul dintre avertismentele de mai jos și nu poate niciodată să îți ia dreptul de a trimite lucruri public."
                 ]
             },
             "donate": {
@@ -10556,7 +10580,7 @@
             "property": "$~Dacă proiectul are această proprietate"
         },
         "error": {
-            "notmod": "$~Se pare că nu ești moderator. Dacă ți s-au acordat recent privilegii de moderator, este posibil să fie nevoie să te autentifici din nou. Dacă nu, consultă wiki-ul pentru a afla cum să soliciți privilegii de moderare."
+            "notmod": "$~Nu ai nimic de analizat aici. Moderatorii Wordplay analizează conținutul public, iar curatorii unei galerii analizează ce se află în galeria lor. Dacă ai primit recent drepturi de moderator, s-ar putea să trebuiască să te autentifici din nou."
         },
         "report": {
             "button": "$~Alertează un moderator",
@@ -10578,10 +10602,11 @@
         },
         "queue": {
             "label": "$~ce să verifici",
-            "labels": ["$~proiecte", "$~galerii"],
+            "labels": ["$~proiecte", "$~galerii", "$~mesaje"],
             "tips": [
                 "$~verifică proiectele pe care oamenii le-au făcut publice",
-                "$~verifică galeriile care cer să fie listate public"
+                "$~verifică galeriile care cer să fie listate public",
+                "$~verifică mesajele pe care oamenii le-au semnalat în galeriile pe care le administrezi"
             ]
         },
         "gallery": {
@@ -10606,6 +10631,12 @@
                 "approved": "$~$name este acum listat public.",
                 "denied": "$~$name nu a fost listat public."
             }
+        },
+        "responsibility": {
+            "none": "$~Nimeni nu analizează ce trimiți aici. Este vizibil doar pentru tine și persoanele pe care le alegi.",
+            "curators": "$~Curatorii de la <$name@://galleries> analizează ce este trimis aici, inclusiv discuțiile.",
+            "both": "$~Curatorii de la <$name@://galleries> analizează ce este trimis aici, la fel și moderatorii Wordplay, pentru că oricine poate vedea asta.",
+            "platform": "$~<Moderatorii@://rights> Wordplay analizează acest lucru, pentru că oricine îl poate vedea."
         }
     },
     "gallery": {

@@ -323,13 +323,48 @@ test('resolving a color needs no basis', () => {
  * and one in `choosePrompts.generated.ts`, whose Persian phrase is the larger
  * half. These two entries are simply the ones with less than that much slack.
  * Expect this pair to move again, by about this much, each time a locale lands.
+ *
+ * The durable notice inbox (#938) adds **three files** to every entry and moves
+ * each byte budget a little. `Database` watches the signed-in creator's inbox
+ * the same way it watches their strikes, so the three modules behind it —
+ * the schema and its defensive reader, the pure function that turns a notice
+ * into a route, and the store — are reachable from everything. None of them
+ * imports a `Project`, which is the reachability the test below actually
+ * guards. What they replace is not a module but code inside two databases: the
+ * pushed writes that put a notification in a map the moment a snapshot arrived,
+ * which is why a notification was lost on reload and why "clear all" meant two
+ * different things. Expect this to come back down when the derived
+ * chat-moderation walk goes away with the gallery dashboard.
+ *
+ * Converging chat moderation (#938) is **net +1 file** on every entry, and a
+ * little weight with it. `ChatDatabase` now reaches the two callables that own
+ * reporting and deciding — a participant naming their own reviewers, or setting
+ * their own reported message back to `approved`, are things a client must not
+ * be able to do — which is +2. Deleting `src/db/notifications.svelte.ts` gives
+ * one back: the in-memory map it held, and the moderation queue exported from
+ * the notification component beside it, are both replaced by server state.
+ *
+ * Delivering a decision to the people it is about (#938) moves `Page` and
+ * `projects` by 0.01MB and adds no file. It is the text: four notice headers,
+ * the two labels that introduce which rule a decision found broken and the
+ * note that came with it, and the way in to the moderation queue — all in
+ * `en-US.json`, which every entry carries. `Moderation.ts`, which the bell now
+ * reads flag descriptions from, was already reachable from all five.
+ *
+ * Saying who moderates what (#938) moves `Page` by 0.01MB and nothing else. It
+ * adds no file: the rights page's paragraph on speech grew by ~78 bytes when
+ * the blanket "we won't moderate anything in private projects" became the true
+ * statement — a private project is unmoderated, and putting it in a gallery
+ * makes that gallery's curators responsible for it and its chat. It lives in
+ * `en-US.json`, which every entry here carries, and `Page` is simply the one
+ * with less than that much slack.
  */
 test.each([
-    ['src/routes/+layout.svelte', 491, 3.59],
-    ['src/components/app/Page.svelte', 513, 3.82],
-    ['src/routes/[[locale]]/+page.svelte', 528, 3.91],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 532, 3.92],
-    ['src/routes/[[locale]]/projects/+page.svelte', 539, 3.95],
+    ['src/routes/+layout.svelte', 495, 3.6],
+    ['src/components/app/Page.svelte', 517, 3.84],
+    ['src/routes/[[locale]]/+page.svelte', 532, 3.93],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 536, 3.94],
+    ['src/routes/[[locale]]/projects/+page.svelte', 543, 3.96],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

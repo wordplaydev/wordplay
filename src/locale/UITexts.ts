@@ -1814,11 +1814,25 @@ type UITexts = {
                 howToChatHeader: Template<['title']>;
                 /** [plain] Title for a moderation-required notification, with $1 as the project name */
                 moderationHeader: Template<['name']>;
+                /** [plain] Title for a notice that something the reader made was reported and is being reviewed. Never says who reported it. */
+                reportedHeader: Template<['title']>;
+                /** [plain] Title for a notice confirming the reader's report reached whoever is responsible */
+                reportReceivedHeader: Template<['title']>;
+                /** [plain] Title for a notice that a decision was made about something the reader made */
+                decisionHeader: Template<['title']>;
+                /** [plain] Title for a notice that a decision was made about something the reader reported */
+                outcomeHeader: Template<['title']>;
+                /** [plain] Label before the list of rules a decision found were broken */
+                because: string;
+                /** [plain] Label before a moderator's note to the person whose content it was */
+                note: string;
                 /** [plain] Link label to view notification details */
                 link: string;
             };
             /** [plain] Tooltip for the button that deletes a notification */
             delete: string;
+            /** The link to the moderation queue, shown only to someone responsible for reviewing something */
+            moderate: ButtonText;
             /** [plain] Said to screen readers when notifications arrive. Carries
              *  the count, because a live region handed the same string twice
              *  stays silent — a constant here is heard once and never again. */

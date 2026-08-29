@@ -12,7 +12,7 @@
     import type { SerializedGallery } from '@db/galleries/Gallery';
     import Gallery, { upgradeGallery } from '@db/galleries/Gallery';
     import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
-    import moderateGallery from '@db/galleries/moderateGallery';
+    import moderate from '@db/moderation/moderate';
     import {
         getFlagDescription,
         unknownFlags,
@@ -118,9 +118,13 @@
         saving = true;
         failed = false;
         try {
-            await moderateGallery({
-                gallery: deciding.getID(),
-                decision,
+            await moderate({
+                kind: 'gallery',
+                subject: deciding.getID(),
+                listing: decision,
+                // A gallery has no author, so there is nobody to warn.
+                strike: false,
+                decision: `gallery-${deciding.getID()}-${decision}`,
                 // Nulls mean "not looked at" on a project; a decision has looked
                 // at all of them, so an unchecked box is a finding of no.
                 flags: Object.fromEntries(

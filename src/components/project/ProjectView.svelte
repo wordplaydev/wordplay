@@ -3086,7 +3086,7 @@
                                      own creators have the share dialog, and
                                      nobody can report what isn't public. -->
                                 {#if tile.kind === TileKind.Output && reportable && isAuthenticated($user)}
-                                    <ReportButton {project} uid={$user.uid} />
+                                    <ReportButton {project} />
                                 {/if}
                             {/snippet}
 

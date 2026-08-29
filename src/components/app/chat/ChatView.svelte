@@ -7,14 +7,19 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
+    import ReportMessage from './ReportMessage.svelte';
+    import ResponsibilityNotice from '@components/moderation/ResponsibilityNotice.svelte';
+    import {
+        howToVisibility,
+        projectVisibility,
+    } from '@db/moderation/visibility';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Chats, Galleries } from '@db/Database';
+    import { Chats, Galleries, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
@@ -101,9 +106,6 @@
         Chats.deleteMessage(chat, message);
     }
 
-    // moderation dialog
-    let showModerationDialog: boolean = $state(false);
-
     // user is a moderator of a chat if the chat is in a gallery and the user is a curator of that gallery
     let isModerator: boolean = $state(false);
     $effect(() => {
@@ -114,16 +116,27 @@
             gallery.hasCurator($user.uid);
     });
 
-    function reportMessage(chat: Chat, message: SerializedMessage) {
-        if (!chat || !$user) return;
-        Chats.reportMessage(chat, message, $user.uid);
+    /** What this conversation is about, in the terms responsibility depends
+     *  on: a chat inherits the visibility of its project or how-to. */
+    const visibility = $derived(
+        project
+            ? projectVisibility(project, gallery)
+            : howTo
+              ? howToVisibility(howTo, gallery)
+              : undefined,
+    );
 
-        showModerationDialog = false;
+    function reportMessage(chat: Chat, message: SerializedMessage) {
+        // The callable takes the reporter from the caller's own auth token;
+        // passing a uid here would look authoritative and never be read.
+        if (!chat || !$user) return;
+        Chats.reportMessage(chat, message);
     }
 </script>
 
 {#snippet message(chat: Chat, msg: SerializedMessage)}
     {@const date = new Date(msg.time)}
+    {@const state = chat.getMessageModeration(msg.id)}
     <div class="message" class:creator={$user?.uid === msg.creator}>
         <div class="meta"
             ><CreatorView
@@ -140,7 +153,7 @@
                           timeStyle: 'short',
                       })}</div
             >
-            {#if $user?.uid === msg.creator && msg.text !== null && (msg.moderation === undefined || msg.moderation === 'approved')}
+            {#if $user?.uid === msg.creator && msg.text !== null && (state === undefined || state === 'approved')}
                 <ConfirmButton
                     tip={(l: any) => l.ui.collaborate.button.delete}
                     prompt={(l: any) => l.ui.collaborate.button.confirmDelete}
@@ -151,7 +164,7 @@
         </div>
         <div
             class="what"
-            style:border={isModerator && msg.moderation === 'pending'
+            style:border={isModerator && state === 'pending'
                 ? 'solid var(--wordplay-border-width) var(--wordplay-warning)'
                 : ''}
         >
@@ -160,7 +173,7 @@
                         path={(l: any) => l.ui.collaborate.error.deleted}
                     /></em
                 >
-            {:else if msg.moderation === 'pending'}
+            {:else if state === 'pending'}
                 {#if isModerator}
                     <MarkupHTMLView
                         markup={msg.text.replaceAll('\n', '\n\n')}
@@ -172,7 +185,7 @@
                         />
                     </em>
                 {/if}
-            {:else if msg.moderation === 'removed'}
+            {:else if state === 'removed'}
                 <em>
                     <LocalizedText
                         path={(l) => l.ui.collaborate.moderation.removed}
@@ -182,24 +195,13 @@
                 <MarkupHTMLView markup={msg.text.replaceAll('\n', '\n\n')} />
             {/if}
         </div>
-        {#if !($user?.uid === msg.creator) && galleryID && (msg.moderation === undefined || msg.moderation === 'approved')}
-            <Dialog
-                bind:show={showModerationDialog}
-                header={(l) => l.ui.collaborate.moderation.header}
-                explanation={(l) => l.ui.collaborate.moderation.explanation}
-                button={{
-                    tip: (l) => l.ui.collaborate.moderation.report.tip,
-                    icon: '🚩',
-                }}
-            >
-                <Button
-                    background
-                    tip={(l) => l.ui.collaborate.moderation.report.tip}
-                    label={(l) => l.ui.collaborate.moderation.report.label}
-                    action={() => reportMessage(chat, msg)}
-                />
-            </Dialog>
-        {:else if isModerator && msg.moderation === 'pending'}
+        {#if !($user?.uid === msg.creator) && galleryID && (state === undefined || state === 'approved')}
+            <ReportMessage
+                report={() => reportMessage(chat, msg)}
+                {visibility}
+                gallery={gallery ? gallery.getName($locales) : ''}
+            />
+        {:else if isModerator && state === 'pending'}
             <Button
                 tip={(l) => l.ui.collaborate.moderation.moderate.tip}
                 label={(l) => l.ui.collaborate.moderation.moderate.label}
@@ -235,9 +237,14 @@
             >
         </TileMessage>
     {:else}
-        {#if galleryID}
-            <MarkupHTMLView
-                markup={(l) => l.ui.collaborate.moderation.inGallery}
+        <!-- Who reviews what's said here. Shown whatever the answer is,
+             including "nobody": the old text only appeared when the project was
+             in a gallery, so a chat with no reviewer said nothing at all and a
+             creator had to infer it. -->
+        {#if visibility}
+            <ResponsibilityNotice
+                {visibility}
+                gallery={gallery ? gallery.getName($locales) : ''}
             />
         {/if}
         <div class="scroller" bind:this={scrollerView}>

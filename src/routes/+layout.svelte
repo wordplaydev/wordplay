@@ -6,7 +6,6 @@
 
     // Notifications state lives in @db so the databases that write it don't
     // import from this route component (that cycle crashes WebKit hydration).
-    import { notifications } from '@db/notifications.svelte';
 
     import { browser } from '$app/environment';
     import { page } from '$app/state';
@@ -237,11 +236,13 @@
     /** Create a global state for a tip to show at the top level */
     setTip(hint);
 
-    // if the user turns off how-to notifications, clear existing notifications
-    // if notifications are on, listen for changing from the how-to database
+    // Start or stop listening for how-tos as the setting changes. It used to
+    // also clear the whole bell, which meant turning off *how-to* notifications
+    // silently threw away moderation warnings and gallery decisions too. The
+    // setting now only decides whether how-tos are derived into the bell at
+    // all, which is what its label says it does.
     $effect(() => {
         if (!$howToNotifications) {
-            notifications.clear();
             HowTos.ignore();
         } else if ($user && firestore) {
             HowTos.listen(firestore, $user.uid);

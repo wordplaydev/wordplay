@@ -17457,10 +17457,22 @@
                                         "howToNotifications": {
                                             "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
                                         },
+                                        "moderate": {
+                                            "$ref": "#/definitions/ButtonText",
+                                            "description": "The link to the moderation queue, shown only to someone responsible for reviewing something"
+                                        },
                                         "notification": {
                                             "additionalProperties": false,
                                             "description": "Templates for the title of each notification kind",
                                             "properties": {
+                                                "because": {
+                                                    "description": "[plain] Label before the list of rules a decision found were broken",
+                                                    "type": "string"
+                                                },
+                                                "decisionHeader": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] Title for a notice that a decision was made about something the reader made"
+                                                },
                                                 "howToChatHeader": {
                                                     "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
                                                     "description": "[plain] Title for a new how-to chat message notification, with $1 as the how-to title"
@@ -17477,9 +17489,25 @@
                                                     "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
                                                     "description": "[plain] Title for a moderation-required notification, with $1 as the project name"
                                                 },
+                                                "note": {
+                                                    "description": "[plain] Label before a moderator's note to the person whose content it was",
+                                                    "type": "string"
+                                                },
+                                                "outcomeHeader": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] Title for a notice that a decision was made about something the reader reported"
+                                                },
                                                 "projectChatHeader": {
                                                     "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
                                                     "description": "[plain] Title for a new project chat message notification, with $1 as the project name"
+                                                },
+                                                "reportReceivedHeader": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] Title for a notice confirming the reader's report reached whoever is responsible"
+                                                },
+                                                "reportedHeader": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] Title for a notice that something the reader made was reported and is being reviewed. Never says who reported it."
                                                 }
                                             },
                                             "required": [
@@ -17487,6 +17515,12 @@
                                                 "projectChatHeader",
                                                 "howToChatHeader",
                                                 "moderationHeader",
+                                                "reportedHeader",
+                                                "reportReceivedHeader",
+                                                "decisionHeader",
+                                                "outcomeHeader",
+                                                "because",
+                                                "note",
                                                 "link"
                                             ],
                                             "type": "object"
@@ -17506,6 +17540,7 @@
                                         "explanation",
                                         "header",
                                         "howToNotifications",
+                                        "moderate",
                                         "notification",
                                         "open",
                                         "popup"
@@ -18993,16 +19028,28 @@
                                             "description": "[plain] Labels the message for display",
                                             "type": "string"
                                         },
-                                        "reporter": {
-                                            "description": "[plain] Labels the username of the user who reported the message",
+                                        "reason": {
+                                            "description": "[plain] Labels the section where a curator says which rules the message broke",
                                             "type": "string"
                                         }
                                     },
-                                    "required": [
-                                        "message",
-                                        "reporter",
-                                        "action"
-                                    ],
+                                    "required": ["message", "reason", "action"],
+                                    "type": "object"
+                                },
+                                "note": {
+                                    "additionalProperties": false,
+                                    "description": "The optional note a curator writes to whoever sent the message",
+                                    "properties": {
+                                        "description": {
+                                            "description": "[plain] Describes the note field for screen readers",
+                                            "type": "string"
+                                        },
+                                        "placeholder": {
+                                            "description": "[plain] Shown in the empty note field",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["description", "placeholder"],
                                     "type": "object"
                                 },
                                 "remove": {
@@ -19018,6 +19065,7 @@
                                 "header",
                                 "description",
                                 "labels",
+                                "note",
                                 "view",
                                 "remove",
                                 "keep",
@@ -23672,6 +23720,13 @@
                                             },
                                             "type": "array"
                                         },
+                                        "responsibility": {
+                                            "description": "[formatted] Who is responsible for reviewing what you share, by who can see it (#938). One paragraph per level, in the order a creator meets them, then what reporting does and what a decision carries.",
+                                            "items": {
+                                                "$ref": "#/definitions/FormattedText"
+                                            },
+                                            "type": "array"
+                                        },
                                         "warnings": {
                                             "description": "[formatted] How warnings work, what three of them mean, and how to ask for public sharing back.",
                                             "items": {
@@ -23683,6 +23738,7 @@
                                     "required": [
                                         "header",
                                         "content",
+                                        "responsibility",
                                         "consequences",
                                         "warnings",
                                         "license",
@@ -27340,8 +27396,8 @@
                     "description": "[formatted] Progress message"
                 },
                 "queue": {
-                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
-                    "description": "Which queue the moderator is working through: projects or galleries"
+                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                    "description": "Which queue the moderator is working through: projects, galleries, or reported messages. Appended to, never inserted into: locales-fix pads a positional array by appending, so a label added in the middle would shift every locale's existing labels onto the wrong tabs."
                 },
                 "report": {
                     "additionalProperties": false,
@@ -27375,6 +27431,30 @@
                         "announce",
                         "flagged"
                     ],
+                    "type": "object"
+                },
+                "responsibility": {
+                    "additionalProperties": false,
+                    "description": "Who reviews a piece of content, said wherever a creator can see it (#938). One sentence per level of the responsibility ladder, all derived from the same rule the server enforces — a surface that said something else would be promising a reviewer nobody assigned.",
+                    "properties": {
+                        "both": {
+                            "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                            "description": "[formatted] Its gallery's curators and Wordplay's moderators both do. $name is the gallery."
+                        },
+                        "curators": {
+                            "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                            "description": "[formatted] A gallery's curators review it. $name is the gallery."
+                        },
+                        "none": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Nothing here is shared widely enough for anyone to review it."
+                        },
+                        "platform": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Wordplay's moderators review it, because anyone can see it."
+                        }
+                    },
+                    "required": ["none", "curators", "both", "platform"],
                     "type": "object"
                 },
                 "strike": {
@@ -27437,6 +27517,7 @@
                 "button",
                 "report",
                 "strike",
+                "responsibility",
                 "gallery",
                 "error"
             ],

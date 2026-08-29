@@ -13,6 +13,7 @@
     import Preview from '@components/project/Preview.svelte';
     import Public from '@components/project/Public.svelte';
     import Remix from '@components/project/Remix.svelte';
+    import { projectVisibility } from '@db/moderation/visibility';
 
     interface Props {
         project: Project;
@@ -20,6 +21,15 @@
     }
 
     let { project, editable }: Props = $props();
+
+    /** The gallery this project is in, so the share dialog can say who reviews
+     *  what's shared here — which depends on the gallery as much as on the
+     *  public toggle (#938). */
+    const gallery = $derived(
+        project.getGallery() === null
+            ? undefined
+            : Galleries.accessibleGalleries.get(project.getGallery() ?? ''),
+    );
 
     /** Index into the tab labels; see `ui.dialog.share.tab`. */
     let tab = $state(0);
@@ -82,6 +92,8 @@
                         Projects.reviseProject(project.asPublic(choice === 1))}
                     flags={project.getFlags()}
                     checkStanding
+                    visibility={projectVisibility(project, gallery)}
+                    galleryName={gallery ? gallery.getName($locales) : ''}
                 />
                 <!-- Research consent lives with public/private because it's a
                      second, narrower permission about the same project, not a

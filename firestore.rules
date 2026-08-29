@@ -216,21 +216,56 @@ service cloud.firestore {
         (request.auth.uid == uid || ("mod" in request.auth.token && request.auth.token.mod));
       allow write: if false;
     }
-    // Reports of public content (#193). A separate collection because the
-    // person reporting can't write the project document — the project rules
-    // admit only its owner, collaborators, curators, and moderators — so a
-    // `reported` field on the project itself is not expressible.
+    // A creator's inbox (#938). Server-written, self-readable — the same shape
+    // as usage/{uid} and strikes/{uid}, and a document rather than a
+    // subcollection because the whole access pattern is "read all of mine",
+    // which needs no index and no second rules block.
     //
-    // Only moderators can read them: a report is a request for review, not a
-    // public accusation, and neither the reporter nor the creator should be
-    // able to enumerate them.
+    // A notice is delivered rather than derived exactly when its recipient
+    // cannot read what it is about: a reporter may never read `reports`, so the
+    // outcome of their report has to be sent to them.
+    match /notices/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      // The reader may start their own empty inbox, so a dismissal of a
+      // *derived* notice has somewhere to land before the server has ever
+      // written them anything. Empty only: the notices are not theirs to write.
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.notices.size() == 0;
+      // Marking read and dismissing are the reader's; the notices are not. A
+      // creator who could append one could forge a moderator's decision to
+      // themselves, or delete the warning they were just given.
+      allow update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['readAt', 'dismissed']);
+      allow delete: if false;
+    }
+    // Requests that someone review a piece of content (#938, generalizing
+    // #193). A separate collection because the person reporting can't write the
+    // project document — the project rules admit only its owner, collaborators,
+    // curators, and moderators — so a `reported` field on the thing itself is
+    // not expressible.
+    //
+    // A report is a request for review, not a public accusation, so neither the
+    // reporter nor the author may read one; only whoever is responsible for the
+    // content can.
+    //
+    // Written only by the `report` and `moderate` callables through the Admin
+    // SDK, which bypasses these rules. No client may write one: a reporter who
+    // could name their own reviewers is the same mistake as a creator who could
+    // clear their own strikes, and a chat report moves someone else's words out
+    // of the chat document.
     match /reports/{report} {
-      allow create: if request.auth != null
-        && request.resource.data.reporter == request.auth.uid
-        && "project" in request.resource.data
-        && request.resource.data.resolved == false;
-      allow read, update, delete: if request.auth != null
-        && "mod" in request.auth.token && request.auth.token.mod;
+      allow create, update, delete: if false;
+      // `moderators` is denormalized onto the report exactly so this is an
+      // array-contains and not a get() of the gallery: rules allow only ~10
+      // document accesses per query request (see src/db/firestoreLimits.ts),
+      // and a curator's queue spanning more galleries than that budget would be
+      // denied whole rather than partially.
+      allow read: if request.auth != null && (
+        (("mod" in request.auth.token) && request.auth.token.mod
+          && ("platform" in resource.data) && resource.data.platform) ||
+        (("moderators" in resource.data) && request.auth.uid in resource.data.moderators)
+      );
     }
     match /galleries/{gallery} {
       // The same ban as on projects (#193): a creator who has lost public
@@ -289,10 +324,48 @@ service cloud.firestore {
       allow delete: if request.auth != null && request.auth.uid in resource.data.curators;
     }
     match /chats/{chat} {
+      // A chat's document id is its project's id, so the project's ownership is
+      // what governs deleting it. Deleting a project is the only path that
+      // deletes a chat, and the project rules admit only its owner there; with
+      // delete open to every participant, anyone in a class conversation could
+      // destroy it for everyone. One get(), on a rare single-document path —
+      // nowhere near the per-query access budget src/db/firestoreLimits.ts
+      // describes, which is spent on the project and how-to read rules.
+      function ownsChatsProject() {
+        let project = get(/databases/$(database)/documents/projects/$(chat));
+        return project != null
+          && "owner" in project.data
+          && project.data.owner == request.auth.uid;
+      }
       // Anyone logged in can create chats
       allow create: if request.auth != null;
-      // Participants can read, update, and delete chats
-      allow read, update, delete: if request.auth != null && (resource == null || (resource.data != null && request.auth.uid in resource.data.participants));
+      allow read: if request.auth != null && (resource == null || (resource.data != null && request.auth.uid in resource.data.participants));
+      // Participants send messages, mark themselves read, and keep the
+      // participant list in step with the project's own permissions. What was
+      // *decided* about a message is the server's alone.
+      //
+      // `moderation` is a top-level map rather than a field on each message
+      // precisely so this rule can refuse it: a rule can name a key, but cannot
+      // reach inside an array to protect one field of one element — which is
+      // why a participant could previously set their own reported message back
+      // to `approved` (#938).
+      //
+      // Two holes stay open here, both with the same shape and both needing
+      // work beyond a rule. `participants` is client-written because
+      // syncParticipants mirrors the project's permissions from whichever
+      // client notices the change; moving that to a trigger is what would close
+      // it. And a participant can still rewrite another participant's message
+      // *text*, because an append-only guard over `messages` would make
+      // soft-deleting your own message inexpressible and risks the rules
+      // expression limits on a 128KB array; messages as a subcollection is the
+      // real fix. Both are recorded in chatRules.test.ts rather than left
+      // silent.
+      allow update: if request.auth != null && resource.data != null
+        && request.auth.uid in resource.data.participants
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['messages', 'unread', 'participants'])
+        && request.resource.data.messages.size() >= resource.data.messages.size();
+      allow delete: if request.auth != null && ownsChatsProject();
     }
     match /classes/{class} {
       function isTeacher() { 

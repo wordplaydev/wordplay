@@ -7285,8 +7285,8 @@
                 "curators": {
                     "header": "$~Người phụ trách",
                     "explanation": [
-                        "$~Người quản lý có thể chỉnh sửa các dự án và cài đặt thư viện, cũng như trò chuyện về tất cả các dự án.",
-                        "Người quản lý chịu trách nhiệm kiểm duyệt nội dung các cuộc trò chuyện liên quan đến các dự án và hướng dẫn trong thư viện. Các cuộc trò chuyện do người tạo báo cáo có thể được tìm thấy trên <bảng điều khiển kiểm duyệt thư viện@://galleries/moderation>./"
+                        "$~Người phụ trách có thể chỉnh sửa các dự án và cài đặt phòng trưng bày, và trò chuyện trên mọi dự án.",
+                        "/Người phụ trách xem xét những gì được báo cáo trong phòng trưng bày của họ — dự án, làm cách nào để, và các cuộc trò chuyện đi kèm — từ <trang kiểm duyệt@://moderate>. Quyết định của người phụ trách chỉ áp dụng cho phòng trưng bày của họ; đó không bao giờ là một trong các <quyền@://rights> của Wordplay./"
                     ]
                 },
                 "creators": {
@@ -7326,11 +7326,11 @@
         },
         "gallerymoderation": {
             "header": "$~Kiểm duyệt thư viện ảnh",
-            "description": "$~Các tin nhắn sau đây trong các thư viện ảnh mà bạn quản lý đã được người dùng báo cáo để yêu cầu kiểm duyệt.",
+            "description": "$~Những gì mọi người đã nhờ bạn xem xét, cái cũ nhất trước. Một quyết định cho biết những quy tắc nào đã bị vi phạm, và người tạo ra thứ đó sẽ được biết bạn đã quyết định gì.",
             "labels": {
                 "message": "$~tin nhắn",
-                "reporter": "$~phóng viên",
-                "action": "$~hành động của người điều hành"
+                "action": "$~hành động của người điều hành",
+                "reason": "$~những quy tắc nào đã bị vi phạm"
             },
             "view": {
                 "label": "$~xem trò chuyện",
@@ -7345,7 +7345,11 @@
                 "tip": "$~Tin nhắn này không vi phạm các nguyên tắc."
             },
             "empty": "$~Không có tin nhắn nào cần kiểm duyệt",
-            "error": "$~Bạn phải đăng nhập để quản lý thư viện ảnh."
+            "error": "$~Bạn phải đăng nhập để quản lý thư viện ảnh.",
+            "note": {
+                "description": "$~nói gì với người đã viết tin nhắn",
+                "placeholder": "$~nói điều gì đó với họ (không bắt buộc)"
+            }
         },
         "howto": {
             "galleryView": {
@@ -8587,10 +8591,20 @@
                     "projectChatHeader": "$~Thông báo mới trong dự án \"$name\"",
                     "howToChatHeader": "$~Thông báo mới trong hướng dẫn \"$title\"",
                     "moderationHeader": "$~Tin nhắn trong \"$name\" cần được kiểm duyệt.",
-                    "link": "$~chi tiết"
+                    "link": "$~chi tiết",
+                    "reportedHeader": "$~Có thứ bạn làm trong \"$title\" đã bị báo cáo và đang được xem xét",
+                    "reportReceivedHeader": "$~Báo cáo của bạn về \"$title\" đã được gửi đến người phụ trách",
+                    "decisionHeader": "$~Đã có quyết định về thứ bạn làm trong \"$title\"",
+                    "outcomeHeader": "$~Đã có quyết định về điều bạn đã báo cáo trong \"$title\"",
+                    "because": "$~Vì nó:",
+                    "note": "$~Họ nói:"
                 },
                 "delete": "$~xóa thông báo này",
-                "popup": "$~$#count[$count thông báo]"
+                "popup": "$~$#count[$count thông báo]",
+                "moderate": {
+                    "label": "$~xem xét nội dung bị báo cáo",
+                    "tip": "$~đi đến những thứ đang chờ bạn xem xét"
+                }
             },
             "locale": {
                 "header": "$~Ngôn ngữ",
@@ -9397,8 +9411,8 @@
                         ]
                     },
                     "own": [
-                        "$~Hãy đóng góp vào một triển lãm mà bạn được mời tham gia, hoặc tự mình tổ chức một triển lãm theo chủ đề riêng và mời những người khác cùng tham gia.",
-                        "Người quản lý chịu trách nhiệm kiểm duyệt nội dung trong các thư viện ảnh bằng cách sử dụng bảng điều khiển kiểm duyệt thư viện ảnh <gallery moderation dashboard@://galleries/moderation>./"
+                        "$~Đóng góp cho một phòng trưng bày mà bạn được mời tham gia, hoặc tự phụ trách phòng trưng bày của riêng bạn với một chủ đề cụ thể, và mời người khác tham gia.",
+                        "/Người phụ trách xem xét những gì được báo cáo trong phòng trưng bày của họ, từ <trang kiểm duyệt@://moderate>./"
                     ],
                     "examples": "$~Đây là những bộ sưu tập hình ảnh được tuyển chọn từ các nhà phát triển @wordplay. Chúng là những điểm khởi đầu tốt để học hỏi và tìm kiếm nguồn cảm hứng.",
                     "public": "$~Đây là những phòng trưng bày mà người tạo @wordplay đã công khai. Ai cũng có thể xin đưa phòng trưng bày của mình vào danh sách này, và một người kiểm duyệt sẽ xem qua trước để chắc chắn nó đã hoàn thành và tuân theo quy định. Một phòng trưng bày có thể bị gỡ khỏi danh sách này bất cứ lúc nào, vì bất kỳ lý do gì. Chúng được hiển thị theo thứ tự khác nhau mỗi lần bạn ghé thăm, để mỗi phòng trưng bày đều có lượt xuất hiện ở đầu danh sách."
@@ -9890,29 +9904,28 @@
             "rights": {
                 "header": "$~Quyền",
                 "content": [
-                    "$~Xin chào!",
-                    "Hãy cùng đặt ra một số kỳ vọng về quyền của bạn và của chúng tôi (cũng dựa theo chính sách, chẳng hạn như <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> và <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
-                    "Điều đầu tiên cần biết là chúng tôi không phải là một tổ chức thương mại. Chúng tôi là một dự án nghiên cứu dựa trên cộng đồng, đặt tại một trường đại học phi lợi nhuận. Mục tiêu của chúng tôi là tạo ra một nền tảng mang lại niềm vui cho bạn và giúp chúng tôi khám phá về một thế giới máy tính công bằng và bình đẳng hơn. Chúng tôi không có ý định kiếm tiền trên nền tảng này; bất kỳ khoản tiền nào chúng tôi thu được (thường thông qua nguồn tài trợ công) đều được dùng để duy trì nền tảng, chứ không phải để làm giàu cho bất kỳ ai làm việc trên nó (hoặc đóng góp cho nó).",
-                    "Vì chúng tôi không tìm kiếm lợi nhuận, điều này cũng có nghĩa là chúng tôi không thể hứa hẹn gì về độ tin cậy, khả năng sử dụng, hay tuổi thọ của nền tảng này. Dù vậy, <Amy@https://amyjko.phd> cam kết duy trì nó lâu dài, và với tư cách là một giáo sư biên chế, cô ấy có một công việc khá ổn định.",
-                    "Điều đó đưa chúng ta đến với *dữ liệu*. Đây là những gì chúng tôi thu thập và lưu trữ trên đám mây:",
-                    "• *Dự án* của bạn. Chúng tôi lưu trữ bất kỳ dự án nào bạn đóng góp và những thay đổi của bạn với chúng, trừ khi những dự án đó có vẻ chứa thông tin nhận dạng cá nhân như số điện thoại, địa chỉ email, tên người dùng, mã số thuế, hay địa chỉ nhà.",
-                    "• *Cài đặt* của bạn. Điều này bao gồm các ngôn ngữ bạn chọn, tùy chọn hoạt hình của bạn, và tiến trình bài học của bạn. Mọi thứ khác chỉ được lưu trên thiết bị của bạn.",
-                    "• *Hoạt động* tổng hợp. Chúng tôi theo dõi lượt đăng nhập và các trang bạn ghé thăm, nhưng không theo cách có thể nhận dạng bạn, theo dõi bạn khắp trang web, hay theo dõi bạn trên các trang web khác. Chúng tôi dùng Google Analytics ở chế độ 'từ chối đồng ý', chế độ này chỉ thu thập thông tin tối thiểu không nhận dạng được về lượt xem trang, mà không lưu cookie hay gửi thông tin địa chỉ IP cho Google. Chúng tôi dùng thông tin tổng hợp này để giúp huy động tài trợ bằng cách báo cáo mức độ nền tảng được sử dụng.",
-                    "Chúng tôi không lưu trữ bất kỳ thứ gì khác. <Mã nguồn@https://github.com/amyjko/wordplay/tree/main/src> của chúng tôi là công khai, nên bất kỳ ai cũng có thể kiểm chứng điều này, và báo cáo bất kỳ hành vi theo dõi ngoài ý muốn nào.",
-                    "*Bạn* sở hữu dữ liệu của mình, không phải chúng tôi. Điều đó có nghĩa là:",
-                    "• Bạn kiểm soát ai có thể truy cập dự án của bạn. Theo mặc định, chúng là riêng tư, nhưng bạn có thể chia sẻ với cá nhân, nhóm, hoặc làm cho chúng hoàn toàn công khai.",
-                    "• Bạn có thể xóa hoàn toàn bất kỳ dự án nào hoặc tài khoản của chính mình bất cứ lúc nào.",
-                    "• Bạn có thể lấy bản xuất của bất kỳ dự án nào hoặc toàn bộ tài khoản của mình bất cứ lúc nào.",
-                    "Đây là cách chúng tôi sẽ và sẽ không sử dụng dữ liệu của bạn:",
-                    "• Chúng tôi sẽ không chia sẻ dữ liệu của bạn với bất kỳ ai, trừ khi pháp luật yêu cầu rõ ràng. Luôn có khả năng dữ liệu của bạn bị lấy đi mà không được phép (một 'vụ rò rỉ dữ liệu'). Nếu chúng tôi phát hiện điều này đã xảy ra, chúng tôi sẽ thông báo cho bạn qua email mà bạn đã chia sẻ với chúng tôi.",
-                    "• Chúng tôi sẽ không liên hệ với bạn qua địa chỉ email của bạn trừ khi bạn 1) thực hiện một thay đổi tài khoản buộc chúng tôi phải làm vậy, 2) bạn cho phép rõ ràng để chúng tôi liên hệ, hoặc 3) trong trường hợp rò rỉ dữ liệu nêu trên.",
-                    "• Chúng tôi có thể phân tích các dự án, phòng trưng bày, và nội dung làm cách nào để trên nền tảng để hiểu mọi người đang tạo ra gì và tạo ra như thế nào. Chúng tôi có thể chia sẻ những hiểu biết tổng hợp, ẩn danh này trong các ấn phẩm học thuật. Chúng tôi chỉ làm điều này dưới sự giám sát của một hội đồng đánh giá của tổ chức, theo yêu cầu của luật liên bang Mỹ.",
-                    "Cuối cùng, một lưu ý về quyền tự do ngôn luận. Bạn có thể nói bất cứ điều gì bạn muốn trên nền tảng này ở chế độ *riêng tư*. Theo mặc định, các dự án là riêng tư, và nếu bạn chia sẻ chúng với những địa chỉ email cụ thể, chúng vẫn được xem là riêng tư. Chúng tôi sẽ không kiểm duyệt bất cứ điều gì trong các dự án riêng tư.",
-                    "Nhưng làm cho một dự án trở nên *công khai*, hoặc đưa nó vào một phòng trưng bày công khai, là một đặc quyền. Đây là một nền tảng được tạo ra vì tình yêu thương, sự khẳng định, sự tôn trọng và phẩm giá. Do đó, chúng tôi mong rằng không có nội dung *công khai* nào của bạn sẽ:"
+                    "$~Chào bạn!",
+                    "Hãy cùng nói rõ về quyền của bạn và của chúng tôi (cũng dựa theo các quy định như <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> và <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Điều đầu tiên bạn cần biết là chúng tôi không phải một tổ chức kinh doanh. Chúng tôi là một dự án nghiên cứu cộng đồng, thuộc một trường đại học phi lợi nhuận. Mục tiêu của chúng tôi là tạo ra một nền tảng mang lại niềm vui cho bạn, và giúp chúng tôi khám phá một thế giới lập trình công bằng và bình đẳng hơn. Chúng tôi không có ý định kiếm tiền từ nền tảng này. Bất kỳ khoản tiền nào chúng tôi nhận được (thường qua tài trợ công) đều dùng để duy trì nền tảng, không để làm giàu cho bất kỳ ai làm việc hay đóng góp cho nó.",
+                    "Vì không tìm kiếm lợi nhuận, chúng tôi cũng không thể hứa hẹn gì về độ tin cậy, thời gian hoạt động, hay tuổi thọ của nền tảng này. Dù vậy, <Amy@https://amyjko.phd> cam kết duy trì nền tảng lâu dài, và với vị trí giáo sư biên chế, cô ấy có một công việc khá ổn định.",
+                    "Điều đó dẫn chúng ta đến *dữ liệu*. Đây là những gì chúng tôi thu thập và lưu trữ trên đám mây:",
+                    "• *Dự án* của bạn. Chúng tôi lưu mọi dự án bạn đóng góp và các thay đổi của bạn với chúng, trừ khi những dự án đó có vẻ chứa thông tin có thể nhận diện cá nhân, như số điện thoại, địa chỉ email, tên người dùng, mã số thuế, hoặc địa chỉ nhà.",
+                    "• *Cài đặt* của bạn. Bao gồm các ngôn ngữ bạn chọn, tùy chọn hoạt ảnh, và tiến độ bài học của bạn. Mọi thứ khác chỉ được lưu trên thiết bị của bạn.",
+                    "• *Hoạt động* tổng hợp. Chúng tôi theo dõi lượt đăng nhập và các trang bạn ghé thăm, nhưng không theo cách có thể nhận diện bạn, theo dõi bạn trên toàn trang, hay theo dõi bạn trên các trang khác. Chúng tôi dùng Google Analytics ở chế độ 'từ chối đồng ý', chỉ thu thập thông tin tối thiểu không thể nhận diện về lượt xem trang, không lưu cookie, và không gửi thông tin địa chỉ IP cho Google. Chúng tôi dùng thông tin tổng hợp này để giúp gây quỹ, bằng cách báo cáo mức độ sử dụng nền tảng.",
+                    "Chúng tôi không lưu trữ gì khác. <Mã nguồn@https://github.com/amyjko/wordplay/tree/main/src> của chúng tôi là công khai, nên bất kỳ ai cũng có thể kiểm chứng điều này, và báo cáo bất kỳ hành vi theo dõi ngoài ý muốn nào.",
+                    "*Bạn* sở hữu dữ liệu của bạn, không phải chúng tôi. Điều đó có nghĩa là:",
+                    "• Bạn quyết định ai có thể xem dự án của bạn. Mặc định chúng ở chế độ riêng tư, nhưng bạn có thể chia sẻ chúng với cá nhân, nhóm, hoặc công khai hoàn toàn.",
+                    "• Bạn có thể xóa hoàn toàn bất kỳ dự án nào, hoặc tài khoản của chính mình, bất cứ lúc nào.",
+                    "• Bạn có thể xuất bất kỳ dự án nào, hoặc toàn bộ tài khoản của mình, bất cứ lúc nào.",
+                    "Sau đây là cách chúng tôi sẽ và sẽ không sử dụng dữ liệu của bạn:",
+                    "• Chúng tôi sẽ không chia sẻ dữ liệu của bạn với bất kỳ ai, trừ khi pháp luật yêu cầu rõ ràng. Luôn có khả năng dữ liệu của bạn bị lấy đi mà không được phép (gọi là 'vi phạm dữ liệu'). Nếu phát hiện điều này xảy ra, chúng tôi sẽ báo cho bạn qua địa chỉ email bạn đã cung cấp cho chúng tôi.",
+                    "• Chúng tôi sẽ không liên hệ với bạn qua email, trừ khi 1) bạn thực hiện một thay đổi tài khoản yêu cầu chúng tôi phải làm vậy, 2) bạn đồng ý rõ ràng cho chúng tôi liên hệ, hoặc 3) trong trường hợp vi phạm dữ liệu nêu trên.",
+                    "• Chúng tôi có thể phân tích các dự án, phòng trưng bày, và nội dung làm cách nào để trên nền tảng, nhằm hiểu mọi người đang tạo ra gì và tạo ra như thế nào. Chúng tôi có thể chia sẻ những hiểu biết tổng hợp, ẩn danh này trong các công bố học thuật. Chúng tôi chỉ làm điều này dưới sự giám sát của một hội đồng đạo đức nghiên cứu, theo yêu cầu của luật liên bang Hoa Kỳ.",
+                    "Cuối cùng, một lưu ý về phát ngôn. Mặc định các dự án ở chế độ riêng tư, và việc chia sẻ một dự án với những người cụ thể vẫn giữ nó ở chế độ riêng tư. Sau đây là chính xác ai sẽ xem xét những gì bạn chia sẻ, tùy theo ai có thể thấy nó.",
+                    "Nhưng việc đưa một dự án thành *công khai*, hoặc đưa vào một phòng trưng bày công khai, là một đặc quyền. Đây là một nền tảng được tạo ra vì tình yêu, sự công nhận, sự tôn trọng, và phẩm giá. Vì vậy, chúng tôi mong rằng không nội dung *công khai* nào của bạn sẽ:"
                 ],
                 "consequences": [
-                    "$~Các cuộc trò chuyện về dự án và hướng dẫn trong các thư viện công cộng hoặc riêng tư đều phải được người quản lý thư viện kiểm duyệt. Bạn có thể báo cáo các tin nhắn vi phạm quy định cộng đồng này cho người quản lý bằng nút báo cáo bên cạnh mỗi tin nhắn, và người quản lý có thể phê duyệt hoặc xóa tin nhắn.",
-                    "Nếu chúng tôi phát hiện dự án hoặc bộ sưu tập nào vi phạm các quy tắc này, chúng tôi sẽ cảnh báo người tạo trước khi họ xem hoặc chặn quyền xem. Nếu bạn liên tục vi phạm các quy tắc này, bạn sẽ mất quyền đăng bài công khai."
+                    "$~Nếu chúng tôi phát hiện một dự án hoặc phòng trưng bày vi phạm những quy tắc này, chúng tôi sẽ cảnh báo người tạo trước khi họ xem nó, hoặc chặn không cho xem nó. Nếu bạn vi phạm những quy tắc này nhiều lần, bạn sẽ mất quyền đăng nội dung công khai."
                 ],
                 "license": [
                     "$~Còn một điều nữa về việc tạo một dự án *công khai*. Các dự án công khai được chia sẻ theo <giấy phép Creative Commons Attribution-ShareAlike@https://creativecommons.org/licenses/by-sa/4.0/>. Điều đó nghĩa là bất kỳ ai cũng có thể /phối lại/ dự án công khai của bạn — tạo bản sao của riêng họ và thay đổi nó — và bạn cũng có thể phối lại dự án của bất kỳ ai khác.",
@@ -9928,6 +9941,17 @@
                     "$~Đây là chính xác những gì xảy ra nếu nội dung công khai của bạn vi phạm các quy tắc này. Một người kiểm duyệt sẽ xem xét nó, nó sẽ không còn công khai nữa, và bạn sẽ nhận được một cảnh báo trong thông báo của mình cho biết đó là nội dung nào. Bất kỳ ai đã đăng nhập đều có thể yêu cầu người kiểm duyệt xem xét nội dung công khai bằng cách dùng nút báo cáo trên nội dung đó.",
                     "Sau ba lần cảnh báo, bạn vẫn có thể tạo dự án, vẫn có thể chia sẻ chúng với những người bạn chọn, và vẫn có thể dùng mọi thứ khác ở đây. Điều bạn mất là khả năng công khai bất cứ thứ gì.",
                     "Nếu bạn nghĩ một cảnh báo là sai sót, hoặc đó là chuyện đã lâu rồi và bạn muốn chia sẻ công khai lại, hãy viết thư tới hi@wordplay.dev và cho chúng tôi biết tên tài khoản của bạn cùng lý do. Sẽ có người đọc thư của bạn."
+                ],
+                "responsibility": [
+                    "$~Ai xem xét những gì bạn chia sẻ tùy thuộc vào việc ai có thể nhìn thấy nó.",
+                    "• *Chỉ chia sẻ với không ai, hoặc chỉ với những người bạn nêu tên.* Không ai xem xét nó cả. Không phải chúng tôi, không phải ai khác.",
+                    "• *Trong một phòng trưng bày có người khác.* Người quản lý phòng trưng bày đó xem xét nó, cùng với những cuộc trò chuyện đi kèm. Điều này đúng dù phòng trưng bày đó có công khai hay không: những người trong đó có thể xem tác phẩm của bạn, nên ai đó ở đó phải chịu trách nhiệm về nó.",
+                    "• *Trong một phòng trưng bày công khai.* Người quản lý phòng trưng bày đó xem xét nó, và chúng tôi cũng vậy, vì ai cũng có thể tìm thấy nó.",
+                    "• *Công khai, nhưng không nằm trong phòng trưng bày nào.* Chúng tôi xem xét nó.",
+                    "Bất kỳ ai nhìn thấy được một thứ gì đó đều có thể yêu cầu xem xét nó, bằng cách dùng nút báo cáo trên đó. Chúng tôi không bao giờ nói cho người tạo ra nó biết ai đã yêu cầu.",
+                    "Báo cáo một tin nhắn trò chuyện sẽ ẩn nó đi trong khi có người xem xét. Điều này chỉ xảy ra một lần cho mỗi tin nhắn: nếu tin nhắn được giữ lại và có người báo cáo lần nữa, nó vẫn hiển thị trong khi được xem xét lần thứ hai. Bạn luôn có thể xem được lời của chính mình.",
+                    "Một quyết định sẽ cho biết quy tắc nào ở trên bị vi phạm, và có thể kèm theo ghi chú từ người đưa ra quyết định. Bạn sẽ nhận được cả hai trong phần thông báo của mình.",
+                    "Quyết định của một người quản lý phòng trưng bày chỉ áp dụng cho phòng trưng bày của họ. Đó không phải là một trong những cảnh báo bên dưới, và nó không bao giờ có thể khiến bạn mất khả năng chia sẻ công khai."
                 ]
             },
             "donate": {
@@ -10555,7 +10579,7 @@
             "property": "$~Liệu dự án có thuộc tính này hay không."
         },
         "error": {
-            "notmod": "$~Có vẻ như bạn không phải là người điều hành. Nếu gần đây bạn được cấp quyền điều hành, bạn có thể cần đăng nhập lại. Nếu không, hãy xem hướng dẫn trên wiki để biết cách yêu cầu quyền điều hành."
+            "notmod": "$~Không có gì ở đây để bạn xem xét cả. Người kiểm duyệt của Wordplay xem xét nội dung công khai, và người quản lý của một phòng trưng bày xem xét những gì trong phòng trưng bày của họ. Nếu bạn vừa mới được cấp quyền kiểm duyệt, bạn có thể cần đăng nhập lại."
         },
         "report": {
             "button": "$~Báo cáo cho người kiểm duyệt",
@@ -10577,10 +10601,11 @@
         },
         "queue": {
             "label": "$~cần xem xét gì",
-            "labels": ["$~dự án", "$~phòng trưng bày"],
+            "labels": ["$~dự án", "$~phòng trưng bày", "$~tin nhắn"],
             "tips": [
-                "$~xem xét các dự án mà mọi người đã công khai",
-                "$~xem xét các phòng trưng bày xin được liệt kê công khai"
+                "$~xem lại các dự án mà mọi người đã công khai",
+                "$~xem xét các phòng trưng bày xin được liệt kê công khai",
+                "$~xem lại các tin nhắn mà mọi người đã báo cáo trong các phòng trưng bày bạn quản lý"
             ]
         },
         "gallery": {
@@ -10605,6 +10630,12 @@
                 "approved": "$~$name hiện đã được liệt kê công khai.",
                 "denied": "$~$name đã không được liệt kê công khai."
             }
+        },
+        "responsibility": {
+            "none": "$~Không ai xem xét những gì bạn chia sẻ ở đây cả. Nó chỉ hiển thị với bạn và những người bạn chọn.",
+            "curators": "$~Người quản lý của <$name@://galleries> xem xét những gì được chia sẻ ở đây, kể cả nội dung trò chuyện.",
+            "both": "$~Người quản lý của <$name@://galleries> xem xét những gì được chia sẻ ở đây, và người kiểm duyệt của Wordplay cũng vậy, vì ai cũng có thể xem được.",
+            "platform": "$~<Người kiểm duyệt@://rights> của Wordplay xem xét điều này, vì ai cũng có thể xem được."
         }
     },
     "gallery": {

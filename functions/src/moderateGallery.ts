@@ -1,63 +1,38 @@
-import { getFirestore } from 'firebase-admin/firestore';
 import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
 import type {
     ModerateGalleryInputs,
     ModerateGalleryOutput,
 } from 'shared-types';
-
-const GalleriesCollection = 'galleries';
+import moderate from './moderate.js';
 
 /**
- * Record a moderator's decision about whether a gallery may be listed publicly
- * (#1311).
- *
- * Public galleries are curated rather than self-published, so `public` on the
- * gallery is only the curator's request; this is what decides whether anyone
- * finds it. Server-side for the same reason `moderateProject` is: the state a
- * curator is shown, and the state the listing query filters on, both have to be
- * something a client can't write.
+ * Superseded by the `moderate` callable (#938), and kept for exactly one
+ * release, for the reason given in moderateProject.ts: a long-open tab holds a
+ * stale bundle and would call this name.
  */
 export default async function moderateGallery(
     request: CallableRequest<ModerateGalleryInputs>,
 ): Promise<ModerateGalleryOutput> {
-    // Only moderators, and the token is the authority — not the client's word.
-    if (request.auth?.token.mod !== true)
-        throw new HttpsError(
-            'permission-denied',
-            'Only moderators can moderate galleries.',
-        );
-
-    const { gallery: galleryID, decision, flags } = request.data;
-    if (typeof galleryID !== 'string' || galleryID.length === 0)
-        throw new HttpsError('invalid-argument', 'Expected a gallery id.');
+    const { gallery, decision, flags } = request.data;
     if (decision !== 'approved' && decision !== 'denied')
         throw new HttpsError(
             'invalid-argument',
             'Expected a decision of approved or denied.',
         );
-    if (typeof flags !== 'object' || flags === null)
-        throw new HttpsError('invalid-argument', 'Expected flags.');
-
-    const db = getFirestore();
-    const galleryRef = db.collection(GalleriesCollection).doc(galleryID);
-    const galleryDoc = await galleryRef.get();
-    if (!galleryDoc.exists)
-        throw new HttpsError('not-found', 'No such gallery.');
-
-    // A gallery that breaks a rule loses its public sharing outright, the same
-    // way a flagged project does — leaving it reachable by link while telling
-    // its curator it was denied would be a decision with nothing behind it. A
-    // denial with no flag is a quality decision: the gallery stays shareable,
-    // it just isn't listed.
-    const violation = Object.values(flags).some((state) => state === true);
-    const unpublished = violation;
-
-    await galleryRef.update({
-        moderation: decision,
-        moderatedAt: Date.now(),
-        flags,
-        ...(unpublished ? { public: false } : {}),
+    await moderate({
+        ...request,
+        data: {
+            kind: 'gallery',
+            subject: gallery,
+            flags,
+            listing: decision,
+            // A gallery has no author, so a warning has nobody to warn.
+            strike: false,
+            decision: `gallery-${gallery}-${decision}`,
+        },
     });
-
+    // A gallery that broke a rule loses its public sharing outright; a denial
+    // with no flag is a quality decision, which leaves it shareable by link.
+    const unpublished = Object.values(flags).some((state) => state === true);
     return { moderation: decision, unpublished };
 }

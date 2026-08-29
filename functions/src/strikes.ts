@@ -1,4 +1,4 @@
-import type { Strike, Strikes } from 'shared-types';
+import type { Finding, Strike, Strikes } from 'shared-types';
 
 /**
  * How many strikes it takes to lose the ability to make anything public.
@@ -49,6 +49,30 @@ export function withStrike(current: Strikes, strike: Strike): Strikes {
         // someone, and the date is what a reinstatement request is about.
         bannedAt: current.bannedAt ?? (banned ? strike.time : null),
     };
+}
+
+/**
+ * The record after noting a curator's decision.
+ *
+ * Deliberately not a strike: `count` doesn't move, so this can never lead to a
+ * ban. A gallery's curator moderates their own gallery; letting them cost
+ * someone their platform-wide publishing would hand a classroom decision a
+ * reach it was never meant to have. What this is for is the pattern — a
+ * platform moderator looking at a creator can see that other galleries have
+ * decided about them too.
+ *
+ * Idempotent on `decision` for the same reason `withStrike` is: a retry whose
+ * response was lost must not record the same finding twice.
+ */
+export function withFinding(current: Strikes, finding: Finding): Strikes {
+    if (
+        finding.decision !== '' &&
+        (current.findings ?? []).some(
+            (past) => past.decision === finding.decision,
+        )
+    )
+        return current;
+    return { ...current, findings: [...(current.findings ?? []), finding] };
 }
 
 /** How many more strikes before public sharing is lost. Zero once it is. */

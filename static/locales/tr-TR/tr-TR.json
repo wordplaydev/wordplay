@@ -7282,8 +7282,8 @@
                 "curators": {
                     "header": "$~Küratörler",
                     "explanation": [
-                        "$~Küratörler projeleri ve galeri ayarlarını düzenleyebilir ve tüm projelerde sohbet edebilir.",
-                        "/Küratörler, galerideki projelerle ve nasıl kılavuzlarıyla ilişkili sohbetlerin içeriğini denetlemekten sorumludur. Yaratıcılar tarafından bildirilen sohbetler <galeri denetim panosunda@://galleries/moderation> bulunabilir./"
+                        "$~Küratörler, projeleri ve galeri ayarlarını düzenleyebilir ve tüm projelerde sohbet edebilir.",
+                        "/Küratörler, galerilerinde bildirilenleri gözden geçirir — projeler, nasıllar ve bunlarla ilgili sohbetler — bunu <denetleme sayfasından@://moderate> yapar. Bir küratörün kararı yalnızca kendi galerisi için geçerlidir; bu karar hiçbir zaman Wordplay'in <uyarılarından@://rights> biri değildir./"
                     ]
                 },
                 "creators": {
@@ -8462,10 +8462,20 @@
                     "projectChatHeader": "$~\"$name\" projesinde yeni mesaj",
                     "howToChatHeader": "$~\" $title \" bölümünde yeni mesaj",
                     "link": "$~detaylar",
-                    "moderationHeader": "$~\"$name\" başlıklı mesaj moderasyon gerektiriyor."
+                    "moderationHeader": "$~\"$name\" başlıklı mesaj moderasyon gerektiriyor.",
+                    "reportedHeader": "$~\"$title\" içinde yaptığın bir şey bildirildi ve inceleniyor",
+                    "reportReceivedHeader": "$~\"$title\" hakkındaki bildirimin, bundan sorumlu kişiye gönderildi",
+                    "decisionHeader": "$~\"$title\" içinde yaptığın bir şey hakkında bir karar verildi",
+                    "outcomeHeader": "$~\"$title\" içinde bildirdiğin şey hakkında bir karar verildi",
+                    "because": "$~Çünkü:",
+                    "note": "$~Şunu söylediler:"
                 },
                 "delete": "$~Bu bildirimi sil",
-                "popup": "$~$#count[1 bildirim|$count bildirim]"
+                "popup": "$~$#count[1 bildirim|$count bildirim]",
+                "moderate": {
+                    "label": "$~bildirilen içeriği incele",
+                    "tip": "$~incelemeni bekleyen şeylere git"
+                }
             }
         },
         "collaborate": {
@@ -9161,8 +9171,8 @@
                         ]
                     },
                     "own": [
-                        "$~Davet edildiğiniz bir galeriye katkıda bulunun veya belirli bir tema ile kendi galerinizi oluşturun ve başkalarını davet edin.",
-                        "/Küratörler, <galeri moderasyon paneli@://galleries/moderation> aracılığıyla galerilerdeki içeriği denetlemekten sorumludur./"
+                        "$~Davet edildiğin bir galeriye katkıda bulun ya da belirli bir temayla kendi galerini oluştur ve başkalarını davet et.",
+                        "/Küratörler, galerilerinde bildirilenleri <denetleme sayfasından@://moderate> gözden geçirir./"
                     ],
                     "examples": "$~Bunlar @wordplay geliştiricileri tarafından derlenmiş galerilerdir. Öğrenme ve ilham almak için iyi birer başlangıç noktasıdırlar.",
                     "public": "$~Bunlar @wordplay oluşturucunun herkese açık hâle getirdiği galeriler. Herkes kendi galerisinin burada listelenmesini isteyebilir. Bir denetçi, galerinin tamamlanmış olduğunu ve kurallara uyduğunu kontrol etmek için önce onu inceler. Bir galeri her an, herhangi bir nedenle bu listeden çıkarılabilir. Galeriler her ziyarette farklı bir sırayla gösterilir, böylece her galeri sırayla üstte yer alır."
@@ -9298,28 +9308,27 @@
                 "header": "$~Haklar",
                 "content": [
                     "$~Merhaba!",
-                    "Senin ve bizim haklarımız hakkında bazı beklentileri belirleyelim (ayrıca <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> ve <GDPR@https://gdpr.eu/compliance-checklist-us-companies/> gibi politikalar ışığında).",
-                    "Bilinmesi gereken ilk şey, biz ticari bir kuruluş değiliz. Kâr amacı gütmeyen bir üniversitede yer alan, topluluk temelli bir araştırma projesiyiz. Amacımız, sana neşe getiren ve daha adil, daha eşitlikçi bir hesaplama dünyası hakkında keşifler yapmamıza yardım eden bir platform yaratmak. Bu platformdan para kazanmakla ilgilenmiyoruz; topladığımız para (genellikle kamu finansmanı yoluyla) platformu sürdürmek için kullanılır, üzerinde çalışan (ya da katkı sağlayan) kimseyi zenginleştirmek için değil.",
-                    "Kâr peşinde olmadığımız için, bu aynı zamanda platformun güvenilirliği, erişilebilirliği ya da uzun ömürlülüğü hakkında herhangi bir söz veremeyeceğimiz anlamına da gelir. Yine de <Amy@https://amyjko.phd> onu uzun vadede sürdürmeye kararlı ve kadrolu bir profesör olarak oldukça istikrarlı bir işi var.",
-                    "Bu bizi *veri* konusuna getiriyor. Bulutta toplayıp sakladıklarımız şunlar:",
-                    "• *Projelerin*. Katkı sağladığın projeleri ve onlarda yaptığın değişiklikleri saklarız; ancak o projeler telefon numaraları, e-posta adresleri, kullanıcı isimleri, vergi kimlikleri ya da adresler gibi seni kişisel olarak tanımlayabilecek bilgiler içeriyor gibi görünmüyorsa.",
-                    "• *Ayarların*. Buna seçtiğin diller, animasyon tercihlerin ve öğretici ilerlemen dahildir. Diğer her şey yalnızca senin cihazında saklanır.",
-                    "• Toplu *etkinlik*. Girişleri ve ziyaret ettiğin sayfaları izleriz, ama seni tanımlayabilecek, site içinde seni takip edebilecek ya da başka sitelerde seni takip edebilecek bir şekilde değil. Google Analytics'i 'onay reddedildi' modunda kullanırız; bu, sayfa görüntülemeleri hakkında yalnızca en az düzeyde, tanımlanamayan bilgi toplar, çerez saklamaz ve Google'a IP adresi bilgisi göndermez. Bu toplu bilgiyi, platformun ne kadar kullanıldığını raporlayarak finansman toplamaya yardımcı olmak için kullanırız.",
-                    "Başka hiçbir şey saklamıyoruz. <Kaynağımız@https://github.com/amyjko/wordplay/tree/main/src> herkese açık, yani herkes bunu doğrulayabilir ve istenmeyen herhangi bir takibi bildirebilir.",
-                    "*Senin* verin sana ait, bize değil. Bu şu demek:",
-                    "• Projelerine kimin erişebileceğini sen kontrol edersin. Onlar varsayılan olarak özeldir, ama onları kişilerle, gruplarla paylaşabilir ya da tamamen herkese açık yapabilirsin.",
-                    "• Herhangi bir projeni ya da kendi hesabını istediğin zaman tamamen silebilirsin.",
-                    "• Herhangi bir projenin ya da tüm hesabının bir dışa aktarımını istediğin zaman alabilirsin.",
-                    "Verini nasıl kullanacağımızı ve kullanmayacağımızı şöyle açıklayalım:",
-                    "• Yasa açıkça gerektirmedikçe verini kimseyle paylaşmayacağız. Verinin izinsiz alınması ('veri ihlali') her zaman mümkündür. Bunun olduğunu keşfedersek, bizimle paylaştığın e-postayı kullanarak sana bunu bildireceğiz.",
-                    "• Şu durumlar dışında e-posta adresin üzerinden sana ulaşmayacağız: 1) bunu gerektiren bir hesap değişikliği yaparsan, 2) ulaşmamıza açıkça izin verirsen ya da 3) yukarıdaki veri ihlali durumunda.",
-                    "• Herkesin ne yaptığını ve nasıl yaptığını anlamak için platformdaki projeleri, galerileri ve nasıl içeriklerini analiz edebiliriz. Bu toplu, anonim çıkarımları akademik yayınlarda paylaşabiliriz. Bunu yalnızca ABD federal yasasının gerektirdiği gibi bir kurumsal inceleme kurulunun denetimi altında yaparız.",
-                    "Son olarak, ifade konusunda bir not. Bu platformda *özel* olarak istediğin her şeyi söyleyebilirsin. Projeler varsayılan olarak özeldir ve onları belirli e-posta adresleriyle paylaşsan bile yine de özel sayılırlar. Özel projelerdeki hiçbir şeyi denetlemeyeceğiz.",
-                    "Ama bir projeyi *herkese açık* yapmak ya da onu herkese açık bir galeriye eklemek bir ayrıcalıktır. Bu platform sevgi, onaylama, saygı ve onur için yapılmış bir platform. Bu yüzden *herkese açık* içeriğinin hiçbirinin şunları yapmayacağını bekliyoruz:"
+                    "Haklarınız ve bizim haklarımız hakkında bazı beklentileri netleştirelim (ayrıca <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> ve <GDPR@https://gdpr.eu/compliance-checklist-us-companies/> gibi politikalar ışığında).",
+                    "Bilmeniz gereken ilk şey, ticari bir kuruluş olmadığımızdır. Kâr amacı gütmeyen bir üniversitede yer alan, topluluk temelli bir araştırma projesiyiz. Amacımız, size keyif veren ve bilgisayar dünyasının daha adil ve eşit olması için keşifler yapmamıza yardım eden bir platform oluşturmaktır. Bu platformdan para kazanmakla ilgilenmiyoruz; topladığımız her türlü para (genellikle kamu fonlarından) sadece platformu sürdürmek için kullanılır, üzerinde çalışan ya da katkıda bulunan hiç kimseyi zenginleştirmek için değil.",
+                    "Kâr amacı gütmediğimiz için, bu platformun güvenilirliği, erişilebilirliği ya da ne kadar süre var olacağı hakkında hiçbir söz veremeyiz. Yine de <Amy@https://amyjko.phd>, platformu uzun vadede sürdürmeye kararlıdır ve kadrolu bir profesör olarak oldukça istikrarlı bir konumdadır.",
+                    "Bu bizi *veri* konusuna getiriyor. İşte bulutta topladığımız ve sakladığımız bilgiler:",
+                    "• *Projeleriniz*. Katkıda bulunduğunuz projeleri ve üzerlerinde yaptığınız değişiklikleri saklarız. Ancak bu projelerde telefon numaraları, e-posta adresleri, kullanıcı adları, vergi kimlik numaraları veya adresler gibi sizi kişisel olarak tanımlayabilecek bilgiler varsa bunları saklamayız.",
+                    "• *Ayarlarınız*. Bu, seçtiğiniz dilleri, animasyon tercihlerinizi ve öğretici ilerlemenizi içerir. Bunların dışındaki her şey yalnızca cihazınızda saklanır.",
+                    "• Toplu *etkinlik* bilgileri. Giriş yapmalarınızı ve ziyaret ettiğiniz sayfaları izleriz, ama bu sizi tanımlayacak, sitede takip edecek ya da başka sitelerde takip edecek şekilde yapılmaz. Google Analytics'i 'onay reddedildi' modunda kullanırız; bu mod yalnızca sayfa görüntülemeleriyle ilgili en az düzeyde ve kimliği belirlemeyen bilgi toplar, çerez saklamaz ve IP adresi bilgisini Google'a göndermez. Bu toplu bilgileri, platformun ne kadar kullanıldığını göstererek fon bulmamıza yardımcı olmak için kullanırız.",
+                    "Başka hiçbir şey saklamayız. <Kaynak kodumuz@https://github.com/amyjko/wordplay/tree/main/src> herkese açıktır, böylece herkes bunu doğrulayabilir ve istenmeyen bir izleme fark ederse bunu bize bildirebilir.",
+                    "Verileriniz *size* aittir, bize değil. Bu şu anlama gelir:",
+                    "• Projelerinize kimin erişebileceğine siz karar verirsiniz. Projeler varsayılan olarak gizlidir, ama bunları belirli kişilerle, gruplarla paylaşabilir ya da tamamen herkese açık hale getirebilirsiniz.",
+                    "• İstediğiniz zaman herhangi bir projeyi ya da kendi hesabınızı tamamen silebilirsiniz.",
+                    "• İstediğiniz zaman herhangi bir projenin ya da tüm hesabınızın bir kopyasını dışa aktarabilirsiniz.",
+                    "Verilerinizi nasıl kullanacağımız ve kullanmayacağımız şöyle:",
+                    "• Yasalar açıkça gerektirmedikçe verilerinizi kimseyle paylaşmayız. Verilerinizin izinsiz alınması (bir 'veri sızıntısı') her zaman mümkündür. Böyle bir durum olduğunu fark edersek, bizimle paylaştığınız e-posta adresi üzerinden size haber veririz.",
+                    "• Şu durumlar dışında sizinle e-posta yoluyla iletişime geçmeyiz: 1) bizim bir işlem yapmamızı gerektiren bir hesap değişikliği yaptığınızda, 2) sizinle iletişime geçmemiz için açıkça izin verdiğinizde ya da 3) yukarıda belirtilen bir veri sızıntısı durumunda.",
+                    "• Herkesin neler yaptığını ve nasıl yaptığını anlamak için projeleri, galerileri ve platformdaki nasıl içeriklerini inceleyebiliriz. Bu toplu ve kimliksizleştirilmiş bulguları akademik yayınlarda paylaşabiliriz. Bunu yalnızca Amerika Birleşik Devletleri federal yasalarının zorunlu kıldığı şekilde, bir kurumsal inceleme kurulunun gözetiminde yaparız.",
+                    "Son olarak, ifade özgürlüğü hakkında bir not. Projeler varsayılan olarak gizlidir ve bir projeyi belirli kişilerle paylaşmak onu gizli tutmaya devam eder. Aşağıda, paylaştığınız içeriği kimlerin görebildiğine bağlı olarak kimlerin inceleyeceği tam olarak açıklanmıştır.",
+                    "Ama bir projeyi *herkese açık* hale getirmek ya da herkese açık bir galeriye eklemek bir ayrıcalıktır. Bu platform sevgi, onaylama, saygı ve onur için yapılmıştır. Bu nedenle, *herkese açık* içeriğinizin şunları içermemesini bekleriz:"
                 ],
                 "consequences": [
-                    "$~Herkese açık veya özel galerilerde yer alan projeler ve nasıl yapılır kılavuzları için yapılan sohbetler, galeri küratörleri tarafından denetlenir. Bu topluluk kurallarını ihlal eden mesajları, her mesajın yanındaki raporlama düğmesini kullanarak küratörlere bildirebilirsiniz ve küratörler mesajları onaylayabilir veya kaldırabilir.",
-                    "Bu kuralları ihlal eden bir proje veya galeri bulursak, içerik oluşturucuları görüntülemeden önce uyaracağız veya görüntülenmesini engelleyeceğiz. Bu kuralları tekrar tekrar ihlal ederseniz, herkese açık olarak paylaşım yapma ayrıcalığınızı kaybedersiniz."
+                    "$~Bu kurallara aykırı bir proje ya da galeri bulursak, insanlar onu görmeden önce oluşturanları uyarırız ya da içeriğin görüntülenmesini engelleriz. Bu kuralları tekrar tekrar ihlal ederseniz, herkese açık paylaşım yapma hakkınızı kaybedersiniz."
                 ],
                 "license": [
                     "$~Bir projeyi *herkese açık* yapmakla ilgili bir şey daha. Herkese açık projeler <Creative Commons Atıf-AynıLisanslaPaylaş lisansı@https://creativecommons.org/licenses/by-sa/4.0/> altında paylaşılır. Bu, herkesin senin herkese açık projeni /yeniden düzenleyebileceği/ — kendi kopyasını oluşturup değiştirebileceği — ve senin de başkasınınkini yeniden düzenleyebileceğin anlamına gelir.",
@@ -9335,6 +9344,17 @@
                     "$~Senin genel (herkese açık) içeriğin bu kurallara aykırıysa tam olarak şu olur: Bir moderatör onu inceler, içerik artık herkese açık olmaktan çıkar ve bildirimlerinde hangi içerik olduğunu söyleyen bir uyarı alırsın. Oturum açmış herkes, üzerindeki bildir düğmesini kullanarak bir moderatörden herkese açık içeriği incelemesini isteyebilir.",
                     "Üç uyarıdan sonra bile projeler oluşturabilir, bunları seçtiğin kişilerle paylaşabilir ve buradaki her şeyi kullanmaya devam edebilirsin. Kaybettiğin tek şey, herhangi bir şeyi herkese açık yapabilme yeteneğidir.",
                     "Bir uyarının hatalı olduğunu düşünüyorsan ya da uzun zaman önce olduysa ve yeniden herkese açık paylaşım yapmak istiyorsan, hi@wordplay.dev adresine yaz ve bize kullanıcı adını ile nedenini söyle. Bir kişi bunu okuyacak."
+                ],
+                "responsibility": [
+                    "$~Paylaştığın şeyi kimin incelediği, onu kimin görebildiğine bağlıdır.",
+                    "• *Kimseyle paylaşılmamışsa ya da sadece isim verdiğin kişilerle paylaşılmışsa.* Kimse incelemez. Ne biz, ne de başka biri.",
+                    "• *İçinde başka kişiler olan bir galerideyse.* O galerinin küratörleri, onunla birlikte gelen sohbetleri de incelerler. Galeri herkese açık olsun ya da olmasın, bu böyledir: galerideki kişiler çalışmanı görebilir, bu yüzden orada birisi ondan sorumludur.",
+                    "• *Herkese açık bir galerideyse.* Küratörleri inceler, biz de inceleriz, çünkü herkes onu bulabilir.",
+                    "• *Herkese açıksa ve bir galeride değilse.* Biz inceleriz.",
+                    "Bir şeyi görebilen herkes, üzerindeki şikayet düğmesini kullanarak incelenmesini isteyebilir. Kimin şikayet ettiğini, onu yapan kişiye asla söylemeyiz.",
+                    "Bir sohbet mesajını şikayet etmek, biri bakana kadar onu gizler. Bu, her mesaj için bir kere olur: mesaj kalırsa ve biri onu tekrar şikayet ederse, ikinci kez incelenirken görünür kalır. Kendi sözlerini her zaman görebilirsin.",
+                    "Bir karar, yukarıdaki kurallardan hangilerinin çiğnendiğini söyler ve kararı veren kişiden bir not içerebilir. Bildirimlerinde ikisini de göreceksin.",
+                    "Bir galeri küratörünün kararı, sadece kendi galerisi için geçerlidir. Bu, aşağıdaki uyarılardan biri değildir ve sana herkese açık paylaşım yapma hakkını asla kaybettiremez."
                 ]
             },
             "donate": {
@@ -10123,11 +10143,11 @@
         },
         "gallerymoderation": {
             "header": "$~Galeri Moderasyonu",
-            "description": "$~Yönettiğiniz galerilerde yer alan aşağıdaki mesajlar, kullanıcılar tarafından moderasyon için bildirilmiştir.",
+            "description": "$~İnsanların incelemeni istediği şeyler, en eskiden en yeniye doğru sıralanır. Bir karar, hangi kuralların çiğnendiğini söyler ve şeyi yapan kişiye ne karar verdiğin bildirilir.",
             "labels": {
                 "message": "$~mesaj",
-                "reporter": "$~muhabir",
-                "action": "$~moderatör eylemleri"
+                "action": "$~moderatör eylemleri",
+                "reason": "$~hangi kuralları çiğnedi"
             },
             "view": {
                 "label": "$~sohbeti görüntüle",
@@ -10142,7 +10162,11 @@
                 "tip": "$~Bu mesaj yönergeleri ihlal etmiyor."
             },
             "empty": "$~Hiçbir mesaj moderasyon gerektirmez.",
-            "error": "$~Galerileri denetlemek için giriş yapmanız gerekmektedir."
+            "error": "$~Galerileri denetlemek için giriş yapmanız gerekmektedir.",
+            "note": {
+                "description": "$~mesajı yazana ne söyleneceği",
+                "placeholder": "$~onlara bir şey söyle (isteğe bağlı)"
+            }
         },
         "emoji": {
             "noCharacters": "$~Özel bir karakter oluşturun",
@@ -10548,7 +10572,7 @@
         },
         "done": "$~Başka ölçülecek bir şey yok!",
         "error": {
-            "notmod": "$~Moderatör olmadığınız anlaşılıyor. Yakın zamanda moderatör ayrıcalıkları verildiyse, tekrar oturum açmanız gerekebilir. Verilmediyse, moderasyon ayrıcalıklarının nasıl talep edileceğine dair wiki'ye bakın."
+            "notmod": "$~Burada incelemen gereken bir şey yok. Wordplay'in denetçileri herkese açık içerikleri inceler, bir galerinin küratörleri de kendi galerilerindekileri inceler. Yakın zamanda sana denetçi yetkisi verildiyse, yeniden giriş yapman gerekebilir."
         },
         "report": {
             "button": "$~Moderatörü uyar",
@@ -10570,10 +10594,11 @@
         },
         "queue": {
             "label": "$~neyi incelemeli",
-            "labels": ["$~projeler", "$~galeriler"],
+            "labels": ["$~projeler", "$~galeriler", "$~mesajlar"],
             "tips": [
-                "$~insanların herkese açık hâle getirdiği projeleri incele",
-                "$~herkese açık listelenmek isteyen galerileri incele"
+                "$~insanların herkese açık yaptığı projeleri incele",
+                "$~herkese açık listelenmek isteyen galerileri incele",
+                "$~düzenlediğin galerilerde bildirilen mesajları incele"
             ]
         },
         "gallery": {
@@ -10598,6 +10623,12 @@
                 "approved": "$~$name artık herkese açık olarak listeleniyor.",
                 "denied": "$~$name herkese açık olarak listelenmedi."
             }
+        },
+        "responsibility": {
+            "none": "$~Burada paylaştığın şeyi kimse incelemez. Sadece sen ve seçtiğin kişiler görebilir.",
+            "curators": "$~<$name@://galleries> küratörleri, burada paylaşılanları, sohbeti de dahil olmak üzere, incelerler.",
+            "both": "$~<$name@://galleries> küratörleri burada paylaşılanları inceler, Wordplay'in denetçileri de inceler, çünkü herkes bunu görebilir.",
+            "platform": "$~Wordplay'in <denetçileri@://rights> bunu inceler, çünkü herkes görebilir."
         }
     },
     "gallery": {

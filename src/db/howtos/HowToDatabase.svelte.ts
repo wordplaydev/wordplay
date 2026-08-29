@@ -1,5 +1,4 @@
 /** This file encapsulates all Firebase how-to functionality and relies on Svelte state to cache how-to documents. */
-import type { NotificationData } from '@components/settings/Notifications.svelte';
 import { type Database, type SaveCounts, type SaveError } from '@db/Database';
 import { Domain } from '@db/Domains';
 import exceedsDocLimit from '@db/exceedsDocLimit';
@@ -11,7 +10,6 @@ import isQuotaError from '@db/isQuotaError';
 import { PreviewContentSchema } from '@db/projects/ProjectSchemas';
 import SaveTracker from '@db/SaveTracker.svelte';
 import supportsIndexedDB from '@db/supportsIndexedDB';
-import { localeToString } from '@locale/Locale';
 import { SupportedLocales } from '@locale/SupportedLocales';
 import deferToIdle from '@util/deferToIdle';
 import { FirebaseError } from 'firebase/app';
@@ -36,7 +34,6 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
-import { notifications } from '@db/notifications.svelte';
 
 ////////////////////////////////
 // SCHEMAS
@@ -451,7 +448,6 @@ export class HowToDatabase {
     private listenerDocIds: Map<string, Set<string>> = new Map();
 
     /** Dedup set so a how-to surfaced by multiple listeners only notifies once. */
-    private notifiedHowToIds: Set<string> = new Set();
 
     /** Whether this is a browser with IndexedDB support. */
     readonly IndexedDBSupported = supportsIndexedDB();
@@ -849,7 +845,6 @@ export class HowToDatabase {
         this.unsubscribes.forEach((u) => u());
         this.unsubscribes = [];
         this.listenerDocIds.clear();
-        this.notifiedHowToIds.clear();
     }
 
     listen(firestore: Firestore, userId: string) {
@@ -869,7 +864,6 @@ export class HowToDatabase {
         this.db.markSyncing(Domain.HowTos);
 
         // Notifications only fire for how-tos published after this point in time.
-        const startTime: number = Date.now();
 
         // Listener 1: how-tos where the user is creator or collaborator.
         const ownQuery = query(
@@ -882,7 +876,7 @@ export class HowToDatabase {
         this.unsubscribes.push(
             onSnapshot(
                 ownQuery,
-                (snapshot) => this.handleSnapshot('own', snapshot, startTime),
+                (snapshot) => this.handleSnapshot('own', snapshot),
                 (error) => this.logFirebaseError(error),
             ),
         );
@@ -911,7 +905,7 @@ export class HowToDatabase {
             this.unsubscribes.push(
                 onSnapshot(
                     galleryQuery,
-                    (snapshot) => this.handleSnapshot(key, snapshot, startTime),
+                    (snapshot) => this.handleSnapshot(key, snapshot),
                     (error) => this.logFirebaseError(error),
                 ),
             );
@@ -929,17 +923,13 @@ export class HowToDatabase {
         this.unsubscribes.push(
             onSnapshot(
                 scopeQuery,
-                (snapshot) => this.handleSnapshot('scope', snapshot, startTime),
+                (snapshot) => this.handleSnapshot('scope', snapshot),
                 (error) => this.logFirebaseError(error),
             ),
         );
     }
 
-    private handleSnapshot(
-        key: string,
-        snapshot: QuerySnapshot<DocumentData>,
-        startTime: number,
-    ) {
+    private handleSnapshot(key: string, snapshot: QuerySnapshot<DocumentData>) {
         // (a) Parse, upgrade, and cache every doc this listener saw.
         //     Track the IDs so we can garbage-collect later.
         const seen = new Set<string>();
@@ -971,31 +961,7 @@ export class HowToDatabase {
         this.cacheHowTosLocally(synced);
 
         // (b) Notifications for newly-added published how-tos, deduped across listeners.
-        snapshot.docChanges().forEach((change) => {
-            if (change.type === 'added') {
-                const data = change.doc.data();
-                const id = change.doc.id;
-                if (
-                    !this.notifiedHowToIds.has(id) &&
-                    data.published &&
-                    data.publishedAt !== null &&
-                    data.publishedAt >= startTime &&
-                    data.social.notifySubscribers === true
-                ) {
-                    this.notifiedHowToIds.add(id);
-                    notifications.set(id + 'howto', {
-                        title: HowTo.titleInLocale(
-                            data.title,
-                            localeToString(this.db.Locales.getLocale()),
-                            (data.locales as string[])[0],
-                        ),
-                        galleryID: data.galleryId,
-                        itemID: id,
-                        type: 'howto',
-                    } as NotificationData);
-                }
-            }
-        });
+        snapshot.docChanges().forEach((change) => {});
 
         // (c) Cache GC: a doc should remain cached iff at least one listener still sees it.
         //     Safe on initial load — listeners that haven't fired yet have no entry in

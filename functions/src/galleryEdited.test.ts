@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { galleryContentChanged, nextModeration } from './galleryEdited.js';
+import {
+    curatorsChanged,
+    galleryContentChanged,
+    nextModeration,
+} from './galleryEdited.js';
 
 /**
  * The curated public listing's state machine (#1311).
@@ -101,5 +105,53 @@ describe('galleryContentChanged', () => {
 
     it('treats a newly created gallery as changed, so it gets indexed', () => {
         expect(galleryContentChanged(undefined, base)).toBe(true);
+    });
+});
+
+/**
+ * Whose reports get re-routed when a gallery's curators change (#938).
+ *
+ * `moderators` is denormalized onto each report so the curator queue's read
+ * rule needs no get() of the gallery, which means adding or removing a curator
+ * has to be pushed out to the open reports. Firing when nothing changed would
+ * rewrite every open report on every gallery write — including this function's
+ * own writes, which come back through the same trigger.
+ */
+describe('curatorsChanged', () => {
+    it('is true when a curator is added', () => {
+        expect(
+            curatorsChanged({ curators: ['a'] }, { curators: ['a', 'b'] }),
+        ).toBe(true);
+    });
+
+    it('is true when a curator is removed', () => {
+        expect(
+            curatorsChanged({ curators: ['a', 'b'] }, { curators: ['a'] }),
+        ).toBe(true);
+    });
+
+    it('is false when only the order differs', () => {
+        // The list is a set; a reordering is not a change of who may review.
+        expect(
+            curatorsChanged({ curators: ['a', 'b'] }, { curators: ['b', 'a'] }),
+        ).toBe(false);
+    });
+
+    it('is false when something else about the gallery changed', () => {
+        expect(
+            curatorsChanged(
+                { curators: ['a'], name: { en: 'one' } },
+                { curators: ['a'], name: { en: 'two' } },
+            ),
+        ).toBe(false);
+    });
+
+    it('is false for a brand new gallery, which has no reports to fix up', () => {
+        expect(curatorsChanged(undefined, { curators: ['a'] })).toBe(false);
+    });
+
+    it('treats a missing list as empty rather than throwing', () => {
+        expect(curatorsChanged({}, { curators: ['a'] })).toBe(true);
+        expect(curatorsChanged({ curators: ['a'] }, {})).toBe(true);
     });
 });

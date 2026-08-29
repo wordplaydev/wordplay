@@ -4,11 +4,33 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.32.2 - 2026-08-29
+## 0.33.0 - 2026-08-29
 
 ### Added
 
 - 🌐 We added support for Persian (`fa-AF`)! (#1229).
+- 🔔 You now hear what happens after something is reported. If someone reports something you made, we tell you, and we tell you what was decided and which rules it broke. If you were the one who reported it, we tell you what happened too. We never say who reported something. (#938)
+- 🤝 Every place where you share something now tells you who can review it — including when the answer is nobody. (#938)
+- ⚑ You can now report a project in a private gallery to that gallery's curators. Before, you could only report things that anyone could see. (#938)
+- 💬 When someone reviews a message, they can now say which rules it broke and write a note to the person who sent it. Both come to you with the decision. (#938)
+
+### Changed
+
+- 🔔 Your notifications now last. They stay after you reload the page, they follow you to your other devices, and once you clear one it stays cleared. (#938)
+- 🤝 Who reviews what you share now follows who can see it. Nobody reviews a project you keep to yourself. A gallery's curators review what's in their gallery, including its chats. We review anything anyone can see. The [rights page](https://wordplay.dev/rights) explains all of it. (#938)
+- 🔒 A reported message is now really hidden while someone looks at it. Before, it was only hidden on screen, and the words were still there for anyone who looked closely. (#938)
+- 🚩 Reporting a message hides it once. If it's kept and someone reports it again, it stays visible the second time, so reporting can't be used to keep someone quiet. (#938)
+- 🤝 Reported messages now wait on the moderation page along with everything else to review, instead of on their own page. Your notifications will take you there. (#938)
+
+### Fixed
+
+- 🔒 Your notifications no longer stay after you sign out. On a shared computer, the next person could see warnings meant for you. (#938)
+- 🔔 Turning off how-to notifications no longer clears all your other notifications too. (#938)
+- 🔔 You now hear about messages that came in while you were away. Before, we only told you about ones that arrived while the page was open. (#938)
+- 🔔 Several reported messages in one project now show as several notifications instead of one that never went away. (#938)
+- 🐛 The report flag on a chat message no longer opens the report box for every message at once. (#938)
+- 🐛 Reporting the same thing twice no longer makes two reports. (#938)
+- 🔒 Only the person who owns a project can delete its chat now. Before, anyone in the chat could delete the whole conversation. (#938)
 
 ## 0.32.1 - 2026-08-28
 

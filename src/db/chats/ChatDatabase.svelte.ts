@@ -1,5 +1,4 @@
 /** This file encapsulates all Firebase chat functionality and relies on Svelte state to cache chat documents. */
-import type { NotificationData } from '@components/settings/Notifications.svelte';
 import {
     HowTos,
     type Database,
@@ -33,9 +32,10 @@ import {
     type Firestore,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
+import sendModerate from '@db/moderation/moderate';
+import sendReport from '@db/moderation/report';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
-import { notifications } from '@db/notifications.svelte';
 
 ////////////////////////////////
 // SCHEMAS
@@ -52,27 +52,37 @@ const MessageSchemaV1 = z.object({
     text: z.string().nullable(),
 });
 
+/**
+ * v2 put a message's moderation state on the message itself, along with who
+ * reported it and who decided. Kept only so the upgrader can read those fields
+ * off documents already in the field; nothing writes this shape any more.
+ */
 const MessageSchemaV2 = MessageSchemaV1.extend(
     z.object({
-        /** The moderation status of this message:
-         * undefined (not reported),
-         * pending moderation action,
-         * removed due to moderation action,
-         * approved after review */
         moderation: z.enum(['pending', 'removed', 'approved']).exactOptional(),
-        /** The user who reported the message */
         reporter: z.string().exactOptional(),
-        /** The user who took moderation action */
         moderator: z.string().exactOptional(),
     }).shape,
 );
 
-const MessageSchema = MessageSchemaV2;
-export const MessageSchemaLatestVersion = 2;
+/**
+ * v3 takes all three fields off again (#938).
+ *
+ * `reporter` was the serious one: a chat document is readable by every
+ * participant, including the person whose message was reported, so naming the
+ * reporter there made a request for review into a public accusation — the exact
+ * thing the platform's own `reports` collection was built to avoid. Reports now
+ * live there for chats too, and the decision state moved to a map on the chat
+ * that only the server may write.
+ */
+const MessageSchemaV3 = MessageSchemaV1;
 
-export type SerializedMessage = z.infer<typeof MessageSchemaV2>;
+const MessageSchema = MessageSchemaV3;
+export const MessageSchemaLatestVersion = 3;
+
+export type SerializedMessage = z.infer<typeof MessageSchemaV3>;
 export type SerializedMessageUnknownVersion =
-    z.infer<typeof MessageSchemaV1> | SerializedMessage;
+    z.infer<typeof MessageSchemaV2> | SerializedMessage;
 
 const ChatSchemaV1 = z.object({
     // The version of the schema
@@ -84,8 +94,9 @@ const ChatSchemaV1 = z.object({
      * This is redundant with who has permission, but necessary to repeat
      * here for querying purposes. Yay NoSQL... */
     participants: z.array(z.string()),
-    /** A list of chat messages */
-    messages: z.array(MessageSchema),
+    /** A list of chat messages. The pre-v3 shape, so `upgradeChat` can still
+     *  read the moderation fields it lifts off them. */
+    messages: z.array(MessageSchemaV2),
     /**
      * A list of creator IDs who have not seen a chat with an updated message. This is updated by clients
      * each time a message is added, so that other clients can check quickly check to see if any
@@ -99,13 +110,54 @@ const ChatSchemaV2 = ChatSchemaV1.omit({ v: true }).extend(
     z.object({ v: z.literal(2), type: z.enum(['project', 'howto']) }).shape,
 );
 
-/** The latest version of the chat schema */
-const ChatSchema = ChatSchemaV2;
-const ChatSchemaLatestVersion = 2;
+/**
+ * v3 moves message moderation off the messages and onto the chat, as a map from
+ * message id to state (#938).
+ *
+ * Here rather than on the message because the security rules have to be able to
+ * refuse it: a rule can name a top-level key and say a participant may not
+ * touch it, but cannot reach inside an array of messages to protect one field
+ * of one element. With it on the message, any participant could set their own
+ * reported message back to `approved`.
+ */
+const ChatSchemaV3 = ChatSchemaV2.omit({ v: true }).extend(
+    z.object({
+        v: z.literal(3),
+        /** The messages, without the moderation fields v2 kept on them. */
+        messages: z.array(MessageSchema),
+        /** Message id to its moderation state. Server-written; see above. */
+        moderation: z
+            .record(z.string(), z.enum(['pending', 'removed', 'approved']))
+            .default({}),
+    }).shape,
+);
 
-export type SerializedChat = z.infer<typeof ChatSchemaV2>;
+/** The latest version of the chat schema */
+const ChatSchema = ChatSchemaV3;
+const ChatSchemaLatestVersion = 3;
+
+export type SerializedChat = z.infer<typeof ChatSchemaV3>;
 export type SerializedChatUnknownVersion =
-    z.infer<typeof ChatSchemaV1> | SerializedChat;
+    | z.infer<typeof ChatSchemaV1>
+    | z.infer<typeof ChatSchemaV2>
+    | SerializedChat;
+
+/** A pre-v3 chat's `moderation` map, if a callable has already written one.
+ *  Each value is checked rather than trusted: this is reading a shape the
+ *  version number says shouldn't be there yet. */
+function moderationOf(
+    chat: SerializedChatUnknownVersion,
+): Record<string, 'pending' | 'removed' | 'approved'> {
+    const states: Record<string, 'pending' | 'removed' | 'approved'> = {};
+    if (!('moderation' in chat)) return states;
+    const map: unknown = chat.moderation;
+    if (typeof map !== 'object' || map === null || Array.isArray(map))
+        return states;
+    for (const [id, state] of Object.entries(map))
+        if (state === 'pending' || state === 'removed' || state === 'approved')
+            states[id] = state;
+    return states;
+}
 
 /** Chat upgrader */
 export function upgradeChat(
@@ -114,6 +166,45 @@ export function upgradeChat(
     switch (chat.v) {
         case 1:
             return upgradeChat({ ...chat, v: 2, type: 'project' });
+        case 2:
+            // Hoist each message's own moderation state into the chat's map and
+            // drop `reporter`/`moderator` from the messages. The strip has to
+            // happen here rather than being left to zod: the listener parses
+            // for the throw and then uses this *unparsed* object, so a field
+            // zod would have ignored would otherwise survive into memory — and
+            // for `reporter`, survive into the next write of the document.
+            //
+            // Anything already in the chat's own `moderation` map wins. Rules,
+            // client, and functions all deploy together, so between that deploy
+            // and the migration a document sits at v2 while the callables write
+            // the v3 map onto it — the Admin SDK writes one field, it doesn't
+            // bump the version. Rebuilding the map from the messages alone
+            // would throw that away, and a message someone had just reported
+            // would read as deleted rather than as waiting for review.
+            return upgradeChat({
+                ...chat,
+                v: 3,
+                moderation: chat.messages.reduce<
+                    Record<string, 'pending' | 'removed' | 'approved'>
+                >(
+                    (states, message) => {
+                        const state = message.moderation;
+                        if (
+                            state !== undefined &&
+                            states[message.id] === undefined
+                        )
+                            states[message.id] = state;
+                        return states;
+                    },
+                    { ...moderationOf(chat) },
+                ),
+                messages: chat.messages.map(({ id, time, creator, text }) => ({
+                    id,
+                    time,
+                    creator,
+                    text,
+                })),
+            });
         case ChatSchemaLatestVersion:
             return chat;
         default:
@@ -190,31 +281,24 @@ export default class Chat {
         });
     }
 
-    /** Change the message's moderation status to "pending" */
-    withReportedMessage(message: SerializedMessage, reporterID: string) {
+    /** Locally reflect that a message is awaiting review. The reporter is
+     *  deliberately not recorded here: it belongs on the report, which only
+     *  whoever is responsible can read. */
+    withReportedMessage(message: SerializedMessage) {
         return new Chat({
             ...this.data,
-            messages: this.data.messages.map((m) =>
-                m.id === message.id
-                    ? { ...m, moderation: 'pending', reporter: reporterID }
-                    : m,
-            ),
+            moderation: { ...this.data.moderation, [message.id]: 'pending' },
         });
     }
 
-    /** Take moderation action on the message */
+    /** Locally reflect a decision about a message. */
     withModeratedMessage(
         message: SerializedMessage,
         action: 'removed' | 'approved',
-        moderatorID: string,
     ) {
         return new Chat({
             ...this.data,
-            messages: this.data.messages.map((m) =>
-                m.id === message.id
-                    ? { ...m, moderation: action, moderator: moderatorID }
-                    : m,
-            ),
+            moderation: { ...this.data.moderation, [message.id]: action },
         });
     }
 
@@ -258,14 +342,13 @@ export default class Chat {
         return this.data.unread.includes(creator);
     }
 
-    /** List of messages in this chat that require moderation action from the curator */
-    getMessagesPendingModeration(
-        curatorID: string,
-        gallery: Gallery | undefined,
-    ): SerializedMessage[] {
-        if (gallery === undefined || !gallery.hasCurator(curatorID)) return [];
-
-        return this.data.messages.filter((m) => m.moderation === 'pending');
+    /** What was decided about a message, if anything. Server-written: a
+     *  participant who could set this would be deciding about their own
+     *  reported message. */
+    getMessageModeration(
+        id: string,
+    ): 'pending' | 'removed' | 'approved' | undefined {
+        return this.data.moderation[id];
     }
 
     /** With the unread user unread */
@@ -581,39 +664,52 @@ export class ChatDatabase {
         await this.writeAtomicChat(chat.getProjectID(), { participants });
     }
 
-    /** Mark a message as reported (pending moderation). */
-    async reportMessage(
-        chat: Chat,
-        message: SerializedMessage,
-        reporterID: string,
-    ) {
-        this.chats.set(
-            chat.getProjectID(),
-            chat.withReportedMessage(message, reporterID),
-        );
-        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
-            ...m,
-            moderation: 'pending',
-            reporter: reporterID,
-        }));
+    /**
+     * Ask whoever is responsible to review a message.
+     *
+     * Through the callable, not a write from here: the report has to name its
+     * reviewers (which a participant can't be trusted to do), it has to be
+     * deduplicated by a deterministic id, and it moves the message's text out
+     * of the chat so that "temporarily removed" is actually true rather than a
+     * client-side `{#if}` over text everyone can still read.
+     */
+    async reportMessage(chat: Chat, message: SerializedMessage) {
+        // Optimistic, so the message hides immediately; the listener confirms.
+        this.chats.set(chat.getProjectID(), chat.withReportedMessage(message));
+        await sendReport({
+            kind: 'chat',
+            subject: chat.getProjectID(),
+            message: message.id,
+        });
     }
 
-    /** Apply a moderator's removal/approval to a message. */
+    /**
+     * Record a decision about a message.
+     *
+     * Through the callable for the same reasons, plus one of its own: keeping a
+     * message means putting its text back, and only whatever moved the text out
+     * can put it back.
+     */
     async moderateMessage(
         chat: Chat,
         message: SerializedMessage,
         action: 'removed' | 'approved',
-        moderatorID: string,
+        flags: Record<string, boolean | null>,
+        note?: string,
     ) {
         this.chats.set(
             chat.getProjectID(),
-            chat.withModeratedMessage(message, action, moderatorID),
+            chat.withModeratedMessage(message, action),
         );
-        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
-            ...m,
-            moderation: action,
-            moderator: moderatorID,
-        }));
+        await sendModerate({
+            kind: 'chat',
+            subject: chat.getProjectID(),
+            message: message.id,
+            flags,
+            ...(note === undefined ? {} : { note }),
+            strike: false,
+            decision: `chat-${chat.getProjectID()}-${message.id}-${action}`,
+        });
     }
 
     /** Clear a message's text (soft delete that preserves the message slot). */
@@ -712,9 +808,10 @@ export class ChatDatabase {
         if (project.getOwner() === null) return undefined;
 
         const newChat: SerializedChat = {
-            v: 2,
+            v: 3,
             project: project.getID(),
             messages: [],
+            moderation: {},
             // Everyone contributing is eligible to see and participate in the chat.
             participants: Array.from(this.getAllParticipants(project, gallery)),
             unread: [],
@@ -733,9 +830,10 @@ export class ChatDatabase {
         if (howTo.getCreator() === null) return undefined;
 
         const newChat: SerializedChat = {
-            v: 2,
+            v: 3,
             project: howTo.getHowToId(),
             messages: [],
+            moderation: {},
             // All gallery curators, creators, viewers can access the chat
             // As can any creators or collaborators on a how-to
             participants: Array.from(
@@ -982,7 +1080,6 @@ export class ChatDatabase {
 
     private startListening(firestore: Firestore, user: User) {
         this.db.markSyncing(Domain.Chats);
-        const startTime: number = Date.now();
 
         this.unsubscribe = onSnapshot(
             query(
@@ -1042,57 +1139,13 @@ export class ChatDatabase {
                                 projectID,
                                 this.howToListener,
                             );
-                    } else {
-                        // added or modified? notify if there is a new message after the start time
-
-                        const chatData: Chat | undefined = this.chats.get(
-                            change.doc.id,
-                        );
-
-                        // only alert if the message was sent since the page was first opened
-                        if (
-                            !chatData ||
-                            !chatData
-                                .getMessages()
-                                .some((m) => m.time > startTime)
-                        )
-                            return;
-
-                        let title: string = '';
-                        let galleryID: string = '';
-
-                        if (chatData.getType() === 'project') {
-                            const project = await this.db.getProjectSummary(
-                                chatData.getProjectID(),
-                            );
-                            if (project) title = project.name;
-                        } else {
-                            const howto = await this.db.HowTos.getHowTo(
-                                chatData.getProjectID(),
-                            );
-                            if (howto) {
-                                title = howto.getTitle();
-                                galleryID = howto.getHowToGalleryId();
-                            }
-                        }
-
-                        if (chatData.hasUnread(user.uid)) {
-                            let itemID = chatData.getProjectID();
-                            let type =
-                                chatData.getType() === 'howto'
-                                    ? 'howtochat'
-                                    : 'projectchat';
-                            notifications.set(itemID + type, {
-                                title,
-                                galleryID:
-                                    chatData.getType() === 'howto'
-                                        ? galleryID
-                                        : undefined,
-                                itemID: itemID,
-                                type: type,
-                            } as NotificationData);
-                        }
                     }
+                    // An unread conversation used to be pushed to the bell from
+                    // here, gated on the message arriving after the page opened
+                    // — so a message that landed while the tab was closed was
+                    // never mentioned, and one that was mentioned vanished on
+                    // reload. The bell now derives it from `unread` on the chat
+                    // itself, which is durable and already synced.
                 });
 
                 this.db.markSynced(Domain.Chats, this.chats.size);

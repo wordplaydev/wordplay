@@ -4,6 +4,7 @@ import {
     StrikesUntilBanned,
     noStrikes,
     strikesRemaining,
+    withFinding,
     withStrike,
 } from './strikes.js';
 
@@ -142,5 +143,59 @@ describe('withStrike', () => {
         withStrike(before, strike('p'));
         expect(before.count).toBe(0);
         expect(before.strikes).toEqual([]);
+    });
+});
+
+/**
+ * A curator's decision, recorded but never counted (#938).
+ *
+ * The separation is the whole point: a gallery's curator moderates their own
+ * gallery, and letting that cost someone their platform-wide publishing would
+ * give a classroom decision a reach it was never meant to have. What a finding
+ * buys is the pattern — a platform moderator looking at a creator can see that
+ * other galleries have decided about them too.
+ */
+describe('withFinding', () => {
+    const finding = {
+        gallery: 'g1',
+        kind: 'chat' as const,
+        flags: ['violence'],
+        time: 1,
+        decision: 'd1',
+    };
+
+    test('records the decision without moving the warning count', () => {
+        const after = withFinding(noStrikes(), finding);
+        expect(after.findings).toEqual([finding]);
+        expect(after.count).toBe(0);
+        expect(after.banned).toBe(false);
+    });
+
+    test('never bans, however many findings there are', () => {
+        let record = noStrikes();
+        for (let i = 0; i < 10; i++)
+            record = withFinding(record, { ...finding, decision: `d${i}` });
+        expect(record.findings).toHaveLength(10);
+        expect(record.count).toBe(0);
+        expect(record.banned).toBe(false);
+    });
+
+    test('is idempotent on the decision, so a lost response cannot double-record', () => {
+        const once = withFinding(noStrikes(), finding);
+        expect(withFinding(once, finding).findings).toHaveLength(1);
+    });
+
+    test('leaves warnings alone', () => {
+        const warned = withStrike(noStrikes(), {
+            decision: 'w1',
+            project: 'p1',
+            flags: [],
+            moderator: 'm',
+            time: 1,
+        });
+        const after = withFinding(warned, finding);
+        expect(after.count).toBe(1);
+        expect(after.strikes).toHaveLength(1);
+        expect(after.findings).toHaveLength(1);
     });
 });
