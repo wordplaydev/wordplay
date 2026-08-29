@@ -10,6 +10,7 @@ export const ChoosePrompts: Record<string, string> = {
     'el-GR': 'Διάλεξε μια γλώσσα',
     'en-US': 'Choose a language',
     'es-MX': 'elegir un idioma',
+    'fa-AF': 'یک زبان را انتخاب کنید',
     'fr-FR': 'Choisis une langue',
     'gu-IN': 'એક ભાષા પસંદ કરો',
     'he-IL': 'בחרו שָׂפָה',

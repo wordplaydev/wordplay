@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.32.2 - 2026-08-29
+
+### Added
+
+- 🌐 We added support for Persian (`fa-AF`)! (#1229).
+
 ## 0.32.1 - 2026-08-28
 
 ### Added

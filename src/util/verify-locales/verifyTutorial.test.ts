@@ -3,8 +3,16 @@ import {
     findDialogDelimiterProblems,
     queuedForTranslation,
     repairConceptName,
+    translateTutorial,
 } from '@util/verify-locales/verifyTutorial';
 import type { Dialog } from '../../tutorial/Tutorial';
+import { MachineTranslated, Unwritten } from '@locale/Annotations';
+import DefaultLocale from '@locale/DefaultLocale';
+import type Locale from '@locale/Locale';
+import type Translator from '@util/verify-locales/Translator';
+import { collectingLog } from '@util/verify-locales/Log';
+import { CHECKPOINT_PATHS } from '@util/verify-locales/verifyLocale';
+import type Tutorial from '../../tutorial/Tutorial';
 
 test.each([
     // A glued translation fragment truncates to the valid property.
@@ -183,4 +191,71 @@ describe('findDialogDelimiterProblems', () => {
         const count = (text: string) => (text.match(/\\/g) ?? []).length;
         return count(String(source[2])) !== count(String(translation[2]));
     }
+});
+
+// A tutorial is one write at the end of its mode, so a run killed partway
+// through translating it lost everything it had paid for. It is now sliced.
+describe('tutorial checkpointing', () => {
+    /** A tutorial whose single scene holds `count` unwritten dialog lines. */
+    function tutorialWithLines(count: number): Tutorial {
+        const lines = [];
+        for (let index = 0; index < count; index++)
+            lines.push(['@Phrase', 'curious', `${Unwritten}line ${index}`]);
+        // An unshipped locale name on purpose: Basis.Bases is keyed by locale
+        // name, so a synthetic locale must never claim a shipped one's.
+        return {
+            language: 'zh',
+            regions: ['SG'],
+            acts: [{ title: 'Act', scenes: [{ title: 'Scene', lines }] }],
+        } as unknown as Tutorial;
+    }
+
+    /** Echoes with an `X` prefix and records every string it was asked for, in
+     *  order, so the write-back can be checked against what was actually sent. */
+    function echoingTranslator(sent: string[]): Translator {
+        return {
+            id: 'stub',
+            async translate(_log, text) {
+                sent.push(...text);
+                return text.map((t) => `X${t}`);
+            },
+            getTargetLocale: (language, regions) =>
+                Promise.resolve(
+                    regions.length > 0 ? `${language}-${regions[0]}` : language,
+                ),
+            getSupportedLocales: () => Promise.resolve([] as Locale[]),
+        };
+    }
+
+    test('checkpoints once per slice, and every line keeps its own translation', async () => {
+        const count = CHECKPOINT_PATHS * 2 + 5;
+        const tutorial = tutorialWithLines(count);
+        const sent: string[] = [];
+        const saves: Tutorial[] = [];
+
+        const revised = await translateTutorial(
+            collectingLog().log,
+            DefaultLocale,
+            tutorial,
+            false,
+            [],
+            undefined,
+            echoingTranslator(sent),
+            async (partial) => {
+                saves.push(JSON.parse(JSON.stringify(partial)) as Tutorial);
+            },
+        );
+
+        // Two full slices and a remainder.
+        expect(saves.length).toBe(3);
+
+        // Every line holds the translation of the string that was sent for it —
+        // the write-back drains the results with shift(), so a slice boundary
+        // that shifted one against the other would mis-assign them here.
+        const lines = revised.acts[0].scenes[0].lines as string[][];
+        expect(lines.length).toBe(count);
+        expect(sent.length).toBe(count);
+        for (let index = 0; index < count; index++)
+            expect(lines[index][2]).toBe(`${MachineTranslated}X${sent[index]}`);
+    });
 });

@@ -201,6 +201,19 @@ async function handleLocale(
         translatedPaths,
         localeFilter,
         translator,
+        // Persist progress partway through translation. A new locale is over an
+        // hour of paid work that used to reach disk only at the end, so a killed
+        // run lost all of it; a checkpointed string carries `$~` and is skipped
+        // on the next run, so what landed stays bought.
+        async (partial) => {
+            if (
+                await writeFormatted(
+                    getLocalePath(locale),
+                    JSON.stringify(partial, null, 4),
+                )
+            )
+                localeFileLog.good('Saved progress');
+        },
     );
 
     // If the locale was revised, write the results (Prettier-formatted).
@@ -306,6 +319,15 @@ async function handleLocale(
                 targets,
                 mode,
                 translator,
+                async (partial) => {
+                    if (
+                        await writeFormatted(
+                            getTutorialPath(locale, mode),
+                            JSON.stringify(partial, null, 4),
+                        )
+                    )
+                        modeLog.good('Saved progress');
+                },
             );
 
             // If the tutorial was revised, write the results (Prettier-formatted).
@@ -726,16 +748,20 @@ if (FocalLocale === null) {
     else log.good('All keywords are single, hyphen-free tokens.');
 }
 
-// If the user asked for a specific locale, and a folder doesn't exist for it yet, create one.
-if (
-    FocalLocale &&
-    FocalRegion &&
-    !localeFolders.find((f) => f.name === FocalLocale)
-) {
+// If the user asked for a specific locale that has no locale file yet, create one.
+//
+// The test is the file, not the folder: the folder is created here before any
+// translating happens, so a run killed before its first save left an empty folder
+// behind — which made this branch skip, while the loop above quietly ignores a
+// folder whose JSON won't load when a focal locale is set. The same command that
+// started the work became a silent no-op that reported zero locales and exited 0.
+if (FocalLocale && FocalRegion && !fs.existsSync(getLocalePath(FocalLocale))) {
     const newLocaleLog = log.scope(
         'Creating a new locale folder for ' + FocalLocale,
     );
-    fs.mkdirSync(path.join('static', 'locales', FocalLocale));
+    fs.mkdirSync(path.join('static', 'locales', FocalLocale), {
+        recursive: true,
+    });
 
     newLocaleLog.good('No locale found, creating one based on English.');
     let localeText = createUnwrittenLocale();

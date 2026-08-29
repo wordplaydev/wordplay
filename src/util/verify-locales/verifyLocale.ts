@@ -151,6 +151,9 @@ export async function verifyLocale(
      *  locale texts) and usage accounting span the whole locale run rather than
      *  one call. Undefined = the env-selected backend, constructed on demand. */
     translator?: Translator,
+    /** Called with a complete, valid locale partway through translation so the
+     *  caller can persist progress; see `CHECKPOINT_PATHS`. */
+    checkpoint?: (partial: LocaleText) => Promise<void>,
 ): Promise<[LocaleText, boolean]> {
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
@@ -244,6 +247,7 @@ export async function verifyLocale(
         translatedPaths,
         localeFilter,
         translator,
+        checkpoint,
     );
 
     // Again, because `checkLocale` is where this run's own name translations land: a name
@@ -258,7 +262,9 @@ export async function verifyLocale(
 
 // Whether to (re)machine-translate this string: it's unwritten ($?), explicitly marked Revised ($!)
 // to force a per-string re-translation from en-US, or machine-translated ($~) and we're overriding.
-function shouldStringBeMachineTranslated(
+// Exported because this is what makes a checkpoint durable: a saved string carries $~, so a re-run
+// skips it and pays only for what is still $?.
+export function shouldStringBeMachineTranslated(
     text: string,
     override: boolean,
 ): boolean {
@@ -286,6 +292,8 @@ async function checkLocale(
     localeFilter?: (path: LocalePath) => boolean,
     /** The run's shared translation backend; see verifyLocale. */
     translator?: Translator,
+    /** Persist partial progress during translation; see verifyLocale. */
+    checkpoint?: (partial: LocaleText) => Promise<void>,
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
@@ -373,6 +381,7 @@ async function checkLocale(
                 translatedPaths,
                 translator,
                 itemNeedsTranslation,
+                checkpoint,
             );
         }
     }
@@ -726,6 +735,20 @@ function repairLocale(
     return revised;
 }
 
+/**
+ * How many paths one slice of the bulk translation phase covers before the
+ * caller's checkpoint runs.
+ *
+ * That phase is the long pole of a locale run — over an hour for a new one — and
+ * it used to write nothing until it finished, so a process killed partway lost
+ * every string it had paid for. Sliced this way it saves every few minutes, and
+ * a saved string needs no other bookkeeping to be durable: it carries `$~`, which
+ * `shouldStringBeMachineTranslated` skips, so a re-run pays only for what is
+ * still `$?`. Each save re-serializes the whole locale (~1MB, a few hundred ms
+ * through Prettier), which is why this isn't per chunk.
+ */
+export const CHECKPOINT_PATHS = 200;
+
 export async function translateLocale(
     log: Log,
     source: LocaleText,
@@ -746,6 +769,9 @@ export async function translateLocale(
         path: LocalePath,
         existing: string | undefined,
     ) => boolean,
+    /** Called with `revised` after each phase and each slice of the bulk phase,
+     *  so a caller can write progress to disk; see `CHECKPOINT_PATHS`. */
+    checkpoint?: (partial: LocaleText) => Promise<void>,
 ) {
     const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
 
@@ -968,6 +994,7 @@ export async function translateLocale(
         ))
     )
         return revised;
+    if (glossaryWords.length > 0) await checkpoint?.(revised);
 
     // Phase 2 is itself split so that construct names (NameText) are translated
     // and written into `revised` BEFORE the docs that embed `\code\` examples.
@@ -989,9 +1016,30 @@ export async function translateLocale(
         ))
     )
         return revised;
+    if (namePaths.length > 0) await checkpoint?.(revised);
+
     // Phase 2b: everything else, now that `revised` carries the localized names, so
     // embedded examples retarget their library references to those names.
-    await phase(`${otherPaths.length} remaining strings`, otherPaths, revised);
+    //
+    // Sliced so the caller can persist progress as it goes. Slicing is only safe
+    // because the slices partition `otherPaths`: `indicesFor` memoizes per path
+    // and its first answer wins, so a path appearing in two slices would send one
+    // set of array elements and write back another. Everything else `apply` needs
+    // — the source strings and the `translations.shift()` write-back — is rebuilt
+    // per call, so lockstep holds within a slice.
+    const slices: LocalePath[][] = [];
+    for (let index = 0; index < otherPaths.length; index += CHECKPOINT_PATHS)
+        slices.push(otherPaths.slice(index, index + CHECKPOINT_PATHS));
+    for (const [index, slice] of slices.entries()) {
+        await phase(
+            slices.length > 1
+                ? `${slice.length} remaining strings (${index + 1}/${slices.length})`
+                : `${slice.length} remaining strings`,
+            slice,
+            revised,
+        );
+        await checkpoint?.(revised);
+    }
 
     return revised;
 }

@@ -1,4 +1,4 @@
-import { Unwritten } from '@locale/Annotations';
+import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import DefaultLocale from '@locale/DefaultLocale';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
@@ -6,10 +6,13 @@ import { collectingLog } from '@util/verify-locales/Log';
 import type Translator from '@util/verify-locales/Translator';
 import { expect, test } from 'vitest';
 import LocalePath from './LocalePath';
+import { isNameTextPath } from './classifyLocalePath';
 import {
     addMissingKeys,
+    CHECKPOINT_PATHS,
     getCheckableLocalePairs,
     removeExtraKeys,
+    shouldStringBeMachineTranslated,
     translateLocale,
     verifyLocale,
 } from './verifyLocale';
@@ -304,4 +307,147 @@ test('translateLocale marks glossary and construct-name phases as names', async 
     expect(named.flatMap((call) => call.texts)).not.toEqual(
         expect.arrayContaining(['alpha']),
     );
+});
+
+// --- Checkpointing ---------------------------------------------------------
+//
+// The bulk translation phase is the long pole of a locale run, and it used to
+// reach disk only when it finished — so a process killed partway lost every
+// string it had paid for. It is now sliced, saving as it goes.
+
+/** Real scalar paths that land in the bulk phase: not glossary words (phase 1)
+ *  and not NameText (phase 2a). Real paths rather than synthetic keys so the
+ *  slicing is exercised against the shapes the locale actually has. */
+function bulkPaths(count: number): LocalePath[] {
+    return getCheckableLocalePairs(DefaultLocale)
+        .filter((path) => typeof path.value === 'string')
+        .filter((path) => !(path.path[0] === 'glossary' && path.key === 'word'))
+        .filter((path) => !isNameTextPath([...path.path, path.key]))
+        .slice(0, count);
+}
+
+/** Echoes each string with an `X` prefix, recording every string it was asked
+ *  for in order, so the write-back can be checked against what was sent. */
+function echoingTranslator(sent: string[]): Translator {
+    return {
+        id: 'stub',
+        async translate(_log, text) {
+            sent.push(...text);
+            return text.map((t) => `X${t}`);
+        },
+        getTargetLocale: (language, regions) =>
+            Promise.resolve(
+                regions.length > 0 ? `${language}-${regions[0]}` : language,
+            ),
+        getSupportedLocales: () => Promise.resolve([] as Locale[]),
+    };
+}
+
+test('translateLocale checkpoints once per slice of the bulk phase', async () => {
+    const source = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const target = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const paths = bulkPaths(CHECKPOINT_PATHS * 2 + 1);
+
+    const saved: LocaleText[] = [];
+    await translateLocale(
+        collectingLog().log,
+        source,
+        target,
+        paths,
+        new Set<string>(),
+        echoingTranslator([]),
+        undefined,
+        async (partial) => {
+            // Copy: `revised` keeps being mutated after the checkpoint returns,
+            // so holding the reference would assert against the final state.
+            saved.push(JSON.parse(JSON.stringify(partial)) as LocaleText);
+        },
+    );
+
+    // Two full slices plus a remainder of one.
+    expect(saved.length).toBe(3);
+
+    // Each payload is a whole locale rather than a fragment — that is what makes
+    // it safe to write over the real file.
+    for (const partial of saved) expect(partial.output.Phrase).toBeDefined();
+
+    // And progress is monotonic: each save holds strictly more than the last.
+    const done = saved.map(
+        (partial) =>
+            paths.filter((path) => {
+                const value = path.resolve(partial);
+                return (
+                    typeof value === 'string' &&
+                    value.startsWith(MachineTranslated)
+                );
+            }).length,
+    );
+    expect(done[0]).toBeGreaterThan(0);
+    expect(done[1]).toBeGreaterThan(done[0]);
+    expect(done[2]).toBeGreaterThan(done[1]);
+});
+
+// The write-back drains the translation array with shift(), in lockstep with the
+// strings that were sent. Slicing rebuilds both per call, so a boundary that
+// shifted one against the other would mis-assign translations to paths rather
+// than fail loudly.
+test('slicing the bulk phase keeps every path aligned with its translation', async () => {
+    const count = CHECKPOINT_PATHS * 2 + 37;
+    const source = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const target = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const paths = bulkPaths(count);
+    const sent: string[] = [];
+
+    const revised = await translateLocale(
+        collectingLog().log,
+        source,
+        target,
+        paths,
+        new Set<string>(),
+        echoingTranslator(sent),
+    );
+
+    expect(sent.length).toBe(count);
+    for (let index = 0; index < count; index++)
+        expect(paths[index].resolve(revised)).toBe(
+            `${MachineTranslated}X${sent[index]}`,
+        );
+});
+
+test('a phase with no paths does not checkpoint', async () => {
+    const source = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const target = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    let saves = 0;
+    await translateLocale(
+        collectingLog().log,
+        source,
+        target,
+        bulkPaths(1),
+        new Set<string>(),
+        echoingTranslator([]),
+        undefined,
+        async () => {
+            saves++;
+        },
+    );
+    // Only the one bulk slice ran; the glossary-word and construct-name phases
+    // had nothing to do, and re-serializing an unchanged locale through Prettier
+    // twice per locale across a full run is real time for no gain.
+    expect(saves).toBe(1);
+});
+
+// What makes a checkpoint durable rather than merely written: a saved string
+// carries $~, which is skipped on the next run, so resuming pays only for what
+// is still $?.
+test('a machine-translated string is not re-translated, but an unwritten one is', () => {
+    expect(shouldStringBeMachineTranslated(`${Unwritten}hello`, false)).toBe(
+        true,
+    );
+    expect(
+        shouldStringBeMachineTranslated(`${MachineTranslated}hola`, false),
+    ).toBe(false);
+    // …unless the run is explicitly overriding machine translations.
+    expect(
+        shouldStringBeMachineTranslated(`${MachineTranslated}hola`, true),
+    ).toBe(true);
 });

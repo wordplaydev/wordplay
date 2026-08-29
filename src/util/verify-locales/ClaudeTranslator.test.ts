@@ -5,6 +5,7 @@ import {
     estimateCost,
     reconcileTranslations,
     translateDeduped,
+    translateMemoized,
 } from './ClaudeTranslator';
 
 /** Build an id-keyed response body from index→text pairs. */
@@ -200,5 +201,87 @@ describe('estimateCost', () => {
                 thinkingTokens: 0,
             }),
         ).toBeUndefined();
+    });
+});
+
+describe('translateMemoized', () => {
+    /** Records what it was asked to translate, echoing each with an `X`. */
+    const echoing = (asked: string[][]) => async (pending: string[]) => {
+        asked.push([...pending]);
+        return pending.map((unit) => `X${unit}`);
+    };
+
+    test('a unit already translated in this run is not requested again', async () => {
+        const memo = new Map<string, string>();
+        const keyOf = (unit: string) => unit;
+        const asked: string[][] = [];
+
+        const first = await translateMemoized(
+            ['a', 'b'],
+            memo,
+            keyOf,
+            echoing(asked),
+        );
+        const second = await translateMemoized(
+            ['b', 'c'],
+            memo,
+            keyOf,
+            echoing(asked),
+        );
+
+        expect(first).toEqual(['Xa', 'Xb']);
+        // 'b' came from the memo; only 'c' was bought.
+        expect(second).toEqual(['Xb', 'Xc']);
+        expect(asked).toEqual([['a', 'b'], ['c']]);
+    });
+
+    test('a different key is a different translation', async () => {
+        const memo = new Map<string, string>();
+        const asked: string[][] = [];
+        await translateMemoized(
+            ['a'],
+            memo,
+            (u) => `sys1 ${u}`,
+            echoing(asked),
+        );
+        await translateMemoized(
+            ['a'],
+            memo,
+            (u) => `sys2 ${u}`,
+            echoing(asked),
+        );
+        // The same string under a different system prompt or model is a
+        // different request, so it must not be served from the memo.
+        expect(asked).toEqual([['a'], ['a']]);
+    });
+
+    test('a failure is not remembered, so a later slice retries it', async () => {
+        const memo = new Map<string, string>();
+        const keyOf = (unit: string) => unit;
+        const asked: string[][] = [];
+
+        const first = await translateMemoized(['a'], memo, keyOf, async (p) => {
+            asked.push([...p]);
+            return [null];
+        });
+        const second = await translateMemoized(
+            ['a'],
+            memo,
+            keyOf,
+            echoing(asked),
+        );
+
+        expect(first).toEqual([null]);
+        expect(second).toEqual(['Xa']);
+        expect(asked).toEqual([['a'], ['a']]);
+    });
+
+    test('nothing is requested when everything is remembered', async () => {
+        const memo = new Map([['a', 'Xa']]);
+        const asked: string[][] = [];
+        expect(
+            await translateMemoized(['a'], memo, (u) => u, echoing(asked)),
+        ).toEqual(['Xa']);
+        expect(asked).toEqual([]);
     });
 });

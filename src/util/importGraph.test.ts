@@ -316,13 +316,20 @@ test('resolving a color needs no basis', () => {
  * in all 29 translated locales. Both files were already reachable from all five
  * entries, so the file counts do not move and no subgraph is added; the four
  * other budgets absorbed the same ~4.5KB without moving at all.
+ *
+ * Adding a locale (fa-AF, #1229) moves `+layout` and `projects` by 0.01MB and
+ * the other three not at all. It adds no file and no subgraph — just ~76 bytes
+ * in two modules every page already carried: one line in `SupportedLocales.ts`
+ * and one in `choosePrompts.generated.ts`, whose Persian phrase is the larger
+ * half. These two entries are simply the ones with less than that much slack.
+ * Expect this pair to move again, by about this much, each time a locale lands.
  */
 test.each([
-    ['src/routes/+layout.svelte', 491, 3.58],
+    ['src/routes/+layout.svelte', 491, 3.59],
     ['src/components/app/Page.svelte', 513, 3.82],
     ['src/routes/[[locale]]/+page.svelte', 528, 3.91],
     ['src/routes/[[locale]]/galleries/+page.svelte', 532, 3.92],
-    ['src/routes/[[locale]]/projects/+page.svelte', 539, 3.94],
+    ['src/routes/[[locale]]/projects/+page.svelte', 539, 3.95],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(
