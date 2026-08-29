@@ -366,13 +366,40 @@ service cloud.firestore {
              .hasOnly(['messages', 'unread', 'participants'])
         && request.resource.data.messages.size() >= resource.data.messages.size();
       allow delete: if request.auth != null && ownsChatsProject();
-    }
-    match /chatTranslations/{doc} {
-      // Translation sidecars hold cached translations of already-accessible
-      // message text.  Any logged-in user may read or write them: the content
-      // is derived from messages the user can already see, so no additional
-      // access gate beyond authentication is needed.
-      allow read, write: if request.auth != null;
+
+      // Cached machine translations of this conversation, one document per
+      // target language holding {messageID: translated text} (#1214).
+      //
+      // A subcollection precisely so this rule can exist. Cached under a
+      // top-level `chatTranslations/{chat}~{language}` id, the chat's id was
+      // reachable by nothing that needed it — a rule cannot take a document id
+      // apart — so the only rule expressible was `request.auth != null`, which
+      // made every translated message in every private conversation readable by
+      // any account on the platform, moderator-removed ones included.
+      //
+      // One document access per request, and the *same* one for every document
+      // a list of this subcollection matches, since repeat access to a document
+      // is cached: listing every language a chat has costs 1 of the ~10 the
+      // rules allow however many there are. See src/db/firestoreLimits.ts.
+      //
+      // Unlike the chat itself, delete is a participant's rather than the
+      // project owner's: deleting your own message has to take its translations
+      // with it, and only the person deleting is there to do it. The blast
+      // radius is a cache — the worst a participant can do is make everyone pay
+      // to translate again.
+      match /translations/{language} {
+        // Read from the chat rather than copied onto the cache:
+        // syncParticipants mirrors the project's permissions from whichever
+        // client notices a change, so a copy here would go stale — and stale
+        // means readable by someone the project has since removed.
+        function participatesInChat() {
+          let parent = get(/databases/$(database)/documents/chats/$(chat));
+          return parent != null
+            && "participants" in parent.data
+            && request.auth.uid in parent.data.participants;
+        }
+        allow read, write: if request.auth != null && participatesInChat();
+      }
     }
     match /classes/{class} {
       function isTeacher() { 

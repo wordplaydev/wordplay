@@ -246,6 +246,17 @@ export function upgradeChat(
 // need to cap it.
 const MAX_CHAT_MESSAGES_BYTES = 131072;
 
+/** How much of one language's translations of one conversation we keep.
+ *
+ *  Deliberately the same number as the conversation's own text budget: a
+ *  translation is at most about as long again as its source, and the chat
+ *  already refuses to hold more than that much message text. Even at four
+ *  UTF-8 bytes per character — the worst any script does — that is 512KB
+ *  against Firestore's hard 1MB per document, leaving room for a 36-byte UUID
+ *  key on every entry. Counted in characters, the way the chat counts its
+ *  own. */
+const MAX_CHAT_TRANSLATION_CHARACTERS = MAX_CHAT_MESSAGES_BYTES;
+
 /** An immutable wrapper class for accessing and manipulating chat data */
 export default class Chat {
     /** The data of the chat. */
@@ -807,63 +818,91 @@ export class ChatDatabase {
         }
     }
 
-    /** Cache translations for several messages in a per-chat, per-language
-     *  sidecar document so future viewers reuse them without re-calling the
-     *  translation service.  Uses Firestore merge so concurrent viewers
-     *  writing the same language produce identical, non-conflicting results
-     *  with no contention on the main chat document. */
+    /**
+     * Cache translations of some messages, so the next person asking for this
+     * language pays nothing.
+     *
+     * One blind merge write and no read. `known` is what the caller's live
+     * subscription last delivered, so re-reading the document here would be a
+     * second round trip for an answer the client already holds — and a racy
+     * one, since another viewer's merge can land in between and have its fresh
+     * entry deleted as stale.
+     *
+     * Concurrent viewers translating the same language still collide, which is
+     * fine: merge is per-field, and the worst a lost race costs is one
+     * re-translation, which is what a cache is for.
+     */
     async saveMessageTranslations(
         chat: Chat,
         language: string,
         translations: Map<string, string>,
+        known: Record<string, string>,
     ) {
         if (translations.size === 0 || firestore === undefined) return;
 
-        const currentIDs = new Set(chat.getMessages().map((m) => m.id));
+        const merged = new Map(Object.entries(known));
+        for (const [id, text] of translations) merged.set(id, text);
 
-        // Never cache a translation for a message that has already been
-        // trimmed from the chat — it would never be shown and just inflates
-        // the sidecar doc.
-        const toWrite: Record<string, string> = {};
-        for (const [id, text] of translations) {
-            if (currentIDs.has(id)) toWrite[id] = text;
+        // Newest first until the budget runs out, matching the chat trimming
+        // its own oldest messages, so what is cached stays a subset of what is
+        // still readable.
+        const keep = new Set<string>();
+        let size = 0;
+        for (const message of [...chat.getMessages()].reverse()) {
+            const text = merged.get(message.id);
+            if (text === undefined) continue;
+            size += message.id.length + text.length;
+            if (size > MAX_CHAT_TRANSLATION_CHARACTERS) break;
+            keep.add(message.id);
         }
-        if (Object.keys(toWrite).length === 0) return;
 
-        const ref = doc(
-            chatTranslations(firestore, chat.getProjectID()),
-            language,
-        );
-
-        // Read the current sidecar so we can delete fields for messages that have since been trimmed from the chat.
-        const snap = await getDoc(ref);
         const update: Record<string, string | ReturnType<typeof deleteField>> =
-            { ...toWrite };
-        if (snap.exists()) {
-            for (const id of Object.keys(snap.data())) {
-                if (!currentIDs.has(id)) update[id] = deleteField();
-            }
-        }
+            {};
+        for (const [id, text] of translations)
+            if (keep.has(id)) update[id] = text;
+        // Anything cached for a message the chat no longer keeps — trimmed, or
+        // past the budget — goes, so this document cannot outgrow the
+        // conversation it is about.
+        for (const id of Object.keys(known))
+            if (!keep.has(id)) update[id] = deleteField();
 
-        await setDoc(ref, update, { merge: true });
+        if (Object.keys(update).length === 0) return;
+
+        // setDoc rather than updateDoc: setDoc's keys are field *names*, where
+        // updateDoc's are dotted field *paths*. Message ids are UUIDs so either
+        // works, but only one of them says so.
+        await setDoc(
+            doc(chatTranslations(firestore, chat.getProjectID()), language),
+            update,
+            { merge: true },
+        );
     }
 
-    /** Subscribe to the per-chat, per-language translation sidecar.  The
-     *  callback receives the full entry map ({messageId → text}) immediately
-     *  on subscribe and again whenever any viewer adds more translations for
-     *  this language. */
+    /** Watch one language's translations for a chat. The callback gets the
+     *  whole map on subscribe and again whenever any viewer adds more. */
     subscribeChatTranslations(
         chatID: string,
         language: string,
         callback: (entries: Record<string, string>) => void,
     ): () => void {
         if (firestore === undefined) return () => {};
-        const ref = doc(chatTranslations(firestore, chatID), language);
-        return onSnapshot(ref, (snap) => {
-            callback(
-                snap.exists() ? (snap.data() as Record<string, string>) : {},
-            );
-        });
+        return onSnapshot(
+            doc(chatTranslations(firestore, chatID), language),
+            (snap) => {
+                const data = snap.data();
+                const entries: Record<string, string> = {};
+                // Read defensively rather than asserted: every writer is a
+                // participant, so a value here is only as trustworthy as
+                // whoever last translated this conversation.
+                if (data !== undefined)
+                    for (const [id, text] of Object.entries(data))
+                        if (typeof text === 'string') entries[id] = text;
+                callback(entries);
+            },
+            // Without this, being removed from the conversation looks exactly
+            // like having no translations yet.
+            (error) => console.error(error),
+        );
     }
 
     /** Drop a chat from in-memory state and clear its save tracking + durable

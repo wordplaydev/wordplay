@@ -8,6 +8,7 @@ import type {
     SerializedNotice,
     Strikes as StrikesRecord,
 } from 'shared-types';
+import { forgetMessageTranslations } from './chatTranslations.js';
 import getResponsibility from './responsibility.js';
 import { noStrikes, withFinding, withStrike } from './strikes.js';
 import deliver from './notices.js';
@@ -284,7 +285,7 @@ async function applyRemedy(
             .collection(HowTosCollection)
             .doc(subject)
             .update({ published: false });
-    else if (kind === 'chat' && message !== undefined)
+    else if (kind === 'chat' && message !== undefined) {
         await db
             .collection(ChatsCollection)
             .doc(subject)
@@ -297,6 +298,15 @@ async function applyRemedy(
                     ? {}
                     : { messages: await restored(db, subject, message, held) }),
             });
+        // Removing a message means its words survive only on the report.
+        // Reporting it already emptied the cache, but a translation pass in
+        // flight when the message was hidden can land afterwards, so this is
+        // the one that has to be true rather than the one that usually is.
+        //
+        // Keeping deliberately does not evict: the text goes back verbatim, so
+        // a surviving translation is still a translation of it.
+        if (violation) await forgetMessageTranslations(db, subject, message);
+    }
 }
 
 /** The chat's messages with one message's text put back. */

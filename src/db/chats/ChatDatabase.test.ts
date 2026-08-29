@@ -98,7 +98,13 @@ vi.mock('@db/Database', () => ({
 
 import sendModerate from '@db/moderation/moderate';
 import sendReport from '@db/moderation/report';
-import { getDocs, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
+import {
+    getDoc,
+    getDocs,
+    onSnapshot,
+    setDoc,
+    updateDoc,
+} from 'firebase/firestore';
 import Chat, { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
 
 function makeChat(
@@ -308,18 +314,27 @@ describe('ChatDatabase granular message operations', () => {
     });
 
     describe('saveMessageTranslations', () => {
-        it('writes translated entries to the sidecar document with merge', async () => {
+        // The chat's own messages decide what may be cached, so a chat with
+        // none caches nothing. Two earlier tests here passed `makeChat()` with
+        // no messages and then asserted setDoc was called; they could only ever
+        // have failed.
+        const messages: SerializedMessage[] = [
+            { id: 'm1', time: 1, creator: 'user-2', text: 'hello' },
+            { id: 'm2', time: 2, creator: 'user-3', text: 'world' },
+        ];
+
+        it("writes translated entries to the chat's language document with merge", async () => {
             await db.saveMessageTranslations(
-                makeChat(),
+                makeChat({}, messages),
                 'es',
                 new Map([
                     ['m1', 'hola'],
                     ['m2', 'mundo'],
                 ]),
+                {},
             );
 
-            // No transaction on the main chat doc — translations go to the
-            // sidecar only.
+            // Nothing touches the chat document itself.
             expect(lastTransactionOps).toHaveLength(0);
             expect(setDoc).toHaveBeenCalledTimes(1);
             const [ref, data, options] = (
@@ -333,24 +348,64 @@ describe('ChatDatabase granular message operations', () => {
         });
 
         it('does nothing when the translation map is empty', async () => {
-            await db.saveMessageTranslations(makeChat(), 'es', new Map());
+            await db.saveMessageTranslations(
+                makeChat({}, messages),
+                'es',
+                new Map(),
+                {},
+            );
             expect(setDoc).not.toHaveBeenCalled();
             expect(lastTransactionOps).toHaveLength(0);
         });
 
-        it('merging is delegated to Firestore — merge:true is always passed', async () => {
-            // setDoc with merge:true lets Firestore combine new entries with
-            // existing ones.  Confirm the flag is always present regardless of
-            // what was already cached in the sidecar doc.
+        it('never reads the document it is about to write', async () => {
+            // What is cached is what the caller's live subscription already
+            // delivered, so re-reading here would be a second round trip for an
+            // answer in hand — and a racy one, since another viewer's merge
+            // could land in between and lose its fresh entry as stale.
             await db.saveMessageTranslations(
-                makeChat(),
+                makeChat({}, messages),
                 'fr',
                 new Map([['m1', 'bonjour']]),
+                { m2: 'monde' },
             );
-            const [, , options] = (
-                setDoc as unknown as ReturnType<typeof vi.fn>
-            ).mock.calls[0];
-            expect(options).toEqual({ merge: true });
+            expect(getDoc).not.toHaveBeenCalled();
+        });
+
+        it('forgets what it holds for a message the chat no longer keeps', async () => {
+            // A chat trims its own oldest messages past 128KB. A translation of
+            // one that has gone would never be shown and would grow this
+            // document without bound.
+            await db.saveMessageTranslations(
+                makeChat({}, messages),
+                'es',
+                new Map([['m1', 'hola']]),
+                { gone: 'adiós' },
+            );
+            const [, data] = (setDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            expect(data).toEqual({
+                m1: 'hola',
+                gone: { _op: 'deleteField' },
+            });
+        });
+
+        it('keeps the newest translations when they exceed the budget', async () => {
+            // Newest first, matching which end of the conversation the chat
+            // itself trims, so the cache stays a subset of what is readable.
+            const long = 'x'.repeat(100_000);
+            await db.saveMessageTranslations(
+                makeChat({}, messages),
+                'es',
+                new Map([
+                    ['m1', long],
+                    ['m2', long],
+                ]),
+                {},
+            );
+            const [, data] = (setDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            expect(Object.keys(data)).toEqual(['m2']);
         });
     });
 

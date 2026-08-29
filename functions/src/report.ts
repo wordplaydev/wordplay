@@ -5,6 +5,7 @@ import type {
     ReportOutput,
     ReportSubjectKind,
 } from 'shared-types';
+import { forgetMessageTranslations } from './chatTranslations.js';
 import getResponsibility from './responsibility.js';
 import reportId from './reportId.js';
 import deliver from './notices.js';
@@ -98,7 +99,14 @@ export default async function report(
     let hidden: string | undefined;
     if (kind === 'chat' && message !== undefined) {
         const spent = (await ref.get()).get('kept') === true;
-        if (!spent) hidden = await hideMessage(db, subject, message);
+        if (!spent) {
+            hidden = await hideMessage(db, subject, message);
+            // The cached translations are copies of the words just taken out
+            // of the chat, so they go too. Unconditional on `hidden` coming
+            // back a string: an earlier delete may have nulled the text while
+            // leaving a translation of it behind.
+            await forgetMessageTranslations(db, subject, message);
+        }
     }
     // In a transaction because two people can report the same thing at once,
     // and the second must join the first's request rather than replace it.
