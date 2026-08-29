@@ -1,4 +1,4 @@
-import type { RawTranslator } from '@db/translateMarkup';
+import type { RawTranslator, TranslationProgress } from '@db/translateMarkup';
 import {
     localZone,
     noteTranslationRefusal,
@@ -16,16 +16,10 @@ import type {
     GetLLMTranslationsOutput,
 } from 'shared-types';
 
-/** How far a translation has got, for a caller that wants to show progress. */
-export type TranslationProgress = {
-    /** Strings translated so far. */
-    done: number;
-    /** Strings in total. */
-    total: number;
-    /** Of those done, how many came back with no translation and so keep their
-     *  original words. */
-    kept: number;
-};
+// Re-exported so existing importers keep working; the type lives with
+// RawTranslator now, since every backend reports progress the same way and
+// importing it from here drags Firebase in with it.
+export type { TranslationProgress } from '@db/translateMarkup';
 
 /**
  * How long the client waits for one chunk. The callable SDK's default is 70

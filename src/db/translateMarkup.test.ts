@@ -169,3 +169,141 @@ test('translateMarkupTexts deduplicates identical source texts — one translato
     expect(translated.size).toBe(3);
     expect(translated.get('a')).toBe(translated.get('b'));
 });
+
+/**
+ * What a translator does to markup it was never told about.
+ *
+ * The Firebase backend is asked, in the system prompt, to keep `@Concept` links
+ * and `\code\` verbatim; the on-device one cannot be asked anything at all. So
+ * neither is trusted with either: code is held out of what is sent, links are
+ * masked, and a translation that comes back having lost or renamed one is
+ * refused rather than shown.
+ */
+
+/** Uppercases everything, the way a translator changes every word it is given. */
+const shouty: RawTranslator = async (texts) =>
+    texts.map((text) => text.toUpperCase());
+
+test('a translator never sees embedded code, so it cannot rewrite it', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const seen: string[][] = [];
+    const watching: RawTranslator = async (texts) => {
+        seen.push([...texts]);
+        return texts.map((text) => text.toUpperCase());
+    };
+
+    const { translated } = await translateMarkupTexts(
+        [{ id: 'a', text: 'try \\1 + 2\\ now', from: en }],
+        es,
+        watching,
+    );
+
+    // The code never left.
+    expect(seen[0].join('|')).not.toContain('1 + 2');
+    // And came back byte-identical, while the prose around it was translated.
+    expect(translated.get('a')).toContain('\\1 + 2\\');
+    expect(translated.get('a')).toContain('TRY');
+});
+
+test('a concept link survives a translator that would have renamed it', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const { translated, failed } = await translateMarkupTexts(
+        [{ id: 'a', text: 'see @Phrase for more', from: en }],
+        es,
+        shouty,
+    );
+    expect(failed.size).toBe(0);
+    // Masked, so uppercasing the sentence could not reach it.
+    expect(translated.get('a')).toContain('@Phrase');
+});
+
+test('a translation that drops a link mask is refused, not shown', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const losesLinks: RawTranslator = async (texts) =>
+        texts.map((text) => text.replace(/⟦\d+⟧/gu, ''));
+
+    const { translated, failed } = await translateMarkupTexts(
+        [{ id: 'a', text: 'see @Phrase for more', from: en }],
+        es,
+        losesLinks,
+    );
+    // A reader shown the original words has merely been shown the original
+    // words; a reader shown a link that resolves to nothing has been shown a bug.
+    expect(failed.has('a')).toBe(true);
+    expect(translated.has('a')).toBe(false);
+});
+
+test('a translation still carrying a placeholder is refused', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    // Transliterates the mask's digit into another script, which is exactly
+    // what a model rewriting a sentence into that script does. This one is not
+    // recoverable, so it has to be caught: when the source carries no links of
+    // its own, counting links finds nothing wrong and `⟦0⟧` reaches a reader.
+    const mangles: RawTranslator = async (texts) =>
+        texts.map((text) => text.replace(/⟦(\d+)⟧/gu, '[[$1]]'));
+
+    const { failed } = await translateMarkupTexts(
+        [{ id: 'a', text: 'see @Phrase for more', from: en }],
+        es,
+        mangles,
+    );
+    expect(failed.has('a')).toBe(true);
+});
+
+test('a translation that invents a delimiter is refused', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const inventsCode: RawTranslator = async (texts) =>
+        texts.map((text) => text + ' `');
+
+    const { failed } = await translateMarkupTexts(
+        [{ id: 'a', text: 'plain words', from: en }],
+        es,
+        inventsCode,
+    );
+    // Every real delimiter was held out of this unit, so one in what came back
+    // is the translator's — and left in it unbalances everything after it.
+    expect(failed.has('a')).toBe(true);
+});
+
+test('two messages sharing a sentence each restore their own link', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const calls: string[][] = [];
+    const spy: RawTranslator = async (texts) => {
+        calls.push([...texts]);
+        return texts.map((text) => text.toUpperCase());
+    };
+
+    const { translated } = await translateMarkupTexts(
+        [
+            { id: 'a', text: 'see @Phrase', from: en },
+            { id: 'b', text: 'see @Group', from: en },
+        ],
+        es,
+        spy,
+    );
+
+    // One translation bought: masked, both sentences are `see ⟦0⟧`.
+    expect(calls[0]).toHaveLength(1);
+    // But each keeps the link it actually had — the trap in deduplicating on
+    // masked text while restoring from a shared array of links.
+    expect(translated.get('a')).toContain('@Phrase');
+    expect(translated.get('b')).toContain('@Group');
+});
+
+test('a message that is nothing but code costs no translation at all', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const calls: string[][] = [];
+    const spy: RawTranslator = async (texts) => {
+        calls.push([...texts]);
+        return texts;
+    };
+
+    const { translated, failed } = await translateMarkupTexts(
+        [{ id: 'a', text: '\\1 + 2\\', from: en }],
+        es,
+        spy,
+    );
+    expect(calls).toHaveLength(0);
+    expect(failed.size).toBe(0);
+    expect(translated.get('a')).toBe('\\1 + 2\\');
+});
