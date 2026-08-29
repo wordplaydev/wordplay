@@ -16988,80 +16988,80 @@
                                 },
                                 "translate": {
                                     "additionalProperties": false,
-                                    "description": "Controls for translating received messages into another language",
+                                    "description": "Reading a conversation in another language, and saying what language you are writing in",
                                     "properties": {
                                         "choosePlaceholder": {
-                                            "description": "[plain] Placeholder option in the translate-to picker, before a target language is chosen",
-                                            "type": "string"
-                                        },
-                                        "currentLanguagePlaceholder": {
-                                            "description": "[plain] Placeholder option in the message language picker, meaning the message isn't tagged with a specific language",
+                                            "description": "[plain] The first option in that picker, before a language is chosen",
                                             "type": "string"
                                         },
                                         "direction": {
                                             "$ref": "#/definitions/Template%3C%5B%22from%22%2C%22to%22%5D%3E",
-                                            "description": "[plain] Translation direction label; $from is the source language name, $to is the target language name"
+                                            "description": "[plain] The tag under a translated message. $from is the language it was written in, $to the language it was translated into."
+                                        },
+                                        "downloading": {
+                                            "$ref": "#/definitions/Template%3C%5B%22language%22%5D%3E",
+                                            "description": "[formatted] Shown while the browser downloads its own translator. $language is the language it is downloading."
                                         },
                                         "error": {
                                             "$ref": "#/definitions/Template%3C%5B%22to%22%5D%3E",
-                                            "description": "[plain] Shown below the translate control when the whole chat couldn't be translated; $to is the target language name"
+                                            "description": "[formatted] Shown when the conversation couldn't be translated. $to is the language it was being translated into."
                                         },
                                         "fewerLanguages": {
-                                            "description": "[plain] Tip for the button that hides the language search field",
+                                            "description": "[plain] Tip on the button that hides the language search field",
                                             "type": "string"
                                         },
                                         "label": {
-                                            "description": "[plain] Label for the control that translates received messages",
-                                            "type": "string"
-                                        },
-                                        "language": {
-                                            "description": "[plain] The ARIA label for the message language selector",
+                                            "description": "[plain] Label on the picker that chooses what language to read messages in",
                                             "type": "string"
                                         },
                                         "messageError": {
-                                            "$ref": "#/definitions/Template%3C%5B%22sender%22%5D%3E",
-                                            "description": "[plain] Shown when exactly one message couldn't be translated; $sender is the sender's username"
+                                            "description": "[plain] Shown in place of one message that couldn't be translated",
+                                            "type": "string"
                                         },
                                         "messageErrors": {
                                             "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
-                                            "description": "[plain] Shown when multiple messages couldn't be translated; $count is the number of failed messages"
-                                        },
-                                        "messageLanguageLabel": {
-                                            "description": "[plain] Visible label for the message language picker",
-                                            "type": "string"
+                                            "description": "[plain] Announced when messages couldn't be translated. $#count is how many."
                                         },
                                         "moreLanguages": {
-                                            "description": "[plain] Tip for the button that reveals a search field for languages beyond the ones already in this chat",
+                                            "description": "[plain] Tip on the button that reveals a search field for languages beyond the ones already in this conversation",
                                             "type": "string"
                                         },
                                         "off": {
-                                            "description": "[plain] Button label and tip to clear the current translation target",
+                                            "description": "[plain] Button that turns translating off",
+                                            "type": "string"
+                                        },
+                                        "onDevice": {
+                                            "description": "[plain] Shown when the browser translated on this device, so no messages were sent to Wordplay",
                                             "type": "string"
                                         },
                                         "translated": {
                                             "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22language%22%5D%3E",
-                                            "description": "[plain] Announced when a translation pass finishes; $#count is how many messages are now shown translated, $language is the target language name"
+                                            "description": "[plain] Announced when translating finishes. $#count is how many messages were translated, $language is the language they were translated into."
                                         },
                                         "translating": {
-                                            "description": "[plain] Screen-reader label for the spinner shown while a translation pass is running",
+                                            "description": "[plain] Label on the spinner shown while messages are being translated",
+                                            "type": "string"
+                                        },
+                                        "writingIn": {
+                                            "description": "[plain] Label on the picker that says what language the message being written is in",
                                             "type": "string"
                                         }
                                     },
                                     "required": [
                                         "label",
-                                        "language",
-                                        "off",
-                                        "error",
-                                        "messageError",
-                                        "messageErrors",
-                                        "direction",
-                                        "messageLanguageLabel",
                                         "choosePlaceholder",
-                                        "currentLanguagePlaceholder",
+                                        "off",
                                         "moreLanguages",
                                         "fewerLanguages",
+                                        "writingIn",
                                         "translating",
-                                        "translated"
+                                        "downloading",
+                                        "translated",
+                                        "direction",
+                                        "onDevice",
+                                        "error",
+                                        "messageError",
+                                        "messageErrors"
                                     ],
                                     "type": "object"
                                 }
@@ -28087,9 +28087,6 @@
             "type": "string"
         },
         "Template<[\"rows\",\"columns\"]>": {
-            "type": "string"
-        },
-        "Template<[\"sender\"]>": {
             "type": "string"
         },
         "Template<[\"setOrMap\",\"key\"]>": {

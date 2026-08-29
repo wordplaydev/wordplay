@@ -8801,20 +8801,20 @@
         "collaborate": {
             "label": "collaborate",
             "translate": {
-                "label": "Translate messages to",
-                "language": "message language",
-                "off": "Stop translating",
-                "error": "Couldn't translate this chat to $to.",
-                "messageError": "A message from $sender couldn't be translated.",
-                "messageErrors": "$#count[$count message couldn't be translated.|$count messages couldn't be translated.]",
-                "direction": "$from → $to",
-                "messageLanguageLabel": "Message language",
+                "label": "Translate messages into",
                 "choosePlaceholder": "Choose a language",
-                "currentLanguagePlaceholder": "Use current language",
-                "moreLanguages": "Search for another language",
-                "fewerLanguages": "Hide language search",
-                "translating": "Translating messages",
-                "translated": "$#count[Translated $count message to $language.|Translated $count messages to $language.]"
+                "off": "Stop translating",
+                "moreLanguages": "Find another language",
+                "fewerLanguages": "Hide the language search",
+                "writingIn": "I'm writing in",
+                "translating": "Translating messages…",
+                "downloading": "Getting a $language translator for your browser…",
+                "translated": "$#count[Translated $count message into $language.|Translated $count messages into $language.]",
+                "direction": "$from → $to",
+                "onDevice": "Your browser translated these on your device, so no messages were sent to us.",
+                "error": "We couldn't translate these messages into $to. Try again in a little while.",
+                "messageError": "We couldn't translate this message.",
+                "messageErrors": "$#count[We couldn't translate $count message.|We couldn't translate $count messages.]"
             },
             "role": {
                 "owner": "owner",
@@ -8865,7 +8865,6 @@
                 "offline": "Unable to load this chat.",
                 "empty": "No messages.",
                 "deleted": "This message was deleted.",
-
                 "transferGallery": "This project is in a gallery. Giving it to someone else does not add them to that gallery, so they may not be able to see it there."
             },
             "prompt": {
@@ -10236,7 +10235,7 @@
                     "• Your *projects*. We store any projects you contribute and your changes to them, unless those projects appear to have personally identifiable information such as phone numbers, email addresses, usernames, tax identifiers, or addresses.",
                     "• Your *settings*. This includes the languages you choose, your animation preferences, and your tutorial progress. Everything else is stored on your device only.",
                     "• Aggregate *activity*. We track logins and the pages you visit, but not in a way that can identify you, track you across the site, or track you across other sites. We use Google Analytics in 'consent denied' mode, which only gathers minimal non-identifiable information about page views, without storing cookies, or sending IP address information to Google. We use this aggregate information to help raise funding by reporting how much the platform is being used.",
-                    "When you use the translate feature in a project or gallery chat, the text of *other participants' messages* is sent to an AI translation service (currently Claude, by Anthropic) and the results are stored in the chat document that all participants share. This is the only context in which someone else's words are processed by an AI on your behalf. By using chat translation, you acknowledge this.",
+                    "• Your *chat translations*. If you ask to read a chat in another language, we translate everyone else's messages, but never your own. Some browsers can do this translating on your device, and when yours can, nothing is sent to us. Otherwise the messages go to an AI translation service (right now that's Claude, made by Anthropic), and the translation is saved with the chat so nobody else in it has to translate the same words again. Only the people in that chat can read it.",
                     "We don't store anything else. Our <source@https://github.com/amyjko/wordplay/tree/main/src> is public, so anyone can verify this, and report any unintended tracking.",
                     "*You* own your data, not us. That means:",
                     "• You control who can access your projects. They are private by default, but you can share them with individuals, groups, or make them entirely public.",

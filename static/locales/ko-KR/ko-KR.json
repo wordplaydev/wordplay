@@ -9088,7 +9088,7 @@
             "rights": {
                 "header": "$~진상",
                 "content": [
-                    "$~안녕하세요!",
+                    "$!안녕하세요!",
                     "여러분과 저희의 권리에 대해 몇 가지 약속을 정해 두려고 합니다 (관련 정책으로는 <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312>와 <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>가 있습니다).",
                     "먼저 알아야 할 점은, 저희가 영리 기업이 아니라는 것입니다. 저희는 비영리 대학에 속한 공동체 기반 연구 프로젝트입니다. 저희 목표는 여러분에게 즐거움을 주고, 더 공정하고 정의로운 컴퓨팅 세상을 발견하도록 돕는 플랫폼을 만드는 것입니다. 이 플랫폼으로 돈을 벌 생각은 없습니다. 저희가 모으는 돈(대개 공공 지원금)은 플랫폼을 유지하는 데만 쓰이며, 이 일을 하는 사람(또는 기여하는 사람) 누구도 부유하게 만들지 않습니다.",
                     "저희가 이익을 추구하지 않기 때문에, 이 플랫폼의 신뢰성, 이용 가능 여부, 존속 기간에 대해 어떤 약속도 드릴 수 없습니다. 그렇지만 <Amy@https://amyjko.phd>는 이 플랫폼을 오랫동안 유지하기로 다짐했고, 정년이 보장된 교수이기 때문에 꽤 안정적인 자리에 있습니다.",
@@ -9898,19 +9898,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
-                "off": "—",
+                "off": "$?—",
                 "error": "$?",
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             },
             "announce": {
                 "transferred": "$~이제 $name 이(가) $project 의 소유자입니다"

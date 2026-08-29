@@ -8814,19 +8814,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
-                "off": "—",
+                "off": "$?—",
                 "error": "$?",
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             },
             "announce": {
                 "transferred": "$~$name este acum proprietarul lui $project"
@@ -10139,7 +10139,7 @@
             "rights": {
                 "header": "$~Drepturi",
                 "content": [
-                    "$~Bună!",
+                    "$!Bună!",
                     "Hai să stabilim câteva lucruri clare despre drepturile tale și ale noastre (și ținând cont de reguli precum <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> și <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "Primul lucru pe care trebuie să-l știi este că noi nu suntem o firmă comercială. Suntem un proiect de cercetare făcut de o comunitate, găzduit de o universitate non-profit. Scopul nostru este să creăm o platformă care să-ți aducă bucurie și care să ne ajute să descoperim o lume a calculatoarelor mai dreaptă și mai echitabilă. Nu vrem să facem bani din această platformă. Orice bani strângem (de obicei prin finanțare publică) sunt folosiți doar pentru a menține platforma în funcțiune, nu pentru a îmbogăți pe cineva care lucrează la ea (sau contribuie la ea).",
                     "Pentru că nu căutăm profit, asta înseamnă și că nu putem promite nimic despre cât de sigură, disponibilă sau durabilă va fi această platformă. Totuși, <Amy@https://amyjko.phd> s-a angajat pe termen lung să o susțină, iar ca profesoară titulară, are un loc de muncă destul de stabil.",

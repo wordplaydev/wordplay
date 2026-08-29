@@ -9103,7 +9103,7 @@
             "rights": {
                 "header": "Derechos",
                 "content": [
-                    "$~¡Hola!",
+                    "$!¡Hola!",
                     "Vamos a explicar tus derechos y los nuestros (también a la luz de leyes como la <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> y el <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "Lo primero que debes saber es que no somos una empresa comercial. Somos un proyecto de investigación comunitario que forma parte de una universidad sin fines de lucro. Nuestra meta es crear una plataforma que te dé alegría y que nos ayude a descubrir un mundo de la computación más justo e igualitario. No nos interesa ganar dinero con esta plataforma. El dinero que reunimos (normalmente por medio de fondos públicos) se usa para mantener la plataforma, no para enriquecer a nadie que trabaje en ella ni a quienes contribuyen en ella.",
                     "Como no buscamos ganancias, tampoco podemos prometer que esta plataforma sea confiable, esté siempre disponible o dure para siempre. Aun así, <Amy@https://amyjko.phd> está comprometida a largo plazo con mantenerla, y como es profesora titular, tiene un puesto bastante estable.",
@@ -9916,19 +9916,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
                 "off": "$?",
                 "error": "$?",
                 "messageError": "$?",
                 "messageErrors": "$?",
                 "direction": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             },
             "announce": {
                 "transferred": "$~$name ahora es propietaria de $project"

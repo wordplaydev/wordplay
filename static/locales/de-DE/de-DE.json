@@ -9099,7 +9099,7 @@
             "rights": {
                 "header": "Rechte",
                 "content": [
-                    "$~Hallo!",
+                    "$!Hallo!",
                     "Lass uns klären, welche Rechte du und wir haben. Das hängt auch mit Gesetzen zusammen, wie der <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> und der <DSGVO@https://gdpr.eu/compliance-checklist-us-companies/>.",
                     "Zuerst solltest du wissen: Wir sind kein Unternehmen. Wir sind ein gemeinschaftliches Forschungsprojekt an einer gemeinnützigen Universität. Unser Ziel ist es, eine Plattform zu schaffen, die dir Freude bringt. Sie soll uns auch helfen, Entdeckungen für eine gerechtere Welt der Informatik zu machen. Wir wollen mit dieser Plattform kein Geld verdienen. Jedes Geld, das wir bekommen (meist durch öffentliche Förderung), nutzen wir, um die Plattform am Laufen zu halten. Niemand, der daran arbeitet oder mithilft, wird dadurch reich.",
                     "Weil wir keinen Gewinn wollen, können wir auch nichts über die Zuverlässigkeit, Verfügbarkeit oder Lebensdauer dieser Plattform versprechen. Trotzdem setzt sich <Amy@https://amyjko.phd> langfristig dafür ein, sie am Leben zu halten. Als Professorin mit einer festen Stelle hat sie einen ziemlich sicheren Job.",
@@ -9916,19 +9916,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
-                "off": "—",
+                "off": "$?—",
                 "error": "$?",
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             },
             "announce": {
                 "transferred": "$~$name ist jetzt Eigentümerin oder Eigentümer von $project"

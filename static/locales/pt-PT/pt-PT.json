@@ -8802,19 +8802,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
                 "off": "$?",
                 "error": "$?",
                 "messageError": "$?",
                 "messageErrors": "$?",
                 "direction": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             }
         },
         "palette": {
@@ -10016,7 +10016,7 @@
             "rights": {
                 "header": "Direitos",
                 "content": [
-                    "$~Olá!",
+                    "$!Olá!",
                     "Vamos definir algumas expectativas sobre os seus direitos e os nossos (também à luz de políticas como a <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> e o <RGPD@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "A primeira coisa a saber é que não somos uma entidade comercial. Somos um projeto de investigação comunitário, sediado numa universidade sem fins lucrativos. O nosso objetivo é criar uma plataforma que lhe traga alegria e nos ajude a fazer descobertas sobre um mundo da computação mais justo e equitativo. Não temos qualquer interesse em ganhar dinheiro com esta plataforma. Qualquer dinheiro que reunamos (normalmente através de financiamento público) é usado para sustentar a plataforma, não para enriquecer quem trabalha nela (ou quem contribui para ela).",
                     "Como não procuramos lucro, isto também significa que não podemos fazer promessas sobre a fiabilidade, a disponibilidade ou a duração desta plataforma. Dito isto, <Amy@https://amyjko.phd> está comprometida a longo prazo em mantê-la, e, como professora com lugar efetivo, tem um trabalho bastante estável.",

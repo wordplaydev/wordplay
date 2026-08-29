@@ -8567,19 +8567,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
                 "off": "$?",
                 "error": "$?",
                 "messageError": "$?",
                 "messageErrors": "$?",
                 "direction": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             }
         },
         "palette": {
@@ -9328,7 +9328,7 @@
             "rights": {
                 "header": "$~権利",
                 "content": [
-                    "$~こんにちは!",
+                    "$!こんにちは!",
                     "あなたと私たちの権利について、いくつか大切なことをお伝えします(<COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312>や<GDPR@https://gdpr.eu/compliance-checklist-us-companies/>などの決まりに沿った内容です)。",
                     "まず知ってほしいのは、私たちは会社ではないということです。私たちは、非営利の大学の中にある、みんなで作る研究プロジェクトです。私たちの目標は、あなたに楽しさを届けるプラットフォームを作り、もっと公平で正しいコンピューターの世界を見つけることです。このプラットフォームでお金をもうけるつもりはありません。もし資金(たいていは公的な助成金)を得ることがあっても、それはプラットフォームを続けるために使い、関わる人を豊かにするためには使いません。",
                     "利益を求めていないということは、このプラットフォームの信頼性や利用できる期間について、約束はできないということでもあります。とはいえ、<Amy@https://amyjko.phd>は長い間このプラットフォームを支え続けるつもりで、終身在職権を持つ教授なので、かなり安定した立場にいます。",

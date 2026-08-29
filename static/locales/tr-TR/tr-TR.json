@@ -8559,19 +8559,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
-                "off": "—",
+                "off": "$?—",
                 "error": "$?",
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             },
             "announce": {
                 "transferred": "$~$name artık $project projesinin sahibi"
@@ -9323,7 +9323,7 @@
             "rights": {
                 "header": "$~Haklar",
                 "content": [
-                    "$~Merhaba!",
+                    "$!Merhaba!",
                     "Haklarınız ve bizim haklarımız hakkında bazı beklentileri netleştirelim (ayrıca <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> ve <GDPR@https://gdpr.eu/compliance-checklist-us-companies/> gibi politikalar ışığında).",
                     "Bilmeniz gereken ilk şey, ticari bir kuruluş olmadığımızdır. Kâr amacı gütmeyen bir üniversitede yer alan, topluluk temelli bir araştırma projesiyiz. Amacımız, size keyif veren ve bilgisayar dünyasının daha adil ve eşit olması için keşifler yapmamıza yardım eden bir platform oluşturmaktır. Bu platformdan para kazanmakla ilgilenmiyoruz; topladığımız her türlü para (genellikle kamu fonlarından) sadece platformu sürdürmek için kullanılır, üzerinde çalışan ya da katkıda bulunan hiç kimseyi zenginleştirmek için değil.",
                     "Kâr amacı gütmediğimiz için, bu platformun güvenilirliği, erişilebilirliği ya da ne kadar süre var olacağı hakkında hiçbir söz veremeyiz. Yine de <Amy@https://amyjko.phd>, platformu uzun vadede sürdürmeye kararlıdır ve kadrolu bir profesör olarak oldukça istikrarlı bir konumdadır.",

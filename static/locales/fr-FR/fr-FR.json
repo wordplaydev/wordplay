@@ -9110,7 +9110,7 @@
             "rights": {
                 "header": "$~Droits",
                 "content": [
-                    "$~Bonjour !",
+                    "$!Bonjour !",
                     "Parlons de tes droits et des nôtres (aussi à la lumière de règles comme le <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> et le <RGPD@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "La première chose à savoir, c'est que nous ne sommes pas une entreprise commerciale. Nous sommes un projet de recherche communautaire hébergé par une université à but non lucratif. Notre but est de créer une plateforme qui t'apporte de la joie et qui nous aide à faire des découvertes pour un monde de l'informatique plus juste et plus équitable. Nous ne voulons pas gagner d'argent avec cette plateforme. L'argent que nous recevons (souvent grâce à des financements publics) sert seulement à faire vivre la plateforme, pas à enrichir les personnes qui y travaillent ou qui y contribuent.",
                     "Comme nous ne cherchons pas de profit, nous ne pouvons pas non plus promettre que cette plateforme sera toujours fiable, disponible ou qu'elle durera toujours. Cela dit, <Amy@https://amyjko.phd> s'engage à la faire vivre sur le long terme. Comme elle est professeure titulaire, elle a une situation plutôt stable.",
@@ -9923,19 +9923,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
-                "off": "—",
+                "off": "$?—",
                 "error": "$?",
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             },
             "announce": {
                 "transferred": "$~$name est maintenant le propriétaire de $project"

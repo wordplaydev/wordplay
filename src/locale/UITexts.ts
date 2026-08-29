@@ -1182,36 +1182,37 @@ type UITexts = {
     collaborate: {
         /** [plain] The ARIA label for the chat section */
         label: string;
-        /** Controls for translating received messages into another language */
+        /** Reading a conversation in another language, and saying what
+         *  language you are writing in */
         translate: {
-            /** [plain] Label for the control that translates received messages */
+            /** [plain] Label on the picker that chooses what language to read messages in */
             label: string;
-            /** [plain] The ARIA label for the message language selector */
-            language: string;
-            /** [plain] Button label and tip to clear the current translation target */
-            off: string;
-            /** [plain] Shown below the translate control when the whole chat couldn't be translated; $to is the target language name */
-            error: Template<['to']>;
-            /** [plain] Shown when exactly one message couldn't be translated; $sender is the sender's username */
-            messageError: Template<['sender']>;
-            /** [plain] Shown when multiple messages couldn't be translated; $count is the number of failed messages */
-            messageErrors: Template<['#count']>;
-            /** [plain] Translation direction label; $from is the source language name, $to is the target language name */
-            direction: Template<['from', 'to']>;
-            /** [plain] Visible label for the message language picker */
-            messageLanguageLabel: string;
-            /** [plain] Placeholder option in the translate-to picker, before a target language is chosen */
+            /** [plain] The first option in that picker, before a language is chosen */
             choosePlaceholder: string;
-            /** [plain] Placeholder option in the message language picker, meaning the message isn't tagged with a specific language */
-            currentLanguagePlaceholder: string;
-            /** [plain] Tip for the button that reveals a search field for languages beyond the ones already in this chat */
+            /** [plain] Button that turns translating off */
+            off: string;
+            /** [plain] Tip on the button that reveals a search field for languages beyond the ones already in this conversation */
             moreLanguages: string;
-            /** [plain] Tip for the button that hides the language search field */
+            /** [plain] Tip on the button that hides the language search field */
             fewerLanguages: string;
-            /** [plain] Screen-reader label for the spinner shown while a translation pass is running */
+            /** [plain] Label on the picker that says what language the message being written is in */
+            writingIn: string;
+            /** [plain] Label on the spinner shown while messages are being translated */
             translating: string;
-            /** [plain] Announced when a translation pass finishes; $#count is how many messages are now shown translated, $language is the target language name */
+            /** [formatted] Shown while the browser downloads its own translator. $language is the language it is downloading. */
+            downloading: Template<['language']>;
+            /** [plain] Announced when translating finishes. $#count is how many messages were translated, $language is the language they were translated into. */
             translated: Template<['#count', 'language']>;
+            /** [plain] The tag under a translated message. $from is the language it was written in, $to the language it was translated into. */
+            direction: Template<['from', 'to']>;
+            /** [plain] Shown when the browser translated on this device, so no messages were sent to Wordplay */
+            onDevice: string;
+            /** [formatted] Shown when the conversation couldn't be translated. $to is the language it was being translated into. */
+            error: Template<['to']>;
+            /** [plain] Shown in place of one message that couldn't be translated */
+            messageError: string;
+            /** [plain] Announced when messages couldn't be translated. $#count is how many. */
+            messageErrors: Template<['#count']>;
         };
         /** The chat message input field */
         field: {

@@ -8803,19 +8803,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
-                "off": "—",
+                "off": "$?—",
                 "error": "$?",
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             },
             "announce": {
                 "transferred": "$~Si $name na ngayon ang may-ari ng $project"
@@ -10024,7 +10024,7 @@
             "rights": {
                 "header": "$~Mga Karapatan",
                 "content": [
-                    "$~Kamusta!",
+                    "$!Kamusta!",
                     "Simulan natin sa mga inaasahan tungkol sa mga karapatan mo at sa amin (alinsunod din sa batas, tulad ng <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> at <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "Una sa lahat, hindi kami isang kompanyang kumikita. Isa kaming proyektong pananaliksik na nakabatay sa komunidad, at nasa ilalim kami ng isang unibersidad na hindi kumikita. Layunin naming gumawa ng isang plataporma na nagbibigay sa iyo ng saya, at tumutulong sa amin na tumuklas ng mas patas at makatarungang mundo ng computing. Wala kaming hangaring kumita mula sa platapormang ito. Anumang perang natitipon namin (kadalasan mula sa pondo ng pamahalaan) ay ginagamit lamang para mapanatili ang plataporma, hindi para pagyamanin ang sinumang gumagawa rito (o nag-aambag dito).",
                     "Dahil hindi kami naghahangad ng tubo, nangangahulugan din ito na hindi kami makakapangako tungkol sa pagiging maaasahan, pagiging available, o kung gaano katagal tatakbo ang platapormang ito. Gayunpaman, nakatuon si <Amy@https://amyjko.phd> sa pangmatagalang pagpapanatili nito, at bilang isang matibay na propesor sa unibersidad, medyo matatag ang kanyang trabaho.",

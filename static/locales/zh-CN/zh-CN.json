@@ -9056,7 +9056,7 @@
             "rights": {
                 "header": "权利",
                 "content": [
-                    "$~你好！",
+                    "$!你好！",
                     "我们来说清楚彼此的权利，也是为了符合相关规定，比如 <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> 和 <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>。",
                     "首先要告诉你的是，我们不是商业机构。我们是一个依托非营利大学的社区研究项目。我们的目标是打造一个能带给你快乐的平台，同时帮助我们探索一个更公平、更公正的计算世界。我们不打算靠这个平台赚钱；我们筹到的任何资金（通常来自公共资助）都只用来维持平台运转，不会让任何参与者或贡献者从中获利。",
                     "正因为我们不追求利润，所以也无法保证这个平台一定可靠、一直可用，或者能长久存在。不过，<Amy@https://amyjko.phd> 已经下定决心要长期维护它，而且她是一位有终身教职的教授，工作相当稳定。",
@@ -9869,19 +9869,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
                 "off": "$?",
                 "error": "$?",
                 "messageError": "$?",
                 "messageErrors": "$?",
                 "direction": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             }
         },
         "checkpoints": {

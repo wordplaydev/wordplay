@@ -8549,19 +8549,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
-                "off": "—",
+                "off": "$?—",
                 "error": "$?",
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             },
             "announce": {
                 "transferred": "$~$name är nu ägare av $project"
@@ -9313,7 +9313,7 @@
             "rights": {
                 "header": "$~Rättigheter",
                 "content": [
-                    "$~Hej!",
+                    "$!Hej!",
                     "Låt oss förklara vad som gäller för dina och våra rättigheter (bland annat utifrån regler som <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> och <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "Först behöver du veta att vi inte är ett företag. Vi är ett forskningsprojekt som drivs av ett universitet utan vinstsyfte. Målet vårt är att skapa en plattform som ger dig glädje och hjälper oss att upptäcka hur datorer kan bli mer rättvisa för alla. Vi vill inte tjäna pengar på plattformen. De pengar vi får in (oftast från offentliga bidrag) används för att driva plattformen, inte för att berika någon som jobbar med den eller bidrar till den.",
                     "Eftersom vi inte vill tjäna pengar kan vi inte lova något om hur pålitlig, tillgänglig eller långvarig plattformen kommer att vara. Men <Amy@https://amyjko.phd> tänker jobba med detta länge, och som fast anställd professor har hon ett ganska tryggt jobb.",

@@ -8760,19 +8760,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
                 "off": "$?",
                 "error": "$?",
                 "messageError": "$?",
                 "messageErrors": "$?",
                 "direction": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             }
         },
         "palette": {
@@ -9859,7 +9859,7 @@
             "rights": {
                 "header": "$~الحقوق",
                 "content": [
-                    "$~مرحبًا!",
+                    "$!مرحبًا!",
                     "دعنا نوضح بعض الأمور عن حقوقك وحقوقنا (وذلك أيضًا بما يتوافق مع الأنظمة، مثل <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> و<GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "أول شيء يجب أن تعرفه هو أننا لسنا جهة تجارية. نحن مشروع بحثي مجتمعي يتبع جامعة غير ربحية. هدفنا هو إنشاء منصة تمنحك السعادة، وتساعدنا على اكتشاف عالم أكثر عدلًا وإنصافًا في الحوسبة. ليس لدينا أي رغبة في كسب المال من هذه المنصة؛ أي أموال نجمعها (عادةً من تمويل عام) تُستخدم للحفاظ على المنصة، وليس لإثراء أي شخص يعمل عليها (أو يساهم فيها).",
                     "ولأننا لا نسعى للربح، فهذا يعني أيضًا أننا لا نستطيع أن نعِدك بأن هذه المنصة ستبقى موثوقة أو متاحة أو مستمرة إلى الأبد. لكن <Amy@https://amyjko.phd> ملتزمة على المدى الطويل بالحفاظ عليها، وبصفتها أستاذة جامعية دائمة، فإن وظيفتها مستقرة إلى حد كبير.",

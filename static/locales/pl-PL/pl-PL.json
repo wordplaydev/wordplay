@@ -8577,19 +8577,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
-                "off": "—",
+                "off": "$?—",
                 "error": "$?",
                 "messageError": "$?",
                 "direction": "$from → $to",
                 "messageErrors": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             },
             "announce": {
                 "transferred": "$~$name jest teraz właścicielem $project"
@@ -9341,7 +9341,7 @@
             "rights": {
                 "header": "$~Prawa",
                 "content": [
-                    "$~Cześć!",
+                    "$!Cześć!",
                     "Ustalmy kilka zasad dotyczących Twoich praw i naszych (również w świetle przepisów, takich jak <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> i <RODO@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "Pierwsza rzecz, którą warto wiedzieć: nie jesteśmy firmą komercyjną. Jesteśmy projektem badawczym opartym na społeczności, działającym przy uniwersytecie non-profit. Naszym celem jest stworzenie platformy, która daje Ci radość i pomaga nam odkrywać bardziej sprawiedliwy i uczciwy świat informatyki. Nie zależy nam na zarabianiu na tej platformie. Wszystkie pieniądze, które zbieramy (zwykle z funduszy publicznych), są używane do utrzymania platformy, a nie do wzbogacania kogokolwiek, kto przy niej pracuje (lub ją współtworzy).",
                     "Ponieważ nie szukamy zysku, nie możemy też obiecać, że ta platforma zawsze będzie niezawodna, dostępna czy że przetrwa długo. Mimo to <Amy@https://amyjko.phd> jest zaangażowana na długi czas w jej utrzymanie, a jako profesor z tytułem naukowym ma dość stabilną pracę.",

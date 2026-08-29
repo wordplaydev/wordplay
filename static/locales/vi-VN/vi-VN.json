@@ -8805,19 +8805,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
                 "off": "$?",
                 "error": "$?",
                 "messageError": "$?",
                 "messageErrors": "$?",
                 "direction": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             }
         },
         "palette": {
@@ -9920,7 +9920,7 @@
             "rights": {
                 "header": "$~Quyền",
                 "content": [
-                    "$~Chào bạn!",
+                    "$!Chào bạn!",
                     "Hãy cùng nói rõ về quyền của bạn và của chúng tôi (cũng dựa theo các quy định như <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> và <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "Điều đầu tiên bạn cần biết là chúng tôi không phải một tổ chức kinh doanh. Chúng tôi là một dự án nghiên cứu cộng đồng, thuộc một trường đại học phi lợi nhuận. Mục tiêu của chúng tôi là tạo ra một nền tảng mang lại niềm vui cho bạn, và giúp chúng tôi khám phá một thế giới lập trình công bằng và bình đẳng hơn. Chúng tôi không có ý định kiếm tiền từ nền tảng này. Bất kỳ khoản tiền nào chúng tôi nhận được (thường qua tài trợ công) đều dùng để duy trì nền tảng, không để làm giàu cho bất kỳ ai làm việc hay đóng góp cho nó.",
                     "Vì không tìm kiếm lợi nhuận, chúng tôi cũng không thể hứa hẹn gì về độ tin cậy, thời gian hoạt động, hay tuổi thọ của nền tảng này. Dù vậy, <Amy@https://amyjko.phd> cam kết duy trì nền tảng lâu dài, và với vị trí giáo sư biên chế, cô ấy có một công việc khá ổn định.",

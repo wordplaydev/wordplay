@@ -9067,7 +9067,7 @@
             "rights": {
                 "header": "權利",
                 "content": [
-                    "$~你好！",
+                    "$!你好！",
                     "讓我們先講清楚彼此的權利與義務（也考量到一些法律規範，例如 <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> 和 <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>）。",
                     "首先你要知道，我們不是一家商業公司。我們是一個社群研究計畫，設立在一所非營利大學裡。我們的目標是打造一個能帶給你快樂的平台，同時協助我們探索一個更公平、更正義的運算世界。我們沒有任何靠這個平台賺錢的打算；我們募集到的任何資金（通常來自公共經費）都只用於維持平台運作，不會用來讓任何參與或貢獻的人變得富有。",
                     "因為我們不追求利益，這也代表我們無法保證這個平台一定可靠、隨時可用，或能永久存在。話雖如此，<Amy@https://amyjko.phd> 長期致力於維護它，而她是一位擁有終身教職的教授，工作相當穩定。",
@@ -9880,19 +9880,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
                 "off": "$?",
                 "error": "$?",
                 "messageError": "$?",
                 "messageErrors": "$?",
                 "direction": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             }
         },
         "checkpoints": {

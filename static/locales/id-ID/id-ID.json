@@ -8818,19 +8818,19 @@
             },
             "translate": {
                 "label": "$?",
-                "language": "$?",
                 "off": "$?",
                 "error": "$?",
                 "messageError": "$?",
                 "messageErrors": "$?",
                 "direction": "$?",
-                "messageLanguageLabel": "$?",
                 "choosePlaceholder": "$?",
-                "currentLanguagePlaceholder": "$?",
                 "moreLanguages": "$?",
                 "fewerLanguages": "$?",
                 "translating": "$?",
-                "translated": "$?"
+                "translated": "$?",
+                "writingIn": "$?",
+                "downloading": "$?",
+                "onDevice": "$?"
             }
         },
         "palette": {
@@ -10143,7 +10143,7 @@
             "rights": {
                 "header": "$~Hak-hak",
                 "content": [
-                    "$~Hai!",
+                    "$!Hai!",
                     "Ayo kita bahas hak kamu dan hak kami (juga sesuai aturan, seperti <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> dan <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "Hal pertama yang perlu kamu tahu: kami bukan perusahaan bisnis. Kami adalah proyek riset berbasis komunitas yang ada di sebuah universitas nirlaba. Tujuan kami adalah membuat platform yang membuat kamu senang, dan membantu kami menemukan hal-hal baru tentang dunia komputer yang lebih adil dan setara. Kami tidak ingin mencari uang dari platform ini. Uang yang kami kumpulkan (biasanya dari dana publik) dipakai untuk menjaga platform ini tetap berjalan, bukan untuk menguntungkan siapa pun yang mengerjakannya (atau yang ikut berkontribusi).",
                     "Karena kami tidak mencari keuntungan, kami juga tidak bisa berjanji soal keandalan, ketersediaan, atau berapa lama platform ini akan tetap ada. Meski begitu, <Amy@https://amyjko.phd> berkomitmen jangka panjang untuk menjaga platform ini. Sebagai profesor tetap, posisinya cukup stabil.",
