@@ -27,6 +27,9 @@ const Users = {
 const Chat = 'rulestest-chat-project';
 /** A chat whose project doesn't exist, standing in for a how-to's chat. */
 const Orphan = 'rulestest-chat-orphan';
+/** A cache whose conversation has been deleted, which is what the client can
+ *  never clean up and the `chatDeleted` trigger exists for. */
+const Gone = 'rulestest-chat-gone';
 
 let env: RulesTestEnvironment;
 
@@ -69,6 +72,10 @@ beforeEach(async () => {
                 moderation: {},
                 unread: [],
             });
+        // A cached translation for each, plus one whose conversation is gone.
+        for (const id of [Chat, Orphan, Gone])
+            await db.doc(`chats/${id}/translations/es-MX`).set({ m1: 'hola' });
+        await db.doc(`chats/${Gone}`).delete();
     });
 });
 
@@ -202,6 +209,104 @@ describe('chats: participants take part, the project owner disposes', () => {
         await assertFails(as(Users.Owner).doc(`chats/${Orphan}`).delete());
         await assertFails(
             as(Users.Collaborator).doc(`chats/${Orphan}`).delete(),
+        );
+    });
+});
+
+describe('chat translations: the cache is as private as the conversation', () => {
+    const cache = `chats/${Chat}/translations/es-MX`;
+
+    it('a participant can read a language they have cached', async () => {
+        await assertSucceeds(as(Users.Collaborator).doc(cache).get());
+    });
+
+    it('someone who is not a participant cannot', async () => {
+        // The regression this whole subcollection exists for: cached under a
+        // top-level id, the only rule expressible was "any signed-in account",
+        // which made every translated message in every private conversation
+        // readable by everyone.
+        await assertFails(as(Users.Stranger).doc(cache).get());
+    });
+
+    it('a moderator gets no special access either', async () => {
+        await assertFails(as(Users.Mod, { mod: true }).doc(cache).get());
+    });
+
+    it('a signed-out client cannot', async () => {
+        await assertFails(
+            env.unauthenticatedContext().firestore().doc(cache).get(),
+        );
+    });
+
+    it('a participant can cache a translation, and a stranger cannot', async () => {
+        await assertSucceeds(
+            as(Users.Collaborator)
+                .doc(cache)
+                .set({ m2: 'mundo' }, { merge: true }),
+        );
+        await assertFails(
+            as(Users.Stranger).doc(cache).set({ m2: 'mundo' }, { merge: true }),
+        );
+    });
+
+    it('a participant can delete a language, though not the conversation', async () => {
+        // Deliberately unlike the chat document, whose delete is the project
+        // owner's: deleting your own message has to take its translations with
+        // it, and only the person deleting is there to do it.
+        await assertSucceeds(as(Users.Collaborator).doc(cache).delete());
+    });
+
+    it('listing every language a chat has cached is a participant’s', async () => {
+        // Proves `list` as well as `get`, and that the rule's single get() of
+        // the parent is cached across the documents it matches rather than
+        // spending the per-query document-access budget.
+        await assertSucceeds(
+            as(Users.Collaborator)
+                .collection(`chats/${Chat}/translations`)
+                .get(),
+        );
+        await assertFails(
+            as(Users.Stranger).collection(`chats/${Chat}/translations`).get(),
+        );
+    });
+
+    it('access follows the live participant list, not a copy of it', async () => {
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context
+                .firestore()
+                .doc(`chats/${Chat}`)
+                .update({ participants: [Users.Owner] });
+        });
+        await assertFails(as(Users.Collaborator).doc(cache).get());
+        await assertSucceeds(as(Users.Owner).doc(cache).get());
+    });
+
+    it('once the conversation is gone, its cache is unreachable by anyone', async () => {
+        // This is what pins the ordering. Firestore does not delete a
+        // subcollection with its parent, and this rule reads the parent for its
+        // participant list — so nothing client-side can ever collect these.
+        // The `chatDeleted` trigger, which bypasses rules, is the only thing
+        // that can, and nobody may "simplify" it away.
+        const orphaned = `chats/${Gone}/translations/es-MX`;
+        for (const user of [Users.Owner, Users.Collaborator]) {
+            await assertFails(as(user).doc(orphaned).get());
+            await assertFails(as(user).doc(orphaned).delete());
+        }
+        await assertFails(as(Users.Mod, { mod: true }).doc(orphaned).get());
+    });
+
+    // eslint-disable-next-line vitest/no-disabled-tests
+    it.skip('a participant cannot forge a translation of someone else’s message', async () => {
+        // Open, and the same shape as a participant rewriting another's message
+        // text: rules cannot type-check values across arbitrary map keys, so a
+        // participant can write anything under any message id and it renders
+        // beneath someone else's words as "the translation". Recorded rather
+        // than left silent; the fix is the same subcollection move that message
+        // text needs.
+        await assertFails(
+            as(Users.Collaborator)
+                .doc(cache)
+                .set({ m1: 'not what they said' }, { merge: true }),
         );
     });
 });

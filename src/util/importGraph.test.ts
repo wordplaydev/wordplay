@@ -358,13 +358,31 @@ test('resolving a color needs no basis', () => {
  * makes that gallery's curators responsible for it and its chat. It lives in
  * `en-US.json`, which every entry here carries, and `Page` is simply the one
  * with less than that much slack.
+ *
+ * Chat translation (#1214) moves every entry by the same 0.005MB and adds no
+ * file. It is text again, and all of it in `en-US.json`: fourteen strings for
+ * the two language pickers, the progress and failure messages, and the line
+ * that says when the browser did the translating on the reader's own device,
+ * plus a paragraph on the rights page saying what is sent where and what is
+ * kept. Every entry moving by an identical amount is the tell that it is one
+ * shared file rather than a subgraph — the feature's own modules
+ * (`getLocalTranslator`, `chooseTranslator`, the language mapping) hang off
+ * `ChatView`, which none of these five reaches.
+ *
+ * Remembering which language a reader reads chats in is **+1 file** on the four
+ * entries that reach `SettingsDatabase`, and none on the layout, which doesn't.
+ * `ChatLanguageSetting.ts` is one small file importing only `Setting` — the
+ * same shape as the camera and microphone settings beside it, and the case this
+ * file's rule above allows a file budget to move by one for. Not a subgraph: it
+ * is what keeps a reload from looking as though the translations had been
+ * thrown away, when only the choice had.
  */
 test.each([
-    ['src/routes/+layout.svelte', 495, 3.6],
-    ['src/components/app/Page.svelte', 517, 3.84],
-    ['src/routes/[[locale]]/+page.svelte', 532, 3.93],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 536, 3.94],
-    ['src/routes/[[locale]]/projects/+page.svelte', 543, 3.96],
+    ['src/routes/+layout.svelte', 495, 3.61],
+    ['src/components/app/Page.svelte', 518, 3.85],
+    ['src/routes/[[locale]]/+page.svelte', 533, 3.94],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 537, 3.95],
+    ['src/routes/[[locale]]/projects/+page.svelte', 544, 3.98],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

@@ -16985,10 +16985,100 @@
                                         "restrict"
                                     ],
                                     "type": "object"
+                                },
+                                "translate": {
+                                    "additionalProperties": false,
+                                    "description": "Reading a conversation in another language, and saying what language you are writing in",
+                                    "properties": {
+                                        "direction": {
+                                            "$ref": "#/definitions/Template%3C%5B%22from%22%2C%22to%22%5D%3E",
+                                            "description": "[plain] The tag under a translated message. $from is the language it was written in, $to the language it was translated into."
+                                        },
+                                        "dismiss": {
+                                            "description": "[plain] Button that dismisses a translation failure",
+                                            "type": "string"
+                                        },
+                                        "downloading": {
+                                            "$ref": "#/definitions/Template%3C%5B%22language%22%5D%3E",
+                                            "description": "[formatted] Shown while the browser downloads its own translator. $language is the language it is downloading."
+                                        },
+                                        "error": {
+                                            "$ref": "#/definitions/Template%3C%5B%22to%22%5D%3E",
+                                            "description": "[formatted] Shown when the conversation couldn't be translated. $to is the language it was being translated into."
+                                        },
+                                        "fewerLanguages": {
+                                            "description": "[plain] Tip on the button that hides the language search field",
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "description": "[plain] Label on the picker that chooses what language to read messages in",
+                                            "type": "string"
+                                        },
+                                        "messageError": {
+                                            "description": "[plain] Shown in place of one message that couldn't be translated",
+                                            "type": "string"
+                                        },
+                                        "messageErrors": {
+                                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                            "description": "[plain] Announced when messages couldn't be translated. $#count is how many."
+                                        },
+                                        "moreLanguages": {
+                                            "description": "[plain] Tip on the button that reveals a search field for languages beyond the ones already in this conversation",
+                                            "type": "string"
+                                        },
+                                        "none": {
+                                            "description": "[plain] The picker's first option, meaning don't translate — both the state it starts in and the way back to it",
+                                            "type": "string"
+                                        },
+                                        "nothing": {
+                                            "$ref": "#/definitions/Template%3C%5B%22to%22%5D%3E",
+                                            "description": "[formatted] Shown when a language is chosen but there is nothing here to translate into it. $to is that language."
+                                        },
+                                        "off": {
+                                            "description": "[plain] Button that stops a translation that is still running",
+                                            "type": "string"
+                                        },
+                                        "onDevice": {
+                                            "description": "[plain] Shown when the browser translated on this device, so no messages were sent to Wordplay",
+                                            "type": "string"
+                                        },
+                                        "translated": {
+                                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22language%22%5D%3E",
+                                            "description": "[plain] Announced when translating finishes. $#count is how many messages were translated, $language is the language they were translated into."
+                                        },
+                                        "translating": {
+                                            "description": "[plain] Label on the spinner shown while messages are being translated",
+                                            "type": "string"
+                                        },
+                                        "writingIn": {
+                                            "description": "[plain] Label on the picker that says what language the message being written is in",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "label",
+                                        "none",
+                                        "off",
+                                        "dismiss",
+                                        "moreLanguages",
+                                        "fewerLanguages",
+                                        "writingIn",
+                                        "translating",
+                                        "downloading",
+                                        "translated",
+                                        "direction",
+                                        "onDevice",
+                                        "nothing",
+                                        "error",
+                                        "messageError",
+                                        "messageErrors"
+                                    ],
+                                    "type": "object"
                                 }
                             },
                             "required": [
                                 "label",
+                                "translate",
                                 "field",
                                 "role",
                                 "button",
@@ -28091,6 +28181,9 @@
             "type": "string"
         },
         "Template<[\"title\"]>": {
+            "type": "string"
+        },
+        "Template<[\"to\"]>": {
             "type": "string"
         },
         "Template<[\"token\",\"before\",\"after\"]>": {

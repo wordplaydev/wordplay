@@ -25,12 +25,33 @@ vi.mock('firebase/firestore', () => ({
         _op: 'arrayRemove',
         elements,
     })),
-    doc: vi.fn((_firestore: unknown, collection: string, id: string) => ({
-        _ref: { collection, id },
+    // `collection` and `doc` model real paths rather than returning undefined.
+    // The stub they replace is why nothing caught a document-id range query
+    // whose bounds were the same string, and so matched nothing, ever.
+    collection: vi.fn((_firestore: unknown, ...segments: string[]) => ({
+        _path: segments.join('/'),
     })),
+    // Both call shapes: doc(firestore, 'chats', id) and doc(collectionRef, id).
+    doc: vi.fn((parent: unknown, ...rest: string[]) => {
+        const path =
+            typeof parent === 'object' &&
+            parent !== null &&
+            '_path' in parent &&
+            typeof parent._path === 'string'
+                ? [parent._path, ...rest]
+                : rest;
+        return {
+            _ref: {
+                collection: path.slice(0, -1).join('/'),
+                id: path[path.length - 1],
+            },
+        };
+    }),
     setDoc: vi.fn(async () => {}),
     updateDoc: vi.fn(async () => {}),
     deleteDoc: vi.fn(async () => {}),
+    deleteField: vi.fn(() => ({ _op: 'deleteField' })),
+    getDocs: vi.fn(async () => ({ docs: [] })),
     runTransaction: vi.fn(
         async (
             _firestore: unknown,
@@ -58,8 +79,7 @@ vi.mock('firebase/firestore', () => ({
         },
     ),
     onSnapshot: vi.fn(() => () => {}),
-    collection: vi.fn(),
-    query: vi.fn(),
+    query: vi.fn((c: unknown) => c),
     where: vi.fn(),
     getDoc: vi.fn(async () => ({ exists: () => false })),
 }));
@@ -78,9 +98,14 @@ vi.mock('@db/Database', () => ({
 
 import sendModerate from '@db/moderation/moderate';
 import sendReport from '@db/moderation/report';
-import { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
-import Chat from './ChatDatabase.svelte';
-import { updateDoc } from 'firebase/firestore';
+import {
+    getDoc,
+    getDocs,
+    onSnapshot,
+    setDoc,
+    updateDoc,
+} from 'firebase/firestore';
+import Chat, { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
 
 function makeChat(
     overrides: Partial<SerializedChat> = {},
@@ -110,6 +135,8 @@ describe('ChatDatabase granular message operations', () => {
         mockDatabase = {
             getUser: vi.fn(() => ({ uid: 'user-1' })),
             track: vi.fn(<T>(p: Promise<T>) => p),
+            write: vi.fn(<T>(p: Promise<T>) => p),
+            reportBanner: vi.fn(),
             Projects: {
                 listen: vi.fn(),
             },
@@ -121,6 +148,10 @@ describe('ChatDatabase granular message operations', () => {
             },
         };
 
+        (getDocs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+            docs: [],
+        });
+
         db = new ChatDatabase(mockDatabase);
     });
 
@@ -128,7 +159,7 @@ describe('ChatDatabase granular message operations', () => {
         it('arrayUnions the message and writes a recomputed unread list', async () => {
             const chat = makeChat();
 
-            await db.addMessage(chat, 'hello world');
+            await db.addMessage(chat, 'hello world', undefined);
 
             expect(updateDoc).toHaveBeenCalledTimes(1);
             const [ref, data] = (
@@ -149,6 +180,35 @@ describe('ChatDatabase granular message operations', () => {
             });
             // Everyone except the sender is marked unread.
             expect([...d.unread].sort()).toEqual(['user-2', 'user-3']);
+        });
+
+        it('tags the message with the chosen language when provided', async () => {
+            const chat = makeChat();
+
+            await db.addMessage(chat, 'hola', 'es');
+
+            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            const { elements } = (data as { messages: unknown }).messages as {
+                elements: SerializedMessage[];
+            };
+            expect(elements[0]).toMatchObject({
+                text: 'hola',
+                language: 'es',
+            });
+        });
+
+        it('leaves the language field unset when no language is chosen', async () => {
+            const chat = makeChat();
+
+            await db.addMessage(chat, 'hello world', undefined);
+
+            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            const { elements } = (data as { messages: unknown }).messages as {
+                elements: SerializedMessage[];
+            };
+            expect(elements[0].language).toBeUndefined();
         });
     });
 
@@ -253,6 +313,124 @@ describe('ChatDatabase granular message operations', () => {
         });
     });
 
+    describe('saveMessageTranslations', () => {
+        // The chat's own messages decide what may be cached, so a chat with
+        // none caches nothing. Two earlier tests here passed `makeChat()` with
+        // no messages and then asserted setDoc was called; they could only ever
+        // have failed.
+        const messages: SerializedMessage[] = [
+            { id: 'm1', time: 1, creator: 'user-2', text: 'hello' },
+            { id: 'm2', time: 2, creator: 'user-3', text: 'world' },
+        ];
+
+        it("writes translated entries to the chat's language document with merge", async () => {
+            await db.saveMessageTranslations(
+                makeChat({}, messages),
+                'es',
+                new Map([
+                    ['m1', 'hola'],
+                    ['m2', 'mundo'],
+                ]),
+                {},
+            );
+
+            // Nothing touches the chat document itself.
+            expect(lastTransactionOps).toHaveLength(0);
+            expect(setDoc).toHaveBeenCalledTimes(1);
+            const [ref, data, options] = (
+                setDoc as unknown as ReturnType<typeof vi.fn>
+            ).mock.calls[0];
+            expect(ref).toMatchObject({
+                _ref: { collection: 'chats/project-1/translations', id: 'es' },
+            });
+            expect(data).toEqual({ m1: 'hola', m2: 'mundo' });
+            expect(options).toEqual({ merge: true });
+        });
+
+        it('does nothing when the translation map is empty', async () => {
+            await db.saveMessageTranslations(
+                makeChat({}, messages),
+                'es',
+                new Map(),
+                {},
+            );
+            expect(setDoc).not.toHaveBeenCalled();
+            expect(lastTransactionOps).toHaveLength(0);
+        });
+
+        it('never reads the document it is about to write', async () => {
+            // What is cached is what the caller's live subscription already
+            // delivered, so re-reading here would be a second round trip for an
+            // answer in hand — and a racy one, since another viewer's merge
+            // could land in between and lose its fresh entry as stale.
+            await db.saveMessageTranslations(
+                makeChat({}, messages),
+                'fr',
+                new Map([['m1', 'bonjour']]),
+                { m2: 'monde' },
+            );
+            expect(getDoc).not.toHaveBeenCalled();
+        });
+
+        it('forgets what it holds for a message the chat no longer keeps', async () => {
+            // A chat trims its own oldest messages past 128KB. A translation of
+            // one that has gone would never be shown and would grow this
+            // document without bound.
+            await db.saveMessageTranslations(
+                makeChat({}, messages),
+                'es',
+                new Map([['m1', 'hola']]),
+                { gone: 'adiós' },
+            );
+            const [, data] = (setDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            expect(data).toEqual({
+                m1: 'hola',
+                gone: { _op: 'deleteField' },
+            });
+        });
+
+        it('keeps the newest translations when they exceed the budget', async () => {
+            // Newest first, matching which end of the conversation the chat
+            // itself trims, so the cache stays a subset of what is readable.
+            const long = 'x'.repeat(100_000);
+            await db.saveMessageTranslations(
+                makeChat({}, messages),
+                'es',
+                new Map([
+                    ['m1', long],
+                    ['m2', long],
+                ]),
+                {},
+            );
+            const [, data] = (setDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            expect(Object.keys(data)).toEqual(['m2']);
+        });
+    });
+
+    describe('subscribeChatTranslations', () => {
+        it('opens a snapshot listener on the sidecar document', () => {
+            const cb = vi.fn();
+            db.subscribeChatTranslations('project-1', 'es', cb);
+            expect(onSnapshot).toHaveBeenCalledTimes(1);
+            const [ref] = (onSnapshot as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            expect(ref).toMatchObject({
+                _ref: { collection: 'chats/project-1/translations', id: 'es' },
+            });
+        });
+
+        it('returns an unsubscribe function from onSnapshot', () => {
+            const unsub = db.subscribeChatTranslations(
+                'project-1',
+                'ja',
+                vi.fn(),
+            );
+            expect(typeof unsub).toBe('function');
+        });
+    });
+
     describe('deleteMessage', () => {
         it('uses a transaction that nulls the message text in-place', async () => {
             const existingMessage: SerializedMessage = {
@@ -287,13 +465,59 @@ describe('ChatDatabase granular message operations', () => {
                 text: null,
             });
         });
+
+        it('deletes the message from every language the chat has cached', async () => {
+            const existingMessage: SerializedMessage = {
+                id: 'm1',
+                time: 1000,
+                creator: 'user-1',
+                text: 'oops',
+            };
+            transactionReadSnap = {
+                exists: () => true,
+                data: () => ({
+                    v: 2,
+                    project: 'project-1',
+                    participants: ['user-1', 'user-2'],
+                    messages: [existingMessage],
+                    unread: [],
+                    type: 'project',
+                }),
+            };
+            (getDocs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+                docs: [
+                    {
+                        ref: {
+                            _ref: {
+                                collection: 'chats/project-1/translations',
+                                id: 'es',
+                            },
+                        },
+                    },
+                ],
+            });
+
+            await db.deleteMessage(
+                makeChat({}, [existingMessage]),
+                existingMessage,
+            );
+
+            expect(updateDoc).toHaveBeenCalledTimes(1);
+            const [ref, data] = (
+                updateDoc as unknown as ReturnType<typeof vi.fn>
+            ).mock.calls[0];
+            expect(ref).toMatchObject({
+                _ref: { collection: 'chats/project-1/translations', id: 'es' },
+            });
+            expect(data).toEqual({ m1: { _op: 'deleteField' } });
+        });
     });
 });
 
 /**
  * Upgrade-on-load coverage for chats. Old chat docs are upgraded when a snapshot
- * arrives (upgradeChat), so a regression silently corrupts every pre-v2 chat on
- * load. v1 → v2 adds the `type` discriminator (project vs how-to).
+ * arrives (upgradeChat), so a regression silently corrupts every pre-v2/v3 chat on
+ * load. v1 → v2 adds the `type` discriminator; v2 → v3 adds an optional `language`.
  */
 describe('withMergedMessages', () => {
     // Every call site is `incoming.withMergedMessages(existingLocalMessages)`,
@@ -370,6 +594,7 @@ describe('upgradeChat (upgrade-on-load)', () => {
         // rather than one step along.
         expect(upgraded.v).toBe(3);
         expect(upgraded.type).toBe('project');
+        expect(upgraded.language).toBeUndefined();
         // v1 user data is preserved across the upgrade.
         expect(upgraded.project).toBe('p1');
         expect(upgraded.participants).toEqual(['u1', 'u2']);
@@ -464,7 +689,32 @@ describe('upgradeChat (upgrade-on-load)', () => {
             messages: [],
             moderation: {},
             unread: [],
-            type: 'howto',
+            type: 'howto' as const,
+        };
+        expect(upgradeChat(v3)).toEqual(v3);
+    });
+
+    // `language` was added to v3 in place rather than as a v4, so a document
+    // written before it existed and one written after are both v3 and both have
+    // to survive the upgrader untouched.
+    it('a v3 doc carries its language through unchanged', () => {
+        const v3: SerializedChat = {
+            v: 3,
+            project: 'p1',
+            participants: ['u1'],
+            messages: [
+                {
+                    id: 'm1',
+                    time: 1,
+                    creator: 'u1',
+                    text: 'hola',
+                    language: 'es-MX',
+                },
+            ],
+            moderation: {},
+            unread: [],
+            type: 'project',
+            language: 'en-US',
         };
         expect(upgradeChat(v3)).toEqual(v3);
     });

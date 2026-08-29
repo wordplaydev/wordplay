@@ -8575,6 +8575,24 @@
                 "viewers": "$~/Widzowie/ mogą *przeglądać* projekt i jego *kod*, ale nie mogą go *dyskutować* ani *edytować*.",
                 "restrict": "$~Gdy projekt znajduje się w *galerii*, domyślnie *każdy*, kto może zobaczyć galerię, może zobaczyć Twój projekt. Przełącznik /restrict/ *ukrywa* go przed wszystkimi oprócz Ciebie i kuratorów galerii."
             },
+            "translate": {
+                "label": "$~Przetłumacz wiadomości na",
+                "off": "$~Zatrzymaj tłumaczenie",
+                "error": "$~Nie udało się przetłumaczyć tych wiadomości na $to. Spróbuj ponownie za jakiś czas.",
+                "messageError": "$~Nie udało się przetłumaczyć tej wiadomości.",
+                "direction": "$from → $to",
+                "messageErrors": "$~$#count[Nie udało się przetłumaczyć $count wiadomości.|Nie udało się przetłumaczyć $count wiadomości.|Nie udało się przetłumaczyć $count wiadomości.|Nie udało się przetłumaczyć $count wiadomości.]",
+                "moreLanguages": "$~Znajdź inny język",
+                "fewerLanguages": "$~Ukryj wyszukiwanie języka",
+                "translating": "$~Tłumaczenie wiadomości…",
+                "translated": "$~$#count[Przetłumaczono $count wiadomość na $language.|Przetłumaczono $count wiadomości na $language.|Przetłumaczono $count wiadomości na $language.|Przetłumaczono $count wiadomości na $language.]",
+                "writingIn": "$~Piszę w",
+                "downloading": "$~Pobieranie tłumacza dla języka $language do twojej przeglądarki…",
+                "onDevice": "$~Twoja przeglądarka przetłumaczyła to na twoim urządzeniu, więc żadne wiadomości nie zostały do nas wysłane.",
+                "none": "$~Nie tłumacz",
+                "dismiss": "$~odrzuć",
+                "nothing": "$~Nie ma tu nic do przetłumaczenia na $to. Nigdy nie tłumaczymy twoich własnych wiadomości."
+            },
             "announce": {
                 "transferred": "$~$name jest teraz właścicielem $project"
             }
@@ -9326,24 +9344,25 @@
                 "header": "$~Prawa",
                 "content": [
                     "$~Cześć!",
-                    "Ustalmy kilka zasad dotyczących Twoich praw i naszych (również w świetle przepisów, takich jak <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> i <RODO@https://gdpr.eu/compliance-checklist-us-companies/>).",
-                    "Pierwsza rzecz, którą warto wiedzieć: nie jesteśmy firmą komercyjną. Jesteśmy projektem badawczym opartym na społeczności, działającym przy uniwersytecie non-profit. Naszym celem jest stworzenie platformy, która daje Ci radość i pomaga nam odkrywać bardziej sprawiedliwy i uczciwy świat informatyki. Nie zależy nam na zarabianiu na tej platformie. Wszystkie pieniądze, które zbieramy (zwykle z funduszy publicznych), są używane do utrzymania platformy, a nie do wzbogacania kogokolwiek, kto przy niej pracuje (lub ją współtworzy).",
-                    "Ponieważ nie szukamy zysku, nie możemy też obiecać, że ta platforma zawsze będzie niezawodna, dostępna czy że przetrwa długo. Mimo to <Amy@https://amyjko.phd> jest zaangażowana na długi czas w jej utrzymanie, a jako profesor z tytułem naukowym ma dość stabilną pracę.",
-                    "To prowadzi nas do tematu *danych*. Oto co zbieramy i przechowujemy w chmurze:",
-                    "• Twoje *projekty*. Przechowujemy wszystkie projekty, które tworzysz, oraz Twoje zmiany w nich, chyba że te projekty zawierają dane pozwalające Cię zidentyfikować, takie jak numery telefonów, adresy e-mail, nazwy użytkownika, numery identyfikacji podatkowej czy adresy zamieszkania.",
-                    "• Twoje *ustawienia*. Obejmuje to wybrane przez Ciebie języki, preferencje animacji oraz postępy w samouczku. Wszystko inne jest przechowywane wyłącznie na Twoim urządzeniu.",
-                    "• Zbiorcza *aktywność*. Śledzimy logowania i odwiedzane strony, ale w sposób, który nie pozwala Cię zidentyfikować, śledzić w obrębie strony ani na innych stronach. Używamy Google Analytics w trybie „odmowa zgody”, który zbiera tylko minimalne, niemożliwe do zidentyfikowania informacje o odsłonach stron, bez zapisywania plików cookie i bez wysyłania adresu IP do Google. Te zbiorcze dane pomagają nam pozyskiwać fundusze, pokazując, jak często platforma jest używana.",
-                    "Nie przechowujemy niczego więcej. Nasz <kod źródłowy@https://github.com/amyjko/wordplay/tree/main/src> jest publiczny, więc każdy może to sprawdzić i zgłosić, jeśli znajdzie jakiekolwiek niezamierzone śledzenie.",
-                    "*Ty* jesteś właścicielem swoich danych, nie my. Oznacza to, że:",
-                    "• Ty decydujesz, kto może mieć dostęp do Twoich projektów. Domyślnie są one prywatne, ale możesz udostępnić je konkretnym osobom, grupom, albo uczynić je całkowicie publicznymi.",
-                    "• Możesz w każdej chwili całkowicie usunąć dowolny projekt lub swoje konto.",
-                    "• Możesz w każdej chwili pobrać kopię dowolnego projektu lub całego konta.",
+                    "Ustalmy kilka zasad dotyczących Twoich i naszych praw (również w świetle przepisów, takich jak <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> i <RODO@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Pierwsza rzecz, którą warto wiedzieć: nie jesteśmy firmą komercyjną. Jesteśmy projektem badawczym prowadzonym przez społeczność, działającym przy uniwersytecie non-profit. Naszym celem jest stworzenie platformy, która daje Ci radość i pomaga nam odkrywać bardziej sprawiedliwy świat programowania. Nie zależy nam na zarabianiu na tej platformie. Wszystkie pieniądze, które zbieramy (zwykle z funduszy publicznych), służą utrzymaniu platformy, a nie wzbogaceniu kogokolwiek, kto przy niej pracuje lub ją współtworzy.",
+                    "Ponieważ nie szukamy zysku, nie możemy też obiecać, że platforma zawsze będzie niezawodna, dostępna czy będzie istnieć bardzo długo. Mimo to <Amy@https://amyjko.phd> jest zaangażowana w jej utrzymanie na długi czas, a jako profesor z etatem ma dość stabilną pracę.",
+                    "Przejdźmy więc do *danych*. Oto co zbieramy i przechowujemy w chmurze:",
+                    "• Twoje *projekty*. Przechowujemy wszystkie projekty, które tworzysz, oraz Twoje zmiany w nich, chyba że projekty te zawierają dane pozwalające Cię zidentyfikować, takie jak numery telefonów, adresy e-mail, nazwy użytkownika, numery identyfikacji podatkowej czy adresy zamieszkania.",
+                    "• Twoje *ustawienia*. Obejmuje to wybrane przez Ciebie języki, preferencje animacji oraz postęp w samouczku. Wszystko inne jest przechowywane wyłącznie na Twoim urządzeniu.",
+                    "• Zbiorczą *aktywność*. Śledzimy logowania i strony, które odwiedzasz, ale nie w sposób, który mógłby Cię zidentyfikować, śledzić Cię na stronie ani na innych stronach. Używamy Google Analytics w trybie „odmowy zgody”, który zbiera jedynie minimalne, niezidentyfikowane informacje o wyświetleniach stron, bez zapisywania plików cookie i bez wysyłania adresu IP do Google. Te zbiorcze informacje pomagają nam pozyskiwać fundusze, pokazując, jak często platforma jest używana.",
+                    "• Twoje *tłumaczenia czatu*. Jeśli poprosisz o odczytanie czatu w innym języku, tłumaczymy wiadomości innych osób, ale nigdy Twoich własnych. Niektóre przeglądarki potrafią tłumaczyć takie treści bezpośrednio na Twoim urządzeniu — wtedy nic nie jest do nas wysyłane. W innym przypadku wiadomości trafiają do usługi tłumaczenia opartej na sztucznej inteligencji (obecnie jest to Claude, stworzony przez firmę Anthropic), a tłumaczenie zapisujemy razem z czatem, aby nikt inny nie musiał tłumaczyć tych samych słów ponownie. Tylko osoby uczestniczące w danym czacie mogą je odczytać.",
+                    "Nie przechowujemy niczego więcej. Nasz <kod źródłowy@https://github.com/amyjko/wordplay/tree/main/src> jest publiczny, więc każdy może to sprawdzić i zgłosić nieoczekiwane śledzenie.",
+                    "*Ty*, a nie my, jesteś właścicielem swoich danych. Oznacza to, że:",
+                    "• Ty decydujesz, kto może mieć dostęp do Twoich projektów. Domyślnie są one prywatne, ale możesz udostępnić je konkretnym osobom, grupom lub uczynić je całkowicie publicznymi.",
+                    "• W każdej chwili możesz całkowicie usunąć dowolny projekt lub swoje konto.",
+                    "• W każdej chwili możesz pobrać kopię dowolnego projektu lub całego swojego konta.",
                     "Oto jak będziemy, a jak nie będziemy korzystać z Twoich danych:",
-                    "• Nie udostępnimy Twoich danych nikomu, chyba że wymaga tego prawo. Zawsze istnieje możliwość, że ktoś zdobędzie Twoje dane bez pozwolenia (czyli dojdzie do „naruszenia danych”). Jeśli odkryjemy, że tak się stało, poinformujemy Cię o tym, korzystając z adresu e-mail, który nam podałeś lub podałaś.",
-                    "• Nie skontaktujemy się z Tobą przez e-mail, chyba że: 1) dokonasz zmiany w koncie, która tego wymaga, 2) wyraźnie wyrazisz zgodę, byśmy się z Tobą skontaktowali, lub 3) dojdzie do naruszenia danych, o którym mowa wyżej.",
-                    "• Możemy analizować projekty, galerie oraz treści typu „jak” na platformie, aby zrozumieć, co wszyscy tworzą i jak to robią. Możemy udostępniać te zbiorcze, zanonimizowane wnioski w publikacjach naukowych. Zrobimy to wyłącznie pod nadzorem instytucjonalnej komisji etycznej, zgodnie z wymogami prawa federalnego Stanów Zjednoczonych.",
-                    "Na koniec słowo o wypowiedziach. Projekty są domyślnie prywatne, a udostępnienie ich konkretnym osobom nie zmienia tego stanu. Poniżej wyjaśniamy dokładnie, kto sprawdza to, co udostępniasz, w zależności od tego, kto może to zobaczyć.",
-                    "Ale uczynienie projektu *publicznym*, albo umieszczenie go w publicznej galerii, to przywilej. Ta platforma powstała z myślą o miłości, akceptacji, szacunku i godności. Dlatego oczekujemy, że żadna z Twoich *publicznych* treści nie będzie:"
+                    "• Nie udostępnimy Twoich danych nikomu, chyba że wymaga tego prawo. Zawsze istnieje możliwość, że Twoje dane zostaną przejęte bez zgody (tak zwane „naruszenie danych”). Jeśli odkryjemy, że coś takiego się wydarzyło, poinformujemy Cię o tym, korzystając z adresu e-mail, który nam udostępniłeś lub udostępniłaś.",
+                    "• Nie skontaktujemy się z Tobą przez e-mail, chyba że: 1) dokonasz zmiany na koncie, która tego wymaga, 2) wyraźnie wyrazisz zgodę na kontakt, lub 3) dojdzie do naruszenia danych opisanego powyżej.",
+                    "• Możemy analizować projekty, galerie oraz treści typu „jak” na platformie, aby zrozumieć, co ludzie tworzą i w jaki sposób. Możemy udostępniać te zbiorcze, zanonimizowane wnioski w publikacjach naukowych. Będziemy to robić wyłącznie pod nadzorem komisji etycznej instytucji, zgodnie z wymogami prawa federalnego Stanów Zjednoczonych.",
+                    "Na koniec kilka słów o wypowiedziach. Projekty są domyślnie prywatne, a udostępnienie ich konkretnym osobom utrzymuje je jako prywatne. Poniżej wyjaśniamy dokładnie, kto sprawdza to, co udostępniasz, w zależności od tego, kto może to zobaczyć.",
+                    "Jednak uczynienie projektu *publicznym* lub umieszczenie go w publicznej galerii to przywilej. Ta platforma powstała z myślą o miłości, akceptacji, szacunku i godności. Dlatego oczekujemy, że żadna z Twoich *publicznych* treści nie będzie:"
                 ],
                 "consequences": [
                     "$~Jeśli znajdziemy projekt lub galerię, która łamie te zasady, ostrzeżemy twórców, zanim ktoś ją zobaczy, albo zablokujemy do niej dostęp. Jeśli będziesz wielokrotnie łamać lub łamał te zasady, stracisz możliwość publikowania treści publicznie."

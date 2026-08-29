@@ -19,6 +19,7 @@ import {
 import { BlocksSetting } from '@db/settings/BlocksSetting';
 import { WordsSetting } from '@db/settings/WordsSetting';
 import { CameraSetting } from '@db/settings/CameraSetting';
+import { ChatLanguageSetting } from '@db/settings/ChatLanguageSetting';
 import { CaretsSetting } from '@db/settings/CaretsSetting';
 import { FoldsSetting } from '@db/settings/FoldsSetting';
 import type { Path } from '@nodes/Root';
@@ -213,6 +214,7 @@ export default class SettingsDatabase {
         contrastLanguage: ContrastLanguageSetting,
         face: FaceSetting,
         camera: CameraSetting,
+        chatLanguage: ChatLanguageSetting,
         mic: MicSetting,
         blocks: BlocksSetting,
         words: WordsSetting,
@@ -518,6 +520,14 @@ export default class SettingsDatabase {
 
     setCamera(deviceID: string | null) {
         this.settings.camera.set(this.database, deviceID);
+    }
+
+    getChatLanguage() {
+        return this.settings.chatLanguage.get();
+    }
+
+    setChatLanguage(locale: string | null) {
+        this.settings.chatLanguage.set(this.database, locale);
     }
 
     setMic(deviceID: string | null) {

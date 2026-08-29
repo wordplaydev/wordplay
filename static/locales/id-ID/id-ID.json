@@ -8815,6 +8815,24 @@
             },
             "announce": {
                 "transferred": "$~$name sekarang menjadi pemilik $project"
+            },
+            "translate": {
+                "label": "$~Terjemahkan pesan ke",
+                "off": "$~Hentikan penerjemahan",
+                "error": "$~Kami tidak bisa menerjemahkan pesan ini ke $to. Coba lagi sebentar lagi.",
+                "messageError": "$~Kami tidak bisa menerjemahkan pesan ini.",
+                "messageErrors": "$~$#count[Kami tidak bisa menerjemahkan $count pesan.]",
+                "direction": "$~$from → $to",
+                "moreLanguages": "$~Cari bahasa lain",
+                "fewerLanguages": "$~Sembunyikan pencarian bahasa",
+                "translating": "$~Menerjemahkan pesan…",
+                "translated": "$~$#count[Menerjemahkan $count pesan ke $language.]",
+                "writingIn": "$~Saya menulis dalam",
+                "downloading": "$~Mengambil penerjemah $language untuk peramban Anda…",
+                "onDevice": "$~Peramban Anda menerjemahkan ini di perangkat Anda, jadi tidak ada pesan yang dikirim ke kami.",
+                "none": "$~Jangan diterjemahkan",
+                "dismiss": "$~tutup",
+                "nothing": "$~Tidak ada apa pun di sini untuk diterjemahkan ke $to. Kami tidak pernah menerjemahkan pesanmu sendiri."
             }
         },
         "palette": {
@@ -10128,24 +10146,25 @@
                 "header": "$~Hak-hak",
                 "content": [
                     "$~Hai!",
-                    "Ayo kita bahas hak kamu dan hak kami (juga sesuai aturan, seperti <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> dan <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
-                    "Hal pertama yang perlu kamu tahu: kami bukan perusahaan bisnis. Kami adalah proyek riset berbasis komunitas yang ada di sebuah universitas nirlaba. Tujuan kami adalah membuat platform yang membuat kamu senang, dan membantu kami menemukan hal-hal baru tentang dunia komputer yang lebih adil dan setara. Kami tidak ingin mencari uang dari platform ini. Uang yang kami kumpulkan (biasanya dari dana publik) dipakai untuk menjaga platform ini tetap berjalan, bukan untuk menguntungkan siapa pun yang mengerjakannya (atau yang ikut berkontribusi).",
-                    "Karena kami tidak mencari keuntungan, kami juga tidak bisa berjanji soal keandalan, ketersediaan, atau berapa lama platform ini akan tetap ada. Meski begitu, <Amy@https://amyjko.phd> berkomitmen jangka panjang untuk menjaga platform ini. Sebagai profesor tetap, posisinya cukup stabil.",
-                    "Sekarang mari kita bahas *data*. Berikut yang kami kumpulkan dan simpan di cloud:",
-                    "• *Proyek* kamu. Kami menyimpan proyek yang kamu buat dan perubahan yang kamu lakukan, kecuali proyek itu tampak memuat informasi pribadi yang bisa dikenali, seperti nomor telepon, alamat email, nama pengguna, nomor identitas pajak, atau alamat rumah.",
-                    "• *Pengaturan* kamu. Ini termasuk bahasa yang kamu pilih, pengaturan animasi, dan kemajuan tutorial kamu. Semua hal lain hanya disimpan di perangkat kamu sendiri.",
-                    "• *Aktivitas* secara keseluruhan. Kami mencatat kapan kamu masuk dan halaman yang kamu kunjungi, tetapi tidak dengan cara yang bisa mengenali kamu, melacak kamu di dalam situs, atau melacak kamu di situs lain. Kami memakai Google Analytics dalam mode 'persetujuan ditolak', yang hanya mengumpulkan sedikit informasi tanpa identitas tentang tampilan halaman, tanpa menyimpan cookie, dan tanpa mengirim alamat IP ke Google. Kami memakai informasi ini untuk membantu mencari dana, dengan melaporkan seberapa banyak platform ini dipakai.",
-                    "Kami tidak menyimpan hal lain apa pun. <Kode sumber@https://github.com/amyjko/wordplay/tree/main/src> kami bersifat terbuka untuk umum, jadi siapa saja bisa memeriksanya, dan melaporkan jika ada pelacakan yang tidak semestinya.",
-                    "*Kamu* pemilik datamu, bukan kami. Artinya:",
-                    "• Kamu yang mengatur siapa yang bisa melihat proyekmu. Secara default proyekmu bersifat pribadi, tapi kamu bisa membagikannya ke orang tertentu, ke kelompok, atau membuatnya benar-benar terbuka untuk umum.",
-                    "• Kamu bisa menghapus sepenuhnya proyek mana pun, atau akunmu sendiri, kapan saja.",
-                    "• Kamu bisa mengambil salinan (ekspor) proyek mana pun, atau seluruh akunmu, kapan saja.",
-                    "Berikut cara kami memakai atau tidak memakai datamu:",
-                    "• Kami tidak akan membagikan datamu ke siapa pun, kecuali memang diwajibkan oleh hukum. Selalu ada kemungkinan datamu diambil tanpa izin (disebut 'pelanggaran data'). Jika kami menemukan hal ini terjadi, kami akan memberitahumu lewat email yang sudah kamu bagikan ke kami.",
-                    "• Kami tidak akan menghubungimu lewat email, kecuali 1) kamu melakukan perubahan akun yang mengharuskan kami menghubungimu, 2) kamu memberi izin secara jelas untuk kami menghubungimu, atau 3) terjadi pelanggaran data seperti disebut di atas.",
-                    "• Kami mungkin menganalisis proyek, galeri, dan panduan cara di platform ini untuk memahami apa yang dibuat orang-orang dan bagaimana mereka membuatnya. Kami mungkin membagikan hasil pengamatan ini dalam bentuk yang digabung dan tanpa identitas dalam publikasi ilmiah. Kami hanya akan melakukan ini di bawah pengawasan dewan etik lembaga, sesuai yang diwajibkan hukum federal Amerika Serikat.",
-                    "Terakhir, catatan tentang ucapan atau isi tulisan. Proyek bersifat pribadi secara default, dan membagikannya ke orang tertentu tetap membuatnya pribadi. Berikut ini adalah penjelasan siapa yang memeriksa apa yang kamu bagikan, sesuai siapa yang bisa melihatnya.",
-                    "Tapi membuat proyek menjadi *publik*, atau memasukkannya ke galeri publik, adalah sebuah keistimewaan. Platform ini dibuat dengan cinta, dukungan, rasa hormat, dan penghargaan pada martabat setiap orang. Karena itu, kami berharap tidak ada isi *publik* milikmu yang:"
+                    "Mari kita bicarakan hak kamu dan hak kami (juga berdasarkan aturan seperti <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> dan <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Hal pertama yang perlu kamu tahu adalah kami bukan perusahaan yang mencari keuntungan. Kami adalah proyek riset berbasis komunitas yang dijalankan di universitas nirlaba. Tujuan kami adalah membuat platform yang membuatmu senang, dan membantu kami menemukan cara membuat dunia komputer yang lebih adil dan setara. Kami tidak ingin mencari uang dari platform ini. Uang yang kami dapatkan (biasanya dari dana publik) dipakai untuk menjaga platform ini tetap berjalan, bukan untuk memperkaya siapa pun yang bekerja atau berkontribusi di sini.",
+                    "Karena kami tidak mencari keuntungan, kami juga tidak bisa berjanji soal keandalan, ketersediaan, atau umur panjang platform ini. Walau begitu, <Amy@https://amyjko.phd> berkomitmen menjaga platform ini dalam jangka panjang. Sebagai profesor tetap, dia punya pekerjaan yang cukup stabil.",
+                    "Sekarang mari bicara soal *data*. Berikut ini yang kami kumpulkan dan simpan di penyimpanan awan (cloud):",
+                    "• *Proyek* kamu. Kami menyimpan setiap proyek yang kamu buat dan perubahan yang kamu lakukan padanya, kecuali jika proyek itu tampaknya berisi data pribadi seperti nomor telepon, alamat surel, nama pengguna, nomor identitas pajak, atau alamat rumah.",
+                    "• *Pengaturan* kamu. Ini termasuk bahasa yang kamu pilih, preferensi animasi, dan kemajuan tutorial kamu. Semua hal lain hanya disimpan di perangkatmu sendiri.",
+                    "• *Aktivitas* secara umum. Kami mencatat kapan kamu masuk (login) dan halaman yang kamu kunjungi, tapi tidak dengan cara yang bisa mengenali siapa kamu, mengikutimu di seluruh situs, atau mengikutimu di situs lain. Kami menggunakan Google Analytics dalam mode 'persetujuan ditolak', yang hanya mengumpulkan sedikit informasi tanpa identitas tentang tampilan halaman, tanpa menyimpan cookie, dan tanpa mengirim informasi alamat IP ke Google. Kami memakai informasi umum ini untuk membantu mencari dana, dengan menunjukkan seberapa banyak platform ini digunakan.",
+                    "• *Terjemahan obrolan* kamu. Jika kamu meminta untuk membaca obrolan dalam bahasa lain, kami menerjemahkan pesan orang lain, tapi tidak pernah menerjemahkan pesanmu sendiri. Beberapa peramban bisa melakukan penerjemahan ini langsung di perangkatmu, dan jika peramban kamu bisa melakukannya, tidak ada data yang dikirim ke kami. Jika tidak, pesan itu dikirim ke layanan penerjemah kecerdasan buatan (saat ini bernama Claude, buatan Anthropic), dan hasil terjemahannya disimpan bersama obrolan itu, supaya orang lain tidak perlu menerjemahkan kata yang sama lagi. Hanya orang-orang dalam obrolan itu yang bisa membacanya.",
+                    "Kami tidak menyimpan hal lain selain itu. <Kode sumber@https://github.com/amyjko/wordplay/tree/main/src> kami bersifat terbuka untuk umum, jadi siapa pun bisa memeriksanya, dan melaporkan jika ada pelacakan yang tidak seharusnya terjadi.",
+                    "*Kamu* yang memiliki datamu, bukan kami. Artinya:",
+                    "• Kamu yang mengatur siapa yang bisa melihat proyekmu. Secara bawaan, proyekmu bersifat pribadi, tapi kamu bisa membagikannya kepada orang tertentu, kelompok tertentu, atau membuatnya benar-benar terbuka untuk umum.",
+                    "• Kamu bisa menghapus sepenuhnya proyek apa pun, atau akunmu sendiri, kapan saja.",
+                    "• Kamu bisa mengunduh salinan proyek apa pun, atau seluruh akunmu, kapan saja.",
+                    "Berikut cara kami menggunakan dan tidak menggunakan datamu:",
+                    "• Kami tidak akan membagikan datamu kepada siapa pun, kecuali memang diwajibkan oleh hukum. Selalu ada kemungkinan datamu diambil tanpa izin (disebut 'kebocoran data'). Jika kami menemukan hal ini terjadi, kami akan memberitahumu melalui alamat surel yang sudah kamu berikan kepada kami.",
+                    "• Kami tidak akan menghubungimu lewat alamat surelmu, kecuali jika 1) kamu melakukan perubahan akun yang mengharuskan kami menghubungimu, 2) kamu memberi izin secara jelas agar kami menghubungimu, atau 3) terjadi kebocoran data seperti disebutkan di atas.",
+                    "• Kami mungkin menganalisis proyek, galeri, dan konten cara di platform ini, untuk memahami apa yang orang-orang buat dan bagaimana mereka membuatnya. Kami mungkin membagikan hasil analisis ini dalam bentuk umum dan tanpa nama, di dalam publikasi akademik. Kami hanya akan melakukan ini dengan pengawasan dewan peninjau kelembagaan, sesuai yang diwajibkan hukum federal Amerika Serikat.",
+                    "Terakhir, catatan tentang ucapan. Proyek bersifat pribadi secara bawaan, dan membagikannya kepada orang tertentu tetap membuatnya pribadi. Berikut ini penjelasan siapa yang memeriksa apa yang kamu bagikan, tergantung siapa yang bisa melihatnya.",
+                    "Namun, membuat proyek menjadi *terbuka untuk umum*, atau memasukkannya ke galeri publik, adalah sebuah hak istimewa. Platform ini dibuat dengan dasar cinta, penghargaan, rasa hormat, dan martabat. Karena itu, kami mengharapkan bahwa konten *publik* milikmu tidak akan:"
                 ],
                 "consequences": [
                     "$~Jika kami menemukan proyek atau galeri yang melanggar aturan ini, kami akan memperingatkan pembuatnya sebelum orang lain melihatnya, atau memblokirnya agar tidak bisa dilihat. Jika kamu berulang kali melanggar aturan ini, kamu akan kehilangan hak untuk membagikan isi secara publik."

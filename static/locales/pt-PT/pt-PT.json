@@ -8799,6 +8799,24 @@
             },
             "announce": {
                 "transferred": "$~$name é agora o(a) proprietário(a) de $project"
+            },
+            "translate": {
+                "label": "$~Traduzir mensagens para",
+                "off": "$~parar tradução",
+                "error": "$~Não conseguimos traduzir estas mensagens para $to. Tente novamente dentro de pouco tempo.",
+                "messageError": "$~Não conseguimos traduzir esta mensagem.",
+                "messageErrors": "$~$#count[Não foi possível traduzir $#count mensagem.|Não foi possível traduzir $count milhões de mensagens.|Não foi possível traduzir $count mensagens.]",
+                "direction": "$~$from → $to",
+                "moreLanguages": "$~encontrar outro idioma",
+                "fewerLanguages": "$~ocultar a pesquisa de idiomas",
+                "translating": "$~A traduzir mensagens…",
+                "translated": "$~$#count[Traduzida $count mensagem para $language.|Traduzidas $count milhões de mensagens para $language.|Traduzidas $count mensagens para $language.]",
+                "writingIn": "$~Estou a escrever em",
+                "downloading": "$~A obter um tradutor de $language para o seu navegador…",
+                "onDevice": "$~O seu navegador traduziu estas mensagens no seu dispositivo, por isso nenhuma mensagem nos foi enviada.",
+                "none": "$~Não traduzir",
+                "dismiss": "$~fechar",
+                "nothing": "$~Não há nada aqui para traduzir para $to. Nunca traduzimos as suas próprias mensagens."
             }
         },
         "palette": {
@@ -10001,24 +10019,25 @@
                 "header": "Direitos",
                 "content": [
                     "$~Olá!",
-                    "Vamos definir algumas expectativas sobre os seus direitos e os nossos (também à luz de políticas como a <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> e o <RGPD@https://gdpr.eu/compliance-checklist-us-companies/>).",
-                    "A primeira coisa a saber é que não somos uma entidade comercial. Somos um projeto de investigação comunitário, sediado numa universidade sem fins lucrativos. O nosso objetivo é criar uma plataforma que lhe traga alegria e nos ajude a fazer descobertas sobre um mundo da computação mais justo e equitativo. Não temos qualquer interesse em ganhar dinheiro com esta plataforma. Qualquer dinheiro que reunamos (normalmente através de financiamento público) é usado para sustentar a plataforma, não para enriquecer quem trabalha nela (ou quem contribui para ela).",
-                    "Como não procuramos lucro, isto também significa que não podemos fazer promessas sobre a fiabilidade, a disponibilidade ou a duração desta plataforma. Dito isto, <Amy@https://amyjko.phd> está comprometida a longo prazo em mantê-la, e, como professora com lugar efetivo, tem um trabalho bastante estável.",
-                    "Isto leva-nos aos *dados*. Eis o que reunimos e guardamos na nuvem:",
-                    "• Os seus *projetos*. Guardamos quaisquer projetos com que contribua e as suas alterações a eles, a não ser que esses projetos pareçam conter informação pessoal identificável, como números de telefone, endereços de email, nomes de utilizador, números de identificação fiscal ou moradas.",
-                    "• As suas *definições*. Isto inclui os idiomas que escolhe, as suas preferências de animação e o seu progresso no tutorial. Tudo o resto fica guardado apenas no seu dispositivo.",
-                    "• *Atividade* agregada. Registamos as entradas na conta e as páginas que visita, mas não de uma forma que possa identificá-lo(a), seguir os seus passos pelo site ou seguir os seus passos por outros sites. Usamos o Google Analytics em modo de 'consentimento negado', que apenas reúne informação mínima e não identificável sobre visualizações de páginas, sem guardar cookies nem enviar informação do endereço IP à Google. Usamos esta informação agregada para ajudar a angariar financiamento, mostrando o quanto a plataforma está a ser usada.",
-                    "Não guardamos mais nada. O nosso <código-fonte@https://github.com/amyjko/wordplay/tree/main/src> é público, para que qualquer pessoa possa verificar isto e denunciar qualquer rastreio não pretendido.",
-                    "*Você* é o(a) dono(a) dos seus dados, não nós. Isto significa que:",
-                    "• Controla quem pode aceder aos seus projetos. Eles são privados por predefinição, mas pode partilhá-los com pessoas, grupos, ou torná-los completamente públicos.",
-                    "• Pode eliminar por completo qualquer projeto ou a sua própria conta a qualquer momento.",
-                    "• Pode obter uma exportação de qualquer projeto ou de toda a sua conta a qualquer momento.",
+                    "Vamos esclarecer alguns direitos, os seus e os nossos (também à luz de leis como a <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> e o <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "A primeira coisa a saber é que não somos uma entidade comercial. Somos um projeto de investigação comunitário, sediado numa universidade sem fins lucrativos. O nosso objetivo é criar uma plataforma que lhe dê alegria e nos ajude a fazer descobertas sobre um mundo da computação mais justo e equitativo. Não temos qualquer interesse em ganhar dinheiro com esta plataforma. Qualquer dinheiro que reunamos (normalmente através de financiamento público) é usado para manter a plataforma, e não para enriquecer quem trabalha nela ou contribui para ela.",
+                    "Como não procuramos lucro, isto também significa que não podemos garantir a fiabilidade, a disponibilidade ou a duração desta plataforma. Ainda assim, <Amy@https://amyjko.phd> está empenhada, a longo prazo, em mantê-la, e, como professora efetiva, tem um trabalho bastante estável.",
+                    "Isto leva-nos aos *dados*. Eis o que recolhemos e guardamos na nuvem:",
+                    "• Os seus *projetos*. Guardamos os projetos que contribui e as alterações que lhes faz, a menos que esses projetos pareçam conter informação pessoal identificável, como números de telefone, endereços de correio eletrónico, nomes de utilizador, números de identificação fiscal ou endereços.",
+                    "• As suas *definições*. Isto inclui os idiomas que escolhe, as suas preferências de animação e o seu progresso no tutorial. Tudo o resto é guardado apenas no seu dispositivo.",
+                    "• *Atividade* agregada. Registamos os inícios de sessão e as páginas que visita, mas não de uma forma que o(a) identifique, o(a) siga dentro do site ou o(a) siga noutros sites. Usamos o Google Analytics no modo de \"consentimento negado\", que apenas recolhe informação mínima e não identificável sobre visualizações de páginas, sem guardar cookies nem enviar informação do endereço IP à Google. Usamos esta informação agregada para ajudar a obter financiamento, mostrando o quanto a plataforma está a ser usada.",
+                    "• As suas *traduções de conversas*. Se pedir para ler uma conversa noutro idioma, traduzimos as mensagens de todos os outros, mas nunca as suas próprias. Alguns navegadores conseguem fazer esta tradução no seu dispositivo, e quando o seu conseguir, nada é enviado para nós. Caso contrário, as mensagens são enviadas para um serviço de tradução com inteligência artificial (atualmente é o Claude, feito pela Anthropic), e a tradução é guardada com a conversa, para que mais ninguém nela tenha de traduzir as mesmas palavras outra vez. Só as pessoas dessa conversa a podem ler.",
+                    "Não guardamos mais nada. O nosso <código-fonte@https://github.com/amyjko/wordplay/tree/main/src> é público, por isso qualquer pessoa o pode verificar e denunciar qualquer rastreamento não intencional.",
+                    "Os seus dados são seus, não nossos. Isto significa que:",
+                    "• Controla quem pode aceder aos seus projetos. Por norma, são privados, mas pode partilhá-los com pessoas, grupos, ou torná-los totalmente públicos.",
+                    "• Pode eliminar por completo qualquer projeto ou a sua própria conta, em qualquer momento.",
+                    "• Pode obter uma exportação de qualquer projeto ou de toda a sua conta, em qualquer momento.",
                     "Eis como vamos e não vamos usar os seus dados:",
-                    "• Não vamos partilhar os seus dados com ninguém, a não ser que a lei o exija explicitamente. É sempre possível que os seus dados sejam obtidos sem autorização (uma 'violação de dados'). Se descobrirmos que isto aconteceu, vamos avisá-lo(a) através do email que partilhou connosco.",
-                    "• Não vamos contactá-lo(a) através do seu endereço de email, a não ser que: 1) faça uma alteração na conta que nos obrigue a isso, 2) dê o seu consentimento explícito para o fazermos, ou 3) no caso de uma violação de dados, como referido acima.",
-                    "• Podemos analisar projetos, galerias e conteúdos de ajuda na plataforma para perceber o que todos estão a criar e como o estão a fazer. Podemos partilhar estas informações agregadas e anónimas em publicações académicas. Só faremos isto sob a supervisão de uma comissão de ética institucional, conforme exigido pela lei federal dos Estados Unidos.",
-                    "Por fim, uma nota sobre a liberdade de expressão. Os projetos são privados por predefinição, e partilhar um projeto com pessoas específicas mantém-no privado. Ninguém modera um projeto privado. Colocar um projeto numa galeria é diferente: todas as pessoas nessa galeria podem vê-lo, pelo que os(as) curadores(as) dessa galeria são responsáveis por ele e pela sua conversa, seja a galeria pública ou não.",
-                    "Mas tornar um projeto *público*, ou incluí-lo numa galeria pública, é um privilégio. Esta é uma plataforma feita com amor, afirmação, respeito e dignidade. Por isso, esperamos que nenhum dos seus conteúdos *públicos*:"
+                    "• Não vamos partilhar os seus dados com ninguém, a menos que a lei o exija explicitamente. É sempre possível que os seus dados sejam obtidos sem permissão (uma \"fuga de dados\"). Se descobrirmos que isso aconteceu, vamos informá-lo(a) através do correio eletrónico que partilhou connosco.",
+                    "• Não vamos contactá-lo(a) através do seu endereço de correio eletrónico, a menos que 1) faça uma alteração na conta que exija isso, 2) dê explicitamente o seu consentimento para ser contactado(a), ou 3) no caso de fuga de dados mencionado acima.",
+                    "• Podemos analisar projetos, galerias e guias de como fazer coisas na plataforma, para entender o que todos estão a criar e como o estão a fazer. Podemos partilhar estas informações agregadas e anónimas em publicações académicas. Só faremos isto sob a supervisão de uma comissão de ética institucional, conforme exigido pela lei federal dos Estados Unidos.",
+                    "Por fim, uma nota sobre a liberdade de expressão. Os projetos são privados por norma, e partilhar um projeto com pessoas específicas mantém-no privado. A seguir explicamos exatamente quem revê o que partilha, dependendo de quem o pode ver.",
+                    "Mas tornar um projeto *público*, ou incluí-lo numa galeria pública, é um privilégio. Esta é uma plataforma feita com amor, afirmação, respeito e dignidade. Por isso, esperamos que nenhum do seu conteúdo *público*:"
                 ],
                 "consequences": [
                     "$~Se encontrarmos um projeto ou galeria que viole estas regras, avisamos os criadores antes de o verem, ou impedimos que seja visto. Se violar estas regras repetidamente, perde o privilégio de publicar conteúdos publicamente."

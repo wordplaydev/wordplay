@@ -2,6 +2,7 @@ import type { UserIdentifier } from 'firebase-admin/auth';
 import { initializeApp } from 'firebase-admin/app';
 import {
     onDocumentCreated,
+    onDocumentDeleted,
     onDocumentWritten,
 } from 'firebase-functions/v2/firestore';
 import { onCall, onRequest } from 'firebase-functions/v2/https';
@@ -20,6 +21,7 @@ import type {
     ReportInputs,
 } from 'shared-types';
 
+import chatDeletedHandler from './chatDeleted.js';
 import compactProjectUpdatesHandler from './compactProjectUpdates.js';
 import createClassHandler from './createClass.js';
 import moderateGalleryHandler from './moderateGallery.js';
@@ -200,6 +202,15 @@ export const tidyStaleAssignmentsManual = onRequest(
 export const postFeedback = onDocumentCreated(
     'feedback/{id}',
     postFeedbackHandler,
+);
+
+/** When a conversation goes, so does its translation cache. Firestore leaves a
+ *  subcollection behind when its parent is deleted, and the cache's rule reads
+ *  that parent to decide who may touch it — so past this point no client can
+ *  reach those documents at all. */
+export const chatDeleted = onDocumentDeleted(
+    'chats/{chat}',
+    chatDeletedHandler,
 );
 
 export const galleryEdited = onDocumentWritten(

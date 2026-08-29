@@ -1182,6 +1182,42 @@ type UITexts = {
     collaborate: {
         /** [plain] The ARIA label for the chat section */
         label: string;
+        /** Reading a conversation in another language, and saying what
+         *  language you are writing in */
+        translate: {
+            /** [plain] Label on the picker that chooses what language to read messages in */
+            label: string;
+            /** [plain] The picker's first option, meaning don't translate — both the state it starts in and the way back to it */
+            none: string;
+            /** [plain] Button that stops a translation that is still running */
+            off: string;
+            /** [plain] Button that dismisses a translation failure */
+            dismiss: string;
+            /** [plain] Tip on the button that reveals a search field for languages beyond the ones already in this conversation */
+            moreLanguages: string;
+            /** [plain] Tip on the button that hides the language search field */
+            fewerLanguages: string;
+            /** [plain] Label on the picker that says what language the message being written is in */
+            writingIn: string;
+            /** [plain] Label on the spinner shown while messages are being translated */
+            translating: string;
+            /** [formatted] Shown while the browser downloads its own translator. $language is the language it is downloading. */
+            downloading: Template<['language']>;
+            /** [plain] Announced when translating finishes. $#count is how many messages were translated, $language is the language they were translated into. */
+            translated: Template<['#count', 'language']>;
+            /** [plain] The tag under a translated message. $from is the language it was written in, $to the language it was translated into. */
+            direction: Template<['from', 'to']>;
+            /** [plain] Shown when the browser translated on this device, so no messages were sent to Wordplay */
+            onDevice: string;
+            /** [formatted] Shown when a language is chosen but there is nothing here to translate into it. $to is that language. */
+            nothing: Template<['to']>;
+            /** [formatted] Shown when the conversation couldn't be translated. $to is the language it was being translated into. */
+            error: Template<['to']>;
+            /** [plain] Shown in place of one message that couldn't be translated */
+            messageError: string;
+            /** [plain] Announced when messages couldn't be translated. $#count is how many. */
+            messageErrors: Template<['#count']>;
+        };
         /** The chat message input field */
         field: {
             /** The chat message input field */
@@ -1235,6 +1271,7 @@ type UITexts = {
             empty: string;
             /** [plain] A message was deleted */
             deleted: string;
+
             /** [formatted] Shown next to the ownership transfer control when the project is in a gallery, since gallery membership doesn't follow the project to its new owner */
             transferGallery: FormattedText;
         };
