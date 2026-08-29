@@ -1,4 +1,7 @@
-import admin from 'firebase-admin';
+// The modular entry points, not the default `firebase-admin` export: under ESM
+// that export has no `credential`, so `admin.credential.cert(...)` throws
+// before the script reaches a single document.
+import { cert, initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { readFileSync } from 'fs';
 
@@ -39,7 +42,7 @@ if (serviceAccount === undefined) {
     process.exit();
 }
 
-admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
+initializeApp({ credential: cert(serviceAccount) });
 const db = getFirestore();
 
 const snapshot = await db.collection('chats').get();
@@ -68,9 +71,16 @@ for (const doc of snapshot.docs) {
         if (message.moderation !== undefined)
             moderation[message.id] = message.moderation;
 
-        // A review already under way keeps going, with the text where the new
-        // code expects to find it.
-        if (message.moderation === 'pending') {
+        // A review already under way keeps going, and one already decided
+        // against keeps its words somewhere only the responsible can read
+        // them. Both need a report: it is where a hidden message's text lives
+        // now, and a message whose text stayed in the chat would be hidden
+        // from the screen and readable by every participant in the document —
+        // exactly the thing this change exists to stop.
+        const hide =
+            message.moderation === 'pending' ||
+            message.moderation === 'removed';
+        if (hide) {
             const id = `chat:${doc.id}:${message.id}`;
             batch.set(db.collection('reports').doc(id), {
                 v: 2,
@@ -91,7 +101,11 @@ for (const doc of snapshot.docs) {
                 ...(typeof message.text === 'string'
                     ? { text: message.text }
                     : {}),
-                resolved: false,
+                // A removed message's review is over; a pending one's is not.
+                resolved: message.moderation === 'removed',
+                ...(message.moderation === 'removed'
+                    ? { upheld: true, moderator: message.moderator ?? null }
+                    : {}),
             });
             reportsMade++;
             pending++;
@@ -101,11 +115,10 @@ for (const doc of snapshot.docs) {
             id: message.id,
             time: message.time,
             creator: message.creator,
-            // A pending message's words live on its report now.
-            text:
-                message.moderation === 'pending'
-                    ? null
-                    : (message.text ?? null),
+            // A hidden message's words live on its report now — pending or
+            // removed. Leaving a removed one here would hide it from the screen
+            // while every participant could still read it in the document.
+            text: hide ? null : (message.text ?? null),
         });
         if (pending >= LIMIT) await flush();
     }
@@ -117,5 +130,5 @@ for (const doc of snapshot.docs) {
 await flush();
 
 console.log(
-    `Migrated ${migrated} chat(s); opened ${reportsMade} report(s) for reviews already under way.`,
+    `Migrated ${migrated} chat(s); moved ${reportsMade} hidden message(s) onto reports.`,
 );

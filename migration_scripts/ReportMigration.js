@@ -1,4 +1,7 @@
-import admin from 'firebase-admin';
+// The modular entry points, not the default `firebase-admin` export: under ESM
+// that export has no `credential`, so `admin.credential.cert(...)` throws
+// before the script reaches a single document.
+import { cert, initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { readFileSync } from 'fs';
 
@@ -45,7 +48,7 @@ if (serviceAccount === undefined) {
     process.exit();
 }
 
-admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
+initializeApp({ credential: cert(serviceAccount) });
 const db = getFirestore();
 
 /** Mirrors functions/src/reportId.ts. */
