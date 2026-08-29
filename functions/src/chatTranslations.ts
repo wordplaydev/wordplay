@@ -11,6 +11,31 @@ const ChatsCollection = 'chats';
  *  ChatDatabase.svelte.ts, which cannot be imported here. */
 export const TranslationsCollection = 'translations';
 
+/** Just the Firestore a message eviction touches. A real `Firestore` satisfies
+ *  it structurally, and naming only this much is what lets a test stand in for
+ *  it without a cast. The reference type is left open because this never
+ *  inspects one — it only hands it back to the batch. */
+export type TranslationStore<Reference> = {
+    collection(name: string): {
+        doc(id: string): {
+            collection(name: string): {
+                get(): Promise<{
+                    empty: boolean;
+                    docs: { ref: Reference }[];
+                }>;
+            };
+        };
+    };
+    batch(): {
+        update(
+            ref: Reference,
+            field: FieldPath,
+            value: ReturnType<typeof FieldValue.delete>,
+        ): unknown;
+        commit(): Promise<unknown>;
+    };
+};
+
 /**
  * Forget every cached translation of one message, in every language.
  *
@@ -29,8 +54,8 @@ export const TranslationsCollection = 'translations';
  * runs, and refusing a takedown because a cache would not tidy up would be the
  * wrong way round.
  */
-export async function forgetMessageTranslations(
-    db: Firestore,
+export async function forgetMessageTranslations<Reference>(
+    db: TranslationStore<Reference>,
     chatID: string,
     messageID: string,
 ): Promise<void> {
