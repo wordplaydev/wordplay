@@ -304,15 +304,20 @@
             "description": "$~dokumentasyon$language[ sa $language|], $#words[$words salita|$words na salita]",
             "emotion": "serious",
             "doc": [
-                "$~Marikit kong pino-porma ang mga bagay gamit ang @Markup, gaya ng mga paliwanag sa ilan sa iyong @Program, o kahit ang mga salitang inilalagay mo sa entablado gamit ang @Phrase.",
-                "Halimbawa, maaari akong mauna sa anumang @expression:",
+                "$~Nagpapaganda ako ng mga bagay gamit ang @Markup, tulad ng mga paliwanag ng ilan sa iyong @Program, o kahit ang mga salitang inilalagay mo sa entablado gamit ang @Phrase.",
+                "Halimbawa, maaari akong ilagay bago ang anumang @expression:",
                 "\\¶Talaga bang dapat itong 7?¶\n7\\",
                 "Halimbawa, maaari mo akong ilagay bago ang @Bind:",
-                "\\¶Sinusukat ko kung gaano katangkad ang isang tao¶\ntaas: 5m\\🪲",
+                "\\¶Sinusukat ko kung gaano kataas ang isang tao¶\ntaas2: 5m\\🪲",
                 "O bago ang isang @FunctionDefinition:",
-                "\\¶Nagdadagdag ako ng dalawang numero¶\nƒ sama(a•# b•#) a + b\\",
+                "\\¶Idinaragdag ko ang dalawang numero¶\nƒ kabuuan2(a2•# b2•#) a2 + b2\\",
                 "O bago ang isang @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶Naaalala ko ang pangalan at paboritong prutas ng mga tao¶\n•tao(pangalan3•'' prutas•'')\\",
+                "Maaari mo rin akong ilagay sa pinakadulo ng simula ng @Program para sabihin kung ano ang tungkol sa buong palabas",
+                "\\¶Ang programang ito ay bumabati¶\n\n'kumusta!'\\",
+                "Maaari mo akong bigyan ng @Language para matulungan ang iba na malaman kung anong wika ako isinulat:",
+                "\\¶Ako ay isang dokumentasyon sa Ingles¶\ntagal2: 5s\\🪲",
+                "Alam mo ba na maaari mo akong gawing listahan? Makipag-usap ka sa @Docs."
             ]
         },
         "Docs": {
@@ -563,9 +568,11 @@
             "description": "$~halimbawa ng kodigo $code",
             "emotion": "serious",
             "doc": [
-                "$~May hawak akong halimbawang piraso ng kodigo sa loob ng @Doc, tulad nito:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "Ang nakatampok na halimbawa ay ipinapakita bilang paunang tingin sa espasyong @how at ang @guide."
+                "$~May hawak akong halimbawang bahagi ng kodigo sa loob ng @Doc, tulad nito:",
+                "\\¶Narito ang isang halimbawa ng pagdaragdag: \\1 + 2\\¶\n3 + 4\\",
+                "Kung gumagamit ka ng mga Halimbawa sa iyong mga kung paano gawin, maaari mong markahan ang isang Halimbawa bilang pangunahing halimbawa.",
+                "\\¶Narito ang isang halimbawang naka-highlight: \\1 + 2\\⭐¶\n3 + 4\\",
+                "Ipinapakita ang pangunahing halimbawa bilang preview sa @how na espasyo at sa @guide."
             ]
         },
         "Mention": {
@@ -917,9 +924,12 @@
             "description": "$~dokumentadong $expression",
             "emotion": "eager",
             "doc": [
-                "$~Ako ay anumang @expression, ngunit may @Doc!",
-                "Upang likhain ako, ilagay lang ang @Doc bago ang isang ekspresyon, at makukuha mo ako:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "$~Ako ay anumang @expression, pero may @Doc!",
+                "Para gawin ako, maglagay lang ng @Doc bago ang isang ekspresyon, at makukuha mo ako:",
+                "\\doubleplus: 1\n(2 × doubleplus) +\n\t¶Gawin natin itong konting mas malaki¶\n\t1\\",
+                "Kapaki-pakinabang ako para gumawa ng komento sa isang bahagi ng programa.",
+                "Kung ilalagay mo ang 👀 sa @Doc, maaari ko ring i-highlight ang ekspresyon:",
+                "\\¶Tingnan mo ako! 👀¶\n1 + 1\\"
             ],
             "start": "$~Suriin natin ang ekspresyon"
         },
@@ -2075,8 +2085,8 @@
             "description": "$~panlabas na halimbawa ng kodigo$languages[ sa $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Ipinapakita ko ang syntax-highlighted code na nakasulat sa ibang mga programming language, para makapagkumpara ang mga creator na nakapag-code na.",
-                "Sumulat ng isang variant bawat wika bilang tag na may dalawang letra, isang bar, at ang code, tulad ng \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~Ipinapakita ko ang kodigong may syntax-highlighting na isinulat sa ibang mga programming language, para makapagkumpara ang mga tagalikhang marunong na mag-kodigo.",
+                "Magsulat ng isang variant kada wika bilang dalawang-letrang tatak, isang bar, at ang kodigo, tulad ng \\py| a = 5\\js| let a = 5;\\. Nakikita ng mambabasa ang tumutugma sa napiling wika nila. Suportado ang Python (py), JavaScript (js), at Java (jv)."
             ]
         },
         "Localized": {
@@ -7058,7 +7068,7 @@
                     "format": "$~natukoy na format"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~pumili ng kulay mula sa iyong screen"
                 }
             },
             "logo": {
@@ -7478,7 +7488,7 @@
                 },
                 "collaborators": "$~isinulat ni",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~tingnan ang kung paano gawin"
                 }
             },
             "configuration": {
@@ -8251,8 +8261,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~hayaan ang proyekto na pumili ng sariling glyph na preview batay sa ipinapakita nito",
+                            "$~itakda ang isang glyph na iyong pinili"
                         ]
                     },
                     "research": {
@@ -9023,7 +9033,7 @@
                 }
             },
             "strings": "$~Mga string ng pagsasalin",
-            "emotion": "Choose an emotion",
+            "emotion": "$~Pumili ng damdamin",
             "invalidName": "$~Hindi wastong pangalan ng Wordplay",
             "invalidConceptLinks": "$~Hindi malutas ang mga konseptong ito sa kasalukuyang wika. Mali ba ang baybay mo, o sinasadya mo itong alisin?",
             "inputs": {

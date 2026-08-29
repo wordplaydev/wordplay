@@ -304,15 +304,20 @@
             "description": "$~документација$language[ на $language|], $#words[$#words реч|$words речи|$words речи]",
             "emotion": "serious",
             "doc": [
-                "$~Ја богато форматирам ствари помоћу @Markup, попут објашњења неких твојих @Program, или чак речи које ставиш на сцену помоћу @Phrase.",
+                "$~Богато форматирам ствари помоћу @Markup, као што су објашњења неких твојих @Program, или чак речи које стављаш на сцену помоћу @Phrase.",
                 "На пример, могу да стојим испред било ког @expression:",
-                "\\¶Да ли ово заиста треба да буде 7?¶\n7\\",
-                "На пример, можеш да ме поставиш испред @Bind:",
-                "\\¶Ја мерим колико је неко висок¶\nвисина: 5m\\🪲",
+                "\\¶Да ли ово стварно треба да буде 7?¶\n7\\",
+                "На пример, можеш ме ставити испред @Bind:",
+                "\\¶Мерим колико је ко висок¶\nвисина2: 5m\\🪲",
                 "Или испред @FunctionDefinition:",
-                "\\¶Ја сабирам два броја¶\nƒ збир(а•# б•#) а + б\\",
+                "\\¶Сабирам два броја¶\nƒ збир2(а•# б2•#) а + б2\\",
                 "Или испред @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶Памтим имена људи и њихово омиљено воће¶\n•особа(име3•'' воће•'')\\",
+                "Можеш ме ставити и на сам почетак @Program да кажеш о чему је цела представа",
+                "\\¶Овај програм каже здраво¶\n\n'здраво!'\\",
+                "Можеш ми дати @Language да помогнеш другима да знају на ком језику сам написан:",
+                "\\¶Ја сам документ на енглеском¶\nтрајање2: 5s\\🪲",
+                "Јеси ли знао да можеш направити листу од мене? Иди разговарај са @Docs."
             ]
         },
         "Docs": {
@@ -563,9 +568,11 @@
             "description": "$~пример кода $code",
             "emotion": "serious",
             "doc": [
-                "$~Држим примерак кода унутар @Doc, овако:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "Означени пример се приказује као преглед у простору @how и у @guide."
+                "$~Чувам пример дела кода унутар @Doc, овако:",
+                "\\¶Ево примера сабирања: \\1 + 2\\¶\n3 + 4\\",
+                "Ако користиш примере у својим водичима \"како да\", можеш означити један пример као истакнут.",
+                "\\¶Ево истакнутог примера: \\1 + 2\\⭐¶\n3 + 4\\",
+                "Истакнути пример се приказује као преглед у простору @how и у @guide."
             ]
         },
         "Mention": {
@@ -918,8 +925,11 @@
             "emotion": "eager",
             "doc": [
                 "$~Ја сам било који @expression, али са @Doc!",
-                "Да ме направиш, само стави @Doc испред израза и добићеш ме:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "Да би ме направио, само стави @Doc испред израза, и добићеш мене:",
+                "\\doubleplus: 1\n(2 × doubleplus) +\n\t¶Хајде да то направимо само мало веће¶\n\t1\\",
+                "Корисан сам за писање коментара о неком делу програма.",
+                "Ако ставиш 👀 у @Doc, могу и да истакнем израз:",
+                "\\¶Погледај ме! 👀¶\n1 + 1\\"
             ],
             "start": "$~Хајде да проценимо израз"
         },
@@ -2075,8 +2085,8 @@
             "description": "$~спољашњи пример кода$languages[ у $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Приказујем код написан у другим програмским језицима са истакнутом синтаксом, како би креатори који већ програмирају могли да упореде.",
-                "Напишите по једну варијанту за сваки језик као двословну ознаку, траку и код, као што је \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~Приказујем кôд са истакнутом синтаксом писан у другим програмским језицима, тако да ствараоци који већ програмирају могу да упоређују.",
+                "Напиши по једну варијанту за сваки језик као ознаку од два слова, цртицу и код, на пример \\py| a = 5\\js| let a = 5;\\. Читалац види ону која одговара његовом изабраном језику. Подржани су Python (py), JavaScript (js) и Java (jv)."
             ]
         },
         "Localized": {
@@ -7057,7 +7067,7 @@
                     "format": "$~откривени формат"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~изабери боју са свог екрана"
                 }
             },
             "logo": {
@@ -8015,8 +8025,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~дозволи пројекту да сам изабере свој симбол за преглед на основу онога што приказује",
+                            "$~закачи симбол који сам изабереш"
                         ]
                     },
                     "research": {
@@ -10036,7 +10046,7 @@
                 },
                 "collaborators": "$~написао/ла",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~погледај како да"
                 }
             },
             "configuration": {
@@ -10228,7 +10238,7 @@
                 }
             },
             "strings": "$~Преводни низови",
-            "emotion": "Choose an emotion",
+            "emotion": "$~Изабери осећање",
             "invalidName": "$~Није важеће име за игру речи",
             "reference": "$~Енглеска референца",
             "invalidConceptLinks": "$~Ови концептуални линкови се не решавају у тренутном језику. Да ли сте погрешно написали један или сте га намерно уклонили?",

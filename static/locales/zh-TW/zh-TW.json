@@ -304,15 +304,20 @@
             "description": "$~說明文件$language[（$language）|]，$#words[$words 個字]",
             "emotion": "serious",
             "doc": [
-                "$~我用 @Markup 為事物加上豐富的格式，像是對你某些 @Program 的解釋，或甚至是你用 @Phrase 放到舞台上的字詞。",
-                "舉例來說，我可以放在任何 @expression 之前：",
-                "\\¶這真的應該是 7 嗎？¶7\\",
-                "舉例來說，你可以把我放在 @Bind 之前：",
-                "\\¶我測量一個人有多高¶高度: 5m\\🪲",
-                "或放在 @FunctionDefinition 之前：",
-                "\\¶我把兩個數字相加¶ƒ 總和(a•# b•#) a + b\\",
-                "或放在 @StructureDefinition 之前：",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "$~我用 @Markup 讓內容有豐富的格式，像是解釋你的一些 @Program，或是你用 @Phrase 放在舞台上的文字。",
+                "舉例來說，我可以放在任何 @expression 前面：",
+                "\\¶這個真的應該是 7 嗎？¶\n7\\",
+                "舉例來說，你可以把我放在 @Bind 前面：",
+                "\\¶我來量一個人有多高¶\n身高: 5m\\🪲",
+                "或是放在 @FunctionDefinition 前面：",
+                "\\¶我把兩個數字加起來¶\nƒ 總和2(a2•# b2•#) a2 + b2\\",
+                "或是放在 @StructureDefinition 前面：",
+                "\\¶我記住大家的姓名和最喜歡的水果¶\n•人物(姓名3•'' 水果•'')\\",
+                "你也可以把我放在 @Program 的最開頭，說明整場表演在講什麼",
+                "\\¶這個程式會說嗨¶\n\n'嗨！'\\",
+                "你可以給我一個 @Language，讓別人知道我是用什麼語言寫的：",
+                "\\¶我是一份英文的說明文件¶\n時長: 5s\\🪲",
+                "你知道嗎，你可以把我做成一份清單喔。去找 @Docs 聊聊吧。"
             ]
         },
         "Docs": {
@@ -563,9 +568,11 @@
             "description": "$~程式碼範例 $code",
             "emotion": "serious",
             "doc": [
-                "$~我把一段範例程式碼放在 @Doc 裡面，像這樣：",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "這段標示出來的範例會顯示成 @how 空間裡的預覽，以及 @guide。"
+                "$~我把一段範例程式碼放在 @Doc 裡面，就像這樣：",
+                "\\¶這是一個加法的範例：\\1 + 2\\¶\n3 + 4\\",
+                "如果你在操作指南裡使用範例，可以把其中一個範例標記為精選。",
+                "\\¶這是一個標示出來的範例：\\1 + 2\\⭐¶\n3 + 4\\",
+                "被標記為精選的範例，會顯示在 @how 空間與 @guide 裡作為預覽。"
             ]
         },
         "Mention": {
@@ -917,9 +924,12 @@
             "description": "$~有說明文件的 $expression",
             "emotion": "eager",
             "doc": [
-                "$~我是任何一個 @expression，但帶著一個 @Doc！",
-                "要做出我，只要在運算式前面放一個 @Doc，你就會得到我：",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "$~我是任何 @expression，只是多了一個 @Doc！",
+                "要做出我，只要在運算式前面放一個 @Doc，就能得到我：",
+                "\\雙倍加: 1\n(2 × 雙倍加) +\n\t¶我們把它變大一點點吧¶\n\t1\\",
+                "我很適合用來對程式的某一部分做註解喔。",
+                "如果你在 @Doc 裡放上 👀，我還可以把那個運算式標亮出來：",
+                "\\¶看我這裡！👀¶\n1 + 1\\"
             ],
             "start": "讓我們評估這個表達式"
         },
@@ -2073,8 +2083,8 @@
             "description": "$~外部程式碼範例$languages[ 以 $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~我顯示用其他程式語言寫的、語法高亮的程式碼，這樣已經會寫程式的創作者可以做比較。",
-                "每種語言寫一個版本，用兩個字母的標籤、一條直線，再加上程式碼，像是 \\py| a = 5\\js| let a = 5;\\.Thereaderseestheonematchingtheirchosenlanguage.Python(py),JavaScript(js),andJava(jv)aresupported."
+                "$~我會顯示用其他程式語言寫的、有語法標亮效果的程式碼，讓已經會寫程式的創作者可以互相比較。",
+                "每種語言寫成一個版本，用兩個字母的標籤加上一條直線再加上程式碼，像\\py| a = 5\\js| let a = 5;\\。讀者會看到符合他們所選語言的那個版本。目前支援 Python（py）、JavaScript（js）和 Java（jv）。"
             ]
         },
         "Localized": {
@@ -7035,7 +7045,7 @@
                     "format": "$~偵測到的格式"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~從螢幕上選取一個顏色"
                 }
             },
             "logo": {
@@ -7976,8 +7986,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~讓工程根據顯示內容，自動選擇自己的預覽符號",
+                            "$~固定你選擇的符號"
                         ]
                     },
                     "research": {
@@ -10005,7 +10015,7 @@
                 },
                 "collaborators": "$~撰寫者",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~查看操作指南"
                 }
             },
             "configuration": {
@@ -10195,7 +10205,7 @@
                 }
             },
             "strings": "$~翻譯字串",
-            "emotion": "Choose an emotion",
+            "emotion": "$~選擇一種情緒",
             "invalidName": "$~不是有效的 Wordplay 姓名",
             "reference": "$~英文參考",
             "invalidConceptLinks": "$~這些概念連結在目前語言中無法解析。是不是拼錯了，還是你故意移除它？",

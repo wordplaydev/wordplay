@@ -304,15 +304,20 @@
             "description": "$~documentation$language[ 用 $language|], $#words[$words 个词]",
             "emotion": "serious",
             "doc": [
-                "$~我用 @Markup 来给内容添加丰富的格式，比如解释你的某些 @Program，甚至是你用 @Phrase 放到舞台上的文字。",
-                "举个例子，我可以放在任何 @expression 前面：",
+                "$~我用 @Markup 来丰富格式，比如给你的一些 @Program 加上说明，甚至可以给你用 @Phrase 放在舞台上的文字加上说明。",
+                "比如，我可以放在任何 @expression 前面：",
                 "\\¶这真的应该是 7 吗？¶\n7\\",
-                "举个例子，你可以把我放在 @Bind 前面：",
-                "\\¶我测量一个人有多高¶\n高度: 5m\\🪲",
+                "比如，你可以把我放在 @Bind 前面：",
+                "\\¶我用来测量一个人有多高¶\n身高: 5m\\🪲",
                 "或者放在 @FunctionDefinition 前面：",
-                "\\¶我把两个数相加¶\nƒ 求和(a•# b•#) a + b\\",
+                "\\¶我把两个数字加起来¶\nƒ 总和(a2•# b2•#) a2 + b2\\",
                 "或者放在 @StructureDefinition 前面：",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶我记住人们的名字和最喜欢的水果¶\n•person(名字3•'' 水果•'')\\",
+                "你也可以把我放在 @Program 的最开头，说说整场表演是关于什么的",
+                "\\¶这个程序会说“你好”¶\n\n'你好！'\\",
+                "你可以给我一个 @Language，好让别人知道我是用什么语言写的：",
+                "\\¶我是一份英文文档¶\n时长2: 5s\\🪲",
+                "你知道吗？你还可以把我做成一个列表哦。去问问 @Docs 吧。"
             ]
         },
         "Docs": {
@@ -918,9 +923,12 @@
             "description": "$~带文档的 $expression",
             "emotion": "eager",
             "doc": [
-                "$~我可以是任何 @expression，但带着一个 @Doc！",
-                "要创建我，只要在一个表达式前面放一个 @Doc，你就得到我啦：",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "$~我就是任意一个 @expression，只不过多了一个 @Doc！",
+                "想要造出我，只要在一个表达式前面放一个 @Doc，你就得到我啦：",
+                "\\双倍加: 1\n(2 × 双倍加) +\n\t¶我们把它变得大一点点吧¶\n\t1\\",
+                "我很适合用来给程序的某一部分做注释。",
+                "如果你在 @Doc 里放上 👀，我还能把那个表达式高亮出来：",
+                "\\¶看看我！👀¶\n1 + 1\\"
             ],
             "start": "$~我们来给这个表达式求值吧"
         },
@@ -2074,8 +2082,8 @@
             "description": "$~外部代码示例$languages[ 使用 $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~我显示用其他编程语言写的、带语法高亮的代码,这样已经会编程的创作者可以做比较。",
-                "每种语言写一个变体,用两个字母的标签、一个竖线和代码,像这样\\py| a = 5\\js| let a = 5;\\.Thereaderseestheonematchingtheirchosenlanguage.Python(py),JavaScript(js),andJava(jv)aresupported."
+                "$~我会显示用其他编程语言写的、带语法高亮的代码，这样已经会写代码的创作者就能对比着看。",
+                "每种语言写一个版本，用两个字母的标签、一条竖线和代码组成，就像\\py| a = 5\\js| let a = 5;\\这样。读者会看到和自己选的语言相匹配的那一版。目前支持 Python（py）、JavaScript（js）和 Java（jv）。"
             ]
         },
         "Localized": {
@@ -7036,7 +7044,7 @@
                     "format": "$~检测到的格式"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~从你的屏幕上选取一种颜色"
                 }
             },
             "logo": {
@@ -7977,8 +7985,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~让项目根据它展示的内容自己挑选预览符号",
+                            "$~固定使用你选的符号"
                         ]
                     },
                     "research": {
@@ -9996,7 +10004,7 @@
                 },
                 "collaborators": "$~作者",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~查看如何"
                 }
             },
             "configuration": {
@@ -10186,7 +10194,7 @@
                 }
             },
             "strings": "$~翻译文字",
-            "emotion": "Choose an emotion",
+            "emotion": "$~选择一种情绪",
             "invalidName": "$~不是有效的 Wordplay 名字",
             "reference": "$~英文参考",
             "invalidConceptLinks": "$~这些概念链接在当前语言里无法解析。是拼错了，还是故意删掉了？",

@@ -304,15 +304,20 @@
             "description": "$~توثيق$language[ بلغة $language|], $#words[لا كلمات|كلمة واحدة|كلمتان|$#words كلمات|$words كلمة|$words كلمة]",
             "emotion": "serious",
             "doc": [
-                "$~أنا أُنسّق الأشياء بشكل غني باستخدام @Markup، مثل شرح بعض @Program، أو حتى الكلمات التي تضعها على المسرح باستخدام @Phrase.",
-                "على سبيل المثال، يمكنني أن آتي قبل أي @expression:",
-                "\\¶هل يُفترض حقًا أن يكون هذا 7؟¶\n7\\",
-                "على سبيل المثال، يمكنك وضعي قبل @Bind:",
-                "\\¶أنا أقيس مدى طول شخص ما¶\nارتفاع: 5m\\🪲",
+                "$~أنا أنسّق الأشياء بشكل غني باستخدام @Markup، مثل شرح بعض @Program الخاصة بك، أو حتى الكلمات التي تضعها على المسرح باستخدام @Phrase.",
+                "مثلًا، يمكنني أن أسبق أي @expression:",
+                "\\¶هل من المفترض حقًا أن يكون هذا 7؟¶\n7\\",
+                "مثلًا، يمكنك وضعي قبل @Bind:",
+                "\\¶أقيس طول شخص ما¶\nالطول2: 5m\\🪲",
                 "أو قبل @FunctionDefinition:",
-                "\\¶أنا أجمع رقمين¶\nƒ مجموع(أ•# ب•#) أ + ب\\",
+                "\\¶أجمع رقمين¶\nƒ المجموع(أ•# ب•#) أ + ب\\",
                 "أو قبل @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶أتذكر أسماء الأشخاص وفاكهتهم المفضلة¶\n•شخص(اسم2•'' فاكهة•'')\\",
+                "يمكنك أيضًا وضعي في بداية @Program لتوضيح ما يدور حوله العرض كله",
+                "\\¶يقول هذا البرنامج مرحبًا¶\n\n'مرحبًا!'\\",
+                "يمكنك أن تعطيني @Language لمساعدة الآخرين على معرفة اللغة التي كُتبت بها:",
+                "\\¶أنا توثيق باللغة الإنجليزية¶\nالمدة2: 5s\\🪲",
+                "هل تعلم أنه يمكنك عمل قائمة مني؟ اذهب وتحدث إلى @Docs."
             ]
         },
         "Docs": {
@@ -920,8 +925,11 @@
             "emotion": "eager",
             "doc": [
                 "$~أنا أي @expression، لكن مع @Doc!",
-                "لصنعي، فقط ضع @Doc قبل أي تعبير، وستحصل عليّ:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "لتصنعني، ضع فقط @Doc قبل تعبير، وستحصل عليّ:",
+                "\\مضاعفزائد: 1\n(2 × مضاعفزائد) +\n\t¶دعنا نجعله أكبر قليلًا فقط¶\n\t1\\",
+                "أنا مفيدة لكتابة تعليق على جزء ما من برنامج.",
+                "إذا وضعت 👀 في @Doc، يمكنني أيضًا أن أبرز التعبير:",
+                "\\¶انظر إليّ! 👀¶\n1 + 1\\"
             ],
             "start": "$~لنقيّم التعبير"
         },
@@ -2077,8 +2085,8 @@
             "description": "$~مثال كود خارجي$languages[ بـ $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~أعرض كودًا مكتوبًا بلغات برمجة أخرى مع تمييز للصيغة، حتى يستطيع المبدعون الذين يبرمجون بالفعل المقارنة.",
-                "اكتب صيغة واحدة لكل لغة كوسم من حرفين، وشريط، ثم الكود، هكذا \\py| a = 5\\js| let a = 5;\\.Thereaderseestheonematchingtheirchosenlanguage.Python(py),JavaScript(js),andJava(jv)aresupported."
+                "$~أعرض كودًا مُلوَّنًا بحسب الصياغة، مكتوبًا بلغات برمجة أخرى، حتى يتمكن المبرمجون الذين يعرفون البرمجة بالفعل من المقارنة.",
+                "اكتب نسخة واحدة لكل لغة على شكل رمز من حرفين، ثم شرطة، ثم الكود، مثل \\py| a = 5\\js| let a = 5;\\. يرى القارئ النسخة المطابقة للغة التي اختارها. اللغات المدعومة هي بايثون (py)، وجافاسكريبت (js)، وجافا (jv)."
             ]
         },
         "Localized": {
@@ -7047,7 +7055,7 @@
                     "format": "$~الصيغة المكتشفة"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~اختر لونًا من شاشتك"
                 }
             },
             "logo": {
@@ -7444,7 +7452,7 @@
                 },
                 "collaborators": "$~كُتب بواسطة",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~عرض الكيف"
                 }
             },
             "configuration": {
@@ -8217,8 +8225,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~اترك المشروع يختار رمز المعاينة الخاص به بناءً على ما يعرضه",
+                            "$~ثبّت رمزًا تختاره"
                         ]
                     },
                     "research": {
@@ -10218,7 +10226,7 @@
                 }
             },
             "strings": "$~نصوص الترجمة",
-            "emotion": "Choose an emotion",
+            "emotion": "$~اختر شعورًا",
             "invalidName": "$~ليس اسم Wordplay صالحاً",
             "reference": "$~المرجع الإنجليزي",
             "invalidConceptLinks": "$~روابط المفاهيم هذه لا تعمل في اللغة الحالية. هل أخطأت في كتابة أحدها، أم أزلته عمداً؟",

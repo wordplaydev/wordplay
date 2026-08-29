@@ -135,6 +135,7 @@ export async function verifyHowTo(
                 sourceLocale,
                 targetLocale,
                 override,
+                howtoIds !== undefined && howtoIds.length > 0,
                 backend,
                 localeText,
             );
@@ -248,15 +249,27 @@ export function localizedExampleIsSound(
  * Byte equality is a safe test: a real translation of prose is never identical
  * to its source, and a false positive costs one wasted re-translation rather
  * than any lost work.
+ *
+ * The `named` case closes the sibling gap that comment describes. A how-to's
+ * `.txt` carries no `$~` at all, so `override && isMachineTranslated` is false
+ * for *every* translated how-to, and a translation that came back damaged —
+ * stray English glue beside a restored `@link`, a lost space after a period —
+ * could not be redone by any means short of deleting the file. Naming a how-to
+ * with `+howto:<id>` has already answered the question the byte-equality
+ * heuristic exists to answer ("which of these 36 do I redo?"), so under
+ * `override` an explicit id is the trigger.
  */
 export function howToNeedsTranslation(
     english: string,
     target: string,
     isNewFile: boolean,
     override: boolean,
+    /** Whether this how-to was named explicitly with `+howto:<id>`. */
+    named = false,
 ): boolean {
     if (isNewFile) return true;
     if (target === english) return true;
+    if (override && named) return true;
     return override && isMachineTranslated(target);
 }
 
@@ -275,6 +288,8 @@ async function translateHowToFile(
     sourceLocale: string,
     targetLocale: string,
     override: boolean,
+    /** Whether `+howto:<id>` named this file, rather than it being one of all 36. */
+    named: boolean,
     translator: Translator,
     localeText: LocaleText | undefined,
 ): Promise<boolean> {
@@ -304,7 +319,13 @@ async function translateHowToFile(
     }
 
     if (
-        !howToNeedsTranslation(englishContent, targetLines, isNewFile, override)
+        !howToNeedsTranslation(
+            englishContent,
+            targetLines,
+            isNewFile,
+            override,
+            named,
+        )
     )
         return false;
 

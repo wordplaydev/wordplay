@@ -194,11 +194,15 @@ test('a $term reference resolves against this locale, but an unknown $name still
         new Map(),
     );
 
-    // The typo'd string is the only complaint: the two strings that use
-    // nothing but terms are silent (before the fix, all three failed).
-    expect(lines).toHaveLength(1);
-    expect(lines[0]).toContain('glossary.type.definition');
-    expect(lines[0]).toContain('unparsable template string');
+    // The typo'd string is the only template complaint: the two strings that use
+    // nothing but terms are silent (before the fix, all three failed). Filtered
+    // rather than counted, because this fixture is a copy of en-US and so trips
+    // checkUntranslated on every string in it.
+    const templates = lines.filter((line) =>
+        line.includes('unparsable template string'),
+    );
+    expect(templates).toHaveLength(1);
+    expect(templates[0]).toContain('glossary.type.definition');
 }, 30000);
 
 // A path is selected for translation when ANY element needs it, but the other

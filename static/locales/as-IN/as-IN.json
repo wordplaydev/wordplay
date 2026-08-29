@@ -304,15 +304,20 @@
             "description": "$~নথিপত্ৰ$language[ $languageত|], $#words[$words শব্দ|$words শব্দ]",
             "emotion": "serious",
             "doc": [
-                "$~মই বস্তুবোৰক সুন্দৰকৈ @Markupৰ সৈতে ফৰমেট কৰোঁ, যেনে আপোনাৰ কিছুমান @Programৰ ব্যাখ্যা, বা আনকি আপুনি @Phraseৰ সৈতে মঞ্চত ৰখা শব্দবোৰো।",
-                "উদাহৰণস্বৰূপে, মই যিকোনো @expressionৰ আগত যাব পাৰোঁ:",
-                "\\¶Is this really supposed to be 7?¶\n7\\",
-                "উদাহৰণস্বৰূপে, আপুনি মোক @Bindৰ আগত ৰাখিব পাৰে:",
-                "\\¶মই কোনোবা কিমান দীঘল সেয়া জোখো¶\nউচ্চতা: 5m\\🪲",
-                "বা এটা @FunctionDefinitionৰ আগত:",
-                "\\¶মই দুটা সংখ্যা যোগ কৰোঁ¶\nƒ যোগফল(a•# b•#) a + b\\",
-                "বা এটা @StructureDefinitionৰ আগত:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "$~মই @Markupৰ সৈতে বস্তুবোৰ ধুনীয়াকৈ ফৰ্মেট কৰোঁ, যেনে তোমাৰ কিছুমান @Programৰ ব্যাখ্যা, বা তুমি @Phraseৰ সৈতে ষ্টেজত থোৱা শব্দবোৰো।",
+                "উদাহৰণস্বৰূপে, মই যিকোনো @expressionৰ আগত থাকিব পাৰোঁ:",
+                "\\¶এইটো সঁচাকৈয়ে ৭ হ'ব লাগে নেকি?¶\n7\\",
+                "উদাহৰণস্বৰূপে, তুমি মোক @Bindৰ আগত থব পাৰা:",
+                "\\¶মই কোনোবা এজনৰ উচ্চতা জোখো¶\nউচ্চতা2: 5m\\🪲",
+                "অথবা @FunctionDefinitionৰ আগত:",
+                "\\¶মই দুটা সংখ্যা যোগ কৰোঁ¶\nƒ যোগফল2(ক2•# খ2•#) ক2 + খ2\\",
+                "অথবা @StructureDefinitionৰ আগত:",
+                "\\¶মই মানুহৰ নাম আৰু প্ৰিয় ফল মনত ৰাখোঁ¶\n•ব্যক্তি(নাম2•'' ফল•'')\\",
+                "তুমি মোক @Programৰ একেবাৰে আৰম্ভণিতো থব পাৰা, গোটেই পৰিৱেশনটো কিহৰ বিষয়ে কব বাবে",
+                "\\¶এই প্ৰগ্ৰামটোৱে নমস্কাৰ কয়¶\n\n'নমস্কাৰ!'\\",
+                "মই কোনটো ভাষাত লিখা হৈছো, অইনসকলে বুজিবলৈ তুমি মোক এটা @Language দিব পাৰা:",
+                "\\¶মই এখন ইংৰাজী নথিপত্ৰ¶\nসময়সীমা: 5s\\🪲",
+                "তুমি জানানে যে তুমি মোৰ এটা তালিকা বনাব পাৰা? @Docsৰ সৈতে কথা পাতা।"
             ]
         },
         "Docs": {
@@ -563,9 +568,11 @@
             "description": "$~ক'ড উদাহৰণ $code",
             "emotion": "serious",
             "doc": [
-                "$~মই এটা @Docৰ ভিতৰত ক'ডৰ এটা উদাহৰণৰ অংশ ৰাখো, এনেকৈ:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "হাইলাইট কৰা উদাহৰণটো @how ঠাই আৰু @guideত পূৰ্বদৰ্শন হিচাপে দেখুৱাব।"
+                "$~মই @Docৰ ভিতৰত এটা উদাহৰণৰ ক'ডৰ টুকুৰা ৰাখোঁ, এনেকৈ:",
+                "\\¶এইটো যোগ কৰাৰ এটা উদাহৰণ: \\1 + 2\\¶\n3 + 4\\",
+                "যদি তুমি তোমাৰ কেনেকৈ কৰিব লাগেবোৰত উদাহৰণ ব্যৱহাৰ কৰি আছা, তুমি এটা উদাহৰণক হাইলাইট বুলি টেগ কৰিব পাৰা।",
+                "\\¶এইটো এটা উজ্জ্বল কৰি দেখুওৱা উদাহৰণ: \\1 + 2\\⭐¶\n3 + 4\\",
+                "হাইলাইট কৰা উদাহৰণটো @how স্থান আৰু @guideত পূৰ্বদৰ্শন হিচাপে দেখুৱা হয়।"
             ]
         },
         "Mention": {
@@ -918,8 +925,11 @@
             "emotion": "eager",
             "doc": [
                 "$~মই যিকোনো @expression, কিন্তু এটা @Docৰ সৈতে!",
-                "মোক বনাবলৈ, কেৱল এটা অভিব্যক্তিৰ আগত এটা @Doc ৰাখক, আৰু আপুনি মোক পাব:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "মোক বনাবলৈ, কেৱল এটা অভিব্যক্তিৰ আগত এটা @Doc থোৱা, আৰু তুমি মোক পাবা:",
+                "\\ডাবলপ্লাছ: 1\n(2 × ডাবলপ্লাছ) +\n\t¶চলক, ইয়াক অলপ ডাঙৰ কৰোঁ আহক¶\n\t1\\",
+                "এটা প্ৰগ্ৰামৰ কিছু অংশৰ ওপৰত মন্তব্য কৰিবলৈ মই উপযোগী।",
+                "যদি তুমি @Docত 👀 থোৱা, মই অভিব্যক্তিটোকো হাইলাইট কৰিব পাৰোঁ:",
+                "\\¶মোলৈ চাওক! 👀¶\n1 + 1\\"
             ],
             "start": "$~অভিব্যক্তিটোৰ মূল্যায়ন কৰা যাওক"
         },
@@ -2075,8 +2085,8 @@
             "description": "$~বাহ্যিক ক'ডৰ উদাহৰণ$languages[ $languages ত|]",
             "emotion": "serious",
             "doc": [
-                "$~মই অন্য প্ৰগ্ৰেমিং ভাষাত লিখা বাক্যবিন্যাস-হাইলাইট কৰা ক'ড দেখুৱাওঁ, যাতে ইতিমধ্যে ক'ড কৰা সৃষ্টিকৰ্তাসকলে তুলনা কৰিব পাৰে।",
-                "প্ৰতিটো ভাষাত এটা ভিন্নতা দুটা আখৰৰ টেগ, এটা বাৰ, আৰু ক'ড হিচাপে লিখক, যেনে \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~মই অইন প্ৰগ্ৰামিং ভাষাত লিখা চিনট্েক্স-হাইলাইট কৰা ক'ড দেখুৱাওঁ, যাতে ইতিমধ্যে ক'ড লিখা সৃষ্টিকৰ্তাসকলে তুলনা কৰিব পাৰে।",
+                "প্ৰতিটো ভাষাৰ বাবে এটা দুই আখৰৰ টেগ, এটা বাৰ, আৰু ক'ড লিখা, এনেকৈ \\py| a = 5\\js| let a = 5;\\। পঢ়ুৱাজনে তেওঁলোকে বাছি লোৱা ভাষাৰ সৈতে মিল থকাটো দেখে। Python (py), JavaScript (js), আৰু Java (jv) সমৰ্থিত।"
             ]
         },
         "Localized": {
@@ -7048,7 +7058,7 @@
                     "format": "$~ধৰা পৰা বিন্যাস"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~তোমাৰ স্ক্ৰীণৰ পৰা এটা ৰং বাছি লোৱা"
                 }
             },
             "logo": {
@@ -7445,7 +7455,7 @@
                 },
                 "collaborators": "$~লিখা হৈছে",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~কেনেকৈ কৰিব লাগে চোৱা"
                 }
             },
             "configuration": {
@@ -8218,8 +8228,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~প্ৰকল্পটোৱে কি দেখুৱায় তাৰ ওপৰত ভিত্তি কৰি নিজৰ পূৰ্বদৰ্শন গ্লিফ নিজেই বাছি ল'বলৈ দিয়া",
+                            "$~তুমি বাছি লোৱা এটা গ্লিফ পিন কৰা"
                         ]
                     },
                     "research": {
@@ -10222,7 +10232,7 @@
                 }
             },
             "strings": "$~অনুবাদ ষ্ট্ৰিংসমূহ",
-            "emotion": "Choose an emotion",
+            "emotion": "$~এটা আৱেগ বাছি লোৱা",
             "invalidName": "$~বৈধ ৱৰ্ডপ্লেৰ নাম নহয়",
             "reference": "$~ইংৰাজী উল্লেখ",
             "invalidConceptLinks": "$~এই কনচেপ্ট লিংকবোৰ বৰ্তমানৰ ভাষাত সমাধান নহয়। এটা ভুল বানান কৰিলে, নে ইচ্ছাকৃতভাৱে আঁতৰাই পেলালে?",

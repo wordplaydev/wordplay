@@ -25,6 +25,7 @@ import {
     TextCloseByTextOpen,
 } from '@parser/Tokenizer';
 import { DOCS_SYMBOL } from '@parser/Symbols';
+import { ExternalExamplePattern } from '@parser/Tokenizer';
 import type Log from '@util/verify-locales/Log';
 
 /** Wrap each `$name` mention in a `<span translate="no">` so Google Translate
@@ -55,7 +56,16 @@ export const unwrapProtected = unwrapMentions;
  *  segments. Code segments are delimited by `\`; the delimiters are kept on
  *  the segment so wrapping preserves them verbatim. An unclosed trailing
  *  segment is treated as code so its content (including the opening `\`) is
- *  protected together. */
+ *  protected together.
+ *
+ *  A `¶…¶` doc inside an example is prose, so quote characters in it are inert
+ *  (see the `doc` frame below). Without that, one possessive apostrophe in an
+ *  example's doc leaves the example open and swallows everything after it —
+ *  which is what silently truncated three doc arrays in all 29 locales, since
+ *  `hasOutOfExampleBreak` and `splitDocParagraphs` both build on this. */
+/** The tokenizer's own external-example rule, anchored the same way it lexes. */
+const ExternalExample = ExternalExamplePattern.pattern;
+
 export function splitMarkupAndCode(
     text: string,
 ): Array<{ kind: 'markup' | 'code'; text: string }> {
@@ -67,10 +77,30 @@ export function splitMarkupAndCode(
     // can nest again. We track that nesting instead of toggling on every `\`;
     // otherwise `\"sums \1 + 2\, \2 + 3\"\` is shredded into stray `\, \` pieces
     // (which parse as bogus `,` examples) and the inner expressions leak to markup.
-    const stack: Array<{ kind: 'code' } | { kind: 'text'; close: string }> = [];
-    for (const c of text) {
+    const stack: Array<
+        { kind: 'code' } | { kind: 'doc' } | { kind: 'text'; close: string }
+    > = [];
+    // Indexed rather than `for…of` so the top level can look ahead for an
+    // external example. Only BMP delimiters are compared, so iterating UTF-16
+    // units rather than code points changes nothing.
+    for (let index = 0; index < text.length; index++) {
+        const c = text[index];
         if (stack.length === 0) {
             if (c === '\\') {
+                // An external example (`\py| a = 5\js| let a = 5;\`) is tag-first
+                // and holds several `\` of its own, so toggling on each one leaves
+                // it open and swallows the prose after it — which is why the one
+                // string in the corpus that uses one shipped its trailing sentence
+                // in English, spaces and all, in every locale.
+                const external = ExternalExample.exec(text.slice(index));
+                if (external !== null) {
+                    if (buffer.length > 0)
+                        segments.push({ kind: 'markup', text: buffer });
+                    segments.push({ kind: 'code', text: external[0] });
+                    buffer = '';
+                    index += external[0].length - 1;
+                    continue;
+                }
                 if (buffer.length > 0)
                     segments.push({ kind: 'markup', text: buffer });
                 buffer = '\\';
@@ -89,8 +119,15 @@ export function splitMarkupAndCode(
                     segments.push({ kind: 'code', text: buffer });
                     buffer = '';
                 }
-            } else if (TextCloseByTextOpen[c] !== undefined)
+            } else if (c === DOCS_SYMBOL) stack.push({ kind: 'doc' });
+            else if (TextCloseByTextOpen[c] !== undefined)
                 stack.push({ kind: 'text', close: TextCloseByTextOpen[c] });
+        } else if (top.kind === 'doc') {
+            // A `¶…¶` doc is prose, so an apostrophe in it is an apostrophe, not a
+            // delimiter — the rule `hasUnclosedText` already applies. A doc can still
+            // hold an example, so `\` still nests.
+            if (c === DOCS_SYMBOL) stack.pop();
+            else if (c === '\\') stack.push({ kind: 'code' });
         } else if (c === '\\') stack.push({ kind: 'code' });
         else if (c === top.close) stack.pop();
     }
@@ -296,8 +333,9 @@ export function mismatchedDelimiter(
  * leaving `…'brien: 5` open. This swallows the rest of a doc when the example is
  * re-embedded, and unlike a dropped `\`/`` ` `` it doesn't change those counts, so
  * `mismatchedDelimiter` can't see it. Tracks text-literal nesting (a `\…\` inside a
- * literal is an embedded expression, not a close), mirroring `splitMarkupAndCode`;
- * balanced literals (including interpolations) return false.
+ * literal is an embedded expression, not a close) and the `¶…¶` doc rule, both
+ * mirroring `splitMarkupAndCode`; balanced literals (including interpolations)
+ * return false.
  */
 export function hasUnclosedText(code: string): boolean {
     let close: string | undefined;
@@ -417,14 +455,43 @@ export function protectConceptLinks(text: string): {
     return { masked, links };
 }
 
-/** Put the links back where their placeholders ended up. A placeholder the
- *  translation dropped simply doesn't appear; `mismatchedConceptLinks` is what
- *  notices and refuses the string. */
+/**
+ * Tidy the horizontal whitespace a model leaves around a placeholder.
+ *
+ * A masked link is a foreign object in the sentence, and models pad it — `वापरते
+ *  ⟦0⟧  वेगवेगळ्या`, `⟦1⟧ .` — which restores to double spaces and a floating
+ * period. Only spaces and tabs are touched, never newlines (a link can end a
+ * line), and only `.`/`,` lose a preceding space: French requires one before
+ * `;:!?`, so those are left exactly as the translator wrote them.
+ */
+function tidyAroundLinks(text: string): string {
+    // Non-capturing, and rewritten from the whole match: `ConceptRegExPattern`
+    // has capture groups of its own, so positional groups here would be its.
+    const link = `(?:${ConceptRegExPattern})`;
+    return text
+        .replace(new RegExp(`[^\\S\\n]{2,}${link}`, 'gu'), (match) =>
+            match.replace(/^[^\S\n]+/u, ' '),
+        )
+        .replace(new RegExp(`${link}[^\\S\\n]{2,}`, 'gu'), (match) =>
+            match.replace(/[^\S\n]+$/u, ' '),
+        )
+        .replace(new RegExp(`${link}[^\\S\\n]+[.,]`, 'gu'), (match) =>
+            match.replace(/[^\S\n]+(?=[.,]$)/u, ''),
+        );
+}
+
+/** Put the links back where their placeholders ended up, and tidy the spacing
+ *  the model left around them. A placeholder the translation dropped simply
+ *  doesn't appear; `mismatchedConceptLinks` is what notices and refuses the
+ *  string. */
 export function restoreConceptLinks(masked: string, links: string[]): string {
-    return masked.replace(LinkMaskPattern, (placeholder, index: string) => {
-        const link = links[Number(digitsToAscii(index))];
-        return link ?? placeholder;
-    });
+    if (links.length === 0) return masked;
+    return tidyAroundLinks(
+        masked.replace(LinkMaskPattern, (placeholder, index: string) => {
+            const link = links[Number(digitsToAscii(index))];
+            return link ?? placeholder;
+        }),
+    );
 }
 
 /**

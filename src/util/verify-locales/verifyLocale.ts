@@ -29,8 +29,10 @@ import checkRedundantNames from '@util/verify-locales/checkRedundantNames';
 import checkAnnotations from '@util/verify-locales/checkAnnotations';
 import checkStringArrays from '@util/verify-locales/checkStringArrays';
 import checkTerms from '@util/verify-locales/checkTerms';
+import checkUntranslated from '@util/verify-locales/checkUntranslated';
 import classifyLocalePath, {
     classifyPair,
+    isEmotionPath,
     isGlossaryFormsPath,
     isNameTextPath,
 } from '@util/verify-locales/classifyLocalePath';
@@ -89,8 +91,10 @@ export function createUnwrittenLocale(): LocaleText {
 export function getCheckableLocalePairs(locale: LocaleText): LocalePath[] {
     // Find the translatable pairs
     return getKeyTemplatePairs(locale).filter((pair) => {
-        // Emotion? Skip it.
-        if (pair.key === 'emotion') return false;
+        // An emotion identifier is from a closed set, not prose. Keyed off the
+        // `[emotion]` tag, never the key name: `ui.localize.emotion` is a
+        // `[plain]` ARIA label that happens to share it.
+        if (isEmotionPath([...pair.path, pair.key])) return false;
 
         // Top level declaration? Skip it.
         if (
@@ -180,6 +184,12 @@ export async function verifyLocale(
     // it now is rather than surviving until the next run.
     if (locale !== 'en-US')
         revisedText = checkRedundantNames(log, DefaultLocale, revisedText, fix);
+
+    // Prose that is still the English and says so nowhere. Never en-US, whose every
+    // string is identical to itself. Before the translation pass below, so the `$?`
+    // this marks is honored by the same run.
+    if (locale !== 'en-US')
+        revisedText = checkUntranslated(log, DefaultLocale, revisedText, fix);
 
     // After checkRedundantNames, so an alias this check adds isn't judged (and
     // possibly removed) as an en-US duplicate in the same run.
@@ -309,8 +319,10 @@ async function checkLocale(
                           shouldStringBeMachineTranslated(s, override),
                       );
             })
-            // Don't translate emotions; those have meaning.
-            .filter(({ key }) => key !== 'emotion')
+            // Don't translate emotions; those are identifiers from a closed
+            // set. Keyed off the `[emotion]` tag, never the key name — see
+            // `isEmotionPath`.
+            .filter((path) => !isEmotionPath([...path.path, path.key]))
             // Don't translate names that are symbolic operators.
             .map((path) => {
                 if (path.key !== 'names') return path;

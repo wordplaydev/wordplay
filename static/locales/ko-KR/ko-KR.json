@@ -304,15 +304,20 @@
             "description": "$~선적 서류 비치$language[ ($language)|], $#words[단어 $words개]",
             "emotion": "serious",
             "doc": [
-                "$~저는 @Markup 으로 여러 가지를 예쁘게 꾸며 줍니다. 예를 들어 여러분의 @Program 을 설명하거나, @Phrase 로 무대에 올리는 낱말도 꾸밉니다.",
-                "예를 들어, 저는 어떤 @expression 앞에도 올 수 있습니다:",
-                "\\¶이게 정말 7이 맞는 걸까?¶\n7\\",
-                "예를 들어, 여러분은 저를 @Bind 앞에 둘 수 있습니다:",
-                "\\¶나는 누군가가 얼마나 키가 큰지 재요¶\n높이: 5m\\🪲",
-                "또는 @FunctionDefinition 앞에도요:",
-                "\\¶저는 두 수를 더합니다¶\nƒ 합계(a•# b•#) a + b\\",
-                "또는 @StructureDefinition 앞에도요:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "$~저는 @Markup로 내용을 꾸며서 보여줘요. 여러분의 @Program을 설명하거나, @Phrase로 무대에 올린 글도 꾸며줄 수 있어요.",
+                "예를 들어, 저는 어떤 @expression 앞에도 올 수 있어요:",
+                "\\¶이게 정말 7이어야 해?¶\n7\\",
+                "예를 들어, 저를 @Bind 앞에 놓을 수 있어요:",
+                "\\¶나는 누군가의 키가 얼마나 되는지 측정해¶\n키2: 5m\\🪲",
+                "또는 @FunctionDefinition 앞에도 놓을 수 있어요:",
+                "\\¶나는 두 숫자를 더해¶\nƒ 합(a2•# b2•#) a2 + b2\\",
+                "또는 @StructureDefinition 앞에도 놓을 수 있어요:",
+                "\\¶나는 사람들의 이름과 좋아하는 과일을 기억해¶\n•사람(이름2•'' 과일•'')\\",
+                "또한 저를 @Program의 맨 처음에 놓아서 전체 공연이 무엇에 관한 것인지 말할 수도 있어요",
+                "\\¶이 프로그램은 인사를 해요¶\n\n'안녕!'\\",
+                "제가 어떤 언어로 쓰였는지 다른 사람들이 알 수 있도록 @Language을 지정해 줄 수 있어요:",
+                "\\¶저는 영어 선적 서류 비치예요¶\n지속시간2: 5s\\🪲",
+                "저를 목록으로 만들 수 있다는 거 알고 있었나요? @Docs에게 가서 물어보세요."
             ]
         },
         "Docs": {
@@ -563,9 +568,10 @@
             "description": "$~암호 예시 $code",
             "emotion": "serious",
             "doc": [
-                "$~저는 예시 암호 조각을 @Doc 안에 담아요. 이렇게요:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "강조된 예시는 @how 공간과 @guide 에서 미리 보기로 나타나요."
+                "$~저는 @Doc 안에 예시 코드 한 조각을 담고 있어요. 이렇게요:",
+                "\\¶덧셈의 예시예요: \\1 + 2\\¶\n3 + 4\\",
+                "어떻게 안내서에서 예시를 사용하고 있다면, 그중 하나를 강조 표시로 지정할 수 있어요.",
+                "\\¶강조된 예시예요: \\1 + 2\\⭐¶\n3 + 4\\강조 표시된 예시는 @how 공간과 @guide의 미리보기로 보여져요."
             ]
         },
         "Mention": {
@@ -917,9 +923,12 @@
             "description": "$~선적 서류 비치된 $expression",
             "emotion": "eager",
             "doc": [
-                "$~저는 어떤 @expression 이든 될 수 있어요. 다만 @Doc 이 붙어요!",
-                "저를 만들려면 표현식 앞에 @Doc 를 놓기만 하면 저를 얻어요:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "$~저는 어떤 @expression이든 될 수 있지만, @Doc이 있어요!",
+                "저를 만들려면, 표현식 앞에 @Doc를 놓기만 하면 돼요. 그러면 저를 얻게 돼요:",
+                "\\더블플러스: 1\n(2 × 더블플러스) +\n\t¶조금만 더 크게 만들어 보자¶\n\t1\\",
+                "저는 프로그램의 어느 부분에 설명을 다는 데 쓸모가 있어요.",
+                "@Doc 안에 👀를 넣으면, 저는 그 표현식을 강조 표시할 수도 있어요:",
+                "\\¶저를 보세요! 👀¶\n1 + 1\\"
             ],
             "start": "$~표현식을 평가하자"
         },
@@ -1002,7 +1011,7 @@
             },
             "exception": {
                 "FunctionException": {
-                    "description": "unknown function",
+                    "description": "$~알 수 없는 함수",
                     "explanation": "$~oh no, $name isn't a function in $scope[$scope|this @Block ]!"
                 }
             },
@@ -2075,8 +2084,8 @@
             "description": "$~외부 암호 예시$languages[ $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~저는 다른 프로그래밍 언어로 쓴 암호를 문법 강조 표시와 함께 보여줘요. 그래서 이미 암호를 쓸 줄 아는 창작자들이 서로 비교할 수 있어요.",
-                "언어마다 한 가지씩 쓰는데, 두 글자 태그, 막대 기호, 그리고 암호 순서로 써요. 예를 들면 \\py| a = 5\\js| let a = 5;\\.Thereaderseestheonematchingtheirchosenlanguage.Python(py),JavaScript(js),andJava(jv)aresupported."
+                "$~저는 다른 프로그래밍 언어로 쓰인, 문법에 맞게 색이 입혀진 코드를 보여줘요. 그래서 이미 코드를 아는 창작자들이 비교해 볼 수 있어요.",
+                "언어마다 두 글자 태그와 세로줄, 그리고 코드를 써서 한 가지씩 적어 주세요. 예를 들면 \\py| a = 5\\js| let a = 5;\\처럼요. 읽는 사람은 자신이 선택한 언어에 맞는 것을 보게 돼요. 파이썬(py), 자바스크립트(js), 자바(jv)를 지원해요."
             ]
         },
         "Localized": {
@@ -7048,7 +7057,7 @@
                     "format": "$~감지된 형식"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~화면에서 색을 선택하기"
                 }
             },
             "logo": {
@@ -7989,8 +7998,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~프로젝트가 보여주는 내용에 따라 미리보기 글자를 스스로 고르게 하기",
+                            "$~직접 고른 글자를 고정하기"
                         ]
                     },
                     "research": {
@@ -10027,7 +10036,7 @@
                 },
                 "collaborators": "$~글쓴이",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~어떻게 보기"
                 }
             },
             "configuration": {
@@ -10219,7 +10228,7 @@
                 }
             },
             "strings": "$~번역 문자열",
-            "emotion": "Choose an emotion",
+            "emotion": "$~감정을 선택하세요",
             "invalidName": "$~유효한 말장난 이름이 아닙니다",
             "reference": "$~영어 참고 자료",
             "invalidConceptLinks": "$~이 개념 링크들은 현재 언어에서 제대로 작동하지 않습니다. 혹시 오타가 있거나 의도적으로 삭제하신 건가요?",

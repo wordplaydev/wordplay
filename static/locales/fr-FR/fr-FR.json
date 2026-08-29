@@ -304,15 +304,20 @@
             "description": "$~documentation$language[ en $language|], $#words[$#words mot|$words mots|$words mots]",
             "emotion": "serious",
             "doc": [
-                "$~Je mets en forme les choses de façon riche avec @Markup, comme des explications sur certains de tes @Program, ou même les mots que tu mets sur la scène avec @Phrase.",
-                "Par exemple, je peux venir avant n'importe quelle @expression :",
-                "\\¶Est-ce que ça doit vraiment être 7 ?¶\n7\\",
-                "Par exemple, tu peux me placer avant @Bind :",
-                "\\¶I measure how tall someone is¶\nheight: 5m\\🪲",
-                "Ou avant une @FunctionDefinition :",
-                "\\¶I add two numbers¶\nƒ sum(a•# b•#) a + b\\",
-                "Ou avant une @StructureDefinition :",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "$~Je mets en forme les choses avec @Markup, comme des explications de certains de vos @Program, ou même les mots que vous mettez en scène avec @Phrase.",
+                "Par exemple, je peux aller avant n'importe quel(le) @expression :",
+                "\\¶Est-ce que c'est vraiment censé être 7 ?¶\n7\\",
+                "Par exemple, vous pouvez me placer avant @Bind :",
+                "\\¶Je mesure la taille d'une personne¶\ntaille2: 5m\\🪲",
+                "Ou avant un(e) @FunctionDefinition :",
+                "\\¶J'additionne deux nombres¶\nƒ somme2(a2•# b2•#) a2 + b2\\",
+                "Ou avant un(e) @StructureDefinition :",
+                "\\¶Je me souviens du nom et du fruit préféré des gens¶\n•personne(nom2•'' fruit•'')\\",
+                "Vous pouvez aussi me placer tout au début de @Program pour dire de quoi parle toute la représentation",
+                "\\¶Ce programme dit bonjour¶\n\n'bonjour !'\\",
+                "Vous pouvez me donner un(e) @Language pour aider les autres à savoir dans quelle langue je suis écrit :",
+                "\\¶Je suis une documentation en anglais¶\ndurée2: 5s\\🪲",
+                "Saviez-vous que vous pouvez faire une liste de moi ? Allez parler à @Docs."
             ]
         },
         "Docs": {
@@ -563,9 +568,11 @@
             "description": "$~exemple de code $code",
             "emotion": "serious",
             "doc": [
-                "$~Je garde un exemple de code à l'intérieur d'un @Doc, comme ceci :",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "L'exemple mis en évidence apparaît comme aperçu dans l'espace @how et le @guide."
+                "$~Je contiens un exemple de code à l'intérieur d'un(e) @Doc, comme ceci :",
+                "\\¶Voici un exemple d'addition : \\1 + 2\\¶\n3 + 4\\",
+                "Si vous utilisez des exemples dans vos comment faire, vous pouvez marquer un exemple comme un point fort.",
+                "\\¶Voici un exemple mis en avant : \\1 + 2\\⭐¶\n3 + 4\\",
+                "L'exemple mis en avant est montré comme aperçu dans l'espace @how et dans @guide."
             ]
         },
         "Mention": {
@@ -917,9 +924,12 @@
             "description": "$~$expression documenté",
             "emotion": "eager",
             "doc": [
-                "$~Je suis n'importe quel @expression, mais avec un @Doc !",
-                "Pour me créer, mets simplement un @Doc avant une expression, et tu m'obtiendras :",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "$~Je suis n'importe quel(le) @expression, mais avec un(e) @Doc !",
+                "Pour me créer, il suffit de mettre un(e) @Doc avant une expression, et vous m'obtiendrez :",
+                "\\doubleplus: 1\n(2 × doubleplus) +\n\t¶Rendons-le juste un tout petit peu plus grand¶\n\t1\\",
+                "Je suis utile pour faire un commentaire sur une partie d'un programme.",
+                "Si vous mettez 👀 dans le @Doc, je peux aussi mettre en évidence l'expression :",
+                "\\¶Regarde-moi ! 👀¶\n1 + 1\\"
             ],
             "start": "$~Évaluons l'expression"
         },
@@ -2075,8 +2085,8 @@
             "description": "$~exemple de code externe$languages[ en $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Je présente du code avec coloration syntaxique écrit dans d'autres langages de programmation, afin que les créateurs qui programment déjà puissent comparer.",
-                "Écrivez une variante par langage sous la forme d'une étiquette à deux lettres, d'une barre oblique et du code, comme \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~Je montre du code avec coloration syntaxique écrit dans d'autres langages de programmation, pour que les créateurs qui codent déjà puissent comparer.",
+                "Écrivez une variante par langage sous la forme d'une étiquette de deux lettres, une barre, puis le code, comme \\py| a = 5\\js| let a = 5;\\. Le lecteur voit celle qui correspond à la langue qu'il a choisie. Python (py), JavaScript (js) et Java (jv) sont pris en charge."
             ]
         },
         "Localized": {
@@ -7063,7 +7073,7 @@
                     "format": "$~format détecté"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~choisir une couleur depuis votre écran"
                 }
             },
             "logo": {
@@ -8004,8 +8014,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~laisser le projet choisir lui-même son symbole d'aperçu selon ce qu'il montre",
+                            "$~épingler un symbole que vous choisissez"
                         ]
                     },
                     "research": {
@@ -10051,7 +10061,7 @@
                 },
                 "collaborators": "$~écrit par",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~voir le comment faire"
                 }
             },
             "configuration": {
@@ -10246,7 +10256,7 @@
                 }
             },
             "strings": "$~Chaînes de traduction",
-            "emotion": "Choose an emotion",
+            "emotion": "$~Choisir une émotion",
             "invalidName": "$~Nom de jeu de mots non valide",
             "reference": "$~Référence anglaise",
             "invalidConceptLinks": "$~Ces liens de concept ne fonctionnent pas dans la langue actuelle. As-tu fait une faute d'orthographe, ou l'as-tu enlevé exprès ?",

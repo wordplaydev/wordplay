@@ -304,15 +304,20 @@
             "description": "$~dokümantasyon$language[ $language dilinde|], $#words[$words kelime|$words kelime]",
             "emotion": "serious",
             "doc": [
-                "$~Ben, bazı @Program'lerinin açıklamaları gibi şeyleri veya hatta @Phrase ile sahneye koyduğun kelimeleri @Markup ile zengin biçimde biçimlendiririm.",
+                "$~@Markup ile şeyleri güzel bir biçimde açıklarım. Örneğin @Program'nden bazılarını açıklayabilirim, ya da @Phrase ile sahneye koyduğun kelimeleri.",
                 "Örneğin, herhangi bir @expression'ten önce gelebilirim:",
                 "\\¶Bunun gerçekten 7 olması mı gerekiyor?¶\n7\\",
-                "Örneğin, beni @Bind'ın önüne koyabilirsin:",
-                "\\¶Birinin ne kadar uzun olduğunu ölçerim¶\nyükseklik: 5m\\🪲",
-                "Ya da bir @FunctionDefinition'ın önüne:",
-                "\\¶İki sayıyı toplarım¶\nƒ topla(a•# b•#) a + b\\",
-                "Ya da bir @StructureDefinition'ın önüne:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "Örneğin, beni @Bind'den önce koyabilirsin:",
+                "\\¶Birinin ne kadar uzun olduğunu ölçerim¶\nboy: 5m\\🪲",
+                "Ya da bir @FunctionDefinition'den önce:",
+                "\\¶İki sayıyı toplarım¶\nƒ toplam2(a2•# b2•#) a2 + b2\\",
+                "Ya da bir @StructureDefinition'den önce:",
+                "\\¶İnsanların ismini ve en sevdiği meyveyi hatırlarım¶\n•kişi(isim3•'' meyve•'')\\",
+                "Bütün gösterinin neyle ilgili olduğunu söylemek için beni @Program'nin en başına da koyabilirsin",
+                "\\¶Bu program merhaba der¶\n\n'merhaba!'\\",
+                "Başkalarının hangi dilde yazıldığımı bilmesine yardım etmek için bana bir @Language verebilirsin:",
+                "\\¶Ben İngilizce bir dokümanım¶\nsüre2: 5s\\🪲",
+                "Benden bir liste yapabileceğini biliyor muydun? Gidip @Docs ile konuş."
             ]
         },
         "Docs": {
@@ -563,9 +568,11 @@
             "description": "$~kod örneği $code",
             "emotion": "serious",
             "doc": [
-                "$~Bir @Doc içinde örnek bir kod parçası tutuyorum, şöyle:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "Vurgulanan örnek, @how alanında ve @guide içinde önizleme olarak gösterilir."
+                "$~Bir @Doc içinde örnek bir kod parçası tutarım, şöyle:",
+                "\\¶İşte bir toplama örneği: \\1 + 2\\¶\n3 + 4\\",
+                "Nasıl rehberlerinde Örnekler kullanıyorsan, bir Örneği öne çıkan olarak etiketleyebilirsin.",
+                "\\¶İşte vurgulanmış bir örnek: \\1 + 2\\⭐¶\n3 + 4\\",
+                "Öne çıkan örnek, @how alanında ve @guide'de önizleme olarak gösterilir."
             ]
         },
         "Mention": {
@@ -917,9 +924,12 @@
             "description": "$~dokümante edilmiş $expression",
             "emotion": "eager",
             "doc": [
-                "$~Ben herhangi bir @expression'ım, ama bir @Doc ile!",
-                "Beni oluşturmak için bir ifadenin önüne bir @Doc koy, işte beni elde edersin:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "$~Ben herhangi bir @expression'yım, ama bir @Doc ile!",
+                "Beni yapmak için bir ifadeden önce bir @Doc koyman yeter, ve beni elde edersin:",
+                "\\çiftartı: 1\n(2 × çiftartı) +\n\t¶Hadi bunu biraz daha büyütelim¶\n\t1\\",
+                "Bir programın belirli bir kısmına yorum yapmak için işe yararım.",
+                "@Doc içine 👀 koyarsan, ifadeyi de vurgulayabilirim:",
+                "\\¶Bana bak! 👀¶\n1 + 1\\"
             ],
             "start": "$~İfadeyi değerlendirelim"
         },
@@ -2075,8 +2085,8 @@
             "description": "$~dış kod örneği$languages[ $languages dilinde|]",
             "emotion": "serious",
             "doc": [
-                "$~Diğer programlama dillerinde yazılmış, sözdizimi vurgulanmış kodları gösteriyorum, böylece zaten kod yazan içerik oluşturucular karşılaştırma yapabilirler.",
-                "Her dil için iki harfli bir etiket, bir çubuk ve koddan oluşan bir varyant yazın, örneğin: \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~Başka programlama dillerinde yazılmış, sözdizimi vurgulamalı kodu gösteririm, böylece zaten kod yazan yaratıcılar karşılaştırma yapabilir.",
+                "Her dil için bir varyant yaz: iki harfli bir etiket, bir çubuk ve kod, şöyle \\py| a = 5\\js| let a = 5;\\. Okuyucu, seçtiği dile uyan varyantı görür. Python (py), JavaScript (js) ve Java (jv) desteklenir."
             ]
         },
         "Localized": {
@@ -7053,7 +7063,7 @@
                     "format": "$~algılanan format"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~ekranından bir renk seç"
                 }
             },
             "logo": {
@@ -8011,8 +8021,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~projenin, gösterdiği şeye göre kendi önizleme simgesini seçmesine izin ver",
+                            "$~seçtiğin bir simgeyi sabitle"
                         ]
                     },
                     "research": {
@@ -10038,7 +10048,7 @@
                 },
                 "collaborators": "$~tarafından yazılmıştır",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~nasılı görüntüle"
                 }
             },
             "configuration": {
@@ -10230,7 +10240,7 @@
                 }
             },
             "strings": "$~Çeviri dizeleri",
-            "emotion": "Choose an emotion",
+            "emotion": "$~Bir duygu seç",
             "invalidName": "$~Geçerli bir Wordplay adı değil.",
             "reference": "$~İngilizce referans",
             "invalidConceptLinks": "$~Bu kavram bağlantıları mevcut dilde çözümlenmiyor. Birini yanlış mı yazdınız, yoksa bilerek mi kaldırdınız?",

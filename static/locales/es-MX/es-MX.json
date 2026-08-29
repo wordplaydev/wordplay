@@ -304,15 +304,20 @@
             "description": "$~documentation$language[ en $language|], $#words[$#words palabra|$words palabras|$words palabras]",
             "emotion": "serious",
             "doc": [
-                "$~Doy formato enriquecido a las cosas con @Markup, como explicaciones de alguno de tus @Program, o incluso las palabras que pones en el escenario con @Phrase.",
+                "$~Doy formato completo a las cosas con @Markup, como explicaciones de algunos de tus @Program, o hasta las palabras que pones en el escenario con @Phrase.",
                 "Por ejemplo, puedo ir antes de cualquier @expression:",
                 "\\¶¿De verdad se supone que esto sea 7?¶\n7\\",
-                "Por ejemplo, me puedes poner antes de @Bind:",
-                "\\¶yo mido qué tan alto es alguien¶\naltura: 5m\\🪲",
+                "Por ejemplo, puedes ponerme antes de @Bind:",
+                "\\¶mido qué tan alta es una persona¶\naltura2: 5m\\🪲",
                 "O antes de un @FunctionDefinition:",
-                "\\¶sumo dos números¶\nƒ suma(a•# b•#) a + b\\",
+                "\\¶sumo dos números¶\nƒ suma2(a2•# b2•#) a2 + b2\\",
                 "O antes de un @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶recuerdo el nombre y la fruta favorita de las personas¶\n•persona(nombre2•'' fruta•'')\\",
+                "También puedes ponerme justo al principio de @Program para decir de qué trata toda la actuación",
+                "\\¶este programa dice hola¶\n\n'¡hola!'\\",
+                "Puedes darme un @Language para ayudar a que otras personas sepan en qué idioma estoy escrito:",
+                "\\¶soy un documento en inglés¶\nduración2: 5s\\🪲",
+                "¿Sabías que puedes hacer una lista de mí? Ve a hablar con @Docs."
             ]
         },
         "Docs": {
@@ -536,8 +541,10 @@
             "emotion": "serious",
             "doc": [
                 "$~Guardo un ejemplo de código dentro de un @Doc, así:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "El ejemplo resaltado se muestra como la vista previa en el espacio @how y en el @guide."
+                "\\¶aquí hay un ejemplo de suma: \\1 + 2\\¶\n3 + 4\\",
+                "Si usas Ejemplos en tus guías prácticas, puedes marcar uno como destacado.",
+                "\\¶aquí hay un ejemplo destacado: \\1 + 2\\⭐¶\n3 + 4\\",
+                "El ejemplo destacado se muestra como la vista previa en el espacio de @how y en @guide."
             ]
         },
         "Mention": {
@@ -890,8 +897,11 @@
             "emotion": "eager",
             "doc": [
                 "$~¡Soy cualquier @expression, pero con un @Doc!",
-                "Para crearme, solo pon un @Doc antes de una expresión, y me obtendrás:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "Para crearme, solo pon un @Doc antes de una expresión, y ahí estaré:",
+                "\\dobleplus: 1\n(2 × dobleplus) +\n\t¶hagámoslo un poco más grande¶\n\t1\\",
+                "Soy útil para hacer un comentario sobre alguna parte de un programa.",
+                "Si pones 👀 en el @Doc, también puedo resaltar la expresión:",
+                "\\¶¡mírame! 👀¶\n1 + 1\\"
             ],
             "start": "$~Evaluemos la expresión"
         },
@@ -2075,8 +2085,8 @@
             "description": "$~ejemplo de código externo$languages[ en $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Muestro código con resaltado de sintaxis escrito en otros lenguajes de programación, para que las creadoras que ya programan puedan comparar.",
-                "Escribe una variante por idioma con una etiqueta de dos letras, una barra y el código, como \\py| a = 5\\js| let a = 5;\\.Thereaderseestheonematchingtheirchosenlanguage.Python(py),JavaScript(js),andJava(jv)aresupported."
+                "$~Muestro código con resaltado de sintaxis escrito en otros lenguajes de programación, para que las creadoras que ya saben programar puedan comparar.",
+                "Escribe una variante por idioma como una etiqueta de dos letras, una barra y el código, así \\py| a = 5\\js| let a = 5;\\. Quien lee ve la que coincide con el idioma que eligió. Se admiten Python (py), JavaScript (js) y Java (jv)."
             ]
         },
         "Localized": {
@@ -7056,7 +7066,7 @@
                     "format": "$~formato detectado"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~elegir un color de tu pantalla"
                 }
             },
             "logo": {
@@ -7997,8 +8007,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~dejar que el proyecto elija su propio glifo de vista previa según lo que muestra",
+                            "$~fijar un glifo que tú elijas"
                         ]
                     },
                     "research": {
@@ -10044,7 +10054,7 @@
                 },
                 "collaborators": "$~escrita por",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~ver guía práctica"
                 }
             },
             "configuration": {
@@ -10239,7 +10249,7 @@
                 }
             },
             "strings": "$~Textos de traducción",
-            "emotion": "Choose an emotion",
+            "emotion": "$~elegir una emoción",
             "invalidName": "$~No es un nombre válido de Wordplay",
             "reference": "$~Referencia en inglés",
             "invalidConceptLinks": "$~Estos enlaces de conceptos no funcionan en el idioma actual. ¿Escribiste alguno mal o lo quitaste a propósito?",

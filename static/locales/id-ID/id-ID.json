@@ -304,19 +304,20 @@
             "description": "$~dokumentasi$language[ dalam $language|], $#words[$words kata]",
             "emotion": "serious",
             "doc": [
-                "$~Aku memformat banyak hal dengan indah memakai @Markup, seperti penjelasan tentang bagian @Program-mu, atau bahkan kata-kata yang kamu taruh di panggung dengan @Phrase.",
-                "Misalnya, aku bisa muncul sebelum @expression mana pun:",
-                "\\¶Apakah ini seharusnya benar-benar 7?¶\n7\\",
-                "Misalnya, kamu bisa menaruhku sebelum @Bind:",
-                "\\¶Saya mengukur seberapa tinggi seseorang¶\ntinggi: 5m\\🪲",
+                "$~Aku memformat sesuatu dengan gaya kaya menggunakan @Markup, seperti penjelasan tentang beberapa @Program milikmu, atau bahkan kata-kata yang kamu tampilkan di panggung dengan @Phrase.",
+                "Misalnya, aku bisa diletakkan sebelum @expression apa pun:",
+                "\\¶Apakah ini benar-benar seharusnya 7?¶\n7\\",
+                "Misalnya, kamu bisa meletakkan aku sebelum @Bind:",
+                "\\¶Saya mengukur tinggi badan seseorang¶\ntinggi2: 5m\\🪲",
                 "Atau sebelum @FunctionDefinition:",
-                "\\¶Saya menambahkan dua angka¶\nƒ jumlah(a•# b•#) a + b\\",
+                "\\¶Saya menambahkan dua angka¶\nƒ jumlah2(a2•# b2•#) a2 + b2\\",
                 "Atau sebelum @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\",
-                "You can also place me at the very beginning of @Program to say what the whole performance is about",
-                "\\¶This program says hello¶\n\n'hello!'\\",
-                "You can give me a @Language to help others know what language I'm written in:",
-                "\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶Saya mengingat nama orang dan buah favoritnya¶\n•orang(nama2•'' buah•'')\\",
+                "Kamu juga bisa meletakkan aku tepat di awal @Program untuk menjelaskan tentang apa keseluruhan pertunjukannya",
+                "\\¶Program ini mengucapkan salam¶\n\n'halo!'\\",
+                "Kamu bisa memberiku @Language agar orang lain tahu dalam bahasa apa aku ditulis:",
+                "\\¶Saya adalah dokumen berbahasa Inggris¶\ndurasi: 5s\\🪲",
+                "Tahukah kamu bahwa kamu bisa membuat daftar dariku? Coba tanya @Docs."
             ]
         },
         "Docs": {
@@ -567,8 +568,10 @@
             "description": "$~contoh kode $code",
             "emotion": "serious",
             "doc": [
-                "$~Aku menyimpan sedikit contoh kode di dalam @Doc, seperti ini:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
+                "$~Aku menyimpan contoh potongan kode di dalam @Doc, seperti ini:",
+                "\\¶Ini contoh penjumlahan: \\1 + 2\\¶\n3 + 4\\",
+                "Jika kamu menggunakan Contoh dalam cara-caramu, kamu bisa menandai satu Contoh sebagai sorotan.",
+                "\\¶Ini contoh yang disorot: \\1 + 2\\⭐¶\n3 + 4\\",
                 "Contoh yang disorot ditampilkan sebagai pratinjau di ruang @how dan @guide."
             ]
         },
@@ -923,7 +926,10 @@
             "doc": [
                 "$~Aku adalah @expression apa pun, tetapi dengan @Doc!",
                 "Untuk membuatku, cukup letakkan @Doc sebelum sebuah ekspresi, dan kamu akan mendapatkanku:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "\\gandaplus: 1\n(2 × gandaplus) +\n\t¶Ayo buat sedikit lebih besar¶\n\t1\\",
+                "Aku berguna untuk membuat catatan pada bagian tertentu dari sebuah program.",
+                "Jika kamu meletakkan 👀 di @Doc, aku juga bisa menyorot ekspresi itu:",
+                "\\¶Lihat aku! 👀¶\n1 + 1\\"
             ],
             "start": "$~Mari kita evaluasi ekspresi tersebut."
         },
@@ -2079,8 +2085,8 @@
             "description": "$~contoh kode eksternal$languages[ dalam $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Saya menampilkan kode dengan penyorotan sintaks yang ditulis dalam bahasa pemrograman lain, sehingga para kreator yang sudah mahir dalam pemrograman dapat membandingkannya.",
-                "Tulis satu varian per bahasa sebagai tag dua huruf, sebuah bar, dan kode, seperti \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~Aku menampilkan kode dengan sorotan sintaks yang ditulis dalam bahasa pemrograman lain, sehingga pembuat yang sudah bisa membuat kode bisa membandingkannya.",
+                "Tulis satu varian untuk setiap bahasa sebagai kode dua huruf, tanda garis, dan kodenya, seperti \\py| a = 5\\js| let a = 5;\\. Pembaca akan melihat versi yang cocok dengan bahasa yang mereka pilih. Python (py), JavaScript (js), dan Java (jv) didukung."
             ]
         },
         "Localized": {
@@ -7066,7 +7072,7 @@
                     "format": "$~format terdeteksi"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~pilih warna dari layarmu"
                 }
             },
             "logo": {
@@ -7486,7 +7492,7 @@
                 },
                 "collaborators": "$~ditulis oleh",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~lihat cara"
                 }
             },
             "configuration": {
@@ -8267,8 +8273,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~biarkan proyek memilih sendiri glif pratinjaunya berdasarkan apa yang ditampilkannya",
+                            "$~sematkan glif pilihanmu"
                         ]
                     },
                     "research": {
@@ -9055,7 +9061,7 @@
                 }
             },
             "strings": "$~String terjemahan",
-            "emotion": "Choose an emotion",
+            "emotion": "$~Pilih sebuah emosi",
             "invalidName": "$~Bukan nama Wordplay yang valid",
             "invalidConceptLinks": "$~Tautan konsep ini tidak berfungsi dalam bahasa saat ini. Apakah Anda salah mengeja salah satunya, atau sengaja menghapusnya?",
             "guidance": "$~Panduan untuk bahasa ini",

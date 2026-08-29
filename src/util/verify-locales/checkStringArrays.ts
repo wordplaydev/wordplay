@@ -100,7 +100,14 @@ export function docStatus(annotations: string[]): string {
 }
 
 /** The canonical form of a markup array: paragraph breaks only between
- *  elements, and the doc-level write-status on the first element only. */
+ *  elements, and the doc-level write-status on the first element only.
+ *
+ *  A split that *grows* the array uncovered paragraphs that were hidden inside
+ *  another element, and those are untranslated by construction — nothing ever
+ *  sent them. So the document is re-queued with `$!`, keeping the translation it
+ *  has, the same distinction `keepOrPlacehold` makes; only a doc with nothing
+ *  written stays `$?`. Without this the recovered paragraphs would be
+ *  unannotated, which reads as "written" and would never be translated. */
 function normalizeMarkupArray(value: string[]): string[] {
     const annotations = value.map(leadingAnnotations);
     const status = docStatus(annotations);
@@ -109,5 +116,9 @@ function normalizeMarkupArray(value: string[]): string[] {
     );
     // Nothing but markers (a bare placeholder doc)? Keep the status alone.
     if (paragraphs.length === 0) return status === '' ? value : [status];
-    return paragraphs.map((p, index) => (index === 0 ? status + p : p));
+    const revised =
+        paragraphs.length > value.length && status !== Unwritten
+            ? Revised
+            : status;
+    return paragraphs.map((p, index) => (index === 0 ? revised + p : p));
 }

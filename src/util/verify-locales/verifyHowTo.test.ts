@@ -202,6 +202,24 @@ describe('deciding whether a how-to still needs translating', () => {
         expect(howToNeedsTranslation(english, machine, false, true)).toBe(true);
     });
 
+    it('re-translates a how-to named explicitly with +howto', () => {
+        // A how-to `.txt` carries no `$~`, so the machine-translated test is
+        // false for every translated how-to and a damaged one had no way back
+        // short of deleting the file. `+howto:<id>` is already an explicit
+        // request for that file.
+        const translated = 'Título\n\nCuerpo en español.';
+        expect(
+            howToNeedsTranslation(english, translated, false, true, true),
+        ).toBe(true);
+        // Only under override, and only when named.
+        expect(
+            howToNeedsTranslation(english, translated, false, false, true),
+        ).toBe(false);
+        expect(
+            howToNeedsTranslation(english, translated, false, true, false),
+        ).toBe(false);
+    });
+
     it('translates a file that is still a copy of the English', () => {
         // The case that made every music how-to stay English in all 29
         // locales: a missing how-to fails verification, copying the English

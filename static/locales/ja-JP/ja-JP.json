@@ -304,15 +304,20 @@
             "description": "$~ドキュメント$language[ 言語 $language|], $#words[$words 語]",
             "emotion": "serious",
             "doc": [
-                "$~わたしは @Markup でものをきれいに整えます。たとえば @Program の説明や、@Phrase でステージに置く言葉などです。",
-                "たとえば、どんな @expression の前にも置けます:",
+                "$~わたしは@Markupを使って、あなたの@Programの説明や、@Phraseでステージに出す言葉などを、豊かに飾りつけます。",
+                "たとえば、どんな@expressionの前にも置くことができます。",
                 "\\¶これは本当に7になるはずですか？¶\n7\\",
-                "たとえば、わたしを @Bind の前に置けます:",
-                "\\¶わたしは、だれかの背の高さをはかります¶\n高さ: 5m\\🪲",
-                "または @FunctionDefinition の前に:",
-                "\\¶2つの数を足します¶\nƒ 合計(あ•# い•#) あ + い\\",
-                "または @StructureDefinition の前に:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "たとえば、@Bindの前にわたしを置くことができます。",
+                "\\¶だれかの背の高さをはかるよ¶\n身長: 5m\\🪲",
+                "または、@FunctionDefinitionの前にも置けます。",
+                "\\¶2つの数を足すよ¶\nƒ 合計(a2•# b2•#) a2 + b2\\",
+                "または、@StructureDefinitionの前にも置けます。",
+                "\\¶人の名前と好きなくだものを覚えるよ¶\n•人(名前2•'' くだもの•'')\\",
+                "また、わたしを@Programのいちばん最初に置いて、演目全体が何についてのものかを伝えることもできます。",
+                "\\¶このプログラムはこんにちはと言うよ¶\n\n'こんにちは！'\\",
+                "わたしがどの言語で書かれているかをほかの人に伝えるために、@Languageをつけることができます。",
+                "\\¶これは英語のドキュメントです¶\n長さ2: 5s\\🪲",
+                "わたしのリストを作れることを知っていましたか？@Docsに聞いてみてください。"
             ]
         },
         "Docs": {
@@ -563,9 +568,11 @@
             "description": "$~コードの例 $code",
             "emotion": "serious",
             "doc": [
-                "$~わたしは @Doc の中にコードの例を入れて持っています。こんなふうに:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "強調された例は、@how のスペースと @guide でプレビューとして表示されます。"
+                "$~わたしは、@Docの中にコードの例を持っています。たとえば、こんなふうにです。",
+                "\\¶足し算の例だよ：\\1 + 2\\¶\n3 + 4\\",
+                "やり方ガイドの中でExampleを使うときは、そのうちの1つを「注目の例」として印をつけることができます。",
+                "\\¶目立たせた例だよ：\\1 + 2\\⭐¶\n3 + 4\\",
+                "注目の例は、@howの空間と@guideのプレビューとして表示されます。"
             ]
         },
         "Mention": {
@@ -917,9 +924,12 @@
             "description": "$~ドキュメント付き $expression",
             "emotion": "eager",
             "doc": [
-                "$~わたしはどんな @expression でもありますが、@Doc がついています!",
-                "わたしを作るには、式の前に @Doc を置くだけです。そうすればわたしになります:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "$~わたしはどんな@expressionでもありますが、@Docつきです！",
+                "わたしを作るには、式の前に@Docを置くだけです。そうすると、わたしができあがります。",
+                "\\ダブルプラス: 1\n(2 × ダブルプラス) +\n\t¶もう少しだけ大きくしよう¶\n\t1\\",
+                "わたしは、プログラムのある部分についてコメントを書くときに役立ちます。",
+                "もし@Docの中に👀を入れると、わたしはその式を目立たせることもできます。",
+                "\\¶わたしを見て！👀¶\n1 + 1\\"
             ],
             "start": "$~式を評価しよう"
         },
@@ -2075,8 +2085,8 @@
             "description": "$~外部のコード例$languages[（$languages）|]",
             "emotion": "serious",
             "doc": [
-                "$~わたしは、ほかのプログラミング言語で書かれたコードを、色分けして表示するよ。だから、すでにコードを書ける制作者は見くらべることができるよ。",
-                "言語ごとに、2文字のタグ、たて棒、そしてコードを、1つずつ書いてね。こんなふうに：\\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~わたしは、ほかのプログラミング言語で書かれたコードを、色分けして表示します。すでにコードを書ける人が、見比べられるようにするためです。",
+                "言語ごとに、2文字のタグ・棒線・コードという形で1つずつ書いてください。たとえば\\py| a = 5\\js| let a = 5;\\のようにします。読む人は、自分が選んだ言語に合ったものを見ます。Python（py）、JavaScript（js）、Java（jv）に対応しています。"
             ]
         },
         "Localized": {
@@ -7058,7 +7068,7 @@
                     "format": "$~検出された形式"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~画面から色を選ぶ"
                 }
             },
             "logo": {
@@ -8016,8 +8026,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~プロジェクトが表示している内容にもとづいて、プレビュー用の絵文字を自動で選ばせる",
+                            "$~自分で選んだ絵文字を固定する"
                         ]
                     },
                     "research": {
@@ -10040,7 +10050,7 @@
                 },
                 "collaborators": "$~作成者",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~やり方ガイドを見る"
                 }
             },
             "configuration": {
@@ -10232,7 +10242,7 @@
                 }
             },
             "strings": "$~翻訳の文字列",
-            "emotion": "Choose an emotion",
+            "emotion": "$~感情を選んでください",
             "invalidName": "$~正しい Wordplay の名前ではありません",
             "reference": "$~英語の参照",
             "invalidConceptLinks": "$~これらのコンセプトのリンクは今の言語で見つかりません。つづりをまちがえましたか、それともわざと消しましたか？",

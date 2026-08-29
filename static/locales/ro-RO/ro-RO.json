@@ -304,15 +304,20 @@
             "description": "$~documentare$language[ în $language|], $#words[$#words cuvânt|$words cuvinte|$words de cuvinte]",
             "emotion": "serious",
             "doc": [
-                "$~Eu formatez lucrurile în mod bogat cu @Markup, cum ar fi explicații pentru unele dintre @Program ale tale, sau chiar cuvintele pe care le pui pe scenă cu @Phrase.",
-                "De exemplu, pot merge înaintea oricărui @expression:",
+                "$~Formatez lucrurile în mod bogat cu @Markup, cum ar fi explicații pentru unele dintre @Program ale tale, sau chiar cuvintele pe care le pui pe scenă cu @Phrase.",
+                "De exemplu, pot să apar înainte de orice @expression:",
                 "\\¶Chiar ar trebui să fie 7?¶\n7\\",
-                "De exemplu, mă poți pune înaintea lui @Bind:",
-                "\\¶Măsor cât de înalt este cineva¶\nînălțime: 5m\\🪲",
-                "Sau înaintea unui @FunctionDefinition:",
-                "\\¶Adun două numere¶\nƒ suma(a•# b•#) a + b\\",
-                "Sau înaintea unui @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "De exemplu, mă poți pune înainte de @Bind:",
+                "\\¶Măsor cât de înalt este cineva¶\nînălțime2: 5m\\🪲",
+                "Sau înainte de un @FunctionDefinition:",
+                "\\¶Adun două numere¶\nƒ sumă2(a2•# b2•#) a2 + b2\\",
+                "Sau înainte de un @StructureDefinition:",
+                "\\¶Țin minte numele și fructul preferat al oamenilor¶\n•persoană(nume3•'' fruct•'')\\",
+                "Mă poți pune și chiar la începutul lui @Program ca să spui despre ce este întreaga reprezentație",
+                "\\¶Acest program spune salut¶\n\n'salut!'\\",
+                "Îmi poți da un @Language ca să-i ajuți pe alții să afle în ce limbă sunt scris:",
+                "\\¶Sunt o documentare în engleză¶\ndurată2: 5s\\🪲",
+                "Știai că poți face o listă cu mine? Du-te și vorbește cu @Docs."
             ]
         },
         "Docs": {
@@ -563,9 +568,11 @@
             "description": "$~exemplu de cod $code",
             "emotion": "serious",
             "doc": [
-                "$~Păstrez un exemplu de cod într-un @Doc, așa:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "Exemplul evidențiat apare ca previzualizare în spațiul @how și în @guide."
+                "$~Păstrez un exemplu de cod în interiorul unui @Doc, așa:",
+                "\\¶Iată un exemplu de adunare: \\1 + 2\\¶\n3 + 4\\",
+                "Dacă folosești Exemple în instrucțiunile tale, poți marca un Exemplu ca fiind evidențiat.",
+                "\\¶Iată un exemplu evidențiat: \\1 + 2\\⭐¶\n3 + 4\\",
+                "Exemplul evidențiat este afișat ca previzualizare în spațiul @how și în @guide."
             ]
         },
         "Mention": {
@@ -918,8 +925,11 @@
             "emotion": "eager",
             "doc": [
                 "$~Sunt orice @expression, dar cu un @Doc!",
-                "Ca să mă creezi, pune doar un @Doc înaintea unei expresii și mă vei obține:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "Ca să mă creezi, pune doar un @Doc înainte de o expresie, și mă vei obține:",
+                "\\dubluplus: 1\n(2 × dubluplus) +\n\t¶Hai să o facem puțin mai mare¶\n\t1\\",
+                "Sunt de folos pentru a face un comentariu despre o parte a unui program.",
+                "Dacă pui 👀 în @Doc, pot să evidențiez și expresia:",
+                "\\¶Uită-te la mine! 👀¶\n1 + 1\\"
             ],
             "start": "$~Să evaluăm expresia"
         },
@@ -2075,8 +2085,8 @@
             "description": "$~exemplu de cod extern$languages[ în $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Afișez cod evidențiat prin sintaxă, scris în alte limbaje de programare, astfel încât creatorii care deja programează să poată compara.",
-                "Scrieți câte o variantă pentru fiecare limbă sub forma unei etichete de două litere, a unei bare și a codului, de exemplu \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~Arăt cod colorat sintactic scris în alte limbaje de programare, ca să poată compara creatorii care deja scriu cod.",
+                "Scrie câte o variantă pentru fiecare limbă, ca o etichetă de două litere, o bară, și codul, astfel \\py| a = 5\\js| let a = 5;\\. Cititorul vede varianta care corespunde limbii alese de el. Sunt acceptate Python (py), JavaScript (js) și Java (jv)."
             ]
         },
         "Localized": {
@@ -7061,7 +7071,7 @@
                     "format": "$~format detectat"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~alege o culoare de pe ecranul tău"
                 }
             },
             "logo": {
@@ -7481,7 +7491,7 @@
                 },
                 "collaborators": "$~scris de",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~vezi instrucțiuni"
                 }
             },
             "configuration": {
@@ -8262,8 +8272,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~lasă proiectul să-și aleagă singur simbolul de previzualizare, în funcție de ce arată",
+                            "$~fixează un simbol ales de tine"
                         ]
                     },
                     "research": {
@@ -9050,7 +9060,7 @@
                 }
             },
             "strings": "$~Șiruri de traducere",
-            "emotion": "Choose an emotion",
+            "emotion": "$~Alege o emoție",
             "invalidName": "$~Nu este un nume valid pentru jocuri de cuvinte",
             "invalidConceptLinks": "$~Aceste legături conceptuale nu se rezolvă în limba curentă. Ai scris greșit una sau ai eliminat-o intenționat?",
             "guidance": "$~Ghid pentru această limbă",

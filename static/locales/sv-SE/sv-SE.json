@@ -304,15 +304,20 @@
             "description": "$~dokumentation$language[ på $language|], $#words[$words ord|$words ord]",
             "emotion": "serious",
             "doc": [
-                "$~Jag formaterar saker fint med @Markup, som förklaringar av några av dina @Program, eller till och med orden du sätter på scenen med @Phrase.",
-                "Till exempel kan jag stå före vilket @expression som helst:",
-                "\\¶Ska det här verkligen vara 7?¶\n7\\",
+                "$~Jag formaterar saker med @Markup, till exempel förklaringar av några av dina @Program, eller till och med orden du sätter på scen med @Phrase.",
+                "Till exempel kan jag stå före valfritt @expression:",
+                "\\¶Ska detta verkligen vara 7?¶\n7\\",
                 "Till exempel kan du placera mig före @Bind:",
-                "\\¶Jag mäter hur lång någon är¶\nhöjd: 5m\\🪲",
+                "\\¶Jag mäter hur lång någon är¶\nhöjd2: 5m\\🪲",
                 "Eller före en @FunctionDefinition:",
-                "\\¶Jag adderar två tal¶\nƒ summa(a•# b•#) a + b\\",
+                "\\¶Jag lägger ihop två tal¶\nƒ summa2(a2•# b2•#) a2 + b2\\",
                 "Eller före en @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶Jag kommer ihåg folks namn och favoritfrukt¶\n•person(namn3•'' frukt•'')\\",
+                "Du kan också placera mig allra först i @Program för att säga vad hela föreställningen handlar om",
+                "\\¶Det här programmet säger hej¶\n\n'hej!'\\",
+                "Du kan ge mig ett @Language för att hjälpa andra veta vilket språk jag är skriven i:",
+                "\\¶Jag är ett dokument på engelska¶\nvaraktighet2: 5s\\🪲",
+                "Visste du att du kan göra en lista av mig? Gå och prata med @Docs."
             ]
         },
         "Docs": {
@@ -563,9 +568,11 @@
             "description": "$~kodexempel $code",
             "emotion": "serious",
             "doc": [
-                "$~Jag håller ett exempel på lite kod inuti ett @Doc, så här:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "Det markerade exemplet visas som förhandsvisning i @how-utrymmet och @guide."
+                "$~Jag rymmer en exempelbit koda inuti en @Doc, som denna:",
+                "\\¶Här är ett exempel på addition: \\1 + 2\\¶\n3 + 4\\",
+                "Om du använder exempel i dina hur man-guider, kan du märka ett exempel som en höjdpunkt.",
+                "\\¶Här är ett markerat exempel: \\1 + 2\\⭐¶\n3 + 4\\",
+                "Det markerade exemplet visas som förhandsvisning i @how-rummet och @guide."
             ]
         },
         "Mention": {
@@ -917,9 +924,12 @@
             "description": "$~dokumenterat $expression",
             "emotion": "eager",
             "doc": [
-                "$~Jag är vilket @expression som helst, men med ett @Doc!",
-                "För att skapa mig, sätt bara ett @Doc före ett uttryck, så får du mig:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "$~Jag är vilket @expression som helst, men med en @Doc!",
+                "För att göra mig, sätt bara en @Doc före ett uttryck, och du får mig:",
+                "\\dubbelpluss: 1\n(2 × dubbelpluss) +\n\t¶Låt oss göra den lite större¶\n\t1\\",
+                "Jag är bra för att göra en kommentar om någon del av ett program.",
+                "Om du sätter 👀 i @Doc, kan jag också markera uttrycket:",
+                "\\¶Titta på mig! 👀¶\n1 + 1\\"
             ],
             "start": "$~Låt oss utvärdera uttrycket"
         },
@@ -2075,8 +2085,8 @@
             "description": "$~externt kodexempel$languages[ i $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Jag visar syntaxmarkerad kod skriven i andra programmeringsspråk, så att skapare som redan kodar kan jämföra.",
-                "Skriv en variant per språk som en tvåbokstavstagg, en stapel och koden, som \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~Jag visar syntaxmarkerad koda skriven i andra programmeringsspråk, så att skapare som redan kan koda kan jämföra.",
+                "Skriv en variant per språk som en tvåbokstavstagg, ett streck och koden, som \\py| a = 5\\js| let a = 5;\\. Läsaren ser den som matchar deras valda språk. Python (py), JavaScript (js) och Java (jv) stöds."
             ]
         },
         "Localized": {
@@ -7046,7 +7056,7 @@
                     "format": "$~upptäckt format"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~välj en färg från din skärm"
                 }
             },
             "logo": {
@@ -8004,8 +8014,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~låt projektet själv välja sin förhandsvisningssymbol utifrån vad det visar",
+                            "$~fäst en symbol du väljer"
                         ]
                     },
                     "research": {
@@ -10025,7 +10035,7 @@
                 },
                 "collaborators": "$~skriven av",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~visa hur man"
                 }
             },
             "configuration": {
@@ -10217,7 +10227,7 @@
                 }
             },
             "strings": "$~Översättningssträngar",
-            "emotion": "Choose an emotion",
+            "emotion": "$~Välj en känsla",
             "invalidName": "$~Inte ett giltigt Wordplay-namn",
             "reference": "$~Engelsk referens",
             "invalidConceptLinks": "$~Dessa konceptlänkar fungerar inte i det aktuella språket. Stavade du fel på en, eller tog du bort den med flit?",

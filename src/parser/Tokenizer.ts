@@ -290,7 +290,7 @@ const CodePattern = { pattern: CODE_SYMBOL, types: [Sym.Code] };
  * final `\`, e.g. `\py| a = 5\js| let a = 5;\`. The `<tag>|` lead distinguishes it from a Wordplay
  * Example (`\code\`); any lowercase tag is accepted. Captured verbatim, so foreign code never
  * enters the Wordplay tokenizer (it cannot itself contain a `\`). */
-const ExternalExamplePattern = {
+export const ExternalExamplePattern = {
     pattern: /^\\[a-z]+\|[^\\]*(?:\\[a-z]+\|[^\\]*)*\\/,
     types: [Sym.ExternalExample],
 };

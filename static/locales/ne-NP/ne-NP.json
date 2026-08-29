@@ -304,15 +304,20 @@
             "description": "$~documentation$language[ $language मा|], $#words[$words शब्द|$words शब्दहरू]",
             "emotion": "serious",
             "doc": [
-                "$~म @Markup का साथ कुराहरूलाई राम्ररी ढाँचामा राख्छु, जस्तै तपाईंका केही @Program का व्याख्या, वा @Phrase का साथ तपाईंले मञ्चमा राख्ने शब्दहरू पनि।",
-                "उदाहरणका लागि, म कुनै पनि @expression अगाडि जान सक्छु:",
+                "$~म @Markup प्रयोग गरेर कुराहरूलाई राम्रोसँग सजाउँछु, जस्तै तिम्रा केही @Program का व्याख्या, वा तिमीले @Phrase मार्फत मञ्चमा राखेका शब्दहरू पनि।",
+                "जस्तै, म कुनै पनि @expression अगाडि आउन सक्छु:",
                 "\\¶के यो साँच्चै ७ हुनुपर्ने हो?¶\n7\\",
-                "उदाहरणका लागि, तपाईंले मलाई @Bind अगाडि राख्न सक्नुहुन्छ:",
-                "\\¶म नाप्छु कोही कति अग्लो छ¶\nउचाइ: 5m\\🪲",
+                "जस्तै, तिमी मलाई @Bind अगाडि राख्न सक्छौ:",
+                "\\¶म कोही कति अग्लो छ भनेर नाप्छु¶\nउचाइ2: 5m\\🪲",
                 "वा @FunctionDefinition अगाडि:",
-                "\\¶म दुई सङ्ख्या जोड्छु¶\nƒ जोड(क•# ख•#) क + ख\\",
+                "\\¶म दुई सङ्ख्या जोड्छु¶\nƒ जोड2(क•# ख•#) क + ख\\",
                 "वा @StructureDefinition अगाडि:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\\n\nYou can also place me at the very beginning of @Program to say what the whole performance is about\n\n\\¶This program says hello¶\n\n'hello!'\\\n\nYou can give me a @Language to help others know what language I'm written in:\n\n\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶म मानिसहरूको नाम र मनपर्ने फलफूल सम्झन्छु¶\n•व्यक्ति(नाम3•'' फलफूल•'')\\",
+                "तिमी मलाई @Program को सुरुमै पनि राख्न सक्छौ, ताकि पूरै प्रस्तुति के बारेमा हो भन्न सकियोस्",
+                "\\¶यो प्रोग्रामले नमस्ते भन्छ¶\n\n'नमस्ते!'\\",
+                "तिमी मलाई @Language दिन सक्छौ, ताकि अरूले म कुन भाषामा लेखिएको छु भनी थाहा पाऊन्:",
+                "\\¶म अङ्ग्रेजी डकुमेन्ट हुँ¶\nअवधि2: 5s\\🪲",
+                "के तिमीलाई थाहा थियो, तिमी मेरो सूची पनि बनाउन सक्छौ? @Docs सँग कुरा गरेर हेर।"
             ]
         },
         "Docs": {
@@ -575,8 +580,8 @@
             "description": "$~बाहिरी code उदाहरण$languages[ $languages मा|]",
             "emotion": "serious",
             "doc": [
-                "$~म अन्य programming भाषाहरूमा लेखिएको syntax-हाइलाइट गरिएको code देखाउँछु, ताकि पहिले नै code लेख्ने सर्जकहरूले तुलना गर्न सकून्।",
-                "प्रत्येक भाषाको एउटा प्रकार दुई-अक्षरको ट्यागका रूपमा, एउटा बार, र code लेख्नुहोस्, यसरी \\py| a = 5\\js| let a = 5;\\.Thereaderseestheonematchingtheirchosenlanguage.Python(py),JavaScript(js),andJava(jv)aresupported."
+                "$~म अरू प्रोग्रामिङ भाषाहरूमा लेखिएको वाक्य-रचना-हाइलाइट गरिएको कोड देखाउँछु, ताकि पहिले नै कोड लेख्ने सिर्जनाकर्ताहरूले तुलना गर्न सकून्।",
+                "हरेक भाषाको लागि एउटा संस्करण लेख, दुई-अक्षरको ट्याग, एउटा पट्टी, र त्यसपछि कोड, जस्तै \\py| a = 5\\js| let a = 5;\\। पाठकले आफूले छानेको भाषासँग मिल्ने संस्करण मात्र देख्छ। Python (py), JavaScript (js), र Java (jv) समर्थित छन्।"
             ]
         },
         "Mention": {
@@ -954,9 +959,12 @@
             "description": "$~कागजात गरिएको $expression",
             "emotion": "eager",
             "doc": [
-                "$~म कुनै पनि @expression हुँ, तर एउटा @Doc सहित!",
-                "मलाई बनाउन, कुनै expression अगाडि एउटा @Doc राख, अनि तिमीले मलाई पाउनेछौ:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "$~म जुनसुकै @expression हुँ, तर @Doc सहित!",
+                "मलाई बनाउन, कुनै अभिव्यक्ति अगाडि केवल @Doc राख, र तिमीले मलाई पाउनेछौ:",
+                "\\डबलप्लस: 1\n(2 × डबलप्लस) +\n\t¶यसलाई अलिकति मात्र ठूलो बनाऔं¶\n\t1\\",
+                "म कुनै प्रोग्रामको कुनै भागमा टिप्पणी गर्नको लागि उपयोगी छु।",
+                "यदि तिमीले @Doc मा 👀 राख्यौ भने, म त्यो अभिव्यक्तिलाई पनि हाइलाइट गर्न सक्छु:",
+                "\\¶मलाई हेर! 👀¶\n1 + 1\\"
             ],
             "start": "$~expression को मूल्याङ्कन गरौँ"
         },
@@ -7049,7 +7057,7 @@
                     "format": "$~पत्ता लागेको ढाँचा"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~आफ्नो स्क्रिनबाट एउटा रङ छान्नुहोस्"
                 }
             },
             "backtotop": "$~माथि फर्कनुहोस्",
@@ -7477,7 +7485,7 @@
                 },
                 "collaborators": "$~द्वारा लेखिएको",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~how-to हेर्नुहोस्"
                 }
             },
             "configuration": {
@@ -8278,8 +8286,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~प्रोजेक्टले आफूले देखाउने कुराको आधारमा आफ्नै पूर्वावलोकन ग्लिफ छान्न देऊ",
+                            "$~तिमीले छानेको ग्लिफ टाँस्नुहोस्"
                         ]
                     },
                     "research": {
@@ -9091,7 +9099,7 @@
                 }
             },
             "strings": "$~अनुवाद पाठहरू",
-            "emotion": "Choose an emotion",
+            "emotion": "$~एउटा भावना छान्नुहोस्",
             "invalidName": "$~मान्य Wordplay नाम होइन",
             "invalidConceptLinks": "$~यी concept लिङ्कहरू अहिलेको language मा मिल्दैनन्। के तपाईंले कुनै गलत हिज्जे लेख्नुभयो, वा जानाजानी हटाउनुभयो?",
             "guidance": "$~यस भाषाको लागि मार्गदर्शन",

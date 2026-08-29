@@ -304,19 +304,20 @@
             "description": "$~תיעוד$language[ ב$language|], $#words[מילה אחת|$words מילים|$words מילים]",
             "emotion": "serious",
             "doc": [
-                "$~אני מעצבת דברים בצורה עשירה עם @Markup, כמו הסברים על חלק מ-@Program שלכם, או אפילו המילים שאתם שמים על הבמה עם @Phrase.",
-                "למשל, אני יכולה לבוא לפני כל @expression:",
-                "\\¶זה באמת אמור להיות 7?¶\n7\\",
-                "למשל, אתם יכולים לשים אותי לפני @Bind:",
-                "\\¶אני מודד כמה גבוה מישהו¶\nגובה: 5m\\🪲",
+                "$~אני מעצב דברים בעושר עם @Markup, כמו הסברים על חלק מה־@Program שלך, או אפילו את המילים שאתה שם על הבמה עם @Phrase.",
+                "לדוגמה, אני יכול לבוא לפני כל @expression:",
+                "\\¶האם זה באמת אמור להיות 7?¶\n7\\",
+                "לדוגמה, אתה יכול לשים אותי לפני @Bind:",
+                "\\¶אני מודד כמה מישהו גבוה¶\nגובה2: 5m\\🪲",
                 "או לפני @FunctionDefinition:",
-                "\\¶אני מחבר שני מספרים¶\nƒ סכום(א•# ב•#) א + ב\\",
+                "\\¶אני מחבר שני מספרים¶\nƒ סכום2(a2•# b2•#) a2 + b2\\",
                 "או לפני @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\",
-                "You can also place me at the very beginning of @Program to say what the whole performance is about",
-                "\\¶This program says hello¶\n\n'hello!'\\",
-                "You can give me a @Language to help others know what language I'm written in:",
-                "\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶אני זוכר את שמות האנשים ואת הפרי האהוב עליהם¶\n•אדם(שם2•'' פרי•'')\\",
+                "אתה יכול גם לשים אותי ממש בהתחלה של @Program כדי לומר במה מדובר בכל ההצגה",
+                "\\¶התוכנית הזו אומרת שלום¶\n\n'שלום!'\\",
+                "אתה יכול לתת לי @Language כדי לעזור לאחרים לדעת באיזו שפה אני כתוב:",
+                "\\¶אני מסמך באנגלית¶\nמשךזמן: 5s\\🪲",
+                "ידעת שאפשר ליצור רשימה שלי? לך תדבר עם @Docs."
             ]
         },
         "Docs": {
@@ -567,9 +568,11 @@
             "description": "$~דוגמת קוד $code",
             "emotion": "serious",
             "doc": [
-                "$~אני מחזיק דוגמה קטנה של קוד בתוך @Doc, כך:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "הדוגמה המודגשת מוצגת כתצוגה מקדימה בשטח @how וב-@guide."
+                "$~אני מחזיק חתיכת קוד לדוגמה בתוך @Doc, כך:",
+                "\\¶הנה דוגמה לחיבור: \\1 + 2\\¶\n3 + 4\\",
+                "אם אתה משתמש בדוגמאות בהוראות שלך, אתה יכול לסמן דוגמה אחת כמודגשת.",
+                "\\¶הנה דוגמה מודגשת: \\1 + 2\\⭐¶\n3 + 4\\",
+                "הדוגמה המודגשת מוצגת כתצוגה מקדימה במרחב ה־@how וב־@guide."
             ]
         },
         "Mention": {
@@ -923,7 +926,10 @@
             "doc": [
                 "$~אני כל @expression, אבל עם @Doc!",
                 "כדי ליצור אותי, פשוט שים @Doc לפני ביטוי, ותקבל אותי:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "\\פלוספלוס: 1\n(2 × פלוספלוס) +\n\t¶בואו נגדיל את זה קצת¶\n\t1\\",
+                "אני שימושי להוספת הערה על חלק מסוים בתוכנית.",
+                "אם תשים 👀 ב־@Doc, אני יכול גם להדגיש את הביטוי:",
+                "\\¶תסתכלו עליי! 👀¶\n1 + 1\\"
             ],
             "start": "$~בואו נעריך את הביטוי"
         },
@@ -2079,8 +2085,8 @@
             "description": "$~דוגמת קוד חיצונית$languages[ ב-$languages|]",
             "emotion": "serious",
             "doc": [
-                "$~אני מציג קוד מודגש בתחביר שנכתב בשפות תכנות אחרות, כך שיוצרים שכבר כותבים קוד יוכלו להשוות.",
-                "כתבו גרסה אחת לכל שפה כתגית בת שתי אותיות, סרגל וקוד, כמו \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~אני מציג קוד עם הדגשת תחביר שנכתב בשפות תכנות אחרות, כדי שיוצרים שכבר יודעים לתכנת יוכלו להשוות.",
+                "כתוב גרסה אחת לכל שפה כתגית של שתי אותיות, קו מפריד, והקוד, כמו \\py| a = 5\\js| let a = 5;\\. הקורא רואה את הגרסה שמתאימה לשפה שבחר. נתמכות Python‏ (py)‏, JavaScript‏ (js) ו־Java‏ (jv)."
             ]
         },
         "Localized": {
@@ -7049,7 +7055,7 @@
                     "format": "$~פורמט שזוהה"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~בחר צבע מהמסך שלך"
                 }
             },
             "logo": {
@@ -7469,7 +7475,7 @@
                 },
                 "collaborators": "$~נכתב על ידי",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~הצג הוראות"
                 }
             },
             "configuration": {
@@ -8240,8 +8246,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~תן לפרויקט לבחור לבד סמל תצוגה מקדימה לפי מה שהוא מציג",
+                            "$~קבע סמל שאתה בוחר"
                         ]
                     },
                     "research": {
@@ -10219,7 +10225,7 @@
                 }
             },
             "strings": "$~מחרוזות תרגום",
-            "emotion": "Choose an emotion",
+            "emotion": "$~בחר רגש",
             "invalidName": "$~שם לא חוקי של משחק מילים",
             "reference": "$~הפניה באנגלית",
             "invalidConceptLinks": "$~קישורי מושגים אלה אינם נפתרים בשפה הנוכחית. האם שגיאת כתיב אחת, או שהסרת אותה בכוונה?",

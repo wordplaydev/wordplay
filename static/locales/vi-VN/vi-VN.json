@@ -304,19 +304,20 @@
             "description": "$~tài liệu$language[ bằng $language|], $#words[$words từ]",
             "emotion": "serious",
             "doc": [
-                "$~Tôi định dạng đẹp mắt mọi thứ bằng @Markup, như lời giải thích cho một phần @Program của bạn, hoặc thậm chí những từ bạn đặt lên sân khấu bằng @Phrase.",
+                "$~Tôi định dạng phong phú mọi thứ bằng @Markup, như phần giải thích cho một số @Program của bạn, hoặc thậm chí là những từ bạn đặt lên sân khấu bằng @Phrase.",
                 "Ví dụ, tôi có thể đứng trước bất kỳ @expression nào:",
                 "\\¶Cái này thật sự phải là 7 sao?¶\n7\\",
                 "Ví dụ, bạn có thể đặt tôi trước @Bind:",
-                "\\¶Tôi đo xem ai đó cao bao nhiêu¶\nchiềuCao: 5m\\🪲",
+                "\\¶Tôi đo xem một người cao bao nhiêu¶\nchiềuCao2: 5m\\🪲",
                 "Hoặc trước một @FunctionDefinition:",
-                "\\¶Tôi cộng hai số¶\nƒ tổng(a•# b•#) a + b\\",
+                "\\¶Tôi cộng hai số¶\nƒ tổng2(a2•# b2•#) a2 + b2\\",
                 "Hoặc trước một @StructureDefinition:",
-                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\",
-                "You can also place me at the very beginning of @Program to say what the whole performance is about",
-                "\\¶This program says hello¶\n\n'hello!'\\",
-                "You can give me a @Language to help others know what language I'm written in:",
-                "\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
+                "\\¶Tôi ghi nhớ tên và loại trái cây yêu thích của mọi người¶\n•người(tên3•'' tráiCây•'')\\",
+                "Bạn cũng có thể đặt tôi ở ngay đầu @Program để nói xem toàn bộ buổi trình diễn nói về điều gì",
+                "\\¶Chương trình này nói xin chào¶\n\n'xin chào!'\\",
+                "Bạn có thể cho tôi một @Language để giúp người khác biết tôi được viết bằng ngôn ngữ nào:",
+                "\\¶Tôi là tài liệu tiếng Anh¶\nthờiLượng: 5s\\🪲",
+                "Bạn có biết bạn có thể tạo một danh sách gồm những cái như tôi không? Hãy đi hỏi @Docs."
             ]
         },
         "Docs": {
@@ -567,9 +568,11 @@
             "description": "$~ví dụ mã số $code",
             "emotion": "serious",
             "doc": [
-                "$~Tôi giữ một ví dụ nhỏ về mã số bên trong một @Doc, như thế này:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\\n\nIf you are using Examples in your how-tos, you can tag one Example as a highlight.\n\n\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
-                "Ví dụ được tô sáng hiện ra như bản xem trước trong khoảng @how và @guide."
+                "$~Tôi giữ một đoạn mã số ví dụ bên trong một @Doc, như thế này:",
+                "\\¶Đây là một ví dụ về phép cộng: \\1 + 2\\¶\n3 + 4\\",
+                "Nếu bạn đang dùng các Ví dụ trong bài làm cách nào để của mình, bạn có thể gắn nhãn nổi bật cho một Ví dụ.",
+                "\\¶Đây là một ví dụ được đánh dấu nổi bật: \\1 + 2\\⭐¶\n3 + 4\\",
+                "Ví dụ được gắn nhãn nổi bật sẽ được hiển thị làm bản xem trước trong không gian @how và @guide."
             ]
         },
         "Mention": {
@@ -921,9 +924,12 @@
             "description": "$~$expression đã có tài liệu",
             "emotion": "eager",
             "doc": [
-                "$~Tôi là bất kỳ @expression nào, nhưng với một @Doc!",
+                "$~Tôi là bất kỳ @expression nào, nhưng có thêm một @Doc!",
                 "Để tạo ra tôi, chỉ cần đặt một @Doc trước một biểu thức, và bạn sẽ có tôi:",
-                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\\n\nI'm useful for making a comment on some part of a program.\n\nIf you put 👀 in the @Doc, I can also highlight the expression:\n\n\\¶Look at me! 👀¶1+1\\"
+                "\\gấpĐôiCộng: 1\n(2 × gấpĐôiCộng) +\n\t¶Hãy làm cho nó to hơn một chút¶\n\t1\\",
+                "Tôi hữu ích để ghi chú về một phần nào đó của chương trình.",
+                "Nếu bạn đặt 👀 vào @Doc, tôi cũng có thể làm nổi bật biểu thức đó:",
+                "\\¶Nhìn tôi này! 👀¶\n1 + 1\\"
             ],
             "start": "$~Hãy đánh giá biểu thức này."
         },
@@ -2079,8 +2085,8 @@
             "description": "$~ví dụ mã số bên ngoài$languages[ bằng $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Tôi hiển thị mã được tô sáng cú pháp, được viết bằng các ngôn ngữ lập trình khác, để những người sáng tạo đã biết lập trình có thể so sánh.",
-                "Viết một biến thể cho mỗi ngôn ngữ dưới dạng thẻ hai chữ cái, dấu gạch ngang và mã, ví dụ: \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "$~Tôi hiển thị mã số có tô sáng cú pháp được viết bằng các ngôn ngữ lập trình khác, để những người sáng tạo đã biết viết mã có thể so sánh.",
+                "Hãy viết mỗi phiên bản cho một ngôn ngữ dưới dạng nhãn hai chữ cái, một dấu gạch đứng, rồi đến mã số, ví dụ như \\py| a = 5\\js| let a = 5;\\. Người đọc sẽ thấy phiên bản khớp với ngôn ngữ họ đã chọn. Hỗ trợ Python (py), JavaScript (js) và Java (jv)."
             ]
         },
         "Localized": {
@@ -7060,7 +7066,7 @@
                     "format": "$~định dạng được phát hiện"
                 },
                 "pick": {
-                    "tip": "select a color from your screen"
+                    "tip": "$~chọn một màu từ màn hình của bạn"
                 }
             },
             "logo": {
@@ -7480,7 +7486,7 @@
                 },
                 "collaborators": "$~được viết bởi",
                 "view": {
-                    "tip": "view how-to"
+                    "tip": "$~xem làm cách nào để"
                 }
             },
             "configuration": {
@@ -8257,8 +8263,8 @@
                     },
                     "preview": {
                         "tips": [
-                            "let the project pick its own preview glyph based on what it shows",
-                            "pin a glyph you choose"
+                            "$~để dự án tự chọn hình biểu tượng xem trước dựa trên nội dung nó hiển thị",
+                            "$~ghim một hình biểu tượng bạn chọn"
                         ]
                     },
                     "research": {
@@ -10241,7 +10247,7 @@
                 }
             },
             "strings": "$~Chuỗi dịch",
-            "emotion": "Choose an emotion",
+            "emotion": "$~Chọn một cảm xúc",
             "invalidName": "$~Không phải là tên chơi chữ hợp lệ.",
             "reference": "$~Tài liệu tham khảo tiếng Anh",
             "invalidConceptLinks": "$~Các liên kết khái niệm này không hoạt động trong ngôn ngữ hiện tại. Bạn có viết sai chính tả một trong số chúng, hay cố tình xóa chúng đi?",
