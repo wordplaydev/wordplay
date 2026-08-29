@@ -1,3 +1,4 @@
+import { Unwritten } from '@locale/Annotations';
 import type LocaleText from '@locale/LocaleText';
 import type { NameText } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
@@ -88,4 +89,90 @@ export default function getConceptName(
     id: ConceptTermId,
 ): string {
     return pickReadableName(CONCEPT_NAME[id](locale)) ?? id;
+}
+
+/** The locale entry a `@Concept` id names. `ConceptLink.isValid` asks the same
+ *  question of the same four sections, so it calls this rather than repeating
+ *  the walk: a link that validates but whose name can't be found here would
+ *  render as its raw English id, which is the bug below. */
+export function findConceptEntry(
+    locale: LocaleText,
+    id: string,
+): object | undefined {
+    for (const section of [
+        locale.node,
+        locale.input,
+        locale.output,
+        locale.basis,
+    ]) {
+        if (!(id in section)) continue;
+        for (const [key, entry] of Object.entries(section))
+            if (key === id)
+                return entry !== null && typeof entry === 'object'
+                    ? entry
+                    : undefined;
+    }
+    return undefined;
+}
+
+/** Whether a value is `NameText` — one name or a list of them. */
+function isNameText(value: unknown): value is NameText {
+    return (
+        typeof value === 'string' ||
+        (Array.isArray(value) && value.every((n) => typeof n === 'string'))
+    );
+}
+
+/** A locale entry's own name text. `names` before `name`, because on an output
+ *  concept `name` is a *property* called "name" rather than the concept's own —
+ *  the trap `CONCEPT_NAME` above is hand-written to avoid. `basis.*.name` is
+ *  `NameText` and can be a list (`["⊤⊥", "Boolean"]`), so both shapes count. */
+function nameTextOf(entry: object): NameText | undefined {
+    if ('names' in entry && isNameText(entry.names)) return entry.names;
+    if ('name' in entry && isNameText(entry.name)) return entry.name;
+    return undefined;
+}
+
+/**
+ * The localized name of a `@Concept` id, or undefined when this locale hasn't
+ * written one — the caller's cue to try the next locale.
+ *
+ * This is what a concept link shows where there is no `ConceptIndex`: every page
+ * outside the project, guide, tutorial, and gallery how-to. Those pages may not
+ * build one, since it needs a `Project` and a `Basis` that `importGraph.test.ts`
+ * forbids page-wide chrome from reaching, so the name is read from locale text
+ * instead — with no nodes graph, for the reason this module already documents.
+ * A `property` resolves by canonical key only; matching its localized name is
+ * what `ConceptIndex` is for.
+ */
+export function getConceptNameById(
+    locale: LocaleText,
+    id: string,
+    property?: string,
+): string | undefined {
+    const entry = findConceptEntry(locale, id);
+    if (entry === undefined) return undefined;
+
+    const name = writtenName(entry);
+    if (name === undefined) return undefined;
+    if (property === undefined) return name;
+
+    for (const [key, value] of Object.entries(entry))
+        if (key === property && value !== null && typeof value === 'object') {
+            const propertyName = writtenName(value);
+            if (propertyName !== undefined) return `${name}.${propertyName}`;
+        }
+    return `${name}.${property}`;
+}
+
+/** An entry's readable name, if this locale wrote one. An unwritten (`$?`) name
+ *  is the English placeholder, which `Names` also filters at runtime, so it must
+ *  not stop the locale chain here either. */
+function writtenName(entry: object): string | undefined {
+    const names = nameTextOf(entry);
+    if (names === undefined) return undefined;
+    const written = (Array.isArray(names) ? names : [names]).filter(
+        (name) => !name.startsWith(Unwritten),
+    );
+    return written.length === 0 ? undefined : pickReadableName(written);
 }

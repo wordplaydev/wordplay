@@ -307,11 +307,20 @@ test('resolving a color needs no basis', () => {
  * reflection now reads to refuse a path en-US hasn't written, was already
  * reachable from all five and costs ~100 bytes of import. File counts are
  * unchanged, which is the signal that matters: this is weight, not reach.
+ *
+ * The landing page's last +0.01MB is localizing concept links off the index
+ * (#572 fallout): `getConceptName` gained a lookup by concept id, and
+ * `ConceptLinkUI` uses it where there is no `ConceptIndex` to resolve against —
+ * which is every page in this table, since none of them may build one. Before
+ * it, every `@Volume` and `@Phrase` on the landing page rendered its English id
+ * in all 29 translated locales. Both files were already reachable from all five
+ * entries, so the file counts do not move and no subgraph is added; the four
+ * other budgets absorbed the same ~4.5KB without moving at all.
  */
 test.each([
     ['src/routes/+layout.svelte', 491, 3.58],
     ['src/components/app/Page.svelte', 513, 3.82],
-    ['src/routes/[[locale]]/+page.svelte', 528, 3.9],
+    ['src/routes/[[locale]]/+page.svelte', 528, 3.91],
     ['src/routes/[[locale]]/galleries/+page.svelte', 532, 3.92],
     ['src/routes/[[locale]]/projects/+page.svelte', 539, 3.94],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
