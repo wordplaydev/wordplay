@@ -1,34 +1,55 @@
-음악이 연주하는 것을 그려 보세요
+음악이 연주되는 모습을 그려보자
 
-들을 수 있는 음악은 절반에 불과해요.  @Beat  스트림은 박자가 울릴 때마다 재생기의 전체 state를 여러분에게 건네줘요. 그래서 무슨 일이 일어나고 있는지 무엇이든 그릴 수 있어요. 
+들리는 음악은 반쪽일 뿐이야.  @Beat  스트림은 박자가 울릴 때마다 연주기의 상태 전체를 나에게 건네줘. 그래서 지금 무슨 일이 벌어지는지 그릴 수 있지. 
 
-@Beat 에는 언제나 여러분에게 줄  @Downbeat 가 있어요. 그래서 바로 읽을 수 있어요. 음악이 시작되기 전에는 아무것도 연주하지 않은 채 박자 0에 머물러 있어요:
+@Beat 는 늘 건네줄  @Downbeat  값을 가지고 있어서, 바로 읽을 수 있어. 음악이 시작되기 전에는 0번째 박자에서 아무것도 연주되지 않은 채 멈춰 있지:
 
 \beat: Beat()
 count: beat.count
-Stage([
-		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] instrument: Instrument.drums))
-	])\
+Stage(
+	[
+		Phrase('🥁' 크기: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] 악기: Instrument.drums))
+	]
+)\
 
-\count\는 박자마다 하나씩 올라가요. 그래서 \count % 4\는 매 네 번째마다 — 강박에서 — \0\가 되고, 드럼이 뛰어올라요.
+\count\은 박자마다 1씩 올라가. 그래서 \count % 4\은 \0\이 네 번째마다 되는데 — 이게 강박이야 — 그때 드럼이 튀어 올라.
 
-그것이 하나의 숫자로 표현된 음악 전체예요. 하지만  @Downbeat 는 \parts\ 목록도 지니고 있어요. 각  @Part 마다 하나씩의  @Track 가 있고,  @Part 는 지금 자기 목소리가 무엇을 하고 있는지 알아요: 자신의 \pitch\, 자신의 \volume\, 자신의 \pan\, 그리고 그것이 \sounding\인지 여부요. 그것들을 그리면 섞인 소리 대신 각 목소리를 따로따로 얻을 수 있어요:
+이게 음악 전체를 숫자 하나로 표현한 거야. 하지만  @Downbeat 은 \parts\ 목록도 함께 가지고 있어,  @Part 마다 하나씩  @Track , 그리고  @Part 은 자기 목소리가 지금 뭘 하고 있는지 알아: 자신의 \pitch\과 \volume\과 \pan\, 그리고 \sounding\ 상태인지 말이야. 이걸 그리면 섞인 소리 대신 목소리 하나하나를 따로 볼 수 있어:
 
 \beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
-Stage([
+ƒ dot(p•Part)•Phrase Phrase(
+		'⬤'
+		0.4m + (p.volume · 1m)
+		위치: Place(
+			(p.pan · 3) · 1m
+			((height(p) · 0.2) - 1) · 1m
+		)
+	)
+Stage(
+	[
 		:parts.translate(ƒ(p•Part) dot(p))
-		Music([
-				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-			])
-	])\
+		Music(
+			[
+				Track(
+					[1 ø 5 ø]
+					악기: Instrument.piano
+					좌우균형: -1
+				)
+				Track(
+					[ø 8 ø 12]
+					악기: Instrument.bell
+					좌우균형: 1
+				)
+			]
+		)
+	]
+)\
 
-각 점은 자기 트랙이 있는 곳에 놓여요: \pan\는 점을 왼쪽이나 오른쪽에 놓고, \pitch\는 점을 위나 아래에 놓아요. 긴 음이 아직 울리고 있는 동안 \sounding\가 참으로 유지되기 때문에, 유지되는 음은 깜빡이며 사라지지 않고 점을 그대로 지켜요.
+점 하나하나는 자기 트랙이 있는 자리에 놓여: \pan\은 왼쪽이나 오른쪽으로, \pitch\은 위나 아래로 놓아줘. \sounding\은 긴 음이 아직 울리는 동안에는 참으로 남아 있어서, 길게 이어지는 음은 사라지지 않고 점을 계속 유지해.
 
-작은 \height\ 함수를 보세요: \pitch\는 /목록/이에요. 화음은 여러 음을 한 번에 소리 내기 때문이에요. 목록에 첫 번째 항목을 물으면 숫자나 \ø\를 돌려줘요. 함수가 \#\를 돌려준다고 정하면, 다시 계산할 수 있는 숫자로 정리돼요.
+작은 \height\ 함수. \pitch\ 은(는) /목록/입니다. 화음은 여러 음을 동시에 울리기 때문에, \p.pitch[1]\ 은(는) 울리고 있는 것 중 가장 낮은 음을 가져옵니다. 그 숫자는 \semitones\ 안에 있고, \1semitones\ 로 나누면 그것을 아래의 \0.2\ 와 \1m\ 와 섞을 수 있는 평범한 숫자로 바꿔줍니다. 함수를 \#\ 로 선언하는 것만으로는 부족합니다: 단순한 \#\ 은(는) /어떤/ 단위든 좋다는 뜻이지, /단위 없음/을 뜻하지는 않습니다. 그래서 반음을 순순히 받아들인 다음, 한 줄 뒤에서야 그것에 대해 불만을 터뜨릴 것입니다.
 
 play-a-sound-effect, react-to-sound, count-with-time

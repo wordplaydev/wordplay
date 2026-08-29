@@ -4,7 +4,7 @@ A  @Phrase  Es wird jedem Zuschauer die passende Übersetzung basierend auf den 
 
 Gib ein  @TextLiteral  Es stehen mehrere Übersetzungen zur Verfügung, darunter eine mehrsprachige, und @wordplay wählt für jeden Zuschauer die am besten geeignete aus:
 
-\Phrase("Hallo"/es"Hallo"/en"Hallo, meine Herren!"/es_en)\
+\Phrase("hola"/es"Hallo"/en"Hallo, meine Herren!"/es_en)\
 
 Ein Zuschauer, dessen bevorzugte Sprache Spanisch ist, sieht /Hallo/Ein Zuschauer, der nur Englisch bevorzugt, sieht /Hallo/Ein Zuschauer, der sowohl Spanisch als auch Englisch bevorzugt, sieht /Hallo, meine Herren!/ — die Spanglish-Version.
 

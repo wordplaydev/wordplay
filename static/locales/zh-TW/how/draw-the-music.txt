@@ -1,34 +1,55 @@
-畫出音樂正在演奏的內容
+畫出音樂正在播放的樣子
 
-你聽到的音樂只是其中一半。每當一個節拍響起， @Beat  串流就會把播放器的完整狀態交給你，所以你可以畫出正在發生的一切。 
+聽到的音樂只是一半而已。 @Beat  串流會在每次節拍響起時，把播放器的整個狀態交給你，讓你可以畫出正在發生的一切。 
 
-@Beat  總是有一個  @Downbeat  可以給你，所以你可以馬上讀取它。在任何音樂開始之前，它停在第零拍，什麼都沒在播放：
+@Beat  永遠都有一個 @Downbeat  可以給你，所以你可以馬上讀取它。在音樂開始播放之前，它停在第零拍，什麼都沒有播放：
 
 \beat: Beat()
 count: beat.count
-Stage([
-		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] instrument: Instrument.drums))
-	])\
+Stage(
+	[
+		Phrase('🥁' 尺寸: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] 樂器: Instrument.drums))
+	]
+)\
 
-這個 \count\ 每一拍都會加一，所以每第四拍 \count % 4\ 就是 \0\——也就是重拍——鼓就會跳動。
+這個 \count\ 每一拍都會加一，所以\count % 4\ 在每第四拍時都是\0\——也就是重拍——鼓就會跳動一下。
 
-那就是整段音樂化成一個數字。但是一個  @Downbeat  也帶著一份 \parts\ 清單，每一個  @Part  對應一個  @Track ，而且每個  @Part  知道它自己的聲音現在正在做什麼：它的 \pitch\、它的 \volume\、它的 \pan\，以及它是不是 \sounding\。把這些畫出來，你就能得到每個聲音各自的樣子，而不只是混在一起的結果：
+這就是把整段音樂變成一個數字。不過一個  @Downbeat  也帶著一個 \parts\ 清單，每個  @Part  各有一個  @Track ，而一個  @Part  知道自己這個聲部現在正在做什麼：它的 \pitch\、它的 \volume\、它的 \pan\，還有它是不是 \sounding\。畫出這些，你就能分別看到每個聲部，而不是混在一起的聲音：
 
 \beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
-Stage([
+ƒ dot(p•Part)•Phrase Phrase(
+		'⬤'
+		0.4m + (p.volume · 1m)
+		位置: Place(
+			(p.pan · 3) · 1m
+			((height(p) · 0.2) - 1) · 1m
+		)
+	)
+Stage(
+	[
 		:parts.translate(ƒ(p•Part) dot(p))
-		Music([
-				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-			])
-	])\
+		Music(
+			[
+				Track(
+					[1 ø 5 ø]
+					樂器: Instrument.piano
+					聲道平衡: -1
+				)
+				Track(
+					[ø 8 ø 12]
+					樂器: Instrument.bell
+					聲道平衡: 1
+				)
+			]
+		)
+	]
+)\
 
-每個點都停在它的音軌所在的位置：\pan\ 把它放到左邊或右邊，\pitch\ 把它放到高處或低處。因為當一個長音還在響時 \sounding\ 會保持為真，所以一個持續的音會保住它的點，而不會閃掉。
+每個點都停在它音軌所在的位置：\pan\ 決定它偏左還是偏右，\pitch\ 決定它偏高還是偏低。因為當一個長音還在響的時候，\sounding\ 會維持為真，所以一個延續的音符會保持它的點，而不會一下就消失。
 
-觀察這個小小的 \height\ 函式：\pitch\ 是一個 /清單/，因為一個和弦會同時發出好幾個音。向清單詢問它的第一個項目，會回傳一個數字或是 \ø\。宣告這個函式會回傳一個 \#\，才能把它確定成一個你可以拿來做算術的數字。
+看看那個小小的 \height\ 函式。\pitch\ 是一個 /清單/，因為和弦會同時發出好幾個音，所以 \p.pitch[1]\ 會取出目前正在響的最低音。那個數字的單位是 \semitones\，除以 \1semitones\ 就能把它變成一個普通數字，讓你可以跟下面的 \0.2\ 和 \1m\ 混在一起用。只把函式宣告成 \#\ 還不夠：光寫 \#\ 的意思是/任何/ 單位，不是/沒有/ 單位，所以它會很樂意接受半音，然後過一行才抱怨。
 
 play-a-sound-effect, react-to-sound, count-with-time

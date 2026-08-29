@@ -22,6 +22,12 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🌙 In dark mode, the highlighted word in a search result was too pale to read on its yellow background. It's dark now, like every other yellow highlight in Wordplay.
+- 🌐 The Python, JavaScript, and Java samples in the [tutorial](https://wordplay.dev/learn) had been translated along with the words around them, which broke the code in all 29 languages. Code reads the same for everyone, so we put it back the way it's written.
+- 📖 About 50 tutorial lines told you to try something without showing it — a sentence about using `+` with no `+` in it. We put the missing examples back in Portuguese, Spanish, Hindi, and Chinese.
+- 📖 In the Spanish and Chinese tutorials, some characters said the same line twice. We kept the better wording and dropped the repeat.
+- 🌐 The examples that teach language tags had lost their tags in every language, showing `'hello'` where they meant `'hello'/en`. They teach what they're for again, and text that is meant to stay in another language is no longer translated away.
+- 📖 Three how-tos — drawing the music, keeping track of a game, and the video grid — were missing examples we had added to the English ones. They're up to date in every language now.
+- 🌐 We fixed names that had been translated into the wrong word, so you can type what the [Guide](https://wordplay.dev/guide) shows. In eleven languages the word for the kind of thing a list holds had become the word for being kind, in Polish a `Set` was the verb for arranging things, and five Hebrew names carried marks nobody types. (#1324)
 
 ## 0.32.0 - 2026-08-26
 

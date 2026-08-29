@@ -1,11 +1,10 @@
 Crear un video desde la cámara
 
-El flujo  @Camera  es una gran manera de obtener una cuadrícula de colores del mundo. ¿Y si queremos ver esos colores, recreando la imagen que  @Camera  ve?
+El flujo de  @Camera  es una excelente manera de obtener una cuadrícula de colores del mundo. ¿Qué pasa si queremos ver esos colores y recrear la imagen que ve la  @Camera ?
 
-Podemos usar el diseño  @Grid  para un  @Group , y la función  @List/combine  para convertir los colores en una lista de  @Phrase  que le damos al  @Grid .
+Podemos usar la disposición  @Grid  para un  @Group , y la función  @List/combine  para convertir los colores en una lista de  @Phrase  que le damos al  @Grid .
 
-\
-width: 24
+\width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
 Stage(
@@ -25,6 +24,6 @@ Stage(
 
 Este ejemplo construye una lista de frases, convirtiendo cada color en un círculo con ese color específico.
 
-Ten cuidado con los flujos  @Camera : ¡producen muchas entradas! Es mejor mantener el ancho y el alto de la imagen pequeños.
+Ten cuidado con los flujos de  @Camera : ¡producen muchísima entrada! Vas a querer mantener pequeños el ancho y el alto de la imagen.
 
 interactive-scene

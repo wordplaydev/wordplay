@@ -27,6 +27,11 @@ import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import type Definition from '@nodes/Definition';
 import Evaluate from '@nodes/Evaluate';
 import Input from '@nodes/Input';
+import Markup from '@nodes/Markup';
+import { LanguageTagged } from '@nodes/LanguageTagged';
+import Language from '@nodes/Language';
+import Names from '@nodes/Names';
+import TextLiteral from '@nodes/TextLiteral';
 import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
@@ -78,6 +83,186 @@ const HebrewMarks = /[֑-ׇ]/gu;
  *  the map is typed as nodes, and only a definition has the `names` this pass reads. */
 function isDefinition(node: Node): node is Node & Definition {
     return 'names' in node;
+}
+
+/**
+ * A source's nodes with everything inside a `Markup` removed, keeping the `Markup` itself.
+ *
+ * Doc prose is the one part of an example whose node count a translation legitimately changes,
+ * since markup emits a `Words` token per line and translations reflow paragraphs freely.
+ */
+function withoutMarkupContents(source: Source): Node[] {
+    const nodes = source.nodes();
+    const inside = new Set<Node>();
+    for (const node of nodes)
+        if (node instanceof Markup)
+            for (const descendant of node.nodes())
+                if (descendant !== node) inside.add(descendant);
+    return nodes.filter((node) => !inside.has(node));
+}
+
+/**
+ * Re-attach the language tags a localized example lost.
+ *
+ * Several en-US examples exist to *teach* language tags — `\"Language"/en\` in `node.Language.doc`,
+ * `\'hello'/en'hola'/es-MX\` in `basis.Text.doc`, the landing page's list of greetings. Localizing
+ * one drops the tag (a `Translation`, `Name`, or `Doc` keeps its text and loses its `Language`),
+ * so every locale ships the lesson with its subject missing, and re-translating reproduces it
+ * exactly. Nothing else re-derives them, so this does.
+ *
+ * The tag is taken from the en-US oracle: a tag naming the source language becomes the reader's
+ * language, since that option is the one whose text was translated, and any other tag is content —
+ * `/es`, `/tr`, `/es_en` name what the text *is*, not who is reading — so it is restored verbatim.
+ *
+ * Returns the repaired code, or undefined when there is nothing to restore or the two examples
+ * differ by more than their tags.
+ */
+function restoreLanguageTags(
+    enSource: Source,
+    loSource: Source,
+    localizedCode: string,
+    language: LanguageCode,
+): string | undefined {
+    // Compare with the tags themselves left out — and with every option after the first, since
+    // localizing a multilingual literal keeps only the one whose text it translated. What
+    // remains must line up exactly, or the examples differ by something this can't reason about.
+    const elide = (source: Source) => {
+        const nodes = withoutMarkupContents(source);
+        const inside = new Set<Node>();
+        const drop = (node: Node) => {
+            for (const descendant of node.nodes()) inside.add(descendant);
+        };
+        for (const node of nodes) {
+            if (node instanceof Language) drop(node);
+            else if (node instanceof TextLiteral)
+                for (const option of node.texts.slice(1)) drop(option);
+            else if (node instanceof Names) {
+                for (const name of node.names.slice(1)) drop(name);
+                // A separator is a *trailing* field of the name before it, so dropping the
+                // extra names leaves its comma behind and the two sides differ by one token.
+                for (const name of node.names)
+                    if (name.separator !== undefined)
+                        inside.add(name.separator);
+            }
+        }
+        return nodes.filter((node) => !inside.has(node));
+    };
+    const enNodes = elide(enSource);
+    const loNodes = elide(loSource);
+    if (
+        enNodes.length !== loNodes.length ||
+        enNodes.some(
+            (node, index) =>
+                node.getDescriptor() !== loNodes[index]?.getDescriptor(),
+        )
+    )
+        return undefined;
+
+    /** A node's bounds, in the grapheme space its source counts positions in. */
+    const startOf = (source: Source, node: Node) => {
+        const first = node.leaves()[0];
+        return first === undefined
+            ? undefined
+            : source.getTokenTextPosition(first);
+    };
+    const endOf = (source: Source, node: Node) => {
+        const last = node.leaves().at(-1);
+        return last === undefined
+            ? undefined
+            : source.getTokenLastPosition(last);
+    };
+
+    // Restored text is read from the source rather than re-serialized, so an emoji carrying a
+    // presentation selector survives — the `toWordplay` trap `splice` documents. The offsets
+    // index the serialized source, so a program whose serialization isn't what we were handed
+    // can't be spliced at all.
+    if (loSource.code.getText() !== localizedCode) return undefined;
+    const enGraphemes = [...enSource.code.getGraphemes()];
+    const loGraphemes = [...loSource.code.getGraphemes()];
+
+    // `order` breaks ties at one position: a first option's tag goes before the options
+    // restored after it.
+    const edits: { at: number; length: number; order: number; text: string }[] =
+        [];
+    for (let index = 0; index < enNodes.length; index++) {
+        const enNode = enNodes[index];
+        const loNode = loNodes[index];
+
+        if (
+            enNode instanceof LanguageTagged &&
+            loNode instanceof LanguageTagged &&
+            enNode.language !== undefined
+        ) {
+            const codes = enNode.language.getLanguageCodes();
+            if (codes.length === 1 && codes[0] === DefaultLocale.language) {
+                // Already tagged: nothing to say about it.
+                if (loNode.language !== undefined) continue;
+                // A tag naming the source language marks the option whose text was translated,
+                // so it becomes the reader's language.
+                const at = endOf(loSource, loNode);
+                if (at === undefined) return undefined;
+                edits.push({ at, length: 0, order: 0, text: `/${language}` });
+            } else {
+                // Any other tag says what the text *is* — `'hola'/es` is Spanish for every
+                // reader — so the whole option comes back from en-US. Translating one is the
+                // mistake the tag exists to warn about, and locales did make it: sr-RS shipped
+                // `конничива` where en-US has `こんにちは`.
+                const at = startOf(loSource, loNode);
+                const end = endOf(loSource, loNode);
+                const from = startOf(enSource, enNode);
+                const to = endOf(enSource, enNode);
+                if (
+                    at === undefined ||
+                    end === undefined ||
+                    from === undefined ||
+                    to === undefined
+                )
+                    return undefined;
+                const text = enGraphemes.slice(from, to).join('');
+                if (text === loGraphemes.slice(at, end).join('')) continue;
+                edits.push({ at, length: end - at, order: 0, text });
+            }
+        }
+
+        // Options the localizer dropped, restored verbatim: they are text in another language,
+        // not something a translation replaces. Taken as one span from the end of the last
+        // option the locale kept, so a name's separator and the spacing come with it.
+        const kept =
+            enNode instanceof TextLiteral && loNode instanceof TextLiteral
+                ? enNode.texts.length > loNode.texts.length
+                    ? enNode.texts[loNode.texts.length - 1]
+                    : undefined
+                : enNode instanceof Names && loNode instanceof Names
+                  ? enNode.names.length > loNode.names.length
+                      ? (() => {
+                            const name = enNode.names[loNode.names.length - 1];
+                            return name.language ?? name.name;
+                        })()
+                      : undefined
+                  : undefined;
+        if (kept !== undefined) {
+            const at = endOf(loSource, loNode);
+            const from = endOf(enSource, kept);
+            const to = endOf(enSource, enNode);
+            if (at === undefined || from === undefined || to === undefined)
+                return undefined;
+            edits.push({
+                at,
+                length: 0,
+                order: 1,
+                text: enGraphemes.slice(from, to).join(''),
+            });
+        }
+    }
+    if (edits.length === 0) return undefined;
+
+    // Grapheme space, and last first, for the reasons `splice` gives.
+    const graphemes = [...loGraphemes];
+    for (const edit of [...edits].sort(
+        (a, b) => b.at - a.at || b.order - a.order,
+    ))
+        graphemes.splice(edit.at, edit.length, edit.text);
+    return graphemes.join('');
 }
 
 /** Conflicts in a program, analyzed in one locale. Deliberately not `analyzeCode`, whose cache
@@ -151,14 +336,47 @@ function retarget(
     // Localizing an example only renames and replaces text, so the two trees are the same
     // shape. Anything else means the en-US example has since changed, and pairing nodes by
     // position would pair unrelated ones.
-    const enNodes = enSource.nodes();
-    const loNodes = loSource.nodes();
+    //
+    // Prose inside a `¶…¶` doc is the exception: markup emits one `Words` token per line, so
+    // a translation that reflowed a paragraph onto one line has fewer nodes while its code is
+    // untouched — which is why every locale's `choose-adventure` how-to and `node.Markup.doc`
+    // read as divergent though no code differs. Nothing below renames inside markup (only
+    // `Input`, `Reference`, and `NameType` are retargeted, and a doc holds none of them), so
+    // markup's contents are left out of both the comparison and the pairing. An example
+    // nested inside a doc is left out with it, which forgoes a rename rather than risking a
+    // wrong one.
+    const enNodes = withoutMarkupContents(enSource);
+    const loNodes = withoutMarkupContents(loSource);
     const aligned =
         enNodes.length === loNodes.length &&
         enNodes.every(
             (node, index) =>
                 node.getDescriptor() === loNodes[index]?.getDescriptor(),
         );
+    // A localized example that differs from en-US only in what its language tags carry is
+    // repairable rather than divergent; putting those back makes the two the same shape again,
+    // so the retargeting below can run on the result.
+    const restored = restoreLanguageTags(
+        enSource,
+        loSource,
+        localizedCode,
+        language,
+    );
+    if (
+        restored !== undefined &&
+        restored !== localizedCode &&
+        // Never hand back an example the restore broke — the guarantee `splice` makes. A
+        // locale whose own word already *is* the other language's gets a duplicate name
+        // otherwise: es-MX translates `cat` to `gato`, which is exactly what en-US's second
+        // option says, so restoring it produced `gato/es, gato/es`.
+        conflictCount(restored, locale) <= conflictCount(localizedCode, locale)
+    ) {
+        const result = retarget(enCode, restored, locale, language);
+        return result.kind === 'retargeted'
+            ? { ...result, renamed: result.renamed + 1 }
+            : { kind: 'retargeted', code: restored, renamed: 1 };
+    }
+
     if (!aligned)
         return renames.length === 0
             ? { kind: 'divergent' }

@@ -237,13 +237,14 @@ export function queuedForTranslation(text: string, override: boolean): boolean {
  * Whether a cleanly dropped `\…\` pair should fail the run rather than warn.
  *
  * It is real damage — the reader is told to "just use `\+\`" and the `+` isn't
- * there — but ~170 dialog strings across 26 locales are in that state today,
- * and each needs a re-translation to repair, so failing on them would make
- * every run red with no cheap fix. The breakages that *do* fail (an orphaned
- * delimiter, an unclosed literal) are a set small enough to repair in one
- * sitting. Flip this once the rest have been re-translated.
+ * there. ~170 dialog strings across 26 locales were in that state when the check
+ * landed, so it warned rather than failed while the backlog was worked off: the
+ * machine-translated ones were re-translated, and the last 46 — hand-written
+ * prose a model would only overwrite — were repaired by hand against the en-US
+ * source. The count is zero, so drift fails like everything else now; a run that
+ * goes red here means a translation just lost an example it was teaching.
  */
-const DelimiterDriftIsFatal = false;
+const DelimiterDriftIsFatal = true;
 
 export type DialogDelimiterProblem = {
     /** Which paragraph of the line: always ≥ 2, since 0 and 1 are the character

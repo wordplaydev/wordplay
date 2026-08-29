@@ -1,21 +1,29 @@
 Créer une vidéo à partir de la caméra
 
-Le  @Camera Le flux est un excellent moyen d'obtenir une grille de couleurs du monde.Et si nous voulions voir ces couleurs, recréer l'image de la @Camera voit?
+Le flux  @Camera  est une bonne façon d'obtenir une grille de couleurs du monde réel.Et si on voulait voir ces couleurs, en recréant l'image que  @Camera  voit ?
 
-Nous pouvons utiliser le @Grid mise en page pour un @Group , et  @List/combine fonction pour convertir les couleurs en une liste de @Phrase que nous donnons à la @Grid .
+On peut utiliser la disposition  @Grid  pour un  @Group , et la fonction  @List/combine  pour convertir les couleurs en une liste de  @Phrase  qu'on donne au  @Grid .
 
 \width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+Stage(
+	[
+		Group(
+			Grid(height width 0m)
+			colors.combine(
+				[]
+				ƒ(phrases row) [
 						:phrases
-						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
-					]))
-	])\
+						:row ↦ Phrase("⬤" couleur: ⬚ durée: 0s)
+					]
+			)
+		)
+	]
+)\
 
-Cet exemple crée une liste de phrases, en convertissant chaque couleur en un cercle avec la couleur spécifique.
+Cet exemple construit une liste de phrases, en transformant chaque couleur en un cercle de cette couleur.
 
-Soyez prudent avec @Camera Flux : ils génèrent beaucoup d'informations ! Il est conseillé de réduire la largeur et la hauteur de l'image.
+Fais attention avec les flux  @Camera  : ils produisent beaucoup d'entrées ! Il vaut mieux garder la largeur et la hauteur de l'image petites.
 
 interactive-scene

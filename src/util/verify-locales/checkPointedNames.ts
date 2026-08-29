@@ -26,11 +26,25 @@ import type Log from '@util/verify-locales/Log';
  *  carries harakat on 17 ar-SA names, which wants its own look. */
 const HebrewMarks = /[֑-ׇ]/gu;
 
-/** The scope a name has to be unique within: the definition holding it. `output.Phrase.bubble.names`
- *  and `output.Phrase.place.names` are siblings; so are two functions of one basis type, and two
- *  inputs of one function. */
-function scopeOf(path: (string | number)[]): string {
-    return path.slice(0, -1).join('.');
+/** Fields that name the definition they sit on, rather than something inside it. */
+const IdentityKeys = new Set(['name', 'names']);
+
+/**
+ * The scope a name has to be unique within.
+ *
+ * An *identity* field names the definition itself, so it competes with its siblings one level up:
+ * `output.Phrase.bubble.names` and `output.Phrase.place.names` are both `output.Phrase`. Every
+ * other `NameText` field is a *member* of the definition it sits directly on — a basis type
+ * variable (`basis.List.kind`), an easing (`output.Easing.pokey`), a text effect — and competes
+ * only with that definition's other members.
+ *
+ * Keying both off `path.slice(0, -1)` put every basis type variable in one flat `basis` scope, so
+ * `basis.List.kind` and `basis.Set.kind` read as a collision. They aren't: en-US names them alike
+ * on purpose (`Kind`, `Kind`), as does every locale, because they are type variables of different
+ * definitions.
+ */
+function scopeOf(path: (string | number)[], key: string | number): string {
+    return (IdentityKeys.has(String(key)) ? path.slice(0, -1) : path).join('.');
 }
 
 export default function checkPointedNames(
@@ -48,7 +62,7 @@ export default function checkPointedNames(
         isNameTextPath([...pair.path, pair.key]),
     );
     for (const pair of pairs) {
-        const scope = scopeOf(pair.path);
+        const scope = scopeOf(pair.path, pair.key);
         const byName = scopes.get(scope) ?? new Map<string, Set<string>>();
         scopes.set(scope, byName);
         for (const name of Array.isArray(pair.value)
@@ -76,7 +90,7 @@ export default function checkPointedNames(
             if (plain === name) return name;
             // Would the unpointed form be a second name for something else here?
             const sharing = scopes
-                .get(scopeOf(pair.path))
+                .get(scopeOf(pair.path, pair.key))
                 ?.get(withoutAnnotations(plain));
             if (sharing !== undefined && sharing.size > 1) {
                 collisions.push(

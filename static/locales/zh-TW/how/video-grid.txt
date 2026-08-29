@@ -1,21 +1,29 @@
-使用相機創建視頻
+從相機建立一段影片
 
-這 @Camera 流是從世界獲取顏色網格的好方法。如果我們想看到這些顏色，重建圖像 @Camera 看到了嗎？
+這個  @Camera  串流是取得世界顏色格線的好方法。如果我們想看看這些顏色，重現  @Camera  看到的畫面呢？
 
-我們可以使用 @Grid 佈局 @Group ， 和 @List/combine 函數將顏色轉換為列表 @Phrase 我們給予 @Grid 。
+我們可以用  @Grid  版面配置來排出一個  @Group ，再用  @List/combine  函式把顏色轉換成一份  @Phrase  清單， @Grid  就是我們要交給它的東西。
 
 \width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+Stage(
+	[
+		Group(
+			Grid(height width 0m)
+			colors.combine(
+				[]
+				ƒ(phrases row) [
 						:phrases
-						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
-					]))
-	])\
+						:row ↦ Phrase("⬤" 色彩: ⬚ 持續時間: 0s)
+					]
+			)
+		)
+	]
+)\
 
-此範例建立了一個短語列表，將每種顏色轉換為具有特定顏色的圓圈。
+這個範例會建立一份詞句清單，把每個顏色轉換成該顏色的一個圓形。
 
-小心 @Camera 流：它們會產生大量的輸入！你需要保持圖像的寬度和高度較小。
+使用  @Camera  串流時要小心：它們會產生大量輸入！你會想要把圖片的寬度和高度設小一點。
 
 interactive-scene

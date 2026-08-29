@@ -69,9 +69,10 @@ describe('findDialogDelimiterProblems', () => {
         ).toEqual([]);
     });
 
-    test('a dropped example pair is drift, and only warns for now', () => {
+    test('a dropped example pair is a hard error', () => {
         // The ~190-line case: the translator rewrote "just use \+\" as prose,
-        // so the reader is told about a symbol that isn't there.
+        // so the reader is told about a symbol that isn't there. That backlog has
+        // been repaired, so `DelimiterDriftIsFatal` is on and this fails the run.
         const problems = findDialogDelimiterProblems(
             line("But it's so much easier to just use \\+\\ for this."),
             line('$~Pero es mucho más fácil usar el signo más para esto.'),
@@ -81,8 +82,19 @@ describe('findDialogDelimiterProblems', () => {
                 index: 2,
                 kind: 'drift',
                 delimiter: '\\…\\',
-                severity: 'warning',
+                severity: 'error',
             },
+        ]);
+    });
+
+    test('drift in a string still queued for the translator only warns', () => {
+        // `$?`/`$!` is acknowledged debt: the run that repairs it is already queued.
+        const problems = findDialogDelimiterProblems(
+            line("But it's so much easier to just use \\+\\ for this."),
+            line('$!Pero es mucho más fácil usar el signo más para esto.'),
+        );
+        expect(problems.map((problem) => problem.severity)).toEqual([
+            'warning',
         ]);
     });
 

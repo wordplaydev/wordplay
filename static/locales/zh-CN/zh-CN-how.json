@@ -59,14 +59,14 @@
         "id": "shake-phrase",
         "title": "让字符产生抖动效果",
         "category": "randomization",
-        "body": "有时候，让一个字符看起来在“抖动”会很有用。我们可以用几种不同的方法来实现这个效果。\n\n我们可以使用 @Phrase/offset 结合 @Random 和 @Time 来实现这一点。\n\n\\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)\nPhrase('你好' offset: Place(offset 0m))\\\n\n这段代码会创建一个名为 offset 的值，它会在每次时间变化时被更新为一个新的随机值。然后，这个 offset 会被用来控制 @Phrase 的偏移位置，从而让文字产生抖动效果。\n\n如果我们想更精确地控制震动的节奏和幅度，可以使用 @Sequence 制作重复播放的随机抖动动画。\n\n\\Phrase('你好' resting: Sequence({\n\t\t\t0%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t15%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t60%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t\t75%: Pose(offset: Place(Random(-.2m .2m)))\n\t\t} 0.1s))\\\n\n在这个例子中，系统只在开始时生成一次随机值，但会将这些值组织成一个可重复播放的序列，从而形成持续的抖动动画效果。",
+        "body": "有时候，让一个字符看起来在“抖动”会很有用。我们可以用几种不同的方法来实现这个效果。\n\n我们可以使用 @Phrase/offset 结合 @Random 和 @Time 来实现这一点。\n\n\\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)\nPhrase('你好' 偏移: Place(offset 0m))\\\n\n这段代码会创建一个名为 \\offset\\ 的值，它会在每次时间变化时被更新为一个新的随机值。然后，这个 offset 会被用来控制 @Phrase 的偏移位置，从而让文字产生抖动效果。\n\n如果我们想更精确地控制震动的节奏和幅度，可以使用 @Sequence 制作重复播放的随机抖动动画。\n\n\\Phrase('你好' 休息: Sequence({\n\t\t\t0%: Pose(偏移: Place(Random(-.2m .2m)))\n\t\t\t15%: Pose(偏移: Place(Random(-.2m .2m)))\n\t\t\t60%: Pose(偏移: Place(Random(-.2m .2m)))\n\t\t\t75%: Pose(偏移: Place(Random(-.2m .2m)))\n\t\t} 0.1s))\\\n\n在这个例子中，系统只在开始时生成一次随机值，但会将这些值组织成一个可重复播放的序列，从而形成持续的抖动动画效果。",
         "related": ["move-phrase"]
     },
     {
         "id": "video-grid",
-        "title": "使用相机创建视频",
+        "title": "从摄像头创建一段视频",
         "category": "video",
-        "body": "@Camera 是一个从现实世界获取颜色网格的绝佳方法。那么，如果我们想要“看到”这些颜色，也就是重现 @Camera 所看到的图像，该怎么做呢？\n\n我们可以在 @Group 中使用 @Grid 布局，并结合一个函数，将这些颜色转换为一个 @Phrase 列表，再把这个列表传递给 @Grid 来进行展示。\n\\width: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([\n\t\tGroup(Grid(height width 0m) colors.combine([] ƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row.translate(ƒ(color) Phrase(\"⬤\" color: color duration: 0s))\n\t\t\t\t\t]))\n\t])\\\n\n这个示例构建了一个短语列表，将每种颜色转换为对应颜色的圆圈。\n\n使用 @Camera 时需要特别注意：它们会产生大量的输入数据！因此，请务必将图像的宽度和高度控制得尽量小。",
+        "body": "该  @Camera  流是从真实世界获取一个颜色网格的好方法。如果我们想看到这些颜色，重新创建  @Camera  看到的图像呢？\n\n我们可以用  @Grid  布局来排列  @Group ，再用  @List/combine  函数把颜色转换成一个  @Phrase  列表，交给  @Grid 。\n\n\\width: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage(\n\t[\n\t\tGroup(\n\t\t\tGrid(height width 0m)\n\t\t\tcolors.combine(\n\t\t\t\t[]\n\t\t\t\tƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row ↦ Phrase(\"⬤\" 颜色: ⬚ 持续时间: 0s)\n\t\t\t\t\t]\n\t\t\t)\n\t\t)\n\t]\n)\\\n\n这个例子建立了一个短语列表，把每种颜色都转换成一个对应颜色的圆形。\n\n要小心使用  @Camera  流：它们会产生很多输入！你得把图像的宽度和高度设小一点。",
         "related": ["interactive-scene"]
     },
     {
@@ -80,7 +80,7 @@
         "id": "track-game-state",
         "title": "记录游戏状态",
         "category": "remembering",
-        "body": "大多数游戏在进行过程中都会跟踪多种信息：分数、玩家位置以及其他细节，这些都是游戏的关键组成部分。\n每次进行输入时，游戏状态就会发生变化，然后我们希望根据这些变化展示新的输出，并以此作为响应。\n\n任何游戏通常都会用一个通用模式，包含三个部分：\n\n• 定义一个游戏状态的数据结构，用于存储所有游戏状态信息\n• 定义一个反应（reaction），当有新的输入时，根据先前的游戏状态创建一个新的游戏状态\n• 使用 @Stage  ，  @Group  和  @Phrase 来显示游戏状态\n\n例如，加入我们有一个简单的游戏，其中玩家需要在文本框中输入秘密单词，每次猜出一个秘密单词就会获得一分：\n\n\\•Game(secrets•[''] points•#)\nstate: Game(['猫' '狗'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(state.points = state.secrets.length() ? [Phrase(\"你赢了！\")] [\n\t\t\tGroup(Stack() [\n\t\t\t\t\tPhrase(\"猜猜我的秘密单词\")\n\t\t\t\t\tPhrase(`\\state.secrets.length() - state.points\\更多秘密`) \t\t\t\t]) \t\t])\\\n\n让我们来逐步分解一下。\n\n• 第一行，\\•Game(secrets•[''] points•#)\\表示，/创建一个名为 \\Game\\ 的数据结构，用来存储秘密单词列表和分数/\n• 第二行表示/游戏状态从“包含一组秘密单词、分数为 0”开始。每当\\Chat\\改变时，如果输入的单词存在于秘密单词列表中，就创建一个新的游戏状态，并将分数增加1/。\n• 每次程序重新计算时（当\\Chat\\发生变化时），显示一个阶段（stage）。如果分数等于秘密单词的数量，则显示胜利界面。如果分数不相等，则显示提示信息和剩余未被猜中的秘密单词数量。\n\n这个例子存在一些问题：\n\n• 如果他们多次猜出同一个秘密单词，就能获得更多分数！我们的游戏状态可能还需要记住已经猜对的秘密单词，所以每个单词只能被计算两次。\n• 如果玩家一次性输入多个单词，是否应该算作一次正确猜测？\n\n要处理这些情况，就需要设计更复杂的游戏状态和更完善的状态更新逻辑。",
+        "body": "大多数游戏在进行时都会记录很多东西：分数、玩家位置和其他细节，全都很关键。每次有输入进来，状态就会改变，接着我们就要显示新的输出，来回应这个变化。\n\n任何游戏都可以用一个通用模式来做三件事：\n\n• 定义一个游戏状态数据结构，用来存储所有的游戏状态• 定义一个反应，每次有新输入时，根据之前的游戏状态生成新的游戏状态• 用  @Stage  搭配  @Group  和  @Phrase  做一个 \n\n来显示游戏状态\n\n\\•Game(secrets•[''] points•#)\nstate: Game(\n\t\t['举个例子，我们来想象一个简单的游戏：在文本框里输入秘密单词，每猜中一个秘密单词就得一分：' '猫']\n\t\t0\n\t) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(\n\tstate.points = state.secrets.length() ? [Phrase(\"狗\")] [\n\t\t\tGroup(\n\t\t\t\tStack()\n\t\t\t\t[\n\t\t\t\t\tPhrase(\"你赢啦！\")\n\t\t\t\t\tPhrase(\n\t\t\t\t\t\t`\\state.secrets.length() - state.points\\猜猜我的秘密单词`\n\t\t\t\t\t)\n\t\t\t\t]\n\t\t\t)\n\t\t]\n)\\\n\n 个秘密\n\n我们来拆解一下这段代码吧。\\•游戏(秘密•[''] 分数•#)\\• 第一行，/ 的意思是，\\Game\\做一个叫 / 的数据结构，用来存储一份秘密单词列表和分数\\[\n\t''\n]\\。这里的 / 意思是/任意数量单词组成的列表\\[#'']\\是一个包含两样东西的列表：一个数字，然后是一个单词。• 第二行说的是 /游戏状态一开始是一份秘密单词列表，加零分。每次 \\聊天\\ 变化时，如果输入的单词在秘密列表里，就生成一个新的游戏状态，把分数加一/。• 每次程序重新求值时（也就是 \\聊天\\ 变化时），就显示一个舞台。如果分数等于秘密单词的数量，就显示获胜的舞台。如果不是，就显示一个提示，还有剩下多少个秘密单词。\n\n这个例子有一些问题：\n\n• 如果玩家多次猜中同一个秘密单词，就会得到更多分数！我们的游戏状态可能还需要记住猜过哪些单词，这样每个单词最多只算两次。• 如果玩家一次输入多个单词，算不算呢？\n\n更完善的游戏状态和更新方式，能帮我们处理这些情况。",
         "related": ["track-points"]
     },
     {
@@ -192,7 +192,7 @@
         "id": "mix-languages-in-text",
         "title": "迎接多语种观众",
         "category": "styling",
-        "body": "一个  @Phrase  根据观众选择的语言，向他们显示正确的翻译。如果您的观众讲西班牙语，您可以用西班牙语与他们交流；如果他们既讲西班牙语又讲英语（西班牙语和英语混杂！），您可以混合使用这两种语言。\n\n给予  @TextLiteral  提供多种译本，包括多语言译本，@wordplay 会为每位观众挑选最合适的译本：\n\n\\Phrase(\"你好\"/es\"你好\"/en\"你好，先生\"/es_en)\\\n\n一位首选语言仅为西班牙语的观众会看到 /你好/只喜欢英语的观众会看到 /你好/一位既喜欢西班牙语又喜欢英语的观众会看到 /你好，先生/ — 西班牙语和英语混合版本。\n\n文字游戏倾向于最精确的匹配，因此，当两种翻译都适用时，单语翻译总是优于多语翻译。",
+        "body": "一个  @Phrase  根据观众选择的语言，向他们显示正确的翻译。如果您的观众讲西班牙语，您可以用西班牙语与他们交流；如果他们既讲西班牙语又讲英语（西班牙语和英语混杂！），您可以混合使用这两种语言。\n\n给予  @TextLiteral  提供多种译本，包括多语言译本，@wordplay 会为每位观众挑选最合适的译本：\n\n\\Phrase(\"hola\"/es\"你好\"/en\"你好，先生\"/es_en)\\\n\n一位首选语言仅为西班牙语的观众会看到 /你好/只喜欢英语的观众会看到 /你好/一位既喜欢西班牙语又喜欢英语的观众会看到 /你好，先生/ — 西班牙语和英语混合版本。\n\n文字游戏倾向于最精确的匹配，因此，当两种翻译都适用时，单语翻译总是优于多语翻译。",
         "related": ["styling-text"]
     },
     {
@@ -204,9 +204,9 @@
     },
     {
         "id": "draw-the-music",
-        "title": "画出音乐正在播放的内容",
+        "title": "把音乐画出来",
         "category": "music",
-        "body": "你能听到的音乐只是它的一半。 @Beat  数据流会在每次节拍响起时，把播放器的全部state交给你，这样你就能画出正在发生的一切。 \n\n@Beat  总是有一个  @Downbeat  可以交给你，所以你可以立刻读取它。在任何音乐开始之前，它停在第零拍，什么都不播放：\n\n\\beat: Beat()\ncount: beat.count\nStage([\n\t\tPhrase('🥁' size: ((count % 4) = 0) ? 2m 1m)\n\t\tMusic(Track([1 1 1 1] instrument: Instrument.drums))\n\t])\\\n\n这个 \\count\\ 每一拍加一，所以每逢第四拍——也就是强拍—— \\count % 4\\ 就是 \\0\\ ，鼓就会跳起来。\n\n这就是把整段音乐变成一个数字。但是  @Downbeat  还带着一个 \\parts\\ 列表，每个  @Part  对应一个  @Track  ，而且一个  @Part  知道它自己的声音此刻在做什么：它的 \\pitch\\ 、它的 \\volume\\ 、它的 \\pan\\ ，以及它是否 \\sounding\\ 。把这些画出来，你就能分别看到每个声音，而不是它们的混合：\n\n\\beat: Beat()\nparts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)\nƒ height(p•Part)•# p.pitch[1] ÷ 1semitones\nƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))\nStage([\n\t\t:parts.translate(ƒ(p•Part) dot(p))\n\t\tMusic([\n\t\t\t\tTrack([1 ø 5 ø] instrument: Instrument.piano pan: -1)\n\t\t\t\tTrack([ø 8 ø 12] instrument: Instrument.bell pan: 1)\n\t\t\t])\n\t])\\\n\n每个点都停在它的音轨所在的位置： \\pan\\ 让它靠左或靠右， \\pitch\\ 让它靠上或靠下。因为在一个长音符还在响的时候 \\sounding\\ 保持为真，所以一个持续的音符会一直保留它的点，而不会闪掉。\n\n看这个小小的 \\height\\ 函数：\\pitch\\ 是一个 /列表/，因为一个和弦会同时发出好几个音，向列表要它的第一项，得到的要么是一个数字，要么是 \\ø\\。声明这个函数返回一个 \\#\\，就能把它重新变回一个可以做算术的数字。",
+        "body": "能听到的音乐只是一半。 @Beat  流会在每次打拍子的时候，把播放器的整个状态交给你，这样你就能把正在发生的事情画出来。 \n\n@Beat  手里总有一个  @Downbeat  可以给你，所以你可以马上读到它。音乐还没开始的时候，它停在第零拍，什么都没有播放：\n\n\\beat: Beat()\ncount: beat.count\nStage(\n\t[\n\t\tPhrase('🥁' 尺寸: ((count % 4) = 0) ? 2m 1m)\n\t\tMusic(Track([1 1 1 1] 乐器: Instrument.drums))\n\t]\n)\\\n\n这个 \\count\\ 每一拍加一，所以 \\count % 4\\ 是 \\0\\ 在每第四拍上——也就是重拍——鼓点就会跳一下。\n\n这就是把整段音乐变成一个数字。不过一个  @Downbeat  还带着一个 \\parts\\ 列表，每个  @Part  对应一个  @Track ，而一个  @Part  知道它自己的声部现在在做什么：它的 \\pitch\\，它的 \\volume\\，它的 \\pan\\，还有它是不是 \\sounding\\。把这些画出来，你就能分别看到每个声部，而不只是混在一起的声音：\n\n\\beat: Beat()\nparts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)\nƒ height(p•Part)•# p.pitch[1] ÷ 1semitones\nƒ dot(p•Part)•Phrase Phrase(\n\t\t'⬤'\n\t\t0.4m + (p.volume · 1m)\n\t\t位置: Place(\n\t\t\t(p.pan · 3) · 1m\n\t\t\t((height(p) · 0.2) - 1) · 1m\n\t\t)\n\t)\nStage(\n\t[\n\t\t:parts.translate(ƒ(p•Part) dot(p))\n\t\tMusic(\n\t\t\t[\n\t\t\t\tTrack(\n\t\t\t\t\t[1 ø 5 ø]\n\t\t\t\t\t乐器: Instrument.piano\n\t\t\t\t\t声像: -1\n\t\t\t\t)\n\t\t\t\tTrack(\n\t\t\t\t\t[ø 8 ø 12]\n\t\t\t\t\t乐器: Instrument.bell\n\t\t\t\t\t声像: 1\n\t\t\t\t)\n\t\t\t]\n\t\t)\n\t]\n)\\\n\n每个点都待在它对应轨道的位置上：\\pan\\ 决定它偏左还是偏右，\\pitch\\ 决定它偏高还是偏低。因为在一个长音还在响的时候 \\sounding\\ 会保持为真，所以一个持续的音会一直留着它的点，而不会闪一下就消失。\n\n看看那个小小的 \\height\\ 函数。\\pitch\\ 是一个 /列表/，因为一个和弦会同时发出好几个音，所以 \\p.pitch[1]\\ 取的是当前正在响的最低音。那个数字的单位是 \\semitones\\，除以 \\1semitones\\ 才能把它变成一个普通数字，这样才能和下面的 \\0.2\\ 还有 \\1m\\ 混合运算。把函数声明成 \\#\\ 还不够：单单写 \\#\\ 意思是/任意/一种单位，而不是/没有/单位，所以它会很爽快地接受半音数，然后下一行才抱怨这件事。",
         "related": ["play-a-sound-effect", "react-to-sound", "count-with-time"]
     },
     {

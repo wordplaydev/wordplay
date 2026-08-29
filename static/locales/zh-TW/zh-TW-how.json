@@ -64,9 +64,9 @@
     },
     {
         "id": "video-grid",
-        "title": "使用相機創建視頻",
+        "title": "從相機建立一段影片",
         "category": "video",
-        "body": "這 @Camera 流是從世界獲取顏色網格的好方法。如果我們想看到這些顏色，重建圖像 @Camera 看到了嗎？\n\n我們可以使用 @Grid 佈局 @Group ， 和 @List/combine 函數將顏色轉換為列表 @Phrase 我們給予 @Grid 。\n\n\\width: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([\n\t\tGroup(Grid(height width 0m) colors.combine([] ƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row.translate(ƒ(color) Phrase(\"⬤\" color: color duration: 0s))\n\t\t\t\t\t]))\n\t])\\\n\n此範例建立了一個短語列表，將每種顏色轉換為具有特定顏色的圓圈。\n\n小心 @Camera 流：它們會產生大量的輸入！你需要保持圖像的寬度和高度較小。",
+        "body": "這個  @Camera  串流是取得世界顏色格線的好方法。如果我們想看看這些顏色，重現  @Camera  看到的畫面呢？\n\n我們可以用  @Grid  版面配置來排出一個  @Group ，再用  @List/combine  函式把顏色轉換成一份  @Phrase  清單， @Grid  就是我們要交給它的東西。\n\n\\width: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage(\n\t[\n\t\tGroup(\n\t\t\tGrid(height width 0m)\n\t\t\tcolors.combine(\n\t\t\t\t[]\n\t\t\t\tƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row ↦ Phrase(\"⬤\" 色彩: ⬚ 持續時間: 0s)\n\t\t\t\t\t]\n\t\t\t)\n\t\t)\n\t]\n)\\\n\n這個範例會建立一份詞句清單，把每個顏色轉換成該顏色的一個圓形。\n\n使用  @Camera  串流時要小心：它們會產生大量輸入！你會想要把圖片的寬度和高度設小一點。",
         "related": ["interactive-scene"]
     },
     {
@@ -80,7 +80,7 @@
         "id": "track-game-state",
         "title": "追蹤遊戲狀態",
         "category": "remembering",
-        "body": "大多數遊戲在遊戲進行過程中都會追蹤多項事物：分數、玩家位置和其他細節都是關鍵。每次有輸入時，狀態就會發生變化，然後我們希望顯示新的輸出作為回應。\n\n任何遊戲的通用模式都會做三件事：\n\n• 定義一個遊戲狀態資料結構，用於儲存所有遊戲狀態• 定義一個反應，當有新的輸入時，根據先前的遊戲狀態創建新的遊戲狀態• 製作 @Stage  和 @Group  和 @Phrase 顯示遊戲狀態\n\n例如，讓我們想像一個簡單的遊戲，其中需要在文字框中輸入秘密單詞，並且每次猜出一個秘密單詞時都會獲得一分：\n\n\\•Game(secrets•[''] points•#)\nstate: Game(['貓' '狗'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(state.points = state.secrets.length() ? [Phrase(\"你贏了！\")] [\n\t\t\tGroup(Stack() [\n\t\t\t\t\tPhrase(\"猜猜我的秘密\")\n\t\t\t\t\tPhrase(`\\state.secrets.length() - state.points\\更多秘密`) \t\t\t\t]) \t\t])\\\n\n讓我們來分析一下。\n\n• 第一行，\\•Game(secrets•[''] points•#)\\說，/製作一個名為\\Game\\儲存秘密和點的列表/• 第二行說/遊戲狀態以秘密清單和零分開始。每次\\Chat\\改變，如果輸入的單字在秘密清單中，則創建一個新的遊戲狀態，並將分數增加一/。• 每次程序重新評估時（當\\Chat\\（根據變化），顯示一個階段。如果分數等於秘密數量，則顯示獲勝階段。如果不相等，則顯示提示和剩餘秘密數量。\n\n這個例子存在一些問題：\n\n• 如果他們多次猜出同一個秘密單詞，就能獲得更多分數！我們的遊戲狀態可能還需要記住猜對的內容，所以每個單字只計算兩次。• 若玩家輸入多個單字，是否該計算在內？\n\n更複雜的遊戲狀態和遊戲更新將幫助我們處理這些情況。",
+        "body": "大部分的遊戲會在進行時追蹤很多東西：分數、玩家位置和其他細節都很重要。每次有輸入時，狀態（State）就會改變，接著我們要顯示新的輸出來回應。\n\n任何遊戲的通用模式都會做三件事：\n\n• 定義一個遊戲狀態的資料結構，用來儲存所有的遊戲狀態• 定義一個反應，每次有新輸入時，根據之前的遊戲狀態算出新的遊戲狀態• 做一個  @Stage  ，搭配  @Group  和  @Phrase  來顯示遊戲狀態\n\n舉個例子，我們來想像一個簡單的遊戲：在文字框裡打出秘密單字，每猜對一個秘密單字就得一分：\n\n\\•Game(secrets•[''] points•#)\nstate: Game(['貓' '狗'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(\n\tstate.points = state.secrets.length() ? [Phrase(\"你贏了！\")] [\n\t\t\tGroup(\n\t\t\t\tStack()\n\t\t\t\t[\n\t\t\t\t\tPhrase(\"猜猜我的秘密單字\")\n\t\t\t\t\tPhrase(\n\t\t\t\t\t\t`\\state.secrets.length() - state.points\\ 個秘密`\n\t\t\t\t\t)\n\t\t\t\t]\n\t\t\t)\n\t\t]\n)\\\n\n我們來拆解一下這段程式碼。\n\n• 第一行，\\•遊戲(秘密•[''] 點數•#)\\ 說的是，/做一個叫做 \\Game\\ 的資料結構，用來儲存一份秘密單字清單和分數/。這裡的 \\[\n\t''\n]\\ 意思是/一份可以有任意數量單字的清單/。如果你想要一份長度固定的清單，可以幫裡面每個位置各取一個型別名字：\\[\n\t#'']\\是一個包含兩個東西的清單，一個數字接著一個文字。• 第二行說/遊戲狀態一開始有一份秘密清單，還有零分。每次 \\聊天\\ 改變的時候，如果輸入的文字在秘密清單裡，就建立一個新的遊戲狀態，把分數加一/。• 每次程式重新運算的時候（也就是 \\聊天\\ 改變的時候），就顯示一個舞台。如果分數等於秘密的數量，就顯示一個獲勝的舞台。如果不是，就顯示提示訊息，還有剩下的秘密數量。\n\n這個範例有一些問題：\n\n• 如果玩家猜中同一個秘密字很多次，他就會拿到更多分數！我們的遊戲狀態可能也需要記住猜過哪些字，讓每個字最多只能算兩次。• 如果玩家一次輸入好幾個字，這樣算不算？\n\n更完善的遊戲狀態和更新方式，可以幫我們處理這些情況。",
         "related": ["track-points"]
     },
     {
@@ -192,7 +192,7 @@
         "id": "mix-languages-in-text",
         "title": "迎接多語言觀眾",
         "category": "styling",
-        "body": "一個  @Phrase  根據觀眾選擇的語言，向他們顯示正確的翻譯。如果您的觀眾講西班牙語，您可以用西班牙語與他們溝通；如果他們既講西班牙語又講英語（西班牙語和英語混雜！），您可以混合使用這兩種語言。\n\n給予  @TextLiteral  提供多種譯本，包括多語言譯本，@wordplay 會為每位觀眾挑選最合適的譯本：\n\n\\Phrase(\"你好\"/es\"你好\"/en\"你好，先生\"/es_en)\\\n\n一位首選語言僅為西班牙語的觀眾會看到 /你好/只喜歡英語的觀眾會看到 /你好/一位既喜歡西班牙語又喜歡英語的觀眾會看到 /你好，先生/ — 西班牙文和英文混合版本。\n\n文字遊戲傾向於最精確的匹配，因此，當兩種翻譯都適用時，單語翻譯總是勝過多語翻譯。",
+        "body": "一個  @Phrase  根據觀眾選擇的語言，向他們顯示正確的翻譯。如果您的觀眾講西班牙語，您可以用西班牙語與他們溝通；如果他們既講西班牙語又講英語（西班牙語和英語混雜！），您可以混合使用這兩種語言。\n\n給予  @TextLiteral  提供多種譯本，包括多語言譯本，@wordplay 會為每位觀眾挑選最合適的譯本：\n\n\\Phrase(\"hola\"/es\"你好\"/en\"你好，先生\"/es_en)\\\n\n一位首選語言僅為西班牙語的觀眾會看到 /你好/只喜歡英語的觀眾會看到 /你好/一位既喜歡西班牙語又喜歡英語的觀眾會看到 /你好，先生/ — 西班牙文和英文混合版本。\n\n文字遊戲傾向於最精確的匹配，因此，當兩種翻譯都適用時，單語翻譯總是勝過多語翻譯。",
         "related": ["styling-text"]
     },
     {
@@ -204,9 +204,9 @@
     },
     {
         "id": "draw-the-music",
-        "title": "畫出音樂正在演奏的內容",
+        "title": "畫出音樂正在播放的樣子",
         "category": "music",
-        "body": "你聽到的音樂只是其中一半。每當一個節拍響起， @Beat  串流就會把播放器的完整狀態交給你，所以你可以畫出正在發生的一切。 \n\n@Beat  總是有一個  @Downbeat  可以給你，所以你可以馬上讀取它。在任何音樂開始之前，它停在第零拍，什麼都沒在播放：\n\n\\beat: Beat()\ncount: beat.count\nStage([\n\t\tPhrase('🥁' size: ((count % 4) = 0) ? 2m 1m)\n\t\tMusic(Track([1 1 1 1] instrument: Instrument.drums))\n\t])\\\n\n這個 \\count\\ 每一拍都會加一，所以每第四拍 \\count % 4\\ 就是 \\0\\——也就是重拍——鼓就會跳動。\n\n那就是整段音樂化成一個數字。但是一個  @Downbeat  也帶著一份 \\parts\\ 清單，每一個  @Part  對應一個  @Track ，而且每個  @Part  知道它自己的聲音現在正在做什麼：它的 \\pitch\\、它的 \\volume\\、它的 \\pan\\，以及它是不是 \\sounding\\。把這些畫出來，你就能得到每個聲音各自的樣子，而不只是混在一起的結果：\n\n\\beat: Beat()\nparts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)\nƒ height(p•Part)•# p.pitch[1] ÷ 1semitones\nƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))\nStage([\n\t\t:parts.translate(ƒ(p•Part) dot(p))\n\t\tMusic([\n\t\t\t\tTrack([1 ø 5 ø] instrument: Instrument.piano pan: -1)\n\t\t\t\tTrack([ø 8 ø 12] instrument: Instrument.bell pan: 1)\n\t\t\t])\n\t])\\\n\n每個點都停在它的音軌所在的位置：\\pan\\ 把它放到左邊或右邊，\\pitch\\ 把它放到高處或低處。因為當一個長音還在響時 \\sounding\\ 會保持為真，所以一個持續的音會保住它的點，而不會閃掉。\n\n觀察這個小小的 \\height\\ 函式：\\pitch\\ 是一個 /清單/，因為一個和弦會同時發出好幾個音。向清單詢問它的第一個項目，會回傳一個數字或是 \\ø\\。宣告這個函式會回傳一個 \\#\\，才能把它確定成一個你可以拿來做算術的數字。",
+        "body": "聽到的音樂只是一半而已。 @Beat  串流會在每次節拍響起時，把播放器的整個狀態交給你，讓你可以畫出正在發生的一切。 \n\n@Beat  永遠都有一個 @Downbeat  可以給你，所以你可以馬上讀取它。在音樂開始播放之前，它停在第零拍，什麼都沒有播放：\n\n\\beat: Beat()\ncount: beat.count\nStage(\n\t[\n\t\tPhrase('🥁' 尺寸: ((count % 4) = 0) ? 2m 1m)\n\t\tMusic(Track([1 1 1 1] 樂器: Instrument.drums))\n\t]\n)\\\n\n這個 \\count\\ 每一拍都會加一，所以\\count % 4\\ 在每第四拍時都是\\0\\——也就是重拍——鼓就會跳動一下。\n\n這就是把整段音樂變成一個數字。不過一個  @Downbeat  也帶著一個 \\parts\\ 清單，每個  @Part  各有一個  @Track ，而一個  @Part  知道自己這個聲部現在正在做什麼：它的 \\pitch\\、它的 \\volume\\、它的 \\pan\\，還有它是不是 \\sounding\\。畫出這些，你就能分別看到每個聲部，而不是混在一起的聲音：\n\n\\beat: Beat()\nparts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)\nƒ height(p•Part)•# p.pitch[1] ÷ 1semitones\nƒ dot(p•Part)•Phrase Phrase(\n\t\t'⬤'\n\t\t0.4m + (p.volume · 1m)\n\t\t位置: Place(\n\t\t\t(p.pan · 3) · 1m\n\t\t\t((height(p) · 0.2) - 1) · 1m\n\t\t)\n\t)\nStage(\n\t[\n\t\t:parts.translate(ƒ(p•Part) dot(p))\n\t\tMusic(\n\t\t\t[\n\t\t\t\tTrack(\n\t\t\t\t\t[1 ø 5 ø]\n\t\t\t\t\t樂器: Instrument.piano\n\t\t\t\t\t聲道平衡: -1\n\t\t\t\t)\n\t\t\t\tTrack(\n\t\t\t\t\t[ø 8 ø 12]\n\t\t\t\t\t樂器: Instrument.bell\n\t\t\t\t\t聲道平衡: 1\n\t\t\t\t)\n\t\t\t]\n\t\t)\n\t]\n)\\\n\n每個點都停在它音軌所在的位置：\\pan\\ 決定它偏左還是偏右，\\pitch\\ 決定它偏高還是偏低。因為當一個長音還在響的時候，\\sounding\\ 會維持為真，所以一個延續的音符會保持它的點，而不會一下就消失。\n\n看看那個小小的 \\height\\ 函式。\\pitch\\ 是一個 /清單/，因為和弦會同時發出好幾個音，所以 \\p.pitch[1]\\ 會取出目前正在響的最低音。那個數字的單位是 \\semitones\\，除以 \\1semitones\\ 就能把它變成一個普通數字，讓你可以跟下面的 \\0.2\\ 和 \\1m\\ 混在一起用。只把函式宣告成 \\#\\ 還不夠：光寫 \\#\\ 的意思是/任何/ 單位，不是/沒有/ 單位，所以它會很樂意接受半音，然後過一行才抱怨。",
         "related": ["play-a-sound-effect", "react-to-sound", "count-with-time"]
     },
     {

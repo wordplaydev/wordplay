@@ -185,9 +185,9 @@
                         [
                             "Program",
                             "neutral",
-                            "Por exemplo, tente escrever 'olá' no editor que lá está.",
+                            "Por exemplo, tente escrever \\'olá'\\ no editor que lá está.",
                             "(Não se preocupe em cometer erros, pode sempre reverter para o original com *revert* @UI/revertProject).",
-                            "Digitou alguma coisa? Este é o meu amigo @Text. Já o conheceu? É interpretado como \"olá\" ou qualquer outro texto que digite, e depois esse texto é apresentado no palco. Experimente mudar o seu texto para outra coisa. Eu mostrarei essa outra coisa. Assim, avaliarei imediatamente o que digitar e mostrarei o resultado."
+                            "Digitou alguma coisa? Este é o meu amigo @Text. Já o conheceu? É interpretado como \\'olá'\\ ou qualquer outro texto que digite, e depois esse texto é apresentado no palco. Experimente mudar o seu texto para outra coisa. Eu mostrarei essa outra coisa. Assim, avaliarei imediatamente o que digitar e mostrarei o resultado."
                         ],
                         null,
                         [
@@ -317,7 +317,7 @@
                             "@Program tentou seguir a instrução de @ExpressionPlaceholder, mas como o espaço reservado ainda não diz o que fazer, @Program avaliou para uma *exceção* @UI/exception em *stage*.",
                             "Uma exceção ocorre quando @Program não consegue seguir uma instrução fornecida.",
                             "$~Se o @Program souber que vai haver uma exceção, vai mostrar um *@conflict* @UI/conflict que explica a sua confusão.",
-                            "Se selecionar @ExpressionPlaceholder ou mover o cursor de texto sobre ele, poderá ver opções para o substituir. Também pode simplesmente digitar sobre @ExpressionPlaceholder e escrever o seu próprio texto. Por exemplo, tente escrever \"olá\"."
+                            "Se selecionar @ExpressionPlaceholder ou mover o cursor de texto sobre ele, poderá ver opções para o substituir. Também pode simplesmente digitar sobre @ExpressionPlaceholder e escrever o seu próprio texto. Por exemplo, tente escrever \\'olá'\\."
                         ],
                         null,
                         { "fit": "#Symbol -" },
@@ -640,7 +640,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "É assim que me apresento no @Program: uma função, seguida de parêntesis, com uma lista de expressões entre elas que representam as entradas. A função, neste caso, é @Phrase, e a única entrada é 'olá'. Quando avalio isto, crio um valor para @Phrase, que @Program depois exibe no palco."
+                            "É assim que me apresento no @Program: uma função, seguida de parêntesis, com uma lista de expressões entre elas que representam as entradas. A função, neste caso, é @Phrase, e a única entrada é \\'olá'\\. Quando avalio isto, crio um valor para @Phrase, que @Program depois exibe no palco."
                         ],
                         null,
                         [
@@ -654,7 +654,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "Veja como, ao fazê-lo, tenho agora uma nova entrada no programa? É a entrada `@Phrase.size`. As funções têm uma determinada ordem de entradas, mas se uma função tiver uma lista de entradas opcionais, pode utilizar o seu nome para especificar qual delas pretende fornecer. Aqui, fornecemos `@Phrase.size`, mas não nenhuma das outras entradas opcionais. Experimente alterar outra entrada com a paleta, como, por exemplo, o tipo de letra."
+                            "Veja como, ao fazê-lo, tenho agora uma nova entrada no programa? É a entrada @Phrase.size. As funções têm uma determinada ordem de entradas, mas se uma função tiver uma lista de entradas opcionais, pode utilizar o seu nome para especificar qual delas pretende fornecer. Aqui, fornecemos @Phrase.size, mas não nenhuma das outras entradas opcionais. Experimente alterar outra entrada com a paleta, como, por exemplo, o tipo de letra."
                         ],
                         null,
                         {
@@ -670,7 +670,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "Ah, sim, é uma boa ideia. Muitas coisas podem correr mal. Por exemplo, pode dar-me algo que não seja uma função. Vê como recebo o texto \"oi\" como uma função e duas entradas, \"1\" e \"2\"? Bem, eu só sei avaliar funções, e \"oi\" não é uma função; é um texto. Isso confunde-me muito, por isso basicamente interrompo a execução se isso acontecer."
+                            "Ah, sim, é uma boa ideia. Muitas coisas podem correr mal. Por exemplo, pode dar-me algo que não seja uma função. Vê como recebo aqui o texto \\“oi”\\ como função e me são dadas duas entradas, \\1\\ e \\2\\ ? Bem, eu só sei avaliar funções, e \\“oi”\\ não é uma função; é um texto. Isso confunde-me muito, por isso basicamente interrompo a execução se isso acontecer."
                         ],
                         null,
                         {
@@ -766,7 +766,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~Cada valor tem um *@type*. Por exemplo, \\1\\ é um tipo número; esse é o nosso amigo @Number. E \\'olá'\\ é um tipo texto; esse é o nosso amigo @Text. Os tipos são importantes porque nos ajudam a acompanhar que tipo de valor estamos a criar.",
-                            "Ajuda-nos a encontrar problemas. Por exemplo, não faz sentido adicionar 'olá' + 1, porque o que significaria adicionar @Text a @Number?"
+                            "Ajuda-nos a encontrar problemas. Por exemplo, não faz sentido adicionar \\'olá' + 1\\, porque o que significaria adicionar @Text a @Number?"
                         ],
                         null,
                         {
@@ -824,7 +824,7 @@
                         [
                             "Text",
                             "serious",
-                            "Faço uma coisa simples: represento sequências de símbolos e as muitas coisas que se podem fazer com eles. Acho que já me viu antes, quando escreveu a palavra \"olá\". Era eu e os meus amigos, \"h\", \"e\", \"l\" e \"o\". Era @Text, uma expressão que resulta em qualquer @Text que se queira."
+                            "Faço uma coisa simples: represento sequências de símbolos e as muitas coisas que se podem fazer com eles. Acho que já me viu antes, quando escreveu a palavra \\“olá”\\. Era eu e os meus amigos, \\“h”\\, \\“e”\\, \\“l”\\ e \\“o”\\. Era @Text, uma expressão que resulta em qualquer @Text que se queira."
                         ],
                         null,
                         [
@@ -1042,7 +1042,7 @@
                             "FunctionDefinition",
                             "happy",
                             "Esta é uma das muitas formas pelas quais a @Evaluate é incrível ♥ São muito versáteis!",
-                            "Mas não são perfeitos. Com qualquer `@BinaryEvaluate`, precisa sempre de garantir que fornece uma segunda entrada. Isto não funcionará, por exemplo. Um mais quê? A anotação `@UnparsableExpression` não estará longe quando isso acontecer."
+                            "Mas não são perfeitos. Com qualquer @BinaryEvaluate, precisa sempre de garantir que fornece uma segunda entrada. Isto não funcionará, por exemplo. Um mais quê? @UnparsableExpression não estará longe quando isso acontecer."
                         ],
                         { "edit": "1 +", "conflicts": true, "sidebar": true },
                         null,
@@ -1168,8 +1168,8 @@
                             "excited",
                             "Mas o outro era @Boolean.not?"
                         ],
-                        ["⊤", "precise", "Correto. \\~⊤ = ⊥.\\"],
-                        ["⊥", "precise", "Não errado. \\~⊥ = ⊤.\\"],
+                        ["⊤", "precise", "Correto. \\~⊤ = ⊥\\."],
+                        ["⊥", "precise", "Não errado. \\~⊥ = ⊤\\."],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1373,7 +1373,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Hum, 1,01 toe? Sim, obrigado @Number, são... exemplos interessantes. E são muito úteis quando se está a fazer cálculos com números, não é?"
+                            "Hum, \\1.01toes\\? Sim, obrigado @Number, são... exemplos interessantes. E são muito úteis quando se está a fazer cálculos com números, não é?"
                         ],
                         null,
                         [
@@ -1863,7 +1863,7 @@
                         [
                             "Set",
                             "eager",
-                            "Ah sim, claro. Eu coleciono coisas (Hum, obviamente; eu sou uma coleção). Mas o mais importante é que só coleciono *um de cada tipo* de coisa. Posso reunir o que quiseres e ajudar-te a controlar os valores, mas nunca repetirei um valor. Gosto de me organizar um pouco como @List, mas com \\{\\ e \\}\\ em vez de \\{\\}."
+                            "Ah sim, claro. Eu coleciono coisas (Hum, obviamente; eu sou uma coleção). Mas o mais importante é que só coleciono *um de cada tipo* de coisa. Posso reunir o que quiseres e ajudar-te a controlar os valores, mas nunca repetirei um valor. Gosto de me organizar um pouco como @List, mas com \\{\\ e \\}\\ em vez disso."
                         ],
                         { "edit": "{ 1 2 3 4 5 }" },
                         null,
@@ -2267,7 +2267,7 @@
                         [
                             "Convert",
                             "scared",
-                            "Uau. Nunca tinha pensado nisso dessa forma. Tipo, eu converto entradas em saídas, e a anotação `@Evaluate` converte entradas em saídas. E tipo, `@FunctionDefinition`, dizes-nos como converter entradas em saídas. É esse o segredo do Verso?",
+                            "Uau. Nunca tinha pensado nisso dessa forma. Tipo, /eu/ converto entradas em saídas, e @Evaluate converte entradas em saídas. E tipo, @FunctionDefinition, tu *dizes-nos* como converter entradas em saídas. É esse o segredo do Verso?",
                             "Como se tudo se resumisse a converter entradas em saídas?"
                         ],
                         null,
@@ -2382,7 +2382,7 @@
                         [
                             "Conditional",
                             "curious",
-                            "Confiável? Talvez? Se aceitar que eu simplesmente decido o que o realizador me diz, então sim, mas e se o realizador me disser isso? É realmente uma decisão se o número nunca pode ser superior a 3?"
+                            "Confiável? Talvez? Se aceitar que eu simplesmente decido o que o realizador me diz, então sim, mas e se o realizador me disser isso? É realmente uma decisão se o número nunca pode ser superior a \\3\\?"
                         ],
                         { "edit": "[1 2 3].random() > 3 ? 'big' 'small'" },
                         [
@@ -2499,7 +2499,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Vê estes \\1000ms\\? É um parâmetro `@Time.frequency` que indica ao `@Time` para executar um tick a cada 1000 milissegundos, em vez do padrão de 33 milissegundos. Agora funciona como um contador que executa um tick a cada segundo. Estas entradas que o `@Time` recebe são como uma configuração: dizem ao fluxo como se deve comportar."
+                            "Vê estes \\1000ms\\? É um parâmetro @Time.frequency que indica ao @Time para executar um tick a cada 1000 milissegundos, em vez do padrão de 33 milissegundos. Agora funciona como um contador que executa um tick a cada segundo. Estas entradas que o @Time recebe são como uma configuração: dizem ao fluxo como se deve comportar."
                         ],
                         ["Time", "neutral", "tic… tic… tic… tic… tic…"],
                         { "edit": "Time(1000ms)" },
@@ -2651,7 +2651,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Utilizar um fluxo de botões anotado com `@Button` é uma forma de avançar pelas etapas de uma performance ou de desencadear alguma alteração na mesma. Este pequeno programa escuta os toques de botões e começa por exibir 'triste', mas quando o fluxo de botões anotado com `@Button` muda para verdadeiro, a condição `@Conditional` avalia para 'feliz'."
+                            "Utilizar um fluxo de botões @Button é uma forma de avançar pelas etapas de uma performance ou de desencadear alguma alteração na mesma. Este pequeno programa escuta os toques de botões e começa por exibir \\'sad'\\, mas quando o fluxo @Button muda para verdadeiro, @Conditional avalia para \\'happy'\\."
                         ],
                         { "edit": "Phrase(Button(ø) ? 'happy' 'sad')" }
                     ]
@@ -2665,7 +2665,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "O teu mundo e o nosso também têm som. Sabia que podemos ouvi-lo com o seu consentimento? Ouvimos através de um fluxo chamado @Volume, que fornece uma sequência de amplitudes de baixo nível. O seu microfone pode pedir autorização para ser partilhado connosco. Assim que o fizer, verá um número que corresponde à amplitude, entre 0 e 100."
+                            "O teu mundo e o nosso também têm som. Sabia que podemos ouvi-lo com o seu consentimento? Ouvimos através de um fluxo chamado @Volume, que fornece uma sequência de amplitudes de baixo nível. O seu microfone pode pedir autorização para ser partilhado connosco. Assim que o fizer, verá um número que corresponde à amplitude, entre \\0\\ e \\100\\."
                         ],
                         ["Volume", "neutral", "bzzzZZZZzzzzzzZZZZ…"],
                         { "edit": "Volume()" },
@@ -2691,8 +2691,8 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Há uma outra fonte de entrada que vos quero mostrar. Lembram-se do `[].random()` de antes, da lista `@List`?",
-                            "Internamente, utiliza uma `@FunctionDefinition` chamada `@Random`, que fornece uma sequência infinita de números aleatórios. É uma espécie de fluxo, uma vez que gera entrada do seu mundo, não do nosso. Mas é um pouco diferente dos outros streams, pois não faz com que um `@Program` seja reavaliado.",
+                            "Há uma outra fonte de entrada que vos quero mostrar. Lembram-se do \\[].random()\\ de antes, da @List?",
+                            "Internamente, utiliza uma @FunctionDefinition chamada @Random, que fornece uma sequência infinita de números aleatórios. É uma espécie de fluxo, uma vez que gera entrada do seu mundo, não do nosso. Mas é um pouco diferente dos outros fluxos, pois não faz com que um @Program seja reavaliado.",
                             "Em vez disso, a cada avaliação, gera um número aleatório diferente.",
                             "Vê aquele pequeno botão ↻ @UI/resetEvaluator na barra de ferramentas do palco (e também na linha do tempo)? Prima-o para reavaliar o programa manualmente e verá um novo número entre \\0\\ e \\1\\ de cada vez."
                         ],
@@ -2702,7 +2702,7 @@
                         [
                             "FunctionDefinition",
                             "surprised",
-                            "Podemos informar o @Random do intervalo de números que pretendemos, fornecendo um número mínimo e um número máximo. Este exemplo devolve números entre 1 e 10:"
+                            "Podemos informar o @Random do intervalo de números que pretendemos, fornecendo um número mínimo e um número máximo. Este exemplo devolve números entre \\1\\ e \\10\\:"
                         ],
                         ["Random", "neutral", "1… 7… 3… 9… 10… 2…"],
                         { "edit": "Random(1 10)" },
@@ -2710,7 +2710,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "O aleatorio pode ser muito divertido! Podemos usá-lo com fluxos de dados para criar um caos divertido. Por exemplo, aqui escolhemos uma palavra aleatória de uma lista de palavras. Isto é o mesmo que `['kitty' 'cat' 'feline'].random()`. Continue a premir ↻ para obter um sinónimo diferente para \"gato\"! Experimente adicionar a sua própria palavra à lista e veja se consegue fazê-la aparecer."
+                            "O aleatório pode ser muito divertido! Podemos usá-lo com fluxos de dados para criar um caos divertido. Por exemplo, aqui escolhemos uma palavra aleatória de uma lista de palavras. Isto é o mesmo que \\['kitty' 'cat' 'feline'].random()\\. Continue a premir ↻ para obter um sinónimo diferente para \"gato\"! Experimente adicionar a sua própria palavra à lista e veja se consegue fazê-la aparecer."
                         ],
                         ["Random", "neutral", "1… 2… 2… 1… 3…"],
                         { "edit": "['kitty' 'cat' 'feline'][Random(1 3)]" }
@@ -3318,7 +3318,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "Não viu? Será que me movi demasiado rápido para ti? Isto acontece porque a minha duração é 0s por defeito. Diminua a velocidade definindo uma duração, que indica quanto tempo devo demorar a mover-me entre as poses. Fiz esta muito lenta para si, mas tente alterar a duração para números maiores e menores."
+                            "Não viu? Será que me movi demasiado rápido para ti? Isto acontece porque a minha duração é \\0s\\ por defeito. Diminua a velocidade definindo uma duração, que indica quanto tempo devo demorar a mover-me entre as poses. Fiz esta muito lenta para si, mas tente alterar a duração para números maiores e menores."
                         ],
                         {
                             "edit": "Phrase('hi' entering: Pose(opacity: 0) duration: 5s)"
@@ -3790,7 +3790,7 @@
                         [
                             "Group",
                             "excited",
-                            "E se quisesse uma disposição muito específica? Poderia usar @Free e dizer-me exatamente onde quer todas as frases. Só não se esqueça de indicar um local para cada @Phrase, caso contrário, colocá-lo-ei em \\Place(0m 0m\\)."
+                            "E se quisesse uma disposição muito específica? Poderia usar @Free e dizer-me exatamente onde quer todas as frases. Só não se esqueça de indicar um local para cada @Phrase, caso contrário, colocá-lo-ei em \\Place(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -3931,7 +3931,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Talvez possamos começar por um exemplo simples. Isto apenas fornece a `@Stage` uma lista de uma única `@Phrase`. Não precisa de mencionar `@Stage` aqui; isto apenas mostra o que acontece nos bastidores quando se passa `@Phrase` para `@Program`."
+                            "Talvez possamos começar por um exemplo simples. Isto apenas fornece a @Stage uma lista de uma única @Phrase. Não precisa de mencionar @Stage aqui; isto apenas mostra o que acontece nos bastidores quando se passa @Phrase para @Program."
                         ],
                         { "edit": "Stage([Phrase(“🐈”)])" },
                         null,
@@ -4269,7 +4269,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "O segredo é colocar um `@Boolean` onde se quer pausar e esperar que algo aconteça. Por exemplo, podemos esperar que o botão do rato mude de posição. Vejam como o `@Scene` espera, após cada `@Phrase`, que o botão seja clicado?"
+                            "O segredo é colocar um @Boolean onde se quer pausar e esperar que algo seja verdadeiro. Por exemplo, podemos esperar que o botão do rato mude. Vejam como o @Scene espera, após cada @Phrase, que o botão seja clicado?"
                         ],
                         {
                             "edit": [
@@ -4582,7 +4582,7 @@
                         [
                             "Bind",
                             "kind",
-                            "Acho que há mais uma coisa. Digamos que tem isso. Vê o que aconteceu aqui? Demos o nome de \"legumes\", mas nunca os utilizámos. Isto é muitas vezes um mau sinal de que está a excluir alguém ou não usou o nome certo. Tipo, talvez simplesmente não o esteja a usar, mas então porque é que está aí?"
+                            "Acho que há mais uma coisa. Digamos que tem isso. Vê o que aconteceu aqui? Demos o nome \\veggies\\, mas nunca o utilizámos. Isto é muitas vezes um mau sinal de que está a excluir alguém ou não usou o nome certo. Tipo, talvez simplesmente não o esteja a usar, mas então porque é que está aí?"
                         ],
                         {
                             "edit": ["fruits: 5", "veggies: 10", "fruits + 3"],
@@ -4670,7 +4670,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Sim, claro! Então, acontece que o @Program é basicamente um @Block. É apenas um @Block sem parêntesis. Mas pode usar @Block com parênteses em qualquer parte do programa. Por exemplo, pode utilizar @Block para clarificar a ordem de avaliação das operações matemáticas. Aqui, @BinaryEvaluate avalia 1, depois avalia @Block e, em seguida, os resultados são somados. @Block, percebi bem?"
+                            "Sim, claro! Então, acontece que o @Program é basicamente um @Block. É apenas um @Block sem parêntesis. Mas pode usar @Block com parênteses em qualquer parte do programa. Por exemplo, pode utilizar @Block para clarificar a ordem de avaliação das operações matemáticas. Aqui, @BinaryEvaluate avalia \\1\\, depois avalia @Block e, em seguida, os resultados são somados. @Block, percebi bem?"
                         ],
                         { "edit": "1 + (2 × 3)" },
                         ["Block", "shy", "… Sim!"],
@@ -4812,7 +4812,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Aqui está um exemplo super simples. O mais simples de todos, na verdade! Isto define uma função que resulta sempre no número 1. Apenas isso. Não é muito útil, pois não? Não tem nome, não recebe entradas e resulta sempre em 1.",
+                            "Aqui está um exemplo super simples. O mais simples de todos, na verdade! Isto define uma função que resulta sempre no número \\1\\. Apenas isso. Não é muito útil, pois não? Não tem nome, não recebe entradas e resulta sempre em \\1\\.",
                             "Também pode ver que @Program foi avaliado como um de mim, um @FunctionDefinition. Isso mesmo, @FunctionDefinition também são valores! Não sei porque alguém criaria uma função tão inútil, mas como disse: a inspiração não é minha; é sua."
                         ],
                         { "edit": "ƒ() 1" },
@@ -4863,7 +4863,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Tem mais uma coisa para mostrar. Acho que é importante porque toda a gente está muito entusiasmada com isso! Sabem como é possível criar uma função e depois avaliá-la? Bem, como as funções que eu crio são valores, também podem usá-las como entrada para outra função. Aqui está um exemplo. Digamos que tem uma lista de números e pretende apenas os números pares. A classe `@List` tem uma função chamada `@List.filter` que recebe uma função como entrada e a aplica a cada valor da lista para decidir se a deve manter. Vamos criar uma lista de números e passar a função `even` que criámos anteriormente como entrada para `@List.filter`. Vejam o que acontece? Só obtemos os números pares. Querem tentar alterar para que devolva os números ímpares? Talvez tentem alterar a função de alguma forma?"
+                            "Tem mais uma coisa para mostrar. Acho que é importante porque toda a gente está muito entusiasmada com isso! Sabem como é possível criar uma função e depois avaliá-la? Bem, como as funções que eu crio são valores, também podem usá-las como entrada para outra função. Aqui está um exemplo. Digamos que tem uma lista de números e pretende apenas os números pares. @List tem uma função chamada @List.filter que recebe uma função como entrada e a aplica a cada valor da lista para decidir se a deve manter. Vamos criar uma lista de números e passar a função \\even\\ que criámos anteriormente como entrada para @List.filter. Vejam o que acontece? Só obtemos os números pares. Querem tentar alterar para que devolva os números ímpares? Talvez tentem alterar a função de alguma forma?"
                         ],
                         {
                             "edit": [
@@ -5073,7 +5073,7 @@
                         [
                             "StructureDefinition",
                             "serious",
-                            "Agora, tudo isto funciona. E podíamos simplesmente deixar assim. Mas também é um pouco difícil de ler e compreender. Isto deve-se em parte à repetição: `messages[index]` aparece duas vezes, uma em cada frase. E a `@Reaction` é demasiado longa. O que podemos fazer para a simplificar? É aí que posso ajudar. Organizo as coisas para as tornar mais fáceis de entender, dando nomes reutilizáveis aos conceitos. Então, imaginem que, em vez de todos estes `@Bind`, criamos um para mim e chamamos-lhe `Marquee`. É isso que faremos primeiro. A função de `Marquee` é armazenar as mensagens, mas também ter uma função para avançar para a próxima mensagem `next()` e uma função para obter a mensagem corrente `now()`.",
+                            "Agora, tudo isto funciona. E podíamos simplesmente deixar assim. Mas também é um pouco difícil de ler e compreender. Isto deve-se em parte à repetição: \\messages[index]\\ aparece duas vezes, uma em cada frase. E a @Reaction é demasiado longa. O que podemos fazer para a simplificar? É aí que posso ajudar. Organizo as coisas para as tornar mais fáceis de entender, dando nomes reutilizáveis aos conceitos. Então, imaginem que, em vez de todos estes @Bind, criamos um para mim e chamamos-lhe \\Marquee\\. É isso que faremos primeiro. A função de \\Marquee\\ é armazenar as mensagens, mas também ter uma função para avançar para a próxima mensagem \\next()\\ e uma função para obter a mensagem corrente \\now()\\.",
                             "$~Depois, podemos usar Marquee na reação. Agora, ela apenas diz que o valor inicial é um marquee com as cinco mensagens, e o valor seguinte, após cada tique do relógio, é a mensagem seguinte. Mais simples, certo? Isto acontece porque toda a lógica das mensagens seguintes está em \\next()\\, que apenas cria um novo \\Marquee\\ com as mesmas mensagens mas um @index atualizado. Também ganhamos algumas vantagens nos dois @Phrase. Em vez de terem de se referir às mensagens e ao índice como antes, podemos apenas dizer \\marquee.now()\\, que obtém a mensagem atual da lista."
                         ],
                         {
@@ -5136,7 +5136,7 @@
                         [
                             "FunctionDefinition",
                             "surprised",
-                            "Ahh, já percebi. Assim, ao criar uma `@StructureDefinition` para guardar valores e uma `@FunctionDefinition` que estejam relacionadas entre si, é mais fácil alterar as coisas mais tarde, caso mude de ideias."
+                            "Ahh, já percebi. Assim, ao criar uma @StructureDefinition para guardar valores e @FunctionDefinition que estejam relacionadas entre si, é mais fácil alterar as coisas mais tarde, caso mude de ideias."
                         ],
                         [
                             "StructureDefinition",
@@ -5291,7 +5291,7 @@
                         [
                             "Doc",
                             "serious",
-                            "Ou imagine que tinha uma `@FunctionDefinition` a definir uma forma de calcular o imposto sobre um preço. Poderá querer explicar o que ela calcula. Tal como acontece com `@Bind`, venho antes da `@FunctionDefinition`."
+                            "Ou imagine que tinha aqui uma @FunctionDefinition a definir uma forma de calcular o imposto sobre um preço. Poderá querer explicar o que ela calcula. Tal como acontece com @Bind, venho antes da @FunctionDefinition."
                         ],
                         {
                             "edit": [
@@ -5440,7 +5440,7 @@
                             "E mais uma coisa.",
                             "Embora goste muito de explicar as coisas, por vezes também é útil omitir alguns pormenores. Sabe, remover algo de um projeto temporariamente para que deixe de fazer parte dele.",
                             "Pode fazer isso envolvendo qualquer coisa entre estrelas.",
-                            "Vê como 'gato' não está incluído na lista que fizemos?",
+                            "Vê como \\'cat'\\ não está incluído na lista que fizemos?",
                             "Pode remover os asteriscos apagando-os com o teclado ou posicionando o cursor dentro deles e utilizando o comando \"eliminar\" para os remover."
                         ],
                         { "edit": "[1 2 3 4 *'cat'* 5 6 7 8]" },
@@ -5693,7 +5693,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "Sim, assim mesmo. Hm… ah, precisamos de estar em palco. @Text, importa-se de fazer uma lista de todos? Vamos transformar isto em \\Character>s."
+                            "Sim, assim mesmo. Hm… ah, precisamos de estar em palco. @Text, importa-se de fazer uma lista de todos? Vamos transformar isto em \\Character\\s."
                         ],
                         [
                             "Text",
@@ -5749,7 +5749,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "Eba! Agora, só precisamos de nos mecher. @Reaction, pode dar-nos uma batida, talvez de 0,75 segundos?"
+                            "Eba! Agora, só precisamos de nos mexer. @Reaction, pode dar-nos uma batida, talvez de \\0.75\\ segundos?"
                         ],
                         [
                             "Reaction",

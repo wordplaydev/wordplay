@@ -1,34 +1,55 @@
-Dibuja lo que la música está tocando
+Dibuja lo que está tocando la música
 
-La música que puedes oír es solo la mitad. El flujo  @Beat  te entrega todo el estado del reproductor cada vez que suena un tiempo, para que puedas dibujar lo que está pasando. 
+La música que puedes escuchar es solo la mitad. El flujo  @Beat  te entrega el estado completo del reproductor cada vez que suena un compás, para que puedas dibujar lo que está pasando. 
 
-@Beat  siempre tiene un  @Downbeat  para darte, así que puedes leerlo de inmediato. Antes de que empiece cualquier música, se queda en el tiempo cero sin nada tocando:
+@Beat  siempre tiene un  @Downbeat  para darte, así que puedes leerlo de inmediato. Antes de que empiece la música, se queda en el compás cero sin nada sonando:
 
 \beat: Beat()
 count: beat.count
-Stage([
-		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] instrument: Instrument.drums))
-	])\
+Stage(
+	[
+		Phrase('🥁' tamaño: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] instrumento: Instrument.drums))
+	]
+)\
 
-El \count\ sube en uno con cada tiempo, así que \count % 4\ es \0\ en cada cuarto tiempo — el tiempo fuerte — y el tambor salta.
+El \count\ sube uno en cada compás, así que \count % 4\ es \0\ en cada cuarto compás — el tiempo fuerte — y el tambor salta.
 
-Esa es toda la música como un solo número. Pero un  @Downbeat  también lleva una lista de \parts\, una  @Part  por cada  @Track , y una  @Part  sabe lo que su propia voz está haciendo ahora mismo: su \pitch\, su \volume\, su \pan\, y si está \sounding\. Dibuja esas y obtienes cada voz por separado en lugar de la mezcla:
+Eso es toda la música como un solo número. Pero un  @Downbeat  también lleva una lista de \parts\, uno  @Part  por cada  @Track , y un  @Part  sabe qué está haciendo su propia voz en este momento: su \pitch\, su \volume\, su \pan\, y si está \sounding\. Dibuja eso y obtienes cada voz por separado en vez de la mezcla:
 
 \beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
-Stage([
+ƒ dot(p•Part)•Phrase Phrase(
+		'⬤'
+		0.4m + (p.volume · 1m)
+		lugar: Place(
+			(p.pan · 3) · 1m
+			((height(p) · 0.2) - 1) · 1m
+		)
+	)
+Stage(
+	[
 		:parts.translate(ƒ(p•Part) dot(p))
-		Music([
-				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-			])
-	])\
+		Music(
+			[
+				Track(
+					[1 ø 5 ø]
+					instrumento: Instrument.piano
+					balance: -1
+				)
+				Track(
+					[ø 8 ø 12]
+					instrumento: Instrument.bell
+					balance: 1
+				)
+			]
+		)
+	]
+)\
 
-Cada punto se coloca donde se coloca su pista: \pan\ lo pone a la izquierda o a la derecha, \pitch\ lo pone arriba o abajo. Como \sounding\ se mantiene verdadero mientras una nota larga sigue sonando, una nota sostenida conserva su punto en lugar de apagarse.
+Cada punto se ubica donde está su pista: \pan\ lo pone a la izquierda o a la derecha, \pitch\ lo pone arriba o abajo. Como \sounding\ sigue siendo verdad mientras una nota larga aún está sonando, una nota sostenida mantiene su punto en vez de apagarse de golpe.
 
-Observa la pequeña \height\ función: \pitch\ es una /lista/, ya que un acorde suena varias notas a la vez, y pedirle a una lista su primer elemento devuelve un número o \ø\. Declarar que la función devuelve un \#\ es lo que lo reduce de nuevo a un número con el que puedes hacer operaciones.
+Observa el pequeño \height\ función. \pitch\ es una /lista/, ya que un acorde suena varias notas a la vez, así que \p.pitch[1]\ toma la nota más baja de lo que esté sonando. Ese número está en \semitones\, y dividir entre \1semitones\ es lo que lo convierte en un número simple que puedes combinar con \0.2\ y con \1m\ de abajo. Declarar la función como \#\ no basta por sí solo: un \#\ sin nada más significa /cualquier/ unidad, no /ninguna/ unidad, así que aceptará los semitonos sin problema y luego se quejará de ellos una línea después.
 
 play-a-sound-effect, react-to-sound, count-with-time

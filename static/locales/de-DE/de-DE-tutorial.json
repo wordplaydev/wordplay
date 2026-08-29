@@ -3798,7 +3798,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~Und wenn Sie eine ganz bestimmte Anordnung wünschen? Sie könnten @Free verwenden und mir genau sagen, wo Sie alle Phrasen haben möchten. Geben Sie einfach jeder @Phrase einen Platz an, andernfalls platziere ich sie einfach bei \\Place(0m 0m\\)."
+                            "$~Und wenn Sie eine ganz bestimmte Anordnung wünschen? Sie könnten @Free verwenden und mir genau sagen, wo Sie alle Phrasen haben möchten. Geben Sie einfach jeder @Phrase einen Platz an, andernfalls platziere ich sie einfach bei \\Place(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -5717,7 +5717,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~Ja, so. Hm … oh, wir müssen auf die Bühne. @Text, könntest du eine Liste aller machen? Wir machen daraus \\Character>s."
+                            "$~Ja, so. Hm … oh, wir müssen auf die Bühne. @Text, könntest du eine Liste aller machen? Wir machen daraus \\Character\\s."
                         ],
                         [
                             "Text",

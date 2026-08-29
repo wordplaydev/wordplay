@@ -1,34 +1,55 @@
 Müziğin çaldığı şeyi çiz
 
-Duyabildiğin müzik işin sadece yarısı.  @Beat  akışı, her vuruşta çalanın tüm durumunu sana verir. Böylece olan biteni çizebilirsin. 
+Duyabildiğin müzik, işin yalnızca yarısıdır.  @Beat  akışı, bir vuru duyulduğunda sana çalıcının bütün durumunu verir. Böylece olan her şeyi çizebilirsin. 
 
-@Beat  sana verecek her zaman bir  @Downbeat  içerir. Yani onu hemen okuyabilirsin. Herhangi bir müzik başlamadan önce, hiçbir şey çalmadan sıfırıncı vuruşta durur:
+@Beat  her zaman sana verecek bir  @Downbeat  bulundurur. Bu yüzden onu hemen okuyabilirsin. Herhangi bir müzik başlamadan önce sıfırıncı vuruşta durur ve hiçbir şey çalmaz:
 
 \beat: Beat()
 count: beat.count
-Stage([
-		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] instrument: Instrument.drums))
-	])\
+Stage(
+	[
+		Phrase('🥁' boyut: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] çalgı: Instrument.drums))
+	]
+)\
 
-\count\ her vuruşta bir artar. Yani \count % 4\, her dördüncü vuruşta — güçlü vuruşta — \0\ olur ve davul zıplar.
+\count\ her vuruşta bir artar. Böylece \count % 4\ değeri \0\ her dördüncü vuruşta olur — vurgulu vuruş — ve davul zıplar.
 
-İşte tüm müzik tek bir sayı olarak. Ama bir  @Downbeat  ayrıca bir \parts\ listesi taşır. Her  @Part  için bir  @Track  ve bir  @Part  kendi sesinin şu anda ne yaptığını bilir: onun \pitch\, onun \volume\, onun \pan\ ve \sounding\ olup olmadığı. Bunları çizersen karışım yerine her sesi ayrı ayrı elde edersin:
+Bu, bütün müziğin tek bir sayı olarak halidir. Ama bir  @Downbeat  ayrıca bir \parts\ listesi taşır. Her  @Part  için bir  @Track  bulunur ve bir  @Part  kendi sesinin şu anda ne yaptığını bilir: kendi \pitch\'sini, kendi \volume\'sini, kendi \pan\'sini ve \sounding\ olup olmadığını. Bunları çizersen, karışım yerine her sesi ayrı ayrı görürsün:
 
 \beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
-Stage([
+ƒ dot(p•Part)•Phrase Phrase(
+		'⬤'
+		0.4m + (p.volume · 1m)
+		yer: Place(
+			(p.pan · 3) · 1m
+			((height(p) · 0.2) - 1) · 1m
+		)
+	)
+Stage(
+	[
 		:parts.translate(ƒ(p•Part) dot(p))
-		Music([
-				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-			])
-	])\
+		Music(
+			[
+				Track(
+					[1 ø 5 ø]
+					çalgı: Instrument.piano
+					kaydırma: -1
+				)
+				Track(
+					[ø 8 ø 12]
+					çalgı: Instrument.bell
+					kaydırma: 1
+				)
+			]
+		)
+	]
+)\
 
-Her nokta kendi parçasının olduğu yerde durur: \pan\ onu sola ya da sağa koyar, \pitch\ onu yukarı ya da aşağı koyar. Uzun bir nota hâlâ çalarken \sounding\ doğru kaldığı için, tutulan bir nota yanıp sönmek yerine noktasını korur.
+Her nokta, kendi parçasının bulunduğu yerde durur: \pan\ onu sola veya sağa koyar, \pitch\ onu yukarı veya aşağı koyar. \sounding\ uzun bir nota hâlâ çalarken doğru kaldığından, tutulan bir nota sönüp gitmez, noktasını korur.
 
-Küçük \height\ işlevini izle: \pitch\ bir /liste/, çünkü bir akort aynı anda birkaç nota çalar ve bir listeden ilk ögesini istemek ya bir sayı ya da \ø\ geri verir. İşlevin bir \#\ döndürdüğünü belirtmek, onu yeniden aritmetik yapabileceğin bir sayıya sabitleyen şeydir.
+Küçük \height\ fonksiyonu. \pitch\ bir /liste/, çünkü bir akor aynı anda birden çok nota çalar, bu yüzden \p.pitch[1]\ o an çalan en pes notayı alır. Bu sayı \semitones\ biriminde, ve \1semitones\'ye bölmek onu, \0.2\ ve altındaki \1m\ ile karıştırabileceğin düz bir sayıya çevirir. Fonksiyonu \#\ olarak tanımlamak yeterli değil: yalnız bir \#\ şu anlama gelir: /herhangi bir/ birim, /hiçbir/ birim değil, bu yüzden yarım tonları seve seve kabul eder ve sonra bir satır sonra onlardan şikayet eder.
 
 play-a-sound-effect, react-to-sound, count-with-time

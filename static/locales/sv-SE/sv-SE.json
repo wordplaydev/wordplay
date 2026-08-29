@@ -346,16 +346,16 @@
                 "$~Jag är en språktagg och jag jobbar ihop med @Name och @Doc!",
                 "Jag är riktigt bra på att göra det *helt klart* vilket språk något är skrivet på. Bara ett litet snedstreck och några bokstäver, och ingen blir osäker på vilket språk en text har.",
                 "Om du till exempel vill skriva \"Language\" men visa att det är engelska:",
-                "\\'Språk'\\",
+                "\\'Språk'/sv\\",
                 "Du kan göra så här för ett @Name:",
                 "\\ljud: 'mjau'\\🪲",
                 "…eller för ett @Doc:",
                 "\\¶Onomatopoesi¶\nljud: 'mjau'\\🪲",
                 "Ibland är text inte bara ett språk — det är en *blandning*. Som Spanglish, där spanska och engelska blandas. Då listar du varje språk med ett understreck mellan dem. Det första är det *huvudsakliga* — det är det jag använder när jag måste välja (till exempel för att bestämma vilka citattecken som ska användas).",
-                "\\'Hola gentleman!'\\",
+                "\\\"Hola gentleman!\"/es_en\\",
                 "\\¶En tvåspråkig hälsning¶\nhello/es_en: 'Hola gentleman!'\\🪲",
                 "Du kan också lägga till ett @region, efter ett bindestreck, precis som med ett enda språk:",
-                "\\'Hola gentleman!'\\",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
                 "Det finns ingen gräns för hur många språk du kan lista — bara upprepa inte samma språk två gånger; jag säger till om du gör det.",
                 "Du kan skriva ett språk med dess <2-bokstavskod@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> eller med dess *namn*, på det språket eller på engelska — `/es`, `/Español` och `/Spanish` betyder alla samma sak, och det gör även `/es-MX`, `/es-México` och `/es-Mexico`. Stora bokstäver och accenter spelar ingen roll, så `/ESPANOL` funkar också. Ett namn med mellanslag skrivs utan mellanslaget, som `/BahasaIndonesia`, eftersom en tagg alltid är ett enda ord. Om jag inte känner igen ett språk eller ett område säger jag till."
             ],
@@ -2076,7 +2076,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Jag visar syntaxmarkerad kod skriven i andra programmeringsspråk, så att skapare som redan kodar kan jämföra.",
-                "Skriv en variant per språk som en tvåbokstavstagg, en stapel och koden, som \\py| a = 5\\ js| låt a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "Skriv en variant per språk som en tvåbokstavstagg, en stapel och koden, som \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
             ]
         },
         "Localized": {
@@ -2499,7 +2499,7 @@
                 "\\'Det finns bara två sätt att leva sitt liv. Ett är som om ingenting är ett mirakel. Det andra är som om allting är ett mirakel.'\\",
                 "\\'一日三秋'\\",
                 "Kom bara ihåg att stänga mig om du öppnar mig, och använd den matchande symbolen. Annars vet jag inte att du är klar med dina ord.",
-                "\\'hej'\\",
+                "\\'hej'/sv'hola'/es-MX\\",
                 "Du kan också märka mig med språk, och till och med ge flera översättningar. Jag blir det språk som är valt just nu, om det finns ett matchande språk.",
                 "Om du vill skapa mig med några andra värden kan du göra så här:",
                 "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
@@ -2659,7 +2659,7 @@
                         "\\'hej'.versaler()\\",
                         "Bokstäver har bara skiftläge i vissa skriftsystem, så text i ett skriftsystem utan det, som japanska eller arabiska, ändras inte.",
                         "Min språktagg avgör vilka regler som ska användas. Turkiska har ett i med prick och ett i utan prick, och bara text taggad som turkiska görs om till versaler på det turkiska sättet:",
-                        "\\'iyi'.versaler()\\",
+                        "\\'iyi'/tr.versaler()\\",
                         "\\'iyi'.versaler()\\"
                     ],
                     "names": ["$~versaler"],
@@ -8791,7 +8791,7 @@
                     "example": {
                         "phrase": "$~\\¶Fraser visas på scenen, i vilken färg, glöd och rörelse du vill.¶\nFras(\n\t'hej!'\n\t6m\n\tfärg: Färg(60% 90 200°)\n\taura: Aura(Färg(80% 80 200°) 0.3m)\n\tvilande: Sekvens.vingla(8°)\n)\\",
                         "music": "$~\\¶Musik är toner på riktiga instrument, i ett tempo, i en tonart. Scenen ritar det den hör.¶\nMusik(\n\tSpår([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
-                        "hello": "$~\\¶Koden kan reagera på inmatning som @Time, och text kan vara flerspråkig och talad.¶\nhejsan: ['hej' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhej: hejsan.slumpmässig() … ∆ Tid(1000ms) … hejsan.slumpmässig(\n\t\t)\nFras(hej 4m)\nSäga(hej)\\",
+                        "hello": "$~\\¶Koden kan reagera på inmatning som @Time, och text kan vara flerspråkig och talad.¶\nhejsan: ['hej'/sv 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhej: hejsan.slumpmässig() … ∆ Tid(1000ms) … hejsan.slumpmässig(\n\t\t)\nFras(hej 4m)\nSäga(hej)\\",
                         "keys": "$~\\¶Kod kan reagera på pekare, tangenter, klick och tryck.¶\nnyckel2: Nyckel()\nklick: Knapp()\nansikten: ['🙂' '😮' '😎' '🤩']\nvilken: 1 … ∆ nyckel2 | ∆ klick … (vilken % 4) + 1\nEtapp(\n\t[Fras(ansikten[vilken] 5m plats: Pekare() bubbla: 'hej')]\n\tplats: Plats(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Placera text och gör den markerbar.¶\nfrukt: ƒ(e•'') Fras(e 3m namn: e valbara: ⊤)\nvald: Val()\nvisad: '?' … ∆ vald … vald\nGrupp(\n\tStack(stoppning: 1m)\n\t[\n\t\tFras(visad 4m)\n\t\tGrupp(\n\t\t\tRad(stoppning: 1m)\n\t\t\t[frukt('🍎') frukt('🍐') frukt('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Chatta med program och använd formen på typsnitt och symboler.¶\nmeddelande: Chatta()\nord3: 'hej' … ∆ meddelande … meddelande\nrad: Kontur(ord3 'Noto Sans' 8m)\ntick: 0 … ∆ Tid(30ms) … tick + 1\nvisad: ((rad.längd() × tick) ÷ 66).rundaner() + 1\npunkter: rad.efterföljande(1 visad).översätta(\n\t\tƒ(p) Fras('•' plats: p)\n\t)\nEtapp(punkter.med(Fras(ord3 8m opacitet: 15%)))\\",
@@ -8815,8 +8815,8 @@
                         "title": "$~Wordplay är flerspråkigt",
                         "bullets": [
                             "$~• Varje egenskap i programmeringsspråket har ett namn på varje språk, så koden går att läsa med ord du redan kan.",
-                            "• Dina egna namn kan också vara flerspråkiga:\n\\katt2: '🐈'\nFras(katt2)\\",
-                            "• Text har ett språk, och visas på det språk din publik läser: \\'hej'\\.",
+                            "• Dina egna namn kan också vara flerspråkiga:\n\\katt2/sv, gato/es: '🐈'\nFras(katt2)\\",
+                            "• Text har ett språk, och visas på det språk din publik läser: \\'hej'/sv'hola'/es\\.",
                             "• Själva webbplatsen finns på 29 språk och du kan välja fler än ett åt gången. Texten visas på alla valda språk.",
                             "• Du kan hjälpa till att översätta @wordplay direkt i appen på <localize//localize>."
                         ]

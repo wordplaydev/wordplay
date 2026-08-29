@@ -314,8 +314,7 @@
                 "Atau sebelum @StructureDefinition:",
                 "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\",
                 "You can also place me at the very beginning of @Program to say what the whole performance is about",
-                "\\¶This program says hello¶",
-                "'hello!'\\",
+                "\\¶This program says hello¶\n\n'hello!'\\",
                 "You can give me a @Language to help others know what language I'm written in:",
                 "\\¶I'm an English doc¶/en\nduration: 5s\\🪲\n\nDid you know you can make a list of me? Go talk to @Docs."
             ]
@@ -351,16 +350,16 @@
                 "$~Aku label bahasa, dan aku bekerja dengan @Name dan @Doc!",
                 "Aku sangat pandai membuat *jelas sekali* bahasa apa yang dipakai dalam suatu tulisan. Cukup dengan garis miring dan beberapa huruf, tidak akan ada yang bingung lagi tentang bahasa apa yang dipakai dalam suatu teks.",
                 "Misalnya, jika kamu ingin menulis \"Language\" tapi ingin memperjelas bahwa itu dalam bahasa Inggris:",
-                "\\'Bahasa'\\",
+                "\\'Bahasa'/id\\",
                 "Kamu bisa melakukan ini untuk @Name:",
                 "\\suara2: 'meong'\\🪲",
                 "…atau untuk @Doc:",
                 "\\¶Onomatope¶\nsuara2: 'meong'\\🪲",
                 "Kadang teks bukan hanya satu bahasa — tapi *campuran*. Seperti Spanglish, di mana bahasa Spanyol dan Inggris bercampur. Untuk itu, tuliskan setiap bahasa dengan garis bawah di antaranya. Bahasa pertama adalah yang *utama* — itulah yang kupakai kalau aku harus memilih (misalnya, untuk menentukan tanda kutip mana yang dipakai).",
-                "\\'Hola gentleman!'\\",
+                "\\\"Hola gentleman!\"/es_en\\",
                 "\\¶Salam dua bahasa¶\nhello/es_en: 'Hola gentleman!'\\🪲",
                 "Kamu juga bisa menambahkan satu @region, setelah tanda hubung, sama seperti dengan satu bahasa:",
-                "\\'Hola gentleman!'\\",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
                 "Tidak ada batas berapa banyak bahasa yang bisa kamu daftarkan — asal jangan mengulang bahasa yang sama dua kali; aku akan memberitahumu kalau kamu melakukannya.",
                 "Kamu bisa menulis bahasa dengan <kode 2-huruf@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>-nya atau dengan *nama*-nya, dalam bahasa itu sendiri atau dalam bahasa Inggris — `/es`, `/Español`, dan `/Spanish` artinya sama, begitu juga `/es-MX`, `/es-México`, dan `/es-Mexico`. Huruf besar dan tanda aksen tidak berpengaruh, jadi `/ESPANOL` juga berfungsi. Nama yang mengandung spasi ditulis tanpa spasi, seperti `/BahasaIndonesia`, karena label itu harus jadi satu kata. Jika aku tidak mengenali suatu bahasa atau wilayah, aku akan memberitahumu."
             ],
@@ -2081,7 +2080,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Saya menampilkan kode dengan penyorotan sintaks yang ditulis dalam bahasa pemrograman lain, sehingga para kreator yang sudah mahir dalam pemrograman dapat membandingkannya.",
-                "Tulis satu varian per bahasa sebagai tag dua huruf, sebuah bar, dan kode, seperti \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "Tulis satu varian per bahasa sebagai tag dua huruf, sebuah bar, dan kode, seperti \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
             ]
         },
         "Localized": {
@@ -2664,7 +2663,7 @@
                         "\\'halo'.hurufBesar()\\",
                         "Huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, jadi teks dalam sistem tulisan yang tidak punya itu, seperti tulisan Jepang atau Arab, tidak berubah.",
                         "Tanda bahasaku menentukan aturan siapa yang dipakai. Bahasa Turki punya huruf i bertitik dan i tanpa titik, dan hanya teks yang ditandai sebagai bahasa Turki yang diubah menjadi huruf besar dengan cara Turki:",
-                        "\\'iyi'.hurufBesar()\\",
+                        "\\'iyi'/tr.hurufBesar()\\",
                         "\\'iyi'.hurufBesar()\\"
                     ],
                     "names": ["$~hurufBesar"],
@@ -3119,7 +3118,7 @@
             "conversion": {
                 "text": "$~Representasi @Text Arab dari angka-angkaku.",
                 "list": [
-                    "$~Saya mengubah sebuah angka menjadi daftar angka dari 1 hingga angka yang diberikan. Misalnya:",
+                    "$~Saya mengubah sebuah angka menjadi daftar angka dari \\1\\ hingga angka yang diberikan. Misalnya:",
                     "\\10→[]\\"
                 ],
                 "unit": "$from → $to"
@@ -3286,7 +3285,7 @@
                 "Kira-kira begitu. Tapi aku bisa melakukan segala macam hal seru dengan @FunctionDefinition-ku!"
             ],
             "name": ["$~Daftar"],
-            "kind": "$~Baik",
+            "kind": "Jenis",
             "out": "$~Hasil",
             "outofbounds": "$~diLuarBatas",
             "function": {
@@ -3710,7 +3709,7 @@
                 "Apakah ada hal lain yang ingin kamu lakukan denganku? Lihat semua @FunctionDefinition keren yang kupunya!"
             ],
             "name": ["$~Mengatur"],
-            "kind": "$~Baik",
+            "kind": "Jenis",
             "out": "$~Hasil",
             "function": {
                 "size": {
@@ -9157,7 +9156,7 @@
                     "example": {
                         "phrase": "$~\\¶Phrase muncul di panggung, dengan warna, cahaya, dan gerakan apa pun yang kamu suka.¶\nFrasa(\n\t'halo!'\n\t6m\n\twarna: Warna(60% 90 200°)\n\taura: Aura(Warna(80% 80 200°) 0.3m)\n\tberistirahat: Urutan.bergoyang(8°)\n)\\",
                         "music": "$~\\¶Musik adalah nada pada alat musik sungguhan, dengan tempo, dalam sebuah kunci nada. Panggung menggambar apa yang didengarnya.¶\nMusik(\n\tTrek([1 3 5 8 5 3] alatMusik: AlatMusik.piano)\n\ttempo: 120beats/min\n)\\",
-                        "hello": "$~\\¶Kode bisa bereaksi terhadap masukan seperti @Time, dan teks bisa berbahasa banyak dan diucapkan.¶\nhellos: ['halo' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhalo: hellos.acak() … ∆ Waktu(1000ms) … hellos.acak()\nFrasa(halo 4m)\nMengatakan(halo)\\",
+                        "hello": "$~\\¶Kode bisa bereaksi terhadap masukan seperti @Time, dan teks bisa berbahasa banyak dan diucapkan.¶\nhellos: ['halo'/id 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhalo: hellos.acak() … ∆ Waktu(1000ms) … hellos.acak()\nFrasa(halo 4m)\nMengatakan(halo)\\",
                         "keys": "$~\\¶Kode bisa bereaksi terhadap penunjuk, tombol, klik, dan ketukan.¶\nkunci2: Kunci()\nklik: Tombol()\nwajah2: ['🙂' '😮' '😎' '🤩']\nyangMana: 1 … ∆ kunci2 | ∆ klik … (yangMana % 4) + 1\nPanggung(\n\t[Frasa(wajah2[yangMana] 5m tempat: Penunjuk() gelembung: 'hai')]\n\ttempat: Tempat(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Atur tata letak teks dan buat teks bisa dipilih.¶\nbuah: ƒ(e•'') Frasa(e 3m nama: e dapatdipilih: ⊤)\ndipilih: Pilihan()\nditampilkan: '?' … ∆ dipilih … dipilih\nKelompok(\n\tTumpukan(lapisan: 1m)\n\t[\n\t\tFrasa(ditampilkan 4m)\n\t\tKelompok(\n\t\t\tBaris(lapisan: 1m)\n\t\t\t[buah('🍎') buah('🍐') buah('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Mengobrol dengan program dan memakai bentuk huruf serta simbol.¶\npesan: Mengobrol()\nkata2: 'hai' … ∆ pesan … pesan\nbaris2: Kontur(kata2 'Noto Sans' 8m)\ndetik2: 0 … ∆ Waktu(30ms) … detik2 + 1\nditampilkan: ((baris2.panjang() × detik2) ÷ 66).bulatkankebawah(\n\t) + 1\ntitik: baris2.suburutan(1 ditampilkan).menerjemahkan(\n\t\tƒ(p) Frasa('•' tempat: p)\n\t)\nPanggung(titik.dengan(Frasa(kata2 8m kegelapan: 15%)))\\",
@@ -9181,8 +9180,8 @@
                         "title": "$~Wordplay berbahasa banyak",
                         "bullets": [
                             "$~• Setiap fitur bahasa pemrograman punya nama dalam setiap bahasa, jadi kode bisa dibaca dengan kata-kata yang sudah kamu kenal.",
-                            "• Namamu sendiri juga bisa berbahasa banyak:\n\\kucing2: '🐈'\nFrasa(kucing2)\\",
-                            "• Teks punya sebuah bahasa, dan menunjukkan bahasa yang dibaca penontonmu: \\'halo'\\.",
+                            "• Namamu sendiri juga bisa berbahasa banyak:\n\\kucing2/id, gato/es: '🐈'\nFrasa(kucing2)\\",
+                            "• Teks punya sebuah bahasa, dan menunjukkan bahasa yang dibaca penontonmu: \\'halo'/id'hola'/es\\.",
                             "• Situs ini tersedia dalam 29 bahasa dan kamu bisa memilih lebih dari satu sekaligus; teks akan tampil dalam setiap bahasa yang dipilih.",
                             "• Kamu bisa membantu menerjemahkan @wordplay sendiri, langsung di dalam aplikasi di <localize//localize>."
                         ]

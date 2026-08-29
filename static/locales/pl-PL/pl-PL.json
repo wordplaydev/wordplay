@@ -346,16 +346,16 @@
                 "$~Jestem znacznikiem języka i współpracuję z @Name i @Doc!",
                 "Jestem naprawdę dobry w tym, żeby *jasno jak słońce* pokazać, w jakim języku coś jest napisane. Wystarczy mały ukośnik i kilka liter, a nikt już nie będzie miał wątpliwości, w jakim języku jest jakiś tekst.",
                 "Na przykład, jeśli chcesz powiedzieć „Language”, ale zaznaczyć, że to po angielsku:",
-                "\\'Język'\\",
+                "\\'Język'/pl\\",
                 "Możesz to zrobić dla @Name:",
                 "\\dźwięk: 'miau'\\🪲",
                 "…albo dla @Doc:",
                 "\\¶Onomatopeja¶\ndźwięk: 'miau'\\🪲",
                 "Czasem tekst nie jest tylko w jednym języku — jest *mieszanką*. Jak Spanglish, gdzie hiszpański i angielski mieszają się razem. Dla takich przypadków wypisz każdy język, oddzielając je podkreślnikiem. Pierwszy z nich jest *główny* — to ten, którego użyję, gdy muszę wybrać (na przykład, żeby zdecydować, jakich cudzysłowów użyć).",
-                "\\'Hola gentleman!'\\",
+                "\\\"Hola gentleman!\"/es_en\\",
                 "\\¶Dwujęzyczne powitanie¶\nhello/es_en: 'Hola gentleman!'\\🪲",
                 "Możesz też dodać jeden @region, po myślniku, tak samo jak przy jednym języku:",
-                "\\'Hola gentleman!'\\",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
                 "Nie ma ograniczenia co do liczby języków, które możesz wypisać — po prostu nie powtarzaj tego samego dwa razy; dam ci znać, jeśli to zrobisz.",
                 "Język możesz zapisać jego <2-literowym kodem@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> albo jego *nazwą*, w tym języku lub po angielsku — `/es`, `/Español` i `/Spanish` znaczą to samo, podobnie jak `/es-MX`, `/es-México` i `/es-Mexico`. Wielkie litery i akcenty nie mają znaczenia, więc `/ESPANOL` też zadziała. Nazwa ze spacją zapisywana jest bez spacji, na przykład `/BahasaIndonesia`, ponieważ znacznik to jedno słowo. Jeśli nie rozpoznam języka albo regionu, dam ci znać."
             ],
@@ -2076,7 +2076,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Pokazuję kod napisany w innych językach programowania z wyróżnioną składnią, aby twórcy, którzy już kodują, mogli porównać swoje wyniki.",
-                "Zapisz jeden wariant dla każdego języka jako dwuliterowy znacznik, pasek i kod, na przykład \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "Zapisz jeden wariant dla każdego języka jako dwuliterowy znacznik, pasek i kod, na przykład \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
             ]
         },
         "Localized": {
@@ -2499,7 +2499,7 @@
                 "\\'Są tylko dwa sposoby na życie. Pierwszy to tak, jakby nic nie było cudem. Drugi to tak, jakby wszystko było cudem.'\\",
                 "\\'一日三秋'\\",
                 "Pamiętaj tylko, aby mnie zamknąć, jeśli mnie otworzysz, i użyć pasującego symbolu. W innym wypadku nie będę wiedzieć, że skończyłeś swoje słowa.",
-                "\\'cześć'\\",
+                "\\'cześć'/pl'hola'/es-MX\\",
                 "Możesz mnie też oznaczyć językami, a nawet podać kilka tłumaczeń. Przyjmę wartość w tym języku, który jest obecnie wybrany, jeśli istnieje pasujący język.",
                 "Jeśli chcesz mnie stworzyć z jakimiś innymi wartościami, możesz zrobić tak:",
                 "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
@@ -2659,7 +2659,7 @@
                         "\\'cześć'.wielkieLitery()\\",
                         "Wielkość liter istnieje tylko w niektórych systemach pisma, więc tekst w systemie bez niej, jak japoński czy arabski, pozostaje bez zmian.",
                         "Mój znacznik języka decyduje, jakich zasad użyć. Turecki ma i z kropką i bez kropki, i tylko tekst oznaczony jako turecki zamienia je na wielkie litery po turecku:",
-                        "\\'dobry'.wielkieLitery()\\",
+                        "\\'iyi'/tr.wielkieLitery()\\",
                         "\\'dobry'.wielkieLitery()\\"
                     ],
                     "names": ["$~wielkieLitery"],
@@ -2857,7 +2857,7 @@
                 "remainder": {
                     "doc": [
                         "$~Dzielę siebie przez podaną @Number, ale resztę podaję:",
-                        "\\10% 2\\",
+                        "\\10 % 2\\",
                         "\\10m % 2\\",
                         "\\10m/s % 3\\"
                     ],
@@ -3281,7 +3281,7 @@
                 "To w zasadzie tyle. Ale mogę robić wszelkie ekscytujące rzeczy z moim @FunctionDefinition!"
             ],
             "name": ["$~Lista"],
-            "kind": "$~Uprzejmy",
+            "kind": "Rodzaj",
             "out": "$~Wynik",
             "outofbounds": "$~pozaGranicami",
             "function": {
@@ -3704,8 +3704,8 @@
                 "\\{'hej' 'cześć' 'witaj'}!{'siema'}\\🪲",
                 "Czy jest coś jeszcze, co chcesz ze mną zrobić? Sprawdź wszystkie zgrabne @FunctionDefinition, które mam!"
             ],
-            "name": ["$~Ustawić"],
-            "kind": "$~Uprzejmy",
+            "name": ["Zbiór"],
+            "kind": "Rodzaj",
             "out": "$~Wynik",
             "function": {
                 "size": {
@@ -3722,7 +3722,7 @@
                     "inputs": [
                         {
                             "doc": "$~@Set do porównania.",
-                            "names": "$~ustawić"
+                            "names": "zbiór"
                         }
                     ]
                 },
@@ -3735,7 +3735,7 @@
                     "inputs": [
                         {
                             "doc": "$~@Set do porównania.",
-                            "names": "$~ustawić"
+                            "names": "zbiór"
                         }
                     ]
                 },
@@ -3775,7 +3775,7 @@
                     "inputs": [
                         {
                             "doc": "$~@Set do połączenia ze mną.",
-                            "names": "$~ustawić"
+                            "names": "zbiór"
                         }
                     ]
                 },
@@ -3788,7 +3788,7 @@
                     "inputs": [
                         {
                             "doc": "$~Zestaw do porównania ze mną.",
-                            "names": "$~ustawić"
+                            "names": "zbiór"
                         }
                     ]
                 },
@@ -3801,7 +3801,7 @@
                     "inputs": [
                         {
                             "doc": "$~Zestaw, którego elementy powinny zostać ode mnie usunięte.",
-                            "names": "$~ustawić"
+                            "names": "zbiór"
                         }
                     ]
                 },
@@ -3825,7 +3825,7 @@
                         },
                         {
                             "doc": "$~Zestaw poddawany filtrowaniu",
-                            "names": "$~ustawić"
+                            "names": "zbiór"
                         }
                     ]
                 },
@@ -3839,7 +3839,7 @@
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition tłumaczy jeden z moich elementów na nowy element, którego potrzebujesz.",
-                            "names": "$~ustawić"
+                            "names": "zbiór"
                         }
                     ],
                     "translator": [
@@ -3849,7 +3849,7 @@
                         },
                         {
                             "doc": "$~Zestaw, który jest tłumaczony",
-                            "names": "$~ustawić"
+                            "names": "zbiór"
                         }
                     ]
                 }
@@ -8819,7 +8819,7 @@
                     "example": {
                         "phrase": "$~\\¶Frazy pojawiają się na scenie, w dowolnym kolorze, blasku i ruchu, jaki lubisz.¶\nWyrażenie(\n\t'cześć!'\n\t6m\n\tkolor: Kolor(60% 90 200°)\n\taura: Aura(Kolor(80% 80 200°) 0.3m)\n\tspoczynkowy: Sekwencja.kołysać(8°)\n)\\",
                         "music": "$~\\¶Muzyka to dźwięki grane na prawdziwych instrumentach, w danym tempie i tonacji. Scena rysuje to, co słyszy.¶\nMuzyka(\n\tŚcieżka([1 3 5 8 5 3] instrument: Instrument.pianino)\n\ttempo: 120beats/min\n)\\",
-                        "hello": "$~\\¶Kod może reagować na wejście, takie jak @Time, a tekst może być wielojęzyczny i mówiony.¶\npowitania: ['cześć' 'hola' 'こんにちは' 'habari' 'नमस्ते']\ncześć: powitania.losowy() … ∆ Czas(1000ms) … powitania.losowy(\n\t\t)\nWyrażenie(cześć 4m)\nMowić(cześć)\\",
+                        "hello": "$~\\¶Kod może reagować na wejście, takie jak @Time, a tekst może być wielojęzyczny i mówiony.¶\npowitania: ['cześć'/pl 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\ncześć: powitania.losowy() … ∆ Czas(1000ms) … powitania.losowy(\n\t\t)\nWyrażenie(cześć 4m)\nMowić(cześć)\\",
                         "keys": "$~\\¶Kod może reagować na ruch wskaźnika, klawisze, kliknięcia i dotknięcia.¶\nklawisz2: Klawisz()\nkliknięcie: Przycisk()\nbuźki: ['🙂' '😮' '😎' '🤩']\nktóry: 1 … ∆ klawisz2 | ∆ kliknięcie … (który % 4) + 1\nScena(\n\t[\n\t\tWyrażenie(\n\t\t\tbuźki[który]\n\t\t\t5m\n\t\t\tmiejsce: Wskaźnik()\n\t\t\tdymek: 'cześć'\n\t\t)\n\t]\n\tmiejsce: Miejsce(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Rozmieszczaj tekst i spraw, aby dało się go zaznaczyć.¶\nowoc: ƒ(e•'') Wyrażenie(e 3m nazwa: e wybieralny: ⊤)\nwybrany: Wybór()\npokazany: '?' … ∆ wybrany … wybrany\nGrupa(\n\tStos(wyściółka: 1m)\n\t[\n\t\tWyrażenie(pokazany 4m)\n\t\tGrupa(\n\t\t\tWiersz(wyściółka: 1m)\n\t\t\t[owoc('🍎') owoc('🍐') owoc('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Rozmawiaj z programami i wykorzystuj kształt czcionek oraz symboli.¶\nwiadomość: Pogawędzić()\nsłowo2: 'cześć' … ∆ wiadomość … wiadomość\nlinia: Kontur(słowo2 'Noto Sans' 8m)\ntyknięcia: 0 … ∆ Czas(30ms) … tyknięcia + 1\npokazany: ((linia.długość() × tyknięcia) ÷ 66).zaokrąglićwdół(\n\t) + 1\nkropki: linia.podsekwencja(1 pokazany).tłumaczyć(\n\t\tƒ(p) Wyrażenie('•' miejsce: p)\n\t)\nScena(\n\tkropki.z(Wyrażenie(słowo2 8m nieprzezroczystość: 15%))\n)\\",
@@ -8843,8 +8843,8 @@
                         "title": "$~Wordplay jest wielojęzyczny",
                         "bullets": [
                             "$~• Każda funkcja języka programowania ma nazwę w każdym języku, więc kod czytasz w słowach, które już znasz.",
-                            "• Twoje własne nazwy też mogą być wielojęzyczne:\n\\kot2: '🐈'\nWyrażenie(kot2)\\",
-                            "• Tekst ma przypisany język i pokazuje ten, który rozumie twoja publiczność: \\'cześć'\\.",
+                            "• Twoje własne nazwy też mogą być wielojęzyczne:\n\\kot2/pl, gato/es: '🐈'\nWyrażenie(kot2)\\",
+                            "• Tekst ma przypisany język i pokazuje ten, który rozumie twoja publiczność: \\'cześć'/pl'hola'/es\\.",
                             "• Sama strona jest dostępna w 29 językach i możesz wybrać więcej niż jeden naraz; tekst pojawi się w każdym z nich.",
                             "• Możesz pomóc przetłumaczyć @wordplay, prosto w aplikacji, tutaj: <localize//localize>."
                         ]

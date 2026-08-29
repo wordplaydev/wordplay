@@ -1,34 +1,55 @@
-Zeichne, was die Musik gerade spielt
+Zeichne, was die Musik spielt
 
-Musik, die du hören kannst, ist nur die Hälfte. Der  @Beat  Datenstrom gibt dir bei jedem Schlag den ganzen Zustand des Abspielers, damit du zeichnen kannst, was gerade passiert. 
+Musik, die man hört, ist nur die halbe Sache. Der  @Beat -Strom gibt dir bei jedem Schlag den ganzen Zustand des Players, damit du zeichnen kannst, was gerade passiert. 
 
-@Beat  hat immer einen  @Downbeat , den er dir gibt, damit du ihn sofort lesen kannst. Bevor die Musik startet, sitzt er auf Schlag null, ohne dass etwas spielt:
+@Beat  hat immer einen  @Downbeat  für dich bereit, damit du ihn sofort lesen kannst. Bevor Musik beginnt, steht er auf Schlag null, ohne dass etwas spielt:
 
 \beat: Beat()
 count: beat.count
-Stage([
-		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] instrument: Instrument.drums))
-	])\
+Stage(
+	[
+		Phrase('🥁' Größe: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] Instrument: Instrument.drums))
+	]
+)\
 
-Der \count\ geht bei jedem Schlag um eins hoch, also ist \count % 4\ \0\ bei jedem vierten — dem Hauptschlag — und die Trommel springt.
+Der \count\ zählt bei jedem Schlag eins hoch, also ist \count % 4\ bei jedem vierten Schlag \0\ — dem Taktanfang — und die Trommel springt.
 
-Das ist die ganze Musik als eine Zahl. Aber ein  @Downbeat  trägt auch eine \parts\ Liste, einen  @Part  für jeden  @Track , und ein  @Part  weiß, was seine eigene Stimme gerade macht: seinen \pitch\, seinen \volume\, seinen \pan\, und ob er \sounding\. Zeichne diese, und du bekommst jede Stimme einzeln statt der Mischung:
+Das ist die ganze Musik als eine einzige Zahl. Aber ein  @Downbeat  trägt auch eine \parts\-Liste, eine  @Part  für jede  @Track , und eine  @Part  weiß, was ihre eigene Stimme gerade macht: ihre \pitch\, ihre \volume\, ihre \pan\ und ob sie gerade \sounding\ ist. Zeichne das, und du bekommst jede Stimme einzeln statt der Mischung:
 
 \beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
-Stage([
+ƒ dot(p•Part)•Phrase Phrase(
+		'⬤'
+		0.4m + (p.volume · 1m)
+		Ort: Place(
+			(p.pan · 3) · 1m
+			((height(p) · 0.2) - 1) · 1m
+		)
+	)
+Stage(
+	[
 		:parts.translate(ƒ(p•Part) dot(p))
-		Music([
-				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-			])
-	])\
+		Music(
+			[
+				Track(
+					[1 ø 5 ø]
+					Instrument: Instrument.piano
+					Balance: -1
+				)
+				Track(
+					[ø 8 ø 12]
+					Instrument: Instrument.bell
+					Balance: 1
+				)
+			]
+		)
+	]
+)\
 
-Jeder Punkt sitzt dort, wo seine Spur sitzt: \pan\ setzt ihn nach links oder rechts, \pitch\ setzt ihn nach oben oder unten. Weil \sounding\ wahr bleibt, während ein langer Ton noch klingt, behält ein gehaltener Ton seinen Punkt, statt zu verschwinden.
+Jeder Punkt sitzt dort, wo seine Spur sitzt: \pan\ setzt ihn nach links oder rechts, \pitch\ setzt ihn nach oben oder unten. Weil \sounding\ wahr bleibt, solange ein langer Ton noch klingt, behält ein gehaltener Ton seinen Punkt, statt zu verschwinden.
 
-Sieh dir die kleine \height\-Funktion an: \pitch\ ist eine /Liste/, weil ein Akkord mehrere Töne gleichzeitig spielt. Wenn du eine Liste nach ihrem ersten Element fragst, bekommst du entweder eine Zahl oder \ø\. Wenn du festlegst, dass die Funktion eine \#\ zurückgibt, wird daraus wieder eine Zahl, mit der du rechnen kannst.
+Beobachte den kleinen \height\ Funktion. \pitch\ ist eine /Liste/, da ein Akkord mehrere Töne gleichzeitig klingen lässt. Deshalb nimmt \p.pitch[1]\ den tiefsten Ton, der gerade erklingt. Diese Zahl steht in \semitones\, und die Teilung durch \1semitones\ macht daraus eine einfache Zahl, die du mit \0.2\ und \1m\ unten mischen kannst. Es reicht nicht aus, die Funktion als \#\ zu deklarieren: Ein einfaches \#\ bedeutet /irgendeine/ Einheit, nicht /keine/ Einheit. Deshalb nimmt es die Halbtöne bereitwillig an und beschwert sich erst eine Zeile später darüber.
 
 play-a-sound-effect, react-to-sound, count-with-time

@@ -1,28 +1,42 @@
-Acompanhe o estado do jogo.
+Manter registo do estado do jogo
 
-A maioria dos jogos monitoriza diversos aspetos à medida que a partida avança: os pontos, as posições dos jogadores e outros detalhes são fundamentais.Cada vez que existe uma entrada, este estado muda e, em resposta, queremos apresentar uma nova saída.
+A maioria dos jogos mantém registo de várias coisas à medida que o jogo avança: pontos, posições dos jogadores e outros detalhes são todos importantes.Cada vez que há uma entrada, esse estado muda, e depois queremos mostrar uma nova saída, em resposta.
 
 Um padrão geral para qualquer jogo faz três coisas:
 
-• Defina uma estrutura de dados de estado do jogo para armazenar todo o estado do jogo.• Defina uma reação que crie um novo estado de jogo com base no estado de jogo anterior sempre que exista uma nova entrada.• Faça um @Stage  com  @Group  e  @Phrase para mostrar o estado do jogo
+• Definir uma estrutura de dados de estado do jogo, para guardar todo o estado do jogo• Definir uma reação que cria um novo estado do jogo com base no estado anterior, sempre que há uma nova entrada• Criar um  @Stage  com  @Group  e  @Phrase  para mostrar o estado do jogo
 
-Por exemplo, imagine um jogo simples que envolve digitar palavras secretas numa caixa de texto e ganhar um ponto cada vez que uma palavra secreta é adivinhada:
+Por exemplo, imaginemos um jogo simples que consiste em escrever palavras secretas numa caixa de texto, e ganhar um ponto cada vez que se adivinha uma palavra secreta:
 
 \•Game(secrets•[''] points•#)
 state: Game(['gato' 'cão'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
-Stage(state.points = state.secrets.length() ? [Phrase("Você venceu!")] [
-			Group(Stack() [
-					Phrase("Adivinhe as minhas palavras secretas")
-					Phrase(`\state.secrets.length() - state.points\mais segredos`) 				]) 		])\
+Stage(
+	state.points = state.secrets.length() ? [
+			Phrase("ganhou!")
+		] [
+			Group(
+				Stack()
+				[
+					Phrase("adivinhe as minhas palavras secretas")
+					Phrase(
+						`\state.secrets.length() - state.points\ mais segredos`
+					)
+				]
+			)
+		]
+)\
 
-Vamos analisar isto em detalhe.
+Vamos analisar isto passo a passo.
 
-• A primeira linha,\•Game(secrets•[''] points•#)\ diz, /Crie uma estrutura de dados chamada\Game\que armazena uma lista de segredos e pontos./• A segunda linha diz/O jogo começa com uma lista de segredos e zero pontos. Cada vez que...\Chat\Se a palavra introduzida estiver na lista de segredos, o jogo inicia um novo estado com a pontuação aumentada em um./.• Cada vez que o programa é reavaliado (quando o\Chat\(Alterações), mostre uma fase. Se o número de pontos for igual ao número de segredos, apresente uma fase vencedora. Caso contrário, mostre um aviso e o número de segredos restantes.
+• A primeira linha, \•jogo(segredos•[''] pontos2•#)\ diz, /Criar uma estrutura de dados chamada \Game\ que guarda uma lista de segredos e pontos/. O \[
+	''
+]\ significa /uma lista com qualquer número de palavras/. Se em vez disso quisesse uma lista com um tamanho exato, pode indicar um tipo para cada posição nela: \[
+	#'']\ é uma lista de duas coisas, um número seguido de uma palavra.• A segunda linha diz /O estado do jogo começa com uma lista de segredos e zero pontos. Cada vez que o \Conversa\ muda, se a palavra introduzida estiver na lista de segredos, então cria um novo estado do jogo com os pontos aumentados em um/.• Cada vez que o programa é avaliado de novo (quando o \Conversa\ muda), mostra um palco. Se o número de pontos for igual ao número de segredos, mostra um palco de vitória. Caso contrário, mostra uma indicação e o número de segredos que restam.
 
-Este exemplo apresenta alguns problemas:
+Este exemplo tem alguns problemas:
 
-• Se adivinharem uma palavra secreta várias vezes, ganham mais pontos! O nosso sistema de jogo também pode precisar de se lembrar do que foi adivinhado, pelo que cada palavra é contada apenas duas vezes.• Se o jogador introduzir várias palavras, isso deve ser contabilizado?
+• Se a pessoa adivinhar uma palavra secreta várias vezes, ganha mais pontos! O nosso estado do jogo pode precisar de também guardar o que já foi adivinhado, para que cada palavra só conte duas vezes.• Se o jogador introduzir várias palavras, isso deve contar?
 
-Estados de jogo e atualizações de jogo mais sofisticados ajudar-nos-iam a lidar com estes casos.
+Estados do jogo e atualizações do jogo mais sofisticados ajudar-nos-iam a tratar destes casos.
 
 track-points

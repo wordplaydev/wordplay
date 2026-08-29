@@ -346,16 +346,16 @@
                 "$~Ich bin ein Sprach-Tag und ich arbeite mit @Name und @Doc!",
                 "Ich bin richtig gut darin, *ganz klar* zu machen, in welcher Sprache etwas geschrieben ist. Nur ein kleiner Schrägstrich und ein paar Buchstaben, und niemand ist mehr verwirrt, in welcher Sprache ein Text ist.",
                 "Wenn du zum Beispiel \"Sprache\" sagen willst, aber klarmachen willst, dass es Englisch ist:",
-                "\\'Sprache'\\",
+                "\\'Sprache'/de\\",
                 "Das kannst du für einen @Name tun:",
                 "\\klang: 'miau'\\🪲",
                 "…oder für eine @Doc:",
                 "\\¶Lautmalerei¶\nklang: 'miau'\\🪲",
                 "Manchmal ist ein Text nicht nur eine Sprache — er ist eine *Mischung*. Wie Spanglish, wo sich Spanisch und Englisch mischen. Dafür listest du jede Sprache auf, mit einem Unterstrich dazwischen. Die erste ist die *Hauptsprache* — das ist die, die ich benutze, wenn ich mich entscheiden muss (zum Beispiel, um zu wählen, welche Anführungszeichen ich verwende).",
-                "\\'Hola gentleman!'\\",
+                "\\\"Hola gentleman!\"/es_en\\",
                 "\\¶Ein zweisprachiger Gruß¶\nhello/es_en: 'Hola gentleman!'\\🪲",
                 "Du kannst auch eine einzelne @region hinzufügen, nach einem Bindestrich, genau wie bei einer einzelnen Sprache:",
-                "\\'Hola gentleman!'\\",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
                 "Es gibt keine Grenze, wie viele Sprachen du auflisten kannst — wiederhole nur nicht dieselbe zweimal; ich sage dir Bescheid, falls das passiert.",
                 "Du kannst eine Sprache mit ihrem <2-Buchstaben-Code@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> schreiben oder mit ihrem *Namen*, in dieser Sprache oder auf Englisch — `/es`, `/Español` und `/Spanish` bedeuten alle dasselbe, genauso wie `/es-MX`, `/es-México` und `/es-Mexico`. Groß- und Kleinschreibung und Akzente spielen keine Rolle, also funktioniert auch `/ESPANOL`. Ein Name mit einem Leerzeichen wird ohne das Leerzeichen geschrieben, wie `/BahasaIndonesia`, weil ein Tag ganz aus einem Wort besteht. Wenn ich eine Sprache oder eine Region nicht erkenne, sage ich dir Bescheid."
             ],
@@ -2076,7 +2076,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Ich zeige syntaxhervorgehobenen Code, der in anderen Programmiersprachen geschrieben ist, damit Entwickler, die bereits programmieren, vergleichen können.",
-                "Schreiben Sie für jede Sprache eine Variante als zweibuchstabiges Tag, einen Strich und den Code, z. B. \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "Schreiben Sie für jede Sprache eine Variante als zweibuchstabiges Tag, einen Strich und den Code, z. B. \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
             ]
         },
         "Localized": {
@@ -2499,7 +2499,7 @@
                 "\\'Es gibt nur zwei Arten, dein Leben zu leben. Die eine ist, als wäre nichts ein Wunder. Die andere ist, als wäre alles ein Wunder.'\\",
                 "\\'Ein Tag fühlt sich an wie drei Jahre'\\",
                 "Denke nur daran, mich zu schließen, wenn du mich öffnest, und nutze das passende Symbol. Sonst weiß ich nicht, dass du mit deinen Wörtern fertig bist.",
-                "\\'hallo'\\",
+                "\\'hallo'/de'hola'/es-MX\\",
                 "Du kannst mich auch mit Sprachen kennzeichnen und sogar mehrere Übersetzungen angeben. Ich werde zu der Sprache, die gerade ausgewählt ist, falls es eine passende Sprache gibt.",
                 "Wenn du mich mit anderen Werten erstellen möchtest, kannst du das so machen:",
                 "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
@@ -2659,7 +2659,7 @@
                         "\\'hallo'.Großbuchstaben()\\",
                         "Buchstaben haben nur in manchen Schriftsystemen Groß- und Kleinschreibung. Text in einem Schriftsystem ohne diese Unterscheidung, wie Japanisch oder Arabisch, bleibt also unverändert.",
                         "Mein Sprach-Tag entscheidet, welche Regeln gelten. Türkisch hat ein i mit Punkt und eines ohne Punkt. Nur Text mit dem Sprach-Tag Türkisch wird nach türkischer Art in Großbuchstaben umgewandelt:",
-                        "\\'gut'.Großbuchstaben()\\",
+                        "\\'iyi'/tr.Großbuchstaben()\\",
                         "\\'gut'.Großbuchstaben()\\"
                     ],
                     "names": ["$~Großbuchstaben"],
@@ -8707,7 +8707,7 @@
                     "example": {
                         "phrase": "$~\\¶Phrasen erscheinen auf der Bühne, in jeder Farbe, mit Leuchten und Bewegung, wie du magst.¶\nSatzglied(\n\t'hallo!'\n\t6m\n\tFarbe: Farbe(60% 90 200°)\n\tAura: Aura(Farbe(80% 80 200°) 0.3m)\n\tRuhen: Reihenfolge.wiegen(8°)\n)\\",
                         "music": "$~\\¶Musik besteht aus Noten auf echten Instrumenten, in einem Tempo, in einer Tonart. Die Bühne zeichnet, was sie hört.¶\nMusik(\n\tSpur([1 3 5 8 5 3] Instrument: Instrument.Klavier)\n\tTempo: 120beats/min\n)\\",
-                        "hello": "$~\\¶Code kann auf Eingaben wie @Time reagieren, und Text kann mehrsprachig und gesprochen sein.¶\nhallos: ['hallo' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhallo: hallos.zufällig() … ∆ Zeit(1000ms) … hallos.zufällig(\n\t\t)\nSatzglied(hallo 4m)\nSagen(hallo)\\",
+                        "hello": "$~\\¶Code kann auf Eingaben wie @Time reagieren, und Text kann mehrsprachig und gesprochen sein.¶\nhallos: ['hallo'/de 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhallo: hallos.zufällig() … ∆ Zeit(1000ms) … hallos.zufällig(\n\t\t)\nSatzglied(hallo 4m)\nSagen(hallo)\\",
                         "keys": "$~\\¶Code kann auf Zeiger, Tasten, Klicks und Tipp-Berührungen reagieren.¶\nschlüssel2: Schlüssel()\nklicken: Taste()\ngesichter: ['🙂' '😮' '😎' '🤩']\nwelche: 1 … ∆ schlüssel2 | ∆ klicken … (welche % 4) + 1\nBühne(\n\t[Satzglied(gesichter[welche] 5m Ort: Zeiger() sprechblase: 'hallo')]\n\tOrt: Ort(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Text anordnen und auswählbar machen.¶\nfrucht: ƒ(e•'') Satzglied(e 3m Name: e wählbar: ⊤)\nausgewählt: Auswahl()\ngezeigt: '?' … ∆ ausgewählt … ausgewählt\nGruppe(\n\tStapel(Polsterung: 1m)\n\t[\n\t\tSatzglied(gezeigt 4m)\n\t\tGruppe(\n\t\t\tReihe(Polsterung: 1m)\n\t\t\t[frucht('🍎') frucht('🍐') frucht('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Unterhalte dich mit Programmen und nutze die Form von Schriftarten und Symbolen.¶\nnachricht: Plaudern()\nwort2: 'hallo' … ∆ nachricht … nachricht\nzeile: Kontur(wort2 'Noto Sans' 8m)\nticks: 0 … ∆ Zeit(30ms) … ticks + 1\ngezeigt: ((zeile.Länge() × ticks) ÷ 66).abrunden() + 1\npunkte: zeile.Folge(1 gezeigt).übersetzen(\n\t\tƒ(p) Satzglied('•' Ort: p)\n\t)\nBühne(punkte.mit(Satzglied(wort2 8m Opazität: 15%)))\\",
@@ -8731,8 +8731,8 @@
                         "title": "$~Wordplay ist mehrsprachig",
                         "bullets": [
                             "$~• Jedes Merkmal der Programmiersprache hat in jeder Sprache einen Namen, sodass sich der Code in Wörtern liest, die du schon kennst.",
-                            "• Auch deine eigenen Namen können mehrsprachig sein:\n\\katze: '🐈'\nSatzglied(katze)\\",
-                            "• Text trägt eine Sprache und zeigt die Sprache, die dein Publikum liest: \\'hallo'\\.",
+                            "• Auch deine eigenen Namen können mehrsprachig sein:\n\\katze/de, gato/es: '🐈'\nSatzglied(katze)\\",
+                            "• Text trägt eine Sprache und zeigt die Sprache, die dein Publikum liest: \\'hallo'/de'hola'/es\\.",
                             "• Die Seite selbst gibt es in 29 Sprachen, und du kannst mehr als eine gleichzeitig wählen; der Text erscheint dann in jeder davon.",
                             "• Du kannst mithelfen, @wordplay selbst zu übersetzen, direkt in der App unter <localize//localize>."
                         ]

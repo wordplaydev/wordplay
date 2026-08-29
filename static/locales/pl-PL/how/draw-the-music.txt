@@ -1,34 +1,55 @@
 Narysuj to, co gra muzyka
 
-Muzyka, którą słyszysz, to tylko połowa. Strumień  @Beat  przekazuje ci cały stan odtwarzacza za każdym razem, gdy zabrzmi rytm, więc możesz narysować wszystko, co się dzieje. 
+Muzyka, którą słyszysz, to tylko połowa. Strumień  @Beat  przekazuje ci cały stan odtwarzacza za każdym razem, gdy słychać uderzenie, więc możesz narysować to, co się właśnie dzieje. 
 
-@Beat  zawsze ma dla ciebie  @Downbeat , więc możesz go od razu odczytać. Zanim zacznie się muzyka, znajduje się na rytmie zero, nic nie gra:
+@Beat  zawsze ma  @Downbeat  do przekazania, więc możesz to odczytać od razu. Zanim muzyka się zacznie, licznik stoi na zerowym uderzeniu i nic nie gra:
 
 \beat: Beat()
 count: beat.count
-Stage([
-		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
+Stage(
+	[
+		Phrase('🥁' rozmiar: ((count % 4) = 0) ? 2m 1m)
 		Music(Track([1 1 1 1] instrument: Instrument.drums))
-	])\
+	]
+)\
 
-Wartość \count\ rośnie o jeden z każdym rytmem, więc \count % 4\ jest \0\ na każdym czwartym — na mocnej części taktu — i bęben podskakuje.
+Wartość \count\ rośnie o jeden przy każdym uderzeniu, więc \count % 4\ wynosi \0\ przy każdym czwartym uderzeniu — mocnej części taktu — i wtedy bęben podskakuje.
 
-To cała muzyka jako jedna liczba. Ale  @Downbeat  niesie też listę \parts\, po jednym  @Part  dla każdego  @Track , a  @Part  wie, co robi teraz jego własny głos: swoją \pitch\, swoją \volume\, swoją \pan\, oraz czy jest \sounding\. Narysuj to, a otrzymasz każdy głos osobno, zamiast miksu:
+To cała muzyka zamknięta w jednej liczbie. Ale  @Downbeat  niesie też listę \parts\, po jednym  @Part  dla każdego  @Track , a  @Part  wie, co robi w danej chwili jego własny głos: swoją \pitch\, swoją \volume\, swoją \pan\ oraz czy jest \sounding\. Narysuj to, a otrzymasz każdy głos osobno, zamiast całego miksu:
 
 \beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
-Stage([
+ƒ dot(p•Part)•Phrase Phrase(
+		'⬤'
+		0.4m + (p.volume · 1m)
+		miejsce: Place(
+			(p.pan · 3) · 1m
+			((height(p) · 0.2) - 1) · 1m
+		)
+	)
+Stage(
+	[
 		:parts.translate(ƒ(p•Part) dot(p))
-		Music([
-				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-			])
-	])\
+		Music(
+			[
+				Track(
+					[1 ø 5 ø]
+					instrument: Instrument.piano
+					panorama: -1
+				)
+				Track(
+					[ø 8 ø 12]
+					instrument: Instrument.bell
+					panorama: 1
+				)
+			]
+		)
+	]
+)\
 
-Każda kropka siedzi tam, gdzie siedzi jej ścieżka: \pan\ ustawia ją w lewo lub w prawo, \pitch\ ustawia ją wysoko lub nisko. Ponieważ \sounding\ pozostaje prawdą, gdy długa nuta wciąż brzmi, przytrzymana nuta zachowuje swoją kropkę, zamiast zniknąć.
+Każda kropka znajduje się tam, gdzie jej ścieżka: \pan\ umieszcza ją z lewej lub prawej, \pitch\ umieszcza ją wysoko lub nisko. Ponieważ \sounding\ pozostaje prawdziwe, dopóki długa nuta wciąż brzmi, trzymana nuta zachowuje swoją kropkę zamiast znikać.
 
-Zobacz małą \height\ funkcję: \pitch\ to /lista/, ponieważ akord gra kilka dźwięków naraz, a pytanie listy o jej pierwszy element zwraca albo liczbę, albo \ø\. Zadeklarowanie, że funkcja zwraca \#\, sprowadza to z powrotem do liczby, na której możesz robić działania.
+Obserwuj mały \height\ funkcja. \pitch\ to /lista/, ponieważ akord brzmi z kilku dźwięków naraz, więc \p.pitch[1]\ bierze najniższy dźwięk z tego, co aktualnie brzmi. Ta liczba jest w \semitones\, a dzielenie przez \1semitones\ zamienia ją w zwykłą liczbę, którą można łączyć z \0.2\ oraz \1m\ poniżej. Zadeklarowanie funkcji jako \#\ samo w sobie nie wystarcza: samo \#\ oznacza /dowolną/ jednostkę, a nie /żadną/ jednostkę, więc chętnie przyjmie półtony, a dopiero linijkę dalej się na nie poskarży.
 
 play-a-sound-effect, react-to-sound, count-with-time

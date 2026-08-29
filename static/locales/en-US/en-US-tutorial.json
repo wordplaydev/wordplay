@@ -3794,7 +3794,7 @@
                         [
                             "Group",
                             "excited",
-                            "And if you wanted a very specific arrangement? You could use @Free and tell me exactly where you want all the phrases. Just be sure to give a place to each @Phrase, otherwise I'll just place it at \\Place(0m 0m\\)."
+                            "And if you wanted a very specific arrangement? You could use @Free and tell me exactly where you want all the phrases. Just be sure to give a place to each @Phrase, otherwise I'll just place it at \\Place(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -5673,7 +5673,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "Yeah, like that. Hm… oh, we need to be on stage. @Text, would you mind making a list of everyone? We'll turn that into \\Character>s."
+                            "Yeah, like that. Hm… oh, we need to be on stage. @Text, would you mind making a list of everyone? We'll turn that into \\Character\\s."
                         ],
                         [
                             "Text",

@@ -240,3 +240,87 @@ test('renaming a type carries its inputs along in the same pass', () => {
     if (result.kind === 'retargeted')
         expect(result.code).not.toContain('Θέση(');
 });
+
+/**
+ * Language tags are the one thing localizing an example takes away: a `Translation`, `Name`, or
+ * `Doc` keeps its text and loses its `Language`. Several en-US examples exist to *teach* tags, so
+ * every locale shipped the lesson with its subject missing, and re-translating reproduced it.
+ */
+
+test('a tag naming the source language comes back as the reader’s', () => {
+    const result = retargetExampleNames(
+        '"Language"/en',
+        "'Γλώσσα'",
+        Greek,
+        'el',
+    );
+    expect(result.kind === 'retargeted' && result.code).toBe("'Γλώσσα'/el");
+});
+
+test('a tag naming another language comes back as en-US wrote it', () => {
+    // `'hola'/es` is Spanish for every reader, so a translation of it is a mistake — and one
+    // locales made: sr-RS shipped `конничива` where en-US has `こんにちは`.
+    const result = retargetExampleNames(
+        "['hello'/en 'hola'/es]",
+        "['γεια' 'χόλα']",
+        Greek,
+        'el',
+    );
+    expect(result.kind === 'retargeted' && result.code).toBe(
+        "['γεια'/el 'hola'/es]",
+    );
+});
+
+test('an option the localizer dropped is restored', () => {
+    // `withOnlyLanguage` keeps the option whose text gets translated and drops the rest.
+    const result = retargetExampleNames(
+        "'hello'/en'hola'/es-MX",
+        "'γεια'",
+        Greek,
+        'el',
+    );
+    expect(result.kind === 'retargeted' && result.code).toBe(
+        "'γεια'/el'hola'/es-MX",
+    );
+});
+
+test('a name the localizer dropped is restored, keeping the name the locale chose', () => {
+    // The locale's own word may carry a collision-avoiding suffix; that is its name now, and
+    // restoring en-US's would reintroduce the conflict the suffix resolved.
+    const result = retargetExampleNames(
+        "cat/en, gato/es: '🐈'\nPhrase(cat)",
+        "γάτα2: '🐈'\nΦράση(γάτα2)",
+        Greek,
+        'el',
+    );
+    expect(result.kind === 'retargeted' && result.code).toBe(
+        "γάτα2/el, gato/es: '🐈'\nΦράση(γάτα2)",
+    );
+});
+
+test('prose reflowed inside a doc is not divergence', () => {
+    // Markup emits one `Words` token per line, so a translation that joined en-US's paragraph
+    // onto one line has fewer nodes while its code is untouched. Every locale's
+    // `choose-adventure` how-to read as divergent for this reason alone.
+    const result = retargetExampleNames(
+        '¶One line.\nAnother line.¶\nPhrase(1)',
+        '¶Μία γραμμή. Άλλη γραμμή.¶\nΦράση(1)',
+        Greek,
+        'el',
+    );
+    expect(result.kind).not.toBe('divergent');
+});
+
+test('a restore that would break the example is refused', () => {
+    // A locale whose own word already *is* the other language's would get a duplicate name:
+    // es-MX translates `cat` to `gato`, which is exactly what en-US's second option says.
+    const result = retargetExampleNames(
+        "cat/en, gato/es: '🐈'\nPhrase(cat)",
+        "gato: '🐈'\nΦράση(gato)",
+        Greek,
+        'el',
+    );
+    expect(result.kind === 'retargeted' && result.code).not.toContain(
+        'gato/es, gato',
+    );
+});

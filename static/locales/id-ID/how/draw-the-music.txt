@@ -1,34 +1,55 @@
-Gambar apa yang sedang dimainkan oleh musik
+Gambarkan apa yang sedang dimainkan musiknya
 
-Musik yang bisa kamu dengar hanyalah setengahnya. Aliran  @Beat  memberimu seluruh state pemutar setiap kali ada ketukan, jadi kamu bisa menggambar apa pun yang terjadi. 
+Musik yang bisa kamu dengar hanyalah separuh ceritanya. Aliran  @Beat  memberimu seluruh keadaan pemutar musik setiap kali ketukan berbunyi, jadi kamu bisa menggambar apa pun yang sedang terjadi. 
 
-@Beat  selalu punya  @Downbeat  untuk diberikan kepadamu, jadi kamu bisa langsung membacanya. Sebelum musik dimulai, ia berada di ketukan nol tanpa ada yang dimainkan:
+@Beat  selalu punya  @Downbeat  untuk diberikan kepadamu, jadi kamu bisa langsung membacanya. Sebelum musik apa pun dimulai, ia berada di ketukan nol tanpa apa pun yang dimainkan:
 
 \beat: Beat()
 count: beat.count
-Stage([
-		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] instrument: Instrument.drums))
-	])\
+Stage(
+	[
+		Phrase('🥁' ukuran: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] alatMusik: Instrument.drums))
+	]
+)\
 
-Nilai \count\ naik satu setiap ketukan, jadi \count % 4\ bernilai \0\ pada setiap ketukan keempat — ketukan pertama — dan drum melompat.
+Angka \count\ naik satu setiap ketukan, jadi \count % 4\ adalah \0\ pada setiap ketukan keempat — ketukan berat — dan gambar drum melompat.
 
-Itulah seluruh musik sebagai satu angka. Tapi  @Downbeat  juga membawa daftar \parts\, satu  @Part  untuk setiap  @Track , dan sebuah  @Part  tahu apa yang sedang dilakukan suaranya sendiri saat ini: \pitch\, \volume\, \pan\, dan apakah ia \sounding\. Gambar itu semua dan kamu mendapat setiap suara secara terpisah, bukan campurannya:
+Itu adalah seluruh musik sebagai satu angka. Tapi sebuah  @Downbeat  juga membawa sebuah daftar \parts\, satu  @Part  untuk setiap  @Track , dan sebuah  @Part  tahu apa yang sedang dilakukan suaranya sendiri saat ini: \pitch\-nya, \volume\-nya, \pan\-nya, dan apakah sedang \sounding\. Gambarkan itu semua dan kamu mendapatkan setiap suara secara terpisah, bukan campurannya:
 
 \beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
-Stage([
+ƒ dot(p•Part)•Phrase Phrase(
+		'⬤'
+		0.4m + (p.volume · 1m)
+		tempat: Place(
+			(p.pan · 3) · 1m
+			((height(p) · 0.2) - 1) · 1m
+		)
+	)
+Stage(
+	[
 		:parts.translate(ƒ(p•Part) dot(p))
-		Music([
-				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-			])
-	])\
+		Music(
+			[
+				Track(
+					[1 ø 5 ø]
+					alatMusik: Instrument.piano
+					geser: -1
+				)
+				Track(
+					[ø 8 ø 12]
+					alatMusik: Instrument.bell
+					geser: 1
+				)
+			]
+		)
+	]
+)\
 
-Setiap titik berada di tempat trek-nya berada: \pan\ menaruhnya di kiri atau kanan, \pitch\ menaruhnya di atas atau bawah. Karena \sounding\ tetap bernilai benar selama nada panjang masih berbunyi, nada yang ditahan tetap punya titiknya alih-alih hilang berkedip.
+Setiap titik berada di tempat trek-nya berada: \pan\ menempatkannya di kiri atau kanan, \pitch\ menempatkannya di atas atau bawah. Karena \sounding\ tetap benar selama nada panjang masih berbunyi, nada yang ditahan tetap menampilkan titiknya alih-alih menghilang.
 
-Perhatikan fungsi \height\ kecil ini: \pitch\ adalah sebuah /daftar/, karena sebuah akor membunyikan beberapa not sekaligus, dan meminta item pertama dari sebuah daftar akan mengembalikan sebuah angka atau \ø\. Menyatakan bahwa fungsi ini mengembalikan sebuah \#\ itulah yang membuatnya kembali menjadi angka yang bisa kamu pakai untuk berhitung.
+Perhatikan \height\ fungsi. \pitch\ adalah /daftar/, karena satu kord membunyikan beberapa nada sekaligus, jadi \p.pitch[1]\ mengambil nada terendah dari yang sedang berbunyi. Angka itu ada dalam \semitones\, dan membaginya dengan \1semitones\ adalah cara mengubahnya menjadi angka biasa yang bisa dicampur dengan \0.2\ dan \1m\ di bawah. Menyatakan fungsi sebagai \#\ saja tidak cukup: \#\ polos berarti /unit apa pun/, bukan /tanpa/ unit, jadi ia akan menerima nilai semitone begitu saja lalu baru mengeluh soal itu satu baris kemudian.
 
 play-a-sound-effect, react-to-sound, count-with-time

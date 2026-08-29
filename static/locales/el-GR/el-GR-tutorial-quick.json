@@ -28,7 +28,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Στις περισσότερες γλώσσες προγραμματισμού, ένα πρόγραμμα είναι μια λίστα εντολών που λένε στον υπολογιστή τι να *κάνει*, όπως να εμφανίσει μια τιμή:",
-                            "$~\\py | print('γεια')\\js|console.log('hi')\\jv | System.out.println('γεια')\n;\\",
+                            "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~Στο @wordplay, τα προγράμματα είναι *εκφράσεις* που λένε ποιο πρέπει να είναι το /αποτέλεσμα/ του προγράμματος, όχι πώς πρέπει να το παράγει.",
                             "$~Αυτό το πρόγραμμα υπολογίζεται στην τιμή \\'γεια'\\, η οποία στη συνέχεια εμφανίζεται στη σκηνή. Καμία εντολή εμφάνισης, μόνο μια @expression που λέει σε ποια τιμή να υπολογιστεί."
                         ],
@@ -38,7 +38,7 @@
                             "Bind",
                             "neutral",
                             "$~Σε άλλες γλώσσες, μια *μεταβλητή* είναι ένα δοχείο με όνομα για μια @value, και η τιμή της μπορεί να αλλάξει:",
-                            "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
+                            "\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
                             "$~Στο @wordplay, οι τιμές με όνομα δεν μπορούν ποτέ να αλλάξουν. Είναι 'αμετάβλητες', που σημαίνει ότι δεν μπορούν να πάρουν νέες τιμές. Γι' αυτό τις λέμε @Bind αντί για @variable, αφού δεν μπορούν να μεταβληθούν.",
                             "$~Σύντομα θα μιλήσουμε για το πώς να γράφεις διαδραστικά προγράμματα χωρίς μεταβλητές που μπορούν να αλλάξουν."
                         ]
@@ -58,7 +58,7 @@
                             "Conditional",
                             "neutral",
                             "$~Άλλες γλώσσες προγραμματισμού συνήθως έχουν μια εντολή *if* για να κάνουν διαφορετικά πράγματα ανάλογα με μια @condition:",
-                            "$~\\py | num = 5\nif\nnum < 5\n:\nprint('λιγότερο')\nαλλιώς:\n\tprint('περισσότερο')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('λιγότερα')\n;\nelse\nSystem.out.println('περισσότερα')\n;\\",
+                            "\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
                             "$~Στο @wordplay, τα πάντα είναι μια @expression, οπότε το @Conditional είναι μια *έκφραση* που γράφεται με μια συνθήκη, μετά ένα \\?\\, μετά μια αληθή έκφραση και μια ψευδή έκφραση. Δεν χρειάζονται λέξεις-κλειδιά"
                         ],
                         null,
@@ -67,7 +67,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Μερικές γλώσσες έχουν επίσης μια εντολή *switch* για να κάνουν διαφορετικά πράγματα ανάλογα με μια @value:",
-                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('ένα')\n\t;break;\n\tcase\n\t2: System.out.println('δύο')\n\t;break;\n\tdefault: System.out.println('πολλά')\n\t;break;\n}\\",
+                            "\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv| switch (n) {\n  case 1: System.out.println(\"one\"); break;\n  case 2: System.out.println(\"two\"); break;\n  default: System.out.println(\"many\"); break;\n}\\",
                             "$~Το @wordplay έχει το @Match, που διαλέγει ένα αποτέλεσμα με βάση την τιμή."
                         ],
                         null,
@@ -76,7 +76,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Μερικές γλώσσες έχουν επίσης έναν @operator *null coalescing* για να δίνουν μια προεπιλεγμένη @value όταν μια @variable είναι null ή απροσδιόριστη:",
-                            "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
+                            "\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
                             "$~Το @wordplay έχει τον τελεστή @Otherwise για να πετύχει το ίδιο αποτέλεσμα."
                         ]
                     ]
@@ -102,7 +102,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~Οι περισσότερες γλώσσες έχουν πολλούς 'βασικούς' τύπους @value.",
-                            "$~\\py | number\n:1\nκείμενο: 'γεια'\nλογικήΤιμή: True\nτίποτα: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'γεια'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
+                            "\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
                             "$~Το @wordplay έχει παρόμοια σύνταξη για αυτούς τους τύπους, αλλά σου επιτρέπει επίσης να προσθέσεις άλλες πληροφορίες, όπως ετικέτες @language για πολύγλωσσο κείμενο και μονάδες στους αριθμούς."
                         ],
                         null,
@@ -118,7 +118,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Οι γλώσσες προγραμματισμού έχουν επίσης τρόπους να δημιουργούν συλλογές τιμών, όπως λίστες, σύνολα και χάρτες (γνωστά συχνά ως λεξικά ή hashes):",
-                            "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'α': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('α' 1)\n\t\t\t\t\t;\\",
+                            "\\py| list = [1, 2, 3]\nset = {1, 2, 3}\nmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv| let array = [1, 2, 3];\nlet set = new java.util.HashSet<>([1, 2, 3]);\nlet map = new java.util.HashMap<>();\nmap.put(\"a\", 1);\\",
                             "$~Το @wordplay χρησιμοποιεί διαφορετική σύνταξη για αυτές τις συλλογές, κυρίως χρησιμοποιώντας κενά για να χωρίζει τις τιμές αντί για κόμματα."
                         ],
                         null,
@@ -133,7 +133,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Μερικές γλώσσες προγραμματισμού σου επιτρέπουν να ορίσεις τον @type μιας @variable, ώστε να βεβαιωθείς ότι όλοι οι τρόποι που χρησιμοποιείς τη μεταβλητή είναι έγκυροι:",
-                            "$~\\py | list\n:list[int]=[1,2,3]\\js| // Η JavaScript δεν έχει σημειώσεις τύπων. Η TypeScript όμως έχει:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
+                            "\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
                             "$~Το @wordplay έχει επίσης τύπο, όμως οι τύποι *συνάγονται* μόνοι τους. Συνήθως δεν χρειάζεται να τους δηλώσεις, αλλά μερικές φορές ίσως πρέπει, αν δεν μπορούν να συναχθούν. Ένας τύπος λίστας μπορεί επίσης να ονομάσει έναν τύπο για κάθε θέση στη λίστα, όπως \\[# '']\\ για μια λίστα με ακριβώς δύο πράγματα: έναν αριθμό, και μετά μια λέξη."
                         ],
                         null,
@@ -142,7 +142,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Οι γλώσσες προγραμματισμού συνήθως προσφέρουν επίσης έναν τρόπο να φτιάχνεις δικούς σου τύπους δεδομένων, για να συνδυάζεις πολλές τιμές σε μία δομή δεδομένων:",
-                            "$~\\py | class\nκατοικίδιο:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
+                            "\\py| class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv| public class Pet {\n    private String name;\n    private int age;\n    public Pet(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\",
                             "$~Το @wordplay χρησιμοποιεί διαφορετική σύνταξη για να δηλώσει ένα @Structure, χρησιμοποιώντας \\•\\ για να αναπαραστήσει έναν τύπο δεδομένων, μετά ένα @name, και μετά τα πεδία της δομής."
                         ]
                     ]
@@ -158,7 +158,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Μια συνηθισμένη ενέργεια στον προγραμματισμό είναι η μετατροπή δεδομένων από έναν @type σε έναν άλλον. Για παράδειγμα, ίσως θέλουμε να μετατρέψουμε έναν αριθμό σε μια @value κειμένου:",
-                            "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
+                            "\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
                             "$~Όλες οι τιμές του @wordplay έχουν μια δομή @Convert που σου επιτρέπει να μετατρέπεις ανάμεσα σε τύπους. Αυτό το παράδειγμα μετατρέπει το \\1m\\ σε πόδια, και μετά σε @Text. Κάθε τύπος τιμής έχει μια ολόκληρη συλλογή υποστηριζόμενων μετατροπών"
                         ],
                         null,
@@ -167,7 +167,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~Για συλλογές τιμών όπως λίστες και πίνακες, άλλες γλώσσες προγραμματισμού χρησιμοποιούν δομές όπως βρόχους *for* και *while* για να φτιάξουν μια νέα συλλογή από τις τιμές μιας υπάρχουσας συλλογής.",
-                            "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
+                            "\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
                             "$~Το @wordplay έχει μια απλή δομή @Translate* που χρησιμοποιεί το σύμβολο \\↦\\: φτιάχνει μια νέα @List, @Set ή @Map, αντικαθιστώντας κάθε στοιχείο (που αναπαρίσταται από το @placeholder \\⬚\\) με μια νέα @value. Αυτό διπλασιάζει κάθε στοιχείο για να φτιάξει το \\[2 4 6]\\.",
                             "$~Υπάρχουν επίσης πιο ισχυρά πράγματα όπως το @List.translate και το @List.combine, σε περίπτωση που χρειάζεσαι πιο σύνθετες ενέργειες."
                         ],
@@ -182,7 +182,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Κάθε γλώσσα προγραμματισμού έχει συναρτήσεις, που σου επιτρέπουν να δηλώνεις επαναχρησιμοποιήσιμα μπλοκ κώδικα που παίρνουν είσοδο και παράγουν έξοδο με βάση αυτήν, οποιασδήποτε πολυπλοκότητας:",
-                            "$~\\py | def\ngreet(n)\n:\nreturn\n'γεια ' + n\nprint(greet('Στροφή'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn 'γεια ' + n ;\n\t}\n}\nGreeter.greet('Στίχος')\\",
+                            "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
                             "$~Το @wordplay υποστηρίζει επίσης ορισμούς συναρτήσεων, αλλά με το σύμβολο ƒ. Όπως όλα τα προγράμματα του Wordplay, οι συναρτήσεις πρέπει να υπολογίζονται σε μια @value."
                         ]
                     ]
@@ -200,7 +200,7 @@
                             "Stage",
                             "neutral",
                             "$~Άλλες γλώσσες προγραμματισμού εμφανίζουν κείμενο σε μια κονσόλα, ζωγραφίζουν σε έναν καμβά ή τροποποιούν μια ιστοσελίδα:",
-                            "$~\\py | print('γεια')\\js| document.body.append('hi')\\jv | System.out.println('γεια')\n;\\",
+                            "\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
                             "$~Η έξοδος του @wordplay είναι τυπογραφική: μια @Phrase, μια @Group ή μια @Stage, που δείχνει στιλιζαρισμένο, κινούμενο και διαδραστικό κείμενο στην οθόνη, ή που διαβάζεται από έναν αναγνώστη οθόνης.",
                             "$~Το παρακάτω παράδειγμα δείχνει μια @Stage με μία @Phrase που έχει μια κινούμενη εικόνα αλλαγής μεγέθους σε ηρεμία."
                         ],
@@ -212,7 +212,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~Οι περισσότερες γλώσσες προγραμματισμού έχουν έναν τρόπο να παίρνουν είσοδο από τον χρήστη:",
-                            "$~\\py | name = input('Πώς σε λένε;')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
+                            "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
                             "$~Η είσοδος του @wordplay έρχεται από *ροές*, που είναι ειδικές τιμές που αλλάζουν με τον χρόνο, ως απάντηση στην είσοδο, και κάνουν το πρόγραμμα του Wordplay να υπολογιστεί ξανά με τη νέα τιμή της ροής.",
                             "$~Αυτό το πρόγραμμα, για παράδειγμα, χρησιμοποιεί μια ροή @Time για να οδηγήσει την περιστροφή του emoji της υδρογείου. Κάθε φορά που η ροή @Time() χτυπά σε μια νέα @value, το πρόγραμμα υπολογίζεται ξανά με τη νέα τιμή, ενημερώνοντας την τιμή του προγράμματος στη @Stage."
                         ],
@@ -222,7 +222,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Η διαδραστικότητα στις περισσότερες άλλες γλώσσες προγραμματισμού σημαίνει την καταχώριση χειριστών συμβάντων και επανακλήσεων:",
-                            "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'Γεια σου!')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
                             "$~Στο @wordplay, για τη διαδραστικότητα μπορούμε απλώς να χρησιμοποιήσουμε ροές όπως @Button, @Key και @Pointer για να δημιουργήσουμε διαδραστικά στοιχεία. Το κείμενο αυτής της @Phrase βασίζεται στο αν πατήθηκε το @Button, χρησιμοποιώντας ένα @Conditional για να δούμε αν η ροή @Button έχει @Changed."
                         ],
                         null,
@@ -237,7 +237,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Άλλες γλώσσες προγραμματισμού σου επιτρέπουν να αλλάζεις τις τιμές των μεταβλητών κατά την εκτέλεση, κάτι που μπορεί να είναι χρήσιμο για τη δημιουργία δυναμικών και διαδραστικών εφαρμογών. Αλλά απαιτούν να θυμάσαι να ενημερώνεις τις τιμές στα σωστά σημεία, και να ενημερώνεις αυτό που εμφανίζεται στην οθόνη όταν αυτές οι τιμές αλλάζουν:",
-                            "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'Κλικ: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
+                            "\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
                             "$~Το @wordplay το απλοποιεί αυτό χρησιμοποιώντας μια @expression @Reaction, που ξεκινά από μια αρχική τιμή, ελέγχει μια @condition που αναφέρεται σε εισόδους ροών, και ενημερώνει την τιμή της έκφρασης με βάση τις αλλαγές της ροής. Σε αυτό το παράδειγμα, κάθε φορά που αλλάζει η ροή @Button, ενημερώνουμε την τιμή του count, και αυτό ενημερώνει τη @Phrase που εμφανίζεται στη @Stage."
                         ]
                     ]
@@ -260,7 +260,7 @@
                             "FunctionDefinition",
                             "angry",
                             "$~Άλλες γλώσσες πετάνε *σφάλματα* — ένα σημάδι ότι ένα πρόγραμμα έκανε κάτι που δεν επιτρέπεται:",
-                            "$~\\py | 1 + 'γεια'\\js|1 + 'hello'\\jv | 1 + 'γεια'\\",
+                            "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
                             "$~Το @wordplay ονομάζει τα σφάλματα *συγκρούσεις*: δύο πράγματα που δεν μπορούν να είναι και τα δύο αληθή, όπως η πρόσθεση ενός αριθμού και ενός κειμένου στο παρακάτω πρόγραμμα.",
                             "$~Το Wordplay θα υπογραμμίσει τις συγκρούσεις και θα τις δείξει στην πλαϊνή μπάρα @UI/conflict. Θα προσφέρει επίσης προτάσεις επίλυσης συγκρούσεων, για να διορθώσεις το πρόβλημα."
                         ],
@@ -270,7 +270,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Οι περισσότερες γλώσσες προγραμματισμού προσφέρουν κάποιου είδους εργαλεία αποσφαλμάτωσης για να βοηθήσουν τους δημιουργούς να καταλάβουν και να λύσουν προβλήματα στον κώδικά τους. Αλλά πολλές χρησιμοποιούν απλώς εντολές εμφάνισης για να ελέγξουν τις τιμές των μεταβλητών σε μια κονσόλα:",
-                            "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
+                            "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
                             "$~@wordplay σου δίνει έναν πιο εξελιγμένο τρόπο για να βρίσκεις λάθη στον κώδικα. Σου επιτρέπει να προχωράς *μπροστά* και *πίσω* μέσα στην αποτίμηση. Πάτησε το κουμπί ⏸️ στον διακόπτη λειτουργίας @UI/modeSwitcher πάνω από τη σκηνή για να μπεις σε λειτουργία *εντοπισμού λαθών*: η τιμή κάθε expression εμφανίζεται δίπλα της μέσα στον κώδικα, και το @UI/stepControls προχωρά την αποτίμηση προς οποιαδήποτε κατεύθυνση, ώστε να βλέπεις πώς φτιάχνεται μια τιμή.",
                             "$~Θέλεις περισσότερη καθοδήγηση; Το κουμπί @UI/debugtour στην περιοχή αποσφαλμάτωσης δίνει μια ξενάγηση σε αυτά τα κουμπιά."
                         ]

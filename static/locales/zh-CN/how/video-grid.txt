@@ -1,21 +1,29 @@
-使用相机创建视频
+从摄像头创建一段视频
 
-@Camera 是一个从现实世界获取颜色网格的绝佳方法。那么，如果我们想要“看到”这些颜色，也就是重现 @Camera 所看到的图像，该怎么做呢？
+该  @Camera  流是从真实世界获取一个颜色网格的好方法。如果我们想看到这些颜色，重新创建  @Camera  看到的图像呢？
 
-我们可以在 @Group 中使用 @Grid 布局，并结合一个函数，将这些颜色转换为一个 @Phrase 列表，再把这个列表传递给 @Grid 来进行展示。
+我们可以用  @Grid  布局来排列  @Group ，再用  @List/combine  函数把颜色转换成一个  @Phrase  列表，交给  @Grid 。
+
 \width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+Stage(
+	[
+		Group(
+			Grid(height width 0m)
+			colors.combine(
+				[]
+				ƒ(phrases row) [
 						:phrases
-						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
-					]))
-	])\
+						:row ↦ Phrase("⬤" 颜色: ⬚ 持续时间: 0s)
+					]
+			)
+		)
+	]
+)\
 
-这个示例构建了一个短语列表，将每种颜色转换为对应颜色的圆圈。
+这个例子建立了一个短语列表，把每种颜色都转换成一个对应颜色的圆形。
 
-使用 @Camera 时需要特别注意：它们会产生大量的输入数据！因此，请务必将图像的宽度和高度控制得尽量小。
-
+要小心使用  @Camera  流：它们会产生很多输入！你得把图像的宽度和高度设小一点。
 
 interactive-scene

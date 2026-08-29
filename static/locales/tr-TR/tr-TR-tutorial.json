@@ -3826,7 +3826,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~Ve eğer çok belirli bir düzenleme istiyorsanız? @Free kullanabilir ve tüm ifadelerin tam olarak nerede olmasını istediğinizi bana söyleyebilirsiniz. Sadece her @Phrase'e bir yer verdiğinizden emin olun, aksi takdirde onu sadece \\Place(0m 0m\\)'e yerleştiririm."
+                            "$~Ve eğer çok belirli bir düzenleme istiyorsanız? @Free kullanabilir ve tüm ifadelerin tam olarak nerede olmasını istediğinizi bana söyleyebilirsiniz. Sadece her @Phrase'e bir yer verdiğinizden emin olun, aksi takdirde onu sadece \\Place(0m 0m)\\'e yerleştiririm."
                         ],
                         {
                             "edit": [
@@ -5725,7 +5725,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~Evet, aynen öyle. Hm… ah, sahnede olmamız gerekiyor. @Text, herkesin bir listesini yapar mısın? Bunu \\Character > s."
+                            "$~Evet, aynen öyle. Hm… ah, sahnede olmamız gerekiyor. @Text, herkesin bir listesini yapar mısın? Bunu \\Character\\s."
                         ],
                         ["Text", "excited", "$~Rica ederim canım. Bu olur mu?"],
                         {

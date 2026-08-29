@@ -1135,7 +1135,7 @@
                         [
                             "⊤",
                             "precise",
-                            "$~Tama. \\⊤ at ⊤ = ⊤\\, ngunit \\⊥\\ kung hindi."
+                            "$~Tama. \\⊤ & ⊤ = ⊤\\, ngunit \\⊥\\ kung hindi."
                         ],
                         [
                             "⊥",
@@ -3834,7 +3834,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~At kung gusto mo ng isang napaka-espesipikong pagkakaayos? Maaari mong gamitin ang @Free at sabihin sa akin kung saan mo eksaktong gusto ang lahat ng mga parirala. Siguraduhin lamang na bigyan ng lugar ang bawat @Phrase, kung hindi ay ilalagay ko na lang ito sa \\Place(0m 0m\\)."
+                            "$~At kung gusto mo ng isang napaka-espesipikong pagkakaayos? Maaari mong gamitin ang @Free at sabihin sa akin kung saan mo eksaktong gusto ang lahat ng mga parirala. Siguraduhin lamang na bigyan ng lugar ang bawat @Phrase, kung hindi ay ilalagay ko na lang ito sa \\Place(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -5765,7 +5765,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~Oo, ganoon. Hm… oh, kailangan nating nasa entablado. @Text, maaari mo bang gawin ang listahan ng lahat? Gagawin natin iyan sa \\Character>s."
+                            "$~Oo, ganoon. Hm… oh, kailangan nating nasa entablado. @Text, maaari mo bang gawin ang listahan ng lahat? Gagawin natin iyan sa \\Character\\s."
                         ],
                         [
                             "Text",

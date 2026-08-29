@@ -3806,7 +3806,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~Și dacă ai vrea un aranjament foarte specific? Ai putea folosi @Free și să-mi spui exact unde vrei toate frazele. Ai grijă doar să dai un loc fiecărei @Phrase, altfel o voi plasa pur și simplu la \\Place(0m 0m\\)."
+                            "$~Și dacă ai vrea un aranjament foarte specific? Ai putea folosi @Free și să-mi spui exact unde vrei toate frazele. Ai grijă doar să dai un loc fiecărei @Phrase, altfel o voi plasa pur și simplu la \\Place(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -5709,7 +5709,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~Da, cam așa. Hm… a, trebuie să fim pe scenă. @Text, ai putea să faci o listă cu toată lumea? O vom transforma în \\Character > s."
+                            "$~Da, cam așa. Hm… a, trebuie să fim pe scenă. @Text, ai putea să faci o listă cu toată lumea? O vom transforma în \\Character\\s."
                         ],
                         [
                             "Text",

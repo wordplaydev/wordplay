@@ -1,21 +1,29 @@
-Kameradan bir video oluşturun
+Kameradan bir video oluştur
 
-The @Camera Stream, dünyadaki renklerin bir ızgarasını elde etmenin harika bir yoludur.Ya o renkleri görmek istersek, görüntüyü yeniden yaratırsak? @Camera görüyor mu?
+ @Camera  akışı, dünyadaki renklerden bir ızgara elde etmenin harika bir yoludur. Peki bu renkleri görüp,  @Camera  gördüğü görüntüyü yeniden oluşturmak istersek ne yaparız?
 
-Bunu kullanabiliriz @Grid bir düzen için @Group , Ve  @List/combine renkleri bir listeye dönüştürme işlevi @Phrase biz veriyoruz @Grid .
+Renkleri bir  @Grid  düzenini kullanarak bir  @Group  ve  @List/combine  işlevini kullanarak, renkleri bir  @Phrase  listesine dönüştürebiliriz ve bu listeyi  @Grid  verebiliriz.
 
 \width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+Stage(
+	[
+		Group(
+			Grid(height width 0m)
+			colors.combine(
+				[]
+				ƒ(phrases row) [
 						:phrases
-						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
-					]))
-	])\
+						:row ↦ Phrase("⬤" renk: ⬚ süre: 0s)
+					]
+			)
+		)
+	]
+)\
 
-Bu örnek, her rengi belirli bir renge sahip bir daireye dönüştürerek bir ifade listesi oluşturur.
+Bu örnek, bir ifadeler listesi oluşturur ve her rengi kendi rengine sahip bir daireye dönüştürür.
 
-Dikkatli olun @Camera akışlar: çok fazla girdi üretirler! Görüntünün genişliğini ve yüksekliğini küçük tutmak isteyeceksiniz.
+ @Camera  akışlarına dikkat et: çok fazla girdi üretirler! Görüntünün genişliğini ve yüksekliğini küçük tutmak isteyeceksin.
 
 interactive-scene

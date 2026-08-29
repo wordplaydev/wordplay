@@ -77,6 +77,43 @@ test('the locale as it ships carries no pointed names', () => {
     expect(lines.filter((line) => line.includes('vowel points'))).toEqual([]);
 });
 
+test('the locale as it ships has no refused strips', () => {
+    // A refusal is permanent — `fix` returns the name unchanged — so a pointed name that collides
+    // stays untypable forever. Filtering only for 'vowel points' above hid five of them.
+    const { lines } = check(Hebrew, false);
+    expect(lines.filter((line) => line.includes('collides'))).toEqual([]);
+});
+
+test('a type variable may share a word with another definition’s', () => {
+    // `basis.List.kind` and `basis.Set.kind` are type variables of different definitions, named
+    // alike in en-US (`Kind`, `Kind`) and in every locale. They are not siblings.
+    const ListKind = new LocalePath(['basis', 'List'], 'kind', []);
+    const SetKind = new LocalePath(['basis', 'Set'], 'kind', []);
+    const { revised, lines } = check(
+        withNames([
+            [ListKind, '$~סוּג'],
+            [SetKind, '$~סוּג'],
+        ]),
+    );
+    expect(ListKind.resolve(revised)).toBe('$~סוג');
+    expect(SetKind.resolve(revised)).toBe('$~סוג');
+    expect(lines.filter((line) => line.includes('collides'))).toEqual([]);
+});
+
+test('two members of one definition still collide', () => {
+    // The narrower scope must still catch a real clash: `key` and `value` are both Map's.
+    const MapKey = new LocalePath(['basis', 'Map'], 'key', []);
+    const MapValue = new LocalePath(['basis', 'Map'], 'value', []);
+    const { revised, lines } = check(
+        withNames([
+            [MapKey, '$~מַפְתֵּחַ'],
+            [MapValue, '$~מפתח'],
+        ]),
+    );
+    expect(MapKey.resolve(revised)).toBe('$~מַפְתֵּחַ');
+    expect(lines.some((line) => line.includes('collides'))).toBe(true);
+});
+
 test('a locale with no Hebrew is untouched', () => {
     const greek: LocaleText = JSON.parse(
         fs.readFileSync(getLocalePath('el-GR'), 'utf8'),

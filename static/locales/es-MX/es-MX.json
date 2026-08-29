@@ -346,16 +346,16 @@
                 "$~¡Soy una etiqueta de idioma y trabajo con @Name y @Doc!",
                 "Soy muy buena para dejar *bien claro* en qué idioma está escrito algo. Solo con una pequeña diagonal y unas letras, nadie tendrá dudas sobre en qué idioma está un texto.",
                 "Por ejemplo, si quieres decir \"Idioma\" pero dejar claro que está en inglés:",
-                "\\'Idioma'\\",
+                "\\'Idioma'/es\\",
                 "Puedes hacer esto con un @Name:",
                 "\\sonido: 'miau'\\🪲",
                 "…o con un @Doc:",
                 "\\¶Onomatopeya¶\nsonido: 'miau'\\🪲",
                 "A veces un texto no es de un solo idioma, sino una *mezcla*. Como el spanglish, donde el español y el inglés se combinan. Para esos casos, escribe cada idioma separado por un guion bajo. El primero es el *principal*: ese es el que uso cuando tengo que elegir algo (por ejemplo, para decidir qué comillas usar).",
-                "\\\"Hola gentleman!\"\\",
+                "\\\"Hola gentleman!\"/es_en\\",
                 "\\¶A bilingual greeting¶\nhello/es_en: '¡Hola caballero!'\\🪲",
                 "También puedes agregar una sola @region, después de un guion, igual que con un solo idioma:",
-                "\\\"Hola gentleman!\"\\",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
                 "No hay límite de cuántos idiomas puedes escribir en la lista, solo no repitas el mismo dos veces; si lo haces, te lo diré.",
                 "Puedes escribir un idioma con su <código de 2 letras@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> o con su *nombre*, en ese idioma o en inglés. `/es`, `/Español` y `/Spanish` significan lo mismo, y también `/es-MX`, `/es-México` y `/es-Mexico`. Las mayúsculas y los acentos no importan, así que `/ESPANOL` también funciona. Un nombre con espacio se escribe sin el espacio, como `/BahasaIndonesia`, porque una etiqueta es una sola palabra. Si no reconozco un idioma o una región, te lo diré."
             ],
@@ -2076,7 +2076,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Muestro código con resaltado de sintaxis escrito en otros lenguajes de programación, para que las creadoras que ya programan puedan comparar.",
-                "Escribe una variante por idioma con una etiqueta de dos letras, una barra y el código, como \\py | a = 5\\js| let a = 5;\\.Thereaderseestheonematchingtheirchosenlanguage.Python(py),JavaScript(js),andJava(jv)aresupported."
+                "Escribe una variante por idioma con una etiqueta de dos letras, una barra y el código, como \\py| a = 5\\js| let a = 5;\\.Thereaderseestheonematchingtheirchosenlanguage.Python(py),JavaScript(js),andJava(jv)aresupported."
             ]
         },
         "Localized": {
@@ -2659,7 +2659,7 @@
                         "\\'hola'.mayúsculas()\\",
                         "Las letras solo tienen mayúsculas y minúsculas en algunos sistemas de escritura, así que el texto en un sistema de escritura sin ellas, como el japonés o el árabe, no cambia.",
                         "Mi etiqueta de idioma decide qué reglas usar. El turco tiene una i con punto y una i sin punto, y solo el texto etiquetado como turco las convierte a mayúscula a la manera turca:",
-                        "\\'iyi'.mayúsculas()\\",
+                        "\\'iyi'/tr.mayúsculas()\\",
                         "\\'iyi'.mayúsculas()\\"
                     ],
                     "names": ["$~mayúsculas"],
@@ -8707,7 +8707,7 @@
                     "example": {
                         "phrase": "$~\\¶Las frases aparecen en el escenario, en cualquier color, brillo y movimiento que quieras.¶\nFrase(\n\t'¡hola!'\n\t6m\n\tcolor: Color(60% 90 200°)\n\taura: Aura(Color(80% 80 200°) 0.3m)\n\tinmóvil: Secuencia.vaivén(8°)\n)\\",
                         "music": "$~\\¶La música son notas en instrumentos reales, a un tempo, en una clave. El escenario dibuja lo que escucha.¶\nMúsica(\n\tPista([1 3 5 8 5 3] instrumento: Instrumento.piano)\n\ttempo: 120beats/min\n)\\",
-                        "hello": "$~\\¶El código puede reaccionar a una entrada como @Time, y el texto puede ser multilingüe y hablado.¶\nholas: ['hola' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nhola: holas.azar() … ∆ Tiempo(1000ms) … holas.azar()\nFrase(hola 4m)\ndecir(hola)\\",
+                        "hello": "$~\\¶El código puede reaccionar a una entrada como @Time, y el texto puede ser multilingüe y hablado.¶\nholas: ['hola'/es 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhola: holas.azar() … ∆ Tiempo(1000ms) … holas.azar()\nFrase(hola 4m)\ndecir(hola)\\",
                         "keys": "$~\\¶El código puede reaccionar a punteros, teclas, clics y toques.¶\nclave2: Tecla()\nclic2: Botón()\ncaras: ['🙂' '😮' '😎' '🤩']\ncuál: 1 … ∆ clave2 | ∆ clic2 … (cuál % 4) + 1\nEscenario(\n\t[Frase(caras[cuál] 5m lugar: Puntero() burbuja: 'hola')]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Acomoda el texto y hazlo seleccionable.¶\nfruta: ƒ(e•'') Frase(e 3m nombre: e seleccionable: ⊤)\nelegido: Elección()\nmostrado: '?' … ∆ elegido … elegido\nGrupo(\n\tPila(relleno: 1m)\n\t[\n\t\tFrase(mostrado 4m)\n\t\tGrupo(\n\t\t\tFila(relleno: 1m)\n\t\t\t[fruta('🍎') fruta('🍐') fruta('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Conversa con programas y usa la forma de las fuentes y los símbolos.¶\nmensaje: Charla()\npalabra2: 'hola' … ∆ mensaje … mensaje\nlínea: Contorno(palabra2 'Noto Sans' 8m)\ntics: 0 … ∆ Tiempo(30ms) … tics + 1\nmostrado: ((línea.longitud() × tics) ÷ 66).rondearBajo() + 1\npuntos: línea.subsecuencia(1 mostrado).traducir(\n\t\tƒ(p) Frase('•' lugar: p)\n\t)\nEscenario(puntos.agregar(Frase(palabra2 8m opacidad: 15%)))\\",
@@ -8731,8 +8731,8 @@
                         "title": "$~Wordplay es multilingüe",
                         "bullets": [
                             "$~• Cada característica del lenguaje de programación tiene un nombre en cada idioma, así que el código se lee con palabras que ya conoces.",
-                            "• Tus propios nombres también pueden ser multilingües:\n\\gato: '🐈'\nFrase(gato)\\",
-                            "• El texto lleva un idioma, y muestra el idioma que tu público lee: \\'hola'\\.",
+                            "• Tus propios nombres también pueden ser multilingües:\n\\gato/es, cat/en: '🐈'\nFrase(gato)\\",
+                            "• El texto lleva un idioma, y muestra el idioma que tu público lee: \\'hola'/es'hola'/es\\.",
                             "• El sitio está en 29 idiomas y puedes elegir más de uno a la vez; el texto aparece en cada uno.",
                             "• Puedes ayudar a traducir @wordplay mismo, dentro de la aplicación en <localize//localize>."
                         ]

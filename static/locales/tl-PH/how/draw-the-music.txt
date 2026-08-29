@@ -1,34 +1,55 @@
-Iguhit kung ano ang tinutugtog ng musika
+Iguhit ang tinutugtog ng musika
 
-Ang musikang naririnig mo ay kalahati lamang nito. Ang  @Beat  na daloy ay nagbibigay sa iyo ng buong estado ng player tuwing may tumutunog na kumpas, kaya puwede mong iguhit kung ano ang nangyayari. 
+Ang musikang naririnig mo ay kalahati lang nito. Ang  @Beat  na stream ay nagbibigay sa iyo ng buong estado ng manlalaro tuwing tumutunog ang isang beat, para maiguhit mo ang anumang nangyayari. 
 
-@Beat  ay laging may  @Downbeat  na ibibigay sa iyo, kaya puwede mo itong basahin agad. Bago magsimula ang anumang musika, ito ay nasa kumpas na sero na walang tumutugtog:
+@Beat  ay laging may  @Downbeat  na ibibigay sa iyo, kaya mababasa mo ito agad. Bago pa man magsimula ang anumang musika, nasa beat zero ito at wala pang tumutugtog:
 
 \beat: Beat()
 count: beat.count
-Stage([
-		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] instrument: Instrument.drums))
-	])\
+Stage(
+	[
+		Phrase('🥁' laki: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] instrumento: Instrument.drums))
+	]
+)\
 
-Ang \count\ ay tumataas nang isa bawat kumpas, kaya ang \count % 4\ ay \0\ sa bawat ikaapat na kumpas — ang downbeat — at tumatalon ang tambol.
+Ang \count\ ay tumataas ng isa bawat beat, kaya ang \count % 4\ ay \0\ tuwing ikaapat — ang downbeat — at tumatalon ang tambol.
 
-Iyon ang buong musika bilang isang numero. Ngunit ang  @Downbeat  ay may dala ring \parts\ na listahan, isang  @Part  para sa bawat  @Track , at ang  @Part  ay alam kung ano ang ginagawa ng sarili nitong tinig ngayon: ang \pitch\, ang \volume\, ang \pan\, at kung ito ay \sounding\. Iguhit ang mga iyon at makukuha mo ang bawat tinig nang hiwalay sa halip na pinaghalo:
+Iyon ang buong musika bilang isang numero lamang. Pero ang isang  @Downbeat  ay may dalang \parts\ na listahan din, isang  @Part  para sa bawat  @Track , at ang isang  @Part  ay alam kung ano ang ginagawa ngayon ng sarili nitong tinig: ang \pitch\ nito, ang \volume\ nito, ang \pan\ nito, at kung ito ba ay \sounding\. Iguhit ang mga iyon at makukuha mo ang bawat tinig nang hiwalay sa halip na ang pinaghalong tunog:
 
 \beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
-Stage([
+ƒ dot(p•Part)•Phrase Phrase(
+		'⬤'
+		0.4m + (p.volume · 1m)
+		lugar: Place(
+			(p.pan · 3) · 1m
+			((height(p) · 0.2) - 1) · 1m
+		)
+	)
+Stage(
+	[
 		:parts.translate(ƒ(p•Part) dot(p))
-		Music([
-				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-			])
-	])\
+		Music(
+			[
+				Track(
+					[1 ø 5 ø]
+					instrumento: Instrument.piano
+					pan: -1
+				)
+				Track(
+					[ø 8 ø 12]
+					instrumento: Instrument.bell
+					pan: 1
+				)
+			]
+		)
+	]
+)\
 
-Ang bawat tuldok ay nasa kinalalagyan ng track nito: \pan\ ang naglalagay nito sa kaliwa o kanan, \pitch\ ang naglalagay nito sa taas o baba. Dahil ang \sounding\ ay nananatiling totoo habang tumutunog pa ang isang mahabang nota, ang isang hawak na nota ay pinapanatili ang tuldok nito sa halip na kumurap-kurap.
+Bawat tuldok ay nasa kung saan naroon ang track nito: ang \pan\ ang naglalagay dito sa kaliwa o kanan, ang \pitch\ ang naglalagay dito sa mataas o mababa. Dahil ang \sounding\ ay nananatiling totoo habang tumutunog pa ang isang mahabang nota, ang isang tinatagalang nota ay pinapanatili ang tuldok nito sa halip na biglang mawala.
 
-Panoorin ang maliit na \height\ na function: \pitch\ ay isang /listahan/, dahil ang isang chord ay tumutugtog ng ilang nota nang sabay, at kapag hiningi mo sa listahan ang unang item nito, ibinabalik nito ang isa sa dalawa: isang numero o \ø\. Ang pagsasabi na ang function ay nagbabalik ng isang \#\ ang nagpapabalik nito sa isang numero na kaya mong gamitin sa aritmetika.
+Panoorin ang maliit na \height\ function. \pitch\ ay /listahan/, dahil ang isang chord ay tumutunog ng ilang nota nang sabay-sabay, kaya \p.pitch[1]\ ang kumukuha ng pinakamababang nota na tumutunog. Ang bilang na iyon ay nasa \semitones\, at ang paghahati sa \1semitones\ ang gumagawa nito na maging isang payak na bilang na maaari mong isama sa \0.2\ at sa \1m\ sa ibaba. Ang pagdedeklara ng function bilang \#\ ay hindi sapat mag-isa: ang payak na \#\ ay nangangahulugang /kahit anong/ yunit, hindi /walang/ yunit, kaya tatanggapin nito nang maluwag ang mga semitone at saka magrereklamo tungkol dito isang linya ang layo.
 
 play-a-sound-effect, react-to-sound, count-with-time

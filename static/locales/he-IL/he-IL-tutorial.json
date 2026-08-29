@@ -8,7 +8,7 @@
             "performance": { "fit": "#DarkVoid", "theme": "Act1" },
             "scenes": [
                 {
-                    "title": "$~לְהַשְׁתִיק",
+                    "title": "$~לְהַשְׁתִיק",
                     "subtitle": null,
                     "performance": { "fit": "#DarkVoid", "theme": "Silence" },
                     "lines": [
@@ -2343,7 +2343,7 @@
                             "kind",
                             "$~אני חושב שכן, כן. זה יותר כאילו הבמאי מקודד את ההחלטה אבל אז מאציל אותה אליך. אתה הופך למקבל ההחלטות. אתה רוצה להראות דוגמה?"
                         ],
-                        ["Conditional", "curious", "$~כָּזֶה?"],
+                        ["Conditional", "curious", "$~כָּזֶה?"],
                         {
                             "edit": "_•? ? _ _",
                             "conflicts": true,
@@ -2592,7 +2592,7 @@
                 },
                 {
                     "title": "$~הממממממ…",
-                    "subtitle": "$~מַצבִּיעַ",
+                    "subtitle": "$~מַצבִּיעַ",
                     "concept": "Pointer",
                     "performance": { "fit": "#Symbol 👆🏻", "theme": "Pointer" },
                     "lines": [
@@ -2662,7 +2662,7 @@
                 },
                 {
                     "title": "$~האם מישהו מקשיב?",
-                    "subtitle": "$~כֶּרֶך",
+                    "subtitle": "$~כֶּרֶך",
                     "concept": "Volume",
                     "performance": { "fit": "#Symbol 🎤", "theme": "Volume" },
                     "lines": [
@@ -3152,7 +3152,7 @@
                 },
                 {
                     "title": "$~תגיד מה?",
-                    "subtitle": "$~מִשׁפָּט",
+                    "subtitle": "$~מִשׁפָּט",
                     "concept": "Phrase",
                     "performance": { "fit": "#Symbol 💬", "theme": "Phrase" },
                     "lines": [
@@ -3583,7 +3583,7 @@
                             "excited",
                             "$~וואו, כן! @Phrase ואני עבדנו על ריקוד הדונאטס החדש הזה. הוא משלב את הפינוק האהוב עליי עם כמעט כל מה שלמדתי בריקוד. רוצים לראות אותו?"
                         ],
-                        ["FunctionDefinition", "excited", "$~כֵּן!!!"],
+                        ["FunctionDefinition", "excited", "$~כֵּן!!!"],
                         null,
                         [
                             "Sequence",
@@ -3782,7 +3782,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~ואם אתם רוצים סידור ספציפי מאוד? אתם יכולים להשתמש ב-@Free ולומר לי בדיוק איפה אתם רוצים את כל המשפטים. רק ודאו שאתם נותנים מקום לכל @Phrase, אחרת אני פשוט אשים אותו ב-\\Place(0m 0m\\)."
+                            "$~ואם אתם רוצים סידור ספציפי מאוד? אתם יכולים להשתמש ב-@Free ולומר לי בדיוק איפה אתם רוצים את כל המשפטים. רק ודאו שאתם נותנים מקום לכל @Phrase, אחרת אני פשוט אשים אותו ב-\\Place(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -3865,7 +3865,7 @@
                 },
                 {
                     "title": "$~במה... נכון?",
-                    "subtitle": "$~שָׁלָב",
+                    "subtitle": "$~שָׁלָב",
                     "concept": "Stage",
                     "performance": { "fix": "#TheatreMask", "theme": "Stage" },
                     "lines": [
@@ -4277,7 +4277,7 @@
                 },
                 {
                     "title": "$~האם יש מישהו בשם...",
-                    "subtitle": "$~בְּחִירָה",
+                    "subtitle": "$~בְּחִירָה",
                     "concept": "Choice",
                     "performance": {
                         "fix": "Phrase('🔘' 10m)",
@@ -4357,7 +4357,7 @@
                     ]
                 },
                 {
-                    "title": "$~שִׁיוּם",
+                    "title": "$~שִׁיוּם",
                     "subtitle": "$~לִקְשׁוֹר",
                     "concept": "Bind",
                     "performance": { "fit": "#Symbol :", "theme": "Bind" },
@@ -5204,7 +5204,7 @@
                 },
                 {
                     "title": "$~הערות הבמאי",
-                    "subtitle": "$~לְהַסבִּיר",
+                    "subtitle": "$~לְהַסבִּיר",
                     "concept": "Doc",
                     "performance": { "fit": "#Symbol ¶", "theme": "Doc" },
                     "lines": [
@@ -5647,7 +5647,7 @@
                             "kind",
                             "$~אוקיי, @Stage, אתה יכול להחשיך את זה?"
                         ],
-                        ["Stage", "kind", "$~כֵּהֶה!"],
+                        ["Stage", "kind", "$~כֵּהֶה!"],
                         { "edit": "#EvaluateDance1" },
                         null,
                         [
@@ -5655,7 +5655,7 @@
                             "kind",
                             "$~@StructureDefinition, אני חושב שאנחנו צריכים דרך לזכור את המקומות שלנו. האם תוכל ליצור לנו מבנה?"
                         ],
-                        ["StructureDefinition", "curious", "$~כָּזֶה?"],
+                        ["StructureDefinition", "curious", "$~כָּזֶה?"],
                         { "edit": "#EvaluateDance2" },
                         null,
                         [
@@ -5669,7 +5669,7 @@
                         [
                             "Evaluate",
                             "happy",
-                            "$~כן, ככה. הממ... אה, אנחנו צריכים להיות על הבמה. @Text, אכפת לך לעשות רשימה של כולם? נהפוך את זה ל\\דמויות>."
+                            "$~כן, ככה. הממ... אה, אנחנו צריכים להיות על הבמה. @Text, אכפת לך לעשות רשימה של כולם? נהפוך את זה ל\\Character\\."
                         ],
                         ["Text", "excited", "$~בשמחה, יקירתי. האם זה יספיק?"],
                         {

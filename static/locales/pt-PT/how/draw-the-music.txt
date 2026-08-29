@@ -1,34 +1,55 @@
-Desenha o que a música está a tocar
+Desenhar o que a música está a tocar
 
-A música que consegues ouvir é apenas metade. O fluxo  @Beat  dá-te todo o estado do reprodutor sempre que soa uma batida, para poderes desenhar tudo o que está a acontecer. 
+A música que pode ouvir é só metade da história. O fluxo  @Beat  entrega-lhe o estado completo do leitor sempre que uma batida toca, para que possa desenhar o que está a acontecer. 
 
-@Beat  tem sempre um  @Downbeat  para te dar, por isso podes lê-lo de imediato. Antes de a música começar, fica na batida zero, sem nada a tocar:
+@Beat  tem sempre um  @Downbeat  para lhe dar, para que possa lê-lo de imediato. Antes de a música começar, fica na batida zero sem nada a tocar:
 
 \beat: Beat()
 count: beat.count
-Stage([
-		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] instrument: Instrument.drums))
-	])\
+Stage(
+	[
+		Phrase('🥁' tamanho: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] instrumento: Instrument.drums))
+	]
+)\
 
-O \count\ sobe um a cada batida, por isso \count % 4\ é \0\ em cada quarta batida — a batida forte — e o tambor salta.
+O \count\ sobe uma unidade a cada batida, por isso \count % 4\ é \0\ a cada quatro batidas — o tempo forte — e o tambor salta.
 
-Essa é toda a música num só número. Mas um  @Downbeat  também traz uma lista de \parts\, um  @Part  para cada  @Track , e um  @Part  sabe o que a sua própria voz está a fazer agora: o seu \pitch\, o seu \volume\, o seu \pan\, e se está \sounding\. Desenha esses e obténs cada voz em separado, em vez da mistura:
+Essa é a música toda resumida num só número. Mas um  @Downbeat  também traz uma lista de \parts\, um  @Part  para cada  @Track , e um  @Part  sabe o que a sua própria voz está a fazer neste momento: a sua \pitch\, a sua \volume\, a sua \pan\, e se está \sounding\. Desenhe isso e obtém cada voz em separado, em vez da mistura:
 
 \beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
-Stage([
+ƒ dot(p•Part)•Phrase Phrase(
+		'⬤'
+		0.4m + (p.volume · 1m)
+		local: Place(
+			(p.pan · 3) · 1m
+			((height(p) · 0.2) - 1) · 1m
+		)
+	)
+Stage(
+	[
 		:parts.translate(ƒ(p•Part) dot(p))
-		Music([
-				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-			])
-	])\
+		Music(
+			[
+				Track(
+					[1 ø 5 ø]
+					instrumento: Instrument.piano
+					panorâmica: -1
+				)
+				Track(
+					[ø 8 ø 12]
+					instrumento: Instrument.bell
+					panorâmica: 1
+				)
+			]
+		)
+	]
+)\
 
-Cada ponto fica onde a sua faixa fica: \pan\ coloca-o à esquerda ou à direita, \pitch\ coloca-o em cima ou em baixo. Como \sounding\ continua verdadeiro enquanto uma nota longa ainda soa, uma nota mantida guarda o seu ponto em vez de piscar e desaparecer.
+Cada ponto fica onde a sua faixa fica: \pan\ coloca-o à esquerda ou à direita, \pitch\ coloca-o em cima ou em baixo. Como \sounding\ se mantém verdadeiro enquanto uma nota longa ainda está a tocar, uma nota mantida guarda o seu ponto em vez de desaparecer.
 
-Observa a pequena \height\ função: \pitch\ é uma /lista/, pois um acorde toca várias notas ao mesmo tempo. Pedir a uma lista o seu primeiro item devolve ou um número ou \ø\. Declarar que a função devolve um \#\ é o que a converte de volta num número com o qual podes fazer contas.
+Observe o pequeno \height\ função. \pitch\ é uma /lista/, já que um acorde faz soar várias notas ao mesmo tempo, por isso \p.pitch[1]\ toma a nota mais baixa do que estiver a tocar. Esse número está em \semitones\, e dividir por \1semitones\ é o que o transforma num número simples que pode combinar com o \0.2\ e com o \1m\ abaixo. Declarar a função como \#\ não é suficiente por si só: um \#\ simples significa /qualquer/ unidade, e não /nenhuma/ unidade, por isso vai aceitar os semitons sem problemas e só se queixar deles uma linha depois.
 
 play-a-sound-effect, react-to-sound, count-with-time

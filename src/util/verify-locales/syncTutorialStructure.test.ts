@@ -354,18 +354,6 @@ describe('the shipped tutorials', () => {
         .readdirSync('static/locales')
         .filter((locale) => locale !== 'en-US');
 
-    /**
-     * Locales carrying dialog en-US doesn't have, and how many lines. All of it
-     * predates the sync: hand-added or hand-reordered translated lines, mostly
-     * in the finale's chorus. Left in place on purpose and awaiting a human
-     * who reads the language; drop an entry once one has.
-     */
-    const ExtraDialog: Record<string, number> = {
-        'es-MX': 2,
-        'zh-CN': 20,
-        'zh-TW': 3,
-    };
-
     for (const mode of TutorialModes) {
         const source = JSON.parse(
             fs.readFileSync(getTutorialPath('en-US', mode), 'utf8'),
@@ -401,12 +389,20 @@ describe('the shipped tutorials', () => {
             ).toEqual([]);
         });
 
-        test(`only the recorded locales have extra ${mode} dialog`, () => {
+        /**
+         * `syncTutorialStructure` reports a line en-US doesn't have and keeps it, since it
+         * can't tell a stale duplicate from deliberate authorship. es-MX, zh-CN and zh-TW
+         * carried 25 between them, every one a near-duplicate left behind when an en-US
+         * emotion change forked a line into an inserted machine translation beside the
+         * retained hand-written one. They were read and merged by hand; nothing should
+         * accumulate here again without someone deciding what the dialog should say.
+         */
+        test(`no locale has extra ${mode} dialog`, () => {
             const extra: Record<string, number> = {};
             for (const [locale, report] of reports())
                 if (report.removed.length > 0)
                     extra[locale] = report.removed.length;
-            expect(extra).toEqual(mode === 'complete' ? ExtraDialog : {});
+            expect(extra).toEqual({});
         });
     }
 });

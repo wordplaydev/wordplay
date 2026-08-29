@@ -346,16 +346,16 @@
                 "$~Ben bir dil etiketiyim ve @Name ile @Doc ile çalışırım!",
                 "Bir metnin hangi dilde yazıldığını *çok net* göstermekte gerçekten iyiyimdir. Küçük bir eğik çizgi ve birkaç harf yeterli, artık kimse bir metnin hangi dilde olduğu konusunda kafası karışık kalmaz.",
                 "Örneğin, \"Dil\" demek istiyorsan ama bunun İngilizce olduğunu belirtmek istiyorsan:",
-                "\\'Dil'\\",
+                "\\'Dil'/tr\\",
                 "Bunu bir @Name için yapabilirsin:",
                 "\\ses2: 'miyav'\\🪲",
                 "…ya da bir @Doc için:",
                 "\\¶Yansıma Sözcük¶\nses2: 'miyav'\\🪲",
                 "Bazen bir metin tek bir dilde olmaz — *karışık* olur. İspanyolca ile İngilizcenin karıştığı Spanglish gibi. Böyle durumlarda, her dili aralarına alt çizgi koyarak listele. İlki *asıl* dildir — bir seçim yapmam gerektiğinde (örneğin hangi tırnak işaretini kullanacağıma karar verirken) kullandığım dil odur.",
-                "\\'Hola gentleman!'\\",
+                "\\\"Hola gentleman!\"/es_en\\",
                 "\\¶İki dilli bir selamlama¶\nhello/es_en: 'Hola gentleman!'\\🪲",
                 "Tek bir dilde olduğu gibi, bir tire koyduktan sonra tek bir @region de ekleyebilirsin:",
-                "\\'Hola gentleman!'\\",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
                 "Kaç dil listeleyebileceğinin bir sınırı yoktur — sadece aynı dili iki kez yazma; eğer yaparsan sana haber veririm.",
                 "Bir dili <2 harfli kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ile ya da *ismiyle* yazabilirsin, o dilde ya da İngilizce olarak — `/es`, `/Español` ve `/Spanish` hepsi aynı şeyi ifade eder, aynı şekilde `/es-MX`, `/es-México` ve `/es-Mexico` de öyle. Büyük harfler ve aksanlar önemli değildir, yani `/ESPANOL` da çalışır. İçinde boşluk olan bir isim, boşluksuz yazılır, örneğin `/BahasaIndonesia`, çünkü bir etiket tek bir kelime olmalıdır. Eğer bir dili ya da bölgeyi tanımıyorsam, sana haber veririm."
             ],
@@ -2076,7 +2076,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Diğer programlama dillerinde yazılmış, sözdizimi vurgulanmış kodları gösteriyorum, böylece zaten kod yazan içerik oluşturucular karşılaştırma yapabilirler.",
-                "Her dil için iki harfli bir etiket, bir çubuk ve koddan oluşan bir varyant yazın, örneğin: \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "Her dil için iki harfli bir etiket, bir çubuk ve koddan oluşan bir varyant yazın, örneğin: \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
             ]
         },
         "Localized": {
@@ -2499,7 +2499,7 @@
                 "\\'Hayatını yaşamanın yalnızca iki yolu vardır. Biri, hiçbir şey mucize değilmiş gibi yaşamaktır. Diğeri ise her şey bir mucizeymiş gibi yaşamaktır.'\\",
                 "\\'一日三秋'\\",
                 "Sadece beni açarsan kapatmayı unutma ve eşleşen sembolü kullan. Yoksa kelimelerini bitirdiğini bilemem.",
-                "\\'merhaba'\\",
+                "\\'merhaba'/tr'hola'/es-MX\\",
                 "Beni dillerle etiketleyebilir, hatta birden fazla çeviri verebilirsin. Eşleşen bir dil varsa, o an seçili olan hangi dilse ona göre değerlendirilirim.",
                 "Beni başka değerlerle oluşturmak istersen, şunu yapabilirsin:",
                 "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
@@ -2659,7 +2659,7 @@
                         "\\'merhaba'.büyükHarf()\\",
                         "Harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Bu yüzden Japonca veya Arapça gibi böyle bir ayrımı olmayan yazı sistemlerindeki metin değişmeden kalır.",
                         "Dil etiketim, hangi kuralların kullanılacağına karar verir. Türkçede noktalı ve noktasız i harfi vardır. Sadece Türkçe olarak etiketlenmiş metin, bu harfleri Türkçe kurallarına göre büyük harfe çevirir:",
-                        "\\'iyi'.büyükHarf()\\",
+                        "\\'iyi'/tr.büyükHarf()\\",
                         "\\'iyi'.büyükHarf()\\"
                     ],
                     "names": ["$~büyükHarf"],
@@ -8801,7 +8801,7 @@
                     "example": {
                         "phrase": "$~\\¶Cümleler sahnede görünür, istediğin renkte, parlaklıkta ve hareketle.¶\nİfadeetmek(\n\t'merhaba!'\n\t6m\n\trenk: Renk(60% 90 200°)\n\taura: Aura(Renk(80% 80 200°) 0.3m)\n\tdinlenme: Sekans.sallanmak(8°)\n)\\",
                         "music": "$~\\¶Müzik, gerçek çalgılarda, bir tempoda, bir tonda çalınan notalardan oluşur. Sahne duyduğunu çizer.¶\nMüzik(\n\tParça([1 3 5 8 5 3] çalgı: Çalgı.piyano)\n\ttempo: 120beats/min\n)\\",
-                        "hello": "$~\\¶Kod, @Time gibi girdilere tepki verebilir ve metin çok dilli olup sesli okunabilir.¶\nmerhabalar: ['merhaba' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nmerhaba: merhabalar.rastgele() … ∆ Zaman(1000ms) … merhabalar.rastgele(\n\t\t)\nİfadeetmek(merhaba 4m)\nSöylemek(merhaba)\\",
+                        "hello": "$~\\¶Kod, @Time gibi girdilere tepki verebilir ve metin çok dilli olup sesli okunabilir.¶\nmerhabalar: ['merhaba'/tr 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nmerhaba: merhabalar.rastgele() … ∆ Zaman(1000ms) … merhabalar.rastgele(\n\t\t)\nİfadeetmek(merhaba 4m)\nSöylemek(merhaba)\\",
                         "keys": "$~\\¶Kod; işaretçilere, tuşlara, tıklamalara ve dokunuşlara tepki verebilir.¶\nanahtar2: Anahtar()\ntıklama: Düğme()\nyüzler: ['🙂' '😮' '😎' '🤩']\nhangisi: 1 … ∆ anahtar2 | ∆ tıklama … (hangisi % 4) + 1\nSahne(\n\t[\n\t\tİfadeetmek(\n\t\t\tyüzler[hangisi]\n\t\t\t5m\n\t\t\tyer: İşaretçi()\n\t\t\tbalon: 'merhaba'\n\t\t)\n\t]\n\tyer: Yer(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Metni yerleştir ve seçilebilir yap.¶\nmeyve: ƒ(e•'') İfadeetmek(e 3m isim: e seçilebilir: ⊤)\nseçildi: Seçenek()\ngösterildi: '?' … ∆ seçildi … seçildi\nGrup(\n\tYığın(dolgu: 1m)\n\t[\n\t\tİfadeetmek(gösterildi 4m)\n\t\tGrup(\n\t\t\tSıra(dolgu: 1m)\n\t\t\t[meyve('🍎') meyve('🍐') meyve('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Programlarla sohbet et ve yazı tiplerinin ile sembollerin şeklini kullan.¶\nmesaj: Sohbet()\nkelime2: 'selam' … ∆ mesaj … mesaj\nsatır: Kontur(kelime2 'Noto Sans' 8m)\ntikSesleri: 0 … ∆ Zaman(30ms) … tikSesleri + 1\ngösterildi: ((satır.uzunluk() × tikSesleri) ÷ 66).Aşağıyuvarla(\n\t) + 1\nnoktalar: satır.altdizi(1 gösterildi).tercümeetmek(\n\t\tƒ(p) İfadeetmek('•' yer: p)\n\t)\nSahne(noktalar.ile(İfadeetmek(kelime2 8m opaklık: 15%)))\\",
@@ -8825,8 +8825,8 @@
                         "title": "$~Wordplay çok dillidir",
                         "bullets": [
                             "$~• Her programlama dili özelliğinin her dilde bir ismi vardır, bu yüzden kodu zaten bildiğin kelimelerle okuyabilirsin.",
-                            "• Kendi isimlerin de çok dilli olabilir:\n\\kedi2: '🐈'\nİfadeetmek(kedi2)\\",
-                            "• Metin bir dil taşır ve izleyicinin okuduğu dili gösterir: \\'merhaba'\\.",
+                            "• Kendi isimlerin de çok dilli olabilir:\n\\kedi2/tr, gato/es: '🐈'\nİfadeetmek(kedi2)\\",
+                            "• Metin bir dil taşır ve izleyicinin okuduğu dili gösterir: \\'merhaba'/tr'hola'/es\\.",
                             "• Sitenin kendisi 29 dilde ve aynı anda birden fazla dil seçebilirsin; metin her dilde görünür.",
                             "• @wordplay'ı çevirmeye yardımcı olabilirsin, doğrudan uygulama içinde <localize//localize> üzerinden."
                         ]

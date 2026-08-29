@@ -346,16 +346,16 @@
                 "$~Ako ay isang tatak ng wika at gumagana ako kasama sina @Name at @Doc!",
                 "Mahusay ako sa paggawang *napakalinaw* kung anong wika ang ginamit sa isang bagay. Isang maliit na garis-pahilis lang at ilang letra, at wala nang malilito kung anong wika ang isang teksto.",
                 "Halimbawa, kung gusto mong sabihin ang \"Wika\" pero gusto mong linawin na ito ay nasa Ingles:",
-                "\\'Wika'\\",
+                "\\'Wika'/tl\\",
                 "Magagawa mo ito para sa isang @Name:",
                 "\\tunog: 'ngiyaw'\\🪲",
                 "…o kaya isang @Doc:",
                 "\\¶Onomatopeya¶\ntunog: 'ngiyaw'\\🪲",
                 "Minsan ang isang teksto ay hindi lang isang wika — ito ay isang *halo*. Katulad ng Taglish, kung saan naghahalo ang Tagalog at Ingles. Para diyan, ilista ang bawat wika na may guhit-ilalim sa pagitan nila. Ang una ay ang *pangunahin* — iyon ang ginagamit ko kapag kailangan kong pumili (halimbawa, sa pagpili kung anong uri ng panipi ang gagamitin).",
-                "\\'Hola ginoo!'\\",
+                "\\\"Hola gentleman!\"/es_en\\",
                 "\\¶Isang bilingguwal na pagbati¶\nhello/es_en: 'Hola ginoo!'\\🪲",
                 "Maaari ka ring magdagdag ng iisang @region, pagkatapos ng gitling, katulad din ng isang wika:",
-                "\\'Hola ginoo!'\\",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
                 "Walang limitasyon kung ilang wika ang maaari mong ilista — huwag lang paulit-ulitin ang parehong wika; ipapaalam ko sa iyo kung nangyari ito.",
                 "Maaari kang magsulat ng wika gamit ang <2-letrang kodigo@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> o gamit ang *pangalan* nito, sa wikang iyon o sa Ingles — magkatulad lang ang `/es`, `/Español`, at `/Spanish`, at ganoon din ang `/es-MX`, `/es-México`, at `/es-Mexico`. Hindi mahalaga ang malalaking letra at mga tuldik, kaya gagana rin ang `/ESPANOL`. Ang pangalang may espasyo ay isinusulat nang walang espasyo, tulad ng `/BahasaIndonesia`, dahil ang isang tatak ay iisang salita. Kung hindi ko makilala ang isang wika o isang rehiyon, ipapaalam ko sa iyo."
             ],
@@ -2076,7 +2076,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Ipinapakita ko ang syntax-highlighted code na nakasulat sa ibang mga programming language, para makapagkumpara ang mga creator na nakapag-code na.",
-                "Sumulat ng isang variant bawat wika bilang tag na may dalawang letra, isang bar, at ang code, tulad ng \\py| a = 5\\ js| let a = 5; \\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
+                "Sumulat ng isang variant bawat wika bilang tag na may dalawang letra, isang bar, at ang code, tulad ng \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
             ]
         },
         "Localized": {
@@ -2499,7 +2499,7 @@
                 "\\'May dalawa lamang na paraan para mabuhay ang iyong buhay. Ang isa ay parang walang anumang himala. Ang isa naman ay parang lahat ay himala.'\\",
                 "\\'一日三秋'\\",
                 "Tandaan lang na isara mo ako kung binuksan mo ako, at gamitin ang tugmang simbolo. Kung hindi, hindi ko malalaman na tapos ka na sa iyong mga salita.",
-                "\\'kumusta'\\",
+                "\\'kumusta'/tl'hola'/es-MX\\",
                 "Puwede mo rin akong lagyan ng tatak ng mga wika, at kahit magbigay ng maraming salin. Magiging halaga ako sa anumang mga wikang kasalukuyang napili, kung may tugmang wika.",
                 "Kung gusto mo akong gawin gamit ang ibang mga halaga, puwede mong gawin ito:",
                 "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
@@ -2659,7 +2659,7 @@
                         "\\'kamusta'.malalakingTitik()\\",
                         "May malaki at maliit na letra lang sa ilang sistema ng pagsulat, kaya ang tekstong walang ganitong sistema, gaya ng Japanese o Arabic, ay hindi nagbabago.",
                         "Ang tatak ng aking wika ang magpapasya kung saang mga panuntunan susunod. May tuldok at walang-tuldok na i ang Turkish, at ang tekstong tinatakan bilang Turkish lang ang gagawing malaki ayon sa paraan ng Turkish:",
-                        "\\'mabuti'.malalakingTitik()\\",
+                        "\\'iyi'/tr.malalakingTitik()\\",
                         "\\'mabuti'.malalakingTitik()\\"
                     ],
                     "names": ["$~malalakingTitik"],
@@ -2857,7 +2857,7 @@
                 "remainder": {
                     "doc": [
                         "$~Hinahati ko ang aking sarili sa ibinigay na @Number, ngunit ibinibigay ko ang natitira:",
-                        "\\10% 2\\",
+                        "\\10 % 2\\",
                         "\\10m % 2\\",
                         "\\10m/s % 3\\"
                     ],
@@ -3281,7 +3281,7 @@
                 "Iyon na lang halos. Pero kaya kong gumawa ng lahat ng uri ng kawili-wiling bagay gamit ang aking @FunctionDefinition!"
             ],
             "name": ["$~Listahan"],
-            "kind": "$~Mabait",
+            "kind": "Uri",
             "out": "$~Resulta",
             "outofbounds": "$~mgaLabasSaHangganan",
             "function": {
@@ -3710,7 +3710,7 @@
                 "Mayroon pa bang ibang gusto mong gawin sa akin? Tingnan mo ang lahat ng magagandang @FunctionDefinition na mayroon ako!"
             ],
             "name": ["$~Itakda"],
-            "kind": "$~Mabait",
+            "kind": "Uri",
             "out": "$~Resulta",
             "function": {
                 "size": {
@@ -9140,7 +9140,7 @@
                     "example": {
                         "phrase": "$~\\¶Lumalabas ang mga Phrase sa entablado, sa anumang kulay, ningning, at galaw na gusto mo.¶\nParirala(\n\t'kumusta!'\n\t6m\n\tkulay: Kulay(60% 90 200°)\n\taura: Aura(Kulay(80% 80 200°) 0.3m)\n\tnagpapahinga: Pagkakasunodsunod.ugoy(8°)\n)\\",
                         "music": "$~\\¶Ang musika ay mga nota sa tunay na instrumento, sa isang tempo, sa isang key. Iginuguhit ng entablado ang naririnig nito.¶\nMusika(\n\tTrack([1 3 5 8 5 3] instrumento: Instrumento.piyano)\n\ttempo: 120beats/min\n)\\",
-                        "hello": "$~\\¶Ang kodigo ay maaaring tumugon sa input tulad ng @Time, at ang teksto ay maaaring maraming wika at mabigkas.¶\nmgaKumusta: ['kumusta' 'hola' 'こんにちは' 'habari' 'नमस्ते']\nkumusta: mgaKumusta.random() … ∆ Oras(1000ms) … mgaKumusta.random(\n\t\t)\nParirala(kumusta 4m)\nSabihin(kumusta)\\",
+                        "hello": "$~\\¶Ang kodigo ay maaaring tumugon sa input tulad ng @Time, at ang teksto ay maaaring maraming wika at mabigkas.¶\nmgaKumusta: ['kumusta'/tl 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nkumusta: mgaKumusta.random() … ∆ Oras(1000ms) … mgaKumusta.random(\n\t\t)\nParirala(kumusta 4m)\nSabihin(kumusta)\\",
                         "keys": "$~\\¶Ang kodigo ay maaaring tumugon sa pointer, susi, klik, at tap.¶\nsusi2: Susi()\nklik: Butones()\nmukha2: ['🙂' '😮' '😎' '🤩']\nalin: 1 … ∆ susi2 | ∆ klik … (alin % 4) + 1\nEntablado(\n\t[Parirala(mukha2[alin] 5m lugar: Panturo() bula: 'hi')]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
                         "choose": "$~\\¶Ayusin ang teksto at gawin itong mapipili.¶\nprutas: ƒ(e•'') Parirala(e 3m pangalan: e mapipili: ⊤)\nnapili: Pagpipilian()\nipinakita: '?' … ∆ napili … napili\nGrupo(\n\tPatongpatong(padding: 1m)\n\t[\n\t\tParirala(ipinakita 4m)\n\t\tGrupo(\n\t\t\tHilera(padding: 1m)\n\t\t\t[prutas('🍎') prutas('🍐') prutas('🍒')]\n\t\t)\n\t]\n)\\",
                         "letters": "$~\\¶Makipag-usap sa mga programa at gamitin ang hugis ng mga font at simbolo.¶\nmensahe: Makipagchat()\nsalita2: 'hi' … ∆ mensahe … mensahe\nlinya: Kontur(salita2 'Noto Sans' 8m)\nmgaTik: 0 … ∆ Oras(30ms) … mgaTik + 1\nipinakita: ((linya.haba() × mgaTik) ÷ 66).roundDown() + 1\nmgaTuldok: linya.kasunod(1 ipinakita).isalin(\n\t\tƒ(p) Parirala('•' lugar: p)\n\t)\nEntablado(\n\tmgaTuldok.kasama(Parirala(salita2 8m kalabuan: 15%))\n)\\",
@@ -9164,8 +9164,8 @@
                         "title": "$~Multilingguwal ang Wordplay",
                         "bullets": [
                             "$~• Bawat tampok ng programming language ay may pangalan sa bawat wika, kaya nababasa ang kodigo gamit ang mga salitang alam mo na.",
-                            "• Maaari ding maging multilingguwal ang iyong sariling mga pangalan:\n\\pusa2: '🐈'\nParirala(pusa2)\\",
-                            "• May kalakip na wika ang teksto, at ipinapakita nito ang wikang mababasa ng iyong manonood: \\'kumusta'\\.",
+                            "• Maaari ding maging multilingguwal ang iyong sariling mga pangalan:\n\\pusa2/tl, gato/es: '🐈'\nParirala(pusa2)\\",
+                            "• May kalakip na wika ang teksto, at ipinapakita nito ang wikang mababasa ng iyong manonood: \\'kumusta'/tl'hola'/es\\.",
                             "• Ang site mismo ay nasa 29 na wika, at pwede kang pumili ng higit sa isa nang sabay-sabay; lalabas ang teksto sa bawat isa.",
                             "• Pwede kang tumulong magsalin ng @wordplay mismo, mismo sa loob ng app sa <localize//localize>."
                         ]

@@ -150,3 +150,84 @@ test(
     },
     Timeout,
 );
+
+/**
+ * The three tests above ask whether the repair *would rewrite* an example — the fixable case.
+ * An example whose shape no longer matches en-US is the other half, and it is invisible to
+ * them: the pass reports it and writes nothing, so 89 warnings covering ~1,000 examples
+ * accumulated without a red test. Every one turned out to be repairable — an en-US typo every
+ * locale had copied, foreign source code that had been machine translated, a paragraph split
+ * through the middle of an example, a `%` that lost the space making it an operator — so the
+ * count is zero and this keeps it there.
+ */
+test(
+    'no localized example has drifted out of shape with its en-US source',
+    () => {
+        expect(English).toBeDefined();
+        if (English === undefined) return;
+        const englishDir = path.join('static', 'locales', 'en-US', 'how');
+        const howTos = fs
+            .readdirSync(englishDir)
+            .filter((name) => name.endsWith('.txt'));
+        const divergent: string[] = [];
+        for (const code of Locales) {
+            const locale: LocaleText | undefined = read(getLocalePath(code));
+            if (locale === undefined) continue;
+
+            for (const pair of getCheckableLocalePairs(locale)) {
+                const source = pair.resolve(English);
+                if (source === undefined) continue;
+                const items =
+                    typeof pair.value === 'string' ? [pair.value] : pair.value;
+                if (!items.some((item) => item.includes('\\'))) continue;
+                const result = retargetExamplesInDocument(
+                    typeof source === 'string' ? [source] : source,
+                    items,
+                    locale,
+                );
+                if (result.divergent > 0)
+                    divergent.push(
+                        `${code} ${pair.toString()}: ${result.divergent}`,
+                    );
+            }
+
+            for (const mode of TutorialModes) {
+                const tutorial: Tutorial | undefined = read(
+                    getTutorialPath(code, mode),
+                );
+                if (tutorial === undefined) continue;
+                const tally = retargetTutorialExamples(
+                    tutorial,
+                    getDefaultTutorial(mode),
+                    locale,
+                    false,
+                );
+                if (tally.divergent > 0)
+                    divergent.push(`${code} ${mode}: ${tally.divergent}`);
+            }
+
+            for (const filename of howTos) {
+                const target = path.join(
+                    'static',
+                    'locales',
+                    code,
+                    'how',
+                    filename,
+                );
+                if (!fs.existsSync(target)) continue;
+                const result = retargetExamplesIn(
+                    fs.readFileSync(path.join(englishDir, filename), 'utf8'),
+                    fs.readFileSync(target, 'utf8'),
+                    locale,
+                );
+                if (result.divergent > 0)
+                    divergent.push(`${code}/${filename}: ${result.divergent}`);
+            }
+        }
+        expect(
+            divergent,
+            'These examples no longer have the same shape as en-US, so their names cannot be retargeted. Compare each against its en-US source and repair it by hand.',
+        ).toEqual([]);
+    },
+    Timeout,
+);
