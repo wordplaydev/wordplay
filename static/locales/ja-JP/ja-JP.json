@@ -8572,14 +8572,16 @@
                 "messageError": "$~このメッセージを翻訳できませんでした。",
                 "messageErrors": "$~$#count[$count件のメッセージを翻訳できませんでした。]",
                 "direction": "$~$from → $to",
-                "choosePlaceholder": "$~言語を選ぶ",
                 "moreLanguages": "$~別の言語を探す",
                 "fewerLanguages": "$~言語検索を隠す",
                 "translating": "$~メッセージを翻訳しています…",
                 "translated": "$~$#count[$count件のメッセージを$languageに翻訳しました。]",
                 "writingIn": "$~書いている言語",
                 "downloading": "$~あなたのブラウザ用の$language…",
-                "onDevice": "$~あなたのブラウザが端末上で翻訳したので、メッセージは私たちに送られていません。"
+                "onDevice": "$~あなたのブラウザが端末上で翻訳したので、メッセージは私たちに送られていません。",
+                "none": "$~翻訳しない",
+                "dismiss": "$~閉じる",
+                "nothing": "$~$to に翻訳する内容がありません。あなた自身のメッセージは翻訳されません。"
             }
         },
         "palette": {

@@ -9922,14 +9922,16 @@
                 "messageError": "$~Wir konnten diese Nachricht nicht übersetzen.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[Wir konnten $count Nachricht nicht übersetzen.|Wir konnten $count Nachrichten nicht übersetzen.]",
-                "choosePlaceholder": "$~Wähle eine Sprache",
                 "moreLanguages": "$~Eine andere Sprache finden",
                 "fewerLanguages": "$~Sprachsuche ausblenden",
                 "translating": "$~Nachrichten werden übersetzt …",
                 "translated": "$~$#count[$count Nachricht in $language übersetzt.|$count Nachrichten in $language übersetzt.]",
                 "writingIn": "$~Ich schreibe auf",
                 "downloading": "$~Ein $language-Übersetzer für deinen Browser wird geladen …",
-                "onDevice": "$~Dein Browser hat dies auf deinem Gerät übersetzt. Es wurden also keine Nachrichten an uns gesendet."
+                "onDevice": "$~Dein Browser hat dies auf deinem Gerät übersetzt. Es wurden also keine Nachrichten an uns gesendet.",
+                "none": "$~Nicht übersetzen",
+                "dismiss": "$~Schließen",
+                "nothing": "$~Hier gibt es nichts, das in $to übersetzt werden kann. Wir übersetzen niemals deine eigenen Nachrichten."
             },
             "announce": {
                 "transferred": "$~$name ist jetzt Eigentümerin oder Eigentümer von $project"

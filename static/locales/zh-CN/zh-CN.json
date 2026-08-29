@@ -9875,14 +9875,16 @@
                 "messageError": "$~我们无法翻译这条信息。",
                 "messageErrors": "$~$#count[我们无法翻译这 $count 条消息。]",
                 "direction": "$~$from → $to",
-                "choosePlaceholder": "$~选择一种语言",
                 "moreLanguages": "$~查找其他语言",
                 "fewerLanguages": "$~隐藏语言搜索",
                 "translating": "$~正在翻译信息……",
                 "translated": "$~$#count[已将 $count 条消息翻译成 $language。]",
                 "writingIn": "$~我正在用这种语言写作：",
                 "downloading": "$~正在为你的浏览器获取 $language 翻译器……",
-                "onDevice": "$~你的浏览器在你的设备上完成了翻译，因此没有信息发送给我们。"
+                "onDevice": "$~你的浏览器在你的设备上完成了翻译，因此没有信息发送给我们。",
+                "none": "$~不要翻译",
+                "dismiss": "$~关闭",
+                "nothing": "$~这里没有可以翻译成 $to 的内容。我们不会翻译你自己写的消息。"
             }
         },
         "checkpoints": {

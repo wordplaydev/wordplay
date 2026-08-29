@@ -8554,14 +8554,16 @@
                 "messageError": "$~Vi kunde inte översätta detta meddelande.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[Vi kunde inte översätta $count meddelande.|Vi kunde inte översätta $count meddelanden.]",
-                "choosePlaceholder": "$~Välj ett språk",
                 "moreLanguages": "$~Hitta ett annat språk",
                 "fewerLanguages": "$~Dölj språksökningen",
                 "translating": "$~Översätter meddelanden…",
                 "translated": "$~$#count[Översatte $count meddelande till $language.|Översatte $count meddelanden till $language.]",
                 "writingIn": "$~Jag skriver på",
                 "downloading": "$~Hämtar en $language-översättare för din webbläsare…",
-                "onDevice": "$~Din webbläsare översatte dessa på din enhet, så inga meddelanden skickades till oss."
+                "onDevice": "$~Din webbläsare översatte dessa på din enhet, så inga meddelanden skickades till oss.",
+                "none": "$~Översätt inte",
+                "dismiss": "$~stäng",
+                "nothing": "$~Det finns inget här att översätta till $to. Vi översätter aldrig dina egna meddelanden."
             },
             "announce": {
                 "transferred": "$~$name är nu ägare av $project"

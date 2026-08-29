@@ -9904,14 +9904,16 @@
                 "messageError": "$~이 메시지를 번역하지 못했습니다.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[메시지 $count개를 번역하지 못했습니다.]",
-                "choosePlaceholder": "$~언어 고르기",
                 "moreLanguages": "$~다른 언어 찾기",
                 "fewerLanguages": "$~언어 검색 숨기기",
                 "translating": "$~메시지를 번역하는 중…",
                 "translated": "$~$#count[메시지 $count개를 $language 언어로 번역했습니다.]",
                 "writingIn": "$~제가 쓰는 언어는",
                 "downloading": "$~브라우저에서 쓸 $language 번역기를 가져오는 중…",
-                "onDevice": "$~이 번역은 여러분의 기기에서 브라우저가 직접 처리했으므로, 저희에게 메시지가 전달되지 않았습니다."
+                "onDevice": "$~이 번역은 여러분의 기기에서 브라우저가 직접 처리했으므로, 저희에게 메시지가 전달되지 않았습니다.",
+                "none": "$~번역하지 마세요",
+                "dismiss": "$~닫기",
+                "nothing": "$~$to 로 번역할 내용이 여기 없습니다. 우리는 여러분이 직접 쓴 메시지는 번역하지 않습니다."
             },
             "announce": {
                 "transferred": "$~이제 $name 이(가) $project 의 소유자입니다"

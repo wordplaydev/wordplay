@@ -8810,14 +8810,16 @@
                 "messageError": "$~Chúng tôi không thể dịch tin nhắn này.",
                 "messageErrors": "$~$#count[Không thể dịch $count tin nhắn.]",
                 "direction": "$~$from → $to",
-                "choosePlaceholder": "$~Chọn một ngôn ngữ",
                 "moreLanguages": "$~Tìm ngôn ngữ khác",
                 "fewerLanguages": "$~Ẩn ô tìm ngôn ngữ",
                 "translating": "$~Đang dịch tin nhắn…",
                 "translated": "$~$#count[Đã dịch $count tin nhắn sang $language.]",
                 "writingIn": "$~Tôi đang viết bằng",
                 "downloading": "$~Đang lấy bộ dịch $language cho trình duyệt của bạn…",
-                "onDevice": "$~Trình duyệt của bạn đã dịch những tin nhắn này ngay trên thiết bị của bạn, nên không có tin nhắn nào được gửi cho chúng tôi."
+                "onDevice": "$~Trình duyệt của bạn đã dịch những tin nhắn này ngay trên thiết bị của bạn, nên không có tin nhắn nào được gửi cho chúng tôi.",
+                "none": "$~Không dịch",
+                "dismiss": "$~bỏ qua",
+                "nothing": "$~Không có gì ở đây để dịch sang $to. Chúng tôi không bao giờ dịch các thông điệp của riêng bạn."
             }
         },
         "palette": {

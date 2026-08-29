@@ -52,6 +52,20 @@ const MessageSchemaV1 = z.object({
     creator: z.string(),
     /** The text of the message, using Wordplay markup format */
     text: z.string().nullable(),
+    /** The locale the writer says this message is in (a Wordplay locale
+     *  string, e.g. "en-US"), for translating it into someone else's.
+     *  Optional: messages written before this existed have none, and fall back
+     *  to the chat's own language. Load-bearing for on-device translation,
+     *  which requires an explicit source language and cannot infer one.
+     *
+     *  Declared here rather than only on v3 because a message can arrive
+     *  carrying one *before* its chat has been migrated: rules, client, and
+     *  functions deploy together while the migration is a separate step, so a
+     *  document sits at v2 while new clients append v3-shaped messages to it.
+     *  On v3 alone, the upgrader below would strip the tag on every read and
+     *  translation could never find a source language — the same reasoning the
+     *  `moderation` map carries. */
+    language: z.string().exactOptional(),
 });
 
 /**
@@ -84,17 +98,7 @@ const MessageSchemaV2 = MessageSchemaV1.extend(
  * which throws, so the first chat a newer client touched would stop loading
  * there. How-tos gained `flags` the same way.
  */
-const MessageSchemaV3 = MessageSchemaV1.extend(
-    z.object({
-        /** The locale the writer says this message is in (a Wordplay locale
-         *  string, e.g. "en-US"), for translating it into someone else's.
-         *  Optional: messages written before this existed have none, and fall
-         *  back to the chat's own language. Load-bearing for on-device
-         *  translation, which requires an explicit source language and cannot
-         *  infer one. */
-        language: z.string().exactOptional(),
-    }).shape,
-);
+const MessageSchemaV3 = MessageSchemaV1;
 
 const MessageSchema = MessageSchemaV3;
 export const MessageSchemaLatestVersion = 3;
@@ -223,12 +227,19 @@ export function upgradeChat(
                     },
                     { ...moderationOf(chat) },
                 ),
-                messages: chat.messages.map(({ id, time, creator, text }) => ({
-                    id,
-                    time,
-                    creator,
-                    text,
-                })),
+                // `language` comes along; only the moderation fields are
+                // dropped. A new client appends a tagged message to a chat that
+                // has not been migrated yet, so rebuilding without it would
+                // strip the tag on every read.
+                messages: chat.messages.map(
+                    ({ id, time, creator, text, language }) => ({
+                        id,
+                        time,
+                        creator,
+                        text,
+                        ...(language === undefined ? {} : { language }),
+                    }),
+                ),
             });
         case ChatSchemaLatestVersion:
             return chat;

@@ -8564,14 +8564,16 @@
                 "messageError": "$~Bu mesajı çeviremedik.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[$count mesajı çeviremedik.|$count mesajı çeviremedik.]",
-                "choosePlaceholder": "$~Bir dil seç",
                 "moreLanguages": "$~Başka bir dil bul",
                 "fewerLanguages": "$~Dil aramayı gizle",
                 "translating": "$~Mesajlar çevriliyor…",
                 "translated": "$~$#count[$count mesaj $language diline çevrildi.|$count mesaj $language diline çevrildi.]",
                 "writingIn": "$~Şu dilde yazıyorum",
                 "downloading": "$~Tarayıcın için $language çevirmeni alınıyor…",
-                "onDevice": "$~Tarayıcın bunları kendi cihazında çevirdi, bu yüzden bize hiçbir mesaj gönderilmedi."
+                "onDevice": "$~Tarayıcın bunları kendi cihazında çevirdi, bu yüzden bize hiçbir mesaj gönderilmedi.",
+                "none": "$~Çevirme",
+                "dismiss": "$~kapat",
+                "nothing": "$~$to diline çevrilecek bir şey yok. Kendi mesajlarını asla çevirmeyiz."
             },
             "announce": {
                 "transferred": "$~$name artık $project projesinin sahibi"

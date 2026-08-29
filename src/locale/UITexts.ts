@@ -1187,10 +1187,12 @@ type UITexts = {
         translate: {
             /** [plain] Label on the picker that chooses what language to read messages in */
             label: string;
-            /** [plain] The first option in that picker, before a language is chosen */
-            choosePlaceholder: string;
-            /** [plain] Button that turns translating off */
+            /** [plain] The picker's first option, meaning don't translate — both the state it starts in and the way back to it */
+            none: string;
+            /** [plain] Button that stops a translation that is still running */
             off: string;
+            /** [plain] Button that dismisses a translation failure */
+            dismiss: string;
             /** [plain] Tip on the button that reveals a search field for languages beyond the ones already in this conversation */
             moreLanguages: string;
             /** [plain] Tip on the button that hides the language search field */
@@ -1207,6 +1209,8 @@ type UITexts = {
             direction: Template<['from', 'to']>;
             /** [plain] Shown when the browser translated on this device, so no messages were sent to Wordplay */
             onDevice: string;
+            /** [formatted] Shown when a language is chosen but there is nothing here to translate into it. $to is that language. */
+            nothing: Template<['to']>;
             /** [formatted] Shown when the conversation couldn't be translated. $to is the language it was being translated into. */
             error: Template<['to']>;
             /** [plain] Shown in place of one message that couldn't be translated */

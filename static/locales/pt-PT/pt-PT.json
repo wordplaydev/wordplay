@@ -8807,14 +8807,16 @@
                 "messageError": "$~Não conseguimos traduzir esta mensagem.",
                 "messageErrors": "$~$#count[Não foi possível traduzir $#count mensagem.|Não foi possível traduzir $count milhões de mensagens.|Não foi possível traduzir $count mensagens.]",
                 "direction": "$~$from → $to",
-                "choosePlaceholder": "$~escolher um idioma",
                 "moreLanguages": "$~encontrar outro idioma",
                 "fewerLanguages": "$~ocultar a pesquisa de idiomas",
                 "translating": "$~A traduzir mensagens…",
                 "translated": "$~$#count[Traduzida $count mensagem para $language.|Traduzidas $count milhões de mensagens para $language.|Traduzidas $count mensagens para $language.]",
                 "writingIn": "$~Estou a escrever em",
                 "downloading": "$~A obter um tradutor de $language para o seu navegador…",
-                "onDevice": "$~O seu navegador traduziu estas mensagens no seu dispositivo, por isso nenhuma mensagem nos foi enviada."
+                "onDevice": "$~O seu navegador traduziu estas mensagens no seu dispositivo, por isso nenhuma mensagem nos foi enviada.",
+                "none": "$~Não traduzir",
+                "dismiss": "$~fechar",
+                "nothing": "$~Não há nada aqui para traduzir para $to. Nunca traduzimos as suas próprias mensagens."
             }
         },
         "palette": {

@@ -9922,14 +9922,16 @@
                 "messageError": "$~No pudimos traducir este mensaje.",
                 "messageErrors": "$~$#count[No pudimos traducir $#count mensaje.|No pudimos traducir $count mensajes.|No pudimos traducir $count mensajes.]",
                 "direction": "$~$from → $to",
-                "choosePlaceholder": "$~elegir un idioma",
                 "moreLanguages": "$~buscar otro idioma",
                 "fewerLanguages": "$~ocultar la búsqueda de idiomas",
                 "translating": "$~Traduciendo mensajes…",
                 "translated": "$~$#count[Se tradujo $count mensaje al $language.|Se tradujeron $count mensajes al $language.|Se tradujeron $count mensajes al $language.]",
                 "writingIn": "$~Estoy escribiendo en",
                 "downloading": "$~Consiguiendo un traductor de $language para tu navegador…",
-                "onDevice": "$~Tu navegador tradujo esto en tu dispositivo, así que no se nos envió ningún mensaje."
+                "onDevice": "$~Tu navegador tradujo esto en tu dispositivo, así que no se nos envió ningún mensaje.",
+                "none": "$~No traducir",
+                "dismiss": "$~descartar",
+                "nothing": "$~No hay nada aquí para traducir a $to. Nunca traducimos tus propios mensajes."
             },
             "announce": {
                 "transferred": "$~$name ahora es propietaria de $project"

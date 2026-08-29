@@ -55,7 +55,7 @@
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Chats, Galleries, locales } from '@db/Database';
+    import { Chats, Galleries, Settings, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
@@ -182,8 +182,14 @@
         messageLanguageOverride ?? localeToString($locales.getLocale()),
     );
 
-    /** What language to read the conversation in, or undefined for none. */
-    let translateTo = $state<string | undefined>(undefined);
+    /** What language to read the conversation in, or undefined for none.
+     *
+     *  Restored from the reader's saved choice, because the translations
+     *  themselves are cached and cost nothing to show again — losing only the
+     *  choice on reload made it look as though they had been thrown away. */
+    let translateTo = $state<string | undefined>(
+        Settings.getChatLanguage() ?? undefined,
+    );
 
     /** What to show under each message, keyed by message id. */
     let translations = $state<
@@ -211,6 +217,18 @@
     let translatedOnDevice = $state(false);
     /** How much of the browser's translator has downloaded, while it is. */
     let downloading = $state<number | undefined>(undefined);
+
+    /** Whether a language is chosen and there is nothing here to translate into
+     *  it. Said out loud rather than left as silence: a control that offers to
+     *  do something and then visibly does nothing reads as broken, and in a
+     *  chat holding only your own messages — which is every chat before anyone
+     *  replies — that is the normal case, not an edge one. */
+    let nothingToTranslate = $state(false);
+    /** Whether our servers did any of the work, which is the only time a
+     *  creator's daily budget is worth showing. Nothing is spent translating on
+     *  the device, and a meter reading zero beside a feature that costs nothing
+     *  implies a price that isn't there. */
+    let spentBudget = $state(false);
 
     let lastAnnouncedTranslateError = false;
     let lastAnnouncedMessageErrors = '';
@@ -392,6 +410,7 @@
         // what our servers translated — so leaving the last pass's claim up
         // would tell a reader nothing was sent to us about messages that were.
         translatedOnDevice = false;
+        nothingToTranslate = false;
         if (target === undefined || !chat) {
             translating = false;
             return;
@@ -405,6 +424,8 @@
         const currentChat = chat;
         const next: Record<string, { language: string; text: string }> = {};
         const toTranslate: MarkupTranslationInput[] = [];
+        /** Whether anyone else has said anything here yet. */
+        let others = false;
 
         for (const msg of currentChat.getMessages()) {
             const state = currentChat.getMessageModeration(msg.id);
@@ -418,6 +439,7 @@
             // are never translated — nor paid for, nor sent anywhere. This is
             // also exactly what the rights page promises.
             if ($user && msg.creator === $user.uid) continue;
+            others = true;
 
             const cached = cachedTranslations[msg.id]?.text;
             if (cached !== undefined) {
@@ -425,13 +447,23 @@
                 continue;
             }
 
-            // The message's own tag, then the conversation's. Falling back to
-            // the viewer's locale would declare every untagged message to be in
-            // the language they are translating *into*, which either skips it
-            // or translates it from the wrong language.
-            const source = msg.language ?? currentChat.getLanguage();
-            const fromLocale =
-                source === undefined ? undefined : stringToLocale(source);
+            // The message's own tag, then the conversation's, then the
+            // reader's own language as a guess.
+            //
+            // The guess is doing real work: every message written before this
+            // feature existed carries no tag, and every chat created before it
+            // no language, so without it translation does nothing at all on any
+            // existing conversation — which is all of them. It is only ever a
+            // guess, and a wrong one costs quality rather than correctness: the
+            // model reads what it is given rather than trusting `from`, and the
+            // original is always still there above the translation. On-device
+            // translation is the one that takes `from` literally, which is a
+            // reason to tag messages, not a reason to translate nothing.
+            const source =
+                msg.language ??
+                currentChat.getLanguage() ??
+                localeToString($locales.getLocale());
+            const fromLocale = stringToLocale(source);
             if (fromLocale === undefined) continue;
             if (localesAreEqual(fromLocale, toLocale)) continue;
 
@@ -442,6 +474,13 @@
         translations = { ...cachedTranslations, ...next };
 
         if (toTranslate.length === 0) {
+            // Only when nobody else has said anything, which is the case that
+            // needs explaining: a reader watching their own messages stay in
+            // their own language has been told why. A conversation that is
+            // simply already in the target language needs no note — it is
+            // readable, and saying so on every such chat is noise, which is
+            // what a remembered language choice would otherwise produce.
+            nothingToTranslate = !others && Object.keys(next).length === 0;
             translating = false;
             return;
         }
@@ -488,6 +527,7 @@
             // it reported nothing because it was never chosen between.
             translatedOnDevice =
                 !functions || (backends.size === 1 && backends.has('device'));
+            spentBudget = !translatedOnDevice;
 
             // Cache what we just bought, so nobody else in the conversation
             // buys it again. Only what our own servers translated: an
@@ -556,14 +596,23 @@
         );
     });
 
+    /** Cancel a pending pass when this view goes away.
+     *
+     *  Its own effect, with no dependencies, because a cleanup returned from
+     *  the effect below runs before *every* re-run of that effect — not only on
+     *  destroy — and so would cancel the pass it had just scheduled. */
+    $effect(() => () => {
+        if (translatePassTimeout !== undefined)
+            clearTimeout(translatePassTimeout);
+    });
+
     /** Keep translations live as messages arrive. */
     $effect(() => {
-        if (translatePassTimeout !== undefined) {
-            clearTimeout(translatePassTimeout);
-            translatePassTimeout = undefined;
-        }
-
         if (!chat || translateTo === undefined) {
+            if (translatePassTimeout !== undefined) {
+                clearTimeout(translatePassTimeout);
+                translatePassTimeout = undefined;
+            }
             lastTranslationContentKey = '';
             if (translateTo === undefined) {
                 // Turning it off is instant: discard whatever is in flight and
@@ -575,6 +624,8 @@
                 translateError = false;
                 messageErrors = {};
                 translatedOnDevice = false;
+                nothingToTranslate = false;
+                spentBudget = false;
                 downloading = undefined;
                 lastAnnouncedTranslation = '';
             }
@@ -597,23 +648,24 @@
                 ),
         ].join('|');
 
+        // Nothing new to translate — and, crucially, leave any pending pass
+        // alone. This effect re-runs for reasons that have nothing to do with
+        // the conversation's content, and cancelling the scheduled pass on the
+        // way past meant the pass never ran at all: the re-run arrived inside
+        // the 300ms window, cleared the timeout, recomputed the same key, and
+        // returned here without setting another one.
         if (contentKey === lastTranslationContentKey) return;
         lastTranslationContentKey = contentKey;
 
         // The pass is debounced, not the choice: messages streaming in coalesce
         // into one pass once things settle, while choosing a language and
         // stopping both take effect at once.
+        if (translatePassTimeout !== undefined)
+            clearTimeout(translatePassTimeout);
         translatePassTimeout = setTimeout(() => {
             translatePassTimeout = undefined;
             untrack(() => void translateMessages());
         }, 300);
-
-        return () => {
-            if (translatePassTimeout !== undefined) {
-                clearTimeout(translatePassTimeout);
-                translatePassTimeout = undefined;
-            }
-        };
     });
 </script>
 
@@ -688,18 +740,6 @@
                 lang={into?.language}
                 dir={into ? getLanguageDirection(into.language) : undefined}
             >
-                <div class="what">
-                    <MarkupHTMLView
-                        markup={translations[msg.id].text.replaceAll(
-                            '\n',
-                            '\n\n',
-                        )}
-                        lang={into?.language}
-                        dir={into
-                            ? getLanguageDirection(into.language)
-                            : undefined}
-                    />
-                </div>
                 <div class="lang-tag">
                     {#if from}
                         <MarkupHTMLView
@@ -719,6 +759,18 @@
                             translations[msg.id].language,
                         )}
                     {/if}
+                </div>
+                <div class="what">
+                    <MarkupHTMLView
+                        markup={translations[msg.id].text.replaceAll(
+                            '\n',
+                            '\n\n',
+                        )}
+                        lang={into?.language}
+                        dir={into
+                            ? getLanguageDirection(into.language)
+                            : undefined}
+                    />
                 </div>
             </div>
         {/if}
@@ -789,16 +841,22 @@
                 label={(l) => l.ui.collaborate.translate.label}
                 options={[
                     {
+                        // The switch, not a placeholder: it is both the state
+                        // this starts in and the way back to it, which is why
+                        // "Stop translating" no longer has to sit there
+                        // permanently to offer a way out.
                         value: undefined,
-                        label: (l) =>
-                            l.ui.collaborate.translate.choosePlaceholder,
+                        label: (l) => l.ui.collaborate.translate.none,
                     },
                     ...translateOptions.map((locale) => ({
                         value: localeToString(locale),
                         label: localeLabel(locale, translateOptions),
                     })),
                 ]}
-                change={(chosen) => (translateTo = chosen)}
+                change={(chosen) => {
+                    translateTo = chosen;
+                    Settings.setChatLanguage(chosen ?? null);
+                }}
             />
             <Button
                 tip={translateSearchExpanded
@@ -840,33 +898,68 @@
                     >
                 {/if}
             {/if}
-            {#if translateTo !== undefined}
+            {#if translating}
+                <!-- Only while a pass is running. Standing there when nothing
+                     was happening, it read as the only way to undo a choice
+                     the picker had already made — and doubled as the dismiss
+                     for whatever notice was showing. -->
                 <Button
                     tip={(l) => l.ui.collaborate.translate.off}
-                    action={() => (translateTo = undefined)}
+                    action={() => {
+                        translateTo = undefined;
+                        Settings.setChatLanguage(null);
+                    }}
                     ><LocalizedText
                         path={(l) => l.ui.collaborate.translate.off}
                     /></Button
                 >
-                <!-- Only meaningful once translating costs something, which
-                     is exactly when it doesn't move for an on-device pass. -->
+            {/if}
+            {#if spentBudget}
+                <!-- Only once our servers have actually done some of the work.
+                     A meter beside a feature that cost nothing implies a price
+                     that isn't there. -->
                 <TranslationMeter compact />
             {/if}
         </div>
         {#if translateError}
             <Notice>
-                <MarkupHTMLView
-                    markup={[
-                        (l) => l.ui.collaborate.translate.error,
-                        {
-                            to:
-                                translateTo === undefined
-                                    ? ''
-                                    : getMultilingualLanguageLabel(translateTo),
-                        },
-                    ]}
-                />
+                <div class="dismissable">
+                    <MarkupHTMLView
+                        markup={[
+                            (l) => l.ui.collaborate.translate.error,
+                            {
+                                to:
+                                    translateTo === undefined
+                                        ? ''
+                                        : getMultilingualLanguageLabel(
+                                              translateTo,
+                                          ),
+                            },
+                        ]}
+                    />
+                    <!-- Its own dismiss, rather than leaving the only way out
+                         to be changing the language. A failure that cannot be
+                         acknowledged sits there looking unresolved. -->
+                    <Button
+                        tip={(l) => l.ui.collaborate.translate.dismiss}
+                        action={() => (translateError = false)}
+                        icon={CANCEL_SYMBOL}
+                    />
+                </div>
             </Notice>
+        {:else if nothingToTranslate && translateTo !== undefined}
+            <!-- A Note, not a Notice: nothing failed. Saying "there is nothing
+                 here to translate" in the same alarmed orange as a failure is
+                 what made a correct answer read as a broken one. -->
+            <Note
+                ><MarkupHTMLView
+                    inline
+                    markup={[
+                        (l) => l.ui.collaborate.translate.nothing,
+                        { to: getMultilingualLanguageLabel(translateTo) },
+                    ]}
+                /></Note
+            >
         {:else if translatedOnDevice}
             <Note
                 ><LocalizedText
@@ -998,19 +1091,38 @@
         font-size: small;
     }
 
+    /* Once a message is translated, the translation is what the reader is here
+       to read, so it takes the body size while the original keeps the smaller
+       one every message otherwise has. Both were already
+       --wordplay-small-font-size, which is why shrinking the original changed
+       nothing — the difference has to come from raising the translation.
+       Indentation marks the pair as one message; a rule between two bubbles of
+       equal weight doubled every message's height and read as two messages. */
+    .translation > .what {
+        font-size: var(--wordplay-font-size);
+    }
+
     .translation {
         display: flex;
         flex-direction: column;
-        border-top: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
-        margin-block-start: calc(0.5 * var(--wordplay-spacing));
-        padding-block-start: calc(0.5 * var(--wordplay-spacing));
+        gap: calc(0.25 * var(--wordplay-spacing));
+        margin-inline-start: var(--wordplay-spacing);
+        margin-block-start: calc(0.25 * var(--wordplay-spacing));
     }
 
+    .dismissable {
+        display: flex;
+        flex-direction: row;
+        align-items: start;
+        gap: var(--wordplay-spacing);
+    }
+
+    /* Between the two rather than under them, at the indent: it names the step
+       from one to the other, so it belongs where that step happens. */
     .lang-tag {
         font-size: x-small;
         opacity: 0.6;
-        text-align: end;
+        text-align: start;
     }
 
     .new {

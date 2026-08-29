@@ -8819,14 +8819,16 @@
                 "messageError": "$~Nu am putut traduce acest mesaj.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[Nu am putut traduce $#count mesaj.|Nu am putut traduce $count mesaje.|Nu am putut traduce $count de mesaje.]",
-                "choosePlaceholder": "$~Alegeți o limbă",
                 "moreLanguages": "$~Găsiți o altă limbă",
                 "fewerLanguages": "$~Ascundeți căutarea limbii",
                 "translating": "$~Se traduc mesajele…",
                 "translated": "$~$#count[Am tradus $count mesaj în $language.|Am tradus $count mesaje în $language.|Am tradus $count de mesaje în $language.]",
                 "writingIn": "$~Scriu în",
                 "downloading": "$~Se obține un traducător de $language pentru browserul dumneavoastră…",
-                "onDevice": "$~Browserul dumneavoastră a tradus acestea pe dispozitivul dumneavoastră, deci nu ne-a fost trimis niciun mesaj."
+                "onDevice": "$~Browserul dumneavoastră a tradus acestea pe dispozitivul dumneavoastră, deci nu ne-a fost trimis niciun mesaj.",
+                "none": "$~Nu traduce",
+                "dismiss": "$~închide",
+                "nothing": "$~Nu este nimic aici de tradus în $to. Nu traducem niciodată mesajele tale."
             },
             "announce": {
                 "transferred": "$~$name este acum proprietarul lui $project"

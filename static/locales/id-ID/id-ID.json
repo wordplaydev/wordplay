@@ -8823,14 +8823,16 @@
                 "messageError": "$~Kami tidak bisa menerjemahkan pesan ini.",
                 "messageErrors": "$~$#count[Kami tidak bisa menerjemahkan $count pesan.]",
                 "direction": "$~$from → $to",
-                "choosePlaceholder": "$~Pilih bahasa",
                 "moreLanguages": "$~Cari bahasa lain",
                 "fewerLanguages": "$~Sembunyikan pencarian bahasa",
                 "translating": "$~Menerjemahkan pesan…",
                 "translated": "$~$#count[Menerjemahkan $count pesan ke $language.]",
                 "writingIn": "$~Saya menulis dalam",
                 "downloading": "$~Mengambil penerjemah $language untuk peramban Anda…",
-                "onDevice": "$~Peramban Anda menerjemahkan ini di perangkat Anda, jadi tidak ada pesan yang dikirim ke kami."
+                "onDevice": "$~Peramban Anda menerjemahkan ini di perangkat Anda, jadi tidak ada pesan yang dikirim ke kami.",
+                "none": "$~Jangan diterjemahkan",
+                "dismiss": "$~tutup",
+                "nothing": "$~Tidak ada apa pun di sini untuk diterjemahkan ke $to. Kami tidak pernah menerjemahkan pesanmu sendiri."
             }
         },
         "palette": {

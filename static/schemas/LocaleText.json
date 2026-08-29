@@ -16990,13 +16990,13 @@
                                     "additionalProperties": false,
                                     "description": "Reading a conversation in another language, and saying what language you are writing in",
                                     "properties": {
-                                        "choosePlaceholder": {
-                                            "description": "[plain] The first option in that picker, before a language is chosen",
-                                            "type": "string"
-                                        },
                                         "direction": {
                                             "$ref": "#/definitions/Template%3C%5B%22from%22%2C%22to%22%5D%3E",
                                             "description": "[plain] The tag under a translated message. $from is the language it was written in, $to the language it was translated into."
+                                        },
+                                        "dismiss": {
+                                            "description": "[plain] Button that dismisses a translation failure",
+                                            "type": "string"
                                         },
                                         "downloading": {
                                             "$ref": "#/definitions/Template%3C%5B%22language%22%5D%3E",
@@ -17026,8 +17026,16 @@
                                             "description": "[plain] Tip on the button that reveals a search field for languages beyond the ones already in this conversation",
                                             "type": "string"
                                         },
+                                        "none": {
+                                            "description": "[plain] The picker's first option, meaning don't translate — both the state it starts in and the way back to it",
+                                            "type": "string"
+                                        },
+                                        "nothing": {
+                                            "$ref": "#/definitions/Template%3C%5B%22to%22%5D%3E",
+                                            "description": "[formatted] Shown when a language is chosen but there is nothing here to translate into it. $to is that language."
+                                        },
                                         "off": {
-                                            "description": "[plain] Button that turns translating off",
+                                            "description": "[plain] Button that stops a translation that is still running",
                                             "type": "string"
                                         },
                                         "onDevice": {
@@ -17049,8 +17057,9 @@
                                     },
                                     "required": [
                                         "label",
-                                        "choosePlaceholder",
+                                        "none",
                                         "off",
+                                        "dismiss",
                                         "moreLanguages",
                                         "fewerLanguages",
                                         "writingIn",
@@ -17059,6 +17068,7 @@
                                         "translated",
                                         "direction",
                                         "onDevice",
+                                        "nothing",
                                         "error",
                                         "messageError",
                                         "messageErrors"

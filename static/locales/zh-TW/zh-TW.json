@@ -9886,14 +9886,16 @@
                 "messageError": "$~我們無法翻譯這則訊息。",
                 "messageErrors": "$~$#count[我們無法翻譯 $count 則訊息。]",
                 "direction": "$~$from → $to",
-                "choosePlaceholder": "$~選擇語言",
                 "moreLanguages": "$~尋找其他語言",
                 "fewerLanguages": "$~隱藏語言搜尋",
                 "translating": "$~正在翻譯訊息……",
                 "translated": "$~$#count[已將 $count 則訊息翻譯成 $language。]",
                 "writingIn": "$~我使用的語言是",
                 "downloading": "$~正在為你的瀏覽器取得 $language 翻譯功能……",
-                "onDevice": "$~你的瀏覽器在你的裝置上完成了這些翻譯，所以沒有任何訊息被傳送給我們。"
+                "onDevice": "$~你的瀏覽器在你的裝置上完成了這些翻譯，所以沒有任何訊息被傳送給我們。",
+                "none": "$~不要翻譯",
+                "dismiss": "$~關閉",
+                "nothing": "$~這裡沒有東西可以翻成 $to。我們不會翻譯你自己寫的訊息。"
             }
         },
         "checkpoints": {

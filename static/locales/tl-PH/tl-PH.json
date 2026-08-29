@@ -8808,14 +8808,16 @@
                 "messageError": "$~Hindi namin naisalin ang mensaheng ito.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[Hindi namin naisalin ang $count mensahe.|Hindi namin naisalin ang $count na mensahe.]",
-                "choosePlaceholder": "$~Pumili ng wika",
                 "moreLanguages": "$~Humanap ng ibang wika",
                 "fewerLanguages": "$~Itago ang paghahanap ng wika",
                 "translating": "$~Isinasalin ang mga mensahe…",
                 "translated": "$~$#count[Naisalin ang $count mensahe sa $language.|Naisalin ang $count na mensahe sa $language.]",
                 "writingIn": "$~Sumusulat ako sa",
                 "downloading": "$~Kumukuha ng tagasalin ng $language para sa iyong browser…",
-                "onDevice": "$~Isinalin ito ng iyong browser mismo sa iyong device, kaya walang mensaheng ipinadala sa amin."
+                "onDevice": "$~Isinalin ito ng iyong browser mismo sa iyong device, kaya walang mensaheng ipinadala sa amin.",
+                "none": "$~Huwag isalin",
+                "dismiss": "$~itaboy",
+                "nothing": "$~Walang dito na maisasalin sa $to. Hindi namin isinasalin ang mga sariling mensahe mo."
             },
             "announce": {
                 "transferred": "$~Si $name na ngayon ang may-ari ng $project"

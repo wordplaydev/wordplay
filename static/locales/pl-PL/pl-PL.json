@@ -8582,14 +8582,16 @@
                 "messageError": "$~Nie udało się przetłumaczyć tej wiadomości.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[Nie udało się przetłumaczyć $count wiadomości.|Nie udało się przetłumaczyć $count wiadomości.|Nie udało się przetłumaczyć $count wiadomości.|Nie udało się przetłumaczyć $count wiadomości.]",
-                "choosePlaceholder": "$~Wybierz język",
                 "moreLanguages": "$~Znajdź inny język",
                 "fewerLanguages": "$~Ukryj wyszukiwanie języka",
                 "translating": "$~Tłumaczenie wiadomości…",
                 "translated": "$~$#count[Przetłumaczono $count wiadomość na $language.|Przetłumaczono $count wiadomości na $language.|Przetłumaczono $count wiadomości na $language.|Przetłumaczono $count wiadomości na $language.]",
                 "writingIn": "$~Piszę w",
                 "downloading": "$~Pobieranie tłumacza dla języka $language do twojej przeglądarki…",
-                "onDevice": "$~Twoja przeglądarka przetłumaczyła to na twoim urządzeniu, więc żadne wiadomości nie zostały do nas wysłane."
+                "onDevice": "$~Twoja przeglądarka przetłumaczyła to na twoim urządzeniu, więc żadne wiadomości nie zostały do nas wysłane.",
+                "none": "$~Nie tłumacz",
+                "dismiss": "$~odrzuć",
+                "nothing": "$~Nie ma tu nic do przetłumaczenia na $to. Nigdy nie tłumaczymy twoich własnych wiadomości."
             },
             "announce": {
                 "transferred": "$~$name jest teraz właścicielem $project"

@@ -8802,8 +8802,9 @@
             "label": "collaborate",
             "translate": {
                 "label": "Translate messages into",
-                "choosePlaceholder": "Choose a language",
+                "none": "Don't translate",
                 "off": "Stop translating",
+                "dismiss": "dismiss",
                 "moreLanguages": "Find another language",
                 "fewerLanguages": "Hide the language search",
                 "writingIn": "I'm writing in",
@@ -8812,6 +8813,7 @@
                 "translated": "$#count[Translated $count message into $language.|Translated $count messages into $language.]",
                 "direction": "$from → $to",
                 "onDevice": "Your browser translated these on your device, so no messages were sent to us.",
+                "nothing": "There's nothing here to translate into $to. We never translate your own messages.",
                 "error": "We couldn't translate these messages into $to. Try again in a little while.",
                 "messageError": "We couldn't translate this message.",
                 "messageErrors": "$#count[We couldn't translate $count message.|We couldn't translate $count messages.]"
