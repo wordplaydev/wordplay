@@ -8,9 +8,6 @@
     import CreatorView from '@components/app/CreatorView.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
-    import LocaleSearch, {
-        filterLocalesByQuery,
-    } from '@components/settings/LocaleSearch.svelte';
     import Options from '@components/widgets/Options.svelte';
     import TranslationMeter from '@components/app/TranslationMeter.svelte';
     import { getAnnouncer } from '@components/project/Contexts';
@@ -22,7 +19,6 @@
         translateMarkupTexts,
         type MarkupTranslationInput,
     } from '@db/translateMarkup';
-    import getTranslatableLocales from '@locale/getTranslatableLocales';
     import { SupportedLocales } from '@locale/SupportedLocales';
     import { getLanguageDirection } from '@locale/LanguageCode';
     import {
@@ -35,7 +31,6 @@
         getLocaleRegionNames,
         getMultilingualLanguageLabel,
     } from '@locale/LocaleText';
-    import { SEARCH_SYMBOL } from '@parser/Symbols';
     import Loading from '@components/app/Loading.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -47,7 +42,6 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
     import ReportMessage from './ReportMessage.svelte';
-    import ResponsibilityNotice from '@components/moderation/ResponsibilityNotice.svelte';
     import {
         howToVisibility,
         projectVisibility,
@@ -69,6 +63,9 @@
         galleryID: string | undefined | null;
         project?: Project;
         howTo?: HowTo;
+        /** Told whether someone is writing a message, so whatever is above the
+         *  conversation can give it the room. */
+        composing?: (writing: boolean) => void;
     }
 
     let {
@@ -77,6 +74,7 @@
         galleryID,
         project = undefined,
         howTo = undefined,
+        composing = undefined,
     }: Props = $props();
 
     const user = getUser();
@@ -84,8 +82,6 @@
 
     /** Unique per instance, since a page can hold more than one chat. */
     const ids = `chat-${idCounter++}`;
-
-    const translatableLocales = getTranslatableLocales();
 
     /** Build a list of locales from tags, in order, without repeats. */
     function localesFrom(tags: (string | undefined)[]): Locale[] {
@@ -147,32 +143,6 @@
         const regions = getLocaleRegionNames(locale);
         return regions.length === 0 ? label : `${label} (${regions.join('/')})`;
     }
-
-    /** Whether each picker's search is open, and what is typed in it. Closed by
-     *  default so neither permanently costs width for a list almost nobody
-     *  needs to search. */
-    let translateSearchExpanded = $state(false);
-    let translateQuery = $state('');
-    let messageSearchExpanded = $state(false);
-    let messageQuery = $state('');
-
-    function languagePickerLocales(expanded: boolean, query: string): Locale[] {
-        return expanded
-            ? filterLocalesByQuery(
-                  translatableLocales,
-                  query,
-                  (locale) => locale,
-                  $locales.getLanguages(),
-              )
-            : offeredLocales;
-    }
-
-    let translateOptions = $derived(
-        languagePickerLocales(translateSearchExpanded, translateQuery),
-    );
-    let messageOptions = $derived(
-        languagePickerLocales(messageSearchExpanded, messageQuery),
-    );
 
     /** What language the next message is written in. Defaults to the viewer's
      *  own locale; the picker overrides it, for someone who reads Wordplay in
@@ -325,10 +295,45 @@
         });
     });
 
+    /** A first message waiting for the conversation it will go in.
+     *
+     *  Not awaited from `addChat`, deliberately: its `setDoc` doesn't settle
+     *  while the backend is unreachable, so awaiting it would swallow a message
+     *  written offline — the case the whole offline-create path exists for. The
+     *  new chat arrives through the same push every other update does, and the
+     *  message goes in then. Doubling as the in-flight flag matters too:
+     *  `addChat` is a bare `setDoc` with no existence check, so a second send
+     *  before the first lands would replace the conversation with an empty one.
+     */
+    let pending = $state<string | undefined>(undefined);
+    let pendingLanguage: string | undefined = undefined;
+
+    $effect(() => {
+        const target = chat;
+        const text = pending;
+        if (target && text !== undefined) {
+            pending = undefined;
+            untrack(() => Chats.addMessage(target, text, pendingLanguage));
+        }
+    });
+
+    /** Send, creating the conversation if this is the first thing anyone has
+     *  said. A chat is made by talking rather than by pressing a button: the
+     *  button put the tile's whole purpose behind a click and made an unused
+     *  tile look broken. */
     function submitMessage() {
         if (newMessage.trim() === '') return;
-        if (!chat) return;
-        Chats.addMessage(chat, newMessage, messageLanguage);
+        if (chat) Chats.addMessage(chat, newMessage, messageLanguage);
+        else if (chat === undefined && pending === undefined) {
+            pending = newMessage;
+            pendingLanguage = messageLanguage;
+            // The conversation's own language, which is the source for any
+            // message written before per-message tagging, or by someone who
+            // never touched the picker.
+            const language = localeToString($locales.getLocale());
+            if (project) Chats.addChat(project, gallery, language);
+            else if (howTo) Chats.addChatToHowTo(howTo, gallery, language);
+        } else return;
         newMessage = '';
         tick().then(() => {
             if (newMessageView)
@@ -337,15 +342,6 @@
                     'Focus on chat after submitting',
                 );
         });
-    }
-
-    function startChat() {
-        // The conversation's own language, which is the source for any message
-        // written before per-message tagging, or by someone who never touched
-        // the picker.
-        const language = localeToString($locales.getLocale());
-        if (project) Chats.addChat(project, gallery, language);
-        else if (howTo) Chats.addChatToHowTo(howTo, gallery, language);
     }
 
     function areSameDay(a: Date, b: Date): boolean {
@@ -805,31 +801,32 @@
             <p><LocalizedText path={(l) => l.ui.collaborate.error.offline} /></p
             >
         </TileMessage>
-    {:else if chat == undefined}
-        <TileMessage>
-            <p
-                ><Button
-                    tip={(l) => l.ui.collaborate.button.start.tip}
-                    action={startChat}
-                    background
-                    ><LocalizedText
-                        path={(l) => l.ui.collaborate.button.start.label}
-                    /></Button
-                ></p
-            >
-        </TileMessage>
     {:else}
-        <!-- Who reviews what's said here. Shown whatever the answer is,
-             including "nobody": the old text only appeared when the project was
-             in a gallery, so a chat with no reviewer said nothing at all and a
-             creator had to infer it. -->
-        {#if visibility}
-            <ResponsibilityNotice
-                {visibility}
-                gallery={gallery ? gallery.getName($locales) : ''}
-            />
-        {/if}
-        <div class="translate-bar">
+        <div class="scroller" bind:this={scrollerView}>
+            <div class="messages">
+                <!-- The same empty state whether the conversation exists yet or
+                     not: "no messages" is true either way, and which of the two
+                     it is isn't the reader's concern. -->
+                {#if chat && chat.getMessages().length > 0}
+                    {#each chat.getMessages() as msg}
+                        {@render message(chat, msg)}
+                    {/each}
+                {:else}
+                    <Note
+                        ><LocalizedText
+                            path={(l) => l.ui.collaborate.error.empty}
+                        /></Note
+                    >
+                {/if}
+            </div>
+        </div>
+        <!-- Reading a conversation in another language and saying what
+             language you are writing in are the same question asked twice,
+             so they are one row, next to the field they are about. What is
+             merely happening — a pass running, a model downloading, what it
+             cost — goes underneath, where it can grow without moving the
+             controls. -->
+        <div class="chat-controls">
             <label class="translate-label" for="{ids}-translate"
                 ><LocalizedText
                     path={(l) => l.ui.collaborate.translate.label}
@@ -838,6 +835,7 @@
             <Options
                 id="{ids}-translate"
                 value={translateTo}
+                width="9em"
                 label={(l) => l.ui.collaborate.translate.label}
                 options={[
                     {
@@ -848,9 +846,9 @@
                         value: undefined,
                         label: (l) => l.ui.collaborate.translate.none,
                     },
-                    ...translateOptions.map((locale) => ({
+                    ...offeredLocales.map((locale) => ({
                         value: localeToString(locale),
-                        label: localeLabel(locale, translateOptions),
+                        label: localeLabel(locale, offeredLocales),
                     })),
                 ]}
                 change={(chosen) => {
@@ -858,46 +856,6 @@
                     Settings.setChatLanguage(chosen ?? null);
                 }}
             />
-            <Button
-                tip={translateSearchExpanded
-                    ? (l) => l.ui.collaborate.translate.fewerLanguages
-                    : (l) => l.ui.collaborate.translate.moreLanguages}
-                action={() =>
-                    (translateSearchExpanded = !translateSearchExpanded)}
-                expanded={translateSearchExpanded}
-                controls="{ids}-translate-search"
-                icon={SEARCH_SYMBOL}
-            />
-            {#if translateSearchExpanded}
-                <LocaleSearch
-                    id="{ids}-translate-search"
-                    bind:query={translateQuery}
-                />
-            {/if}
-            {#if translating}
-                <!-- Always labelled: leaving it off falls back to a generic
-                     "loading", which says less than "translating messages"
-                     does even while the translator is still downloading. -->
-                <Spinning
-                    label={(l) => l.ui.collaborate.translate.translating}
-                />
-                {#if downloading !== undefined && translateTo !== undefined}
-                    <Note
-                        ><MarkupHTMLView
-                            inline
-                            markup={[
-                                (l) => l.ui.collaborate.translate.downloading,
-                                {
-                                    language:
-                                        getMultilingualLanguageLabel(
-                                            translateTo,
-                                        ),
-                                },
-                            ]}
-                        /></Note
-                    >
-                {/if}
-            {/if}
             {#if translating}
                 <!-- Only while a pass is running. Standing there when nothing
                      was happening, it read as the only way to undo a choice
@@ -914,13 +872,60 @@
                     /></Button
                 >
             {/if}
-            {#if spentBudget}
-                <!-- Only once our servers have actually done some of the work.
+            <label class="language-label writing" for="{ids}-message-language"
+                ><LocalizedText
+                    path={(l) => l.ui.collaborate.translate.writingIn}
+                /></label
+            >
+            <Options
+                id="{ids}-message-language"
+                value={messageLanguage}
+                label={(l) => l.ui.collaborate.translate.writingIn}
+                options={offeredLocales.map((locale) => ({
+                    value: localeToString(locale),
+                    label: localeLabel(locale, offeredLocales),
+                }))}
+                change={(chosen) => (messageLanguageOverride = chosen)}
+            />
+        </div>
+        <!-- Rendered only when it has something to say: an `:empty` rule
+             can't do this, since the blocks inside leave anchor comments
+             behind even when none of them renders. -->
+        {#if translating || spentBudget}
+            <div class="chat-status">
+                {#if translating}
+                    <!-- Always labelled: leaving it off falls back to a generic
+                     "loading", which says less than "translating messages"
+                     does even while the translator is still downloading. -->
+                    <Spinning
+                        label={(l) => l.ui.collaborate.translate.translating}
+                    />
+                    {#if downloading !== undefined && translateTo !== undefined}
+                        <Note
+                            ><MarkupHTMLView
+                                inline
+                                markup={[
+                                    (l) =>
+                                        l.ui.collaborate.translate.downloading,
+                                    {
+                                        language:
+                                            getMultilingualLanguageLabel(
+                                                translateTo,
+                                            ),
+                                    },
+                                ]}
+                            /></Note
+                        >
+                    {/if}
+                {/if}
+                {#if spentBudget}
+                    <!-- Only once our servers have actually done some of the work.
                      A meter beside a feature that cost nothing implies a price
                      that isn't there. -->
-                <TranslationMeter compact />
-            {/if}
-        </div>
+                    <TranslationMeter compact />
+                {/if}
+            </div>
+        {/if}
         {#if translateError}
             <Notice>
                 <div class="dismissable">
@@ -967,52 +972,22 @@
                 /></Note
             >
         {/if}
-        <div class="scroller" bind:this={scrollerView}>
-            <div class="messages">
-                {#each chat.getMessages() as msg}
-                    {@render message(chat, msg)}
-                {:else}
-                    <Note
-                        ><LocalizedText
-                            path={(l) => l.ui.collaborate.error.empty}
-                        /></Note
-                    >
-                {/each}
-            </div>
-        </div>
-        <div class="language">
-            <label class="language-label" for="{ids}-message-language"
-                ><LocalizedText
-                    path={(l) => l.ui.collaborate.translate.writingIn}
-                /></label
-            >
-            <Options
-                id="{ids}-message-language"
-                value={messageLanguage}
-                label={(l) => l.ui.collaborate.translate.writingIn}
-                options={messageOptions.map((locale) => ({
-                    value: localeToString(locale),
-                    label: localeLabel(locale, messageOptions),
-                }))}
-                change={(chosen) => (messageLanguageOverride = chosen)}
-            />
-            <Button
-                tip={messageSearchExpanded
-                    ? (l) => l.ui.collaborate.translate.fewerLanguages
-                    : (l) => l.ui.collaborate.translate.moreLanguages}
-                action={() => (messageSearchExpanded = !messageSearchExpanded)}
-                expanded={messageSearchExpanded}
-                controls="{ids}-message-language-search"
-                icon={SEARCH_SYMBOL}
-            />
-            {#if messageSearchExpanded}
-                <LocaleSearch
-                    id="{ids}-message-language-search"
-                    bind:query={messageQuery}
-                />
-            {/if}
-        </div>
-        <form class="new" data-sveltekit-keepfocus>
+        <form
+            class="new"
+            data-sveltekit-keepfocus
+            onfocusin={() => composing?.(true)}
+            onfocusout={(event) => {
+                // Only when focus actually leaves the composer: the editor's toolbar
+                // and the send button are inside it, and treating a hop between them
+                // as "done writing" would flap whatever is above open and shut.
+                if (
+                    !(event.currentTarget instanceof HTMLElement) ||
+                    !(event.relatedTarget instanceof Node) ||
+                    !event.currentTarget.contains(event.relatedTarget)
+                )
+                    composing?.(false);
+            }}
+        >
             <div class="editor">
                 <FormattedEditor
                     id="new-message"
@@ -1027,7 +1002,7 @@
             <div class="send">
                 <Button
                     submit
-                    active={chat !== undefined && newMessage.trim() !== ''}
+                    active={pending === undefined && newMessage.trim() !== ''}
                     tip={(l) => l.ui.collaborate.button.submit.tip}
                     action={submitMessage}
                     background
@@ -1072,8 +1047,8 @@
         padding-bottom: var(--wordplay-spacing);
     }
 
-    .translate-bar,
-    .language {
+    .chat-controls,
+    .chat-status {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
@@ -1082,8 +1057,10 @@
         padding-block: calc(0.5 * var(--wordplay-spacing));
     }
 
-    .language {
-        justify-content: flex-end;
+    /* Reading is what you do with the conversation and writing is what you
+       add to it, so they sit at opposite ends of the row they share. */
+    .writing {
+        margin-inline-start: auto;
     }
 
     .translate-label,

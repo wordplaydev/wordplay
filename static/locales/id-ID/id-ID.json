@@ -1950,7 +1950,7 @@
             "name": "$~jenis tabel",
             "description": "$~tabel",
             "emotion": "angry",
-            "doc": "$~Saya mewakili sebuah Tabel.",
+            "doc": "$~Saya mewakili sebuah @Table.",
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~jenis kolom hilang",
@@ -8258,7 +8258,7 @@
                 },
                 "field": {
                     "emailOrUsername": {
-                        "placeholder": "$~email atau nama pengguna",
+                        "placeholder": "$~email/nama pengguna",
                         "description": "$~Alamat email atau nama pengguna orang yang ingin Anda beri akses edit."
                     },
                     "preview": {
@@ -8738,10 +8738,10 @@
             "label": "$~berkolaborasi",
             "role": {
                 "owner": "$~pemilik",
-                "collaborators": "$~kolaborator (mengedit dan mengobrol)",
-                "curators": "$~kurator",
-                "commenters": "$~komentator (hanya obrolan)",
-                "viewers": "$~pemirsa"
+                "collaborate": "$~berkolaborasi",
+                "comment": "$~berkomentar",
+                "view": "$~melihat",
+                "curate": "$~mengelola"
             },
             "field": {
                 "message": {
@@ -8754,15 +8754,12 @@
                     "label": "$~mengirim",
                     "tip": "$~kirim pesan ke kolaborator Anda dan"
                 },
-                "start": {
-                    "label": "$~Mulai obrolan",
-                    "tip": "$~Mulailah diskusi dengan diri sendiri atau orang lain."
-                },
                 "delete": "$~hapus pesan ini",
                 "confirmDelete": "$~Konfirmasi penghapusan?",
                 "transfer": {
                     "description": "$~jadikan orang ini sebagai pemilik proyek",
-                    "prompt": "$~Jadikan mereka pemilik? Kamu akan tetap menjadi kolaborator dan bisa terus mengedit, tetapi kamu tidak akan bisa lagi menghapus proyek ini."
+                    "prompt": "$~Jadikan mereka pemilik?",
+                    "consequence": "$~Kamu akan tetap menjadi kolaborator dan bisa terus menyunting, tapi kamu tidak akan bisa lagi menghapus proyek ini."
                 }
             },
             "moderation": {
@@ -8787,15 +8784,7 @@
                 "deleted": "$~Pesan ini telah dihapus.",
                 "transferGallery": "$~Proyek ini ada di dalam galeri. Memberikannya kepada orang lain tidak menambahkan mereka ke galeri itu, jadi mereka mungkin tidak bisa melihatnya di sana."
             },
-            "prompt": {
-                "solo": "$~Berbincanglah dengan diri sendiri atau tambahkan...",
-                "owner": "$~Kolaborator dapat mengedit proyek ini dan berdiskusi di dalamnya. Pemberi komentar dapat berdiskusi tetapi tidak dapat mengedit proyek ini. Pemirsa dapat melihat proyek ini tetapi tidak dapat berdiskusi.",
-                "collaborator": "$~Anda adalah seorang kolaborator. Anda dapat mengedit proyek ini dan berdiskusi tentangnya.",
-                "curator": "$~Anda adalah kurator galeri proyek ini. Anda dapat mengedit proyek ini dan berdiskusi di dalamnya. Hanya pemilik proyek, kolaborator, dan pemberi komentar yang dapat melihat obrolan tersebut.",
-                "commenter": "$~Anda adalah seorang pemberi komentar. Anda dapat mengobrol tentang proyek ini tetapi tidak dapat mengeditnya."
-            },
             "restrictGalleryCreatorAccess": {
-                "explanation": "$~Proyek Anda berada di dalam galeri. Secara default, siapa pun yang dapat melihat galeri ini dapat melihat proyek ini. Anda dapat membatasi siapa yang dapat melihat proyek Anda hanya kepada Anda dan kurator galeri.",
                 "mode": {
                     "label": "$~batasi akses proyek",
                     "labels": ["$~jangan membatasi", "$~membatasi"],
@@ -8807,14 +8796,15 @@
             },
             "tour": {
                 "launch": "$~ikuti tur kolaborasi",
-                "collaborate": "$~Proyek dapat dibagikan dengan orang lain, dan Anda dapat mengobrol dengan semua orang yang menerima pembagian proyek tersebut di sini.",
-                "collaborators": "$~Para kolaborator dapat *mengedit* proyek dan *berdiskusi* tentangnya dengan Anda.",
-                "commenters": "$~Para pemberi komentar dapat *mendiskusikan* proyek tersebut dengan Anda, tetapi mereka tidak dapat *mengedit*nya.",
-                "viewers": "$~Para penonton dapat *melihat* proyek dan *kode*-nya, tetapi mereka tidak dapat *mendiskusikan* atau *mengedit*nya.",
-                "restrict": "$~Saat sebuah proyek berada di *galeri*, secara default *semua orang* yang dapat melihat galeri dapat melihat proyek Anda. Tombol /restrict/ *menyembunyikannya* dari semua orang kecuali Anda dan kurator galeri."
+                "collaborate": "$~Semua orang yang bisa membuka proyek ini ada dalam daftar ini, dan kamu bisa *mengobrol* dengan orang-orang yang diizinkan. Hanya /pemilik/, /kolaborator/, dan /pengomentar/ yang bisa melihat obrolan.",
+                "collaborators": "$~Setiap orang punya satu /hak akses/. *Berkolaborasi* berarti mereka bisa menyunting proyek dan mengobrol tentangnya. *Berkomentar* berarti mereka bisa mengobrol tapi tidak bisa menyunting. *Melihat* berarti mereka hanya bisa melihat, bukan mengobrol. *Pemilik* menyerahkan proyek ini pada mereka. /Pengelola/ galeri selalu bisa membukanya, jadi kamu tidak bisa mengubah hak akses mereka.",
+                "restrict": "$~Saat sebuah proyek berada di *galeri*, secara default *semua orang* yang dapat melihat galeri dapat melihat proyek Anda. Tombol /restrict/ *menyembunyikannya* dari semua orang kecuali Anda dan kurator galeri.",
+                "add": "$~Ketik *email* atau *nama pengguna* seseorang, pilih apa yang boleh mereka lakukan, dan mereka akan masuk ke daftar."
             },
             "announce": {
-                "transferred": "$~$name sekarang menjadi pemilik $project"
+                "transferred": "$~$name sekarang menjadi pemilik $project",
+                "privilege": "$~$name sekarang bisa $privilege",
+                "removed": "$~$name tidak bisa lagi membuka proyek ini"
             },
             "translate": {
                 "label": "$~Terjemahkan pesan ke",
@@ -8823,8 +8813,6 @@
                 "messageError": "$~Kami tidak bisa menerjemahkan pesan ini.",
                 "messageErrors": "$~$#count[Kami tidak bisa menerjemahkan $count pesan.]",
                 "direction": "$~$from → $to",
-                "moreLanguages": "$~Cari bahasa lain",
-                "fewerLanguages": "$~Sembunyikan pencarian bahasa",
                 "translating": "$~Menerjemahkan pesan…",
                 "translated": "$~$#count[Menerjemahkan $count pesan ke $language.]",
                 "writingIn": "$~Saya menulis dalam",
@@ -8833,7 +8821,14 @@
                 "none": "$~Jangan diterjemahkan",
                 "dismiss": "$~tutup",
                 "nothing": "$~Tidak ada apa pun di sini untuk diterjemahkan ke $to. Kami tidak pernah menerjemahkan pesanmu sendiri."
-            }
+            },
+            "table": {
+                "label": "$~siapa saja yang bisa membuka proyek ini",
+                "choose": "$~apa yang bisa dilakukan $name",
+                "adding": "$~apa yang bisa mereka lakukan",
+                "audience": "$~siapa saja yang bisa melihat obrolan ini"
+            },
+            "prompt": "$~Tambahkan kolaborator, pengomentar, dan penonton"
         },
         "palette": {
             "label": "$~palet",

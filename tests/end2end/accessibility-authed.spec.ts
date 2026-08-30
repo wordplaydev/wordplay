@@ -103,10 +103,10 @@ for (const scheme of ['light', 'dark'] as const) {
             browser,
         }) => {
             // The editor scan above never opens this tile, so nothing was
-            // scanning the chat at all — and translating it (#1214) added two
-            // labelled language pickers, two search fields, and the buttons
-            // that disclose them, which is exactly the shape axe catches
-            // mislabelled or duplicated.
+            // scanning the chat at all — and it carries two labelled language
+            // pickers, a table of people with a picker per row, and the row
+            // that replaces the table while a message is being written, which
+            // is exactly the shape axe catches mislabelled or duplicated.
             const { context, page } = await loginNewContext(
                 browser,
                 'creator',
@@ -120,16 +120,11 @@ for (const scheme of ['light', 'dark'] as const) {
                     { timeout: LOAD_TIMEOUT },
                 );
                 await page.getByTestId('collaborate-toggle').click();
-                // Open both language searches, since a collapsed disclosure
-                // hides the field whose id its button claims to control.
-                // Re-queried between clicks rather than collected up front:
-                // the first click re-renders the bar, which strands a handle
-                // taken before it and hangs the test rather than failing it.
-                for (const controls of ['translate-search', 'language-search'])
-                    await page
-                        .locator(`button[aria-controls$="${controls}"]`)
-                        .first()
-                        .click();
+                // The table of people is the tile's other half, and an empty
+                // one would pass every check below without being scanned.
+                await expect(
+                    page.locator('[data-uiid="collaborators"] table'),
+                ).toBeVisible();
                 // Scoped to the chat, not because anything here is out of
                 // scope, but because expanding this tile also reveals the tile
                 // footer's overflow toggles — whose labels fail contrast in
@@ -138,6 +133,18 @@ for (const scheme of ['light', 'dark'] as const) {
                 // identical click in chat.spec.ts and simply never scanned
                 // before; fixing it means reasoning about every Toggle state,
                 // which is not this feature's to decide.
+                await expectNoAxeViolations(page, {
+                    include: ['[data-uiid="collaborate"]'],
+                    verbose: true,
+                });
+
+                // Writing a message swaps the table of people for a row of
+                // whoever can read what you write, which is UI the scan above
+                // never sees.
+                await page.locator('#new-message').click();
+                await expect(
+                    page.locator('[data-uiid="collaborators"] .audience'),
+                ).toBeVisible();
                 await expectNoAxeViolations(page, {
                     include: ['[data-uiid="collaborate"]'],
                     verbose: true,

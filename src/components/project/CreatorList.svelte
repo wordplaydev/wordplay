@@ -1,31 +1,27 @@
-<!-- A modifiable list of creators -->
+<!-- A modifiable list of creators.
+
+     A thin arrangement of PeopleTable, which every surface that lists people
+     shares: the same row per person, the same remove button, and the same add
+     field as the table's own next row. The metadata form — a class roster, with
+     an editable cell per column — is the same table with more attribute cells,
+     and it turns pairing off, since its rows are already wide. -->
 <script lang="ts">
-    import isValidUsername from '@db/creators/isValidUsername';
-    import type LocaleText from '@locale/LocaleText';
-    import { CANCEL_SYMBOL, OWNER_SYMBOL } from '@parser/Symbols';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import validEmail from '@db/creators/isValidEmail';
-    import { DB } from '@db/Database';
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import Feedback from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
+    import PeopleTable from '@components/project/PeopleTable.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import TextField from '@components/widgets/TextField.svelte';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         uids: string[];
         add?: undefined | ((uid: string, emailOrUsername: string) => void);
         remove?: undefined | ((uid: string, emailOrUsername: string) => void);
         removable?: undefined | ((uid: string) => boolean);
-        /** Hand ownership of whatever this list belongs to to this person.
-         *  Rendered as a confirmation, since it can't be undone by the person
-         *  who does it — only by the new owner. */
-        transfer?: undefined | ((uid: string, emailOrUsername: string) => void);
-        transferable?: undefined | ((uid: string) => boolean);
         editable: boolean;
+        /** The add field's DOM id, which must be unique on the page. Named
+         *  wherever more than one of these is rendered at once. */
+        id?: string;
         anonymize: boolean;
-        /** A uid by metadata list, if provided, it's rendered as a table instead. */
+        /** A uid by metadata list, if provided, each person gets a cell per entry. */
         metadata?: Map<string, string[]> | undefined;
         /** An optional function for adding a column before the given column number */
         addcolumn?: undefined | ((column: number) => void);
@@ -41,9 +37,8 @@
         add,
         remove,
         removable,
-        transfer,
-        transferable,
         editable,
+        id = 'creator-to-add',
         anonymize,
         metadata,
         cell,
@@ -51,216 +46,74 @@
         removecolumn,
     }: Props = $props();
 
-    let adding = $state(false);
-    let emailOrUsername = $state('');
-    let unknown = $state(false);
-
-    let creators: Record<string, Creator | null> = $state({});
-
-    function validCollaborator(emailOrUsername: string) {
-        if (!validEmail(emailOrUsername) && !isValidUsername(emailOrUsername)) {
-            return (l: LocaleText) => l.ui.page.login.error.invalidUsername;
-        }
-        // Don't add self
-        if (emailOrUsername === Creator.getUsername(DB.getUserEmail() ?? ''))
-            return (l: LocaleText) => l.ui.dialog.share.error.self;
-        return true;
-    }
-
-    async function addCreator() {
-        if (validCollaborator(emailOrUsername) === true) {
-            adding = true;
-            const userID = await DB.Creators.getUID(emailOrUsername);
-            adding = false;
-            if (userID === null) {
-                unknown = true;
-            } else {
-                unknown = false;
-                if (add) add(userID, emailOrUsername);
-                emailOrUsername = '';
-            }
-        }
-    }
-
-    // When the user changes, reset unknown.
-    $effect(() => {
-        if (emailOrUsername) unknown = false;
-    });
-
-    // Set the creators to whatever user IDs we have.
-    $effect(() => {
-        DB.Creators.getCreatorsByUIDs(uids).then((map) => (creators = map));
-    });
+    const columns = $derived(
+        metadata === undefined
+            ? 0
+            : (Array.from(metadata.values())[0]?.length ?? 0),
+    );
 </script>
 
-{#snippet field()}
-    {#if editable}
-        <form class="form" onsubmit={addCreator}>
-            <TextField
-                id="creator-to-add"
-                bind:text={emailOrUsername}
-                placeholder={(l) =>
-                    l.ui.dialog.share.field.emailOrUsername.placeholder}
-                description={(l) =>
-                    l.ui.dialog.share.field.emailOrUsername.description}
-                validator={validCollaborator}
-            />
-            <Button
-                submit
-                background
-                tip={(l) => l.ui.dialog.share.button.submit}
-                active={validCollaborator(emailOrUsername) === true}
-                action={addCreator}>&gt;</Button
-            >
-            {#if adding}<Spinning />{/if}
-        </form>
-    {/if}
+{#snippet metadataCells(uid: string)}
+    {#each metadata?.get(uid) ?? [] as datum, column (column)}
+        <td>
+            {#if cell}
+                <TextField
+                    id="metadata-{uid}-{column}"
+                    text={datum}
+                    placeholder={(l) => l.ui.widget.table.cell.placeholder}
+                    description={(l) => l.ui.widget.table.cell.description}
+                    dwelled={(text) => cell(uid, column, text)}
+                />
+            {:else}
+                {datum}
+            {/if}
+        </td>
+    {/each}
 {/snippet}
 
-{#snippet removeButton(uid: string, email: string)}
-    {#if editable && transferable && transfer}<ConfirmButton
-            tip={(l) => l.ui.collaborate.button.transfer.description}
-            prompt={(l) => l.ui.collaborate.button.transfer.prompt}
-            enabled={transferable(uid)}
-            action={() => transfer(uid, email)}
-            icon={OWNER_SYMBOL}
-        ></ConfirmButton>{/if}{#if editable && removable && remove}<Button
-            tip={(l) => l.ui.project.button.removeCollaborator}
-            active={removable(uid)}
-            action={() => remove(uid, email)}
-            icon={CANCEL_SYMBOL}
-        ></Button>{/if}
+<!-- The add row lines up under the metadata columns rather than skipping them. -->
+{#snippet blankMetadataCells()}
+    {#each { length: columns } as _, column (column)}<td></td>{/each}
 {/snippet}
 
-<!-- If metadata was provided, use a table and offer edits -->
-{#if metadata}
-    {@const columns = Array.from(metadata.values())[0]?.length ?? 0}
-    <div class="column">
-        <table>
-            <thead>
-                {#if addcolumn || removecolumn}
-                    <tr>
-                        <th></th>
-                        {#each { length: columns } as _, index}
-                            <th
-                                >{#if addcolumn}<Button
-                                        tip={(l) => l.ui.widget.table.addcolumn}
-                                        action={() => addcolumn(index)}
-                                        icon="+"
-                                    ></Button>{/if}{#if removecolumn}<Button
-                                        tip={(l) =>
-                                            l.ui.widget.table.removecolumn}
-                                        action={() => removecolumn(index)}
-                                        icon={CANCEL_SYMBOL}
-                                    ></Button>{/if}</th
-                            >
-                        {/each}
-                        <th
-                            >{#if addcolumn}
-                                <Button
-                                    tip={(l) => l.ui.widget.table.addcolumn}
-                                    action={() => addcolumn(columns)}
-                                    icon="+"
-                                ></Button>
-                            {/if}</th
-                        >
-                    </tr>
-                {/if}
-            </thead>
-            <tbody>
-                {#each Object.entries(creators) as [uid, creator]}
-                    {@const info = metadata.get(uid)}
-                    {#if creator}
-                        <tr>
-                            <td>
-                                <CreatorView {anonymize} {creator} />
-                            </td>
-                            {#if info}
-                                {#each info as datum, column}
-                                    <td>
-                                        {#if cell}
-                                            <TextField
-                                                id="metadata-{uid}-{column}"
-                                                text={datum}
-                                                placeholder={(l) =>
-                                                    l.ui.widget.table.cell
-                                                        .placeholder}
-                                                description={(l) =>
-                                                    l.ui.widget.table.cell
-                                                        .description}
-                                                dwelled={(text) =>
-                                                    cell(uid, column, text)}
-                                            />
-                                        {:else}
-                                            {datum}
-                                        {/if}
-                                    </td>
-                                {/each}
-                                <td>
-                                    {@render removeButton(
-                                        uid,
-                                        creator.getUsername(false),
-                                    )}
-                                </td>
-                            {:else}
-                                <td colspan="100"></td>
-                            {/if}
-                        </tr>
-                    {/if}
-                {/each}
-            </tbody>
-        </table>
-        {@render field()}
-    </div>
-{:else}<div class="people">
-        {#each Object.entries(creators) as [uid, creator]}
-            <div class="person"
-                >{#if creator}<CreatorView
-                        {anonymize}
-                        {creator}
-                    />{:else}?{/if}{#if creator}{@render removeButton(
-                        uid,
-                        creator?.getUsername(false),
-                    )}{/if}</div
-            >
-        {/each}
-        {@render field()}
-    </div>
-{/if}
-{#if unknown}
-    <Feedback text={(l) => l.ui.dialog.share.error.unknown} />
-{/if}
+<!-- Each column's own add and remove buttons, above the column they act on.
+     A row of them off to one side would leave you counting across to find
+     which is which. -->
+{#snippet columnHeader()}
+    <th></th>
+    {#each { length: columns } as _, index (index)}
+        <th
+            >{#if addcolumn}<Button
+                    tip={(l) => l.ui.widget.table.addcolumn}
+                    action={() => addcolumn(index)}
+                    icon="+"
+                ></Button>{/if}{#if removecolumn}<Button
+                    tip={(l) => l.ui.widget.table.removecolumn}
+                    action={() => removecolumn(index)}
+                    icon={CANCEL_SYMBOL}
+                ></Button>{/if}</th
+        >
+    {/each}
+    <th
+        >{#if addcolumn}<Button
+                tip={(l) => l.ui.widget.table.addcolumn}
+                action={() => addcolumn(columns)}
+                icon="+"
+            ></Button>{/if}</th
+    >
+{/snippet}
 
-<style>
-    .people {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        font-size: var(--wordplay-small-font-size);
-    }
-
-    .person {
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing-half);
-        align-items: center;
-    }
-
-    .form {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        gap: var(--wordplay-spacing);
-    }
-
-    .column {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
-    table {
-        width: fit-content;
-    }
-</style>
+<PeopleTable
+    {uids}
+    {editable}
+    {anonymize}
+    {add}
+    {remove}
+    {removable}
+    addFieldID={id}
+    attributes={columns}
+    cells={metadata ? metadataCells : undefined}
+    addCells={metadata ? blankMetadataCells : undefined}
+    pair={metadata === undefined}
+    header={addcolumn || removecolumn ? columnHeader : undefined}
+/>

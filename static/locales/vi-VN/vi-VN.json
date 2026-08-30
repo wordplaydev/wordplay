@@ -1950,7 +1950,7 @@
             "name": "$~kiểu bảng",
             "description": "$~bảng",
             "emotion": "angry",
-            "doc": "$~Tôi đại diện cho một Bảng.",
+            "doc": "$~Tôi đại diện cho một @Table.",
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~thiếu kiểu cột",
@@ -8248,7 +8248,7 @@
                 },
                 "field": {
                     "emailOrUsername": {
-                        "placeholder": "$~email hoặc tên người dùng",
+                        "placeholder": "$~email/tên người dùng",
                         "description": "$~Địa chỉ email hoặc tên người dùng của người mà bạn muốn cấp quyền chỉnh sửa."
                     },
                     "preview": {
@@ -8725,10 +8725,10 @@
             "label": "$~cộng tác",
             "role": {
                 "owner": "$~người sở hữu",
-                "collaborators": "$~người cộng tác (chỉnh sửa và trò chuyện)",
-                "curators": "$~người phụ trách",
-                "commenters": "$~người bình luận (chỉ trò chuyện)",
-                "viewers": "$~người xem"
+                "collaborate": "$~hợp tác",
+                "comment": "$~bình luận",
+                "view": "$~xem",
+                "curate": "$~phụ trách"
             },
             "field": {
                 "message": {
@@ -8741,15 +8741,12 @@
                     "label": "$~gửi",
                     "tip": "$~gửi tin nhắn cho các cộng tác viên của bạn và"
                 },
-                "start": {
-                    "label": "$~bắt đầu cuộc trò chuyện",
-                    "tip": "$~Bắt đầu cuộc thảo luận với chính mình hoặc với người khác."
-                },
                 "delete": "$~xóa tin nhắn này",
                 "confirmDelete": "$~Xác nhận xóa?",
                 "transfer": {
                     "description": "$~biến người này thành chủ sở hữu của dự án",
-                    "prompt": "$~Biến họ thành chủ sở hữu? Bạn vẫn là người cộng tác và có thể tiếp tục chỉnh sửa, nhưng bạn sẽ không còn có thể xóa dự án này nữa."
+                    "prompt": "$~Cho họ làm chủ sở hữu?",
+                    "consequence": "$~Bạn sẽ vẫn là người hợp tác và có thể tiếp tục chỉnh sửa, nhưng bạn sẽ không còn xóa được dự án này nữa."
                 }
             },
             "moderation": {
@@ -8774,15 +8771,7 @@
                 "deleted": "$~Tin nhắn này đã bị xóa.",
                 "transferGallery": "$~Dự án này nằm trong một phòng trưng bày. Trao nó cho người khác không thêm họ vào phòng trưng bày đó, nên họ có thể sẽ không thấy được nó ở đó."
             },
-            "prompt": {
-                "solo": "$~Trò chuyện với chính mình hoặc thêm...",
-                "owner": "$~Những người cộng tác có thể chỉnh sửa dự án này và thảo luận về nó. Người bình luận có thể trò chuyện nhưng không thể chỉnh sửa dự án này. Người xem có thể xem dự án này nhưng không thể trò chuyện.",
-                "collaborator": "$~Bạn là cộng tác viên. Bạn có thể chỉnh sửa dự án này và thảo luận về nó.",
-                "curator": "$~Bạn là người quản lý thư viện ảnh của dự án này. Bạn có thể chỉnh sửa dự án và trò chuyện về nó. Chỉ chủ sở hữu dự án, cộng tác viên và người bình luận mới có thể xem được cuộc trò chuyện.",
-                "commenter": "$~Bạn là người bình luận. Bạn có thể trò chuyện về dự án này nhưng không thể chỉnh sửa nó."
-            },
             "restrictGalleryCreatorAccess": {
-                "explanation": "$~Dự án của bạn đang được trưng bày trong một thư viện ảnh. Theo mặc định, bất kỳ ai có thể xem thư viện này đều có thể xem dự án này. Bạn có thể giới hạn người xem dự án của mình chỉ cho phép bạn và người quản lý thư viện xem.",
                 "mode": {
                     "label": "$~hạn chế quyền truy cập dự án",
                     "labels": ["$~không hạn chế", "$~hạn chế"],
@@ -8794,14 +8783,15 @@
             },
             "tour": {
                 "launch": "$~Hãy cùng khám phá quá trình hợp tác.",
-                "collaborate": "$~Bạn có thể chia sẻ dự án với người khác và trò chuyện với tất cả những người được chia sẻ dự án ngay tại đây.",
-                "collaborators": "$~Các cộng tác viên có thể *chỉnh sửa* dự án và *thảo luận* về dự án với bạn.",
-                "commenters": "$~Người bình luận có thể *thảo luận* về dự án với bạn, nhưng không được phép *chỉnh sửa* nó.",
-                "viewers": "$~Người xem có thể xem dự án và mã nguồn của nó, nhưng không thể thảo luận hoặc chỉnh sửa.",
-                "restrict": "$~Khi một dự án nằm trong *thư viện ảnh*, theo mặc định *mọi người* có thể xem thư viện đều có thể thấy dự án của bạn. Nút /restrict/ sẽ *ẩn* dự án đó khỏi mọi người ngoại trừ bạn và người quản lý thư viện."
+                "collaborate": "$~Mọi người có thể truy cập dự án này đều được liệt kê ở đây, và bạn có thể *trò chuyện* với những người được phép. Chỉ /chủ sở hữu/, /người hợp tác/, và /người bình luận/ mới xem được cuộc trò chuyện.",
+                "collaborators": "$~Mỗi người có một /quyền hạn/. *Hợp tác* nghĩa là họ có thể chỉnh sửa dự án và trò chuyện về nó. *Bình luận* nghĩa là họ có thể trò chuyện nhưng không chỉnh sửa. *Xem* nghĩa là họ chỉ có thể xem chứ không trò chuyện. *Chủ sở hữu* nghĩa là dự án được trao cho họ. /Người phụ trách/ của một phòng trưng bày luôn có thể truy cập dự án, nên bạn không thể thay đổi quyền của họ.",
+                "restrict": "$~Khi một dự án nằm trong *thư viện ảnh*, theo mặc định *mọi người* có thể xem thư viện đều có thể thấy dự án của bạn. Nút /restrict/ sẽ *ẩn* dự án đó khỏi mọi người ngoại trừ bạn và người quản lý thư viện.",
+                "add": "$~Nhập *email* hoặc *tên người dùng* của ai đó, chọn việc họ được làm, và họ sẽ được thêm vào danh sách."
             },
             "announce": {
-                "transferred": "$~$name hiện là chủ sở hữu của $project"
+                "transferred": "$~$name hiện là chủ sở hữu của $project",
+                "privilege": "$~$name giờ có thể $privilege",
+                "removed": "$~$name không còn truy cập được dự án này nữa"
             },
             "translate": {
                 "label": "$~Dịch tin nhắn sang",
@@ -8810,8 +8800,6 @@
                 "messageError": "$~Chúng tôi không thể dịch tin nhắn này.",
                 "messageErrors": "$~$#count[Không thể dịch $count tin nhắn.]",
                 "direction": "$~$from → $to",
-                "moreLanguages": "$~Tìm ngôn ngữ khác",
-                "fewerLanguages": "$~Ẩn ô tìm ngôn ngữ",
                 "translating": "$~Đang dịch tin nhắn…",
                 "translated": "$~$#count[Đã dịch $count tin nhắn sang $language.]",
                 "writingIn": "$~Tôi đang viết bằng",
@@ -8820,7 +8808,14 @@
                 "none": "$~Không dịch",
                 "dismiss": "$~bỏ qua",
                 "nothing": "$~Không có gì ở đây để dịch sang $to. Chúng tôi không bao giờ dịch các thông điệp của riêng bạn."
-            }
+            },
+            "table": {
+                "label": "$~ai có thể truy cập dự án này",
+                "choose": "$~$name có thể làm gì",
+                "adding": "$~họ có thể làm gì",
+                "audience": "$~ai có thể xem cuộc trò chuyện này"
+            },
+            "prompt": "$~Thêm người hợp tác, người bình luận, và người xem"
         },
         "palette": {
             "label": "$~bảng màu",

@@ -1950,7 +1950,7 @@
             "name": "$~tip tabel",
             "description": "$~tabel",
             "emotion": "angry",
-            "doc": "$~Reprezint un tabel.",
+            "doc": "$~Eu reprezint un @Table.",
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~tip de coloană lipsă",
@@ -8257,7 +8257,7 @@
                 },
                 "field": {
                     "emailOrUsername": {
-                        "placeholder": "$~e-mail sau nume de utilizator",
+                        "placeholder": "$~e-mail/nume de utilizator",
                         "description": "$~adresa de e-mail sau numele de utilizator al persoanei căreia doriți să îi acordați acces de editare"
                     },
                     "preview": {
@@ -8737,10 +8737,10 @@
             "label": "$~colabora",
             "role": {
                 "owner": "$~proprietar",
-                "collaborators": "$~colaboratori (editare și chat)",
-                "curators": "$~curatori",
-                "commenters": "$~comentatori (doar prin chat)",
-                "viewers": "$~spectatori"
+                "collaborate": "$~colaborează",
+                "comment": "$~comentează",
+                "view": "$~vizualizează",
+                "curate": "$~selectează"
             },
             "field": {
                 "message": {
@@ -8753,15 +8753,12 @@
                     "label": "$~trimite",
                     "tip": "$~trimite un mesaj colaboratorilor tăi și"
                 },
-                "start": {
-                    "label": "$~începe o conversație",
-                    "tip": "$~începe o discuție cu tine însuți sau cu ceilalți."
-                },
                 "delete": "$~șterge acest mesaj",
                 "confirmDelete": "$~confirmați ștergerea?",
                 "transfer": {
                     "description": "$~fă-o pe această persoană proprietarul proiectului",
-                    "prompt": "$~O faci proprietară? Vei rămâne colaborator și vei putea continua să editezi, dar nu vei mai putea șterge acest proiect."
+                    "prompt": "$~Vrei să îl faci proprietar?",
+                    "consequence": "$~Vei rămâne colaborator și vei putea edita în continuare, dar nu vei mai putea șterge acest proiect."
                 }
             },
             "moderation": {
@@ -8786,15 +8783,7 @@
                 "deleted": "$~Acest mesaj a fost șters.",
                 "transferGallery": "$~Acest proiect se află într-o galerie. Dacă îl dai altcuiva, acea persoană nu este adăugată automat la acea galerie, deci s-ar putea să nu îl poată vedea acolo."
             },
-            "prompt": {
-                "solo": "$~Discutați cu dumneavoastră înșivă sau adăugați...",
-                "owner": "$~Colaboratorii pot edita acest proiect și pot discuta despre el. Comentatorii pot discuta, dar nu pot edita acest proiect. Vizualizatorii pot vizualiza acest proiect, dar nu pot discuta.",
-                "collaborator": "$~Ești colaborator. Poți edita acest proiect și discuta despre el.",
-                "curator": "$~Ești curator al galeriei acestui proiect. Poți edita acest proiect și discuta despre el. Doar proprietarul proiectului, colaboratorii și comentatorii pot vedea chatul.",
-                "commenter": "$~Ești comentator. Poți discuta despre acest proiect, dar nu îl poți edita."
-            },
             "restrictGalleryCreatorAccess": {
-                "explanation": "$~Proiectul tău se află într-o galerie. În mod implicit, oricine poate vedea această galerie poate vedea proiectul. Poți restricționa cine poate vedea proiectul tău, doar la tine și la curatorii galeriei.",
                 "mode": {
                     "label": "$~restricționează accesul la proiect",
                     "labels": ["$~nu restricționa", "$~restricționează"],
@@ -8806,11 +8795,10 @@
             },
             "tour": {
                 "launch": "$~face un tur al colaborării",
-                "collaborate": "$~Proiectele pot fi /partajate/ cu alte persoane și poți *discuta* cu toți cei cu care este partajat proiectul chiar aici.",
-                "collaborators": "$~/Colaboratorii/ pot *edita* proiectul și pot *discuta* despre el cu tine.",
-                "commenters": "$~/Comentatorii/ pot *discuta* proiectul cu tine, dar nu îl pot *edita*.",
-                "viewers": "$~/Vizualizatorii/ pot *vizualiza* proiectul și *codul* său, dar nu îl pot *discuta* sau *edita*.",
-                "restrict": "$~Când un proiect se află într-o *galerie*, în mod implicit, *toți* cei care pot vedea galeria pot vedea proiectul dvs. Comutatorul /restricționare/ îl *ascunde* de toată lumea, cu excepția dvs. și a curatorilor galeriei."
+                "collaborate": "$~Toți cei care pot accesa acest proiect sunt listați aici și poți *discuta* cu cei care au voie. Doar /proprietarul/, /colaboratorii/ și /comentatorii/ pot vedea discuția.",
+                "collaborators": "$~Fiecare persoană are un singur /privilegiu/. *Colaborează* înseamnă că poate edita proiectul și poate discuta despre el. *Comentează* înseamnă că poate discuta, dar nu poate edita. *Vizualizează* înseamnă că poate doar să se uite, fără să discute. *Proprietar* îi dă proiectul. /Curatorii/ unei galerii pot accesa mereu proiectul, așa că nu le poți schimba privilegiul.",
+                "restrict": "$~Când un proiect se află într-o *galerie*, în mod implicit, *toți* cei care pot vedea galeria pot vedea proiectul dvs. Comutatorul /restricționare/ îl *ascunde* de toată lumea, cu excepția dvs. și a curatorilor galeriei.",
+                "add": "$~Scrie *e-mailul* sau *numele de utilizator* al cuiva, alege ce poate face, și persoana se va adăuga în listă."
             },
             "translate": {
                 "label": "$~Traduceți mesajele în",
@@ -8819,8 +8807,6 @@
                 "messageError": "$~Nu am putut traduce acest mesaj.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[Nu am putut traduce $#count mesaj.|Nu am putut traduce $count mesaje.|Nu am putut traduce $count de mesaje.]",
-                "moreLanguages": "$~Găsiți o altă limbă",
-                "fewerLanguages": "$~Ascundeți căutarea limbii",
                 "translating": "$~Se traduc mesajele…",
                 "translated": "$~$#count[Am tradus $count mesaj în $language.|Am tradus $count mesaje în $language.|Am tradus $count de mesaje în $language.]",
                 "writingIn": "$~Scriu în",
@@ -8831,8 +8817,17 @@
                 "nothing": "$~Nu este nimic aici de tradus în $to. Nu traducem niciodată mesajele tale."
             },
             "announce": {
-                "transferred": "$~$name este acum proprietarul lui $project"
-            }
+                "transferred": "$~$name este acum proprietarul lui $project",
+                "privilege": "$~$name poate acum $privilege",
+                "removed": "$~$name nu mai poate accesa acest proiect"
+            },
+            "table": {
+                "label": "$~cine poate accesa acest proiect",
+                "choose": "$~ce poate face $name",
+                "adding": "$~ce pot face",
+                "audience": "$~cine poate vedea această discuție"
+            },
+            "prompt": "$~Adaugă colaboratori, comentatori și vizualizatori"
         },
         "palette": {
             "label": "$~paletă",

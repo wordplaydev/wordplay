@@ -1950,7 +1950,7 @@
             "name": "$~tablo tipi",
             "description": "$~tablo",
             "emotion": "angry",
-            "doc": "$~Ben bir Tabloyu temsil ediyorum.",
+            "doc": "$~Ben bir @Table'ı temsil ediyorum.",
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~eksik kolon tipi",
@@ -8002,7 +8002,7 @@
                 },
                 "field": {
                     "emailOrUsername": {
-                        "placeholder": "$~e-posta veya kullanıcı adı",
+                        "placeholder": "$~e-posta/kullanıcı adı",
                         "description": "$~düzenleme erişimi vermek istediğiniz kişinin e-postası veya kullanıcı adı"
                     },
                     "preview": {
@@ -8482,10 +8482,10 @@
             "label": "$~işbirliği yapmak",
             "role": {
                 "owner": "$~mal sahibi",
-                "collaborators": "$~iş birlikçiler (düzenle ve sohbet et)",
-                "curators": "$~küratörler",
-                "commenters": "$~yorumcular (yalnızca sohbet)",
-                "viewers": "$~izleyiciler"
+                "collaborate": "$~birlikte çalış",
+                "comment": "$~yorum yap",
+                "view": "$~görüntüle",
+                "curate": "$~düzenle"
             },
             "field": {
                 "message": {
@@ -8498,15 +8498,12 @@
                     "label": "$~gönder",
                     "tip": "$~iş birlikçilerine bir mesaj gönder ve"
                 },
-                "start": {
-                    "label": "$~bir sohbet başlat",
-                    "tip": "$~kendinle veya başkalarıyla bir tartışma başlat."
-                },
                 "delete": "$~bu mesajı sil",
                 "confirmDelete": "$~Silme işlemini onaylıyor musunuz?",
                 "transfer": {
                     "description": "$~bu kişiyi projenin sahibi yap",
-                    "prompt": "$~Onu sahip yapmak istiyor musun? Sen bir işbirlikçi olarak kalırsın ve düzenlemeye devam edebilirsin. Ama artık bu projeyi silemezsin."
+                    "prompt": "$~Onları sahibi yapmak ister misin?",
+                    "consequence": "$~Sen bir işbirlikçi olarak kalacaksın ve düzenlemeye devam edebileceksin, ama artık bu projeyi silemeyeceksin."
                 }
             },
             "error": {
@@ -8515,13 +8512,6 @@
                 "empty": "$~Mesaj yok.",
                 "deleted": "$~Bu mesaj silindi.",
                 "transferGallery": "$~Bu proje bir galeride bulunuyor. Projeyi başka birine vermek, onu o galeriye eklemez. Bu yüzden proje o galeride görünmeyebilir."
-            },
-            "prompt": {
-                "solo": "$~Kendinle sohbet et veya ekle...",
-                "owner": "$~İş birlikçiler bu projeyi düzenleyebilir ve hakkında sohbet edebilir. Yorumcular sohbet edebilir ama bu projeyi düzenleyemez. İzleyiciler bu projeyi görebilir ama sohbet edemez.",
-                "collaborator": "$~Siz bir işbirlikçisiniz. Bu projeyi düzenleyebilir ve bunun hakkında sohbet edebilirsiniz.",
-                "curator": "$~Bu projenin galerisinin bir küratörüsün. Bu projeyi düzenleyebilir ve hakkında sohbet edebilirsin. Sohbeti yalnızca projenin sahibi, iş birlikçiler ve yorumcular görebilir.",
-                "commenter": "$~Siz bir yorumcusunuz. Bu proje hakkında sohbet edebilirsiniz ancak düzenleme yapamazsınız."
             },
             "moderation": {
                 "header": "$~Bu mesajı bildir",
@@ -8539,7 +8529,6 @@
                 "inGallery": "$~Bu sohbet bir galeride yer almaktadır. Galeri küratörleri tarafından denetlenmektedir. <Topluluk standartlarımızı@://haklarımızı> ihlal eden mesajları denetim için bildirebilirsiniz."
             },
             "restrictGalleryCreatorAccess": {
-                "explanation": "$~Projeniz bir galeride yer alıyor. Varsayılan olarak, bu galeriyi görebilen herkes bu projeyi de görebilir. Projenizi yalnızca sizin ve galeri yöneticilerinin görebilmesini kısıtlayabilirsiniz.",
                 "mode": {
                     "label": "$~projeye erişimi kısıtla",
                     "labels": ["$~kısıtlamayın", "$~kısıtlamak"],
@@ -8551,11 +8540,10 @@
             },
             "tour": {
                 "launch": "$~İşbirliği turlarına katılın",
-                "collaborate": "$~Projeler diğer kişilerle paylaşılabilir ve projenin paylaşıldığı herkesle burada sohbet edebilirsiniz.",
-                "collaborators": "$~/İşbirliği yapanlar/ projeyi *düzenleyebilir* ve sizinle proje hakkında *sohbet edebilirler*.",
-                "commenters": "$~Yorum yapanlar projeyi sizinle *tartışabilirler*, ancak *düzenleyemezler*.",
-                "viewers": "$~İzleyiciler projeyi ve kodunu görüntüleyebilirler, ancak üzerinde tartışamazlar veya düzenleyemezler.",
-                "restrict": "$~Bir proje bir *galeride* olduğunda, varsayılan olarak galeriyi görebilen *herkes* projenizi görebilir. /restrict/ seçeneği, projeyi sizden ve galeri yöneticilerinden başka herkesten *gizler*."
+                "collaborate": "$~Bu projeye erişebilen herkes burada listeleniyor. İzni olanlarla *sohbet* edebilirsin. Sohbeti yalnızca /sahip/, /işbirlikçiler/ ve /yorumcular/ görebilir.",
+                "collaborators": "$~Her kişinin bir /yetkisi/ vardır. *Birlikte çalış*, projeyi düzenleyebilecekleri ve hakkında sohbet edebilecekleri anlamına gelir. *Yorum yap*, sohbet edebilecekleri ama düzenleyemeyecekleri anlamına gelir. *Görüntüle*, bakabilecekleri ama sohbet edemeyecekleri anlamına gelir. *Sahip*, projeyi onlara verir. Bir galerinin /düzenleyicileri/ her zaman ona erişebilir, bu yüzden onların yetkisini değiştiremezsin.",
+                "restrict": "$~Bir proje bir *galeride* olduğunda, varsayılan olarak galeriyi görebilen *herkes* projenizi görebilir. /restrict/ seçeneği, projeyi sizden ve galeri yöneticilerinden başka herkesten *gizler*.",
+                "add": "$~Birinin *e-posta*sını veya *kullanıcı adı*nı yaz, ne yapabileceğini seç ve o kişi listeye katılsın."
             },
             "translate": {
                 "label": "$~Mesajları şu dile çevir",
@@ -8564,8 +8552,6 @@
                 "messageError": "$~Bu mesajı çeviremedik.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[$count mesajı çeviremedik.|$count mesajı çeviremedik.]",
-                "moreLanguages": "$~Başka bir dil bul",
-                "fewerLanguages": "$~Dil aramayı gizle",
                 "translating": "$~Mesajlar çevriliyor…",
                 "translated": "$~$#count[$count mesaj $language diline çevrildi.|$count mesaj $language diline çevrildi.]",
                 "writingIn": "$~Şu dilde yazıyorum",
@@ -8576,8 +8562,17 @@
                 "nothing": "$~$to diline çevrilecek bir şey yok. Kendi mesajlarını asla çevirmeyiz."
             },
             "announce": {
-                "transferred": "$~$name artık $project projesinin sahibi"
-            }
+                "transferred": "$~$name artık $project projesinin sahibi",
+                "privilege": "$~$name artık şunu yapabilir: $privilege",
+                "removed": "$~$name artık bu projeye erişemiyor"
+            },
+            "table": {
+                "label": "$~bu projeye kimler erişebilir",
+                "choose": "$~$name ne yapabilir",
+                "adding": "$~ne yapabilirler",
+                "audience": "$~bu sohbeti kimler görebilir"
+            },
+            "prompt": "$~İşbirlikçi, yorumcu ve görüntüleyici ekle"
         },
         "palette": {
             "label": "$~palet",

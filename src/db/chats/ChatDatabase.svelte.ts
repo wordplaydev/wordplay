@@ -960,7 +960,20 @@ export class ChatDatabase {
         else this.ignore();
     }
 
-    private getAllParticipants(
+    /**
+     * Everyone who can see a project's chat: the gallery's curators, the
+     * project's contributors, and its commenters. **Viewers are deliberately
+     * not included** — they can see the project but not the conversation about
+     * it — which is why this can't be derived from the project's list of
+     * people.
+     *
+     * Public because the collaborate tile shows this set while a message is
+     * being written, and it has to be right before any chat document exists.
+     * Named for {@link Chat.getEligibleParticipants} rather than
+     * `Chat.getAllParticipants`, which answers a different question: who has
+     * actually spoken.
+     */
+    getEligibleParticipants(
         project: Project,
         gallery: Gallery | undefined,
     ): Set<string> {
@@ -1016,7 +1029,9 @@ export class ChatDatabase {
             messages: [],
             moderation: {},
             // Everyone contributing is eligible to see and participate in the chat.
-            participants: Array.from(this.getAllParticipants(project, gallery)),
+            participants: Array.from(
+                this.getEligibleParticipants(project, gallery),
+            ),
             unread: [],
             type: 'project',
             language,
@@ -1126,7 +1141,7 @@ export class ChatDatabase {
 
         // Get the chat's intended participants based on the project and gallery.
         const intendedChatParticipants = [
-            ...this.getAllParticipants(project, gallery),
+            ...this.getEligibleParticipants(project, gallery),
         ].sort();
 
         // If they're not updated, update them.

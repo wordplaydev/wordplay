@@ -1922,7 +1922,7 @@
             "name": "$~tipo de tabla",
             "description": "$~tabla",
             "emotion": "angry",
-            "doc": "Represento una tabla.",
+            "doc": "$~Represento un @Table.",
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~falta el tipo de columna",
@@ -7988,7 +7988,7 @@
                 },
                 "field": {
                     "emailOrUsername": {
-                        "placeholder": "correo electrónico o nombre de usuario",
+                        "placeholder": "$~correo electrónico/nombre de usuaria",
                         "description": "correo electrónico o nombre de usuario de la persona a la que desea darle acceso de edición"
                     },
                     "preview": {
@@ -9840,10 +9840,10 @@
             "label": "$~colaborar",
             "role": {
                 "owner": "$~dueña",
-                "collaborators": "$~colaboradoras (editar y chatear)",
-                "curators": "$~curadoras",
-                "commenters": "$~comentaristas (solo chatear)",
-                "viewers": "$~espectadoras"
+                "collaborate": "$~colaborar",
+                "comment": "$~comentar",
+                "view": "$~ver",
+                "curate": "$~curar"
             },
             "field": {
                 "message": {
@@ -9856,15 +9856,12 @@
                     "label": "$~enviar",
                     "tip": "$~envía un mensaje a tus colaboradoras y"
                 },
-                "start": {
-                    "label": "$~iniciar un chat",
-                    "tip": "$~comienza una conversación contigo o con otras personas."
-                },
                 "delete": "$~borrar este mensaje",
                 "confirmDelete": "$~¿confirmar borrado?",
                 "transfer": {
                     "description": "$~hacer a esta persona propietaria del proyecto",
-                    "prompt": "$~¿hacerla propietaria? seguirás siendo colaboradora y podrás seguir editando, pero ya no podrás eliminar este proyecto."
+                    "prompt": "$~¿Hacerla la dueña?",
+                    "consequence": "$~Seguirás siendo colaboradora y podrás seguir editando, pero ya no podrás borrar este proyecto."
                 }
             },
             "error": {
@@ -9873,13 +9870,6 @@
                 "empty": "$~No hay mensajes.",
                 "deleted": "$~Este mensaje se eliminó.",
                 "transferGallery": "$~este proyecto está en una galería. darlo a alguien más no lo agrega a esa galería, así que quizás no pueda verlo ahí."
-            },
-            "prompt": {
-                "solo": "$~Chatea contigo o agrega...",
-                "owner": "$~Las colaboradoras pueden editar este proyecto y chatear sobre él. Las comentadoras pueden chatear, pero no pueden editar este proyecto. Las observadoras pueden ver este proyecto, pero no pueden chatear.",
-                "collaborator": "$~Eres colaboradora. Puedes editar este proyecto y chatear sobre él.",
-                "curator": "$~Eres curadora de la galería de este proyecto. Puedes editar este proyecto y chatear sobre él. Solo la dueña del proyecto, las colaboradoras y las comentadoras pueden ver el chat.",
-                "commenter": "$~Eres comentadora. Puedes chatear sobre este proyecto, pero no puedes editarlo."
             },
             "moderation": {
                 "header": "$~Reportar este mensaje",
@@ -9897,7 +9887,6 @@
                 "inGallery": "$~Este chat está en una galería. Está sujeto a la moderación de las curadoras de la galería. Puedes reportar los mensajes que infrinjan nuestras <normas de la comunidad@://rights> para su moderación."
             },
             "restrictGalleryCreatorAccess": {
-                "explanation": "$~Tu proyecto está en una galería. De forma predeterminada, cualquier persona que pueda ver esta galería puede ver este proyecto. Puedes limitar quién ve tu proyecto solo a ti y a las curadoras de la galería.",
                 "mode": {
                     "label": "$~limitar el acceso al proyecto",
                     "labels": ["$~no limitar", "$~limitar"],
@@ -9909,11 +9898,10 @@
             },
             "tour": {
                 "launch": "$~hacer un recorrido sobre la colaboración",
-                "collaborate": "$~Los proyectos se pueden /compartir/ con otras personas, y puedes *chatear* con todas las personas con quienes compartes el proyecto aquí mismo.",
-                "collaborators": "$~Las /colaboradoras/ pueden *editar* el proyecto y *charlar* sobre él contigo.",
-                "commenters": "$~Las /comentadoras/ pueden *conversar* sobre el proyecto contigo, pero no pueden *editarlo*.",
-                "viewers": "$~Las /espectadoras/ pueden *ver* el proyecto y su *código*, pero no pueden *conversar* ni *editarlo*.",
-                "restrict": "$~Cuando un proyecto está en una *galería*, de forma predeterminada *todas* las personas que pueden ver la galería pueden ver tu proyecto. El botón /restringir/ lo *oculta* de todas menos de ti y de las curadoras de la galería."
+                "collaborate": "$~Aquí aparecen todas las personas que pueden acceder a este proyecto, y puedes *chatear* con quienes tienen permiso para hacerlo. Solo la /dueña/, las /colaboradoras/ y las /comentaristas/ pueden ver el chat.",
+                "collaborators": "$~Cada persona tiene un /privilegio/. *Colaborar* significa que puede editar el proyecto y chatear sobre él. *Comentar* significa que puede chatear pero no editar. *Ver* significa que puede mirar pero no chatear. *Dueña* le entrega el proyecto. Las /curadoras/ de una galería siempre pueden acceder a ella, así que no puedes cambiar su permiso.",
+                "restrict": "$~Cuando un proyecto está en una *galería*, de forma predeterminada *todas* las personas que pueden ver la galería pueden ver tu proyecto. El botón /restringir/ lo *oculta* de todas menos de ti y de las curadoras de la galería.",
+                "add": "$~Escribe el *correo electrónico* o el *nombre de usuaria* de alguien, elige qué puede hacer y se unirá a la lista."
             },
             "translate": {
                 "label": "$~Traducir mensajes al",
@@ -9922,8 +9910,6 @@
                 "messageError": "$~No pudimos traducir este mensaje.",
                 "messageErrors": "$~$#count[No pudimos traducir $#count mensaje.|No pudimos traducir $count mensajes.|No pudimos traducir $count mensajes.]",
                 "direction": "$~$from → $to",
-                "moreLanguages": "$~buscar otro idioma",
-                "fewerLanguages": "$~ocultar la búsqueda de idiomas",
                 "translating": "$~Traduciendo mensajes…",
                 "translated": "$~$#count[Se tradujo $count mensaje al $language.|Se tradujeron $count mensajes al $language.|Se tradujeron $count mensajes al $language.]",
                 "writingIn": "$~Estoy escribiendo en",
@@ -9934,8 +9920,17 @@
                 "nothing": "$~No hay nada aquí para traducir a $to. Nunca traducimos tus propios mensajes."
             },
             "announce": {
-                "transferred": "$~$name ahora es propietaria de $project"
-            }
+                "transferred": "$~$name ahora es propietaria de $project",
+                "privilege": "$~$name ahora puede $privilege",
+                "removed": "$~$name ya no puede acceder a este proyecto"
+            },
+            "table": {
+                "label": "$~quién puede acceder a este proyecto",
+                "choose": "$~qué puede hacer $name",
+                "adding": "$~qué puede hacer",
+                "audience": "$~quién puede ver este chat"
+            },
+            "prompt": "$~agregar colaboradoras, comentaristas y espectadoras"
         },
         "checkpoints": {
             "label": {

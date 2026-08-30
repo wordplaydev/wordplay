@@ -16716,14 +16716,26 @@
                             "properties": {
                                 "announce": {
                                     "additionalProperties": false,
-                                    "description": "Announcements made as collaboration changes",
+                                    "description": "Announcements made as collaboration changes. Each names the person, since an announcement that reads the same twice running is heard once and then sounds broken.",
                                     "properties": {
+                                        "privilege": {
+                                            "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22privilege%22%5D%3E",
+                                            "description": "[plain] Said when someone's privilege changes. $name is that person, $privilege what they may now do."
+                                        },
+                                        "removed": {
+                                            "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                            "description": "[plain] Said when someone is taken off the project. $name is that person."
+                                        },
                                         "transferred": {
                                             "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22project%22%5D%3E",
                                             "description": "[plain] Said when the project is handed to a new owner"
                                         }
                                     },
-                                    "required": ["transferred"],
+                                    "required": [
+                                        "transferred",
+                                        "privilege",
+                                        "removed"
+                                    ],
                                     "type": "object"
                                 },
                                 "button": {
@@ -16738,22 +16750,37 @@
                                             "description": "[plain] The message delete button",
                                             "type": "string"
                                         },
-                                        "start": {
-                                            "$ref": "#/definitions/ButtonText",
-                                            "description": "The start a chat button"
-                                        },
                                         "submit": {
                                             "$ref": "#/definitions/ButtonText",
                                             "description": "The chat send button"
                                         },
                                         "transfer": {
-                                            "$ref": "#/definitions/ConfirmText",
-                                            "description": "The button that hands ownership of the project to a collaborator"
+                                            "additionalProperties": false,
+                                            "description": "The button that hands ownership of the project to a collaborator. Its `prompt` is the button's own label, so it stays short enough not to stretch the row it sits in; what it costs you is said beside it.",
+                                            "properties": {
+                                                "consequence": {
+                                                    "description": "[plain] What the owner gives up by handing the project over",
+                                                    "type": "string"
+                                                },
+                                                "description": {
+                                                    "description": "[plain] The tooltip and ARIA-label for the button",
+                                                    "type": "string"
+                                                },
+                                                "prompt": {
+                                                    "description": "[plain] The confirmation prompt to show after clicked the first time.",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "consequence",
+                                                "description",
+                                                "prompt"
+                                            ],
+                                            "type": "object"
                                         }
                                     },
                                     "required": [
                                         "submit",
-                                        "start",
                                         "delete",
                                         "confirmDelete",
                                         "transfer"
@@ -16865,85 +16892,81 @@
                                     "type": "object"
                                 },
                                 "prompt": {
-                                    "additionalProperties": false,
-                                    "description": "Messages to explain the purpose of the chat to each kind of participant",
-                                    "properties": {
-                                        "collaborator": {
-                                            "description": "[plain] Shown to collaborators; describes their editing and chat permissions",
-                                            "type": "string"
-                                        },
-                                        "commenter": {
-                                            "description": "[plain] Shown to commenters; describes their chat-only permissions",
-                                            "type": "string"
-                                        },
-                                        "curator": {
-                                            "description": "[plain] Shown to gallery curators; describes their editing and chat permissions",
-                                            "type": "string"
-                                        },
-                                        "owner": {
-                                            "description": "[plain] Shown to the project owner; describes what collaborators and commenters can do",
-                                            "type": "string"
-                                        },
-                                        "solo": {
-                                            "description": "[plain] Shown when the user is the only participant; invites them to add collaborators",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "solo",
-                                        "owner",
-                                        "collaborator",
-                                        "curator",
-                                        "commenter"
-                                    ],
-                                    "type": "object"
+                                    "description": "[plain] Shown above the add field while nobody has been added yet, saying what the tile is for",
+                                    "type": "string"
                                 },
                                 "restrictGalleryCreatorAccess": {
                                     "additionalProperties": false,
                                     "description": "Controls for restricting project visibility when it is in a gallery",
                                     "properties": {
-                                        "explanation": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] Explains that the project is in a gallery and describes the visibility restriction option"
-                                        },
                                         "mode": {
                                             "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                                             "description": "The toggle mode for restricting project visibility to owner and curators only"
                                         }
                                     },
-                                    "required": ["explanation", "mode"],
+                                    "required": ["mode"],
                                     "type": "object"
                                 },
                                 "role": {
                                     "additionalProperties": false,
+                                    "description": "What each person in the project may do. These name a privilege, not a kind of person, so they read both as a cell in the table of people and as an option in the picker that changes one.",
                                     "properties": {
-                                        "collaborators": {
-                                            "description": "[plain] What to call collaborators",
+                                        "collaborate": {
+                                            "description": "[plain] The privilege of someone who may edit the project and chat about it",
                                             "type": "string"
                                         },
-                                        "commenters": {
-                                            "description": "[plain] What to call commenters",
+                                        "comment": {
+                                            "description": "[plain] The privilege of someone who may chat about the project but not edit it",
                                             "type": "string"
                                         },
-                                        "curators": {
-                                            "description": "[plain] What to call curators",
+                                        "curate": {
+                                            "description": "[plain] The privilege of a curator of the gallery the project is in, which the project's owner cannot change",
                                             "type": "string"
                                         },
                                         "owner": {
-                                            "description": "[plain] What to call the owner of a project",
+                                            "description": "[plain] The privilege of the person who owns the project",
                                             "type": "string"
                                         },
-                                        "viewers": {
-                                            "description": "[plain] What to call viewers",
+                                        "view": {
+                                            "description": "[plain] The privilege of someone who may look at the project but not chat or edit",
                                             "type": "string"
                                         }
                                     },
                                     "required": [
                                         "owner",
-                                        "collaborators",
-                                        "curators",
-                                        "commenters",
-                                        "viewers"
+                                        "collaborate",
+                                        "comment",
+                                        "view",
+                                        "curate"
+                                    ],
+                                    "type": "object"
+                                },
+                                "table": {
+                                    "additionalProperties": false,
+                                    "description": "The table of everyone who can reach the project",
+                                    "properties": {
+                                        "adding": {
+                                            "description": "[plain] The accessible name of the picker that chooses what a person being added may do",
+                                            "type": "string"
+                                        },
+                                        "audience": {
+                                            "description": "[plain] The accessible name of the row of people, shown in place of the table while a message is being written, who can see the chat",
+                                            "type": "string"
+                                        },
+                                        "choose": {
+                                            "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                            "description": "[plain] The accessible name of the picker that changes one person's privilege. $name is that person."
+                                        },
+                                        "label": {
+                                            "description": "[plain] The accessible name of the table listing everyone who can reach the project",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "label",
+                                        "choose",
+                                        "adding",
+                                        "audience"
                                     ],
                                     "type": "object"
                                 },
@@ -16951,17 +16974,17 @@
                                     "additionalProperties": false,
                                     "description": "Interactive tour explaining the collaborate tile",
                                     "properties": {
+                                        "add": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Markup describing the field that adds someone to the project"
+                                        },
                                         "collaborate": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] Markup describing the collaborate panel"
                                         },
                                         "collaborators": {
                                             "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] Markup describing the collaborators field"
-                                        },
-                                        "commenters": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] Markup describing the commenters field"
+                                            "description": "[formatted] Markup describing the table of people and what each privilege means"
                                         },
                                         "launch": {
                                             "description": "[plain] Tooltip on the help button that opens the tour",
@@ -16970,18 +16993,13 @@
                                         "restrict": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] Markup describing the restrict-gallery toggle"
-                                        },
-                                        "viewers": {
-                                            "$ref": "#/definitions/FormattedText",
-                                            "description": "[formatted] Markup describing the viewers field"
                                         }
                                     },
                                     "required": [
                                         "launch",
                                         "collaborate",
                                         "collaborators",
-                                        "commenters",
-                                        "viewers",
+                                        "add",
                                         "restrict"
                                     ],
                                     "type": "object"
@@ -17006,10 +17024,6 @@
                                             "$ref": "#/definitions/Template%3C%5B%22to%22%5D%3E",
                                             "description": "[formatted] Shown when the conversation couldn't be translated. $to is the language it was being translated into."
                                         },
-                                        "fewerLanguages": {
-                                            "description": "[plain] Tip on the button that hides the language search field",
-                                            "type": "string"
-                                        },
                                         "label": {
                                             "description": "[plain] Label on the picker that chooses what language to read messages in",
                                             "type": "string"
@@ -17021,10 +17035,6 @@
                                         "messageErrors": {
                                             "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
                                             "description": "[plain] Announced when messages couldn't be translated. $#count is how many."
-                                        },
-                                        "moreLanguages": {
-                                            "description": "[plain] Tip on the button that reveals a search field for languages beyond the ones already in this conversation",
-                                            "type": "string"
                                         },
                                         "none": {
                                             "description": "[plain] The picker's first option, meaning don't translate — both the state it starts in and the way back to it",
@@ -17060,8 +17070,6 @@
                                         "none",
                                         "off",
                                         "dismiss",
-                                        "moreLanguages",
-                                        "fewerLanguages",
                                         "writingIn",
                                         "translating",
                                         "downloading",
@@ -17080,12 +17088,13 @@
                                 "label",
                                 "translate",
                                 "field",
+                                "prompt",
                                 "role",
+                                "table",
                                 "button",
                                 "moderation",
                                 "error",
                                 "announce",
-                                "prompt",
                                 "restrictGalleryCreatorAccess",
                                 "tour"
                             ],
@@ -28004,6 +28013,9 @@
             "type": "string"
         },
         "Template<[\"name\",\"layout\",\"pose\",\"color\"]>": {
+            "type": "string"
+        },
+        "Template<[\"name\",\"privilege\"]>": {
             "type": "string"
         },
         "Template<[\"name\",\"project\"]>": {

@@ -376,13 +376,33 @@ test('resolving a color needs no basis', () => {
  * file's rule above allows a file budget to move by one for. Not a subgraph: it
  * is what keeps a reload from looking as though the translations had been
  * thrown away, when only the choice had.
+ *
+ * Redesigning the collaborate tile around a table of people is text again, and
+ * on balance nearly a wash: twelve locale keys out (five role paragraphs, four
+ * plural role labels, two tour steps, a gallery explanation, and the "start a
+ * chat" button, which went when a chat became something you make by talking)
+ * against fourteen in (the privilege words, the table's own labels, two
+ * announcements, a tour step, the first-use prompt, and the row naming who can
+ * see the chat). `Page.svelte` is the one entry with no slack left for the few
+ * hundred bytes of difference, so only its byte budget moves; the components
+ * themselves hang off `CollaborateView`, which none of these five reaches.
+ *
+ * Floating a field's validation message is **+1 file** on every entry:
+ * `validationMessage.ts`, the placement both text widgets share. It is a pure
+ * function with no imports of its own — the case this file's rule above allows
+ * a file budget to move by one for — and it is in all five graphs because
+ * `TextField` and `TextBox` are. It buys a message that nothing can clip,
+ * paint over, or mis-position — it goes in the top layer, which is the only
+ * place immune to all three, since a field's ancestors routinely carry a
+ * `z-index` or a `transform` and either one traps a merely-fixed element. One
+ * place decides where a message goes, rather than two that drift.
  */
 test.each([
-    ['src/routes/+layout.svelte', 495, 3.61],
-    ['src/components/app/Page.svelte', 518, 3.85],
-    ['src/routes/[[locale]]/+page.svelte', 533, 3.94],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 537, 3.95],
-    ['src/routes/[[locale]]/projects/+page.svelte', 544, 3.98],
+    ['src/routes/+layout.svelte', 496, 3.62],
+    ['src/components/app/Page.svelte', 519, 3.87],
+    ['src/routes/[[locale]]/+page.svelte', 534, 3.96],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 538, 3.97],
+    ['src/routes/[[locale]]/projects/+page.svelte', 545, 3.99],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

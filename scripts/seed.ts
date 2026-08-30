@@ -44,12 +44,18 @@ type SeededUser = {
     claims: Record<string, boolean> | null;
 };
 
-/** Seeded user definitions. Keep UIDs short, descriptive, and stable. */
+/** Seeded user definitions. Keep UIDs short, descriptive, and stable.
+ *
+ *  `displayName` is a creator's chosen *character*, which the app renders as a
+ *  glyph beside their username — not a label. Seeding words there made every
+ *  surface that draws a creator look like it rendered names, and one of them
+ *  ('✎', the same glyph as EDIT_SYMBOL) read as an edit-privilege badge in the
+ *  collaborate tile's table. */
 const SEEDED_USERS: SeededUser[] = [
     {
         uid: 'creator0000000000000000000001',
         username: 'creator',
-        displayName: '⚒',
+        displayName: '🐙',
         claims: null,
     },
     {
@@ -59,13 +65,13 @@ const SEEDED_USERS: SeededUser[] = [
         // exercise the presence + CRDT flows.
         uid: 'creator0000000000000000000002',
         username: 'creator2',
-        displayName: '✎',
+        displayName: '🦊',
         claims: null,
     },
     {
         uid: 'seeded-teacher-uid-00000000001',
         username: 'teacher',
-        displayName: 'Teacher',
+        displayName: '🦉',
         claims: { teacher: true },
     },
     {
@@ -74,19 +80,19 @@ const SEEDED_USERS: SeededUser[] = [
         // characters, so a three-letter username can be seeded but never
         // typed in.
         username: 'moderator',
-        displayName: 'Mod',
+        displayName: '🐻',
         claims: { mod: true },
     },
     {
         uid: 'seeded-student-uid-00000000001',
         username: 'student1',
-        displayName: 'Student One',
+        displayName: '🐣',
         claims: null,
     },
     {
         uid: 'seeded-student-uid-00000000002',
         username: 'student2',
-        displayName: 'Student Two',
+        displayName: '🐥',
         claims: null,
     },
 ];

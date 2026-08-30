@@ -1348,12 +1348,8 @@
             explanation: (l) => l.ui.collaborate.tour.collaborators,
         },
         {
-            uiid: 'commenters',
-            explanation: (l) => l.ui.collaborate.tour.commenters,
-        },
-        {
-            uiid: 'viewers',
-            explanation: (l) => l.ui.collaborate.tour.viewers,
+            uiid: 'addCollaborator',
+            explanation: (l) => l.ui.collaborate.tour.add,
         },
         {
             uiid: 'restrictGallery',
