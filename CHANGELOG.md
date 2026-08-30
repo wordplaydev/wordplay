@@ -21,6 +21,11 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔒 A reported message is now really hidden while someone looks at it. Before, it was only hidden on screen, and the words were still there for anyone who looked closely. (#938)
 - 🚩 Reporting a message hides it once. If it's kept and someone reports it again, it stays visible the second time, so reporting can't be used to keep someone quiet. (#938)
 - 🤝 Reported messages now wait on the moderation page along with everything else to review, instead of on their own page. Your notifications will take you there. (#938)
+- 🤝 The collaborate tile now lists everyone who can reach your project in one table, with a menu beside each person for what they can do: collaborate, comment, view, or take over as owner. Each person has just one, so picking a new one moves them instead of adding them to a second list.
+- 💬 A chat now starts by talking. The message box is there as soon as you open the tile, and sending your first message makes the chat, instead of making you press "start a chat" first.
+- ✍️ While you write a message, the list of people shrinks to a row of everyone who can read what you say, so the conversation gets the whole tile.
+- 🌐 The "translate messages into" and "I'm writing in" menus now sit together on one line above the message box, since they are two halves of the same question. We took away the search beside each one, because the menus already list every language Wordplay speaks.
+- 🤝 Every place Wordplay lists people — a gallery's curators, a class's students, a character's collaborators — now uses that same table, so adding and removing someone works the same way everywhere. When there's room it puts two or more people on a row instead of one, which makes those lists much shorter.
 
 ### Fixed
 
@@ -31,6 +36,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐛 The report flag on a chat message no longer opens the report box for every message at once. (#938)
 - 🐛 Reporting the same thing twice no longer makes two reports. (#938)
 - 🔒 Only the person who owns a project can delete its chat now. Before, anyone in the chat could delete the whole conversation. (#938)
+- 🐛 The same person could end up in two of your project's lists at once and show up twice in the collaborate tile. Now everyone has one privilege, and an old project fixes itself the first time you change anything.
+- 🐛 When you typed a name we couldn't use, the message saying why could get cut off, or hidden behind a button. It now floats above everything, right under the box you typed in.
+- 🗣️ Screen readers now hear why a name was rejected in the boxes that hold several lines of writing. The message was on screen, but nothing tied it to the box, so it was never read out.
 
 ## 0.32.1 - 2026-08-28
 
