@@ -79,6 +79,23 @@ import {
 } from '@db/projects/VectorClock';
 
 /**
+ * What someone other than the owner may do with a project, most powerful first.
+ *
+ * The three are stored as separate Firestore arrays because `firestore.rules`
+ * reads each by name, but a person has exactly one of them: see
+ * {@link Project.withPrivilegeFor}.
+ */
+export type ProjectPrivilege = 'collaborate' | 'comment' | 'view';
+
+/** The privileges in descending order of power, which is what makes a person who
+ *  somehow sits in several lists resolve to one. */
+export const ProjectPrivileges: ProjectPrivilege[] = [
+    'collaborate',
+    'comment',
+    'view',
+];
+
+/**
  * How we store projects in memory, mirroring the data in the deserialized form.
  * We store them in an object literal like this for less error prone immutable modifications.
  * Without this we'd have to pass all fields into a constructor for every kind of change,
@@ -1338,13 +1355,17 @@ export default class Project {
      * Hand ownership to `uid`, keeping the former owner as a collaborator so a
      * transfer never costs them access to their own work.
      *
-     * Both halves matter. The new owner leaves the collaborator list because
+     * Both halves matter. The new owner leaves every privilege list because
      * the owner is not their own collaborator anywhere else in the model, and
      * `getContributors` would otherwise count them twice. The former owner
-     * joins it because Firestore's project rules grant edit access to the owner
-     * and collaborators only — without this they'd be locked out of a project
-     * they made. They do lose deletion, which is owner-only in the rules, and
-     * that is the point of a transfer.
+     * joins the collaborators because Firestore's project rules grant edit
+     * access to the owner and collaborators only — without this they'd be
+     * locked out of a project they made. They do lose deletion, which is
+     * owner-only in the rules, and that is the point of a transfer.
+     *
+     * Commenters and viewers are cleared for the same reason collaborators are.
+     * That used to be unreachable, since the transfer control was only offered
+     * on a collaborator; the privilege picker offers it on any row.
      *
      * Transferring to the current owner, or to nobody, is a no-op rather than
      * an error: the caller is a list of collaborators, and a stale render
@@ -1364,6 +1385,10 @@ export default class Project {
                     ? [previous]
                     : []),
             ],
+            commenters: this.data.commenters.filter(
+                (commenter) => commenter !== uid,
+            ),
+            viewers: this.data.viewers.filter((viewer) => viewer !== uid),
         });
     }
 
@@ -2107,6 +2132,65 @@ export default class Project {
 
     hasCommenter(id: string) {
         return this.data.commenters.includes(id);
+    }
+
+    /**
+     * What this person may do with the project, or undefined if nothing.
+     *
+     * Nothing has ever stopped a uid sitting in two or three of the lists at
+     * once — `withCollaborator` doesn't remove them from `commenters` — so this
+     * answers with the most powerful one they hold, which is what lets a
+     * project written before {@link Project.withPrivilegeFor} render as one row
+     * per person. Says nothing about the owner, who is not their own
+     * collaborator anywhere else in the model either.
+     */
+    getPrivilegeFor(uid: string): ProjectPrivilege | undefined {
+        return this.data.collaborators.includes(uid)
+            ? 'collaborate'
+            : this.data.commenters.includes(uid)
+              ? 'comment'
+              : this.data.viewers.includes(uid)
+                ? 'view'
+                : undefined;
+    }
+
+    /**
+     * Give this person exactly one privilege, or none at all, which is how they
+     * are removed from the project.
+     *
+     * One revision rather than a remove and an add, so the three lists can never
+     * be seen half-changed, and so a person in several of them is normalized to
+     * one by the first edit anyone makes. Transferring ownership is not
+     * expressible here — see {@link Project.withOwnerTransferredTo}, which has
+     * to move the previous owner too.
+     */
+    withPrivilegeFor(uid: string, privilege: ProjectPrivilege | undefined) {
+        // Counted rather than just compared, so that someone who is in several
+        // lists is still normalized when the privilege they end up with is the
+        // one they already read as having.
+        const memberships = [
+            this.data.collaborators,
+            this.data.commenters,
+            this.data.viewers,
+        ].filter((people) => people.includes(uid)).length;
+        if (this.getPrivilegeFor(uid) === privilege && memberships < 2)
+            return this;
+        const without = (people: string[]) =>
+            people.filter((person) => person !== uid);
+        return this.revised({
+            collaborators: [
+                ...without(this.data.collaborators),
+                ...(privilege === 'collaborate' ? [uid] : []),
+            ],
+            commenters: [
+                ...without(this.data.commenters),
+                ...(privilege === 'comment' ? [uid] : []),
+            ],
+            viewers: [
+                ...without(this.data.viewers),
+                ...(privilege === 'view' ? [uid] : []),
+            ],
+        });
     }
 
     getRestrictedGallery() {
