@@ -10,6 +10,11 @@
     import caretBoundaryKey, {
         caretBoundarySelection,
     } from '@components/widgets/caretKeys';
+    import placeValidationMessage, {
+        hideMessage,
+        showMessage,
+        supportsTopLayer,
+    } from '@components/widgets/validationMessage';
 
     interface Props {
         /** The current text to show */
@@ -107,6 +112,63 @@
 
     /** The message to display if invalid */
     let message = $derived(validator ? validator(text) : undefined);
+
+    let messageView = $state<HTMLElement | undefined>(undefined);
+    let messageAt = $state<{ left: number; top: number } | undefined>(
+        undefined,
+    );
+
+    /** Float the message clear of everything rather than hanging it off the
+     *  field: an absolutely positioned message is clipped by any ancestor that
+     *  scrolls or caps its height, and a field is often inside one. The rules
+     *  live in `placeValidationMessage`, shared with TextBox. */
+    function placeMessage() {
+        if (view === undefined || messageView === undefined) return;
+        // Open first: a closed popover has no box to measure. The box's own
+        // constraints — `max-width`, chiefly — are on `.placed`, which is
+        // applied from the start rather than once a position exists: measuring
+        // an unconstrained box gave a width the rendered one never had, and in
+        // Hebrew that put the message off the left of the screen.
+        showMessage(messageView);
+        const field = view.getBoundingClientRect();
+        const panel = messageView.getBoundingClientRect();
+        messageAt = placeValidationMessage(
+            field,
+            { width: panel.width, height: panel.height },
+            { width: window.innerWidth, height: window.innerHeight },
+            inlineValidation,
+            getComputedStyle(view).direction === 'rtl',
+        );
+    }
+
+    $effect(() => {
+        // Deliberately keyed on what makes it appear, and never reads
+        // `messageAt`, so writing the position doesn't re-run this.
+        if (!focused || typeof message !== 'function') {
+            messageAt = undefined;
+            if (messageView) hideMessage(messageView);
+            return;
+        }
+        // Without the top layer there is nowhere safe to float to, so it stays
+        // where it always was: below the field, and clippable.
+        if (!supportsTopLayer()) return;
+        placeMessage();
+        const reposition = () => placeMessage();
+        // Its own size is not settled when it first appears — the text can
+        // arrive with the locale, a font can load, a badge can be added — and
+        // a position computed for a narrower box put the Hebrew message off
+        // the left of the screen. Watch the box rather than assume it.
+        const resize = new ResizeObserver(reposition);
+        if (messageView) resize.observe(messageView);
+        // Capture, so a scroll of any ancestor moves it with the field.
+        window.addEventListener('scroll', reposition, true);
+        window.addEventListener('resize', reposition);
+        return () => {
+            resize.disconnect();
+            window.removeEventListener('scroll', reposition, true);
+            window.removeEventListener('resize', reposition);
+        };
+    });
 
     function handleInput() {
         if (changed) changed(text);
@@ -249,8 +311,15 @@
                   : text.replaceAll(' ', '\xa0')}</span
         >
         {#if typeof message === 'function'}
-            <div class="message" class:inline={inlineValidation} id="{id}-error"
-                ><LocalizedText path={message} /></div
+            <div
+                popover="manual"
+                class="message"
+                class:inline={inlineValidation}
+                class:placed={supportsTopLayer()}
+                bind:this={messageView}
+                style:left={messageAt ? `${messageAt.left}px` : null}
+                style:top={messageAt ? `${messageAt.top}px` : null}
+                id="{id}-error"><LocalizedText path={message} /></div
             >
         {/if}
         {#if savingDone !== false}
@@ -385,6 +454,7 @@
         display: block;
         position: absolute;
         top: 100%;
+        /* Overridden once measured; see placeMessage. */
         width: 15em;
         background: var(--wordplay-error);
         color: var(--wordplay-error-text-color);
@@ -404,6 +474,38 @@
         border-end-start-radius: 0;
         border-start-end-radius: var(--wordplay-border-radius);
         border-end-end-radius: var(--wordplay-border-radius);
+    }
+
+    /* Out of every ancestor's overflow, so a scrolling or height-capped
+       container can't clip it — and dressed like the app's other floating
+       panels rather than like something hanging off the field, since the two
+       bottom-rounded corners only made sense while it shared the field's
+       edge. */
+    .focused .message.placed {
+        position: fixed;
+        z-index: 100;
+        /* Beats `.inline` above, whose positioning this replaces: it sets
+           `inset-inline-start: 100%`, which in a right-to-left field is
+           `right: 100%` — and with a `right` and a JS `left` both applied the
+           box collapsed to nothing and slid off the screen. */
+        inset: auto;
+        white-space: normal;
+        border-radius: var(--wordplay-border-radius);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        box-shadow: 2px 2px 5px var(--wordplay-chrome);
+        /* Undo the popover UA box, which centers itself in the viewport and
+           draws its own border and padding. */
+        margin: 0;
+        inset: auto;
+        overflow: visible;
+        width: max-content;
+        max-width: 15em;
+    }
+
+    /* The UA hides a closed popover, but `.focused .message` above would show
+       it anyway; this is the same weight and comes later. */
+    .message.placed:not(:popover-open) {
+        display: none;
     }
 
     .done {
