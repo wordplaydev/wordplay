@@ -52,9 +52,11 @@ test('choosing a language starts translating, and stopping is only offered while
             .first()
             .selectOption({ label: 'español' });
 
-        await expect(
-            page.locator('.translate-bar [role="status"]'),
-        ).toBeVisible({ timeout: 15000 });
+        // The spinner lives in the status row under the controls, where what
+        // is merely happening can grow without moving the pickers.
+        await expect(page.locator('.chat-status [role="status"]')).toBeVisible({
+            timeout: 15000,
+        });
         await expect(stop).toHaveCount(1);
     } finally {
         await context.close();

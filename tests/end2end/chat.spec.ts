@@ -1,6 +1,6 @@
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
-import { waitForDocumentUpdate } from '../helpers/firestore';
+import { getTestDocument, waitForDocumentUpdate } from '../helpers/firestore';
 
 /**
  * E2E coverage for the granular chat operations that replaced the full-doc
@@ -8,7 +8,7 @@ import { waitForDocumentUpdate } from '../helpers/firestore';
  * messages accumulate, and markChatRead uses arrayRemove on the unread list.
  */
 
-test('starting a chat and adding a message arrayUnions onto the messages array', async ({
+test('the first message creates the chat and arrayUnions onto its messages array', async ({
     page,
 }) => {
     const projectId = await createTestProject(page);
@@ -16,19 +16,16 @@ test('starting a chat and adding a message arrayUnions onto the messages array',
     // Open the collaborate (chat) panel.
     await page.getByTestId('collaborate-toggle').click();
 
-    // The "Start chat" button is shown when no chat exists yet.
-    await page
-        .getByRole('button', {
-            name: 'begin a discussion with yourself or others.',
-        })
-        .click();
+    // A chat is made by talking, not by pressing a button first: the composer
+    // is there before any chat document is.
+    expect(await getTestDocument('chats', projectId)).toBeNull();
 
     // Wait for the message editor to render — it has id="new-message".
     const messageEditor = page.locator('#new-message');
     await messageEditor.waitFor();
 
-    // Type a message and submit. The FormattedEditor is contenteditable, so
-    // we focus it and use keyboard input.
+    // Type a message and submit. The id is on the editor's wrapper, so clicking
+    // it focuses the textarea inside.
     await messageEditor.click();
     await page.keyboard.type('Hello chat');
 

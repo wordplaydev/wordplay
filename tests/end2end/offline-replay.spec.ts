@@ -147,14 +147,11 @@ test.describe('offline edits replay after reload + reconnect', () => {
 
         await cutFirestore(page);
 
-        // Start a chat and post a message — both writes abort against the cut
-        // emulator but mirror locally + mark the chat dirty.
+        // Post the first message — it creates the chat and adds the message,
+        // and both writes abort against the cut emulator but mirror locally +
+        // mark the chat dirty. There is no separate "start" step: the create is
+        // what sending the first message does.
         await page.getByTestId('collaborate-toggle').click();
-        await page
-            .getByRole('button', {
-                name: 'begin a discussion with yourself or others.',
-            })
-            .click();
         const messageEditor = page.locator('#new-message');
         await messageEditor.waitFor();
         await messageEditor.click();
@@ -164,6 +161,15 @@ test.describe('offline edits replay after reload + reconnect', () => {
                 'button[aria-label^="send a message to your collaborators"]',
             )
             .click();
+
+        // Wait for the message to land in the local chat before reloading. The
+        // create's write never settles against the cut emulator, so the chat
+        // reaches the client through its own local mirror a beat later and the
+        // message goes in then; reloading before that would throw away the very
+        // thing this test is about.
+        await expect(page.getByText('Offline hello')).toBeVisible({
+            timeout: 30000,
+        });
 
         // Wait until the chat's dirty row is durable before reloading.
         await waitForDirty(page, `chats:${projectId}`);
