@@ -1,6 +1,7 @@
-import { Unwritten } from '@locale/Annotations';
+import { Revised, Unwritten } from '@locale/Annotations';
 import type LocaleText from '@locale/LocaleText';
 import { classifyPair } from '@util/verify-locales/classifyLocalePath';
+import { splitMarkupAndCode } from '@util/verify-locales/protect';
 import LocalePath, {
     getKeyTemplatePairs,
 } from '@util/verify-locales/LocalePath';
@@ -24,6 +25,22 @@ import type Log from '@util/verify-locales/Log';
  * owns those). Across all 29 locales that leaves six paths, two of which are
  * exempt below. The repair is `$?` plus the English, which is what the string
  * already is, said out loud so a translate run picks it up.
+ *
+ * It asks the same question a second way, of strings that *do* carry `$!`. That
+ * marker means "there is a translation here and it has gone stale", so nothing
+ * treats it as an error — but a `$!` whose value is still byte-for-byte the
+ * English is not stale, it is **stuck**: every run picks it up, fails, and
+ * re-queues it, and English ships under a marker that says someone is on it.
+ * Two had been going round that loop for releases. Which of two things is wrong
+ * decides how loudly to say so:
+ *
+ * - The string has text a translator could be given, so a run *should* have
+ *   fixed it and something is broken. That is an error, like `$?` is.
+ * - The string has nothing translatable — every segment is code. `¶…¶` prose
+ *   inside a `\…\` example is the case that exists today: `splitMarkupAndCode`
+ *   classifies the whole example as code, so the doc inside it is never offered
+ *   and the marker can never clear. Nobody can fix that in a locale file, so it
+ *   warns and names the reason rather than reddening a build over it.
  */
 
 /** Paths whose value is identical to en-US on purpose. Listed rather than
@@ -47,6 +64,10 @@ export default function checkUntranslated(
         : target;
 
     const untranslated: string[] = [];
+    /** Marked `$!`, still English, and translatable — a run should have fixed it. */
+    const stuck: string[] = [];
+    /** Marked `$!`, still English, and nothing in it can be offered anyway. */
+    const untranslatable: string[] = [];
     // `getKeyTemplatePairs` rather than `getCheckableLocalePairs`, which lives in
     // `verifyLocale` and would make this an import cycle. `pair.top()` covers
     // everything the latter excludes that could hold prose (`guidance`), and the
@@ -59,31 +80,62 @@ export default function checkUntranslated(
         // and is often a symbol or emoji no locale should translate.
         if (classifyPair(pair) === 'name') continue;
 
-        const value = flatten(pair.value);
-        if (value === undefined) continue;
-        if (value !== flatten(pair.resolve(source))) continue;
-        // Already claimed as unwritten, revised, or machine translated.
-        if (/^\$[?!~]/.test(value)) continue;
+        const raw = flatten(pair.value);
+        if (raw === undefined) continue;
+        const english = flatten(pair.resolve(source));
+        if (english === undefined) continue;
+        // Compare without the marker, so a claimed string is still comparable.
+        const marker = /^\$[?!~]/.exec(raw)?.[0];
+        const value = marker === undefined ? raw : raw.slice(marker.length);
+        if (value !== english) continue;
         // A template is identical in every locale by construction.
         if (value.includes('$')) continue;
         // Prose, not a label, a code, or a symbol.
         if (!/[A-Za-z]+\s+[A-Za-z]+/.test(value)) continue;
 
-        untranslated.push(`${path} ("${value.slice(0, 40)}")`);
-        if (fix) queue(pair, revised);
+        if (marker === undefined) {
+            untranslated.push(`${path} ("${value.slice(0, 40)}")`);
+            if (fix) queue(pair, revised);
+        } else if (marker === Revised) {
+            (translatable(value) ? stuck : untranslatable).push(
+                `${path} ("${value.slice(0, 40)}")`,
+            );
+        }
+        // `$?` is queued and will be picked up; a false `$~` claim is
+        // translationEcho.test.ts's business.
     }
 
-    if (untranslated.length > 0) {
-        // Bounded: a locale that has never been translated at all would
-        // otherwise print one line thousands of paths long.
-        const listed = untranslated.slice(0, 20);
-        const rest = untranslated.length - listed.length;
+    if (untranslated.length > 0)
         log.bad(
-            `${untranslated.length} string(s) are still the English and carry no write status, so nothing will ever translate them; marking them "${Unwritten}" queues them: ${listed.join(', ')}${rest > 0 ? `, and ${rest} more` : ''}`,
+            `${untranslated.length} string(s) are still the English and carry no write status, so nothing will ever translate them; marking them "${Unwritten}" queues them: ${bound(untranslated)}`,
         );
-    }
+
+    if (stuck.length > 0)
+        log.bad(
+            `${stuck.length} string(s) are marked "${Revised}" but are still the English, so a translate run is failing on them every time and English is shipping: ${bound(stuck)}`,
+        );
+
+    if (untranslatable.length > 0)
+        log.warning(
+            `${untranslatable.length} string(s) are marked "${Revised}" and are still the English, but hold nothing a translator can be given — prose inside a \\…\\ example is classified as code — so no run can clear them and a person has to: ${bound(untranslatable)}`,
+        );
 
     return revised;
+}
+
+/** Whether any of this has text a translator could be handed. A value that is
+ *  all code has nothing to offer, so a marker on it can never clear. */
+function translatable(value: string): boolean {
+    return splitMarkupAndCode(value).some(
+        (segment) => segment.kind === 'markup' && segment.text.trim() !== '',
+    );
+}
+
+/** Bounded: a locale that was never translated would print thousands of paths. */
+function bound(paths: string[]): string {
+    const listed = paths.slice(0, 20);
+    const rest = paths.length - listed.length;
+    return `${listed.join(', ')}${rest > 0 ? `, and ${rest} more` : ''}`;
 }
 
 /** One comparable string for a value, or undefined if it holds no text. An

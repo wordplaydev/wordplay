@@ -104,3 +104,42 @@ test('verification does not mutate the locale', () => {
     checkUntranslated(collectingLog().log, DefaultLocale, target, false);
     expect(JSON.stringify(target)).toBe(before);
 });
+
+test('a "$!" string that is still the English is stuck, not merely stale', () => {
+    // The blind spot this closes: `$!` means "there is a translation and it has
+    // gone stale", so nothing treated it as an error — but a `$!` whose value
+    // is still the English is queued and not draining. Two had been round that
+    // loop for releases, each run failing on them and re-queuing them.
+    const { log, lines } = collectingLog();
+    const target = translatedLocale();
+    target.ui.widget.color.pick.tip = `$!${DefaultLocale.ui.widget.color.pick.tip}`;
+    checkUntranslated(log, DefaultLocale, target, false);
+    const said = lines.join(' ');
+    expect(said).toContain('ui.widget.color.pick.tip');
+    expect(said).toContain('still the English');
+});
+
+test('a "$!" string with a real translation is left alone', () => {
+    // The ordinary case the marker is for: translated once, since reworded.
+    const { log, lines } = collectingLog();
+    const target = translatedLocale();
+    target.ui.widget.color.pick.tip = `$!ø${DefaultLocale.ui.widget.color.pick.tip}`;
+    checkUntranslated(log, DefaultLocale, target, false);
+    expect(lines.join(' ')).not.toContain('ui.widget.color.pick.tip');
+});
+
+test('a "$!" string with nothing translatable in it warns instead', () => {
+    // Prose inside a `\…\` example is classified as code, so no run can ever
+    // offer it and the marker can never clear. That is a person's job, not a
+    // red build — see the module comment.
+    const { log, lines } = collectingLog();
+    const target = translatedLocale();
+    const example = "\\¶Phrases appear on stage in any color.¶\nPhrase('hi')\\";
+    const source = copyLocale();
+    source.ui.widget.color.pick.tip = example;
+    target.ui.widget.color.pick.tip = `$!${example}`;
+    checkUntranslated(log, source, target, false);
+    const said = lines.join(' ');
+    expect(said).toContain('ui.widget.color.pick.tip');
+    expect(said).toContain('a translator can be given');
+});
