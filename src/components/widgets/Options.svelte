@@ -2,6 +2,11 @@
     export type Option = {
         value: string | undefined;
         label: string | LocaleTextAccessor;
+        /** What to show on hover and focus, when that isn't the label. `null`
+         *  shows nothing: for a picker whose label exists to name it for a
+         *  screen reader — "what Amy can do" — a tooltip repeating it says
+         *  something the row it sits in already shows. */
+        tip?: string | LocaleTextAccessor | null | undefined;
         [key: string]: any;
     };
     export type Group<Type extends Option> = {
@@ -47,6 +52,11 @@
     interface Props {
         value: string | undefined;
         label: string | LocaleTextAccessor;
+        /** What to show on hover and focus, when that isn't the label. `null`
+         *  shows nothing: for a picker whose label exists to name it for a
+         *  screen reader — "what Amy can do" — a tooltip repeating it says
+         *  something the row it sits in already shows. */
+        tip?: string | LocaleTextAccessor | null | undefined;
         options: Group<Item>[] | Item[];
         change: (value: string | undefined) => void;
         width?: string;
@@ -79,6 +89,7 @@
     let {
         value = $bindable(),
         label,
+        tip = undefined,
         options,
         change,
         width = 'auto',
@@ -169,10 +180,12 @@
 
     function showTip() {
         if (!view || pickerOpen()) return;
+        const shown = tip === undefined ? label : tip;
+        if (shown === null) return;
         // The hint renders each chosen locale styled; the aria-label (`title`)
         // is the primary locale only.
-        if (typeof label === 'string') hint.show(label, view);
-        else hint.showMarkup($locales.getMultilingualMarkup(label), view);
+        if (typeof shown === 'string') hint.show(shown, view);
+        else hint.showMarkup($locales.getMultilingualMarkup(shown), view);
     }
     function hideTip() {
         hint.hide();
