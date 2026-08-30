@@ -2326,7 +2326,7 @@
             "name": "table type",
             "description": "table",
             "emotion": "angry",
-            "doc": "I represent a Table.",
+            "doc": "I represent a @Table.",
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "missing column type",
@@ -8354,7 +8354,7 @@
                 },
                 "field": {
                     "emailOrUsername": {
-                        "placeholder": "email or username",
+                        "placeholder": "email/username",
                         "description": "email or username of the person who you want to give edit access"
                     },
                     "preview": {
@@ -8805,8 +8805,6 @@
                 "none": "Don't translate",
                 "off": "Stop translating",
                 "dismiss": "dismiss",
-                "moreLanguages": "Find another language",
-                "fewerLanguages": "Hide the language search",
                 "writingIn": "I'm writing in",
                 "translating": "Translating messages…",
                 "downloading": "Getting a $language translator for your browser…",
@@ -8818,33 +8816,37 @@
                 "messageError": "We couldn't translate this message.",
                 "messageErrors": "$#count[We couldn't translate $count message.|We couldn't translate $count messages.]"
             },
-            "role": {
-                "owner": "owner",
-                "collaborators": "collaborators (edit and chat)",
-                "curators": "curators",
-                "commenters": "commenters (chat only)",
-                "viewers": "viewers"
-            },
             "field": {
                 "message": {
                     "description": "The chat message to submit",
                     "placeholder": "Type a message"
                 }
             },
+            "prompt": "Add collaborators, commenters, and viewers",
+            "role": {
+                "owner": "owner",
+                "collaborate": "collaborate",
+                "comment": "comment",
+                "view": "view",
+                "curate": "curate"
+            },
+            "table": {
+                "label": "who can reach this project",
+                "choose": "what $name can do",
+                "adding": "what they can do",
+                "audience": "who can see this chat"
+            },
             "button": {
                 "submit": {
                     "label": "send",
                     "tip": "send a message to your collaborators and "
                 },
-                "start": {
-                    "label": "start a chat",
-                    "tip": "begin a discussion with yourself or others."
-                },
                 "delete": "delete this message",
                 "confirmDelete": "confirm delete?",
                 "transfer": {
                     "description": "make this person the owner of the project",
-                    "prompt": "Make them the owner? You will stay a collaborator and can keep editing, but you will no longer be able to delete this project."
+                    "prompt": "Make them the owner?",
+                    "consequence": "You will stay a collaborator and can keep editing, but you will no longer be able to delete this project."
                 }
             },
             "moderation": {
@@ -8869,15 +8871,12 @@
                 "deleted": "This message was deleted.",
                 "transferGallery": "This project is in a gallery. Giving it to someone else does not add them to that gallery, so they may not be able to see it there."
             },
-            "prompt": {
-                "solo": "Chat with yourself or add...",
-                "owner": "Collaborators can edit this project and chat about it. Commenters can chat but cannot edit this project. Viewers can view this project but cannot chat.",
-                "collaborator": "You're a collaborator. You can edit this project and chat about it.",
-                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it. Only the project's owner, collaborators, and commenters can see the chat.",
-                "commenter": "You're a commenter. You can chat about this project but cannot edit it."
+            "announce": {
+                "transferred": "$name is now the owner of $project",
+                "privilege": "$name can now $privilege",
+                "removed": "$name can no longer reach this project"
             },
             "restrictGalleryCreatorAccess": {
-                "explanation": "Your project is in a gallery. By default, anyone who can see this gallery can see this project. You can restrict who can see your project to only you and the gallery curators.",
                 "mode": {
                     "label": "restrict project access",
                     "labels": ["do not restrict", "restrict"],
@@ -8889,14 +8888,10 @@
             },
             "tour": {
                 "launch": "take a tour of collaborating",
-                "collaborate": "Projects can be /shared/ with other people, and you can *chat* with everyone the project is shared with right here.",
-                "collaborators": "/Collaborators/ can *edit* the project and *chat* about it with you.",
-                "commenters": "/Commenters/ can *discuss* the project with you, but they cannot *edit* it.",
-                "viewers": "/Viewers/ can *view* the project and its *code*, but they cannot *discuss* or *edit* it.",
+                "collaborate": "Everyone who can reach this project is listed here, and you can *chat* with the people who are allowed to. Only the /owner/, /collaborators/, and /commenters/ can see the chat.",
+                "collaborators": "Each person has one /privilege/. *Collaborate* means they can edit the project and chat about it. *Comment* means they can chat but not edit. *View* means they can look but not chat. *Owner* hands them the project. A gallery's /curators/ can always reach it, so you cannot change theirs.",
+                "add": "Type someone's *email* or *username*, choose what they can do, and they'll join the list.",
                 "restrict": "When a project is in a *gallery*, by default *everyone* who can see the gallery can see your project. The /restrict/ toggle *hides* it from everyone except you and the gallery curators."
-            },
-            "announce": {
-                "transferred": "$name is now the owner of $project"
             }
         },
         "presence": {

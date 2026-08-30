@@ -1923,7 +1923,7 @@
             "name": "$~Tabellentyp",
             "description": "$~Tabelle",
             "emotion": "angry",
-            "doc": "$~Ich stelle eine Tabelle dar.",
+            "doc": "$~Ich stehe für eine @Table.",
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~fehlender Spaltentyp",
@@ -7991,7 +7991,7 @@
                 },
                 "field": {
                     "emailOrUsername": {
-                        "placeholder": "$~E-Mail Adresse oder Benutzername",
+                        "placeholder": "$~E-Mail/Benutzername",
                         "description": "$~E-Mail oder Benutzername der Person, der Sie Bearbeitungszugriff gewähren möchten"
                     },
                     "preview": {
@@ -9840,10 +9840,10 @@
             "label": "$~zusammenarbeiten",
             "role": {
                 "owner": "$~Eigentümer",
-                "collaborators": "$~Mitwirkende (bearbeiten und chatten)",
-                "curators": "$~Kuratoren",
-                "commenters": "$~Kommentierende (nur chatten)",
-                "viewers": "$~Zuschauer"
+                "collaborate": "$~bearbeiten",
+                "comment": "$~kommentieren",
+                "view": "$~ansehen",
+                "curate": "$~kuratieren"
             },
             "field": {
                 "message": {
@@ -9856,15 +9856,12 @@
                     "label": "$~senden",
                     "tip": "$~sende eine Nachricht an deine Mitwirkenden und"
                 },
-                "start": {
-                    "label": "$~einen Chat beginnen",
-                    "tip": "$~beginne ein Gespräch mit dir selbst oder anderen."
-                },
                 "delete": "$~diese Nachricht löschen",
                 "confirmDelete": "$~Löschen bestätigen?",
                 "transfer": {
                     "description": "$~diese Person zur Eigentümerin oder zum Eigentümer des Projekts machen",
-                    "prompt": "$~Diese Person zur Eigentümerin oder zum Eigentümer machen? Du bleibst Mitwirkende oder Mitwirkender und kannst weiter bearbeiten, aber du kannst dieses Projekt nicht mehr löschen."
+                    "prompt": "$~Soll diese Person Eigentümer werden?",
+                    "consequence": "$~Du bleibst Mitarbeiter und kannst weiter bearbeiten, aber du kannst dieses Projekt nicht mehr löschen."
                 }
             },
             "error": {
@@ -9873,13 +9870,6 @@
                 "empty": "$~Keine Nachrichten.",
                 "deleted": "$~Diese Nachricht wurde gelöscht.",
                 "transferGallery": "$~Dieses Projekt ist in einer Galerie. Wenn du es einer anderen Person gibst, wird sie nicht automatisch zu dieser Galerie hinzugefügt. Sie kann das Projekt dort dann vielleicht nicht sehen."
-            },
-            "prompt": {
-                "solo": "$~Chatte mit dir selbst oder füge hinzu...",
-                "owner": "$~Mitwirkende können dieses Projekt bearbeiten und darüber chatten. Kommentierende können chatten, aber dieses Projekt nicht bearbeiten. Betrachtende können dieses Projekt ansehen, aber nicht chatten.",
-                "collaborator": "$~Sie sind ein Mitarbeiter. Sie können dieses Projekt bearbeiten und darüber chatten.",
-                "curator": "$~Du bist Kurator der Galerie dieses Projekts. Du kannst dieses Projekt bearbeiten und darüber chatten. Nur der Besitzer des Projekts, Mitwirkende und Kommentierende können den Chat sehen.",
-                "commenter": "$~Du bist ein Kommentator. Du kannst über dieses Projekt diskutieren, aber es nicht bearbeiten."
             },
             "moderation": {
                 "header": "$~Diese Nachricht melden",
@@ -9897,7 +9887,6 @@
                 "inGallery": "$~Dieser Chat befindet sich in einer Galerie und wird von den Kuratoren moderiert. Sie können Beiträge, die gegen unsere <Community-Standards@://rights> verstoßen, zur Moderation melden."
             },
             "restrictGalleryCreatorAccess": {
-                "explanation": "$~Ihr Projekt befindet sich in einer Galerie. Standardmäßig kann jeder, der diese Galerie sehen kann, auch Ihr Projekt sehen. Sie können den Zugriff auf Ihr Projekt auf Sie und die Kuratoren der Galerie beschränken.",
                 "mode": {
                     "label": "$~Projektzugriff einschränken",
                     "labels": ["$~nicht einschränken", "$~beschränken"],
@@ -9909,11 +9898,10 @@
             },
             "tour": {
                 "launch": "$~Machen Sie eine Tour durch die Zusammenarbeit",
-                "collaborate": "$~Projekte können mit anderen Personen geteilt werden, und Sie können direkt hier mit allen Personen chatten, mit denen das Projekt geteilt wird.",
-                "collaborators": "$~/Mitarbeiter/ können das Projekt *bearbeiten* und sich mit Ihnen darüber *unterhalten*.",
-                "commenters": "$~Die Kommentatoren können das Projekt mit Ihnen *diskutieren*, aber sie können es nicht *bearbeiten*.",
-                "viewers": "$~Betrachter können das Projekt und seinen Code ansehen, aber sie können ihn weder diskutieren noch bearbeiten.",
-                "restrict": "$~Wenn sich ein Projekt in einer Galerie befindet, kann standardmäßig jeder, der die Galerie sehen kann, auch Ihr Projekt sehen. Mit dem Schalter /restrict/ wird es für alle außer Ihnen und den Kuratoren der Galerie ausgeblendet."
+                "collaborate": "$~Hier stehen alle, die dieses Projekt erreichen können. Du kannst mit den Personen *chatten*, die das dürfen. Nur der /Eigentümer/, die /Mitarbeiter/ und die /Kommentierenden/ können den Chat sehen.",
+                "collaborators": "$~Jede Person hat ein /Recht/. *Bearbeiten* bedeutet, sie kann das Projekt ändern und darüber chatten. *Kommentieren* bedeutet, sie kann chatten, aber nicht bearbeiten. *Ansehen* bedeutet, sie kann nur schauen, aber nicht chatten. *Eigentümer* gibt ihr das Projekt. Die /Kuratoren/ einer Galerie können sie immer erreichen, das kannst du nicht ändern.",
+                "restrict": "$~Wenn sich ein Projekt in einer Galerie befindet, kann standardmäßig jeder, der die Galerie sehen kann, auch Ihr Projekt sehen. Mit dem Schalter /restrict/ wird es für alle außer Ihnen und den Kuratoren der Galerie ausgeblendet.",
+                "add": "$~Gib die *E-Mail-Adresse* oder den *Benutzernamen* einer Person ein, wähle aus, was sie tun darf, und sie wird zur Liste hinzugefügt."
             },
             "translate": {
                 "label": "$~Nachrichten übersetzen in",
@@ -9922,8 +9910,6 @@
                 "messageError": "$~Wir konnten diese Nachricht nicht übersetzen.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[Wir konnten $count Nachricht nicht übersetzen.|Wir konnten $count Nachrichten nicht übersetzen.]",
-                "moreLanguages": "$~Eine andere Sprache finden",
-                "fewerLanguages": "$~Sprachsuche ausblenden",
                 "translating": "$~Nachrichten werden übersetzt …",
                 "translated": "$~$#count[$count Nachricht in $language übersetzt.|$count Nachrichten in $language übersetzt.]",
                 "writingIn": "$~Ich schreibe auf",
@@ -9934,8 +9920,17 @@
                 "nothing": "$~Hier gibt es nichts, das in $to übersetzt werden kann. Wir übersetzen niemals deine eigenen Nachrichten."
             },
             "announce": {
-                "transferred": "$~$name ist jetzt Eigentümerin oder Eigentümer von $project"
-            }
+                "transferred": "$~$name ist jetzt Eigentümerin oder Eigentümer von $project",
+                "privilege": "$~$name darf jetzt $privilege",
+                "removed": "$~$name kann dieses Projekt nicht mehr erreichen"
+            },
+            "table": {
+                "label": "$~wer dieses Projekt erreichen kann",
+                "choose": "$~was $name tun darf",
+                "adding": "$~was sie tun dürfen",
+                "audience": "$~wer diesen Chat sehen kann"
+            },
+            "prompt": "$~Mitarbeiter, Kommentierende und Betrachter hinzufügen"
         },
         "checkpoints": {
             "label": {

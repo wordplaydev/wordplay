@@ -1950,7 +1950,7 @@
             "name": "$~tabelltyp",
             "description": "$~tabell",
             "emotion": "angry",
-            "doc": "$~Jag representerar ett bord.",
+            "doc": "$~Jag representerar ett @Table.",
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~saknad kolumntyp",
@@ -7995,7 +7995,7 @@
                 },
                 "field": {
                     "emailOrUsername": {
-                        "placeholder": "$~e-post eller användarnamn",
+                        "placeholder": "$~e-post/användarnamn",
                         "description": "$~e-post eller användarnamn för den person som du vill ge redigeringsbehörighet"
                     },
                     "preview": {
@@ -8472,10 +8472,10 @@
             "label": "$~samarbeta",
             "role": {
                 "owner": "$~ägare",
-                "collaborators": "$~medarbetare (redigera och chatta)",
-                "curators": "$~kuratorer",
-                "commenters": "$~kommentatorer (bara chatta)",
-                "viewers": "$~tittare"
+                "collaborate": "$~samarbeta",
+                "comment": "$~kommentera",
+                "view": "$~visa",
+                "curate": "$~kurera"
             },
             "field": {
                 "message": {
@@ -8488,15 +8488,12 @@
                     "label": "$~skicka",
                     "tip": "$~skicka ett meddelande till dina medarbetare och"
                 },
-                "start": {
-                    "label": "$~starta en chatt",
-                    "tip": "$~börja ett samtal med dig själv eller andra."
-                },
                 "delete": "$~radera detta meddelande",
                 "confirmDelete": "$~bekräfta borttagning?",
                 "transfer": {
                     "description": "$~gör denna person till ägare av projektet",
-                    "prompt": "$~Vill du göra dem till ägare? Du förblir en medarbetare och kan fortsätta redigera, men du kommer inte längre kunna ta bort detta projekt."
+                    "prompt": "$~Göra dem till ägare?",
+                    "consequence": "$~Du förblir medarbetare och kan fortsätta redigera, men du kan inte längre ta bort detta projekt."
                 }
             },
             "error": {
@@ -8505,13 +8502,6 @@
                 "empty": "$~Inga meddelanden.",
                 "deleted": "$~Detta meddelande raderades.",
                 "transferGallery": "$~Det här projektet finns i ett galleri. Att ge det till någon annan lägger inte till dem i det galleriet, så de kanske inte kan se det där."
-            },
-            "prompt": {
-                "solo": "$~Chatta med dig själv eller lägg till...",
-                "owner": "$~Medarbetare kan redigera detta projekt och chatta om det. Kommentatorer kan chatta men kan inte redigera detta projekt. Tittare kan se detta projekt men kan inte chatta.",
-                "collaborator": "$~Du är en kollaboratör. Du kan redigera det här projektet och chatta om det.",
-                "curator": "$~Du är en kurator för detta projekts galleri. Du kan redigera detta projekt och chatta om det. Bara projektets ägare, medarbetare och kommentatorer kan se chatten.",
-                "commenter": "$~Du är en kommentator. Du kan chatta om det här projektet men inte redigera det."
             },
             "moderation": {
                 "header": "$~Rapportera det här meddelandet",
@@ -8529,7 +8519,6 @@
                 "inGallery": "$~Den här chatten finns i ett galleri. Den modereras av galleriets kuratorer. Du kan rapportera meddelanden som bryter mot våra <community standards@://rights> för moderering."
             },
             "restrictGalleryCreatorAccess": {
-                "explanation": "$~Ditt projekt finns i ett galleri. Som standard kan alla som kan se det här galleriet se det här projektet. Du kan begränsa vem som kan se ditt projekt till bara du och galleriets kuratorer.",
                 "mode": {
                     "label": "$~begränsa åtkomst till projektet",
                     "labels": ["$~begränsa inte", "$~begränsa"],
@@ -8541,11 +8530,10 @@
             },
             "tour": {
                 "launch": "$~ta en rundtur i samarbetet",
-                "collaborate": "$~Projekt kan /delas/ med andra personer, och du kan *chatta* med alla som projektet delas med här.",
-                "collaborators": "$~/Samarbetare/ kan *redigera* projektet och *chatta* om det med dig.",
-                "commenters": "$~/Kommentatorer/ kan *diskutera* projektet med dig, men de kan inte *redigera* det.",
-                "viewers": "$~/Tittare/ kan *se* projektet och dess *kod*, men de kan inte *diskutera* eller *redigera* det.",
-                "restrict": "$~När ett projekt finns i ett *galleri* kan som standard *alla* som kan se galleriet se ditt projekt. /restrict/-knappen *döljer* det för alla utom dig och galleriets kuratorer."
+                "collaborate": "$~Alla som kan nå detta projekt visas här, och du kan *chatta* med dem som får det. Bara /ägaren/, /medarbetarna/ och /kommentatorerna/ kan se chatten.",
+                "collaborators": "$~Varje person har en /rättighet/. *Samarbeta* betyder att de kan redigera projektet och chatta om det. *Kommentera* betyder att de kan chatta men inte redigera. *Visa* betyder att de kan titta men inte chatta. *Ägare* ger dem projektet. Ett galleris /kuratorer/ kan alltid nå det, så du kan inte ändra deras rättighet.",
+                "restrict": "$~När ett projekt finns i ett *galleri* kan som standard *alla* som kan se galleriet se ditt projekt. /restrict/-knappen *döljer* det för alla utom dig och galleriets kuratorer.",
+                "add": "$~Skriv någons *e-post* eller *användarnamn*, välj vad de får göra, så läggs de till i listan."
             },
             "translate": {
                 "label": "$~Översätt meddelanden till",
@@ -8554,8 +8542,6 @@
                 "messageError": "$~Vi kunde inte översätta detta meddelande.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[Vi kunde inte översätta $count meddelande.|Vi kunde inte översätta $count meddelanden.]",
-                "moreLanguages": "$~Hitta ett annat språk",
-                "fewerLanguages": "$~Dölj språksökningen",
                 "translating": "$~Översätter meddelanden…",
                 "translated": "$~$#count[Översatte $count meddelande till $language.|Översatte $count meddelanden till $language.]",
                 "writingIn": "$~Jag skriver på",
@@ -8566,8 +8552,17 @@
                 "nothing": "$~Det finns inget här att översätta till $to. Vi översätter aldrig dina egna meddelanden."
             },
             "announce": {
-                "transferred": "$~$name är nu ägare av $project"
-            }
+                "transferred": "$~$name är nu ägare av $project",
+                "privilege": "$~$name kan nu $privilege",
+                "removed": "$~$name kan inte längre nå detta projekt"
+            },
+            "table": {
+                "label": "$~vem som kan nå detta projekt",
+                "choose": "$~vad $name får göra",
+                "adding": "$~vad de får göra",
+                "audience": "$~vem som kan se denna chatt"
+            },
+            "prompt": "$~Lägg till medarbetare, kommentatorer och tittare"
         },
         "palette": {
             "label": "$~palett",

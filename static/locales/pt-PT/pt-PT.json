@@ -1949,7 +1949,7 @@
         "TableType": {
             "name": "$~table type",
             "emotion": "angry",
-            "doc": "Eu represento uma tabela.",
+            "doc": "$~Eu represento um @Table.",
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "tipo de coluna em falta",
@@ -8242,7 +8242,7 @@
                 },
                 "field": {
                     "emailOrUsername": {
-                        "placeholder": "E-mail ou nome de utilizador",
+                        "placeholder": "$~email/nome de utilizador",
                         "description": "E-mail ou nome de utilizador da pessoa a quem pretende conceder acesso de edição."
                     },
                     "preview": {
@@ -8722,10 +8722,10 @@
             "label": "colaborar",
             "role": {
                 "owner": "proprietário",
-                "collaborators": "colaboradores (editar e conversar)",
-                "curators": "curadores",
-                "commenters": "comentadores (apenas chat)",
-                "viewers": "espectadores"
+                "collaborate": "$~colaborar",
+                "comment": "$~comentar",
+                "view": "$~ver",
+                "curate": "$~conservar"
             },
             "field": {
                 "message": {
@@ -8738,15 +8738,12 @@
                     "label": "enviar",
                     "tip": "Envie uma mensagem aos seus colaboradores e"
                 },
-                "start": {
-                    "label": "iniciar um chat",
-                    "tip": "Inicie uma conversa consigo próprio ou com outras pessoas."
-                },
                 "delete": "apagar esta mensagem",
                 "confirmDelete": "Confirmar eliminação?",
                 "transfer": {
                     "description": "$~tornar esta pessoa proprietária do projeto",
-                    "prompt": "$~Tornar esta pessoa proprietária? Continuará a ser colaborador(a) e poderá continuar a editar, mas deixará de poder eliminar este projeto."
+                    "prompt": "$~Tornar esta pessoa proprietária?",
+                    "consequence": "$~Vai continuar a ser colaborador(a) e pode continuar a editar, mas deixa de poder eliminar este projeto."
                 }
             },
             "moderation": {
@@ -8771,15 +8768,7 @@
                 "deleted": "Esta mensagem foi apagada.",
                 "transferGallery": "$~Este projeto está numa galeria. Dá-lo a outra pessoa não a adiciona a essa galeria, por isso ela pode não conseguir vê-lo lá."
             },
-            "prompt": {
-                "solo": "Converse consigo mesmo ou adicione...",
-                "owner": "Os colaboradores podem editar este projeto e conversar sobre ele. Os comentadores podem conversar, mas não podem editar este projeto. Os visualizadores podem visualizar este projeto, mas não podem conversar.",
-                "collaborator": "Você é um colaborador. Pode editar este projeto e conversar sobre ele.",
-                "curator": "É curador(a) da galeria deste projeto. Pode editar este projeto e conversar sobre ele. Apenas o(a) proprietário(a) do projeto, colaboradores e comentadores podem ver o chat.",
-                "commenter": "Você é um comentador. Pode conversar sobre este projeto, mas não pode editá-lo."
-            },
             "restrictGalleryCreatorAccess": {
-                "explanation": "O seu projeto está numa galeria. Por defeito, qualquer pessoa que possa ver esta galeria também poderá ver este projeto. Pode restringir o acesso ao seu projeto apenas a si e aos curadores da galeria.",
                 "mode": {
                     "label": "restringir o acesso ao projeto",
                     "labels": ["não restrinja", "restrito"],
@@ -8791,14 +8780,15 @@
             },
             "tour": {
                 "launch": "Faça um tour de colaboração",
-                "collaborate": "Os projetos podem ser partilhados com outras pessoas, e pode falar com todos com quem o projeto foi partilhado diretamente aqui.",
-                "collaborators": "/Os colaboradores/ podem *editar* o projeto e *conversar* sobre ele consigo.",
-                "commenters": "Os comentadores podem *discutir* o projeto consigo, mas não podem *editá-lo*.",
-                "viewers": "Os /Visualizadores/ podem *visualizar* o projeto e o seu *código*, mas não podem *discuti-lo* ou *editá-lo*.",
-                "restrict": "Quando um projeto está numa *galeria*, por defeito, *todos* os que conseguem ver a galeria podem também ver o seu projeto. A opção /restrict/ *oculta* o projeto de todos, exceto de si e dos curadores da galeria."
+                "collaborate": "$~Todas as pessoas que podem aceder a este projeto estão listadas aqui, e pode *conversar* com as que têm permissão para isso. Só o(a) /proprietário(a)/, os /colaboradores/ e os /comentadores/ podem ver a conversa.",
+                "collaborators": "$~Cada pessoa tem um /privilégio/. *Colaborar* significa que pode editar o projeto e conversar sobre ele. *Comentar* significa que pode conversar mas não editar. *Ver* significa que pode olhar mas não conversar. *Proprietário(a)* entrega-lhe o projeto. Os /curadores/ de uma galeria podem sempre aceder a ele, por isso não pode alterar o privilégio deles.",
+                "restrict": "Quando um projeto está numa *galeria*, por defeito, *todos* os que conseguem ver a galeria podem também ver o seu projeto. A opção /restrict/ *oculta* o projeto de todos, exceto de si e dos curadores da galeria.",
+                "add": "$~Escreva o *email* ou o *nome de utilizador* de alguém, escolha o que essa pessoa pode fazer, e ela junta-se à lista."
             },
             "announce": {
-                "transferred": "$~$name é agora o(a) proprietário(a) de $project"
+                "transferred": "$~$name é agora o(a) proprietário(a) de $project",
+                "privilege": "$~$name já pode $privilege",
+                "removed": "$~$name já não consegue aceder a este projeto"
             },
             "translate": {
                 "label": "$~Traduzir mensagens para",
@@ -8807,8 +8797,6 @@
                 "messageError": "$~Não conseguimos traduzir esta mensagem.",
                 "messageErrors": "$~$#count[Não foi possível traduzir $#count mensagem.|Não foi possível traduzir $count milhões de mensagens.|Não foi possível traduzir $count mensagens.]",
                 "direction": "$~$from → $to",
-                "moreLanguages": "$~encontrar outro idioma",
-                "fewerLanguages": "$~ocultar a pesquisa de idiomas",
                 "translating": "$~A traduzir mensagens…",
                 "translated": "$~$#count[Traduzida $count mensagem para $language.|Traduzidas $count milhões de mensagens para $language.|Traduzidas $count mensagens para $language.]",
                 "writingIn": "$~Estou a escrever em",
@@ -8817,7 +8805,14 @@
                 "none": "$~Não traduzir",
                 "dismiss": "$~fechar",
                 "nothing": "$~Não há nada aqui para traduzir para $to. Nunca traduzimos as suas próprias mensagens."
-            }
+            },
+            "table": {
+                "label": "$~quem pode aceder a este projeto",
+                "choose": "$~o que $name pode fazer",
+                "adding": "$~o que essa pessoa pode fazer",
+                "audience": "$~quem pode ver esta conversa"
+            },
+            "prompt": "$~adicionar colaboradores, comentadores e visualizadores"
         },
         "palette": {
             "label": "paleta",

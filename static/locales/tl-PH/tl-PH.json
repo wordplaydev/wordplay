@@ -1950,7 +1950,7 @@
             "name": "$~uri ng talahanayan",
             "description": "$~talahanayan",
             "emotion": "angry",
-            "doc": "$~Kinakatawan ko ang isang Talahanayan.",
+            "doc": "$~Kumakatawan ako sa @Table.",
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~nawawalang uri ng haligi",
@@ -8246,7 +8246,7 @@
                 },
                 "field": {
                     "emailOrUsername": {
-                        "placeholder": "$~email o username",
+                        "placeholder": "$~email/username",
                         "description": "$~email o username ng taong gusto mong bigyan ng access sa pag-edit"
                     },
                     "preview": {
@@ -8726,10 +8726,10 @@
             "label": "$~makipagtulungan",
             "role": {
                 "owner": "$~may-ari",
-                "collaborators": "$~mga kolaborator (mag-edit at makipag-chat)",
-                "curators": "$~mga curator",
-                "commenters": "$~mga nagkokomento (chat lamang)",
-                "viewers": "$~mga manonood"
+                "collaborate": "$~tumulong",
+                "comment": "$~magkomento",
+                "view": "$~tingnan",
+                "curate": "$~pumili"
             },
             "field": {
                 "message": {
@@ -8742,15 +8742,12 @@
                     "label": "$~ipadala",
                     "tip": "$~magpadala ng mensahe sa iyong mga katuwang at"
                 },
-                "start": {
-                    "label": "$~magsimula ng chat",
-                    "tip": "$~magsimula ng talakayan sa iyong sarili o sa iba."
-                },
                 "delete": "$~burahin ang mensaheng ito",
                 "confirmDelete": "$~kumpirmahin ang pagbura?",
                 "transfer": {
                     "description": "$~gawing may-ari ng proyekto ang taong ito",
-                    "prompt": "$~Gawin ba siyang may-ari? Mananatili kang kolaborador at maaari ka pa ring mag-edit, pero hindi mo na mabubura ang proyektong ito."
+                    "prompt": "$~Gawin silang may-ari?",
+                    "consequence": "$~Mananatili kang katuwang at maaari kang magpatuloy sa pag-edit, pero hindi mo na maaaring burahin ang proyektong ito."
                 }
             },
             "moderation": {
@@ -8775,15 +8772,7 @@
                 "deleted": "$~Binura na ang mensaheng ito.",
                 "transferGallery": "$~Nasa isang gallery ang proyektong ito. Kapag ibinigay mo ito sa iba, hindi sila awtomatikong naidaragdag sa gallery na iyon, kaya maaaring hindi nila ito makita doon."
             },
-            "prompt": {
-                "solo": "$~Makipag-chat sa sarili mo o magdagdag...",
-                "owner": "$~Maaaring i-edit ng mga kolaborator ang proyektong ito at makipag-usap tungkol dito. Maaaring makipag-chat ang mga nagkokomento ngunit hindi maaaring i-edit ang proyektong ito. Maaaring tingnan ng mga tumitingin ang proyektong ito ngunit hindi maaaring makipag-chat.",
-                "collaborator": "$~Isa kang kolaborator. Maaari mong i-edit ang proyektong ito at pag-usapan ito.",
-                "curator": "$~Ikaw ang tagapangasiwa ng gallery ng proyektong ito. Maaari mong i-edit ang proyektong ito at makipag-usap tungkol dito. Tanging ang may-ari, mga kolaborator, at mga nagkokomento ng proyekto ang makakakita ng chat.",
-                "commenter": "$~Isa kang tagakomento. Maaari kang makipag-usap tungkol sa proyektong ito ngunit hindi mo ito maaaring i-edit."
-            },
             "restrictGalleryCreatorAccess": {
-                "explanation": "$~Ang iyong proyekto ay nasa isang gallery. Bilang default, sinumang makakakita sa gallery na ito ay makakakita rin ng proyektong ito. Maaari mong limitahan kung sino ang makakakita ng iyong proyekto sa iyo at sa mga curator ng gallery lamang.",
                 "mode": {
                     "label": "$~paghigpitan ang pag-access sa proyekto",
                     "labels": ["$~huwag paghigpitan", "$~paghigpitan"],
@@ -8795,11 +8784,10 @@
             },
             "tour": {
                 "launch": "$~maglibot sa pakikipagtulungan",
-                "collaborate": "$~Maaaring /ibahagi/ ang mga proyekto sa ibang tao, at maaari kang *makipag-chat* sa lahat ng taong pinagbabahagian ng proyekto rito mismo.",
-                "collaborators": "$~Maaaring *i-edit* ng /Mga Kolaborator/ ang proyekto at *makipag-usap* tungkol dito sa iyo.",
-                "commenters": "$~Maaaring *talakayin* ng mga /tagapagkomento/ ang proyekto sa iyo, ngunit hindi nila ito maaaring *i-edit*.",
-                "viewers": "$~Maaaring *tingnan* ng mga /tumitingin/ ang proyekto at ang *code* nito, ngunit hindi nila ito maaaring *talakayin* o *i-edit*.",
-                "restrict": "$~Kapag ang isang proyekto ay nasa isang *gallery*, bilang default, *lahat* ng makakakita sa gallery ay makakakita ng iyong proyekto. *Itinatago* ito ng /restrict/ toggle mula sa lahat maliban sa iyo at sa mga curator ng gallery."
+                "collaborate": "$~Nakalista rito ang lahat ng makaka-abot sa proyektong ito, at maaari kang *mag-chat* sa mga taong pinapayagan. Tanging ang /may-ari/, ang mga /katuwang/, at ang mga /nagkokomento/ ang makakakita ng chat.",
+                "collaborators": "$~Bawat tao ay may isang /karapatan/. Ang *Tumulong* ay nangangahulugang maaari nilang i-edit ang proyekto at mag-chat tungkol dito. Ang *Magkomento* ay nangangahulugang maaari silang mag-chat pero hindi maka-edit. Ang *Tingnan* ay nangangahulugang maaari lang silang tumingin pero hindi maka-chat. Ang *May-ari* ay nagbibigay sa kanila ng proyekto. Ang mga /kurador/ ng isang galeriya ay laging may abot dito, kaya hindi mo maaaring baguhin ang kanilang karapatan.",
+                "restrict": "$~Kapag ang isang proyekto ay nasa isang *gallery*, bilang default, *lahat* ng makakakita sa gallery ay makakakita ng iyong proyekto. *Itinatago* ito ng /restrict/ toggle mula sa lahat maliban sa iyo at sa mga curator ng gallery.",
+                "add": "$~I-type ang *email* o *username* ng isang tao, piliin ang kanilang maaaring gawin, at sasali sila sa listahan."
             },
             "translate": {
                 "label": "$~Isalin ang mga mensahe sa",
@@ -8808,8 +8796,6 @@
                 "messageError": "$~Hindi namin naisalin ang mensaheng ito.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[Hindi namin naisalin ang $count mensahe.|Hindi namin naisalin ang $count na mensahe.]",
-                "moreLanguages": "$~Humanap ng ibang wika",
-                "fewerLanguages": "$~Itago ang paghahanap ng wika",
                 "translating": "$~Isinasalin ang mga mensahe…",
                 "translated": "$~$#count[Naisalin ang $count mensahe sa $language.|Naisalin ang $count na mensahe sa $language.]",
                 "writingIn": "$~Sumusulat ako sa",
@@ -8820,8 +8806,17 @@
                 "nothing": "$~Walang dito na maisasalin sa $to. Hindi namin isinasalin ang mga sariling mensahe mo."
             },
             "announce": {
-                "transferred": "$~Si $name na ngayon ang may-ari ng $project"
-            }
+                "transferred": "$~Si $name na ngayon ang may-ari ng $project",
+                "privilege": "$~Ngayon ay maaaring $name ni $privilege",
+                "removed": "$~Hindi na maaabot ni $name ang proyektong ito"
+            },
+            "table": {
+                "label": "$~sino ang maaaring maabot ang proyektong ito",
+                "choose": "$~ano ang maaaring gawin ni $name",
+                "adding": "$~ano ang maaari nilang gawin",
+                "audience": "$~sino ang makakakita ng chat na ito"
+            },
+            "prompt": "$~Magdagdag ng mga katuwang, tagakomento, at tagatingin"
         },
         "palette": {
             "label": "$~paleta",

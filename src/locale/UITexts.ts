@@ -1193,10 +1193,6 @@ type UITexts = {
             off: string;
             /** [plain] Button that dismisses a translation failure */
             dismiss: string;
-            /** [plain] Tip on the button that reveals a search field for languages beyond the ones already in this conversation */
-            moreLanguages: string;
-            /** [plain] Tip on the button that hides the language search field */
-            fewerLanguages: string;
             /** [plain] Label on the picker that says what language the message being written is in */
             writingIn: string;
             /** [plain] Label on the spinner shown while messages are being translated */
@@ -1223,30 +1219,50 @@ type UITexts = {
             /** The chat message input field */
             message: FieldText;
         };
+        /** [plain] Shown above the add field while nobody has been added yet, saying what the tile is for */
+        prompt: string;
+        /** What each person in the project may do. These name a privilege, not a
+         *  kind of person, so they read both as a cell in the table of people
+         *  and as an option in the picker that changes one. */
         role: {
-            /** [plain] What to call the owner of a project */
+            /** [plain] The privilege of the person who owns the project */
             owner: string;
-            /** [plain] What to call collaborators */
-            collaborators: string;
-            /** [plain] What to call curators */
-            curators: string;
-            /** [plain] What to call commenters */
-            commenters: string;
-            /** [plain] What to call viewers */
-            viewers: string;
+            /** [plain] The privilege of someone who may edit the project and chat about it */
+            collaborate: string;
+            /** [plain] The privilege of someone who may chat about the project but not edit it */
+            comment: string;
+            /** [plain] The privilege of someone who may look at the project but not chat or edit */
+            view: string;
+            /** [plain] The privilege of a curator of the gallery the project is in, which the project's owner cannot change */
+            curate: string;
+        };
+        /** The table of everyone who can reach the project */
+        table: {
+            /** [plain] The accessible name of the table listing everyone who can reach the project */
+            label: string;
+            /** [plain] The accessible name of the picker that changes one person's privilege. $name is that person. */
+            choose: Template<['name']>;
+            /** [plain] The accessible name of the picker that chooses what a person being added may do */
+            adding: string;
+            /** [plain] The accessible name of the row of people, shown in place of the table while a message is being written, who can see the chat */
+            audience: string;
         };
         /** Buttons in the chat tile */
         button: {
             /** The chat send button */
             submit: ButtonText;
-            /** The start a chat button */
-            start: ButtonText;
             /** [plain] The message delete button */
             delete: string;
             /** [plain] Confirm deleting the message */
             confirmDelete: string;
-            /** The button that hands ownership of the project to a collaborator */
-            transfer: ConfirmText;
+            /** The button that hands ownership of the project to a collaborator.
+             *  Its `prompt` is the button's own label, so it stays short enough
+             *  not to stretch the row it sits in; what it costs you is said
+             *  beside it. */
+            transfer: ConfirmText & {
+                /** [plain] What the owner gives up by handing the project over */
+                consequence: string;
+            };
         };
         /** Dialog for chat moderation */
         moderation: HeaderAndExplanationText & {
@@ -1275,28 +1291,19 @@ type UITexts = {
             /** [formatted] Shown next to the ownership transfer control when the project is in a gallery, since gallery membership doesn't follow the project to its new owner */
             transferGallery: FormattedText;
         };
-        /** Announcements made as collaboration changes */
+        /** Announcements made as collaboration changes. Each names the person,
+         *  since an announcement that reads the same twice running is heard
+         *  once and then sounds broken. */
         announce: {
             /** [plain] Said when the project is handed to a new owner */
             transferred: Template<['name', 'project']>;
-        };
-        /** Messages to explain the purpose of the chat to each kind of participant */
-        prompt: {
-            /** [plain] Shown when the user is the only participant; invites them to add collaborators */
-            solo: string;
-            /** [plain] Shown to the project owner; describes what collaborators and commenters can do */
-            owner: string;
-            /** [plain] Shown to collaborators; describes their editing and chat permissions */
-            collaborator: string;
-            /** [plain] Shown to gallery curators; describes their editing and chat permissions */
-            curator: string;
-            /** [plain] Shown to commenters; describes their chat-only permissions */
-            commenter: string;
+            /** [plain] Said when someone's privilege changes. $name is that person, $privilege what they may now do. */
+            privilege: Template<['name', 'privilege']>;
+            /** [plain] Said when someone is taken off the project. $name is that person. */
+            removed: Template<['name']>;
         };
         /** Controls for restricting project visibility when it is in a gallery */
         restrictGalleryCreatorAccess: {
-            /** [formatted] Explains that the project is in a gallery and describes the visibility restriction option */
-            explanation: FormattedText;
             /** The toggle mode for restricting project visibility to owner and curators only */
             mode: ModeText<[string, string]>;
         };
@@ -1306,12 +1313,10 @@ type UITexts = {
             launch: string;
             /** [formatted] Markup describing the collaborate panel */
             collaborate: FormattedText;
-            /** [formatted] Markup describing the collaborators field */
+            /** [formatted] Markup describing the table of people and what each privilege means */
             collaborators: FormattedText;
-            /** [formatted] Markup describing the commenters field */
-            commenters: FormattedText;
-            /** [formatted] Markup describing the viewers field */
-            viewers: FormattedText;
+            /** [formatted] Markup describing the field that adds someone to the project */
+            add: FormattedText;
             /** [formatted] Markup describing the restrict-gallery toggle */
             restrict: FormattedText;
         };

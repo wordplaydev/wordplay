@@ -1943,7 +1943,7 @@
             "name": "$~taper de table",
             "description": "$~table",
             "emotion": "angry",
-            "doc": "$~Je représente une Table.",
+            "doc": "$~Je représente un @Table.",
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~type de colonne manquant",
@@ -7995,7 +7995,7 @@
                 },
                 "field": {
                     "emailOrUsername": {
-                        "placeholder": "$~email ou nom d'utilisateur",
+                        "placeholder": "$~e-mail/nom d'utilisateur",
                         "description": "$~e-mail ou nom d'utilisateur de la personne à qui vous souhaitez donner l'accès en modification"
                     },
                     "preview": {
@@ -9847,10 +9847,10 @@
             "label": "$~collaborer",
             "role": {
                 "owner": "$~propriétaire",
-                "collaborators": "$~collaborateurs (modifier et discuter)",
-                "curators": "$~conservateurs",
-                "commenters": "$~commentateurs (discuter seulement)",
-                "viewers": "$~téléspectateurs"
+                "collaborate": "$~collaborer",
+                "comment": "$~commenter",
+                "view": "$~voir",
+                "curate": "$~organiser"
             },
             "field": {
                 "message": {
@@ -9863,15 +9863,12 @@
                     "label": "$~Envoyer",
                     "tip": "$~envoyer un message à tes collaborateurs et"
                 },
-                "start": {
-                    "label": "$~Démarrer une discussion",
-                    "tip": "$~commencer une discussion avec toi-même ou avec d'autres."
-                },
                 "delete": "$~supprimer ce message",
                 "confirmDelete": "$~confirmer la suppression ?",
                 "transfer": {
                     "description": "$~faire de cette personne le propriétaire du projet",
-                    "prompt": "$~Faire d'elle le propriétaire ? Tu resteras collaborateur et pourras continuer à modifier le projet, mais tu ne pourras plus le supprimer."
+                    "prompt": "$~En faire le propriétaire ?",
+                    "consequence": "$~Tu resteras collaborateur et pourras continuer à modifier, mais tu ne pourras plus supprimer ce projet."
                 }
             },
             "error": {
@@ -9880,13 +9877,6 @@
                 "empty": "$~Aucun message.",
                 "deleted": "$~Ce message a été supprimé.",
                 "transferGallery": "$~Ce projet se trouve dans une galerie. Le donner à quelqu'un d'autre ne l'ajoute pas à cette galerie, donc cette personne pourrait ne pas pouvoir l'y voir."
-            },
-            "prompt": {
-                "solo": "$~Discute avec toi-même ou ajoute...",
-                "owner": "$~Les collaborateurs peuvent modifier ce projet et en discuter. Les commentateurs peuvent discuter mais ne peuvent pas modifier ce projet. Les spectateurs peuvent voir ce projet mais ne peuvent pas discuter.",
-                "collaborator": "$~Vous êtes un collaborateur. Vous pouvez éditer ce projet et en discuter.",
-                "curator": "$~Tu es un conservateur de la galerie de ce projet. Tu peux modifier ce projet et en discuter. Seuls le propriétaire du projet, les collaborateurs et les commentateurs peuvent voir la discussion.",
-                "commenter": "$~Vous êtes un commentateur. Vous pouvez discuter de ce projet, mais vous ne pouvez pas le modifier."
             },
             "moderation": {
                 "header": "$~Signaler ce message",
@@ -9904,7 +9894,6 @@
                 "inGallery": "$~Cette discussion se déroule dans une galerie. Elle est soumise à la modération des responsables de la galerie. Vous pouvez signaler les messages qui enfreignent nos <normes communautaires@://droits> pour modération."
             },
             "restrictGalleryCreatorAccess": {
-                "explanation": "$~Votre projet est exposé dans une galerie. Par défaut, toute personne ayant accès à cette galerie peut voir votre projet. Vous pouvez limiter l'accès à votre projet à vous-même et aux conservateurs de la galerie.",
                 "mode": {
                     "label": "$~restreindre l'accès au projet",
                     "labels": ["$~ne pas restreindre", "$~limiter"],
@@ -9916,11 +9905,10 @@
             },
             "tour": {
                 "launch": "$~faire un tour d'horizon de la collaboration",
-                "collaborate": "$~Les projets peuvent être partagés avec d'autres personnes, et vous pouvez discuter avec toutes les personnes avec lesquelles le projet est partagé directement ici.",
-                "collaborators": "$~Les collaborateurs peuvent modifier le projet et en discuter avec vous.",
-                "commenters": "$~Les commentateurs peuvent discuter du projet avec vous, mais ils ne peuvent pas le modifier.",
-                "viewers": "$~Les /Viewers/ peuvent *voir* le projet et son *code*, mais ils ne peuvent ni le *discuter* ni le *modifier*.",
-                "restrict": "$~Lorsqu'un projet est dans une galerie, par défaut, toute personne ayant accès à la galerie peut le voir. L'option /restrict/ le masque à tous, sauf à vous et aux responsables de la galerie."
+                "collaborate": "$~Toutes les personnes qui peuvent accéder à ce projet sont listées ici, et tu peux *discuter* avec celles qui en ont le droit. Seuls le /propriétaire/, les /collaborateurs/ et les /commentateurs/ peuvent voir la discussion.",
+                "collaborators": "$~Chaque personne a un seul /privilège/. *Collaborer* veut dire qu'elle peut modifier le projet et discuter à son sujet. *Commenter* veut dire qu'elle peut discuter mais pas modifier. *Voir* veut dire qu'elle peut regarder mais pas discuter. *Propriétaire* lui donne le projet. Les /organisateurs/ d'une galerie peuvent toujours y accéder, donc tu ne peux pas changer leur statut.",
+                "restrict": "$~Lorsqu'un projet est dans une galerie, par défaut, toute personne ayant accès à la galerie peut le voir. L'option /restrict/ le masque à tous, sauf à vous et aux responsables de la galerie.",
+                "add": "$~Tape l'*e-mail* ou le *nom d'utilisateur* de quelqu'un, choisis ce qu'il peut faire, et il rejoindra la liste."
             },
             "translate": {
                 "label": "$~Traduire les messages en",
@@ -9929,8 +9917,6 @@
                 "messageError": "$~Nous n'avons pas pu traduire ce message.",
                 "direction": "$from → $to",
                 "messageErrors": "$~$#count[Nous n'avons pas pu traduire $#count message.|Nous n'avons pas pu traduire $count millions de messages.|Nous n'avons pas pu traduire $count messages.]",
-                "moreLanguages": "$~Trouver une autre langue",
-                "fewerLanguages": "$~Masquer la recherche de langue",
                 "translating": "$~Traduction des messages en cours…",
                 "translated": "$~$#count[$count message traduit en $language.|$count millions de messages traduits en $language.|$count messages traduits en $language.]",
                 "writingIn": "$~J'écris en",
@@ -9941,8 +9927,17 @@
                 "nothing": "$~Il n'y a rien ici à traduire en $to. Nous ne traduisons jamais tes propres messages."
             },
             "announce": {
-                "transferred": "$~$name est maintenant le propriétaire de $project"
-            }
+                "transferred": "$~$name est maintenant le propriétaire de $project",
+                "privilege": "$~$name peut maintenant $privilege",
+                "removed": "$~$name ne peut plus accéder à ce projet"
+            },
+            "table": {
+                "label": "$~qui peut accéder à ce projet",
+                "choose": "$~ce que $name peut faire",
+                "adding": "$~ce qu'elle peut faire",
+                "audience": "$~qui peut voir cette discussion"
+            },
+            "prompt": "$~Ajouter des collaborateurs, des commentateurs et des visiteurs"
         },
         "checkpoints": {
             "label": {
