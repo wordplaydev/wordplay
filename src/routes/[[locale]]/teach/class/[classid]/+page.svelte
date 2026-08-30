@@ -109,6 +109,7 @@
 
     <!-- Show all the teachers and allow them to be added and removed. -->
     <CreatorList
+        id="teacher-to-add"
         uids={classData.teachers}
         add={(uid) =>
             classData.teachers.includes(uid)
@@ -123,6 +124,7 @@
     <Subheader text={(l) => l.ui.page.class.subheader.students} />
 
     <CreatorList
+        id="student-to-add"
         uids={classData.learners}
         add={(uid, username) =>
             classData.learners.includes(uid)

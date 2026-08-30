@@ -1,19 +1,11 @@
-<!-- 
- This chat component enables communication between project collaborators and owners of the gallery that a project is in. 
+<!--
+ This chat component enables communication between project collaborators and owners of the gallery that a project is in.
  -->
 <script lang="ts">
     import ChatView from '@components/app/chat/ChatView.svelte';
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import {
-        getAnnouncer,
-        getUser,
-        isAuthenticated,
-    } from '@components/project/Contexts';
-    import CreatorList from '@components/project/CreatorList.svelte';
+    import Collaborators from '@components/project/Collaborators.svelte';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import TileMessage from '@components/project/TileMessage.svelte';
-    import Labeled from '@components/widgets/Labeled.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
@@ -59,37 +51,14 @@
         ).then((map) => (creators = map));
     });
 
-    const announce = getAnnouncer();
-
-    /** Hand the project to a collaborator, and say who has it now. The
-     *  announcement names both the person and the project, so a second
-     *  transfer never reads identically to the first — a constant string is
-     *  heard once and then silent. */
-    async function transferOwnership(userID: string) {
-        Projects.reviseProject(project.withOwnerTransferredTo(userID));
-        const creator = await Creators.getCreator(userID);
-        if (announce && $announce)
-            $announce(
-                'collaborator',
-                $locales.getLanguages()[0],
-                $locales
-                    .concretize((l) => l.ui.collaborate.announce.transferred, {
-                        name: creator?.getUsername(false) ?? userID,
-                        project: project.getName(),
-                    })
-                    .toText(),
-            );
-    }
-
     let editable = $derived(
         isAuthenticated($user) && project.getOwner() === $user.uid,
     );
-    let collaborator = $derived(
-        isAuthenticated($user) && project.hasCollaborator($user.uid),
-    );
-    let commenter = $derived(
-        isAuthenticated($user) && project.hasCommenter($user.uid),
-    );
+
+    /** Whether someone is writing a message. Held here rather than in either
+     *  child because it is what the two of them share: the composer reports it
+     *  and the people above the conversation act on it. */
+    let composing = $state(false);
 </script>
 
 {#if owner === null}
@@ -102,145 +71,30 @@
         data-uiid="collaborate"
         aria-label={$locales.getPrimaryPlainText((l) => l.ui.collaborate.label)}
     >
-        <div class="header">
-            <MarkupHTMLView
-                markup={editable
-                    ? project.getCollaborators().length === 0
-                        ? (l) => l.ui.collaborate.prompt.solo
-                        : (l) => l.ui.collaborate.prompt.owner
-                    : collaborator
-                      ? (l) => l.ui.collaborate.prompt.collaborator
-                      : commenter
-                        ? (l) => l.ui.collaborate.prompt.commenter
-                        : (l) => l.ui.collaborate.prompt.curator}
-            ></MarkupHTMLView>
+        <Collaborators {project} {gallery} {editable} collapsed={composing} />
 
-            <!-- If not the owner, show it -->
-            {#if isAuthenticated($user) && owner !== $user.uid}
-                <Labeled label={(l) => l.ui.collaborate.role.owner}>
-                    <CreatorView
-                        chrome
-                        anonymize={false}
-                        creator={creators[owner]}
-                    />
-                </Labeled>
-            {/if}
+        <!-- Allow the owner to restrict access to non-curators -->
+        {#if gallery && editable}
+            <span data-uiid="restrictGallery">
+                <Mode
+                    modes={(l) =>
+                        l.ui.collaborate.restrictGalleryCreatorAccess.mode}
+                    choice={project.getRestrictedGallery() ? 1 : 0}
+                    select={(index) =>
+                        Projects.reviseProject(
+                            project.withRestrictedGallery(index === 1),
+                        )}
+                />
+            </span>
+        {/if}
 
-            <!-- Show all of the collaborators -->
-            {#if owner == $user?.uid || project.getCollaborators().length > 0}
-                <div data-uiid="collaborators">
-                    <Labeled label={(l) => l.ui.collaborate.role.collaborators}>
-                        <CreatorList
-                            anonymize={false}
-                            uids={project.getCollaborators()}
-                            {editable}
-                            add={(userID) =>
-                                Projects.reviseProject(
-                                    project.withCollaborator(userID),
-                                )}
-                            remove={(userID) =>
-                                Projects.reviseProject(
-                                    project.withoutCollaborator(userID),
-                                )}
-                            removable={() => true}
-                            transfer={(userID) => transferOwnership(userID)}
-                            transferable={() => true}
-                        />
-                        <!-- Gallery membership doesn't follow a project to its
-                             new owner, and silently adding them to someone
-                             else's gallery isn't ours to do — so say so
-                             instead. -->
-                        {#if galleryID !== null}
-                            <Notice
-                                text={(l) =>
-                                    l.ui.collaborate.error.transferGallery}
-                            />
-                        {/if}
-                    </Labeled>
-                </div>
-            {/if}
-
-            <!-- Show all of the commenters -->
-            {#if owner === $user?.uid || project.getCommenters().length > 0}
-                <div data-uiid="commenters">
-                    <Labeled label={(l) => l.ui.collaborate.role.commenters}>
-                        <CreatorList
-                            anonymize={false}
-                            uids={project.getCommenters()}
-                            {editable}
-                            add={(userID) =>
-                                Projects.reviseProject(
-                                    project.withCommenter(userID),
-                                )}
-                            remove={(userID) =>
-                                Projects.reviseProject(
-                                    project.withoutCommenter(userID),
-                                )}
-                            removable={() => true}
-                        />
-                    </Labeled>
-                </div>
-            {/if}
-
-            <!-- Show all of the viewers -->
-            {#if owner === $user?.uid || project.getViewers().length > 0}
-                <div data-uiid="viewers">
-                    <Labeled label={(l) => l.ui.collaborate.role.viewers}>
-                        <CreatorList
-                            anonymize={false}
-                            uids={project.getViewers()}
-                            {editable}
-                            add={(userID) =>
-                                Projects.reviseProject(
-                                    project.withViewer(userID),
-                                )}
-                            remove={(userID) =>
-                                Projects.reviseProject(
-                                    project.withoutViewer(userID),
-                                )}
-                            removable={() => true}
-                        />
-                    </Labeled>
-                </div>
-            {/if}
-
-            {#if gallery}
-                {#if owner === $user?.uid}
-                    <MarkupHTMLView
-                        markup={(l) =>
-                            l.ui.collaborate.restrictGalleryCreatorAccess
-                                .explanation}
-                    />
-                {/if}
-
-                <!-- Show the curators, if in a gallery -->
-                <Labeled label={(l) => l.ui.collaborate.role.curators}>
-                    <CreatorList
-                        anonymize={false}
-                        editable={false}
-                        uids={gallery.getCurators()}
-                    />
-                </Labeled>
-
-                <!-- Allow user to restrict access to non-curators -->
-                {#if owner === $user?.uid}
-                    <span data-uiid="restrictGallery">
-                        <Mode
-                            modes={(l) =>
-                                l.ui.collaborate.restrictGalleryCreatorAccess
-                                    .mode}
-                            choice={project.getRestrictedGallery() ? 1 : 0}
-                            select={(index) =>
-                                Projects.reviseProject(
-                                    project.withRestrictedGallery(index === 1),
-                                )}
-                        />
-                    </span>
-                {/if}
-            {/if}
-        </div>
-
-        <ChatView {chat} {creators} {galleryID} {project} />
+        <ChatView
+            {chat}
+            {creators}
+            {galleryID}
+            {project}
+            composing={(writing) => (composing = writing)}
+        />
     </section>
 {/if}
 
@@ -252,22 +106,5 @@
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         container-type: size;
-    }
-
-    .header {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        flex-shrink: 0;
-    }
-
-    @container (orientation: landscape) {
-        .header {
-            flex-direction: row;
-            flex-wrap: wrap;
-            align-items: baseline;
-            row-gap: 0;
-            column-gap: var(--wordplay-spacing);
-        }
     }
 </style>

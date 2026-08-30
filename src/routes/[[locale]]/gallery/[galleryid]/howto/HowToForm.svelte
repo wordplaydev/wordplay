@@ -777,20 +777,22 @@
                             l.ui.howto.editor.collaborators.explanation}
                     ></MarkupHTMLView>
 
-                    <Labeled label={(l) => l.ui.collaborate.role.collaborators}>
-                        <CreatorList
-                            anonymize={false}
-                            uids={allCollaborators}
-                            editable={true}
-                            add={(userID) => {
-                                updateCollaborators(userID, true);
-                            }}
-                            remove={(userID) => {
-                                updateCollaborators(userID, false);
-                            }}
-                            removable={(uid) => uid !== howTo?.getCreator()}
-                        />
-                    </Labeled>
+                    <!-- No label of its own: the subheader above already names
+                         this list, and the project privilege word it borrowed
+                         is about projects, not how-tos. -->
+                    <CreatorList
+                        id="howto-collaborator-to-add"
+                        anonymize={false}
+                        uids={allCollaborators}
+                        editable={true}
+                        add={(userID) => {
+                            updateCollaborators(userID, true);
+                        }}
+                        remove={(userID) => {
+                            updateCollaborators(userID, false);
+                        }}
+                        removable={(uid) => uid !== howTo?.getCreator()}
+                    />
                 </div>
             {/if}
             {#if accessToggle}

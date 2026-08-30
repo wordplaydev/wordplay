@@ -304,6 +304,7 @@
                     sub
                 />
                 <CreatorList
+                    id="curator-to-add"
                     uids={gallery.getCurators()}
                     anonymize={!editable}
                     {editable}
@@ -331,6 +332,7 @@
                     sub
                 />
                 <CreatorList
+                    id="creator-to-add"
                     anonymize={!editable}
                     uids={gallery.getCreators()}
                     {editable}
