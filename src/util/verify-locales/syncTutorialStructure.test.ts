@@ -335,6 +335,113 @@ test('align keeps both sides when neither is a subsequence of the other', () => 
     ]);
 });
 
+// ── Paragraphs within a line ─────────────────────────────────────────────────
+
+/**
+ * A dialog line's paragraph count is the one thing the line-level merge can't
+ * see: `lineSignature` is character and emotion, so a line that grew a
+ * paragraph still aligns, and the paragraph is never inserted or reported. That
+ * left 23 locales without the paragraph defining "stage" for as long as it had
+ * existed.
+ */
+describe('paragraphs within an aligned line', () => {
+    /** A line whose paragraphs are told apart by their concept references —
+     *  the one signal a translation preserves. */
+    const source = tutorial([
+        act('One', [
+            scene('A', 'Program', [
+                dialog(
+                    'Program',
+                    'kind',
+                    'the @editor paragraph',
+                    'the @stage paragraph',
+                    'a closing paragraph',
+                ),
+            ]),
+        ]),
+    ]);
+
+    function targetWith(...text: string[]): Tutorial {
+        return tutorial([
+            act('One', [
+                scene('«A»', 'Program', [dialog('Program', 'kind', ...text)]),
+            ]),
+        ]);
+    }
+
+    test('a paragraph en-US appended is appended here, unwritten', () => {
+        const { tutorial: synced, report } = sync(
+            source,
+            targetWith('«the @editor paragraph»', '«the @stage paragraph»'),
+        );
+        expect(synced.acts[0].scenes[0].lines[0]).toEqual([
+            'Program',
+            'kind',
+            '«the @editor paragraph»',
+            '«the @stage paragraph»',
+            Unwritten,
+        ]);
+        expect(report.padded).toHaveLength(1);
+        expect(report.padded[0].strings).toBe(1);
+        // Not folded into `inserted`: the shipped-tutorial tests below assert
+        // that bucket is empty, and a paragraph is not a missing line.
+        expect(report.inserted).toHaveLength(0);
+    });
+
+    test('punctuation after a reference does not defeat the match', () => {
+        // A translator ends the sentence in their own script; the reference is
+        // the same reference.
+        const { report } = sync(
+            source,
+            targetWith('「@editor。」', '「@stage、」'),
+        );
+        expect(report.padded).toHaveLength(1);
+        expect(report.unpaired).toHaveLength(0);
+    });
+
+    test('a paragraph en-US inserted in the middle is reported, not appended', () => {
+        // This locale has the first and *last* paragraphs: appending would put
+        // the placeholder after a paragraph that already translates the one it
+        // stands for, and `translateTutorial` resolves English by position, so
+        // every survivor would stay wrong.
+        const { tutorial: synced, report } = sync(
+            source,
+            targetWith('«the @editor paragraph»', '«a closing paragraph»'),
+        );
+        expect(synced.acts[0].scenes[0].lines[0]).toHaveLength(4);
+        expect(report.padded).toHaveLength(0);
+        expect(report.unpaired).toEqual([
+            expect.objectContaining({ kind: 'line', source: 3, target: 2 }),
+        ]);
+    });
+
+    test('a paragraph this locale has and en-US does not is reported, never deleted', () => {
+        const { tutorial: synced, report } = sync(
+            source,
+            targetWith(
+                '«the @editor paragraph»',
+                '«the @stage paragraph»',
+                '«a closing paragraph»',
+                '«one of our own»',
+            ),
+        );
+        expect(synced.acts[0].scenes[0].lines[0]).toHaveLength(6);
+        expect(report.unpaired).toEqual([
+            expect.objectContaining({ source: 3, target: 4 }),
+        ]);
+    });
+
+    test('padding is idempotent', () => {
+        const once = sync(
+            source,
+            targetWith('«the @editor paragraph»', '«the @stage paragraph»'),
+        ).tutorial;
+        const twice = sync(source, once);
+        expect(twice.tutorial).toEqual(once);
+        expect(isEmptyReport(twice.report)).toBe(true);
+    });
+});
+
 // ── The regression net ───────────────────────────────────────────────────────
 
 /**

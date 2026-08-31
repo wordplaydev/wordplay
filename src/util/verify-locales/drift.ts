@@ -27,6 +27,8 @@ import {
 } from '@util/verify-locales/classifyLocalePath';
 import type LocalePath from '@util/verify-locales/LocalePath';
 import { getLocalePath } from '@util/verify-locales/LocaleSchema';
+import { getTutorialPath } from '@util/verify-locales/TutorialSchema';
+import { TutorialModes, type TutorialMode } from '../../tutorial/TutorialMode';
 import type Log from '@util/verify-locales/Log';
 import { getCheckableLocalePairs } from '@util/verify-locales/verifyLocale';
 import { mismatchedConceptLinks } from '@util/verify-locales/protect';
@@ -525,19 +527,42 @@ export function readJSON<T = Record<string, unknown>>(
     }
 }
 
-/** The tutorial file for a locale, which unlike the locale file lives under
- *  static/locales for en-US too. */
-export function getTutorialPath(locale: string): string {
-    return `static/locales/${locale}/${locale}-tutorial.json`;
+/**
+ * One tutorial mode's en-US document and the path kinds derived from it.
+ *
+ * There is one of these per mode rather than one merged map, because the two
+ * tutorials are different documents whose path ids collide:
+ * `acts.0.scenes.0.lines.0.2` exists in both and means different text. Merging
+ * them would resolve a `LocalePath` against the wrong file.
+ */
+export type TutorialSource = {
+    mode: TutorialMode;
+    source: Record<string, unknown>;
+    kinds: Map<string, { kind: LocaleStringKind; pair: LocalePath }>;
+};
+
+/** Read every tutorial mode's en-US document and classify its paths. A mode
+ *  whose file is missing is skipped rather than failing the run. */
+export function getTutorialSources(): TutorialSource[] {
+    const sources: TutorialSource[] = [];
+    for (const mode of TutorialModes) {
+        const source = readJSON<Tutorial>(getTutorialPath('en-US', mode));
+        if (source === undefined) continue;
+        sources.push({
+            mode,
+            source: source as unknown as Record<string, unknown>,
+            kinds: getTranslatableTutorialPathKinds(source),
+        });
+    }
+    return sources;
 }
 
-/** Run the census for one locale across its locale and tutorial files. */
+/** Run the census for one locale across its locale file and every tutorial mode. */
 export function censusLocale(
     locale: string,
     localeKinds: Map<string, { kind: LocaleStringKind; pair: LocalePath }>,
-    tutorialKinds: Map<string, { kind: LocaleStringKind; pair: LocalePath }>,
+    tutorials: TutorialSource[],
     sourceLocale: Record<string, unknown>,
-    sourceTutorial: Record<string, unknown>,
 ): Stale[] {
     const stale: Stale[] = [];
     const localeText = readJSON(getLocalePath(locale));
@@ -552,18 +577,20 @@ export function censusLocale(
                 localeText,
             ),
         );
-    const tutorialText = readJSON(getTutorialPath(locale));
-    if (tutorialText !== undefined)
+    for (const { mode, source, kinds } of tutorials) {
+        const tutorialText = readJSON(getTutorialPath(locale, mode));
+        if (tutorialText === undefined) continue;
         stale.push(
             ...compareFile(
                 locale,
-                getTutorialPath('en-US'),
-                getTutorialPath(locale),
-                tutorialKinds,
-                sourceTutorial,
+                getTutorialPath('en-US', mode),
+                getTutorialPath(locale, mode),
+                kinds,
+                source,
                 tutorialText,
             ),
         );
+    }
     return stale;
 }
 

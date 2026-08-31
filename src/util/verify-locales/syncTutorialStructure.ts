@@ -84,6 +84,19 @@ export type SyncReport = {
     /** Performances and pauses en-US no longer has: removed, since they hold
      * no translated text and leaving them behind breaks the lesson. */
     dropped: (SyncChange & { kind: 'line' })[];
+    /** Paragraphs appended to a dialog line that en-US has grown, marked `$?`.
+     * Kept out of `inserted` on purpose: the shipped-tutorial tests assert that
+     * bucket is empty everywhere, and a paragraph is a different kind of gap
+     * from a missing line. */
+    padded: (SyncChange & { kind: 'line'; strings: number })[];
+    /** Dialog lines whose paragraph counts disagree in a way the sync won't
+     * touch: a paragraph inserted into the middle of an en-US line, or one this
+     * locale has and en-US doesn't. Reported for a person, never applied. */
+    unpaired: (SyncChange & {
+        kind: 'line';
+        source: number;
+        target: number;
+    })[];
     /** Strings that gained `$!` because en-US's changed. */
     revised: SyncChange[];
     /** Translated strings left exactly as they were. */
@@ -100,6 +113,8 @@ export function isEmptyReport(report: SyncReport): boolean {
         report.inserted.length === 0 &&
         report.removed.length === 0 &&
         report.dropped.length === 0 &&
+        report.padded.length === 0 &&
+        report.unpaired.length === 0 &&
         report.revised.length === 0
     );
 }
@@ -255,6 +270,46 @@ function dialogText(line: Line): string[] | undefined {
 }
 
 /**
+ * What a paragraph and its translation still have in common.
+ *
+ * Paragraph text is translated, so it can't be compared directly — but concept
+ * references (`@Phrase`, `@UI/editor`) are masked and restored around
+ * translation, and `\…\` example code is never translated at all. Their order
+ * is therefore the one durable signal that two paragraphs are the same
+ * paragraph. A paragraph with neither fingerprints empty, which matches any
+ * other empty one: the right reading when a line simply grew a tail, and the
+ * reason a real signal is what has to disagree before we refuse.
+ */
+function paragraphFingerprint(text: string): string {
+    return (
+        text
+            .match(/@[A-Za-z][\w/.-]*|\\[^\\]*\\/g)
+            // A reference can end a sentence, and the punctuation that follows
+            // is the translator's, not the reference's — `@editor.` and
+            // `@editor。` are the same reference.
+            ?.map((match) => match.replace(/[.-]+$/, ''))
+            .join('\u0000') ?? ''
+    );
+}
+
+/**
+ * Whether the target's paragraphs are the source's first few, in order.
+ *
+ * This is what separates a line that grew a tail — safe to pad — from one that
+ * gained a paragraph in the middle, where appending would be actively wrong:
+ * `translateTutorial` resolves each paragraph's English by position, so a
+ * placeholder appended after shifted survivors would translate the wrong
+ * sentence and leave the shifted ones wrong too.
+ */
+function isCleanPrefix(source: string[], target: string[]): boolean {
+    return target.every(
+        (text, index) =>
+            paragraphFingerprint(text) ===
+            paragraphFingerprint(source[index] ?? ''),
+    );
+}
+
+/**
  * Mark a translated string in an inserted node unwritten, so a later
  * translation run picks it up and `npm run locales` says so until it does.
  *
@@ -334,6 +389,8 @@ export function syncTutorialStructure(
         inserted: [],
         removed: [],
         dropped: [],
+        padded: [],
+        unpaired: [],
         revised: [],
         aligned: 0,
     };
@@ -349,6 +406,52 @@ export function syncTutorialStructure(
         if (marked === undefined) return targetText;
         report.revised.push(where);
         return marked;
+    }
+
+    /**
+     * Reconcile how many paragraphs a kept dialog line has.
+     *
+     * Nothing else does: the loop above walks the *target's* paragraphs, so a
+     * paragraph en-US grew is never visited and one the locale has spare is
+     * skipped, both in silence. That is how 23 locales went without the
+     * paragraph defining "stage".
+     */
+    function syncParagraphs(
+        dialog: Dialog,
+        sourceText: string[],
+        where: SyncChange,
+    ): void {
+        const targetText = dialog.slice(2);
+        if (targetText.length === sourceText.length) return;
+        const unpaired = {
+            ...where,
+            kind: 'line' as const,
+            source: sourceText.length,
+            target: targetText.length,
+        };
+        // More here than en-US has: somebody's writing, so it is reported and
+        // kept, the same choice the merge makes for a whole line.
+        if (targetText.length > sourceText.length) {
+            report.unpaired.push(unpaired);
+            return;
+        }
+        // Short, but the paragraphs it has are en-US's first few: append the
+        // rest, unwritten, and a translation run fills them from the source.
+        if (isCleanPrefix(sourceText, targetText)) {
+            for (
+                let index = targetText.length;
+                index < sourceText.length;
+                index++
+            )
+                dialog.push(markUnwritten());
+            report.padded.push({
+                ...where,
+                kind: 'line',
+                strings: sourceText.length - targetText.length,
+            });
+            return;
+        }
+        report.unpaired.push(unpaired);
     }
 
     function syncLines(
@@ -408,6 +511,12 @@ export function syncTutorialStructure(
                             label: describeLine(step.source),
                         });
                     }
+                    syncParagraphs(dialog, sourceText, {
+                        act,
+                        scene,
+                        line,
+                        label: describeLine(step.source),
+                    });
                 }
                 lines.push(targetLine);
             }
@@ -538,6 +647,14 @@ export function describeReport(report: SyncReport): string[] {
     for (const change of report.removed)
         lines.push(
             `− ${position(change)} "${withoutAnnotations(change.label)}" — here, absent in en-US: NOT removed`,
+        );
+    for (const change of report.padded)
+        lines.push(
+            `+ ${position(change)} "${withoutAnnotations(change.label)}" — ${change.strings} paragraph(s) en-US added, marked ${Unwritten}`,
+        );
+    for (const change of report.unpaired)
+        lines.push(
+            `? ${position(change)} "${withoutAnnotations(change.label)}" — ${change.target} paragraph(s) here against en-US's ${change.source}, and they don't line up: reconcile by hand`,
         );
     return lines;
 }

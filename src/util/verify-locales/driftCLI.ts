@@ -24,7 +24,6 @@ import Log from '@util/verify-locales/Log';
 import { getLocalePath } from '@util/verify-locales/LocaleSchema';
 import type LocaleText from '@locale/LocaleText';
 import writeFormatted from '@util/verify-locales/writeFormatted';
-import type Tutorial from '../../tutorial/Tutorial';
 import {
     censusLocale,
     changedBetween,
@@ -32,15 +31,15 @@ import {
     findLostConceptLinks,
     describe,
     getCheckablePathKinds,
-    getTranslatableTutorialPathKinds,
     getTranslatedLocales,
-    getTutorialPath,
+    getTutorialSources,
     isMarkable,
     markStale,
     readJSON,
     summarize,
     type Stale,
 } from '@util/verify-locales/drift';
+import { getTutorialPath } from '@util/verify-locales/TutorialSchema';
 
 async function run(): Promise<void> {
     // Annotated because TS only narrows past a `never`-returning call when the
@@ -73,12 +72,35 @@ async function run(): Promise<void> {
     if (locales.length === 0) log.exit('No locales to check.');
 
     const sourceLocale = readJSON<LocaleText>(getLocalePath('en-US'));
-    const sourceTutorial = readJSON<Tutorial>(getTutorialPath('en-US'));
-    if (sourceLocale === undefined || sourceTutorial === undefined)
+    // One entry per tutorial mode: the two tutorials are different documents
+    // whose path ids collide, so their kinds maps must never be merged.
+    const tutorials = getTutorialSources();
+    if (sourceLocale === undefined || tutorials.length === 0)
         log.exit('Could not read the en-US locale or tutorial.');
 
     const localeKinds = getCheckablePathKinds(sourceLocale);
-    const tutorialKinds = getTranslatableTutorialPathKinds(sourceTutorial);
+
+    /** The en-US source, the locale's file, and the matching kinds map, for the
+     *  locale file and for every tutorial mode. */
+    function filesFor(locale: string) {
+        return [
+            [
+                getLocalePath('en-US'),
+                getLocalePath(locale),
+                localeKinds,
+                sourceLocale as unknown as Record<string, unknown>,
+            ] as const,
+            ...tutorials.map(
+                ({ mode, source, kinds }) =>
+                    [
+                        getTutorialPath('en-US', mode),
+                        getTutorialPath(locale, mode),
+                        kinds,
+                        source,
+                    ] as const,
+            ),
+        ];
+    }
 
     // Lost `@Concept` links: a different failure from drift, sharing all the
     // same machinery (path kinds, marking, writing), so it rides along here
@@ -86,20 +108,11 @@ async function run(): Promise<void> {
     if (args.includes('--links')) {
         const lost: Stale[] = [];
         for (const locale of locales)
-            for (const [file, kinds, source] of [
-                [getLocalePath(locale), localeKinds, sourceLocale],
-                [getTutorialPath(locale), tutorialKinds, sourceTutorial],
-            ] as const) {
+            for (const [, file, kinds, source] of filesFor(locale)) {
                 const text = readJSON(file);
                 if (text === undefined) continue;
                 lost.push(
-                    ...findLostConceptLinks(
-                        locale,
-                        file,
-                        kinds,
-                        source as unknown as Record<string, unknown>,
-                        text,
-                    ),
+                    ...findLostConceptLinks(locale, file, kinds, source, text),
                 );
             }
         if (lost.length === 0) {
@@ -119,10 +132,7 @@ async function run(): Promise<void> {
         }
         let marked = 0;
         for (const locale of locales)
-            for (const [file, kinds] of [
-                [getLocalePath(locale), localeKinds],
-                [getTutorialPath(locale), tutorialKinds],
-            ] as const) {
+            for (const [, file, kinds] of filesFor(locale)) {
                 const entries = lost.filter(
                     (e) => e.locale === locale && e.file === file,
                 );
@@ -154,22 +164,11 @@ async function run(): Promise<void> {
     if (sinceIndex >= 0) {
         const base = args[sinceIndex + 1];
         if (base === undefined) log.exit('--since needs a base ref.');
-        const introduced = locales.flatMap((locale) => [
-            ...driftSince(
-                base,
-                getLocalePath('en-US'),
-                getLocalePath(locale),
-                locale,
-                localeKinds,
+        const introduced = locales.flatMap((locale) =>
+            filesFor(locale).flatMap(([source, target, kinds]) =>
+                driftSince(base, source, target, locale, kinds),
             ),
-            ...driftSince(
-                base,
-                getTutorialPath('en-US'),
-                getTutorialPath(locale),
-                locale,
-                tutorialKinds,
-            ),
-        ]);
+        );
         const queueable = introduced.filter((entry) => entry.kind !== 'name');
         if (queueable.length === 0) {
             log.good(
@@ -198,12 +197,17 @@ async function run(): Promise<void> {
                 getLocalePath('en-US'),
                 localeKinds,
             ).map((change) => ({ ...change, file: 'en-US.json' })),
-            ...changedBetween(
-                'HEAD',
-                '',
-                getTutorialPath('en-US'),
-                tutorialKinds,
-            ).map((change) => ({ ...change, file: 'en-US-tutorial.json' })),
+            // Every mode, each labelled by its own file rather than a
+            // hardcoded name, so a staged quick tutorial says which it was.
+            ...tutorials.flatMap(({ mode, kinds }) => {
+                const file = getTutorialPath('en-US', mode);
+                return changedBetween('HEAD', '', file, kinds).map(
+                    (change) => ({
+                        ...change,
+                        file: file.slice(file.lastIndexOf('/') + 1),
+                    }),
+                );
+            }),
         ];
         if (changes.length === 0) return;
         const scope = log.warning(
@@ -229,9 +233,8 @@ async function run(): Promise<void> {
         const stale = censusLocale(
             locale,
             localeKinds,
-            tutorialKinds,
-            sourceLocale,
-            sourceTutorial,
+            tutorials,
+            sourceLocale as unknown as Record<string, unknown>,
         );
         all.push(...stale);
         const counts = summarize(stale);
@@ -286,10 +289,7 @@ async function run(): Promise<void> {
     // Group by file so each locale's JSON is read, marked, and written once.
     let marked = 0;
     for (const locale of locales) {
-        for (const [file, kinds] of [
-            [getLocalePath(locale), localeKinds],
-            [getTutorialPath(locale), tutorialKinds],
-        ] as const) {
+        for (const [, file, kinds] of filesFor(locale)) {
             const entries = markable.filter(
                 (entry) => entry.locale === locale && entry.file === file,
             );

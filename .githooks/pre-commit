@@ -26,6 +26,6 @@ fi
 # no history walk) and names what changed. A warning, not a gate: the fix is a
 # translation run, so blocking the commit would be the wrong shape.
 if git diff --cached --name-only |
-	grep -qE '^(src/locale/en-US\.json|static/locales/en-US/en-US-tutorial\.json)$'; then
+	grep -qE '^(src/locale/en-US\.json|static/locales/en-US/en-US-tutorial(-[a-z]+)?\.json)$'; then
 	npx tsx src/util/verify-locales/driftCLI.ts --staged || true
 fi

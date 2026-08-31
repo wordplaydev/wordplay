@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 import type Tutorial from '../../tutorial/Tutorial';
 import {
     DEFAULT_TUTORIAL_MODE,
@@ -16,18 +15,23 @@ export default TutorialSchema;
 
 /** Get a tutorial path from a locale name and mode. Mirrors the runtime filename convention in
  * LocalesDatabase.getTutorialURL: the default ("complete") mode keeps the original filename for
- * back-compat; other modes get a suffix (e.g. en-US-tutorial-quick.json). */
+ * back-compat; other modes get a suffix (e.g. en-US-tutorial-quick.json).
+ *
+ * Joined with `/` rather than `path.join`, because drift hands these paths to
+ * git (`git show <rev>:<path>`, `git log -- <path>`), which takes forward
+ * slashes on every platform and would find nothing given Windows separators.
+ * `fs` accepts forward slashes everywhere, so the readers are unaffected. */
 export function getTutorialPath(
     locale: string,
     mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
 ) {
     const suffix = mode === DEFAULT_TUTORIAL_MODE ? '' : `-${mode}`;
-    return path.join(
+    return [
         'static',
         'locales',
         locale,
         `${locale}-tutorial${suffix}.json`,
-    );
+    ].join('/');
 }
 
 /** Get the tutorial JSON for the given locale and mode. */

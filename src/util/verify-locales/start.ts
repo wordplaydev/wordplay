@@ -24,7 +24,7 @@ import {
     driftSince,
     getCheckablePathKinds,
     getDriftBase,
-    getTranslatableTutorialPathKinds,
+    getTutorialSources,
     markStale,
     readJSON,
     type Stale,
@@ -35,7 +35,6 @@ import {
     getTutorialJSON,
     getTutorialPath,
 } from '@util/verify-locales/TutorialSchema';
-import type Tutorial from '../../tutorial/Tutorial';
 import {
     describeReport,
     isEmptyReport,
@@ -589,28 +588,34 @@ if (FocalLocale === null) {
     const base = getDriftBase();
     if (base !== undefined && sourceLocaleText !== undefined) {
         const driftLog = log.scope('Drift from en-US');
-        const sourceTutorial = readJSON<Tutorial>(getTutorialPath('en-US'));
         const localeKinds = getCheckablePathKinds(sourceLocaleText);
-        const tutorialKinds =
-            sourceTutorial === undefined
-                ? new Map()
-                : getTranslatableTutorialPathKinds(sourceTutorial);
+        // Every tutorial mode, each with its own kinds map: the two tutorials
+        // are different documents whose path ids collide, so one merged map
+        // would resolve a path against the wrong file.
+        const tutorials = getTutorialSources();
+
+        /** The en-US source, the locale's file, and the matching kinds map. */
+        const filesFor = (locale: string) => [
+            [
+                getLocalePath(SourceLocale),
+                getLocalePath(locale),
+                localeKinds,
+            ] as const,
+            ...tutorials.map(
+                ({ mode, kinds }) =>
+                    [
+                        getTutorialPath(SourceLocale, mode),
+                        getTutorialPath(locale, mode),
+                        kinds,
+                    ] as const,
+            ),
+        ];
+
         const behind: Stale[] = [];
         for (const localeText of allLocaleText) {
             const locale = toLocaleString(localeText);
             if (locale === SourceLocale) continue;
-            for (const [source, target, kinds] of [
-                [
-                    getLocalePath(SourceLocale),
-                    getLocalePath(locale),
-                    localeKinds,
-                ],
-                [
-                    getTutorialPath(SourceLocale),
-                    getTutorialPath(locale),
-                    tutorialKinds,
-                ],
-            ] as const)
+            for (const [source, target, kinds] of filesFor(locale))
                 behind.push(
                     ...driftSince(base, source, target, locale, kinds).map(
                         (entry) => ({ ...entry }) as Stale,
@@ -627,10 +632,7 @@ if (FocalLocale === null) {
                 for (const localeText of allLocaleText) {
                     const locale = toLocaleString(localeText);
                     if (locale === SourceLocale) continue;
-                    for (const [file, kinds] of [
-                        [getLocalePath(locale), localeKinds],
-                        [getTutorialPath(locale), tutorialKinds],
-                    ] as const) {
+                    for (const [, file, kinds] of filesFor(locale)) {
                         const entries = queueable.filter(
                             (entry) =>
                                 entry.locale === locale && entry.file === file,

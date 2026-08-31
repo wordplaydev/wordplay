@@ -10,6 +10,8 @@ import checkStringArrays from '@util/verify-locales/checkStringArrays';
 import { collectingLog } from '@util/verify-locales/Log';
 import { getLocalePath } from '@util/verify-locales/LocaleSchema';
 import type Tutorial from '../../tutorial/Tutorial';
+import { TutorialModes } from '../../tutorial/TutorialMode';
+import { getTutorialPath } from '@util/verify-locales/TutorialSchema';
 import {
     changedBetween,
     driftSince,
@@ -577,5 +579,66 @@ describe('marking', () => {
         checkStringArrays(log, text, text, false);
         expect(log.errorCount).toBe(0);
         expect(text.output.Say.doc).toEqual([`${Revised}uno`, 'dos', 'tres']);
+    });
+});
+
+/**
+ * Drift used to define its own tutorial path that hardcoded `-tutorial.json`,
+ * so the quick tutorial was invisible to every drift path: reword a quick
+ * lesson in English and its 30 translations silently stayed behind — the exact
+ * failure drift exists to catch. These pin the two halves of the fix.
+ */
+describe('tutorial modes', () => {
+    test('every mode resolves to its own file', () => {
+        const paths = TutorialModes.map((mode) =>
+            getTutorialPath('xx-XX', mode),
+        );
+        expect(new Set(paths).size).toBe(TutorialModes.length);
+        expect(paths).toContain('static/locales/xx-XX/xx-XX-tutorial.json');
+        expect(paths).toContain(
+            'static/locales/xx-XX/xx-XX-tutorial-quick.json',
+        );
+    });
+
+    test('a path is git-shaped, not platform-shaped', () => {
+        // These are handed to `git show <rev>:<path>` and `git log -- <path>`,
+        // which want forward slashes on every platform.
+        for (const mode of TutorialModes)
+            expect(getTutorialPath('xx-XX', mode)).not.toContain('\\');
+    });
+
+    test('each mode carries its own path kinds, because their ids collide', () => {
+        // `acts.0.scenes.0.lines.0.2` exists in both tutorials and means
+        // different text, so one merged map would resolve a path against the
+        // wrong file.
+        const line = (text: string) =>
+            ({
+                $schema: '',
+                language: 'en',
+                regions: ['US'],
+                acts: [
+                    {
+                        title: 'Act',
+                        performance: { fit: 'Phrase()' },
+                        scenes: [
+                            {
+                                title: 'Scene',
+                                subtitle: null,
+                                performance: { fit: 'Phrase()' },
+                                lines: [['Program', 'kind', text]],
+                            },
+                        ],
+                    },
+                ],
+            }) as unknown as Tutorial;
+        const id = 'acts.0.scenes.0.lines.0.2';
+        const complete = getTranslatableTutorialPathKinds(line('complete'));
+        const quick = getTranslatableTutorialPathKinds(line('quick'));
+        expect(complete.has(id)).toBe(true);
+        expect(quick.has(id)).toBe(true);
+        expect(complete.get(id)?.pair.resolve(line('complete'))).toBe(
+            'complete',
+        );
+        expect(quick.get(id)?.pair.resolve(line('quick'))).toBe('quick');
     });
 });
