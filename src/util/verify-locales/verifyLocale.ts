@@ -29,6 +29,7 @@ import checkRedundantNames from '@util/verify-locales/checkRedundantNames';
 import checkAnnotations from '@util/verify-locales/checkAnnotations';
 import checkStringArrays from '@util/verify-locales/checkStringArrays';
 import checkTerms from '@util/verify-locales/checkTerms';
+import checkExampleDocs from '@util/verify-locales/checkExampleDocs';
 import checkUntranslated from '@util/verify-locales/checkUntranslated';
 import classifyLocalePath, {
     classifyPair,
@@ -193,6 +194,11 @@ export async function verifyLocale(
     // this marks is honored by the same run.
     if (locale !== 'en-US')
         revisedText = checkUntranslated(log, DefaultLocale, revisedText, fix);
+
+    // The same question of an example's own documentation, which is localized
+    // by translateProjectContent rather than by the markup splitter and so is
+    // invisible to every whole-string comparison.
+    if (locale !== 'en-US') checkExampleDocs(log, DefaultLocale, revisedText);
 
     // After checkRedundantNames, so an alias this check adds isn't judged (and
     // possibly removed) as an en-US duplicate in the same run.
