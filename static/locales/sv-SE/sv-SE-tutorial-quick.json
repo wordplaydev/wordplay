@@ -201,7 +201,7 @@
                             "neutral",
                             "$~Andra programmeringsspråk skriver ut text till en konsol, ritar på en duk eller ändrar en webbsida:",
                             "\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
-                            "$~Wordplays utdata är typografisk: en @Phrase, en @Group eller en @Stage, som visar formgiven, animerad och interaktiv text på skärmen, eller läses upp av en skärmläsare.",
+                            "$~@wordplay:s utmatning är typografisk: en @Phrase, en @Group, eller en @Stage, som visar stiliserad, animerad och interaktiv text på skärmen, eller läses upp av en skärmläsare.",
                             "$~Exemplet nedan visar en @Stage med en enda @Phrase som har en vilande skalningsanimation."
                         ],
                         null,
@@ -272,7 +272,8 @@
                             "$~De flesta programmeringsspråk erbjuder någon form av felsökningsverktyg för att hjälpa skapare att förstå och lösa problem i sin kod. Men många använder bara utskriftssatser för att kontrollera värdena på variabler i en konsol:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
                             "$~@wordplay ger en mer avancerad felsökningsupplevelse, som låter dig gå *framåt* och *bakåt* genom dess utvärdering. Tryck på ⏸️-felsökningsknappen i lägesväljaren @UI/modeSwitcher ovanför scenen för att gå in i *felsökningsläge*: värdet av varje uttryck visas bredvid det i koden, och @UI/stepControls stegar utvärderingen i valfri riktning, så att du kan se hur ett värde byggs upp. Här är en guidad genomgång av allt detta: @Tour/stage",
-                            "$~Vill du ha mer vägledning? @UI/debugtour-knappen i felsökningsområdet ger en guidad tur av dessa kontroller."
+                            "$~De andra lägena är också viktiga: ✏️ *redigeringsläge* används för att ändra programmet medan scenen står stilla, och ▶️ *spelläge* körs live och svarar på inmatning i realtid.",
+                            "$~Vill du ha mer hjälp? Knappen @UI/stageTourLaunch bredvid scenens namn ger en guidad tur av dessa kontroller."
                         ]
                     ]
                 },

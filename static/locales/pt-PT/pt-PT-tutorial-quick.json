@@ -272,7 +272,8 @@
                             "$~A maioria das linguagens de programação oferece algum tipo de ferramentas de depuração para ajudar os criadores a perceber e resolver problemas no seu código. Mas muitos usam apenas instruções de mostrar para verificar os valores das variáveis numa consola:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
                             "$~@wordplay oferece uma experiência de depuração mais avançada, permitindo avançar e recuar *passo a passo* pela sua avaliação. Prima o botão de depuração ⏸️ no seletor de modo @UI/modeSwitcher acima do palco para entrar no modo de *depuração*: o valor de cada expressão aparece junto dela no código, e o @UI/stepControls avança passo a passo em qualquer direção, para poder observar como um valor é construído. Eis uma visita guiada a tudo isto: @Tour/stage",
-                            "$~Queres mais orientação? O botão @UI/debugtour na área de depuração dá uma visita guiada por estes controlos."
+                            "$~Os outros modos também são importantes: o modo ✏️ *editar* serve para alterar o programa enquanto o palco fica parado, e o modo ▶️ *reproduzir* executa-o ao vivo, respondendo às entradas em tempo real.",
+                            "$~Quer mais ajuda? O botão @UI/stageTourLaunch, junto ao nome do palco, mostra uma visita guiada a estes controlos."
                         ]
                     ]
                 },

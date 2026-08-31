@@ -272,7 +272,8 @@
                             "$~Majoritatea limbajelor de programare oferă un fel de instrumente de depanare pentru a-i ajuta pe creatori să înțeleagă și să rezolve problemele din codul lor. Dar multe folosesc doar instrucțiuni de afișare pentru a verifica valorile variabilelor într-o consolă:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
                             "$~@wordplay oferă o experiență de depanare mai avansată, care îți permite să treci *înainte* și *înapoi* prin evaluarea sa. Apasă butonul de depanare ⏸️ din comutatorul de mod @UI/modeSwitcher de deasupra scenei pentru a intra în modul *depanare*: valoarea fiecărei expresii apare lângă ea în cod, iar @UI/stepControls îți permite să evaluezi pas cu pas în orice direcție, ca să vezi cum se construiește o valoare. Iată un tur ghidat cu tot ce trebuie știut: @Tour/stage",
-                            "$~Vrei mai multă îndrumare? Butonul @UI/debugtour din zona de depanare oferă un tur ghidat al acestor comenzi."
+                            "$~Celelalte moduri contează și ele: modul ✏️ *editare* servește la schimbarea programului, în timp ce scena rămâne înghețată, iar modul ▶️ *joacă* îl pornește pe viu, răspunzând la intrări în timp real.",
+                            "$~Vrei mai multe explicații? Butonul @UI/stageTourLaunch de lângă numele scenei oferă un tur ghidat al acestor comenzi."
                         ]
                     ]
                 },

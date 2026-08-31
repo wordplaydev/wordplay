@@ -272,7 +272,8 @@
                             "$~Die meisten Programmiersprachen bieten eine Art Werkzeug zur Fehlersuche, um den Erstellenden zu helfen, Probleme in ihrem Code zu verstehen und zu lösen. Aber viele verwenden einfach Ausgabe-Anweisungen, um die Werte von Variablen in einer Konsole zu prüfen:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
                             "$~@wordplay bietet eine bessere Möglichkeit, Fehler zu suchen. Du kannst *vorwärts* und *rückwärts* durch die Auswertung gehen. Drücke den ⏸️-Debug-Knopf im Moduswechsler @UI/modeSwitcher über der Bühne, um in den *Debug*-Modus zu wechseln: Der Wert jedes Ausdrucks erscheint neben ihm im Code. Mit @UI/stepControls kannst du Schritt für Schritt in jede Richtung gehen und so beobachten, wie ein Wert entsteht. Hier ist eine geführte Tour durch alles: @Tour/stage",
-                            "$~Möchtest du mehr Hilfe? Die Schaltfläche @UI/debugtour im Bereich der Fehlersuche gibt eine geführte Tour durch diese Bedienelemente."
+                            "$~Die anderen Modi sind auch wichtig: Der Modus ✏️ *Bearbeiten* dient dazu, das Programm zu ändern, während die Bühne eingefroren bleibt. Der Modus ▶️ *Abspielen* führt es live aus und reagiert dabei sofort auf Eingaben.",
+                            "$~Möchtest du mehr Hilfe? Der Knopf @UI/stageTourLaunch neben dem Namen der Bühne zeigt dir eine geführte Tour zu diesen Steuerungen."
                         ]
                     ]
                 },

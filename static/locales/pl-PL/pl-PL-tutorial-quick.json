@@ -272,7 +272,8 @@
                             "$~Większość języków programowania oferuje jakieś narzędzia do szukania błędów, które pomagają twórcom zrozumieć i rozwiązać problemy w kodzie. Ale wiele po prostu używa instrukcji wypisania, aby sprawdzić wartości zmiennych w konsoli:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
                             "$~@wordplay oferuje bardziej rozbudowane debugowanie. Możesz krok po kroku iść *do przodu* i *do tyłu* przez działanie kodu. Naciśnij przycisk debugowania ⏸️ w przełączniku trybów @UI/modeSwitcher nad sceną, aby wejść w tryb *debugowania*: wartość każdego wyrażenia pojawia się obok niego w kodzie, a @UI/stepControls pozwala krok po kroku iść w dowolnym kierunku, dzięki czemu widać, jak powstaje wartość. Oto przewodnik po wszystkim: @Tour/stage",
-                            "$~Chcesz więcej wskazówek? Przycisk @UI/debugtour w obszarze szukania błędów daje przewodnik po tych przyciskach."
+                            "$~Pozostałe tryby też są ważne: tryb ✏️ *edycji* służy do zmieniania programu, gdy scena pozostaje zatrzymana, a tryb ▶️ *odtwarzania* uruchamia go na żywo, reagując na dane wejściowe w czasie rzeczywistym.",
+                            "$~Potrzebujesz więcej wskazówek? Przycisk @UI/stageTourLaunch obok nazwy sceny pokazuje przewodnik po tych elementach sterujących."
                         ]
                     ]
                 },

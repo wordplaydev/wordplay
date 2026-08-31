@@ -272,7 +272,8 @@
                             "$~Kebanyakan bahasa pemrograman menawarkan semacam alat debugging untuk membantu pembuat memahami dan menyelesaikan masalah dalam code mereka. Tetapi banyak yang hanya menggunakan pernyataan cetak untuk memeriksa value variable di konsol:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
                             "$~@wordplay memberi pengalaman debug yang lebih canggih, yang memungkinkanmu melangkah *maju* dan *mundur* dalam evaluasinya. Tekan tombol debug ⏸️ pada pengalih mode @UI/modeSwitcher di atas panggung untuk masuk ke mode *debug*: nilai setiap ekspresi muncul di sebelahnya dalam kode, dan @UI/stepControls melangkah evaluasi ke arah mana pun, sehingga kamu bisa melihat bagaimana sebuah nilai dibentuk. Berikut panduan lengkapnya: @Tour/stage",
-                            "$~Ingin panduan lebih lanjut? Tombol @UI/debugtour di area debug memberikan tur berpemandu untuk kontrol-kontrol ini."
+                            "$~Mode lainnya juga penting: mode ✏️ *edit* untuk mengubah program saat panggung tetap diam, dan mode ▶️ *main* menjalankannya secara langsung, menanggapi masukan secara langsung.",
+                            "$~Ingin panduan lebih lengkap? Tombol @UI/stageTourLaunch di sebelah nama panggung memberi tur berpandu tentang kontrol-kontrol ini."
                         ]
                     ]
                 },
