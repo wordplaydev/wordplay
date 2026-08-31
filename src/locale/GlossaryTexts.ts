@@ -41,6 +41,8 @@ export type GlossaryId =
     | 'how'
     | 'gallery'
     | 'blocks'
+    | 'editor'
+    | 'stage'
     | 'placeholder'
     | 'conflict'
     | 'checkpoint'

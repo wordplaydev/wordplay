@@ -171,6 +171,14 @@
         "column": {
             "word": "$~kolumna",
             "definition": "$~Nazwane pole w @Table."
+        },
+        "editor": {
+            "word": "$~edytor",
+            "definition": "$~Miejsce, gdzie piszesz @code. To, co tam wpiszesz, wykonuje @wordplay."
+        },
+        "stage": {
+            "word": "$~scena",
+            "definition": "$~Przestrzeń, w której @wordplay pokazuje, co stworzył twój @code."
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~$concept znaku Unicode",
                 "ui": "$~link do elementu interfejsu $concept",
                 "how": "$~link do instrukcji $concept",
-                "character": "$~niestandardowy znak $concept"
+                "character": "$~niestandardowy znak $concept",
+                "tour": "$~link do wycieczki po $concept"
             }
         },
         "Words": {
@@ -7533,7 +7542,7 @@
             "label": "$~konflikty i pomoc",
             "cursor": "$~To jest *$node*$type[ i jest to $type|].",
             "cursorDoc": "$~Mówią: „$description”",
-            "cursorParent": "$~Znajdują się wewnątrz *$node*$type[ typu $type|].",
+            "cursorParent": "$~Są wewnątrz *$node*$type[, co daje w wyniku $type|].",
             "learn": "$~/Dowiedz się więcej/",
             "evaluating": "$~O, fajnie, oceńmy!",
             "space": "$~To jest kosmos! Kto by pomyślał, że nic nie może powiedzieć tak wiele?",
@@ -8989,7 +8998,11 @@
                 },
                 "contrast": "$~porównać z",
                 "dialogue": "$~dialog lekcji",
-                "says": "$~$character mówi"
+                "says": "$~$character mówi",
+                "tour": {
+                    "skip": "$~pomiń wycieczkę i idź dalej",
+                    "wait": "$~Najpierw odbądź wycieczkę albo ją pomiń, a potem idziemy dalej."
+                }
             },
             "teach": {
                 "header": "$~Uczyć",

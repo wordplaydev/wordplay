@@ -176,9 +176,9 @@
                         [
                             "Program",
                             "neutral",
-                            "I'm the organizer of the program for a performance.",
-                            "I have an *editor* @UI/editor, which is where you put instructions about what to show on stage, and how.",
-                            "I use those insructions to show output on the *stage* @UI/stage.",
+                            "I'm the organizer of the program for a performance. Before we start, let me show you around: @Tour/source",
+                            "That box over there @UI/editor is the @editor. It's where you write. Everything you write there is an instruction for me.",
+                            "That space over there @UI/stage is the @stage. Whatever your instructions add up to, I show it there.",
                             "The *director* — that's you! — decides what instructions to give us."
                         ],
                         null,
@@ -220,7 +220,7 @@
                         [
                             "Program",
                             "serious",
-                            "In fact, if you ever want to see the program for something on stage, you can press the 👁️ on stage @UI/editProject. That'll show you how everyone is coming together to create what's on stage. This program is just a simple phrase."
+                            "In fact, if you ever want to see the program behind what's on stage, switch back to ✏️ edit with the mode switcher @UI/modeSwitcher above the stage. That'll show you how everyone is coming together to create what's on stage. This program is just a simple phrase."
                         ],
                         null,
                         [
@@ -318,9 +318,9 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "@Program tried to follow the @ExpressionPlaceholder, instruction, but since the placeholder doesn't say what to do yet, it @Program evaluated to an *exception* @UI/exception on *stage*.",
-                            "An exception happens when @Program can't follow an instruction you give.",
-                            "If @Program knows there will be an exception, it will show a *@conflict* @UI/conflict that explains its confusion.",
+                            "@Program tried to follow the @ExpressionPlaceholder instruction, but the placeholder doesn't say what to do yet. So @Program got stuck, and said so on the @stage @UI/exception.",
+                            "When @Program can't follow an instruction, it stops and shows what went wrong. That's an *exception*. It doesn't mean you broke anything. It means @Program needs something more from you.",
+                            "When @Program can tell ahead of time that it will get stuck, it marks the spot with a *@conflict* @UI/conflict that explains the confusion.",
                             "If you select @ExpressionPlaceholder, or move the text cursor over it, you can see options for what to replace it with. You can also just type over @ExpressionPlaceholder and write your own. For example, try typing \\'hello'\\."
                         ],
                         null,
@@ -646,8 +646,8 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "Let me show you one of the knobs. Can you find the little *palette* toggle button @UI/paletteExpand? Select it to expand the palette and then select the phrase on stage.",
-                            "Once you do, you'll see the many inputs that @Phrase accepts. For example, try pressing the pencil button for @Phrase.size, which will reveal a slider.",
+                            "Let me show you one of the knobs. The *palette* @UI/paletteExpand is where you change what a @Phrase looks like without typing anything. @Tour/palette",
+                            "With the palette open and a phrase selected, you'll see the many inputs that @Phrase accepts. For example, try pressing the pencil button for @Phrase.size, which will reveal a slider.",
                             "You can use this slider to modify the size of the phrase, which will also modify the @Evaluate code with the size you choose."
                         ],
                         null,
@@ -952,7 +952,7 @@
                         [
                             "Text",
                             "eager",
-                            "@FunctionDefinition has made so many more interesting functions for me, but I'll spare you the details. You can always find me in the *reference* @UI/docsExpand. That's where we keep all the information about everyone in the Verse, including how to work with us and what functions we have. I'm happy to share more ways to inspect and create text!"
+                            "@FunctionDefinition has made so many more interesting functions for me, but I'll spare you the details. You can always find me in the @guide @UI/docsExpand. That's where we keep all the information about everyone in the Verse, including how to work with us and what functions we have. Have a look around it before you go on, and I'll be in there waiting. @Tour/docs"
                         ],
                         null,
                         [
@@ -2530,7 +2530,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Try dragging on the timeline @UI/timeline, using the timeline buttons, or using the arrow keys with the timeline focused. You can go backwards in time to see previous evaluations. The dashed arrows step to previous and future stream inputs. The solid ones step between different steps of the program. Try navigating time and seeing what the program shows. This is how you can see all of the beautiful expressions you've learned about being evaluated by @Evaluate, one step at a time, resulting in the final value that @Program displays on stage. When you're done exploring, the mode switcher @UI/modeSwitcher takes you back to ▶️ playing or ✏️ editing."
+                            "The timeline @UI/timeline lets you travel back through those evaluations, so you can watch @Evaluate work through the expressions you've learned about, one step at a time, until it reaches the value @Program shows on the @stage. Stay in ⏸️ debug — that's where the timeline lives — and one of us will show you where all of its controls are. Then go exploring; when you're done, the mode switcher @UI/modeSwitcher takes you back to ▶️ playing or ✏️ editing. @Tour/stage"
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
                         { "edit": "Time(1000ms)" },

@@ -33,6 +33,8 @@ import {
     type ProjectFolder,
     type ProjectFolders,
 } from '@db/settings/ProjectFoldersSetting';
+import { ToursSetting, type ToursTaken } from '@db/settings/ToursSetting';
+import type { TourID } from '@components/project/tours';
 import {
     ProjectSortSetting,
     type ProjectSort,
@@ -144,8 +146,23 @@ export type SettingsSchemaV6 = Omit<SettingsSchemaV5, 'v'> & {
     space?: boolean;
 };
 
-export type SettingsSchema = SettingsSchemaV6;
-const SettingsSchemaLatestVersion = 6;
+/**
+ * v7 adds the interface tours the creator has taken. The tutorial holds a
+ * learner at the step that offers a tour until it's in here, so a creator who
+ * toured the editor on one device shouldn't be gated again on another.
+ *
+ * Optional for the same reason the v6 fields are: a v6 document genuinely lacks
+ * it, and filling in a default during the upgrade would let the first sync
+ * after this ships erase tours the creator had already taken on that device.
+ */
+export type SettingsSchemaV7 = Omit<SettingsSchemaV6, 'v'> & {
+    v: 7;
+    /** The interface tours this creator has taken. */
+    tours?: ToursTaken;
+};
+
+export type SettingsSchema = SettingsSchemaV7;
+const SettingsSchemaLatestVersion = 7;
 
 type SettingsSchemaUnknown =
     | SettingsSchemaV1
@@ -153,6 +170,7 @@ type SettingsSchemaUnknown =
     | SettingsSchemaV3
     | SettingsSchemaV4
     | SettingsSchemaV5
+    | SettingsSchemaV6
     | SettingsSchema;
 
 function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
@@ -190,6 +208,10 @@ function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
             // the creator's next settings write, so this upgrade can't stomp a
             // local choice with a default.
             return upgradeSettings({ ...settings, v: 6 });
+        case 6:
+            // v6→v7: nothing to fill in, for the same reason as v5→v6 — an
+            // absent `tours` means "unknown", not "none taken".
+            return upgradeSettings({ ...settings, v: 7 });
         case SettingsSchemaLatestVersion:
             return settings;
         default:
@@ -240,6 +262,7 @@ export default class SettingsDatabase {
         captionSize: CaptionSizeSetting,
         projectFolders: ProjectFoldersSetting,
         projectSort: ProjectSortSetting,
+        tours: ToursSetting,
     };
 
     constructor(database: Database, locales: SupportedLocale[]) {
@@ -328,6 +351,8 @@ export default class SettingsDatabase {
                 this.settings.wrap.set(this.database, data.wrap);
             if (data.space !== undefined)
                 this.settings.space.set(this.database, data.space);
+            if (data.tours !== undefined)
+                this.settings.tours.set(this.database, data.tours);
         }
     }
 
@@ -355,6 +380,20 @@ export default class SettingsDatabase {
 
     setLayout(layouts: Record<string, SerializedLayout>) {
         this.settings.layouts.set(this.database, layouts);
+    }
+
+    /** The interface tours this creator has taken. */
+    getToursTaken(): ToursTaken {
+        return this.settings.tours.get();
+    }
+
+    /** Remember that a tour was taken, from wherever it was launched — the ⓘ
+     *  button on a tile counts, so a creator who already toured the editor is
+     *  never held at the tutorial step that offers it. */
+    markTourTaken(id: TourID) {
+        const taken = this.getToursTaken();
+        if (taken.includes(id)) return;
+        this.settings.tours.set(this.database, [...taken, id]);
     }
 
     /** The creator's project folders, by ID. */
@@ -726,6 +765,7 @@ export default class SettingsDatabase {
             newHowToNotifications: this.settings.howToNotifications.get(),
             projectFolders: this.settings.projectFolders.get(),
             projectSort: this.settings.projectSort.get(),
+            tours: this.settings.tours.get(),
             face: this.settings.face.get(),
             lines: this.settings.lines.get(),
             wrap: this.settings.wrap.get(),

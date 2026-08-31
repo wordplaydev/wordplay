@@ -176,8 +176,10 @@
                         [
                             "Program",
                             "neutral",
-                            "$~Ich bin die Organisatorin des Programms für eine Aufführung.",
-                            "$~Ich habe einen *Editor* @UI/editor. Dort schreibst du Anweisungen, was auf der Bühne gezeigt werden soll und wie."
+                            "$~Ich bin die Organisatorin des Programms für eine Aufführung. Bevor wir starten, zeige ich dir alles: @Tour/source",
+                            "$~Der Kasten dort drüben @UI/editor ist der @editor. Dort schreibst du. Alles, was du dort schreibst, ist eine Anweisung für mich.",
+                            "$~Der Raum dort drüben @UI/stage ist die @stage. Was deine Anweisungen auch ergeben, ich zeige es dort.",
+                            "$~Die *Regie* — das bist du! — entscheidet, welche Anweisungen wir bekommen."
                         ],
                         null,
                         [
@@ -218,7 +220,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Wenn Sie jemals das Programm für etwas auf der Bühne sehen möchten, können Sie auf der Bühne @UI/editProject auf 👁️ drücken. So sehen Sie, wie alle zusammenkommen, um das zu schaffen, was auf der Bühne steht. Dieses Programm ist nur eine einfache Phrase."
+                            "$~Wenn du das Programm hinter dem sehen willst, was auf der Bühne zu sehen ist, wechsle zurück zu ✏️ Bearbeiten mit dem Modus-Schalter @UI/modeSwitcher über der Bühne. Dort siehst du, wie alle zusammenwirken, um das zu erschaffen, was auf der Bühne ist. Dieses Programm ist nur ein einfacher Satz."
                         ],
                         null,
                         [
@@ -316,8 +318,10 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Program hat versucht, die Anweisung @ExpressionPlaceholder zu befolgen, aber weil der Platzhalter noch nicht sagt, was zu tun ist, @Program hat er zu einer *Ausnahme* @UI/exception auf der *Bühne* ausgewertet.",
-                            "$~Eine Ausnahme passiert, wenn @Program eine Anweisung, die du gibst, nicht befolgen kann."
+                            "$~@Program hat versucht, der Anweisung @ExpressionPlaceholder zu folgen, aber der Platzhalter sagt noch nicht, was zu tun ist. Deshalb blieb @Program stecken und hat das auf der @stage @UI/exception gesagt.",
+                            "$~Wenn @Program einer Anweisung nicht folgen kann, hält es an und zeigt, was schiefgelaufen ist. Das ist eine *Ausnahme*. Das bedeutet nicht, dass du etwas kaputt gemacht hast. Es bedeutet, dass @Program noch etwas von dir braucht.",
+                            "$~Wenn @Program vorher merkt, dass es nicht weiterkommt, markiert es die Stelle mit einem *@conflict* @UI/conflict, der die Verwirrung erklärt.",
+                            "$~Wenn du @ExpressionPlaceholder auswählst oder den Textcursor darüber bewegst, siehst du Möglichkeiten, wie du es ersetzen kannst. Du kannst auch einfach über @ExpressionPlaceholder tippen und etwas Eigenes schreiben. Versuch zum Beispiel, dies einzugeben \\'hallo'\\."
                         ],
                         null,
                         { "fit": "#Symbol -" },
@@ -646,8 +650,8 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "$~Ich zeige Ihnen einen der Knöpfe. Können Sie den kleinen *Palette*-Umschaltknopf @UI/paletteExpand finden? Wählen Sie ihn aus, um die Palette zu erweitern, und wählen Sie dann die Phrase auf der Bühne aus.",
-                            "$~Sobald Sie dies getan haben, werden Ihnen die vielen Eingaben angezeigt, die @Phrase akzeptiert. Versuchen Sie beispielsweise, die Bleistifttaste für @Phrase.size zu drücken, woraufhin ein Schieberegler angezeigt wird.",
+                            "$~Ich zeige dir einen der Regler. Die *Palette* @UI/paletteExpand ist der Ort, an dem du das Aussehen eines @Phrase änderst, ohne etwas zu tippen. @Tour/palette",
+                            "$~Wenn die Palette offen ist und ein Satz ausgewählt ist, siehst du die vielen Eingaben, die @Phrase annimmt. Versuch zum Beispiel, den Bleistift-Knopf für @Phrase.size zu drücken. Dann erscheint ein Schieberegler.",
                             "$~Mit diesem Schieberegler können Sie die Größe der Phrase ändern. Dadurch wird auch der @Evaluate-Code entsprechend der gewählten Größe geändert."
                         ],
                         null,
@@ -952,7 +956,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~@FunctionDefinition hat für mich so viele weitere interessante Funktionen erstellt, aber ich erspare Ihnen die Details. Sie finden mich immer in der *Referenz* @UI/docsExpand. Dort bewahren wir alle Informationen über jeden im Verse auf, einschließlich der Art und Weise, wie man mit uns arbeitet und welche Funktionen wir haben. Ich teile gerne weitere Möglichkeiten zum Überprüfen und Erstellen von Text!"
+                            "$~@FunctionDefinition hat für mich noch viele weitere spannende Funktionen erschaffen, aber ich erspare dir die Einzelheiten. Du findest mich immer im @guide @UI/docsExpand. Dort bewahren wir alle Informationen über jeden im Verse auf, auch wie man mit uns arbeitet und welche Funktionen wir haben. Schau dich dort um, bevor du weitermachst. Ich werde dort auf dich warten. @Tour/docs"
                         ],
                         null,
                         [
@@ -2534,7 +2538,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Versuche, an der Zeitleiste @UI/timeline zu ziehen, die Zeitleisten-Knöpfe zu benutzen oder die Pfeiltasten zu benutzen, während die Zeitleiste ausgewählt ist. Du kannst in der Zeit zurückgehen, um frühere Auswertungen zu sehen. Die gestrichelten Pfeile springen zu vorherigen und zukünftigen Stromeingaben. Die durchgezogenen springen zwischen verschiedenen Schritten des Programms. Versuche, durch die Zeit zu navigieren und zu sehen, was das Programm zeigt. So kannst du all die schönen Ausdrücke sehen, die du kennengelernt hast, wie sie von @Evaluate ausgewertet werden, einen Schritt nach dem anderen, bis zum endgültigen Wert, den @Program auf der Bühne anzeigt. Wenn du mit dem Erkunden fertig bist, bringt dich der Modus-Umschalter @UI/modeSwitcher zurück zum ▶️-Abspielen oder ✏️-Bearbeiten."
+                            "$~Mit der Zeitleiste @UI/timeline kannst du durch diese Auswertungen zurückreisen. So kannst du sehen, wie @Evaluate Schritt für Schritt durch die Ausdrücke arbeitet, die du kennengelernt hast, bis es den Wert erreicht, den @Program auf der @stage zeigt. Bleib im Modus ⏸️ Fehlersuche — dort lebt die Zeitleiste — und einer von uns zeigt dir, wo all ihre Bedienelemente sind. Dann erkunde alles. Wenn du fertig bist, bringt dich der Modus-Schalter @UI/modeSwitcher zurück zu ▶️ Abspielen oder ✏️ Bearbeiten. @Tour/stage"
                         ],
                         ["Time", "neutral", "$~tick… tick… tick… tick… tick…"],
                         { "edit": "Time(1000ms)" },

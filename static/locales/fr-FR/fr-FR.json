@@ -171,6 +171,14 @@
         "column": {
             "word": "$~colonne",
             "definition": "$~Un champ nommé dans une @Table."
+        },
+        "editor": {
+            "word": "$~éditeur",
+            "definition": "$~La boîte où tu écris le @code. Ce que tu tapes ici est ce que @wordplay exécute."
+        },
+        "stage": {
+            "word": "$~scène",
+            "definition": "$~L'espace où @wordplay montre ce que ton @code a créé."
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~le caractère Unicode $concept",
                 "ui": "$~un lien vers l'élément d'interface $concept",
                 "how": "$~un lien vers le tutoriel $concept",
-                "character": "$~le caractère personnalisé $concept"
+                "character": "$~le caractère personnalisé $concept",
+                "tour": "$~un lien vers une visite guidée de $concept"
             }
         },
         "Words": {
@@ -7512,7 +7521,7 @@
             "label": "$~conflits et aide",
             "cursor": "$~Ceci est *$node*$type[ et c'est un $type|].",
             "cursorDoc": "$~Ils disent : « $description »",
-            "cursorParent": "$~Ils sont à l'intérieur d'un *$node*$type[ de type $type|].",
+            "cursorParent": "$~Ils sont à l'intérieur d'un *$node*$type[, qui donne un $type|].",
             "learn": "$~/Apprendre encore plus/",
             "evaluating": "$~Oh c'est amusant, évaluons !",
             "space": "$~C'est l'espace ! Qui aurait cru que rien ne pouvait en dire autant ?",
@@ -8871,7 +8880,11 @@
                 },
                 "contrast": "$~comparer avec",
                 "dialogue": "$~dialogue de la leçon",
-                "says": "$~$character dit"
+                "says": "$~$character dit",
+                "tour": {
+                    "skip": "$~passer la visite guidée et continuer",
+                    "wait": "$~Fais d'abord la visite guidée, ou passe-la, puis nous continuerons."
+                }
             },
             "guide": {
                 "header": "$~Guide",

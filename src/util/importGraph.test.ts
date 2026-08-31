@@ -396,13 +396,31 @@ test('resolving a color needs no basis', () => {
  * place immune to all three, since a field's ancestors routinely carry a
  * `z-index` or a `transform` and either one traps a merely-fixed element. One
  * place decides where a message goes, rather than two that drift.
+ *
+ * Pointing the tutorial at the interface tours (#984) is **+3 files** and
+ * +0.01MB on every entry, and all three files are the leaf case this file's
+ * rule allows: `tours.ts`, which names each tour and has no runtime imports at
+ * all so that `ConceptLink` can validate a `@Tour/<id>` reference without the
+ * parser reaching into components; `ToursSetting.ts`, one more settings leaf
+ * reached through `SettingsDatabase` exactly like the folder settings above;
+ * and `TourLink.svelte`, which renders such a reference as the control that
+ * starts the tour. They are in all five graphs because every page reaches
+ * markup, and markup reaches `ConceptLinkUI`.
+ *
+ * What the tours *say* is deliberately not here: the step lists live in
+ * `tourSteps.ts`, which only the project view imports. Keeping them with the
+ * names would have been tidier and would have moved seven more kilobytes of
+ * explanation into four pages that cannot run a tour — the leak this file
+ * exists to catch, just a small one. The bytes that do move are the three
+ * files plus the tours' two new glossary terms and the tutorial's skip and
+ * wait strings in en-US.json, which every page carries.
  */
 test.each([
-    ['src/routes/+layout.svelte', 496, 3.62],
-    ['src/components/app/Page.svelte', 519, 3.87],
-    ['src/routes/[[locale]]/+page.svelte', 534, 3.96],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 538, 3.97],
-    ['src/routes/[[locale]]/projects/+page.svelte', 545, 3.99],
+    ['src/routes/+layout.svelte', 499, 3.63],
+    ['src/components/app/Page.svelte', 522, 3.88],
+    ['src/routes/[[locale]]/+page.svelte', 537, 3.97],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 541, 3.98],
+    ['src/routes/[[locale]]/projects/+page.svelte', 548, 4.0],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

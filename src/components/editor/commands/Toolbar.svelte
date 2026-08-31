@@ -98,7 +98,12 @@
     {/if}
 {/snippet}
 
-<OverflowToolbar items={{ count: itemCount, render: renderItem }} />
+<!-- Name the hamburger so the source tour's "expand" step can point at it; it
+     is what became of the old expand toggle. -->
+<OverflowToolbar
+    items={{ count: itemCount, render: renderItem }}
+    uiid="editorExpand"
+/>
 
 <style>
     .locale {

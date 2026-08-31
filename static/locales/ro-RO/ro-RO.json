@@ -171,6 +171,14 @@
         "column": {
             "word": "$~coloană",
             "definition": "$~Un câmp cu nume dintr-un @Table."
+        },
+        "editor": {
+            "word": "$~editor",
+            "definition": "$~Locul unde scrii @code. Ceea ce tastezi acolo este ceea ce execută @wordplay."
+        },
+        "stage": {
+            "word": "$~scenă",
+            "definition": "$~Spațiul unde @wordplay arată ce a creat @code al tău."
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~caracterul Unicode $concept",
                 "ui": "$~o legătură către elementul de interfață $concept",
                 "how": "$~un link către instrucțiunile de la $concept",
-                "character": "$~$concept"
+                "character": "$~$concept",
+                "tour": "$~o legătură către un tur al conceptului $concept"
             }
         },
         "Words": {
@@ -7766,7 +7775,7 @@
             "label": "$~conflicte și ajutor",
             "cursor": "$~Acesta este un *$node*$type[ și este un $type|].",
             "cursorDoc": "$~Ei spun: „$description”",
-            "cursorParent": "$~Acestea se află în interiorul unui * $node * $type[ de tipul $type |].",
+            "cursorParent": "$~Sunt înăuntrul unui *$node*$type[, care se evaluează la un $type|].",
             "learn": "$~/Află mai multe/",
             "evaluating": "$~Ce distracție, hai să evaluăm!",
             "space": "$~Acesta este spațiul! Cine ar fi crezut că nimic nu poate spune atât de multe?",
@@ -9325,7 +9334,11 @@
                 },
                 "contrast": "$~compara cu",
                 "dialogue": "$~dialog de lecție",
-                "says": "$~$character spune"
+                "says": "$~$character spune",
+                "tour": {
+                    "skip": "$~sari peste tur și continuă",
+                    "wait": "$~Fă mai întâi turul, sau sari peste el, și apoi vom continua."
+                }
             },
             "localize": {
                 "header": "$~Localiza",

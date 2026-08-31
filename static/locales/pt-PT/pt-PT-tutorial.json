@@ -176,10 +176,10 @@
                         [
                             "Program",
                             "neutral",
-                            "Sou o organizador do programa de uma apresentação.",
-                            "Tenho um *editor* @UI/editor, que é onde se colocam instruções sobre o que mostrar no palco e como.",
-                            "Utilizo estas instruções para exibir a saída no *palco* @UI/stage.",
-                            "O *diretor* — ou seja, você! — decide que instruções nos dar."
+                            "$~Sou eu quem organiza o programa de uma peça. Antes de começarmos, deixe-me mostrar-lhe tudo: @Tour/source",
+                            "$~Aquela caixa ali @UI/editor é o @editor. É ali que escreve. Tudo o que escrever ali é uma instrução para mim.",
+                            "$~Aquele espaço ali @UI/stage é o @stage. Seja qual for o resultado das suas instruções, eu mostro-o ali.",
+                            "$~O *diretor(a)* — é você! — decide que instruções nos dar. Antes de começarmos, deixe-me mostrar-lhe o @editor: @Tour/source"
                         ],
                         null,
                         [
@@ -220,7 +220,7 @@
                         [
                             "Program",
                             "serious",
-                            "Já agora, se quiser ver o programa de algo no palco, pode clicar no ícone da seta para a esquerda (👁️) em @UI/editProject. Isto mostrará como todos se estão a unir para criar o que está a ser apresentado. Este programa é apenas uma frase simples."
+                            "$~Aliás, se alguma vez quiser ver o programa por trás do que está no palco, volte para ✏️ editar com o seletor de modo @UI/modeSwitcher acima do palco. Isso mostra-lhe como tudo se junta para criar o que está no palco. Este programa é apenas uma frase simples."
                         ],
                         null,
                         [
@@ -314,9 +314,9 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "@Program tentou seguir a instrução de @ExpressionPlaceholder, mas como o espaço reservado ainda não diz o que fazer, @Program avaliou para uma *exceção* @UI/exception em *stage*.",
-                            "Uma exceção ocorre quando @Program não consegue seguir uma instrução fornecida.",
-                            "$~Se o @Program souber que vai haver uma exceção, vai mostrar um *@conflict* @UI/conflict que explica a sua confusão.",
+                            "$~@Program tentou seguir a instrução @ExpressionPlaceholder, mas o marcador de posição ainda não diz o que fazer. Por isso @Program ficou preso(a) e disse-o no @stage @UI/exception.",
+                            "$~Quando @Program não consegue seguir uma instrução, para e mostra o que correu mal. Isso é uma *exceção*. Não significa que estragou nada. Significa que @Program precisa de algo mais da sua parte.",
+                            "$~Quando @Program consegue perceber antecipadamente que vai ficar preso(a), marca o local com um(a) *@conflict* @UI/conflict que explica a confusão.",
                             "Se selecionar @ExpressionPlaceholder ou mover o cursor de texto sobre ele, poderá ver opções para o substituir. Também pode simplesmente digitar sobre @ExpressionPlaceholder e escrever o seu próprio texto. Por exemplo, tente escrever \\'olá'\\."
                         ],
                         null,
@@ -646,8 +646,8 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "Deixe-me mostrar-lhe um dos botões. Consegue encontrar o pequeno botão de alternância da *paleta* @UI/paletteExpand? Selecione-o para expandir a paleta e, em seguida, selecione a frase no palco.",
-                            "Depois disso, verá as várias participações que @Phrase aceita. Por exemplo, tente premir o botão de lápis para @Phrase.size, que revelará um deslizador.",
+                            "$~Deixe-me mostrar-lhe um dos comandos. A *paleta* @UI/paletteExpand é onde muda o aspeto de um(a) @Phrase sem escrever nada. @Tour/palette",
+                            "$~Com a paleta aberta e uma frase selecionada, vai ver as muitas entradas que @Phrase aceita. Por exemplo, experimente premir o botão do lápis para @Phrase.size, que vai revelar um cursor deslizante.",
                             "Pode utilizar este controlo deslizante para modificar o tamanho da frase, o que também modificará o código @Evaluate com o tamanho escolhido."
                         ],
                         null,
@@ -952,7 +952,7 @@
                         [
                             "Text",
                             "eager",
-                            "@FunctionDefinition proporcionou-me muitas outras funções interessantes, mas vou poupar-vos os detalhes. Podem sempre encontrar-me na *referência* @UI/docsExpand. Aí, reunimos todas as informações sobre todos os membros do Verse, incluindo como interagir connosco e que funções temos disponíveis. Terei todo o gosto em partilhar mais formas de inspecionar e criar texto!"
+                            "$~@FunctionDefinition criou muitas outras funções interessantes para mim, mas vou poupar-lhe os detalhes. Pode sempre encontrar-me no(a) @guide @UI/docsExpand. É ali que guardamos todas as informações sobre todos no Verso, incluindo como trabalhar connosco e que funções temos. Dê uma vista de olhos antes de continuar, que eu fico ali à sua espera. @Tour/docs"
                         ],
                         null,
                         [
@@ -2522,7 +2522,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Experimenta arrastar na linha do tempo @UI/timeline, usar os botões da linha do tempo, ou usar as teclas de seta com a linha do tempo em foco. Podes recuar no tempo para ver avaliações anteriores. As setas tracejadas avançam para entradas de fluxo anteriores e futuras. As setas sólidas avançam entre diferentes passos do programa. Experimenta navegar no tempo e ver o que o programa mostra. É assim que consegues ver todas as belas expressões que aprendeste a serem avaliadas por @Evaluate, um passo de cada vez, resultando no valor final que @Program mostra no palco. Quando terminares de explorar, o seletor de modo @UI/modeSwitcher leva-te de volta a ▶️ reproduzir ou ✏️ editar."
+                            "$~A linha do tempo @UI/timeline permite-lhe viajar para trás por essas avaliações, para que possa observar @Evaluate a trabalhar através das expressões que já conhece, um passo de cada vez, até chegar ao valor que @Program mostra no @stage. Fique em ⏸️ depuração — é ali que vive a linha do tempo — e um(a) de nós mostra-lhe onde estão todos os seus controlos. Depois vá explorar; quando terminar, o seletor de modo @UI/modeSwitcher leva-o(a) de volta a ▶️ reproduzir ou ✏️ editar. @Tour/stage"
                         ],
                         ["Time", "neutral", "tic… tic… tic… tic… tic…"],
                         { "edit": "Time(1000ms)" },

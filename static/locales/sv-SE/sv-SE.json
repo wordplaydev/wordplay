@@ -171,6 +171,14 @@
         "column": {
             "word": "$~kolumn",
             "definition": "$~Ett namngivet fält i en @Table."
+        },
+        "editor": {
+            "word": "$~redigerare",
+            "definition": "$~Rutan där du skriver @code. Det du skriver där är det @wordplay utför."
+        },
+        "stage": {
+            "word": "$~scen",
+            "definition": "$~Utrymmet där @wordplay visar vad din @code har gjort."
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~Unicode-tecknet $concept",
                 "ui": "$~en länk till gränssnittselementet $concept",
                 "how": "$~en länk till $concept -instruktionerna",
-                "character": "$~det anpassade $concept"
+                "character": "$~det anpassade $concept",
+                "tour": "$~en länk till en visning av $concept"
             }
         },
         "Words": {
@@ -7512,7 +7521,7 @@
             "label": "$~konflikter och hjälp",
             "cursor": "$~Detta är *$node*$type[ och de är en $type|].",
             "cursorDoc": "$~De säger: ”$description”",
-            "cursorParent": "$~De är inuti en *$node*$type[ av typen $type|].",
+            "cursorParent": "$~De finns inuti en *$node*$type[, som blir till ett $type|].[Ett]{|Inga}",
             "learn": "$~/Läs mer/",
             "evaluating": "$~Åh kul, låt oss utvärdera!",
             "space": "$~Det här är utrymme! Vem visste att ingenting kunde säga så mycket?",
@@ -8961,7 +8970,11 @@
                 },
                 "contrast": "$~jämför med",
                 "dialogue": "$~lektionsdialog",
-                "says": "$~$character säger"
+                "says": "$~$character säger",
+                "tour": {
+                    "skip": "$~hoppa över visningen och fortsätt",
+                    "wait": "$~Ta visningen först, eller hoppa över den, och sedan fortsätter vi."
+                }
             },
             "teach": {
                 "header": "$~Lära",

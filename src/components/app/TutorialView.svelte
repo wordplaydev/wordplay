@@ -13,9 +13,12 @@
         setConceptPath,
         setDragged,
         setProject,
+        setTourRequest,
         type ConceptIndexContext,
+        type TourRequest,
     } from '@components/project/Contexts';
     import ProjectView from '@components/project/ProjectView.svelte';
+    import { isTourID, type TourID } from '@components/project/tours';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -24,7 +27,13 @@
     import Tabbed from '@components/widgets/Tabbed.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import type ConceptIndex from '@concepts/ConceptIndex';
-    import { contrastLanguage, locales, Locales, Settings } from '@db/Database';
+    import {
+        contrastLanguage,
+        locales,
+        Locales,
+        Settings,
+        toursTaken,
+    } from '@db/Database';
     import { Projects } from '@db/projects/Projects';
     import { moderatedFlags } from '@db/projects/Moderation';
     import Project from '@db/projects/Project';
@@ -34,7 +43,7 @@
     import { getLanguageDirection } from '@locale/LanguageCode';
     import { MULTILINGUAL_SEPARATOR } from '@locale/Locales';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import ConceptLink from '@nodes/ConceptLink';
+    import ConceptLink, { TourName } from '@nodes/ConceptLink';
     import type Markup from '@nodes/Markup';
     import type Node from '@nodes/Node';
     import Source from '@nodes/Source';
@@ -128,7 +137,17 @@
 
     let nextButton: HTMLButtonElement | undefined = $state();
     let previousButton: HTMLButtonElement | undefined = $state();
+    let skipButton: HTMLButtonElement | undefined = $state();
     let focusView: HTMLButtonElement | undefined = $state(undefined);
+
+    /** Where focus belongs while a pause is waiting on a tour: the control that
+     *  starts it. That control is written into the dialog's markup, so it is
+     *  found by its uiid rather than bound — the same way everything else that
+     *  points into rendered dialog finds its target. */
+    function tourButton(): HTMLButtonElement | undefined {
+        const view = document.querySelector('[data-uiid="tourLink"]');
+        return view instanceof HTMLButtonElement ? view : skipButton;
+    }
 
     /** Focus the navigation button the user is heading toward, falling back to the other when the
      * preferred one is inactive. At the tutorial's end the next button is inactive (aria-disabled,
@@ -136,7 +155,15 @@
      * the previous button instead. `at` is the position to evaluate (the step being navigated to),
      * not necessarily the current prop, which may not have updated yet. */
     function focusNav(at: Progress, prefer: 'next' | 'previous') {
-        const hasNext = at.nextPause() !== undefined;
+        // Waiting on a tour: the way forward is the tour, so focus that.
+        if (prefer === 'next' && gated) {
+            const target = tourButton();
+            focusView = target;
+            if (target)
+                setKeyboardFocus(target, 'Tutorial focusing its pending tour');
+            return;
+        }
+        const hasNext = at.nextPause() !== undefined && !gated;
         const hasPrevious = at.previousPause() !== undefined;
         const target =
             prefer === 'next'
@@ -162,11 +189,11 @@
     // end, where next is disabled, and which a deep link may only reach after the position resolves
     // post-mount — move focus to the other, active button so focus never rests on an inert control.
     $effect(() => {
-        const noNext = progress.nextPause() === undefined;
+        const noNext = progress.nextPause() === undefined || gated;
         const noPrevious = progress.previousPause() === undefined;
         untrack(() => {
             if (noNext && document.activeElement === nextButton)
-                focusNav(progress, 'previous');
+                focusNav(progress, gated ? 'next' : 'previous');
             else if (noPrevious && document.activeElement === previousButton)
                 focusNav(progress, 'next');
         });
@@ -215,6 +242,13 @@
     /** This is the tutorial's own dragged store, which we keep in a context */
     let localDragged = writable<Node | undefined>();
     setDragged(localDragged);
+
+    /** The slot a `@Tour/<id>` in the dialog writes to. It lives here rather
+     *  than in ProjectView because the dialog is a sibling of the project, not
+     *  a descendant, so this is the nearest common ancestor of the thing that
+     *  offers a tour and the thing that can run one. */
+    const tourRequest: TourRequest = $state({ id: undefined });
+    setTourRequest(tourRequest);
 
     /** Whenever the local tutorial dragged context changes, push it to the project's store */
     $effect(() => {
@@ -295,6 +329,71 @@
               })
             : [],
     );
+
+    /** The interface tours this pause hands the learner to, in the order they
+     *  appear in the dialog. Derived the same way the UI highlights are: from
+     *  the references in the markup, so a tour is offered by writing
+     *  `@Tour/<id>` in the line that would otherwise have described the
+     *  interface itself. */
+    let pendingTours: TourID[] = $derived(
+        turns
+            .map((turn) =>
+                turn.speech
+                    .nodes()
+                    .filter(
+                        (node): node is ConceptLink =>
+                            node instanceof ConceptLink,
+                    ),
+            )
+            .flat()
+            .map((link) => ConceptLink.parse(link.getName()))
+            .filter((parsed): parsed is TourName => parsed instanceof TourName)
+            .map((parsed) => parsed.id)
+            .filter((id) => isTourID(id)),
+    );
+
+    /** Whether this pause is waiting on a tour. The tutorial explains the
+     *  interface by handing the learner to the tour that shows it, so it holds
+     *  here until they've taken it — a tour taken anywhere, at any time, counts,
+     *  and the skip control beside the next button is always available. */
+    let gated = $derived(pendingTours.some((id) => !$toursTaken.includes(id)));
+
+    /** Move on without taking the tours this pause offers. */
+    function skipTours() {
+        for (const id of pendingTours) Settings.markTourTaken(id);
+    }
+
+    /** When a tour releases the gate, take focus back. A tour opened with a
+     *  pointer has nowhere to return focus to (Button's onpointerdown leaves it
+     *  on the body), so without this a keyboard user would have to Tab back
+     *  into the tutorial to continue the lesson they were just held in. */
+    let wasGated = false;
+    $effect(() => {
+        const nowGated = gated;
+        untrack(() => {
+            if (
+                wasGated &&
+                !nowGated &&
+                document.activeElement === document.body
+            )
+                focusNav(progress, 'next');
+            wasGated = nowGated;
+        });
+    });
+
+    /** Say why the arrow key or space bar didn't advance. Only the key path
+     *  needs this: an inactive Button never runs its action, and a screen
+     *  reader already reads the control itself as dimmed on the way to it. The
+     *  interrupt lane is what lets a repeated refusal be heard more than once,
+     *  since the reason is the same words every time. */
+    function announceWait() {
+        if (announce && $announce)
+            $announce(
+                'tutorial-tour',
+                $locales.getLanguages()[0],
+                $locales.getPrimaryPlainText((l) => l.ui.page.learn.tour.wait),
+            );
+    }
 
     let highlights = $derived(
         turns
@@ -672,6 +771,13 @@
             await tick();
             focusNav(previous, 'previous');
         } else if (event.key === 'ArrowRight' || event.key === ' ') {
+            // Waiting on a tour: say so rather than doing nothing, since a key
+            // that produces silence is indistinguishable from a broken app.
+            if (gated) {
+                event.preventDefault();
+                announceWait();
+                return;
+            }
             // At the tutorial's end there's no next step, so do nothing — consistent with the
             // inactive next button (previously this navigated away to the projects page).
             const next = progress.nextPause();
@@ -694,9 +800,11 @@
             // when at the end (where next is inactive).
             const newFocus =
                 focusView ??
-                (progress.nextPause() !== undefined
-                    ? nextButton
-                    : previousButton);
+                (gated
+                    ? tourButton()
+                    : progress.nextPause() !== undefined
+                      ? nextButton
+                      : previousButton);
             if (
                 document.activeElement === document.body &&
                 newFocus !== undefined
@@ -865,7 +973,8 @@
                                 tip={(l) => l.ui.page.learn.button.next}
                                 action={() =>
                                     nav(progress.nextPause() ?? progress)}
-                                active={progress.nextPause() !== undefined}
+                                active={progress.nextPause() !== undefined &&
+                                    !gated}
                                 icon="→"
                                 bind:view={nextButton}
                             ></Button>
@@ -967,6 +1076,23 @@
                                     </Speech>
                                 {/each}
                             {/key}
+                            <!-- Beside the tour it offers, rather than up in the
+                                 nav row: this is the choice being made here, and
+                                 the nav row is a fixed three-part layout the
+                                 narrow dialog column has no room to grow. -->
+                            {#if gated}
+                                <div class="skip">
+                                    <Button
+                                        tip={(l) => l.ui.page.learn.tour.skip}
+                                        action={skipTours}
+                                        bind:view={skipButton}
+                                        ><LocalizedText
+                                            path={(l) =>
+                                                l.ui.page.learn.tour.skip}
+                                        /></Button
+                                    >
+                                </div>
+                            {/if}
                         {/if}
                     </div>
                 </div>
@@ -1012,6 +1138,16 @@
 {/key}
 
 <style>
+    /* A quiet way past the tour: present, reachable, and not competing with the
+       tour button it sits under. */
+    .skip {
+        display: flex;
+        justify-content: flex-end;
+        font-size: small;
+        opacity: 0.8;
+        margin-block-start: calc(var(--wordplay-spacing) / 2);
+    }
+
     .tutorial {
         display: flex;
         flex-direction: column;

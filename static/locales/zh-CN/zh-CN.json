@@ -171,6 +171,14 @@
         "column": {
             "word": "列",
             "definition": "$~@Table 中一个有名字的字段。"
+        },
+        "editor": {
+            "word": "$~编辑器",
+            "definition": "$~你在这个框里写@code。你在这里输入的内容，就是 @wordplay 要执行的东西。"
+        },
+        "stage": {
+            "word": "$~舞台",
+            "definition": "$~这个空间会显示你的 @code 生成的内容，由 @wordplay 展示出来。"
         }
     },
     "terms": {},
@@ -540,7 +548,8 @@
                 "codepoint": "$~Unicode 字符 $concept",
                 "ui": "$~指向 $concept 界面元素的链接",
                 "how": "$~指向 $concept 如何指南的链接",
-                "character": "$~自定义字符 $concept"
+                "character": "$~自定义字符 $concept",
+                "tour": "$~一个指向 $concept 导览的链接"
             }
         },
         "Words": {
@@ -7483,7 +7492,7 @@
             "label": "冲突",
             "cursor": "$~这是 *$node*$type[，它是一个 $type|]。",
             "cursorDoc": "$~它们说：“$description”",
-            "cursorParent": "$~它们在一个 *$node*$type[ 里面，类型是 $type|]。",
+            "cursorParent": "$~它们在一个*$node*$type[里面，其结果为一个 $type|里面]。",
             "learn": "/了解更多/",
             "evaluating": "好玩哦，大家来评价一下吧！",
             "space": "这就是太空！谁知道没有什么东西能表达这么多？",
@@ -8817,7 +8826,11 @@
                 },
                 "contrast": "$~对比",
                 "dialogue": "$~课程对话",
-                "says": "$~$character 说"
+                "says": "$~$character 说",
+                "tour": {
+                    "skip": "$~跳过导览，继续吧",
+                    "wait": "$~先看看导览吧，或者跳过它也行，然后我们就继续啦。"
+                }
             },
             "guide": {
                 "header": "指南",

@@ -180,8 +180,10 @@
                         [
                             "Program",
                             "neutral",
-                            "$~Ben bir gösterinin programının düzenleyicisiyim.",
-                            "$~Bir *düzenleyici* @UI/editor var, sahnede neyin nasıl gösterileceğine dair talimatları buraya koyarsın."
+                            "$~Ben bu gösterinin programını düzenleyen kişiyim. Başlamadan önce, sana ortalığı gezdireyim: @Tour/source",
+                            "$~Şuradaki kutu @UI/editor @editor'dür. Yazdığın yer orasıdır. Orada yazdığın her şey bana verilen bir komuttur.",
+                            "$~Şuradaki alan @UI/stage @stage'dir. Talimatların sonucunda ne çıkarsa, onu orada gösteririm.",
+                            "$~*Yönetmen* — o da sensin! — bize hangi talimatları vereceğine karar verir."
                         ],
                         null,
                         [
@@ -222,7 +224,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Aslında, sahnedeki bir şeyin programını görmek isterseniz, sahnedeki @UI/editProject'te 👁️ tuşuna basabilirsiniz. Bu, herkesin sahnede olanı yaratmak için nasıl bir araya geldiğini gösterecektir. Bu program sadece basit bir cümledir."
+                            "$~Aslında, sahnedeki şeyin arkasındaki programı görmek istersen, sahnenin üstündeki kip değiştiriciyle @UI/modeSwitcher tekrar ✏️ düzenleme'ye geç. Bu, herkesin sahnedeki şeyi oluşturmak için nasıl bir araya geldiğini gösterir. Bu program sadece basit bir Phrase."
                         ],
                         null,
                         [
@@ -324,8 +326,10 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Program @ExpressionPlaceholder talimatını izlemeye çalıştı, ama yer tutucu henüz ne yapacağını söylemediği için, *sahnede* bir *istisna* @UI/exception olarak @Program hesaplandı.",
-                            "$~Bir istisna, @Program senin verdiğin bir talimatı izleyemediğinde olur."
+                            "$~@Program, @ExpressionPlaceholder komutunu yerine getirmeye çalıştı, ama yer tutucu henüz ne yapılacağını söylemiyor. Bu yüzden @Program takıldı ve bunu @stage @UI/exception üzerinde söyledi.",
+                            "$~@Program bir komutu yerine getiremediğinde durur ve neyin yanlış gittiğini gösterir. Buna *istisna* denir. Bu, bir şeyi bozduğun anlamına gelmez. @Program'in senden daha fazla bir şeye ihtiyacı olduğu anlamına gelir.",
+                            "$~@Program, önceden bir yerde takılıp kalacağını fark ederse, o noktayı kafa karışıklığını açıklayan bir *@conflict* @UI/conflict ile işaretler.",
+                            "$~@ExpressionPlaceholder'i seçersen ya da metin imlecini üzerine getirirsen, onun yerine ne koyabileceğine dair seçenekleri görebilirsin. Ayrıca @ExpressionPlaceholder üzerine yazıp kendi metnini de yazabilirsin. Örneğin, şunu yazmayı dene \\'merhaba'\\."
                         ],
                         null,
                         { "fit": "#Symbol -" },
@@ -654,8 +658,8 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "$~Size düğmelerden birini göstereyim. @UI/paletteExpand'deki küçük *palet* geçiş düğmesini bulabilir misiniz? Paleti genişletmek için onu seçin ve ardından sahnede ifadeyi seçin.",
-                            "$~Bunu yaptığınızda, @Phrase'in kabul ettiği birçok girdiyi göreceksiniz. Örneğin, @Phrase.size için kalem düğmesine basmayı deneyin, bu bir kaydırıcıyı ortaya çıkaracaktır.",
+                            "$~Sana düğmelerden birini göstereyim. *Palet* @UI/paletteExpand, bir @Phrase'in görünümünü hiçbir şey yazmadan değiştirebileceğin yerdir. @Tour/palette",
+                            "$~Palet açıkken ve bir phrase seçiliyken, @Phrase'in kabul ettiği birçok girdiyi göreceksin. Örneğin, @Phrase.size için kalem düğmesine basmayı dene; bu bir kaydırıcı ortaya çıkaracak.",
                             "$~Bu kaydırıcıyı kullanarak ifadenin boyutunu değiştirebilir, aynı zamanda @Evaluate kodunu da seçtiğiniz boyuta göre değiştirebilirsiniz."
                         ],
                         null,
@@ -960,7 +964,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~@FunctionDefinition benim için çok daha ilginç işlevler yaptı, ancak size ayrıntıları anlatmayacağım. Beni her zaman *referans* @UI/docsExpand adresinde bulabilirsiniz. Verse'deki herkes hakkında tüm bilgileri, bizimle nasıl çalışılacağı ve hangi işlevlere sahip olduğumuz dahil, burada saklıyoruz. Metni denetlemenin ve oluşturmanın daha fazla yolunu paylaşmaktan mutluluk duyarım!"
+                            "$~@FunctionDefinition benim için çok daha ilginç fonksiyonlar yaptı, ama ayrıntılarla seni sıkmayayım. Beni her zaman @guide @UI/docsExpand'de bulabilirsin. Orası, Verse'teki herkes hakkındaki tüm bilgileri tuttuğumuz yerdir; bizimle nasıl çalışılacağı ve hangi fonksiyonlara sahip olduğumuz da dahil. Devam etmeden önce oraya bir göz at, ben orada seni bekliyor olacağım. @Tour/docs"
                         ],
                         null,
                         [
@@ -2558,7 +2562,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Zaman çizelgesini @UI/timeline sürüklemeyi, zaman çizelgesi düğmelerini kullanmayı ya da zaman çizelgesi odaklandığında ok tuşlarını kullanmayı dene. Önceki değerlendirmeleri görmek için zamanda geriye gidebilirsin. Kesikli oklar önceki ve gelecekteki akış girdilerine adım atar. Düz olanlar programın farklı adımları arasında geçiş yapar. Zamanda gezinmeyi ve programın ne gösterdiğini görmeyi dene. Öğrendiğin tüm güzel ifadelerin @Evaluate tarafından adım adım nasıl değerlendirildiğini ve @Program'nin sahnede gösterdiği son değeri nasıl oluşturduğunu böyle görebilirsin. Keşfetmeyi bitirdiğinde, mod değiştirici @UI/modeSwitcher seni tekrar ▶️ oynatmaya ya da ✏️ düzenlemeye götürür."
+                            "$~Zaman çizelgesi @UI/timeline, o değerlendirmelerin arasında geriye gitmeni sağlar. Böylece @Evaluate'in, öğrendiğin ifadeler üzerinde adım adım nasıl çalıştığını izleyebilirsin; ta ki @Program'nin @stage üzerinde gösterdiği değere ulaşana kadar. ⏸️ hata ayıklama kipinde kal — zaman çizelgesi orada bulunur — ve içimizden biri sana tüm kontrollerinin nerede olduğunu gösterecek. Sonra keşfetmeye git; işin bittiğinde, kip değiştirici @UI/modeSwitcher seni tekrar ▶️ oynatma ya da ✏️ düzenleme'ye götürür. @Tour/stage"
                         ],
                         [
                             "Time",

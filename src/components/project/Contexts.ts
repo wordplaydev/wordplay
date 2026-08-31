@@ -1,3 +1,4 @@
+import type { TourID } from '@components/project/tours';
 import type { ActiveHint } from '@components/widgets/Hint.svelte';
 import type { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
 import type ConceptIndex from '@concepts/ConceptIndex';
@@ -344,6 +345,16 @@ export const [getSelectedOutput, setSelectedOutput] = createOptionalContext<
  *  output invokes this on double-click or Enter to open the palette for the selected content. */
 export const [getRevealPalette, setRevealPalette] =
     createOptionalContext<() => void>();
+
+/** A slot a `@Tour/<id>` reference writes to, and the project view watches, to
+ *  start a tour. It is a slot rather than a launcher function because the thing
+ *  that offers a tour is not always inside the view that can run one: the
+ *  tutorial's dialog is a sibling of its ProjectView, not a descendant, so the
+ *  tutorial sets the slot above both. ProjectView provides its own when nothing
+ *  above it has, so a reference inside its guide tile still works. */
+export type TourRequest = { id: TourID | undefined };
+export const [getTourRequest, setTourRequest] =
+    createOptionalContext<TourRequest>();
 
 /** Whether the palette is on screen. Output selection and the chrome that explains it are
  *  features of the palette, so everything that draws or makes a selection consults this.

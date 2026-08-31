@@ -171,6 +171,14 @@
         "column": {
             "word": "$~Spalte",
             "definition": "$~Ein benanntes Feld in einer @Table."
+        },
+        "editor": {
+            "word": "$~Editor",
+            "definition": "$~Die Box, in der du @code schreibst. Was du dort eingibst, führt @wordplay aus."
+        },
+        "stage": {
+            "word": "$~Bühne",
+            "definition": "$~Der Bereich, in dem @wordplay zeigt, was dein @code erschaffen hat."
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~das Unicode-Zeichen $concept",
                 "ui": "$~ein Link zum $concept Schnittstellenelement",
                 "how": "$~ein Link zur $concept -Anleitung",
-                "character": "$~der benutzerdefinierte Charakter $concept"
+                "character": "$~der benutzerdefinierte Charakter $concept",
+                "tour": "$~ein Link zu einer Tour durch das $concept"
             }
         },
         "Words": {
@@ -7504,7 +7513,7 @@
             "label": "$~Konflikte und Hilfe",
             "cursor": "$~Dies ist *$node*$type[ und es ist ein $type|].",
             "cursorDoc": "$~Sie sagen: „$description“",
-            "cursorParent": "$~Sie befinden sich innerhalb eines *$node*$type[ vom Typ $type|].",
+            "cursorParent": "$~Sie sind innerhalb eines *$node*$type[, das zu einem $type ausgewertet wird.|].",
             "learn": "$~/Erfahren Sie mehr/",
             "evaluating": "$~Oh Spaß, lass es uns auswerten!",
             "space": "$~Das ist Weltraum! Wer hätte gedacht, dass nichts so viel aussagen kann?",
@@ -8864,7 +8873,11 @@
                 },
                 "contrast": "$~vergleichen mit",
                 "dialogue": "$~Lektionsdialog",
-                "says": "$~$character sagt"
+                "says": "$~$character sagt",
+                "tour": {
+                    "skip": "$~Tour überspringen und weitermachen",
+                    "wait": "$~Mach zuerst die Tour, oder überspringe sie, und dann machen wir weiter."
+                }
             },
             "projects": {
                 "header": "Projekte",

@@ -1,4 +1,5 @@
 import type ConceptIndex from '@concepts/ConceptIndex';
+import { isTourID } from '@components/project/tours';
 import { HowToIDs, type HowToID } from '@concepts/HowTo';
 import type Conflict from '@conflicts/Conflict';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
@@ -167,6 +168,21 @@ export class UIName {
     }
 }
 
+/** A `@Tour/<id>` reference to one of the interface tours, which renders as a
+ *  control that starts it. The tutorial uses these to hand a learner to the
+ *  tour that teaches a part of the interface, rather than describing it. */
+export class TourName {
+    /** Not narrowed to a TourID: an unknown id must still parse as a tour
+     *  reference so `isValid` can report the typo, rather than falling through
+     *  to a custom character reference, which is valid by construction (a
+     *  creator's characters aren't known at check time) and so reports nothing. */
+    readonly id: string;
+
+    constructor(id: string) {
+        this.id = id;
+    }
+}
+
 export class HowToName {
     readonly name: string;
 
@@ -279,6 +295,10 @@ export default class ConceptLink extends Content {
         // either separator resolves; authored content uses `.` for concepts.
         const [concept, property] = name.split(/[./]/);
         if (concept.toLowerCase() === 'ui') return new UIName(property);
+        // Only with an id, for the same reason as `how` below: a bare `@tour`
+        // should stay available as an ordinary word.
+        if (concept.toLowerCase() === 'tour' && property !== undefined)
+            return new TourName(property);
         // Only with an id: a bare `@how` is the glossary term "how-to", and
         // classifying it as a how-to reference left it resolving to nothing and
         // rendering as the literal text `@how` in every locale that uses it.
@@ -292,9 +312,9 @@ export default class ConceptLink extends Content {
         // The reserved `U` namespace is a Unicode codepoint reference (e.g.
         // `@U/1F600` → 😀). An invalid codepoint (bad hex, out of range, NUL,
         // or a surrogate) is unparseable, so `isValid` reports a conflict.
-        // The reserved namespaces `u`, `ui`, and `how` can never collide with
-        // a creator's username, since usernames require at least 5 characters
-        // (see isValidUsername).
+        // The reserved namespaces `u`, `ui`, `how`, and `tour` can never collide
+        // with a creator's username, since usernames require at least 5
+        // characters (see isValidUsername).
         if (concept.toLowerCase() === 'u') {
             if (property === undefined) return undefined;
             const codepoint = getCodepointFromString(property);
@@ -358,6 +378,10 @@ export default class ConceptLink extends Content {
             concept instanceof CharacterName
         )
             return true;
+        // Unlike a custom character, every tour is known at check time, so a
+        // reference to one that doesn't exist is a conflict rather than a
+        // link that quietly renders as nothing.
+        if (concept instanceof TourName) return isTourID(concept.id);
         // A bare word like `@how` parses as a HowToName (a how-to reference uses
         // a specific id, e.g. `@phrase-how-to`), but the same word can be a
         // glossary term (`how` → "how-to"). Accept a valid how-to id OR, falling
@@ -438,6 +462,10 @@ export default class ConceptLink extends Content {
         if (parsed instanceof UIName)
             return locales.concretize((l) => l.node.ConceptLink.kind.ui, {
                 concept: parsed.id ?? this.getName(),
+            });
+        if (parsed instanceof TourName)
+            return locales.concretize((l) => l.node.ConceptLink.kind.tour, {
+                concept: parsed.id,
             });
         if (parsed instanceof HowToName)
             return locales.concretize((l) => l.node.ConceptLink.kind.how, {

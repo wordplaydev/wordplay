@@ -180,10 +180,10 @@
                         [
                             "Program",
                             "neutral",
-                            "$~Sunt organizatorul programului pentru un spectacol.",
-                            "$~Am un *editor* @UI/editor, unde pui instrucțiuni despre ce să afișezi pe scenă și cum.",
-                            "$~Folosesc aceste instrucțiuni pentru a afișa ieșirea pe *stage* @UI/stage.",
-                            "$~*Directorul* — adică tu! — decide ce instrucțiuni să ne dea."
+                            "$~Sunt organizatorul programului pentru un spectacol. Înainte să începem, hai să-ți arăt totul: @Tour/source",
+                            "$~Cutia aceea de acolo @UI/editor este @editor. Acolo scrii tu. Tot ce scrii acolo este o instrucțiune pentru mine.",
+                            "$~Spațiul acela de acolo @UI/stage este @stage. Orice rezultă din instrucțiunile tale, îl arăt acolo.",
+                            "$~*Regizorul* — acela ești tu! — decide ce instrucțiuni ne dă. Înainte să începem, lasă-mă să-ți arăt @editor: @Tour/source"
                         ],
                         null,
                         [
@@ -224,7 +224,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~De fapt, dacă vrei vreodată să vezi programul pentru ceva de pe scenă, poți apăsa tasta 👁️ pe scenă @UI/editProject. Asta îți va arăta cum toată lumea se reunește pentru a crea ceea ce este pe scenă. Acest program este doar o simplă frază."
+                            "$~De fapt, dacă vrei vreodată să vezi programul din spatele a ceea ce e pe scenă, treci înapoi la ✏️ editare cu comutatorul de mod @UI/modeSwitcher de deasupra scenei. Acolo vei vedea cum se îmbină toate pentru a crea ceea ce apare pe scenă. Acest program este doar o frază simplă."
                         ],
                         null,
                         [
@@ -322,9 +322,9 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Program a încercat să urmeze instrucțiunea @ExpressionPlaceholder, dar fiindcă placeholderul nu spune încă ce să facă, @Program a produs o *excepție* @UI/exception pe *scenă*.",
-                            "$~O excepție apare atunci când @Program nu poate urma o instrucțiune dată de tine.",
-                            "$~Dacă @Program știe că va exista o excepție, va arăta un @UI/conflict *@conflict* care explică confuzia lui.",
+                            "$~@Program a încercat să urmeze instrucțiunea @ExpressionPlaceholder, dar substituentul nu spune încă ce trebuie făcut. Așa că @Program s-a blocat și a spus asta pe @stage @UI/exception.",
+                            "$~Când @Program nu poate urma o instrucțiune, se oprește și arată ce a mers greșit. Aceasta este o *excepție*. Nu înseamnă că ai stricat ceva. Înseamnă că @Program are nevoie de ceva mai mult de la tine.",
+                            "$~Când @Program poate să-și dea seama dinainte că se va bloca, marchează locul cu un *@conflict* @UI/conflict care explică nelămurirea.",
                             "$~Dacă selectați @ExpressionPlaceholder sau mutați cursorul de text peste acesta, puteți vedea opțiuni pentru înlocuirea acestuia. De asemenea, puteți tasta peste @ExpressionPlaceholder și scrie propriul text. De exemplu, încercați să tastați \\'hello'\\."
                         ],
                         null,
@@ -650,8 +650,8 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "$~Permite-mi să-ți arăt unul dintre butoane. Poți găsi micul buton de comutare *paletă* @UI/paletteExpand? Selectează-l pentru a extinde paleta și apoi selectează fraza de pe scenă.",
-                            "$~După ce faci asta, vei vedea numeroasele intrări pe care le acceptă @Phrase. De exemplu, încearcă să apeși butonul creion pentru @Phrase.size, ceea ce va dezvălui un cursor.",
+                            "$~Lasă-mă să-ți arăt unul dintre butoane. *Paleta* @UI/paletteExpand este locul unde schimbi cum arată o @Phrase fără să tastezi nimic. @Tour/palette",
+                            "$~Cu paleta deschisă și o frază selectată, vei vedea multele intrări pe care @Phrase le acceptă. De exemplu, încearcă să apeși butonul cu creion pentru @Phrase.size, care va arăta un cursor glisant.",
                             "$~Puteți folosi acest cursor pentru a modifica dimensiunea frazei, ceea ce va modifica și codul @Evaluate cu dimensiunea aleasă."
                         ],
                         null,
@@ -956,7 +956,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~@FunctionDefinition a creat mult mai multe funcții interesante pentru mine, dar vă voi scuti de detalii. Mă puteți găsi oricând în *referința* @UI/docsExpand. Acolo păstrăm toate informațiile despre toți cei din Verse, inclusiv cum să lucrați cu noi și ce funcții avem. Mă bucur să împărtășesc mai multe modalități de a inspecta și crea text!"
+                            "$~@FunctionDefinition a creat pentru mine mult mai multe funcții interesante, dar nu o să intru în detalii. Mă poți găsi mereu în @guide @UI/docsExpand. Acolo păstrăm toate informațiile despre toți din Vers, inclusiv cum să lucrezi cu noi și ce funcții avem. Aruncă o privire acolo înainte să continui, iar eu voi fi acolo, așteptând. @Tour/docs"
                         ],
                         null,
                         [
@@ -2538,7 +2538,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Încearcă să tragi pe cronologie @UI/timeline, folosind butoanele cronologiei, sau folosind tastele săgeată cu cronologia selectată. Poți merge înapoi în timp pentru a vedea evaluările anterioare. Săgețile punctate trec la intrările de flux anterioare și viitoare. Cele pline trec între diferiții pași ai programului. Încearcă să navighezi prin timp și să vezi ce arată programul. Așa poți vedea toate expresiile frumoase despre care ai învățat, evaluate de @Evaluate, câte un pas o dată, ducând la valoarea finală pe care @Program o afișează pe scenă. Când ai terminat de explorat, comutatorul de mod @UI/modeSwitcher te duce înapoi la ▶️ redare sau ✏️ editare."
+                            "$~Cronologia @UI/timeline îți permite să călătorești înapoi prin acele evaluări, ca să poți urmări cum @Evaluate parcurge expresiile despre care ai învățat, pas cu pas, până ajunge la valoarea pe care @Program o arată pe @stage. Rămâi în modul ⏸️ depanare — acolo se află cronologia — și unul dintre noi îți va arăta unde sunt toate comenzile ei. Apoi explorează; când termini, comutatorul de mod @UI/modeSwitcher te duce înapoi la ▶️ redare sau ✏️ editare. @Tour/stage"
                         ],
                         [
                             "Time",

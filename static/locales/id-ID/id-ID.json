@@ -171,6 +171,14 @@
         "column": {
             "word": "$~kolom",
             "definition": "$~Sebuah kolom bernama di dalam @Table."
+        },
+        "editor": {
+            "word": "$~editor",
+            "definition": "$~Kotak tempat kamu menulis @code. Apa yang kamu ketik di sana akan dijalankan oleh @wordplay."
+        },
+        "stage": {
+            "word": "$~panggung",
+            "definition": "$~Ruang tempat @wordplay menampilkan hasil buatan @code kamu."
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~$concept karakter Unicode",
                 "ui": "$~tautan ke elemen antarmuka $concept",
                 "how": "$~tautan ke panduan $concept",
-                "character": "$~karakter kustom $concept"
+                "character": "$~karakter kustom $concept",
+                "tour": "$~tautan ke tur $concept"
             }
         },
         "Words": {
@@ -7767,7 +7776,7 @@
             "label": "$~konflik dan bantuan",
             "cursor": "$~Ini adalah *$node*$type[ dan itu adalah sebuah $type|].",
             "cursorDoc": "$~Mereka berkata: “$description”",
-            "cursorParent": "$~Mereka berada di dalam * $node * $type[ bertipe $type |].",
+            "cursorParent": "$~Mereka ada di dalam *$node*$type[, yang menghasilkan sebuah $type|].",
             "learn": "$~Pelajari selengkapnya",
             "evaluating": "$~Wah, seru sekali, mari kita evaluasi!",
             "space": "$~Inilah ruang angkasa! Siapa sangka ketiadaan bisa mengungkapkan begitu banyak hal?",
@@ -9326,7 +9335,11 @@
                 },
                 "contrast": "$~bandingkan dengan",
                 "dialogue": "$~dialog pelajaran",
-                "says": "$~$character berkata"
+                "says": "$~$character berkata",
+                "tour": {
+                    "skip": "$~lewati tur dan lanjutkan",
+                    "wait": "$~Ikuti tur ini dulu, atau lewati saja, lalu kita akan lanjutkan."
+                }
             },
             "localize": {
                 "header": "$~Melokalisir",

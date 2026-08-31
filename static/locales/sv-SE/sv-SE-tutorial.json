@@ -176,8 +176,10 @@
                         [
                             "Program",
                             "neutral",
-                            "$~Jag är den som organiserar programmet för en föreställning.",
-                            "$~Jag har en *redigerare* @UI/editor, där du skriver in instruktioner om vad som ska visas på scenen, och hur."
+                            "$~Jag är den som organiserar programmet för en föreställning. Innan vi börjar ska jag visa dig runt: @Tour/source",
+                            "$~Den rutan där @UI/editor är @editor. Det är där du skriver. Allt du skriver där är en instruktion till mig.",
+                            "$~Utrymmet där borta @UI/stage är @stage. Vad dina instruktioner än blir till, visar jag det där.",
+                            "$~*Regissören* — det är du! — bestämmer vilka instruktioner vi ska följa."
                         ],
                         null,
                         [
@@ -218,7 +220,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Faktum är att om du någon gång vill se programmet för något på scen kan du trycka på 👁️ på scen @UI/editProject. Det visar dig hur alla går samman för att skapa det som finns på scenen. Detta program är bara en enkel fras."
+                            "$~Om du vill se programmet bakom det som visas på scenen kan du byta tillbaka till ✏️ redigera med lägesväljaren @UI/modeSwitcher ovanför scenen. Då ser du hur allt samverkar för att skapa det som visas på scenen. Det här programmet är bara en enkel fras."
                         ],
                         null,
                         [
@@ -316,8 +318,10 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Program försökte följa instruktionen @ExpressionPlaceholder, men eftersom platshållaren ännu inte säger vad som ska göras, @Program utvärderade den till ett *undantag* @UI/exception på *scenen*.",
-                            "$~Ett undantag händer när @Program inte kan följa en instruktion du ger."
+                            "$~@Program försökte följa instruktionen @ExpressionPlaceholder, men platshållaren säger ännu inte vad den ska göra. Så @Program körde fast, och sa det på @stage @UI/exception.",
+                            "$~När @Program inte kan följa en instruktion, stannar den och visar vad som gick fel. Det kallas ett *undantag*. Det betyder inte att du har förstört något. Det betyder att @Program behöver något mer från dig.",
+                            "$~När @Program kan säga i förväg att den kommer att fastna, märker den ut stället med en *@conflict* @UI/conflict som förklarar förvirringen.",
+                            "$~Om du markerar @ExpressionPlaceholder, eller flyttar textmarkören över den, kan du se förslag på vad du kan byta ut den med. Du kan också bara skriva över @ExpressionPlaceholder och skriva din egen text. Testa till exempel att skriva \\'hej'\\."
                         ],
                         null,
                         { "fit": "#Symbol -" },
@@ -646,8 +650,8 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "$~Låt mig visa dig en av rattarna. Kan du hitta den lilla växlingsknappen *palette* @UI/paletteExpand? Välj den för att utöka paletten och välj sedan frasen på scenen.",
-                            "$~När du gör det ser du de många indata som @Phrase accepterar. Prova till exempel att trycka på pennknappen för @Phrase.size, vilket visar ett skjutreglage.",
+                            "$~Låt mig visa dig en av reglagen. *Paletten* @UI/paletteExpand är där du ändrar hur en @Phrase ser ut utan att skriva något. @Tour/palette",
+                            "$~Med paletten öppen och en fras vald ser du de många inputs som @Phrase tar emot. Prova till exempel att trycka på pennknappen för @Phrase.size, vilket visar en skjutreglage.",
                             "$~Du kan använda det här skjutreglaget för att ändra storleken på frasen, vilket också kommer att ändra @Evaluate-koden med den storlek du väljer."
                         ],
                         null,
@@ -952,7 +956,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~@FunctionDefinition har gjort så många fler intressanta funktioner för mig, men jag ska bespara dig detaljerna. Du kan alltid hitta mig i *referens* @UI/docsExpand. Det är där vi lagrar all information om alla i Versen, inklusive hur vi arbetar med oss och vilka funktioner vi har. Jag delar gärna med mig av fler sätt att inspektera och skapa text!"
+                            "$~@FunctionDefinition har skapat många fler intressanta funktioner för mig, men jag bespar dig detaljerna. Du kan alltid hitta mig i @guide @UI/docsExpand. Det är där vi håller all information om alla i Versen, inklusive hur man arbetar med oss och vilka funktioner vi har. Titta runt där innan du går vidare, jag väntar där inne. @Tour/docs"
                         ],
                         null,
                         [
@@ -2542,7 +2546,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Prova att dra i tidslinjen @UI/timeline, använda tidslinjeknapparna, eller använda piltangenterna när tidslinjen är i fokus. Du kan gå bakåt i tiden för att se tidigare utvärderingar. De streckade pilarna stegar till tidigare och framtida flödesindata. De heldragna stegar mellan olika steg i programmet. Prova att navigera i tiden och se vad programmet visar. Så här kan du se alla de vackra uttryck du har lärt dig om bli utvärderade av @Evaluate, ett steg i taget, vilket resulterar i det slutvärde som @Program visar på scenen. När du är klar med att utforska tar lägesväxlaren @UI/modeSwitcher dig tillbaka till ▶️-uppspelning eller ✏️-redigering."
+                            "$~Tidslinjen @UI/timeline låter dig resa tillbaka genom dessa utvärderingar, så du kan se @Evaluate arbeta sig igenom uttrycken du har lärt dig om, ett steg i taget, tills den når värdet som @Program visar på @stage. Stanna i ⏸️ felsökning — det är där tidslinjen finns — och en av oss visar dig var alla dess kontroller finns. Sedan kan du utforska; när du är klar tar lägesväljaren @UI/modeSwitcher dig tillbaka till ▶️ spela eller ✏️ redigera. @Tour/stage"
                         ],
                         [
                             "Time",

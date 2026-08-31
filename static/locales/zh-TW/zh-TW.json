@@ -171,6 +171,14 @@
         "column": {
             "word": "$~欄",
             "definition": "$~@Table中一個具名的欄位。"
+        },
+        "editor": {
+            "word": "$~編輯器",
+            "definition": "$~寫@code的地方。你在這裡輸入的內容，就是 @wordplay 執行的內容。"
+        },
+        "stage": {
+            "word": "$~舞台",
+            "definition": "$~顯示你的 @code 做出什麼的空間，就是 @wordplay。"
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~Unicode 字元 $concept",
                 "ui": "$~連到 $concept 介面元素的連結",
                 "how": "$~連到 $concept 操作指南的連結",
-                "character": "$~自訂字元 $concept"
+                "character": "$~自訂字元 $concept",
+                "tour": "$~前往 $concept 導覽的連結"
             }
         },
         "Words": {
@@ -7495,7 +7504,7 @@
                 "highlightStep": "$~在編輯器中顯示這個計算步驟的程式碼",
                 "elsewhere": "$~打開可以修正這個問題的地方"
             },
-            "cursorParent": "$~它們在一個 *$node*$type[，型別是 $type|] 裡面。",
+            "cursorParent": "$~它們在 *$node*$type[，會求值成 $type|]裡面。",
             "nodeDescription": "$~它們 $description。",
             "severity": {
                 "major": "$~錯誤",
@@ -8831,7 +8840,11 @@
                 },
                 "contrast": "$~比較",
                 "dialogue": "$~課程對話",
-                "says": "$~$character 說"
+                "says": "$~$character 說",
+                "tour": {
+                    "skip": "$~跳過導覽，繼續進行",
+                    "wait": "$~先來看導覽，或是跳過它，然後我們就繼續吧。"
+                }
             },
             "guide": {
                 "header": "指導",

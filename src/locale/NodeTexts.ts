@@ -239,6 +239,8 @@ type NodeTexts = {
             codepoint: Template<['concept']>;
             /** [formatted] Description when the reference is a UI element (e.g. @UI/toolbar). */
             ui: Template<['concept']>;
+            /** [formatted] Description when the reference is an interface tour (e.g. @Tour/source). */
+            tour: Template<['concept']>;
             /** [formatted] Description when the reference is a how-to (e.g. @How/...). */
             how: Template<['concept']>;
             /** [formatted] Description when the reference is a creator's custom character (e.g. @amy/cat). */

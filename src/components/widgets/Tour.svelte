@@ -1,19 +1,3 @@
-<script module lang="ts">
-    import type { LocaleTextsAccessor } from '@locale/Locales';
-
-    /** A pair identifying a UI element by its `data-uiid` and the localized
-     * markup that explains it. A Tour walks through a sequence of these. */
-    export type UIExplanation = {
-        uiid: string;
-        explanation: LocaleTextsAccessor;
-        /** Optional side-effect run when this step becomes active. Use to
-         * change UI state so the next highlighted control is visible —
-         * e.g., switching a tab in the Guide so the relevant section is
-         * showing before its target is located. */
-        onEnter?: () => void;
-    };
-</script>
-
 <script lang="ts">
     import { browser } from '$app/environment';
     import Emoji from '@components/app/Emoji.svelte';
@@ -27,6 +11,7 @@
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { CANCEL_SYMBOL, QUESTION_SYMBOL } from '@parser/Symbols';
+    import type { UIExplanation } from '@components/project/tourSteps';
     import { onDestroy, tick, untrack } from 'svelte';
 
     interface Props {

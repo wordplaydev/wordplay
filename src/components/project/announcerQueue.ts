@@ -61,6 +61,11 @@ const Lanes = {
     // interrupt — a failure the creator must hear at once
     ignored: { lane: 'interrupt', immediate: true },
     banner: { lane: 'interrupt', immediate: true },
+    // The tutorial refusing to advance until a tour is taken. Interrupt rather
+    // than queued because it answers a keystroke that did nothing, and because
+    // this lane re-presents identical text: the refusal is the same event every
+    // time, so the usual "vary the words or it's heard once" fix doesn't apply.
+    'tutorial-tour': { lane: 'interrupt', immediate: true },
     // queued
     fold: 'queued',
     selection: 'queued',

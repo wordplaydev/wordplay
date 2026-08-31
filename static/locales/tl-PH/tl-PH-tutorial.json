@@ -176,10 +176,10 @@
                         [
                             "Program",
                             "neutral",
-                            "$~Ako ang tagapag-ayos ng programa para sa isang pagtatanghal.",
-                            "$~Mayroon akong *editor* sa @UI/editor, kung saan mo nilalagay ang mga tagubilin kung ano ang ipapakita sa entablado, at kung paano.",
-                            "$~Ginagamit ko ang mga tagubiling iyon para ipakita ang output sa *stage* @UI/stage.",
-                            "$~Ang *direktor* — ikaw 'yan! — ang magpapasya kung anong mga tagubilin ang ibibigay sa atin."
+                            "$~Ako ang tagapangasiwa ng programa para sa isang pagtatanghal. Bago tayo magsimula, ipakikita ko muna sa iyo ang mga bahagi nito: @Tour/source",
+                            "$~Ang kahon na iyon doon @UI/editor ay ang @editor. Dito ka sumusulat. Lahat ng isinusulat mo doon ay isang tagubilin para sa akin.",
+                            "$~Ang espasyong iyon doon @UI/stage ay ang @stage. Kung ano man ang resulta ng mga tagubilin mo, doon ko ito ipinapakita.",
+                            "$~Ang *direktor* — ikaw iyon! — ang magpapasya kung anong mga tagubilin ang ibibigay sa amin. Bago tayo magsimula, ipakita ko muna sa iyo ang @editor: @Tour/source"
                         ],
                         null,
                         [
@@ -220,7 +220,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Sa katunayan, kung gusto mong makita ang programa para sa isang bagay sa entablado, maaari mong pindutin ang 👁️ sa entablado @UI/editProject. Ipapakita nito sa iyo kung paano nagsasama-sama ang lahat upang likhain ang nasa entablado. Ang programang ito ay isang simpleng parirala lamang."
+                            "$~Sa katunayan, kung gusto mo tingnan ang programa sa likod ng nasa entablado, bumalik ka sa ✏️ pag-edit gamit ang tagapagpalit ng mode @UI/modeSwitcher sa itaas ng entablado. Doon mo makikita kung paano nagtutulungan ang lahat para gawin ang nasa entablado. Ang programang ito ay isa lang simpleng parirala."
                         ],
                         null,
                         [
@@ -318,9 +318,9 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Sinubukan ng @Program na sundin ang tagubilin ng @ExpressionPlaceholder, ngunit dahil hindi pa sinasabi ng placeholder kung ano ang gagawin, nasuri ito ng @Program sa isang *exception* @UI/exception sa *stage*.",
-                            "$~Nangyayari ang isang eksepsiyon kapag hindi masusunod ng @Program ang isang tagubiling ibinibigay mo.",
-                            "$~Kung alam ni @Program na magkakaroon ng eksepsiyon, magpapakita ito ng *@conflict* @UI/conflict na nagpapaliwanag ng kalituhan nito.",
+                            "$~Sinubukan ng @Program na sundin ang tagubiling @ExpressionPlaceholder, pero wala pang sinasabi ang placeholder kung ano ang gagawin. Kaya naipit ang @Program, at sinabi niya ito sa @stage @UI/exception.",
+                            "$~Kapag hindi masunod ng @Program ang isang tagubilin, huminto ito at ipinapakita kung ano ang nagkamali. Iyon ay tinatawag na *exception*. Hindi ito nangangahulugang may sinira ka. Ibig sabihin nito, kailangan pa ng @Program ng karagdagang impormasyon mula sa iyo.",
+                            "$~Kapag alam na agad ng @Program na maiipit ito sa hinaharap, minamarkahan nito ang lugar ng isang *@conflict* @UI/conflict na nagpapaliwanag ng pagkalito.",
                             "$~Kung pipiliin mo ang @ExpressionPlaceholder, o ililipat ang cursor ng teksto dito, makikita mo ang mga opsyon para sa kung ano ang ipapalit dito. Maaari mo ring i-type lamang ang @ExpressionPlaceholder at sumulat ng sarili mo. Halimbawa, subukang i-type ang \\'hello'\\."
                         ],
                         null,
@@ -654,8 +654,8 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "$~Hayaan mong ipakita ko sa iyo ang isa sa mga hawakan. Mahahanap mo ba ang maliit na *palette* toggle button sa @UI/paletteExpand? Piliin ito para palawakin ang palette at pagkatapos ay piliin ang parirala sa entablado.",
-                            "$~Kapag nagawa mo na, makikita mo ang maraming input na tinatanggap ng @Phrase. Halimbawa, subukang pindutin ang buton na lapis para sa @Phrase.size, na magpapakita ng slider.",
+                            "$~Ipakita ko sa iyo ang isa sa mga kontrol. Ang *palette* @UI/paletteExpand ay kung saan mo babaguhin ang itsura ng isang @Phrase nang hindi kailangang magtype ng kahit ano. @Tour/palette",
+                            "$~Kapag bukas ang palette at may napiling parirala, makikita mo ang maraming input na tinatanggap ng @Phrase. Halimbawa, subukan mong pindutin ang buton ng lapis para sa @Phrase.size, na magpapakita ng isang slider.",
                             "$~Maaari mong gamitin ang slider na ito upang baguhin ang laki ng parirala, na magbabago rin sa @Evaluate code gamit ang laki na iyong pipiliin."
                         ],
                         null,
@@ -960,7 +960,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~Ang @FunctionDefinition ay gumawa ng mas maraming kawili-wiling mga function para sa akin, ngunit hindi ko na sasabihin sa inyo ang mga detalye. Mahahanap mo ako palagi sa *reference* @UI/docsExpand. Doon namin itinatago ang lahat ng impormasyon tungkol sa lahat ng nasa Talata, kabilang ang kung paano makipagtulungan sa amin at kung anong mga function ang mayroon kami. Masaya akong magbahagi ng higit pang mga paraan upang siyasatin at lumikha ng teksto!"
+                            "$~Marami pang ibang kawili-wiling function ang ginawa ni @FunctionDefinition para sa akin, pero hindi ko na ito idedetalye. Palagi mo akong mahahanap sa @guide @UI/docsExpand. Doon namin itinatago ang lahat ng impormasyon tungkol sa lahat sa Verse, kasama na kung paano makipagtulungan sa amin at kung anong mga function meron kami. Tingnan mo muna ito bago ka magpatuloy, at maghihintay ako doon. @Tour/docs"
                         ],
                         null,
                         [
@@ -2566,7 +2566,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Subukang i-drag ang timeline @UI/timeline, gamitin ang mga timeline button, o gamitin ang mga arrow key habang naka-focus ang timeline. Puwede kang bumalik sa nakaraan para makita ang mga naunang pagsusuri. Ang mga putol-putol na arrow ay lumilipat sa mga nakaraan at darating na stream input. Ang mga solidong arrow ay lumilipat sa pagitan ng iba't ibang hakbang ng program. Subukang mag-navigate sa oras at tingnan kung ano ang ipinapakita ng program. Ganito mo makikita ang lahat ng magagandang expression na natutunan mo na sinusuri ng @Evaluate, isang hakbang sa bawat pagkakataon, na nagreresulta sa panghuling value na ipinapakita ng @Program sa stage. Kapag tapos ka nang mag-explore, ibabalik ka ng mode switcher @UI/modeSwitcher sa ▶️ pag-play o ✏️ pag-edit."
+                            "$~Ang timeline @UI/timeline ay nagbibigay-daan sa iyong bumalik sa mga naunang ebalwasyon, para mapanood mo kung paano gumagawa ang @Evaluate sa mga ekspresyong napag-aralan mo na, isang hakbang sa isang pagkakataon, hanggang sa maabot nito ang halagang ipinapakita ng @Program sa @stage. Manatili sa ⏸️ pag-debug — doon matatagpuan ang timeline — at ipapakita sa iyo ng isa sa amin kung saan matatagpuan ang lahat ng kontrol nito. Pagkatapos, mag-eksplora ka; kapag tapos ka na, ang tagapagpalit ng mode @UI/modeSwitcher ay ibabalik ka sa ▶️ paglalaro o ✏️ pag-edit. @Tour/stage"
                         ],
                         ["Time", "neutral", "$~tik… tik… tik… tik… tik… tik…"],
                         { "edit": "Time(1000ms)" },

@@ -180,8 +180,10 @@
                         [
                             "Program",
                             "neutral",
-                            "$~Tôi là người sắp xếp chương trình cho một buổi biểu diễn.",
-                            "$~Tôi có một *trình soạn thảo* @UI/editor, đây là nơi bạn đặt các hướng dẫn về việc hiển thị gì trên sân khấu và hiển thị như thế nào."
+                            "$~Mình là người tổ chức chương trình cho một buổi biểu diễn. Trước khi bắt đầu, để mình dẫn bạn đi xem một vòng: @Tour/source",
+                            "$~Cái hộp ở kia @UI/editor là @editor. Đó là nơi bạn viết. Mọi thứ bạn viết ở đó là một chỉ dẫn cho tôi.",
+                            "$~Khoảng không gian ở đằng kia @UI/stage chính là @stage. Dù chỉ dẫn của bạn cộng lại thành gì, tôi cũng sẽ hiện nó ở đó.",
+                            "$~*Đạo diễn* — chính là bạn đấy! — sẽ quyết định chỉ dẫn nào cần đưa cho chúng tôi."
                         ],
                         null,
                         [
@@ -222,7 +224,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Thực tế, nếu bạn muốn xem chương trình cho một tiết mục nào đó trên sân khấu, bạn có thể nhấn vào biểu tượng 👁️ trên sân khấu @UI/editProject. Điều đó sẽ cho bạn thấy mọi người đang cùng nhau tạo ra những gì đang diễn ra trên sân khấu như thế nào. Chương trình này chỉ là một cụm từ đơn giản."
+                            "$~Thật ra, nếu bạn muốn xem chương trình đứng sau những gì đang hiện trên sân khấu, hãy chuyển lại sang chế độ ✏️ chỉnh sửa bằng nút chuyển chế độ @UI/modeSwitcher ở phía trên sân khấu. Nó sẽ cho bạn thấy mọi thứ đang kết hợp với nhau như thế nào để tạo ra những gì trên sân khấu. Chương trình này chỉ là một cụm từ đơn giản."
                         ],
                         null,
                         [
@@ -324,8 +326,10 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Program đã cố làm theo hướng dẫn @ExpressionPlaceholder, nhưng vì chỗ trống chưa nói phải làm gì, nên nó @Program tính ra một *ngoại lệ* @UI/exception trên *sân khấu*.",
-                            "$~Một ngoại lệ xảy ra khi @Program không thể làm theo hướng dẫn mà bạn đưa ra."
+                            "$~@Program đã cố làm theo chỉ dẫn @ExpressionPlaceholder, nhưng chỗ giữ chỗ chưa nói rõ phải làm gì. Vì vậy @Program bị kẹt, và đã báo điều đó trên @stage @UI/exception.",
+                            "$~Khi @Program không thể làm theo một chỉ dẫn, nó sẽ dừng lại và cho thấy chuyện gì đã sai. Đó gọi là một *ngoại lệ*. Điều đó không có nghĩa là bạn đã làm hỏng gì cả. Nó có nghĩa là @Program cần thêm điều gì đó từ bạn.",
+                            "$~Khi @Program có thể biết trước rằng nó sẽ bị kẹt, nó đánh dấu chỗ đó bằng một *@conflict* @UI/conflict giải thích sự nhầm lẫn.",
+                            "$~Nếu bạn chọn @ExpressionPlaceholder, hoặc di con trỏ văn bản qua nó, bạn có thể xem các lựa chọn để thay thế nó. Bạn cũng có thể gõ đè lên @ExpressionPlaceholder và viết nội dung của riêng mình. Ví dụ, hãy thử gõ \\'xin chào'\\."
                         ],
                         null,
                         { "fit": "#Symbol -" },
@@ -654,8 +658,8 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "$~Để tôi chỉ cho bạn một trong những nút điều khiển. Bạn có thể tìm thấy nút chuyển đổi *bảng màu* nhỏ @UI/paletteExpand không? Chọn nó để mở rộng bảng màu, sau đó chọn cụm từ trên sân khấu.",
-                            "$~Khi bạn làm vậy, bạn sẽ thấy nhiều kiểu nhập liệu mà @Phrase chấp nhận. Ví dụ, hãy thử nhấn nút hình bút chì cho @Phrase.size, thao tác này sẽ hiển thị một thanh trượt.",
+                            "$~Để tôi chỉ cho bạn một trong những núm điều khiển. *Bảng màu* @UI/paletteExpand là nơi bạn thay đổi hình dáng của một @Phrase mà không cần gõ chữ nào. @Tour/palette",
+                            "$~Khi bảng màu mở ra và một cụm từ được chọn, bạn sẽ thấy nhiều đầu vào mà @Phrase chấp nhận. Ví dụ, hãy thử nhấn nút cây bút chì cho @Phrase.size, nút này sẽ hiện ra một thanh trượt.",
                             "$~Bạn có thể sử dụng thanh trượt này để điều chỉnh kích thước của cụm từ, điều này cũng sẽ điều chỉnh mã @Evaluate theo kích thước bạn chọn."
                         ],
                         null,
@@ -960,7 +964,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~@FunctionDefinition đã tạo ra rất nhiều hàm số thú vị hơn cho tôi, nhưng tôi sẽ không kể chi tiết. Bạn luôn có thể tìm thấy tôi trong *sổ tay hướng dẫn* @UI/docsExpand. Đó là nơi chúng tôi lưu giữ mọi thông tin về tất cả mọi người trong Verse, bao gồm cách làm việc với chúng tôi và chúng tôi có những hàm số nào. Tôi rất vui được chia sẻ thêm nhiều cách để xem xét và tạo ra chữ!"
+                            "$~@FunctionDefinition đã tạo ra rất nhiều hàm thú vị khác cho tôi, nhưng tôi sẽ không kể hết chi tiết. Bạn luôn có thể tìm thấy tôi trong @guide @UI/docsExpand. Đó là nơi chúng tôi lưu giữ mọi thông tin về tất cả mọi người trong Verse, bao gồm cách làm việc với chúng tôi và những hàm mà chúng tôi có. Hãy xem qua nơi đó trước khi bạn tiếp tục, tôi sẽ đợi bạn ở đó. @Tour/docs"
                         ],
                         null,
                         [
@@ -2558,7 +2562,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Hãy thử kéo trên dòng thời gian @UI/timeline, dùng các nút dòng thời gian, hoặc dùng các phím mũi tên khi dòng thời gian đang được chọn. Bạn có thể đi ngược về quá khứ để xem các lần đánh giá trước đó. Các mũi tên nét đứt bước tới các lần nhập vào của luồng trước đó và sau này. Các mũi tên nét liền bước giữa các bước khác nhau của chương trình. Hãy thử di chuyển qua thời gian và xem chương trình hiển thị gì. Đây là cách bạn có thể xem tất cả các expression tuyệt đẹp mà bạn đã học được @Evaluate đánh giá, từng bước một, dẫn đến value cuối cùng mà @Program hiển thị trên sân khấu. Khi bạn khám phá xong, bộ chuyển chế độ @UI/modeSwitcher sẽ đưa bạn trở lại chế độ phát ▶️ hoặc chỉnh sửa ✏️."
+                            "$~Dòng thời gian @UI/timeline cho phép bạn quay ngược lại xem các lần tính toán đó, để bạn có thể quan sát @Evaluate xử lý từng biểu thức mà bạn đã học, từng bước một, cho đến khi nó đạt tới giá trị mà @Program hiện trên @stage. Hãy ở lại chế độ ⏸️ gỡ lỗi — đó là nơi dòng thời gian tồn tại — và một trong chúng tôi sẽ chỉ cho bạn biết mọi nút điều khiển của nó ở đâu. Sau đó hãy đi khám phá; khi xong, nút chuyển chế độ @UI/modeSwitcher sẽ đưa bạn trở lại chế độ ▶️ chạy hoặc ✏️ chỉnh sửa. @Tour/stage"
                         ],
                         [
                             "Time",

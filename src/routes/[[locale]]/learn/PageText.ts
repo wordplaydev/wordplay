@@ -37,6 +37,13 @@ type PageText = {
         /** [plain] Navigate back to the previous pause in the dialog */
         previous: string;
     };
+    /** A step that hands the learner to a tour of the interface before it goes on */
+    tour: {
+        /** [plain] Label for the control that moves on without taking the tour */
+        skip: string;
+        /** [plain] Spoken when the next control is pressed before the tour has been taken */
+        wait: string;
+    };
     /** Labels for drop down menus */
     options: {
         /** [plain] The label for the lesson drop down */

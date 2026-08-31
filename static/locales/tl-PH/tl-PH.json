@@ -171,6 +171,14 @@
         "column": {
             "word": "$~haligi",
             "definition": "$~Isang may pangalang field sa isang @Table."
+        },
+        "editor": {
+            "word": "$~patnugutan",
+            "definition": "$~Ang kahon kung saan isinusulat mo ang @code. Ang itinatype mo roon ang ipinapatupad ng @wordplay."
+        },
+        "stage": {
+            "word": "$~entablado",
+            "definition": "$~Ang espasyo kung saan ipinapakita ng @wordplay ang ginawa ng iyong @code."
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~ang $concept",
                 "ui": "$~isang link papunta sa elementong interface $concept",
                 "how": "$~isang link sa kung paano gawin ang $concept",
-                "character": "$~ang $concept"
+                "character": "$~ang $concept",
+                "tour": "$~isang link papunta sa isang tour ng $concept"
             }
         },
         "Words": {
@@ -7763,7 +7772,7 @@
             "label": "$~mga tunggalian at tulong",
             "cursor": "$~Ito ay *$node*$type[ at ito ay isang $type|].",
             "cursorDoc": "$~Sinasabi nila: “$description”",
-            "cursorParent": "$~Nasa loob sila ng isang *$node*$type[ na uri ng $type|].",
+            "cursorParent": "$~Nasa loob sila ng isang *$node*$type[, na nagbibigay ng $type|].",
             "learn": "$~/Matuto nang higit pa/",
             "evaluating": "$~Ang saya, tara, suriin natin!",
             "space": "$~Ito ang espasyo! Sino ang mag-aakala na walang makakapagsabi ng ganito karami?",
@@ -9314,7 +9323,11 @@
                 },
                 "contrast": "$~ihambing sa",
                 "dialogue": "$~diyalogo ng aralin",
-                "says": "$~sabi ni $character"
+                "says": "$~sabi ni $character",
+                "tour": {
+                    "skip": "$~laktawan ang tour at magpatuloy",
+                    "wait": "$~Gawin muna ang tour, o laktawan ito, at pagkatapos ay magpapatuloy tayo."
+                }
             },
             "teach": {
                 "header": "$~Magturo",

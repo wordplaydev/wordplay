@@ -24,6 +24,7 @@ const Probes: Record<string, unknown> = {
     howToNotifications: false,
     projectFolders: { probe: { name: 'probe', collapsed: true } },
     projectSort: 'edited',
+    tours: ['palette'],
     face: 'Noto Sans Mono',
     lines: false,
     wrap: false,

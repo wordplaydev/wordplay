@@ -4,6 +4,22 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.33.1 - 2026-08-30
+
+### Added
+
+- 🧭 The [tutorial](https://wordplay.dev/learn) now shows you the interface instead of just talking about it: when a lesson is about the editor, stage, palette, guide, or timeline, it offers a tour that points at each control right where it sits, and waits for you to take it. You can always skip a tour, and one you've taken already won't ask again. (#984)
+
+### Changed
+
+- 📝 We rewrote the lessons that talk about parts of the screen. They now say what the editor and the stage _are_ before using those words, and they explain an exception in plainer language. (#984)
+- 📖 We added _editor_ and _stage_ to the glossary, so a mention of either word anywhere in Wordplay can tell you what it means. (#984)
+
+### Fixed
+
+- 🐛 The tutorial pointed at two buttons that don't exist anymore — one for seeing a project's code, and one in the editor's own tour. Both now point at controls that are really there. (#984)
+- 🚦 When your cursor is inside a placeholder, we no longer say it's "of type any". That never told you anything. (#984)
+
 ## 0.33.0 - 2026-08-29
 
 ### Added

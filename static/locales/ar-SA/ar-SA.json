@@ -171,6 +171,14 @@
         "column": {
             "word": "$~عمود",
             "definition": "$~حقل له اسم في @Table."
+        },
+        "editor": {
+            "word": "$~المحرر",
+            "definition": "$~الصندوق الذي تكتب فيه @code. ما تكتبه هناك هو ما يُنفّذه @wordplay."
+        },
+        "stage": {
+            "word": "$~المسرح",
+            "definition": "$~المساحة التي يعرض فيها @wordplay ما صنعه @code."
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~حرف اليونيكود $concept",
                 "ui": "$~رابط إلى عنصر الواجهة $concept",
                 "how": "$~رابط إلى الكيف $concept",
-                "character": "$~الحرف المخصص $concept"
+                "character": "$~الحرف المخصص $concept",
+                "tour": "$~رابط لجولة حول $concept"
             }
         },
         "Words": {
@@ -7723,7 +7732,7 @@
             "label": "$~التعارضات والمساعدة",
             "cursor": "$~هذا هو *$node*$type[ وهو $type|].",
             "cursorDoc": "$~يقولون: ”$description“",
-            "cursorParent": "$~إنهم داخل *$node*$type[ من النوع $type|].",
+            "cursorParent": "$~هي بداخل *$node*$type[، والتي تُقيَّم إلى $type|].",
             "learn": "$~/تعلّم المزيد/",
             "evaluating": "$~يا للمتعة، لنُقيّم!",
             "space": "$~هذه مسافة! من كان يعلم أن لا شيء يمكن أن يقول هذا الكثير؟",
@@ -9169,7 +9178,11 @@
                 },
                 "contrast": "$~قارن مع",
                 "dialogue": "$~حوار الدرس",
-                "says": "$~$character يقول"
+                "says": "$~$character يقول",
+                "tour": {
+                    "skip": "$~تخطَّ الجولة وتابع",
+                    "wait": "$~خذ الجولة أولًا، أو تخطَّها، وبعدها سنتابع."
+                }
             },
             "teach": {
                 "header": "$~علّم",

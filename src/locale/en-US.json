@@ -121,6 +121,16 @@
             "word": "blocks",
             "definition": "A way to edit @code by dragging pieces instead of typing."
         },
+        "editor": {
+            "word": "editor",
+            "forms": ["editors"],
+            "definition": "The box where you write @code. What you type there is what @wordplay performs."
+        },
+        "stage": {
+            "word": "stage",
+            "forms": ["stages"],
+            "definition": "The space where @wordplay shows what your @code made."
+        },
         "placeholder": {
             "word": "placeholder",
             "forms": ["placeholders"],
@@ -563,6 +573,7 @@
             "kind": {
                 "codepoint": "the Unicode character $concept",
                 "ui": "a link to the $concept interface element",
+                "tour": "a link to a tour of the $concept",
                 "how": "a link to the $concept how-to",
                 "character": "the custom character $concept"
             },
@@ -7825,7 +7836,7 @@
             "label": "conflicts and help",
             "cursor": "This is *$node*$type[ and they are a $type|].",
             "cursorDoc": "They say: “$description”",
-            "cursorParent": "They're inside a *$node*$type[ of type $type|].",
+            "cursorParent": "They're inside a *$node*$type[, which evaluates to a $type|].",
             "learn": "/Learn more/",
             "evaluating": "Oh fun, let's evaluate!",
             "space": "This is space! Who knew nothing could say so much?",
@@ -9412,6 +9423,10 @@
                 "button": {
                     "next": "next pause in dialog",
                     "previous": "previous pause in dialog"
+                },
+                "tour": {
+                    "skip": "skip the tour and keep going",
+                    "wait": "Take the tour first, or skip it, and then we'll keep going."
                 },
                 "options": {
                     "lesson": "current lesson"

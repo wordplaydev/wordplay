@@ -9,6 +9,7 @@ import ConceptLink, {
     CodepointName,
     ConceptName,
     GlossaryName,
+    TourName,
 } from '@nodes/ConceptLink';
 import parseDoc from '@parser/parseDoc';
 import { DOCS_SYMBOL } from '@parser/Symbols';
@@ -76,6 +77,51 @@ function localeWithParameter(word: string, forms?: string[]): LocaleText {
 function toLocales(locale: LocaleText) {
     return new Locales(concretize, [locale], DefaultLocale);
 }
+
+describe('ConceptLink.parse tours', () => {
+    test('a tour reference parses as a tour', () => {
+        const parsed = ConceptLink.parse('Tour/source');
+        expect(parsed).toBeInstanceOf(TourName);
+        expect((parsed as TourName).id).toBe('source');
+    });
+
+    test('an unknown tour still parses as a tour, so isValid can report it', () => {
+        // Falling through to a character reference would make the typo
+        // unreportable: a creator's characters aren't known at check time, so
+        // every one of them validates.
+        const parsed = ConceptLink.parse('Tour/nosuchtour');
+        expect(parsed).toBeInstanceOf(TourName);
+    });
+
+    test('a bare @tour is not a tour reference', () => {
+        expect(ConceptLink.parse('tour')).not.toBeInstanceOf(TourName);
+    });
+
+    test.each(['@Tour/source', '@Tour/stage', '@tour/palette'])(
+        '%s is valid',
+        (ref) => {
+            expect(link(ref).isValid(DefaultLocale)).toBe(true);
+        },
+    );
+
+    test('a reference to a tour that does not exist is invalid', () => {
+        expect(link('@Tour/nosuchtour').isValid(DefaultLocale)).toBe(false);
+    });
+
+    test('a tour reference describes itself as a tour', () => {
+        expect(
+            link('@Tour/source')
+                .getDescription(
+                    new Locales(concretize, [DefaultLocale], DefaultLocale),
+                    // getDescription doesn't consult the context for a reference.
+                    undefined as unknown as Parameters<
+                        ConceptLink['getDescription']
+                    >[1],
+                )
+                .toText(),
+        ).toContain('source');
+    });
+});
 
 describe('ConceptLink glossary forms', () => {
     test('an inflected form resolves to its term, keeping the form as written', () => {

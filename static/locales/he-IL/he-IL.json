@@ -171,6 +171,14 @@
         "column": {
             "word": "$~עַמוּדָה",
             "definition": "$~שדה בעל שם ב@Table."
+        },
+        "editor": {
+            "word": "$~עורך",
+            "definition": "$~התיבה שבה כותבים @code. מה שכותבים שם, זה מה ש-@wordplay מבצע."
+        },
+        "stage": {
+            "word": "$~במה",
+            "definition": "$~המקום שבו @wordplay מראה מה ה-@code שלך יצר."
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~$concept",
                 "ui": "$~קישור לאלמנט הממשק $concept",
                 "how": "$~קישור למדריך $concept",
-                "character": "$~$concept הדמות המותאמת אישית"
+                "character": "$~$concept הדמות המותאמת אישית",
+                "tour": "$~קישור לסיור ב-$concept"
             }
         },
         "Words": {
@@ -7748,7 +7757,7 @@
             "label": "$~סכסוכים ועזרה",
             "cursor": "$~זה *$node*$type[ והם $type|].",
             "cursorDoc": "$~הם אומרים: „$description”",
-            "cursorParent": "$~הם בתוך *$node*$type[ מסוג $type|].",
+            "cursorParent": "$~הם נמצאים בתוך *$node*$type[, שמתחשב כ-$type|].",
             "learn": "$~/למידע נוסף/",
             "evaluating": "$~אה כיף, בואו נעריך!",
             "space": "$~זה החלל! מי ידע ששום דבר לא יכול להגיד כל כך הרבה?",
@@ -9198,7 +9207,11 @@
                 },
                 "contrast": "$~השווה עם",
                 "dialogue": "$~דיאלוג של השיעור",
-                "says": "$~$character אומר"
+                "says": "$~$character אומר",
+                "tour": {
+                    "skip": "$~דלגו על הסיור והמשיכו הלאה",
+                    "wait": "$~עשו קודם את הסיור, או דלגו עליו, ואז נמשיך הלאה."
+                }
             },
             "teach": {
                 "header": "$~לְלַמֵד",

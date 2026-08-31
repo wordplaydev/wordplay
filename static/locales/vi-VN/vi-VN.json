@@ -171,6 +171,14 @@
         "column": {
             "word": "$~cột",
             "definition": "$~Một trường có tên trong một @Table."
+        },
+        "editor": {
+            "word": "$~trình soạn thảo",
+            "definition": "$~Ô để bạn viết @code. Những gì bạn gõ vào đó là những gì @wordplay thực hiện."
+        },
+        "stage": {
+            "word": "$~sân khấu",
+            "definition": "$~Không gian nơi @wordplay hiển thị những gì @code của bạn tạo ra."
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~ký tự Unicode $concept",
                 "ui": "$~một liên kết đến phần tử giao diện $concept",
                 "how": "$~một liên kết đến hướng dẫn sử dụng $concept",
-                "character": "$~nhân vật tùy chỉnh $concept"
+                "character": "$~nhân vật tùy chỉnh $concept",
+                "tour": "$~một liên kết đến phần giới thiệu về $concept"
             }
         },
         "Words": {
@@ -7761,7 +7770,7 @@
             "label": "$~xung đột và giúp đỡ",
             "cursor": "$~Đây là *$node*$type[ và nó là một $type|].",
             "cursorDoc": "$~Chúng nói: “$description”",
-            "cursorParent": "$~Chúng nằm bên trong một *$node*$type[ thuộc loại $type|].",
+            "cursorParent": "$~Chúng nằm bên trong một *$node*$type[, cho ra kết quả là một $type|].",
             "learn": "$~Tìm hiểu thêm",
             "evaluating": "$~Ồ thú vị quá, cùng đánh giá nào!",
             "space": "$~Đây chính là không gian! Ai ngờ một thứ vô tri vô giác lại có thể nói lên nhiều điều đến thế?",
@@ -9214,7 +9223,11 @@
                 },
                 "contrast": "$~so sánh với",
                 "dialogue": "$~hội thoại bài học",
-                "says": "$~$character nói"
+                "says": "$~$character nói",
+                "tour": {
+                    "skip": "$~bỏ qua phần giới thiệu và tiếp tục",
+                    "wait": "$~Hãy xem phần giới thiệu trước, hoặc bỏ qua, rồi chúng ta sẽ tiếp tục."
+                }
             },
             "teach": {
                 "header": "$~Dạy bảo",

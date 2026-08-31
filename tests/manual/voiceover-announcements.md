@@ -174,6 +174,22 @@ behavior).
 
 ---
 
+# A lesson waiting on a tour says so, every time you try to pass it
+
+_The refusal is the same words each time, so it has to be heard each time._
+
+1. Go to `/en-US/learn?tutorial=complete&act=1&scene=2&pause=5`.
+2. Tab to the next (→) button. VoiceOver reads it as dimmed.
+3. Press the right arrow key. Press it again.
+
+Both presses announce the same sentence, telling you to take the tour or skip
+it. Failure: silence on either press — especially the second, which is the one
+an ordinary live region drops for having the same text as the last. Then start
+the tour from the control in the dialog, close it with Escape, and confirm
+focus lands back on the next button rather than nowhere.
+
+---
+
 # Tour steps announce progress and explanation
 
 _The guide tour speaks each step as one predictable utterance._

@@ -271,7 +271,7 @@
                             "happy",
                             "$~大多數程式語言提供某種除錯工具，幫助創作者了解並解決程式碼中的問題。但許多人只是用印出陳述句，在主控台檢查變數的值：",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay 提供更進階的除錯體驗，讓你可以在程式的執行過程中 *向前* 與 *向後* 逐步移動。按下舞台上方模式切換器 @UI/modeSwitcher 裡的 ⏸️ 除錯按鈕，就能進入 *除錯* 模式：每個 expression 的 value 會顯示在程式碼中它的旁邊，而 @UI/stepControls 可以往任何方向逐步執行，讓你看見一個 value 是怎麼一步步建立起來的。",
+                            "$~@wordplay 提供更進階的除錯（Debugging）體驗，讓你可以在它的求值過程中，一步一步往*前*或往*後*移動。按下舞台上方模式切換器 @UI/modeSwitcher 裡的 ⏸️ 除錯按鈕，就能進入*除錯*模式：每個運算式的值，會顯示在程式碼旁邊，而 @UI/stepControls 可以往任何方向一步步求值，這樣你就能看到一個值是怎麼被組成的。這裡有完整的導覽，帶你認識這一切：@Tour/stage",
                             "$~想要更多指引嗎？除錯區的 @UI/debugtour 按鈕會帶你做一個導覽，介紹這些控制項。"
                         ]
                     ]

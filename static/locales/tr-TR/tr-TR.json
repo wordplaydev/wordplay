@@ -171,6 +171,14 @@
         "column": {
             "word": "$~kolon",
             "definition": "$~Bir @Table isimli bir alan."
+        },
+        "editor": {
+            "word": "$~düzenleyici",
+            "definition": "$~@code yazdığın kutu. Oraya yazdığın şey, @wordplay programının çalıştırdığı şeydir."
+        },
+        "stage": {
+            "word": "$~sahne",
+            "definition": "$~@code ile oluşturduğun şeyi @wordplay gösterdiği alan."
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~Unicode karakteri $concept",
                 "ui": "$~$concept arayüz öğesine bir bağlantı",
                 "how": "$~$concept kullanım kılavuzuna bağlantı",
-                "character": "$~özel karakter $concept"
+                "character": "$~özel karakter $concept",
+                "tour": "$~$concept turuna giden bir bağlantı"
             }
         },
         "Words": {
@@ -7519,7 +7528,7 @@
             "label": "$~çatışmalar ve yardım",
             "cursor": "$~Bu bir *$node*$type[ ve o bir $type|].",
             "cursorDoc": "$~Şöyle diyorlar: “$description”",
-            "cursorParent": "$~Bunlar $node|] tipinde bir *$type*$type['nin içindedir.",
+            "cursorParent": "$~Bunlar bir *$node*$type[içindedir, bu da bir $type olarak değerlendirilir.| içindedir.]",
             "learn": "$~/Daha fazla bilgi edin/",
             "evaluating": "$~Aman ne güzel, değerlendirelim!",
             "space": "$~Burası uzay! Hiçbir şeyin bu kadar çok şey söyleyebileceğini kim bilebilirdi?",
@@ -8971,7 +8980,11 @@
                 },
                 "contrast": "$~ile karşılaştırın",
                 "dialogue": "$~ders diyaloğu",
-                "says": "$~$character diyor ki"
+                "says": "$~$character diyor ki",
+                "tour": {
+                    "skip": "$~turu atla ve devam et",
+                    "wait": "$~Önce turu yap ya da atla, sonra devam edeceğiz."
+                }
             },
             "teach": {
                 "header": "$~Öğretmek",

@@ -171,6 +171,14 @@
         "column": {
             "word": "$~columna",
             "definition": "$~Un campo con nombre en una @Table."
+        },
+        "editor": {
+            "word": "$~editor",
+            "definition": "$~La caja donde escribes @code. Lo que escribes ahí es lo que @wordplay ejecuta."
+        },
+        "stage": {
+            "word": "$~escenario",
+            "definition": "$~El espacio donde @wordplay muestra lo que creó tu @code."
         }
     },
     "terms": {},
@@ -513,7 +521,8 @@
                 "codepoint": "$~el carácter Unicode $concept",
                 "ui": "$~un enlace al elemento de interfaz $concept",
                 "how": "$~un enlace a la guía práctica $concept",
-                "character": "$~el carácter personalizado $concept"
+                "character": "$~el carácter personalizado $concept",
+                "tour": "$~un enlace a un recorrido por $concept"
             }
         },
         "Words": {
@@ -7505,7 +7514,7 @@
             "label": "conflictos y ayuda",
             "cursor": "$~Esto es *$node*$type[ y es un $type|].",
             "cursorDoc": "$~Dicen: “$description”",
-            "cursorParent": "$~Están dentro de un *$node*$type[ de tipo $type|].",
+            "cursorParent": "$~Están dentro de un *$node*$type[, que se evalúa como un $type|].",
             "learn": "$~/Aprender más/",
             "evaluating": "¡Oh, qué divertido, evaluemos!",
             "space": "¡Esto es espacio! ¿Quién sabía que nada podría decir tanto?",
@@ -8864,7 +8873,11 @@
                 },
                 "contrast": "$~comparar con",
                 "dialogue": "$~diálogo de la lección",
-                "says": "$~$character dice"
+                "says": "$~$character dice",
+                "tour": {
+                    "skip": "$~omitir el recorrido y seguir",
+                    "wait": "$~Haz el recorrido primero, u ómitelo, y luego seguimos."
+                }
             },
             "guide": {
                 "header": "$~Guía",

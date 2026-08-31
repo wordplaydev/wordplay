@@ -86,6 +86,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.ConceptLink.kind.character': ['concept'],
     'node.ConceptLink.kind.codepoint': ['concept'],
     'node.ConceptLink.kind.how': ['concept'],
+    'node.ConceptLink.kind.tour': ['concept'],
     'node.ConceptLink.kind.ui': ['concept'],
     'node.Conditional.conflict.ExpectedBooleanCondition.explanation': ['type'],
     'node.Conditional.conflict.ExpectedBooleanCondition.resolution': [
@@ -816,6 +817,7 @@ export const TERMINOLOGY_NAMES: readonly string[] = [
     'condition',
     'conflict',
     'documentation',
+    'editor',
     'element',
     'entered',
     'expression',
@@ -840,6 +842,7 @@ export const TERMINOLOGY_NAMES: readonly string[] = [
     'region',
     'scope',
     'sideEffect',
+    'stage',
     'start',
     'state',
     'tutorial',

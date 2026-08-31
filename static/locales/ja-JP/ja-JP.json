@@ -171,6 +171,14 @@
         "column": {
             "word": "$~列",
             "definition": "$~@Tableの中の名前付きフィールド。"
+        },
+        "editor": {
+            "word": "$~エディター",
+            "definition": "$~@codeを書く場所です。そこに書いたものを@wordplayが実行します。"
+        },
+        "stage": {
+            "word": "$~ステージ",
+            "definition": "$~@codeが作ったものを@wordplayが表示する場所です。"
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~Unicode文字 $concept",
                 "ui": "$~$concept のインターフェース要素へのリンク",
                 "how": "$~$concept のやり方ガイドへのリンク",
-                "character": "$~カスタム文字 $concept"
+                "character": "$~カスタム文字 $concept",
+                "tour": "$~$concept"
             }
         },
         "Words": {
@@ -7524,7 +7533,7 @@
             "label": "$~衝突とヘルプ",
             "cursor": "$~これは *$node*$type[ で、$type| です]。",
             "cursorDoc": "$~こう言っています：「$description」",
-            "cursorParent": "$~これらは*$node*の中にあります$type[。型は$type|]。",
+            "cursorParent": "$~それらは*$node*$type[の中にあり、$type。|]",
             "learn": "$~/もっと学ぶ/",
             "evaluating": "$~わくわくしますね、評価してみましょう！",
             "space": "$~これは空白です！何もないものがこんなに多くを語れるなんて、知っていましたか？",
@@ -8976,7 +8985,11 @@
                 },
                 "contrast": "$~比べる",
                 "dialogue": "$~レッスンの会話",
-                "says": "$~$character が言います"
+                "says": "$~$character が言います",
+                "tour": {
+                    "skip": "$~ツアーを飛ばして先へ進む",
+                    "wait": "$~先にツアーを見てもいいですし、飛ばしてもいいです。そのあとで先へ進みましょう。"
+                }
             },
             "teach": {
                 "header": "$~教える",

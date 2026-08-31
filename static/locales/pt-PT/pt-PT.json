@@ -171,6 +171,14 @@
         "column": {
             "word": "coluna",
             "definition": "$~Um campo com nome numa @Table."
+        },
+        "editor": {
+            "word": "$~editor",
+            "definition": "$~A caixa onde escreve @code. O que escrever ali é o que o @wordplay executa."
+        },
+        "stage": {
+            "word": "$~palco",
+            "definition": "$~O espaço onde @wordplay mostra o que o seu @code criou."
         }
     },
     "terms": {},
@@ -541,7 +549,8 @@
                 "codepoint": "$~o $concept",
                 "ui": "$~uma ligação para o elemento de interface $concept",
                 "how": "$~um link para o tutorial do $concept",
-                "character": "$~o $concept de personagem personalizado"
+                "character": "$~o $concept de personagem personalizado",
+                "tour": "$~uma ligação para uma visita guiada ao $concept"
             }
         },
         "Words": {
@@ -7759,7 +7768,7 @@
             "label": "conflitos e ajuda",
             "cursor": "$~Isto é um *$node*$type[ e é um $type|].",
             "cursorDoc": "$~Dizem: “$description”",
-            "cursorParent": "Estão dentro de um *$node*$type[ do tipo $type|].",
+            "cursorParent": "$~Estão dentro de um *$node*$type[, que resulta num $type|].",
             "learn": "/Saber mais/",
             "evaluating": "Que bom, vamos avaliar!",
             "space": "Isto é o espaço! Quem diria que o nada poderia dizer tanto?",
@@ -9310,7 +9319,11 @@
                 },
                 "contrast": "$~comparar com",
                 "dialogue": "$~diálogo da lição",
-                "says": "$~$character diz"
+                "says": "$~$character diz",
+                "tour": {
+                    "skip": "$~saltar a visita guiada e continuar",
+                    "wait": "$~Faça primeiro a visita guiada, ou salte-a, e depois continuamos."
+                }
             },
             "teach": {
                 "header": "Ensinar",

@@ -30,6 +30,7 @@
     import getFocusNode from '@components/annotations/getFocusNode';
     import getMenuNoteMarkup from '@components/editor/menu/menuNote';
     import { describesOwnType } from '@nodes/conciseRef';
+    import AnyType from '@nodes/AnyType';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
@@ -357,6 +358,20 @@
         // A resolution may point somewhere other than the node the conflict is reported on.
         editor?.setCaretPosition(getFocusNode(info.resolutions(), info.node));
     }
+    /** The type to name beside a node, or undefined to say nothing about it.
+     *  `any` is suppressed: it's what a slot that accepts everything reports,
+     *  so "of type any" told a learner only that there was a word for it. */
+    function typeOf(node: Node, context: Context): NodeRef | undefined {
+        if (!(node instanceof Expression) || describesOwnType(node))
+            return undefined;
+        const type = node
+            .getType(context)
+            .generalize(context)
+            .simplify(context);
+        return type instanceof AnyType
+            ? undefined
+            : new NodeRef(type, $locales, context);
+    }
 </script>
 
 <!-- The shared sidebar shell owns the frame, resize, toggle, and tooltip; the
@@ -418,28 +433,10 @@
                                                 node: caretNode.getLabel(
                                                     $locales,
                                                 ),
-                                                // Skip the type when the node's
-                                                // description already conveys
-                                                // it (literals, conversions).
-                                                type:
-                                                    caretNode instanceof
-                                                        Expression &&
-                                                    !describesOwnType(caretNode)
-                                                        ? new NodeRef(
-                                                              caretNode
-                                                                  .getType(
-                                                                      context,
-                                                                  )
-                                                                  .generalize(
-                                                                      context,
-                                                                  )
-                                                                  .simplify(
-                                                                      context,
-                                                                  ),
-                                                              $locales,
-                                                              context,
-                                                          )
-                                                        : undefined,
+                                                type: typeOf(
+                                                    caretNode,
+                                                    context,
+                                                ),
                                             },
                                         ]}
                                     />
@@ -507,21 +504,10 @@
                                                     node: caretNodeParent.getLabel(
                                                         $locales,
                                                     ),
-                                                    type:
-                                                        caretNodeParent instanceof
-                                                        Expression
-                                                            ? new NodeRef(
-                                                                  caretNodeParent
-                                                                      .getType(
-                                                                          context,
-                                                                      )
-                                                                      .generalize(
-                                                                          context,
-                                                                      ),
-                                                                  $locales,
-                                                                  context,
-                                                              )
-                                                            : undefined,
+                                                    type: typeOf(
+                                                        caretNodeParent,
+                                                        context,
+                                                    ),
                                                 },
                                             ]}
                                         />

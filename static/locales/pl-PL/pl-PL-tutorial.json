@@ -176,8 +176,10 @@
                         [
                             "Program",
                             "neutral",
-                            "$~Jestem organizatorem programu przedstawienia.",
-                            "$~Mam *edytor* @UI/editor, w którym umieszczasz polecenia dotyczące tego, co pokazać na scenie i w jaki sposób."
+                            "$~Jestem organizatorem programu przedstawienia. Zanim zaczniemy, oprowadzę cię: @Tour/source",
+                            "$~To pole tam @UI/editor to @editor. To tam piszesz. Wszystko, co tam napiszesz, to dla mnie polecenie.",
+                            "$~Ta przestrzeń tam @UI/stage to @stage. Cokolwiek wynika z twoich poleceń, pokazuję to właśnie tam.",
+                            "$~*Reżyser* — czyli ty! — decyduje, jakie polecenia nam wydać."
                         ],
                         null,
                         [
@@ -218,7 +220,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~W rzeczywistości, jeśli kiedykolwiek będziesz chciał zobaczyć program czegoś na scenie, możesz nacisnąć 👁️ na scenie @UI/editProject. To pokaże ci, jak wszyscy łączą się, aby stworzyć to, co jest na scenie. Ten program to tylko proste zdanie."
+                            "$~Jeśli kiedykolwiek zechcesz zobaczyć program, który stoi za tym, co widać na scenie, przełącz się z powrotem na ✏️ edycję za pomocą przełącznika trybu @UI/modeSwitcher nad sceną. Pokaże ci to, jak wszystko się łączy, by stworzyć to, co widzisz na scenie. Ten program to po prostu prosta fraza."
                         ],
                         null,
                         [
@@ -316,8 +318,10 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Program próbowało wykonać polecenie @ExpressionPlaceholder, ale ponieważ placeholder jeszcze nie mówi, co robić, wyliczyło się do *wyjątku* @UI/exception na *scenie* @Program.",
-                            "$~Wyjątek pojawia się wtedy, gdy @Program nie może wykonać polecenia, które podajesz."
+                            "$~@Program spróbował wykonać polecenie @ExpressionPlaceholder, ale miejsce zastępcze nie mówi jeszcze, co ma zrobić. Więc @Program utknął i powiedział o tym na @stage @UI/exception.",
+                            "$~Kiedy @Program nie może wykonać polecenia, zatrzymuje się i pokazuje, co poszło nie tak. To jest *wyjątek*. Nie oznacza to, że coś zepsułeś. Oznacza to, że @Program potrzebuje od ciebie czegoś więcej.",
+                            "$~Kiedy @Program potrafi z góry przewidzieć, że utknie, oznacza to miejsce *@conflict* @UI/conflict, który wyjaśnia problem.",
+                            "$~Jeśli zaznaczysz @ExpressionPlaceholder albo najedziesz na to kursorem tekstu, zobaczysz opcje, czym to zastąpić. Możesz też po prostu wpisać coś w miejsce @ExpressionPlaceholder i napisać własny tekst. Na przykład spróbuj wpisać \\'cześć'\\."
                         ],
                         null,
                         { "fit": "#Symbol -" },
@@ -646,8 +650,8 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "$~Pokażę ci jedno z pokręteł. Czy możesz znaleźć mały przycisk przełączający *palette* @UI/paletteExpand? Wybierz go, aby rozwinąć paletę, a następnie wybierz frazę na scenie.",
-                            "$~Gdy to zrobisz, zobaczysz wiele danych wejściowych, które @Phrase akceptuje. Na przykład spróbuj nacisnąć przycisk ołówka dla @Phrase.size, co spowoduje wyświetlenie suwaka.",
+                            "$~Pokażę ci jedno z pokręteł. *Paleta* @UI/paletteExpand to miejsce, gdzie zmieniasz wygląd @Phrase bez pisania czegokolwiek. @Tour/palette",
+                            "$~Gdy paleta jest otwarta i fraza jest wybrana, zobaczysz wiele wejść, które akceptuje @Phrase. Na przykład spróbuj nacisnąć przycisk ołówka dla @Phrase.size, co odsłoni suwak.",
                             "$~Za pomocą tego suwaka możesz zmienić rozmiar frazy, co spowoduje również zmianę kodu @Evaluate na wybrany rozmiar."
                         ],
                         null,
@@ -952,7 +956,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~@FunctionDefinition stworzył dla mnie wiele innych interesujących funkcji, ale oszczędzę wam szczegółów. Zawsze możecie mnie znaleźć w *reference* @UI/docsExpand. Tam przechowujemy wszystkie informacje o wszystkich w Verse, w tym jak z nami współpracować i jakie funkcje mamy. Chętnie podzielę się kolejnymi sposobami na inspekcję i tworzenie tekstu!"
+                            "$~@FunctionDefinition stworzył dla mnie o wiele więcej ciekawych funkcji, ale oszczędzę ci szczegółów. Zawsze możesz mnie znaleźć w @guide @UI/docsExpand. To tam trzymamy wszystkie informacje o wszystkich we Wszechświecie, w tym o tym, jak z nami pracować i jakie mamy funkcje. Rozejrzyj się tam, zanim pójdziesz dalej, a ja będę tam czekać. @Tour/docs"
                         ],
                         null,
                         [
@@ -2538,7 +2542,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Spróbuj przeciągnąć po osi czasu @UI/timeline, użyć przycisków osi czasu lub klawiszy strzałek, gdy oś czasu jest zaznaczona. Możesz cofnąć się w czasie, aby zobaczyć poprzednie obliczenia. Przerywane strzałki przechodzą do poprzednich i przyszłych wejść strumienia. Pełne strzałki przechodzą między różnymi krokami programu. Spróbuj poruszać się po czasie i zobaczyć, co pokazuje program. W ten sposób możesz zobaczyć wszystkie piękne wyrażenia, o których się uczyłeś, obliczane przez @Evaluate, krok po kroku, prowadzące do końcowej wartości, którą @Program wyświetla na scenie. Gdy skończysz zwiedzać, przełącznik trybów @UI/modeSwitcher zabierze cię z powrotem do odtwarzania ▶️ lub edycji ✏️."
+                            "$~Oś czasu @UI/timeline pozwala ci cofać się przez te obliczenia, dzięki czemu możesz obserwować, jak @Evaluate krok po kroku przechodzi przez wyrażenia, które już poznałeś, aż dotrze do wartości, którą pokazuje @Program na @stage. Zostań w trybie ⏸️ debugowania — to tam mieszka oś czasu — a ktoś z nas pokaże ci, gdzie znajdują się wszystkie jej elementy sterujące. Potem ruszaj na poszukiwania; kiedy skończysz, przełącznik trybu @UI/modeSwitcher zabierze cię z powrotem do ▶️ odtwarzania lub ✏️ edycji. @Tour/stage"
                         ],
                         [
                             "Time",

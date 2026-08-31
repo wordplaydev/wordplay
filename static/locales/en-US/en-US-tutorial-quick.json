@@ -272,7 +272,7 @@
                             "happy",
                             "Most programming languages offer some kind of debugging tools to help creators understand and resolve issues in their code. But many just use print statements to check the values of variables in a console:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "@wordplay provides a more sophisticated debugging experience, allowing you to step *forwards* and *backwards* through its evaluation. Press the ⏸️ debug button in the mode switcher @UI/modeSwitcher above the stage to enter *debug* mode: the value of each expression appears next to it in the code, and the @UI/stepControls step evaluation in any direction, so you can watch how a value is built.",
+                            "@wordplay provides a more sophisticated debugging experience, allowing you to step *forwards* and *backwards* through its evaluation. Press the ⏸️ debug button in the mode switcher @UI/modeSwitcher above the stage to enter *debug* mode: the value of each expression appears next to it in the code, and the @UI/stepControls step evaluation in any direction, so you can watch how a value is built. Here’s a guided tour of all of it: @Tour/stage",
                             "The other modes matter too: ✏️ *edit* mode is for changing the program while the stage stays frozen, and ▶️ *play* mode runs it live, responding to inputs in real time.",
                             "Want more guidance? The @UI/stageTourLaunch button next to the stage's name gives a guided tour of these controls."
                         ]

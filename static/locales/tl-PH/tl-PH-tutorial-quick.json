@@ -271,7 +271,7 @@
                             "happy",
                             "$~Karamihan ng mga programming language ay nag-aalok ng ilang uri ng mga kasangkapan sa debugging para tulungan ang mga gumagawa na maintindihan at lutasin ang mga isyu sa kanilang code. Pero marami ang gumagamit lang ng mga print statement para tingnan ang mga value ng variable sa isang console:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay ay nagbibigay ng mas mahusay na paraan para maghanap ng mali, na nagpapahintulot sa iyong magpatuloy nang *pasulong* at *paurong* sa pagtakbo nito. Pindutin ang ⏸️ debug button sa mode switcher @UI/modeSwitcher sa itaas ng entablado para pumasok sa *debug* mode: ang value ng bawat expression ay lalabas sa tabi nito sa code, at ang @UI/stepControls ay hakbang-hakbang na tumatakbo sa alinmang direksyon, kaya makikita mo kung paano nabubuo ang isang value.",
+                            "$~Nagbibigay ang @wordplay ng mas mahusay na paraan ng pag-debug, na nagpapahintulot sa iyong mag-hakbang *pasulong* at *paatras* sa pagsusuri nito. Pindutin ang ⏸️ na buton ng debug sa tagapagpalit ng mode @UI/modeSwitcher sa itaas ng entablado para pumasok sa *debug* mode: lumalabas ang halaga ng bawat ekspresyon sa tabi nito sa kodigo, at ang @UI/stepControls ay maaaring mag-hakbang ng pagsusuri sa alinmang direksyon, para mapanood mo kung paano nabubuo ang isang halaga. Narito ang isang gabay na paikot-ikot sa lahat nito: @Tour/stage",
                             "$~Gusto mo ng mas maraming gabay? Ang @UI/debugtour na button sa lugar ng debug ay nagbibigay ng may-gabay na pasyal sa mga kontrol na ito."
                         ]
                     ]

@@ -32,6 +32,11 @@
          *  'end' clusters items at the inline-end with empty space on the
          *  inline-start. */
         justify?: 'start' | 'end';
+        /** Optional `data-uiid` for the hamburger toggle, so a tour or tutorial
+         *  highlight can point at "the control that reveals the rest". Only set
+         *  it where the toolbar is a specific, nameable one; the hamburger is
+         *  absent whenever everything fits, which a tour reports honestly. */
+        uiid?: string | undefined;
     }
 
     let {
@@ -41,6 +46,7 @@
         pinnedStart = [],
         pinned = [],
         justify = 'start',
+        uiid = undefined,
     }: Props = $props();
 
     const itemCount = $derived(
@@ -339,7 +345,12 @@
          to its portaled popup so the Tour can highlight this toggle when a tour
          target is tucked inside the (hidden) popup. -->
     {#if showButton}
-        <span class="toggle-wrap" data-controls={panelId} bind:this={toggleEl}>
+        <span
+            class="toggle-wrap"
+            data-controls={panelId}
+            data-uiid={uiid}
+            bind:this={toggleEl}
+        >
             <Toggle
                 tips={(l) => l.ui.widget.overflow.button}
                 on={open}

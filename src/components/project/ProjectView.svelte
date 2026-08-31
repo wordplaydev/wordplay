@@ -50,7 +50,9 @@
     import Wellspring from '@components/wellspring/Wellspring.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
-    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
+    import Tour from '@components/widgets/Tour.svelte';
+    import { Tours, type TourID } from '@components/project/tours';
+    import { TourSteps } from '@components/project/tourSteps';
     import ConceptIndex from '@concepts/ConceptIndex';
     import {
         getConceptFromURL,
@@ -183,6 +185,9 @@
         setProjectCommandContext,
         setResetKeyboardIdle,
         setRevealPalette,
+        getTourRequest,
+        setTourRequest,
+        type TourRequest,
         setSelectedOutput,
         setDrawing,
         setStageScene,
@@ -1194,173 +1199,44 @@
     /** True if the output should show a grid */
     let grid = $state(false);
 
-    /** Which tile-level tour is currently open, if any. */
-    let openTour = $state<
-        | undefined
-        | 'stage'
-        | 'source'
-        | 'docs'
-        | 'palette'
-        | 'collaborate'
-        | 'project'
-    >(undefined);
+    /** Which tour is currently open, if any. Tour definitions live in
+     * `tours.ts` so that anything can name one — the tutorial points at them
+     * with `@Tour/<id>` markup. */
+    let openTour = $state<TourID | undefined>(undefined);
 
-    const stageTourSteps: UIExplanation[] = [
-        { uiid: 'stage', explanation: (l) => l.ui.output.tour.stage },
-        {
-            uiid: 'modeSwitcher',
-            explanation: (l) => l.ui.timeline.tour.modes,
-        },
-        {
-            uiid: 'resetEvaluator',
-            explanation: (l) => l.ui.output.tour.reset,
-        },
-        // The stepping controls appear in edit and debug but not play; the Tour
-        // explains when a target isn't visible, so these steps still read
-        // sensibly there.
-        {
-            uiid: 'timeline',
-            explanation: (l) => l.ui.timeline.tour.timeline,
-        },
-        {
-            uiid: 'timeline',
-            explanation: (l) => l.ui.timeline.tour.history,
-        },
-        {
-            uiid: 'stepControls',
-            explanation: (l) => l.ui.timeline.tour.stepControls,
-        },
-        {
-            uiid: 'conflict',
-            explanation: (l) => l.ui.timeline.tour.annotations,
-        },
-        { uiid: 'editor', explanation: (l) => l.ui.timeline.tour.editor },
-        { uiid: 'stageZoom', explanation: (l) => l.ui.output.tour.zoom },
-        { uiid: 'stageGrid', explanation: (l) => l.ui.output.tour.grid },
-        { uiid: 'stageLock', explanation: (l) => l.ui.output.tour.lock },
-        {
-            uiid: 'stageAnimationSpeed',
-            explanation: (l) => l.ui.output.tour.animationSpeed,
-        },
-    ];
+    /** The slot a `@Tour/<id>` reference writes to. Something above may already
+     * provide one — the tutorial does, since its dialog is a sibling of this
+     * view rather than a descendant — in which case we serve that one; otherwise
+     * we provide our own so a reference in the guide tile still works. */
+    const inheritedTourRequest = getTourRequest();
+    const ownTourRequest: TourRequest = $state({ id: undefined });
+    const tourRequest = inheritedTourRequest ?? ownTourRequest;
+    if (inheritedTourRequest === undefined) setTourRequest(ownTourRequest);
 
-    const sourceTourSteps: UIExplanation[] = [
-        { uiid: 'editor', explanation: (l) => l.ui.source.tour.editor },
-        {
-            uiid: 'textBlocksToggle',
-            explanation: (l) => l.ui.source.tour.textBlocks,
-        },
-        {
-            uiid: 'editorToolbar',
-            explanation: (l) => l.ui.source.tour.toolbar,
-        },
-        {
-            uiid: 'editorExpand',
-            explanation: (l) => l.ui.source.tour.expand,
-        },
-        {
-            uiid: 'shortcutsDialog',
-            explanation: (l) => l.ui.source.tour.shortcuts,
-        },
-    ];
+    $effect(() => {
+        const requested = tourRequest.id;
+        if (requested === undefined) return;
+        untrack(() => {
+            // Clear first: launching may change layout, and a request that
+            // outlived its launch would reopen the tour when it closed.
+            tourRequest.id = undefined;
+            launchTour(requested);
+        });
+    });
 
-    const projectTourSteps: UIExplanation[] = [
-        {
-            uiid: 'projectControls',
-            explanation: (l) => l.ui.project.tour.controls,
-        },
-        {
-            uiid: 'projectName',
-            explanation: (l) => l.ui.project.tour.name,
-        },
-        {
-            uiid: 'sourceToggle',
-            explanation: (l) => l.ui.project.tour.sourceToggle,
-        },
-        {
-            uiid: 'addSource',
-            explanation: (l) => l.ui.project.tour.addSource,
-        },
-        {
-            uiid: 'shareDialog',
-            explanation: (l) => l.ui.project.tour.share,
-        },
-        {
-            uiid: 'languagesButton',
-            explanation: (l) => l.ui.project.tour.languages,
-        },
-        {
-            uiid: 'checkpoints',
-            explanation: (l) => l.ui.project.tour.checkpoints,
-        },
-    ];
-
-    /** Programmatically click the docs section tab for the given index
-     * (0 = code/language, 1 = how-to). Tabbed listens to `pointerdown`, so a
-     * synthesized event is what actually triggers selection. */
-    function setDocsMode(index: number) {
-        const buttons = document.querySelectorAll<HTMLButtonElement>(
-            '[data-uiid="docsModeToggle"] button',
-        );
-        const target = buttons[index];
-        if (target && target.getAttribute('aria-selected') !== 'true')
-            target.dispatchEvent(
-                new PointerEvent('pointerdown', {
-                    bubbles: true,
-                    button: 0,
-                    pointerType: 'mouse',
-                }),
-            );
+    /** Open a tour, first doing whatever setup it needs to have something to
+     * point at. Preparation lives here rather than in the registry because it
+     * needs this view's layout and selection state. */
+    function launchTour(id: TourID) {
+        if (id === 'palette') preparePaletteTour();
+        else if (id === 'docs') revealTile(layout.getDocs());
+        openTour = id;
     }
 
-    const docsTourSteps: UIExplanation[] = [
-        { uiid: 'documentation', explanation: (l) => l.ui.docs.tour.guide },
-        {
-            uiid: 'documentation',
-            explanation: (l) => l.ui.docs.tour.code,
-            onEnter: () => setDocsMode(0),
-        },
-        {
-            uiid: 'documentation',
-            explanation: (l) => l.ui.docs.tour.howto,
-            onEnter: () => setDocsMode(1),
-        },
-        { uiid: 'docsModeToggle', explanation: (l) => l.ui.docs.tour.mode },
-        { uiid: 'docsSearch', explanation: (l) => l.ui.docs.tour.search },
-    ];
-
-    const paletteTourSteps: UIExplanation[] = [
-        { uiid: 'palette', explanation: (l) => l.ui.palette.tour.palette },
-        { uiid: 'paletteText', explanation: (l) => l.ui.palette.tour.text },
-        { uiid: 'paletteSet', explanation: (l) => l.ui.palette.tour.set },
-        { uiid: 'paletteUnset', explanation: (l) => l.ui.palette.tour.unset },
-        { uiid: 'editor', explanation: (l) => l.ui.palette.tour.editor },
-        { uiid: 'stage', explanation: (l) => l.ui.palette.tour.stage },
-    ];
-
-    const collaborateTourSteps: UIExplanation[] = [
-        {
-            uiid: 'collaborate',
-            explanation: (l) => l.ui.collaborate.tour.collaborate,
-        },
-        {
-            uiid: 'collaborators',
-            explanation: (l) => l.ui.collaborate.tour.collaborators,
-        },
-        {
-            uiid: 'addCollaborator',
-            explanation: (l) => l.ui.collaborate.tour.add,
-        },
-        {
-            uiid: 'restrictGallery',
-            explanation: (l) => l.ui.collaborate.tour.restrict,
-        },
-    ];
-
-    /** Open the palette tour, first selecting any Phrase in the project so
-     * the palette has properties to display. Falls back to highlighting the
-     * empty palette if no Phrase exists. */
-    function startPaletteTour() {
+    /** Select any Phrase in the project so the palette has properties to
+     * display, then open the palette. Falls back to the empty palette if the
+     * project has no Phrase. */
+    function preparePaletteTour() {
         for (const source of project.getSources()) {
             const phrases = source.root.root.nodes(
                 (node): node is Evaluate =>
@@ -1377,7 +1253,6 @@
         }
         // Selection no longer auto-opens the palette, so open it explicitly for the tour.
         revealPalette();
-        openTour = 'palette';
     }
 
     /** Get the store of how tos stored in the locales database. */
@@ -1813,11 +1688,17 @@
      *  stage no longer makes the tile pop in. A stage output invokes this (via context) on a
      *  double-click or Enter to explicitly open the palette for the selected content. */
     function revealPalette() {
-        const palette = layout.getPalette();
-        if (palette && palette.mode === TileMode.Collapsed)
-            setMode(palette, TileMode.Expanded);
+        revealTile(layout.getPalette());
     }
     setRevealPalette(revealPalette);
+
+    /** Expand a collapsed tile. A tour of a tile has nothing to point at while
+     *  the tile is closed, and it starts closed in an empty project and in the
+     *  tutorial. */
+    function revealTile(tile: Tile | undefined) {
+        if (tile && tile.mode === TileMode.Collapsed)
+            setMode(tile, TileMode.Expanded);
+    }
 
     /** Whether the palette is on screen; the palette itself sets this as it mounts and unmounts. */
     const paletteOpen = writable(false);
@@ -3094,7 +2975,7 @@
                                         icon={INFO_SYMBOL}
                                         uiid="stageTourLaunch"
                                         action={() => {
-                                            openTour = 'stage';
+                                            launchTour('stage');
                                         }}
                                     ></Button>
                                 {:else if tile.kind === TileKind.Source}
@@ -3104,7 +2985,7 @@
                                         icon={INFO_SYMBOL}
                                         uiid="sourceTourLaunch"
                                         action={() => {
-                                            openTour = 'source';
+                                            launchTour('source');
                                         }}
                                     ></Button>
                                 {:else if tile.kind === TileKind.Documentation}
@@ -3114,7 +2995,7 @@
                                         icon={INFO_SYMBOL}
                                         uiid="docsTourLaunch"
                                         action={() => {
-                                            openTour = 'docs';
+                                            launchTour('docs');
                                         }}
                                     ></Button>
                                 {:else if tile.kind === TileKind.Palette}
@@ -3123,7 +3004,7 @@
                                         background="circular"
                                         icon={INFO_SYMBOL}
                                         uiid="paletteTourLaunch"
-                                        action={startPaletteTour}
+                                        action={() => launchTour('palette')}
                                     ></Button>
                                 {:else if tile.kind === TileKind.Collaborate}
                                     <Button
@@ -3133,7 +3014,7 @@
                                         icon={INFO_SYMBOL}
                                         uiid="collaborateTourLaunch"
                                         action={() => {
-                                            openTour = 'collaborate';
+                                            launchTour('collaborate');
                                         }}
                                     ></Button>
                                 {/if}
@@ -3714,9 +3595,7 @@
             {revert}
             {addSource}
             {toggleTile}
-            launchTour={() => {
-                openTour = 'project';
-            }}
+            launchTour={() => launchTour('project')}
             bind:checkpoint
         />
 
@@ -3751,41 +3630,17 @@
     {/if}
 </main>
 
-{#if openTour === 'stage'}
+{#if openTour !== undefined}
     <Tour
-        explanations={stageTourSteps}
-        subheader={(l) => l.ui.tile.label.output}
-        close={() => (openTour = undefined)}
-    />
-{:else if openTour === 'source'}
-    <Tour
-        explanations={sourceTourSteps}
-        subheader={(l) => l.ui.tile.label.source}
-        close={() => (openTour = undefined)}
-    />
-{:else if openTour === 'docs'}
-    <Tour
-        explanations={docsTourSteps}
-        subheader={(l) => l.ui.tile.label.docs}
-        close={() => (openTour = undefined)}
-    />
-{:else if openTour === 'palette'}
-    <Tour
-        explanations={paletteTourSteps}
-        subheader={(l) => l.ui.tile.label.palette}
-        close={() => (openTour = undefined)}
-    />
-{:else if openTour === 'collaborate'}
-    <Tour
-        explanations={collaborateTourSteps}
-        subheader={(l) => l.ui.tile.label.collaborate}
-        close={() => (openTour = undefined)}
-    />
-{:else if openTour === 'project'}
-    <Tour
-        explanations={projectTourSteps}
-        subheader={(l) => l.ui.project.label}
-        close={() => (openTour = undefined)}
+        explanations={TourSteps[openTour]}
+        subheader={Tours[openTour].subheader}
+        close={() => {
+            // Closing is what counts as having taken it, wherever it was
+            // launched from, so the tutorial never holds someone at a tour
+            // they've already seen from a tile's ⓘ button.
+            if (openTour !== undefined) Settings.markTourTaken(openTour);
+            openTour = undefined;
+        }}
     />
 {/if}
 

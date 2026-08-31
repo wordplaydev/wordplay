@@ -3546,6 +3546,9 @@
                         "documentation": {
                             "$ref": "#/definitions/GlossaryText"
                         },
+                        "editor": {
+                            "$ref": "#/definitions/GlossaryText"
+                        },
                         "element": {
                             "$ref": "#/definitions/GlossaryText"
                         },
@@ -3618,6 +3621,9 @@
                         "sideEffect": {
                             "$ref": "#/definitions/GlossaryText"
                         },
+                        "stage": {
+                            "$ref": "#/definitions/GlossaryText"
+                        },
                         "start": {
                             "$ref": "#/definitions/GlossaryText"
                         },
@@ -3665,6 +3671,8 @@
                         "how",
                         "gallery",
                         "blocks",
+                        "editor",
+                        "stage",
                         "placeholder",
                         "conflict",
                         "checkpoint",
@@ -6974,6 +6982,10 @@
                                             "$ref": "#/definitions/Template%3C%5B%22concept%22%5D%3E",
                                             "description": "[formatted] Description when the reference is a how-to (e.g."
                                         },
+                                        "tour": {
+                                            "$ref": "#/definitions/Template%3C%5B%22concept%22%5D%3E",
+                                            "description": "[formatted] Description when the reference is an interface tour (e.g."
+                                        },
                                         "ui": {
                                             "$ref": "#/definitions/Template%3C%5B%22concept%22%5D%3E",
                                             "description": "[formatted] Description when the reference is a UI element (e.g."
@@ -6982,6 +6994,7 @@
                                     "required": [
                                         "codepoint",
                                         "ui",
+                                        "tour",
                                         "how",
                                         "character"
                                     ],
@@ -22691,6 +22704,22 @@
                                                 "noResults"
                                             ],
                                             "type": "object"
+                                        },
+                                        "tour": {
+                                            "additionalProperties": false,
+                                            "description": "A step that hands the learner to a tour of the interface before it goes on",
+                                            "properties": {
+                                                "skip": {
+                                                    "description": "[plain] Label for the control that moves on without taking the tour",
+                                                    "type": "string"
+                                                },
+                                                "wait": {
+                                                    "description": "[plain] Spoken when the next control is pressed before the tour has been taken",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": ["skip", "wait"],
+                                            "type": "object"
                                         }
                                     },
                                     "required": [
@@ -22702,6 +22731,7 @@
                                         "mode",
                                         "contrast",
                                         "button",
+                                        "tour",
                                         "options",
                                         "search"
                                     ],

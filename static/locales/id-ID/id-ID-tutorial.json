@@ -180,10 +180,10 @@
                         [
                             "Program",
                             "neutral",
-                            "$~Saya adalah penyelenggara program untuk sebuah pertunjukan.",
-                            "$~Saya memiliki *editor* @UI/editor, di situlah Anda memasukkan instruksi tentang apa yang akan ditampilkan di panggung, dan bagaimana caranya.",
-                            "$~Saya menggunakan instruksi tersebut untuk menampilkan output di *stage* @UI/stage.",
-                            "$~*Sutradara* — yaitu Anda! — yang memutuskan instruksi apa yang akan diberikan kepada kami."
+                            "$~Aku pengatur acara untuk sebuah pertunjukan. Sebelum kita mulai, aku akan mengajakmu berkeliling dulu: @Tour/source",
+                            "$~Kotak di sana itu @UI/editor adalah @editor. Di situlah kamu menulis. Semua yang kamu tulis di sana adalah perintah untukku.",
+                            "$~Ruang di sana itu @UI/stage adalah @stage. Apa pun hasil dari perintah-perintahmu, aku menunjukkannya di situ.",
+                            "$~*Sutradara* — itu kamu! — memutuskan perintah apa yang diberikan kepada kami. Sebelum kita mulai, aku akan mengajakmu berkeliling @editor: @Tour/source"
                         ],
                         null,
                         [
@@ -224,7 +224,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Sebenarnya, jika Anda ingin melihat program untuk sesuatu yang ada di atas panggung, Anda dapat menekan ikon 👁️ di atas panggung @UI/editProject. Itu akan menunjukkan kepada Anda bagaimana semua orang bekerja sama untuk menciptakan apa yang ada di atas panggung. Program ini hanyalah sebuah kalimat sederhana."
+                            "$~Sebenarnya, jika kamu ingin melihat program di balik apa yang ada di panggung, kembalilah ke mode ✏️ sunting dengan pengganti mode @UI/modeSwitcher di atas panggung. Itu akan menunjukkan bagaimana semuanya bekerja sama untuk membuat apa yang ada di panggung. Program ini hanya sebuah frasa sederhana."
                         ],
                         null,
                         [
@@ -322,9 +322,9 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Program mencoba mengikuti instruksi @ExpressionPlaceholder, tetapi karena placeholder belum menjelaskan apa yang harus dilakukan, maka @Program menghasilkan *exception* @UI/exception pada *stage*.",
-                            "$~Pengecualian terjadi ketika @Program tidak dapat mengikuti instruksi yang Anda berikan.",
-                            "$~Jika @Program tahu akan ada masalah, ia akan menampilkan sebuah *@conflict* @UI/conflict yang menjelaskan kebingungannya.",
+                            "$~@Program mencoba mengikuti perintah @ExpressionPlaceholder, tetapi penampung itu belum mengatakan apa yang harus dilakukan. Jadi @Program jadi macet, dan mengatakannya di @stage @UI/exception.",
+                            "$~Ketika @Program tidak bisa mengikuti sebuah perintah, ia berhenti dan menunjukkan apa yang salah. Itu disebut *pengecualian*. Itu bukan berarti kamu merusak sesuatu. Itu berarti @Program membutuhkan sesuatu lagi darimu.",
+                            "$~Ketika @Program bisa tahu lebih dulu bahwa ia akan macet, ia menandai tempat itu dengan *@conflict* @UI/conflict yang menjelaskan kebingungannya.",
                             "$~Jika Anda memilih @ExpressionPlaceholder, atau mengarahkan kursor teks ke atasnya, Anda dapat melihat opsi untuk menggantinya. Anda juga dapat langsung mengetik di atas @ExpressionPlaceholder dan menulis sendiri. Misalnya, coba ketik \\'hello'\\."
                         ],
                         null,
@@ -654,8 +654,8 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "$~Izinkan saya menunjukkan salah satu tombolnya. Bisakah Anda menemukan tombol pengalih *palet* kecil @UI/paletteExpand? Pilih tombol tersebut untuk memperluas palet, lalu pilih frasa yang ada di panggung.",
-                            "$~Setelah Anda melakukannya, Anda akan melihat banyak input yang diterima oleh @Phrase. Misalnya, coba tekan tombol pensil untuk @Phrase.size, yang akan menampilkan slider.",
+                            "$~Aku akan menunjukkan salah satu tombol pengaturnya. *Palet* @UI/paletteExpand adalah tempat kamu mengubah tampilan sebuah @Phrase tanpa mengetik apa pun. @Tour/palette",
+                            "$~Dengan palet terbuka dan sebuah frasa terpilih, kamu akan melihat banyak masukan yang diterima @Phrase. Sebagai contoh, coba tekan tombol pensil untuk @Phrase.size, yang akan menampilkan sebuah penggeser.",
                             "$~Anda dapat menggunakan penggeser ini untuk mengubah ukuran frasa, yang juga akan mengubah kode @Evaluate dengan ukuran yang Anda pilih."
                         ],
                         null,
@@ -960,7 +960,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~@FunctionDefinition telah membuat begitu banyak fungsi menarik lainnya untuk saya, tetapi saya tidak akan menjelaskan detailnya. Anda selalu dapat menemukan saya di *referensi* @UI/docsExpand. Di situlah kami menyimpan semua informasi tentang semua orang di Verse, termasuk cara bekerja sama dengan kami dan fungsi apa yang kami miliki. Saya senang berbagi lebih banyak cara untuk memeriksa dan membuat teks!"
+                            "$~@FunctionDefinition telah membuat banyak sekali fungsi menarik lainnya untukku, tapi aku tidak akan menjelaskan semuanya. Kamu selalu bisa menemukanku di @guide @UI/docsExpand. Di situlah kami menyimpan semua informasi tentang semua orang di Verse, termasuk cara bekerja dengan kami dan fungsi apa saja yang kami punya. Lihat-lihatlah di sana sebelum kamu lanjut, dan aku akan menunggu di situ. @Tour/docs"
                         ],
                         null,
                         [
@@ -2554,7 +2554,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Cobalah menyeret garis waktu @UI/timeline, menggunakan tombol garis waktu, atau menggunakan tombol panah saat garis waktu terfokus. Kamu bisa mundur dalam waktu untuk melihat pemeriksaan sebelumnya. Panah putus-putus melangkah ke input stream sebelumnya dan yang akan datang. Panah penuh melangkah di antara langkah-langkah berbeda dalam program. Cobalah menjelajahi waktu dan melihat apa yang ditampilkan program. Beginilah caramu bisa melihat semua expression indah yang telah kamu pelajari diperiksa oleh @Evaluate, satu langkah demi satu langkah, menghasilkan value akhir yang ditampilkan @Program di panggung. Ketika kamu selesai menjelajah, pengalih mode @UI/modeSwitcher membawamu kembali untuk memutar ▶️ atau mengubah ✏️."
+                            "$~Garis waktu @UI/timeline memungkinkanmu menjelajahi kembali proses-proses evaluasi itu, sehingga kamu bisa melihat @Evaluate mengerjakan ekspresi-ekspresi yang telah kamu pelajari, selangkah demi selangkah, sampai mencapai nilai yang ditunjukkan @Program pada @stage. Tetaplah di mode ⏸️ awakutu — di situlah garis waktu berada — dan salah satu dari kami akan menunjukkan di mana semua kontrolnya berada. Lalu jelajahilah; setelah selesai, pengganti mode @UI/modeSwitcher akan membawamu kembali ke mode ▶️ bermain atau ✏️ menyunting. @Tour/stage"
                         ],
                         ["Time", "neutral", "$~tik… tik… tik… tik… tik…"],
                         { "edit": "Time(1000ms)" },

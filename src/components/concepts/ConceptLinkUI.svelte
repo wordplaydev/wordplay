@@ -29,10 +29,12 @@
         getTermRef,
         GlossaryName,
         HowToName,
+        TourName,
         UIName,
     } from '@nodes/ConceptLink';
     import { withMonoEmoji } from '@unicode/emoji';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
+    import TourLink from './TourLink.svelte';
     import TermView from './TermView.svelte';
 
     interface Props {
@@ -62,6 +64,8 @@
         | CodepointName
         // A reference something in the UI
         | UIName
+        // A reference to one of the interface tours
+        | TourName
         // A reference to a how to
         | HowToName
         // A custom character name
@@ -118,6 +122,7 @@
             if (id instanceof GlossaryName) return undefined;
             if (
                 id instanceof UIName ||
+                id instanceof TourName ||
                 id instanceof CodepointName ||
                 id instanceof CharacterName
             )
@@ -306,6 +311,8 @@
 {:else if match}
     {#if match instanceof UIName}
         <TutorialHighlight id={match.id} source />
+    {:else if match instanceof TourName}
+        <TourLink id={match.id} />
     {:else if match instanceof CodepointName}
         {match.codepoint}
     {:else if match instanceof CharacterName}

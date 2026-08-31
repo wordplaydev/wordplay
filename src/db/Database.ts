@@ -1268,6 +1268,7 @@ export const animationDuration = derived(
 );
 export const tutorialState = Settings.settings.tutorial.value;
 export const tutorialMode = derived(tutorialState, (state) => state.mode);
+export const toursTaken = Settings.settings.tours.value;
 export const contrastLanguage = Settings.settings.contrastLanguage.value;
 export const arrangement = Settings.settings.arrangement.value;
 export const locales = DB.Locales.locales;
