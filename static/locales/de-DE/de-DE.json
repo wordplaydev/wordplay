@@ -8725,7 +8725,7 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$~\\¶Phrasen erscheinen auf der Bühne, in jeder Farbe, mit Leuchten und Bewegung, wie du magst.¶\nSatzglied(\n\t'hallo!'\n\t6m\n\tFarbe: Farbe(60% 90 200°)\n\tAura: Aura(Farbe(80% 80 200°) 0.3m)\n\tRuhen: Reihenfolge.wiegen(8°)\n)\\",
+                        "phrase": "$~\\¶@Phrase erscheint auf der Bühne, in jeder Farbe, jedem Leuchten und jeder Bewegung, die du magst.¶\nSatzglied(\n\t'hallo!'\n\t6m\n\tFarbe: Farbe(60% 90 200°)\n\tAura: Aura(Farbe(80% 80 200°) 0.3m)\n\tRuhen: Reihenfolge.wiegen(8°)\n)\\",
                         "music": "$~\\¶Musik besteht aus Noten auf echten Instrumenten, in einem Tempo, in einer Tonart. Die Bühne zeichnet, was sie hört.¶\nMusik(\n\tSpur([1 3 5 8 5 3] Instrument: Instrument.Klavier)\n\tTempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Code kann auf Eingaben wie @Time reagieren, und Text kann mehrsprachig und gesprochen sein.¶\nhallos: ['hallo'/de 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhallo: hallos.zufällig() … ∆ Zeit(1000ms) … hallos.zufällig(\n\t\t)\nSatzglied(hallo 4m)\nSagen(hallo)\\",
                         "keys": "$~\\¶Code kann auf Zeiger, Tasten, Klicks und Tipp-Berührungen reagieren.¶\nschlüssel2: Schlüssel()\nklicken: Taste()\ngesichter: ['🙂' '😮' '😎' '🤩']\nwelche: 1 … ∆ schlüssel2 | ∆ klicken … (welche % 4) + 1\nBühne(\n\t[Satzglied(gesichter[welche] 5m Ort: Zeiger() sprechblase: 'hallo')]\n\tOrt: Ort(0m 0m -12m)\n)\\",

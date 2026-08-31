@@ -9075,7 +9075,7 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$~\\¶Cụm từ xuất hiện trên sân khấu, với bất kỳ màu sắc, ánh sáng và chuyển động nào bạn muốn.¶\nCụmtừ(\n\t'xin chào!'\n\t6m\n\tmàusắc: Màusắc(60% 90 200°)\n\thàoquang: Hàoquang(Màusắc(80% 80 200°) 0.3m)\n\tnghỉngơi: Sựliêntiếp.đungđưa(8°)\n)\\",
+                        "phrase": "$~\\¶@Phrase xuất hiện trên sân khấu, với bất kỳ màu sắc, ánh sáng và chuyển động nào bạn thích.¶\nCụmtừ(\n\t'chào bạn!'\n\t6m\n\tmàusắc: Màusắc(60% 90 200°)\n\thàoquang: Hàoquang(Màusắc(80% 80 200°) 0.3m)\n\tnghỉngơi: Sựliêntiếp.đungđưa(8°)\n)\\",
                         "music": "$~\\¶Âm nhạc là những nốt nhạc trên nhạc cụ thật, với một nhịp độ, trong một âm giai. Sân khấu vẽ ra những gì nó nghe được.¶\nÂmNhạc(\n\tBảnNhạc([1 3 5 8 5 3] nhạcCụ: NhạcCụ.đànPiano)\n\tnhịpĐộ: 120beats/min\n)\\",
                         "hello": "$~\\¶Mã số có thể phản ứng với dữ liệu đầu vào như @Time, và văn bản có thể đa ngôn ngữ và được đọc lên.¶\nnhữngLờiChào: ['xin chào'/vi 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nxinChào: nhữngLờiChào.ngẫunhiên() … ∆ Thờigian(1000ms) … nhữngLờiChào.ngẫunhiên(\n\t\t)\nCụmtừ(xinChào 4m)\nNói(xinChào)\\",
                         "keys": "$~\\¶Mã số có thể phản ứng với con trỏ, phím, cú nhấp chuột và cú chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[\n\t\tCụmtừ(\n\t\t\tkhuônMặt2[cáiNào]\n\t\t\t5m\n\t\t\tvịTrí: Contrỏ()\n\t\t\tbongBóng: 'chào'\n\t\t)\n\t]\n\tvịTrí: VịTrí(0m 0m -12m)\n)\\",

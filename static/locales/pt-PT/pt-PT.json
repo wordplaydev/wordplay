@@ -9171,7 +9171,7 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$~\\¶As Frases aparecem no palco, com a cor, o brilho e o movimento que quiser.¶\nFrase(\n\t'olá!'\n\t6m\n\tcor: Cor(60% 90 200°)\n\taura: Aura(Cor(80% 80 200°) 0.3m)\n\tdescansar: Sequência.balançar(8°)\n)\\",
+                        "phrase": "$~\\¶@Phrase aparece no palco, em qualquer cor, brilho e movimento que goste.¶\nFrase(\n\t'olá!'\n\t6m\n\tcor: Cor(60% 90 200°)\n\taura: Aura(Cor(80% 80 200°) 0.3m)\n\tdescansar: Sequência.balançar(8°)\n)\\",
                         "music": "$~\\¶A música são notas tocadas em instrumentos reais, com um andamento, numa tonalidade. O palco desenha o que ouve.¶\nMúsica(\n\tFaixa([1 3 5 8 5 3] instrumento: Instrumento.piano)\n\tandamento: 120beats/min\n)\\",
                         "hello": "$~\\¶O código pode reagir a entradas como @Time, e o texto pode ser multilingue e falado.¶\nolás: ['olá'/pt 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nolá: olás.aleatório() … ∆ Tempo(1000ms) … olás.aleatório()\nFrase(olá 4m)\nDizer(olá)\\",
                         "keys": "$~\\¶O código pode reagir a ponteiros, teclas, cliques e toques.¶\nchave2: Chave()\nclique: Botão()\nrostos: ['🙂' '😮' '😎' '🤩']\nqual: 1 … ∆ chave2 | ∆ clique … (qual % 4) + 1\nFase(\n\t[Frase(rostos[qual] 5m local: Ponteiro() balão: 'olá')]\n\tlocal: Local(0m 0m -12m)\n)\\",

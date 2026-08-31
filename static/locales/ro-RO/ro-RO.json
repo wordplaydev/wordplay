@@ -9186,7 +9186,7 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$~\\¶Frazele apar pe scenă, în orice culoare, cu orice strălucire și mișcare îți place.¶\nFraza(\n\t'salut!'\n\t6m\n\tculoare: Culoare(60% 90 200°)\n\taură: Aură(Culoare(80% 80 200°) 0.3m)\n\todihnă: Secvenţă.legănare(8°)\n)\\",
+                        "phrase": "$~\\¶@Phrase apare pe scenă, în orice culoare, cu orice strălucire și mișcare îți place.¶\nFraza(\n\t'salut!'\n\t6m\n\tculoare: Culoare(60% 90 200°)\n\taură: Aură(Culoare(80% 80 200°) 0.3m)\n\todihnă: Secvenţă.legănare(8°)\n)\\",
                         "music": "$~\\¶Muzica este note pe instrumente reale, la un tempo, într-o tonalitate. Scena desenează ce aude.¶\nMuzică(\n\tPistă([1 3 5 8 5 3] instrument: Instrument.pian)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Codul poate reacționa la o intrare precum @Time, iar textul poate fi în mai multe limbi și poate fi rostit.¶\nsaluturi: ['salut'/ro 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nsalut: saluturi.aleatoriu() … ∆ Timp(1000ms) … saluturi.aleatoriu(\n\t\t)\nFraza(salut 4m)\nCuvânt(salut)\\",
                         "keys": "$~\\¶Codul poate reacționa la mișcări ale cursorului, taste, clicuri și atingeri.¶\ncheie2: Cheie()\nclic: Buton()\nfețe: ['🙂' '😮' '😎' '🤩']\ncare: 1 … ∆ cheie2 | ∆ clic … (care % 4) + 1\nEtapă(\n\t[Fraza(fețe[care] 5m loc: Indicator() balon: 'salut')]\n\tloc: Loc(0m 0m -12m)\n)\\",

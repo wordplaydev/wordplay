@@ -9175,7 +9175,7 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$~\\¶Lumalabas ang mga Phrase sa entablado, sa anumang kulay, ningning, at galaw na gusto mo.¶\nParirala(\n\t'kumusta!'\n\t6m\n\tkulay: Kulay(60% 90 200°)\n\taura: Aura(Kulay(80% 80 200°) 0.3m)\n\tnagpapahinga: Pagkakasunodsunod.ugoy(8°)\n)\\",
+                        "phrase": "$~\\¶Lumalabas ang @Phrase sa entablado, sa anumang kulay, ningning, at galaw na gusto mo.¶\nParirala(\n\t'kumusta!'\n\t6m\n\tkulay: Kulay(60% 90 200°)\n\taura: Aura(Kulay(80% 80 200°) 0.3m)\n\tnagpapahinga: Pagkakasunodsunod.ugoy(8°)\n)\\",
                         "music": "$~\\¶Ang musika ay mga nota sa tunay na instrumento, sa isang tempo, sa isang key. Iginuguhit ng entablado ang naririnig nito.¶\nMusika(\n\tTrack([1 3 5 8 5 3] instrumento: Instrumento.piyano)\n\ttempo: 120beats/min\n)\\",
                         "hello": "$~\\¶Ang kodigo ay maaaring tumugon sa input tulad ng @Time, at ang teksto ay maaaring maraming wika at mabigkas.¶\nmgaKumusta: ['kumusta'/tl 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nkumusta: mgaKumusta.random() … ∆ Oras(1000ms) … mgaKumusta.random(\n\t\t)\nParirala(kumusta 4m)\nSabihin(kumusta)\\",
                         "keys": "$~\\¶Ang kodigo ay maaaring tumugon sa pointer, susi, klik, at tap.¶\nsusi2: Susi()\nklik: Butones()\nmukha2: ['🙂' '😮' '😎' '🤩']\nalin: 1 … ∆ susi2 | ∆ klik … (alin % 4) + 1\nEntablado(\n\t[Parirala(mukha2[alin] 5m lugar: Panturo() bula: 'hi')]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
