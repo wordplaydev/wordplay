@@ -774,6 +774,9 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
      * standard-library references use the target locale's names. The original is
      * kept verbatim if anything fails or if localization introduces new
      * conflicts (the "re-serialize, re-analyze conflict-free" guarantee).
+     * Every one of those exits says why: four of them used to return in
+     * silence, so a run could report an example localized while quietly
+     * keeping the English, and the only way to notice was to read the file.
      * `translateTexts` supplies the translations — a pooled lookup in the batch
      * path, a direct per-example request in `localizeOneExample`.
      */
@@ -787,10 +790,20 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
     ): Promise<string> {
         const sourceObj = stringToLocale(sourceLocale);
         const targetObj = stringToLocale(targetLocale);
-        if (sourceObj === undefined || targetObj === undefined) return code;
+        if (sourceObj === undefined || targetObj === undefined) {
+            log.warning(
+                `Could not read "${sourceObj === undefined ? sourceLocale : targetLocale}" as a locale; keeping the original example.`,
+            );
+            return code;
+        }
 
         const prepared = this.prepareExample(code);
-        if (prepared === undefined) return code;
+        if (prepared === undefined) {
+            log.warning(
+                'Could not read the example out of its delimiters; keeping the original.',
+            );
+            return code;
+        }
         const { inner, terminated } = prepared;
 
         try {
@@ -811,10 +824,20 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                 targetLocaleText,
                 true,
             );
-            if (localized === null) return code;
+            if (localized === null) {
+                log.warning(
+                    'Localizing the example returned nothing; keeping the original.',
+                );
+                return code;
+            }
 
             const newInner = localized.getSources()[0]?.toWordplay();
-            if (newInner === undefined) return code;
+            if (newInner === undefined) {
+                log.warning(
+                    'Localized example had no source to serialize; keeping the original.',
+                );
+                return code;
+            }
 
             // A nested example (e.g. a formatted `…` literal containing `\code\`)
             // can come back from the model with a doubled/orphaned delimiter. That
@@ -1055,12 +1078,25 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             // Apply pass: localize each example against the pooled results. A
             // text the pool couldn't translate resolves to itself, which is
             // the same keep-the-source outcome the per-example path had.
+            // A text the pool can't answer resolves to itself, which localizes
+            // the example to exactly what it already was: no bail, no warning,
+            // and a run that reports it localized while the English stays. Say
+            // so instead — a miss means gather and apply disagreed about what
+            // this example's texts are, which is a defect, not a translation
+            // that happened to come back the same.
+            let missed = 0;
             const lookup: RawTranslator = (requested) =>
                 Promise.resolve(
-                    requested.map(
-                        (original) =>
-                            translatedByText.get(original) ?? original,
-                    ),
+                    requested.map((original) => {
+                        const found = translatedByText.get(original);
+                        if (found === undefined) {
+                            missed++;
+                            examples.warning(
+                                `The pooled translations have nothing for "${original.slice(0, 40)}"; the example keeps it.`,
+                            );
+                        }
+                        return found ?? original;
+                    }),
                 );
             let applied = 0;
             for (const code of pending) {
@@ -1081,6 +1117,10 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                         `${applied}/${pending.length} examples localized`,
                     );
             }
+            if (missed > 0)
+                examples.warning(
+                    `${missed} text(s) had no pooled translation, so the examples holding them were localized to themselves.`,
+                );
         }
         const codeMap = new Map<string, string>(
             uniqueCodes.map((code) => [
@@ -1227,6 +1267,21 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                 ({ value, index }) =>
                     value === null && unitRange[index].count > 0,
             );
+
+        // A string whose every segment is code — a lone `\…\` example, which is
+        // what a landing-page caption is — has no units to retry, so it is
+        // rightly left out above. But the first pass stayed quiet *because* a
+        // retry was coming, so leaving it out is what made it fail in silence:
+        // the run reported the example localized and kept the English, and the
+        // only way to notice was to read the file. Say it now instead. The
+        // second call is only for its complaint; its result is discarded.
+        for (const { index } of result
+            .map((value, index) => ({ value, index }))
+            .filter(
+                ({ value, index }) =>
+                    value === null && unitRange[index].count === 0,
+            ))
+            reassemble(allSegments[index], text[index], [], [], false);
         if (retryable.length > 0) {
             const retryLog = log.pending(
                 `Retrying ${retryable.length} string(s) the model garbled, one at a time`,
