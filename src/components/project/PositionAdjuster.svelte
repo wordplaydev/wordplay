@@ -43,29 +43,33 @@
         ) === index,
     );
     let bounds = $derived(getBounds());
-    let left = $derived(
+    /** The group's extent, taken from every tile in it rather than from the
+     *  first: a stage placement can mirror a group, and the tiles keep their
+     *  order in the layout, so the first is not always the top left one. */
+    let extent = $derived(
         bounds.length === 0
             ? undefined
+            : {
+                  left: Math.min(...bounds.map((b) => b.left)),
+                  right: Math.max(...bounds.map((b) => b.left + b.width)),
+                  top: Math.min(...bounds.map((b) => b.top)),
+                  bottom: Math.max(...bounds.map((b) => b.top + b.height)),
+              },
+    );
+    /** The knob sits on the split it adjusts and centers on the group's other axis. */
+    let left = $derived(
+        extent === undefined
+            ? undefined
             : axis.direction === 'y'
-              ? (bounds[0].left +
-                    Math.max.apply(
-                        undefined,
-                        bounds.map((b) => b.left + b.width),
-                    )) /
-                2
-              : bounds[0].left,
+              ? (extent.left + extent.right) / 2
+              : extent.left,
     );
     let top = $derived(
-        bounds.length === 0
+        extent === undefined
             ? undefined
             : axis.direction === 'y'
-              ? bounds[0].top
-              : (bounds[0].top +
-                    Math.max.apply(
-                        undefined,
-                        bounds.map((b) => b.top + b.height),
-                    )) /
-                2,
+              ? extent.top
+              : (extent.top + extent.bottom) / 2,
     );
 
     let previousPosition = $derived(

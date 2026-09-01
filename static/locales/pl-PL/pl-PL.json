@@ -8324,6 +8324,11 @@
                             "$~Nie wydawaj dźwięku, gdy wynik się zderza",
                             "$~Odtwarzaj krótki dźwięk, gdy wynik się zderza, tym głośniejszy, im mocniejsze jest uderzenie"
                         ]
+                    },
+                    "placement": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?", "$?"]
                     }
                 },
                 "options": {

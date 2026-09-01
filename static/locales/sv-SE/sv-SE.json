@@ -8296,6 +8296,11 @@
                             "$~Gör inget ljud när utdata krockar",
                             "$~Spela upp ett kort ljud när utdata krockar, högre ju hårdare krocken är"
                         ]
+                    },
+                    "placement": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?", "$?"]
                     }
                 },
                 "options": {

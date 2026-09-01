@@ -8549,6 +8549,11 @@
                             "$~Không phát âm thanh khi đầu ra va chạm",
                             "$~Phát một âm thanh khi đầu ra va chạm, va càng mạnh thì âm càng lớn"
                         ]
+                    },
+                    "placement": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?", "$?"]
                     }
                 },
                 "options": {

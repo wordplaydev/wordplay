@@ -8546,6 +8546,11 @@
                             "$~Não fazer nenhum som quando o resultado colide",
                             "$~Tocar um som curto quando o resultado colide, mais alto quanto mais forte for o impacto"
                         ]
+                    },
+                    "placement": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?", "$?"]
                     }
                 },
                 "options": {

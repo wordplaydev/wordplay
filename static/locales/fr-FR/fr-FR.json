@@ -8302,6 +8302,11 @@
                             "$~Ne fait aucun son quand une sortie entre en collision",
                             "$~Joue un petit son quand une sortie entre en collision, plus fort si le choc est violent"
                         ]
+                    },
+                    "placement": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?", "$?"]
                     }
                 },
                 "options": {

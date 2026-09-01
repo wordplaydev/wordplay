@@ -11,6 +11,8 @@ import { AnimationFactorSetting } from '@db/settings/AnimationFactorSetting';
 import { AnnotationsSetting } from '@db/settings/AnnotationsSetting';
 import type { ArrangementType } from '@db/settings/Arrangement';
 import { ArrangementSetting } from '@db/settings/ArrangementSetting';
+import type { StagePlacementType } from '@db/settings/StagePlacement';
+import { StagePlacementSetting } from '@db/settings/StagePlacementSetting';
 import { AdaptOutputSetting } from '@db/settings/AdaptOutputSetting';
 import {
     BlockDensitySetting,
@@ -253,6 +255,7 @@ export default class SettingsDatabase {
         carets: CaretsSetting,
         folds: FoldsSetting,
         arrangement: ArrangementSetting,
+        stagePlacement: StagePlacementSetting,
         animationFactor: AnimationFactorSetting,
         locales: LocalesSetting,
         writingLayout: WritingLayoutSetting,
@@ -547,6 +550,14 @@ export default class SettingsDatabase {
 
     setArrangement(arrangement: ArrangementType) {
         this.settings.arrangement.set(this.database, arrangement);
+    }
+
+    setStagePlacement(placement: StagePlacementType) {
+        this.settings.stagePlacement.set(this.database, placement);
+    }
+
+    getStagePlacement() {
+        return this.settings.stagePlacement.get();
     }
 
     setAnimationFactor(factor: number | null) {

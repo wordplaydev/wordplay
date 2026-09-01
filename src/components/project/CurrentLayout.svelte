@@ -73,10 +73,11 @@
         if (chosen !== undefined) Settings.setArrangement(chosen);
     }}
 >
-    {#snippet selection()}<span class="pair"
-            >{#if arrangement === Arrangement.Responsive}<span class="chosen"
-                    >{withMonoEmoji(LayoutIcons[Arrangement.Responsive])}</span
-                >{/if}{withMonoEmoji(LayoutIcons[computedLayout])}</span
+    <!-- Only the chosen arrangement, not also what auto resolved to: the footer
+         has no horizontal space to spend on a second glyph, and the tip below
+         already names the resolved layout. -->
+    {#snippet selection()}<span class="icon"
+            >{withMonoEmoji(LayoutIcons[arrangement])}</span
         >{/snippet}
     {#snippet item(option, localized)}
         <span class="option">
@@ -97,20 +98,14 @@
     }
 
     /* The select's button is `display: contents`, so anything here would otherwise
-       become a flex item of the select and inherit its gap. Wrapping the icons in
-       one item keeps that gap between the pair and the picker icon, not inside it. */
-    .pair {
+       become a flex item of the select and inherit its gap. Wrapping the icon in
+       one item keeps that gap between it and the picker icon, not inside it. */
+    .icon {
         display: inline-flex;
         align-items: center;
-        /* The mono chain, so these monochrome icons don't match a color emoji
+        /* The mono chain, so this monochrome icon doesn't match a color emoji
            slice and download it. The FE0E selector alone doesn't prevent that. */
         font-family: var(--wordplay-emoji-mono-font);
-    }
-
-    /* When the layout is automatic, "auto" sits beside the layout it resolved to.
-       Dimming it keeps the resolved layout the thing you read first. */
-    .chosen {
-        color: var(--wordplay-inactive-color);
     }
 
     .description {

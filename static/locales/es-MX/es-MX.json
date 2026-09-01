@@ -8295,6 +8295,11 @@
                             "$~no hacer sonido cuando la salida choca",
                             "$~reproducir un sonido corto cuando la salida choca, más fuerte cuanto más fuerte es el golpe"
                         ]
+                    },
+                    "placement": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?", "$?"]
                     }
                 },
                 "options": {

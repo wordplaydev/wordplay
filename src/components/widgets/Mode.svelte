@@ -425,7 +425,13 @@
         text-align: center;
     }
 
-    .group.wrap {
+    /* A grid row's group always wraps, whether or not `wrap` was asked for: it
+       sits in a shrinkable column (both parent grids give it `minmax(0, 1fr)`),
+       so a group that can't wrap overflows its container rather than getting
+       narrower — and which rows fit is a fact about the locale's labels, not
+       something a call site can know. */
+    .group.wrap,
+    .mode.grid .group {
         flex-wrap: wrap;
         white-space: normal;
         row-gap: 0;

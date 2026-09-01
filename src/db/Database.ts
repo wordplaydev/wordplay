@@ -1274,6 +1274,7 @@ export const toursTaken = Settings.settings.tours.value;
 export const chatThreadsSeen = Settings.settings.chatThreads.value;
 export const contrastLanguage = Settings.settings.contrastLanguage.value;
 export const arrangement = Settings.settings.arrangement.value;
+export const stagePlacement = Settings.settings.stagePlacement.value;
 export const locales = DB.Locales.locales;
 export const localesReady = DB.Locales.localesReady;
 export const writingLayout = Settings.settings.writingLayout.value;

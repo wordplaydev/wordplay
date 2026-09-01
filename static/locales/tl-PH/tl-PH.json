@@ -8550,6 +8550,11 @@
                             "$~Huwag maglabas ng tunog kapag nagbanggaan ang output",
                             "$~Magpatugtog ng maikling tunog kapag nagbanggaan ang output, mas malakas kung mas malakas ang tama"
                         ]
+                    },
+                    "placement": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?", "$?"]
                     }
                 },
                 "options": {

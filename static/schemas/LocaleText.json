@@ -17925,6 +17925,10 @@
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
                                                     "description": "How loud music is: off, quiet, or full"
                                                 },
+                                                "placement": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                                                    "description": "Where the stage sits in the layouts that lay tiles out on axes, which mirrors the other tiles around it"
+                                                },
                                                 "space": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                                                     "description": "The space_indicator on/off mode"
@@ -17948,6 +17952,7 @@
                                             },
                                             "required": [
                                                 "layout",
+                                                "placement",
                                                 "animate",
                                                 "dark",
                                                 "adaptOutput",

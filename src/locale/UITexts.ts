@@ -1839,6 +1839,9 @@ type UITexts = {
                 layout: ModeText<
                     [string, string, string, string, string, string]
                 >;
+                /** Where the stage sits in the layouts that lay tiles out on
+                 *  axes, which mirrors the other tiles around it */
+                placement: ModeText<[string, string, string, string]>;
                 /** The animation off/slowdown/auto mode (last entry is
                  * "auto", which follows the device prefers-reduced-motion
                  * setting). */

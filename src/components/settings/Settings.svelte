@@ -6,7 +6,10 @@
         isAuthenticated,
     } from '@components/project/Contexts';
     import Subheader from '@components/app/Subheader.svelte';
-    import { LayoutIcons } from '@components/project/Layout';
+    import {
+        LayoutIcons,
+        StagePlacementIcons,
+    } from '@components/project/Layout';
     import FaceName from '@components/settings/FaceName.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -34,6 +37,7 @@
         musicVolume,
         Settings,
         showLines,
+        stagePlacement,
         spaceIndicator,
         voice,
         words,
@@ -45,7 +49,11 @@
         AnimationFactors,
         AnimationFactorSetting,
     } from '@db/settings/AnimationFactorSetting';
-    import { ArrangementOrder } from '@db/settings/Arrangement';
+    import {
+        ArrangementOrder,
+        hasStagePlacement,
+    } from '@db/settings/Arrangement';
+    import { StagePlacementOrder } from '@db/settings/StagePlacement';
     import {
         CaptionSizeIcons,
         CaptionSizes,
@@ -271,7 +279,6 @@
                     <Mode
                         grid
                         modes={(l) => l.ui.dialog.settings.mode.layout}
-                        wrap
                         choice={ArrangementOrder.indexOf($arrangement)}
                         select={(choice) => {
                             const chosen = ArrangementOrder[choice];
@@ -280,6 +287,27 @@
                         }}
                         icons={ArrangementOrder.map((a) => LayoutIcons[a])}
                     />
+                    <!-- Only the arrangements that lay tiles out on axes have a
+                         stage placement; auto is included, since it resolves to
+                         one of the two. -->
+                    {#if hasStagePlacement($arrangement)}
+                        <Mode
+                            grid
+                            indented
+                            modes={(l) => l.ui.dialog.settings.mode.placement}
+                            choice={StagePlacementOrder.indexOf(
+                                $stagePlacement,
+                            )}
+                            select={(choice) => {
+                                const chosen = StagePlacementOrder[choice];
+                                if (chosen !== undefined)
+                                    Settings.setStagePlacement(chosen);
+                            }}
+                            icons={StagePlacementOrder.map(
+                                (p) => StagePlacementIcons[p],
+                            )}
+                        />
+                    {/if}
                     <!-- modeLabels={false} because the scale factor *is* the
                          label, so drawing both would read "1x 1x". Each button
                          still names itself to a screen reader, from its tip. -->

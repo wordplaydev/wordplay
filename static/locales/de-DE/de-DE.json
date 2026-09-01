@@ -8295,6 +8295,11 @@
                             "$~Keinen Ton abspielen, wenn Ausgabe zusammenstößt",
                             "$~Bei einem Zusammenstoß von Ausgabe einen kurzen Ton abspielen, lauter bei einem härteren Stoß"
                         ]
+                    },
+                    "placement": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?", "$?"]
                     }
                 },
                 "options": {

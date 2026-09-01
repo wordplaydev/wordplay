@@ -12,15 +12,20 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 👍 You can now react to a message with an emoji. Eight common ones are a single press away, and you can search for any other emoji you like. (#821)
 - 📎 You can now say which code you're talking about. Put your cursor in the code, press the 📎 beside the message box, and your message carries that line. You can send just the link, with no words at all. (#820)
 - 👥 Code somebody has talked about gets a 👥 in the margin beside it. Press it to read what was said. The link follows your program too: add lines above it and it still points at the same code, and if that code goes away the link says so instead of pointing somewhere wrong. (#820)
+- 📐 You can now pick which corner of the screen the stage sits in: top left, top right, bottom left, or bottom right. The guide, palette, and collaborate tiles move to match, and your code stays in the middle. (#925)
 
 ### Changed
 
 - 🤝 The collaborate tile's list of people now fills the width of the tile, and the box for adding someone waits behind a **+** until you ask for it, so the list takes less room. The list no longer slides when you start writing a message; it just changes.
 - ✍️ The message box no longer offers the three buttons for marking up an example (⭐, 🪲, 👀). Those are for writing documentation, not for talking to your collaborators.
+- 🧱 The stage now sits in the same corner whatever the shape of your window. Before, a tall window put it on one side and a wide window on the other. (#925)
+- 🧹 The layout button at the bottom of a project now shows one icon instead of two, to make room. When your layout is automatic, its tip still says which layout it picked.
 
 ### Fixed
 
 - 🐛 A button you'd moved to with the keyboard was dimmed along with the rest of the tile's header, which made the focus outline hard to see. A header you're working in is no longer dimmed.
+- 🐛 The settings no longer slide sideways on a narrow window. Rows of buttons now wrap onto a second line instead of running off the edge.
+- 🎨 One of the layout buttons in the settings showed a colored icon while the rest were black and white. They all match now.
 
 ## 0.33.1 - 2026-08-30
 

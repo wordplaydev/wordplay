@@ -29,5 +29,16 @@ export function isResizeable(arrangement: ArrangementType): boolean {
     );
 }
 
+/** Whether this arrangement lays tiles out on axes, and so has a stage
+ *  placement that can mirror it. Responsive counts: it resolves to one of the
+ *  two axis arrangements. */
+export function hasStagePlacement(arrangement: ArrangementType): boolean {
+    return (
+        arrangement === Arrangement.Horizontal ||
+        arrangement === Arrangement.Vertical ||
+        arrangement === Arrangement.Responsive
+    );
+}
+
 export { Arrangement };
 export default Arrangement;

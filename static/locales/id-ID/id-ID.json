@@ -8562,6 +8562,11 @@
                             "$~Jangan buat suara saat keluaran bertabrakan",
                             "$~Putar suara saat keluaran bertabrakan, makin keras benturannya makin keras suaranya"
                         ]
+                    },
+                    "placement": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?", "$?"]
                     }
                 },
                 "options": {

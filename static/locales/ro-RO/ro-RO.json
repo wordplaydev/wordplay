@@ -8561,6 +8561,11 @@
                             "$~Nu reda niciun sunet când ieșirea se ciocnește",
                             "$~Redă un sunet scurt când ieșirea se ciocnește, mai tare cu cât lovitura e mai puternică"
                         ]
+                    },
+                    "placement": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?", "$?"]
                     }
                 },
                 "options": {

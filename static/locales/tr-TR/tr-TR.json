@@ -8306,6 +8306,11 @@
                             "$~Çıktı çarpıştığında ses çıkarma",
                             "$~Çıktı çarpıştığında kısa bir ses çal; çarpışma ne kadar sertse ses o kadar yüksek olsun"
                         ]
+                    },
+                    "placement": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?", "$?"]
                     }
                 },
                 "options": {

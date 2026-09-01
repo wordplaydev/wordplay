@@ -1,11 +1,20 @@
 import { Arrangement, type ArrangementType } from '@db/settings/Arrangement';
+import {
+    isLeft,
+    isTop,
+    StagePlacement,
+    type StagePlacementType,
+} from '@db/settings/StagePlacement';
 import type Bounds from '@components/project/Bounds';
 import Tile, { TileMode } from '@components/project/Tile';
 import { TileKind } from '@components/project/TileKind';
 import TileKinds from '@components/project/TileKinds';
 
 export const LAYOUT_ICON_RESPONSIVE = '📐';
-export const LAYOUT_ICON_HORIZONTAL = '↔️';
+/* Both arrows are bare, with no presentation selector: Mode adds the mono one
+   only where none is present, so a color selector here would leave this the one
+   icon in the row rendered in color. */
+export const LAYOUT_ICON_HORIZONTAL = '↔';
 export const LAYOUT_ICON_VERTICAL = '↕';
 /* "two" and "one" are drawn as panes of a screen rather than as window buttons, so
    they read as pictures of the layout. Both come from Geometric Shapes so their
@@ -21,6 +30,15 @@ export const LayoutIcons = {
     [Arrangement.Split]: LAYOUT_ICON_SPLIT,
     [Arrangement.Single]: LAYOUT_ICON_SINGLE,
     [Arrangement.Free]: LAYOUT_ICON_FREE,
+};
+
+/* Quadrant-filled squares from Geometric Shapes, for the same reason "two" and
+   "one" are drawn that way: they read as pictures of where the stage lands. */
+export const StagePlacementIcons = {
+    [StagePlacement.TopLeft]: '◰',
+    [StagePlacement.TopRight]: '◳',
+    [StagePlacement.BottomLeft]: '◱',
+    [StagePlacement.BottomRight]: '◲',
 };
 
 export type Position = {
@@ -140,6 +158,78 @@ const DefaultVerticalSplits: Axis[] = [
     },
 ];
 
+/** The two arrangements that lay tiles out on axes, and so can be mirrored. */
+export type AxisArrangement =
+    typeof Arrangement.Horizontal | typeof Arrangement.Vertical;
+
+/** Where the default splits above put the stage in each axis arrangement, which
+ *  is what a chosen placement is mirrored relative to. The defaults are stored
+ *  as they have always been, so a project's persisted splits keep meaning what
+ *  they meant; a placement that differs from these corners is applied on the way
+ *  out, in getSplits. */
+const DefaultStageCorner: Record<AxisArrangement, StagePlacementType> = {
+    [Arrangement.Horizontal]: StagePlacement.TopRight,
+    [Arrangement.Vertical]: StagePlacement.TopLeft,
+};
+
+/** Which directions a placement mirrors, given the axis arrangement in effect. */
+function mirrorsFor(
+    arrangement: AxisArrangement,
+    placement: StagePlacementType,
+) {
+    const corner = DefaultStageCorner[arrangement];
+    return {
+        flipX: isLeft(placement) !== isLeft(corner),
+        flipY: isTop(placement) !== isTop(corner),
+    };
+}
+
+/** A position's mirror image, rounded to shed the floating point dust that
+ *  would otherwise make a mirror an inexact involution — flipping a dragged
+ *  split back and forth would drift it. */
+function complement(position: number) {
+    return Math.round((1 - position) * 1000000) / 1000000;
+}
+
+/**
+ * Mirror the given axes on one or both directions, which is all a stage
+ * placement does: reverse each affected axis's groups and complement their
+ * positions, so group i of an n-group axis becomes group n-1-i and starts where
+ * the group after it used to end. A group's contents are untouched — a mirror
+ * reverses the order of groups on an axis, never the order of tiles within one,
+ * so several sources stay in file order.
+ */
+export function mirrorAxes(
+    axes: Axis[],
+    flipX: boolean,
+    flipY: boolean,
+): Axis[] {
+    return axes.map((axis) => {
+        if (!(axis.direction === 'x' ? flipX : flipY)) return axis;
+        const count = axis.positions.length;
+        return {
+            direction: axis.direction,
+            positions: axis.positions.map((_, index) => ({
+                ...axis.positions[count - 1 - index],
+                // The group after this one in the original order ended where
+                // this one now starts; the last of them ends at 1.
+                position: complement(
+                    axis.positions[count - index]?.position ?? 1,
+                ),
+            })),
+        };
+    });
+}
+
+/** Copy axes deeply enough that a split can be changed without mutating a
+ *  default or a layout we have already handed out. */
+function cloneAxes(axes: Axis[]): Axis[] {
+    return axes.map((axis) => ({
+        direction: axis.direction,
+        positions: axis.positions.map((position) => ({ ...position })),
+    }));
+}
+
 export default class Layout {
     readonly projectID: string;
     readonly tiles: Tile[];
@@ -202,17 +292,46 @@ export default class Layout {
               );
     }
 
-    // Given the current arrangement, get a list of axes for layout, including default proportions if not defined.
-    getSplits(arrangement: ArrangementType, width: number, height: number) {
-        return arrangement === Arrangement.Horizontal
-            ? (this.splits?.horizontal ?? DefaultHorizontalSplits)
-            : arrangement === Arrangement.Vertical
-              ? (this.splits?.vertical ?? DefaultVerticalSplits)
-              : arrangement === Arrangement.Responsive
-                ? width > height
-                    ? (this.splits?.horizontal ?? DefaultHorizontalSplits)
-                    : (this.splits?.vertical ?? DefaultVerticalSplits)
-                : null;
+    /** The axis arrangement in effect, resolving responsive by the shape of the
+     *  window, or undefined for the arrangements that don't lay out on axes.
+     *  The one resolver, so the splits, the bounds, and the position adjusters
+     *  can never disagree about which axes a placement flips. */
+    static getAxisArrangement(
+        arrangement: ArrangementType,
+        width: number,
+        height: number,
+    ): AxisArrangement | undefined {
+        return arrangement === Arrangement.Horizontal ||
+            arrangement === Arrangement.Vertical
+            ? arrangement
+            : arrangement === Arrangement.Responsive
+              ? width > height
+                  ? Arrangement.Horizontal
+                  : Arrangement.Vertical
+              : undefined;
+    }
+
+    /**
+     * Given the current arrangement and stage placement, get a list of axes for
+     * layout, including default proportions if not defined, mirrored to put the
+     * stage where the placement asks. Splits are stored in one canonical
+     * orientation and mirrored here, so everything downstream — the tile bounds
+     * and the position adjusters alike — works in the orientation on screen.
+     */
+    getSplits(
+        arrangement: ArrangementType,
+        placement: StagePlacementType,
+        width: number,
+        height: number,
+    ) {
+        const axes = Layout.getAxisArrangement(arrangement, width, height);
+        if (axes === undefined) return null;
+        const splits =
+            axes === Arrangement.Horizontal
+                ? (this.splits?.horizontal ?? DefaultHorizontalSplits)
+                : (this.splits?.vertical ?? DefaultVerticalSplits);
+        const { flipX, flipY } = mirrorsFor(axes, placement);
+        return mirrorAxes(splits, flipX, flipY);
     }
 
     isFullscreen() {
@@ -402,13 +521,18 @@ export default class Layout {
             : arrangement;
     }
 
-    resized(arrangement: ArrangementType, width: number, height: number) {
+    resized(
+        arrangement: ArrangementType,
+        placement: StagePlacementType,
+        width: number,
+        height: number,
+    ) {
         arrangement = Layout.getComputedLayout(arrangement, width, height);
 
         return arrangement === Arrangement.Vertical
-            ? this.vertical(width, height)
+            ? this.vertical(placement, width, height)
             : arrangement === Arrangement.Horizontal
-              ? this.horizontal(width, height)
+              ? this.horizontal(placement, width, height)
               : arrangement === Arrangement.Split
                 ? this.split(width, height)
                 : arrangement === Arrangement.Single
@@ -532,18 +656,20 @@ export default class Layout {
     }
 
     /* A stack of output and source files with optional palette next to output and docs next to source */
-    vertical(width: number, height: number) {
+    vertical(placement: StagePlacementType, width: number, height: number) {
         return this.onAxes(
-            this.splits?.vertical ?? DefaultVerticalSplits,
+            this.getSplits(Arrangement.Vertical, placement, width, height) ??
+                [],
             width,
             height,
         );
     }
 
     /* Docs on the left, then source, then output, with optional palette below it */
-    horizontal(width: number, height: number) {
+    horizontal(placement: StagePlacementType, width: number, height: number) {
         return this.onAxes(
-            this.splits?.horizontal ?? DefaultHorizontalSplits,
+            this.getSplits(Arrangement.Horizontal, placement, width, height) ??
+                [],
             width,
             height,
         );
@@ -651,8 +777,12 @@ export default class Layout {
         return positions;
     }
 
+    /** Adjust one split. The axis and index are the ones on screen, which on a
+     *  mirrored axis are not the ones stored: displayed group i of an n-group
+     *  axis is stored group n - i, at the complementary position. */
     withSplit(
         arrangement: ArrangementType,
+        placement: StagePlacementType,
         axis: number,
         index: number,
         split: number,
@@ -663,36 +793,41 @@ export default class Layout {
         if (split < 0) split = 0;
         if (split > 1) split = 1;
 
-        if (
-            arrangement !== Arrangement.Horizontal &&
-            arrangement !== Arrangement.Vertical &&
-            arrangement !== Arrangement.Responsive
-        )
-            return this;
-        const horizontal =
-            arrangement === Arrangement.Horizontal ||
-            (arrangement === Arrangement.Responsive && width > height);
+        const axes = Layout.getAxisArrangement(arrangement, width, height);
+        if (axes === undefined) return this;
 
         // Initialize the splits if null.
-        let newSplits = JSON.parse(
-            JSON.stringify(
-                this.splits ?? {
-                    horizontal: DefaultHorizontalSplits,
-                    vertical: DefaultVerticalSplits,
-                },
-            ),
-        );
+        const newSplits: Splits = {
+            horizontal:
+                this.splits?.horizontal === null
+                    ? null
+                    : cloneAxes(
+                          this.splits?.horizontal ?? DefaultHorizontalSplits,
+                      ),
+            vertical:
+                this.splits?.vertical === null
+                    ? null
+                    : cloneAxes(this.splits?.vertical ?? DefaultVerticalSplits),
+        };
 
-        // Update the split at the given index.
-        if (horizontal && newSplits.horizontal !== null) {
-            if (newSplits.horizontal[axis].positions[index].position === split)
-                return this;
-            newSplits.horizontal[axis].positions[index].position = split;
-        } else if (!horizontal && newSplits.vertical !== null) {
-            if (newSplits.vertical[axis].positions[index].position === split)
-                return this;
-            newSplits.vertical[axis].positions[index].position = split;
-        }
+        const stored =
+            axes === Arrangement.Horizontal
+                ? newSplits.horizontal
+                : newSplits.vertical;
+        const storedAxis = stored === null ? undefined : stored[axis];
+        if (storedAxis === undefined) return this;
+
+        // Map the displayed split back to the one stored.
+        const { flipX, flipY } = mirrorsFor(axes, placement);
+        const flipped = storedAxis.direction === 'x' ? flipX : flipY;
+        const position =
+            storedAxis.positions[
+                flipped ? storedAxis.positions.length - index : index
+            ];
+        const storedSplit = flipped ? complement(split) : split;
+        if (position === undefined || position.position === storedSplit)
+            return this;
+        position.position = storedSplit;
 
         return new Layout(
             this.projectID,

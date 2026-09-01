@@ -83,6 +83,7 @@
         mic,
         musicVisualization,
         Settings,
+        stagePlacement,
     } from '@db/Database';
     import { Projects } from '@db/projects/Projects';
     import {
@@ -1803,6 +1804,7 @@
     function refreshLayout() {
         layout = untrack(() => layout).resized(
             $arrangement,
+            $stagePlacement,
             canvasWidth,
             canvasHeight,
         );
@@ -1833,6 +1835,7 @@
     function adjustSplit(axis: number, index: number, split: number) {
         layout = layout.withSplit(
             $arrangement,
+            $stagePlacement,
             axis,
             index,
             split,
@@ -2055,7 +2058,12 @@
                 // Move the source to the end and make it visible.
                 layout = currentLayout
                     .withTileLast(latestSource)
-                    .resized($arrangement, canvasWidth, canvasHeight);
+                    .resized(
+                        $arrangement,
+                        $stagePlacement,
+                        canvasWidth,
+                        canvasHeight,
+                    );
             }
         }
     });
@@ -2213,7 +2221,7 @@
         // when it unmounts, which is every route.
         layout = layout
             .withTileLast(tile.withMode(mode))
-            .resized($arrangement, canvasWidth, canvasHeight);
+            .resized($arrangement, $stagePlacement, canvasWidth, canvasHeight);
     }
 
     function setFullscreen(tile: Tile | undefined) {
@@ -3648,7 +3656,7 @@
                 {/each}
                 <!-- If in a layout that supports resizing, create an adjuster for each axis split in the current layout that isn't the first in the axis. Skip when a tile is fullscreen, since there's nothing to resize. -->
                 {#if isResizeable(currentArrangement) && !layout.isFullscreen()}
-                    {#each layout.getSplits(currentArrangement, canvasWidth, canvasHeight) ?? [] as axis, axisIndex}
+                    {#each layout.getSplits(currentArrangement, $stagePlacement, canvasWidth, canvasHeight) ?? [] as axis, axisIndex}
                         {#each axis.positions as _, groupIndex}
                             {#if groupIndex > 0}
                                 <PositionAdjuster

@@ -8460,6 +8460,21 @@
                             "moveable and resizable tiles on a canvas"
                         ]
                     },
+                    "placement": {
+                        "label": "stage placement",
+                        "labels": [
+                            "top left",
+                            "top right",
+                            "bottom left",
+                            "bottom right"
+                        ],
+                        "tips": [
+                            "place the stage in the top left, and the other tiles in matching places around it",
+                            "place the stage in the top right, and the other tiles in matching places around it",
+                            "place the stage in the bottom left, and the other tiles in matching places around it",
+                            "place the stage in the bottom right, and the other tiles in matching places around it"
+                        ]
+                    },
                     "animate": {
                         "label": "animation speed",
                         "labels": [
