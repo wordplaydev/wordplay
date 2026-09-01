@@ -1048,9 +1048,13 @@
                                 .at(-1);
                             const nodeRect =
                                 lastNodeView?.getBoundingClientRect();
+                            // The whole line gutter, not just the number: a
+                            // line can also begin with a chat reference's
+                            // marker, and measuring only the number would put
+                            // the caret a marker's width to its left.
                             const lineWidth =
                                 element?.parentElement
-                                    ?.querySelector('.line-number')
+                                    ?.querySelector('.line-start')
                                     ?.getBoundingClientRect().width ?? 0;
                             const editorHorizontalStart =
                                 leftToRight && horizontal
@@ -1207,10 +1211,11 @@
                 beforeSpaceTop,
             } = computeSpaceDimensions(viewport, token, spaceIndex);
 
-            // Find the line number inline end.
+            // Find the line gutter's inline end — the marker column and the
+            // number together, since either may be absent.
             const lineWidth =
                 element?.parentElement
-                    ?.querySelector('.line-number')
+                    ?.querySelector('.line-start')
                     ?.getBoundingClientRect().width ?? 0;
 
             // Find the start position of the editor, based on language direction.

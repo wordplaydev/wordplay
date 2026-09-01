@@ -88,6 +88,18 @@ const Lanes = {
     // example is what keeps consecutive choices from deduping into silence.
     tour: 'queued',
     collaborator: 'queued',
+    /** Opening or leaving a chat thread, and the result of pressing the reply
+     *  control. Discrete answers to a press, so queued rather than coalesced;
+     *  each names the thread's author and reply count, since the queued lane
+     *  drops a repeat of identical text. */
+    'chat-thread': 'queued',
+    /** Adding or taking back a reaction, and a refusal when a message has
+     *  collected all the emoji it may. Names the emoji and the new count for
+     *  the same reason. */
+    'chat-reaction': 'queued',
+    /** Entering and leaving code-reference mode, attaching a reference to a
+     *  message, and resolving one. Names the lines involved. */
+    'chat-reference': 'queued',
     /** A committed change to how projects are organized: one moved into or out
      *  of a folder, or a folder created, expanded, collapsed, selected, or
      *  deleted. Each is a discrete result, so none may be dropped. */

@@ -22,6 +22,9 @@ const Exempt = new Set([
     'src/input/Webpage/Webpage.ts',
     // Outside-click detection: `e.target as Node` for Element.contains().
     'src/components/widgets/OverflowToolbar.svelte',
+    // Also the DOM one: the reaction picker closes on a press outside itself,
+    // which means asking `e.target instanceof Node` before Element.contains().
+    'src/components/app/chat/ReactionPicker.svelte',
 ]);
 
 function sourceFilesUnder(directory: string): string[] {

@@ -6,7 +6,6 @@
      at once — the gallery page has two — and a shared DOM id breaks the label
      and error associations for both. -->
 <script lang="ts">
-    import Feedback from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
@@ -55,6 +54,13 @@
         // Don't add self
         if (emailOrUsername === Creator.getUsername(DB.getUserEmail() ?? ''))
             return (l: LocaleText) => l.ui.dialog.share.error.self;
+        // "We don't know this creator" is a reason what you typed can't be
+        // used, exactly like the two rules above, and belongs where they are
+        // said: floating under the field. As a block of its own it pushed the
+        // row it was in and could be clipped by the tile. Read here rather than
+        // passed in, so the field's own validation and the lookup's answer are
+        // one message rather than two competing ones.
+        if (unknown) return (l: LocaleText) => l.ui.dialog.share.error.unknown;
         return true;
     }
 
@@ -73,9 +79,12 @@
         }
     }
 
-    // When the user changes, reset unknown.
+    // Any edit is a new attempt, so the last lookup's answer stops applying —
+    // including clearing the field, which the previous truthiness check left
+    // showing an error about text that was no longer there.
     $effect(() => {
-        if (emailOrUsername) unknown = false;
+        void emailOrUsername;
+        unknown = false;
     });
 </script>
 
@@ -101,14 +110,8 @@
     {#if adding}<Spinning />{/if}
 {/snippet}
 
-{#snippet unknownNotice()}
-    {#if unknown}
-        <Feedback text={(l) => l.ui.dialog.share.error.unknown} />
-    {/if}
-{/snippet}
-
 {#if cells}
-    <td>{@render field()}{@render unknownNotice()}</td>
+    <td>{@render field()}</td>
     {@render extraCells?.()}
     <td>{@render submit()}</td>
 {:else}
@@ -117,7 +120,6 @@
         {@render extra?.()}
         {@render submit()}
     </form>
-    {@render unknownNotice()}
 {/if}
 
 <style>

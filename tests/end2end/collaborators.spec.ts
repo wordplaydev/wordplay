@@ -1,3 +1,4 @@
+import type { Page } from '@playwright/test';
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
 import { waitForDocumentUpdate } from '../helpers/firestore';
@@ -21,6 +22,16 @@ function privilegeOf(page: import('@playwright/test').Page, name: string) {
     return page.getByLabel(`what ${name} can do`);
 }
 
+/** The field for adding someone. Once the list has people in it the field
+ *  waits behind a "+", so a test that adds a second person has to ask for it
+ *  the way a person would. */
+async function addField(page: Page) {
+    const field = page.locator('#collaborator-to-add');
+    if ((await field.count()) === 0)
+        await page.getByRole('button', { name: 'add someone' }).click();
+    return field;
+}
+
 test('the table gives one person one privilege, and remembers it', async ({
     page,
 }) => {
@@ -34,7 +45,7 @@ test('the table gives one person one privilege, and remembers it', async ({
 
     // Add them. Collaborating is the default, which is what sharing a project
     // has always meant here.
-    await page.locator('#collaborator-to-add').fill(Collaborator);
+    await (await addField(page)).fill(Collaborator);
     await page
         .locator('button[aria-label^="Share the project with this email"]')
         .click();
@@ -72,7 +83,7 @@ test('choosing owner confirms before handing the project over', async ({
     await createTestProject(page);
     await page.getByTestId('collaborate-toggle').click();
 
-    await page.locator('#collaborator-to-add').fill(Collaborator);
+    await (await addField(page)).fill(Collaborator);
     await page
         .locator('button[aria-label^="Share the project with this email"]')
         .click();
@@ -146,7 +157,7 @@ test('the tile says what it is for until it has been used', async ({
         0,
     );
 
-    await page.locator('#collaborator-to-add').fill(Collaborator);
+    await (await addField(page)).fill(Collaborator);
     await page
         .locator('button[aria-label^="Share the project with this email"]')
         .click();
@@ -171,7 +182,7 @@ test('writing a message hands the tile to the conversation', async ({
         [Collaborator, 'comment'],
         ['student1', 'view'],
     ] as const) {
-        await page.locator('#collaborator-to-add').fill(who);
+        await (await addField(page)).fill(who);
         await page
             .locator('button[aria-label^="Share the project with this email"]')
             .click();
@@ -204,7 +215,7 @@ test('a rejected name is spoken, not just shown', async ({ page }) => {
     await createTestProject(page);
     await page.getByTestId('collaborate-toggle').click();
 
-    const field = page.locator('#collaborator-to-add');
+    const field = await addField(page);
     await field.fill('ab');
 
     const message = page.locator('#collaborator-to-add-error');
@@ -216,8 +227,157 @@ test('a rejected name is spoken, not just shown', async ({ page }) => {
         /at least 5 letters with no spaces/i,
     );
 
+    // And it stays when focus goes. A message that leaves with the caret takes
+    // the explanation with it, and what is left is a field with bad text in it
+    // and an inactive submit button saying nothing.
+    await page.locator('body').click();
+    await expect(field).not.toBeFocused();
+    await expect(message).toBeVisible();
+
     // And it goes when the reason goes, rather than lingering somewhere.
     await field.fill('student1');
     await expect(message).toHaveCount(0);
     await expect(field).not.toHaveAttribute('aria-invalid', 'true');
+
+    // Emptying the field is not a complaint worth leaving on screen, even
+    // though an empty name is not a usable one.
+    await field.fill('ab');
+    await expect(message).toBeVisible();
+    await field.fill('');
+    await expect(message).toHaveCount(0);
+});
+
+test('a name nobody answers to is a validation error like any other', async ({
+    page,
+}) => {
+    // "We don't know this creator" is a reason what you typed can't be used,
+    // so it floats under the field with the format rules rather than sitting in
+    // the row as a block that pushes the table down and can be clipped by the
+    // tile.
+    await createTestProject(page);
+    await page.getByTestId('collaborate-toggle').click();
+
+    const field = await addField(page);
+    // Well-formed, so nothing is wrong with it until the lookup answers.
+    await field.fill('nobodyhere');
+    const message = page.locator('#collaborator-to-add-error');
+    await expect(message).toHaveCount(0);
+
+    await page
+        .locator('button[aria-label^="Share the project with this email"]')
+        .click();
+    await expect(message).toBeVisible();
+    await expect(field).toHaveAttribute('aria-invalid', 'true');
+    await expect(field).toHaveAccessibleDescription(/don't know a creator/i);
+
+    // It survives the press that produced it taking focus away, which is the
+    // case this whole rule exists for: the answer arrives from a lookup, and by
+    // then the pointer has been somewhere else.
+    await page.locator('body').click();
+    await expect(field).not.toBeFocused();
+    await expect(message).toBeVisible();
+
+    // And typing again is a new attempt, so the last answer stops applying.
+    await field.fill('nobodyhere2');
+    await expect(message).toHaveCount(0);
+    await expect(field).not.toHaveAttribute('aria-invalid', 'true');
+});
+
+test('the field for adding someone waits behind a plus', async ({ page }) => {
+    // An empty field under every list is a lot of tile for something most
+    // people use once, so once there is a list it is asked for.
+    await createTestProject(page);
+    await page.getByTestId('collaborate-toggle').click();
+
+    // Nobody yet: the field is right there, since there is no list to add to.
+    await expect(page.locator('#collaborator-to-add')).toBeVisible();
+    await (await addField(page)).fill(Collaborator);
+    await page
+        .locator('button[aria-label^="Share the project with this email"]')
+        .click();
+    await expect(privilegeOf(page, Collaborator)).toBeVisible();
+
+    // Now that there is a list, the field has stepped out of the way.
+    await expect(page.locator('#collaborator-to-add')).toHaveCount(0);
+    const plus = page.getByRole('button', { name: 'add someone' });
+    await expect(plus).toBeVisible();
+
+    // And the tour still has something to point at while it is closed.
+    await expect(page.locator('[data-uiid="addCollaborator"]')).toBeVisible();
+
+    await plus.click();
+    await expect(page.locator('#collaborator-to-add')).toBeFocused();
+
+    // And put away again by the same control, for someone who changed their
+    // mind, with focus back where they left it.
+    const cancel = page.getByRole('button', {
+        name: 'never mind adding someone',
+    });
+    await cancel.click();
+    await expect(page.locator('#collaborator-to-add')).toHaveCount(0);
+    await expect(
+        page.getByRole('button', { name: 'add someone' }),
+    ).toBeFocused();
+});
+
+test('a row is a row before its creator loads, not an error', async ({
+    page,
+}) => {
+    // Every list of people fills its creators from an async lookup, so on the
+    // first paint each one is `null` — and CreatorView's `null` branch is an
+    // orange Notice. Every row of the tile flashed one before the names
+    // arrived, and the placeholder's different width resized the columns under
+    // the reader as it went.
+    await createTestProject(page);
+    await page.getByTestId('collaborate-toggle').click();
+    for (const who of [Collaborator, 'student1']) {
+        if ((await page.locator('#collaborator-to-add').count()) === 0)
+            await page.getByRole('button', { name: 'add someone' }).click();
+        await page.locator('#collaborator-to-add').fill(who);
+        await page
+            .locator('button[aria-label^="Share the project with this email"]')
+            .click();
+        await expect(privilegeOf(page, who)).toBeVisible();
+    }
+
+    // Watch rather than sample: the creators resolve from cache in a
+    // microtask, so anything read after the remount is already the settled
+    // state and would pass against the bug.
+    await page.evaluate(() => {
+        const seen = { notice: 0, busy: 0 };
+        (window as unknown as { seen: typeof seen }).seen = seen;
+        new MutationObserver((records) => {
+            for (const record of records)
+                for (const node of record.addedNodes) {
+                    if (!(node instanceof HTMLElement)) continue;
+                    const rows = node.matches('.creator')
+                        ? [node]
+                        : [...node.querySelectorAll('.creator')];
+                    for (const row of rows) {
+                        if (row.querySelector('.feedback')) seen.notice++;
+                        if (row.getAttribute('aria-busy') === 'true')
+                            seen.busy++;
+                    }
+                }
+        }).observe(document.body, { childList: true, subtree: true });
+    });
+
+    // Closing and reopening remounts the table with no creators yet, which is
+    // the same first paint a page load gives.
+    const tile = page.locator('[data-uiid="collaborate"]');
+    await page.getByTestId('collaborate-toggle').click();
+    await expect(tile).toHaveCount(0);
+    await page.getByTestId('collaborate-toggle').click();
+    await expect(page.locator('.creator[aria-busy="true"]')).toHaveCount(0, {
+        timeout: 15000,
+    });
+
+    const seen = await page.evaluate(
+        () =>
+            (window as unknown as { seen: { notice: number; busy: number } })
+                .seen,
+    );
+    // Rows that waited, and not one that claimed to be broken while it did.
+    expect(seen.busy).toBeGreaterThan(0);
+    expect(seen.notice).toBe(0);
 });

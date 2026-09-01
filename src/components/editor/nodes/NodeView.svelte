@@ -18,6 +18,7 @@
     import InsertionPointView from '@components/editor/caret/InsertionPointView.svelte';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import getNodeView from '@components/editor/nodes/nodeToView';
+    import ReferenceMarker from '@components/editor/nodes/ReferenceMarker.svelte';
     import Space from '@components/editor/nodes/Space.svelte';
     import TokenView from '@components/editor/tokens/TokenView.svelte';
     import FoldToggle from '@components/editor/util/FoldToggle.svelte';
@@ -30,6 +31,8 @@
         getProject,
         getRoot,
         getShowLines,
+        getLineMarkers,
+        getReferencedMessages,
         getSpaces,
         getWrapping,
         getSteppedEvaluation,
@@ -190,6 +193,20 @@
 
     // Get the root's computed spaces store
     let spaces = getSpaces();
+    const lineMarkers = getLineMarkers();
+    const referencedMessages = getReferencedMessages();
+
+    /** Whether this root reserves a marker column at all; RootView sets it, and
+     *  it is zero for a source nobody has said anything about. */
+    let markerColumn = $derived(($lineMarkers?.size ?? 0) > 0);
+
+    /** The messages about this node, for the marker a block carries at its
+     *  inline start. Text mode asks by line instead, since a space run knows
+     *  its lines but not which node begins them. */
+    let blockMessages = $derived.by(() => {
+        const messages = referencedMessages ? $referencedMessages : undefined;
+        return messages && renderNode ? messages.get(renderNode) : undefined;
+    });
     // See if this node has any space to render.
     let firstToken = $derived(renderNode?.getFirstLeaf());
     let spaceRoot = $derived(
@@ -255,6 +272,11 @@
     // caret/outline measurement code reads .space[data-id], .space-text,
     // data-space, data-line, .break, and .line-number.
     const showLines = getShowLines();
+
+    /** Whether a line begins with anything at all. Without this the wrapper
+     *  rendered on every line of every editor and every documentation example,
+     *  empty, for sources with neither numbers nor markers. */
+    let gutter = $derived(markerColumn || $showLines === true);
     /** A wrapping view keeps ordinary spaces, which a line can break at; an
      *  editable one keeps them non-breaking so a line holds its shape while it
      *  is edited. See `setWrapping`. The indicator wins either way: asking to
@@ -281,14 +303,18 @@
     function textSpaceModel(
         spaceText: string,
         indicator: boolean,
-        lines: boolean,
         line: number,
     ) {
         const spacesByLine = renderSpace(spaceText, indicator);
         return {
             spacesByLine,
             sourceByLine: spaceText.split('\n'),
-            firstLine: lines ? line - spacesByLine.length + 1 : undefined,
+            // Always computed, never gated on whether the numbers are showing:
+            // a reference marker needs to know which line it is on too, and
+            // deriving it from the run's last line instead put every marker
+            // out by the height of the space above it whenever numbers were
+            // off.
+            firstLine: line - spacesByLine.length + 1,
         };
     }
 </script>
@@ -301,6 +327,13 @@
      CaretView.computeSpaceDimensions depends closely on this structure. The drag
      insertion marker renders inline at its line WITHOUT splitting the
      space-texts, so showing it can't perturb where a drop resolves. -->
+{#snippet marker(line: number)}{#if markerColumn}{@const messages =
+            $lineMarkers?.get(
+                line,
+            )}{#if messages && messages.length > 0}<ReferenceMarker
+                {messages}
+            />{:else}<span class="marker-gap"></span>{/if}{/if}{/snippet}
+
 {#snippet textSpace()}
     {#if !hide && !noSpace && firstToken !== undefined && spaceRoot === renderNode}{@const line =
             $spaces?.getLineNumber(firstToken) ?? 1}{@const insertion =
@@ -310,21 +343,25 @@
                 : undefined}{@const sp = textSpaceModel(
             space,
             root?.root instanceof Source ? $spaceIndicator : false,
-            $showLines === true,
             line,
         )}{#key [$spaceIndicator, space, line, $showLines]}<span
                 class="space"
                 role="none"
                 data-id={firstToken.id}
                 data-uiid="space"
-                >{#if ($spaces?.isFirst(firstToken) ?? false) && $showLines}<div
-                        class="line-number">1</div
+                >{#if ($spaces?.isFirst(firstToken) ?? false) && gutter}<span
+                        class="line-start"
+                        >{@render marker(1)}{#if $showLines}<div
+                                class="line-number">1</div
+                            >{/if}</span
                     >{/if}&ZeroWidthSpace;{#each sp.spacesByLine as s, index}{#if index > 0}<span
-                            ><br
-                                class="break"
-                            />{#if sp.firstLine !== undefined}<div
-                                    class="line-number"
-                                    >{sp.firstLine + index}</div
+                            ><br class="break" />{#if gutter}<span
+                                    class="line-start"
+                                    >{@render marker(
+                                        sp.firstLine + index,
+                                    )}{#if $showLines}<div class="line-number"
+                                            >{sp.firstLine + index}</div
+                                        >{/if}</span
                                 >{/if}</span
                         >{/if}{#if insertion !== undefined && index === insertion.line}<InsertionPointView
                         />{/if}<span
@@ -398,7 +435,13 @@
                 id={`node-${renderNode.id}`}
                 aria-hidden={hide ? 'true' : null}
                 aria-description={description}
-                ><!--Render the available value if debugging, node view otherwise -->{#if elided}<span
+                ><!-- A block that the conversation is about carries its marker
+                at its own inline start, hanging in the margin so the code
+                inside it does not move. Text mode puts the marker in the line
+                gutter instead. -->{#if format.block && blockMessages && blockMessages.length > 0}<span
+                        class="block-marker"
+                        ><ReferenceMarker messages={blockMessages} /></span
+                    >{/if}<!--Render the available value if debugging, node view otherwise -->{#if elided}<span
                         class="elided"
                         aria-label="elided">…</span
                     >{:else}{#if value && renderNode.isUndelimited()}<span
@@ -447,6 +490,29 @@
     /* If the space is in something dragged, hide it */
     :global(.dragged) .space {
         visibility: hidden;
+    }
+
+    /* The line's gutter: the marker column, then the number. Both are plain
+       inline-blocks of a fixed width — the "column" every editor appears to
+       have is really just every line beginning with boxes of the same size. */
+    .line-start {
+        display: inline-block;
+    }
+
+    /* The reserved marker column, empty on lines nobody has said anything
+       about, so the code's inline start is the same on every line. */
+    .marker-gap {
+        display: inline-block;
+        width: var(--wordplay-marker-size);
+    }
+
+    /* In blocks mode there is no line gutter, so the marker hangs in the
+       block's inline-start margin — the trick FoldButton uses — and the code
+       inside the block stays where it was. */
+    .block-marker {
+        display: inline-block;
+        width: var(--wordplay-marker-size);
+        margin-inline-start: calc(-1 * var(--wordplay-marker-size));
     }
 
     .line-number {

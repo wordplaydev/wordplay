@@ -1205,8 +1205,6 @@ type UITexts = {
             direction: Template<['from', 'to']>;
             /** [plain] Shown when the browser translated on this device, so no messages were sent to Wordplay */
             onDevice: string;
-            /** [formatted] Shown when a language is chosen but there is nothing here to translate into it. $to is that language. */
-            nothing: Template<['to']>;
             /** [formatted] Shown when the conversation couldn't be translated. $to is the language it was being translated into. */
             error: Template<['to']>;
             /** [plain] Shown in place of one message that couldn't be translated */
@@ -1218,6 +1216,61 @@ type UITexts = {
         field: {
             /** The chat message input field */
             message: FieldText;
+        };
+        /** Replying to one message, instead of to the room */
+        thread: {
+            /** [plain] Button that starts a thread on a message that has none */
+            reply: string;
+            /** [plain] Button that opens a message's thread. $#count is how many replies it has. */
+            replies: Template<['#count']>;
+            /** [plain] Tip on a thread that has replies this reader hasn't seen. $#count is how many are new. */
+            unseen: Template<['#count']>;
+            /** [plain] Header above an open thread */
+            header: string;
+            /** [plain] Button that leaves a thread and returns to the conversation */
+            back: string;
+            /** [plain] Shown in an open thread that has no replies yet */
+            empty: string;
+            /** [plain] The message field's placeholder while writing in a thread */
+            placeholder: string;
+        };
+        /** Reacting to a message with an emoji */
+        reaction: {
+            /** [plain] Button that opens the reaction chooser */
+            add: string;
+            /** [plain] The same button once the chooser is open, when pressing it closes it again */
+            close: string;
+            /** [plain] Button that opens the whole emoji chooser, for a reaction not offered */
+            more: string;
+            /** [plain] The accessible name of the reaction chooser */
+            label: string;
+            /** [plain] One of the reactions offered without a search. $emoji names it. */
+            pick: Template<['emoji']>;
+            /** [plain] A reaction you have not chosen, so pressing adds yours. $emoji names the emoji, $#count is how many people have chosen it. */
+            give: Template<['emoji', '#count']>;
+            /** [plain] A reaction you have chosen, so pressing takes yours back. $emoji names the emoji, $#count is how many people have chosen it. */
+            take: Template<['emoji', '#count']>;
+            /** [plain] Shown when a message has collected as many different reactions as it can hold */
+            full: string;
+        };
+        /** Saying which code a message is about */
+        reference: {
+            /** The control on the message being written that says it is about
+             *  wherever the caret is in the code. Pressing it again takes the
+             *  link back; there is nothing else to press. */
+            mode: ToggleText;
+            /** [formatted] Shown in the editor holding the code the message being written is about. $location is the line or lines. */
+            prompt: Template<['location']>;
+            /** [plain] Names one line of code. $line is its number. */
+            line: Template<['line']>;
+            /** [plain] Names a run of lines. $first and $last are their numbers. */
+            lines: Template<['first', 'last']>;
+            /** [plain] The accessible name of a reference in a message. $location is the line or lines it names, $code the code that is there now. */
+            label: Template<['location', 'code']>;
+            /** [plain] Shown in place of a reference whose code is no longer there */
+            invalid: string;
+            /** [plain] The marker in the code's gutter that leads to what was said about it. $#count is how many messages are about this code. */
+            marker: Template<['#count']>;
         };
         /** [plain] Shown above the add field while nobody has been added yet, saying what the tile is for */
         prompt: string;
@@ -1244,6 +1297,10 @@ type UITexts = {
             choose: Template<['name']>;
             /** [plain] The accessible name of the picker that chooses what a person being added may do */
             adding: string;
+            /** [plain] The button at the end of the table that shows the field for adding someone */
+            add: string;
+            /** [plain] The same button once the field is showing, when pressing it puts the field away */
+            cancel: string;
             /** [plain] The accessible name of the row of people, shown in place of the table while a message is being written, who can see the chat */
             audience: string;
         };
@@ -1301,6 +1358,16 @@ type UITexts = {
             privilege: Template<['name', 'privilege']>;
             /** [plain] Said when someone is taken off the project. $name is that person. */
             removed: Template<['name']>;
+            /** [plain] Said when a thread is opened. $name is who wrote the message it is about, $#count how many replies it has. */
+            thread: Template<['name', '#count']>;
+            /** [plain] Said when a reaction is added. $emoji is the emoji, $#count how many people have now chosen it. */
+            reacted: Template<['emoji', '#count']>;
+            /** [plain] Said when a reaction is taken back. $emoji is the emoji, $#count how many people are left. */
+            unreacted: Template<['emoji', '#count']>;
+            /** [plain] Said when code is attached to the message being written. $location is the line or lines. */
+            attached: Template<['location']>;
+            /** [plain] Said when a marker in the code takes the reader to what was said about it. $name is who said it, $opening how it starts. */
+            found: Template<['name', 'opening']>;
         };
         /** Controls for restricting project visibility when it is in a gallery */
         restrictGalleryCreatorAccess: {

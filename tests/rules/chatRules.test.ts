@@ -116,6 +116,69 @@ describe('chats: participants take part, the project owner disposes', () => {
         );
     });
 
+    it('a participant can react to a message', async () => {
+        // Reactions, reply parents, and code references all live inside the
+        // message objects rather than in a map of their own, which is what lets
+        // them exist without a rules change: `messages` is already a key a
+        // participant may write. A reaction edits an element in place, so the
+        // array is the same length, which the size guard below requires.
+        await assertSucceeds(
+            as(Users.Collaborator)
+                .doc(`chats/${Chat}`)
+                .update({
+                    messages: [
+                        {
+                            id: 'm1',
+                            time: 1,
+                            creator: Users.Owner,
+                            text: 'hi',
+                            reactions: { '👍': [Users.Collaborator] },
+                        },
+                    ],
+                }),
+        );
+    });
+
+    it('a stranger cannot react, however small the edit', async () => {
+        await assertFails(
+            as(Users.Stranger)
+                .doc(`chats/${Chat}`)
+                .update({
+                    messages: [
+                        {
+                            id: 'm1',
+                            time: 1,
+                            creator: Users.Owner,
+                            text: 'hi',
+                            reactions: { '👍': [Users.Stranger] },
+                        },
+                    ],
+                }),
+        );
+    });
+
+    it('a participant cannot slip a decision in alongside a reaction', async () => {
+        // The same guard as the message case below, checked here because a
+        // reaction is the one edit that rewrites an existing message and so is
+        // the natural place to try hiding something else.
+        await assertFails(
+            as(Users.Collaborator)
+                .doc(`chats/${Chat}`)
+                .update({
+                    messages: [
+                        {
+                            id: 'm1',
+                            time: 1,
+                            creator: Users.Owner,
+                            text: 'hi',
+                            reactions: { '👍': [Users.Collaborator] },
+                        },
+                    ],
+                    moderation: { m1: 'approved' },
+                }),
+        );
+    });
+
     it('a participant can keep the participant list in step with the project', async () => {
         // syncParticipants mirrors the project's permissions from whichever
         // client notices the change, so this stays client-written for now.

@@ -15,7 +15,7 @@
     import { Creators } from '@db/Database';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import type { Snippet } from 'svelte';
+    import { tick, type Snippet } from 'svelte';
 
     interface Props {
         /** Who to list, in the order they should appear. */
@@ -53,6 +53,10 @@
          *  many fit. Depends on how many attributes they carry, so the caller
          *  says. */
         personWidth?: number;
+        /** Keep the add row behind a "+" until it is asked for, rather than
+         *  showing an empty field under every list. Off by default, since a
+         *  list whose whole purpose is to be added to should say so. */
+        addDisclosure?: boolean;
     }
 
     let {
@@ -72,7 +76,16 @@
         extraRow,
         pair = true,
         personWidth = 200,
+        addDisclosure = false,
     }: Props = $props();
+
+    /** Whether the add row is showing. Always, unless the caller asked for the
+     *  disclosure — in which case pressing "+" is what opens it, and it stays
+     *  open, since somebody adding one person often adds another. */
+    let adding = $state(false);
+    let addingNow = $derived(!addDisclosure || adding);
+    let addRow = $state<HTMLElement | undefined>(undefined);
+    let addButton = $state<HTMLButtonElement | undefined>(undefined);
 
     let creators: Record<string, Creator | null> = $state({});
     $effect(() => {
@@ -121,6 +134,8 @@
             {anonymize}
             chrome={false}
             creator={creators[uid] ?? null}
+            loading={!(uid in creators)}
+            reserve
         /></td
     >
     {@render cells?.(uid)}
@@ -162,8 +177,11 @@
             <!-- Adding someone is the next row of the same list, not a control
                  beneath it, so its field and button sit in the same columns
                  everyone else's do. -->
-            {#if editable && add}
-                <tr data-uiid={addUiid}>
+            {#if editable && add && addingNow}
+                <tr
+                    data-uiid={addDisclosure ? undefined : addUiid}
+                    bind:this={addRow}
+                >
                     <AddCreator
                         cells
                         id={addFieldID}
@@ -194,7 +212,38 @@
              navigates: the submit button prevents the default, and Enter in the
              field reaches it through implicit submission. -->
         <form onsubmit={(event) => event.preventDefault()}>
-            {@render body()}
+            <div class="with-add" class:dismissing={addDisclosure && adding}>
+                {@render body()}
+                {#if addDisclosure}
+                    <!-- Beside the table, not a row of it: a row would spend
+                         the very height this is here to save. One control,
+                         which opens the row and then puts it away again, so
+                         changing your mind costs the press it took. It carries
+                         the caller's `data-uiid`, so a tour pointing at "add
+                         someone" has a target whichever way it is showing. -->
+                    <div class="add" data-uiid={addUiid}>
+                        <Button
+                            bind:view={addButton}
+                            tip={adding
+                                ? (l) => l.ui.collaborate.table.cancel
+                                : (l) => l.ui.collaborate.table.add}
+                            expanded={adding}
+                            controls={addFieldID}
+                            action={() => {
+                                adding = !adding;
+                                tick().then(() =>
+                                    adding
+                                        ? addRow
+                                              ?.querySelector('input')
+                                              ?.focus()
+                                        : addButton?.focus(),
+                                );
+                            }}
+                            icon={adding ? CANCEL_SYMBOL : '+'}
+                        ></Button>
+                    </div>
+                {/if}
+            </div>
         </form>
     {:else}
         {@render body()}
@@ -216,6 +265,48 @@
 
     table.paired {
         width: 100%;
+    }
+
+    /* No border and no stripes. The app's global table chrome is meant for a
+       table of data in prose; a list of people is a list of controls, and each
+       row already carries its own — a name, a menu, a remove button — which is
+       enough to read the structure by. Overridden here rather than globally,
+       since a documentation table still wants its rules. */
+    table {
+        border: none;
+    }
+
+    table :global(tr:nth-child(odd)) {
+        background: none;
+    }
+
+    /* The table and the control that adds to it, side by side. */
+    .with-add {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: calc(var(--wordplay-spacing) / 2);
+    }
+
+    /* Once the field is showing, the control puts *that row* away, not the
+       table — so it drops to the row it belongs to. Centred against the whole
+       table it read as a delete button for the lot. The end padding is the
+       same half-spacing every cell has, which is what lands it on the row's
+       content rather than on the table's bottom edge. */
+    .with-add.dismissing {
+        align-items: flex-end;
+    }
+
+    /* The cell's own padding, and then the same again: the row is as tall as
+       the field in it, and a bare button is shorter, so sitting on the row's
+       floor would leave it low. This puts it on the row's centre line. */
+    .with-add.dismissing .add {
+        padding-block-end: var(--wordplay-spacing);
+    }
+
+    .with-add table {
+        flex: 0 1 auto;
+        min-width: 0;
     }
 
     /* The global rule pads every cell by a full spacing unit, which is a lot of

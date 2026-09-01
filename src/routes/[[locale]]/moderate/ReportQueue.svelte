@@ -182,6 +182,9 @@
                     creator={current.author
                         ? (authors[current.author] ?? null)
                         : null}
+                    loading={current.author
+                        ? !(current.author in authors)
+                        : false}
                 />
                 <!-- The reported words, read from the report rather than the
                      chat: they were moved there so that hiding them was real. -->

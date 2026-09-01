@@ -18,9 +18,8 @@
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
-    import { slide } from 'svelte/transition';
     import Options from '@components/widgets/Options.svelte';
-    import { animationDuration, Chats, Creators, locales } from '@db/Database';
+    import { Chats, Creators, locales } from '@db/Database';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import type Gallery from '@db/galleries/Gallery';
     import type Project from '@db/projects/Project';
@@ -306,42 +305,29 @@
     <!-- While someone is writing, the permissions give the tile to the
          conversation and say only who will read it.
 
-         Separate `in:` and `out:` rather than one `transition:`, because a
-         single directive hands the same params to both halves — so a delay
-         meant to make the incoming one wait delayed the outgoing one equally
-         and they slid together, overlapping and clipped. Each half now takes
-         half the time, so the whole swap costs one $animationDuration and is a
-         no-op when motion is turned down. -->
+         The swap is instant. It used to slide, and however the two halves were
+         timed the movement read as jank rather than as continuity — a table
+         growing and shrinking under the thing you are typing into is a
+         distraction from the typing. -->
     {#if collapsed}
         <div
             class="audience"
             aria-label={$locales.getPrimaryPlainText(
                 (l) => l.ui.collaborate.table.audience,
             )}
-            in:slide|local={{
-                duration: $animationDuration / 2,
-                delay: $animationDuration / 2,
-            }}
-            out:slide|local={{ duration: $animationDuration / 2 }}
         >
             {#each audience as uid (uid)}
                 <CreatorView
                     anonymize={false}
                     chrome={false}
                     creator={creators[uid] ?? null}
+                    loading={!(uid in creators)}
+                    reserve
                 />
             {/each}
         </div>
     {:else}
-        <div
-            class="managing"
-            class:oneline={rows.length === 0}
-            in:slide|local={{
-                duration: $animationDuration / 2,
-                delay: $animationDuration / 2,
-            }}
-            out:slide|local={{ duration: $animationDuration / 2 }}
-        >
+        <div class="managing" class:oneline={rows.length === 0}>
             <!-- The prompt and the table answer the same question, so exactly
                  one of them shows: the prompt asks for someone, and the moment
                  there is one it has been answered and repeating it is noise. -->
@@ -359,6 +345,7 @@
                     anonymize={false}
                     attributes={1}
                     personWidth={300}
+                    addDisclosure
                     addFieldID="collaborator-to-add"
                     addUiid="addCollaborator"
                     cells={privilegeCell}

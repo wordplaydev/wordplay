@@ -90,6 +90,8 @@
 
     let width = $state(0);
     let focused = $state(false);
+    /** Whether this field has been edited; see `showMessageNow`. */
+    let touched = $state(false);
     /** The aria-label: primary locale only, since screen readers speak it in
      *  one voice. */
     let title = $derived($locales.getPrimaryPlainText(description));
@@ -112,6 +114,15 @@
 
     /** The message to display if invalid */
     let message = $derived(validator ? validator(text) : undefined);
+
+    /** Whether the message is the reader's business now. It outlives focus —
+     *  clicking away used to take the explanation with it, leaving bad text and
+     *  an inactive submit saying nothing — but cannot simply follow validity,
+     *  since most validators here call an empty field invalid and a form would
+     *  greet you with its errors. Emptying a field is not a complaint. */
+    let showMessageNow = $derived(
+        typeof message === 'function' && (focused || (touched && text !== '')),
+    );
 
     let messageView = $state<HTMLElement | undefined>(undefined);
     let messageAt = $state<{ left: number; top: number } | undefined>(
@@ -144,7 +155,7 @@
     $effect(() => {
         // Deliberately keyed on what makes it appear, and never reads
         // `messageAt`, so writing the position doesn't re-run this.
-        if (!focused || typeof message !== 'function') {
+        if (!showMessageNow) {
             messageAt = undefined;
             if (messageView) hideMessage(messageView);
             return;
@@ -171,6 +182,7 @@
     });
 
     function handleInput() {
+        touched = true;
         if (changed) changed(text);
 
         if (timeout) clearTimeout(timeout);
@@ -259,7 +271,12 @@
 </script>
 
 <div class="field-group" class:fill>
-    <div class="field" class:fill class:focused class:inline={inlineValidation}>
+    <div
+        class="field"
+        class:fill
+        class:showing={showMessageNow}
+        class:inline={inlineValidation}
+    >
         <input
             type="text"
             class={classes?.join(' ')}
@@ -450,7 +467,7 @@
         display: none;
     }
 
-    .focused .message {
+    .field.showing .message {
         display: block;
         position: absolute;
         top: 100%;
@@ -465,7 +482,7 @@
         z-index: 2;
     }
 
-    .focused .message.inline {
+    .field.showing .message.inline {
         top: 0;
         inset-inline-start: 100%;
         white-space: nowrap;
@@ -481,8 +498,11 @@
        panels rather than like something hanging off the field, since the two
        bottom-rounded corners only made sense while it shared the field's
        edge. */
-    .focused .message.placed {
+    .field.showing .message.placed {
         position: fixed;
+        /* Outlives focus, so it must never swallow a press meant for what it
+           sits over; nothing in it is interactive. */
+        pointer-events: none;
         z-index: 100;
         /* Beats `.inline` above, whose positioning this replaces: it sets
            `inset-inline-start: 100%`, which in a right-to-left field is
@@ -502,8 +522,8 @@
         max-width: 15em;
     }
 
-    /* The UA hides a closed popover, but `.focused .message` above would show
-       it anyway; this is the same weight and comes later. */
+    /* The UA hides a closed popover, but `.field.showing .message` above would
+       show it anyway; this is the same weight and comes later. */
     .message.placed:not(:popover-open) {
         display: none;
     }

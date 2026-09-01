@@ -8542,7 +8542,7 @@
                 "collaborate": "$~Alla som kan nå detta projekt visas här, och du kan *chatta* med dem som får det. Bara /ägaren/, /medarbetarna/ och /kommentatorerna/ kan se chatten.",
                 "collaborators": "$~Varje person har en /rättighet/. *Samarbeta* betyder att de kan redigera projektet och chatta om det. *Kommentera* betyder att de kan chatta men inte redigera. *Visa* betyder att de kan titta men inte chatta. *Ägare* ger dem projektet. Ett galleris /kuratorer/ kan alltid nå det, så du kan inte ändra deras rättighet.",
                 "restrict": "$~När ett projekt finns i ett *galleri* kan som standard *alla* som kan se galleriet se ditt projekt. /restrict/-knappen *döljer* det för alla utom dig och galleriets kuratorer.",
-                "add": "$~Skriv någons *e-post* eller *användarnamn*, välj vad de får göra, så läggs de till i listan."
+                "add": "$~Tryck på *+* i slutet av listan för att lägga till någon. Skriv deras *e-post* eller *användarnamn*, välj vad de får göra, så läggs de till i listan."
             },
             "translate": {
                 "label": "$~Översätt meddelanden till",
@@ -8557,21 +8557,58 @@
                 "downloading": "$~Hämtar en $language-översättare för din webbläsare…",
                 "onDevice": "$~Din webbläsare översatte dessa på din enhet, så inga meddelanden skickades till oss.",
                 "none": "$~Översätt inte",
-                "dismiss": "$~stäng",
-                "nothing": "$~Det finns inget här att översätta till $to. Vi översätter aldrig dina egna meddelanden."
+                "dismiss": "$~stäng"
             },
             "announce": {
                 "transferred": "$~$name är nu ägare av $project",
                 "privilege": "$~$name kan nu $privilege",
-                "removed": "$~$name kan inte längre nå detta projekt"
+                "removed": "$~$name kan inte längre nå detta projekt",
+                "thread": "$~$#count[Tråd på $name's meddelande, $count svar|Tråd på $name's meddelande, $count svar]",
+                "reacted": "$~$#count[$emoji på det här meddelandet, $count person|$emoji på det här meddelandet, $count personer]",
+                "unreacted": "$~$#count[Tog tillbaka $emoji, $count person lämnade|Tog tillbaka $emoji, $count personer lämnade]",
+                "attached": "$~Pratar om $location.",
+                "found": "$~$name sa $opening"
             },
             "table": {
                 "label": "$~vem som kan nå detta projekt",
                 "choose": "$~vad $name får göra",
                 "adding": "$~vad de får göra",
-                "audience": "$~vem som kan se denna chatt"
+                "audience": "$~vem som kan se denna chatt",
+                "add": "$~lägg till någon",
+                "cancel": "$~strunt i att lägga till någon"
             },
-            "prompt": "$~Lägg till medarbetare, kommentatorer och tittare"
+            "prompt": "$~Lägg till medarbetare, kommentatorer och tittare",
+            "thread": {
+                "reply": "$~svara",
+                "replies": "$~$#count[$count svar|$count svar]",
+                "unseen": "$~$#count[$count nytt svar|$count nya svar]",
+                "header": "$~Tråd",
+                "back": "$~tillbaka till samtalet",
+                "empty": "$~Inga svar än. Säg något!",
+                "placeholder": "$~Svara…"
+            },
+            "reaction": {
+                "add": "$~reagera",
+                "more": "$~mer…",
+                "label": "$~Välj en reaktion",
+                "full": "$~Det här meddelandet har alla reaktioner det kan ha.",
+                "close": "$~stäng reaktionerna",
+                "pick": "$~reagera med $emoji",
+                "give": "$~$#count[lägg till din $emoji — $count person har|lägg till din $emoji — $count personer har]",
+                "take": "$~$#count[ta tillbaka din $emoji — $count person har den|ta tillbaka din $emoji — $count personer har den]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~sluta prata om den här koden",
+                    "off": "$~prata om koden där min markör är"
+                },
+                "prompt": "$~Ditt meddelande handlar om $location.",
+                "line": "$~rad $line",
+                "lines": "$~rader $first–$last",
+                "label": "$~om $location: $code",
+                "invalid": "$~den här koden är borta",
+                "marker": "$~$#count[läs meddelandet om denna kod|läs de $count meddelandena om denna kod]"
+            }
         },
         "palette": {
             "label": "$~palett",

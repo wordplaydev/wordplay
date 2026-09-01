@@ -8552,7 +8552,7 @@
                 "collaborate": "$~Bu projeye erişebilen herkes burada listeleniyor. İzni olanlarla *sohbet* edebilirsin. Sohbeti yalnızca /sahip/, /işbirlikçiler/ ve /yorumcular/ görebilir.",
                 "collaborators": "$~Her kişinin bir /yetkisi/ vardır. *Birlikte çalış*, projeyi düzenleyebilecekleri ve hakkında sohbet edebilecekleri anlamına gelir. *Yorum yap*, sohbet edebilecekleri ama düzenleyemeyecekleri anlamına gelir. *Görüntüle*, bakabilecekleri ama sohbet edemeyecekleri anlamına gelir. *Sahip*, projeyi onlara verir. Bir galerinin /düzenleyicileri/ her zaman ona erişebilir, bu yüzden onların yetkisini değiştiremezsin.",
                 "restrict": "$~Bir proje bir *galeride* olduğunda, varsayılan olarak galeriyi görebilen *herkes* projenizi görebilir. /restrict/ seçeneği, projeyi sizden ve galeri yöneticilerinden başka herkesten *gizler*.",
-                "add": "$~Birinin *e-posta*sını veya *kullanıcı adı*nı yaz, ne yapabileceğini seç ve o kişi listeye katılsın."
+                "add": "$~Birini eklemek için listenin sonundaki *+* işaretine bas. *E-posta* adresini veya kullanıcı adını yaz, ne yapabileceğini seç, sonra listeye katılsın."
             },
             "translate": {
                 "label": "$~Mesajları şu dile çevir",
@@ -8567,21 +8567,58 @@
                 "downloading": "$~Tarayıcın için $language çevirmeni alınıyor…",
                 "onDevice": "$~Tarayıcın bunları kendi cihazında çevirdi, bu yüzden bize hiçbir mesaj gönderilmedi.",
                 "none": "$~Çevirme",
-                "dismiss": "$~kapat",
-                "nothing": "$~$to diline çevrilecek bir şey yok. Kendi mesajlarını asla çevirmeyiz."
+                "dismiss": "$~kapat"
             },
             "announce": {
                 "transferred": "$~$name artık $project projesinin sahibi",
                 "privilege": "$~$name artık şunu yapabilir: $privilege",
-                "removed": "$~$name artık bu projeye erişemiyor"
+                "removed": "$~$name artık bu projeye erişemiyor",
+                "thread": "$~$#count[$name'in mesajındaki konu, $count yanıt|$name'in mesajındaki konu, $count yanıt]",
+                "reacted": "$~$#count[Bu mesajda $emoji, $count kişi|Bu mesajda $emoji, $count kişi]",
+                "unreacted": "$~$#count[$emoji geri alındı, $count kişi ayrıldı|$emoji geri alındı, $count kişi ayrıldı]",
+                "attached": "$~$location hakkında konuşuluyor.",
+                "found": "$~$name şunu söyledi: $opening"
             },
             "table": {
                 "label": "$~bu projeye kimler erişebilir",
                 "choose": "$~$name ne yapabilir",
                 "adding": "$~ne yapabilirler",
-                "audience": "$~bu sohbeti kimler görebilir"
+                "audience": "$~bu sohbeti kimler görebilir",
+                "add": "$~birini ekle",
+                "cancel": "$~birini eklemekten vazgeç"
             },
-            "prompt": "$~İşbirlikçi, yorumcu ve görüntüleyici ekle"
+            "prompt": "$~İşbirlikçi, yorumcu ve görüntüleyici ekle",
+            "thread": {
+                "reply": "$~yanıtla",
+                "replies": "$~$#count[$count yanıt|$count yanıt]",
+                "unseen": "$~$#count[$count yeni yanıt|$count yeni yanıt]",
+                "header": "$~Konu",
+                "back": "$~sohbete geri dön",
+                "empty": "$~Henüz yanıt yok. Bir şeyler söyle!",
+                "placeholder": "$~Yanıtla…"
+            },
+            "reaction": {
+                "add": "$~tepki ver",
+                "more": "$~daha fazla…",
+                "label": "$~Bir tepki seç",
+                "full": "$~Bu mesaj alabileceği kadar tepki aldı.",
+                "close": "$~tepkileri kapat",
+                "pick": "$~$emoji ile tepki ver",
+                "give": "$~$#count[$emoji tepkini ekle — $count kişi eklemiş|$emoji tepkini ekle — $count kişi eklemiş]",
+                "take": "$~$#count[$emoji tepkini geri al — $count kişide var|$emoji tepkini geri al — $count kişide var]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~bu kod hakkında konuşmayı bırak",
+                    "off": "$~imlecimin bulunduğu kod hakkında konuş"
+                },
+                "prompt": "$~Mesajın $location ile ilgili.",
+                "line": "$~satır $line",
+                "lines": "$~$first–$last satırları",
+                "label": "$~$location ile ilgili: $code",
+                "invalid": "$~bu kod artık yok",
+                "marker": "$~$#count[bu kodla ilgili mesajı oku|bu kodla ilgili $count mesajı oku]"
+            }
         },
         "palette": {
             "label": "$~palet",

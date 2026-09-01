@@ -153,6 +153,8 @@
                         creator={peer.userID === null
                             ? null
                             : (creators[peer.userID] ?? null)}
+                        loading={peer.userID !== null &&
+                            !(peer.userID in creators)}
                         anonymize={false}
                         chrome={true}
                     />

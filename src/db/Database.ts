@@ -1269,6 +1269,9 @@ export const animationDuration = derived(
 export const tutorialState = Settings.settings.tutorial.value;
 export const tutorialMode = derived(tutorialState, (state) => state.mode);
 export const toursTaken = Settings.settings.tours.value;
+/** How much of each chat thread this creator has read, so the "new replies"
+ *  marker updates the moment a thread is opened. */
+export const chatThreadsSeen = Settings.settings.chatThreads.value;
 export const contrastLanguage = Settings.settings.contrastLanguage.value;
 export const arrangement = Settings.settings.arrangement.value;
 export const locales = DB.Locales.locales;

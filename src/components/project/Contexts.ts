@@ -4,6 +4,7 @@ import type { SensorPanelStack } from '@components/output/SensorPanelStack.svelt
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type { GuideHistory } from '@components/concepts/GuideHistory';
 import type Conflict from '@conflicts/Conflict';
+import type { ResolvedReference } from '@db/chats/codeReference';
 import type Project from '@db/projects/Project';
 import type Caret from '@edit/caret/Caret';
 import type { CaretPosition } from '@edit/caret/Caret';
@@ -339,6 +340,47 @@ export const [getConflicts, setConflicts] = createOptionalContext<
 export const [getSelectedOutput, setSelectedOutput] = createOptionalContext<
     SelectedOutput | undefined
 >();
+
+/** The four slots the conversation and the editors use to talk about code
+ *  (#820). Slots rather than functions because the halves sit in tiles that
+ *  know nothing about each other, and the project view is the only thing
+ *  holding both. Why each exists is in codeReference.ts, which is off every
+ *  page's import graph — unlike this file, whose prose every page pays for. */
+
+/** The code the message being written is about, or nothing. */
+export const [getLinkedNode, setLinkedNode] =
+    createOptionalContext<Writable<Node | undefined>>();
+
+/** Which messages are about which code. Keyed by node identity, rebuilt with
+ *  the program, so only ever read within a render. */
+export const [getReferencedMessages, setReferencedMessages] =
+    createOptionalContext<Writable<Map<Node, string[]>>>();
+
+/** Where each message's reference points now, by message id. Published rather
+ *  than recomputed: resolving is not free and both readers want one answer. */
+export const [getResolvedReferences, setResolvedReferences] =
+    createOptionalContext<Writable<Map<string, ResolvedReference>>>();
+
+/** Which lines carry a gutter marker. RootView derives it, because NodeView
+ *  renders space runs and can only ask by line number; blocks mode asks
+ *  {@link getReferencedMessages} by node, since a block is a node. */
+export const [getLineMarkers, setLineMarkers] =
+    createOptionalContext<Writable<Map<number, string[]>>>();
+
+/**
+ * A request to show one message in the conversation, written by a gutter marker
+ * and read by the chat.
+ *
+ * A slot rather than a callback because the handler is the chat, which is not an
+ * ancestor of the editor — a context only flows down from whoever provides it.
+ * `nonce` is here for the same reason {@link EmphasizedConflict} has one: going
+ * to the same message twice has to scroll twice, and the reader is an effect
+ * that re-runs on every change to the conversation, so it must act once per
+ * request rather than once per value.
+ */
+export type MessageRequest = { message: string; nonce: number };
+export const [getMessageRequest, setMessageRequest] =
+    createOptionalContext<Writable<MessageRequest | undefined>>();
 
 /** Reveal the palette tile. Changing the output selection no longer auto-shows the palette
  *  (that was jarring on drag/stage-select); showing it is now an explicit gesture. A stage

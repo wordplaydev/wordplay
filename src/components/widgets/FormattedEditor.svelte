@@ -15,6 +15,13 @@
         placeholder: LocaleTextAccessor;
         view?: HTMLTextAreaElement | undefined;
         text: string;
+        /** Whether to offer the controls that annotate a `\…\` example: marking
+         *  one as an expected defect, highlighting it, and highlighting an
+         *  expression in its docs. They are documentation-authoring aids — the
+         *  defect marker exists so the locale verifier permits an example's
+         *  conflicts — and they are dead weight in a chat message, which can
+         *  contain an example but almost never does. */
+        examples?: boolean;
     }
 
     let {
@@ -23,6 +30,7 @@
         placeholder,
         view = $bindable(undefined),
         text = $bindable(''),
+        examples = true,
     }: Props = $props();
 
     let preview = $state(false);
@@ -355,28 +363,30 @@
             })}
             action={() => format('\\')}><code>\\</code></Button
         >
-        <Button
-            tip={(l) => l.ui.widget.formatted.highlight}
-            shortcut={toShortcut({
-                control: true,
-                alt: undefined,
-                shift: true,
-                key: '8',
-            })}
-            action={formatHighlight}
-            active={!preview && cursorInExample}><Emoji text="⭐" /></Button
-        >
-        <Button
-            tip={(l) => l.ui.widget.formatted.defect}
-            shortcut={toShortcut({
-                control: true,
-                alt: undefined,
-                shift: true,
-                key: '7',
-            })}
-            action={formatDefect}
-            active={!preview && cursorInExample}><Emoji text="🪲" /></Button
-        >
+        {#if examples}
+            <Button
+                tip={(l) => l.ui.widget.formatted.highlight}
+                shortcut={toShortcut({
+                    control: true,
+                    alt: undefined,
+                    shift: true,
+                    key: '8',
+                })}
+                action={formatHighlight}
+                active={!preview && cursorInExample}><Emoji text="⭐" /></Button
+            >
+            <Button
+                tip={(l) => l.ui.widget.formatted.defect}
+                shortcut={toShortcut({
+                    control: true,
+                    alt: undefined,
+                    shift: true,
+                    key: '7',
+                })}
+                action={formatDefect}
+                active={!preview && cursorInExample}><Emoji text="🪲" /></Button
+            >
+        {/if}
         <Button
             tip={(l) => l.ui.source.cursor.insertDocs}
             shortcut={toShortcut({
@@ -390,18 +400,20 @@
                 exampleRange !== null &&
                 cursorPosition <= exampleRange.close}>¶</Button
         >
-        <Button
-            tip={(l) => l.ui.widget.formatted.attention}
-            shortcut={toShortcut({
-                control: true,
-                alt: undefined,
-                shift: true,
-                key: '.',
-            })}
-            action={formatAttention}
-            active={!preview && cursorInDocInExample}
-            ><Emoji text="👀" /></Button
-        >
+        {#if examples}
+            <Button
+                tip={(l) => l.ui.widget.formatted.attention}
+                shortcut={toShortcut({
+                    control: true,
+                    alt: undefined,
+                    shift: true,
+                    key: '.',
+                })}
+                action={formatAttention}
+                active={!preview && cursorInDocInExample}
+                ><Emoji text="👀" /></Button
+            >
+        {/if}
         <Button
             tip={(l) => l.token.Link}
             shortcut={toShortcut({

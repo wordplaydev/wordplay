@@ -8822,7 +8822,6 @@
                 "translated": "$#count[Translated $count message into $language.|Translated $count messages into $language.]",
                 "direction": "$from → $to",
                 "onDevice": "Your browser translated these on your device, so no messages were sent to us.",
-                "nothing": "There's nothing here to translate into $to. We never translate your own messages.",
                 "error": "We couldn't translate these messages into $to. Try again in a little while.",
                 "messageError": "We couldn't translate this message.",
                 "messageErrors": "$#count[We couldn't translate $count message.|We couldn't translate $count messages.]"
@@ -8832,6 +8831,37 @@
                     "description": "The chat message to submit",
                     "placeholder": "Type a message"
                 }
+            },
+            "thread": {
+                "reply": "reply",
+                "replies": "$#count[$count reply|$count replies]",
+                "unseen": "$#count[$count new reply|$count new replies]",
+                "header": "Thread",
+                "back": "back to the conversation",
+                "empty": "No replies yet. Say something!",
+                "placeholder": "Reply…"
+            },
+            "reaction": {
+                "add": "react",
+                "close": "close the reactions",
+                "more": "more…",
+                "label": "Choose a reaction",
+                "pick": "react with $emoji",
+                "give": "$#count[add your $emoji — $count person has|add your $emoji — $count people have]",
+                "take": "$#count[take back your $emoji — $count person has it|take back your $emoji — $count people have it]",
+                "full": "This message has all the reactions it can hold."
+            },
+            "reference": {
+                "mode": {
+                    "on": "stop talking about this code",
+                    "off": "talk about the code where my cursor is"
+                },
+                "prompt": "Your message is about $location.",
+                "line": "line $line",
+                "lines": "lines $first–$last",
+                "label": "about $location: $code",
+                "invalid": "this code is gone",
+                "marker": "$#count[read the message about this code|read the $count messages about this code]"
             },
             "prompt": "Add collaborators, commenters, and viewers",
             "role": {
@@ -8845,7 +8875,9 @@
                 "label": "who can reach this project",
                 "choose": "what $name can do",
                 "adding": "what they can do",
-                "audience": "who can see this chat"
+                "audience": "who can see this chat",
+                "add": "add someone",
+                "cancel": "never mind adding someone"
             },
             "button": {
                 "submit": {
@@ -8885,7 +8917,12 @@
             "announce": {
                 "transferred": "$name is now the owner of $project",
                 "privilege": "$name can now $privilege",
-                "removed": "$name can no longer reach this project"
+                "removed": "$name can no longer reach this project",
+                "thread": "$#count[Thread on $name's message, $count reply|Thread on $name's message, $count replies]",
+                "reacted": "$#count[$emoji on this message, $count person|$emoji on this message, $count people]",
+                "unreacted": "$#count[Took back $emoji, $count person left|Took back $emoji, $count people left]",
+                "attached": "Talking about $location.",
+                "found": "$name said $opening"
             },
             "restrictGalleryCreatorAccess": {
                 "mode": {
@@ -8901,7 +8938,7 @@
                 "launch": "take a tour of collaborating",
                 "collaborate": "Everyone who can reach this project is listed here, and you can *chat* with the people who are allowed to. Only the /owner/, /collaborators/, and /commenters/ can see the chat.",
                 "collaborators": "Each person has one /privilege/. *Collaborate* means they can edit the project and chat about it. *Comment* means they can chat but not edit. *View* means they can look but not chat. *Owner* hands them the project. A gallery's /curators/ can always reach it, so you cannot change theirs.",
-                "add": "Type someone's *email* or *username*, choose what they can do, and they'll join the list.",
+                "add": "Press the *+* at the end of the list to add someone. Type their *email* or *username*, choose what they can do, and they'll join the list.",
                 "restrict": "When a project is in a *gallery*, by default *everyone* who can see the gallery can see your project. The /restrict/ toggle *hides* it from everyone except you and the gallery curators."
             }
         },

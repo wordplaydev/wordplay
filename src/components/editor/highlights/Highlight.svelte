@@ -133,6 +133,17 @@
         fill: none;
     }
 
+    /* The code the message being written is about. A stroke rather than a fill,
+       for the same reason search matches are: it must stay legible over opaque
+       token blocks and never sit on top of the text. Gold, which is what this
+       app uses for "someone is pointing at this", and dashed so it can't be
+       mistaken for the caret's own solid outline. */
+    .referenced.outline path {
+        stroke: var(--color-gold-text);
+        stroke-dasharray: 4 3;
+        fill: none;
+    }
+
     /* Definitions and uses get hover feedback without border */
     .related:not(:global(.selected)).outline path {
         stroke: none;

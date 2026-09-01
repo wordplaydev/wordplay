@@ -8570,7 +8570,7 @@
                 "collaborate": "$~Tutaj widać wszystkich, którzy mają dostęp do tego projektu. Możesz *rozmawiać* z osobami, które mają na to zgodę. Czat widzi tylko /właściciel/, /współpracownicy/ i /komentujący/.",
                 "collaborators": "$~Każda osoba ma jedno /uprawnienie/. *Współpracować* znaczy, że może edytować projekt i rozmawiać o nim. *Komentować* znaczy, że może rozmawiać, ale nie edytować. *Przeglądać* znaczy, że może patrzeć, ale nie rozmawiać. *Właściciel* dostaje projekt na własność. /Kuratorzy/ galerii mają zawsze dostęp, więc nie możesz zmienić ich uprawnień.",
                 "restrict": "$~Gdy projekt znajduje się w *galerii*, domyślnie *każdy*, kto może zobaczyć galerię, może zobaczyć Twój projekt. Przełącznik /restrict/ *ukrywa* go przed wszystkimi oprócz Ciebie i kuratorów galerii.",
-                "add": "$~Wpisz czyjś *e-mail* lub *nazwę użytkownika*, wybierz, co ta osoba może robić, a zostanie dodana do listy."
+                "add": "$~Naciśnij *+* na końcu listy, aby kogoś dodać. Wpisz jego *e-mail* lub *nazwę użytkownika*, wybierz, co może robić, a dołączy do listy."
             },
             "translate": {
                 "label": "$~Przetłumacz wiadomości na",
@@ -8585,21 +8585,58 @@
                 "downloading": "$~Pobieranie tłumacza dla języka $language do twojej przeglądarki…",
                 "onDevice": "$~Twoja przeglądarka przetłumaczyła to na twoim urządzeniu, więc żadne wiadomości nie zostały do nas wysłane.",
                 "none": "$~Nie tłumacz",
-                "dismiss": "$~odrzuć",
-                "nothing": "$~Nie ma tu nic do przetłumaczenia na $to. Nigdy nie tłumaczymy twoich własnych wiadomości."
+                "dismiss": "$~odrzuć"
             },
             "announce": {
                 "transferred": "$~$name jest teraz właścicielem $project",
                 "privilege": "$~$name może teraz $privilege",
-                "removed": "$~$name nie ma już dostępu do tego projektu"
+                "removed": "$~$name nie ma już dostępu do tego projektu",
+                "thread": "$~$#count[Wątek pod wiadomością $name, $count odpowiedź|Wątek pod wiadomością $name, $count odpowiedzi|Wątek pod wiadomością $name, $count odpowiedzi|Wątek pod wiadomością $name, $count odpowiedzi]",
+                "reacted": "$~$#count[$emoji pod tą wiadomością, $count osoba|$emoji pod tą wiadomością, $count osoby|$emoji pod tą wiadomością, $count osób|$emoji pod tą wiadomością, $count osoby]",
+                "unreacted": "$~$#count[Cofnięto $emoji, $count osoba odeszła|Cofnięto $emoji, $count osoby odeszły|Cofnięto $emoji, $count osób odeszło|Cofnięto $emoji, $count osoby odeszły]",
+                "attached": "$~Rozmowa o $location.",
+                "found": "$~$name powiedział(a) $opening"
             },
             "table": {
                 "label": "$~kto ma dostęp do tego projektu",
                 "choose": "$~co może robić $name",
                 "adding": "$~co ta osoba może robić",
-                "audience": "$~kto widzi ten czat"
+                "audience": "$~kto widzi ten czat",
+                "add": "$~dodaj kogoś",
+                "cancel": "$~nie dodawaj nikogo"
             },
-            "prompt": "$~Dodaj współpracowników, komentujących i widzów"
+            "prompt": "$~Dodaj współpracowników, komentujących i widzów",
+            "thread": {
+                "reply": "$~odpowiedz",
+                "replies": "$~$#count[$count odpowiedź|$count odpowiedzi|$count odpowiedzi|$count odpowiedzi]",
+                "unseen": "$~$#count[$count nowa odpowiedź|$count nowe odpowiedzi|$count nowych odpowiedzi|$count nowej odpowiedzi]",
+                "header": "$~Wątek",
+                "back": "$~wróć do rozmowy",
+                "empty": "$~Jeszcze nie ma odpowiedzi. Powiedz coś!",
+                "placeholder": "$~Odpowiedz…"
+            },
+            "reaction": {
+                "add": "$~zareaguj",
+                "more": "$~więcej…",
+                "label": "$~Wybierz reakcję",
+                "full": "$~Ta wiadomość ma już wszystkie możliwe reakcje.",
+                "close": "$~zamknij reakcje",
+                "pick": "$~zareaguj emotikoną $emoji",
+                "give": "$~$#count[dodaj swoją reakcję $emoji — ma ją $count osoba|dodaj swoją reakcję $emoji — mają ją $count osoby|dodaj swoją reakcję $emoji — ma ją $count osób|dodaj swoją reakcję $emoji — ma ją $count osoby]",
+                "take": "$~$#count[cofnij swoją reakcję $emoji — ma ją $count osoba|cofnij swoją reakcję $emoji — mają ją $count osoby|cofnij swoją reakcję $emoji — ma ją $count osób|cofnij swoją reakcję $emoji — ma ją $count osoby]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~przestań rozmawiać o tym kodzie",
+                    "off": "$~porozmawiaj o kodzie w miejscu, gdzie jest mój kursor"
+                },
+                "prompt": "$~Twoja wiadomość dotyczy $location.",
+                "line": "$~linia $line",
+                "lines": "$~linie $first–$last",
+                "label": "$~o $location: $code",
+                "invalid": "$~tego kodu już nie ma",
+                "marker": "$~$#count[przeczytaj wiadomość o tym kodzie|przeczytaj $count wiadomości o tym kodzie|przeczytaj $count wiadomości o tym kodzie|przeczytaj $count wiadomości o tym kodzie]"
+            }
         },
         "palette": {
             "label": "$~paleta",

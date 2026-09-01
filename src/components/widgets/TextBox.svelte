@@ -55,6 +55,8 @@
     }: Props = $props();
 
     let focused = $state(false);
+    /** Whether this box has been edited; see TextField's `showMessageNow`. */
+    let touched = $state(false);
 
     let messageView = $state<HTMLElement | undefined>(undefined);
     let messageAt = $state<{ left: number; top: number } | undefined>(
@@ -87,7 +89,7 @@
     $effect(() => {
         // Keyed on what makes it appear, and never reads `messageAt`, so
         // writing the position doesn't re-run this.
-        if (!focused || message === undefined) {
+        if (!showMessageNow) {
             messageAt = undefined;
             if (messageView) hideMessage(messageView);
             return;
@@ -128,7 +130,13 @@
         } else return undefined;
     });
 
+    /** See TextField's `showMessageNow`, whose rule this mirrors. */
+    let showMessageNow = $derived(
+        message !== undefined && (focused || (touched && text !== '')),
+    );
+
     function handleInput() {
+        touched = true;
         if (dwelled)
             setTimeout(() => {
                 if (dwelled) dwelled(text);
@@ -148,7 +156,7 @@
 </script>
 
 <div class="box-group">
-    <div class="box" {id} class:focused>
+    <div class="box" {id} class:showing={showMessageNow}>
         <textarea
             {title}
             aria-label={ariaLabel}
@@ -285,7 +293,7 @@
         display: none;
     }
 
-    .focused .message {
+    .box.showing .message {
         display: block;
         position: absolute;
         top: 100%;
@@ -302,8 +310,11 @@
     /* Out of every ancestor's overflow, and dressed like the app's other
        floating panels: the two bottom-rounded corners only made sense while it
        shared the box's edge. */
-    .focused .message.placed {
+    .box.showing .message.placed {
         position: fixed;
+        /* Outlives focus, so it must never swallow a press meant for what it
+           sits over; nothing in it is interactive. */
+        pointer-events: none;
         z-index: 100;
         border-radius: var(--wordplay-border-radius);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
@@ -317,8 +328,8 @@
         max-width: 15em;
     }
 
-    /* The UA hides a closed popover, but `.focused .message` above would show
-       it anyway; this is the same weight and comes later. */
+    /* The UA hides a closed popover, but `.box.showing .message` above would
+       show it anyway; this is the same weight and comes later. */
     .message.placed:not(:popover-open) {
         display: none;
     }

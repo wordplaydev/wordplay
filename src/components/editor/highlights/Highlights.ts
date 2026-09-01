@@ -83,6 +83,12 @@ export const HighlightTypes = {
     // outline around the matched substring stays visible over opaque token
     // blocks in blocks mode.
     search: true,
+    // The code the message being written is about (#820). Above the code for
+    // the same reason search matches are: the outline has to stay visible over
+    // opaque token blocks in blocks mode. Only ever one at a time, and only
+    // while somebody is writing — what has already been said about a line is
+    // marked in the gutter.
+    referenced: true,
 };
 
 export class Highlights {

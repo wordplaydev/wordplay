@@ -15,6 +15,10 @@
         /** Authentication hasn't resolved yet: show a spinning face in place of
          *  the creator, keeping the same chrome so nothing shifts/pops. */
         loading?: boolean;
+        /** Hold roughly a resolved row's width while loading, for a list whose
+         *  columns would otherwise resize as the names arrive. Off by default:
+         *  a lone chip should be as wide as what is in it. */
+        reserve?: boolean;
     }
 
     let {
@@ -24,6 +28,7 @@
         fade = false,
         prompt = false,
         loading = false,
+        reserve = false,
     }: Props = $props();
 
     let username = $derived(creator?.getUsername(anonymize) ?? '');
@@ -33,6 +38,7 @@
     class="creator"
     class:chrome
     class:fade
+    class:reserving={loading && reserve}
     aria-busy={loading}
     aria-label={loading
         ? $locales.getPrimaryPlainText((l) => l.ui.widget.loading.message)
@@ -66,6 +72,13 @@
 
     .fade {
         color: var(--wordplay-inactive-color);
+    }
+
+    /* About what a resolved row wants — a username truncates at ten characters,
+       plus its character — so a list keeps its shape as the names arrive. */
+    .reserving {
+        min-width: 8em;
+        justify-content: flex-start;
     }
 
     .chrome {

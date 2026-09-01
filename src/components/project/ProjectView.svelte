@@ -101,6 +101,12 @@
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import Evaluate from '@nodes/Evaluate';
     import Node, { isFieldPosition } from '@nodes/Node';
+    import {
+        linesOfNode,
+        referenceLabel,
+        resolveReference,
+        type ResolvedReference,
+    } from '@db/chats/codeReference';
     import Source from '@nodes/Source';
     import {
         getCheckpoint,
@@ -184,6 +190,11 @@
         setPaletteOpen,
         setProjectCommandContext,
         setResetKeyboardIdle,
+        setLinkedNode,
+        setMessageRequest,
+        setReferencedMessages,
+        setResolvedReferences,
+        type MessageRequest,
         setRevealPalette,
         getTourRequest,
         setTourRequest,
@@ -436,6 +447,17 @@
     let requestedEdit = $state(
         page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
     );
+
+    /** The three slots the conversation and the editors use to talk about code
+     *  (#820); see Contexts for why each is a slot. */
+    const linkedNode = writable<Node | undefined>(undefined);
+    setLinkedNode(linkedNode);
+    const referencedMessages = writable(new Map<Node, string[]>());
+    setReferencedMessages(referencedMessages);
+    const resolvedReferences = writable(new Map<string, ResolvedReference>());
+    setResolvedReferences(resolvedReferences);
+    const messageRequest = writable<MessageRequest | undefined>(undefined);
+    setMessageRequest(messageRequest);
 
     /** Whether program edits are permitted right now: an editable project, on the
      * current checkpoint, in edit mode. Debug and play modes are read-only. */
@@ -1703,6 +1725,75 @@
     /** Whether the palette is on screen; the palette itself sets this as it mounts and unmounts. */
     const paletteOpen = writable(false);
     setPaletteOpen(paletteOpen);
+
+    /** A marker in the code asks for a message; the conversation cannot show it
+     *  while its tile is shut. The chat clears the request once it has. */
+    $effect(() => {
+        if ($messageRequest !== undefined)
+            revealTile(layout.getTileWithID(TileKind.Collaborate));
+    });
+
+    /** Where every message's reference points right now, by message id.
+     *
+     *  The one place a reference is resolved. Re-derived rather than stored,
+     *  because a reference names a node by a path and what that path means
+     *  changes every time the program does — and resolved *here* because both
+     *  readers need the same answer: the gutter markers, to know which nodes
+     *  carry one, and the chip beside each message, to say which line. Resolving
+     *  is not free (a path that no longer lands on its own code falls back to
+     *  scanning the source), so resolving twice was paying twice per keystroke. */
+    let resolvedReferenceMap = $derived.by(() => {
+        const found = new Map<string, ResolvedReference>();
+        if (!chat) return found;
+        for (const message of chat.getMessages()) {
+            if (message.reference === undefined || message.text === null)
+                continue;
+            found.set(message.id, resolveReference(project, message.reference));
+        }
+        return found;
+    });
+
+    $effect(() => {
+        resolvedReferences.set(resolvedReferenceMap);
+    });
+
+    /** Where the message being written points and what to call it, so the editor
+     *  holding that code can say so in its footer. One pass over the sources
+     *  rather than two, since both answers come from finding the same one. */
+    let linked = $derived.by(() => {
+        const node = $linkedNode;
+        if (node === undefined) return undefined;
+        const index = project
+            .getSources()
+            .findIndex((source) => source.has(node));
+        if (index < 0) return undefined;
+        const lines = linesOfNode(project.getSources()[index], node);
+        return lines === undefined
+            ? undefined
+            : {
+                  tile: Layout.getSourceID(index),
+                  label: referenceLabel(
+                      $locales,
+                      lines.firstLine,
+                      lines.lastLine,
+                  ),
+              };
+    });
+
+    /** Which messages are about which code, for the marker each referenced
+     *  line and block carries in its gutter. Node identity is rebuilt with the
+     *  program, so this map genuinely differs on every edit; the guard against
+     *  needless downstream work is in RootView, whose map is keyed by line. */
+    $effect(() => {
+        const byNode = new Map<Node, string[]>();
+        for (const [id, resolved] of resolvedReferenceMap) {
+            if (resolved.state !== 'valid') continue;
+            const messages = byNode.get(resolved.node);
+            if (messages) messages.push(id);
+            else byNode.set(resolved.node, [id]);
+        }
+        referencedMessages.set(byNode);
+    });
 
     /** When the canvas size changes, resize the layout */
     $effect(() => {
@@ -3415,6 +3506,28 @@
                                                     />{/if}</EditorNotice
                                             >
                                         {/each}
+                                        <!-- What the message being written is
+                                             about, while it is about anything.
+                                             In the footer with the other
+                                             prompts, rather than over the code
+                                             it names. -->
+                                        {#if linked !== undefined && linked.tile === tile.id}
+                                            <EditorNotice
+                                                ><MarkupHTMLView
+                                                    inline
+                                                    markup={[
+                                                        (l) =>
+                                                            l.ui.collaborate
+                                                                .reference
+                                                                .prompt,
+                                                        {
+                                                            location:
+                                                                linked.label,
+                                                        },
+                                                    ]}
+                                                /></EditorNotice
+                                            >
+                                        {/if}
                                         <!-- The clipboard's current contents, shown on the
                                              selected editor so it appears once. The close
                                              button clears Wordplay's clipboard. -->

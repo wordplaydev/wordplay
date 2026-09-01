@@ -51,11 +51,24 @@ export function supportsTopLayer(): boolean {
     return topLayer;
 }
 
-/** Put the message in the top layer, if it isn't already. */
+/**
+ * The one message showing, if any.
+ *
+ * A message outlives the focus that raised it, and each is placed directly under
+ * its own field — so two on a stacked form would put the upper one over the
+ * lower field. Focus used to guarantee one at a time by accident; this does it
+ * on purpose.
+ */
+let showing: HTMLElement | undefined = undefined;
+
+/** Put the message in the top layer, if it isn't already, closing whichever
+ *  other one was there. */
 export function showMessage(view: HTMLElement) {
     if (!supportsTopLayer()) return;
+    if (showing !== undefined && showing !== view) hideMessage(showing);
     try {
         if (!view.matches(':popover-open')) view.showPopover();
+        showing = view;
     } catch {
         // A popover can refuse to open if it isn't connected yet; the effect
         // that calls this runs again when it is.
@@ -65,6 +78,7 @@ export function showMessage(view: HTMLElement) {
 /** Take it back out. */
 export function hideMessage(view: HTMLElement) {
     if (!supportsTopLayer()) return;
+    if (showing === view) showing = undefined;
     try {
         if (view.matches(':popover-open')) view.hidePopover();
     } catch {

@@ -10,7 +10,6 @@
     import Spinning from '@components/app/Spinning.svelte';
     import Options from '@components/widgets/Options.svelte';
     import TranslationMeter from '@components/app/TranslationMeter.svelte';
-    import { getAnnouncer } from '@components/project/Contexts';
     import { getFunctionsInstance } from '@db/firebase';
     import getLocalTranslator from '@db/getLocalTranslator';
     import getPreferredTranslator from '@db/getPreferredTranslator';
@@ -19,7 +18,10 @@
         translateMarkupTexts,
         type MarkupTranslationInput,
     } from '@db/translateMarkup';
-    import { SupportedLocales } from '@locale/SupportedLocales';
+    import {
+        SupportedLocales,
+        type SupportedLocale,
+    } from '@locale/SupportedLocales';
     import { getLanguageDirection } from '@locale/LanguageCode';
     import {
         localesAreEqual,
@@ -33,7 +35,6 @@
     } from '@locale/LocaleText';
     import Loading from '@components/app/Loading.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Button from '@components/widgets/Button.svelte';
@@ -42,14 +43,50 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
     import ReportMessage from './ReportMessage.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
+    import MessageReactions from '@components/app/chat/MessageReactions.svelte';
+    import ReactionPicker from '@components/app/chat/ReactionPicker.svelte';
+    import { localizedNameOfGlyph } from '@unicode/glyphName';
+    import {
+        foundAnnouncement,
+        reactionAnnouncement,
+        referenceAnnouncement,
+        threadAnnouncement,
+    } from '@components/app/chat/chatAnnounce';
+    import { groupThreads, replyCount } from '@db/chats/threads';
+    import CodeReferenceChip from '@components/app/chat/CodeReferenceChip.svelte';
+    import {
+        linesOfNode,
+        referenceLabel,
+        referenceTargetOf,
+    } from '@db/chats/codeReference';
+    import {
+        getAnnouncer,
+        getEditors,
+        getLinkedNode,
+        getMessageRequest,
+        getResolvedReferences,
+        getUser,
+    } from '@components/project/Contexts';
+    import Toggle from '@components/widgets/Toggle.svelte';
     import {
         howToVisibility,
         projectVisibility,
     } from '@db/moderation/visibility';
     import type Chat from '@db/chats/ChatDatabase.svelte';
-    import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
+    import {
+        type SerializedCodeReference,
+        type SerializedMessage,
+    } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Chats, Galleries, Settings, locales } from '@db/Database';
+    import {
+        Chats,
+        Galleries,
+        Locales,
+        Settings,
+        chatThreadsSeen,
+        locales,
+    } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
@@ -82,6 +119,16 @@
 
     /** Unique per instance, since a page can hold more than one chat. */
     const ids = `chat-${idCounter++}`;
+
+    /** The conversation, once it is one. `chat` is four things — a Chat, `null`
+     *  while it loads, `false` when it can't be reached, `undefined` before
+     *  anyone has said anything — and every handler that writes to it needs the
+     *  same narrowing. */
+    let activeChat = $derived(
+        chat === undefined || chat === null || chat === false
+            ? undefined
+            : chat,
+    );
 
     /** Build a list of locales from tags, in order, without repeats. */
     function localesFrom(tags: (string | undefined)[]): Locale[] {
@@ -152,6 +199,29 @@
         messageLanguageOverride ?? localeToString($locales.getLocale()),
     );
 
+    /** Whether anyone but the reader has said anything that could be
+     *  translated. We never translate your own messages, so until someone else
+     *  speaks there is nothing for a target language to do — and offering the
+     *  choice anyway meant a chat with yourself answered it with "there's
+     *  nothing here to translate", which explains a control that should not
+     *  have been there.
+     *
+     *  The three exclusions are exactly the ones `translateMessages` makes, so
+     *  the control and the pass can never disagree about whether there is work
+     *  to do. */
+    let translatable = $derived(
+        chat
+            ? chat.getMessages().some((msg) => {
+                  const state = chat.getMessageModeration(msg.id);
+                  return (
+                      msg.text !== null &&
+                      (state === undefined || state === 'approved') &&
+                      !($user && msg.creator === $user.uid)
+                  );
+              })
+            : false,
+    );
+
     /** What language to read the conversation in, or undefined for none.
      *
      *  Restored from the reader's saved choice, because the translations
@@ -188,12 +258,6 @@
     /** How much of the browser's translator has downloaded, while it is. */
     let downloading = $state<number | undefined>(undefined);
 
-    /** Whether a language is chosen and there is nothing here to translate into
-     *  it. Said out loud rather than left as silence: a control that offers to
-     *  do something and then visibly does nothing reads as broken, and in a
-     *  chat holding only your own messages — which is every chat before anyone
-     *  replies — that is the normal case, not an edge one. */
-    let nothingToTranslate = $state(false);
     /** Whether our servers did any of the work, which is the only time a
      *  creator's daily budget is worth showing. Nothing is spent translating on
      *  the device, and a meter reading zero beside a feature that costs nothing
@@ -268,6 +332,355 @@
     let newMessage = $state('');
     let newMessageView = $state<HTMLTextAreaElement | undefined>();
 
+    /** The thread being read, by its root message's id, or undefined for the
+     *  conversation itself. A drill-down rather than a panel beside the
+     *  conversation: this lives in a tile that is often a narrow column, and
+     *  there is nowhere beside it to put anything. */
+    let thread = $state<string | undefined>(undefined);
+
+    /** The conversation sorted into what was said in the room and what was said
+     *  in a thread about one of those messages. */
+    let threads = $derived(groupThreads(chat ? chat.getMessages() : []));
+
+    /** The message the open thread is about, or undefined if it has since gone
+     *  (deleted for everyone, or trimmed). */
+    let threadRoot = $derived(
+        thread === undefined
+            ? undefined
+            : threads.roots.find((m) => m.id === thread),
+    );
+
+    /** Leave a thread whose root is no longer in the conversation, rather than
+     *  showing an empty panel with no way to tell why. */
+    $effect(() => {
+        if (thread !== undefined && threadRoot === undefined)
+            thread = undefined;
+    });
+
+    /** How many replies this reader has already seen in a thread. Reads the
+     *  store rather than the setting directly, so the marker clears the moment
+     *  a thread is opened rather than at the next unrelated render. */
+    function seen(root: string): number {
+        return chat ? ($chatThreadsSeen[chat.getProjectID()]?.[root] ?? 0) : 0;
+    }
+
+    /** Open a thread, remember that its replies have now been read, and say
+     *  whose it is and how many replies it holds — the two things that differ
+     *  between one opening and the next. */
+    function openThread(root: SerializedMessage) {
+        if (activeChat === undefined) return;
+        const count = replyCount(threads, root.id);
+        thread = root.id;
+        Settings.markThreadRead(activeChat.getProjectID(), root.id, count);
+        if (announce && $announce)
+            $announce(
+                'chat-thread',
+                $locales.getLanguages()[0],
+                threadAnnouncement(
+                    $locales,
+                    // The username the conversation already shows beside every
+                    // message, so this says nothing that isn't on screen.
+                    creators[root.creator]?.getUsername(false) ?? '',
+                    count,
+                ),
+            );
+        // Focus the way into the thread rather than the composer: the control
+        // that was pressed is gone with the list it was in, so without this
+        // focus falls to the body and a keyboard reader is nowhere.
+        tick().then(() => {
+            if (backView) setKeyboardFocus(backView, 'Focus on thread header');
+        });
+    }
+
+    /** Return to the conversation, putting focus back on the control that
+     *  opened the thread. A drill-down that leaves focus at the top of the list
+     *  makes a keyboard reader find their place again every time. */
+    function leaveThread() {
+        const root = thread;
+        thread = undefined;
+        tick().then(() => {
+            const button = document
+                .getElementById(`${ids}-reply-${root}`)
+                ?.querySelector('button');
+            if (button instanceof HTMLElement)
+                setKeyboardFocus(button, 'Focus on the message left behind');
+        });
+    }
+
+    /** The back control, so opening a thread can move focus into it. */
+    let backView = $state<HTMLButtonElement | undefined>(undefined);
+
+    /** The open thread's own scroller, kept at the newest reply the way the
+     *  conversation's is. */
+    let threadScrollerView = $state<HTMLDivElement | undefined>(undefined);
+    $effect(() => {
+        // Depend on the thread and its replies, so a reply that arrives while
+        // it is open scrolls into view too.
+        const replies = thread === undefined ? 0 : replyCount(threads, thread);
+        void replies;
+        tick().then(() => {
+            if (threadScrollerView)
+                threadScrollerView.scrollTop = threadScrollerView.scrollHeight;
+        });
+    });
+
+    const emojiMaps = Locales.emojis;
+
+    /** The reader's locales, as the codes the emoji maps are keyed by. Filtered
+     *  rather than cast: a locale Wordplay doesn't ship has no emoji names to
+     *  find, and asking for one would fetch nothing. */
+    let localeCodes = $derived(
+        $locales
+            .getLocales()
+            .map((l) => localeToString(l))
+            .filter((code): code is SupportedLocale =>
+                SupportedLocales.some((supported) => supported === code),
+            ),
+    );
+
+    /** Fetch the emoji names for whatever the reader reads in. Here rather than
+     *  in each message: it is 600KB of names, and one conversation needs it
+     *  once. Without it a reaction is announced as its own glyph, which a
+     *  screen reader has no word for. */
+    $effect(() => {
+        for (const code of localeCodes) Locales.loadEmojis(code);
+    });
+
+    /** What to call an emoji, falling back to the glyph itself. The fallback is
+     *  here rather than at each call site because there were three of them and
+     *  a name is never optional: an unnamed reaction pill has no accessible
+     *  name at all. */
+    function nameOfEmoji(emoji: string) {
+        return localizedNameOfGlyph(emoji, localeCodes, $emojiMaps) || emoji;
+    }
+
+    /** Add or take back this reader's reaction, and say what happened. Here
+     *  rather than in the message, because both a pill and the shared picker
+     *  do it and the announcement should read the same either way. */
+    function react(messageID: string, emoji: string, on: boolean) {
+        if (activeChat === undefined) return;
+        const message = activeChat.getMessage(messageID);
+        if (message === undefined) return;
+        const added = Chats.toggleReaction(activeChat, message, emoji, on);
+        if (!announce || !$announce) return;
+        if (!added) {
+            $announce(
+                'chat-reaction',
+                $locales.getLanguages()[0],
+                $locales.getPrimaryPlainText(
+                    (l) => l.ui.collaborate.reaction.full,
+                ),
+            );
+            return;
+        }
+        // Read the count back off the revised conversation rather than
+        // arithmetic on the old one, so what is said is what happened.
+        const people = Chats.chats
+            .get(activeChat.getProjectID())
+            ?.getReactions(messageID)?.[emoji]?.length;
+        $announce(
+            'chat-reaction',
+            $locales.getLanguages()[0],
+            reactionAnnouncement($locales, nameOfEmoji(emoji), people ?? 0, on),
+        );
+    }
+
+    /** Which message's reaction picker is showing, and what it is anchored to.
+     *  One picker for the conversation — see ReactionPicker. */
+    let picking = $state<{ message: string; anchor: HTMLElement } | undefined>(
+        undefined,
+    );
+    const pickerID = `${ids}-reactions`;
+
+    const editors = getEditors();
+
+    /** Whether this conversation can refer to code at all. A how-to's chat has
+     *  no project, so there is nothing for a reference to point at. */
+    let canReference = $derived(project !== undefined && editors !== undefined);
+
+    /**
+     * Whether the message being written is about wherever the caret is.
+     *
+     * The link lives on the message rather than in the editor. There used to be
+     * a mode — the editors went read-only while you picked — and it was the
+     * wrong shape: it had to be entered, left, and explained, and none of that
+     * is anything the reader wanted to think about. A message either names some
+     * code or it doesn't, this says which, and pressing it again is how you take
+     * it back.
+     */
+    let linking = $state(false);
+
+    /** The editor that had focus most recently.
+     *
+     *  Remembered rather than asked for, because by the time it is needed
+     *  nothing is focused: pressing the link toggle and then clicking into the
+     *  message box is the whole gesture, and an editor reports `focused` only
+     *  while the caret is actually in it. Falling back to the first editor
+     *  instead — which is what this did — silently retargeted the link to the
+     *  wrong file the moment you started typing, in any project with more than
+     *  one. */
+    let lastFocusedEditor = $state<string | undefined>(undefined);
+    $effect(() => {
+        const focused = [...($editors?.values() ?? [])].find((e) => e.focused);
+        if (focused) lastFocusedEditor = focused.sourceID;
+    });
+
+    /** The editor whose caret the link follows: whichever one has focus, or the
+     *  one that had it last. The first editor is only the answer before anyone
+     *  has touched any of them. */
+    let referenceEditor = $derived.by(() => {
+        if (editors === undefined) return undefined;
+        const all = [...($editors?.values() ?? [])];
+        return (
+            all.find((e) => e.focused) ??
+            all.find((e) => e.sourceID === lastFocusedEditor) ??
+            all[0]
+        );
+    });
+
+    const linked = getLinkedNode();
+    const messageRequest = getMessageRequest();
+    /** Where each message's reference points, resolved once by the project
+     *  view — see the chip for why it isn't resolved per message. Absent in a
+     *  how-to's chat, which has no project for a reference to point into. */
+    const resolvedReferences = getResolvedReferences();
+    let referenceResolutions = $derived(
+        resolvedReferences ? $resolvedReferences : undefined,
+    );
+
+    /** Where a message's view is, since a thread's root is rendered twice — once
+     *  in the room and once at the head of its own thread — and two elements
+     *  cannot share an id. Which list it is in is what tells them apart, and is
+     *  also what says which of the two a reveal should go to. */
+    function messageViewID(id: string, inRoom: boolean): string {
+        return `${ids}-message-${inRoom ? 'room' : 'thread'}-${id}`;
+    }
+
+    /** The message a gutter marker asked for, marked while the reader finds it.
+     *  Cleared on a timer rather than on the next click: the mark is there to
+     *  answer "which one", and once it has been read it is noise. */
+    let found = $state<string | undefined>(undefined);
+    let foundTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
+
+    /** Show the message a marker in the code asked for. Opens its thread first
+     *  when it is a reply, since a thread is where its replies live. */
+    let lastRequestNonce: number | undefined = undefined;
+    $effect(() => {
+        const request = messageRequest ? $messageRequest : undefined;
+        const conversation = activeChat;
+        if (
+            request === undefined ||
+            request.nonce === lastRequestNonce ||
+            conversation === undefined
+        )
+            return;
+        lastRequestNonce = request.nonce;
+        const id = request.message;
+        untrack(() => {
+            // A reply lives in its thread, so the thread has to be open before
+            // the message exists to scroll to — and a message in the room needs
+            // any open thread out of the way, since the room behind it is
+            // covered and inert. Set directly rather than through openThread or
+            // leaveThread, which announce and move focus: this is one gesture
+            // and should say one thing.
+            const inRoom = threads.roots.some((m) => m.id === id);
+            const root = inRoom
+                ? undefined
+                : [...threads.repliesByRoot.entries()].find(([, replies]) =>
+                      replies.some((r) => r.id === id),
+                  )?.[0];
+            // A message we cannot place at all — trimmed while the marker was
+            // on screen — leaves the view exactly as it is.
+            if (inRoom || root !== undefined) thread = root;
+
+            const message = conversation.getMessage(id);
+            if (announce && $announce && message)
+                $announce(
+                    'chat-reference',
+                    $locales.getLanguages()[0],
+                    foundAnnouncement(
+                        $locales,
+                        creators[message.creator]?.getUsername(false) ?? '',
+                        message.text ?? '',
+                    ),
+                );
+
+            // After the pin-to-bottom effects, which run on the same flush and
+            // would otherwise drag the conversation away from what was asked
+            // for.
+            tick().then(() => {
+                const view = document.getElementById(messageViewID(id, inRoom));
+                if (view === null) return;
+                view.scrollIntoView({ block: 'center' });
+                setKeyboardFocus(view, 'Focus the message a marker asked for');
+                found = id;
+                if (foundTimeout !== undefined) clearTimeout(foundTimeout);
+                foundTimeout = setTimeout(() => (found = undefined), 2000);
+                if (messageRequest) messageRequest.set(undefined);
+            });
+        });
+    });
+
+    /** The code the message would be about, followed live so the chip, the
+     *  editor's outline, and its footer all agree as the caret moves. */
+    let pendingTarget = $derived.by(() => {
+        if (!canReference || !linking) return undefined;
+        const editor = referenceEditor;
+        if (editor === undefined || project === undefined) return undefined;
+        const node = referenceTargetOf(editor.caret);
+        if (node === undefined) return undefined;
+        const source = editor.caret.source;
+        const index = project.getIndexOfSource(source);
+        if (index < 0) return undefined;
+        return {
+            node,
+            source,
+            reference: {
+                source: index,
+                path: source.root.getPath(node),
+                code: node.toWordplay(),
+            },
+        };
+    });
+
+    let pendingReference = $derived(pendingTarget?.reference);
+
+    /** Tell the editors which code this message names, so the one that holds it
+     *  can outline it and say so. */
+    $effect(() => {
+        linked?.set(pendingTarget?.node);
+    });
+
+    /** What the linked code is called, for the chip beside the message.
+     *
+     *  Measured from the node itself rather than by resolving the reference
+     *  just built from it: the round trip could only ever come back with the
+     *  same node, at the cost of a path walk and a serialization on every caret
+     *  move. */
+    let pendingLabel = $derived.by(() => {
+        const target = pendingTarget;
+        if (target === undefined) return undefined;
+        const lines = linesOfNode(target.source, target.node);
+        return lines === undefined
+            ? undefined
+            : referenceLabel($locales, lines.firstLine, lines.lastLine);
+    });
+
+    /** Say what the message is now about, and only when it changes: the caret
+     *  moves with every arrow key, and repeating the same line back is noise. */
+    let lastAnnouncedReference: string | undefined = undefined;
+    $effect(() => {
+        const label = linking ? pendingLabel : undefined;
+        if (label === lastAnnouncedReference) return;
+        lastAnnouncedReference = label;
+        if (label === undefined || !announce || !$announce) return;
+        $announce(
+            'chat-reference',
+            $locales.getLanguages()[0],
+            referenceAnnouncement($locales, label),
+        );
+    });
+
     let scrollerView = $state<HTMLDivElement | undefined>();
 
     // get the gallery from the gallery ID
@@ -307,13 +720,29 @@
      */
     let pending = $state<string | undefined>(undefined);
     let pendingLanguage: string | undefined = undefined;
+    /** The code the very first message is about. A conversation is made by
+     *  talking, so the first thing anyone says may well be about a line of
+     *  code, and it would otherwise be the one message that lost its
+     *  reference. */
+    let pendingMessageReference: SerializedCodeReference | undefined =
+        undefined;
 
     $effect(() => {
         const target = chat;
         const text = pending;
         if (target && text !== undefined) {
             pending = undefined;
-            untrack(() => Chats.addMessage(target, text, pendingLanguage));
+            const reference = pendingMessageReference;
+            pendingMessageReference = undefined;
+            untrack(() =>
+                Chats.addMessage(
+                    target,
+                    text,
+                    pendingLanguage,
+                    undefined,
+                    reference,
+                ),
+            );
         }
     });
 
@@ -322,11 +751,19 @@
      *  button put the tile's whole purpose behind a click and made an unused
      *  tile look broken. */
     function submitMessage() {
-        if (newMessage.trim() === '') return;
-        if (chat) Chats.addMessage(chat, newMessage, messageLanguage);
+        if (newMessage.trim() === '' && pendingReference === undefined) return;
+        if (chat)
+            Chats.addMessage(
+                chat,
+                newMessage,
+                messageLanguage,
+                thread,
+                pendingReference,
+            );
         else if (chat === undefined && pending === undefined) {
             pending = newMessage;
             pendingLanguage = messageLanguage;
+            pendingMessageReference = pendingReference;
             // The conversation's own language, which is the source for any
             // message written before per-message tagging, or by someone who
             // never touched the picker.
@@ -335,6 +772,10 @@
             else if (howTo) Chats.addChatToHowTo(howTo, gallery, language);
         } else return;
         newMessage = '';
+        // The link belonged to the message that just went, not to the next
+        // one: what you say next is usually about something else, and a link
+        // left standing would quietly attach code nobody chose.
+        linking = false;
         tick().then(() => {
             if (newMessageView)
                 setKeyboardFocus(
@@ -406,7 +847,6 @@
         // what our servers translated — so leaving the last pass's claim up
         // would tell a reader nothing was sent to us about messages that were.
         translatedOnDevice = false;
-        nothingToTranslate = false;
         if (target === undefined || !chat) {
             translating = false;
             return;
@@ -420,8 +860,6 @@
         const currentChat = chat;
         const next: Record<string, { language: string; text: string }> = {};
         const toTranslate: MarkupTranslationInput[] = [];
-        /** Whether anyone else has said anything here yet. */
-        let others = false;
 
         for (const msg of currentChat.getMessages()) {
             const state = currentChat.getMessageModeration(msg.id);
@@ -435,7 +873,6 @@
             // are never translated — nor paid for, nor sent anywhere. This is
             // also exactly what the rights page promises.
             if ($user && msg.creator === $user.uid) continue;
-            others = true;
 
             const cached = cachedTranslations[msg.id]?.text;
             if (cached !== undefined) {
@@ -470,13 +907,6 @@
         translations = { ...cachedTranslations, ...next };
 
         if (toTranslate.length === 0) {
-            // Only when nobody else has said anything, which is the case that
-            // needs explaining: a reader watching their own messages stay in
-            // their own language has been told why. A conversation that is
-            // simply already in the target language needs no note — it is
-            // readable, and saying so on every such chat is noise, which is
-            // what a remembered language choice would otherwise produce.
-            nothingToTranslate = !others && Object.keys(next).length === 0;
             translating = false;
             return;
         }
@@ -620,7 +1050,6 @@
                 translateError = false;
                 messageErrors = {};
                 translatedOnDevice = false;
-                nothingToTranslate = false;
                 spentBudget = false;
                 downloading = undefined;
                 lastAnnouncedTranslation = '';
@@ -665,15 +1094,24 @@
     });
 </script>
 
-{#snippet message(chat: Chat, msg: SerializedMessage)}
+{#snippet message(chat: Chat, msg: SerializedMessage, root: boolean)}
     {@const date = new Date(msg.time)}
     {@const state = chat.getMessageModeration(msg.id)}
-    <div class="message" class:creator={$user?.uid === msg.creator}>
+    {@const replies = replyCount(threads, msg.id)}
+    <div
+        class="message"
+        class:creator={$user?.uid === msg.creator}
+        class:found={found === msg.id}
+        id={messageViewID(msg.id, root)}
+        tabindex="-1"
+    >
         <div class="meta"
             ><CreatorView
                 chrome={false}
                 anonymize={false}
-                creator={creators[msg.creator]}
+                creator={creators[msg.creator] ?? null}
+                loading={!(msg.creator in creators)}
+                reserve
                 fade={!chat.isEligible(msg.creator)}
             />
             <div class="when"
@@ -686,6 +1124,7 @@
             >
             {#if $user?.uid === msg.creator && msg.text !== null && (state === undefined || state === 'approved')}
                 <ConfirmButton
+                    background={false}
                     tip={(l: any) => l.ui.collaborate.button.delete}
                     prompt={(l: any) => l.ui.collaborate.button.confirmDelete}
                     action={() => deleteMessage(chat, msg)}
@@ -788,6 +1227,66 @@
                 }}
             />
         {/if}
+        <!-- What can be done with this message. The reply control only appears
+             on a message in the room: threading is one level deep, so a reply
+             inside a thread joins the thread it is already in rather than
+             starting another. -->
+        <div class="doing">
+            {#if msg.reference && project && msg.text !== null}
+                <CodeReferenceChip
+                    reference={msg.reference}
+                    resolved={referenceResolutions?.get(msg.id)}
+                />
+            {/if}
+            {#if root}
+                {@const unseen = replies - seen(msg.id)}
+                <span id="{ids}-reply-{msg.id}">
+                    <Button
+                        tip={() =>
+                            unseen > 0
+                                ? $locales
+                                      .concretize(
+                                          (l) => l.ui.collaborate.thread.unseen,
+                                          { count: unseen },
+                                      )
+                                      .toText()
+                                : replies > 0
+                                  ? $locales
+                                        .concretize(
+                                            (l) =>
+                                                l.ui.collaborate.thread.replies,
+                                            { count: replies },
+                                        )
+                                        .toText()
+                                  : $locales.getPrimaryPlainText(
+                                        (l) => l.ui.collaborate.thread.reply,
+                                    )}
+                        action={() => openThread(msg)}
+                        ><span class="replies" class:unseen={unseen > 0}
+                            >{#if replies > 0}<MarkupHTMLView
+                                    inline
+                                    markup={[
+                                        (l) => l.ui.collaborate.thread.replies,
+                                        { count: replies },
+                                    ]}
+                                />{:else}<LocalizedText
+                                    path={(l) => l.ui.collaborate.thread.reply}
+                                />{/if}</span
+                        ></Button
+                    >
+                </span>
+            {/if}
+            <MessageReactions
+                {chat}
+                message={msg}
+                {pickerID}
+                nameOf={nameOfEmoji}
+                react={(emoji, on) => react(msg.id, emoji, on)}
+                picking={picking?.message === msg.id}
+                open={(anchor) => (picking = { message: msg.id, anchor })}
+                close={() => (picking = undefined)}
+            />
+        </div>
     </div>
 {/snippet}
 
@@ -802,24 +1301,89 @@
             >
         </TileMessage>
     {:else}
-        <div class="scroller" bind:this={scrollerView}>
-            <div class="messages">
-                <!-- The same empty state whether the conversation exists yet or
-                     not: "no messages" is true either way, and which of the two
-                     it is isn't the reader's concern. -->
-                {#if chat && chat.getMessages().length > 0}
-                    {#each chat.getMessages() as msg}
-                        {@render message(chat, msg)}
-                    {/each}
-                {:else}
-                    <Note
-                        ><LocalizedText
-                            path={(l) => l.ui.collaborate.error.empty}
-                        /></Note
-                    >
-                {/if}
+        <!-- The conversation, and the thread that covers it. An overlay rather
+             than a swap for two reasons: it reads as being on top of the chat
+             rather than as a different screen, and it leaves the message list
+             mounted, so opening a thread is a paint instead of a teardown and
+             rebuild of every message. -->
+        <div class="conversation">
+            <!-- Inert while a thread covers it. The thread is an overlay and
+                 the conversation stays mounted behind it, so without this a
+                 keyboard reader tabs straight out of the thread into messages
+                 they cannot see, and a screen reader reads the whole room as
+                 the thread's siblings. Nothing axe checks — an overlay is not
+                 something it can see. -->
+            <div
+                class="scroller"
+                bind:this={scrollerView}
+                inert={threadRoot !== undefined}
+            >
+                <div class="messages">
+                    <!-- The same empty state whether the conversation exists yet
+                         or not: "no messages" is true either way, and which of
+                         the two it is isn't the reader's concern. -->
+                    {#if chat && threads.roots.length > 0}
+                        {#each threads.roots as msg (msg.id)}
+                            {@render message(chat, msg, true)}
+                        {/each}
+                    {:else}
+                        <div class="nothing">
+                            <Note
+                                ><LocalizedText
+                                    path={(l) => l.ui.collaborate.error.empty}
+                                /></Note
+                            >
+                        </div>
+                    {/if}
+                </div>
             </div>
+            {#if chat && threadRoot}
+                <div class="thread">
+                    <div class="thread-header">
+                        <Button
+                            bind:view={backView}
+                            tip={(l) => l.ui.collaborate.thread.back}
+                            action={leaveThread}
+                            icon="‹"
+                        ></Button>
+                        <h2>
+                            <LocalizedText
+                                path={(l) => l.ui.collaborate.thread.header}
+                            />
+                        </h2>
+                    </div>
+                    <div class="scroller" bind:this={threadScrollerView}>
+                        <div class="messages">
+                            {@render message(chat, threadRoot, false)}
+                            {#each threads.repliesByRoot.get(threadRoot.id) ?? [] as reply (reply.id)}
+                                {@render message(chat, reply, false)}
+                            {:else}
+                                <div class="nothing">
+                                    <Note
+                                        ><LocalizedText
+                                            path={(l) =>
+                                                l.ui.collaborate.thread.empty}
+                                        /></Note
+                                    >
+                                </div>
+                            {/each}
+                        </div>
+                    </div>
+                </div>
+            {/if}
         </div>
+        <!-- One picker for the whole conversation, opened against whichever
+             message's + was pressed. -->
+        <ReactionPicker
+            id={pickerID}
+            anchor={picking?.anchor}
+            nameOf={nameOfEmoji}
+            pick={(emoji) => {
+                const message = picking?.message;
+                if (message !== undefined) react(message, emoji, true);
+            }}
+            close={() => (picking = undefined)}
+        />
         <!-- Reading a conversation in another language and saying what
              language you are writing in are the same question asked twice,
              so they are one row, next to the field they are about. What is
@@ -827,50 +1391,52 @@
              cost — goes underneath, where it can grow without moving the
              controls. -->
         <div class="chat-controls">
-            <label class="translate-label" for="{ids}-translate"
-                ><LocalizedText
-                    path={(l) => l.ui.collaborate.translate.label}
-                /></label
-            >
-            <Options
-                id="{ids}-translate"
-                value={translateTo}
-                width="9em"
-                label={(l) => l.ui.collaborate.translate.label}
-                options={[
-                    {
-                        // The switch, not a placeholder: it is both the state
-                        // this starts in and the way back to it, which is why
-                        // "Stop translating" no longer has to sit there
-                        // permanently to offer a way out.
-                        value: undefined,
-                        label: (l) => l.ui.collaborate.translate.none,
-                    },
-                    ...offeredLocales.map((locale) => ({
-                        value: localeToString(locale),
-                        label: localeLabel(locale, offeredLocales),
-                    })),
-                ]}
-                change={(chosen) => {
-                    translateTo = chosen;
-                    Settings.setChatLanguage(chosen ?? null);
-                }}
-            />
-            {#if translating}
-                <!-- Only while a pass is running. Standing there when nothing
-                     was happening, it read as the only way to undo a choice
-                     the picker had already made — and doubled as the dismiss
-                     for whatever notice was showing. -->
-                <Button
-                    tip={(l) => l.ui.collaborate.translate.off}
-                    action={() => {
-                        translateTo = undefined;
-                        Settings.setChatLanguage(null);
-                    }}
+            {#if translatable}
+                <label class="translate-label" for="{ids}-translate"
                     ><LocalizedText
-                        path={(l) => l.ui.collaborate.translate.off}
-                    /></Button
+                        path={(l) => l.ui.collaborate.translate.label}
+                    /></label
                 >
+                <Options
+                    id="{ids}-translate"
+                    value={translateTo}
+                    width="9em"
+                    label={(l) => l.ui.collaborate.translate.label}
+                    options={[
+                        {
+                            // The switch, not a placeholder: it is both the state
+                            // this starts in and the way back to it, which is why
+                            // "Stop translating" no longer has to sit there
+                            // permanently to offer a way out.
+                            value: undefined,
+                            label: (l) => l.ui.collaborate.translate.none,
+                        },
+                        ...offeredLocales.map((locale) => ({
+                            value: localeToString(locale),
+                            label: localeLabel(locale, offeredLocales),
+                        })),
+                    ]}
+                    change={(chosen) => {
+                        translateTo = chosen;
+                        Settings.setChatLanguage(chosen ?? null);
+                    }}
+                />
+                {#if translating}
+                    <!-- Only while a pass is running. Standing there when nothing
+                         was happening, it read as the only way to undo a choice
+                         the picker had already made — and doubled as the dismiss
+                         for whatever notice was showing. -->
+                    <Button
+                        tip={(l) => l.ui.collaborate.translate.off}
+                        action={() => {
+                            translateTo = undefined;
+                            Settings.setChatLanguage(null);
+                        }}
+                        ><LocalizedText
+                            path={(l) => l.ui.collaborate.translate.off}
+                        /></Button
+                    >
+                {/if}
             {/if}
             <label class="language-label writing" for="{ids}-message-language"
                 ><LocalizedText
@@ -952,19 +1518,6 @@
                     />
                 </div>
             </Notice>
-        {:else if nothingToTranslate && translateTo !== undefined}
-            <!-- A Note, not a Notice: nothing failed. Saying "there is nothing
-                 here to translate" in the same alarmed orange as a failure is
-                 what made a correct answer read as a broken one. -->
-            <Note
-                ><MarkupHTMLView
-                    inline
-                    markup={[
-                        (l) => l.ui.collaborate.translate.nothing,
-                        { to: getMultilingualLanguageLabel(translateTo) },
-                    ]}
-                /></Note
-            >
         {:else if translatedOnDevice}
             <Note
                 ><LocalizedText
@@ -991,8 +1544,10 @@
             <div class="editor">
                 <FormattedEditor
                     id="new-message"
-                    placeholder={(l) =>
-                        l.ui.collaborate.field.message.placeholder}
+                    examples={false}
+                    placeholder={thread === undefined
+                        ? (l) => l.ui.collaborate.field.message.placeholder
+                        : (l) => l.ui.collaborate.thread.placeholder}
                     description={(l) =>
                         l.ui.collaborate.field.message.description}
                     bind:view={newMessageView}
@@ -1000,9 +1555,30 @@
                 />
             </div>
             <div class="send">
+                {#if canReference}
+                    <!-- What this message is about, following the caret. No ✕
+                         of its own: the toggle beside it is what takes the link
+                         back, and two ways to do one thing is one too many. -->
+                    {#if linking && pendingLabel !== undefined}
+                        <span class="chosen">{pendingLabel}</span>
+                    {/if}
+                    <!-- A paperclip rather than a chain link: the markup
+                         toolbar an inch away already spends 🔗 on web links,
+                         and one glyph meaning two things in one composer is
+                         worse than either meaning alone. This one attaches
+                         code to a message. -->
+                    <Toggle
+                        tips={(l) => l.ui.collaborate.reference.mode}
+                        on={linking}
+                        toggle={() => (linking = !linking)}
+                        ><Emoji text="📎" /></Toggle
+                    >
+                {/if}
                 <Button
                     submit
-                    active={pending === undefined && newMessage.trim() !== ''}
+                    active={pending === undefined &&
+                        (newMessage.trim() !== '' ||
+                            pendingReference !== undefined)}
                     tip={(l) => l.ui.collaborate.button.submit.tip}
                     action={submitMessage}
                     background
@@ -1034,6 +1610,12 @@
         flex: 1 1 0;
         min-height: 0;
         width: 100%;
+    }
+
+    /* The rules that separate the conversation from what is above and below it
+       belong to the box, not to each scroller inside it: the thread has a
+       scroller of its own and would otherwise draw a second pair. */
+    .conversation {
         border-top: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
         border-bottom: var(--wordplay-border-width) solid
@@ -1125,6 +1707,25 @@
         justify-self: end;
         padding: calc(0.5 * var(--wordplay-spacing));
         z-index: 2;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+    }
+
+    /* The code the message being written is about. Gold, like the outline it
+       corresponds to in the editor, so the two read as the same mark. */
+    .chosen {
+        color: var(--color-gold-text);
+        font-weight: bold;
+        font-size: var(--wordplay-small-font-size);
+        white-space: nowrap;
+    }
+
+    .chosen {
+        display: inline-flex;
+        align-items: center;
+        gap: calc(var(--wordplay-spacing) / 4);
     }
 
     .message {
@@ -1162,5 +1763,83 @@
         border-radius: var(--wordplay-border-radius);
         width: 100%;
         overflow-wrap: anywhere;
+    }
+
+    /* What can be done with a message, under it: replying and reacting. Wraps
+       rather than scrolls, since a message with many reactions is still one
+       message and pushing them off the edge hides them. */
+    .doing {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+        font-size: var(--wordplay-small-font-size);
+    }
+
+    .replies {
+        white-space: nowrap;
+    }
+
+    /* Replies this reader hasn't seen. The text variant, not the brand hue:
+       this is text, so it has to clear AA on the background it sits on. */
+    .unseen {
+        color: var(--color-gold-text);
+        font-weight: bold;
+    }
+
+    /* The positioned box the thread covers. Only the message list, so the
+       composer below it stays shared between the conversation and the thread. */
+    .conversation {
+        position: relative;
+        flex: 1 1 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Inset from the inline start so a sliver of the conversation stays
+       visible behind it — that is what says the thread is on top of the chat
+       rather than somewhere else. */
+    .thread {
+        position: absolute;
+        inset: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing-half);
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        background: var(--wordplay-background);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        box-shadow: var(--wordplay-spacing) var(--wordplay-spacing)
+            var(--wordplay-spacing) rgb(0 0 0 / 25%);
+    }
+
+    /* An empty conversation's words start where a message's words do. A
+       message looks padded because `.what` pads itself; a bare note has
+       nothing of its own, which is what made it look arbitrarily placed. */
+    .nothing {
+        padding: var(--wordplay-spacing);
+    }
+
+    /* The message a marker in the code asked for, marked just long enough to
+       answer "which one". A shake rather than a colour: the conversation
+       already spends colour on whose message it is and what is new. */
+    .message.found {
+        animation: shake calc(var(--animation-factor) * 500ms) linear 2;
+    }
+
+    .thread-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+        flex-shrink: 0;
+    }
+
+    .thread-header h2 {
+        margin: 0;
+        font-size: var(--wordplay-font-size);
     }
 </style>

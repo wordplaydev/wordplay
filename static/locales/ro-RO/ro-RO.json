@@ -8807,7 +8807,7 @@
                 "collaborate": "$~Toți cei care pot accesa acest proiect sunt listați aici și poți *discuta* cu cei care au voie. Doar /proprietarul/, /colaboratorii/ și /comentatorii/ pot vedea discuția.",
                 "collaborators": "$~Fiecare persoană are un singur /privilegiu/. *Colaborează* înseamnă că poate edita proiectul și poate discuta despre el. *Comentează* înseamnă că poate discuta, dar nu poate edita. *Vizualizează* înseamnă că poate doar să se uite, fără să discute. *Proprietar* îi dă proiectul. /Curatorii/ unei galerii pot accesa mereu proiectul, așa că nu le poți schimba privilegiul.",
                 "restrict": "$~Când un proiect se află într-o *galerie*, în mod implicit, *toți* cei care pot vedea galeria pot vedea proiectul dvs. Comutatorul /restricționare/ îl *ascunde* de toată lumea, cu excepția dvs. și a curatorilor galeriei.",
-                "add": "$~Scrie *e-mailul* sau *numele de utilizator* al cuiva, alege ce poate face, și persoana se va adăuga în listă."
+                "add": "$~Apasă pe *+* la sfârșitul listei ca să adaugi pe cineva. Scrie *emailul* sau *numele de utilizator* al persoanei, alege ce poate să facă, și se va alătura listei."
             },
             "translate": {
                 "label": "$~Traduceți mesajele în",
@@ -8822,21 +8822,58 @@
                 "downloading": "$~Se obține un traducător de $language pentru browserul dumneavoastră…",
                 "onDevice": "$~Browserul dumneavoastră a tradus acestea pe dispozitivul dumneavoastră, deci nu ne-a fost trimis niciun mesaj.",
                 "none": "$~Nu traduce",
-                "dismiss": "$~închide",
-                "nothing": "$~Nu este nimic aici de tradus în $to. Nu traducem niciodată mesajele tale."
+                "dismiss": "$~închide"
             },
             "announce": {
                 "transferred": "$~$name este acum proprietarul lui $project",
                 "privilege": "$~$name poate acum $privilege",
-                "removed": "$~$name nu mai poate accesa acest proiect"
+                "removed": "$~$name nu mai poate accesa acest proiect",
+                "thread": "$~$#count[Fir de discuție la mesajul lui $name, $count răspuns|Fir de discuție la mesajul lui $name, $count răspunsuri|Fir de discuție la mesajul lui $name, $count de răspunsuri]",
+                "reacted": "$~$#count[$emoji la acest mesaj, $count persoană|$emoji la acest mesaj, $count persoane|$emoji la acest mesaj, $count de persoane]",
+                "unreacted": "$~$#count[$emoji retras, $count persoană a plecat|$emoji retras, $count persoane au plecat|$emoji retras, $count de persoane au plecat]",
+                "attached": "$~Se discută despre $location.",
+                "found": "$~$name a spus $opening"
             },
             "table": {
                 "label": "$~cine poate accesa acest proiect",
                 "choose": "$~ce poate face $name",
                 "adding": "$~ce pot face",
-                "audience": "$~cine poate vedea această discuție"
+                "audience": "$~cine poate vedea această discuție",
+                "add": "$~adaugă pe cineva",
+                "cancel": "$~renunță la adăugarea cuiva"
             },
-            "prompt": "$~Adaugă colaboratori, comentatori și vizualizatori"
+            "prompt": "$~Adaugă colaboratori, comentatori și vizualizatori",
+            "thread": {
+                "reply": "$~răspunde",
+                "replies": "$~$#count[$#count răspuns|$count răspunsuri|$count de răspunsuri]",
+                "unseen": "$~$#count[$#count răspuns nou|$count răspunsuri noi|$count de răspunsuri noi]",
+                "header": "$~Fir de discuție",
+                "back": "$~înapoi la conversație",
+                "empty": "$~Niciun răspuns încă. Spune ceva!",
+                "placeholder": "$~Răspunde…"
+            },
+            "reaction": {
+                "add": "$~reacționează",
+                "more": "$~mai multe…",
+                "label": "$~Alege o reacție",
+                "full": "$~Acest mesaj are toate reacțiile pe care le poate avea.",
+                "close": "$~închide reacțiile",
+                "pick": "$~reacționează cu $emoji",
+                "give": "$~$#count[adaugă-ți $emoji — $count persoană a folosit-o deja|adaugă-ți $emoji — $count persoane au folosit-o deja|adaugă-ți $emoji — $count de persoane au folosit-o deja]",
+                "take": "$~$#count[retrage-ți $emoji — $count persoană îl are|retrage-ți $emoji — $count persoane îl au|retrage-ți $emoji — $count de persoane îl au]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~încetează să mai discuți despre acest cod",
+                    "off": "$~discută despre codul unde se află cursorul meu"
+                },
+                "prompt": "$~Mesajul tău este despre $location.",
+                "line": "$~linia $line",
+                "lines": "$~liniile $first–$last",
+                "label": "$~despre $location: $code",
+                "invalid": "$~acest cod nu mai există",
+                "marker": "$~$#count[citește mesajul despre acest cod|citește mesajele despre acest cod|citește cele $count de mesaje despre acest cod]"
+            }
         },
         "palette": {
             "label": "$~paletă",

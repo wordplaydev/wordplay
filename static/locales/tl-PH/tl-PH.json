@@ -8796,7 +8796,7 @@
                 "collaborate": "$~Nakalista rito ang lahat ng makaka-abot sa proyektong ito, at maaari kang *mag-chat* sa mga taong pinapayagan. Tanging ang /may-ari/, ang mga /katuwang/, at ang mga /nagkokomento/ ang makakakita ng chat.",
                 "collaborators": "$~Bawat tao ay may isang /karapatan/. Ang *Tumulong* ay nangangahulugang maaari nilang i-edit ang proyekto at mag-chat tungkol dito. Ang *Magkomento* ay nangangahulugang maaari silang mag-chat pero hindi maka-edit. Ang *Tingnan* ay nangangahulugang maaari lang silang tumingin pero hindi maka-chat. Ang *May-ari* ay nagbibigay sa kanila ng proyekto. Ang mga /kurador/ ng isang galeriya ay laging may abot dito, kaya hindi mo maaaring baguhin ang kanilang karapatan.",
                 "restrict": "$~Kapag ang isang proyekto ay nasa isang *gallery*, bilang default, *lahat* ng makakakita sa gallery ay makakakita ng iyong proyekto. *Itinatago* ito ng /restrict/ toggle mula sa lahat maliban sa iyo at sa mga curator ng gallery.",
-                "add": "$~I-type ang *email* o *username* ng isang tao, piliin ang kanilang maaaring gawin, at sasali sila sa listahan."
+                "add": "$~Pindutin ang *+* sa dulo ng listahan para magdagdag ng tao. I-type ang kanilang *email* o *username*, piliin kung ano ang kaya nilang gawin, at sasali sila sa listahan."
             },
             "translate": {
                 "label": "$~Isalin ang mga mensahe sa",
@@ -8811,21 +8811,58 @@
                 "downloading": "$~Kumukuha ng tagasalin ng $language para sa iyong browser…",
                 "onDevice": "$~Isinalin ito ng iyong browser mismo sa iyong device, kaya walang mensaheng ipinadala sa amin.",
                 "none": "$~Huwag isalin",
-                "dismiss": "$~itaboy",
-                "nothing": "$~Walang dito na maisasalin sa $to. Hindi namin isinasalin ang mga sariling mensahe mo."
+                "dismiss": "$~itaboy"
             },
             "announce": {
                 "transferred": "$~Si $name na ngayon ang may-ari ng $project",
                 "privilege": "$~Ngayon ay maaaring $name ni $privilege",
-                "removed": "$~Hindi na maaabot ni $name ang proyektong ito"
+                "removed": "$~Hindi na maaabot ni $name ang proyektong ito",
+                "thread": "$~$#count[Thread sa mensahe ni $name, $count sagot|Thread sa mensahe ni $name, $count na sagot]",
+                "reacted": "$~$#count[$emoji sa mensaheng ito, $count tao|$emoji sa mensaheng ito, $count na tao]",
+                "unreacted": "$~$#count[Binawi ang $emoji, $count taong umalis|Binawi ang $emoji, $count na taong umalis]",
+                "attached": "$~Pinag-uusapan ang $location.",
+                "found": "$~Sinabi ni $name ang $opening"
             },
             "table": {
                 "label": "$~sino ang maaaring maabot ang proyektong ito",
                 "choose": "$~ano ang maaaring gawin ni $name",
                 "adding": "$~ano ang maaari nilang gawin",
-                "audience": "$~sino ang makakakita ng chat na ito"
+                "audience": "$~sino ang makakakita ng chat na ito",
+                "add": "$~magdagdag ng tao",
+                "cancel": "$~huwag na magdagdag ng tao"
             },
-            "prompt": "$~Magdagdag ng mga katuwang, tagakomento, at tagatingin"
+            "prompt": "$~Magdagdag ng mga katuwang, tagakomento, at tagatingin",
+            "thread": {
+                "reply": "$~sagot",
+                "replies": "$~$#count[$count sagot|$count na sagot]",
+                "unseen": "$~$#count[$count bagong sagot|$count na bagong sagot]",
+                "header": "$~Thread",
+                "back": "$~bumalik sa pag-uusap",
+                "empty": "$~Walang sagot pa. Sabihin ang iyong nasa isip!",
+                "placeholder": "$~Sumagot…"
+            },
+            "reaction": {
+                "add": "$~mag-reaksyon",
+                "more": "$~pa…",
+                "label": "$~Pumili ng reaksyon",
+                "full": "$~Puno na ang mensaheng ito ng reaksyon. Wala nang puwang.",
+                "close": "$~isara ang mga reaksyon",
+                "pick": "$~mag-reaksyon gamit ang $emoji",
+                "give": "$~$#count[idagdag ang iyong $emoji — $count tao ang mayroon nito|idagdag ang iyong $emoji — $count na tao ang mayroon nito]",
+                "take": "$~$#count[bawiin ang iyong $emoji — $count tao ang may nito|bawiin ang iyong $emoji — $count na tao ang may nito]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~itigil ang pag-usap tungkol sa kodigong ito",
+                    "off": "$~pag-usapan ang kodigo kung saan naroon ang aking cursor"
+                },
+                "prompt": "$~Tungkol sa $location ang mensahe mo.",
+                "line": "$~linya $line",
+                "lines": "$~mga linya $first–$last",
+                "label": "$~tungkol sa $location: $code",
+                "invalid": "$~wala na ang kodigong ito",
+                "marker": "$~$#count[basahin ang mensahe tungkol sa kodigong ito|basahin ang $count mensahe tungkol sa kodigong ito]"
+            }
         },
         "palette": {
             "label": "$~paleta",

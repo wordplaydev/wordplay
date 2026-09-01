@@ -9914,7 +9914,7 @@
                 "collaborate": "$~Aquí aparecen todas las personas que pueden acceder a este proyecto, y puedes *chatear* con quienes tienen permiso para hacerlo. Solo la /dueña/, las /colaboradoras/ y las /comentaristas/ pueden ver el chat.",
                 "collaborators": "$~Cada persona tiene un /privilegio/. *Colaborar* significa que puede editar el proyecto y chatear sobre él. *Comentar* significa que puede chatear pero no editar. *Ver* significa que puede mirar pero no chatear. *Dueña* le entrega el proyecto. Las /curadoras/ de una galería siempre pueden acceder a ella, así que no puedes cambiar su permiso.",
                 "restrict": "$~Cuando un proyecto está en una *galería*, de forma predeterminada *todas* las personas que pueden ver la galería pueden ver tu proyecto. El botón /restringir/ lo *oculta* de todas menos de ti y de las curadoras de la galería.",
-                "add": "$~Escribe el *correo electrónico* o el *nombre de usuaria* de alguien, elige qué puede hacer y se unirá a la lista."
+                "add": "$~Presiona el *+* al final de la lista para agregar a alguien. Escribe su *correo electrónico* o *nombre de usuaria*, elige qué puede hacer, y se unirá a la lista."
             },
             "translate": {
                 "label": "$~Traducir mensajes al",
@@ -9929,21 +9929,58 @@
                 "downloading": "$~Consiguiendo un traductor de $language para tu navegador…",
                 "onDevice": "$~Tu navegador tradujo esto en tu dispositivo, así que no se nos envió ningún mensaje.",
                 "none": "$~No traducir",
-                "dismiss": "$~descartar",
-                "nothing": "$~No hay nada aquí para traducir a $to. Nunca traducimos tus propios mensajes."
+                "dismiss": "$~descartar"
             },
             "announce": {
                 "transferred": "$~$name ahora es propietaria de $project",
                 "privilege": "$~$name ahora puede $privilege",
-                "removed": "$~$name ya no puede acceder a este proyecto"
+                "removed": "$~$name ya no puede acceder a este proyecto",
+                "thread": "$~$#count[Hilo del mensaje de $name, $count respuesta|Hilo del mensaje de $name, $count respuestas|Hilo del mensaje de $name, $count respuestas]",
+                "reacted": "$~$#count[$emoji en este mensaje, $count persona|$emoji en este mensaje, $count personas|$emoji en este mensaje, $count personas]",
+                "unreacted": "$~$#count[Se quitó $emoji, $count persona se fue|Se quitó $emoji, $count personas se fueron|Se quitó $emoji, $count personas se fueron]",
+                "attached": "$~Hablando sobre $location.",
+                "found": "$~$name dijo $opening"
             },
             "table": {
                 "label": "$~quién puede acceder a este proyecto",
                 "choose": "$~qué puede hacer $name",
                 "adding": "$~qué puede hacer",
-                "audience": "$~quién puede ver este chat"
+                "audience": "$~quién puede ver este chat",
+                "add": "$~agregar a alguien",
+                "cancel": "$~ya no agregar a alguien"
             },
-            "prompt": "$~agregar colaboradoras, comentaristas y espectadoras"
+            "prompt": "$~agregar colaboradoras, comentaristas y espectadoras",
+            "thread": {
+                "reply": "$~responder",
+                "replies": "$~$#count[$#count respuesta|$count respuestas|$count respuestas]",
+                "unseen": "$~$#count[$#count respuesta nueva|$count respuestas nuevas|$count respuestas nuevas]",
+                "header": "$~Hilo",
+                "back": "$~volver a la conversación",
+                "empty": "$~Aún no hay respuestas. ¡Di algo!",
+                "placeholder": "$~Responder…"
+            },
+            "reaction": {
+                "add": "$~reaccionar",
+                "more": "$~más…",
+                "label": "$~Elige una reacción",
+                "full": "$~Este mensaje ya tiene todas las reacciones que puede tener.",
+                "close": "$~cerrar las reacciones",
+                "pick": "$~reaccionar con $emoji",
+                "give": "$~$#count[agrega tu $emoji — $count persona lo tiene|agrega tu $emoji — $count personas lo tienen|agrega tu $emoji — $count personas lo tienen]",
+                "take": "$~$#count[quita tu $emoji — $count persona lo tiene|quita tu $emoji — $count personas lo tienen|quita tu $emoji — $count personas lo tienen]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~dejar de hablar sobre este código",
+                    "off": "$~hablar sobre el código donde está mi cursor"
+                },
+                "prompt": "$~Tu mensaje es sobre $location.",
+                "line": "$~línea $line",
+                "lines": "$~líneas $first–$last",
+                "label": "$~sobre $location: $code",
+                "invalid": "$~este código ya no existe",
+                "marker": "$~$#count[lee el mensaje sobre este código|lee los $#count mensajes sobre este código|lee los $count mensajes sobre este código]"
+            }
         },
         "checkpoints": {
             "label": {

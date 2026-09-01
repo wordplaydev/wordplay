@@ -8,17 +8,20 @@
     import Names from '@nodes/Names';
     import type Node from '@nodes/Node';
     import Root from '@nodes/Root';
+    import Token from '@nodes/Token';
     import Source from '@nodes/Source';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import Spaces from '@parser/Spaces';
     import { EMOJI_SYMBOL } from '@parser/Symbols';
     import { SvelteSet } from 'svelte/reactivity';
-    import { writable } from 'svelte/store';
+    import { get, writable } from 'svelte/store';
     import FormattedLiteral from '@nodes/FormattedLiteral';
     import TextLiteral from '@nodes/TextLiteral';
     import {
+        getReferencedMessages,
         setCaret,
         setHidden,
+        setLineMarkers,
         setLocalize,
         setRoot,
         setShowLines,
@@ -319,12 +322,63 @@
     let lineDigits = $derived(
         spaces?.getLastLineNumber().toString().length ?? 3,
     );
+
+    /** Which lines carry a gutter marker. Kept here rather than in NodeView
+     *  because only this view has the whole source's spaces, and NodeView
+     *  renders one space run at a time and cannot see the line it begins in
+     *  relation to any other. Absent outside a project view — a documentation
+     *  example has no conversation about it. */
+    const referencedMessages = getReferencedMessages();
+    const lineMarkers = writable(new Map<number, string[]>());
+    setLineMarkers(lineMarkers);
+    $effect(() => {
+        const messages = referencedMessages ? $referencedMessages : undefined;
+        const lines = new Map<number, string[]>();
+        if (messages !== undefined && spaces !== undefined) {
+            for (const [node, ids] of messages) {
+                const first = node.getFirstLeaf();
+                const line =
+                    first instanceof Token
+                        ? spaces.getLineNumber(first)
+                        : undefined;
+                if (line === undefined) continue;
+                const existing = lines.get(line);
+                if (existing) existing.push(...ids);
+                else lines.set(line, [...ids]);
+            }
+        }
+        // Only when it actually differs. Every NodeView reads this store, so a
+        // set is the same fan-out Highlights.equals exists to avoid — and
+        // unlike the node-keyed map upstream, this one is keyed by line number
+        // and message id, both of which survive the reparse that rebuilds every
+        // node. So on an ordinary keystroke it really is unchanged.
+        if (!sameMarkers(get(lineMarkers), lines)) lineMarkers.set(lines);
+    });
+
+    function sameMarkers(
+        a: Map<number, string[]>,
+        b: Map<number, string[]>,
+    ): boolean {
+        if (a.size !== b.size) return false;
+        for (const [line, ids] of a) {
+            const other = b.get(line);
+            if (other === undefined || other.length !== ids.length)
+                return false;
+            for (let i = 0; i < ids.length; i++)
+                if (ids[i] !== other[i]) return false;
+        }
+        return true;
+    }
+
+    /** Reserve the marker column only when something is in it, so a source
+     *  nobody has said anything about indents exactly as it always did. */
+    let markerColumn = $derived($lineMarkers.size > 0 ? 1 : 0);
 </script>
 
 {#if inline}
     <span
         class="root inline"
-        style="--line-count: {lineDigits}"
+        style="--line-count: {lineDigits}; --marker-column: {markerColumn}"
         class:inert
         class:elide
         class:wrap
@@ -336,7 +390,7 @@
 {:else}
     <code
         class="root"
-        style="--line-count: {lineDigits}"
+        style="--line-count: {lineDigits}; --marker-column: {markerColumn}"
         class:inert
         class:elide
         class:wrap

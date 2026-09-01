@@ -90,6 +90,7 @@
         getEvaluation,
         getKeyboardEditIdle,
         getProjectCommandContext,
+        getLinkedNode,
         getResetKeyboardIdle,
         getSelectedOutput,
         setCaret,
@@ -646,6 +647,7 @@
     const resetKeyboardIdle = getResetKeyboardIdle();
     const editors = getEditors();
     const emphasizedConflict = getEmphasizedConflict();
+    const linkedNode = getLinkedNode();
 
     /** Get the concept index context */
     const indexContext = getConceptIndex();
@@ -3526,6 +3528,17 @@
         untrack(() => revealNode(node));
     });
 
+    // Reference slice: the code the message being written is about (#820). One
+    // node, only while somebody is writing about it — the sent references are
+    // marked in the gutter instead, since an outline per message overlapped
+    // itself and led nowhere back to the conversation.
+    let referenceHighlights = $derived.by(() => {
+        const slice = new Highlights();
+        const node = linkedNode ? $linkedNode : undefined;
+        if (node !== undefined) slice.add(source, node, 'referenced');
+        return slice;
+    });
+
     // Merge the slices and publish only when the result actually changed.
     // Skipping the store set on no-op caret moves prevents updateOutlines, the
     // scroll effect, and every NodeView's highlight derived from re-running.
@@ -3535,6 +3548,7 @@
             caretHighlights,
             dragHighlights,
             attentionHighlights,
+            referenceHighlights,
         );
         const current = untrack(() => get(highlights));
         if (!current.equals(newHighlights)) highlights.set(newHighlights);

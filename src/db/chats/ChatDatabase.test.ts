@@ -105,7 +105,11 @@ import {
     setDoc,
     updateDoc,
 } from 'firebase/firestore';
-import Chat, { ChatDatabase, upgradeChat } from './ChatDatabase.svelte';
+import Chat, {
+    ChatDatabase,
+    MAX_REACTIONS_PER_MESSAGE,
+    upgradeChat,
+} from './ChatDatabase.svelte';
 
 function makeChat(
     overrides: Partial<SerializedChat> = {},
@@ -209,6 +213,44 @@ describe('ChatDatabase granular message operations', () => {
                 elements: SerializedMessage[];
             };
             expect(elements[0].language).toBeUndefined();
+        });
+
+        it('carries a reply parent and a code reference when given', async () => {
+            const chat = makeChat();
+
+            await db.addMessage(chat, 'this bit', undefined, 'root-1', {
+                source: 0,
+                path: [{ type: 'Program', index: 1 }],
+                code: '1 + 1',
+            });
+
+            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            const { elements } = (data as { messages: unknown }).messages as {
+                elements: SerializedMessage[];
+            };
+            expect(elements[0]).toMatchObject({
+                replyTo: 'root-1',
+                reference: {
+                    source: 0,
+                    path: [{ type: 'Program', index: 1 }],
+                    code: '1 + 1',
+                },
+            });
+        });
+
+        it('leaves the reply and reference fields unset for an ordinary send', async () => {
+            const chat = makeChat();
+
+            await db.addMessage(chat, 'hello world', undefined);
+
+            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            const { elements } = (data as { messages: unknown }).messages as {
+                elements: SerializedMessage[];
+            };
+            expect(elements[0].replyTo).toBeUndefined();
+            expect(elements[0].reference).toBeUndefined();
         });
     });
 
@@ -428,6 +470,151 @@ describe('ChatDatabase granular message operations', () => {
                 vi.fn(),
             );
             expect(typeof unsub).toBe('function');
+        });
+    });
+
+    describe('toggleReaction', () => {
+        /** Let the transaction settle. The reaction write is deliberately not
+         *  awaited — an announcement that waits for the network never comes —
+         *  so the assertion has to wait for it rather than the caller. */
+        const settled = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+        /** The conversation the transaction will read back, holding one
+         *  message with whatever reactions the test needs. */
+        function readsMessage(message: SerializedMessage) {
+            transactionReadSnap = {
+                exists: () => true,
+                data: () => ({
+                    v: 3,
+                    moderation: {},
+                    project: 'project-1',
+                    participants: ['user-1', 'user-2'],
+                    messages: [message],
+                    unread: [],
+                    type: 'project',
+                }),
+            };
+        }
+
+        const message: SerializedMessage = {
+            id: 'm1',
+            time: 1000,
+            creator: 'user-2',
+            text: 'look at this',
+        };
+
+        it('adds the reacting creator to the emoji in a transaction', async () => {
+            readsMessage(message);
+
+            const added = db.toggleReaction(
+                makeChat({}, [message]),
+                message,
+                '👍',
+                true,
+            );
+            await settled();
+
+            expect(added).toBe(true);
+            const data = lastTransactionOps[0].data as {
+                messages: SerializedMessage[];
+            };
+            expect(data.messages[0].reactions).toEqual({ '👍': ['user-1'] });
+        });
+
+        it('drops an emoji nobody is left choosing', async () => {
+            const reacted = { ...message, reactions: { '👍': ['user-1'] } };
+            readsMessage(reacted);
+
+            db.toggleReaction(makeChat({}, [reacted]), reacted, '👍', false);
+            await settled();
+
+            // The emoji goes rather than being left as an empty list, and with
+            // the last emoji gone the field goes too, so an abandoned reaction
+            // doesn't sit in the document forever.
+            const data = lastTransactionOps[0].data as {
+                messages: SerializedMessage[];
+            };
+            expect(data.messages[0].reactions).toBeUndefined();
+        });
+
+        it('keeps other creators reacting when one takes theirs back', async () => {
+            const reacted = {
+                ...message,
+                reactions: { '👍': ['user-1', 'user-2'] },
+            };
+            readsMessage(reacted);
+
+            db.toggleReaction(makeChat({}, [reacted]), reacted, '👍', false);
+            await settled();
+
+            const data = lastTransactionOps[0].data as {
+                messages: SerializedMessage[];
+            };
+            expect(data.messages[0].reactions).toEqual({ '👍': ['user-2'] });
+        });
+
+        it('stores a reaction under its bare codepoints', async () => {
+            readsMessage(message);
+
+            // ❤️ carries U+FE0F. A presentation selector says how a glyph is
+            // drawn, not which glyph it is, so keying on it would give ❤ and
+            // ❤️ one count each — and which one someone sent would depend on
+            // whether they used the quick row or the chooser.
+            db.toggleReaction(makeChat({}, [message]), message, '❤️', true);
+            await settled();
+
+            const data = lastTransactionOps[0].data as {
+                messages: SerializedMessage[];
+            };
+            expect(Object.keys(data.messages[0].reactions ?? {})).toEqual([
+                '❤',
+            ]);
+        });
+
+        it('refuses a new emoji past the cap, and says so', async () => {
+            // Full of distinct emoji, none of them the one being added.
+            const reactions = Object.fromEntries(
+                Array.from({ length: MAX_REACTIONS_PER_MESSAGE }, (_, i) => [
+                    String.fromCodePoint(0x1f600 + i),
+                    ['user-2'],
+                ]),
+            );
+            const full = { ...message, reactions };
+            readsMessage(full);
+
+            const added = db.toggleReaction(
+                makeChat({}, [full]),
+                full,
+                '🎉',
+                true,
+            );
+            await settled();
+
+            // Refused rather than silently ignored, so the caller can say why,
+            // and nothing was written.
+            expect(added).toBe(false);
+            expect(lastTransactionOps).toHaveLength(0);
+        });
+
+        it('still lets a creator join an emoji the message already has when full', async () => {
+            const reactions = Object.fromEntries(
+                Array.from({ length: MAX_REACTIONS_PER_MESSAGE }, (_, i) => [
+                    String.fromCodePoint(0x1f600 + i),
+                    ['user-2'],
+                ]),
+            );
+            const full = { ...message, reactions };
+            readsMessage(full);
+
+            const added = db.toggleReaction(
+                makeChat({}, [full]),
+                full,
+                '😀',
+                true,
+            );
+            await settled();
+
+            expect(added).toBe(true);
         });
     });
 
@@ -715,6 +902,75 @@ describe('upgradeChat (upgrade-on-load)', () => {
             unread: [],
             type: 'project',
             language: 'en-US',
+        };
+        expect(upgradeChat(v3)).toEqual(v3);
+    });
+
+    // `replyTo`, `reactions`, and `reference` were added to v3 in place for the
+    // same reason `language` was. The v2 branch rebuilds each message field by
+    // field, so a field it doesn't name is stripped on every read of a document
+    // the migration hasn't reached — which would lose a reply's parent, all of
+    // a message's reactions, and the code it is about, silently.
+    it('carries replies, reactions, and references off a v2 doc', () => {
+        const upgraded = upgradeChat({
+            v: 2,
+            project: 'p1',
+            participants: ['u1'],
+            messages: [
+                { id: 'root', time: 1, creator: 'u1', text: 'look here' },
+                {
+                    id: 'm1',
+                    time: 2,
+                    creator: 'u2',
+                    text: 'agreed',
+                    replyTo: 'root',
+                    reactions: { '👍': ['u1'] },
+                    reference: {
+                        source: 0,
+                        path: [{ type: 'Program', index: 1 }],
+                        code: '1 + 1',
+                    },
+                },
+            ],
+            unread: [],
+            type: 'project',
+        });
+
+        expect(upgraded.messages[1]).toMatchObject({
+            replyTo: 'root',
+            reactions: { '👍': ['u1'] },
+            reference: {
+                source: 0,
+                path: [{ type: 'Program', index: 1 }],
+                code: '1 + 1',
+            },
+        });
+    });
+
+    it('a v3 doc carries its replies, reactions, and references unchanged', () => {
+        const v3: SerializedChat = {
+            v: 3,
+            project: 'p1',
+            participants: ['u1'],
+            messages: [
+                { id: 'root', time: 1, creator: 'u1', text: 'look here' },
+                {
+                    id: 'm1',
+                    time: 2,
+                    creator: 'u2',
+                    text: 'agreed',
+                    replyTo: 'root',
+                    reactions: { '👍': ['u1'] },
+                    reference: {
+                        source: 0,
+                        path: [{ type: 'Program', index: 1 }],
+                        code: '1 + 1',
+                    },
+                },
+            ],
+            moderation: {},
+            unread: [],
+            type: 'project',
         };
         expect(upgradeChat(v3)).toEqual(v3);
     });

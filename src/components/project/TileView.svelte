@@ -686,9 +686,21 @@
         flex-shrink: 0;
         /** Dim the header a bit so that they don't demand so much attention */
         opacity: 0.8;
+        transition: opacity calc(var(--animation-factor) * 200ms) ease-out;
 
         border-block-end: solid var(--wordplay-border-color)
             var(--wordplay-border-width);
+    }
+
+    /* Never dim something being interacted with. The 0.8 above composites
+       everything inside the header, focus ring included: it turned a focused
+       button's white label into #cccccc and the focus blue into #2652c4, which
+       axe measured at 4.23:1 against AA's 4.5. Undimmed the same pair clears
+       it, and a header you are working in has earned the attention the dimming
+       was withholding. */
+    .header:focus-within,
+    .subtoolbar:focus-within {
+        opacity: 1;
     }
 
     .subtoolbar {

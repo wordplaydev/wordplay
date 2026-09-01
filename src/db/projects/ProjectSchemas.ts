@@ -13,8 +13,10 @@
 import { z } from 'zod';
 import { ModerationStateSchema } from './Moderation';
 
-/** Schema for the cursor position path */
-const PathSchema = z.array(
+/** Schema for the cursor position path. Exported because a chat message's code
+ *  reference addresses a node the same way a node caret does, and restating the
+ *  shape there would let the two drift. */
+export const PathSchema = z.array(
     z.object({ type: z.string(), index: z.number().min(0) }),
 );
 

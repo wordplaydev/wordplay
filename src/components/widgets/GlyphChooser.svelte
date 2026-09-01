@@ -91,9 +91,9 @@
     import type { SupportedLocale } from '@locale/SupportedLocales';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { withColorEmoji, withMonoEmoji } from '@unicode/emoji';
+    import { localizedGlyphName } from '@unicode/glyphName';
     import { buildGlyphSearch } from '@unicode/glyphSearch';
     import {
-        codepointKey,
         getCodepoints,
         getGlyphNames,
         type Codepoint,
@@ -291,22 +291,16 @@
         return VisibleCategories.findIndex((cat) => cat.endsWith(`-${group}`));
     }
 
-    /** Display name for a codepoint, preferring the user's primary selected
-     * locale's CLDR translation, then any other selected locale that has
-     * loaded data. Returns an empty string when no locale has an entry —
-     * codepoints without translations (non-emoji glyphs, or emojis whose
-     * locale data hasn't loaded yet) get an unlabeled tooltip. */
+    /** Display name for a codepoint. The rule lives in
+     * {@link localizedGlyphName} so a reaction pill elsewhere can name its
+     * emoji the same way. */
     function localizedNameFor(hex: number[]): string {
-        const key = codepointKey(hex);
-        const maps = $emojiMaps;
-        for (const localeCode of selectedLocaleCodes) {
-            const entry = maps[localeCode]?.[key];
-            if (entry && entry.length > 0) return entry[0];
-        }
-        // Non-emoji glyphs fall back to the English Unicode/Unihan name.
-        const named = glyphNames?.get(key);
-        if (named && named.length > 0) return named[0];
-        return '';
+        return localizedGlyphName(
+            hex,
+            selectedLocaleCodes,
+            $emojiMaps,
+            glyphNames,
+        );
     }
 
     /** A debounced copy of the query, so search runs after typing settles. */

@@ -7,7 +7,7 @@ import { waitForDocumentUpdate } from '../helpers/firestore';
  *
  * Its inline start is the field's *right* edge, and the one field that puts its
  * message beside itself puts it on the other side. Both were wrong until this
- * existed: `.focused .message.inline` sets `inset-inline-start: 100%`, which in
+ * existed: `.message.inline` sets `inset-inline-start: 100%`, which in
  * RTL is `right: 100%`, and with that and a JS-set `left` both applied the box
  * collapsed to eighteen pixels and slid off the screen — while every assertion
  * about which side it was on still passed.
@@ -37,6 +37,13 @@ async function measure(page: import('@playwright/test').Page, id: string) {
         const fr = f.getBoundingClientRect();
         const mr = m.getBoundingClientRect();
         // Anything painting over the message shows up at one of these points.
+        // The message is `pointer-events: none` in normal use — it outlives the
+        // focus that raised it, so it must never swallow a press meant for what
+        // is under it — which also takes it out of hit testing. Opt back in for
+        // the probe, since paint order is what is being measured, not hit
+        // order.
+        const pointerEvents = m.style.pointerEvents;
+        m.style.pointerEvents = 'auto';
         const over = new Set<string>();
         for (const dx of [8, mr.width / 2, mr.width - 8])
             for (const dy of [6, mr.height / 2, mr.height - 6]) {
@@ -46,6 +53,7 @@ async function measure(page: import('@playwright/test').Page, id: string) {
                 ) as HTMLElement | null;
                 if (el && el !== m && !m.contains(el)) over.add(el.tagName);
             }
+        m.style.pointerEvents = pointerEvents;
         return {
             direction: getComputedStyle(f).direction,
             fieldLeft: Math.round(fr.left),

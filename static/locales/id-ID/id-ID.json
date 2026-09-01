@@ -8808,12 +8808,17 @@
                 "collaborate": "$~Semua orang yang bisa membuka proyek ini ada dalam daftar ini, dan kamu bisa *mengobrol* dengan orang-orang yang diizinkan. Hanya /pemilik/, /kolaborator/, dan /pengomentar/ yang bisa melihat obrolan.",
                 "collaborators": "$~Setiap orang punya satu /hak akses/. *Berkolaborasi* berarti mereka bisa menyunting proyek dan mengobrol tentangnya. *Berkomentar* berarti mereka bisa mengobrol tapi tidak bisa menyunting. *Melihat* berarti mereka hanya bisa melihat, bukan mengobrol. *Pemilik* menyerahkan proyek ini pada mereka. /Pengelola/ galeri selalu bisa membukanya, jadi kamu tidak bisa mengubah hak akses mereka.",
                 "restrict": "$~Saat sebuah proyek berada di *galeri*, secara default *semua orang* yang dapat melihat galeri dapat melihat proyek Anda. Tombol /restrict/ *menyembunyikannya* dari semua orang kecuali Anda dan kurator galeri.",
-                "add": "$~Ketik *email* atau *nama pengguna* seseorang, pilih apa yang boleh mereka lakukan, dan mereka akan masuk ke daftar."
+                "add": "$~Tekan tanda *+* di akhir daftar untuk menambahkan seseorang. Ketik *email* atau *nama pengguna* mereka, pilih apa yang boleh mereka lakukan, dan mereka akan bergabung ke daftar."
             },
             "announce": {
                 "transferred": "$~$name sekarang menjadi pemilik $project",
                 "privilege": "$~$name sekarang bisa $privilege",
-                "removed": "$~$name tidak bisa lagi membuka proyek ini"
+                "removed": "$~$name tidak bisa lagi membuka proyek ini",
+                "thread": "$~$#count[Utas pada pesan $name, $count balasan]",
+                "reacted": "$~$#count[$emoji pada pesan ini, $count orang]",
+                "unreacted": "$~$#count[Membatalkan $emoji, $count orang berhenti]",
+                "attached": "$~Sedang membahas $location.",
+                "found": "$~$name berkata $opening"
             },
             "translate": {
                 "label": "$~Terjemahkan pesan ke",
@@ -8828,16 +8833,48 @@
                 "downloading": "$~Mengambil penerjemah $language untuk peramban Anda…",
                 "onDevice": "$~Peramban Anda menerjemahkan ini di perangkat Anda, jadi tidak ada pesan yang dikirim ke kami.",
                 "none": "$~Jangan diterjemahkan",
-                "dismiss": "$~tutup",
-                "nothing": "$~Tidak ada apa pun di sini untuk diterjemahkan ke $to. Kami tidak pernah menerjemahkan pesanmu sendiri."
+                "dismiss": "$~tutup"
             },
             "table": {
                 "label": "$~siapa saja yang bisa membuka proyek ini",
                 "choose": "$~apa yang bisa dilakukan $name",
                 "adding": "$~apa yang bisa mereka lakukan",
-                "audience": "$~siapa saja yang bisa melihat obrolan ini"
+                "audience": "$~siapa saja yang bisa melihat obrolan ini",
+                "add": "$~tambahkan seseorang",
+                "cancel": "$~batalkan penambahan seseorang"
             },
-            "prompt": "$~Tambahkan kolaborator, pengomentar, dan penonton"
+            "prompt": "$~Tambahkan kolaborator, pengomentar, dan penonton",
+            "thread": {
+                "reply": "$~balas",
+                "replies": "$~$#count[$count balasan]",
+                "unseen": "$~$#count[$count balasan baru]",
+                "header": "$~Utas",
+                "back": "$~kembali ke percakapan",
+                "empty": "$~Belum ada balasan. Katakan sesuatu!",
+                "placeholder": "$~Balas…"
+            },
+            "reaction": {
+                "add": "$~beri reaksi",
+                "more": "$~lainnya…",
+                "label": "$~Pilih sebuah reaksi",
+                "full": "$~Pesan ini sudah memiliki semua reaksi yang bisa ditampung.",
+                "close": "$~tutup daftar reaksi",
+                "pick": "$~beri reaksi dengan $emoji",
+                "give": "$~$#count[tambahkan $emoji milikmu — $count orang sudah melakukannya]",
+                "take": "$~$#count[batalkan $emoji milikmu — $count orang memilikinya]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~berhenti membahas kode ini",
+                    "off": "$~bahas kode di tempat kursor saya berada"
+                },
+                "prompt": "$~Pesanmu tentang $location.",
+                "line": "$~baris $line",
+                "lines": "$~baris $first–$last",
+                "label": "$~tentang $location: $code",
+                "invalid": "$~kode ini sudah hilang",
+                "marker": "$~$#count[baca $count pesan tentang kode ini]"
+            }
         },
         "palette": {
             "label": "$~palet",

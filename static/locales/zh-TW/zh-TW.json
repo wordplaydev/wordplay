@@ -9875,12 +9875,17 @@
                 "collaborate": "$~這裡列出所有能存取這個工程的人，你可以和有權限的人*聊天*。只有／擁有者／、／合作者／和／留言者／可以看到聊天內容。",
                 "collaborators": "$~每個人都有一種／權限／。*共同編輯*表示他能編輯這個工程並參與聊天。*留言*表示他能聊天但不能編輯。*檢視*表示他只能看，不能聊天。*擁有者*則會把這個工程交給他。作品集（Gallery）的／策劃者／一定能存取它，所以你無法更改他們的權限。",
                 "restrict": "$~當工程在 *作品集* 裡時，預設 *所有* 能看到作品集的人都能看到你的工程。/限制/ 開關會把它從所有人 *隱藏*，只留下你和作品集策展人。",
-                "add": "$~輸入某人的*電子郵件*或*使用者名稱*，選擇他能做什麼，他就會加入這份清單。"
+                "add": "$~按一下清單最後的 *+*，來新增一個人。輸入他的 *email* 或 *使用者名稱*，選擇他能做什麼，他就會加入清單。"
             },
             "announce": {
                 "transferred": "$~$name 現在是 $project 的擁有者",
                 "privilege": "$~$name 現在可以 $privilege 了",
-                "removed": "$~$name 已無法再存取這個工程"
+                "removed": "$~$name 已無法再存取這個工程",
+                "thread": "$~$#count[在 $name 的訊息串中，有 $count 則回覆]",
+                "reacted": "$~$#count[這則訊息有 $emoji，共 $count 人]",
+                "unreacted": "$~$#count[收回了 $emoji，剩下 $count 人]",
+                "attached": "$~正在談論 $location。",
+                "found": "$~$name 說了 $opening"
             },
             "translate": {
                 "label": "$~將訊息翻譯成",
@@ -9895,16 +9900,48 @@
                 "downloading": "$~正在為你的瀏覽器取得 $language 翻譯功能……",
                 "onDevice": "$~你的瀏覽器在你的裝置上完成了這些翻譯，所以沒有任何訊息被傳送給我們。",
                 "none": "$~不要翻譯",
-                "dismiss": "$~關閉",
-                "nothing": "$~這裡沒有東西可以翻成 $to。我們不會翻譯你自己寫的訊息。"
+                "dismiss": "$~關閉"
             },
             "table": {
                 "label": "$~誰能存取這個工程",
                 "choose": "$~$name 能做什麼",
                 "adding": "$~他能做什麼",
-                "audience": "$~誰能看到這個聊天"
+                "audience": "$~誰能看到這個聊天",
+                "add": "$~新增一個人",
+                "cancel": "$~取消新增"
             },
-            "prompt": "$~新增合作者、留言者與檢視者"
+            "prompt": "$~新增合作者、留言者與檢視者",
+            "thread": {
+                "reply": "$~回覆",
+                "replies": "$~$#count[$count 則回覆]",
+                "unseen": "$~$#count[$count 則新回覆]",
+                "header": "$~討論串",
+                "back": "$~回到對話",
+                "empty": "$~還沒有回覆，說點什麼吧！",
+                "placeholder": "$~回覆……"
+            },
+            "reaction": {
+                "add": "$~回應",
+                "more": "$~更多……",
+                "label": "$~選擇一個回應",
+                "full": "$~這則訊息的回應已經滿了。",
+                "close": "$~關閉回應選單",
+                "pick": "$~用 $emoji 回應",
+                "give": "$~$#count[加上你的 $emoji — 已有 $count 人加了]",
+                "take": "$~$#count[收回你的 $emoji — 目前有 $count 人有它]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~停止討論這段程式碼",
+                    "off": "$~討論我遊標所在的程式碼"
+                },
+                "prompt": "$~你的訊息是關於 $location 的。",
+                "line": "$~第 $line 行",
+                "lines": "$~第 $first–$last 行",
+                "label": "$~關於 $location：$code",
+                "invalid": "$~這段程式碼已經不見了",
+                "marker": "$~$#count[閱讀這段程式碼的 $count 則訊息]"
+            }
         },
         "checkpoints": {
             "label": {

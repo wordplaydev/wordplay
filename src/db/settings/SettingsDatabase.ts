@@ -34,6 +34,10 @@ import {
     type ProjectFolders,
 } from '@db/settings/ProjectFoldersSetting';
 import { ToursSetting, type ToursTaken } from '@db/settings/ToursSetting';
+import {
+    ChatThreadsSetting,
+    type ChatThreadsSeen,
+} from '@db/settings/ChatThreadsSetting';
 import type { TourID } from '@components/project/tours';
 import {
     ProjectSortSetting,
@@ -161,8 +165,23 @@ export type SettingsSchemaV7 = Omit<SettingsSchemaV6, 'v'> & {
     tours?: ToursTaken;
 };
 
-export type SettingsSchema = SettingsSchemaV7;
-const SettingsSchemaLatestVersion = 7;
+/**
+ * v8 adds how much of each chat thread the creator has already read, so the
+ * "new replies" marker means the same thing on every device they use.
+ *
+ * Optional for the same reason the v6 and v7 fields are: a v7 document
+ * genuinely lacks it, and filling in a default during the upgrade would let the
+ * first sync after this ships mark every thread unread on a device where they
+ * had read them.
+ */
+export type SettingsSchemaV8 = Omit<SettingsSchemaV7, 'v'> & {
+    v: 8;
+    /** How many replies each thread had when this creator last read it. */
+    chatThreads?: ChatThreadsSeen;
+};
+
+export type SettingsSchema = SettingsSchemaV8;
+const SettingsSchemaLatestVersion = 8;
 
 type SettingsSchemaUnknown =
     | SettingsSchemaV1
@@ -171,6 +190,7 @@ type SettingsSchemaUnknown =
     | SettingsSchemaV4
     | SettingsSchemaV5
     | SettingsSchemaV6
+    | SettingsSchemaV7
     | SettingsSchema;
 
 function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
@@ -212,6 +232,10 @@ function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
             // v6→v7: nothing to fill in, for the same reason as v5→v6 — an
             // absent `tours` means "unknown", not "none taken".
             return upgradeSettings({ ...settings, v: 7 });
+        case 7:
+            // v7→v8: nothing to fill in either — an absent `chatThreads` means
+            // "unknown", not "has read nothing".
+            return upgradeSettings({ ...settings, v: 8 });
         case SettingsSchemaLatestVersion:
             return settings;
         default:
@@ -263,6 +287,7 @@ export default class SettingsDatabase {
         projectFolders: ProjectFoldersSetting,
         projectSort: ProjectSortSetting,
         tours: ToursSetting,
+        chatThreads: ChatThreadsSetting,
     };
 
     constructor(database: Database, locales: SupportedLocale[]) {
@@ -353,6 +378,8 @@ export default class SettingsDatabase {
                 this.settings.space.set(this.database, data.space);
             if (data.tours !== undefined)
                 this.settings.tours.set(this.database, data.tours);
+            if (data.chatThreads !== undefined)
+                this.settings.chatThreads.set(this.database, data.chatThreads);
         }
     }
 
@@ -394,6 +421,24 @@ export default class SettingsDatabase {
         const taken = this.getToursTaken();
         if (taken.includes(id)) return;
         this.settings.tours.set(this.database, [...taken, id]);
+    }
+
+    /** How many replies a thread had when this creator last read it, or zero
+     *  for one they have never opened. */
+    getThreadRepliesSeen(chat: string, root: string): number {
+        return this.settings.chatThreads.get()[chat]?.[root] ?? 0;
+    }
+
+    /** Remember that this creator has now seen a thread's replies. Only ever
+     *  moves forward: reading an older copy of a conversation shouldn't
+     *  re-announce replies they have already read. */
+    markThreadRead(chat: string, root: string, replies: number) {
+        const seen = this.settings.chatThreads.get();
+        if ((seen[chat]?.[root] ?? 0) >= replies) return;
+        this.settings.chatThreads.set(this.database, {
+            ...seen,
+            [chat]: { ...(seen[chat] ?? {}), [root]: replies },
+        });
     }
 
     /** The creator's project folders, by ID. */
@@ -766,6 +811,7 @@ export default class SettingsDatabase {
             projectFolders: this.settings.projectFolders.get(),
             projectSort: this.settings.projectSort.get(),
             tours: this.settings.tours.get(),
+            chatThreads: this.settings.chatThreads.get(),
             face: this.settings.face.get(),
             lines: this.settings.lines.get(),
             wrap: this.settings.wrap.get(),

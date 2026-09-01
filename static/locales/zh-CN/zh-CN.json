@@ -9864,12 +9864,17 @@
                 "collaborate": "$~能访问这个项目的人都列在这里，你可以和有权限的人 *聊天*。只有 /所有者/、/协作者/ 和 /评论者/ 能看到聊天内容。",
                 "collaborators": "$~每个人都有一种 /权限/。*协作* 表示他们可以编辑项目并聊天讨论。*评论* 表示他们可以聊天但不能编辑。*查看* 表示他们只能看不能聊天。*所有者* 会把项目交给他们。作品库的 /策展人/ 一直能访问它，所以你不能更改他们的权限。",
                 "restrict": "$~当一个项目在*作品库*里时，默认情况下*每个*能看到这个作品库的人都能看到你的项目。/限制/开关会把它对除你自己和作品库策展人以外的所有人*隐藏*起来。",
-                "add": "$~输入某人的 *电子邮箱* 或 *用户名*，选择他们能做什么，他们就会加入列表。"
+                "add": "$~按列表末尾的 *+* 来添加成员。输入对方的 *邮箱* 或 *用户名*，选好权限，对方就会加入列表。"
             },
             "announce": {
                 "transferred": "$~$name 现在是 $project 的所有者了",
                 "privilege": "$~$name 现在可以 $privilege 了",
-                "removed": "$~$name 不能再访问这个项目了"
+                "removed": "$~$name 不能再访问这个项目了",
+                "thread": "$~$#count[关于 $name 消息的话题，$count 条回复]",
+                "reacted": "$~$#count[这条消息有 $emoji，$count 人]",
+                "unreacted": "$~$#count[收回了 $emoji，$count 人留下]",
+                "attached": "$~正在讨论 $location。",
+                "found": "$~$name 说 $opening"
             },
             "translate": {
                 "label": "$~将信息翻译成",
@@ -9884,16 +9889,48 @@
                 "downloading": "$~正在为你的浏览器获取 $language 翻译器……",
                 "onDevice": "$~你的浏览器在你的设备上完成了翻译，因此没有信息发送给我们。",
                 "none": "$~不要翻译",
-                "dismiss": "$~关闭",
-                "nothing": "$~这里没有可以翻译成 $to 的内容。我们不会翻译你自己写的消息。"
+                "dismiss": "$~关闭"
             },
             "table": {
                 "label": "$~谁能访问这个项目",
                 "choose": "$~$name 能做什么",
                 "adding": "$~他们能做什么",
-                "audience": "$~谁能看到这个聊天"
+                "audience": "$~谁能看到这个聊天",
+                "add": "$~添加成员",
+                "cancel": "$~不添加了"
             },
-            "prompt": "$~添加协作者、评论者和查看者"
+            "prompt": "$~添加协作者、评论者和查看者",
+            "thread": {
+                "reply": "$~回复",
+                "replies": "$~$#count[$count 条回复]",
+                "unseen": "$~$#count[$count 条新回复]",
+                "header": "$~话题",
+                "back": "$~回到对话",
+                "empty": "$~还没有回复，来说点什么吧！",
+                "placeholder": "$~回复……"
+            },
+            "reaction": {
+                "add": "$~表态",
+                "more": "$~更多……",
+                "label": "$~选一个表情",
+                "full": "$~这条消息的表情已经满了。",
+                "close": "$~关闭表情列表",
+                "pick": "$~用 $emoji 表态",
+                "give": "$~$#count[加上你的 $emoji —— 已有 $count 人]",
+                "take": "$~$#count[收回你的 $emoji —— 还有 $count 人保留着]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~不再讨论这段代码",
+                    "off": "$~讨论光标所在的这段代码"
+                },
+                "prompt": "$~你的消息是关于 $location 的。",
+                "line": "$~第 $line 行",
+                "lines": "$~第 $first–$last 行",
+                "label": "$~关于 $location：$code",
+                "invalid": "$~这段代码已经不见了",
+                "marker": "$~$#count[阅读关于这段代码的 $count 条消息]"
+            }
         },
         "checkpoints": {
             "label": {

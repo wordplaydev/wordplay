@@ -4,6 +4,24 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.34.0 - 2026-09-01
+
+### Added
+
+- 💬 You can now reply to one message instead of to the whole conversation. Replies gather into a thread on the message they answer, and the count turns gold when some of them are new to you. (#821)
+- 👍 You can now react to a message with an emoji. Eight common ones are a single press away, and you can search for any other emoji you like. (#821)
+- 📎 You can now say which code you're talking about. Put your cursor in the code, press the 📎 beside the message box, and your message carries that line. You can send just the link, with no words at all. (#820)
+- 👥 Code somebody has talked about gets a 👥 in the margin beside it. Press it to read what was said. The link follows your program too: add lines above it and it still points at the same code, and if that code goes away the link says so instead of pointing somewhere wrong. (#820)
+
+### Changed
+
+- 🤝 The collaborate tile's list of people now fills the width of the tile, and the box for adding someone waits behind a **+** until you ask for it, so the list takes less room. The list no longer slides when you start writing a message; it just changes.
+- ✍️ The message box no longer offers the three buttons for marking up an example (⭐, 🪲, 👀). Those are for writing documentation, not for talking to your collaborators.
+
+### Fixed
+
+- 🐛 A button you'd moved to with the keyboard was dimmed along with the rest of the tile's header, which made the focus outline hard to see. A header you're working in is no longer dimmed.
+
 ## 0.33.1 - 2026-08-30
 
 ### Added

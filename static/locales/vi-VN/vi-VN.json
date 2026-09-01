@@ -8795,12 +8795,17 @@
                 "collaborate": "$~Mọi người có thể truy cập dự án này đều được liệt kê ở đây, và bạn có thể *trò chuyện* với những người được phép. Chỉ /chủ sở hữu/, /người hợp tác/, và /người bình luận/ mới xem được cuộc trò chuyện.",
                 "collaborators": "$~Mỗi người có một /quyền hạn/. *Hợp tác* nghĩa là họ có thể chỉnh sửa dự án và trò chuyện về nó. *Bình luận* nghĩa là họ có thể trò chuyện nhưng không chỉnh sửa. *Xem* nghĩa là họ chỉ có thể xem chứ không trò chuyện. *Chủ sở hữu* nghĩa là dự án được trao cho họ. /Người phụ trách/ của một phòng trưng bày luôn có thể truy cập dự án, nên bạn không thể thay đổi quyền của họ.",
                 "restrict": "$~Khi một dự án nằm trong *thư viện ảnh*, theo mặc định *mọi người* có thể xem thư viện đều có thể thấy dự án của bạn. Nút /restrict/ sẽ *ẩn* dự án đó khỏi mọi người ngoại trừ bạn và người quản lý thư viện.",
-                "add": "$~Nhập *email* hoặc *tên người dùng* của ai đó, chọn việc họ được làm, và họ sẽ được thêm vào danh sách."
+                "add": "$~Nhấn dấu *+* ở cuối danh sách để thêm ai đó. Nhập *email* hoặc *tên người dùng* của họ, chọn quyền họ có, rồi họ sẽ vào danh sách."
             },
             "announce": {
                 "transferred": "$~$name hiện là chủ sở hữu của $project",
                 "privilege": "$~$name giờ có thể $privilege",
-                "removed": "$~$name không còn truy cập được dự án này nữa"
+                "removed": "$~$name không còn truy cập được dự án này nữa",
+                "thread": "$~$#count[Chuỗi trả lời cho tin nhắn của $name, $count phản hồi]",
+                "reacted": "$~$#count[$emoji trên tin nhắn này, $count người]",
+                "unreacted": "$~$#count[Đã thu hồi $emoji, $count người rời đi]",
+                "attached": "$~Đang nói về $location.",
+                "found": "$~$name đã nói $opening"
             },
             "translate": {
                 "label": "$~Dịch tin nhắn sang",
@@ -8815,16 +8820,48 @@
                 "downloading": "$~Đang lấy bộ dịch $language cho trình duyệt của bạn…",
                 "onDevice": "$~Trình duyệt của bạn đã dịch những tin nhắn này ngay trên thiết bị của bạn, nên không có tin nhắn nào được gửi cho chúng tôi.",
                 "none": "$~Không dịch",
-                "dismiss": "$~bỏ qua",
-                "nothing": "$~Không có gì ở đây để dịch sang $to. Chúng tôi không bao giờ dịch các thông điệp của riêng bạn."
+                "dismiss": "$~bỏ qua"
             },
             "table": {
                 "label": "$~ai có thể truy cập dự án này",
                 "choose": "$~$name có thể làm gì",
                 "adding": "$~họ có thể làm gì",
-                "audience": "$~ai có thể xem cuộc trò chuyện này"
+                "audience": "$~ai có thể xem cuộc trò chuyện này",
+                "add": "$~thêm ai đó",
+                "cancel": "$~không thêm ai đó nữa"
             },
-            "prompt": "$~Thêm người hợp tác, người bình luận, và người xem"
+            "prompt": "$~Thêm người hợp tác, người bình luận, và người xem",
+            "thread": {
+                "reply": "$~trả lời",
+                "replies": "$~$#count[$count phản hồi]",
+                "unseen": "$~$#count[$count phản hồi mới]",
+                "header": "$~Chuỗi trả lời",
+                "back": "$~quay lại cuộc trò chuyện",
+                "empty": "$~Chưa có phản hồi nào. Hãy nói gì đó!",
+                "placeholder": "$~Trả lời…"
+            },
+            "reaction": {
+                "add": "$~bày tỏ cảm xúc",
+                "more": "$~thêm…",
+                "label": "$~Chọn một cảm xúc",
+                "full": "$~Tin nhắn này đã có đủ số cảm xúc có thể chứa.",
+                "close": "$~đóng bảng cảm xúc",
+                "pick": "$~bày tỏ cảm xúc bằng $emoji",
+                "give": "$~$#count[thêm $emoji của bạn — $count người đã có]",
+                "take": "$~$#count[thu hồi $emoji của bạn — $count người đang có]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~ngừng nói về đoạn mã số này",
+                    "off": "$~nói về đoạn mã số ở nơi con trỏ của tôi đang đứng"
+                },
+                "prompt": "$~Tin nhắn của bạn nói về $location.",
+                "line": "$~dòng $line",
+                "lines": "$~dòng $first–$last",
+                "label": "$~về $location: $code",
+                "invalid": "$~mã số này không còn nữa",
+                "marker": "$~$#count[đọc $count tin nhắn về mã số này]"
+            }
         },
         "palette": {
             "label": "$~bảng màu",

@@ -414,13 +414,43 @@ test('resolving a color needs no basis', () => {
  * exists to catch, just a small one. The bytes that do move are the three
  * files plus the tours' two new glossary terms and the tutorial's skip and
  * wait strings in en-US.json, which every page carries.
+ *
+ * Remembering which chat threads a creator has read (#821) is **+1 file** on
+ * every entry, and it is the settings-leaf case again: `ChatThreadsSetting.ts`
+ * imports only `Setting`, exactly like `ChatLanguageSetting` and `ToursSetting`
+ * above, and is reached through `SettingsDatabase`. Having read a thread is
+ * true of the person rather than the device, so it has to ride in the creator's
+ * settings for the "new replies" marker to mean anything on a second device.
+ * The reply, reaction, and code-reference *views* are not here and must not
+ * become so: they hang off `ChatView`, which none of these five reaches, and
+ * the two modules behind them (`chats/threads.ts`, `chat/chatAnnounce.ts`) are
+ * imported only from there.
+ *
+ * The bytes those two features move are text again, and text every page
+ * carries: the thread, reaction, and code-reference strings in en-US.json,
+ * plus the template-input declarations generated from them. That is +0.01MB
+ * on three of the five, and +0.02 on the layout and `Page.svelte`, which had
+ * the least slack.
+ *
+ * **The byte caps carry deliberate headroom, and did not used to.** They were
+ * last set to the then-exact reach of each entry, which sounds strict and is
+ * really a trap: what this test exists to catch is a new *dependency* — an
+ * import that drags the evaluator or colorjs.io onto a page that has no use for
+ * it, worth tenths of a megabyte — and a cap with no slack instead fails on a
+ * paragraph of explanation added to a shared widget. That happened twice in one
+ * change: a comment in `Contexts.ts` and then comments in `TextField` and
+ * `CreatorView`, all of them files every page reaches by design. So each cap is
+ * now the next round number above its entry, leaving a few kilobytes of room
+ * for prose while staying far below what a real leak costs. The file counts are
+ * unchanged and stay exact, since those *do* move one at a time and are the
+ * sharper signal.
  */
 test.each([
-    ['src/routes/+layout.svelte', 499, 3.63],
-    ['src/components/app/Page.svelte', 522, 3.88],
-    ['src/routes/[[locale]]/+page.svelte', 537, 3.97],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 541, 3.98],
-    ['src/routes/[[locale]]/projects/+page.svelte', 548, 4.0],
+    ['src/routes/+layout.svelte', 500, 3.66],
+    ['src/components/app/Page.svelte', 523, 3.91],
+    ['src/routes/[[locale]]/+page.svelte', 538, 3.99],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 542, 4.0],
+    ['src/routes/[[locale]]/projects/+page.svelte', 549, 4.03],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

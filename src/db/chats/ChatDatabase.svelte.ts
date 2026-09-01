@@ -36,12 +36,38 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import sendModerate from '@db/moderation/moderate';
 import sendReport from '@db/moderation/report';
+import { PathSchema } from '@db/projects/ProjectSchemas';
+import { withoutVariationSelectors } from '@unicode/emoji';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 
 ////////////////////////////////
 // SCHEMAS
 ////////////////////////////////
+
+/**
+ * A pointer from a message to a node in the project's code (#820).
+ *
+ * The `path` is the address and the `code` is what makes it trustworthy: a
+ * `Path` is a sequence of parent descriptors and child *indices*, so
+ * inserting a sibling above the referenced node shifts every later index and
+ * the path resolves to a different node rather than to nothing. Keeping the
+ * code the reference was made against is what lets `resolveReference` tell
+ * "still there", "moved", and "gone" apart. The line numbers a reader sees are
+ * derived from wherever the node is now, never stored, and a reference lasts as
+ * long as the message does — there is nothing to finish with, since taking the
+ * link off is what the toggle beside the message field is for.
+ */
+const CodeReferenceSchema = z.object({
+    /** Which of the project's sources, by index. */
+    source: z.number().min(0),
+    /** The path to the referenced node within that source. */
+    path: PathSchema,
+    /** What the node's code was when the reference was made. */
+    code: z.string(),
+});
+
+export type SerializedCodeReference = z.infer<typeof CodeReferenceSchema>;
 
 const MessageSchemaV1 = z.object({
     /** A UUID to help with identifying messages */
@@ -66,6 +92,14 @@ const MessageSchemaV1 = z.object({
      *  translation could never find a source language — the same reasoning the
      *  `moderation` map carries. */
     language: z.string().exactOptional(),
+    /** The message this one replies to, making a one-level thread (#821). Set
+     *  once when the message is sent and never changed. A reply to a reply
+     *  names the thread's root, not the reply. */
+    replyTo: z.string().exactOptional(),
+    /** Who reacted with what: emoji to the creator ids that chose it (#821). */
+    reactions: z.record(z.string(), z.array(z.string())).exactOptional(),
+    /** The code this message is about (#820). */
+    reference: CodeReferenceSchema.exactOptional(),
 });
 
 /**
@@ -96,7 +130,8 @@ const MessageSchemaV2 = MessageSchemaV1.extend(
  * unchanged without it — and a bump would have been actively harmful: a tab
  * still running the previous deploy reaches `upgradeChat`'s `default` branch,
  * which throws, so the first chat a newer client touched would stop loading
- * there. How-tos gained `flags` the same way.
+ * there. How-tos gained `flags` the same way, and so did `replyTo`,
+ * `reactions`, and `reference` (#821, #820).
  */
 const MessageSchemaV3 = MessageSchemaV1;
 
@@ -227,17 +262,32 @@ export function upgradeChat(
                     },
                     { ...moderationOf(chat) },
                 ),
-                // `language` comes along; only the moderation fields are
-                // dropped. A new client appends a tagged message to a chat that
-                // has not been migrated yet, so rebuilding without it would
-                // strip the tag on every read.
+                // `language`, `replyTo`, `reactions`, and `reference` all
+                // come along; only the moderation fields are dropped. A new
+                // client appends a message carrying them to a chat that has not
+                // been migrated yet, so rebuilding without them would strip a
+                // reply's parent, everyone's reactions, and the code a message
+                // is about on every read. Anything added to the message must be
+                // named here too.
                 messages: chat.messages.map(
-                    ({ id, time, creator, text, language }) => ({
+                    ({
+                        id,
+                        time,
+                        creator,
+                        text,
+                        language,
+                        replyTo,
+                        reactions,
+                        reference,
+                    }) => ({
                         id,
                         time,
                         creator,
                         text,
                         ...(language === undefined ? {} : { language }),
+                        ...(replyTo === undefined ? {} : { replyTo }),
+                        ...(reactions === undefined ? {} : { reactions }),
+                        ...(reference === undefined ? {} : { reference }),
                     }),
                 ),
             });
@@ -257,6 +307,14 @@ export function upgradeChat(
 // need to cap it.
 const MAX_CHAT_MESSAGES_BYTES = 131072;
 
+/** How many distinct emoji one message may collect.
+ *
+ *  A cap rather than none because every reaction adds a creator id to a
+ *  document the whole conversation shares, and a message with fifty emoji is
+ *  unreadable long before it is expensive. Twelve is more than any real
+ *  message uses and small enough to render in one row. */
+export const MAX_REACTIONS_PER_MESSAGE = 12;
+
 /** How much of one language's translations of one conversation we keep.
  *
  *  Deliberately the same number as the conversation's own text budget: a
@@ -268,6 +326,54 @@ const MAX_CHAT_MESSAGES_BYTES = 131072;
  *  own. */
 const MAX_CHAT_TRANSLATION_CHARACTERS = MAX_CHAT_MESSAGES_BYTES;
 
+/** Roughly how much of a chat's budget one message spends.
+ *
+ *  Counting only `text` was right when text was all a message carried; a
+ *  message now also carries a creator id per reaction and, sometimes, a copy of
+ *  the code it is about, and a budget blind to those would let a conversation
+ *  grow past what a Firestore document can hold while reporting itself as
+ *  small. The constants are the same order-of-magnitude estimates the text
+ *  count already is: a creator id is a 28-character uid plus the JSON around
+ *  it, and a path step is a descriptor and a number. */
+function messageSize(message: SerializedMessage): number {
+    let size = message.text?.length ?? 0;
+    for (const [emoji, uids] of Object.entries(message.reactions ?? {}))
+        size += emoji.length + uids.length * 40;
+    if (message.reference)
+        size +=
+            message.reference.code.length + message.reference.path.length * 24;
+    return size;
+}
+
+/**
+ * One creator's reaction added to or taken off a message.
+ *
+ * Extracted because both halves of a reaction need it and they must never
+ * disagree: {@link Chat.withReaction} is the optimistic local state the sender
+ * sees, and {@link ChatDatabase.toggleReaction}'s transaction is what is
+ * persisted. Written twice, a change to either alone gives a reaction that
+ * appears and then vanishes on the next snapshot, or one that saves invisibly.
+ *
+ * The emoji key is dropped when nobody is left choosing it, so an abandoned
+ * reaction doesn't sit in the document forever, and `reactions` itself is
+ * dropped when the last one goes, so a message that was never reacted to and
+ * one that was reacted to and un-reacted serialize alike.
+ */
+export function withReactionToggled(
+    message: SerializedMessage,
+    emoji: string,
+    creator: string,
+    on: boolean,
+): SerializedMessage {
+    const reactions = { ...(message.reactions ?? {}) };
+    const who = (reactions[emoji] ?? []).filter((uid) => uid !== creator);
+    if (on) who.push(creator);
+    if (who.length === 0) delete reactions[emoji];
+    else reactions[emoji] = who;
+    const { reactions: _, ...rest } = message;
+    return Object.keys(reactions).length === 0 ? rest : { ...rest, reactions };
+}
+
 /** An immutable wrapper class for accessing and manipulating chat data */
 export default class Chat {
     /** The data of the chat. */
@@ -278,19 +384,21 @@ export default class Chat {
 
         // We automatically trim the oldest chat messages if their text exceeds
         // the maximum size. We estimate about 2 bytes per codepoint, even
-        // though some are 1 and some are 4.
-        const textSize = data.messages.reduce(
-            (size, message) => size + (message.text?.length ?? 0),
+        // though some are 1 and some are 4 — and, since a message now also
+        // carries reactions and sometimes a copy of the code it is about,
+        // messageSize accounts for those too.
+        const messagesSize = data.messages.reduce(
+            (size, message) => size + messageSize(message),
             0,
         );
         let messages = data.messages;
-        if (textSize > MAX_CHAT_MESSAGES_BYTES) {
-            let newSize = textSize;
+        if (messagesSize > MAX_CHAT_MESSAGES_BYTES) {
+            let newSize = messagesSize;
             messages = [...messages];
             while (newSize > MAX_CHAT_MESSAGES_BYTES) {
                 const message = messages.shift();
                 if (message === undefined) break;
-                newSize -= message.text?.length ?? 0;
+                newSize -= messageSize(message);
             }
         }
 
@@ -378,6 +486,27 @@ export default class Chat {
             ...this.data,
             messages: this.data.messages.map((m) =>
                 m.id === message.id ? { ...m, text: null } : m,
+            ),
+        });
+    }
+
+    /** The message with this id, if the conversation still holds it. */
+    getMessage(id: string): SerializedMessage | undefined {
+        return this.data.messages.find((m) => m.id === id);
+    }
+
+    /** Who reacted with what to this message. */
+    getReactions(id: string): Record<string, string[]> {
+        return this.getMessage(id)?.reactions ?? {};
+    }
+
+    /** Add or remove one creator's reaction. The rule itself lives in
+     *  {@link withReactionToggled}, which the write path uses too. */
+    withReaction(id: string, emoji: string, creator: string, on: boolean) {
+        return new Chat({
+            ...this.data,
+            messages: this.data.messages.map((m) =>
+                m.id === id ? withReactionToggled(m, emoji, creator, on) : m,
             ),
         });
     }
@@ -794,6 +923,57 @@ export class ChatDatabase {
             strike: false,
             decision: `chat-${chat.getProjectID()}-${message.id}-${action}`,
         });
+    }
+
+    /**
+     * Turn one creator's reaction on or off (#821). Returns false when the
+     * message has already collected {@link MAX_REACTIONS_PER_MESSAGE} distinct
+     * emoji and this would be another, so the caller can say so rather than
+     * silently doing nothing.
+     *
+     * A transaction rather than an atomic field operation: a reaction edits an
+     * element of the `messages` array, and `arrayUnion`/`arrayRemove` match
+     * whole elements. This is the same read-modify-write `deleteMessage` uses,
+     * and it retries on contention, which is what two people reacting at once
+     * needs.
+     *
+     * The write is not awaited, for the reason `addMessage` doesn't await
+     * either: offline it doesn't settle, and the caller's job here is to say
+     * out loud what just happened. An announcement that waits for the network
+     * is an announcement that never comes.
+     */
+    toggleReaction(
+        chat: Chat,
+        message: SerializedMessage,
+        reaction: string,
+        on: boolean,
+    ): boolean {
+        const user = this.db.getUser()?.uid;
+        if (user === undefined) return false;
+
+        // The key is the bare codepoints. A presentation selector says how a
+        // glyph should be drawn, not which glyph it is, so ❤ and ❤️ would
+        // otherwise be two reactions with one count each — and which one a
+        // creator sent would depend on whether they used the quick row or the
+        // chooser. How it is drawn is decided where it is drawn.
+        const emoji = withoutVariationSelectors(reaction);
+
+        const existing = chat.getReactions(message.id);
+        if (
+            on &&
+            existing[emoji] === undefined &&
+            Object.keys(existing).length >= MAX_REACTIONS_PER_MESSAGE
+        )
+            return false;
+
+        this.chats.set(
+            chat.getProjectID(),
+            chat.withReaction(message.id, emoji, user, on),
+        );
+        this.modifyChatMessage(chat.getProjectID(), message.id, (m) =>
+            withReactionToggled(m, emoji, user, on),
+        );
+        return true;
     }
 
     /** Clear a message's text (soft delete that preserves the message slot). */
@@ -1252,6 +1432,12 @@ export class ChatDatabase {
         chat: Chat,
         message: string,
         language: string | undefined,
+        /** The thread this message joins, if any. Always a thread's root: a
+         *  reply to a reply belongs to the same conversation, and nesting is
+         *  what makes a thread unreadable. */
+        replyTo?: string,
+        /** The code this message is about, if any. */
+        reference?: SerializedCodeReference,
     ): Promise<SerializedMessage | undefined> {
         const user = this.db.getUser()?.uid;
         if (user === undefined) return;
@@ -1264,6 +1450,8 @@ export class ChatDatabase {
             // Only tag a language when the creator chose one; existing messages
             // and untagged sends leave the optional field unset.
             ...(language !== undefined ? { language } : {}),
+            ...(replyTo !== undefined ? { replyTo } : {}),
+            ...(reference !== undefined ? { reference } : {}),
         };
 
         // Optimistic local update so the sender sees their message immediately.
