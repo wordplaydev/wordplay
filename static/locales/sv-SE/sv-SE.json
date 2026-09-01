@@ -8298,9 +8298,19 @@
                         ]
                     },
                     "placement": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?", "$?"]
+                        "label": "$~scenens placering",
+                        "labels": [
+                            "$~uppe till vänster",
+                            "$~uppe till höger",
+                            "$~nere till vänster",
+                            "$~nere till höger"
+                        ],
+                        "tips": [
+                            "$~placera scenen uppe till vänster, och de andra rutorna på matchande platser runt den",
+                            "$~placera scenen uppe till höger, och de andra rutorna på matchande platser runt den",
+                            "$~placera scenen nere till vänster, och de andra rutorna på matchande platser runt den",
+                            "$~placera scenen nere till höger, och de andra rutorna på matchande platser runt den"
+                        ]
                     }
                 },
                 "options": {

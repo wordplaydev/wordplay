@@ -8548,9 +8548,19 @@
                         ]
                     },
                     "placement": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?", "$?"]
+                        "label": "$~colocação do palco",
+                        "labels": [
+                            "$~canto superior esquerdo",
+                            "$~canto superior direito",
+                            "$~canto inferior esquerdo",
+                            "$~canto inferior direito"
+                        ],
+                        "tips": [
+                            "$~colocar o palco no canto superior esquerdo, e os outros mosaicos em lugares correspondentes à sua volta",
+                            "$~colocar o palco no canto superior direito, e os outros mosaicos em lugares correspondentes à sua volta",
+                            "$~colocar o palco no canto inferior esquerdo, e os outros mosaicos em lugares correspondentes à sua volta",
+                            "$~colocar o palco no canto inferior direito, e os outros mosaicos em lugares correspondentes à sua volta"
+                        ]
                     }
                 },
                 "options": {

@@ -8563,9 +8563,19 @@
                         ]
                     },
                     "placement": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?", "$?"]
+                        "label": "$~plasarea scenei",
+                        "labels": [
+                            "$~sus stânga",
+                            "$~sus dreapta",
+                            "$~jos stânga",
+                            "$~jos dreapta"
+                        ],
+                        "tips": [
+                            "$~pune scena sus în stânga, și celelalte plăci în locuri asemănătoare în jurul ei",
+                            "$~pune scena sus în dreapta, și celelalte plăci în locuri asemănătoare în jurul ei",
+                            "$~pune scena jos în stânga, și celelalte plăci în locuri asemănătoare în jurul ei",
+                            "$~pune scena jos în dreapta, și celelalte plăci în locuri asemănătoare în jurul ei"
+                        ]
                     }
                 },
                 "options": {

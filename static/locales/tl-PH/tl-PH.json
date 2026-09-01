@@ -8552,9 +8552,19 @@
                         ]
                     },
                     "placement": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?", "$?"]
+                        "label": "$~paglagay sa entablado",
+                        "labels": [
+                            "$~itaas na kaliwa",
+                            "$~itaas na kanan",
+                            "$~ibaba na kaliwa",
+                            "$~ibaba na kanan"
+                        ],
+                        "tips": [
+                            "$~ilagay ang entablado sa itaas na kaliwa, at ang ibang tile sa katugmang lugar sa palibot nito",
+                            "$~ilagay ang entablado sa itaas na kanan, at ang ibang tile sa katugmang lugar sa palibot nito",
+                            "$~ilagay ang entablado sa ibaba na kaliwa, at ang ibang tile sa katugmang lugar sa palibot nito",
+                            "$~ilagay ang entablado sa ibaba na kanan, at ang ibang tile sa katugmang lugar sa palibot nito"
+                        ]
                     }
                 },
                 "options": {

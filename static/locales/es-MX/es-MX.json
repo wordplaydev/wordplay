@@ -8297,9 +8297,19 @@
                         ]
                     },
                     "placement": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?", "$?"]
+                        "label": "$~ubicación del escenario",
+                        "labels": [
+                            "$~arriba a la izquierda",
+                            "$~arriba a la derecha",
+                            "$~abajo a la izquierda",
+                            "$~abajo a la derecha"
+                        ],
+                        "tips": [
+                            "$~colocar el escenario arriba a la izquierda, y las demás tejas en lugares equivalentes a su alrededor",
+                            "$~colocar el escenario arriba a la derecha, y las demás tejas en lugares equivalentes a su alrededor",
+                            "$~colocar el escenario abajo a la izquierda, y las demás tejas en lugares equivalentes a su alrededor",
+                            "$~colocar el escenario abajo a la derecha, y las demás tejas en lugares equivalentes a su alrededor"
+                        ]
                     }
                 },
                 "options": {

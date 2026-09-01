@@ -8551,9 +8551,19 @@
                         ]
                     },
                     "placement": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?", "$?"]
+                        "label": "$~vị trí sân khấu",
+                        "labels": [
+                            "$~trên bên trái",
+                            "$~trên bên phải",
+                            "$~dưới bên trái",
+                            "$~dưới bên phải"
+                        ],
+                        "tips": [
+                            "$~đặt sân khấu ở trên bên trái, và các khối khác ở những vị trí tương ứng xung quanh nó",
+                            "$~đặt sân khấu ở trên bên phải, và các khối khác ở những vị trí tương ứng xung quanh nó",
+                            "$~đặt sân khấu ở dưới bên trái, và các khối khác ở những vị trí tương ứng xung quanh nó",
+                            "$~đặt sân khấu ở dưới bên phải, và các khối khác ở những vị trí tương ứng xung quanh nó"
+                        ]
                     }
                 },
                 "options": {

@@ -8564,9 +8564,19 @@
                         ]
                     },
                     "placement": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?", "$?"]
+                        "label": "$~penempatan panggung",
+                        "labels": [
+                            "$~kiri atas",
+                            "$~kanan atas",
+                            "$~kiri bawah",
+                            "$~kanan bawah"
+                        ],
+                        "tips": [
+                            "$~letakkan panggung di kiri atas, dan ubin lain di tempat yang sesuai di sekitarnya",
+                            "$~letakkan panggung di kanan atas, dan ubin lain di tempat yang sesuai di sekitarnya",
+                            "$~letakkan panggung di kiri bawah, dan ubin lain di tempat yang sesuai di sekitarnya",
+                            "$~letakkan panggung di kanan bawah, dan ubin lain di tempat yang sesuai di sekitarnya"
+                        ]
                     }
                 },
                 "options": {

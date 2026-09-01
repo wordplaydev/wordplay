@@ -8297,9 +8297,19 @@
                         ]
                     },
                     "placement": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?", "$?"]
+                        "label": "$~Bühnenplatzierung",
+                        "labels": [
+                            "$~oben links",
+                            "$~oben rechts",
+                            "$~unten links",
+                            "$~unten rechts"
+                        ],
+                        "tips": [
+                            "$~Platziere die Bühne oben links und die anderen Kacheln passend darum herum",
+                            "$~Platziere die Bühne oben rechts und die anderen Kacheln passend darum herum",
+                            "$~Platziere die Bühne unten links und die anderen Kacheln passend darum herum",
+                            "$~Platziere die Bühne unten rechts und die anderen Kacheln passend darum herum"
+                        ]
                     }
                 },
                 "options": {

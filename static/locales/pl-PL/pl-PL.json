@@ -8326,9 +8326,19 @@
                         ]
                     },
                     "placement": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?", "$?"]
+                        "label": "$~umiejscowienie sceny",
+                        "labels": [
+                            "$~lewy górny",
+                            "$~prawy górny",
+                            "$~lewy dolny",
+                            "$~prawy dolny"
+                        ],
+                        "tips": [
+                            "$~umieść scenę w lewym górnym rogu, a pozostałe kafelki w odpowiadających miejscach wokół niej",
+                            "$~umieść scenę w prawym górnym rogu, a pozostałe kafelki w odpowiadających miejscach wokół niej",
+                            "$~umieść scenę w lewym dolnym rogu, a pozostałe kafelki w odpowiadających miejscach wokół niej",
+                            "$~umieść scenę w prawym dolnym rogu, a pozostałe kafelki w odpowiadających miejscach wokół niej"
+                        ]
                     }
                 },
                 "options": {

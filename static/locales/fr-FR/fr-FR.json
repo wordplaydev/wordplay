@@ -8304,9 +8304,19 @@
                         ]
                     },
                     "placement": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?", "$?"]
+                        "label": "$~placement de la scène",
+                        "labels": [
+                            "$~en haut à gauche",
+                            "$~en haut à droite",
+                            "$~en bas à gauche",
+                            "$~en bas à droite"
+                        ],
+                        "tips": [
+                            "$~placer la scène en haut à gauche, et les autres tuiles aux places correspondantes autour d’elle",
+                            "$~placer la scène en haut à droite, et les autres tuiles aux places correspondantes autour d’elle",
+                            "$~placer la scène en bas à gauche, et les autres tuiles aux places correspondantes autour d’elle",
+                            "$~placer la scène en bas à droite, et les autres tuiles aux places correspondantes autour d’elle"
+                        ]
                     }
                 },
                 "options": {

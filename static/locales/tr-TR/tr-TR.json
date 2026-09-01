@@ -8308,9 +8308,19 @@
                         ]
                     },
                     "placement": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?", "$?"]
+                        "label": "$~sahne yerleşimi",
+                        "labels": [
+                            "$~sol üst",
+                            "$~sağ üst",
+                            "$~sol alt",
+                            "$~sağ alt"
+                        ],
+                        "tips": [
+                            "$~sahneyi sol üste yerleştir, diğer kutucukları da bunun etrafına uygun yerlere yerleştir",
+                            "$~sahneyi sağ üste yerleştir, diğer kutucukları da bunun etrafına uygun yerlere yerleştir",
+                            "$~sahneyi sol alta yerleştir, diğer kutucukları da bunun etrafına uygun yerlere yerleştir",
+                            "$~sahneyi sağ alta yerleştir, diğer kutucukları da bunun etrafına uygun yerlere yerleştir"
+                        ]
                     }
                 },
                 "options": {
