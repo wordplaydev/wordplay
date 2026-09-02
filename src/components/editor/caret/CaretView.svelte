@@ -7,8 +7,10 @@
     };
 
     /** A blocks-mode visual-row member: a blank line (carrying the source index
-     *  it represents) or a block-editable token (carrying its source text range
-     *  so the caret's logical position can be matched to it). */
+     *  it represents) or a token (carrying its source text range so the caret's
+     *  logical position can be matched to it). `landable` marks the tokens a
+     *  caret may come to rest on; the rest are members anyway, so that every
+     *  rendered row exists and the caret's own row can always be found. */
     type BlockMember =
         | { kind: 'break'; position: number }
         | {
@@ -17,14 +19,17 @@
               el: HTMLElement;
               start: number;
               end: number;
+              landable: boolean;
           };
 
-    /** Carve blocks-mode rendered content into visual rows. Members are the only
-     *  navigable things in blocks mode: block-editable token-views and blank
-     *  lines' `.break` divs (resolved to the empty-line index they represent).
-     *  Inline whitespace isn't rendered in blocks mode, so there are no space
-     *  members. Token-views use getClientRects() so a wrapped token contributes
-     *  one member per fragment; excludes folded/zero-height. */
+    /** Carve blocks-mode rendered content into visual rows. Members are every
+     *  rendered token-view plus blank lines' `.break` divs (resolved to the
+     *  empty-line index they represent) — every token, not only the landable
+     *  ones, so that a row exists wherever content is drawn and the caret's own
+     *  row can always be found. Inline whitespace isn't rendered in blocks mode,
+     *  so there are no space members. Token-views use getClientRects() so a
+     *  wrapped token contributes one member per fragment; excludes
+     *  folded/zero-height. */
     function gatherBlockRows(
         editor: HTMLElement,
         caret: Caret,
@@ -36,15 +41,27 @@
             const node = el.dataset.id
                 ? caret.source.getNodeByID(parseInt(el.dataset.id))
                 : undefined;
-            if (!(node instanceof Token) || !Caret.isTokenBlockEditable(node))
-                continue;
+            if (!(node instanceof Token)) continue;
             const start = caret.source.getTokenTextPosition(node);
             const end = caret.source.getTokenLastPosition(node);
             if (start === undefined || end === undefined) continue;
+            // Delimiters and the program's end token are kept as members even
+            // though the caret can't rest on them. Excluding them left every
+            // position they span — most visibly the end of a program that ends
+            // in `)` — belonging to no row at all, so a move from there could
+            // find no row to leave.
+            const landable = Caret.isTokenBlockEditable(node);
             for (const rect of elementRowRects(el))
                 if (rect.height > 0)
                     members.push({
-                        data: { kind: 'token', token: node, el, start, end },
+                        data: {
+                            kind: 'token',
+                            token: node,
+                            el,
+                            start,
+                            end,
+                            landable,
+                        },
                         rect,
                     });
         }
@@ -67,6 +84,16 @@
      *  sits on a middle row) and a scroll-placement spot for node selections, so
      *  trusting it misreads the current row. Returns index -1 when the position
      *  matches no member (e.g. an unrendered spot), so the caller can bail. */
+    /** A row narrowed to the members the caret may rest on, or the row unchanged
+     *  when it has none — a row of pure delimiters is still somewhere to go, and
+     *  resolveBlockMember turns one into a selection of its node. */
+    function landableRow(row: Row<BlockMember>): Row<BlockMember> {
+        const members = row.members.filter(
+            (member) => member.data.kind === 'break' || member.data.landable,
+        );
+        return members.length === 0 ? row : { ...row, members };
+    }
+
     function findCurrentBlockRow(
         rows: Row<BlockMember>[],
         position: number,
@@ -136,14 +163,17 @@
      *  finds the row the caret is on, steps exactly one row, and lands at the
      *  horizontally nearest navigable position. Fails (no move) only at a
      *  document edge. */
+    /**
+     * Move the caret one rendered row up or down in blocks mode, or undefined
+     * when the rendered rows can't say where to go — the caller falls back to
+     * {@link Caret.moveLineVertical}, which needs no measurements.
+     */
     export function moveVisualVertical(
         direction: -1 | 1,
         editor: HTMLElement,
         caret: Caret,
         getTokenViews: () => HTMLElement[],
-    ): Caret | LocaleTextAccessor {
-        const noMove: LocaleTextAccessor = (l) =>
-            l.ui.source.cursor.ignored.noMove;
+    ): Caret | undefined {
         const rows = gatherBlockRows(editor, caret, getTokenViews);
 
         let target: { member: RowMember<BlockMember>; x: number } | undefined;
@@ -172,10 +202,12 @@
             // location), so anchor on the node's own box and step to the row just
             // past its full vertical extent.
             const box = el?.getBoundingClientRect();
-            if (box === undefined || box.height === 0) return noMove;
+            if (box === undefined || box.height === 0) return undefined;
             goalX = caret.visualColumn ?? (box.left + box.right) / 2;
+            // Row bounds are unchanged by the narrowing, so the span still
+            // picks the same rows; only where it may land is restricted.
             target = targetRowPositionFromSpan(
-                rows,
+                rows.map(landableRow),
                 box.top,
                 box.bottom,
                 direction,
@@ -188,20 +220,20 @@
                 ? caret.position[1]
                 : caret.position;
             const current = findCurrentBlockRow(rows, position);
-            if (current.index < 0) return noMove;
+            if (current.index < 0) return undefined;
             goalX = caret.visualColumn ?? current.x;
             const next = current.index + direction;
             target =
                 next < 0 || next >= rows.length
                     ? undefined
-                    : nearestInRow(rows[next], goalX);
+                    : nearestInRow(landableRow(rows[next]), goalX);
         }
-        if (target === undefined) return noMove;
+        if (target === undefined) return undefined;
         const result = resolveBlockMember(target.member, target.x, caret);
         // Carry the goal column forward so consecutive vertical moves keep the
         // same column; any non-vertical caret operation clears it.
         return result === undefined
-            ? noMove
+            ? undefined
             : caret.withPosition(result, undefined, goalX);
     }
 
@@ -271,7 +303,6 @@
     } from '@components/project/Contexts';
     import { animationDuration, locales } from '@db/Database';
     import Caret from '@edit/caret/Caret';
-    import type { LocaleTextAccessor } from '@locale/Locales';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import Node from '@nodes/Node';
     import Token from '@nodes/Token';

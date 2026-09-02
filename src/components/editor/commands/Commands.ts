@@ -1197,21 +1197,24 @@ const MovePriorLine: Command = {
     shift: false,
     key: 'ArrowUp',
     keySymbol: '↑',
-    // Move one visual row up: between block tokens in blocks mode, or by the
-    // rendered row in text mode (respects proportional glyphs, tabs, and
-    // soft-wrapped rows). `?? true` swallows the event at the document edge.
-    execute: ({ caret, blocks, view, getTokenViews, locales }) =>
-        caret && view && getTokenViews
-            ? blocks
-                ? (moveVisualVertical(-1, view, caret, getTokenViews) ?? false)
-                : (moveCaretVisualVertical(
-                      -1,
-                      view,
-                      caret,
-                      getTokenViews,
-                      locales.getDirection() === 'rtl',
-                  ) ?? true)
-            : false,
+    // Move one visual row up: between block tokens in blocks mode, or by
+    // the rendered row in text mode (respects proportional glyphs, tabs, and
+    // soft-wrapped rows). When the rendered rows can't say where to go — the end
+    // of a program, a row outside a virtualized window, a caret not yet laid out
+    // — step by source line instead, so the key never silently does nothing.
+    execute: ({ caret, blocks, view, getTokenViews, locales }) => {
+        if (caret === undefined || !view || !getTokenViews) return false;
+        const visual = blocks
+            ? moveVisualVertical(-1, view, caret, getTokenViews)
+            : moveCaretVisualVertical(
+                  -1,
+                  view,
+                  caret,
+                  getTokenViews,
+                  locales.getDirection() === 'rtl',
+              );
+        return visual ?? caret.moveLineVertical(-1, blocks);
+    },
 };
 
 const ExpandPriorLine: Command = {
@@ -1224,25 +1227,25 @@ const ExpandPriorLine: Command = {
     shift: true,
     key: 'ArrowUp',
     keySymbol: '↑',
-    // On a selected node, extend the sibling selection; otherwise expand by one
-    // visual row up in text mode (matching ArrowUp's movement). Blocks mode has
-    // no visual rows to expand across.
-    execute: ({ caret, blocks, view, getTokenViews, locales }) =>
-        caret === undefined
-            ? false
-            : caret.position instanceof Node
-              ? caret.expandNode(-1)
-              : view && getTokenViews
-                ? blocks
-                    ? false
-                    : (expandCaretVisualVertical(
-                          -1,
-                          view,
-                          caret,
-                          getTokenViews,
-                          locales.getDirection() === 'rtl',
-                      ) ?? true)
-                : false,
+    // On a selected node, extend the sibling selection. In blocks mode a text
+    // range can't survive (the editor collapses one as it's made), so select the
+    // node the caret is in — expandNode extends from there. Otherwise expand by
+    // one visual row up, falling back to a source-line step when the
+    // rendered rows can't say where to go.
+    execute: ({ caret, blocks, view, getTokenViews, locales }) => {
+        if (caret === undefined) return false;
+        if (caret.position instanceof Node) return caret.expandNode(-1);
+        if (blocks) return caret.selectTokenNode();
+        if (!view || !getTokenViews) return false;
+        const visual = expandCaretVisualVertical(
+            -1,
+            view,
+            caret,
+            getTokenViews,
+            locales.getDirection() === 'rtl',
+        );
+        return visual ?? caret.expandLineVertical(-1);
+    },
 };
 
 const MoveNextLine: Command = {
@@ -1255,21 +1258,24 @@ const MoveNextLine: Command = {
     shift: false,
     key: 'ArrowDown',
     keySymbol: '↓',
-    // Move one visual row down: between block tokens in blocks mode, or by the
-    // rendered row in text mode (respects proportional glyphs, tabs, and
-    // soft-wrapped rows). `?? true` swallows the event at the document edge.
-    execute: ({ caret, blocks, view, getTokenViews, locales }) =>
-        caret && view && getTokenViews
-            ? blocks
-                ? (moveVisualVertical(1, view, caret, getTokenViews) ?? false)
-                : (moveCaretVisualVertical(
-                      1,
-                      view,
-                      caret,
-                      getTokenViews,
-                      locales.getDirection() === 'rtl',
-                  ) ?? true)
-            : false,
+    // Move one visual row down: between block tokens in blocks mode, or by
+    // the rendered row in text mode (respects proportional glyphs, tabs, and
+    // soft-wrapped rows). When the rendered rows can't say where to go — the end
+    // of a program, a row outside a virtualized window, a caret not yet laid out
+    // — step by source line instead, so the key never silently does nothing.
+    execute: ({ caret, blocks, view, getTokenViews, locales }) => {
+        if (caret === undefined || !view || !getTokenViews) return false;
+        const visual = blocks
+            ? moveVisualVertical(1, view, caret, getTokenViews)
+            : moveCaretVisualVertical(
+                  1,
+                  view,
+                  caret,
+                  getTokenViews,
+                  locales.getDirection() === 'rtl',
+              );
+        return visual ?? caret.moveLineVertical(1, blocks);
+    },
 };
 
 const ExpandNextLine: Command = {
@@ -1282,25 +1288,25 @@ const ExpandNextLine: Command = {
     shift: true,
     key: 'ArrowDown',
     keySymbol: '↓',
-    // On a selected node, extend the sibling selection; otherwise expand by one
-    // visual row down in text mode (matching ArrowDown's movement). Blocks mode
-    // has no visual rows to expand across.
-    execute: ({ caret, blocks, view, getTokenViews, locales }) =>
-        caret === undefined
-            ? false
-            : caret.position instanceof Node
-              ? caret.expandNode(1)
-              : view && getTokenViews
-                ? blocks
-                    ? false
-                    : (expandCaretVisualVertical(
-                          1,
-                          view,
-                          caret,
-                          getTokenViews,
-                          locales.getDirection() === 'rtl',
-                      ) ?? true)
-                : false,
+    // On a selected node, extend the sibling selection. In blocks mode a text
+    // range can't survive (the editor collapses one as it's made), so select the
+    // node the caret is in — expandNode extends from there. Otherwise expand by
+    // one visual row down, falling back to a source-line step when the
+    // rendered rows can't say where to go.
+    execute: ({ caret, blocks, view, getTokenViews, locales }) => {
+        if (caret === undefined) return false;
+        if (caret.position instanceof Node) return caret.expandNode(1);
+        if (blocks) return caret.selectTokenNode();
+        if (!view || !getTokenViews) return false;
+        const visual = expandCaretVisualVertical(
+            1,
+            view,
+            caret,
+            getTokenViews,
+            locales.getDirection() === 'rtl',
+        );
+        return visual ?? caret.expandLineVertical(1);
+    },
 };
 
 /** The vertical caret-movement commands, which own the caret's visual goal
@@ -1539,7 +1545,9 @@ const Commands: Command[] = [
             else {
                 let token =
                     (caret.atTokenEnd() && caret.hasSpaceAfter()) ||
-                    caret.atEnd()
+                    // isEnd, not atEnd: atEnd() builds a Caret, which is always
+                    // truthy, so this always took the tokenPrior branch.
+                    caret.isEnd()
                         ? caret.tokenPrior
                         : caret.getToken();
                 // Never select the program's end token (it's the last token in

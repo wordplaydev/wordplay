@@ -540,6 +540,139 @@ export default class Caret {
         return rowPosition;
     }
 
+    /** The index a vertical move starts from: a text position, a selection's
+     *  moving end, or a node's first position. */
+    private verticalOrigin(): number | undefined {
+        const position = this.position;
+        if (typeof position === 'number') return position;
+        if (Array.isArray(position)) return position[1];
+        return this.source.getNodeFirstPosition(position);
+    }
+
+    /**
+     * Where a one-source-line step lands, with the line it lands on, or a reason
+     * it can't. Past the last line or above the first, that's the end or start of
+     * the source — unless the caret is already there, which is the only case in
+     * which vertical movement genuinely has nowhere to go.
+     */
+    private lineVerticalTarget(
+        direction: -1 | 1,
+    ): { index: number; from: number; to: number } | LocaleTextAccessor {
+        const noMove: LocaleTextAccessor = (l) =>
+            l.ui.source.cursor.ignored.noMove;
+
+        const origin = this.verticalOrigin();
+        if (origin === undefined) return noMove;
+        const line = this.source.getLine(origin);
+        if (line === undefined) return noMove;
+
+        const lines = this.source.getCode().getLines();
+        const target = line + direction;
+        if (target < 0 || target >= lines.length) {
+            const boundary =
+                direction < 0 ? 0 : this.source.getCode().getLength();
+            return origin === boundary
+                ? noMove
+                : { index: boundary, from: boundary, to: boundary };
+        }
+
+        const from = this.rowPosition(target);
+        const lineStart = this.rowPosition(line);
+        if (from === undefined || lineStart === undefined) return noMove;
+        const to = from + lines[target].getLength();
+        // Keep the column, clamped to what the target line actually has.
+        return { index: Math.min(from + (origin - lineStart), to), from, to };
+    }
+
+    /** The navigable blocks-mode point nearest `index` within [from, to]. */
+    private nearestBlockPoint(
+        index: number,
+        from: number,
+        to: number,
+    ): Node | number | undefined {
+        let best: Node | number | undefined = undefined;
+        let bestDistance = Number.POSITIVE_INFINITY;
+        for (const point of this.getBlockPositions()) {
+            const at =
+                typeof point === 'number'
+                    ? point
+                    : this.source.getNodeFirstPosition(point);
+            if (at === undefined || at < from || at > to) continue;
+            const distance = Math.abs(at - index);
+            if (distance < bestDistance) {
+                bestDistance = distance;
+                best = point;
+            }
+        }
+        return best;
+    }
+
+    /**
+     * Move one SOURCE line up or down, measuring nothing.
+     *
+     * The fallback whenever the rendered row model can't answer — the end of a
+     * program, a row scrolled out of a virtualized window, a caret whose bar
+     * isn't laid out yet — and the only vertical move that can be unit tested,
+     * since the unit suite has no DOM and every rectangle there is zero.
+     *
+     * In blocks mode the landing snaps to a position `getBlockPositions()`
+     * offers, so vertical movement can only reach where horizontal movement can.
+     */
+    moveLineVertical(
+        direction: -1 | 1,
+        blocks: boolean,
+    ): Caret | LocaleTextAccessor {
+        const target = this.lineVerticalTarget(direction);
+        if (typeof target === 'function') return target;
+        if (!blocks) return this.withPosition(target.index);
+        const point = this.nearestBlockPoint(
+            target.index,
+            target.from,
+            target.to,
+        );
+        return this.withPosition(point ?? target.index);
+    }
+
+    /** A one-line step applied to a selection's moving end, keeping its anchor. */
+    expandLineVertical(direction: -1 | 1): Caret | LocaleTextAccessor {
+        const position = this.position;
+        const anchor =
+            typeof position === 'number'
+                ? position
+                : Array.isArray(position)
+                  ? position[0]
+                  : undefined;
+        if (anchor === undefined)
+            return (l) => l.ui.source.cursor.ignored.noMove;
+
+        const target = this.lineVerticalTarget(direction);
+        if (typeof target === 'function') return target;
+        // Collapse when the moving end lands back on the anchor; a zero-width
+        // range renders neither a bar nor a highlight.
+        return target.index === anchor
+            ? this.withPosition(target.index)
+            : this.withPosition([anchor, target.index]);
+    }
+
+    /**
+     * Select the node the caret sits in — the token, or its parent when the token
+     * is that parent's only leaf. What Shift+Arrow means inside a token in blocks
+     * mode, where a text range can't survive: it produces the node selection that
+     * {@link expandNode} then extends across siblings.
+     */
+    selectTokenNode(): Caret | LocaleTextAccessor {
+        const noMove: LocaleTextAccessor = (l) =>
+            l.ui.source.cursor.ignored.noMove;
+        let token = this.tokenExcludingSpace ?? this.tokenPrior;
+        // Never the program's end token: it has no text, so selecting it selects
+        // nothing the creator can see. Take the last real token instead.
+        const tokens = this.source.tokens;
+        if (token !== undefined && token === tokens[tokens.length - 1])
+            token = tokens.length > 1 ? tokens[tokens.length - 2] : undefined;
+        if (token === undefined) return noMove;
+        return this.withPosition(this.getParentOfOnlyChild(token));
+    }
+
     left(sibling: boolean): Caret {
         return this.moveInlineText(sibling, -1);
     }

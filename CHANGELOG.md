@@ -4,12 +4,23 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-### 0.34.1 - 2026-09-02
+## 0.34.1 - 2026-09-02
 
 ### Added
 
 - 🧩 You can now choose more than one piece of code at a time. Hold shift and press an arrow to reach the next piece beside it, then delete, cut, copy, or put them all in one list or group together. (#177)
 - 🖱️ You can drag everything you've chosen at once. Press anywhere inside your choice and drag, and all of it moves together and stays chosen where it lands. (#177)
+
+### Changed
+
+- ✍️ Pressing up on the first line now moves the cursor to the very start of your program, and down on the last line moves it to the very end.
+- 🧩 In blocks mode, holding shift and pressing up or down now chooses the code your cursor is in. Before, it scrolled the page and said the key did nothing.
+
+### Fixed
+
+- ✍️ We fixed pressing up or down doing nothing. In blocks mode the cursor at the end of a program couldn't move up at all; now every press either moves it or says why it can't.
+- ✍️ Pressing up or down inside a long, wrapped line left the cursor where it was. It now moves a row, like it should.
+- 🐛 Pressing Escape to choose the code around your cursor sometimes chose the piece before it instead of the one you were in.
 
 ## 0.34.0 - 2026-09-01
 

@@ -125,9 +125,11 @@ export function nearestInRow<T>(
 /**
  * The whole vertical move as pure geometry: find the row at `originCenterY`,
  * step one row in `direction`, and return the nearest member of that row at
- * `goalX` (with x clamped into it). Returns undefined only at a document edge —
- * stepping above the first row or below the last — which is the sole case where
- * vertical movement should fail to change the caret.
+ * `goalX` (with x clamped into it). Returns undefined when there is no row to
+ * step to — above the first row or below the last of the rows it was GIVEN.
+ * With a virtualized editor those are the rendered rows, not the document's, so
+ * this is a window edge as often as a document edge; the caller decides what to
+ * do about it (see Caret.moveLineVertical).
  */
 export function targetRowPosition<T>(
     rows: Row<T>[],

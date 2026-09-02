@@ -459,9 +459,12 @@ export function getCaretPositionAt(
 }
 
 /** The on-screen caret bar's rect. We measure .bar (not .caret, which also wraps
- *  the menu trigger and would inflate the box). Undefined when no bar is laid out
- *  — including for range/node selections, where CaretView renders no bar. Remote
- *  collaborators' carets use the distinct .remote-caret class. */
+ *  the menu trigger and would inflate the box). Undefined when no bar is laid
+ *  out, which includes a range selection. A NODE selection is the exception:
+ *  CaretView does lay a bar out for one, hidden, at a scroll-placement spot
+ *  rather than at the node — so callers that care where a node is must measure
+ *  the node's own view instead of asking here. Remote collaborators' carets use
+ *  the distinct .remote-caret class. */
 export function caretBarRect(editor: HTMLElement): DOMRect | undefined {
     const bar = editor.querySelector('.caret .bar');
     if (!(bar instanceof HTMLElement)) return undefined;
@@ -488,9 +491,10 @@ function rowRectOfIndex(
 /** Resolve the source index at horizontal `x` on the visual row whose vertical
  *  band contains `y`, using element geometry only — getBoundingClientRect and
  *  Range, which work for off-screen rows too (unlike document.elementFromPoint).
- *  This is the single mechanism behind visual vertical movement; there is no
- *  source-line fallback. Returns undefined only when there is no row at `y` (a
- *  document edge). */
+ *  This serves pointer hit-testing. Vertical caret movement has its own row
+ *  model (gatherTextRows + rowModel) and a source-line fallback; the two are
+ *  separate implementations of nearly the same idea and differ at the edges.
+ *  Returns undefined only when there is no row at `y`. */
 function geometricCaretIndexAt(
     editor: HTMLElement,
     caret: Caret,
@@ -657,8 +661,10 @@ export function caretOriginRect(
  *  horizontal pixel position. Carves the editor into a stack of visual rows,
  *  finds the row the caret is on, steps exactly one row, and lands at the
  *  horizontally nearest position — so it respects proportional fonts, tabs, wide
- *  characters, scaled delimiters, and soft-wrapped rows. Returns undefined only
- *  at a document edge (no row in that direction). */
+ *  characters, scaled delimiters, and soft-wrapped rows. Returns undefined when
+ *  the rendered rows can't answer: at a document edge, at the edge of a
+ *  virtualized window, or when the origin or landing can't be measured. The
+ *  caller falls back to {@link Caret.moveLineVertical}, which measures nothing. */
 export function moveCaretVisualVertical(
     direction: -1 | 1,
     editor: HTMLElement,
@@ -783,18 +789,49 @@ export function getTokenPosition(
     const lastIndex = caret.source.getTokenLastPosition(token);
     if (startIndex === undefined || lastIndex === undefined) return undefined;
 
-    // Horizontal offset of the point within the token view's box.
-    const tokenRect = tokenViewEl.getBoundingClientRect();
-    const offset = point.clientX - tokenRect.left;
+    // A soft-wrapped token occupies several boxes, so its union box says nothing
+    // about where in the text a point on the second line falls — every row of it
+    // would resolve to the same offset, which is why arrowing down inside a long
+    // text literal used to land back where it started. Measure within the
+    // fragment the point is actually on, counting the width of the ones before
+    // it. With one fragment this is exactly the whole-box calculation.
+    const rects = elementRowRects(tokenViewEl);
+    const totalWidth = rects.reduce(
+        (sum, rect) => sum + (rect.right - rect.left),
+        0,
+    );
+    let chosen = rects[0];
+    let precedingWidth = 0;
+    let bestDistance = Number.POSITIVE_INFINITY;
+    let widthBefore = 0;
+    for (const rect of rects) {
+        const distance =
+            point.clientY >= rect.top && point.clientY <= rect.bottom
+                ? 0
+                : Math.abs((rect.top + rect.bottom) / 2 - point.clientY);
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            chosen = rect;
+            precedingWidth = widthBefore;
+        }
+        widthBefore += rect.right - rect.left;
+    }
+
+    const chosenWidth = chosen.right - chosen.left;
+    const offset = Math.max(
+        0,
+        Math.min(chosenWidth, point.clientX - chosen.left),
+    );
     const newPosition = Math.max(
         startIndex,
         Math.min(
             lastIndex,
             startIndex +
-                (tokenRect.width === 0
+                (totalWidth === 0
                     ? 0
                     : Math.round(
-                          token.getTextLength() * (offset / tokenRect.width),
+                          token.getTextLength() *
+                              ((precedingWidth + offset) / totalWidth),
                       )),
         ),
     );
