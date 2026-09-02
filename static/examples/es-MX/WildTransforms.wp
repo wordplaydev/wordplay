@@ -1,0 +1,14 @@
+🐈
+Transformaciones salvajes
+===
+¶Una gata poniendo a prueba a la vez la escala, el giro y el desplazamiento.¶
+Frase(
+	"🐈"
+	tamaño: 10m
+	inmóvil: Pose(
+		escala: 2
+		desplazamiento: Lugar(1m 1m 5m)
+		rotación: (Tiempo(500ms) % 360) × 1°/ms
+	)
+	duración: 0.25s
+)

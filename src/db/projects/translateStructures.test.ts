@@ -373,3 +373,113 @@ test('reducing to one language keeps an interpolation intact', async () => {
     expect(out).toContain('name');
     expect(conflicts(revised)).toBe(0);
 });
+
+// The Key stream reports a well-known key as the PRIMARY locale's display name
+// (localizeKeyName), so a rewritten program must compare against the target
+// locale's key names — the #1276-style protection that keeps such strings
+// untranslated by the model is not enough on its own. The mapping comes from
+// the stream's own table, so it is deterministic.
+test('rewriting maps compared key names to the target locale, deterministically', async () => {
+    if (en === undefined) throw new Error('bad locale');
+    const esMX = stringToLocale('es-MX');
+    if (esMX === undefined) throw new Error('bad locale');
+    const esMXText = JSON.parse(
+        readFileSync('static/locales/es-MX/es-MX.json', 'utf8'),
+    );
+
+    const source = new Source(
+        'start',
+        `key: Key()\nstarted: key = "Space"\nletters: ['a' 'b'].join(' ')`,
+    );
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const result = await translateProjectContent(
+        project,
+        en,
+        esMX,
+        async (texts) => texts.map((t) => `X${t}`),
+        esMXText,
+        true,
+        { preserveTagged: true },
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].code.toString() ?? '';
+    // The compared key follows the locale's key table...
+    expect(out).toContain(`'Espacio'`);
+    expect(out).not.toContain('"Space"');
+    // ...while a letterless separator literal is left alone.
+    expect(out).toContain(`(' ')`);
+});
+
+// A translated name must never land on a word the target locale uses for a
+// keyword: `withKeywordedSources()` re-lexes the source, so a bind named with
+// the word for `true` re-parses as the literal ⊤ — which is why every locale
+// whose word for "correct" is its word for "true" refused FrenchNumbers, and
+// why the rewritten game would have scored every guess (#1310).
+test('a translated name never lands on a keyword word', async () => {
+    if (en === undefined) throw new Error('bad locale');
+    const tr = stringToLocale('tr-TR');
+    if (tr === undefined) throw new Error('bad locale');
+    const trText = JSON.parse(
+        readFileSync('static/locales/tr-TR/tr-TR.json', 'utf8'),
+    );
+
+    const source = new Source(
+        'start',
+        'correct: 1 = 1\npoints: correct ? 1 0\npoints',
+    );
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    // `doğru` is Turkish for "correct" — and tr-TR's word for `true`.
+    const result = await translateProjectContent(
+        project,
+        en,
+        tr,
+        async (texts) =>
+            texts.map((t) => (t === 'correct' ? 'doğru' : `x${t}`)),
+        trText,
+        true,
+        { preserveTagged: true, validate: true },
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].code.toString() ?? '';
+    // Disambiguated rather than refused, and the conditional still reads the
+    // bind rather than a boolean literal.
+    expect(out).toContain('doğru2');
+    expect(conflicts(result as Project)).toBe(0);
+});
+
+// Retargeting a reference must not respell it into something that means
+// something else here: ja-JP calls `Time` 時間, and Size.wp's own bind carries
+// 時間 as a tagged name, so the rewritten reference resolved to the bind and
+// the bind referenced itself (#1310).
+test('retargeting never captures a reference with an enclosing name', async () => {
+    if (en === undefined) throw new Error('bad locale');
+    const ja = stringToLocale('ja-JP');
+    if (ja === undefined) throw new Error('bad locale');
+    const jaText = JSON.parse(
+        readFileSync('static/locales/ja-JP/ja-JP.json', 'utf8'),
+    );
+
+    // The bind's own tagged name is the locale's word for the Time stream.
+    const source = new Source(
+        'start',
+        'time/en,時間/zh: ((Time(1234ms)) ÷ 1ms) × 1°\nPhrase(time → "")',
+    );
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const before = conflicts(project.withPrimaryLocale(jaText));
+    const result = await translateProjectContent(
+        project,
+        en,
+        ja,
+        async (texts) => texts,
+        jaText,
+        true,
+        { preserveTagged: true },
+    );
+
+    expect(result).not.toBeNull();
+    // The reference keeps its source spelling rather than becoming 時間,
+    // which would have resolved to the bind itself.
+    expect(conflicts(result as Project)).toBeLessThanOrEqual(before);
+});

@@ -1,0 +1,37 @@
+O
+일본어 수업
+=== start
+¶일본어 수업 첫날을 장면별로 보여주는 이야기입니다.¶
+
+¶보여줄 장면들의 목록입니다¶
+문장들: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶이것은 말로 해야만 다음으로 넘어갈 수 있는 문장 목록입니다.¶
+문장을말하기: [5 7 9]
+
+¶현재 문장은 1부터 시작합니다. 말하기 문장에서는 마이크 소리 크기가 .8을 넘으면 다음으로 넘어가고, 다른 문장에서는 버튼이나 키를 누르면 다음으로 넘어갑니다.¶
+현재문장•#: 1 …
+	문장을말하기.가지다(현재문장) ?
+		용량() > .6
+		∆ 버튼() | ∆ 키()
+		…
+		(현재문장 <
+				문장들.길이()) ?
+			현재문장 + 1
+			현재문장
+
+단계(
+	[구절(문장들[현재문장] 포장하다: 10m)]
+	얼굴: 'Sue Ellen Francisco'
+)

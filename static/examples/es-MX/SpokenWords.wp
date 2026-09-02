@@ -1,0 +1,21 @@
+🎭
+PalabrasHabladas
+=== start
+¶Habla, y tus palabras aparecen en lugares y tamaños al azar.¶
+clic2: Botón(ø)
+habla: Habla(reiniciar: clic2 idioma: 'es-MX' límite: 10)
+x2: Azar(-10m 10m) … ∆ habla … Azar(-10m 10m)
+y2: Azar(-10m 10m) … ∆ habla … Azar(-10m 10m)
+tamañodetexto: Azar(1m 3m) … ∆ habla … Azar(1m 3m)
+Escenario(
+	[
+		Frase(
+			habla
+			lugar: Lugar(x2 y2)
+			color: Color(0% 0% 0°)
+			tamaño: tamañodetexto
+		)
+	]
+	fondo: Color(100% 0% 0°)
+)
+

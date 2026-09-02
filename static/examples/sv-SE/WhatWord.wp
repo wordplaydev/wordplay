@@ -1,0 +1,308 @@
+W
+VilketOrd
+=== start/en
+¶Ett ordgissningsspel på engelska, spanska och arabiska.¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] återstående•[""] start2•?) (
+	hemlighet: start2 ? återstående[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (hemlighet.längd(
+			) × 3) - guesses.längd()
+	status/en,estado/es,حالة/ar:
+		hemlighet = "" ? "start"
+			hemlighet → [""].alla(
+				ƒ(bokstav•"") guesses.har(bokstav)
+			) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: Nyckel()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.sorterad(ƒ() Slumpmässig())
+		⊥
+	) … ∆ key …
+		key = 'Fly' ? Game(
+				[]
+				words.sorterad(ƒ() Slumpmässig())
+				⊥
+			)
+			(state.status ≠ "playing") & (key = 'Utrymme') ? Game(
+					[]
+					state.återstående.utanförst()
+					⊤
+				)
+				(state.status = "playing") & (key.längd() = 1) & ~state.guesses.har(
+						key
+					) ?
+					Game(state.guesses.med(key) state.återstående ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: Fras(
+		state.hemlighet → [""].översätta(
+			ƒ(bokstav2•"") ((state.status = "lost") | state.guesses.har(
+							bokstav2
+						)) ? bokstav2 "."
+		).anslutasigtill(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: Pose(opacitet: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": Grupp(
+			Stack()
+			[
+				Fras(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					plats: Plats(z: -1m)
+					gårin: Pose(opacitet: 0%)
+					vilande: Sekvens.vingla(varaktighet: 1s)
+				)
+				Fras(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			avslutar: fade
+		)
+		"lost": Grupp(
+			Stack()
+			[
+				board
+				Fras(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					gårin: Pose(rotation: 0°)
+					vilande: Pose(rotation: -5°)
+				)
+			]
+			avslutar: fade
+		)
+		"won": Grupp(
+			Stack()
+			[
+				board.vilande:Sekvens.studsa(3m 1s)
+				Fras(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			avslutar: fade
+		)
+		Grupp(
+			Stack()
+			[
+				board
+				Fras(
+					state.guesses.längd() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.anslutasigtill(
+							' '
+						)\"/en"Suposiciones: \state.guesses.anslutasigtill(
+							' '
+						)\"/es"التخمينات \state.guesses.anslutasigtill(
+							' '
+						)\"/ar
+				)
+				Fras(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					vilande: Sekvens.vingla(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶En långsam figur som cirklar tillbaka till sig själv i stället för att gå någonstans, vilket är det som gör den värd att tänka på. Varje spår nedan är åtta slag långt, så alla kommer tillbaka tillsammans och slingan har ingen skarv.¶
+tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶Hur mycket av din veckopeng som är använd, från 0 där allt återstår till 1 där inget är kvar. Hemligheten är tom före den första omgången, så delningen skyddas i stället för att lämnas att dela med noll.¶
+maxGissningar: state.hemlighet.längd() × 3
+tryck: (maxGissningar = 0) ? 0 (((1 - (state.guessesRemaining ÷ maxGissningar)).max(
+					0
+				)).min(
+				1
+			))
+
+¶Eftertänksam vid 54 slag i minuten, brådskande vid 120, och varje gissning flyttar den lite. Att ändra tempot klipps in vid nästa slag i stället för att börja om, så slingan behåller sin plats och lutar sig bara framåt — den tysta trumman finns där för att göra den lutningen hörbar, eftersom en temposändring under långa hållna toner är svår att känna.¶
+pusselmusik: Musik(
+		[
+			Spår(
+				tema
+				instrument: Instrument.piano
+				takt: 0.5beats
+				volym: 50%
+			)
+			Spår(
+				[{1 3 5} {4 6 8}]
+				instrument: Instrument.syntPad
+				takt: 4beats
+				volym: 35%
+			)
+			Spår(
+				[ø ø 8 ø ø ø 6 ø]
+				instrument: Instrument.klocka
+				takt: 1beats
+				volym: 30%
+			)
+			Spår(
+				[1 ø ø ø 1 ø ø ø]
+				instrument: Instrument.trummor
+				takt: 1beats
+				volym: 20%
+			)
+		]
+		tempo: (54beats/min + (tryck · 66beats/min))
+		skala: Musik.dorisk
+		namn: 'pussel'
+	)
+
+¶Du vann: temat dubbelt så snabbt, fördubblat en oktav upp på en klocka, över de enda dur-ackorden i exemplet.¶
+vinstSång: Musik(
+		[
+			Spår(
+				tema
+				instrument: Instrument.piano
+				takt: 0.5beats
+				volym: 50%
+			)
+			Spår(
+				tema
+				instrument: Instrument.klocka
+				takt: 0.5beats
+				tonart: 12semitones
+				volym: 35%
+			)
+			Spår(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				instrument: Instrument.syntPad
+				takt: 2beats
+				volym: 35%
+			)
+			Spår(
+				[1 ø 3 ø 2 ø 3 ø]
+				instrument: Instrument.trummor
+				takt: 1beats
+				volym: 30%
+			)
+		]
+		tempo: 96beats/min
+		skala: Musik.dur
+		namn: 'vinn'
+	)
+
+¶Du förlorade: temat en oktav ner och långsammare än det någonsin blev medan du spelade, över ackord som landar på fjärdedelen i stället för att komma hem, så slingan löser sig aldrig.¶
+förlustSång: Musik(
+		[
+			Spår(
+				tema
+				instrument: Instrument.piano
+				takt: 0.5beats
+				tonart: -12semitones
+				volym: 45%
+			)
+			Spår(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				instrument: Instrument.syntPad
+				takt: 2beats
+				volym: 40%
+			)
+			Spår(
+				[ø ø 5 ø ø ø 4 ø]
+				instrument: Instrument.klocka
+				takt: 1beats
+				volym: 25%
+			)
+			Spår(
+				[1 ø ø ø ø ø ø ø]
+				instrument: Instrument.trummor
+				takt: 1beats
+				volym: 20%
+			)
+		]
+		tempo: 46beats/min
+		skala: Musik.moll
+		namn: 'förlora'
+	)
+
+¶Bara melodin för nuvarande tillstånd spelas på scenen, och en @Music som inte längre finns där stoppar den — så att avsluta omgången är det som ändrar musiken.
+
+Alla tre spelar samma tema, och skalan under det gör jobbet. Temat rör vid stegen 1, 4, 5, 6 och 8, och @Music.major håller med @Music.dorian på alla dessa — stegen där de skiljer sig, tredjedelen och sjundedelen, finns inte i melodin. Så vinsten flyttar inte en enda ton i låten du nynnade medan du tänkte; ackorden under använder dock tredjedelen, och de blir dur. @Music.minor skiljer sig från dorisk vid sjätte steget, som temat faktiskt rör vid, så förlusten sänker den tonen förutom att flytta linjen en oktav ner.¶
+ljudspår: state.status ???
+		"won": vinstSång
+		"lost": förlustSång
+		pusselmusik
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+Etapp(
+	[screen ljudspår]
+	plats: Plats(0m 0m -12m)
+	ansikte: "Poor Story"
+	bakgrund: Färg(0% 0 0°)
+	färg: Färg(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'räv'
+	'apa'
+	'bäver'
+	'ko'
+	'varg'
+	'get'
+	'hjort'
+	'gris'
+	'chinchilla'
+	'ekorre'
+	'råtta'
+	'näbbmus'
+	'mullvad'
+	'bältdjur'
+	'opossum'
+	'elefant'
+	'fladdermus'
+	'åsna'
+	'häst'
+	'igelkott'
+	'katt'
+	'giraff'
+	'gorilla'
+	'säl'
+	'människa'
+	'känguru'
+	'murmeldjur'
+	'hamster'
+	'datormus'
+	'kanin'
+	'får'
+	'jaguar'
+	'schimpans'
+	'babian'
+	'tvättbjörn'
+	'mullvad'
+	'näbbmus'
+	'myrpiggsvin'
+	'tapir'
+].sorterad(
+	ƒ() Slumpmässig()
+)

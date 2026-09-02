@@ -1,0 +1,30 @@
+🎃
+Dynia
+=== start
+¶Lampion z dyni, który migocze i pojawia się w nowym miejscu co sekundę.¶
+czas: Czas(1000ms)
+miejsce2: Miejsce(0m 0m) … ∆ czas … Miejsce(
+			Losowy(-4m 4m)
+			Losowy(-4m 4m)
+			Losowy(-4m 0m)
+		)
+przezroczystość: 1 … ∆ czas … Losowy(0.25 1)
+pokaż: ⊤ … ∆ czas … ~pokaż
+dynia: Wyrażenie(
+		'🎃'
+		nieprzezroczystość: przezroczystość
+		miejsce: miejsce2
+		wstępowanie: Sekwencja(
+			{
+				0%: Poza(skala: 1.25 obrót: -21°)
+				20%: Poza(skala: 0.75 obrót: 13°)
+				40%: Poza(skala: 1 obrót: -7°)
+				60%: Poza(skala: 1.25 obrót: 19°)
+				100%: Poza()
+			}
+			0.5s
+			liczyć: 3x
+		)
+	)
+
+Scena(pokaż ? [dynia] [] tło: Kolor(0% 0 0°))

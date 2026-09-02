@@ -1,0 +1,53 @@
+🐭
+Yakala
+=== start/en
+¶Koşuşturan fareyi bir tıklamayla yakala — serbest bırakmak için tekrar tıkla.
+
+Her iki ses de duruşların kendisinden gelir. Bir @Pose, bir @Music taşıyabilir; bu ses, o duruşa geçildiği anda çalar: fare dinlenme duruşundan yakalanma duruşuna geçtiğinde atılma sesi çalar, dönüş yarı yola geldiğinde ise koşuşturma sesi çalar. Animasyon ile ses arasında ayrıca bir bağlantı kurmaya gerek yoktur — ikisi duruşta buluşur.¶
+
+¶İki kısa parça. Bir @Track normalde tekrar tekrar çalar, ama bir duruş sürekli değil anlık bir şeydir. Bu yüzden bir duruşun müziği her zaman sadece bir kere çalar.¶
+atılma: Müzik(
+		Parça([5 1] çalgı: Çalgı.çan vuruş: 1beats)
+		sesDüzeyi: 50%
+		isim: 'atılma'
+	)
+koşuşturma: Müzik(
+		Parça([1 2] çalgı: Çalgı.flüt vuruş: 1beats)
+		sesDüzeyi: 35%
+		isim: 'koşuşturma'
+	)
+
+¶Seçili ifade fareyse, farenin yakalanıp yakalanmadığını değiştir.¶
+isim3: Seçenek()
+yakalandı: ⊥ … ∆ (isim3) … (isim3 = 'mouse') & ~yakalandı
+¶Her saniye fareyi hareket ettir¶
+yerleştir: Yer(0m 0m 0m) … ∆ Zaman(1000ms) … yakalandı ? Yer(
+				0m
+				0m
+			) Yer(Rastgele(-2m 2m) Rastgele(-2m 2m))
+
+Sahne(
+	[
+		İfadeetmek(
+			"🐭"
+			seçilebilir: ⊤
+			yer: yerleştir
+			dinlenme: yakalandı ? Poz(
+					rotasyon: 180°
+					müzik: atılma
+				) Poz(
+				)
+			hareketeden: yakalandı ? Poz() Sekans(
+					{
+						0%: Poz(rotasyon: 0°)
+						50%: Poz(rotasyon: 180° müzik: koşuşturma)
+						100%: Poz(rotasyon: 360°)
+					}
+				)
+			süre: 1s
+			isim: 'mouse'
+		)
+	]
+	yer: Yer(0m 0m -5m)
+	çerçeve: Dikdörtgen(-3m 3m 3m -3m)
+)

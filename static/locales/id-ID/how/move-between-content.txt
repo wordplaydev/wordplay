@@ -10,7 +10,7 @@ Ini versi terkecilnya. Klik panggung terlebih dahulu agar ia mendengarkan, lalu 
 
 \slides: ['pertama' 'kedua' 'ketiga']
 key: Key()
-index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'Panah Kanan') ? ((index < slides.length()) ? index + 1 index) (key = 'Panah Kiri') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
 Bagian  @Reaction  adalah intinya. Ia mulai dari \1\, dan setiap kali  @Key  berubah, ia memutuskan angka baru yang seharusnya.Jika panah kanan ditekan, ia menambah satu; jika panah kiri ditekan, ia mengurangi satu; jika tidak, ia tetap sama.

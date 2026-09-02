@@ -1,0 +1,84 @@
+t
+फ्रांसीसी संख्याएँ
+=== start/en-US,start/fr-FR
+¶वह अंक दबाएँ जो मंच पर दिखाई गई फ़्रेंच संख्या से मेल खाता है।¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶अनुमान लगाने वाली संख्याएँ¶
+¶Les nombres à deviner¶/fr
+संख्याएँ,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶रहस्य 1 से 9 तक की संख्याएँ हैं, जो अनियमित क्रम में हैं¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+रहस्य: [1 2 3 4 5 6 7 8 9].फेरबदल()
+
+¶सबसे हाल में कौन सी चाबी दबाई गई?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+चाबी2,clé/fr: चाबी()
+
+¶हर बार चाबी दबाने पर मौजूदा रहस्य बढ़ता है, लेकिन 10 पर रुक जाता है¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+रहस्यअनुक्रमणिका,secretIndice/fr•#:
+	1 …
+	∆ चाबी2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶रहस्य अनुक्रमणिका के आधार पर मौजूदा रहस्य¶
+मौजूदारहस्य,secretActuel/fr: रहस्य[रहस्यअनुक्रमणिका]
+
+¶अनुमान सही था अगर दबाई गई संख्या पिछले रहस्य वाली संख्या से मेल खाती है¶
+सही2: clé → # = रहस्य[रहस्यअनुक्रमणिका - 1]
+
+¶अंक 0 से शुरू होते हैं और अनुमान सही होने पर बढ़ते हैं।¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+अंक•#: 0 …
+	∆ चाबी2 …
+		सही2 ?
+			अंक + 1
+			अंक
+
+¶जीतने का मतलब है सभी 9 संख्याएँ पाना¶
+जीत,gagner/fr: अंक = 9
+
+¶रहस्य अनुक्रमणिका 10 पर पहुँचने पर पूरा हो जाता है¶
+खेलसमाप्त: रहस्यअनुक्रमणिका = 10
+
+¶मौजूदा फ़्रेंच संख्या और मौजूदा अंक दिखाएँ। सभी 9 रहस्यों के बाद, अंतिम परिणाम दिखाएँ¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+मंच(
+	[
+		समूह(
+			ढेर()
+			[
+				खेलसमाप्त ?
+					वाक्यांश(
+						जीत ?
+							'आप फ़्रेंच संख्याएँ जानते हैं!'"Tu connais les chiffres français!"/fr
+							'लगभग सही, फिर से कोशिश करें'"presque, réessaye"/fr
+						आकार: 2m
+					)
+					वाक्यांश(numeros[secretActuel] आकार: 2m)
+				वाक्यांश("\अंक\ points!" आकार: 1m)
+				वाक्यांश(
+					रहस्यअनुक्रमणिका = 1 ?
+						'यह कौन सी संख्या है?''quel est ce numéro ?'/fr
+						सही2 ?
+							'सही!'
+							"That was \रहस्य[रहस्यअनुक्रमणिका - 1]\"
+				)
+			]
+		)
+	]
+	फलक: "Aclonica"
+)

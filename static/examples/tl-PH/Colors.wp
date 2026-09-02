@@ -1,0 +1,18 @@
+w
+Palabas ng Kolor
+===
+¶I-click para umindayog at magbago ng kulay ang salitang "wowie" nang random.¶
+kulay2: Kulay(0% 0 0°) … ∆ Butones() … Kulay(
+			50%
+			Random() × 200
+			Random() × 360°
+		)
+
+Parirala(
+	'wowie'
+	pangalan: 'pusa'
+	laki: 6m
+	kulay: kulay2
+	pagikot: (Random() - 0.5) × 30°
+	tagal: .1s
+)

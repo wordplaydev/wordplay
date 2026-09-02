@@ -1,0 +1,25 @@
+💬
+Eko
+=== start
+¶Vad publiken än skriver i chattfältet blir denna fras.¶
+meddelande: Chatta()
+
+¶Börja med en fråga, och visa sedan varje nytt meddelande. Texten ändras från de gamla orden till de nya, en bokstav i taget.¶
+ord3: 'säg något!' … ∆ meddelande … meddelande
+
+¶Slumpa fram en ny storlek, lutning och färg varje gång ett nytt meddelande kommer.¶
+storlek2: 2m … ∆ meddelande … Slumpmässig(1m 4m)
+lutning: 0° … ∆ meddelande … Slumpmässig(-30 30) × 1°
+nyans2: 200° … ∆ meddelande … Slumpmässig(360) × 1°
+
+Fras(
+	ord3
+	storlek: storlek2
+	vilande: Pose(
+		rotation: lutning
+		färg: Färg(25% 100 nyans2)
+	)
+	varaktighet: .5s
+	ändras: 'edit'
+	sjal: 20m
+)

@@ -1,0 +1,304 @@
+W
+CeCuvânt
+=== start/en
+¶Un joc de ghicit cuvinte în engleză, spaniolă și arabă.¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] rămase•[""] început2•?) (
+	secret: început2 ? rămase[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (secret.lungime(
+			) × 3) - guesses.lungime()
+	status/en,estado/es,حالة/ar:
+		secret = "" ? "start"
+			secret → [""].toate(ƒ(literă•"") guesses.are(literă)) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: Cheie()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.sortat(ƒ() Aleatoriu())
+		⊥
+	) … ∆ key …
+		key = 'Evadare' ? Game(
+				[]
+				words.sortat(ƒ() Aleatoriu())
+				⊥
+			)
+			(state.status ≠ "playing") & (key = 'Spaţiu') ? Game(
+					[]
+					state.rămase.fărăPrimul()
+					⊤
+				)
+				(state.status = "playing") & (key.lungime() = 1) & ~state.guesses.are(
+						key
+					) ?
+					Game(state.guesses.cu(key) state.rămase ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: Fraza(
+		state.secret → [""].traduce(
+			ƒ(literă2•"") ((state.status = "lost") | state.guesses.are(
+							literă2
+						)) ? literă2 "."
+		).alăturăte(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: Poză(opacitate: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": Grup(
+			Stivă()
+			[
+				Fraza(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					loc: Loc(z: -1m)
+					intrând: Poză(opacitate: 0%)
+					odihnă: Secvenţă.legănare(durată: 1s)
+				)
+				Fraza(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			ieșire: fade
+		)
+		"lost": Grup(
+			Stivă()
+			[
+				board
+				Fraza(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					intrând: Poză(rotaţie: 0°)
+					odihnă: Poză(rotaţie: -5°)
+				)
+			]
+			ieșire: fade
+		)
+		"won": Grup(
+			Stivă()
+			[
+				board.odihnă:Secvenţă.sări(3m 1s)
+				Fraza(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			ieșire: fade
+		)
+		Grup(
+			Stivă()
+			[
+				board
+				Fraza(
+					state.guesses.lungime() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.alăturăte(
+							' '
+						)\"/en"Suposiciones: \state.guesses.alăturăte(
+							' '
+						)\"/es"التخمينات \state.guesses.alăturăte(' ')\"/ar
+				)
+				Fraza(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					odihnă: Secvenţă.legănare(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶O figură lentă care se întoarce asupra ei însăși în loc să meargă undeva, ceeace o face demnă de gândit. Fiecare pistă de mai jos are opt bătăi, așa că toatese închid la loc împreună, iar bucla nu are nicio cusătură.¶
+temă: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶Cât din alocația ta s-a cheltuit, de la 0, când totul este încă posibil, până la1, când nu mai rămâne nimic. Secretul este gol înainte de prima rundă, astfelîncât împărțirea este protejată în loc să fie lăsată să împartă la zero.¶
+încercăriMaxime: state.secret.lungime() × 3
+presiune: (încercăriMaxime = 0) ? 0 (((1 - (state.guessesRemaining ÷ încercăriMaxime)).maxim(
+					0
+				)).min(
+				1
+			))
+
+¶Gânditoare la 54 de bătăi pe minut, grăbită la 120, și fiecare încercare oschimbă puțin. Schimbarea tempoului se leagă la următoarea bătaie, în loc săînceapă din nou, astfel încât bucla își păstrează locul și doar se apleacăînainte — toba liniștită este acolo ca să facă acea aplecare auzibilă, pentrucă o schimbare de tempo sub note lungi ținute e greu de simțit.¶
+muzicăDePuzzle: Muzică(
+		[
+			Pistă(
+				temă
+				instrument: Instrument.pian
+				bătaie: 0.5beats
+				volum: 50%
+			)
+			Pistă(
+				[{1 3 5} {4 6 8}]
+				instrument: Instrument.sintetizatorPad
+				bătaie: 4beats
+				volum: 35%
+			)
+			Pistă(
+				[ø ø 8 ø ø ø 6 ø]
+				instrument: Instrument.clopoțel
+				bătaie: 1beats
+				volum: 30%
+			)
+			Pistă(
+				[1 ø ø ø 1 ø ø ø]
+				instrument: Instrument.tobe
+				bătaie: 1beats
+				volum: 20%
+			)
+		]
+		tempo: (54beats/min + (presiune · 66beats/min))
+		gamă: Muzică.dorian
+		nume: 'puzzle'
+	)
+
+¶Ai câștigat: tema de două ori mai rapidă, dublată o octavă mai sus pe unclopoțel, peste singurele acorduri majore din exemplu.¶
+melodieCâștig: Muzică(
+		[
+			Pistă(
+				temă
+				instrument: Instrument.pian
+				bătaie: 0.5beats
+				volum: 50%
+			)
+			Pistă(
+				temă
+				instrument: Instrument.clopoțel
+				bătaie: 0.5beats
+				cheie: 12semitones
+				volum: 35%
+			)
+			Pistă(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				instrument: Instrument.sintetizatorPad
+				bătaie: 2beats
+				volum: 35%
+			)
+			Pistă(
+				[1 ø 3 ø 2 ø 3 ø]
+				instrument: Instrument.tobe
+				bătaie: 1beats
+				volum: 30%
+			)
+		]
+		tempo: 96beats/min
+		gamă: Muzică.major
+		nume: 'câștig'
+	)
+
+¶Ai pierdut: tema cu o octavă mai jos și mai lentă decât a fost vreodată în timpce jucai, peste acorduri care se opresc pe treapta a patra în loc să seîntoarcă acasă, astfel încât bucla nu se rezolvă niciodată.¶
+melodiePierdere: Muzică(
+		[
+			Pistă(
+				temă
+				instrument: Instrument.pian
+				bătaie: 0.5beats
+				cheie: -12semitones
+				volum: 45%
+			)
+			Pistă(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				instrument: Instrument.sintetizatorPad
+				bătaie: 2beats
+				volum: 40%
+			)
+			Pistă(
+				[ø ø 5 ø ø ø 4 ø]
+				instrument: Instrument.clopoțel
+				bătaie: 1beats
+				volum: 25%
+			)
+			Pistă(
+				[1 ø ø ø ø ø ø ø]
+				instrument: Instrument.tobe
+				bătaie: 1beats
+				volum: 20%
+			)
+		]
+		tempo: 46beats/min
+		gamă: Muzică.minor
+		nume: 'pierdere'
+	)
+
+¶Doar melodia pentru starea curentă este pe scenă, iar un @Music care nu maieste acolo se oprește — astfel încât terminarea rundei este ceea ce schimbămuzica.
+
+Toate trei cântă aceeași temă, iar scala de dedesubt face treaba. Temaatinge treptele 1, 4, 5, 6 și 8, iar @Music.major este de acord cu @Music.dorian pentrufiecare dintre ele — treptele unde se despart, a treia și a șaptea, nu sunt înmelodie. Așa că victoria nu schimbă nicio notă din melodia pe care o fredonaicât gândeai; acordurile de dedesubt folosesc treapta a treia, iar acesteadevin majore. @Music.minor se desparte de modul dorian la treapta a șasea, pe caretema chiar o atinge, astfel încât pierderea coboară acea notă la fel cum coboarăîntreaga linie cu o octavă.¶
+coloanăSonoră: state.status ???
+		"won": melodieCâștig
+		"lost": melodiePierdere
+		muzicăDePuzzle
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+Etapă(
+	[screen coloanăSonoră]
+	loc: Loc(0m 0m -12m)
+	faţă: "Poor Story"
+	fundal: Culoare(0% 0 0°)
+	culoare: Culoare(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'vulpe'
+	'maimuță'
+	'castor'
+	'vacă'
+	'lup'
+	'capră'
+	'cerb'
+	'porc'
+	'chinchilla'
+	'veveriță'
+	'șobolan'
+	'chițcan'
+	'cârtiță'
+	'tatu'
+	'oposum'
+	'elefant'
+	'liliac'
+	'măgar'
+	'cal'
+	'arici'
+	'pisică'
+	'girafă'
+	'gorilă'
+	'focă'
+	'om'
+	'cangur'
+	'marmotă'
+	'hamster'
+	'mouse'
+	'iepure'
+	'oaie'
+	'jaguar'
+	'cimpanzeu'
+	'babuin'
+	'raton'
+	'cârtiță'
+	'chițcan'
+	'echidnă'
+	'tapir'
+].sortat(
+	ƒ() Aleatoriu()
+)

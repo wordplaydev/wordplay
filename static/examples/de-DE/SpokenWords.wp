@@ -1,0 +1,25 @@
+🎭
+GesprocheneWörter
+=== start
+¶Sprich, und deine Wörter erscheinen an zufälligen Stellen und in zufälligen Größen.¶
+klicken: Taste(ø)
+sprache: Rede(
+		zurücksetzen: klicken
+		Sprache: 'de-DE'
+		Limit: 10
+	)
+x2: Zufällig(-10m 10m) … ∆ sprache … Zufällig(-10m 10m)
+y2: Zufällig(-10m 10m) … ∆ sprache … Zufällig(-10m 10m)
+textgröße: Zufällig(1m 3m) … ∆ sprache … Zufällig(1m 3m)
+Bühne(
+	[
+		Satzglied(
+			sprache
+			Ort: Ort(x2 y2)
+			Farbe: Farbe(0% 0% 0°)
+			Größe: textgröße
+		)
+	]
+	Hintergrund: Farbe(100% 0% 0°)
+)
+

@@ -1,0 +1,198 @@
+🎂
+Sto lat
+=== start/en
+¶Sto lat w trzech częściach: melodia, harmonia pod nią i akordy, które trzymają obie razem.
+
+Każda część jest zapisana w stopniach skali, więc 1 to tonika, a 8 to tonika oktawę wyżej. Dlatego melodia brzmi tak samo, w jakiej tonacji by jej nie zagrać — zmień @Music/key, a cała piosenka przesunie się razem z nią, wraz ze śpiewającymi.
+
+Melodia i harmonia poruszają się w półtaktach, a akordy w pełnych taktach, więc każda część podaje, jak długie są jej własne wpisy, a mimo to wszystko się zgadza.¶
+
+¶Takty od początku piosenki, żeby tort mógł się razem z nią poruszać. @Beat liczy od zera, zanim muzyka zacznie grać, więc tort po prostu stoi w miejscu.¶
+takt: Rytm()
+liczba2: takt.liczba
+
+¶Melodia. Dwie ósemki, a potem dłuższe dźwięki — to pauzy tworzą rytm, bo każdy wpis trwa ten sam pół takt.¶
+melodia2: [
+		5
+		5
+		6
+		ø
+		5
+		ø
+		8
+		ø
+		7
+		ø
+		ø
+		ø
+		5
+		5
+		6
+		ø
+		5
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		5
+		5
+		12
+		ø
+		10
+		ø
+		8
+		ø
+		7
+		ø
+		6
+		ø
+		ø
+		11
+		11
+		10
+		ø
+		8
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Drugi głos poniżej melodii, w tych samych półtaktach.¶
+alt: [
+		5
+		5
+		3
+		ø
+		3
+		ø
+		3
+		ø
+		4
+		ø
+		ø
+		ø
+		4
+		4
+		4
+		ø
+		4
+		ø
+		4
+		ø
+		5
+		ø
+		ø
+		ø
+		5
+		5
+		5
+		ø
+		8
+		ø
+		5
+		ø
+		5
+		ø
+		4
+		ø
+		6
+		6
+		6
+		ø
+		6
+		ø
+		5
+		ø
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Akordy, jeden na takt. Zbiór brzmi wszystkimi swoimi stopniami naraz, więc {1 3 5} to trójdźwięk toniczny, a {4 5 7 9} to ten, który chce wrócić do toniki.¶
+akordy: [
+		ø
+		{1 3 5}
+		ø
+		ø
+		{4 5 7 9}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{4 6 8}
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		{4 5 7 9}
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Tort powiększa się na każdym takcie i opada między nimi.¶
+ƒ tort() Wyrażenie(
+		'🎂'
+		(4m + ((liczba2 % 2) · 0.4m))
+		czastrwania: 0.2s
+	)
+
+Scena(
+	[
+		Grupa(
+			Stos(wyściółka: 0.5m)
+			[
+				tort()
+				Wyrażenie('Sto lat' 1.3m)
+			]
+		)
+		Muzyka(
+			[
+				Ścieżka(
+					melodia2
+					instrument: Instrument.flet
+					rytm: 0.5beats
+				)
+				Ścieżka(
+					alt
+					instrument: Instrument.skrzypce
+					rytm: 0.5beats
+					głośność: 65%
+				)
+				Ścieżka(
+					akordy
+					instrument: Instrument.pianino
+					rytm: 1beats
+					głośność: 55%
+				)
+			]
+			tempo: 116beats/min
+			nazwa: 'urodziny'
+		)
+	]
+	tło: Kolor(18% 20 330°)
+	kolor: Kolor(96% 0 0°)
+)

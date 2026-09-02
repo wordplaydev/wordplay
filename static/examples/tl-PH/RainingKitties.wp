@@ -1,0 +1,46 @@
+🐈
+Umuulan ng mga Kuting
+=== start/en
+¶Limampung pusa ang umuulan sa entablado.¶
+bilang2: 50
+sukat2: 30
+
+•pusa2(x2•# y2•# z2•# anggulo2•# bilis2•#) ()
+
+¶Sa simula, gumawa ng listahan ng 20 pusa, bawat isa ay nakalagay sa random na lugar. Kapag tumitik ang orasan, ilipat silang lahat pababa nang kaunti.¶
+pusa3•[pusa2]:
+	bilang2 → [].isalin(
+		ƒ(_) pusa2(
+				Random(-sukat2 sukat2)
+				Random(-sukat2 sukat2)
+				Random(0 sukat2 ÷ 2)
+				Random(360)
+				Random(-30 30)
+			)
+	)
+	… ∆ Oras() …
+		pusa3.isalin(
+			ƒ(pusa4•pusa2)
+				(pusa4.y2:pusa4.y2 < -sukat2 ? sukat2 pusa4.y2 - 2)
+				.anggulo2:pusa4.anggulo2 + pusa4.bilis2
+		)
+
+¶Gawing mga parirala ang mga pusa¶
+Entablado(
+	pusa3.isalin(
+		ƒ(pusa5•pusa2)
+			Parirala(
+				"🐈"
+				mukha: "Noto Color Emoji"
+				laki: 5m
+				lugar: Lugar(
+					pusa5.x2 × 1m
+					pusa5.y2 × 1m
+					pusa5.z2 × 1m
+				)
+				pagikot: pusa5.anggulo2 × 1°
+				tagal: 0s
+			)
+	)
+	lugar: Lugar(0m 0m -5m)
+)

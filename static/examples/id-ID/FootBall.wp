@@ -1,0 +1,340 @@
+⚽
+Sepak Bola
+=== start/en
+¶Sebuah permainan penjaga gawang dilihat dari atas. Kamu adalah sarung tangan di depan gawang di sebelah kiri. Satu bola pada satu waktu ditendang dari suatu tempat di lapangan, diarahkan ke satu titik di dalam mulut gawang, dan kamu bergerak naik turun untuk menghalanginya. Angka itu menghitung tembakan yang berhasil kamu tahan: angka itu berdiri tegak setiap kali kamu berhasil menahan bola, dan membesar serta bergetar ketika bola berhasil melewatimu.¶
+
+¶Tempat tendangan diarahkan, dan tempat sarung tangan berada. Sebuah gawang lebarnya sekitar delapan kali lebar penjaga yang menjaganya, karena itulah satu orang tidak bisa hanya berdiri di tengah dan menyelamatkan semuanya.
+
+Sebuah @Place adalah sudut kiri-bawah dari sebuah output, bukan bagian tengahnya, jadi semua yang diarahkan atau dijepit di bawahnya dihitung dari titik tengah dan kehilangan separuh ukurannya saat menjadi sebuah @Place. Sebuah emoji juga tergambar jauh lebih besar dari ukurannya — sebuah ⚽ berukuran 0,6m memenuhi sekitar 0,9m, sebuah 🧤 berukuran 1,2m sekitar 1,25m — jadi separuh itu diukur langsung, bukan dibagi dua dari ukuran aslinya. Kecepatan sarung tangan adalah seberapa jauh ia bergeser setiap detak.¶
+gawangX: -7m
+mulutTepi: 5.2m
+bolaSetengah: 0.45m
+penjagaX: -6.5m
+penjagaSetengah: 0.62m
+penjagaJangkauan: 4.5m
+penjagaKecepatan: 0.55m
+
+detak2: Waktu(50ms)
+tekan: Kunci(turun: ⊤)
+lepas: Kunci(turun: ⊥)
+
+¶Ke arah mana sarung tangan bergerak. Menekan sebuah tombol panah membuatnya bergerak, dan melepas tombol panah yang sama menghentikannya, jadi sarung tangan bergeser selama kamu menahan tombol itu. Melintasi mulut gawang yang selebar ini, satu langkah setiap tekanan tidak akan pernah sampai tepat waktu.¶
+hanyut•#: 0 … ∆ tekan | ∆ lepas …
+		∆ tekan ?
+			((tekan = 'Panah Atas') ? 1 ((tekan = 'Panah Bawah') ? -1 hanyut))
+			((lepas = 'Panah Atas') & (hanyut = 1)) ? 0
+				((lepas = 'Panah Bawah') & (hanyut = -1)) ? 0
+					hanyut
+
+¶Sarung tangan tidak digerakkan oleh fisika, jadi ia bisa dikendalikan secara langsung. Ia berhenti di ujung-ujung jangkauannya, jadi ia tidak akan pernah keluar dari gawang.¶
+penjagaY•#m: 0m … ∆ detak2 …
+		((penjagaY + (hanyut × penjagaKecepatan)).maksimal(
+				penjagaJangkauan · -1
+			)).menit(
+			penjagaJangkauan
+		)
+
+¶Sebuah penyelamatan dan sebuah gol. Setiap @Collision melaporkan awal sentuhan dan akhir sentuhan, jadi keduanya dipasangkan dengan sebuah pemeriksaan bahwa ini adalah sebuah awal: tanpa itu, setiap penyelamatan dan setiap gol akan terhitung dua kali.¶
+sarungTanganKena: Tabrakan('bola' 'penjaga')
+jaringKena: Tabrakan('bola' 'gawang')
+diselamatkan: (∆ sarungTanganKena) & ~(sarungTanganKena•ø)
+mencetakGol: (∆ jaringKena) & ~(jaringKena•ø)
+
+•tembakan(sx•#m sy•#m miring2•# kecepatan2•#m/s)
+
+¶Sebuah tempat untuk berdiri, sebuah tempat di mulut gawang untuk membidik, dan garis di antara keduanya. Menghitung kemiringan dari kedua ujung itulah yang membuat setiap tendangan tepat mengarah ke sasaran, dari arah mana pun ia datang.¶
+ƒ tembakanBaru()•tembakan (
+		x2: Acak(2m 6m)
+		y2: Acak(-5.5m 5.5m)
+		bidik: Acak(-4.7m 4.7m)
+		¶Kemiringan adalah seberapa besar y yang dikorbankan oleh lintasan untuk setiap meter x. Sebuah pembagian bisa tidak memiliki jawaban, jadi kasus ø kembali ke tendangan lurus ke arah lapangan; penendang tidak pernah berdiri di garis gawang, jadi kasus ini tidak akan pernah muncul.¶
+		jatuh: (bidik - y2) ÷ (gawangX - x2)
+		tembakan(x2 y2 (jatuh•ø ? 0 jatuh) Acak(16m/s 22m/s))
+	)
+
+¶1 = bola menunggu di kaki penendang, 2 = bola sedang melaju, 3 = bola sedang dibersihkan. Detak dihitung, bukan dikurangi dari jam, karena setiap @Timestarts dimulai dari nol. Blok adalah yang kamu lihat; serve hanya ada untuk memberi angka itu nama baru setiap tendangan, dan itulah yang memutar ulang animasinya.¶
+•babak(fase•# detak3•# blok•# servis•# terakhir2•# tembakan2•tembakan)
+putaran2•babak: babak(1 0 0 0 0 tembakanBaru()) …
+	∆ detak2 | diselamatkan | mencetakGol …
+		putaran2.fase ???
+			1: (putaran2.detak3 ≥ 14)
+			? babak(
+					2
+					0
+					putaran2.blok
+					putaran2.servis
+					putaran2.terakhir2
+					putaran2.tembakan2
+				)
+				babak(
+					1
+					(putaran2.detak3 + (∆ detak2 ? 1 0))
+					putaran2.blok
+					putaran2.servis
+					putaran2.terakhir2
+					putaran2.tembakan2
+				)
+			2: diselamatkan ? babak(
+					3
+					0
+					(putaran2.blok + 1)
+					(putaran2.servis + 1)
+					1
+					putaran2.tembakan2
+				)
+				mencetakGol ? babak(
+						3
+						0
+						putaran2.blok
+						(putaran2.servis + 1)
+						2
+						putaran2.tembakan2
+					)
+					¶Sebuah bola yang tidak pernah tiba — misalnya, ditendang kembali ke lapangan terbuka lewat sebuah penyelamatan — akan dilupakan setelah beberapa detik, jadi permainan tidak akan pernah terjebak menunggu hasil yang tidak akan datang.¶
+					(putaran2.detak3 ≥ 70)
+					? babak(
+							3
+							0
+							putaran2.blok
+							(putaran2.servis + 1)
+							3
+							putaran2.tembakan2
+						)
+						babak(
+							2
+							(putaran2.detak3 + (∆ detak2 ? 1 0))
+							putaran2.blok
+							putaran2.servis
+							putaran2.terakhir2
+							putaran2.tembakan2
+						)
+			3: (putaran2.detak3 ≥ 16)
+			? babak(
+					1
+					0
+					putaran2.blok
+					putaran2.servis
+					putaran2.terakhir2
+					tembakanBaru()
+				)
+				babak(
+					3
+					(putaran2.detak3 + (∆ detak2 ? 1 0))
+					putaran2.blok
+					putaran2.servis
+					putaran2.terakhir2
+					putaran2.tembakan2
+				)
+			putaran2
+
+¶Satu evaluasi tunggal saat bola meninggalkan kaki penendang. Ini harus terjadi hanya sesaat: inilah yang memukul bola, dan memukulnya dua kali akan menggandakan kecepatannya.¶
+ditendang: (∆ detak2) & (putaran2.fase = 2) & (putaran2.detak3 = 0)
+
+¶Ditahan diam saat menunggu, dipukul sepanjang garis bidikannya saat ditendang, dan ditendang kembali ke arah lapangan oleh sebuah penyelamatan atau oleh bagian belakang jaring — yang juga menjaga agar bola tidak terus memantul di dalam gawang dan membuat jaring berbunyi berulang-ulang. Udara memperlambat bola yang menggelinding, seperti yang dilakukan rumput, jadi tendangan melambat perlahan.¶
+tempatBola: Gerakan(
+		Tempat(
+			(putaran2.tembakan2.sx - bolaSetengah)
+			(putaran2.tembakan2.sy - bolaSetengah)
+		)
+		tempatberikutnya:
+		(putaran2.fase = 1) ? Tempat(
+				(putaran2.tembakan2.sx - bolaSetengah)
+				(putaran2.tembakan2.sy - bolaSetengah)
+			) ø
+		kecepatanberikutnya:
+		(putaran2.fase = 1) ? Kecepatan(0m/s 0m/s 0°/s)
+			ditendang ? Kecepatan(
+					(putaran2.tembakan2.kecepatan2 · -1)
+					((putaran2.tembakan2.kecepatan2 · -1) × putaran2.tembakan2.miring2)
+					Acak(-45°/s 45°/s)
+				)
+				(diselamatkan | mencetakGol) ? Kecepatan(
+						Acak(8m/s 14m/s)
+						Acak(-5m/s 5m/s)
+						Acak(-45°/s 45°/s)
+					)
+					ø
+	)
+
+bola: Frasa(
+		'⚽'
+		0.6m
+		nama: 'bola'
+		tempat: tempatBola
+		urusan: Urusan(0.45kg 0.7 0.02)
+	)
+
+¶Sarung tangan diawasi lewat nama di atas, dan itu saja sudah cukup untuk membuatnya ada di dunia fisik, jadi ia tidak perlu @Matter. Ia ditempatkan oleh program, bukan oleh fisika, jadi ia melewati bola begitu saja tanpa memukulnya; penyelamatan di atas adalah yang mengirim bola kembali. Gerakannya tidak dihaluskan, jadi ia berada persis di tempat kamu arahkan, bukan bergerak perlahan mengikutimu.¶
+penjaga: Frasa(
+		'🧤'
+		1.2m
+		nama: 'penjaga'
+		tempat: Tempat(penjagaX (penjagaY - penjagaSetengah))
+		lamanya: 0s
+	)
+
+¶Siapa yang akan menendang, dan dari mana. Hanya berlaku di lapangan selama bola menunggu.¶
+penendang: Frasa(
+		'🦵'
+		1.2m
+		tempat: Tempat(
+			(putaran2.tembakan2.sx + 0.5m)
+			(putaran2.tembakan2.sy - 0.6m)
+		)
+		lamanya: 0s
+	)
+daftarPenendang: (putaran2.fase = 1) ? [penendang] []
+
+¶Gawang: mulutnya, jaring di bagian belakangnya, dan tiang di atas serta di bawah. Hanya jaring yang diberi nama, jadi hanya jaring yang bisa menghasilkan gol — sebuah bola yang mengenai tiang hanya akan memantul. Jaring dibuat sengaja tebal: tendangan tercepat melintasi sekitar setengah meter di antara setiap langkah fisika, dan jaring yang lebih tipis bisa saja dilewati bola tanpa pernah tersentuh.¶
+bentukJaring: Bangun(
+		Persegipanjang(-8m mulutTepi -7.2m (mulutTepi · -1))
+		nama: 'gawang'
+		latarbelakang: Warna(96% 0 0°)
+	)
+atasTiang: Bangun(
+		Persegipanjang(-8m 7m -7.2m mulutTepi)
+		latarbelakang: Warna(35% 0 0°)
+	)
+bawahTiang: Bangun(
+		Persegipanjang(-8m (mulutTepi · -1) -7.2m -7m)
+		latarbelakang: Warna(35% 0 0°)
+	)
+
+¶Garis samping, yang menjaga bola yang dibersihkan tetap berada di lapangan.¶
+atasDinding: Bangun(
+		Persegipanjang(-8m 7m 8m 6.8m)
+		latarbelakang: Warna(88% 5 130°)
+	)
+bawahDinding: Bangun(
+		Persegipanjang(-8m -6.8m 8m -7m)
+		latarbelakang: Warna(88% 5 130°)
+	)
+kananDinding: Bangun(
+		Persegipanjang(7.8m 7m 8m -7m)
+		latarbelakang: Warna(88% 5 130°)
+	)
+
+¶Sebuah penyelamatan: angka itu muncul sedikit ke atas dan berdiri sesaat sebelum kembali diam.¶
+lenturPenyelamatan: Urutan(
+		{
+			0%: Pose(skala: 1)
+			30%: Pose(skala: 1.5 mengimbangi: Tempat(0m 0.4m))
+			65%: Pose(skala: 1.35 mengimbangi: Tempat(0m 0.25m))
+			100%: Pose(skala: 1)
+		}
+		0.5s
+	)
+
+¶Sebuah gol: angka itu membesar memenuhi layar dan bergetar, jadi tendangan yang berhasil melewatimu tidak akan pernah terlewat begitu saja.¶
+goyangGawang: Urutan(
+		{
+			0%: Pose(skala: 1)
+			8%: Pose(skala: 3.6 rotasi: -10°)
+			24%: Pose(
+				skala: 3.6
+				rotasi: 10°
+				mengimbangi: Tempat(0.4m 0m)
+			)
+			40%: Pose(
+				skala: 3.6
+				rotasi: -10°
+				mengimbangi: Tempat(-0.4m 0m)
+			)
+			56%: Pose(
+				skala: 3.6
+				rotasi: 8°
+				mengimbangi: Tempat(0.3m 0m)
+			)
+			72%: Pose(skala: 3.4 rotasi: -6°)
+			100%: Pose(skala: 1)
+		}
+		1s
+	)
+
+¶Jumlah tendangan yang berhasil diblokir. Namanya membawa nomor serve, jadi setiap tendangan memberinya identitas baru dan animasinya diputar ulang — sebuah angka yang namanya tidak pernah berubah hanya akan beranimasi sekali lalu diam.¶
+tampilanSkor: Frasa(
+		"🧤 \putaran2.blok\"
+		1.4m
+		nama: "score\putaran2.servis\"
+		tempat: Tempat(-1.4m 4m)
+		lamanya: 0.2s
+		memasuki: putaran2.terakhir2 ???
+			1: lenturPenyelamatan
+			2: goyangGawang
+			Pose()
+	)
+
+¶Petunjuk ditampilkan di lapangan, bukan di lapisan atas: tepi bawah lapisan atas adalah tempat tampilan musik berada, dan teks di sana akan tertutup olehnya.¶
+petunjuk: Frasa(
+		'tahan ⬆ ⬇ untuk menggerakkan sarung tanganmu — blokir setiap tendangan!'
+		0.55m
+		tempat: Tempat(-6.4m -6.4m)
+	)
+
+¶Tiga suara: tendangan, penyelamatan, dan gawang. Masing-masing ditampilkan di panggung selama fase yang menyebabkannya masih berlangsung, lalu dihilangkan setelah itu. Mencapai panggung sudah cukup jadi alasan untuk berbunyi, dan suara sekali-jalan yang sudah selesai diputar akan diam sampai ia keluar lalu kembali lagi — jadi tidak satu pun dari suara ini butuh @Music.replay, dan tidak satu pun berbunyi saat program dimulai.
+
+Menuliskannya dengan cara ini menyampaikan sesuatu yang tidak bisa disampaikan oleh nada saja: setiap suara termasuk dalam satu fase ronde, dan berlangsung persis selama fase itu berlangsung. @Music.replay adalah cara penulisan lain, untuk suara yang menjawab satu saat saja, bukan suatu rentang waktu.¶
+suaraTendangan: Musik(
+		Trek(
+			[1]
+			alatMusik: AlatMusik.drum
+			ketukan: 0.25beats
+			volume: 60%
+			perulangan: ⊥
+		)
+		nama: 'tendangan'
+	)
+
+suaraPenyelamatan: Musik(
+		Trek(
+			[8 12 15]
+			alatMusik: AlatMusik.lonceng
+			ketukan: 0.2beats
+			volume: 70%
+			perulangan: ⊥
+		)
+		nama: 'penyelamatan'
+	)
+
+suaraGol: Musik(
+		Trek(
+			[5 4 2 1]
+			alatMusik: AlatMusik.terompet
+			ketukan: 0.3beats
+			volume: 65%
+			perulangan: ⊥
+		)
+		nama: 'tujuan'
+	)
+
+suaraHasil: putaran2.terakhir2 ???
+		1: [suaraPenyelamatan]
+		2: [suaraGol]
+		[]
+
+daftarSuara: putaran2.fase ???
+		2: [suaraTendangan]
+		3: suaraHasil
+		[]
+
+Panggung(
+	[
+		bola
+		penjaga
+		:daftarPenendang
+		bentukJaring
+		atasTiang
+		bawahTiang
+		atasDinding
+		bawahDinding
+		kananDinding
+		petunjuk
+		:daftarSuara
+	]
+	tempat: Tempat(0m 0m -14m)
+	bingkai: Persegipanjang(-8m 7m 8m -7m)
+	latarbelakang: Warna(62% 40 140°)
+	warna: Warna(20% 0 0°)
+	gayaberat: 0m/s^2
+	lapisanAtas: [tampilanSkor]
+)

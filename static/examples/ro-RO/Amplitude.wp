@@ -1,0 +1,13 @@
+⚫
+Amplitudine
+===
+¶Un șir de puncte care se aprind și se sting după volumul microfonului tău.¶
+amplitudini•[#]: ←← 10 Volum()
+vizual: amplitudini.traduce(
+		ƒ(amplitudine•#) Fraza(
+				"⚫"
+				opacitate: amplitudine
+				dimensiune: 10m
+			)
+	)
+Etapă([Grup(Rând() vizual)] loc: Loc(0m 0m -50m))

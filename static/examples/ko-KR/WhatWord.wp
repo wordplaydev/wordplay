@@ -1,0 +1,248 @@
+W
+무슨단어
+=== start/en
+¶영어, 스페인어, 아랍어로 하는 단어 맞히기 게임입니다.¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] 남은•[""] 시작2•?) (
+	비밀단어: 시작2 ? 남은[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (비밀단어.길이(
+			) × 3) - guesses.길이()
+	status/en,estado/es,حالة/ar:
+		비밀단어 = "" ? "start"
+			비밀단어 → [""].모두(ƒ(글자•"") guesses.가지다(글자)) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: 키()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.정렬됨(ƒ() 무작위())
+		⊥
+	) … ∆ key …
+		key = '탈출하다' ? Game([] words.정렬됨(ƒ() 무작위()) ⊥)
+			(state.status ≠ "playing") & (key = '공간') ? Game(
+					[]
+					state.남은.첫번째없이()
+					⊤
+				)
+				(state.status = "playing") & (key.길이() = 1) & ~state.guesses.가지다(
+						key
+					) ?
+					Game(state.guesses.와함께(key) state.남은 ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: 구절(
+		state.비밀단어 → [""].번역하다(
+			ƒ(글자2•"") ((state.status = "lost") | state.guesses.가지다(
+							글자2
+						)) ? 글자2 "."
+		).결합하다(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: 포즈(불투명: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": 그룹(
+			스택()
+			[
+				구절(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					위치: 위치(지: -1m)
+					입력: 포즈(불투명: 0%)
+					쉬고있는: 순서.흔들림(지속: 1s)
+				)
+				구절(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			종료: fade
+		)
+		"lost": 그룹(
+			스택()
+			[
+				board
+				구절(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					입력: 포즈(회전: 0°)
+					쉬고있는: 포즈(회전: -5°)
+				)
+			]
+			종료: fade
+		)
+		"won": 그룹(
+			스택()
+			[
+				board.쉬고있는:순서.튕김(3m 1s)
+				구절(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			종료: fade
+		)
+		그룹(
+			스택()
+			[
+				board
+				구절(
+					state.guesses.길이() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.결합하다(
+							' '
+						)\"/en"Suposiciones: \state.guesses.결합하다(' ')\"/es"التخمينات \state.guesses.결합하다(
+							' '
+						)\"/ar
+				)
+				구절(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					쉬고있는: 순서.흔들림(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶어디로도 나아가지 않고 제자리로 돌아오는 느린 도형이에요. 그래서 곱씹어보게 되지요. 아래 트랙은 모두 여덟 박자 길이라서, 다 함께 돌아와 반복 구간에 이음매가 없습니다.¶
+테마: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶용돈을 얼마나 썼는지를 나타내요. 0이면 아직 다 쓸 수 있고, 1이면 남은 게 없다는 뜻입니다. 첫 판 전에는 비밀 단어가 비어 있어서, 0으로 나누지 않도록 나눗셈을 조심스럽게 처리했습니다.¶
+최대시도횟수: state.비밀단어.길이() × 3
+압박감: (최대시도횟수 = 0) ? 0 (((1 - (state.guessesRemaining ÷ 최대시도횟수)).최대(
+					0
+				)).최소(
+				1
+			))
+
+¶분당 54박에서는 차분하고, 120박에서는 다급해지며, 추측할 때마다 조금씩 움직여요. 빠르기를 바꿀 때는 처음부터 다시 시작하지 않고 다음 박자에 이어붙여서, 반복 구간이 제자리를 지키며 그저 앞으로 기울어집니다. 조용한 드럼은 그 기울어짐을 들리게 하려고 넣었어요. 길게 이어지는 음 아래에서는 빠르기 변화가 잘 느껴지지 않으니까요.¶
+퍼즐음악: 음악(
+		[
+			트랙(테마 악기: 악기.피아노 비트: 0.5beats 음량: 50%)
+			트랙([{1 3 5} {4 6 8}] 악기: 악기.신디패드 비트: 4beats 음량: 35%)
+			트랙([ø ø 8 ø ø ø 6 ø] 악기: 악기.종 비트: 1beats 음량: 30%)
+			트랙([1 ø ø ø 1 ø ø ø] 악기: 악기.드럼 비트: 1beats 음량: 20%)
+		]
+		박자빠르기: (54beats/min + (압박감 · 66beats/min))
+		음계: 음악.도리안
+		이름: '퍼즐'
+	)
+
+¶이겼어요: 주제 선율이 두 배 빨라지고, 종소리로 한 옥타브 위에서 두 배로 겹쳐지며, 예시에 나오는 유일한 장화음 위에서 울립니다.¶
+승리노래: 음악(
+		[
+			트랙(테마 악기: 악기.피아노 비트: 0.5beats 음량: 50%)
+			트랙(테마 악기: 악기.종 비트: 0.5beats 키: 12semitones 음량: 35%)
+			트랙(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				악기: 악기.신디패드
+				비트: 2beats
+				음량: 35%
+			)
+			트랙([1 ø 3 ø 2 ø 3 ø] 악기: 악기.드럼 비트: 1beats 음량: 30%)
+		]
+		박자빠르기: 96beats/min
+		음계: 음악.장조
+		이름: '승리'
+	)
+
+¶졌어요: 주제 선율이 한 옥타브 아래로 내려가고, 게임을 하는 동안 나왔던 그 어느 때보다 느려지며, 집으로 돌아오는 대신 4도 화음에 머무는 화음 위에서 울려서 반복 구간이 끝내 해결되지 않습니다.¶
+패배노래: 음악(
+		[
+			트랙(테마 악기: 악기.피아노 비트: 0.5beats 키: -12semitones 음량: 45%)
+			트랙(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				악기: 악기.신디패드
+				비트: 2beats
+				음량: 40%
+			)
+			트랙([ø ø 5 ø ø ø 4 ø] 악기: 악기.종 비트: 1beats 음량: 25%)
+			트랙([1 ø ø ø ø ø ø ø] 악기: 악기.드럼 비트: 1beats 음량: 20%)
+		]
+		박자빠르기: 46beats/min
+		음계: 음악.단조
+		이름: '패배'
+	)
+
+¶지금 상태에 맞는 곡만 무대에 나오고, 더는 자리에 없는 @Music은 멈춥니다. 그러니 판이 끝나야 음악이 바뀌는 거예요.
+
+세 곡 모두 같은 주제 선율을 연주하고, 그 아래 음계가 나머지 일을 합니다. 주제 선율은 1도, 4도, 5도, 6도, 8도를 지나가는데, @Music.major과 @Music.dorian는 그 모든 음에서 서로 일치해요. 둘이 갈라지는 3도와 7도는 선율에 나오지 않습니다. 그래서 이겨도 여러분이 생각하며 흥얼거리던 그 선율의 음은 하나도 바뀌지 않아요. 다만 아래 화음은 3도를 쓰기 때문에 장화음으로 바뀝니다. @Music.minor은 6도에서 도리안 음계와 갈라지는데, 그 음은 주제 선율에도 나오기 때문에, 지면 그 음도 낮아지고 선율 전체도 한 옥타브 내려갑니다.¶
+사운드트랙: state.status ???
+		"won": 승리노래
+		"lost": 패배노래
+		퍼즐음악
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+단계(
+	[screen 사운드트랙]
+	위치: 위치(0m 0m -12m)
+	얼굴: "Poor Story"
+	배경: 색상(0% 0 0°)
+	색상: 색상(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'여우'
+	'원숭이'
+	'비버'
+	'소'
+	'늑대'
+	'염소'
+	'사슴'
+	'돼지'
+	'친칠라'
+	'다람쥐'
+	'쥐'
+	'땃쥐'
+	'두더지'
+	'아르마딜로'
+	'주머니쥐'
+	'코끼리'
+	'박쥐'
+	'당나귀'
+	'말'
+	'고슴도치'
+	'고양이'
+	'기린'
+	'고릴라'
+	'물범'
+	'사람'
+	'캥거루'
+	'마멋'
+	'햄스터'
+	'마우스'
+	'토끼'
+	'양'
+	'재규어'
+	'침팬지'
+	'개코원숭이'
+	'너구리'
+	'두더지'
+	'땃쥐'
+	'바늘두더지'
+	'맥'
+].정렬됨(
+	ƒ() 무작위()
+)

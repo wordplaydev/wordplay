@@ -1,0 +1,43 @@
+✨
+Dấu Vết Từ Ngữ
+===
+¶Dự án này vẽ lại đường viền của từ "wordplay" bằng một vệt sao chổi gồm các chấm, quét quanh các chữ cái, được điều khiển bởi một dòng Time(). Nửa từ luôn sáng lên vào bất kỳ lúc nào, mờ dần từ sáng nhất ở đầu vệt đến trong suốt ở đuôi vệt.¶
+
+điểm2: Đườngviền(
+		'wordplay'
+		"Noto Sans"
+		3m
+		địađiểm: VịTrí(-6m 0m)
+		khoảngcách: 0.5m
+	)
+
+¶Có bao nhiêu điểm trên đường viền, và một số lượng an toàn để chia trước khi phông chữ được tải xong (khi danh sách vẫn còn rỗng).¶
+sốLượng: điểm2.chiềudài()
+
+¶Vệt che phủ nửa từ, nên luôn có nửa từ hiện ra.¶
+đuôiVệt: sốLượng ÷ 2
+
+¶Một chỉ mục đầu vệt tiến thêm một điểm mỗi nhịp và quay vòng quanh từ.¶
+đầuVệt: 0 … ∆ Thờigian(10ms) … ((đầuVệt + 1) % sốLượng) ?? 0
+
+Sânkhấu(
+	điểm2.dịch(
+		ƒ(điểm3•VịTrí chỉMục2•#)
+			(
+				¶Điểm này cách đầu vệt bao nhiêu điểm phía sau, tính theo vòng.¶
+				tuổi: ((((đầuVệt - chỉMục2) + 1) + sốLượng) % sốLượng) ?? 0
+				Cụmtừ(
+					"•"
+					kíchcỡ: 1m
+					vịTrí: điểm3
+					màusắc: Màusắc(
+						90%
+						100
+						((chỉMục2 ÷ sốLượng) ?? 0) × 360°
+					)
+					độmờđục: tuổi < đuôiVệt ? 1 - ((tuổi ÷ đuôiVệt) ?? 0) 0
+					khoảngthờigian: 0s
+				))
+	)
+	lýlịch: Màusắc(8% 0 0°)
+)

@@ -1,0 +1,95 @@
+🏀
+Bituin ng Basketbol
+=== start
+¶Itutok ang iyong pointer at mag-click para magshoot ng bola sa hoops.¶
+click: ∆ Butones()
+
+bilangNgClick: 0 … click … 1 + ⬚
+
+¶Kunin ang x ng pointer sa mismong sandali ng pagshoot, para ang bola ay bumaba mula sa itinutok ng manlalaro sa halip na bumalik sa x = 0¶
+shotX: 0m … (click & ((bilangNgClick % 2) = 1)) … Panturo().x
+
+lugarNgBasketbol: (bilangNgClick % 2) = 0 ? Lugar(
+			x: Panturo().x
+			taon: 8m
+			z: 0m
+		) Paggalaw(lugar: Lugar(shotX 8m 0m))
+
+basketbol: Parirala(
+		"🏀"
+		0.7m
+		materya: Materya(0.623kg 0.5)
+		lugar: lugarNgBasketbol
+		pangalan: 'basketbol'
+	)
+
+¶Gumagalaw nang tuluy-tuloy ang basket paikot-ikot, base sa sine ng oras¶
+lugarNgBasketX: (Oras() ÷ 600ms).kasalanan() · 6m
+
+¶Basahin ang kasalukuyang posisyon ng bola nang isang beses para sa pagsusuri ng iskor¶
+bolaX: (basketbol.lugar ?? Lugar()).x
+bolaY: (basketbol.lugar ?? Lugar()).taon
+
+pagtatangka: (bilangNgClick ÷ 2).roundUp()
+
+¶Totoo ang inBin kapag nasa loob ng basket ang bola. Tatakbo lang ang reaksyon ng iskor kapag naging totoo ang inBin AT mas malaki ang kasalukuyang pagtatangka kaysa sa iskor, kaya ang anumang pangalawang pagpasok sa parehong shot — mga talbog sa loob ng basket, o pagbalik ng basket sa ibabaw ng bola — ay hindi gagawa ng anuman hanggang sa susunod na shot na magpapataas sa bilang ng pagtatangka¶
+nasaBasket: (bolaX < (lugarNgBasketX + 0.9m)) & (bolaX > (lugarNgBasketX - 0.9m)) & (bolaY < 2.9m) & (bolaY > 0.3m)
+iskor: 0 … nasaBasket & (pagtatangka > iskor) … 1 + iskor
+
+bituinNgBasketbol: Grupo(
+		Patongpatong('|' 0.5m)
+		[
+			Parirala(`*Bituin ng Basketbol*` .8m)
+			Parirala('Itutok ang iyong pointer.' .6m)
+			Parirala(
+				'I-click para ihulog ang 🏀 sa gumagalaw na basket.'
+				.6m
+			)
+			Parirala('Iskor: ' + iskor → '' .8m)
+			Parirala('Mga Pagtatangka: ' + pagtatangka → '' .8m)
+		]
+		laki: 2m
+		mukha: "Sue Ellen Francisco"
+		offset: Lugar(0m 8m 0m)
+	)
+
+Entablado(
+	[
+		basketbol
+		¶Pinalapad ang mga dingding ng basket hanggang 0.3m (mula 0.1m) para hindi makadaan ang bola sa gumagalaw na basket, at pinataas hanggang 3m (mula 2m) para hindi makatalbog pabalik sa labas ang bolang may 0.5 na talbog¶
+		Hugis(
+			Parihaba(
+				-1.2m + lugarNgBasketX
+				0.3m
+				1.2m + lugarNgBasketX
+				0m
+				0m
+			)
+			background: Kulay(60% 100 30°)
+		)
+		Hugis(
+			Parihaba(
+				0.9m + lugarNgBasketX
+				3m
+				1.2m + lugarNgBasketX
+				0m
+				0m
+			)
+			background: Kulay(60% 100 30°)
+		)
+		Hugis(
+			Parihaba(
+				-1.2m + lugarNgBasketX
+				3m
+				-0.9m + lugarNgBasketX
+				0m
+				0m
+			)
+			background: Kulay(60% 100 30°)
+		)
+		Hugis(Parihaba(-10m 0.01m 10m -2m))
+		bituinNgBasketbol
+	]
+	lugar: Lugar(x: 0m taon: 5m z: -10m)
+	grabidad: 5m/s^2
+)

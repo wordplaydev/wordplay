@@ -1,0 +1,105 @@
+🔁
+Waldough đâu rồi?
+=== start/en
+¶Tìm Waldough đang trốn trong đám đông: hãy tìm người đàn ông mặc áo cam và nhấp vào anh ấy để chiến thắng!¶
+
+tên3: Sựlựachọn()
+bịBắt: ⊥ … ∆ (tên3) … (tên3 = 'ResetButton') ? ⊥ ((tên3 = 'Waldough') | bịBắt)
+điểmSố: 0 … ∆ (tên3) … (tên3 = 'Waldough') ? 1 + điểmSố điểmSố
+
+ƒ vịTrí2() VịTrí(
+		((0.1 × Ngẫunhiên(-9m 9m)) + Ngẫunhiên(-2m 1m))
+		((0.1 × Ngẫunhiên(-9m 9m)) + Ngẫunhiên(-2m 1m))
+	)
+ƒ đốmMới() [
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+		vịTrí2()
+	]
+đốm: đốmMới() … ∆ (tên3) … (tên3 = 'ResetButton') ? đốmMới(
+			) đốm
+
+
+Sânkhấu(
+	[
+		Cụmtừ(
+			"🔁"
+			cóthểlựachọn: ⊤
+			vịTrí: VịTrí(4m -0.5m)
+			nghỉngơi: bịBắt ? Tưthế(xoay: 180°) Tưthế()
+			khoảngthờigian: 0.5s
+			tên: 'ResetButton'
+		)
+		Cụmtừ(
+			'Hãy tìm chiếc áo cam'
+			0.2m
+			vịTrí: VịTrí(-6.2m 0.75m)
+			khuônmặt: 'Carter One'
+		)
+		Cụmtừ(
+			'người đàn ông (tên là Waldough) và'
+			0.2m
+			vịTrí: VịTrí(-6.4m 0.25m)
+			khuônmặt: 'Carter One'
+		)
+		Cụmtừ(
+			'nhấp vào anh ấy để chiến thắng!🧍🏻'
+			0.2m
+			vịTrí: VịTrí(-6.0m -0.25m)
+			khuônmặt: 'Carter One'
+		)
+		Cụmtừ(
+			'Điểm số: ' + điểmSố → ''
+			0.5m
+			vịTrí: VịTrí(-5.9m -1m)
+		)
+
+		Cụmtừ("🏀" vịTrí: đốm[1])
+		Cụmtừ("🦧" vịTrí: đốm[2])
+		Cụmtừ("🍊" vịTrí: đốm[3])
+		Cụmtừ("👻" vịTrí: đốm[4])
+		Cụmtừ("🤖" vịTrí: đốm[5])
+		Cụmtừ("👽" vịTrí: đốm[6])
+		Cụmtừ("🐀" vịTrí: đốm[7])
+		Cụmtừ("🦣" vịTrí: đốm[8])
+		Cụmtừ("🐸" vịTrí: đốm[9])
+		Cụmtừ("🍎" vịTrí: đốm[10])
+		Cụmtừ("💧" vịTrí: đốm[11])
+		Cụmtừ("🍔" vịTrí: đốm[12])
+		Cụmtừ("❤" vịTrí: đốm[13])
+		Cụmtừ("🍥" vịTrí: đốm[14])
+		Cụmtừ(
+			"🧍🏻"
+			cóthểlựachọn: ~bịBắt
+			vịTrí: đốm[15]
+			nghỉngơi: bịBắt ? Tưthế(xoay: 180°) Tưthế()
+			khoảngthờigian: 0s
+			tên: 'Waldough'
+		)
+		Cụmtừ("🔥" vịTrí: đốm[16])
+		Cụmtừ("🎂" vịTrí: đốm[17])
+		Cụmtừ("🐕" vịTrí: đốm[18])
+		Cụmtừ("🦈" vịTrí: đốm[19])
+		Hìnhdạng(Hìnhchữnhật(-3.5m -3m 3.5m -3.5m))
+		Hìnhdạng(Hìnhchữnhật(-3.5m 3.5m 3.5m 3m))
+		Hìnhdạng(Hìnhchữnhật(-3.5m 3.5m -3m -3.5m))
+		Hìnhdạng(Hìnhchữnhật(3m 3.5m 3.5m -3.5m))
+	]
+	vịTrí: VịTrí(0m 0m -5m)
+)

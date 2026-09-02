@@ -1,0 +1,30 @@
+H
+HabaNgPangungusap
+===
+¶Magtype sa chat bar at bibilangin nito ang mga karakter ng iyong pangungusap.¶
+pangungusap: Makipagchat()
+haba2: Makipagchat().haba()
+
+Grupo(
+	Patongpatong()
+	[
+		Parirala(
+			`*Kumusta! Maligayang pagdating sa panukat ng haba ng pangungusap.*`
+			lugar: Lugar(0m 1m)
+		)
+		Parirala(
+			'Magtype ng kahit ano sa message bar!'
+			lugar: Lugar(0m -1m)
+		)
+		Parirala(
+			'Ang haba ng iyong pangungusap ay ' + (haba2 → '') + ' na karakter!'
+			nagpapahinga: Pagkakasunodsunod.ugoy(tagal: 3s)
+			lugar: Lugar(0m -3m)
+		)
+		Parirala(
+			pangungusap
+			lugar: Lugar(0m -5m)
+			pambalot: 25m
+		)
+	]
+)

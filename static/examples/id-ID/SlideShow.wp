@@ -1,0 +1,100 @@
+🎬
+Tayangan Slide
+=== start
+¶Sebuah tayangan slide yang menceritakan bagaimana Wordplay tercipta; tekan → dan ← untuk melihatnya.¶
+
+¶Satu slide dari tayangan ini: sebuah karakter, sebuah judul, dan kata-kata di bawahnya.¶
+•slide(emoji•'' judul•'' isiUtama•''|`…`)
+
+¶Ceritanya. Tambah, hapus, atau ubah slide ini untuk menceritakan kisahmu sendiri.¶
+slide2: [
+		slide(
+			'🎭'
+			'Wordplay'
+			'Cerita tentang bagaimana bahasa ini tercipta. Tekan → untuk maju, dan ← untuk mundur.'
+		)
+		slide(
+			'✒'
+			'Cinta pada huruf'
+			'Dahulu kala, Amy jatuh cinta pada tipografi: bentuk huruf, dan irama kata-kata di sebuah halaman.'
+		)
+		slide(
+			'💻'
+			'Cinta pada kode'
+			'Ia juga jatuh cinta pada pemrograman, dan cara beberapa kata bisa membuat sesuatu bergerak.'
+		)
+		slide(
+			'🧭'
+			'Dua cinta, terpisah'
+			'Namun tipografi dan pemrograman hidup di dunia yang berbeda, dan sedikit sekali alat yang mengajak orang mencintai keduanya sekaligus.'
+		)
+		slide(
+			'😄'
+			'Seorang anak muda'
+			'Bertahun-tahun kemudian, ia bertemu seorang anak muda yang menyukai emoji, dan ingin membuatnya menari.'
+		)
+		slide(
+			'💡'
+			'Sebuah ide'
+			'Bagaimana jika sebuah bahasa pemrograman membuat mudah membuat emoji menari?'
+		)
+		slide(
+			'🌱'
+			'Wordplay dimulai'
+			'Maka ia mulai membangunnya, tempat menulis kode berarti menggerakkan kata dan karakter di sebuah panggung.'
+		)
+		slide(
+			'🧑‍🏫'
+			'Dirancang bersama'
+			'Ia merancangnya bersama banyak anak muda dan guru, yang menyampaikan apa yang ingin mereka buat, dan apa yang menghalangi mereka.'
+		)
+		slide(
+			'🌏'
+			'Selalu berkembang'
+			'Bahasa ini terus tumbuh sejak saat itu, agar lebih banyak orang bisa membuat lebih banyak hal yang mereka bayangkan.'
+		)
+		slide(
+			'✨'
+			'Giliranmu'
+			`Apa yang kamu impikan untuk dibuat, yang belum bisa dilakukan sekarang? Beri tahu kami di <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+		)
+	]
+
+total: slide2.panjang()
+
+kunci2: Kunci()
+
+¶Slide yang sedang kami tampilkan. Kanan bergerak maju, kiri bergerak mundur, dan keduanya berhenti di ujung, tidak berputar kembali ke awal.¶
+indeks2•#: 1 … ∆ kunci2 …
+		(kunci2 = 'Panah Kanan') ? ((indeks2 < total) ? indeks2 + 1 indeks2)
+			(kunci2 = 'Panah Kiri') ? ((indeks2 > 1) ? indeks2 - 1 indeks2)
+				indeks2
+
+slide3: slide2[indeks2]
+
+Panggung(
+	[
+		Kelompok(
+			Tumpukan('|' 0.4m)
+			[
+				Frasa(slide3.emoji ukuran: 2m)
+				Frasa(
+					`*\slide3.judul\*`
+					ukuran: 1.2m
+					penyelarasan: '|'
+				)
+				Frasa(
+					slide3.isiUtama
+					ukuran: 0.5m
+					membungkus: 12m
+					penyelarasan: '|'
+				)
+				Frasa(
+					`\indeks2\ dari \total\`
+					ukuran: 0.25m
+					penyelarasan: '|'
+				)
+			]
+		)
+	]
+)

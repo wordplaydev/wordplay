@@ -1,0 +1,78 @@
+⏳
+Μετρητής Λειτουργίας Μελέτης
+=== start/en
+¶Πάτησε για να προσθέσεις ώρες μελέτης και δες τον μετρητή να αλλάζει από ήρεμο σε συγκεντρωμένο σε υπερφόρτωση.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+πράξη: Επιλογή()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+ώρεςΜελέτης:
+	0 …
+	∆ πράξη …
+		πράξη = 'reset' ?
+			0
+			ώρεςΜελέτης + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+εξήγηση:
+	'Πάτησε «Προσθήκη Ώρας Μελέτης +1» για να αυξήσεις τον χρόνο μελέτης σου. Πάτησε «Επαναφορά» για να ξεκινήσεις από την αρχή.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+κείμενοΩρών:
+	'Έχεις μελετήσει ' + ώρεςΜελέτης → '' + ' ώρα(ες).'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+διάθεση:
+	ώρεςΜελέτης < 3 ?
+		'🌿 ΗΡΕΜΗ ΛΕΙΤΟΥΡΓΙΑ — πάτησε για να προσθέσεις χρόνο μελέτης'
+		ώρεςΜελέτης < 6 ?
+			'📚 ΛΕΙΤΟΥΡΓΙΑ ΣΥΓΚΕΝΤΡΩΣΗΣ — είσαι στη ζώνη παραγωγικότητας!'
+			'🔥 ΛΕΙΤΟΥΡΓΙΑ ΥΠΕΡΦΟΡΤΩΣΗΣ — κάνε ένα διάλειμμα και πάτησε «επαναφορά»'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+Στάδιο(
+	[
+		Ομάδα(
+			Σωρός()
+			[
+				Φράση('Μετρητής Λειτουργίας Μελέτης' μέγεθος: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				Φράση(εξήγηση μέγεθος: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				Φράση(κείμενοΩρών μέγεθος: 0.4m)
+
+				Φράση(διάθεση μέγεθος: 0.75m)
+
+				Ομάδα(
+					Σειρά(υλικόπαραγεμίσματος: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						Φράση(
+							'Προσθήκη Ώρας Μελέτης +1'
+							επιλέξιμος: ⊤
+							όνομα: 'προσθήκη'
+							χρώμα: Χρώμα(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						Φράση(
+							'Επαναφορά'
+							επιλέξιμος: ⊤
+							όνομα: 'reset'
+							χρώμα: Χρώμα(69% 47 271°)
+						)
+					]
+				)
+			]
+			πρόσωπο: "Aclonica"
+		)
+	]
+)

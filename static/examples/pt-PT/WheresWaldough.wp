@@ -1,0 +1,105 @@
+🔁
+Onde está o Waldough?
+=== start/en
+¶Encontre o Waldough escondido na multidão: procure o homem com a camisa laranja e clique nele para ganhar!¶
+
+nome3: Escolha()
+apanhado: ⊥ … ∆ (nome3) … (nome3 = 'ResetButton') ? ⊥ ((nome3 = 'Waldough') | apanhado)
+pontuação: 0 … ∆ (nome3) … (nome3 = 'Waldough') ? 1 + pontuação pontuação
+
+ƒ local2() Local(
+		((0.1 × Aleatório(-9m 9m)) + Aleatório(-2m 1m))
+		((0.1 × Aleatório(-9m 9m)) + Aleatório(-2m 1m))
+	)
+ƒ novasManchas() [
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+		local2()
+	]
+manchas: novasManchas() … ∆ (nome3) … (nome3 = 'ResetButton') ? novasManchas(
+			) manchas
+
+
+Fase(
+	[
+		Frase(
+			"🔁"
+			selecionável: ⊤
+			local: Local(4m -0.5m)
+			descansar: apanhado ? Pose(rotação: 180°) Pose()
+			duração: 0.5s
+			nome: 'ResetButton'
+		)
+		Frase(
+			'Procure a camisa laranja'
+			0.2m
+			local: Local(-6.2m 0.75m)
+			fonte: 'Carter One'
+		)
+		Frase(
+			'homem (chamado Waldough) e'
+			0.2m
+			local: Local(-6.4m 0.25m)
+			fonte: 'Carter One'
+		)
+		Frase(
+			'clique nele para ganhar!🧍🏻'
+			0.2m
+			local: Local(-6.0m -0.25m)
+			fonte: 'Carter One'
+		)
+		Frase(
+			'Pontuação: ' + pontuação → ''
+			0.5m
+			local: Local(-5.9m -1m)
+		)
+
+		Frase("🏀" local: manchas[1])
+		Frase("🦧" local: manchas[2])
+		Frase("🍊" local: manchas[3])
+		Frase("👻" local: manchas[4])
+		Frase("🤖" local: manchas[5])
+		Frase("👽" local: manchas[6])
+		Frase("🐀" local: manchas[7])
+		Frase("🦣" local: manchas[8])
+		Frase("🐸" local: manchas[9])
+		Frase("🍎" local: manchas[10])
+		Frase("💧" local: manchas[11])
+		Frase("🍔" local: manchas[12])
+		Frase("❤" local: manchas[13])
+		Frase("🍥" local: manchas[14])
+		Frase(
+			"🧍🏻"
+			selecionável: ~apanhado
+			local: manchas[15]
+			descansar: apanhado ? Pose(rotação: 180°) Pose()
+			duração: 0s
+			nome: 'Waldough'
+		)
+		Frase("🔥" local: manchas[16])
+		Frase("🎂" local: manchas[17])
+		Frase("🐕" local: manchas[18])
+		Frase("🦈" local: manchas[19])
+		Figura(Retângulo(-3.5m -3m 3.5m -3.5m))
+		Figura(Retângulo(-3.5m 3.5m 3.5m 3m))
+		Figura(Retângulo(-3.5m 3.5m -3m -3.5m))
+		Figura(Retângulo(3m 3.5m 3.5m -3.5m))
+	]
+	local: Local(0m 0m -5m)
+)

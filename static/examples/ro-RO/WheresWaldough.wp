@@ -1,0 +1,105 @@
+🔁
+Unde e Valdough?
+=== start/en
+¶Găsește-l pe Waldough în mulțime: caută bărbatul cu cămașă portocalie și apasă pe el ca să câștigi!¶
+
+nume3: Alegere()
+prins: ⊥ … ∆ (nume3) … (nume3 = 'ResetButton') ? ⊥ ((nume3 = 'Waldough') | prins)
+scor: 0 … ∆ (nume3) … (nume3 = 'Waldough') ? 1 + scor scor
+
+ƒ loc2() Loc(
+		((0.1 × Aleatoriu(-9m 9m)) + Aleatoriu(-2m 1m))
+		((0.1 × Aleatoriu(-9m 9m)) + Aleatoriu(-2m 1m))
+	)
+ƒ puncteNoi() [
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+		loc2()
+	]
+puncte2: puncteNoi() … ∆ (nume3) … (nume3 = 'ResetButton') ? puncteNoi(
+			) puncte2
+
+
+Etapă(
+	[
+		Fraza(
+			"🔁"
+			selectabil: ⊤
+			loc: Loc(4m -0.5m)
+			odihnă: prins ? Poză(rotaţie: 180°) Poză()
+			durată: 0.5s
+			nume: 'ResetButton'
+		)
+		Fraza(
+			'Caută cămașa portocalie'
+			0.2m
+			loc: Loc(-6.2m 0.75m)
+			faţă: 'Carter One'
+		)
+		Fraza(
+			'bărbat (numit Waldough) și'
+			0.2m
+			loc: Loc(-6.4m 0.25m)
+			faţă: 'Carter One'
+		)
+		Fraza(
+			'apasă pe el ca să câștigi!🧍🏻'
+			0.2m
+			loc: Loc(-6.0m -0.25m)
+			faţă: 'Carter One'
+		)
+		Fraza(
+			'Scor: ' + scor → ''
+			0.5m
+			loc: Loc(-5.9m -1m)
+		)
+
+		Fraza("🏀" loc: puncte2[1])
+		Fraza("🦧" loc: puncte2[2])
+		Fraza("🍊" loc: puncte2[3])
+		Fraza("👻" loc: puncte2[4])
+		Fraza("🤖" loc: puncte2[5])
+		Fraza("👽" loc: puncte2[6])
+		Fraza("🐀" loc: puncte2[7])
+		Fraza("🦣" loc: puncte2[8])
+		Fraza("🐸" loc: puncte2[9])
+		Fraza("🍎" loc: puncte2[10])
+		Fraza("💧" loc: puncte2[11])
+		Fraza("🍔" loc: puncte2[12])
+		Fraza("❤" loc: puncte2[13])
+		Fraza("🍥" loc: puncte2[14])
+		Fraza(
+			"🧍🏻"
+			selectabil: ~prins
+			loc: puncte2[15]
+			odihnă: prins ? Poză(rotaţie: 180°) Poză()
+			durată: 0s
+			nume: 'Waldough'
+		)
+		Fraza("🔥" loc: puncte2[16])
+		Fraza("🎂" loc: puncte2[17])
+		Fraza("🐕" loc: puncte2[18])
+		Fraza("🦈" loc: puncte2[19])
+		Figură(Dreptunghi(-3.5m -3m 3.5m -3.5m))
+		Figură(Dreptunghi(-3.5m 3.5m 3.5m 3m))
+		Figură(Dreptunghi(-3.5m 3.5m -3m -3.5m))
+		Figură(Dreptunghi(3m 3.5m 3.5m -3.5m))
+	]
+	loc: Loc(0m 0m -5m)
+)

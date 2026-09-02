@@ -1,0 +1,106 @@
+↑
+Labirin
+=== start/en
+¶A maze is a 2D grid of emoji, with some functions for checking the state at particular grid postions.
+Mazes are generated randomly.¶/en
+•labirin() (
+	kisi•[[''|ø]]:
+		[
+			['🎬' '❤' '❌' ø ø]
+			['❤' ø ø ø ø]
+			['🐈' '😀' '💬' '🫥' '😞']
+			[ø '👍' ø ø '😕']
+			['🤩' '🥹' ø '😫' '😡']
+		]
+
+	ƒ sel2(baris2•# kolom2•#) (
+			sel3: kisi[baris2]
+			sel3•[] ? sel3[kolom2] ø
+		)
+
+	ƒ diizinkan(baris3•# kolom3•#) sel2(baris3 kolom3)•''
+)
+
+labirin2: labirin()
+
+•keadaan(baris4•# kolom4•# langkah•#)
+(
+	ƒ bawah() keadaan(baris4 + 1 kolom4 langkah + 1)
+	ƒ atas2() keadaan(baris4 - 1 kolom4 langkah + 1)
+	ƒ kiri2() keadaan(baris4 kolom4 - 1 langkah + 1)
+	ƒ kanan() keadaan(baris4 kolom4 + 1 langkah + 1)
+)
+
+ƒ diizinkan2(keadaan2•keadaan baris5•# kolom5•#) labirin2.diizinkan(
+		keadaan2.baris4 + baris5
+		keadaan2.kolom4 + kolom5
+	)
+
+arah2: Pilihan()
+keadaan3•keadaan: keadaan(1 1 0) … ∆ arah2 …
+		((arah2 = "left") & diizinkan2(keadaan3 0 -1)) ? keadaan3.kiri2(
+			)
+			((arah2 = "right") & diizinkan2(keadaan3 0 1)) ? keadaan3.kanan(
+				)
+				((arah2 = "up") & diizinkan2(keadaan3 -1 0)) ? keadaan3.atas2(
+					)
+					((arah2 = "down") & diizinkan2(keadaan3 1 0)) ? keadaan3.bawah(
+						)
+						keadaan3
+
+saatIni: (
+		sel4: labirin2.sel2(keadaan3.baris4 keadaan3.kolom4)
+		sel4 ?? ' ')
+atas3: labirin2.sel2(keadaan3.baris4 - 1 keadaan3.kolom4)•''
+bawah2: labirin2.sel2(keadaan3.baris4 + 1 keadaan3.kolom4)•''
+kiri3: labirin2.sel2(keadaan3.baris4 keadaan3.kolom4 - 1)•''
+kanan2: labirin2.sel2(keadaan3.baris4 keadaan3.kolom4 + 1)•''
+menang: saatIni = '🤩'
+
+Panggung(
+	[
+		Kelompok(
+			Jaringan(3 3 0.25m)
+			[
+				ø
+				Frasa(
+					'↑'
+					nama: 'up'
+					dapatdipilih: atas3
+					beristirahat: Pose(kegelapan: atas3 ? 1 0.2)
+				)
+				ø
+				Frasa(
+					'←'
+					nama: 'left'
+					dapatdipilih: kiri3
+					beristirahat: Pose(kegelapan: kiri3 ? 1 0.2)
+				)
+				Frasa(
+					saatIni
+					beristirahat: menang ?
+						Urutan.putaran(lamanya: 1s gaya: 'straight')
+						Pose()
+				)
+				Frasa(
+					'→'
+					nama: 'right'
+					dapatdipilih: kanan2
+					beristirahat: Pose(kegelapan: kanan2 ? 1 0.2)
+				)
+				ø
+				Frasa(
+					'↓'
+					nama: 'down'
+					dapatdipilih: bawah2
+					beristirahat: Pose(kegelapan: bawah2 ? 1 0.2)
+				)
+				ø
+			]
+		)
+	]
+	tempat: Tempat(0m 0m -3m)
+	menghadapi: 'Noto Emoji'
+	latarbelakang: Warna(0 0 0°)
+	beristirahat: Pose(Warna(100 100 0°))
+)

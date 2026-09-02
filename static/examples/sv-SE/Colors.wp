@@ -1,0 +1,18 @@
+w
+Färgshow
+===
+¶Klicka för att skaka och slumpmässigt byta färg på ordet "wowie".¶
+färg2: Färg(0% 0 0°) … ∆ Knapp() … Färg(
+			50%
+			Slumpmässig() × 200
+			Slumpmässig() × 360°
+		)
+
+Fras(
+	'wowie'
+	namn: 'kisse'
+	storlek: 6m
+	färg: färg2
+	rotation: (Slumpmässig() - 0.5) × 30°
+	varaktighet: .1s
+)

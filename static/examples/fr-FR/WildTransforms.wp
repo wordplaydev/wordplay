@@ -1,0 +1,14 @@
+🐈
+Transformations sauvages
+===
+¶Un chat qui teste à fond l’échelle, la rotation et le décalage, tout en même temps.¶
+Phrase(
+	"🐈"
+	taille: 10m
+	aurepos: Pose(
+		échelle: 2
+		compenser: Lieu(1m 1m 5m)
+		rotation: (Temps(500ms) % 360) × 1°/ms
+	)
+	durée: 0.25s
+)

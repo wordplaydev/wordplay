@@ -1,0 +1,39 @@
+🪐
+Mga Orbit
+=== start
+¶Tatlong planeta na umiikot sa isang bituin na humihila sa kanila.¶
+
+¶Ang bituin ang humihila, kaya kailangan nito ng @Matter na may hila. Wala itong @Motion, kaya walang humihila pabalik dito at nananatili ito sa kinaroroonan nito. Ang @Place ay nasa gilid ng output, hindi sa gitna, kaya inilipat ang bituin ng kalahati ng sarili nitong laki para ilagay ang gitna nito sa sentro ng kalangitan.¶
+araw2: Parirala(
+		'⭐'
+		2m
+		pangalan: 'araw'
+		lugar: Lugar(-1m -1m)
+		materya: Materya(2000kg hilahin: 1)
+	)
+
+¶Hindi kailangan ng planeta ang @Matter. Ang pagkakaroon ng @Motion ang nagpapahintulot sa hila ng bituin na igalaw ito. Kung gaano kabilis ito dapat kumilos para umikot sa lugar ng mahulog papasok ay depende sa kalayuan nito, kaya bawat planeta ay bibigyan ng bilis na kailangan para mapanatili ang sariling bilog nito.¶
+planeta: ƒ(glyph•"" tinawag•"" malawak•#m malayo•#m bilis2•#m/s)
+		Parirala(
+			glyph
+			malawak
+			pangalan: tinawag
+			lugar: Paggalaw(
+				Lugar(malayo - (malawak ÷ 2) 0m - (malawak ÷ 2))
+				Bilis(0m/s bilis2)
+			)
+		)
+
+¶Walang sariling gravity ang kalangitan, kung hindi ay mahuhulog ang lahat sa ilalim nito. Walang hangin din ito, kaya patuloy na gumagalaw ang mga planeta sa halip na bagalan hanggang tumigil.¶
+Entablado(
+	[
+		araw2
+		planeta('🌍' 'lupa' 0.8m 3m 11.5m/s)
+		planeta('🪐' 'may singsing' 1m 5m 8.6m/s)
+		planeta('🌕' 'buwan' 0.6m 7m 7.3m/s)
+	]
+	background: Kulay(15% 20 300°)
+	grabidad: 0m/s^2
+	hangin: 0
+	lugar: Lugar(0m 0m -14m)
+)

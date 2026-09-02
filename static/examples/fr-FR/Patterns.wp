@@ -1,0 +1,32 @@
+⌕
+Motifs
+=== start
+¶Tape une phrase avec des nombres dedans. Je vais trouver chaque nombre et les montrer en dessous, en les ajoutant au fur et à mesure que je les trouve. Un motif décrit la forme d'un texte — ici,\⣿ >0 #⣿\ veut dire « un ou plusieurs chiffres », et ⌕ trouve chaque endroit où il apparaît.¶
+entrée: Chat()
+texte2: "J'ai 3 chats, 12 poissons, et 144 fourmis" … ∆ entrée … entrée
+
+¶Cherche dans le texte chaque suite de chiffres. Chaque résultat est un Result avec son texte trouvé.¶
+nombres: texte2 ⌕ ⣿ >0 #⣿
+
+Scène(
+	[
+		Groupe(
+			Empiler()
+			[
+				Phrase(texte2 taille: 1m)
+				Groupe(
+					Empiler()
+					nombres.traduire(
+						ƒ(nombre2•Résultat)
+							Phrase(
+								nombre2.texte
+								taille: 1.5m
+								entrer: Pose(opacité: 0 échelle: 0.5)
+								durée: 0.5s
+							)
+					)
+				)
+			]
+		)
+	]
+)

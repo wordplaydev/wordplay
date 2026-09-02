@@ -1,0 +1,105 @@
+🔁
+¿Dónde está Waldough?
+=== start/en
+¶Encuentra a Waldough escondido entre la multitud: busca al hombre de camisa naranja y haz clic en él para ganar.¶
+
+nombre2: Elección()
+atrapado: ⊥ … ∆ (nombre2) … (nombre2 = 'ResetButton') ? ⊥ ((nombre2 = 'Waldough') | atrapado)
+puntaje: 0 … ∆ (nombre2) … (nombre2 = 'Waldough') ? 1 + puntaje puntaje
+
+ƒ lugar2() Lugar(
+		((0.1 × Azar(-9m 9m)) + Azar(-2m 1m))
+		((0.1 × Azar(-9m 9m)) + Azar(-2m 1m))
+	)
+ƒ nuevasManchas() [
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+		lugar2()
+	]
+manchas: nuevasManchas() … ∆ (nombre2) … (nombre2 = 'ResetButton') ? nuevasManchas(
+			) manchas
+
+
+Escenario(
+	[
+		Frase(
+			"🔁"
+			seleccionable: ⊤
+			lugar: Lugar(4m -0.5m)
+			inmóvil: atrapado ? Pose(rotación: 180°) Pose()
+			duración: 0.5s
+			nombre: 'ResetButton'
+		)
+		Frase(
+			'Busca la camisa naranja'
+			0.2m
+			lugar: Lugar(-6.2m 0.75m)
+			fuente: 'Carter One'
+		)
+		Frase(
+			'hombre (llamado Waldough) y'
+			0.2m
+			lugar: Lugar(-6.4m 0.25m)
+			fuente: 'Carter One'
+		)
+		Frase(
+			'haz clic en él para ganar. 🧍🏻'
+			0.2m
+			lugar: Lugar(-6.0m -0.25m)
+			fuente: 'Carter One'
+		)
+		Frase(
+			'Puntaje: ' + puntaje → ''
+			0.5m
+			lugar: Lugar(-5.9m -1m)
+		)
+
+		Frase("🏀" lugar: manchas[1])
+		Frase("🦧" lugar: manchas[2])
+		Frase("🍊" lugar: manchas[3])
+		Frase("👻" lugar: manchas[4])
+		Frase("🤖" lugar: manchas[5])
+		Frase("👽" lugar: manchas[6])
+		Frase("🐀" lugar: manchas[7])
+		Frase("🦣" lugar: manchas[8])
+		Frase("🐸" lugar: manchas[9])
+		Frase("🍎" lugar: manchas[10])
+		Frase("💧" lugar: manchas[11])
+		Frase("🍔" lugar: manchas[12])
+		Frase("❤" lugar: manchas[13])
+		Frase("🍥" lugar: manchas[14])
+		Frase(
+			"🧍🏻"
+			seleccionable: ~atrapado
+			lugar: manchas[15]
+			inmóvil: atrapado ? Pose(rotación: 180°) Pose()
+			duración: 0s
+			nombre: 'Waldough'
+		)
+		Frase("🔥" lugar: manchas[16])
+		Frase("🎂" lugar: manchas[17])
+		Frase("🐕" lugar: manchas[18])
+		Frase("🦈" lugar: manchas[19])
+		Figura(Rectángulo(-3.5m -3m 3.5m -3.5m))
+		Figura(Rectángulo(-3.5m 3.5m 3.5m 3m))
+		Figura(Rectángulo(-3.5m 3.5m -3m -3.5m))
+		Figura(Rectángulo(3m 3.5m 3.5m -3.5m))
+	]
+	lugar: Lugar(0m 0m -5m)
+)

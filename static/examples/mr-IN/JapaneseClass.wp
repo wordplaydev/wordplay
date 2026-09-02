@@ -1,0 +1,37 @@
+O
+जपानी वर्ग
+=== start
+¶जपानी वर्गाच्या पहिल्या दिवसाची, दृश्यानुसार सांगितलेली गोष्ट.¶
+
+¶दाखवायच्या दृश्यांची ही यादी आहे¶
+वाक्ये: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶ही वाक्यांची यादी आहे, जी फक्त बोलल्यावरच पुढे जाईल.¶
+वाक्येबोला: [5 7 9]
+
+¶सध्याचे वाक्य १ पासून सुरू होते. बोलायच्या वाक्यासाठी, मायक्रोफोनचा आवाज .8 पेक्षा जास्त झाल्यावर ते पुढे जाते. इतर वाक्यांसाठी, बटण किंवा कळ दाबल्यावर ते पुढे जाते.¶
+सध्याचेवाक्य•#: 1 …
+	वाक्येबोला.आहे(सध्याचेवाक्य) ?
+		आवाज() > .6
+		∆ बटण() | ∆ कळ()
+		…
+		(सध्याचेवाक्य <
+				वाक्ये.लांबी()) ?
+			सध्याचेवाक्य + 1
+			सध्याचेवाक्य
+
+रंगमंच(
+	[वाक्यांश(वाक्ये[सध्याचेवाक्य] गुंडाळणे: 10m)]
+	चेहरा: 'Sue Ellen Francisco'
+)

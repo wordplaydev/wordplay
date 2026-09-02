@@ -1,0 +1,46 @@
+K
+Bố cục
+=== start
+¶Các hàng, ngăn xếp và nhóm cụm từ, mỗi cái tạo dáng hoạt hình.¶
+nhịpĐập: Sựliêntiếp(
+		{
+			0%: Tưthế(tỉlệ: .9)
+			50%: Tưthế(tỉlệ: 1.1)
+			100%: Tưthế(tỉlệ: .9)
+		}
+	)
+nảyZbounce: Sựliêntiếp(
+		{
+			0%: Tưthế(bùlại: VịTrí(z: 0m))
+			50%: Tưthế(bùlại: VịTrí(z: -2m))
+			100%: Tưthế(bùlại: VịTrí(z: 0m))
+		}
+		1s
+	)
+
+Nhóm(
+	Hàngngang()
+	[
+		Nhóm(
+			Ngănxếp()
+			[
+				Cụmtừ('Mèo con')
+				Cụmtừ('Mèo' nghỉngơi: nảyZbounce)
+				Nhóm(
+					Hàngngang()
+					[Cụmtừ('Chó') Cụmtừ('Họ chó')]
+					nghỉngơi: nhịpĐập
+				)
+				Cụmtừ('Họ mèo')
+			]
+		)
+		Nhóm(
+			Ngănxếp()
+			[
+				Cụmtừ('Chào')
+				Cụmtừ('Xin chào')
+			]
+			nghỉngơi: Sựliêntiếp.quay(2s "straight")
+		)
+	]
+)

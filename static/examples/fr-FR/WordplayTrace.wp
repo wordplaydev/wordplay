@@ -1,0 +1,43 @@
+✨
+Trace de mots
+===
+¶Ce projet dessine les contours du mot « wordplay » avec une comète de points qui balaie les lettres, animée par un flux Time(). La moitié du mot brille à chaque instant, passant du plus lumineux à la tête de la trace au transparent à la queue.¶
+
+points2: Contour(
+		'wordplay'
+		"Noto Sans"
+		3m
+		lieu: Lieu(-6m 0m)
+		espacement: 0.5m
+	)
+
+¶Le nombre de points sur le contour, et un nombre sûr pour diviser avant que la police ne soit chargée (quand la liste est encore vide).¶
+compte2: points2.longueur()
+
+¶La trace couvre la moitié du mot, donc la moitié est toujours visible.¶
+trace: compte2 ÷ 2
+
+¶Un indice de tête qui avance d'un point à chaque top d'horloge et revient au début du mot.¶
+tête: 0 … ∆ Temps(10ms) … ((tête + 1) % compte2) ?? 0
+
+Scène(
+	points2.traduire(
+		ƒ(point2•Lieu indice2•#)
+			(
+				¶Le nombre de points derrière la tête pour ce point-ci, en revenant au début si besoin.¶
+				âge: ((((tête - indice2) + 1) + compte2) % compte2) ?? 0
+				Phrase(
+					"•"
+					taille: 1m
+					lieu: point2
+					couleur: Couleur(
+						90%
+						100
+						((indice2 ÷ compte2) ?? 0) × 360°
+					)
+					opacité: âge < trace ? 1 - ((âge ÷ trace) ?? 0) 0
+					durée: 0s
+				))
+	)
+	arrièreplan: Couleur(8% 0 0°)
+)

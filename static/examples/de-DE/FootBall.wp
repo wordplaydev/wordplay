@@ -1,0 +1,345 @@
+⚽
+Fußball
+=== start/en
+¶Ein Torwart-Spiel von oben gesehen. Du bist der Handschuh vor dem Tor auf der linken Seite. Ein Ball wird nacheinander von irgendwo auf dem Feld geschossen, auf eine Stelle im Tor gezielt, und du bewegst dich auf und ab, um ihm im Weg zu stehen. Die Zahl zählt die Schüsse, die du gehalten hast: Sie richtet sich jedes Mal auf, wenn du einen Schuss hältst, und sie schwillt an und wackelt, wenn einer an dir vorbeigeht.¶
+
+¶Wohin ein Schuss zielt, und wo der Handschuh steht. Ein Tor ist etwa achtmal so breit wie der Torwart, der es bewacht. Deshalb kann eine einzige Person nicht einfach in der Mitte stehen und alles halten.
+
+Ein @Place ist die untere linke Ecke eines Outputs, nicht seine Mitte. Deshalb wird alles, was darauf zielt oder darunter greift, ab der Mitte berechnet und gibt beim Wechsel zu einem @Place die Hälfte der Größe auf. Ein Emoji zeichnet sich auch deutlich größer als seine Größe — ein 0,6 m ⚽ füllt etwa 0,9 m, ein 1,2 m 🧤 etwa 1,25 m — daher werden diese Hälften gemessen und nicht von der Größe halbiert. Die Geschwindigkeit des Handschuhs ist, wie weit er sich pro Takt bewegt.¶
+torX: -7m
+mundKante: 5.2m
+ballHälfte: 0.45m
+torwartX: -6.5m
+torwartHälfte: 0.62m
+torwartReichweite: 4.5m
+torwartGeschwindigkeit: 0.55m
+
+takt2: Zeit(50ms)
+drücken: Schlüssel(runter: ⊤)
+loslassen: Schlüssel(runter: ⊥)
+
+¶In welche Richtung sich der Handschuh bewegt. Ein gedrückter Pfeil setzt ihn in Bewegung, und das Loslassen desselben Pfeils stoppt ihn. So gleitet der Handschuh, solange du die Taste hältst. Bei einem so breiten Tor würde ein Schritt pro Tastendruck nie rechtzeitig ankommen.¶
+treiben2•#: 0 … ∆ drücken | ∆ loslassen …
+		∆ drücken ?
+			((drücken = 'Pfeil nach oben') ? 1 ((drücken = 'Pfeil nach unten') ? -1 treiben2))
+			((loslassen = 'Pfeil nach oben') & (treiben2 = 1)) ? 0
+				((loslassen = 'Pfeil nach unten') & (treiben2 = -1)) ? 0
+					treiben2
+
+¶Der Handschuh wird nicht von Physik bewegt, deshalb kann er direkt gesteuert werden. Er stoppt an den Enden seiner Reichweite, sodass er nie aus dem Tor wandern kann.¶
+torwartY•#m: 0m … ∆ takt2 …
+		((torwartY + (treiben2 × torwartGeschwindigkeit)).max(
+				torwartReichweite · -1
+			)).Mindest(
+			torwartReichweite
+		)
+
+¶Eine Parade und ein Tor. Jedes @Collision meldet einen Beginn und ein Ende einer Berührung, deshalb ist beides mit einer Prüfung verbunden, ob es sich um einen Beginn handelt: Ohne diese Prüfung würde jede Parade und jedes Tor doppelt gezählt.¶
+handschuhTreffer: Kollision('Ball' 'Torwart')
+netzTreffer: Kollision('Ball' 'Netz')
+gehalten: (∆ handschuhTreffer) & ~(handschuhTreffer•ø)
+getroffen: (∆ netzTreffer) & ~(netzTreffer•ø)
+
+•schuss(sx•#m sy•#m schräge•# geschwindigkeit•#m/s)
+
+¶Ein Platz zum Stehen, ein Ziel im Torraum, und die Linie dazwischen. Aus den beiden Enden die Steigung zu berechnen, sorgt dafür, dass jeder Schuss genau trifft, egal aus welcher Richtung er kommt.¶
+ƒ neuerSchuss()•schuss (
+		x2: Zufällig(2m 6m)
+		y2: Zufällig(-5.5m 5.5m)
+		zielen: Zufällig(-4.7m 4.7m)
+		¶Die Steigung zeigt, wie viel y der Lauf pro Meter x abgibt. Eine Division kann keine Lösung haben, deshalb greift im ø-Fall ein Schuss geradeaus über das Feld. Der Schütze steht nie auf der Torlinie, deshalb tritt dieser Fall nie ein.¶
+		fallen: (zielen - y2) ÷ (torX - x2)
+		schuss(
+			x2
+			y2
+			(fallen•ø ? 0 fallen)
+			Zufällig(16m/s 22m/s)
+		)
+	)
+
+¶1 = der Ball wartet am Fuß des Schützen, 2 = er ist unterwegs, 3 = er wird geklärt. Es werden Takte gezählt statt Uhrzeiten subtrahiert, da jedes @Timestarts bei null beginnt. Die Blöcke sind das, was du siehst; die Aufschläge geben der Zahl bei jedem Schuss nur einen neuen Namen, was ihre Animation erneut abspielt.¶
+•runde(phase•# takte•# blöcke•# aufschläge•# letzter•# schuss2•schuss)
+runde2•runde: runde(1 0 0 0 0 neuerSchuss()) …
+	∆ takt2 | gehalten | getroffen …
+		runde2.phase ???
+			1: (runde2.takte ≥ 14)
+			? runde(
+					2
+					0
+					runde2.blöcke
+					runde2.aufschläge
+					runde2.letzter
+					runde2.schuss2
+				)
+				runde(
+					1
+					(runde2.takte + (∆ takt2 ? 1 0))
+					runde2.blöcke
+					runde2.aufschläge
+					runde2.letzter
+					runde2.schuss2
+				)
+			2: gehalten ? runde(
+					3
+					0
+					(runde2.blöcke + 1)
+					(runde2.aufschläge + 1)
+					1
+					runde2.schuss2
+				)
+				getroffen ? runde(
+						3
+						0
+						runde2.blöcke
+						(runde2.aufschläge + 1)
+						2
+						runde2.schuss2
+					)
+					¶Ein Ball, der nie ankommt — zum Beispiel weil er durch eine Parade zurück ins Spiel geschlagen wird — wird nach ein paar Sekunden aufgegeben. So kann das Spiel nie feststecken und auf ein Ergebnis warten, das nicht kommt.¶
+					(runde2.takte ≥ 70)
+					? runde(
+							3
+							0
+							runde2.blöcke
+							(runde2.aufschläge + 1)
+							3
+							runde2.schuss2
+						)
+						runde(
+							2
+							(runde2.takte + (∆ takt2 ? 1 0))
+							runde2.blöcke
+							runde2.aufschläge
+							runde2.letzter
+							runde2.schuss2
+						)
+			3: (runde2.takte ≥ 16)
+			? runde(
+					1
+					0
+					runde2.blöcke
+					runde2.aufschläge
+					runde2.letzter
+					neuerSchuss()
+				)
+				runde(
+					3
+					(runde2.takte + (∆ takt2 ? 1 0))
+					runde2.blöcke
+					runde2.aufschläge
+					runde2.letzter
+					runde2.schuss2
+				)
+			runde2
+
+¶Die eine Auswertung, bei der der Ball den Fuß des Schützen verlässt. Sie muss augenblicklich sein: Sie ist es, die den Ball trifft, und ihn zweimal zu treffen würde seine Geschwindigkeit verdoppeln.¶
+getreten: (∆ takt2) & (runde2.phase = 2) & (runde2.takte = 0)
+
+¶Er wird still gehalten, während er wartet, entlang seiner Ziellinie getroffen, wenn er geschossen wird, und durch eine Parade oder die Rückseite des Netzes zurück ins Feld geschlagen — das verhindert auch, dass ein Ball im Tor immer wieder hin- und herspringt und das Netz ständig ertönen lässt. Die Luft bremst einen rollenden Ball, so wie es Gras tun würde, sodass Schüsse langsamer werden.¶
+ballPlatz: Bewegung(
+		Ort(
+			(runde2.schuss2.sx - ballHälfte)
+			(runde2.schuss2.sy - ballHälfte)
+		)
+		nächsterOrt:
+		(runde2.phase = 1) ? Ort(
+				(runde2.schuss2.sx - ballHälfte)
+				(runde2.schuss2.sy - ballHälfte)
+			) ø
+		nächsteGeschwindigkeit:
+		(runde2.phase = 1) ? Geschwindigkeit(0m/s 0m/s 0°/s)
+			getreten ? Geschwindigkeit(
+					(runde2.schuss2.geschwindigkeit · -1)
+					((runde2.schuss2.geschwindigkeit · -1) × runde2.schuss2.schräge)
+					Zufällig(-45°/s 45°/s)
+				)
+				(gehalten | getroffen) ? Geschwindigkeit(
+						Zufällig(8m/s 14m/s)
+						Zufällig(-5m/s 5m/s)
+						Zufällig(-45°/s 45°/s)
+					)
+					ø
+	)
+
+ball: Satzglied(
+		'⚽'
+		0.6m
+		Name: 'Ball'
+		Ort: ballPlatz
+		Gegenstand: Gegenstand(0.45kg 0.7 0.02)
+	)
+
+¶Der Handschuh wird oben namentlich beobachtet, und das reicht schon, um Teil der physischen Welt zu sein, deshalb braucht er kein @Matter. Er wird vom Programm platziert statt von der Physik, deshalb geht er durch den Ball hindurch, statt ihn zu treffen; die Parade oben ist es, die den Ball zurückschickt. Seine Bewegungen werden nicht sanft übergeblendet, deshalb ist er genau dort, wohin du ihn gesteuert hast, statt dir langsam zu folgen.¶
+torwart: Satzglied(
+		'🧤'
+		1.2m
+		Name: 'Torwart'
+		Ort: Ort(torwartX (torwartY - torwartHälfte))
+		Dauer: 0s
+	)
+
+¶Wer gleich schießt, und von wo. Nur auf dem Feld, während der Ball wartet.¶
+schütze: Satzglied(
+		'🦵'
+		1.2m
+		Ort: Ort(
+			(runde2.schuss2.sx + 0.5m)
+			(runde2.schuss2.sy - 0.6m)
+		)
+		Dauer: 0s
+	)
+schützeListe: (runde2.phase = 1) ? [schütze] []
+
+¶Das Tor: der Torraum, das Netz an der Rückseite, und ein Pfosten oben und unten. Nur das Netz hat einen Namen, deshalb kann nur das Netz ein Tor zählen — ein Ball, der einen Pfosten trifft, würde einfach abprallen. Das Netz ist bewusst dick: Der schnellste Schuss legt zwischen zwei Physik-Schritten etwa einen halben Meter zurück, und bei einem dünneren Netz könnte er glatt hindurchfliegen, ohne es je zu berühren.¶
+netzForm: Gestalt(
+		Rechteck(-8m mundKante -7.2m (mundKante · -1))
+		Name: 'Netz'
+		Hintergrund: Farbe(96% 0 0°)
+	)
+pfostenOben: Gestalt(
+		Rechteck(-8m 7m -7.2m mundKante)
+		Hintergrund: Farbe(35% 0 0°)
+	)
+pfostenUnten: Gestalt(
+		Rechteck(-8m (mundKante · -1) -7.2m -7m)
+		Hintergrund: Farbe(35% 0 0°)
+	)
+
+¶Die Seitenlinien, die einen geklärten Ball auf dem Feld halten.¶
+wandOben: Gestalt(
+		Rechteck(-8m 7m 8m 6.8m)
+		Hintergrund: Farbe(88% 5 130°)
+	)
+wandUnten: Gestalt(
+		Rechteck(-8m -6.8m 8m -7m)
+		Hintergrund: Farbe(88% 5 130°)
+	)
+wandRechts: Gestalt(
+		Rechteck(7.8m 7m 8m -7m)
+		Hintergrund: Farbe(88% 5 130°)
+	)
+
+¶Eine Parade: Die Zahl springt kurz nach oben und bleibt einen Moment stehen, bevor sie sich beruhigt.¶
+paradeBiegung: Reihenfolge(
+		{
+			0%: Pose(Skala: 1)
+			30%: Pose(Skala: 1.5 Versatz: Ort(0m 0.4m))
+			65%: Pose(Skala: 1.35 Versatz: Ort(0m 0.25m))
+			100%: Pose(Skala: 1)
+		}
+		0.5s
+	)
+
+¶Ein Tor: Die Zahl wächst, bis sie den ganzen Bildschirm füllt, und zittert, damit ein Schuss, der an dir vorbeigeht, nie unbemerkt bleibt.¶
+torWackeln: Reihenfolge(
+		{
+			0%: Pose(Skala: 1)
+			8%: Pose(Skala: 3.6 Drehung: -10°)
+			24%: Pose(
+				Skala: 3.6
+				Drehung: 10°
+				Versatz: Ort(0.4m 0m)
+			)
+			40%: Pose(
+				Skala: 3.6
+				Drehung: -10°
+				Versatz: Ort(-0.4m 0m)
+			)
+			56%: Pose(
+				Skala: 3.6
+				Drehung: 8°
+				Versatz: Ort(0.3m 0m)
+			)
+			72%: Pose(Skala: 3.4 Drehung: -6°)
+			100%: Pose(Skala: 1)
+		}
+		1s
+	)
+
+¶Die Zahl der geblockten Schüsse. Ihr Name trägt die Aufschlagnummer, deshalb bekommt sie bei jedem Schuss eine neue Identität, und ihre Animation läuft erneut ab — eine Zahl, deren Name sich nie ändert, würde nur einmal animieren und dann stillstehen.¶
+punktestandAnsicht: Satzglied(
+		"🧤 \runde2.blöcke\"
+		1.4m
+		Name: "score\runde2.aufschläge\"
+		Ort: Ort(-1.4m 4m)
+		Dauer: 0.2s
+		Eingabe: runde2.letzter ???
+			1: paradeBiegung
+			2: torWackeln
+			Pose()
+	)
+
+¶Die Anweisungen stehen auf dem Spielfeld statt in der Überlagerung: Der untere Rand der Überlagerung ist dort, wo die Musikdarstellung sitzt, und Text dort würde überzeichnet werden.¶
+anleitungen: Satzglied(
+		'Halte ⬆ ⬇ gedrückt, um deinen Handschuh zu bewegen — halte jeden Schuss!'
+		0.55m
+		Ort: Ort(-6.4m -6.4m)
+	)
+
+¶Drei Klänge: der Schuss, die Parade, das Netz. Jeder wird für die Dauer der Phase, die ihn auslöst, auf die Bühne gebracht und danach wieder entfernt. Die Bühne zu erreichen ist Grund genug zum Klingen, und ein einmaliger Klang, der schon abgespielt wurde, bleibt still, bis er die Bühne verlässt und zurückkommt — deshalb braucht keiner von ihnen ein @Music.replay, und keiner klingt, wenn das Programm startet.
+
+Sie so zu schreiben, sagt etwas, das die Noten allein nicht sagen würden: Jeder Klang gehört zu einer Phase der Runde und dauert genau so lange wie diese Phase. @Music.replay ist die andere Schreibweise, für einen Klang, der auf einen einzelnen Moment antwortet statt auf eine ganze Zeitspanne.¶
+schussKlang: Musik(
+		Spur(
+			[1]
+			Instrument: Instrument.Schlagzeug
+			Schlag: 0.25beats
+			Lautstärke: 60%
+			Schleife: ⊥
+		)
+		Name: 'Schuss'
+	)
+
+paradeKlang: Musik(
+		Spur(
+			[8 12 15]
+			Instrument: Instrument.Glocke
+			Schlag: 0.2beats
+			Lautstärke: 70%
+			Schleife: ⊥
+		)
+		Name: 'Parade'
+	)
+
+torKlang: Musik(
+		Spur(
+			[5 4 2 1]
+			Instrument: Instrument.Trompete
+			Schlag: 0.3beats
+			Lautstärke: 65%
+			Schleife: ⊥
+		)
+		Name: 'Ziel'
+	)
+
+ergebnisKlang: runde2.letzter ???
+		1: [paradeKlang]
+		2: [torKlang]
+		[]
+
+klangListe: runde2.phase ???
+		2: [schussKlang]
+		3: ergebnisKlang
+		[]
+
+Bühne(
+	[
+		ball
+		torwart
+		:schützeListe
+		netzForm
+		pfostenOben
+		pfostenUnten
+		wandOben
+		wandUnten
+		wandRechts
+		anleitungen
+		:klangListe
+	]
+	Ort: Ort(0m 0m -14m)
+	rahmen: Rechteck(-8m 7m 8m -7m)
+	Hintergrund: Farbe(62% 40 140°)
+	Farbe: Farbe(20% 0 0°)
+	Schwere: 0m/s^2
+	überlagern: [punktestandAnsicht]
+)

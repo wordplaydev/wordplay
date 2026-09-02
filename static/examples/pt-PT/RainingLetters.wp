@@ -1,0 +1,68 @@
+☁
+LetrasAChover
+=== start/en
+¶Este programa tem um conjunto de letras que caem para o solo segundo as regras da física e, depois de tocarem no chão, ficam disponíveis para cair de novo. Temos sempre o mesmo número de letras a cair, mas tornamos visível um número diferente com base na amplitude do microfone.¶
+
+¶O número máximo de letras¶
+contagem2: 100
+¶A dispersão horizontal das letras¶
+tamanho2: 20m
+
+¶A amplitude do microfone¶
+amplificadores: Volume()
+
+¶A letra escolhida e a sua posição, velocidade de rotação e se está visível.¶
+•letra(letra2•"" x2•#m y2•#m ângulo2•# velocidade2•# visível•?)
+
+tique: Tempo()
+
+¶Iniciar como uma lista de letras aleatórias em posições aleatórias¶
+letras•[letra]: contagem2 → [#].traduzir(
+		ƒ(_) letra(
+				'abcdefghijklmnopqrstuvwxyz' → [''].aleatório()
+				Aleatório(-tamanho2 tamanho2)
+				Aleatório(0m tamanho2 + 2m)
+				Aleatório(360)
+				Aleatório(-15 15)
+				⊥
+			)
+	)
+	… ∆ tique …
+		¶Se a letra estiver acima do eixo dos y, faz com que desça um pouco e rode. Caso contrário, repõe-a acima do limite e decide de forma aleatória se está visível.¶
+		letras.traduzir(
+			ƒ(letra3•letra)
+				letra3.y2 > 0m ? (letra3.y2:letra3.y2 - 0.5m).ângulo2:letra3.ângulo2 + letra3.velocidade2
+					(letra3.y2:tamanho2 + 2m).visível:Aleatório(
+						0
+						amplificadores
+					) > 0.5
+		)
+
+¶Converter as letras em frases¶
+Fase(
+	[
+		Frase("☁" tamanho: 3m local: Local(-8m 12m))
+		Frase("☁" tamanho: 5m local: Local(8m 11m))
+		Frase(
+			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+			local: Local(-3.5 × tamanho2 -0.5m)
+		)
+	].comlista(
+		letras.traduzir(
+			ƒ(letra4•letra)
+				Frase(
+					letra4.letra2
+					tamanho: 1m
+					local: Local(letra4.x2 letra4.y2)
+					rotação: letra4.ângulo2 × 1°
+					descansar: Pose(
+						opacidade: letra4.visível ? 1 0
+						cor: Cor(100% 0 0°)
+					)
+					duração: 0s
+				)
+		)
+	)
+	local: Local(0m 1 × tamanho2 -15m)
+	fundo: Cor(63% 93 248°)
+)

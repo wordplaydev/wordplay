@@ -12,6 +12,7 @@ import {
     getProjectNameCount,
     parseAsMultilingualName,
     validateProjectName,
+    withNameSuffix,
 } from './getLocalizedProjectName';
 
 const en = DefaultLocale;
@@ -159,5 +160,29 @@ describe('validateProjectName', () => {
         // Missing language tag on the second translation.
         const result2 = validateProjectName('"hi"/en"hola"');
         expect(typeof result2).toBe('function');
+    });
+});
+
+describe('withNameSuffix', () => {
+    test('a plain name gets the suffix appended', () => {
+        expect(withNameSuffix('Adventure', '⧉')).toBe('Adventure ⧉');
+    });
+
+    test('a multilingual name gets the suffix inside each translation', () => {
+        const suffixed = withNameSuffix('"Adventure"/en"冒险"/zh-CN', '⧉');
+        expect(suffixed).toBe('"Adventure ⧉"/en"冒险 ⧉"/zh-CN');
+        // The point: the result still parses as a multilingual name, where the
+        // raw append put the glyph outside the delimiter and broke it.
+        expect(parseAsMultilingualName(suffixed)).toBeDefined();
+        expect(
+            parseAsMultilingualName('"Adventure"/en"冒险"/zh-CN ⧉'),
+        ).toBeUndefined();
+    });
+
+    test('a name that defeats both delimiters falls back to the raw append', () => {
+        const tricky = `"it's \\"quoted\\""/en`;
+        // Whatever the parse does with this, the function must return
+        // something containing the suffix rather than throwing.
+        expect(withNameSuffix(tricky, '⧉')).toContain('⧉');
     });
 });

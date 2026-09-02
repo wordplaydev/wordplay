@@ -1,0 +1,198 @@
+🎂
+Selamat Ulang Tahun
+=== start/en
+¶Selamat Ulang Tahun dalam tiga bagian: sebuah melodi, harmoni di bawahnya, dan kord yang menopang keduanya.
+
+Setiap bagian ditulis dalam derajat skala, jadi 1 adalah nada dasar dan 8 adalah nada dasar satu oktaf lebih tinggi. Itulah sebabnya lagunya terdengar sama walau kamu ubah ke kunci nada apa pun — ubah @Music/key dan seluruh lagu ikut berubah, termasuk penyanyinya.
+
+Melodi dan harmoni bergerak dalam setengah ketukan, sedangkan kord bergerak dalam satu ketukan penuh, jadi setiap bagian menyebutkan berapa lama masing-masing entrinya, dan semuanya tetap selaras.¶
+
+¶Jumlah ketukan sejak lagu dimulai, agar kue bisa bergerak mengikutinya. @Beat menghitung dari nol sebelum musik dimainkan, jadi kue hanya diam saja.¶
+ketukan2: Ketukan()
+hitungan2: ketukan2.hitung
+
+¶Melodinya. Dua not seperdelapan, lalu not yang lebih panjang — bagian diam itulah yang membentuk iramanya, karena setiap entri berlangsung selama setengah ketukan yang sama.¶
+melodi: [
+		5
+		5
+		6
+		ø
+		5
+		ø
+		8
+		ø
+		7
+		ø
+		ø
+		ø
+		5
+		5
+		6
+		ø
+		5
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		5
+		5
+		12
+		ø
+		10
+		ø
+		8
+		ø
+		7
+		ø
+		6
+		ø
+		ø
+		11
+		11
+		10
+		ø
+		8
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Suara kedua di bawah melodi, dalam setengah ketukan yang sama.¶
+alto: [
+		5
+		5
+		3
+		ø
+		3
+		ø
+		3
+		ø
+		4
+		ø
+		ø
+		ø
+		4
+		4
+		4
+		ø
+		4
+		ø
+		4
+		ø
+		5
+		ø
+		ø
+		ø
+		5
+		5
+		5
+		ø
+		8
+		ø
+		5
+		ø
+		5
+		ø
+		4
+		ø
+		6
+		6
+		6
+		ø
+		6
+		ø
+		5
+		ø
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Kord, satu per ketukan. Sebuah kumpulan membunyikan derajatnya bersamaan, jadi {1 3 5} adalah trinada nada dasar dan {4 5 7 9} adalah trinada yang ingin kembali ke nada dasar itu.¶
+kord: [
+		ø
+		{1 3 5}
+		ø
+		ø
+		{4 5 7 9}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{4 6 8}
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		{4 5 7 9}
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Kue membesar pada setiap ketukan dan mengecil kembali di antaranya.¶
+ƒ kue() Frasa(
+		'🎂'
+		(4m + ((hitungan2 % 2) · 0.4m))
+		lamanya: 0.2s
+	)
+
+Panggung(
+	[
+		Kelompok(
+			Tumpukan(lapisan: 0.5m)
+			[
+				kue()
+				Frasa('Selamat Ulang Tahun' 1.3m)
+			]
+		)
+		Musik(
+			[
+				Trek(
+					melodi
+					alatMusik: AlatMusik.seruling
+					ketukan: 0.5beats
+				)
+				Trek(
+					alto
+					alatMusik: AlatMusik.biola
+					ketukan: 0.5beats
+					volume: 65%
+				)
+				Trek(
+					kord
+					alatMusik: AlatMusik.piano
+					ketukan: 1beats
+					volume: 55%
+				)
+			]
+			tempo: 116beats/min
+			nama: 'ulang tahun'
+		)
+	]
+	latarbelakang: Warna(18% 20 330°)
+	warna: Warna(96% 0 0°)
+)

@@ -1,0 +1,34 @@
+l
+Rubriker
+=== start/en
+¶Aktuella rubriker från New York Times, hämtade från webben och staplade på scenen.¶
+rubriker: webbsida(
+		'https://www.nytimes.com'
+		'.indicate-hover'
+	)
+rubriker•# ?
+	Fras('laddar')
+	Grupp(
+		Stack('<')
+		[
+			Fras(`*New York Times rubriker*` 2m ansikte: 'Arvo')
+		].medLista(
+			rubriker.efterföljande(1 7).översätta(
+				ƒ(rubrik)
+					Fras(
+						rubrik
+						sjal: 20m
+						inriktning: '<'
+						ansikte: 'Ubuntu'
+						vilande: Sekvens(
+							{
+								0%: Pose(rotation: 3°)
+								50%: Pose(rotation: -3°)
+								100%: Pose(rotation: 3°)
+							}
+							varaktighet: 3s
+						)
+					)
+			)
+		)
+	)

@@ -1,0 +1,85 @@
+🗨
+Dialog
+=== start
+¶Zwei Buchstaben sprechen darüber, was es bedeutet, dass Buchstaben sprechen.¶
+
+¶Eine Zeile des Gesprächs: wer es sagt, die Worte, und ob es gedacht statt gesagt wird.¶
+•zeile(wer•'' wörter•'' denken•?: ⊥)
+
+skript: [
+		zeile(
+			'ein'
+			'Findest du es manchmal seltsam, dass wir sprechen?'
+		)
+		zeile(
+			'b'
+			'Wir sind Buchstaben. Sprechen ist quasi unser ganzer Job.'
+		)
+		zeile(
+			'ein'
+			'Nein, ich meine uns. Nicht die Worte, die wir bilden. Uns.'
+		)
+		zeile('b' '…Oh.')
+		zeile(
+			'ein'
+			'Ich bin eine Form, die einen Laut bedeutet. Gerade jetzt erzeuge ich den Laut, indem ich die Form bin.'
+		)
+		zeile(
+			'b'
+			'Ist eine Sprechblase um einen Buchstaben ein Bild eines Buchstabens, oder ein Buchstabe eines Bildes?'
+			denken: ⊤
+		)
+		zeile('ein' 'Du drehst dich im Kreis.')
+		zeile(
+			'b'
+			'Ich bin ein b. Sich drehen ist buchstäblich mein Umriss.'
+		)
+		zeile('ein' 'Wie auch immer. Das ist hier normal.')
+		zeile('b' 'Normal für uns jedenfalls.')
+	]
+
+¶Weiter geht es mit einer Taste, einem Klick oder einem Tippen, und es stoppt bei der letzten Zeile.¶
+runde•#: 1 … ∆ Schlüssel() | ∆ Taste() … (runde < skript.Länge(
+				) ? runde + 1 runde)
+
+zeile2: skript[runde]
+
+¶Nur wer gerade dran ist, bekommt eine Sprechblase. Jede Zeile ist ein @Say, also wird sie sowohl gesprochen als auch gezeigt — und die Sprechblase ersetzt die Bildunterschrift, da die Worte bereits neben demjenigen stehen, der sie gesagt hat. Niemand wählt eine Seite: die Bühne setzt jede Sprechblase dorthin, wo sie am wenigsten im Weg ist.¶
+ƒ sprechblase2(wer2•'')
+	wer2 = zeile2.wer ?
+		Sprechblase(
+			Sagen(zeile2.wörter)
+			Art: (zeile2.denken ? '💭' '💬')
+			umbrechen: 9m
+		)
+		ø
+
+¶Eine Reihe, ausgerichtet auf der Grundlinie, sodass beide Buchstaben auf einer Zeile sitzen. Die Box eines Ausdrucks ist seine Tinte, daher würde eine gleiche Höhe einen kurzen und einen hohen Buchstaben auf unterschiedliche Grundlinien setzen.¶
+Bühne(
+	[
+		Gruppe(
+			Stapel('|' 1.5m)
+			[
+				Gruppe(
+					Reihe('_' 6m)
+					[
+						Satzglied(
+							'ein'
+							Größe: 3m
+							sprechblase: sprechblase2('ein')
+						)
+						Satzglied(
+							'b'
+							Größe: 3m
+							sprechblase: sprechblase2('b')
+						)
+					]
+				)
+				Satzglied(
+					`/Leertaste, Klick oder Tippen/`
+					Größe: 0.6m
+				)
+			]
+		)
+	]
+)

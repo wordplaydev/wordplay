@@ -1,0 +1,198 @@
+🎂
+Happy Birthday
+=== start/en
+¶Happy Birthday i tre delar: en melodi, en harmoni under den, och ackordsom håller upp båda.
+
+Varje del är skriven i skalsteg, så 1 är grundtonen och 8 är grundtoneni oktaven ovanför. Därför låter melodin likadan oavsett vilken tonart duväljer — ändra @Music/key så flyttar sig hela låten med, sångare också.
+
+Melodin och harmonin rör sig i halva slag och ackorden i hela slag,så varje del säger hur långa dess egna toner är, och de passar ändå ihop.¶
+
+¶Antal slag sedan låten startade, så tårtan kan röra sig med den. @Beat räknar frånnoll innan musiken spelar, så tårtan står bara still.¶
+slag2: Takt()
+antal2: slag2.räkna
+
+¶Melodin. Två åttondelar, sedan längre toner — det är pauserna som skaparrytmen, eftersom varje ton varar samma halva slag.¶
+melodi2: [
+		5
+		5
+		6
+		ø
+		5
+		ø
+		8
+		ø
+		7
+		ø
+		ø
+		ø
+		5
+		5
+		6
+		ø
+		5
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		5
+		5
+		12
+		ø
+		10
+		ø
+		8
+		ø
+		7
+		ø
+		6
+		ø
+		ø
+		11
+		11
+		10
+		ø
+		8
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶En andra stämma under melodin, i samma halva slag.¶
+alt: [
+		5
+		5
+		3
+		ø
+		3
+		ø
+		3
+		ø
+		4
+		ø
+		ø
+		ø
+		4
+		4
+		4
+		ø
+		4
+		ø
+		4
+		ø
+		5
+		ø
+		ø
+		ø
+		5
+		5
+		5
+		ø
+		8
+		ø
+		5
+		ø
+		5
+		ø
+		4
+		ø
+		6
+		6
+		6
+		ø
+		6
+		ø
+		5
+		ø
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Ackord, ett per slag. En mängd låter sina skalsteg tillsammans, så {1 3 5} ärgrundackordet, och {4 5 7 9} är det som vill lösas tillbaka till det.¶
+ackord: [
+		ø
+		{1 3 5}
+		ø
+		ø
+		{4 5 7 9}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{4 6 8}
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		{4 5 7 9}
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Tårtan sväller vid varje slag och sjunker tillbaka mellan dem.¶
+ƒ tårta() Fras(
+		'🎂'
+		(4m + ((antal2 % 2) · 0.4m))
+		varaktighet: 0.2s
+	)
+
+Etapp(
+	[
+		Grupp(
+			Stack(stoppning: 0.5m)
+			[
+				tårta()
+				Fras('Happy Birthday' 1.3m)
+			]
+		)
+		Musik(
+			[
+				Spår(
+					melodi2
+					instrument: Instrument.flöjt
+					takt: 0.5beats
+				)
+				Spår(
+					alt
+					instrument: Instrument.fiol
+					takt: 0.5beats
+					volym: 65%
+				)
+				Spår(
+					ackord
+					instrument: Instrument.piano
+					takt: 1beats
+					volym: 55%
+				)
+			]
+			tempo: 116beats/min
+			namn: 'födelsedag'
+		)
+	]
+	bakgrund: Färg(18% 20 330°)
+	färg: Färg(96% 0 0°)
+)

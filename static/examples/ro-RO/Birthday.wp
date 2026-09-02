@@ -1,0 +1,198 @@
+🎂
+La mulți ani
+=== start/en
+¶La mulți ani în trei părți: o melodie, o armonie sub ea și acorduri care le susțin pe amândouă.
+
+Fiecare parte este scrisă în trepte ale scării muzicale, așa că 1 este tonica, iar 8 este tonica cu o octavă mai sus. De aceea melodia sună la fel indiferent în ce tonalitate o pui — schimbă @Music/key și toată piesa se mișcă odată cu ea, inclusiv vocile.
+
+Melodia și armonia se mișcă în jumătăți de puls, iar acordurile în pulsuri întregi, așa că fiecare parte spune cât durează propriile note și totuși se sincronizează.¶
+
+¶Pulsuri de când a început piesa, ca tortul să se miște odată cu ea. @Beat numără de la zero înainte să înceapă muzica, așa că tortul stă nemișcat.¶
+puls2: Bătaie()
+numărare2: puls2.număr
+
+¶Melodia. Două optimi, apoi note mai lungi — pauzele sunt cele care creează ritmul, pentru că fiecare notă durează aceeași jumătate de puls.¶
+melodie2: [
+		5
+		5
+		6
+		ø
+		5
+		ø
+		8
+		ø
+		7
+		ø
+		ø
+		ø
+		5
+		5
+		6
+		ø
+		5
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		5
+		5
+		12
+		ø
+		10
+		ø
+		8
+		ø
+		7
+		ø
+		6
+		ø
+		ø
+		11
+		11
+		10
+		ø
+		8
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶O a doua voce sub melodie, în aceleași jumătăți de puls.¶
+alto: [
+		5
+		5
+		3
+		ø
+		3
+		ø
+		3
+		ø
+		4
+		ø
+		ø
+		ø
+		4
+		4
+		4
+		ø
+		4
+		ø
+		4
+		ø
+		5
+		ø
+		ø
+		ø
+		5
+		5
+		5
+		ø
+		8
+		ø
+		5
+		ø
+		5
+		ø
+		4
+		ø
+		6
+		6
+		6
+		ø
+		6
+		ø
+		5
+		ø
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Acorduri, unul pe puls. Un set sună treptele împreună, așa că {1 3 5} este triada tonică, iar {4 5 7 9} este cea care vrea să se rezolve înapoi la ea.¶
+acorduri: [
+		ø
+		{1 3 5}
+		ø
+		ø
+		{4 5 7 9}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{4 6 8}
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		{4 5 7 9}
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Tortul se umflă la fiecare puls și se așază între ele.¶
+ƒ tort() Fraza(
+		'🎂'
+		(4m + ((numărare2 % 2) · 0.4m))
+		durată: 0.2s
+	)
+
+Etapă(
+	[
+		Grup(
+			Stivă(umplutură: 0.5m)
+			[
+				tort()
+				Fraza('La mulți ani' 1.3m)
+			]
+		)
+		Muzică(
+			[
+				Pistă(
+					melodie2
+					instrument: Instrument.flaut
+					bătaie: 0.5beats
+				)
+				Pistă(
+					alto
+					instrument: Instrument.vioară
+					bătaie: 0.5beats
+					volum: 65%
+				)
+				Pistă(
+					acorduri
+					instrument: Instrument.pian
+					bătaie: 1beats
+					volum: 55%
+				)
+			]
+			tempo: 116beats/min
+			nume: 'zi de naștere'
+		)
+	]
+	fundal: Culoare(18% 20 330°)
+	culoare: Culoare(96% 0 0°)
+)

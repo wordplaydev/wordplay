@@ -1,0 +1,84 @@
+t
+Số Tiếng Pháp
+=== start/en-US,start/fr-FR
+¶Nhấn phím số khớp với số tiếng Pháp trên sân khấu.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶Các số cần đoán¶
+¶Les nombres à deviner¶/fr
+số2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶Các số bí mật là các số từ 1 đến 9 theo thứ tự ngẫu nhiên¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+bíMật: [1 2 3 4 5 6 7 8 9].xáotrộn()
+
+¶Phím vừa được nhấn gần đây nhất là gì?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+chìaKhóa2,clé/fr: Chìakhóa()
+
+¶Số bí mật hiện tại tăng lên mỗi lần một phím được nhấn, nhưng dừng lại ở 10¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+chỉMụcBíMật,secretIndice/fr•#:
+	1 …
+	∆ chìaKhóa2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶Số bí mật hiện tại, dựa trên chỉ mục bí mật¶
+bíMậtHiệnTại,secretActuel/fr: bíMật[chỉMụcBíMật]
+
+¶Câu trả lời đúng nếu số được nhấn khớp với số bí mật trước đó¶
+đúng2: clé → # = bíMật[chỉMụcBíMật - 1]
+
+¶Điểm bắt đầu từ 0 và tăng lên nếu câu trả lời đúng.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+điểm2•#: 0 …
+	∆ chìaKhóa2 …
+		đúng2 ?
+			điểm2 + 1
+			điểm2
+
+¶Thắng nghĩa là đoán đúng cả 9 số¶
+thắng,gagner/fr: điểm2 = 9
+
+¶Hoàn thành khi chỉ mục bí mật đạt 10¶
+kếtThúcTròChơi: chỉMụcBíMật = 10
+
+¶Hiển thị số tiếng Pháp hiện tại và điểm hiện tại. Sau khi hết cả 9 số bí mật, hiển thị kết quả cuối cùng¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp()
+			[
+				kếtThúcTròChơi ?
+					Cụmtừ(
+						thắng ?
+							'Bạn đã biết các số tiếng Pháp!'"Tu connais les chiffres français!"/fr
+							'gần đúng rồi, thử lại nhé'"presque, réessaye"/fr
+						kíchcỡ: 2m
+					)
+					Cụmtừ(numeros[secretActuel] kíchcỡ: 2m)
+				Cụmtừ("\điểm2\ points!" kíchcỡ: 1m)
+				Cụmtừ(
+					chỉMụcBíMật = 1 ?
+						'số này là số mấy?''quel est ce numéro ?'/fr
+						đúng2 ?
+							'Đúng rồi!'
+							"That was \bíMật[chỉMụcBíMật - 1]\"
+				)
+			]
+		)
+	]
+	khuônmặt: "Aclonica"
+)

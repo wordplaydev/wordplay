@@ -1,0 +1,77 @@
+🗨
+Dialog
+=== start
+¶Dwie litery rozmawiają o tym, co znaczy, że litery mówią.¶
+
+¶Jedna linia rozmowy: kto ją mówi, jakie są słowa i czy to myśl, a nie mowa.¶
+•linia(kto•'' słowa2•'' myślenie•?: ⊥)
+
+skrypt: [
+		linia(
+			'a'
+			'Czy nie myślisz czasem, że to dziwne, że rozmawiamy?'
+		)
+		linia(
+			'b'
+			'Jesteśmy literami. Mówienie to w sumie cała nasza praca.'
+		)
+		linia(
+			'a'
+			'Nie, mam na myśli nas. Nie słowa, które tworzymy. Nas.'
+		)
+		linia('b' '…Aha.')
+		linia(
+			'a'
+			'Jestem kształtem, który oznacza dźwięk. Teraz właśnie wydaję ten dźwięk, będąc tym kształtem.'
+		)
+		linia(
+			'b'
+			'Czy dymek wokół litery to obraz litery, czy litera obrazu?'
+			myślenie: ⊤
+		)
+		linia('a' 'Kręcisz się w kółko.')
+		linia(
+			'b'
+			'Jestem literą b. Zawijanie to dosłownie mój kształt.'
+		)
+		linia('a' 'W każdym razie. To tutaj normalne.')
+		linia('b' 'Normalne dla nas, przynajmniej.')
+	]
+
+¶Przechodź dalej klawiszem, kliknięciem lub dotknięciem i zatrzymaj się na ostatniej linii.¶
+kolej•#: 1 … ∆ Klawisz() | ∆ Przycisk() … (kolej < skrypt.długość(
+				) ? kolej + 1 kolej)
+
+linia2: skrypt[kolej]
+
+¶Dymek dostaje tylko ten, którego jest kolej. Każda linia to @Say, więc jest zarówno wypowiadana, jak i pokazywana — a dymek zastępuje podpis, bo słowa są już na ekranie obok tego, kto je powiedział. Nikt nie wybiera strony: scena umieszcza każdy dymek tam, gdzie najmniej przeszkadza.¶
+ƒ dymek2(kto2•'')
+	kto2 = linia2.kto ?
+		Dymek(
+			Mowić(linia2.słowa2)
+			rodzaj: (linia2.myślenie ? '💭' '💬')
+			zawijanie: 9m
+		)
+		ø
+
+¶Rząd wyrównany do linii bazowej, tak by obie litery stały na jednej linii. Pole wyrażenia to jego atrament, więc ustawienie ich na tej samej wysokości sprawiłoby, że krótka litera i wysoka znalazłyby się na różnych liniach bazowych.¶
+Scena(
+	[
+		Grupa(
+			Stos('|' 1.5m)
+			[
+				Grupa(
+					Wiersz('_' 6m)
+					[
+						Wyrażenie('a' rozmiar: 3m dymek: dymek2('a'))
+						Wyrażenie('b' rozmiar: 3m dymek: dymek2('b'))
+					]
+				)
+				Wyrażenie(
+					`/spacja, kliknięcie lub dotknięcie/`
+					rozmiar: 0.6m
+				)
+			]
+		)
+	]
+)

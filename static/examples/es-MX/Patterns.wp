@@ -1,0 +1,32 @@
+⌕
+Patrones
+=== start
+¶Escribe una oración con algunos números en ella. Voy a encontrar cada número y a mostrarlos abajo, agregándolos a medida que los encuentro. Un patrón describe la forma de un texto — aquí,\⣿ >0 #⣿\ significa “uno o más dígitos”, y ⌕ encuentra cada lugar donde aparece.¶
+entrada: Charla()
+texto2: 'Tengo 3 gatos, 12 peces y 144 hormigas' … ∆ entrada … entrada
+
+¶Busca en el texto cada secuencia de dígitos. Cada resultado es un Result con su texto encontrado.¶
+números2: texto2 ⌕ ⣿ >0 #⣿
+
+Escenario(
+	[
+		Grupo(
+			Pila()
+			[
+				Frase(texto2 tamaño: 1m)
+				Grupo(
+					Pila()
+					números2.traducir(
+						ƒ(número2•resultado)
+							Frase(
+								número2.texto
+								tamaño: 1.5m
+								entrando: Pose(opacidad: 0 escala: 0.5)
+								duración: 0.5s
+							)
+					)
+				)
+			]
+		)
+	]
+)

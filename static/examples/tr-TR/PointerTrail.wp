@@ -1,0 +1,16 @@
+✨
+İşaretçi izi
+===
+¶Sönümlenen bir gökkuşağı izi çizmek için imlecini hareket ettir. @Previous (←←) son beş @Pointer konumu hatırlar ve @List.translate her biri için, en eskisinden en yenisine doğru sönümlenip renk değiştiren bir nokta çizer.¶
+geçmiş•[Yer]: ←← 5 İşaretçi()
+Sahne(
+	geçmiş.tercümeetmek(
+		ƒ(nokta•Yer dizin2•#)
+			İfadeetmek(
+				'●'
+				renk: Renk(75% 100 dizin2 × 40°)
+				opaklık: dizin2 ÷ geçmiş.uzunluk()
+				yer: Yer(nokta.X nokta.ve)
+			)
+	)
+)

@@ -1,0 +1,39 @@
+🪐
+Quỹ đạo
+=== start
+¶Ba hành tinh quay quanh một ngôi sao kéo chúng lại gần.¶
+
+¶Ngôi sao là thứ tạo ra lực kéo, vì vậy nó cần @Matter có lực kéo. Nó không có @Motion, nên không gì kéo nó trở lại và nó cứ đứng yên. Một @Place là góc của kết quả xuất ra, không phải điểm giữa của nó, nên ngôi sao được dịch đi nửa kích thước của chính nó để đặt điểm giữa của nó vào tâm bầu trời.¶
+mặtTrời: Cụmtừ(
+		'⭐'
+		2m
+		tên: 'mặt trời'
+		vịTrí: VịTrí(-1m -1m)
+		vấnđề: Vấnđề(2000kg kéo: 1)
+	)
+
+¶Một hành tinh không cần @Matter nào cả. Có @Motion là điều khiến lực kéo của ngôi sao có thể di chuyển nó. Nó phải di chuyển nhanh đến mức nào để quay vòng thay vì rơi vào trong phụ thuộc vào việc nó ở xa bao nhiêu, vì vậy mỗi hành tinh được cho tốc độ giữ nó ở đúng vòng của mình.¶
+hànhTinh: ƒ(kýHiệu•"" đượcGọiLà•"" rộng•#m xa•#m tốcĐộ•#m/s)
+		Cụmtừ(
+			kýHiệu
+			rộng
+			tên: đượcGọiLà
+			vịTrí: Cửđộng(
+				VịTrí(xa - (rộng ÷ 2) 0m - (rộng ÷ 2))
+				Vậntốc(0m/s tốcĐộ)
+			)
+		)
+
+¶Bầu trời không có lực hút riêng của nó, nếu không mọi thứ sẽ rơi ra khỏi phía dưới. Nó cũng không có không khí, nên các hành tinh cứ tiếp tục di chuyển thay vì chậm lại và dừng hẳn.¶
+Sânkhấu(
+	[
+		mặtTrời
+		hànhTinh('🌍' 'trái đất' 0.8m 3m 11.5m/s)
+		hànhTinh('🪐' 'có vòng' 1m 5m 8.6m/s)
+		hànhTinh('🌕' 'mặt trăng' 0.6m 7m 7.3m/s)
+	]
+	lýlịch: Màusắc(15% 20 300°)
+	trọnglực: 0m/s^2
+	khôngKhí: 0
+	vịTrí: VịTrí(0m 0m -14m)
+)

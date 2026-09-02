@@ -1,0 +1,23 @@
+മ
+Huruf
+=== start/en
+¶Kotak-kotak huruf dari banyak sistem tulisan, satu berubah setiap detik.¶
+huruf: 'മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ' ÷ ""
+
+terbaru•['']:
+	huruf … ∆ Waktu(1000ms) …
+		terbaru.mengganti(Acak(1 25) huruf.acak())
+
+Kelompok(
+	Jaringan(5 5 0.25m 1m 1m)
+	terbaru.menerjemahkan(
+		ƒ(huruf2•"" indeks2•#)
+			Frasa(
+				huruf2
+				nama: "\huruf2\-\indeks2\"
+				memasuki: Pose(kegelapan: 0 skala: 2)
+				beristirahat: Urutan.bergoyang(lamanya: 0.25s)
+				lamanya: 0.5s
+			)
+	)
+)

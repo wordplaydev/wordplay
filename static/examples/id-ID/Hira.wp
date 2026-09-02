@@ -1,0 +1,28 @@
+ぁ
+Hiragana
+=== start
+¶Hiragana jatuh karena gravitasi; klik untuk membalik arah mana yang bawah.¶
+hitungan2: 32
+
+gravitasi•#m/s^2: 15m/s^2 … ∆ Tombol() … -gravitasi
+
+hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
+
+huruf: hitungan2 → [].menerjemahkan(
+		ƒ(angka2 indeks2)
+			Frasa(
+				hiragana[angka2]
+				tempat: Gerakan(
+					Tempat((indeks2 - (hitungan2 ÷ 2)) × 0.2m 10m)
+					Kecepatan(sudut: Acak(-5 5) × 1°/s)
+				)
+				urusan: Urusan(kekenyalan: 0.3)
+			)
+	)
+
+
+Panggung(
+	[:huruf Bangun(Persegipanjang(-40m 0m 40m -2m))]
+	gayaberat: gravitasi
+	tempat: Tempat(0m 5m -20m)
+)

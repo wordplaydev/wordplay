@@ -1,0 +1,86 @@
+📹
+Video
+===
+¶Rekaman kamera kamu, digambar ulang secara langsung: sebagai huruf berwarna, sebagai bayangan ASCII, atau sebagai kotak berwarna. Pilih gaya dengan tombol di bagian bawah.¶
+
+¶Tombol gaya mana yang terakhir diklik. Choice melaporkan nama dari selectablephrase yang dipilih penonton, dan gaya tetap menggunakan pilihan terakhir yang didengarnya.¶
+pilihan: Pilihan()
+gaya2: 'letters' … ∆ pilihan … pilihan
+
+¶Emoji berukuran besar, jadi gaya emoji mengambil sampel dari kisi yang lebih kasar. Kedua kisi mencakup luas yang sama, 16 kali 12 meter, jadi mengganti gaya tidak pernah mengubah ukuran gambar atau memindahkan kamera.¶
+kolom2: (gaya2 = 'emoji') ? 16 32
+baris2: (gaya2 = 'emoji') ? 12 24
+sel2: (gaya2 = 'emoji') ? 1m 0.5m
+
+¶Bagian tengah kisi, tempat gambar diletakkan di tengah.¶
+kolomTengah: (kolom2 + 1) ÷ 2
+barisTengah: (baris2 + 1) ÷ 2
+
+¶Satu warna untuk setiap sel, langsung dari kamera.¶
+warna2: Kamera((kolom2 × 1px) (baris2 × 1px) 33ms)
+
+¶Sepuluh karakter dari gelap ke terang. Gaya ASCII memilih satu karakter berdasarkan tingkat terang piksel tersebut.¶
+gradasi: "@%#*+=-:. " → []
+
+¶Dua puluh empat pita 15° di sekeliling lingkaran warna, sehingga setiap piksel mengambil kotak yang paling mendekati warnanya.¶
+kotak: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
+
+¶Seperti apa satu piksel terlihat dalam gaya saat ini. Piksel yang hampir tidak berwarna tidak punya rona yang layak ditampilkan, jadi piksel itu memakai kotak terang atau gelap.¶
+ƒ glif2(warna3•Warna)
+	(gaya2 = 'ascii') ?
+		"\gradasi[((warna3.keringanan × 9).bulat()) + 1]\"
+		((gaya2 = 'emoji') ?
+				((warna3.kroma < 8) ?
+						((warna3.keringanan < 50%) ? "⬛" "⬜")
+						"\kotak[(((warna3.warna ÷ 1°) ÷ 15).bulatkankebawah(
+							)) + 1]\")
+				'a')
+
+¶Gambarnya: satu frasa untuk setiap piksel, disusun dari tengah ke luar, sehingga kamera selalu punya gambar yang sama untuk dibingkai berapa pun kasarnya kisi itu, dan dicerminkan dari kiri ke kanan agar terbaca seperti bayangan di cermin.¶
+gambar: warna2.gabungan(
+		[]
+		ƒ(frasa2•[Frasa] baris3•[Warna] y2•#)
+			frasa2.denganDaftar(
+				baris3.menerjemahkan(
+					ƒ(warna4•Warna x2•#)
+						Frasa(
+							glif2(warna4)
+							tempat: Tempat(
+								((kolomTengah - x2) × sel2)
+								((barisTengah - y2) × sel2)
+							)
+							lamanya: 0s
+							ukuran: (gaya2 = 'ascii') ? 0.75m ((gaya2 = 'emoji') ? 1.15m 1m)
+							menghadapi: (gaya2 = 'ascii') ? "Noto Sans Mono"/en ø
+							warna: (gaya2 = 'letters') ? warna4 ø
+						)
+				)
+			)
+	)
+
+¶Satu tombol gaya, menyala terang saat gaya itulah yang ditampilkan. Nama itulah yang dilaporkan Choice ketika tombol diklik atau dipilih dengan papan ketik.¶
+ƒ tombol(id2•'')
+	Frasa(
+		id2
+		0.5m
+		nama: id2
+		dapatdipilih: ⊤
+		beristirahat: (gaya2 = id2) ? Pose() Pose(
+				kegelapan: 40%
+			)
+	)
+
+¶Sebuah baris membuat tombol-tombol berjarak sama dan sejajar meski kata-katanya berbeda panjang, dan karena tidak punya tempat sendiri, baris itu berada di tengah, sehingga pergeseran saja sudah cukup untuk menurunkannya ke bagian bawah layar. Baris ini membawa latar sendiri, karena kata-kata di atas video hanya bisa terbaca kalau kebetulan cocok warnanya.¶
+tombol2: Kelompok(
+		Baris(lapisan: 0.5m)
+		[tombol('letters') tombol('ascii') tombol('emoji')]
+		latarbelakang: Warna(100% 0 0°)
+		mengimbangi: Tempat(0m -4.5m)
+	)
+
+¶Tombol-tombol berada pada lapisan tumpang panggung, yang dipasang rata pada layar: ukuran dan letaknya tetap sama meski gambar dibingkai bagaimanapun, dan gambar itu dibingkai seolah-olah tombol-tombol itu tidak ada.¶
+Panggung(
+	gambar
+	keterangan: "camera video drawn with \gaya2\"
+	lapisanAtas: [tombol2]
+)

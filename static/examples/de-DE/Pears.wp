@@ -1,0 +1,166 @@
+M
+Birnen
+=== start/en
+¶Dies ist eine interaktive Kurzgeschichte. Sie besteht aus mehrerenverschiedenen Szenen und wechselt zwischen ihnen, je nachdem,was man tut, zum Beispiel klicken, zusammenstoßen und andereHandlungen. Ein Teil des Spaßes an der Geschichte ist es,herauszufinden, welche Handlungen man braucht, um weiterzukommen.¶
+einleitung: [
+		Satzglied(`Mein Papa wollte gehen.` Ort: Ort(-9m 0m))
+	]
+
+konflikt: [
+		Satzglied(`„Mama“, wir müssen los.` Ort: Ort(-8m 7m))
+		Satzglied(
+			`/„Nimm es und geh nach Hause.“/`
+			Ort: Ort(1m 4m)
+		)
+		Satzglied(
+			`„Mama, wir wollen nichts!“`
+			Ort: Ort(-8m 1m)
+		)
+		Satzglied(
+			`„Nimm es und geh nach Hause!“`
+			Größe: 2m
+			Ort: Ort(-6m -4m)
+			Ruhen: Reihenfolge.schütteln()
+		)
+	]
+
+steigendeHandlung1: [
+		Satzglied(
+			`Meine 炮炮👵🏽 trat in den Garten`
+			Ort: Ort(-9m 7m)
+		)
+		Satzglied(`Ich folgte ihr, neugierig` Ort: Ort(-6m 4m))
+		Satzglied(
+			`👵🏽`
+			Name: 'paupau'
+			Größe: 2m
+			Gegenstand: Gegenstand()
+			Ort: Ort(6m -6m)
+			sprechblase: `/„沙梨🍐, nimm es und geh nach Hause!“/`
+		)
+		Satzglied(
+			`👧🏻`
+			Name: 'ich'
+			Größe: 1m
+			Gegenstand: Gegenstand()
+			Ort: Platzierung(Ort(-8m -6m))
+		)
+	]
+
+steigendeHandlung2: [
+		Satzglied(
+			`Sie blieb bei einem kleinen Baum stehen.`
+			Ort: Ort(-9m 6m)
+		)
+		Satzglied(
+			`Daran hingen verschlungen Dutzende leuchtend gelbe 沙梨`
+			Ort: Ort(-9m 1m)
+			wickeln: 10m
+		)
+		Satzglied(
+			`„Mama, wir wollen keine Birnen.“`
+			Größe: .75m
+			Ort: Ort(-4m 0m)
+		)
+		Satzglied(
+			`/Ich wollte eine Birne./`
+			Größe: 2m
+			Ort: Ort(-8m -3m)
+		)
+		Satzglied(
+			"🍐"
+			Größe: 2m
+			Ort: Ort(-1m -7m)
+			Name: 'pear'
+			wählbar: ⊤
+		)
+	]
+
+¶Wir legen Stellen im Voraus fest, damit wir sie immer von derselben Stelle fallen lassen können.¶
+orte: (6 → []).übersetzen(
+		ƒ() Ort(Zufällig(-2m 2m) Zufällig(-3m -5m))
+	)
+höhepunkt: [
+		Satzglied(
+			`Sie kniete sich in die Erde.`
+			Ort: Ort(-9m 6m)
+		)
+		Satzglied(`Griff nach einem Messer` Ort: Ort(-9m 4m))
+		Satzglied(
+			`Und schnitt vorsichtig sechs ab`
+			Ort: Ort(-9m 2m)
+		)
+		Satzglied(
+			`Ließ sie in ihren Korb darunter fallen`
+			Ort: Ort(-9m 0m)
+		)
+		Satzglied("🧺" Größe: 4m Ort: Ort(-2m -12m))
+		Satzglied(
+			"🌳"
+			Name: "tree"
+			Größe: 5m
+			Ort: Ort(-3m -7m)
+			wählbar: ⊤
+		)
+		:orte.übersetzen(
+			ƒ(platzieren index2)
+				Satzglied(
+					"🍐"
+					Name: "pear\index2\"
+					Ort: Auswahl() = 'tree' ? Bewegung(platzieren) platzieren
+				)
+		)
+		Satzglied("🔪" Ort: Zeiger())
+	]
+
+auflösung: [
+		Satzglied(`Sie trug sie zu mir` Ort: Ort(-9m 6m))
+		Satzglied(`Kniete sich vor mich hin` Ort: Ort(-8m 4m))
+		Satzglied(`Und gab mir den Korb` Ort: Ort(-7m 2m))
+		Satzglied(
+			`/„Nimm sie, geh nach Hause“/`
+			Ort: Ort(0m -2m)
+		)
+	]
+
+abspann: [
+		Satzglied(`von /Amy J. Ko/`)
+	]
+
+geschichte: [
+		einleitung
+		konflikt
+		steigendeHandlung1
+		steigendeHandlung2
+		höhepunkt
+		auflösung
+		abspann
+	]
+
+¶Klicks und Tipps zählen¶
+klicken: ∆ Taste()
+¶Merken, wie lange es dauert, bis der Baum angeklickt wird¶
+zeitNachDemSchnitt: 0ms … Auswahl() = 'tree' … Zeit(1000ms)
+¶Aufzeichnen, wann wir Pau Pau erreichen¶
+beiPauPau: ∆ Kollision('ich')
+¶Aufzeichnen, wann die Birne ausgewählt wird¶
+birneGewählt: Auswahl() = 'pear'
+¶Den Abschnitt je nach aktuellem Abschnitt ändern¶
+abschnitt•#:
+	1 …
+	abschnitt ???
+		1: klicken
+		2: klicken
+		3: beiPauPau
+		4: birneGewählt
+		5: zeitNachDemSchnitt > 1500ms
+		6: ∆ Taste()
+		⊥
+		… abschnitt + 1
+
+Bühne(
+	geschichte[abschnitt]
+	gesicht: 'Arvo'
+	Ort: Ort(0m 0m -20m)
+	rahmen: Rechteck(-10m 10m 10m -10m)
+)

@@ -1,0 +1,49 @@
+🖐
+Bàn tay
+===
+¶Giơ ngón tay trước máy ảnh và một bàn tay biểu tượng cảm xúc sẽ đếm theo.¶
+bànTay: Tay()
+
+Sânkhấu(
+	[
+		Cụmtừ(
+			(bànTay.ngóntay = 0 ? '✊'
+					bànTay.ngóntay = 1 ? '☝'
+						bànTay.ngóntay = 2 ? '✌'
+							bànTay.ngóntay = 3 ? '🤟'
+								bànTay.ngóntay = 4 ? '🖖'
+									'🖐')
+			vịTrí: bànTay.vịTrí
+			kíchcỡ: 2m
+			bùlại: VịTrí(-1m)
+		)
+		Nhóm(
+			Hàngngang('<')
+			[
+				Cụmtừ(
+					'1⃣'
+					bùlại: VịTrí(0m bànTay.ngóntaycái ? 1m 0m)
+				)
+				Cụmtừ('2⃣' bùlại: VịTrí(0m bànTay.chỉmục ? 1m 0m))
+				Cụmtừ('3⃣' bùlại: VịTrí(0m bànTay.ởgiữa ? 1m 0m))
+				Cụmtừ('4⃣' bùlại: VịTrí(0m bànTay.nhẫn ? 1m 0m))
+				Cụmtừ('5⃣' bùlại: VịTrí(0m bànTay.ngónút ? 1m 0m))
+			]
+			vịTrí: VịTrí(-4.5m 5m)
+		)
+		Nhóm(
+			Ngănxếp('|')
+			[
+				Cụmtừ((bànTay.câycọ ? '🤚' '🤛') kíchcỡ: 2m)
+				Cụmtừ((bànTay.mở ? 'mở' 'đóng') kíchcỡ: 1.5m)
+			]
+			vịTrí: VịTrí(-2m -8m)
+		)
+		Cụmtừ(
+			`/Cho máy ảnh xem tay bạn/`
+			vịTrí: VịTrí(-6m -10m)
+			kíchcỡ: 1m
+		)
+	]
+	vịTrí: VịTrí(0m 0m -20m)
+)

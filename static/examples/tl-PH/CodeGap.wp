@@ -1,0 +1,207 @@
+👩‍💻
+Kulang na Kodigo
+=== start/en
+¶Ipinapakita ng proyektong ito ang totoo at pampublikong datos tungkol sa kung ilang babae ang nakakakuha ng degree sa agham ng kompyuter sa Estados Unidos, at kung paano ito nagbago. Gumagamit ito ng dalawang talahanayan ng datos, isang pinangalanang years at isa pang fields, saka hinahayaan kang pumili ng isa sa tatlong tanawin gamit ang mga buton sa itaas. Ang bawat tanawin ay isang bar chart na gawa sa emoji ng babae, kasama ang isang payak na paliwanag sa talababa.¶
+↓ years
+↓ fields
+
+¶Ang fill function ay gumagawa ng isang solidong bar. Uulitin nito ang emoji ng babae ng counteskes at pagsasamahin ang mga ito sa isang piraso ng teksto na walang puwang, para ang roway mabasa bilang isang tuloy-tuloy na bar sa halip na hiwalay na mga tuldok.¶
+ƒ lagyan(bilang2•#) (bilang2 → []).isalin(ƒ() '👩').sumali(
+		''
+	)
+
+¶Ang chart function ay gumuhit ng bar chart mula sa tatlong listahan na magkatugma: isang label, isang haba ng bar sa emoji, at isang halaga. Bawat bar ay isang row ng isang stack na naka-align sa kaliwa, kaya lahat ng bar ay nagsisimula sa parehong gilid at ang kanilang haba ay maihahambing nang direkta. Ang label at halaga ay nakalagay sa dulo ng bawat bar sa parehong row, na nagpapanatili sa kanila na nakahanay sa kanilang bar.¶
+ƒ tsart(mgaLabel•[''] mgaYunit•[#] mgaHalaga•[''])
+	Grupo(
+		Patongpatong('<' padding: 0.2m)
+		mgaYunit.isalin(
+			ƒ(u•# i•#)
+				Grupo(
+					Hilera('|' padding: 0.3m)
+					[
+						Parirala(lagyan(u) laki: 0.3m)
+						Parirala(
+							`\mgaLabel[i]\ \mgaHalaga[i]\`
+							laki: 0.28m
+							kulay: Kulay(45% 0 0°)
+						)
+					]
+				)
+		)
+	)
+
+¶Tanawin 1 — "Ang Pag-akyat at Pagbagsak".Para sa bawat taon sa datos, gumuhit kami ng bar na ang haba ay ang porsyento ng mga digri sa computer science na nakuha ng mga babae. Bawat emoji ng babae ay katumbas ng humigit-kumulang 5 porsyento, kaya hinahati namin ang porsyento sa 5 para makuha ang haba ng bar.¶
+mgaHanayNgOras: (years ⎡?taon2 porsyento⎦ ⊤) → []
+tanawinNgOras: tsart(
+		mgaHanayNgOras.isalin(ƒ(hanay) hanay.taon2)
+		mgaHanayNgOras.isalin(
+			ƒ(hanay2) (hanay2.porsyento ÷ 5).bilog()
+		)
+		mgaHanayNgOras.isalin(
+			ƒ(hanay3) (hanay3.porsyento.bilog() → '') + '%'
+		)
+	)
+
+¶Tanawin 2 — "Isang Larangan na Hindi Kasabay".Ihahambing namin ang bahagi ng mga babae sa iba't ibang larangan ng pag-aaral sa isang kamakailang taon. Ang mga row ay naka-ayos na mula sa may pinakamaraming babae hanggang sa pinakakaunti, kaya ang computer science ay bumagsak sa ibaba ng chart.¶
+mgaHanayNgLarangan: (fields ⎡?larangan porsyento2⎦ ⊤) → []
+tanawinNgMgaLarangan: tsart(
+		mgaHanayNgLarangan.isalin(ƒ(hanay4) hanay4.larangan)
+		mgaHanayNgLarangan.isalin(
+			ƒ(hanay5) (hanay5.porsyento2 ÷ 5).bilog()
+		)
+		mgaHanayNgLarangan.isalin(
+			ƒ(hanay6) (hanay6.porsyento2 → '') + '%'
+		)
+	)
+
+¶Tanawin 3 — "Higit Pang Babae, Mas Maliit na Bahagi".Ito ay dalawang magkaibang sukat, kaya iginuhit namin ang mga ito bilang dalawang hiwalay na chart, magkatabi. Ang chart sa kaliwa ay bilang ng mga babae (bawat emoji ay humigit-kumulang 2,000 tao); ang chart sa kanan ay nagpapakita ng kanilang bahagi sa lahat ng digri (bawat emoji ay humigit-kumulang 5 porsyento). Sa loob ng bawat chart, ang dalawang bar ay gumagamit ng parehong sukatan, kaya maihahambing sila: ang bilang ay halos nadodoble habang bumababa ang bahagi.¶
+mgaHanayNgBilang: (years ⎡?taon2 mgaBabae porsyento⎦ ((taon2 = '1984') | (taon2 = '2022'))) → []
+dati: mgaHanayNgBilang[1]
+ngayon: mgaHanayNgBilang[2]
+
+tsartNgMgaBabae: tsart(
+		['1984' '2022']
+		[
+			(dati.mgaBabae ÷ 2000).bilog()
+			(ngayon.mgaBabae ÷ 2000).bilog()
+		]
+		[dati.mgaBabae → '' ngayon.mgaBabae → '']
+	)
+tsartNgBahagi: tsart(
+		['1984' '2022']
+		[
+			(dati.porsyento ÷ 5).bilog()
+			(ngayon.porsyento ÷ 5).bilog()
+		]
+		[
+			(dati.porsyento.bilog() → '') + '%'
+			(ngayon.porsyento.bilog() → '') + '%'
+		]
+	)
+tanawinNgMgaBilang: Grupo(
+		Hilera('<' padding: 1.5m)
+		[
+			Grupo(
+				Patongpatong('|' padding: 0.3m)
+				[
+					Parirala(
+						`/Mga babaeng kumukuha ng digri sa CS/`
+						laki: 0.28m
+					)
+					tsartNgMgaBabae
+				]
+			)
+			Grupo(
+				Patongpatong('|' padding: 0.3m)
+				[
+					Parirala(
+						`/Ang kanilang bahagi sa lahat ng digri sa CS/`
+						laki: 0.28m
+					)
+					tsartNgBahagi
+				]
+			)
+		]
+	)
+
+¶Ang tatlong buton. Iniuulat ng Choice ang pangalan ng anumang mapipiling Phrase na huling na-click ng mambabasa. Nagsisimula kami sa tanawin ng oras at nag-a-update kapag nagbago ang pinili.¶
+pagpili: Pagpipilian()
+kasalukuyan: 'time' … ∆ pagpili … pagpili
+
+mgaTab: Grupo(
+		Hilera('|' padding: 0.6m)
+		[
+			Parirala(
+				'▸ Sa paglipas ng panahon'
+				mapipili: ⊤
+				pangalan: 'time'
+				laki: 0.35m
+				kulay: Kulay(60% 50 20°)
+			)
+			Parirala(
+				'▸ Ayon sa larangan'
+				mapipili: ⊤
+				pangalan: 'fields'
+				laki: 0.35m
+				kulay: Kulay(60% 50 140°)
+			)
+			Parirala(
+				'▸ Bilang laban sa bahagi'
+				mapipili: ⊤
+				pangalan: 'mga bilang'
+				laki: 0.35m
+				kulay: Kulay(60% 50 280°)
+			)
+		]
+	)
+
+¶Piliin ang chart at ang footer para sa kasalukuyang tanawin.¶
+katawan: kasalukuyan = 'time' ? tanawinNgOras (kasalukuyan = 'fields' ? tanawinNgMgaLarangan tanawinNgMgaBilang)
+
+talababa:
+	kasalukuyan = 'time' ?
+		Parirala(
+			`/Ang bahagi ng mga digring bachelor sa computer science sa Estados Unidos na nakuha ng mga babae ay umabot sa pinakamataas na 37% noong 1984, tapos bumaba sa loob ng humigit-kumulang 25 taon patungong mga 18% noong 2008, at unti-unti pa lang nakabawi mula noon. Bawat 👩 ≈ 5%. Pinagmulan: NCES Digest of Education Statistics, Table 325.35./`
+			pambalot: 9m
+			laki: 0.26m
+		)
+		kasalukuyan = 'fields' ?
+			Parirala(
+				`/Noong mga 2018, ang mga babae ang kumuha ng karamihan sa mga digri sa psychology at biology, mga kalahati ng mga digri sa math at social science, ngunit mas mababa sa 20% ng mga digri sa computer science — halos ang pinakamababang bahagi sa lahat ng larangan. Bawat 👩 ≈ 5%. Pinagmulan: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
+				pambalot: 9m
+				laki: 0.26m
+			)
+			Parirala(
+				`/Noong 1984, mga 12,000 babae ang nakakuha ng digri sa CS — 37% sa kanila. Pagsapit ng 2022, mahigit 24,000 na, doble ang bilang ng tao, ngunit 23% na lamang: napakabilis lumago ng larangan kaya mas mabilis pang lumago ang bilang ng mga lalaki. Ang pataas na bilang ay maaari pa ring mangahulugan ng bumabang bahagi. Pinagmulan: NCES./`
+				pambalot: 9m
+				laki: 0.26m
+			)
+
+Entablado(
+	[
+		Grupo(
+			Patongpatong('|' padding: 0.4m)
+			[
+				Parirala(
+					`BOONG SA KODIGO`
+					laki: 0.7m
+					mukha: 'Monoton'
+				)
+				Parirala(
+					`/Sino ang kumukuha ng digri sa computer science?/`
+					laki: 0.35m
+				)
+				mgaTab
+				katawan
+				talababa
+			]
+		)
+	]
+	mukha: 'Quicksand'
+)
+=== years/en
+¶Porsyento ng mga digring bachelor sa computer at information science sa Estados Unidos na nakuha ng mga babae, ayon sa taon, kasama ang bilang ng mga babae at ang kabuuang bilang ng mga digri. Pinagmulan: National Center for Education Statistics, Digest of Education Statistics, Table 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+⎡taon2•'' mgaBabae•# kabuuan2•# porsyento•#⎦
+⎡'1971' 324 2388 13.6⎦
+⎡'1976' 1118 5652 19.8⎦
+⎡'1984' 12023 32439 37.1⎦
+⎡'1990' 8188 27347 29.9⎦
+⎡'1995' 6749 24506 27.5⎦
+⎡'2001' 12219 44142 27.7⎦
+⎡'2005' 11986 54111 22.2⎦
+⎡'2008' 6792 38523 17.6⎦
+⎡'2011' 7589 43066 17.6⎦
+⎡'2015' 10742 59586 18⎦
+⎡'2019' 18316 88638 20.7⎦
+⎡'2022' 24542 108503 22.6⎦
+=== fields/en
+¶Porsyento ng mga digring bachelor sa Estados Unidos na nakuha ng mga babae sa bawat larangan ng pag-aaral, noong mga 2018, ayon sa pagkaayos mula sa pinakamataas na bahagi hanggang sa pinakamababa. Pinagmulan: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+⎡larangan•'' porsyento2•#⎦
+⎡'Sikolohiya' 72⎦
+⎡'Biyolohiya' 60⎦
+⎡'Agham panlipunan' 55⎦
+⎡'Matematika at Estadistika' 42⎦
+⎡'Agham pisikal' 41⎦
+⎡'Agham ng Daigdig' 38⎦
+⎡'Inhinyeriya' 22⎦
+⎡'Agham ng Kompyuter' 20⎦

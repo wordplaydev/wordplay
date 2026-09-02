@@ -1,0 +1,23 @@
+🥮
+Uçan Yiyecekler
+===
+¶Lezzetli yemeklerden oluşan bir ızgara. Her saniye biri diğeriyle değişiyor.¶
+yemek: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
+
+enYeni•['']:
+	yemek … ∆ Zaman(1000ms) …
+		enYeni.yerdeğiştirmek(Rastgele(1 6) yemek.rastgele())
+
+Grup(
+	Izgara(3 3 1m 1m)
+	enYeni.tercümeetmek(
+		ƒ(yemek2•"" dizin2•#)
+			İfadeetmek(
+				yemek2
+				isim: "\yemek2\-\dizin2\"
+				giriş: Poz(opaklık: 0 ölçek: 2)
+				dinlenme: Sekans.sallanmak(360° süre: 4s)
+				süre: 1s
+			)
+	)
+)

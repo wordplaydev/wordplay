@@ -320,6 +320,45 @@ export const ExpressionStartKeywordSyms: Set<SymType> = new Set([
     Sym.Change,
 ]);
 
+/**
+ * The keyword words in these locales that would shadow a name spelled the
+ * same way — the words a name generator must not produce.
+ *
+ * Mirrors {@link Name.getShadowedKeyword} exactly, so the reservation and the
+ * advisory can never disagree: code-context keywords whose construct wins at
+ * an expression start, plus `not` (which that method special-cases), and
+ * nothing else. Pattern-context words lex only inside `⣿…⣿`, and a name
+ * spelled like `and`/`or` stays perfectly usable, so reserving either would
+ * cost needless renames in every locale.
+ *
+ * Words carry their locale's write-status annotation, which is stripped here
+ * the way {@link buildKeywordIndex} strips it.
+ */
+export function getShadowingKeywordWords(
+    keywords: (Partial<Record<KeywordId, string>> | undefined)[],
+): Set<string> {
+    const words = new Set<string>();
+    for (const block of keywords) {
+        if (block === undefined) continue;
+        for (const id of KeywordIds) {
+            const spec = Keywords[id];
+            if (spec.context !== 'code') continue;
+            if (
+                id !== 'not' &&
+                !spec.types.some((type) => ExpressionStartKeywordSyms.has(type))
+            )
+                continue;
+            const word = block[id];
+            if (typeof word !== 'string') continue;
+            // Stripped inline, the way buildKeywordIndex does, to keep this
+            // module free of the locale imports that would cycle.
+            const plain = word.replace(/^\$[~?!]/, '').trim();
+            if (plain.length > 0) words.add(plain);
+        }
+    }
+    return words;
+}
+
 /** The canonical glyph of the first keyword whose construct lexes to `sym`, for advisory messages. */
 export function getKeywordGlyph(sym: SymType): string | undefined {
     for (const id of KeywordIds)

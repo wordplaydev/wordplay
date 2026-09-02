@@ -1,0 +1,601 @@
+🎆
+Fajerwerki
+=== start/en
+¶Fajerwerki, które wybuchają razem z muzyką: każdy instrument, który brzmiw danym uderzeniu, pojawia się jako on sam, trwa przez chwilę i gaśnie.
+
+Nic tu nie jest rysowane według zegara. @Beat przekazuje @Downbeat, gdy tylkokażde uderzenie staje się słyszalne, a @Downbeat niesie @Part dla każdego@Track — jaki to instrument, czy gra, jaką ma nutę i jak głośno. Więcjeden wybuch na każdą brzmiącą część to pojedynczy @List/translate, a muzyka rysujesię sama.
+
+Każdy wybuch nosi nazwę numeru uderzenia, więc wybuchy każdego uderzenia sąnowymi elementami: pokazują swoją pozę wejścia w drodze do środka i pozęwyjścia, gdy zastępuje je kolejne uderzenie. Wystrzał i upadek to te dwiepozy.
+
+Melodia to /The Star-Spangled Banner/ — melodia Johna Stafforda Smitha zokoło 1773 roku, od dawna w domenie publicznej — cała, od początku do końca,kończąca się na ostatniej linijce. Każda nuta niesie własną długość zapisanąjako wartość rytmiczna przy numerze — \8𝅘𝅥𝅮\ to ósemka, \13𝅗𝅥\ to półnuta, \13𝅗𝅥𝅭\ to półnuta z kropką — więc przedtakty,figury z kropką i długo trzymane nuty to prawdziwe czasy trwania, a niesiatka równych uderzeń. Zwykła liczba to jedno uderzenie. Pauzy nadal potrzebują@Note, ponieważ \ø\ nie jest liczbą i dlatego nie może nieść wartości. To skala chromatyczna,dzięki czemu można zapisać podwyższony czwarty stopień: każdy krok to jedenpółton.¶
+
+takt: Rytm()
+liczba2: takt.liczba
+
+¶Fajerwerkami stają się tylko te części, które rzeczywiście brzmią; ścieżka,która akurat milczy, pozostaje ciemna. Zanim muzyka się zacznie, nie ma żadnychczęści, więc niebo jest puste.¶
+wystrzał•[Część]: takt.części.filtr(ƒ(p•Część) p.brzmienie)
+
+¶Każdy instrument wybucha jako on sam, i o to właśnie chodzi: widać,który instrument właśnie zagrał.¶
+ƒ twarz2(p2•Część)•''
+	(p2.instrument.id = 'trumpet') ? '🎺'
+		(p2.instrument.id = 'flute') ? '🪈'
+			(p2.instrument.id = 'bell') ? '🔔'
+				(p2.instrument.id = 'piano') ? '🎹'
+					(p2.instrument.id = 'violin') ? '🎻'
+						(p2.instrument.id = 'drums') ? '🥁'
+							'🎵'
+
+¶Każdy instrument ma własny pas, rozciągnięty na całe niebo. Użycieinstrumentu zamiast jego pozycji na liście sprawia, że pas pozostajena miejscu, nawet gdy inny instrument milknie.¶
+ƒ pas(p3•Część)•#
+	(p3.instrument.id = 'trumpet') ? -6
+		(p3.instrument.id = 'flute') ? -3.6
+			(p3.instrument.id = 'bell') ? -1.2
+				(p3.instrument.id = 'piano') ? 1.2
+					(p3.instrument.id = 'violin') ? 3.6
+						(p3.instrument.id = 'drums') ? 6
+							0
+
+¶To, jak wysoko znajduje się wybuch: jego nuta. Każda część tutaj brzmi, więcma swoją nutę.¶
+ƒ wysokość2(p4•Część)•# p4.stopnie[1]
+
+¶Jeden wybuch, wznoszący się razem ze swoją nutą i rosnący wraz zgłośnością.¶
+ƒ wybuch(p5•Część i2•#)•Wyrażenie
+	Wyrażenie(
+		twarz2(p5)
+		(0.9m + (p5.głośność · 1.6m))
+		miejsce: Miejsce(
+			(pas(p5) + p5.panorama) · 1m
+			(((wysokość2(p5) · 0.22) - 1.8) · 1m)
+		)
+		nazwa: 'burst \liczba2\ \i2\'
+		wstępowanie: Sekwencja(
+			{
+				0%: Poza(skala: 0.1 nieprzezroczystość: 0%)
+				40%: Poza(skala: 1.35 nieprzezroczystość: 100%)
+				100%: Poza(skala: 1 nieprzezroczystość: 100%)
+			}
+			0.3s
+		)
+		wychodzenie: Sekwencja(
+			{
+				0%: Poza(
+					zrównoważyć: Miejsce(0m 0m)
+					nieprzezroczystość: 100%
+				)
+				100%: Poza(
+					zrównoważyć: Miejsce(0m -5m)
+					nieprzezroczystość: 0%
+				)
+			}
+			0.9s
+		)
+	)
+
+¶Melodia. Stopnie to półtony liczone od dolnego tonu podstawowego: 1 tota nuta, 13 to oktawa wyżej, a 7 to podwyższony czwarty stopień. Dwielinijki mają tę samą melodię, potem następuje mostek, a potem ostatnialinijka.¶
+melodia2: [
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		17𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		17
+		18
+		20
+		20𝅗𝅥
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15
+		17
+		18
+		18𝅗𝅥
+		18
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8
+		13
+		13
+		13𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		10
+		10
+		10
+		15
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13𝅘𝅥𝅮
+		13
+		12
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		13𝅘𝅥𝅭
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		18𝅘𝅥𝅮
+		20𝅗𝅥
+		13𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅭
+		18𝅘𝅥𝅮
+		15
+		13𝅗𝅥𝅭
+	]
+
+¶Podstawa dźwięku pod każdym taktem.¶
+bas: [
+		Nuta(ø 1beats)
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+	]
+
+¶Dzwonek na co drugiej mocnej części taktu, więc nie ma go w każdymwybuchu.¶
+dzwonek2: [
+		Nuta(ø 1beats)
+		13
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		20
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		20
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		20
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		13
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		20
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		20
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		20
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		13
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		20
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		20
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		20
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		13
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		20
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		20
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+		20
+		Nuta(ø 2beats)
+		Nuta(ø 3beats)
+	]
+
+¶Smyczki od mostka do końca, więc brzmienie staje się bogatsze.¶
+skrzypce2: [
+		Nuta(ø 1beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+	]
+
+¶Górny głos tylko na szczytach fraz.¶
+flet2: [
+		Nuta(ø 1beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 1beats)
+		25
+		Nuta(ø 1beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 1beats)
+		25
+		Nuta(ø 1beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 1beats)
+		25
+		Nuta(ø 1beats)
+		Nuta(ø 3beats)
+		Nuta(ø 3beats)
+		Nuta(ø 1beats)
+		25
+		Nuta(ø 1beats)
+		Nuta(ø 3beats)
+	]
+
+¶Marsz w tle.¶
+perkusja2: [
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nuta(ø 0.5beats)
+		3𝅘𝅥𝅮
+	]
+
+Scena(
+	[
+		:wystrzał.tłumaczyć(ƒ(p6•Część i3•#) wybuch(p6 i3))
+		Muzyka(
+			[
+				Ścieżka(
+					melodia2
+					instrument: Instrument.trąbka
+					głośność: 90%
+					pętla: ⊥
+				)
+				Ścieżka(
+					bas
+					instrument: Instrument.pianino
+					tonacja: -12semitones
+					głośność: 50%
+					panorama: -0.4
+					pętla: ⊥
+				)
+				Ścieżka(
+					dzwonek2
+					instrument: Instrument.dzwonek
+					głośność: 55%
+					pętla: ⊥
+				)
+				Ścieżka(
+					skrzypce2
+					instrument: Instrument.skrzypce
+					głośność: 45%
+					panorama: 0.3
+					pętla: ⊥
+				)
+				Ścieżka(
+					flet2
+					instrument: Instrument.flet
+					głośność: 65%
+					pętla: ⊥
+				)
+				Ścieżka(
+					perkusja2
+					instrument: Instrument.perkusja
+					głośność: 45%
+					pętla: ⊥
+				)
+			]
+			tempo: 84beats/min
+			skala: Muzyka.chromatyczna
+			nazwa: 'hymn'
+		)
+	]
+	tło: Kolor(10% 12 265°)
+	kolor: Kolor(96% 0 0°)
+)

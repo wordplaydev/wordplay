@@ -1,0 +1,78 @@
+⏳
+공부 모드 계기판
+=== start/en
+¶클릭해서 공부 시간을 더하고, 계기판이 평온에서 집중, 그리고 과부하로 바뀌는 모습을 보세요.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+동작: 선택()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+공부시간:
+	0 …
+	∆ 동작 …
+		동작 = 'reset' ?
+			0
+			공부시간 + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+설명2:
+	'“공부 시간 추가 +1”을 클릭하면 공부 시간이 늘어납니다. “초기화”를 클릭하면 처음부터 다시 시작합니다.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+시간텍스트:
+	'당신은 ' + 공부시간 → '' + ' 시간 동안 공부했습니다.'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+기분:
+	공부시간 < 3 ?
+		'🌿 평온 모드 — 클릭해서 공부 시간을 더하세요'
+		공부시간 < 6 ?
+			'📚 집중 모드 — 지금은 생산적인 상태입니다!'
+			'🔥 과부하 모드 — 잠시 쉬고 "초기화"를 눌러 보세요'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+단계(
+	[
+		그룹(
+			스택()
+			[
+				구절('공부 모드 계기판' 크기: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				구절(설명2 크기: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				구절(시간텍스트 크기: 0.4m)
+
+				구절(기분 크기: 0.75m)
+
+				그룹(
+					행(심: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						구절(
+							'공부 시간 추가 +1'
+							선택가능: ⊤
+							이름: '추가'
+							색상: 색상(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						구절(
+							'초기화'
+							선택가능: ⊤
+							이름: 'reset'
+							색상: 색상(69% 47 271°)
+						)
+					]
+				)
+			]
+			얼굴: "Aclonica"
+		)
+	]
+)

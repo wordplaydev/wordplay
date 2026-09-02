@@ -1,0 +1,127 @@
+↑
+Labirinto
+=== start/en
+¶A maze is a 2D grid of emoji, with some functions for checking the state at particular grid postions.
+Mazes are generated randomly.¶/en
+•labirinto() (
+	grid•[[''|ø]]:
+		[
+			['🎬' '❤' '❌' ø ø]
+			['❤' ø ø ø ø]
+			['🐈' '😀' '💬' '🫥' '😞']
+			[ø '👍' ø ø '😕']
+			['🤩' '🥹' ø '😫' '😡']
+		]
+
+	ƒ selula2(hanay•# haligi•#) (
+			selula3: grid[hanay]
+			selula3•[] ? selula3[haligi] ø
+		)
+
+	ƒ pinapayagan(hanay2•# haligi2•#) selula2(hanay2 haligi2)•''
+)
+
+labirinto2: labirinto()
+
+•estado(hanay3•# haligi3•# mgaHakbang•#)
+(
+	ƒ pababa2() estado(hanay3 + 1 haligi3 mgaHakbang + 1)
+	ƒ pataas() estado(hanay3 - 1 haligi3 mgaHakbang + 1)
+	ƒ kaliwa2() estado(hanay3 haligi3 - 1 mgaHakbang + 1)
+	ƒ kanan2() estado(hanay3 haligi3 + 1 mgaHakbang + 1)
+)
+
+ƒ pinapayagan2(estado2•estado hanay4•# haligi4•#) labirinto2.pinapayagan(
+		estado2.hanay3 + hanay4
+		estado2.haligi3 + haligi4
+	)
+
+direksyon2: Pagpipilian()
+estado3•estado: estado(1 1 0) … ∆ direksyon2 …
+		((direksyon2 = "left") & pinapayagan2(estado3 0 -1)) ? estado3.kaliwa2(
+			)
+			((direksyon2 = "right") & pinapayagan2(estado3 0 1)) ? estado3.kanan2(
+				)
+				((direksyon2 = "up") & pinapayagan2(estado3 -1 0)) ? estado3.pataas(
+					)
+					((direksyon2 = "down") & pinapayagan2(
+								estado3
+								1
+								0
+							)) ? estado3.pababa2()
+						estado3
+
+kasalukuyan: (
+		selula4: labirinto2.selula2(
+				estado3.hanay3
+				estado3.haligi3
+			)
+		selula4 ?? ' ')
+pataas2: labirinto2.selula2(
+		estado3.hanay3 - 1
+		estado3.haligi3
+	)•''
+pababa3: labirinto2.selula2(
+		estado3.hanay3 + 1
+		estado3.haligi3
+	)•''
+kaliwa3: labirinto2.selula2(
+		estado3.hanay3
+		estado3.haligi3 - 1
+	)•''
+kanan3: labirinto2.selula2(
+		estado3.hanay3
+		estado3.haligi3 + 1
+	)•''
+nanalo: kasalukuyan = '🤩'
+
+Entablado(
+	[
+		Grupo(
+			Grid(3 3 0.25m)
+			[
+				ø
+				Parirala(
+					'↑'
+					pangalan: 'up'
+					mapipili: pataas2
+					nagpapahinga: Pose(kalabuan: pataas2 ? 1 0.2)
+				)
+				ø
+				Parirala(
+					'←'
+					pangalan: 'left'
+					mapipili: kaliwa3
+					nagpapahinga: Pose(kalabuan: kaliwa3 ? 1 0.2)
+				)
+				Parirala(
+					kasalukuyan
+					nagpapahinga: nanalo ?
+						Pagkakasunodsunod.iikot(
+							tagal: 1s
+							estilo: 'straight'
+						)
+						Pose()
+				)
+				Parirala(
+					'→'
+					pangalan: 'right'
+					mapipili: kanan3
+					nagpapahinga: Pose(kalabuan: kanan3 ? 1 0.2)
+				)
+				ø
+				Parirala(
+					'↓'
+					pangalan: 'down'
+					mapipili: pababa3
+					nagpapahinga: Pose(kalabuan: pababa3 ? 1 0.2)
+				)
+				ø
+			]
+		)
+	]
+	lugar: Lugar(0m 0m -3m)
+	mukha: 'Noto Emoji'
+	background: Kulay(0 0 0°)
+	nagpapahinga: Pose(Kulay(100 100 0°))
+)

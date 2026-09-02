@@ -1,0 +1,160 @@
+A
+એનિમેટેડ નામ
+=== English/en
+¶This project has an English and a Hindi version.
+Change the locale on stage to see each one!¶/en
+¶यह कार्यक्रम दो रूप मे हैं: अंग्रेज़ी और हिंदी। मंच पर भाषा बदलिए
+दोनो देखने के लिए!¶/hi
+
+🌍/en ?
+	¶A small, simple animation of my name Aditi according to my identity.
+	- I'm very passionate about writing, so the 'A' is written in an ink-like
+	font and rotating to imitate writing the letter somewhat.
+	- Aditi is the name of the Hindu goddess of the earth, which is why
+	the 'd' is spinning around and flashing blue and green.
+	- My favorite color is periwinkle, and I love to listen to and make music,
+	which is why 'i' is represented by an eighth note in that color and
+	jumping up and down as notes do.
+	- Lastly, the 't' and 'i' are combined into another musical note (two
+	eighth notes beamed together), just to emphasize that I like music and
+	creatively write those two letters.¶/en
+
+	¶This Group arranges each letter of my name into row format so they
+	show up in a horizontal line, as you can see on stage.¶/en
+	(
+		સમૂહ(
+			પંક્તિ()
+			[
+				¶Each Phrase contains one symbol to represent a letter of my name.
+				This allows me to animate each letter individually! I'm using
+				resting Sequences so that the letters move while on stage.¶/en
+				વાક્ય(
+					'A'/en
+					ચહેરો: 'Pacifico'
+					દાખલ: ક્રમ(
+						{
+							0%: દંભ(અસ્પષ્ટતા: 0%)
+							25%: દંભ(અસ્પષ્ટતા: 25%)
+							50%: દંભ(અસ્પષ્ટતા: 50%)
+							75%: દંભ(અસ્પષ્ટતા: 75%)
+							100%: દંભ()
+						}
+					)
+					આરામ: ક્રમ(
+						{
+							0%: દંભ()
+							50%: દંભ(પરિભ્રમણ: 180°)
+							100%: દંભ(પરિભ્રમણ: 359°)
+						}
+						સમયગાળો: 1s
+					)
+					સમયગાળો: 1s
+				)
+				વાક્ય(
+					'd'/en
+					ચહેરો: 'Aclonica'
+					આરામ: ક્રમ(
+						{
+							0%: દંભ(રંગ: રંગ(0.5 100 180°) flipx: ⊤)
+							50%: દંભ(રંગ: રંગ(27% 112 267°))
+							75%: દંભ(રંગ: રંગ(0.5 100 180°) flipx: ⊤)
+						}
+						સમયગાળો: 2s
+					)
+					શૈલી: 'straight'
+					સમયગાળો: 5s
+					રંગ: રંગ(0.5 100 180°)
+				)
+				વાક્ય(
+					'♪'
+					આરામ: ક્રમ(
+						{
+							0%: દંભ(
+								ઓફસેટ: ગતિ(
+									સ્થળ(0m 0.5m 0m પરિભ્રમણ: 0°)
+									વેગ(0m/s 0m/s 0°/s)
+								)
+							)
+							25%: દંભ()
+							50%: દંભ(ઓફસેટ: સ્થળ(0m 0m 0m))
+							75%: દંભ(ઓફસેટ: સ્થળ(0m -0.5m 0m))
+							100%: દંભ()
+						}
+					)
+					સમયગાળો: 5s
+					રંગ: રંગ(74% 100 292°)
+				)
+				વાક્ય(
+					'♫'
+					આરામ: ક્રમ(
+						{
+							0%: દંભ(પરિભ્રમણ: 20°)
+							50%: દંભ(પરિભ્રમણ: -20°)
+							100%: દંભ(પરિભ્રમણ: 20°)
+						}
+					)
+				)
+			]
+		)
+	)
+
+	¶एक छोटा सा कार्यक्रम जो मेरी नाम अदिती दिखाता हैं, मेरे पहचान के अनुुसार।
+	- मुझे लोगों को देखना अच्छी लगती हैं, बात करने की बजाय। इस लिए “अ”
+	 अंदर-बाहर आ और जा रहा हैं।
+	- मेरी पसंद वाली रंग पेरिविंकल हैं, तो “दि” वह रंग दिखा रहा हैं।
+	- भूदेवी की एक दूसरी नाम “अदिती” हैं, तो “ती” भूमि जैसे घूम रहा हैं,
+	उसके रंग के साथ।¶/hi
+
+	¶यह ‘ग्रूप’ मेरी नाम की हर अक्षर सजाता हैं ताकी वे दिखते हैं जैसे आप को
+	दिखाई देता हैं मंच पर।¶/hi
+	(
+		સમૂહ(
+			પંક્તિ()
+			[
+				¶हर बोल एक अक्षर रखता हैं मेरी नाम की। यह मुझे हर अक्षर को हिलाने देता हैं।
+				मैं आराम-वाले @Sequence का इस्तेमाल कर रही हूँ ताकी अक्षर मंच पर हिले।¶/hi
+				વાક્ય(
+					'अ'/hi
+					ચહેરો: 'Pacifico'
+					આરામ: ક્રમ(
+						{
+							0%: દંભ(અસ્પષ્ટતા: 0%)
+							25%: દંભ(અસ્પષ્ટતા: 25%)
+							50%: દંભ(અસ્પષ્ટતા: 50%)
+							75%: દંભ(અસ્પષ્ટતા: 75%)
+							100%: દંભ()
+						}
+						સમયગાળો: 2s
+					)
+				)
+				વાક્ય(
+					'दि'/hi
+					આરામ: ક્રમ(
+						{
+							0%: દંભ(રંગ: રંગ(0% 0 0°))
+							50%: દંભ(રંગ: રંગ(74% 100 291°))
+							100%: દંભ()
+						}
+						સમયગાળો: 2s
+					)
+					સમયગાળો: 5s
+					રંગ: રંગ(74% 100 292°)
+				)
+				વાક્ય(
+					'ती'/hi
+					ચહેરો: 'Aclonica'
+					આરામ: ક્રમ(
+						{
+							0%: દંભ(રંગ: રંગ(0.5 100 180°) flipx: ⊤)
+							50%: દંભ(રંગ: રંગ(27% 112 267°))
+							75%: દંભ(રંગ: રંગ(0.5 100 180°) flipx: ⊤)
+						}
+						સમયગાળો: 2s
+					)
+					શૈલી: 'straight'
+					સમયગાળો: 5s
+					રંગ: રંગ(0.5 100 180°)
+				)
+			]
+		)
+	)

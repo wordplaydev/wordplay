@@ -1,0 +1,50 @@
+1
+BinaireTournant
+=== start/en
+¶Un champ de uns et de zéros, tournant lentement sur place.¶
+rotationLente: Séquence.tournoiement(10s "straight")
+
+Scène(
+	[
+		Phrase(
+			'1'
+			lieu: Lieu(-0.5m -0.125m 0m)
+			aurepos: rotationLente
+		)
+		Phrase(
+			'0'
+			lieu: Lieu(1.25m -0.25m 0m)
+			aurepos: rotationLente
+		)
+		Phrase(
+			'1'
+			lieu: Lieu(-2.3125m 0.0625m 0m)
+			aurepos: rotationLente
+		)
+		Phrase(
+			'0'
+			lieu: Lieu(-1.6875m -1m 0m)
+			aurepos: rotationLente
+		)
+		Phrase(
+			'1'
+			lieu: Lieu(-1.4375m 0.75m 0m)
+			aurepos: rotationLente
+		)
+		Phrase(
+			'0'
+			lieu: Lieu(0.375m -1.3125m 0m)
+			aurepos: rotationLente
+		)
+		Phrase(
+			'0'
+			lieu: Lieu(-0.6875m -1.75m 0m)
+			aurepos: rotationLente
+		)
+		Phrase(
+			'1'
+			lieu: Lieu(0.4375m 1.125m 0m)
+			aurepos: rotationLente
+		)
+	]
+)

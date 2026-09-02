@@ -1,0 +1,524 @@
+█
+Hardin
+=== start/en
+¶Isang zen na hardin na gawa sa makukulay na blocks, na may tubig na dahan-dahang gumagalaw.¶
+damo: Kulay(54% 84 117°)
+bato: Kulay(74% 0 200°)
+kawayan: Kulay(77% 88 109°)
+pader: Kulay(0% 0 0°)
+tubig: Kulay(50% 89 279°)
+umindayog: Pagkakasunodsunod(
+		{
+			0%: Pose(kulay: tubig pagikot: 0°)
+			50%: Pose(pagikot: 7°)
+			100%: Pose(pagikot: 0°)
+		}
+		tagal: 1.5s
+	)
+
+Entablado(
+	[
+		Parirala(
+			'█'
+			laki: 16m
+			nagpapahinga: Pose(kulay: Kulay(100% 0 348°))
+			lugar: Lugar(7.3125m -13.125m 0m)
+			pagikot: 90°
+		)
+		Parirala(
+			'█'
+			laki: 16m
+			nagpapahinga: Pose(kulay: Kulay(100% 0 348°))
+			lugar: Lugar(-8.75m -13m 1m)
+			pagikot: 90°
+		)
+		Parirala(
+			'█'
+			laki: 32m
+			nagpapahinga: Pose(kulay: Kulay(73% 95 279°))
+			lugar: Lugar(-5.6875m -44.0625m 0m)
+			pagikot: 89°
+		)
+		Parirala(
+			'太阳'
+			laki: 4m
+			lugar: Lugar(-16.5m 15.75m 5m)
+			nagpapahinga: Pagkakasunodsunod(
+				{
+					0%: Pose(kulay: Kulay(90% 93 85°) pagikot: 0°)
+					100%: Pose(pagikot: 360°)
+				}
+				tagal: 30s
+				estilo: 'straight'
+			)
+		)
+		Parirala(
+			'壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁'
+			nagpapahinga: Pose(kulay: pader)
+			lugar: Lugar(-13.9375m 3.5m 0m)
+			laki: 2m
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-5.8125m -9.5625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(1.5m -6.9375m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-5.125m -8.25m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-0.4375m -8.5625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-2.875m -8.125m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-4.125m -8.3125m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-7.1875m -10.0625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-10.1875m -10.5625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-11.1875m -10.5625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-10.25m -9.1875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-8.5625m -8.6875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-8.6875m -10.0625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-1.5m -8m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(3.5m -8m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(1.1875m -8.5625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-2.8125m -9.5625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(2.5m -8m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-1.8125m -9.5625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(0m -7m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(2.5m -6.5m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(6.4375m -7.0625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(5.1875m -7.0625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-0.6875m -10.125m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(0.9375m -9.625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(7.4375m -8.1875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(2.25m -9.5625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(3.5625m -9.625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(5m -9.0625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(6.125m -8.1875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(9.625m -10.0625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(9.375m -7.3125m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(8m -6.5m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(10.8125m -7.1875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(13.625m -7.1875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(17.5m -7.5m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(12m -7.5m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(12.5625m -10.0625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-7.625m -8.8125m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(3.875m -6.4375m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-13.25m -8.625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-9.375m -8.0625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-13.8125m -10m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-11.375m -8.8125m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-12.5m -9.625m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(12.625m -6m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(7.5m -9.8125m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(16.3125m -6.1875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(17.8125m -6.1875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(17.8125m -9.6875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(16.3125m -9.6875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(16.3125m -8.1875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(15.3125m -6.6875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(14.8125m -8.1875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(14.8125m -9.6875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(13.5m -8.9375m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(11.8125m -9.1875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(8.3125m -9.1875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(6.5m -9.5m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(9.8125m -8.6875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(10.8125m -9.1875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(14.3125m -5.6875m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'草'
+			lugar: Lugar(-4.5m -9.5m 0m)
+			nagpapahinga: Pose(kulay: damo)
+		)
+		Parirala(
+			'石'
+			nagpapahinga: Pose(kulay: bato)
+			laki: 2.75m
+			lugar: Lugar(-7.6875m -5.9375m -1m)
+			pagikot: 25°
+		)
+		Parirala(
+			'石'
+			nagpapahinga: Pose(kulay: bato)
+			laki: 2m
+			lugar: Lugar(-5m -6.625m -1m)
+		)
+		Parirala(
+			'石'
+			nagpapahinga: Pose(kulay: bato)
+			laki: 2.75m
+			lugar: Lugar(-7.6875m -8.5625m -1m)
+		)
+		Parirala(
+			'石'
+			nagpapahinga: Pose(kulay: bato)
+			laki: 1.25m
+			lugar: Lugar(-6.375m -3.375m -1m)
+		)
+		Parirala(
+			'石'
+			nagpapahinga: Pose(kulay: bato)
+			laki: 2.75m
+			lugar: Lugar(-3.125m -6.625m -1m)
+			pagikot: 341°
+		)
+		Parirala(
+			'石'
+			nagpapahinga: Pose(kulay: bato)
+			laki: 2.75m
+			lugar: Lugar(-4.75m -4.25m -1m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(-0.5m -0.5m 0m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(0.9375m -3.5m 0m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(1m -5m 0m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(-0.5m 2.5m 0m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(-0.5m 3.5m 0m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(-0.5m 4.5m 0m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(-0.5m 1m 0m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(-0.5m -5m 0m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(-0.5m -3.5m 0m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(-0.5625m -2m 0m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(1m 1m 0m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(1m -0.5m 0m)
+		)
+		Parirala(
+			'竹'
+			nagpapahinga: Pose(kulay: kawayan)
+			laki: 1.25m
+			lugar: Lugar(1m -2m 0m)
+		)
+		Parirala(
+			'水'
+			nagpapahinga: umindayog
+			lugar: Lugar(-13.4375m -18m -2m)
+			laki: 6.75m
+			pagikot: 80°
+		)
+		Parirala(
+			'水'
+			nagpapahinga: umindayog
+			lugar: Lugar(18m -16.5m -2m)
+			laki: 6.75m
+			pagikot: 80°
+		)
+		Parirala(
+			'水'
+			nagpapahinga: umindayog
+			lugar: Lugar(-8.5m -17.625m -2m)
+			laki: 6.75m
+			pagikot: 259°
+		)
+		Parirala(
+			'水'
+			nagpapahinga: umindayog
+			lugar: Lugar(2.625m -17.375m -2m)
+			laki: 6.75m
+			pagikot: 80°
+		)
+		Parirala(
+			'水'
+			nagpapahinga: umindayog
+			lugar: Lugar(10.6875m -16m -2m)
+			laki: 6.75m
+			pagikot: 37°
+		)
+	]
+	background: Kulay(87% 97 263°)
+)

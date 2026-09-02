@@ -1,0 +1,527 @@
+█
+Jardin
+=== start/en
+¶Un jardin zen dessiné avec des blocs colorés, avec une eau qui ondule doucement.¶
+herbe: Couleur(54% 84 117°)
+roche: Couleur(74% 0 200°)
+bambou: Couleur(77% 88 109°)
+mur: Couleur(0% 0 0°)
+eau: Couleur(50% 89 279°)
+balancer2: Séquence(
+		{
+			0%: Pose(couleur: eau rotation: 0°)
+			50%: Pose(rotation: 7°)
+			100%: Pose(rotation: 0°)
+		}
+		durée: 1.5s
+	)
+
+Scène(
+	[
+		Phrase(
+			'█'
+			taille: 16m
+			aurepos: Pose(couleur: Couleur(100% 0 348°))
+			lieu: Lieu(7.3125m -13.125m 0m)
+			rotation: 90°
+		)
+		Phrase(
+			'█'
+			taille: 16m
+			aurepos: Pose(couleur: Couleur(100% 0 348°))
+			lieu: Lieu(-8.75m -13m 1m)
+			rotation: 90°
+		)
+		Phrase(
+			'█'
+			taille: 32m
+			aurepos: Pose(couleur: Couleur(73% 95 279°))
+			lieu: Lieu(-5.6875m -44.0625m 0m)
+			rotation: 89°
+		)
+		Phrase(
+			'太阳'
+			taille: 4m
+			lieu: Lieu(-16.5m 15.75m 5m)
+			aurepos: Séquence(
+				{
+					0%: Pose(
+						couleur: Couleur(90% 93 85°)
+						rotation: 0°
+					)
+					100%: Pose(rotation: 360°)
+				}
+				durée: 30s
+				style: 'straight'
+			)
+		)
+		Phrase(
+			'壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁'
+			aurepos: Pose(couleur: mur)
+			lieu: Lieu(-13.9375m 3.5m 0m)
+			taille: 2m
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-5.8125m -9.5625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(1.5m -6.9375m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-5.125m -8.25m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-0.4375m -8.5625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-2.875m -8.125m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-4.125m -8.3125m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-7.1875m -10.0625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-10.1875m -10.5625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-11.1875m -10.5625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-10.25m -9.1875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-8.5625m -8.6875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-8.6875m -10.0625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-1.5m -8m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(3.5m -8m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(1.1875m -8.5625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-2.8125m -9.5625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(2.5m -8m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-1.8125m -9.5625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(0m -7m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(2.5m -6.5m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(6.4375m -7.0625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(5.1875m -7.0625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-0.6875m -10.125m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(0.9375m -9.625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(7.4375m -8.1875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(2.25m -9.5625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(3.5625m -9.625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(5m -9.0625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(6.125m -8.1875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(9.625m -10.0625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(9.375m -7.3125m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(8m -6.5m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(10.8125m -7.1875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(13.625m -7.1875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(17.5m -7.5m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(12m -7.5m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(12.5625m -10.0625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-7.625m -8.8125m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(3.875m -6.4375m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-13.25m -8.625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-9.375m -8.0625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-13.8125m -10m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-11.375m -8.8125m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-12.5m -9.625m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(12.625m -6m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(7.5m -9.8125m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(16.3125m -6.1875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(17.8125m -6.1875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(17.8125m -9.6875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(16.3125m -9.6875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(16.3125m -8.1875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(15.3125m -6.6875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(14.8125m -8.1875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(14.8125m -9.6875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(13.5m -8.9375m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(11.8125m -9.1875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(8.3125m -9.1875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(6.5m -9.5m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(9.8125m -8.6875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(10.8125m -9.1875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(14.3125m -5.6875m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'草'
+			lieu: Lieu(-4.5m -9.5m 0m)
+			aurepos: Pose(couleur: herbe)
+		)
+		Phrase(
+			'石'
+			aurepos: Pose(couleur: roche)
+			taille: 2.75m
+			lieu: Lieu(-7.6875m -5.9375m -1m)
+			rotation: 25°
+		)
+		Phrase(
+			'石'
+			aurepos: Pose(couleur: roche)
+			taille: 2m
+			lieu: Lieu(-5m -6.625m -1m)
+		)
+		Phrase(
+			'石'
+			aurepos: Pose(couleur: roche)
+			taille: 2.75m
+			lieu: Lieu(-7.6875m -8.5625m -1m)
+		)
+		Phrase(
+			'石'
+			aurepos: Pose(couleur: roche)
+			taille: 1.25m
+			lieu: Lieu(-6.375m -3.375m -1m)
+		)
+		Phrase(
+			'石'
+			aurepos: Pose(couleur: roche)
+			taille: 2.75m
+			lieu: Lieu(-3.125m -6.625m -1m)
+			rotation: 341°
+		)
+		Phrase(
+			'石'
+			aurepos: Pose(couleur: roche)
+			taille: 2.75m
+			lieu: Lieu(-4.75m -4.25m -1m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(-0.5m -0.5m 0m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(0.9375m -3.5m 0m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(1m -5m 0m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(-0.5m 2.5m 0m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(-0.5m 3.5m 0m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(-0.5m 4.5m 0m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(-0.5m 1m 0m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(-0.5m -5m 0m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(-0.5m -3.5m 0m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(-0.5625m -2m 0m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(1m 1m 0m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(1m -0.5m 0m)
+		)
+		Phrase(
+			'竹'
+			aurepos: Pose(couleur: bambou)
+			taille: 1.25m
+			lieu: Lieu(1m -2m 0m)
+		)
+		Phrase(
+			'水'
+			aurepos: balancer2
+			lieu: Lieu(-13.4375m -18m -2m)
+			taille: 6.75m
+			rotation: 80°
+		)
+		Phrase(
+			'水'
+			aurepos: balancer2
+			lieu: Lieu(18m -16.5m -2m)
+			taille: 6.75m
+			rotation: 80°
+		)
+		Phrase(
+			'水'
+			aurepos: balancer2
+			lieu: Lieu(-8.5m -17.625m -2m)
+			taille: 6.75m
+			rotation: 259°
+		)
+		Phrase(
+			'水'
+			aurepos: balancer2
+			lieu: Lieu(2.625m -17.375m -2m)
+			taille: 6.75m
+			rotation: 80°
+		)
+		Phrase(
+			'水'
+			aurepos: balancer2
+			lieu: Lieu(10.6875m -16m -2m)
+			taille: 6.75m
+			rotation: 37°
+		)
+	]
+	arrièreplan: Couleur(87% 97 263°)
+)

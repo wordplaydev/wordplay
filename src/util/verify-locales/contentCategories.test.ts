@@ -74,6 +74,37 @@ describe('parseCategorySelection — specifiers', () => {
         const s = sel(['+howto:animate-phrase', '+howto:make-a-scene']);
         expect(s.howtoIds()).toEqual(['animate-phrase', 'make-a-scene']);
     });
+
+    test('example names collected', () => {
+        const s = sel(['+example:Adventure', '+example:FrenchNumbers']);
+        expect(s.exampleIds()).toEqual(['Adventure', 'FrenchNumbers']);
+        expect(s.isIncluded('example')).toBe(true);
+        expect(s.isIncluded('locale')).toBe(false);
+    });
+});
+
+describe('parseCategorySelection — explicit inclusion', () => {
+    // Gallery examples are opt-in per locale: included by default like every
+    // category, but only an explicit `+example` opts a locale in for the
+    // first (paid) translation of its 75 files.
+    test('a no-flag run includes example but not explicitly', () => {
+        const s = sel(['es-MX']);
+        expect(s.isIncluded('example')).toBe(true);
+        expect(s.isExplicitlyIncluded('example')).toBe(false);
+    });
+
+    test('+example is explicit, with or without a specifier', () => {
+        expect(sel(['+example']).isExplicitlyIncluded('example')).toBe(true);
+        expect(
+            sel(['+example:Adventure']).isExplicitlyIncluded('example'),
+        ).toBe(true);
+    });
+
+    test('an exclude run is never explicit', () => {
+        const s = sel(['-emoji']);
+        expect(s.isIncluded('example')).toBe(true);
+        expect(s.isExplicitlyIncluded('example')).toBe(false);
+    });
 });
 
 describe('parseCategorySelection — usage errors', () => {

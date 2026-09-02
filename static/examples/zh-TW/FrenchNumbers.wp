@@ -1,0 +1,84 @@
+t
+法語數字
+=== start/en-US,start/fr-FR
+¶按下符合舞台上法文數字的數字鍵¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶要猜的數字¶
+¶Les nombres à deviner¶/fr
+數字2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶祕密是 1 到 9 的數字，順序隨機排列¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+祕密: [1 2 3 4 5 6 7 8 9].已洗牌()
+
+¶最近按下的鍵是什麼？¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+鑰匙2,clé/fr: 鑰匙()
+
+¶每按一次鍵，目前的祕密就會增加，但最多到 10¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+祕密索引,secretIndice/fr•#:
+	1 …
+	∆ 鑰匙2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶目前的祕密，根據祕密索引決定¶
+目前的祕密,secretActuel/fr: 祕密[祕密索引]
+
+¶如果按下的數字符合上一個祕密數字，這次猜測就算正確¶
+正確: clé → # = 祕密[祕密索引 - 1]
+
+¶分數從 0 開始，猜對就會增加。¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+分數•#: 0 …
+	∆ 鑰匙2 …
+		正確 ?
+			分數 + 1
+			分數
+
+¶獲勝代表猜出全部 9 個數字¶
+獲勝,gagner/fr: 分數 = 9
+
+¶當祕密索引到達 10 時就完成了¶
+遊戲結束: 祕密索引 = 10
+
+¶顯示目前的法文數字與目前的分數。在全部 9 個祕密結束後，顯示最終結果¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+舞台(
+	[
+		組合(
+			堆疊()
+			[
+				遊戲結束 ?
+					短語(
+						獲勝 ?
+							'你學會法文數字了！'"Tu connais les chiffres français!"/fr
+							'差一點，再試一次'"presque, réessaye"/fr
+						尺寸: 2m
+					)
+					短語(numeros[secretActuel] 尺寸: 2m)
+				短語("\分數\ points!" 尺寸: 1m)
+				短語(
+					祕密索引 = 1 ?
+						'這是什麼數字？''quel est ce numéro ?'/fr
+						正確 ?
+							'答對了！'
+							"That was \祕密[祕密索引 - 1]\"
+				)
+			]
+		)
+	]
+	字体: "Aclonica"
+)

@@ -1,0 +1,290 @@
+🫲
+Konduktor
+=== start/en
+¶Pimpin armada kekaisaran dengan satu tangan. Tanpa papan ketik, tanpa tombol — kamera mengamati tanganmu dan sebuah orkestra delapan bagian menjawabnya.
+
+Angkat tanganmu, dan orkestra mulai mengisi, satu bagian demi satu bagian, sampai kedelapannya bermain. Turunkan tanganmu, dan mereka menghilang satu per satu sampai hanya melodi yang tersisa sendirian. Geser ke kiri untuk memperlambat lagu maret, ke kanan untuk mempercepatnya. Berapa banyak jari yang kamu angkat menentukan siapa yang memainkan melodi.
+
+Setiap petunjuk dicetak di panggung, jadi kamu bisa mempelajarinya tanpa membaca ini.¶
+
+tangan: Tangan()
+
+¶Tinggi tangan menunjukkan seberapa banyak orkestra bermain, dan gerakan menyamping menunjukkan seberapa cepat, keduanya dibaca langsung dari posisi tangan, bukan diingat, sehingga keduanya mengikuti gerakan tangan secara terus-menerus. Masing-masing dibulatkan ke satu tingkat, jadi musik hanya berubah saat perubahannya cukup besar untuk terdengar, dan tangan yang gemetar tidak akan mengubah lagu dua puluh kali dalam satu detik.¶
+angkat: ((tangan.tempat.y + 3m) ÷ 6m).menit(1).maksimal(0)
+lapisan2: 1 + ((angkat · 7).bulat())
+
+jangkau: ((tangan.tempat.X + 5m) ÷ 10m).menit(1).maksimal(
+		0
+	)
+kecepatan2: 72 + ((jangkau · 8).bulat() · 12)
+
+¶Siapa yang memainkan melodi. Kepalan tangan dan tangan yang keluar dari bingkai kamera sama-sama dihitung sebagai tanpa jari, jadi tanpa jari berarti tetap mempertahankan siapa pun yang sedang bermain — jika tidak, melihat ke arah lain akan mengubah lagunya.¶
+unggulan: 5 … ∆ tangan …
+		(tangan.jarijari = 0) ? unggulan tangan.jarijari
+
+ƒ suara2(hitungan2•#)•AlatMusik
+	(hitungan2 = 1) ? AlatMusik.piano
+		(hitungan2 = 2) ? AlatMusik.biola
+			(hitungan2 = 3) ? AlatMusik.seruling
+				(hitungan2 = 4) ? AlatMusik.gitarListrik
+					AlatMusik.terompet
+
+ƒ ikon(hitungan3•#)•''
+	(hitungan3 = 1) ? '🎹'
+		(hitungan3 = 2) ? '🎻'
+			(hitungan3 = 3) ? '🪈'
+				(hitungan3 = 4) ? '⚡'
+					'🎺'
+
+¶Seberapa keras sebuah bagian bermain. Setiap bagian selalu tetap ada dalam musik, jadi tidak ada satu pun yang pernah kehilangan tempatnya — bagian-bagian di atas posisi tangan hanya diredam sepenuhnya.
+
+Setiap bagian diatur jauh lebih pelan daripada melodi, dan kedelapannya bersama-sama masih kurang dari dua kali volume melodi. Delapan bagian dengan volume penuh tidak membuat orkestra terdengar keras, tapi malah membuatnya terdengar kacau, karena semua suara yang muncul bersamaan harus keluar dari pengeras suara yang sama.¶
+ƒ terdengar(peringkat•# keras•%)•% (peringkat ≤ lapisan2) ? keras 0%
+
+¶Lagu Maret Kekaisaran, delapan birama, satu birama per baris. Lagu ini ditulis dalam tangga nada kromatik supaya nada-nada di luar kunci nadanya — nada kedua yang diturunkan, dan pergeseran kromatik di paruh kedua — bisa dituliskan sama sekali: tingkat 1 adalah nada dasar dan setiap langkah naik adalah satu semitone, jadi angka-angka ini adalah interval, bukan langkah tangga nada.
+
+Nilai notnya membawa iramanya. Angka polos berdurasi satu ketuk lagu, yaitu not seperempat di sini, dan panjang lainnya ditunjukkan pada angkanya sendiri: 𝅘𝅥𝅮𝅭 untuk not seperdelapan bertitik dan 𝅘𝅥𝅯 untuk not seperenam belas yang membuat maret ini terasa cepat, 𝅗𝅥 untuk not setengah tempat lagu berhenti. Setiap baris berjumlah empat ketukan.¶
+berbaris: [
+		5
+		5
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		12
+		12
+		12
+		13𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		4
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		17
+		5𝅘𝅥𝅮𝅭
+		5𝅘𝅥𝅯
+		17
+		16𝅘𝅥𝅮𝅭
+		15𝅘𝅥𝅯
+		14𝅘𝅥𝅯
+		13𝅘𝅥𝅯
+		14
+		6𝅘𝅥𝅮
+		11
+		9𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		7𝅘𝅥𝅯
+		6𝅘𝅥𝅯
+		7
+		1𝅘𝅥𝅮
+		4
+		1𝅘𝅥𝅮𝅭
+		4𝅘𝅥𝅯
+		8
+		5𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		12𝅗𝅥
+	]
+
+¶Empat birama nada dasar di bawahnya, berbaris dalam not seperempat. Ini lebih pendek dari melodi, dan setiap jalur musik mengulang sesuai panjangnya sendiri, jadi empat birama ini berputar dua kali untuk delapan birama melodi.¶
+bas: [
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		5
+		5
+		12
+		8
+	]
+
+¶Satu birama drum, dalam irama melodi itu sendiri. Tingkat-tingkatnya memilih dari seperangkat alat drum, bukan dari tangga nada, pada alat musik tanpa nada, jadi 1 adalah bass drum, 2 adalah snare, 3 adalah hi-hat, dan 5 adalah tom.¶
+drum2: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
+
+¶Akor pada ketukan lemah, dorongan yang membuat lagu maret tidak terasa diam. Birama ketiga condong ke akor minor satu setengah langkah di bawahnya, itulah asal nada-nada yang diturunkan pada melodi.¶
+senar: [
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{1 4 8}
+		ø
+		{1 4 8}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+	]
+
+¶Empat birama yang sama, dimainkan panjang sebagai kuint kosong, satu per birama. Kuint tidak memiliki nada ketiga, jadi ia tidak mengganggu nada-nada kromatik di atasnya.¶
+bantalan: [{5 12} {5 12} {1 8} {5 12}]
+
+¶Sebuah lonceng pada birama pertama dan ketiga. Ketukannya adalah not penuh, jadi jeda di sini berarti satu birama penuh diam.¶
+lonceng2: [5 ø 1 ø]
+
+¶Sebuah jawaban bernada tinggi mengisi jeda, saat melodi sedang diam.¶
+penghitung: [
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		20𝅗𝅥
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		17𝅗𝅥
+	]
+
+lagu: Musik(
+		[
+			Trek(
+				berbaris
+				alatMusik: suara2(unggulan)
+				volume: 55%
+				ketukan: 1𝅘𝅥
+			)
+			Trek(
+				bas
+				alatMusik: AlatMusik.synthBass
+				ketukan: 1𝅘𝅥
+				kunci: -24semitones
+				volume: terdengar(2 30%)
+			)
+			Trek(
+				drum2
+				alatMusik: AlatMusik.drum
+				ketukan: 1𝅘𝅥
+				volume: terdengar(3 20%)
+			)
+			Trek(
+				berbaris
+				alatMusik: AlatMusik.saksofon
+				ketukan: 1𝅘𝅥
+				kunci: -12semitones
+				volume: terdengar(4 22%)
+			)
+			Trek(
+				bantalan
+				alatMusik: AlatMusik.synthPad
+				ketukan: 1𝅝
+				kunci: -12semitones
+				volume: terdengar(5 16%)
+			)
+			Trek(
+				senar
+				alatMusik: AlatMusik.biola
+				ketukan: 1𝅘𝅥
+				volume: terdengar(6 18%)
+			)
+			Trek(
+				lonceng2
+				alatMusik: AlatMusik.lonceng
+				ketukan: 1𝅝
+				kunci: 12semitones
+				volume: terdengar(7 12%)
+			)
+			Trek(
+				penghitung
+				alatMusik: AlatMusik.seruling
+				ketukan: 1𝅘𝅥
+				volume: terdengar(8 14%)
+			)
+		]
+		tempo: kecepatan2 · 1beats/min
+		tanggaNada: Musik.kromatik
+		nama: 'maret kekaisaran'
+	)
+
+¶Seberapa jauh armada telah bergerak. Ia menghitung ketukannya sendiri, bukan membaca jam, dan menghitung lebih cepat saat lagu marétnya lebih cepat, sehingga kapal-kapal terbang mengikuti tempo.¶
+berjalan: 0 … ∆ Waktu(40ms) … berjalan + (kecepatan2 ÷ 72)
+
+ƒ status()•'' '\lapisan2\ of 8 playing · \kecepatan2\ beats a minute'
+
+¶Satu baris petunjuk, diredupkan supaya armada dan pemain utama terbaca lebih dulu.¶
+ƒ baris2(teks2•'')•Frasa Frasa(
+		teks2
+		0.3m
+		warna: Warna(64% 4 265°)
+	)
+
+¶Petunjuk-petunjuk ini disusun rapat ke tepi kiri, bukan di tengah, supaya mata bisa membacanya lurus ke bawah.¶
+tampilan: Kelompok(
+		Tumpukan('<' 0.16m)
+		[
+			Frasa(ikon(unggulan) 0.9m warna: Warna(56% 65 25°))
+			Frasa(status() 0.38m warna: Warna(70% 25 30°))
+			baris2('angkat tanganmu — lebih banyak orkestra')
+			baris2('turunkan tanganmu — melodi sendirian')
+			baris2(
+				'tangan ke kiri — lebih lambat · tangan ke kanan — lebih cepat'
+			)
+			baris2('jari ke atas — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺')
+		]
+	)
+
+¶Sebuah kapal melintasi panggung, terbang pada jalur jauh di atas petunjuk-petunjuk supaya tidak pernah melintasi teksnya. Jalurnya menentukan seberapa tinggi ia terbang dan seberapa jauh titik mulainya, sehingga kapal-kapal tidak pernah terbang berbarisan rapi.¶
+ƒ kapal(glif2•'' jalur•# kecepatan3•#)•Frasa
+	Frasa(
+		glif2
+		0.7m
+		tempat: Tempat(
+			(((((berjalan · kecepatan3) + (jalur · 47)) % 200) - 100) · 0.045) · 1m
+			((jalur · 0.65) + 2.2) · 1m
+		)
+	)
+
+armada: [
+		kapal('🛸' 0 3)
+		kapal('🚀' 1 2)
+		kapal('🛰' 2 4)
+		kapal('🛸' 3 5)
+	]
+
+ƒ bintang(x2•# y2•# ukuran2•#)•Frasa
+	Frasa(
+		'✦'
+		ukuran2 · 1m
+		tempat: Tempat(x2 · 1m y2 · 1m)
+		warna: Warna(46% 8 275°)
+	)
+
+¶Panggung memperbesar tampilan supaya pas dengan apa pun yang ada di dalamnya, jadi apa pun yang bergerak akan mengubah skala seluruh gambar pada setiap ketukan dan membuat kata-katanya terlihat goyah. Keempat bintang di sudut lebih jauh dari jangkauan terbang kapal mana pun dan lebih jauh dari baris teks terpanjang, jadi tampilannya memiliki bingkai yang tidak pernah berubah dan gambar tetap diam. Sisanya hanyalah langit.¶
+stars: [
+		bintang(-5.6 -2.3 0.18)
+		bintang(5.6 -2.3 0.18)
+		bintang(-5.6 5 0.18)
+		bintang(5.6 5 0.18)
+		bintang(-4.9 2.1 0.22)
+		bintang(-3.9 3.9 0.14)
+		bintang(-2.2 2.5 0.18)
+		bintang(1.1 3.4 0.14)
+		bintang(2.7 4.4 0.22)
+		bintang(4.6 2.7 0.14)
+	]
+
+Panggung(
+	[:stars :armada tampilan lagu]
+	latarbelakang: Warna(7% 6 275°)
+	warna: Warna(88% 3 265°)
+)

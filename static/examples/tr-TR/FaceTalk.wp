@@ -1,0 +1,33 @@
+🗣
+Yüzle Konuşma
+===
+¶Yüz ifadelerin, kamerayla izlenip sahnede anlatılır.¶
+
+¶İfadeleri izlemek için bir yüz akışı oluştur¶
+yüz2: Yüz(200ms)
+
+¶Gülümseme, kaşları çatma, göz kırpma veya hiçbiri arasında seç¶
+ruhHali: yüz2.gözlerAçık ?
+		(yüz2.gülümsemeMiktarı > 0.6 ? 'smiling'
+				yüz2.kaşÇatmaMiktarı > 0.4 ? 'frowning'
+					'')
+		'blinking'
+
+¶Ruh halini bir emojiye çevir ve yüze bunu söyleyen bir konuşma balonu ver. Balona @Say vermek, ruh halinin hem gösterilmesini hem de sesli söylenmesini sağlar ve balon, sahnenin altındaki altyazının yerine geçer.¶
+Sahne(
+	[
+		İfadeetmek(
+			(ruhHali = 'blinking' ? '😴'
+					ruhHali = 'smiling' ? '😀'
+						ruhHali = 'frowning' ? '🙁'
+							'😐')
+			boyut: 8m
+			balon: (ruhHali = ''
+				? Balon(
+						`/Gülümse, kaşlarını çat ya da gözlerini kapat/`
+						sar: 8m
+					)
+					Balon(Söylemek(ruhHali)))
+		)
+	]
+)

@@ -1,0 +1,524 @@
+█
+Bahçe
+=== start/en
+¶Renkli bloklardan çizilmiş, hafifçe dalgalanan suyu olan bir zen bahçesi.¶
+çim: Renk(54% 84 117°)
+kaya: Renk(74% 0 200°)
+bambu: Renk(77% 88 109°)
+duvar: Renk(0% 0 0°)
+su: Renk(50% 89 279°)
+salla2: Sekans(
+		{
+			0%: Poz(renk: su rotasyon: 0°)
+			50%: Poz(rotasyon: 7°)
+			100%: Poz(rotasyon: 0°)
+		}
+		süre: 1.5s
+	)
+
+Sahne(
+	[
+		İfadeetmek(
+			'█'
+			boyut: 16m
+			dinlenme: Poz(renk: Renk(100% 0 348°))
+			yer: Yer(7.3125m -13.125m 0m)
+			rotasyon: 90°
+		)
+		İfadeetmek(
+			'█'
+			boyut: 16m
+			dinlenme: Poz(renk: Renk(100% 0 348°))
+			yer: Yer(-8.75m -13m 1m)
+			rotasyon: 90°
+		)
+		İfadeetmek(
+			'█'
+			boyut: 32m
+			dinlenme: Poz(renk: Renk(73% 95 279°))
+			yer: Yer(-5.6875m -44.0625m 0m)
+			rotasyon: 89°
+		)
+		İfadeetmek(
+			'太阳'
+			boyut: 4m
+			yer: Yer(-16.5m 15.75m 5m)
+			dinlenme: Sekans(
+				{
+					0%: Poz(renk: Renk(90% 93 85°) rotasyon: 0°)
+					100%: Poz(rotasyon: 360°)
+				}
+				süre: 30s
+				stil: 'straight'
+			)
+		)
+		İfadeetmek(
+			'壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁'
+			dinlenme: Poz(renk: duvar)
+			yer: Yer(-13.9375m 3.5m 0m)
+			boyut: 2m
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-5.8125m -9.5625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(1.5m -6.9375m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-5.125m -8.25m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-0.4375m -8.5625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-2.875m -8.125m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-4.125m -8.3125m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-7.1875m -10.0625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-10.1875m -10.5625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-11.1875m -10.5625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-10.25m -9.1875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-8.5625m -8.6875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-8.6875m -10.0625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-1.5m -8m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(3.5m -8m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(1.1875m -8.5625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-2.8125m -9.5625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(2.5m -8m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-1.8125m -9.5625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(0m -7m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(2.5m -6.5m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(6.4375m -7.0625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(5.1875m -7.0625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-0.6875m -10.125m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(0.9375m -9.625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(7.4375m -8.1875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(2.25m -9.5625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(3.5625m -9.625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(5m -9.0625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(6.125m -8.1875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(9.625m -10.0625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(9.375m -7.3125m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(8m -6.5m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(10.8125m -7.1875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(13.625m -7.1875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(17.5m -7.5m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(12m -7.5m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(12.5625m -10.0625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-7.625m -8.8125m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(3.875m -6.4375m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-13.25m -8.625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-9.375m -8.0625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-13.8125m -10m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-11.375m -8.8125m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-12.5m -9.625m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(12.625m -6m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(7.5m -9.8125m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(16.3125m -6.1875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(17.8125m -6.1875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(17.8125m -9.6875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(16.3125m -9.6875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(16.3125m -8.1875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(15.3125m -6.6875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(14.8125m -8.1875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(14.8125m -9.6875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(13.5m -8.9375m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(11.8125m -9.1875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(8.3125m -9.1875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(6.5m -9.5m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(9.8125m -8.6875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(10.8125m -9.1875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(14.3125m -5.6875m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'草'
+			yer: Yer(-4.5m -9.5m 0m)
+			dinlenme: Poz(renk: çim)
+		)
+		İfadeetmek(
+			'石'
+			dinlenme: Poz(renk: kaya)
+			boyut: 2.75m
+			yer: Yer(-7.6875m -5.9375m -1m)
+			rotasyon: 25°
+		)
+		İfadeetmek(
+			'石'
+			dinlenme: Poz(renk: kaya)
+			boyut: 2m
+			yer: Yer(-5m -6.625m -1m)
+		)
+		İfadeetmek(
+			'石'
+			dinlenme: Poz(renk: kaya)
+			boyut: 2.75m
+			yer: Yer(-7.6875m -8.5625m -1m)
+		)
+		İfadeetmek(
+			'石'
+			dinlenme: Poz(renk: kaya)
+			boyut: 1.25m
+			yer: Yer(-6.375m -3.375m -1m)
+		)
+		İfadeetmek(
+			'石'
+			dinlenme: Poz(renk: kaya)
+			boyut: 2.75m
+			yer: Yer(-3.125m -6.625m -1m)
+			rotasyon: 341°
+		)
+		İfadeetmek(
+			'石'
+			dinlenme: Poz(renk: kaya)
+			boyut: 2.75m
+			yer: Yer(-4.75m -4.25m -1m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(-0.5m -0.5m 0m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(0.9375m -3.5m 0m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(1m -5m 0m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(-0.5m 2.5m 0m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(-0.5m 3.5m 0m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(-0.5m 4.5m 0m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(-0.5m 1m 0m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(-0.5m -5m 0m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(-0.5m -3.5m 0m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(-0.5625m -2m 0m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(1m 1m 0m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(1m -0.5m 0m)
+		)
+		İfadeetmek(
+			'竹'
+			dinlenme: Poz(renk: bambu)
+			boyut: 1.25m
+			yer: Yer(1m -2m 0m)
+		)
+		İfadeetmek(
+			'水'
+			dinlenme: salla2
+			yer: Yer(-13.4375m -18m -2m)
+			boyut: 6.75m
+			rotasyon: 80°
+		)
+		İfadeetmek(
+			'水'
+			dinlenme: salla2
+			yer: Yer(18m -16.5m -2m)
+			boyut: 6.75m
+			rotasyon: 80°
+		)
+		İfadeetmek(
+			'水'
+			dinlenme: salla2
+			yer: Yer(-8.5m -17.625m -2m)
+			boyut: 6.75m
+			rotasyon: 259°
+		)
+		İfadeetmek(
+			'水'
+			dinlenme: salla2
+			yer: Yer(2.625m -17.375m -2m)
+			boyut: 6.75m
+			rotasyon: 80°
+		)
+		İfadeetmek(
+			'水'
+			dinlenme: salla2
+			yer: Yer(10.6875m -16m -2m)
+			boyut: 6.75m
+			rotasyon: 37°
+		)
+	]
+	arkaplan: Renk(87% 97 263°)
+)

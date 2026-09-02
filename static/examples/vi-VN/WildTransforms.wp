@@ -1,0 +1,14 @@
+🐈
+Biến Đổi Hoang Dã
+===
+¶Một chú mèo đang thử thách hết mức tỷ lệ, xoay vòng và độ lệch cùng một lúc.¶
+Cụmtừ(
+	"🐈"
+	kíchcỡ: 10m
+	nghỉngơi: Tưthế(
+		tỉlệ: 2
+		bùlại: VịTrí(1m 1m 5m)
+		xoay: (Thờigian(500ms) % 360) × 1°/ms
+	)
+	khoảngthờigian: 0.25s
+)

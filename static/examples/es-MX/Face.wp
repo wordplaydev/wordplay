@@ -1,0 +1,56 @@
+🙂
+Rostro
+===
+¶Un emoji que refleja tu cara cuando sonríes, frunces el ceño, abres la boca o parpadeas.¶
+cara2: Cara()
+
+Escenario(
+	[
+		Frase(
+			(cara2.bocaAbierta ? '😮'
+					cara2.sonriendo ? '😀'
+						cara2.ceñoFruncido ? '🙁'
+							cara2.cejasLevantadas ? '😲'
+								(cara2.ojosAbiertos ? '🙂' '😑'))
+			lugar: cara2.lugar
+			tamaño: 4m
+		)
+		Grupo(
+			Pila('|')
+			[
+				Frase((cara2.ojosAbiertos ? '👀' '😑') tamaño: 1.5m)
+				Frase(
+					'😊'
+					tamaño: (cara2.cantidadSonrisa · 2m) + 0.5m
+				)
+				Frase(
+					'👄'
+					tamaño: (cara2.cantidadBocaAbierta · 2m) + 0.5m
+				)
+				Frase(
+					'🤨'
+					tamaño: (cara2.cantidadCejasLevantadas · 2m) + 0.5m
+				)
+			]
+			lugar: Lugar(-9m 8m)
+		)
+		Frase(
+			'girar 🧭'
+			lugar: Lugar(9m 8m 0m)
+			tamaño: 2m
+			rotación: cara2.girar
+		)
+		Frase(
+			'inclinar 🧭'
+			lugar: Lugar(9m 2m)
+			rotación: cara2.inclinar
+			tamaño: 2m
+		)
+		Frase(
+			`/Muéstrale tu cara a la cámara/`
+			lugar: Lugar(-6m -12m)
+			tamaño: 1m
+		)
+	]
+	lugar: Lugar(0m 0m -20m)
+)

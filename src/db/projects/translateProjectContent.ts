@@ -2,6 +2,7 @@ import type Locale from '@locale/Locale';
 import type LanguageCode from '@locale/LanguageCode';
 import type LocaleText from '@locale/LocaleText';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import Doc from '@nodes/Doc';
 import Docs from '@nodes/Docs';
 import Evaluate from '@nodes/Evaluate';
@@ -22,11 +23,17 @@ import TextLiteral from '@nodes/TextLiteral';
 import Token from '@nodes/Token';
 import Translation from '@nodes/Translation';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { getShadowingKeywordWords } from '@parser/Keywords';
 import { isName } from '@parser/Tokenizer';
 import { toMarkup } from '@parser/toMarkup';
 import type Project from '@db/projects/Project';
 import { normalizeSoftBreaks, type RawTranslator } from '@db/translateMarkup';
-import { shouldTranslateText } from '@db/projects/translatableText';
+import {
+    getComparedTextValues,
+    shouldTranslateText,
+} from '@db/projects/translatableText';
+import { canonicalizeKeyName, localizeKeyName } from '@input/Key/Key';
+import { WellKnownKeys } from '@input/Key/KeyboardKeys';
 import { translationProblem } from '@db/projects/translationGuards';
 
 // Re-exported so existing importers of this path keep working; the type now
@@ -103,6 +110,101 @@ function withOnlyLanguage<T extends WordplayNode>(
               ]);
     }
     return node;
+}
+
+/**
+ * A copy of this text node with its untagged option's content replaced by the
+ * translation, and every language-tagged option kept byte-identical — what
+ * rewrite mode means under `preserveTagged`, where a tag marks content that
+ * must survive translation (a French word in a French-teaching example).
+ *
+ * The fresh option comes from `make` for its delimiters and markup, but the
+ * original's separator is kept so an option that sat between two others still
+ * prints its own. Returns the node unchanged if no untagged option exists.
+ */
+function withReplacedUntaggedOption(
+    node: Docs | TextLiteral | FormattedLiteral,
+    translation: string,
+    markup: Markup,
+): Docs | TextLiteral | FormattedLiteral {
+    if (node instanceof TextLiteral) {
+        const index = node.texts.findIndex(
+            (text) => text.getLanguage() === undefined,
+        );
+        if (index < 0) return node;
+        const fresh = Translation.make(translation);
+        return new TextLiteral(
+            node.texts.map((text, i) =>
+                i === index
+                    ? new Translation(
+                          fresh.open,
+                          fresh.segments,
+                          fresh.close,
+                          undefined,
+                          text.separator,
+                      )
+                    : text,
+            ),
+        );
+    }
+    if (node instanceof Docs) {
+        const index = node.docs.findIndex(
+            (doc) => doc.getLanguage() === undefined,
+        );
+        if (index < 0) return node;
+        const fresh = withFormattedMarkupSpaces(Doc.make(markup.paragraphs));
+        return new Docs(
+            node.docs.map((doc, i) =>
+                i === index
+                    ? new Doc(
+                          fresh.open,
+                          fresh.markup,
+                          fresh.close,
+                          undefined,
+                          doc.separator,
+                      )
+                    : doc,
+            ),
+        );
+    }
+    const index = node.texts.findIndex(
+        (text) => text.getLanguage() === undefined,
+    );
+    if (index < 0) return node;
+    const fresh = withFormattedMarkupSpaces(
+        FormattedTranslation.make(markup.paragraphs),
+    );
+    return new FormattedLiteral(
+        node.texts.map((text, i) =>
+            i === index
+                ? new FormattedTranslation(
+                      fresh.open,
+                      fresh.markup,
+                      fresh.close,
+                      undefined,
+                      text.separator,
+                  )
+                : text,
+        ),
+    );
+}
+
+/**
+ * A copy of these names with the untagged name(s) replaced by the translation
+ * and every language-tagged name kept — rewrite mode under `preserveTagged`.
+ * The `Names` constructor gives every non-final name a separator, but a name
+ * that used to sit mid-list carries one it must lose if it lands last, or the
+ * list serializes with a trailing comma that truncates on reparse.
+ */
+function withReplacedUntaggedNames(names: Names, translation: string): Names {
+    const tagged = names.names.filter((name) => name.hasLanguage());
+    return new Names(
+        [Name.make(translation), ...tagged].map((name, index, list) =>
+            index === list.length - 1 && name.separator !== undefined
+                ? new Name(name.name, name.language, undefined)
+                : name,
+        ),
+    );
 }
 
 /**
@@ -196,12 +298,29 @@ export default async function translateProjectContent(
          *  have. Off by default: it costs two whole-project analyses, which the
          *  CLI's several-hundred-example path shouldn't pay. */
         validate?: boolean;
+        /** Treat explicitly language-tagged text and names as content rather
+         *  than translations: never send them for translation, never collapse
+         *  them in rewrite mode, and never respell a reference that
+         *  deliberately uses a tagged name. Only untagged text translates. Off
+         *  by default — rewriting a creator's own bilingual project SHOULD
+         *  collapse to one language; a gallery example's tags mark pedagogical
+         *  content (a French word in a French-teaching example) that must ship
+         *  verbatim in every locale (#1310). */
+        preserveTagged?: boolean;
+        /** Called with why this returned null, when it does. Three quite
+         *  different failures shared one message at the call sites, so a
+         *  refused file said nothing about which had happened (#1310). */
+        report?: (reason: string) => void;
     },
 ): Promise<Project | null> {
     const targetLanguage = targetLocale.language;
+    const preserveTagged = options?.preserveTagged === true;
 
     try {
         options?.phase?.('analyzing');
+        // One walk for the values the program compares against, shared by the
+        // text filter below.
+        const comparedValues = getComparedTextValues(project);
         // Keep track of existing names in target language
         const existingNames = new Set<string>();
 
@@ -215,6 +334,17 @@ export default async function translateProjectContent(
                         .getNameInLanguage(targetLanguage, undefined)
                         ?.getName();
                     if (targetName) existingNames.add(targetName);
+                    // Preserved tagged names in ANY language stay in the
+                    // program, so a translation that lands on one of them is a
+                    // duplicate name inside its own bind — which `validate`
+                    // would then refuse, costing the whole file. Reserving them
+                    // up front costs at most a numeric suffix.
+                    if (preserveTagged)
+                        for (const name of names.names)
+                            if (name.hasLanguage()) {
+                                const tagged = name.getName();
+                                if (tagged) existingNames.add(tagged);
+                            }
                 });
         });
 
@@ -232,11 +362,15 @@ export default async function translateProjectContent(
                 [],
             )
             .map((names) => {
-                // Is there a name in the source language or a name with no language? Use that as the source name.
-                const nameToTranslate = names.names.find(
-                    (name) =>
-                        name.isLanguage(sourceLocale.language) ||
-                        !name.hasLanguage(),
+                // Is there a name in the source language or a name with no
+                // language? Use that as the source name. Under `preserveTagged`
+                // a source-language tag marks content, so only an untagged name
+                // is translatable.
+                const nameToTranslate = names.names.find((name) =>
+                    preserveTagged
+                        ? !name.hasLanguage()
+                        : name.isLanguage(sourceLocale.language) ||
+                          !name.hasLanguage(),
                 );
 
                 if (nameToTranslate === undefined) return undefined;
@@ -245,6 +379,15 @@ export default async function translateProjectContent(
                 const targetName = names
                     .getNameInLanguage(targetLanguage, false)
                     ?.getName();
+
+                // Under `preserveTagged`, a tagged target-language name means
+                // the definition is already named in the target language:
+                // renaming the untagged name to it would duplicate it, and
+                // translating the untagged name separately would invent a
+                // second word. References still find the tagged name through
+                // the retargeting fallback.
+                if (preserveTagged && targetName !== undefined)
+                    return undefined;
 
                 // Convert the camel cased name into separated words for better translation performance.
                 const original = nameToTranslate
@@ -303,13 +446,23 @@ export default async function translateProjectContent(
                 [],
             )
             // Leave alone the text that is data rather than prose — a key
-            // name a program compares against, a map key, an emoji. See
+            // name a program compares against, a map key, an emoji, and any
+            // literal spelling a value the program compares against
+            // *somewhere* (WhatWord's `"playing"` status). See
             // [translatableText](src/db/projects/translatableText.ts).
-            .filter((markup) => shouldTranslateText(markup, project))
+            .filter((markup) =>
+                shouldTranslateText(markup, project, comparedValues),
+            )
             .map((markups) => {
-                const docToTranslate =
-                    markups.getLanguage(sourceLocale.language) ??
-                    markups.getOptions()[0];
+                // Under `preserveTagged`, a tagged option is content and only
+                // the untagged option is the translatable text; without the
+                // flag, the source-language option (or the first) is.
+                const docToTranslate = preserveTagged
+                    ? markups
+                          .getOptions()
+                          .find((option) => option.getLanguage() === undefined)
+                    : (markups.getLanguage(sourceLocale.language) ??
+                      markups.getOptions()[0]);
                 const existingTranslation = markups.getLanguage(targetLanguage);
 
                 return {
@@ -350,6 +503,56 @@ export default async function translateProjectContent(
                 };
             });
 
+        // Key-name literals are mapped, never translated: the Key stream
+        // reports a well-known key as the PRIMARY locale's display name
+        // (localizeKeyName), so a program comparing `key = "Space"` only works
+        // while its primary locale calls the space bar "Space". A rewrite into
+        // es-MX must say "Espacio" — the exact string the stream will report
+        // there — and the mapping is the stream's own table, so it is
+        // deterministic and costs nothing. Only literals in data positions
+        // (the ones shouldTranslateText protects) qualify: "Space" in prose is
+        // a word like any other and translates normally.
+        const keyLiteralsToLocalize: [TextLiteral, string][] = [];
+        if (replace && targetLocaleText !== undefined) {
+            const knownKeys = new Set<string>(WellKnownKeys);
+            const sourceLocales = project.getLocales();
+            const targetLocales = project
+                .withPrimaryLocale(targetLocaleText)
+                .getLocales();
+            for (const source of project.getSources())
+                for (const node of source.nodes())
+                    if (
+                        node instanceof TextLiteral &&
+                        !shouldTranslateText(node, project, comparedValues)
+                    ) {
+                        const option = node.texts.find(
+                            (text) => text.getLanguage() === undefined,
+                        );
+                        if (
+                            option === undefined ||
+                            !option.segments.every(
+                                (segment) => segment instanceof Token,
+                            )
+                        )
+                            continue;
+                        const text = option.getText();
+                        // Letters required: the bare `' '` literal is usually
+                        // a join separator, not the space key.
+                        if (!/\p{L}/u.test(text)) continue;
+                        const canonical = canonicalizeKeyName(
+                            text,
+                            sourceLocales,
+                        );
+                        if (!knownKeys.has(canonical)) continue;
+                        const localized = localizeKeyName(
+                            canonical,
+                            targetLocales,
+                        );
+                        if (localized !== text && localized.length > 0)
+                            keyLiteralsToLocalize.push([node, localized]);
+                    }
+        }
+
         // Get the original text with no translation to send to the translator.
         const originalTexts = [...bindsToTranslate, ...textToTranslate]
             .filter((bind) => bind.translation === undefined)
@@ -389,7 +592,10 @@ export default async function translateProjectContent(
             );
 
             // If we didn't get any translations, return nothing as an indicator of failure.
-            if (translations === null) return null;
+            if (translations === null) {
+                options?.report?.('the translation backend returned nothing');
+                return null;
+            }
 
             translationByOriginal = new Map();
             uniqueOriginals.forEach((original, index) => {
@@ -414,6 +620,23 @@ export default async function translateProjectContent(
                     if (node instanceof Names)
                         for (const name of node.getNames())
                             existingNames.add(name);
+
+        // Words the target locale (and every locale the project declares)
+        // uses for a keyword. A name that lands on one stops being a name:
+        // `withKeywordedSources()` below re-lexes the source, and a bind
+        // named with the word for `true` re-parses as the literal ⊤ — which
+        // is what made every locale whose word for "correct" is its word for
+        // "true" ship a game that scored every guess. Reserving them here
+        // routes such a name through the same numeric disambiguation that
+        // already produces `números2`.
+        for (const word of getShadowingKeywordWords([
+            targetLocaleText?.keyword,
+            ...project
+                .getLocales()
+                .getLocales()
+                .map((l) => l.keyword),
+        ]))
+            existingNames.add(word);
 
         // Compute the target-language name for each bind (camel-cased,
         // collision-free), keyed by its Names node. We resolve names up front so
@@ -490,6 +713,30 @@ export default async function translateProjectContent(
                 .getNameInLanguage(targetLanguage, symbolic ?? false)
                 ?.getName();
 
+        /**
+         * Under `preserveTagged`, a reference deliberately spelled with one of
+         * its definition's tagged names is content — a French-teaching example
+         * calling a bind by its French name — and those names survive the
+         * rewrite, so the reference keeps resolving. Respelling it would undo
+         * the author's choice in every locale.
+         *
+         * Only for definitions the project's own sources declare: a basis
+         * definition's names are ALL language-tagged, so applying this to them
+         * silently disabled every standard-library rename. The `sourced`
+         * predicate comes from the caller because the definitions here are
+         * resolved in the revised project, which this closure can't see.
+         */
+        const spellsPreservedName = (
+            definition: Definition,
+            spelling: string,
+            sourced: boolean,
+        ): boolean =>
+            preserveTagged &&
+            sourced &&
+            definition.names.names.some(
+                (name) => name.hasLanguage() && name.getName() === spelling,
+            );
+
         /** Assemble the revised project from the translations gathered above. */
         const build = (): Project => {
             // Keep a record of the revised project to return.
@@ -549,11 +796,13 @@ export default async function translateProjectContent(
                     // the point of rewriting is that one language is left, and
                     // treating "already translated" as "nothing to do" is why a
                     // project with English and French docs kept both while its
-                    // binds correctly collapsed to their French names.
+                    // binds correctly collapsed to their French names. Under
+                    // `preserveTagged` the tagged option IS the translation and
+                    // reducing is exactly what must not happen.
                     if (translation !== undefined)
                         return [
                             target,
-                            replace
+                            replace && !preserveTagged
                                 ? withOnlyLanguage(target, targetLanguage)
                                 : target,
                         ];
@@ -594,7 +843,13 @@ export default async function translateProjectContent(
                         target,
                         target instanceof TextLiteral
                             ? replace
-                                ? TextLiteral.make(translation)
+                                ? preserveTagged
+                                    ? withReplacedUntaggedOption(
+                                          target,
+                                          translation,
+                                          markup,
+                                      )
+                                    : TextLiteral.make(translation)
                                 : target.withOption(
                                       Translation.make(
                                           translation,
@@ -603,11 +858,17 @@ export default async function translateProjectContent(
                                   )
                             : target instanceof Docs
                               ? replace
-                                  ? Docs.make([
-                                        withFormattedMarkupSpaces(
-                                            Doc.make(markup.paragraphs),
-                                        ),
-                                    ])
+                                  ? preserveTagged
+                                      ? withReplacedUntaggedOption(
+                                            target,
+                                            translation,
+                                            markup,
+                                        )
+                                      : Docs.make([
+                                            withFormattedMarkupSpaces(
+                                                Doc.make(markup.paragraphs),
+                                            ),
+                                        ])
                                   : target.withOption(
                                         withFormattedMarkupSpaces(
                                             Doc.make(
@@ -617,13 +878,20 @@ export default async function translateProjectContent(
                                         ),
                                     )
                               : replace
-                                ? FormattedLiteral.make([
-                                      withFormattedMarkupSpaces(
-                                          FormattedTranslation.make(
-                                              markup.paragraphs,
+                                ? target instanceof FormattedLiteral &&
+                                  preserveTagged
+                                    ? withReplacedUntaggedOption(
+                                          target,
+                                          translation,
+                                          markup,
+                                      )
+                                    : FormattedLiteral.make([
+                                          withFormattedMarkupSpaces(
+                                              FormattedTranslation.make(
+                                                  markup.paragraphs,
+                                              ),
                                           ),
-                                      ),
-                                  ])
+                                      ])
                                 : target instanceof FormattedLiteral
                                   ? target.withOption(
                                         withFormattedMarkupSpaces(
@@ -636,6 +904,25 @@ export default async function translateProjectContent(
                                   : // A path that resolved to some other kind of
                                     // node isn't this one; leave it be.
                                     target,
+                    ];
+                }),
+            );
+
+            // Map key-name literals to the target locale's display names (see
+            // the gather above): the string the Key stream will actually
+            // report in the target-primary project.
+            newProject = newProject.withRevisedNodes(
+                keyLiteralsToLocalize.map(([literal, localized]) => {
+                    const target = current(literal);
+                    return [
+                        target,
+                        target instanceof TextLiteral
+                            ? withReplacedUntaggedOption(
+                                  target,
+                                  localized,
+                                  toMarkup(localized)[0],
+                              )
+                            : target,
                     ];
                 }),
             );
@@ -653,112 +940,23 @@ export default async function translateProjectContent(
             // `Input` names are tokens rather than references (see the pass
             // below, which only runs here).
             if (replace) {
-                // For creator binds we use the freshly-computed name (so this works
-                // before the name change is applied); standard-library references
-                // fall back to the definition's name in the target locale (present
-                // via the withPrimaryLocale above).
-                newProject = newProject.withRevisedNodes(
-                    newProject
-                        .getSources()
-                        .reduce(
-                            (
-                                references: {
-                                    reference: Reference;
-                                    source: Source;
-                                }[],
-                                source,
-                            ) => [
-                                ...references,
-                                ...source
-                                    .nodes()
-                                    .filter(
-                                        (node): node is Reference =>
-                                            node instanceof Reference,
-                                    )
-                                    .map((reference) => ({
-                                        reference,
-                                        source,
-                                    })),
-                            ],
-                            [],
-                        )
-                        .map(({ reference, source }) => {
-                            const definition = reference.resolve(
-                                newProject.getContext(source),
-                            );
-
-                            // Find the references to this bind so we can replace them with the new name
-                            if (definition === undefined)
-                                return [reference, reference];
-
-                            // Get the name in the target language.
-                            const parent = newProject
-                                .getRoot(reference)
-                                ?.getParent(reference);
-                            const infix =
-                                parent instanceof BinaryEvaluate &&
-                                parent.fun === reference
-                                    ? true
-                                    : undefined;
-                            const translation = targetName(definition, infix);
-
-                            if (
-                                translation === undefined ||
-                                reference.getName() === translation
-                            )
-                                return [reference, reference];
-
-                            return [reference, Reference.make(translation)];
-                        }),
-                );
-
-                // Type annotations name their definition too — `zombie•Zombie` is
-                // the same rename as `zombie`, but a `NameType` is not a
-                // `Reference`, so the pass above never saw it. Left behind, every
-                // annotation of a renamed structure stops resolving, which cascades:
-                // a value whose type is unknown can't resolve its properties
-                // either, so one missed rename becomes dozens of conflicts and a
-                // program that no longer runs (#1276).
-                newProject = newProject.withRevisedNodes(
-                    newProject
-                        .getSources()
-                        .reduce(
-                            (
-                                names: { name: NameType; source: Source }[],
-                                source,
-                            ) => [
-                                ...names,
-                                ...source
-                                    .nodes()
-                                    .filter(
-                                        (node): node is NameType =>
-                                            node instanceof NameType,
-                                    )
-                                    .map((name) => ({ name, source })),
-                            ],
-                            [],
-                        )
-                        .map(({ name, source }) => {
-                            const definition = name.resolve(
-                                newProject.getContext(source),
-                            );
-                            if (definition === undefined) return [name, name];
-                            const translation = targetName(definition, false);
-                            if (
-                                translation === undefined ||
-                                name.getName() === translation
-                            )
-                                return [name, name];
-                            return [name, NameType.make(translation)];
-                        }),
-                );
-
                 // Named inputs — the `size:` in `Phrase(… size: 3m)` — name
                 // their bind too, but an Input's name is a bare token rather
-                // than a Reference, so nothing above reaches it. Left behind, a
+                // than a Reference, so no other pass reaches it. Left behind, a
                 // rewritten program reads `Séquence.rebond(duration: 2s)`: the
                 // function in one language and its inputs in another, which is
                 // neither language.
+                //
+                // This pass runs BEFORE reference retargeting on purpose:
+                // resolving an input's bind goes through the evaluation's
+                // function, and a creator-defined structure's reference is
+                // renamed by the pass below while its definition is only
+                // renamed at the end — in between, `Room(take: …)` spelled
+                // `xroom(take: …)` resolves nothing, every input on it was
+                // skipped, and the renamed binds left `UnknownInput`s behind
+                // (Adventure was full of them). Basis functions never showed
+                // this, because the target locale's basis already declares the
+                // new name.
                 newProject = newProject.withRevisedNodes(
                     newProject
                         .getSources()
@@ -807,6 +1005,14 @@ export default async function translateProjectContent(
                                     (mapping) => mapping.given === input,
                                 )?.expected;
                             if (bind === undefined) return [input, input];
+                            if (
+                                spellsPreservedName(
+                                    bind,
+                                    input.name.getText(),
+                                    newProject.getSourceOf(bind) !== undefined,
+                                )
+                            )
+                                return [input, input];
                             const translation = targetName(bind, false);
                             if (
                                 translation === undefined ||
@@ -824,6 +1030,158 @@ export default async function translateProjectContent(
                             ];
                         }),
                 );
+
+                // For creator binds we use the freshly-computed name (so this works
+                // before the name change is applied); standard-library references
+                // fall back to the definition's name in the target locale (present
+                // via the withPrimaryLocale above).
+                newProject = newProject.withRevisedNodes(
+                    newProject
+                        .getSources()
+                        .reduce(
+                            (
+                                references: {
+                                    reference: Reference;
+                                    source: Source;
+                                }[],
+                                source,
+                            ) => [
+                                ...references,
+                                ...source
+                                    .nodes()
+                                    .filter(
+                                        (node): node is Reference =>
+                                            node instanceof Reference,
+                                    )
+                                    .map((reference) => ({
+                                        reference,
+                                        source,
+                                    })),
+                            ],
+                            [],
+                        )
+                        .map(({ reference, source }) => {
+                            const definition = reference.resolve(
+                                newProject.getContext(source),
+                            );
+
+                            // Find the references to this bind so we can replace them with the new name
+                            if (definition === undefined)
+                                return [reference, reference];
+
+                            if (
+                                spellsPreservedName(
+                                    definition,
+                                    reference.getName(),
+                                    newProject.getSourceOf(definition) !==
+                                        undefined,
+                                )
+                            )
+                                return [reference, reference];
+
+                            // Get the name in the target language. An operator
+                            // position — binary or unary — wants the symbolic
+                            // name: a unary rewritten to a word glues onto its
+                            // operand with no space (`~cellHolds` became
+                            // `nocellHolds`, one name token that resolves
+                            // nothing), which refused every file that used `~`.
+                            const parent = newProject
+                                .getRoot(reference)
+                                ?.getParent(reference);
+                            const operator =
+                                (parent instanceof BinaryEvaluate ||
+                                    parent instanceof UnaryEvaluate) &&
+                                parent.fun === reference
+                                    ? true
+                                    : undefined;
+                            const translation = targetName(
+                                definition,
+                                operator,
+                            );
+
+                            if (
+                                translation === undefined ||
+                                reference.getName() === translation
+                            )
+                                return [reference, reference];
+
+                            // Never respell a reference into something that
+                            // means something else here. The locale's word for
+                            // a basis definition can be the very word an
+                            // enclosing bind already uses — ja-JP calls `Time`
+                            // 時間, and `time/en,時間/zh: Time(…)` carries that
+                            // name itself — so the rewritten reference resolves
+                            // to the bind and the bind references itself. The
+                            // reverse direction is guarded by seeding
+                            // `existingNames` with the basis names; this is the
+                            // direction that wasn't.
+                            // Asked from the reference's own position, since
+                            // what a name means depends on where it sits, and
+                            // only a *different* definition in scope is a
+                            // reason to refuse: a member reference
+                            // (`list.join(…)`) resolves through its receiver's
+                            // type rather than lexically, so finding nothing
+                            // here means nothing shadows it.
+                            const shadow = reference.getDefinitionOfNameInScope(
+                                translation,
+                                newProject.getContext(source),
+                            );
+                            if (shadow !== undefined && shadow !== definition)
+                                return [reference, reference];
+
+                            return [reference, Reference.make(translation)];
+                        }),
+                );
+
+                // Type annotations name their definition too — `zombie•Zombie` is
+                // the same rename as `zombie`, but a `NameType` is not a
+                // `Reference`, so the pass above never saw it. Left behind, every
+                // annotation of a renamed structure stops resolving, which cascades:
+                // a value whose type is unknown can't resolve its properties
+                // either, so one missed rename becomes dozens of conflicts and a
+                // program that no longer runs (#1276).
+                newProject = newProject.withRevisedNodes(
+                    newProject
+                        .getSources()
+                        .reduce(
+                            (
+                                names: { name: NameType; source: Source }[],
+                                source,
+                            ) => [
+                                ...names,
+                                ...source
+                                    .nodes()
+                                    .filter(
+                                        (node): node is NameType =>
+                                            node instanceof NameType,
+                                    )
+                                    .map((name) => ({ name, source })),
+                            ],
+                            [],
+                        )
+                        .map(({ name, source }) => {
+                            const definition = name.resolve(
+                                newProject.getContext(source),
+                            );
+                            if (definition === undefined) return [name, name];
+                            if (
+                                spellsPreservedName(
+                                    definition,
+                                    name.getName(),
+                                    newProject.getSourceOf(definition) !==
+                                        undefined,
+                                )
+                            )
+                                return [name, name];
+                            const translation = targetName(definition, false);
+                            if (
+                                translation === undefined ||
+                                name.getName() === translation
+                            )
+                                return [name, name];
+                            return [name, NameType.make(translation)];
+                        }),
+                );
             }
 
             // Now apply the name change to each bind. In replace mode the bind
@@ -837,7 +1195,9 @@ export default async function translateProjectContent(
                     return [
                         target,
                         replace
-                            ? Names.make([translation])
+                            ? preserveTagged && target instanceof Names
+                                ? withReplacedUntaggedNames(target, translation)
+                                : Names.make([translation])
                             : withAddedName(names, translation, targetLanguage),
                     ];
                 }),
@@ -876,20 +1236,31 @@ export default async function translateProjectContent(
         // project with only its locale changed, because making the target
         // locale primary can change conflicts by itself and the translation
         // shouldn't be blamed for that.
-        if (
-            options?.validate === true &&
-            countConflicts(revised) >
-                countConflicts(
-                    targetLocaleText
-                        ? project.withPrimaryLocale(targetLocaleText)
-                        : project,
-                )
-        )
-            return null;
+        if (options?.validate === true) {
+            const baseline = targetLocaleText
+                ? project.withPrimaryLocale(targetLocaleText)
+                : project;
+            const after = countConflicts(revised);
+            if (after > countConflicts(baseline)) {
+                // Name what appeared, so a refusal is diagnosable from the log
+                // rather than only by reproducing it offline.
+                const kinds = new Set<string>();
+                for (const list of revised.analyze().conflictedNodes.values())
+                    for (const conflict of list)
+                        kinds.add(conflict.constructor.name);
+                options.report?.(
+                    `it would have introduced conflicts (${[...kinds].sort().join(', ')})`,
+                );
+                return null;
+            }
+        }
 
         return revised;
     } catch (e) {
         console.error('translateProjectContent failed:', e);
+        options?.report?.(
+            `it threw (${e instanceof Error ? e.message : String(e)})`,
+        );
         return null;
     }
 }

@@ -1,0 +1,37 @@
+O
+Kelas Bahasa Jepang
+=== start
+¶Sebuah cerita per adegan tentang hari pertama kelas bahasa Jepang.¶
+
+¶Ini adalah daftar adegan yang akan ditampilkan¶
+kalimat: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶Ini adalah daftar kalimat yang hanya boleh dilanjutkan dengan berbicara.¶
+ucapkanKalimat: [5 7 9]
+
+¶Kalimat saat ini dimulai dari 1, dan bertambah jika volume mikrofon naik di atas 0,8 untuk kalimat yang harus diucapkan, atau jika tombol atau tuts ditekan untuk kalimat lainnya.¶
+kalimatSaatIni•#: 1 …
+	ucapkanKalimat.memiliki(kalimatSaatIni) ?
+		Volume() > .6
+		∆ Tombol() | ∆ Kunci()
+		…
+		(kalimatSaatIni <
+				kalimat.panjang()) ?
+			kalimatSaatIni + 1
+			kalimatSaatIni
+
+Panggung(
+	[Frasa(kalimat[kalimatSaatIni] membungkus: 10m)]
+	menghadapi: 'Sue Ellen Francisco'
+)

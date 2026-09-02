@@ -1,0 +1,92 @@
+🧶
+Salt
+=== start
+¶Ghidează o pisică cu tastele săgeți și sari pe pradă.
+
+Pisica miaună de fiecare dată când se mișcă. Miorlăitul se prinde de primul @Pose al animației sale de mișcare: un @Pose poate avea un @Music, care se redă în clipa în care se atinge acea poziție, iar o mișcare atinge pozițiile ei de fiecare dată când începe. Legănarea este scrisă direct, nu lăsată ca \Secvenţă.legănare(
+)\, pentru că animațiile deja făcute își construiesc propriile poziții, și o poziție este locul unde trebuie pus sunetul.¶
+
+¶Un singur strigăt scurt. Două mișcări apropiate împart un singur miorlăit, nu se adaugă unul peste altul, pentru că a doua mișcare ajunge cât timp legănarea primei încă se leagănă.¶
+miau2: Muzică(
+		Pistă([1] instrument: Instrument.pisică)
+		volum: 45%
+		nume: 'miau'
+	)
+
+•pozițiaPisicii(poziție•#m direcție•#)
+
+cheie2: Cheie()
+viteză2: 1m
+
+loculPisicuței: pozițiaPisicii(5m 1) … ∆ cheie2 …
+		((cheie2 = 'SăgeatăStânga') & (loculPisicuței.poziție > -10m)) ? pozițiaPisicii(
+				loculPisicuței.poziție - viteză2
+				1
+			)
+			((cheie2 = 'SăgeatăDreapta') & (loculPisicuței.poziție < 8m)) ? pozițiaPisicii(
+					loculPisicuței.poziție + viteză2
+					-1
+				)
+				loculPisicuței
+
+pisicuță: Fraza(
+		"🐈"
+		faţă: "Noto Color Emoji"
+		nume: 'pisicuță'
+		dimensiune: 2m
+		loc: Loc(loculPisicuței.poziție 0m)
+		odihnă: Poză(flipx: loculPisicuței.direcție < 0)
+		mișcânduse: Secvenţă(
+			{
+				0%: Poză(rotaţie: -5° muzică: miau2)
+				50%: Poză(rotaţie: 5°)
+				100%: Poză(rotaţie: -5°)
+			}
+			0.25s
+			"zippy"
+		)
+		materie: Materie(1000kg rotunjime: 0.5)
+	)
+
+săritură: Coliziune('minge' 'pisicuță')
+
+mingeLoc: Mişcare(
+		Loc(0m 9m)
+		următoareaviteză:
+		săritură•ø ? ø
+			Viteză(
+				((săritură.direcţie.x ÷ -1m) × Aleatoriu(
+							15m/s
+							25m/s
+						)) + Aleatoriu(
+						-3m/s
+						3m/s
+					)
+				Aleatoriu(27m/s 30m/s)
+				(săritură.direcţie.x ÷ -1m) × Aleatoriu(0°/s 15°/s)
+			)
+	)
+
+minge: Fraza(
+		"🧶"
+		nume: 'minge'
+		loc: mingeLoc
+		materie: Materie(1kg 0.5 0 1)
+	)
+
+Etapă(
+	[
+		Figură(Dreptunghi(-10m 0m 10m -3m))
+		Figură(Dreptunghi(-10m -1m -9m 11m))
+		Figură(Dreptunghi(10m -1m 9m 11m))
+		Figură(Dreptunghi(-10m 10m 10m 11m))
+		minge
+		pisicuță
+		Fraza(
+			'apasă ← → pentru a începe!'
+			loc: Loc(-4m -2m)
+			culoare: Culoare.alb
+		)
+	]
+	loc: Loc(y: 5m z: -10m)
+)

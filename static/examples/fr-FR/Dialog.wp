@@ -1,0 +1,74 @@
+🗨
+Dialogue
+=== start
+¶Deux lettres parlent de ce que ça veut dire, pour des lettres, de parler.¶
+
+¶Une ligne de la conversation : qui la dit, les mots, et si c'est pensé plutôt que dit.¶
+•ligne(qui•'' mots2•'' pensée•?: ⊥)
+
+script: [
+		ligne(
+			'un'
+			"Tu trouves ça bizarre, parfois, qu'on soit en train de parler ?"
+		)
+		ligne(
+			'b'
+			"On est des lettres. Parler, c'est un peu tout notre travail."
+		)
+		ligne(
+			'un'
+			"Non, je veux dire nous. Pas les mots qu'on fait. Nous."
+		)
+		ligne('b' '…Oh.')
+		ligne(
+			'un'
+			'Je suis une forme qui veut dire un son. Là, je fais le son en étant la forme.'
+		)
+		ligne(
+			'b'
+			"Une bulle de parole autour d'une lettre, c'est le dessin d'une lettre, ou une lettre d'un dessin ?"
+			pensée: ⊤
+		)
+		ligne('un' 'Tu pars en spirale.')
+		ligne(
+			'b'
+			"Je suis un b. La spirale, c'est littéralement ma silhouette."
+		)
+		ligne('un' "Bref. C'est normal, ici.")
+		ligne('b' 'Normal pour nous, en tout cas.')
+	]
+
+¶Avance avec une touche, un clic ou un appui, et arrête-toi sur la dernière ligne.¶
+tour•#: 1 … ∆ Clé() | ∆ Bouton() … (tour < script.longueur(
+				) ? tour + 1 tour)
+
+ligne2: script[tour]
+
+¶Seul celui ou celle dont c'est le tour a une bulle. Chaque ligne est un @Say, donc elle est dite en plus d'être affichée — et la bulle remplace la légende, puisque les mots sont déjà à l'écran à côté de qui les a dits. Personne ne choisit un côté : la scène place chaque bulle là où elle gêne le moins.¶
+ƒ bulle2(qui2•'')
+	qui2 = ligne2.qui ?
+		Bulle(
+			Dire(ligne2.mots2)
+			genre: (ligne2.pensée ? '💭' '💬')
+			retourÀLaLigne: 9m
+		)
+		ø
+
+¶Une rangée alignée sur la ligne de base, pour que les deux lettres soient sur une même ligne. La boîte d'une phrase, c'est son encre, donc les placer à la même hauteur mettrait une lettre courte et une lettre haute sur des lignes de base différentes.¶
+Scène(
+	[
+		Groupe(
+			Empiler('|' 1.5m)
+			[
+				Groupe(
+					Rangée('_' 6m)
+					[
+						Phrase('un' taille: 3m bulle: bulle2('un'))
+						Phrase('b' taille: 3m bulle: bulle2('b'))
+					]
+				)
+				Phrase(`/espace, clic, ou appui/` taille: 0.6m)
+			]
+		)
+	]
+)

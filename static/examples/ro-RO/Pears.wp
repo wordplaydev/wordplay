@@ -1,0 +1,148 @@
+M
+Pere
+=== start/en
+¶Aceasta este o poveste scurtă și interactivă. Ea are mai multe scene diferite și trece de la una la alta în funcție de acțiunile tale, cum ar fi clicurile, ciocnirile și alte acțiuni. O parte din distracția de a trăi povestea este să descoperi ce trebuie să faci ca să o duci mai departe.¶
+expoziție: [
+		Fraza(`Tatăl meu voia să plece.` loc: Loc(-9m 0m))
+	]
+
+conflict: [
+		Fraza(`"Mamă", trebuie să mergem.` loc: Loc(-8m 7m))
+		Fraza(`/"Ia du-te acasă."/` loc: Loc(1m 4m))
+		Fraza(`"Mamă, nu vrem nimic!"` loc: Loc(-8m 1m))
+		Fraza(
+			`"Ia du-te acasă!"`
+			dimensiune: 2m
+			loc: Loc(-6m -4m)
+			odihnă: Secvenţă.scutura()
+		)
+	]
+
+acțiuneCrescătoare1: [
+		Fraza(
+			`Bunica mea 炮炮👵🏽 a ieșit în curtea din spate`
+			loc: Loc(-9m 7m)
+		)
+		Fraza(`Am urmat-o, curioasă` loc: Loc(-6m 4m))
+		Fraza(
+			`👵🏽`
+			nume: 'paupau'
+			dimensiune: 2m
+			materie: Materie()
+			loc: Loc(6m -6m)
+			balon: `/"沙梨🍐, ia du-te acasă!"/`
+		)
+		Fraza(
+			`👧🏻`
+			nume: 'eu'
+			dimensiune: 1m
+			materie: Materie()
+			loc: Plasament(Loc(-8m -6m))
+		)
+	]
+
+acțiuneCrescătoare2: [
+		Fraza(`S-a oprit lângă un copac mic.` loc: Loc(-9m 6m))
+		Fraza(
+			`Pe el atârnau încâlcite zeci de 沙梨 galbene și strălucitoare`
+			loc: Loc(-9m 1m)
+			înfășura: 10m
+		)
+		Fraza(
+			`„Mamă, nu vrem pere.”`
+			dimensiune: .75m
+			loc: Loc(-4m 0m)
+		)
+		Fraza(
+			`/Voiam o pară./`
+			dimensiune: 2m
+			loc: Loc(-8m -3m)
+		)
+		Fraza(
+			"🍐"
+			dimensiune: 2m
+			loc: Loc(-1m -7m)
+			nume: 'pear'
+			selectabil: ⊤
+		)
+	]
+
+¶Stabilim locurile dinainte, ca să le putem lăsa să cadă din același loc.¶
+locuri: (6 → []).traduce(
+		ƒ() Loc(Aleatoriu(-2m 2m) Aleatoriu(-3m -5m))
+	)
+punctCulminant: [
+		Fraza(`A îngenuncheat în pământ.` loc: Loc(-9m 6m))
+		Fraza(`A luat un cuțit` loc: Loc(-9m 4m))
+		Fraza(`Și a tăiat cu grijă șase` loc: Loc(-9m 2m))
+		Fraza(
+			`Lăsându-le să cadă în coșul de sub ea`
+			loc: Loc(-9m 0m)
+		)
+		Fraza("🧺" dimensiune: 4m loc: Loc(-2m -12m))
+		Fraza(
+			"🌳"
+			nume: "tree"
+			dimensiune: 5m
+			loc: Loc(-3m -7m)
+			selectabil: ⊤
+		)
+		:locuri.traduce(
+			ƒ(loc2 index2)
+				Fraza(
+					"🍐"
+					nume: "pear\index2\"
+					loc: Alegere() = 'tree' ? Mişcare(loc2) loc2
+				)
+		)
+		Fraza("🔪" loc: Indicator())
+	]
+
+deznodământ: [
+		Fraza(`Le-a adus la mine` loc: Loc(-9m 6m))
+		Fraza(`A îngenuncheat lângă mine` loc: Loc(-8m 4m))
+		Fraza(`Și mi-a dat coșul` loc: Loc(-7m 2m))
+		Fraza(`/„Ia-le și du-te acasă”/` loc: Loc(0m -2m))
+	]
+
+genericulFinal: [
+		Fraza(`de /Amy J. Ko/`)
+	]
+
+poveste: [
+		expoziție
+		conflict
+		acțiuneCrescătoare1
+		acțiuneCrescătoare2
+		punctCulminant
+		deznodământ
+		genericulFinal
+	]
+
+¶Ține evidența clicurilor și a atingerilor¶
+clic: ∆ Buton()
+¶Ține evidența timpului scurs după ce copacul este apăsat¶
+timpDupăTăietură: 0ms … Alegere() = 'tree' … Timp(1000ms)
+¶Urmărește când ajungem la Pau Pau¶
+laPauPau: ∆ Coliziune('eu')
+¶Urmărește când para este aleasă¶
+aAlesPara: Alegere() = 'pear'
+¶Schimbă segmentul în funcție de segmentul curent¶
+segment2•#:
+	1 …
+	segment2 ???
+		1: clic
+		2: clic
+		3: laPauPau
+		4: aAlesPara
+		5: timpDupăTăietură > 1500ms
+		6: ∆ Buton()
+		⊥
+		… segment2 + 1
+
+Etapă(
+	poveste[segment2]
+	faţă: 'Arvo'
+	loc: Loc(0m 0m -20m)
+	cadru: Dreptunghi(-10m 10m 10m -10m)
+)

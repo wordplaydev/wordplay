@@ -1,0 +1,85 @@
+0⃣
+Hesap Makinesi
+=== start/en
+¶Birkaç aritmetik fonksiyondan yapılmış bir cep hesap makinesi.¶
+
+¶Hesaplama yapan fonksiyonlar¶
+ƒ toplama(sayi1•# sayi2•#) sayi1 + sayi2
+ƒ çıkarma(sayi12•# sayi22•#) sayi12 - sayi22
+ƒ çarpma(sayi13•# sayi23•#) sayi13 × sayi23
+ƒ bölme(sayi14•# sayi24•#) sayi14 ÷ sayi24
+
+seçim: Seçenek()
+çerçeve2: 1 … ∆ (seçim) … 1 + çerçeve2
+
+¶Her değerin seçilip seçilmediğini takip eden Booleanlar¶
+sayi1secildi: ⊥ … ∆ (seçim) … (seçim.başlar('sayi1')) & ~sayi1secildi
+sayi2secildi: ⊥ … ∆ (seçim) … (seçim.başlar('sayi2')) & ~sayi2secildi
+isecildi: ⊥ … ∆ (seçim) … (seçim.başlar('i')) & ~isecildi
+
+¶İşlenenleri ve işleçleri takip eder¶
+sayi15: ø → # … sayi1secildi … ((seçim ÷ '')[-1]) → #
+sayi25: ø → # … sayi2secildi … ((seçim ÷ '')[-1]) → #
+işleç: ø … isecildi … ((seçim ÷ '')[-1])
+
+¶İlk sayıyı seçmek için ekran¶
+sayilar1: Grup(
+		Izgara(2 5)
+		[
+			İfadeetmek("0⃣" seçilebilir: ⊤ isim: 'sayi1_0')
+			İfadeetmek("1⃣" seçilebilir: ⊤ isim: 'sayi1_1')
+			İfadeetmek("2⃣" seçilebilir: ⊤ isim: 'num1_2')
+			İfadeetmek("3⃣" seçilebilir: ⊤ isim: 'num1_3')
+			İfadeetmek("4⃣" seçilebilir: ⊤ isim: 'num1_4')
+			İfadeetmek("5⃣" seçilebilir: ⊤ isim: 'num1_5')
+			İfadeetmek("6⃣" seçilebilir: ⊤ isim: 'num1_6')
+			İfadeetmek("7⃣" seçilebilir: ⊤ isim: 'num1_7')
+			İfadeetmek("8⃣" seçilebilir: ⊤ isim: 'num1_8')
+			İfadeetmek("9⃣" seçilebilir: ⊤ isim: 'num1_9')
+		]
+	)
+
+¶İkinci sayıyı seçmek için ekran¶
+sayilar2: Grup(
+		Izgara(2 5)
+		[
+			İfadeetmek("0⃣" seçilebilir: ⊤ isim: 'num2_0')
+			İfadeetmek("1⃣" seçilebilir: ⊤ isim: 'num2_1')
+			İfadeetmek("2⃣" seçilebilir: ⊤ isim: 'num2_2')
+			İfadeetmek("3⃣" seçilebilir: ⊤ isim: 'num2_3')
+			İfadeetmek("4⃣" seçilebilir: ⊤ isim: 'num2_4')
+			İfadeetmek("5⃣" seçilebilir: ⊤ isim: 'num2_5')
+			İfadeetmek("6⃣" seçilebilir: ⊤ isim: 'num2_6')
+			İfadeetmek("7⃣" seçilebilir: ⊤ isim: 'num2_7')
+			İfadeetmek("8⃣" seçilebilir: ⊤ isim: 'num2_8')
+			İfadeetmek("9⃣" seçilebilir: ⊤ isim: 'num2_9')
+		]
+	)
+
+¶İşleci seçmek için ekran¶
+işleçler: Grup(
+		Izgara(2 2)
+		[
+			İfadeetmek("➕" seçilebilir: ⊤ isim: 'op_a')
+			İfadeetmek("➖" seçilebilir: ⊤ isim: 'op_s')
+			İfadeetmek("✖" seçilebilir: ⊤ isim: 'op_m')
+			İfadeetmek("➗" seçilebilir: ⊤ isim: 'op_d')
+		]
+	)
+
+¶Sonucu göstermek için ekran¶
+sonuç: ((işleç = 'a') | (işleç = 's')) ?
+		(işleç = 'a' ? toplama(sayi15 sayi25) çıkarma(
+					sayi15
+					sayi25
+				))
+		(işleç = 'm' ? çarpma(sayi15 sayi25) bölme(
+					sayi15
+					sayi25
+				))
+
+¶Her ekranı sırayla göster¶
+kurulum: [sayilar1 işleçler sayilar2 sonuç]
+
+¶Göster¶
+kurulum[çerçeve2]

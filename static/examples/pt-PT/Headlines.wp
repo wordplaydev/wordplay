@@ -1,0 +1,38 @@
+l
+Títulos
+=== start/en
+¶Manchetes em direto do New York Times, obtidas da web e empilhadas no palco.¶
+manchetes: PáginadaInternet(
+		'https://www.nytimes.com'
+		'.indicate-hover'
+	)
+manchetes•# ?
+	Frase('a carregar')
+	Grupo(
+		Monte('<')
+		[
+			Frase(
+				`*Manchetes do New York Times*`
+				2m
+				fonte: 'Arvo'
+			)
+		].comlista(
+			manchetes.subsequência(1 7).traduzir(
+				ƒ(manchete)
+					Frase(
+						manchete
+						envolver: 20m
+						alinhamento: '<'
+						fonte: 'Ubuntu'
+						descansar: Sequência(
+							{
+								0%: Pose(rotação: 3°)
+								50%: Pose(rotação: -3°)
+								100%: Pose(rotação: 3°)
+							}
+							duração: 3s
+						)
+					)
+			)
+		)
+	)

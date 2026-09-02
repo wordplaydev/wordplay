@@ -1,0 +1,543 @@
+🧟
+Serangan Jantung
+=== start/en
+¶Heart Attack — sebuah permainan sudut pandang orang pertama yang lembut, terinspirasi dari battle royale. Kamu berdiri diam dan melihat ke depan lewat kamera Stage, sementara sekelompok zombi menunggu di depanmu.Satu per satu, zombi yang paling dekat berjalan lurus ke arahmu. Arahkan jalurmu dengan ← →, penunjukmu, atau ketukan di sisi kiri atau kanan layar, lalu lempar hati dengan Space, klik, atau ketukan. Hati akan berhenti pada sosok pertama yang ditemuinya, jadi bidiklah dengan tepat: kenai seorang zombi dan ia akan berubah kembali menjadi orang yang gembira, dan kamu mendapat satu poin — dan setiap poin membuat para zombi mendekat lebih cepat. Orang yang sudah berubah akan tetap berada di tempatnya dan menghalangi hatimu, jadi perhatikan sudutmu. Ubah semua orang untuk menang; biarkan satu zombi mencapaimu dan permainan berakhir. Enter atau ketukan untuk memulai, dan untuk memulai lagi.
+
+Setiap fase punya lagunya sendiri, dan keempatnya dibangun dari tema yang sama — lihat @Music di bagian bawah.¶
+
+¶Berapa banyak zombi yang muncul di awal permainan.¶
+jumlahZombie: 8
+
+¶Pergerakan dan kamera, dalam meter: seberapa jauh kamu bergerak menyamping per tekanan tombol, batas kiri/kananmu, jarak kamera tetap saat bermain, dan tempat kamera berhenti (lebih jauh ke belakang) saat menu ditampilkan.¶
+langkahMenyamping: 1.2m
+batasKiri: -8m
+batasKanan: 8m
+kedalamanBermain: -1m
+kedalamanMenu: -10m
+
+¶Tempat zombi muncul — tersebar dari dekat sampai jauh, semuanya jauh di depanmu — dan kotak tempat zombi yang berkeliaran bergerak bebas (sisi dekatnya tetap di depanmu, jadi hanya zombi penyerang yang benar-benar bisa mencapaimu).¶
+kedalamanMunculDekat: 6m
+kedalamanMunculJauh: 22m
+kedalamanJelajahDekat: 3m
+kedalamanJelajahJauh: 24m
+
+¶Pengaturan hati dan tabrakan: cara hati terbang dan memudar, cara ia mengenai sasaran, seberapa dekat zombi harus sampai untuk mengakhiri permainan, dan cara zombi penyerang bergerak — mendekat, berkeliaran, berkelok, mengejar, dan makin cepat setiap poin. Dua zombi terdekat menyerang sekaligus; sisanya berkeliaran.¶
+kecepatanJantung: 1m
+jangkauanJantung: 26m
+radiusKena: 1.8m
+jarakRaih: 1.8m
+kecepatanSerangDasar: 0.1m
+kecepatanJelajah: 0.1m
+kecepatanBerkelok: 0.12m
+lebarKelokan: 1.8m
+kecepatanPulang: 0.05m
+kenaikanKecepatanPerPoin: 0.2
+
+¶Orang-orang gembira yang bisa menjadi hasil perubahan seorang zombi.¶
+orang: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '🧑‍🎤' '🦸' '🧚' '🧑‍🍳' '🕺' '💃' '🧑‍⚕']
+
+¶Satu sosok di lapangan: sebuah posisi, arah berkeliaran pada tiap sumbu (masing-masing -1 atau 1, hanya dipakai saat berkeliaran), apakah ia masih zombi, dan emoji mana yang ditampilkan (🧟 saat masih zombi, seseorang setelah berubah).¶
+•zombie(x2•#m z2•#m arahX•# arahZ•# hidup•? wajah2•"")
+
+¶Seluruh permainan dalam satu nilai: fase (1 = awal, 2 = bermain, 3 = menang, 4 = kalah), posisi kamera/pemain, keadaan hati, skor, dan semua orang di lapangan.¶
+•permainan(fase•# kameraX•#m kameraZ•#m hati•? hatiX•#m hatiZ•#m hatiAwal•#m skor•# zombie2•[zombie])
+
+¶Jarak kuadrat lebih baik dipakai daripada jarak asli di sini: tidak perlu akar kuadrat, dan satuannya tetap rapi (meter kali meter), sehingga perbandingannya selalu sesuai jenis.¶
+ƒ dekat(satuX•#m satuZ•#m duaX•#m duaZ•#m radius2•#m)
+	(((satuX - duaX) · (satuX - duaX)) + ((satuZ - duaZ) · (satuZ - duaZ))) < (radius2 · radius2)
+
+¶Berapa banyak sosok yang masih berupa zombi.¶
+ƒ jumlahHidup(zombie3•[zombie]) zombie3.menyaring(
+		ƒ(zombie4•zombie) zombie4.hidup
+	).panjang(
+	)
+
+¶Berjalan selangkah menuju pemain: maju dalam kedalaman sambil berkelok ke samping supaya lebih sulit dikenai, membalik arah kelokan di tepi sebuah pita di sekitar jalurmu, dan perlahan mengejar ke arahmu di antara ayunan sehingga menghindar hanya memberi sedikit waktu.¶
+ƒ serbuKeArahPemain(zombie5•zombie kameraX2•#m kecepatanSerbu•#m) (
+		xBerayun: zombie5.x2 + (zombie5.arahX · kecepatanBerkelok)
+		xMengarahPulang: xBerayun + ((kameraX2 - xBerayun).maksimal(
+						kecepatanPulang · -1
+					)).menit(
+					kecepatanPulang
+				)
+		diTepi: (xBerayun > (kameraX2 + lebarKelokan)) | (xBerayun < (kameraX2 - lebarKelokan))
+		zombie(
+			xMengarahPulang
+			(zombie5.z2 - kecepatanSerbu)
+			(diTepi ? (zombie5.arahX · -1) zombie5.arahX)
+			zombie5.arahZ
+			zombie5.hidup
+			zombie5.wajah2
+		)
+	)
+
+¶Berkeliaran selangkah: bergerak sesuai arah berkeliaran, memantul dari tepi lapangan dengan tetap diam dan membalik arah yang sedang ditujunya.¶
+ƒ berkeliaran(zombie6•zombie kecepatan2•#m) (
+		xBaru: zombie6.x2 + (zombie6.arahX · kecepatan2)
+		zBaru: zombie6.z2 + (zombie6.arahZ · kecepatan2)
+		xMemantul: (xBaru > batasKanan) | (xBaru < batasKiri)
+		zMemantul: (zBaru > kedalamanJelajahJauh) | (zBaru < kedalamanJelajahDekat)
+		zombie(
+			(xMemantul ? zombie6.x2 xBaru)
+			(zMemantul ? zombie6.z2 zBaru)
+			(xMemantul ? (zombie6.arahX · -1) zombie6.arahX)
+			(zMemantul ? (zombie6.arahZ · -1) zombie6.arahZ)
+			zombie6.hidup
+			zombie6.wajah2
+		)
+	)
+
+¶Lapangan zombi yang baru, tersebar dari dekat sampai jauh, tersebar dari kiri ke kanan, masing-masing berkeliaran dengan arah acak.¶
+ƒ munculkanZombie()
+	(jumlahZombie → []).menerjemahkan(
+		ƒ(indeks2•#)
+			zombie(
+				Acak(batasKiri batasKanan)
+				(kedalamanMunculDekat + (indeks2 · ((kedalamanMunculJauh - kedalamanMunculDekat) ÷ jumlahZombie)))
+				[-1 1].acak()
+				[-1 1].acak()
+				⊤
+				'🧟'
+			)
+	)
+
+¶Mulai ronde baru: bermain, kamera setinggi mata, tanpa hati, tanpa skor.¶
+ƒ permainanBaru() permainan(
+		2
+		0m
+		kedalamanBermain
+		⊥
+		0m
+		0m
+		0m
+		0
+		munculkanZombie()
+	)
+
+¶Lempar hati ke jalurmu sekarang, kecuali satu masih di udara. Hati mulaisedikit di depan tempatmu berdiri, bukan di depan kamera, dengan alasan yangsama seperti uji jangkauan.¶
+ƒ lemparHati(permainan2•permainan)
+	permainan2.hati ? permainan2 permainan(
+			permainan2.fase
+			permainan2.kameraX
+			permainan2.kameraZ
+			⊤
+			permainan2.kameraX
+			(kedalamanBermain + 1m)
+			kedalamanBermain
+			permainan2.skor
+			permainan2.zombie2
+		)
+
+¶Geser jalurmu satu langkah ke arah suatu titik, tapi jangan pernah melewatibatasmu. Penunjuk melaporkan titik dunia yang ditunjuknya, jadi jaraknya darijalurmu menunjukkan seberapa jauh titik itu di kiri atau kananmu — melangkahke arahnya membuat penunjuk mengarah, dan mengetuk di salah satu sisimenggerakkanmu ke arah itu.¶
+ƒ fokusMenuju(permainan3•permainan target•#m)
+	permainan3.kameraX:(permainan3.kameraX + ((target - permainan3.kameraX).maksimal(
+					langkahMenyamping · -1
+				)).menit(
+				langkahMenyamping
+			)).maksimal(
+		batasKiri
+	).menit(
+		batasKanan
+	)
+
+¶Menekan tombol saat bermain: bergerak ke kiri atau kanan, atau melempar hati.¶
+ƒ terapkanTekanTombol(permainan4•permainan kunci2•"")
+	(kunci2 = 'Panah Kiri') ? fokusMenuju(
+			permainan4
+			(permainan4.kameraX - langkahMenyamping)
+		)
+		(kunci2 = 'Panah Kanan') ? fokusMenuju(
+				permainan4
+				(permainan4.kameraX + langkahMenyamping)
+			)
+			(kunci2 = 'Ruang angkasa') ? lemparHati(permainan4)
+				permainan4
+
+¶Satu bingkai dunia: terbangkan hati sampai mengenai figur pertama dijalurnya (orang yang sudah berbalik menghalangi sama seperti zombie), balikkanzombie yang terkena, gerakkan dua zombie terdekat menuju pemain sementarayang lain berkeliaran, lalu periksa apakah menang (semua sudah berbalik) ataukalah (zombie mencapaimu). Saat menang atau kalah, kamera berhenti di posisimenu.¶
+ƒ lanjutkanDunia(permainan5•permainan) (
+		hatiZBerikutnya: permainan5.hati ? (permainan5.hatiZ + kecepatanJantung) permainan5.hatiZ
+		hatiMemudar: permainan5.hati & ((hatiZBerikutnya - permainan5.hatiAwal) > jangkauanJantung)
+		hatiAktif: permainan5.hati & ~hatiMemudar
+		kecepatanSerbu2: kecepatanSerangDasar · (1 + (permainan5.skor · kenaikanKecepatanPerPoin))
+		¶Zombie hidup yang terdekat menyerang; kedalamannya menandai mereka di bawah.¶
+		hidupBerdasarkanKedalaman: permainan5.zombie2.menyaring(
+				ƒ(zombie7•zombie) zombie7.hidup
+			).diurutkan(
+				ƒ(zombie8•zombie) zombie8.z2
+			)
+		kedalamanPenyerbuPertama: (hidupBerdasarkanKedalaman.panjang(
+				) ≥ 1) ? hidupBerdasarkanKedalaman[1].z2 -999m
+		kedalamanPenyerbuKedua: (hidupBerdasarkanKedalaman.panjang(
+				) ≥ 2) ? hidupBerdasarkanKedalaman[2].z2 -999m
+		sosokDiJalur: hatiAktif ? permainan5.zombie2.menyaring(
+					ƒ(zombie9•zombie) dekat(
+							zombie9.x2
+							zombie9.z2
+							permainan5.hatiX
+							hatiZBerikutnya
+							radiusKena
+						)
+				) []
+		sosokTerkena: sosokDiJalur.diurutkan(
+				ƒ(zombie10•zombie) zombie10.z2
+			).Pertama(
+			)
+		kedalamanTerkena: (sosokTerkena•ø) ? -999m sosokTerkena.z2
+		mengubah: (sosokTerkena•ø) ? ⊥ sosokTerkena.hidup
+		zombieBerikutnya: permainan5.zombie2.menerjemahkan(
+				ƒ(zombie11•zombie)
+					zombie11.hidup ?
+						((mengubah & (zombie11.z2 = kedalamanTerkena)) ? zombie(
+									zombie11.x2
+									zombie11.z2
+									zombie11.arahX
+									zombie11.arahZ
+									⊥
+									orang.acak()
+								)
+								(((zombie11.z2 = kedalamanPenyerbuPertama) | (zombie11.z2 = kedalamanPenyerbuKedua)) ? serbuKeArahPemain(
+											zombie11
+											permainan5.kameraX
+											kecepatanSerbu2
+										) berkeliaran(
+											zombie11
+											kecepatanJelajah
+										)))
+						zombie11
+			)
+		jumlahTerubah: jumlahHidup(permainan5.zombie2) - jumlahHidup(
+					zombieBerikutnya
+				)
+		hatiBerikutnya: hatiAktif & (sosokTerkena•ø)
+		¶Zombie hidup mana pun yang mencapai kedalamanmu mengakhiri permainan —apa pun jalurnya — jadi tidak ada yang bisa lolos ke keadaan yang tak bisadimenangkan. Ini diukur terhadap\kedalamanBermain\, tempat kamu berdiri, dan tidak pernah terhadap kamera: panggungmenarik kamera mundur di layar kecil dan penonton bisa memperbesarnya lebihjauh lagi, dan semua itu tidak seharusnya mengubah seberapa dekat zombie harusmendekat.¶
+		hilang: zombieBerikutnya.menyaring(
+				ƒ(zombie12•zombie) zombie12.hidup & (zombie12.z2 ≤ (kedalamanBermain + jarakRaih))
+			).panjang(
+			) > 0
+		menang: jumlahHidup(zombieBerikutnya) = 0
+		tahapBerikutnya: menang ? 3 (hilang ? 4 2)
+		kameraXBerikutnya: (tahapBerikutnya = 2) ? permainan5.kameraX 0m
+		kameraZBerikutnya: (tahapBerikutnya = 2) ? permainan5.kameraZ kedalamanMenu
+		permainan(
+			tahapBerikutnya
+			kameraXBerikutnya
+			kameraZBerikutnya
+			hatiBerikutnya
+			permainan5.hatiX
+			hatiZBerikutnya
+			permainan5.hatiAwal
+			(permainan5.skor + jumlahTerubah)
+			zombieBerikutnya
+		)
+	)
+
+kunci3: Kunci()
+detak2: Waktu(30ms)
+penunjuk: Penunjuk()
+ketuk: Tombol()
+
+¶Detak jantung permainan, digerakkan oleh empat masukan: detak jam, tombol,gerakan penunjuk, dan klik/ketuk. Saat bermain, satu detak menggerakkan dunia,tombol menggeser dan melempar, gerakan penunjuk mengarahkan jalurmu, dan ketukanmelempar hati. Dari menu, tombol Enter atau ketukan memulai ronde baru — ketukanagar pemain sentuh bisa mulai, dan Enter (bukan Space) agar menekan Spaceberulang untuk melempar tidak pernah memulai ulang secara tidak sengaja.¶
+permainan6•permainan: permainan(
+		1
+		0m
+		kedalamanMenu
+		⊥
+		0m
+		0m
+		0m
+		0
+		munculkanZombie()
+	)
+	… (∆ detak2 | ∆ kunci3 | ∆ penunjuk | ∆ ketuk) …
+		(permainan6.fase = 2)
+		? (∆ detak2 ? lanjutkanDunia(permainan6)
+					(∆ kunci3 ? terapkanTekanTombol(
+								permainan6
+								kunci3
+							)
+							(∆ penunjuk ? fokusMenuju(
+										permainan6
+										penunjuk.X
+									) lemparHati(permainan6))))
+			(∆ detak2 ? permainan6
+					(∆ kunci3 ? ((kunci3 = 'Memasuki') ? permainanBaru(
+									) permainan6)
+							(∆ ketuk ? permainanBaru() permainan6)))
+
+¶Satu figur di panggung: zombie bergoyang, orang yang berbalik memberikanloncatan kecil yang senang. Kedalaman melakukan sisanya — zombie yang menyerangterlihat semakin besar saat mendekat. Durasi 0 detik membuat setiap langkahterjadi langsung, bukan melambat, sehingga gerakannya terasa seperti bingkaihalus, bukan seperti mengejar dengan lambat.¶
+ƒ tampilanZombie(zombie13•zombie)
+	Frasa(
+		zombie13.wajah2
+		2m
+		lamanya: 0s
+		tempat: Tempat(zombie13.x2 0m zombie13.z2)
+		beristirahat: zombie13.hidup
+		? Urutan.bergoyang(4° 1s "zippy")
+			Urutan(
+				{
+					0%: Pose(skala: 1)
+					50%: Pose(skala: 1.2)
+					100%: Pose(skala: 1)
+				}
+				0.6s
+			)
+	)
+
+¶Lantai: batang-batang pada kedalaman yang meningkat, yang dibaca perspektifsebagai bidang tanah yang menjauh ke garis horizon, memudar dari hijau ke tealuntuk kesan suasana. Batang pertama adalah garis yang harus dilewati zombieuntuk mengakhiri permainan, digambar dengan warna merah peringatan agar aturanini terlihat: kamera mundur di layar kecil dan penonton bisa memperkecil tampilan,dan zombie yang terlihat jauh tetap berdiri di garis ini saat menangkapmu.¶
+lantai: [
+		Frasa(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			lamanya: 0s
+			tempat: Tempat(
+				0m
+				-2.8m
+				(kedalamanBermain + jarakRaih)
+			)
+			warna: Warna(58% 55 25°)
+		)
+		Frasa(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			lamanya: 0s
+			tempat: Tempat(0m -2.8m 4m)
+			warna: Warna(56% 40 130°)
+		)
+		Frasa(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			lamanya: 0s
+			tempat: Tempat(0m -2.8m 6m)
+			warna: Warna(50% 36 136°)
+		)
+		Frasa(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			lamanya: 0s
+			tempat: Tempat(0m -2.8m 8m)
+			warna: Warna(45% 32 142°)
+		)
+		Frasa(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			lamanya: 0s
+			tempat: Tempat(0m -2.8m 11m)
+			warna: Warna(40% 28 148°)
+		)
+		Frasa(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			lamanya: 0s
+			tempat: Tempat(0m -2.8m 15m)
+			warna: Warna(35% 24 154°)
+		)
+		Frasa(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			lamanya: 0s
+			tempat: Tempat(0m -2.8m 20m)
+			warna: Warna(31% 20 160°)
+		)
+	]
+
+¶Sebuah hati yang terbang di dunia, dan tampilan skor yang terpasang ratadi bagian atas layar melalui overlay panggung, sehingga tetap di tempat saatkamera bergeser.¶
+tampilanHati: Frasa(
+		'🫀'
+		1.2m
+		lamanya: 0s
+		tempat: Tempat(permainan6.hatiX 0m permainan6.hatiZ)
+	)
+tampilanSkor: Frasa(
+		"🫀 \permainan6.skor\"
+		1.2m
+		tempat: Tempat(0m 4m)
+	)
+
+¶Teks menu, digunakan bersama oleh layar mulai, menang, dan kalah.¶
+judulLayar: permainan6.fase ???
+		3: '🎉 Kamu menyelamatkan semua orang! 🎉'
+		4: '💀 Seekor zombie menangkapmu! 💀'
+		'🫀 SERANGAN JANTUNG 🫀'
+subjudulLayar: (permainan6.fase = 1) ? 'Sekelompok zombie berkeliaran. Balikkan mereka dengan cinta.' "Score: \permainan6.skor\"
+barisAwal: (permainan6.fase = 1) ? 'Tekan Enter atau ketuk untuk mulai' 'Tekan Enter atau ketuk untuk main lagi'
+
+tampilanLayar: [
+		Kelompok(
+			Tumpukan()
+			[
+				Frasa(judulLayar 1.1m)
+				Frasa(subjudulLayar 0.6m)
+				Frasa('← → atau arahkan untuk membidik' 0.5m)
+				Frasa(
+					'Space, klik, atau ketuk untuk melempar hati 🫀'
+					0.5m
+				)
+				Frasa(barisAwal 0.7m)
+			]
+		)
+	]
+
+¶Tampilkan lapangan dan lantainya saat bermain, dan menu saat lainnya. Setiapdaftar kosong pada fase yang salah, dan daftar kosong tidak menampilkan apa pun.¶
+listLantai: (permainan6.fase = 2) ? lantai []
+listZombi: (permainan6.fase = 2) ? permainan6.zombie2.menerjemahkan(
+			ƒ(zombie14•zombie) tampilanZombie(zombie14)
+		) []
+listHati: ((permainan6.fase = 2) & permainan6.hati) ? [
+			tampilanHati
+		] []
+layerSkor: (permainan6.fase = 2) ? [tampilanSkor] []
+listLayar: (permainan6.fase ≠ 2) ? tampilanLayar []
+
+¶Warna panggung mencerminkan hasil: hijau hangat saat menang, merah gelapsaat kalah, dan ungu senja default saat memulai atau bermain.¶
+backgroundPanggung: permainan6.fase ???
+		3: Warna(48% 42 145°)
+		4: Warna(22% 45 25°)
+		Warna(25% 20 285°)
+
+¶Satu tema mengalir melalui keempat lagu: naik triad minor sampai nada keenamlalu turun kembali. Triknya adalah tujuh nada yang sama ini terasa menyeramkandalam minor harmonik dan ceria dalam mayor, jadi musik kemenangan memainkanmelodi yang sama persis — hanya saja tidak lagi terasa seperti film horor.
+
+Setiap trek di bawah ini berdurasi tepat delapan ketukan berapa pun panjangnotasinya, sehingga semuanya kembali bersamaan dan setiap lagu berulang tanpasambungan.¶
+tema: [1 ø 3 ø 5 ø 6 ø 5 ø 3 ø 1 ø ø ø]
+
+¶Menunggu untuk mulai: dengungan pelan, tema yang terdengar jauh dari sebuahlonceng, dan detak jantung di bawahnya.¶
+songMenu: Musik(
+		[
+			Trek(
+				tema
+				alatMusik: AlatMusik.lonceng
+				ketukan: 0.5beats
+				volume: 45%
+			)
+			Trek(
+				[{1 3 5} {1 3 5} {6 8 10} {5 7 9}]
+				alatMusik: AlatMusik.synthPad
+				ketukan: 2beats
+				volume: 40%
+			)
+			Trek(
+				[1 ø 1 ø 6 ø 5 ø]
+				alatMusik: AlatMusik.synthBass
+				ketukan: 1beats
+				volume: 50%
+			)
+			Trek(
+				[1 ø ø ø 1 ø ø ø]
+				alatMusik: AlatMusik.drum
+				ketukan: 1beats
+				volume: 30%
+			)
+		]
+		tempo: 72beats/min
+		tanggaNada: Musik.minorHarmonik
+		nama: 'menu'
+	)
+
+¶Kejaran: tema yang sama dengan kecepatan hampir dua kali lipat, diiringi bas yang terus mengalir dan ketukan yang tak pernah berhenti.¶
+songKejar: Musik(
+		[
+			Trek(
+				tema
+				alatMusik: AlatMusik.synth
+				ketukan: 0.5beats
+				volume: 45%
+			)
+			Trek(
+				[1 ø 1 1 1 ø 1 1 6 ø 6 6 5 ø 5 5]
+				alatMusik: AlatMusik.synthBass
+				ketukan: 0.5beats
+				volume: 55%
+			)
+			Trek(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 1 3]
+				alatMusik: AlatMusik.drum
+				ketukan: 0.5beats
+				volume: 40%
+			)
+		]
+		tempo: 132beats/min
+		tanggaNada: Musik.minorHarmonik
+		nama: 'kejaran'
+	)
+
+¶Kemenangan: tema yang sama dalam tangga nada mayor, digandakan satu oktaf lebih tinggi pada seruling, diiringi akor paling ceria dalam contoh ini. Satu-satunya lagu gembira di sini.¶
+songMenang: Musik(
+		[
+			Trek(
+				tema
+				alatMusik: AlatMusik.lonceng
+				ketukan: 0.5beats
+				volume: 55%
+			)
+			Trek(
+				tema
+				alatMusik: AlatMusik.seruling
+				ketukan: 0.5beats
+				kunci: 12semitones
+				volume: 40%
+			)
+			Trek(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				alatMusik: AlatMusik.piano
+				ketukan: 2beats
+				volume: 45%
+			)
+			Trek(
+				[1 ø 3 ø 2 ø 3 ø]
+				alatMusik: AlatMusik.drum
+				ketukan: 1beats
+				volume: 35%
+			)
+		]
+		tempo: 120beats/min
+		tanggaNada: Musik.mayor
+		nama: 'menang'
+	)
+
+¶Kekalahan: tema yang sama satu oktaf lebih rendah dan setengah kecepatan menu, diiringi dengungan didgeridoo dan akor yang tidak kembali ke nada dasar — akor itu berakhir pada nada keenam, bukan nada dasar, sehingga perulangan ini tidak pernah selesai.¶
+songKalah: Musik(
+		[
+			Trek(
+				tema
+				alatMusik: AlatMusik.lonceng
+				ketukan: 0.5beats
+				kunci: -12semitones
+				volume: 45%
+			)
+			Trek(
+				[1 ø ø ø]
+				alatMusik: AlatMusik.didgeridoo
+				ketukan: 2beats
+				volume: 50%
+			)
+			Trek(
+				[{1 3 5} {1 3 5} {6 8 10} {6 8 10}]
+				alatMusik: AlatMusik.synthPad
+				ketukan: 2beats
+				volume: 40%
+			)
+			Trek(
+				[1 ø ø ø ø ø ø ø]
+				alatMusik: AlatMusik.drum
+				ketukan: 1beats
+				volume: 30%
+			)
+		]
+		tempo: 56beats/min
+		tanggaNada: Musik.minorHarmonik
+		nama: 'kalah'
+	)
+
+¶Hanya lagu untuk fase saat ini yang ada di panggung, dan @Music yang sudah tidak ada lagi akan berhenti — jadi mengubah fase itulah yang mengubah musiknya.¶
+soundtrack: permainan6.fase ???
+		1: songMenu
+		3: songMenang
+		4: songKalah
+		songKejar
+
+Panggung(
+	[:listLantai :listZombi :listHati :listLayar soundtrack]
+	tempat: Tempat(permainan6.kameraX 0m permainan6.kameraZ)
+	latarbelakang: backgroundPanggung
+	warna: Warna(97% 0 0°)
+	lapisanAtas: layerSkor
+)

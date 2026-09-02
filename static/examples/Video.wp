@@ -55,7 +55,7 @@ picture: colors.combined(
 						)
 						duration: 0s
 						size: (style = 'ascii') ? 0.75m ((style = 'emoji') ? 1.15m 1m)
-						face: (style = 'ascii') ? "Noto Sans Mono" ø
+						face: (style = 'ascii') ? "Noto Sans Mono"/en ø
 						color: (style = 'letters') ? color ø
 					)
 			)

@@ -1,0 +1,343 @@
+⚽
+Piłka nożna
+=== start/en
+¶Gra w bronienie bramki widziana z góry. Jesteś rękawicą stojącą przed bramką po lewej stronie. W każdej chwili tylko jedna piłka jest kopana z jakiegoś miejsca na boisku, celując w punkt wewnątrz bramki, a ty poruszasz się w górę i w dół, aby stanąć na jej drodze. Liczba pokazuje, ile strzałów obroniłeś: rośnie i staje wysoko, gdy obronisz strzał, a powiększa się i trzęsie, gdy piłka wpadnie do bramki.¶
+
+¶Miejsce, w które celuje strzał, i miejsce, w którym stoi rękawica. Bramka ma szerokość mniej więcej ośmiu bramkarzy, dlatego jedna osoba nie może po prostu stanąć na środku i obronić wszystkiego.
+
+@Place to lewy dolny róg elementu wyjściowego, a nie jego środek, więc wszystko, co celuje lub jest ograniczone od dołu, liczy się względem środków i traci połowę rozmiaru, gdy staje się @Place. Emoji też rysuje się znacznie większe niż jego rozmiar — piłka ⚽ o rozmiarze 0,6 m zajmuje około 0,9 m, a rękawica 🧤 o rozmiarze 1,2 m około 1,25 m — dlatego te połówki są zmierzone, a nie po prostu podzielone na pół. Prędkość rękawicy to odległość, o jaką przesuwa się w każdym takcie.¶
+celX: -7m
+ustaKrawędź: 5.2m
+piłkaPołowa: 0.45m
+bramkarzX: -6.5m
+bramkarzPołowa: 0.62m
+bramkarzZasięg: 4.5m
+bramkarzSzybkość: 0.55m
+
+tyknięcie: Czas(50ms)
+naciśnij: Klawisz(wdół: ⊤)
+puść: Klawisz(wdół: ⊥)
+
+¶Kierunek, w którym porusza się rękawica. Naciśnięcie strzałki uruchamia ruch, a puszczenie tej samej strzałki go zatrzymuje, więc rękawica przesuwa się tak długo, jak trzymasz klawisz. Przy tak szerokiej bramce krok po każdym naciśnięciu nigdy nie zdążyłby na czas.¶
+dryf•#: 0 … ∆ naciśnij | ∆ puść …
+		∆ naciśnij ?
+			((naciśnij = 'Strzałka w górę') ? 1 ((naciśnij = 'Strzałka w dół') ? -1 dryf))
+			((puść = 'Strzałka w górę') & (dryf = 1)) ? 0
+				((puść = 'Strzałka w dół') & (dryf = -1)) ? 0
+					dryf
+
+¶Rękawicą nie rusza fizyka, więc można nią sterować bezpośrednio. Zatrzymuje się na krańcach swojego zasięgu, więc nigdy nie może zjechać poza bramkę.¶
+bramkarzY•#m: 0m … ∆ tyknięcie …
+		((bramkarzY + (dryf × bramkarzSzybkość)).maks(
+				bramkarzZasięg · -1
+			)).min(
+			bramkarzZasięg
+		)
+
+¶Obrona i gol. Każde @Collision zgłasza początek dotknięcia i koniec dotknięcia, więc oba są łączone ze sprawdzeniem, że to jest właśnie początek: bez tego każda obrona i każdy gol liczyłyby się podwójnie.¶
+rękawicaTrafienie: Kolizja('piłka' 'bramkarz')
+siatkaTrafienie: Kolizja('piłka' 'siatka')
+obroniony: (∆ rękawicaTrafienie) & ~(rękawicaTrafienie•ø)
+zdobyty: (∆ siatkaTrafienie) & ~(siatkaTrafienie•ø)
+
+•strzał(sx•#m sy•#m skos•# prędkość2•#m/s)
+
+¶Miejsce, w którym się stoi, miejsce w bramce, w które się celuje, oraz linia między nimi. Wyliczenie nachylenia na podstawie tych dwóch punktów sprawia, że każdy strzał trafia dokładnie w cel, z jakiegokolwiek kierunku nadleci.¶
+ƒ nowyStrzał()•strzał (
+		x2: Losowy(2m 6m)
+		y2: Losowy(-5.5m 5.5m)
+		celuj: Losowy(-4.7m 4.7m)
+		¶Nachylenie mówi, ile y traci bieg na każdy metr x. Dzielenie może nie mieć wyniku, więc przypadek ø zamienia się w strzał prosto przed siebie po boisku; strzelec nigdy nie stoi na linii bramkowej, więc ten przypadek nigdy się nie zdarza.¶
+		upuść: (celuj - y2) ÷ (celX - x2)
+		strzał(x2 y2 (upuść•ø ? 0 upuść) Losowy(16m/s 22m/s))
+	)
+
+¶1 = piłka czeka przy stopie strzelca, 2 = jest w drodze, 3 = jest wybijana. Liczone są takty, a nie odejmowany czas, ponieważ każde @Timestarts liczy od zera. Bloki to to, co widzisz; serwisy istnieją tylko po to, by nadawać liczbie nową nazwę przy każdym strzale, co odtwarza jej animację.¶
+•runda(faza•# tiki•# bloki•# podania•# ostatni2•# strzał2•strzał)
+runda2•runda: runda(1 0 0 0 0 nowyStrzał()) …
+	∆ tyknięcie | obroniony | zdobyty …
+		runda2.faza ???
+			1: (runda2.tiki ≥ 14)
+			? runda(
+					2
+					0
+					runda2.bloki
+					runda2.podania
+					runda2.ostatni2
+					runda2.strzał2
+				)
+				runda(
+					1
+					(runda2.tiki + (∆ tyknięcie ? 1 0))
+					runda2.bloki
+					runda2.podania
+					runda2.ostatni2
+					runda2.strzał2
+				)
+			2: obroniony ? runda(
+					3
+					0
+					(runda2.bloki + 1)
+					(runda2.podania + 1)
+					1
+					runda2.strzał2
+				)
+				zdobyty ? runda(
+						3
+						0
+						runda2.bloki
+						(runda2.podania + 1)
+						2
+						runda2.strzał2
+					)
+					¶Piłka, która nigdy nie dociera do celu — na przykład odbita z powrotem do gry przez obronę — po kilku sekundach jest po prostu odpuszczana, dzięki czemu gra nigdy nie utknie w oczekiwaniu na wynik, który nie nadejdzie.¶
+					(runda2.tiki ≥ 70)
+					? runda(
+							3
+							0
+							runda2.bloki
+							(runda2.podania + 1)
+							3
+							runda2.strzał2
+						)
+						runda(
+							2
+							(runda2.tiki + (∆ tyknięcie ? 1 0))
+							runda2.bloki
+							runda2.podania
+							runda2.ostatni2
+							runda2.strzał2
+						)
+			3: (runda2.tiki ≥ 16)
+			? runda(
+					1
+					0
+					runda2.bloki
+					runda2.podania
+					runda2.ostatni2
+					nowyStrzał()
+				)
+				runda(
+					3
+					(runda2.tiki + (∆ tyknięcie ? 1 0))
+					runda2.bloki
+					runda2.podania
+					runda2.ostatni2
+					runda2.strzał2
+				)
+			runda2
+
+¶Jedyna ocena, przy której piłka opuszcza stopę strzelca. Musi trwać tylko chwilę: to ona uderza piłkę, a uderzenie jej dwa razy podwoiłoby jej prędkość.¶
+kopnięty: (∆ tyknięcie) & (runda2.faza = 2) & (runda2.tiki = 0)
+
+¶Trzymana w miejscu, gdy czeka, uderzana wzdłuż wybranej linii przy strzale i odbijana z powrotem w głąb boiska przez obronę lub przez tył siatki — co zapobiega też temu, by piłka grzechotała wewnątrz bramki, wciąż na nowo poruszając siatkę. Powietrze spowalnia toczącą się piłkę, tak jak zrobiłaby to trawa, więc strzały stopniowo zwalniają.¶
+piłkaMiejsce: Ruch(
+		Miejsce(
+			(runda2.strzał2.sx - piłkaPołowa)
+			(runda2.strzał2.sy - piłkaPołowa)
+		)
+		następnemiejsce:
+		(runda2.faza = 1) ? Miejsce(
+				(runda2.strzał2.sx - piłkaPołowa)
+				(runda2.strzał2.sy - piłkaPołowa)
+			) ø
+		następnaprędkość:
+		(runda2.faza = 1) ? Prędkość(0m/s 0m/s 0°/s)
+			kopnięty ? Prędkość(
+					(runda2.strzał2.prędkość2 · -1)
+					((runda2.strzał2.prędkość2 · -1) × runda2.strzał2.skos)
+					Losowy(-45°/s 45°/s)
+				)
+				(obroniony | zdobyty) ? Prędkość(
+						Losowy(8m/s 14m/s)
+						Losowy(-5m/s 5m/s)
+						Losowy(-45°/s 45°/s)
+					)
+					ø
+	)
+
+piłka: Wyrażenie(
+		'⚽'
+		0.6m
+		nazwa: 'piłka'
+		miejsce: piłkaMiejsce
+		materiał: Materiał(0.45kg 0.7 0.02)
+	)
+
+¶Rękawica jest śledzona po nazwie powyżej, a to wystarczy, by znalazła się w świecie fizyki, więc nie potrzebuje @Matter. Umieszcza ją program, a nie fizyka, więc przechodzi przez piłkę zamiast w nią uderzać; to obrona powyżej odsyła piłkę z powrotem. Jej ruchy nie są płynnie animowane, więc znajduje się dokładnie tam, gdzie ją skierowałeś, zamiast dogonić cię z opóźnieniem.¶
+bramkarz: Wyrażenie(
+		'🧤'
+		1.2m
+		nazwa: 'bramkarz'
+		miejsce: Miejsce(
+			bramkarzX
+			(bramkarzY - bramkarzPołowa)
+		)
+		czastrwania: 0s
+	)
+
+¶Kto zaraz strzeli i skąd. Widoczne na boisku tylko wtedy, gdy piłka czeka.¶
+strzelec: Wyrażenie(
+		'🦵'
+		1.2m
+		miejsce: Miejsce(
+			(runda2.strzał2.sx + 0.5m)
+			(runda2.strzał2.sy - 0.6m)
+		)
+		czastrwania: 0s
+	)
+strzelecLista: (runda2.faza = 1) ? [strzelec] []
+
+¶Bramka: otwór, siatka za nią oraz słupek od góry i od dołu. Nazwę ma tylko siatka, więc tylko siatka może dać gola — piłka, która trafiłaby w słupek, po prostu by się odbiła. Siatka jest celowo gruba: najszybszy strzał pokonuje około pół metra między krokami fizyki, a cieńsza siatka mogłaby przepuścić go w ogóle bez dotknięcia.¶
+siatkaKształt: Kształt(
+		Prostokąt(-8m ustaKrawędź -7.2m (ustaKrawędź · -1))
+		nazwa: 'siatka'
+		tło: Kolor(96% 0 0°)
+	)
+słupekGórny: Kształt(
+		Prostokąt(-8m 7m -7.2m ustaKrawędź)
+		tło: Kolor(35% 0 0°)
+	)
+słupekDolny: Kształt(
+		Prostokąt(-8m (ustaKrawędź · -1) -7.2m -7m)
+		tło: Kolor(35% 0 0°)
+	)
+
+¶Linie boczne, które utrzymują wybitą piłkę na boisku.¶
+murGórny: Kształt(
+		Prostokąt(-8m 7m 8m 6.8m)
+		tło: Kolor(88% 5 130°)
+	)
+murDolny: Kształt(
+		Prostokąt(-8m -6.8m 8m -7m)
+		tło: Kolor(88% 5 130°)
+	)
+murPrawy: Kształt(
+		Prostokąt(7.8m 7m 8m -7m)
+		tło: Kolor(88% 5 130°)
+	)
+
+¶Obrona: liczba lekko podskakuje i przez chwilę tam stoi, zanim się ustabilizuje.¶
+obronaZgięcie: Sekwencja(
+		{
+			0%: Poza(skala: 1)
+			30%: Poza(skala: 1.5 zrównoważyć: Miejsce(0m 0.4m))
+			65%: Poza(skala: 1.35 zrównoważyć: Miejsce(0m 0.25m))
+			100%: Poza(skala: 1)
+		}
+		0.5s
+	)
+
+¶Gol: liczba rośnie, wypełniając cały ekran, i trzęsie się, więc strzał, który cię pokonał, na pewno nie umknie twojej uwadze.¶
+bramkaDrganie: Sekwencja(
+		{
+			0%: Poza(skala: 1)
+			8%: Poza(skala: 3.6 obrót: -10°)
+			24%: Poza(
+				skala: 3.6
+				obrót: 10°
+				zrównoważyć: Miejsce(0.4m 0m)
+			)
+			40%: Poza(
+				skala: 3.6
+				obrót: -10°
+				zrównoważyć: Miejsce(-0.4m 0m)
+			)
+			56%: Poza(
+				skala: 3.6
+				obrót: 8°
+				zrównoważyć: Miejsce(0.3m 0m)
+			)
+			72%: Poza(skala: 3.4 obrót: -6°)
+			100%: Poza(skala: 1)
+		}
+		1s
+	)
+
+¶Liczba zablokowanych strzałów. Jej nazwa niesie numer serwisu, więc każdy strzał nadaje jej nową tożsamość i jej animacja odtwarza się ponownie — liczba, której nazwa nigdy się nie zmienia, animowałaby się tylko raz, a potem stałaby w miejscu.¶
+wynikWidok: Wyrażenie(
+		"🧤 \runda2.bloki\"
+		1.4m
+		nazwa: "score\runda2.podania\"
+		miejsce: Miejsce(-1.4m 4m)
+		czastrwania: 0.2s
+		wstępowanie: runda2.ostatni2 ???
+			1: obronaZgięcie
+			2: bramkaDrganie
+			Poza()
+	)
+
+¶Instrukcje znajdują się na boisku, a nie na nakładce: dolna krawędź nakładki to miejsce, w którym wyświetla się dźwięk, a tekst umieszczony tam zostałby przez niego zasłonięty.¶
+instrukcje: Wyrażenie(
+		'trzymaj ⬆ ⬇, aby poruszać rękawicą — zablokuj każdy strzał!'
+		0.55m
+		miejsce: Miejsce(-6.4m -6.4m)
+	)
+
+¶Trzy dźwięki: strzał, obrona, siatka. Każdy pojawia się na scenie tak długo,jak trwa faza, która go wywołuje, a potem znika. Samo dotarcie na scenęwystarcza, by dźwięk zabrzmiał, a jednorazowy dźwięk, który już zabrzmiał,milczy, dopóki nie zniknie i nie wróci — dlatego żaden z nich nie potrzebuje@Music.replay, i żaden nie brzmi, gdy program się zaczyna.
+
+Taki zapis mówi coś, czego same dźwięki by nie powiedziały: każdy dźwięknależy do fazy rundy i trwa dokładnie tak długo, jak ta faza.@Music.replay to inny zapis, dla dźwięku, który odpowiada jednej chwili,a nie całemu odcinkowi czasu.¶
+kopnięcieDźwięk: Muzyka(
+		Ścieżka(
+			[1]
+			instrument: Instrument.perkusja
+			rytm: 0.25beats
+			głośność: 60%
+			pętla: ⊥
+		)
+		nazwa: 'strzał'
+	)
+
+obronaDźwięk: Muzyka(
+		Ścieżka(
+			[8 12 15]
+			instrument: Instrument.dzwonek
+			rytm: 0.2beats
+			głośność: 70%
+			pętla: ⊥
+		)
+		nazwa: 'obrona'
+	)
+
+bramkaDźwięk: Muzyka(
+		Ścieżka(
+			[5 4 2 1]
+			instrument: Instrument.trąbka
+			rytm: 0.3beats
+			głośność: 65%
+			pętla: ⊥
+		)
+		nazwa: 'cel'
+	)
+
+wynikDźwięk: runda2.ostatni2 ???
+		1: [obronaDźwięk]
+		2: [bramkaDźwięk]
+		[]
+
+dźwiękLista: runda2.faza ???
+		2: [kopnięcieDźwięk]
+		3: wynikDźwięk
+		[]
+
+Scena(
+	[
+		piłka
+		bramkarz
+		:strzelecLista
+		siatkaKształt
+		słupekGórny
+		słupekDolny
+		murGórny
+		murDolny
+		murPrawy
+		instrukcje
+		:dźwiękLista
+	]
+	miejsce: Miejsce(0m 0m -14m)
+	rama: Prostokąt(-8m 7m 8m -7m)
+	tło: Kolor(62% 40 140°)
+	kolor: Kolor(20% 0 0°)
+	powaga: 0m/s^2
+	nakładka: [wynikWidok]
+)

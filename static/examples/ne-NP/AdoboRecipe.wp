@@ -1,0 +1,40 @@
+H
+अडोबो रेसिपी
+=== start/en
+¶फिलिपिनो कुखुरा अडोबोको लागि दृश्य-दर-दृश्य पकाउने तरिका।¶
+
+¶यी देखाउनुपर्ने दृश्यहरूको सूची हो¶
+वाक्यहरू: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`अडोबोङ मानोक @lamamel/adobo! (खानका लागि माउस चलाउनुहोस्)`)
+		(`मसाराप! @lamamel/emptyadobo`)
+	]
+
+¶यी ती वाक्यहरूको सूची हो जो माउस चलाएर मात्र अगाडि बढाउनुपर्छ।¶
+वाक्यहरूसार: [9 11]
+
+¶हालको वाक्य १ बाट सुरु हुन्छ, र माउस पर्दाको कुनै निश्चित ठाउँमा गएमा, वा अन्य वाक्यहरूका लागि बटन वा कुञ्जी थिचेमा बढ्छ।¶
+बिन्दु2: सूचक()
+हालकोवाक्य•#: 1 …
+	वाक्यहरूसार.छ(हालकोवाक्य) ?
+		(बिन्दु2.x > 2m) & (बिन्दु2.y > 3m)
+		∆ बटन() | ∆ कुञ्जी()
+		…
+		(हालकोवाक्य <
+				वाक्यहरू.लम्बाइ()) ?
+			हालकोवाक्य + 1
+			हालकोवाक्य
+
+Stage(
+	[वाक्यांश(वाक्यहरू[हालकोवाक्य] बेर्ने: 10m)]
+	अनुहार: 'Short Stack'
+)

@@ -1,0 +1,107 @@
+🎛️
+Instrumen
+=== start/en
+¶Delapan birama yang sama, dimainkan oleh setiap alat musik di palet. Pilih satu nama dan melodinya tetap sama — hanya suaranya yang berubah. Kedua kucing itu sebenarnya kucing yang sama, begitu juga kedua anjing itu: satu dari masing-masing adalah kit, jadi lagunya terdengar seperti bunyi-bunyian, dan yang lain bernada, jadi ia menyanyikannya.
+
+Sebagian besar ini adalah rekaman asli. Empat synthesizer tidak meniru apa pun: mereka adalah synthesizer, dan itulah suaranya. Yang terakhir dari mereka bernyanyi, dan untuk itulah kata-kata pada trek digunakan — semua alat musik lain di sini mengabaikannya.¶
+
+¶Alat musik mana yang sedang memainkan melodi. Choice() mengembalikan nama dari output yang bisa dipilih yang telah terpilih, dan ø jika belum ada yang dipilih.¶
+dipilih: Pilihan()
+
+¶Satu entri per alat musik: apa namanya, apa yang memainkannya, dan warna apa yang diambil tombolnya.¶
+•suara2(label•'' ikon•'' suara3•AlatMusik corakWarna•#°)
+
+voices•[suara2]: [
+		suara2('piano' '🎹' AlatMusik.piano 260°)
+		suara2('gitar' '🎸' AlatMusik.gitarAkustik 20°)
+		suara2('listrik' '⚡' AlatMusik.gitarListrik 5°)
+		suara2('biola' '🎻' AlatMusik.biola 40°)
+		suara2('seruling' '🪈' AlatMusik.seruling 180°)
+		suara2('terompet' '🎺' AlatMusik.terompet 50°)
+		suara2('saksofon' '🎷' AlatMusik.saksofon 70°)
+		suara2('harmonika' '🌬' AlatMusik.harmonika 150°)
+		suara2('lonceng' '🔔' AlatMusik.lonceng 55°)
+		suara2('drum' '🥁' AlatMusik.drum 0°)
+		suara2('didgeridoo' '🎶' AlatMusik.didgeridoo 15°)
+		suara2('kucing' '🐱' AlatMusik.kucing 330°)
+		suara2(
+			'kucing bernada'
+			'😺'
+			AlatMusik.kucingBernada
+			350°
+		)
+		suara2('anjing' '🐶' AlatMusik.anjing 35°)
+		suara2(
+			'anjing bernada'
+			'🐕'
+			AlatMusik.anjingBernada
+			125°
+		)
+		suara2('synth' '🎛' AlatMusik.synth 290°)
+		suara2('bas' '🎛' AlatMusik.synthBass 310°)
+		suara2('bantalan' '🎛' AlatMusik.synthPad 200°)
+		suara2('suara' '🤖' AlatMusik.suara 95°)
+	]
+
+¶Suara yang dipilih, atau piano sebelum ada yang memilih. find() mengembalikan ø ketika tidak ada yang cocok, jadi cadangannya harus berupa Voice tersendiri.¶
+dipilih2: voices.menemukan(
+		ƒ(suara4•suara2) suara4.label = dipilih
+	)
+saatIni•suara2: dipilih2•ø ? suara2(
+			'piano'
+			'🎹'
+			AlatMusik.piano
+			260°
+		) dipilih2
+
+¶Sebuah melodi yang tetap sama sementara alat musik di baliknya berubah. Menggunakan derajat, bukan not, jadi maknanya sama pada setiap alat musik — dan pada drum ia terdengar sebagai ritme, karena di sana derajat menjadi indeks kit.¶
+lagu: [1 3 5 6 5 3 2 ø]
+
+¶Satu suku kata per not, dieja dalam Alfabet Fonetik Internasional, di mana setiap huruf mewakili satu bunyi. Hanya suara nyanyian yang menggunakan ini; sisa palet mengabaikannya. Sisanya tidak memakai suku kata, jadi tujuh bunyi mencukupi delapan entri.¶
+lirik: 'la li lu le lo li la'
+
+¶Satu tombol untuk setiap instrumen: ikonnya diletakkan di atas namanya, supaya tidak saling bertabrakan. Frasa yang bisa dipilih adalah yang dibaca oleh Choice(), dan yang sedang aktif digambar lebih terang supaya kamu bisa melihat posisimu.¶
+ƒ tombol(suara5•suara2)
+	Kelompok(
+		Tumpukan(lapisan: 0.1m)
+		[
+			Frasa(suara5.ikon 1.1m)
+			Frasa(suara5.label 0.5m)
+		]
+		nama: suara5.label
+		dapatdipilih: ⊤
+		warna: (suara5.label = saatIni.label)
+		? Warna(95% 60 suara5.corakWarna)
+			Warna(60% 8 suara5.corakWarna)
+	)
+
+¶Semua yang terlihat diletakkan dalam satu Stack. Sebuah Stage membuat setiap anaknya berada di tengah sendiri-sendiri, jadi jika dibiarkan begitu saja, semuanya akan menumpuk satu sama lain — tata letaknya harus menyatakan bahwa mereka disusun satu di atas yang lain.
+
+Tombol-tombolnya diletakkan dalam Grid, bukan Row. Jika semuanya diletakkan dalam satu baris, ukurannya akan lebih lebar dari sebuah telepon genggam, dan sebuah Stage mengecilkan isinya agar pas, sehingga labelnya menyusut sampai tidak bisa dibaca. Hanya kolomnya yang ditentukan: baris dibiarkan kosong, dan Grid akan menghitung sendiri berapa banyak yang dibutuhkan, sehingga menambahkan instrumen tidak perlu mengubah bagian ini.
+
+Musiknya tetap memakai satu nama sepanjang waktu, bukan mengambil nama instrumennya. Nama sebuah 🎼 adalah identitasnya: jika diganti namanya, pemainnya akan mendengar lagu yang berbeda dimulai, sehingga melodi akan melompat balik ke awal setiap kali berganti, dan partitur akan menggambar not dari instrumen lama di samping instrumen baru sampai keduanya bergeser dan menghilang.¶
+Panggung(
+	[
+		Kelompok(
+			Tumpukan(lapisan: 0.6m)
+			[
+				Frasa(saatIni.ikon 2.5m)
+				Frasa(saatIni.label 1.2m)
+				Kelompok(
+					Jaringan(kolom: 5 lapisan: 0.4m)
+					voices.menerjemahkan(
+						ƒ(suara6•suara2) tombol(suara6)
+					)
+				)
+			]
+		)
+		Musik(
+			Trek(lagu alatMusik: saatIni.suara3 kataKata: lirik)
+			tempo: 120beats/min
+			tanggaNada: Musik.pentatonik
+			nama: 'lagu'
+		)
+	]
+	latarbelakang: Warna(14% 12 280°)
+	warna: Warna(95% 0 0°)
+)

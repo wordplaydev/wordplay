@@ -5104,7 +5104,7 @@
             },
             "face": {
                 "doc": "O nome do tipo de letra que está dentro do meu conteúdo deveria estar lá, a menos que tenham o seu proprio tipo para usar.",
-                "names": ["tipo", "fonte"]
+                "names": ["fonte", "tipo"]
             },
             "place": {
                 "doc": "O lugar no palco onde devo estar. O conteúdo dentro de mim será organizado em relação a esse lugar.",

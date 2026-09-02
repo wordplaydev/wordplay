@@ -1,0 +1,28 @@
+ぁ
+Hiragana
+=== start
+¶Hiragana spadające pod wpływem grawitacji; kliknij, aby zmienić, w którą stronę jest dół.¶
+liczba2: 32
+
+grawitacja•#m/s^2: 15m/s^2 … ∆ Przycisk() … -grawitacja
+
+hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
+
+litery: liczba2 → [].tłumaczyć(
+		ƒ(liczba3 indeks2)
+			Wyrażenie(
+				hiragana[liczba3]
+				miejsce: Ruch(
+					Miejsce((indeks2 - (liczba2 ÷ 2)) × 0.2m 10m)
+					Prędkość(kąt: Losowy(-5 5) × 1°/s)
+				)
+				materiał: Materiał(sprężystość: 0.3)
+			)
+	)
+
+
+Scena(
+	[:litery Kształt(Prostokąt(-40m 0m 40m -2m))]
+	powaga: grawitacja
+	miejsce: Miejsce(0m 5m -20m)
+)

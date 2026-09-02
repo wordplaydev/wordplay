@@ -1,4 +1,5 @@
 import { PossiblePII } from '@conflicts/PossiblePII';
+import { localeToString } from '@locale/Locale';
 import {
     Galleries,
     Locales,
@@ -17,6 +18,7 @@ import isQuotaError from '@db/isQuotaError';
 import { chunkWrites, serializedByteSize } from '@db/projects/chunkWrites';
 import { shouldReplayRemotePlainCode } from '@db/projects/crdtFold';
 import { EditFailure } from '@db/projects/EditFailure';
+import { withNameSuffix } from '@db/projects/getLocalizedProjectName';
 import isSweepable from '@db/projects/isSweepable';
 import { unknownFlags } from '@db/projects/Moderation';
 import { buildKeywordIndex } from '@parser/Keywords';
@@ -353,6 +355,16 @@ export default class ProjectsDatabase {
     constructor(database: Database) {
         this.database = database;
         this.localDB = database.localDB;
+
+        // An example loads in the viewer's chosen locales (#1310), so a cached
+        // one is stale the moment those change. Evict just the example keys;
+        // the other read-only projects are locale-independent. The same
+        // re-subscription GalleryDatabase makes for gallery names.
+        database.Locales.locales.subscribe(() => {
+            for (const id of Array.from(this.readonlyProjects.keys()))
+                if (id.startsWith(ExamplePrefix))
+                    this.readonlyProjects.delete(id);
+        });
     }
 
     /**
@@ -784,13 +796,13 @@ export default class ProjectsDatabase {
         const nameExists = this.allEditableProjects.some(
             (p) => p.getName() === project.getName(),
         );
-        const remixed = project
-            .remix(this.database.getUserID())
-            .withName(
-                nameExists
-                    ? `${project.getName()} ${REMIX_SYMBOL}`
-                    : project.getName(),
-            );
+        const remixed = project.remix(this.database.getUserID()).withName(
+            nameExists
+                ? // Inside each translation when multilingual, so the name
+                  // stays parseable rather than rendering as raw source.
+                  withNameSuffix(project.getName(), REMIX_SYMBOL)
+                : project.getName(),
+        );
         this.track(remixed, true, PersistenceType.Online, false);
         return remixed;
     }
@@ -1575,9 +1587,13 @@ export default class ProjectsDatabase {
         const readonly = this.readonlyProjects.get(id);
         if (readonly) return readonly;
 
-        // Is this an example? Load the example.
+        // Is this an example? Load the example in the viewer's chosen locales
+        // (per-locale translations, composited when several are chosen).
         if (id.startsWith(ExamplePrefix)) {
-            const serialized = await getExample(id);
+            const serialized = await getExample(
+                id,
+                this.database.Locales.getLocales().map(localeToString),
+            );
             const project = await (serialized === undefined
                 ? undefined
                 : Project.deserialize(this.database.Locales, serialized));

@@ -1,0 +1,53 @@
+🐭
+Fånga
+=== start/en
+¶Fånga musen som pilar iväg med ett klick — klicka igen för att släppa den fri.
+
+Båda ljuden kommer från själva poserna. En @Pose kan bära en @Music, som spelas i samma stund den posen intas: ljudet för att kasta sig över hörs när musens viloposition ändras till den fångade positionen, och ljudet för att pila iväg hörs när snurren når halvvägsposen den är kopplad till. Inget behöver kopplas ihop mellan animationen och ljudet — posen är där de möts.¶
+
+¶Två korta stycken. En @Track upprepas som standard, men en pose är ett ögonblick snarare än något som varar, så musiken till en pose spelas alltid bara en gång.¶
+kastaSigÖver: Musik(
+		Spår([5 1] instrument: Instrument.klocka takt: 1beats)
+		volym: 50%
+		namn: 'kasta sig över'
+	)
+pilaIväg: Musik(
+		Spår([1 2] instrument: Instrument.flöjt takt: 1beats)
+		volym: 35%
+		namn: 'pila iväg'
+	)
+
+¶Om den valda frasen är mus, växla mellan om musen är fångad eller inte.¶
+namn3: Val()
+fångad: ⊥ … ∆ (namn3) … (namn3 = 'mouse') & ~fångad
+¶Varje sekund, flytta musen¶
+plats2: Plats(0m 0m 0m) … ∆ Tid(1000ms) … fångad ? Plats(
+				0m
+				0m
+			) Plats(Slumpmässig(-2m 2m) Slumpmässig(-2m 2m))
+
+Etapp(
+	[
+		Fras(
+			"🐭"
+			valbara: ⊤
+			plats: plats2
+			vilande: fångad ? Pose(
+					rotation: 180°
+					musik: kastaSigÖver
+				) Pose(
+				)
+			rörlig: fångad ? Pose() Sekvens(
+					{
+						0%: Pose(rotation: 0°)
+						50%: Pose(rotation: 180° musik: pilaIväg)
+						100%: Pose(rotation: 360°)
+					}
+				)
+			varaktighet: 1s
+			namn: 'mouse'
+		)
+	]
+	plats: Plats(0m 0m -5m)
+	ram: Rektangel(-3m 3m 3m -3m)
+)

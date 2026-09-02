@@ -1,0 +1,30 @@
+🎃
+Abóbora
+=== start
+¶Uma abóbora de Halloween que tremula e reaparece num sítio novo a cada segundo.¶
+tempo2: Tempo(1000ms)
+colocar: Local(0m 0m) … ∆ tempo2 … Local(
+			Aleatório(-4m 4m)
+			Aleatório(-4m 4m)
+			Aleatório(-4m 0m)
+		)
+opacidade2: 1 … ∆ tempo2 … Aleatório(0.25 1)
+mostrar: ⊤ … ∆ tempo2 … ~mostrar
+abóbora: Frase(
+		'🎃'
+		opacidade: opacidade2
+		local: colocar
+		entrando: Sequência(
+			{
+				0%: Pose(escala: 1.25 rotação: -21°)
+				20%: Pose(escala: 0.75 rotação: 13°)
+				40%: Pose(escala: 1 rotação: -7°)
+				60%: Pose(escala: 1.25 rotação: 19°)
+				100%: Pose()
+			}
+			0.5s
+			contagem: 3x
+		)
+	)
+
+Fase(mostrar ? [abóbora] [] fundo: Cor(0% 0 0°))

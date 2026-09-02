@@ -1,0 +1,78 @@
+⏳
+ಓದಿನ ಸ್ಥಿತಿ ಮಾಪಕ
+=== start/en
+¶ಓದಿನ ಸಮಯ ಸೇರಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ ಮತ್ತು ಮಾಪಕ ಶಾಂತದಿಂದ ಗಮನಕ್ಕೆ, ನಂತರ ಅತಿಭಾರಕ್ಕೆ ಬದಲಾಗುವುದನ್ನು ನೋಡಿ.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+ಕಾರ್ಯ: ಆಯ್ಕೆ()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+ಓದಿನಸಮಯ:
+	0 …
+	∆ ಕಾರ್ಯ …
+		ಕಾರ್ಯ = 'reset' ?
+			0
+			ಓದಿನಸಮಯ + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+ವಿವರಣೆ2:
+	'ನಿಮ್ಮ ಓದಿನ ಸಮಯ ಹೆಚ್ಚಿಸಲು “ಓದಿನ ಸಮಯ ಸೇರಿಸಿ +1” ಒತ್ತಿ. ಮತ್ತೆ ಆರಂಭಿಸಲು “ಮರುಹೊಂದಿಸಿ” ಒತ್ತಿ.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+ಸಮಯಪಠ್ಯ:
+	'ನೀವು ಓದಿದ್ದೀರಿ ' + ಓದಿನಸಮಯ → '' + ' ಗಂಟೆ(ಗಳು).'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+ಮನಸ್ಥಿತಿ:
+	ಓದಿನಸಮಯ < 3 ?
+		'🌿 ಶಾಂತ ಸ್ಥಿತಿ — ಓದಿನ ಸಮಯ ಸೇರಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ'
+		ಓದಿನಸಮಯ < 6 ?
+			'📚 ಗಮನ ಸ್ಥಿತಿ — ನೀವು ಫಲಪ್ರದ ಹಂತದಲ್ಲಿದ್ದೀರಿ!'
+			'🔥 ಅತಿಭಾರ ಸ್ಥಿತಿ — ವಿರಾಮ ತೆಗೆದುಕೊಂಡು "ಮರುಹೊಂದಿಸಿ"'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+ಹಂತ(
+	[
+		ಗುಂಪು(
+			ಸ್ಟ್ಯಾಕ್()
+			[
+				ನುಡಿಗಟ್ಟು('ಓದಿನ ಸ್ಥಿತಿ ಮಾಪಕ' ಗಾತ್ರ: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				ನುಡಿಗಟ್ಟು(ವಿವರಣೆ2 ಗಾತ್ರ: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				ನುಡಿಗಟ್ಟು(ಸಮಯಪಠ್ಯ ಗಾತ್ರ: 0.4m)
+
+				ನುಡಿಗಟ್ಟು(ಮನಸ್ಥಿತಿ ಗಾತ್ರ: 0.75m)
+
+				ಗುಂಪು(
+					ಸಾಲು(ಪ್ಯಾಡಿಂಗ್: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						ನುಡಿಗಟ್ಟು(
+							'ಓದಿನ ಸಮಯ ಸೇರಿಸಿ +1'
+							ಆಯ್ಕೆಮಾಡಬಹುದಾದ: ⊤
+							ಹೆಸರು: 'ಸೇರಿಸಿ'
+							ಬಣ್ಣ: ಬಣ್ಣ(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						ನುಡಿಗಟ್ಟು(
+							'ಮರುಹೊಂದಿಸಿ'
+							ಆಯ್ಕೆಮಾಡಬಹುದಾದ: ⊤
+							ಹೆಸರು: 'reset'
+							ಬಣ್ಣ: ಬಣ್ಣ(69% 47 271°)
+						)
+					]
+				)
+			]
+			ಮುಖ: "Aclonica"
+		)
+	]
+)

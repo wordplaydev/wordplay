@@ -1,0 +1,26 @@
+H
+PanjangKalimat
+===
+¶Ketik di bilah obrolan dan alat ini akan menghitung jumlah huruf pada kalimatmu.¶
+kalimat: Mengobrol()
+panjang2: Mengobrol().panjang()
+
+Kelompok(
+	Tumpukan()
+	[
+		Frasa(
+			`*Halo! Selamat datang di alat hitung panjang kalimat.*`
+			tempat: Tempat(0m 1m)
+		)
+		Frasa(
+			'Ketik sesuatu di bilah pesan!'
+			tempat: Tempat(0m -1m)
+		)
+		Frasa(
+			'Kalimatmu panjangnya ' + (panjang2 → '') + ' huruf!'
+			beristirahat: Urutan.bergoyang(lamanya: 3s)
+			tempat: Tempat(0m -3m)
+		)
+		Frasa(kalimat tempat: Tempat(0m -5m) membungkus: 25m)
+	]
+)

@@ -1,0 +1,300 @@
+🫲
+Konduktor
+=== start/en
+¶Pangunahan ang isang imperyal na hukbo gamit ang isang kamay lang. Walang keyboard, walang buton — pinapanood ng kamera ang iyong kamay at may sagot ang isang orkestra ng walong instrumento.
+
+Itaas ang iyong kamay at sasabay ang orkestra, isang bahagi sa isang pagkakataon, hanggang tumutugtog na ang lahat ng walo. Ibaba ito at unti-unting mawawala ang mga ito hanggang mag-isa na lang ang himig. Idausdos pakaliwa para bagalan ang martsa, pakanan para bilisan ito. Kung ilang daliri ang nakataas mo, iyon ang pumipili kung sino ang tutugtog ng himig.
+
+Nakalimbag sa entablado ang bawat panuto, kaya matututunan mo ito kahit hindi mo ito basahin.¶
+
+kamay: Kamay()
+
+¶Ang taas ay kung gaano karami ang orkestra, at ang gilid-gilid na galaw ay kung gaano kabilis. Parehong direktang binabasa mula sa kamay, hindi tinatandaan, kaya sinusunod nila ito nang tuloy-tuloy. Naka-ikot ang bawat isa sa isang hakbang, kaya nagbabago lang ang musika kapag sapat na kalaki ang pagbabago para marinig, at hindi ito muling isusulat nang dalawampung beses kada segundo dahil lang sa nanginginig na kamay.¶
+itaas: ((kamay.lugar.taon + 3m) ÷ 6m).minuto(1).pinakamataas(
+		0
+	)
+mgaLayer: 1 + ((itaas · 7).bilog())
+
+abot: ((kamay.lugar.x + 5m) ÷ 10m).minuto(1).pinakamataas(
+		0
+	)
+bilis2: 72 + ((abot · 8).bilog() · 12)
+
+¶Sino ang tumutugtog ng himig. Kapwa binibilang na walang daliri ang isang kamaong nakasara at ang kamay na wala sa larawan, kaya nananatili sa dating tumutugtog ang walang daliri — kung hindi, magbabago ang tono kapag tumingin ka sa ibang dako.¶
+itinatampok: 5 … ∆ kamay …
+		(kamay.mgadaliri = 0) ? itinatampok kamay.mgadaliri
+
+ƒ boses2(bilang2•#)•Instrumento
+	(bilang2 = 1) ? Instrumento.piyano
+		(bilang2 = 2) ? Instrumento.biyolin
+			(bilang2 = 3) ? Instrumento.plauta
+				(bilang2 = 4) ? Instrumento.gitaraElektriko
+					Instrumento.trumpeta
+
+ƒ icon(bilang3•#)•''
+	(bilang3 = 1) ? '🎹'
+		(bilang3 = 2) ? '🎻'
+			(bilang3 = 3) ? '🪈'
+				(bilang3 = 4) ? '⚡'
+					'🎺'
+
+¶Kung gaano kalakas ang isang bahagi. Nananatili sa musika ang bawat bahagi sa lahat ng oras, kaya hindi nawawala ang lugar ng sinuman sa kanila — ang mga nasa itaas ng kamay ay pinababa lang nang husto.
+
+Nakatakda ang bawat isa sa mas mababang antas kaysa sa himig, at pinagsama-sama ang lahat ng walo ay hindi umaabot sa doble nito. Hindi malakas na orkestra ang walong bahagi sa full volume, kundi malabo — dahil kailangang dumaan sa iisang speaker ang lahat ng tunog na sabay-sabay.¶
+ƒ narinig(ranggo•# malakas•%)•% (ranggo ≤ mgaLayer) ? malakas 0%
+
+¶Ang Imperial March, walong bar, isang bar bawat linya. Nakasulat ito sa chromatic scale para masulat kahit ang mga notang labas sa key nito — ang flat na ikalawa, at ang chromatic slide sa ikalawang kalahati — dahil ang antas 1 ay ang tonic, at bawat pagtaas ng isang hakbang ay isang semitone, kaya intervals ang mga numerong ito, hindi mga scale steps.
+
+Ang mga halaga ng nota ang may hawak ng ritmo. Isang hubad na numero ay tumatagal ng beat ng track, isang quarter note dito, at ang ibang haba ay nakasaad mismo sa numero: 𝅘𝅥𝅮𝅭 para sa dotted eighth at 𝅘𝅥𝅯 para sa sixteenth na nagbibigay-tulak sa martsa, 𝅗𝅥 para sa half note na kinahihinatnan nito. Ang bawat linya ay umaabot sa apat na beat.¶
+martsa: [
+		5
+		5
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		12
+		12
+		12
+		13𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		4
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		17
+		5𝅘𝅥𝅮𝅭
+		5𝅘𝅥𝅯
+		17
+		16𝅘𝅥𝅮𝅭
+		15𝅘𝅥𝅯
+		14𝅘𝅥𝅯
+		13𝅘𝅥𝅯
+		14
+		6𝅘𝅥𝅮
+		11
+		9𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		7𝅘𝅥𝅯
+		6𝅘𝅥𝅯
+		7
+		1𝅘𝅥𝅮
+		4
+		1𝅘𝅥𝅮𝅭
+		4𝅘𝅥𝅯
+		8
+		5𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		12𝅗𝅥
+	]
+
+¶Apat na bar ng mga root note sa ilalim nito, nagmamartsa sa quarters. Mas maikli ito kaysa sa himig, at umuulit ang bawat track sa sarili nitong haba, kaya umiikot nang dalawang beses ang apat na bar na ito para tumugma sa walong bar ng himig.¶
+bass: [
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		5
+		5
+		12
+		8
+	]
+
+¶Isang bar lang ng mga drum, gamit ang sariling ritmo ng himig. Kumukuha ang mga antas mula sa isang set ng drum, hindi sa isang scale, sa isang instrumentong walang pitch, kaya ang 1 ay bass drum, ang 2 ay snare, ang 3 ay hi-hat, at ang 5 ay tom.¶
+mgaTambol2: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
+
+¶Mga chord sa afterbeats, ang tulak na pumipigil sa martsa na manatiling tahimik. Ang ikatlong bar ay humihilig sa minor chord na isa't kalahating hakbang pababa, kung saan nanggagaling ang mga flat na nota ng himig.¶
+mgaKwerdas: [
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{1 4 8}
+		ø
+		{1 4 8}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+	]
+
+¶Ang parehong apat na bar, pinananatili bilang hubad na fifths, isa bawat bar. Walang third ang fifth, kaya nananatili itong hiwalay sa mga chromatic na nota sa itaas.¶
+pad: [{5 12} {5 12} {1 8} {5 12}]
+
+¶Isang kampana sa unang bar at sa ikatlo. Isang whole note ang beat nito, kaya ang isang rest dito ay isang buong bar ng katahimikan.¶
+mgaKampanilya: [5 ø 1 ø]
+
+¶Isang mataas na sagot sa mga puwang, kung saan nananatiling tahimik ang himig.¶
+counter: [
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		20𝅗𝅥
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		17𝅗𝅥
+	]
+
+kanta: Musika(
+		[
+			Track(
+				martsa
+				instrumento: boses2(itinatampok)
+				lakasNgTunog: 55%
+				beat: 1𝅘𝅥
+			)
+			Track(
+				bass
+				instrumento: Instrumento.synthBass
+				beat: 1𝅘𝅥
+				susi: -24semitones
+				lakasNgTunog: narinig(2 30%)
+			)
+			Track(
+				mgaTambol2
+				instrumento: Instrumento.mgaTambol
+				beat: 1𝅘𝅥
+				lakasNgTunog: narinig(3 20%)
+			)
+			Track(
+				martsa
+				instrumento: Instrumento.saksopon
+				beat: 1𝅘𝅥
+				susi: -12semitones
+				lakasNgTunog: narinig(4 22%)
+			)
+			Track(
+				pad
+				instrumento: Instrumento.synthPad
+				beat: 1𝅝
+				susi: -12semitones
+				lakasNgTunog: narinig(5 16%)
+			)
+			Track(
+				mgaKwerdas
+				instrumento: Instrumento.biyolin
+				beat: 1𝅘𝅥
+				lakasNgTunog: narinig(6 18%)
+			)
+			Track(
+				mgaKampanilya
+				instrumento: Instrumento.kampana
+				beat: 1𝅝
+				susi: 12semitones
+				lakasNgTunog: narinig(7 12%)
+			)
+			Track(
+				counter
+				instrumento: Instrumento.plauta
+				beat: 1𝅘𝅥
+				lakasNgTunog: narinig(8 14%)
+			)
+		]
+		tempo: bilis2 · 1beats/min
+		iskala: Musika.chromatic
+		pangalan: 'imperyal na martsa'
+	)
+
+¶Kung gaano na kalayo ang narating ng hukbo. Binibilang nito ang sarili nitong tick sa halip na basahin ang orasan, at mas mabilis itong binibilang kapag mas mabilis ang martsa, kaya lumilipad ang mga barko ayon sa tempo.¶
+maglakbay: 0 … ∆ Oras(40ms) … maglakbay + (bilis2 ÷ 72)
+
+ƒ katayuan()•'' '\mgaLayer\ of 8 playing · \bilis2\ beats a minute'
+
+¶Isang linya ng mga panuto, madilim para mauna munang mabasa ang hukbo at ang pangunahing manlalaro.¶
+ƒ linya(teksto2•'')•Parirala Parirala(
+		teksto2
+		0.3m
+		kulay: Kulay(64% 4 265°)
+	)
+
+¶Ang mga panuto, nakasalansan sa kaliwang gilid sa halip na nasa gitna, para tuluy-tuloy na mabasa ito pababa.¶
+ipakita: Grupo(
+		Patongpatong('<' 0.16m)
+		[
+			Parirala(
+				icon(itinatampok)
+				0.9m
+				kulay: Kulay(56% 65 25°)
+			)
+			Parirala(katayuan() 0.38m kulay: Kulay(70% 25 30°))
+			linya(
+				'itaas ang iyong kamay — mas maraming orkestra'
+			)
+			linya('ibaba ito — nag-iisang himig')
+			linya(
+				'kamay pakaliwa — mas mabagal · kamay pakanan — mas mabilis'
+			)
+			linya(
+				'mga daliring nakataas — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺'
+			)
+		]
+	)
+
+¶Isang barko na tumatawid sa entablado, lumilipad sa isang bandang mataas nang husto sa itaas ng mga panuto para hindi ito dumaan sa teksto. Itinatakda ng lane nito kung gaano ito kataas lumipad at kung gaano ito kalayo magsimula, kaya hindi sila kailanman lumilipad nang magkasabay.¶
+ƒ barko(glyph•'' linya2•# bilis3•#)•Parirala
+	Parirala(
+		glyph
+		0.7m
+		lugar: Lugar(
+			(((((maglakbay · bilis3) + (linya2 · 47)) % 200) - 100) · 0.045) · 1m
+			((linya2 · 0.65) + 2.2) · 1m
+		)
+	)
+
+plota: [
+		barko('🛸' 0 3)
+		barko('🚀' 1 2)
+		barko('🛰' 2 4)
+		barko('🛸' 3 5)
+	]
+
+ƒ bituin(x2•# y2•# sukat2•#)•Parirala
+	Parirala(
+		'✦'
+		sukat2 · 1m
+		lugar: Lugar(x2 · 1m y2 · 1m)
+		kulay: Kulay(46% 8 275°)
+	)
+
+¶Nagla-zoom ang entablado para bumagay sa kahit anong nasa loob nito, kaya kung may gumagalaw, muling babagayin ang buong larawan sa bawat tick at magpapalutang-lutang sa mga salita. Ang apat na sulok na bituin ay mas malayo pa kaysa sa kahit saang lipad ng mga barko at mas malayo pa kaysa sa pinakamahabang linya ng teksto, kaya may isang balangkas ang pagbagay na hindi kailanman nagbabago, at nananatiling matatag ang larawan. Ang natitira ay langit lamang.¶
+mgaBituin: [
+		bituin(-5.6 -2.3 0.18)
+		bituin(5.6 -2.3 0.18)
+		bituin(-5.6 5 0.18)
+		bituin(5.6 5 0.18)
+		bituin(-4.9 2.1 0.22)
+		bituin(-3.9 3.9 0.14)
+		bituin(-2.2 2.5 0.18)
+		bituin(1.1 3.4 0.14)
+		bituin(2.7 4.4 0.22)
+		bituin(4.6 2.7 0.14)
+	]
+
+Entablado(
+	[:mgaBituin :plota ipakita kanta]
+	background: Kulay(7% 6 275°)
+	kulay: Kulay(88% 3 265°)
+)

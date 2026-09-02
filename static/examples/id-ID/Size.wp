@@ -1,0 +1,15 @@
+s
+Ukuran
+=== start/en
+¶Klik atau tekan tombol untuk berganti antara BESAR dan kecil dengan warna yang berubah.¶
+word/en,字/zh: (Tombol(ø) | ∆ Kunci()) ? Frasa(
+			"BIG"/en"大"/zh
+			ukuran: 5m
+		) Frasa("small"/en"小"/zh ukuran: 1m)
+time/en,時間/zh: ((Waktu(1234ms)) ÷ 1ms) × 1°
+
+Panggung(
+	[word]
+	tempat: Tempat(0m 0m -5m)
+	latarbelakang: Warna(80% 28 time)
+)

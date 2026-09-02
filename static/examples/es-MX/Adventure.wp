@@ -1,0 +1,256 @@
+Y
+Aventura
+=== start/en
+¶Una aventura de texto en quince cuartos: despiertas atada en un cuarto oscuro y frío, y descubres uno de los cuatro finales posibles de esta noche. Los cuartos se conectan entre sí, así que un giro equivocado es un bucle y no un callejón sin salida, y lo que llevas contigo decide qué pasos están abiertos para ti.¶
+
+¶Una salida de un cuarto: cómo se llama la opción elegida, el id del cuarto al que da acceso y, si la puerta está cerrada con llave, qué debes llevar contigo para usarla. Nombrar el destino en vez de guardarlo es todo el truco. Un enlace tiene que existir antes de que algo pueda mencionarlo, así que una historia hecha solo de enlaces solo puede apuntar hacia atrás y nunca puede volver al mismo lugar. Un id de texto no tiene esa regla, así que dos cuartos pueden nombrarse el uno al otro, y el mapa puede tener bucles.¶
+•puerta(etiqueta•'' cuarto•'' necesita•'': '')
+
+¶Un cuarto. La mayoría de los cuartos solo necesita los primeros tres datos: un id, lo que encuentras ahí y sus puertas. Los últimos tres son para los cuartos especiales — uno que te da algo, y los cuatro que terminan la historia.¶
+•cuarto2(id2•'' descripción2•'' puertas•[puerta]: [] tomar•'': '' final2•'': '' ganó•?: ⊥)
+
+¶Dónde estás y qué llevas contigo. Esto es lo que la historia realmente es: un id de cuarto y un pequeño montón de cosas.¶
+•viaje(cuarto3•'' paquete•[''])
+
+¶Cada cuarto en una sola lista. Solo el primero importa por su posición: ahí es donde comienza la historia, y a donde te regresa cada final.¶
+cuartos•[cuarto2]: [
+		cuarto2(
+			'celda'
+			'Despiertas en un cuarto oscuro y frío que huele a moho. Tienes las muñecas atadas detrás de la espalda, y quien hizo los nudos no tuvo ninguna prisa.'
+			[
+				puerta('girar hacia un costado' 'piso')
+				puerta('quedarte quieta y escuchar' 'escuchar')
+			]
+		)
+		cuarto2(
+			'escuchar'
+			'Dos voces llegan desde abajo, a través de las tablas del piso. Están discutiendo sobre quién dejó abierta la reja, y ninguna suena preocupada por ti.'
+			[puerta('girar hacia un costado' 'piso')]
+		)
+		cuarto2(
+			'piso'
+			'De costado puedes ver debajo del catre: un cuchillo sobre las losas, oxidado a lo largo del filo, lo bastante cerca como para alcanzarlo si estás dispuesta a poner la cara en el piso.'
+			[
+				puerta('tomarlo y cortarte las ataduras' 'sótano')
+				puerta(
+					'quedarte quieta y escuchar de nuevo'
+					'escuchar'
+				)
+			]
+		)
+		cuarto2(
+			'sótano'
+			'El sótano, de pie: el catre, un montón de cuerda cortada, una escalera que sube por una pared y un pasadizo bajo que sale por la otra.'
+			[
+				puerta('subir la escalera' 'escalera')
+				puerta('tomar el pasadizo bajo' 'pasadizo')
+			]
+			tomar: 'cuchillo'
+		)
+		cuarto2(
+			'escalera'
+			'Escalones gastados en el medio. A la mitad hay un descanso con una linterna colgada de un gancho, y sobre el descanso la escalera sigue subiendo.'
+			[
+				puerta('tomar la linterna' 'linterna')
+				puerta('seguir subiendo' 'puerta')
+				puerta('bajar de nuevo' 'sótano')
+			]
+		)
+		cuarto2(
+			'linterna'
+			'la mecha prende al segundo intento, y el descanso resulta ser mucho más pequeño de lo que la oscuridad hacía parecer.'
+			[
+				puerta('seguir subiendo' 'puerta')
+				puerta('bajar de nuevo' 'sótano')
+			]
+			tomar: 'linterna'
+		)
+		cuarto2(
+			'puerta'
+			'al final de la escalera, una puerta pesada cerrada con cerrojo desde el otro lado. El cerrojo es viejo y el espacio junto a él es lo bastante ancho para una hoja de cuchillo.'
+			[
+				puerta('forzar el cerrojo con el cuchillo' 'salón')
+				puerta('bajar de nuevo' 'escalera')
+			]
+		)
+		cuarto2(
+			'salón'
+			'un salón con una chimenea apagada y dos sillas apartadas de ella, como si la discusión hubiera terminado de golpe. Al fondo hay una reja, y luz gris debajo de la reja.'
+			[
+				puerta('cruzar hacia la reja' 'reja')
+				puerta('bajar de nuevo por la escalera' 'escalera')
+			]
+		)
+		cuarto2(
+			'reja'
+			'la reja está encadenada, y la cadena pasa por un candado del tamaño de tu puño. Más allá, el camino baja hacia el valle.'
+			[
+				puerta(
+					'girar la llave en el candado'
+					'ladera'
+					necesita: 'clave'
+				)
+				puerta('trepar por la cadena en su lugar' 'trepar')
+				puerta('volver al salón' 'salón')
+			]
+		)
+		cuarto2(
+			'pasadizo'
+			'el pasadizo es tan bajo que avanzas apoyando una mano, y huele a río. Unos pasos más adentro, la oscuridad deja de ser sombra y se vuelve un muro.'
+			[
+				puerta('avanzar a tientas' 'a ciegas')
+				puerta(
+					'llevar la luz adentro'
+					'cripta'
+					necesita: 'linterna'
+				)
+				puerta('volver por donde llegaste' 'sótano')
+			]
+		)
+		cuarto2(
+			'cripta'
+			'La linterna encuentra un cuarto bajo de cajas de piedra, y en un gancho junto a la última, una llave oxidada con un trozo de tela todavía atado.'
+			[
+				puerta('seguir hacia el agua' 'río')
+				puerta('regresar por el pasillo' 'pasadizo')
+			]
+			tomar: 'clave'
+		)
+		cuarto2(
+			'a ciegas'
+			'Sigues con una mano al frente. La mano no encuentra nada, y un momento después tampoco tus pies. La oscuridad se queda con lo que le dan.'
+			final2: 'La oscuridad te retiene.'
+		)
+		cuarto2(
+			'trepar'
+			'Ya vas casi arriba cuando la cadena recuerda lo vieja que es. Te encuentran al pie del portón al amanecer, y esta vez traen suficiente cuerda para dos.'
+			final2: 'Atrapada en el portón.'
+		)
+		cuarto2(
+			'río'
+			'El pasillo termina en una reja sobre agua en movimiento. Los barrotes son viejos y el cuchillo es paciente. Sales con el río, y la casa queda lejos detrás de ti antes de que el cielo siquiera se ponga gris.'
+			final2: 'Fuera con el río.'
+			ganó: ⊤
+		)
+		cuarto2(
+			'ladera'
+			'La llave gira, la cadena cae sobre el pasto, y el portón se abre sin un sonido que nadie escuche. El valle está gris de mañana, y el camino es tuyo.'
+			final2: 'Fuera por el portón.'
+			ganó: ⊤
+		)
+	]
+
+¶El cuarto con este id. find() regresa ø cuando nada coincide, y un id que no nombra ningún cuarto es un hueco en el mapa en vez de un giro en la historia, así que el primer cuarto lo representa.¶
+ƒ ir(quería•'')•cuarto2 cuartos.find(
+		ƒ(cuarto4•cuarto2) cuarto4.id2 = quería
+	) ?? cuartos[1]
+
+¶Las puertas que en verdad puedes tomar desde aquí. Una puerta cerrada para la que no tienes nada simplemente no se ofrece, así que se lee como una pared hasta que tienes en las manos lo que la abre.¶
+ƒ caminos(aquí•cuarto2 paquete2•[''])•[puerta]
+	aquí.puertas.filter(
+		ƒ(puerta2•puerta) (puerta2.necesita = '') | paquete2.has(
+					puerta2.necesita
+				)
+	)
+
+¶Entra a un cuarto, recogiendo lo que contenga. add() te daría con gusto un segundo cuchillo, así que pregunta primero.¶
+ƒ llegar(aquí2•cuarto2 paquete3•[''])•viaje
+	viaje(
+		aquí2.id2
+		((aquí2.tomar ≠ '') & (~paquete3.has(aquí2.tomar))) ? paquete3.add(
+				aquí2.tomar
+			) paquete3
+	)
+
+clave2: Key()
+
+¶Una tecla presionada, en orden: en un final, cualquier tecla te despierta de nuevo en el primer cuarto; una tecla que no es 1, 2 o 3 no significa nada; un número mayor que la cantidad de puertas en este cuarto tampoco significa nada; y solo entonces es una puerta. Esa tercera prueba es la que vale la pena anotar, porque el acceso a la lista da la vuelta al llegar al final — sin ella, presionar 3 en un cuarto con dos puertas tomaría en silencio la primera.¶
+ƒ paso(t•viaje c2•'')•viaje (
+		aquí3: ir(t.cuarto3)
+		puertas2: caminos(aquí3 t.paquete)
+		aquí3.final2 ≠ '' ? viaje('celda' [])
+			~((c2 = '1') | (c2 = '2') | (c2 = '3')) ? t
+				(c2 → #) > puertas2.length() ? t
+					llegar(ir(puertas2[c2 → #].cuarto) t.paquete)
+	)
+
+viaje2•viaje: viaje('celda' []) … ∆ clave2 … paso(
+			viaje2
+			clave2
+		)
+
+aquí4: ir(viaje2.cuarto3)
+puertas3: caminos(aquí4 viaje2.paquete)
+
+¶Lo que llevas contigo, mostrado solo cuando llevas algo.¶
+llevar:
+	viaje2.paquete.length() > 0
+	? [
+			Phrase(
+				`*llevando* \viaje2.paquete.join(' · ')\`
+				tamaño: 0.3m
+				alineación: '|'
+				color: Color(60% 30 0°)
+			)
+		]
+		[]
+
+¶Lo que hay debajo del cuarto: sus puertas, numeradas para que lo que lees sea lo que presionas, o, en un final, cómo terminó y la única tecla que lo reinicia.¶
+abajo2:
+	aquí4.final2 ≠ ''
+	? [
+			Phrase(
+				`*\aquí4.final2\*`
+				tamaño: 0.8m
+				alineación: '|'
+				color: aquí4.ganó ? Color(85% 50 90°) Color(
+						45%
+						40
+						25°
+					)
+				duración: 1.5s
+				entrando: Pose(opacidad: 0% escala: 0.5)
+			)
+			Phrase(
+				`presiona cualquier tecla para despertar de nuevo`
+				tamaño: 0.3m
+				alineación: '|'
+				duración: 3s
+				entrando: Pose(opacidad: 0%)
+			)
+		]
+		puertas3.translate(
+			ƒ(puerta3•puerta índice2•#)
+				Phrase(
+					`\índice2\. *\puerta3.etiqueta\*`
+					tamaño: 0.5m
+					alineación: '|'
+					nombre: puerta3.etiqueta
+					duración: 1s
+					entrando: Pose(opacidad: 0%)
+				)
+		)
+
+Stage(
+	[
+		Group(
+			Stack()
+			[
+				Phrase(
+					aquí4.descripción2
+					tamaño: 0.5m
+					envolver: 14m
+					alineación: '|'
+					nombre: aquí4.id2
+					duración: 0.5s
+					entrando: Pose(desplazamiento: Place(0m 2m))
+				)
+				:llevar
+				:abajo2
+			]
+		)
+	]
+	fondo: Color(0 0 0°)
+	color: Color(100% 0 0°)
+	cara: "Permanent Marker"
+)

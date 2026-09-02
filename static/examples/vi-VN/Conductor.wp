@@ -1,0 +1,294 @@
+🫲
+Người điều khiển
+=== start/en
+¶Chỉ huy một hạm đội đế chế bằng một tay. Không bàn phím, không nút bấm — máyảnh theo dõi tay bạn và một dàn nhạc tám phần đáp lại.
+
+Giơ tay lên và dàn nhạc dần đầy đủ, từng phần một, cho đến khi cả tám phầncùng chơi. Hạ tay xuống và chúng dần biến mất cho đến khi chỉ còn lại giaiđiệu. Trượt sang trái để làm chậm khúc quân hành, sang phải để đẩy nhanh nó.Số ngón tay bạn giơ lên chọn ai sẽ chơi giai điệu.
+
+Mọi hướng dẫn đều được in trên sân khấu, nên bạn có thể học mà không cần đọcphần này.¶
+
+bànTay: Tay()
+
+¶Chiều cao là dàn nhạc chơi nhiều hay ít, và chiều ngang là tốc độ, cả hai đềuđược đọc trực tiếp từ tay bạn thay vì được ghi nhớ, nên chúng đi theo tay bạnliên tục. Mỗi giá trị được làm tròn theo từng bước, nên nhạc chỉ đổi khi sựthay đổi đủ lớn để nghe thấy, và một bàn tay run không làm bản nhạc thay đổihai mươi lần mỗi giây.¶
+nângLên: ((bànTay.vịTrí.y + 3m) ÷ 6m).phút(1).tốiđa(0)
+lớp: 1 + ((nângLên · 7).tròn())
+
+tầmVới: ((bànTay.vịTrí.x + 5m) ÷ 10m).phút(1).tốiđa(0)
+nhịpĐộ2: 72 + ((tầmVới · 8).tròn() · 12)
+
+¶Ai chơi giai điệu. Một nắm tay và một bàn tay ra ngoài khung hình đều được tínhlà không có ngón tay nào, nên khi không có ngón tay nào giơ lên, người đanhchơi vẫn tiếp tục chơi — nếu không, chỉ cần nhìn đi chỗ khác cũng làm đổi bảnnhạc.¶
+nổiBật: 5 … ∆ bànTay …
+		(bànTay.ngóntay = 0) ? nổiBật bànTay.ngóntay
+
+ƒ giọng(đếm2•#)•NhạcCụ
+	(đếm2 = 1) ? NhạcCụ.đànPiano
+		(đếm2 = 2) ? NhạcCụ.đànVĩCầm
+			(đếm2 = 3) ? NhạcCụ.sáo
+				(đếm2 = 4) ? NhạcCụ.ghiTaĐiện
+					NhạcCụ.kènTrumpet
+
+ƒ biểuTượng(đếm3•#)•''
+	(đếm3 = 1) ? '🎹'
+		(đếm3 = 2) ? '🎻'
+			(đếm3 = 3) ? '🪈'
+				(đếm3 = 4) ? '⚡'
+					'🎺'
+
+¶Một phần nhạc to hay nhỏ. Mọi phần luôn có mặt trong bản nhạc, nên không phầnnào từng mất vị trí của mình — những phần cao hơn vị trí tay chỉ đơn giản làđược vặn nhỏ hết cỡ.
+
+Mỗi phần được đặt thấp hơn nhiều so với giai điệu, và cả tám phần cộng lạivẫn nhỏ hơn hai lần giai điệu đó. Tám phần cùng ở âm lượng tối đa không tạo rasự to, mà tạo ra sự lộn xộn, vì mọi âm thanh phát cùng lúc phải phát qua cùngmột loa.¶
+ƒ ngheThấy(thứHạng•# to2•%)•% (thứHạng ≤ lớp) ? to2 0%
+
+¶Khúc Quân Hành Đế Chế, tám ô nhịp, mỗi ô nhịp một dòng. Nó được viết theothang âm nửa cung để những nốt lệch tông — nốt thứ hai giáng, và đoạn trượtnửa cung ở nửa sau — có thể được ghi lại: bậc 1 là âm chủ và mỗi bước lên làmột nửa cung, nên các con số này là khoảng cách quãng chứ không phải bậc củathang âm.
+
+Giá trị nốt mang nhịp điệu. Một con số đơn thuần kéo dài bằng một phách củabản nhạc, tức một nốt đen ở đây, còn độ dài khác được ghi ngay trên con số đó:𝅘𝅥𝅮𝅭 cho nốt móc đơn chấm dôi và 𝅘𝅥𝅯 cho nốt móc kép làm khúc quân hành bật tớitrước, 𝅗𝅥 cho nốt trắng mà nó dừng lại. Mỗi dòng cộng lại đủ bốn phách.¶
+diễuHành: [
+		5
+		5
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		12
+		12
+		12
+		13𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		4
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		17
+		5𝅘𝅥𝅮𝅭
+		5𝅘𝅥𝅯
+		17
+		16𝅘𝅥𝅮𝅭
+		15𝅘𝅥𝅯
+		14𝅘𝅥𝅯
+		13𝅘𝅥𝅯
+		14
+		6𝅘𝅥𝅮
+		11
+		9𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		7𝅘𝅥𝅯
+		6𝅘𝅥𝅯
+		7
+		1𝅘𝅥𝅮
+		4
+		1𝅘𝅥𝅮𝅭
+		4𝅘𝅥𝅯
+		8
+		5𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		12𝅗𝅥
+	]
+
+¶Bốn ô nhịp nốt gốc bên dưới, tiến bước theo từng nốt đen. Nó ngắn hơn giaiđiệu, và mỗi phần nhạc lặp lại theo độ dài riêng của nó, nên bốn ô nhịp nàyquay lại hai lần để khớp với tám ô nhịp của giai điệu.¶
+trầm: [
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		5
+		5
+		12
+		8
+	]
+
+¶Một ô nhịp trống duy nhất, theo đúng nhịp điệu của giai điệu. Các bậc chọn từmột bộ trống thay vì từ một thang âm, trên một nhạc cụ không có cao độ, nên 1là trống bass, 2 là trống snare, 3 là hi-hat và 5 là tom.¶
+trống2: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
+
+¶Các hợp âm vào phách nghịch, cú đẩy giữ cho khúc quân hành không đứng yên.Ô nhịp thứ ba nghiêng về hợp âm thứ thấp hơn một cung rưỡi, đó chính là nơisinh ra những nốt giáng của giai điệu.¶
+dây: [
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{1 4 8}
+		ø
+		{1 4 8}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+	]
+
+¶Cùng bốn ô nhịp đó được giữ dài dưới dạng quãng năm đơn thuần, mỗi ô nhịp một quãng. Quãng năm không có quãng ba trong nó, nên nó không cản trở những nốt nửa cung ở bên trên.¶
+đệm2: [{5 12} {5 12} {1 8} {5 12}]
+
+¶Một tiếng chuông ở ô nhịp thứ nhất và thứ ba. Phách của nó là một nốt tròn,nên khi nghỉ ở đây là nghỉ trọn cả ô nhịp.¶
+chuông2: [5 ø 1 ø]
+
+¶Một tiếng đáp cao ở những khoảng trống, nơi giai điệu đang giữ yên.¶
+bộĐếm: [
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		20𝅗𝅥
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		17𝅗𝅥
+	]
+
+bàiHát: ÂmNhạc(
+		[
+			BảnNhạc(
+				diễuHành
+				nhạcCụ: giọng(nổiBật)
+				âmLượng: 55%
+				nhịp: 1𝅘𝅥
+			)
+			BảnNhạc(
+				trầm
+				nhạcCụ: NhạcCụ.đànBassTổngHợp
+				nhịp: 1𝅘𝅥
+				chìaKhóa: -24semitones
+				âmLượng: ngheThấy(2 30%)
+			)
+			BảnNhạc(
+				trống2
+				nhạcCụ: NhạcCụ.trống
+				nhịp: 1𝅘𝅥
+				âmLượng: ngheThấy(3 20%)
+			)
+			BảnNhạc(
+				diễuHành
+				nhạcCụ: NhạcCụ.kènSaxophone
+				nhịp: 1𝅘𝅥
+				chìaKhóa: -12semitones
+				âmLượng: ngheThấy(4 22%)
+			)
+			BảnNhạc(
+				đệm2
+				nhạcCụ: NhạcCụ.đànPadTổngHợp
+				nhịp: 1𝅝
+				chìaKhóa: -12semitones
+				âmLượng: ngheThấy(5 16%)
+			)
+			BảnNhạc(
+				dây
+				nhạcCụ: NhạcCụ.đànVĩCầm
+				nhịp: 1𝅘𝅥
+				âmLượng: ngheThấy(6 18%)
+			)
+			BảnNhạc(
+				chuông2
+				nhạcCụ: NhạcCụ.chuông
+				nhịp: 1𝅝
+				chìaKhóa: 12semitones
+				âmLượng: ngheThấy(7 12%)
+			)
+			BảnNhạc(
+				bộĐếm
+				nhạcCụ: NhạcCụ.sáo
+				nhịp: 1𝅘𝅥
+				âmLượng: ngheThấy(8 14%)
+			)
+		]
+		nhịpĐộ: nhịpĐộ2 · 1beats/min
+		thangÂm: ÂmNhạc.nửaCung
+		tên: 'khúc quân hành đế chế'
+	)
+
+¶Hạm đội đã đi được bao xa. Nó đếm nhịp của riêng mình thay vì đọc đồng hồ,và đếm nhanh hơn khi khúc quân hành nhanh hơn, nên các con tàu bay theo nhịpđộ của nhạc.¶
+diChuyển: 0 … ∆ Thờigian(40ms) … diChuyển + (nhịpĐộ2 ÷ 72)
+
+ƒ trạngThái()•'' '\lớp\ of 8 playing · \nhịpĐộ2\ beats a minute'
+
+¶Một dòng hướng dẫn, làm mờ đi để hạm đội và người chơi chính được đọc trước.¶
+ƒ dòng(vănBản2•'')•Cụmtừ Cụmtừ(
+		vănBản2
+		0.3m
+		màusắc: Màusắc(64% 4 265°)
+	)
+
+¶Các hướng dẫn, xếp chồng theo mép trái thay vì căn giữa, để mắt có thể chạythẳng xuống theo chúng.¶
+hiểnThị: Nhóm(
+		Ngănxếp('<' 0.16m)
+		[
+			Cụmtừ(
+				biểuTượng(nổiBật)
+				0.9m
+				màusắc: Màusắc(56% 65 25°)
+			)
+			Cụmtừ(trạngThái() 0.38m màusắc: Màusắc(70% 25 30°))
+			dòng('giơ tay lên — nhiều dàn nhạc hơn')
+			dòng('hạ tay xuống — chỉ còn giai điệu')
+			dòng(
+				'tay sang trái — chậm hơn · tay sang phải — nhanh hơn'
+			)
+			dòng(
+				'số ngón tay giơ lên — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺'
+			)
+		]
+	)
+
+¶Một con tàu băng qua sân khấu, bay ở một dải cao hơn hẳn phần hướng dẫn nênnó không bao giờ cắt ngang chữ. Làn bay của nó quyết định nó bay cao đến đâuvà bắt đầu xa đến đâu, nên chúng không bao giờ bay thành đội hình.¶
+ƒ tàu(kýHiệu•'' làn•# tốcĐộ•#)•Cụmtừ
+	Cụmtừ(
+		kýHiệu
+		0.7m
+		vịTrí: VịTrí(
+			(((((diChuyển · tốcĐộ) + (làn · 47)) % 200) - 100) · 0.045) · 1m
+			((làn · 0.65) + 2.2) · 1m
+		)
+	)
+
+độiTàu: [
+		tàu('🛸' 0 3)
+		tàu('🚀' 1 2)
+		tàu('🛰' 2 4)
+		tàu('🛸' 3 5)
+	]
+
+ƒ ngôiSao(x2•# y2•# kíchThước2•#)•Cụmtừ
+	Cụmtừ(
+		'✦'
+		kíchThước2 · 1m
+		vịTrí: VịTrí(x2 · 1m y2 · 1m)
+		màusắc: Màusắc(46% 8 275°)
+	)
+
+¶Sân khấu phóng to hoặc thu nhỏ để vừa với mọi thứ trên đó, nên bất cứ thứ gìdi chuyển cũng sẽ làm đổi tỉ lệ cả bức tranh ở mỗi nhịp và khiến chữ trôi nổi.Bốn ngôi sao ở góc nằm xa hơn bất cứ con tàu nào từng bay tới và xa hơn dòngchữ dài nhất, nên khung hình có một giới hạn không bao giờ đổi và bức tranhđứng yên. Phần còn lại chỉ là bầu trời.¶
+nhữngNgôiSao: [
+		ngôiSao(-5.6 -2.3 0.18)
+		ngôiSao(5.6 -2.3 0.18)
+		ngôiSao(-5.6 5 0.18)
+		ngôiSao(5.6 5 0.18)
+		ngôiSao(-4.9 2.1 0.22)
+		ngôiSao(-3.9 3.9 0.14)
+		ngôiSao(-2.2 2.5 0.18)
+		ngôiSao(1.1 3.4 0.14)
+		ngôiSao(2.7 4.4 0.22)
+		ngôiSao(4.6 2.7 0.14)
+	]
+
+Sânkhấu(
+	[:nhữngNgôiSao :độiTàu hiểnThị bàiHát]
+	lýlịch: Màusắc(7% 6 275°)
+	màusắc: Màusắc(88% 3 265°)
+)

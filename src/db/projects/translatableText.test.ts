@@ -87,3 +87,30 @@ test('a concatenated string is still translated', async () => {
     const { sent } = await translate(`name: 'world'\n('hello ' + name)`);
     expect(sent).toContain('hello ');
 });
+
+test('a value the program compares against is protected everywhere it appears', async () => {
+    // WhatWord's status machine: `"playing"` is assigned in one branch and
+    // compared in another. The comparison operand was always protected;
+    // translating the assignment silently broke the equality (#1276's failure,
+    // one step removed), so the value is data everywhere it appears.
+    const { sent, out } = await translate(
+        `status: 1 > 0 ? "playing" "idle"\nover: status = "playing"`,
+    );
+    expect(sent).not.toContain('playing');
+    expect(out).toContain('"playing"');
+    // A value never compared is still prose.
+    expect(sent).toContain('idle');
+});
+
+test('a time zone and a calendar identifier are names, not words', async () => {
+    // `'Asia/Tokyo'` and `'japanese'` are identifiers the platform validates,
+    // so translating them raises UnknownTimeZone/UnknownCalendar — which is
+    // how every localized Clock lost the example in its own documentation.
+    const { sent, out } = await translate(
+        `Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '')`,
+    );
+    expect(sent).not.toContain('Asia/Tokyo');
+    expect(sent).not.toContain('japanese');
+    expect(out).toContain('Asia/Tokyo');
+    expect(out).toContain('japanese');
+});

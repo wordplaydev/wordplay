@@ -1,0 +1,124 @@
+↑
+Mê cung
+=== start/en
+¶A maze is a 2D grid of emoji, with some functions for checking the state at particular grid postions.
+Mazes are generated randomly.¶/en
+•mêCung() (
+	lưới•[[''|ø]]:
+		[
+			['🎬' '❤' '❌' ø ø]
+			['❤' ø ø ø ø]
+			['🐈' '😀' '💬' '🫥' '😞']
+			[ø '👍' ø ø '😕']
+			['🤩' '🥹' ø '😫' '😡']
+		]
+
+	ƒ phòngGiam(hàng2•# cột2•#) (
+			tếBào2: lưới[hàng2]
+			tếBào2•[] ? tếBào2[cột2] ø
+		)
+
+	ƒ đượcPhép(hàng3•# cột3•#) phòngGiam(hàng3 cột3)•''
+)
+
+mêCung2: mêCung()
+
+•trạngThái(hàng4•# cột4•# bước•#)
+(
+	ƒ xuống2() trạngThái(hàng4 + 1 cột4 bước + 1)
+	ƒ lên() trạngThái(hàng4 - 1 cột4 bước + 1)
+	ƒ trái() trạngThái(hàng4 cột4 - 1 bước + 1)
+	ƒ phải() trạngThái(hàng4 cột4 + 1 bước + 1)
+)
+
+ƒ đượcPhép2(trạngThái2•trạngThái hàng5•# cột5•#) mêCung2.đượcPhép(
+		trạngThái2.hàng4 + hàng5
+		trạngThái2.cột4 + cột5
+	)
+
+hướng: Sựlựachọn()
+trạngThái3•trạngThái: trạngThái(1 1 0) … ∆ hướng …
+		((hướng = "left") & đượcPhép2(trạngThái3 0 -1)) ? trạngThái3.trái(
+			)
+			((hướng = "right") & đượcPhép2(trạngThái3 0 1)) ? trạngThái3.phải(
+				)
+				((hướng = "up") & đượcPhép2(trạngThái3 -1 0)) ? trạngThái3.lên(
+					)
+					((hướng = "down") & đượcPhép2(trạngThái3 1 0)) ? trạngThái3.xuống2(
+						)
+						trạngThái3
+
+hiệnTại: (
+		phòngGiam2: mêCung2.phòngGiam(
+				trạngThái3.hàng4
+				trạngThái3.cột4
+			)
+		phòngGiam2 ?? ' ')
+lên2: mêCung2.phòngGiam(
+		trạngThái3.hàng4 - 1
+		trạngThái3.cột4
+	)•''
+xuống3: mêCung2.phòngGiam(
+		trạngThái3.hàng4 + 1
+		trạngThái3.cột4
+	)•''
+trái2: mêCung2.phòngGiam(
+		trạngThái3.hàng4
+		trạngThái3.cột4 - 1
+	)•''
+phải2: mêCung2.phòngGiam(
+		trạngThái3.hàng4
+		trạngThái3.cột4 + 1
+	)•''
+thắng: hiệnTại = '🤩'
+
+Sânkhấu(
+	[
+		Nhóm(
+			Lưới(3 3 0.25m)
+			[
+				ø
+				Cụmtừ(
+					'↑'
+					tên: 'up'
+					cóthểlựachọn: lên2
+					nghỉngơi: Tưthế(độmờđục: lên2 ? 1 0.2)
+				)
+				ø
+				Cụmtừ(
+					'←'
+					tên: 'left'
+					cóthểlựachọn: trái2
+					nghỉngơi: Tưthế(độmờđục: trái2 ? 1 0.2)
+				)
+				Cụmtừ(
+					hiệnTại
+					nghỉngơi: thắng ?
+						Sựliêntiếp.quay(
+							khoảngthờigian: 1s
+							phongcách: 'straight'
+						)
+						Tưthế()
+				)
+				Cụmtừ(
+					'→'
+					tên: 'right'
+					cóthểlựachọn: phải2
+					nghỉngơi: Tưthế(độmờđục: phải2 ? 1 0.2)
+				)
+				ø
+				Cụmtừ(
+					'↓'
+					tên: 'down'
+					cóthểlựachọn: xuống3
+					nghỉngơi: Tưthế(độmờđục: xuống3 ? 1 0.2)
+				)
+				ø
+			]
+		)
+	]
+	vịTrí: VịTrí(0m 0m -3m)
+	khuônmặt: 'Noto Emoji'
+	lýlịch: Màusắc(0 0 0°)
+	nghỉngơi: Tưthế(Màusắc(100 100 0°))
+)

@@ -1,0 +1,28 @@
+🎭
+MotsParlés
+=== start
+¶Parle, et tes mots apparaissent à des endroits et des tailles au hasard.¶
+clic: Bouton(ø)
+parole: Discours(
+		réinitialiser: clic
+		langue: 'fr-FR'
+		limite: 10
+	)
+x2: Aléatoire(-10m 10m) … ∆ parole … Aléatoire(-10m 10m)
+y2: Aléatoire(-10m 10m) … ∆ parole … Aléatoire(-10m 10m)
+taillefdutexte: Aléatoire(1m 3m) … ∆ parole … Aléatoire(
+			1m
+			3m
+		)
+Scène(
+	[
+		Phrase(
+			parole
+			lieu: Lieu(x2 y2)
+			couleur: Couleur(0% 0% 0°)
+			taille: taillefdutexte
+		)
+	]
+	arrièreplan: Couleur(100% 0% 0°)
+)
+

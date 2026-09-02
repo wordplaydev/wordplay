@@ -1,0 +1,662 @@
+🔨
+Balok Penyusun
+=== start/en
+¶Balok Bangunan — tebang, bawa, dan tumpuk. Kamu adalah sosok kecil di padang hijau yang dipenuhi pohon dan batu besar. Berjalanlah dengan tombol panah; kamu akan menghadap ke arah kamu berjalan, dan penunjuk yang melayang menunjukkan sel yang akan kamu kenai.
+
+Spasi punya dua tugas, dan penunjuk memberitahumu yang mana. Saat tumpukan di depanmu naik melebihi kakimu, penunjuk menjadi 🪏 dan Spasi akan merobohkan bagian atasnya; saat tumpukan itu sejajar atau lebih rendah dari kakimu, penunjuk menjadi 🔨 dan Spasi akan menumpuk balok di atasnya. Jadi, mengumpulkan cukup dengan berjalan mendekati pohon lalu menekan Spasi, dan membangun ke atas berarti kamu ikut naik sambil bekerja. Berjalan melewati potongan lepas akan membuatmu mengantonginya — pohon memberi 🪵 kayu, batu besar memberi 🧱 bata — dan tekan Shift untuk mengganti bahan yang akan kamu tumpuk.
+
+Kamu hanya bisa menjangkau satu balok di atas pijakanmu sendiri, dan penunjuk akan memudar saat sesuatu di luar jangkauan. Batu besar tingginya dua, jadi kamu bisa menyelesaikan bagian atasnya dari tanah — tapi pohon tingginya tiga, jadi bagian puncaknya butuh ketinggian tambahan. Tekan j untuk melompat dan mengayun di puncaknya, atau tumpuk sebuah balok, naik ke atasnya, dan bekerja dari sana. Berjalan tidak pernah membuatmu naik, jadi kamu selalu bisa menghadap sesuatu dengan lurus dan bertindak padanya.
+
+Balok yang memudar menunjukkan struktur yang harus kamu buat, dan setiap balok menjadi utuh saat kamu mencocokkannya. Cocokkan semuanya dan kamu menang — apa pun yang tersisa di sekitar adalah urusanmu sendiri, jadi anak tangga yang kamu buat untuk naik boleh saja tetap ada di tempatnya.¶
+
+¶Dunia ini adalah kisi-kisi sel bernomor bulat, dan satuan meter hanya muncul saat menggambar. Ini membuat setiap posisi tepat: berdiri di sebelah sesuatu, menumpuk di atas sesuatu, dan mencocokkan tujuan semuanya hanyalah angka bulat yang sama, jadi tidak ada yang pernah bergeser setengah balok dari jalurnya.
+
+Lapangannya sengaja dibuat hanya lima sel dalamnya, dan ini berkaitan dengan seberapa dekat kamera berada — lihat kamera di bagian bawah.¶
+xMin: -4
+xMaks: 4
+zMin: 0
+zMaks: 4
+yMaks: 4
+
+¶Seberapa jauh tanah berada di bawah tinggi mata, dalam satuan sel. Semakin dekat kamera, semakin besar semuanya digambar, dan semakin jauh ini mendorong lapangan ke bawah layar, jadi nilai ini dan jarak kamera harus berubah bersamaan.¶
+jatuhTanah: 0.8
+
+¶Seberapa jauh kamera berada di belakangmu, dalam satuan sel. Nilai ini sendiri menentukan seberapa besar tampilan segalanya: panggung membagi berdasarkan jarak dari kamera, jadi tiga sel ke belakang membuat kamu digambar sekitar dua setengah kali ukuran aslinya.¶
+belakangKamera: 3
+
+¶Seberapa jauh seluruh lapangan berada dari titik asal. Panggung menskalakan dunia dengan satu dibagi posisi kamera itu sendiri, dan setiap bagian dengan kebalikannya, sehingga saling meniadakan — kecuali posisi kamera mencapai nol, di mana seluruh adegan menjadi datar lalu terbalik. Kamera berada sejauh cameraBack sel di belakangmu, jadi menjaga lapangan sejauh ini membuat posisi kamera tetap nyaman berada di angka negatif bahkan saat kamu berjalan ke baris paling belakang. Ini tidak memengaruhi tampilan apa pun; ini hanya menjaga perhitungan tetap jauh dari nol.¶
+belakangDunia: 4
+
+¶Pusat sebuah sel, dalam satuan meter. Setengahnya menggeser x ke belakang karena sebuah frasa ditempatkan berdasarkan tepi kirinya.¶
+ƒ diX(c2•#) ((c2 - 0.5) · 1m)
+ƒ diY(c3•#) ((c3 - jatuhTanah) · 1m)
+ƒ diZ(c4•#) ((c4 - belakangDunia) · 1m)
+
+¶Berapa lama palu tetap siap, dan berapa banyak bingkai kamu melayang di udara setelah melompat. Waktu melayang ini yang membuat lompatan bisa digunakan: tanpanya, sebuah lompatan hanya berlangsung satu bingkai, terlalu singkat untuk menekan tombol panah, mengayun, atau mendarat di sebuah balok.¶
+ketukAyun: 2
+ketukGantung: 4
+
+¶Seberapa banyak bagian dunia di belakangmu yang masih digambar. Lihat kamera di bawah untuk memahami alasan hal ini ada: semakin dekat kamera, semakin sedikit baris di belakangmu yang bisa digambar sebelum salah satunya berakhir di depan lensa dan membesar memenuhi tampilan.¶
+gambarBelakang: 1
+
+¶Seberapa tinggi di atas pijakanmu sendiri kamu bisa bekerja. Satu balok adalah yang membuat ketinggian menjadi penting: batu besar tingginya dua, jadi kamu bisa menyelesaikan bagian atasnya sambil berdiri di tanah, tapi pohon tingginya tiga, jadi kamu harus melompat atau berdiri di atas sesuatu untuk mencapai puncaknya — dan batas yang sama menentukan seberapa tinggi kamu bisa menumpuk.¶
+jangkau: 1
+
+¶Satu kubus yang berada dalam satu sel. Jenisnya adalah emoji itu sendiri, jadi menggambar sebuah balok tidak pernah membutuhkan pencarian data.¶
+•blok(x2•# y2•# z2•# jenis2•"")
+
+¶Sebuah potongan yang terlepas dan jatuh ke tanah. Ia mengingat sel tempat ia pecah, jadi bingkai pertamanya digambar di tempat balok itu berada, dan setiap bingkai setelahnya digambar di tempat ia mendarat — pelunakan gerak dari frasa itu sendiri yang membuat efek terbangnya. id hanya ada untuk memberinya nama tersendiri di panggung, karena dua potongan bisa saja mendarat di satu sel yang sama.¶
+•item2(id2•# x3•# z3•# dariX•# dariY•# dariZ•# jenis3•"" usia•#)
+
+¶Seluruh permainan dalam satu nilai: tahap (1 = judul, 2 = bermain, 3 = menang), di mana kamu berdiri dan ke arah mana kamu terakhir bergerak, berapa lama kamu bisa bertahan saat melompat, apa yang kamu bawa dan bahan mana yang akan kamu pasang, berapa banyak ayunan palu yang tersisa, id untuk kepingan lepas berikutnya, struktur yang harus dicocokkan, dan segala hal di dunia itu.¶
+•permainan(fase•# x4•# y3•# z4•# menghadapX•# menghadapZ•# gantung•# kayu•# bata•# terpilih•"" ayun2•# idBerikutnya•# tujuan•[blok] blok2•[blok] barang2•[item2])
+
+¶Sebuah pohon adalah tiga kubus yang ditumpuk, dan sebuah batu besar adalah dua — bukan satu benda saja, tetapi beberapa blok dalam satu kolom, jadi setiap kepingan harus dipalu lepas satu per satu. Keduanya selebar satu kolom, sehingga saat muncul, tidak akan ada dua blok yang menempati sel yang sama.¶
+bentukPohon: [
+		blok(0 0 0 '🌳')
+		blok(0 1 0 '🌳')
+		blok(0 2 0 '🌳')
+	]
+bentukBatuBesar: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
+
+ƒ bentukDi(bentuk2•[blok] cx•# cz•#) bentuk2.menerjemahkan(
+		ƒ(b2•blok) blok(cx b2.y2 cz b2.jenis2)
+	)
+
+¶Apa yang terjadi ketika sebuah kepingan pecah.¶
+ƒ hasilKaliDari(jenis4•"") jenis4 ???
+		'🌳': '🪵'
+		'🪨': '🧱'
+		jenis4
+
+¶Struktur baru untuk dicocokkan: dua menara, masing-masing tinggi satu sampai tiga blok, berada di sepasang kolom tengah secara acak, di baris belakang lapangan. Kolom-kolom tengah itu justru kolom yang tidak pernah ditumbuhi sumber daya, jadi menara tidak akan pernah muncul di dalam pohon. Setiap kolom padat mulai dari dasar, karena tumpukan selalu jatuh di atas puncak kolom — tidak mungkin membuat blok melayang, jadi tidak mungkin pula memintanya. Enam blok adalah batas atas, yaitu jumlah yang dihasilkan tiga batu besar dalam bentuk bata, jadi bahkan struktur yang seluruhnya dari bata pun bisa dibangun.¶
+ƒ munculkanTujuan() (
+		kedalaman2: zMaks
+		pasangan2: [-1 0 1].diacak().suburutan(1 2)
+		pasangan2.gabungan(
+			[]
+			ƒ(struktur•[blok] cx2•#)
+				struktur.denganDaftar(
+					(Acak(1 2) → []).menerjemahkan(
+						ƒ(level•#)
+							blok(
+								cx2
+								(level - 1)
+								kedalaman2
+								['🪵' '🧱'].acak()
+							)
+					)
+				)
+		)
+	)
+
+¶Apakah sebuah sel benar-benar ada di lapangan.¶
+ƒ diDalamBatas(cx3•# cz2•#) (cx3 ≥ xMin) & (cx3 ≤ xMaks) & (cz2 ≥ zMin) & (cz2 ≤ zMaks)
+
+¶Seberapa tinggi sebuah kolom. Setiap kolom padat mulai dari dasar — bentuk memang tumbuh seperti itu, tumpukan menambah dari atas, dan memalu mengambil dari atas — jadi cukup dengan menghitung blok dalam sebuah kolom, kamu bisa tahu tingginya sekaligus sel kosong pertama di atasnya.¶
+ƒ tinggiKolom(blok3•[blok] cx4•# cz3•#) blok3.menyaring(
+		ƒ(b3•blok) (b3.x2 = cx4) & (b3.z2 = cz3)
+	).panjang(
+	)
+
+¶Apakah satu sel tertentu berisi satu jenis blok tertentu. Bertanya dengan cara ini — menghitung kecocokan, bukan mengambil blok yang mungkin saja tidak ada — membuat kita tidak perlu membawa dan membuka nilai yang mungkin kosong.¶
+ƒ selBerisi(blok4•[blok] cx5•# cy•# cz4•# jenis5•"")
+	blok4.menyaring(
+		ƒ(b4•blok) (b4.x2 = cx5) & (b4.y2 = cy) & (b4.z2 = cz4) & (b4.jenis2 = jenis5)
+	).panjang(
+	) > 0
+
+¶Lapangan baru: tiga pohon dan tiga batu besar, masing-masing di kolomnya sendiri, pada kedalaman acak. Mengacak urutan kolom lebih dulu itulah yang membuat pohon tumbuh secara acak. Kolom-kolom terdekat dengan tengah sengaja tidak disertakan, supaya tidak ada yang tumbuh di tempat kamu berdiri atau di tempat menara akan berada.¶
+munculkanKolom: [-4 -3 -2 2 3 4]
+
+ƒ munculkanDunia()
+	munculkanKolom.diacak().gabungan(
+		[]
+		ƒ(bidang•[blok] cx6•# indeks2•#)
+			bidang.denganDaftar(
+				bentukDi(
+					((indeks2 ≤ 3) ? bentukPohon bentukBatuBesar)
+					cx6
+					Acak(zMin zMaks)
+				)
+			)
+	)
+
+¶Blok tujuan mana yang belum kamu cocokkan. Inilah seluruh alur umpan baliknya: menara yang pudar akan larut satu blok setiap kali kamu membangun, dan ini juga alasan mengapa blok pudar dan blok asli tidak pernah berada di sel yang sama — hal ini penting, karena panggung hanya mengurutkan berdasarkan kedalaman, dan dua benda pada kedalaman yang sama akan membingungkan mana yang tampil.¶
+ƒ tujuanBelumTercapai(blok5•[blok] tujuan2•[blok])
+	tujuan2.menyaring(
+		ƒ(g•blok) ~selBerisi(blok5 g.x2 g.y2 g.z2 g.jenis2)
+	)
+
+¶Kamu menang begitu setiap blok pada struktur sudah cocok. Apa pun sisa yang kamu tinggalkan adalah urusanmu sendiri — tangga yang kamu buat untuk memanjat, tumpukan yang tidak pernah kamu pakai — jadi tidak perlu dirapikan untuk menyelesaikan permainan. Sebuah sel tujuan meminta satu bahan yang tepat, jadi pohon yang kebetulan berdiri di tempat yang benar tidak bisa memenuhinya.¶
+ƒ tujuanTercapai(blok6•[blok] tujuan3•[blok]) tujuanBelumTercapai(
+		blok6
+		tujuan3
+	).panjang(
+	) = 0
+
+¶Melangkahlah. Kamu selalu berbalik menghadap ke arah yang kamu coba tuju, bahkan ketika langkah itu sendiri gagal, jadi berjalan ke arah sesuatu adalah caramu menghadapnya. Kamu hanya bisa masuk ke sel yang tumpukannya tidak lebih tinggi dari ketinggianmu sekarang — berjalan tidak pernah memanjat, karena langkah yang memanjat akan membawamu ke atas benda yang justru sedang kamu coba palu. Melompatlah dengan j untuk naik ke atas sebuah blok, lalu berjalanlah ke atasnya.¶
+ƒ pindah2(permainan2•permainan dx•# dz•#) (
+		menghadap: (permainan2.menghadapX:dx).menghadapZ:dz
+		targetX: permainan2.x4 + dx
+		targetZ: permainan2.z4 + dz
+		~diDalamBatas(targetX targetZ) ? menghadap (
+				tinggi2: tinggiKolom(
+						menghadap.blok2
+						targetX
+						targetZ
+					)
+				(tinggi2 ≤ permainan2.y3) ? ((menghadap.x4:targetX).z4:targetZ) menghadap
+			)
+	)
+
+¶Melompat, tapi hanya dari sesuatu yang sedang kamu pijak. Pertanyaan apakah kamu berada di atas pijakanmu sendiri itulah yang penting: habisnya waktu bertahan tidak sama dengan sudah mendarat, jadi lompatan yang hanya berhenti selama waktu bertahan masih berlangsung bisa diulang lagi di tengah jatuh, dan lagi saat turun dari situ — memanjat langit satu sel demi satu sel. Begitulah caramu meraih apa pun yang di luar jangkauan tangan tanpa harus membangun tangga dulu.¶
+ƒ lompat(permainan3•permainan)
+	(permainan3.y3 > tinggiKolom(
+				permainan3.blok2
+				permainan3.x4
+				permainan3.z4
+			)) ? permainan3
+		((permainan3.y3:(permainan3.y3 + 1).menit(yMaks)).gantung:ketukGantung)
+
+¶Ayunkan palu ke arah yang ada di depanmu. Hanya kepingan paling atas dari kolom itu yang lepas, itulah sebabnya sebuah pohon butuh tiga pukulan — dan artinya kamu tidak akan pernah membuat kepingan melayang, jadi tidak ada yang perlu jatuh. Kamu hanya bisa menjangkau satu blok di atas pijakanmu sendiri, jadi bagian puncak yang di luar jangkauan tidak akan lepas; naiklah lebih tinggi lalu ayunkan lagi. Kepingan lepas akan jatuh berguling satu sel lebih jauh, menjauh darimu, kecuali sel itu di luar lapangan atau sudah terisi, dalam hal ini kepingan jatuh di tempatnya semula. Palu tetap terayun bahkan jika tidak mengenai apa pun, jadi pukulan meleset pun tetap terhitung sebagai ayunan.¶
+ƒ kena(permainan4•permainan) (
+		targetX2: permainan4.x4 + permainan4.menghadapX
+		targetZ2: permainan4.z4 + permainan4.menghadapZ
+		puncakY: tinggiKolom(
+				permainan4.blok2
+				targetX2
+				targetZ2
+			) - 1
+		¶Melipat sel target langsung menjadi bagian yang akan dihasilkannya menghindari kebutuhan membawa-bawa mungkin-sebuah-blok: kolom kosong begitu saja melipat menjadi tidak ada apa-apa.¶
+		hasilKali: (puncakY > (permainan4.y3 + jangkau)) ? '' permainan4.blok2.menyaring(
+					ƒ(b5•blok) (b5.x2 = targetX2) & (b5.y2 = puncakY) & (b5.z2 = targetZ2)
+				).gabungan(
+					''
+					ƒ(sejauhIni•"" b6•blok) sejauhIni + hasilKaliDari(
+								b6.jenis2
+							)
+				)
+		berayun: permainan4.ayun2:ketukAyun
+		(hasilKali = '') ? berayun (
+				tersisa: berayun.blok2.menyaring(
+						ƒ(b7•blok) ~((b7.x2 = targetX2) & (b7.y2 = puncakY) & (b7.z2 = targetZ2))
+					)
+				mendaratX: targetX2 + permainan4.menghadapX
+				mendaratZ: targetZ2 + permainan4.menghadapZ
+				bersihkan: diDalamBatas(mendaratX mendaratZ) & (tinggiKolom(
+								tersisa
+								mendaratX
+								mendaratZ
+							) = 0)
+				jatuh: berayun.barang2.dengan(
+						item2(
+							berayun.idBerikutnya
+							(bersihkan ? mendaratX targetX2)
+							(bersihkan ? mendaratZ targetZ2)
+							targetX2
+							puncakY
+							targetZ2
+							hasilKali
+							0
+						)
+					)
+				((berayun.blok2:tersisa).barang2:jatuh).idBerikutnya:(berayun.idBerikutnya + 1)
+			)
+	)
+
+¶Tumpuk salah satu blokmu di atas kolom di depanmu, jika kamu masih punya cadangan dan ada ruang di atas. Jangkauan tidak diperiksa di sini: ini hanya berjalan ketika tumpukan berada setinggi kakimu atau lebih rendah, jadi blok baru selalu jatuh dalam jangkauan tanganmu.¶
+ƒ tempat2(permainan5•permainan) (
+		targetX3: permainan5.x4 + permainan5.menghadapX
+		targetZ3: permainan5.z4 + permainan5.menghadapZ
+		tinggi3: tinggiKolom(
+				permainan5.blok2
+				targetX3
+				targetZ3
+			)
+		persediaan: (permainan5.terpilih = '🪵') ? permainan5.kayu permainan5.bata
+		(~diDalamBatas(targetX3 targetZ3) | (persediaan = 0) | (tinggi3 > yMaks)) ? permainan5 (
+				terpakai: (permainan5.terpilih = '🪵') ? (permainan5.kayu:(permainan5.kayu - 1)) (permainan5.bata:(permainan5.bata - 1))
+				terpakai.blok2:permainan5.blok2.dengan(
+					blok(
+						targetX3
+						tinggi3
+						targetZ3
+						permainan5.terpilih
+					)
+				)
+			)
+	)
+
+¶Apakah tombol spasi akan membangun, bukan menghancurkan. Tumpukan di depan yang menentukan: setinggi kakimu atau lebih rendah kamu menumpuk blok lain di atasnya, di atas itu kamu menjatuhkan bagian atasnya. Satu tombol melakukan keduanya, dan kursor menunjukkan yang mana — jadi membangun ke atas berarti kamu ikut naik sambil melakukannya, itulah gunanya lompatan, dan kamu selalu bisa mengambil kembali sesuatu yang kamu taruh di tempat yang salah dengan berdiri sejajar dengannya.¶
+ƒ membangun(permainan6•permainan)
+	tinggiKolom(
+		permainan6.blok2
+		(permainan6.x4 + permainan6.menghadapX)
+		(permainan6.z4 + permainan6.menghadapZ)
+	) ≤ permainan6.y3
+
+ƒ babak(permainan7•permainan) membangun(permainan7) ? tempat2(
+			permainan7
+		) kena(permainan7)
+
+¶Ganti bahan yang ingin kamu tumpuk.¶
+ƒ alih(permainan8•permainan) permainan8.terpilih:((permainan8.terpilih = '🪵') ? '🧱' '🪵')
+
+¶Sebuah tombol yang ditekan saat bermain. Tombol itu sampai sebagai teks biasa di sini, bukan dibandingkan di dalam reaksi, sehingga uji ∆ pada reaksi tetap hanya melihat aliran itu sendiri.¶
+ƒ terapkanTekanTombol(permainan9•permainan kunci2•"")
+	(kunci2 = 'Panah Kiri') ? pindah2(permainan9 -1 0)
+		((kunci2 = 'Panah Kanan') ? pindah2(permainan9 1 0)
+				((kunci2 = 'Panah Atas') ? pindah2(permainan9 0 1)
+						((kunci2 = 'Panah Bawah') ? pindah2(
+									permainan9
+									0
+									-1
+								)
+								((kunci2 = 'Ruang angkasa') ? babak(
+											permainan9
+										)
+										((kunci2 = 'Menggeser') ? alih(
+													permainan9
+												)
+												((kunci2 = 'j') ? lompat(
+															permainan9
+														) permainan9))))))
+
+¶Sebuah putaran baru.¶
+ƒ permainanBaru() permainan(
+		2
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		munculkanTujuan()
+		munculkanDunia()
+		[]
+	)
+
+¶Satu bingkai: menuakan bagian-bagian lepas agar jatuh, menggantung lalu jatuh ke puncak apa pun yang sedang kamu tempati, mengantongi apa pun di selmu, membiarkan palu jatuh kembali, dan memeriksa menara-menara.¶
+ƒ lanjutkanDunia(permainan10•permainan) (
+		menua: permainan10.barang2.menerjemahkan(
+				ƒ(i•item2) (i.usia = 0) ? (i.usia:1) i
+			)
+		berdiri: tinggiKolom(
+				permainan10.blok2
+				permainan10.x4
+				permainan10.z4
+			)
+		gantungBerikutnya: (permainan10.gantung > 0) ? (permainan10.gantung - 1) 0
+		yBerikutnya: ((permainan10.gantung = 0) & (permainan10.y3 > berdiri)) ? (permainan10.y3 - 1) permainan10.y3
+		¶Kamu selalu berada setinggi kolom tempatmu berdiri, begitu juga apa pun yang ada di situ, jadi berbagi sel saja sudah cukup untuk mengambil sesuatu.¶
+		diBawahKaki: menua.menyaring(
+				ƒ(i2•item2) (i2.x3 = permainan10.x4) & (i2.z3 = permainan10.z4) & (i2.usia > 0)
+			)
+		disimpan: menua.menyaring(
+				ƒ(i3•item2) ~((i3.x3 = permainan10.x4) & (i3.z3 = permainan10.z4) & (i3.usia > 0))
+			)
+		mendapatKayu: diBawahKaki.menyaring(
+				ƒ(i4•item2) i4.jenis3 = '🪵'
+			).panjang(
+			)
+		mendapatBata: diBawahKaki.menyaring(
+				ƒ(i5•item2) i5.jenis3 = '🧱'
+			).panjang(
+			)
+		permainan(
+			(tujuanTercapai(permainan10.blok2 permainan10.tujuan) ? 3 permainan10.fase)
+			permainan10.x4
+			yBerikutnya
+			permainan10.z4
+			permainan10.menghadapX
+			permainan10.menghadapZ
+			gantungBerikutnya
+			(permainan10.kayu + mendapatKayu)
+			(permainan10.bata + mendapatBata)
+			permainan10.terpilih
+			((permainan10.ayun2 > 0) ? (permainan10.ayun2 - 1) 0)
+			permainan10.idBerikutnya
+			permainan10.tujuan
+			permainan10.blok2
+			disimpan
+		)
+	)
+
+kunci3: Kunci()
+detak2: Waktu(150ms)
+ketuk: Tombol()
+
+¶Detak jantungnya, digerakkan oleh tiga masukan. Saat bermain, satu detak menggerakkan dunia, tombol-tombol melakukan segalanya yang lain, dan sebuah klik mengayun. Dari layar judul atau layar menang, Enter atau klik memulai putaran baru.¶
+permainan11•permainan: permainan(
+		1
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		munculkanTujuan()
+		munculkanDunia()
+		[]
+	)
+	… (∆ detak2 | ∆ kunci3 | ∆ ketuk) …
+		(permainan11.fase = 2)
+		? (∆ detak2 ? lanjutkanDunia(permainan11)
+					(∆ kunci3 ? terapkanTekanTombol(
+								permainan11
+								kunci3
+							) babak(permainan11)))
+			(∆ detak2 ? permainan11
+					(∆ kunci3 ? ((kunci3 = 'Memasuki') ? permainanBaru(
+									) permainan11)
+							(∆ ketuk ? permainanBaru() permainan11)))
+
+¶Semuanya di dunia ini digambar tanpa perhalusan gerak, jadi sebuah langkah jatuh tepat pada bingkai saat kamu menekan tombol, bukan meluncur setelahnya, dan setiap bagian membawa nama yang dibentuk dari selnya. Nama itu bagian yang penting: panggung membedakan output berdasarkan nama, sedangkan daftar tanpa nama dibedakan berdasarkan posisi, jadi mengeluarkan sebuah blok dari tengah tumpukan akan membuat setiap blok di atasnya mengambil identitas tetangganya dan membuat semuanya bergeser turun satu tempat.¶
+¶A green emoji is about a quarter wider than it is tall, so the tiles are sized
+down to land exactly one to a cell and keep the ground lined up with the blocks
+standing on it.¶
+ukuranUbin: 0.8m
+
+barisTanah: [0 1 2 3 4].menyaring(
+		ƒ(baris2•#) baris2 ≥ (permainan11.z4 - gambarBelakang)
+	).menerjemahkan(
+		ƒ(baris3•#)
+			Frasa(
+				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+				ukuranUbin
+				lamanya: 0s
+				nama: "g\baris3\"
+				tempat: Tempat(diX(xMin) diY(-1) diZ(baris3))
+			)
+	)
+
+tampilanBlok: permainan11.blok2.menyaring(
+		ƒ(b8•blok) b8.z2 ≥ (permainan11.z4 - gambarBelakang)
+	).menerjemahkan(
+		ƒ(b9•blok)
+			Frasa(
+				b9.jenis2
+				1m
+				lamanya: 0s
+				nama: "b\b9.x2\,\b9.y2\,\b9.z2\"
+				tempat: Tempat(diX(b9.x2) diY(b9.y2) diZ(b9.z2))
+			)
+	)
+
+¶Menara-menara yang kamu tuju, memudar, dan hanya bagian yang belum kamu bangun.¶
+tampilanHantu: tujuanBelumTercapai(
+		permainan11.blok2
+		permainan11.tujuan
+	).menyaring(
+		ƒ(g2•blok) g2.z2 ≥ (permainan11.z4 - gambarBelakang)
+	).menerjemahkan(
+		ƒ(g3•blok)
+			Frasa(
+				g3.jenis2
+				1m
+				lamanya: 0s
+				kegelapan: 35%
+				nama: "h\g3.x2\,\g3.y2\,\g3.z2\"
+				tempat: Tempat(diX(g3.x2) diY(g3.y2) diZ(g3.z2))
+			)
+	)
+
+¶Sebuah bagian lepas. Ini satu-satunya hal di panggung yang bergerak halus, bukan berpindah tiba-tiba — bingkai pertamanya berada di tempat blok itu pecah dan sisanya di tempat ia mendarat, dan perhalusan gerak di antaranya adalah gerakan jatuhnya.¶
+tampilanBarang: permainan11.barang2.menyaring(
+		ƒ(i6•item2) i6.z3 ≥ (permainan11.z4 - gambarBelakang)
+	).menerjemahkan(
+		ƒ(i7•item2)
+			Frasa(
+				i7.jenis3
+				0.6m
+				lamanya: 0.3s
+				nama: "i\i7.id2\"
+				tempat: (i7.usia = 0)
+				? Tempat(diX(i7.dariX) diY(i7.dariY) diZ(i7.dariZ))
+					Tempat(
+						diX(i7.x3)
+						diY(tinggiKolom(permainan11.blok2 i7.x3 i7.z3))
+						diZ(i7.z3)
+					)
+			)
+	)
+
+¶Sebuah durasi adalah yang mengubah sebuah langkah menjadi gerakan sama sekali: tanpa durasi, panggung melewatkan pembuatan animasi untuknya dan setiap gerakan langsung berpindah seketika. Waktu yang sedikit kurang dari satu detak berarti setiap langkah dan setiap lompatan selesai tepat sebelum yang berikutnya tiba. Peregangan saat ia melayang di udara adalah trik yang sama dengan ayunan palu yang tertahan — sebuah pose berbeda yang dipertahankan selama keadaan itu berlangsung, bukan animasi yang dimulai lalu dihentikan.¶
+tampilanPemain: Frasa(
+		'🚶🏻‍♀'
+		1.1m
+		lamanya: 0.14s
+		nama: 'pemain'
+		skala: ((permainan11.gantung > 0) ? 1.08 1)
+		flipx: permainan11.menghadapX > 0
+		tempat: Tempat(
+			diX(permainan11.x4)
+			diY(permainan11.y3)
+			diZ(permainan11.z4)
+		)
+	)
+
+¶Kursor melayang di atas sel tempat aksi berikutmu akan jatuh —ruang kosong di atas tumpukan yang kamu hadapi. Sebuah ayunan menghancurkan blok tepat di bawahnya dan sebuah tumpukan mengisi sel yang ditandainya, jadi tidak pernah ada keraguan tentang apa yang akan kamu hancurkan atau ke mana sebuah blok akan pergi. Ia melayang sedikit di atas sel itu agar tetap terlihat ketika sel itu tepat di depanmu dan tubuhmu sendiri akan menutupinya. Ia tertahan ke belakang tepat saat kamu mengayun dan bergerak halus kembali ke tempatnya dengan sendirinya, yang muncul tepat saat pukulan terjadi, bukan berulang terus-menerus. Ia tersembunyi saat kamu menghadap ke luar tepi lapangan, karena tidak ada apa pun di sana untuk dikenai aksi.¶
+targetX4: permainan11.x4 + permainan11.menghadapX
+targetZ4: permainan11.z4 + permainan11.menghadapZ
+targetY: tinggiKolom(permainan11.blok2 targetX4 targetZ4)
+
+¶Yang mana dari dua tugas yang akan dilakukan tombol spasi terhadap kolom di depan, dan apakah itu akan berhasil: menghancurkan membutuhkan bagian atas dalam jangkauan, dan membangun membutuhkan sisa bahan pilihan di kantongmu. Kursor memudar setiap kali jawabannya tidak, jadi kantong kosong terbaca sama seperti puncak yang tak terjangkau, bukan tekanan tombol yang diam-diam tidak melakukan apa-apa.¶
+membangunDiSini: targetY ≤ permainan11.y3
+dalamJangkauan: (targetY - 1) ≤ (permainan11.y3 + jangkau)
+simpanDiSini: (permainan11.terpilih = '🪵') ? permainan11.kayu permainan11.bata
+bisaBertindak: membangunDiSini ? (simpanDiSini > 0) dalamJangkauan
+
+tampilanKursor: Frasa(
+		(membangunDiSini ? '🔨' '🪏')
+		0.85m
+		lamanya: 0.12s
+		nama: 'kursor'
+		rotasi: ((permainan11.ayun2 > 0) ? -55° 0°)
+		kegelapan: (bisaBertindak ? 100% 30%)
+		tempat: Tempat(
+			diX(targetX4)
+			diY(targetY + 0.55)
+			diZ(targetZ4)
+		)
+	)
+
+daftarKursor: diDalamBatas(targetX4 targetZ4) ? [
+			tampilanKursor
+		] []
+
+¶Kantong dan bahan yang sedang dipakai, disematkan rata di layar agar kedalaman tidak pernah mengecilkannya.¶
+hud: [
+		Frasa(
+			"🪵 \permainan11.kayu\   🧱 \permainan11.bata\   🔨 \permainan11.terpilih\"
+			0.5m
+			tempat: Tempat(-6.6m 4.3m)
+		)
+	]
+
+judulLayar: (permainan11.fase = 3) ? '🎉 Kamu berhasil membangunnya! 🎉' '🔨 BLOK BANGUNAN 🔨'
+barisAwal: (permainan11.fase = 3) ? 'Tekan Enter atau klik untuk membangun lagi' 'Tekan Enter atau klik untuk mulai'
+
+¶Layar-layar itu berada rata di atas lapangan yang penuh pohon dan tokoh, jadi kelompoknya perlu latar belakang sendiri yang tidak tembus pandang — tulisan gelap di atas dahan dan atap rumah sulit dibaca, dan panel padat membuatnya tetap mudah dibaca sambil tetap memperlihatkan dunia di sekelilingnya.¶
+tampilanLayar: [
+		Kelompok(
+			Tumpukan()
+			[
+				Frasa(judulLayar 1.1m nama: 's1')
+				Frasa(
+					'Panah berjalan · kamu menghadap arah kamu berjalan'
+					0.5m
+					nama: 's2'
+				)
+				Frasa(
+					'Spasi bekerja pada kursor: 🪏 menghancurkan · 🔨 membangun'
+					0.5m
+					nama: 's3'
+				)
+				Frasa(
+					'Shift menukar 🪵 🧱 · j melompat naik untuk menjangkau'
+					0.5m
+					nama: 's4'
+				)
+				Frasa(
+					'Jangkau satu blok ke atas · cocokkan dengan blok yang pudar'
+					0.5m
+					nama: 's5'
+				)
+				Frasa(barisAwal 0.7m nama: 's6')
+			]
+			latarbelakang: Warna(90% 10 240°)
+		)
+	]
+
+¶Kamera menjaga jarak tetap di belakangmu, bukannya diam di tempat, jadi ukuranmu di layar tetap sama sejauh apa pun kamu berjalan, dan lapangan bergeser melewatimu, tepat di atas bahumu. Kamera juga mengikutimu ke samping, jadi berjalan ke tepi lapangan membuat dunia bergeser, bukan membuatmu keluar dari tepinya. Seperlima sel adalah geseran kecil untuk menengahkan: sebuah tokoh digambar mulai dari tepi kirinya, yang berada setengah sel ke arah lain, dan gambarnya sedikit lebih lebar daripada sel tempatnya berdiri.
+
+Panggung mengubah ukuran segala sesuatu berdasarkan jaraknya dari kamera, dan satu sel di depan lensa digambar delapan kali ukuran aslinya — jadi pada jarak ini, dunia yang lebih dari satu baris di belakangmu tidak digambar sama sekali. Menara selalu berdiri di baris paling belakang, satu-satunya baris yang tidak pernah terpotong oleh jarak gambar, jadi menara itu tetap terlihat dari mana pun kamu berjalan.¶
+kameraZ: ((permainan11.z4 - belakangDunia - belakangKamera) · 1m)
+
+¶Kamera bergerak setinggi tempat kamu berdiri, bukan setinggi kamu sendiri, jadi memanjat ke atas tumpukan membawa kamera naik bersamamu dan membuatmu tetap terlihat, sementara lompatan tetap terlihat seperti lompatan — saat melompat kamu benar-benar naik menjauhi kamera, bukan menyeretnya ikut naik.¶
+kameraY: (tinggiKolom(
+			permainan11.blok2
+			permainan11.x4
+			permainan11.z4
+		) · 1m)
+
+¶Dunia digambar sama di setiap tahap, jadi layar judul dan layar menang menampilkan lapangan persis seperti saat kamu memainkannya, bukan sebagai tampilan menu yang terpisah.¶
+lapisanDunia: [
+		:tampilanBlok
+		:tampilanHantu
+		:tampilanBarang
+		tampilanPemain
+		:daftarKursor
+	]
+
+¶Semua yang berbicara kepadamu berada di lapisan atas panggung, yang menempel rata pada layar sehingga tidak terpengaruh oleh kamera maupun kedalaman. Menempatkan layar di sini, bukan di dalam dunia, itulah yang membuatnya tetap mudah dibaca: apa pun yang diletakkan di dalam dunia berada pada kedalaman tertentu, dan baris tanah yang lebih dekat ke kamera akan digambar menutupinya.¶
+lapisanOverlay: (permainan11.fase = 2) ? hud tampilanLayar
+
+¶Bagian yang baru terlepas masih berada pada bingkai pertamanya, satu-satunya bingkai yang membedakannya dari bagian-bagian yang sudah berserakan di sekitarnya — usia yang sama yang digunakan gambar untuk memutuskan apakah harus memulainya dari tempat blok itu pecah.¶
+rusakSekarang: permainan11.barang2.menyaring(
+		ƒ(i8•item2) i8.usia = 0
+	)
+
+¶Apakah palu baru saja diayunkan. Hanya menghancurkan yang mengaktifkannya, jadi ini bernilai ⊥ untuk penekanan yang menumpuk sebuah blok.¶
+rusak: permainan11.ayun2 = ketukAyun
+
+¶Bagaimana bunyi ayunan itu terdengar. Kayu berbunyi seperti tom dan batu seperti bass drum, jadi pohon dan batu besar tidak terdengar sama, dan ayunan yang tidak mengenai apa pun menghasilkan bunyi klik ringan — kegagalan yang bisa kamu dengar lebih baik daripada kegagalan yang terdengar seperti tidak terjadi apa-apa.
+
+Kosong selama sisa waktu lainnya, dan itu sudah cukup: nada yang sudah mulai dimainkan akan berbunyi sampai selesai, jadi bunyi palu tetap berdering meskipun daftar ini menjadi kosong tepat pada saat berikutnya.¶
+nadaSaatKena: rusak
+	? ((rusakSekarang.panjang() > 0) ? rusakSekarang.menerjemahkan(
+					ƒ(i9•item2) (i9.jenis3 = '🪵') ? 5 1
+				) [3])
+		[]
+
+¶Penekanan yang menghasilkan ayunan, dan hanya penekanan itu. Palu tetap dalam posisi siap sampai saat berikutnya, jadi tanpa ini, tombol apa pun yang ditekan dalam jeda itu akan membuat pukulan terdengar dua kali.¶
+berayun2: ((∆ kunci3) & (kunci3 = 'Ruang angkasa')) | (∆ ketuk)
+
+suaraSaatKena: Musik(
+		Trek(
+			nadaSaatKena
+			alatMusik: AlatMusik.drum
+			perulangan: ⊥
+		)
+		putarUlang: berayun2
+		nama: 'kena'
+	)
+
+¶Ada tempat untuk ditemani saat kamu bekerja: alunan pentatonik pelan pada seruling, lonceng yang sesekali menyahutinya, dan dengungan di bawahnya. Pentatonik karena tidak ada nadanya yang saling bertentangan, jadi putarannya tidak pernah berakhir pada sesuatu yang pasti dan tidak pernah terdengar salah saat palu berbunyi di atasnya. Panjangnya enam belas ketukan, bukan delapan, jadi butuh waktu lebih lama untuk kembali ke awal.¶
+suasana: Musik(
+		[
+			Trek(
+				[1 ø ø 3 ø ø 5 ø ø 3 ø ø 2 ø ø ø]
+				alatMusik: AlatMusik.seruling
+				ketukan: 1beats
+				volume: 30%
+			)
+			Trek(
+				[ø ø ø ø ø ø 8 ø ø ø ø ø ø ø 6 ø]
+				alatMusik: AlatMusik.lonceng
+				ketukan: 1beats
+				volume: 20%
+			)
+			Trek(
+				[{1 5} {1 5} {4 8} {1 5}]
+				alatMusik: AlatMusik.synthPad
+				ketukan: 4beats
+				volume: 25%
+			)
+		]
+		tempo: 60beats/min
+		tanggaNada: Musik.pentatonik
+		volume: 45%
+		nama: 'alam'
+	)
+
+¶Hadiah karena mencocokkan setiap blok yang pudar: alunan terompet naik pada tangga nada pentatonik yang sama seperti yang terus terdengar di lapangan, akor untuk berhenti, dan kilauan lonceng di atasnya.
+
+Tidak ada yang berputar ulang di sini, dan itulah yang membuatnya terasa seperti fanfar, bukan latar suara baru. Bunyi sekali putar yang sudah selesai dimainkan akan tetap diam selama berada di panggung, jadi layar menang kembali sunyi dan membiarkan suara latar mengambil alih; memulai babak baru mengeluarkannya dari panggung dan melupakannya, jadi struktur berikutnya yang kamu selesaikan akan membunyikannya lagi dari awal.¶
+suaraMenang: Musik(
+		[
+			Trek(
+				[1 3 5 8 ø 8 ø ø {1 5 8} ø ø ø ø ø ø ø]
+				alatMusik: AlatMusik.terompet
+				ketukan: 0.5beats
+				perulangan: ⊥
+			)
+			Trek(
+				[ø ø ø ø ø ø ø ø 8 ø 10 ø 12 ø ø ø]
+				alatMusik: AlatMusik.lonceng
+				ketukan: 0.5beats
+				volume: 45%
+				perulangan: ⊥
+			)
+			Trek(
+				[{1 3 5} ø {4 6 8} ø]
+				alatMusik: AlatMusik.piano
+				ketukan: 2beats
+				volume: 40%
+				perulangan: ⊥
+			)
+			Trek(
+				[1 ø 3 ø 1 3 1 ø 4 ø ø ø ø ø ø ø]
+				alatMusik: AlatMusik.drum
+				ketukan: 0.5beats
+				volume: 35%
+				perulangan: ⊥
+			)
+		]
+		tempo: 132beats/min
+		tanggaNada: Musik.pentatonik
+		nama: 'terbangun'
+	)
+
+¶Ini hanya muncul di panggung setelah kamu menang, dan daftar kosong menyebar menjadi tidak ada apa-apa.¶
+daftarMenang: (permainan11.fase = 3) ? [suaraMenang] []
+
+Panggung(
+	[
+		:barisTanah
+		:lapisanDunia
+		suasana
+		suaraSaatKena
+		:daftarMenang
+	]
+	tempat: Tempat(
+		((permainan11.x4 + 0.2) · 1m)
+		kameraY
+		kameraZ
+	)
+	latarbelakang: Warna(78% 18 240°)
+	warna: Warna(20% 0 0°)
+	lapisanAtas: lapisanOverlay
+)

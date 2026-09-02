@@ -1,0 +1,524 @@
+█
+Ogród
+=== start/en
+¶Ogród zen narysowany z kolorowych bloków, z delikatnie kołyszącą się wodą.¶
+trawa: Kolor(54% 84 117°)
+kamień: Kolor(74% 0 200°)
+bambus: Kolor(77% 88 109°)
+mur: Kolor(0% 0 0°)
+woda: Kolor(50% 89 279°)
+kołysaćSię: Sekwencja(
+		{
+			0%: Poza(kolor: woda obrót: 0°)
+			50%: Poza(obrót: 7°)
+			100%: Poza(obrót: 0°)
+		}
+		czastrwania: 1.5s
+	)
+
+Scena(
+	[
+		Wyrażenie(
+			'█'
+			rozmiar: 16m
+			spoczynkowy: Poza(kolor: Kolor(100% 0 348°))
+			miejsce: Miejsce(7.3125m -13.125m 0m)
+			obrót: 90°
+		)
+		Wyrażenie(
+			'█'
+			rozmiar: 16m
+			spoczynkowy: Poza(kolor: Kolor(100% 0 348°))
+			miejsce: Miejsce(-8.75m -13m 1m)
+			obrót: 90°
+		)
+		Wyrażenie(
+			'█'
+			rozmiar: 32m
+			spoczynkowy: Poza(kolor: Kolor(73% 95 279°))
+			miejsce: Miejsce(-5.6875m -44.0625m 0m)
+			obrót: 89°
+		)
+		Wyrażenie(
+			'太阳'
+			rozmiar: 4m
+			miejsce: Miejsce(-16.5m 15.75m 5m)
+			spoczynkowy: Sekwencja(
+				{
+					0%: Poza(kolor: Kolor(90% 93 85°) obrót: 0°)
+					100%: Poza(obrót: 360°)
+				}
+				czastrwania: 30s
+				styl: 'straight'
+			)
+		)
+		Wyrażenie(
+			'壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁'
+			spoczynkowy: Poza(kolor: mur)
+			miejsce: Miejsce(-13.9375m 3.5m 0m)
+			rozmiar: 2m
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-5.8125m -9.5625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(1.5m -6.9375m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-5.125m -8.25m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-0.4375m -8.5625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-2.875m -8.125m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-4.125m -8.3125m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-7.1875m -10.0625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-10.1875m -10.5625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-11.1875m -10.5625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-10.25m -9.1875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-8.5625m -8.6875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-8.6875m -10.0625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-1.5m -8m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(3.5m -8m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(1.1875m -8.5625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-2.8125m -9.5625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(2.5m -8m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-1.8125m -9.5625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(0m -7m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(2.5m -6.5m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(6.4375m -7.0625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(5.1875m -7.0625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-0.6875m -10.125m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(0.9375m -9.625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(7.4375m -8.1875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(2.25m -9.5625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(3.5625m -9.625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(5m -9.0625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(6.125m -8.1875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(9.625m -10.0625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(9.375m -7.3125m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(8m -6.5m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(10.8125m -7.1875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(13.625m -7.1875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(17.5m -7.5m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(12m -7.5m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(12.5625m -10.0625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-7.625m -8.8125m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(3.875m -6.4375m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-13.25m -8.625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-9.375m -8.0625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-13.8125m -10m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-11.375m -8.8125m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-12.5m -9.625m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(12.625m -6m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(7.5m -9.8125m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(16.3125m -6.1875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(17.8125m -6.1875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(17.8125m -9.6875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(16.3125m -9.6875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(16.3125m -8.1875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(15.3125m -6.6875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(14.8125m -8.1875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(14.8125m -9.6875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(13.5m -8.9375m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(11.8125m -9.1875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(8.3125m -9.1875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(6.5m -9.5m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(9.8125m -8.6875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(10.8125m -9.1875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(14.3125m -5.6875m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'草'
+			miejsce: Miejsce(-4.5m -9.5m 0m)
+			spoczynkowy: Poza(kolor: trawa)
+		)
+		Wyrażenie(
+			'石'
+			spoczynkowy: Poza(kolor: kamień)
+			rozmiar: 2.75m
+			miejsce: Miejsce(-7.6875m -5.9375m -1m)
+			obrót: 25°
+		)
+		Wyrażenie(
+			'石'
+			spoczynkowy: Poza(kolor: kamień)
+			rozmiar: 2m
+			miejsce: Miejsce(-5m -6.625m -1m)
+		)
+		Wyrażenie(
+			'石'
+			spoczynkowy: Poza(kolor: kamień)
+			rozmiar: 2.75m
+			miejsce: Miejsce(-7.6875m -8.5625m -1m)
+		)
+		Wyrażenie(
+			'石'
+			spoczynkowy: Poza(kolor: kamień)
+			rozmiar: 1.25m
+			miejsce: Miejsce(-6.375m -3.375m -1m)
+		)
+		Wyrażenie(
+			'石'
+			spoczynkowy: Poza(kolor: kamień)
+			rozmiar: 2.75m
+			miejsce: Miejsce(-3.125m -6.625m -1m)
+			obrót: 341°
+		)
+		Wyrażenie(
+			'石'
+			spoczynkowy: Poza(kolor: kamień)
+			rozmiar: 2.75m
+			miejsce: Miejsce(-4.75m -4.25m -1m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(-0.5m -0.5m 0m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(0.9375m -3.5m 0m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(1m -5m 0m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(-0.5m 2.5m 0m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(-0.5m 3.5m 0m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(-0.5m 4.5m 0m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(-0.5m 1m 0m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(-0.5m -5m 0m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(-0.5m -3.5m 0m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(-0.5625m -2m 0m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(1m 1m 0m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(1m -0.5m 0m)
+		)
+		Wyrażenie(
+			'竹'
+			spoczynkowy: Poza(kolor: bambus)
+			rozmiar: 1.25m
+			miejsce: Miejsce(1m -2m 0m)
+		)
+		Wyrażenie(
+			'水'
+			spoczynkowy: kołysaćSię
+			miejsce: Miejsce(-13.4375m -18m -2m)
+			rozmiar: 6.75m
+			obrót: 80°
+		)
+		Wyrażenie(
+			'水'
+			spoczynkowy: kołysaćSię
+			miejsce: Miejsce(18m -16.5m -2m)
+			rozmiar: 6.75m
+			obrót: 80°
+		)
+		Wyrażenie(
+			'水'
+			spoczynkowy: kołysaćSię
+			miejsce: Miejsce(-8.5m -17.625m -2m)
+			rozmiar: 6.75m
+			obrót: 259°
+		)
+		Wyrażenie(
+			'水'
+			spoczynkowy: kołysaćSię
+			miejsce: Miejsce(2.625m -17.375m -2m)
+			rozmiar: 6.75m
+			obrót: 80°
+		)
+		Wyrażenie(
+			'水'
+			spoczynkowy: kołysaćSię
+			miejsce: Miejsce(10.6875m -16m -2m)
+			rozmiar: 6.75m
+			obrót: 37°
+		)
+	]
+	tło: Kolor(87% 97 263°)
+)

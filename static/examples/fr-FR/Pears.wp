@@ -1,0 +1,169 @@
+M
+Poires
+=== start/en
+¶Ceci est une histoire courte interactive. Elle définit plusieurs scènes différentes et passe de l'une à l'autre selon différentes interactions, comme des clics, des collisions et d'autres actions. Une partie du plaisir de vivre cette histoire est de découvrir les interactions nécessaires pour la faire avancer.¶
+exposition: [
+		Phrase(`Mon papa voulait partir.` lieu: Lieu(-9m 0m))
+	]
+
+conflit: [
+		Phrase(`« Maman, on doit y aller. »` lieu: Lieu(-8m 7m))
+		Phrase(
+			`/« Prends, rentre à la maison. »/`
+			lieu: Lieu(1m 4m)
+		)
+		Phrase(
+			`« Maman, on ne veut rien ! »`
+			lieu: Lieu(-8m 1m)
+		)
+		Phrase(
+			`« Prends, rentre à la maison ! »`
+			taille: 2m
+			lieu: Lieu(-6m -4m)
+			aurepos: Séquence.secousse()
+		)
+	]
+
+actionMontante1: [
+		Phrase(
+			`Ma 炮炮👵🏽 est sortie dans le jardin`
+			lieu: Lieu(-9m 7m)
+		)
+		Phrase(`Je l'ai suivie, curieuse` lieu: Lieu(-6m 4m))
+		Phrase(
+			`👵🏽`
+			nom: 'paupau'
+			taille: 2m
+			matière: Matière()
+			lieu: Lieu(6m -6m)
+			bulle: `/« 沙梨🍐, prends, rentre à la maison ! »/`
+		)
+		Phrase(
+			`👧🏻`
+			nom: 'moi'
+			taille: 1m
+			matière: Matière()
+			lieu: Placement(Lieu(-8m -6m))
+		)
+	]
+
+actionMontante2: [
+		Phrase(
+			`Elle s'est arrêtée près d'un petit arbre.`
+			lieu: Lieu(-9m 6m)
+		)
+		Phrase(
+			`Dessus s'entremêlaient des dizaines de 沙梨 jaune vif`
+			lieu: Lieu(-9m 1m)
+			envelopper: 10m
+		)
+		Phrase(
+			`« Maman, on ne veut pas de poires. »`
+			taille: .75m
+			lieu: Lieu(-4m 0m)
+		)
+		Phrase(
+			`/Je voulais une poire./`
+			taille: 2m
+			lieu: Lieu(-8m -3m)
+		)
+		Phrase(
+			"🍐"
+			taille: 2m
+			lieu: Lieu(-1m -7m)
+			nom: 'pear'
+			sélectionnable: ⊤
+		)
+	]
+
+¶Nous choisissons des endroits à l'avance pour les faire tomber toujours au même endroit.¶
+lieux: (6 → []).traduire(
+		ƒ() Lieu(Aléatoire(-2m 2m) Aléatoire(-3m -5m))
+	)
+pointCulminant: [
+		Phrase(
+			`Elle s'est agenouillée dans la terre.`
+			lieu: Lieu(-9m 6m)
+		)
+		Phrase(`A saisi un couteau` lieu: Lieu(-9m 4m))
+		Phrase(
+			`Et en a soigneusement coupé six`
+			lieu: Lieu(-9m 2m)
+		)
+		Phrase(
+			`En les laissant tomber dans son panier en dessous`
+			lieu: Lieu(-9m 0m)
+		)
+		Phrase("🧺" taille: 4m lieu: Lieu(-2m -12m))
+		Phrase(
+			"🌳"
+			nom: "tree"
+			taille: 5m
+			lieu: Lieu(-3m -7m)
+			sélectionnable: ⊤
+		)
+		:lieux.traduire(
+			ƒ(placer indice2)
+				Phrase(
+					"🍐"
+					nom: "pear\indice2\"
+					lieu: Choix() = 'tree' ? Mouvement(placer) placer
+				)
+		)
+		Phrase("🔪" lieu: Aiguille())
+	]
+
+résolution2: [
+		Phrase(`Elle me les a apportées` lieu: Lieu(-9m 6m))
+		Phrase(
+			`S'est agenouillée devant moi`
+			lieu: Lieu(-8m 4m)
+		)
+		Phrase(`Et m'a tendu le panier` lieu: Lieu(-7m 2m))
+		Phrase(
+			`/« Prends, rentre à la maison »/`
+			lieu: Lieu(0m -2m)
+		)
+	]
+
+générique: [
+		Phrase(`par /Amy J. Ko/`)
+	]
+
+histoire: [
+		exposition
+		conflit
+		actionMontante1
+		actionMontante2
+		pointCulminant
+		résolution2
+		générique
+	]
+
+¶Suivre les clics et les touches¶
+clic: ∆ Bouton()
+¶Suivre combien de temps après qu'on a cliqué sur l'arbre¶
+tempsAprèsLaCoupure: 0ms … Choix() = 'tree' … Temps(1000ms)
+¶Suivre quand on arrive chez Pau Pau¶
+chezPauPau: ∆ Collision('moi')
+¶Suivre quand la poire est choisie¶
+aChoisiLaPoire: Choix() = 'pear'
+¶Changer le segment selon le segment actuel¶
+segment2•#:
+	1 …
+	segment2 ???
+		1: clic
+		2: clic
+		3: chezPauPau
+		4: aChoisiLaPoire
+		5: tempsAprèsLaCoupure > 1500ms
+		6: ∆ Bouton()
+		⊥
+		… segment2 + 1
+
+Scène(
+	histoire[segment2]
+	affronter: 'Arvo'
+	lieu: Lieu(0m 0m -20m)
+	cadre: Rectangle(-10m 10m 10m -10m)
+)

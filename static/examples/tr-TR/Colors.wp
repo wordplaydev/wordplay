@@ -1,0 +1,18 @@
+w
+Renk Gösterisi
+===
+¶"wowie" kelimesini rastgele sallamak ve renklendirmek için tıkla.¶
+renk2: Renk(0% 0 0°) … ∆ Düğme() … Renk(
+			50%
+			Rastgele() × 200
+			Rastgele() × 360°
+		)
+
+İfadeetmek(
+	'wowie'
+	isim: 'kedicik'
+	boyut: 6m
+	renk: renk2
+	rotasyon: (Rastgele() - 0.5) × 30°
+	süre: .1s
+)

@@ -1,0 +1,14 @@
+🐈
+Transformări sălbatice
+===
+¶O pisică ce testează scara, rotirea și decalajul, toate deodată.¶
+Fraza(
+	"🐈"
+	dimensiune: 10m
+	odihnă: Poză(
+		scară: 2
+		compensare: Loc(1m 1m 5m)
+		rotaţie: (Timp(500ms) % 360) × 1°/ms
+	)
+	durată: 0.25s
+)

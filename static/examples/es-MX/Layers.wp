@@ -1,0 +1,32 @@
+o
+Capas
+=== start
+¶Pelotas rebotando a diferentes profundidades para mostrar capas de paralaje.¶
+cantidad2: 10 → []
+
+ƒ pelotas(z2•#m) cantidad2.traducir(
+		ƒ()
+			Frase(
+				'o'
+				lugar: Movimiento(
+					Lugar(Azar(-10 10) × 1m Azar(0 10) × 1m z2)
+					Velocidad(Azar(-10 10) × 1m/s Azar(-5 5) × 1m/s)
+				)
+				materia: Materia(elasticidad: 0.8 fricción: 0)
+			)
+	)
+
+Escenario(
+	[
+		:pelotas(0m)
+		:pelotas(-10m)
+		:pelotas(10m)
+		Figura(Círculo(2m 0m 1m 0m))
+		Figura(Círculo(2m 9m -3m 10m))
+		Figura(Polígono(2m 5 -5m 0m -10m))
+		Figura(Rectángulo(-20m 0m 20m -1m 0m))
+		Figura(Rectángulo(-20m 0m 20m -1m 10m) rotación: 25°)
+		Figura(Rectángulo(-20m 0m 20m -1m -10m) rotación: -10°)
+	]
+	lugar: Lugar(0m 10m -30m)
+)

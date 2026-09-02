@@ -1,0 +1,22 @@
+💬
+Yankı
+=== start
+¶İzleyicinin sohbet çubuğuna yazdığı her şey bu ifade olur.¶
+mesaj: Sohbet()
+
+¶Bir istemle başla, sonra her yeni mesajı yansıt. Metin, eski kelimelerden yenilerine harf harf dönüşür.¶
+kelimeler2: 'bir şey söyle!' … ∆ mesaj … mesaj
+
+¶Yeni bir mesaj geldiğinde rastgele bir boyut, eğim ve renk seç.¶
+boyut2: 2m … ∆ mesaj … Rastgele(1m 4m)
+eğim: 0° … ∆ mesaj … Rastgele(-30 30) × 1°
+ton: 200° … ∆ mesaj … Rastgele(360) × 1°
+
+İfadeetmek(
+	kelimeler2
+	boyut: boyut2
+	dinlenme: Poz(rotasyon: eğim renk: Renk(25% 100 ton))
+	süre: .5s
+	değişiyor: 'edit'
+	dürüm: 20m
+)

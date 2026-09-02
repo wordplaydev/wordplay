@@ -3309,7 +3309,7 @@
                         "$~Creez o nouă @List cu elementul dat la sfârșit.",
                         "\\['măr' 'banană' 'mango'].with('pepene verde')\\"
                     ],
-                    "names": ["$~cu", "$~adăuga"],
+                    "names": "$~cu",
                     "inputs": [
                         {
                             "doc": "$~Sunt @value pe care vrei să îl adaugi.",
@@ -3324,7 +3324,7 @@
                         "Este totuși puțin mai ușor să folosești @Spread, astfel:",
                         "\\['măr' 'banană' 'mango' :['pepene verde' 'carambola']]\\"
                     ],
-                    "names": ["$~cuLista", "$~adăuga"],
+                    "names": "$~cuLista",
                     "inputs": [
                         {
                             "doc": "$~Lista de valori de adăugat.",

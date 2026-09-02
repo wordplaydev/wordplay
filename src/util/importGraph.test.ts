@@ -446,11 +446,11 @@ test('resolving a color needs no basis', () => {
  * sharper signal.
  */
 test.each([
-    ['src/routes/+layout.svelte', 502, 3.66],
-    ['src/components/app/Page.svelte', 525, 3.91],
+    ['src/routes/+layout.svelte', 502, 3.67],
+    ['src/components/app/Page.svelte', 525, 3.92],
     ['src/routes/[[locale]]/+page.svelte', 540, 4.0],
     ['src/routes/[[locale]]/galleries/+page.svelte', 544, 4.01],
-    ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.03],
+    ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.04],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

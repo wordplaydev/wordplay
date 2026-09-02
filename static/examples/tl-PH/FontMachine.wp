@@ -1,0 +1,29 @@
+t
+Makinang Font
+=== start
+¶Pindutin ang kahit anong susi para baguhin ang font ng bawat letra ng "typography" sa random na font.¶
+mgaFont: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+mgaSimbolo: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ gawingRandom()
+	mgaSimbolo.isalin(
+		ƒ(simbolo) Parirala(
+				simbolo
+				mukha: mgaFont.random()
+				tagal: 0s
+			)
+	)
+
+mgaParirala: gawingRandom() … ∆ Susi() | ∆ Butones() … gawingRandom(
+		)
+
+Entablado(
+	[Grupo(Hilera('|' 0m) mgaParirala lugar: Lugar(0m 0m))]
+)

@@ -1,0 +1,85 @@
+0⃣
+Calculatrice
+=== start/en
+¶Une calculatrice de poche construite à partir de quelques fonctions arithmétiques.¶
+
+¶Fonctions qui effectuent des calculs¶
+ƒ addition(nombre1•# nombre2•#) nombre1 + nombre2
+ƒ soustraction(nombre12•# nombre22•#) nombre12 - nombre22
+ƒ multiplication(nombre13•# nombre23•#) nombre13 × nombre23
+ƒ division(nombre14•# nombre24•#) nombre14 ÷ nombre24
+
+choix: Choix()
+image: 1 … ∆ (choix) … 1 + image
+
+¶Des booléens pour suivre si chaque valeur a été choisie¶
+nombre1choisi: ⊥ … ∆ (choix) … (choix.commence('nombre1')) & ~nombre1choisi
+nombre2choisi: ⊥ … ∆ (choix) … (choix.commence('nombre2')) & ~nombre2choisi
+opchoisi: ⊥ … ∆ (choix) … (choix.commence('op')) & ~opchoisi
+
+¶Garde en mémoire les opérandes et les opérateurs¶
+nombre15: ø → # … nombre1choisi … ((choix ÷ '')[-1]) → #
+nombre25: ø → # … nombre2choisi … ((choix ÷ '')[-1]) → #
+opérateur: ø … opchoisi … ((choix ÷ '')[-1])
+
+¶Écran pour choisir le premier nombre¶
+nombres1: Groupe(
+		Grille(2 5)
+		[
+			Phrase("0⃣" sélectionnable: ⊤ nom: 'nombre1_0')
+			Phrase("1⃣" sélectionnable: ⊤ nom: 'nombre1_1')
+			Phrase("2⃣" sélectionnable: ⊤ nom: 'num1_2')
+			Phrase("3⃣" sélectionnable: ⊤ nom: 'num1_3')
+			Phrase("4⃣" sélectionnable: ⊤ nom: 'num1_4')
+			Phrase("5⃣" sélectionnable: ⊤ nom: 'num1_5')
+			Phrase("6⃣" sélectionnable: ⊤ nom: 'num1_6')
+			Phrase("7⃣" sélectionnable: ⊤ nom: 'num1_7')
+			Phrase("8⃣" sélectionnable: ⊤ nom: 'num1_8')
+			Phrase("9⃣" sélectionnable: ⊤ nom: 'num1_9')
+		]
+	)
+
+¶Écran pour choisir le deuxième nombre¶
+nombres2: Groupe(
+		Grille(2 5)
+		[
+			Phrase("0⃣" sélectionnable: ⊤ nom: 'num2_0')
+			Phrase("1⃣" sélectionnable: ⊤ nom: 'num2_1')
+			Phrase("2⃣" sélectionnable: ⊤ nom: 'num2_2')
+			Phrase("3⃣" sélectionnable: ⊤ nom: 'num2_3')
+			Phrase("4⃣" sélectionnable: ⊤ nom: 'num2_4')
+			Phrase("5⃣" sélectionnable: ⊤ nom: 'num2_5')
+			Phrase("6⃣" sélectionnable: ⊤ nom: 'num2_6')
+			Phrase("7⃣" sélectionnable: ⊤ nom: 'num2_7')
+			Phrase("8⃣" sélectionnable: ⊤ nom: 'num2_8')
+			Phrase("9⃣" sélectionnable: ⊤ nom: 'num2_9')
+		]
+	)
+
+¶Écran pour choisir l'opérateur¶
+opérateurs: Groupe(
+		Grille(2 2)
+		[
+			Phrase("➕" sélectionnable: ⊤ nom: 'op_a')
+			Phrase("➖" sélectionnable: ⊤ nom: 'op_s')
+			Phrase("✖" sélectionnable: ⊤ nom: 'op_m')
+			Phrase("➗" sélectionnable: ⊤ nom: 'op_d')
+		]
+	)
+
+¶Écran pour afficher le résultat¶
+résultat: ((opérateur = 'a') | (opérateur = 's')) ?
+		(opérateur = 'a' ? addition(nombre15 nombre25) soustraction(
+					nombre15
+					nombre25
+				))
+		(opérateur = 'm' ? multiplication(nombre15 nombre25) division(
+					nombre15
+					nombre25
+				))
+
+¶Parcourir chaque écran¶
+configuration: [nombres1 opérateurs nombres2 résultat]
+
+¶Afficher¶
+configuration[image]

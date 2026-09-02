@@ -1,0 +1,46 @@
+K
+Diseños
+=== start
+¶Filas, pilas y grupos de frases, cada una con poses animadas.¶
+latido2: Secuencia(
+		{
+			0%: Pose(escala: .9)
+			50%: Pose(escala: 1.1)
+			100%: Pose(escala: .9)
+		}
+	)
+zrebote: Secuencia(
+		{
+			0%: Pose(desplazamiento: Lugar(z: 0m))
+			50%: Pose(desplazamiento: Lugar(z: -2m))
+			100%: Pose(desplazamiento: Lugar(z: 0m))
+		}
+		1s
+	)
+
+Grupo(
+	Fila()
+	[
+		Grupo(
+			Pila()
+			[
+				Frase('Gatita')
+				Frase('Gato' inmóvil: zrebote)
+				Grupo(
+					Fila()
+					[Frase('Perro') Frase('Canino')]
+					inmóvil: latido2
+				)
+				Frase('Felino')
+			]
+		)
+		Grupo(
+			Pila()
+			[
+				Frase('Hola')
+				Frase('Hola')
+			]
+			inmóvil: Secuencia.girar(2s "straight")
+		)
+	]
+)

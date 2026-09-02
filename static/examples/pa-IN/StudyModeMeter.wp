@@ -1,0 +1,78 @@
+⏳
+ਪੜ੍ਹਾਈ ਢੰਗ ਮੀਟਰ
+=== start/en
+¶ਪੜ੍ਹਾਈ ਦੇ ਘੰਟੇ ਜੋੜਨ ਲਈ ਕਲਿੱਕ ਕਰੋ ਅਤੇ ਵੇਖੋ ਕਿ ਮੀਟਰ ਸ਼ਾਂਤ ਤੋਂ ਧਿਆਨ ਵੱਲ ਅਤੇ ਫਿਰ ਬੋਝ ਵੱਲ ਕਿਵੇਂ ਬਦਲਦਾ ਹੈ।¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+ਐਕਟ: ਚੋਣ()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+ਪੜ੍ਹਾਈਦੇਘੰਟੇ:
+	0 …
+	∆ ਐਕਟ …
+		ਐਕਟ = 'reset' ?
+			0
+			ਪੜ੍ਹਾਈਦੇਘੰਟੇ + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+ਵਿਆਖਿਆ:
+	'ਆਪਣੇ ਪੜ੍ਹਾਈ ਦੇ ਸਮੇਂ ਨੂੰ ਵਧਾਉਣ ਲਈ “Add Study Hour +1” ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ। ਦੁਬਾਰਾ ਸ਼ੁਰੂ ਕਰਨ ਲਈ “Reset” ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ।'
+
+¶Hours text shows how many hours the user has studied.¶/en
+ਘੰਟਿਆਂਦੀਲਿਖਤ:
+	'ਤੁਸੀਂ ' + ਪੜ੍ਹਾਈਦੇਘੰਟੇ → '' + ' ਘੰਟੇ ਪੜ੍ਹਾਈ ਕੀਤੀ ਹੈ।'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+ਭਾਵ:
+	ਪੜ੍ਹਾਈਦੇਘੰਟੇ < 3 ?
+		'🌿 ਸ਼ਾਂਤ ਢੰਗ — ਪੜ੍ਹਾਈ ਦਾ ਸਮਾਂ ਜੋੜਨ ਲਈ ਕਲਿੱਕ ਕਰੋ'
+		ਪੜ੍ਹਾਈਦੇਘੰਟੇ < 6 ?
+			'📚 ਧਿਆਨ ਢੰਗ — ਤੁਸੀਂ ਲਾਭਦਾਇਕ ਖੇਤਰ ਵਿੱਚ ਹੋ!'
+			'🔥 ਬੋਝ ਢੰਗ — ਥੋੜ੍ਹਾ ਆਰਾਮ ਕਰੋ ਅਤੇ "Reset" ਕਰੋ'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+ਸਟੇਜ(
+	[
+		ਸਮੂਹ(
+			ਸਟੈਕ()
+			[
+				ਵਾਕੰਸ਼('ਪੜ੍ਹਾਈ ਢੰਗ ਮੀਟਰ' ਆਕਾਰ: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				ਵਾਕੰਸ਼(ਵਿਆਖਿਆ ਆਕਾਰ: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				ਵਾਕੰਸ਼(ਘੰਟਿਆਂਦੀਲਿਖਤ ਆਕਾਰ: 0.4m)
+
+				ਵਾਕੰਸ਼(ਭਾਵ ਆਕਾਰ: 0.75m)
+
+				ਸਮੂਹ(
+					ਕਤਾਰ(ਪੈਡਿੰਗ: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						ਵਾਕੰਸ਼(
+							'ਪੜ੍ਹਾਈ ਦਾ ਘੰਟਾ ਜੋੜੋ +1'
+							ਚੋਣਯੋਗ: ⊤
+							ਨਾਮ: 'ਜੋੜੋ'
+							ਰੰਗ: ਰੰਗ(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						ਵਾਕੰਸ਼(
+							'ਦੁਬਾਰਾ ਸ਼ੁਰੂ ਕਰੋ'
+							ਚੋਣਯੋਗ: ⊤
+							ਨਾਮ: 'reset'
+							ਰੰਗ: ਰੰਗ(69% 47 271°)
+						)
+					]
+				)
+			]
+			ਚਿਹਰਾ: "Aclonica"
+		)
+	]
+)

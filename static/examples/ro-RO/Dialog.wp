@@ -1,0 +1,74 @@
+🗨
+Dialog
+=== start
+¶Două litere vorbesc despre ce înseamnă ca literele să vorbească.¶
+
+¶O linie din conversație: cine o spune, cuvintele și dacă este gândită, nu spusă.¶
+•rând(cine•'' cuvinte2•'' gândește•?: ⊥)
+
+scenariu: [
+		rând('un' 'Ți se pare vreodată ciudat că noi vorbim?')
+		rând(
+			'b'
+			'Suntem litere. Vorbitul e cam toată treaba noastră.'
+		)
+		rând(
+			'un'
+			'Nu, mă refer la noi. Nu la cuvintele pe care le formăm. Noi.'
+		)
+		rând('b' '...A, da.')
+		rând(
+			'un'
+			'Sunt o formă care înseamnă un sunet. Chiar acum fac sunetul fiind forma.'
+		)
+		rând(
+			'b'
+			'Un balon de vorbire în jurul unei litere este o imagine a unei litere, sau o literă a unei imagini?'
+			gândește: ⊤
+		)
+		rând('un' 'Te învârți în cerc.')
+		rând(
+			'b'
+			'Sunt un b. A mă învârti în spirală e chiar silueta mea.'
+		)
+		rând('un' 'Oricum. Aici e normal.')
+		rând('b' 'Normal pentru noi, cel puțin.')
+	]
+
+¶Avansează la o tastă, un clic sau o atingere și oprește-te la ultima linie.¶
+rând2•#: 1 … ∆ Cheie() | ∆ Buton() … (rând2 < scenariu.lungime(
+				) ? rând2 + 1 rând2)
+
+rând3: scenariu[rând2]
+
+¶Doar cel a cărui rând este primește un balon. Fiecare linie este un @Say, deci este rostităși afișată în același timp — iar balonul ține locul descrierii, pentru că fostecuvintele sunt deja pe ecran lângă cel care le-a spus. Nimeni nu alege o parte: scenapune fiecare balon acolo unde stă cel mai puțin în cale.¶
+ƒ balon2(cine2•'')
+	cine2 = rând3.cine ?
+		Balon(
+			Cuvânt(rând3.cuvinte2)
+			fel: (rând3.gândește ? '💭' '💬')
+			încadrare: 9m
+		)
+		ø
+
+¶Un rând aliniat pe linia de bază, astfel încât ambele litere să stea pe o singurălinie. Cutia unei fraze este cerneala ei, deci așezarea lor la aceeași înălțime arpune o literă scurtă și una înaltă pe linii de bază diferite.¶
+Etapă(
+	[
+		Grup(
+			Stivă('|' 1.5m)
+			[
+				Grup(
+					Rând('_' 6m)
+					[
+						Fraza('un' dimensiune: 3m balon: balon2('un'))
+						Fraza('b' dimensiune: 3m balon: balon2('b'))
+					]
+				)
+				Fraza(
+					`/spațiu, clic sau atingere/`
+					dimensiune: 0.6m
+				)
+			]
+		)
+	]
+)

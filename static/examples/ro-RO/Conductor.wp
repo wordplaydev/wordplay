@@ -1,0 +1,292 @@
+🫲
+Dirijor
+=== start/en
+¶Conduce o flotă imperială cu o singură mână. Fără tastatură, fără butoane — camera îți urmărește mâna și o orchestră de opt instrumente răspunde.
+
+Ridică mâna și orchestra se completează, câte o parte pe rând, până cântă toate opt. Coboar-o și dispar treptat, până rămâne doar melodia singură. Alunecă spre stânga ca să încetinești marșul, spre dreapta ca să-l grăbești. Câte degete ridici alege cine cântă melodia.
+
+Fiecare instrucțiune este afișată pe scenă, ca s-o poți învăța fără să citești asta.¶
+
+mână: Mână()
+
+¶Înălțimea arată câtă orchestră cântă, iar mișcarea spre lateral arată cât de repede, ambele citite direct de pe mână, nu memorate, așa că urmăresc mâna neîntrerupt. Fiecare valoare este rotunjită la o treaptă, așa că muzica se schimbă doar când schimbarea e destul de mare ca să se audă, iar o mână care tremură nu rescrie partitura de douăzeci de ori pe secundă.¶
+ridicare: ((mână.loc.y + 3m) ÷ 6m).min(1).maxim(0)
+straturi: 1 + ((ridicare · 7).rundă())
+
+razăDeAcțiune: ((mână.loc.x + 5m) ÷ 10m).min(1).maxim(0)
+ritm: 72 + ((razăDeAcțiune · 8).rundă() · 12)
+
+¶Cine cântă melodia. Un pumn strâns și o mână ieșită din cadru contează amândouă drept zero degete, așa că zero degete păstrează pe cine cânta deja — altfel, dacă te uiți în altă parte, ar schimba melodia.¶
+recomandat: 5 … ∆ mână …
+		(mână.degete = 0) ? recomandat mână.degete
+
+ƒ voce2(numărare2•#)•Instrument
+	(numărare2 = 1) ? Instrument.pian
+		(numărare2 = 2) ? Instrument.vioară
+			(numărare2 = 3) ? Instrument.flaut
+				(numărare2 = 4) ? Instrument.chitarăElectrică
+					Instrument.trompetă
+
+ƒ pictogramă(numărare3•#)•''
+	(numărare3 = 1) ? '🎹'
+		(numărare3 = 2) ? '🎻'
+			(numărare3 = 3) ? '🪈'
+				(numărare3 = 4) ? '⚡'
+					'🎺'
+
+¶Cât de tare cântă o parte. Fiecare parte rămâne mereu în muzică, așa că niciuna nu-și pierde locul — cele de deasupra mâinii sunt doar date complet la minimum.
+
+Fiecare este setată mult sub nivelul melodiei, iar toate opt împreună ajung la mai puțin decât dublul ei. Opt părți la volum maxim nu fac o orchestră tare, ci una neclară, pentru că tot ce sună în același timp trebuie să iasă prin același difuzor.¶
+ƒ auzit(rang•# tare•%)•% (rang ≤ straturi) ? tare 0%
+
+¶Marșul Imperial, opt măsuri, o măsură pe linie. Este scris pe o scală cromatică pentru ca notele care nu se încadrează în tonalitate — treapta a doua micșorată și alunecarea cromatică din a doua jumătate — să poată fi scrise deloc: treapta 1 este tonica și fiecare pas în sus este un semiton, așa că aceste numere sunt intervale, nu trepte de scală.
+
+Valorile notelor duc ritmul. Un număr simplu durează cât bătaia piesei, o pătrime aici, iar orice altă durată e notată chiar pe numărul respectiv: 𝅘𝅥𝅮𝅭 pentru optimea cu punct și 𝅘𝅥𝅯 pentru șaisprezecimea care împing marșul înainte, 𝅗𝅥 pentru doimea pe care se așază. Fiecare linie însumează patru bătăi.¶
+marș: [
+		5
+		5
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		12
+		12
+		12
+		13𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		4
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		17
+		5𝅘𝅥𝅮𝅭
+		5𝅘𝅥𝅯
+		17
+		16𝅘𝅥𝅮𝅭
+		15𝅘𝅥𝅯
+		14𝅘𝅥𝅯
+		13𝅘𝅥𝅯
+		14
+		6𝅘𝅥𝅮
+		11
+		9𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		7𝅘𝅥𝅯
+		6𝅘𝅥𝅯
+		7
+		1𝅘𝅥𝅮
+		4
+		1𝅘𝅥𝅮𝅭
+		4𝅘𝅥𝅯
+		8
+		5𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		12𝅗𝅥
+	]
+
+¶Patru măsuri de note fundamentale dedesubt, mărșăluind în pătrimi. Este mai scurtă decât melodia, iar fiecare pistă se repetă pe propria lungime, așa că aceste patru măsuri revin de două ori pentru cele opt ale melodiei.¶
+bas: [
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		5
+		5
+		12
+		8
+	]
+
+¶O singură măsură de tobe, în ritmul propriu al melodiei. Treptele aleg dintr-un set de tobe, nu dintr-o scală, pe un instrument fără înălțime a sunetului, așa că 1 este toba mare, 2 este toba mică, 3 este hi-hat-ul, iar 5 este toba de bas medie (tom).¶
+tobe2: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
+
+¶Acorduri pe contratimpi, împingerea care nu lasă marșul să stea pe loc. A treia măsură se apleacă spre acordul minor cu un ton și jumătate mai jos, de unde vin notele micșorate ale melodiei.¶
+coarde: [
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{1 4 8}
+		ø
+		{1 4 8}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+	]
+
+¶Aceleași patru măsuri ținute ca cvinte simple, câte una pe măsură. O cvintă nu are terță, așa că nu se amestecă cu notele cromatice de deasupra.¶
+pernă: [{5 12} {5 12} {1 8} {5 12}]
+
+¶Un clopoțel pe prima măsură și pe a treia. Bătaia lui este o notă întreagă, așa că o pauză aici înseamnă o măsură întreagă de tăcere.¶
+clopoței: [5 ø 1 ø]
+
+¶Un răspuns înalt în golurile în care melodia stă pe loc.¶
+contor: [
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		20𝅗𝅥
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		17𝅗𝅥
+	]
+
+melodie2: Muzică(
+		[
+			Pistă(
+				marș
+				instrument: voce2(recomandat)
+				volum: 55%
+				bătaie: 1𝅘𝅥
+			)
+			Pistă(
+				bas
+				instrument: Instrument.sintetizatorBas
+				bătaie: 1𝅘𝅥
+				cheie: -24semitones
+				volum: auzit(2 30%)
+			)
+			Pistă(
+				tobe2
+				instrument: Instrument.tobe
+				bătaie: 1𝅘𝅥
+				volum: auzit(3 20%)
+			)
+			Pistă(
+				marș
+				instrument: Instrument.saxofon
+				bătaie: 1𝅘𝅥
+				cheie: -12semitones
+				volum: auzit(4 22%)
+			)
+			Pistă(
+				pernă
+				instrument: Instrument.sintetizatorPad
+				bătaie: 1𝅝
+				cheie: -12semitones
+				volum: auzit(5 16%)
+			)
+			Pistă(
+				coarde
+				instrument: Instrument.vioară
+				bătaie: 1𝅘𝅥
+				volum: auzit(6 18%)
+			)
+			Pistă(
+				clopoței
+				instrument: Instrument.clopoțel
+				bătaie: 1𝅝
+				cheie: 12semitones
+				volum: auzit(7 12%)
+			)
+			Pistă(
+				contor
+				instrument: Instrument.flaut
+				bătaie: 1𝅘𝅥
+				volum: auzit(8 14%)
+			)
+		]
+		tempo: ritm · 1beats/min
+		gamă: Muzică.cromatic
+		nume: 'marșul imperial'
+	)
+
+¶Cât de departe a călătorit flota. Numără propriile ticuri, nu ceasul, și le numără mai repede când marșul e mai rapid, așa că navele zboară în ritmul melodiei.¶
+călătorie: 0 … ∆ Timp(40ms) … călătorie + (ritm ÷ 72)
+
+ƒ stare()•'' '\straturi\ of 8 playing · \ritm\ beats a minute'
+
+¶O linie din instrucțiuni, estompată ca flota și interpretul principal să se citească întâi.¶
+ƒ rând(text2•'')•Fraza Fraza(
+		text2
+		0.3m
+		culoare: Culoare(64% 4 265°)
+	)
+
+¶Instrucțiunile, aliniate la marginea din stânga, nu centrate, ca ochiul să poată coborî drept pe ele.¶
+afișaj: Grup(
+		Stivă('<' 0.16m)
+		[
+			Fraza(
+				pictogramă(recomandat)
+				0.9m
+				culoare: Culoare(56% 65 25°)
+			)
+			Fraza(stare() 0.38m culoare: Culoare(70% 25 30°))
+			rând('ridică mâna — mai multă orchestră')
+			rând('coboar-o — doar melodia')
+			rând(
+				'mâna la stânga — mai încet · mâna la dreapta — mai repede'
+			)
+			rând('degete ridicate — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺')
+		]
+	)
+
+¶O navă traversează scena, zburând într-o bandă mult deasupra instrucțiunilor, ca să nu treacă niciodată peste text. Banda ei stabilește cât de sus zboară și cât de departe pornește, așa că nu zboară niciodată în formație.¶
+ƒ navă(glif•'' culoar•# viteză2•#)•Fraza
+	Fraza(
+		glif
+		0.7m
+		loc: Loc(
+			(((((călătorie · viteză2) + (culoar · 47)) % 200) - 100) · 0.045) · 1m
+			((culoar · 0.65) + 2.2) · 1m
+		)
+	)
+
+flotă: [
+		navă('🛸' 0 3)
+		navă('🚀' 1 2)
+		navă('🛰' 2 4)
+		navă('🛸' 3 5)
+	]
+
+ƒ stea(x2•# y2•# mărime2•#)•Fraza
+	Fraza(
+		'✦'
+		mărime2 · 1m
+		loc: Loc(x2 · 1m y2 · 1m)
+		culoare: Culoare(46% 8 275°)
+	)
+
+¶Scena se ajustează ca să încapă tot ce se află pe ea, așa că orice se mișcă ar redimensiona toată imaginea la fiecare tic și ar face cuvintele să tremure. Cele patru stele din colțuri sunt mai departe decât zboară vreodată navele și mai departe decât cea mai lungă linie de text, așa că ajustarea are un cadru care nu se schimbă niciodată, iar imaginea rămâne fixă. Restul e doar cer.¶
+stele: [
+		stea(-5.6 -2.3 0.18)
+		stea(5.6 -2.3 0.18)
+		stea(-5.6 5 0.18)
+		stea(5.6 5 0.18)
+		stea(-4.9 2.1 0.22)
+		stea(-3.9 3.9 0.14)
+		stea(-2.2 2.5 0.18)
+		stea(1.1 3.4 0.14)
+		stea(2.7 4.4 0.22)
+		stea(4.6 2.7 0.14)
+	]
+
+Etapă(
+	[:stele :flotă afișaj melodie2]
+	fundal: Culoare(7% 6 275°)
+	culoare: Culoare(88% 3 265°)
+)

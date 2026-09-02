@@ -1,0 +1,23 @@
+H
+LungimeaPropoziției
+===
+¶Scrie în bara de chat și îți numără caracterele propoziției.¶
+propoziție: Chat()
+lungime2: Chat().lungime()
+
+Grup(
+	Stivă()
+	[
+		Fraza(
+			`*Bună! Bine ai venit la calculatorul de lungime a propozițiilor.*`
+			loc: Loc(0m 1m)
+		)
+		Fraza('Scrie ceva în bara de mesaje!' loc: Loc(0m -1m))
+		Fraza(
+			'Propoziția ta are ' + (lungime2 → '') + ' caractere!'
+			odihnă: Secvenţă.legănare(durată: 3s)
+			loc: Loc(0m -3m)
+		)
+		Fraza(propoziție loc: Loc(0m -5m) înfășura: 25m)
+	]
+)

@@ -1,0 +1,40 @@
+H
+Rețetă de Adobo
+=== start/en
+¶O rețetă pas cu pas pentru adobo de pui filipinez.¶
+
+¶Aceasta este lista scenelor de arătat¶
+propoziții: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Adobong Manók @lamamel/adobo! (mișcă mausul ca să mănânci)`)
+		(`Masarap! @lamamel/emptyadobo`)
+	]
+
+¶Aceasta este lista propozițiilor care trebuie să avanseze doar prin mișcarea mausului.¶
+mutăPropoziții: [9 11]
+
+¶Propoziția curentă începe de la 1 și crește dacă mausul ajunge într-un anumit loc pe ecran, sau dacă se apasă un buton sau o tastă pentru celelalte propoziții.¶
+punct: Indicator()
+propozițiaCurentă•#: 1 …
+	mutăPropoziții.are(propozițiaCurentă) ?
+		(punct.x > 2m) & (punct.y > 3m)
+		∆ Buton() | ∆ Cheie()
+		…
+		(propozițiaCurentă <
+				propoziții.lungime()) ?
+			propozițiaCurentă + 1
+			propozițiaCurentă
+
+Etapă(
+	[Fraza(propoziții[propozițiaCurentă] înfășura: 10m)]
+	faţă: 'Short Stack'
+)

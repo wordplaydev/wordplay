@@ -1,0 +1,52 @@
+🖐
+Mână
+===
+¶Arată-ți degetele la cameră și o mână emoji le numără.¶
+mână: Mână()
+
+Etapă(
+	[
+		Fraza(
+			(mână.degete = 0 ? '✊'
+					mână.degete = 1 ? '☝'
+						mână.degete = 2 ? '✌'
+							mână.degete = 3 ? '🤟'
+								mână.degete = 4 ? '🖖'
+									'🖐')
+			loc: mână.loc
+			dimensiune: 2m
+			compensare: Loc(-1m)
+		)
+		Grup(
+			Rând('<')
+			[
+				Fraza(
+					'1⃣'
+					compensare: Loc(0m mână.degetulmare ? 1m 0m)
+				)
+				Fraza('2⃣' compensare: Loc(0m mână.index ? 1m 0m))
+				Fraza('3⃣' compensare: Loc(0m mână.mijloc ? 1m 0m))
+				Fraza('4⃣' compensare: Loc(0m mână.inel ? 1m 0m))
+				Fraza('5⃣' compensare: Loc(0m mână.mic ? 1m 0m))
+			]
+			loc: Loc(-4.5m 5m)
+		)
+		Grup(
+			Stivă('|')
+			[
+				Fraza((mână.palmier ? '🤚' '🤛') dimensiune: 2m)
+				Fraza(
+					(mână.deschide ? 'deschisă' 'închisă')
+					dimensiune: 1.5m
+				)
+			]
+			loc: Loc(-2m -8m)
+		)
+		Fraza(
+			`/Arată mâna la cameră/`
+			loc: Loc(-6m -10m)
+			dimensiune: 1m
+		)
+	]
+	loc: Loc(0m 0m -20m)
+)

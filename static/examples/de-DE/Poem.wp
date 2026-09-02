@@ -1,0 +1,95 @@
+T
+Gedicht
+=== start
+¶Ein Gedicht, dessen Zeilen hereinschweben, jede mit ihrem eigenen Auftritt.¶
+•zeile(text2•"" pose•Pose|Reihenfolge zurück: Farbe(
+			100
+			100
+			100°
+		) vorne: Farbe(0 0 0°))
+
+¶Eine Liste der Zeilen des Gedichts, jede mit einer Pose.¶
+gedicht: [
+		zeile(
+			'Die Computerdatei'
+			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+		)
+		zeile('an die' Pose(Opazität: 0% Versatz: Ort(j: -5m)))
+		zeile('ich mich nicht erinnere' Pose(Drehung: 10°))
+		zeile(
+			'ich klicke, um sie zu öffnen'
+			Reihenfolge(
+				{
+					0%: Pose(Skala: 1)
+					50%: Pose(Skala: 0.7)
+					100%: Pose(Skala: 1)
+				}
+				0.25s
+			)
+		)
+		zeile('schau' Pose(Opazität: 0% Versatz: Ort(j: -5m)))
+		zeile(
+			'scrolle weiter nach unten'
+			Pose(Opazität: 0% Versatz: Ort(j: 5m))
+		)
+		zeile(
+			'der Bildschirm'
+			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+		)
+		zeile(
+			'bleibt hintergrundbeleuchtet und leer'
+			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+			Farbe(0 0 0°)
+			Farbe(100 100 0°)
+		)
+		zeile(
+			'so treffe ich mich selbst wieder'
+			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+		)
+		zeile(
+			'hoffnungsvoll und nutzlos'
+			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+		)
+		zeile(
+			'ein Rätsel'
+			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+		)
+		zeile(
+			'genau so, wie ich es damals wohl tat'
+			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+		)
+		zeile('am 19. August 2010, 11:08 Uhr' Pose())
+	]
+
+zahl2: 1 … ∆ Taste() | ∆ Schlüssel() …
+		(zahl2 = (gedicht.Länge() + 1)) ? 1 zahl2 + 1
+zeile2: gedicht[zahl2]
+
+zahl2 ≤ gedicht.Länge() ?
+	Bühne(
+		[
+			Satzglied(
+				zeile2.text2
+				Eingabe: zeile2.pose
+				Dauer: 1s
+				Name: zahl2 → ""
+				Stil: 'cautious'
+			)
+		]
+		Hintergrund: zeile2.zurück
+		Ruhen: Pose(Farbe: zeile2.vorne)
+	)
+	Bühne(
+		[
+			Gruppe(
+				Stapel()
+				[
+					Satzglied('RATSCHLAG AN MICH SELBST')
+					Satzglied('Jane Hirshfield')
+				]
+				Eingabe: Pose(Skala: 0.75)
+			)
+		]
+		Hintergrund: Farbe(0% 0 0°)
+		Farbe: Farbe(100% 100 0°)
+	)

@@ -1,0 +1,100 @@
+🎬
+Prezentare de diapozitive
+=== start
+¶O prezentare care povestește cum a apărut Wordplay; apasă → și ← pentru a parcurge diapozitivele.¶
+
+¶Un diapozitiv din prezentare: un personaj, un titlu și cuvintele de sub el.¶
+•diapozitiv(emoji•'' titlu•'' corp•''|`…`)
+
+¶Povestea. Adaugă, șterge sau schimbă aceste diapozitive ca să spui propria ta poveste.¶
+diapozitive: [
+		diapozitiv(
+			'🎭'
+			'Wordplay'
+			'Povestea despre cum a apărut această limbă. Apasă → pentru a merge înainte și ← pentru a merge înapoi.'
+		)
+		diapozitiv(
+			'✒'
+			'O dragoste pentru litere'
+			'Cu mult timp în urmă, Amy s-a îndrăgostit de tipografie: formele literelor și ritmul cuvintelor pe o pagină.'
+		)
+		diapozitiv(
+			'💻'
+			'O dragoste pentru cod'
+			'S-a îndrăgostit și de programare, și de felul în care câteva cuvinte puteau face lucrurile să se miște.'
+		)
+		diapozitiv(
+			'🧭'
+			'Două dragoste, despărțite'
+			'Dar tipografia și programarea trăiau în lumi diferite, iar puține unelte invitau pe cineva să le iubească pe amândouă odată.'
+		)
+		diapozitiv(
+			'😄'
+			'Un tânăr'
+			'Ani mai târziu, ea a cunoscut un tânăr care iubea emoticoanele și voia să le facă să danseze.'
+		)
+		diapozitiv(
+			'💡'
+			'O idee'
+			'Dacă o limbă de programare ar face ușor să faci emoticoanele să danseze?'
+		)
+		diapozitiv(
+			'🌱'
+			'Wordplay începe'
+			'Așa că a început să construiască una, în care a scrie cod înseamnă a mișca cuvinte și caractere pe o scenă.'
+		)
+		diapozitiv(
+			'🧑‍🏫'
+			'Creat împreună'
+			'A creat-o împreună cu mulți tineri și profesori, care au spus ce voiau să facă și ce le stătea în cale.'
+		)
+		diapozitiv(
+			'🌏'
+			'Mereu în schimbare'
+			'A continuat să crească de atunci, ca tot mai mulți oameni să poată face tot mai mult din ceea ce își imaginează.'
+		)
+		diapozitiv(
+			'✨'
+			'Rândul tău'
+			`Ce visezi să creezi, dar nu este încă posibil? Spune-ne la <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+		)
+	]
+
+total: diapozitive.lungime()
+
+cheie2: Cheie()
+
+¶Diapozitivul pe care îl arătăm acum. Dreapta merge înainte, stânga merge înapoi, iar amândouă se opresc la capete, fără să se întoarcă de la început.¶
+index2•#: 1 … ∆ cheie2 …
+		(cheie2 = 'SăgeatăDreapta') ? ((index2 < total) ? index2 + 1 index2)
+			(cheie2 = 'SăgeatăStânga') ? ((index2 > 1) ? index2 - 1 index2)
+				index2
+
+diapozitiv2: diapozitive[index2]
+
+Etapă(
+	[
+		Grup(
+			Stivă('|' 0.4m)
+			[
+				Fraza(diapozitiv2.emoji dimensiune: 2m)
+				Fraza(
+					`*\diapozitiv2.titlu\*`
+					dimensiune: 1.2m
+					aliniere: '|'
+				)
+				Fraza(
+					diapozitiv2.corp
+					dimensiune: 0.5m
+					înfășura: 12m
+					aliniere: '|'
+				)
+				Fraza(
+					`\index2\ din \total\`
+					dimensiune: 0.25m
+					aliniere: '|'
+				)
+			]
+		)
+	]
+)

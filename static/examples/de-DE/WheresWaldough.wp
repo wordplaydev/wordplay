@@ -1,0 +1,105 @@
+🔁
+Wo ist Waldough?
+=== start/en
+¶Finde Waldough, der sich in der Menge versteckt: Suche nach dem Mann im orangefarbenen Hemd und klicke auf ihn, um zu gewinnen!¶
+
+name2: Auswahl()
+gefangen: ⊥ … ∆ (name2) … (name2 = 'ResetButton') ? ⊥ ((name2 = 'Waldough') | gefangen)
+punktestand: 0 … ∆ (name2) … (name2 = 'Waldough') ? 1 + punktestand punktestand
+
+ƒ ort() Ort(
+		((0.1 × Zufällig(-9m 9m)) + Zufällig(-2m 1m))
+		((0.1 × Zufällig(-9m 9m)) + Zufällig(-2m 1m))
+	)
+ƒ neuePunkte() [
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+		ort()
+	]
+punkte: neuePunkte() … ∆ (name2) … (name2 = 'ResetButton') ? neuePunkte(
+			) punkte
+
+
+Bühne(
+	[
+		Satzglied(
+			"🔁"
+			wählbar: ⊤
+			Ort: Ort(4m -0.5m)
+			Ruhen: gefangen ? Pose(Drehung: 180°) Pose()
+			Dauer: 0.5s
+			Name: 'ResetButton'
+		)
+		Satzglied(
+			'Suche nach dem orangefarbenen Hemd'
+			0.2m
+			Ort: Ort(-6.2m 0.75m)
+			gesicht: 'Carter One'
+		)
+		Satzglied(
+			'Mann (namens Waldough) und'
+			0.2m
+			Ort: Ort(-6.4m 0.25m)
+			gesicht: 'Carter One'
+		)
+		Satzglied(
+			'klicke auf ihn, um zu gewinnen!🧍🏻'
+			0.2m
+			Ort: Ort(-6.0m -0.25m)
+			gesicht: 'Carter One'
+		)
+		Satzglied(
+			'Punktestand: ' + punktestand → ''
+			0.5m
+			Ort: Ort(-5.9m -1m)
+		)
+
+		Satzglied("🏀" Ort: punkte[1])
+		Satzglied("🦧" Ort: punkte[2])
+		Satzglied("🍊" Ort: punkte[3])
+		Satzglied("👻" Ort: punkte[4])
+		Satzglied("🤖" Ort: punkte[5])
+		Satzglied("👽" Ort: punkte[6])
+		Satzglied("🐀" Ort: punkte[7])
+		Satzglied("🦣" Ort: punkte[8])
+		Satzglied("🐸" Ort: punkte[9])
+		Satzglied("🍎" Ort: punkte[10])
+		Satzglied("💧" Ort: punkte[11])
+		Satzglied("🍔" Ort: punkte[12])
+		Satzglied("❤" Ort: punkte[13])
+		Satzglied("🍥" Ort: punkte[14])
+		Satzglied(
+			"🧍🏻"
+			wählbar: ~gefangen
+			Ort: punkte[15]
+			Ruhen: gefangen ? Pose(Drehung: 180°) Pose()
+			Dauer: 0s
+			Name: 'Waldough'
+		)
+		Satzglied("🔥" Ort: punkte[16])
+		Satzglied("🎂" Ort: punkte[17])
+		Satzglied("🐕" Ort: punkte[18])
+		Satzglied("🦈" Ort: punkte[19])
+		Gestalt(Rechteck(-3.5m -3m 3.5m -3.5m))
+		Gestalt(Rechteck(-3.5m 3.5m 3.5m 3m))
+		Gestalt(Rechteck(-3.5m 3.5m -3m -3.5m))
+		Gestalt(Rechteck(3m 3.5m 3.5m -3.5m))
+	]
+	Ort: Ort(0m 0m -5m)
+)

@@ -1,0 +1,58 @@
+🎵
+Nota perdesi
+===
+¶Şarkı söyle ya da mırıldan, ve çıkardığın notayı iki kez gör. Soldaki nota ham @Pitch değerini okur ve titrer; sağdaki nota son birkaç perdenin ortalamasını alır ve sabit kalır. @Pitch net bir şey duymadığında 0hz der, bu yüzden her iki nota da bu anları atlar ve bunun yerine · gösterir.¶
+notalar2: [
+		'A'
+		'A♯'
+		'B'
+		'C'
+		'C♯'
+		'D'
+		'D♯'
+		'E'
+		'F'
+		'F♯'
+		'G'
+		'G♯'
+	]
+notaOf: ƒ(hz•#hz) hz > 0hz ? notalar2[(((((12 × (hz ÷ 440hz).log(
+										2
+									)).yuvarlak(
+							)) % 12) + 12) % 12) + 1] '·'
+yumuşak: ƒ(sinyal•…#hz) (
+			duyulmuş: (←← 8 sinyal).olmadan(0hz)
+			(duyulmuş.birleştirilmiş(
+					0hz
+					ƒ(toplam2•#hz v•#hz) toplam2 + v
+				) ÷ duyulmuş.uzunluk()) ?? 0hz
+		)
+perde2: Saha()
+Sahne(
+	[
+		Grup(
+			Yığın()
+			[
+				İfadeetmek('gürültülü' renk: Renk(60% 90 30°))
+				İfadeetmek(
+					notaOf(perde2)
+					boyut: 6m
+					renk: Renk(60% 90 30°)
+				)
+			]
+			yer: Yer(-4m 0m)
+		)
+		Grup(
+			Yığın()
+			[
+				İfadeetmek('yumuşak' renk: Renk(70% 90 240°))
+				İfadeetmek(
+					notaOf(yumuşak(perde2))
+					boyut: 6m
+					renk: Renk(70% 90 240°)
+				)
+			]
+			yer: Yer(4m 0m)
+		)
+	]
+)

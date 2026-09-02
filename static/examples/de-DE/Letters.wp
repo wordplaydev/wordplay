@@ -1,0 +1,23 @@
+മ
+Buchstaben
+=== start/en
+¶Ein Raster aus Buchstaben vieler Schriftsysteme. Jede Sekunde ändert sich einer.¶
+buchstaben: 'മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ' ÷ ""
+
+neueste•['']:
+	buchstaben … ∆ Zeit(1000ms) …
+		neueste.ersetzen(Zufällig(1 25) buchstaben.zufällig())
+
+Gruppe(
+	Netz(5 5 0.25m 1m 1m)
+	neueste.übersetzen(
+		ƒ(buchstabe•"" index2•#)
+			Satzglied(
+				buchstabe
+				Name: "\buchstabe\-\index2\"
+				Eingabe: Pose(Opazität: 0 Skala: 2)
+				Ruhen: Reihenfolge.wiegen(Dauer: 0.25s)
+				Dauer: 0.5s
+			)
+	)
+)

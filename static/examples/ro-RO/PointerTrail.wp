@@ -1,0 +1,16 @@
+✨
+Urmă de indicator
+===
+¶Mișcă indicatorul pentru a desena o dâră arcurie care se stinge. @Previous (←←) reține ultimele cinci @Pointer locuri, iar @List.translate desenează un punct pentru fiecare, care se stinge și își schimbă culoarea de la cel mai vechi la cel mai nou.¶
+istoric•[Loc]: ←← 5 Indicator()
+Etapă(
+	istoric.traduce(
+		ƒ(loc2•Loc index2•#)
+			Fraza(
+				'●'
+				culoare: Culoare(75% 100 index2 × 40°)
+				opacitate: index2 ÷ istoric.lungime()
+				loc: Loc(loc2.x loc2.y)
+			)
+	)
+)

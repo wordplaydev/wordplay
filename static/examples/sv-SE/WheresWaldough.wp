@@ -1,0 +1,105 @@
+🔁
+Var är Waldough?
+=== start/en
+¶Hitta Waldough som gömmer sig i folkmassan: leta efter mannen i den orange skjortan och klicka på honom för att vinna!¶
+
+namn3: Val()
+fångad: ⊥ … ∆ (namn3) … (namn3 = 'ResetButton') ? ⊥ ((namn3 = 'Waldough') | fångad)
+poäng: 0 … ∆ (namn3) … (namn3 = 'Waldough') ? 1 + poäng poäng
+
+ƒ punkt2() Plats(
+		((0.1 × Slumpmässig(-9m 9m)) + Slumpmässig(-2m 1m))
+		((0.1 × Slumpmässig(-9m 9m)) + Slumpmässig(-2m 1m))
+	)
+ƒ nyaPrickar() [
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+	]
+prickar: nyaPrickar() … ∆ (namn3) … (namn3 = 'ResetButton') ? nyaPrickar(
+			) prickar
+
+
+Etapp(
+	[
+		Fras(
+			"🔁"
+			valbara: ⊤
+			plats: Plats(4m -0.5m)
+			vilande: fångad ? Pose(rotation: 180°) Pose()
+			varaktighet: 0.5s
+			namn: 'ResetButton'
+		)
+		Fras(
+			'Leta efter den orange skjortan'
+			0.2m
+			plats: Plats(-6.2m 0.75m)
+			ansikte: 'Carter One'
+		)
+		Fras(
+			'man (som heter Waldough) och'
+			0.2m
+			plats: Plats(-6.4m 0.25m)
+			ansikte: 'Carter One'
+		)
+		Fras(
+			'klicka på honom för att vinna!🧍🏻'
+			0.2m
+			plats: Plats(-6.0m -0.25m)
+			ansikte: 'Carter One'
+		)
+		Fras(
+			'Poäng: ' + poäng → ''
+			0.5m
+			plats: Plats(-5.9m -1m)
+		)
+
+		Fras("🏀" plats: prickar[1])
+		Fras("🦧" plats: prickar[2])
+		Fras("🍊" plats: prickar[3])
+		Fras("👻" plats: prickar[4])
+		Fras("🤖" plats: prickar[5])
+		Fras("👽" plats: prickar[6])
+		Fras("🐀" plats: prickar[7])
+		Fras("🦣" plats: prickar[8])
+		Fras("🐸" plats: prickar[9])
+		Fras("🍎" plats: prickar[10])
+		Fras("💧" plats: prickar[11])
+		Fras("🍔" plats: prickar[12])
+		Fras("❤" plats: prickar[13])
+		Fras("🍥" plats: prickar[14])
+		Fras(
+			"🧍🏻"
+			valbara: ~fångad
+			plats: prickar[15]
+			vilande: fångad ? Pose(rotation: 180°) Pose()
+			varaktighet: 0s
+			namn: 'Waldough'
+		)
+		Fras("🔥" plats: prickar[16])
+		Fras("🎂" plats: prickar[17])
+		Fras("🐕" plats: prickar[18])
+		Fras("🦈" plats: prickar[19])
+		Figur(Rektangel(-3.5m -3m 3.5m -3.5m))
+		Figur(Rektangel(-3.5m 3.5m 3.5m 3m))
+		Figur(Rektangel(-3.5m 3.5m -3m -3.5m))
+		Figur(Rektangel(3m 3.5m 3.5m -3.5m))
+	]
+	plats: Plats(0m 0m -5m)
+)

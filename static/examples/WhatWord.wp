@@ -70,7 +70,7 @@ screen/en,cine/es,إظهار/ar:
 		Group(⬇() [
 				board
 				💬(state.guesses.length() = 0 ?
-						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "اكتب حرفًا للتخمين"/ar"Guesses: \state.guesses.join(' ')\"/en"Suposiciones: \state.guesses.join(' ')\"/es"التخمينات \state.guesses.join(' ')\"/ar
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.join(' ')\"/en"Suposiciones: \state.guesses.join(' ')\"/es"التخمينات \state.guesses.join(' ')\"/ar
 				)
 				💬("\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
 					resting: Sequence.sway(2° (state.guessesRemaining ÷ 5) × 1s

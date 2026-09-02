@@ -1,0 +1,27 @@
+t
+Yazı Tipi Makinesi
+=== start
+¶"typography" kelimesindeki her harfi rastgele bir yazı tipiyle yeniden dizmek için herhangi bir tuşa bas.¶
+yazıTipleri: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+simgeler: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ rastgeleYap()
+	simgeler.tercümeetmek(
+		ƒ(simge) İfadeetmek(
+				simge
+				yüz: yazıTipleri.rastgele()
+				süre: 0s
+			)
+	)
+
+cümleler: rastgeleYap() … ∆ Anahtar() | ∆ Düğme() … rastgeleYap(
+		)
+
+Sahne([Grup(Sıra('|' 0m) cümleler yer: Yer(0m 0m))])

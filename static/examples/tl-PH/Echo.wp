@@ -1,0 +1,25 @@
+💬
+Alingawngaw
+=== start
+¶Anuman ang itype ng manonood sa chat bar ay magiging pariralang ito.¶
+mensahe: Makipagchat()
+
+¶Magsimula sa isang prompt, pagkatapos ay ulitin ang bawat bagong mensahe. Ang teksto ay unti-unting nagbabago mula sa lumang mga salita patungo sa mga bago, isang letra sa isang pagkakataon.¶
+mgaSalita2: 'magsabi ng kahit ano!' … ∆ mensahe … mensahe
+
+¶Pumili ulit ng random na sukat, tabing, at kulay tuwing may dumarating na bagong mensahe.¶
+sukat2: 2m … ∆ mensahe … Random(1m 4m)
+ikiling: 0° … ∆ mensahe … Random(-30 30) × 1°
+hue: 200° … ∆ mensahe … Random(360) × 1°
+
+Parirala(
+	mgaSalita2
+	laki: sukat2
+	nagpapahinga: Pose(
+		pagikot: ikiling
+		kulay: Kulay(25% 100 hue)
+	)
+	tagal: .5s
+	nagbabago: 'edit'
+	pambalot: 20m
+)

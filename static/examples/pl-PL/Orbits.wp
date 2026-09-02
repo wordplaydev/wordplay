@@ -1,0 +1,39 @@
+🪐
+Orbity
+=== start
+¶Trzy planety krążą wokół gwiazdy, która je przyciąga.¶
+
+¶To gwiazda przyciąga, więc potrzebuje @Matter z siłą przyciągania. Nie ma @Motion, więc nic jej nie przyciąga z powrotem i zostaje na swoim miejscu. @Place to raczej róg wyniku niż jego środek, dlatego gwiazda jest przesunięta o połowę swojego rozmiaru, aby jej środek znalazł się na środku nieba.¶
+słońce: Wyrażenie(
+		'⭐'
+		2m
+		nazwa: 'słońce'
+		miejsce: Miejsce(-1m -1m)
+		materiał: Materiał(2000kg ciągnij: 1)
+	)
+
+¶Planeta w ogóle nie potrzebuje @Matter. To posiadanie @Motion pozwala, aby przyciąganie gwiazdy nią poruszało. To, jak szybko musi się poruszać, by krążyć zamiast spadać, zależy od tego, jak daleko się znajduje, więc każda planeta ma prędkość, która utrzymuje ją na swoim własnym torze.¶
+planeta: ƒ(glif•"" nazwany•"" szeroki•#m daleko•#m prędkość2•#m/s)
+		Wyrażenie(
+			glif
+			szeroki
+			nazwa: nazwany
+			miejsce: Ruch(
+				Miejsce(daleko - (szeroki ÷ 2) 0m - (szeroki ÷ 2))
+				Prędkość(0m/s prędkość2)
+			)
+		)
+
+¶Niebo samo w sobie nie ma grawitacji, bo inaczej wszystko spadłoby na dół. Nie ma też powietrza, więc planety wciąż się poruszają, zamiast zwalniać i zatrzymywać się.¶
+Scena(
+	[
+		słońce
+		planeta('🌍' 'ziemia' 0.8m 3m 11.5m/s)
+		planeta('🪐' 'z pierścieniem' 1m 5m 8.6m/s)
+		planeta('🌕' 'księżyc' 0.6m 7m 7.3m/s)
+	]
+	tło: Kolor(15% 20 300°)
+	powaga: 0m/s^2
+	powietrze: 0
+	miejsce: Miejsce(0m 0m -14m)
+)

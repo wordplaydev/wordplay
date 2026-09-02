@@ -1,0 +1,71 @@
+4
+Madlib
+=== start
+¶Isang madlib: magbigay ng mga salita, kumuha ng isang katawa-tawang kuwento.¶
+
+¶Ito ay sumusubaybay sa mga uri ng salitang kailangan natin, at ang bilang ng mga ito¶
+•bahagiNgPananalita(tatak•"" bilang2•#)
+
+¶Ito ang mga salitang kailangan natin para sa madlib sa ibaba.¶
+mgaPagkakataon: [
+		bahagiNgPananalita('mga pang-uri' 4)
+		bahagiNgPananalita('mga pangngalan' 3)
+		bahagiNgPananalita(
+			'mga pandiwa, nakaraang panahunan'
+			3
+		)
+		bahagiNgPananalita('mga pang-abay' 4)
+	]
+
+chat: Makipagchat()
+¶Sa tuwing isusumite ang isang chat, lumipat sa susunod na bahagi ng pananalita¶
+pagkakataon: 1 … ∆ chat … pagkakataon + 1
+¶Sa tuwing isusumite ang isang chat, hatiin ang chat ayon sa mga puwang at idagdag sa mga sagot¶
+mgaSagot•[['']]: [] … ∆ chat … [:mgaSagot chat ÷ ' ']
+
+¶Binibigyan natin ang mga indeks na ito ng mga numero para mas madaling basahin ang madlib¶
+adjectives: 1
+mgaPangngalan: 2
+adverbs: 4
+mgaPandiwa: 3
+
+magtanong: mgaSagot.haba() < 4
+
+Entablado(
+	[
+		¶Bago natin makuha ang mga sagot, humingi ng mga sagot¶
+		magtanong ?
+			Grupo(
+				Patongpatong('|' 0.25m)
+				[
+					Parirala(
+						`\mgaPagkakataon[pagkakataon].bilang2\ \mgaPagkakataon[pagkakataon].tatak\ pakiusap!`
+					)
+					Parirala('(pinaghihiwalay ng mga puwang)' 0.5m)
+				]
+			)
+			¶Kapag mayroon na tayong mga sagot, ipakita ang madlib¶
+			(
+				¶Gumawa ng listahan ng mga pangungusap gamit ang mga sagot¶
+				mgaPangungusap: [
+						`Ngayon, pumunta ako sa zoo.`
+						`May nakita akong *\mgaSagot[mgaPangngalan][1]\* *\mgaSagot[adverbs][1]\* tumatalon paakyat-pababa sa puno nito.`
+						`Siya *\mgaSagot[mgaPandiwa][1]\* *\mgaSagot[adverbs][2]\* sa loob ng malaking tunnel na patungo sa *\mgaSagot[adjectives][2]\* *\mgaSagot[mgaPangngalan][2]\* nito.`
+						`Kumuha ako ng mga peanut at ibinigay ko ang mga ito sa hawla papunta sa isang napakalaking kulay-abo na *\mgaSagot[mgaPangngalan][3]\* na mas mataas pa sa aking ulo.`
+						`Nagutom ako matapos pakainin ang hayop na iyon.`
+						`Pumunta ako para kumuha ng *\mgaSagot[adjectives][3]\* subo ng ice cream.`
+						`Napuno nito ang aking tiyan.`
+						`Pagkatapos nito ay *\mgaSagot[mgaPandiwa][2]\* *\mgaSagot[adverbs][2]\* para maabutan ang aming bus.`
+						`Nang makauwi ako *\mgaSagot[mgaPandiwa][3]\* sa aking mama ng *\mgaSagot[adjectives][4]\* na araw sa zoo.`
+					]
+				¶Isalin ang mga ito sa mga parirala¶
+				Grupo(
+					Patongpatong('<')
+					mgaPangungusap.isalin(
+						ƒ(pangungusap) Parirala(pangungusap)
+					)
+				)
+			)
+	]
+	mukha: 'Phudu'
+)

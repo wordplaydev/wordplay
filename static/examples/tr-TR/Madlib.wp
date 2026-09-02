@@ -1,0 +1,66 @@
+4
+Madlib
+=== start
+¶Bir çılgın hikaye oyunu: sözcükleri sen ver, saçma bir hikaye çıksın.¶
+
+¶Bu, ihtiyacımız olan sözcük türlerini ve sayılarını takip eder¶
+•sözcükTürü(etiket•"" sayaç•#)
+
+¶Bunlar, aşağıdaki çılgın hikaye için ihtiyacımız olan sözcükler.¶
+sıra: [
+		sözcükTürü('sıfatlar' 4)
+		sözcükTürü('isimler' 3)
+		sözcükTürü('fiiller, geçmiş zaman' 3)
+		sözcükTürü('zarflar' 4)
+	]
+
+sohbet: Sohbet()
+¶Bir sohbet gönderildiğinde, bir sonraki sözcük türüne geç¶
+sıra2: 1 … ∆ sohbet … sıra2 + 1
+¶Bir sohbet gönderildiğinde, sohbeti boşluklardan böl ve yanıtlara ekle¶
+yanıtlar•[['']]: [] … ∆ sohbet … [:yanıtlar sohbet ÷ ' ']
+
+¶Çılgın hikayeyi okumayı kolaylaştırmak için bu dizinlere sayı veriyoruz¶
+sıfatlar: 1
+isimler: 2
+zarflar: 4
+fiiller: 3
+
+sor: yanıtlar.uzunluk() < 4
+
+Sahne(
+	[
+		¶Yanıtlarımız olmadan önce, yanıt iste¶
+		sor ?
+			Grup(
+				Yığın('|' 0.25m)
+				[
+					İfadeetmek(
+						`\sıra[sıra2].sayaç\ \sıra[sıra2].etiket\ lütfen!`
+					)
+					İfadeetmek('(boşluklarla ayrılmış)' 0.5m)
+				]
+			)
+			¶Yanıtlarımız olduktan sonra, çılgın hikayeyi göster¶
+			(
+				¶Yanıtlarla bir cümle listesi oluştur¶
+				cümleler: [
+						`Bugün hayvanat bahçesine gittim.`
+						`Bir tane *\yanıtlar[isimler][1]\* *\yanıtlar[zarflar][1]\* ağacında zıplıyordu.`
+						`O *\yanıtlar[fiiller][1]\* *\yanıtlar[zarflar][2]\* büyük tünelin içinden geçti, tünel onun *\yanıtlar[sıfatlar][2]\* *\yanıtlar[isimler][2]\*'sine gidiyordu.`
+						`Biraz fıstık aldım ve kafesin içinden kocaman gri bir *\yanıtlar[isimler][3]\* başımın üstünde yükseliyordu.`
+						`O hayvanı beslemek beni acıktırdı.`
+						`Bir *\yanıtlar[sıfatlar][3]\* kaşık dondurma almaya gittim.`
+						`Karnımı doyurdu.`
+						`Sonra otobüsümüze yetişmek için *\yanıtlar[fiiller][2]\* *\yanıtlar[zarflar][2]\*`
+						`Eve gittiğimde annemden *\yanıtlar[fiiller][3]\* bir *\yanıtlar[sıfatlar][4]\* gün geçirdiğimiz için hayvanat bahçesine gitmek istedim.`
+					]
+				¶Bunları cümlelere çevir¶
+				Grup(
+					Yığın('<')
+					cümleler.tercümeetmek(ƒ(cümle) İfadeetmek(cümle))
+				)
+			)
+	]
+	yüz: 'Phudu'
+)

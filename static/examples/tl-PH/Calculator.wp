@@ -1,0 +1,85 @@
+0⃣
+Kalkulator
+=== start/en
+¶Isang kalkulador na gawa mula sa ilang function ng aritmetika.¶
+
+¶Mga function na gumagawa ng mga kalkulasyon¶
+ƒ pagdadagdag(num1•# num2•#) num1 + num2
+ƒ pagbabawas(num12•# num22•#) num12 - num22
+ƒ pagpaparami(num13•# num23•#) num13 × num23
+ƒ paghahati(num14•# num24•#) num14 ÷ num24
+
+pagpili: Pagpipilian()
+frame2: 1 … ∆ (pagpili) … 1 + frame2
+
+¶Mga Boolean na nagtatala kung napili na ba ang bawat halaga¶
+num1napili: ⊥ … ∆ (pagpili) … (pagpili.nagsisimula('num1')) & ~num1napili
+num2napili: ⊥ … ∆ (pagpili) … (pagpili.nagsisimula('num2')) & ~num2napili
+onapili: ⊥ … ∆ (pagpili) … (pagpili.nagsisimula('op')) & ~onapili
+
+¶Nagtatala ng mga operand at operator¶
+num15: ø → # … num1napili … ((pagpili ÷ '')[-1]) → #
+num25: ø → # … num2napili … ((pagpili ÷ '')[-1]) → #
+operator: ø … onapili … ((pagpili ÷ '')[-1])
+
+¶Screen para sa pagpili ng unang numero¶
+numero1: Grupo(
+		Grid(2 5)
+		[
+			Parirala("0⃣" mapipili: ⊤ pangalan: 'num1_0')
+			Parirala("1⃣" mapipili: ⊤ pangalan: 'num1_1')
+			Parirala("2⃣" mapipili: ⊤ pangalan: 'num1_2')
+			Parirala("3⃣" mapipili: ⊤ pangalan: 'num1_3')
+			Parirala("4⃣" mapipili: ⊤ pangalan: 'num1_4')
+			Parirala("5⃣" mapipili: ⊤ pangalan: 'num1_5')
+			Parirala("6⃣" mapipili: ⊤ pangalan: 'num1_6')
+			Parirala("7⃣" mapipili: ⊤ pangalan: 'num1_7')
+			Parirala("8⃣" mapipili: ⊤ pangalan: 'num1_8')
+			Parirala("9⃣" mapipili: ⊤ pangalan: 'num1_9')
+		]
+	)
+
+¶Iskrin para sa pagpili ng ikalawang numero¶
+numero2: Grupo(
+		Grid(2 5)
+		[
+			Parirala("0⃣" mapipili: ⊤ pangalan: 'num2_0')
+			Parirala("1⃣" mapipili: ⊤ pangalan: 'num2_1')
+			Parirala("2⃣" mapipili: ⊤ pangalan: 'num2_2')
+			Parirala("3⃣" mapipili: ⊤ pangalan: 'num2_3')
+			Parirala("4⃣" mapipili: ⊤ pangalan: 'num2_4')
+			Parirala("5⃣" mapipili: ⊤ pangalan: 'num2_5')
+			Parirala("6⃣" mapipili: ⊤ pangalan: 'num2_6')
+			Parirala("7⃣" mapipili: ⊤ pangalan: 'num2_7')
+			Parirala("8⃣" mapipili: ⊤ pangalan: 'num2_8')
+			Parirala("9⃣" mapipili: ⊤ pangalan: 'num2_9')
+		]
+	)
+
+¶Iskrin para sa pagpili ng operator¶
+mgaoperator: Grupo(
+		Grid(2 2)
+		[
+			Parirala("➕" mapipili: ⊤ pangalan: 'op_a')
+			Parirala("➖" mapipili: ⊤ pangalan: 'op_s')
+			Parirala("✖" mapipili: ⊤ pangalan: 'op_m')
+			Parirala("➗" mapipili: ⊤ pangalan: 'op_d')
+		]
+	)
+
+¶Iskrin para sa pagpapakita ng resulta¶
+resulta: ((operator = 'a') | (operator = 's')) ?
+		(operator = 'a' ? pagdadagdag(num15 num25) pagbabawas(
+					num15
+					num25
+				))
+		(operator = 'm' ? pagpaparami(num15 num25) paghahati(
+					num15
+					num25
+				))
+
+¶Dumaan sa bawat mga screen¶
+pagsasaayos: [numero1 mgaoperator numero2 resulta]
+
+¶Ipakita¶
+pagsasaayos[frame2]

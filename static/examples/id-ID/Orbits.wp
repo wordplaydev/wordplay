@@ -1,0 +1,39 @@
+🪐
+Orbit
+=== start
+¶Tiga planet mengelilingi sebuah bintang yang menariknya.¶
+
+¶Bintang itu melakukan tarikan, jadi ia butuh @Matter dengan tarikan. Ia tidak punya @Motion, jadi tidak ada yang menariknya balik dan ia tetap di tempatnya. @Place adalah pojok sebuah output, bukan tengahnya, jadi bintang itu digeser sejauh setengah ukurannya sendiri agar tengahnya berada di pusat langit.¶
+matahari: Frasa(
+		'⭐'
+		2m
+		nama: 'matahari'
+		tempat: Tempat(-1m -1m)
+		urusan: Urusan(2000kg tarik: 1)
+	)
+
+¶Sebuah planet sama sekali tidak butuh @Matter. Memiliki @Motion adalah yang membuat tarikan bintang bisa menggerakkannya. Seberapa cepat ia harus bergerak untuk berputar mengelilingi bukannya jatuh ke dalam bergantung pada seberapa jauh jaraknya, jadi setiap planet diberi kecepatan yang membuatnya tetap pada lingkarannya sendiri.¶
+planet: ƒ(glif2•"" disebut•"" lebar2•#m jauh•#m kecepatan2•#m/s)
+		Frasa(
+			glif2
+			lebar2
+			nama: disebut
+			tempat: Gerakan(
+				Tempat(jauh - (lebar2 ÷ 2) 0m - (lebar2 ÷ 2))
+				Kecepatan(0m/s kecepatan2)
+			)
+		)
+
+¶Langit itu sendiri tidak punya gravitasi, kalau tidak semuanya akan jatuh keluar dari bawah. Langit juga tidak punya udara, jadi planet-planet terus bergerak tanpa melambat sampai berhenti.¶
+Panggung(
+	[
+		matahari
+		planet('🌍' 'bumi' 0.8m 3m 11.5m/s)
+		planet('🪐' 'bercincin' 1m 5m 8.6m/s)
+		planet('🌕' 'bulan' 0.6m 7m 7.3m/s)
+	]
+	latarbelakang: Warna(15% 20 300°)
+	gayaberat: 0m/s^2
+	udara: 0
+	tempat: Tempat(0m 0m -14m)
+)

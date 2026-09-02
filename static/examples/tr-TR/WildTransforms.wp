@@ -1,0 +1,14 @@
+🐈
+Vahşi Dönüşümler
+===
+¶Ölçek, döndürme ve kaydırmayı aynı anda zorlayan bir kedi.¶
+İfadeetmek(
+	"🐈"
+	boyut: 10m
+	dinlenme: Poz(
+		ölçek: 2
+		telafietmek: Yer(1m 1m 5m)
+		rotasyon: (Zaman(500ms) % 360) × 1°/ms
+	)
+	süre: 0.25s
+)

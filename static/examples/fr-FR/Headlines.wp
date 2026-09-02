@@ -1,0 +1,38 @@
+l
+Titres
+=== start/en
+¶Les gros titres du New York Times, en direct, pris sur le web et empilés sur la scène.¶
+grosTitres: Pageweb(
+		'https://www.nytimes.com'
+		'.indicate-hover'
+	)
+grosTitres•# ?
+	Phrase('chargement')
+	Groupe(
+		Empiler('<')
+		[
+			Phrase(
+				`*Gros titres du New York Times*`
+				2m
+				affronter: 'Arvo'
+			)
+		].avecListe(
+			grosTitres.sousséquence(1 7).traduire(
+				ƒ(grosTitre)
+					Phrase(
+						grosTitre
+						envelopper: 20m
+						alignement: '<'
+						affronter: 'Ubuntu'
+						aurepos: Séquence(
+							{
+								0%: Pose(rotation: 3°)
+								50%: Pose(rotation: -3°)
+								100%: Pose(rotation: 3°)
+							}
+							durée: 3s
+						)
+					)
+			)
+		)
+	)

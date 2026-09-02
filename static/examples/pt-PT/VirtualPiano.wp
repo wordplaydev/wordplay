@@ -1,0 +1,156 @@
+🎹
+Piano Virtual
+=== start
+¶Um piano de uma oitava que pode tocar!Para uma melhor experiência, desligue a visualização de música.¶
+
+¶Esta associação guarda um fluxo Key que deteta qual a tecla que pressionou.¶
+pressionada: Chave()
+
+¶Isto guarda um mapeamento das teclas que pressiona para as notas que vão tocar,tanto em forma de texto (para mostrar a nota que está a tocar) como num textonumérico literal (para converter num número (#) e inserir numa lista Track).
+
+A disposição escolhida procura imitar de perto as teclas de um piano, com asteclas brancas representadas por caracteres alfabéticos, e as teclas pretasrepresentadas por caracteres numéricos.¶
+mapanotas: {
+		'w': ['C' "1"]
+		'3': ['Dó# / Réb' "2"]
+		'e': ['D' "3"]
+		'4': ['Ré# / Mib' "4"]
+		'r': ['E' "5"]
+		't': ['F' "6"]
+		'6': ['Fá# / Solb' "7"]
+		'y': ['G' "8"]
+		'7': ['Sol# / Láb' "9"]
+		'u': ['A' "10"]
+		'8': ['Lá# / Sib' "11"]
+		'i': ['B' "12"]
+		'o': ['Dó5' "13"]
+	}
+
+¶Esta função devolve o nome da nota, com base na tecla que foi pressionada.Se a tecla não corresponder a uma nota válida, devolve um texto vazio.¶
+ƒ devolverTexto(chave2•"")•"" (mapanotas{chave2} ≠ ø) ? mapanotas{chave2}[1] ""
+
+¶Esta função devolve o número da nota correspondente à tecla pressionada numalista, para ser usado como entrada numa Track. Se a tecla pressionada forinválida, devolve uma lista vazia.¶
+ƒ devolverNota(chave3•"")•[] [
+		(mapanotas{chave3} ≠ ø) ? (mapanotas{chave3}[2] → #) []
+	]
+
+¶Esta função recebe uma lista numérica e devolve uma Track com essa lista denotas. O ciclo está desligado para que a nota toque uma única vez quando atecla é pressionada.¶
+ƒ devolverFaixa(nota•[#]) Faixa(nota ciclo: ⊥)
+
+¶Estas duas associações definem a cor a atribuir à tecla correspondentequando é pressionada e quando não é.¶
+pressionarCor: Cor(10 270 50°)
+corNula: Cor(0 0 0°)
+
+¶Isto toca a faixa correspondente à tecla pressionada. A escala écromática para que as faixas possam usar todos os semitons. A repetiçãoestá definida para quando uma tecla válida é pressionada, para que a faixatoque sempre que a tecla é pressionada, mesmo duas vezes seguidas.¶
+Música(
+	devolverFaixa(devolverNota(pressionada))
+	escala: Música.cromática
+	repetir: mapanotas{pressionada} ≠ ø
+)
+
+¶Mostra o piano, as teclas a pressionar, e a nota tocada quando umatecla é pressionada.¶
+Grupo(
+	Monte('>' 1m)
+	[
+		Grupo(
+			Linha('>' -.3m)
+			[
+				Frase(
+					'▯'
+					nome: 'w'
+					tamanho: 3m
+					cor: pressionada = 'w' ? pressionarCor corNula
+				)
+				Frase(
+					'▮'
+					nome: '3'
+					tamanho: 3m
+					cor: pressionada = '3' ? pressionarCor corNula
+				)
+				Frase(
+					'▯'
+					nome: 'e'
+					tamanho: 3m
+					cor: pressionada = 'e' ? pressionarCor corNula
+				)
+				Frase(
+					'▮'
+					nome: '4'
+					tamanho: 3m
+					cor: pressionada = '4' ? pressionarCor corNula
+				)
+				Frase(
+					'▯'
+					nome: 'r'
+					tamanho: 3m
+					cor: pressionada = 'r' ? pressionarCor corNula
+				)
+				Frase(
+					'▯'
+					nome: 't'
+					tamanho: 3m
+					cor: pressionada = 't' ? pressionarCor corNula
+				)
+				Frase(
+					'▮'
+					nome: '6'
+					tamanho: 3m
+					cor: pressionada = '6' ? pressionarCor corNula
+				)
+				Frase(
+					'▯'
+					nome: 'y'
+					tamanho: 3m
+					cor: pressionada = 'y' ? pressionarCor corNula
+				)
+				Frase(
+					'▮'
+					nome: '7'
+					tamanho: 3m
+					cor: pressionada = '7' ? pressionarCor corNula
+				)
+				Frase(
+					'▯'
+					nome: 'u'
+					tamanho: 3m
+					cor: pressionada = 'u' ? pressionarCor corNula
+				)
+				Frase(
+					'▮'
+					nome: '8'
+					tamanho: 3m
+					cor: pressionada = '8' ? pressionarCor corNula
+				)
+				Frase(
+					'▯'
+					nome: 'i'
+					tamanho: 3m
+					cor: pressionada = 'i' ? pressionarCor corNula
+				)
+				Frase(
+					'▯'
+					nome: 'o'
+					tamanho: 3m
+					cor: pressionada = 'o' ? pressionarCor corNula
+				)
+			]
+		)
+
+		Grupo(
+			Linha('>' 1.1m)
+			[
+				Frase('w')
+				Frase('3')
+				Frase('e')
+				Frase('4')
+				Frase('r t')
+				Frase('6')
+				Frase('y')
+				Frase('7')
+				Frase('u')
+				Frase('8')
+				Frase('i  o')
+			]
+		)
+		Frase(devolverTexto(pressionada))
+	]
+)

@@ -10,7 +10,7 @@
 
 \slides: ['প্ৰথম' 'দ্বিতীয়' 'তৃতীয়']
 key: Key()
-index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'কাঁড় বাওঁফালে') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
 এই  @Reaction  ইয়াৰ হৃদয়স্বৰূপ। ই \1\ ৰ পৰা আৰম্ভ হয়, আৰু প্ৰতিবাৰ  @Key  সলনি হ'লে, ই ঠিক কৰে নতুন সংখ্যাটো কি হ'ব লাগে।যদি সোঁ এৰ' টিপা হৈছিল, ই এটা যোগ কৰে; যদি বাওঁ এৰ' টিপা হৈছিল, ই এটা বিয়োগ কৰে; নহ'লে ই একেই থাকে।

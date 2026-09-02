@@ -1,0 +1,56 @@
+🎵
+Nốt cao độ
+===
+¶Hát hoặc ngân nga, rồi xem nốt bạn đang tạo ra — hai lần. Nốt bên trái đọc dữ liệu thô @Pitch nên rung giật; nốt bên phải lấy trung bình vài cao độ gần nhất nên giữ ổn định. @Pitch báo 0hz khi không nghe rõ gì, nên cả hai nốt bỏ qua những lúc đó và hiện · thay vào.¶
+nốtNhạc2: [
+		'A'
+		'A♯'
+		'B'
+		'C'
+		'C♯'
+		'D'
+		'D♯'
+		'E'
+		'F'
+		'F♯'
+		'G'
+		'G♯'
+	]
+nốtCủa: ƒ(hz•#hz) hz > 0hz ? nốtNhạc2[(((((12 × (hz ÷ 440hz).log(
+										2
+									)).tròn(
+							)) % 12) + 12) % 12) + 1] '·'
+mượt2: ƒ(tínHiệu•…#hz) (
+			ngheThấy: (←← 8 tínHiệu).khôngcó(0hz)
+			(ngheThấy.kếthợp(0hz ƒ(tổngSố•#hz v•#hz) tổngSố + v) ÷ ngheThấy.chiềudài(
+					)) ?? 0hz
+		)
+caoĐộ2: Sânbóngđá()
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp()
+			[
+				Cụmtừ('ồn' màusắc: Màusắc(60% 90 30°))
+				Cụmtừ(
+					nốtCủa(caoĐộ2)
+					kíchcỡ: 6m
+					màusắc: Màusắc(60% 90 30°)
+				)
+			]
+			vịTrí: VịTrí(-4m 0m)
+		)
+		Nhóm(
+			Ngănxếp()
+			[
+				Cụmtừ('mượt' màusắc: Màusắc(70% 90 240°))
+				Cụmtừ(
+					nốtCủa(mượt2(caoĐộ2))
+					kíchcỡ: 6m
+					màusắc: Màusắc(70% 90 240°)
+				)
+			]
+			vịTrí: VịTrí(4m 0m)
+		)
+	]
+)

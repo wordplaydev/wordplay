@@ -1,0 +1,56 @@
+🙂
+Visage
+===
+¶Un émoji qui imite ton visage quand tu souris, fais la moue, ouvres grand la bouche ou clignes des yeux.¶
+visage2: Visage()
+
+Scène(
+	[
+		Phrase(
+			(visage2.boucheOuverte ? '😮'
+					visage2.souriant ? '😀'
+						visage2.grimaçant ? '🙁'
+							visage2.sourcilsLevés ? '😲'
+								(visage2.yeuxOuverts ? '🙂' '😑'))
+			lieu: visage2.lieu
+			taille: 4m
+		)
+		Groupe(
+			Empiler('|')
+			[
+				Phrase((visage2.yeuxOuverts ? '👀' '😑') taille: 1.5m)
+				Phrase(
+					'😊'
+					taille: (visage2.quantitéSourire · 2m) + 0.5m
+				)
+				Phrase(
+					'👄'
+					taille: (visage2.quantitéBoucheOuverte · 2m) + 0.5m
+				)
+				Phrase(
+					'🤨'
+					taille: (visage2.quantitéSourcilsLevés · 2m) + 0.5m
+				)
+			]
+			lieu: Lieu(-9m 8m)
+		)
+		Phrase(
+			'tourner 🧭'
+			lieu: Lieu(9m 8m 0m)
+			taille: 2m
+			rotation: visage2.tourner
+		)
+		Phrase(
+			'incliner 🧭'
+			lieu: Lieu(9m 2m)
+			rotation: visage2.incliner
+			taille: 2m
+		)
+		Phrase(
+			`/Montre ton visage à la caméra/`
+			lieu: Lieu(-6m -12m)
+			taille: 1m
+		)
+	]
+	lieu: Lieu(0m 0m -20m)
+)

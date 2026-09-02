@@ -1,0 +1,25 @@
+💬
+Gema
+=== start
+¶Apa pun yang diketik penonton di kotak obrolan akan menjadi frasa ini.¶
+pesan: Mengobrol()
+
+¶Mulailah dengan sebuah kalimat pembuka, lalu tampilkan setiap pesan baru. Teks berubah dari kata-kata lama ke kata-kata baru, satu huruf pada satu waktu.¶
+kata2: 'katakan sesuatu!' … ∆ pesan … pesan
+
+¶Acak ulang ukuran, kemiringan, dan warna setiap kali ada pesan baru.¶
+ukuran2: 2m … ∆ pesan … Acak(1m 4m)
+miring2: 0° … ∆ pesan … Acak(-30 30) × 1°
+corakWarna: 200° … ∆ pesan … Acak(360) × 1°
+
+Frasa(
+	kata2
+	ukuran: ukuran2
+	beristirahat: Pose(
+		rotasi: miring2
+		warna: Warna(25% 100 corakWarna)
+	)
+	lamanya: .5s
+	berubah: 'edit'
+	membungkus: 20m
+)

@@ -1,0 +1,26 @@
+🥮
+Món Ăn Bay Lượn
+===
+¶Một lưới các món ăn ngon, cứ mỗi giây lại đổi một món khác.¶
+mónĂn: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
+
+mớiNhất•['']:
+	mónĂn … ∆ Thờigian(1000ms) …
+		mớiNhất.thaythế(Ngẫunhiên(1 6) mónĂn.ngẫunhiên())
+
+Nhóm(
+	Lưới(3 3 1m 1m)
+	mớiNhất.dịch(
+		ƒ(mónĂn2•"" chỉMục2•#)
+			Cụmtừ(
+				mónĂn2
+				tên: "\mónĂn2\-\chỉMục2\"
+				vào: Tưthế(độmờđục: 0 tỉlệ: 2)
+				nghỉngơi: Sựliêntiếp.đungđưa(
+					360°
+					khoảngthờigian: 4s
+				)
+				khoảngthờigian: 1s
+			)
+	)
+)

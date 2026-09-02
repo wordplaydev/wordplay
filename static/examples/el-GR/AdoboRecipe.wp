@@ -1,0 +1,40 @@
+H
+Συνταγή Adobo
+=== start/en
+¶Μια συνταγή σκηνή προς σκηνή για φιλιππινέζικο κοτόπουλο αντόμπο.¶
+
+¶Αυτή είναι η λίστα με τις σκηνές που θα εμφανιστούν¶
+προτάσεις: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Αντόμπο Κοτόπουλο @lamamel/adobo! (κούνησε το ποντίκι για να φας)`)
+		(`Νόστιμο! @lamamel/emptyadobo`)
+	]
+
+¶Αυτή είναι η λίστα με τις προτάσεις που πρέπει να προχωρούν μόνο όταν κουνάμε το ποντίκι.¶
+μετακίνησηΠροτάσεων: [9 11]
+
+¶Η τρέχουσα πρόταση ξεκινά από το 1, και προχωρά αν το ποντίκι πάει σε ένα συγκεκριμένο σημείο της οθόνης, ή αν πατηθεί ένα κουμπί ή πλήκτρο για τις άλλες προτάσεις.¶
+σημείο: Δείκτης()
+τρέχουσαΠρόταση•#: 1 …
+	μετακίνησηΠροτάσεων.έχει(τρέχουσαΠρόταση) ?
+		(σημείο.χ > 2m) & (σημείο.y > 3m)
+		∆ Κουμπί() | ∆ Κλειδί()
+		…
+		(τρέχουσαΠρόταση <
+				προτάσεις.μήκος()) ?
+			τρέχουσαΠρόταση + 1
+			τρέχουσαΠρόταση
+
+Στάδιο(
+	[Φράση(προτάσεις[τρέχουσαΠρόταση] κάλυμμα: 10m)]
+	πρόσωπο: 'Short Stack'
+)

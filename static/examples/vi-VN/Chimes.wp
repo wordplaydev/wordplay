@@ -1,0 +1,92 @@
+🎐
+Chuông gió
+=== start/en
+¶Năm chiếc chuông gió treo thành hàng, đánh số từ một đến năm. Nhấn A, S, D, F hoặc G và chiếc chuông bạn gõ sẽ phồng lên, sáng lên, rồi lắng dần trở về trạng thái nghỉ. Cả hàng chuông đung đưa nhẹ dù có ai chơi hay không.
+
+Đây là một nhạc cụ. Nó không phát ra âm thanh. Các con số đã là một bản nhạc; chỉ là chưa được chơi mà thôi. Khối bị ẩn phía trên sân khấu chính là âm thanh, đang chờ @Music xuất hiện.¶
+
+đãNhấn: Chìakhóa()
+nhịp2: Thờigian(30ms)
+
+¶Một chiếc chuông mất bao nhiêu độ vang của nó mỗi khung hình.¶
+suyGiảm: 0.03
+
+¶Một chiếc chuông: nó ở bậc nào, phím nào gõ nó, nó treo ở đâu, sắc độ của nó, và nó đang vang mạnh đến mức nào — 1 là vừa mới gõ, 0 là đang nghỉ.¶
+•chuôngGió(bậc2•# chìaKhóa2•'' x2•#m sắcĐộ•#° năngLượng•#)
+
+¶Gõ chiếc chuông có phím vừa được nhấn, và để mọi chiếc chuông khác lắng xuống.¶
+ƒ vang(hàng2•[chuôngGió] chạm•'' đãGõ•?)
+	hàng2.dịch(
+		ƒ(chuôngGió2•chuôngGió)
+			(đãGõ & (chạm = chuôngGió2.chìaKhóa2))
+			? chuôngGió2.năngLượng:1
+				chuôngGió2.năngLượng:(chuôngGió2.năngLượng - suyGiảm).tốiđa(
+					0
+				)
+	)
+
+nhữngChiếcChuôngGió•[chuôngGió]: [
+		chuôngGió(1 'a' -6m 20° 0)
+		chuôngGió(2 's' -3m 75° 0)
+		chuôngGió(3 'd' 0m 140° 0)
+		chuôngGió(4 'f' 3m 205° 0)
+		chuôngGió(5 'g' 6m 270° 0)
+	] … (∆ đãNhấn | ∆ nhịp2) … vang(
+			nhữngChiếcChuôngGió
+			đãNhấn
+			(∆ đãNhấn)
+		)
+
+¶Một chiếc chuông phồng lên và sáng lên theo độ vang của nó, và luôn đung đưa nhẹ, nên cả hàng chuông vẫn sống động ngay cả khi không ai chơi.¶
+ƒ khungNhìnChuôngGió(chuôngGió3•chuôngGió)
+	Cụmtừ(
+		(chuôngGió3.bậc2 → '')
+		(2m + (chuôngGió3.năngLượng · 1.5m))
+		vịTrí: VịTrí(chuôngGió3.x2 0m)
+		khoảngthờigian: 0.12s
+		màusắc: Màusắc(
+			(45% + (chuôngGió3.năngLượng · 40%))
+			(20 + (chuôngGió3.năngLượng · 80))
+			chuôngGió3.sắcĐộ
+		)
+		nghỉngơi: Sựliêntiếp.đungđưa(3° 2.5s)
+	)
+
+¶Phím gõ mỗi chiếc chuông, được in ngay bên dưới nó.¶
+ƒ khungNhìnPhím(chuôngGió4•chuôngGió)
+	Cụmtừ(
+		chuôngGió4.chìaKhóa2
+		0.7m
+		vịTrí: VịTrí(chuôngGió4.x2 -3m)
+		màusắc: Màusắc(60% 0 0°)
+	)
+
+¶Hai ràng buộc này chính là toàn bộ âm thanh: tìm chiếc chuông đang vang ngay lúc này, rồi đưa bậc của nó cho một quả chuông, phát lại mỗi lần nhấn để mỗi lần gõ là một âm thanh mới chứ không phải âm thanh cũ lặp lại. Năm chiếc chuông, năm bậc của một thang âm ngũ cung, nên sẽ không có nốt nào sai.¶
+đangVang: nhữngChiếcChuôngGió.lọc(
+		ƒ(chuôngGió5•chuôngGió) chuôngGió5.năngLượng = 1
+	)
+bàiHát: ÂmNhạc(
+		BảnNhạc(
+			đangVang ↦ ⬚.bậc2
+			nhạcCụ: NhạcCụ.chuông
+			vòngLặp: ⊥
+		)
+		thangÂm: ÂmNhạc.ngũCung
+		phátLại: ∆ đãNhấn
+	)
+
+Sânkhấu(
+	[
+		Cụmtừ(
+			'━━━━━━━━━━━━━'
+			1m
+			vịTrí: VịTrí(-6m 2.5m)
+			màusắc: Màusắc(45% 0 0°)
+		)
+		:nhữngChiếcChuôngGió ↦ khungNhìnChuôngGió(⬚)
+		:nhữngChiếcChuôngGió ↦ khungNhìnPhím(⬚)
+		bàiHát
+	]
+	lýlịch: Màusắc(16% 15 280°)
+	màusắc: Màusắc(95% 0 0°)
+)

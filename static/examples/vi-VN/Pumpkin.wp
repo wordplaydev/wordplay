@@ -1,0 +1,30 @@
+🎃
+Bí ngô
+=== start
+¶Một chiếc đèn bí ngô nhấp nháy và hiện lên ở một chỗ mới mỗi giây.¶
+thờiGian: Thờigian(1000ms)
+đặt: VịTrí(0m 0m) … ∆ thờiGian … VịTrí(
+			Ngẫunhiên(-4m 4m)
+			Ngẫunhiên(-4m 4m)
+			Ngẫunhiên(-4m 0m)
+		)
+độMờ: 1 … ∆ thờiGian … Ngẫunhiên(0.25 1)
+hiểnThị: ⊤ … ∆ thờiGian … ~hiểnThị
+bíNgô: Cụmtừ(
+		'🎃'
+		độmờđục: độMờ
+		vịTrí: đặt
+		vào: Sựliêntiếp(
+			{
+				0%: Tưthế(tỉlệ: 1.25 xoay: -21°)
+				20%: Tưthế(tỉlệ: 0.75 xoay: 13°)
+				40%: Tưthế(tỉlệ: 1 xoay: -7°)
+				60%: Tưthế(tỉlệ: 1.25 xoay: 19°)
+				100%: Tưthế()
+			}
+			0.5s
+			đếm: 3x
+		)
+	)
+
+Sânkhấu(hiểnThị ? [bíNgô] [] lýlịch: Màusắc(0% 0 0°))

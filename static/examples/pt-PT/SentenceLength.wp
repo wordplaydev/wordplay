@@ -1,0 +1,26 @@
+H
+ComprimentoDaFrase
+===
+¶Escreva na barra de conversa e ele conta os carateres da sua frase.¶
+frase2: Conversa()
+comprimento2: Conversa().comprimento()
+
+Grupo(
+	Monte()
+	[
+		Frase(
+			`*Olá! Bem-vindo(a) à calculadora de comprimento de frases.*`
+			local: Local(0m 1m)
+		)
+		Frase(
+			'Escreva algo na barra de mensagens!'
+			local: Local(0m -1m)
+		)
+		Frase(
+			'A sua frase tem ' + (comprimento2 → '') + ' carateres!'
+			descansar: Sequência.balançar(duração: 3s)
+			local: Local(0m -3m)
+		)
+		Frase(frase2 local: Local(0m -5m) envolver: 25m)
+	]
+)

@@ -1,0 +1,56 @@
+🙂
+Mukha
+===
+¶Isang emoji na gumagaya sa iyong mukha kapag ngumingiti, nakasimangot, nakanganga, o kumukurap ka.¶
+mukha2: Mukha()
+
+Entablado(
+	[
+		Parirala(
+			(mukha2.bibigBukas ? '😮'
+					mukha2.nakangiti ? '😀'
+						mukha2.nakasimangot ? '🙁'
+							mukha2.nakataasNaKilay ? '😲'
+								(mukha2.mgaMataBukas ? '🙂' '😑'))
+			lugar: mukha2.lugar
+			laki: 4m
+		)
+		Grupo(
+			Patongpatong('|')
+			[
+				Parirala((mukha2.mgaMataBukas ? '👀' '😑') laki: 1.5m)
+				Parirala(
+					'😊'
+					laki: (mukha2.gaanoKalakiNgiti · 2m) + 0.5m
+				)
+				Parirala(
+					'👄'
+					laki: (mukha2.gaanoKalakiBukasNgBibig · 2m) + 0.5m
+				)
+				Parirala(
+					'🤨'
+					laki: (mukha2.gaanoKataasKilay · 2m) + 0.5m
+				)
+			]
+			lugar: Lugar(-9m 8m)
+		)
+		Parirala(
+			'ikot 🧭'
+			lugar: Lugar(9m 8m 0m)
+			laki: 2m
+			pagikot: mukha2.ikot
+		)
+		Parirala(
+			'hilig 🧭'
+			lugar: Lugar(9m 2m)
+			pagikot: mukha2.hilig
+			laki: 2m
+		)
+		Parirala(
+			`/Ipakita sa camera ang iyong mukha/`
+			lugar: Lugar(-6m -12m)
+			laki: 1m
+		)
+	]
+	lugar: Lugar(0m 0m -20m)
+)

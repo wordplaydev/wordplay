@@ -1,0 +1,176 @@
+🚣
+Sumagwan Ka
+=== start/en
+¶Row, Row, Row Your Boat — isang tugtog, sampung segundo eksakto, na may maliit na hukbo ng bangka na sumasagwan kasabay nito.
+
+Ang kanta ay may padron na 6/8, kaya bawat sukat ay may anim na ikawalong nota, at bawat sagisag sa mga listahang ito ay isa sa mga iyon. Dalawampu't apat na tibok sa 144 tibok kada minuto ay katumbas ng sampung segundo, walang kulang walang labis.
+
+Ang mga bangka ay pinapatakbo ng @Beat sa halip na ng isang orasan, kaya sila'y sumasagwan sabay sa tibok ng musika sa eksaktong sandali, hindi lamang malapit dito — at hindi sila gagalaw hangga't hindi ito nagsisimula, dahil nananatili sa unang tibok ang @Beat hanggang sa oras na iyon.¶
+
+tibok2: Kumpas()
+gaod: tibok2.bilangin
+
+¶Ang himig. Sagwan, sagwan, sagwan ng bangka mo, dahan-dahan sa agos — ang mahahabang nota ay mahaba dahil ang mga pahinga pagkatapos nito ang nagpapanatili sa padron, sapagkat bawat sagisag ay tumatagal ng parehong ikawalong bahagi.¶
+himig2: [
+		1
+		ø
+		ø
+		1
+		ø
+		ø
+		1
+		ø
+		2
+		3
+		ø
+		ø
+		3
+		ø
+		2
+		3
+		ø
+		4
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		8
+		8
+		8
+		5
+		5
+		5
+		3
+		3
+		3
+		1
+		1
+		1
+		5
+		ø
+		4
+		3
+		ø
+		2
+		1
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Isang chord sa simula ng bawat sukat. Nananatili itong pareho sa buong tugtog hanggang sa ikalawa sa huling sukat, na sumasandal sa ikalimang tono para maramdaman na dumarating na ang katapusan sa huling sukat.¶
+mgaKord: [
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{5 7 9 11}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Ang gaod: isang mababang tunog para sa paghatak at isang matingkad na tunog para sa pagbawi, isang beses kada sukat.¶
+mgaSagwan: [
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+	]
+
+¶Isang bangka. Unti-unti itong gumagalaw pasulong sa bawat tibok at umuugoy sa kabilang direksyon sa bawat pagkakataon, at ito ang tumutulad sa paggaod; ang linya ang nagtatakda kung gaano ito mataas at gaano ito nauna sa pagsisimula, kaya hindi sila kasabay sa paggalaw.¶
+ƒ bangka(linya•# simulan2•#)•Parirala
+	Parirala(
+		'🚣'
+		1.5m
+		lugar: Lugar(
+			((((gaod + simulan2) % 16) - 8) · 1.1) · 1m
+			((linya · 1.9) - 1.9) · 1m
+		)
+		pagikot: (((gaod + linya) % 2) = 0) ? 9° -9°
+		tagal: 0.2s
+	)
+
+plota: [bangka(0 0) bangka(1 6) bangka(2 11)]
+
+Entablado(
+	[
+		:plota
+		Parirala(
+			'〰〰〰〰〰〰〰〰'
+			1m
+			lugar: Lugar(-8m -3.2m)
+			kulay: Kulay(48% 22 240°)
+		)
+		Parirala(
+			'Sagwan, sagwan, sagwan ng bangka mo'
+			0.9m
+			lugar: Lugar(-4.4m 3.4m)
+		)
+		Musika(
+			[
+				Track(
+					himig2
+					instrumento: Instrumento.plauta
+					beat: 0.5beats
+				)
+				Track(
+					mgaKord
+					instrumento: Instrumento.piyano
+					beat: 1beats
+					lakasNgTunog: 60%
+				)
+				Track(
+					mgaSagwan
+					instrumento: Instrumento.mgaTambol
+					beat: 1beats
+					lakasNgTunog: 45%
+				)
+			]
+			tempo: 144beats/min
+			pangalan: 'bangka'
+		)
+	]
+	background: Kulay(22% 18 230°)
+	kulay: Kulay(96% 0 0°)
+)

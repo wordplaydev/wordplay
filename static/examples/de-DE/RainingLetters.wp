@@ -1,0 +1,68 @@
+☁
+RainingLetters
+=== start/en
+¶Dieses Programm zeigt regnende Buchstaben, die nach den Regeln der Physik auf den Boden fallen. Sobald sie aufkommen, können sie wieder fallen. Es fallen immer gleich viele Buchstaben, aber je nach Lautstärke des Mikrofons wird eine unterschiedliche Anzahl sichtbar gemacht.¶
+
+¶Die größte Anzahl an Buchstaben¶
+zähler: 100
+¶Die waagerechte Verteilung der Buchstaben¶
+größe2: 20m
+
+¶Die Lautstärke des Mikrofons¶
+ampere: Volumen()
+
+¶Der gewählte Buchstabe und seine Position, Drehgeschwindigkeit und ob er sichtbar ist.¶
+•buchstabe(buchstabe2•"" x2•#m y2•#m winkel•# geschwindigkeit•# sichtbar•?)
+
+takt2: Zeit()
+
+¶Als Liste von zufälligen Buchstaben an zufälligen Positionen anlegen¶
+buchstaben•[buchstabe]: zähler → [#].übersetzen(
+		ƒ(_) buchstabe(
+				'abcdefghijklmnopqrstuvwxyz' → [''].zufällig()
+				Zufällig(-größe2 größe2)
+				Zufällig(0m größe2 + 2m)
+				Zufällig(360)
+				Zufällig(-15 15)
+				⊥
+			)
+	)
+	… ∆ takt2 …
+		¶Wenn der Buchstabe über der y-Achse ist, bewege ihn ein Stück nach unten und drehe ihn. Andernfalls setze ihn über die Schwelle zurück und entscheide zufällig, ob er sichtbar ist.¶
+		buchstaben.übersetzen(
+			ƒ(buchstabe3•buchstabe)
+				buchstabe3.y2 > 0m ? (buchstabe3.y2:buchstabe3.y2 - 0.5m).winkel:buchstabe3.winkel + buchstabe3.geschwindigkeit
+					(buchstabe3.y2:größe2 + 2m).sichtbar:Zufällig(
+						0
+						ampere
+					) > 0.5
+		)
+
+¶Die Buchstaben in Phrasen umwandeln¶
+Bühne(
+	[
+		Satzglied("☁" Größe: 3m Ort: Ort(-8m 12m))
+		Satzglied("☁" Größe: 5m Ort: Ort(8m 11m))
+		Satzglied(
+			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+			Ort: Ort(-3.5 × größe2 -0.5m)
+		)
+	].mitListe(
+		buchstaben.übersetzen(
+			ƒ(buchstabe4•buchstabe)
+				Satzglied(
+					buchstabe4.buchstabe2
+					Größe: 1m
+					Ort: Ort(buchstabe4.x2 buchstabe4.y2)
+					Drehung: buchstabe4.winkel × 1°
+					Ruhen: Pose(
+						Opazität: buchstabe4.sichtbar ? 1 0
+						Farbe: Farbe(100% 0 0°)
+					)
+					Dauer: 0s
+				)
+		)
+	)
+	Ort: Ort(0m 1 × größe2 -15m)
+	Hintergrund: Farbe(63% 93 248°)
+)

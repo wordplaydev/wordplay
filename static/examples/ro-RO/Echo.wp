@@ -1,0 +1,25 @@
+💬
+Ecou
+=== start
+¶Orice scrie publicul în bara de chat devine această frază.¶
+mesaj: Chat()
+
+¶Începe cu un mesaj de start, apoi repetă fiecare mesaj nou. Textul se transformă din cuvintele vechi în cele noi, litera cu litera.¶
+cuvinte2: 'spune ceva!' … ∆ mesaj … mesaj
+
+¶Alege din nou la întâmplare o mărime, o înclinare și o culoare de fiecare dată când ajunge un mesaj nou.¶
+mărime2: 2m … ∆ mesaj … Aleatoriu(1m 4m)
+înclinare2: 0° … ∆ mesaj … Aleatoriu(-30 30) × 1°
+nuanță: 200° … ∆ mesaj … Aleatoriu(360) × 1°
+
+Fraza(
+	cuvinte2
+	dimensiune: mărime2
+	odihnă: Poză(
+		rotaţie: înclinare2
+		culoare: Culoare(25% 100 nuanță)
+	)
+	durată: .5s
+	seSchimbă: 'edit'
+	înfășura: 20m
+)

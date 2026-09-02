@@ -1,0 +1,156 @@
+🎹
+Piano Virtual
+=== start
+¶Piano satu oktaf yang bisa kamu mainkan!Untuk pengalaman terbaik, matikan tampilan visual musik.¶
+
+¶Ikatan ini menyimpan aliran Key yang mendeteksi tombol mana yang kamu tekan.¶
+ditekan: Kunci()
+
+¶Ini menyimpan pemetaan dari tombol yang kamu tekan ke not yang akan dimainkan,dalam bentuk teks (untuk menampilkan not yang sedang dimainkan) dan literal tekssecara angka (untuk diubah menjadi angka (#) dan dimasukkan ke dalam daftar Track).
+
+Tata letak khusus ini dipilih agar mirip dengan tombol piano, dengan tombolputih diwakili oleh huruf, dan tombol hitam diwakili oleh angka.¶
+petaNot: {
+		'w': ['C' "1"]
+		'3': ['C# / Db' "2"]
+		'e': ['D' "3"]
+		'4': ['D# / Eb' "4"]
+		'r': ['E' "5"]
+		't': ['F' "6"]
+		'6': ['F# / Gb' "7"]
+		'y': ['G' "8"]
+		'7': ['G# / Ab' "9"]
+		'u': ['A' "10"]
+		'8': ['A# / Bb' "11"]
+		'i': ['B' "12"]
+		'o': ['C5' "13"]
+	}
+
+¶Fungsi ini mengembalikan nama not, berdasarkan tombol mana yang ditekan.Jika tombol itu bukan not yang sah, fungsi ini mengembalikan teks kosong.¶
+ƒ kembalikanText(kunci2•"")•"" (petaNot{kunci2} ≠ ø) ? petaNot{kunci2}[1] ""
+
+¶Fungsi ini mengembalikan angka not yang sesuai dengan tombol yang ditekan dalam sebuah daftar,untuk digunakan sebagai argumen dalam Track. Jika tombol yang ditekan tidak sah, fungsi inimengembalikan daftar kosong.¶
+ƒ kembalikanNote(kunci3•"")•[] [
+		(petaNot{kunci3} ≠ ø) ? (petaNot{kunci3}[2] → #) []
+	]
+
+¶Fungsi ini menerima sebuah daftar angka dan mengembalikan Track dengan daftar not tersebut.Loop dimatikan agar not hanya dimainkan sekali saat tombol ditekan.¶
+ƒ kembalikanTrack(nada2•[#]) Trek(nada2 perulangan: ⊥)
+
+¶Kedua ikatan ini menentukan warna yang akan diberikan pada tombol yang sesuaisaat ditekan dan saat tidak ditekan.¶
+tekanColor: Warna(10 270 50°)
+nullColor: Warna(0 0 0°)
+
+¶Ini memainkan track yang sesuai dengan tombol yang ditekan. Scale bersifat kromatikagar track bisa mengakses semua semitone. Replay diatur untuk saat tombol yangsah ditekan, sehingga track dimainkan setiap kali tombol ditekan, bahkan duakali berturut-turut.¶
+Musik(
+	kembalikanTrack(kembalikanNote(ditekan))
+	tanggaNada: Musik.kromatik
+	putarUlang: petaNot{ditekan} ≠ ø
+)
+
+¶Menampilkan piano, tombol yang harus ditekan, dan not yang dimainkan saatsebuah tombol ditekan.¶
+Kelompok(
+	Tumpukan('>' 1m)
+	[
+		Kelompok(
+			Baris('>' -.3m)
+			[
+				Frasa(
+					'▯'
+					nama: 'w'
+					ukuran: 3m
+					warna: ditekan = 'w' ? tekanColor nullColor
+				)
+				Frasa(
+					'▮'
+					nama: '3'
+					ukuran: 3m
+					warna: ditekan = '3' ? tekanColor nullColor
+				)
+				Frasa(
+					'▯'
+					nama: 'e'
+					ukuran: 3m
+					warna: ditekan = 'e' ? tekanColor nullColor
+				)
+				Frasa(
+					'▮'
+					nama: '4'
+					ukuran: 3m
+					warna: ditekan = '4' ? tekanColor nullColor
+				)
+				Frasa(
+					'▯'
+					nama: 'r'
+					ukuran: 3m
+					warna: ditekan = 'r' ? tekanColor nullColor
+				)
+				Frasa(
+					'▯'
+					nama: 't'
+					ukuran: 3m
+					warna: ditekan = 't' ? tekanColor nullColor
+				)
+				Frasa(
+					'▮'
+					nama: '6'
+					ukuran: 3m
+					warna: ditekan = '6' ? tekanColor nullColor
+				)
+				Frasa(
+					'▯'
+					nama: 'y'
+					ukuran: 3m
+					warna: ditekan = 'y' ? tekanColor nullColor
+				)
+				Frasa(
+					'▮'
+					nama: '7'
+					ukuran: 3m
+					warna: ditekan = '7' ? tekanColor nullColor
+				)
+				Frasa(
+					'▯'
+					nama: 'u'
+					ukuran: 3m
+					warna: ditekan = 'u' ? tekanColor nullColor
+				)
+				Frasa(
+					'▮'
+					nama: '8'
+					ukuran: 3m
+					warna: ditekan = '8' ? tekanColor nullColor
+				)
+				Frasa(
+					'▯'
+					nama: 'i'
+					ukuran: 3m
+					warna: ditekan = 'i' ? tekanColor nullColor
+				)
+				Frasa(
+					'▯'
+					nama: 'o'
+					ukuran: 3m
+					warna: ditekan = 'o' ? tekanColor nullColor
+				)
+			]
+		)
+
+		Kelompok(
+			Baris('>' 1.1m)
+			[
+				Frasa('w')
+				Frasa('3')
+				Frasa('e')
+				Frasa('4')
+				Frasa('r t')
+				Frasa('6')
+				Frasa('y')
+				Frasa('7')
+				Frasa('u')
+				Frasa('8')
+				Frasa('i  o')
+			]
+		)
+		Frasa(kembalikanText(ditekan))
+	]
+)

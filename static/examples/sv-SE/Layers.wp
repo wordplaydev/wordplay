@@ -1,0 +1,39 @@
+o
+Lager
+=== start
+¶Bollar som studsar på olika djup för att visa parallax-lager.¶
+antal2: 10 → []
+
+ƒ bollar(z2•#m) antal2.översätta(
+		ƒ()
+			Fras(
+				'o'
+				plats: Rörelse(
+					Plats(
+						Slumpmässig(-10 10) × 1m
+						Slumpmässig(0 10) × 1m
+						z2
+					)
+					Hastighet(
+						Slumpmässig(-10 10) × 1m/s
+						Slumpmässig(-5 5) × 1m/s
+					)
+				)
+				materia: Materia(studsighet: 0.8 friktion: 0)
+			)
+	)
+
+Etapp(
+	[
+		:bollar(0m)
+		:bollar(-10m)
+		:bollar(10m)
+		Figur(Cirkel(2m 0m 1m 0m))
+		Figur(Cirkel(2m 9m -3m 10m))
+		Figur(Polygon(2m 5 -5m 0m -10m))
+		Figur(Rektangel(-20m 0m 20m -1m 0m))
+		Figur(Rektangel(-20m 0m 20m -1m 10m) rotation: 25°)
+		Figur(Rektangel(-20m 0m 20m -1m -10m) rotation: -10°)
+	]
+	plats: Plats(0m 10m -30m)
+)

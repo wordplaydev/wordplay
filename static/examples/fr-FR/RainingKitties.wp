@@ -1,0 +1,46 @@
+🐈
+Il pleut des chatons
+=== start/en
+¶Cinquante chatons tombent sur la scène.¶
+compte2: 50
+taille2: 30
+
+•minou(x2•# y2•# z2•# angle2•# vitesse2•#) ()
+
+¶Au début, crée une liste de 20 chatons, chacun placé à un endroit au hasard. Quand l'horloge avance, déplace-les tous un peu vers le bas.¶
+chatons•[minou]:
+	compte2 → [].traduire(
+		ƒ(_) minou(
+				Aléatoire(-taille2 taille2)
+				Aléatoire(-taille2 taille2)
+				Aléatoire(0 taille2 ÷ 2)
+				Aléatoire(360)
+				Aléatoire(-30 30)
+			)
+	)
+	… ∆ Temps() …
+		chatons.traduire(
+			ƒ(minou2•minou)
+				(minou2.y2:minou2.y2 < -taille2 ? taille2 minou2.y2 - 2)
+				.angle2:minou2.angle2 + minou2.vitesse2
+		)
+
+¶Transforme les chatons en phrases¶
+Scène(
+	chatons.traduire(
+		ƒ(minou3•minou)
+			Phrase(
+				"🐈"
+				affronter: "Noto Color Emoji"
+				taille: 5m
+				lieu: Lieu(
+					minou3.x2 × 1m
+					minou3.y2 × 1m
+					minou3.z2 × 1m
+				)
+				rotation: minou3.angle2 × 1°
+				durée: 0s
+			)
+	)
+	lieu: Lieu(0m 0m -5m)
+)

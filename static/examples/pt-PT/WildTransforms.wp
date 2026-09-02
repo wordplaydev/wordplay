@@ -1,0 +1,14 @@
+🐈
+Transformações Loucas
+===
+¶Um gato a testar ao limite a escala, a rotação e o deslocamento, tudo ao mesmo tempo.¶
+Frase(
+	"🐈"
+	tamanho: 10m
+	descansar: Pose(
+		escala: 2
+		desvio: Local(1m 1m 5m)
+		rotação: (Tempo(500ms) % 360) × 1°/ms
+	)
+	duração: 0.25s
+)

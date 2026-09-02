@@ -1,0 +1,23 @@
+മ
+Lettres
+=== start/en
+¶Une grille de lettres de plusieurs systèmes d'écriture, où une lettre change chaque seconde.¶
+lettres: 'മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ' ÷ ""
+
+dernier2•['']:
+	lettres … ∆ Temps(1000ms) …
+		dernier2.remplacer(Aléatoire(1 25) lettres.aléatoire())
+
+Groupe(
+	Grille(5 5 0.25m 1m 1m)
+	dernier2.traduire(
+		ƒ(lettre•"" indice2•#)
+			Phrase(
+				lettre
+				nom: "\lettre\-\indice2\"
+				entrer: Pose(opacité: 0 échelle: 2)
+				aurepos: Séquence.balancement(durée: 0.25s)
+				durée: 0.5s
+			)
+	)
+)

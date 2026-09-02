@@ -1,0 +1,38 @@
+l
+Nagłówki
+=== start/en
+¶Nagłówki z New York Times na żywo, pobrane z internetu i ułożone na scenie.¶
+nagłówki: Stronainternetowa(
+		'https://www.nytimes.com'
+		'.indicate-hover'
+	)
+nagłówki•# ?
+	Wyrażenie('wczytywanie')
+	Grupa(
+		Stos('<')
+		[
+			Wyrażenie(
+				`*Nagłówki New York Times*`
+				2m
+				twarz: 'Arvo'
+			)
+		].zListą(
+			nagłówki.podsekwencja(1 7).tłumaczyć(
+				ƒ(nagłówek)
+					Wyrażenie(
+						nagłówek
+						zawinąć: 20m
+						wyrównanie: '<'
+						twarz: 'Ubuntu'
+						spoczynkowy: Sekwencja(
+							{
+								0%: Poza(obrót: 3°)
+								50%: Poza(obrót: -3°)
+								100%: Poza(obrót: 3°)
+							}
+							czastrwania: 3s
+						)
+					)
+			)
+		)
+	)

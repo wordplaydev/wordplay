@@ -1,0 +1,23 @@
+മ
+Letras
+=== start/en
+¶Una cuadrícula de letras de muchos sistemas de escritura, con una que cambia cada segundo.¶
+letras: 'മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ' ÷ ""
+
+másReciente•['']:
+	letras … ∆ Tiempo(1000ms) …
+		másReciente.reemplazar(Azar(1 25) letras.azar())
+
+Grupo(
+	Cuadrícula(5 5 0.25m 1m 1m)
+	másReciente.traducir(
+		ƒ(letra•"" índice2•#)
+			Frase(
+				letra
+				nombre: "\letra\-\índice2\"
+				entrando: Pose(opacidad: 0 escala: 2)
+				inmóvil: Secuencia.vaivén(duración: 0.25s)
+				duración: 0.5s
+			)
+	)
+)

@@ -1,0 +1,368 @@
+🐤
+Kolibri
+=== start/en
+¶Ein Spiel mit einem summenden Vogel! Klicke oder drücke eine Taste, damit er flattert, oder summe ins Mikrofon – der Vogel schwebt auf die Höhe der Tonhöhe deines Summens. Fliege durch die Lücken zwischen den Emoji-Stapeln. Berührst du einen Stapel oder den Boden, ist das Spiel vorbei. Danach zählt es herunter und beginnt neu.¶
+
+¶Jedes Hindernis ist ein Stapel aus Emojis aus einer dieser Sammlungen.¶
+genres: [
+		['🌵' '🌱' '🌿' '🍀' '🎋']
+		['🍩' '🧁' '🍰' '🍪' '🍦']
+		['🐙' '🐟' '🦀' '🐡' '🦑']
+		['🚗' '🚌' '🚕' '🚙' '🚓']
+		['🌸' '🌼' '🌻' '🌷' '💐']
+		['⭐' '🌟' '✨' '☁' '🌙']
+	]
+
+¶Wie weit sich ein Hindernis bei jedem Takt nach links bewegt.¶
+geschwindigkeit: 0.2m
+
+¶Jede Berührung mit dem Vogel. Die Decke heißt „sky“, darum lässt eine Berührung damit den Vogel nur abprallen, statt das Spiel zu beenden.¶
+absturz: Kollision('Vogel')
+tödlich: absturz•ø ? ⊥ (absturz.Objekt ≠ 'sky')
+
+takt2: Zeit(40ms)
+gameTick: Zeit(100ms)
+
+¶Der Spielzustand: eine Phase (1 = Countdown, 2 = Spielen, 3 = Abgestürzt) und wie viele Zehntelsekunden wir schon darin sind. Wir zählen die Takte einer Uhr, statt Zeiten voneinander abzuziehen, da jedes Time() bei null beginnt.¶
+•spiel(phase•# takte•#)
+spiel2•spiel: spiel(1 0) …
+	∆ gameTick | tödlich …
+		spiel2.phase ???
+			1: (spiel2.takte ≥ 36) ? spiel(2 0) spiel(
+					1
+					spiel2.takte + 1
+				)
+			2: tödlich ? spiel(3 0) spiel2
+			3: (spiel2.takte ≥ 25) ? spiel(1 0)
+				¶Solange der Vogel auf etwas ruht, halten Berührungen diese Reaktion beschäftigt. Es werden nur echte Uhr-Takte gezählt, damit die Pause immer gleich lang ist.¶
+				spiel(3 spiel2.takte + (∆ gameTick ? 1 0))
+			spiel2
+
+¶Die anzuzeigende Countdown-Zahl: 3, 2, 1.¶
+zähler: (spiel2.takte < 12) ? 3 (spiel2.takte < 24) ? 2 1
+
+¶Wähle die Spielweise, indem du den Knopf 🎤 oder ⌨ auswählst: Summen bewegt den Vogel, Klicks und Tasten lassen ihn flattern. Die Modi sind getrennt, damit Sprechen in der Nähe des Mikrofons nicht mit der Tastatur stört.¶
+gewählt: Auswahl()
+modus•'': 'tap' … (gewählt = 'hum') | (gewählt = 'tap') … gewählt
+
+¶Im Tipp-Modus flattert der Vogel, wenn du klickst oder eine Taste drückst.¶
+flattern: (modus = 'tap') & (∆ Taste() | ∆ Schlüssel())
+
+¶Im Summ-Modus schwebt der Vogel auf der Höhe deines gesummten Tons — tiefe Töne nahe am Boden, hohe Töne nahe am Himmel — und nicht höher.¶
+tonhöhe: Tonhöhe()
+summen: (modus = 'hum') & (tonhöhe > 50hz)
+
+ƒ tonhöheZuHöhe(hz•#hz)
+	(hz < 80hz) ? -4m
+		(hz > 400hz) ? 5m
+			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+
+¶Der Vogel nähert sich der gesummten Höhe Stück für Stück, damit er gleitet statt bei jedem Wackeln im Ton zu zittern.¶
+tonhöheY•#m: 1m … ∆ tonhöhe … summen ? (0.8 × tonhöheY) + (0.2 × tonhöheZuHöhe(
+							tonhöhe
+						)) tonhöheY
+
+¶Der Vogel schwebt während des Countdowns, flattert nach oben oder hält die gesummte Höhe während des Spiels, und fällt nach einem Absturz durch die Schwerkraft nach unten.¶
+vogelPlatz: Bewegung(
+		Ort(-4m 1m)
+		nächsterOrt:
+		(spiel2.phase = 1) ? Ort(-4m 1m)
+			((spiel2.phase = 2) & summen) ? Ort(-4m tonhöheY) ø
+		nächsteGeschwindigkeit:
+		(spiel2.phase = 1) ? Geschwindigkeit(0m/s 0m/s)
+			((spiel2.phase = 2) & summen) ? Geschwindigkeit(
+					0m/s
+					0m/s
+				)
+				((spiel2.phase = 2) & flattern) ? Geschwindigkeit(
+						0m/s
+						15m/s
+					) ø
+	)
+
+¶Das Küken-Emoji schaut nach links, deshalb wird jede Haltung gespiegelt, damit es in die Richtung schaut, in die es fliegt.¶
+vogel: Satzglied(
+		'🐤'
+		1m
+		Name: 'Vogel'
+		Ort: vogelPlatz
+		Gegenstand: Gegenstand(1kg 0.4 0)
+		Ruhen:
+		(spiel2.phase = 3) ? Pose(Drehung: 180° flipx: ⊤)
+			Reihenfolge(
+				{
+					0%: Pose(flipx: ⊤ Drehung: -12°)
+					50%: Pose(flipx: ⊤ Drehung: 12°)
+					100%: Pose(flipx: ⊤ Drehung: -12°)
+				}
+				0.35s
+			)
+	)
+
+¶Jede Barriere hat eine waagerechte Position, eine Anzahl von Emojis, die von oben hängen, und eine Emoji-Sammlung, aus der sie besteht. Barrieren wandern beim Spielen nach links, springen dann mit einer neuen, zufälligen Form nach rechts zurück und werden für ein neues Spiel zurückgesetzt.¶
+•rohr(x2•#m oben•# genre•#)
+
+rohr1•rohr: rohr(10m Zufällig(1 5) Zufällig(1 6)) …
+	((spiel2.phase = 1) & (rohr1.x2 ≠ 10m)) | ((spiel2.phase = 2) & ∆ takt2) …
+		(spiel2.phase = 1) ? rohr(
+				10m
+				Zufällig(1 5)
+				Zufällig(1 6)
+			)
+			(rohr1.x2 < -13m) ? rohr(
+					rohr1.x2 + 24m
+					Zufällig(1 5)
+					Zufällig(1 6)
+				)
+				rohr(
+					rohr1.x2 - geschwindigkeit
+					rohr1.oben
+					rohr1.genre
+				)
+
+rohr2•rohr: rohr(16m Zufällig(1 5) Zufällig(1 6)) …
+	((spiel2.phase = 1) & (rohr2.x2 ≠ 16m)) | ((spiel2.phase = 2) & ∆ takt2) …
+		(spiel2.phase = 1) ? rohr(
+				16m
+				Zufällig(1 5)
+				Zufällig(1 6)
+			)
+			(rohr2.x2 < -13m) ? rohr(
+					rohr2.x2 + 24m
+					Zufällig(1 5)
+					Zufällig(1 6)
+				)
+				rohr(
+					rohr2.x2 - geschwindigkeit
+					rohr2.oben
+					rohr2.genre
+				)
+
+rohr3•rohr: rohr(22m Zufällig(1 5) Zufällig(1 6)) …
+	((spiel2.phase = 1) & (rohr3.x2 ≠ 22m)) | ((spiel2.phase = 2) & ∆ takt2) …
+		(spiel2.phase = 1) ? rohr(
+				22m
+				Zufällig(1 5)
+				Zufällig(1 6)
+			)
+			(rohr3.x2 < -13m) ? rohr(
+					rohr3.x2 + 24m
+					Zufällig(1 5)
+					Zufällig(1 6)
+				)
+				rohr(
+					rohr3.x2 - geschwindigkeit
+					rohr3.oben
+					rohr3.genre
+				)
+
+rohr4•rohr: rohr(28m Zufällig(1 5) Zufällig(1 6)) …
+	((spiel2.phase = 1) & (rohr4.x2 ≠ 28m)) | ((spiel2.phase = 2) & ∆ takt2) …
+		(spiel2.phase = 1) ? rohr(
+				28m
+				Zufällig(1 5)
+				Zufällig(1 6)
+			)
+			(rohr4.x2 < -13m) ? rohr(
+					rohr4.x2 + 24m
+					Zufällig(1 5)
+					Zufällig(1 6)
+				)
+				rohr(
+					rohr4.x2 - geschwindigkeit
+					rohr4.oben
+					rohr4.genre
+				)
+
+¶Ist eine Barriere gerade am Vogel vorbeigezogen?¶
+ƒ vorbei(x3•#m) (x3 ≤ -5m) & (x3 > (-5m - geschwindigkeit))
+
+punktestand•#: 0 …
+	(spiel2.phase = 1) | ((spiel2.phase = 2) & ∆ takt2) …
+		(spiel2.phase = 1) ? 0
+			(vorbei(rohr1.x2) | vorbei(rohr2.x2) | vorbei(
+						rohr3.x2
+					) | vorbei(rohr4.x2)) ? punktestand + 1
+				punktestand
+
+¶Baue einen Stapel von Emojis als eine feste Spalte. Die Dauer von 0 lässt das Zurückspringen zur rechten Seite sofort geschehen, statt sichtbar zu gleiten.¶
+ƒ spalte(zellen•# genre2•# x4•#m y2•#m)
+	Gruppe(
+		Stapel('|' 0m)
+		(zellen → []).übersetzen(
+			ƒ(zelle2•#) Satzglied(
+					genres[genre2][1 + ((zelle2 - 1) % 5)]
+					1m
+				)
+		)
+		Ort: Ort(x4 y2)
+		Gegenstand: Gegenstand()
+		Dauer: 0s
+	)
+
+¶Eine Barriere besteht aus zwei Spalten: eine hängt vom Himmel, eine wächst vom Boden, mit einer Lücke von etwa 6 Metern dazwischen.¶
+ƒ stapel(rohr5•rohr) [
+		spalte(
+			rohr5.oben
+			rohr5.genre
+			rohr5.x2
+			6m - (rohr5.oben × 1m)
+		)
+		spalte(6 - rohr5.oben rohr5.genre rohr5.x2 -6m)
+	]
+
+¶Der Boden lässt den Vogel abstürzen; der Himmel wirft ihn zurück nach unten.¶
+boden: Gestalt(
+		Rechteck(-8m -5.7m 8m -6m)
+		Hintergrund: Farbe(60% 60 130°)
+	)
+himmel: Gestalt(Rechteck(-8m 7m 8m 6m) Name: 'sky')
+linkeWand: Gestalt(Rechteck(-8.4m 6m -8m -6m))
+rechteWand: Gestalt(Rechteck(8m 6m 8.4m -6m))
+
+punktestandAnsicht: Satzglied(
+		"\punktestand\"
+		1.5m
+		Ort: Ort(-0.5m 4m)
+	)
+überlagerungen:
+	spiel2.phase ???
+		1: [Satzglied("\zähler\" 3m Ort: Ort(-1m -1.5m))]
+		3: [Satzglied('💥' 3m Ort: Ort(-1.5m -1.5m))]
+		[]
+
+¶Der Modus-Umschalter: Die gewählte Spielweise leuchtet hell, die andere bleibt dunkel.¶
+humButton: Satzglied(
+		'🎤'
+		0.8m
+		Name: 'hum'
+		wählbar: ⊤
+		Ort: Ort(-4.2m 4.7m)
+		Ruhen: (modus = 'hum') ? Pose() Pose(Opazität: 40%)
+	)
+tapButton: Satzglied(
+		'⌨'
+		0.8m
+		Name: 'tap'
+		wählbar: ⊤
+		Ort: Ort(-3m 4.7m)
+		Ruhen: (modus = 'tap') ? Pose() Pose(Opazität: 40%)
+	)
+
+anleitung1: Satzglied(
+		'Wähle ⌨, um mit Klicks und Tasten zu flattern, oder 🎤, um die Höhe deines Vogels zu summen!'
+		0.45m
+		Ort: Ort(-6.9m -4.7m)
+	)
+anleitung2: Satzglied(
+		'Schlüpfe durch die Lücken. Berühre die Stapel nicht!'
+		0.4m
+		Ort: Ort(-4.5m -5.4m)
+	)
+
+¶Ein Flattern ist schon eine einzige Auswertung — die Reaktion, die den Vogel hebt, feuert beim Klick oder bei der Taste und bei nichts sonst — deshalb kann sie den Flügelton direkt erzeugen: ein Ton in dem Bild, in dem du flatterst, und nichts zu jeder anderen Zeit. Ein Ton, der schon begonnen hat, spielt bis zu seinem Ende, sodass das Leeren dieser Liste einen Moment später den Flügel nicht abschneidet. Im Summ-Modus gibt es überhaupt kein Flattern, deshalb bleibt die Liste leer und der Vogel schweigt, während du ihm etwas vorsingst.¶
+flapNotes: flattern ? [3] []
+
+flapSound: Musik(
+		Spur(
+			flapNotes
+			Instrument: Instrument.Schlagzeug
+			Lautstärke: 70%
+			Schleife: ⊥
+		)
+		Wiederholen: flattern
+		Name: 'flattern'
+	)
+
+¶Zwanzig Tore von unruhig bis hektisch. Eine Änderung des Tempos setzt beim nächsten Schlag an, statt von vorn zu beginnen, sodass jedes Tor die Schleife unter dir enger macht, ohne je den Faden zu verlieren — und ein Absturz setzt die Punktzahl wieder auf null, wodurch sich alles wieder ganz herunterdreht.¶
+dringlichkeit: (punktestand ÷ 20).Mindest(1)
+
+¶Phrygisch für die kleine Sekunde: ein Halbton über dem Grundton, der unruhigste Ton, den es gibt, ohne die Tonleiter zu verlassen. Der Bass lehnt sich jeden zweiten Takt darauf, und die Synth-Figur endet dort, sodass die Schleife nie zur Ruhe kommt.¶
+unruhigesLied: Musik(
+		[
+			Spur(
+				[1 ø 1 ø 2 ø 1 ø]
+				Instrument: Instrument.synthBass
+				Schlag: 1beats
+				Lautstärke: 50%
+			)
+			Spur(
+				[5 ø 4 ø 5 ø 4 2]
+				Instrument: Instrument.synth
+				Schlag: 1beats
+				Lautstärke: 35%
+			)
+			Spur(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 3 3]
+				Instrument: Instrument.Schlagzeug
+				Schlag: 0.5beats
+				Lautstärke: 35%
+			)
+		]
+		Tempo: (100beats/min + (dringlichkeit · 100beats/min))
+		Tonleiter: Musik.phrygisch
+		Name: 'unruhig'
+	)
+
+¶Es läuft durch den Countdown und den Flug und stoppt abrupt bei einem Absturz, sodass das 💥 den Raum für sich allein hat.¶
+songList: (spiel2.phase = 3) ? [] [unruhigesLied]
+
+¶Der Absturz: ein Becken, ein tiefer Schlag, und die unruhige Tonleiter, die von oben in sich selbst hinabfällt — dieselben Töne, um die das Lied die ganze Zeit gekreist ist, gehen nun endgültig ins Leere.
+
+Dieser braucht kein @Music.replay. Auf der Bühne zu erscheinen ist Grund genug zum Klingen, und ein Einzelklang, der abgespielt ist, bleibt still, bis er die Bühne verlässt; der Countdown nimmt ihn von der Bühne und vergisst ihn, sodass der nächste Absturz ihn wieder von vorn erklingen lässt. Er dauert etwa anderthalb Schläge, bequem innerhalb der zweieinhalb Sekunden, die die Absturzpause dauert.¶
+deathSound: Musik(
+		[
+			Spur(
+				[8 7 5 4 2 1 ø ø]
+				Instrument: Instrument.synth
+				Schlag: 0.25beats
+				Lautstärke: 55%
+				Schleife: ⊥
+			)
+			Spur(
+				[4 ø]
+				Instrument: Instrument.Schlagzeug
+				Schlag: 1beats
+				Lautstärke: 50%
+				Schleife: ⊥
+			)
+			Spur(
+				[1 ø]
+				Instrument: Instrument.synthBass
+				Schlag: 1beats
+				Lautstärke: 60%
+				Schleife: ⊥
+			)
+		]
+		Tempo: 100beats/min
+		Tonleiter: Musik.phrygisch
+		Name: 'Absturz'
+	)
+
+deathList: (spiel2.phase = 3) ? [deathSound] []
+
+Bühne(
+	[
+		vogel
+		flapSound
+		:songList
+		:deathList
+		:stapel(rohr1)
+		:stapel(rohr2)
+		:stapel(rohr3)
+		:stapel(rohr4)
+		boden
+		himmel
+		linkeWand
+		rechteWand
+		punktestandAnsicht
+		:überlagerungen
+		humButton
+		tapButton
+		anleitung1
+		anleitung2
+	]
+	Ort: Ort(0m 0m -12m)
+	rahmen: Rechteck(-8m 6m 8m -6m)
+	Hintergrund: Farbe(90% 20 240°)
+)

@@ -1,0 +1,49 @@
+🖐
+Mão
+===
+¶Levante os dedos à frente da câmara e uma mão emoji conta consigo.¶
+mão: Mão()
+
+Fase(
+	[
+		Frase(
+			(mão.dedos = 0 ? '✊'
+					mão.dedos = 1 ? '☝'
+						mão.dedos = 2 ? '✌'
+							mão.dedos = 3 ? '🤟'
+								mão.dedos = 4 ? '🖖'
+									'🖐')
+			local: mão.local
+			tamanho: 2m
+			desvio: Local(-1m)
+		)
+		Grupo(
+			Linha('<')
+			[
+				Frase('1⃣' desvio: Local(0m mão.polegar ? 1m 0m))
+				Frase('2⃣' desvio: Local(0m mão.índice ? 1m 0m))
+				Frase('3⃣' desvio: Local(0m mão.meio ? 1m 0m))
+				Frase('4⃣' desvio: Local(0m mão.anel ? 1m 0m))
+				Frase('5⃣' desvio: Local(0m mão.mindinho ? 1m 0m))
+			]
+			local: Local(-4.5m 5m)
+		)
+		Grupo(
+			Monte('|')
+			[
+				Frase((mão.palma ? '🤚' '🤛') tamanho: 2m)
+				Frase(
+					(mão.aberto ? 'aberta' 'fechada')
+					tamanho: 1.5m
+				)
+			]
+			local: Local(-2m -8m)
+		)
+		Frase(
+			`/Mostre a sua mão à câmara/`
+			local: Local(-6m -10m)
+			tamanho: 1m
+		)
+	]
+	local: Local(0m 0m -20m)
+)

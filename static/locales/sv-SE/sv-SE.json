@@ -2465,7 +2465,7 @@
                 },
                 "notequal": {
                     "doc": "$~\\⊤\\ om båda är motsatser.",
-                    "names": ["$~lika"],
+                    "names": "≠",
                     "inputs": [
                         {
                             "doc": "$~Den andra @value att kontrollera.",
@@ -2498,7 +2498,7 @@
                 },
                 "notequals": {
                     "doc": "$~Är en annan @value /inte/ ingenting?",
-                    "names": ["$~lika"],
+                    "names": "≠",
                     "inputs": [
                         {
                             "doc": "$~Den andra @value.",
@@ -3033,7 +3033,7 @@
                         "\\1 ≠ 2\\",
                         "\\2 ≠ 2\\"
                     ],
-                    "names": ["$~lika"],
+                    "names": "≠",
                     "inputs": [
                         {
                             "doc": "$~@Number att jämföra mig med.",
@@ -3488,7 +3488,7 @@
                         "$~\\⊤\\ om mina varor och beställning är /inte/ exakt samma som den givna @List.",
                         "\\['äpple' 'banan' 'mango'] ≠ ['äpple' 'mango' 'banan']\\"
                     ],
-                    "names": ["$~lika"],
+                    "names": "≠",
                     "inputs": [
                         {
                             "doc": "$~@List att jämföra mig med.",
@@ -3747,7 +3747,7 @@
                         "$~Jag är \\⊤\\ om den givna @Set och jag inte har exakt samma värden:",
                         "\\{1 2 3} ≠ {2 3 4}\\"
                     ],
-                    "names": ["$~lika"],
+                    "names": "≠",
                     "inputs": [
                         {
                             "doc": "$~@Set för att jämföra.",
@@ -3921,7 +3921,7 @@
                         "$~\\{⊤}\\ om mina parningar är /inte/ exakt samma som de givna @Map.",
                         "\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
-                    "names": ["$~lika"],
+                    "names": "≠",
                     "inputs": [
                         {
                             "doc": "$~@Map att jämföra mig med.",

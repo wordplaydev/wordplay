@@ -1,0 +1,26 @@
+മ
+Harfler
+=== start/en
+¶Birçok yazı sisteminden harflerin bulunduğu bir ızgara, her saniye biri değişiyor.¶
+harfler2: 'മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ' ÷ ""
+
+enYeni•['']:
+	harfler2 … ∆ Zaman(1000ms) …
+		enYeni.yerdeğiştirmek(
+			Rastgele(1 25)
+			harfler2.rastgele()
+		)
+
+Grup(
+	Izgara(5 5 0.25m 1m 1m)
+	enYeni.tercümeetmek(
+		ƒ(harf•"" dizin2•#)
+			İfadeetmek(
+				harf
+				isim: "\harf\-\dizin2\"
+				giriş: Poz(opaklık: 0 ölçek: 2)
+				dinlenme: Sekans.sallanmak(süre: 0.25s)
+				süre: 0.5s
+			)
+	)
+)

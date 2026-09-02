@@ -1,0 +1,157 @@
+🎹
+Đàn Piano Ảo
+=== start
+¶Một cây đàn piano một quãng tám mà bạn có thể chơi!Để có trải nghiệm tốt nhất, hãy tắt phần hiển thị âm nhạc.¶
+
+¶Liên kết này lưu một dòng Key để phát hiện phím bạn đã nhấn.¶
+đãNhấn: Chìakhóa()
+
+¶Nơi này lưu một bản đồ nối các phím bạn nhấn với các nốt nhạc chúng sẽ phát,ở cả dạng chữ (để hiển thị nốt đang được chơi) và dạng chữ số(để chuyển thành số (#) rồi đưa vào danh sách Track).
+
+Cách sắp xếp này được chọn để giống với các phím đàn piano thật, với cácphím trắng là chữ cái, và các phím đen là chữ số.¶
+bảnĐồNốtNhạc: {
+		'w': ['C' "1"]
+		'3': ['C# / Db' "2"]
+		'e': ['D' "3"]
+		'4': ['D# / Eb' "4"]
+		'r': ['E' "5"]
+		't': ['F' "6"]
+		'6': ['F# / Gb' "7"]
+		'y': ['G' "8"]
+		'7': ['G# / Ab' "9"]
+		'u': ['A' "10"]
+		'8': ['A# / Bb' "11"]
+		'i': ['B' "12"]
+		'o': ['C5' "13"]
+	}
+
+¶Hàm này trả về tên của nốt nhạc, dựa trên phím nào đã được nhấn.Nếu phím đó không phải là một nốt hợp lệ, nó trả về chữ rỗng.¶
+ƒ trảVềText(chìaKhóa2•"")•"" (bảnĐồNốtNhạc{chìaKhóa2} ≠ ø) ? bảnĐồNốtNhạc{chìaKhóa2}[1] ""
+
+¶Hàm này trả về số nốt nhạc tương ứng với phím được nhấn dưới dạng danh sách,để dùng làm đầu vào cho một Track. Nếu phím nhấn không hợp lệ, nó trả về mộtdanh sách rỗng.¶
+ƒ trảVềNote(chìaKhóa3•"")•[] [
+		(bảnĐồNốtNhạc{chìaKhóa3} ≠ ø) ? (bảnĐồNốtNhạc{chìaKhóa3}[2] → #) [
+			]
+	]
+
+¶Hàm này nhận vào một danh sách chữ số và trả về một Track với danh sách nốt đó.Vòng lặp được tắt để nốt nhạc chỉ phát một lần khi phím được nhấn.¶
+ƒ trảVềTrack(nốt•[#]) BảnNhạc(nốt vòngLặp: ⊥)
+
+¶Hai liên kết này xác định màu sắc của phím tương ứngkhi nó được nhấn và khi không được nhấn.¶
+nhấnColor: Màusắc(10 270 50°)
+colorRỗng: Màusắc(0 0 0°)
+
+¶Phần này phát bản nhạc tương ứng với phím được nhấn. Thang âm là loại bán cungđể các bản nhạc có thể dùng mọi nửa cung. Chế độ phát lại được bật khi mộtphím hợp lệ được nhấn, để bản nhạc phát mỗi khi phím được nhấn, kể cảkhi nhấn hai lần liên tiếp.¶
+ÂmNhạc(
+	trảVềTrack(trảVềNote(đãNhấn))
+	thangÂm: ÂmNhạc.nửaCung
+	phátLại: bảnĐồNốtNhạc{đãNhấn} ≠ ø
+)
+
+¶Hiển thị cây đàn piano, các phím cần nhấn, và nốt nhạc được phát khi mộtphím được nhấn.¶
+Nhóm(
+	Ngănxếp('>' 1m)
+	[
+		Nhóm(
+			Hàngngang('>' -.3m)
+			[
+				Cụmtừ(
+					'▯'
+					tên: 'w'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = 'w' ? nhấnColor colorRỗng
+				)
+				Cụmtừ(
+					'▮'
+					tên: '3'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = '3' ? nhấnColor colorRỗng
+				)
+				Cụmtừ(
+					'▯'
+					tên: 'e'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = 'e' ? nhấnColor colorRỗng
+				)
+				Cụmtừ(
+					'▮'
+					tên: '4'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = '4' ? nhấnColor colorRỗng
+				)
+				Cụmtừ(
+					'▯'
+					tên: 'r'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = 'r' ? nhấnColor colorRỗng
+				)
+				Cụmtừ(
+					'▯'
+					tên: 't'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = 't' ? nhấnColor colorRỗng
+				)
+				Cụmtừ(
+					'▮'
+					tên: '6'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = '6' ? nhấnColor colorRỗng
+				)
+				Cụmtừ(
+					'▯'
+					tên: 'y'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = 'y' ? nhấnColor colorRỗng
+				)
+				Cụmtừ(
+					'▮'
+					tên: '7'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = '7' ? nhấnColor colorRỗng
+				)
+				Cụmtừ(
+					'▯'
+					tên: 'u'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = 'u' ? nhấnColor colorRỗng
+				)
+				Cụmtừ(
+					'▮'
+					tên: '8'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = '8' ? nhấnColor colorRỗng
+				)
+				Cụmtừ(
+					'▯'
+					tên: 'i'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = 'i' ? nhấnColor colorRỗng
+				)
+				Cụmtừ(
+					'▯'
+					tên: 'o'
+					kíchcỡ: 3m
+					màusắc: đãNhấn = 'o' ? nhấnColor colorRỗng
+				)
+			]
+		)
+
+		Nhóm(
+			Hàngngang('>' 1.1m)
+			[
+				Cụmtừ('w')
+				Cụmtừ('3')
+				Cụmtừ('e')
+				Cụmtừ('4')
+				Cụmtừ('r t')
+				Cụmtừ('6')
+				Cụmtừ('y')
+				Cụmtừ('7')
+				Cụmtừ('u')
+				Cụmtừ('8')
+				Cụmtừ('i  o')
+			]
+		)
+		Cụmtừ(trảVềText(đãNhấn))
+	]
+)

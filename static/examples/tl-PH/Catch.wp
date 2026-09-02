@@ -1,0 +1,60 @@
+🐭
+Hulihin
+=== start/en
+¶Hulihin ang dali-daling daga sa pamamagitan ng pag-click — mag-click ulit para palayain ito.
+
+Parehong tunog ay nagmumula sa mga pose mismo. Ang isang @Pose ay maaaring magdala ng @Music, na tumutugtog sa sandaling gawin ang pose na iyon: tumutunog ang dagit kapag nagbago ang nakapahingang pose ng daga tungo sa nahuling pose, at tumutunog ang dali-dali kapag umabot ang ikot sa kalahating pose na nakatakda dito. Walang kailangang ikonekta sa pagitan ng animation at ng tunog — ang pose ang siyang nagdudugtong sa kanila.¶
+
+¶Dalawang maikling piraso. Ang isang @Track ay umuulit-ulit bilang default, pero ang isang pose ay isang saglit lamang sa halip na isang bagay na tumatagal, kaya ang musika ng isang pose ay tumutugtog lang nang isang beses.¶
+dagit: Musika(
+		Track(
+			[5 1]
+			instrumento: Instrumento.kampana
+			beat: 1beats
+		)
+		lakasNgTunog: 50%
+		pangalan: 'dagit'
+	)
+scurry: Musika(
+		Track(
+			[1 2]
+			instrumento: Instrumento.plauta
+			beat: 1beats
+		)
+		lakasNgTunog: 35%
+		pangalan: 'dali-dali'
+	)
+
+¶Kung ang napiling parirala ay daga, baguhin kung nahuli ba ang daga o hindi.¶
+pangalan3: Pagpipilian()
+nahuli: ⊥ … ∆ (pangalan3) … (pangalan3 = 'mouse') & ~nahuli
+¶Bawat segundo, ilipat ang daga¶
+ilagay: Lugar(0m 0m 0m) … ∆ Oras(1000ms) … nahuli ? Lugar(
+				0m
+				0m
+			) Lugar(Random(-2m 2m) Random(-2m 2m))
+
+Entablado(
+	[
+		Parirala(
+			"🐭"
+			mapipili: ⊤
+			lugar: ilagay
+			nagpapahinga: nahuli ? Pose(
+					pagikot: 180°
+					musika: dagit
+				) Pose()
+			gumagalaw: nahuli ? Pose() Pagkakasunodsunod(
+					{
+						0%: Pose(pagikot: 0°)
+						50%: Pose(pagikot: 180° musika: scurry)
+						100%: Pose(pagikot: 360°)
+					}
+				)
+			tagal: 1s
+			pangalan: 'mouse'
+		)
+	]
+	lugar: Lugar(0m 0m -5m)
+	balangkas: Parihaba(-3m 3m 3m -3m)
+)

@@ -1,0 +1,26 @@
+H
+Meningslängd
+===
+¶Skriv i chattfältet så räknar den tecknen i din mening.¶
+mening: Chatta()
+längd2: Chatta().längd()
+
+Grupp(
+	Stack()
+	[
+		Fras(
+			`*Hej! Välkommen till meninglängdräknaren.*`
+			plats: Plats(0m 1m)
+		)
+		Fras(
+			'Skriv något i meddelandefältet!'
+			plats: Plats(0m -1m)
+		)
+		Fras(
+			'Din mening är ' + (längd2 → '') + ' tecken lång!'
+			vilande: Sekvens.vingla(varaktighet: 3s)
+			plats: Plats(0m -3m)
+		)
+		Fras(mening plats: Plats(0m -5m) sjal: 25m)
+	]
+)

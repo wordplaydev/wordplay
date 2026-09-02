@@ -1,0 +1,84 @@
+t
+ಫ್ರೆಂಚ್ ಸಂಖ್ಯೆಗಳು
+=== start/en-US,start/fr-FR
+¶ವೇದಿಕೆಯಲ್ಲಿರುವ ಫ್ರೆಂಚ್ ಸಂಖ್ಯೆಗೆ ಹೊಂದುವ ಅಂಕವನ್ನು ಒತ್ತಿ.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶ಊಹಿಸಬೇಕಾದ ಸಂಖ್ಯೆಗಳು¶
+¶Les nombres à deviner¶/fr
+ಸಂಖ್ಯೆಗಳು2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶ರಹಸ್ಯಗಳು ಎಂದರೆ 1 ರಿಂದ 9 ರವರೆಗಿನ ಸಂಖ್ಯೆಗಳು, ಯಾವುದೇ ಕ್ರಮದಲ್ಲಿ¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+ರಹಸ್ಯಗಳು: [1 2 3 4 5 6 7 8 9].ಕಲೆಸಲಾಗಿದೆ()
+
+¶ಇತ್ತೀಚೆಗೆ ಒತ್ತಿದ ಕೀ ಯಾವುದು?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+ಕೀ2,clé/fr: ಕೀ()
+
+¶ಪ್ರತಿ ಬಾರಿ ಕೀ ಒತ್ತಿದಾಗ ಈಗಿನ ರಹಸ್ಯ ಹೆಚ್ಚಾಗುತ್ತದೆ, ಆದರೆ 10 ಕ್ಕೆ ನಿಲ್ಲುತ್ತದೆ¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+ರಹಸ್ಯಸೂಚ್ಯಂಕ,secretIndice/fr•#:
+	1 …
+	∆ ಕೀ2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶ರಹಸ್ಯ ಸೂಚ್ಯಂಕದ ಆಧಾರದ ಮೇಲೆ ಈಗಿನ ರಹಸ್ಯ¶
+ಈಗಿನರಹಸ್ಯ,secretActuel/fr: ರಹಸ್ಯಗಳು[ರಹಸ್ಯಸೂಚ್ಯಂಕ]
+
+¶ಒತ್ತಿದ ಸಂಖ್ಯೆ ಹಿಂದಿನ ರಹಸ್ಯ ಸಂಖ್ಯೆಗೆ ಹೊಂದಿದರೆ ಊಹೆ ಸರಿಯಾಗಿತ್ತು¶
+ಸರಿ2: clé → # = ರಹಸ್ಯಗಳು[ರಹಸ್ಯಸೂಚ್ಯಂಕ - 1]
+
+¶ಅಂಕಗಳು 0 ರಿಂದ ಪ್ರಾರಂಭವಾಗುತ್ತವೆ ಮತ್ತು ಊಹೆ ಸರಿಯಾಗಿದ್ದರೆ ಹೆಚ್ಚಾಗುತ್ತವೆ.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+ಅಂಕಗಳು•#: 0 …
+	∆ ಕೀ2 …
+		ಸರಿ2 ?
+			ಅಂಕಗಳು + 1
+			ಅಂಕಗಳು
+
+¶ಗೆಲುವು ಎಂದರೆ ಎಲ್ಲಾ 9 ಸಂಖ್ಯೆಗಳನ್ನು ಪಡೆಯುವುದು¶
+ಗೆಲುವು,gagner/fr: ಅಂಕಗಳು = 9
+
+¶ರಹಸ್ಯ ಸೂಚ್ಯಂಕ 10 ತಲುಪಿದಾಗ ಮುಗಿಯುತ್ತದೆ¶
+ಆಟಮುಗಿದಿದೆ: ರಹಸ್ಯಸೂಚ್ಯಂಕ = 10
+
+¶ಈಗಿನ ಫ್ರೆಂಚ್ ಸಂಖ್ಯೆ ಮತ್ತು ಈಗಿನ ಅಂಕಗಳನ್ನು ತೋರಿಸಿ. ಎಲ್ಲಾ 9 ರಹಸ್ಯಗಳ ನಂತರ, ಅಂತಿಮ ಫಲಿತಾಂಶ ತೋರಿಸಿ¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+ಹಂತ(
+	[
+		ಗುಂಪು(
+			ಸ್ಟ್ಯಾಕ್()
+			[
+				ಆಟಮುಗಿದಿದೆ ?
+					ನುಡಿಗಟ್ಟು(
+						ಗೆಲುವು ?
+							'ನಿನಗೆ ಫ್ರೆಂಚ್ ಸಂಖ್ಯೆಗಳು ಗೊತ್ತು!'"Tu connais les chiffres français!"/fr
+							'ಬಹುತೇಕ ಸರಿ, ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ'"presque, réessaye"/fr
+						ಗಾತ್ರ: 2m
+					)
+					ನುಡಿಗಟ್ಟು(numeros[secretActuel] ಗಾತ್ರ: 2m)
+				ನುಡಿಗಟ್ಟು("\ಅಂಕಗಳು\ points!" ಗಾತ್ರ: 1m)
+				ನುಡಿಗಟ್ಟು(
+					ರಹಸ್ಯಸೂಚ್ಯಂಕ = 1 ?
+						'ಇದು ಯಾವ ಸಂಖ್ಯೆ?''quel est ce numéro ?'/fr
+						ಸರಿ2 ?
+							'ಸರಿ!'
+							"That was \ರಹಸ್ಯಗಳು[ರಹಸ್ಯಸೂಚ್ಯಂಕ - 1]\"
+				)
+			]
+		)
+	]
+	ಮುಖ: "Aclonica"
+)

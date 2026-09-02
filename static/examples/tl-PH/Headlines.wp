@@ -1,0 +1,38 @@
+l
+Mga Balita
+=== start/en
+¶Mga live na balita mula sa New York Times, kinuha mula sa web at nakatambak sa entablado.¶
+mgaBalita: Pahinangweb(
+		'https://www.nytimes.com'
+		'.indicate-hover'
+	)
+mgaBalita•# ?
+	Parirala('nilo-load')
+	Grupo(
+		Patongpatong('<')
+		[
+			Parirala(
+				`*Mga Balita ng New York Times*`
+				2m
+				mukha: 'Arvo'
+			)
+		].kasamaangListahan(
+			mgaBalita.kasunod(1 7).isalin(
+				ƒ(balita)
+					Parirala(
+						balita
+						pambalot: 20m
+						pagkakahanay: '<'
+						mukha: 'Ubuntu'
+						nagpapahinga: Pagkakasunodsunod(
+							{
+								0%: Pose(pagikot: 3°)
+								50%: Pose(pagikot: -3°)
+								100%: Pose(pagikot: 3°)
+							}
+							tagal: 3s
+						)
+					)
+			)
+		)
+	)

@@ -1,0 +1,22 @@
+t
+字體機器
+=== start
+¶按任意鍵，用隨機字型重新排版「typography」的每個字母¶
+字型: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+符號: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ 隨機排列()
+	符號.翻譯(
+		ƒ(符號2) 短語(符號2 表面: 字型.隨機() 持續時間: 0s)
+	)
+
+詞組2: 隨機排列() … ∆ 鑰匙() | ∆ 按鈕() … 隨機排列()
+
+舞台([組合(行('|' 0m) 詞組2 位置: 位置(0m 0m))])

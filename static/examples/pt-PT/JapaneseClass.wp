@@ -1,0 +1,37 @@
+O
+Aula de japonês
+=== start
+¶Uma história cena a cena sobre um primeiro dia de aulas de japonês.¶
+
+¶Esta é a lista de cenas a mostrar¶
+frases: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶Esta é a lista de frases que só devem avançar ao serem ditas em voz alta.¶
+dizerFrases: [5 7 9]
+
+¶A frase atual começa em 1, e avança se o volume do microfone ultrapassar 0,8 numa frase falada, ou se um botão ou tecla for premido nas outras frases.¶
+fraseAtual•#: 1 …
+	dizerFrases.tem(fraseAtual) ?
+		Volume() > .6
+		∆ Botão() | ∆ Chave()
+		…
+		(fraseAtual <
+				frases.comprimento()) ?
+			fraseAtual + 1
+			fraseAtual
+
+Fase(
+	[Frase(frases[fraseAtual] envolver: 10m)]
+	fonte: 'Sue Ellen Francisco'
+)

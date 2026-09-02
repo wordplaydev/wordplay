@@ -61,6 +61,36 @@ export function parseAsMultilingualName(raw: string): TextLiteral | undefined {
 }
 
 /**
+ * A project name with a suffix (like the remix glyph ⧉) appended — inside each
+ * translation when the name is multilingual. Appending to the raw string put
+ * the suffix outside the last option's delimiter, which fails the byte
+ * round-trip above, so a remixed multilingual name rendered as raw source.
+ * Falls back to the plain append whenever a rebuilt option can't be delimited
+ * or doesn't validate.
+ */
+export function withNameSuffix(raw: string, suffix: string): string {
+    const plain = `${raw} ${suffix}`;
+    const parsed = parseAsMultilingualName(raw);
+    if (parsed === undefined) return plain;
+    const options: string[] = [];
+    for (const text of parsed.texts) {
+        const name = `${text.getText()} ${suffix}`;
+        const delimiter = !name.includes('"')
+            ? '"'
+            : !name.includes("'")
+              ? "'"
+              : undefined;
+        if (delimiter === undefined || text.language === undefined)
+            return plain;
+        options.push(
+            `${delimiter}${name}${delimiter}${text.language.toWordplay()}`,
+        );
+    }
+    const joined = options.join('');
+    return parseAsMultilingualName(joined) !== undefined ? joined : plain;
+}
+
+/**
  * The user-facing name for a project: the best-matching translation for
  * the current locale if the name is multilingual, otherwise the raw
  * string. Plain names round-trip unchanged.

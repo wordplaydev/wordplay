@@ -1,0 +1,23 @@
+🥮
+Schwebendes Essen
+===
+¶Ein Gitter aus leckeren Gerichten. Jede Sekunde wird eins gegen ein anderes ausgetauscht.¶
+essen: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
+
+neueste•['']:
+	essen … ∆ Zeit(1000ms) …
+		neueste.ersetzen(Zufällig(1 6) essen.zufällig())
+
+Gruppe(
+	Netz(3 3 1m 1m)
+	neueste.übersetzen(
+		ƒ(gericht•"" index2•#)
+			Satzglied(
+				gericht
+				Name: "\gericht\-\index2\"
+				Eingabe: Pose(Opazität: 0 Skala: 2)
+				Ruhen: Reihenfolge.wiegen(360° Dauer: 4s)
+				Dauer: 1s
+			)
+	)
+)

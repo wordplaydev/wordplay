@@ -1,0 +1,175 @@
+M
+Gruszki
+=== start/en
+¶To jest interaktywne opowiadanie. Zawiera kilka różnych scen i przechodzi między nimi na podstawie różnych działań, takich jak kliknięcia, zderzenia i inne czynności. Częścią zabawy jest odkrywanie, jakie działania trzeba wykonać, żeby opowiadanie mogło toczyć się dalej.¶
+wprowadzenie: [
+		Wyrażenie(
+			`Mój tata chciał wyjść.`
+			miejsce: Miejsce(-9m 0m)
+		)
+	]
+
+konflikt: [
+		Wyrażenie(
+			`"Mamo", musimy iść.`
+			miejsce: Miejsce(-8m 7m)
+		)
+		Wyrażenie(`/"Idź do domu."/` miejsce: Miejsce(1m 4m))
+		Wyrażenie(
+			`"Mamo, niczego nie chcemy!"`
+			miejsce: Miejsce(-8m 1m)
+		)
+		Wyrażenie(
+			`"Idź do domu!"`
+			rozmiar: 2m
+			miejsce: Miejsce(-6m -4m)
+			spoczynkowy: Sekwencja.potrząsnąć()
+		)
+	]
+
+rozwinięcieAkcji1: [
+		Wyrażenie(
+			`Moja 炮炮👵🏽 wyszła na podwórko`
+			miejsce: Miejsce(-9m 7m)
+		)
+		Wyrażenie(
+			`Poszłam za nią, ciekawa`
+			miejsce: Miejsce(-6m 4m)
+		)
+		Wyrażenie(
+			`👵🏽`
+			nazwa: 'paupau'
+			rozmiar: 2m
+			materiał: Materiał()
+			miejsce: Miejsce(6m -6m)
+			dymek: `/"沙梨🍐, idź do domu!"/`
+		)
+		Wyrażenie(
+			`👧🏻`
+			nazwa: 'ja'
+			rozmiar: 1m
+			materiał: Materiał()
+			miejsce: Umieszczenie(Miejsce(-8m -6m))
+		)
+	]
+
+rozwinięcieAkcji2: [
+		Wyrażenie(
+			`Zatrzymała się przy małym drzewie.`
+			miejsce: Miejsce(-9m 6m)
+		)
+		Wyrażenie(
+			`Na nim splątane dziesiątki jasnożółtych 沙梨`
+			miejsce: Miejsce(-9m 1m)
+			zawinąć: 10m
+		)
+		Wyrażenie(
+			`"Mamo, nie chcemy żadnych gruszek."`
+			rozmiar: .75m
+			miejsce: Miejsce(-4m 0m)
+		)
+		Wyrażenie(
+			`/Chciałem gruszkę./`
+			rozmiar: 2m
+			miejsce: Miejsce(-8m -3m)
+		)
+		Wyrażenie(
+			"🍐"
+			rozmiar: 2m
+			miejsce: Miejsce(-1m -7m)
+			nazwa: 'pear'
+			wybieralny: ⊤
+		)
+	]
+
+¶Ustalamy miejsca wcześniej, żeby mogły spadać zawsze z tego samego punktu.¶
+miejsca: (6 → []).tłumaczyć(
+		ƒ() Miejsce(Losowy(-2m 2m) Losowy(-3m -5m))
+	)
+punktKulminacyjny: [
+		Wyrażenie(`Uklękła w ziemi.` miejsce: Miejsce(-9m 6m))
+		Wyrażenie(`Chwyciła nóż` miejsce: Miejsce(-9m 4m))
+		Wyrażenie(
+			`I ostrożnie odcięła sześć`
+			miejsce: Miejsce(-9m 2m)
+		)
+		Wyrażenie(
+			`Wrzucając je do koszyka poniżej`
+			miejsce: Miejsce(-9m 0m)
+		)
+		Wyrażenie("🧺" rozmiar: 4m miejsce: Miejsce(-2m -12m))
+		Wyrażenie(
+			"🌳"
+			nazwa: "tree"
+			rozmiar: 5m
+			miejsce: Miejsce(-3m -7m)
+			wybieralny: ⊤
+		)
+		:miejsca.tłumaczyć(
+			ƒ(miejsce2 indeks2)
+				Wyrażenie(
+					"🍐"
+					nazwa: "pear\indeks2\"
+					miejsce: Wybór() = 'tree' ? Ruch(miejsce2) miejsce2
+				)
+		)
+		Wyrażenie("🔪" miejsce: Wskaźnik())
+	]
+
+rozwiązanie: [
+		Wyrażenie(
+			`Przyniosła je do mnie`
+			miejsce: Miejsce(-9m 6m)
+		)
+		Wyrażenie(`Uklękła przy mnie` miejsce: Miejsce(-8m 4m))
+		Wyrażenie(
+			`I podała mi koszyk`
+			miejsce: Miejsce(-7m 2m)
+		)
+		Wyrażenie(
+			`/"Weź, idź do domu"/`
+			miejsce: Miejsce(0m -2m)
+		)
+	]
+
+napisyKońcowe: [
+		Wyrażenie(`autor: /Amy J. Ko/`)
+	]
+
+historia: [
+		wprowadzenie
+		konflikt
+		rozwinięcieAkcji1
+		rozwinięcieAkcji2
+		punktKulminacyjny
+		rozwiązanie
+		napisyKońcowe
+	]
+
+¶Śledź kliknięcia i dotknięcia¶
+kliknięcie: ∆ Przycisk()
+¶Śledź, ile czasu minęło od kliknięcia drzewa¶
+czasPoCięciu: 0ms … Wybór() = 'tree' … Czas(1000ms)
+¶Śledź, kiedy dotrzemy do Pau Pau¶
+uPauPau: ∆ Kolizja('ja')
+¶Śledź, kiedy gruszka zostanie wybrana¶
+wybrałaGruszkę: Wybór() = 'pear'
+¶Zmień odcinek na podstawie bieżącego odcinka¶
+fragment•#:
+	1 …
+	fragment ???
+		1: kliknięcie
+		2: kliknięcie
+		3: uPauPau
+		4: wybrałaGruszkę
+		5: czasPoCięciu > 1500ms
+		6: ∆ Przycisk()
+		⊥
+		… fragment + 1
+
+Scena(
+	historia[fragment]
+	twarz: 'Arvo'
+	miejsce: Miejsce(0m 0m -20m)
+	rama: Prostokąt(-10m 10m 10m -10m)
+)

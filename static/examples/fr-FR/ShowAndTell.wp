@@ -1,0 +1,196 @@
+🔍
+Montrer et raconter
+=== start/en
+¶Montre-moi — un jeu de caméra contre la montre. Je te demande de trouverdes choses, une à la fois, et je dis chacune à voix haute. Tiens chaque objetdevant ta caméra jusqu'à ce que je le repère, puis j'en choisis un autre. Tun'as pas l'objet demandé ? Appuie sur → et j'en demanderai un autre — passer nete pénalise jamais. Trouve cinq objets en une minute et tu gagnes ; le cinquièmedemande toujours deux personnes visibles en même temps. La minute commencequand ta caméra s'allume, alors te préparer ne te coûte jamais de temps, etquand le temps est écoulé, je dis que la partie est terminée. Chaque trouvaillefait grossir un peu les mots, et quand tu gagnes, ils explosent comme desconfettis au-dessus d'un "Tu as gagné !"¶
+
+¶Une chose à chercher : l'émoji que je montre, les mots que je montre, lenom que mon modèle de caméra lui donne (ce à quoi je le compare), et combien j'aibesoin d'en voir en même temps (deux, pour les personnes).¶
+•cible(émoji•'' étiquette•'' nom2•'' besoin•#)
+
+¶Les choses que je pourrais demander. Chaque nom est exactement ce que@Objects appelle la chose, pour que je puisse la repérer dans la caméra. J'enmontre une à la fois et j'en choisis une autre dès que tu la trouves ou que tula passes.¶
+réserve•[cible]: [
+		cible('☕' 'une tasse' 'tasse' 1)
+		cible('📖' 'un livre' 'livre' 1)
+		cible('📱' 'un téléphone' 'téléphone' 1)
+		cible(
+			'💻'
+			'un ordinateur portable'
+			'ordinateur portable'
+			1
+		)
+		cible('⌨' 'un clavier' 'clavier' 1)
+		cible('🖱' 'une souris' 'souris' 1)
+		cible('✂' 'des ciseaux' 'des ciseaux' 1)
+		cible('🍾' 'une bouteille' 'bouteille' 1)
+		cible('🪑' 'une chaise' 'chaise' 1)
+		cible('🕐' 'une horloge' 'horloge' 1)
+		cible('🍌' 'une banane' 'banane' 1)
+		cible('🍎' 'une pomme' 'pomme' 1)
+		cible('🧸' 'un ours en peluche' 'ours en peluche' 1)
+		cible('🪴' 'une plante en pot' 'plante en pot' 1)
+		cible('🏺' 'un vase' 'vase' 1)
+		cible('🎒' 'un sac à dos' 'sac à dos' 1)
+	]
+
+¶Ce qu'il faut demander ensuite, selon les émojis déjà trouvés et la chose à éviter de répéter : un nouvel objet au hasard qu'on n'a pas encore demandé pour les quatre premiers, puis toujours deux personnes pour le cinquième.¶
+ƒ choisir(trouvé•[''] éviter•cible)
+	(trouvé.longueur() ≥ 4)
+	? cible('👥' 'deux personnes' 'personne' 2)
+		réserve.sansTout(éviter).filtre(
+			ƒ(t2•cible) ~(trouvé.a(t2.émoji))
+		).aléatoire(
+		)
+
+¶La caméra. On ne lui dit pas quoi chercher — elle rapporte simplement tout ce qu'elle voit, et coche toute seule, si bien que le jeu réagit directement à elle sans horloge.¶
+observations: Objets(nombre: 10 confiance: 0.5)
+
+¶La touche → (ou un appui) pour passer.¶
+passer: Clé('Flèche droite' ⊤)
+
+¶Une horloge, pour le compte à rebours et pour animer les confettis de victoire. La chasse elle-même ne l'utilise pas — @Objects s'en occupe.¶
+horloge: Temps(30ms)
+
+¶Combien de temps dure une manche.¶
+limite2•#s: 60s
+
+¶Le moment où la caméra rapporte sa première image, mémorisé. Le compte à rebours commence ici plutôt qu'à zéro, pour que le temps d'attente pour partager sa caméra et le temps d'attente pour que le modèle se charge n'entament jamais ta minute — @Objects rapporte sa première lecture dès qu'elle voit une image, qu'il y ait quelque chose dedans ou non.¶
+commencéÀ•#ms: 0ms
+	… ((∆ observations) & (⬚ = 0ms)) …
+		horloge
+
+¶Le temps restant : la minute entière jusqu'à ce que la caméra se réveille, puis ce qu'il en reste, jamais moins que zéro — ainsi, une fois le temps écoulé, il reste écoulé au lieu de compter en nombres négatifs.¶
+gauche2•#s: (commencéÀ = 0ms) ? limite2 ((limite2 - ((horloge - commencéÀ) → #s)).max(
+				0s
+			))
+
+¶Le jeu : les émojis trouvés jusqu'ici (victoire à cinq) et la chose demandée en ce moment.¶
+•chasse(trouvé2•[''] cible2•cible)
+
+¶Avance grâce à une lecture de la caméra (ou à un passage), en s'arrêtant une fois cinq trouvés, pour que l'écran de victoire soit construit une seule fois et que ses confettis puissent voler sans être perturbés. Passer relance la chose sans changer ton compte ; voir suffisamment de la chose demandée parmi les observations valide la trouvaille et demande la chose suivante.¶
+ƒ étape(h2•chasse passé•? vu•[Chose]) (
+		compte2: vu.filtre(ƒ(t3•Chose) t3.nom = h2.cible2.nom2).longueur(
+			)
+		prochainTrouvé: [:h2.trouvé2 h2.cible2.émoji]
+		passé
+		? chasse(h2.trouvé2 choisir(h2.trouvé2 h2.cible2))
+			((compte2 ≥ h2.cible2.besoin)
+				? chasse(
+						prochainTrouvé
+						choisir(prochainTrouvé h2.cible2)
+					)
+					h2)
+	)
+
+¶La chasse s'arrête aussi quand la minute est écoulée, pour qu'une trouvaille arrivant après la fin du temps ne puisse pas se glisser devant l'écran de fin de partie.¶
+chasse2•chasse: chasse([] réserve.aléatoire())
+	… ((∆ observations | ∆ passer) & (⬚.trouvé2.longueur() < 5) & (gauche2 > 0s)) …
+		étape(⬚ (∆ passer) observations)
+
+¶Le moment de la victoire, mémorisé — pour que les confettis s'animent à partir du temps zéro.¶
+gagnéÀ•#ms: 0ms
+	… ((chasse2.trouvé2.longueur() ≥ 5) & (⬚ = 0ms)) …
+		horloge
+
+¶Un morceau de confetti volant : un émoji, une vitesse d'éclatement (sans unité — magnitude en mètres par seconde), et une rotation. Garder des nombres simples rend le calcul de trajectoire ci-dessous plus facile.¶
+•étincelle(émoji2•'' vx•# vy•# tourné•#)
+
+¶Les confettis, créés une seule fois au moment où tu gagnes, puis jamais reconstruits. @Objectskeeps détecte, donc chaque lecture réévalue le programme — figer les morceauxdans cette liste (elle se remplit une fois, quand tu gagnes, puis sa condition s'arrête) signifie que chacunconserve la même vitesse pour voler, au lieu d'être réinventé à chaque image.¶
+étincelles•[étincelle]: []
+	… ((chasse2.trouvé2.longueur() ≥ 5) & (⬚.longueur() = 0)) …
+		(60 → []).traduire(
+			ƒ()
+				étincelle(
+					chasse2.trouvé2.aléatoire()
+					Aléatoire(-8 8)
+					Aléatoire(3 13)
+					Aléatoire(-200 200)
+				)
+		)
+
+¶La gravité pour la trajectoire des confettis, en mètres par seconde par seconde.¶
+g•#: 9
+
+¶L'invite : un grand émoji, son nom, ta progression, le temps restant, et comment passer.Les mots grandissent à chaque découverte pour augmenter l'enjeu — un peu, pour que cinqdécouvertes tiennent encore sur la scène. Le compte à rebours s'arrondit vers le haut, donc il affiche 1 jusqu'à laseconde où le temps est vraiment écoulé.¶
+ƒ invite(h3•chasse) (
+		grand: (2m + (h3.trouvé2.longueur() · 0.3m))
+		Groupe(
+			Empiler('|' 0.4m)
+			[
+				Phrase(
+					h3.cible2.émoji
+					affronter: "Noto Color Emoji"
+					taille: grand + 1m
+				)
+				Phrase(h3.cible2.étiquette taille: grand)
+				Phrase(
+					`trouvé \h3.trouvé2.longueur() → ''\ sur 5`
+					taille: 0.7m
+				)
+				Phrase(
+					`⏳ \(gauche2 ÷ 1s).tourdHorizon() → ''\ secondes restantes`
+					taille: 0.6m
+				)
+				Phrase(
+					"tu ne l'as pas ? appuie sur → pour un autre"
+					taille: 0.5m
+				)
+			]
+		)
+	)
+
+¶Place chaque étincelle sur sa propre trajectoire, calculée selon le temps qu'elle a passé à voler :elle s'éloigne à sa vitesse pendant que la gravité la tire vers le bas (le classique½·g·t²). Comme on calcule la position au lieu de s'appuyer sur le moteur physique,la réévaluation constante de la caméra redessine simplement chaque morceau là où il devrait être —sans retour brusque au centre.¶
+ƒ confettis() (
+		t4: (horloge - gagnéÀ) ÷ 1000ms
+		étincelles.traduire(
+			ƒ(s•étincelle)
+				Phrase(
+					s.émoji2
+					affronter: "Noto Color Emoji"
+					taille: 1.5m
+					rotation: (s.tourné · t4) · 1°
+					lieu: Lieu(
+						(s.vx · t4) · 1m
+						((s.vy · t4) - ((g · t4 · t4) ÷ 2)) · 1m
+					)
+				)
+		)
+	)
+
+¶Tu gagnes en trouvant cinq choses : un « Tu as gagné ! » centré, dit à voix haute et affiché,avec les émojis trouvés qui explosent comme des confettis au-dessus, révélés à mesure que les confettistombent.¶
+ƒ finale() [
+		Groupe(Empiler() [Phrase('Tu as gagné !' taille: 2m)])
+		Dire('Tu as gagné !')
+		:confettis()
+	]
+
+¶La minute est écoulée : jusqu'où tu es allé, dit à voix haute et affiché.¶
+ƒ partieTerminée(h4•chasse) [
+		Groupe(
+			Empiler('|' 0.4m)
+			[
+				Phrase('⌛' affronter: "Noto Color Emoji" taille: 3m)
+				Phrase('Le temps est écoulé !' taille: 2m)
+				Phrase(
+					`tu as trouvé \h4.trouvé2.longueur() → ''\ sur 5`
+					taille: 0.7m
+				)
+			]
+		)
+		Dire(
+			"Time is up. Game over. You found \h4.trouvé2.longueur(
+			) → ''\ of 5."
+		)
+	]
+
+¶Dis la chose actuelle à voix haute, pour les joueurs qui ne peuvent pas lire l'invite ou veulent simplementl'entendre. Dire ne parle que lorsque son texte change — ainsi il annonce chaque nouvellechose une seule fois, et non à chaque lecture de la caméra.¶
+ƒ annoncer(h5•chasse) Dire('trouve ' + h5.cible2.étiquette)
+
+¶La victoire est vérifiée en premier, donc la fin du temps ne peut jamais signifier qu'une défaite.¶
+Scène(
+	(chasse2.trouvé2.longueur() ≥ 5)
+	? finale()
+		((gauche2 ≤ 0s) ? partieTerminée(chasse2) [
+					invite(chasse2)
+					annoncer(chasse2)
+				])
+	lieu: Lieu(0m 0m -12m)
+)

@@ -1,0 +1,29 @@
+m
+Mumble
+=== start
+¶Magpatuloy sa pag-klik para lumakas ang bulong-bulong.¶
+mgaKlik•#: 0 … ∆ Butones() … mgaKlik + 1
+
+mgaKlik < 3 ?
+	Parirala(
+		'bulong-bulong'
+		laki: 1m
+		pangalan: 'bulong'
+		pagpasok: Pose(sukat: 0)
+		nagpapahinga: Pagkakasunodsunod(
+			{
+				0%: Pose(sukat: (mgaKlik + 1) × 1.1)
+				50%: Pose(sukat: (mgaKlik + 1) × 0.9)
+				100%: Pose(sukat: (mgaKlik + 1) × 1.1)
+			}
+			tagal: 0.5s
+		)
+		palabas: Pagkakasunodsunod(
+			{
+				0%: Pose(kalabuan: 1 sukat: 1)
+				100%: Pose(kalabuan: 0 sukat: 10)
+			}
+			tagal: 2s
+		)
+	)
+	Parirala('tapos na')

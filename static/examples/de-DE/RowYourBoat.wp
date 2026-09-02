@@ -1,0 +1,176 @@
+🚣
+Rudere dein Boot
+=== start/en
+¶Row, Row, Row Your Boat — einmal durch, genau zehn Sekunden lang, mit einer kleinen Flotte, die dazu rudert.
+
+Das Lied steht im 6/8-Takt, also besteht jeder Takt aus sechs Achtelnoten, und jeder Eintrag in diesen Listen ist eine davon. Vierundzwanzig Schläge bei 144 Schlägen pro Minute ergeben genau zehn Sekunden.
+
+Die Boote werden von @Beat angetrieben statt von einer Uhr. So ziehen sie genau auf dem Schlag der Musik, statt nur ungefähr. Sie bleiben still, bis es losgeht, weil @Beat bis dahin auf Schlag null bleibt.¶
+
+schlag2: Takt()
+ruderschlag: schlag2.Zählung
+
+¶Die Melodie. Row row row your boat, gently down the stream — die langen Noten sind lang, weil die Pausen danach den Takt halten. Jeder Eintrag dauert nämlich genau ein Achtel.¶
+melodie2: [
+		1
+		ø
+		ø
+		1
+		ø
+		ø
+		1
+		ø
+		2
+		3
+		ø
+		ø
+		3
+		ø
+		2
+		3
+		ø
+		4
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		8
+		8
+		8
+		5
+		5
+		5
+		3
+		3
+		3
+		1
+		1
+		1
+		5
+		ø
+		4
+		3
+		ø
+		2
+		1
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Ein Akkord am Anfang jedes Takts. Er bleibt die ganze Zeit gleich, bis auf den vorletzten Takt, der sich auf die Quinte stützt, damit sich der letzte Takt wie eine Ankunft anfühlt.¶
+akkorde: [
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{5 7 9 11}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Der Ruderschlag: ein tiefer Schlag zum Ziehen und ein heller zum Erholen, einmal pro Takt.¶
+ruder: [
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+	]
+
+¶Ein Boot. Es gleitet bei jedem Schlag ein Stück weiter und schaukelt jedes Mal zur anderen Seite. Das sieht dann wie Rudern aus. Die Spur legt fest, wie hoch es liegt und wie weit vorne es gestartet ist, damit sie sich nicht alle gleich bewegen.¶
+ƒ boot(spur•# anfang•#)•Satzglied
+	Satzglied(
+		'🚣'
+		1.5m
+		Ort: Ort(
+			((((ruderschlag + anfang) % 16) - 8) · 1.1) · 1m
+			((spur · 1.9) - 1.9) · 1m
+		)
+		Drehung: (((ruderschlag + spur) % 2) = 0) ? 9° -9°
+		Dauer: 0.2s
+	)
+
+flotte: [boot(0 0) boot(1 6) boot(2 11)]
+
+Bühne(
+	[
+		:flotte
+		Satzglied(
+			'〰〰〰〰〰〰〰〰'
+			1m
+			Ort: Ort(-8m -3.2m)
+			Farbe: Farbe(48% 22 240°)
+		)
+		Satzglied(
+			'Row, row, row your boat'
+			0.9m
+			Ort: Ort(-4.4m 3.4m)
+		)
+		Musik(
+			[
+				Spur(
+					melodie2
+					Instrument: Instrument.Flöte
+					Schlag: 0.5beats
+				)
+				Spur(
+					akkorde
+					Instrument: Instrument.Klavier
+					Schlag: 1beats
+					Lautstärke: 60%
+				)
+				Spur(
+					ruder
+					Instrument: Instrument.Schlagzeug
+					Schlag: 1beats
+					Lautstärke: 45%
+				)
+			]
+			Tempo: 144beats/min
+			Name: 'Boot'
+		)
+	]
+	Hintergrund: Farbe(22% 18 230°)
+	Farbe: Farbe(96% 0 0°)
+)

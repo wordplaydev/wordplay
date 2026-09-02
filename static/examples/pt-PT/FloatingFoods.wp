@@ -1,0 +1,26 @@
+🥮
+Comidas Flutuantes
+===
+¶Uma grelha de pratos saborosos, com um a ser trocado por outro a cada segundo.¶
+comida: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
+
+maisRecente•['']:
+	comida … ∆ Tempo(1000ms) …
+		maisRecente.substituir(
+			Aleatório(1 6)
+			comida.aleatório()
+		)
+
+Grupo(
+	Rede(3 3 1m 1m)
+	maisRecente.traduzir(
+		ƒ(prato•"" índice2•#)
+			Frase(
+				prato
+				nome: "\prato\-\índice2\"
+				entrando: Pose(opacidade: 0 escala: 2)
+				descansar: Sequência.balançar(360° duração: 4s)
+				duração: 1s
+			)
+	)
+)

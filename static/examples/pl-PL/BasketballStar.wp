@@ -1,0 +1,96 @@
+🏀
+Gwiazda Koszykówki
+=== start
+¶Wyceluj wskaźnikiem i kliknij, aby rzucić do koszy.¶
+kliknięcie: ∆ Przycisk()
+
+licznikKliknięć: 0 … kliknięcie … 1 + ⬚
+
+¶Zapisuje pozycję x wskaźnika w momencie rzutu, aby piłka spadała z miejsca, w którym celował zawodnik, a nie wracała do x = 0¶
+rzutX: 0m … (kliknięcie & ((licznikKliknięć % 2) = 1)) … Wskaźnik(
+		).X
+
+pozycjaKoszykówki: (licznikKliknięć % 2) = 0 ? Miejsce(
+			X: Wskaźnik().X
+			y: 8m
+			z: 0m
+		) Ruch(miejsce: Miejsce(rzutX 8m 0m))
+
+koszykówka: Wyrażenie(
+		"🏀"
+		0.7m
+		materiał: Materiał(0.623kg 0.5)
+		miejsce: pozycjaKoszykówki
+		nazwa: 'koszykówka'
+	)
+
+¶Kosz przesuwa się nieustannie w obie strony, kierowany sinusem czasu¶
+pozycjaKoszykaX: (Czas() ÷ 600ms).grzech() · 6m
+
+¶Odczytuje aktualną pozycję piłki jeden raz, aby sprawdzić wynik¶
+piłkaX: (koszykówka.miejsce ?? Miejsce()).X
+piłkaY: (koszykówka.miejsce ?? Miejsce()).y
+
+próba: (licznikKliknięć ÷ 2).łapanka()
+
+¶inBin jest prawdziwe, gdy piłka znajduje się wewnątrz koszyka. Reakcja zmiany wyniku włącza się tylko, gdy inBin zmienia się na prawdziwe ORAZ obecna próba jest większa niż wynik. Dzięki temu każde kolejne wejście podczas tego samego rzutu — odbicia wewnątrz koszyka albo kosz wracający nad piłkę — nic nie zmienia, aż kolejny rzut zwiększy licznik prób¶
+wKoszu: (piłkaX < (pozycjaKoszykaX + 0.9m)) & (piłkaX > (pozycjaKoszykaX - 0.9m)) & (piłkaY < 2.9m) & (piłkaY > 0.3m)
+wynik: 0 … wKoszu & (próba > wynik) … 1 + wynik
+
+gwiazdaKoszykówki: Grupa(
+		Stos('|' 0.5m)
+		[
+			Wyrażenie(`*Gwiazda koszykówki*` .8m)
+			Wyrażenie('Wyceluj wskaźnikiem.' .6m)
+			Wyrażenie(
+				'Kliknij, aby wpuścić 🏀 do przesuwającego się koszyka.'
+				.6m
+			)
+			Wyrażenie('Wynik: ' + wynik → '' .8m)
+			Wyrażenie('Próby: ' + próba → '' .8m)
+		]
+		rozmiar: 2m
+		twarz: "Sue Ellen Francisco"
+		zrównoważyć: Miejsce(0m 8m 0m)
+	)
+
+Scena(
+	[
+		koszykówka
+		¶Ścianki koszyka zwiększono do 0,3 m grubości (z 0,1 m), aby przesuwający się na boki koszyk nie przenikał piłki, oraz do 3 m wysokości (z 2 m), aby piłka o odbojności 0,5 nie odbiła się z powrotem nad obręcz¶
+		Kształt(
+			Prostokąt(
+				-1.2m + pozycjaKoszykaX
+				0.3m
+				1.2m + pozycjaKoszykaX
+				0m
+				0m
+			)
+			tło: Kolor(60% 100 30°)
+		)
+		Kształt(
+			Prostokąt(
+				0.9m + pozycjaKoszykaX
+				3m
+				1.2m + pozycjaKoszykaX
+				0m
+				0m
+			)
+			tło: Kolor(60% 100 30°)
+		)
+		Kształt(
+			Prostokąt(
+				-1.2m + pozycjaKoszykaX
+				3m
+				-0.9m + pozycjaKoszykaX
+				0m
+				0m
+			)
+			tło: Kolor(60% 100 30°)
+		)
+		Kształt(Prostokąt(-10m 0.01m 10m -2m))
+		gwiazdaKoszykówki
+	]
+	miejsce: Miejsce(X: 0m y: 5m z: -10m)
+	powaga: 5m/s^2
+)

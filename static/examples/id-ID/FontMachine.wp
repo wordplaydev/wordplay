@@ -1,0 +1,28 @@
+t
+Mesin Font
+=== start
+¶Tekan tombol apa saja untuk mengatur ulang setiap huruf dari "typography" dengan font acak.¶
+font2: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+simbol: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ acak2()
+	simbol.menerjemahkan(
+		ƒ(simbol2) Frasa(
+				simbol2
+				menghadapi: font2.acak()
+				lamanya: 0s
+			)
+	)
+
+frasa2: acak2() … ∆ Kunci() | ∆ Tombol() … acak2()
+
+Panggung(
+	[Kelompok(Baris('|' 0m) frasa2 tempat: Tempat(0m 0m))]
+)

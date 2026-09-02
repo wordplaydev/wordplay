@@ -1,0 +1,642 @@
+🔨
+Klocki
+=== start/en
+¶Klocki budowlane — rąb, noś i układaj. Jesteś małą postacią na zielonej łące, na której rosną drzewa i leżą głazy. Chodzisz strzałkami; odwracasz się w stronę, w którą idziesz, a pływający kursor pokazuje komórkę, na której właśnie możesz działać.
+
+Spacja robi obie rzeczy, a kursor mówi ci, którą. Gdy stos przed tobą wznosi się wyżej niż twoje stopy, kursor to 🪏, a Spacja odbija jego wierzchołek. Gdy stos jest na poziomie stóp lub niżej, kursor to 🔨, a Spacja układa na nim kolejny klocek. Zbieranie to więc po prostu podejście do drzewa i naciśnięcie Spacji, a budowanie w górę to wchodzenie na to, co budujesz. Przejdź przez leżący kawałek, aby go schować do kieszeni — drzewo daje 🪵 drewno, głaz daje 🧱 cegłę — i naciśnij Shift, żeby zmienić, co chcesz układać.
+
+Możesz dosięgnąć tylko jeden klocek wyżej niż twoje własne stopy, a kursor blednie, gdy coś jest poza zasięgiem. Głaz ma wysokość dwóch klocków, więc możesz go ściąć stojąc na ziemi — ale drzewo ma wysokość trzech, więc jego wierzchołek wymaga wysokości. Naciśnij j, żeby podskoczyć i uderzyć w jego szczyt, albo ułóż klocek, wejdź na niego i działaj z tego miejsca. Chodzenie nigdy nie wchodzi na wysokość, więc zawsze możesz stanąć naprzeciw czegoś i na tym działać.
+
+Wyblakłe klocki pokazują budowlę, którą masz zrobić, a każdy z nich staje się pełny, gdy go dopasujesz. Dopasuj wszystkie i wygrywasz — wszystko inne, co zostawisz porozrzucane, to twoja sprawa, więc stopień, który zbudowałeś, aby się wspiąć, może po prostu tam zostać.¶
+
+¶Świat to siatka komórek o liczbach całkowitych, a metry pojawiają się tylko podczas rysowania. Dzięki temu każda pozycja jest dokładna: stanie przy czymś, układanie na czymś i dopasowanie do celu to zawsze równość liczb całkowitych, więc nic nigdy nie przesuwa się o pół klocka.
+
+Pole ma celowo tylko pięć komórek głębokości, a to jest związane z tym, jak blisko stoi kamera — zobacz kamerę niżej.¶
+minX: -4
+maxX: 4
+minZ: 0
+maxZ: 4
+maxY: 4
+
+¶Jak daleko poniżej wysokości oczu leży ziemia, w komórkach. Im bliżej kamera, tym większe wszystko wygląda i tym bardziej to zsuwa pole w dół ekranu, więc to i odległość kamery muszą się zmieniać razem.¶
+spadekDoPodłoża: 0.8
+
+¶Jak daleko za tobą jedzie kamera, w komórkach. To samo decyduje o tym, jak wielkie wszystko wygląda: scena dzieli przez odległość od kamery, więc trzy komórki wstecz sprawiają, że wyglądasz około dwa i pół raza większy niż w rzeczywistości.¶
+tyłKamery: 3
+
+¶Jak daleko całe pole leży od punktu początkowego. Scena skaluje świat przez jeden podzielony przez pozycję kamery, a każdy element przez odwrotność tego, co się znosi — chyba że pozycja kamery dojdzie do zera, gdzie cała scena robi się płaska, a potem odwraca się na drugą stronę. Kamera jedzie cameraBack komórek za tobą, więc utrzymanie pola tak daleko sprawia, że pozycja kamery zostaje wygodnie ujemna, nawet gdy idziesz do ostatniego rzędu. Nie zmienia to wcale wyglądu czegokolwiek; tylko trzyma rachunki z daleka od zera.¶
+tyłŚwiata: 4
+
+¶Środek komórki w metrach. Połowa przesuwa x do tyłu, bo fraza jest umieszczana według swojego lewego krawędzia.¶
+ƒ przyX(c2•#) ((c2 - 0.5) · 1m)
+ƒ przyY(c3•#) ((c3 - spadekDoPodłoża) · 1m)
+ƒ przyZ(c4•#) ((c4 - tyłŚwiata) · 1m)
+
+¶Jak długo młotek pozostaje napięty i przez ile klatek wisisz w powietrzu po podskoku. Zawisanie jest tym, co czyni skakanie użytecznym: bez niego podskok trwałby jedną klatkę, zdecydowanie za krótko, aby nacisnąć strzałkę, uderzyć albo wylądować na klocku.¶
+taktyHuśtania: 2
+taktyZawieszenia: 4
+
+¶Ile świata za tobą jest jeszcze rysowane. Zobacz kamerę poniżej, dlaczego to w ogóle istnieje: im bliżej kamera, tym mniej rzędów za tobą można narysować, zanim jeden z nich znajdzie się przed obiektywem i rozdmucha się na cały widok.¶
+rysujZTyłu: 1
+
+¶Jak wysoko powyżej własnych stóp możesz działać. Jeden klocek jest tym, co czyni wysokość ważną: głaz ma wysokość dwóch klocków, więc możesz go ściąć stojąc na ziemi, ale drzewo ma wysokość trzech, więc musisz podskoczyć lub stanąć na czymś, aby dosięgnąć jego wierzchołka — i ten sam limit decyduje, jak wysoko możesz układać.¶
+zasięg: 1
+
+¶Jedna kostka siedząca w jednej komórce. Jej rodzaj to sam emoji, więc rysowanie klocka nigdy nie wymaga wyszukiwania.¶
+•blok(x2•# y2•# z2•# rodzaj2•"")
+
+¶Kawałek odbity i spadający na ziemię. Pamięta komórkę, z której się odłamał, więc jego pierwsza klatka rysuje się w miejscu, gdzie był klocek, a każda następna klatka rysuje się tam, gdzie wylądował — samo wygładzanie frazy odpowiada za lot. Identyfikator istnieje tylko, aby dać mu własną nazwę na scenie, bo dwa kawałki mogą wylądować na jednej komórce.¶
+•element(id2•# x3•# z3•# odX•# odY•# odZ•# rodzaj3•"" wiek•#)
+
+¶Cała gra w jednej wartości: faza (1 = tytuł, 2 = gra, 3 = wygrana), gdzie stoisz i w którą stronę ostatnio się ruszałeś, jak długo możesz jeszcze wisieć w skoku, co masz w kieszeniach i który materiał postawisz, ile jeszcze wytrzyma młot, identyfikator następnego luźnego elementu, strukturę do dopasowania i wszystko, co jest w świecie.¶
+•gra(faza•# x4•# y3•# z4•# zwróconyWX•# zwróconyWZ•# zawieszenie•# drewno•# cegła•# wybrane•"" machnięcie•# następneID•# cel•[blok] bloki•[blok] przedmioty•[element])
+
+¶Drzewo to trzy złożone kostki, a głaz to dwie — nie jeden przedmiot każdy, alekilka bloków w kolumnie, więc każdy element trzeba odbić młotem osobno.Oba mają szerokość jednej kolumny, co pozwala zagwarantować przy tworzeniu,że żadne dwa bloki nigdy nie zajmują tej samej komórki.¶
+kształtDrzewa: [
+		blok(0 0 0 '🌳')
+		blok(0 1 0 '🌳')
+		blok(0 2 0 '🌳')
+	]
+kształtGłazu: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
+
+ƒ kształtW(kształt•[blok] cx•# cz•#) kształt.tłumaczyć(
+		ƒ(b2•blok) blok(cx b2.y2 cz b2.rodzaj2)
+	)
+
+¶W co zmienia się rozbity element.¶
+ƒ iloczynZ(rodzaj4•"") rodzaj4 ???
+		'🌳': '🪵'
+		'🪨': '🧱'
+		rodzaj4
+
+¶Nowa struktura do dopasowania: dwie wieże, każda o wysokości od jednego do trzechbloków, w losowej parze środkowych kolumn, w ostatnim rzędzie pola. Te środkowekolumny to właśnie te, w których nigdy nie powstają surowce, więc wieża nigdynie może wylądować wewnątrz drzewa. Każda kolumna jest lita od samego dołu,bo układanie zawsze opada na szczyt kolumny — nie da się zrobić unoszącego siębloku, więc nie da się o taki poprosić. Sześć bloków to maksimum, tyle właśniedaje pole z trzech głazów w cegle, więc nawet struktura z samej cegłi da sięzbudować.¶
+ƒ utwórzCel() (
+		głębokość2: maxZ
+		para2: [-1 0 1].przetasowany().podsekwencja(1 2)
+		para2.łączny(
+			[]
+			ƒ(struktura•[blok] cx2•#)
+				struktura.zListą(
+					(Losowy(1 2) → []).tłumaczyć(
+						ƒ(poziom•#)
+							blok(
+								cx2
+								(poziom - 1)
+								głębokość2
+								['🪵' '🧱'].losowy()
+							)
+					)
+				)
+		)
+	)
+
+¶Czy dana komórka znajduje się w ogóle na polu.¶
+ƒ wGranicach(cx3•# cz2•#) (cx3 ≥ minX) & (cx3 ≤ maxX) & (cz2 ≥ minZ) & (cz2 ≤ maxZ)
+
+¶Jak wysoka jest kolumna. Każda kolumna jest lita od samego dołu — kształty rosnąw ten sposób, układanie dodaje na szczyt, a uderzanie młotem zdejmuje ze szczytu— więc samo zliczenie bloków w kolumnie daje jednocześnie jej wysokość i pierwsząwolną komórkę nad nią.¶
+ƒ wysokośćKolumny(bloki2•[blok] cx4•# cz3•#) bloki2.filtr(
+		ƒ(b3•blok) (b3.x2 = cx4) & (b3.z2 = cz3)
+	).długość(
+	)
+
+¶Czy dokładnie jedna komórka zawiera dokładnie jeden konkretny rodzaj bloku.Zadanie pytania w ten sposób — liczenie zgodności, a nie pobieranie bloku,który może nie istnieć — pozwala uniknąć noszenia i rozpakowywania czegoś,co być może jest blokiem.¶
+ƒ komórkaZawiera(bloki3•[blok] cx5•# cy•# cz4•# rodzaj5•"")
+	bloki3.filtr(
+		ƒ(b4•blok) (b4.x2 = cx5) & (b4.y2 = cy) & (b4.z2 = cz4) & (b4.rodzaj2 = rodzaj5)
+	).długość(
+	) > 0
+
+¶Nowe pole: trzy drzewa i trzy głazy, każdy na własnej kolumnie, na losowejgłębokości. Wcześniejsze przemieszanie kolumn losuje, które z nich będą miećdrzewa. Kolumny najbliżej środka są celowo wykluczone, żeby nic nigdy nie wyrosłotam, gdzie stoisz, albo gdzie mają stać wieże.¶
+twórzKolumny: [-4 -3 -2 2 3 4]
+
+ƒ twórzŚwiat()
+	twórzKolumny.przetasowany().łączny(
+		[]
+		ƒ(pole•[blok] cx6•# indeks2•#)
+			pole.zListą(
+				kształtW(
+					((indeks2 ≤ 3) ? kształtDrzewa kształtGłazu)
+					cx6
+					Losowy(minZ maxZ)
+				)
+			)
+	)
+
+¶Które bloki celu nie zostały jeszcze dopasowane. To cała pętla informacjizwrotnej: wyblakłe wieże znikają blok po bloku, gdy budujesz, a to jestrównież powodem, dla którego wyblakły blok i prawdziwy nigdy nie zajmująjednej komórki — a to ma znaczenie, bo scena sortuje elementy tylko wedługgłębokości, i dwie rzeczy na tej samej głębokości byłyby jak rzut monetą.¶
+ƒ celNiespełniony(bloki4•[blok] cel2•[blok])
+	cel2.filtr(
+		ƒ(g•blok) ~komórkaZawiera(
+				bloki4
+				g.x2
+				g.y2
+				g.z2
+				g.rodzaj2
+			)
+	)
+
+¶Wygrywasz, gdy każdy blok struktury zostanie dopasowany. Wszystko inne, cozostawiłeś w polu — schody, które zbudowałeś, żeby się wspiąć, kupa, którejnigdy nie użyłeś — to twoja sprawa, więc nic nie trzeba porządkować, żebyzakończyć grę. Komórka celu wymaga jednego konkretnego materiału, więc drzewo,które akurat stoi na właściwym miejscu, nie może jej zaspokoić.¶
+ƒ celSpełniony(bloki5•[blok] cel3•[blok]) celNiespełniony(
+		bloki5
+		cel3
+	).długość(
+	) = 0
+
+¶Zrób krok. Zawsze obracasz się w stronę, w którą próbowałeś pójść, nawetgdy sam krok się nie powiedzie, więc podejście do czegoś jest sposobem, byustawić się w jego stronę. Wchodzisz tylko do komórki, której stos jest niewyższy niż wysokość, na której już stoisz — chodzenie nigdy nie wspina się,bo krok, który wspinałby się, poniósłby cię na szczyt tego samego przedmiotu,który próbowałeś rozbić młotem. Podskocz klawiszem j, żeby wznieść się nadblokiem, a potem wejdź na niego.¶
+ƒ ruch(gra2•gra dx•# dz•#) (
+		zwrócony: (gra2.zwróconyWX:dx).zwróconyWZ:dz
+		celX: gra2.x4 + dx
+		celZ: gra2.z4 + dz
+		~wGranicach(celX celZ) ? zwrócony (
+				wysokość2: wysokośćKolumny(
+						zwrócony.bloki
+						celX
+						celZ
+					)
+				(wysokość2 ≤ gra2.y3) ? ((zwrócony.x4:celX).z4:celZ) zwrócony
+			)
+	)
+
+¶Podskocz, ale tylko odbijając się od czegoś, na czym stoisz. Sprawdzanie,czy jesteś nad własnym oparciem, jest ważnym testem: koniec zawisu nie jest tymsamym co lądowanie, więc skok, który tylko odmawiałby w trakcie trwania zawisu,mógłby zostać powtórzony w połowie opadania, i jeszcze raz w trakcie tegoopadania — wspinając się na niebo komórkę po komórce. Tak dostajesz się dowszystkiego, co jest poza zasięgiem ręki, bez budowania najpierw schodka.¶
+ƒ skok(gra3•gra)
+	(gra3.y3 > wysokośćKolumny(gra3.bloki gra3.x4 gra3.z4)) ? gra3
+		((gra3.y3:(gra3.y3 + 1).min(maxY)).zawieszenie:taktyZawieszenia)
+
+¶Uderz w to, co jest przed tobą. Odpada tylko górny element tej kolumny, cojest powodem, dla którego drzewo wymaga trzech uderzeń — a to znaczy, żenigdy nie zostawisz elementu unoszącego się w powietrzu, więc nic nigdy niemusi upaść. Możesz dosięgnąć tylko bloku o jeden wyżej niż twoje własneoparcie, więc korona poza zasięgiem po prostu nie odpada; wspij się wyżej iuderz jeszcze raz. Luźny element przesuwa się o jedną komórkę dalej, w stronęod ciebie, jeśli ta komórka nie znajduje się poza polem albo nie jest jużzajęta — w przeciwnym razie spada tam, gdzie stał. Młot się napina niezależnieod tego, czy trafisz, więc nawet pomyłka to zamach.¶
+ƒ trafienie(gra4•gra) (
+		celX2: gra4.x4 + gra4.zwróconyWX
+		celZ2: gra4.z4 + gra4.zwróconyWZ
+		górneY: wysokośćKolumny(gra4.bloki celX2 celZ2) - 1
+		¶Złożenie komórki docelowej wprost w element, który by z niej powstał, pozwala ominąć noszenie przy sobie "może-bloku": pusta kolumna po prostu zwija się w nic.¶
+		iloczyn: (górneY > (gra4.y3 + zasięg)) ? '' gra4.bloki.filtr(
+					ƒ(b5•blok) (b5.x2 = celX2) & (b5.y2 = górneY) & (b5.z2 = celZ2)
+				).łączny(
+					''
+					ƒ(dotąd•"" b6•blok) dotąd + iloczynZ(b6.rodzaj2)
+				)
+		machnięty: gra4.machnięcie:taktyHuśtania
+		(iloczyn = '') ? machnięty (
+				pozostałe: machnięty.bloki.filtr(
+						ƒ(b7•blok) ~((b7.x2 = celX2) & (b7.y2 = górneY) & (b7.z2 = celZ2))
+					)
+				lądujX: celX2 + gra4.zwróconyWX
+				lądujZ: celZ2 + gra4.zwróconyWZ
+				wyczyść: wGranicach(lądujX lądujZ) & (wysokośćKolumny(
+								pozostałe
+								lądujX
+								lądujZ
+							) = 0)
+				upuszczony: machnięty.przedmioty.z(
+						element(
+							machnięty.następneID
+							(wyczyść ? lądujX celX2)
+							(wyczyść ? lądujZ celZ2)
+							celX2
+							górneY
+							celZ2
+							iloczyn
+							0
+						)
+					)
+				((machnięty.bloki:pozostałe).przedmioty:upuszczony).następneID:(machnięty.następneID + 1)
+			)
+	)
+
+¶Postaw jeden ze swoich bloków na kolumnie przed tobą, jeśli masz jakiś w zapasie i jest nad nią miejsce. Zasięg nie jest tu sprawdzany: to działa tylko wtedy, gdy stos jest na wysokości twoich stóp lub niżej, więc nowy blok zawsze trafia w zasięgu ręki.¶
+ƒ miejsce2(gra5•gra) (
+		celX3: gra5.x4 + gra5.zwróconyWX
+		celZ3: gra5.z4 + gra5.zwróconyWZ
+		wysokość3: wysokośćKolumny(gra5.bloki celX3 celZ3)
+		zapas: (gra5.wybrane = '🪵') ? gra5.drewno gra5.cegła
+		(~wGranicach(celX3 celZ3) | (zapas = 0) | (wysokość3 > maxY)) ? gra5 (
+				wydany: (gra5.wybrane = '🪵') ? (gra5.drewno:(gra5.drewno - 1)) (gra5.cegła:(gra5.cegła - 1))
+				wydany.bloki:gra5.bloki.z(
+					blok(celX3 wysokość3 celZ3 gra5.wybrane)
+				)
+			)
+	)
+
+¶Czy spacja zbuduje, czy zniszczy. Decyduje o tym stos przed tobą: na wysokości twoich stóp lub niżej dokładasz kolejny blok, powyżej — zdejmujesz jego szczyt. Jeden klawisz robi obie rzeczy, a kursor pokazuje, którą — więc budowanie w górę oznacza wspinanie się w miarę pracy, do czego służy skok, i zawsze możesz cofnąć coś, co postawiłeś w złym miejscu, stając na tej samej wysokości.¶
+ƒ budowanie(gra6•gra)
+	wysokośćKolumny(
+		gra6.bloki
+		(gra6.x4 + gra6.zwróconyWX)
+		(gra6.z4 + gra6.zwróconyWZ)
+	) ≤ gra6.y3
+
+ƒ działaj(gra7•gra) budowanie(gra7) ? miejsce2(gra7) trafienie(
+			gra7
+		)
+
+¶Zmień materiał, który chcesz stawiać.¶
+ƒ przełącz(gra8•gra) gra8.wybrane:((gra8.wybrane = '🪵') ? '🧱' '🪵')
+
+¶Naciśnięcie klawisza podczas gry. Klawisz dociera tutaj jako zwykły tekst, zamiast być porównywany w samej reakcji, co sprawia, że testy ∆ reakcji patrzą na sam strumień.¶
+ƒ zastosujNaciśnięcieKlawisza(gra9•gra klawisz2•"")
+	(klawisz2 = 'Strzałka w lewo') ? ruch(gra9 -1 0)
+		((klawisz2 = 'Strzałka w prawo') ? ruch(gra9 1 0)
+				((klawisz2 = 'Strzałka w górę') ? ruch(gra9 0 1)
+						((klawisz2 = 'Strzałka w dół') ? ruch(
+									gra9
+									0
+									-1
+								)
+								((klawisz2 = 'Przestrzeń') ? działaj(gra9)
+										((klawisz2 = 'Zmiana') ? przełącz(gra9)
+												((klawisz2 = 'j') ? skok(gra9) gra9))))))
+
+¶Nowa runda.¶
+ƒ nowaGra() gra(
+		2
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		utwórzCel()
+		twórzŚwiat()
+		[]
+	)
+
+¶Jedna klatka: postarzenie luźnych elementów, tak by wylądowały, zawisły, a potem spadły na szczyt tego, na czym stoisz, schowanie do kieszeni wszystkiego na twojej komórce, cofnięcie młotka i sprawdzenie wież.¶
+ƒ przesuńŚwiat(gra10•gra) (
+		postarzony: gra10.przedmioty.tłumaczyć(
+				ƒ(i2•element) (i2.wiek = 0) ? (i2.wiek:1) i2
+			)
+		stojący: wysokośćKolumny(gra10.bloki gra10.x4 gra10.z4)
+		następneZawieszenie: (gra10.zawieszenie > 0) ? (gra10.zawieszenie - 1) 0
+		następnyY: ((gra10.zawieszenie = 0) & (gra10.y3 > stojący)) ? (gra10.y3 - 1) gra10.y3
+		¶Zawsze jesteś na wysokości kolumny, na której stoisz, i tak samo wszystko, co na niej leży, więc wystarczy dzielić tę samą komórkę, żeby coś podnieść.¶
+		podStopami: postarzony.filtr(
+				ƒ(i3•element) (i3.x3 = gra10.x4) & (i3.z3 = gra10.z4) & (i3.wiek > 0)
+			)
+		zachowany: postarzony.filtr(
+				ƒ(i4•element) ~((i4.x3 = gra10.x4) & (i4.z3 = gra10.z4) & (i4.wiek > 0))
+			)
+		zdobytoDrewno: podStopami.filtr(
+				ƒ(i5•element) i5.rodzaj3 = '🪵'
+			).długość(
+			)
+		zdobytoCegłę: podStopami.filtr(
+				ƒ(i6•element) i6.rodzaj3 = '🧱'
+			).długość(
+			)
+		gra(
+			(celSpełniony(gra10.bloki gra10.cel) ? 3 gra10.faza)
+			gra10.x4
+			następnyY
+			gra10.z4
+			gra10.zwróconyWX
+			gra10.zwróconyWZ
+			następneZawieszenie
+			(gra10.drewno + zdobytoDrewno)
+			(gra10.cegła + zdobytoCegłę)
+			gra10.wybrane
+			((gra10.machnięcie > 0) ? (gra10.machnięcie - 1) 0)
+			gra10.następneID
+			gra10.cel
+			gra10.bloki
+			zachowany
+		)
+	)
+
+klawisz3: Klawisz()
+tyknięcie: Czas(150ms)
+stuknij: Przycisk()
+
+¶Bicie serca gry, napędzane trzema wejściami. Podczas gry tik przesuwa świat naprzód, klawisze robią wszystko inne, a kliknięcie zamachuje. Z ekranu tytułowego lub ekranu zwycięstwa Enter lub kliknięcie zaczyna nową rundę.¶
+gra11•gra: gra(
+		1
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		utwórzCel()
+		twórzŚwiat()
+		[]
+	)
+	… (∆ tyknięcie | ∆ klawisz3 | ∆ stuknij) …
+		(gra11.faza = 2)
+		? (∆ tyknięcie ? przesuńŚwiat(gra11)
+					(∆ klawisz3 ? zastosujNaciśnięcieKlawisza(
+								gra11
+								klawisz3
+							) działaj(gra11)))
+			(∆ tyknięcie ? gra11
+					(∆ klawisz3 ? ((klawisz3 = 'Wchodzić') ? nowaGra(
+									) gra11)
+							(∆ stuknij ? nowaGra() gra11)))
+
+¶Wszystko w świecie gry jest rysowane bez wygładzania, więc krok pojawia się w tej samej klatce, w której go naciśniesz, zamiast się dosuwać po fakcie, a każdy element nosi nazwę zbudowaną z jego komórki. Nazwa jest tu najważniejsza: scena rozróżnia wyjścia po nazwie, a listę bez nazw rozróżnia się po pozycji, więc wyjęcie bloku ze środka stosu nadałoby wszystkim blokom nad nim tożsamość sąsiada i sprawiłoby, że wszystkie zsunęłyby się o jedno miejsce w dół.¶
+¶A green emoji is about a quarter wider than it is tall, so the tiles are sized
+down to land exactly one to a cell and keep the ground lined up with the blocks
+standing on it.¶
+rozmiarKafelka: 0.8m
+
+rzędyZiemi: [0 1 2 3 4].filtr(
+		ƒ(rząd•#) rząd ≥ (gra11.z4 - rysujZTyłu)
+	).tłumaczyć(
+		ƒ(rząd2•#)
+			Wyrażenie(
+				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+				rozmiarKafelka
+				czastrwania: 0s
+				nazwa: "g\rząd2\"
+				miejsce: Miejsce(
+					przyX(minX)
+					przyY(-1)
+					przyZ(rząd2)
+				)
+			)
+	)
+
+widokiBloków: gra11.bloki.filtr(
+		ƒ(b8•blok) b8.z2 ≥ (gra11.z4 - rysujZTyłu)
+	).tłumaczyć(
+		ƒ(b9•blok)
+			Wyrażenie(
+				b9.rodzaj2
+				1m
+				czastrwania: 0s
+				nazwa: "b\b9.x2\,\b9.y2\,\b9.z2\"
+				miejsce: Miejsce(
+					przyX(b9.x2)
+					przyY(b9.y2)
+					przyZ(b9.z2)
+				)
+			)
+	)
+
+¶Wieże, do których dążysz, wyblakłe, i tylko te części, których jeszcze nie zbudowałeś.¶
+widokiDuchów: celNiespełniony(gra11.bloki gra11.cel).filtr(
+		ƒ(g2•blok) g2.z2 ≥ (gra11.z4 - rysujZTyłu)
+	).tłumaczyć(
+		ƒ(g3•blok)
+			Wyrażenie(
+				g3.rodzaj2
+				1m
+				czastrwania: 0s
+				nieprzezroczystość: 35%
+				nazwa: "h\g3.x2\,\g3.y2\,\g3.z2\"
+				miejsce: Miejsce(
+					przyX(g3.x2)
+					przyY(g3.y2)
+					przyZ(g3.z2)
+				)
+			)
+	)
+
+¶Luźny element. To jedyna rzecz na scenie, która się wygładza, zamiast pojawiać się od razu — jej pierwsza klatka jest w miejscu, gdzie blok się oderwał, a ostatnia tam, gdzie wylądował, a wygładzanie pomiędzy nimi to jego przewrót.¶
+widokiPrzedmiotów: gra11.przedmioty.filtr(
+		ƒ(i7•element) i7.z3 ≥ (gra11.z4 - rysujZTyłu)
+	).tłumaczyć(
+		ƒ(i8•element)
+			Wyrażenie(
+				i8.rodzaj3
+				0.6m
+				czastrwania: 0.3s
+				nazwa: "i\i8.id2\"
+				miejsce: (i8.wiek = 0)
+				? Miejsce(
+						przyX(i8.odX)
+						przyY(i8.odY)
+						przyZ(i8.odZ)
+					)
+					Miejsce(
+						przyX(i8.x3)
+						przyY(wysokośćKolumny(gra11.bloki i8.x3 i8.z3))
+						przyZ(i8.z3)
+					)
+			)
+	)
+
+¶Czas trwania to jest to, co w ogóle zamienia krok w ruch: bez niego scena pomija budowanie animacji dla postaci i każdy ruch odbywa się teleportacją. Czas nieco krótszy niż jeden tik sprawia, że każdy krok i każdy skok kończy się tuż przed nadejściem następnego. Rozciągnięcie, gdy postać jest w powietrzu, to ten sam trik co napięty zamach młotka — inna poza trzymana tak długo, jak trwa stan, zamiast animacji, którą trzeba zacząć i zatrzymać.¶
+widokGracza: Wyrażenie(
+		'🚶🏻‍♀'
+		1.1m
+		czastrwania: 0.14s
+		nazwa: 'gracz'
+		skala: ((gra11.zawieszenie > 0) ? 1.08 1)
+		flipx: gra11.zwróconyWX > 0
+		miejsce: Miejsce(
+			przyX(gra11.x4)
+			przyY(gra11.y3)
+			przyZ(gra11.z4)
+		)
+	)
+
+¶Kursor unosi się nad komórką, na którą trafi twoje następne działanie — nad wolnym miejscem na szczycie stosu, przed którym stoisz. Zamach niszczy blok bezpośrednio pod kursorem, a stawianie wypełnia komórkę, którą on wskazuje, więc nigdy nie ma wątpliwości, co zaraz zniszczysz albo gdzie trafi blok. Unosi się nieco nad tą komórką, żeby pozostać widoczny, gdy komórka jest wprost przed tobą, a twoje własne ciało mogłoby ją zasłaniać. Napina się w chwili zamachu i sam wraca na miejsce, co następuje dokładnie w momencie trafienia, zamiast się zapętlać. Znika, gdy patrzysz poza krawędź pola, bo tam nie ma na czym działać.¶
+celX4: gra11.x4 + gra11.zwróconyWX
+celZ4: gra11.z4 + gra11.zwróconyWZ
+celY: wysokośćKolumny(gra11.bloki celX4 celZ4)
+
+¶Które z dwóch zadań wykona spacja na kolumnie przed tobą i czy w ogóle coś zdziała: niszczenie wymaga, by szczyt był w zasięgu, a budowanie wymaga, by w kieszeniach zostało coś z wybranego materiału. Kursor blednie, gdy odpowiedź brzmi nie, więc pusta kieszeń wygląda tak samo jak szczyt poza zasięgiem, a nie jak naciśnięcie, które po cichu nic nie robi.¶
+budowanieTutaj: celY ≤ gra11.y3
+wZasięgu: (celY - 1) ≤ (gra11.y3 + zasięg)
+zapasTutaj: (gra11.wybrane = '🪵') ? gra11.drewno gra11.cegła
+możeDziałać: budowanieTutaj ? (zapasTutaj > 0) wZasięgu
+
+widokKursora: Wyrażenie(
+		(budowanieTutaj ? '🔨' '🪏')
+		0.85m
+		czastrwania: 0.12s
+		nazwa: 'kursor'
+		obrót: ((gra11.machnięcie > 0) ? -55° 0°)
+		nieprzezroczystość: (możeDziałać ? 100% 30%)
+		miejsce: Miejsce(
+			przyX(celX4)
+			przyY(celY + 0.55)
+			przyZ(celZ4)
+		)
+	)
+
+listaKursorów: wGranicach(celX4 celZ4) ? [widokKursora] []
+
+¶Kieszenie i aktualny materiał, przypięte na płasko do ekranu, tak żeby głębia nigdy ich nie pomniejszała.¶
+wyświetlacz: [
+		Wyrażenie(
+			"🪵 \gra11.drewno\   🧱 \gra11.cegła\   🔨 \gra11.wybrane\"
+			0.5m
+			miejsce: Miejsce(-6.6m 4.3m)
+		)
+	]
+
+tytułEkranu: (gra11.faza = 3) ? '🎉 Zbudowałeś to! 🎉' '🔨 KLOCKI BUDOWLANE 🔨'
+liniaStartowa: (gra11.faza = 3) ? 'Naciśnij Enter lub kliknij, aby zbudować ponownie' 'Naciśnij Enter lub kliknij, aby zacząć'
+
+¶Ekrany leżą płasko na polu pełnym drzew i postaci, dlatego grupa niesie własne, nieprzezroczyste tło — ciemne słowa na tle gałęzi i dachów są trudne do przeczytania, a pełny panel zapewnia im czytelność, nie zasłaniając przy tym widoku świata wokół.¶
+widokEkranu: [
+		Grupa(
+			Stos()
+			[
+				Wyrażenie(tytułEkranu 1.1m nazwa: 's1')
+				Wyrażenie(
+					'Strzałki chodzą · patrzysz w tę stronę, w którą szedłeś'
+					0.5m
+					nazwa: 's2'
+				)
+				Wyrażenie(
+					'Spacja działa na kursor: 🪏 kopie · 🔨 buduje'
+					0.5m
+					nazwa: 's3'
+				)
+				Wyrażenie(
+					'Shift zamienia 🪵 🧱 · j podskakuje, żeby dosięgnąć'
+					0.5m
+					nazwa: 's4'
+				)
+				Wyrażenie(
+					'Dosięgnij jeden blok wyżej · dopasuj wyblakłe bloki'
+					0.5m
+					nazwa: 's5'
+				)
+				Wyrażenie(liniaStartowa 0.7m nazwa: 's6')
+			]
+			tło: Kolor(90% 10 240°)
+		)
+	]
+
+¶Kamera zachowuje stałą odległość za tobą, zamiast stać w miejscu, dlatego masz taki sam rozmiar na ekranie niezależnie od tego, jak daleko zajdziesz, a pole przesuwa się obok ciebie, tuż za twoim ramieniem. Śledzi cię też w bok, więc pójście na koniec pola przesuwa świat, a nie zostawia cię poza jego krawędzią. Piąta część komórki to niewielkie przesunięcie do wyśrodkowania: postać jest rysowana od swojej lewej krawędzi, która znajduje się w połowie komórki, a jej symbol jest odrobinę szerszy niż komórka, w której stoi.
+
+Scena skaluje wszystko według odległości od kamery, a coś, co znajduje się jedną komórkę przed obiektywem, wyświetla się osiem razy większe niż w rzeczywistości — więc w takim zasięgu świat leżący więcej niż jeden rząd za tobą po prostu nie jest rysowany. Wieże stoją zawsze w ostatnim rzędzie, jedynym, którego zasięg rysowania nigdy nie odcina, dlatego są widoczne z każdego miejsca, do którego możesz dojść.¶
+kameraZ: ((gra11.z4 - tyłŚwiata - tyłKamery) · 1m)
+
+¶Kamera jedzie na wysokości tego, na czym właśnie stoisz, a nie twojej własnej, więc wejście na stos podnosi kamerę razem z tobą i utrzymuje cię w kadrze, a skok wciąż wygląda jak skok — podczas niego naprawdę oddalasz się od kamery, zamiast ciągnąć ją za sobą.¶
+kameraY: (wysokośćKolumny(gra11.bloki gra11.x4 gra11.z4) · 1m)
+
+¶Świat jest rysowany tak samo w każdej fazie, więc ekran tytułowy i ekran wygranej pokazują pole dokładnie tak, jak wygląda podczas gry, a nie jako odrębną scenę menu.¶
+warstwaŚwiata: [
+		:widokiBloków
+		:widokiDuchów
+		:widokiPrzedmiotów
+		widokGracza
+		:listaKursorów
+	]
+
+¶Wszystko, co mówi do ciebie, znajduje się na nakładce scены, przypiętej płasko do ekranu, dlatego nie ma na nią wpływu ani kamera, ani głębia. Umieszczenie ekranu tutaj, a nie w świecie, zapewnia mu czytelność: wszystko umieszczone w świecie znajduje się na jakiejś głębi, a rzędy podłoża bliższe kamerze byłyby rysowane na jego wierzchu.¶
+warstwaNakładki: (gra11.faza = 2) ? wyświetlacz widokEkranu
+
+¶Element wybity z miejsca jest wciąż na swojej pierwszej klatce, a to jedyna klatka, która odróżnia go od elementów już leżących wokół — dokładnie ten wiek decyduje, czy rysowanie ma go uruchomić w miejscu, gdzie blok się rozpadł.¶
+zepsuteTeraz: gra11.przedmioty.filtr(
+		ƒ(i9•element) i9.wiek = 0
+	)
+
+¶Czy młot właśnie się zamachnął. Napina go tylko rozbijanie, więc dla naciśnięcia, które postawiło blok, jest to ⊥.¶
+zepsułoSię: gra11.machnięcie = taktyHuśtania
+
+¶Jak brzmiało uderzenie. Drewno stuka jak tom, a kamień jak stopa bębna, dlatego drzewo i głaz nie brzmią tak samo, a zamach, który nie trafił w nic, wydaje lekkie kliknięcie — pomyłka, którą słyszysz, jest lepsza niż pomyłka, która brzmi, jakby nic się nie stało.
+
+Przez resztę czasu jest pusto, i to wszystko, czego trzeba: nuta, która zaczęła grać, gra do końca, więc młot wciąż wybrzmiewa, choć ta lista opróżnia się już na następnym takcie.¶
+trafioneNuty: zepsułoSię
+	? ((zepsuteTeraz.długość() > 0) ? zepsuteTeraz.tłumaczyć(
+					ƒ(i10•element) (i10.rodzaj3 = '🪵') ? 5 1
+				) [3])
+		[]
+
+¶Naciśnięcie, które wywołało zamach, i tylko ono. Młot jest napięty do następnego takcie, więc bez tego każdy klawisz naciśnięty w tym czasie zabrzmiałby jako drugie uderzenie.¶
+machnięty2: ((∆ klawisz3) & (klawisz3 = 'Przestrzeń')) | (∆ stuknij)
+
+dźwiękTrafienia: Muzyka(
+		Ścieżka(
+			trafioneNuty
+			instrument: Instrument.perkusja
+			pętla: ⊥
+		)
+		powtórka: machnięty2
+		nazwa: 'trafienie'
+	)
+
+¶Miejsce, w którym można być podczas pracy: powolna pentatoniczna melodia na flecie, dzwonek, który jej czasem odpowiada, i dudniący dźwięk w tle. Pentatoniczna, bo żadne z jej dźwięków nie mogą się ze sobą kłócić, dlatego pętla nigdy nie rozstrzyga się na czymś konkretnym i nigdy nie brzmi źle razem z uderzeniem młota na wierzchu. Trwa szesnaście uderzeń, a nie osiem, więc mija chwila, zanim wróci od początku.¶
+tłoAkustyczne: Muzyka(
+		[
+			Ścieżka(
+				[1 ø ø 3 ø ø 5 ø ø 3 ø ø 2 ø ø ø]
+				instrument: Instrument.flet
+				rytm: 1beats
+				głośność: 30%
+			)
+			Ścieżka(
+				[ø ø ø ø ø ø 8 ø ø ø ø ø ø ø 6 ø]
+				instrument: Instrument.dzwonek
+				rytm: 1beats
+				głośność: 20%
+			)
+			Ścieżka(
+				[{1 5} {1 5} {4 8} {1 5}]
+				instrument: Instrument.padSyntezatora
+				rytm: 4beats
+				głośność: 25%
+			)
+		]
+		tempo: 60beats/min
+		skala: Muzyka.pentatoniczna
+		głośność: 45%
+		nazwa: 'natura'
+	)
+
+¶Nagroda za dopasowanie każdego wyblakłego bloku: trąbka wznosząca się po tej samej pentatonicznej skali, którą pole nucło od samego początku, akord, na którym można wylądować, i błysk dzwonka na wierzchu.
+
+Nic tutaj się nie powtarza, i to właśnie sprawia, że to fanfara, a nie nowe tło muzyczne. Jednorazowy dźwięk, który już zabrzmiał, milczy, gdy pozostaje na scenie, dlatego ekran wygranej znowu robi się cichy i pozwala mówić otoczeniu; zaczęcie nowej rundy usuwa go ze scены i zapomina o nim, więc następna zbudowana konstrukcja znów zabrzmi od początku.¶
+dźwiękWygranej: Muzyka(
+		[
+			Ścieżka(
+				[1 3 5 8 ø 8 ø ø {1 5 8} ø ø ø ø ø ø ø]
+				instrument: Instrument.trąbka
+				rytm: 0.5beats
+				pętla: ⊥
+			)
+			Ścieżka(
+				[ø ø ø ø ø ø ø ø 8 ø 10 ø 12 ø ø ø]
+				instrument: Instrument.dzwonek
+				rytm: 0.5beats
+				głośność: 45%
+				pętla: ⊥
+			)
+			Ścieżka(
+				[{1 3 5} ø {4 6 8} ø]
+				instrument: Instrument.pianino
+				rytm: 2beats
+				głośność: 40%
+				pętla: ⊥
+			)
+			Ścieżka(
+				[1 ø 3 ø 1 3 1 ø 4 ø ø ø ø ø ø ø]
+				instrument: Instrument.perkusja
+				rytm: 0.5beats
+				głośność: 35%
+				pętla: ⊥
+			)
+		]
+		tempo: 132beats/min
+		skala: Muzyka.pentatoniczna
+		nazwa: 'zbudowane'
+	)
+
+¶Pojawia się na scenie tylko wtedy, gdy wygrałeś, a pusta lista rozpływa się w nic.¶
+listaWygranej: (gra11.faza = 3) ? [dźwiękWygranej] []
+
+Scena(
+	[
+		:rzędyZiemi
+		:warstwaŚwiata
+		tłoAkustyczne
+		dźwiękTrafienia
+		:listaWygranej
+	]
+	miejsce: Miejsce(((gra11.x4 + 0.2) · 1m) kameraY kameraZ)
+	tło: Kolor(78% 18 240°)
+	kolor: Kolor(20% 0 0°)
+	nakładka: warstwaNakładki
+)

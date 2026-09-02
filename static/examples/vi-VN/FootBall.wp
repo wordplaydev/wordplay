@@ -1,0 +1,332 @@
+⚽
+Bóng đá
+=== start/en
+¶Một trò chơi thủ môn nhìn từ trên xuống. Bạn là chiếc găng tay đứng trước khung thành ở bên trái. Từng quả bóng một được sút ra từ đâu đó trên sân, nhắm vào một điểm trong khung thành, và bạn di chuyển lên xuống để cản đường bóng. Con số đếm số cú sút bạn đã cản phá: nó vươn cao mỗi khi bạn cản phá thành công, và phồng lên rồi rung lắc khi bóng vượt qua bạn.¶
+
+¶Nơi một quả bóng được nhắm tới, và nơi chiếc găng tay đứng chặn. Một khung thành rộng khoảng tám lầnbề rộng của người giữ khung thành, đó là lý do một người không thể chỉ đứnggiữa khung thành mà cản được hết mọi quả bóng.
+
+Một @Place là góc dưới-trái của một đầu ra, không phải điểm giữa của nó, vậy nên mọi thứ nhắm tớihoặc bị chặn phía dưới đều được tính theo điểm giữa và mất đi một nửa kích thước khi nótrở thành một @Place. Một biểu tượng cảm xúc cũng được vẽ lớn hơn kích thước của nó khá nhiều — một quả ⚽ 0.6m chiếmkhoảng 0.9m, một chiếc 🧤 1.2m khoảng 1.25m — vậy nên những nửa đó được đo, không phải chia đôitừ kích thước gốc. Tốc độ của găng tay là khoảng cách nó trượt mỗi lần tích tắc.¶
+khungThànhX: -7m
+miệngCạnh: 5.2m
+bóngNửa: 0.45m
+thủMônX: -6.5m
+thủMônNửa: 0.62m
+thủMônTầmVới: 4.5m
+thủMônTốcĐộ: 0.55m
+
+nhịp2: Thờigian(50ms)
+nhấn: Chìakhóa(xuống: ⊤)
+thả: Chìakhóa(xuống: ⊥)
+
+¶Chiều mà chiếc găng tay đang di chuyển. Nhấn một mũi tên sẽ làm nó bắt đầu di chuyển vàthả cùng mũi tên đó sẽ làm nó dừng lại, vậy nên chiếc găng tay trượt trong suốt thời gian bạn giữphím đó. Với một khung thành rộng như vậy, mỗi lần nhấn chỉ dịch một bước sẽ không bao giờ tới kịp.¶
+trôi•#: 0 … ∆ nhấn | ∆ thả …
+		∆ nhấn ?
+			((nhấn = 'Mũi tên lên') ? 1 ((nhấn = 'Mũi tên xuống') ? -1 trôi))
+			((thả = 'Mũi tên lên') & (trôi = 1)) ? 0
+				((thả = 'Mũi tên xuống') & (trôi = -1)) ? 0
+					trôi
+
+¶Chiếc găng tay không di chuyển theo vật lý, vậy nên nó có thể được điều khiển trực tiếp. Nó dừng lạiở hai đầu tầm với của nó, vậy nên nó không bao giờ có thể trôi ra khỏi khung thành.¶
+thủMônY•#m: 0m … ∆ nhịp2 …
+		((thủMônY + (trôi × thủMônTốcĐộ)).tốiđa(
+				thủMônTầmVới · -1
+			)).phút(
+			thủMônTầmVới
+		)
+
+¶Một pha cứu bóng và một quả bàn thắng. Mỗi @Collision báo một lần chạm bắt đầu và một lần chạmkết thúc, vậy nên cả hai đều được ghép với một kiểm tra rằng đây là một lần bắt đầu: khôngcó nó, mỗi pha cứu bóng và mỗi quả bàn thắng sẽ được tính hai lần.¶
+găngTayVa: Vachạm('bóng' 'thủ môn')
+lướiVa: Vachạm('bóng' 'lưới')
+đãCứu: (∆ găngTayVa) & ~(găngTayVa•ø)
+đãGhiĐiểm: (∆ lướiVa) & ~(lướiVa•ø)
+
+•cúSút(sx•#m sy•#m độNghiêng•# tốcĐộ•#m/s)
+
+¶Một nơi để đứng, một nơi trong khung thành để nhắm tới, và đường thẳng giữa hai điểm đó.Tính ra độ nghiêng từ hai đầu này là cách để đưa mọi quả bóng thẳng vào mụctiêu, bất kể nó đến từ hướng nào.¶
+ƒ cúSútMới()•cúSút (
+		x2: Ngẫunhiên(2m 6m)
+		y2: Ngẫunhiên(-5.5m 5.5m)
+		ngắm: Ngẫunhiên(-4.7m 4.7m)
+		¶Độ nghiêng là bao nhiêu y bị mất đi trên mỗi mét x của đường đi. Một phép chia có thểkhông có kết quả, vậy nên trường hợp ø sẽ quay về một cú sút thẳng dọc theo sân; ngườisút không bao giờ đứng trên đường biên khung thành, vậy nên trường hợp đó không bao giờ xảy ra.¶
+		rơi: (ngắm - y2) ÷ (khungThànhX - x2)
+		cúSút(x2 y2 (rơi•ø ? 0 rơi) Ngẫunhiên(16m/s 22m/s))
+	)
+
+¶1 = quả bóng đang chờ dưới chân người sút, 2 = nó đang trên đường đi, 3 = nó đangbị đẩy ra. Số lần tích tắc được đếm thay vì trừ đồng hồ, vì mỗi @Timestarts từ không. Các khối là những gì bạn thấy; các lượt sút chỉ có ở đó đểcho con số một tên mới sau mỗi cú sút, đó là điều làm nó phát lại hoạt ảnh của nó.¶
+•lượt(giaiĐoạn•# tiếngTíchTắc•# khối2•# giaoBóng•# cuốiCùng•# cúSút2•cúSút)
+hiệp•lượt: lượt(1 0 0 0 0 cúSútMới()) …
+	∆ nhịp2 | đãCứu | đãGhiĐiểm …
+		hiệp.giaiĐoạn ???
+			1: (hiệp.tiếngTíchTắc ≥ 14)
+			? lượt(
+					2
+					0
+					hiệp.khối2
+					hiệp.giaoBóng
+					hiệp.cuốiCùng
+					hiệp.cúSút2
+				)
+				lượt(
+					1
+					(hiệp.tiếngTíchTắc + (∆ nhịp2 ? 1 0))
+					hiệp.khối2
+					hiệp.giaoBóng
+					hiệp.cuốiCùng
+					hiệp.cúSút2
+				)
+			2: đãCứu ? lượt(
+					3
+					0
+					(hiệp.khối2 + 1)
+					(hiệp.giaoBóng + 1)
+					1
+					hiệp.cúSút2
+				)
+				đãGhiĐiểm ? lượt(
+						3
+						0
+						hiệp.khối2
+						(hiệp.giaoBóng + 1)
+						2
+						hiệp.cúSút2
+					)
+					¶Một quả bóng không bao giờ tới đích — chẳng hạn bị đánh trở lại vào sânbằng một pha cứu bóng — sẽ bị bỏ qua sau vài giây, vậy nên trò chơi không bao giờ bị kẹtchờ một kết quả sẽ không đến.¶
+					(hiệp.tiếngTíchTắc ≥ 70)
+					? lượt(
+							3
+							0
+							hiệp.khối2
+							(hiệp.giaoBóng + 1)
+							3
+							hiệp.cúSút2
+						)
+						lượt(
+							2
+							(hiệp.tiếngTíchTắc + (∆ nhịp2 ? 1 0))
+							hiệp.khối2
+							hiệp.giaoBóng
+							hiệp.cuốiCùng
+							hiệp.cúSút2
+						)
+			3: (hiệp.tiếngTíchTắc ≥ 16)
+			? lượt(
+					1
+					0
+					hiệp.khối2
+					hiệp.giaoBóng
+					hiệp.cuốiCùng
+					cúSútMới()
+				)
+				lượt(
+					3
+					(hiệp.tiếngTíchTắc + (∆ nhịp2 ? 1 0))
+					hiệp.khối2
+					hiệp.giaoBóng
+					hiệp.cuốiCùng
+					hiệp.cúSút2
+				)
+			hiệp
+
+¶Lần đánh giá duy nhất khi quả bóng rời khỏi chân người sút. Nó phải diễn ra chỉ trong một khoảnh khắc: đó là điều làm bóng bị đánh, và đánh bóng hai lần sẽ làm gấp đôitốc độ của nó.¶
+đãĐá: (∆ nhịp2) & (hiệp.giaiĐoạn = 2) & (hiệp.tiếngTíchTắc = 0)
+
+¶Được giữ yên trong khi chờ, bị đánh dọc theo đường nhắm của nó khi được sút, vàbị đẩy trở lại lên sân bởi một pha cứu bóng hoặc bởi mặt sau lưới — đó cũng là điều giữcho quả bóng không lăn lộn liên tục trong khung thành và làm rung lưới nhiềulần. Không khí làm chậm một quả bóng đang lăn, giống như cỏ, vậy nên các cú sút giảm dần.¶
+vịTríBóng: Cửđộng(
+		VịTrí(
+			(hiệp.cúSút2.sx - bóngNửa)
+			(hiệp.cúSút2.sy - bóngNửa)
+		)
+		nơitiếptheo:
+		(hiệp.giaiĐoạn = 1) ? VịTrí(
+				(hiệp.cúSút2.sx - bóngNửa)
+				(hiệp.cúSút2.sy - bóngNửa)
+			) ø
+		vậntốctiếptheo:
+		(hiệp.giaiĐoạn = 1) ? Vậntốc(0m/s 0m/s 0°/s)
+			đãĐá ? Vậntốc(
+					(hiệp.cúSút2.tốcĐộ · -1)
+					((hiệp.cúSút2.tốcĐộ · -1) × hiệp.cúSút2.độNghiêng)
+					Ngẫunhiên(-45°/s 45°/s)
+				)
+				(đãCứu | đãGhiĐiểm) ? Vậntốc(
+						Ngẫunhiên(8m/s 14m/s)
+						Ngẫunhiên(-5m/s 5m/s)
+						Ngẫunhiên(-45°/s 45°/s)
+					)
+					ø
+	)
+
+bóng: Cụmtừ(
+		'⚽'
+		0.6m
+		tên: 'bóng'
+		vịTrí: vịTríBóng
+		vấnđề: Vấnđề(0.45kg 0.7 0.02)
+	)
+
+¶Chiếc găng tay được theo dõi bằng tên ở trên, và đó là tất cả những gì cần để có mặt trong thếgiới vật lý, vậy nên nó không cần @Matter. Nó được đặt bởi chương trình chứ không phải bởivật lý, vậy nên nó đi xuyên qua quả bóng thay vì đánh vào nó; pha cứu bóng ở trên mới làthứ làm quả bóng bật trở lại. Các bước di chuyển của nó không được làm mượt, vậy nên nó nằm chính xác ở nơi bạnđiều khiển tới thay vì trượt dần theo sau bạn.¶
+thủMôn: Cụmtừ(
+		'🧤'
+		1.2m
+		tên: 'thủ môn'
+		vịTrí: VịTrí(thủMônX (thủMônY - thủMônNửa))
+		khoảngthờigian: 0s
+	)
+
+¶Ai đang sắp sút, và từ đâu. Chỉ xuất hiện trên sân trong khi quả bóng đang chờ.¶
+ngườiSút: Cụmtừ(
+		'🦵'
+		1.2m
+		vịTrí: VịTrí(
+			(hiệp.cúSút2.sx + 0.5m)
+			(hiệp.cúSút2.sy - 0.6m)
+		)
+		khoảngthờigian: 0s
+	)
+danhSáchNgườiSút: (hiệp.giaiĐoạn = 1) ? [ngườiSút] []
+
+¶Khung thành: miệng khung thành, tấm lưới phía sau nó, và một cột dọc phía trên và dưới.Chỉ tấm lưới được đặt tên, vậy nên chỉ tấm lưới mới có thể ghi điểm — một quả bóng đánh trúng cộtsẽ chỉ đơn giản bật ra. Tấm lưới được làm dày một cách có chủ ý: cú sút nhanh nhất đi quakhoảng nửa mét giữa các bước tính vật lý, và một tấm lưới mỏng hơn nó có thể xuyên quamà không hề chạm vào.¶
+hìnhDạngLưới: Hìnhdạng(
+		Hìnhchữnhật(-8m miệngCạnh -7.2m (miệngCạnh · -1))
+		tên: 'lưới'
+		lýlịch: Màusắc(96% 0 0°)
+	)
+đỉnhCột: Hìnhdạng(
+		Hìnhchữnhật(-8m 7m -7.2m miệngCạnh)
+		lýlịch: Màusắc(35% 0 0°)
+	)
+đáyCột: Hìnhdạng(
+		Hìnhchữnhật(-8m (miệngCạnh · -1) -7.2m -7m)
+		lýlịch: Màusắc(35% 0 0°)
+	)
+
+¶Các đường biên, giữ cho một quả bóng bị đẩy ra vẫn nằm trong sân.¶
+đỉnhTường: Hìnhdạng(
+		Hìnhchữnhật(-8m 7m 8m 6.8m)
+		lýlịch: Màusắc(88% 5 130°)
+	)
+đáyTường: Hìnhdạng(
+		Hìnhchữnhật(-8m -6.8m 8m -7m)
+		lýlịch: Màusắc(88% 5 130°)
+	)
+phảiTường: Hìnhdạng(
+		Hìnhchữnhật(7.8m 7m 8m -7m)
+		lýlịch: Màusắc(88% 5 130°)
+	)
+
+¶Một pha cứu bóng: con số bật lên nhẹ một chút và đứng đó một khoảnh khắc trước khi ổn định lại.¶
+uốnCảnPhá: Sựliêntiếp(
+		{
+			0%: Tưthế(tỉlệ: 1)
+			30%: Tưthế(tỉlệ: 1.5 bùlại: VịTrí(0m 0.4m))
+			65%: Tưthế(tỉlệ: 1.35 bùlại: VịTrí(0m 0.25m))
+			100%: Tưthế(tỉlệ: 1)
+		}
+		0.5s
+	)
+
+¶Một quả bàn thắng: con số phình to lấp đầy màn hình và rung lên, vậy nên một cú sútvượt qua bạn không bao giờ là điều bạn có thể bỏ lỡ.¶
+rungKhungThành: Sựliêntiếp(
+		{
+			0%: Tưthế(tỉlệ: 1)
+			8%: Tưthế(tỉlệ: 3.6 xoay: -10°)
+			24%: Tưthế(tỉlệ: 3.6 xoay: 10° bùlại: VịTrí(0.4m 0m))
+			40%: Tưthế(
+				tỉlệ: 3.6
+				xoay: -10°
+				bùlại: VịTrí(-0.4m 0m)
+			)
+			56%: Tưthế(tỉlệ: 3.6 xoay: 8° bùlại: VịTrí(0.3m 0m))
+			72%: Tưthế(tỉlệ: 3.4 xoay: -6°)
+			100%: Tưthế(tỉlệ: 1)
+		}
+		1s
+	)
+
+¶Số lần sút bị cản. Tên của nó mang theo số lượt sút, vậy nên mỗi cú sútcho nó một danh tính mới và hoạt ảnh của nó phát lại — một con số có tênkhông bao giờ thay đổi sẽ chỉ chạy hoạt ảnh một lần rồi đứng yên.¶
+xemĐiểmSố: Cụmtừ(
+		"🧤 \hiệp.khối2\"
+		1.4m
+		tên: "score\hiệp.giaoBóng\"
+		vịTrí: VịTrí(-1.4m 4m)
+		khoảngthờigian: 0.2s
+		vào: hiệp.cuốiCùng ???
+			1: uốnCảnPhá
+			2: rungKhungThành
+			Tưthế()
+	)
+
+¶Các chỉ dẫn hiển thị trên sân chứ không phải trong lớp phủ: mép dưới của lớp phủlà nơi phần hiển thị âm nhạc đứng, và văn bản ở đó sẽ bị vẽ đè lên.¶
+hướngDẫn: Cụmtừ(
+		'giữ ⬆ ⬇ để di chuyển găng tay của bạn — chặn mọi cú sút!'
+		0.55m
+		vịTrí: VịTrí(-6.4m -6.4m)
+	)
+
+¶Ba âm thanh: cú sút, cú cản phá, và tấm lưới. Mỗi âm thanh được đưa lên sân khấu trong suốt thời gian giai đoạn gây ra nó còn diễn ra, rồi bị gỡ xuống sau đó. Chỉ cần lên sân khấu là đủ lý do để phát ra âm thanh, và một âm thanh chỉ phát một lần sẽ im lặng sau khi đã phát xong, cho đến khi nó rời đi rồi quay lại — vì vậy không âm nào trong số này cần @Music.replay, và không âm nào phát ra khi chương trình bắt đầu chạy.
+
+Viết theo cách này nói lên điều mà chỉ riêng các nốt nhạc không thể nói: mỗi âm thanh thuộc về một giai đoạn của vòng chơi, và kéo dài đúng bằng thời gian của giai đoạn đó. @Music.replay là cách viết khác, dành cho một âm thanh đáp lại một khoảnh khắc duy nhất thay vì một khoảng thời gian.¶
+âmThanhĐáBóng: ÂmNhạc(
+		BảnNhạc(
+			[1]
+			nhạcCụ: NhạcCụ.trống
+			nhịp: 0.25beats
+			âmLượng: 60%
+			vòngLặp: ⊥
+		)
+		tên: 'sút'
+	)
+
+âmThanhCảnPhá: ÂmNhạc(
+		BảnNhạc(
+			[8 12 15]
+			nhạcCụ: NhạcCụ.chuông
+			nhịp: 0.2beats
+			âmLượng: 70%
+			vòngLặp: ⊥
+		)
+		tên: 'cản phá'
+	)
+
+âmThanhGhiBàn: ÂmNhạc(
+		BảnNhạc(
+			[5 4 2 1]
+			nhạcCụ: NhạcCụ.kènTrumpet
+			nhịp: 0.3beats
+			âmLượng: 65%
+			vòngLặp: ⊥
+		)
+		tên: 'mục tiêu'
+	)
+
+âmThanhKếtQuả: hiệp.cuốiCùng ???
+		1: [âmThanhCảnPhá]
+		2: [âmThanhGhiBàn]
+		[]
+
+danhSáchÂmThanh: hiệp.giaiĐoạn ???
+		2: [âmThanhĐáBóng]
+		3: âmThanhKếtQuả
+		[]
+
+Sânkhấu(
+	[
+		bóng
+		thủMôn
+		:danhSáchNgườiSút
+		hìnhDạngLưới
+		đỉnhCột
+		đáyCột
+		đỉnhTường
+		đáyTường
+		phảiTường
+		hướngDẫn
+		:danhSáchÂmThanh
+	]
+	vịTrí: VịTrí(0m 0m -14m)
+	khung: Hìnhchữnhật(-8m 7m 8m -7m)
+	lýlịch: Màusắc(62% 40 140°)
+	màusắc: Màusắc(20% 0 0°)
+	trọnglực: 0m/s^2
+	lớpPhủ: [xemĐiểmSố]
+)

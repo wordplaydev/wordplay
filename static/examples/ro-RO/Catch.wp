@@ -1,0 +1,54 @@
+🐭
+Prinde
+=== start/en
+¶Prinde șoarecele care fuge cu un clic — dă clic din nou ca să-l eliberezi.
+
+Ambele sunete vin chiar din poziții. Un @Pose poate purta un @Music, care se redă chiar în clipa în care acea poziție apare: sunetul de săritură se aude când poziția de repaus a șoarecelui devine cea de prins, iar sunetul de fugă se aude când rotația ajunge la poziția de jumătate de care e legată. Nu trebuie să legi nimic între animație și sunet — poziția este locul unde se întâlnesc.¶
+
+¶Două bucăți scurte. Un @Track se repetă în mod normal, dar o poziție este un moment, nu ceva care durează, așa că muzica unei poziții se redă mereu o singură dată.¶
+săritură: Muzică(
+		Pistă(
+			[5 1]
+			instrument: Instrument.clopoțel
+			bătaie: 1beats
+		)
+		volum: 50%
+		nume: 'săritură'
+	)
+fugă: Muzică(
+		Pistă([1 2] instrument: Instrument.flaut bătaie: 1beats)
+		volum: 35%
+		nume: 'fugă'
+	)
+
+¶Dacă fraza aleasă este șoarecele, schimbă dacă șoarecele este prins sau nu.¶
+nume3: Alegere()
+prins: ⊥ … ∆ (nume3) … (nume3 = 'mouse') & ~prins
+¶În fiecare secundă, mută șoarecele¶
+loc2: Loc(0m 0m 0m) … ∆ Timp(1000ms) … prins ? Loc(0m 0m) Loc(
+				Aleatoriu(-2m 2m)
+				Aleatoriu(-2m 2m)
+			)
+
+Etapă(
+	[
+		Fraza(
+			"🐭"
+			selectabil: ⊤
+			loc: loc2
+			odihnă: prins ? Poză(rotaţie: 180° muzică: săritură) Poză(
+				)
+			mișcânduse: prins ? Poză() Secvenţă(
+					{
+						0%: Poză(rotaţie: 0°)
+						50%: Poză(rotaţie: 180° muzică: fugă)
+						100%: Poză(rotaţie: 360°)
+					}
+				)
+			durată: 1s
+			nume: 'mouse'
+		)
+	]
+	loc: Loc(0m 0m -5m)
+	cadru: Dreptunghi(-3m 3m 3m -3m)
+)

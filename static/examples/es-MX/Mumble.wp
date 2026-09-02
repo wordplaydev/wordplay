@@ -1,0 +1,29 @@
+m
+Murmurar
+=== start
+¶Sigue haciendo clic para que el murmullo se vuelva más intenso.¶
+clics•#: 0 … ∆ Botón() … clics + 1
+
+clics < 3 ?
+	Frase(
+		'murmurar'
+		tamaño: 1m
+		nombre: 'mmm'
+		entrando: Pose(escala: 0)
+		inmóvil: Secuencia(
+			{
+				0%: Pose(escala: (clics + 1) × 1.1)
+				50%: Pose(escala: (clics + 1) × 0.9)
+				100%: Pose(escala: (clics + 1) × 1.1)
+			}
+			duración: 0.5s
+		)
+		saliendo: Secuencia(
+			{
+				0%: Pose(opacidad: 1 escala: 1)
+				100%: Pose(opacidad: 0 escala: 10)
+			}
+			duración: 2s
+		)
+	)
+	Frase('listo')

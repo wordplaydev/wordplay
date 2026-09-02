@@ -1,0 +1,292 @@
+🫲
+Chef d'orchestre
+=== start/en
+¶Dirige une flotte impériale d'une seule main. Pas de clavier, pas de boutons — la caméra observe ta main et un orchestre de huit instruments te répond.
+
+Lève la main et l'orchestre se remplit, une partie à la fois, jusqu'à ce que les huit jouent. Baisse-la et elles disparaissent l'une après l'autre, jusqu'à ce que la mélodie reste seule. Glisse à gauche pour ralentir la marche, à droite pour l'accélérer. Le nombre de doigts que tu lèves choisit qui joue la mélodie.
+
+Chaque instruction est affichée sur la scène, alors tu peux l'apprendre sans lire ce texte.¶
+
+main: Main()
+
+¶La hauteur indique la quantité d'orchestre, et le mouvement latéral indique la vitesse. Les deux sont lus directement sur la main plutôt que mémorisés, alors ils la suivent en continu. Chacun est arrondi par palier, alors la musique ne change que si le changement est assez grand pour s'entendre, et une main qui tremble ne réécrit pas la partition vingt fois par seconde.¶
+lever: ((main.lieu.et + 3m) ÷ 6m).min(1).max(0)
+couches: 1 + ((lever · 7).rond())
+
+portée: ((main.lieu.x + 5m) ÷ 10m).min(1).max(0)
+rythme: 72 + ((portée · 8).rond() · 12)
+
+¶Qui joue la mélodie. Un poing fermé et une main hors du cadre comptent tous les deux pour zéro doigt, alors zéro doigt garde celui qui jouait déjà — sinon, regarder ailleurs changerait l'air joué.¶
+enVedette: 5 … ∆ main …
+		(main.doigts = 0) ? enVedette main.doigts
+
+ƒ voix2(compte2•#)•Instrument
+	(compte2 = 1) ? Instrument.piano
+		(compte2 = 2) ? Instrument.violon
+			(compte2 = 3) ? Instrument.flûte
+				(compte2 = 4) ? Instrument.guitareElectrique
+					Instrument.trompette
+
+ƒ icône(compte3•#)•''
+	(compte3 = 1) ? '🎹'
+		(compte3 = 2) ? '🎻'
+			(compte3 = 3) ? '🪈'
+				(compte3 = 4) ? '⚡'
+					'🎺'
+
+¶Le volume d'une partie. Chaque partie reste dans la musique en permanence, alors aucune ne perd jamais sa place — celles au-dessus de la main sont simplement baissées au minimum.
+
+Chacune est réglée bien en dessous de la mélodie, et toutes les huit ensemble restent à moins du double de son volume. Huit parties à plein volume ne font pas un orchestre puissant, elles font un orchestre confus, car tout ce qui joue en même temps doit passer par le même haut-parleur.¶
+ƒ entendu(rang•# fort•%)•% (rang ≤ couches) ? fort 0%
+
+¶La Marche impériale, huit mesures, une mesure par ligne. Elle est écrite sur une gamme chromatique afin que ses notes hors ton — la seconde bémol, et le glissement chromatique dans la seconde moitié — puissent être notées : le degré 1 est la tonique et chaque pas vers le haut vaut un demi-ton, alors ces nombres sont des intervalles plutôt que des degrés de gamme.
+
+Les valeurs des notes portent le rythme. Un nombre seul dure le temps de base du morceau, une noire ici, et toute autre durée est indiquée sur le nombre lui-même : 𝅘𝅥𝅮𝅭 pour la croche pointée et 𝅘𝅥𝅯 pour la double croche qui font avancer la marche d'un coup sec, 𝅗𝅥 pour la blanche sur laquelle elle se pose. Chaque ligne totalise quatre temps.¶
+marche: [
+		5
+		5
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		12
+		12
+		12
+		13𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		4
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		17
+		5𝅘𝅥𝅮𝅭
+		5𝅘𝅥𝅯
+		17
+		16𝅘𝅥𝅮𝅭
+		15𝅘𝅥𝅯
+		14𝅘𝅥𝅯
+		13𝅘𝅥𝅯
+		14
+		6𝅘𝅥𝅮
+		11
+		9𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		7𝅘𝅥𝅯
+		6𝅘𝅥𝅯
+		7
+		1𝅘𝅥𝅮
+		4
+		1𝅘𝅥𝅮𝅭
+		4𝅘𝅥𝅯
+		8
+		5𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		12𝅗𝅥
+	]
+
+¶Quatre mesures de notes fondamentales en dessous, marchant en noires. C'est plus court que la mélodie, et chaque piste boucle sur sa propre longueur, alors ces quatre mesures reviennent deux fois pour les huit mesures de la mélodie.¶
+basse: [
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		5
+		5
+		12
+		8
+	]
+
+¶Une seule mesure de percussions, dans le rythme propre de la mélodie. Les degrés choisissent dans une batterie plutôt que dans une gamme, sur un instrument sans hauteur de note, alors 1 est la grosse caisse, 2 la caisse claire, 3 le charleston et 5 le tom.¶
+tambours: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
+
+¶Des accords sur les contretemps, la poussée qui empêche une marche de rester immobile. La troisième mesure penche vers l'accord mineur situé un ton et demi plus bas, d'où viennent les notes bémol de la mélodie.¶
+cordes: [
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{1 4 8}
+		ø
+		{1 4 8}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+	]
+
+¶Les mêmes quatre mesures tenues en quintes nues, une par mesure. Une quinte n'a pas de tierce, alors elle reste à l'écart des notes chromatiques au-dessus.¶
+nappe: [{5 12} {5 12} {1 8} {5 12}]
+
+¶Une cloche sur la première mesure et la troisième. Son temps est une ronde, alors un silence ici correspond à une mesure entière de silence.¶
+cloches: [5 ø 1 ø]
+
+¶Une réponse aiguë dans les blancs, là où la mélodie reste immobile.¶
+compteur: [
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		20𝅗𝅥
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		17𝅗𝅥
+	]
+
+chanson: Musique(
+		[
+			Piste(
+				marche
+				instrument: voix2(enVedette)
+				volume: 55%
+				battement: 1𝅘𝅥
+			)
+			Piste(
+				basse
+				instrument: Instrument.synthéBasse
+				battement: 1𝅘𝅥
+				clé: -24semitones
+				volume: entendu(2 30%)
+			)
+			Piste(
+				tambours
+				instrument: Instrument.batterie
+				battement: 1𝅘𝅥
+				volume: entendu(3 20%)
+			)
+			Piste(
+				marche
+				instrument: Instrument.saxophone
+				battement: 1𝅘𝅥
+				clé: -12semitones
+				volume: entendu(4 22%)
+			)
+			Piste(
+				nappe
+				instrument: Instrument.synthéNappe
+				battement: 1𝅝
+				clé: -12semitones
+				volume: entendu(5 16%)
+			)
+			Piste(
+				cordes
+				instrument: Instrument.violon
+				battement: 1𝅘𝅥
+				volume: entendu(6 18%)
+			)
+			Piste(
+				cloches
+				instrument: Instrument.cloche
+				battement: 1𝅝
+				clé: 12semitones
+				volume: entendu(7 12%)
+			)
+			Piste(
+				compteur
+				instrument: Instrument.flûte
+				battement: 1𝅘𝅥
+				volume: entendu(8 14%)
+			)
+		]
+		tempo: rythme · 1beats/min
+		gamme: Musique.chromatique
+		nom: 'marche impériale'
+	)
+
+¶La distance parcourue par la flotte. Elle compte ses propres battements plutôt que de lire l'horloge, et les compte plus vite quand la marche est plus rapide, alors les vaisseaux volent au rythme du tempo.¶
+voyager: 0 … ∆ Temps(40ms) … voyager + (rythme ÷ 72)
+
+ƒ état()•'' '\couches\ of 8 playing · \rythme\ beats a minute'
+
+¶Une ligne des instructions, atténuée pour que la flotte et le joueur vedette se lisent en premier.¶
+ƒ ligne(texte2•'')•Phrase Phrase(
+		texte2
+		0.3m
+		couleur: Couleur(64% 4 265°)
+	)
+
+¶Les instructions, empilées contre le bord gauche plutôt que centrées, pour que l'œil puisse les parcourir tout droit vers le bas.¶
+affichage: Groupe(
+		Empiler('<' 0.16m)
+		[
+			Phrase(
+				icône(enVedette)
+				0.9m
+				couleur: Couleur(56% 65 25°)
+			)
+			Phrase(état() 0.38m couleur: Couleur(70% 25 30°))
+			ligne("lève la main — plus d'orchestre")
+			ligne('baisse-la — la mélodie seule')
+			ligne(
+				'main à gauche — plus lent · main à droite — plus rapide'
+			)
+			ligne('doigts levés — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺')
+		]
+	)
+
+¶Un vaisseau traversant la scène, volant dans une bande bien au-dessus des instructions afin de ne jamais croiser le texte. Sa voie fixe la hauteur de son vol et la distance de son point de départ, alors ils ne volent jamais en formation.¶
+ƒ navire(glyphe•'' voie•# vitesse2•#)•Phrase
+	Phrase(
+		glyphe
+		0.7m
+		lieu: Lieu(
+			(((((voyager · vitesse2) + (voie · 47)) % 200) - 100) · 0.045) · 1m
+			((voie · 0.65) + 2.2) · 1m
+		)
+	)
+
+flotte: [
+		navire('🛸' 0 3)
+		navire('🚀' 1 2)
+		navire('🛰' 2 4)
+		navire('🛸' 3 5)
+	]
+
+ƒ étoile(x2•# y2•# taille2•#)•Phrase
+	Phrase(
+		'✦'
+		taille2 · 1m
+		lieu: Lieu(x2 · 1m y2 · 1m)
+		couleur: Couleur(46% 8 275°)
+	)
+
+¶La scène s'ajuste pour tout contenir, alors tout ce qui bouge redimensionnerait l'image entière à chaque battement et ferait flotter les mots. Les quatre étoiles des coins sont plus éloignées que les vaisseaux ne volent jamais et plus éloignées que la plus longue ligne de texte, alors l'ajustement a un cadre qui ne change jamais et l'image reste immobile. Le reste n'est que du ciel.¶
+étoiles: [
+		étoile(-5.6 -2.3 0.18)
+		étoile(5.6 -2.3 0.18)
+		étoile(-5.6 5 0.18)
+		étoile(5.6 5 0.18)
+		étoile(-4.9 2.1 0.22)
+		étoile(-3.9 3.9 0.14)
+		étoile(-2.2 2.5 0.18)
+		étoile(1.1 3.4 0.14)
+		étoile(2.7 4.4 0.22)
+		étoile(4.6 2.7 0.14)
+	]
+
+Scène(
+	[:étoiles :flotte affichage chanson]
+	arrièreplan: Couleur(7% 6 275°)
+	couleur: Couleur(88% 3 265°)
+)

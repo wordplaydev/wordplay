@@ -1,0 +1,265 @@
+Y
+Abenteuer
+=== start/en
+¶Ein Textabenteuer in fünfzehn Räumen: Du wachst gefesselt in einem dunklen, kalten Raum auf und suchst einen von vier Wegen, wie diese Nacht enden kann. Die Räume führen zueinander zurück. Eine falsche Wahl ist also eine Schleife statt eines Endes ohne Ausweg. Was du bei dir trägst, entscheidet, welche Wege dir offen stehen.¶
+
+¶Ein Weg aus einem Raum hinaus: wie die Wahl heißt, die Kennung des Raumes, zu dem sie führt, und – falls die Tür verschlossen ist – was du tragen musst, um sie zu benutzen. Der ganze Trick ist, das Ziel nur zu benennen, statt es festzuhalten. Eine Bindung muss schon bestehen, bevor irgendetwas sie erwähnen kann. Eine Geschichte, die nur aus Bindungen besteht, kann darum immer nur zurückweisen und niemals wieder zum Anfang finden. Für eine Text-Kennung gilt diese Regel nicht: Zwei Räume können sich gegenseitig benennen, und die Karte kann Schleifen enthalten.¶
+•tür(beschriftung•'' raum•'' braucht•'': '')
+
+¶Ein Raum. Die meisten Räume brauchen nur die ersten drei Angaben: eine Kennung, was man dort findet, und seine Türen. Die letzten drei sind für die besonderen Räume gedacht – einen, der dir etwas gibt, und die vier, die die Geschichte beenden.¶
+•raum2(id2•'' beschreibung•'' türen•[tür]: [] nehmen•'': '' ende•'': '' gewonnen•?: ⊥)
+
+¶Wo du bist und was du bei dir trägst. Das ist die Geschichte in Wahrheit: eine Raum-Kennung und ein kleiner Haufen Dinge.¶
+•wanderung(raum3•'' gepäck•[''])
+
+¶Jeder Raum in einer Liste. Nur der erste zählt wegen seiner Position: Dort beginnt die Geschichte, und dorthin schickt dich jedes Ende zurück.¶
+räume•[raum2]: [
+		raum2(
+			'Zelle'
+			'Du wachst in einem dunklen, kalten Raum auf, der nach Schimmel riecht. Deine Handgelenke sind hinter deinem Rücken gefesselt, und wer auch immer die Knoten geknüpft hat, hatte es nicht eilig dabei.'
+			[
+				tür('dich auf die Seite rollen' 'Boden')
+				tür('still liegen bleiben und lauschen' 'lauschen')
+			]
+		)
+		raum2(
+			'lauschen'
+			'Zwei Stimmen dringen durch die Dielen zu dir herunter. Sie streiten darüber, wer das Tor offen gelassen hat, und keine von beiden klingt besorgt um dich.'
+			[tür('dich auf die Seite rollen' 'Boden')]
+		)
+		raum2(
+			'Boden'
+			'Auf deiner Seite liegend siehst du unter die Pritsche: ein Messer liegt auf den Steinplatten, entlang des Rückens verrostet, nah genug, um es zu erreichen, wenn du bereit bist, dein Gesicht auf den Boden zu legen.'
+			[
+				tür(
+					'es nehmen und dich damit losschneiden'
+					'Keller'
+				)
+				tür(
+					'still bleiben und noch einmal lauschen'
+					'lauschen'
+				)
+			]
+		)
+		raum2(
+			'Keller'
+			'Der Keller, im Stehen betrachtet: die Pritsche, verstreutes durchgeschnittenes Seil, eine Treppe an der einen Wand und ein niedriger Gang an der anderen.'
+			[
+				tür('die Treppe hinaufsteigen' 'Treppe')
+				tür('den niedrigen Gang nehmen' 'Gang')
+			]
+			nehmen: 'Messer'
+		)
+		raum2(
+			'Treppe'
+			'Die Stufen sind in der Mitte ganz abgetreten. Auf halber Höhe gibt es einen Treppenabsatz mit einer Laterne, die an einem Haken hängt. Über dem Absatz geht die Treppe weiter.'
+			[
+				tür('die Laterne nehmen' 'Laterne')
+				tür('weiter hinaufsteigen' 'Tür')
+				tür('wieder hinuntergehen' 'Keller')
+			]
+		)
+		raum2(
+			'Laterne'
+			'Beim zweiten Versuch fängt der Docht Feuer. Der Treppenabsatz ist viel kleiner, als die Dunkelheit ihn hatte erscheinen lassen.'
+			[
+				tür('weiter hinaufsteigen' 'Tür')
+				tür('wieder hinuntergehen' 'Keller')
+			]
+			nehmen: 'Laterne'
+		)
+		raum2(
+			'Tür'
+			'Oben an der Treppe ist eine schwere Tür, von der anderen Seite verriegelt. Der Riegel ist alt, und der Spalt daneben ist breit genug für eine Klinge.'
+			[
+				tür('den Riegel mit dem Messer bearbeiten' 'Halle')
+				tür('wieder hinuntergehen' 'Treppe')
+			]
+		)
+		raum2(
+			'Halle'
+			'Eine Halle mit einer erkalteten Feuerstelle und zwei Stühlen, die weit zurückgeschoben sind, als hätte ein Streit ein plötzliches Ende gefunden. Am anderen Ende ist ein Tor, und darunter scheint graues Licht durch.'
+			[
+				tür('zum Tor hinübergehen' 'Tor')
+				tür('die Treppe wieder hinuntergehen' 'Treppe')
+			]
+		)
+		raum2(
+			'Tor'
+			'Das Tor ist mit einer Kette verschlossen, und die Kette führt durch ein Schloss, so groß wie eine Faust. Dahinter führt der Weg hinab ins Tal.'
+			[
+				tür(
+					'den Schlüssel im Schloss drehen'
+					'Hügel'
+					braucht: 'Schlüssel'
+				)
+				tür(
+					'stattdessen an der Kette hinaufklettern'
+					'klettern'
+				)
+				tür('zurück in die Halle gehen' 'Halle')
+			]
+		)
+		raum2(
+			'Gang'
+			'Der Gang ist so niedrig, dass du dich mit einer Hand abstützen musst, und es riecht nach Fluss. Nach ein paar Schritten wird die Dunkelheit nicht mehr nur dunkel, sondern wie eine Wand.'
+			[
+				tür('dich weiter vortasten' 'blind')
+				tür(
+					'das Licht mit hineintragen'
+					'Krypta'
+					braucht: 'Laterne'
+				)
+				tür(
+					'denselben Weg zurückgehen, den du gekommen bist'
+					'Keller'
+				)
+			]
+		)
+		raum2(
+			'Krypta'
+			'Die Laterne beleuchtet einen niedrigen Raum voller Steinkisten. An einem Haken neben der letzten Kiste hängt ein rostiger Schlüssel, an dem noch ein Stofffetzen befestigt ist.'
+			[
+				tür('weiter zum Wasser gehen' 'Fluss')
+				tür('zurück den Gang hoch' 'Gang')
+			]
+			nehmen: 'Schlüssel'
+		)
+		raum2(
+			'blind'
+			'Du gehst weiter, eine Hand ausgestreckt. Die Hand findet nichts, und kurz darauf finden auch deine Füße nichts mehr. Die Dunkelheit behält, was ihr gegeben wird.'
+			ende: 'Die Dunkelheit behält dich.'
+		)
+		raum2(
+			'klettern'
+			'Du bist fast oben, als sich die Kette daran erinnert, wie alt sie ist. Man findet dich bei Sonnenaufgang am Fuß des Tors, und diesmal bringt man genug Seil für zwei mit.'
+			ende: 'Am Tor erwischt.'
+		)
+		raum2(
+			'Fluss'
+			'Der Gang endet an einem Gitter über fließendem Wasser. Die Stäbe sind alt, und das Messer hat Geduld. Du entkommst mit dem Fluss, und das Haus liegt weit hinter dir, noch bevor der Himmel grau wird.'
+			ende: 'Hinaus mit dem Fluss.'
+			gewonnen: ⊤
+		)
+		raum2(
+			'Hügel'
+			'Der Schlüssel dreht sich, die Kette fällt ins Gras, und das Tor schwingt auf, ohne dass es jemand hört. Das Tal liegt grau im Morgenlicht, und die Straße gehört dir.'
+			ende: 'Hinaus durch das Tor.'
+			gewonnen: ⊤
+		)
+	]
+
+¶Der Raum mit dieser id. find() gibt ø zurück, wenn nichts passt. Eine id, die keinen Raum benennt, ist eher ein Loch in der Karte als eine Wendung in der Geschichte. Deshalb steht der firstroom stellvertretend dafür.¶
+ƒ gehen(wollte•'')•raum2 räume.finden(
+		ƒ(raum4•raum2) raum4.id2 = wollte
+	) ?? räume[1]
+
+¶Die Türen, die du von hier aus wirklich nehmen kannst. Eine verschlossene Tür, für die du nichts hast, wird einfach nicht angeboten. Sie wirkt dann wie eine Wand, bis du das Ding in der Hand hast, das sie öffnet.¶
+ƒ wege(hier•raum2 gepäck2•[''])•[tür]
+	hier.türen.Filter(
+		ƒ(tür2•tür) (tür2.braucht = '') | gepäck2.hat(
+					tür2.braucht
+				)
+	)
+
+¶Geh in einen Raum und nimm mit, was er enthält. add() würde dir bereitwillig ein zweites Messer geben, also frag zuerst nach.¶
+ƒ ankommen(hier2•raum2 gepäck3•[''])•wanderung
+	wanderung(
+		hier2.id2
+		((hier2.nehmen ≠ '') & (~gepäck3.hat(hier2.nehmen))) ? gepäck3.mit(
+				hier2.nehmen
+			) gepäck3
+	)
+
+schlüssel2: Schlüssel()
+
+¶Ein Tastendruck, der Reihe nach geprüft: Am Ende weckt dich jede Taste wieder im ersten Raum; eine Taste, die nicht 1, 2 oder 3 ist, bedeutet nichts; eine Zahl, die größer ist als die Anzahl der Türen in diesem Raum, bedeutet ebenfalls nichts; und erst dann ist es eine Tür. Diese dritte Prüfung ist die, die man sich merken sollte, denn der Zugriff auf eine Liste läuft im Kreis. Ohne sie würde das Drücken von 3 in einem Raum mit zwei Türen still und heimlich die erste nehmen.¶
+ƒ schritt(t•wanderung k•'')•wanderung (
+		hier3: gehen(t.raum3)
+		türen2: wege(hier3 t.gepäck)
+		hier3.ende ≠ '' ? wanderung('Zelle' [])
+			~((k = '1') | (k = '2') | (k = '3')) ? t
+				(k → #) > türen2.Länge() ? t
+					ankommen(gehen(türen2[k → #].raum) t.gepäck)
+	)
+
+wanderung2•wanderung: wanderung('Zelle' []) … ∆ schlüssel2 … schritt(
+			wanderung2
+			schlüssel2
+		)
+
+hier4: gehen(wanderung2.raum3)
+türen3: wege(hier4 wanderung2.gepäck)
+
+¶Was du bei dir trägst, wird nur angezeigt, wenn du etwas trägst.¶
+trägst:
+	wanderung2.gepäck.Länge() > 0
+	? [
+			Satzglied(
+				`*trägst* \wanderung2.gepäck.verbinden(' · ')\`
+				Größe: 0.3m
+				Ausrichtung: '|'
+				Farbe: Farbe(60% 30 0°)
+			)
+		]
+		[]
+
+¶Was unter dem Raum liegt: seine Türen, durchnummeriert, sodass das, was du liest, genau das ist, was du drückst – oder, am Ende, wie es ausging und der eine Schlüssel, der von vorne beginnt.¶
+unten2:
+	hier4.ende ≠ ''
+	? [
+			Satzglied(
+				`*\hier4.ende\*`
+				Größe: 0.8m
+				Ausrichtung: '|'
+				Farbe: hier4.gewonnen ? Farbe(85% 50 90°) Farbe(
+						45%
+						40
+						25°
+					)
+				Dauer: 1.5s
+				Eingabe: Pose(Opazität: 0% Skala: 0.5)
+			)
+			Satzglied(
+				`drücke eine beliebige Taste, um wieder aufzuwachen`
+				Größe: 0.3m
+				Ausrichtung: '|'
+				Dauer: 3s
+				Eingabe: Pose(Opazität: 0%)
+			)
+		]
+		türen3.übersetzen(
+			ƒ(tür3•tür index2•#)
+				Satzglied(
+					`\index2\. *\tür3.beschriftung\*`
+					Größe: 0.5m
+					Ausrichtung: '|'
+					Name: tür3.beschriftung
+					Dauer: 1s
+					Eingabe: Pose(Opazität: 0%)
+				)
+		)
+
+Bühne(
+	[
+		Gruppe(
+			Stapel()
+			[
+				Satzglied(
+					hier4.beschreibung
+					Größe: 0.5m
+					wickeln: 14m
+					Ausrichtung: '|'
+					Name: hier4.id2
+					Dauer: 0.5s
+					Eingabe: Pose(Versatz: Ort(0m 2m))
+				)
+				:trägst
+				:unten2
+			]
+		)
+	]
+	Hintergrund: Farbe(0 0 0°)
+	Farbe: Farbe(100% 0 0°)
+	gesicht: "Permanent Marker"
+)

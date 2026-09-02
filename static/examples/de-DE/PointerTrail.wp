@@ -1,0 +1,16 @@
+✨
+Zeigerspur
+===
+¶Bewege deinen Zeiger, um eine verblassende Regenbogenspur zu zeichnen. @Previous (←←) merkt sich die letzten fünf @Pointer-Orte, und @List.translate zeichnet für jeden einen Punkt, der von alt zu neu verblasst und die Farbe wechselt.¶
+verlauf•[Ort]: ←← 5 Zeiger()
+Bühne(
+	verlauf.übersetzen(
+		ƒ(ort•Ort index2•#)
+			Satzglied(
+				'●'
+				Farbe: Farbe(75% 100 index2 × 40°)
+				Opazität: index2 ÷ verlauf.Länge()
+				Ort: Ort(ort.X ort.j)
+			)
+	)
+)

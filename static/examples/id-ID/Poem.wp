@@ -1,0 +1,101 @@
+T
+Puisi
+=== start
+¶Sebuah puisi yang barisnya melayang masuk, masing-masing membuat kemunculannya sendiri.¶
+•baris2(teks2•"" pose2•Pose|Urutan belakang: Warna(
+			100
+			100
+			100°
+		) depan: Warna(0 0 0°))
+
+¶Sebuah daftar baris puisi, masing-masing dengan sebuah pose.¶
+puisi: [
+		baris2(
+			'Berkas komputer itu'
+			Pose(kegelapan: 0% mengimbangi: Tempat(y: -5m))
+		)
+		baris2(
+			'yang'
+			Pose(kegelapan: 0% mengimbangi: Tempat(y: -5m))
+		)
+		baris2('tak kuingat lagi' Pose(rotasi: 10°))
+		baris2(
+			'kuklik untuk membukanya'
+			Urutan(
+				{
+					0%: Pose(skala: 1)
+					50%: Pose(skala: 0.7)
+					100%: Pose(skala: 1)
+				}
+				0.25s
+			)
+		)
+		baris2(
+			'lihat'
+			Pose(kegelapan: 0% mengimbangi: Tempat(y: -5m))
+		)
+		baris2(
+			'gulir lebih ke bawah'
+			Pose(kegelapan: 0% mengimbangi: Tempat(y: 5m))
+		)
+		baris2(
+			'layarnya'
+			Pose(kegelapan: 0% mengimbangi: Tempat(y: -5m))
+		)
+		baris2(
+			'tetap menyala dari belakang dan kosong'
+			Pose(kegelapan: 0% mengimbangi: Tempat(y: -5m))
+			Warna(0 0 0°)
+			Warna(100 100 0°)
+		)
+		baris2(
+			'begitulah aku bertemu diriku lagi'
+			Pose(kegelapan: 0% mengimbangi: Tempat(y: -5m))
+		)
+		baris2(
+			'penuh harap dan tak berguna'
+			Pose(kegelapan: 0% mengimbangi: Tempat(y: -5m))
+		)
+		baris2(
+			'sebuah misteri'
+			Pose(kegelapan: 0% mengimbangi: Tempat(y: -5m))
+		)
+		baris2(
+			'persis seperti yang pasti pernah kulakukan'
+			Pose(kegelapan: 0% mengimbangi: Tempat(y: -5m))
+		)
+		baris2('pada 19 Agustus 2010, pukul 11:08' Pose())
+	]
+
+angka2: 1 … ∆ Tombol() | ∆ Kunci() …
+		(angka2 = (puisi.panjang() + 1)) ? 1 angka2 + 1
+baris3: puisi[angka2]
+
+angka2 ≤ puisi.panjang() ?
+	Panggung(
+		[
+			Frasa(
+				baris3.teks2
+				memasuki: baris3.pose2
+				lamanya: 1s
+				nama: angka2 → ""
+				gaya: 'cautious'
+			)
+		]
+		latarbelakang: baris3.belakang
+		beristirahat: Pose(warna: baris3.depan)
+	)
+	Panggung(
+		[
+			Kelompok(
+				Tumpukan()
+				[
+					Frasa('NASIHAT UNTUK DIRIKU SENDIRI')
+					Frasa('Jane Hirshfield')
+				]
+				memasuki: Pose(skala: 0.75)
+			)
+		]
+		latarbelakang: Warna(0% 0 0°)
+		warna: Warna(100% 100 0°)
+	)

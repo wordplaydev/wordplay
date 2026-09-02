@@ -1,0 +1,23 @@
+🥮
+Svävande mat
+===
+¶Ett rutnät med goda maträtter, där en byts ut mot en annan varje sekund.¶
+mat: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
+
+senaste•['']:
+	mat … ∆ Tid(1000ms) …
+		senaste.ersätta(Slumpmässig(1 6) mat.slumpmässig())
+
+Grupp(
+	Rutnät(3 3 1m 1m)
+	senaste.översätta(
+		ƒ(maträtt•"" index2•#)
+			Fras(
+				maträtt
+				namn: "\maträtt\-\index2\"
+				gårin: Pose(opacitet: 0 skala: 2)
+				vilande: Sekvens.vingla(360° varaktighet: 4s)
+				varaktighet: 1s
+			)
+	)
+)

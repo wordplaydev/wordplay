@@ -1,0 +1,18 @@
+w
+Spectacle de couleurs
+===
+¶Clique pour secouer et changer au hasard la couleur du mot « ouah ».¶
+couleur2: Couleur(0% 0 0°) … ∆ Bouton() … Couleur(
+			50%
+			Aléatoire() × 200
+			Aléatoire() × 360°
+		)
+
+Phrase(
+	'ouah'
+	nom: 'minou'
+	taille: 6m
+	couleur: couleur2
+	rotation: (Aléatoire() - 0.5) × 30°
+	durée: .1s
+)

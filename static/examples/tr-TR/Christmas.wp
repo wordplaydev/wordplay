@@ -1,0 +1,30 @@
+🎄
+Noel
+===
+¶Döngüsel bir dansta sallanıp kıpırdanan ve bunu yaparken çıngırdayan bir Noel ağacı.
+
+Melodi, dansın ilk @Pose öğesine bağlıdır. Bir @Pose bir @Music taşıyabilir ve o poz alındığı anda çalar — yani dans her tekrarlandığında ezgi yeniden başlar. Animasyonun döngüsü ile müziğin döngüsü aynı döngüdür. İkisini birlikte tutmak için hiçbir şey ritim saymaz.
+
+İki uzunluk birbirine uyacak şekilde seçildi: 160'ta sekiz vuruş üç saniyedir ve yarım saniyelik beş adım da üç saniye sürer. Bir poz, süren bir şey değil, bir andır. Bu yüzden bir @Track öğesinin normal döngüsü burada geçerli değildir — bir pozun müziği her zaman tam olarak bir kez baştan sona çalar.¶
+
+çıngırak: Müzik(
+		Parça([3 3 3𝅗𝅥 3 3 3𝅗𝅥] çalgı: Çalgı.çan)
+		tempo: 160beats/min
+		sesDüzeyi: 55%
+		isim: 'çıngırak'
+	)
+
+İfadeetmek(
+	'🎄'
+	dinlenme: Sekans(
+		{
+			0: Poz(rotasyon: 0° müzik: çıngırak)
+			1: Poz(rotasyon: 15°)
+			2: Poz(rotasyon: 0°)
+			3: Poz(telafietmek: Yer(-0.25m))
+			4: Poz(telafietmek: Yer(0.25m))
+			5: Poz(telafietmek: Yer(-0.25m))
+		}
+		0.6s
+	)
+)

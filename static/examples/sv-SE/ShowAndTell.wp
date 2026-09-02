@@ -1,0 +1,189 @@
+🔍
+Visa och berätta
+=== start/en
+¶Visa och berätta — ett kameraspel mot klockan. Jag ber dig hitta saker, en itaget, och jag säger varje sak högt. Håll upp saken framför kameran tills jag ser den,sedan väljer jag en ny. Har du inte det jag frågade efter? Tryck på → så frågar jag efteren annan sak — att hoppa över räknas aldrig mot dig. Hitta fem på en minut såvinner du. Den femte saken kräver alltid att två personer syns i bilden samtidigt.Minuten börjar när kameran din vaknar, så att göra dig redo kostar aldrig tid, ochnär tiden tar slut säger jag att spelet är slut. Varje fynd gör orden lite större,och när du vinner exploderar de som konfetti över ett "Du vann!"¶
+
+¶En sak att leta efter: emojin jag visar, orden jag visar, namnet somkameramodellen min ger den (det jag jämför med), och hur många jag behöver se samtidigt(två, för personer).¶
+•mål(emoji•'' etikett•'' namn3•'' behöver•#)
+
+¶Sakerna jag kan fråga efter. Varje namn är precis det @Objects kallar saken,så jag kan känna igen den i kameran. Jag visar en i taget och väljer en ny närhelstdu hittar den eller hoppar över den.¶
+pool•[mål]: [
+		mål('☕' 'en kopp' 'kopp' 1)
+		mål('📖' 'en bok' 'bok' 1)
+		mål('📱' 'en telefon' 'telefon' 1)
+		mål('💻' 'en bärbar dator' 'bärbar dator' 1)
+		mål('⌨' 'ett tangentbord' 'tangentbord' 1)
+		mål('🖱' 'en datormus' 'datormus' 1)
+		mål('✂' 'sax' 'sax' 1)
+		mål('🍾' 'en flaska' 'flaska' 1)
+		mål('🪑' 'en stol' 'stol' 1)
+		mål('🕐' 'en klocka' 'klocka' 1)
+		mål('🍌' 'en banan' 'banan' 1)
+		mål('🍎' 'ett äpple' 'äpple' 1)
+		mål('🧸' 'en nallebjörn' 'nallebjörn' 1)
+		mål('🪴' 'en krukväxt' 'krukväxt' 1)
+		mål('🏺' 'en vas' 'vas' 1)
+		mål('🎒' 'en ryggsäck' 'ryggsäck' 1)
+	]
+
+¶Vad som ska frågas efter härnäst, utifrån de emojier du redan har hittat och det du ska undvika att upprepa: ett nytt slumpat föremål du inte har blivit tillfrågad om än för de första fyra, och därefter alltid två personer för det femte.¶
+ƒ välj(hittad•[''] undvik•mål)
+	(hittad.längd() ≥ 4)
+	? mål('👥' 'två personer' 'person' 2)
+		pool.utan(undvik).filtrera(
+			ƒ(t•mål) ~(hittad.har(t.emoji))
+		).slumpmässig(
+		)
+
+¶Kameran. Den får inget besked om vad den ska leta efter — den rapporterar bara allt den ser, och den tickar av sig själv, så spelet reagerar direkt på den utan någon klocka.¶
+observationer: Objekt(antal: 10 säkerhet: 0.5)
+
+¶Tangenten → (eller ett tryck) för att hoppa över.¶
+hoppaÖver: Nyckel('Pil Höger' ⊤)
+
+¶En klocka, för nedräkningen och för att animera konfettin när man vinner. Själva jakten använder inte den — @Objects styr den.¶
+klocka2: Tid(30ms)
+
+¶Hur länge en omgång pågår.¶
+gräns•#s: 60s
+
+¶Ögonblicket då kameran rapporterar för första gången, ihågkommet. Nedräkningen börjar här och inte vid noll, så att väntan på att dela kameran och väntan på att modellen laddar aldrig äter upp av din minut — @Objects rapporterar sin första avläsning så snart den ser en bildruta, oavsett om något syns i den eller inte.¶
+startadeVid•#ms: 0ms
+	… ((∆ observationer) & (⬚ = 0ms)) …
+		klocka2
+
+¶Hur mycket tid som är kvar: hela minuten tills kameran vaknar, och därefter det som är kvar av den, aldrig mindre än noll — så när tiden är slut förblir den slut i stället för att räkna ner till negativa tal.¶
+vänster2•#s: (startadeVid = 0ms) ? gräns ((gräns - ((klocka2 - startadeVid) → #s)).max(
+				0s
+			))
+
+¶Spelet: emojierna som hittats hittills (man vinner vid fem) och det som just nu efterfrågas.¶
+•jakt(hittad2•[''] mål2•mål)
+
+¶Går vidare utifrån en kameraavläsning (eller ett hopp över), och stoppar när fem har hittats, så att vinstskärmen byggs en gång och dess konfetti får flyga ostört. Att hoppa över slumpar fram ett nytt föremål utan att ändra ditt antal. Att se nog av det efterfrågade föremålet bland observationerna räknas som ett fynd och nästa föremål efterfrågas.¶
+ƒ steg(t2•jakt överhoppad•? sedd•[Sak]) (
+		antal2: sedd.filtrera(
+				ƒ(t3•Sak) t3.namn = t2.mål2.namn3
+			).längd(
+			)
+		nästaHittade: [:t2.hittad2 t2.mål2.emoji]
+		överhoppad
+		? jakt(t2.hittad2 välj(t2.hittad2 t2.mål2))
+			((antal2 ≥ t2.mål2.behöver)
+				? jakt(nästaHittade välj(nästaHittade t2.mål2))
+					t2)
+	)
+
+¶Jakten stoppas också när minuten är slut, så att ett fynd som sker efter att tiden gått ut inte kan smyga sig förbi skärmen för spelet över.¶
+jaga•jakt: jakt([] pool.slumpmässig())
+	… ((∆ observationer | ∆ hoppaÖver) & (⬚.hittad2.längd() < 5) & (vänster2 > 0s)) …
+		steg(⬚ (∆ hoppaÖver) observationer)
+
+¶Ögonblicket då du vinner, ihågkommet — så att konfettin animeras från tid noll.¶
+vannVid•#ms: 0ms
+	… ((jaga.hittad2.längd() ≥ 5) & (⬚ = 0ms)) …
+		klocka2
+
+¶En flygande konfettibit: en emoji, en utkastshastighet (utan enhet — storlek i meter per sekund) och en snurr. Att lagra vanliga tal håller banematematiken nedan enkel.¶
+•gnista(emoji2•'' vx•# vy•# snurrad•#)
+
+¶Konfettin läggs slumpmässigt en gång i det ögonblick du vinner, och byggs sedan aldrig om. @Objectskeeps upptäcker, så varje avläsning kör om programmet igen — men att frysa bitarna i den här listan (den fylls en gång, när du vinner, sedan stoppar villkoret) betyder att var och en behåller samma hastighet att flyga med, i stället för att skapas på nytt varje bildruta.¶
+gnistor•[gnista]: []
+	… ((jaga.hittad2.längd() ≥ 5) & (⬚.längd() = 0)) …
+		(60 → []).översätta(
+			ƒ()
+				gnista(
+					jaga.hittad2.slumpmässig()
+					Slumpmässig(-8 8)
+					Slumpmässig(3 13)
+					Slumpmässig(-200 200)
+				)
+		)
+
+¶Tyngdkraften för konfettins bana, i meter per sekund i kvadrat.¶
+g•#: 9
+
+¶Frågan visar: en stor emoji, dess namn, hur långt du kommit, tiden som är kvar, och hur man hoppar över. Orden växer med varje fynd för att höja insatsen — bara lite, så att alla fem fynd fortfarande får plats på scenen. Nedräkningen avrundas uppåt, så den visar 1 ända till sekunden då tiden faktiskt är slut.¶
+ƒ fråga2(t4•jakt) (
+		stor: (2m + (t4.hittad2.längd() · 0.3m))
+		Grupp(
+			Stack('|' 0.4m)
+			[
+				Fras(
+					t4.mål2.emoji
+					ansikte: "Noto Color Emoji"
+					storlek: stor + 1m
+				)
+				Fras(t4.mål2.etikett storlek: stor)
+				Fras(
+					`hittade \t4.hittad2.längd() → ''\ av 5`
+					storlek: 0.7m
+				)
+				Fras(
+					`⏳ \(vänster2 ÷ 1s).roundUp() → ''\ sekunder kvar`
+					storlek: 0.6m
+				)
+				Fras(
+					'har du inte den? tryck → för en ny'
+					storlek: 0.5m
+				)
+			]
+		)
+	)
+
+¶Placera varje gnista längs sin egen bana, beräknad utifrån hur länge den har flugit: den rör sig utåt med sin hastighet medan tyngdkraften drar den nedåt (den klassiska ½·g·t²). Eftersom vi beräknar positionen i stället för att förlita oss på fysikmotorn, ritar kamerans ständiga omavläsning bara om varje bit där den ska vara — den hoppar aldrig tillbaka till mitten.¶
+ƒ konfetti() (
+		t5: (klocka2 - vannVid) ÷ 1000ms
+		gnistor.översätta(
+			ƒ(s•gnista)
+				Fras(
+					s.emoji2
+					ansikte: "Noto Color Emoji"
+					storlek: 1.5m
+					rotation: (s.snurrad · t5) · 1°
+					plats: Plats(
+						(s.vx · t5) · 1m
+						((s.vy · t5) - ((g · t5 · t5) ÷ 2)) · 1m
+					)
+				)
+		)
+	)
+
+¶Du vinner genom att hitta fem: ett centrerat "Du vinner!", sagt högt och visat på skärmen, med de hittade emojierna som exploderar som konfetti över det, avslöjade när konfettin faller undan.¶
+ƒ final() [
+		Grupp(Stack() [Fras('Du vinner!' storlek: 2m)])
+		Säga('Du vinner!')
+		:konfetti()
+	]
+
+¶Minuten tog slut: hur långt du kom, sagt högt och visat på skärmen.¶
+ƒ speletÄrSlut(t6•jakt) [
+		Grupp(
+			Stack('|' 0.4m)
+			[
+				Fras('⌛' ansikte: "Noto Color Emoji" storlek: 3m)
+				Fras('Tiden är slut!' storlek: 2m)
+				Fras(
+					`du hittade \t6.hittad2.längd() → ''\ av 5`
+					storlek: 0.7m
+				)
+			]
+		)
+		Säga(
+			"Time is up. Game over. You found \t6.hittad2.längd() → ''\ of 5."
+		)
+	]
+
+¶Läs upp det aktuella ordet högt, för spelare som inte kan läsa frågan eller som bara vill höra den. Say talar bara när texten ändras — så den meddelar varje nytt ord en gång, inte vid varje kameraavläsning.¶
+ƒ meddela(t7•jakt) Säga('hitta ' + t7.mål2.etikett)
+
+¶Vinst kontrolleras först, så att tiden som tar slut alltid bara kan betyda en förlust.¶
+Etapp(
+	(jaga.hittad2.längd() ≥ 5)
+	? final()
+		((vänster2 ≤ 0s) ? speletÄrSlut(jaga) [
+					fråga2(jaga)
+					meddela(jaga)
+				])
+	plats: Plats(0m 0m -12m)
+)

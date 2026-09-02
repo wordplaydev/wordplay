@@ -1,0 +1,92 @@
+🎐
+Lonceng Angin
+=== start/en
+¶Lima lonceng bergantung berjajar, diberi nomor satu sampai lima. Tekan A, S, D, F, atau G, dan lonceng yang kamu pukul akan membesar dan bercahaya, lalu perlahan kembali tenang. Seluruh jajaran itu bergoyang sedikit, baik ada yang memainkannya atau tidak.
+
+Ini adalah alat musik. Alat ini tidak mengeluarkan suara. Angka-angka itu sudah menjadi partitur; hanya saja belum dimainkan. Blok tersembunyi di atas panggung adalah suaranya, menunggu @Music untuk ada.¶
+
+ditekan: Kunci()
+detak2: Waktu(30ms)
+
+¶Seberapa banyak dentangnya berkurang di setiap bingkai.¶
+peluruhan: 0.03
+
+¶Satu lonceng: nada apa itu, tombol mana yang memukulnya, di mana ia bergantung, corak warnanya, dan seberapa keras ia masih berdentang — 1 berarti baru saja dipukul, 0 berarti diam.¶
+•loncengAngin(nada2•# kunci2•'' x2•#m corakWarna•#° energi•#)
+
+¶Pukul lonceng yang tombolnya ditekan, dan biarkan semua lonceng lain menjadi tenang.¶
+ƒ dentang(baris2•[loncengAngin] kena•'' dipukul•?)
+	baris2.menerjemahkan(
+		ƒ(dentang2•loncengAngin)
+			(dipukul & (kena = dentang2.kunci2))
+			? dentang2.energi:1
+				dentang2.energi:(dentang2.energi - peluruhan).maksimal(
+					0
+				)
+	)
+
+chimes•[loncengAngin]: [
+		loncengAngin(1 'a' -6m 20° 0)
+		loncengAngin(2 's' -3m 75° 0)
+		loncengAngin(3 'd' 0m 140° 0)
+		loncengAngin(4 'f' 3m 205° 0)
+		loncengAngin(5 'g' 6m 270° 0)
+	] … (∆ ditekan | ∆ detak2) … dentang(
+			chimes
+			ditekan
+			(∆ ditekan)
+		)
+
+¶Lonceng membesar dan bercahaya seiring dentangnya, dan selalu bergoyang sedikit, sehingga jajaran itu tetap hidup meski tidak ada yang memainkannya.¶
+ƒ tampilanDentang(dentang3•loncengAngin)
+	Frasa(
+		(dentang3.nada2 → '')
+		(2m + (dentang3.energi · 1.5m))
+		tempat: Tempat(dentang3.x2 0m)
+		lamanya: 0.12s
+		warna: Warna(
+			(45% + (dentang3.energi · 40%))
+			(20 + (dentang3.energi · 80))
+			dentang3.corakWarna
+		)
+		beristirahat: Urutan.bergoyang(3° 2.5s)
+	)
+
+¶Tombol yang memukul tiap lonceng, dicetak di bawahnya.¶
+ƒ tampilanTombol(dentang4•loncengAngin)
+	Frasa(
+		dentang4.kunci2
+		0.7m
+		tempat: Tempat(dentang4.x2 -3m)
+		warna: Warna(60% 0 0°)
+	)
+
+¶Kedua pengikatan ini adalah keseluruhan suaranya: temukan lonceng yang sedang berdentang saat ini, lalu serahkan nadanya ke sebuah bel, memutar ulang setiap kali ditekan sehingga setiap pukulan menjadi suara baru, bukan suara yang sama lagi. Lima lonceng, lima nada dari tangga nada pentatonik, jadi tidak ada nada yang salah.¶
+berdentang: chimes.menyaring(
+		ƒ(dentang5•loncengAngin) dentang5.energi = 1
+	)
+lagu: Musik(
+		Trek(
+			berdentang ↦ ⬚.nada2
+			alatMusik: AlatMusik.lonceng
+			perulangan: ⊥
+		)
+		tanggaNada: Musik.pentatonik
+		putarUlang: ∆ ditekan
+	)
+
+Panggung(
+	[
+		Frasa(
+			'━━━━━━━━━━━━━'
+			1m
+			tempat: Tempat(-6m 2.5m)
+			warna: Warna(45% 0 0°)
+		)
+		:chimes ↦ tampilanDentang(⬚)
+		:chimes ↦ tampilanTombol(⬚)
+		lagu
+	]
+	latarbelakang: Warna(16% 15 280°)
+	warna: Warna(95% 0 0°)
+)

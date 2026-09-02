@@ -1,0 +1,9 @@
+⚫
+Amplitud
+===
+¶Una fila de puntos que brillan y se apagan según el volumen de tu micrófono.¶
+amplitudes•[#]: ←← 10 Volumen()
+vis: amplitudes.traducir(
+		ƒ(amp•#) Frase("⚫" opacidad: amp tamaño: 10m)
+	)
+Escenario([Grupo(Fila() vis)] lugar: Lugar(0m 0m -50m))

@@ -1,0 +1,249 @@
+Y
+Äventyr
+=== start/en
+¶Ett textäventyr i femton rum: du vaknar bunden i ett mörkt, kallt rum och ska hitta ett av de fyra sätt denna natt kan sluta på. Rummen leder tillbaka till varandra, så en felaktig avgränsning är en loop snarare än en återvändsgränd, och det du bär på avgör vilka passager som är öppna för dig.¶
+
+¶En väg ut ur ett rum: vad valet kallas, id:t för rummet det leder till, och, om dörren är låst, vad du måste bära för att använda den. Att namnge målet istället för att hålla i det är hela tricket. En bindning måste finnas innan något kan nämna den, så en berättelse byggd av bindningar kan bara peka bakåt och kan aldrig komma runt igen. Ett text-id har ingen sådan regel, så två rum kan namnge varandra, och kartan kan innehålla loopar.¶
+•dörr(etikett•'' rum•'' behöver•'': '')
+
+¶Ett rum. De flesta rum behöver bara de tre första: ett id, vad du hittar där, och dess dörrar. De tre sista är för de rum som är särskilda — ett som ger dig något, och de fyra som avslutar berättelsen.¶
+•rum2(id2•'' beskrivning2•'' dörrar•[dörr]: [] ta•'': '' slut2•'': '' vann•?: ⊥)
+
+¶Var du är och vad du bär på. Det är detta berättelsen egentligen är: ett rum-id och en liten hög med saker.¶
+•vandring(rum3•'' packa•[''])
+
+¶Varje rum i en lista. Bara det första har betydelse för sin plats: det är där berättelsen börjar, och dit varje slut skickar dig tillbaka.¶
+rum4•[rum2]: [
+		rum2(
+			'cell'
+			'Du vaknar i ett mörkt, kallt rum som luktar mögel. Dina handleder är bundna bakom din rygg, och den som knöt knutarna hade ingen brådska med det.'
+			[
+				dörr('rulla över på sidan' 'golv')
+				dörr('ligg stilla och lyssna' 'lyssna')
+			]
+		)
+		rum2(
+			'lyssna'
+			'Två röster hörs genom golvbrädorna. De bråkar om vem som lämnade grinden öppen, och ingen av dem verkar oroa sig för dig.'
+			[dörr('rulla över på sidan' 'golv')]
+		)
+		rum2(
+			'golv'
+			'Från sidan ser du under britsen: en kniv på stengolvet, rostig längs ryggen, nära nog att nå om du är villig att lägga ansiktet mot golvet.'
+			[
+				dörr('ta den och skär dig fri' 'källare')
+				dörr('håll dig stilla och lyssna igen' 'lyssna')
+			]
+		)
+		rum2(
+			'källare'
+			'Källaren, när du står upp: britsen, en hög avskuret rep, en trappa som går upp längs ena väggen och en låg passage som går ut genom den andra.'
+			[
+				dörr('gå upp för trappan' 'trappa')
+				dörr('ta den låga passagen' 'passage')
+			]
+			ta: 'kniv'
+		)
+		rum2(
+			'trappa'
+			'Trappsteg nedslitna i mitten. Halvvägs upp finns en avsats med en lykta hängande på en krok, och ovanför avsatsen fortsätter trappan uppåt.'
+			[
+				dörr('ta lyktan' 'lykta')
+				dörr('fortsätt klättra' 'dörr')
+				dörr('gå tillbaka ner' 'källare')
+			]
+		)
+		rum2(
+			'lykta'
+			'Veken tänds på andra försöket, och avsatsen visar sig vara mycket mindre än vad mörkret hade fått den att verka.'
+			[
+				dörr('fortsätt klättra' 'dörr')
+				dörr('gå tillbaka ner' 'källare')
+			]
+			ta: 'lykta'
+		)
+		rum2(
+			'dörr'
+			'Högst upp i trappan finns en tung dörr, reglad från andra sidan. Regeln är gammal och springan bredvid den är bred nog för ett blad.'
+			[
+				dörr('bänd regeln med kniven' 'hall')
+				dörr('gå tillbaka ner' 'trappa')
+			]
+		)
+		rum2(
+			'hall'
+			'En hall med en kall härd och två stolar bortskjutna från den, som om grälet hade tagit slut hastigt. Längst bort finns en grind, och grått ljus under grinden.'
+			[
+				dörr('gå fram till grinden' 'grind')
+				dörr('gå tillbaka ner för trappan' 'trappa')
+			]
+		)
+		rum2(
+			'grind'
+			'Grinden är kedjad, och kedjan går genom ett lås stort som din knytnäve. Bortom den går vägen ner i dalen.'
+			[
+				dörr(
+					'vrid nyckeln i låset'
+					'sluttning'
+					behöver: 'nyckel'
+				)
+				dörr('klättra i kedjan istället' 'klättra')
+				dörr('gå tillbaka till hallen' 'hall')
+			]
+		)
+		rum2(
+			'passage'
+			'Passagen är så låg att du får gå på en hand, och den luktar flod. Några steg in slutar mörkret vara en skugga och blir en vägg.'
+			[
+				dörr('känn dig fram' 'blind')
+				dörr('bär in ljuset' 'krypta' behöver: 'lykta')
+				dörr('gå tillbaka samma väg du kom' 'källare')
+			]
+		)
+		rum2(
+			'krypta'
+			'Lyktan hittar ett lågt rum med stenlådor. På en krok bredvid den sista hänger en rostig nyckel med en trasa fortfarande knuten runt den.'
+			[
+				dörr('gå vidare mot vattnet' 'flod')
+				dörr('gå tillbaka uppför gången' 'passage')
+			]
+			ta: 'nyckel'
+		)
+		rum2(
+			'blind'
+			'Du går vidare med en hand utsträckt. Handen hittar ingenting, och strax därefter gör inte heller fötterna det. Mörkret behåller det som ges till det.'
+			slut2: 'Mörkret behåller dig.'
+		)
+		rum2(
+			'klättra'
+			'Du är nästan hela vägen upp innan kedjan kommer ihåg hur gammal den är. De hittar dig vid foten av grinden i gryningen, och den här gången har de med sig rep nog för två.'
+			slut2: 'Fångad vid grinden.'
+		)
+		rum2(
+			'flod'
+			'Gången slutar vid ett galler över strömmande vatten. Stängerna är gamla och kniven är tålmodig. Du tar dig ut med floden, och huset ligger långt bakom dig innan himlen ens blir grå.'
+			slut2: 'Ut med floden.'
+			vann: ⊤
+		)
+		rum2(
+			'sluttning'
+			'Nyckeln vrids om, kedjan rasar ner i gräset, och grinden svänger utan ett ljud som någon hör. Dalen är grå av morgon, och vägen är din.'
+			slut2: 'Ut genom grinden.'
+			vann: ⊤
+		)
+	]
+
+¶Rummet med detta id. find() ger tillbaka ø när inget matchar, och ett id som inte namnger något rum är ett hål i kartan snarare än en vändning i berättelsen, så det första rummet står i dess ställe.¶
+ƒ gå(ville•'')•rum2 rum4.hitta(
+		ƒ(rum5•rum2) rum5.id2 = ville
+	) ?? rum4[1]
+
+¶Dörrarna du faktiskt kan ta härifrån. En låst dörr du saknar något för visas helt enkelt inte, så den ser ut som en vägg tills det som öppnar den finns i dina händer.¶
+ƒ vägar(här•rum2 packa2•[''])•[dörr]
+	här.dörrar.filtrera(
+		ƒ(dörr2•dörr) (dörr2.behöver = '') | packa2.har(
+					dörr2.behöver
+				)
+	)
+
+¶Gå in i ett rum och plocka upp det som finns där. add() skulle gärna ge dig en andra kniv, så fråga först.¶
+ƒ anlända(här2•rum2 packa3•[''])•vandring
+	vandring(
+		här2.id2
+		((här2.ta ≠ '') & (~packa3.har(här2.ta))) ? packa3.med(
+				här2.ta
+			) packa3
+	)
+
+nyckel2: Nyckel()
+
+¶En knapptryckning, i ordning: vid ett slut väcker vilken knapp som helst dig i det första rummet igen; en knapp som inte är 1, 2 eller 3 betyder ingenting; ett tal som är större än antalet dörrar i detta rum betyder heller ingenting; och först då räknas det som en dörr. Det tredje testet är det som är värt att skriva ner, för liståtkomst går runt i cirkel — utan det skulle att trycka 3 i ett rum med två dörrar tyst ta den första.¶
+ƒ steg(t•vandring k•'')•vandring (
+		här3: gå(t.rum3)
+		dörrar2: vägar(här3 t.packa)
+		här3.slut2 ≠ '' ? vandring('cell' [])
+			~((k = '1') | (k = '2') | (k = '3')) ? t
+				(k → #) > dörrar2.längd() ? t
+					anlända(gå(dörrar2[k → #].rum) t.packa)
+	)
+
+vandring2•vandring: vandring('cell' []) … ∆ nyckel2 … steg(
+			vandring2
+			nyckel2
+		)
+
+här4: gå(vandring2.rum3)
+dörrar3: vägar(här4 vandring2.packa)
+
+¶Det du bär på, visas bara när du bär på något.¶
+bär:
+	vandring2.packa.längd() > 0
+	? [
+			Fras(
+				`*bär på* \vandring2.packa.anslutasigtill(' · ')\`
+				storlek: 0.3m
+				inriktning: '|'
+				färg: Färg(60% 30 0°)
+			)
+		]
+		[]
+
+¶Det som ligger under rummet: dess dörrar, numrerade så att det du läser är det du trycker på, eller, vid ett slut, hur det slutade och den enda nyckel som startar om det.¶
+nedan:
+	här4.slut2 ≠ ''
+	? [
+			Fras(
+				`*\här4.slut2\*`
+				storlek: 0.8m
+				inriktning: '|'
+				färg: här4.vann ? Färg(85% 50 90°) Färg(
+						45%
+						40
+						25°
+					)
+				varaktighet: 1.5s
+				gårin: Pose(opacitet: 0% skala: 0.5)
+			)
+			Fras(
+				`tryck på valfri knapp för att vakna igen`
+				storlek: 0.3m
+				inriktning: '|'
+				varaktighet: 3s
+				gårin: Pose(opacitet: 0%)
+			)
+		]
+		dörrar3.översätta(
+			ƒ(dörr3•dörr index2•#)
+				Fras(
+					`\index2\. *\dörr3.etikett\*`
+					storlek: 0.5m
+					inriktning: '|'
+					namn: dörr3.etikett
+					varaktighet: 1s
+					gårin: Pose(opacitet: 0%)
+				)
+		)
+
+Etapp(
+	[
+		Grupp(
+			Stack()
+			[
+				Fras(
+					här4.beskrivning2
+					storlek: 0.5m
+					sjal: 14m
+					inriktning: '|'
+					namn: här4.id2
+					varaktighet: 0.5s
+					gårin: Pose(offset: Plats(0m 2m))
+				)
+				:bär
+				:nedan
+			]
+		)
+	]
+	bakgrund: Färg(0 0 0°)
+	färg: Färg(100% 0 0°)
+	ansikte: "Permanent Marker"
+)

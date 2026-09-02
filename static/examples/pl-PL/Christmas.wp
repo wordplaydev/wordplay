@@ -1,0 +1,30 @@
+🎄
+Boże Narodzenie
+===
+¶Choinka, która kołysze się i trzęsie w powtarzającym się tańcu, dzwoniącprzy tym dzwoneczkami.
+
+Melodia trzyma się pierwszej @Pose tańca. @Pose może nieść @Music, i gra tow chwili, gdy ta poza zostaje przyjęta — więc melodia zaczyna się od nowa zakażdym razem, gdy taniec wraca do początku. Pętla animacji i pętla muzyki to tasama pętla. Nic nie liczy uderzeń, by je ze sobą zgrać.
+
+Oba czasy trwania są dobrane tak, by się zgadzały: osiem uderzeń przytempie 160 trwa trzy sekundy, a pięć półsekundowych kroków też trwa trzysekundy. Poza to chwila, a nie coś, co trwa dłużej, więc zwykłe powtarzanie@Track tutaj nie działa — muzyka pozy zawsze gra dokładnie raz od początku dokońca.¶
+
+dzwoneczki: Muzyka(
+		Ścieżka([3 3 3𝅗𝅥 3 3 3𝅗𝅥] instrument: Instrument.dzwonek)
+		tempo: 160beats/min
+		głośność: 55%
+		nazwa: 'dzwoneczki'
+	)
+
+Wyrażenie(
+	'🎄'
+	spoczynkowy: Sekwencja(
+		{
+			0: Poza(obrót: 0° muzyka: dzwoneczki)
+			1: Poza(obrót: 15°)
+			2: Poza(obrót: 0°)
+			3: Poza(zrównoważyć: Miejsce(-0.25m))
+			4: Poza(zrównoważyć: Miejsce(0.25m))
+			5: Poza(zrównoważyć: Miejsce(-0.25m))
+		}
+		0.6s
+	)
+)

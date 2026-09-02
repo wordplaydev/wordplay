@@ -1,0 +1,10 @@
+•
+Zamanlayıcı
+===
+¶Her saniyede bir beşe kadar büyüyen ve sonra baştan başlayan bir nokta sırası.¶
+İfadeetmek(
+	"•".tekrarlandı(
+		((Zaman(1000ms) → #s) % 5).Aşağıyuvarla() + 1s
+	)
+	süre: 0s
+)

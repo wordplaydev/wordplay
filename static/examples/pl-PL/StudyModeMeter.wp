@@ -1,0 +1,78 @@
+⏳
+Wskaźnik trybu nauki
+=== start/en
+¶Kliknij, aby dodać godziny nauki i zobacz, jak wskaźnik zmienia się ze spokoju na skupienie, a potem na przeciążenie.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+działanie: Wybór()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+godzinyNauki:
+	0 …
+	∆ działanie …
+		działanie = 'reset' ?
+			0
+			godzinyNauki + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+wyjaśnienie:
+	'Kliknij „Dodaj godzinę nauki +1”, aby zwiększyć swój czas nauki. Kliknij „Resetuj”, aby zacząć od nowa.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+tekstGodzin:
+	'Uczyłeś się przez ' + godzinyNauki → '' + ' godzin(y).'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+nastrój:
+	godzinyNauki < 3 ?
+		'🌿 TRYB SPOKOJU — kliknij, aby dodać czas nauki'
+		godzinyNauki < 6 ?
+			'📚 TRYB SKUPIENIA — jesteś w strefie produktywności!'
+			'🔥 TRYB PRZECIĄŻENIA — zrób przerwę i kliknij „Resetuj”'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+Scena(
+	[
+		Grupa(
+			Stos()
+			[
+				Wyrażenie('Wskaźnik trybu nauki' rozmiar: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				Wyrażenie(wyjaśnienie rozmiar: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				Wyrażenie(tekstGodzin rozmiar: 0.4m)
+
+				Wyrażenie(nastrój rozmiar: 0.75m)
+
+				Grupa(
+					Wiersz(wyściółka: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						Wyrażenie(
+							'Dodaj godzinę nauki +1'
+							wybieralny: ⊤
+							nazwa: 'dodaj'
+							kolor: Kolor(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						Wyrażenie(
+							'Resetuj'
+							wybieralny: ⊤
+							nazwa: 'reset'
+							kolor: Kolor(69% 47 271°)
+						)
+					]
+				)
+			]
+			twarz: "Aclonica"
+		)
+	]
+)

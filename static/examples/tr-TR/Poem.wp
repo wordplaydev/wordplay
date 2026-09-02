@@ -1,0 +1,98 @@
+T
+Şiir
+=== start
+¶Dizeleri yavaşça beliren, her biri kendi girişini yapan bir şiir.¶
+•satır(metin2•"" duruş•Poz|Sekans arka: Renk(100 100 100°) ön: Renk(
+			0
+			0
+			0°
+		))
+
+¶Şiirin dizelerinin bir listesi, her birinin kendi duruşu var.¶
+şiir: [
+		satır(
+			'Bilgisayar dosyası'
+			Poz(opaklık: 0% telafietmek: Yer(ve: -5m))
+		)
+		satır(
+			'ki onun hakkında'
+			Poz(opaklık: 0% telafietmek: Yer(ve: -5m))
+		)
+		satır('hiçbir anım yok' Poz(rotasyon: 10°))
+		satır(
+			'tıklayıp açıyorum'
+			Sekans(
+				{
+					0%: Poz(ölçek: 1)
+					50%: Poz(ölçek: 0.7)
+					100%: Poz(ölçek: 1)
+				}
+				0.25s
+			)
+		)
+		satır('bak' Poz(opaklık: 0% telafietmek: Yer(ve: -5m)))
+		satır(
+			'daha aşağı kaydır'
+			Poz(opaklık: 0% telafietmek: Yer(ve: 5m))
+		)
+		satır(
+			'ekran'
+			Poz(opaklık: 0% telafietmek: Yer(ve: -5m))
+		)
+		satır(
+			'arka ışığıyla aydınlık ve boş kalıyor'
+			Poz(opaklık: 0% telafietmek: Yer(ve: -5m))
+			Renk(0 0 0°)
+			Renk(100 100 0°)
+		)
+		satır(
+			'böylece kendimle yeniden karşılaşıyorum'
+			Poz(opaklık: 0% telafietmek: Yer(ve: -5m))
+		)
+		satır(
+			'umutlu ve yararsız'
+			Poz(opaklık: 0% telafietmek: Yer(ve: -5m))
+		)
+		satır(
+			'bir gizem'
+			Poz(opaklık: 0% telafietmek: Yer(ve: -5m))
+		)
+		satır(
+			'tıpkı daha önce yapmış olmam gerektiği gibi'
+			Poz(opaklık: 0% telafietmek: Yer(ve: -5m))
+		)
+		satır('19 Ağustos 2010, sabah 11:08' Poz())
+	]
+
+sayı2: 1 … ∆ Düğme() | ∆ Anahtar() …
+		(sayı2 = (şiir.uzunluk() + 1)) ? 1 sayı2 + 1
+satır2: şiir[sayı2]
+
+sayı2 ≤ şiir.uzunluk() ?
+	Sahne(
+		[
+			İfadeetmek(
+				satır2.metin2
+				giriş: satır2.duruş
+				süre: 1s
+				isim: sayı2 → ""
+				stil: 'cautious'
+			)
+		]
+		arkaplan: satır2.arka
+		dinlenme: Poz(renk: satır2.ön)
+	)
+	Sahne(
+		[
+			Grup(
+				Yığın()
+				[
+					İfadeetmek('KENDİME TAVSİYE')
+					İfadeetmek('Jane Hirshfield')
+				]
+				giriş: Poz(ölçek: 0.75)
+			)
+		]
+		arkaplan: Renk(0% 0 0°)
+		renk: Renk(100% 100 0°)
+	)

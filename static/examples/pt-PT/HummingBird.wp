@@ -1,0 +1,368 @@
+🐤
+Beija-flor
+=== start/en
+¶Um jogo de pássaro que zumbe! Clique ou prima uma tecla para bater as asas, ou zumba para o microfone — o pássaro flutua até à altura do tom do seu zumbido. Deslize pelas aberturas entre as pilhas de emojis. Tocar numa pilha ou no chão faz o jogo falhar; depois de falhar, há uma contagem decrescente e o jogo recomeça.¶
+
+¶Cada barreira é uma pilha de emojis de uma destas coleções.¶
+géneros: [
+		['🌵' '🌱' '🌿' '🍀' '🎋']
+		['🍩' '🧁' '🍰' '🍪' '🍦']
+		['🐙' '🐟' '🦀' '🐡' '🦑']
+		['🚗' '🚌' '🚕' '🚙' '🚓']
+		['🌸' '🌼' '🌻' '🌷' '💐']
+		['⭐' '🌟' '✨' '☁' '🌙']
+	]
+
+¶A distância que uma barreira se move para a esquerda em cada tique.¶
+velocidade2: 0.2m
+
+¶Qualquer colisão com o pássaro. O teto chama-se 'céu' para que bater nele faça só ressaltar, em vez de falhar.¶
+colisão: Colisão('pássaro')
+fatal: colisão•ø ? ⊥ (colisão.objeto ≠ 'sky')
+
+tique: Tempo(40ms)
+tickDoJogo: Tempo(100ms)
+
+¶O estado do jogo: uma fase (1 = contagem decrescente, 2 = a jogar, 3 = falhou) e há quantas décimas de segundo estamos nessa fase. Contamos os tiques de um relógio em vez de subtrair tempos, já que cada Time() começa em zero.¶
+•jogo(fase•# tiques•#)
+jogo2•jogo: jogo(1 0) …
+	∆ tickDoJogo | fatal …
+		jogo2.fase ???
+			1: (jogo2.tiques ≥ 36) ? jogo(2 0) jogo(
+					1
+					jogo2.tiques + 1
+				)
+			2: fatal ? jogo(3 0) jogo2
+			3: (jogo2.tiques ≥ 25) ? jogo(1 0)
+				¶Enquanto o pássaro pousa em algo, as colisões mantêm esta reação ocupada; conte só os tiques reais do relógio para que a pausa tenha sempre a mesma duração.¶
+				jogo(3 jogo2.tiques + (∆ tickDoJogo ? 1 0))
+			jogo2
+
+¶O número da contagem decrescente a mostrar: 3, 2, 1.¶
+contagem2: (jogo2.tiques < 12) ? 3 (jogo2.tiques < 24) ? 2 1
+
+¶Escolha como jogar selecionando o botão 🎤 ou ⌨: zumbir move o pássaro, ou os cliques e as teclas fazem-no bater as asas. São modos separados, para que falar perto do microfone não interfira com o teclado.¶
+escolhido: Escolha()
+modo•'': 'tap' … (escolhido = 'hum') | (escolhido = 'tap') … escolhido
+
+¶No modo de toque, bate as asas ao clicar ou premir qualquer tecla.¶
+baterAsas: (modo = 'tap') & (∆ Botão() | ∆ Chave())
+
+¶No modo de zumbido, o pássaro flutua até à altura do tom do seu zumbido — notas baixas perto do solo, notas altas perto do céu — e nunca mais alto do que isso.¶
+tom2: Tom()
+aCantarolar: (modo = 'hum') & (tom2 > 50hz)
+
+ƒ tomParaAltura(hz•#hz)
+	(hz < 80hz) ? -4m
+		(hz > 400hz) ? 5m
+			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+
+¶Aproxima-se da altura zumbida pouco a pouco, para que o pássaro deslize em vez de tremer a cada oscilação do tom.¶
+tomY•#m: 1m … ∆ tom2 … aCantarolar ? (0.8 × tomY) + (0.2 × tomParaAltura(
+							tom2
+						)) tomY
+
+¶O pássaro flutua durante a contagem decrescente, bate as asas para subir ou flutua no tom zumbido enquanto joga, e cai sob a gravidade depois de um choque.¶
+posiçãoDoPássaro: Movimento(
+		Local(-4m 1m)
+		próximolugar:
+		(jogo2.fase = 1) ? Local(-4m 1m)
+			((jogo2.fase = 2) & aCantarolar) ? Local(-4m tomY) ø
+		próximavelocidade:
+		(jogo2.fase = 1) ? Velocidade(0m/s 0m/s)
+			((jogo2.fase = 2) & aCantarolar) ? Velocidade(
+					0m/s
+					0m/s
+				)
+				((jogo2.fase = 2) & baterAsas) ? Velocidade(
+						0m/s
+						15m/s
+					) ø
+	)
+
+¶O emoji da cria está voltado para a esquerda, por isso cada pose inverte-o para que fique voltado para onde vai.¶
+pássaro: Frase(
+		'🐤'
+		1m
+		nome: 'pássaro'
+		local: posiçãoDoPássaro
+		matéria: Matéria(1kg 0.4 0)
+		descansar:
+		(jogo2.fase = 3) ? Pose(rotação: 180° invertirx: ⊤)
+			Sequência(
+				{
+					0%: Pose(invertirx: ⊤ rotação: -12°)
+					50%: Pose(invertirx: ⊤ rotação: 12°)
+					100%: Pose(invertirx: ⊤ rotação: -12°)
+				}
+				0.35s
+			)
+	)
+
+¶Cada barreira tem: uma posição horizontal, quantos emojis pendem do topo, e de que coleção de emojis é feita. As barreiras avançam para a esquerda enquanto o jogo decorre, voltam a aparecer à direita com uma nova forma aleatória, e reiniciam-se para um novo jogo.¶
+•tubo(x2•#m topo2•# género•#)
+
+tubo1•tubo: tubo(10m Aleatório(1 5) Aleatório(1 6)) …
+	((jogo2.fase = 1) & (tubo1.x2 ≠ 10m)) | ((jogo2.fase = 2) & ∆ tique) …
+		(jogo2.fase = 1) ? tubo(
+				10m
+				Aleatório(1 5)
+				Aleatório(1 6)
+			)
+			(tubo1.x2 < -13m) ? tubo(
+					tubo1.x2 + 24m
+					Aleatório(1 5)
+					Aleatório(1 6)
+				)
+				tubo(
+					tubo1.x2 - velocidade2
+					tubo1.topo2
+					tubo1.género
+				)
+
+tubo2•tubo: tubo(16m Aleatório(1 5) Aleatório(1 6)) …
+	((jogo2.fase = 1) & (tubo2.x2 ≠ 16m)) | ((jogo2.fase = 2) & ∆ tique) …
+		(jogo2.fase = 1) ? tubo(
+				16m
+				Aleatório(1 5)
+				Aleatório(1 6)
+			)
+			(tubo2.x2 < -13m) ? tubo(
+					tubo2.x2 + 24m
+					Aleatório(1 5)
+					Aleatório(1 6)
+				)
+				tubo(
+					tubo2.x2 - velocidade2
+					tubo2.topo2
+					tubo2.género
+				)
+
+tubo3•tubo: tubo(22m Aleatório(1 5) Aleatório(1 6)) …
+	((jogo2.fase = 1) & (tubo3.x2 ≠ 22m)) | ((jogo2.fase = 2) & ∆ tique) …
+		(jogo2.fase = 1) ? tubo(
+				22m
+				Aleatório(1 5)
+				Aleatório(1 6)
+			)
+			(tubo3.x2 < -13m) ? tubo(
+					tubo3.x2 + 24m
+					Aleatório(1 5)
+					Aleatório(1 6)
+				)
+				tubo(
+					tubo3.x2 - velocidade2
+					tubo3.topo2
+					tubo3.género
+				)
+
+tubo4•tubo: tubo(28m Aleatório(1 5) Aleatório(1 6)) …
+	((jogo2.fase = 1) & (tubo4.x2 ≠ 28m)) | ((jogo2.fase = 2) & ∆ tique) …
+		(jogo2.fase = 1) ? tubo(
+				28m
+				Aleatório(1 5)
+				Aleatório(1 6)
+			)
+			(tubo4.x2 < -13m) ? tubo(
+					tubo4.x2 + 24m
+					Aleatório(1 5)
+					Aleatório(1 6)
+				)
+				tubo(
+					tubo4.x2 - velocidade2
+					tubo4.topo2
+					tubo4.género
+				)
+
+¶Uma barreira acabou de passar o pássaro?¶
+ƒ ultrapassado(x3•#m) (x3 ≤ -5m) & (x3 > (-5m - velocidade2))
+
+pontuação•#: 0 …
+	(jogo2.fase = 1) | ((jogo2.fase = 2) & ∆ tique) …
+		(jogo2.fase = 1) ? 0
+			(ultrapassado(tubo1.x2) | ultrapassado(tubo2.x2) | ultrapassado(
+						tubo3.x2
+					) | ultrapassado(tubo4.x2)) ? pontuação + 1
+				pontuação
+
+¶Constrói uma pilha de emojis como uma coluna física. A duração de 0s faz com que o regresso ao lado direito seja instantâneo em vez de um deslize visível.¶
+ƒ coluna(células•# género2•# x4•#m y2•#m)
+	Grupo(
+		Monte('|' 0m)
+		(células → []).traduzir(
+			ƒ(cela•#) Frase(
+					géneros[género2][1 + ((cela - 1) % 5)]
+					1m
+				)
+		)
+		local: Local(x4 y2)
+		matéria: Matéria()
+		duração: 0s
+	)
+
+¶Uma barreira é composta por duas colunas: uma pendente do céu, outra a crescer do solo, com um intervalo de cerca de 6 metros entre elas.¶
+ƒ pilhas(tubo5•tubo) [
+		coluna(
+			tubo5.topo2
+			tubo5.género
+			tubo5.x2
+			6m - (tubo5.topo2 × 1m)
+		)
+		coluna(6 - tubo5.topo2 tubo5.género tubo5.x2 -6m)
+	]
+
+¶O solo faz o pássaro chocar; o céu empurra-o de novo para baixo.¶
+chão: Figura(
+		Retângulo(-8m -5.7m 8m -6m)
+		fundo: Cor(60% 60 130°)
+	)
+céu: Figura(Retângulo(-8m 7m 8m 6m) nome: 'sky')
+paredeEsquerda: Figura(Retângulo(-8.4m 6m -8m -6m))
+paredeDireita: Figura(Retângulo(8m 6m 8.4m -6m))
+
+vistaDaPontuação: Frase(
+		"\pontuação\"
+		1.5m
+		local: Local(-0.5m 4m)
+	)
+sobreposições:
+	jogo2.fase ???
+		1: [Frase("\contagem2\" 3m local: Local(-1m -1.5m))]
+		3: [Frase('💥' 3m local: Local(-1.5m -1.5m))]
+		[]
+
+¶O seletor de modo: a forma de jogar escolhida fica brilhante, a outra fica esbatida.¶
+botãoZumbido: Frase(
+		'🎤'
+		0.8m
+		nome: 'hum'
+		selecionável: ⊤
+		local: Local(-4.2m 4.7m)
+		descansar: (modo = 'hum') ? Pose() Pose(opacidade: 40%)
+	)
+botãoToque: Frase(
+		'⌨'
+		0.8m
+		nome: 'tap'
+		selecionável: ⊤
+		local: Local(-3m 4.7m)
+		descansar: (modo = 'tap') ? Pose() Pose(opacidade: 40%)
+	)
+
+instruções1: Frase(
+		'Escolha ⌨ para bater as asas com cliques e teclas, ou 🎤 para zumbir a altura do seu pássaro!'
+		0.45m
+		local: Local(-6.9m -4.7m)
+	)
+instruções2: Frase(
+		'Deslize pelos espaços. Não toque nas pilhas!'
+		0.4m
+		local: Local(-4.5m -5.4m)
+	)
+
+¶Um bater de asas já é uma única avaliação — a reação que ergue o pássaro dispara ao clicar ou premir uma tecla, e em nenhuma outra situação — por isso pode fazer soar a asa diretamente: uma nota no fotograma em que bate as asas, e nada no resto do tempo. Uma nota que já começou toca até ao fim, por isso esvaziar esta lista um fotograma depois não corta a asa. No modo de zumbido não há qualquer bater de asas, por isso a lista mantém-se vazia e o pássaro fica em silêncio enquanto lhe canta.¶
+notasDoBaterDeAsas: baterAsas ? [3] []
+
+somDoBaterDeAsas: Música(
+		Faixa(
+			notasDoBaterDeAsas
+			instrumento: Instrumento.bateria
+			volume: 70%
+			ciclo: ⊥
+		)
+		repetir: baterAsas
+		nome: 'bater asas'
+	)
+
+¶Vinte portões, do inquieto ao frenético. Mudar o andamento encaixa-se na próxima pulsação em vez de recomeçar do zero, por isso cada portão aperta o ciclo sob si sem nunca perder o lugar — e um choque faz o resultado voltar a zero, o que abranda tudo de novo desde o início.¶
+urgência: (pontuação ÷ 20).min(1)
+
+¶Frígio para a segunda bemol: um semitom acima da tónica, a nota mais inquieta que existe sem saír da escala. O baixo apoia-se nela de dois em dois compassos e a linha do sintetizador termina aí, por isso o ciclo nunca se estabiliza em lugar nenhum.¶
+músicaAnsiosa: Música(
+		[
+			Faixa(
+				[1 ø 1 ø 2 ø 1 ø]
+				instrumento: Instrumento.sintetizadorBaixo
+				batida: 1beats
+				volume: 50%
+			)
+			Faixa(
+				[5 ø 4 ø 5 ø 4 2]
+				instrumento: Instrumento.sintetizador
+				batida: 1beats
+				volume: 35%
+			)
+			Faixa(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 3 3]
+				instrumento: Instrumento.bateria
+				batida: 0.5beats
+				volume: 35%
+			)
+		]
+		andamento: (100beats/min + (urgência · 100beats/min))
+		escala: Música.frígia
+		nome: 'inquieto'
+	)
+
+¶Corre durante a contagem decrescente e o voo, e para em seco num choque, para que o 💥 tenha o espaço só para si.¶
+listaDeMúsicas: (jogo2.fase = 3) ? [] [músicaAnsiosa]
+
+¶O choque: um cimbalo, um som surdo e grave, e a escala inquieta a cair sobre si mesma desde o topo — as mesmas notas que a canção tem estado a rodear, finalmente sem chegar a lugar nenhum.
+
+Este não precisa de @Music.replay. Chegar ao palco já é razão para soar, e um efeito único que já tocou fica em silêncio até saír; a contagem decrescente retira-o do palco e esquece-o, por isso o próximo choque volta a soá-lo desde o início. Dura cerca de uma pulsação e meia, cabendo confortavelmente dentro dos dois segundos e meio que a pausa do choque ocupa.¶
+somDeMorte: Música(
+		[
+			Faixa(
+				[8 7 5 4 2 1 ø ø]
+				instrumento: Instrumento.sintetizador
+				batida: 0.25beats
+				volume: 55%
+				ciclo: ⊥
+			)
+			Faixa(
+				[4 ø]
+				instrumento: Instrumento.bateria
+				batida: 1beats
+				volume: 50%
+				ciclo: ⊥
+			)
+			Faixa(
+				[1 ø]
+				instrumento: Instrumento.sintetizadorBaixo
+				batida: 1beats
+				volume: 60%
+				ciclo: ⊥
+			)
+		]
+		andamento: 100beats/min
+		escala: Música.frígia
+		nome: 'colisão'
+	)
+
+listaDeMorte: (jogo2.fase = 3) ? [somDeMorte] []
+
+Fase(
+	[
+		pássaro
+		somDoBaterDeAsas
+		:listaDeMúsicas
+		:listaDeMorte
+		:pilhas(tubo1)
+		:pilhas(tubo2)
+		:pilhas(tubo3)
+		:pilhas(tubo4)
+		chão
+		céu
+		paredeEsquerda
+		paredeDireita
+		vistaDaPontuação
+		:sobreposições
+		botãoZumbido
+		botãoToque
+		instruções1
+		instruções2
+	]
+	local: Local(0m 0m -12m)
+	moldura: Retângulo(-8m 6m 8m -6m)
+	fundo: Cor(90% 20 240°)
+)

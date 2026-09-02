@@ -1,0 +1,26 @@
+🥮
+Latające Jedzenie
+===
+¶Siatka smacznych dań, w której co sekundę jedno danie zamienia się na inne.¶
+jedzenie: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
+
+najnowsze•['']:
+	jedzenie … ∆ Czas(1000ms) …
+		najnowsze.zastępować(Losowy(1 6) jedzenie.losowy())
+
+Grupa(
+	Siatka(3 3 1m 1m)
+	najnowsze.tłumaczyć(
+		ƒ(danie•"" indeks2•#)
+			Wyrażenie(
+				danie
+				nazwa: "\danie\-\indeks2\"
+				wstępowanie: Poza(nieprzezroczystość: 0 skala: 2)
+				spoczynkowy: Sekwencja.kołysać(
+					360°
+					czastrwania: 4s
+				)
+				czastrwania: 1s
+			)
+	)
+)

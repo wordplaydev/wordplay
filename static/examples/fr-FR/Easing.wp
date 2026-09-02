@@ -1,0 +1,49 @@
+s
+Progression de l'accélération
+===
+¶La même animation de voiture en huit versions, une pour chaque style de transition.¶
+imagesClés: {
+		0%: Pose(compenser: Lieu(-1m 0m))
+		25%: Pose(compenser: Lieu(1m 0m))
+		50%: Pose(compenser: Lieu(1m 0m))
+		75%: Pose(compenser: Lieu(-1m 0m))
+		100%: Pose(compenser: Lieu(-1m 0m))
+	}
+
+Scène(
+	[
+		Groupe(
+			Grille(4 2 rembourragecellulaire: 0.25m)
+			[
+				Phrase('direct' taille: 0.25m)
+				Phrase(
+					"🚗"
+					aurepos: Séquence(
+						imagesClés
+						3s
+						style: "straight"
+					)
+				)
+				Phrase('prudent' taille: 0.25m)
+				Phrase(
+					"🚚"
+					aurepos: Séquence(
+						imagesClés
+						3s
+						style: "cautious"
+					)
+				)
+				Phrase('lent' taille: 0.25m)
+				Phrase(
+					"🚙"
+					aurepos: Séquence(imagesClés 3s style: "pokey")
+				)
+				Phrase('rapide' taille: 0.25m)
+				Phrase(
+					"🏎"
+					aurepos: Séquence(imagesClés 3s style: "zippy")
+				)
+			]
+		)
+	]
+)

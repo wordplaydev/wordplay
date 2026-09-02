@@ -10,7 +10,7 @@ Bu kalıbın her sürümü aynı üç parçadan oluşur:
 
 \slides: ['birinci' 'ikinci' 'üçüncü']
 key: Key()
-index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'Sağ Ok') ? ((index < slides.length()) ? index + 1 index) (key = 'Sol Ok') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
 En önemli parça  @Reaction  burasıdır. Şurada başlar: \1\, ve her seferinde  @Key  değiştiğinde, yeni sayının ne olması gerektiğine karar verir.Sağ oka basıldıysa bir ekler; sol oka basıldıysa bir çıkarır; başka bir durumda aynı kalır.

@@ -1,0 +1,59 @@
+🙂
+Twarz
+===
+¶Emoji, które odzwierciedla twoją twarz, gdy się uśmiechasz, marszczysz brwi, otwierasz usta i mrugasz.¶
+twarz2: Twarz()
+
+Scena(
+	[
+		Wyrażenie(
+			(twarz2.ustaOtwarte ? '😮'
+					twarz2.uśmiech ? '😀'
+						twarz2.grymas ? '🙁'
+							twarz2.uniesioneBrwi ? '😲'
+								(twarz2.oczyOtwarte ? '🙂' '😑'))
+			miejsce: twarz2.miejsce
+			rozmiar: 4m
+		)
+		Grupa(
+			Stos('|')
+			[
+				Wyrażenie(
+					(twarz2.oczyOtwarte ? '👀' '😑')
+					rozmiar: 1.5m
+				)
+				Wyrażenie(
+					'😊'
+					rozmiar: (twarz2.stopieńUśmiechu · 2m) + 0.5m
+				)
+				Wyrażenie(
+					'👄'
+					rozmiar: (twarz2.stopieńOtwarciaUst · 2m) + 0.5m
+				)
+				Wyrażenie(
+					'🤨'
+					rozmiar: (twarz2.stopieńUniesieniaBrwi · 2m) + 0.5m
+				)
+			]
+			miejsce: Miejsce(-9m 8m)
+		)
+		Wyrażenie(
+			'obrót 🧭'
+			miejsce: Miejsce(9m 8m 0m)
+			rozmiar: 2m
+			obrót: twarz2.obrót
+		)
+		Wyrażenie(
+			'przechylenie 🧭'
+			miejsce: Miejsce(9m 2m)
+			obrót: twarz2.przechylenie
+			rozmiar: 2m
+		)
+		Wyrażenie(
+			`/Pokaż kamerze swoją twarz/`
+			miejsce: Miejsce(-6m -12m)
+			rozmiar: 1m
+		)
+	]
+	miejsce: Miejsce(0m 0m -20m)
+)

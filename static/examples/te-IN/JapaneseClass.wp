@@ -1,0 +1,37 @@
+O
+జపనీస్ తరగతి
+=== start
+¶జపనీస్ తరగతి మొదటి రోజు గురించి, ఒక్కో దృశ్యంగా చెప్పే కథ.¶
+
+¶ఇవి చూపించాల్సిన సన్నివేశాల జాబితా¶
+వాక్యాలు: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶ఇవి మాట్లాడటం ద్వారా మాత్రమే ముందుకు సాగాల్సిన వాక్యాల జాబితా.¶
+వాక్యాలుమాట్లాడండి: [5 7 9]
+
+¶ప్రస్తుత వాక్యం 1 నుండి మొదలవుతుంది. మాట్లాడే వాక్యం కోసం మైక్ శబ్దం .8 కంటే ఎక్కువైతే, లేదా వేరే వాక్యాల కోసం ఒక బటన్ లేదా కీ నొక్కితే, అది పెరుగుతుంది.¶
+ప్రస్తుతవాక్యం•#: 1 …
+	వాక్యాలుమాట్లాడండి.ఉంది(ప్రస్తుతవాక్యం) ?
+		వాల్యూమ్() > .6
+		∆ బటన్() | ∆ కీ()
+		…
+		(ప్రస్తుతవాక్యం <
+				వాక్యాలు.పొడవు()) ?
+			ప్రస్తుతవాక్యం + 1
+			ప్రస్తుతవాక్యం
+
+స్టేజ్(
+	[పదబంధం(వాక్యాలు[ప్రస్తుతవాక్యం] చుట్టు: 10m)]
+	ముఖం: 'Sue Ellen Francisco'
+)

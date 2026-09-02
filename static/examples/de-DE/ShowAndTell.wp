@@ -1,0 +1,193 @@
+🔍
+Zeig und erzähl
+=== start/en
+¶Zeig es mir — ein Kameraspiel gegen die Uhr. Ich bitte dich, Dinge zu finden, eines nach dem anderen, und ich sage jedes laut an. Halte jedes vor deine Kamera, bis ich es erkenne, dann suche ich mir das nächste aus. Hast du das gesuchte Ding nicht? Drück → und ich frage nach einem anderen — Überspringen zählt nie gegen dich. Finde fünf in einer Minute und du gewinnst; beim fünften müssen immer zwei Personen gleichzeitig im Bild sein. Die Minute startet, wenn deine Kamera aufwacht, also kostet dich das Vorbereiten keine Zeit. Wenn die Zeit abläuft, sage ich, dass das Spiel vorbei ist. Bei jedem Fund werden die Wörter etwas größer, und wenn du gewinnst, explodieren sie wie Konfetti über einem "Du hast gewonnen!"¶
+
+¶Ein Ding, nach dem gesucht wird: das Emoji, das ich zeige, das Wort, das ich zeige, der Name, den mein Kameramodell dafür verwendet (womit ich abgleiche), und wie viele davon ich gleichzeitig sehen muss (zwei, bei Personen).¶
+•ziel(emoji•'' beschriftung•'' name2•'' brauchen•#)
+
+¶Die Dinge, nach denen ich fragen könnte. Jeder Name ist genau das, was @Objects das Ding nennt, damit ich es in der Kamera erkennen kann. Ich zeige eines nach dem anderen und such mir ein neues aus, sobald du es findest oder überspringst.¶
+vorrat•[ziel]: [
+		ziel('☕' 'eine Tasse' 'Tasse' 1)
+		ziel('📖' 'ein Buch' 'Buch' 1)
+		ziel('📱' 'ein Handy' 'Handy' 1)
+		ziel('💻' 'ein Laptop' 'Laptop' 1)
+		ziel('⌨' 'eine Tastatur' 'Tastatur' 1)
+		ziel('🖱' 'eine Maus' 'Maus' 1)
+		ziel('✂' 'eine Schere' 'eine Schere' 1)
+		ziel('🍾' 'eine Flasche' 'Flasche' 1)
+		ziel('🪑' 'ein Stuhl' 'Stuhl' 1)
+		ziel('🕐' 'eine Uhr' 'Uhr' 1)
+		ziel('🍌' 'eine Banane' 'Banane' 1)
+		ziel('🍎' 'ein Apfel' 'Apfel' 1)
+		ziel('🧸' 'ein Teddybär' 'Teddybär' 1)
+		ziel('🪴' 'eine Topfpflanze' 'Topfpflanze' 1)
+		ziel('🏺' 'eine Vase' 'Vase' 1)
+		ziel('🎒' 'ein Rucksack' 'Rucksack' 1)
+	]
+
+¶Was als Nächstes gesucht werden soll, je nachdem, welche Emojis du schon gefunden hast, und ohne etwas doppelt zu fragen: für die ersten vier ein neues, zufälliges Ding, nach dem noch nicht gefragt wurde, und für das fünfte immer zwei Personen.¶
+ƒ wählen(gefunden•[''] vermeiden•ziel)
+	(gefunden.Länge() ≥ 4)
+	? ziel('👥' 'zwei Personen' 'Person' 2)
+		vorrat.ohne(vermeiden).Filter(
+			ƒ(t•ziel) ~(gefunden.hat(t.emoji))
+		).zufällig(
+		)
+
+¶Die Kamera. Ihr wird nicht gesagt, wonach sie suchen soll — sie meldet einfach alles, was sie sieht, und läuft von selbst weiter. So reagiert das Spiel direkt darauf, ganz ohne Uhr.¶
+sichtungen: Objekte(Anzahl: 10 Zuversicht: 0.5)
+
+¶Die Taste → (oder ein Tipp) zum Überspringen.¶
+überspringen: Schlüssel('Pfeil nach rechts' ⊤)
+
+¶Eine Uhr für den Countdown und für die Animation des Konfettis beim Gewinnen. Die Suche selbst braucht sie nicht — dafür sorgt @Objects.¶
+uhr: Zeit(30ms)
+
+¶Wie lange eine Runde dauert.¶
+grenze•#s: 60s
+
+¶Der Moment, in dem die Kamera zum ersten Mal etwas meldet, wird gespeichert. Der Countdown beginnt hier und nicht bei null. So geht keine Zeit deiner Minute verloren, während du die Kamera freigibst oder auf das Laden des Modells wartest — @Objects meldet seine erste Ablesung, sobald es ein Bild sieht, egal ob darauf etwas zu erkennen ist oder nicht.¶
+gestartetUm•#ms: 0ms
+	… ((∆ sichtungen) & (⬚ = 0ms)) …
+		uhr
+
+¶Wie viel Zeit noch bleibt: die ganze Minute, bis die Kamera aufwacht, danach der Rest davon, aber nie weniger als null — ist die Zeit einmal aufgebraucht, bleibt sie aufgebraucht, statt in negative Zahlen zu rutschen.¶
+links2•#s: (gestartetUm = 0ms) ? grenze ((grenze - ((uhr - gestartetUm) → #s)).max(
+				0s
+			))
+
+¶Das Spiel: die bisher gefundenen Emojis (gewonnen bei fünf) und das Ding, nach dem gerade gefragt wird.¶
+•jagd(gefunden2•[''] ziel2•ziel)
+
+¶Es geht weiter, sobald die Kamera etwas meldet oder übersprungen wird. Es stoppt, sobald fünf gefunden wurden, damit der Gewinnbildschirm nur einmal aufgebaut wird und sein Konfetti ungestört fliegen kann. Überspringen würfelt das Ding neu, ohne deinen Punktestand zu ändern. Wird das gesuchte Ding oft genug unter den Sichtungen erkannt, zählt das als Fund, und das nächste Ding wird gesucht.¶
+ƒ schritt(h2•jagd übersprungen•? gesehen•[Ding]) (
+		zähler: gesehen.Filter(
+				ƒ(t2•Ding) t2.Name = h2.ziel2.name2
+			).Länge(
+			)
+		nächstesGefunden: [:h2.gefunden2 h2.ziel2.emoji]
+		übersprungen
+		? jagd(h2.gefunden2 wählen(h2.gefunden2 h2.ziel2))
+			((zähler ≥ h2.ziel2.brauchen)
+				? jagd(
+						nächstesGefunden
+						wählen(nächstesGefunden h2.ziel2)
+					)
+					h2)
+	)
+
+¶Die Suche stoppt auch, wenn die Minute abgelaufen ist. So kann ein Fund, der nach Ablauf der Zeit kommt, nicht heimlich am Spielende-Bildschirm vorbeischlüpfen.¶
+jagen•jagd: jagd([] vorrat.zufällig())
+	… ((∆ sichtungen | ∆ überspringen) & (⬚.gefunden2.Länge() < 5) & (links2 > 0s)) …
+		schritt(⬚ (∆ überspringen) sichtungen)
+
+¶Der Moment, in dem du gewinnst, wird gespeichert — so beginnt die Konfetti-Animation bei Zeit null.¶
+gewonnenUm•#ms: 0ms
+	… ((jagen.gefunden2.Länge() ≥ 5) & (⬚ = 0ms)) …
+		uhr
+
+¶Ein fliegendes Konfettistück: ein Emoji, eine Ausbruchsgeschwindigkeit (ohne Einheit — Betrag in Metern pro Sekunde) und ein Drehimpuls. Einfache Zahlen zu speichern hält die Bahnberechnung unten einfach.¶
+•funke(emoji2•'' vx•# vy•# gedreht•#)
+
+¶Das Konfetti wird einmal erzeugt, sobald du gewinnst, und danach nie wieder neu gebaut. @Objectskeeps erkennt Veränderungen, sodass jede Messung das Programm neu bewertet — aber das Einfrieren der Teilchenin dieser Liste (sie füllt sich einmal, wenn du gewinnst, danach stoppt ihre Bedingung) bedeutet, dass jedesTeilchen mit der gleichen Geschwindigkeit weiterfliegt, statt in jedem Bild neu erfunden zu werden.¶
+funken•[funke]: []
+	… ((jagen.gefunden2.Länge() ≥ 5) & (⬚.Länge() = 0)) …
+		(60 → []).übersetzen(
+			ƒ()
+				funke(
+					jagen.gefunden2.zufällig()
+					Zufällig(-8 8)
+					Zufällig(3 13)
+					Zufällig(-200 200)
+				)
+		)
+
+¶Die Schwerkraft für die Flugbahn des Konfettis, in Metern pro Sekunde zum Quadrat.¶
+g•#: 9
+
+¶Die Aufforderung zeigt: ein großes Emoji, seinen Namen, deinen Fortschritt, die verbleibende Zeit und wie mandas Emoji überspringt. Die Wörter wachsen mit jedem Fund, um die Spannung zu steigern — nur ein wenig, damit fünfFunde noch auf die Bühne passen. Der Countdown rundet auf, sodass er bis zur letztenSekunde noch 1 anzeigt, bevor die Zeit wirklich abgelaufen ist.¶
+ƒ aufforderung(h3•jagd) (
+		groß: (2m + (h3.gefunden2.Länge() · 0.3m))
+		Gruppe(
+			Stapel('|' 0.4m)
+			[
+				Satzglied(
+					h3.ziel2.emoji
+					gesicht: "Noto Color Emoji"
+					Größe: groß + 1m
+				)
+				Satzglied(h3.ziel2.beschriftung Größe: groß)
+				Satzglied(
+					`gefunden \h3.gefunden2.Länge() → ''\ von 5`
+					Größe: 0.7m
+				)
+				Satzglied(
+					`⏳ \(links2 ÷ 1s).aufrunden() → ''\ Sekunden verbleiben`
+					Größe: 0.6m
+				)
+				Satzglied(
+					'hast du es nicht? drücke → für ein anderes'
+					Größe: 0.5m
+				)
+			]
+		)
+	)
+
+¶Platziere jeden Funken auf seiner eigenen Flugbahn, berechnet danach, wie lange er schon fliegt:Er bewegt sich mit seiner Geschwindigkeit nach außen, während die Schwerkraft ihn wieder nach unten zieht (die klassische½·g·t²-Formel). Weil wir die Position selbst berechnen, statt uns auf die Physik-Engine zu verlassen,zeichnet die ständige Neubewertung der Kamera jedes Teilchen einfach dort neu, wo es sein sollte —und es springt nie zurück zur Mitte.¶
+ƒ konfetti() (
+		t3: (uhr - gewonnenUm) ÷ 1000ms
+		funken.übersetzen(
+			ƒ(s•funke)
+				Satzglied(
+					s.emoji2
+					gesicht: "Noto Color Emoji"
+					Größe: 1.5m
+					Drehung: (s.gedreht · t3) · 1°
+					Ort: Ort(
+						(s.vx · t3) · 1m
+						((s.vy · t3) - ((g · t3 · t3) ÷ 2)) · 1m
+					)
+				)
+		)
+	)
+
+¶Du gewinnst, wenn du fünf gefunden hast: Ein zentriertes „Du gewinnst!“, das sowohl vorgelesen als auch gezeigt wird,mit den gefundenen Emojis, die wie Konfetti darüber explodieren und sichtbar werden, während das Konfettidavon fällt.¶
+ƒ finale() [
+		Gruppe(Stapel() [Satzglied('Du gewinnst!' Größe: 2m)])
+		Sagen('Du gewinnst!')
+		:konfetti()
+	]
+
+¶Die Minute ist abgelaufen: Wie weit du gekommen bist, wird sowohl vorgelesen als auch gezeigt.¶
+ƒ spielVorbei(h4•jagd) [
+		Gruppe(
+			Stapel('|' 0.4m)
+			[
+				Satzglied('⌛' gesicht: "Noto Color Emoji" Größe: 3m)
+				Satzglied('Die Zeit ist abgelaufen!' Größe: 2m)
+				Satzglied(
+					`du hast \h4.gefunden2.Länge() → ''\ von 5`
+					Größe: 0.7m
+				)
+			]
+		)
+		Sagen(
+			"Time is up. Game over. You found \h4.gefunden2.Länge(
+			) → ''\ of 5."
+		)
+	]
+
+¶Sprich das aktuelle Ding laut aus, für Spielerinnen und Spieler, die die Aufforderung nicht lesen können oder sie einfachhören möchten. Sag spricht nur, wenn sich sein Text ändert — so kündigt es jedes neueDing einmal an, nicht bei jeder Kamera-Messung.¶
+ƒ ansagen(h5•jagd) Sagen('finde ' + h5.ziel2.beschriftung)
+
+¶Das Gewinnen wird zuerst geprüft, sodass der Ablauf der Zeit nur eine Niederlage bedeuten kann.¶
+Bühne(
+	(jagen.gefunden2.Länge() ≥ 5)
+	? finale()
+		((links2 ≤ 0s) ? spielVorbei(jagen) [
+					aufforderung(jagen)
+					ansagen(jagen)
+				])
+	Ort: Ort(0m 0m -12m)
+)

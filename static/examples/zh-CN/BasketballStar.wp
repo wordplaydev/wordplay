@@ -1,43 +1,72 @@
+🏀
 篮球之星
-=== 开始
-click: ∆ Button()
+=== start
+¶用鼠标指针瞄准，然后点击投篮吧。¶
+点击2: ∆ 按钮()
 
-clickCount: 0 … click … 1 + clickCount
+点击次数: 0 … 点击2 … 1 + ⬚
 
-basketballPlace: (clickCount % 2) = 0 ? Place(x: Pointer().x y: 8m z: 0m) Motion(place: Place(0m 8m 0m))
+¶在投篮那一刻记录鼠标指针的 x 位置，这样球会从玩家瞄准的地方落下，而不是跳回 x = 0 的位置¶
+投篮X: 0m … (点击2 & ((点击次数 % 2) = 1)) … 链接().x
 
-basketball: Phrase(
-		"🏀" 0.7m
-		matter: Matter(0.623kg 0.99)
-		place: basketballPlace
-		name: "篮球"
+篮球位置: (点击次数 % 2) = 0 ? 位置(x: 链接().x y: 8m z: 0m) 运动(
+			位置: 位置(投篮X 8m 0m)
+		)
+
+篮球: 短语(
+		"🏀"
+		0.7m
+		物质: 物质(0.623kg 0.5)
+		位置: 篮球位置
+		名字: '篮球'
 	)
 
-¶ 每次投篮时随机确定篮筐位置 ¶
-basketXPlace: Random(-9000m 9000m) ÷ 1000 … (click & ((clickCount % 2) = 1)) … Random(-9000m 9000m) ÷ 1000
+¶篮框会左右不停滑动，由时间的正弦值来驱动¶
+篮框X位置: (时间() ÷ 600ms).正弦() · 6m
 
-¶ 记录得分和尝试次数 ¶
-¶ 记录得分和尝试次数 ¶
-score: 0 … (click & ((clickCount % 2) = 1) & ((basketXPlace + 0.81m) > (basketball.place ?? Place()).x) & ((basketXPlace - 0.8m) < (basketball.place ?? Place()).x)) & (2.1m > (basketball.place ?? Place()).y) … 1 + ⬚
+¶为了检查得分，只读取一次球的当前位置¶
+球X: (篮球.位置 ?? 位置()).x
+球Y: (篮球.位置 ?? 位置()).y
 
-attempt: (clickCount ÷ 2).roundUp()
+尝试: (点击次数 ÷ 2).向上取整()
 
-basketballStar: Group(Stack() [
-			Phrase("篮球" offset: Place(0m 2m 0m))
-			Phrase("之星" offset: Place(0m 1m 0m))
-			Phrase("得分: " + score → '' offset: Place(0m -4.5m 3m))
-			Phrase("尝试次数: " + attempt → '' offset: Place(0m -5m 3m))
-		] size: 2m face: "Sue Ellen Francisco" offset: Place(0m 4m 10m))
+¶只要球在篮框内部，inBin 就是真的。得分反应只有在 inBin 变为真、并且当前的尝试次数超过得分时才会触发。所以同一次投篮里的第二次进入——比如球在篮框里弹了一下，或者篮框滑回去碰到球——都不会算数，要等到下一次投篮让尝试次数增加才行¶
+在篮框内: (球X < (篮框X位置 + 0.9m)) & (球X > (篮框X位置 - 0.9m)) & (球Y < 2.9m) & (球Y > 0.3m)
+得分: 0 … 在篮框内 & (尝试 > 得分) … 1 + 得分
 
-Stage(
+篮球明星: 组合(
+		堆叠('|' 0.5m)
+		[
+			短语(`*篮球明星*` .8m)
+			短语('用鼠标指针瞄准吧。' .6m)
+			短语('点击一下，把 🏀 投进移动的篮框里。' .6m)
+			短语('得分： ' + 得分 → '' .8m)
+			短语('尝试次数： ' + 尝试 → '' .8m)
+		]
+		尺寸: 2m
+		字体: "Sue Ellen Francisco"
+		偏移: 位置(0m 8m 0m)
+	)
+
+舞台(
 	[
-		basketball
-		Shape(Rectangle(-1m + basketXPlace 0.1m 1m + basketXPlace 0m 0m) background: Color(60% 100 30°))
-		Shape(Rectangle(0.9m + basketXPlace 2m 1m + basketXPlace 0m 0m) background: Color(60% 100 30°))
-		Shape(Rectangle(-1m + basketXPlace 2m -0.9m + basketXPlace 0m 0m) background: Color(60% 100 30°))
-		Shape(Rectangle(-10m 0.01m 10m -2m))
-		basketballStar
+		篮球
+		¶篮框的墙加厚到 0.3 米（原来是 0.1 米），这样左右移动的篮框就不会穿过球了；高度也加到 3 米（原来是 2 米），这样弹性为 0.5 的球就不会弹出篮框边缘了¶
+		形状(
+			矩形(-1.2m + 篮框X位置 0.3m 1.2m + 篮框X位置 0m 0m)
+			背景: 颜色(60% 100 30°)
+		)
+		形状(
+			矩形(0.9m + 篮框X位置 3m 1.2m + 篮框X位置 0m 0m)
+			背景: 颜色(60% 100 30°)
+		)
+		形状(
+			矩形(-1.2m + 篮框X位置 3m -0.9m + 篮框X位置 0m 0m)
+			背景: 颜色(60% 100 30°)
+		)
+		形状(矩形(-10m 0.01m 10m -2m))
+		篮球明星
 	]
-	place: Place(x: 0m y: 5m z: -10m)
-	gravity: 5m/s^2
+	位置: 位置(x: 0m y: 5m z: -10m)
+	重力: 5m/s^2
 )

@@ -1,0 +1,26 @@
+H
+ĐộDàiCâu
+===
+¶Gõ vào thanh trò chuyện và nó sẽ đếm số chữ trong câu của bạn.¶
+câu2: Tròchuyện()
+độDài: Tròchuyện().chiềudài()
+
+Nhóm(
+	Ngănxếp()
+	[
+		Cụmtừ(
+			`*Xin chào! Chào mừng bạn đến với công cụ tính độ dài câu.*`
+			vịTrí: VịTrí(0m 1m)
+		)
+		Cụmtừ(
+			'Gõ điều gì đó vào thanh tin nhắn!'
+			vịTrí: VịTrí(0m -1m)
+		)
+		Cụmtừ(
+			'Câu của bạn có ' + (độDài → '') + ' chữ!'
+			nghỉngơi: Sựliêntiếp.đungđưa(khoảngthờigian: 3s)
+			vịTrí: VịTrí(0m -3m)
+		)
+		Cụmtừ(câu2 vịTrí: VịTrí(0m -5m) bọc: 25m)
+	]
+)

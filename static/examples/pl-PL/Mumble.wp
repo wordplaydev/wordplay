@@ -1,0 +1,29 @@
+m
+Mruczenie
+=== start
+¶Klikaj dalej, aby mamrotanie stawało się śmielsze.¶
+kliknięcia•#: 0 … ∆ Przycisk() … kliknięcia + 1
+
+kliknięcia < 3 ?
+	Wyrażenie(
+		'mamrotać'
+		rozmiar: 1m
+		nazwa: 'mrucz'
+		wstępowanie: Poza(skala: 0)
+		spoczynkowy: Sekwencja(
+			{
+				0%: Poza(skala: (kliknięcia + 1) × 1.1)
+				50%: Poza(skala: (kliknięcia + 1) × 0.9)
+				100%: Poza(skala: (kliknięcia + 1) × 1.1)
+			}
+			czastrwania: 0.5s
+		)
+		wychodzenie: Sekwencja(
+			{
+				0%: Poza(nieprzezroczystość: 1 skala: 1)
+				100%: Poza(nieprzezroczystość: 0 skala: 10)
+			}
+			czastrwania: 2s
+		)
+	)
+	Wyrażenie('gotowe')

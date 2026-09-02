@@ -1,0 +1,29 @@
+m
+همهمة
+=== start
+¶استمر بالنقر ليصبح التمتمة أكثر جرأة.¶
+نقرات•#: 0 … ∆ زر() … نقرات + 1
+
+نقرات < 3 ?
+	عبارة(
+		'تمتم'
+		حجم: 1m
+		اسم: 'تمتمة'
+		entering: Pose(scale: 0)
+		resting: تسلسل(
+			{
+				0%: Pose(scale: (نقرات + 1) × 1.1)
+				50%: Pose(scale: (نقرات + 1) × 0.9)
+				100%: Pose(scale: (نقرات + 1) × 1.1)
+			}
+			duration: 0.5s
+		)
+		exiting: تسلسل(
+			{
+				0%: Pose(opacity: 1 scale: 1)
+				100%: Pose(opacity: 0 scale: 10)
+			}
+			duration: 2s
+		)
+	)
+	عبارة('تم')

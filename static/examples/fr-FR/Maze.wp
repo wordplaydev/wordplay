@@ -1,0 +1,127 @@
+↑
+Labyrinthe
+=== start/en
+¶A maze is a 2D grid of emoji, with some functions for checking the state at particular grid postions.
+Mazes are generated randomly.¶/en
+•labyrinthe() (
+	grille•[[''|ø]]:
+		[
+			['🎬' '❤' '❌' ø ø]
+			['❤' ø ø ø ø]
+			['🐈' '😀' '💬' '🫥' '😞']
+			[ø '👍' ø ø '😕']
+			['🤩' '🥹' ø '😫' '😡']
+		]
+
+	ƒ cellule2(rangée•# colonne•#) (
+			cellules: grille[rangée]
+			cellules•[] ? cellules[colonne] ø
+		)
+
+	ƒ autorisé(rangée2•# colonne2•#) cellule2(
+			rangée2
+			colonne2
+		)•''
+)
+
+labyrinthe2: labyrinthe()
+
+•état(rangée3•# colonne3•# étapes•#)
+(
+	ƒ bas2() état(rangée3 + 1 colonne3 étapes + 1)
+	ƒ haut2() état(rangée3 - 1 colonne3 étapes + 1)
+	ƒ gauche2() état(rangée3 colonne3 - 1 étapes + 1)
+	ƒ droite2() état(rangée3 colonne3 + 1 étapes + 1)
+)
+
+ƒ autorisé2(état2•état rangée4•# colonne4•#) labyrinthe2.autorisé(
+		état2.rangée3 + rangée4
+		état2.colonne3 + colonne4
+	)
+
+direction2: Choix()
+état3•état: état(1 1 0) … ∆ direction2 …
+		((direction2 = "left") & autorisé2(état3 0 -1)) ? état3.gauche2(
+			)
+			((direction2 = "right") & autorisé2(état3 0 1)) ? état3.droite2(
+				)
+				((direction2 = "up") & autorisé2(état3 -1 0)) ? état3.haut2(
+					)
+					((direction2 = "down") & autorisé2(état3 1 0)) ? état3.bas2(
+						)
+						état3
+
+actuel: (
+		cellule3: labyrinthe2.cellule2(
+				état3.rangée3
+				état3.colonne3
+			)
+		cellule3 ?? ' ')
+haut3: labyrinthe2.cellule2(
+		état3.rangée3 - 1
+		état3.colonne3
+	)•''
+bas3: labyrinthe2.cellule2(
+		état3.rangée3 + 1
+		état3.colonne3
+	)•''
+gauche3: labyrinthe2.cellule2(
+		état3.rangée3
+		état3.colonne3 - 1
+	)•''
+droite3: labyrinthe2.cellule2(
+		état3.rangée3
+		état3.colonne3 + 1
+	)•''
+gagné: actuel = '🤩'
+
+Scène(
+	[
+		Groupe(
+			Grille(3 3 0.25m)
+			[
+				ø
+				Phrase(
+					'↑'
+					nom: 'up'
+					sélectionnable: haut3
+					aurepos: Pose(opacité: haut3 ? 1 0.2)
+				)
+				ø
+				Phrase(
+					'←'
+					nom: 'left'
+					sélectionnable: gauche3
+					aurepos: Pose(opacité: gauche3 ? 1 0.2)
+				)
+				Phrase(
+					actuel
+					aurepos: gagné ?
+						Séquence.tournoiement(
+							durée: 1s
+							style: 'straight'
+						)
+						Pose()
+				)
+				Phrase(
+					'→'
+					nom: 'right'
+					sélectionnable: droite3
+					aurepos: Pose(opacité: droite3 ? 1 0.2)
+				)
+				ø
+				Phrase(
+					'↓'
+					nom: 'down'
+					sélectionnable: bas3
+					aurepos: Pose(opacité: bas3 ? 1 0.2)
+				)
+				ø
+			]
+		)
+	]
+	lieu: Lieu(0m 0m -3m)
+	affronter: 'Noto Emoji'
+	arrièreplan: Couleur(0 0 0°)
+	aurepos: Pose(Couleur(100 100 0°))
+)

@@ -1,0 +1,537 @@
+🧟
+Nhồi Máu Tim
+=== start/en
+¶Heart Attack — một trò chơi kiểu góc nhìn thứ nhất nhẹ nhàng, lấy cảm hứng từ thể loại đấu trường sinh tồn. Bạn đứng yên và nhìn ra ngoài qua camera của Sân khấu, trong khi một đám xác sống chờ ở phía trước.Từng con một, xác sống gần nhất sẽ lê bước thẳng về phía bạn. Nhắm làn của bạn bằng ← →, con trỏ, hoặc chạm vào một bên màn hình, rồi ném trái tim bằng phím Space, cú nhấp chuột, hoặc cú chạm. Trái tim sẽ dừng lại ở hình dạng đầu tiên nó gặp, vì vậy hãy nhắm cho chuẩn: bắn trúng một xác sống sẽ biến nó trở lại thành một người vui vẻ, và bạn được thêm một điểm — mỗi điểm lại khiến xác sống tiến gần hơn nhanh hơn. Một người đã được biến đổi sẽ đứng yên tại chỗ và chặn trái tim của bạn, nên hãy để ý góc bắn. Biến hết mọi người thì bạn thắng; để một xác sống chạm tới bạn thì trò chơi kết thúc. Nhấn Enter hoặc chạm để bắt đầu, và để chơi lại.
+
+Mỗi giai đoạn có một giai điệu riêng, và cả bốn đều được xây dựng từ cùng một chủ đề — xem @Music ở gần cuối trang.¶
+
+¶Có bao nhiêu xác sống xuất hiện lúc bắt đầu trên sân.¶
+sốLượngThâyMa: 8
+
+¶Sự di chuyển và camera, tính bằng mét: bạn di chuyển ngang bao xa mỗi lần nhấn phím, giới hạn trái/phải của bạn, độ sâu cố định của camera khi đang chơi, và vị trí camera đứng (lùi xa hơn) khi đang hiện menu.¶
+bướcTạtNgang: 1.2m
+giớiHạnTrái: -8m
+giớiHạnPhải: 8m
+độSâuChơi: -1m
+độSâuMenu: -10m
+
+¶Nơi xác sống xuất hiện — trải dài từ gần đến xa, đều ở phía trước bạn — và khu vực mà những con lang thang di chuyển bên trong (mép gần của khu vực này luôn ở phía trước bạn, nên chỉ những con lao thẳng mới thực sự chạm tới bạn).¶
+độSâuXuấtHiệnGần: 6m
+độSâuXuấtHiệnXa: 22m
+độSâuLangThangGần: 3m
+độSâuLangThangXa: 24m
+
+¶Cách chỉnh trái tim và va chạm: trái tim bay và mờ dần như thế nào, nó va chạm ra sao, xác sống phải đến gần bạn bao nhiêu để kết thúc trò chơi, và cách những con lao thẳng di chuyển — tiến gần, lang thang, lắc qua lại, bám theo, và tăng tốc theo mỗi điểm. Hai xác sống gần nhất sẽ lao thẳng cùng lúc; số còn lại thì lang thang.¶
+tốcĐộTráiTim: 1m
+phạmViTráiTim: 26m
+bánKínhVaChạm: 1.8m
+khoảngCáchVớiTới: 1.8m
+tốcĐộLaoTớiCơBản: 0.1m
+tốcĐộLangThang: 0.1m
+tốcĐộĐanXen: 0.12m
+độRộngĐanXen: 1.8m
+tốcĐộVềNhà: 0.05m
+tăngTốcMỗiĐiểm: 0.2
+
+¶Những người vui vẻ mà một xác sống được biến đổi có thể trở thành.¶
+người: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '🧑‍🎤' '🦸' '🧚' '🧑‍🍳' '🕺' '💃' '🧑‍⚕']
+
+¶Một hình dạng trên sân: một vị trí, một hướng lang thang trên mỗi trục (mỗi giá trị là -1 hoặc 1, chỉ dùng khi đang lang thang), việc nó có còn là xác sống hay không, và biểu tượng cảm xúc nào để hiển thị (🧟 khi còn là xác sống, hình người khi đã được biến đổi).¶
+•thâyMa(x2•#m z2•#m hướngX•# hướngZ•# cònSống•? khuônMặt2•"")
+
+¶Toàn bộ trò chơi trong một giá trị: giai đoạn (1 = bắt đầu, 2 = đang chơi, 3 = thắng, 4 = thua), vị trí camera/người chơi, trạng thái của trái tim, điểm số, và mọi thứ trên sân.¶
+•tròChơi(giaiĐoạn•# cameraX•#m zMáyQuay•#m tráiTim•? tráiTimX•#m tráiTimZ•#m tráiTimBắtĐầu•#m điểmSố•# thâyMa2•[thâyMa])
+
+¶Khoảng cách bình phương tốt hơn khoảng cách thật ở đây: không cần căn bậc hai, và đơn vị vẫn gọn gàng (mét nhân mét), nên phép so sánh luôn đúng kiểu.¶
+ƒ gần(mộtX•#m mộtZ•#m haiX•#m haiZ•#m bánKính2•#m)
+	(((mộtX - haiX) · (mộtX - haiX)) + ((mộtZ - haiZ) · (mộtZ - haiZ))) < (bánKính2 · bánKính2)
+
+¶Có bao nhiêu hình dạng vẫn còn là xác sống.¶
+ƒ sốLượngSống(thâyMa3•[thâyMa]) thâyMa3.lọc(
+		ƒ(thâyMa4•thâyMa) thâyMa4.cònSống
+	).chiềudài(
+	)
+
+¶Lê một bước về phía người chơi: tiến về phía trước theo chiều sâu trong khi lắc qua lại hai bên để khó bị bắn trúng hơn, đổi hướng lắc ở rìa của một dải quanh làn của bạn, và bám nhẹ theo bạn giữa các lần lắc để né tránh chỉ có tác dụng trong chốc lát.¶
+ƒ laoVềPhíaNgườiChơi(thâyMa5•thâyMa cameraX2•#m tốcĐộLaoTới•#m) (
+		đãUốnX: thâyMa5.x2 + (thâyMa5.hướngX · tốcĐộĐanXen)
+		đãHướngVềX: đãUốnX + ((cameraX2 - đãUốnX).tốiđa(
+						tốcĐộVềNhà · -1
+					)).phút(
+					tốcĐộVềNhà
+				)
+		ởRìa: (đãUốnX > (cameraX2 + độRộngĐanXen)) | (đãUốnX < (cameraX2 - độRộngĐanXen))
+		thâyMa(
+			đãHướngVềX
+			(thâyMa5.z2 - tốcĐộLaoTới)
+			(ởRìa ? (thâyMa5.hướngX · -1) thâyMa5.hướngX)
+			thâyMa5.hướngZ
+			thâyMa5.cònSống
+			thâyMa5.khuônMặt2
+		)
+	)
+
+¶Lang thang một bước: trôi theo hướng lang thang, dội lại ở rìa sân bằng cách đứng yên tại chỗ và đổi ngược hướng đang đi.¶
+ƒ langThang(thâyMa6•thâyMa tốcĐộ•#m) (
+		xMới: thâyMa6.x2 + (thâyMa6.hướngX · tốcĐộ)
+		zMới: thâyMa6.z2 + (thâyMa6.hướngZ · tốcĐộ)
+		nảyX: (xMới > giớiHạnPhải) | (xMới < giớiHạnTrái)
+		nảyZ: (zMới > độSâuLangThangXa) | (zMới < độSâuLangThangGần)
+		thâyMa(
+			(nảyX ? thâyMa6.x2 xMới)
+			(nảyZ ? thâyMa6.z2 zMới)
+			(nảyX ? (thâyMa6.hướngX · -1) thâyMa6.hướngX)
+			(nảyZ ? (thâyMa6.hướngZ · -1) thâyMa6.hướngZ)
+			thâyMa6.cònSống
+			thâyMa6.khuônMặt2
+		)
+	)
+
+¶Một sân xác sống mới, trải dài từ gần đến xa, rải rác từ trái sang phải, mỗi con lang thang theo một hướng ngẫu nhiên.¶
+ƒ sinhRaThâyMa()
+	(sốLượngThâyMa → []).dịch(
+		ƒ(chỉMục2•#)
+			thâyMa(
+				Ngẫunhiên(giớiHạnTrái giớiHạnPhải)
+				(độSâuXuấtHiệnGần + (chỉMục2 · ((độSâuXuấtHiệnXa - độSâuXuấtHiệnGần) ÷ sốLượngThâyMa)))
+				[-1 1].ngẫunhiên()
+				[-1 1].ngẫunhiên()
+				⊤
+				'🧟'
+			)
+	)
+
+¶Bắt đầu một lượt mới: đang chơi, máy quay ở tầm mắt, không có tim, không có điểm.¶
+ƒ tròChơiMới() tròChơi(
+		2
+		0m
+		độSâuChơi
+		⊥
+		0m
+		0m
+		0m
+		0
+		sinhRaThâyMa()
+	)
+
+¶Ném một trái tim xuống làn đường hiện tại của bạn, trừ khi đã có một trái tim đang bay. Nó bắt đầu ngay phía trước nơi bạn đứng, không phải nơi máy quay đặt, cùng lý do với phép thử tầm với.¶
+ƒ némTráiTim(tròChơi2•tròChơi)
+	tròChơi2.tráiTim ? tròChơi2 tròChơi(
+			tròChơi2.giaiĐoạn
+			tròChơi2.cameraX
+			tròChơi2.zMáyQuay
+			⊤
+			tròChơi2.cameraX
+			(độSâuChơi + 1m)
+			độSâuChơi
+			tròChơi2.điểmSố
+			tròChơi2.thâyMa2
+		)
+
+¶Dịch làn đường của bạn một bước về phía một điểm, nhưng không bao giờ vượt quá giới hạn của bạn. Con trỏ báo điểm trong thế giới mà nó đang ở trên, vậy khoảng cách từ làn đường của bạn tới điểm đó cho biết nó ở bên trái hay bên phải bạn bao xa — bước về phía nó giúp con trỏ nhắm, và chạm vào một trong hai bên sẽ khiến bạn di chuyển theo hướng đó.¶
+ƒ hướngTới(tròChơi3•tròChơi mụcTiêu•#m)
+	tròChơi3.cameraX:(tròChơi3.cameraX + ((mụcTiêu - tròChơi3.cameraX).tốiđa(
+					bướcTạtNgang · -1
+				)).phút(
+				bướcTạtNgang
+			)).tốiđa(
+		giớiHạnTrái
+	).phút(
+		giớiHạnPhải
+	)
+
+¶Một lần nhấn phím khi đang chơi: né sang trái hoặc phải, hoặc ném một trái tim.¶
+ƒ ápDụngPhímBấm(tròChơi4•tròChơi chìaKhóa2•"")
+	(chìaKhóa2 = 'Mũi tên trái') ? hướngTới(
+			tròChơi4
+			(tròChơi4.cameraX - bướcTạtNgang)
+		)
+		(chìaKhóa2 = 'Mũi tên phải') ? hướngTới(
+				tròChơi4
+				(tròChơi4.cameraX + bướcTạtNgang)
+			)
+			(chìaKhóa2 = 'Không gian') ? némTráiTim(tròChơi4)
+				tròChơi4
+
+¶Một khung hình của thế giới: cho trái tim bay tới khi nó chạm hình đầu tiên trên đường đi (một người đã hóa lại chặn nó giống như một zombie), biến một zombie bị chạm thành người, cho hai zombie gần nhất tiến về phía người chơi trong khi những zombie còn lại đi lang thang, rồi kiểm tra thắng (mọi người đã hóa lại) hoặc thua (một zombie đã chạm tới bạn). Khi thắng hoặc thua, máy quay sẽ dừng ở vị trí của màn hình trình đơn.¶
+ƒ tiếnTớiThếGiới(tròChơi5•tròChơi) (
+		tráiTimZKếTiếp: tròChơi5.tráiTim ? (tròChơi5.tráiTimZ + tốcĐộTráiTim) tròChơi5.tráiTimZ
+		tráiTimMờDần: tròChơi5.tráiTim & ((tráiTimZKếTiếp - tròChơi5.tráiTimBắtĐầu) > phạmViTráiTim)
+		tráiTimĐangHoạtĐộng: tròChơi5.tráiTim & ~tráiTimMờDần
+		tốcĐộLaoTới2: tốcĐộLaoTớiCơBản · (1 + (tròChơi5.điểmSố · tăngTốcMỗiĐiểm))
+		¶Những zombie còn sống gần nhất sẽ xông tới; độ sâu của chúng giúp chọn ra chúng ở phía dưới.¶
+		sốngTheoĐộSâu: tròChơi5.thâyMa2.lọc(
+				ƒ(thâyMa7•thâyMa) thâyMa7.cònSống
+			).đãsắpxếp(
+				ƒ(thâyMa8•thâyMa) thâyMa8.z2
+			)
+		độSâuKẻXôngTớiĐầuTiên: (sốngTheoĐộSâu.chiềudài() ≥ 1) ? sốngTheoĐộSâu[1].z2 -999m
+		độSâuKẻXôngTớiThứHai: (sốngTheoĐộSâu.chiềudài() ≥ 2) ? sốngTheoĐộSâu[2].z2 -999m
+		hìnhTrênĐườngĐi: tráiTimĐangHoạtĐộng ? tròChơi5.thâyMa2.lọc(
+					ƒ(thâyMa9•thâyMa) gần(
+							thâyMa9.x2
+							thâyMa9.z2
+							tròChơi5.tráiTimX
+							tráiTimZKếTiếp
+							bánKínhVaChạm
+						)
+				) []
+		hìnhBịĐánhTrúng: hìnhTrênĐườngĐi.đãsắpxếp(
+				ƒ(thâyMa10•thâyMa) thâyMa10.z2
+			).Đầutiên(
+			)
+		độSâuBịĐánhTrúng: (hìnhBịĐánhTrúng•ø) ? -999m hìnhBịĐánhTrúng.z2
+		đangChuyểnĐổi: (hìnhBịĐánhTrúng•ø) ? ⊥ hìnhBịĐánhTrúng.cònSống
+		thâyMaKếTiếp: tròChơi5.thâyMa2.dịch(
+				ƒ(thâyMa11•thâyMa)
+					thâyMa11.cònSống ?
+						((đangChuyểnĐổi & (thâyMa11.z2 = độSâuBịĐánhTrúng)) ? thâyMa(
+									thâyMa11.x2
+									thâyMa11.z2
+									thâyMa11.hướngX
+									thâyMa11.hướngZ
+									⊥
+									người.ngẫunhiên()
+								)
+								(((thâyMa11.z2 = độSâuKẻXôngTớiĐầuTiên) | (thâyMa11.z2 = độSâuKẻXôngTớiThứHai)) ? laoVềPhíaNgườiChơi(
+											thâyMa11
+											tròChơi5.cameraX
+											tốcĐộLaoTới2
+										) langThang(thâyMa11 tốcĐộLangThang)))
+						thâyMa11
+			)
+		sốLượngĐãChuyểnĐổi: sốLượngSống(tròChơi5.thâyMa2) - sốLượngSống(
+					thâyMaKếTiếp
+				)
+		tráiTimKếTiếp: tráiTimĐangHoạtĐộng & (hìnhBịĐánhTrúng•ø)
+		¶Bất kỳ zombie còn sống nào chạm tới độ sâu của bạn sẽ kết thúc trò chơi — bất kể làn đường của nó là gì — để không có zombie nào có thể lướt qua bạn và đưa trò chơi vào trạng thái không thể thắng. Điều này được đo dựa trên\độSâuChơi\, nơi bạn đứng, và không bao giờ dựa trên máy quay: sân khấu kéo máy quay ra xa hơn trên màn hình nhỏ, và người xem có thể phóng to thêm nữa, nhưng không điều gì trong số đó nên làm thay đổi khoảng cách mà một zombie cần đến để chạm tới bạn.¶
+		đãMất: thâyMaKếTiếp.lọc(
+				ƒ(thâyMa12•thâyMa) thâyMa12.cònSống & (thâyMa12.z2 ≤ (độSâuChơi + khoảngCáchVớiTới))
+			).chiềudài(
+			) > 0
+		thắng: sốLượngSống(thâyMaKếTiếp) = 0
+		giaiĐoạnKếTiếp: thắng ? 3 (đãMất ? 4 2)
+		máyQuayXKếTiếp: (giaiĐoạnKếTiếp = 2) ? tròChơi5.cameraX 0m
+		máyQuayZKếTiếp: (giaiĐoạnKếTiếp = 2) ? tròChơi5.zMáyQuay độSâuMenu
+		tròChơi(
+			giaiĐoạnKếTiếp
+			máyQuayXKếTiếp
+			máyQuayZKếTiếp
+			tráiTimKếTiếp
+			tròChơi5.tráiTimX
+			tráiTimZKếTiếp
+			tròChơi5.tráiTimBắtĐầu
+			(tròChơi5.điểmSố + sốLượngĐãChuyểnĐổi)
+			thâyMaKếTiếp
+		)
+	)
+
+chìaKhóa3: Chìakhóa()
+nhịp2: Thờigian(30ms)
+conTrỏ: Contrỏ()
+chạm: Cáinút()
+
+¶Nhịp tim của trò chơi, được điều khiển bởi bốn nguồn dữ liệu vào: một tiếng tích của đồng hồ, một phím, sự di chuyển của con trỏ, và một lần nhấp/chạm. Khi đang chơi, mỗi tiếng tích giúp thế giới tiến thêm một bước, các phím giúp né tránh và ném, sự di chuyển của con trỏ giúp nhắm làn đường của bạn, và một lần chạm sẽ ném một trái tim. Từ một trình đơn, phím Enter hoặc một lần chạm sẽ bắt đầu một lượt mới — chạm để người chơi dùng cảm ứng cũng bắt đầu được, và dùng Enter (không phải Space) để việc bấm liên tục phím Space để ném không vô tình khởi động lại trò chơi.¶
+tròChơi6•tròChơi: tròChơi(
+		1
+		0m
+		độSâuMenu
+		⊥
+		0m
+		0m
+		0m
+		0
+		sinhRaThâyMa()
+	)
+	… (∆ nhịp2 | ∆ chìaKhóa3 | ∆ conTrỏ | ∆ chạm) …
+		(tròChơi6.giaiĐoạn = 2)
+		? (∆ nhịp2 ? tiếnTớiThếGiới(tròChơi6)
+					(∆ chìaKhóa3 ? ápDụngPhímBấm(tròChơi6 chìaKhóa3)
+							(∆ conTrỏ ? hướngTới(tròChơi6 conTrỏ.x) némTráiTim(
+										tròChơi6
+									))))
+			(∆ nhịp2 ? tròChơi6
+					(∆ chìaKhóa3 ? ((chìaKhóa3 = 'Đi vào') ? tròChơiMới(
+									) tròChơi6)
+							(∆ chạm ? tròChơiMới() tròChơi6)))
+
+¶Một hình trên sân khấu: zombie lắc lư, người đã hóa lại nhảy lên vui vẻ một chút. Độ sâu làm phần còn lại — một zombie đang xông tới trông to hơn khi nó tới gần. Khoảng thời gian 0 giây khiến mỗi bước diễn ra ngay lập tức thay vì chuyển động mượt dần, nên chuyển động trông như các khung hình trơn tru, không như đang bắt kịp một cách chậm chạp.¶
+ƒ khungNhìnThâyMa(thâyMa13•thâyMa)
+	Cụmtừ(
+		thâyMa13.khuônMặt2
+		2m
+		khoảngthờigian: 0s
+		vịTrí: VịTrí(thâyMa13.x2 0m thâyMa13.z2)
+		nghỉngơi: thâyMa13.cònSống
+		? Sựliêntiếp.đungđưa(4° 1s "zippy")
+			Sựliêntiếp(
+				{
+					0%: Tưthế(tỉlệ: 1)
+					50%: Tưthế(tỉlệ: 1.2)
+					100%: Tưthế(tỉlệ: 1)
+				}
+				0.6s
+			)
+	)
+
+¶Sàn nhà: các thanh ở những độ sâu tăng dần mà góc nhìn xa gần đọc thành một mặt đất lùi dần về đường chân trời, mờ dần từ xanh lá sang xanh lam để tạo cảm giác không khí. Thanh đầu tiên là đường mà một zombie phải vượt qua để kết thúc trò chơi, được vẽ bằng màu đỏ cảnh báo để quy tắc này dễ thấy: máy quay kéo ra xa trên màn hình nhỏ và người xem có thể phóng nhỏ lại, và một zombie trông có vẻ ở xa vẫn đang đứng trên đường này khi nó chạm tới bạn.¶
+sànNhà: [
+		Cụmtừ(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			khoảngthờigian: 0s
+			vịTrí: VịTrí(0m -2.8m (độSâuChơi + khoảngCáchVớiTới))
+			màusắc: Màusắc(58% 55 25°)
+		)
+		Cụmtừ(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			khoảngthờigian: 0s
+			vịTrí: VịTrí(0m -2.8m 4m)
+			màusắc: Màusắc(56% 40 130°)
+		)
+		Cụmtừ(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			khoảngthờigian: 0s
+			vịTrí: VịTrí(0m -2.8m 6m)
+			màusắc: Màusắc(50% 36 136°)
+		)
+		Cụmtừ(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			khoảngthờigian: 0s
+			vịTrí: VịTrí(0m -2.8m 8m)
+			màusắc: Màusắc(45% 32 142°)
+		)
+		Cụmtừ(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			khoảngthờigian: 0s
+			vịTrí: VịTrí(0m -2.8m 11m)
+			màusắc: Màusắc(40% 28 148°)
+		)
+		Cụmtừ(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			khoảngthờigian: 0s
+			vịTrí: VịTrí(0m -2.8m 15m)
+			màusắc: Màusắc(35% 24 154°)
+		)
+		Cụmtừ(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			khoảngthờigian: 0s
+			vịTrí: VịTrí(0m -2.8m 20m)
+			màusắc: Màusắc(31% 20 160°)
+		)
+	]
+
+¶Một trái tim đang bay trong thế giới, và một bảng hiện điểm được gắn cố định phẳng ở phía trên cùng màn hình qua lớp phủ của sân khấu, để nó luôn đứng yên khi máy quay di chuyển ngang.¶
+khungNhìnTráiTim: Cụmtừ(
+		'🫀'
+		1.2m
+		khoảngthờigian: 0s
+		vịTrí: VịTrí(tròChơi6.tráiTimX 0m tròChơi6.tráiTimZ)
+	)
+hiểnThịĐiểmSố: Cụmtừ(
+		"🫀 \tròChơi6.điểmSố\"
+		1.2m
+		vịTrí: VịTrí(0m 4m)
+	)
+
+¶Văn bản trình đơn, dùng chung cho màn hình bắt đầu, màn hình thắng và màn hình thua.¶
+tiêuĐềMànHình: tròChơi6.giaiĐoạn ???
+		3: '🎉 Bạn đã cứu mọi người! 🎉'
+		4: '💀 Một zombie đã bắt được bạn! 💀'
+		'🫀 ĐAU TIM 🫀'
+phụĐềMànHình: (tròChơi6.giaiĐoạn = 1) ? 'Một đàn zombie đang sổng ra. Hãy biến chúng lại thành người bằng tình yêu.' "Score: \tròChơi6.điểmSố\"
+dòngBắtĐầu: (tròChơi6.giaiĐoạn = 1) ? 'Nhấn Enter hoặc chạm để bắt đầu' 'Nhấn Enter hoặc chạm để chơi lại'
+
+khungNhìnMànHình: [
+		Nhóm(
+			Ngănxếp()
+			[
+				Cụmtừ(tiêuĐềMànHình 1.1m)
+				Cụmtừ(phụĐềMànHình 0.6m)
+				Cụmtừ('← → hoặc chỉ vào để nhắm' 0.5m)
+				Cụmtừ(
+					'Space, nhấp, hoặc chạm để có một trái tim 🫀'
+					0.5m
+				)
+				Cụmtừ(dòngBắtĐầu 0.7m)
+			]
+		)
+	]
+
+¶Hiện khu vực chơi và sàn của nó khi đang chơi, còn không thì hiện trình đơn. Mỗi danh sách sẽ trống trong giai đoạn không phù hợp, và một danh sách trống sẽ trải ra thành không có gì.¶
+danhSáchNền: (tròChơi6.giaiĐoạn = 2) ? sànNhà []
+danhSáchXácSống: (tròChơi6.giaiĐoạn = 2) ? tròChơi6.thâyMa2.dịch(
+			ƒ(thâyMa14•thâyMa) khungNhìnThâyMa(thâyMa14)
+		) []
+danhSáchTráiTim: ((tròChơi6.giaiĐoạn = 2) & tròChơi6.tráiTim) ? [
+			khungNhìnTráiTim
+		] []
+lớpĐiểmSố: (tròChơi6.giaiĐoạn = 2) ? [hiểnThịĐiểmSố] []
+danhSáchMànHình: (tròChơi6.giaiĐoạn ≠ 2) ? khungNhìnMànHình [
+		]
+
+¶Màu nền của sân khấu phản ánh kết quả: màu xanh ấm khi thắng, màu đỏ đậm khi thua, và màu tím hoàng hôn mặc định khi đang bắt đầu hoặc đang chơi.¶
+nềnSânKhấu: tròChơi6.giaiĐoạn ???
+		3: Màusắc(48% 42 145°)
+		4: Màusắc(22% 45 25°)
+		Màusắc(25% 20 285°)
+
+¶Một chủ đề âm nhạc chạy suốt cả bốn bản nhạc: đi lên hợp âm ba thứ đến bậc sáu rồi đi xuống lại. Điều thú vị là bảy bậc âm này nghe rùng rợn trong thang thứ hòa âm nhưng lại vui tươi trong thang trưởng, vì vậy nhạc chiến thắng chơi đúng giai điệu giống hệt — nó chỉ không còn giống phim kinh dị nữa.
+
+Mỗi bản nhạc dưới đây dài đúng tám nhịp bất kể độ dài nốt nhạc của nó, vì vậy chúng đều quay lại cùng nhau và mỗi bản nhạc lặp lại không có chỗ nối.¶
+chủĐề: [1 ø 3 ø 5 ø 6 ø 5 ø 3 ø 1 ø ø ø]
+
+¶Đang chờ để bắt đầu: một âm trầm chậm, chủ đề âm nhạc vang xa trên một tiếng chuông, và một nhịp tim ở phía dưới.¶
+bàiHátMenu: ÂmNhạc(
+		[
+			BảnNhạc(
+				chủĐề
+				nhạcCụ: NhạcCụ.chuông
+				nhịp: 0.5beats
+				âmLượng: 45%
+			)
+			BảnNhạc(
+				[{1 3 5} {1 3 5} {6 8 10} {5 7 9}]
+				nhạcCụ: NhạcCụ.đànPadTổngHợp
+				nhịp: 2beats
+				âmLượng: 40%
+			)
+			BảnNhạc(
+				[1 ø 1 ø 6 ø 5 ø]
+				nhạcCụ: NhạcCụ.đànBassTổngHợp
+				nhịp: 1beats
+				âmLượng: 50%
+			)
+			BảnNhạc(
+				[1 ø ø ø 1 ø ø ø]
+				nhạcCụ: NhạcCụ.trống
+				nhịp: 1beats
+				âmLượng: 30%
+			)
+		]
+		nhịpĐộ: 72beats/min
+		thangÂm: ÂmNhạc.thứHòaÂm
+		tên: 'menu'
+	)
+
+¶Cuộc rượt đuổi: cùng một chủ đề nhưng nhanh gấp gần hai lần, trên nền bass chạy đều và một nhịp trống không bao giờ ngừng.¶
+bàiHátRượtĐuổi: ÂmNhạc(
+		[
+			BảnNhạc(
+				chủĐề
+				nhạcCụ: NhạcCụ.đànTổngHợp
+				nhịp: 0.5beats
+				âmLượng: 45%
+			)
+			BảnNhạc(
+				[1 ø 1 1 1 ø 1 1 6 ø 6 6 5 ø 5 5]
+				nhạcCụ: NhạcCụ.đànBassTổngHợp
+				nhịp: 0.5beats
+				âmLượng: 55%
+			)
+			BảnNhạc(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 1 3]
+				nhạcCụ: NhạcCụ.trống
+				nhịp: 0.5beats
+				âmLượng: 40%
+			)
+		]
+		nhịpĐộ: 132beats/min
+		thangÂm: ÂmNhạc.thứHòaÂm
+		tên: 'rượt đuổi'
+	)
+
+¶Chiến thắng: cùng một chủ đề nhưng ở âm giai trưởng, được nhân đôi cao hơn một quãng tám trên sáo, trên nền hợp âm sáng nhất trong ví dụ này. Đây là giai điệu vui duy nhất.¶
+bàiHátThắng: ÂmNhạc(
+		[
+			BảnNhạc(
+				chủĐề
+				nhạcCụ: NhạcCụ.chuông
+				nhịp: 0.5beats
+				âmLượng: 55%
+			)
+			BảnNhạc(
+				chủĐề
+				nhạcCụ: NhạcCụ.sáo
+				nhịp: 0.5beats
+				chìaKhóa: 12semitones
+				âmLượng: 40%
+			)
+			BảnNhạc(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				nhạcCụ: NhạcCụ.đànPiano
+				nhịp: 2beats
+				âmLượng: 45%
+			)
+			BảnNhạc(
+				[1 ø 3 ø 2 ø 3 ø]
+				nhạcCụ: NhạcCụ.trống
+				nhịp: 1beats
+				âmLượng: 35%
+			)
+		]
+		nhịpĐộ: 120beats/min
+		thangÂm: ÂmNhạc.trưởng
+		tên: 'thắng'
+	)
+
+¶Thất bại: chủ đề thấp hơn một quãng tám và chậm bằng nửa tốc độ của menu, trên nền âm trầm didgeridoo và các hợp âm không cố quay về nốt chủ — chúng kết thúc ở nốt thứ sáu thay vì nốt chủ, nên vòng lặp không bao giờ được giải quyết.¶
+bàiHátThua: ÂmNhạc(
+		[
+			BảnNhạc(
+				chủĐề
+				nhạcCụ: NhạcCụ.chuông
+				nhịp: 0.5beats
+				chìaKhóa: -12semitones
+				âmLượng: 45%
+			)
+			BảnNhạc(
+				[1 ø ø ø]
+				nhạcCụ: NhạcCụ.kènDidgeridoo
+				nhịp: 2beats
+				âmLượng: 50%
+			)
+			BảnNhạc(
+				[{1 3 5} {1 3 5} {6 8 10} {6 8 10}]
+				nhạcCụ: NhạcCụ.đànPadTổngHợp
+				nhịp: 2beats
+				âmLượng: 40%
+			)
+			BảnNhạc(
+				[1 ø ø ø ø ø ø ø]
+				nhạcCụ: NhạcCụ.trống
+				nhịp: 1beats
+				âmLượng: 30%
+			)
+		]
+		nhịpĐộ: 56beats/min
+		thangÂm: ÂmNhạc.thứHòaÂm
+		tên: 'thua'
+	)
+
+¶Chỉ có giai điệu của giai đoạn hiện tại xuất hiện trên sân khấu, và một @Music không còn ở đó sẽ dừng lại — vì vậy việc đổi giai đoạn chính là điều làm thay đổi âm nhạc.¶
+nhạcNền: tròChơi6.giaiĐoạn ???
+		1: bàiHátMenu
+		3: bàiHátThắng
+		4: bàiHátThua
+		bàiHátRượtĐuổi
+
+Sânkhấu(
+	[
+		:danhSáchNền
+		:danhSáchXácSống
+		:danhSáchTráiTim
+		:danhSáchMànHình
+		nhạcNền
+	]
+	vịTrí: VịTrí(tròChơi6.cameraX 0m tròChơi6.zMáyQuay)
+	lýlịch: nềnSânKhấu
+	màusắc: Màusắc(97% 0 0°)
+	lớpPhủ: lớpĐiểmSố
+)

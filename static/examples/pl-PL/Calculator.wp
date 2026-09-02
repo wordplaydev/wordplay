@@ -1,0 +1,85 @@
+0⃣
+Kalkulator
+=== start/en
+¶Kalkulator kieszonkowy zbudowany z kilku funkcji arytmetycznych.¶
+
+¶Funkcje, które wykonują obliczenia¶
+ƒ dodawanie(num1•# num2•#) num1 + num2
+ƒ odejmowanie(num12•# num22•#) num12 - num22
+ƒ mnożenie(num13•# num23•#) num13 × num23
+ƒ dzielenie(num14•# num24•#) num14 ÷ num24
+
+wybór: Wybór()
+klatka: 1 … ∆ (wybór) … 1 + klatka
+
+¶Wartości logiczne śledzące, czy każda wartość została wybrana¶
+num1wybrany: ⊥ … ∆ (wybór) … (wybór.zaczynasię('num1')) & ~num1wybrany
+num2wybrany: ⊥ … ∆ (wybór) … (wybór.zaczynasię('num2')) & ~num2wybrany
+owybrany: ⊥ … ∆ (wybór) … (wybór.zaczynasię('op')) & ~owybrany
+
+¶Śledzi operandy i operatory¶
+num15: ø → # … num1wybrany … ((wybór ÷ '')[-1]) → #
+num25: ø → # … num2wybrany … ((wybór ÷ '')[-1]) → #
+operator: ø … owybrany … ((wybór ÷ '')[-1])
+
+¶Ekran do wybierania pierwszej liczby¶
+liczby1: Grupa(
+		Siatka(2 5)
+		[
+			Wyrażenie("0⃣" wybieralny: ⊤ nazwa: 'num1_0')
+			Wyrażenie("1⃣" wybieralny: ⊤ nazwa: 'num1_1')
+			Wyrażenie("2⃣" wybieralny: ⊤ nazwa: 'num1_2')
+			Wyrażenie("3⃣" wybieralny: ⊤ nazwa: 'num1_3')
+			Wyrażenie("4⃣" wybieralny: ⊤ nazwa: 'num1_4')
+			Wyrażenie("5⃣" wybieralny: ⊤ nazwa: 'num1_5')
+			Wyrażenie("6⃣" wybieralny: ⊤ nazwa: 'num1_6')
+			Wyrażenie("7⃣" wybieralny: ⊤ nazwa: 'num1_7')
+			Wyrażenie("8⃣" wybieralny: ⊤ nazwa: 'num1_8')
+			Wyrażenie("9⃣" wybieralny: ⊤ nazwa: 'num1_9')
+		]
+	)
+
+¶Ekran do wyboru drugiej liczby¶
+liczby2: Grupa(
+		Siatka(2 5)
+		[
+			Wyrażenie("0⃣" wybieralny: ⊤ nazwa: 'num2_0')
+			Wyrażenie("1⃣" wybieralny: ⊤ nazwa: 'num2_1')
+			Wyrażenie("2⃣" wybieralny: ⊤ nazwa: 'num2_2')
+			Wyrażenie("3⃣" wybieralny: ⊤ nazwa: 'num2_3')
+			Wyrażenie("4⃣" wybieralny: ⊤ nazwa: 'num2_4')
+			Wyrażenie("5⃣" wybieralny: ⊤ nazwa: 'num2_5')
+			Wyrażenie("6⃣" wybieralny: ⊤ nazwa: 'num2_6')
+			Wyrażenie("7⃣" wybieralny: ⊤ nazwa: 'num2_7')
+			Wyrażenie("8⃣" wybieralny: ⊤ nazwa: 'num2_8')
+			Wyrażenie("9⃣" wybieralny: ⊤ nazwa: 'num2_9')
+		]
+	)
+
+¶Ekran do wyboru działania¶
+operatory: Grupa(
+		Siatka(2 2)
+		[
+			Wyrażenie("➕" wybieralny: ⊤ nazwa: 'op_a')
+			Wyrażenie("➖" wybieralny: ⊤ nazwa: 'op_s')
+			Wyrażenie("✖" wybieralny: ⊤ nazwa: 'op_m')
+			Wyrażenie("➗" wybieralny: ⊤ nazwa: 'op_d')
+		]
+	)
+
+¶Ekran pokazujący wynik¶
+wynik: ((operator = 'a') | (operator = 's')) ?
+		(operator = 'a' ? dodawanie(num15 num25) odejmowanie(
+					num15
+					num25
+				))
+		(operator = 'm' ? mnożenie(num15 num25) dzielenie(
+					num15
+					num25
+				))
+
+¶Przejdź przez każdy ekran¶
+ustawienia: [liczby1 operatory liczby2 wynik]
+
+¶Wyświetl¶
+ustawienia[klatka]

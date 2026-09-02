@@ -1,0 +1,53 @@
+🐭
+Auffangen
+=== start/en
+¶Fange die huschende Maus mit einem Klick — klicke erneut, um sie wieder freizulassen.
+
+Beide Klänge kommen aus den Posen selbst. Eine @Pose kann eine @Music tragen, die genau in dem Moment abgespielt wird, in dem diese Pose eingenommen wird: Das Anspringen erklingt, wenn sich die Ruhepose der Maus in die gefangene Pose ändert, und das Huschen erklingt, wenn die Drehung die Pose auf halbem Weg erreicht, mit der es verknüpft ist. Zwischen der Animation und dem Klang muss nichts extra verbunden werden — die Pose ist der Ort, an dem sie zusammentreffen.¶
+
+¶Zwei kurze Stücke. Eine @Track wiederholt sich standardmäßig, aber eine Pose ist ein Augenblick und kein andauernder Zustand. Deshalb spielt die Musik einer Pose immer nur einmal komplett durch.¶
+anspringen: Musik(
+		Spur([5 1] Instrument: Instrument.Glocke Schlag: 1beats)
+		Lautstärke: 50%
+		Name: 'anspringen'
+	)
+huschen: Musik(
+		Spur([1 2] Instrument: Instrument.Flöte Schlag: 1beats)
+		Lautstärke: 35%
+		Name: 'huschen'
+	)
+
+¶Wenn die ausgewählte Phrase die Maus ist, schalte um, ob die Maus gefangen ist.¶
+name2: Auswahl()
+gefangen: ⊥ … ∆ (name2) … (name2 = 'mouse') & ~gefangen
+¶Bewege die Maus jede Sekunde¶
+platzieren: Ort(0m 0m 0m) … ∆ Zeit(1000ms) … gefangen ? Ort(
+				0m
+				0m
+			) Ort(Zufällig(-2m 2m) Zufällig(-2m 2m))
+
+Bühne(
+	[
+		Satzglied(
+			"🐭"
+			wählbar: ⊤
+			Ort: platzieren
+			Ruhen: gefangen ? Pose(
+					Drehung: 180°
+					Musik: anspringen
+				) Pose(
+				)
+			ziehenum: gefangen ? Pose() Reihenfolge(
+					{
+						0%: Pose(Drehung: 0°)
+						50%: Pose(Drehung: 180° Musik: huschen)
+						100%: Pose(Drehung: 360°)
+					}
+				)
+			Dauer: 1s
+			Name: 'mouse'
+		)
+	]
+	Ort: Ort(0m 0m -5m)
+	rahmen: Rechteck(-3m 3m 3m -3m)
+)

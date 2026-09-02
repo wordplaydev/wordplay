@@ -1,0 +1,8 @@
+•
+Panandaan ng Oras
+===
+¶Isang hanay ng mga tuldok na dumadami hanggang lima, tapos nagsisimula ulit, isang beses bawat segundo.¶
+Parirala(
+	"•".paulitulit(((Oras(1000ms) → #s) % 5).roundDown() + 1s)
+	tagal: 0s
+)

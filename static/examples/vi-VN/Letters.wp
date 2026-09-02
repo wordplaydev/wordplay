@@ -1,0 +1,23 @@
+മ
+Chữ cái
+=== start/en
+¶Một lưới các chữ cái từ nhiều hệ chữ viết, mỗi giây lại đổi một chữ.¶
+chữCái: 'മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ' ÷ ""
+
+mớiNhất•['']:
+	chữCái … ∆ Thờigian(1000ms) …
+		mớiNhất.thaythế(Ngẫunhiên(1 25) chữCái.ngẫunhiên())
+
+Nhóm(
+	Lưới(5 5 0.25m 1m 1m)
+	mớiNhất.dịch(
+		ƒ(chữCái2•"" chỉMục2•#)
+			Cụmtừ(
+				chữCái2
+				tên: "\chữCái2\-\chỉMục2\"
+				vào: Tưthế(độmờđục: 0 tỉlệ: 2)
+				nghỉngơi: Sựliêntiếp.đungđưa(khoảngthờigian: 0.25s)
+				khoảngthờigian: 0.5s
+			)
+	)
+)

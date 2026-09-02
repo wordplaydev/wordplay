@@ -1,0 +1,78 @@
+⏳
+Çalışma Modu Ölçeği
+=== start/en
+¶Çalışma saati eklemek için tıkla ve ölçeğin sakinden odağa, oradan da aşırı yüklenmeye geçişini izle.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+eylem: Seçenek()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+çalışmaSaatleri:
+	0 …
+	∆ eylem …
+		eylem = 'reset' ?
+			0
+			çalışmaSaatleri + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+açıklama2:
+	'Çalışma sürenizi artırmak için “Çalışma Saati Ekle +1” düğmesine tıklayın. Baştan başlamak için “Sıfırla” düğmesine tıklayın.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+saatMetni:
+	'Şu kadar saat çalıştın: ' + çalışmaSaatleri → '' + ' saat.'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+ruhHali:
+	çalışmaSaatleri < 3 ?
+		'🌿 SAKİN MOD — çalışma süresi eklemek için tıkla'
+		çalışmaSaatleri < 6 ?
+			'📚 ODAK MODU — verimli bölgedesin!'
+			'🔥 AŞIRI YÜKLENME MODU — bir mola ver ve "sıfırla"'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+Sahne(
+	[
+		Grup(
+			Yığın()
+			[
+				İfadeetmek('Çalışma Modu Ölçeği' boyut: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				İfadeetmek(açıklama2 boyut: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				İfadeetmek(saatMetni boyut: 0.4m)
+
+				İfadeetmek(ruhHali boyut: 0.75m)
+
+				Grup(
+					Sıra(dolgu: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						İfadeetmek(
+							'Çalışma Saati Ekle +1'
+							seçilebilir: ⊤
+							isim: 'ekle'
+							renk: Renk(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						İfadeetmek(
+							'Sıfırla'
+							seçilebilir: ⊤
+							isim: 'reset'
+							renk: Renk(69% 47 271°)
+						)
+					]
+				)
+			]
+			yüz: "Aclonica"
+		)
+	]
+)

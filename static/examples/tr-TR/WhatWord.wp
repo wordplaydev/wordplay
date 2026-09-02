@@ -1,0 +1,306 @@
+W
+NeKelime
+=== start/en
+¶İngilizce, İspanyolca ve Arapça bir kelime tahmin oyunu.¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] kalan2•[""] başlangıç2•?) (
+	gizli: başlangıç2 ? kalan2[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (gizli.uzunluk(
+			) × 3) - guesses.uzunluk()
+	status/en,estado/es,حالة/ar:
+		gizli = "" ? "start"
+			gizli → [""].Tümü(
+				ƒ(harf•"") guesses.sahipolmak(harf)
+			) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: Anahtar()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.sıralanmış(ƒ() Rastgele())
+		⊥
+	) … ∆ key …
+		key = 'Kaçmak' ? Game(
+				[]
+				words.sıralanmış(ƒ() Rastgele())
+				⊥
+			)
+			(state.status ≠ "playing") & (key = 'Uzay') ? Game(
+					[]
+					state.kalan2.İlkolmadan()
+					⊤
+				)
+				(state.status = "playing") & (key.uzunluk() = 1) & ~state.guesses.sahipolmak(
+						key
+					) ?
+					Game(state.guesses.ile(key) state.kalan2 ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: İfadeetmek(
+		state.gizli → [""].tercümeetmek(
+			ƒ(harf2•"") ((state.status = "lost") | state.guesses.sahipolmak(
+							harf2
+						)) ? harf2 "."
+		).katılmak(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: Poz(opaklık: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": Grup(
+			Yığın()
+			[
+				İfadeetmek(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					yer: Yer(z: -1m)
+					giriş: Poz(opaklık: 0%)
+					dinlenme: Sekans.sallanmak(süre: 1s)
+				)
+				İfadeetmek(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			çıkış: fade
+		)
+		"lost": Grup(
+			Yığın()
+			[
+				board
+				İfadeetmek(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					giriş: Poz(rotasyon: 0°)
+					dinlenme: Poz(rotasyon: -5°)
+				)
+			]
+			çıkış: fade
+		)
+		"won": Grup(
+			Yığın()
+			[
+				board.dinlenme:Sekans.sıçrama(3m 1s)
+				İfadeetmek(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			çıkış: fade
+		)
+		Grup(
+			Yığın()
+			[
+				board
+				İfadeetmek(
+					state.guesses.uzunluk() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.katılmak(
+							' '
+						)\"/en"Suposiciones: \state.guesses.katılmak(
+							' '
+						)\"/es"التخمينات \state.guesses.katılmak(' ')\"/ar
+				)
+				İfadeetmek(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					dinlenme: Sekans.sallanmak(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶Bir yere gitmek yerine kendi üzerine dönen yavaş bir şekil. Bu yüzden düşünmeye değer bir şey oluyor. Aşağıdaki her parça sekiz vuruş uzunluğunda, böylece hepsi birlikte döner ve döngünün hiçbir dikişi olmaz.¶
+tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶Harçlığının ne kadarı harcandı, her şeyin oynanabilir olduğu 0'dan hiçbir şeyin kalmadığı 1'e kadar. Gizli değer ilk turdan önce boş, bu yüzden bölme sıfıra bölmeye bırakılmadan korunuyor.¶
+maksimumTahmin: state.gizli.uzunluk() × 3
+baskı: (maksimumTahmin = 0) ? 0 (((1 - (state.guessesRemaining ÷ maksimumTahmin)).maksimum(
+					0
+				)).dakika(
+				1
+			))
+
+¶Dakikada 54 vuruşta düşünceli, 120'de aceleci, ve her tahmin onu biraz değiştiriyor. Tempoyu değiştirmek baştan başlamak yerine bir sonraki vuruşa ekleniyor, böylece döngü yerini koruyor ve sadece öne doğru yaslanıyor — sessiz davul bu yaslanmayı duyulur kılmak için var, çünkü uzun tutulan notaların altındaki bir tempo değişimini hissetmek zor.¶
+bulmacaMüziği: Müzik(
+		[
+			Parça(
+				tema
+				çalgı: Çalgı.piyano
+				vuruş: 0.5beats
+				sesDüzeyi: 50%
+			)
+			Parça(
+				[{1 3 5} {4 6 8}]
+				çalgı: Çalgı.synthPad
+				vuruş: 4beats
+				sesDüzeyi: 35%
+			)
+			Parça(
+				[ø ø 8 ø ø ø 6 ø]
+				çalgı: Çalgı.çan
+				vuruş: 1beats
+				sesDüzeyi: 30%
+			)
+			Parça(
+				[1 ø ø ø 1 ø ø ø]
+				çalgı: Çalgı.davul
+				vuruş: 1beats
+				sesDüzeyi: 20%
+			)
+		]
+		tempo: (54beats/min + (baskı · 66beats/min))
+		gam: Müzik.dorian
+		isim: 'bulmaca'
+	)
+
+¶Kazandın: temayı iki kat hızlı, bir zil üzerinde bir oktav yükseltilmiş, örnekte olan tek büyük akorlar üzerinde.¶
+kazanmaŞarkısı: Müzik(
+		[
+			Parça(
+				tema
+				çalgı: Çalgı.piyano
+				vuruş: 0.5beats
+				sesDüzeyi: 50%
+			)
+			Parça(
+				tema
+				çalgı: Çalgı.çan
+				vuruş: 0.5beats
+				anahtar: 12semitones
+				sesDüzeyi: 35%
+			)
+			Parça(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				çalgı: Çalgı.synthPad
+				vuruş: 2beats
+				sesDüzeyi: 35%
+			)
+			Parça(
+				[1 ø 3 ø 2 ø 3 ø]
+				çalgı: Çalgı.davul
+				vuruş: 1beats
+				sesDüzeyi: 30%
+			)
+		]
+		tempo: 96beats/min
+		gam: Müzik.majör
+		isim: 'kazan'
+	)
+
+¶Kaybettin: temayı bir oktav düşürülmüş ve oynarken hiç olduğundan daha yavaş, eve dönmek yerine dördüncüye yerleşen akorlar üzerinde, böylece döngü hiçbir zaman çözülmüyor.¶
+kaybetmeŞarkısı: Müzik(
+		[
+			Parça(
+				tema
+				çalgı: Çalgı.piyano
+				vuruş: 0.5beats
+				anahtar: -12semitones
+				sesDüzeyi: 45%
+			)
+			Parça(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				çalgı: Çalgı.synthPad
+				vuruş: 2beats
+				sesDüzeyi: 40%
+			)
+			Parça(
+				[ø ø 5 ø ø ø 4 ø]
+				çalgı: Çalgı.çan
+				vuruş: 1beats
+				sesDüzeyi: 25%
+			)
+			Parça(
+				[1 ø ø ø ø ø ø ø]
+				çalgı: Çalgı.davul
+				vuruş: 1beats
+				sesDüzeyi: 20%
+			)
+		]
+		tempo: 46beats/min
+		gam: Müzik.minör
+		isim: 'kaybet'
+	)
+
+¶Sahnede sadece şu anki durumun melodisi var, ve artık orada olmayan bir @Music duruyor — böylece turu bitirmek müziği değiştiren şey oluyor.
+
+Üçü de aynı temayı çalıyor, ve altındaki gam işi yapıyor. Tema 1, 4, 5, 6 ve 8. derecelere dokunuyor, ve @Music.major bunların her birinde @Music.dorian ile aynı fikirde — ayrıldıkları dereceler, üçüncü ve yedinci, melodide yok. Bu yüzden zafer, düşünürken mırıldandığın melodinin hiçbir notasını değiştirmiyor; altındaki akorlar üçüncüyü kullanıyor, ve bunlar büyüğe dönüyor. @Music.minor, temanın dokunduğu altıncı derecede dorian gamından ayrılıyor, böylece kayıp bu notayı da düzleştiriyor, çizgiyi bir oktav düşürmenin yanında.¶
+filmMüziği: state.status ???
+		"won": kazanmaŞarkısı
+		"lost": kaybetmeŞarkısı
+		bulmacaMüziği
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+Sahne(
+	[screen filmMüziği]
+	yer: Yer(0m 0m -12m)
+	yüz: "Poor Story"
+	arkaplan: Renk(0% 0 0°)
+	renk: Renk(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'tilki'
+	'maymun'
+	'kunduz'
+	'inek'
+	'kurt'
+	'keçi'
+	'geyik'
+	'domuz'
+	'şinşila'
+	'sincap'
+	'sıçan'
+	'sivrifare'
+	'köstebek'
+	'armadillo'
+	'opossum'
+	'fil'
+	'yarasa'
+	'eşek'
+	'at'
+	'kirpi'
+	'kedi'
+	'zürafa'
+	'goril'
+	'fok'
+	'insan'
+	'kanguru'
+	'dağ sıçanı'
+	'hamster'
+	'fare'
+	'tavşan'
+	'koyun'
+	'jaguar'
+	'şempanze'
+	'babun'
+	'rakun'
+	'köstebek'
+	'sivrifare'
+	'ekidna'
+	'tapir'
+].sıralanmış(
+	ƒ() Rastgele()
+)

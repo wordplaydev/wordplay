@@ -1,0 +1,52 @@
+🖐
+Hand
+===
+¶Håll upp fingrar mot kameran och en hand-emoji räknar med.¶
+hand2: Hand()
+
+Etapp(
+	[
+		Fras(
+			(hand2.fingrar = 0 ? '✊'
+					hand2.fingrar = 1 ? '☝'
+						hand2.fingrar = 2 ? '✌'
+							hand2.fingrar = 3 ? '🤟'
+								hand2.fingrar = 4 ? '🖖'
+									'🖐')
+			plats: hand2.plats
+			storlek: 2m
+			offset: Plats(-1m)
+		)
+		Grupp(
+			Rad('<')
+			[
+				Fras('1⃣' offset: Plats(0m hand2.tumme ? 1m 0m))
+				Fras('2⃣' offset: Plats(0m hand2.index ? 1m 0m))
+				Fras('3⃣' offset: Plats(0m hand2.mitten ? 1m 0m))
+				Fras('4⃣' offset: Plats(0m hand2.ringa ? 1m 0m))
+				Fras(
+					'5⃣'
+					offset: Plats(0m hand2.lillfingret ? 1m 0m)
+				)
+			]
+			plats: Plats(-4.5m 5m)
+		)
+		Grupp(
+			Stack('|')
+			[
+				Fras((hand2.palm ? '🤚' '🤛') storlek: 2m)
+				Fras(
+					(hand2.öppna ? 'öppen' 'stängd')
+					storlek: 1.5m
+				)
+			]
+			plats: Plats(-2m -8m)
+		)
+		Fras(
+			`/Visa kameran din hand/`
+			plats: Plats(-6m -10m)
+			storlek: 1m
+		)
+	]
+	plats: Plats(0m 0m -20m)
+)

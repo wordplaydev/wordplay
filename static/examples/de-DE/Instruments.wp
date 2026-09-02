@@ -1,0 +1,116 @@
+🎛️
+Instrumente
+=== start/en
+¶Die gleichen acht Takte, gespielt von jedem Instrument der Palette. Wähle einen Namen, und die Melodie bleibt gleich — nur der Klang ändert sich. Die zwei Katzen sind dieselbe Katze, und die zwei Hunde auch: Eine von jedem ist ein Kit, also klingt die Melodie wie Geräusche, und die andere hat eine Tonhöhe, also singt sie sie.
+
+Die meisten davon sind echte Aufnahmen. Die vier Synthesizer ahmen nichts nach: Sie sind Synthesizer, und das ist ihr Klang. Der letzte von ihnen singt, wofür die Wörter auf der Spur da sind — jedes andere Instrument hier ignoriert sie.¶
+
+¶Welches Instrument die Melodie spielt. Choice() gibt den Namen der gewählten wählbaren Ausgabe zurück, und ø, solange nichts gewählt wurde.¶
+gewählt: Auswahl()
+
+¶Ein Eintrag pro Instrument: wie es heißt, was es spielt, und welche Farbe sein Knopf annimmt.¶
+•stimme(beschriftung•'' symbol•'' klang•Instrument farbton•#°)
+
+stimmen•[stimme]: [
+		stimme('Klavier' '🎹' Instrument.Klavier 260°)
+		stimme('Gitarre' '🎸' Instrument.akustikGitarre 20°)
+		stimme('E-Gitarre' '⚡' Instrument.elektroGitarre 5°)
+		stimme('Geige' '🎻' Instrument.Geige 40°)
+		stimme('Flöte' '🪈' Instrument.Flöte 180°)
+		stimme('Trompete' '🎺' Instrument.Trompete 50°)
+		stimme('Saxofon' '🎷' Instrument.Saxophon 70°)
+		stimme(
+			'Mundharmonika'
+			'🌬'
+			Instrument.Mundharmonika
+			150°
+		)
+		stimme('Glocke' '🔔' Instrument.Glocke 55°)
+		stimme('Schlagzeug' '🥁' Instrument.Schlagzeug 0°)
+		stimme('Didgeridoo' '🎶' Instrument.Didgeridoo 15°)
+		stimme('Katze' '🐱' Instrument.Katze 330°)
+		stimme(
+			'gestimmte Katze'
+			'😺'
+			Instrument.tonhöheKatze
+			350°
+		)
+		stimme('Hund' '🐶' Instrument.Hund 35°)
+		stimme(
+			'gestimmter Hund'
+			'🐕'
+			Instrument.tonhöheHund
+			125°
+		)
+		stimme('Synth' '🎛' Instrument.synth 290°)
+		stimme('Bass' '🎛' Instrument.synthBass 310°)
+		stimme('Fläche' '🎛' Instrument.synthPad 200°)
+		stimme('Stimme' '🤖' Instrument.Stimme 95°)
+	]
+
+¶Die gewählte Stimme, oder das Klavier, bevor jemand etwas gewählt hat. find() gibt ø zurück, wenn nichts passt, also muss die Rückfalllösung selbst eine Voice sein.¶
+gewählt2: stimmen.finden(
+		ƒ(stimme2•stimme) stimme2.beschriftung = gewählt
+	)
+aktuell•stimme: gewählt2•ø ? stimme(
+			'Klavier'
+			'🎹'
+			Instrument.Klavier
+			260°
+		) gewählt2
+
+¶Eine Melodie, die gleich bleibt, während sich das Instrument darunter ändert. Sie besteht aus Stufen, nicht aus Noten, also bedeutet sie auf jedem Instrument dasselbe — und beim Schlagzeug wird sie stattdessen als Rhythmus gelesen, da die Stufen dort das Kit durchnummerieren.¶
+melodie2: [1 3 5 6 5 3 2 ø]
+
+¶Eine Silbe pro Note, geschrieben im Internationalen Phonetischen Alphabet, bei dem jeder Buchstabe für einen Laut steht. Nur die Gesangsstimme nutzt diese; der Rest der Palette ignoriert sie. Der Rest braucht keine Silbe, also reichen sieben Laute für acht Einträge.¶
+liedtext: 'la li lu le lo li la'
+
+¶Ein Knopf pro Instrument: das Symbol über dem Namen, damit sie sich nicht berühren. Auswählbare Ausdrücke sind das, was Choice() liest, und der aktuelle wird heller gezeichnet, damit du siehst, wo du bist.¶
+ƒ knopf(stimme3•stimme)
+	Gruppe(
+		Stapel(Polsterung: 0.1m)
+		[
+			Satzglied(stimme3.symbol 1.1m)
+			Satzglied(stimme3.beschriftung 0.5m)
+		]
+		Name: stimme3.beschriftung
+		wählbar: ⊤
+		Farbe: (stimme3.beschriftung = aktuell.beschriftung)
+		? Farbe(95% 60 stimme3.farbton)
+			Farbe(60% 8 stimme3.farbton)
+	)
+
+¶Alles Sichtbare kommt in einen Stack. Eine Stage zentriert jedes ihrer Kinder für sich, deshalb würden sie ohne Layout alle übereinander liegen — das Layout muss festlegen, dass sie eines über dem anderen stehen.
+
+Die Knöpfe kommen in ein Grid statt in eine Row. Alle in einer Reihe wären breiter als ein Handy, und eine Stage verkleinert ihren Inhalt, damit er passt, also würden die Beschriftungen so klein werden, dass man sie nicht mehr lesen kann. Nur die Spalten werden festgelegt: Lässt man die Reihen weg, findet das Grid selbst heraus, wie viele es braucht. So muss man beim Hinzufügen eines Instruments hier nichts ändern.
+
+Die Musik behält die ganze Zeit einen Namen, statt den Namen des Instruments zu übernehmen. Der Name eines 🎼 ist seine Identität: Benennt man es um, hört die Spielerin oder der Spieler ein neues Stück beginnen. Die Melodie würde bei jedem Wechsel wieder von vorn starten, und die Partitur würde die Noten des alten Instruments neben denen des neuen zeigen, bis sie weggescrollt sind.¶
+Bühne(
+	[
+		Gruppe(
+			Stapel(Polsterung: 0.6m)
+			[
+				Satzglied(aktuell.symbol 2.5m)
+				Satzglied(aktuell.beschriftung 1.2m)
+				Gruppe(
+					Netz(Säulen: 5 Polsterung: 0.4m)
+					stimmen.übersetzen(
+						ƒ(stimme4•stimme) knopf(stimme4)
+					)
+				)
+			]
+		)
+		Musik(
+			Spur(
+				melodie2
+				Instrument: aktuell.klang
+				Wörter: liedtext
+			)
+			Tempo: 120beats/min
+			Tonleiter: Musik.pentatonisch
+			Name: 'Melodie'
+		)
+	]
+	Hintergrund: Farbe(14% 12 280°)
+	Farbe: Farbe(95% 0 0°)
+)

@@ -1,0 +1,11 @@
+s
+Tamanho
+=== start/en
+¶Clique ou prima uma tecla para alternar entre GRANDE e pequeno, sobre cores em mudança.¶
+word/en,字/zh: (Botão(ø) | ∆ Chave()) ? Frase(
+			"BIG"/en"大"/zh
+			tamanho: 5m
+		) Frase("small"/en"小"/zh tamanho: 1m)
+time/en,時間/zh: ((Tempo(1234ms)) ÷ 1ms) × 1°
+
+Fase([word] local: Local(0m 0m -5m) fundo: Cor(80% 28 time))

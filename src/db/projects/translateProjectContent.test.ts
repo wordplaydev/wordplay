@@ -259,3 +259,216 @@ test('strings the translator leaves undefined keep their source', async () => {
     // The text kept its source rather than becoming empty.
     expect(out).toContain('meow');
 });
+
+// The `preserveTagged` rewrite mode is what the gallery-example pipeline uses
+// (#1310): an explicit language tag marks pedagogical content — a French word
+// in a French-teaching example — that must ship verbatim in every locale.
+// Only untagged text and names are the file's "own language" and translate.
+
+test('preserveTagged: a tagged text option survives rewrite and the untagged one translates', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const source = new Source(
+        'start',
+        `greeting: 'hello''bonjour'/fr\ngreeting`,
+    );
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        fakeTranslator({ hello: 'hola', bonjour: 'WRONG' }),
+        undefined,
+        true,
+        { preserveTagged: true },
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].toWordplay() ?? '';
+    expect(out).toContain(`'hola'`);
+    expect(out).toContain(`'bonjour'/fr`);
+    expect(out).not.toContain('hello');
+    expect(out).not.toContain('WRONG');
+});
+
+test('preserveTagged: a fully-tagged literal is content and is left whole', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const source = new Source('start', `word: 'un'/fr\nword`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        fakeTranslator({ un: 'WRONG', word: 'palabra' }),
+        undefined,
+        true,
+        { preserveTagged: true },
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].toWordplay() ?? '';
+    expect(out).toContain(`'un'/fr`);
+    expect(out).not.toContain('WRONG');
+    // The untagged name still translates and its reference follows.
+    expect(out).toContain('palabra');
+    expect(out).not.toContain('word');
+});
+
+test('preserveTagged: tagged names survive a rename and separators stay valid', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const source = new Source('start', `word, mot/fr: 1\nword`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        fakeTranslator({ word: 'palabra' }),
+        undefined,
+        true,
+        { preserveTagged: true },
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].code.toString() ?? '';
+    expect(out).toContain('palabra');
+    expect(out).toContain('mot/fr');
+    expect(out).not.toContain('word');
+    // The rebuilt list must reparse to the same two names — a missing or
+    // trailing separator would silently truncate it (see parseNames).
+    const reparsed = new Source('start', out);
+    const conflicts = Project.make(
+        null,
+        'test',
+        reparsed,
+        [],
+        DefaultLocale,
+    ).analyze().conflictedNodes.size;
+    expect(conflicts).toBe(0);
+});
+
+test('preserveTagged: a reference spelled with a tagged name keeps its spelling', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    // The program calls the bind by its tagged French name on purpose.
+    const source = new Source('start', `word, mot/fr: 1\nmot`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        fakeTranslator({ word: 'palabra' }),
+        undefined,
+        true,
+        { preserveTagged: true },
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].code.toString() ?? '';
+    // The bind is renamed, but the deliberate tagged spelling stays.
+    expect(out).toContain('palabra');
+    expect(out).toMatch(/\nmot$/);
+});
+
+test('preserveTagged: a tagged doc option survives and the untagged one translates', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const source = new Source('start', `¶hello¶\n¶bonjour¶/fr\nx: 1`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        fakeTranslator({ hello: 'hola', bonjour: 'WRONG' }),
+        undefined,
+        true,
+        { preserveTagged: true },
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].toWordplay() ?? '';
+    expect(out).toContain('¶hola¶');
+    expect(out).toContain('¶bonjour¶/fr');
+    expect(out).not.toContain('hello');
+});
+
+test('preserveTagged: a tagged target-language option is the translation and nothing collapses', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const source = new Source('start', `greeting: 'hello''hola'/es\ngreeting`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        fakeTranslator({ hello: 'WRONG' }),
+        undefined,
+        true,
+        { preserveTagged: true },
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].toWordplay() ?? '';
+    // Both options remain: the tagged one already serves target readers, and
+    // collapsing is exactly what preserveTagged exists to prevent.
+    expect(out).toContain(`'hello'`);
+    expect(out).toContain(`'hola'/es`);
+    expect(out).not.toContain('WRONG');
+});
+
+test('preserveTagged: a bind already named in the target language is not renamed', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const source = new Source('start', `word, palabra/es: 1\nword`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        fakeTranslator({ word: 'WRONG' }),
+        undefined,
+        true,
+        { preserveTagged: true },
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].code.toString() ?? '';
+    // The untagged name stays; inventing a second Spanish word would either
+    // duplicate the tagged one or add a spurious synonym.
+    expect(out).toContain('word');
+    expect(out).toContain('palabra/es');
+    expect(out).not.toContain('WRONG');
+});
+
+test('a unary operator keeps its symbol rather than a word that glues onto its operand', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    // Rewriting `~` to a locale's word name (es-MX names it `no`) produced
+    // `nocellHolds` — one unresolvable name token — and refused every example
+    // using unary not. Operators, unary and binary alike, stay symbolic.
+    const source = new Source('start', 'cellHolds: ⊤\n~cellHolds');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        // Names arrive camelCase-split for better translation.
+        fakeTranslator({ 'cell Holds': 'celda ocupada' }),
+        undefined,
+        true,
+        { preserveTagged: true },
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].code.toString() ?? '';
+    expect(out).toContain('~celdaOcupada');
+});

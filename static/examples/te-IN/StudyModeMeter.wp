@@ -1,0 +1,78 @@
+⏳
+చదువు విధాన మీటర్
+=== start/en
+¶చదువు గంటలు జోడించడానికి క్లిక్ చేయండి, మీటర్ శాంతం నుండి దృష్టికి, ఆపై అధిక భారానికి మారడం చూడండి.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+చర్య: ఎంపిక()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+చదువుగంటలు:
+	0 …
+	∆ చర్య …
+		చర్య = 'reset' ?
+			0
+			చదువుగంటలు + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+వివరణ2:
+	'మీ చదువు సమయాన్ని పెంచడానికి “Add Study Hour +1” మీద క్లిక్ చేయండి. మళ్ళీ మొదలుపెట్టడానికి “Reset” మీద క్లిక్ చేయండి.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+గంటలపాఠ్యం:
+	'మీరు ' + చదువుగంటలు → '' + ' గంట(లు) చదివారు.'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+మనోభావం:
+	చదువుగంటలు < 3 ?
+		'🌿 శాంత విధానం — చదువు సమయం జోడించడానికి క్లిక్ చేయండి'
+		చదువుగంటలు < 6 ?
+			'📚 దృష్టి విధానం — మీరు ఉత్పాదక మండలంలో ఉన్నారు!'
+			'🔥 అధిక భార విధానం — విరామం తీసుకోండి, "Reset" చేయండి'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+స్టేజ్(
+	[
+		సమూహం(
+			స్టాక్()
+			[
+				పదబంధం('చదువు విధాన మీటర్' పరిమాణం: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				పదబంధం(వివరణ2 పరిమాణం: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				పదబంధం(గంటలపాఠ్యం పరిమాణం: 0.4m)
+
+				పదబంధం(మనోభావం పరిమాణం: 0.75m)
+
+				సమూహం(
+					వరుస(ప్యాడింగ్: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						పదబంధం(
+							'చదువు గంట జోడించు +1'
+							ఎంచుకోదగినది: ⊤
+							పేరు: 'జోడించు'
+							రంగు: రంగు(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						పదబంధం(
+							'మళ్ళీ మొదలు'
+							ఎంచుకోదగినది: ⊤
+							పేరు: 'reset'
+							రంగు: రంగు(69% 47 271°)
+						)
+					]
+				)
+			]
+			ముఖం: "Aclonica"
+		)
+	]
+)

@@ -1,0 +1,56 @@
+🎵
+Notas de tono
+===
+¶Canta o tararea, y observa la nota que haces — dos veces. La nota de la izquierda muestra @Pitch sin procesar y tiembla; la nota de la derecha promedia los últimos tonos y se mantiene estable. @Pitch dice 0hz cuando no escucha nada claro, así que ambas notas se saltan esos momentos y muestran · en su lugar.¶
+notas2: [
+		'La'
+		'La♯'
+		'Si'
+		'Do'
+		'Do♯'
+		'Re'
+		'Re♯'
+		'Mi'
+		'Fa'
+		'Fa♯'
+		'Sol'
+		'Sol♯'
+	]
+notaDe: ƒ(hz•#hz) hz > 0hz ? notas2[(((((12 × (hz ÷ 440hz).log(
+										2
+									)).rondear(
+							)) % 12) + 12) % 12) + 1] '·'
+suave2: ƒ(señal•…#hz) (
+			escuchado: (←← 8 señal).sin(0hz)
+			(escuchado.combinar(0hz ƒ(total•#hz v•#hz) total + v) ÷ escuchado.longitud(
+					)) ?? 0hz
+		)
+tono2: Tono()
+Escenario(
+	[
+		Grupo(
+			Pila()
+			[
+				Frase('ruidosa' color: Color(60% 90 30°))
+				Frase(
+					notaDe(tono2)
+					tamaño: 6m
+					color: Color(60% 90 30°)
+				)
+			]
+			lugar: Lugar(-4m 0m)
+		)
+		Grupo(
+			Pila()
+			[
+				Frase('suave' color: Color(70% 90 240°))
+				Frase(
+					notaDe(suave2(tono2))
+					tamaño: 6m
+					color: Color(70% 90 240°)
+				)
+			]
+			lugar: Lugar(4m 0m)
+		)
+	]
+)

@@ -1,0 +1,18 @@
+w
+Spectacol de culori
+===
+¶Apasă pentru a mișca și a recolora cuvântul „wowie” la întâmplare.¶
+culoare2: Culoare(0% 0 0°) … ∆ Buton() … Culoare(
+			50%
+			Aleatoriu() × 200
+			Aleatoriu() × 360°
+		)
+
+Fraza(
+	'wowie'
+	nume: 'pisicuță'
+	dimensiune: 6m
+	culoare: culoare2
+	rotaţie: (Aleatoriu() - 0.5) × 30°
+	durată: .1s
+)

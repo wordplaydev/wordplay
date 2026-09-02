@@ -1,0 +1,524 @@
+█
+Jardim
+=== start/en
+¶Um jardim zen desenhado com blocos coloridos, com água a balançar suavemente.¶
+relva: Cor(54% 84 117°)
+rocha: Cor(74% 0 200°)
+bambu: Cor(77% 88 109°)
+parede: Cor(0% 0 0°)
+água: Cor(50% 89 279°)
+balançar2: Sequência(
+		{
+			0%: Pose(cor: água rotação: 0°)
+			50%: Pose(rotação: 7°)
+			100%: Pose(rotação: 0°)
+		}
+		duração: 1.5s
+	)
+
+Fase(
+	[
+		Frase(
+			'█'
+			tamanho: 16m
+			descansar: Pose(cor: Cor(100% 0 348°))
+			local: Local(7.3125m -13.125m 0m)
+			rotação: 90°
+		)
+		Frase(
+			'█'
+			tamanho: 16m
+			descansar: Pose(cor: Cor(100% 0 348°))
+			local: Local(-8.75m -13m 1m)
+			rotação: 90°
+		)
+		Frase(
+			'█'
+			tamanho: 32m
+			descansar: Pose(cor: Cor(73% 95 279°))
+			local: Local(-5.6875m -44.0625m 0m)
+			rotação: 89°
+		)
+		Frase(
+			'太阳'
+			tamanho: 4m
+			local: Local(-16.5m 15.75m 5m)
+			descansar: Sequência(
+				{
+					0%: Pose(cor: Cor(90% 93 85°) rotação: 0°)
+					100%: Pose(rotação: 360°)
+				}
+				duração: 30s
+				estilo: 'straight'
+			)
+		)
+		Frase(
+			'壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁'
+			descansar: Pose(cor: parede)
+			local: Local(-13.9375m 3.5m 0m)
+			tamanho: 2m
+		)
+		Frase(
+			'草'
+			local: Local(-5.8125m -9.5625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(1.5m -6.9375m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-5.125m -8.25m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-0.4375m -8.5625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-2.875m -8.125m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-4.125m -8.3125m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-7.1875m -10.0625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-10.1875m -10.5625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-11.1875m -10.5625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-10.25m -9.1875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-8.5625m -8.6875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-8.6875m -10.0625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-1.5m -8m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(3.5m -8m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(1.1875m -8.5625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-2.8125m -9.5625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(2.5m -8m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-1.8125m -9.5625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(0m -7m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(2.5m -6.5m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(6.4375m -7.0625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(5.1875m -7.0625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-0.6875m -10.125m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(0.9375m -9.625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(7.4375m -8.1875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(2.25m -9.5625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(3.5625m -9.625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(5m -9.0625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(6.125m -8.1875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(9.625m -10.0625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(9.375m -7.3125m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(8m -6.5m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(10.8125m -7.1875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(13.625m -7.1875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(17.5m -7.5m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(12m -7.5m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(12.5625m -10.0625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-7.625m -8.8125m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(3.875m -6.4375m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-13.25m -8.625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-9.375m -8.0625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-13.8125m -10m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-11.375m -8.8125m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-12.5m -9.625m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(12.625m -6m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(7.5m -9.8125m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(16.3125m -6.1875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(17.8125m -6.1875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(17.8125m -9.6875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(16.3125m -9.6875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(16.3125m -8.1875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(15.3125m -6.6875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(14.8125m -8.1875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(14.8125m -9.6875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(13.5m -8.9375m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(11.8125m -9.1875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(8.3125m -9.1875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(6.5m -9.5m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(9.8125m -8.6875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(10.8125m -9.1875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(14.3125m -5.6875m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'草'
+			local: Local(-4.5m -9.5m 0m)
+			descansar: Pose(cor: relva)
+		)
+		Frase(
+			'石'
+			descansar: Pose(cor: rocha)
+			tamanho: 2.75m
+			local: Local(-7.6875m -5.9375m -1m)
+			rotação: 25°
+		)
+		Frase(
+			'石'
+			descansar: Pose(cor: rocha)
+			tamanho: 2m
+			local: Local(-5m -6.625m -1m)
+		)
+		Frase(
+			'石'
+			descansar: Pose(cor: rocha)
+			tamanho: 2.75m
+			local: Local(-7.6875m -8.5625m -1m)
+		)
+		Frase(
+			'石'
+			descansar: Pose(cor: rocha)
+			tamanho: 1.25m
+			local: Local(-6.375m -3.375m -1m)
+		)
+		Frase(
+			'石'
+			descansar: Pose(cor: rocha)
+			tamanho: 2.75m
+			local: Local(-3.125m -6.625m -1m)
+			rotação: 341°
+		)
+		Frase(
+			'石'
+			descansar: Pose(cor: rocha)
+			tamanho: 2.75m
+			local: Local(-4.75m -4.25m -1m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(-0.5m -0.5m 0m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(0.9375m -3.5m 0m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(1m -5m 0m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(-0.5m 2.5m 0m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(-0.5m 3.5m 0m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(-0.5m 4.5m 0m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(-0.5m 1m 0m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(-0.5m -5m 0m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(-0.5m -3.5m 0m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(-0.5625m -2m 0m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(1m 1m 0m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(1m -0.5m 0m)
+		)
+		Frase(
+			'竹'
+			descansar: Pose(cor: bambu)
+			tamanho: 1.25m
+			local: Local(1m -2m 0m)
+		)
+		Frase(
+			'水'
+			descansar: balançar2
+			local: Local(-13.4375m -18m -2m)
+			tamanho: 6.75m
+			rotação: 80°
+		)
+		Frase(
+			'水'
+			descansar: balançar2
+			local: Local(18m -16.5m -2m)
+			tamanho: 6.75m
+			rotação: 80°
+		)
+		Frase(
+			'水'
+			descansar: balançar2
+			local: Local(-8.5m -17.625m -2m)
+			tamanho: 6.75m
+			rotação: 259°
+		)
+		Frase(
+			'水'
+			descansar: balançar2
+			local: Local(2.625m -17.375m -2m)
+			tamanho: 6.75m
+			rotação: 80°
+		)
+		Frase(
+			'水'
+			descansar: balançar2
+			local: Local(10.6875m -16m -2m)
+			tamanho: 6.75m
+			rotação: 37°
+		)
+	]
+	fundo: Cor(87% 97 263°)
+)

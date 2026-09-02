@@ -1,0 +1,33 @@
+🗣
+Gesicht spricht
+===
+¶Deine Gesichtsausdrücke, von der Kamera erkannt und auf der Bühne erzählt.¶
+
+¶Erstelle einen Gesichtsstrom, um Ausdrücke zu erkennen¶
+gesicht2: Gesicht(200ms)
+
+¶Entscheide zwischen Lächeln, Stirnrunzeln, Blinzeln oder nichts¶
+stimmung: gesicht2.augenOffen ?
+		(gesicht2.lächelnMenge > 0.6 ? 'smiling'
+				gesicht2.stirnrunzelnMenge > 0.4 ? 'frowning'
+					'')
+		'blinking'
+
+¶Wandle die Stimmung in ein Emoji um und gib dem Gesicht eine Sprechblase, die sie zeigt. Wenn die Sprechblase @Say bekommt, wird die Stimmung auch laut vorgelesen, und die Sprechblase ersetzt die Bildunterschrift am unteren Rand der Bühne.¶
+Bühne(
+	[
+		Satzglied(
+			(stimmung = 'blinking' ? '😴'
+					stimmung = 'smiling' ? '😀'
+						stimmung = 'frowning' ? '🙁'
+							'😐')
+			Größe: 8m
+			sprechblase: (stimmung = ''
+				? Sprechblase(
+						`/Lächle, runzle die Stirn oder schließe die Augen/`
+						umbrechen: 8m
+					)
+					Sprechblase(Sagen(stimmung)))
+		)
+	]
+)

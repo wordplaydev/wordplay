@@ -1,0 +1,5 @@
+🔈
+Ouvir
+=== start
+¶Um emoji de altifalante que aumenta com o volume do seu microfone.¶
+Frase("🔈" descansar: Pose(escala: Volume()))

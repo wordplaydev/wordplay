@@ -1,0 +1,40 @@
+H
+અડોબો રેસિપી
+=== start/en
+¶ફિલિપિનો ચિકન અડોબોની દ્રશ્ય-દર-દ્રશ્ય રેસિપી.¶
+
+¶આ બતાવવાના દ્રશ્યોની યાદી છે¶
+વાક્યો: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`અડોબોંગ મનોક @lamamel/adobo! (ખાવા માટે માઉસને આસપાસ ખસેડો)`)
+		(`મસારાપ! @lamamel/emptyadobo`)
+	]
+
+¶આ એવા વાક્યોની યાદી છે જે ફક્ત માઉસ ખસેડવાથી જ આગળ વધવા જોઈએ.¶
+વાક્યોખસેડો: [9 11]
+
+¶વર્તમાન વાક્ય 1 થી શરૂ થાય છે, અને જ્યારે માઉસ સ્ક્રીન પરના કોઈ ચોક્કસ સ્થાન પર જાય છે, અથવા બીજા વાક્યો માટે કોઈ બટન કે કી દબાવવામાં આવે છે, ત્યારે તે વધે છે.¶
+બિંદુ: નિર્દેશક()
+વર્તમાનવાક્ય•#: 1 …
+	વાક્યોખસેડો.ધરાવેછે(વર્તમાનવાક્ય) ?
+		(બિંદુ.x > 2m) & (બિંદુ.y > 3m)
+		∆ બટન() | ∆ કી()
+		…
+		(વર્તમાનવાક્ય <
+				વાક્યો.લંબાઈ()) ?
+			વર્તમાનવાક્ય + 1
+			વર્તમાનવાક્ય
+
+સ્ટેજ(
+	[વાક્ય(વાક્યો[વર્તમાનવાક્ય] લપેટી: 10m)]
+	ચહેરો: 'Short Stack'
+)

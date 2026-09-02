@@ -1,0 +1,78 @@
+⏳
+مؤشر وضع الدراسة
+=== start/en
+¶اضغط لإضافة ساعات دراسة، وشاهد المؤشر يتغير من الهدوء إلى التركيز إلى الإرهاق.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+فصل: اختيار()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+ساعاتالدراسة:
+	0 …
+	∆ فصل …
+		فصل = 'reset' ?
+			0
+			ساعاتالدراسة + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+شرح:
+	'اضغط على "إضافة ساعة دراسة +1" لزيادة وقت دراستك. اضغط على "إعادة الضبط" للبدء من جديد.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+نصالساعات:
+	'لقد درست ' + ساعاتالدراسة → '' + ' ساعة(ساعات).'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+المزاج:
+	ساعاتالدراسة < 3 ?
+		'🌿 وضع الهدوء — اضغط لإضافة وقت دراسة'
+		ساعاتالدراسة < 6 ?
+			'📚 وضع التركيز — أنت في منطقة الإنتاجية!'
+			'🔥 وضع الإرهاق — خذ راحة و"أعد الضبط"'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+مسرح(
+	[
+		مجموعة(
+			كومة()
+			[
+				عبارة('مؤشر وضع الدراسة' حجم: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				عبارة(شرح حجم: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				عبارة(نصالساعات حجم: 0.4m)
+
+				عبارة(المزاج حجم: 0.75m)
+
+				مجموعة(
+					صف(الحشو: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						عبارة(
+							'إضافة ساعة دراسة +1'
+							قابلللتحديد: ⊤
+							اسم: 'إضافة'
+							لون: Color(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						عبارة(
+							'إعادة الضبط'
+							قابلللتحديد: ⊤
+							اسم: 'reset'
+							لون: Color(69% 47 271°)
+						)
+					]
+				)
+			]
+			خط: "Aclonica"
+		)
+	]
+)

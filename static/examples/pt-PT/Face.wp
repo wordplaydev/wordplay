@@ -1,0 +1,56 @@
+🙂
+Rosto
+===
+¶Um emoji que reflete o seu rosto quando sorri, franze o sobrolho, abre a boca ou pisca os olhos.¶
+rosto2: Cara()
+
+Fase(
+	[
+		Frase(
+			(rosto2.bocaAberta ? '😮'
+					rosto2.sorrindo ? '😀'
+						rosto2.franzindo ? '🙁'
+							rosto2.sobrancelhasLevantadas ? '😲'
+								(rosto2.olhosAbertos ? '🙂' '😑'))
+			local: rosto2.local
+			tamanho: 4m
+		)
+		Grupo(
+			Monte('|')
+			[
+				Frase((rosto2.olhosAbertos ? '👀' '😑') tamanho: 1.5m)
+				Frase(
+					'😊'
+					tamanho: (rosto2.quantidadeSorriso · 2m) + 0.5m
+				)
+				Frase(
+					'👄'
+					tamanho: (rosto2.quantidadeBocaAberta · 2m) + 0.5m
+				)
+				Frase(
+					'🤨'
+					tamanho: (rosto2.quantidadeLevantarSobrancelha · 2m) + 0.5m
+				)
+			]
+			local: Local(-9m 8m)
+		)
+		Frase(
+			'virar 🧭'
+			local: Local(9m 8m 0m)
+			tamanho: 2m
+			rotação: rosto2.girar
+		)
+		Frase(
+			'inclinar 🧭'
+			local: Local(9m 2m)
+			rotação: rosto2.inclinar
+			tamanho: 2m
+		)
+		Frase(
+			`/Mostre o seu rosto à câmara/`
+			local: Local(-6m -12m)
+			tamanho: 1m
+		)
+	]
+	local: Local(0m 0m -20m)
+)

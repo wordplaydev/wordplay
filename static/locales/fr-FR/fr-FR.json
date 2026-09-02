@@ -3309,7 +3309,7 @@
                         "$~Je crée une nouvelle @List avec l'élément donné à la fin.",
                         "\\['pomme' 'banane' 'mangue'].with('pastèque')\\"
                     ],
-                    "names": ["$~avec", "$~ajouter"],
+                    "names": "$~avec",
                     "inputs": [
                         {
                             "doc": "$~Je suis le @value que tu veux ajouter.",
@@ -3324,7 +3324,7 @@
                         "C'est un peu plus simple d'utiliser @Spread, comme ceci :",
                         "\\['pomme' 'banane' 'mangue' :['pastèque' 'carambole']]\\"
                     ],
-                    "names": ["$~avecListe", "$~ajouter"],
+                    "names": "$~avecListe",
                     "inputs": [
                         {
                             "doc": "$~La liste des valeurs à ajouter.",

@@ -1,0 +1,71 @@
+🗨
+Diyalog
+=== start
+¶İki harf, harflerin konuşması ne demektir diye konuşuyor.¶
+
+¶Konuşmanın bir satırı: kimin söylediği, sözler ve bunun söylenmiş mi yoksa düşünülmüş mü olduğu.¶
+•satır(kim•'' kelimeler2•'' düşünme•?: ⊥)
+
+yazı: [
+		satır('bir' 'Konuştuğumuzu hiç garip buluyor musun?')
+		satır('b' 'Biz harfiz. Konuşmak zaten bizim işimiz.')
+		satır(
+			'bir'
+			'Hayır, bizi demek istiyorum. Kurduğumuz sözleri değil. Bizi.'
+		)
+		satır('b' '…Ha.')
+		satır(
+			'bir'
+			'Ben bir sesi anlatan bir şeklim. Şu anda o şekil olarak sesi çıkarıyorum.'
+		)
+		satır(
+			'b'
+			'Bir harfin etrafındaki konuşma balonu, harfin resmi mi, yoksa bir resmin harfi mi?'
+			düşünme: ⊤
+		)
+		satır('bir' 'Sarmal sarmal dönüyorsun.')
+		satır(
+			'b'
+			'Ben bir b harfiyim. Sarmal olmak tam olarak benim şeklim.'
+		)
+		satır('bir' 'Her neyse. Burada bu normal.')
+		satır('b' 'En azından bizim için normal.')
+	]
+
+¶Bir tuşa basarak, tıklayarak ya da dokunarak ilerle ve son satırda dur.¶
+sıra•#: 1 … ∆ Anahtar() | ∆ Düğme() … (sıra < yazı.uzunluk(
+				) ? sıra + 1 sıra)
+
+satır2: yazı[sıra]
+
+¶Sadece sırası gelen kişi bir balon alır. Her satır bir @Say olduğu için hem söylenir hem gösterilir — ve balon, altyazının yerine geçer, çünkü sözler zaten söyleyen kişinin yanında ekranda görünür. Kimse bir taraf seçmez: sahne, her balonu en az engel olacağı yere yerleştirir.¶
+ƒ balon2(kim2•'')
+	kim2 = satır2.kim ?
+		Balon(
+			Söylemek(satır2.kelimeler2)
+			tür: (satır2.düşünme ? '💭' '💬')
+			sar: 9m
+		)
+		ø
+
+¶Bir satır, taban çizgisine hizalanır, böylece iki harf de aynı çizgide durur. Bir öbeğin kutusu kendi mürekkebidir, bu yüzden onları aynı yüksekliğe koymak kısa bir harfle uzun bir harfi farklı taban çizgilerine koyardı.¶
+Sahne(
+	[
+		Grup(
+			Yığın('|' 1.5m)
+			[
+				Grup(
+					Sıra('_' 6m)
+					[
+						İfadeetmek('bir' boyut: 3m balon: balon2('bir'))
+						İfadeetmek('b' boyut: 3m balon: balon2('b'))
+					]
+				)
+				İfadeetmek(
+					`/boşluk, tıklama ya da dokunma/`
+					boyut: 0.6m
+				)
+			]
+		)
+	]
+)

@@ -1,0 +1,597 @@
+🎆
+Paputok
+=== start/en
+¶Mga paputok na sumasabay sa tugtugin: bawat instrumentong tumutunog sa isang bit ay lumilitaw bilang sarili nito, sandaling nakabitin, at pagkatapos ay bumabagsak.
+
+Walang naka-guhit dito ayon sa relo. Ibinibigay ng @Beat ang isang @Downbeat tuwing may bit na naririnig, at ang isang @Downbeat ay nagdadala ng @Part para sa bawat @Track — kung anong instrumento ito, kung tumutunog ba ito, kung anong tono ang tinutugtog nito, at kung gaano ito kalakas. Kaya isang pagsabog bawat tumutunog na bahagi ay isang solong @List/translate, at ang tugtugin mismo ang gumaguhit sa sarili nito.
+
+Binibigyan ng pangalan ang bawat pagsabog gamit ang numero ng bit, kaya ang mga pagsabog ng bawat bit ay bagong output: itinatanghal nila ang kanilang pasok na anyo sa pagpasok, at ang kanilang labas na anyo kapag pinapalitan sila ng susunod na bit. Ang pagputok at ang pagbagsak ang dalawang anyong iyon.
+
+Ang tugtugin ay ang /The Star-Spangled Banner/ — ang himig ni John Stafford Smith mula noong mga 1773, matagal nang nasa pampublikong pag-aari — mula simula hanggang huli, na nagtatapos sa huling linya. Bawat tono ay may sariling haba na naka-lagay bilang halaga ng nota sa numero — \8𝅘𝅥𝅮\ ay isang ikawalo, \13𝅗𝅥\ ay isang kalahati, \13𝅗𝅥𝅭\ ay isang tuldok na kalahati — kaya ang mga pickup, ang mga tuldok na pigura, at ang mahahabang hawak na tono ay tunay na tagal, hindi lang pantay-pantay na bilang ng bit. Ang isang payak na numero ay isang bit. Kailangan pa rin ng @Note ang mga pahinga, dahil\ø\ ay hindi isang numero kaya hindi ito makakadala ng halaga. Nasa chromatic scale ito upang maisulat ang pinataas na ikaapat: bawat hakbang ay isang semitone.¶
+
+tibok2: Kumpas()
+bilang2: tibok2.bilangin
+
+¶Ang mga bahaging talagang tumutunog lang ang nagiging paputok; ang isang track na nagpapahinga ay nananatiling madilim. Bago magsimula ang tugtugin, wala pang anumang bahagi, kaya walang laman ang langit.¶
+pagputok•[Bahagi]: tibok2.mgaBahagi.pansala(
+		ƒ(p•Bahagi) p.tumutunog
+	)
+
+¶Bawat instrumento ay sumasabog bilang sarili nito, at iyan mismo ang layunin: makikita mo kung alin ang katatapos lang tumugtog.¶
+ƒ mukha2(p2•Bahagi)•''
+	(p2.instrumento.id = 'trumpet') ? '🎺'
+		(p2.instrumento.id = 'flute') ? '🪈'
+			(p2.instrumento.id = 'bell') ? '🔔'
+				(p2.instrumento.id = 'piano') ? '🎹'
+					(p2.instrumento.id = 'violin') ? '🎻'
+						(p2.instrumento.id = 'drums') ? '🥁'
+							'🎵'
+
+¶Bawat instrumento ay may sariling landas, na kumakalat sa buong langit. Ang paggamit ng instrumento sa halip na ang posisyon nito sa listahan ay nagpapanatili sa landas na hindi gumagalaw kahit tumigil ang ibang instrumento.¶
+ƒ linya(p3•Bahagi)•#
+	(p3.instrumento.id = 'trumpet') ? -6
+		(p3.instrumento.id = 'flute') ? -3.6
+			(p3.instrumento.id = 'bell') ? -1.2
+				(p3.instrumento.id = 'piano') ? 1.2
+					(p3.instrumento.id = 'violin') ? 3.6
+						(p3.instrumento.id = 'drums') ? 6
+							0
+
+¶Kung gaano kataas ang isang pagsabog: ang tono nito. Ang bawat bahagi rito ay tumutunog, kaya may tono ito.¶
+ƒ taas2(p4•Bahagi)•# p4.mgaGrado[1]
+
+¶Isang pagsabog, tumataas ayon sa tono nito at lumalaki ayon sa lakas nito.¶
+ƒ pagsabog(p5•Bahagi i•#)•Parirala
+	Parirala(
+		mukha2(p5)
+		(0.9m + (p5.lakasNgTunog · 1.6m))
+		lugar: Lugar(
+			(linya(p5) + p5.pan) · 1m
+			(((taas2(p5) · 0.22) - 1.8) · 1m)
+		)
+		pangalan: 'burst \bilang2\ \i\'
+		pagpasok: Pagkakasunodsunod(
+			{
+				0%: Pose(sukat: 0.1 kalabuan: 0%)
+				40%: Pose(sukat: 1.35 kalabuan: 100%)
+				100%: Pose(sukat: 1 kalabuan: 100%)
+			}
+			0.3s
+		)
+		palabas: Pagkakasunodsunod(
+			{
+				0%: Pose(offset: Lugar(0m 0m) kalabuan: 100%)
+				100%: Pose(offset: Lugar(0m -5m) kalabuan: 0%)
+			}
+			0.9s
+		)
+	)
+
+¶Ang himig. Ang mga antas ay semitone mula sa mababang tonic: ang 1 ay ang notang iyon, ang 13 ay isang oktaba pataas, at ang 7 ay ang pinataas na ikaapat. Dalawang linya ang may parehong himig, pagkatapos ang tulay, pagkatapos ang huling linya.¶
+himig2: [
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		17𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		17
+		18
+		20
+		20𝅗𝅥
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15
+		17
+		18
+		18𝅗𝅥
+		18
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8
+		13
+		13
+		13𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		10
+		10
+		10
+		15
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13𝅘𝅥𝅮
+		13
+		12
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		13𝅘𝅥𝅭
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		18𝅘𝅥𝅮
+		20𝅗𝅥
+		13𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅭
+		18𝅘𝅥𝅮
+		15
+		13𝅗𝅥𝅭
+	]
+
+¶Isang ugat sa ilalim ng bawat sukat.¶
+bass: [
+		Nota(ø 1beats)
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+	]
+
+¶Isang kampana sa pasalit-salit na mga downbeat, kaya hindi ito nasa bawat pagsabog.¶
+kampana2: [
+		Nota(ø 1beats)
+		13
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		13
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		13
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		13
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+	]
+
+¶Mga kwerdas mula sa tulay pasulong, kaya lumalago ang tekstura.¶
+biyolin2: [
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+	]
+
+¶Isang descant lamang sa mga tuktok ng mga parirala.¶
+plauta2: [
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 1beats)
+		25
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 1beats)
+		25
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 1beats)
+		25
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 1beats)
+		25
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+	]
+
+¶Isang martsa sa ilalim.¶
+mgaTambol2: [
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+	]
+
+Entablado(
+	[
+		:pagputok.isalin(ƒ(p6•Bahagi i2•#) pagsabog(p6 i2))
+		Musika(
+			[
+				Track(
+					himig2
+					instrumento: Instrumento.trumpeta
+					lakasNgTunog: 90%
+					loop: ⊥
+				)
+				Track(
+					bass
+					instrumento: Instrumento.piyano
+					susi: -12semitones
+					lakasNgTunog: 50%
+					pan: -0.4
+					loop: ⊥
+				)
+				Track(
+					kampana2
+					instrumento: Instrumento.kampana
+					lakasNgTunog: 55%
+					loop: ⊥
+				)
+				Track(
+					biyolin2
+					instrumento: Instrumento.biyolin
+					lakasNgTunog: 45%
+					pan: 0.3
+					loop: ⊥
+				)
+				Track(
+					plauta2
+					instrumento: Instrumento.plauta
+					lakasNgTunog: 65%
+					loop: ⊥
+				)
+				Track(
+					mgaTambol2
+					instrumento: Instrumento.mgaTambol
+					lakasNgTunog: 45%
+					loop: ⊥
+				)
+			]
+			tempo: 84beats/min
+			iskala: Musika.chromatic
+			pangalan: 'awit'
+		)
+	]
+	background: Kulay(10% 12 265°)
+	kulay: Kulay(96% 0 0°)
+)

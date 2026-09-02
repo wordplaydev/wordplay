@@ -1,0 +1,71 @@
+4
+Madlib
+=== start
+¶Un joc de cuvinte: dai cuvintele, primești o poveste caraghioasă.¶
+
+¶Aceasta ține evidența tipurilor de cuvinte de care avem nevoie și a numărului lor¶
+•parteDeVorbire(etichetă•"" numărare2•#)
+
+¶Acestea sunt cuvintele de care avem nevoie pentru jocul de mai jos.¶
+rânduri2: [
+		parteDeVorbire('adjective' 4)
+		parteDeVorbire('substantive' 3)
+		parteDeVorbire('verbe, timpul trecut' 3)
+		parteDeVorbire('adverbe' 4)
+	]
+
+discuție: Chat()
+¶De fiecare dată când se trimite un mesaj, se trece la următoarea parte de vorbire¶
+rând: 1 … ∆ discuție … rând + 1
+¶De fiecare dată când se trimite un mesaj, acesta se împarte după spații și se adaugă la răspunsuri¶
+răspunsuri•[['']]: [] … ∆ discuție … [
+			:răspunsuri
+			discuție ÷ ' '
+		]
+
+¶Dăm numere acestor indici pentru a face jocul mai ușor de citit¶
+adjective: 1
+substantive: 2
+adverbe: 4
+verbe: 3
+
+întreabă: răspunsuri.lungime() < 4
+
+Etapă(
+	[
+		¶Înainte să avem răspunsurile, cerem răspunsuri¶
+		întreabă ?
+			Grup(
+				Stivă('|' 0.25m)
+				[
+					Fraza(
+						`\rânduri2[rând].numărare2\ \rânduri2[rând].etichetă\ te rog!`
+					)
+					Fraza('(separate prin spații)' 0.5m)
+				]
+			)
+			¶După ce avem răspunsurile, arătăm jocul¶
+			(
+				¶Alcătuiește o listă de propoziții cu răspunsurile¶
+				propoziții: [
+						`Astăzi am fost la grădina zoologică.`
+						`Am văzut un(o) *\răspunsuri[substantive][1]\* *\răspunsuri[adverbe][1]\* sărind în sus și în jos în copacul său.`
+						`El *\răspunsuri[verbe][1]\* *\răspunsuri[adverbe][2]\* prin tunelul cel mare care ducea la *\răspunsuri[adjective][2]\* *\răspunsuri[substantive][2]\* lui.`
+						`Am luat niște alune și le-am dat prin gard unui * gigantic și gri\răspunsuri[substantive][3]\* care se înălța deasupra capului meu.`
+						`Hrănind acel animal, mi s-a făcut foame.`
+						`M-am dus să iau o *\răspunsuri[adjective][3]\* porție de înghețată.`
+						`Mi-a umplut stomacul.`
+						`După aceea am *\răspunsuri[verbe][2]\* *\răspunsuri[adverbe][2]\* ca să prindem autobuzul nostru.`
+						`Când am ajuns acasă, am *\răspunsuri[verbe][3]\* mama mea pentru o zi *\răspunsuri[adjective][4]\* la grădina zoologică.`
+					]
+				¶Transformă-le în propoziții¶
+				Grup(
+					Stivă('<')
+					propoziții.traduce(
+						ƒ(propoziție) Fraza(propoziție)
+					)
+				)
+			)
+	]
+	faţă: 'Phudu'
+)

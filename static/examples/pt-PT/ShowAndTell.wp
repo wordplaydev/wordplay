@@ -1,0 +1,198 @@
+🔍
+Mostrar e Contar
+=== start/en
+¶Mostra e Conta — um jogo de câmara contra o relógio. Peço-lhe(a) para encontrar coisas, uma de cada vez, e digo cada uma em voz alta. Mostre cada uma à sua câmara até eu a reconhecer, depois escolho outra. Não tem a coisa que pedi? Prima → e peço uma diferente — saltar nunca conta contra si. Encontre cinco num minuto e ganha; a quinta precisa sempre de duas pessoas na imagem ao mesmo tempo. O minuto começa quando a sua câmara liga, por isso preparar-se nunca lhe custa tempo, e quando o tempo acaba digo que o jogo terminou. Cada descoberta torna as palavras um pouco maiores, e quando ganha elas explodem como confetes sobre um "Ganhou!"¶
+
+¶Uma coisa a procurar: o emoji que mostro, as palavras que mostro, o nome que o modelo da minha câmara lhe dá (aquilo com que comparo), e quantas preciso de ver ao mesmo tempo (duas, no caso de pessoas).¶
+•alvo(emoji•'' etiqueta•'' nome3•'' precisa•#)
+
+¶As coisas que posso pedir. Cada nome é exatamente o que @Objects chama à coisa, para que eu a possa reconhecer na câmara. Mostro uma de cada vez e escolho outra sempre que a encontra ou a salta.¶
+conjunto2•[alvo]: [
+		alvo('☕' 'uma chávena' 'chávena' 1)
+		alvo('📖' 'um livro' 'livro' 1)
+		alvo('📱' 'um telemóvel' 'telemóvel' 1)
+		alvo('💻' 'um portátil' 'portátil' 1)
+		alvo('⌨' 'um teclado' 'teclado' 1)
+		alvo('🖱' 'um rato' 'rato' 1)
+		alvo('✂' 'tesoura' 'tesoura' 1)
+		alvo('🍾' 'uma garrafa' 'garrafa' 1)
+		alvo('🪑' 'uma cadeira' 'cadeira' 1)
+		alvo('🕐' 'um relógio' 'relógio' 1)
+		alvo('🍌' 'uma banana' 'banana' 1)
+		alvo('🍎' 'uma maçã' 'maçã' 1)
+		alvo('🧸' 'um urso de peluche' 'urso de peluche' 1)
+		alvo('🪴' 'uma planta em vaso' 'planta em vaso' 1)
+		alvo('🏺' 'um jarro' 'jarro' 1)
+		alvo('🎒' 'uma mochila' 'mochila' 1)
+	]
+
+¶O que pedir a seguir, tendo em conta os emojis já encontrados e o que deve evitar repetir: um novo objeto aleatório ainda não pedido, para os primeiros quatro, e depois sempre duas pessoas para o quinto.¶
+ƒ escolher(encontrado•[''] evitar•alvo)
+	(encontrado.comprimento() ≥ 4)
+	? alvo('👥' 'duas pessoas' 'pessoa' 2)
+		conjunto2.exceto(evitar).filtro(
+			ƒ(t•alvo) ~(encontrado.tem(t.emoji))
+		).aleatório(
+		)
+
+¶A câmara. Não lhe é dito o que procurar — ela apenas relata tudo o que vê, e atualiza-se sozinha, por isso o jogo reage-lhe diretamente, sem um relógio.¶
+avistamentos: Objetos(contagem: 10 confiança: 0.5)
+
+¶A tecla → (ou um toque) para saltar.¶
+saltar: Chave('Seta para a direita' ⊤)
+
+¶Um relógio, para a contagem decrescente e para animar os confettis da vitória. A própria caça não o utiliza — quem a conduz é @Objects.¶
+relógio: Tempo(30ms)
+
+¶Quanto tempo dura uma ronda.¶
+limite2•#s: 60s
+
+¶O momento em que a câmara relata pela primeira vez, guardado na memória. A contagem decrescente começa aqui e não em zero, para que a espera por partilhar a câmara e a espera pelo carregamento do modelo nunca consumam o seu minuto — @Objects comunica a sua primeira leitura assim que vê uma imagem, quer haja algo nela quer não.¶
+iniciadoEm•#ms: 0ms
+	… ((∆ avistamentos) & (⬚ = 0ms)) …
+		relógio
+
+¶Quanto tempo resta: o minuto inteiro até a câmara acordar, e depois o que dele restar, nunca menos do que zero — assim, quando o tempo se esgota, mantém-se esgotado em vez de contar para números negativos.¶
+esquerda2•#s: (iniciadoEm = 0ms) ? limite2 ((limite2 - ((relógio - iniciadoEm) → #s)).máx(
+				0s
+			))
+
+¶O jogo: os emojis encontrados até agora (ganha-se com cinco) e a coisa pedida neste momento.¶
+•caça(encontrado2•[''] alvo2•alvo)
+
+¶Avança a partir de uma leitura da câmara (ou de um salto), parando assim que cinco sejam encontrados, para que o ecrã de vitória seja criado apenas uma vez e os seus confettis fiquem livres para voar. Saltar sorteia novamente a coisa pedida sem alterar a sua contagem; ver o suficiente da coisa pedida entre as leituras conta como um achado e passa a pedir a coisa seguinte.¶
+ƒ passo(h2•caça saltado•? visto•[Coisa]) (
+		contagem2: visto.filtro(
+				ƒ(t2•Coisa) t2.nome = h2.alvo2.nome3
+			).comprimento(
+			)
+		próximoEncontrado: [:h2.encontrado2 h2.alvo2.emoji]
+		saltado
+		? caça(
+				h2.encontrado2
+				escolher(h2.encontrado2 h2.alvo2)
+			)
+			((contagem2 ≥ h2.alvo2.precisa)
+				? caça(
+						próximoEncontrado
+						escolher(próximoEncontrado h2.alvo2)
+					)
+					h2)
+	)
+
+¶A caça também para quando o minuto se esgota, para que um achado que surja depois do tempo terminar não consiga passar despercebido pelo ecrã de fim de jogo.¶
+caça2•caça: caça([] conjunto2.aleatório())
+	… ((∆ avistamentos | ∆ saltar) & (⬚.encontrado2.comprimento(
+				) < 5) & (esquerda2 > 0s)) …
+		passo(⬚ (∆ saltar) avistamentos)
+
+¶O momento em que ganha, guardado na memória — para que os confettis animem a partir do tempo zero.¶
+ganhoEm•#ms: 0ms
+	… ((caça2.encontrado2.comprimento() ≥ 5) & (⬚ = 0ms)) …
+		relógio
+
+¶Um pedaço de confetti a voar: um emoji, uma velocidade de explosão (sem unidade — magnitude em metros por segundo) e uma rotação. Guardar números simples mantém simples o cálculo da trajetória a seguir.¶
+•faísca(emoji2•'' vx•# vy•# girado•#)
+
+¶O confetti, gerado no momento em que ganha e nunca mais reconstruído. @Objectskeeps deteta, por isso cada leitura reavalia o programa — congelar as peças nesta lista (que se preenche uma vez, quando ganha, e depois a sua condição para) faz com que cada uma mantenha a mesma velocidade de voo, em vez de ser recriada a cada imagem.¶
+faíscas•[faísca]: []
+	… ((caça2.encontrado2.comprimento() ≥ 5) & (⬚.comprimento(
+				) = 0)) …
+		(60 → []).traduzir(
+			ƒ()
+				faísca(
+					caça2.encontrado2.aleatório()
+					Aleatório(-8 8)
+					Aleatório(3 13)
+					Aleatório(-200 200)
+				)
+		)
+
+¶Gravidade para o arco do confetti, em metros por segundo ao quadrado.¶
+g•#: 9
+
+¶O aviso: um emoji grande, o seu nome, o seu progresso, o tempo que falta, e como saltar. As palavras crescem a cada descoberta para aumentar a dificuldade — só um pouco, para que cinco descobertas ainda caibam no palco. A contagem decrescente arredonda para cima, por isso mostra 1 até ao segundo em que o tempo termina mesmo.¶
+ƒ pedido(h3•caça) (
+		grande: (2m + (h3.encontrado2.comprimento() · 0.3m))
+		Grupo(
+			Monte('|' 0.4m)
+			[
+				Frase(
+					h3.alvo2.emoji
+					fonte: "Noto Color Emoji"
+					tamanho: grande + 1m
+				)
+				Frase(h3.alvo2.etiqueta tamanho: grande)
+				Frase(
+					`encontrados \h3.encontrado2.comprimento() → ''\ de 5`
+					tamanho: 0.7m
+				)
+				Frase(
+					`⏳ \(esquerda2 ÷ 1s).arredondarParaCima() → ''\ segundos restantes`
+					tamanho: 0.6m
+				)
+				Frase(
+					'não o tem? prima → para outro'
+					tamanho: 0.5m
+				)
+			]
+		)
+	)
+
+¶Coloque cada faísca ao longo do seu próprio arco, calculado a partir do tempo que já voou: move-se para fora com a sua velocidade enquanto a gravidade a puxa para baixo (o clássico ½·g·t²). Como calculamos a posição em vez de depender do motor de física, a reavaliação constante da câmara apenas volta a desenhar cada peça onde deve estar — sem saltar de volta para o centro.¶
+ƒ confettis() (
+		t3: (relógio - ganhoEm) ÷ 1000ms
+		faíscas.traduzir(
+			ƒ(s•faísca)
+				Frase(
+					s.emoji2
+					fonte: "Noto Color Emoji"
+					tamanho: 1.5m
+					rotação: (s.girado · t3) · 1°
+					local: Local(
+						(s.vx · t3) · 1m
+						((s.vy · t3) - ((g · t3 · t3) ÷ 2)) · 1m
+					)
+				)
+		)
+	)
+
+¶Ganha ao encontrar cinco: um "Ganhou!" centrado, dito em voz alta e também mostrado, com os emojis encontrados a explodir como confetti por cima, revelados à medida que o confetti cai.¶
+ƒ final() [
+		Grupo(Monte() [Frase('Ganhou!' tamanho: 2m)])
+		Dizer('Ganhou!')
+		:confettis()
+	]
+
+¶O minuto acabou: até onde chegou, dito em voz alta e também mostrado.¶
+ƒ fimDeJogo(h4•caça) [
+		Grupo(
+			Monte('|' 0.4m)
+			[
+				Frase('⌛' fonte: "Noto Color Emoji" tamanho: 3m)
+				Frase('Tempo esgotado!' tamanho: 2m)
+				Frase(
+					`encontrou \h4.encontrado2.comprimento() → ''\ de 5`
+					tamanho: 0.7m
+				)
+			]
+		)
+		Dizer(
+			"Time is up. Game over. You found \h4.encontrado2.comprimento(
+			) → ''\ of 5."
+		)
+	]
+
+¶Diz a coisa atual em voz alta, para jogadores que não conseguem ler o aviso ou que apenas querem ouvi-lo. O Say só fala quando o seu texto muda — por isso anuncia cada coisa nova uma vez, e não a cada leitura da câmara.¶
+ƒ anunciar(h5•caça) Dizer('encontrar ' + h5.alvo2.etiqueta)
+
+¶A vitória é verificada primeiro, por isso o tempo esgotado só pode significar uma derrota.¶
+Fase(
+	(caça2.encontrado2.comprimento() ≥ 5)
+	? final()
+		((esquerda2 ≤ 0s) ? fimDeJogo(caça2) [
+					pedido(caça2)
+					anunciar(caça2)
+				])
+	local: Local(0m 0m -12m)
+)

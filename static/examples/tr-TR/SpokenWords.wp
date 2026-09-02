@@ -1,0 +1,25 @@
+🎭
+SöylenenSözler
+=== start
+¶Konuş, ve sözlerin rastgele yerlerde ve boyutlarda belirsin.¶
+tıkla: Düğme(ø)
+konuşma: Konuşma(
+		sıfırlamak: tıkla
+		dil: 'tr-TR'
+		kelimeler: 10
+	)
+x2: Rastgele(-10m 10m) … ∆ konuşma … Rastgele(-10m 10m)
+y2: Rastgele(-10m 10m) … ∆ konuşma … Rastgele(-10m 10m)
+yazıboyutu: Rastgele(1m 3m) … ∆ konuşma … Rastgele(1m 3m)
+Sahne(
+	[
+		İfadeetmek(
+			konuşma
+			yer: Yer(x2 y2)
+			renk: Renk(0% 0% 0°)
+			boyut: yazıboyutu
+		)
+	]
+	arkaplan: Renk(100% 0% 0°)
+)
+

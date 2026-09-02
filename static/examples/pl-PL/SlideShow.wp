@@ -1,0 +1,100 @@
+🎬
+Pokaz slajdów
+=== start
+¶Pokaz slajdów opowiadający, jak powstał Wordplay; naciśnij → i ←, aby go przeglądać.¶
+
+¶Jeden slajd pokazu: postać, tytuł i słowa pod nim.¶
+•slajd(emotikona•'' tytuł•'' treść2•''|`…`)
+
+¶Historia. Dodaj, usuń lub zmień te slajdy, aby opowiedzieć własną.¶
+slajdy: [
+		slajd(
+			'🎭'
+			'Wordplay'
+			'Historia powstania tego języka. Naciśnij →, aby iść dalej, i ←, aby wrócić.'
+		)
+		slajd(
+			'✒'
+			'Miłość do liter'
+			'Dawno temu Amy zakochała się w typografii: w kształtach liter i w rytmie słów na stronie.'
+		)
+		slajd(
+			'💻'
+			'Miłość do kodu'
+			'Zakochała się też w programowaniu i w tym, jak kilka słów mogło sprawić, że coś się poruszało.'
+		)
+		slajd(
+			'🧭'
+			'Dwie miłości, osobno'
+			'Ale typografia i programowanie żyły w różnych światach, a mało które narzędzie zapraszało do pokochania obu naraz.'
+		)
+		slajd(
+			'😄'
+			'Młoda osoba'
+			'Wiele lat później poznała młodą osobę, która kochała emotikony i chciała sprawić, by tańczyły.'
+		)
+		slajd(
+			'💡'
+			'Pomysł'
+			'A gdyby jakiś język programowania ułatwiał sprawianie, by emotikony tańczyły?'
+		)
+		slajd(
+			'🌱'
+			'Powstaje Wordplay'
+			'Zaczęła więc budować taki język, w którym pisanie kodu oznacza przesuwanie słów i znaków po scenie.'
+		)
+		slajd(
+			'🧑‍🏫'
+			'Zaprojektowane wspólnie'
+			'Zaprojektowała go razem z wieloma młodymi ludźmi i nauczycielami, którzy mówili, co chcą tworzyć i co im w tym przeszkadza.'
+		)
+		slajd(
+			'🌏'
+			'Wciąż się rozwija'
+			'Od tamtej pory nieustannie się rozwija, aby coraz więcej osób mogło tworzyć coraz więcej z tego, co sobie wyobrażają.'
+		)
+		slajd(
+			'✨'
+			'Twoja kolej'
+			`O czym marzysz, że da się to zrobić, choć jeszcze nie jest to możliwe? Napisz nam na <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+		)
+	]
+
+suma2: slajdy.długość()
+
+klawisz2: Klawisz()
+
+¶Slajd, który teraz pokazujemy. Strzałka w prawo przesuwa do przodu, strzałka w lewo przesuwa do tyłu, a na końcach się zatrzymuje, nie zawija się od nowa.¶
+indeks2•#: 1 … ∆ klawisz2 …
+		(klawisz2 = 'Strzałka w prawo') ? ((indeks2 < suma2) ? indeks2 + 1 indeks2)
+			(klawisz2 = 'Strzałka w lewo') ? ((indeks2 > 1) ? indeks2 - 1 indeks2)
+				indeks2
+
+slajd2: slajdy[indeks2]
+
+Scena(
+	[
+		Grupa(
+			Stos('|' 0.4m)
+			[
+				Wyrażenie(slajd2.emotikona rozmiar: 2m)
+				Wyrażenie(
+					`*\slajd2.tytuł\*`
+					rozmiar: 1.2m
+					wyrównanie: '|'
+				)
+				Wyrażenie(
+					slajd2.treść2
+					rozmiar: 0.5m
+					zawinąć: 12m
+					wyrównanie: '|'
+				)
+				Wyrażenie(
+					`\indeks2\ z \suma2\`
+					rozmiar: 0.25m
+					wyrównanie: '|'
+				)
+			]
+		)
+	]
+)

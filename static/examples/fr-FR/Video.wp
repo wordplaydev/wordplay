@@ -1,0 +1,84 @@
+📹
+Vidéo
+===
+¶Le flux de ta caméra, repeint en direct : en lettres colorées, en ombrage ASCII, ou en carrés colorés. Choisis un style avec les boutons en bas.¶
+
+¶Le dernier bouton de style cliqué. Choice indique le nom de la phrase sélectionnable choisie par la personne qui regarde, et le style garde ce qu'il a entendu en dernier.¶
+choix: Choix()
+style2: 'letters' … ∆ choix … choix
+
+¶Les émojis sont grands, donc le style émoji utilise une grille plus grossière. Les deux grilles couvrent la même surface de 16 sur 12 mètres, donc changer de style ne redimensionne jamais l'image et ne déplace jamais la caméra.¶
+colonnes2: (style2 = 'emoji') ? 16 32
+lignes: (style2 = 'emoji') ? 12 24
+cellule2: (style2 = 'emoji') ? 1m 0.5m
+
+¶Le milieu de la grille, où l'image est centrée.¶
+colonneDuMilieu: (colonnes2 + 1) ÷ 2
+ligneDuMilieu: (lignes + 1) ÷ 2
+
+¶Une couleur par cellule, directement issue de la caméra.¶
+couleurs: Caméra((colonnes2 × 1px) (lignes × 1px) 33ms)
+
+¶Dix caractères, du foncé au clair. Le style ASCII en choisit un selon la luminosité du pixel.¶
+dégradé: "@%#*+=-:. " → []
+
+¶Vingt-quatre bandes de 15° autour du cercle des teintes, pour que chaque pixel prenne le carré le plus proche de sa couleur.¶
+carrés: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
+
+¶À quoi ressemble un pixel dans le style actuel. Un pixel presque sans couleur n'a pas de teinte à montrer, alors il se rabat sur un carré clair ou foncé.¶
+ƒ glyphe(couleur2•Couleur)
+	(style2 = 'ascii') ?
+		"\dégradé[((couleur2.luminosité × 9).rond()) + 1]\"
+		((style2 = 'emoji') ?
+				((couleur2.chroma < 8) ?
+						((couleur2.luminosité < 50%) ? "⬛" "⬜")
+						"\carrés[(((couleur2.teinte ÷ 1°) ÷ 15).arrondirverslebas(
+							)) + 1]\")
+				'un')
+
+¶L'image : une phrase par pixel, disposée du milieu vers l'extérieur, pour que la caméra ait toujours la même image à cadrer, quelle que soit la grossièreté de la grille, et inversée de gauche à droite pour se lire comme dans un miroir.¶
+image: couleurs.combiné(
+		[]
+		ƒ(phrases2•[Phrase] rangée•[Couleur] y2•#)
+			phrases2.avecListe(
+				rangée.traduire(
+					ƒ(couleur3•Couleur x2•#)
+						Phrase(
+							glyphe(couleur3)
+							lieu: Lieu(
+								((colonneDuMilieu - x2) × cellule2)
+								((ligneDuMilieu - y2) × cellule2)
+							)
+							durée: 0s
+							taille: (style2 = 'ascii') ? 0.75m ((style2 = 'emoji') ? 1.15m 1m)
+							affronter: (style2 = 'ascii') ? "Noto Sans Mono"/en ø
+							couleur: (style2 = 'letters') ? couleur3 ø
+						)
+				)
+			)
+	)
+
+¶Un bouton de style, lumineux quand c'est le style affiché. Le nom est ce que Choice indique quand on clique sur le bouton ou qu'on le choisit avec le clavier.¶
+ƒ bouton(id2•'')
+	Phrase(
+		id2
+		0.5m
+		nom: id2
+		sélectionnable: ⊤
+		aurepos: (style2 = id2) ? Pose() Pose(opacité: 40%)
+	)
+
+¶Une ligne garde les boutons espacés régulièrement et alignés, quelle que soit la longueur de leurs mots, et sans place qui lui soit propre, la ligne se place au milieu, donc le décalage suffit à la faire descendre en bas de l'écran. Elle porte son propre fond, car des mots sur une vidéo ne sont lisibles que par chance.¶
+boutons: Groupe(
+		Rangée(rembourrage: 0.5m)
+		[bouton('letters') bouton('ascii') bouton('emoji')]
+		arrièreplan: Couleur(100% 0 0°)
+		compenser: Lieu(0m -4.5m)
+	)
+
+¶Les boutons se trouvent dans la couche superposée de la scène, qui reste fixée à plat sur l'écran : ils gardent la même taille et la même place quel que soit le cadrage de l'image, et l'image est cadrée comme s'ils n'étaient pas là.¶
+Scène(
+	image
+	description: "camera video drawn with \style2\"
+	superposition: [boutons]
+)

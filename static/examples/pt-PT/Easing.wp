@@ -1,0 +1,57 @@
+s
+Suavização da Sequência
+===
+¶A mesma animação do carro em oito estilos, um para cada tipo de suavização.¶
+keyframes: {
+		0%: Pose(desvio: Local(-1m 0m))
+		25%: Pose(desvio: Local(1m 0m))
+		50%: Pose(desvio: Local(1m 0m))
+		75%: Pose(desvio: Local(-1m 0m))
+		100%: Pose(desvio: Local(-1m 0m))
+	}
+
+Fase(
+	[
+		Grupo(
+			Rede(4 2 acolchoamentodecélulas: 0.25m)
+			[
+				Frase('direto' tamanho: 0.25m)
+				Frase(
+					"🚗"
+					descansar: Sequência(
+						keyframes
+						3s
+						estilo: "straight"
+					)
+				)
+				Frase('cauteloso' tamanho: 0.25m)
+				Frase(
+					"🚚"
+					descansar: Sequência(
+						keyframes
+						3s
+						estilo: "cautious"
+					)
+				)
+				Frase('lento' tamanho: 0.25m)
+				Frase(
+					"🚙"
+					descansar: Sequência(
+						keyframes
+						3s
+						estilo: "pokey"
+					)
+				)
+				Frase('rápido' tamanho: 0.25m)
+				Frase(
+					"🏎"
+					descansar: Sequência(
+						keyframes
+						3s
+						estilo: "zippy"
+					)
+				)
+			]
+		)
+	]
+)

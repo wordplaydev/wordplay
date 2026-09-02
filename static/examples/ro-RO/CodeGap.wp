@@ -1,0 +1,207 @@
+👩‍💻
+Lipsă în cod
+=== start/en
+¶Acest proiect arată date reale și publice despre câte femei obțin diplome în informatică în Statele Unite și cum s-a schimbat acest lucru în timp. Folosește două tabele de date, unul numit ani și celălalt domenii, apoi te lasă să alegi una din trei vizualizări cu ajutorul butoanelor de sus. Fiecare vizualizare este un grafic cu bare făcut din emoji de femei, cu o explicație în limbaj simplu în subsol.¶
+↓ years
+↓ fields
+
+¶Funcția fill face o singură bară plină. Ea repetă emoji-ul femeii de count ori și le unește într-un singur text fără goluri, așa că rândul arată ca o bară continuă, nu ca puncte separate.¶
+ƒ umplere(numărare2•#) (numărare2 → []).traduce(ƒ() '👩').alăturăte(
+		''
+	)
+
+¶Funcția chart desenează o diagramă cu bare din trei liste corespondente: o etichetă, o lungime a barei în emoji și o valoare. Fiecare bară este un rând dintr-o stivă aliniată la stânga, deci toate barele încep de la aceeași margine și lungimile lor pot fi comparate direct. Eticheta și valoarea apar la capătul fiecărei bare, pe același rând, astfel rămân aliniate cu bara lor.¶
+ƒ grafic(etichete•[''] unități•[#] valori•[''])
+	Grup(
+		Stivă('<' umplutură: 0.2m)
+		unități.traduce(
+			ƒ(u•# i•#)
+				Grup(
+					Rând('|' umplutură: 0.3m)
+					[
+						Fraza(umplere(u) dimensiune: 0.3m)
+						Fraza(
+							`\etichete[i]\ \valori[i]\`
+							dimensiune: 0.28m
+							culoare: Culoare(45% 0 0°)
+						)
+					]
+				)
+		)
+	)
+
+¶Vederea 1 — „Creșterea și declinul”. Pentru fiecare an din date desenăm o bară a cărei lungime este procentul de diplome în informatică obținute de femei. Fiecare emoji cu femeie reprezintă aproximativ 5 procente, așa că împărțim procentul la 5 pentru a obține lungimea barei.¶
+rânduriTimp: (years ⎡?an2 procent⎦ ⊤) → []
+vizualizareTimp: grafic(
+		rânduriTimp.traduce(ƒ(rând) rând.an2)
+		rânduriTimp.traduce(
+			ƒ(rând2) (rând2.procent ÷ 5).rundă()
+		)
+		rânduriTimp.traduce(
+			ƒ(rând3) (rând3.procent.rundă() → '') + '%'
+		)
+	)
+
+¶Vederea 2 — „Un domeniu ieșit din ritm”. Comparăm proporția femeilor în diferite domenii de studiu într-un an recent. Rândurile sunt deja ordonate de la cel mai mare procent de femei la cel mai mic, astfel informatica ajunge la baza diagramei.¶
+rânduriDomenii: (fields ⎡?câmp procent2⎦ ⊤) → []
+vizualizareDomenii: grafic(
+		rânduriDomenii.traduce(ƒ(rând4) rând4.câmp)
+		rânduriDomenii.traduce(
+			ƒ(rând5) (rând5.procent2 ÷ 5).rundă()
+		)
+		rânduriDomenii.traduce(
+			ƒ(rând6) (rând6.procent2 → '') + '%'
+		)
+	)
+
+¶Vederea 3 — „Mai multe femei, procent mai mic”. Acestea sunt două măsurători diferite, așa că le desenăm ca două diagrame separate, una lângă alta. Diagrama din stânga numără femeile (fiecare emoji reprezintă aproximativ 2.000 de persoane); diagrama din dreapta arată procentul lor din toate diplomele (fiecare emoji reprezintă aproximativ 5 procente). În fiecare diagramă, cele două bare folosesc aceeași unitate, deci pot fi comparate: numărul aproape se dublează, în timp ce procentul scade.¶
+rânduriNumărare: (years ⎡?an2 femei procent⎦ ((an2 = '1984') | (an2 = '2022'))) → []
+vechi: rânduriNumărare[1]
+acum: rânduriNumărare[2]
+
+graficFemei: grafic(
+		['1984' '2022']
+		[
+			(vechi.femei ÷ 2000).rundă()
+			(acum.femei ÷ 2000).rundă()
+		]
+		[vechi.femei → '' acum.femei → '']
+	)
+graficCotă: grafic(
+		['1984' '2022']
+		[
+			(vechi.procent ÷ 5).rundă()
+			(acum.procent ÷ 5).rundă()
+		]
+		[
+			(vechi.procent.rundă() → '') + '%'
+			(acum.procent.rundă() → '') + '%'
+		]
+	)
+vizualizareNumărători: Grup(
+		Rând('<' umplutură: 1.5m)
+		[
+			Grup(
+				Stivă('|' umplutură: 0.3m)
+				[
+					Fraza(
+						`/Femei care obțin diplome în informatică/`
+						dimensiune: 0.28m
+					)
+					graficFemei
+				]
+			)
+			Grup(
+				Stivă('|' umplutură: 0.3m)
+				[
+					Fraza(
+						`/Procentul lor din toate diplomele în informatică/`
+						dimensiune: 0.28m
+					)
+					graficCotă
+				]
+			)
+		]
+	)
+
+¶Cele trei butoane. Alegerea raportează numele oricărui Phrase selectabil pe care cititorul l-a apăsat ultima dată. Începem cu vizualizarea timpului și o actualizăm ori de câte ori se schimbă alegerea.¶
+choice: Alegere()
+curent: 'time' … ∆ choice … choice
+
+file: Grup(
+		Rând('|' umplutură: 0.6m)
+		[
+			Fraza(
+				'▸ De-a lungul timpului'
+				selectabil: ⊤
+				nume: 'time'
+				dimensiune: 0.35m
+				culoare: Culoare(60% 50 20°)
+			)
+			Fraza(
+				'▸ După domeniu'
+				selectabil: ⊤
+				nume: 'fields'
+				dimensiune: 0.35m
+				culoare: Culoare(60% 50 140°)
+			)
+			Fraza(
+				'▸ Număr vs procent'
+				selectabil: ⊤
+				nume: 'numere'
+				dimensiune: 0.35m
+				culoare: Culoare(60% 50 280°)
+			)
+		]
+	)
+
+¶Alege diagrama și textul de subsol pentru vederea curentă.¶
+corp: curent = 'time' ? vizualizareTimp (curent = 'fields' ? vizualizareDomenii vizualizareNumărători)
+
+subsol:
+	curent = 'time' ?
+		Fraza(
+			`/Procentul femeilor din diplomele de licență în informatică din SUA a atins un vârf de 37% în 1984, apoi a scăzut timp de circa 25 de ani până la aproximativ 18% în jurul anului 2008, și de atunci și-a revenit doar încet. Fiecare 👩 ≈ 5%. Sursă: NCES Digest of Education Statistics, Tabelul 325.35./`
+			înfășura: 9m
+			dimensiune: 0.26m
+		)
+		curent = 'fields' ?
+			Fraza(
+				`/În jurul anului 2018, femeile obțineau majoritatea diplomelor în psihologie și biologie, aproximativ jumătate din cele în matematică și științe sociale, dar sub 20% din cele în informatică — aproape cea mai mică proporție dintre toate domeniile. Fiecare 👩 ≈ 5%. Sursă: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
+				înfășura: 9m
+				dimensiune: 0.26m
+			)
+			Fraza(
+				`/În 1984, aproximativ 12.000 de femei au obținut diplome în informatică — 37% din total. Până în 2022, peste 24.000 au obținut-o, de două ori mai multe persoane, dar totuși doar 23%: domeniul a crescut atât de repede încât numărul bărbaților a crescut și mai repede. Un număr în creștere poate însemna totuși un procent în scădere. Sursă: NCES./`
+				înfășura: 9m
+				dimensiune: 0.26m
+			)
+
+Etapă(
+	[
+		Grup(
+			Stivă('|' umplutură: 0.4m)
+			[
+				Fraza(
+					`DECALAJ DE COD`
+					dimensiune: 0.7m
+					faţă: 'Monoton'
+				)
+				Fraza(
+					`/Cine obține diplome în informatică?/`
+					dimensiune: 0.35m
+				)
+				file
+				corp
+				subsol
+			]
+		)
+	]
+	faţă: 'Quicksand'
+)
+=== years/en
+¶Procentul diplomelor de licență în informatică și științe ale informației din SUA obținute de femei, pe an, împreună cu numărul de femei și numărul total de diplome. Sursă: National Center for Education Statistics, Digest of Education Statistics, Tabelul 325.35. https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+⎡an2•'' femei•# total•# procent•#⎦
+⎡'1971' 324 2388 13.6⎦
+⎡'1976' 1118 5652 19.8⎦
+⎡'1984' 12023 32439 37.1⎦
+⎡'1990' 8188 27347 29.9⎦
+⎡'1995' 6749 24506 27.5⎦
+⎡'2001' 12219 44142 27.7⎦
+⎡'2005' 11986 54111 22.2⎦
+⎡'2008' 6792 38523 17.6⎦
+⎡'2011' 7589 43066 17.6⎦
+⎡'2015' 10742 59586 18⎦
+⎡'2019' 18316 88638 20.7⎦
+⎡'2022' 24542 108503 22.6⎦
+=== fields/en
+¶Procentul diplomelor de licență din SUA obținute de femei în fiecare domeniu de studiu, în jurul anului 2018, ordonate de la cel mai mare procent la cel mai mic. Sursă: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering. https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+⎡câmp•'' procent2•#⎦
+⎡'Psihologie' 72⎦
+⎡'Biologie' 60⎦
+⎡'Științe sociale' 55⎦
+⎡'Matematică și statistică' 42⎦
+⎡'Științe fizice' 41⎦
+⎡'Științele pământului' 38⎦
+⎡'Inginerie' 22⎦
+⎡'Informatică' 20⎦

@@ -2,7 +2,7 @@ t
 "Font Machine"/en"字体机器"/zh-CN"字體機器"/zh-TW
 === start
 ¶Press any key to retypeset each letter of "typography" in a random font.¶
-fonts: ["Arvo" "Modak" "Poor Story" "Tangerine" "Monoton" "Quicksand"]!
+fonts: ["Arvo"/en "Modak"/en "Poor Story"/en "Tangerine"/en "Monoton"/en "Quicksand"/en]!
 symbols: 'typography'/en'tipografía'/es ÷ ''
 
 ƒ randomize() 

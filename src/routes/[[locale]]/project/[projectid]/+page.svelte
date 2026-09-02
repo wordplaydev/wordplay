@@ -11,7 +11,8 @@
         setProject,
     } from '@components/project/Contexts';
     import ProjectView from '@components/project/ProjectView.svelte';
-    import { DB, Galleries } from '@db/Database';
+    import { DB, Galleries, locales } from '@db/Database';
+    import { ExamplePrefix } from '../../../../examples/examples';
     import { Projects } from '@db/projects/Projects';
     import type Project from '@db/projects/Project';
     import { untrack, onMount } from 'svelte';
@@ -34,17 +35,34 @@
             : decodeURI(page.params.projectid),
     );
 
+    /** Which load is current; a superseded load's result is dropped rather
+     *  than clobbering a newer one's. The locale dependency below is what made
+     *  two loads overlap: on a cold visit the store still holds the default
+     *  locale when the first run fires, and the URL's locale lands moments
+     *  later — the first (English) result resolving last showed the master
+     *  over the translation. */
+    let loadGeneration = 0;
+
     // If the page params change, load the project explicitly, rather than waiting for the database to load it.
     $effect(() => {
+        // An example is served in the viewer's chosen locales (#1310), and the
+        // database evicts its cached copy when those change — but nothing else
+        // re-reads it, since the languages dialog changes the store without
+        // navigating. So an open example also depends on the locales. A
+        // creator project's content never depends on the viewer's locales
+        // (#1246), so only the page params matter for it.
+        if (projectID?.startsWith(ExamplePrefix)) void $locales;
         if (page && browser && projectID) {
             // Set loading feedback.
             loading = true;
 
             // We don't track this since we only want to depend on the page
             untrack(() => {
+                const generation = ++loadGeneration;
                 // Async load the project from the database.
                 Projects.get(projectID)
                     .then((proj) => {
+                        if (generation !== loadGeneration) return;
                         // Remember that we're done loading and there's no error.
                         loading = false;
                         error = false;
@@ -53,6 +71,7 @@
                         project = proj;
                     })
                     .catch(() => {
+                        if (generation !== loadGeneration) return;
                         loading = false;
                         error = true;
                     });

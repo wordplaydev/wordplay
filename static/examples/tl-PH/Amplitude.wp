@@ -1,0 +1,9 @@
+⚫
+Amplitude
+===
+¶Isang hanay ng mga tuldok na nagniningning at nawawala ayon sa lakas ng tunog ng iyong mikropono.¶
+mgaAmplitude•[#]: ←← 10 Dami()
+vis: mgaAmplitude.isalin(
+		ƒ(amp•#) Parirala("⚫" kalabuan: amp laki: 10m)
+	)
+Entablado([Grupo(Hilera() vis)] lugar: Lugar(0m 0m -50m))

@@ -1,0 +1,74 @@
+🗨
+Diálogo
+=== start
+¶Dos letras hablan sobre lo que significa que las letras hablen.¶
+
+¶Una línea de la conversación: quién la dice, las palabras, y si es pensada en vez de dicha.¶
+•línea(quién•'' palabras2•'' pensando•?: ⊥)
+
+guion: [
+		línea(
+			'a'
+			'¿Alguna vez piensas que es raro que estemos hablando?'
+		)
+		línea(
+			'b'
+			'Somos letras. Hablar es más o menos todo nuestro trabajo.'
+		)
+		línea(
+			'a'
+			'No, me refiero a nosotras. No a las palabras que formamos. Nosotras.'
+		)
+		línea('b' '…Ah.')
+		línea(
+			'a'
+			'Soy una forma que significa un sonido. En este momento estoy haciendo el sonido al ser la forma.'
+		)
+		línea(
+			'b'
+			'¿Una burbuja de diálogo alrededor de una letra es un dibujo de una letra, o una letra de un dibujo?'
+			pensando: ⊤
+		)
+		línea('a' 'Estás dando vueltas.')
+		línea(
+			'b'
+			'Soy una b. Dar vueltas es literalmente mi silueta.'
+		)
+		línea('a' 'De todos modos. Esto es normal aquí.')
+		línea('b' 'Normal para nosotras, en todo caso.')
+	]
+
+¶Avanza con una tecla, un clic, o un toque, y detente en la última línea.¶
+turno•#: 1 … ∆ Tecla() | ∆ Botón() … (turno < guion.longitud(
+				) ? turno + 1 turno)
+
+línea2: guion[turno]
+
+¶Solo quien tiene el turno recibe una burbuja. Cada línea es un @Say, así que se dice tanto como se muestra — y la burbuja reemplaza el subtítulo, ya que las palabras ya están en pantalla junto a quien las dijo. Nadie elige un lado: el escenario coloca cada burbuja donde estorba menos.¶
+ƒ burbuja2(quién2•'')
+	quién2 = línea2.quién ?
+		Burbuja(
+			decir(línea2.palabras2)
+			tipo: (línea2.pensando ? '💭' '💬')
+			ajuste: 9m
+		)
+		ø
+
+¶Una fila alineada en la línea base, para que ambas letras se apoyen en una sola línea. La caja de una frase es su tinta, así que colocarlas a la misma altura pondría a una letra corta y a una alta en líneas base distintas.¶
+Escenario(
+	[
+		Grupo(
+			Pila('|' 1.5m)
+			[
+				Grupo(
+					Fila('_' 6m)
+					[
+						Frase('a' tamaño: 3m burbuja: burbuja2('a'))
+						Frase('b' tamaño: 3m burbuja: burbuja2('b'))
+					]
+				)
+				Frase(`/espacio, clic, o toque/` tamaño: 0.6m)
+			]
+		)
+	]
+)

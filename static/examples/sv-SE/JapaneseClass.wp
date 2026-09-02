@@ -1,0 +1,37 @@
+O
+Japanska klassen
+=== start
+¶En berättelse, scen för scen, om första dagen på en japanska-lektion.¶
+
+¶Detta är listan över scener som ska visas¶
+meningar: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶Detta är listan över meningar som bara ska gå vidare genom att man pratar.¶
+sägMeningar: [5 7 9]
+
+¶Den nuvarande meningen börjar på 1, och ökar om mikrofonens volym går över 0,8 för en talad mening, eller om en knapp eller tangent trycks ner för andra meningar.¶
+aktuellMening•#: 1 …
+	sägMeningar.har(aktuellMening) ?
+		Volym() > .6
+		∆ Knapp() | ∆ Nyckel()
+		…
+		(aktuellMening <
+				meningar.längd()) ?
+			aktuellMening + 1
+			aktuellMening
+
+Etapp(
+	[Fras(meningar[aktuellMening] sjal: 10m)]
+	ansikte: 'Sue Ellen Francisco'
+)

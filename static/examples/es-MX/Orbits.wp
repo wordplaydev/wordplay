@@ -1,0 +1,39 @@
+🪐
+Órbitas
+=== start
+¶Tres planetas girando alrededor de una estrella que los atrae.¶
+
+¶La estrella es la que atrae, así que necesita @Matter con una fuerza de atracción. No tiene @Motion, así que nada la atrae de vuelta y se queda donde está. Un @Place es la esquina de una salida y no su centro, así que la estrella se desplaza la mitad de su propio tamaño para poner su centro en medio del cielo.¶
+sol: Frase(
+		'⭐'
+		2m
+		nombre: 'sol'
+		lugar: Lugar(-1m -1m)
+		materia: Materia(2000kg jalar: 1)
+	)
+
+¶Un planeta no necesita ningún @Matter. Tener @Motion es lo que permite que la fuerza de atracción de la estrella lo mueva. Qué tan rápido debe viajar para girar en vez de caer depende de qué tan lejos está, así que a cada planeta se le da la velocidad que mantiene su propio anillo.¶
+planeta: ƒ(glifo•"" llamado•"" ancho2•#m lejos•#m velocidad2•#m/s)
+		Frase(
+			glifo
+			ancho2
+			nombre: llamado
+			lugar: Movimiento(
+				Lugar(lejos - (ancho2 ÷ 2) 0m - (ancho2 ÷ 2))
+				Velocidad(0m/s velocidad2)
+			)
+		)
+
+¶El cielo no tiene gravedad propia, o si no todo se caería por abajo. Tampoco tiene aire, así que los planetas siguen moviéndose en vez de ir frenando hasta detenerse.¶
+Escenario(
+	[
+		sol
+		planeta('🌍' 'tierra' 0.8m 3m 11.5m/s)
+		planeta('🪐' 'con anillo' 1m 5m 8.6m/s)
+		planeta('🌕' 'luna' 0.6m 7m 7.3m/s)
+	]
+	fondo: Color(15% 20 300°)
+	gravedad: 0m/s^2
+	aire: 0
+	lugar: Lugar(0m 0m -14m)
+)

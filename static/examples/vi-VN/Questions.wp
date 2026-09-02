@@ -1,0 +1,40 @@
+👨‍👨‍👧‍👦
+Câu hỏi
+=== start/en
+¶Nhấn các phím để bắn những dấu chấm hỏi nảy lên trên một gia đình đang bối rối.¶
+•câuHỏi(mãSố•"" vx•#m/s vy•#m/s va•#°/s)
+
+đãNhấn: ∆ Chìakhóa()
+đếm2•#: 0 … đãNhấn … đếm2 + 1
+câuHỏi2•[câuHỏi]: [] … đãNhấn … [
+			:câuHỏi2
+			câuHỏi(
+				đếm2 → ""
+				Ngẫunhiên(30m/s 50m/s)
+				Ngẫunhiên(30m/s 50m/s)
+				Ngẫunhiên(0°/s 30°/s)
+			)
+		]
+
+Sânkhấu(
+	[
+		Cụmtừ('👨‍👨‍👧‍👦' vịTrí: VịTrí(0m 0m) khuônmặt: "Noto Emoji")
+		Hìnhdạng(Hìnhchữnhật(-5m 0m 25m -1m))
+		:câuHỏi2.dịch(
+			ƒ(q•câuHỏi chỉMục2•#) (
+					khởiTạo: đãNhấn & (chỉMục2 = câuHỏi2.chiềudài())
+					Cụmtừ(
+						'Q'
+						tên: q.mãSố
+						vịTrí: Cửđộng(
+							vậntốc: Vậntốc(q.vx q.vy q.va)
+						)
+						vấnđề: Vấnđề()
+						nghỉngơi: Tưthế(
+							độmờđục: khởiTạo ? 0% 100%
+						)
+					)
+				)
+		)
+	]
+)

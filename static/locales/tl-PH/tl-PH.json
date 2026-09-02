@@ -3309,7 +3309,7 @@
                         "$~Gumagawa ako ng bagong @List gamit ang ibinigay na item sa dulo.",
                         "\\['apple' 'banana' 'mango'].with('watermelon')\\"
                     ],
-                    "names": ["$~kasama", "$~idagdag"],
+                    "names": "$~kasama",
                     "inputs": [
                         {
                             "doc": "$~Ako ang @value na gusto mong idagdag.",
@@ -3324,7 +3324,7 @@
                         "Medyo mas madaling gamitin ang @Spread, gaya nito:",
                         "\\['mansanas' 'saging' 'mangga' :['pakwan' 'bituin']]\\"
                     ],
-                    "names": ["$~kasamaangListahan", "$~idagdag"],
+                    "names": "$~kasamaangListahan",
                     "inputs": [
                         {
                             "doc": "$~Ang listahan ng mga halagang idadagdag.",

@@ -21,13 +21,23 @@ import { isUnwritten } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import DefaultLocale from '@locale/DefaultLocale';
 import Project from '@db/projects/Project';
+import {
+    getComparedTextValues,
+    shouldTranslateText,
+} from '@db/projects/translatableText';
+import { canonicalizeKeyName, localizeKeyName } from '@input/Key/Key';
+import { WellKnownKeys } from '@input/Key/KeyboardKeys';
+import {
+    endOfNode,
+    startOfNode,
+    withoutMarkupContents,
+} from '@db/projects/structuralPairing';
 import buildCounterparts from '@basis/counterparts';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import type Definition from '@nodes/Definition';
 import Evaluate from '@nodes/Evaluate';
 import Input from '@nodes/Input';
-import Markup from '@nodes/Markup';
 import { LanguageTagged } from '@nodes/LanguageTagged';
 import Language from '@nodes/Language';
 import Names from '@nodes/Names';
@@ -85,21 +95,8 @@ function isDefinition(node: Node): node is Node & Definition {
     return 'names' in node;
 }
 
-/**
- * A source's nodes with everything inside a `Markup` removed, keeping the `Markup` itself.
- *
- * Doc prose is the one part of an example whose node count a translation legitimately changes,
- * since markup emits a `Words` token per line and translations reflow paragraphs freely.
- */
-function withoutMarkupContents(source: Source): Node[] {
-    const nodes = source.nodes();
-    const inside = new Set<Node>();
-    for (const node of nodes)
-        if (node instanceof Markup)
-            for (const descendant of node.nodes())
-                if (descendant !== node) inside.add(descendant);
-    return nodes.filter((node) => !inside.has(node));
-}
+// `withoutMarkupContents` and the span helpers live in structuralPairing.ts,
+// shared with the gallery examples' load-time compositing (#1310).
 
 /**
  * Re-attach the language tags a localized example lost.
@@ -158,19 +155,8 @@ function restoreLanguageTags(
     )
         return undefined;
 
-    /** A node's bounds, in the grapheme space its source counts positions in. */
-    const startOf = (source: Source, node: Node) => {
-        const first = node.leaves()[0];
-        return first === undefined
-            ? undefined
-            : source.getTokenTextPosition(first);
-    };
-    const endOf = (source: Source, node: Node) => {
-        const last = node.leaves().at(-1);
-        return last === undefined
-            ? undefined
-            : source.getTokenLastPosition(last);
-    };
+    const startOf = startOfNode;
+    const endOf = endOfNode;
 
     // Restored text is read from the source rather than re-serialized, so an emoji carrying a
     // presentation selector survives — the `toWordplay` trap `splice` documents. The offsets
@@ -293,31 +279,20 @@ export function retargetExampleNames(
     }
 }
 
-function retarget(
-    enCode: string,
-    localizedCode: string,
-    locale: LocaleText,
+/**
+ * The renames one en/lo source pair needs, inside their (possibly
+ * multi-source) projects: vowel-point cleanups always, and the input,
+ * reference, and type retargets only when the pair's shapes align. Resolution
+ * runs against the whole project, so a multi-source example's cross-source
+ * references resolve the way they do in the app.
+ */
+function collectSourceRenames(
+    enProject: Project,
+    loProject: Project,
+    enSource: Source,
+    loSource: Source,
     language: LanguageCode,
-): RetargetResult {
-    const enProject = Project.make(
-        null,
-        'en',
-        new Source('start', enCode),
-        [],
-        DefaultLocale,
-    );
-    const loProject = Project.make(
-        null,
-        'localized',
-        new Source('start', localizedCode),
-        [],
-        locale,
-    );
-    const enSource = enProject.getSources()[0];
-    const loSource = loProject.getSources()[0];
-    if (enSource === undefined || loSource === undefined)
-        return { kind: 'divergent' };
-
+): { aligned: boolean; renames: { token: Token; name: string }[] } {
     // The name token to rewrite, and what to rewrite it to.
     const renames: { token: Token; name: string }[] = [];
 
@@ -353,34 +328,7 @@ function retarget(
             (node, index) =>
                 node.getDescriptor() === loNodes[index]?.getDescriptor(),
         );
-    // A localized example that differs from en-US only in what its language tags carry is
-    // repairable rather than divergent; putting those back makes the two the same shape again,
-    // so the retargeting below can run on the result.
-    const restored = restoreLanguageTags(
-        enSource,
-        loSource,
-        localizedCode,
-        language,
-    );
-    if (
-        restored !== undefined &&
-        restored !== localizedCode &&
-        // Never hand back an example the restore broke — the guarantee `splice` makes. A
-        // locale whose own word already *is* the other language's gets a duplicate name
-        // otherwise: es-MX translates `cat` to `gato`, which is exactly what en-US's second
-        // option says, so restoring it produced `gato/es, gato/es`.
-        conflictCount(restored, locale) <= conflictCount(localizedCode, locale)
-    ) {
-        const result = retarget(enCode, restored, locale, language);
-        return result.kind === 'retargeted'
-            ? { ...result, renamed: result.renamed + 1 }
-            : { kind: 'retargeted', code: restored, renamed: 1 };
-    }
-
-    if (!aligned)
-        return renames.length === 0
-            ? { kind: 'divergent' }
-            : splice(renames, loSource, localizedCode, locale);
+    if (!aligned) return { aligned, renames };
 
     const enContext = enProject.getContext(enSource);
     const loContext = loProject.getContext(loSource);
@@ -394,10 +342,7 @@ function retarget(
     // would then skip its inputs too, stranding them. Stripping Hebrew vowel points is what
     // exposed that — the reference was repaired and the input beside it was not.
     const counterparts = getCounterparts(enProject, loProject);
-    if (counterparts === undefined)
-        return renames.length === 0
-            ? { kind: 'unchanged' }
-            : splice(renames, loSource, localizedCode, locale);
+    if (counterparts === undefined) return { aligned, renames };
 
     for (let index = 0; index < enNodes.length; index++) {
         const enNode = enNodes[index];
@@ -478,6 +423,127 @@ function retarget(
 
         renames.push({ token: loNode.name, name: declared });
     }
+
+    // Key-name literals in data positions follow the locale's key table, not a
+    // translation: the Key stream reports a well-known key as the PRIMARY
+    // locale's display name, so an es-MX example must compare `'Espacio'`
+    // where its master compares `'Space'` — the deliberate #1276-style
+    // protection that keeps the string English at translation time is exactly
+    // what strands it here. Derived from the same table the stream reads, so
+    // the repair is deterministic and re-runs when a locale renames its keys.
+    const knownKeys = new Set<string>(WellKnownKeys);
+    const enComparedValues = getComparedTextValues(enProject);
+    const enLocales = enProject.getLocales();
+    const loLocales = loProject.getLocales();
+    for (let index = 0; index < enNodes.length; index++) {
+        const enNode = enNodes[index];
+        const loNode = loNodes[index];
+        if (
+            !(enNode instanceof TextLiteral) ||
+            !(loNode instanceof TextLiteral)
+        )
+            continue;
+        if (shouldTranslateText(enNode, enProject, enComparedValues)) continue;
+        const enOption = enNode.texts.find(
+            (text) => text.getLanguage() === undefined,
+        );
+        const loOption = loNode.texts.find(
+            (text) => text.getLanguage() === undefined,
+        );
+        const enSegment = enOption?.segments[0];
+        const loSegment = loOption?.segments[0];
+        if (
+            enOption === undefined ||
+            loOption === undefined ||
+            enOption.segments.length !== 1 ||
+            loOption.segments.length !== 1 ||
+            !(enSegment instanceof Token) ||
+            !(loSegment instanceof Token)
+        )
+            continue;
+        const enText = enOption.getText();
+        // Letters required: a bare `' '` literal is a join separator, not the
+        // space key.
+        if (!/\p{L}/u.test(enText)) continue;
+        const canonical = canonicalizeKeyName(enText, enLocales);
+        if (!knownKeys.has(canonical)) continue;
+        const localized = localizeKeyName(canonical, loLocales);
+        const loText = loOption.getText();
+        if (localized.length === 0 || loText === localized) continue;
+        // Only a value still naming the same key is repaired — verbatim
+        // English, or an older display name the locale has since renamed.
+        if (
+            loText !== enText &&
+            canonicalizeKeyName(loText, loLocales) !== canonical
+        )
+            continue;
+        renames.push({ token: loSegment, name: localized });
+    }
+
+    return { aligned: true, renames };
+}
+
+function retarget(
+    enCode: string,
+    localizedCode: string,
+    locale: LocaleText,
+    language: LanguageCode,
+): RetargetResult {
+    const enProject = Project.make(
+        null,
+        'en',
+        new Source('start', enCode),
+        [],
+        DefaultLocale,
+    );
+    const loProject = Project.make(
+        null,
+        'localized',
+        new Source('start', localizedCode),
+        [],
+        locale,
+    );
+    const enSource = enProject.getSources()[0];
+    const loSource = loProject.getSources()[0];
+    if (enSource === undefined || loSource === undefined)
+        return { kind: 'divergent' };
+
+    // A localized example that differs from en-US only in what its language tags carry is
+    // repairable rather than divergent; putting those back makes the two the same shape again,
+    // so the retargeting below can run on the result.
+    const restored = restoreLanguageTags(
+        enSource,
+        loSource,
+        localizedCode,
+        language,
+    );
+    if (
+        restored !== undefined &&
+        restored !== localizedCode &&
+        // Never hand back an example the restore broke — the guarantee `splice` makes. A
+        // locale whose own word already *is* the other language's gets a duplicate name
+        // otherwise: es-MX translates `cat` to `gato`, which is exactly what en-US's second
+        // option says, so restoring it produced `gato/es, gato/es`.
+        conflictCount(restored, locale) <= conflictCount(localizedCode, locale)
+    ) {
+        const result = retarget(enCode, restored, locale, language);
+        return result.kind === 'retargeted'
+            ? { ...result, renamed: result.renamed + 1 }
+            : { kind: 'retargeted', code: restored, renamed: 1 };
+    }
+
+    const { aligned, renames } = collectSourceRenames(
+        enProject,
+        loProject,
+        enSource,
+        loSource,
+        language,
+    );
+
+    if (!aligned)
+        return renames.length === 0
+            ? { kind: 'divergent' }
+            : splice(renames, loSource, localizedCode, locale);
 
     if (renames.length === 0) return { kind: 'unchanged' };
     return splice(renames, loSource, localizedCode, locale);
@@ -672,6 +738,27 @@ function splice(
     localizedCode: string,
     locale: LocaleText,
 ): RetargetResult {
+    const spliced = spliceRenames(proposed, loSource, localizedCode);
+    if (spliced === undefined) return { kind: 'refused' };
+    if (
+        conflictCount(spliced.code, locale) >
+        conflictCount(localizedCode, locale)
+    )
+        return { kind: 'refused' };
+
+    return { kind: 'retargeted', code: spliced.code, renamed: spliced.renamed };
+}
+
+/**
+ * The splice itself, minus the conflict guard, which needs the code's whole
+ * project — one source here, but the whole file for a multi-source example.
+ * Returns undefined when the splice can't be done or broke a delimiter.
+ */
+function spliceRenames(
+    proposed: { token: Token; name: string }[],
+    loSource: Source,
+    localizedCode: string,
+): { code: string; renamed: number } | undefined {
     // One rename per token. Two passes can claim the same one — a pointed input name is both
     // a name to unpoint and a name to re-derive — and splicing a token twice eats the text
     // after it, which is how `צֶבַע: Color(…)` became `צבעColor(…)`. The later claim wins,
@@ -689,7 +776,7 @@ function splice(
     // an emoji before the input, which is most of them, lands mid-character otherwise. The
     // offsets index the serialized source, so a program whose serialization isn't what we were
     // handed can't be spliced at all.
-    if (loSource.code.getText() !== localizedCode) return { kind: 'refused' };
+    if (loSource.code.getText() !== localizedCode) return undefined;
     const spans = renames
         .map(({ token, name }) => ({
             start: loSource.getTokenTextPosition(token),
@@ -702,7 +789,7 @@ function splice(
         )
         // Last first, so earlier offsets stay valid.
         .sort((a, b) => b.start - a.start);
-    if (spans.length !== renames.length) return { kind: 'refused' };
+    if (spans.length !== renames.length) return undefined;
 
     const graphemes = [...loSource.code.getGraphemes()];
     for (const span of spans)
@@ -716,9 +803,161 @@ function splice(
         mismatchedDelimiter(localizedCode, code) !== undefined ||
         (!hasUnclosedText(localizedCode) && hasUnclosedText(code))
     )
-        return { kind: 'refused' };
-    if (conflictCount(code, locale) > conflictCount(localizedCode, locale))
-        return { kind: 'refused' };
+        return undefined;
 
-    return { kind: 'retargeted', code, renamed: renames.length };
+    return { code, renamed: renames.length };
+}
+
+/** A serialized example's source: its `=== ` header names and its code. */
+export type SerializedExampleSource = { names: string; code: string };
+
+/** What retargeting did to a whole serialized example file. */
+export type SerializedRetargetResult =
+    | { kind: 'unchanged' }
+    /** The file's sources with `renamed` names replaced. */
+    | {
+          kind: 'retargeted';
+          sources: SerializedExampleSource[];
+          renamed: number;
+      }
+    | { kind: 'divergent' }
+    | { kind: 'refused' };
+
+/**
+ * Retarget a whole localized `.wp` example against its en-US master — the
+ * multi-source counterpart of {@link retargetExampleNames}. Sources are paired
+ * positionally (the pipeline writes one localized source per master source),
+ * resolution runs in the full multi-source project so cross-source references
+ * work, and the conflict guard analyzes the whole file, since a rename in one
+ * source can strand a borrow in another. Any misaligned source makes the whole
+ * file divergent: it means the master changed, and only re-translation fixes
+ * that.
+ */
+export function retargetSerializedExample(
+    enSources: SerializedExampleSource[],
+    loSources: SerializedExampleSource[],
+    locale: LocaleText,
+    language: LanguageCode,
+): SerializedRetargetResult {
+    // The same shield retargetExampleNames raises: an unanalyzable locale
+    // shouldn't crash the run, just leave the example alone.
+    try {
+        return retargetSerialized(enSources, loSources, locale, language, 0);
+    } catch {
+        return { kind: 'refused' };
+    }
+}
+
+function makeMultiSourceProject(
+    id: string,
+    sources: SerializedExampleSource[],
+    locale: LocaleText,
+): Project | undefined {
+    const [main, ...supplements] = sources.map(
+        (source) => new Source(source.names, source.code),
+    );
+    return main === undefined
+        ? undefined
+        : Project.make(null, id, main, supplements, locale);
+}
+
+function conflictCountOf(project: Project): number {
+    return Array.from(project.analyze().conflictedNodes.values()).flat().length;
+}
+
+function retargetSerialized(
+    enSources: SerializedExampleSource[],
+    loSources: SerializedExampleSource[],
+    locale: LocaleText,
+    language: LanguageCode,
+    depth: number,
+): SerializedRetargetResult {
+    if (enSources.length !== loSources.length) return { kind: 'divergent' };
+    const enProject = makeMultiSourceProject('en', enSources, DefaultLocale);
+    const loProject = makeMultiSourceProject('localized', loSources, locale);
+    if (enProject === undefined || loProject === undefined)
+        return { kind: 'divergent' };
+
+    // Restore dropped or translated language tags per source and re-run on the
+    // restored file, as the single-source path does. Depth-bounded: a restore
+    // that changed nothing structural would otherwise recurse forever.
+    if (depth === 0) {
+        let anyRestored = false;
+        const restoredSources = loSources.map((lo, index) => {
+            const enSource = enProject.getSources()[index];
+            const loSource = loProject.getSources()[index];
+            if (enSource === undefined || loSource === undefined) return lo;
+            const restored = restoreLanguageTags(
+                enSource,
+                loSource,
+                lo.code,
+                language,
+            );
+            if (restored !== undefined && restored !== lo.code) {
+                anyRestored = true;
+                return { ...lo, code: restored };
+            }
+            return lo;
+        });
+        if (anyRestored) {
+            const restoredProject = makeMultiSourceProject(
+                'restored',
+                restoredSources,
+                locale,
+            );
+            if (
+                restoredProject !== undefined &&
+                conflictCountOf(restoredProject) <= conflictCountOf(loProject)
+            ) {
+                const result = retargetSerialized(
+                    enSources,
+                    restoredSources,
+                    locale,
+                    language,
+                    1,
+                );
+                return result.kind === 'retargeted'
+                    ? { ...result, renamed: result.renamed + 1 }
+                    : {
+                          kind: 'retargeted',
+                          sources: restoredSources,
+                          renamed: 1,
+                      };
+            }
+        }
+    }
+
+    let renamed = 0;
+    const rewritten: SerializedExampleSource[] = [];
+    for (let index = 0; index < loSources.length; index++) {
+        const enSource = enProject.getSources()[index];
+        const loSource = loProject.getSources()[index];
+        if (enSource === undefined || loSource === undefined)
+            return { kind: 'divergent' };
+        const { aligned, renames } = collectSourceRenames(
+            enProject,
+            loProject,
+            enSource,
+            loSource,
+            language,
+        );
+        if (!aligned) return { kind: 'divergent' };
+        if (renames.length === 0) {
+            rewritten.push(loSources[index]);
+            continue;
+        }
+        const spliced = spliceRenames(renames, loSource, loSources[index].code);
+        if (spliced === undefined) return { kind: 'refused' };
+        renamed += spliced.renamed;
+        rewritten.push({ ...loSources[index], code: spliced.code });
+    }
+    if (renamed === 0) return { kind: 'unchanged' };
+
+    const revised = makeMultiSourceProject('revised', rewritten, locale);
+    if (
+        revised === undefined ||
+        conflictCountOf(revised) > conflictCountOf(loProject)
+    )
+        return { kind: 'refused' };
+    return { kind: 'retargeted', sources: rewritten, renamed };
 }

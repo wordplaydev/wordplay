@@ -1,0 +1,89 @@
+🤖
+话痨
+=== start
+¶Chatterbox 是一个很小的机器人听众，它的灵感来自 Eliza —— 世界上第一个聊天机器人，诞生于 1966 年。在聊天栏里输入文字，它就会回复你，还会把你们的对话记录下来。¶
+
+¶一行对话：谁说的，以及说了什么。¶
+•行(说话者•'' words2•'')
+
+message: 聊天()
+
+¶在把你的话说回去之前，Chatterbox 会先交换代词：把 my 换成 your，把 I 换成 you。这样一来，“I feel like you hate me”就会变成“Why do you feel like I hate you？”¶
+swaps: {
+		'I': 'you'
+		'i': 'you'
+		"I'm": "you're"
+		"i'm": "you're"
+		'me': 'you'
+		'my': 'your'
+		'mine': 'yours'
+		'myself': 'yourself'
+		'am': 'are'
+		'you': 'I'
+		'your': 'my'
+		'yours': 'mine'
+		'yourself': 'myself'
+	}
+ƒ reflect(words3•'')•'' words3.分段(' ').翻译(
+		ƒ(word2•'') swaps{word2} ?? word2
+	).连接(
+		' '
+	)
+
+¶Chatterbox 会用一些模式去匹配你的消息，从而挑一个回复。Aa 表示忽略大小写，而像 mood 这样带名字的捕获，会抓取到结尾标点前的所有内容，这样回复里就能带上你自己说过的话——这正是最初的 Eliza 用的小技巧。最后一条规则是备用的：随机选一句话，鼓励你继续说下去。¶
+ƒ reply(words4•'')•'' (
+		feelings: words4 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
+		beings: words4 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
+		wants: words4 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		wishes: words4 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
+		feelings.长度() > 0 ? '你为什么会觉得 ' + reflect(
+					feelings[1].groups{'心情'} ?? ''
+				) + '?'
+			beings.长度() > 0 ? '你有多久一直 ' + reflect(
+						beings[1].groups{'state'} ?? ''
+					) + '?'
+				wants.长度() > 0 ? '如果你能拥有' + reflect(
+							wants[1].groups{'渴望'} ?? ''
+						) + '?'
+					wishes.长度() > 0 ? '如果……会有什么改变呢' + reflect(
+								wishes[1].groups{'愿望'} ?? ''
+							) + '?'
+						(words4 ⌕ ⣿ Aa("because")⣿).长度() > 0 ? '那是真正的原因吗？'
+							(words4 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).长度(
+							) > 0 ? '多跟我说说你的家人吧。'
+								words4.结束('?') ? '你在问我？那你自己怎么想呢？'
+									(words4 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? '你好！你今天感觉怎么样？'
+										[
+											'再多说一点吧。'
+											'继续说呀。'
+											'这让你有什么感受？'
+											'嗯，我在听呢。'
+										].随机(
+										)
+	)
+
+¶日志一开始是一句问候，之后每次对话都会增加两行：先是你说的话，再是 Chatterbox 的回复。¶
+log2•[行]: [行('🤖' '你好！我是 Chatterbox。你好吗？')] … ∆ message …
+		log2.加(行('🙂' message)).加(行('🤖' reply(message)))
+
+¶只显示最新的几行，好给新内容腾出空间，旧的就退下吧。¶
+recent: log2.长度() ≤ 8 ? log2 log2.子序列(log2.长度() - 7)
+
+舞台(
+	[
+		组合(
+			堆叠('<' 0.5m)
+			recent.翻译(
+				ƒ(line•行)
+					短语(
+						line.说话者 + ' ' + line.words2
+						尺寸: 0.75m
+						包裹: 22m
+						进入: 姿势(不透明度: 0 缩放: 0.5)
+						持续时间: 0.4s
+					)
+			)
+		)
+	]
+	位置: 位置(0m 0m -12m)
+)

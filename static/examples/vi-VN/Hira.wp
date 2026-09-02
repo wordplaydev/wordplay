@@ -1,0 +1,28 @@
+ぁ
+Hiragana
+=== start
+¶Chữ hiragana rơi theo trọng lực; nhấp để đổi chiều nào là xuống.¶
+đếm2: 32
+
+trọngLực•#m/s^2: 15m/s^2 … ∆ Cáinút() … -trọngLực
+
+chữHiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
+
+chữCái: đếm2 → [].dịch(
+		ƒ(số2 chỉMục2)
+			Cụmtừ(
+				chữHiragana[số2]
+				vịTrí: Cửđộng(
+					VịTrí((chỉMục2 - (đếm2 ÷ 2)) × 0.2m 10m)
+					Vậntốc(góc: Ngẫunhiên(-5 5) × 1°/s)
+				)
+				vấnđề: Vấnđề(độđànhồi: 0.3)
+			)
+	)
+
+
+Sânkhấu(
+	[:chữCái Hìnhdạng(Hìnhchữnhật(-40m 0m 40m -2m))]
+	trọnglực: trọngLực
+	vịTrí: VịTrí(0m 5m -20m)
+)

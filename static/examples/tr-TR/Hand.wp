@@ -1,0 +1,61 @@
+🖐
+El
+===
+¶Kameraya parmaklarını göster, bir emoji el sayarak sana eşlik etsin.¶
+el: El()
+
+Sahne(
+	[
+		İfadeetmek(
+			(el.parmaklar = 0 ? '✊'
+					el.parmaklar = 1 ? '☝'
+						el.parmaklar = 2 ? '✌'
+							el.parmaklar = 3 ? '🤟'
+								el.parmaklar = 4 ? '🖖'
+									'🖐')
+			yer: el.yer
+			boyut: 2m
+			telafietmek: Yer(-1m)
+		)
+		Grup(
+			Sıra('<')
+			[
+				İfadeetmek(
+					'1⃣'
+					telafietmek: Yer(0m el.başparmak ? 1m 0m)
+				)
+				İfadeetmek(
+					'2⃣'
+					telafietmek: Yer(0m el.indeks ? 1m 0m)
+				)
+				İfadeetmek(
+					'3⃣'
+					telafietmek: Yer(0m el.orta ? 1m 0m)
+				)
+				İfadeetmek(
+					'4⃣'
+					telafietmek: Yer(0m el.yüzük ? 1m 0m)
+				)
+				İfadeetmek(
+					'5⃣'
+					telafietmek: Yer(0m el.serçeparmak ? 1m 0m)
+				)
+			]
+			yer: Yer(-4.5m 5m)
+		)
+		Grup(
+			Yığın('|')
+			[
+				İfadeetmek((el.avuçiçi ? '🤚' '🤛') boyut: 2m)
+				İfadeetmek((el.açık ? 'açık' 'kapalı') boyut: 1.5m)
+			]
+			yer: Yer(-2m -8m)
+		)
+		İfadeetmek(
+			`/Elini kameraya göster/`
+			yer: Yer(-6m -10m)
+			boyut: 1m
+		)
+	]
+	yer: Yer(0m 0m -20m)
+)

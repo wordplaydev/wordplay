@@ -1,0 +1,172 @@
+🚣
+Çek Kürekleri
+=== start/en
+¶Row, Row, Row Your Boat — bir kez baştan sona, tam on saniye, küçük bir tekne filosu eşliğinde.
+
+Şarkı 6/8'lik ölçüde, yani her ölçü altı sekizlik notadan oluşuyor ve bu listelerdeki her giriş bunlardan biri. Dakikada 144 vuruşla yirmi dört vuruş, tam olarak on saniye ediyor.
+
+Tekneler bir saat yerine @Beat tarafından yönetiliyor, böylece müziğin vuruşuna yaklaşık değil, tam olarak uyuyorlar — ve başlayana kadar hareketsiz duruyorlar, çünkü @Beat o ana kadar sıfırıncı vuruşta kalıyor.¶
+
+vuruş2: Vuruş()
+kürekÇekişi: vuruş2.say
+
+¶Melodi. Row row row your boat, gently down the stream — uzun notalar uzun, çünkü onlardan sonraki susma anları düzeni koruyor; çünkü her giriş aynı sekizlik süreyi kaplıyor.¶
+ezgi: [
+		1
+		ø
+		ø
+		1
+		ø
+		ø
+		1
+		ø
+		2
+		3
+		ø
+		ø
+		3
+		ø
+		2
+		3
+		ø
+		4
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		8
+		8
+		8
+		5
+		5
+		5
+		3
+		3
+		3
+		1
+		1
+		1
+		5
+		ø
+		4
+		3
+		ø
+		2
+		1
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Her ölçünün başında bir akor. Sondan bir önceki ölçüye kadar hep aynı yerde kalıyor, o ölçüde beşinciye yaslanarak son ölçünün bir varış gibi hissettirmesini sağlıyor.¶
+akorlar: [
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{5 7 9 11}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Kürek çekişi: her ölçüde bir kez, çekmek için alçak bir vuruş ve toparlanmak için parlak bir vuruş.¶
+kürekler: [
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+	]
+
+¶Bir tekne. Her vuruşta biraz daha ileri kayıyor ve her seferinde ters yöne sallanıyor; kürek çekmek gibi görünmesini sağlayan da bu. Şerit, teknenin ne kadar yükseğe oturduğunu ve ne kadar önde başladığını belirliyor, böylece hep birlikte hareket etmiyorlar.¶
+ƒ tekne(şerit•# başlangıç2•#)•İfadeetmek
+	İfadeetmek(
+		'🚣'
+		1.5m
+		yer: Yer(
+			((((kürekÇekişi + başlangıç2) % 16) - 8) · 1.1) · 1m
+			((şerit · 1.9) - 1.9) · 1m
+		)
+		rotasyon: (((kürekÇekişi + şerit) % 2) = 0) ? 9° -9°
+		süre: 0.2s
+	)
+
+filo: [tekne(0 0) tekne(1 6) tekne(2 11)]
+
+Sahne(
+	[
+		:filo
+		İfadeetmek(
+			'〰〰〰〰〰〰〰〰'
+			1m
+			yer: Yer(-8m -3.2m)
+			renk: Renk(48% 22 240°)
+		)
+		İfadeetmek(
+			'Row, row, row your boat'
+			0.9m
+			yer: Yer(-4.4m 3.4m)
+		)
+		Müzik(
+			[
+				Parça(ezgi çalgı: Çalgı.flüt vuruş: 0.5beats)
+				Parça(
+					akorlar
+					çalgı: Çalgı.piyano
+					vuruş: 1beats
+					sesDüzeyi: 60%
+				)
+				Parça(
+					kürekler
+					çalgı: Çalgı.davul
+					vuruş: 1beats
+					sesDüzeyi: 45%
+				)
+			]
+			tempo: 144beats/min
+			isim: 'tekne'
+		)
+	]
+	arkaplan: Renk(22% 18 230°)
+	renk: Renk(96% 0 0°)
+)

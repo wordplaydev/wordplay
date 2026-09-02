@@ -1,0 +1,46 @@
+K
+Mga Layout
+=== start
+¶Mga hanay, tambak, at grupo ng mga parirala, bawat isa ay gumagawa ng animadong pose.¶
+kabog: Pagkakasunodsunod(
+		{
+			0%: Pose(sukat: .9)
+			50%: Pose(sukat: 1.1)
+			100%: Pose(sukat: .9)
+		}
+	)
+zbounce: Pagkakasunodsunod(
+		{
+			0%: Pose(offset: Lugar(z: 0m))
+			50%: Pose(offset: Lugar(z: -2m))
+			100%: Pose(offset: Lugar(z: 0m))
+		}
+		1s
+	)
+
+Grupo(
+	Hilera()
+	[
+		Grupo(
+			Patongpatong()
+			[
+				Parirala('Pusa')
+				Parirala('Pusa' nagpapahinga: zbounce)
+				Grupo(
+					Hilera()
+					[Parirala('Aso') Parirala('Aso')]
+					nagpapahinga: kabog
+				)
+				Parirala('Pusa')
+			]
+		)
+		Grupo(
+			Patongpatong()
+			[
+				Parirala('Hoy')
+				Parirala('Kamusta')
+			]
+			nagpapahinga: Pagkakasunodsunod.iikot(2s "straight")
+		)
+	]
+)

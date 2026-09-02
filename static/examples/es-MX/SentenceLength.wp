@@ -1,0 +1,26 @@
+H
+LongitudDeOración
+===
+¶Escribe en la barra de chat y cuenta los caracteres de tu oración.¶
+oración: Charla()
+longitud2: Charla().longitud()
+
+Grupo(
+	Pila()
+	[
+		Frase(
+			`*¡Hola! Bienvenida o bienvenido a la calculadora de longitud de oraciones.*`
+			lugar: Lugar(0m 1m)
+		)
+		Frase(
+			'¡Escribe algo en la barra de mensajes!'
+			lugar: Lugar(0m -1m)
+		)
+		Frase(
+			'Tu oración tiene ' + (longitud2 → '') + ' caracteres de longitud.'
+			inmóvil: Secuencia.vaivén(duración: 3s)
+			lugar: Lugar(0m -3m)
+		)
+		Frase(oración lugar: Lugar(0m -5m) envolver: 25m)
+	]
+)

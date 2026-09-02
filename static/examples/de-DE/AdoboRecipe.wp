@@ -1,0 +1,40 @@
+H
+Adobo-Rezept
+=== start/en
+¶Ein Rezept für philippinisches Hühner-Adobo, Szene für Szene.¶
+
+¶Das ist die Liste der Szenen, die gezeigt werden sollen.¶
+sätze: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Adobong Manók @lamamel/adobo! (Bewege die Maus, um zu essen)`)
+		(`Masarap! @lamamel/emptyadobo`)
+	]
+
+¶Das ist die Liste der Sätze, die nur durch Bewegen der Maus weitergeschaltet werden sollen.¶
+sätzeBewegen: [9 11]
+
+¶Der aktuelle Satz beginnt bei 1. Er zählt weiter, wenn die Maus zu einer bestimmten Stelle auf dem Bildschirm kommt, oder wenn für andere Sätze eine Taste oder ein Knopf gedrückt wird.¶
+punkt2: Zeiger()
+aktuellerSatz•#: 1 …
+	sätzeBewegen.hat(aktuellerSatz) ?
+		(punkt2.X > 2m) & (punkt2.j > 3m)
+		∆ Taste() | ∆ Schlüssel()
+		…
+		(aktuellerSatz <
+				sätze.Länge()) ?
+			aktuellerSatz + 1
+			aktuellerSatz
+
+Bühne(
+	[Satzglied(sätze[aktuellerSatz] wickeln: 10m)]
+	gesicht: 'Short Stack'
+)

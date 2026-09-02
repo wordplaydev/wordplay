@@ -1,0 +1,15 @@
+s
+Tamaño
+=== start/en
+¶Haz clic o presiona una tecla para pasar de GRANDE a pequeña sobre colores cambiantes.¶
+word/en,字/zh: (Botón(ø) | ∆ Tecla()) ? Frase(
+			"BIG"/en"大"/zh
+			tamaño: 5m
+		) Frase("small"/en"小"/zh tamaño: 1m)
+time/en,時間/zh: ((Tiempo(1234ms)) ÷ 1ms) × 1°
+
+Escenario(
+	[word]
+	lugar: Lugar(0m 0m -5m)
+	fondo: Color(80% 28 time)
+)

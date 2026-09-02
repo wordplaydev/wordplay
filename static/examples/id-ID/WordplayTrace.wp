@@ -1,0 +1,43 @@
+✨
+Jejak Kata
+===
+¶Proyek ini menelusuri garis luar kata "wordplay" dengan komet berupa titik-titik yang menyapu sekeliling huruf-hurufnya, digerakkan oleh aliran Time(). Separuh kata itu bersinar setiap saat, memudar dari terang di kepala jejak sampai tembus pandang di ekornya.¶
+
+poin: Kontur(
+		'wordplay'
+		"Noto Sans"
+		3m
+		tempat: Tempat(-6m 0m)
+		jarak: 0.5m
+	)
+
+¶Berapa banyak titik ada di garis luar itu, dan jumlah aman untuk pembagi sebelum font selesai dimuat (saat daftarnya masih kosong).¶
+hitungan2: poin.panjang()
+
+¶Jejak ini menutupi separuh kata, jadi separuhnya selalu terlihat.¶
+jejak: hitungan2 ÷ 2
+
+¶Indeks kepala yang maju satu titik setiap detak dan berputar kembali mengelilingi kata.¶
+kepala: 0 … ∆ Waktu(10ms) … ((kepala + 1) % hitungan2) ?? 0
+
+Panggung(
+	poin.menerjemahkan(
+		ƒ(titik2•Tempat indeks2•#)
+			(
+				¶Berapa banyak titik di belakang kepala titik ini berada, dengan berputar kembali jika perlu.¶
+				usia: ((((kepala - indeks2) + 1) + hitungan2) % hitungan2) ?? 0
+				Frasa(
+					"•"
+					ukuran: 1m
+					tempat: titik2
+					warna: Warna(
+						90%
+						100
+						((indeks2 ÷ hitungan2) ?? 0) × 360°
+					)
+					kegelapan: usia < jejak ? 1 - ((usia ÷ jejak) ?? 0) 0
+					lamanya: 0s
+				))
+	)
+	latarbelakang: Warna(8% 0 0°)
+)

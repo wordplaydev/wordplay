@@ -1,0 +1,9 @@
+⚫
+Amplitude
+===
+¶Uma fila de pontos que brilham e desvanecem com o volume do seu microfone.¶
+amplitudes•[#]: ←← 10 Volume()
+vis: amplitudes.traduzir(
+		ƒ(amp•#) Frase("⚫" opacidade: amp tamanho: 10m)
+	)
+Fase([Grupo(Linha() vis)] local: Local(0m 0m -50m))

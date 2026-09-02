@@ -1,0 +1,95 @@
+🤖
+Pratkvarn
+=== start
+¶Chatterbox är en liten robot som lyssnar, inspirerad av Eliza, den allra första chattboten, gjord 1966. Skriv i chattfältet så svarar den, och sparar en logg över samtalet.¶
+
+¶En rad i samtalet: vem som sa något, och vad de sa.¶
+•rad(talare•'' ord3•'')
+
+meddelande: Chatta()
+
+¶Innan Chatterbox upprepar dina ord byter den ut pronomen, genom att byta varje ord enligt denna lista: min blir din, och jag blir du. På så sätt blir "jag känner att du hatar mig" till "varför känner du att jag hatar dig?"¶
+byten: {
+		'I': 'you'
+		'i': 'you'
+		"I'm": 'du är'
+		"i'm": 'du är'
+		'me': 'you'
+		'my': 'your'
+		'mine': 'yours'
+		'myself': 'yourself'
+		'am': 'är'
+		'you': 'I'
+		'your': 'my'
+		'yours': 'mine'
+		'yourself': 'myself'
+	}
+ƒ spegla(ord4•'')•'' ord4.segmenterade(' ').översätta(
+		ƒ(ord5•'') byten{ord5} ?? ord5
+	).anslutasigtill(
+		' '
+	)
+
+¶Chatterbox väljer ett svar genom att matcha mönster mot meddelandet. Aa struntar i stora och små bokstäver, och en namngiven fångst som mood tar med allt fram till ett skiljetecken i slutet, så svaret kan upprepa dina egna ord — samma knep som originalet Eliza använde. Den sista regeln är en reservlösning: en slumpmässigt vald knuff för att hålla samtalet igång.¶
+ƒ svar(ord6•'')•'' (
+		känslor: ord6 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
+		varelser: ord6 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
+		önskningar: ord6 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		önskemål: ord6 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
+		känslor.längd() > 0 ? 'Varför känner du ' + spegla(
+					känslor[1].grupper{'humör'} ?? ''
+				) + '?'
+			varelser.längd() > 0 ? 'Hur länge har du varit ' + spegla(
+						varelser[1].grupper{'tillstånd'} ?? ''
+					) + '?'
+				önskningar.längd() > 0 ? 'Vad skulle det betyda för dig att ha ' + spegla(
+							önskningar[1].grupper{'önskan'} ?? ''
+						) + '?'
+					önskemål.längd() > 0 ? 'Vad skulle förändras om ' + spegla(
+								önskemål[1].grupper{'önska'} ?? ''
+							) + '?'
+						(ord6 ⌕ ⣿ Aa("because")⣿).längd() > 0 ? 'Är det den verkliga anledningen?'
+							(ord6 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).längd(
+							) > 0 ? 'Berätta mer om din familj.'
+								ord6.slutar('?') ? 'Frågar du mig? Vad tror du själv?'
+									(ord6 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? 'Hej! Hur mår du idag?'
+										[
+											'Berätta mer.'
+											'Fortsätt.'
+											'Hur känns det för dig?'
+											'Jag förstår. Jag lyssnar.'
+										].slumpmässig(
+										)
+	)
+
+¶Loggen börjar med en hälsning och växer med två rader för varje meddelande: ditt, sedan Chatterbox svar.¶
+logg•[rad]: [
+		rad('🤖' 'Hej! Jag heter Chatterbox. Hur mår du?')
+	] … ∆ meddelande …
+		logg.med(rad('🙂' meddelande)).med(
+			rad('🤖' svar(meddelande))
+		)
+
+¶Visa bara de senaste raderna, så att gamla rader gör plats för nya.¶
+senaste: logg.längd() ≤ 8 ? logg logg.efterföljande(
+			logg.längd() - 7
+		)
+
+Etapp(
+	[
+		Grupp(
+			Stack('<' 0.5m)
+			senaste.översätta(
+				ƒ(rad2•rad)
+					Fras(
+						rad2.talare + ' ' + rad2.ord3
+						storlek: 0.75m
+						sjal: 22m
+						gårin: Pose(opacitet: 0 skala: 0.5)
+						varaktighet: 0.4s
+					)
+			)
+		)
+	]
+	plats: Plats(0m 0m -12m)
+)

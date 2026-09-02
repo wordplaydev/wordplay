@@ -1,0 +1,539 @@
+🧟
+Atake sa Puso
+=== start/en
+¶Heart Attack — isang mahinahong laro na parang isang battle royale, na tinitingnan mo mula sa unang panauhan. Nakatayo ka nang tuwid at tumitingin sa labas gamit ang kamera ng Entablado, habang naghihintay sa unahan ang isang pulutong ng mga zombi. Isa-isa, lalapit sa'yo nang deretso ang pinakamalapit na zombi, na dahan-dahang naglalakad. Itutok mo ang iyong linya gamit ang ← →, ang iyong pointer, o isang tap sa alinmang gilid ng screen, at maghagis ng puso gamit ang Space, isang click, o isang tap. Ang puso ay huminto sa unang pigura na kanyang mahagip, kaya siguraduhin munang tama ang tama: tamaan ang isang zombi at ito ay magbabalik-loob sa isang masayang tao, at makakakuha ka ng puntos — at bawat puntos ay nagpapabilis sa paglapit ng mga zombi. Ang isang naibalik na tao ay nananatili sa kanyang lugar at humaharang sa iyong mga puso, kaya mag-ingat sa iyong anggulo. Baguhin ang lahat upang manalo; hayaang maabot ka ng isang zombi at tapos na ang laro. Pindutin ang Enter o gumawa ng tap upang magsimula, at magsimulang muli.
+
+Bawat yugto ay may sariling himig, at ang apat na ito ay gawa mula sa iisang tema — tingnan ang @Music malapit sa ibaba.¶
+
+¶Ilang zombi ang magsisimula sa larangan.¶
+bilangNgZombie: 8
+
+¶Galaw at kamera, sa metro: gaano kalayo ka gagalaw palapad sa bawat pindot ng key, ang iyong hangganan sa kaliwa/kanan, ang nakatakdang lalim ng kamera habang naglalaro, at kung saan huminto ang kamera (mas malayo sa likod) habang may nagpapakitang menu.¶
+hakbangNgPadaskol: 1.2m
+limitasyonSaKaliwa: -8m
+limitasyonSaKanan: 8m
+lalimNgLaro: -1m
+lalimNgMenu: -10m
+
+¶Kung saan lumalabas ang mga zombi — kumakalat mula malapit hanggang malayo, lahat ay malayo sa unahan mo — at ang kahon kung saan gumagala ang mga lumilibot (ang gilid nito na pinakamalapit ay pinapanatiling nasa unahan mo, kaya ang mga tumatakbo lang ang talagang makakaabot sa'yo).¶
+malapitNaLalimNgPaglitaw: 6m
+malayongLalimNgPaglitaw: 22m
+malapitNaLalimNgPaggala: 3m
+malayongLalimNgPaggala: 24m
+
+¶Pagsasaayos ng puso at banggaan: kung paano lumilipad at humihina ang isang puso, kung paano ito tumatama, gaano dapat kalapit ang isang zombi para matapos ang laro, at kung paano gumagalaw ang mga tumatakbo — lumalapit, gumagala, gumagalaw-galaw, humahabol, at bumibilis kada puntos. Ang dalawang pinakamalapit na zombi ay sabay na tumatakbo; ang iba ay gumagala.¶
+bilisNgPuso: 1m
+saklawNgPuso: 26m
+radiusNgTama: 1.8m
+distansyaNgAbot: 1.8m
+batayangBilisNgSingil: 0.1m
+bilisNgPaggala: 0.1m
+bilisNgPaghabi: 0.12m
+lawakNgPaghabi: 1.8m
+bilisPauwi: 0.05m
+pagbilisKadaPuntos: 0.2
+
+¶Ang mga masasayang tao na maaaring maging katapat ng isang zombing nabago.¶
+mgaTao: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '🧑‍🎤' '🦸' '🧚' '🧑‍🍳' '🕺' '💃' '🧑‍⚕']
+
+¶Isang pigura sa larangan: isang posisyon, isang direksyon ng paggala sa bawat axis (-1 o 1 ang bawat isa, ginagamit lang habang gumagala), kung ito ba ay zombi pa rin, at kung anong emoji ang ipapakita (🧟 habang zombi, isang tao kapag nabago na).¶
+•zombie(x2•#m z2•#m direksyonX•# direksyonZ•# buhay•? mukha2•"")
+
+¶Ang buong laro sa isang halaga: ang yugto (1 = simula, 2 = naglalaro, 3 = panalo, 4 = talo), ang posisyon ng kamera/manlalaro, ang estado ng puso, ang iskor, at lahat ng nasa larangan.¶
+•laro(yugto•# kameraX•#m cameraZ•#m puso•? pusoX•#m pusoZ•#m pusoSimula•#m iskor•# mgaZombi•[zombie])
+
+¶Mas mainam dito ang parisukat na distansya kaysa sa tunay na distansya: walang square root, at pananatiling malinis ang mga yunit (metro beses metro), kaya laging tama ang uri sa paghahambing.¶
+ƒ malapit(isaX•#m isaZ•#m dalawaX•#m dalawaZ•#m radius2•#m)
+	(((isaX - dalawaX) · (isaX - dalawaX)) + ((isaZ - dalawaZ) · (isaZ - dalawaZ))) < (radius2 · radius2)
+
+¶Ilang pigura pa ang zombi.¶
+ƒ bilangNgBuhay(mgaZombi2•[zombie]) mgaZombi2.pansala(
+		ƒ(zombi•zombie) zombi.buhay
+	).haba(
+	)
+
+¶Maglakad ng isang hakbang patungo sa manlalaro: pasulong sa lalim habang gumagalaw-galaw pakaliwa't pakanan upang mahirap tamaan, binabaligtad ang galaw-galaw sa mga gilid ng isang banda sa paligid ng iyong linya, at dahan-dahang humahabol sa'yo sa pagitan ng mga galaw upang ang isang paglusot ay panandalian lang.¶
+ƒ sugodPapuntaSaManlalaro(zombi2•zombie kameraX2•#m bilisNgSugod•#m) (
+		iniikotX: zombi2.x2 + (zombi2.direksyonX · bilisNgPaghabi)
+		sinundanX: iniikotX + ((kameraX2 - iniikotX).pinakamataas(
+						bilisPauwi · -1
+					)).minuto(
+					bilisPauwi
+				)
+		saGilid: (iniikotX > (kameraX2 + lawakNgPaghabi)) | (iniikotX < (kameraX2 - lawakNgPaghabi))
+		zombie(
+			sinundanX
+			(zombi2.z2 - bilisNgSugod)
+			(saGilid ? (zombi2.direksyonX · -1) zombi2.direksyonX)
+			zombi2.direksyonZ
+			zombi2.buhay
+			zombi2.mukha2
+		)
+	)
+
+¶Gumala ng isang hakbang: lumipat ayon sa direksyon ng paggala, bumabalik mula sa mga gilid ng larangan sa pamamagitan ng pananatili sa lugar at pagbabaligtad ng direksyon na kanyang tinutunguhan.¶
+ƒ gala(zombi3•zombie bilis2•#m) (
+		bagoX: zombi3.x2 + (zombi3.direksyonX · bilis2)
+		bagoZ: zombi3.z2 + (zombi3.direksyonZ · bilis2)
+		bawiX: (bagoX > limitasyonSaKanan) | (bagoX < limitasyonSaKaliwa)
+		bawiZ: (bagoZ > malayongLalimNgPaggala) | (bagoZ < malapitNaLalimNgPaggala)
+		zombie(
+			(bawiX ? zombi3.x2 bagoX)
+			(bawiZ ? zombi3.z2 bagoZ)
+			(bawiX ? (zombi3.direksyonX · -1) zombi3.direksyonX)
+			(bawiZ ? (zombi3.direksyonZ · -1) zombi3.direksyonZ)
+			zombi3.buhay
+			zombi3.mukha2
+		)
+	)
+
+¶Bagong larangan ng mga zombi, kumakalat mula malapit hanggang malayo, nakakalat mula kaliwa hanggang kanan, bawat isa ay gumagala sa random na paraan.¶
+ƒ paglabasNgMgaZombi()
+	(bilangNgZombie → []).isalin(
+		ƒ(indeks2•#)
+			zombie(
+				Random(limitasyonSaKaliwa limitasyonSaKanan)
+				(malapitNaLalimNgPaglitaw + (indeks2 · ((malayongLalimNgPaglitaw - malapitNaLalimNgPaglitaw) ÷ bilangNgZombie)))
+				[-1 1].random()
+				[-1 1].random()
+				⊤
+				'🧟'
+			)
+	)
+
+¶Simulan ang bagong laro: naglalaro, kamera nasa antas ng mata, walang puso, walang iskor.¶
+ƒ bagongLaro() laro(
+		2
+		0m
+		lalimNgLaro
+		⊥
+		0m
+		0m
+		0m
+		0
+		paglabasNgMgaZombi()
+	)
+
+¶Iháhagis ang isang puso pababa sa iyong daanan, maliban kung may isa nang lumilipad. Nagsisimula ito nang bahagyang harap sa kinatatayuan mo, hindi sa kinaroroonan ng kamera, sa parehong dahilan kung bakit ganito rin ang subok sa layo.¶
+ƒ ihagisAngPuso(laro2•laro)
+	laro2.puso ? laro2 laro(
+			laro2.yugto
+			laro2.kameraX
+			laro2.cameraZ
+			⊤
+			laro2.kameraX
+			(lalimNgLaro + 1m)
+			lalimNgLaro
+			laro2.iskor
+			laro2.mgaZombi
+		)
+
+¶Igalaw ang iyong daanan nang isang hakbang patungo sa isang puntos, huwag lalampas sa iyong mga hangganan. Ang turo ay nag-uulat ng puntos sa mundo kung saan ito nakatapat, kaya ang layo nito mula sa iyong daanan ang siyang nagsasabi kung gaano ito kalayo sa iyong kaliwa o kanan — ang pag-usad papunta rito ay nagpapahintulot sa turo na tumutok, at ang pag-tap sa alinmang panig ay magpapagalaw sa iyo pauna.¶
+ƒ tumuonPatungo(laro3•laro target•#m)
+	laro3.kameraX:(laro3.kameraX + ((target - laro3.kameraX).pinakamataas(
+					hakbangNgPadaskol · -1
+				)).minuto(
+				hakbangNgPadaskol
+			)).pinakamataas(
+		limitasyonSaKaliwa
+	).minuto(
+		limitasyonSaKanan
+	)
+
+¶Isang pindot ng susi habang naglalaro: kumilos pakaliwa o pakanan, o maghagis ng puso.¶
+ƒ ilapatAngPindotNgSusi(laro4•laro susi2•"")
+	(susi2 = 'Palaso Kaliwa') ? tumuonPatungo(
+			laro4
+			(laro4.kameraX - hakbangNgPadaskol)
+		)
+		(susi2 = 'PalasoKanan') ? tumuonPatungo(
+				laro4
+				(laro4.kameraX + hakbangNgPadaskol)
+			)
+			(susi2 = 'Kalawakan') ? ihagisAngPuso(laro4)
+				laro4
+
+¶Isang kuwadro ng mundo: lumipad ang puso hanggang sa tamaan ang unang pigura sa dinaraanan nito (isang taong nabalik ay humaharang gaya ng isang zombie), ibalik sa dating anyo ang natamang zombie, pamarkahan ang dalawang pinakamalapit na zombie palapit sa manlalaro habang ang iba ay gumagala, pagkatapos suriin kung nanalo (lahat nabalik) o natalo (may zombie na nakarating sa iyo). Sa panalo o pagkatalo, ihinto ang kamera sa puntos ng menu.¶
+ƒ isulongAngMundo(laro5•laro) (
+		susunodNaPusoZ: laro5.puso ? (laro5.pusoZ + bilisNgPuso) laro5.pusoZ
+		pusongKumupas: laro5.puso & ((susunodNaPusoZ - laro5.pusoSimula) > saklawNgPuso)
+		pusongAktibo: laro5.puso & ~pusongKumupas
+		bilisNgSugod2: batayangBilisNgSingil · (1 + (laro5.iskor · pagbilisKadaPuntos))
+		¶Ang pinakamalapit na mga buhay na zombie ay sumasalakay; ang kanilang lalim ang pumipili sa kanila mula sa ibaba.¶
+		buhayAyonSaLalim: laro5.mgaZombi.pansala(
+				ƒ(zombi4•zombie) zombi4.buhay
+			).inayos(
+				ƒ(zombi5•zombie) zombi5.z2
+			)
+		unangLalimNgCharger: (buhayAyonSaLalim.haba() ≥ 1) ? buhayAyonSaLalim[1].z2 -999m
+		ikalawangLalimNgCharger: (buhayAyonSaLalim.haba() ≥ 2) ? buhayAyonSaLalim[2].z2 -999m
+		mgaPiguraSaLandas: pusongAktibo ? laro5.mgaZombi.pansala(
+					ƒ(zombi6•zombie) malapit(
+							zombi6.x2
+							zombi6.z2
+							laro5.pusoX
+							susunodNaPusoZ
+							radiusNgTama
+						)
+				) []
+		tinamaangPigura: mgaPiguraSaLandas.inayos(
+				ƒ(zombi7•zombie) zombi7.z2
+			).una(
+			)
+		tinamaangLalim: (tinamaangPigura•ø) ? -999m tinamaangPigura.z2
+		kinukumberte: (tinamaangPigura•ø) ? ⊥ tinamaangPigura.buhay
+		susunodNaMgaZombie: laro5.mgaZombi.isalin(
+				ƒ(zombi8•zombie)
+					zombi8.buhay ?
+						((kinukumberte & (zombi8.z2 = tinamaangLalim)) ? zombie(
+									zombi8.x2
+									zombi8.z2
+									zombi8.direksyonX
+									zombi8.direksyonZ
+									⊥
+									mgaTao.random()
+								)
+								(((zombi8.z2 = unangLalimNgCharger) | (zombi8.z2 = ikalawangLalimNgCharger)) ? sugodPapuntaSaManlalaro(
+											zombi8
+											laro5.kameraX
+											bilisNgSugod2
+										) gala(zombi8 bilisNgPaggala)))
+						zombi8
+			)
+		bilangNgNakumberte: bilangNgBuhay(laro5.mgaZombi) - bilangNgBuhay(
+					susunodNaMgaZombie
+				)
+		susunodNaPuso: pusongAktibo & (tinamaangPigura•ø)
+		¶Anumang buhay na zombie na makarating sa iyong lalim ay tumatapos sa laro — anuman ang daanan nito — kaya walang makalulusot patungo sa isang estadong hindi na kayang manalo. Sinusukat ito laban sa\lalimNgLaro\, kung saan ka nakatayo, at hindi laban sa kamera: hinihila ng entablado ang kamera pabalik sa maliliit na screen, at ang manonood ay maaari pang mag-zoom nang mas malayo, at wala sa mga ito ang dapat magbago kung gaano dapat kalapit ang isang zombie.¶
+		nawala: susunodNaMgaZombie.pansala(
+				ƒ(zombi9•zombie) zombi9.buhay & (zombi9.z2 ≤ (lalimNgLaro + distansyaNgAbot))
+			).haba(
+			) > 0
+		nanalo: bilangNgBuhay(susunodNaMgaZombie) = 0
+		susunodNaYugto: nanalo ? 3 (nawala ? 4 2)
+		susunodNaCameraX: (susunodNaYugto = 2) ? laro5.kameraX 0m
+		susunodNaCameraZ: (susunodNaYugto = 2) ? laro5.cameraZ lalimNgMenu
+		laro(
+			susunodNaYugto
+			susunodNaCameraX
+			susunodNaCameraZ
+			susunodNaPuso
+			laro5.pusoX
+			susunodNaPusoZ
+			laro5.pusoSimula
+			(laro5.iskor + bilangNgNakumberte)
+			susunodNaMgaZombie
+		)
+	)
+
+susi3: Susi()
+tik: Oras(30ms)
+pointer: Panturo()
+tapik: Butones()
+
+¶Ang tibok ng puso ng laro, kinokontrol ng apat na pasok: isang tiktak ng orasan, isang susi, galaw ng turo, at isang click o tap. Habang naglalaro, ang tiktak ay nagpapasulong sa mundo, ang mga susi ay gumagalaw pakaliwa't pakanan at naghahagis, ang galaw ng turo ay tumutok sa iyong daanan, at ang tap ay naghahagis ng puso. Mula sa isang menu, ang pindot ng Enter o isang tap ay nagsisimula ng bagong laro — isang tap upang makapagsimula ang mga manlalarong gumagamit ng touch, at Enter (hindi Space) upang ang paulit-ulit na pagpindot ng Space para maghagis ay hindi maaksidenteng magpapasimula ulit.¶
+laro6•laro: laro(
+		1
+		0m
+		lalimNgMenu
+		⊥
+		0m
+		0m
+		0m
+		0
+		paglabasNgMgaZombi()
+	)
+	… (∆ tik | ∆ susi3 | ∆ pointer | ∆ tapik) …
+		(laro6.yugto = 2)
+		? (∆ tik ? isulongAngMundo(laro6)
+					(∆ susi3 ? ilapatAngPindotNgSusi(laro6 susi3)
+							(∆ pointer ? tumuonPatungo(laro6 pointer.x) ihagisAngPuso(
+										laro6
+									))))
+			(∆ tik ? laro6
+					(∆ susi3 ? ((susi3 = 'Pumasok') ? bagongLaro() laro6)
+							(∆ tapik ? bagongLaro() laro6)))
+
+¶Isang pigura sa entablado: umiindayog ang mga zombie, ang mga taong nabalik ay gumagawa ng maligayang munting talon. Ang lalim ang gumagawa ng natitira — isang sumasalakay na zombie ay lumalaki habang lumalapit. Ang tagal na 0s ay nagpapahintulot sa bawat hakbang na tumama agad sa halip na dahan-dahan, kaya ang galaw ay parang maayos na mga kuwadro sa halip na huli-huling tugon.¶
+ƒ tanawinNgZombie(zombi10•zombie)
+	Parirala(
+		zombi10.mukha2
+		2m
+		tagal: 0s
+		lugar: Lugar(zombi10.x2 0m zombi10.z2)
+		nagpapahinga: zombi10.buhay
+		? Pagkakasunodsunod.ugoy(4° 1s "zippy")
+			Pagkakasunodsunod(
+				{
+					0%: Pose(sukat: 1)
+					50%: Pose(sukat: 1.2)
+					100%: Pose(sukat: 1)
+				}
+				0.6s
+			)
+	)
+
+¶Ang sahig: mga bar sa tumataas na lalim na binabasa ng perspektibo bilang isang lupang bahagi na papalayo hanggang sa abot-tanaw, unti-unting nagbabagong kulay mula berde patungong asul-berde para sa kapaligiran. Ang unang bar ang linya na kailangang tawirin ng isang zombie upang matapos ang laro, iginuhit sa mapanganib na pulang kulay upang makita ang tuntunin: hinihila ang kamera pabalik sa maliliit na screen at maaaring mag-zoom out ang manonood, at ang isang zombie na mukhang malayo ay nakatayo pa rin sa linyang ito kapag naabutan ka na.¶
+sahig: [
+		Parirala(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			tagal: 0s
+			lugar: Lugar(
+				0m
+				-2.8m
+				(lalimNgLaro + distansyaNgAbot)
+			)
+			kulay: Kulay(58% 55 25°)
+		)
+		Parirala(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			tagal: 0s
+			lugar: Lugar(0m -2.8m 4m)
+			kulay: Kulay(56% 40 130°)
+		)
+		Parirala(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			tagal: 0s
+			lugar: Lugar(0m -2.8m 6m)
+			kulay: Kulay(50% 36 136°)
+		)
+		Parirala(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			tagal: 0s
+			lugar: Lugar(0m -2.8m 8m)
+			kulay: Kulay(45% 32 142°)
+		)
+		Parirala(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			tagal: 0s
+			lugar: Lugar(0m -2.8m 11m)
+			kulay: Kulay(40% 28 148°)
+		)
+		Parirala(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			tagal: 0s
+			lugar: Lugar(0m -2.8m 15m)
+			kulay: Kulay(35% 24 154°)
+		)
+		Parirala(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			tagal: 0s
+			lugar: Lugar(0m -2.8m 20m)
+			kulay: Kulay(31% 20 160°)
+		)
+	]
+
+¶Isang lumilipad na puso sa mundo, at isang display ng iskor na nakadikit nang patag sa itaas ng screen sa pamamagitan ng overlay ng entablado, kaya nananatili ito sa lugar habang gumagalaw ang kamera.¶
+tanawinNgPuso: Parirala(
+		'🫀'
+		1.2m
+		tagal: 0s
+		lugar: Lugar(laro6.pusoX 0m laro6.pusoZ)
+	)
+pagpapakitaNgIskor: Parirala(
+		"🫀 \laro6.iskor\"
+		1.2m
+		lugar: Lugar(0m 4m)
+	)
+
+¶Ang teksto ng menu, ginagamit ng mga screen ng simula, panalo, at pagkatalo.¶
+pamagatNgScreen: laro6.yugto ???
+		3: '🎉 Nailigtas mo ang lahat! 🎉'
+		4: '💀 Naabutan ka ng zombie! 💀'
+		'🫀 ATAKE SA PUSO 🫀'
+subtitleNgScreen: (laro6.yugto = 1) ? 'May pulutong ng mga zombie na malaya. Ibalik sila sa dating anyo gamit ang pagmamahal.' "Score: \laro6.iskor\"
+simulangLinya: (laro6.yugto = 1) ? 'Pindutin ang Enter o pindutin (tap) upang magsimula' 'Pindutin ang Enter o pindutin (tap) upang maglaro ulit'
+
+viewNgScreen: [
+		Grupo(
+			Patongpatong()
+			[
+				Parirala(pamagatNgScreen 1.1m)
+				Parirala(subtitleNgScreen 0.6m)
+				Parirala('← → o itapat upang tumutok' 0.5m)
+				Parirala(
+					'Space, click, o tap para sa isang puso 🫀'
+					0.5m
+				)
+				Parirala(simulangLinya 0.7m)
+			]
+		)
+	]
+
+¶Ipakita ang larangan at ang sahig nito habang naglalaro, at ang menu kung hindi. Bawat listahan ay walang laman sa maling yugto, at ang isang walang lamang listahan ay kumakalat sa wala.¶
+listahanNgSahig: (laro6.yugto = 2) ? sahig []
+listahanNgZombi: (laro6.yugto = 2) ? laro6.mgaZombi.isalin(
+			ƒ(zombi11•zombie) tanawinNgZombie(zombi11)
+		) []
+listahanNgPuso: ((laro6.yugto = 2) & laro6.puso) ? [
+			tanawinNgPuso
+		] []
+layerNgIskor: (laro6.yugto = 2) ? [pagpapakitaNgIskor] []
+listahanNgScreen: (laro6.yugto ≠ 2) ? viewNgScreen []
+
+¶Ang kulay ng entablado ay sumasalamin sa kinalabasan: mainit na berde sa panalo, madilim na pula sa pagkatalo, at ang default na lilang-kulay-takipsilim habang nagsisimula o naglalaro.¶
+backgroundNgEntablado: laro6.yugto ???
+		3: Kulay(48% 42 145°)
+		4: Kulay(22% 45 25°)
+		Kulay(25% 20 285°)
+
+¶Isang tema ang tumatakbo sa lahat ng apat na himig: pataas sa minor triad hanggang sa ikaanim at pababa ulit. Ang lihim ay ang parehong pitong antas na ito ay nakakatakot sa harmonic minor ngunit masaya sa major, kaya ang tugtog ng panalo ay tumutugtog ng eksaktong parehong himig — huminto lang itong maging kuwento ng katatakutan.
+
+Bawat track sa ibaba ay eksaktong walong tibok ang haba anuman ang haba ng tala nito, kaya lahat ng ito ay magkakabalik nang magkasabay at bawat himig ay umuulit nang walang putol.¶
+tema: [1 ø 3 ø 5 ø 6 ø 5 ø 3 ø 1 ø ø ø]
+
+¶Naghihintay upang magsimula: isang mabagal na dagundong, ang tema na malayo sa tunog ng kampana, at isang tibok ng puso sa ilalim.¶
+awitNgMenu: Musika(
+		[
+			Track(
+				tema
+				instrumento: Instrumento.kampana
+				beat: 0.5beats
+				lakasNgTunog: 45%
+			)
+			Track(
+				[{1 3 5} {1 3 5} {6 8 10} {5 7 9}]
+				instrumento: Instrumento.synthPad
+				beat: 2beats
+				lakasNgTunog: 40%
+			)
+			Track(
+				[1 ø 1 ø 6 ø 5 ø]
+				instrumento: Instrumento.synthBass
+				beat: 1beats
+				lakasNgTunog: 50%
+			)
+			Track(
+				[1 ø ø ø 1 ø ø ø]
+				instrumento: Instrumento.mgaTambol
+				beat: 1beats
+				lakasNgTunog: 30%
+			)
+		]
+		tempo: 72beats/min
+		iskala: Musika.harmonicMinor
+		pangalan: 'menu'
+	)
+
+¶Ang paghabol: ang parehong tema pero halos dalawang beses ang bilis, may tumatakbong bass at kick na hindi tumitigil.¶
+awitNgHabulan: Musika(
+		[
+			Track(
+				tema
+				instrumento: Instrumento.synth
+				beat: 0.5beats
+				lakasNgTunog: 45%
+			)
+			Track(
+				[1 ø 1 1 1 ø 1 1 6 ø 6 6 5 ø 5 5]
+				instrumento: Instrumento.synthBass
+				beat: 0.5beats
+				lakasNgTunog: 55%
+			)
+			Track(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 1 3]
+				instrumento: Instrumento.mgaTambol
+				beat: 0.5beats
+				lakasNgTunog: 40%
+			)
+		]
+		tempo: 132beats/min
+		iskala: Musika.harmonicMinor
+		pangalan: 'paghabol'
+	)
+
+¶Ang panalo: ang parehong tema sa major scale, doble sa isang oktaba pataas gamit ang plauta, sa ibabaw ng pinakamasayang chords sa halimbawa. Ito lang ang masayang himig dito.¶
+awitNgPanalo: Musika(
+		[
+			Track(
+				tema
+				instrumento: Instrumento.kampana
+				beat: 0.5beats
+				lakasNgTunog: 55%
+			)
+			Track(
+				tema
+				instrumento: Instrumento.plauta
+				beat: 0.5beats
+				susi: 12semitones
+				lakasNgTunog: 40%
+			)
+			Track(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				instrumento: Instrumento.piyano
+				beat: 2beats
+				lakasNgTunog: 45%
+			)
+			Track(
+				[1 ø 3 ø 2 ø 3 ø]
+				instrumento: Instrumento.mgaTambol
+				beat: 1beats
+				lakasNgTunog: 35%
+			)
+		]
+		tempo: 120beats/min
+		iskala: Musika.major
+		pangalan: 'panalo'
+	)
+
+¶Ang talo: ang tema, isang oktaba pababa at kalahati ang bilis kumpara sa menu, sa ibabaw ng tunog ng didgeridoo at mga chord na parang sumusuko na — nagtatapos ito sa ikaanim na tono sa halip na sa tonic, kaya hindi kailanman natatapos nang maayos ang loop.¶
+awitNgTalo: Musika(
+		[
+			Track(
+				tema
+				instrumento: Instrumento.kampana
+				beat: 0.5beats
+				susi: -12semitones
+				lakasNgTunog: 45%
+			)
+			Track(
+				[1 ø ø ø]
+				instrumento: Instrumento.didgeridoo
+				beat: 2beats
+				lakasNgTunog: 50%
+			)
+			Track(
+				[{1 3 5} {1 3 5} {6 8 10} {6 8 10}]
+				instrumento: Instrumento.synthPad
+				beat: 2beats
+				lakasNgTunog: 40%
+			)
+			Track(
+				[1 ø ø ø ø ø ø ø]
+				instrumento: Instrumento.mgaTambol
+				beat: 1beats
+				lakasNgTunog: 30%
+			)
+		]
+		tempo: 56beats/min
+		iskala: Musika.harmonicMinor
+		pangalan: 'talo'
+	)
+
+¶Tanging ang himig ng kasalukuyang yugto lang ang nasa entablado, at ang @Music na wala na roon ay huminto — kaya ang pagpapalit ng yugto ang nagpapalit ng musika.¶
+soundtrack: laro6.yugto ???
+		1: awitNgMenu
+		3: awitNgPanalo
+		4: awitNgTalo
+		awitNgHabulan
+
+Entablado(
+	[
+		:listahanNgSahig
+		:listahanNgZombi
+		:listahanNgPuso
+		:listahanNgScreen
+		soundtrack
+	]
+	lugar: Lugar(laro6.kameraX 0m laro6.cameraZ)
+	background: backgroundNgEntablado
+	kulay: Kulay(97% 0 0°)
+	pangIbabaw: layerNgIskor
+)

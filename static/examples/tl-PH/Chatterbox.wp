@@ -1,0 +1,95 @@
+🤖
+Tsismosa
+=== start
+¶Ang Chatterbox ay isang munting robot na nakikinig, hango kay Eliza, ang unang chatbot, na ginawa noong 1966. Mag-type sa chat bar at sasagot ito, habang itinatago ang tala ng inyong usapan.¶
+
+¶Isang linya ng usapan: sino ang nagsabi, at ano ang sinabi niya.¶
+•linya(nagsasalita•'' mgaSalita2•'')
+
+mensahe: Makipagchat()
+
+¶Bago ibalik ang inyong mga salita, binabaligtad ng Chatterbox ang mga panghalip, pinapalitan ang bawat salita gamit ang mapa na ito: my ay nagiging your, at I ay nagiging you. Kaya ang "I feel like you hate me" ay babalik bilang "Why do you feel like I hate you?"¶
+mgaPalit: {
+		'I': 'you'
+		'i': 'you'
+		"I'm": 'ikaw ay'
+		"i'm": 'ikaw ay'
+		'me': 'you'
+		'my': 'your'
+		'mine': 'yours'
+		'myself': 'yourself'
+		'am': 'ay'
+		'you': 'I'
+		'your': 'my'
+		'yours': 'mine'
+		'yourself': 'myself'
+	}
+ƒ salaminin(mgaSalita3•'')•'' mgaSalita3.nakasegment(' ').isalin(
+		ƒ(salita2•'') mgaPalit{salita2} ?? salita2
+	).sumali(
+		' '
+	)
+
+¶Pumipili ang Chatterbox ng sagot sa pamamagitan ng pagtugma ng mga padron laban sa mensahe. Binabalewala ng Aa ang malalaki at maliliit na titik, at kinukuha ng isang pinangalanang capture tulad ng mood ang lahat hanggang sa anumang bantas na pantapos, kaya maaaring isalamin ng sagot ang inyong sariling mga salita — ang trick na ginamit ng orihinal na Eliza. Ang huling patakaran ay isang fallback: isang kusang pinili na pampasigla para panatilihin kayong nagsasalita.¶
+ƒ sagot(mgaSalita4•'')•'' (
+		mgaDamdamin: mgaSalita4 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
+		mgaNilalang: mgaSalita4 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
+		mgaGusto: mgaSalita4 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		mgaHiling: mgaSalita4 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
+		mgaDamdamin.haba() > 0 ? 'Bakit ninyo nararamdaman ' + salaminin(
+					mgaDamdamin[1].mgagrupo{'mood'} ?? ''
+				) + '?'
+			mgaNilalang.haba() > 0 ? 'Gaano na katagal kayong ' + salaminin(
+						mgaNilalang[1].mgagrupo{'estado'} ?? ''
+					) + '?'
+				mgaGusto.haba() > 0 ? 'Ano ang kahulugan nito sa iyo kung mayroon kang ' + salaminin(
+							mgaGusto[1].mgagrupo{'pagnanasa'} ?? ''
+						) + '?'
+					mgaHiling.haba() > 0 ? 'Ano ang magbabago kung ' + salaminin(
+								mgaHiling[1].mgagrupo{'hiling'} ?? ''
+							) + '?'
+						(mgaSalita4 ⌕ ⣿ Aa("because")⣿).haba() > 0 ? 'Iyon ba ang tunay na dahilan?'
+							(mgaSalita4 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).haba(
+							) > 0 ? 'Sabihin mo sa akin ang tungkol sa iyong pamilya.'
+								mgaSalita4.mgadulo('?') ? 'Ako ba ang tinatanong mo? Ano sa tingin mo?'
+									(mgaSalita4 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? 'Kumusta! Ano ang nararamdaman mo ngayon?'
+										[
+											'Sabihin mo pa.'
+											'Ipagpatuloy mo.'
+											'Ano ang nararamdaman mo dahil dito?'
+											'Naiintindihan ko. Nakikinig ako.'
+										].random(
+										)
+	)
+
+¶Nagsisimula ang talaan sa isang bati, at dumarami ng dalawang linya sa bawat mensahe: ang sa'yo, pagkatapos ang sagot ni Chatterbox.¶
+tala•[linya]: [
+		linya('🤖' 'Kumusta! Ako si Chatterbox. Kumusta ka?')
+	] … ∆ mensahe …
+		tala.kasama(linya('🙂' mensahe)).kasama(
+			linya('🤖' sagot(mensahe))
+		)
+
+¶Ipakita lamang ang mga pinakabagong linya, para bigyan ng puwang ang mga bago sa halip ng mga luma.¶
+kamakailan: tala.haba() ≤ 8 ? tala tala.kasunod(
+			tala.haba() - 7
+		)
+
+Entablado(
+	[
+		Grupo(
+			Patongpatong('<' 0.5m)
+			kamakailan.isalin(
+				ƒ(linya2•linya)
+					Parirala(
+						linya2.nagsasalita + ' ' + linya2.mgaSalita2
+						laki: 0.75m
+						pambalot: 22m
+						pagpasok: Pose(kalabuan: 0 sukat: 0.5)
+						tagal: 0.4s
+					)
+			)
+		)
+	]
+	lugar: Lugar(0m 0m -12m)
+)

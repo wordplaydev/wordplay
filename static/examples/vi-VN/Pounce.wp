@@ -1,0 +1,89 @@
+🧶
+Vồ lấy
+=== start
+¶Điều khiển một con mèo bằng các phím mũi tên và cho nó vồ mồi.
+
+Con mèo kêu meo mỗi khi nó di chuyển. Tiếng kêu meo gắn vào @Pose đầu tiên của hoạt ảnh di chuyển của nó: một @Pose có thể mang một @Music, và âm đó vang lên đúng lúc dáng đó xuất hiện, còn mỗi lần di chuyển sẽ tạo ra các dáng của nó mỗi khi bắt đầu. Dáng lắc lư được viết ra rõ ràng thay vì để trống là \Sựliêntiếp.đungđưa(
+)\ vì các hoạt ảnh có sẵn tự tạo ra các dáng riêng của chúng, và một dáng là nơi âm thanh phải được gắn vào.¶
+
+¶Một tiếng kêu ngắn. Hai lần di chuyển gần nhau sẽ dùng chung một tiếng meo thay vì phát hai tiếng chồng lên nhau, vì lần thứ hai đến khi dáng lắc lư đầu tiên vẫn còn đang lắc.¶
+meo: ÂmNhạc(
+		BảnNhạc([1] nhạcCụ: NhạcCụ.mèo)
+		âmLượng: 45%
+		tên: 'meo'
+	)
+
+•vịTríConMèo(vịTrí2•#m hướng•#)
+
+chìaKhóa2: Chìakhóa()
+tốcĐộ: 1m
+
+chỗMèoCon: vịTríConMèo(5m 1) … ∆ chìaKhóa2 …
+		((chìaKhóa2 = 'Mũi tên trái') & (chỗMèoCon.vịTrí2 > -10m)) ? vịTríConMèo(
+				chỗMèoCon.vịTrí2 - tốcĐộ
+				1
+			)
+			((chìaKhóa2 = 'Mũi tên phải') & (chỗMèoCon.vịTrí2 < 8m)) ? vịTríConMèo(
+					chỗMèoCon.vịTrí2 + tốcĐộ
+					-1
+				)
+				chỗMèoCon
+
+mèoCon: Cụmtừ(
+		"🐈"
+		khuônmặt: "Noto Color Emoji"
+		tên: 'mèo con'
+		kíchcỡ: 2m
+		vịTrí: VịTrí(chỗMèoCon.vịTrí2 0m)
+		nghỉngơi: Tưthế(lậtngược: chỗMèoCon.hướng < 0)
+		dichuyển: Sựliêntiếp(
+			{
+				0%: Tưthế(xoay: -5° âmNhạc: meo)
+				50%: Tưthế(xoay: 5°)
+				100%: Tưthế(xoay: -5°)
+			}
+			0.25s
+			"zippy"
+		)
+		vấnđề: Vấnđề(1000kg độtròn: 0.5)
+	)
+
+vồ: Vachạm('bóng' 'mèo con')
+
+vịTríBóng: Cửđộng(
+		VịTrí(0m 9m)
+		vậntốctiếptheo:
+		vồ•ø ? ø
+			Vậntốc(
+				((vồ.phươnghướng.x ÷ -1m) × Ngẫunhiên(15m/s 25m/s)) + Ngẫunhiên(
+						-3m/s
+						3m/s
+					)
+				Ngẫunhiên(27m/s 30m/s)
+				(vồ.phươnghướng.x ÷ -1m) × Ngẫunhiên(0°/s 15°/s)
+			)
+	)
+
+bóng: Cụmtừ(
+		"🧶"
+		tên: 'bóng'
+		vịTrí: vịTríBóng
+		vấnđề: Vấnđề(1kg 0.5 0 1)
+	)
+
+Sânkhấu(
+	[
+		Hìnhdạng(Hìnhchữnhật(-10m 0m 10m -3m))
+		Hìnhdạng(Hìnhchữnhật(-10m -1m -9m 11m))
+		Hìnhdạng(Hìnhchữnhật(10m -1m 9m 11m))
+		Hìnhdạng(Hìnhchữnhật(-10m 10m 10m 11m))
+		bóng
+		mèoCon
+		Cụmtừ(
+			'nhấn ← → để chơi!'
+			vịTrí: VịTrí(-4m -2m)
+			màusắc: Màusắc.trắng
+		)
+	]
+	vịTrí: VịTrí(y: 5m z: -10m)
+)

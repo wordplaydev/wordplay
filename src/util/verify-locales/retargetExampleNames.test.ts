@@ -1,5 +1,8 @@
+import Project from '@db/projects/Project';
+import { localizeKeyName } from '@input/Key/Key';
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
+import Source from '@nodes/Source';
 import { getLocalePath } from '@util/verify-locales/LocaleSchema';
 import LocalePath from '@util/verify-locales/LocalePath';
 import fs from 'fs';
@@ -7,6 +10,7 @@ import { expect, test } from 'vitest';
 import {
     retargetExampleNames,
     retargetExamplesIn,
+    retargetSerializedExample,
 } from './retargetExampleNames';
 
 /**
@@ -322,5 +326,133 @@ test('a restore that would break the example is refused', () => {
     );
     expect(result.kind === 'retargeted' && result.code).not.toContain(
         'gato/es, gato',
+    );
+});
+
+// The multi-source counterpart (#1310): a whole localized `.wp`, sources
+// paired positionally, resolution in the full project so `↓ borrow`s work.
+
+test('a multi-source example is retargeted inside the full project', () => {
+    const en = [
+        {
+            names: 'start',
+            code: "↓ words\nPhrase(words[1] bubble: 'hello!')\n",
+        },
+        { names: 'words', code: "['fox' 'cow']\n" },
+    ];
+    const lo = [
+        {
+            names: 'start',
+            code: "↓ words\nΦράση(words[1] φούσκα: 'γεια!')\n",
+        },
+        { names: 'words', code: "['αλεπού' 'αγελάδα']\n" },
+    ];
+    const result = retargetSerializedExample(en, lo, Greek, 'el');
+    expect(result.kind).toBe('retargeted');
+    if (result.kind !== 'retargeted') return;
+    expect(result.sources[0].code).toBe(
+        `↓ words\nΦράση(words[1] ${declared(PhraseBubble)}: 'γεια!')\n`,
+    );
+    // The borrowed source is untouched, and header names ride through.
+    expect(result.sources[1]).toEqual(lo[1]);
+});
+
+test('a multi-source example that already agrees is unchanged', () => {
+    const en = [
+        {
+            names: 'start',
+            code: "↓ words\nPhrase(words[1] bubble: 'hello!')\n",
+        },
+        { names: 'words', code: "['fox' 'cow']\n" },
+    ];
+    const lo = [
+        {
+            names: 'start',
+            code: `↓ words\nΦράση(words[1] ${declared(PhraseBubble)}: 'γεια!')\n`,
+        },
+        { names: 'words', code: "['αλεπού' 'αγελάδα']\n" },
+    ];
+    expect(retargetSerializedExample(en, lo, Greek, 'el').kind).toBe(
+        'unchanged',
+    );
+});
+
+test('a master that gained a source makes the whole file divergent', () => {
+    const en = [
+        { names: 'start', code: "Phrase('a' bubble: 'hello!')\n" },
+        { names: 'extra', code: '1\n' },
+    ];
+    const lo = [{ names: 'start', code: "Φράση('ένα' bubble: 'γεια!')\n" }];
+    expect(retargetSerializedExample(en, lo, Greek, 'el').kind).toBe(
+        'divergent',
+    );
+});
+
+test('one misaligned source makes the whole file divergent', () => {
+    // The second source's shape changed; a partial repair would leave the file
+    // half old and half new, so the whole file is what re-translates.
+    const en = [
+        { names: 'start', code: "Phrase('a' bubble: 'hello!')\n" },
+        { names: 'words', code: "['fox' 'cow']\n" },
+    ];
+    const lo = [
+        { names: 'start', code: "Φράση('ένα' bubble: 'γεια!')\n" },
+        { names: 'words', code: "['αλεπού']\n" },
+    ];
+    expect(retargetSerializedExample(en, lo, Greek, 'el').kind).toBe(
+        'divergent',
+    );
+});
+
+test('a compared key name left in English is repaired to the locale display name', () => {
+    // The pipeline once protected `key = "Space"` from translation and shipped
+    // it verbatim — but the Key stream reports the PRIMARY locale's display
+    // name, so the comparison never matched (WhatWord's space bar, #1310).
+    // The repair reads the same table the stream does.
+    const expected = localizeKeyName(
+        ' ',
+        Project.make(
+            null,
+            't',
+            new Source('start', '1'),
+            [],
+            Greek,
+        ).getLocales(),
+    );
+    expect(expected).not.toBe('Space');
+    const en = [
+        { names: 'start', code: `key: Key()\nstarted: key = 'Space'\n` },
+    ];
+    const lo = [
+        { names: 'start', code: `key: Key()\nstarted: key = 'Space'\n` },
+    ];
+    const result = retargetSerializedExample(en, lo, Greek, 'el');
+    expect(result.kind).toBe('retargeted');
+    if (result.kind !== 'retargeted') return;
+    expect(result.sources[0].code).toContain(`'${expected}'`);
+});
+
+test('a key name already in the locale display form is left alone', () => {
+    const expected = localizeKeyName(
+        ' ',
+        Project.make(
+            null,
+            't',
+            new Source('start', '1'),
+            [],
+            Greek,
+        ).getLocales(),
+    );
+    const en = [
+        { names: 'start', code: `key: Key()\nstarted: key = 'Space'\n` },
+    ];
+    const lo = [
+        {
+            names: 'start',
+            code: `key: Key()\nstarted: key = '${expected}'\n`,
+        },
+    ];
+    expect(retargetSerializedExample(en, lo, Greek, 'el').kind).toBe(
+        'unchanged',
     );
 });

@@ -1,0 +1,198 @@
+🎂
+Joyeux anniversaire
+=== start/en
+¶Joyeux anniversaire en trois parties : une mélodie, une harmonie en dessous, et des accords qui soutiennent les deux.
+
+Chaque partie est écrite en degrés de gamme, donc 1 est la tonique et 8 est la tonique une octave plus haut. C'est pour ça que l'air se lit pareil peu importe la tonalité choisie — change @Music/key et toute la chanson bouge avec, les chanteurs aussi.
+
+La mélodie et l'harmonie avancent en demi-temps et les accords en temps entiers, donc chaque partie précise la durée de ses propres notes, et elles restent quand même alignées.¶
+
+¶Les temps écoulés depuis le début de la chanson, pour que le gâteau bouge avec elle. @Beat compte à partir de zéro avant que la musique commence, donc le gâteau reste immobile.¶
+temps: Rythme()
+compte2: temps.nombre
+
+¶L'air. Deux croches, puis des notes plus longues — ce sont les silences qui créent le rythme, car chaque note dure le même demi-temps.¶
+mélodie2: [
+		5
+		5
+		6
+		ø
+		5
+		ø
+		8
+		ø
+		7
+		ø
+		ø
+		ø
+		5
+		5
+		6
+		ø
+		5
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		5
+		5
+		12
+		ø
+		10
+		ø
+		8
+		ø
+		7
+		ø
+		6
+		ø
+		ø
+		11
+		11
+		10
+		ø
+		8
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Une seconde voix sous la mélodie, dans les mêmes demi-temps.¶
+alto: [
+		5
+		5
+		3
+		ø
+		3
+		ø
+		3
+		ø
+		4
+		ø
+		ø
+		ø
+		4
+		4
+		4
+		ø
+		4
+		ø
+		4
+		ø
+		5
+		ø
+		ø
+		ø
+		5
+		5
+		5
+		ø
+		8
+		ø
+		5
+		ø
+		5
+		ø
+		4
+		ø
+		6
+		6
+		6
+		ø
+		6
+		ø
+		5
+		ø
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Des accords, un par temps. Un ensemble fait sonner ses degrés ensemble, donc {1 3 5} est l'accord parfait de tonique et {4 5 7 9} est celui qui veut se résoudre vers elle.¶
+accords: [
+		ø
+		{1 3 5}
+		ø
+		ø
+		{4 5 7 9}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{4 6 8}
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		{4 5 7 9}
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Le gâteau grossit à chaque temps et se calme entre eux.¶
+ƒ gâteau() Phrase(
+		'🎂'
+		(4m + ((compte2 % 2) · 0.4m))
+		durée: 0.2s
+	)
+
+Scène(
+	[
+		Groupe(
+			Empiler(rembourrage: 0.5m)
+			[
+				gâteau()
+				Phrase('Joyeux anniversaire' 1.3m)
+			]
+		)
+		Musique(
+			[
+				Piste(
+					mélodie2
+					instrument: Instrument.flûte
+					battement: 0.5beats
+				)
+				Piste(
+					alto
+					instrument: Instrument.violon
+					battement: 0.5beats
+					volume: 65%
+				)
+				Piste(
+					accords
+					instrument: Instrument.piano
+					battement: 1beats
+					volume: 55%
+				)
+			]
+			tempo: 116beats/min
+			nom: 'anniversaire'
+		)
+	]
+	arrièreplan: Couleur(18% 20 330°)
+	couleur: Couleur(96% 0 0°)
+)

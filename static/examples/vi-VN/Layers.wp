@@ -1,0 +1,39 @@
+o
+Các lớp
+=== start
+¶Những quả bóng nảy ở nhiều độ sâu khác nhau để thể hiện các lớp song thị.¶
+đếm2: 10 → []
+
+ƒ nhữngQuảBóng(z2•#m) đếm2.dịch(
+		ƒ()
+			Cụmtừ(
+				'o'
+				vịTrí: Cửđộng(
+					VịTrí(
+						Ngẫunhiên(-10 10) × 1m
+						Ngẫunhiên(0 10) × 1m
+						z2
+					)
+					Vậntốc(
+						Ngẫunhiên(-10 10) × 1m/s
+						Ngẫunhiên(-5 5) × 1m/s
+					)
+				)
+				vấnđề: Vấnđề(độđànhồi: 0.8 masát: 0)
+			)
+	)
+
+Sânkhấu(
+	[
+		:nhữngQuảBóng(0m)
+		:nhữngQuảBóng(-10m)
+		:nhữngQuảBóng(10m)
+		Hìnhdạng(Vòngtròn(2m 0m 1m 0m))
+		Hìnhdạng(Vòngtròn(2m 9m -3m 10m))
+		Hìnhdạng(Đagiác(2m 5 -5m 0m -10m))
+		Hìnhdạng(Hìnhchữnhật(-20m 0m 20m -1m 0m))
+		Hìnhdạng(Hìnhchữnhật(-20m 0m 20m -1m 10m) xoay: 25°)
+		Hìnhdạng(Hìnhchữnhật(-20m 0m 20m -1m -10m) xoay: -10°)
+	]
+	vịTrí: VịTrí(0m 10m -30m)
+)

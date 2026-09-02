@@ -26,7 +26,7 @@ Change the locale on stage to see each one!¶/en
 				¶Each Phrase contains one symbol to represent a letter of my name.
 				This allows me to animate each letter individually! I'm using
 				resting Sequences so that the letters move while on stage.¶/en
-				Phrase('A' face: 'Pacifico' entering: 💃({
+				Phrase('A'/en face: 'Pacifico' entering: 💃({
 							0%: 🤪(opacity: 0%)
 							25%: 🤪(opacity: 25%)
 							50%: 🤪(opacity: 50%)
@@ -37,7 +37,7 @@ Change the locale on stage to see each one!¶/en
 							50%: 🤪(rotation: 180°)
 							100%: 🤪(rotation: 359°)
 						} ⏳: 1s) ⏳: 1s)
-				Phrase('d' face: 'Aclonica' resting: 💃({
+				Phrase('d'/en face: 'Aclonica' resting: 💃({
 							0%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
 							50%: 🤪(color: 🌈(27% 112 267°))
 							75%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)

@@ -3309,7 +3309,7 @@
                         "$~Sonuna belirtilen öğeyi koyarak yeni bir @List oluşturuyorum.",
                         "\\['elma' 'muz' 'mango'].with('karpuz')\\"
                     ],
-                    "names": ["$~ile", "$~eklemek"],
+                    "names": "$~ile",
                     "inputs": [
                         {
                             "doc": "$~Ben eklemek istediğin @value değerim.",
@@ -3324,7 +3324,7 @@
                         "@Spread'i kullanmak biraz daha kolay, şöyle:",
                         "\\['elma' 'muz' 'mango' :['karpuz' 'karabuğday']]\\"
                     ],
-                    "names": ["$~Listeile", "$~eklemek"],
+                    "names": "$~Listeile",
                     "inputs": [
                         {
                             "doc": "$~Eklenecek değerlerin listesi.",

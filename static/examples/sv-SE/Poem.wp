@@ -1,0 +1,92 @@
+T
+Dikt
+=== start
+¶En dikt vars rader glider in, var och en med sitt eget intåg.¶
+•rad(text2•"" pose•Pose|Sekvens bak: Färg(100 100 100°) fram: Färg(
+			0
+			0
+			0°
+		))
+
+¶En lista med diktens rader, var och en med en pose.¶
+dikt: [
+		rad(
+			'Datorfilen'
+			Pose(opacitet: 0% offset: Plats(y: -5m))
+		)
+		rad('som' Pose(opacitet: 0% offset: Plats(y: -5m)))
+		rad('jag inte minns alls' Pose(rotation: 10°))
+		rad(
+			'jag klickar för att öppna den'
+			Sekvens(
+				{
+					0%: Pose(skala: 1)
+					50%: Pose(skala: 0.7)
+					100%: Pose(skala: 1)
+				}
+				0.25s
+			)
+		)
+		rad('titta' Pose(opacitet: 0% offset: Plats(y: -5m)))
+		rad(
+			'bläddra längre ner'
+			Pose(opacitet: 0% offset: Plats(y: 5m))
+		)
+		rad('skärmen' Pose(opacitet: 0% offset: Plats(y: -5m)))
+		rad(
+			'förblir bakgrundsbelyst och tom'
+			Pose(opacitet: 0% offset: Plats(y: -5m))
+			Färg(0 0 0°)
+			Färg(100 100 0°)
+		)
+		rad(
+			'så möter jag mig själv igen'
+			Pose(opacitet: 0% offset: Plats(y: -5m))
+		)
+		rad(
+			'hoppfull och oanvändbar'
+			Pose(opacitet: 0% offset: Plats(y: -5m))
+		)
+		rad(
+			'ett mysterium'
+			Pose(opacitet: 0% offset: Plats(y: -5m))
+		)
+		rad(
+			'precis som jag måste ha gjort'
+			Pose(opacitet: 0% offset: Plats(y: -5m))
+		)
+		rad('den 19 augusti 2010, kl. 11:08' Pose())
+	]
+
+nummer2: 1 … ∆ Knapp() | ∆ Nyckel() …
+		(nummer2 = (dikt.längd() + 1)) ? 1 nummer2 + 1
+rad2: dikt[nummer2]
+
+nummer2 ≤ dikt.längd() ?
+	Etapp(
+		[
+			Fras(
+				rad2.text2
+				gårin: rad2.pose
+				varaktighet: 1s
+				namn: nummer2 → ""
+				stil: 'cautious'
+			)
+		]
+		bakgrund: rad2.bak
+		vilande: Pose(färg: rad2.fram)
+	)
+	Etapp(
+		[
+			Grupp(
+				Stack()
+				[
+					Fras('RÅD TILL MIG SJÄLV')
+					Fras('Jane Hirshfield')
+				]
+				gårin: Pose(skala: 0.75)
+			)
+		]
+		bakgrund: Färg(0% 0 0°)
+		färg: Färg(100% 100 0°)
+	)

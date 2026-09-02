@@ -1,0 +1,23 @@
+മ
+Litery
+=== start/en
+¶Siatka liter z wielu systemów pisma, jedna zmienia się co sekundę.¶
+litery: 'മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ' ÷ ""
+
+najnowsze•['']:
+	litery … ∆ Czas(1000ms) …
+		najnowsze.zastępować(Losowy(1 25) litery.losowy())
+
+Grupa(
+	Siatka(5 5 0.25m 1m 1m)
+	najnowsze.tłumaczyć(
+		ƒ(litera•"" indeks2•#)
+			Wyrażenie(
+				litera
+				nazwa: "\litera\-\indeks2\"
+				wstępowanie: Poza(nieprzezroczystość: 0 skala: 2)
+				spoczynkowy: Sekwencja.kołysać(czastrwania: 0.25s)
+				czastrwania: 0.5s
+			)
+	)
+)

@@ -1,0 +1,78 @@
+⏳
+Medidor do Modo de Estudo
+=== start/en
+¶Clique para adicionar horas de estudo e veja o medidor mudar de calmo para foco e depois para sobrecarga.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+ação: Escolha()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+horasDeEstudo:
+	0 …
+	∆ ação …
+		ação = 'reset' ?
+			0
+			horasDeEstudo + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+explicação:
+	'Clique em “Adicionar Hora de Estudo +1” para aumentar o seu tempo de estudo. Clique em “Repor” para recomeçar.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+textoDeHoras:
+	'Estudou ' + horasDeEstudo → '' + ' hora(s).'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+estadoDeEspírito:
+	horasDeEstudo < 3 ?
+		'🌿 MODO CALMO — clique para adicionar tempo de estudo'
+		horasDeEstudo < 6 ?
+			'📚 MODO FOCO — está na zona produtiva!'
+			'🔥 MODO SOBRECARGA — faça uma pausa e clique em "repor"'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+Fase(
+	[
+		Grupo(
+			Monte()
+			[
+				Frase('Medidor do Modo de Estudo' tamanho: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				Frase(explicação tamanho: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				Frase(textoDeHoras tamanho: 0.4m)
+
+				Frase(estadoDeEspírito tamanho: 0.75m)
+
+				Grupo(
+					Linha(preenchimento: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						Frase(
+							'Adicionar Hora de Estudo +1'
+							selecionável: ⊤
+							nome: 'adicionar'
+							cor: Cor(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						Frase(
+							'Repor'
+							selecionável: ⊤
+							nome: 'reset'
+							cor: Cor(69% 47 271°)
+						)
+					]
+				)
+			]
+			fonte: "Aclonica"
+		)
+	]
+)

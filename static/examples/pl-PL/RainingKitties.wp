@@ -1,0 +1,46 @@
+🐈
+Deszcz kotków
+=== start/en
+¶Pięćdziesiąt kotków spadających na scenę.¶
+liczba2: 50
+rozmiar2: 30
+
+•kicia(x2•# y2•# z2•# kąt2•# prędkość2•#) ()
+
+¶Na początku zrób listę 20 kotków, każdy umieszczony w losowym miejscu. Gdy zegar tyka, przesuwaj je wszystkie trochę niżej.¶
+kotki•[kicia]:
+	liczba2 → [].tłumaczyć(
+		ƒ(_) kicia(
+				Losowy(-rozmiar2 rozmiar2)
+				Losowy(-rozmiar2 rozmiar2)
+				Losowy(0 rozmiar2 ÷ 2)
+				Losowy(360)
+				Losowy(-30 30)
+			)
+	)
+	… ∆ Czas() …
+		kotki.tłumaczyć(
+			ƒ(kotek•kicia)
+				(kotek.y2:kotek.y2 < -rozmiar2 ? rozmiar2 kotek.y2 - 2)
+				.kąt2:kotek.kąt2 + kotek.prędkość2
+		)
+
+¶Zmień kotki na frazy¶
+Scena(
+	kotki.tłumaczyć(
+		ƒ(kotek2•kicia)
+			Wyrażenie(
+				"🐈"
+				twarz: "Noto Color Emoji"
+				rozmiar: 5m
+				miejsce: Miejsce(
+					kotek2.x2 × 1m
+					kotek2.y2 × 1m
+					kotek2.z2 × 1m
+				)
+				obrót: kotek2.kąt2 × 1°
+				czastrwania: 0s
+			)
+	)
+	miejsce: Miejsce(0m 0m -5m)
+)

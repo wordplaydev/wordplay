@@ -1,0 +1,25 @@
+🎭
+SpokenWords
+=== start
+¶Magsalita ka, at lalabas ang iyong mga salita sa iba't ibang lugar at laki.¶
+click: Butones(ø)
+pananalita: Pagsasalita(
+		ireset: click
+		wika: 'en-US'
+		limitasyon: 10
+	)
+x2: Random(-10m 10m) … ∆ pananalita … Random(-10m 10m)
+y2: Random(-10m 10m) … ∆ pananalita … Random(-10m 10m)
+lakiNgTeksto: Random(1m 3m) … ∆ pananalita … Random(1m 3m)
+Entablado(
+	[
+		Parirala(
+			pananalita
+			lugar: Lugar(x2 y2)
+			kulay: Kulay(0% 0% 0°)
+			laki: lakiNgTeksto
+		)
+	]
+	background: Kulay(100% 0% 0°)
+)
+

@@ -10,7 +10,7 @@
 
 \slides: ['ਪਹਿਲਾ' 'ਦੂਜਾ' 'ਤੀਜਾ']
 key: Key()
-index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'ਤੀਰ ਸੱਜੇ') ? ((index < slides.length()) ? index + 1 index) (key = 'ਤੀਰਖੱਬਾ') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
 ਇਹ  @Reaction  ਇਸ ਦਾ ਦਿਲ ਹੈ। ਇਹ \1\ ਤੋਂ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ, ਅਤੇ ਹਰ ਵਾਰ ਜਦੋਂ  @Key  ਬਦਲਦਾ ਹੈ, ਇਹ ਫੈਸਲਾ ਕਰਦਾ ਹੈ ਕਿ ਨਵਾਂ ਨੰਬਰ ਕੀ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।ਜੇ ਸੱਜਾ ਐਰੋ ਦਬਾਇਆ ਗਿਆ, ਤਾਂ ਇਹ ਇੱਕ ਜੋੜਦਾ ਹੈ; ਜੇ ਖੱਬਾ ਐਰੋ ਦਬਾਇਆ ਗਿਆ, ਤਾਂ ਇਹ ਇੱਕ ਘਟਾਉਂਦਾ ਹੈ; ਨਹੀਂ ਤਾਂ ਇਹ ਉਹੀ ਰਹਿੰਦਾ ਹੈ।

@@ -1,0 +1,76 @@
+文
+Cámara
+=== start
+¶Cien letras de cuatro sistemas de escritura rebotan en una caja cerrada; voltea la gravedad o agítalas.¶
+cantidad2: 100
+
+¶Los cuatro alfabetos de los que vienen las letras.¶
+latín: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
+griego: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
+árabe: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
+cjk: '日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪' → ['']
+
+¶Cuál control se presionó por última vez.¶
+opción: Elección()
+
+¶Mezcla los cuatro alfabetos juntos una sola vez, cuando comienza el programa, y luego mantiene ese orden para siempre. Una mezcla escrita como una simple asignación le daría a cada letra un carácter nuevo en cada cuadro.¶
+glifos2: [:latín :griego :árabe :cjk].mezclado() … ∆ opción … glifos2
+
+¶Es verdadero solo en la evaluación causada por el botón de agitar, así las letras reciben un solo empujón por clic en lugar de moverse en cada cuadro.¶
+agitando: (∆ opción) & (opción = 'shake')
+
+¶El interruptor cambia entre la gravedad de la Tierra y ninguna gravedad.¶
+cayendo: ⊤ … ∆ opción … (opción = 'gravity') ? ~cayendo cayendo
+
+¶Una velocidad, dirección y giro aleatorios.¶
+ƒ lanzar() Velocidad(
+		Azar(-12m/s 12m/s)
+		Azar(-12m/s 12m/s)
+		Azar(-120°/s 120°/s)
+	)
+
+letras: cantidad2 → [].traducir(
+		ƒ(número2)
+			Frase(
+				glifos2[número2]
+				nombre: "glyph\número2\"
+				lugar: Movimiento(
+					Lugar(Azar(-7.5m 7.5m) Azar(-5.5m 5.5m))
+					lanzar()
+					siguientevelocidad: agitando ? lanzar() ø
+				)
+				materia: Materia(elasticidad: 0.7 fricción: 0)
+			)
+	)
+
+¶Los dos controles. No tienen materia y su lugar no es un Movimiento, así que el motor de física los deja en paz.¶
+interruptor: Frase(
+		cayendo ? '⬇ gravedad' '🌌 flotando'
+		0.7m
+		nombre: 'gravity'
+		seleccionable: ⊤
+		lugar: Lugar(-13m 1m)
+	)
+
+agitador: Frase(
+		'🎲 sacudir'
+		0.7m
+		nombre: 'shake'
+		seleccionable: ⊤
+		lugar: Lugar(-13m -1m)
+	)
+
+Escenario(
+	[
+		¶Cuatro paredes, tan gruesas que nada las atraviesa aunque vaya rápido.¶
+		Figura(Rectángulo(-8.6m 6.6m 8.6m 6m))
+		Figura(Rectángulo(-8.6m -6m 8.6m -6.6m))
+		Figura(Rectángulo(-8.6m 6.6m -8m -6.6m))
+		Figura(Rectángulo(8m 6.6m 8.6m -6.6m))
+		:letras
+		interruptor
+		agitador
+	]
+	gravedad: cayendo ? 9.8m/s^2 0m/s^2
+	lugar: Lugar(-2.5m 0m -11m)
+)

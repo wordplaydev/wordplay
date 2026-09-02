@@ -1,0 +1,147 @@
+🐱
+¡Scat de gato!
+=== start/en
+¶Un gato haciendo scat, para siempre, nunca de la misma forma dos veces.
+
+Todo el solo es improvisado: nada aquí es una melodía escrita. En cada coro,el gato elige notas nuevas y la frase se reconstruye, así que lo que escuchasahora no volverá a pasar.
+
+Canta en cinco pistas que se turnan en lugar de sonar juntas — negras,luego corcheas, luego tresillos, luego una blanca, luego una nota larga —porque un gato tiene una sola voz, y dos pistas sonando a la vez le daríandos voces. Cada pista se queda en silencio mientras suenan los compases delas demás, y eso es lo que lo mantiene siendo un solo.
+
+La voz es el gato afinado, \Instrumento.gatoAfinado\: un maullido, con tono, así que un grado elige unanota y el gato de verdad canta la melodía en lugar de decir doce cosasdistintas. La escala es la del blues, que no tiene notas equivocadas — ytiene que ser así, porque cada nota aquí se elige al azar, así que cualquierorden tiene que sonar bien.
+
+Es lento para un scat. Un maullido tarda como ocho décimas de segundo endecirse, y a un tempo más rápido las negras cortarían al gato a la mitaddel maullido.¶
+
+pulso2: Pulso()
+conteo2: pulso2.conteo
+
+¶Una nota, o de vez en cuando nada: como una de cada siete queda en silencio.Eso le da al gato suficiente aire para cerrar la boca aquí y allá sin quitarlefuerza al solo — y como los silencios caen donde los pone el azar, no dos corosrespiran en el mismo lugar.¶
+ƒ talVez(nota•#)•#|ø (Azar() > 0.15) ? nota ø
+
+¶Una nota, en algún lugar dentro de la octava cómoda del gato. El grado 1 esla nota a la que la frase vuelve como a su hogar, y el 8 es una octava deblues y un poco más arriba — lo suficientemente lejos para sonar comocanto, y lo suficientemente cerca para que el maullido siga sonando comomaullido y no como uno estirado.¶
+ƒ voz2()•#|ø talVez(Azar(1 8))
+
+¶Todo lo que el gato canta en un coro. Cada parte dura lo mismo que lasdemás en tiempos musicales — treinta y dos — así que se mantienencoordinadas sin importar cómo se subdividan de forma distinta.¶
+•coro(llama•[#|ø] corre•[#|ø] balancear•[#|ø] contiene•[#|ø] cola•[#|ø])
+
+¶Negras, compases uno y dos: tres notas, una pausa para respirar, y luegolas mismas tres respondidas con un final nuevo. La llamada y respuesta es labase de una frase de scat, y repetir una figura antes de cambiarla es lo quehace que suene compuesta en lugar de aleatoria.¶
+ƒ llama2()•[#|ø] (
+		un: voz2()
+		b2: voz2()
+		c2: voz2()
+		(32 → []).traducir(
+			ƒ(i•#)
+				(i = 1) ? un
+					(i = 2) ? b2
+						(i = 3) ? c2
+							(i = 5) ? un
+								(i = 6) ? b2
+									(i = 7) ? voz2()
+										ø
+		)
+	)
+
+¶Corcheas, compases tres y cuatro: una carrera que sube la escala paso apaso desde donde empieza, y vuelve a bajar hasta el fondo al llegar arriba dela octava. Dieciséis corcheas sobre ocho grados significa que la carrerasube todo el camino dos veces, y eso es lo que hace que se sienta como unacarrera y no como una melodía.
+
+Estas son las notas más cortas de la pieza, y el único lugar donde al gatolo cortan: dos corcheas en un tiempo es más rápido de lo que un maullidopuede terminar, que es justo cómo suena una sílaba rápida de scat.¶
+ƒ corre2()•[#|ø] (
+		hogar: Azar(1 8)
+		(64 → []).traducir(
+			ƒ(i2•#)
+				((i2 < 17) | (i2 > 32)) ? ø
+					talVez((((hogar + (i2 - 17)) - 1) % 8) + 1)
+		)
+	)
+
+¶Tresillos, compases cinco y seis: una celda de tres notas que da vueltas yvueltas. Tres en el espacio de dos se escribe exactamente así — 2tiempos ÷ 3 — que dice en voz alta lo que es un tresillo.¶
+ƒ balancear2()•[#|ø] (
+		celda2: [voz2() voz2() voz2()]
+		(48 → []).traducir(
+			ƒ(i3•#)
+				((i3 < 25) | (i3 > 36)) ? ø
+					celda2[(((i3 - 25) % 3) + 1)]
+		)
+	)
+
+¶Notas de blanca, compás siete: el gato baja el ritmo y cae en dos notas largas. Una notasostenida mantiene la boca abierta todo el tiempo que suena, que es como se ve sostener unanota.¶
+ƒ contiene2()•[#|ø]
+	(16 → []).traducir(
+		ƒ(i4•#)
+			(i4 = 13) ? voz2()
+				(i4 = 14) ? voz2()
+					ø
+	)
+
+¶Una redonda, compás ocho: grado 1, sostenida. Volver a la primera nota de laescala es lo que hace que una frase suene terminada, y no solo detenida.¶
+ƒ cola2()•[#|ø] (8 → []).traducir(ƒ(i5•#) (i5 = 8) ? 1 ø)
+
+ƒ improvisar()•coro coro(
+		llama2()
+		corre2()
+		balancear2()
+		contiene2()
+		cola2()
+	)
+
+¶Un coro nuevo cada treinta y dos pulsos. El anterior se mantiene entre loslímites, así el solo se queda quieto el tiempo suficiente para escucharse; cambiarloexactamente en el límite significa que la actuación lo empalma justo en el pulso enlugar de cortar al gato a media nota.¶
+coro2•coro: improvisar() … ∆ pulso2 …
+		((conteo2 % 32) = 0) ? improvisar() coro2
+
+¶El gato se mece con el pulso. Se inclina hacia el otro lado en cada uno, asíque el vaivén es el pulso mismo y no solo un adorno encima de él.¶
+apoyarse: ((conteo2 % 2) = 0) ? -1 1
+
+¶Si el gato está haciendo un sonido en este momento. @Beat da un @Part por cadapista, y una parte se queda en ⊤ durante todo el pulso en que una notasostenida suena, así que esto es ⊤ cuando algo se puede escuchar.¶
+cantando: pulso2.partes.traducir(
+		ƒ(parte•Parte) parte.sonando
+	).tiene(
+		⊤
+	)
+
+¶Su boca: abierta justo cuando suena una nota, cerrada cuando no. Nada aquícuenta los pulsos; le pregunta a la música qué está haciendo, así la cara nuncase desincroniza de lo que escuchas. Los silencios dispersos son los que ledan dónde cerrarse, por eso más o menos una de cada siete notas queda ensilencio.¶
+boca: cantando ? '😺' '🐱'
+
+Escenario(
+	[
+		Frase(
+			boca
+			5m
+			lugar: Lugar((apoyarse · 0.7) · 1m -0.6m)
+			rotación: (apoyarse · 7) · 1°
+			duración: 0.22s
+		)
+		Frase('¡Scat de gato!' 1.4m lugar: Lugar(-2.6m 3.6m))
+		Música(
+			[
+				Pista(
+					coro2.llama
+					instrumento: Instrumento.gatoAfinado
+					pulso: 1beats
+				)
+				Pista(
+					coro2.corre
+					instrumento: Instrumento.gatoAfinado
+					pulso: 0.5beats
+				)
+				Pista(
+					coro2.balancear
+					instrumento: Instrumento.gatoAfinado
+					pulso: 2beats ÷ 3
+				)
+				Pista(
+					coro2.contiene
+					instrumento: Instrumento.gatoAfinado
+					pulso: 2beats
+				)
+				Pista(
+					coro2.cola
+					instrumento: Instrumento.gatoAfinado
+					pulso: 4beats
+				)
+			]
+			tempo: 76beats/min
+			escala: Música.blues
+			nombre: 'scat'
+		)
+	]
+	fondo: Color(16% 14 30°)
+	color: Color(96% 0 0°)
+)

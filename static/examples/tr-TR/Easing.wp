@@ -1,0 +1,49 @@
+s
+Sıra Yumuşatması
+===
+¶Aynı araba animasyonu sekiz farklı şekilde, her yumuşatma tarzı için bir tane.¶
+anahtarKareler: {
+		0%: Poz(telafietmek: Yer(-1m 0m))
+		25%: Poz(telafietmek: Yer(1m 0m))
+		50%: Poz(telafietmek: Yer(1m 0m))
+		75%: Poz(telafietmek: Yer(-1m 0m))
+		100%: Poz(telafietmek: Yer(-1m 0m))
+	}
+
+Sahne(
+	[
+		Grup(
+			Izgara(4 2 hücredolgusu: 0.25m)
+			[
+				İfadeetmek('düz' boyut: 0.25m)
+				İfadeetmek(
+					"🚗"
+					dinlenme: Sekans(
+						anahtarKareler
+						3s
+						stil: "straight"
+					)
+				)
+				İfadeetmek('dikkatli' boyut: 0.25m)
+				İfadeetmek(
+					"🚚"
+					dinlenme: Sekans(
+						anahtarKareler
+						3s
+						stil: "cautious"
+					)
+				)
+				İfadeetmek('ağır' boyut: 0.25m)
+				İfadeetmek(
+					"🚙"
+					dinlenme: Sekans(anahtarKareler 3s stil: "pokey")
+				)
+				İfadeetmek('hızlı' boyut: 0.25m)
+				İfadeetmek(
+					"🏎"
+					dinlenme: Sekans(anahtarKareler 3s stil: "zippy")
+				)
+			]
+		)
+	]
+)

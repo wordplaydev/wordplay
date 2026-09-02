@@ -1,0 +1,43 @@
+✨
+Urmă de cuvinte
+===
+¶Acest proiect desenează conturul cuvântului „wordplay” cu o cometă de puncte care se mișcă în jurul literelor, mișcată de un flux Time(). Jumătate din cuvânt strălucește în orice moment, stingându-se de la luminos la capul urmei până la transparent la coadă.¶
+
+puncte2: Contur(
+		'wordplay'
+		"Noto Sans"
+		3m
+		loc: Loc(-6m 0m)
+		spațiere: 0.5m
+	)
+
+¶Câte puncte sunt pe contur, și un număr sigur la care să împarți înainte ca fontul să se fi încărcat (când lista este încă goală).¶
+numărare2: puncte2.lungime()
+
+¶Urma acoperă jumătate din cuvânt, deci jumătate este mereu vizibilă.¶
+urmă: numărare2 ÷ 2
+
+¶Un index al capului care avansează cu un punct la fiecare pas și se reia de la început în jurul cuvântului.¶
+cap: 0 … ∆ Timp(10ms) … ((cap + 1) % numărare2) ?? 0
+
+Etapă(
+	puncte2.traduce(
+		ƒ(punct•Loc index2•#)
+			(
+				¶Câte puncte în urma capului se află acesta, reluându-se de la început.¶
+				vârstă: ((((cap - index2) + 1) + numărare2) % numărare2) ?? 0
+				Fraza(
+					"•"
+					dimensiune: 1m
+					loc: punct
+					culoare: Culoare(
+						90%
+						100
+						((index2 ÷ numărare2) ?? 0) × 360°
+					)
+					opacitate: vârstă < urmă ? 1 - ((vârstă ÷ urmă) ?? 0) 0
+					durată: 0s
+				))
+	)
+	fundal: Culoare(8% 0 0°)
+)

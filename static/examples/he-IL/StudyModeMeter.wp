@@ -1,0 +1,78 @@
+⏳
+מד מצב הלימוד
+=== start/en
+¶לחצו כדי להוסיף שעות לימוד ולראות את המד עובר מרוגע לריכוז ועד לעומס יתר.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+פעולה: בחירה()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+שעותלימוד:
+	0 …
+	∆ פעולה …
+		פעולה = 'reset' ?
+			0
+			שעותלימוד + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+הסבר:
+	'לחצו על "הוסף שעת לימוד +1" כדי להוסיף זמן לימוד. לחצו על "אפס" כדי להתחיל מחדש.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+טקסטשעות:
+	'למדתם ' + שעותלימוד → '' + ' שעות.'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+מצברוח:
+	שעותלימוד < 3 ?
+		'🌿 מצב רוגע — לחצו כדי להוסיף זמן לימוד'
+		שעותלימוד < 6 ?
+			'📚 מצב ריכוז — אתם באזור הפרודוקטיבי!'
+			'🔥 מצב עומס יתר — קחו הפסקה ולחצו על "אפס"'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+שלב(
+	[
+		קבוצה(
+			לערום()
+			[
+				משפט('מד מצב הלימוד' גודל: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				משפט(הסבר גודל: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				משפט(טקסטשעות גודל: 0.4m)
+
+				משפט(מצברוח גודל: 0.75m)
+
+				קבוצה(
+					שורה(ריפוד: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						משפט(
+							'הוסף שעת לימוד +1'
+							ניתןלבחירה: ⊤
+							שם: 'הוסף'
+							צבע: צבע(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						משפט(
+							'אפס'
+							ניתןלבחירה: ⊤
+							שם: 'reset'
+							צבע: צבע(69% 47 271°)
+						)
+					]
+				)
+			]
+			פנים: "Aclonica"
+		)
+	]
+)

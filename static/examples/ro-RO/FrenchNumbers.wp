@@ -1,0 +1,84 @@
+t
+Numere în franceză
+=== start/en-US,start/fr-FR
+¶Apasă cifra care se potrivește cu numărul în franceză de pe scenă.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶Numerele de ghicit¶
+¶Les nombres à deviner¶/fr
+numere2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶Secretele sunt numerele de la 1 la 9, într-o ordine la întâmplare¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+secrete: [1 2 3 4 5 6 7 8 9].amestecat()
+
+¶Care e ultima tastă apăsată?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+cheie2,clé/fr: Cheie()
+
+¶Secretul curent crește de fiecare dată când e apăsată o tastă, dar se oprește la 10¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+indexSecret,secretIndice/fr•#:
+	1 …
+	∆ cheie2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶Secretul curent, bazat pe indexul secret¶
+secretulCurent,secretActuel/fr: secrete[indexSecret]
+
+¶Ghicirea a fost corectă dacă numărul apăsat se potrivește cu numărul secret anterior¶
+corect2: clé → # = secrete[indexSecret - 1]
+
+¶Punctele începe de la 0 și cresc dacă ghicirea a fost corectă.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+puncte2•#: 0 …
+	∆ cheie2 …
+		corect2 ?
+			puncte2 + 1
+			puncte2
+
+¶A câștiga înseamnă să ghicești toate cele 9 numere¶
+câștig,gagner/fr: puncte2 = 9
+
+¶Terminat când indexul secret ajunge la 10¶
+jocTerminat: indexSecret = 10
+
+¶Arată numărul curent în franceză și punctele curenteDupă toate cele 9 secrete, arată un rezultat final¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Etapă(
+	[
+		Grup(
+			Stivă()
+			[
+				jocTerminat ?
+					Fraza(
+						câștig ?
+							'Cunoști numerele în franceză!'"Tu connais les chiffres français!"/fr
+							'aproape, mai încearcă'"presque, réessaye"/fr
+						dimensiune: 2m
+					)
+					Fraza(numeros[secretActuel] dimensiune: 2m)
+				Fraza("\puncte2\ points!" dimensiune: 1m)
+				Fraza(
+					indexSecret = 1 ?
+						'ce număr este acesta?''quel est ce numéro ?'/fr
+						corect2 ?
+							'Corect!'
+							"That was \secrete[indexSecret - 1]\"
+				)
+			]
+		)
+	]
+	faţă: "Aclonica"
+)

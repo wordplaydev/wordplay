@@ -1,0 +1,29 @@
+m
+Mırıldan
+=== start
+¶Mırıldanmayı daha da kalınlaştırmak için tıklamaya devam et.¶
+tıklama•#: 0 … ∆ Düğme() … tıklama + 1
+
+tıklama < 3 ?
+	İfadeetmek(
+		'mırıldan'
+		boyut: 1m
+		isim: 'mır'
+		giriş: Poz(ölçek: 0)
+		dinlenme: Sekans(
+			{
+				0%: Poz(ölçek: (tıklama + 1) × 1.1)
+				50%: Poz(ölçek: (tıklama + 1) × 0.9)
+				100%: Poz(ölçek: (tıklama + 1) × 1.1)
+			}
+			süre: 0.5s
+		)
+		çıkış: Sekans(
+			{
+				0%: Poz(opaklık: 1 ölçek: 1)
+				100%: Poz(opaklık: 0 ölçek: 10)
+			}
+			süre: 2s
+		)
+	)
+	İfadeetmek('bitti')

@@ -1,0 +1,40 @@
+H
+Adobo Tarifi
+=== start/en
+¶Filipin usulü tavuk adobo için sahne sahne bir tarif.¶
+
+¶Bunlar gösterilecek sahnelerin listesidir¶
+cümleler: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Adobong Manók @lamamel/adobo! (yemek için fareyi hareket ettir)`)
+		(`Çok lezzetli! @lamamel/emptyadobo`)
+	]
+
+¶Bunlar, yalnızca fare hareket ettirilerek ilerletilmesi gereken cümlelerin listesidir.¶
+cümleleriTaşı: [9 11]
+
+¶Şimdiki cümle 1'den başlar. Fare ekranda belirli bir noktaya gidince ya da bir düğmeye veya tuşa basılınca diğer cümleler için ilerler.¶
+nokta: İşaretçi()
+şimdikiCümle•#: 1 …
+	cümleleriTaşı.sahipolmak(şimdikiCümle) ?
+		(nokta.X > 2m) & (nokta.ve > 3m)
+		∆ Düğme() | ∆ Anahtar()
+		…
+		(şimdikiCümle <
+				cümleler.uzunluk()) ?
+			şimdikiCümle + 1
+			şimdikiCümle
+
+Sahne(
+	[İfadeetmek(cümleler[şimdikiCümle] dürüm: 10m)]
+	yüz: 'Short Stack'
+)

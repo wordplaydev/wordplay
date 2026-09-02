@@ -1,0 +1,58 @@
+🐭
+Attraper
+=== start/en
+¶Attrape la souris qui détale d'un clic — clique encore pour la libérer.
+
+Les deux sons viennent des poses elles-mêmes. Un @Pose peut porter une @Music, quijoue au moment précis où cette pose est prise : le bond retentit quand la posede repos de la souris change pour la pose attrapée, et le son de fuite retentitquand le mouvement tournant atteint la pose médiane à laquelle il est lié.Rien n'a besoin d'être relié entre l'animation et le son — la pose est le pointoù ils se rencontrent.¶
+
+¶Deux morceaux courts. Une @Track se répète par défaut, mais une pose est uninstant plutôt que quelque chose qui dure, donc la musique d'une pose ne joue toujoursqu'une seule fois.¶
+bond: Musique(
+		Piste(
+			[5 1]
+			instrument: Instrument.cloche
+			battement: 1beats
+		)
+		volume: 50%
+		nom: 'bond'
+	)
+détale: Musique(
+		Piste(
+			[1 2]
+			instrument: Instrument.flûte
+			battement: 1beats
+		)
+		volume: 35%
+		nom: 'détale'
+	)
+
+¶Si la phrase sélectionnée est la souris, bascule entre attrapée et libre.¶
+nom2: Choix()
+attrapé: ⊥ … ∆ (nom2) … (nom2 = 'mouse') & ~attrapé
+¶Chaque seconde, déplace la souris¶
+placer: Lieu(0m 0m 0m) … ∆ Temps(1000ms) … attrapé ? Lieu(
+				0m
+				0m
+			) Lieu(Aléatoire(-2m 2m) Aléatoire(-2m 2m))
+
+Scène(
+	[
+		Phrase(
+			"🐭"
+			sélectionnable: ⊤
+			lieu: placer
+			aurepos: attrapé ? Pose(rotation: 180° musique: bond) Pose(
+				)
+			mobile: attrapé ? Pose() Séquence(
+					{
+						0%: Pose(rotation: 0°)
+						50%: Pose(rotation: 180° musique: détale)
+						100%: Pose(rotation: 360°)
+					}
+				)
+			durée: 1s
+			nom: 'mouse'
+		)
+	]
+	lieu: Lieu(0m 0m -5m)
+	cadre: Rectangle(-3m 3m 3m -3m)
+)

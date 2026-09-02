@@ -1,0 +1,40 @@
+👨‍👨‍👧‍👦
+Frågor
+=== start/en
+¶Tryck på tangenter för att skjuta iväg studsande frågetecken över en förvirrad familj.¶
+•fråga2(id2•"" vx•#m/s vy•#m/s va•#°/s)
+
+nedtryckt: ∆ Nyckel()
+antal2•#: 0 … nedtryckt … antal2 + 1
+frågor•[fråga2]: [] … nedtryckt … [
+			:frågor
+			fråga2(
+				antal2 → ""
+				Slumpmässig(30m/s 50m/s)
+				Slumpmässig(30m/s 50m/s)
+				Slumpmässig(0°/s 30°/s)
+			)
+		]
+
+Etapp(
+	[
+		Fras('👨‍👨‍👧‍👦' plats: Plats(0m 0m) ansikte: "Noto Emoji")
+		Figur(Rektangel(-5m 0m 25m -1m))
+		:frågor.översätta(
+			ƒ(f•fråga2 index2•#) (
+					initiera: nedtryckt & (index2 = frågor.längd())
+					Fras(
+						'F'
+						namn: f.id2
+						plats: Rörelse(
+							hastighet: Hastighet(f.vx f.vy f.va)
+						)
+						materia: Materia()
+						vilande: Pose(
+							opacitet: initiera ? 0% 100%
+						)
+					)
+				)
+		)
+	]
+)

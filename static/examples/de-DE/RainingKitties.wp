@@ -1,0 +1,46 @@
+🐈
+Kätzchenregen
+=== start/en
+¶Fünfzig Kätzchen regnen auf die Bühne herab.¶
+zähler: 50
+größe2: 30
+
+•kätzchen(x2•# y2•# z2•# winkel•# geschwindigkeit•#) ()
+
+¶Zuerst wird eine Liste mit 20 Kätzchen erstellt, jedes an einer zufälligen Stelle. Wenn die Uhr tickt, bewegen sie sich alle ein Stück nach unten.¶
+kätzchen2•[kätzchen]:
+	zähler → [].übersetzen(
+		ƒ(_) kätzchen(
+				Zufällig(-größe2 größe2)
+				Zufällig(-größe2 größe2)
+				Zufällig(0 größe2 ÷ 2)
+				Zufällig(360)
+				Zufällig(-30 30)
+			)
+	)
+	… ∆ Zeit() …
+		kätzchen2.übersetzen(
+			ƒ(kätzchen3•kätzchen)
+				(kätzchen3.y2:kätzchen3.y2 < -größe2 ? größe2 kätzchen3.y2 - 2)
+				.winkel:kätzchen3.winkel + kätzchen3.geschwindigkeit
+		)
+
+¶Verwandle die Kätzchen in Phrasen¶
+Bühne(
+	kätzchen2.übersetzen(
+		ƒ(kätzchen4•kätzchen)
+			Satzglied(
+				"🐈"
+				gesicht: "Noto Color Emoji"
+				Größe: 5m
+				Ort: Ort(
+					kätzchen4.x2 × 1m
+					kätzchen4.y2 × 1m
+					kätzchen4.z2 × 1m
+				)
+				Drehung: kätzchen4.winkel × 1°
+				Dauer: 0s
+			)
+	)
+	Ort: Ort(0m 0m -5m)
+)

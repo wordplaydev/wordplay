@@ -1,0 +1,14 @@
+🐈
+Ligaw na Pagbabago
+===
+¶Isang pusa na sinusubok nang husto ang scale, spin, at offset nang sabay-sabay.¶
+Parirala(
+	"🐈"
+	laki: 10m
+	nagpapahinga: Pose(
+		sukat: 2
+		offset: Lugar(1m 1m 5m)
+		pagikot: (Oras(500ms) % 360) × 1°/ms
+	)
+	tagal: 0.25s
+)

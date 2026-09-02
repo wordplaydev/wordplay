@@ -1,0 +1,26 @@
+🥮
+Aliments flottants
+===
+¶Une grille de plats savoureux, dont un change toutes les secondes.¶
+nourriture: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
+
+dernier2•['']:
+	nourriture … ∆ Temps(1000ms) …
+		dernier2.remplacer(
+			Aléatoire(1 6)
+			nourriture.aléatoire()
+		)
+
+Groupe(
+	Grille(3 3 1m 1m)
+	dernier2.traduire(
+		ƒ(plat•"" indice2•#)
+			Phrase(
+				plat
+				nom: "\plat\-\indice2\"
+				entrer: Pose(opacité: 0 échelle: 2)
+				aurepos: Séquence.balancement(360° durée: 4s)
+				durée: 1s
+			)
+	)
+)

@@ -1,0 +1,262 @@
+Y
+Przygoda
+=== start/en
+¶Tekstowa przygoda w piętnastu pokojach: budzisz się związany w ciemnym, zimnym pokoju i szukasz jednego z czterech sposobów, jak może skończyć się ta noc. Pokoje prowadzą jeden do drugiego, więc zły wybór to pętla, a nie ślepy zaułek. To, co niesiesz ze sobą, decyduje o tym, które przejścia są dla ciebie otwarte.¶
+
+¶Wyjście z pokoju: jak nazywa się wybór, jaki jest identyfikator pokoju, do którego prowadzi, oraz, jeśli drzwi są zamknięte, co musisz nieść, żeby ich użyć. Cały trik polega na tym, żeby nazwać cel, zamiast trzymać go w ręku. Powiązanie musi istnieć, zanim cokolwiek może się do niego odwołać, więc historia zbudowana z samych powiązań może wskazywać tylko wstecz i nigdy nie może wrócić do początku. Identyfikator tekstowy nie ma takiej zasady, więc dwa pokoje mogą wskazywać na siebie nawzajem, a mapa może zawierać pętle.¶
+•drzwi(etykieta•'' pokój•'' potrzebuje•'': '')
+
+¶Pokój. Większość pokoi potrzebuje tylko pierwszych trzech rzeczy: identyfikatora, tego, co się w nim znajduje, i jego drzwi. Ostatnie trzy są dla pokoi wyjątkowych — jednego, który daje ci coś, oraz czterech, które kończą historię.¶
+•pokój2(id2•'' opis2•'' drzwi2•[drzwi]: [] weź•'': '' koniec2•'': '' wygrał•?: ⊥)
+
+¶Gdzie jesteś i co niesiesz. To właśnie jest cała historia: jeden identyfikator pokoju i mały zbiór rzeczy.¶
+•wędrówka(pokój3•'' spakuj•[''])
+
+¶Każdy pokój na jednej liście. Liczy się tylko pozycja pierwszego z nich: to tam zaczyna się historia i tam wraca każde jej zakończenie.¶
+pokoje•[pokój2]: [
+		pokój2(
+			'komórka'
+			'Budzisz się w ciemnym, zimnym pokoju, który pachnie pleśnią. Masz związane ręce za plecami, a ktokolwiek wiązał te węzły, nie spieszył się z tym.'
+			[
+				drzwi('przewróć się na bok' 'podłoga')
+				drzwi('leż spokojnie i słuchaj' 'słuchaj')
+			]
+		)
+		pokój2(
+			'słuchaj'
+			'Przez deski podłogi słychać dwa głosy. Kłócą się o to, kto zostawił otwartą bramę, i żaden z nich nie wydaje się martwić o ciebie.'
+			[drzwi('przewróć się na bok' 'podłoga')]
+		)
+		pokój2(
+			'podłoga'
+			'Leżąc na boku, widzisz pod łóżkiem polowym: nóż na kamiennych płytach, zardzewiały wzdłuż grzbietu, wystarczająco blisko, żebyś mógł go dosięgnąć, jeśli zgodzisz się przyłożyć twarz do podłogi.'
+			[
+				drzwi('weź go i przetnij więzy' 'piwnica')
+				drzwi(
+					'leż spokojnie i posłuchaj jeszcze raz'
+					'słuchaj'
+				)
+			]
+		)
+		pokój2(
+			'piwnica'
+			'Piwnica, gdy stoisz: łóżko polowe, rozrzucone kawałki przeciętej liny, schody pnące się po jednej ścianie i niski korytarz biegnący przez drugą.'
+			[
+				drzwi('wejdź po schodach' 'schody')
+				drzwi('wejdź w niski korytarz' 'korytarz')
+			]
+			weź: 'nóż'
+		)
+		pokój2(
+			'schody'
+			'Stopnie wytarte pośrodku. W połowie drogi jest podest z latarnią wiszącą na haku, a nad podestem schody idą dalej w górę.'
+			[
+				drzwi('weź latarnię' 'latarnia')
+				drzwi('idź dalej w górę' 'drzwi')
+				drzwi('zejdź z powrotem' 'piwnica')
+			]
+		)
+		pokój2(
+			'latarnia'
+			'Knot zapala się przy drugiej próbie, a podest okazuje się dużo mniejszy, niż wydawał się w ciemności.'
+			[
+				drzwi('idź dalej w górę' 'drzwi')
+				drzwi('zejdź z powrotem' 'piwnica')
+			]
+			weź: 'latarnia'
+		)
+		pokój2(
+			'drzwi'
+			'Na szczycie schodów są ciężkie drzwi zaryglowane z drugiej strony. Rygiel jest stary, a szczelina przy nim jest wystarczająco szeroka na ostrze.'
+			[
+				drzwi('poruszaj ryglem za pomocą noża' 'sala')
+				drzwi('zejdź z powrotem' 'schody')
+			]
+		)
+		pokój2(
+			'sala'
+			'Sala z wygasłym kominkiem i dwoma krzesłami odsuniętymi od niego, jakby kłótnia skończyła się w pośpiechu. Na dalszym końcu jest brama, a pod nią szare światło.'
+			[
+				drzwi('przejdź do bramy' 'brama')
+				drzwi('zejdź z powrotem po schodach' 'schody')
+			]
+		)
+		pokój2(
+			'brama'
+			'Brama jest zamknięta na łańcuch, który przechodzi przez zamek wielkości twojej pięści. Za nią droga schodzi w dół do doliny.'
+			[
+				drzwi(
+					'przekręć klucz w zamku'
+					'stok wzgórza'
+					potrzebuje: 'klawisz'
+				)
+				drzwi('wejdź po łańcuchu' 'wejdź')
+				drzwi('wróć do sali' 'sala')
+			]
+		)
+		pokój2(
+			'korytarz'
+			'Przejście jest tak niskie, że idziesz na jednej ręce, a pachnie rzeką. Kilka kroków dalej ciemność przestaje być odcieniem i staje się murem.'
+			[
+				drzwi('idź dalej po omacku' 'ślepy')
+				drzwi(
+					'weź światło ze sobą'
+					'krypta'
+					potrzebuje: 'latarnia'
+				)
+				drzwi(
+					'wróć tą samą drogą, którą przyszedłeś'
+					'piwnica'
+				)
+			]
+		)
+		pokój2(
+			'krypta'
+			'Latarnia oświetla niski pomieszczenie z kamiennych skrzyń, a na haku przy ostatniej z nich wisi zardzewiały klawisz z przewiązanym jeszcze skrawkiem szmatki.'
+			[
+				drzwi('idź dalej w stronę wody' 'rzeka')
+				drzwi('wróć przejściem do tyłu' 'korytarz')
+			]
+			weź: 'klawisz'
+		)
+		pokój2(
+			'ślepy'
+			'Idziesz dalej z wyciągniętą ręką. Ręka nie znajduje niczego, a chwilę później to samo z twoimi stopami. Mrok zatrzymuje to, co mu dano.'
+			koniec2: 'Mrok cię zatrzymuje.'
+		)
+		pokój2(
+			'wejdź'
+			'Jesteś już blisko szczytu, gdy łańcuch przypomina sobie, jak stary jest. Znajdują cię o świcie u podstawy bramy, a tym razem przynoszą liny wystarczające dla dwóch osób.'
+			koniec2: 'Złapany przy bramie.'
+		)
+		pokój2(
+			'rzeka'
+			'Przejście kończy się przy kracie nad płynącą wodą. Pręty są stare, a nóż jest cierpliwy. Wypływasz razem z rzeką, a dom zostaje daleko za tobą, jeszcze przed świtem.'
+			koniec2: 'Odpływasz z rzeką.'
+			wygrał: ⊤
+		)
+		pokój2(
+			'stok wzgórza'
+			'Klawisz się obraca, łańcuch osypuje się w trawę, a brama otwiera się bez żadnego dźwięku, który ktoś mógłby usłyszeć. Dolina jest szara od poranka, a droga należy do ciebie.'
+			koniec2: 'Wychodzisz przez bramę.'
+			wygrał: ⊤
+		)
+	]
+
+¶Pomieszczenie z tym identyfikatorem. find() zwraca ø, gdy nic nie znajdzie, a identyfikator, który nie nazywa żadnego pomieszczenia, jest dziurą w mapie, a nie zwrotem w fabule, dlatego zastępuje go pierwsze pomieszczenie.¶
+ƒ idź(chciał•'')•pokój2 pokoje.znajdować(
+		ƒ(pokój4•pokój2) pokój4.id2 = chciał
+	) ?? pokoje[1]
+
+¶Drzwi, które naprawdę możesz stąd wziąć. Zamknięte drzwi, do których nie masz nic, po prostu nie są zaproponowane, więc wyglądają jak ściana, aż w twoich rękach znajdzie się to, co je otwiera.¶
+ƒ drogi(tutaj•pokój2 spakuj2•[''])•[drzwi]
+	tutaj.drzwi2.filtr(
+		ƒ(drzwi3•drzwi) (drzwi3.potrzebuje = '') | spakuj2.ma(
+					drzwi3.potrzebuje
+				)
+	)
+
+¶Wejdź do pomieszczenia i zabierz wszystko, co się w nim znajduje. add() z chęcią dałoby ci drugi nóż, więc najpierw zapytaj.¶
+ƒ dotrzyj(tutaj2•pokój2 spakuj3•[''])•wędrówka
+	wędrówka(
+		tutaj2.id2
+		((tutaj2.weź ≠ '') & (~spakuj3.ma(tutaj2.weź))) ? spakuj3.z(
+				tutaj2.weź
+			) spakuj3
+	)
+
+klawisz2: Klawisz()
+
+¶Naciśnięcie klawisza, po kolei: na zakończeniu każdy klawisz budzi cię ponownie w pierwszym pomieszczeniu; klawisz, który nie jest 1, 2 ani 3, nie znaczy nic; liczba większa niż liczba drzwi w tym pomieszczeniu też nie znaczy nic; i tylko wtedy jest to drzwi. Ten trzeci test jest wart zapisania, ponieważ dostęp do listy zawija się w koło — bez niego naciśnięcie 3 w pomieszczeniu z dwoma drzwiami po cichu wybrałoby pierwsze z nich.¶
+ƒ krok(t•wędrówka k•'')•wędrówka (
+		tutaj3: idź(t.pokój3)
+		drzwi4: drogi(tutaj3 t.spakuj)
+		tutaj3.koniec2 ≠ '' ? wędrówka('komórka' [])
+			~((k = '1') | (k = '2') | (k = '3')) ? t
+				(k → #) > drzwi4.długość() ? t
+					dotrzyj(idź(drzwi4[k → #].pokój) t.spakuj)
+	)
+
+wędrówka2•wędrówka: wędrówka('komórka' []) … ∆ klawisz2 … krok(
+			wędrówka2
+			klawisz2
+		)
+
+tutaj4: idź(wędrówka2.pokój3)
+drzwi5: drogi(tutaj4 wędrówka2.spakuj)
+
+¶To, co niesiesz, pokazane tylko wtedy, gdy niesiesz coś.¶
+noszenie:
+	wędrówka2.spakuj.długość() > 0
+	? [
+			Wyrażenie(
+				`*niesione* \wędrówka2.spakuj.dołączyć(' · ')\`
+				rozmiar: 0.3m
+				wyrównanie: '|'
+				kolor: Kolor(60% 30 0°)
+			)
+		]
+		[]
+
+¶To, co leży pod pomieszczeniem: jego drzwi, ponumerowane tak, że to, co czytasz, jest tym, co naciskasz, albo, na zakończeniu, jak się to skończyło i jeden klawisz, który zaczyna wszystko od nowa.¶
+poniżej:
+	tutaj4.koniec2 ≠ ''
+	? [
+			Wyrażenie(
+				`*\tutaj4.koniec2\*`
+				rozmiar: 0.8m
+				wyrównanie: '|'
+				kolor: tutaj4.wygrał ? Kolor(85% 50 90°) Kolor(
+						45%
+						40
+						25°
+					)
+				czastrwania: 1.5s
+				wstępowanie: Poza(
+					nieprzezroczystość: 0%
+					skala: 0.5
+				)
+			)
+			Wyrażenie(
+				`naciśnij jakikolwiek klawisz, aby się ponownie obudzić`
+				rozmiar: 0.3m
+				wyrównanie: '|'
+				czastrwania: 3s
+				wstępowanie: Poza(nieprzezroczystość: 0%)
+			)
+		]
+		drzwi5.tłumaczyć(
+			ƒ(drzwi6•drzwi indeks2•#)
+				Wyrażenie(
+					`\indeks2\. *\drzwi6.etykieta\*`
+					rozmiar: 0.5m
+					wyrównanie: '|'
+					nazwa: drzwi6.etykieta
+					czastrwania: 1s
+					wstępowanie: Poza(nieprzezroczystość: 0%)
+				)
+		)
+
+Scena(
+	[
+		Grupa(
+			Stos()
+			[
+				Wyrażenie(
+					tutaj4.opis2
+					rozmiar: 0.5m
+					zawinąć: 14m
+					wyrównanie: '|'
+					nazwa: tutaj4.id2
+					czastrwania: 0.5s
+					wstępowanie: Poza(zrównoważyć: Miejsce(0m 2m))
+				)
+				:noszenie
+				:poniżej
+			]
+		)
+	]
+	tło: Kolor(0 0 0°)
+	kolor: Kolor(100% 0 0°)
+	twarz: "Permanent Marker"
+)

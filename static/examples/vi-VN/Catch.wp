@@ -1,0 +1,50 @@
+🐭
+Bắt lỗi
+=== start/en
+¶Bắt con chuột đang chạy vụt bằng một cú nhấp — nhấp lại để thả nó ra.
+
+Cả hai âm thanh đều đến từ chính các dáng đứng. Một @Pose có thể mang một @Music, thứ sẽ phát ra đúng lúc dáng đứng đó xuất hiện: tiếng vồ vang lên khi dáng nghỉ của con chuột chuyển sang dáng bị bắt, còn tiếng chạy vụt vang lên khi vòng xoay đến đúng dáng giữa chừng được gắn với nó. Không cần nối gì giữa hoạt ảnh và âm thanh cả — dáng đứng chính là nơi chúng gặp nhau.¶
+
+¶Hai đoạn ngắn. Một @Track mặc định sẽ lặp lại, nhưng một dáng đứng chỉ là một khoảnh khắc chứ không kéo dài, nên nhạc của một dáng đứng luôn chỉ phát đúng một lần.¶
+vồ: ÂmNhạc(
+		BảnNhạc([5 1] nhạcCụ: NhạcCụ.chuông nhịp: 1beats)
+		âmLượng: 50%
+		tên: 'vồ'
+	)
+chạyVụt: ÂmNhạc(
+		BảnNhạc([1 2] nhạcCụ: NhạcCụ.sáo nhịp: 1beats)
+		âmLượng: 35%
+		tên: 'chạy vụt'
+	)
+
+¶Nếu cụm từ đang chọn là chuột, bật hoặc tắt trạng thái con chuột có bị bắt hay không.¶
+tên3: Sựlựachọn()
+bịBắt: ⊥ … ∆ (tên3) … (tên3 = 'mouse') & ~bịBắt
+¶Mỗi giây, di chuyển con chuột¶
+đặt: VịTrí(0m 0m 0m) … ∆ Thờigian(1000ms) … bịBắt ? VịTrí(
+				0m
+				0m
+			) VịTrí(Ngẫunhiên(-2m 2m) Ngẫunhiên(-2m 2m))
+
+Sânkhấu(
+	[
+		Cụmtừ(
+			"🐭"
+			cóthểlựachọn: ⊤
+			vịTrí: đặt
+			nghỉngơi: bịBắt ? Tưthế(xoay: 180° âmNhạc: vồ) Tưthế(
+				)
+			dichuyển: bịBắt ? Tưthế() Sựliêntiếp(
+					{
+						0%: Tưthế(xoay: 0°)
+						50%: Tưthế(xoay: 180° âmNhạc: chạyVụt)
+						100%: Tưthế(xoay: 360°)
+					}
+				)
+			khoảngthờigian: 1s
+			tên: 'mouse'
+		)
+	]
+	vịTrí: VịTrí(0m 0m -5m)
+	khung: Hìnhchữnhật(-3m 3m 3m -3m)
+)

@@ -1,0 +1,90 @@
+🎐
+Dzwonki
+=== start/en
+¶Pięć dzwonków wisi w rzędzie, ponumerowanych od jednego do pięciu. Wciśnij A, S, D, F lub G, a dzwonek, który uderzysz, rośnie i rozjaśnia się, a potem powoli się uspokaja. Cały rząd lekko się kołysze, niezależnie od tego, czy ktoś gra.
+
+To jest instrument. Nie wydaje dźwięku. Cyfry to już zapis nutowy — po prostu jeszcze nikt go nie odtwarza. Ukryty blok nad sceną to dźwięk, który czeka, aż powstanie @Music.¶
+
+wciśnięty: Klawisz()
+tyknięcie: Czas(30ms)
+
+¶Ile ze swojego dźwięku traci dzwonek w każdej klatce.¶
+zanik: 0.03
+
+¶Jeden dzwonek: który to stopień, który klawisz go uderza, gdzie wisi, jaki ma odcień i jak mocno wciąż dzwoni — 1 oznacza dopiero co uderzony, 0 oznacza spoczynek.¶
+•kurant(stopień2•# klawisz2•'' x2•#m odcień2•#° energia•#)
+
+¶Uderz dzwonek, którego klawisz został wciśnięty, i pozwól, by każdy inny dzwonek się uspokoił.¶
+ƒ dźwięk(rząd•[kurant] trafienie•'' uderzony•?)
+	rząd.tłumaczyć(
+		ƒ(dzwonek2•kurant)
+			(uderzony & (trafienie = dzwonek2.klawisz2))
+			? dzwonek2.energia:1
+				dzwonek2.energia:(dzwonek2.energia - zanik).maks(0)
+	)
+
+dzwonki•[kurant]: [
+		kurant(1 'a' -6m 20° 0)
+		kurant(2 's' -3m 75° 0)
+		kurant(3 'd' 0m 140° 0)
+		kurant(4 'f' 3m 205° 0)
+		kurant(5 'g' 6m 270° 0)
+	] … (∆ wciśnięty | ∆ tyknięcie) … dźwięk(
+			dzwonki
+			wciśnięty
+			(∆ wciśnięty)
+		)
+
+¶Dzwonek rośnie i rozjaśnia się wraz z dźwiękiem i zawsze lekko się kołysze, więc rząd żyje, nawet gdy nikt nie gra.¶
+ƒ widokDzwonka(dzwonek3•kurant)
+	Wyrażenie(
+		(dzwonek3.stopień2 → '')
+		(2m + (dzwonek3.energia · 1.5m))
+		miejsce: Miejsce(dzwonek3.x2 0m)
+		czastrwania: 0.12s
+		kolor: Kolor(
+			(45% + (dzwonek3.energia · 40%))
+			(20 + (dzwonek3.energia · 80))
+			dzwonek3.odcień2
+		)
+		spoczynkowy: Sekwencja.kołysać(3° 2.5s)
+	)
+
+¶Klawisz, który uderza każdy dzwonek, wypisany pod nim.¶
+ƒ widokKlawisza(dzwonek4•kurant)
+	Wyrażenie(
+		dzwonek4.klawisz2
+		0.7m
+		miejsce: Miejsce(dzwonek4.x2 -3m)
+		kolor: Kolor(60% 0 0°)
+	)
+
+¶Te dwa wiązania to cały dźwięk: znajdź dzwonek dzwoniący w tej chwili i przekaż jego stopień dzwonowi, odtwarzając go przy każdym wciśnięciu, tak by każde uderzenie było nowym dźwiękiem, a nie tym samym. Pięć dzwonków, pięć stopni skali pentatonicznej, więc nie ma fałszywej nuty.¶
+dzwonienie: dzwonki.filtr(
+		ƒ(dzwonek5•kurant) dzwonek5.energia = 1
+	)
+piosenka: Muzyka(
+		Ścieżka(
+			dzwonienie ↦ ⬚.stopień2
+			instrument: Instrument.dzwonek
+			pętla: ⊥
+		)
+		skala: Muzyka.pentatoniczna
+		powtórka: ∆ wciśnięty
+	)
+
+Scena(
+	[
+		Wyrażenie(
+			'━━━━━━━━━━━━━'
+			1m
+			miejsce: Miejsce(-6m 2.5m)
+			kolor: Kolor(45% 0 0°)
+		)
+		:dzwonki ↦ widokDzwonka(⬚)
+		:dzwonki ↦ widokKlawisza(⬚)
+		piosenka
+	]
+	tło: Kolor(16% 15 280°)
+	kolor: Kolor(95% 0 0°)
+)

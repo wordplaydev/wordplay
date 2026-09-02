@@ -99,6 +99,7 @@
     } from '@db/settings/Arrangement';
     import { consent, refreshConsentFromBrowser } from '@input/permissions';
     import type Locale from '@locale/Locale';
+    import { localesAreEqual, stringToLocale } from '@locale/Locale';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import Evaluate from '@nodes/Evaluate';
     import Node, { isFieldPosition } from '@nodes/Node';
@@ -566,6 +567,26 @@
     /** Keep track of locales used */
     const localesUsed = $derived(project.getLocalesUsed());
 
+    /** The default evaluation list: the project's DECLARED locales first (the
+     * creator's priority order — the languages dialog's "first is primary"),
+     * then any other language the code names. `getLocalesUsed` alone is
+     * tag-appearance-ordered, which put English first on the stage of a
+     * project written in Spanish whenever its preserved multilingual content
+     * tagged English first (#1310's localized examples all do). */
+    const defaultEvaluationLocales = $derived.by(() => {
+        const declared = project
+            .getLocaleCodes()
+            .map(stringToLocale)
+            .filter((locale): locale is Locale => locale !== undefined);
+        return [
+            ...declared,
+            ...localesUsed.filter(
+                (used) =>
+                    !declared.some((locale) => localesAreEqual(locale, used)),
+            ),
+        ];
+    });
+
     /** Keep a reactive map from source to EditorLocale chosen for the source */
     let editorLocales = $state<Record<string, Locale | null>>({});
 
@@ -732,8 +753,9 @@
             // Is the checkpoint not now? Use the old sources instead of the current ones.
             checkpointed ? getCheckpointProject(newProject) : newProject,
             DB,
-            // Choose the selected evaluation locale or if not selected, the project's embedded locales
-            evaluationLocale ? [evaluationLocale] : localesUsed,
+            // Choose the selected evaluation locale or if not selected, the
+            // project's declared locales followed by the others its code names.
+            evaluationLocale ? [evaluationLocale] : defaultEvaluationLocales,
             true,
             replayInputs ? prior : undefined,
         );

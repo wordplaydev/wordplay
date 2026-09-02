@@ -1,0 +1,46 @@
+🐈
+Regnande kattungar
+=== start/en
+¶Femtio kissekatter som regnar ner över scenen.¶
+antal2: 50
+storlek2: 30
+
+•kissekatt(x2•# y2•# z2•# vinkel2•# hastighet2•#) ()
+
+¶Skapa först en lista med 20 kissekatter, var och en placerad på en slumpmässig plats. När klockan tickar flyttas de alla ner lite grann.¶
+kissekatter•[kissekatt]:
+	antal2 → [].översätta(
+		ƒ(_) kissekatt(
+				Slumpmässig(-storlek2 storlek2)
+				Slumpmässig(-storlek2 storlek2)
+				Slumpmässig(0 storlek2 ÷ 2)
+				Slumpmässig(360)
+				Slumpmässig(-30 30)
+			)
+	)
+	… ∆ Tid() …
+		kissekatter.översätta(
+			ƒ(kisse•kissekatt)
+				(kisse.y2:kisse.y2 < -storlek2 ? storlek2 kisse.y2 - 2)
+				.vinkel2:kisse.vinkel2 + kisse.hastighet2
+		)
+
+¶Gör om kissekatterna till fraser¶
+Etapp(
+	kissekatter.översätta(
+		ƒ(kisse2•kissekatt)
+			Fras(
+				"🐈"
+				ansikte: "Noto Color Emoji"
+				storlek: 5m
+				plats: Plats(
+					kisse2.x2 × 1m
+					kisse2.y2 × 1m
+					kisse2.z2 × 1m
+				)
+				rotation: kisse2.vinkel2 × 1°
+				varaktighet: 0s
+			)
+	)
+	plats: Plats(0m 0m -5m)
+)

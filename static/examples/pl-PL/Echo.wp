@@ -1,0 +1,25 @@
+💬
+Echo
+=== start
+¶To, co widzowie wpiszą w pasku czatu, staje się tą frazą.¶
+wiadomość: Pogawędzić()
+
+¶Zacznij od podpowiedzi, a potem powtarzaj każdą nową wiadomość. Tekst zmienia się ze starych słów w nowe, litera po literze.¶
+słowa2: 'powiedz coś!' … ∆ wiadomość … wiadomość
+
+¶Za każdym razem, gdy przyjdzie nowa wiadomość, losuj nowy rozmiar, nachylenie i kolor.¶
+rozmiar2: 2m … ∆ wiadomość … Losowy(1m 4m)
+nachylenie: 0° … ∆ wiadomość … Losowy(-30 30) × 1°
+odcień2: 200° … ∆ wiadomość … Losowy(360) × 1°
+
+Wyrażenie(
+	słowa2
+	rozmiar: rozmiar2
+	spoczynkowy: Poza(
+		obrót: nachylenie
+		kolor: Kolor(25% 100 odcień2)
+	)
+	czastrwania: .5s
+	zmienianie: 'edit'
+	zawinąć: 20m
+)

@@ -1,0 +1,253 @@
+Y
+Aventură
+=== start/en
+¶O aventură text în cincisprezece camere: te trezești legat într-o cameră rece și întunecată și trebuie să găsești unul dintre cele patru feluri în care se poate termina noaptea asta. Camerele duc înapoi una la alta, așa că o alegere greșită te aduce înapoi într-o buclă, nu la un drum fără ieșire. Ce porți cu tine decide ce treceri îți sunt deschise.¶
+
+¶O cale de a ieși dintr-o cameră: cum se numește alegerea, id-ul camerei spre care se deschide, și, pentru o ușă încuiată, ce trebuie să porți pentru a o folosi. Trucul e să numești destinația în loc să o ții direct legată de ea. Un bind trebuie să existe înainte ca altceva să îl poată menționa, așa că o poveste construită doar din bind-uri poate merge doar înapoi și nu se poate întoarce niciodată la același loc. Un id de tip text nu are o astfel de regulă, așa că două camere se pot numi una pe alta, și harta poate avea bucle.¶
+•ușă(etichetă•'' cameră•'' areNevoieDe•'': '')
+
+¶O cameră. Majoritatea camerelor au nevoie doar de primele trei lucruri: un id, ce găsești acolo și ușile ei. Ultimele trei sunt pentru camerele speciale — una care îți dă ceva și cele patru care termină povestea.¶
+•cameră2(id2•'' descriere2•'' uși•[ușă]: [] ia•'': '' final•'': '' aCâștigat•?: ⊥)
+
+¶Unde te afli și ce porți cu tine. Asta este de fapt povestea: un id de cameră și o mică grămadă de lucruri.¶
+•călătorie(cameră3•'' pachet•[''])
+
+¶Fiecare cameră într-o singură listă. Doar prima are importanță din punct de vedere al poziției: este locul unde începe povestea și unde te trimite înapoi fiecare final.¶
+camere•[cameră2]: [
+		cameră2(
+			'celulă'
+			'Te trezești într-o cameră rece și întunecată, care miroase a mucegai. Ai încheieturile legate la spate, iar cel care a făcut nodurile nu s-a grăbit deloc.'
+			[
+				ușă('rostogolește-te pe o parte' 'podea')
+				ușă('stai nemișcat și ascultă' 'ascultă')
+			]
+		)
+		cameră2(
+			'ascultă'
+			'Două voci se aud prin scândurile podelei. Se ceartă despre cine a lăsat poarta deschisă, și niciuna nu pare îngrijorată din pricina ta.'
+			[ușă('rostogolește-te pe o parte' 'podea')]
+		)
+		cameră2(
+			'podea'
+			'Pe o parte poți vedea sub pat: un cuțit pe lespezi, ruginit pe spate, aproape suficient de aproape ca să-l apuci, dacă ești dispus să îți pui fața pe podea.'
+			[
+				ușă('apucă-l și taie-ți legăturile' 'pivniță')
+				ușă('stai liniștit și ascultă din nou' 'ascultă')
+			]
+		)
+		cameră2(
+			'pivniță'
+			'Pivnița, văzută în picioare: patul, o grămadă de sfoară tăiată, o scară care se ridică pe un perete și o trecere joasă care duce pe celălalt.'
+			[
+				ușă('urcă scara' 'scară')
+				ușă('folosește trecerea joasă' 'trecere')
+			]
+			ia: 'cuțit'
+		)
+		cameră2(
+			'scară'
+			'Trepte tocite la mijloc. La jumătatea urcușului este un mic podest, cu un felinar atârnat într-un cârlig, iar deasupra podestului scara continuă.'
+			[
+				ușă('ia felinarul' 'felinar')
+				ușă('continuă urcarea' 'ușă')
+				ușă('coboară înapoi' 'pivniță')
+			]
+		)
+		cameră2(
+			'felinar'
+			'Fitilul prinde din a doua încercare, iar podestul se dovedește a fi mult mai mic decât părea pe întuneric.'
+			[
+				ușă('continuă urcarea' 'ușă')
+				ușă('coboară înapoi' 'pivniță')
+			]
+			ia: 'felinar'
+		)
+		cameră2(
+			'ușă'
+			'În capul scării, o ușă grea, zăvorâtă din partea cealaltă. Zăvorul e vechi, iar spațiul de lângă el e destul de larg pentru o lamă.'
+			[
+				ușă('forțează zăvorul cu cuțitul' 'sală')
+				ușă('coboară înapoi' 'scară')
+			]
+		)
+		cameră2(
+			'sală'
+			'O sală cu un vatră stinsă și două scaune împinse deoparte, ca și cum cearta s-ar fi terminat în grabă. La capătul îndepărtat este o poartă, cu lumină cenușie pe sub ea.'
+			[
+				ușă('traversează spre poartă' 'poartă')
+				ușă('coboară din nou pe scară' 'scară')
+			]
+		)
+		cameră2(
+			'poartă'
+			'Poarta este legată cu lanț, iar lanțul trece printr-un lacăt cât pumnul tău. Dincolo de ea, drumul coboară în vale.'
+			[
+				ușă(
+					'întoarce cheia în lacăt'
+					'coasta dealului'
+					areNevoieDe: 'cheie'
+				)
+				ușă('urcă pe lanț în schimb' 'urcă')
+				ușă('întoarce-te în sală' 'sală')
+			]
+		)
+		cameră2(
+			'trecere'
+			'Trecerea e destul de joasă încât mergi sprijinit pe o mână, și miroase a râu. La câțiva pași, întunericul încetează să fie o umbră și devine un zid.'
+			[
+				ușă('înaintează pe pipăite' 'orb')
+				ușă(
+					'du lumina înăuntru'
+					'criptă'
+					areNevoieDe: 'felinar'
+				)
+				ușă('întoarce-te pe unde ai venit' 'pivniță')
+			]
+		)
+		cameră2(
+			'criptă'
+			'Lanterna găsește o încăpere joasă cu lăzi de piatră, iar pe un cârlig de lângă ultima, o cheie ruginită cu o bucată de pânză încă legată de ea.'
+			[
+				ușă('continuă spre apă' 'râu')
+				ușă('întoarce-te pe coridor' 'trecere')
+			]
+			ia: 'cheie'
+		)
+		cameră2(
+			'orb'
+			'Mergi înainte cu o mână întinsă. Mâna nu găsește nimic, și o clipă mai târziu nici picioarele tale nu găsesc nimic. Întunericul ține ce i se dă.'
+			final: 'Întunericul te ține.'
+		)
+		cameră2(
+			'urcă'
+			'Ai ajuns aproape de vârf când lanțul își aduce aminte cât de vechi este. Te găsesc la poarta de la bază în zori, și de această dată aduc corzi de-ajuns pentru doi.'
+			final: 'Prins la poartă.'
+		)
+		cameră2(
+			'râu'
+			'Coridorul se termină la un grătar peste apă în mișcare. Barele sunt vechi, iar cuțitul are răbdare. Ieși împreună cu râul, și casa rămâne mult în urmă înainte ca cerul să se facă gri.'
+			final: 'Afară cu râul.'
+			aCâștigat: ⊤
+		)
+		cameră2(
+			'coasta dealului'
+			'Cheia se învârte, lanțul se scurge în iarbă, iar poarta se deschide fără niciun sunet pe care cineva să-l audă. Valea este cenușie de dimineață, iar drumul este al tău.'
+			final: 'Afară prin poartă.'
+			aCâștigat: ⊤
+		)
+	]
+
+¶Încăperea cu acest id. find() dă înapoi ø când nimic nu se potrivește, iar un id care nu numește nicio încăpere este o gaură pe hartă, nu o întorsătură a poveștii, așa că prima încăpere ține locul acesteia.¶
+ƒ go(aVrut•'')•cameră2 camere.găsi(
+		ƒ(cameră4•cameră2) cameră4.id2 = aVrut
+	) ?? camere[1]
+
+¶Ușile pe care le poți lua de aici. O ușă încuiată pentru care nu ai nimic nu este oferită deloc, așa că se citește ca un perete până când lucrul care o deschide îți ajunge în mâini.¶
+ƒ căi(aici•cameră2 pachet2•[''])•[ușă]
+	aici.uși.filtra(
+		ƒ(ușă2•ușă) (ușă2.areNevoieDe = '') | pachet2.are(
+					ușă2.areNevoieDe
+				)
+	)
+
+¶Mergi într-o încăpere, luând tot ce se află în ea. add() ți-ar da cu plăcere un al doilea cuțit, așa că întreabă întâi.¶
+ƒ ajunge(aici2•cameră2 pachet3•[''])•călătorie
+	călătorie(
+		aici2.id2
+		((aici2.ia ≠ '') & (~pachet3.are(aici2.ia))) ? pachet3.cu(
+				aici2.ia
+			) pachet3
+	)
+
+cheie2: Cheie()
+
+¶O apăsare de tastă, în ordine: la un final, orice tastă te trezește din nou în prima încăpere; o tastă care nu este 1, 2 sau 3 nu înseamnă nimic; un număr mai mare decât numărul ușilor din această încăpere nu înseamnă nici el nimic; și numai atunci este o ușă. Cel de-al treilea test este cel care merită scris, pentru că accesul la listă se repetă în cerc — fără el, apăsarea tastei 3 într-o încăpere cu două uși ar lua pe tăcute prima ușă.¶
+ƒ pas(t•călătorie c2•'')•călătorie (
+		aici3: go(t.cameră3)
+		uși2: căi(aici3 t.pachet)
+		aici3.final ≠ '' ? călătorie('celulă' [])
+			~((c2 = '1') | (c2 = '2') | (c2 = '3')) ? t
+				(c2 → #) > uși2.lungime() ? t
+					ajunge(go(uși2[c2 → #].cameră) t.pachet)
+	)
+
+călătorie2•călătorie: călătorie('celulă' []) … ∆ cheie2 … pas(
+			călătorie2
+			cheie2
+		)
+
+aici4: go(călătorie2.cameră3)
+uși3: căi(aici4 călătorie2.pachet)
+
+¶Ce cari cu tine, arătat doar când cari ceva.¶
+purtat:
+	călătorie2.pachet.lungime() > 0
+	? [
+			Fraza(
+				`*cărat* \călătorie2.pachet.alăturăte(' · ')\`
+				dimensiune: 0.3m
+				aliniere: '|'
+				culoare: Culoare(60% 30 0°)
+			)
+		]
+		[]
+
+¶Ce se află sub încăpere: ușile ei, numerotate astfel încât ce citești este ce apeși, sau, la un final, cum s-a terminat și cheia unică care o pornește din nou.¶
+maiJos:
+	aici4.final ≠ ''
+	? [
+			Fraza(
+				`*\aici4.final\*`
+				dimensiune: 0.8m
+				aliniere: '|'
+				culoare: aici4.aCâștigat ? Culoare(85% 50 90°) Culoare(
+						45%
+						40
+						25°
+					)
+				durată: 1.5s
+				intrând: Poză(opacitate: 0% scară: 0.5)
+			)
+			Fraza(
+				`apasă orice tastă pentru a te trezi din nou`
+				dimensiune: 0.3m
+				aliniere: '|'
+				durată: 3s
+				intrând: Poză(opacitate: 0%)
+			)
+		]
+		uși3.traduce(
+			ƒ(ușă3•ușă index2•#)
+				Fraza(
+					`\index2\. *\ușă3.etichetă\*`
+					dimensiune: 0.5m
+					aliniere: '|'
+					nume: ușă3.etichetă
+					durată: 1s
+					intrând: Poză(opacitate: 0%)
+				)
+		)
+
+Etapă(
+	[
+		Grup(
+			Stivă()
+			[
+				Fraza(
+					aici4.descriere2
+					dimensiune: 0.5m
+					înfășura: 14m
+					aliniere: '|'
+					nume: aici4.id2
+					durată: 0.5s
+					intrând: Poză(compensare: Loc(0m 2m))
+				)
+				:purtat
+				:maiJos
+			]
+		)
+	]
+	fundal: Culoare(0 0 0°)
+	culoare: Culoare(100% 0 0°)
+	faţă: "Permanent Marker"
+)

@@ -1,0 +1,143 @@
+🐱
+Mèo Hát Scat!
+=== start/en
+¶Một chú mèo đang scat, mãi mãi, không bao giờ hát giống nhau hai lần.
+
+Toàn bộ đoạn solo này là ứng tác: không có giai điệu nào được viết sẵn ở đây. Mỗi điệp khúc, chú mèo chọn những nốt mới, và câu nhạc được dựng lại từ đầu, nên những gì bạn nghe bây giờ sẽ không quay lại nữa.
+
+Nó hát trên năm bè, thay phiên nhau chứ không vang lên cùng lúc — nốt đen, rồi nốt móc đơn, rồi chùm ba, rồi nốt trắng, rồi một nốt dài duy nhất — vì một chú mèo chỉ có một giọng, và nếu hai bè cùng vang lên một lúc thì nó sẽ có hai giọng. Mỗi bè nghỉ trong lúc các bè khác chơi, và chính điều đó giữ cho đây vẫn là một đoạn solo.
+
+Giọng hát là chú mèo được lên cao độ, \NhạcCụ.mèoTheoCaoĐộ\: một tiếng meo, có cao độ, để một bậc chọn ra một nốt và chú mèo thực sự hát giai điệu thay vì kêu mười hai kiểu khác nhau. Thang âm dùng là thang âm blues, không có nốt nào sai cả — và nó phải như vậy, vì mỗi nốt ở đây được chọn ngẫu nhiên, nên bất kỳ thứ tự nào cũng phải nghe hay.
+
+Đây là kiểu scat chậm. Một tiếng meo mất khoảng tám phần mười giây để kêu, và ở nhịp độ nhanh hơn thì các nốt đen sẽ cắt ngang tiếng kêu của chú mèo giữa chừng.¶
+
+nhịp2: Nhịp()
+đếm2: nhịp2.đếm
+
+¶Một nốt, hoặc thỉnh thoảng là im lặng: khoảng một trong bảy lần là im lặng. Đó là đủ khoảng nghỉ để chú mèo khép miệng lại đôi chút mà không làm đoạn solo trở nên rời rạc — và vì các chỗ nghỉ rơi vào đâu là do ngẫu nhiên, nên không có hai điệp khúc nào lấy hơi ở cùng một chỗ.¶
+ƒ cóThể(nốt•#)•#|ø (Ngẫunhiên() > 0.15) ? nốt ø
+
+¶Một nốt, ở đâu đó trong quãng tám thoải mái của chú mèo. Bậc 1 là nốt mà câu nhạc quay về, còn bậc 8 là một quãng tám blues, cao hơn một chút — đủ xa để nghe như đang hát, nhưng đủ gần để tiếng meo vẫn nghe như tiếng meo chứ không phải một tiếng kêu bị kéo dài.¶
+ƒ giọng()•#|ø cóThể(Ngẫunhiên(1 8))
+
+¶Tất cả những gì chú mèo hát trong một điệp khúc. Mỗi phần dài bằng tất cả các phần khác tính theo phách — ba mươi hai phách — nên chúng luôn khớp nhịp với nhau dù chia nhỏ khác nhau thế nào.¶
+•hợpXướng(gọi•[#|ø] chạy•[#|ø] đungĐưa2•[#|ø] giữ•[#|ø] đuôi•[#|ø])
+
+¶Nốt đen, ô nhịp một và hai: ba nốt, một hơi thở, rồi cùng ba nốt đó được đáp lại bằng một kết thúc mới. Hỏi và đáp là cái khung của một câu scat, và việc lặp lại một hình mẫu trước khi biến tấu nó là điều khiến nó nghe như được dàn dựng chứ không phải ngẫu nhiên.¶
+ƒ gọi2()•[#|ø] (
+		a2: giọng()
+		b2: giọng()
+		c2: giọng()
+		(32 → []).dịch(
+			ƒ(i•#)
+				(i = 1) ? a2
+					(i = 2) ? b2
+						(i = 3) ? c2
+							(i = 5) ? a2
+								(i = 6) ? b2
+									(i = 7) ? giọng()
+										ø
+		)
+	)
+
+¶Nốt móc đơn, ô nhịp ba và bốn: một chuỗi chạy leo lên thang âm từng bậc một từ bất kỳ điểm bắt đầu nào, rồi quay vòng về đáy khi lên tới đỉnh quãng tám. Mười sáu nốt móc đơn trên tám bậc âm nghĩa là chuỗi chạy leo hết cả quãng hai lần, và chính điều đó khiến nó nghe như một chuỗi chạy chứ không phải một giai điệu.
+
+Đây là những nốt ngắn nhất trong bản nhạc, và cũng là chỗ duy nhất chú mèo bị cắt ngang: hai nốt móc đơn trong một phách nhanh hơn cả thời gian để kêu xong một tiếng meo, mà đó cũng chính là cách một âm tiết scat nhanh nghe như thế nào.¶
+ƒ chạy2()•[#|ø] (
+		nhà: Ngẫunhiên(1 8)
+		(64 → []).dịch(
+			ƒ(i2•#)
+				((i2 < 17) | (i2 > 32)) ? ø
+					cóThể((((nhà + (i2 - 17)) - 1) % 8) + 1)
+		)
+	)
+
+¶Chùm ba, ô nhịp năm và sáu: một nhóm ba nốt lặp đi lặp lại. Ba nốt trong khoảng thời gian của hai phách được viết đúng như vậy — 2 phách ÷ 3 — nói rõ ra chùm ba là gì.¶
+ƒ đungĐưa3()•[#|ø] (
+		phòngGiam: [giọng() giọng() giọng()]
+		(48 → []).dịch(
+			ƒ(i3•#)
+				((i3 < 25) | (i3 > 36)) ? ø
+					phòngGiam[(((i3 - 25) % 3) + 1)]
+		)
+	)
+
+¶Nốt trắng, ô nhịp bảy: chú mèo chậm lại và dừng ở hai nốt dài. Một nốt ngân giữ cho miệng mở suốt thời gian nó vang lên, và đó chính là hình ảnh của việc ngân một nốt.¶
+ƒ giữ2()•[#|ø]
+	(16 → []).dịch(
+		ƒ(i4•#)
+			(i4 = 13) ? giọng()
+				(i4 = 14) ? giọng()
+					ø
+	)
+
+¶Một nốt tròn, ô nhịp thứ tám: bậc 1, ngân dài. Trở về nốt đầu tiên của thang âm chính là điều khiến một câu nhạc nghe như đã hoàn tất, chứ không chỉ dừng lại giữa chừng.¶
+ƒ đuôi2()•[#|ø] (8 → []).dịch(ƒ(i5•#) (i5 = 8) ? 1 ø)
+
+ƒ ứngTác()•hợpXướng hợpXướng(
+		gọi2()
+		chạy2()
+		đungĐưa3()
+		giữ2()
+		đuôi2()
+	)
+
+¶Một điệp khúc mới sau mỗi ba mươi hai phách. Điệp khúc cũ được giữ nguyên giữa các mốc, để đoạn solo đứng yên đủ lâu cho người nghe cảm nhận; việc đổi điệp khúc đúng ngay tại mốc có nghĩa là người chơi ghép nó vào đúng nhịp, thay vì cắt ngang chú mèo giữa một nốt nhạc.¶
+điệpKhúc•hợpXướng: ứngTác() … ∆ nhịp2 …
+		((đếm2 % 32) = 0) ? ứngTác() điệpKhúc
+
+¶Chú mèo đung đưa theo nhịp. Nó nghiêng sang phía kia ở mỗi phách một, nên chuyển động lắc lư chính là nhịp đập, chứ không phải chỉ là chi tiết trang trí thêm vào.¶
+nghiêng2: ((đếm2 % 2) = 0) ? -1 1
+
+¶Liệu chú mèo có đang phát ra âm thanh ngay lúc này hay không. @Beat trả về một @Part cho mỗi bè nhạc, và một bè giữ giá trị ⊤ suốt mọi phách mà một nốt ngân dài kéo dài, nên giá trị này là ⊤ bất cứ khi nào có âm thanh phát ra.¶
+hát: nhịp2.phần.dịch(ƒ(phần2•Phần) phần2.phátRaÂm).có(⊤)
+
+¶Miệng của nó: mở đúng lúc một nốt nhạc đang vang lên, khép lại khi không có nốt nào. Không có gì ở đây đếm phách cả — nó hỏi bản nhạc xem đang xảy ra chuyện gì, nên gương mặt không bao giờ lệch nhịp so với âm thanh bạn nghe được. Những khoảng lặng rải rác chính là nơi để nó khép miệng lại, đó là lý do cứ khoảng bảy nốt thì có một nốt im lặng.¶
+miệng: hát ? '😺' '🐱'
+
+Sânkhấu(
+	[
+		Cụmtừ(
+			miệng
+			5m
+			vịTrí: VịTrí((nghiêng2 · 0.7) · 1m -0.6m)
+			xoay: (nghiêng2 · 7) · 1°
+			khoảngthờigian: 0.22s
+		)
+		Cụmtừ('Mèo Hát Scat!' 1.4m vịTrí: VịTrí(-2.6m 3.6m))
+		ÂmNhạc(
+			[
+				BảnNhạc(
+					điệpKhúc.gọi
+					nhạcCụ: NhạcCụ.mèoTheoCaoĐộ
+					nhịp: 1beats
+				)
+				BảnNhạc(
+					điệpKhúc.chạy
+					nhạcCụ: NhạcCụ.mèoTheoCaoĐộ
+					nhịp: 0.5beats
+				)
+				BảnNhạc(
+					điệpKhúc.đungĐưa2
+					nhạcCụ: NhạcCụ.mèoTheoCaoĐộ
+					nhịp: 2beats ÷ 3
+				)
+				BảnNhạc(
+					điệpKhúc.giữ
+					nhạcCụ: NhạcCụ.mèoTheoCaoĐộ
+					nhịp: 2beats
+				)
+				BảnNhạc(
+					điệpKhúc.đuôi
+					nhạcCụ: NhạcCụ.mèoTheoCaoĐộ
+					nhịp: 4beats
+				)
+			]
+			nhịpĐộ: 76beats/min
+			thangÂm: ÂmNhạc.blues
+			tên: 'scat'
+		)
+	]
+	lýlịch: Màusắc(16% 14 30°)
+	màusắc: Màusắc(96% 0 0°)
+)

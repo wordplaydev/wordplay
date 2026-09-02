@@ -1,0 +1,105 @@
+🔁
+Di Mana Waldough?
+=== start/en
+¶Temukan Waldough yang bersembunyi di antara kerumunan: cari pria berbaju oranye dan klik dia untuk menang!¶
+
+nama2: Pilihan()
+tertangkap: ⊥ … ∆ (nama2) … (nama2 = 'ResetButton') ? ⊥ ((nama2 = 'Waldough') | tertangkap)
+skor: 0 … ∆ (nama2) … (nama2 = 'Waldough') ? 1 + skor skor
+
+ƒ pointer() Tempat(
+		((0.1 × Acak(-9m 9m)) + Acak(-2m 1m))
+		((0.1 × Acak(-9m 9m)) + Acak(-2m 1m))
+	)
+ƒ bintikBaru() [
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+		pointer()
+	]
+bintik: bintikBaru() … ∆ (nama2) … (nama2 = 'ResetButton') ? bintikBaru(
+			) bintik
+
+
+Panggung(
+	[
+		Frasa(
+			"🔁"
+			dapatdipilih: ⊤
+			tempat: Tempat(4m -0.5m)
+			beristirahat: tertangkap ? Pose(rotasi: 180°) Pose()
+			lamanya: 0.5s
+			nama: 'ResetButton'
+		)
+		Frasa(
+			'Cari baju yang berwarna oranye'
+			0.2m
+			tempat: Tempat(-6.2m 0.75m)
+			menghadapi: 'Carter One'
+		)
+		Frasa(
+			'pria (bernama Waldough) dan'
+			0.2m
+			tempat: Tempat(-6.4m 0.25m)
+			menghadapi: 'Carter One'
+		)
+		Frasa(
+			'klik dia untuk menang!🧍🏻'
+			0.2m
+			tempat: Tempat(-6.0m -0.25m)
+			menghadapi: 'Carter One'
+		)
+		Frasa(
+			'Skor: ' + skor → ''
+			0.5m
+			tempat: Tempat(-5.9m -1m)
+		)
+
+		Frasa("🏀" tempat: bintik[1])
+		Frasa("🦧" tempat: bintik[2])
+		Frasa("🍊" tempat: bintik[3])
+		Frasa("👻" tempat: bintik[4])
+		Frasa("🤖" tempat: bintik[5])
+		Frasa("👽" tempat: bintik[6])
+		Frasa("🐀" tempat: bintik[7])
+		Frasa("🦣" tempat: bintik[8])
+		Frasa("🐸" tempat: bintik[9])
+		Frasa("🍎" tempat: bintik[10])
+		Frasa("💧" tempat: bintik[11])
+		Frasa("🍔" tempat: bintik[12])
+		Frasa("❤" tempat: bintik[13])
+		Frasa("🍥" tempat: bintik[14])
+		Frasa(
+			"🧍🏻"
+			dapatdipilih: ~tertangkap
+			tempat: bintik[15]
+			beristirahat: tertangkap ? Pose(rotasi: 180°) Pose()
+			lamanya: 0s
+			nama: 'Waldough'
+		)
+		Frasa("🔥" tempat: bintik[16])
+		Frasa("🎂" tempat: bintik[17])
+		Frasa("🐕" tempat: bintik[18])
+		Frasa("🦈" tempat: bintik[19])
+		Bangun(Persegipanjang(-3.5m -3m 3.5m -3.5m))
+		Bangun(Persegipanjang(-3.5m 3.5m 3.5m 3m))
+		Bangun(Persegipanjang(-3.5m 3.5m -3m -3.5m))
+		Bangun(Persegipanjang(3m 3.5m 3.5m -3.5m))
+	]
+	tempat: Tempat(0m 0m -5m)
+)

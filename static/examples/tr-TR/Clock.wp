@@ -1,0 +1,10 @@
+🕰️
+Saat
+=== start/en
+¶A localized clock in one line of code. @Now ticks a new @Moment every second, and \Şimdi(
+) → ''\ converts each one to text in your locale, calendar, and time zone, so the clock changes language when your locale does. Try giving @Now a frequency, time zone, and calendar, like \Şimdi(
+	1s
+	'Asia/Tokyo'
+	'japanese'
+)\.¶
+İfadeetmek(Şimdi() → '' yüz: 'Doto')

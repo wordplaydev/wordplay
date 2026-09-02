@@ -1,0 +1,32 @@
+⌕
+Örüntüler
+=== start
+¶İçinde sayılar olan bir cümle yaz. Ben her sayıyı bulup, bulduğum sırayla aşağıda göstereceğim. Bir örüntü, metnin şeklini tanımlar — burada,\⣿ >0 #⣿\ “bir veya daha fazla rakam” anlamına gelir, ve ⌕ bunun geçtiği her yeri bulur.¶
+girdi: Sohbet()
+metin2: '3 kedim, 12 balığım ve 144 karıncam var' … ∆ girdi … girdi
+
+¶Metinde art arda gelen her rakam dizisini ara. Her sonuç, eşleşen metniyle birlikte bir Result'tur.¶
+sayılar2: metin2 ⌕ ⣿ >0 #⣿
+
+Sahne(
+	[
+		Grup(
+			Yığın()
+			[
+				İfadeetmek(metin2 boyut: 1m)
+				Grup(
+					Yığın()
+					sayılar2.tercümeetmek(
+						ƒ(sayı2•Sonuç)
+							İfadeetmek(
+								sayı2.metin
+								boyut: 1.5m
+								giriş: Poz(opaklık: 0 ölçek: 0.5)
+								süre: 0.5s
+							)
+					)
+				)
+			]
+		)
+	]
+)

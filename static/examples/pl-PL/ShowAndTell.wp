@@ -1,0 +1,196 @@
+🔍
+Pokaż i opowiedz
+=== start/en
+¶Pokaż i opowiedz — gra kamerowa na czas. Proszę cię o znalezienie rzeczy,jednej naraz, i wypowiadam każdą z nich na głos. Trzymaj każdą przed kamerą, aż jązauważę, a wtedy wybiorę następną. Nie masz tego, o co poprosiłem? Naciśnij → apoproszę o coś innego — pominięcie nigdy nie liczy się na twoją niekorzyść.Znajdź pięć rzeczy w minutę i wygrywasz; przy piątej zawsze potrzeba dwóch osóbw kadrze naraz. Minuta zaczyna się, gdy twoja kamera się włącza, więc przygotowanieni razu nie kosztuje cię czasu, a gdy czas się skończy, mówię, że gra się skończyła.Każde znalezisko sprawia, że słowa robią się trochę większe, a gdy wygrywasz,wybuchają jak konfetti nad napisem „Wygrałeś!”¶
+
+¶Jedna rzecz do szukania: emoji, które pokazuję, słowa, które pokazuję, nazwa,jaką nadaje jej mój model kamery (do której dopasowuję), oraz ile sztuk musiszpokazać naraz (dwie, w przypadku osób).¶
+•cel(emotikona•'' etykieta•'' nazwa3•'' potrzeba•#)
+
+¶Rzeczy, o które mogę poprosić. Każda nazwa to dokładnie to, jak @Objects nazywatę rzecz, dzięki czemu mogę ją rozpoznać w kamerze. Pokazuję jedną naraz i wybieramkolejną, gdy tylko ją znajdziesz albo pominiesz.¶
+pula•[cel]: [
+		cel('☕' 'kubek' 'kubek' 1)
+		cel('📖' 'książka' 'książka' 1)
+		cel('📱' 'telefon' 'telefon' 1)
+		cel('💻' 'laptop' 'laptop' 1)
+		cel('⌨' 'klawiatura' 'klawiatura' 1)
+		cel('🖱' 'mysz' 'mysz' 1)
+		cel('✂' 'nożyczki' 'nożyczki' 1)
+		cel('🍾' 'butelka' 'butelka' 1)
+		cel('🪑' 'krzesło' 'krzesło' 1)
+		cel('🕐' 'zegar' 'zegar' 1)
+		cel('🍌' 'banan' 'banan' 1)
+		cel('🍎' 'jabłko' 'jabłko' 1)
+		cel('🧸' 'pluszowy miś' 'pluszowy miś' 1)
+		cel('🪴' 'roślina w doniczce' 'roślina w doniczce' 1)
+		cel('🏺' 'wazon' 'wazon' 1)
+		cel('🎒' 'plecak' 'plecak' 1)
+	]
+
+¶O co poprosić dalej, biorąc pod uwagę emotikony, które już znalazłeś, oraz rzecz, której trzeba unikać powtórzenia: nowy losowy przedmiot, o który jeszcze nie proszono, dla pierwszych czterech, a potem zawsze dwie osoby dla piątego.¶
+ƒ wybierz(znaleziono•[''] unikaj•cel)
+	(znaleziono.długość() ≥ 4)
+	? cel('👥' 'dwie osoby' 'osoba' 2)
+		pula.bez(unikaj).filtr(
+			ƒ(t•cel) ~(znaleziono.ma(t.emotikona))
+		).losowy(
+		)
+
+¶Kamera. Nie mówi się jej, czego szukać — po prostu zgłasza wszystko, co widzi, i działa sama z siebie, więc gra reaguje na nią bezpośrednio, bez zegara.¶
+obserwacje: Obiekty(liczba: 10 pewność: 0.5)
+
+¶Klawisz → (lub dotknięcie), by pominąć.¶
+pomiń: Klawisz('Strzałka w prawo' ⊤)
+
+¶Zegar, do odliczania czasu i animowania zwycięskiego konfetti. Samo poszukiwanie go nie używa — robi to @Objects.¶
+zegar: Czas(30ms)
+
+¶Jak długo trwa runda.¶
+limit2•#s: 60s
+
+¶Moment pierwszego odczytu kamery, zapamiętany. Odliczanie zaczyna się właśnie wtedy, a nie od zera, więc czekanie na udostępnienie kamery i na wczytanie modelu nigdy nie zabiera czasu z twojej minuty — @Objects zgłasza swój pierwszy odczyt, gdy tylko zobaczy klatkę, niezależnie od tego, czy coś na niej jest.¶
+rozpoczętoO•#ms: 0ms
+	… ((∆ obserwacje) & (⬚ = 0ms)) …
+		zegar
+
+¶Ile czasu zostało: cała minuta do momentu, aż kamera się uruchomi, a potem to, co z niej zostało, nigdy mniej niż zero — więc gdy czas się skończy, zostaje zerowy, zamiast schodzić poniżej zera.¶
+lewo•#s: (rozpoczętoO = 0ms) ? limit2 ((limit2 - ((zegar - rozpoczętoO) → #s)).maks(
+				0s
+			))
+
+¶Gra: emotikony znalezione do tej pory (wygrana przy pięciu) oraz rzecz, o którą właśnie się prosi.¶
+•polowanie(znaleziono2•[''] cel2•cel)
+
+¶Postęp na podstawie odczytu kamery (lub pominięcia), zatrzymujący się, gdy znajdziesz pięć, tak by ekran wygranej powstał tylko raz, a jego konfetti mogło swobodnie latać. Pominięcie losuje rzecz od nowa bez zmiany twojego wyniku; zobaczenie wystarczająco dużo poszukiwanej rzeczy wśród widzianych obiektów zalicza znalezisko i prosi o kolejną rzecz.¶
+ƒ krok(g•polowanie pominięto•? widziano•[Rzecz]) (
+		liczba2: widziano.filtr(
+				ƒ(t2•Rzecz) t2.nazwa = g.cel2.nazwa3
+			).długość(
+			)
+		następneZnalezione: [:g.znaleziono2 g.cel2.emotikona]
+		pominięto
+		? polowanie(
+				g.znaleziono2
+				wybierz(g.znaleziono2 g.cel2)
+			)
+			((liczba2 ≥ g.cel2.potrzeba)
+				? polowanie(
+						następneZnalezione
+						wybierz(następneZnalezione g.cel2)
+					)
+					g)
+	)
+
+¶Poszukiwanie kończy się też, gdy minuta się skończy, więc znalezisko, które pojawi się po czasie, nie może przemknąć obok ekranu końca gry.¶
+poluj•polowanie: polowanie([] pula.losowy())
+	… ((∆ obserwacje | ∆ pomiń) & (⬚.znaleziono2.długość() < 5) & (lewo > 0s)) …
+		krok(⬚ (∆ pomiń) obserwacje)
+
+¶Moment twojej wygranej, zapamiętany — dzięki temu konfetti animuje się od czasu zero.¶
+wygranoO•#ms: 0ms
+	… ((poluj.znaleziono2.długość() ≥ 5) & (⬚ = 0ms)) …
+		zegar
+
+¶Jeden latający kawałek konfetti: emotikona, prędkość wyrzutu (bez jednostki — wielkość w metrach na sekundę) oraz obrót. Przechowywanie zwykłych liczb upraszcza obliczenia trajektorii poniżej.¶
+•iskra(emotikona2•'' vx•# vy•# zakręcono•#)
+
+¶Confetti, wylosowane raz w chwili wygranej, a potem nigdy nieodtworzone na nowo. @Objectskeeps wykrywa, więc każdy odczyt na nowo ocenia program — zamrożenie elementów w tej liście (wypełnia się raz, gdy wygrywasz, potem jej warunek się zatrzymuje) sprawia, że każdy kawałek zachowuje tę samą prędkość lotu, zamiast być tworzony od nowa co klatkę.¶
+iskry•[iskra]: []
+	… ((poluj.znaleziono2.długość() ≥ 5) & (⬚.długość() = 0)) …
+		(60 → []).tłumaczyć(
+			ƒ()
+				iskra(
+					poluj.znaleziono2.losowy()
+					Losowy(-8 8)
+					Losowy(3 13)
+					Losowy(-200 200)
+				)
+		)
+
+¶Grawitacja dla toru lotu confetti, w metrach na sekundę do kwadratu.¶
+g2•#: 9
+
+¶Podpowiedź: duże emoji, jego nazwa, twój postęp, pozostały czas i sposób pominięcia. Słowa rosną z każdym znalezieniem, by zwiększyć napięcie — odrobinę, tak by pięć znalezisk wciąż mieściło się na scenie. Odliczanie zaokrągla w górę, więc pokazuje 1 aż do sekundy, gdy czas naprawdę się skończy.¶
+ƒ podpowiedź(g3•polowanie) (
+		duży: (2m + (g3.znaleziono2.długość() · 0.3m))
+		Grupa(
+			Stos('|' 0.4m)
+			[
+				Wyrażenie(
+					g3.cel2.emotikona
+					twarz: "Noto Color Emoji"
+					rozmiar: duży + 1m
+				)
+				Wyrażenie(g3.cel2.etykieta rozmiar: duży)
+				Wyrażenie(
+					`znaleziono \g3.znaleziono2.długość() → ''\ z 5`
+					rozmiar: 0.7m
+				)
+				Wyrażenie(
+					`⏳ \(lewo ÷ 1s).łapanka() → ''\ sekund pozostało`
+					rozmiar: 0.6m
+				)
+				Wyrażenie(
+					'nie masz tego? naciśnij → po następne'
+					rozmiar: 0.5m
+				)
+			]
+		)
+	)
+
+¶Umieść każdą iskrę na jej własnym torze, obliczonym na podstawie tego, jak długo leci: porusza się na zewnątrz z jej prędkością, a grawitacja ściąga ją z powrotem w dół (klasyczne ½·g·t²). Ponieważ obliczamy pozycję zamiast polegać na silniku fizyki, ciągłe ponowne ocenianie kamery po prostu rysuje każdy kawałek tam, gdzie powinien być — bez odskakiwania z powrotem do środka.¶
+ƒ konfetti() (
+		t3: (zegar - wygranoO) ÷ 1000ms
+		iskry.tłumaczyć(
+			ƒ(s•iskra)
+				Wyrażenie(
+					s.emotikona2
+					twarz: "Noto Color Emoji"
+					rozmiar: 1.5m
+					obrót: (s.zakręcono · t3) · 1°
+					miejsce: Miejsce(
+						(s.vx · t3) · 1m
+						((s.vy · t3) - ((g2 · t3 · t3) ÷ 2)) · 1m
+					)
+				)
+		)
+	)
+
+¶Wygrywasz, znajdując pięć: wyśrodkowane "Wygrałeś!", powiedziane na głos, a także pokazane, z odnalezionymi emoji wybuchającymi jak confetti nad nim, odsłanianymi w miarę opadania confetti.¶
+ƒ finał() [
+		Grupa(Stos() [Wyrażenie('Wygrałeś!' rozmiar: 2m)])
+		Mowić('Wygrałeś!')
+		:konfetti()
+	]
+
+¶Minuta się skończyła: jak daleko zaszedłeś, powiedziane na głos, a także pokazane.¶
+ƒ koniecGry(g4•polowanie) [
+		Grupa(
+			Stos('|' 0.4m)
+			[
+				Wyrażenie('⌛' twarz: "Noto Color Emoji" rozmiar: 3m)
+				Wyrażenie('Czas minął!' rozmiar: 2m)
+				Wyrażenie(
+					`znalazłeś \g4.znaleziono2.długość() → ''\ z 5`
+					rozmiar: 0.7m
+				)
+			]
+		)
+		Mowić(
+			"Time is up. Game over. You found \g4.znaleziono2.długość(
+			) → ''\ of 5."
+		)
+	]
+
+¶Wypowiada aktualną rzecz na głos, dla graczy, którzy nie mogą przeczytać podpowiedzi lub po prostu chcą jej posłuchać. Say mówi tylko wtedy, gdy jego tekst się zmienia — więc ogłasza każdą nową rzecz raz, a nie przy każdym odczycie kamery.¶
+ƒ ogłoś(g5•polowanie) Mowić('znajdź ' + g5.cel2.etykieta)
+
+¶Wygrana jest sprawdzana jako pierwsza, więc upływ czasu może oznaczać tylko przegraną.¶
+Scena(
+	(poluj.znaleziono2.długość() ≥ 5)
+	? finał()
+		((lewo ≤ 0s) ? koniecGry(poluj) [
+					podpowiedź(poluj)
+					ogłoś(poluj)
+				])
+	miejsce: Miejsce(0m 0m -12m)
+)

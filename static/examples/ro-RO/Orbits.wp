@@ -1,0 +1,39 @@
+🪐
+Orbite
+=== start
+¶Trei planete se învârt în jurul unei stele care le trage spre ea.¶
+
+¶Steaua face tragerea, așa că are nevoie de @Matter cu o forță de atracție. Ea nu are @Motion, deci nimic nu o trage înapoi și rămâne pe loc. Un @Place este colțul unui output, nu mijlocul lui, așa că steaua este mutată cu jumătate din mărimea ei, ca să-i pună mijlocul în centrul cerului.¶
+soare: Fraza(
+		'⭐'
+		2m
+		nume: 'soare'
+		loc: Loc(-1m -1m)
+		materie: Materie(2000kg trage: 1)
+	)
+
+¶O planetă nu are nevoie deloc de @Matter. Faptul că are @Motion este ceea ce permite tragerii stelei să o miște. Cât de repede trebuie să meargă ca să se învârtă în loc să cadă spre stea depinde de cât de departe este, așa că fiecare planetă primește viteza care o ține pe propriul ei cerc.¶
+planetă: ƒ(glif•"" numit•"" larg•#m departe•#m viteză2•#m/s)
+		Fraza(
+			glif
+			larg
+			nume: numit
+			loc: Mişcare(
+				Loc(departe - (larg ÷ 2) 0m - (larg ÷ 2))
+				Viteză(0m/s viteză2)
+			)
+		)
+
+¶Cerul nu are gravitație proprie, altfel totul ar cădea pe jos. Nu are nici aer, așa că planetele continuă să se miște, în loc să încetinească și să se oprească.¶
+Etapă(
+	[
+		soare
+		planetă('🌍' 'pământ' 0.8m 3m 11.5m/s)
+		planetă('🪐' 'cu inele' 1m 5m 8.6m/s)
+		planetă('🌕' 'lună' 0.6m 7m 7.3m/s)
+	]
+	fundal: Culoare(15% 20 300°)
+	gravitaţie: 0m/s^2
+	aer: 0
+	loc: Loc(0m 0m -14m)
+)

@@ -1,0 +1,39 @@
+🪐
+Umlaufbahnen
+=== start
+¶Drei Planeten kreisen um einen Stern, der sie anzieht.¶
+
+¶Der Stern zieht alles an, darum braucht er @Matter mit einer Anziehungskraft. Er hat kein @Motion, also zieht ihn nichts zurück und er bleibt an seinem Platz. Ein @Place ist eine Ecke der Ausgabe und nicht ihre Mitte. Darum wird der Stern um die Hälfte seiner eigenen Größe verschoben, damit seine Mitte in der Mitte des Himmels liegt.¶
+sonne: Satzglied(
+		'⭐'
+		2m
+		Name: 'Sonne'
+		Ort: Ort(-1m -1m)
+		Gegenstand: Gegenstand(2000kg ziehen: 1)
+	)
+
+¶Ein Planet braucht überhaupt kein @Matter. Erst ein @Motion lässt die Anziehungskraft des Sterns ihn bewegen. Wie schnell er sich bewegen muss, um zu kreisen, statt hineinzufallen, hängt davon ab, wie weit draußen er ist. Darum bekommt jeder Planet genau die Geschwindigkeit, die seine eigene Bahn hält.¶
+planet: ƒ(zeichen•"" genannt•"" breit•#m weit•#m geschwindigkeit•#m/s)
+		Satzglied(
+			zeichen
+			breit
+			Name: genannt
+			Ort: Bewegung(
+				Ort(weit - (breit ÷ 2) 0m - (breit ÷ 2))
+				Geschwindigkeit(0m/s geschwindigkeit)
+			)
+		)
+
+¶Der Himmel hat selbst keine Schwerkraft, sonst würde alles unten herausfallen. Er hat auch keine Luft, darum bewegen sich die Planeten weiter, statt langsamer zu werden und stehen zu bleiben.¶
+Bühne(
+	[
+		sonne
+		planet('🌍' 'Erde' 0.8m 3m 11.5m/s)
+		planet('🪐' 'beringt' 1m 5m 8.6m/s)
+		planet('🌕' 'Mond' 0.6m 7m 7.3m/s)
+	]
+	Hintergrund: Farbe(15% 20 300°)
+	Schwere: 0m/s^2
+	Luft: 0
+	Ort: Ort(0m 0m -14m)
+)

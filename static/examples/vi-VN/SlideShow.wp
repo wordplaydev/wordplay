@@ -1,0 +1,100 @@
+🎬
+Trình Chiếu
+=== start
+¶Một chuỗi slide kể về cách Wordplay ra đời; nhấn → và ← để di chuyển qua các slide.¶
+
+¶Một slide trong chuỗi: một nhân vật, một tiêu đề, và những dòng chữ bên dưới.¶
+•slide(biểuTượngCảmXúc•'' tiêuĐề•'' phầnThân•''|`…`)
+
+¶Câu chuyện. Hãy thêm, xóa, hoặc thay đổi các slide này để kể câu chuyện của riêng bạn.¶
+cácSlide: [
+		slide(
+			'🎭'
+			'Wordplay'
+			'Câu chuyện về cách ngôn ngữ này ra đời. Nhấn → để đi tới, và ← để đi lại.'
+		)
+		slide(
+			'✒'
+			'Một tình yêu với chữ cái'
+			'Ngày xưa, Amy đã yêu thích typography: hình dáng của các chữ cái, và nhịp điệu của các từ trên một trang giấy.'
+		)
+		slide(
+			'💻'
+			'Một tình yêu với mã số'
+			'Cô cũng yêu thích việc viết mã số, và cách vài từ có thể làm mọi thứ chuyển động.'
+		)
+		slide(
+			'🧭'
+			'Hai tình yêu, tách rời'
+			'Nhưng typography và việc viết mã số sống trong hai thế giới khác nhau, và ít công cụ nào mời gọi ai đó yêu cả hai cùng một lúc.'
+		)
+		slide(
+			'😄'
+			'Một người trẻ'
+			'Nhiều năm sau, cô gặp một người trẻ yêu thích các biểu tượng cảm xúc, và muốn làm chúng nhảy múa.'
+		)
+		slide(
+			'💡'
+			'Một ý tưởng'
+			'Điều gì sẽ xảy ra nếu một ngôn ngữ lập trình giúp việc làm các biểu tượng cảm xúc nhảy múa trở nên dễ dàng?'
+		)
+		slide(
+			'🌱'
+			'Wordplay bắt đầu'
+			'Vì vậy cô bắt đầu xây dựng một ngôn ngữ, nơi viết mã số nghĩa là di chuyển các từ và ký tự trên sân khấu.'
+		)
+		slide(
+			'🧑‍🏫'
+			'Cùng nhau thiết kế'
+			'Cô đã thiết kế nó cùng với nhiều bạn trẻ và giáo viên, những người đã nói ra điều họ muốn tạo ra, và điều gì cản đường họ.'
+		)
+		slide(
+			'🌏'
+			'Luôn thay đổi'
+			'Nó vẫn tiếp tục phát triển từ đó đến nay, để nhiều người hơn có thể tạo ra nhiều hơn những gì họ tưởng tượng.'
+		)
+		slide(
+			'✨'
+			'Đến lượt bạn'
+			`Bạn mơ ước làm được điều gì mà hiện chưa thể làm? Hãy nói cho chúng tôi biết tại <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+		)
+	]
+
+tổngSố: cácSlide.chiềudài()
+
+chìaKhóa2: Chìakhóa()
+
+¶Slide mà chúng ta đang xem. Phải để đi tới, trái để đi lại,và cả hai đều dừng ở hai đầu thay vì quay vòng lại.¶
+chỉMục2•#: 1 … ∆ chìaKhóa2 …
+		(chìaKhóa2 = 'Mũi tên phải') ? ((chỉMục2 < tổngSố) ? chỉMục2 + 1 chỉMục2)
+			(chìaKhóa2 = 'Mũi tên trái') ? ((chỉMục2 > 1) ? chỉMục2 - 1 chỉMục2)
+				chỉMục2
+
+slide2: cácSlide[chỉMục2]
+
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp('|' 0.4m)
+			[
+				Cụmtừ(slide2.biểuTượngCảmXúc kíchcỡ: 2m)
+				Cụmtừ(
+					`*\slide2.tiêuĐề\*`
+					kíchcỡ: 1.2m
+					sựcănchỉnh: '|'
+				)
+				Cụmtừ(
+					slide2.phầnThân
+					kíchcỡ: 0.5m
+					bọc: 12m
+					sựcănchỉnh: '|'
+				)
+				Cụmtừ(
+					`\chỉMục2\ trong \tổngSố\`
+					kíchcỡ: 0.25m
+					sựcănchỉnh: '|'
+				)
+			]
+		)
+	]
+)

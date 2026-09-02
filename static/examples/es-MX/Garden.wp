@@ -1,0 +1,524 @@
+█
+Jardín
+=== start/en
+¶Un jardín zen dibujado con bloques de colores, con agua que se mece suavemente.¶
+pasto: Color(54% 84 117°)
+roca: Color(74% 0 200°)
+bambú: Color(77% 88 109°)
+muro: Color(0% 0 0°)
+agua: Color(50% 89 279°)
+flotar2: Secuencia(
+		{
+			0%: Pose(color: agua rotación: 0°)
+			50%: Pose(rotación: 7°)
+			100%: Pose(rotación: 0°)
+		}
+		duración: 1.5s
+	)
+
+Escenario(
+	[
+		Frase(
+			'█'
+			tamaño: 16m
+			inmóvil: Pose(color: Color(100% 0 348°))
+			lugar: Lugar(7.3125m -13.125m 0m)
+			rotación: 90°
+		)
+		Frase(
+			'█'
+			tamaño: 16m
+			inmóvil: Pose(color: Color(100% 0 348°))
+			lugar: Lugar(-8.75m -13m 1m)
+			rotación: 90°
+		)
+		Frase(
+			'█'
+			tamaño: 32m
+			inmóvil: Pose(color: Color(73% 95 279°))
+			lugar: Lugar(-5.6875m -44.0625m 0m)
+			rotación: 89°
+		)
+		Frase(
+			'太阳'
+			tamaño: 4m
+			lugar: Lugar(-16.5m 15.75m 5m)
+			inmóvil: Secuencia(
+				{
+					0%: Pose(color: Color(90% 93 85°) rotación: 0°)
+					100%: Pose(rotación: 360°)
+				}
+				duración: 30s
+				estilo: 'straight'
+			)
+		)
+		Frase(
+			'壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁'
+			inmóvil: Pose(color: muro)
+			lugar: Lugar(-13.9375m 3.5m 0m)
+			tamaño: 2m
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-5.8125m -9.5625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(1.5m -6.9375m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-5.125m -8.25m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-0.4375m -8.5625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-2.875m -8.125m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-4.125m -8.3125m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-7.1875m -10.0625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-10.1875m -10.5625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-11.1875m -10.5625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-10.25m -9.1875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-8.5625m -8.6875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-8.6875m -10.0625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-1.5m -8m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(3.5m -8m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(1.1875m -8.5625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-2.8125m -9.5625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(2.5m -8m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-1.8125m -9.5625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(0m -7m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(2.5m -6.5m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(6.4375m -7.0625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(5.1875m -7.0625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-0.6875m -10.125m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(0.9375m -9.625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(7.4375m -8.1875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(2.25m -9.5625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(3.5625m -9.625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(5m -9.0625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(6.125m -8.1875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(9.625m -10.0625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(9.375m -7.3125m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(8m -6.5m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(10.8125m -7.1875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(13.625m -7.1875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(17.5m -7.5m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(12m -7.5m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(12.5625m -10.0625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-7.625m -8.8125m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(3.875m -6.4375m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-13.25m -8.625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-9.375m -8.0625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-13.8125m -10m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-11.375m -8.8125m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-12.5m -9.625m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(12.625m -6m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(7.5m -9.8125m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(16.3125m -6.1875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(17.8125m -6.1875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(17.8125m -9.6875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(16.3125m -9.6875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(16.3125m -8.1875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(15.3125m -6.6875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(14.8125m -8.1875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(14.8125m -9.6875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(13.5m -8.9375m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(11.8125m -9.1875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(8.3125m -9.1875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(6.5m -9.5m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(9.8125m -8.6875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(10.8125m -9.1875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(14.3125m -5.6875m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'草'
+			lugar: Lugar(-4.5m -9.5m 0m)
+			inmóvil: Pose(color: pasto)
+		)
+		Frase(
+			'石'
+			inmóvil: Pose(color: roca)
+			tamaño: 2.75m
+			lugar: Lugar(-7.6875m -5.9375m -1m)
+			rotación: 25°
+		)
+		Frase(
+			'石'
+			inmóvil: Pose(color: roca)
+			tamaño: 2m
+			lugar: Lugar(-5m -6.625m -1m)
+		)
+		Frase(
+			'石'
+			inmóvil: Pose(color: roca)
+			tamaño: 2.75m
+			lugar: Lugar(-7.6875m -8.5625m -1m)
+		)
+		Frase(
+			'石'
+			inmóvil: Pose(color: roca)
+			tamaño: 1.25m
+			lugar: Lugar(-6.375m -3.375m -1m)
+		)
+		Frase(
+			'石'
+			inmóvil: Pose(color: roca)
+			tamaño: 2.75m
+			lugar: Lugar(-3.125m -6.625m -1m)
+			rotación: 341°
+		)
+		Frase(
+			'石'
+			inmóvil: Pose(color: roca)
+			tamaño: 2.75m
+			lugar: Lugar(-4.75m -4.25m -1m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(-0.5m -0.5m 0m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(0.9375m -3.5m 0m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(1m -5m 0m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(-0.5m 2.5m 0m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(-0.5m 3.5m 0m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(-0.5m 4.5m 0m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(-0.5m 1m 0m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(-0.5m -5m 0m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(-0.5m -3.5m 0m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(-0.5625m -2m 0m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(1m 1m 0m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(1m -0.5m 0m)
+		)
+		Frase(
+			'竹'
+			inmóvil: Pose(color: bambú)
+			tamaño: 1.25m
+			lugar: Lugar(1m -2m 0m)
+		)
+		Frase(
+			'水'
+			inmóvil: flotar2
+			lugar: Lugar(-13.4375m -18m -2m)
+			tamaño: 6.75m
+			rotación: 80°
+		)
+		Frase(
+			'水'
+			inmóvil: flotar2
+			lugar: Lugar(18m -16.5m -2m)
+			tamaño: 6.75m
+			rotación: 80°
+		)
+		Frase(
+			'水'
+			inmóvil: flotar2
+			lugar: Lugar(-8.5m -17.625m -2m)
+			tamaño: 6.75m
+			rotación: 259°
+		)
+		Frase(
+			'水'
+			inmóvil: flotar2
+			lugar: Lugar(2.625m -17.375m -2m)
+			tamaño: 6.75m
+			rotación: 80°
+		)
+		Frase(
+			'水'
+			inmóvil: flotar2
+			lugar: Lugar(10.6875m -16m -2m)
+			tamaño: 6.75m
+			rotación: 37°
+		)
+	]
+	fondo: Color(87% 97 263°)
+)

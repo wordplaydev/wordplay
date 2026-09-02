@@ -1,0 +1,39 @@
+o
+Straturi
+=== start
+¶Mingi care sar la adâncimi diferite, pentru a arăta straturi de paralaxă.¶
+numărare2: 10 → []
+
+ƒ mingi(z2•#m) numărare2.traduce(
+		ƒ()
+			Fraza(
+				'o'
+				loc: Mişcare(
+					Loc(
+						Aleatoriu(-10 10) × 1m
+						Aleatoriu(0 10) × 1m
+						z2
+					)
+					Viteză(
+						Aleatoriu(-10 10) × 1m/s
+						Aleatoriu(-5 5) × 1m/s
+					)
+				)
+				materie: Materie(elasticitate: 0.8 frecare: 0)
+			)
+	)
+
+Etapă(
+	[
+		:mingi(0m)
+		:mingi(-10m)
+		:mingi(10m)
+		Figură(Cerc(2m 0m 1m 0m))
+		Figură(Cerc(2m 9m -3m 10m))
+		Figură(Poligon(2m 5 -5m 0m -10m))
+		Figură(Dreptunghi(-20m 0m 20m -1m 0m))
+		Figură(Dreptunghi(-20m 0m 20m -1m 10m) rotaţie: 25°)
+		Figură(Dreptunghi(-20m 0m 20m -1m -10m) rotaţie: -10°)
+	]
+	loc: Loc(0m 10m -30m)
+)

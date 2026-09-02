@@ -1,0 +1,98 @@
+🤖
+Người lắm lời
+=== start
+¶Chatterbox là một robot lắng nghe nhỏ bé, lấy cảm hứng từ Eliza, chatbot đầu tiên trên thế giới, ra đời năm 1966. Hãy gõ vào thanh trò chuyện và nó sẽ trả lời, đồng thời lưu lại nhật ký cuộc trò chuyện của bạn.¶
+
+¶Một dòng trò chuyện: ai đã nói, và họ đã nói gì.¶
+•dòng(ngườiNói•'' từNgữ2•'')
+
+lờiNhắn: Tròchuyện()
+
+¶Trước khi lặp lại lời bạn nói, Chatterbox sẽ đổi các đại từ, hoán đổi từng từ theo cách này: "của tôi" thành "của bạn", và "tôi" thành "bạn". Vì vậy câu "tôi cảm thấy như bạn ghét tôi" sẽ trở thành "Vì sao bạn cảm thấy như tôi ghét bạn?"¶
+hoánĐổi: {
+		'I': 'you'
+		'i': 'you'
+		"I'm": 'bạn đang'
+		"i'm": 'bạn đang'
+		'me': 'you'
+		'my': 'your'
+		'mine': 'yours'
+		'myself': 'yourself'
+		'am': 'đang'
+		'you': 'I'
+		'your': 'my'
+		'yours': 'mine'
+		'yourself': 'myself'
+	}
+ƒ phảnChiếu(từNgữ3•'')•'' từNgữ3.phânđoạn(' ').dịch(
+		ƒ(từ3•'') hoánĐổi{từ3} ?? từ3
+	).thamgia(
+		' '
+	)
+
+¶Chatterbox chọn câu trả lời bằng cách so khớp các mẫu với lời nhắn. Aa bỏ qua chữ hoa chữ thường, và một phần bắt tên như mood sẽ lấy hết mọi thứ cho đến dấu câu kết thúc, nhờ đó câu trả lời có thể lặp lại chính lời bạn nói — đây là mẹo mà Eliza gốc từng dùng. Quy tắc cuối cùng là phương án dự phòng: một lời gợi ý ngẫu nhiên để giữ cho bạn tiếp tục trò chuyện.¶
+ƒ trảLời(từNgữ4•'')•'' (
+		cảmXúc: từNgữ4 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
+		sinhVật: từNgữ4 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
+		muốn: từNgữ4 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		mongƯớc: từNgữ4 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
+		cảmXúc.chiềudài() > 0 ? 'Vì sao bạn cảm thấy ' + phảnChiếu(
+					cảmXúc[1].cácnhóm{'tâm trạng'} ?? ''
+				) + '?'
+			sinhVật.chiềudài() > 0 ? 'Bạn đã như vậy bao lâu rồi ' + phảnChiếu(
+						sinhVật[1].cácnhóm{'trạng thái'} ?? ''
+					) + '?'
+				muốn.chiềudài() > 0 ? 'Bạn sẽ cảm thấy thế nào nếu có ' + phảnChiếu(
+							muốn[1].cácnhóm{'mong muốn'} ?? ''
+						) + '?'
+					mongƯớc.chiềudài() > 0 ? 'Điều gì sẽ thay đổi nếu ' + phảnChiếu(
+								mongƯớc[1].cácnhóm{'ước'} ?? ''
+							) + '?'
+						(từNgữ4 ⌕ ⣿ Aa("because")⣿).chiềudài() > 0 ? 'Đó có phải lý do thật sự không?'
+							(từNgữ4 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).chiềudài(
+							) > 0 ? 'Kể cho tôi nghe thêm về gia đình bạn.'
+								từNgữ4.kếtthúc('?') ? 'Bạn đang hỏi tôi ư? Bạn nghĩ sao?'
+									(từNgữ4 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? 'Xin chào! Hôm nay bạn cảm thấy thế nào?'
+										[
+											'Kể thêm cho tôi nghe.'
+											'Kể tiếp đi.'
+											'Điều đó khiến bạn cảm thấy thế nào?'
+											'Tôi hiểu rồi. Tôi đang lắng nghe đây.'
+										].ngẫunhiên(
+										)
+	)
+
+¶Nhật ký bắt đầu bằng một lời chào, và mỗi tin nhắn thêm vào hai dòng: dòng của bạn, rồi đến câu trả lời của Chatterbox.¶
+nhậtKý•[dòng]: [
+		dòng(
+			'🤖'
+			'Chào bạn! Mình là Chatterbox. Bạn khỏe không?'
+		)
+	] … ∆ lờiNhắn …
+		nhậtKý.với(dòng('🙂' lờiNhắn)).với(
+			dòng('🤖' trảLời(lờiNhắn))
+		)
+
+¶Chỉ hiện những dòng mới nhất, để dòng cũ nhường chỗ cho dòng mới.¶
+gầnĐây: nhậtKý.chiềudài() ≤ 8 ? nhậtKý nhậtKý.chuỗicon(
+			nhậtKý.chiềudài() - 7
+		)
+
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp('<' 0.5m)
+			gầnĐây.dịch(
+				ƒ(dòng2•dòng)
+					Cụmtừ(
+						dòng2.ngườiNói + ' ' + dòng2.từNgữ2
+						kíchcỡ: 0.75m
+						bọc: 22m
+						vào: Tưthế(độmờđục: 0 tỉlệ: 0.5)
+						khoảngthờigian: 0.4s
+					)
+			)
+		)
+	]
+	vịTrí: VịTrí(0m 0m -12m)
+)

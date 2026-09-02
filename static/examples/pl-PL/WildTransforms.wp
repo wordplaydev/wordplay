@@ -1,0 +1,14 @@
+🐈
+Dzikie przekształcenia
+===
+¶Kot testuje jednocześnie skalę, obrót i przesunięcie.¶
+Wyrażenie(
+	"🐈"
+	rozmiar: 10m
+	spoczynkowy: Poza(
+		skala: 2
+		zrównoważyć: Miejsce(1m 1m 5m)
+		obrót: (Czas(500ms) % 360) × 1°/ms
+	)
+	czastrwania: 0.25s
+)

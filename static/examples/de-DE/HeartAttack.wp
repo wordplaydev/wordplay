@@ -1,0 +1,532 @@
+🧟
+Herzinfarkt
+=== start/en
+¶Herzinfarkt — eine sanfte Ich-Perspektive auf ein Battle-Royale-Spiel. Du stehst still und schaust durch die Kamera der Bühne, während vor dir eine Horde Zombies wartet. Immer einer nach dem anderen schlurft der nächste Zombie direkt auf dich zu. Ziele mit ← →, deinem Zeiger oder einem Tipp auf eine Seite des Bildschirms, und wirf ein Herz mit der Leertaste, einem Klick oder einem Tipp. Ein Herz stoppt bei der ersten Figur, die es trifft, also ziele genau: Triffst du einen Zombie, wird er wieder zu einem fröhlichen Menschen und du bekommst einen Punkt — und mit jedem Punkt kommen die Zombies schneller näher. Ein verwandelter Mensch bleibt stehen und blockiert deine Herzen, also achte auf deinen Winkel. Verwandle alle, um zu gewinnen; erreicht dich ein Zombie, ist das Spiel vorbei. Eingabetaste oder ein Tipp starten das Spiel — und starten es erneut.
+
+Jede Phase hat ihre eigene Melodie, und alle vier basieren auf demselben Thema — siehe @Music weiter unten.¶
+
+¶Wie viele Zombies zu Beginn auf dem Feld stehen.¶
+zombieCount: 8
+
+¶Bewegung und Kamera, in Metern: wie weit du dich pro Tastendruck seitlich bewegst, deine Grenzen nach links und rechts, die feste Kameratiefe während des Spiels, und wo die Kamera (weiter hinten) steht, während ein Menü angezeigt wird.¶
+strafeStep: 1.2m
+linkesLimit: -8m
+rechtesLimit: 8m
+spieltiefe: -1m
+menütiefe: -10m
+
+¶Wo Zombies erscheinen — verteilt von nah bis fern, immer weit vor dir — und der Bereich, in dem die umherstreifenden wandern (dessen nahe Kante immer vor dir bleibt, sodass nur angreifende Zombies dich tatsächlich erreichen können).¶
+erscheinungstiefeNah: 6m
+erscheinungstiefeFern: 22m
+wandertiefeNah: 3m
+wandertiefeFern: 24m
+
+¶Feineinstellung für Herz und Zusammenstoß: wie ein Herz fliegt und verblasst, wie es trifft, wie nah ein Zombie kommen muss, damit das Spiel endet, und wie angreifende Zombies sich bewegen — näherkommend, umherstreifend, hin- und herschwankend, dich verfolgend und mit jedem Punkt schneller werdend. Die zwei nächstgelegenen Zombies greifen gleichzeitig an; die anderen streifen umher.¶
+heartSpeed: 1m
+heartRange: 26m
+hitRadius: 1.8m
+reichweite: 1.8m
+baseChargeSpeed: 0.1m
+roamSpeed: 0.1m
+weaveSpeed: 0.12m
+weaveWidth: 1.8m
+homeSpeed: 0.05m
+beschleunigungProPunkt: 0.2
+
+¶Die fröhlichen Menschen, zu denen ein verwandelter Zombie werden kann.¶
+menschen: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '🧑‍🎤' '🦸' '🧚' '🧑‍🍳' '🕺' '💃' '🧑‍⚕']
+
+¶Eine Figur auf dem Feld: eine Position, eine Wanderrichtung auf jeder Achse (jeweils -1 oder 1, nur beim Umherstreifen verwendet), ob es noch ein Zombie ist, und welches Emoji angezeigt wird (🧟 solange es ein Zombie ist, ein Mensch nach der Verwandlung).¶
+•zombie(x2•#m z2•#m richtungX•# richtungZ•# lebendig•? gesicht2•"")
+
+¶Das ganze Spiel in einem Wert: die Phase (1 = Start, 2 = Spielen, 3 = Sieg, 4 = Niederlage), die Kamera-/Spielerposition, der Zustand des Herzens, der Punktestand, und alle Figuren auf dem Feld.¶
+•spiel(phase•# kameraX•#m kameraZ•#m herz•? herzX•#m herzZ•#m herzAnfang•#m punktestand•# zombies•[zombie])
+
+¶Die quadrierte Entfernung ist hier besser als eine echte Entfernung: keine Quadratwurzeln, und die Einheiten bleiben sauber (Meter mal Meter), sodass der Vergleich immer den Typ-Test besteht.¶
+ƒ nah(einsX•#m einsZ•#m zweiX•#m zweiZ•#m radius2•#m)
+	(((einsX - zweiX) · (einsX - zweiX)) + ((einsZ - zweiZ) · (einsZ - zweiZ))) < (radius2 · radius2)
+
+¶Wie viele Figuren noch Zombies sind.¶
+ƒ lebendeAnzahl(zombies2•[zombie]) zombies2.Filter(
+		ƒ(zombie2•zombie) zombie2.lebendig
+	).Länge(
+	)
+
+¶Einen Schritt auf den Spieler zuschlurfen: vorwärts in die Tiefe, während er seitlich hin- und herschwankt, um schwerer zu treffen zu sein, wobei das Schwanken an den Rändern eines Bereichs um deine Spur umgekehrt wird, und dabei zwischen den Schwüngen sanft auf dich zusteuert, sodass ein Ausweichen nur einen kurzen Moment bringt.¶
+ƒ stürmtAufSpielerZu(zombie3•zombie kameraX2•#m sturmgeschwindigkeit•#m) (
+		geschlängeltesX: zombie3.x2 + (zombie3.richtungX · weaveSpeed)
+		verfolgtesX: geschlängeltesX + ((kameraX2 - geschlängeltesX).max(
+						homeSpeed · -1
+					)).Mindest(
+					homeSpeed
+				)
+		amRand: (geschlängeltesX > (kameraX2 + weaveWidth)) | (geschlängeltesX < (kameraX2 - weaveWidth))
+		zombie(
+			verfolgtesX
+			(zombie3.z2 - sturmgeschwindigkeit)
+			(amRand ? (zombie3.richtungX · -1) zombie3.richtungX)
+			zombie3.richtungZ
+			zombie3.lebendig
+			zombie3.gesicht2
+		)
+	)
+
+¶Einen Schritt umherstreifen: sich in Wanderrichtung bewegen, dabei an den Rändern des Feldes abprallen, indem stehen geblieben und die Richtung umgekehrt wird.¶
+ƒ umherstreifen(zombie4•zombie geschwindigkeit•#m) (
+		neuesX: zombie4.x2 + (zombie4.richtungX · geschwindigkeit)
+		neuesZ: zombie4.z2 + (zombie4.richtungZ · geschwindigkeit)
+		sprungX: (neuesX > rechtesLimit) | (neuesX < linkesLimit)
+		sprungZ: (neuesZ > wandertiefeFern) | (neuesZ < wandertiefeNah)
+		zombie(
+			(sprungX ? zombie4.x2 neuesX)
+			(sprungZ ? zombie4.z2 neuesZ)
+			(sprungX ? (zombie4.richtungX · -1) zombie4.richtungX)
+			(sprungZ ? (zombie4.richtungZ · -1) zombie4.richtungZ)
+			zombie4.lebendig
+			zombie4.gesicht2
+		)
+	)
+
+¶Ein frisches Feld voller Zombies, verteilt von nah bis fern, verstreut von links nach rechts, jeder streift in eine zufällige Richtung umher.¶
+ƒ zombiesErzeugen()
+	(zombieCount → []).übersetzen(
+		ƒ(index2•#)
+			zombie(
+				Zufällig(linkesLimit rechtesLimit)
+				(erscheinungstiefeNah + (index2 · ((erscheinungstiefeFern - erscheinungstiefeNah) ÷ zombieCount)))
+				[-1 1].zufällig()
+				[-1 1].zufällig()
+				⊤
+				'🧟'
+			)
+	)
+
+¶Starte eine neue Runde: es wird gespielt, die Kamera ist auf Augenhöhe, kein Herz, kein Punktestand.¶
+ƒ neuesSpiel() spiel(
+		2
+		0m
+		spieltiefe
+		⊥
+		0m
+		0m
+		0m
+		0
+		zombiesErzeugen()
+	)
+
+¶Wirf ein Herz in deine aktuelle Spur, außer es ist schon eines in der Luft. Es startet knapp vor deinem Standort, nicht vor der Kamera — aus demselben Grund wie beim Reichweitentest.¶
+ƒ herzWerfen(spiel2•spiel)
+	spiel2.herz ? spiel2 spiel(
+			spiel2.phase
+			spiel2.kameraX
+			spiel2.kameraZ
+			⊤
+			spiel2.kameraX
+			(spieltiefe + 1m)
+			spieltiefe
+			spiel2.punktestand
+			spiel2.zombies
+		)
+
+¶Bewege deine Spur einen Schritt in Richtung eines Punktes, aber nie über deine Grenzen hinaus. Der Zeiger meldet den Weltpunkt, über dem er sich befindet. Sein Abstand zu deiner Spur zeigt, wie weit er links oder rechts von dir liegt. Bewegst du dich darauf zu, kannst du mit dem Zeiger zielen, und ein Tippen auf einer Seite bewegt dich in diese Richtung.¶
+ƒ fokusRichtung(spiel3•spiel ziel•#m)
+	spiel3.kameraX:(spiel3.kameraX + ((ziel - spiel3.kameraX).max(
+					strafeStep · -1
+				)).Mindest(
+				strafeStep
+			)).max(
+		linkesLimit
+	).Mindest(
+		rechtesLimit
+	)
+
+¶Ein Tastendruck während des Spiels: nach links oder rechts ausweichen oder ein Herz werfen.¶
+ƒ tastendruckAnwenden(spiel4•spiel schlüssel2•"")
+	(schlüssel2 = 'Pfeil nach links') ? fokusRichtung(
+			spiel4
+			(spiel4.kameraX - strafeStep)
+		)
+		(schlüssel2 = 'Pfeil nach rechts') ? fokusRichtung(
+				spiel4
+				(spiel4.kameraX + strafeStep)
+			)
+			(schlüssel2 = 'Raum') ? herzWerfen(spiel4)
+				spiel4
+
+¶Ein Einzelbild der Welt: Das Herz fliegt, bis es die erste Figur auf seinem Weg trifft (eine umgedrehte Person blockiert es genauso wie ein Zombie). Ein getroffener Zombie wird umgedreht. Die zwei nächsten Zombies marschieren auf den Spieler zu, während die übrigen umherstreifen. Danach wird geprüft, ob ein Sieg (alle umgedreht) oder eine Niederlage (ein Zombie hat dich erreicht) vorliegt. Bei Sieg oder Niederlage bleibt die Kamera am Menüpunkt stehen.¶
+ƒ weltFortschreitenLassen(spiel5•spiel) (
+		nächstesHerzZ: spiel5.herz ? (spiel5.herzZ + heartSpeed) spiel5.herzZ
+		herzVerblasst: spiel5.herz & ((nächstesHerzZ - spiel5.herzAnfang) > heartRange)
+		herzAktiv: spiel5.herz & ~herzVerblasst
+		sturmgeschwindigkeit2: baseChargeSpeed · (1 + (spiel5.punktestand · beschleunigungProPunkt))
+		¶Die nächsten lebenden Zombies greifen an; ihre Tiefe zeigt, welche das sind.¶
+		lebendNachTiefe: spiel5.zombies.Filter(
+				ƒ(zombie5•zombie) zombie5.lebendig
+			).sortiert(
+				ƒ(zombie6•zombie) zombie6.z2
+			)
+		ersteAngreiferTiefe: (lebendNachTiefe.Länge() ≥ 1) ? lebendNachTiefe[1].z2 -999m
+		zweiteAngreiferTiefe: (lebendNachTiefe.Länge() ≥ 2) ? lebendNachTiefe[2].z2 -999m
+		figurenImPfad: herzAktiv ? spiel5.zombies.Filter(
+					ƒ(zombie7•zombie) nah(
+							zombie7.x2
+							zombie7.z2
+							spiel5.herzX
+							nächstesHerzZ
+							hitRadius
+						)
+				) []
+		getroffeneFigur: figurenImPfad.sortiert(
+				ƒ(zombie8•zombie) zombie8.z2
+			).Erste(
+			)
+		getroffeneTiefe: (getroffeneFigur•ø) ? -999m getroffeneFigur.z2
+		wirdUmgewandelt: (getroffeneFigur•ø) ? ⊥ getroffeneFigur.lebendig
+		nächsteZombies: spiel5.zombies.übersetzen(
+				ƒ(zombie9•zombie)
+					zombie9.lebendig ?
+						((wirdUmgewandelt & (zombie9.z2 = getroffeneTiefe)) ? zombie(
+									zombie9.x2
+									zombie9.z2
+									zombie9.richtungX
+									zombie9.richtungZ
+									⊥
+									menschen.zufällig()
+								)
+								(((zombie9.z2 = ersteAngreiferTiefe) | (zombie9.z2 = zweiteAngreiferTiefe)) ? stürmtAufSpielerZu(
+											zombie9
+											spiel5.kameraX
+											sturmgeschwindigkeit2
+										) umherstreifen(zombie9 roamSpeed)))
+						zombie9
+			)
+		umgewandelteAnzahl: lebendeAnzahl(spiel5.zombies) - lebendeAnzahl(
+					nächsteZombies
+				)
+		nächstesHerz: herzAktiv & (getroffeneFigur•ø)
+		¶Jeder lebende Zombie, der deine Tiefe erreicht, beendet das Spiel — egal in welcher Spur. So kann keiner an dir vorbeischlüpfen und einen Zustand erzeugen, den man nicht mehr gewinnen kann. Das wird gemessen gegen\spieltiefe\, also dort, wo du stehst, und nie gegen die Kamera: Auf kleinen Bildschirmen zieht die Bühne die Kamera zurück, und der Betrachter kann sie noch weiter herauszoomen. Nichts davon sollte ändern, wie nah ein Zombie kommen muss.¶
+		verloren: nächsteZombies.Filter(
+				ƒ(zombie10•zombie) zombie10.lebendig & (zombie10.z2 ≤ (spieltiefe + reichweite))
+			).Länge(
+			) > 0
+		gewonnen: lebendeAnzahl(nächsteZombies) = 0
+		nächstePhase: gewonnen ? 3 (verloren ? 4 2)
+		nächsteKameraX: (nächstePhase = 2) ? spiel5.kameraX 0m
+		nächsteKameraZ: (nächstePhase = 2) ? spiel5.kameraZ menütiefe
+		spiel(
+			nächstePhase
+			nächsteKameraX
+			nächsteKameraZ
+			nächstesHerz
+			spiel5.herzX
+			nächstesHerzZ
+			spiel5.herzAnfang
+			(spiel5.punktestand + umgewandelteAnzahl)
+			nächsteZombies
+		)
+	)
+
+schlüssel3: Schlüssel()
+takt2: Zeit(30ms)
+zeiger: Zeiger()
+tippen: Taste()
+
+¶Der Herzschlag des Spiels, angetrieben von vier Eingaben: ein Uhr-Tick, eine Taste, eine Zeigerbewegung und ein Klick beziehungsweise Tippen. Während des Spiels lässt ein Tick die Welt weiterlaufen, Tasten bewegen zur Seite und werfen, die Zeigerbewegung zielt deine Spur, und ein Tippen wirft ein Herz. Im Menü startet die Eingabetaste oder ein Tippen eine neue Runde — ein Tippen, damit auch Spieler mit Touch-Bildschirm starten können, und die Eingabetaste (nicht die Leertaste), damit wildes Drücken der Leertaste zum Werfen niemals aus Versehen neu startet.¶
+spiel6•spiel: spiel(
+		1
+		0m
+		menütiefe
+		⊥
+		0m
+		0m
+		0m
+		0
+		zombiesErzeugen()
+	)
+	… (∆ takt2 | ∆ schlüssel3 | ∆ zeiger | ∆ tippen) …
+		(spiel6.phase = 2)
+		? (∆ takt2 ? weltFortschreitenLassen(spiel6)
+					(∆ schlüssel3 ? tastendruckAnwenden(
+								spiel6
+								schlüssel3
+							)
+							(∆ zeiger ? fokusRichtung(spiel6 zeiger.X) herzWerfen(
+										spiel6
+									))))
+			(∆ takt2 ? spiel6
+					(∆ schlüssel3 ? ((schlüssel3 = 'Eingeben') ? neuesSpiel(
+									) spiel6)
+							(∆ tippen ? neuesSpiel() spiel6)))
+
+¶Eine Figur auf der Bühne: Zombies wanken, umgedrehte Personen machen einen kleinen fröhlichen Hüpfer. Die Tiefe erledigt den Rest — ein angreifender Zombie wirkt größer, je näher er kommt. Die Dauer von 0 Sekunden lässt jeden Schritt sofort geschehen statt sanft überzugehen, sodass die Bewegung wie flüssige Einzelbilder wirkt und nicht wie ein hinterherhinkendes Aufholen.¶
+ƒ zombieView(zombie11•zombie)
+	Satzglied(
+		zombie11.gesicht2
+		2m
+		Dauer: 0s
+		Ort: Ort(zombie11.x2 0m zombie11.z2)
+		Ruhen: zombie11.lebendig
+		? Reihenfolge.wiegen(4° 1s "zippy")
+			Reihenfolge(
+				{
+					0%: Pose(Skala: 1)
+					50%: Pose(Skala: 1.2)
+					100%: Pose(Skala: 1)
+				}
+				0.6s
+			)
+	)
+
+¶Der Boden: Balken in ansteigender Tiefe, die durch Perspektive wie eine zum Horizont zurückweichende Bodenebene wirken, mit einem Farbverlauf von Grün zu Türkis für die Stimmung. Der erste Balken ist die Linie, die ein Zombie überschreiten muss, um das Spiel zu beenden. Er ist in Warnrot gezeichnet, damit die Regel sichtbar ist: Die Kamera zieht sich auf kleinen Bildschirmen zurück, und der Betrachter kann herauszoomen — und ein Zombie, der weit weg aussieht, steht trotzdem schon auf dieser Linie, wenn er dich erwischt.¶
+boden: [
+		Satzglied(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			Dauer: 0s
+			Ort: Ort(0m -2.8m (spieltiefe + reichweite))
+			Farbe: Farbe(58% 55 25°)
+		)
+		Satzglied(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			Dauer: 0s
+			Ort: Ort(0m -2.8m 4m)
+			Farbe: Farbe(56% 40 130°)
+		)
+		Satzglied(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			Dauer: 0s
+			Ort: Ort(0m -2.8m 6m)
+			Farbe: Farbe(50% 36 136°)
+		)
+		Satzglied(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			Dauer: 0s
+			Ort: Ort(0m -2.8m 8m)
+			Farbe: Farbe(45% 32 142°)
+		)
+		Satzglied(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			Dauer: 0s
+			Ort: Ort(0m -2.8m 11m)
+			Farbe: Farbe(40% 28 148°)
+		)
+		Satzglied(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			Dauer: 0s
+			Ort: Ort(0m -2.8m 15m)
+			Farbe: Farbe(35% 24 154°)
+		)
+		Satzglied(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			Dauer: 0s
+			Ort: Ort(0m -2.8m 20m)
+			Farbe: Farbe(31% 20 160°)
+		)
+	]
+
+¶Ein fliegendes Herz in der Welt und eine Punkteanzeige, die über die Bühnen-Überlagerung fest oben am Bildschirm angeheftet ist, sodass sie an ihrem Platz bleibt, wenn die Kamera zur Seite gleitet.¶
+heartView: Satzglied(
+		'🫀'
+		1.2m
+		Dauer: 0s
+		Ort: Ort(spiel6.herzX 0m spiel6.herzZ)
+	)
+punkteanzeige: Satzglied(
+		"🫀 \spiel6.punktestand\"
+		1.2m
+		Ort: Ort(0m 4m)
+	)
+
+¶Der Menütext, der vom Start-, Sieg- und Niederlagebildschirm gemeinsam genutzt wird.¶
+bildschirmtitel: spiel6.phase ???
+		3: '🎉 Du hast alle gerettet! 🎉'
+		4: '💀 Ein Zombie hat dich erwischt! 💀'
+		'🫀 HERZINFARKT 🫀'
+screenSubtitle: (spiel6.phase = 1) ? 'Eine Horde Zombies ist los. Wende sie mit Liebe ab.' "Score: \spiel6.punktestand\"
+startzeile: (spiel6.phase = 1) ? 'Drücke die Eingabetaste oder tippe zum Starten' 'Drücke die Eingabetaste oder tippe, um noch einmal zu spielen'
+
+bildschirmansicht: [
+		Gruppe(
+			Stapel()
+			[
+				Satzglied(bildschirmtitel 1.1m)
+				Satzglied(screenSubtitle 0.6m)
+				Satzglied('← → oder zeige zum Zielen' 0.5m)
+				Satzglied(
+					'Leertaste, Klick oder Tippen für ein Herz 🫀'
+					0.5m
+				)
+				Satzglied(startzeile 0.7m)
+			]
+		)
+	]
+
+¶Zeige das Feld und seinen Boden während des Spiels, sonst das Menü. Jede Liste ist in der falschen Phase leer, und eine leere Liste ergibt nichts.¶
+floorList: (spiel6.phase = 2) ? boden []
+zombieList: (spiel6.phase = 2) ? spiel6.zombies.übersetzen(
+			ƒ(zombie12•zombie) zombieView(zombie12)
+		) []
+heartList: ((spiel6.phase = 2) & spiel6.herz) ? [heartView] [
+		]
+scoreLayer: (spiel6.phase = 2) ? [punkteanzeige] []
+screenList: (spiel6.phase ≠ 2) ? bildschirmansicht []
+
+¶Die Farbstimmung der Bühne spiegelt das Ergebnis wider: ein warmes Grün bei einem Sieg, ein dunkles Rot bei einer Niederlage und das übliche Dämmerungs-Violett beim Starten oder Spielen.¶
+stageBackground: spiel6.phase ???
+		3: Farbe(48% 42 145°)
+		4: Farbe(22% 45 25°)
+		Farbe(25% 20 285°)
+
+¶Ein Thema zieht sich durch alle vier Melodien: die Moll-Dreiklänge hinauf bis zur Sexte und wieder hinunter. Der Trick ist, dass dieselben sieben Stufen in harmonisch Moll düster klingen und in Dur fröhlich, sodass die Siegesmusik genau dieselbe Melodie spielt — sie hört nur auf, wie ein Horrorfilm zu klingen.
+
+Jedes Stück unten dauert genau acht Schläge, egal welche Notenlänge es hat, sodass sie alle gleichzeitig wieder von vorn beginnen und jede Melodie ohne hörbaren Übergang schleift.¶
+thema: [1 ø 3 ø 5 ø 6 ø 5 ø 3 ø 1 ø ø ø]
+
+¶Warten auf den Start: ein langsamer Dauerton, das Thema fern auf einer Glocke, und darunter ein Herzschlag.¶
+menuSong: Musik(
+		[
+			Spur(
+				thema
+				Instrument: Instrument.Glocke
+				Schlag: 0.5beats
+				Lautstärke: 45%
+			)
+			Spur(
+				[{1 3 5} {1 3 5} {6 8 10} {5 7 9}]
+				Instrument: Instrument.synthPad
+				Schlag: 2beats
+				Lautstärke: 40%
+			)
+			Spur(
+				[1 ø 1 ø 6 ø 5 ø]
+				Instrument: Instrument.synthBass
+				Schlag: 1beats
+				Lautstärke: 50%
+			)
+			Spur(
+				[1 ø ø ø 1 ø ø ø]
+				Instrument: Instrument.Schlagzeug
+				Schlag: 1beats
+				Lautstärke: 30%
+			)
+		]
+		Tempo: 72beats/min
+		Tonleiter: Musik.harmonischMoll
+		Name: 'menü'
+	)
+
+¶Die Verfolgung: das gleiche Thema fast doppelt so schnell, über einem laufenden Bass und einem Schlagzeug, das nie aufhört.¶
+chaseSong: Musik(
+		[
+			Spur(
+				thema
+				Instrument: Instrument.synth
+				Schlag: 0.5beats
+				Lautstärke: 45%
+			)
+			Spur(
+				[1 ø 1 1 1 ø 1 1 6 ø 6 6 5 ø 5 5]
+				Instrument: Instrument.synthBass
+				Schlag: 0.5beats
+				Lautstärke: 55%
+			)
+			Spur(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 1 3]
+				Instrument: Instrument.Schlagzeug
+				Schlag: 0.5beats
+				Lautstärke: 40%
+			)
+		]
+		Tempo: 132beats/min
+		Tonleiter: Musik.harmonischMoll
+		Name: 'Verfolgung'
+	)
+
+¶Der Sieg: das gleiche Thema in Dur, eine Oktave höher verdoppelt auf einer Flöte, über den hellsten Akkorden in diesem Beispiel. Die einzige fröhliche Melodie hier.¶
+winSong: Musik(
+		[
+			Spur(
+				thema
+				Instrument: Instrument.Glocke
+				Schlag: 0.5beats
+				Lautstärke: 55%
+			)
+			Spur(
+				thema
+				Instrument: Instrument.Flöte
+				Schlag: 0.5beats
+				Tonart: 12semitones
+				Lautstärke: 40%
+			)
+			Spur(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				Instrument: Instrument.Klavier
+				Schlag: 2beats
+				Lautstärke: 45%
+			)
+			Spur(
+				[1 ø 3 ø 2 ø 3 ø]
+				Instrument: Instrument.Schlagzeug
+				Schlag: 1beats
+				Lautstärke: 35%
+			)
+		]
+		Tempo: 120beats/min
+		Tonleiter: Musik.Dur
+		Name: 'gewonnen'
+	)
+
+¶Die Niederlage: das Thema eine Oktave tiefer und halb so schnell wie im Menü, über einem Didgeridoo-Dauerton und Akkorden, die es aufgeben, nach Hause zu kommen — sie enden auf der Sechsten statt auf dem Grundton, sodass die Schleife nie aufgelöst wird.¶
+loseSong: Musik(
+		[
+			Spur(
+				thema
+				Instrument: Instrument.Glocke
+				Schlag: 0.5beats
+				Tonart: -12semitones
+				Lautstärke: 45%
+			)
+			Spur(
+				[1 ø ø ø]
+				Instrument: Instrument.Didgeridoo
+				Schlag: 2beats
+				Lautstärke: 50%
+			)
+			Spur(
+				[{1 3 5} {1 3 5} {6 8 10} {6 8 10}]
+				Instrument: Instrument.synthPad
+				Schlag: 2beats
+				Lautstärke: 40%
+			)
+			Spur(
+				[1 ø ø ø ø ø ø ø]
+				Instrument: Instrument.Schlagzeug
+				Schlag: 1beats
+				Lautstärke: 30%
+			)
+		]
+		Tempo: 56beats/min
+		Tonleiter: Musik.harmonischMoll
+		Name: 'verlieren'
+	)
+
+¶Nur die Melodie der aktuellen Phase ist auf der Bühne, und ein @Music, das nicht mehr da ist, stoppt — so verändert ein Phasenwechsel die Musik.¶
+soundtrack: spiel6.phase ???
+		1: menuSong
+		3: winSong
+		4: loseSong
+		chaseSong
+
+Bühne(
+	[:floorList :zombieList :heartList :screenList soundtrack]
+	Ort: Ort(spiel6.kameraX 0m spiel6.kameraZ)
+	Hintergrund: stageBackground
+	Farbe: Farbe(97% 0 0°)
+	überlagern: scoreLayer
+)

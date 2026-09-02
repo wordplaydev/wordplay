@@ -1,0 +1,120 @@
+↑
+Labirynt
+=== start/en
+¶A maze is a 2D grid of emoji, with some functions for checking the state at particular grid postions.
+Mazes are generated randomly.¶/en
+•labirynt() (
+	siatka•[[''|ø]]:
+		[
+			['🎬' '❤' '❌' ø ø]
+			['❤' ø ø ø ø]
+			['🐈' '😀' '💬' '🫥' '😞']
+			[ø '👍' ø ø '😕']
+			['🤩' '🥹' ø '😫' '😡']
+		]
+
+	ƒ komórka2(rząd•# kolumna•#) (
+			komórki: siatka[rząd]
+			komórki•[] ? komórki[kolumna] ø
+		)
+
+	ƒ dozwolone(rząd2•# kolumna2•#) komórka2(rząd2 kolumna2)•''
+)
+
+labirynt2: labirynt()
+
+•stan(rząd3•# kolumna3•# kroki•#)
+(
+	ƒ dół() stan(rząd3 + 1 kolumna3 kroki + 1)
+	ƒ góra() stan(rząd3 - 1 kolumna3 kroki + 1)
+	ƒ lewo() stan(rząd3 kolumna3 - 1 kroki + 1)
+	ƒ prawo() stan(rząd3 kolumna3 + 1 kroki + 1)
+)
+
+ƒ dozwolone2(stan2•stan rząd4•# kolumna4•#) labirynt2.dozwolone(
+		stan2.rząd3 + rząd4
+		stan2.kolumna3 + kolumna4
+	)
+
+kierunek2: Wybór()
+stan3•stan: stan(1 1 0) … ∆ kierunek2 …
+		((kierunek2 = "left") & dozwolone2(stan3 0 -1)) ? stan3.lewo(
+			)
+			((kierunek2 = "right") & dozwolone2(stan3 0 1)) ? stan3.prawo(
+				)
+				((kierunek2 = "up") & dozwolone2(stan3 -1 0)) ? stan3.góra(
+					)
+					((kierunek2 = "down") & dozwolone2(stan3 1 0)) ? stan3.dół(
+						)
+						stan3
+
+obecny: (
+		komórka3: labirynt2.komórka2(
+				stan3.rząd3
+				stan3.kolumna3
+			)
+		komórka3 ?? ' ')
+góra2: labirynt2.komórka2(stan3.rząd3 - 1 stan3.kolumna3)•''
+dół2: labirynt2.komórka2(stan3.rząd3 + 1 stan3.kolumna3)•''
+lewo2: labirynt2.komórka2(stan3.rząd3 stan3.kolumna3 - 1)•''
+prawo2: labirynt2.komórka2(stan3.rząd3 stan3.kolumna3 + 1)•''
+wygrał: obecny = '🤩'
+
+Scena(
+	[
+		Grupa(
+			Siatka(3 3 0.25m)
+			[
+				ø
+				Wyrażenie(
+					'↑'
+					nazwa: 'up'
+					wybieralny: góra2
+					spoczynkowy: Poza(
+						nieprzezroczystość: góra2 ? 1 0.2
+					)
+				)
+				ø
+				Wyrażenie(
+					'←'
+					nazwa: 'left'
+					wybieralny: lewo2
+					spoczynkowy: Poza(
+						nieprzezroczystość: lewo2 ? 1 0.2
+					)
+				)
+				Wyrażenie(
+					obecny
+					spoczynkowy: wygrał ?
+						Sekwencja.obrót(
+							czastrwania: 1s
+							styl: 'straight'
+						)
+						Poza()
+				)
+				Wyrażenie(
+					'→'
+					nazwa: 'right'
+					wybieralny: prawo2
+					spoczynkowy: Poza(
+						nieprzezroczystość: prawo2 ? 1 0.2
+					)
+				)
+				ø
+				Wyrażenie(
+					'↓'
+					nazwa: 'down'
+					wybieralny: dół2
+					spoczynkowy: Poza(
+						nieprzezroczystość: dół2 ? 1 0.2
+					)
+				)
+				ø
+			]
+		)
+	]
+	miejsce: Miejsce(0m 0m -3m)
+	twarz: 'Noto Emoji'
+	tło: Kolor(0 0 0°)
+	spoczynkowy: Poza(Kolor(100 100 0°))
+)

@@ -1,0 +1,595 @@
+🎆
+Pháo hoa
+=== start/en
+¶Pháo hoa nổ theo nhạc: mỗi nhạc cụ vang lên trong một nhịp sẽ bật lên như chính nó, treo lại một chút, rồi rơi xuống.
+
+Ở đây không có gì được vẽ theo đồng hồ. @Beat trao lại một @Downbeat mỗi khi một nhịp trở nên nghe được, và một @Downbeat mang một @Part cho mỗi @Track — đó là nhạc cụ nào, nó có đang vang lên hay không, nó đang ở nốt nào, và to hay nhỏ. Vì vậy mỗi phần đang vang lên chỉ tạo ra một chùm nổ, đó là một @List/translate duy nhất, và âm nhạc tự vẽ ra chính nó.
+
+Mỗi chùm nổ được đặt tên theo số nhịp, nên các chùm nổ của mỗi nhịp đều là các đầu ra mới: chúng thể hiện dáng xuất hiện khi bắt đầu và dáng biến mất khi nhịp kế tiếp thay thế chúng. Cú bật lên và cú rơi xuống chính là hai dáng đó.
+
+Bài hát là /The Star-Spangled Banner/ — giai điệu của John Stafford Smith từ khoảng năm 1773, đã thuộc phạm vi công cộng từ lâu — chơi trọn vẹn, kết thúc ở dòng cuối. Mỗi nốt mang theo độ dài riêng của nó dưới dạng giá trị nốt được viết trên số — \8𝅘𝅥𝅮\ là một nốt móc đơn, \13𝅗𝅥\ một nốt trắng, \13𝅗𝅥𝅭\ một nốt trắng có dấu chấm — vì vậy các nốt mở đầu, các hình có dấu chấm và các nốt giữ dài đều là những độ dài thật, không phải một lưới nhịp đều nhau. Một số đơn thuần là một nhịp. Các dấu lặng vẫn cần một @Note, vì \ø\ không phải là một số nên không thể mang giá trị. Nó dùng thang âm màu để có thể viết được cả nốt bậc bốn nâng lên: mỗi bước là một nửa cung.¶
+
+nhịp2: Nhịp()
+đếm2: nhịp2.đếm
+
+¶Chỉ những phần thực sự phát ra âm thanh mới biến thành pháo hoa; một dòng nhạc đang nghỉ vẫn ở trong tối. Trước khi nhạc bắt đầu thì chưa có phần nào cả, nên bầu trời trống trơn.¶
+đangNổ•[Phần]: nhịp2.phần.lọc(ƒ(p•Phần) p.phátRaÂm)
+
+¶Mỗi nhạc cụ nổ lên như chính nó, đó chính là điều quan trọng: bạn có thể thấy nhạc cụ nào vừa vang lên.¶
+ƒ khuônMặt2(p2•Phần)•''
+	(p2.nhạcCụ.id = 'trumpet') ? '🎺'
+		(p2.nhạcCụ.id = 'flute') ? '🪈'
+			(p2.nhạcCụ.id = 'bell') ? '🔔'
+				(p2.nhạcCụ.id = 'piano') ? '🎹'
+					(p2.nhạcCụ.id = 'violin') ? '🎻'
+						(p2.nhạcCụ.id = 'drums') ? '🥁'
+							'🎵'
+
+¶Mỗi nhạc cụ giữ một hàng riêng của mình, trải khắp cả bầu trời. Dùng nhạc cụ thay vì vị trí của nó trong danh sách giúp hàng đó vẫn đứng yên khi một nhạc cụ khác im bặt.¶
+ƒ làn(p3•Phần)•#
+	(p3.nhạcCụ.id = 'trumpet') ? -6
+		(p3.nhạcCụ.id = 'flute') ? -3.6
+			(p3.nhạcCụ.id = 'bell') ? -1.2
+				(p3.nhạcCụ.id = 'piano') ? 1.2
+					(p3.nhạcCụ.id = 'violin') ? 3.6
+						(p3.nhạcCụ.id = 'drums') ? 6
+							0
+
+¶Một chùm nổ ở cao đến đâu: đó là nốt của nó. Mọi phần ở đây đều đang vang lên, nên mỗi phần đều có một nốt.¶
+ƒ chiềuCao2(p4•Phần)•# p4.bậc[1]
+
+¶Một chùm nổ, bay lên theo nốt của nó và phồng to theo độ to nhỏ của âm thanh.¶
+ƒ chùmNổ(p5•Phần i•#)•Cụmtừ
+	Cụmtừ(
+		khuônMặt2(p5)
+		(0.9m + (p5.âmLượng · 1.6m))
+		vịTrí: VịTrí(
+			(làn(p5) + p5.cânBằngTráiPhải) · 1m
+			(((chiềuCao2(p5) · 0.22) - 1.8) · 1m)
+		)
+		tên: 'burst \đếm2\ \i\'
+		vào: Sựliêntiếp(
+			{
+				0%: Tưthế(tỉlệ: 0.1 độmờđục: 0%)
+				40%: Tưthế(tỉlệ: 1.35 độmờđục: 100%)
+				100%: Tưthế(tỉlệ: 1 độmờđục: 100%)
+			}
+			0.3s
+		)
+		thoátra: Sựliêntiếp(
+			{
+				0%: Tưthế(bùlại: VịTrí(0m 0m) độmờđục: 100%)
+				100%: Tưthế(bùlại: VịTrí(0m -5m) độmờđục: 0%)
+			}
+			0.9s
+		)
+	)
+
+¶Giai điệu. Các bậc là số nửa cung tính từ nốt chủ âm thấp: 1 là nốt đó, 13 là cao hơn một quãng tám, và 7 là bậc bốn nâng lên. Hai dòng nhạc chung một giai điệu, rồi đến đoạn cầu nối, rồi đến dòng cuối.¶
+giaiĐiệu2: [
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		17𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		17
+		18
+		20
+		20𝅗𝅥
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15
+		17
+		18
+		18𝅗𝅥
+		18
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8
+		13
+		13
+		13𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		10
+		10
+		10
+		15
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13𝅘𝅥𝅮
+		13
+		12
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		13𝅘𝅥𝅭
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		18𝅘𝅥𝅮
+		20𝅗𝅥
+		13𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅭
+		18𝅘𝅥𝅮
+		15
+		13𝅗𝅥𝅭
+	]
+
+¶Một nốt gốc dưới mỗi ô nhịp.¶
+trầm: [
+		NốtNhạc(ø 1beats)
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+	]
+
+¶Một chiếc chuông ở các nhịp mạnh xen kẽ nhau, nên nó không có trong mọi chùm nổ.¶
+chuông2: [
+		NốtNhạc(ø 1beats)
+		13
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		20
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		20
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		20
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		13
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		20
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		20
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		20
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		13
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		20
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		20
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		20
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		13
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		20
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		20
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+		20
+		NốtNhạc(ø 2beats)
+		NốtNhạc(ø 3beats)
+	]
+
+¶Bộ dây từ đoạn cầu nối trở đi, để âm thanh dày dần lên.¶
+violin: [
+		NốtNhạc(ø 1beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+	]
+
+¶Một giai điệu phụ chỉ ở đỉnh của mỗi câu nhạc.¶
+sáo2: [
+		NốtNhạc(ø 1beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 1beats)
+		25
+		NốtNhạc(ø 1beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 1beats)
+		25
+		NốtNhạc(ø 1beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 1beats)
+		25
+		NốtNhạc(ø 1beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 3beats)
+		NốtNhạc(ø 1beats)
+		25
+		NốtNhạc(ø 1beats)
+		NốtNhạc(ø 3beats)
+	]
+
+¶Một điệu diễu hành ở phía dưới.¶
+trống2: [
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		NốtNhạc(ø 0.5beats)
+		3𝅘𝅥𝅮
+	]
+
+Sânkhấu(
+	[
+		:đangNổ.dịch(ƒ(p6•Phần i2•#) chùmNổ(p6 i2))
+		ÂmNhạc(
+			[
+				BảnNhạc(
+					giaiĐiệu2
+					nhạcCụ: NhạcCụ.kènTrumpet
+					âmLượng: 90%
+					vòngLặp: ⊥
+				)
+				BảnNhạc(
+					trầm
+					nhạcCụ: NhạcCụ.đànPiano
+					chìaKhóa: -12semitones
+					âmLượng: 50%
+					cânBằngTráiPhải: -0.4
+					vòngLặp: ⊥
+				)
+				BảnNhạc(
+					chuông2
+					nhạcCụ: NhạcCụ.chuông
+					âmLượng: 55%
+					vòngLặp: ⊥
+				)
+				BảnNhạc(
+					violin
+					nhạcCụ: NhạcCụ.đànVĩCầm
+					âmLượng: 45%
+					cânBằngTráiPhải: 0.3
+					vòngLặp: ⊥
+				)
+				BảnNhạc(
+					sáo2
+					nhạcCụ: NhạcCụ.sáo
+					âmLượng: 65%
+					vòngLặp: ⊥
+				)
+				BảnNhạc(
+					trống2
+					nhạcCụ: NhạcCụ.trống
+					âmLượng: 45%
+					vòngLặp: ⊥
+				)
+			]
+			nhịpĐộ: 84beats/min
+			thangÂm: ÂmNhạc.nửaCung
+			tên: 'quốc ca'
+		)
+	]
+	lýlịch: Màusắc(10% 12 265°)
+	màusắc: Màusắc(96% 0 0°)
+)

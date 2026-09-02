@@ -1,0 +1,84 @@
+t
+Liczby po francusku
+=== start/en-US,start/fr-FR
+¶Naciśnij cyfrę, która pasuje do francuskiej liczby na scenie.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶Liczby do odgadnięcia¶
+¶Les nombres à deviner¶/fr
+liczby,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶Sekrety to liczby od 1 do 9 w losowej kolejności¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+sekrety: [1 2 3 4 5 6 7 8 9].przetasowany()
+
+¶Jaki klawisz został naciśnięty jako ostatni?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+klawisz2,clé/fr: Klawisz()
+
+¶Obecny sekret zwiększa się za każdym razem, gdy naciśniesz klawisz, ale zatrzymuje się na 10¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+indeksSekretu,secretIndice/fr•#:
+	1 …
+	∆ klawisz2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶Obecny sekret, oparty na indeksie sekretu¶
+obecnySekret,secretActuel/fr: sekrety[indeksSekretu]
+
+¶Odpowiedź była poprawna, jeśli naciśnięta liczba pasuje do poprzedniej liczby sekretnej¶
+poprawnie: clé → # = sekrety[indeksSekretu - 1]
+
+¶Punkty zaczynają się od 0 i rosną, gdy odpowiedź jest poprawna.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+punkty2•#: 0 …
+	∆ klawisz2 …
+		poprawnie ?
+			punkty2 + 1
+			punkty2
+
+¶Wygrana oznacza odgadnięcie wszystkich 9 liczb¶
+wygrana,gagner/fr: punkty2 = 9
+
+¶Koniec, gdy indeks sekretu wynosi 10¶
+koniecGry: indeksSekretu = 10
+
+¶Pokaż obecną francuską liczbę i obecne punkty. Po wszystkich 9 sekretach pokaż wynik końcowy¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Scena(
+	[
+		Grupa(
+			Stos()
+			[
+				koniecGry ?
+					Wyrażenie(
+						wygrana ?
+							'Znasz francuskie liczby!'"Tu connais les chiffres français!"/fr
+							'prawie, spróbuj jeszcze raz'"presque, réessaye"/fr
+						rozmiar: 2m
+					)
+					Wyrażenie(numeros[secretActuel] rozmiar: 2m)
+				Wyrażenie("\punkty2\ points!" rozmiar: 1m)
+				Wyrażenie(
+					indeksSekretu = 1 ?
+						'jaka to liczba?''quel est ce numéro ?'/fr
+						poprawnie ?
+							'Poprawnie!'
+							"That was \sekrety[indeksSekretu - 1]\"
+				)
+			]
+		)
+	]
+	twarz: "Aclonica"
+)

@@ -1,0 +1,95 @@
+🧶
+Hoppa till
+=== start
+¶Styr en katt med piltangenterna och hoppa på något.
+
+Katten mjauar varje gång den rör sig. Mjauet hänger på det första @Pose i sinrörelseanimation: ett @Pose kan bära ett @Music, som spelas i samma stund som denposen intas, och en rörelse intar sina poser varje gång den börjar. Gungningenär utskriven i stället för att lämnas som \Sekvens.vingla(
+)\ eftersom de färdigaanimationerna bygger sina egna poser, och en pose är dit ljudet måste läggas.¶
+
+¶Ett kort läte. Två rörelser tätt inpå varandra delar på ett mjau i stället för att stapla två,eftersom det andra kommer medan den första gungningen fortfarande gungar.¶
+mjau2: Musik(
+		Spår([1] instrument: Instrument.katt)
+		volym: 45%
+		namn: 'mjau'
+	)
+
+•kattensPosition(position•#m riktning2•#)
+
+nyckel2: Nyckel()
+hastighet2: 1m
+
+kissensPlats: kattensPosition(5m 1) … ∆ nyckel2 …
+		((nyckel2 = 'Pil vänster') & (kissensPlats.position > -10m)) ? kattensPosition(
+				kissensPlats.position - hastighet2
+				1
+			)
+			((nyckel2 = 'Pil Höger') & (kissensPlats.position < 8m)) ? kattensPosition(
+					kissensPlats.position + hastighet2
+					-1
+				)
+				kissensPlats
+
+kisse: Fras(
+		"🐈"
+		ansikte: "Noto Color Emoji"
+		namn: 'kisse'
+		storlek: 2m
+		plats: Plats(kissensPlats.position 0m)
+		vilande: Pose(flipx: kissensPlats.riktning2 < 0)
+		rörlig: Sekvens(
+			{
+				0%: Pose(rotation: -5° musik: mjau2)
+				50%: Pose(rotation: 5°)
+				100%: Pose(rotation: -5°)
+			}
+			0.25s
+			"zippy"
+		)
+		materia: Materia(1000kg rundhet: 0.5)
+	)
+
+kastaSigÖver: Kollision('boll' 'kisse')
+
+bollPlacera: Rörelse(
+		Plats(0m 9m)
+		nästahastighet:
+		kastaSigÖver•ø ? ø
+			Hastighet(
+				((kastaSigÖver.riktning.x ÷ -1m) × Slumpmässig(
+							15m/s
+							25m/s
+						)) + Slumpmässig(
+						-3m/s
+						3m/s
+					)
+				Slumpmässig(27m/s 30m/s)
+				(kastaSigÖver.riktning.x ÷ -1m) × Slumpmässig(
+						0°/s
+						15°/s
+					)
+			)
+	)
+
+boll: Fras(
+		"🧶"
+		namn: 'boll'
+		plats: bollPlacera
+		materia: Materia(1kg 0.5 0 1)
+	)
+
+Etapp(
+	[
+		Figur(Rektangel(-10m 0m 10m -3m))
+		Figur(Rektangel(-10m -1m -9m 11m))
+		Figur(Rektangel(10m -1m 9m 11m))
+		Figur(Rektangel(-10m 10m 10m 11m))
+		boll
+		kisse
+		Fras(
+			'tryck på ← → för att spela!'
+			plats: Plats(-4m -2m)
+			färg: Färg.vit
+		)
+	]
+	plats: Plats(y: 5m z: -10m)
+)

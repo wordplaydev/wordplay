@@ -1,0 +1,68 @@
+☁
+RainingLetters
+=== start/en
+¶Chương trình này có một nhóm chữ cái rơi xuống đất theo quy luật vật lý. Khi chạm đất, chúng lại sẵn sàng rơi tiếp. Số chữ cái rơi luôn giữ nguyên, nhưng số chữ cái hiện rõ thì thay đổi tùy theo biên độ của micro.¶
+
+¶Số lượng chữ cái tối đa¶
+đếm2: 100
+¶Độ trải rộng theo chiều ngang của các chữ cái¶
+kíchThước2: 20m
+
+¶Biên độ của micro¶
+biênĐộ: Âmlượng()
+
+¶Chữ cái được chọn cùng vị trí, tốc độ xoay và việc nó có hiện rõ hay không.¶
+•chữCái(chữCái2•"" x2•#m y2•#m góc2•# tốcĐộ•# hiệnRõ•?)
+
+nhịp2: Thờigian()
+
+¶Khởi tạo một danh sách các chữ cái ngẫu nhiên ở những vị trí ngẫu nhiên¶
+chữCái3•[chữCái]: đếm2 → [#].dịch(
+		ƒ(_) chữCái(
+				'abcdefghijklmnopqrstuvwxyz' → [''].ngẫunhiên()
+				Ngẫunhiên(-kíchThước2 kíchThước2)
+				Ngẫunhiên(0m kíchThước2 + 2m)
+				Ngẫunhiên(360)
+				Ngẫunhiên(-15 15)
+				⊥
+			)
+	)
+	… ∆ nhịp2 …
+		¶Nếu chữ cái nằm phía trên trục y, di chuyển nó xuống một chút và xoay nó. Nếu không, đặt lại nó lên trên ngưỡng và chọn ngẫu nhiên xem nó có hiện rõ hay không.¶
+		chữCái3.dịch(
+			ƒ(chữCái4•chữCái)
+				chữCái4.y2 > 0m ? (chữCái4.y2:chữCái4.y2 - 0.5m).góc2:chữCái4.góc2 + chữCái4.tốcĐộ
+					(chữCái4.y2:kíchThước2 + 2m).hiệnRõ:Ngẫunhiên(
+						0
+						biênĐộ
+					) > 0.5
+		)
+
+¶Chuyển các chữ cái thành các cụm từ¶
+Sânkhấu(
+	[
+		Cụmtừ("☁" kíchcỡ: 3m vịTrí: VịTrí(-8m 12m))
+		Cụmtừ("☁" kíchcỡ: 5m vịTrí: VịTrí(8m 11m))
+		Cụmtừ(
+			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+			vịTrí: VịTrí(-3.5 × kíchThước2 -0.5m)
+		)
+	].thêm(
+		chữCái3.dịch(
+			ƒ(chữCái5•chữCái)
+				Cụmtừ(
+					chữCái5.chữCái2
+					kíchcỡ: 1m
+					vịTrí: VịTrí(chữCái5.x2 chữCái5.y2)
+					xoay: chữCái5.góc2 × 1°
+					nghỉngơi: Tưthế(
+						độmờđục: chữCái5.hiệnRõ ? 1 0
+						màusắc: Màusắc(100% 0 0°)
+					)
+					khoảngthờigian: 0s
+				)
+		)
+	)
+	vịTrí: VịTrí(0m 1 × kíchThước2 -15m)
+	lýlịch: Màusắc(63% 93 248°)
+)

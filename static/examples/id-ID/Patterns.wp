@@ -1,0 +1,32 @@
+⌕
+Pola
+=== start
+¶Ketik sebuah kalimat yang berisi beberapa angka. Aku akan mencari setiap angka dan menampilkannya di bawah, muncul satu per satu saat aku menemukannya. Sebuah pola menjelaskan bentuk teks — di sini,\⣿ >0 #⣿\ berarti "satu atau lebih digit", dan ⌕ mencari setiap tempat pola itu muncul.¶
+masukan: Mengobrol()
+teks2: 'Aku punya 3 kucing, 12 ikan, dan 144 semut' … ∆ masukan … masukan
+
+¶Cari dalam teks setiap rangkaian digit. Setiap hasil adalah sebuah Result dengan teks yang cocok.¶
+angka2: teks2 ⌕ ⣿ >0 #⣿
+
+Panggung(
+	[
+		Kelompok(
+			Tumpukan()
+			[
+				Frasa(teks2 ukuran: 1m)
+				Kelompok(
+					Tumpukan()
+					angka2.menerjemahkan(
+						ƒ(angka3•Hasil)
+							Frasa(
+								angka3.teks
+								ukuran: 1.5m
+								memasuki: Pose(kegelapan: 0 skala: 0.5)
+								lamanya: 0.5s
+							)
+					)
+				)
+			]
+		)
+	]
+)

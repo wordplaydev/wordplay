@@ -1,0 +1,84 @@
+t
+Fransızca Sayılar
+=== start/en-US,start/fr-FR
+¶Sahnedeki Fransızca sayıyla eşleşen rakama bas.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶Tahmin edilecek sayılar¶
+¶Les nombres à deviner¶/fr
+sayılar2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶Gizli sayılar, 1'den 9'a kadar rastgele sırayla dizilmiş sayılardır¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+gizliSayılar: [1 2 3 4 5 6 7 8 9].karıştırılmış()
+
+¶En son hangi tuşa basıldı?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+anahtar2,clé/fr: Anahtar()
+
+¶Bir tuşa her basıldığında şimdiki gizli sayı artar, ama 10'da durur¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+gizliSayıDizini,secretIndice/fr•#:
+	1 …
+	∆ anahtar2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶Gizli sayı dizinine göre belirlenen şimdiki gizli sayı¶
+şimdikiGizliSayı,secretActuel/fr: gizliSayılar[gizliSayıDizini]
+
+¶Basılan sayı, önceki gizli sayıyla eşleşiyorsa tahmin doğrudur¶
+doğru2: clé → # = gizliSayılar[gizliSayıDizini - 1]
+
+¶Puanlar 0'dan başlar ve tahmin doğruysa artar.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+puanlar•#: 0 …
+	∆ anahtar2 …
+		doğru2 ?
+			puanlar + 1
+			puanlar
+
+¶Kazanmak, 9 sayının tamamını bulmak demektir¶
+kazan,gagner/fr: puanlar = 9
+
+¶Gizli sayı dizini 10 olduğunda tamamlanır¶
+oyunBitti: gizliSayıDizini = 10
+
+¶Şimdiki Fransızca sayıyı ve şimdiki puanı göster. 9 gizli sayının hepsinden sonra son sonucu göster¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Sahne(
+	[
+		Grup(
+			Yığın()
+			[
+				oyunBitti ?
+					İfadeetmek(
+						kazan ?
+							'Fransızca sayıları biliyorsun!'"Tu connais les chiffres français!"/fr
+							'neredeyse, tekrar dene'"presque, réessaye"/fr
+						boyut: 2m
+					)
+					İfadeetmek(numeros[secretActuel] boyut: 2m)
+				İfadeetmek("\puanlar\ points!" boyut: 1m)
+				İfadeetmek(
+					gizliSayıDizini = 1 ?
+						'bu hangi sayı?''quel est ce numéro ?'/fr
+						doğru2 ?
+							'Doğru!'
+							"That was \gizliSayılar[gizliSayıDizini - 1]\"
+				)
+			]
+		)
+	]
+	yüz: "Aclonica"
+)

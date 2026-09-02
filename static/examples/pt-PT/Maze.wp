@@ -1,0 +1,112 @@
+↑
+Labirinto
+=== start/en
+¶A maze is a 2D grid of emoji, with some functions for checking the state at particular grid postions.
+Mazes are generated randomly.¶/en
+•labirinto() (
+	grelha•[[''|ø]]:
+		[
+			['🎬' '❤' '❌' ø ø]
+			['❤' ø ø ø ø]
+			['🐈' '😀' '💬' '🫥' '😞']
+			[ø '👍' ø ø '😕']
+			['🤩' '🥹' ø '😫' '😡']
+		]
+
+	ƒ cela(linha•# coluna•#) (
+			células: grelha[linha]
+			células•[] ? células[coluna] ø
+		)
+
+	ƒ permitido(linha2•# coluna2•#) cela(linha2 coluna2)•''
+)
+
+labirinto2: labirinto()
+
+•estado(linha3•# coluna3•# passos•#)
+(
+	ƒ baixo() estado(linha3 + 1 coluna3 passos + 1)
+	ƒ cima() estado(linha3 - 1 coluna3 passos + 1)
+	ƒ esquerda2() estado(linha3 coluna3 - 1 passos + 1)
+	ƒ direita() estado(linha3 coluna3 + 1 passos + 1)
+)
+
+ƒ permitido2(estado2•estado linha4•# coluna4•#) labirinto2.permitido(
+		estado2.linha3 + linha4
+		estado2.coluna3 + coluna4
+	)
+
+direção2: Escolha()
+estado3•estado: estado(1 1 0) … ∆ direção2 …
+		((direção2 = "left") & permitido2(estado3 0 -1)) ? estado3.esquerda2(
+			)
+			((direção2 = "right") & permitido2(estado3 0 1)) ? estado3.direita(
+				)
+				((direção2 = "up") & permitido2(estado3 -1 0)) ? estado3.cima(
+					)
+					((direção2 = "down") & permitido2(estado3 1 0)) ? estado3.baixo(
+						)
+						estado3
+
+atual: (
+		cela2: labirinto2.cela(estado3.linha3 estado3.coluna3)
+		cela2 ?? ' ')
+cima2: labirinto2.cela(estado3.linha3 - 1 estado3.coluna3)•''
+baixo2: labirinto2.cela(estado3.linha3 + 1 estado3.coluna3)•''
+esquerda3: labirinto2.cela(
+		estado3.linha3
+		estado3.coluna3 - 1
+	)•''
+direita2: labirinto2.cela(
+		estado3.linha3
+		estado3.coluna3 + 1
+	)•''
+ganhou: atual = '🤩'
+
+Fase(
+	[
+		Grupo(
+			Rede(3 3 0.25m)
+			[
+				ø
+				Frase(
+					'↑'
+					nome: 'up'
+					selecionável: cima2
+					descansar: Pose(opacidade: cima2 ? 1 0.2)
+				)
+				ø
+				Frase(
+					'←'
+					nome: 'left'
+					selecionável: esquerda3
+					descansar: Pose(opacidade: esquerda3 ? 1 0.2)
+				)
+				Frase(
+					atual
+					descansar: ganhou ?
+						Sequência.rodar(duração: 1s estilo: 'straight')
+						Pose()
+				)
+				Frase(
+					'→'
+					nome: 'right'
+					selecionável: direita2
+					descansar: Pose(opacidade: direita2 ? 1 0.2)
+				)
+				ø
+				Frase(
+					'↓'
+					nome: 'down'
+					selecionável: baixo2
+					descansar: Pose(opacidade: baixo2 ? 1 0.2)
+				)
+				ø
+			]
+		)
+	]
+	local: Local(0m 0m -3m)
+	fonte: 'Noto Emoji'
+	fundo: Cor(0 0 0°)
+	descansando: Pose(Cor(100 100 0°))
+)

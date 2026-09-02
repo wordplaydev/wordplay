@@ -1,0 +1,26 @@
+മ
+Bokstäver
+=== start/en
+¶Ett rutnät med bokstäver från många skriftsystem, en byts varje sekund.¶
+bokstäver: 'മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ' ÷ ""
+
+senaste•['']:
+	bokstäver … ∆ Tid(1000ms) …
+		senaste.ersätta(
+			Slumpmässig(1 25)
+			bokstäver.slumpmässig()
+		)
+
+Grupp(
+	Rutnät(5 5 0.25m 1m 1m)
+	senaste.översätta(
+		ƒ(bokstav•"" index2•#)
+			Fras(
+				bokstav
+				namn: "\bokstav\-\index2\"
+				gårin: Pose(opacitet: 0 skala: 2)
+				vilande: Sekvens.vingla(varaktighet: 0.25s)
+				varaktighet: 0.5s
+			)
+	)
+)

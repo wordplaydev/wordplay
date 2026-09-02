@@ -1,0 +1,176 @@
+🚣
+Rema, Rema tu Barquito
+=== start/en
+¶Rema, rema, rema tu bote — una vez completa, diez segundos exactos, con una pequeña flota remando al ritmo.
+
+La canción está en 6/8, así que cada compás tiene seis corcheas y cada entrada en estas listas es una de ellas. Veinticuatro tiempos a 144 tiempos por minuto dan justo diez segundos.
+
+Los botes se guían por @Beat en lugar de un reloj, así que tiran al ritmo exacto de la música y no solo cerca de él — y se quedan quietos hasta que empieza, porque @Beat se mantiene en el tiempo cero hasta entonces.¶
+
+tiempo2: Pulso()
+remada: tiempo2.conteo
+
+¶La melodía. Rema, rema, rema tu bote, suavemente por la corriente — las notas largas son largas porque los silencios después de ellas mantienen la cuadrícula, ya que cada entrada dura la misma corchea.¶
+melodía2: [
+		1
+		ø
+		ø
+		1
+		ø
+		ø
+		1
+		ø
+		2
+		3
+		ø
+		ø
+		3
+		ø
+		2
+		3
+		ø
+		4
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		8
+		8
+		8
+		5
+		5
+		5
+		3
+		3
+		3
+		1
+		1
+		1
+		5
+		ø
+		4
+		3
+		ø
+		2
+		1
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Un acorde al inicio de cada compás. Se queda en la tónica todo el tiempo hasta el penúltimo compás, que se apoya en la quinta para que el último compás se sienta como una llegada.¶
+acordes: [
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{5 7 9 11}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶La remada: un golpe grave para tirar y uno brillante para recuperar, una vez por compás.¶
+remos: [
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+	]
+
+¶Un bote. Se desliza un poco más en cada tiempo y se balancea hacia el otro lado cada vez, lo cual se ve como si estuviera remando; el carril define qué tan alto se ubica y qué tan adelante comenzó, para que no se muevan todos igual.¶
+ƒ bote(carril•# comenzar•#)•Frase
+	Frase(
+		'🚣'
+		1.5m
+		lugar: Lugar(
+			((((remada + comenzar) % 16) - 8) · 1.1) · 1m
+			((carril · 1.9) - 1.9) · 1m
+		)
+		rotación: (((remada + carril) % 2) = 0) ? 9° -9°
+		duración: 0.2s
+	)
+
+flota: [bote(0 0) bote(1 6) bote(2 11)]
+
+Escenario(
+	[
+		:flota
+		Frase(
+			'〰〰〰〰〰〰〰〰'
+			1m
+			lugar: Lugar(-8m -3.2m)
+			color: Color(48% 22 240°)
+		)
+		Frase(
+			'Rema, rema, rema tu bote'
+			0.9m
+			lugar: Lugar(-4.4m 3.4m)
+		)
+		Música(
+			[
+				Pista(
+					melodía2
+					instrumento: Instrumento.flauta
+					pulso: 0.5beats
+				)
+				Pista(
+					acordes
+					instrumento: Instrumento.piano
+					pulso: 1beats
+					volumen: 60%
+				)
+				Pista(
+					remos
+					instrumento: Instrumento.tambores
+					pulso: 1beats
+					volumen: 45%
+				)
+			]
+			tempo: 144beats/min
+			nombre: 'bote'
+		)
+	]
+	fondo: Color(22% 18 230°)
+	color: Color(96% 0 0°)
+)

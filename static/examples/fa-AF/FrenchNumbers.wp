@@ -1,0 +1,84 @@
+t
+عددهای فرانسوی
+=== start/en-US,start/fr-FR
+¶همان رقمی را بزنید که با عدد فرانسوی روی صحنه یکی است.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶عددهایی که باید حدس زده شوند¶
+¶Les nombres à deviner¶/fr
+عددها,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶رازها عددهای ۱ تا ۹ هستند که به‌ترتیب تصادفی چیده شده‌اند¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+رازها: [1 2 3 4 5 6 7 8 9].برهم‌زده()
+
+¶آخرین کلیدی که زده شده چیست؟¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+کلید3,clé/fr: کلید()
+
+¶راز کنونی هر بار که کلیدی زده می‌شود بیشتر می‌شود، اما در ۱۰ متوقف می‌شود¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+اندیسراز,secretIndice/fr•#:
+	1 …
+	∆ کلید3 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶راز کنونی، بر پایهٔ اندیس راز¶
+رازکنونی,secretActuel/fr: رازها[اندیسراز]
+
+¶اگر عددی که زده شده با عدد راز پیشین یکسان باشد، حدس درست بوده است¶
+درست2: clé → # = رازها[اندیسراز - 1]
+
+¶امتیازها از ۰ شروع می‌شوند و اگر حدس درست باشد، بیشتر می‌شوند.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+امتیازها•#: 0 …
+	∆ کلید3 …
+		درست2 ?
+			امتیازها + 1
+			امتیازها
+
+¶برد یعنی درست حدس زدن همهٔ ۹ عدد¶
+برد,gagner/fr: امتیازها = 9
+
+¶وقتی اندیس راز به ۱۰ برسد، بازی تمام شده است¶
+پایانبازی: اندیسراز = 10
+
+¶عدد فرانسوی کنونی و امتیاز کنونی را نشان بده. پس از هر ۹ راز، نتیجهٔ نهایی را نشان بده¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+صحنه(
+	[
+		گروه(
+			پشته()
+			[
+				پایانبازی ?
+					عبارت(
+						برد ?
+							'تو عددهای فرانسوی را می‌دانی!'"Tu connais les chiffres français!"/fr
+							'نزدیک بود، دوباره تلاش کن'"presque, réessaye"/fr
+						اندازه: 2m
+					)
+					عبارت(numeros[secretActuel] اندازه: 2m)
+				عبارت("\امتیازها\ points!" اندازه: 1m)
+				عبارت(
+					اندیسراز = 1 ?
+						'این چه عددی است؟''quel est ce numéro ?'/fr
+						درست2 ?
+							'درست است!'
+							"That was \رازها[اندیسراز - 1]\"
+				)
+			]
+		)
+	]
+	قلم: "Aclonica"
+)

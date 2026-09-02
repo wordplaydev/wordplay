@@ -1,0 +1,95 @@
+🤖
+Si Cerewet
+=== start
+¶Chatterbox adalah robot pendengar kecil, yang terinspirasi dari Eliza, chatbot pertama yang dibuat pada tahun 1966. Ketik di kotak obrolan dan robot ini akan membalas, sambil menyimpan catatan percakapanmu.¶
+
+¶Satu baris percakapan: siapa yang mengatakannya, dan apa yang dikatakan.¶
+•baris2(pembicara•'' kata2•'')
+
+pesan: Mengobrol()
+
+¶Sebelum mengulang kata-katamu, Chatterbox menukar kata ganti, mengganti setiap kata menggunakan peta ini: my menjadi your, dan I menjadi you. Jadi "I feel like you hate me" akan dibalas menjadi "Why do you feel like I hate you?"¶
+pertukaran: {
+		'I': 'you'
+		'i': 'you'
+		"I'm": 'kamu'
+		"i'm": 'kamu'
+		'me': 'you'
+		'my': 'your'
+		'mine': 'yours'
+		'myself': 'yourself'
+		'am': 'adalah'
+		'you': 'I'
+		'your': 'my'
+		'yours': 'mine'
+		'yourself': 'myself'
+	}
+ƒ pantulkan(kata3•'')•'' kata3.tersegmentasi(' ').menerjemahkan(
+		ƒ(kata4•'') pertukaran{kata4} ?? kata4
+	).bergabung(
+		' '
+	)
+
+¶Chatterbox memilih balasan dengan mencocokkan pola dengan pesan. Aa mengabaikan huruf besar atau kecil, dan tangkapan bernama seperti mood mengambil semua teks sampai tanda baca penutup mana pun, sehingga balasan bisa mengulang kata-katamu sendiri — trik yang dipakai Eliza asli. Aturan terakhir adalah cadangan: dorongan acak agar kamu terus bercerita.¶
+ƒ balasan(kata5•'')•'' (
+		perasaan: kata5 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
+		makhluk: kata5 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
+		keinginan: kata5 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		harapan: kata5 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
+		perasaan.panjang() > 0 ? 'Kenapa kamu merasa ' + pantulkan(
+					perasaan[1].kelompok{'suasana hati'} ?? ''
+				) + '?'
+			makhluk.panjang() > 0 ? 'Sudah berapa lama kamu ' + pantulkan(
+						makhluk[1].kelompok{'keadaan'} ?? ''
+					) + '?'
+				keinginan.panjang() > 0 ? 'Apa artinya bagimu jika kamu punya ' + pantulkan(
+							keinginan[1].kelompok{'keinginan'} ?? ''
+						) + '?'
+					harapan.panjang() > 0 ? 'Apa yang akan berubah jika ' + pantulkan(
+								harapan[1].kelompok{'harapan'} ?? ''
+							) + '?'
+						(kata5 ⌕ ⣿ Aa("because")⣿).panjang() > 0 ? 'Apakah itu alasan yang sebenarnya?'
+							(kata5 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).panjang(
+							) > 0 ? 'Ceritakan lebih banyak tentang keluargamu.'
+								kata5.berakhir('?') ? 'Kamu bertanya padaku? Menurutmu bagaimana?'
+									(kata5 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? 'Halo! Bagaimana perasaanmu hari ini?'
+										[
+											'Ceritakan lebih banyak.'
+											'Lanjutkan.'
+											'Bagaimana perasaanmu tentang itu?'
+											'Aku mengerti. Aku sedang mendengarkan.'
+										].acak(
+										)
+	)
+
+¶Catatan dimulai dengan sapaan, dan bertambah dua baris setiap ada pesan: pesanmu, lalu balasan dari Chatterbox.¶
+catatan•[baris2]: [
+		baris2('🤖' 'Hai! Aku Chatterbox. Bagaimana kabarmu?')
+	] … ∆ pesan …
+		catatan.dengan(baris2('🙂' pesan)).dengan(
+			baris2('🤖' balasan(pesan))
+		)
+
+¶Tampilkan hanya baris-baris terbaru, supaya baris lama memberi tempat untuk yang baru.¶
+terbaru: catatan.panjang() ≤ 8 ? catatan catatan.suburutan(
+			catatan.panjang() - 7
+		)
+
+Panggung(
+	[
+		Kelompok(
+			Tumpukan('<' 0.5m)
+			terbaru.menerjemahkan(
+				ƒ(baris3•baris2)
+					Frasa(
+						baris3.pembicara + ' ' + baris3.kata2
+						ukuran: 0.75m
+						membungkus: 22m
+						memasuki: Pose(kegelapan: 0 skala: 0.5)
+						lamanya: 0.4s
+					)
+			)
+		)
+	]
+	tempat: Tempat(0m 0m -12m)
+)

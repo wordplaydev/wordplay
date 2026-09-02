@@ -1,0 +1,172 @@
+A
+Nume animat
+=== English/en
+¶This project has an English and a Hindi version.
+Change the locale on stage to see each one!¶/en
+¶यह कार्यक्रम दो रूप मे हैं: अंग्रेज़ी और हिंदी। मंच पर भाषा बदलिए
+दोनो देखने के लिए!¶/hi
+
+🌍/en ?
+	¶A small, simple animation of my name Aditi according to my identity.
+	- I'm very passionate about writing, so the 'A' is written in an ink-like
+	font and rotating to imitate writing the letter somewhat.
+	- Aditi is the name of the Hindu goddess of the earth, which is why
+	the 'd' is spinning around and flashing blue and green.
+	- My favorite color is periwinkle, and I love to listen to and make music,
+	which is why 'i' is represented by an eighth note in that color and
+	jumping up and down as notes do.
+	- Lastly, the 't' and 'i' are combined into another musical note (two
+	eighth notes beamed together), just to emphasize that I like music and
+	creatively write those two letters.¶/en
+
+	¶This Group arranges each letter of my name into row format so they
+	show up in a horizontal line, as you can see on stage.¶/en
+	(
+		Grup(
+			Rând()
+			[
+				¶Each Phrase contains one symbol to represent a letter of my name.
+				This allows me to animate each letter individually! I'm using
+				resting Sequences so that the letters move while on stage.¶/en
+				Fraza(
+					'A'/en
+					faţă: 'Pacifico'
+					intrând: Secvenţă(
+						{
+							0%: Poză(opacitate: 0%)
+							25%: Poză(opacitate: 25%)
+							50%: Poză(opacitate: 50%)
+							75%: Poză(opacitate: 75%)
+							100%: Poză()
+						}
+					)
+					odihnă: Secvenţă(
+						{
+							0%: Poză()
+							50%: Poză(rotaţie: 180°)
+							100%: Poză(rotaţie: 359°)
+						}
+						durată: 1s
+					)
+					durată: 1s
+				)
+				Fraza(
+					'd'/en
+					faţă: 'Aclonica'
+					odihnă: Secvenţă(
+						{
+							0%: Poză(
+								culoare: Culoare(0.5 100 180°)
+								flipx: ⊤
+							)
+							50%: Poză(culoare: Culoare(27% 112 267°))
+							75%: Poză(
+								culoare: Culoare(0.5 100 180°)
+								flipx: ⊤
+							)
+						}
+						durată: 2s
+					)
+					stil: 'straight'
+					durată: 5s
+					culoare: Culoare(0.5 100 180°)
+				)
+				Fraza(
+					'♪'
+					odihnă: Secvenţă(
+						{
+							0%: Poză(
+								compensare: Mişcare(
+									Loc(0m 0.5m 0m rotaţie: 0°)
+									Viteză(0m/s 0m/s 0°/s)
+								)
+							)
+							25%: Poză()
+							50%: Poză(compensare: Loc(0m 0m 0m))
+							75%: Poză(compensare: Loc(0m -0.5m 0m))
+							100%: Poză()
+						}
+					)
+					durată: 5s
+					culoare: Culoare(74% 100 292°)
+				)
+				Fraza(
+					'♫'
+					odihnă: Secvenţă(
+						{
+							0%: Poză(rotaţie: 20°)
+							50%: Poză(rotaţie: -20°)
+							100%: Poză(rotaţie: 20°)
+						}
+					)
+				)
+			]
+		)
+	)
+
+	¶एक छोटा सा कार्यक्रम जो मेरी नाम अदिती दिखाता हैं, मेरे पहचान के अनुुसार।
+	- मुझे लोगों को देखना अच्छी लगती हैं, बात करने की बजाय। इस लिए “अ”
+	 अंदर-बाहर आ और जा रहा हैं।
+	- मेरी पसंद वाली रंग पेरिविंकल हैं, तो “दि” वह रंग दिखा रहा हैं।
+	- भूदेवी की एक दूसरी नाम “अदिती” हैं, तो “ती” भूमि जैसे घूम रहा हैं,
+	उसके रंग के साथ।¶/hi
+
+	¶यह ‘ग्रूप’ मेरी नाम की हर अक्षर सजाता हैं ताकी वे दिखते हैं जैसे आप को
+	दिखाई देता हैं मंच पर।¶/hi
+	(
+		Grup(
+			Rând()
+			[
+				¶हर बोल एक अक्षर रखता हैं मेरी नाम की। यह मुझे हर अक्षर को हिलाने देता हैं।
+				मैं आराम-वाले @Sequence का इस्तेमाल कर रही हूँ ताकी अक्षर मंच पर हिले।¶/hi
+				Fraza(
+					'अ'/hi
+					faţă: 'Pacifico'
+					odihnă: Secvenţă(
+						{
+							0%: Poză(opacitate: 0%)
+							25%: Poză(opacitate: 25%)
+							50%: Poză(opacitate: 50%)
+							75%: Poză(opacitate: 75%)
+							100%: Poză()
+						}
+						durată: 2s
+					)
+				)
+				Fraza(
+					'दि'/hi
+					odihnă: Secvenţă(
+						{
+							0%: Poză(culoare: Culoare(0% 0 0°))
+							50%: Poză(culoare: Culoare(74% 100 291°))
+							100%: Poză()
+						}
+						durată: 2s
+					)
+					durată: 5s
+					culoare: Culoare(74% 100 292°)
+				)
+				Fraza(
+					'ती'/hi
+					faţă: 'Aclonica'
+					odihnă: Secvenţă(
+						{
+							0%: Poză(
+								culoare: Culoare(0.5 100 180°)
+								flipx: ⊤
+							)
+							50%: Poză(culoare: Culoare(27% 112 267°))
+							75%: Poză(
+								culoare: Culoare(0.5 100 180°)
+								flipx: ⊤
+							)
+						}
+						durată: 2s
+					)
+					stil: 'straight'
+					durată: 5s
+					culoare: Culoare(0.5 100 180°)
+				)
+			]
+		)
+	)

@@ -1,0 +1,37 @@
+O
+日本語クラス
+=== start
+¶日本語の授業の初日についての、場面ごとの物語。¶
+
+¶これは表示する場面のリストです。¶
+文: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶これは、話すことでしか次に進めない文のリストです。¶
+文を話す: [5 7 9]
+
+¶現在の文は1から始まり、話す文の場合はマイクの音量が0.8を超えると、それ以外の文の場合はボタンやキーが押されると進みます。¶
+現在の文•#: 1 …
+	文を話す.ふくむ(現在の文) ?
+		音量() > .6
+		∆ ボタン() | ∆ キー()
+		…
+		(現在の文 <
+				文.長さ()) ?
+			現在の文 + 1
+			現在の文
+
+ステージ(
+	[フレーズ(文[現在の文] 折り返し: 10m)]
+	顔: 'Sue Ellen Francisco'
+)

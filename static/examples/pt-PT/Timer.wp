@@ -1,0 +1,10 @@
+•
+Temporizador
+===
+¶Uma fila de pontos que cresce até cinco e recomeça, uma vez por segundo.¶
+Frase(
+	"•".repetido(
+		((Tempo(1000ms) → #s) % 5).arredondarParaBaixo() + 1s
+	)
+	duração: 0s
+)

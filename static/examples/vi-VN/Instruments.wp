@@ -1,0 +1,99 @@
+🎛️
+Nhạc cụ
+=== start/en
+¶Cùng tám ô nhịp đó, được chơi bởi mọi nhạc cụ trong bảng chọn. Chọn một tênvà giai điệu vẫn giữ nguyên vị trí — chỉ có âm thanh thay đổi. Hai con mèo làcùng một con mèo, và hai con chó cũng vậy: một con của mỗi loài là bộ trốnggõ, nên giai điệu đọc thành tiếng động, còn con kia có cao độ, nên nó hát ra.
+
+Phần lớn đây là bản thu âm thật. Bốn bộ tổng hợp âm không bắt chước gì cả:chúng là bộ tổng hợp âm, và đó chính là âm thanh của chúng. Cái cuối cùngtrong số đó hát, đó là lý do có lời trên track — mọi nhạc cụ khác ở đây đềubỏ qua chúng.¶
+
+¶Nhạc cụ nào đang chơi giai điệu. Choice() trả về tên của đầu ra có thể chọn nàođã được chọn, và ø khi chưa có gì được chọn.¶
+đãChọn: Sựlựachọn()
+
+¶Mỗi mục ứng với một nhạc cụ: gọi nó là gì, cái gì chơi nó, và màu mà nútbấm của nó mang.¶
+•giọng(nhãn•'' biểuTượng•'' âmThanh•NhạcCụ sắcĐộ•#°)
+
+giọng2•[giọng]: [
+		giọng('đàn piano' '🎹' NhạcCụ.đànPiano 260°)
+		giọng('đàn guitar' '🎸' NhạcCụ.ghiTaThùng 20°)
+		giọng('điện' '⚡' NhạcCụ.ghiTaĐiện 5°)
+		giọng('vi-ô-lông' '🎻' NhạcCụ.đànVĩCầm 40°)
+		giọng('sáo' '🪈' NhạcCụ.sáo 180°)
+		giọng('kèn trumpet' '🎺' NhạcCụ.kènTrumpet 50°)
+		giọng('kèn saxophone' '🎷' NhạcCụ.kènSaxophone 70°)
+		giọng('kèn harmonica' '🌬' NhạcCụ.kènHarmonica 150°)
+		giọng('chuông' '🔔' NhạcCụ.chuông 55°)
+		giọng('trống' '🥁' NhạcCụ.trống 0°)
+		giọng('didgeridoo' '🎶' NhạcCụ.kènDidgeridoo 15°)
+		giọng('mèo' '🐱' NhạcCụ.mèo 330°)
+		giọng('mèo có cao độ' '😺' NhạcCụ.mèoTheoCaoĐộ 350°)
+		giọng('chó' '🐶' NhạcCụ.chó 35°)
+		giọng('chó có cao độ' '🐕' NhạcCụ.chóTheoCaoĐộ 125°)
+		giọng('bộ tổng hợp âm' '🎛' NhạcCụ.đànTổngHợp 290°)
+		giọng('trầm' '🎛' NhạcCụ.đànBassTổngHợp 310°)
+		giọng('đệm' '🎛' NhạcCụ.đànPadTổngHợp 200°)
+		giọng('giọng' '🤖' NhạcCụ.giọngNói 95°)
+	]
+
+¶Giọng đã chọn, hoặc đàn piano trước khi ai đó chọn. find() trả về ø khikhông có gì khớp, nên phương án dự phòng phải là một Voice của riêng nó.¶
+đãChọn2: giọng2.tìmthấy(
+		ƒ(giọng3•giọng) giọng3.nhãn = đãChọn
+	)
+hiệnTại•giọng: đãChọn2•ø ? giọng(
+			'đàn piano'
+			'🎹'
+			NhạcCụ.đànPiano
+			260°
+		) đãChọn2
+
+¶Một giai điệu giữ nguyên trong khi nhạc cụ bên dưới nó thay đổi. Đây là bậc,không phải nốt nhạc, nên nó mang cùng ý nghĩa trên mọi nhạc cụ — còn trêntrống thì nó đọc thành nhịp điệu thay vì thế, vì bậc ở đó đánh chỉ mục bộ trốnggõ.¶
+giaiĐiệu2: [1 3 5 6 5 3 2 ø]
+
+¶Mỗi âm tiết ứng với một nốt nhạc, được viết bằng Bảng Chữ Cái Ngữ Âm QuốcTế, trong đó mỗi chữ cái là một âm. Chỉ giọng hát dùng những âm tiết này; phầncòn lại của bảng chọn bỏ qua chúng. Phần còn lại không nhận âm tiết nào, nênbảy âm đủ để phủ tám mục.¶
+lờiCa: 'la li lu le lo li la'
+
+¶Mỗi nhạc cụ có một nút riêng: biểu tượng nằm trên tên của nó, để chúng không chồng lên nhau. Những câu có thể chọn là những gì $Choice() đọc, và câu hiện tại được vẽ sáng hơn để bạn biết mình đang ở đâu.¶
+ƒ nútBấm(giọng4•giọng)
+	Nhóm(
+		Ngănxếp(đệm: 0.1m)
+		[
+			Cụmtừ(giọng4.biểuTượng 1.1m)
+			Cụmtừ(giọng4.nhãn 0.5m)
+		]
+		tên: giọng4.nhãn
+		cóthểlựachọn: ⊤
+		màusắc: (giọng4.nhãn = hiệnTại.nhãn)
+		? Màusắc(95% 60 giọng4.sắcĐộ)
+			Màusắc(60% 8 giọng4.sắcĐộ)
+	)
+
+¶Mọi thứ hiển thị đều nằm trong một Stack. Một Stage tự căn giữa từng phần tử con của nó, nên nếu để mặc, chúng sẽ chồng hết lên nhau — cách bố trí phải nói rõ chúng xếp cái này trên cái kia.
+
+Các nút được xếp trong một Grid thay vì một Row. Nếu để tất cả trong một hàng thì sẽ rộng hơn cả điện thoại, và một Stage sẽ thu nhỏ nội dung cho vừa, khiến nhãn co lại đến mức không đọc được. Chỉ cần đưa ra số cột: bỏ trống số hàng, Grid sẽ tự tính ra cần bao nhiêu hàng, nên thêm một nhạc cụ mới không có nghĩa là phải sửa lại phần này.
+
+Bản nhạc giữ nguyên một tên suốt thời gian, thay vì lấy tên của nhạc cụ. Tên của một 🎼 chính là danh tính của nó: đổi tên nó thì người chơi sẽ nghe một bản nhạc khác bắt đầu, nên giai điệu sẽ nhảy về đầu mỗi lần chuyển, và bản nhạc sẽ vẽ các nốt của nhạc cụ cũ bên cạnh nhạc cụ mới cho đến khi chúng cuộn trôi đi.¶
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp(đệm: 0.6m)
+			[
+				Cụmtừ(hiệnTại.biểuTượng 2.5m)
+				Cụmtừ(hiệnTại.nhãn 1.2m)
+				Nhóm(
+					Lưới(cột: 5 đệm: 0.4m)
+					giọng2.dịch(ƒ(giọng5•giọng) nútBấm(giọng5))
+				)
+			]
+		)
+		ÂmNhạc(
+			BảnNhạc(
+				giaiĐiệu2
+				nhạcCụ: hiệnTại.âmThanh
+				từNgữ: lờiCa
+			)
+			nhịpĐộ: 120beats/min
+			thangÂm: ÂmNhạc.ngũCung
+			tên: 'giai điệu'
+		)
+	]
+	lýlịch: Màusắc(14% 12 280°)
+	màusắc: Màusắc(95% 0 0°)
+)

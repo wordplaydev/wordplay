@@ -1,0 +1,78 @@
+⏳
+勉強モードメーター
+=== start/en
+¶クリックして勉強時間を追加すると、メーターが「穏やか」から「集中」、そして「オーバーロード」へと変わっていきます。¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+アクション: 選択()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+勉強時間:
+	0 …
+	∆ アクション …
+		アクション = 'reset' ?
+			0
+			勉強時間 + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+説明2:
+	'「勉強時間を追加 +1」をクリックすると、勉強時間が増えます。「リセット」をクリックすると、最初からやり直せます。'
+
+¶Hours text shows how many hours the user has studied.¶/en
+時間テキスト:
+	'あなたはこれまでに' + 勉強時間 → '' + '時間、勉強しました。'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+気分:
+	勉強時間 < 3 ?
+		'🌿 穏やかモード — クリックして勉強時間を追加しよう'
+		勉強時間 < 6 ?
+			'📚 集中モード — 今、あなたはよくはかどるゾーンにいます！'
+			'🔥 オーバーロードモード — 休憩して「リセット」しましょう'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+ステージ(
+	[
+		グループ(
+			積み重ね()
+			[
+				フレーズ('勉強モードメーター' 大きさ: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				フレーズ(説明2 大きさ: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				フレーズ(時間テキスト 大きさ: 0.4m)
+
+				フレーズ(気分 大きさ: 0.75m)
+
+				グループ(
+					行(余白: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						フレーズ(
+							'勉強時間を追加 +1'
+							選択可能: ⊤
+							名前: '追加'
+							色: 色(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						フレーズ(
+							'リセット'
+							選択可能: ⊤
+							名前: 'reset'
+							色: 色(69% 47 271°)
+						)
+					]
+				)
+			]
+			顔: "Aclonica"
+		)
+	]
+)

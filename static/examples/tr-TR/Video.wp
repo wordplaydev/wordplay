@@ -1,0 +1,84 @@
+📹
+Video
+===
+¶Kamera görüntün, canlı olarak yeniden çizilir: renkli harfler, ASCII gölgeleme ya da renkli kareler olarak. Alttaki düğmelerle bir stil seç.¶
+
+¶En son hangi stil düğmesine tıklandığını gösterir. Choice, izleyicinin seçtiği selectablephrase'in ismini bildirir ve stil en son duyduğu şeyi korur.¶
+seçim: Seçenek()
+stil2: 'letters' … ∆ seçim … seçim
+
+¶Emojiler büyüktür, bu yüzden emoji stili daha kaba bir ızgara kullanır. Her iki ızgara da aynı 16 metreye 12 metrelik alanı kaplar, bu yüzden stili değiştirmek resmi asla yeniden boyutlandırmaz ya da kamerayı hareket ettirmez.¶
+kolonlar: (stil2 = 'emoji') ? 16 32
+satırlar2: (stil2 = 'emoji') ? 12 24
+hücre2: (stil2 = 'emoji') ? 1m 0.5m
+
+¶Izgaranın ortası; resmin ortalandığı yer burasıdır.¶
+ortaKolon: (kolonlar + 1) ÷ 2
+ortaSatır: (satırlar2 + 1) ÷ 2
+
+¶Her hücrede doğrudan kameradan gelen bir renk.¶
+renkler: Kamera((kolonlar × 1px) (satırlar2 × 1px) 33ms)
+
+¶Koyudan açığa doğru on karakter. ASCII stili, pikselin parlaklığına göre birini seçer.¶
+geçiş: "@%#*+=-:. " → []
+
+¶Renk çemberinin etrafında yirmi dört tane 15 derecelik bant vardır, bu yüzden her piksel kendi rengine en yakın kareyi alır.¶
+kareler: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
+
+¶Mevcut stilde bir pikselin nasıl göründüğü. Neredeyse hiç rengi olmayan bir pikselin gösterecek bir tonu yoktur, bu yüzden açık ya da koyu bir kareye döner.¶
+ƒ harfIşareti(renk2•Renk)
+	(stil2 = 'ascii') ?
+		"\geçiş[((renk2.hafiflik × 9).yuvarlak()) + 1]\"
+		((stil2 = 'emoji') ?
+				((renk2.renk < 8) ?
+						((renk2.hafiflik < 50%) ? "⬛" "⬜")
+						"\kareler[(((renk2.renktonu ÷ 1°) ÷ 15).Aşağıyuvarla(
+							)) + 1]\")
+				'bir')
+
+¶Resim: piksel başına bir phrase, ortadan dışa doğru yerleştirilir, böylece ızgara ne kadar kaba olursa olsun kamera aynı resmi çerçeveler; ayrıca soldan sağa aynalanır, tıpkı bir aynanın gösterdiği gibi okunur.¶
+resim: renkler.birleştirilmiş(
+		[]
+		ƒ(cümleler•[İfadeetmek] sıra•[Renk] y2•#)
+			cümleler.Listeile(
+				sıra.tercümeetmek(
+					ƒ(renk3•Renk x2•#)
+						İfadeetmek(
+							harfIşareti(renk3)
+							yer: Yer(
+								((ortaKolon - x2) × hücre2)
+								((ortaSatır - y2) × hücre2)
+							)
+							süre: 0s
+							boyut: (stil2 = 'ascii') ? 0.75m ((stil2 = 'emoji') ? 1.15m 1m)
+							yüz: (stil2 = 'ascii') ? "Noto Sans Mono"/en ø
+							renk: (stil2 = 'letters') ? renk3 ø
+						)
+				)
+			)
+	)
+
+¶Bir stil düğmesi, gösterilen stil olduğunda parlar. İsim, düğmeye tıklandığında ya da klavyeyle seçildiğinde Choice'ın bildirdiği şeydir.¶
+ƒ düğme(kimlik2•'')
+	İfadeetmek(
+		kimlik2
+		0.5m
+		isim: kimlik2
+		seçilebilir: ⊤
+		dinlenme: (stil2 = kimlik2) ? Poz() Poz(opaklık: 40%)
+	)
+
+¶Bir satır, düğmeleri kelimelerinin uzunluğu ne olursa olsun eşit aralıklarla ve hizalı tutar; kendine ait bir yeri olmadığından satır ortada durur, bu yüzden onu ekranın altına indirmek için tek gereken kaydırma miktarıdır. Kendi arka planını taşır, çünkü bir video üzerindeki yazılar ancak şans eseri okunabilir olur.¶
+düğmeler: Grup(
+		Sıra(dolgu: 0.5m)
+		[düğme('letters') düğme('ascii') düğme('emoji')]
+		arkaplan: Renk(100% 0 0°)
+		telafietmek: Yer(0m -4.5m)
+	)
+
+¶Düğmeler, sahnenin ekrana sabitlenmiş katmanında yer alır: resim nasıl çerçevelenirse çerçevelensin aynı boyutta ve yerde kalırlar, resim ise sanki onlar yokmuş gibi çerçevelenir.¶
+Sahne(
+	resim
+	Tanım: "camera video drawn with \stil2\"
+	kaplama: [düğmeler]
+)

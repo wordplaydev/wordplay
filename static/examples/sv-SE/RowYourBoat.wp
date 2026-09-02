@@ -1,0 +1,176 @@
+🚣
+Ro din båt
+=== start/en
+¶Ro, ro, ro din båt — en gång igenom, tio sekunder exakt, med en liten flotta som ror till den.
+
+Sången är i 6/8, så varje takt är sex åttondelsnoter och varje post i dessa listor är en av dem. Tjugofyra slag i 144 slag i minuten blir exakt tio sekunder.
+
+Båtarna drivs av @Beat i stället för av en klocka, så de drar i takt med musikens slag i stället för att bara ligga nära det — och de ligger stilla tills det börjar, eftersom @Beat stannar på slag noll tills dess.¶
+
+slag2: Takt()
+åratag: slag2.räkna
+
+¶Melodin. Ro, ro, ro din båt, sakta nerför strömmen — de långa tonerna är långa för att pauserna efter dem håller rutnätet, eftersom varje post varar lika länge, en åttondel.¶
+melodi2: [
+		1
+		ø
+		ø
+		1
+		ø
+		ø
+		1
+		ø
+		2
+		3
+		ø
+		ø
+		3
+		ø
+		2
+		3
+		ø
+		4
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		8
+		8
+		8
+		5
+		5
+		5
+		3
+		3
+		3
+		1
+		1
+		1
+		5
+		ø
+		4
+		3
+		ø
+		2
+		1
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Ett ackord högst upp i varje takt. Det stannar på samma ton hela vägen fram till näst sista takten, som lutar sig mot kvinten så att sista takten känns som ett mål.¶
+ackord: [
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{5 7 9 11}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Åratag: ett lågt slag att dra på och ett ljust för att återhämta, en gång per takt.¶
+åror: [
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+	]
+
+¶En båt. Den glider lite längre fram för varje slag och gungar åt andra hållet varje gång, vilket är det som ser ut som rodd. Banan bestämmer hur högt den ligger och hur långt framme den startade, så att de inte rör sig som en enda båt.¶
+ƒ båt(bana•# start2•#)•Fras
+	Fras(
+		'🚣'
+		1.5m
+		plats: Plats(
+			((((åratag + start2) % 16) - 8) · 1.1) · 1m
+			((bana · 1.9) - 1.9) · 1m
+		)
+		rotation: (((åratag + bana) % 2) = 0) ? 9° -9°
+		varaktighet: 0.2s
+	)
+
+flotta: [båt(0 0) båt(1 6) båt(2 11)]
+
+Etapp(
+	[
+		:flotta
+		Fras(
+			'〰〰〰〰〰〰〰〰'
+			1m
+			plats: Plats(-8m -3.2m)
+			färg: Färg(48% 22 240°)
+		)
+		Fras(
+			'Ro, ro, ro din båt'
+			0.9m
+			plats: Plats(-4.4m 3.4m)
+		)
+		Musik(
+			[
+				Spår(
+					melodi2
+					instrument: Instrument.flöjt
+					takt: 0.5beats
+				)
+				Spår(
+					ackord
+					instrument: Instrument.piano
+					takt: 1beats
+					volym: 60%
+				)
+				Spår(
+					åror
+					instrument: Instrument.trummor
+					takt: 1beats
+					volym: 45%
+				)
+			]
+			tempo: 144beats/min
+			namn: 'båt'
+		)
+	]
+	bakgrund: Färg(22% 18 230°)
+	färg: Färg(96% 0 0°)
+)

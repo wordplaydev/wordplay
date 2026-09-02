@@ -1,0 +1,156 @@
+🎹
+Wirtualne Pianino
+=== start
+¶Pianino na jedną oktawę, na którym możesz grać!Dla najlepszego działania wyłącz wizualizację muzyki.¶
+
+¶To wiązanie przechowuje strumień Key, który wykrywa, który klawisz naciśnięto.¶
+wciśnięty: Klawisz()
+
+¶To przechowuje mapowanie z klawiszy, które naciskasz, na nuty, które będą grane,w postaci tekstu (do wyświetlenia granej nuty) oraz w postaci liczbowegoliterału tekstowego (do przekształcenia w liczbę (#) i wprowadzenia do listy Track).
+
+Układ został wybrany tak, aby dokładnie odwzorować klawisze pianina, gdzie białeklawisze przedstawiają znaki alfabetyczne, a czarne klawisze przedstawiają znaki liczbowe.¶
+mapaNut: {
+		'w': ['C' "1"]
+		'3': ['C# / Db' "2"]
+		'e': ['D' "3"]
+		'4': ['D# / Eb' "4"]
+		'r': ['E' "5"]
+		't': ['F' "6"]
+		'6': ['F# / Gb' "7"]
+		'y': ['G' "8"]
+		'7': ['G# / Ab' "9"]
+		'u': ['A' "10"]
+		'8': ['A# / Bb' "11"]
+		'i': ['B' "12"]
+		'o': ['C5' "13"]
+	}
+
+¶Ta funkcja zwraca nazwę nuty, na podstawie tego, który klawisz naciśnięto.Jeśli klawisz nie odpowiadał żadnej nucie, zwraca pusty tekst.¶
+ƒ zwróćText(klawisz2•"")•"" (mapaNut{klawisz2} ≠ ø) ? mapaNut{klawisz2}[1] ""
+
+¶Ta funkcja zwraca numer nuty odpowiadający naciśniętemu klawiszowi w liście,do użycia jako wejście w Track. Jeśli naciśnięty klawisz jest nieprawidłowy,zwraca pustą listę.¶
+ƒ zwróćNote(klawisz3•"")•[] [
+		(mapaNut{klawisz3} ≠ ø) ? (mapaNut{klawisz3}[2] → #) []
+	]
+
+¶Ta funkcja przyjmuje listę liczbową i zwraca Track z tą listą nut.Pętla jest wyłączona, aby nuta zagrała tylko raz po naciśnięciu klawisza.¶
+ƒ zwróćTrack(nuta•[#]) Ścieżka(nuta pętla: ⊥)
+
+¶Te dwa wiązania określają kolor, jaki ma mieć dany klawisz,gdy jest naciśnięty i gdy nie jest naciśnięty.¶
+naciśnijColor: Kolor(10 270 50°)
+pustyColor: Kolor(0 0 0°)
+
+¶To odtwarza ścieżkę odpowiadającą naciśniętemu klawiszowi. Skala jest chromatyczna,aby ścieżki mogły korzystać ze wszystkich półtonów. Powtórzenie jest ustawionena moment naciśnięcia poprawnego klawisza, tak aby ścieżka grała każdym razem,gdy klawisz zostanie naciśnięty, nawet dwa razy pod rząd.¶
+Muzyka(
+	zwróćTrack(zwróćNote(wciśnięty))
+	skala: Muzyka.chromatyczna
+	powtórka: mapaNut{wciśnięty} ≠ ø
+)
+
+¶Wyświetlanie pianina, klawiszy do naciśnięcia oraz nuty granej,gdy klawisz zostanie naciśnięty.¶
+Grupa(
+	Stos('>' 1m)
+	[
+		Grupa(
+			Wiersz('>' -.3m)
+			[
+				Wyrażenie(
+					'▯'
+					nazwa: 'w'
+					rozmiar: 3m
+					kolor: wciśnięty = 'w' ? naciśnijColor pustyColor
+				)
+				Wyrażenie(
+					'▮'
+					nazwa: '3'
+					rozmiar: 3m
+					kolor: wciśnięty = '3' ? naciśnijColor pustyColor
+				)
+				Wyrażenie(
+					'▯'
+					nazwa: 'e'
+					rozmiar: 3m
+					kolor: wciśnięty = 'e' ? naciśnijColor pustyColor
+				)
+				Wyrażenie(
+					'▮'
+					nazwa: '4'
+					rozmiar: 3m
+					kolor: wciśnięty = '4' ? naciśnijColor pustyColor
+				)
+				Wyrażenie(
+					'▯'
+					nazwa: 'r'
+					rozmiar: 3m
+					kolor: wciśnięty = 'r' ? naciśnijColor pustyColor
+				)
+				Wyrażenie(
+					'▯'
+					nazwa: 't'
+					rozmiar: 3m
+					kolor: wciśnięty = 't' ? naciśnijColor pustyColor
+				)
+				Wyrażenie(
+					'▮'
+					nazwa: '6'
+					rozmiar: 3m
+					kolor: wciśnięty = '6' ? naciśnijColor pustyColor
+				)
+				Wyrażenie(
+					'▯'
+					nazwa: 'y'
+					rozmiar: 3m
+					kolor: wciśnięty = 'y' ? naciśnijColor pustyColor
+				)
+				Wyrażenie(
+					'▮'
+					nazwa: '7'
+					rozmiar: 3m
+					kolor: wciśnięty = '7' ? naciśnijColor pustyColor
+				)
+				Wyrażenie(
+					'▯'
+					nazwa: 'u'
+					rozmiar: 3m
+					kolor: wciśnięty = 'u' ? naciśnijColor pustyColor
+				)
+				Wyrażenie(
+					'▮'
+					nazwa: '8'
+					rozmiar: 3m
+					kolor: wciśnięty = '8' ? naciśnijColor pustyColor
+				)
+				Wyrażenie(
+					'▯'
+					nazwa: 'i'
+					rozmiar: 3m
+					kolor: wciśnięty = 'i' ? naciśnijColor pustyColor
+				)
+				Wyrażenie(
+					'▯'
+					nazwa: 'o'
+					rozmiar: 3m
+					kolor: wciśnięty = 'o' ? naciśnijColor pustyColor
+				)
+			]
+		)
+
+		Grupa(
+			Wiersz('>' 1.1m)
+			[
+				Wyrażenie('w')
+				Wyrażenie('3')
+				Wyrażenie('e')
+				Wyrażenie('4')
+				Wyrażenie('r t')
+				Wyrażenie('6')
+				Wyrażenie('y')
+				Wyrażenie('7')
+				Wyrażenie('u')
+				Wyrażenie('8')
+				Wyrażenie('i  o')
+			]
+		)
+		Wyrażenie(zwróćText(wciśnięty))
+	]
+)

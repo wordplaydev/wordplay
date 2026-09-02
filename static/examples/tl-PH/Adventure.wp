@@ -1,0 +1,262 @@
+Y
+Pakikipagsapalaran
+=== start/en
+¶Isang teksto na pakikipagsapalaran sa labinlimang silid: magising na nakagapos sa isang madilim at malamig na silid at hanapin ang isa sa apat na paraan kung paano matatapos ang gabing ito. Ang mga silid ay pabalik-balik sa isa't isa, kaya ang isang maling liko ay isang loop at hindi isang patay na daan, at ang iyong dala-dala ang magpapasya kung aling mga daanan ang bukas para sa iyo.¶
+
+¶Isang paraan palabas ng isang silid: kung ano ang tawag sa pagpipilian, ang id ng silid na binubuksan nito, at, para sa pintong nakakandado, kung ano ang dapat mong dala-dala para magamit ito. Ang pagpapangalan sa patutunguhan sa halip na paghawak dito ang buong lihim. Ang isang bind ay kailangang umiral bago pa man ito mabanggit ng kahit ano, kaya ang isang kuwentong binuo mula sa mga bind ay palaging tumuturo lang paatras at hindi na muling makababalik. Ang isang text id ay walang ganitong panuntunan, kaya maaaring pangalanan ng dalawang silid ang isa't isa, at maaaring magkaroon ng mga loop ang mapa.¶
+•pinto(tatak•'' silid•'' kailangan•'': '')
+
+¶Isang silid. Karamihan sa mga silid ay kailangan lang ng unang tatlo: isang id, ang matatagpuan mo doon, at ang mga pinto nito. Ang huling tatlo ay para sa mga silid na espesyal — isa na nagbibigay sa iyo ng isang bagay, at ang apat na nagtatapos sa kuwento.¶
+•silid2(id2•'' paglalarawan2•'' mgaPinto•[pinto]: [] kunin•'': '' pagtatapos•'': '' nanalo•?: ⊥)
+
+¶Kung nasaan ka at kung ano ang dala-dala mo. Ito ang tunay na kahulugan ng kuwento: isang id ng silid at isang maliit na tambak ng mga bagay.¶
+•paglalakbay(silid3•'' bagahe•[''])
+
+¶Bawat silid sa isang listahan. Ang una lamang ang mahalaga sa pagkakasunod-sunod: doon nagsisimula ang kuwento, at doon din ibinabalik ka ng bawat katapusan.¶
+mgaSilid•[silid2]: [
+		silid2(
+			'selula'
+			'Magigising ka sa isang madilim at malamig na silid na mabaho ng amag. Nakatali ang iyong mga pulso sa likod mo, at sinuman ang nagtali ng buhol ay hindi nagmadali sa paggawa nito.'
+			[
+				pinto('gumulong sa iyong tagiliran' 'sahig')
+				pinto('humiga nang tahimik at makinig' 'makinig')
+			]
+		)
+		silid2(
+			'makinig'
+			'May dalawang tinig na naririnig mula sa ilalim ng sahig. Nag-aaway sila kung sino ang nag-iwan ng bukas na tarangkahan, at wala sa kanila ang mukhang nag-aalala tungkol sa iyo.'
+			[pinto('gumulong sa iyong tagiliran' 'sahig')]
+		)
+		silid2(
+			'sahig'
+			'Sa iyong tagiliran ay makikita mo sa ilalim ng higaan: isang kutsilyo sa mga tapak-na-bato, kinalawang sa gilid, malapit na maaabot mo kung handa kang idikit ang iyong mukha sa sahig.'
+			[
+				pinto('kunin ito at kalagan ang sarili' 'silong')
+				pinto(
+					'manatiling tahimik at makinig muli'
+					'makinig'
+				)
+			]
+		)
+		silid2(
+			'silong'
+			'Ang silong, habang nakatayo: ang higaan, isang nakakalat na putol na lubid, isang hagdan na umaakyat sa isang dingding at isang mababang daanan na patungo sa kabila.'
+			[
+				pinto('akyatin ang hagdan' 'hagdan')
+				pinto('kunin ang mababang daanan' 'daanan')
+			]
+			kunin: 'kutsilyo'
+		)
+		silid2(
+			'hagdan'
+			'Mga baitang na guma-gumuho sa gitna. Sa kalagitnaan ng pag-akyat may isang patag na may lampara na nakasabit sa isang kawit, at sa itaas ng patag na iyon ay tuloy-tuloy pa ang hagdan.'
+			[
+				pinto('kunin ang lampara' 'lampara')
+				pinto('magpatuloy sa pag-akyat' 'pinto')
+				pinto('bumalik pababa' 'silong')
+			]
+		)
+		silid2(
+			'lampara'
+			'Nagningas ang mitsa sa ikalawang subok, at lumabas na mas maliit pala ang patag kaysa sa itsura nito sa dilim.'
+			[
+				pinto('magpatuloy sa pag-akyat' 'pinto')
+				pinto('bumalik pababa' 'silong')
+			]
+			kunin: 'lampara'
+		)
+		silid2(
+			'pinto'
+			'Sa itaas ng hagdan, may mabigat na pintong may susi mula sa kabilang panig. Luma na ang susi at malapad ang puwang sa tabi nito, sapat para sa isang patalim.'
+			[
+				pinto('gamitin ang kutsilyo sa susi' 'bulwagan')
+				pinto('bumalik pababa' 'hagdan')
+			]
+		)
+		silid2(
+			'bulwagan'
+			'Isang bulwagan na may lamig na na apuyan at dalawang upuan na natulak paatras, na parang biglang natapos ang isang pagtatalo. Sa dulo ay may isang tarangkahan, at kulay-abong liwanag sa ilalim nito.'
+			[
+				pinto(
+					'tumawid patungo sa tarangkahan'
+					'tarangkahan'
+				)
+				pinto('bumalik pababa sa hagdan' 'hagdan')
+			]
+		)
+		silid2(
+			'tarangkahan'
+			'Nakakadena ang tarangkahan, at dumadaan ang kadena sa isang kandado na kasinlaki ng iyong kamao. Lampas dito, pababa sa lambak ang daan.'
+			[
+				pinto(
+					'ipihit ang susi sa kandado'
+					'gilid ng burol'
+					kailangan: 'susi'
+				)
+				pinto('umakyat na lang sa kadena' 'umakyat')
+				pinto('bumalik sa bulwagan' 'bulwagan')
+			]
+		)
+		silid2(
+			'daanan'
+			"Mababa ang daanan kaya't kailangan mong gumapang gamit ang isang kamay, at amoy-ilog ito. Pagkatapos ng ilang hakbang, hindi na lang anino ang dilim kundi naging isang pader."
+			[
+				pinto('kapain ang daan' 'bulag')
+				pinto(
+					'dalhin ang ilaw papasok'
+					'kripta'
+					kailangan: 'lampara'
+				)
+				pinto('bumalik sa dinaanan mo' 'silong')
+			]
+		)
+		silid2(
+			'kripta'
+			'Nakita ng lantern ang isang mababang silid ng mga kahong bato, at sa isang kawit sa tabi ng huling kahon, may nakasabit na kalawanging susi na may piraso ng tela na buhol pa rin.'
+			[
+				pinto('magpatuloy patungo sa tubig' 'ilog')
+				pinto('bumalik sa daanan' 'daanan')
+			]
+			kunin: 'susi'
+		)
+		silid2(
+			'bulag'
+			'Nagpatuloy ka na may isang kamay na inuunat. Walang nadama ang kamay, at pagkalipas ng saglit, wala na ring nadama ang mga paa mo. Iningatan ng dilim ang ibinigay dito.'
+			pagtatapos: 'Iningatan ka ng dilim.'
+		)
+		silid2(
+			'umakyat'
+			'Malapit ka na sa itaas nang maalala ng kadena kung gaano ito katanda. Natagpuan ka nila sa paanan ng tarangkahan pagsapit ng madaling-araw, at ngayon, may dala silang lubid na sapat para sa dalawa.'
+			pagtatapos: 'Nahuli sa tarangkahan.'
+		)
+		silid2(
+			'ilog'
+			'Nagtapos ang daanan sa isang rehas na nasa ibabaw ng umaagos na tubig. Luma na ang mga bakal na rehas, at matiyaga ang kutsilyo. Lumabas ka kasama ang ilog, at malayo na ang bahay sa likuran mo bago pa man kumulay-abo ang langit.'
+			pagtatapos: 'Lumabas kasama ang ilog.'
+			nanalo: ⊤
+		)
+		silid2(
+			'gilid ng burol'
+			"Umikot ang susi, dumausdaus ang kadena patungo sa damo, at kumaskas nang tahimik ang tarangkahan, kaya't walang sinuman ang makaririnig nito. Kulay-abo ang lambak sa umaga, at sa iyo na ang daan."
+			pagtatapos: 'Lumabas sa tarangkahan.'
+			nanalo: ⊤
+		)
+	]
+
+¶Ang silid na may id na ito. Nagbabalik ang find() ng ø kapag walang tumugma, at ang id na walang nagngangalan ng silid ay isang butas sa mapa, hindi isang liko sa kuwento, kaya't ang unang silid ang humahalili dito.¶
+ƒ pumunta(nais•'')•silid2 mgaSilid.hanapin(
+		ƒ(silid4•silid2) silid4.id2 = nais
+	) ?? mgaSilid[1]
+
+¶Ang mga pintuang talagang puwede mong daanan mula rito. Ang pintong may kandado na walang kaukulang bagay ay hindi na inaalok, kaya't lumalabas itong isang dingding hanggang sa dumating sa iyong kamay ang bagay na magbubukas nito.¶
+ƒ mgaParaan(dito•silid2 bagahe2•[''])•[pinto]
+	dito.mgaPinto.pansala(
+		ƒ(pinto2•pinto) (pinto2.kailangan = '') | bagahe2.aymay(
+					pinto2.kailangan
+				)
+	)
+
+¶Pumasok sa isang silid, kunin ang anumang naroroon. Ibibigay lang nang masaya ng add() sa iyo ang ikalawang kutsilyo, kaya magtanong muna.¶
+ƒ dumating(dito2•silid2 bagahe3•[''])•paglalakbay
+	paglalakbay(
+		dito2.id2
+		((dito2.kunin ≠ '') & (~bagahe3.aymay(dito2.kunin))) ? bagahe3.kasama(
+				dito2.kunin
+			) bagahe3
+	)
+
+susi2: Susi()
+
+¶Ang pagpindot ng susi, ayon sa pagkasunod-sunod: sa isang pagtatapos, ipupukaw ka ulit ng anumang susi sa unang silid; ang susing hindi 1, 2, o 3 ay walang kahulugan; ang bilang na lampas sa dami ng mga pinto sa silid na ito ay walang kahulugan din; at pagkatapos lamang nito ay ituturing itong pinto. Ang pangatlong pagsubok na ito ang pinakamahalagang isulat, dahil ang pag-access sa listahan ay umiikot pabalik — kung wala ito, ang pagpindot ng 3 sa silid na may dalawang pinto ay tahimik na kukuha sa una.¶
+ƒ hakbang(t•paglalakbay k•'')•paglalakbay (
+		dito3: pumunta(t.silid3)
+		mgaPinto2: mgaParaan(dito3 t.bagahe)
+		dito3.pagtatapos ≠ '' ? paglalakbay('selula' [])
+			~((k = '1') | (k = '2') | (k = '3')) ? t
+				(k → #) > mgaPinto2.haba() ? t
+					dumating(
+						pumunta(mgaPinto2[k → #].silid)
+						t.bagahe
+					)
+	)
+
+paglalakbay2•paglalakbay: paglalakbay('selula' []) … ∆ susi2 … hakbang(
+			paglalakbay2
+			susi2
+		)
+
+dito4: pumunta(paglalakbay2.silid3)
+mgaPinto3: mgaParaan(dito4 paglalakbay2.bagahe)
+
+¶Ang dala mo, na ipinapakita lamang kapag may dinadala ka.¶
+carrying:
+	paglalakbay2.bagahe.haba() > 0
+	? [
+			Parirala(
+				`*dala* \paglalakbay2.bagahe.sumali(' · ')\`
+				laki: 0.3m
+				pagkakahanay: '|'
+				kulay: Kulay(60% 30 0°)
+			)
+		]
+		[]
+
+¶Ang nasa ilalim ng silid: ang mga pinto nito, na may numero upang tumugma ang binabasa mo sa pipindutin mo, o kung isang pagtatapos, kung paano ito natapos at ang isang susi na muling magsisimula nito.¶
+saIbaba:
+	dito4.pagtatapos ≠ ''
+	? [
+			Parirala(
+				`*\dito4.pagtatapos\*`
+				laki: 0.8m
+				pagkakahanay: '|'
+				kulay: dito4.nanalo ? Kulay(85% 50 90°) Kulay(
+						45%
+						40
+						25°
+					)
+				tagal: 1.5s
+				pagpasok: Pose(kalabuan: 0% sukat: 0.5)
+			)
+			Parirala(
+				`pindutin ang anumang susi upang magising ulit`
+				laki: 0.3m
+				pagkakahanay: '|'
+				tagal: 3s
+				pagpasok: Pose(kalabuan: 0%)
+			)
+		]
+		mgaPinto3.isalin(
+			ƒ(pinto3•pinto indeks2•#)
+				Parirala(
+					`\indeks2\. *\pinto3.tatak\*`
+					laki: 0.5m
+					pagkakahanay: '|'
+					pangalan: pinto3.tatak
+					tagal: 1s
+					pagpasok: Pose(kalabuan: 0%)
+				)
+		)
+
+Entablado(
+	[
+		Grupo(
+			Patongpatong()
+			[
+				Parirala(
+					dito4.paglalarawan2
+					laki: 0.5m
+					pambalot: 14m
+					pagkakahanay: '|'
+					pangalan: dito4.id2
+					tagal: 0.5s
+					pagpasok: Pose(offset: Lugar(0m 2m))
+				)
+				:carrying
+				:saIbaba
+			]
+		)
+	]
+	background: Kulay(0 0 0°)
+	kulay: Kulay(100% 0 0°)
+	mukha: "Permanent Marker"
+)

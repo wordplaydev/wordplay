@@ -1,0 +1,159 @@
+M
+Peras
+=== start/en
+¶Esta é uma história curta interativa. Define várias cenas diferentes e passa de uma para outra consoante interações diferentes, como cliques, colisões e outras ações. Parte da diversão de viver a história está em descobrir as interações necessárias para a fazer avançar.¶
+exposição: [
+		Frase(
+			`O meu pai queria ir embora.`
+			local: Local(-9m 0m)
+		)
+	]
+
+conflito: [
+		Frase(`"Mãe", temos de ir.` local: Local(-8m 7m))
+		Frase(`/"Leva para casa."/` local: Local(1m 4m))
+		Frase(`"Mãe, não queremos nada!"` local: Local(-8m 1m))
+		Frase(
+			`"Leva para casa!"`
+			tamanho: 2m
+			local: Local(-6m -4m)
+			descansar: Sequência.agitar()
+		)
+	]
+
+açãoAscendente1: [
+		Frase(
+			`A minha 炮炮👵🏽 saiu para o quintal`
+			local: Local(-9m 7m)
+		)
+		Frase(`Segui-a, curiosa` local: Local(-6m 4m))
+		Frase(
+			`👵🏽`
+			nome: 'paupau'
+			tamanho: 2m
+			matéria: Matéria()
+			local: Local(6m -6m)
+			balão: `/"沙梨🍐, leva para casa!"/`
+		)
+		Frase(
+			`👧🏻`
+			nome: 'eu'
+			tamanho: 1m
+			matéria: Matéria()
+			local: Colocação(Local(-8m -6m))
+		)
+	]
+
+açãoAscendente2: [
+		Frase(
+			`Parou junto a uma pequena árvore.`
+			local: Local(-9m 6m)
+		)
+		Frase(
+			`Nela pendiam emaranhadas dezenas de pêras 沙梨 amarelas e brilhantes`
+			local: Local(-9m 1m)
+			envolver: 10m
+		)
+		Frase(
+			`"Mãe, não queremos pêras nenhumas."`
+			tamanho: .75m
+			local: Local(-4m 0m)
+		)
+		Frase(
+			`/Eu queria uma pera./`
+			tamanho: 2m
+			local: Local(-8m -3m)
+		)
+		Frase(
+			"🍐"
+			tamanho: 2m
+			local: Local(-1m -7m)
+			nome: 'pear'
+			selecionável: ⊤
+		)
+	]
+
+¶Determinamos os lugares antecipadamente para as podermos fazer cair sempre do mesmo sítio.¶
+lugares: (6 → []).traduzir(
+		ƒ() Local(Aleatório(-2m 2m) Aleatório(-3m -5m))
+	)
+clímax: [
+		Frase(`Ajoelhou-se na terra.` local: Local(-9m 6m))
+		Frase(`Pegou numa faca` local: Local(-9m 4m))
+		Frase(`E cortou seis com cuidado` local: Local(-9m 2m))
+		Frase(
+			`Deixando-as cair no cesto por baixo`
+			local: Local(-9m 0m)
+		)
+		Frase("🧺" tamanho: 4m local: Local(-2m -12m))
+		Frase(
+			"🌳"
+			nome: "tree"
+			tamanho: 5m
+			local: Local(-3m -7m)
+			selecionável: ⊤
+		)
+		:lugares.traduzir(
+			ƒ(colocar índice2)
+				Frase(
+					"🍐"
+					nome: "pear\índice2\"
+					local: Escolha() = 'tree' ? Movimento(colocar) colocar
+				)
+		)
+		Frase("🔪" local: Ponteiro())
+	]
+
+resolução2: [
+		Frase(`Trouxe-as até mim` local: Local(-9m 6m))
+		Frase(
+			`Ajoelhou-se à minha frente`
+			local: Local(-8m 4m)
+		)
+		Frase(`E entregou-me o cesto` local: Local(-7m 2m))
+		Frase(`/"Leva, vai para casa"/` local: Local(0m -2m))
+	]
+
+créditos: [
+		Frase(`por /Amy J. Ko/`)
+	]
+
+história: [
+		exposição
+		conflito
+		açãoAscendente1
+		açãoAscendente2
+		clímax
+		resolução2
+		créditos
+	]
+
+¶Regista os cliques e os toques¶
+clicar: ∆ Botão()
+¶Regista quanto tempo passa depois de a árvore ser clicada¶
+tempoDepoisDoCorte: 0ms … Escolha() = 'tree' … Tempo(
+			1000ms
+		)
+¶Regista quando chegamos à Pau Pau¶
+naPauPau: ∆ Colisão('eu')
+¶Regista quando a pera é escolhida¶
+escolheuPera: Escolha() = 'pear'
+¶Muda o segmento com base no segmento atual¶
+segmento2•#:
+	1 …
+	segmento2 ???
+		1: clicar
+		2: clicar
+		3: naPauPau
+		4: escolheuPera
+		5: tempoDepoisDoCorte > 1500ms
+		6: ∆ Botão()
+		⊥
+		… segmento2 + 1
+
+Fase(
+	história[segmento2]
+	fonte: 'Arvo'
+	local: Local(0m 0m -20m)
+	moldura: Retângulo(-10m 10m 10m -10m)
+)

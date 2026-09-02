@@ -1,0 +1,59 @@
+🙂
+Față
+===
+¶Un emoji care oglindește fața ta când zâmbești, te încruntezi, cazi cu gura căscată sau clipești.¶
+față2: Față()
+
+Etapă(
+	[
+		Fraza(
+			(față2.gurăDeschisă ? '😮'
+					față2.zâmbind ? '😀'
+						față2.încruntat ? '🙁'
+							față2.sprânceneRidicate ? '😲'
+								(față2.ochiDeschiși ? '🙂' '😑'))
+			loc: față2.loc
+			dimensiune: 4m
+		)
+		Grup(
+			Stivă('|')
+			[
+				Fraza(
+					(față2.ochiDeschiși ? '👀' '😑')
+					dimensiune: 1.5m
+				)
+				Fraza(
+					'😊'
+					dimensiune: (față2.câtDeMultZâmbet · 2m) + 0.5m
+				)
+				Fraza(
+					'👄'
+					dimensiune: (față2.câtDeDeschisăGura · 2m) + 0.5m
+				)
+				Fraza(
+					'🤨'
+					dimensiune: (față2.câtDeMultRidicateSprâncenele · 2m) + 0.5m
+				)
+			]
+			loc: Loc(-9m 8m)
+		)
+		Fraza(
+			'întoarce 🧭'
+			loc: Loc(9m 8m 0m)
+			dimensiune: 2m
+			rotaţie: față2.rotire
+		)
+		Fraza(
+			'înclină 🧭'
+			loc: Loc(9m 2m)
+			rotaţie: față2.înclinare
+			dimensiune: 2m
+		)
+		Fraza(
+			`/Arată-i camerei fața ta/`
+			loc: Loc(-6m -12m)
+			dimensiune: 1m
+		)
+	]
+	loc: Loc(0m 0m -20m)
+)

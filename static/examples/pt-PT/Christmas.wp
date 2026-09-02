@@ -1,0 +1,30 @@
+🎄
+Natal
+===
+¶Uma árvore de Natal que oscila e se contorce numa dança em ciclo, tilintando enquanto o faz.
+
+A melodia está ligada ao primeiro @Pose da dança. Um @Pose pode transportar um @Music, e este toca no momento em que essa pose é assumida — por isso a frase musical recomeça sempre que a dança dá a volta, e o ciclo da animação e o ciclo da música são o mesmo ciclo. Nada conta os tempos para os manter juntos.
+
+As duas durações são escolhidas para coincidir: oito tempos a 160 dá três segundos, e cinco passos de meio segundo também dão três segundos. Uma pose é um instante, e não algo que dura, por isso o ciclo habitual de um @Track não se aplica aqui — a música de uma pose toca sempre exatamente uma vez.¶
+
+tilintar: Música(
+		Faixa([3 3 3𝅗𝅥 3 3 3𝅗𝅥] instrumento: Instrumento.sino)
+		andamento: 160beats/min
+		volume: 55%
+		nome: 'tilintar'
+	)
+
+Frase(
+	'🎄'
+	descansar: Sequência(
+		{
+			0: Pose(rotação: 0° música: tilintar)
+			1: Pose(rotação: 15°)
+			2: Pose(rotação: 0°)
+			3: Pose(desvio: Local(-0.25m))
+			4: Pose(desvio: Local(0.25m))
+			5: Pose(desvio: Local(-0.25m))
+		}
+		0.6s
+	)
+)

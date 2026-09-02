@@ -1,0 +1,207 @@
+👩‍💻
+Celah Kode
+=== start/en
+¶Proyek ini menampilkan data nyata dan terbuka tentang berapa banyak perempuan yang meraih gelar ilmu komputer di Amerika Serikat, dan bagaimana jumlah itu berubah dari waktu ke waktu. Proyek ini menggunakan dua tabel data, satu bernama years dan satu lagi bernama fields, lalu memberimu pilihan salah satu dari tiga tampilan lewat tombol di bagian atas. Setiap tampilan adalah grafik batang yang dibuat dari emoji perempuan, dengan penjelasan berbahasa sederhana di catatan kaki.¶
+↓ years
+↓ fields
+
+¶Fungsi fill membuat satu batang penuh. Fungsi ini mengulang emoji perempuan sebanyak count kali dan menggabungkannya menjadi satu teks tanpa jarak, sehingga rowterlihat seperti satu batang menyambung, bukan titik-titik terpisah.¶
+ƒ isi2(hitungan2•#) (hitungan2 → []).menerjemahkan(ƒ() '👩').bergabung(
+		''
+	)
+
+¶Fungsi chart menggambar diagram batang dari tiga daftar yang saling cocok: label, panjang batang dalam emoji, dan nilai. Setiap batang adalah satu baris dari tumpukan rata kiri, sehingga semua batang mulai dari tepi yang sama dan panjangnya bisa langsung dibandingkan. Label dan nilai berada di ujung setiap batang pada baris yang sama, sehingga tetap sejajar dengan batangnya.¶
+ƒ grafik(label•[''] satuan•[#] nilai2•[''])
+	Kelompok(
+		Tumpukan('<' lapisan: 0.2m)
+		satuan.menerjemahkan(
+			ƒ(u•# i•#)
+				Kelompok(
+					Baris('|' lapisan: 0.3m)
+					[
+						Frasa(isi2(u) ukuran: 0.3m)
+						Frasa(
+							`\label[i]\ \nilai2[i]\`
+							ukuran: 0.28m
+							warna: Warna(45% 0 0°)
+						)
+					]
+				)
+		)
+	)
+
+¶Tampilan 1 — "Naik dan Turun".Untuk setiap tahun dalam data, kita menggambar batang yang panjangnya sesuai persentase gelar ilmu komputer yang diraih perempuan. Setiap emoji perempuan mewakili sekitar 5 persen, jadi kita bagi persentasenya dengan 5 untuk mendapatkan panjang batang.¶
+barisWaktu: (years ⎡?tahun2 persen⎦ ⊤) → []
+tampilanWaktu: grafik(
+		barisWaktu.menerjemahkan(ƒ(baris2) baris2.tahun2)
+		barisWaktu.menerjemahkan(
+			ƒ(baris3) (baris3.persen ÷ 5).bulat()
+		)
+		barisWaktu.menerjemahkan(
+			ƒ(baris4) (baris4.persen.bulat() → '') + '%'
+		)
+	)
+
+¶Tampilan 2 — "Satu Bidang yang Berbeda Arah".Kita membandingkan proporsi perempuan di berbagai bidang studi pada satu tahun terbaru. Baris-barisnya sudah diurutkan dari jumlah perempuan terbanyak ke tersedikit, sehingga ilmu komputer berada di bagian paling bawah diagram.¶
+barisBidang: (fields ⎡?bidang persen2⎦ ⊤) → []
+tampilanBidang: grafik(
+		barisBidang.menerjemahkan(ƒ(baris5) baris5.bidang)
+		barisBidang.menerjemahkan(
+			ƒ(baris6) (baris6.persen2 ÷ 5).bulat()
+		)
+		barisBidang.menerjemahkan(
+			ƒ(baris7) (baris7.persen2 → '') + '%'
+		)
+	)
+
+¶Tampilan 3 — "Lebih Banyak Perempuan, Proporsi Lebih Kecil".Ini adalah dua jenis pengukuran berbeda, jadi kita menggambarnya sebagai dua diagram terpisah berdampingan. Diagram kiri menghitung jumlah perempuan (setiap emoji mewakili sekitar 2.000 orang); diagram kanan menunjukkan proporsi mereka dari semua gelar (setiap emoji mewakili sekitar 5 persen). Dalam setiap diagram, kedua batang memakai satuan yang sama, sehingga bisa dibandingkan: jumlahnya hampir dua kali lipat, tetapi proporsinya menurun.¶
+barisJumlah: (years ⎡?tahun2 perempuan persen⎦ ((tahun2 = '1984') | (tahun2 = '2022'))) → []
+lama: barisJumlah[1]
+sekarang: barisJumlah[2]
+
+grafikPerempuan: grafik(
+		['1984' '2022']
+		[
+			(lama.perempuan ÷ 2000).bulat()
+			(sekarang.perempuan ÷ 2000).bulat()
+		]
+		[lama.perempuan → '' sekarang.perempuan → '']
+	)
+grafikBagian: grafik(
+		['1984' '2022']
+		[
+			(lama.persen ÷ 5).bulat()
+			(sekarang.persen ÷ 5).bulat()
+		]
+		[
+			(lama.persen.bulat() → '') + '%'
+			(sekarang.persen.bulat() → '') + '%'
+		]
+	)
+tampilanJumlah: Kelompok(
+		Baris('<' lapisan: 1.5m)
+		[
+			Kelompok(
+				Tumpukan('|' lapisan: 0.3m)
+				[
+					Frasa(
+						`/Perempuan yang meraih gelar ilmu komputer/`
+						ukuran: 0.28m
+					)
+					grafikPerempuan
+				]
+			)
+			Kelompok(
+				Tumpukan('|' lapisan: 0.3m)
+				[
+					Frasa(
+						`/Proporsi mereka dari semua gelar ilmu komputer/`
+						ukuran: 0.28m
+					)
+					grafikBagian
+				]
+			)
+		]
+	)
+
+¶Tiga tombol. Choice melaporkan nama Phrase yang bisa dipilih dan terakhir diklik pembaca. Kita mulai dari tampilan waktu dan memperbarui setiap kali pilihannya berubah.¶
+pilihan: Pilihan()
+saatIni: 'time' … ∆ pilihan … pilihan
+
+tab: Kelompok(
+		Baris('|' lapisan: 0.6m)
+		[
+			Frasa(
+				'▸ Sepanjang waktu'
+				dapatdipilih: ⊤
+				nama: 'time'
+				ukuran: 0.35m
+				warna: Warna(60% 50 20°)
+			)
+			Frasa(
+				'▸ Berdasarkan bidang'
+				dapatdipilih: ⊤
+				nama: 'fields'
+				ukuran: 0.35m
+				warna: Warna(60% 50 140°)
+			)
+			Frasa(
+				'▸ Jumlah vs proporsi'
+				dapatdipilih: ⊤
+				nama: 'jumlah'
+				ukuran: 0.35m
+				warna: Warna(60% 50 280°)
+			)
+		]
+	)
+
+¶Pilih diagram dan catatan kaki untuk tampilan saat ini.¶
+isiUtama: saatIni = 'time' ? tampilanWaktu (saatIni = 'fields' ? tampilanBidang tampilanJumlah)
+
+catatanKaki:
+	saatIni = 'time' ?
+		Frasa(
+			`/Proporsi gelar sarjana ilmu komputer di Amerika Serikat yang diraih perempuan mencapai puncaknya 37% pada tahun 1984, lalu turun selama sekitar 25 tahun hingga sekitar 18% pada tahun 2008, dan hanya pulih secara perlahan. Setiap 👩 ≈ 5%. Sumber: NCES Digest of Education Statistics, Tabel 325.35./`
+			membungkus: 9m
+			ukuran: 0.26m
+		)
+		saatIni = 'fields' ?
+			Frasa(
+				`/Sekitar tahun 2018, perempuan meraih sebagian besar gelar psikologi dan biologi, sekitar setengah gelar matematika dan ilmu sosial, tetapi kurang dari 20% gelar ilmu komputer — hampir yang terendah dari semua bidang. Setiap 👩 ≈ 5%. Sumber: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
+				membungkus: 9m
+				ukuran: 0.26m
+			)
+			Frasa(
+				`/Pada tahun 1984, sekitar 12.000 perempuan meraih gelar ilmu komputer — 37% dari total. Pada tahun 2022, lebih dari 24.000 perempuan meraihnya, dua kali lipat jumlah orang, namun hanya 23%: bidang ini berkembang begitu cepat sehingga jumlah laki-laki berkembang lebih cepat lagi. Jumlah yang naik tetap bisa berarti proporsi yang menyusut. Sumber: NCES./`
+				membungkus: 9m
+				ukuran: 0.26m
+			)
+
+Panggung(
+	[
+		Kelompok(
+			Tumpukan('|' lapisan: 0.4m)
+			[
+				Frasa(
+					`KESENJANGAN KODE`
+					ukuran: 0.7m
+					menghadapi: 'Monoton'
+				)
+				Frasa(
+					`/Siapa yang meraih gelar ilmu komputer?/`
+					ukuran: 0.35m
+				)
+				tab
+				isiUtama
+				catatanKaki
+			]
+		)
+	]
+	menghadapi: 'Quicksand'
+)
+=== years/en
+¶Persentase gelar sarjana ilmu komputer dan informasi di Amerika Serikat yang diraih perempuan, per tahun, beserta jumlah perempuan dan jumlah total gelar. Sumber: National Center for Education Statistics, Digest of Education Statistics, Tabel 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+⎡tahun2•'' perempuan•# total•# persen•#⎦
+⎡'1971' 324 2388 13.6⎦
+⎡'1976' 1118 5652 19.8⎦
+⎡'1984' 12023 32439 37.1⎦
+⎡'1990' 8188 27347 29.9⎦
+⎡'1995' 6749 24506 27.5⎦
+⎡'2001' 12219 44142 27.7⎦
+⎡'2005' 11986 54111 22.2⎦
+⎡'2008' 6792 38523 17.6⎦
+⎡'2011' 7589 43066 17.6⎦
+⎡'2015' 10742 59586 18⎦
+⎡'2019' 18316 88638 20.7⎦
+⎡'2022' 24542 108503 22.6⎦
+=== fields/en
+¶Persentase gelar sarjana di Amerika Serikat yang diraih perempuan pada setiap bidang studi, sekitar tahun 2018, diurutkan dari proporsi tertinggi ke terendah. Sumber: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+⎡bidang•'' persen2•#⎦
+⎡'Psikologi' 72⎦
+⎡'Biologi' 60⎦
+⎡'Ilmu sosial' 55⎦
+⎡'Matematika & statistik' 42⎦
+⎡'Ilmu fisika' 41⎦
+⎡'Ilmu Bumi' 38⎦
+⎡'Teknik' 22⎦
+⎡'Ilmu komputer' 20⎦

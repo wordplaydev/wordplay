@@ -1,0 +1,58 @@
+🎵
+Mga tunog ng himig
+===
+¶Kumanta o humum, at tingnan ang nota na iyong ginagawa — dalawang beses. Binabasa ng kaliwang nota ang hilaw na @Pitch at nayayanig ito; ang kanang nota naman ay kinukuha ang karaniwang halaga ng huling ilang tono at nananatiling matatag. Sinasabi ng @Pitch na 0hz kapag walang malinaw na naririnig, kaya nilalaktawan ng dalawang nota ang mga sandaling iyon at ang · ang ipinapakita sa halip.¶
+mgaTono: [
+		'A'
+		'A♯'
+		'B'
+		'C'
+		'C♯'
+		'D'
+		'D♯'
+		'E'
+		'F'
+		'F♯'
+		'G'
+		'G♯'
+	]
+notaNg: ƒ(hz•#hz) hz > 0hz ? mgaTono[(((((12 × (hz ÷ 440hz).log(
+										2
+									)).bilog(
+							)) % 12) + 12) % 12) + 1] '·'
+makinis2: ƒ(senyales•…#hz) (
+			narinig: (←← 8 senyales).nangwalang(0hz)
+			(narinig.pinagsama(
+					0hz
+					ƒ(kabuuan2•#hz v•#hz) kabuuan2 + v
+				) ÷ narinig.haba()) ?? 0hz
+		)
+tono2: Tono()
+Entablado(
+	[
+		Grupo(
+			Patongpatong()
+			[
+				Parirala('maingay' kulay: Kulay(60% 90 30°))
+				Parirala(
+					notaNg(tono2)
+					laki: 6m
+					kulay: Kulay(60% 90 30°)
+				)
+			]
+			lugar: Lugar(-4m 0m)
+		)
+		Grupo(
+			Patongpatong()
+			[
+				Parirala('makinis' kulay: Kulay(70% 90 240°))
+				Parirala(
+					notaNg(makinis2(tono2))
+					laki: 6m
+					kulay: Kulay(70% 90 240°)
+				)
+			]
+			lugar: Lugar(4m 0m)
+		)
+	]
+)

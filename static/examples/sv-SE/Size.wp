@@ -1,0 +1,15 @@
+s
+Storlek
+=== start/en
+¶Klicka eller tryck på en tangent för att växla mellan STORT och litet över skiftande färger.¶
+word/en,字/zh: (Knapp(ø) | ∆ Nyckel()) ? Fras(
+			"BIG"/en"大"/zh
+			storlek: 5m
+		) Fras("small"/en"小"/zh storlek: 1m)
+time/en,時間/zh: ((Tid(1234ms)) ÷ 1ms) × 1°
+
+Etapp(
+	[word]
+	plats: Plats(0m 0m -5m)
+	bakgrund: Färg(80% 28 time)
+)

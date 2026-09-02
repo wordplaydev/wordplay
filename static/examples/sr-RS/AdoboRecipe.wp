@@ -1,0 +1,40 @@
+H
+Рецепт за Адобо
+=== start/en
+¶Рецепт за филипински пилећи адобо, приказан призор по призор.¶
+
+¶Ово је листа призора за приказивање¶
+реченице: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Адобонг Манок @lamamel/adobo! (помери миш да једеш)`)
+		(`Масарап! @lamamel/emptyadobo`)
+	]
+
+¶Ово је листа реченица које треба да се смењују само померањем миша.¶
+помериРеченице: [9 11]
+
+¶Тренутна реченица почиње од 1, и повећава се када миш дође на одређено место на екрану, или када се притисне дугме или тастер за друге реченице.¶
+тачка: Поинтер()
+тренутнаРеченица•#: 1 …
+	помериРеченице.има(тренутнаРеченица) ?
+		(тачка.к > 2m) & (тачка.и > 3m)
+		∆ Дугме() | ∆ Кључ()
+		…
+		(тренутнаРеченица <
+				реченице.дужина()) ?
+			тренутнаРеченица + 1
+			тренутнаРеченица
+
+Стаге(
+	[Фраза(реченице[тренутнаРеченица] замотати: 10m)]
+	лице: 'Short Stack'
+)

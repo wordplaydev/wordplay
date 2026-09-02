@@ -1,0 +1,78 @@
+⏳
+अभ्यास टप्पा मीटर
+=== start/en
+¶अभ्यासाचे तास जोडण्यासाठी क्लिक करा आणि मीटर शांत मधून लक्ष केंद्रित आणि नंतर अतिभार अशा टप्प्यांत कसे बदलते ते बघा.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+क्रिया: निवड()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+अभ्यासाचेतास:
+	0 …
+	∆ क्रिया …
+		क्रिया = 'reset' ?
+			0
+			अभ्यासाचेतास + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+स्पष्टीकरण:
+	'तुमचा अभ्यासाचा वेळ वाढवण्यासाठी “अभ्यासाचा तास जोडा +१” यावर क्लिक करा. पुन्हा सुरुवात करण्यासाठी “पुन्हा सुरू करा” यावर क्लिक करा.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+तासांचामजकूर:
+	'तुम्ही अभ्यास केला आहे ' + अभ्यासाचेतास → '' + ' तास.'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+मनःस्थिती:
+	अभ्यासाचेतास < 3 ?
+		'🌿 शांत टप्पा — अभ्यासाचा वेळ जोडण्यासाठी क्लिक करा'
+		अभ्यासाचेतास < 6 ?
+			'📚 लक्ष केंद्रित टप्पा — तुम्ही उत्पादक टप्प्यात आहात!'
+			'🔥 अतिभार टप्पा — विश्रांती घ्या आणि "पुन्हा सुरू करा"'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+रंगमंच(
+	[
+		गट(
+			थप्पी()
+			[
+				वाक्यांश('अभ्यास टप्पा मीटर' आकार: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				वाक्यांश(स्पष्टीकरण आकार: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				वाक्यांश(तासांचामजकूर आकार: 0.4m)
+
+				वाक्यांश(मनःस्थिती आकार: 0.75m)
+
+				गट(
+					रांग(अंतर: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						वाक्यांश(
+							'अभ्यासाचा तास जोडा +१'
+							निवडण्याजोगे: ⊤
+							नाव: 'जोडा'
+							रंग: रंग(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						वाक्यांश(
+							'पुन्हा सुरू करा'
+							निवडण्याजोगे: ⊤
+							नाव: 'reset'
+							रंग: रंग(69% 47 271°)
+						)
+					]
+				)
+			]
+			चेहरा: "Aclonica"
+		)
+	]
+)

@@ -1,0 +1,40 @@
+H
+وصفة الأدوبو
+=== start/en
+¶طريقة تحضير أدوبو الدجاج الفلبيني، مشهد تلو الآخر.¶
+
+¶هذه هي قائمة المشاهد التي ستُعرض¶
+جُمل: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`أدوبونغ مانوك @lamamel/adobo! (حرّك الفأرة لتأكل)`)
+		(`لذيذ! @lamamel/emptyadobo`)
+	]
+
+¶هذه هي قائمة الجُمل التي يجب أن تتقدّم فقط بتحريك الفأرة.¶
+تحريكالجُمل: [9 11]
+
+¶تبدأ الجملة الحالية من 1، وتزداد إذا وصلت الفأرة إلى مكان معيّن على الشاشة، أو عند الضغط على زر أو مفتاح من أجل جُمل أخرى.¶
+نقطة2: مؤشر()
+الجملةالحالية•#: 1 …
+	تحريكالجُمل.يحتوي(الجملةالحالية) ?
+		(نقطة2.x > 2m) & (نقطة2.y > 3m)
+		∆ زر() | ∆ مفتاح()
+		…
+		(الجملةالحالية <
+				جُمل.الطول()) ?
+			الجملةالحالية + 1
+			الجملةالحالية
+
+مسرح(
+	[عبارة(جُمل[الجملةالحالية] لف: 10m)]
+	face: 'Short Stack'
+)

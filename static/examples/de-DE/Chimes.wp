@@ -1,0 +1,90 @@
+🎐
+Glockenspiel
+=== start/en
+¶Fünf Glocken hängen in einer Reihe, nummeriert von eins bis fünf. Drücke A, S, D, F oder G, und die Glocke, die du anschlägst, schwillt an und wird heller, dann kehrt sie zur Ruhe zurück. Die ganze Reihe schwingt ein wenig, egal ob jemand spielt oder nicht.
+
+Es ist ein Instrument. Es macht keinen Klang. Die Zahlen sind schon eine Partitur; sie werden nur noch nicht gespielt. Der ausgeblendete Block über der Bühne ist der Klang, der darauf wartet, dass @Music entsteht.¶
+
+gedrückt: Schlüssel()
+takt2: Zeit(30ms)
+
+¶Wie viel von ihrem Klang eine Glocke pro Einzelbild verliert.¶
+abklingen: 0.03
+
+¶Eine Glocke: welchen Grad sie hat, welche Taste sie anschlägt, wo sie hängt, ihr Farbton, und wie stark sie noch klingt — 1 gerade angeschlagen, 0 in Ruhe.¶
+•glockenspiel(grad•# schlüssel2•'' x2•#m farbton•#° energie•#)
+
+¶Schlage die Glocke an, deren Taste gedrückt wurde, und lasse alle anderen Glocken zur Ruhe kommen.¶
+ƒ klang(reihe•[glockenspiel] treffer•'' angeschlagen•?)
+	reihe.übersetzen(
+		ƒ(glocke•glockenspiel)
+			(angeschlagen & (treffer = glocke.schlüssel2))
+			? glocke.energie:1
+				glocke.energie:(glocke.energie - abklingen).max(0)
+	)
+
+glocken•[glockenspiel]: [
+		glockenspiel(1 'ein' -6m 20° 0)
+		glockenspiel(2 's' -3m 75° 0)
+		glockenspiel(3 'd' 0m 140° 0)
+		glockenspiel(4 'f' 3m 205° 0)
+		glockenspiel(5 'g' 6m 270° 0)
+	] … (∆ gedrückt | ∆ takt2) … klang(
+			glocken
+			gedrückt
+			(∆ gedrückt)
+		)
+
+¶Eine Glocke schwillt an und wird heller, während sie klingt, und schwingt immer ein wenig, sodass die Reihe lebendig ist, selbst wenn niemand spielt.¶
+ƒ chimeView(glocke2•glockenspiel)
+	Satzglied(
+		(glocke2.grad → '')
+		(2m + (glocke2.energie · 1.5m))
+		Ort: Ort(glocke2.x2 0m)
+		Dauer: 0.12s
+		Farbe: Farbe(
+			(45% + (glocke2.energie · 40%))
+			(20 + (glocke2.energie · 80))
+			glocke2.farbton
+		)
+		Ruhen: Reihenfolge.wiegen(3° 2.5s)
+	)
+
+¶Die Taste, die jede Glocke anschlägt, steht darunter geschrieben.¶
+ƒ keyView(glocke3•glockenspiel)
+	Satzglied(
+		glocke3.schlüssel2
+		0.7m
+		Ort: Ort(glocke3.x2 -3m)
+		Farbe: Farbe(60% 0 0°)
+	)
+
+¶Diese zwei Bindungen sind der ganze Klang: finde die Glocke, die gerade in diesem Moment klingt, und gib ihren Grad an eine Glocke weiter, die bei jedem Drücken neu erklingt, sodass jeder Anschlag ein neuer Klang ist statt immer derselbe. Fünf Glocken, fünf Grade einer pentatonischen Tonleiter, sodass es keine falsche Note gibt.¶
+klingend: glocken.Filter(
+		ƒ(glocke4•glockenspiel) glocke4.energie = 1
+	)
+lied: Musik(
+		Spur(
+			klingend ↦ ⬚.grad
+			Instrument: Instrument.Glocke
+			Schleife: ⊥
+		)
+		Tonleiter: Musik.pentatonisch
+		Wiederholen: ∆ gedrückt
+	)
+
+Bühne(
+	[
+		Satzglied(
+			'━━━━━━━━━━━━━'
+			1m
+			Ort: Ort(-6m 2.5m)
+			Farbe: Farbe(45% 0 0°)
+		)
+		:glocken ↦ chimeView(⬚)
+		:glocken ↦ keyView(⬚)
+		lied
+	]
+	Hintergrund: Farbe(16% 15 280°)
+	Farbe: Farbe(95% 0 0°)
+)

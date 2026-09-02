@@ -1,0 +1,38 @@
+l
+Judul Berita
+=== start/en
+¶Berita utama New York Times secara langsung, diambil dari web dan disusun di panggung.¶
+beritaUtama: Halamanweb(
+		'https://www.nytimes.com'
+		'.indicate-hover'
+	)
+beritaUtama•# ?
+	Frasa('memuat')
+	Kelompok(
+		Tumpukan('<')
+		[
+			Frasa(
+				`*Berita Utama New York Times*`
+				2m
+				menghadapi: 'Arvo'
+			)
+		].denganDaftar(
+			beritaUtama.suburutan(1 7).menerjemahkan(
+				ƒ(beritaUtama2)
+					Frasa(
+						beritaUtama2
+						membungkus: 20m
+						penyelarasan: '<'
+						menghadapi: 'Ubuntu'
+						beristirahat: Urutan(
+							{
+								0%: Pose(rotasi: 3°)
+								50%: Pose(rotasi: -3°)
+								100%: Pose(rotasi: 3°)
+							}
+							lamanya: 3s
+						)
+					)
+			)
+		)
+	)

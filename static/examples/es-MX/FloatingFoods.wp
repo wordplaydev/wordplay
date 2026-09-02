@@ -1,0 +1,23 @@
+🥮
+Comidas flotantes
+===
+¶Una cuadrícula de platillos deliciosos, donde uno cambia por otro cada segundo.¶
+comida: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
+
+másReciente•['']:
+	comida … ∆ Tiempo(1000ms) …
+		másReciente.reemplazar(Azar(1 6) comida.azar())
+
+Grupo(
+	Cuadrícula(3 3 1m 1m)
+	másReciente.traducir(
+		ƒ(platillo•"" índice2•#)
+			Frase(
+				platillo
+				nombre: "\platillo\-\índice2\"
+				entrando: Pose(opacidad: 0 escala: 2)
+				inmóvil: Secuencia.vaivén(360° duración: 4s)
+				duración: 1s
+			)
+	)
+)

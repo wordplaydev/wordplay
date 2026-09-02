@@ -1,0 +1,605 @@
+🎆
+Kembang Api
+=== start/en
+¶Kembang api yang meletus mengikuti musik: setiap alat musik yang berbunyi pada satu ketukanmuncul sebagai dirinya sendiri, bertahan sebentar, lalu menghilang.
+
+Tidak ada yang digambar berdasarkan jam. @Beat memberikan @Downbeat setiap kali ketukanmulai terdengar, dan @Downbeat membawa @Part untuk setiap @Track — alatmusik apa itu, apakah sedang berbunyi, nada apa yang dimainkan, dan seberapa keras. Jadisatu ledakan untuk setiap bagian yang berbunyi adalah satu @List/translate, dan musikmenggambar dirinya sendiri.
+
+Setiap ledakan diberi nama sesuai nomor ketukan, sehingga ledakan pada setiap ketukan adalahoutput baru: mereka menampilkan pose masuk saat muncul dan pose keluarsaat ketukan berikutnya menggantikannya. Letusan dan kejatuhan adalah kedua pose itu.
+
+Lagunya adalah /The Star-Spangled Banner/ — melodi karya John Stafford Smith dari sekitartahun 1773, yang sudah lama menjadi milik publik — dimainkan penuh sampai ke baristerakhir. Setiap nada membawa panjangnya sendiri sebagai nilai nada yang ditulis pada angka — \8𝅘𝅥𝅮\ adalah seperdelapan, \13𝅗𝅥\ setengah, \13𝅗𝅥𝅭\ setengah bertitik — sehingga nada pembuka,figur bertitik, dan nada panjang yang ditahan adalah durasi sungguhan, bukan sekadarkotak-kotak ketukan yang sama. Angka biasa berarti satu ketukan. Tanda istirahat tetap perlu @Note,karena \ø\ bukan angka sehingga tidak bisa membawa nilai. Ini menggunakan tangga nadakromatis agar nada keempat yang dinaikkan bisa ditulis: setiap langkah adalah satu setengah nada.¶
+
+ketukan2: Ketukan()
+hitungan2: ketukan2.hitung
+
+¶Hanya bagian yang benar-benar berbunyi yang menjadi kembang api; jalur yang beristirahattetap gelap. Sebelum musik mulai, belum ada bagian sama sekali, sehingga langitmasih kosong.¶
+menembak•[Bagian]: ketukan2.bagian.menyaring(
+		ƒ(p•Bagian) p.berbunyi
+	)
+
+¶Setiap alat musik meletus sebagai dirinya sendiri, dan itulah maksudnya: kamu bisa melihatalat musik mana yang baru saja berbunyi.¶
+ƒ wajah2(p2•Bagian)•''
+	(p2.alatMusik.id = 'trumpet') ? '🎺'
+		(p2.alatMusik.id = 'flute') ? '🪈'
+			(p2.alatMusik.id = 'bell') ? '🔔'
+				(p2.alatMusik.id = 'piano') ? '🎹'
+					(p2.alatMusik.id = 'violin') ? '🎻'
+						(p2.alatMusik.id = 'drums') ? '🥁'
+							'🎵'
+
+¶Setiap alat musik memiliki jalurnya sendiri, tersebar di seluruh langit. Menggunakanalat musik itu sendiri, bukan posisinya dalam daftar, membuat jalur tetap adasaat alat musik lain berhenti berbunyi.¶
+ƒ jalur(p3•Bagian)•#
+	(p3.alatMusik.id = 'trumpet') ? -6
+		(p3.alatMusik.id = 'flute') ? -3.6
+			(p3.alatMusik.id = 'bell') ? -1.2
+				(p3.alatMusik.id = 'piano') ? 1.2
+					(p3.alatMusik.id = 'violin') ? 3.6
+						(p3.alatMusik.id = 'drums') ? 6
+							0
+
+¶Seberapa tinggi letak sebuah ledakan: nadanya. Setiap bagian di sini sedang berbunyi, jadi ia punya satu nada.¶
+ƒ tinggi2(p4•Bagian)•# p4.derajat[1]
+
+¶Satu ledakan, naik sesuai nadanya dan membesar sesuai seberapa keras suaranya.¶
+ƒ ledakan(p5•Bagian i•#)•Frasa
+	Frasa(
+		wajah2(p5)
+		(0.9m + (p5.volume · 1.6m))
+		tempat: Tempat(
+			(jalur(p5) + p5.geser) · 1m
+			(((tinggi2(p5) · 0.22) - 1.8) · 1m)
+		)
+		nama: 'burst \hitungan2\ \i\'
+		memasuki: Urutan(
+			{
+				0%: Pose(skala: 0.1 kegelapan: 0%)
+				40%: Pose(skala: 1.35 kegelapan: 100%)
+				100%: Pose(skala: 1 kegelapan: 100%)
+			}
+			0.3s
+		)
+		keluar: Urutan(
+			{
+				0%: Pose(
+					mengimbangi: Tempat(0m 0m)
+					kegelapan: 100%
+				)
+				100%: Pose(
+					mengimbangi: Tempat(0m -5m)
+					kegelapan: 0%
+				)
+			}
+			0.9s
+		)
+	)
+
+¶Melodinya. Tingkat nada adalah jarak setengah nada dari nada dasar rendah: 1 adalah nada itu, 13adalah satu oktaf lebih tinggi, dan 7 adalah nada keempat yang dinaikkan. Dua baris berbagimelodi yang sama, lalu jembatan lagu, lalu baris terakhir.¶
+melodi: [
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		17𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		17
+		18
+		20
+		20𝅗𝅥
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15
+		17
+		18
+		18𝅗𝅥
+		18
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8
+		13
+		13
+		13𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		10
+		10
+		10
+		15
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13𝅘𝅥𝅮
+		13
+		12
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		13𝅘𝅥𝅭
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		18𝅘𝅥𝅮
+		20𝅗𝅥
+		13𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅭
+		18𝅘𝅥𝅮
+		15
+		13𝅗𝅥𝅭
+	]
+
+¶Sebuah nada dasar di bawah setiap birama.¶
+bas: [
+		Nada(ø 1beats)
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+	]
+
+¶Sebuah lonceng pada ketukan berat yang berselang-seling, jadi tidak ada di setiap ledakan.¶
+lonceng2: [
+		Nada(ø 1beats)
+		13
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		20
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		20
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		20
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		13
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		20
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		20
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		20
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		13
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		20
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		20
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		20
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		13
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		20
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		20
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+		20
+		Nada(ø 2beats)
+		Nada(ø 3beats)
+	]
+
+¶Alat musik gesek dari bagian jembatan lagu dan seterusnya, sehingga teksturnya makin kaya.¶
+biola2: [
+		Nada(ø 1beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+	]
+
+¶Sebuah melodi tinggi hanya di ujung-ujung frasa.¶
+seruling2: [
+		Nada(ø 1beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 1beats)
+		25
+		Nada(ø 1beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 1beats)
+		25
+		Nada(ø 1beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 1beats)
+		25
+		Nada(ø 1beats)
+		Nada(ø 3beats)
+		Nada(ø 3beats)
+		Nada(ø 1beats)
+		25
+		Nada(ø 1beats)
+		Nada(ø 3beats)
+	]
+
+¶Sebuah irama pawai di bawahnya.¶
+drum2: [
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nada(ø 0.5beats)
+		3𝅘𝅥𝅮
+	]
+
+Panggung(
+	[
+		:menembak.menerjemahkan(
+			ƒ(p6•Bagian i2•#) ledakan(p6 i2)
+		)
+		Musik(
+			[
+				Trek(
+					melodi
+					alatMusik: AlatMusik.terompet
+					volume: 90%
+					perulangan: ⊥
+				)
+				Trek(
+					bas
+					alatMusik: AlatMusik.piano
+					kunci: -12semitones
+					volume: 50%
+					geser: -0.4
+					perulangan: ⊥
+				)
+				Trek(
+					lonceng2
+					alatMusik: AlatMusik.lonceng
+					volume: 55%
+					perulangan: ⊥
+				)
+				Trek(
+					biola2
+					alatMusik: AlatMusik.biola
+					volume: 45%
+					geser: 0.3
+					perulangan: ⊥
+				)
+				Trek(
+					seruling2
+					alatMusik: AlatMusik.seruling
+					volume: 65%
+					perulangan: ⊥
+				)
+				Trek(
+					drum2
+					alatMusik: AlatMusik.drum
+					volume: 45%
+					perulangan: ⊥
+				)
+			]
+			tempo: 84beats/min
+			tanggaNada: Musik.kromatik
+			nama: 'lagu kebangsaan'
+		)
+	]
+	latarbelakang: Warna(10% 12 265°)
+	warna: Warna(96% 0 0°)
+)

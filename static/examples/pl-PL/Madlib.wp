@@ -1,0 +1,66 @@
+4
+Madlib
+=== start
+¶Głupia historyjka: podaj słowa, a otrzymasz zabawną opowieść.¶
+
+¶To śledzi rodzaje słów, których potrzebujemy, i ich liczbę¶
+•częśćMowy(etykieta•"" liczba2•#)
+
+¶To są słowa potrzebne do poniższej głupiej historyjki.¶
+kolejki: [
+		częśćMowy('przymiotniki' 4)
+		częśćMowy('rzeczowniki' 3)
+		częśćMowy('czasowniki, czas przeszły' 3)
+		częśćMowy('przysłówki' 4)
+	]
+
+czat: Pogawędzić()
+¶Za każdym razem, gdy czat zostanie wysłany, przejdź do następnej części mowy¶
+kolej: 1 … ∆ czat … kolej + 1
+¶Za każdym razem, gdy czat zostanie wysłany, podziel go według spacji i dodaj do odpowiedzi¶
+odpowiedzi•[['']]: [] … ∆ czat … [:odpowiedzi czat ÷ ' ']
+
+¶Nadajemy tym indeksom numery, żeby historyjkę łatwiej było czytać¶
+przymiotniki: 1
+rzeczowniki: 2
+przysłówki: 4
+czasowniki: 3
+
+zapytaj: odpowiedzi.długość() < 4
+
+Scena(
+	[
+		¶Zanim mamy odpowiedzi, poproś o odpowiedzi¶
+		zapytaj ?
+			Grupa(
+				Stos('|' 0.25m)
+				[
+					Wyrażenie(
+						`\kolejki[kolej].liczba2\ \kolejki[kolej].etykieta\ proszę!`
+					)
+					Wyrażenie('(oddzielone spacjami)' 0.5m)
+				]
+			)
+			¶Gdy mamy już odpowiedzi, pokaż historyjkę¶
+			(
+				¶Zrób listę zdań z odpowiedziami¶
+				zdania: [
+						`Dzisiaj poszedłem do zoo.`
+						`Zobaczyłem *\odpowiedzi[rzeczowniki][1]\* *\odpowiedzi[przysłówki][1]\* skacząc na swoim drzewie.`
+						`Zobaczyłem *\odpowiedzi[czasowniki][1]\* *\odpowiedzi[przysłówki][2]\* przez duży tunel, który prowadził do jej *\odpowiedzi[przymiotniki][2]\* *\odpowiedzi[rzeczowniki][2]\*.`
+						`Wziąłem trochę orzeszków ziemnych i podałem je przez klatkę ogromnemu szaremu *\odpowiedzi[rzeczowniki][3]\* górującemu nad moją głową.`
+						`Karmienie tego zwierzęcia sprawiło, że zgłodniałem.`
+						`Poszedłem po *\odpowiedzi[przymiotniki][3]\* gałkę lodów.`
+						`Napełniła mój żołądek.`
+						`Potem *\odpowiedzi[czasowniki][2]\* *\odpowiedzi[przysłówki][2]\*, żeby zdążyć na nasz autobus.`
+						`Kiedy wróciłem do domu, *\odpowiedzi[czasowniki][3]\* moją mamę o *\odpowiedzi[przymiotniki][4]\* dzień w zoo.`
+					]
+				¶Przetłumacz je na zdania¶
+				Grupa(
+					Stos('<')
+					zdania.tłumaczyć(ƒ(zdanie2) Wyrażenie(zdanie2))
+				)
+			)
+	]
+	twarz: 'Phudu'
+)

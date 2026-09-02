@@ -1,0 +1,38 @@
+l
+Überschriften
+=== start/en
+¶Aktuelle Schlagzeilen der New York Times, aus dem Internet geholt und auf der Bühne gestapelt.¶
+schlagzeilen: Website(
+		'https://www.nytimes.com'
+		'.indicate-hover'
+	)
+schlagzeilen•# ?
+	Satzglied('lädt')
+	Gruppe(
+		Stapel('<')
+		[
+			Satzglied(
+				`*Schlagzeilen der New York Times*`
+				2m
+				gesicht: 'Arvo'
+			)
+		].mitListe(
+			schlagzeilen.Folge(1 7).übersetzen(
+				ƒ(schlagzeile)
+					Satzglied(
+						schlagzeile
+						wickeln: 20m
+						Ausrichtung: '<'
+						gesicht: 'Ubuntu'
+						Ruhen: Reihenfolge(
+							{
+								0%: Pose(Drehung: 3°)
+								50%: Pose(Drehung: -3°)
+								100%: Pose(Drehung: 3°)
+							}
+							Dauer: 3s
+						)
+					)
+			)
+		)
+	)

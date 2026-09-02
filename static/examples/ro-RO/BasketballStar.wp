@@ -1,0 +1,96 @@
+🏀
+Vedeta de baschet
+=== start
+¶Țintește cu cursorul și dă clic pentru a arunca la coș.¶
+clic: ∆ Buton()
+
+numărulDeClicuri: 0 … clic … 1 + ⬚
+
+¶Reține poziția x a cursorului în momentul aruncării, ca mingea să cadă din locul în care a țintit jucătorul, nu să sară înapoi la x = 0¶
+aruncareX: 0m … (clic & ((numărulDeClicuri % 2) = 1)) … Indicator(
+		).x
+
+pozițiaMingiiDeBaschet: (numărulDeClicuri % 2) = 0 ? Loc(
+			x: Indicator().x
+			y: 8m
+			z: 0m
+		) Mişcare(loc: Loc(aruncareX 8m 0m))
+
+mingeDeBaschet: Fraza(
+		"🏀"
+		0.7m
+		materie: Materie(0.623kg 0.5)
+		loc: pozițiaMingiiDeBaschet
+		nume: 'minge de baschet'
+	)
+
+¶Coșul se mișcă neîntrerupt de la o parte la alta, mișcat de sinusul timpului¶
+pozițiaXACoșului: (Timp() ÷ 600ms).păcat() · 6m
+
+¶Citește o singură dată poziția curentă a mingii, pentru verificarea scorului¶
+mingeX: (mingeDeBaschet.loc ?? Loc()).x
+mingeY: (mingeDeBaschet.loc ?? Loc()).y
+
+încercare: (numărulDeClicuri ÷ 2).ridica()
+
+¶inBin este adevărat atunci când mingea se află înăuntrul coșului. Reacția de marcare a scorului se declanșează doar când inBin trece la adevărat ȘI încercarea curentă este mai mare decât scorul, astfel încât o a doua intrare în timpul aceleiași aruncări — o ricoșare în interiorul coșului, sau coșul care se mișcă înapoi peste minge — nu are niciun efect până când următoarea aruncare nu mărește numărul de încercări¶
+înCoș: (mingeX < (pozițiaXACoșului + 0.9m)) & (mingeX > (pozițiaXACoșului - 0.9m)) & (mingeY < 2.9m) & (mingeY > 0.3m)
+scor: 0 … înCoș & (încercare > scor) … 1 + scor
+
+vedetaBaschetului: Grup(
+		Stivă('|' 0.5m)
+		[
+			Fraza(`*Vedeta baschetului*` .8m)
+			Fraza('Țintește cu cursorul.' .6m)
+			Fraza(
+				'Dă clic pentru a lăsa mingea 🏀 să cadă în coșul în mișcare.'
+				.6m
+			)
+			Fraza('Scor: ' + scor → '' .8m)
+			Fraza('Încercări: ' + încercare → '' .8m)
+		]
+		dimensiune: 2m
+		faţă: "Sue Ellen Francisco"
+		compensare: Loc(0m 8m 0m)
+	)
+
+Etapă(
+	[
+		mingeDeBaschet
+		¶Pereții coșului au fost lăsați la o grosime de 0,3 m (de la 0,1 m), ca coșul care se mișcă lateral să nu poată trece prin minge, și la o înălțime de 3 m (de la 2 m), ca o minge cu o elasticitate de 0,5 să nu poată ricoșa înapoi peste margine¶
+		Figură(
+			Dreptunghi(
+				-1.2m + pozițiaXACoșului
+				0.3m
+				1.2m + pozițiaXACoșului
+				0m
+				0m
+			)
+			fundal: Culoare(60% 100 30°)
+		)
+		Figură(
+			Dreptunghi(
+				0.9m + pozițiaXACoșului
+				3m
+				1.2m + pozițiaXACoșului
+				0m
+				0m
+			)
+			fundal: Culoare(60% 100 30°)
+		)
+		Figură(
+			Dreptunghi(
+				-1.2m + pozițiaXACoșului
+				3m
+				-0.9m + pozițiaXACoșului
+				0m
+				0m
+			)
+			fundal: Culoare(60% 100 30°)
+		)
+		Figură(Dreptunghi(-10m 0.01m 10m -2m))
+		vedetaBaschetului
+	]
+	loc: Loc(x: 0m y: 5m z: -10m)
+	gravitaţie: 5m/s^2
+)

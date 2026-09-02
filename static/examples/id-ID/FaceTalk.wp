@@ -1,0 +1,33 @@
+🗣
+Bicara Wajah
+===
+¶Ekspresi wajahmu, dilacak oleh kamera dan diceritakan di panggung.¶
+
+¶Buat aliran wajah untuk melacak ekspresi¶
+wajah2: Wajah(200ms)
+
+¶Pilih antara tersenyum, cemberut, berkedip, atau tidak ada apa-apa¶
+suasanaHati: wajah2.mataTerbuka ?
+		(wajah2.jumlahSenyum > 0.6 ? 'smiling'
+				wajah2.jumlahCemberut > 0.4 ? 'frowning'
+					'')
+		'blinking'
+
+¶Ubah suasana hati menjadi emoji, lalu beri wajah itu balon percakapan yang mengucapkannya. Memberi balon itu @Say berarti suasana hati juga diucapkan, tidak hanya ditampilkan, dan balon itu menggantikan keterangan di bagian bawah panggung.¶
+Panggung(
+	[
+		Frasa(
+			(suasanaHati = 'blinking' ? '😴'
+					suasanaHati = 'smiling' ? '😀'
+						suasanaHati = 'frowning' ? '🙁'
+							'😐')
+			ukuran: 8m
+			gelembung: (suasanaHati = ''
+				? Gelembung(
+						`/Tersenyumlah, cemberutlah, atau tutup matamu/`
+						bungkus: 8m
+					)
+					Gelembung(Mengatakan(suasanaHati)))
+		)
+	]
+)

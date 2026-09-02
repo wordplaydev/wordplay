@@ -1,0 +1,37 @@
+O
+صف اللغة اليابانية
+=== start
+¶قصة مشهدًا بمشهد عن أول يوم في حصة اللغة اليابانية.¶
+
+¶هذه هي قائمة المشاهد التي ستُعرض¶
+جُمل: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶هذه قائمة الجُمل التي يجب أن تتقدم فقط عن طريق النطق بها.¶
+نطقالجُمل: [5 7 9]
+
+¶تبدأ الجملة الحالية من 1، وتزداد إذا ارتفع صوت الميكروفون فوق ‎.8‎ في حالة جملة تُنطق، أو إذا تم الضغط على زر أو مفتاح في حالة الجُمل الأخرى.¶
+الجملةالحالية•#: 1 …
+	نطقالجُمل.يحتوي(الجملةالحالية) ?
+		مستوىالصوت() > .6
+		∆ زر() | ∆ مفتاح()
+		…
+		(الجملةالحالية <
+				جُمل.الطول()) ?
+			الجملةالحالية + 1
+			الجملةالحالية
+
+مسرح(
+	[عبارة(جُمل[الجملةالحالية] لف: 10m)]
+	face: 'Sue Ellen Francisco'
+)

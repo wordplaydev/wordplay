@@ -1,0 +1,27 @@
+t
+Máquina de fuentes
+=== start
+¶Presiona cualquier tecla para volver a componer cada letra de "tipografía" en una fuente al azar.¶
+fuentes: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+símbolos: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ aleatorizar()
+	símbolos.traducir(
+		ƒ(símbolo) Frase(
+				símbolo
+				fuente: fuentes.azar()
+				duración: 0s
+			)
+	)
+
+frases2: aleatorizar() … ∆ Tecla() | ∆ Botón() … aleatorizar(
+		)
+
+Escenario([Grupo(Fila('|' 0m) frases2 lugar: Lugar(0m 0m))])

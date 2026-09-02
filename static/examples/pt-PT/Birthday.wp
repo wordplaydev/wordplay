@@ -1,0 +1,198 @@
+🎂
+Parabéns a Você
+=== start/en
+¶Parabéns a Você em três partes: uma melodia, uma harmonia por baixo dela, e acordes que sustentam as duas.
+
+Cada parte está escrita em graus da escala, por isso 1 é a tónica e 8 é a tónica uma oitava acima. É por isso que a melodia soa igual seja qual for a tonalidade escolhida — mude @Music/key e a canção inteira muda com ela, incluindo quem canta.
+
+A melodia e a harmonia movem-se em meias batidas e os acordes em batidas inteiras, por isso cada parte indica a duração das suas próprias notas e mesmo assim tudo encaixa.¶
+
+¶Batidas desde o início da canção, para o bolo se mexer ao ritmo. @Beat conta a partir de zero antes de a música começar, por isso o bolo fica quieto.¶
+batida2: Batida()
+contagem2: batida2.contar
+
+¶A melodia. Duas colcheias, depois notas mais longas — são as pausas que criam o ritmo, já que cada nota dura sempre a mesma meia batida.¶
+melodia2: [
+		5
+		5
+		6
+		ø
+		5
+		ø
+		8
+		ø
+		7
+		ø
+		ø
+		ø
+		5
+		5
+		6
+		ø
+		5
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		5
+		5
+		12
+		ø
+		10
+		ø
+		8
+		ø
+		7
+		ø
+		6
+		ø
+		ø
+		11
+		11
+		10
+		ø
+		8
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Uma segunda voz abaixo da melodia, nas mesmas meias batidas.¶
+alto: [
+		5
+		5
+		3
+		ø
+		3
+		ø
+		3
+		ø
+		4
+		ø
+		ø
+		ø
+		4
+		4
+		4
+		ø
+		4
+		ø
+		4
+		ø
+		5
+		ø
+		ø
+		ø
+		5
+		5
+		5
+		ø
+		8
+		ø
+		5
+		ø
+		5
+		ø
+		4
+		ø
+		6
+		6
+		6
+		ø
+		6
+		ø
+		5
+		ø
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Acordes, um por batida. Um conjunto soa os seus graus em simultâneo, por isso {1 3 5} é a tríade tónica e {4 5 7 9} é a que quer resolver de volta para ela.¶
+acordes: [
+		ø
+		{1 3 5}
+		ø
+		ø
+		{4 5 7 9}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{4 6 8}
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		{4 5 7 9}
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶O bolo aumenta a cada batida e assenta entre elas.¶
+ƒ bolo() Frase(
+		'🎂'
+		(4m + ((contagem2 % 2) · 0.4m))
+		duração: 0.2s
+	)
+
+Fase(
+	[
+		Grupo(
+			Monte(preenchimento: 0.5m)
+			[
+				bolo()
+				Frase('Parabéns a Você' 1.3m)
+			]
+		)
+		Música(
+			[
+				Faixa(
+					melodia2
+					instrumento: Instrumento.flauta
+					batida: 0.5beats
+				)
+				Faixa(
+					alto
+					instrumento: Instrumento.violino
+					batida: 0.5beats
+					volume: 65%
+				)
+				Faixa(
+					acordes
+					instrumento: Instrumento.piano
+					batida: 1beats
+					volume: 55%
+				)
+			]
+			andamento: 116beats/min
+			nome: 'aniversário'
+		)
+	]
+	fundo: Cor(18% 20 330°)
+	cor: Cor(96% 0 0°)
+)

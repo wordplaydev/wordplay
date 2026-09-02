@@ -1,0 +1,37 @@
+O
+জাপানি ভাষা ক্লাস
+=== start
+¶জাপানি ক্লাসের প্রথম দিনের একটি দৃশ্য-ধরে-দৃশ্য গল্প।¶
+
+¶এগুলো হলো দেখানোর জন্য দৃশ্যের তালিকা¶
+বাক্য: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶এগুলো হলো সেই বাক্যগুলোর তালিকা, যেগুলো কেবল কথা বলার মাধ্যমেই এগিয়ে নেওয়া উচিত।¶
+বাক্যগুলোবলো: [5 7 9]
+
+¶বর্তমান বাক্য ১ থেকে শুরু হয়, এবং কথা বলার বাক্যের ক্ষেত্রে মাইক্রোফোনের আওয়াজ .৮-এর বেশি হলে, অথবা অন্য বাক্যের ক্ষেত্রে কোনো বাটন বা কি চাপলে তা বেড়ে যায়।¶
+বর্তমানবাক্য•#: 1 …
+	বাক্যগুলোবলো.আছে(বর্তমানবাক্য) ?
+		আওয়াজ() > .6
+		∆ বোতাম() | ∆ চাবি()
+		…
+		(বর্তমানবাক্য <
+				বাক্য.দৈর্ঘ্য()) ?
+			বর্তমানবাক্য + 1
+			বর্তমানবাক্য
+
+মঞ্চ(
+	[বাক্যাংশ(বাক্য[বর্তমানবাক্য] মোড়ানো: 10m)]
+	মুখ: 'Sue Ellen Francisco'
+)

@@ -1,0 +1,343 @@
+⚽
+Football
+=== start/en
+¶Isang larong pagbabantay ng gol na nakikita mula sa itaas. Ikaw ang guwantes sa harap ng gol sa kaliwa. Isa-isang binabato ang bola mula sa may kalayuan ng patakaran, tinutumbok sa isang bahagi ng bunganga ng gol, at gumagalaw ka pataas at pababa upang harangin ito. Binibilang ng numero ang mga sipang nasakla mo: tumatayo ito nang mataas sa tuwing may nasakla ka, at lumalaki at nayayanig kapag may nakalusot sa iyo.¶
+
+¶Kung saan tinutumbok ang isang sipa, at kung saan nakatayo ang guwantes. Ang layunin ay mga walong beses ang lapad ng tagabantay na nagbabantay nito, kaya naman hindi kayang tumayo lang ang isang tao sa gitna nito at masave ang lahat.
+
+Ang isang @Place ay ang ibabang-kaliwang sulok ng isang output, hindi ang gitna nito, kaya lahat ng tinutumbok o kinukuwintas sa ibaba ay kinukwenta gamit ang mga gitna, at nawawalan ito ng kalahati ng sukat kapag naging isang @Place. Ang isang emoji ay iginuguhit din nang mas malaki kaysa sa sukat nito — isang 0.6m na ⚽ ay pumupuno ng humigit-kumulang 0.9m, isang 1.2m na 🧤 ay humigit-kumulang 1.25m — kaya ang mga kalahating iyon ay sinusukat, hindi lang kinakalahati mula sa sukat. Ang bilis ng guwantes ay kung gaano kalayo ito dumudulas sa bawat tick.¶
+layuninX: -7m
+bibigGilid: 5.2m
+bolaKalahati: 0.45m
+tagabantayX: -6.5m
+tagabantayKalahati: 0.62m
+tagabantayAbot: 4.5m
+tagabantayBilis: 0.55m
+
+tik: Oras(50ms)
+pindutin: Susi(pababa: ⊤)
+bitiwan: Susi(pababa: ⊥)
+
+¶Kung saang direksyon papunta ang guwantes. Ang pagpindot ng isang palaso ay nagpapaandar dito, at ang pagbitiw sa parehong palaso ay nagpapahinto rito, kaya dumudulas ang guwantes hangga't hawak mo ang susi. Sa isang bibig na ganito kalapad, isang hakbang bawat pindot ay hinding-hindi darating sa oras.¶
+anod2•#: 0 … ∆ pindutin | ∆ bitiwan …
+		∆ pindutin ?
+			((pindutin = 'Palaso Pataas') ? 1 ((pindutin = 'PalasoPababa') ? -1 anod2))
+			((bitiwan = 'Palaso Pataas') & (anod2 = 1)) ? 0
+				((bitiwan = 'PalasoPababa') & (anod2 = -1)) ? 0
+					anod2
+
+¶Ang guwantes ay hindi ginagalaw ng pisika, kaya direktang maaaring itulak ito. Humihinto ito sa dulo ng abot nito, kaya hinding-hindi ito makakagala palabas ng layunin.¶
+tagabantayY•#m: 0m … ∆ tik …
+		((tagabantayY + (anod2 × tagabantayBilis)).pinakamataas(
+				tagabantayAbot · -1
+			)).minuto(
+			tagabantayAbot
+		)
+
+¶Isang save at isang goal. Bawat @Collision ay nag-uulat ng pagsisimula ng paghawak at pagtatapos ng paghawak, kaya pareho itong pinagsama sa isang pagsuri na ito ay isang pagsisimula: kung wala ito, bawat save at bawat goal ay bibilangin nang dalawang beses.¶
+guwantesTama: Pagbangga('bola' 'tagabantay')
+netTama: Pagbangga('bola' 'lambat')
+nailigtas: (∆ guwantesTama) & ~(guwantesTama•ø)
+nakaiskor: (∆ netTama) & ~(netTama•ø)
+
+•sipa(sx•#m sy•#m hilig2•# bilis2•#m/s)
+
+¶May lugar na matatayuan, may lugar sa bibig na tutumbukin, at ang linyang nag-uugnay sa dalawang ito. Ang pagkuha ng dalisdis mula sa dalawang dulo ang siyang naglalagay sa bawat sipa nang eksakto sa target, anuman ang direksyon na pinanggagalingan nito.¶
+ƒ bagongSipa()•sipa (
+		x2: Random(2m 6m)
+		y2: Random(-5.5m 5.5m)
+		tutok: Random(-4.7m 4.7m)
+		¶Ang dalisdis ay kung gaano karaming y ang ibinibigay ng takbo bawat metro ng x. Ang isang paghahati ay maaaring walang sagot, kaya bumabalik ang kaso ng ø sa isang sipa nang tuwid pababa sa larangan; hindi kailanman tumatayo ang sipa sa linya ng layunin, kaya hindi ito nangyayari.¶
+		hulog: (tutok - y2) ÷ (layuninX - x2)
+		sipa(x2 y2 (hulog•ø ? 0 hulog) Random(16m/s 22m/s))
+	)
+
+¶1 = naghihintay ang bola sa paanan ng nagsisipa, 2 = paparating na ito, 3 = kinukuha ito palabas. Binibilang ang mga tick sa halip na ibinabawas ang mga oras, dahil bawat @Timestarts ay nagsisimula sa zero. Ang mga bloke ang nakikita mo; ang mga serve ay naroon lamang para bigyan ang bilang ng bagong pangalan sa bawat sipa, na siyang nagpapatugtog muli ng animasyon nito.¶
+•ronda(yugto•# tik2•# blocks•# serve•# huli2•# sipa2•sipa)
+paligsahan•ronda: ronda(1 0 0 0 0 bagongSipa()) …
+	∆ tik | nailigtas | nakaiskor …
+		paligsahan.yugto ???
+			1: (paligsahan.tik2 ≥ 14)
+			? ronda(
+					2
+					0
+					paligsahan.blocks
+					paligsahan.serve
+					paligsahan.huli2
+					paligsahan.sipa2
+				)
+				ronda(
+					1
+					(paligsahan.tik2 + (∆ tik ? 1 0))
+					paligsahan.blocks
+					paligsahan.serve
+					paligsahan.huli2
+					paligsahan.sipa2
+				)
+			2: nailigtas ? ronda(
+					3
+					0
+					(paligsahan.blocks + 1)
+					(paligsahan.serve + 1)
+					1
+					paligsahan.sipa2
+				)
+				nakaiskor ? ronda(
+						3
+						0
+						paligsahan.blocks
+						(paligsahan.serve + 1)
+						2
+						paligsahan.sipa2
+					)
+					¶Ang isang bolang hindi kailanman dumarating — halimbawa, itinutulak pabalik sa laro dahil sa isang save — ay isinusuko na pagkatapos ng ilang segundo, para hindi kailanman ma-hang ang laro habang naghihintay sa isang resulta na hindi darating.¶
+					(paligsahan.tik2 ≥ 70)
+					? ronda(
+							3
+							0
+							paligsahan.blocks
+							(paligsahan.serve + 1)
+							3
+							paligsahan.sipa2
+						)
+						ronda(
+							2
+							(paligsahan.tik2 + (∆ tik ? 1 0))
+							paligsahan.blocks
+							paligsahan.serve
+							paligsahan.huli2
+							paligsahan.sipa2
+						)
+			3: (paligsahan.tik2 ≥ 16)
+			? ronda(
+					1
+					0
+					paligsahan.blocks
+					paligsahan.serve
+					paligsahan.huli2
+					bagongSipa()
+				)
+				ronda(
+					3
+					(paligsahan.tik2 + (∆ tik ? 1 0))
+					paligsahan.blocks
+					paligsahan.serve
+					paligsahan.huli2
+					paligsahan.sipa2
+				)
+			paligsahan
+
+¶Ang isang sandaling pagsusuri kung kailan umaalis ang bola sa paa ng nagsisipa. Kailangan itong panandalian lamang: ito ang tumatama sa bola, at ang pagtama dito nang dalawang beses ay magpapadoble sa bilis nito.¶
+sinipa: (∆ tik) & (paligsahan.yugto = 2) & (paligsahan.tik2 = 0)
+
+¶Nananatiling walang galaw habang naghihintay ito, tinatamaan sa linyang tinutumbok kapag ito ay sinipa, at itinutulak pabalik paakyat ng larangan sa pamamagitan ng isang save o ng likod ng lambat — na siya ring pumipigil sa isang bola na magpaikot-ikot sa loob ng layunin at paulit-ulit na tunugin ang lambat. Ang hangin ay nagpapabagal sa isang gumugulong na bola, gaya ng gagawin ng damo, kaya humihina ang mga sipa.¶
+lugarNgBola: Paggalaw(
+		Lugar(
+			(paligsahan.sipa2.sx - bolaKalahati)
+			(paligsahan.sipa2.sy - bolaKalahati)
+		)
+		susunodnalugar:
+		(paligsahan.yugto = 1) ? Lugar(
+				(paligsahan.sipa2.sx - bolaKalahati)
+				(paligsahan.sipa2.sy - bolaKalahati)
+			) ø
+		susunodnabilis:
+		(paligsahan.yugto = 1) ? Bilis(0m/s 0m/s 0°/s)
+			sinipa ? Bilis(
+					(paligsahan.sipa2.bilis2 · -1)
+					((paligsahan.sipa2.bilis2 · -1) × paligsahan.sipa2.hilig2)
+					Random(-45°/s 45°/s)
+				)
+				(nailigtas | nakaiskor) ? Bilis(
+						Random(8m/s 14m/s)
+						Random(-5m/s 5m/s)
+						Random(-45°/s 45°/s)
+					)
+					ø
+	)
+
+bola: Parirala(
+		'⚽'
+		0.6m
+		pangalan: 'bola'
+		lugar: lugarNgBola
+		materya: Materya(0.45kg 0.7 0.02)
+	)
+
+¶Ang guwantes ay binabantayan sa pamamagitan ng pangalan sa itaas, na siyang kailangan lang para maging bahagi ng pisikal na daigdig, kaya hindi ito nangangailangan ng @Matter. Inilalagay ito ng programa sa halip na ng pisika, kaya dumadaan ito sa bola sa halip na tamaan ito; ang save sa itaas ang siyang nagpapabalik sa bola. Ang mga galaw nito ay hindi tinatweened, kaya nasa eksaktong lugar ito kung saan mo ito itinulak sa halip na dahan-dahang sumusunod sa iyo.¶
+tagabantay: Parirala(
+		'🧤'
+		1.2m
+		pangalan: 'tagabantay'
+		lugar: Lugar(
+			tagabantayX
+			(tagabantayY - tagabantayKalahati)
+		)
+		tagal: 0s
+	)
+
+¶Sino ang malapit nang sumipa, at mula saan. Nasa larangan lamang habang naghihintay ang bola.¶
+tagasipa: Parirala(
+		'🦵'
+		1.2m
+		lugar: Lugar(
+			(paligsahan.sipa2.sx + 0.5m)
+			(paligsahan.sipa2.sy - 0.6m)
+		)
+		tagal: 0s
+	)
+listahanNgTagasipa: (paligsahan.yugto = 1) ? [tagasipa] []
+
+¶Ang layunin: ang bibig, ang lambat sa likod nito, at isang poste sa itaas at sa ibaba. Ang lambat lamang ang may pangalan, kaya ang lambat lamang ang makakapagbigay ng goal — ang isang bolang tumama sa poste ay babalik lang. Sadyang makapal ang lambat: ang pinakamabilis na sipa ay tumatawid ng humigit-kumulang kalahating metro sa pagitan ng mga hakbang ng pisika, at ang mas manipis na lambat ay maaari nitong daanan nang tuluyan nang hindi natatamaan.¶
+hugisNgNet: Hugis(
+		Parihaba(-8m bibigGilid -7.2m (bibigGilid · -1))
+		pangalan: 'lambat'
+		background: Kulay(96% 0 0°)
+	)
+tuktokNgPoste: Hugis(
+		Parihaba(-8m 7m -7.2m bibigGilid)
+		background: Kulay(35% 0 0°)
+	)
+ibabaNgPoste: Hugis(
+		Parihaba(-8m (bibigGilid · -1) -7.2m -7m)
+		background: Kulay(35% 0 0°)
+	)
+
+¶Ang mga linya sa gilid, na nagpapanatili sa isang naitulak na bola sa loob ng larangan.¶
+tuktokNgPader: Hugis(
+		Parihaba(-8m 7m 8m 6.8m)
+		background: Kulay(88% 5 130°)
+	)
+ibabaNgPader: Hugis(
+		Parihaba(-8m -6.8m 8m -7m)
+		background: Kulay(88% 5 130°)
+	)
+kananNgPader: Hugis(
+		Parihaba(7.8m 7m 8m -7m)
+		background: Kulay(88% 5 130°)
+	)
+
+¶Isang save: lumulukso nang bahagya ang bilang at tumatayo doon sandali bago tumahimik.¶
+yukoNgSaklolo: Pagkakasunodsunod(
+		{
+			0%: Pose(sukat: 1)
+			30%: Pose(sukat: 1.5 offset: Lugar(0m 0.4m))
+			65%: Pose(sukat: 1.35 offset: Lugar(0m 0.25m))
+			100%: Pose(sukat: 1)
+		}
+		0.5s
+	)
+
+¶Isang goal: lumalaki ang bilang para punuin ang buong screen at yumayanig, kaya ang isang sipang nakalusot sa iyo ay hinding-hindi mo mapapalampas.¶
+yanigNgGol: Pagkakasunodsunod(
+		{
+			0%: Pose(sukat: 1)
+			8%: Pose(sukat: 3.6 pagikot: -10°)
+			24%: Pose(
+				sukat: 3.6
+				pagikot: 10°
+				offset: Lugar(0.4m 0m)
+			)
+			40%: Pose(
+				sukat: 3.6
+				pagikot: -10°
+				offset: Lugar(-0.4m 0m)
+			)
+			56%: Pose(
+				sukat: 3.6
+				pagikot: 8°
+				offset: Lugar(0.3m 0m)
+			)
+			72%: Pose(sukat: 3.4 pagikot: -6°)
+			100%: Pose(sukat: 1)
+		}
+		1s
+	)
+
+¶Ang bilang ng mga sipang na-block. Dala ng pangalan nito ang bilang ng serve, kaya bawat sipa ay bigyan ito ng bagong pagkakakilanlan at tumutugtog muli ang animasyon nito — isang bilang na hindi nagbabago ang pangalan ay isang beses lang mag-a-animate at pagkatapos ay hindi na gagalaw.¶
+tanawinNgPuntos: Parirala(
+		"🧤 \paligsahan.blocks\"
+		1.4m
+		pangalan: "score\paligsahan.serve\"
+		lugar: Lugar(-1.4m 4m)
+		tagal: 0.2s
+		pagpasok: paligsahan.huli2 ???
+			1: yukoNgSaklolo
+			2: yanigNgGol
+			Pose()
+	)
+
+¶Ang mga tagubilin ay nasa larangan sa halip na nasa overlay: ang ibabang gilid ng overlay ay kung saan nakatayo ang paggawa ng musika, kaya ang tekstong nandoon ay maguguhitan sa ibabaw nito.¶
+mgaTagubilin: Parirala(
+		'pindutin nang matagal ang ⬆ ⬇ para igalaw ang iyong guwantes — i-block ang bawat sipa!'
+		0.55m
+		lugar: Lugar(-6.4m -6.4m)
+	)
+
+¶Tatlong tunog: ang bugso, ang saklolo, ang lambat. Inilalagay ang bawat isa sa entablado hangga't tumatagal ang yugtong nagdudulot nito, at inaalis muli pagkatapos. Ang pagdating sa entablado ay dahilan na para tumunog, at ang isang beses-lang na tunog na natapos na ay tahimik hanggang umalis at bumalik ito — kaya wala sa mga ito ang kailangan ng @Music.replay, at wala sa mga ito ang tumutunog kapag nagsimula ang programa.
+
+Ang pagsulat sa kanila sa ganitong paraan ay nagsasabi ng bagay na hindi masasabi ng mga tala lamang: ang bawat tunog ay kabilang sa isang yugto ng ronda, at tumatagal nang eksaktong kasing-tagal ng yugtong iyon. Ang @Music.replay ang ibang paraan ng pagsulat, para sa tunog na tumutugon sa iisang sandali sa halip na sa isang tagal ng panahon.¶
+tunogNgSipa: Musika(
+		Track(
+			[1]
+			instrumento: Instrumento.mgaTambol
+			beat: 0.25beats
+			lakasNgTunog: 60%
+			loop: ⊥
+		)
+		pangalan: 'sipa'
+	)
+
+tunogNgSaklolo: Musika(
+		Track(
+			[8 12 15]
+			instrumento: Instrumento.kampana
+			beat: 0.2beats
+			lakasNgTunog: 70%
+			loop: ⊥
+		)
+		pangalan: 'saklolo'
+	)
+
+tunogNgGol: Musika(
+		Track(
+			[5 4 2 1]
+			instrumento: Instrumento.trumpeta
+			beat: 0.3beats
+			lakasNgTunog: 65%
+			loop: ⊥
+		)
+		pangalan: 'tunguhin'
+	)
+
+tunogNgResulta: paligsahan.huli2 ???
+		1: [tunogNgSaklolo]
+		2: [tunogNgGol]
+		[]
+
+listahanNgTunog: paligsahan.yugto ???
+		2: [tunogNgSipa]
+		3: tunogNgResulta
+		[]
+
+Entablado(
+	[
+		bola
+		tagabantay
+		:listahanNgTagasipa
+		hugisNgNet
+		tuktokNgPoste
+		ibabaNgPoste
+		tuktokNgPader
+		ibabaNgPader
+		kananNgPader
+		mgaTagubilin
+		:listahanNgTunog
+	]
+	lugar: Lugar(0m 0m -14m)
+	balangkas: Parihaba(-8m 7m 8m -7m)
+	background: Kulay(62% 40 140°)
+	kulay: Kulay(20% 0 0°)
+	grabidad: 0m/s^2
+	pangIbabaw: [tanawinNgPuntos]
+)

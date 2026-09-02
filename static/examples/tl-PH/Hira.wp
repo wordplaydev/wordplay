@@ -1,0 +1,28 @@
+ぁ
+Hiragana
+=== start
+¶Nahuhulog ang hiragana dahil sa grabidad; i-click para baguhin kung saan ang pababa.¶
+bilang2: 32
+
+grabidad2•#m/s^2: 15m/s^2 … ∆ Butones() … -grabidad2
+
+hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
+
+mgaLetra: bilang2 → [].isalin(
+		ƒ(bilang3 indeks2)
+			Parirala(
+				hiragana[bilang3]
+				lugar: Paggalaw(
+					Lugar((indeks2 - (bilang2 ÷ 2)) × 0.2m 10m)
+					Bilis(anggulo: Random(-5 5) × 1°/s)
+				)
+				materya: Materya(pagtalbog: 0.3)
+			)
+	)
+
+
+Entablado(
+	[:mgaLetra Hugis(Parihaba(-40m 0m 40m -2m))]
+	grabidad: grabidad2
+	lugar: Lugar(0m 5m -20m)
+)

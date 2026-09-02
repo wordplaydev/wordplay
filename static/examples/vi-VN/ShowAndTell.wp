@@ -1,0 +1,204 @@
+🔍
+Trình bày và Chia sẻ
+=== start/en
+¶Đố Vui Bằng Hình — một trò chơi dùng máy ảnh chạy đua với thời gian. Mình sẽ yêu cầu bạn tìm từng thứ một, và mình sẽ nói to tên mỗi thứ. Hãy giơ mỗi thứ trước máy ảnh cho đến khi mình nhận ra nó, rồi mình sẽ hỏi thứ khác. Không có thứ mình vừa hỏi? Nhấn → và mình sẽ hỏi thứ khác — bỏ qua không bị tính là thua. Tìm được năm thứ trong một phút là bạn thắng; thứ thứ năm luôn cần có hai người cùng xuất hiện trong hình một lúc. Một phút bắt đầu tính khi máy ảnh của bạn bật lên, nên việc chuẩn bị không bao giờ tốn thời gian của bạn, và khi hết giờ mình sẽ báo trò chơi kết thúc. Mỗi lần tìm được sẽ làm chữ to hơn một chút, và khi bạn thắng, chữ sẽ nổ tung như giấy màu bay quanh dòng "Bạn thắng rồi!"¶
+
+¶Một thứ cần tìm: biểu tượng cảm xúc mình hiển thị, chữ mình hiển thị, tên mà mô hình máy ảnh của mình đặt cho nó (thứ mình dùng để so khớp), và số lượng mình cần thấy cùng lúc (hai, đối với người).¶
+•mụcTiêu(biểuTượngCảmXúc•'' nhãn•'' tên3•'' cần•#)
+
+¶Những thứ mình có thể hỏi tìm. Mỗi tên chính là cách @Objects gọi thứ đó, để mình có thể nhận ra nó qua máy ảnh. Mình hiển thị từng thứ một và chọn thứ khác bất cứ khi nào bạn tìm được hoặc bỏ qua nó.¶
+nhóm•[mụcTiêu]: [
+		mụcTiêu('☕' 'một cái cốc' 'cốc' 1)
+		mụcTiêu('📖' 'một quyển sách' 'sách' 1)
+		mụcTiêu('📱' 'một cái điện thoại' 'điện thoại' 1)
+		mụcTiêu(
+			'💻'
+			'một cái máy tính xách tay'
+			'máy tính xách tay'
+			1
+		)
+		mụcTiêu('⌨' 'một cái bàn phím' 'bàn phím' 1)
+		mụcTiêu(
+			'🖱'
+			'một con chuột máy tính'
+			'chuột máy tính'
+			1
+		)
+		mụcTiêu('✂' 'kéo' 'kéo' 1)
+		mụcTiêu('🍾' 'một cái chai' 'chai' 1)
+		mụcTiêu('🪑' 'một cái ghế' 'ghế' 1)
+		mụcTiêu('🕐' 'một cái đồng hồ' 'đồng hồ' 1)
+		mụcTiêu('🍌' 'một quả chuối' 'chuối' 1)
+		mụcTiêu('🍎' 'một quả táo' 'táo' 1)
+		mụcTiêu('🧸' 'một con gấu bông' 'gấu bông' 1)
+		mụcTiêu('🪴' 'một chậu cây' 'chậu cây' 1)
+		mụcTiêu('🏺' 'một cái bình hoa' 'bình hoa' 1)
+		mụcTiêu('🎒' 'một cái ba lô' 'ba lô' 1)
+	]
+
+¶Nên yêu cầu gì tiếp theo, dựa trên các biểu tượng cảm xúc bạn đã tìm được và điều cần tránh lặp lại: với bốn lần đầu, hãy chọn một đồ vật ngẫu nhiên mới mà bạn chưa được yêu cầu tìm; lần thứ năm thì luôn luôn là hai người.¶
+ƒ chọn(tìmThấy•[''] tránh•mụcTiêu)
+	(tìmThấy.chiềudài() ≥ 4)
+	? mụcTiêu('👥' 'hai người' 'người' 2)
+		nhóm.khôngcó(tránh).lọc(
+			ƒ(t•mụcTiêu) ~(tìmThấy.có(t.biểuTượngCảmXúc))
+		).ngẫunhiên(
+		)
+
+¶Máy ảnh. Nó không được cho biết phải tìm gì — nó chỉ báo cáo mọi thứ nó thấy, và tự động chạy theo nhịp riêng, nên trò chơi phản ứng trực tiếp với nó mà không cần đồng hồ.¶
+lầnNhìnThấy: ĐốiTượng(sốĐếm: 10 độTinCậy: 0.5)
+
+¶Phím → (hoặc chạm) để bỏ qua.¶
+bỏQua: Chìakhóa('Mũi tên phải' ⊤)
+
+¶Một đồng hồ, dùng để đếm ngược và tạo hoạt ảnh pháo giấy khi thắng. Bản thân cuộc săn tìm không dùng nó — @Objects điều khiển việc đó.¶
+đồngHồ: Thờigian(30ms)
+
+¶Một vòng chơi kéo dài bao lâu.¶
+giớiHạn•#s: 60s
+
+¶Khoảnh khắc máy ảnh báo cáo lần đầu tiên, được ghi nhớ. Bộ đếm ngược bắt đầu từ đây thay vì từ số không, để thời gian chờ chia sẻ máy ảnh và chờ mô hình tải xong không bao giờ làm hao hụt phút chơi của bạn — @Objects báo cáo lần đọc đầu tiên ngay khi nó thấy một khung hình, dù khung hình đó có gì hay không.¶
+bắtĐầuLúc•#ms: 0ms
+	… ((∆ lầnNhìnThấy) & (⬚ = 0ms)) …
+		đồngHồ
+
+¶Thời gian còn lại: cả một phút cho đến khi máy ảnh khởi động xong, sau đó là phần còn lại của phút đó, không bao giờ thấp hơn số không — nên khi thời gian đã dùng hết thì nó vẫn ở mức hết, không đếm xuống số âm.¶
+trái•#s: (bắtĐầuLúc = 0ms) ? giớiHạn ((giớiHạn - ((đồngHồ - bắtĐầuLúc) → #s)).tốiđa(
+				0s
+			))
+
+¶Trò chơi: các biểu tượng cảm xúc đã tìm được cho đến nay (thắng khi đủ năm) và thứ đang được yêu cầu tìm ngay lúc này.¶
+•sănTìm(tìmThấy2•[''] mụcTiêu2•mụcTiêu)
+
+¶Tiến lên dựa trên một lần đọc từ máy ảnh (hoặc một lần bỏ qua), dừng lại khi tìm đủ năm để màn hình chiến thắng chỉ được dựng lên một lần và pháo giấy của nó được để yên bay tự do. Bỏ qua sẽ đổi sang thứ khác mà không thay đổi số lượng đã tìm được; khi thấy đủ thứ đang được yêu cầu trong số những gì quan sát được, trò chơi sẽ ghi nhận lượt tìm thấy đó và hỏi tìm thứ tiếp theo.¶
+ƒ bước(g•sănTìm đãBỏQua•? đãThấy•[Vật]) (
+		đếm2: đãThấy.lọc(ƒ(t2•Vật) t2.tên = g.mụcTiêu2.tên3).chiềudài(
+			)
+		tìmThấyTiếpTheo: [
+				:g.tìmThấy2
+				g.mụcTiêu2.biểuTượngCảmXúc
+			]
+		đãBỏQua
+		? sănTìm(g.tìmThấy2 chọn(g.tìmThấy2 g.mụcTiêu2))
+			((đếm2 ≥ g.mụcTiêu2.cần)
+				? sănTìm(
+						tìmThấyTiếpTheo
+						chọn(tìmThấyTiếpTheo g.mụcTiêu2)
+					)
+					g)
+	)
+
+¶Cuộc săn tìm cũng dừng lại khi hết phút chơi, để một lượt tìm thấy đến sau khi hết giờ không thể lén lọt qua màn hình kết thúc trò chơi.¶
+sănTìm2•sănTìm: sănTìm([] nhóm.ngẫunhiên())
+	… ((∆ lầnNhìnThấy | ∆ bỏQua) & (⬚.tìmThấy2.chiềudài() < 5) & (trái > 0s)) …
+		bước(⬚ (∆ bỏQua) lầnNhìnThấy)
+
+¶Khoảnh khắc bạn thắng, được ghi nhớ — để hoạt ảnh pháo giấy chạy từ thời điểm số không.¶
+thắngLúc•#ms: 0ms
+	… ((sănTìm2.tìmThấy2.chiềudài() ≥ 5) & (⬚ = 0ms)) …
+		đồngHồ
+
+¶Một mảnh pháo giấy đang bay: một biểu tượng cảm xúc, một vận tốc bùng nổ (không đơn vị — độ lớn tính bằng mét trên giây), và một độ xoay. Việc lưu các số đơn giản giúp phần tính toán quỹ đạo bên dưới trở nên đơn giản.¶
+•tiaSáng(biểuTượngCảmXúc2•'' vx•# vy•# đãQuay•#)
+
+¶Giấy màu, được tạo ra một lần ngay khi bạn thắng và sau đó không bao giờ dựng lại. @Objectskeeps liên tục dò xét, nên mỗi lần đọc lại sẽ đánh giá lại chương trình — việc giữ cố định các mảnh giấytrong danh sách này (nó chỉ được lấp đầy một lần, khi bạn thắng, rồi điều kiện của nó dừng lại) nghĩa làmỗi mảnh giữ nguyên vận tốc bay của nó, thay vì được tạo lại mỗi khung hình.¶
+tiaSáng2•[tiaSáng]: []
+	… ((sănTìm2.tìmThấy2.chiềudài() ≥ 5) & (⬚.chiềudài() = 0)) …
+		(60 → []).dịch(
+			ƒ()
+				tiaSáng(
+					sănTìm2.tìmThấy2.ngẫunhiên()
+					Ngẫunhiên(-8 8)
+					Ngẫunhiên(3 13)
+					Ngẫunhiên(-200 200)
+				)
+		)
+
+¶Trọng lực cho đường bay của giấy màu, tính bằng mét trên giây bình phương.¶
+g2•#: 9
+
+¶Lời nhắc: một biểu tượng cảm xúc lớn, tên của nó, tiến trình của bạn, thời gian còn lại, và cách đểbỏ qua. Chữ lớn dần theo mỗi lần tìm thấy để tăng độ khó — chỉ tăng chút ít, để nămlần tìm thấy vẫn vừa với sân khấu. Bộ đếm ngược làm tròn lên, nên nó hiện số 1 cho đến đúnggiây phút thời gian thực sự hết.¶
+ƒ gợiÝ(g3•sănTìm) (
+		lớn: (2m + (g3.tìmThấy2.chiềudài() · 0.3m))
+		Nhóm(
+			Ngănxếp('|' 0.4m)
+			[
+				Cụmtừ(
+					g3.mụcTiêu2.biểuTượngCảmXúc
+					khuônmặt: "Noto Color Emoji"
+					kíchcỡ: lớn + 1m
+				)
+				Cụmtừ(g3.mụcTiêu2.nhãn kíchcỡ: lớn)
+				Cụmtừ(
+					`đã tìm thấy \g3.tìmThấy2.chiềudài() → ''\ trên 5`
+					kíchcỡ: 0.7m
+				)
+				Cụmtừ(
+					`⏳ \(trái ÷ 1s).tổnghợp() → ''\ giây còn lại`
+					kíchcỡ: 0.6m
+				)
+				Cụmtừ(
+					'chưa tìm được? nhấn → để có cái khác'
+					kíchcỡ: 0.5m
+				)
+			]
+		)
+	)
+
+¶Đặt mỗi tia lửa dọc theo đường bay riêng của nó, tính từ khoảng thời gian nó đã bay:nó bay ra theo vận tốc của nó trong khi trọng lực kéo nó xuống (công thức cổ điển½·g·t²). Vì ta tính toán vị trí thay vì dựa vào bộ máy vật lý,việc sân khấu liên tục đánh giá lại chỉ đơn giản là vẽ lại mỗi mảnh ở đúng chỗ nó cần ở —không bị bật ngược về giữa.¶
+ƒ giấyMàu() (
+		t3: (đồngHồ - thắngLúc) ÷ 1000ms
+		tiaSáng2.dịch(
+			ƒ(s•tiaSáng)
+				Cụmtừ(
+					s.biểuTượngCảmXúc2
+					khuônmặt: "Noto Color Emoji"
+					kíchcỡ: 1.5m
+					xoay: (s.đãQuay · t3) · 1°
+					vịTrí: VịTrí(
+						(s.vx · t3) · 1m
+						((s.vy · t3) - ((g2 · t3 · t3) ÷ 2)) · 1m
+					)
+				)
+		)
+	)
+
+¶Bạn thắng khi tìm được năm cái: một dòng chữ "Bạn thắng rồi!" ở giữa, được đọc to lẫn hiển thị,cùng các biểu tượng cảm xúc đã tìm thấy nổ tung như giấy màu phía trên nó, hiện ra khi giấy màurơi xuống.¶
+ƒ chungKết() [
+		Nhóm(Ngănxếp() [Cụmtừ('Bạn thắng rồi!' kíchcỡ: 2m)])
+		Nói('Bạn thắng rồi!')
+		:giấyMàu()
+	]
+
+¶Hết một phút rồi: bạn đã đi được bao xa, được đọc to lẫn hiển thị.¶
+ƒ tròChơiKếtThúc(g4•sănTìm) [
+		Nhóm(
+			Ngănxếp('|' 0.4m)
+			[
+				Cụmtừ('⌛' khuônmặt: "Noto Color Emoji" kíchcỡ: 3m)
+				Cụmtừ('Hết giờ rồi!' kíchcỡ: 2m)
+				Cụmtừ(
+					`bạn đã tìm thấy \g4.tìmThấy2.chiềudài() → ''\ trên 5`
+					kíchcỡ: 0.7m
+				)
+			]
+		)
+		Nói(
+			"Time is up. Game over. You found \g4.tìmThấy2.chiềudài(
+			) → ''\ of 5."
+		)
+	]
+
+¶Đọc to điều đang diễn ra, dành cho người chơi không đọc được lời nhắc hoặc chỉmuốn nghe nó. Say chỉ nói khi chữ của nó thay đổi — nên nó thông báo mỗi điềumới một lần, chứ không phải mỗi lần sân khấu được đọc lại.¶
+ƒ thôngBáo(g5•sănTìm) Nói('tìm ' + g5.mụcTiêu2.nhãn)
+
+¶Việc thắng được kiểm tra trước, nên khi hết giờ chỉ có thể có nghĩa là thua.¶
+Sânkhấu(
+	(sănTìm2.tìmThấy2.chiềudài() ≥ 5)
+	? chungKết()
+		((trái ≤ 0s) ? tròChơiKếtThúc(sănTìm2) [
+					gợiÝ(sănTìm2)
+					thôngBáo(sănTìm2)
+				])
+	vịTrí: VịTrí(0m 0m -12m)
+)

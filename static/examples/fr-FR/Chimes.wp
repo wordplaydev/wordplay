@@ -1,0 +1,92 @@
+🎐
+Carillons
+=== start/en
+¶Cinq carillons suspendus en rangée, numérotés de un à cinq. Appuie sur A, S, D, F ou G et le carillon que tu frappes grossit et s'éclaire, puis revient doucement au repos. Toute la rangée bouge un peu, que quelqu'un joue ou non.
+
+C'est un instrument. Il ne fait aucun son. Les chiffres forment déjà une partition ; elle n'est simplement pas encore jouée. Le bloc masqué au-dessus de la scène est le son, qui attend que @Music existe.¶
+
+appuyée: Clé()
+tic: Temps(30ms)
+
+¶La part de sa résonance qu'un carillon perd à chaque image.¶
+affaiblissement: 0.03
+
+¶Un carillon : quel est son degré, quelle touche le frappe, où il est suspendu, sa teinte, et à quel point il sonne encore fort — 1 juste frappé, 0 au repos.¶
+•carillon(degré2•# clé2•'' x2•#m teinte2•#° énergie•#)
+
+¶Frappe le carillon dont la touche a été appuyée, et laisse chaque autre carillon se calmer.¶
+ƒ sonner(rangée•[carillon] toucher•'' frappé•?)
+	rangée.traduire(
+		ƒ(carillon2•carillon)
+			(frappé & (toucher = carillon2.clé2))
+			? carillon2.énergie:1
+				carillon2.énergie:(carillon2.énergie - affaiblissement).max(
+					0
+				)
+	)
+
+carillons•[carillon]: [
+		carillon(1 'un' -6m 20° 0)
+		carillon(2 's' -3m 75° 0)
+		carillon(3 'd' 0m 140° 0)
+		carillon(4 'f' 3m 205° 0)
+		carillon(5 'g' 6m 270° 0)
+	] … (∆ appuyée | ∆ tic) … sonner(
+			carillons
+			appuyée
+			(∆ appuyée)
+		)
+
+¶Un carillon grossit et s'éclaire avec sa résonance, et bouge toujours un peu, si bien que la rangée reste vivante même quand personne ne joue.¶
+ƒ vueCarillon(carillon3•carillon)
+	Phrase(
+		(carillon3.degré2 → '')
+		(2m + (carillon3.énergie · 1.5m))
+		lieu: Lieu(carillon3.x2 0m)
+		durée: 0.12s
+		couleur: Couleur(
+			(45% + (carillon3.énergie · 40%))
+			(20 + (carillon3.énergie · 80))
+			carillon3.teinte2
+		)
+		aurepos: Séquence.balancement(3° 2.5s)
+	)
+
+¶La touche qui frappe chaque carillon, écrite juste dessous.¶
+ƒ vueTouche(carillon4•carillon)
+	Phrase(
+		carillon4.clé2
+		0.7m
+		lieu: Lieu(carillon4.x2 -3m)
+		couleur: Couleur(60% 0 0°)
+	)
+
+¶Ces deux liaisons forment tout le son : trouver le carillon qui sonne à cet instant, et donner son degré à une cloche, en rejouant à chaque pression pour que chaque frappe soit un son nouveau plutôt que toujours le même. Cinq carillons, cinq degrés d'une gamme pentatonique, donc il n'y a jamais de fausse note.¶
+enTrainDeSonner: carillons.filtre(
+		ƒ(carillon5•carillon) carillon5.énergie = 1
+	)
+chanson: Musique(
+		Piste(
+			enTrainDeSonner ↦ ⬚.degré2
+			instrument: Instrument.cloche
+			boucle: ⊥
+		)
+		gamme: Musique.pentatonique
+		rejouer: ∆ appuyée
+	)
+
+Scène(
+	[
+		Phrase(
+			'━━━━━━━━━━━━━'
+			1m
+			lieu: Lieu(-6m 2.5m)
+			couleur: Couleur(45% 0 0°)
+		)
+		:carillons ↦ vueCarillon(⬚)
+		:carillons ↦ vueTouche(⬚)
+		chanson
+	]
+	arrièreplan: Couleur(16% 15 280°)
+	couleur: Couleur(95% 0 0°)
+)

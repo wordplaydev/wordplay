@@ -1,0 +1,65 @@
+☁
+YağmurHarfleri
+=== start/en
+¶Bu program, fizik kurallarına göre yere düşen bir grup yağmur harfi içerir. Bir harf yere düştüğünde, tekrar düşmeye uygun hâle gelir. Düşen harf sayısı her zaman aynıdır ama mikrofonun genliğine göre bunlardan farklı bir sayıda harf görünür olur.¶
+
+¶En fazla harf sayısı¶
+sayaç: 100
+¶Harflerin yatay yayılımı¶
+boyut2: 20m
+
+¶Mikrofonun genliği¶
+amper: Hacim()
+
+¶Seçilen harf ve onun konumu, dönüş hızı ve görünür olup olmadığı.¶
+•harf(harf2•"" x2•#m y2•#m açı2•# hız2•# görünür•?)
+
+tık: Zaman()
+
+¶Rastgele konumlarda rastgele harflerden oluşan bir liste olarak başlat¶
+harfler2•[harf]: sayaç → [#].tercümeetmek(
+		ƒ(_) harf(
+				'abcdefghijklmnopqrstuvwxyz' → [''].rastgele()
+				Rastgele(-boyut2 boyut2)
+				Rastgele(0m boyut2 + 2m)
+				Rastgele(360)
+				Rastgele(-15 15)
+				⊥
+			)
+	)
+	… ∆ tık …
+		¶Harf y ekseninin üzerindeyse, onu biraz aşağı hareket ettir ve döndür. Değilse, eşik değerinin üzerine sıfırla ve rastgele olarak görünür olup olmayacağına karar ver.¶
+		harfler2.tercümeetmek(
+			ƒ(harf3•harf)
+				harf3.y2 > 0m ? (harf3.y2:harf3.y2 - 0.5m).açı2:harf3.açı2 + harf3.hız2
+					(harf3.y2:boyut2 + 2m).görünür:Rastgele(0 amper) > 0.5
+		)
+
+¶Harfleri kelime öbeklerine dönüştür¶
+Sahne(
+	[
+		İfadeetmek("☁" boyut: 3m yer: Yer(-8m 12m))
+		İfadeetmek("☁" boyut: 5m yer: Yer(8m 11m))
+		İfadeetmek(
+			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+			yer: Yer(-3.5 × boyut2 -0.5m)
+		)
+	].Listeile(
+		harfler2.tercümeetmek(
+			ƒ(harf4•harf)
+				İfadeetmek(
+					harf4.harf2
+					boyut: 1m
+					yer: Yer(harf4.x2 harf4.y2)
+					rotasyon: harf4.açı2 × 1°
+					dinlenme: Poz(
+						opaklık: harf4.görünür ? 1 0
+						renk: Renk(100% 0 0°)
+					)
+					süre: 0s
+				)
+		)
+	)
+	yer: Yer(0m 1 × boyut2 -15m)
+	arkaplan: Renk(63% 93 248°)
+)

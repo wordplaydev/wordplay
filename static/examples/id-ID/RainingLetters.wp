@@ -1,0 +1,65 @@
+☁
+RainingLetters
+=== start/en
+¶Program ini punya sekumpulan huruf hujan yang jatuh ke tanah mengikuti aturan fisika. Setelah menyentuh tanah, huruf itu bisa jatuh lagi.Kita selalu punya jumlah huruf jatuh yang sama, tapi membuat sejumlah huruf berbeda terlihatberdasarkan amplitudo mikrofon.¶
+
+¶Jumlah maksimum huruf¶
+hitungan2: 100
+¶Sebaran mendatar huruf-huruf itu¶
+ukuran2: 20m
+
+¶Amplitudo mikrofon¶
+amp: Volume()
+
+¶Huruf yang dipilih beserta posisinya, kecepatan putarnya, dan apakah huruf itu terlihat.¶
+•huruf(huruf2•"" x2•#m y2•#m sudut2•# kecepatan2•# terlihat•?)
+
+detak2: Waktu()
+
+¶Membuat daftar awal berisi huruf-huruf acak di posisi acak¶
+huruf3•[huruf]: hitungan2 → [#].menerjemahkan(
+		ƒ(_) huruf(
+				'abcdefghijklmnopqrstuvwxyz' → [''].acak()
+				Acak(-ukuran2 ukuran2)
+				Acak(0m ukuran2 + 2m)
+				Acak(360)
+				Acak(-15 15)
+				⊥
+			)
+	)
+	… ∆ detak2 …
+		¶Jika huruf itu berada di atas sumbu-y, gerakkan sedikit ke bawah dan putar huruf itu.Jika tidak, atur ulang posisinya di atas batas dan pilih secara acak apakah huruf itu terlihat.¶
+		huruf3.menerjemahkan(
+			ƒ(huruf4•huruf)
+				huruf4.y2 > 0m ? (huruf4.y2:huruf4.y2 - 0.5m).sudut2:huruf4.sudut2 + huruf4.kecepatan2
+					(huruf4.y2:ukuran2 + 2m).terlihat:Acak(0 amp) > 0.5
+		)
+
+¶Mengubah huruf-huruf itu menjadi frasa¶
+Panggung(
+	[
+		Frasa("☁" ukuran: 3m tempat: Tempat(-8m 12m))
+		Frasa("☁" ukuran: 5m tempat: Tempat(8m 11m))
+		Frasa(
+			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+			tempat: Tempat(-3.5 × ukuran2 -0.5m)
+		)
+	].denganDaftar(
+		huruf3.menerjemahkan(
+			ƒ(huruf5•huruf)
+				Frasa(
+					huruf5.huruf2
+					ukuran: 1m
+					tempat: Tempat(huruf5.x2 huruf5.y2)
+					rotasi: huruf5.sudut2 × 1°
+					beristirahat: Pose(
+						kegelapan: huruf5.terlihat ? 1 0
+						warna: Warna(100% 0 0°)
+					)
+					lamanya: 0s
+				)
+		)
+	)
+	tempat: Tempat(0m 1 × ukuran2 -15m)
+	latarbelakang: Warna(63% 93 248°)
+)

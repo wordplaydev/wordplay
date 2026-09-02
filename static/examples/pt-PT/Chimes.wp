@@ -1,0 +1,88 @@
+🎐
+Sinos
+=== start/en
+¶Cinco sinos suspensos numa fila, numerados de um a cinco. Pressione A, S, D, F ou G e o sino que toca aumenta e ilumina-se, depois volta a assentar em repouso. A fila inteira balança um pouco, quer alguém esteja a tocar quer não.
+
+É um instrumento. Não faz nenhum som. Os números já são uma partitura; só ainda não foram tocados. O bloco omitido acima do palco é o som, à espera de @Music existir.¶
+
+pressionada: Chave()
+tique: Tempo(30ms)
+
+¶Quanto toque um sino perde em cada fotograma.¶
+decaimento: 0.03
+
+¶Um sino: qual é o seu grau, qual a tecla que o toca, onde está suspenso, a sua tonalidade, e com que força ainda está a tocar — 1 quando acabado de tocar, 0 em repouso.¶
+•sino2(grau2•# chave2•'' x2•#m tonalidade•#° energia•#)
+
+¶Toca o sino cuja tecla foi pressionada, e deixa todos os outros sinos assentarem.¶
+ƒ toque(linha•[sino2] atingir•'' tocado•?)
+	linha.traduzir(
+		ƒ(sino3•sino2)
+			(tocado & (atingir = sino3.chave2))
+			? sino3.energia:1
+				sino3.energia:(sino3.energia - decaimento).máx(0)
+	)
+
+sinos•[sino2]: [
+		sino2(1 'um' -6m 20° 0)
+		sino2(2 's' -3m 75° 0)
+		sino2(3 'd' 0m 140° 0)
+		sino2(4 'f' 3m 205° 0)
+		sino2(5 'g' 6m 270° 0)
+	] … (∆ pressionada | ∆ tique) … toque(
+			sinos
+			pressionada
+			(∆ pressionada)
+		)
+
+¶Um sino aumenta e ilumina-se com o seu toque, e balança sempre um pouco, para que a fila esteja viva mesmo quando ninguém está a tocar.¶
+ƒ vistaDeSino(sino4•sino2)
+	Frase(
+		(sino4.grau2 → '')
+		(2m + (sino4.energia · 1.5m))
+		local: Local(sino4.x2 0m)
+		duração: 0.12s
+		cor: Cor(
+			(45% + (sino4.energia · 40%))
+			(20 + (sino4.energia · 80))
+			sino4.tonalidade
+		)
+		descansar: Sequência.balançar(3° 2.5s)
+	)
+
+¶A tecla que toca cada sino, escrita por baixo dele.¶
+ƒ vistaDeTecla(sino5•sino2)
+	Frase(
+		sino5.chave2
+		0.7m
+		local: Local(sino5.x2 -3m)
+		cor: Cor(60% 0 0°)
+	)
+
+¶Estas duas vinculações são a totalidade do som: encontram o sino a tocar neste momento, e entregam o seu grau a um sino, repetindo em cada pressão para que cada toque seja um som novo em vez do mesmo outra vez. Cinco sinos, cinco graus de uma escala pentatónica, por isso não há nenhuma nota errada.¶
+aTocar: sinos.filtro(ƒ(sino6•sino2) sino6.energia = 1)
+canção: Música(
+		Faixa(
+			aTocar ↦ ⬚.grau2
+			instrumento: Instrumento.sino
+			ciclo: ⊥
+		)
+		escala: Música.pentatónica
+		repetir: ∆ pressionada
+	)
+
+Fase(
+	[
+		Frase(
+			'━━━━━━━━━━━━━'
+			1m
+			local: Local(-6m 2.5m)
+			cor: Cor(45% 0 0°)
+		)
+		:sinos ↦ vistaDeSino(⬚)
+		:sinos ↦ vistaDeTecla(⬚)
+		canção
+	]
+	fundo: Cor(16% 15 280°)
+	cor: Cor(95% 0 0°)
+)

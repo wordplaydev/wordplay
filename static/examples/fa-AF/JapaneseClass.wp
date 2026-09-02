@@ -1,0 +1,37 @@
+O
+کلاس زبان جاپانی
+=== start
+¶داستانی صحنه به صحنه دربارهٔ نخستین روز کلاس ژاپنی.¶
+
+¶این‌ها فهرست صحنه‌هایی هستند که نشان داده می‌شوند¶
+جمله‌ها: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶این‌ها فهرست جمله‌هایی هستند که فقط با گفتن با صدا باید جلو بروند.¶
+جمله‌هاراباصدابگو: [5 7 9]
+
+¶جملهٔ کنونی از ۱ آغاز می‌شود و برای جمله‌های گفتاری، وقتی صدای میکروفون از ۰٫۸ بیشتر شود، یک واحد جلو می‌رود؛ برای جمله‌های دیگر، با فشردن یک دکمه یا کلید جلو می‌رود.¶
+جملهٔکنونی•#: 1 …
+	جمله‌هاراباصدابگو.دارد(جملهٔکنونی) ?
+		بلندیصدا() > .6
+		∆ دکمه() | ∆ کلید()
+		…
+		(جملهٔکنونی <
+				جمله‌ها.طول()) ?
+			جملهٔکنونی + 1
+			جملهٔکنونی
+
+صحنه(
+	[عبارت(جمله‌ها[جملهٔکنونی] پیچیدن: 10m)]
+	قلم: 'Sue Ellen Francisco'
+)

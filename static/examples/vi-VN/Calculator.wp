@@ -1,0 +1,85 @@
+0⃣
+Máy tính
+=== start/en
+¶Một chiếc máy tính bỏ túi được tạo từ vài hàm tính toán.¶
+
+¶Các hàm thực hiện phép tính¶
+ƒ phépCộng(num1•# num2•#) num1 + num2
+ƒ phépTrừ(num12•# num22•#) num12 - num22
+ƒ phépNhân(num13•# num23•#) num13 × num23
+ƒ phépChia(num14•# num24•#) num14 ÷ num24
+
+lựaChọn: Sựlựachọn()
+khung2: 1 … ∆ (lựaChọn) … 1 + khung2
+
+¶Các giá trị đúng-sai để theo dõi xem mỗi giá trị đã được chọn hay chưa¶
+num1picked: ⊥ … ∆ (lựaChọn) … (lựaChọn.bắtđầu('num1')) & ~num1picked
+num2picked: ⊥ … ∆ (lựaChọn) … (lựaChọn.bắtđầu('num2')) & ~num2picked
+opicked: ⊥ … ∆ (lựaChọn) … (lựaChọn.bắtđầu('op')) & ~opicked
+
+¶Theo dõi các toán hạng và toán tử¶
+num15: ø → # … num1picked … ((lựaChọn ÷ '')[-1]) → #
+num25: ø → # … num2picked … ((lựaChọn ÷ '')[-1]) → #
+toánTử: ø … opicked … ((lựaChọn ÷ '')[-1])
+
+¶Màn hình để chọn số thứ nhất¶
+numbers1: Nhóm(
+		Lưới(2 5)
+		[
+			Cụmtừ("0⃣" cóthểlựachọn: ⊤ tên: 'num1_0')
+			Cụmtừ("1⃣" cóthểlựachọn: ⊤ tên: 'num1_1')
+			Cụmtừ("2⃣" cóthểlựachọn: ⊤ tên: 'num1_2')
+			Cụmtừ("3⃣" cóthểlựachọn: ⊤ tên: 'num1_3')
+			Cụmtừ("4⃣" cóthểlựachọn: ⊤ tên: 'num1_4')
+			Cụmtừ("5⃣" cóthểlựachọn: ⊤ tên: 'num1_5')
+			Cụmtừ("6⃣" cóthểlựachọn: ⊤ tên: 'num1_6')
+			Cụmtừ("7⃣" cóthểlựachọn: ⊤ tên: 'num1_7')
+			Cụmtừ("8⃣" cóthểlựachọn: ⊤ tên: 'num1_8')
+			Cụmtừ("9⃣" cóthểlựachọn: ⊤ tên: 'num1_9')
+		]
+	)
+
+¶Màn hình chọn số thứ hai¶
+numbers2: Nhóm(
+		Lưới(2 5)
+		[
+			Cụmtừ("0⃣" cóthểlựachọn: ⊤ tên: 'num2_0')
+			Cụmtừ("1⃣" cóthểlựachọn: ⊤ tên: 'num2_1')
+			Cụmtừ("2⃣" cóthểlựachọn: ⊤ tên: 'num2_2')
+			Cụmtừ("3⃣" cóthểlựachọn: ⊤ tên: 'num2_3')
+			Cụmtừ("4⃣" cóthểlựachọn: ⊤ tên: 'num2_4')
+			Cụmtừ("5⃣" cóthểlựachọn: ⊤ tên: 'num2_5')
+			Cụmtừ("6⃣" cóthểlựachọn: ⊤ tên: 'num2_6')
+			Cụmtừ("7⃣" cóthểlựachọn: ⊤ tên: 'num2_7')
+			Cụmtừ("8⃣" cóthểlựachọn: ⊤ tên: 'num2_8')
+			Cụmtừ("9⃣" cóthểlựachọn: ⊤ tên: 'num2_9')
+		]
+	)
+
+¶Màn hình chọn toán tử¶
+operators: Nhóm(
+		Lưới(2 2)
+		[
+			Cụmtừ("➕" cóthểlựachọn: ⊤ tên: 'op_a')
+			Cụmtừ("➖" cóthểlựachọn: ⊤ tên: 'op_s')
+			Cụmtừ("✖" cóthểlựachọn: ⊤ tên: 'op_m')
+			Cụmtừ("➗" cóthểlựachọn: ⊤ tên: 'op_d')
+		]
+	)
+
+¶Màn hình hiển thị kết quả¶
+kếtQuả: ((toánTử = 'a') | (toánTử = 's')) ?
+		(toánTử = 'a' ? phépCộng(num15 num25) phépTrừ(
+					num15
+					num25
+				))
+		(toánTử = 'm' ? phépNhân(num15 num25) phépChia(
+					num15
+					num25
+				))
+
+¶Đi qua từng màn hình¶
+thiếtLập: [numbers1 operators numbers2 kếtQuả]
+
+¶Hiển thị¶
+thiếtLập[khung2]

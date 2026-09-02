@@ -1,0 +1,33 @@
+🗣
+Parole du visage
+===
+¶Tes expressions du visage, suivies par la caméra et racontées sur la scène.¶
+
+¶Crée un flux de visage pour suivre les expressions¶
+visage2: Visage(200ms)
+
+¶Choisis entre sourire, froncer les sourcils, cligner des yeux, ou rien¶
+humeur: visage2.yeuxOuverts ?
+		(visage2.quantitéSourire > 0.6 ? 'smiling'
+				visage2.quantitéGrimace > 0.4 ? 'frowning'
+					'')
+		'blinking'
+
+¶Transforme l'humeur en émoji, et donne au visage une bulle de parole qui le dit. Donner à la bulle un @Say veut dire que l'humeur est aussi dite à voix haute, en plus d'être affichée, et la bulle remplace la légende au bas de la scène.¶
+Scène(
+	[
+		Phrase(
+			(humeur = 'blinking' ? '😴'
+					humeur = 'smiling' ? '😀'
+						humeur = 'frowning' ? '🙁'
+							'😐')
+			taille: 8m
+			bulle: (humeur = ''
+				? Bulle(
+						`/Souris, fronce les sourcils, ou ferme les yeux/`
+						retourÀLaLigne: 8m
+					)
+					Bulle(Dire(humeur)))
+		)
+	]
+)

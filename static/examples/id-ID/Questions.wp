@@ -1,0 +1,45 @@
+👨‍👨‍👧‍👦
+Pertanyaan
+=== start/en
+¶Tekan tombol untuk melontarkan tanda tanya yang memantul di atas keluarga yang bingung.¶
+•pertanyaan2(id2•"" vx•#m/s vy•#m/s va•#°/s)
+
+ditekan: ∆ Kunci()
+hitungan2•#: 0 … ditekan … hitungan2 + 1
+pertanyaan3•[pertanyaan2]: [] … ditekan … [
+			:pertanyaan3
+			pertanyaan2(
+				hitungan2 → ""
+				Acak(30m/s 50m/s)
+				Acak(30m/s 50m/s)
+				Acak(0°/s 30°/s)
+			)
+		]
+
+Panggung(
+	[
+		Frasa(
+			'👨‍👨‍👧‍👦'
+			tempat: Tempat(0m 0m)
+			menghadapi: "Noto Emoji"
+		)
+		Bangun(Persegipanjang(-5m 0m 25m -1m))
+		:pertanyaan3.menerjemahkan(
+			ƒ(p•pertanyaan2 indeks2•#) (
+					mulai2: ditekan & (indeks2 = pertanyaan3.panjang(
+									))
+					Frasa(
+						'P'
+						nama: p.id2
+						tempat: Gerakan(
+							kecepatan: Kecepatan(p.vx p.vy p.va)
+						)
+						urusan: Urusan()
+						beristirahat: Pose(
+							kegelapan: mulai2 ? 0% 100%
+						)
+					)
+				)
+		)
+	]
+)

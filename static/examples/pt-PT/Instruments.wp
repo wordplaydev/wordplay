@@ -1,0 +1,95 @@
+🎛️
+Instrumentos
+=== start/en
+¶Os mesmos oito compassos, tocados por cada instrumento da paleta. Escolha um nome e a melodia mantém o seu lugar — só o som muda. Os dois gatos são o mesmo gato, e o mesmo acontece com os dois cães: um de cada é um kit, por isso a melodia soa como ruídos, e o outro tem afinação, por isso canta-a.
+
+A maioria destas são gravações reais. Os quatro sintetizadores não imitam nada: são sintetizadores, e esse é o som. O último deles canta, e é para isso que servem as palavras na faixa — todos os outros instrumentos aqui ignoram-nas.¶
+
+¶Qual o instrumento que está a tocar a melodia. Choice() devolve o nome do output selecionável que foi escolhido, e ø até que algo seja escolhido.¶
+escolhido: Escolha()
+
+¶Uma entrada por instrumento: como se chama, o que toca, e a cor que o seu botão assume.¶
+•voz2(etiqueta•'' ícone•'' som•Instrumento tonalidade•#°)
+
+vozes•[voz2]: [
+		voz2('piano' '🎹' Instrumento.piano 260°)
+		voz2('guitarra' '🎸' Instrumento.guitarraAcústica 20°)
+		voz2('elétrica' '⚡' Instrumento.guitarraElétrica 5°)
+		voz2('violino' '🎻' Instrumento.violino 40°)
+		voz2('flauta' '🪈' Instrumento.flauta 180°)
+		voz2('trompete' '🎺' Instrumento.trompete 50°)
+		voz2('saxofone' '🎷' Instrumento.saxofone 70°)
+		voz2('harmónica' '🌬' Instrumento.harmónica 150°)
+		voz2('sino' '🔔' Instrumento.sino 55°)
+		voz2('tambores' '🥁' Instrumento.bateria 0°)
+		voz2('didgeridoo' '🎶' Instrumento.didgeridoo 15°)
+		voz2('gato' '🐱' Instrumento.gato 330°)
+		voz2('gato afinado' '😺' Instrumento.gatoAfinado 350°)
+		voz2('cão' '🐶' Instrumento.cão 35°)
+		voz2('cão afinado' '🐕' Instrumento.cãoAfinado 125°)
+		voz2('sintetizador' '🎛' Instrumento.sintetizador 290°)
+		voz2('baixo' '🎛' Instrumento.sintetizadorBaixo 310°)
+		voz2('almofada' '🎛' Instrumento.sintetizadorPad 200°)
+		voz2('voz' '🤖' Instrumento.voz 95°)
+	]
+
+¶A voz escolhida, ou o piano antes de alguém escolher. find() devolve ø quando nada corresponde, por isso o valor alternativo tem de ser uma Voice à parte.¶
+escolhido2: vozes.encontrar(
+		ƒ(voz3•voz2) voz3.etiqueta = escolhido
+	)
+atual•voz2: escolhido2•ø ? voz2(
+			'piano'
+			'🎹'
+			Instrumento.piano
+			260°
+		) escolhido2
+
+¶Uma melodia que se mantém enquanto o instrumento por baixo dela muda. São graus, não notas, por isso significa o mesmo em cada instrumento — e na bateria lê-se como ritmo em vez disso, já que os graus indexam o kit aí.¶
+melodia2: [1 3 5 6 5 3 2 ø]
+
+¶Uma sílaba por nota, escrita no Alfabeto Fonético Internacional, onde cada letra é um som. Só a voz cantada usa estas sílabas; o resto da paleta ignora-as. O resto não usa sílaba nenhuma, por isso sete sons cobrem oito entradas.¶
+letra: 'la li lu le lo li la'
+
+¶Um botão por instrumento: o ícone fica em cima do seu nome, para não se misturarem. As frases selecionáveis são o que Choice() lê, e a atual é desenhada mais brilhante para que possa ver onde está.¶
+ƒ botão(voz4•voz2)
+	Grupo(
+		Monte(preenchimento: 0.1m)
+		[
+			Frase(voz4.ícone 1.1m)
+			Frase(voz4.etiqueta 0.5m)
+		]
+		nome: voz4.etiqueta
+		selecionável: ⊤
+		cor: (voz4.etiqueta = atual.etiqueta)
+		? Cor(95% 60 voz4.tonalidade)
+			Cor(60% 8 voz4.tonalidade)
+	)
+
+¶Tudo o que é visível fica numa só Stack. Um Stage centra cada um dos seus filhos por si só, por isso, se ficassem livres, ficariam todos sobrepostos — a disposição tem de indicar que ficam uns acima dos outros.
+
+Os botões ficam numa Grid em vez de numa Row. Todos numa única linha ficariam mais largos do que um telemóvel, e um Stage reduz o seu conteúdo para caber, por isso as etiquetas encolheriam até deixarem de se conseguir ler. Só as colunas são indicadas: deixando as linhas de fora, a Grid calcula quantas precisa, por isso acrescentar um instrumento não obriga a editar isto.
+
+A música mantém um único nome durante todo o tempo, em vez de usar o do instrumento. O nome de um 🎼 é a sua identidade: se o mudar, o leitor ouve uma peça diferente a começar, por isso a melodia voltaria ao início a cada troca, e a partitura desenharia as notas do instrumento antigo ao lado do novo até desaparecerem do ecrã.¶
+Fase(
+	[
+		Grupo(
+			Monte(preenchimento: 0.6m)
+			[
+				Frase(atual.ícone 2.5m)
+				Frase(atual.etiqueta 1.2m)
+				Grupo(
+					Rede(colunas: 5 acolchoamento: 0.4m)
+					vozes.traduzir(ƒ(voz5•voz2) botão(voz5))
+				)
+			]
+		)
+		Música(
+			Faixa(melodia2 instrumento: atual.som palavras: letra)
+			andamento: 120beats/min
+			escala: Música.pentatónica
+			nome: 'melodia'
+		)
+	]
+	fundo: Cor(14% 12 280°)
+	cor: Cor(95% 0 0°)
+)

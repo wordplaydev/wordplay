@@ -1,0 +1,85 @@
+0⃣
+Miniräknare
+=== start/en
+¶En fickräknare byggd av några räknefunktioner.¶
+
+¶Funktioner som utför beräkningar¶
+ƒ addition(num1•# num2•#) num1 + num2
+ƒ subtraktion(num12•# num22•#) num12 - num22
+ƒ multiplikation(num13•# num23•#) num13 × num23
+ƒ division(num14•# num24•#) num14 ÷ num24
+
+val: Val()
+ram2: 1 … ∆ (val) … 1 + ram2
+
+¶Booleaner som håller koll på om varje värde har valts¶
+num1vald: ⊥ … ∆ (val) … (val.startar('num1')) & ~num1vald
+num2vald: ⊥ … ∆ (val) … (val.startar('num2')) & ~num2vald
+ovald: ⊥ … ∆ (val) … (val.startar('op')) & ~ovald
+
+¶Håller koll på operanderna och operatorerna¶
+num15: ø → # … num1vald … ((val ÷ '')[-1]) → #
+num25: ø → # … num2vald … ((val ÷ '')[-1]) → #
+operator: ø … ovald … ((val ÷ '')[-1])
+
+¶Skärm för att välja det första talet¶
+tal1: Grupp(
+		Rutnät(2 5)
+		[
+			Fras("0⃣" valbara: ⊤ namn: 'num1_0')
+			Fras("1⃣" valbara: ⊤ namn: 'num1_1')
+			Fras("2⃣" valbara: ⊤ namn: 'num1_2')
+			Fras("3⃣" valbara: ⊤ namn: 'num1_3')
+			Fras("4⃣" valbara: ⊤ namn: 'num1_4')
+			Fras("5⃣" valbara: ⊤ namn: 'num1_5')
+			Fras("6⃣" valbara: ⊤ namn: 'num1_6')
+			Fras("7⃣" valbara: ⊤ namn: 'num1_7')
+			Fras("8⃣" valbara: ⊤ namn: 'num1_8')
+			Fras("9⃣" valbara: ⊤ namn: 'num1_9')
+		]
+	)
+
+¶Skärm för att välja det andra talet¶
+tal2: Grupp(
+		Rutnät(2 5)
+		[
+			Fras("0⃣" valbara: ⊤ namn: 'num2_0')
+			Fras("1⃣" valbara: ⊤ namn: 'num2_1')
+			Fras("2⃣" valbara: ⊤ namn: 'num2_2')
+			Fras("3⃣" valbara: ⊤ namn: 'num2_3')
+			Fras("4⃣" valbara: ⊤ namn: 'num2_4')
+			Fras("5⃣" valbara: ⊤ namn: 'num2_5')
+			Fras("6⃣" valbara: ⊤ namn: 'num2_6')
+			Fras("7⃣" valbara: ⊤ namn: 'num2_7')
+			Fras("8⃣" valbara: ⊤ namn: 'num2_8')
+			Fras("9⃣" valbara: ⊤ namn: 'num2_9')
+		]
+	)
+
+¶Skärm för att välja operatorn¶
+operatorer: Grupp(
+		Rutnät(2 2)
+		[
+			Fras("➕" valbara: ⊤ namn: 'op_a')
+			Fras("➖" valbara: ⊤ namn: 'op_s')
+			Fras("✖" valbara: ⊤ namn: 'op_m')
+			Fras("➗" valbara: ⊤ namn: 'op_d')
+		]
+	)
+
+¶Skärm för att visa resultatet¶
+resultat: ((operator = 'a') | (operator = 's')) ?
+		(operator = 'a' ? addition(num15 num25) subtraktion(
+					num15
+					num25
+				))
+		(operator = 'm' ? multiplikation(num15 num25) division(
+					num15
+					num25
+				))
+
+¶Gå igenom varje skärm¶
+uppsättning2: [tal1 operatorer tal2 resultat]
+
+¶Visa¶
+uppsättning2[ram2]

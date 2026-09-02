@@ -1,0 +1,46 @@
+🐈
+Ploaie de pisicuțe
+=== start/en
+¶Cincizeci de pisicuțe cad pe scenă.¶
+numărare2: 50
+mărime2: 30
+
+•pisicuță(x2•# y2•# z2•# unghi2•# viteză2•#) ()
+
+¶La început, fă o listă cu 20 de pisicuțe, fiecare așezată într-un loc aleatoriu. Când ceasul bate, mută-le pe toate puțin în jos.¶
+pisicuțe•[pisicuță]:
+	numărare2 → [].traduce(
+		ƒ(_) pisicuță(
+				Aleatoriu(-mărime2 mărime2)
+				Aleatoriu(-mărime2 mărime2)
+				Aleatoriu(0 mărime2 ÷ 2)
+				Aleatoriu(360)
+				Aleatoriu(-30 30)
+			)
+	)
+	… ∆ Timp() …
+		pisicuțe.traduce(
+			ƒ(pisicuță2•pisicuță)
+				(pisicuță2.y2:pisicuță2.y2 < -mărime2 ? mărime2 pisicuță2.y2 - 2)
+				.unghi2:pisicuță2.unghi2 + pisicuță2.viteză2
+		)
+
+¶Transformă pisicuțele în fraze¶
+Etapă(
+	pisicuțe.traduce(
+		ƒ(pisicuță3•pisicuță)
+			Fraza(
+				"🐈"
+				faţă: "Noto Color Emoji"
+				dimensiune: 5m
+				loc: Loc(
+					pisicuță3.x2 × 1m
+					pisicuță3.y2 × 1m
+					pisicuță3.z2 × 1m
+				)
+				rotaţie: pisicuță3.unghi2 × 1°
+				durată: 0s
+			)
+	)
+	loc: Loc(0m 0m -5m)
+)

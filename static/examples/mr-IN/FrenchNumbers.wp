@@ -1,0 +1,84 @@
+t
+फ्रेंच अंक
+=== start/en-US,start/fr-FR
+¶रंगमंचावर दिसणाऱ्या फ्रेंच संख्येशी जुळणारा अंक दाबा.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶ओळखायच्या संख्या¶
+¶Les nombres à deviner¶/fr
+संख्या2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶गुपिते म्हणजे 1 ते 9 या संख्या यादृच्छिक क्रमाने आहेत¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+गुपिते: [1 2 3 4 5 6 7 8 9].फेरबदल()
+
+¶शेवटची कोणती कळ दाबली गेली?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+कळ2,clé/fr: कळ()
+
+¶प्रत्येक वेळी कळ दाबली की सध्याचे गुपित वाढते, पण ते 10 वर थांबते¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+गुपितअनुक्रमांक,secretIndice/fr•#:
+	1 …
+	∆ कळ2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶गुपित अनुक्रमांकावर आधारित सध्याचे गुपित¶
+सध्याचेगुपित,secretActuel/fr: गुपिते[गुपितअनुक्रमांक]
+
+¶दाबलेला अंक आधीच्या गुपित संख्येशी जुळला तर अंदाज बरोबर होता¶
+बरोबर: clé → # = गुपिते[गुपितअनुक्रमांक - 1]
+
+¶गुण 0 पासून सुरू होतात आणि अंदाज बरोबर असल्यास वाढतात.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+गुण•#: 0 …
+	∆ कळ2 …
+		बरोबर ?
+			गुण + 1
+			गुण
+
+¶जिंकणे म्हणजे सर्व 9 संख्या मिळवणे¶
+जिंकले,gagner/fr: गुण = 9
+
+¶गुपित अनुक्रमांक 10 वर पोहोचल्यावर पूर्ण¶
+खेळसंपला: गुपितअनुक्रमांक = 10
+
+¶सध्याची फ्रेंच संख्या आणि सध्याचे गुण दाखवा. सर्व 9 गुपितांनंतर अंतिम निकाल दाखवा¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+रंगमंच(
+	[
+		गट(
+			थप्पी()
+			[
+				खेळसंपला ?
+					वाक्यांश(
+						जिंकले ?
+							'तुला फ्रेंच संख्या माहीत आहेत!'"Tu connais les chiffres français!"/fr
+							'जवळजवळ बरोबर, पुन्हा प्रयत्न कर'"presque, réessaye"/fr
+						आकार: 2m
+					)
+					वाक्यांश(numeros[secretActuel] आकार: 2m)
+				वाक्यांश("\गुण\ points!" आकार: 1m)
+				वाक्यांश(
+					गुपितअनुक्रमांक = 1 ?
+						'ही कोणती संख्या आहे?''quel est ce numéro ?'/fr
+						बरोबर ?
+							'बरोबर!'
+							"That was \गुपिते[गुपितअनुक्रमांक - 1]\"
+				)
+			]
+		)
+	]
+	चेहरा: "Aclonica"
+)

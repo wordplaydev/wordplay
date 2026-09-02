@@ -1,0 +1,195 @@
+🔍
+Tunjukkan dan Ceritakan
+=== start/en
+¶Tunjukkan dan Ceritakan — permainan kamera melawan waktu. Aku memintamu mencari benda, satu per satu, dan aku menyebutkan tiap benda dengan keras. Angkat tiap benda ke kameramu sampai aku melihatnya, lalu aku memilih benda lain. Tidak punya benda yang kuminta? Tekan → dan aku akan meminta benda lain — melewati benda tidak akan merugikanmu. Temukan lima benda dalam satu menit dan kamu menang; benda kelima selalu butuh dua orang muncul bersama di gambar. Waktu satu menit dimulai saat kameramu menyala, jadi bersiap-siap tidak memakan waktumu, dan saat waktu habis aku akan bilang permainan selesai. Tiap penemuan membuat kata-kata sedikit lebih besar, dan saat kamu menang, kata-kata itu meledak seperti konfeti di atas tulisan "Kamu menang!"¶
+
+¶Satu benda yang harus dicari: emoji yang kutunjukkan, kata-kata yang kutunjukkan, nama yang diberikan model kameraku untuknya (yang kucocokkan), dan berapa banyak yang perlu kulihat sekaligus (dua, untuk orang).¶
+•target(emoji•'' label•'' nama2•'' butuh•#)
+
+¶Benda-benda yang mungkin kuminta. Tiap nama adalah persis sebutan @Objects untuk benda itu, agar aku bisa mengenalinya di kamera. Aku menunjukkan satu benda dalam satu waktu dan memilih benda lain setiap kali kamu menemukannya atau melewatinya.¶
+kolam•[target]: [
+		target('☕' 'sebuah cangkir' 'cangkir' 1)
+		target('📖' 'sebuah buku' 'buku' 1)
+		target('📱' 'sebuah telepon' 'telepon' 1)
+		target('💻' 'sebuah laptop' 'laptop' 1)
+		target('⌨' 'sebuah papan ketik' 'papan ketik' 1)
+		target('🖱' 'sebuah tetikus' 'tetikus' 1)
+		target('✂' 'gunting' 'gunting' 1)
+		target('🍾' 'sebuah botol' 'botol' 1)
+		target('🪑' 'sebuah kursi' 'kursi' 1)
+		target('🕐' 'sebuah jam' 'jam' 1)
+		target('🍌' 'sebuah pisang' 'pisang' 1)
+		target('🍎' 'sebuah apel' 'apel' 1)
+		target('🧸' 'boneka beruang' 'boneka beruang' 1)
+		target('🪴' 'tanaman dalam pot' 'tanaman dalam pot' 1)
+		target('🏺' 'sebuah vas' 'vas' 1)
+		target('🎒' 'sebuah tas ransel' 'tas ransel' 1)
+	]
+
+¶Apa yang harus dicari berikutnya, berdasarkan emoji yang sudah kamu temukan dan hal yang harus dihindari agar tidak berulang: benda acak baru yang belum pernah diminta untuk empat benda pertama, lalu selalu dua orang untuk yang kelima.¶
+ƒ pilih(ditemukan•[''] hindari•target)
+	(ditemukan.panjang() ≥ 4)
+	? target('👥' 'dua orang' 'orang' 2)
+		kolam.tanpa(hindari).menyaring(
+			ƒ(t•target) ~(ditemukan.memiliki(t.emoji))
+		).acak(
+		)
+
+¶Kamera. Kamera tidak diberi tahu apa yang harus dicari — ia hanya melaporkan semua yang dilihatnya, dan berjalan sendiri, sehingga permainan bereaksi langsung padanya tanpa jam.¶
+penampakan: Objek(hitungan: 10 keyakinan: 0.5)
+
+¶Tombol → (atau ketukan) untuk melewati.¶
+lewati: Kunci('Panah Kanan' ⊤)
+
+¶Sebuah jam, untuk hitungan mundur dan untuk menganimasikan konfeti kemenangan. Perburuan itu sendiri tidak memakainya — @Objects yang menjalankannya.¶
+jam2: Waktu(30ms)
+
+¶Berapa lama satu ronde berlangsung.¶
+batas•#s: 60s
+
+¶Saat pertama kali kamera melapor, yang diingat. Hitungan mundur dimulai dari sini, bukan dari nol, sehingga waktu menunggu untuk membagikan kamera dan menunggu model dimuat tidak pernah mengurangi waktu satu menitmu — @Objects melaporkan hasil pertamanya begitu ia melihat sebuah gambar, baik ada sesuatu di dalamnya atau tidak.¶
+mulaiPada•#ms: 0ms
+	… ((∆ penampakan) & (⬚ = 0ms)) …
+		jam2
+
+¶Berapa banyak waktu yang tersisa: satu menit penuh sampai kamera aktif, lalu sisa waktu yang ada, tidak pernah kurang dari nol — jadi setelah waktu habis, waktu itu tetap habis dan tidak berlanjut ke angka negatif.¶
+kiri2•#s: (mulaiPada = 0ms) ? batas ((batas - ((jam2 - mulaiPada) → #s)).maksimal(
+				0s
+			))
+
+¶Permainan: emoji yang sudah ditemukan sejauh ini (menang pada lima) dan hal yang sedang diminta sekarang.¶
+•buru(ditemukan2•[''] target2•target)
+
+¶Lanjut dari hasil bacaan kamera (atau lewati), berhenti setelah lima ditemukan sehingga layar kemenangan hanya dibuat sekali dan konfetinya dibiarkan terbang tanpa gangguan. Melewati akan mengganti benda tanpa mengubah hitunganmu; melihat cukup banyak benda yang diminta di antara yang terlihat akan menghitung sebagai temuan dan meminta benda berikutnya.¶
+ƒ langkah(j•buru terlewati•? terlihat•[Benda]) (
+		hitungan2: terlihat.menyaring(
+				ƒ(t2•Benda) t2.nama = j.target2.nama2
+			).panjang(
+			)
+		ditemukanBerikutnya: [:j.ditemukan2 j.target2.emoji]
+		terlewati
+		? buru(j.ditemukan2 pilih(j.ditemukan2 j.target2))
+			((hitungan2 ≥ j.target2.butuh)
+				? buru(
+						ditemukanBerikutnya
+						pilih(ditemukanBerikutnya j.target2)
+					)
+					j)
+	)
+
+¶Perburuan juga berhenti ketika satu menit sudah habis, sehingga temuan yang muncul setelah waktu habis tidak bisa lolos melewati layar permainan berakhir.¶
+buru2•buru: buru([] kolam.acak())
+	… ((∆ penampakan | ∆ lewati) & (⬚.ditemukan2.panjang() < 5) & (kiri2 > 0s)) …
+		langkah(⬚ (∆ lewati) penampakan)
+
+¶Saat kamu menang, yang diingat — sehingga konfeti beranimasi dari waktu nol.¶
+menangPada•#ms: 0ms
+	… ((buru2.ditemukan2.panjang() ≥ 5) & (⬚ = 0ms)) …
+		jam2
+
+¶Satu keping konfeti yang terbang: sebuah emoji, kecepatan semburan (tanpa satuan — besaran meter per detik), dan putaran. Menyimpan angka biasa membuat perhitungan lintasan di bawah ini tetap sederhana.¶
+•kilau(emoji2•'' vx•# vy•# berputar2•#)
+
+¶Confetinya dimunculkan sekali saat kamu menang, lalu tidak pernah dibuat ulang. @Objectskeeps terus mendeteksi, jadi setiap pembacaan menjalankan ulang program — membekukan potongan-potongan dalam daftar ini (daftar ini terisi sekali, saat kamu menang, lalu kondisinya berhenti) berarti setiap potongan tetap memakai kecepatan terbang yang sama, bukan dibuat ulang setiap bingkai.¶
+kilau2•[kilau]: []
+	… ((buru2.ditemukan2.panjang() ≥ 5) & (⬚.panjang() = 0)) …
+		(60 → []).menerjemahkan(
+			ƒ()
+				kilau(
+					buru2.ditemukan2.acak()
+					Acak(-8 8)
+					Acak(3 13)
+					Acak(-200 200)
+				)
+		)
+
+¶Gravitasi untuk lengkungan terbang confetti, dalam meter per detik per detik.¶
+g•#: 9
+
+¶Petunjuknya: sebuah emoji besar, namanya, kemajuanmu, waktu yang tersisa, dan cara melewatinya. Kata-katanya bertambah setiap kali ada penemuan untuk menaikkan taruhannya — sedikit saja, agar lima penemuan tetap muat di panggung. Hitungan waktu mundur dibulatkan ke atas, jadi angkanya tetap menunjukkan 1 sampai detik waktu benar-benar habis.¶
+ƒ perintah(j2•buru) (
+		besar: (2m + (j2.ditemukan2.panjang() · 0.3m))
+		Kelompok(
+			Tumpukan('|' 0.4m)
+			[
+				Frasa(
+					j2.target2.emoji
+					menghadapi: "Noto Color Emoji"
+					ukuran: besar + 1m
+				)
+				Frasa(j2.target2.label ukuran: besar)
+				Frasa(
+					`ditemukan \j2.ditemukan2.panjang() → ''\ dari 5`
+					ukuran: 0.7m
+				)
+				Frasa(
+					`⏳ \(kiri2 ÷ 1s).Ringkasan() → ''\ detik lagi`
+					ukuran: 0.6m
+				)
+				Frasa(
+					'tidak punya itu? tekan → untuk yang lain'
+					ukuran: 0.5m
+				)
+			]
+		)
+	)
+
+¶Tempatkan setiap kilatan cahaya di sepanjang lengkungannya sendiri, dihitung dari berapa lama ia sudah terbang: ia bergerak keluar dengan kecepatannya sambil gravitasi menariknya ke bawah (rumus klasik ½·g·t²). Karena kita menghitung posisinya sendiri daripada mengandalkan mesin fisika, pembacaan ulang kamera yang terus-menerus hanya menggambar ulang setiap potongan di tempat yang seharusnya — tanpa melompat balik ke tengah.¶
+ƒ confetti() (
+		t3: (jam2 - menangPada) ÷ 1000ms
+		kilau2.menerjemahkan(
+			ƒ(s•kilau)
+				Frasa(
+					s.emoji2
+					menghadapi: "Noto Color Emoji"
+					ukuran: 1.5m
+					rotasi: (s.berputar2 · t3) · 1°
+					tempat: Tempat(
+						(s.vx · t3) · 1m
+						((s.vy · t3) - ((g · t3 · t3) ÷ 2)) · 1m
+					)
+				)
+		)
+	)
+
+¶Kamu menang dengan menemukan lima: tulisan "Kamu menang!" di tengah, diucapkan sekaligus ditampilkan, dengan emoji yang ditemukan meledak seperti confetti di atasnya, terlihat saat confetti jatuh menghilang.¶
+ƒ final() [
+		Kelompok(Tumpukan() [Frasa('Kamu menang!' ukuran: 2m)])
+		Mengatakan('Kamu menang!')
+		:confetti()
+	]
+
+¶Waktu satu menit habis: sejauh mana kamu berhasil, diucapkan sekaligus ditampilkan.¶
+ƒ permainanBerakhir(j3•buru) [
+		Kelompok(
+			Tumpukan('|' 0.4m)
+			[
+				Frasa('⌛' menghadapi: "Noto Color Emoji" ukuran: 3m)
+				Frasa('Waktu habis!' ukuran: 2m)
+				Frasa(
+					`kamu menemukan \j3.ditemukan2.panjang() → ''\ dari 5`
+					ukuran: 0.7m
+				)
+			]
+		)
+		Mengatakan(
+			"Time is up. Game over. You found \j3.ditemukan2.panjang(
+			) → ''\ of 5."
+		)
+	]
+
+¶Ucapkan hal yang sedang tampil dengan suara, untuk pemain yang tidak bisa membaca petunjuk atau hanya ingin mendengarnya. Say hanya berbicara saat teksnya berubah — jadi ia mengumumkan setiap hal baru satu kali, bukan setiap kali kamera membaca.¶
+ƒ umumkan(j4•buru) Mengatakan(
+		'temukan ' + j4.target2.label
+	)
+
+¶Kemenangan diperiksa lebih dulu, jadi waktu yang habis hanya bisa berarti kekalahan.¶
+Panggung(
+	(buru2.ditemukan2.panjang() ≥ 5)
+	? final()
+		((kiri2 ≤ 0s) ? permainanBerakhir(buru2) [
+					perintah(buru2)
+					umumkan(buru2)
+				])
+	tempat: Tempat(0m 0m -12m)
+)

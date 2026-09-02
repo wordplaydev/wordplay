@@ -1,0 +1,78 @@
+⏳
+Мерач режима учења
+=== start/en
+¶Кликни да додаш сате учења и посматрај како се мерач помера од мирног, преко усредсређеног, до преоптерећеног.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+радња: Избор()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+сатиУчења:
+	0 …
+	∆ радња …
+		радња = 'reset' ?
+			0
+			сатиУчења + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+објашњење:
+	'Кликни на „Додај сат учења +1” да повећаш своје време учења. Кликни на „Ресетуј” да почнеш испочетка.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+текстСати:
+	'Учио си ' + сатиУчења → '' + ' сат(а/и).'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+расположење:
+	сатиУчења < 3 ?
+		'🌿 МИРНИ РЕЖИМ — кликни да додаш време учења'
+		сатиУчења < 6 ?
+			'📚 РЕЖИМ УСРЕДСРЕЂЕНОСТИ — у продуктивној си зони!'
+			'🔥 РЕЖИМ ПРЕОПТЕРЕЋЕЊА — одмори се и притисни „ресетуј”'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+Стаге(
+	[
+		Група(
+			Стацк()
+			[
+				Фраза('Мерач режима учења' величина: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				Фраза(објашњење величина: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				Фраза(текстСати величина: 0.4m)
+
+				Фраза(расположење величина: 0.75m)
+
+				Група(
+					Ред(паддинг: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						Фраза(
+							'Додај сат учења +1'
+							избор: ⊤
+							име: 'додај'
+							боја: Боја(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						Фраза(
+							'Ресетуј'
+							избор: ⊤
+							име: 'reset'
+							боја: Боја(69% 47 271°)
+						)
+					]
+				)
+			]
+			лице: "Aclonica"
+		)
+	]
+)

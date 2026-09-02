@@ -1,0 +1,40 @@
+H
+ਅਡੋਬੋ ਵਿਧੀ
+=== start/en
+¶ਫਿਲੀਪੀਨੀ ਚਿਕਨ ਅਡੋਬੋ ਲਈ ਦ੍ਰਿਸ਼-ਦਰ-ਦ੍ਰਿਸ਼ ਵਿਧੀ।¶
+
+¶ਇਹ ਦਿਖਾਉਣ ਵਾਲੇ ਦ੍ਰਿਸ਼ਾਂ ਦੀ ਸੂਚੀ ਹੈ¶
+ਵਾਕ: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`ਅਡੋਬੋਂਗ ਮਾਨੋਕ @lamamel/adobo! (ਖਾਣ ਲਈ ਮਾਊਸ ਨੂੰ ਹਿਲਾਓ)`)
+		(`ਮਸਰਾਪ! @lamamel/emptyadobo`)
+	]
+
+¶ਇਹ ਉਹ ਵਾਕਾਂ ਦੀ ਸੂਚੀ ਹੈ ਜੋ ਸਿਰਫ਼ ਮਾਊਸ ਹਿਲਾਉਣ ਨਾਲ ਹੀ ਅੱਗੇ ਵਧਣੇ ਚਾਹੀਦੇ ਹਨ।¶
+ਵਾਕਾਂਨੂੰਹਿਲਾਓ: [9 11]
+
+¶ਮੌਜੂਦਾ ਵਾਕ 1 ਤੋਂ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ, ਅਤੇ ਵਧਦਾ ਹੈ ਜੇ ਮਾਊਸ ਸਕ੍ਰੀਨ ਦੇ ਕਿਸੇ ਖਾਸ ਥਾਂ ਉੱਤੇ ਜਾਵੇ, ਜਾਂ ਬਾਕੀ ਵਾਕਾਂ ਲਈ ਕੋਈ ਬਟਨ ਜਾਂ ਕੁੰਜੀ ਦਬਾਈ ਜਾਵੇ।¶
+ਬਿੰਦੂ2: ਪੁਆਇੰਟਰ()
+ਮੌਜੂਦਾਵਾਕ•#: 1 …
+	ਵਾਕਾਂਨੂੰਹਿਲਾਓ.ਕੋਲਹੈ(ਮੌਜੂਦਾਵਾਕ) ?
+		(ਬਿੰਦੂ2.x > 2m) & (ਬਿੰਦੂ2.y > 3m)
+		∆ ਬਟਨ() | ∆ ਕੁੰਜੀ()
+		…
+		(ਮੌਜੂਦਾਵਾਕ <
+				ਵਾਕ.ਲੰਬਾਈ()) ?
+			ਮੌਜੂਦਾਵਾਕ + 1
+			ਮੌਜੂਦਾਵਾਕ
+
+ਸਟੇਜ(
+	[ਵਾਕੰਸ਼(ਵਾਕ[ਮੌਜੂਦਾਵਾਕ] ਸਮੇਟਣਾ: 10m)]
+	ਚਿਹਰਾ: 'Short Stack'
+)

@@ -1,0 +1,292 @@
+🫲
+Dirigent
+=== start/en
+¶Dirigiere eine kaiserliche Flotte mit einer Hand. Keine Tastatur, keine Knöpfe – die Kamera beobachtet deine Hand, und ein Orchester aus acht Teilen antwortet.
+
+Hebst du deine Hand, setzt das Orchester ein, ein Teil nach dem anderen, bis alle acht spielen. Senkst du sie, verstummen sie wieder, bis nur noch die Melodie übrig bleibt. Bewege die Hand nach links, um den Marsch zu verlangsamen, nach rechts, um ihn anzutreiben. Wie viele Finger du zeigst, bestimmt, wer die Melodie spielt.
+
+Jede Anweisung steht auf der Bühne, sodass du sie lernen kannst, ohne dies hier zu lesen.¶
+
+hand2: Hand()
+
+¶Die Höhe zeigt, wie viel vom Orchester spielt, und die Seitwärtsbewegung zeigt, wie schnell. Beide werden direkt von der Hand abgelesen statt gespeichert, sodass sie ihr ständig folgen. Jeder Wert wird auf eine Stufe gerundet, damit sich die Musik nur ändert, wenn die Änderung groß genug ist, um sie zu hören. So schreibt eine zitternde Hand die Partitur nicht zwanzigmal pro Sekunde um.¶
+heben: ((hand2.Ort.j + 3m) ÷ 6m).Mindest(1).max(0)
+ebenen: 1 + ((heben · 7).runden())
+
+reichweite: ((hand2.Ort.X + 5m) ÷ 10m).Mindest(1).max(0)
+tempo2: 72 + ((reichweite · 8).runden() · 12)
+
+¶Wer die Melodie spielt. Eine Faust und eine Hand außerhalb des Bildes zählen beide als keine Finger. Keine Finger bedeutet: Wer gerade spielt, spielt weiter – sonst würde ein Wegschauen die Melodie ändern.¶
+vorgestellt: 5 … ∆ hand2 …
+		(hand2.Finger = 0) ? vorgestellt hand2.Finger
+
+ƒ stimme(zähler•#)•Instrument
+	(zähler = 1) ? Instrument.Klavier
+		(zähler = 2) ? Instrument.Geige
+			(zähler = 3) ? Instrument.Flöte
+				(zähler = 4) ? Instrument.elektroGitarre
+					Instrument.Trompete
+
+ƒ symbol(zähler2•#)•''
+	(zähler2 = 1) ? '🎹'
+		(zähler2 = 2) ? '🎻'
+			(zähler2 = 3) ? '🪈'
+				(zähler2 = 4) ? '⚡'
+					'🎺'
+
+¶Wie laut ein Teil klingt. Jeder Teil bleibt jederzeit Teil der Musik, sodass keiner seinen Platz verliert – die über der Hand liegenden werden einfach ganz leise gestellt.
+
+Jeder Teil ist deutlich leiser als die Melodie eingestellt, und alle acht zusammen ergeben weniger als das Doppelte davon. Acht Teile in voller Lautstärke ergeben kein lautes Orchester, sondern ein verwaschenes, denn alles, was gleichzeitig klingt, muss durch denselben Lautsprecher passen.¶
+ƒ gehört(rang•# laut•%)•% (rang ≤ ebenen) ? laut 0%
+
+¶Der kaiserliche Marsch, acht Takte, ein Takt pro Zeile. Er ist in einer chromatischen Tonleiter notiert, damit seine Töne außerhalb der Tonart – die kleine Sekunde und die chromatische Gleitbewegung in der zweiten Hälfte – überhaupt geschrieben werden können: Stufe 1 ist der Grundton, und jede Stufe nach oben ist ein Halbton. Diese Zahlen sind also Intervalle, keine Tonleiterstufen.
+
+Die Notenwerte tragen den Rhythmus. Eine einfache Zahl dauert den Grundschlag des Stücks, hier eine Viertelnote, und jede andere Länge steht direkt an der Zahl: 𝅘𝅥𝅮𝅭 für die punktierte Achtel und 𝅘𝅥𝅯 für die Sechzehntel, die den Marsch vorantreiben, 𝅗𝅥 für die halbe Note, auf der er sich ausruht. Jede Zeile ergibt zusammen vier Schläge.¶
+marsch: [
+		5
+		5
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		12
+		12
+		12
+		13𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		4
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		17
+		5𝅘𝅥𝅮𝅭
+		5𝅘𝅥𝅯
+		17
+		16𝅘𝅥𝅮𝅭
+		15𝅘𝅥𝅯
+		14𝅘𝅥𝅯
+		13𝅘𝅥𝅯
+		14
+		6𝅘𝅥𝅮
+		11
+		9𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		7𝅘𝅥𝅯
+		6𝅘𝅥𝅯
+		7
+		1𝅘𝅥𝅮
+		4
+		1𝅘𝅥𝅮𝅭
+		4𝅘𝅥𝅯
+		8
+		5𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		12𝅗𝅥
+	]
+
+¶Vier Takte Grundtöne darunter, die in Vierteln marschieren. Sie sind kürzer als die Melodie, und jede Spur wiederholt sich in ihrer eigenen Länge. So kommen diese vier Takte zweimal, während die Melodie acht Takte braucht.¶
+bass: [
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		5
+		5
+		12
+		8
+	]
+
+¶Ein einzelner Takt Schlagzeug, im Rhythmus der Melodie. Die Stufen wählen aus einem Schlagzeug-Set statt aus einer Tonleiter, denn das Instrument hat keine Tonhöhe: 1 ist die Basstrommel, 2 die Snare, 3 die Hi-Hat und 5 das Tom.¶
+schlagzeug: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
+
+¶Akkorde auf den Nebenschlägen, der Antrieb, der einen Marsch in Bewegung hält. Der dritte Takt neigt sich zum Mollakkord, der eineinhalb Stufen tiefer liegt – daher kommen die tiefen Töne der Melodie.¶
+streicher: [
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{1 4 8}
+		ø
+		{1 4 8}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+	]
+
+¶Dieselben vier Takte, gehalten als reine Quinten, eine pro Takt. Eine Quinte hat keine Terz, deshalb bleibt sie den chromatischen Tönen darüber nicht im Weg.¶
+fläche: [{5 12} {5 12} {1 8} {5 12}]
+
+¶Eine Glocke im ersten und im dritten Takt. Ihr Grundschlag ist eine ganze Note, deshalb bedeutet eine Pause hier einen ganzen Takt Stille.¶
+glocken: [5 ø 1 ø]
+
+¶Eine hohe Antwort in den Lücken, dort, wo die Melodie stillsteht.¶
+zähler3: [
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		20𝅗𝅥
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		17𝅗𝅥
+	]
+
+lied: Musik(
+		[
+			Spur(
+				marsch
+				Instrument: stimme(vorgestellt)
+				Lautstärke: 55%
+				Schlag: 1𝅘𝅥
+			)
+			Spur(
+				bass
+				Instrument: Instrument.synthBass
+				Schlag: 1𝅘𝅥
+				Tonart: -24semitones
+				Lautstärke: gehört(2 30%)
+			)
+			Spur(
+				schlagzeug
+				Instrument: Instrument.Schlagzeug
+				Schlag: 1𝅘𝅥
+				Lautstärke: gehört(3 20%)
+			)
+			Spur(
+				marsch
+				Instrument: Instrument.Saxophon
+				Schlag: 1𝅘𝅥
+				Tonart: -12semitones
+				Lautstärke: gehört(4 22%)
+			)
+			Spur(
+				fläche
+				Instrument: Instrument.synthPad
+				Schlag: 1𝅝
+				Tonart: -12semitones
+				Lautstärke: gehört(5 16%)
+			)
+			Spur(
+				streicher
+				Instrument: Instrument.Geige
+				Schlag: 1𝅘𝅥
+				Lautstärke: gehört(6 18%)
+			)
+			Spur(
+				glocken
+				Instrument: Instrument.Glocke
+				Schlag: 1𝅝
+				Tonart: 12semitones
+				Lautstärke: gehört(7 12%)
+			)
+			Spur(
+				zähler3
+				Instrument: Instrument.Flöte
+				Schlag: 1𝅘𝅥
+				Lautstärke: gehört(8 14%)
+			)
+		]
+		Tempo: tempo2 · 1beats/min
+		Tonleiter: Musik.chromatisch
+		Name: 'kaiserlicher Marsch'
+	)
+
+¶Wie weit die Flotte gereist ist. Sie zählt ihre eigenen Takte, statt die Uhr abzulesen, und zählt schneller, wenn der Marsch schneller wird, sodass die Schiffe im Takt fliegen.¶
+reisen: 0 … ∆ Zeit(40ms) … reisen + (tempo2 ÷ 72)
+
+ƒ status()•'' '\ebenen\ of 8 playing · \tempo2\ beats a minute'
+
+¶Eine Zeile der Anweisungen, abgedunkelt, damit die Flotte und der gezeigte Spieler zuerst gelesen werden.¶
+ƒ zeile(text2•'')•Satzglied Satzglied(
+		text2
+		0.3m
+		Farbe: Farbe(64% 4 265°)
+	)
+
+¶Die Anweisungen, am linken Rand ausgerichtet statt zentriert, damit das Auge gerade nach unten laufen kann.¶
+anzeige: Gruppe(
+		Stapel('<' 0.16m)
+		[
+			Satzglied(
+				symbol(vorgestellt)
+				0.9m
+				Farbe: Farbe(56% 65 25°)
+			)
+			Satzglied(status() 0.38m Farbe: Farbe(70% 25 30°))
+			zeile('Hand heben – mehr vom Orchester')
+			zeile('Hand senken – nur die Melodie')
+			zeile(
+				'Hand nach links – langsamer · Hand nach rechts – schneller'
+			)
+			zeile('Finger hoch – 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺')
+		]
+	)
+
+¶Ein Schiff, das die Bühne durchquert und deutlich über den Anweisungen fliegt, sodass es den Text nie kreuzt. Seine Bahn legt fest, wie hoch es fliegt und wie weit es startet, sodass sie nie in Formation fliegen.¶
+ƒ schiff(zeichen•'' spur•# geschwindigkeit•#)•Satzglied
+	Satzglied(
+		zeichen
+		0.7m
+		Ort: Ort(
+			(((((reisen · geschwindigkeit) + (spur · 47)) % 200) - 100) · 0.045) · 1m
+			((spur · 0.65) + 2.2) · 1m
+		)
+	)
+
+flotte: [
+		schiff('🛸' 0 3)
+		schiff('🚀' 1 2)
+		schiff('🛰' 2 4)
+		schiff('🛸' 3 5)
+	]
+
+ƒ stern(x2•# y2•# größe2•#)•Satzglied
+	Satzglied(
+		'✦'
+		größe2 · 1m
+		Ort: Ort(x2 · 1m y2 · 1m)
+		Farbe: Farbe(46% 8 275°)
+	)
+
+¶Die Bühne zoomt so, dass alles darauf passt. Bewegt sich etwas, würde das bei jedem Takt das ganze Bild neu skalieren und die Wörter verschwimmen lassen. Die vier Ecksterne liegen weiter außen, als die Schiffe je fliegen, und weiter außen als die längste Textzeile. So hat die Anpassung einen Rahmen, der sich nie ändert, und das Bild bleibt ruhig. Der Rest ist einfach nur Himmel.¶
+sterne: [
+		stern(-5.6 -2.3 0.18)
+		stern(5.6 -2.3 0.18)
+		stern(-5.6 5 0.18)
+		stern(5.6 5 0.18)
+		stern(-4.9 2.1 0.22)
+		stern(-3.9 3.9 0.14)
+		stern(-2.2 2.5 0.18)
+		stern(1.1 3.4 0.14)
+		stern(2.7 4.4 0.22)
+		stern(4.6 2.7 0.14)
+	]
+
+Bühne(
+	[:sterne :flotte anzeige lied]
+	Hintergrund: Farbe(7% 6 275°)
+	Farbe: Farbe(88% 3 265°)
+)

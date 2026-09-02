@@ -1,0 +1,43 @@
+✨
+Wortspur
+===
+¶Dieses Projekt zeichnet die Umrisse des Wortes „wordplay“ nach, mit einem Kometen aus Punkten, der um die Buchstaben herumfegt, angetrieben von einem Time()-Strom. Die Hälfte des Wortes leuchtet zu jedem Zeitpunkt, es verblasst von hell am Kopf der Spur bis durchsichtig am Ende.¶
+
+punkte: Kontur(
+		'wordplay'
+		"Noto Sans"
+		3m
+		Ort: Ort(-6m 0m)
+		Abstand: 0.5m
+	)
+
+¶Wie viele Punkte auf dem Umriss liegen, und eine sichere Zahl zum Teilen, bevor die Schriftart geladen ist (wenn die Liste noch leer ist).¶
+zähler: punkte.Länge()
+
+¶Die Spur bedeckt die Hälfte des Wortes, sodass immer die Hälfte sichtbar ist.¶
+spur: zähler ÷ 2
+
+¶Ein Kopf-Index, der bei jedem Takt einen Punkt weiterrückt und am Wortende wieder von vorne beginnt.¶
+kopf: 0 … ∆ Zeit(10ms) … ((kopf + 1) % zähler) ?? 0
+
+Bühne(
+	punkte.übersetzen(
+		ƒ(punkt2•Ort index2•#)
+			(
+				¶Wie viele Punkte hinter dem Kopf dieser Punkt liegt, wobei am Anfang weitergezählt wird.¶
+				alter: ((((kopf - index2) + 1) + zähler) % zähler) ?? 0
+				Satzglied(
+					"•"
+					Größe: 1m
+					Ort: punkt2
+					Farbe: Farbe(
+						90%
+						100
+						((index2 ÷ zähler) ?? 0) × 360°
+					)
+					Opazität: alter < spur ? 1 - ((alter ÷ spur) ?? 0) 0
+					Dauer: 0s
+				))
+	)
+	Hintergrund: Farbe(8% 0 0°)
+)

@@ -1,0 +1,46 @@
+K
+Układy
+=== start
+¶Wiersze, stosy i grupy fraz, każda w innej animowanej pozie.¶
+pulsowanie: Sekwencja(
+		{
+			0%: Poza(skala: .9)
+			50%: Poza(skala: 1.1)
+			100%: Poza(skala: .9)
+		}
+	)
+zodbicie: Sekwencja(
+		{
+			0%: Poza(zrównoważyć: Miejsce(z: 0m))
+			50%: Poza(zrównoważyć: Miejsce(z: -2m))
+			100%: Poza(zrównoważyć: Miejsce(z: 0m))
+		}
+		1s
+	)
+
+Grupa(
+	Wiersz()
+	[
+		Grupa(
+			Stos()
+			[
+				Wyrażenie('Kicia')
+				Wyrażenie('Kot' spoczynkowy: zodbicie)
+				Grupa(
+					Wiersz()
+					[Wyrażenie('Pies') Wyrażenie('Piesek')]
+					spoczynkowy: pulsowanie
+				)
+				Wyrażenie('Kiciunia')
+			]
+		)
+		Grupa(
+			Stos()
+			[
+				Wyrażenie('Cześć')
+				Wyrażenie('Witaj')
+			]
+			spoczynkowy: Sekwencja.obrót(2s "straight")
+		)
+	]
+)

@@ -1,0 +1,32 @@
+⌕
+Mönster
+=== start
+¶Skriv en mening med några tal i den. Jag hittar varje tal och visar dem nedan, och de växer fram när jag hittar dem. Ett mönster beskriver formen på text — här,\⣿ >0 #⣿\ betyder ”en eller flera siffror”, och ⌕ hittar varje plats där det finns.¶
+inmatning: Chatta()
+text2: 'Jag har 3 katter, 12 fiskar och 144 myror' … ∆ inmatning … inmatning
+
+¶Sök i texten efter varje rad med siffror. Varje resultat är ett Result med sin matchade text.¶
+tal2: text2 ⌕ ⣿ >0 #⣿
+
+Etapp(
+	[
+		Grupp(
+			Stack()
+			[
+				Fras(text2 storlek: 1m)
+				Grupp(
+					Stack()
+					tal2.översätta(
+						ƒ(nummer2•Resultat)
+							Fras(
+								nummer2.text
+								storlek: 1.5m
+								gårin: Pose(opacitet: 0 skala: 0.5)
+								varaktighet: 0.5s
+							)
+					)
+				)
+			]
+		)
+	]
+)

@@ -1,0 +1,33 @@
+🗣
+Ansiktsprat
+===
+¶Dina ansiktsuttryck, spårade med kameran och berättade på scenen.¶
+
+¶Skapa en ansiktsström för att spåra uttryck¶
+ansikte2: Ansikte(200ms)
+
+¶Bestäm mellan leende, rynkad panna, blinkning eller inget¶
+humör: ansikte2.ögonÖppna ?
+		(ansikte2.leendeMängd > 0.6 ? 'smiling'
+				ansikte2.rynkMängd > 0.4 ? 'frowning'
+					'')
+		'blinking'
+
+¶Omvandla humöret till en emoji, och ge ansiktet en pratbubbla som säger det. Om bubblan får @Say sägs humöret högt också, inte bara visas, och bubblan ersätter texten längst ner på scenen.¶
+Etapp(
+	[
+		Fras(
+			(humör = 'blinking' ? '😴'
+					humör = 'smiling' ? '😀'
+						humör = 'frowning' ? '🙁'
+							'😐')
+			storlek: 8m
+			bubbla: (humör = ''
+				? Bubbla(
+						`/Le, rynka pannan eller blunda/`
+						radbryt: 8m
+					)
+					Bubbla(Säga(humör)))
+		)
+	]
+)

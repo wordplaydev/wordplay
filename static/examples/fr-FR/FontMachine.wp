@@ -1,0 +1,27 @@
+t
+Machine à polices
+=== start
+¶Appuie sur une touche pour changer la police de chaque lettre de « typographie » au hasard.¶
+polices: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+symboles: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ mélangerAuHasard()
+	symboles.traduire(
+		ƒ(symbole) Phrase(
+				symbole
+				affronter: polices.aléatoire()
+				durée: 0s
+			)
+	)
+
+phrases2: mélangerAuHasard() … ∆ Clé() | ∆ Bouton() … mélangerAuHasard(
+		)
+
+Scène([Groupe(Rangée('|' 0m) phrases2 lieu: Lieu(0m 0m))])

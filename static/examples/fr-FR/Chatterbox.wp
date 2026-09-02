@@ -1,0 +1,98 @@
+🤖
+Bavard
+=== start
+¶Chatterbox est un petit robot qui écoute, inspiré d'Eliza, le tout premier robot de discussion, créé en 1966. Écris dans la barre de discussion et il te répondra, en gardant un journal de votre conversation.¶
+
+¶Une ligne de conversation : qui l'a dit, et ce qu'il a dit.¶
+•ligne(orateur•'' mots2•'')
+
+message: Chat()
+
+¶Avant de te répéter tes propres mots, Chatterbox échange les pronoms, en remplaçant chaque mot selon cette règle : « mon » devient « ton », et « je » devient « tu ». Ainsi, « je sens que tu me détestes » devient « Pourquoi sens-tu que je te déteste ? »¶
+échanges: {
+		'I': 'you'
+		'i': 'you'
+		"I'm": 'tu es'
+		"i'm": 'tu es'
+		'me': 'you'
+		'my': 'your'
+		'mine': 'yours'
+		'myself': 'yourself'
+		'am': 'es'
+		'you': 'I'
+		'your': 'my'
+		'yours': 'mine'
+		'yourself': 'myself'
+	}
+ƒ refléter(mots3•'')•'' mots3.segmenté(' ').traduire(
+		ƒ(mot2•'') échanges{mot2} ?? mot2
+	).rejoindre(
+		' '
+	)
+
+¶Chatterbox choisit une réponse en comparant des modèles au message. Aa ignore les majuscules, et une capture nommée comme humeur récupère tout jusqu'à un signe de ponctuation final, ce qui permet à la réponse de te répéter tes propres mots — l'astuce utilisée par l'Eliza d'origine. La dernière règle sert de solution de secours : un petit coup de pouce choisi au hasard pour te faire continuer à parler.¶
+ƒ réponse(mots4•'')•'' (
+		sentiments: mots4 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
+		êtres: mots4 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
+		envies: mots4 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		souhaits: mots4 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
+		sentiments.longueur() > 0 ? 'Pourquoi sens-tu ' + refléter(
+					sentiments[1].groupes{'humeur'} ?? ''
+				) + '?'
+			êtres.longueur() > 0 ? 'Depuis combien de temps es-tu ' + refléter(
+						êtres[1].groupes{'état'} ?? ''
+					) + '?'
+				envies.longueur() > 0 ? "Qu'est-ce que cela signifierait pour toi d'avoir " + refléter(
+							envies[1].groupes{'désir'} ?? ''
+						) + '?'
+					souhaits.longueur() > 0 ? "Qu'est-ce qui changerait si " + refléter(
+								souhaits[1].groupes{'souhait'} ?? ''
+							) + '?'
+						(mots4 ⌕ ⣿ Aa("because")⣿).longueur() > 0 ? 'Est-ce vraiment la vraie raison ?'
+							(mots4 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).longueur(
+							) > 0 ? 'Parle-moi encore de ta famille.'
+								mots4.setermine('?') ? "C'est à moi que tu demandes ? Qu'en penses-tu ?"
+									(mots4 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? "Bonjour ! Comment te sens-tu aujourd'hui ?"
+										[
+											"Dis-m'en plus."
+											'Continue.'
+											"Qu'est-ce que ça te fait ressentir ?"
+											"Je vois. Je t'écoute."
+										].aléatoire(
+										)
+	)
+
+¶Le journal commence par une salutation, puis grandit de deux lignes à chaque message : le tien, puis la réponse de Chatterbox.¶
+journal•[ligne]: [
+		ligne(
+			'🤖'
+			'Salut ! Je suis Chatterbox. Comment vas-tu ?'
+		)
+	] … ∆ message …
+		journal.avec(ligne('🙂' message)).avec(
+			ligne('🤖' réponse(message))
+		)
+
+¶Montre seulement les lignes les plus récentes, pour que les anciennes fassent place aux nouvelles.¶
+récent: journal.longueur() ≤ 8 ? journal journal.sousséquence(
+			journal.longueur() - 7
+		)
+
+Scène(
+	[
+		Groupe(
+			Empiler('<' 0.5m)
+			récent.traduire(
+				ƒ(ligne2•ligne)
+					Phrase(
+						ligne2.orateur + ' ' + ligne2.mots2
+						taille: 0.75m
+						envelopper: 22m
+						entrer: Pose(opacité: 0 échelle: 0.5)
+						durée: 0.4s
+					)
+			)
+		)
+	]
+	lieu: Lieu(0m 0m -12m)
+)

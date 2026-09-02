@@ -1,0 +1,40 @@
+H
+מתכון אדובו
+=== start/en
+¶מתכון שלב-אחר-שלב לעוף אדובו פיליפיני.¶
+
+¶זו רשימת הסצנות להצגה¶
+משפטים: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`אדובונג מנוק @lamamel/adobo! (הזז את העכבר כדי לאכול)`)
+		(`טעים! @lamamel/emptyadobo`)
+	]
+
+¶זו רשימת המשפטים שצריכים להתקדם רק על ידי הזזת העכבר.¶
+הזזמשפטים: [9 11]
+
+¶המשפט הנוכחי מתחיל ב-1, ומתקדם כשהעכבר עובר לנקודת מסך מסוימת, או כשלוחצים על כפתור או מקש בשביל משפטים אחרים.¶
+נקודה2: מצביע()
+המשפטהנוכחי•#: 1 …
+	הזזמשפטים.יש(המשפטהנוכחי) ?
+		(נקודה2.איקס > 2m) & (נקודה2.י > 3m)
+		∆ לחצן() | ∆ מפתח()
+		…
+		(המשפטהנוכחי <
+				משפטים.משך()) ?
+			המשפטהנוכחי + 1
+			המשפטהנוכחי
+
+שלב(
+	[משפט(משפטים[המשפטהנוכחי] לעטוף: 10m)]
+	פנים: 'Short Stack'
+)

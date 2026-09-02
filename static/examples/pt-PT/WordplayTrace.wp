@@ -1,0 +1,43 @@
+✨
+Rasto de Palavras
+===
+¶Este projeto desenha o contorno da palavra "wordplay" com um cometa de pontos que percorre as letras, movido por um fluxo Time(). Metade da palavra brilha em cada momento, esbatendo-se de brilhante na cabeça do traço até transparente na cauda.¶
+
+pontos2: Contorno(
+		'wordplay'
+		"Noto Sans"
+		3m
+		local: Local(-6m 0m)
+		espaçamento: 0.5m
+	)
+
+¶Quantos pontos há no contorno, e uma contagem segura para dividir antes de a letra ter sido carregada (quando a lista ainda está vazia).¶
+contagem2: pontos2.comprimento()
+
+¶O traço cobre metade da palavra, por isso metade está sempre visível.¶
+rasto: contagem2 ÷ 2
+
+¶Um índice de cabeça que avança um ponto a cada instante e volta ao início da palavra.¶
+cabeça: 0 … ∆ Tempo(10ms) … ((cabeça + 1) % contagem2) ?? 0
+
+Fase(
+	pontos2.traduzir(
+		ƒ(ponto•Local índice2•#)
+			(
+				¶Quantos pontos este está atrás da cabeça, voltando ao início quando necessário.¶
+				idade: ((((cabeça - índice2) + 1) + contagem2) % contagem2) ?? 0
+				Frase(
+					"•"
+					tamanho: 1m
+					local: ponto
+					cor: Cor(
+						90%
+						100
+						((índice2 ÷ contagem2) ?? 0) × 360°
+					)
+					opacidade: idade < rasto ? 1 - ((idade ÷ rasto) ?? 0) 0
+					duração: 0s
+				))
+	)
+	fundo: Cor(8% 0 0°)
+)

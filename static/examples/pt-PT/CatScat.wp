@@ -1,0 +1,147 @@
+🐱
+Scat do Gato!
+=== start/en
+¶Um gato a fazer scat, para sempre, nunca da mesma forma duas vezes.
+
+Todo o solo é improvisado: nada aqui é uma melodia escrita. A cada coro, o gato escolhe notas novas e a frase é reconstruída, por isso o que ouve agora não voltará a repetir-se.
+
+Canta em cinco pistas que se revezam em vez de soarem juntas — semínimas, depois colcheias, depois tercinas, depois uma mínima, depois uma nota longa — porque um gato tem uma voz, e duas pistas a soar ao mesmo tempo dar-lhe-iam duas. Cada pista descansa enquanto as outras tocam os seus compassos, e é isso que mantém o solo a solo.
+
+A voz é o gato afinado, \Instrumento.gatoAfinado\: um miau, com afinação, para que um grau escolha uma nota e o gato cante mesmo a melodia em vez de dizer doze coisas diferentes. A escala é o blues, que não tem notas erradas — e tem de ser assim, porque cada nota aqui é escolhida ao acaso, por isso qualquer ordem tem de soar bem.
+
+É lento para um scat. Um miau demora cerca de oito décimos de segundo a dizer, e a um tempo mais rápido as semínimas cortariam o gato a meio da palavra.¶
+
+batida2: Batida()
+contagem2: batida2.contar
+
+¶Uma nota, ou de vez em quando nada: cerca de uma em sete fica em silêncio. Isso dá ao gato ar suficiente para fechar a boca aqui e ali sem tornar o solo mais pobre — e como as pausas caem onde o acaso as coloca, não há dois coros que respirem no mesmo lugar.¶
+ƒ talvez(nota•#)•#|ø (Aleatório() > 0.15) ? nota ø
+
+¶Uma nota, algures na oitava confortável do gato. O grau 1 é a nota a que a frase regressa, e o 8 é uma oitava de blues e um pouco acima dela — suficientemente longe para soar a canto, suficientemente perto para que o miau ainda soe a miau e não a um miau esticado.¶
+ƒ voz2()•#|ø talvez(Aleatório(1 8))
+
+¶Tudo o que o gato canta num coro. Cada parte tem a mesma duração que todas as outras em tempos — trinta e dois — por isso mantêm-se sincronizadas por mais diferentes que sejam as suas subdivisões.¶
+•coro(chamadas•[#|ø] execuções•[#|ø] balançar2•[#|ø] contém•[#|ø] cauda•[#|ø])
+
+¶Semínimas, compassos um e dois: três notas, uma respiração, depois as mesmas três respondidas com um final novo. Pergunta e resposta são a base de uma frase de scat, e repetir uma figura antes de a alterar é o que faz soar composta em vez de aleatória.¶
+ƒ chamadas2()•[#|ø] (
+		um2: voz2()
+		b2: voz2()
+		c2: voz2()
+		(32 → []).traduzir(
+			ƒ(i•#)
+				(i = 1) ? um2
+					(i = 2) ? b2
+						(i = 3) ? c2
+							(i = 5) ? um2
+								(i = 6) ? b2
+									(i = 7) ? voz2()
+										ø
+		)
+	)
+
+¶Colcheias, compassos três e quatro: uma sequência que sobe a escala um degrau de cada vez a partir de onde começa, voltando ao fundo no topo da oitava. Dezasseis colcheias em oito graus significa que a sequência sobe o percurso todo duas vezes, e é isso que a faz soar como uma sequência em vez de uma melodia.
+
+São as notas mais curtas da peça, e o único ponto onde o gato fica cortado: duas colcheias num tempo são mais rápidas do que um miau consegue terminar, o que é precisamente como soa uma sílaba rápida de scat.¶
+ƒ execuções2()•[#|ø] (
+		casa: Aleatório(1 8)
+		(64 → []).traduzir(
+			ƒ(i2•#)
+				((i2 < 17) | (i2 > 32)) ? ø
+					talvez((((casa + (i2 - 17)) - 1) % 8) + 1)
+		)
+	)
+
+¶Tercinas, compassos cinco e seis: uma célula de três notas que se repete vezes sem conta. Três no espaço de dois é escrito exatamente assim — 2 tempos ÷ 3 — o que diz em voz alta o que é uma tercina.¶
+ƒ balançar3()•[#|ø] (
+		cela: [voz2() voz2() voz2()]
+		(48 → []).traduzir(
+			ƒ(i3•#)
+				((i3 < 25) | (i3 > 36)) ? ø
+					cela[(((i3 - 25) % 3) + 1)]
+		)
+	)
+
+¶Mínimas, compasso sete: o gato abranda e pousa em duas notas longas. Uma nota sustentada mantém a boca aberta durante todo o tempo em que soa, e é assim que se sustenta uma nota.¶
+ƒ contém2()•[#|ø]
+	(16 → []).traduzir(
+		ƒ(i4•#)
+			(i4 = 13) ? voz2()
+				(i4 = 14) ? voz2()
+					ø
+	)
+
+¶Uma semibreve, compasso oito: grau 1, mantida. Voltar à primeira nota da escala é o que faz uma frase soar terminada, em vez de apenas parada.¶
+ƒ cauda2()•[#|ø] (8 → []).traduzir(ƒ(i5•#) (i5 = 8) ? 1 ø)
+
+ƒ improvisar()•coro coro(
+		chamadas2()
+		execuções2()
+		balançar3()
+		contém2()
+		cauda2()
+	)
+
+¶Um refrão novo a cada trinta e dois tempos. O anterior mantém-se entre os limites, para que o solo se mantenha o tempo suficiente para ser ouvido; mudá-lo exatamente no limite significa que quem toca o encaixa no tempo certo, em vez de cortar o gato a meio da nota.¶
+coro2•coro: improvisar() … ∆ batida2 …
+		((contagem2 % 32) = 0) ? improvisar() coro2
+
+¶O gato baloiça ao ritmo. Inclina-se para o outro lado a cada tempo, para que o balanço seja o próprio pulso, e não apenas um enfeite por cima dele.¶
+inclinar2: ((contagem2 % 2) = 0) ? -1 1
+
+¶Se o gato está a fazer um som neste momento. @Beat devolve um @Part por cada pista, e uma parte mantém-se ⊤ durante todos os tempos em que uma nota mantida soa, por isso isto é ⊤ sempre que algo é audível.¶
+aCantar: batida2.partes.traduzir(
+		ƒ(parte•Parte) parte.aSoar
+	).tem(
+		⊤
+	)
+
+¶A sua boca: aberta exatamente quando uma nota está a soar, fechada quando não está. Nada aqui conta tempos — pergunta à música o que ela está a fazer, para que a expressão nunca fique fora do compasso com o que se ouve. As pausas espalhadas são o que lhe dá espaço para fechar, e é por isso que cerca de uma nota em cada sete fica em silêncio.¶
+boca: aCantar ? '😺' '🐱'
+
+Fase(
+	[
+		Frase(
+			boca
+			5m
+			local: Local((inclinar2 · 0.7) · 1m -0.6m)
+			rotação: (inclinar2 · 7) · 1°
+			duração: 0.22s
+		)
+		Frase('Scat do Gato!' 1.4m local: Local(-2.6m 3.6m))
+		Música(
+			[
+				Faixa(
+					coro2.chamadas
+					instrumento: Instrumento.gatoAfinado
+					batida: 1beats
+				)
+				Faixa(
+					coro2.execuções
+					instrumento: Instrumento.gatoAfinado
+					batida: 0.5beats
+				)
+				Faixa(
+					coro2.balançar2
+					instrumento: Instrumento.gatoAfinado
+					batida: 2beats ÷ 3
+				)
+				Faixa(
+					coro2.contém
+					instrumento: Instrumento.gatoAfinado
+					batida: 2beats
+				)
+				Faixa(
+					coro2.cauda
+					instrumento: Instrumento.gatoAfinado
+					batida: 4beats
+				)
+			]
+			andamento: 76beats/min
+			escala: Música.blues
+			nome: 'scat'
+		)
+	]
+	fundo: Cor(16% 14 30°)
+	cor: Cor(96% 0 0°)
+)

@@ -1,0 +1,89 @@
+🧶
+Lundagin
+=== start
+¶Patnubayan ang pusa gamit ang mga arrow key at manalag.
+
+Umuungol ang pusa tuwing gumagalaw ito. Ang ungol ay nakakabit sa unang @Pose ng animasyon ng paggalaw nito: ang isang @Pose ay maaaring magdala ng @Music, na tumutugtog sa sandaling maisagawa ang pustura na iyon, at ang bawat paggalaw ay nagsasagawa ng mga pustura nito tuwing nagsisimula ang isa. Isinulat nang tahasan ang paggalaw-galaw sa gilid imbes na iwanang \Pagkakasunodsunod.ugoy(
+)\ dahil ang mga handa nang animasyon ay gumagawa ng sarili nilang mga pustura, at ang pustura ang dapat na lugar ng tunog.¶
+
+¶Isang maikling ungol. Kapag dalawang paggalaw ang malapit sa isa't isa, nagsasalo sila ng isang ungol imbes na magpatong ng dalawa, dahil dumarating ang ikalawa habang gumagalaw pa ang unang paggalaw-galaw.¶
+meow2: Musika(
+		Track([1] instrumento: Instrumento.pusa)
+		lakasNgTunog: 45%
+		pangalan: 'meow'
+	)
+
+•posisyonNgPusa(posisyon•#m direksyon2•#)
+
+susi2: Susi()
+bilis2: 1m
+
+lugarNgPusa: posisyonNgPusa(5m 1) … ∆ susi2 …
+		((susi2 = 'Palaso Kaliwa') & (lugarNgPusa.posisyon > -10m)) ? posisyonNgPusa(
+				lugarNgPusa.posisyon - bilis2
+				1
+			)
+			((susi2 = 'PalasoKanan') & (lugarNgPusa.posisyon < 8m)) ? posisyonNgPusa(
+					lugarNgPusa.posisyon + bilis2
+					-1
+				)
+				lugarNgPusa
+
+pusa2: Parirala(
+		"🐈"
+		mukha: "Noto Color Emoji"
+		pangalan: 'pusa'
+		laki: 2m
+		lugar: Lugar(lugarNgPusa.posisyon 0m)
+		nagpapahinga: Pose(flipx: lugarNgPusa.direksyon2 < 0)
+		gumagalaw: Pagkakasunodsunod(
+			{
+				0%: Pose(pagikot: -5° musika: meow2)
+				50%: Pose(pagikot: 5°)
+				100%: Pose(pagikot: -5°)
+			}
+			0.25s
+			"zippy"
+		)
+		materya: Materya(1000kg pagigingbilugan: 0.5)
+	)
+
+dagit: Pagbangga('bola' 'pusa')
+
+lugarNgBola: Paggalaw(
+		Lugar(0m 9m)
+		susunodnabilis:
+		dagit•ø ? ø
+			Bilis(
+				((dagit.direksyon.x ÷ -1m) × Random(15m/s 25m/s)) + Random(
+						-3m/s
+						3m/s
+					)
+				Random(27m/s 30m/s)
+				(dagit.direksyon.x ÷ -1m) × Random(0°/s 15°/s)
+			)
+	)
+
+bola: Parirala(
+		"🧶"
+		pangalan: 'bola'
+		lugar: lugarNgBola
+		materya: Materya(1kg 0.5 0 1)
+	)
+
+Entablado(
+	[
+		Hugis(Parihaba(-10m 0m 10m -3m))
+		Hugis(Parihaba(-10m -1m -9m 11m))
+		Hugis(Parihaba(10m -1m 9m 11m))
+		Hugis(Parihaba(-10m 10m 10m 11m))
+		bola
+		pusa2
+		Parirala(
+			'pindutin ang ← → para tumugtog!'
+			lugar: Lugar(-4m -2m)
+			kulay: Kulay.puti
+		)
+	]
+	lugar: Lugar(taon: 5m z: -10m)
+)

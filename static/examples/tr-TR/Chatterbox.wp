@@ -1,0 +1,95 @@
+🤖
+Geveze Kutu
+=== start
+¶Chatterbox, 1966 yılında yapılan ilk sohbet robotu Eliza'dan esinlenilmiş küçük bir dinleyici robottur. Sohbet çubuğuna yaz, sana yanıt versin ve konuşmanın kaydını tutsun.¶
+
+¶Bir konuşma satırı: kimin konuştuğu ve ne söylediği.¶
+•satır(konuşmacı•'' kelimeler2•'')
+
+mesaj: Sohbet()
+
+¶Chatterbox, senin sözlerini geri söylemeden önce zamirleri değiştirir. Her kelimeyi şu eşleme ile değiştirir: "benim" yerine "senin", "ben" yerine "sen" gelir. Böylece "Benden nefret ettiğini hissediyorum" cümlesi "Neden benden nefret ettiğini hissediyorsun?" olarak geri döner.¶
+değişimler: {
+		'I': 'you'
+		'i': 'you'
+		"I'm": 'sensin'
+		"i'm": 'sensin'
+		'me': 'you'
+		'my': 'your'
+		'mine': 'yours'
+		'myself': 'yourself'
+		'am': 'misin'
+		'you': 'I'
+		'your': 'my'
+		'yours': 'mine'
+		'yourself': 'myself'
+	}
+ƒ yansıt(kelimeler3•'')•'' kelimeler3.parçalı(' ').tercümeetmek(
+		ƒ(kelime2•'') değişimler{kelime2} ?? kelime2
+	).katılmak(
+		' '
+	)
+
+¶Chatterbox, mesajla eşleşen kalıpları bularak bir yanıt seçer. Aa büyük küçük harf farkını yok sayar, mood gibi isimlendirilmiş bir yakalama ise noktalama işaretine kadar her şeyi alır. Böylece yanıt, senin kendi sözlerini sana geri söyleyebilir — bu, ilk Eliza'nın kullandığı yöntemdir. Son kural ise bir yedektir: seni konuşturmaya devam etmek için rastgele seçilen bir dürtme cümlesidir.¶
+ƒ yanıt(kelimeler4•'')•'' (
+		duygular: kelimeler4 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
+		varlıklar: kelimeler4 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
+		istekler: kelimeler4 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		dilekler: kelimeler4 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
+		duygular.uzunluk() > 0 ? 'Neden şöyle hissediyorsun: ' + yansıt(
+					duygular[1].gruplar{'ruh hali'} ?? ''
+				) + '?'
+			varlıklar.uzunluk() > 0 ? 'Ne zamandır böylesin: ' + yansıt(
+						varlıklar[1].gruplar{'durum'} ?? ''
+					) + '?'
+				istekler.uzunluk() > 0 ? 'Sana sahip olmak ne anlama gelirdi ' + yansıt(
+							istekler[1].gruplar{'istek'} ?? ''
+						) + '?'
+					dilekler.uzunluk() > 0 ? 'Ne değişirdi eğer ' + yansıt(
+								dilekler[1].gruplar{'dilek'} ?? ''
+							) + '?'
+						(kelimeler4 ⌕ ⣿ Aa("because")⣿).uzunluk() > 0 ? 'Bu gerçek sebep mi?'
+							(kelimeler4 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).uzunluk(
+							) > 0 ? 'Bana ailenden biraz daha bahset.'
+								kelimeler4.biter('?') ? 'Bana mı soruyorsun? Sen ne düşünüyorsun?'
+									(kelimeler4 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? 'Merhaba! Bugün nasıl hissediyorsun?'
+										[
+											'Biraz daha anlat.'
+											'Devam et.'
+											'Bu seni nasıl hissettiriyor?'
+											'Anlıyorum. Seni dinliyorum.'
+										].rastgele(
+										)
+	)
+
+¶Günlük bir selamlamayla başlar ve her mesajla iki satır büyür: önce senin mesajın, sonra Chatterbox'ın yanıtı.¶
+kayıt•[satır]: [
+		satır('🤖' 'Merhaba! Ben Chatterbox. Nasılsın?')
+	] … ∆ mesaj …
+		kayıt.ile(satır('🙂' mesaj)).ile(
+			satır('🤖' yanıt(mesaj))
+		)
+
+¶Sadece en yeni satırları göster, böylece eskiler yenilere yer açar.¶
+son2: kayıt.uzunluk() ≤ 8 ? kayıt kayıt.altdizi(
+			kayıt.uzunluk() - 7
+		)
+
+Sahne(
+	[
+		Grup(
+			Yığın('<' 0.5m)
+			son2.tercümeetmek(
+				ƒ(satır2•satır)
+					İfadeetmek(
+						satır2.konuşmacı + ' ' + satır2.kelimeler2
+						boyut: 0.75m
+						dürüm: 22m
+						giriş: Poz(opaklık: 0 ölçek: 0.5)
+						süre: 0.4s
+					)
+			)
+		)
+	]
+	yer: Yer(0m 0m -12m)
+)

@@ -1,0 +1,288 @@
+🫲
+Conductora
+=== start/en
+¶Dirige una flota imperial con una sola mano. Sin teclado, sin botones: la cámara observa tu mano y una orquesta de ocho partes responde.
+
+Levanta la mano y la orquesta se va sumando, una parte a la vez, hasta que las ocho tocan juntas. Bájala y desaparecen poco a poco hasta que solo queda la melodía sola. Desliza a la izquierda para hacer más lenta la marcha, a la derecha para acelerarla. La cantidad de dedos que levantes decide quién toca la melodía.
+
+Cada instrucción está escrita en el escenario, así que puedes aprenderla sin leer este texto.¶
+
+mano2: Mano()
+
+¶La altura indica cuánta orquesta suena y el movimiento lateral indica qué tan rápido va, y ambos se leen directo de la mano en vez de recordarse, así que la siguen de forma continua. Cada uno se redondea a un paso, así que la música solo cambia cuando el cambio es lo bastante grande para escucharse, y una mano que tiembla no reescribe la partitura veinte veces por segundo.¶
+levantar: ((mano2.lugar.y + 3m) ÷ 6m).mínimo(1).máximo(0)
+capas: 1 + ((levantar · 7).rondear())
+
+alcance: ((mano2.lugar.x + 5m) ÷ 10m).mínimo(1).máximo(0)
+ritmo: 72 + ((alcance · 8).rondear() · 12)
+
+¶Quién toca la melodía. Un puño y una mano fuera de cuadro cuentan como cero dedos, así que cero dedos deja a quien ya estaba tocando; de lo contrario, mirar hacia otro lado cambiaría la melodía.¶
+destacado: 5 … ∆ mano2 …
+		(mano2.dedos = 0) ? destacado mano2.dedos
+
+ƒ voz2(cantidad2•#)•Instrumento
+	(cantidad2 = 1) ? Instrumento.piano
+		(cantidad2 = 2) ? Instrumento.violín
+			(cantidad2 = 3) ? Instrumento.flauta
+				(cantidad2 = 4) ? Instrumento.guitarraElectrica
+					Instrumento.trompeta
+
+ƒ ícono(cantidad3•#)•''
+	(cantidad3 = 1) ? '🎹'
+		(cantidad3 = 2) ? '🎻'
+			(cantidad3 = 3) ? '🪈'
+				(cantidad3 = 4) ? '⚡'
+					'🎺'
+
+¶Qué tan fuerte suena una parte. Cada parte se mantiene en la música todo el tiempo, así que ninguna pierde su lugar; las que están por encima de la mano solo tienen el volumen bajado hasta el fondo.
+
+Cada una se fija bien por debajo de la melodía, y las ocho juntas suman menos del doble de esta. Ocho partes a todo volumen no hacen una orquesta fuerte, hacen una orquesta confusa, porque todo lo que suena a la vez tiene que salir por la misma bocina.¶
+ƒ escuchado(rango•# fuerte•%)•% (rango ≤ capas) ? fuerte 0%
+
+¶La Marcha Imperial, ocho compases, un compás por línea. Está escrita en escala cromática para poder anotar sus notas fuera de tono (la segunda bemol y el deslizamiento cromático de la segunda mitad): el grado 1 es la tónica y cada paso hacia arriba es un semitono, así que estos números son intervalos y no pasos de escala.
+
+Los valores de las notas llevan el ritmo. Un número solo dura el pulso de la pista, una negra en este caso, y cualquier otra duración lo indica el mismo número: 𝅘𝅥𝅮𝅭 para la corchea con puntillo y 𝅘𝅥𝅯 para la semicorchea que impulsan la marcha hacia adelante, 𝅗𝅥 para la blanca en la que se detiene. Cada línea suma cuatro pulsos.¶
+marcha: [
+		5
+		5
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		12
+		12
+		12
+		13𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		4
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		17
+		5𝅘𝅥𝅮𝅭
+		5𝅘𝅥𝅯
+		17
+		16𝅘𝅥𝅮𝅭
+		15𝅘𝅥𝅯
+		14𝅘𝅥𝅯
+		13𝅘𝅥𝅯
+		14
+		6𝅘𝅥𝅮
+		11
+		9𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		7𝅘𝅥𝅯
+		6𝅘𝅥𝅯
+		7
+		1𝅘𝅥𝅮
+		4
+		1𝅘𝅥𝅮𝅭
+		4𝅘𝅥𝅯
+		8
+		5𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		12𝅗𝅥
+	]
+
+¶Cuatro compases de notas raíz debajo, marchando en negras. Es más corto que la melodía, y cada pista repite según su propia duración, así que estos cuatro compases se repiten dos veces por los ocho de la melodía.¶
+bajo: [
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		5
+		5
+		12
+		8
+	]
+
+¶Un solo compás de batería, en el propio ritmo de la melodía. Los grados eligen dentro de un set de percusión en vez de una escala, en un instrumento sin tono, así que 1 es el bombo, 2 la caja, 3 el platillo hi-hat y 5 el tom.¶
+tambores2: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
+
+¶Acordes en los contratiempos, el impulso que evita que una marcha se quede quieta. El tercer compás se inclina hacia el acorde menor un paso y medio abajo, que es de donde vienen las notas bemol de la melodía.¶
+cuerdas: [
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{1 4 8}
+		ø
+		{1 4 8}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+	]
+
+¶Los mismos cuatro compases sostenidos como quintas simples, uno por compás. Una quinta no tiene tercera, así que se mantiene fuera del camino de las notas cromáticas de arriba.¶
+colchón: [{5 12} {5 12} {1 8} {5 12}]
+
+¶Una campana en el primer compás y en el tercero. Su pulso es una redonda, así que un silencio aquí equivale a un compás completo de silencio.¶
+campanas: [5 ø 1 ø]
+
+¶Una respuesta aguda en los espacios, donde la melodía se queda quieta.¶
+contador: [
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		20𝅗𝅥
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		17𝅗𝅥
+	]
+
+canción: Música(
+		[
+			Pista(
+				marcha
+				instrumento: voz2(destacado)
+				volumen: 55%
+				pulso: 1𝅘𝅥
+			)
+			Pista(
+				bajo
+				instrumento: Instrumento.bajoSintetizador
+				pulso: 1𝅘𝅥
+				clave: -24semitones
+				volumen: escuchado(2 30%)
+			)
+			Pista(
+				tambores2
+				instrumento: Instrumento.tambores
+				pulso: 1𝅘𝅥
+				volumen: escuchado(3 20%)
+			)
+			Pista(
+				marcha
+				instrumento: Instrumento.saxofón
+				pulso: 1𝅘𝅥
+				clave: -12semitones
+				volumen: escuchado(4 22%)
+			)
+			Pista(
+				colchón
+				instrumento: Instrumento.padSintetizador
+				pulso: 1𝅝
+				clave: -12semitones
+				volumen: escuchado(5 16%)
+			)
+			Pista(
+				cuerdas
+				instrumento: Instrumento.violín
+				pulso: 1𝅘𝅥
+				volumen: escuchado(6 18%)
+			)
+			Pista(
+				campanas
+				instrumento: Instrumento.campana
+				pulso: 1𝅝
+				clave: 12semitones
+				volumen: escuchado(7 12%)
+			)
+			Pista(
+				contador
+				instrumento: Instrumento.flauta
+				pulso: 1𝅘𝅥
+				volumen: escuchado(8 14%)
+			)
+		]
+		tempo: ritmo · 1beats/min
+		escala: Música.cromática
+		nombre: 'marcha imperial'
+	)
+
+¶Qué tan lejos ha viajado la flota. Cuenta sus propios pulsos en vez de leer el reloj, y los cuenta más rápido cuando la marcha es más rápida, así que las naves vuelan al ritmo del tempo.¶
+viajar: 0 … ∆ Tiempo(40ms) … viajar + (ritmo ÷ 72)
+
+ƒ estado()•'' '\capas\ of 8 playing · \ritmo\ beats a minute'
+
+¶Una línea de las instrucciones, tenue para que la flota y la jugadora destacada se lean primero.¶
+ƒ línea(texto2•'')•Frase Frase(
+		texto2
+		0.3m
+		color: Color(64% 4 265°)
+	)
+
+¶Las instrucciones, apiladas hacia el borde izquierdo en vez de centradas, para que la vista pueda recorrerlas de arriba a abajo en línea recta.¶
+pantalla: Grupo(
+		Pila('<' 0.16m)
+		[
+			Frase(ícono(destacado) 0.9m color: Color(56% 65 25°))
+			Frase(estado() 0.38m color: Color(70% 25 30°))
+			línea('levanta la mano — más orquesta')
+			línea('bájala — la melodía sola')
+			línea(
+				'mano a la izquierda — más lento · mano a la derecha — más rápido'
+			)
+			línea('dedos arriba — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺')
+		]
+	)
+
+¶Una nave que cruza el escenario, volando en una franja bien por encima de las instrucciones para que nunca cruce el texto. Su carril determina qué tan alto vuela y qué tan lejos empieza, así que nunca vuelan en formación.¶
+ƒ barco(glifo•'' carril•# velocidad2•#)•Frase
+	Frase(
+		glifo
+		0.7m
+		lugar: Lugar(
+			(((((viajar · velocidad2) + (carril · 47)) % 200) - 100) · 0.045) · 1m
+			((carril · 0.65) + 2.2) · 1m
+		)
+	)
+
+flota: [
+		barco('🛸' 0 3)
+		barco('🚀' 1 2)
+		barco('🛰' 2 4)
+		barco('🛸' 3 5)
+	]
+
+ƒ estrella(x2•# y2•# tamaño2•#)•Frase
+	Frase(
+		'✦'
+		tamaño2 · 1m
+		lugar: Lugar(x2 · 1m y2 · 1m)
+		color: Color(46% 8 275°)
+	)
+
+¶El escenario se acerca o se aleja para que quepa todo lo que hay en él. Si algo se moviera, cambiaría el tamaño de toda la imagen en cada instante y las palabras parecerían flotar. Las cuatro estrellas de las esquinas están más lejos de lo que llegan a volar las naves y más lejos que la línea de texto más larga. Así, el encuadre tiene un marco que nunca cambia y la imagen se queda quieta. Lo demás es solo cielo.¶
+estrellas: [
+		estrella(-5.6 -2.3 0.18)
+		estrella(5.6 -2.3 0.18)
+		estrella(-5.6 5 0.18)
+		estrella(5.6 5 0.18)
+		estrella(-4.9 2.1 0.22)
+		estrella(-3.9 3.9 0.14)
+		estrella(-2.2 2.5 0.18)
+		estrella(1.1 3.4 0.14)
+		estrella(2.7 4.4 0.22)
+		estrella(4.6 2.7 0.14)
+	]
+
+Escenario(
+	[:estrellas :flota pantalla canción]
+	fondo: Color(7% 6 275°)
+	color: Color(88% 3 265°)
+)

@@ -1,0 +1,91 @@
+🎛️
+Instrument
+=== start/en
+¶Samma åtta takter, spelade av varje instrument i paletten. Välj ett namn ochmelodin behåller sin plats — bara ljudet ändras. De två katterna är sammakatt, och de två hundarna är samma hund: en av varje är ett slagverk, sålåten låter som ljud, och den andra är tonsatt, så den sjunger den.¶
+
+¶Vilket instrument som spelar melodin. Choice() ger tillbaka namnet påvilket valbart utdata som valdes, och ø tills något är valt.¶
+vald: Val()
+
+¶En post per instrument: vad det ska heta, vad som spelar det, och vilken färgdess knapp får.¶
+•röst2(etikett•'' ikon•'' ljud•Instrument nyans2•#°)
+
+röster•[röst2]: [
+		röst2('piano' '🎹' Instrument.piano 260°)
+		röst2('gitarr' '🎸' Instrument.akustiskGitarr 20°)
+		röst2('elgitarr' '⚡' Instrument.elGitarr 5°)
+		röst2('fiol' '🎻' Instrument.fiol 40°)
+		röst2('flöjt' '🪈' Instrument.flöjt 180°)
+		röst2('trumpet' '🎺' Instrument.trumpet 50°)
+		röst2('sax' '🎷' Instrument.saxofon 70°)
+		röst2('munspel' '🌬' Instrument.munspel 150°)
+		röst2('klocka' '🔔' Instrument.klocka 55°)
+		röst2('trummor' '🥁' Instrument.trummor 0°)
+		röst2('didgeridoo' '🎶' Instrument.didgeridoo 15°)
+		röst2('katt' '🐱' Instrument.katt 330°)
+		röst2('tonsatt katt' '😺' Instrument.tonsattKatt 350°)
+		röst2('hund' '🐶' Instrument.hund 35°)
+		röst2('tonsatt hund' '🐕' Instrument.tonsattHund 125°)
+		röst2('synth' '🎛' Instrument.synt 290°)
+		röst2('bas' '🎛' Instrument.syntBas 310°)
+		röst2('matta' '🎛' Instrument.syntPad 200°)
+		röst2('röst' '🤖' Instrument.röst 95°)
+	]
+
+¶Den valda rösten, eller pianot innan någon har valt. find() ger tillbaka ønär inget matchar, så reservvärdet måste vara en Voice i sig själv.¶
+vald2: röster.hitta(ƒ(röst3•röst2) röst3.etikett = vald)
+nuvarande•röst2: vald2•ø ? röst2(
+			'piano'
+			'🎹'
+			Instrument.piano
+			260°
+		) vald2
+
+¶En melodi som ligger kvar medan instrumentet under den ändras. Grader,inte toner, så den betyder samma sak på varje instrument — och på trummornaläses den istället som rytm, eftersom grader där pekar ut delar av slagverket.¶
+melodi2: [1 3 5 6 5 3 2 ø]
+
+¶En stavelse per ton, skriven i det internationella fonetiska alfabetet, därvarje bokstav är ett ljud. Bara sångrösten använder dessa; resten avpaletten ignorerar dem. Resten tar ingen stavelse, så sju ljud räcker till åttaposter.¶
+text2: 'la li lu le lo li la'
+
+¶En knapp per instrument: ikonen ligger ovanpå namnet, så de inte krockar med varandra. De valbara fraserna är det som Choice() läser, och den som är vald just nu ritas ljusare så du kan se var du är.¶
+ƒ knapp(röst4•röst2)
+	Grupp(
+		Stack(stoppning: 0.1m)
+		[
+			Fras(röst4.ikon 1.1m)
+			Fras(röst4.etikett 0.5m)
+		]
+		namn: röst4.etikett
+		valbara: ⊤
+		färg: (röst4.etikett = nuvarande.etikett)
+		? Färg(95% 60 röst4.nyans2)
+			Färg(60% 8 röst4.nyans2)
+	)
+
+¶Allt som syns läggs i en Stack. En Stage centrerar varje del för sig, så om de fick vara som de var skulle de ligga ovanpå varandra — layouten måste säga att de ska ligga en ovanför den andra.
+
+Knapparna läggs i ett Grid istället för en Row. Alla i en enda rad blir bredare än en telefon, och en Stage skalar ner sitt innehåll för att få plats, så etiketterna krymper tills de inte går att läsa. Bara kolumnerna anges: rader utelämnas, och Grid räknar själv ut hur många den behöver, så att lägga till ett instrument kräver ingen ändring här.
+
+Musiken behåller samma namn hela tiden istället för att ta instrumentets namn. Ett 🎼:s namn är dess identitet: byt namn på den och spelaren hör ett nytt stycke börja, så melodin skulle hoppa tillbaka till början vid varje byte, och notbilden skulle rita det gamla instrumentets toner bredvid det nya tills de rullade bort.¶
+Etapp(
+	[
+		Grupp(
+			Stack(stoppning: 0.6m)
+			[
+				Fras(nuvarande.ikon 2.5m)
+				Fras(nuvarande.etikett 1.2m)
+				Grupp(
+					Rutnät(kolumner: 5 stoppning: 0.4m)
+					röster.översätta(ƒ(röst5•röst2) knapp(röst5))
+				)
+			]
+		)
+		Musik(
+			Spår(melodi2 instrument: nuvarande.ljud ord: text2)
+			tempo: 120beats/min
+			skala: Musik.pentatonisk
+			namn: 'melodi'
+		)
+	]
+	bakgrund: Färg(14% 12 280°)
+	färg: Färg(95% 0 0°)
+)

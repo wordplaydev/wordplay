@@ -1,0 +1,68 @@
+4
+Madlib
+=== start
+¶Sebuah madlib: berikan kata-katanya, dapatkan cerita yang lucu.¶
+
+¶Ini mencatat jenis-jenis kata yang kita perlukan, dan jumlahnya¶
+•jenisKata(label•"" hitungan2•#)
+
+¶Ini adalah kata-kata yang kita perlukan untuk madlib di bawah ini.¶
+giliran: [
+		jenisKata('kata sifat' 4)
+		jenisKata('kata benda' 3)
+		jenisKata('kata kerja, bentuk lampau' 3)
+		jenisKata('kata keterangan' 4)
+	]
+
+obrolan: Mengobrol()
+¶Setiap kali sebuah obrolan dikirim, lanjut ke jenis kata berikutnya¶
+giliran2: 1 … ∆ obrolan … giliran2 + 1
+¶Setiap kali sebuah obrolan dikirim, pisahkan obrolan itu berdasarkan spasi lalu tambahkan ke jawaban¶
+jawaban•[['']]: [] … ∆ obrolan … [:jawaban obrolan ÷ ' ']
+
+¶Kita memberi angka pada indeks ini supaya madlib lebih mudah dibaca¶
+kataSifat: 1
+kataBenda: 2
+kataKeterangan: 4
+kataKerja: 3
+
+tanya: jawaban.panjang() < 4
+
+Panggung(
+	[
+		¶Sebelum kita punya jawabannya, minta jawaban dulu¶
+		tanya ?
+			Kelompok(
+				Tumpukan('|' 0.25m)
+				[
+					Frasa(
+						`\giliran[giliran2].hitungan2\ \giliran[giliran2].label\ tolong ya!`
+					)
+					Frasa('(dipisahkan dengan spasi)' 0.5m)
+				]
+			)
+			¶Setelah kita punya jawabannya, tampilkan madlib-nya¶
+			(
+				¶Buat daftar kalimat dari jawaban-jawaban itu¶
+				kalimat: [
+						`Hari ini aku pergi ke kebun binatang.`
+						`Aku melihat seekor/sebuah *\jawaban[kataBenda][1]\* *\jawaban[kataKeterangan][1]\* melompat-lompat di pohonnya.`
+						`Dia *\jawaban[kataKerja][1]\* *\jawaban[kataKeterangan][2]\* melewati terowongan besar yang menuju ke *\jawaban[kataSifat][2]\* *\jawaban[kataBenda][2]\*-nya.`
+						`Aku mengambil beberapa kacang dan memberikannya lewat kandang kepada seekor * abu-abu raksasa\jawaban[kataBenda][3]\* yang menjulang tinggi di atas kepalaku.`
+						`Memberi makan hewan itu membuatku lapar.`
+						`Aku pergi mengambil satu *\jawaban[kataSifat][3]\* sendok es krim.`
+						`Itu membuat perutku kenyang.`
+						`Setelah itu aku *\jawaban[kataKerja][2]\* *\jawaban[kataKeterangan][2]\* untuk mengejar bus kami.`
+						`Ketika aku tiba di rumah, aku *\jawaban[kataKerja][3]\* ibuku untuk meminta *\jawaban[kataSifat][4]\* hari di kebun binatang.`
+					]
+				¶Ubah menjadi frasa¶
+				Kelompok(
+					Tumpukan('<')
+					kalimat.menerjemahkan(
+						ƒ(kalimat2) Frasa(kalimat2)
+					)
+				)
+			)
+	]
+	menghadapi: 'Phudu'
+)

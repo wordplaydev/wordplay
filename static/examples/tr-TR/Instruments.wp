@@ -1,0 +1,95 @@
+🎛️
+Enstrümanlar
+=== start/en
+¶Aynı sekiz ölçü, paletteki her çalgı tarafından çalınıyor. Bir isim seçince melodi yerinde kalır — sadece ses değişir. İki kedi aynı kedi, iki köpek de aynı köpek: her ikisinin birer tanesi bir kit, yani melodi seslerden oluşur; diğeri ise perdeli, yani melodiyi söyler.
+
+Bunların çoğu gerçek kayıt. Dört sentezleyici hiçbir şeyi taklit etmiyor: onlar sentezleyici ve o ses zaten kendi sesleri. Bunların sonuncusu şarkı söyler, parçadaki sözler de bunun içindir — buradaki diğer tüm çalgılar bu sözleri yok sayar.¶
+
+¶Melodiyi hangi çalgının çaldığı. Choice() seçilebilen çıktılardan hangisi seçildiyse onun ismini geri verir, hiçbiri seçilmediyse ø döner.¶
+seçilmiş: Seçenek()
+
+¶Her çalgı için bir kayıt: ismi ne, neyi çalıyor ve düğmesinin rengi ne.¶
+•ses2(etiket•'' simge•'' ses3•Çalgı ton•#°)
+
+sesler•[ses2]: [
+		ses2('piyano' '🎹' Çalgı.piyano 260°)
+		ses2('gitar' '🎸' Çalgı.akustikGitar 20°)
+		ses2('elektrikli' '⚡' Çalgı.elektroGitar 5°)
+		ses2('keman' '🎻' Çalgı.keman 40°)
+		ses2('flüt' '🪈' Çalgı.flüt 180°)
+		ses2('trompet' '🎺' Çalgı.trompet 50°)
+		ses2('saksafon' '🎷' Çalgı.saksofon 70°)
+		ses2('mızıka' '🌬' Çalgı.mızıka 150°)
+		ses2('çan' '🔔' Çalgı.çan 55°)
+		ses2('davullar' '🥁' Çalgı.davul 0°)
+		ses2('didgeridoo' '🎶' Çalgı.didgeridoo 15°)
+		ses2('kedi' '🐱' Çalgı.kedi 330°)
+		ses2('perdeli kedi' '😺' Çalgı.perdeliKedi 350°)
+		ses2('köpek' '🐶' Çalgı.köpek 35°)
+		ses2('perdeli köpek' '🐕' Çalgı.perdeliKöpek 125°)
+		ses2('sentezleyici' '🎛' Çalgı.synth 290°)
+		ses2('bas' '🎛' Çalgı.synthBass 310°)
+		ses2('yastık' '🎛' Çalgı.synthPad 200°)
+		ses2('ses' '🤖' Çalgı.ses 95°)
+	]
+
+¶Seçilen ses, ya da henüz kimse bir şey seçmediyse piyano. find() hiçbir şey eşleşmediğinde ø döner, bu yüzden yedek seçeneğin kendisi de bir Voice olmalı.¶
+seçilmiş2: sesler.bulmak(
+		ƒ(ses4•ses2) ses4.etiket = seçilmiş
+	)
+güncel•ses2: seçilmiş2•ø ? ses2(
+			'piyano'
+			'🎹'
+			Çalgı.piyano
+			260°
+		) seçilmiş2
+
+¶Altındaki çalgı değişse bile yerinde kalan bir melodi. Notalar değil derece kullanır, bu yüzden her çalgıda aynı anlama gelir — davullarda ise derece, kitteki bir konumu gösterdiği için ritim olarak okunur.¶
+melodi2: [1 3 5 6 5 3 2 ø]
+
+¶Her nota için bir hece, Uluslararası Fonetik Alfabesi ile yazılmış; burada her harf bir sesi gösterir. Bunları yalnızca şarkı söyleyen ses kullanır; paletteki diğerleri bunları yok sayar. Diğerleri hiç hece almaz, bu yüzden yedi ses sekiz kaydı karşılar.¶
+şarkıSözü: 'la li lu le lo li la'
+
+¶Her çalgı için bir düğme: simge, adının üstünde durur, böylece birbirine karışmazlar. Choice()'ın okuduğu şey seçilebilir ifadelerdir ve geçerli olan daha parlak çizilir, böylece nerede olduğunu görebilirsin.¶
+ƒ düğme(ses5•ses2)
+	Grup(
+		Yığın(dolgu: 0.1m)
+		[
+			İfadeetmek(ses5.simge 1.1m)
+			İfadeetmek(ses5.etiket 0.5m)
+		]
+		isim: ses5.etiket
+		seçilebilir: ⊤
+		renk: (ses5.etiket = güncel.etiket)
+		? Renk(95% 60 ses5.ton)
+			Renk(60% 8 ses5.ton)
+	)
+
+¶Görünen her şey bir Stack içine girer. Bir Stage, her bir çocuğunu kendi ekseninde ortalar, bu yüzden kendi başlarına bırakılırlarsa hepsi üst üste biner — düzenin, onların birbirinin üstüne sıralanacağını belirtmesi gerekir.
+
+Düğmeler Row değil Grid içine girer. Hepsi bir satıra konursa bir telefondan daha geniş olur, bir Stage da içeriğini sığdırmak için küçültür, böylece etiketler okunamayacak kadar küçülür. Sadece kolonlar belirtilir: satırları belirtmeden bırak, Grid kaç satıra gerek olduğunu kendisi hesaplar, böylece bir çalgı eklemek bu kodu değiştirmek anlamına gelmez.
+
+Müzik, çalgının adını almak yerine baştan sona tek bir isim taşır. Bir 🎼'nin adı onun kimliğidir: onu yeniden adlandırırsan çalar farklı bir parçanın başladığını duyar, böylece melodi her değişimde başa sıçrardı ve nota, kaydırılıp kaybolana kadar eski çalgının notalarını yeni çalgının yanında çizerdi.¶
+Sahne(
+	[
+		Grup(
+			Yığın(dolgu: 0.6m)
+			[
+				İfadeetmek(güncel.simge 2.5m)
+				İfadeetmek(güncel.etiket 1.2m)
+				Grup(
+					Izgara(sütunlar: 5 dolgu: 0.4m)
+					sesler.tercümeetmek(ƒ(ses6•ses2) düğme(ses6))
+				)
+			]
+		)
+		Müzik(
+			Parça(melodi2 çalgı: güncel.ses3 kelimeler: şarkıSözü)
+			tempo: 120beats/min
+			gam: Müzik.pentatonik
+			isim: 'melodi'
+		)
+	]
+	arkaplan: Renk(14% 12 280°)
+	renk: Renk(95% 0 0°)
+)

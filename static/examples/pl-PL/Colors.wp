@@ -1,0 +1,18 @@
+w
+Pokaz kolorów
+===
+¶Kliknij, aby losowo poruszyć i przekolorować słowo „wow”.¶
+kolor2: Kolor(0% 0 0°) … ∆ Przycisk() … Kolor(
+			50%
+			Losowy() × 200
+			Losowy() × 360°
+		)
+
+Wyrażenie(
+	'wow'
+	nazwa: 'kotek'
+	rozmiar: 6m
+	kolor: kolor2
+	obrót: (Losowy() - 0.5) × 30°
+	czastrwania: .1s
+)

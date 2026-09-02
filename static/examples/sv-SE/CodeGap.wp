@@ -1,0 +1,198 @@
+👩‍💻
+Kodlucka
+=== start/en
+¶Detta projekt visar verklig, offentlig data om hur många kvinnor som tar examen i datavetenskap i USA, och hur det har förändrats över tid.
+
+Det lånar två datatabeller, en som heter years och en som heter fields, och låter dig sedan välja en av tre vyer med knapparna högst upp. Varje vy är ett stapeldiagram gjort av kvinnoemojier, med en förklaring på vanligt språk i sidfoten.¶
+↓ years
+↓ fields
+
+¶Fyllningsfunktionen skapar en enda solid stapel. Den upprepar kvinnoemojin counttal gånger och slår ihop dem till en enda textsträng utan mellanrum, så att radenser ut som en sammanhängande stapel istället för separata punkter.¶
+ƒ fyllning(antal2•#) (antal2 → []).översätta(ƒ() '👩').anslutasigtill(
+		''
+	)
+
+¶Diagramfunktionen ritar ett stapeldiagram från tre matchande listor: en etikett, enstapellängd i emoji, och ett värde. Varje stapel är en rad i en vänsterjusteradstapling, så att alla staplar börjar vid samma kant och deras längder kan jämförasdirekt. Etiketten och värdet ligger i slutet av varje stapel på samma rad,vilket håller dem i linje med sin stapel.¶
+ƒ diagram(etiketter•[''] enheter•[#] värden•[''])
+	Grupp(
+		Stack('<' stoppning: 0.2m)
+		enheter.översätta(
+			ƒ(u•# i•#)
+				Grupp(
+					Rad('|' stoppning: 0.3m)
+					[
+						Fras(fyllning(u) storlek: 0.3m)
+						Fras(
+							`\etiketter[i]\ \värden[i]\`
+							storlek: 0.28m
+							färg: Färg(45% 0 0°)
+						)
+					]
+				)
+		)
+	)
+
+¶Vy 1 — "Uppgången och nedgången".För varje år i datan ritar vi en stapel vars längd är andelen datavetenskapsexamensom kvinnor tog. Varje kvinnoemoji står för ungefär5 procent, så vi delar procenten med 5 för att få stapellängden.¶
+tidsrader: (years ⎡?år2 procent⎦ ⊤) → []
+tidsvy: diagram(
+		tidsrader.översätta(ƒ(rad) rad.år2)
+		tidsrader.översätta(ƒ(rad2) (rad2.procent ÷ 5).runda())
+		tidsrader.översätta(
+			ƒ(rad3) (rad3.procent.runda() → '') + '%'
+		)
+	)
+
+¶Vy 2 — "Ett ämne som skiljer sig".Vi jämför andelen kvinnor inom olika studieämnen under ettsenare år. Raderna är redan ordnade från flest kvinnor tillfärst, så datavetenskap hamnar längst ner i diagrammet.¶
+fältrader: (fields ⎡?fält procent2⎦ ⊤) → []
+fältvy: diagram(
+		fältrader.översätta(ƒ(rad4) rad4.fält)
+		fältrader.översätta(
+			ƒ(rad5) (rad5.procent2 ÷ 5).runda()
+		)
+		fältrader.översätta(ƒ(rad6) (rad6.procent2 → '') + '%')
+	)
+
+¶Vy 3 — "Fler kvinnor, mindre andel".Det här är två olika mätningar, så vi ritar dem som två separatadiagram sida vid sida. Det vänstra diagrammet räknar kvinnor (varje emoji är ungefär 2 000personer); det högra diagrammet visar deras andel av alla examina (varje emoji ärungefär 5 procent). Inom varje diagram använder de två staplarna samma enhet, så deär jämförbara: antalet nästan fördubblas medan andelen minskar.¶
+antalsrader: (years ⎡?år2 kvinnor procent⎦ ((år2 = '1984') | (år2 = '2022'))) → []
+gammal: antalsrader[1]
+nu: antalsrader[2]
+
+kvinnodiagram: diagram(
+		['1984' '2022']
+		[
+			(gammal.kvinnor ÷ 2000).runda()
+			(nu.kvinnor ÷ 2000).runda()
+		]
+		[gammal.kvinnor → '' nu.kvinnor → '']
+	)
+andelsdiagram: diagram(
+		['1984' '2022']
+		[(gammal.procent ÷ 5).runda() (nu.procent ÷ 5).runda()]
+		[
+			(gammal.procent.runda() → '') + '%'
+			(nu.procent.runda() → '') + '%'
+		]
+	)
+antalsvy: Grupp(
+		Rad('<' stoppning: 1.5m)
+		[
+			Grupp(
+				Stack('|' stoppning: 0.3m)
+				[
+					Fras(
+						`/Kvinnor som tar examen i datavetenskap/`
+						storlek: 0.28m
+					)
+					kvinnodiagram
+				]
+			)
+			Grupp(
+				Stack('|' stoppning: 0.3m)
+				[
+					Fras(
+						`/Deras andel av alla datavetenskapsexamina/`
+						storlek: 0.28m
+					)
+					andelsdiagram
+				]
+			)
+		]
+	)
+
+¶De tre knapparna. Val visar namnet på den valbara Phrase som läsaren senast klickade på. Vi börjar på tidsvyn och uppdaterar när gångenvalet ändras.¶
+val: Val()
+nuvarande: 'time' … ∆ val … val
+
+flikar: Grupp(
+		Rad('|' stoppning: 0.6m)
+		[
+			Fras(
+				'▸ Över tid'
+				valbara: ⊤
+				namn: 'time'
+				storlek: 0.35m
+				färg: Färg(60% 50 20°)
+			)
+			Fras(
+				'▸ Efter ämne'
+				valbara: ⊤
+				namn: 'fields'
+				storlek: 0.35m
+				färg: Färg(60% 50 140°)
+			)
+			Fras(
+				'▸ Antal jämfört med andel'
+				valbara: ⊤
+				namn: 'antal'
+				storlek: 0.35m
+				färg: Färg(60% 50 280°)
+			)
+		]
+	)
+
+¶Välj diagrammet och sidfoten för den aktuella vyn.¶
+innehåll2: nuvarande = 'time' ? tidsvy (nuvarande = 'fields' ? fältvy antalsvy)
+
+sidfot:
+	nuvarande = 'time' ?
+		Fras(
+			`/Andelen amerikanska kandidatexamina i datavetenskap som togs av kvinnor nådde sin topp på 37 % 1984, sjönk därefter under ungefär 25 år till omkring 18 % kring 2008, och har bara återhämtat sig långsamt. Varje 👩 ≈ 5 %. Källa: NCES Digest of Education Statistics, tabell 325.35./`
+			sjal: 9m
+			storlek: 0.26m
+		)
+		nuvarande = 'fields' ?
+			Fras(
+				`/Kring 2018 tog kvinnor de flesta examina i psykologi och biologi, ungefär hälften av examina i matematik och samhällsvetenskap, men under 20 % av examina i datavetenskap — nästan den lägsta andelen av alla ämnen. Varje 👩 ≈ 5 %. Källa: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
+				sjal: 9m
+				storlek: 0.26m
+			)
+			Fras(
+				`/1984 tog omkring 12 000 kvinnor examen i datavetenskap — 37 % av alla. År 2022 var de över 24 000, dubbelt så många personer, men bara 23 %: ämnet växte så snabbt att antalet män växte ännu snabbare. Ett ökande antal kan fortfarande vara en minskande andel. Källa: NCES./`
+				sjal: 9m
+				storlek: 0.26m
+			)
+
+Etapp(
+	[
+		Grupp(
+			Stack('|' stoppning: 0.4m)
+			[
+				Fras(`KODLUCKA` storlek: 0.7m ansikte: 'Monoton')
+				Fras(
+					`/Vem tar examen i datavetenskap?/`
+					storlek: 0.35m
+				)
+				flikar
+				innehåll2
+				sidfot
+			]
+		)
+	]
+	ansikte: 'Quicksand'
+)
+=== years/en
+¶Andel amerikanska kandidatexamina inom data- och informationsvetenskap som tagits av kvinnor, per år, med antalet kvinnor och det totala antaletexamina. Källa: National Center for Education Statistics, Digest ofEducation Statistics, tabell 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+⎡år2•'' kvinnor•# totalt•# procent•#⎦
+⎡'1971' 324 2388 13.6⎦
+⎡'1976' 1118 5652 19.8⎦
+⎡'1984' 12023 32439 37.1⎦
+⎡'1990' 8188 27347 29.9⎦
+⎡'1995' 6749 24506 27.5⎦
+⎡'2001' 12219 44142 27.7⎦
+⎡'2005' 11986 54111 22.2⎦
+⎡'2008' 6792 38523 17.6⎦
+⎡'2011' 7589 43066 17.6⎦
+⎡'2015' 10742 59586 18⎦
+⎡'2019' 18316 88638 20.7⎦
+⎡'2022' 24542 108503 22.6⎦
+=== fields/en
+¶Andel amerikanska kandidatexamina som tagits av kvinnor inom varje studieämne,kring 2018, ordnat från högsta till lägsta andel. Källa: NationalScience Foundation, NCSES, Women, Minorities, and Persons with Disabilitiesin Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+⎡fält•'' procent2•#⎦
+⎡'Psykologi' 72⎦
+⎡'Biologi' 60⎦
+⎡'Samhällsvetenskap' 55⎦
+⎡'Matematik och statistik' 42⎦
+⎡'Naturvetenskap' 41⎦
+⎡'Geovetenskap' 38⎦
+⎡'Ingenjörsvetenskap' 22⎦
+⎡'Datavetenskap' 20⎦

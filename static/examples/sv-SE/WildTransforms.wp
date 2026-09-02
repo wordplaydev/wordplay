@@ -1,0 +1,14 @@
+🐈
+Vilda omvandlingar
+===
+¶En katt som stresstestar skala, snurrning och förskjutning samtidigt.¶
+Fras(
+	"🐈"
+	storlek: 10m
+	vilande: Pose(
+		skala: 2
+		offset: Plats(1m 1m 5m)
+		rotation: (Tid(500ms) % 360) × 1°/ms
+	)
+	varaktighet: 0.25s
+)

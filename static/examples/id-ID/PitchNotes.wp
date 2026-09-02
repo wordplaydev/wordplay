@@ -1,0 +1,56 @@
+🎵
+Nada nada musik
+===
+¶Nyanyi atau bergumamlah, lalu lihat nada yang kamu buat — dua kali. Nada di kiri membaca @Pitch mentah dan bergetar naik turun; nada di kanan merata-ratakan beberapa nada terakhir dan tetap stabil. @Pitch menunjukkan 0hz saat tidak mendengar apa pun dengan jelas, jadi kedua nada melewati saat-saat itu dan menampilkan · sebagai gantinya.¶
+nada2: [
+		'A'
+		'A♯'
+		'B'
+		'C'
+		'C♯'
+		'D'
+		'D♯'
+		'E'
+		'F'
+		'F♯'
+		'G'
+		'G♯'
+	]
+nadaDari: ƒ(hz•#hz) hz > 0hz ? nada2[(((((12 × (hz ÷ 440hz).log(
+										2
+									)).bulat(
+							)) % 12) + 12) % 12) + 1] '·'
+halus2: ƒ(sinyal•…#hz) (
+			terdengar: (←← 8 sinyal).tanpa(0hz)
+			(terdengar.gabungan(0hz ƒ(total•#hz v•#hz) total + v) ÷ terdengar.panjang(
+					)) ?? 0hz
+		)
+tinggiNada: Melempar()
+Panggung(
+	[
+		Kelompok(
+			Tumpukan()
+			[
+				Frasa('berisik' warna: Warna(60% 90 30°))
+				Frasa(
+					nadaDari(tinggiNada)
+					ukuran: 6m
+					warna: Warna(60% 90 30°)
+				)
+			]
+			tempat: Tempat(-4m 0m)
+		)
+		Kelompok(
+			Tumpukan()
+			[
+				Frasa('halus' warna: Warna(70% 90 240°))
+				Frasa(
+					nadaDari(halus2(tinggiNada))
+					ukuran: 6m
+					warna: Warna(70% 90 240°)
+				)
+			]
+			tempat: Tempat(4m 0m)
+		)
+	]
+)

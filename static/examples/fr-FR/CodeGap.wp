@@ -1,0 +1,207 @@
+👩‍💻
+Écart de code
+=== start/en
+¶Ce projet montre des données réelles et publiques sur le nombre de femmes qui obtiennent un diplôme en informatique aux États-Unis, et sur la façon dont ce nombre a changé. Il utilise deux tableaux de données, l'un nommé années et l'autre champs, puis te laisse choisir l'une des trois vues grâce aux boutons en haut. Chaque vue est un graphique en barres fait d'émojis de femmes, avec une explication en langage simple dans le pied de page.¶
+↓ years
+↓ fields
+
+¶La fonction fill fabrique une seule barre pleine. Elle répète l'émoji femme count fois et les assemble en un seul morceau de texte sans espace, pour que la rangée ressemble à une barre continue plutôt qu'à des points séparés.¶
+ƒ remplissage(compte2•#) (compte2 → []).traduire(ƒ() '👩').rejoindre(
+		''
+	)
+
+¶La fonction chart dessine un diagramme en barres à partir de trois listes assorties : une étiquette, une longueur de barre en émoji, et une valeur. Chaque barre est une rangée d'une pile alignée à gauche, donc toutes les barres commencent au même bord et leurs longueurs peuvent être comparées directement. L'étiquette et la valeur sont placées au bout de chaque barre, sur la même rangée, ce qui les garde alignées avec leur barre.¶
+ƒ graphique(étiquettes•[''] unités•[#] valeurs•[''])
+	Groupe(
+		Empiler('<' rembourrage: 0.2m)
+		unités.traduire(
+			ƒ(u•# i•#)
+				Groupe(
+					Rangée('|' rembourrage: 0.3m)
+					[
+						Phrase(remplissage(u) taille: 0.3m)
+						Phrase(
+							`\étiquettes[i]\ \valeurs[i]\`
+							taille: 0.28m
+							couleur: Couleur(45% 0 0°)
+						)
+					]
+				)
+		)
+	)
+
+¶Vue 1 — « La montée et la chute ». Pour chaque année des données, on dessine une barre dont la longueur est le pourcentage de diplômes en informatique obtenus par des femmes. Chaque émoji femme représente environ 5 pour cent, donc on divise le pourcentage par 5 pour obtenir la longueur de la barre.¶
+lignesDeTemps: (years ⎡?année2 pourcentage⎦ ⊤) → []
+vueTemps: graphique(
+		lignesDeTemps.traduire(ƒ(rangée) rangée.année2)
+		lignesDeTemps.traduire(
+			ƒ(rangée2) (rangée2.pourcentage ÷ 5).rond()
+		)
+		lignesDeTemps.traduire(
+			ƒ(rangée3) (rangée3.pourcentage.rond() → '') + '%'
+		)
+	)
+
+¶Vue 2 — « Un domaine décalé ». On compare la part des femmes dans différents domaines d'études, pour une année récente. Les rangées sont déjà classées de la plus grande part de femmes à la plus petite, donc l'informatique se retrouve en bas du diagramme.¶
+lignesDeChamps: (fields ⎡?champ pourcentage2⎦ ⊤) → []
+vueChamps: graphique(
+		lignesDeChamps.traduire(ƒ(rangée4) rangée4.champ)
+		lignesDeChamps.traduire(
+			ƒ(rangée5) (rangée5.pourcentage2 ÷ 5).rond()
+		)
+		lignesDeChamps.traduire(
+			ƒ(rangée6) (rangée6.pourcentage2 → '') + '%'
+		)
+	)
+
+¶Vue 3 — « Plus de femmes, mais une part plus petite ». Ce sont deux mesures différentes, donc on les dessine sous forme de deux diagrammes séparés, côte à côte. Le diagramme de gauche compte les femmes (chaque émoji représente environ 2 000 personnes) ; le diagramme de droite montre leur part parmi tous les diplômes (chaque émoji représente environ 5 pour cent). Dans chaque diagramme, les deux barres utilisent la même unité, donc elles sont comparables : le nombre presque double, tandis que la part diminue.¶
+lignesDeCompte: (years ⎡?année2 femmes pourcentage⎦ ((année2 = '1984') | (année2 = '2022'))) → []
+ancien: lignesDeCompte[1]
+maintenant: lignesDeCompte[2]
+
+graphiqueFemmes: graphique(
+		['1984' '2022']
+		[
+			(ancien.femmes ÷ 2000).rond()
+			(maintenant.femmes ÷ 2000).rond()
+		]
+		[ancien.femmes → '' maintenant.femmes → '']
+	)
+graphiquePart: graphique(
+		['1984' '2022']
+		[
+			(ancien.pourcentage ÷ 5).rond()
+			(maintenant.pourcentage ÷ 5).rond()
+		]
+		[
+			(ancien.pourcentage.rond() → '') + '%'
+			(maintenant.pourcentage.rond() → '') + '%'
+		]
+	)
+vueComptes: Groupe(
+		Rangée('<' rembourrage: 1.5m)
+		[
+			Groupe(
+				Empiler('|' rembourrage: 0.3m)
+				[
+					Phrase(
+						`/Femmes obtenant des diplômes en informatique/`
+						taille: 0.28m
+					)
+					graphiqueFemmes
+				]
+			)
+			Groupe(
+				Empiler('|' rembourrage: 0.3m)
+				[
+					Phrase(
+						`/Leur part parmi tous les diplômes en informatique/`
+						taille: 0.28m
+					)
+					graphiquePart
+				]
+			)
+		]
+	)
+
+¶Les trois boutons. Choice indique le nom du dernier Phrase sélectionnable sur lequel le lecteur a cliqué. On commence sur la vue chronologique, et elle se met à jour à chaque changement de choix.¶
+choix: Choix()
+actuel: 'time' … ∆ choix … choix
+
+onglets: Groupe(
+		Rangée('|' rembourrage: 0.6m)
+		[
+			Phrase(
+				'▸ Dans le temps'
+				sélectionnable: ⊤
+				nom: 'time'
+				taille: 0.35m
+				couleur: Couleur(60% 50 20°)
+			)
+			Phrase(
+				'▸ Par domaine'
+				sélectionnable: ⊤
+				nom: 'fields'
+				taille: 0.35m
+				couleur: Couleur(60% 50 140°)
+			)
+			Phrase(
+				'▸ Nombre contre part'
+				sélectionnable: ⊤
+				nom: 'nombres'
+				taille: 0.35m
+				couleur: Couleur(60% 50 280°)
+			)
+		]
+	)
+
+¶Choisis le diagramme et le pied de page pour la vue actuelle.¶
+corps: actuel = 'time' ? vueTemps (actuel = 'fields' ? vueChamps vueComptes)
+
+piedDePage:
+	actuel = 'time' ?
+		Phrase(
+			`/La part des diplômes de licence en informatique obtenus par des femmes aux États-Unis a atteint un sommet de 37 % en 1984, puis a chuté pendant environ 25 ans jusqu'à environ 18 % vers 2008, avant de remonter très lentement. Chaque 👩 ≈ 5 %. Source : NCES Digest of Education Statistics, tableau 325.35./`
+			envelopper: 9m
+			taille: 0.26m
+		)
+		actuel = 'fields' ?
+			Phrase(
+				`/Vers 2018, les femmes obtenaient la plupart des diplômes en psychologie et en biologie, environ la moitié des diplômes en mathématiques et en sciences sociales, mais moins de 20 % des diplômes en informatique — presque la part la plus faible de tous les domaines. Chaque 👩 ≈ 5 %. Source : NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
+				envelopper: 9m
+				taille: 0.26m
+			)
+			Phrase(
+				`/En 1984, environ 12 000 femmes ont obtenu un diplôme en informatique — soit 37 % du total. En 2022, elles étaient plus de 24 000, deux fois plus de personnes, et pourtant seulement 23 % : le domaine a grandi si vite que le nombre d'hommes a augmenté encore plus vite. Un nombre en hausse peut quand même être une part en baisse. Source : NCES./`
+				envelopper: 9m
+				taille: 0.26m
+			)
+
+Scène(
+	[
+		Groupe(
+			Empiler('|' rembourrage: 0.4m)
+			[
+				Phrase(
+					`ÉCART DE CODE`
+					taille: 0.7m
+					affronter: 'Monoton'
+				)
+				Phrase(
+					`/Qui obtient des diplômes en informatique ?/`
+					taille: 0.35m
+				)
+				onglets
+				corps
+				piedDePage
+			]
+		)
+	]
+	affronter: 'Quicksand'
+)
+=== years/en
+¶Pourcentage des diplômes de licence en informatique et en sciences de l'information obtenus par des femmes aux États-Unis, par année, avec le nombre de femmes et le nombre total de diplômes. Source : National Center for Education Statistics, Digest of Education Statistics, tableau 325.35. https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+⎡année2•'' femmes•# total•# pourcentage•#⎦
+⎡'1971' 324 2388 13.6⎦
+⎡'1976' 1118 5652 19.8⎦
+⎡'1984' 12023 32439 37.1⎦
+⎡'1990' 8188 27347 29.9⎦
+⎡'1995' 6749 24506 27.5⎦
+⎡'2001' 12219 44142 27.7⎦
+⎡'2005' 11986 54111 22.2⎦
+⎡'2008' 6792 38523 17.6⎦
+⎡'2011' 7589 43066 17.6⎦
+⎡'2015' 10742 59586 18⎦
+⎡'2019' 18316 88638 20.7⎦
+⎡'2022' 24542 108503 22.6⎦
+=== fields/en
+¶Pourcentage des diplômes de licence obtenus par des femmes aux États-Unis dans chaque domaine d'études, vers 2018, classé de la part la plus élevée à la plus faible. Source : National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering. https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+⎡champ•'' pourcentage2•#⎦
+⎡'Psychologie' 72⎦
+⎡'Biologie' 60⎦
+⎡'Sciences sociales' 55⎦
+⎡'Maths et stats' 42⎦
+⎡'Sciences physiques' 41⎦
+⎡'Sciences de la Terre' 38⎦
+⎡'Ingénierie' 22⎦
+⎡'Informatique' 20⎦

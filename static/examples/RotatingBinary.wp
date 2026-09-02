@@ -1,6 +1,6 @@
 1
 "RotatingBinary"/en"旋转二进制"/zh-CN"旋轉二進位"/zh-TW
-===start/en
+=== start/en
 ¶A field of ones and zeros, slowly spinning in place.¶
 slowSpin:Sequence.spin(10s "straight")
 

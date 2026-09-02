@@ -1,0 +1,50 @@
+1
+DönenİkiliSayı
+=== start/en
+¶Yerinde yavaşça dönen bir sıfır ve bir alanı.¶
+yavaşDönüş: Sekans.döndürmek(10s "straight")
+
+Sahne(
+	[
+		İfadeetmek(
+			'1'
+			yer: Yer(-0.5m -0.125m 0m)
+			dinlenme: yavaşDönüş
+		)
+		İfadeetmek(
+			'0'
+			yer: Yer(1.25m -0.25m 0m)
+			dinlenme: yavaşDönüş
+		)
+		İfadeetmek(
+			'1'
+			yer: Yer(-2.3125m 0.0625m 0m)
+			dinlenme: yavaşDönüş
+		)
+		İfadeetmek(
+			'0'
+			yer: Yer(-1.6875m -1m 0m)
+			dinlenme: yavaşDönüş
+		)
+		İfadeetmek(
+			'1'
+			yer: Yer(-1.4375m 0.75m 0m)
+			dinlenme: yavaşDönüş
+		)
+		İfadeetmek(
+			'0'
+			yer: Yer(0.375m -1.3125m 0m)
+			dinlenme: yavaşDönüş
+		)
+		İfadeetmek(
+			'0'
+			yer: Yer(-0.6875m -1.75m 0m)
+			dinlenme: yavaşDönüş
+		)
+		İfadeetmek(
+			'1'
+			yer: Yer(0.4375m 1.125m 0m)
+			dinlenme: yavaşDönüş
+		)
+	]
+)

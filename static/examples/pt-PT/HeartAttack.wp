@@ -1,0 +1,549 @@
+🧟
+Ataque de Coração
+=== start/en
+¶Heart Attack — uma versão suave e em primeira pessoa de um battle royale. Fica parado(a) e observa através da câmara do Palco enquanto uma horda de zombies espera à frente.
+
+Um de cada vez, o zombie mais próximo avança lentamente na sua direção. Aponte a sua faixa com ← →, com o ponteiro, ou tocando de um dos lados do ecrã, e atire um coração com Espaço, um clique, ou um toque. Um coração para na primeira figura que encontra, por isso alinhe bem o tiro: acerte num zombie e ele transforma-se de novo numa pessoa feliz, e o(a) jogador(a) ganha um ponto — e cada ponto faz os zombies aproximarem-se mais depressa. Uma pessoa transformada fica no lugar e bloqueia os seus corações, por isso tenha atenção ao ângulo. Transforme todos para vencer; deixe um zombie chegar até si e o jogo termina. Enter ou um toque inicia o jogo, e reinicia-o.
+
+Cada fase tem a sua própria melodia, e as quatro são construídas a partir do mesmo tema — veja o @Music perto do final.¶
+
+¶Quantos zombies começam no campo.¶
+contagemDeZombies: 8
+
+¶Movimento e câmara, em metros: até onde se desloca lateralmente por cada tecla premida, os seus limites esquerdo/direito, a profundidade fixa da câmara durante o jogo, e onde a câmara se posiciona (mais atrás) enquanto um menu é mostrado.¶
+passoLateral: 1.2m
+limiteEsquerdo: -8m
+limiteDireito: 8m
+profundidadeDeJogo: -1m
+profundidadeDoMenu: -10m
+
+¶Onde os zombies aparecem — espalhados de perto a longe, todos bem à sua frente — e a área dentro da qual os que vagueiam se movem (a sua margem mais próxima mantida à sua frente, para que só os que avançam a correr consigam realmente chegar até si).¶
+profundidadeDeAparecimentoPróxima: 6m
+profundidadeDeAparecimentoDistante: 22m
+profundidadeDeDeambulaçãoPróxima: 3m
+profundidadeDeDeambulaçãoDistante: 24m
+
+¶Ajustes de corações e colisões: como um coração voa e desvanece, como atinge o alvo, quão perto um zombie tem de chegar para terminar o jogo, e como os que avançam a correr se movem — aproximando-se, vagueando, oscilando, seguindo-o(a) e acelerando a cada ponto. Os dois zombies mais próximos avançam a correr ao mesmo tempo; os restantes vagueiam.¶
+velocidadeDoCoração: 1m
+alcanceDoCoração: 26m
+raioDeAcerto: 1.8m
+distânciaDeAlcance: 1.8m
+velocidadeBaseDeCarga: 0.1m
+velocidadeDeDeambulação: 0.1m
+weaveSpeed: 0.12m
+weaveWidth: 1.8m
+velocidadeDeRegresso: 0.05m
+aumentoDeVelocidadePorPonto: 0.2
+
+¶As pessoas felizes em que um zombie convertido se pode transformar.¶
+pessoas: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '🧑‍🎤' '🦸' '🧚' '🧑‍🍳' '🕺' '💃' '🧑‍⚕']
+
+¶Uma figura no campo: uma posição, uma direção de deambulação em cada eixo (cada uma -1 ou 1, usada apenas enquanto vagueia), se ainda é um zombie, e qual o emoji a mostrar (🧟 enquanto zombie, uma pessoa depois de transformada).¶
+•zombie(x2•#m z2•#m direçãoX•# direçãoZ•# vivo•? rosto2•"")
+
+¶O jogo inteiro num único valor: a fase (1 = início, 2 = a jogar, 3 = vitória, 4 = derrota), a posição da câmara/jogador(a), o estado do coração, a pontuação, e todos os que estão no campo.¶
+•jogo(fase•# câmaraX•#m zDaCâmara•#m coração•? coraçãoX•#m coraçãoZ•#m coraçãoInício•#m pontuação•# zombies•[zombie])
+
+¶A distância ao quadrado é melhor do que uma distância real neste caso: sem raízes quadradas, e as unidades mantêm-se simples (metros vezes metros), para que a comparação seja sempre válida quanto ao tipo.¶
+ƒ perto(umX•#m umZ•#m doisX•#m doisZ•#m raio2•#m)
+	(((umX - doisX) · (umX - doisX)) + ((umZ - doisZ) · (umZ - doisZ))) < (raio2 · raio2)
+
+¶Quantas figuras ainda são zombies.¶
+ƒ contagemVivos(zombies2•[zombie]) zombies2.filtro(
+		ƒ(zombie2•zombie) zombie2.vivo
+	).comprimento(
+	)
+
+¶Avança um passo lentamente em direção ao(à) jogador(a): para a frente em profundidade enquanto oscila de um lado para o outro para ser mais difícil de acertar, invertendo a oscilação nas margens de uma faixa à volta da sua posição, e seguindo-o(a) suavemente entre oscilações, para que um desvio só ganhe um momento.¶
+ƒ avançarParaJogador(zombie3•zombie câmaraX2•#m velocidadeAvanço•#m) (
+		entrelaçadoX: zombie3.x2 + (zombie3.direçãoX · weaveSpeed)
+		guiadoX: entrelaçadoX + ((câmaraX2 - entrelaçadoX).máx(
+						velocidadeDeRegresso · -1
+					)).min(
+					velocidadeDeRegresso
+				)
+		naBorda: (entrelaçadoX > (câmaraX2 + weaveWidth)) | (entrelaçadoX < (câmaraX2 - weaveWidth))
+		zombie(
+			guiadoX
+			(zombie3.z2 - velocidadeAvanço)
+			(naBorda ? (zombie3.direçãoX · -1) zombie3.direçãoX)
+			zombie3.direçãoZ
+			zombie3.vivo
+			zombie3.rosto2
+		)
+	)
+
+¶Vagueia um passo: desloca-se segundo a direção de deambulação, ressaltando nas margens do campo ao ficar parado e inverter a direção em que ia.¶
+ƒ vaguear(zombie4•zombie velocidade2•#m) (
+		novoX: zombie4.x2 + (zombie4.direçãoX · velocidade2)
+		novoZ: zombie4.z2 + (zombie4.direçãoZ · velocidade2)
+		ressaltoX: (novoX > limiteDireito) | (novoX < limiteEsquerdo)
+		ressaltoZ: (novoZ > profundidadeDeDeambulaçãoDistante) | (novoZ < profundidadeDeDeambulaçãoPróxima)
+		zombie(
+			(ressaltoX ? zombie4.x2 novoX)
+			(ressaltoZ ? zombie4.z2 novoZ)
+			(ressaltoX ? (zombie4.direçãoX · -1) zombie4.direçãoX)
+			(ressaltoZ ? (zombie4.direçãoZ · -1) zombie4.direçãoZ)
+			zombie4.vivo
+			zombie4.rosto2
+		)
+	)
+
+¶Novo campo de zombies, espalhados de perto a longe, dispersos da esquerda para a direita, cada um vagueando de forma aleatória.¶
+ƒ gerarZombies()
+	(contagemDeZombies → []).traduzir(
+		ƒ(índice2•#)
+			zombie(
+				Aleatório(limiteEsquerdo limiteDireito)
+				(profundidadeDeAparecimentoPróxima + (índice2 · ((profundidadeDeAparecimentoDistante - profundidadeDeAparecimentoPróxima) ÷ contagemDeZombies)))
+				[-1 1].aleatório()
+				[-1 1].aleatório()
+				⊤
+				'🧟'
+			)
+	)
+
+¶Iniciar uma nova ronda: a jogar, câmara ao nível dos olhos, sem coração, sem pontuação.¶
+ƒ novoJogo() jogo(
+		2
+		0m
+		profundidadeDeJogo
+		⊥
+		0m
+		0m
+		0m
+		0
+		gerarZombies()
+	)
+
+¶Lança um coração pela tua faixa atual, a não ser que já haja um no ar. Começa mesmo à frente de onde estás, não de onde está a câmara, pela mesma razão do teste de alcance.¶
+ƒ lançarCoração(jogo2•jogo)
+	jogo2.coração ? jogo2 jogo(
+			jogo2.fase
+			jogo2.câmaraX
+			jogo2.zDaCâmara
+			⊤
+			jogo2.câmaraX
+			(profundidadeDeJogo + 1m)
+			profundidadeDeJogo
+			jogo2.pontuação
+			jogo2.zombies
+		)
+
+¶Empurra a tua faixa um passo em direção a um ponto, nunca além dos teus limites. O ponteiro indica o ponto do mundo sobre o qual está, por isso a sua distância à tua faixa mostra o quanto está à tua esquerda ou direita — dar um passo em direção a ele permite ao ponteiro apontar, e um toque de um dos lados move-te nessa direção.¶
+ƒ focarEmDireçãoA(jogo3•jogo alvo•#m)
+	jogo3.câmaraX:(jogo3.câmaraX + ((alvo - jogo3.câmaraX).máx(
+					passoLateral · -1
+				)).min(
+				passoLateral
+			)).máx(
+		limiteEsquerdo
+	).min(
+		limiteDireito
+	)
+
+¶Uma tecla pressionada durante o jogo: mover para a esquerda ou direita, ou lançar um coração.¶
+ƒ aplicarTeclaPressionada(jogo4•jogo chave2•"")
+	(chave2 = 'Seta para a esquerda') ? focarEmDireçãoA(
+			jogo4
+			(jogo4.câmaraX - passoLateral)
+		)
+		(chave2 = 'Seta para a direita') ? focarEmDireçãoA(
+				jogo4
+				(jogo4.câmaraX + passoLateral)
+			)
+			(chave2 = 'Espaço') ? lançarCoração(jogo4)
+				jogo4
+
+¶Um fotograma do mundo: o coração voa até atingir a primeira figura no seu caminho (uma pessoa transformada bloqueia-o tal como um zombie), transforma um zombie atingido, faz avançar os dois zombies mais próximos na direção do jogador enquanto os restantes vagueiam, depois verifica se há uma vitória (todos transformados) ou uma derrota (um zombie chegou até ti). Numa vitória ou derrota, a câmara fica parada no ponto do menu.¶
+ƒ avançarMundo(jogo5•jogo) (
+		próximoCoraçãoZ: jogo5.coração ? (jogo5.coraçãoZ + velocidadeDoCoração) jogo5.coraçãoZ
+		coraçãoEsbatido: jogo5.coração & ((próximoCoraçãoZ - jogo5.coraçãoInício) > alcanceDoCoração)
+		coraçãoAtivo: jogo5.coração & ~coraçãoEsbatido
+		velocidadeAvanço2: velocidadeBaseDeCarga · (1 + (jogo5.pontuação · aumentoDeVelocidadePorPonto))
+		¶Os zombies vivos mais próximos avançam; as suas profundidades identificam-nos.¶
+		vivoPorProfundidade: jogo5.zombies.filtro(
+				ƒ(zombie5•zombie) zombie5.vivo
+			).ordenado(
+				ƒ(zombie6•zombie) zombie6.z2
+			)
+		primeiraProfundidadeDoCarregador: (vivoPorProfundidade.comprimento(
+				) ≥ 1) ? vivoPorProfundidade[1].z2 -999m
+		segundaProfundidadeDoCarregador: (vivoPorProfundidade.comprimento(
+				) ≥ 2) ? vivoPorProfundidade[2].z2 -999m
+		figurasNoCaminho: coraçãoAtivo ? jogo5.zombies.filtro(
+					ƒ(zombie7•zombie) perto(
+							zombie7.x2
+							zombie7.z2
+							jogo5.coraçãoX
+							próximoCoraçãoZ
+							raioDeAcerto
+						)
+				) []
+		figuraAtingida: figurasNoCaminho.ordenado(
+				ƒ(zombie8•zombie) zombie8.z2
+			).primeiro(
+			)
+		profundidadeAtingida: (figuraAtingida•ø) ? -999m figuraAtingida.z2
+		aConverter: (figuraAtingida•ø) ? ⊥ figuraAtingida.vivo
+		próximosZombies: jogo5.zombies.traduzir(
+				ƒ(zombie9•zombie)
+					zombie9.vivo ?
+						((aConverter & (zombie9.z2 = profundidadeAtingida)) ? zombie(
+									zombie9.x2
+									zombie9.z2
+									zombie9.direçãoX
+									zombie9.direçãoZ
+									⊥
+									pessoas.aleatório()
+								)
+								(((zombie9.z2 = primeiraProfundidadeDoCarregador) | (zombie9.z2 = segundaProfundidadeDoCarregador)) ? avançarParaJogador(
+											zombie9
+											jogo5.câmaraX
+											velocidadeAvanço2
+										) vaguear(
+											zombie9
+											velocidadeDeDeambulação
+										)))
+						zombie9
+			)
+		contagemConvertida: contagemVivos(jogo5.zombies) - contagemVivos(
+					próximosZombies
+				)
+		próximoCoração: coraçãoAtivo & (figuraAtingida•ø)
+		¶Qualquer zombie vivo que chegue à tua profundidade termina o jogo — seja qual for a sua faixa — para que nenhum consiga passar por ti e criar um estado impossível de ganhar. Isto é medido em relação a\profundidadeDeJogo\, onde tu estás, e nunca em relação à câmara: o palco afasta a câmara em ecrãs pequenos e quem vê pode ainda aproximar mais a imagem, e nada disso deve mudar a distância a que um zombie tem de chegar.¶
+		perdido: próximosZombies.filtro(
+				ƒ(zombie10•zombie) zombie10.vivo & (zombie10.z2 ≤ (profundidadeDeJogo + distânciaDeAlcance))
+			).comprimento(
+			) > 0
+		ganhou: contagemVivos(próximosZombies) = 0
+		próximaFase: ganhou ? 3 (perdido ? 4 2)
+		próximaCâmaraX: (próximaFase = 2) ? jogo5.câmaraX 0m
+		próximaCâmaraZ: (próximaFase = 2) ? jogo5.zDaCâmara profundidadeDoMenu
+		jogo(
+			próximaFase
+			próximaCâmaraX
+			próximaCâmaraZ
+			próximoCoração
+			jogo5.coraçãoX
+			próximoCoraçãoZ
+			jogo5.coraçãoInício
+			(jogo5.pontuação + contagemConvertida)
+			próximosZombies
+		)
+	)
+
+chave3: Chave()
+tique: Tempo(30ms)
+ponteiro: Ponteiro()
+tocar: Botão()
+
+¶O batimento cardíaco do jogo, movido por quatro entradas: um tique do relógio, uma tecla, o movimento do ponteiro e um clique ou toque. Enquanto se joga, um tique faz avançar o mundo, as teclas movem e lançam, o movimento do ponteiro aponta a tua faixa, e um toque lança um coração. A partir de um menu, a tecla Enter ou um toque iniciam uma nova ronda — um toque para que quem usa o ecrã tátil possa começar, e Enter (e não Espaço) para que carregar repetidamente em Espaço para lançar nunca reinicie por engano.¶
+jogo6•jogo: jogo(
+		1
+		0m
+		profundidadeDoMenu
+		⊥
+		0m
+		0m
+		0m
+		0
+		gerarZombies()
+	)
+	… (∆ tique | ∆ chave3 | ∆ ponteiro | ∆ tocar) …
+		(jogo6.fase = 2)
+		? (∆ tique ? avançarMundo(jogo6)
+					(∆ chave3 ? aplicarTeclaPressionada(jogo6 chave3)
+							(∆ ponteiro ? focarEmDireçãoA(
+										jogo6
+										ponteiro.x
+									) lançarCoração(jogo6))))
+			(∆ tique ? jogo6
+					(∆ chave3 ? ((chave3 = 'Entrar') ? novoJogo() jogo6)
+							(∆ tocar ? novoJogo() jogo6)))
+
+¶Uma figura no palco: os zombies balançam, as pessoas transformadas dão um pequeno salto alegre. A profundidade faz o resto — um zombie a avançar parece maior à medida que se aproxima. A duração de 0s faz com que cada passo aconteça de imediato em vez de suavizar, para que o movimento pareça uma sequência de fotogramas nítidos em vez de um seguimento atrasado.¶
+ƒ vistaDoZombie(zombie11•zombie)
+	Frase(
+		zombie11.rosto2
+		2m
+		duração: 0s
+		local: Local(zombie11.x2 0m zombie11.z2)
+		descansar: zombie11.vivo
+		? Sequência.balançar(4° 1s "zippy")
+			Sequência(
+				{
+					0%: Pose(escala: 1)
+					50%: Pose(escala: 1.2)
+					100%: Pose(escala: 1)
+				}
+				0.6s
+			)
+	)
+
+¶O chão: barras a profundidades crescentes que a perspetiva lê como um plano de terreno a afastar-se até ao horizonte, com um desvanecimento de verde para verde-azulado que dá sensação de atmosfera. A primeira barra é a linha que um zombie tem de atravessar para terminar o jogo, desenhada a vermelho de aviso para que a regra seja visível: a câmara afasta-se em ecrãs pequenos e quem vê pode ainda afastar mais a imagem, e um zombie que parece estar longe continua em cima desta linha quando te apanha.¶
+chão: [
+		Frase(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			duração: 0s
+			local: Local(
+				0m
+				-2.8m
+				(profundidadeDeJogo + distânciaDeAlcance)
+			)
+			cor: Cor(58% 55 25°)
+		)
+		Frase(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			duração: 0s
+			local: Local(0m -2.8m 4m)
+			cor: Cor(56% 40 130°)
+		)
+		Frase(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			duração: 0s
+			local: Local(0m -2.8m 6m)
+			cor: Cor(50% 36 136°)
+		)
+		Frase(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			duração: 0s
+			local: Local(0m -2.8m 8m)
+			cor: Cor(45% 32 142°)
+		)
+		Frase(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			duração: 0s
+			local: Local(0m -2.8m 11m)
+			cor: Cor(40% 28 148°)
+		)
+		Frase(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			duração: 0s
+			local: Local(0m -2.8m 15m)
+			cor: Cor(35% 24 154°)
+		)
+		Frase(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			duração: 0s
+			local: Local(0m -2.8m 20m)
+			cor: Cor(31% 20 160°)
+		)
+	]
+
+¶Um coração a voar no mundo, e uma indicação da pontuação fixada no topo do ecrã através da sobreposição do palco, para que fique parada mesmo quando a câmara se move.¶
+vistaDoCoração: Frase(
+		'🫀'
+		1.2m
+		duração: 0s
+		local: Local(jogo6.coraçãoX 0m jogo6.coraçãoZ)
+	)
+mostradorDePontuação: Frase(
+		"🫀 \jogo6.pontuação\"
+		1.2m
+		local: Local(0m 4m)
+	)
+
+¶O texto do menu, partilhado pelos ecrãs de início, vitória e derrota.¶
+títuloDoEcrã: jogo6.fase ???
+		3: '🎉 Salvaste toda a gente! 🎉'
+		4: '💀 Um zombie apanhou-te! 💀'
+		'🫀 ATAQUE CARDÍACO 🫀'
+subtítuloDoEcrã: (jogo6.fase = 1) ? 'Uma horda de zombies está à solta. Faz com que voltem atrás com amor.' "Score: \jogo6.pontuação\"
+linhaInicial: (jogo6.fase = 1) ? 'Prime Enter ou toque para começar' 'Prime Enter ou toque para jogar novamente'
+
+vistaDoEcrã: [
+		Grupo(
+			Monte()
+			[
+				Frase(títuloDoEcrã 1.1m)
+				Frase(subtítuloDoEcrã 0.6m)
+				Frase('← → ou aponte para mirar' 0.5m)
+				Frase(
+					'Espaço, clique ou toque para um coração 🫀'
+					0.5m
+				)
+				Frase(linhaInicial 0.7m)
+			]
+		)
+	]
+
+¶Mostra o campo e o seu chão enquanto se joga, e o menu nos outros casos. Cada lista está vazia na fase errada, e uma lista vazia espalha-se em nada.¶
+listaDePiso: (jogo6.fase = 2) ? chão []
+listaDeZombies: (jogo6.fase = 2) ? jogo6.zombies.traduzir(
+			ƒ(zombie12•zombie) vistaDoZombie(zombie12)
+		) []
+listaDeCorações: ((jogo6.fase = 2) & jogo6.coração) ? [
+			vistaDoCoração
+		] []
+camadaDePontuação: (jogo6.fase = 2) ? [
+			mostradorDePontuação
+		] []
+listaDeEcrãs: (jogo6.fase ≠ 2) ? vistaDoEcrã []
+
+¶A cor do palco reflete o resultado: um verde quente numa vitória, um vermelho escuro numa derrota, e o roxo crepuscular padrão ao iniciar ou ao jogar.¶
+fundoDoPalco: jogo6.fase ???
+		3: Cor(48% 42 145°)
+		4: Cor(22% 45 25°)
+		Cor(25% 20 285°)
+
+¶Um único tema percorre as quatro melodias: sobe a tríade menor até à sexta e volta a descer. O truque é que estes mesmos sete graus soam sinistros na escala menor harmónica e alegres na escala maior, por isso a música de vitória toca exatamente a mesma melodia — só deixa de parecer um filme de terror.
+
+Cada faixa abaixo tem exatamente oito tempos de duração, seja qual for o valor das suas notas, por isso voltam todas ao mesmo ponto em conjunto e cada melodia repete-se sem interrupções.¶
+tema: [1 ø 3 ø 5 ø 6 ø 5 ø 3 ø 1 ø ø ø]
+
+¶À espera de começar: um som contínuo e lento, o tema ao longe tocado por um sino, e um batimento cardíaco por baixo.¶
+cançãoDoMenu: Música(
+		[
+			Faixa(
+				tema
+				instrumento: Instrumento.sino
+				batida: 0.5beats
+				volume: 45%
+			)
+			Faixa(
+				[{1 3 5} {1 3 5} {6 8 10} {5 7 9}]
+				instrumento: Instrumento.sintetizadorPad
+				batida: 2beats
+				volume: 40%
+			)
+			Faixa(
+				[1 ø 1 ø 6 ø 5 ø]
+				instrumento: Instrumento.sintetizadorBaixo
+				batida: 1beats
+				volume: 50%
+			)
+			Faixa(
+				[1 ø ø ø 1 ø ø ø]
+				instrumento: Instrumento.bateria
+				batida: 1beats
+				volume: 30%
+			)
+		]
+		andamento: 72beats/min
+		escala: Música.menorHarmónica
+		nome: 'menu'
+	)
+
+¶A perseguição: o mesmo tema a quase o dobro da velocidade, sobre um baixo contínuo e um bombo que nunca para.¶
+cançãoDePerseguição: Música(
+		[
+			Faixa(
+				tema
+				instrumento: Instrumento.sintetizador
+				batida: 0.5beats
+				volume: 45%
+			)
+			Faixa(
+				[1 ø 1 1 1 ø 1 1 6 ø 6 6 5 ø 5 5]
+				instrumento: Instrumento.sintetizadorBaixo
+				batida: 0.5beats
+				volume: 55%
+			)
+			Faixa(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 1 3]
+				instrumento: Instrumento.bateria
+				batida: 0.5beats
+				volume: 40%
+			)
+		]
+		andamento: 132beats/min
+		escala: Música.menorHarmónica
+		nome: 'perseguição'
+	)
+
+¶A vitória: o mesmo tema em escala maior, duplicado uma oitava acima numa flauta, sobre os acordes mais brilhantes do exemplo. A única melodia alegre aqui.¶
+cançãoDeVitória: Música(
+		[
+			Faixa(
+				tema
+				instrumento: Instrumento.sino
+				batida: 0.5beats
+				volume: 55%
+			)
+			Faixa(
+				tema
+				instrumento: Instrumento.flauta
+				batida: 0.5beats
+				chave: 12semitones
+				volume: 40%
+			)
+			Faixa(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				instrumento: Instrumento.piano
+				batida: 2beats
+				volume: 45%
+			)
+			Faixa(
+				[1 ø 3 ø 2 ø 3 ø]
+				instrumento: Instrumento.bateria
+				batida: 1beats
+				volume: 35%
+			)
+		]
+		andamento: 120beats/min
+		escala: Música.maior
+		nome: 'ganhar'
+	)
+
+¶A derrota: o tema uma oitava abaixo e a metade da velocidade do menu, sobre um zumbido de didgeridoo e acordes que desistem de voltar à tónica — terminam na sexta em vez da tónica, por isso o ciclo nunca se resolve.¶
+cançãoDeDerrota: Música(
+		[
+			Faixa(
+				tema
+				instrumento: Instrumento.sino
+				batida: 0.5beats
+				chave: -12semitones
+				volume: 45%
+			)
+			Faixa(
+				[1 ø ø ø]
+				instrumento: Instrumento.didgeridoo
+				batida: 2beats
+				volume: 50%
+			)
+			Faixa(
+				[{1 3 5} {1 3 5} {6 8 10} {6 8 10}]
+				instrumento: Instrumento.sintetizadorPad
+				batida: 2beats
+				volume: 40%
+			)
+			Faixa(
+				[1 ø ø ø ø ø ø ø]
+				instrumento: Instrumento.bateria
+				batida: 1beats
+				volume: 30%
+			)
+		]
+		andamento: 56beats/min
+		escala: Música.menorHarmónica
+		nome: 'perder'
+	)
+
+¶Só a melodia da fase atual está no palco, e um @Music que já não está presente para — por isso, mudar de fase é o que muda a música.¶
+bandaSonora: jogo6.fase ???
+		1: cançãoDoMenu
+		3: cançãoDeVitória
+		4: cançãoDeDerrota
+		cançãoDePerseguição
+
+Fase(
+	[
+		:listaDePiso
+		:listaDeZombies
+		:listaDeCorações
+		:listaDeEcrãs
+		bandaSonora
+	]
+	local: Local(jogo6.câmaraX 0m jogo6.zDaCâmara)
+	fundo: fundoDoPalco
+	cor: Cor(97% 0 0°)
+	sobreposição: camadaDePontuação
+)

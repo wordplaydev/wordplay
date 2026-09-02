@@ -1,0 +1,647 @@
+🔨
+Khối Xây Dựng
+=== start/en
+¶Xây Khối — chặt, mang và xếp. Bạn là hình người nhỏ trên bãi cỏ xanh rải rác cây và tảng đá. Đi bằng các phím mũi tên; bạn sẽ quay mặt theo hướng đi, và con trỏ nổi cho biết ô bạn sắp tác động tới.
+
+Phím Cách làm cả hai việc, và con trỏ cho biết việc nào. Khi đống vật liệu phía trước cao hơn chân bạn, con trỏ là 🪏 và phím Cách sẽ đập rơi phần trên cùng; khi đống đó thấp bằng hoặc thấp hơn chân bạn, con trỏ là 🔨 và phím Cách sẽ xếp thêm một khối lên đó. Vậy thu thập chỉ là đi tới gần một cây và nhấn phím Cách, còn xây cao lên nghĩa là vừa xếp vừa leo lên. Đi qua một mảnh rời để bỏ nó vào túi — cây cho 🪵 gỗ, tảng đá cho 🧱 gạch — và nhấn Shift để đổi loại bạn muốn xếp.
+
+Bạn chỉ có thể chạm tới một khối cao hơn chân mình một bậc, và con trỏ sẽ mờ đi khi thứ gì đó ở quá xa tầm tay. Một tảng đá cao hai khối, nên bạn có thể chạm đỉnh nó ngay từ mặt đất — nhưng một cây cao ba khối, nên ngọn cây cần thêm độ cao. Nhấn j để nhảy lên và vươn tới đỉnh cây, hoặc xếp một khối, bước lên đó rồi làm việc từ trên cao. Đi bộ không bao giờ giúp bạn leo cao hơn, vậy nên bạn luôn có thể đứng thẳng trước một vật và tác động vào nó.
+
+Các khối mờ cho thấy cấu trúc bạn cần tạo ra, và mỗi khối sẽ trở nên đặc khi bạn khớp đúng nó. Khớp hết tất cả là bạn thắng — mọi thứ khác bạn để lại đó là việc riêng của bạn, nên một bậc bạn xây để leo lên có thể cứ để nguyên như vậy.¶
+
+¶Thế giới là một lưới gồm các ô mang số nguyên, và mét chỉ xuất hiện khi vẽ hình. Điều này giúp mọi vị trí luôn chính xác: đứng cạnh một vật, xếp lên trên một vật, và khớp với mục tiêu đều chỉ là các số nguyên bằng nhau, nên không có gì bao giờ lệch nửa khối ra khỏi hàng.
+
+Cánh đồng chỉ sâu năm ô là có chủ ý, và điều đó liên quan đến việc camera đặt gần đến mức nào — xem phần camera ở gần cuối.¶
+xNhỏNhất: -4
+xLớnNhất: 4
+zNhỏNhất: 0
+zLớnNhất: 4
+yLớnNhất: 4
+
+¶Mặt đất nằm thấp hơn tầm mắt bao xa, tính theo ô. Camera càng gần, mọi thứ hiển thị càng lớn và điều này càng đẩy cánh đồng xuống thấp hơn trên màn hình, nên giá trị này và khoảng cách camera phải thay đổi cùng nhau.¶
+độRơiMặtĐất: 0.8
+
+¶Camera ở phía sau bạn bao xa, tính theo ô. Riêng giá trị này quyết định mọi thứ trông lớn cỡ nào: sân khấu chia theo khoảng cách từ camera, nên lùi ba ô sẽ hiển thị bạn lớn gấp khoảng hai lần rưỡi kích thước thật.¶
+phíaSauMáyQuay: 3
+
+¶Toàn bộ cánh đồng đặt cách gốc tọa độ bao xa. Sân khấu thu nhỏ thế giới theo một chia cho vị trí của camera, và thu nhỏ từng phần theo giá trị nghịch, khiến hai điều này triệt tiêu nhau — trừ khi vị trí của camera chạm mốc không, lúc đó cả khung cảnh sẽ dẹt lại rồi lật ngược ra ngoài. Camera ở cách bạn cameraBack ô, nên đặt cánh đồng ra xa như vậy giúp vị trí của camera luôn ở mức âm an toàn, ngay cả khi bạn đi tới hàng cuối. Việc này không ảnh hưởng gì tới hình dạng mọi thứ; nó chỉ giữ phép tính tránh xa số không.¶
+phíaSauThếGiới: 4
+
+¶Tâm của một ô, tính theo mét. Phần một nửa dịch x về sau vì một phrase được đặt theo cạnh trái của nó.¶
+ƒ tạiX(c2•#) ((c2 - 0.5) · 1m)
+ƒ tạiY(c3•#) ((c3 - độRơiMặtĐất) · 1m)
+ƒ tạiZ(c4•#) ((c4 - phíaSauThếGiới) · 1m)
+
+¶Búa giữ ở trạng thái sẵn sàng bao lâu, và bạn lơ lửng trên không bao nhiêu khung hình sau một lần nhảy. Khoảng lơ lửng này là điều làm việc nhảy có ích: nếu không có nó, một lần nhảy chỉ kéo dài đúng một khung hình, quá ngắn để nhấn phím mũi tên, vươn tay, hoặc đáp xuống một khối.¶
+sốNhịpĐungĐưa: 2
+sốNhịpTreo: 4
+
+¶Bao nhiêu phần thế giới phía sau bạn vẫn được vẽ ra. Xem phần camera ở dưới để biết vì sao điều này tồn tại: camera càng gần, càng ít hàng phía sau bạn có thể được vẽ trước khi một trong số chúng lọt ra trước thấu kính và phình to choán hết khung hình.¶
+vẽPhíaSau: 1
+
+¶Bạn có thể làm việc cao hơn chân mình bao nhiêu. Một khối là thứ khiến độ cao trở nên quan trọng: một tảng đá cao hai khối, nên bạn có thể chạm đỉnh nó khi đứng trên mặt đất, nhưng một cây cao ba khối, nên bạn phải nhảy hoặc đứng lên thứ gì đó để chạm tới ngọn cây — và cùng giới hạn này quyết định bạn có thể xếp cao đến đâu.¶
+tầmVới: 1
+
+¶Một khối lập phương nằm trong một ô. Loại của nó chính là biểu tượng cảm xúc, nên việc vẽ một khối không bao giờ cần tra cứu thêm.¶
+•khối2(x2•# y2•# z2•# loại2•"")
+
+¶Một mảnh bị đập rơi và đang lăn xuống đất. Nó nhớ ô mà nó vỡ ra từ đó, nên khung hình đầu tiên vẽ nó ở vị trí khối cũ, và mọi khung hình sau đó vẽ nó ở nơi nó rơi xuống — chuyển động mượt của chính phrase tạo ra hiệu ứng bay. id tồn tại chỉ để cho nó một tên riêng trên sân khấu, vì hai mảnh có thể rơi trúng cùng một ô.¶
+•mục2(mãSố•# x3•# z3•# từX•# từY•# từZ•# loại3•"" tuổi•#)
+
+¶Toàn bộ trò chơi nằm trong một giá trị: giai đoạn (1 = tiêu đề, 2 = đang chơi, 3 = đã thắng), bạn đang ở đâu và vừa đi hướng nào, bạn còn treo người trong lúc nhảy được bao lâu, túi đồ của bạn và bạn sẽ đặt vật liệu nào, cây búa còn vung được bao nhiêu lần nữa, mã số của miếng rời tiếp theo, cấu trúc cần ghép, và mọi thứ khác trong thế giới đó.¶
+•tròChơi(giaiĐoạn•# x4•# y3•# z4•# hướngVềX•# hướngVềZ•# treo•# gỗ•# gạch•# đãChọn•"" đungĐưa2•# idTiếpTheo•# mụcTiêu•[khối2] khối3•[khối2] vậtPhẩm•[mục2])
+
+¶Một cây là ba khối xếp chồng, còn một tảng đá là hai khối — mỗi loại không phải là một vật thể duy nhất, mà là nhiều khối xếp thành một cột, nên mỗi miếng phải được đập rời ra từng cái một. Cả hai đều rộng một cột, nhờ vậy việc sinh ra vật thể luôn chắc chắn rằng không có hai khối nào cùng chiếm một tế bào.¶
+hìnhCây: [
+		khối2(0 0 0 '🌳')
+		khối2(0 1 0 '🌳')
+		khối2(0 2 0 '🌳')
+	]
+hìnhTảngĐá: [khối2(0 0 0 '🪨') khối2(0 1 0 '🪨')]
+
+ƒ hìnhTại(hìnhDạng•[khối2] cx•# cz•#) hìnhDạng.dịch(
+		ƒ(b2•khối2) khối2(cx b2.y2 cz b2.loại2)
+	)
+
+¶Một miếng bị đập vỡ sẽ biến thành gì.¶
+ƒ tíchCủa(loại4•"") loại4 ???
+		'🌳': '🪵'
+		'🪨': '🧱'
+		loại4
+
+¶Một cấu trúc mới cần ghép: hai tòa tháp, mỗi tòa cao từ một đến ba khối, đặt ở một cặp cột giữa được chọn ngẫu nhiên, trên hàng sau của sân. Những cột giữa đó chính là những cột mà tài nguyên không bao giờ xuất hiện, nên một tòa tháp không thể nào rơi trúng vào một cây. Mọi cột đều chắc từ mặt đất lên, vì việc xếp khối luôn rơi xuống đỉnh của một cột — không có cách nào tạo ra một khối trôi lơ lửng, nên cũng không có cách nào yêu cầu điều đó. Sáu khối là giới hạn cao nhất, đúng bằng số khối gạch mà một sân có ba tảng đá tạo ra, nên dù cấu trúc toàn bằng gạch cũng luôn xây được.¶
+ƒ sinhMụcTiêu() (
+		độSâu: zLớnNhất
+		cặp: [-1 0 1].xáotrộn().chuỗicon(1 2)
+		cặp.kếthợp(
+			[]
+			ƒ(cấuTrúc•[khối2] cx2•#)
+				cấuTrúc.thêm(
+					(Ngẫunhiên(1 2) → []).dịch(
+						ƒ(cấpĐộ•#)
+							khối2(
+								cx2
+								(cấpĐộ - 1)
+								độSâu
+								['🪵' '🧱'].ngẫunhiên()
+							)
+					)
+				)
+		)
+	)
+
+¶Một tế bào có nằm trên sân hay không.¶
+ƒ trongGiớiHạn(cx3•# cz2•#) (cx3 ≥ xNhỏNhất) & (cx3 ≤ xLớnNhất) & (cz2 ≥ zNhỏNhất) & (cz2 ≤ zLớnNhất)
+
+¶Một cột cao bao nhiêu. Mọi cột đều chắc từ mặt đất lên — hình khối luôn lớn lên theo cách đó, xếp khối thêm vào đỉnh, còn đập búa lấy đi từ đỉnh — nên chỉ cần đếm số khối trong một cột là biết được cả chiều cao của nó và tế bào trống đầu tiên phía trên.¶
+ƒ chiềuCaoCột(khối4•[khối2] cx4•# cz3•#) khối4.lọc(
+		ƒ(b3•khối2) (b3.x2 = cx4) & (b3.z2 = cz3)
+	).chiềudài(
+	)
+
+¶Một tế bào chính xác có chứa đúng một loại khối chính xác hay không. Hỏi theo cách này — đếm số khối khớp thay vì lấy ra một khối có thể không tồn tại — giúp tránh việc phải mang theo một khối¶
+ƒ tếBàoChứa(khối5•[khối2] cx5•# cy•# cz4•# loại5•"")
+	khối5.lọc(
+		ƒ(b4•khối2) (b4.x2 = cx5) & (b4.y2 = cy) & (b4.z2 = cz4) & (b4.loại2 = loại5)
+	).chiềudài(
+	) > 0
+
+¶Một sân chơi mới: ba cây và ba tảng đá, mỗi loại ở một cột riêng, ở một độ sâu ngẫu nhiên. Việc xáo trộn các cột trước tiên là điều quyết định cột nào sẽ mọc cây một cách ngẫu nhiên. Những cột gần giữa nhất bị bỏ qua có chủ đích, để không có gì mọc lên ở nơi bạn đang đứng hoặc nơi các tòa tháp sẽ đặt.¶
+sinhCột: [-4 -3 -2 2 3 4]
+
+ƒ sinhThếGiới()
+	sinhCột.xáotrộn().kếthợp(
+		[]
+		ƒ(lĩnhVực•[khối2] cx6•# chỉMục2•#)
+			lĩnhVực.thêm(
+				hìnhTại(
+					((chỉMục2 ≤ 3) ? hìnhCây hìnhTảngĐá)
+					cx6
+					Ngẫunhiên(zNhỏNhất zLớnNhất)
+				)
+			)
+	)
+
+¶Những khối mục tiêu nào bạn chưa ghép xong. Đây chính là toàn bộ vòng phản hồi: các tòa tháp mờ nhạt tan biến từng khối một khi bạn xây, và điều này cũng chính là lý do một khối mờ và một khối thật không bao giờ chiếm cùng một tế bào — điều này quan trọng, vì sân khấu chỉ sắp xếp theo độ sâu, và nếu hai thứ ở cùng độ sâu thì việc hiển thị sẽ như tung đồng xu, không chắc cái nào lên trước.¶
+ƒ mụcTiêuChưaĐạt(khối6•[khối2] mụcTiêu2•[khối2])
+	mụcTiêu2.lọc(
+		ƒ(g•khối2) ~tếBàoChứa(khối6 g.x2 g.y2 g.z2 g.loại2)
+	)
+
+¶Bạn thắng khi mọi khối của cấu trúc đã được ghép xong. Bất cứ thứ gì khác bạn để lại là việc của riêng bạn — những bậc thang bạn xây để leo lên, một đống đồ bạn chưa từng dùng — nên bạn không cần phải dọn dẹp gì để hoàn thành. Một tế bào mục tiêu chỉ chấp nhận đúng một loại vật liệu, nên một cây tình cờ đứng đúng vị trí đó cũng không thể thỏa mãn yêu cầu.¶
+ƒ mụcTiêuĐãĐạt(khối7•[khối2] mụcTiêu3•[khối2]) mụcTiêuChưaĐạt(
+		khối7
+		mụcTiêu3
+	).chiềudài(
+	) = 0
+
+¶Bước một bước. Bạn luôn quay mặt về hướng bạn vừa cố đi, ngay cả khi bước đó thất bại, nên việc đi vào một vật cũng chính là cách bạn quay mặt đối diện với nó. Bạn chỉ có thể vào một tế bào có cột không cao hơn độ cao bạn đang ở — đi bộ không bao giờ leo lên, vì một bước leo lên sẽ đưa bạn lên trên chính vật bạn đang muốn đập. Nhảy bằng phím j để lên trên một khối, rồi đi vào đó.¶
+ƒ diChuyển(tròChơi2•tròChơi dx•# dz•#) (
+		đãHướng: (tròChơi2.hướngVềX:dx).hướngVềZ:dz
+		mụcTiêuX: tròChơi2.x4 + dx
+		mụcTiêuZ: tròChơi2.z4 + dz
+		~trongGiớiHạn(mụcTiêuX mụcTiêuZ) ? đãHướng (
+				chiềuCao2: chiềuCaoCột(
+						đãHướng.khối3
+						mụcTiêuX
+						mụcTiêuZ
+					)
+				(chiềuCao2 ≤ tròChơi2.y3) ? ((đãHướng.x4:mụcTiêuX).z4:mụcTiêuZ) đãHướng
+			)
+	)
+
+¶Nhảy lên, nhưng chỉ từ vật bạn đang đứng trên đó. Việc kiểm tra xem bạn có đang ở trên chính chỗ đứng của mình hay không mới là điều quan trọng: hết thời gian treo người không giống với việc đã chạm đất, nên một lần nhảy chỉ bị chặn trong khi còn treo người có thể được bật lại giữa lúc rơi, và lại bật tiếp trong lúc rơi tiếp theo đó — cứ thế leo lên trời từng tế bào một. Đây là cách bạn chạm tới bất cứ thứ gì ngoài tầm tay mà không cần xây bậc thang trước.¶
+ƒ nhảy(tròChơi3•tròChơi)
+	(tròChơi3.y3 > chiềuCaoCột(
+				tròChơi3.khối3
+				tròChơi3.x4
+				tròChơi3.z4
+			)) ? tròChơi3
+		((tròChơi3.y3:(tròChơi3.y3 + 1).phút(yLớnNhất)).treo:sốNhịpTreo)
+
+¶Vung búa vào bất cứ thứ gì trước mặt bạn. Chỉ miếng ở trên cùng của cột đó rơi ra, đó là lý do một cây cần ba lần đập — và điều này cũng có nghĩa là bạn không bao giờ để lại một miếng lơ lửng, nên không có gì cần phải rơi xuống cả. Bạn chỉ có thể chạm tới một khối cao hơn chỗ đứng của mình đúng một mức, nên một chỏm cây ngoài tầm tay sẽ không rơi ra; hãy lên cao hơn rồi vung búa lại. Miếng rời sẽ lăn thêm một tế bào nữa, xa khỏi bạn, trừ khi tế bào đó nằm ngoài sân hoặc đã có vật chiếm chỗ, thì nó sẽ rơi ngay tại chỗ nó đang đứng. Cây búa luôn lên đà dù có trúng hay không, nên một lần đập hụt vẫn tính là một lần vung.¶
+ƒ chạm(tròChơi4•tròChơi) (
+		mụcTiêuX2: tròChơi4.x4 + tròChơi4.hướngVềX
+		mụcTiêuZ2: tròChơi4.z4 + tròChơi4.hướngVềZ
+		đỉnhY: chiềuCaoCột(tròChơi4.khối3 mụcTiêuX2 mụcTiêuZ2) - 1
+		¶Gộp tế bào mục tiêu thẳng vào phần tử mà nó sẽ tạo ra giúp tránh phải mang theo một khối-có thể-có-thể-không: một cột trống chỉ đơn giản gộp thành không có gì.¶
+		tích: (đỉnhY > (tròChơi4.y3 + tầmVới)) ? '' tròChơi4.khối3.lọc(
+					ƒ(b5•khối2) (b5.x2 = mụcTiêuX2) & (b5.y2 = đỉnhY) & (b5.z2 = mụcTiêuZ2)
+				).kếthợp(
+					''
+					ƒ(đếnGiờ•"" b6•khối2) đếnGiờ + tíchCủa(b6.loại2)
+				)
+		đãVung: tròChơi4.đungĐưa2:sốNhịpĐungĐưa
+		(tích = '') ? đãVung (
+				cònLại: đãVung.khối3.lọc(
+						ƒ(b7•khối2) ~((b7.x2 = mụcTiêuX2) & (b7.y2 = đỉnhY) & (b7.z2 = mụcTiêuZ2))
+					)
+				vịTríĐấtX: mụcTiêuX2 + tròChơi4.hướngVềX
+				vịTríĐấtZ: mụcTiêuZ2 + tròChơi4.hướngVềZ
+				dọnSạch: trongGiớiHạn(vịTríĐấtX vịTríĐấtZ) & (chiềuCaoCột(
+								cònLại
+								vịTríĐấtX
+								vịTríĐấtZ
+							) = 0)
+				đãRơi: đãVung.vậtPhẩm.với(
+						mục2(
+							đãVung.idTiếpTheo
+							(dọnSạch ? vịTríĐấtX mụcTiêuX2)
+							(dọnSạch ? vịTríĐấtZ mụcTiêuZ2)
+							mụcTiêuX2
+							đỉnhY
+							mụcTiêuZ2
+							tích
+							0
+						)
+					)
+				((đãVung.khối3:cònLại).vậtPhẩm:đãRơi).idTiếpTheo:(đãVung.idTiếpTheo + 1)
+			)
+	)
+
+¶Xếp một khối của bạn lên trên cột phía trước, nếu bạn còn dư một khối và có chỗ trống phía trên. Tầm với không được kiểm tra ở đây: điều này chỉ xảy ra khi đống khối ở ngang hoặc thấp hơn chân bạn, nên khối mới luôn rơi vừa trong tầm tay.¶
+ƒ đặt(tròChơi5•tròChơi) (
+		mụcTiêuX3: tròChơi5.x4 + tròChơi5.hướngVềX
+		mụcTiêuZ3: tròChơi5.z4 + tròChơi5.hướngVềZ
+		chiềuCao3: chiềuCaoCột(
+				tròChơi5.khối3
+				mụcTiêuX3
+				mụcTiêuZ3
+			)
+		kho: (tròChơi5.đãChọn = '🪵') ? tròChơi5.gỗ tròChơi5.gạch
+		(~trongGiớiHạn(mụcTiêuX3 mụcTiêuZ3) | (kho = 0) | (chiềuCao3 > yLớnNhất)) ? tròChơi5 (
+				đãDùng: (tròChơi5.đãChọn = '🪵') ? (tròChơi5.gỗ:(tròChơi5.gỗ - 1)) (tròChơi5.gạch:(tròChơi5.gạch - 1))
+				đãDùng.khối3:tròChơi5.khối3.với(
+					khối2(
+						mụcTiêuX3
+						chiềuCao3
+						mụcTiêuZ3
+						tròChơi5.đãChọn
+					)
+				)
+			)
+	)
+
+¶Liệu phím cách sẽ xây hay phá. Đống khối phía trước sẽ quyết định: nếu ở ngang hoặc thấp hơn chân bạn, bạn xếp thêm một khối lên trên; nếu cao hơn, bạn đập vỡ khối trên cùng của nó. Một phím làm cả hai việc, và con trỏ cho biết việc nào — vì vậy xây lên cao nghĩa là bạn phải leo lên khi xếp, đó là lý do có bước nhảy, và bạn luôn có thể lấy lại thứ mình đặt sai chỗ bằng cách đứng ngang với nó.¶
+ƒ đangXây(tròChơi6•tròChơi)
+	chiềuCaoCột(
+		tròChơi6.khối3
+		(tròChơi6.x4 + tròChơi6.hướngVềX)
+		(tròChơi6.z4 + tròChơi6.hướngVềZ)
+	) ≤ tròChơi6.y3
+
+ƒ hànhĐộng(tròChơi7•tròChơi) đangXây(tròChơi7) ? đặt(
+			tròChơi7
+		) chạm(tròChơi7)
+
+¶Đổi loại vật liệu bạn muốn xếp.¶
+ƒ toggle(tròChơi8•tròChơi) tròChơi8.đãChọn:((tròChơi8.đãChọn = '🪵') ? '🧱' '🪵')
+
+¶Một lần nhấn phím khi đang chơi. Phím được truyền vào dưới dạng văn bản thuần, chứ không được so sánh ngay trong phản ứng, để các phép kiểm tra ∆ của phản ứng chỉ nhìn vào chính luồng dữ liệu.¶
+ƒ ápDụngPhímBấm(tròChơi9•tròChơi chìaKhóa2•"")
+	(chìaKhóa2 = 'Mũi tên trái') ? diChuyển(tròChơi9 -1 0)
+		((chìaKhóa2 = 'Mũi tên phải') ? diChuyển(tròChơi9 1 0)
+				((chìaKhóa2 = 'Mũi tên lên') ? diChuyển(
+							tròChơi9
+							0
+							1
+						)
+						((chìaKhóa2 = 'Mũi tên xuống') ? diChuyển(
+									tròChơi9
+									0
+									-1
+								)
+								((chìaKhóa2 = 'Không gian') ? hànhĐộng(
+											tròChơi9
+										)
+										((chìaKhóa2 = 'Sự thay đổi') ? toggle(
+													tròChơi9
+												)
+												((chìaKhóa2 = 'j') ? nhảy(tròChơi9) tròChơi9))))))
+
+¶Một lượt chơi mới.¶
+ƒ tròChơiMới() tròChơi(
+		2
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		sinhMụcTiêu()
+		sinhThếGiới()
+		[]
+	)
+
+¶Một khung hình: cho các mảnh rời rơi xuống, treo lại rồi rơi tiếp lên đỉnh của bất cứ thứ gì bạn đang đứng trên, cho vào túi bất cứ thứ gì trên tế bào của bạn, cho búa hạ xuống trở lại, và kiểm tra các tòa tháp.¶
+ƒ tiếnTớiThếGiới(tròChơi10•tròChơi) (
+		đãGià: tròChơi10.vậtPhẩm.dịch(
+				ƒ(i•mục2) (i.tuổi = 0) ? (i.tuổi:1) i
+			)
+		đangĐứng: chiềuCaoCột(
+				tròChơi10.khối3
+				tròChơi10.x4
+				tròChơi10.z4
+			)
+		treoTiếpTheo: (tròChơi10.treo > 0) ? (tròChơi10.treo - 1) 0
+		yTiếpTheo: ((tròChơi10.treo = 0) & (tròChơi10.y3 > đangĐứng)) ? (tròChơi10.y3 - 1) tròChơi10.y3
+		¶Bạn luôn ở độ cao của cột mà bạn đang đứng trên, và bất cứ thứ gì nằm ở đó cũng vậy, vì vậy chỉ cần cùng chung một tế bào là đủ để nhặt được thứ gì đó.¶
+		dướiChân: đãGià.lọc(
+				ƒ(i2•mục2) (i2.x3 = tròChơi10.x4) & (i2.z3 = tròChơi10.z4) & (i2.tuổi > 0)
+			)
+		đãGiữ: đãGià.lọc(
+				ƒ(i3•mục2) ~((i3.x3 = tròChơi10.x4) & (i3.z3 = tròChơi10.z4) & (i3.tuổi > 0))
+			)
+		nhậnĐượcGỗ: dướiChân.lọc(ƒ(i4•mục2) i4.loại3 = '🪵').chiềudài(
+			)
+		nhậnĐượcGạch: dướiChân.lọc(ƒ(i5•mục2) i5.loại3 = '🧱').chiềudài(
+			)
+		tròChơi(
+			(mụcTiêuĐãĐạt(tròChơi10.khối3 tròChơi10.mụcTiêu) ? 3 tròChơi10.giaiĐoạn)
+			tròChơi10.x4
+			yTiếpTheo
+			tròChơi10.z4
+			tròChơi10.hướngVềX
+			tròChơi10.hướngVềZ
+			treoTiếpTheo
+			(tròChơi10.gỗ + nhậnĐượcGỗ)
+			(tròChơi10.gạch + nhậnĐượcGạch)
+			tròChơi10.đãChọn
+			((tròChơi10.đungĐưa2 > 0) ? (tròChơi10.đungĐưa2 - 1) 0)
+			tròChơi10.idTiếpTheo
+			tròChơi10.mụcTiêu
+			tròChơi10.khối3
+			đãGiữ
+		)
+	)
+
+chìaKhóa3: Chìakhóa()
+nhịp2: Thờigian(150ms)
+chạm2: Cáinút()
+
+¶Nhịp đập, được điều khiển bởi ba đầu vào. Khi đang chơi, một nhịp làm thế giới tiến thêm một bước, các phím làm mọi việc khác, và một lần bấm chuột tạo ra một cú vung. Từ màn hình tiêu đề hoặc màn hình thắng, phím Enter hoặc một lần bấm chuột bắt đầu một lượt chơi mới.¶
+tròChơi11•tròChơi: tròChơi(
+		1
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		sinhMụcTiêu()
+		sinhThếGiới()
+		[]
+	)
+	… (∆ nhịp2 | ∆ chìaKhóa3 | ∆ chạm2) …
+		(tròChơi11.giaiĐoạn = 2)
+		? (∆ nhịp2 ? tiếnTớiThếGiới(tròChơi11)
+					(∆ chìaKhóa3 ? ápDụngPhímBấm(tròChơi11 chìaKhóa3) hànhĐộng(
+								tròChơi11
+							)))
+			(∆ nhịp2 ? tròChơi11
+					(∆ chìaKhóa3 ? ((chìaKhóa3 = 'Đi vào') ? tròChơiMới(
+									) tròChơi11)
+							(∆ chạm2 ? tròChơiMới() tròChơi11)))
+
+¶Mọi thứ trong thế giới được vẽ ra mà không có chuyển động mượt, nên một bước đi hiện ra ngay khung hình bạn bấm phím, chứ không trượt theo sau bạn, và mỗi phần tử mang một tên được tạo từ tế bào của nó. Cái tên mới là phần quan trọng: sân khấu phân biệt các đầu ra bằng tên, còn một danh sách không có tên thì được phân biệt bằng vị trí, vì vậy nếu tách một khối ra khỏi giữa một chồng khối, mọi khối phía trên nó sẽ nhận lấy danh tính của khối bên cạnh và tất cả sẽ trượt xuống một chỗ.¶
+¶A green emoji is about a quarter wider than it is tall, so the tiles are sized
+down to land exactly one to a cell and keep the ground lined up with the blocks
+standing on it.¶
+kíchThướcÔ: 0.8m
+
+hàngNền: [0 1 2 3 4].lọc(
+		ƒ(hàng2•#) hàng2 ≥ (tròChơi11.z4 - vẽPhíaSau)
+	).dịch(
+		ƒ(hàng3•#)
+			Cụmtừ(
+				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+				kíchThướcÔ
+				khoảngthờigian: 0s
+				tên: "g\hàng3\"
+				vịTrí: VịTrí(tạiX(xNhỏNhất) tạiY(-1) tạiZ(hàng3))
+			)
+	)
+
+khungNhìnKhối: tròChơi11.khối3.lọc(
+		ƒ(b8•khối2) b8.z2 ≥ (tròChơi11.z4 - vẽPhíaSau)
+	).dịch(
+		ƒ(b9•khối2)
+			Cụmtừ(
+				b9.loại2
+				1m
+				khoảngthờigian: 0s
+				tên: "b\b9.x2\,\b9.y2\,\b9.z2\"
+				vịTrí: VịTrí(tạiX(b9.x2) tạiY(b9.y2) tạiZ(b9.z2))
+			)
+	)
+
+¶Các tòa tháp bạn đang hướng tới, được làm mờ đi, và chỉ hiện những phần bạn chưa xây.¶
+khungNhìnBóngMa: mụcTiêuChưaĐạt(
+		tròChơi11.khối3
+		tròChơi11.mụcTiêu
+	).lọc(
+		ƒ(g2•khối2) g2.z2 ≥ (tròChơi11.z4 - vẽPhíaSau)
+	).dịch(
+		ƒ(g3•khối2)
+			Cụmtừ(
+				g3.loại2
+				1m
+				khoảngthờigian: 0s
+				độmờđục: 35%
+				tên: "h\g3.x2\,\g3.y2\,\g3.z2\"
+				vịTrí: VịTrí(tạiX(g3.x2) tạiY(g3.y2) tạiZ(g3.z2))
+			)
+	)
+
+¶Một mảnh rời. Đây là thứ duy nhất trên sân khấu có chuyển động mượt thay vì bật ngay tức khắc — khung hình đầu tiên của nó ở nơi khối bị vỡ ra, còn phần còn lại ở nơi nó rơi xuống, và chuyển động mượt ở giữa chính là cú lăn.¶
+khungNhìnVậtPhẩm: tròChơi11.vậtPhẩm.lọc(
+		ƒ(i6•mục2) i6.z3 ≥ (tròChơi11.z4 - vẽPhíaSau)
+	).dịch(
+		ƒ(i7•mục2)
+			Cụmtừ(
+				i7.loại3
+				0.6m
+				khoảngthờigian: 0.3s
+				tên: "i\i7.mãSố\"
+				vịTrí: (i7.tuổi = 0)
+				? VịTrí(tạiX(i7.từX) tạiY(i7.từY) tạiZ(i7.từZ))
+					VịTrí(
+						tạiX(i7.x3)
+						tạiY(chiềuCaoCột(tròChơi11.khối3 i7.x3 i7.z3))
+						tạiZ(i7.z3)
+					)
+			)
+	)
+
+¶Khoảng thời gian là điều biến một bước đi thành chuyển động thật sự: nếu không có nó, sân khấu bỏ qua việc tạo hoạt ảnh cho anh ấy và mỗi lần di chuyển sẽ tức khắc dịch chuyển. Một khoảng thời gian hơi ngắn hơn một nhịp nghĩa là mỗi bước đi và mỗi bước nhảy ổn định lại ngay trước khi cái tiếp theo đến. Sự kéo giãn khi anh ấy đang bay lên khỏi mặt đất cũng là mánh giống với cú vung búa đã kéo lại sẵn — một tư thế khác được giữ nguyên trong suốt thời gian trạng thái đó tồn tại, thay vì một hoạt ảnh bắt đầu rồi dừng.¶
+khungNhìnNgườiChơi: Cụmtừ(
+		'🚶🏻‍♀'
+		1.1m
+		khoảngthờigian: 0.14s
+		tên: 'người chơi'
+		tỉlệ: ((tròChơi11.treo > 0) ? 1.08 1)
+		lậtngược: tròChơi11.hướngVềX > 0
+		vịTrí: VịTrí(
+			tạiX(tròChơi11.x4)
+			tạiY(tròChơi11.y3)
+			tạiZ(tròChơi11.z4)
+		)
+	)
+
+¶Con trỏ lơ lửng trên tế bào mà hành động tiếp theo của bạn sẽ tác động vào — khoảng trống phía trên của chồng khối bạn đang đối diện. Một cú vung sẽ phá vỡ khối nằm ngay dưới nó, và một lần xếp sẽ lấp đầy tế bào mà nó đang đánh dấu, vì vậy không bao giờ có sự nhầm lẫn về việc bạn sắp phá gì hoặc khối sẽ đặt vào đâu. Nó trôi lơ lửng cao hơn tế bào đó một chút để luôn nằm trong tầm nhìn khi tế bào ở ngay trước mặt bạn, nơi mà cơ thể bạn nếu không sẽ che khuất nó. Nó kéo lại ngay lúc bạn vung tay và tự trở về đúng vị trí một cách mượt mà, kích hoạt đúng lúc va trúng chứ không lặp lại liên tục. Nó ẩn đi khi bạn đang quay mặt ra ngoài rìa sân chơi, vì ở đó không có gì để tác động vào.¶
+mụcTiêuX4: tròChơi11.x4 + tròChơi11.hướngVềX
+mụcTiêuZ4: tròChơi11.z4 + tròChơi11.hướngVềZ
+yMụcTiêu: chiềuCaoCột(tròChơi11.khối3 mụcTiêuX4 mụcTiêuZ4)
+
+¶Trong hai việc mà phím cách có thể làm với cột phía trước, việc nào sẽ xảy ra, và liệu nó có thành công hay không: phá cần đỉnh khối nằm trong tầm với, còn xây cần còn vật liệu đã chọn trong túi bạn. Con trỏ mờ đi bất cứ khi nào câu trả lời là không, vì vậy một túi trống sẽ hiện giống như một đỉnh khối ngoài tầm với, chứ không giống một lần bấm mà chẳng có gì xảy ra.¶
+đangXâyỞĐây: yMụcTiêu ≤ tròChơi11.y3
+trongTầmVới: (yMụcTiêu - 1) ≤ (tròChơi11.y3 + tầmVới)
+khoỞĐây: (tròChơi11.đãChọn = '🪵') ? tròChơi11.gỗ tròChơi11.gạch
+cóThểHànhĐộng: đangXâyỞĐây ? (khoỞĐây > 0) trongTầmVới
+
+khungNhìnConTrỏ: Cụmtừ(
+		(đangXâyỞĐây ? '🔨' '🪏')
+		0.85m
+		khoảngthờigian: 0.12s
+		tên: 'con trỏ'
+		xoay: ((tròChơi11.đungĐưa2 > 0) ? -55° 0°)
+		độmờđục: (cóThểHànhĐộng ? 100% 30%)
+		vịTrí: VịTrí(
+			tạiX(mụcTiêuX4)
+			tạiY(yMụcTiêu + 0.55)
+			tạiZ(mụcTiêuZ4)
+		)
+	)
+
+danhSáchConTrỏ: trongGiớiHạn(mụcTiêuX4 mụcTiêuZ4) ? [
+			khungNhìnConTrỏ
+		] []
+
+¶Túi đồ và vật liệu hiện tại, được ghim cố định lên màn hình để độ sâu không bao giờ làm chúng nhỏ lại.¶
+bảngHiểnThị: [
+		Cụmtừ(
+			"🪵 \tròChơi11.gỗ\   🧱 \tròChơi11.gạch\   🔨 \tròChơi11.đãChọn\"
+			0.5m
+			vịTrí: VịTrí(-6.6m 4.3m)
+		)
+	]
+
+tiêuĐềMànHình: (tròChơi11.giaiĐoạn = 3) ? '🎉 Bạn đã xây xong! 🎉' '🔨 XÂY KHỐI 🔨'
+dòngBắtĐầu: (tròChơi11.giaiĐoạn = 3) ? 'Nhấn Enter hoặc bấm chuột để xây lại' 'Nhấn Enter hoặc bấm chuột để bắt đầu'
+
+¶Các màn hình nằm phẳng trên một khu vực đầy cây cối và hình người, vì vậy nhóm này cần có một lớp nền không trong suốt phía sau — chữ tối trên nền cành cây và mái nhà rất khó đọc, và một tấm nền đặc giúp chữ dễ đọc trong khi vẫn để lộ thế giới xung quanh.¶
+khungNhìnMànHình: [
+		Nhóm(
+			Ngănxếp()
+			[
+				Cụmtừ(tiêuĐềMànHình 1.1m tên: 's1')
+				Cụmtừ(
+					'Mũi tên để đi · bạn quay mặt theo hướng đã đi'
+					0.5m
+					tên: 's2'
+				)
+				Cụmtừ(
+					'Phím cách tác động lên con trỏ: 🪏 phá · 🔨 xây'
+					0.5m
+					tên: 's3'
+				)
+				Cụmtừ(
+					'Shift đổi 🪵 🧱 · j nhảy lên để với tới'
+					0.5m
+					tên: 's4'
+				)
+				Cụmtừ(
+					'Với lên một khối · khớp với các khối đã mờ'
+					0.5m
+					tên: 's5'
+				)
+				Cụmtừ(dòngBắtĐầu 0.7m tên: 's6')
+			]
+			lýlịch: Màusắc(90% 10 240°)
+		)
+	]
+
+¶Máy quay giữ một khoảng cách cố định phía sau bạn thay vì đứng yên, nên bạn luôn giữ nguyên kích thước trên màn hình dù đi xa đến đâu, còn khu vực thì trượt qua ngay bên vai bạn. Máy quay cũng theo bạn theo chiều ngang, nên khi đi tới mép khu vực, thế giới sẽ trượt qua thay vì để bạn ra ngoài rìa. Một phần năm của một ô là một khoảng dịch để căn giữa: một hình người được vẽ từ mép trái của nó, mép này nằm lệch nửa ô, và ký tự hình của nó rộng hơn một chút so với ô mà nó đứng trong đó.
+
+Sân khấu phóng to hoặc thu nhỏ mọi thứ theo khoảng cách tới máy quay, và một ô ngay trước ống kính sẽ được hiển thị to gấp tám lần kích thước thật — vì vậy ở khoảng cách này, phần thế giới hơn một hàng phía sau bạn sẽ không được vẽ nữa. Các tòa tháp luôn đứng ở hàng sau cùng, đây là hàng duy nhất mà khoảng cách vẽ không bao giờ cắt bỏ, nên chúng luôn ở trong tầm nhìn dù bạn đi tới đâu.¶
+zMáyQuay: ((tròChơi11.z4 - phíaSauThếGiới - phíaSauMáyQuay) · 1m)
+
+¶Máy quay di chuyển theo độ cao của thứ bạn đang đứng trên đó, chứ không theo độ cao của chính bạn, nên khi trèo lên một chồng khối, máy quay sẽ đi lên cùng bạn và giữ bạn trong khung hình, trong khi một cú nhảy vẫn trông giống như một cú nhảy — trong lúc nhảy, bạn thực sự bay lên xa khỏi máy quay thay vì kéo nó theo.¶
+yMáyQuay: (chiềuCaoCột(
+			tròChơi11.khối3
+			tròChơi11.x4
+			tròChơi11.z4
+		) · 1m)
+
+¶Thế giới được vẽ giống nhau ở mọi giai đoạn, nên màn hình tiêu đề và màn hình chiến thắng cho thấy đúng khu vực như khi bạn chơi, chứ không phải một cảnh menu riêng.¶
+lớpThếGiới: [
+		:khungNhìnKhối
+		:khungNhìnBóngMa
+		:khungNhìnVậtPhẩm
+		khungNhìnNgườiChơi
+		:danhSáchConTrỏ
+	]
+
+¶Mọi thứ nói chuyện với bạn đều nằm trên lớp phủ của sân khấu, lớp này được gắn cố định phẳng vào màn hình nên không bị ảnh hưởng bởi máy quay hay chiều sâu. Việc đặt màn hình ở đây thay vì trong thế giới chính là điều giúp chữ dễ đọc: bất cứ thứ gì đặt trong thế giới đều nằm ở một độ sâu nào đó, và các hàng mặt đất gần máy quay hơn sẽ được vẽ đè lên trên nó.¶
+lớpPhủ2: (tròChơi11.giaiĐoạn = 2) ? bảngHiểnThị khungNhìnMànHình
+
+¶Một mảnh vừa bị đánh bật vẫn đang ở khung hình đầu tiên của nó, đây là khung hình duy nhất giúp phân biệt nó với những mảnh đã nằm sẵn xung quanh — cùng độ tuổi mà việc vẽ dùng để quyết định có nên bắt đầu nó ngay tại nơi khối vỡ ra hay không.¶
+vừaVỡ: tròChơi11.vậtPhẩm.lọc(ƒ(i8•mục2) i8.tuổi = 0)
+
+¶Cho biết cây búa vừa mới vung hay chưa. Chỉ có việc phá mới lên cò, nên với một lần nhấn chỉ xây thêm khối thì giá trị này là ⊥.¶
+đãVỡ: tròChơi11.đungĐưa2 = sốNhịpĐungĐưa
+
+¶Tiếng của cú vung búa nghe như thế nào. Gỗ phát ra tiếng như trống tom, còn đá phát ra tiếng như trống bass, nên tiếng của cây và tiếng của tảng đá không giống nhau, và một cú vung mà không trúng gì cả sẽ phát ra một tiếng tách nhẹ — một cú trượt mà bạn nghe thấy vẫn tốt hơn một cú trượt nghe như không có gì xảy ra.
+
+Còn lại thời gian thì trống rỗng, và như vậy là đủ: một nốt nhạc đã bắt đầu phát sẽ chơi đến hết, nên tiếng búa vẫn ngân vang dù danh sách này trở nên trống ngay ở nhịp tiếp theo.¶
+nốtTrúng: đãVỡ
+	? ((vừaVỡ.chiềudài() > 0) ? vừaVỡ.dịch(
+					ƒ(i9•mục2) (i9.loại3 = '🪵') ? 5 1
+				) [3])
+		[]
+
+¶Lần nhấn vừa vung búa, và chỉ lần nhấn đó thôi. Cây búa vẫn ở trạng thái lên cò cho đến nhịp tiếp theo, nên nếu không có điều này, bất kỳ phím nào được nhấn trong khoảng thời gian đó cũng sẽ phát ra âm thanh của cú đánh lần thứ hai.¶
+đãVung2: ((∆ chìaKhóa3) & (chìaKhóa3 = 'Không gian')) | (∆ chạm2)
+
+âmThanhTrúng: ÂmNhạc(
+		BảnNhạc(nốtTrúng nhạcCụ: NhạcCụ.trống vòngLặp: ⊥)
+		phátLại: đãVung2
+		tên: 'chạm'
+	)
+
+¶Một nơi để ở cùng trong khi bạn làm việc: một giai điệu ngũ cung chậm rãi trên sáo, một tiếng chuông thỉnh thoảng đáp lại, và một âm nền trầm bên dưới. Dùng thang ngũ cung vì không có nốt nào trong đó xung khắc với nhau, nên vòng lặp không bao giờ cần kết thúc ở một nốt cụ thể và không bao giờ nghe lạc quẻ khi tiếng búa vang lên bên trên nó. Dài mười sáu nhịp thay vì tám nhịp, nên phải mất một lúc mới quay trở lại từ đầu.¶
+âmThanhNền: ÂmNhạc(
+		[
+			BảnNhạc(
+				[1 ø ø 3 ø ø 5 ø ø 3 ø ø 2 ø ø ø]
+				nhạcCụ: NhạcCụ.sáo
+				nhịp: 1beats
+				âmLượng: 30%
+			)
+			BảnNhạc(
+				[ø ø ø ø ø ø 8 ø ø ø ø ø ø ø 6 ø]
+				nhạcCụ: NhạcCụ.chuông
+				nhịp: 1beats
+				âmLượng: 20%
+			)
+			BảnNhạc(
+				[{1 5} {1 5} {4 8} {1 5}]
+				nhạcCụ: NhạcCụ.đànPadTổngHợp
+				nhịp: 4beats
+				âmLượng: 25%
+			)
+		]
+		nhịpĐộ: 60beats/min
+		thangÂm: ÂmNhạc.ngũCung
+		âmLượng: 45%
+		tên: 'thiên nhiên'
+	)
+
+¶Phần thưởng khi khớp được mọi khối đã mờ: một đoạn kèn trumpet chạy lên theo cùng thang ngũ cung mà khu vực đã ngân nga từ đầu, một hợp âm để kết thúc, và một tiếng chuông lấp lánh vang lên phía trên.
+
+Không có gì ở đây lặp lại, và chính điều đó khiến nó trở thành một khúc kèn chiến thắng chứ không phải một nền nhạc mới. Một âm thanh chỉ phát một lần, sau khi đã phát xong, sẽ im lặng trong khi vẫn còn trên sân khấu, nên màn hình chiến thắng trở lại yên tĩnh và nhường chỗ cho âm thanh nền; bắt đầu một vòng chơi mới sẽ đưa nó ra khỏi sân khấu và quên nó đi, nên công trình tiếp theo mà bạn hoàn thành sẽ khiến nó vang lên lại từ đầu.¶
+âmThanhThắng: ÂmNhạc(
+		[
+			BảnNhạc(
+				[1 3 5 8 ø 8 ø ø {1 5 8} ø ø ø ø ø ø ø]
+				nhạcCụ: NhạcCụ.kènTrumpet
+				nhịp: 0.5beats
+				vòngLặp: ⊥
+			)
+			BảnNhạc(
+				[ø ø ø ø ø ø ø ø 8 ø 10 ø 12 ø ø ø]
+				nhạcCụ: NhạcCụ.chuông
+				nhịp: 0.5beats
+				âmLượng: 45%
+				vòngLặp: ⊥
+			)
+			BảnNhạc(
+				[{1 3 5} ø {4 6 8} ø]
+				nhạcCụ: NhạcCụ.đànPiano
+				nhịp: 2beats
+				âmLượng: 40%
+				vòngLặp: ⊥
+			)
+			BảnNhạc(
+				[1 ø 3 ø 1 3 1 ø 4 ø ø ø ø ø ø ø]
+				nhạcCụ: NhạcCụ.trống
+				nhịp: 0.5beats
+				âmLượng: 35%
+				vòngLặp: ⊥
+			)
+		]
+		nhịpĐộ: 132beats/min
+		thangÂm: ÂmNhạc.ngũCung
+		tên: 'đã xây'
+	)
+
+¶Nó chỉ xuất hiện trên sân khấu khi bạn đã thắng, và một danh sách trống sẽ tan biến thành không có gì.¶
+danhSáchThắng: (tròChơi11.giaiĐoạn = 3) ? [âmThanhThắng] []
+
+Sânkhấu(
+	[
+		:hàngNền
+		:lớpThếGiới
+		âmThanhNền
+		âmThanhTrúng
+		:danhSáchThắng
+	]
+	vịTrí: VịTrí(
+		((tròChơi11.x4 + 0.2) · 1m)
+		yMáyQuay
+		zMáyQuay
+	)
+	lýlịch: Màusắc(78% 18 240°)
+	màusắc: Màusắc(20% 0 0°)
+	lớpPhủ: lớpPhủ2
+)

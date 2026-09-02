@@ -1,0 +1,335 @@
+🐤
+Ibong Umuugong
+=== start/en
+¶Isang larong ibong humuhum! Pindutin ang isang key o i-click para pumagaspas, o humum sa mikropono — lulutang ang ibon sa taas ayon sa tono ng iyong humâ.Dumaan sa mga puwang sa gitna ng mga tumpok ng emoji. Kapag nadikit sa isang tumpok o sa lupa, matatapos ang laro; pagkatapos noon, magbibilang pababa ito at magsisimula ulit.¶
+
+¶Bawat hadlang ay isang tumpok ng mga emoji mula sa isa sa mga koleksyong ito.¶
+genre: [
+		['🌵' '🌱' '🌿' '🍀' '🎋']
+		['🍩' '🧁' '🍰' '🍪' '🍦']
+		['🐙' '🐟' '🦀' '🐡' '🦑']
+		['🚗' '🚌' '🚕' '🚙' '🚓']
+		['🌸' '🌼' '🌻' '🌷' '💐']
+		['⭐' '🌟' '✨' '☁' '🌙']
+	]
+
+¶Gaano lumilipat pakaliwa ang isang hadlang sa bawat tick.¶
+bilis2: 0.2m
+
+¶Anumang banggaan gamit ang ibon. Ang kisame ay pinangalanang 'sky' kaya kapag nabangga ito, tumatalbog lang ang ibon sa gulat ng katapusan ng laro.¶
+bangga: Pagbangga('ibon')
+nakamamatay: bangga•ø ? ⊥ (bangga.bagay ≠ 'sky')
+
+tik: Oras(40ms)
+tickNgLaro: Oras(100ms)
+
+¶Ang estado ng laro: isang yugto (1 = bilang pababa, 2 = naglalaro, 3 = nabangga) at ilang ikapu ng segundo na tayo naroon. Binibilang namin ang mga tick ng isang orasan sa halip na magbawas ng oras, dahil bawat Time() nagsisimula sa zero.¶
+•laro(yugto•# tik2•#)
+laro2•laro: laro(1 0) …
+	∆ tickNgLaro | nakamamatay …
+		laro2.yugto ???
+			1: (laro2.tik2 ≥ 36) ? laro(2 0) laro(
+					1
+					laro2.tik2 + 1
+				)
+			2: nakamamatay ? laro(3 0) laro2
+			3: (laro2.tik2 ≥ 25) ? laro(1 0)
+				¶Habang nagpapahinga ang ibon sa ibabaw ng isang bagay, patuloy na abala ang reaksyong ito dahil sa mga banggaan; bibilangin lamang ang totoong tick ng orasan para palaging pareho ang haba ng paghinto.¶
+				laro(3 laro2.tik2 + (∆ tickNgLaro ? 1 0))
+			laro2
+
+¶Ang bilang na ipapakita sa pagbibilang pababa: 3, 2, 1.¶
+bilang2: (laro2.tik2 < 12) ? 3 (laro2.tik2 < 24) ? 2 1
+
+¶Piliin kung paano maglaro sa pagpili ng butones na 🎤 o ⌨: ang humâ ay nagpapalipat sa ibon, at ang mga click o key ay nagpapapagaspas nito. Hiwalay ang mga mode, para hindi magsalungatan ang pananalita malapit sa mikropono at ang keyboard.¶
+pinili: Pagpipilian()
+mode•'': 'tap' … (pinili = 'hum') | (pinili = 'tap') … pinili
+
+¶Sa tap mode, pumagaspas kapag nag-click o pumindot ng anumang key.¶
+flap: (mode = 'tap') & (∆ Butones() | ∆ Susi())
+
+¶Sa hum mode, lumulutang ang ibon sa taas ayon sa taas ng iyong ugong — mababang tunog malapit sa lupa, mataas na tunog malapit sa langit — at wala nang mas mataas pa.¶
+tono2: Tono()
+humming: (mode = 'hum') & (tono2 > 50hz)
+
+ƒ tonoHanggangTaas(hz•#hz)
+	(hz < 80hz) ? -4m
+		(hz > 400hz) ? 5m
+			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+
+¶Dahan-dahang lumalapit sa inugong na taas nang paunti-unti, para dumausdos ang ibon sa halip na yumugyog sa bawat pagbabago ng tono.¶
+tonoY•#m: 1m … ∆ tono2 … humming ? (0.8 × tonoY) + (0.2 × tonoHanggangTaas(
+							tono2
+						)) tonoY
+
+¶Lumulutang ang ibon habang binibilang pababa, pumapaitaas o lumulutang ayon sa inugong na tono habang naglalaro, at gumugulong dahil sa gravity pagkatapos ng banggaan.¶
+lugarNgIbon: Paggalaw(
+		Lugar(-4m 1m)
+		susunodnalugar:
+		(laro2.yugto = 1) ? Lugar(-4m 1m)
+			((laro2.yugto = 2) & humming) ? Lugar(-4m tonoY) ø
+		susunodnabilis:
+		(laro2.yugto = 1) ? Bilis(0m/s 0m/s)
+			((laro2.yugto = 2) & humming) ? Bilis(0m/s 0m/s)
+				((laro2.yugto = 2) & flap) ? Bilis(0m/s 15m/s) ø
+	)
+
+¶Nakaharap sa kaliwa ang emoji ng sisiw, kaya bawat pose ay ibinabaligtad ito para humarap sa direksyon na patutunguhan nito.¶
+ibon: Parirala(
+		'🐤'
+		1m
+		pangalan: 'ibon'
+		lugar: lugarNgIbon
+		materya: Materya(1kg 0.4 0)
+		nagpapahinga:
+		(laro2.yugto = 3) ? Pose(pagikot: 180° flipx: ⊤)
+			Pagkakasunodsunod(
+				{
+					0%: Pose(flipx: ⊤ pagikot: -12°)
+					50%: Pose(flipx: ⊤ pagikot: 12°)
+					100%: Pose(flipx: ⊤ pagikot: -12°)
+				}
+				0.35s
+			)
+	)
+
+¶Bawat hadlang: may pahalang na posisyon, ilang emoji ang nakabitin mula sa itaas, at kung anong koleksyon ng emoji ang ginamit dito. Gumagalaw ang mga hadlang pakaliwa habang naglalaro, umiikot pabalik sa kanan nang may bagong random na hugis, at nire-reset para sa bagong laro.¶
+•tubo(x2•#m itaas•# genre2•#)
+
+tubo1•tubo: tubo(10m Random(1 5) Random(1 6)) …
+	((laro2.yugto = 1) & (tubo1.x2 ≠ 10m)) | ((laro2.yugto = 2) & ∆ tik) …
+		(laro2.yugto = 1) ? tubo(10m Random(1 5) Random(1 6))
+			(tubo1.x2 < -13m) ? tubo(
+					tubo1.x2 + 24m
+					Random(1 5)
+					Random(1 6)
+				)
+				tubo(tubo1.x2 - bilis2 tubo1.itaas tubo1.genre2)
+
+tubo2•tubo: tubo(16m Random(1 5) Random(1 6)) …
+	((laro2.yugto = 1) & (tubo2.x2 ≠ 16m)) | ((laro2.yugto = 2) & ∆ tik) …
+		(laro2.yugto = 1) ? tubo(16m Random(1 5) Random(1 6))
+			(tubo2.x2 < -13m) ? tubo(
+					tubo2.x2 + 24m
+					Random(1 5)
+					Random(1 6)
+				)
+				tubo(tubo2.x2 - bilis2 tubo2.itaas tubo2.genre2)
+
+tubo3•tubo: tubo(22m Random(1 5) Random(1 6)) …
+	((laro2.yugto = 1) & (tubo3.x2 ≠ 22m)) | ((laro2.yugto = 2) & ∆ tik) …
+		(laro2.yugto = 1) ? tubo(22m Random(1 5) Random(1 6))
+			(tubo3.x2 < -13m) ? tubo(
+					tubo3.x2 + 24m
+					Random(1 5)
+					Random(1 6)
+				)
+				tubo(tubo3.x2 - bilis2 tubo3.itaas tubo3.genre2)
+
+tubo4•tubo: tubo(28m Random(1 5) Random(1 6)) …
+	((laro2.yugto = 1) & (tubo4.x2 ≠ 28m)) | ((laro2.yugto = 2) & ∆ tik) …
+		(laro2.yugto = 1) ? tubo(28m Random(1 5) Random(1 6))
+			(tubo4.x2 < -13m) ? tubo(
+					tubo4.x2 + 24m
+					Random(1 5)
+					Random(1 6)
+				)
+				tubo(tubo4.x2 - bilis2 tubo4.itaas tubo4.genre2)
+
+¶May hadlang bang lumipas lang sa ibon?¶
+ƒ nadaanan(x3•#m) (x3 ≤ -5m) & (x3 > (-5m - bilis2))
+
+iskor•#: 0 …
+	(laro2.yugto = 1) | ((laro2.yugto = 2) & ∆ tik) …
+		(laro2.yugto = 1) ? 0
+			(nadaanan(tubo1.x2) | nadaanan(tubo2.x2) | nadaanan(
+						tubo3.x2
+					) | nadaanan(tubo4.x2)) ? iskor + 1
+				iskor
+
+¶Gumawa ng isang tambak ng mga emoji bilang isang pisikal na haligi. Ang durasyong 0s ay ginagawang instant ang pag-ikot pabalik sa kanang bahagi sa halip na isang nakikitang pagdausdos.¶
+ƒ haligi(selula2•# genre3•# x4•#m y2•#m)
+	Grupo(
+		Patongpatong('|' 0m)
+		(selula2 → []).isalin(
+			ƒ(selula3•#) Parirala(
+					genre[genre3][1 + ((selula3 - 1) % 5)]
+					1m
+				)
+		)
+		lugar: Lugar(x4 y2)
+		materya: Materya()
+		tagal: 0s
+	)
+
+¶Ang isang hadlang ay dalawang haligi: isang nakabitin mula sa langit, isa namang lumalaki mula sa lupa, na may humigit-kumulang 6 metrong puwang sa pagitan nila.¶
+ƒ tambak(tubo5•tubo) [
+		haligi(
+			tubo5.itaas
+			tubo5.genre2
+			tubo5.x2
+			6m - (tubo5.itaas × 1m)
+		)
+		haligi(6 - tubo5.itaas tubo5.genre2 tubo5.x2 -6m)
+	]
+
+¶Binabangga ng lupa ang ibon; ibinabalik naman ito pababa ng langit.¶
+lupa2: Hugis(
+		Parihaba(-8m -5.7m 8m -6m)
+		background: Kulay(60% 60 130°)
+	)
+langit: Hugis(Parihaba(-8m 7m 8m 6m) pangalan: 'sky')
+kaliwangPader: Hugis(Parihaba(-8.4m 6m -8m -6m))
+kanangPader: Hugis(Parihaba(8m 6m 8.4m -6m))
+
+tanawinNgPuntos: Parirala(
+		"\iskor\"
+		1.5m
+		lugar: Lugar(-0.5m 4m)
+	)
+mgaOverlay:
+	laro2.yugto ???
+		1: [Parirala("\bilang2\" 3m lugar: Lugar(-1m -1.5m))]
+		3: [Parirala('💥' 3m lugar: Lugar(-1.5m -1.5m))]
+		[]
+
+¶Ang tagapagpalit ng mode: ang napiling paraan ng paglalaro ay maliwanag, ang isa naman ay malabo.¶
+humâButones: Parirala(
+		'🎤'
+		0.8m
+		pangalan: 'hum'
+		mapipili: ⊤
+		lugar: Lugar(-4.2m 4.7m)
+		nagpapahinga: (mode = 'hum') ? Pose() Pose(
+				kalabuan: 40%
+			)
+	)
+tapikButones: Parirala(
+		'⌨'
+		0.8m
+		pangalan: 'tap'
+		mapipili: ⊤
+		lugar: Lugar(-3m 4.7m)
+		nagpapahinga: (mode = 'tap') ? Pose() Pose(
+				kalabuan: 40%
+			)
+	)
+
+panuto1: Parirala(
+		'Piliin ang ⌨ para pumagaspas gamit ang mga click at key, o ⚫🎤 para ugungin ang taas ng iyong ibon!'
+		0.45m
+		lugar: Lugar(-6.9m -4.7m)
+	)
+panuto2: Parirala(
+		'Dumausdos sa mga puwang. Huwag hipuin ang mga tambak!'
+		0.4m
+		lugar: Lugar(-4.5m -5.4m)
+	)
+
+¶Ang isang pagpagaspas ay isang solong ebalwasyon na — ang reaksyon na nagpapaangat sa ibon ay nag-a-apoy sa click o key at wala nang iba pa — kaya maaari na nitong direktang patunugin ang pakpak: isang tunog sa frame kung saan ka pumagaspas, at wala naman sa ibang oras. Ang tunog na nagsimula na ay tumutugtog hanggang matapos, kaya ang pag-alis nito sa listahang ito isang frame mamaya ay hindi pumuputol sa pakpak. Sa hum mode, wala talagang pagpagaspas, kaya nananatiling walang laman ang listahan, at tahimik ang ibon habang kumakanta ka rito.¶
+mgaTunogNgPagpakpak: flap ? [3] []
+
+tunogNgPagpakpak: Musika(
+		Track(
+			mgaTunogNgPagpakpak
+			instrumento: Instrumento.mgaTambol
+			lakasNgTunog: 70%
+			loop: ⊥
+		)
+		iReplay: flap
+		pangalan: 'pagpapak-pak'
+	)
+
+¶Dalawampung gate mula sa balisa hanggang desperado. Ang pagpapalit ng tempo ay ipinapasok sa susunod na tibok, sa halip na magsimula ulit, kaya bawat gate ay pumipigil sa loop sa ilalim mo nang hindi ito nawawalan ng lugar — at ang pagbangga ay ibinabalik ang iskor sa zero, na nag-uumpisa ulit nito mula sa simula.¶
+pagmamadali: (iskor ÷ 20).minuto(1)
+
+¶Phrygian para sa patag na ikalawang nota: isang semitono lang sa itaas ng home, ang pinakabalisang tunog na maaaring marinig nang hindi umaalis sa scale. Umaasa dito ang bass tuwing bawat ikalawang bar, at doon din natatapos ang figure ng synth, kaya hindi kailanman tumitigil ang loop.¶
+kantangBalisa: Musika(
+		[
+			Track(
+				[1 ø 1 ø 2 ø 1 ø]
+				instrumento: Instrumento.synthBass
+				beat: 1beats
+				lakasNgTunog: 50%
+			)
+			Track(
+				[5 ø 4 ø 5 ø 4 2]
+				instrumento: Instrumento.synth
+				beat: 1beats
+				lakasNgTunog: 35%
+			)
+			Track(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 3 3]
+				instrumento: Instrumento.mgaTambol
+				beat: 0.5beats
+				lakasNgTunog: 35%
+			)
+		]
+		tempo: (100beats/min + (pagmamadali · 100beats/min))
+		iskala: Musika.phrygian
+		pangalan: 'balisa'
+	)
+
+¶Tumatakbo ito sa buong pagbibilang pababa at sa paglipad, at biglang huminto sa pagbangga, para ang 💥 ay may sariling puwang.¶
+listahanNgKanta: (laro2.yugto = 3) ? [] [kantangBalisa]
+
+¶Ang banggaan: isang simbal, isang mababang tunog na bagsak, at ang balisang scale na bumabagsak mula sa itaas patungo mismo sa sarili nito — ang mismong mga notang paulit-ulit na tinatalakay ng kanta, na sa wakas ay hindi na patungo kahit saan.
+
+Hindi na kailangan nito ang @Music.replay. Ang pagdating sa entablado ay dahilan na para tumunog, at ang one-shot na natapos nang tumugtog ay tahimik hanggang umalis ito; inaalis ito ng pagbibilang pababa mula sa entablado at nakakalimutan ito, kaya kapag may susunod na banggaan, tumutunog itong muli mula sa simula. Tumatagal ito ng humigit-kumulang isang beat at kalahati, komportableng nasa loob ng dalawa at kalahating segundo na tinatakbo ng pahinga sa pagbangga.¶
+tunogNgKamatayan: Musika(
+		[
+			Track(
+				[8 7 5 4 2 1 ø ø]
+				instrumento: Instrumento.synth
+				beat: 0.25beats
+				lakasNgTunog: 55%
+				loop: ⊥
+			)
+			Track(
+				[4 ø]
+				instrumento: Instrumento.mgaTambol
+				beat: 1beats
+				lakasNgTunog: 50%
+				loop: ⊥
+			)
+			Track(
+				[1 ø]
+				instrumento: Instrumento.synthBass
+				beat: 1beats
+				lakasNgTunog: 60%
+				loop: ⊥
+			)
+		]
+		tempo: 100beats/min
+		iskala: Musika.phrygian
+		pangalan: 'bangga'
+	)
+
+listahanNgKamatayan: (laro2.yugto = 3) ? [tunogNgKamatayan] [
+		]
+
+Entablado(
+	[
+		ibon
+		tunogNgPagpakpak
+		:listahanNgKanta
+		:listahanNgKamatayan
+		:tambak(tubo1)
+		:tambak(tubo2)
+		:tambak(tubo3)
+		:tambak(tubo4)
+		lupa2
+		langit
+		kaliwangPader
+		kanangPader
+		tanawinNgPuntos
+		:mgaOverlay
+		humâButones
+		tapikButones
+		panuto1
+		panuto2
+	]
+	lugar: Lugar(0m 0m -12m)
+	balangkas: Parihaba(-8m 6m 8m -6m)
+	background: Kulay(90% 20 240°)
+)

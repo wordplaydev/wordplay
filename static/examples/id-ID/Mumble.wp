@@ -1,0 +1,29 @@
+m
+Mumble
+=== start
+¶Teruslah mengeklik agar gumamannya makin lantang.¶
+klik•#: 0 … ∆ Tombol() … klik + 1
+
+klik < 3 ?
+	Frasa(
+		'gumam'
+		ukuran: 1m
+		nama: 'gumaman'
+		memasuki: Pose(skala: 0)
+		beristirahat: Urutan(
+			{
+				0%: Pose(skala: (klik + 1) × 1.1)
+				50%: Pose(skala: (klik + 1) × 0.9)
+				100%: Pose(skala: (klik + 1) × 1.1)
+			}
+			lamanya: 0.5s
+		)
+		keluar: Urutan(
+			{
+				0%: Pose(kegelapan: 1 skala: 1)
+				100%: Pose(kegelapan: 0 skala: 10)
+			}
+			lamanya: 2s
+		)
+	)
+	Frasa('selesai')

@@ -1,6 +1,7 @@
-// Content-category targeting for translate/override runs. A run does six kinds
-// of work per locale (locale strings, complete tutorial, quick tutorial,
-// how-tos, emoji, date/time data); these flags scope which run.
+// Content-category targeting for translate/override runs. A run does seven
+// kinds of work per locale (locale strings, complete tutorial, quick tutorial,
+// how-tos, gallery examples, emoji, date/time data); these flags scope which
+// run.
 //
 //   (no flags)        do everything (default)
 //   -<category> …     exclude whole categories; do everything else
@@ -8,15 +9,16 @@
 //   +<category>:<spec> include only specific sub-content (repeat to add more)
 //
 // Specifiers (include only): locale:<path-prefix>, tutorial:<act>[/<scene>],
-// quick:<act>[/<scene>] (1-based), howto:<id>. Mixing +/-, a specifier on a -
-// flag or on emoji/datetimes, an unknown category, or a malformed specifier
-// are errors.
+// quick:<act>[/<scene>] (1-based), howto:<id>, example:<Name>. Mixing +/-, a
+// specifier on a - flag or on emoji/datetimes, an unknown category, or a
+// malformed specifier are errors.
 
 export const CONTENT_CATEGORIES = [
     'locale',
     'tutorial',
     'quick',
     'howto',
+    'example',
     'emoji',
     'datetimes',
 ] as const;
@@ -36,6 +38,12 @@ export type Selection = {
     quickTargets(): TutorialTarget[];
     /** How-to ids to narrow `howto` to (empty = whole category). */
     howtoIds(): string[];
+    /** Example names to narrow `example` to (empty = whole category). */
+    exampleIds(): string[];
+    /** Whether the category was named with a `+` flag, as opposed to merely
+     *  riding along with a no-flag or exclude run. Gallery examples are opt-in
+     *  per locale, and an explicit `+example` is what opts a locale in. */
+    isExplicitlyIncluded(category: ContentCategory): boolean;
     /** The raw `+`/`-` flag tokens, for forwarding to child processes. */
     flags: string[];
 };
@@ -131,10 +139,14 @@ export function parseCategorySelection(args: string[]): Selection | string {
                 ? listed.has(category)
                 : !listed.has(category);
         },
+        isExplicitlyIncluded(category) {
+            return mode === 'include' && listed.has(category);
+        },
         localePrefixes: () => specifiersOf('locale'),
         tutorialTargets: () => targetsOf('tutorial'),
         quickTargets: () => targetsOf('quick'),
         howtoIds: () => specifiersOf('howto'),
+        exampleIds: () => specifiersOf('example'),
     };
 }
 

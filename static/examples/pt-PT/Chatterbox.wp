@@ -1,0 +1,95 @@
+🤖
+Tagarela
+=== start
+¶Chatterbox é um pequeno robô ouvinte, inspirado em Eliza, o primeiro chatbot de sempre, criado em 1966. Escreva na barra de conversa e ele responde, guardando um registo da sua conversa.¶
+
+¶Uma linha de conversa: quem a disse e o que disse.¶
+•linha(speaker•'' palavras2•'')
+
+mensagem: Conversa()
+
+¶Antes de repetir as suas palavras, o Chatterbox troca os pronomes, substituindo cada palavra segundo este mapa: my passa a your, e I passa a you. Assim, "I feel like you hate me" volta como "Why do you feel like I hate you?"¶
+trocas: {
+		'I': 'you'
+		'i': 'you'
+		"I'm": 'você é'
+		"i'm": 'você é'
+		'me': 'you'
+		'my': 'your'
+		'mine': 'yours'
+		'myself': 'yourself'
+		'am': 'são'
+		'you': 'I'
+		'your': 'my'
+		'yours': 'mine'
+		'yourself': 'myself'
+	}
+ƒ refletir(palavras3•'')•'' palavras3.segmentado(' ').traduzir(
+		ƒ(palavra2•'') trocas{palavra2} ?? palavra2
+	).juntar(
+		' '
+	)
+
+¶O Chatterbox escolhe uma resposta ao comparar padrões com a mensagem. Aa ignora as maiúsculas e minúsculas, e uma captura com nome como mood apanha tudo até ao sinal de pontuação final, para que a resposta possa repetir as suas próprias palavras — o truque usado pela Eliza original. A última regra é uma alternativa: um estímulo escolhido ao acaso para o manter a falar.¶
+ƒ resposta(palavras4•'')•'' (
+		sentimentos: palavras4 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
+		seres: palavras4 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
+		desejos: palavras4 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		vontades: palavras4 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
+		sentimentos.comprimento() > 0 ? 'Porque é que sente ' + refletir(
+					sentimentos[1].grupos{'estado de espírito'} ?? ''
+				) + '?'
+			seres.comprimento() > 0 ? 'Há quanto tempo tem estado ' + refletir(
+						seres[1].grupos{'estado'} ?? ''
+					) + '?'
+				desejos.comprimento() > 0 ? 'O que significaria para si ter ' + refletir(
+							desejos[1].grupos{'desejo'} ?? ''
+						) + '?'
+					vontades.comprimento() > 0 ? 'O que mudaria se ' + refletir(
+								vontades[1].grupos{'desejo'} ?? ''
+							) + '?'
+						(palavras4 ⌕ ⣿ Aa("because")⣿).comprimento() > 0 ? 'Será essa a verdadeira razão?'
+							(palavras4 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).comprimento(
+							) > 0 ? 'Fale-me mais sobre a sua família.'
+								palavras4.termina('?') ? 'Está a perguntar-me? O que é que acha?'
+									(palavras4 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? 'Olá! Como se sente hoje?'
+										[
+											'Fale-me mais.'
+											'Continue.'
+											'Como é que isso o(a) faz sentir?'
+											'Estou a ver. Estou a ouvir.'
+										].aleatório(
+										)
+	)
+
+¶O registo começa com uma saudação e cresce duas linhas a cada mensagem: a sua, depois a resposta do Chatterbox.¶
+registo•[linha]: [
+		linha('🤖' 'Olá! Sou o Chatterbox. Como está?')
+	] … ∆ mensagem …
+		registo.com(linha('🙂' mensagem)).com(
+			linha('🤖' resposta(mensagem))
+		)
+
+¶Mostre apenas as linhas mais recentes, para as antigas darem lugar às novas.¶
+recente: registo.comprimento() ≤ 8 ? registo registo.subsequência(
+			registo.comprimento() - 7
+		)
+
+Fase(
+	[
+		Grupo(
+			Monte('<' 0.5m)
+			recente.traduzir(
+				ƒ(linha2•linha)
+					Frase(
+						linha2.speaker + ' ' + linha2.palavras2
+						tamanho: 0.75m
+						envolver: 22m
+						entrando: Pose(opacidade: 0 escala: 0.5)
+						duração: 0.4s
+					)
+			)
+		)
+	]
+	local: Local(0m 0m -12m)
+)

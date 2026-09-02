@@ -1,0 +1,78 @@
+⏳
+Studieläge-mätare
+=== start/en
+¶Klicka för att lägga till studietimmar och se mätaren ändras från lugn till fokus till överbelastning.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+handling: Val()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+studietimmar:
+	0 …
+	∆ handling …
+		handling = 'reset' ?
+			0
+			studietimmar + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+förklaring:
+	'Klicka på "Lägg till studietimme +1" för att öka din studietid. Klicka på "Återställ" för att börja om.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+timmarText:
+	'Du har studerat ' + studietimmar → '' + ' timme(-ar).'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+humör:
+	studietimmar < 3 ?
+		'🌿 LUGN-LÄGE — klicka för att lägga till studietid'
+		studietimmar < 6 ?
+			'📚 FOKUS-LÄGE — du är i den produktiva zonen!'
+			'🔥 ÖVERBELASTNINGS-LÄGE — ta en paus och "återställ"'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+Etapp(
+	[
+		Grupp(
+			Stack()
+			[
+				Fras('Studieläge-mätare' storlek: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				Fras(förklaring storlek: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				Fras(timmarText storlek: 0.4m)
+
+				Fras(humör storlek: 0.75m)
+
+				Grupp(
+					Rad(stoppning: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						Fras(
+							'Lägg till studietimme +1'
+							valbara: ⊤
+							namn: 'lägg till'
+							färg: Färg(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						Fras(
+							'Återställ'
+							valbara: ⊤
+							namn: 'reset'
+							färg: Färg(69% 47 271°)
+						)
+					]
+				)
+			]
+			ansikte: "Aclonica"
+		)
+	]
+)

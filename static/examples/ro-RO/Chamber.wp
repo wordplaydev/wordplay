@@ -1,0 +1,76 @@
+文
+Cameră
+=== start
+¶O sută de litere din patru sisteme de scriere se lovesc într-o cutie închisă; schimbă gravitația sau scutură-le.¶
+numărare2: 100
+
+¶Cele patru alfabete din care sunt luate literele.¶
+latină: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
+greacă: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
+arabă: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
+cjk: '日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪' → ['']
+
+¶Care control a fost apăsat ultima dată.¶
+choice: Alegere()
+
+¶Amestecă toate cele patru alfabete împreună o singură dată, când programul începe, și apoi păstrează acea ordine pentru totdeauna. Un amestec scris ca o legare simplă ar da fiecărei litere un caracter nou la fiecare cadru.¶
+simboluri2: [:latină :greacă :arabă :cjk].amestecat() … ∆ choice … simboluri2
+
+¶Adevărat doar la evaluarea provocată de butonul de scuturare, astfel încât literele primesc o singură împingere pe apăsare, în loc să fie mișcate la fiecare cadru.¶
+scuturare: (∆ choice) & (choice = 'shake')
+
+¶Comutatorul trece între gravitația Pământului și absența ei.¶
+cădere: ⊤ … ∆ choice … (choice = 'gravity') ? ~cădere cădere
+
+¶O viteză, o direcție și o rotație aleatorii.¶
+ƒ lansare() Viteză(
+		Aleatoriu(-12m/s 12m/s)
+		Aleatoriu(-12m/s 12m/s)
+		Aleatoriu(-120°/s 120°/s)
+	)
+
+litere: numărare2 → [].traduce(
+		ƒ(număr2)
+			Fraza(
+				simboluri2[număr2]
+				nume: "glyph\număr2\"
+				loc: Mişcare(
+					Loc(Aleatoriu(-7.5m 7.5m) Aleatoriu(-5.5m 5.5m))
+					lansare()
+					următoareaviteză: scuturare ? lansare() ø
+				)
+				materie: Materie(elasticitate: 0.7 frecare: 0)
+			)
+	)
+
+¶Cele două controale. Ele nu au masă și locul lor nu este o Mișcare, așa că motorul fizic le lasă neschimbate.¶
+comutator: Fraza(
+		cădere ? '⬇ gravitație' '🌌 plutind'
+		0.7m
+		nume: 'gravity'
+		selectabil: ⊤
+		loc: Loc(-13m 1m)
+	)
+
+agitator: Fraza(
+		'🎲 scuturare'
+		0.7m
+		nume: 'shake'
+		selectabil: ⊤
+		loc: Loc(-13m -1m)
+	)
+
+Etapă(
+	[
+		¶Patru pereți, destul de groși încât nimic nu trece prin ei cu viteză.¶
+		Figură(Dreptunghi(-8.6m 6.6m 8.6m 6m))
+		Figură(Dreptunghi(-8.6m -6m 8.6m -6.6m))
+		Figură(Dreptunghi(-8.6m 6.6m -8m -6.6m))
+		Figură(Dreptunghi(8m 6.6m 8.6m -6.6m))
+		:litere
+		comutator
+		agitator
+	]
+	gravitaţie: cădere ? 9.8m/s^2 0m/s^2
+	loc: Loc(-2.5m 0m -11m)
+)

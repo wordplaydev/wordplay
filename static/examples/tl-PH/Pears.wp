@@ -1,0 +1,177 @@
+M
+Peras
+=== start/en
+¶Ito ay isang makikipanayam na maikling kuwento. May ilang magkakaibang eksena ito, at lumilipat ito sa pagitan ng mga ito base sa iba't ibang pakikipag-ugnayan, tulad ng pag-click, banggaan, at iba pang kilos. Bahagi ng saya ng pagbabasa ng kuwento ay ang pagtuklas kung anong kilos ang kailangan para umusad ang kuwento.¶
+panimula: [
+		Parirala(
+			`Gusto nang umalis ng Tatay ko.`
+			lugar: Lugar(-9m 0m)
+		)
+	]
+
+suliranin: [
+		Parirala(
+			`"Nanay", kailangan na nating umalis.`
+			lugar: Lugar(-8m 7m)
+		)
+		Parirala(`/"Umuwi na tayo."/` lugar: Lugar(1m 4m))
+		Parirala(
+			`"Nanay, wala kaming gustong kunin!"`
+			lugar: Lugar(-8m 1m)
+		)
+		Parirala(
+			`"Umuwi na tayo!"`
+			laki: 2m
+			lugar: Lugar(-6m -4m)
+			nagpapahinga: Pagkakasunodsunod.iling()
+		)
+	]
+
+pataasNaAksyon1: [
+		Parirala(
+			`Lumabas ang aking 炮炮👵🏽 papunta sa likod-bahay`
+			lugar: Lugar(-9m 7m)
+		)
+		Parirala(
+			`Sinundan ko siya, dahil sa pagkamausisa`
+			lugar: Lugar(-6m 4m)
+		)
+		Parirala(
+			`👵🏽`
+			pangalan: 'paupau'
+			laki: 2m
+			materya: Materya()
+			lugar: Lugar(6m -6m)
+			bula: `/"沙梨🍐, umuwi na tayo!"/`
+		)
+		Parirala(
+			`👧🏻`
+			pangalan: 'ako'
+			laki: 1m
+			materya: Materya()
+			lugar: Paglalagay(Lugar(-8m -6m))
+		)
+	]
+
+pataasNaAksyon2: [
+		Parirala(
+			`Huminto siya sa isang maliit na puno.`
+			lugar: Lugar(-9m 6m)
+		)
+		Parirala(
+			`May nakasabit dito na dose-dosenang maningning na dilaw na 沙梨`
+			lugar: Lugar(-9m 1m)
+			pambalot: 10m
+		)
+		Parirala(
+			`"Mama, wala kaming gustong peras."`
+			laki: .75m
+			lugar: Lugar(-4m 0m)
+		)
+		Parirala(
+			`/Gusto ko ng peras./`
+			laki: 2m
+			lugar: Lugar(-8m -3m)
+		)
+		Parirala(
+			"🍐"
+			laki: 2m
+			lugar: Lugar(-1m -7m)
+			pangalan: 'pear'
+			mapipili: ⊤
+		)
+	]
+
+¶Pinagpasyahan namin nang maaga ang mga lugar para mahulog sila mula sa parehong bahagi.¶
+mgaLugar: (6 → []).isalin(
+		ƒ() Lugar(Random(-2m 2m) Random(-3m -5m))
+	)
+kasukdulan: [
+		Parirala(`Lumuhod siya sa lupa.` lugar: Lugar(-9m 6m))
+		Parirala(`Kumuha ng kutsilyo` lugar: Lugar(-9m 4m))
+		Parirala(
+			`At maingat na pinutol ang anim`
+			lugar: Lugar(-9m 2m)
+		)
+		Parirala(
+			`Ibinabagsak ang mga ito sa basket niya sa ibaba`
+			lugar: Lugar(-9m 0m)
+		)
+		Parirala("🧺" laki: 4m lugar: Lugar(-2m -12m))
+		Parirala(
+			"🌳"
+			pangalan: "tree"
+			laki: 5m
+			lugar: Lugar(-3m -7m)
+			mapipili: ⊤
+		)
+		:mgaLugar.isalin(
+			ƒ(ilagay indeks2)
+				Parirala(
+					"🍐"
+					pangalan: "pear\indeks2\"
+					lugar: Pagpipilian() = 'tree' ? Paggalaw(ilagay) ilagay
+				)
+		)
+		Parirala("🔪" lugar: Panturo())
+	]
+
+kalutasan: [
+		Parirala(
+			`Dinala niya sa akin ang mga ito`
+			lugar: Lugar(-9m 6m)
+		)
+		Parirala(`Lumuhod sa harap ko` lugar: Lugar(-8m 4m))
+		Parirala(
+			`At iniabot sa akin ang basket`
+			lugar: Lugar(-7m 2m)
+		)
+		Parirala(
+			`/"Dalhin mo, umuwi ka na"/`
+			lugar: Lugar(0m -2m)
+		)
+	]
+
+mgaPasasalamat: [
+		Parirala(`ni /Amy J. Ko/`)
+	]
+
+kuwento: [
+		panimula
+		suliranin
+		pataasNaAksyon1
+		pataasNaAksyon2
+		kasukdulan
+		kalutasan
+		mgaPasasalamat
+	]
+
+¶Bilangin ang mga click at tap¶
+click: ∆ Butones()
+¶Bilangin kung gaano katagal matapos i-click ang puno¶
+orasPagkataposNgPutol: 0ms … Pagpipilian() = 'tree' … Oras(
+			1000ms
+		)
+¶Bilangin kung kailan namin naabot si Pau Pau¶
+saPauPau: ∆ Pagbangga('ako')
+¶Bilangin kung kailan napili ang peras¶
+piniliAngPear: Pagpipilian() = 'pear'
+¶Baguhin ang bahagi batay sa kasalukuyang bahagi¶
+bahagi•#:
+	1 …
+	bahagi ???
+		1: click
+		2: click
+		3: saPauPau
+		4: piniliAngPear
+		5: orasPagkataposNgPutol > 1500ms
+		6: ∆ Butones()
+		⊥
+		… bahagi + 1
+
+Entablado(
+	kuwento[bahagi]
+	mukha: 'Arvo'
+	lugar: Lugar(0m 0m -20m)
+	balangkas: Parihaba(-10m 10m 10m -10m)
+)

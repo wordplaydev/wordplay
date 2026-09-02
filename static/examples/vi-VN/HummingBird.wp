@@ -1,0 +1,355 @@
+🐤
+Chim Ruồi Kêu Vo Ve
+=== start/en
+¶Một trò chơi chú chim ngân nga! Nhấp chuột hoặc nhấn một phím để vỗ cánh, hoặc ngân nga vào micrô — chú chim sẽ bay lên đến độ cao tương ứng với cao độ tiếng ngân nga của bạn. Hãy lách qua các khoảng trống giữa những cột biểu tượng cảm xúc. Chạm vào một cột hoặc mặt đất sẽ làm trò chơi kết thúc; sau khi va chạm, trò chơi sẽ đếm ngược và bắt đầu lại.¶
+
+¶Mỗi rào chắn là một cột biểu tượng cảm xúc lấy từ một trong các bộ sưu tập này.¶
+thểLoại: [
+		['🌵' '🌱' '🌿' '🍀' '🎋']
+		['🍩' '🧁' '🍰' '🍪' '🍦']
+		['🐙' '🐟' '🦀' '🐡' '🦑']
+		['🚗' '🚌' '🚕' '🚙' '🚓']
+		['🌸' '🌼' '🌻' '🌷' '💐']
+		['⭐' '🌟' '✨' '☁' '🌙']
+	]
+
+¶Khoảng cách một rào chắn di chuyển sang trái ở mỗi nhịp.¶
+tốcĐộ: 0.2m
+
+¶Bất kỳ va chạm nào với chú chim. Trần được đặt tên là 'sky' nên chạm vào nó chỉ khiến chim bật lại thay vì làm trò chơi kết thúc.¶
+vaChạm: Vachạm('chim')
+nghiêmTrọng: vaChạm•ø ? ⊥ (vaChạm.sựvật ≠ 'sky')
+
+nhịp2: Thờigian(40ms)
+nhịpTròChơi: Thờigian(100ms)
+
+¶Trạng thái của trò chơi: một giai đoạn (1 = đếm ngược, 2 = đang chơi, 3 = va chạm) và số phần mười giây đã trôi qua trong giai đoạn đó. Chúng ta đếm nhịp của một đồng hồ duy nhất thay vì trừ các mốc thời gian, vì mỗi $Time() đều bắt đầu từ số không.¶
+•tròChơi(giaiĐoạn•# tiếngTíchTắc•#)
+tròChơi2•tròChơi: tròChơi(1 0) …
+	∆ nhịpTròChơi | nghiêmTrọng …
+		tròChơi2.giaiĐoạn ???
+			1: (tròChơi2.tiếngTíchTắc ≥ 36) ? tròChơi(2 0) tròChơi(
+					1
+					tròChơi2.tiếngTíchTắc + 1
+				)
+			2: nghiêmTrọng ? tròChơi(3 0) tròChơi2
+			3: (tròChơi2.tiếngTíchTắc ≥ 25) ? tròChơi(1 0)
+				¶Khi chú chim đang đậu trên vật gì đó, các va chạm sẽ khiến phản ứng này luôn bận; chỉ đếm những nhịp đồng hồ thật để khoảng dừng luôn có cùng độ dài.¶
+				tròChơi(
+					3
+					tròChơi2.tiếngTíchTắc + (∆ nhịpTròChơi ? 1 0)
+				)
+			tròChơi2
+
+¶Con số đếm ngược cần hiển thị: 3, 2, 1.¶
+đếm2: (tròChơi2.tiếngTíchTắc < 12) ? 3 (tròChơi2.tiếngTíchTắc < 24) ? 2 1
+
+¶Chọn cách chơi bằng cách nhấn nút 🎤 hoặc ⌨: ngân nga sẽ điều khiển chú chim di chuyển, còn nhấp chuột hoặc nhấn phím sẽ làm chim vỗ cánh. Đây là hai chế độ riêng biệt, để việc nói chuyện gần micrô không gây xung đột với bàn phím.¶
+đãChọn: Sựlựachọn()
+chếĐộ•'': 'tap' … (đãChọn = 'hum') | (đãChọn = 'tap') … đãChọn
+
+¶Trong chế độ chạm, hãy vỗ cánh khi bấm chuột hoặc nhấn phím bất kỳ.¶
+vỗCánh: (chếĐộ = 'tap') & (∆ Cáinút() | ∆ Chìakhóa())
+
+¶Trong chế độ ngân nga, con chim bay lên đến độ cao ứng với cao độ giọng ngân của bạn — nốt trầm gần mặt đất, nốt cao gần bầu trời — và không cao hơn.¶
+caoĐộ2: Sânbóngđá()
+ngânNga: (chếĐộ = 'hum') & (caoĐộ2 > 50hz)
+
+ƒ caoĐộSangChiềuCao(hz•#hz)
+	(hz < 80hz) ? -4m
+		(hz > 400hz) ? 5m
+			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+
+¶Từ từ tiến gần độ cao được ngân nga, từng chút một, để con chim lượn êm thay vì rung giật theo từng dao động nhỏ của cao độ.¶
+caoĐộY•#m: 1m … ∆ caoĐộ2 … ngânNga ? (0.8 × caoĐộY) + (0.2 × caoĐộSangChiềuCao(
+							caoĐộ2
+						)) caoĐộY
+
+¶Con chim lơ lửng trong lúc đếm ngược, vỗ cánh bay lên hoặc nổi theo cao độ được ngân nga khi đang chơi, và rơi tự do sau khi va chạm.¶
+vịTríChim: Cửđộng(
+		VịTrí(-4m 1m)
+		nơitiếptheo:
+		(tròChơi2.giaiĐoạn = 1) ? VịTrí(-4m 1m)
+			((tròChơi2.giaiĐoạn = 2) & ngânNga) ? VịTrí(
+					-4m
+					caoĐộY
+				) ø
+		vậntốctiếptheo:
+		(tròChơi2.giaiĐoạn = 1) ? Vậntốc(0m/s 0m/s)
+			((tròChơi2.giaiĐoạn = 2) & ngânNga) ? Vậntốc(
+					0m/s
+					0m/s
+				)
+				((tròChơi2.giaiĐoạn = 2) & vỗCánh) ? Vậntốc(
+						0m/s
+						15m/s
+					) ø
+	)
+
+¶Biểu tượng cảm xúc chú gà con quay mặt sang trái, nên mỗi tư thế đều lật nó để hướng về phía nó đang đi.¶
+chim: Cụmtừ(
+		'🐤'
+		1m
+		tên: 'chim'
+		vịTrí: vịTríChim
+		vấnđề: Vấnđề(1kg 0.4 0)
+		nghỉngơi:
+		(tròChơi2.giaiĐoạn = 3) ? Tưthế(xoay: 180° lậtngược: ⊤)
+			Sựliêntiếp(
+				{
+					0%: Tưthế(lậtngược: ⊤ xoay: -12°)
+					50%: Tưthế(lậtngược: ⊤ xoay: 12°)
+					100%: Tưthế(lậtngược: ⊤ xoay: -12°)
+				}
+				0.35s
+			)
+	)
+
+¶Mỗi rào chắn gồm: một vị trí ngang, số lượng biểu tượng cảm xúc treo từ trên xuống, và bộ biểu tượng cảm xúc dùng để tạo nên nó. Các rào chắn di chuyển sang trái khi đang chơi, vòng lại bên phải với hình dạng ngẫu nhiên mới, và đặt lại khi bắt đầu ván chơi mới.¶
+•ống(x2•#m trên•# thểLoại2•#)
+
+ống1•ống: ống(10m Ngẫunhiên(1 5) Ngẫunhiên(1 6)) …
+	((tròChơi2.giaiĐoạn = 1) & (ống1.x2 ≠ 10m)) | ((tròChơi2.giaiĐoạn = 2) & ∆ nhịp2) …
+		(tròChơi2.giaiĐoạn = 1) ? ống(
+				10m
+				Ngẫunhiên(1 5)
+				Ngẫunhiên(1 6)
+			)
+			(ống1.x2 < -13m) ? ống(
+					ống1.x2 + 24m
+					Ngẫunhiên(1 5)
+					Ngẫunhiên(1 6)
+				)
+				ống(ống1.x2 - tốcĐộ ống1.trên ống1.thểLoại2)
+
+ống2•ống: ống(16m Ngẫunhiên(1 5) Ngẫunhiên(1 6)) …
+	((tròChơi2.giaiĐoạn = 1) & (ống2.x2 ≠ 16m)) | ((tròChơi2.giaiĐoạn = 2) & ∆ nhịp2) …
+		(tròChơi2.giaiĐoạn = 1) ? ống(
+				16m
+				Ngẫunhiên(1 5)
+				Ngẫunhiên(1 6)
+			)
+			(ống2.x2 < -13m) ? ống(
+					ống2.x2 + 24m
+					Ngẫunhiên(1 5)
+					Ngẫunhiên(1 6)
+				)
+				ống(ống2.x2 - tốcĐộ ống2.trên ống2.thểLoại2)
+
+ống3•ống: ống(22m Ngẫunhiên(1 5) Ngẫunhiên(1 6)) …
+	((tròChơi2.giaiĐoạn = 1) & (ống3.x2 ≠ 22m)) | ((tròChơi2.giaiĐoạn = 2) & ∆ nhịp2) …
+		(tròChơi2.giaiĐoạn = 1) ? ống(
+				22m
+				Ngẫunhiên(1 5)
+				Ngẫunhiên(1 6)
+			)
+			(ống3.x2 < -13m) ? ống(
+					ống3.x2 + 24m
+					Ngẫunhiên(1 5)
+					Ngẫunhiên(1 6)
+				)
+				ống(ống3.x2 - tốcĐộ ống3.trên ống3.thểLoại2)
+
+ống4•ống: ống(28m Ngẫunhiên(1 5) Ngẫunhiên(1 6)) …
+	((tròChơi2.giaiĐoạn = 1) & (ống4.x2 ≠ 28m)) | ((tròChơi2.giaiĐoạn = 2) & ∆ nhịp2) …
+		(tròChơi2.giaiĐoạn = 1) ? ống(
+				28m
+				Ngẫunhiên(1 5)
+				Ngẫunhiên(1 6)
+			)
+			(ống4.x2 < -13m) ? ống(
+					ống4.x2 + 24m
+					Ngẫunhiên(1 5)
+					Ngẫunhiên(1 6)
+				)
+				ống(ống4.x2 - tốcĐộ ống4.trên ống4.thểLoại2)
+
+¶Một rào chắn vừa lướt qua con chim phải không?¶
+ƒ đãQua(x3•#m) (x3 ≤ -5m) & (x3 > (-5m - tốcĐộ))
+
+điểmSố•#: 0 …
+	(tròChơi2.giaiĐoạn = 1) | ((tròChơi2.giaiĐoạn = 2) & ∆ nhịp2) …
+		(tròChơi2.giaiĐoạn = 1) ? 0
+			(đãQua(ống1.x2) | đãQua(ống2.x2) | đãQua(ống3.x2) | đãQua(
+						ống4.x2
+					)) ? điểmSố + 1
+				điểmSố
+
+¶Xây một chồng biểu tượng cảm xúc như một cột vật lý. Thời lượng bằng 0 khiến việc vòng lại bên phải diễn ra tức thì thay vì trượt có thể nhìn thấy.¶
+ƒ cột2(tếBào2•# thểLoại3•# x4•#m y2•#m)
+	Nhóm(
+		Ngănxếp('|' 0m)
+		(tếBào2 → []).dịch(
+			ƒ(phòngGiam•#) Cụmtừ(
+					thểLoại[thểLoại3][1 + ((phòngGiam - 1) % 5)]
+					1m
+				)
+		)
+		vịTrí: VịTrí(x4 y2)
+		vấnđề: Vấnđề()
+		khoảngthờigian: 0s
+	)
+
+¶Một rào chắn gồm hai cột: một treo từ bầu trời, một mọc lên từ mặt đất, với khoảng cách chừng 6 mét giữa chúng.¶
+ƒ chồng(ống5•ống) [
+		cột2(
+			ống5.trên
+			ống5.thểLoại2
+			ống5.x2
+			6m - (ống5.trên × 1m)
+		)
+		cột2(6 - ống5.trên ống5.thểLoại2 ống5.x2 -6m)
+	]
+
+¶Mặt đất làm con chim va chạm; bầu trời đẩy nó bật ngược trở xuống.¶
+mặtĐất: Hìnhdạng(
+		Hìnhchữnhật(-8m -5.7m 8m -6m)
+		lýlịch: Màusắc(60% 60 130°)
+	)
+bầuTrời: Hìnhdạng(Hìnhchữnhật(-8m 7m 8m 6m) tên: 'sky')
+tườngTrái: Hìnhdạng(Hìnhchữnhật(-8.4m 6m -8m -6m))
+tườngPhải: Hìnhdạng(Hìnhchữnhật(8m 6m 8.4m -6m))
+
+xemĐiểmSố: Cụmtừ("\điểmSố\" 1.5m vịTrí: VịTrí(-0.5m 4m))
+lớpPhủ2:
+	tròChơi2.giaiĐoạn ???
+		1: [Cụmtừ("\đếm2\" 3m vịTrí: VịTrí(-1m -1.5m))]
+		3: [Cụmtừ('💥' 3m vịTrí: VịTrí(-1.5m -1.5m))]
+		[]
+
+¶Bộ chuyển chế độ: cách chơi đang được chọn thì sáng, cách còn lại thì mờ.¶
+nútNgânNga: Cụmtừ(
+		'🎤'
+		0.8m
+		tên: 'hum'
+		cóthểlựachọn: ⊤
+		vịTrí: VịTrí(-4.2m 4.7m)
+		nghỉngơi: (chếĐộ = 'hum') ? Tưthế() Tưthế(độmờđục: 40%)
+	)
+nútChạm: Cụmtừ(
+		'⌨'
+		0.8m
+		tên: 'tap'
+		cóthểlựachọn: ⊤
+		vịTrí: VịTrí(-3m 4.7m)
+		nghỉngơi: (chếĐộ = 'tap') ? Tưthế() Tưthế(độmờđục: 40%)
+	)
+
+hướngDẫn1: Cụmtừ(
+		'Chọn ⌨ để vỗ cánh bằng cú bấm chuột và phím, hoặc 🎤 để ngân nga điều khiển độ cao của chim!'
+		0.45m
+		vịTrí: VịTrí(-6.9m -4.7m)
+	)
+hướngDẫn2: Cụmtừ(
+		'Luồn qua các khe hở. Đừng chạm vào các chồng cột!'
+		0.4m
+		vịTrí: VịTrí(-4.5m -5.4m)
+	)
+
+¶Một cú vỗ cánh vốn đã là một lần tính toán duy nhất — phản ứng nâng con chim lên chỉ xảy ra đúng lúc bấm chuột hoặc nhấn phím và không lúc nào khác — nên nó có thể phát âm thanh cánh trực tiếp: một nốt nhạc ở khung hình bạn vỗ cánh, và không có gì ở những khung hình còn lại. Một nốt nhạc đã bắt đầu sẽ chơi đến hết, nên việc làm rỗng danh sách này một khung hình sau đó không cắt ngang tiếng vỗ cánh. Trong chế độ ngân nga hoàn toàn không có cú vỗ cánh nào, nên danh sách luôn rỗng và con chim im lặng trong khi bạn hát cho nó nghe.¶
+nốtNhạcVỗCánh: vỗCánh ? [3] []
+
+âmThanhVỗCánh: ÂmNhạc(
+		BảnNhạc(
+			nốtNhạcVỗCánh
+			nhạcCụ: NhạcCụ.trống
+			âmLượng: 70%
+			vòngLặp: ⊥
+		)
+		phátLại: vỗCánh
+		tên: 'vỗ cánh'
+	)
+
+¶Hai mươi cổng, từ bồn chồn đến hối hả. Việc đổi nhịp độ được ghép nối vào nhịp tiếp theo thay vì bắt đầu lại từ đầu, nên mỗi cổng siết chặt vòng lặp bên dưới bạn mà không bao giờ mất nhịp — và một va chạm sẽ đưa điểm số về lại số không, khiến mọi thứ chậm lại từ đầu.¶
+độKhẩnCấp: (điểmSố ÷ 20).phút(1)
+
+¶Điệu thức Phrygian cho nốt thứ hai giáng: cao hơn nốt chủ âm đúng một nửa cung, nốt lo âu nhất có thể mà vẫn còn nằm trong âm giai. Bè trầm tựa vào nốt đó ở mỗi ô nhịp thứ hai và đoạn giai điệu tổng hợp kết thúc ở đó, nên vòng lặp không bao giờ lắng xuống ở đâu cả.¶
+bàiHátLoLắng: ÂmNhạc(
+		[
+			BảnNhạc(
+				[1 ø 1 ø 2 ø 1 ø]
+				nhạcCụ: NhạcCụ.đànBassTổngHợp
+				nhịp: 1beats
+				âmLượng: 50%
+			)
+			BảnNhạc(
+				[5 ø 4 ø 5 ø 4 2]
+				nhạcCụ: NhạcCụ.đànTổngHợp
+				nhịp: 1beats
+				âmLượng: 35%
+			)
+			BảnNhạc(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 3 3]
+				nhạcCụ: NhạcCụ.trống
+				nhịp: 0.5beats
+				âmLượng: 35%
+			)
+		]
+		nhịpĐộ: (100beats/min + (độKhẩnCấp · 100beats/min))
+		thangÂm: ÂmNhạc.phrygian
+		tên: 'lo âu'
+	)
+
+¶Nó chạy suốt lúc đếm ngược và trong khi bay, rồi dừng hẳn khi có va chạm, để 💥 có toàn bộ không gian riêng cho nó.¶
+danhSáchBàiHát: (tròChơi2.giaiĐoạn = 3) ? [] [bàiHátLoLắng]
+
+¶Va chạm: một tiếng chũm chọe, một tiếng bịch trầm, và âm giai lo âu rơi xuống từ chính nó, từ nốt cao nhất — cùng những nốt nhạc mà bài hát vẫn xoay vòng bấy lâu, cuối cùng chẳng đi đến đâu.
+
+Cái này không cần @Music.replay. Việc đến được sân khấu chính là lý do để phát ra âm thanh, và một âm thanh chỉ phát một lần khi đã chơi xong sẽ im lặng cho đến khi rời đi; lúc đếm ngược sẽ đưa nó ra khỏi sân khấu và quên nó đi, nên lần va chạm tiếp theo lại phát âm thanh đó lại từ đầu. Nó kéo dài khoảng một nhịp rưỡi, nằm gọn trong khoảng hai giây rưỡi mà khoảng dừng sau va chạm kéo dài.¶
+âmThanhKhiChết: ÂmNhạc(
+		[
+			BảnNhạc(
+				[8 7 5 4 2 1 ø ø]
+				nhạcCụ: NhạcCụ.đànTổngHợp
+				nhịp: 0.25beats
+				âmLượng: 55%
+				vòngLặp: ⊥
+			)
+			BảnNhạc(
+				[4 ø]
+				nhạcCụ: NhạcCụ.trống
+				nhịp: 1beats
+				âmLượng: 50%
+				vòngLặp: ⊥
+			)
+			BảnNhạc(
+				[1 ø]
+				nhạcCụ: NhạcCụ.đànBassTổngHợp
+				nhịp: 1beats
+				âmLượng: 60%
+				vòngLặp: ⊥
+			)
+		]
+		nhịpĐộ: 100beats/min
+		thangÂm: ÂmNhạc.phrygian
+		tên: 'va chạm'
+	)
+
+danhSáchKhiChết: (tròChơi2.giaiĐoạn = 3) ? [âmThanhKhiChết] [
+		]
+
+Sânkhấu(
+	[
+		chim
+		âmThanhVỗCánh
+		:danhSáchBàiHát
+		:danhSáchKhiChết
+		:chồng(ống1)
+		:chồng(ống2)
+		:chồng(ống3)
+		:chồng(ống4)
+		mặtĐất
+		bầuTrời
+		tườngTrái
+		tườngPhải
+		xemĐiểmSố
+		:lớpPhủ2
+		nútNgânNga
+		nútChạm
+		hướngDẫn1
+		hướngDẫn2
+	]
+	vịTrí: VịTrí(0m 0m -12m)
+	khung: Hìnhchữnhật(-8m 6m 8m -6m)
+	lýlịch: Màusắc(90% 20 240°)
+)

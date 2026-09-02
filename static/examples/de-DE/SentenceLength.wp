@@ -1,0 +1,26 @@
+H
+Satzlänge
+===
+¶Gib etwas in die Chatleiste ein, und es zählt die Zeichen deines Satzes.¶
+satz2: Plaudern()
+länge: Plaudern().Länge()
+
+Gruppe(
+	Stapel()
+	[
+		Satzglied(
+			`*Hallo! Willkommen beim Satzlängen-Rechner.*`
+			Ort: Ort(0m 1m)
+		)
+		Satzglied(
+			'Gib etwas in die Nachrichtenleiste ein!'
+			Ort: Ort(0m -1m)
+		)
+		Satzglied(
+			'Dein Satz ist ' + (länge → '') + ' Zeichen lang!'
+			Ruhen: Reihenfolge.wiegen(Dauer: 3s)
+			Ort: Ort(0m -3m)
+		)
+		Satzglied(satz2 Ort: Ort(0m -5m) wickeln: 25m)
+	]
+)

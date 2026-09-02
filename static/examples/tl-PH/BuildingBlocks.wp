@@ -1,0 +1,625 @@
+🔨
+Mga Bloke sa Pagbuo
+=== start/en
+¶Mga Panggabay na Bloke — putulin, dalhin, at itambak. Ikaw ang maliit na pigura sa isang berdeng bukid na may mga puno at malalaking bato. Lumakad gamit ang mga arrow key; haharap ka sa direksyon na iyong nilakaran, at ipinapakita ng lumulutang na cursor ang selula na iyong gagalawin.
+
+Ang Space ay may dalawang gawain, at sinasabi ng cursor kung alin. Kapag ang tambak sa harap mo ay mas mataas sa iyong paa, ang cursor ay 🪏 at ang Space ay tumatanggal ng tuktok nito; kapag ang tambak ay pantay o mas mababa sa iyong paa, ang cursor ay 🔨 at ang Space ay nagtatambak ng bloke dito. Kaya ang pangongolekta ay simpleng paglapit sa isang puno at pagpindot ng Space, at ang pagtatayo pataas ay pag-akyat habang gumagawa ka. Lumakad sa ibabaw ng isang laglag na piraso para itago ito — ang puno ay nagbibigay ng 🪵 kahoy, ang malaking bato ay nagbibigay ng 🧱 laryo — at pindutin ang Shift para palitan kung alin ang itatambak mo.
+
+Isang bloke lang ang maaabot mo sa itaas ng sarili mong kinatatayuan, at nawawala ang cursor kapag hindi ito maaabot. Ang malaking bato ay dalawang bloke ang taas, kaya maaabot mo ang tuktok nito mula sa lupa — pero ang puno ay tatlong bloke, kaya kailangan mo ng taas para sa kanyang tuktok. Pindutin ang j para tumalon at umapak sa tuktok nito, o magtambak ng bloke, umakyat dito, at gumawa mula roon. Ang paglakad ay hindi kailanman umaakyat, kaya laging maaari kang humarap nang tuwiran sa isang bagay at gumawa rito.
+
+Ipinapakita ng mga malabong bloke ang istrukturang sinusubukan mong gawin, at bawat isa ay nagiging solido kapag naitugma mo ito. Itugma ang lahat at mananalo ka — anumang bagay pa na naiwan mo ay sarili mo nang usapin, kaya ang isang hakbang na ginawa mo para umakyat ay maaari na lang manatili kung saan ito naroon.¶
+
+¶Ang mundo ay isang grid ng mga selulang may buong numero, at lumalabas lang ang metro kapag gumagambar. Ito ang nagpapanatiling eksakto ang bawat posisyon: ang pagtayo sa tabi ng isang bagay, ang pagtambak sa ibabaw ng isang bagay, at ang pagtugma sa layunin ay simpleng pagkakapantay ng mga buong numero, kaya kailanman ay hindi lumilihis ng kalahating bloke ang alinman.
+
+Sadyang lima lang na selula ang lalim ng bukid, at ito ay kaugnay ng kung gaano kalapit ang kamera — tingnan ang kamera sa ibaba.¶
+minimumX: -4
+maximumX: 4
+minimumZ: 0
+maximumZ: 4
+maximumY: 4
+
+¶Kung gaano kababa ang lupa mula sa antas ng mata, sa mga selula. Kapag mas malapit ang kamera, mas malaki ang lahat ng nakikita, at mas malayo nitong itinutulak ang bukid pababa sa screen, kaya ang halagang ito at ang distansya ng kamera ay kailangang magbago nang magkasama.¶
+pagbagsakSaLupa: 0.8
+
+¶Kung gaano kalayo sa likod mo sumasakay ang kamera, sa mga selula. Ito lang ang nagtatakda kung gaano kalaki ang tingin ng lahat: hinahati ng entablado ang laki batay sa distansya mula sa kamera, kaya ang tatlong selula sa likod ay ipinapakita ka nang halos dalawa't kalahating beses mas malaki sa tunay mong laki.¶
+likodNgKamera: 3
+
+¶Kung gaano kalayo ang buong bukid mula sa pinagmulang punto. Ipinapakita ng entablado ang mundo sa pamamagitan ng paghahati sa isa sa posisyon ng kamera at bawat piraso sa kabaligtaran nito, na nagkakansela — maliban kung ang posisyon ng kamera ay umabot sa zero, kung saan pumapantay at pagkatapos ay nababaligtad ang buong eksena. Ang kamera ay sumasakay ng cameraBack na mga selula sa likod mo, kaya ang paglalagay ng bukid nang ganito kalayo ay nagpapanatiling komportableng negatibo ang posisyon ng kamera kahit lumakad ka pa sa likurang hanay. Wala itong epekto sa hitsura ng anumang bagay; pinapanatili lang nito ang aritmetika na malayo sa zero.¶
+likodNgMundo: 4
+
+¶Ang gitna ng isang selula, sa mga metro. Inililipat ng kalahati ang x pabalik dahil ang isang parirala ay inilalagay batay sa kaliwang gilid nito.¶
+ƒ saX(c2•#) ((c2 - 0.5) · 1m)
+ƒ saY(c3•#) ((c3 - pagbagsakSaLupa) · 1m)
+ƒ saZ(c4•#) ((c4 - likodNgMundo) · 1m)
+
+¶Kung gaano katagal nakahanda ang martilyo, at kung ilang frame ka nananatili sa hangin pagkatapos ng isang paglukso. Ang paghinto sa hangin ang siyang nagpapagana ng paglukso: kung wala ito, isang frame lang ang tatagal ng paglukso, masyadong maikli para makapindot ng arrow, umapak, o dumapo sa isang bloke.¶
+mgaTiktikNgGalaw: 2
+mgaTiktikNgPagbitin: 4
+
+¶Gaano karaming bahagi ng mundo sa likod mo ang iginuguhit pa rin. Tingnan ang kamera sa ibaba para malaman kung bakit ito umiiral: kapag mas malapit ang kamera, mas kaunting hanay sa likod mo ang maaaring iguhit bago ang isa sa mga ito ay lumagpas sa harap ng lente at lumaki nang labis sa tanawin.¶
+iguhitSaLikod: 1
+
+¶Kung gaano kataas sa itaas ng sarili mong kinatatayuan ang maaari mong gawin. Isang bloke ang nagpapahalaga sa taas: ang malaking bato ay dalawang bloke ang taas, kaya maaabot mo ang tuktok nito habang nakatayo sa lupa, pero ang puno ay tatlong bloke, kaya kailangan mong lumukso o tumayo sa isang bagay para maabot ang kanyang tuktok — at ang parehong hangganan ang nagtatakda kung gaano kataas ang maitatambak mo.¶
+abot: 1
+
+¶Isang kubo na nakalagay sa isang selula. Ang uri nito ay ang emoji mismo, kaya ang pagguhit ng isang bloke ay hindi na nangangailangan ng paghahanap.¶
+•bloke(x2•# y2•# z2•# uri2•"")
+
+¶Isang pirasong natanggal at gumugulong pababa sa lupa. Naaalala nito ang selula kung saan ito nabasag, kaya iginuguhit ang unang frame nito sa dating kinaroroonan ng bloke, at bawat frame pagkatapos ay iginuguhit kung saan ito humantong — ang sariling pag-eease ng parirala ang gumagawa ng paglipad. Ang id ay umiiral lamang para bigyan ito ng sarili nitong pangalan sa entablado, dahil maaaring dumapo ang dalawang piraso sa iisang selula.¶
+•bagay2(id2•# x3•# z3•# mulaSaX•# mulaSaY•# mulaSaZ•# uri3•"" edad•#)
+
+¶Ang buong laro sa isang halaga: ang yugto (1 = pamagat, 2 = naglalaro, 3 = nanalo), kung saan ka nakatayo at kung saang direksyon ka huling gumalaw, gaano katagal kang makapaglulundag, ang laman ng iyong bulsa at kung anong materyales ang ilalagay mo, gaano karaming lakas pa ang natitira sa martilyo, ang id ng susunod na parte na maluluwag, ang estruktura na dapat itugma, at lahat ng bagay sa mundo.¶
+•laro(yugto•# x4•# y3•# z4•# nakaharapSaX•# nakaharapSaZ•# sabit•# kahoy•# tisa•# napili•"" indayog•# susunodNaID•# tunguhin•[bloke] blocks•[bloke] mgaBagay•[bagay2])
+
+¶Ang isang puno ay tatlong kubong nakapatong sa isa't isa, at ang isang bato ay dalawa — hindi iisang bagay ang bawat isa, kundi ilang bloke na nasa isang hanay, kaya kailangang martilyuhin ang bawat parte nang hiwa-hiwalay. Pareho silang isang haligi lang ang lapad, kaya't matitiyak na walang dalawang bloke ang magbabahagi ng iisang selula.¶
+hugisNgPuno: [
+		bloke(0 0 0 '🌳')
+		bloke(0 1 0 '🌳')
+		bloke(0 2 0 '🌳')
+	]
+hugisNgMalakingBato: [bloke(0 0 0 '🪨') bloke(0 1 0 '🪨')]
+
+ƒ hugisSa(hugis•[bloke] cx•# cz•#) hugis.isalin(
+		ƒ(b2•bloke) bloke(cx b2.y2 cz b2.uri2)
+	)
+
+¶Ang nagiging anyo ng isang nasirang parte.¶
+ƒ produktoNg(uri4•"") uri4 ???
+		'🌳': '🪵'
+		'🪨': '🧱'
+		uri4
+
+¶Isang bagong estruktura na dapat itugma: dalawang tore, bawat isa'y isa hanggang tatlong bloke ang taas, sa isang random na pares ng mga haligi sa gitna, sa likurang hanay ng larangan. Ang mga haligi sa gitnang iyon ang eksaktong hindi tinutubuan ng mga resource, kaya't hindi kailanman mapapatong ang tore sa loob ng isang puno. Solido ang bawat haligi mula sa ibaba, dahil ang pagpatong ay laging bumabagsak sa ibabaw ng isang haligi — walang paraang makagawa ng lutang na bloke, kaya't walang paraang hilingin iyon. Anim na bloke ang pinakamataas, na siya namang ibinubunga ng tatlong bato kung laryo ang materyales, kaya kahit isang estruktura na buong laryo ay magagawa.¶
+ƒ tunguhinNgPaglitaw() (
+		lalim2: maximumZ
+		pares2: [-1 0 1].hinalo().kasunod(1 2)
+		pares2.pinagsama(
+			[]
+			ƒ(istruktura•[bloke] cx2•#)
+				istruktura.kasamaangListahan(
+					(Random(1 2) → []).isalin(
+						ƒ(antas•#)
+							bloke(
+								cx2
+								(antas - 1)
+								lalim2
+								['🪵' '🧱'].random()
+							)
+					)
+				)
+		)
+	)
+
+¶Kung nasa larangan man o wala ang isang selula.¶
+ƒ nasaHangganan(cx3•# cz2•#) (cx3 ≥ minimumX) & (cx3 ≤ maximumX) & (cz2 ≥ minimumZ) & (cz2 ≤ maximumZ)
+
+¶Kung gaano kataas ang isang haligi. Solido ang bawat haligi mula sa ibaba — ganito lumalaki ang mga hugis, dinadagdagan ito sa ibabaw kapag nagpatong, at binabawasan mula sa ibabaw kapag nagmartilyo — kaya ang pagbibilang lamang ng mga bloke sa isang haligi ay nagbibigay parehong ng taas nito at ng unang bakanteng selula sa ibabaw nito.¶
+ƒ taasNgHaligi(blocks2•[bloke] cx4•# cz3•#) blocks2.pansala(
+		ƒ(b3•bloke) (b3.x2 = cx4) & (b3.z2 = cz3)
+	).haba(
+	)
+
+¶Kung ang isang eksaktong selula ay may isang eksaktong uri ng bloke. Ang pagtatanong sa ganitong paraan — pagbibilang ng mga tugma sa halip na pagkuha ng isang bloke na maaaring wala roon — ay pumipigil sa isang maaaring-may-bloke na kailanganin pang dalhin at buksan.¶
+ƒ lamanNgSelula(blocks3•[bloke] cx5•# cy•# cz4•# uri5•"")
+	blocks3.pansala(
+		ƒ(b4•bloke) (b4.x2 = cx5) & (b4.y2 = cy) & (b4.z2 = cz4) & (b4.uri2 = uri5)
+	).haba(
+	) > 0
+
+¶Isang bagong larangan: tatlong puno at tatlong bato, bawat isa'y nasa sariling haligi, sa random na lalim. Ang pagbabalasa muna sa mga haligi ang nagpapasabog kung saan tutubo ang mga puno. Sinasadyang hindi isama ang mga haligi na malapit sa gitna, para walang tumubo kung saan ka nakatayo o kung saan pupunta ang mga tore.¶
+buoHaligi: [-4 -3 -2 2 3 4]
+
+ƒ buoMundo()
+	buoHaligi.hinalo().pinagsama(
+		[]
+		ƒ(larangan•[bloke] cx6•# indeks2•#)
+			larangan.kasamaangListahan(
+				hugisSa(
+					((indeks2 ≤ 3) ? hugisNgPuno hugisNgMalakingBato)
+					cx6
+					Random(minimumZ maximumZ)
+				)
+			)
+	)
+
+¶Kung aling mga bloke ng layunin ang hindi mo pa naitutugma. Ito ang buong ikot ng puna: ang mga malabong tore ay nawawala nang isang bloke sa bawat pagpapatayo mo, at ito rin ang dahilan kung bakit ang isang malabong bloke at isang totoong bloke ay hindi kailanman nagbabahagi ng iisang selula — mahalaga ito, dahil ang entablado ay inaayos batay lamang sa lalim, at kapag dalawang bagay ay nasa iisang lalim, magiging pabago-bago ang pagkakasunod.¶
+ƒ hindiNatugunanNaLayunin(blocks4•[bloke] tunguhin2•[bloke])
+	tunguhin2.pansala(
+		ƒ(g•bloke) ~lamanNgSelula(blocks4 g.x2 g.y2 g.z2 g.uri2)
+	)
+
+¶Nananalo ka kapag naitugma na ang bawat bloke ng estruktura. Ang iba pang naiwan mong bagay — mga baytang na ginawa mo para umakyat, isang tambak na hindi mo nagamit — ay hindi na iyo pang alalahanin, kaya't hindi kinakailangang linisin ang lahat para matapos. Ang isang selula ng layunin ay naghihingi ng isang eksaktong materyales, kaya't hindi ito matutugunan ng isang punong nagkataong nakatayo sa tamang lugar.¶
+ƒ natugunanNaLayunin(blocks5•[bloke] tunguhin3•[bloke]) hindiNatugunanNaLayunin(
+		blocks5
+		tunguhin3
+	).haba(
+	) = 0
+
+¶Gumawa ng hakbang. Palagi kang humaharap sa direksyon na sinubukan mong puntahan, kahit na nabigo ang hakbang mismo, kaya't ang paglakad papunta sa isang bagay ang paraan mo para harapin ito. Papasok ka lamang sa isang selula na ang tambak ay hindi mas mataas sa taas na kinaroroonan mo — hindi kailanman umaakyat ang paglalakad, dahil ang isang hakbang na umaakyat ay dadalhin ka sa ibabaw mismo ng bagay na sinusubukan mong martilyuhin. Lumundag gamit ang j para makarating sa ibabaw ng isang bloke, saka lakaran ito.¶
+ƒ galaw(laro2•laro dx•# dz•#) (
+		hinarap: (laro2.nakaharapSaX:dx).nakaharapSaZ:dz
+		targetX: laro2.x4 + dx
+		targetZ: laro2.z4 + dz
+		~nasaHangganan(targetX targetZ) ? hinarap (
+				taas2: taasNgHaligi(hinarap.blocks targetX targetZ)
+				(taas2 ≤ laro2.y3) ? ((hinarap.x4:targetX).z4:targetZ) hinarap
+			)
+	)
+
+¶Lumundag, pero mula lamang sa isang bagay na kinatatayuan mo. Ang pagtatanong kung nasa ibabaw ka ba ng sarili mong tuntungan ang mahalagang pagsubok: ang pagkaubos ng iyong kakayahang lumundag ay hindi katulad ng pagkakadapo, kaya ang isang lundag na tatanggi lamang habang tumatagal ang kakayahang iyon ay maaaring muling ilunsad sa gitna ng pagbagsak, at muli sa pagbaba mula roon — umaakyat sa langit nang isang selula sa isang pagkakataon. Ito ang paraan mo para maabot ang anumang bagay na wala sa saklaw ng iyong braso nang hindi muna gumagawa ng baytang.¶
+ƒ talon(laro3•laro)
+	(laro3.y3 > taasNgHaligi(laro3.blocks laro3.x4 laro3.z4)) ? laro3
+		((laro3.y3:(laro3.y3 + 1).minuto(maximumY)).sabit:mgaTiktikNgPagbitin)
+
+¶Bagsakin ang martilyo sa kung anuman ang nasa harap mo. Isang bloke lamang ang natatanggal, ang pinakaibabaw ng haligi na iyon, kaya't kailangan ng tatlong hampas para sa isang puno — at nangangahulugan ito na hindi ka kailanman makakaiwan ng isang parte na nakalutang, kaya't wala nang kailangang mahulog. Isang bloke lamang na isang antas sa ibabaw ng iyong sariling tuntungan ang maaabot mo, kaya't ang isang tuktok na wala sa saklaw mo ay hindi lamang natatanggal; umakyat pa at humampas ulit. Ang lumuwag na parte ay gumugulong nang isang selula pa palayo sa iyo, maliban kung ang selulang iyon ay wala sa larangan o may okupante na, kung saan naman ito babagsak sa kinatatayuan nito. Umaatras ang martilyo tumama man o hindi, kaya't kahit ang hindi-tumamang bagsak ay may bumabagsak pa ring martilyo.¶
+ƒ tama(laro4•laro) (
+		targetX2: laro4.x4 + laro4.nakaharapSaX
+		targetZ2: laro4.z4 + laro4.nakaharapSaZ
+		itaasNaY: taasNgHaligi(laro4.blocks targetX2 targetZ2) - 1
+		¶Kapag ang selula ng target ay tinupi diretso papunta sa piraso na dapat sana nitong ibunga, hindi na kailangang dalhin-dalhin ang isang "maaaring-bloke": ang isang walang laman na haligi ay tumutupi lang tungo sa wala.¶
+		produkto: (itaasNaY > (laro4.y3 + abot)) ? '' laro4.blocks.pansala(
+					ƒ(b5•bloke) (b5.x2 = targetX2) & (b5.y2 = itaasNaY) & (b5.z2 = targetZ2)
+				).pinagsama(
+					''
+					ƒ(saNgayon•"" b6•bloke) saNgayon + produktoNg(
+								b6.uri2
+							)
+				)
+		iginiit: laro4.indayog:mgaTiktikNgGalaw
+		(produkto = '') ? iginiit (
+				natitira2: iginiit.blocks.pansala(
+						ƒ(b7•bloke) ~((b7.x2 = targetX2) & (b7.y2 = itaasNaY) & (b7.z2 = targetZ2))
+					)
+				lupainX: targetX2 + laro4.nakaharapSaX
+				lupainZ: targetZ2 + laro4.nakaharapSaZ
+				linisin: nasaHangganan(lupainX lupainZ) & (taasNgHaligi(
+								natitira2
+								lupainX
+								lupainZ
+							) = 0)
+				nahulog: iginiit.mgaBagay.kasama(
+						bagay2(
+							iginiit.susunodNaID
+							(linisin ? lupainX targetX2)
+							(linisin ? lupainZ targetZ2)
+							targetX2
+							itaasNaY
+							targetZ2
+							produkto
+							0
+						)
+					)
+				((iginiit.blocks:natitira2).mgaBagay:nahulog).susunodNaID:(iginiit.susunodNaID + 1)
+			)
+	)
+
+¶Ipatong ang isa sa iyong mga bloke sa ibabaw ng haligi sa harap mo, kung mayroon ka pang natitira at may espasyo sa ibabaw. Hindi sinusuri dito ang layo ng abot: gumagana lang ito kapag ang tambak ay katapat o mas mababa sa iyong mga paa, kaya ang bagong bloke ay laging lumalapag nasa saklaw ng iyong braso.¶
+ƒ ilagay(laro5•laro) (
+		targetX3: laro5.x4 + laro5.nakaharapSaX
+		targetZ3: laro5.z4 + laro5.nakaharapSaZ
+		taas3: taasNgHaligi(laro5.blocks targetX3 targetZ3)
+		stock: (laro5.napili = '🪵') ? laro5.kahoy laro5.tisa
+		(~nasaHangganan(targetX3 targetZ3) | (stock = 0) | (taas3 > maximumY)) ? laro5 (
+				nagastos: (laro5.napili = '🪵') ? (laro5.kahoy:(laro5.kahoy - 1)) (laro5.tisa:(laro5.tisa - 1))
+				nagastos.blocks:laro5.blocks.kasama(
+					bloke(targetX3 taas3 targetZ3 laro5.napili)
+				)
+			)
+	)
+
+¶Kung ang space bar ay gagawa sa halip na sisira. Ang tambak sa harap ang nagpapasya: kung ito ay katapat o mas mababa sa iyong mga paa, magpapatong ka ng isa pang bloke rito; kung ito ay mas mataas sa iyo, tatanggalin mo ang pinakaibabaw nito. Iisang susi ang gumagawa ng dalawang bagay, at ipinapakita ng cursor kung alin — kaya ang paggawa paitaas ay nangangahulugang umaakyat ka habang gumagawa, at doon ginagamit ang tumalon, at maaari mo palaging bawiin ang anumang inilagay mo sa maling lugar sa pamamagitan ng pagtayo sa parehong antas nito.¶
+ƒ gusali(laro6•laro)
+	taasNgHaligi(
+		laro6.blocks
+		(laro6.x4 + laro6.nakaharapSaX)
+		(laro6.z4 + laro6.nakaharapSaZ)
+	) ≤ laro6.y3
+
+ƒ kumilos(laro7•laro) gusali(laro7) ? ilagay(laro7) tama(
+			laro7
+		)
+
+¶Palitan kung anong materyales ang gusto mong itambak.¶
+ƒ toggle(laro8•laro) laro8.napili:((laro8.napili = '🪵') ? '🧱' '🪵')
+
+¶Isang pagpindot ng susi habang naglalaro. Dumarating dito ang susi bilang payak na teksto sa halip na ihambing sa reaksyon, upang manatiling nakatuon ang mga pagsusuring ∆ ng reaksyon sa mismong daloy.¶
+ƒ ilapatAngPindotNgSusi(laro9•laro susi2•"")
+	(susi2 = 'Palaso Kaliwa') ? galaw(laro9 -1 0)
+		((susi2 = 'PalasoKanan') ? galaw(laro9 1 0)
+				((susi2 = 'Palaso Pataas') ? galaw(laro9 0 1)
+						((susi2 = 'PalasoPababa') ? galaw(laro9 0 -1)
+								((susi2 = 'Kalawakan') ? kumilos(laro9)
+										((susi2 = 'Paglipat') ? toggle(laro9)
+												((susi2 = 'j') ? talon(laro9) laro9))))))
+
+¶Isang panibagong laro.¶
+ƒ bagongLaro() laro(
+		2
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		tunguhinNgPaglitaw()
+		buoMundo()
+		[]
+	)
+
+¶Isang frame: pinapatanda ang mga malayang piraso upang sila ay lumapag, magbitin, at pagkatapos ay malaglag sa ibabaw ng kung anuman ang iyong kinatatayuan; sinasakop ang anumang nasa iyong selula; ibinabalik ang martilyo sa dati; at sinusuri ang mga tore.¶
+ƒ isulongAngMundo(laro10•laro) (
+		tumanda: laro10.mgaBagay.isalin(
+				ƒ(i•bagay2) (i.edad = 0) ? (i.edad:1) i
+			)
+		nakatayo: taasNgHaligi(
+				laro10.blocks
+				laro10.x4
+				laro10.z4
+			)
+		susunodNaBitin: (laro10.sabit > 0) ? (laro10.sabit - 1) 0
+		susunodNaY: ((laro10.sabit = 0) & (laro10.y3 > nakatayo)) ? (laro10.y3 - 1) laro10.y3
+		¶Ikaw ay palaging nasa taas ng haligi na iyong kinatatayuan, at ganoon din ang anumang nakalatag doon, kaya ang pagbabahagi lang ng selula ang kailangan upang makapagtaas ng isang bagay.¶
+		nasaIlalimNgPaa: tumanda.pansala(
+				ƒ(i2•bagay2) (i2.x3 = laro10.x4) & (i2.z3 = laro10.z4) & (i2.edad > 0)
+			)
+		itinago: tumanda.pansala(
+				ƒ(i3•bagay2) ~((i3.x3 = laro10.x4) & (i3.z3 = laro10.z4) & (i3.edad > 0))
+			)
+		nakakuhaNgKahoy: nasaIlalimNgPaa.pansala(
+				ƒ(i4•bagay2) i4.uri3 = '🪵'
+			).haba(
+			)
+		nakakuhaNgTisa: nasaIlalimNgPaa.pansala(
+				ƒ(i5•bagay2) i5.uri3 = '🧱'
+			).haba(
+			)
+		laro(
+			(natugunanNaLayunin(laro10.blocks laro10.tunguhin) ? 3 laro10.yugto)
+			laro10.x4
+			susunodNaY
+			laro10.z4
+			laro10.nakaharapSaX
+			laro10.nakaharapSaZ
+			susunodNaBitin
+			(laro10.kahoy + nakakuhaNgKahoy)
+			(laro10.tisa + nakakuhaNgTisa)
+			laro10.napili
+			((laro10.indayog > 0) ? (laro10.indayog - 1) 0)
+			laro10.susunodNaID
+			laro10.tunguhin
+			laro10.blocks
+			itinago
+		)
+	)
+
+susi3: Susi()
+tik: Oras(150ms)
+tapik: Butones()
+
+¶Ang tibok ng puso, pinapatakbo ng tatlong input. Habang naglalaro, ang isang tick ay nagpapasulong sa daigdig, ang mga susi ang gumagawa ng lahat ng iba pa, at ang isang click ay nagpapahampas. Mula sa titulo o sa screen ng panalo, ang Enter o isang click ay nagsisimula ng bagong laro.¶
+laro11•laro: laro(
+		1
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		tunguhinNgPaglitaw()
+		buoMundo()
+		[]
+	)
+	… (∆ tik | ∆ susi3 | ∆ tapik) …
+		(laro11.yugto = 2)
+		? (∆ tik ? isulongAngMundo(laro11)
+					(∆ susi3 ? ilapatAngPindotNgSusi(laro11 susi3) kumilos(
+								laro11
+							)))
+			(∆ tik ? laro11
+					(∆ susi3 ? ((susi3 = 'Pumasok') ? bagongLaro() laro11)
+							(∆ tapik ? bagongLaro() laro11)))
+
+¶Lahat ng bagay sa daigdig ay iginuhit nang walang pagpaplano, kaya ang isang hakbang ay lumalapag sa mismong frame na iyong pinindot sa halip na dumudulas pagkatapos, at bawat piraso ay may dalang pangalan na binuo mula sa kanyang selula. Ang pangalan ang mahalagang bahagi: kinikilala ng entablado ang mga output ayon sa pangalan, at ang isang listahan na walang pangalan ay kinikilala ayon sa posisyon, kaya kung tatanggalin mo ang isang bloke mula sa gitna ng tambak, mapupunta sa lahat ng bloke sa itaas nito ang pagkakakilanlan ng kanilang kapitbahay at silang lahat ay mauudlot pababa ng isang puwang.¶
+¶A green emoji is about a quarter wider than it is tall, so the tiles are sized
+down to land exactly one to a cell and keep the ground lined up with the blocks
+standing on it.¶
+lakiNgTile: 0.8m
+
+mgaHanayNgLupa: [0 1 2 3 4].pansala(
+		ƒ(hanay•#) hanay ≥ (laro11.z4 - iguhitSaLikod)
+	).isalin(
+		ƒ(hanay2•#)
+			Parirala(
+				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+				lakiNgTile
+				tagal: 0s
+				pangalan: "g\hanay2\"
+				lugar: Lugar(saX(minimumX) saY(-1) saZ(hanay2))
+			)
+	)
+
+mgaViewNgBlock: laro11.blocks.pansala(
+		ƒ(b8•bloke) b8.z2 ≥ (laro11.z4 - iguhitSaLikod)
+	).isalin(
+		ƒ(b9•bloke)
+			Parirala(
+				b9.uri2
+				1m
+				tagal: 0s
+				pangalan: "b\b9.x2\,\b9.y2\,\b9.z2\"
+				lugar: Lugar(saX(b9.x2) saY(b9.y2) saZ(b9.z2))
+			)
+	)
+
+¶Ang mga tore na iyong tinutungo, malabo ang kulay, at tanging ang mga bahaging hindi mo pa naitatayo lamang.¶
+mgaViewNgMulto: hindiNatugunanNaLayunin(
+		laro11.blocks
+		laro11.tunguhin
+	).pansala(
+		ƒ(g2•bloke) g2.z2 ≥ (laro11.z4 - iguhitSaLikod)
+	).isalin(
+		ƒ(g3•bloke)
+			Parirala(
+				g3.uri2
+				1m
+				tagal: 0s
+				kalabuan: 35%
+				pangalan: "h\g3.x2\,\g3.y2\,\g3.z2\"
+				lugar: Lugar(saX(g3.x2) saY(g3.y2) saZ(g3.z2))
+			)
+	)
+
+¶Isang malayang piraso. Ito ang tanging bagay sa entablado na dumudulas sa halip na biglaan — ang unang frame nito ay kung saan nasira ang bloke, at ang natitira ay kung saan ito lumapag, at ang paglipat sa pagitan ang siyang pagtumba.¶
+mgaViewNgBagay: laro11.mgaBagay.pansala(
+		ƒ(i6•bagay2) i6.z3 ≥ (laro11.z4 - iguhitSaLikod)
+	).isalin(
+		ƒ(i7•bagay2)
+			Parirala(
+				i7.uri3
+				0.6m
+				tagal: 0.3s
+				pangalan: "i\i7.id2\"
+				lugar: (i7.edad = 0)
+				? Lugar(
+						saX(i7.mulaSaX)
+						saY(i7.mulaSaY)
+						saZ(i7.mulaSaZ)
+					)
+					Lugar(
+						saX(i7.x3)
+						saY(taasNgHaligi(laro11.blocks i7.x3 i7.z3))
+						saZ(i7.z3)
+					)
+			)
+	)
+
+¶Ang tagal ang siyang gumagawa sa isang hakbang na maging galaw: kung walang tagal, lalaktawan ng entablado ang paggawa ng animation para sa kanya, at ang bawat galaw ay biglang lilipat. Isang sandali bago ang isang tick ang nangangahulugang ang bawat hakbang at bawat talon ay hinahayaang tumigil bago dumating ang susunod. Ang pag-inat habang siya ay nasa hangin ay parehong trick ng inatas na hampas ng martilyo — isang ibang pose na hinahawakan hanggang tumagal ang estado, sa halip na isang animation na sinisimulan at itinitigil.¶
+viewNgManlalaro: Parirala(
+		'🚶🏻‍♀'
+		1.1m
+		tagal: 0.14s
+		pangalan: 'manlalaro'
+		sukat: ((laro11.sabit > 0) ? 1.08 1)
+		flipx: laro11.nakaharapSaX > 0
+		lugar: Lugar(
+			saX(laro11.x4)
+			saY(laro11.y3)
+			saZ(laro11.z4)
+		)
+	)
+
+¶Ang cursor ay lumulutang sa ibabaw ng selula kung saan lalapag ang iyong susunod na kilos — ang bakanteng espasyo sa ibabaw ng tambak na iyong hinaharap. Ang isang hampas ay sumisira sa bloke na direktang nasa ilalim nito, at ang isang pagtatambak ay pumupuno sa selula na tinutukoy nito, kaya walang kailangang pag-alinlanganan kung ano ang iyong sisirain o saan mapupunta ang isang bloke. Lumulutang ito nang bahagyang mas mataas kaysa sa selulang iyon upang manatiling nakikita kapag ang selula ay direktang nasa harap mo, at kung hindi ay matatabunan ito ng iyong sariling katawan. Umaatras ito sa sandaling ikaw ay humampas, at nagbabalik nang mag-isa, na tumatakbo nang eksakto sa oras ng tama sa halip na umuulit-ulit. Nagtatago ito kapag ikaw ay nakaharap sa gilid ng larangan, dahil walang doon na maaaring kilusan.¶
+targetX4: laro11.x4 + laro11.nakaharapSaX
+targetZ4: laro11.z4 + laro11.nakaharapSaZ
+targetNaY: taasNgHaligi(laro11.blocks targetX4 targetZ4)
+
+¶Kung alin sa dalawang gawain ang gagawin ng space bar sa haligi sa harap, at kung magkakaroon ito ng resulta: ang pagsira ay nangangailangan na ang pinakaibabaw ay nasa saklaw ng abot, at ang paggawa ay nangangailangan ng natitirang materyales sa iyong mga bulsa. Nagiging malabo ang cursor tuwing hindi maaari ang kilos, kaya ang isang walang lamang bulsa ay katulad ng isang koronang hindi mo maabot, sa halip na isang pindot na tahimik lang na walang epekto.¶
+nagtatayoDito: targetNaY ≤ laro11.y3
+inReach: (targetNaY - 1) ≤ (laro11.y3 + abot)
+stockDito: (laro11.napili = '🪵') ? laro11.kahoy laro11.tisa
+maaaringKumilos: nagtatayoDito ? (stockDito > 0) inReach
+
+viewNgCursor: Parirala(
+		(nagtatayoDito ? '🔨' '🪏')
+		0.85m
+		tagal: 0.12s
+		pangalan: 'cursor'
+		pagikot: ((laro11.indayog > 0) ? -55° 0°)
+		kalabuan: (maaaringKumilos ? 100% 30%)
+		lugar: Lugar(
+			saX(targetX4)
+			saY(targetNaY + 0.55)
+			saZ(targetZ4)
+		)
+	)
+
+listahanNgCursor: nasaHangganan(targetX4 targetZ4) ? [
+			viewNgCursor
+		] []
+
+¶Mga bulsa at kasalukuyang materyales, nakapirmi sa screen upang hindi sila lumiit dahil sa lalim.¶
+hud: [
+		Parirala(
+			"🪵 \laro11.kahoy\   🧱 \laro11.tisa\   🔨 \laro11.napili\"
+			0.5m
+			lugar: Lugar(-6.6m 4.3m)
+		)
+	]
+
+pamagatNgScreen: (laro11.yugto = 3) ? '🎉 Naitayo mo na! 🎉' '🔨 MGA BLOKE NG PAGTATAYO 🔨'
+simulangLinya: (laro11.yugto = 3) ? 'Pindutin ang Enter o mag-click upang magtayo muli' 'Pindutin ang Enter o mag-click upang magsimula'
+
+¶Nakapatong nang patag ang mga screen sa ibabaw ng isang bukid na puno ng mga puno at pigura, kaya may sarili itong makapal na background — mahirap basahin ang madidilim na salita sa ibabaw ng mga sanga at bubong, at ang isang solidong panel ang nagpapanatili sa mga ito na madaling mabasa habang nakikita pa rin ang mundo sa paligid nito.¶
+viewNgScreen: [
+		Grupo(
+			Patongpatong()
+			[
+				Parirala(pamagatNgScreen 1.1m pangalan: 's1')
+				Parirala(
+					'Lumalakad ang mga arrow · humaharap ka sa direksyon ng iyong nilakaran'
+					0.5m
+					pangalan: 's2'
+				)
+				Parirala(
+					'Kumikilos ang Space sa cursor: 🪏 sumisira · 🔨 gumagawa'
+					0.5m
+					pangalan: 's3'
+				)
+				Parirala(
+					'Pinagpapalitan ng Shift ang 🪵 🧱 · pumapalaot ang j pataas para umabot'
+					0.5m
+					pangalan: 's4'
+				)
+				Parirala(
+					'Umabot ng isang bloke pataas · itugma ang mga kumukupas na bloke'
+					0.5m
+					pangalan: 's5'
+				)
+				Parirala(simulangLinya 0.7m pangalan: 's6')
+			]
+			background: Kulay(90% 10 240°)
+		)
+	]
+
+¶Nananatili ang kamera sa parehong distansya sa likod mo sa halip na nakatayo lang, kaya pareho ang laki mo sa screen kahit gaano ka pa kalayo lumakad, at dumudulas ang bukid papalampas sa iyo, direkta sa likod ng iyong balikat. Sinusundan ka rin nito paharap, kaya kapag naglakad ka papunta sa gilid ng bukid, ang mundo ang dumudulas kaysa iwan kang nasa gilid nito. Ang ikalimang bahagi ng isang selula ay isang maliit na tulak pang-gitna: iginuguhit ang isang pigura mula sa kaliwang gilid nito, na nasa kalahati ng isang selula, at ang kanyang guhit ay bahagyang mas malapad kaysa sa selulang kinatatayuan nito.
+
+Sinusukat ng entablado ang lahat batay sa distansya nito mula sa kamera, at ang isang selulang nasa harap mismo ng lente ay iginuguhit nang walong beses ang totoong laki nito — kaya sa distansyang ito, hindi na iginuguhit ang mundong higit sa isang hanay sa likod mo. Palaging nakatayo ang mga tore sa likurang hanay, ang tanging hanay na hindi kayang putulin ng distansya ng pagguhit, kaya nananatili silang nakikita saan ka man makarating.¶
+cameraZ: ((laro11.z4 - likodNgMundo - likodNgKamera) · 1m)
+
+¶Sumasakay ang kamera sa taas ng kung anuman ang iyong kinatatayuan sa halip na sa sarili mong taas, kaya kapag umakyat ka sa isang tambak, umaakyat din ang kamera kasama mo at nananatili kang nasa loob ng frame, samantalang ang isang paglukso ay nananatiling parang paglukso — sa panahon nito, tunay kang tumataas palayo sa kamera sa halip na hilahin mo ito kasama mo.¶
+cameraY: (taasNgHaligi(laro11.blocks laro11.x4 laro11.z4) · 1m)
+
+¶Iginuguhit ang mundo nang pareho sa bawat yugto, kaya ang mga screen ng pamagat at panalo ay nagpapakita ng bukid nang eksaktong kagaya ng iyong paglalaruan dito, sa halip na isang hiwalay na eksena ng menu.¶
+layerNgMundo: [
+		:mgaViewNgBlock
+		:mgaViewNgMulto
+		:mgaViewNgBagay
+		viewNgManlalaro
+		:listahanNgCursor
+	]
+
+¶Ang lahat ng nakikipag-usap sa iyo ay sumasakay sa overlay ng entablado, na nakadikit nang patag sa screen at hindi naaapektuhan ng kamera at ng lalim. Ang paglagay ng screen dito sa halip na sa mundo ang nagpapanatili sa mga ito na madaling mabasa: anumang inilagay sa mundo ay may sariling lalim, at ang mga hanay ng lupa na mas malapit sa kamera ay iginuguhit sa ibabaw nito.¶
+layerNgOverlay: (laro11.yugto = 2) ? hud viewNgScreen
+
+¶Ang isang piraso na natanggal ay nasa kanyang unang frame pa rin, ang tanging frame na naiiba ito sa mga pirasong nakakalat na — ang parehong edad na ginagamit ng pagguhit para magpasya kung saan ito magsisimula sa pagkasira ng bloke.¶
+siraNgayon: laro11.mgaBagay.pansala(
+		ƒ(i8•bagay2) i8.edad = 0
+	)
+
+¶Kung kaka-swing lang ba ng martilyo. Ang pagsira lang ang nag-aactivate nito, kaya ⊥ ito para sa isang pindot na nagtayo ng bloke sa halip.¶
+nasira: laro11.indayog = mgaTiktikNgGalaw
+
+¶Kung ano ang tunog ng swing. Ang kahoy ay kumakalabog na parang tom, at ang bato naman ay parang bass drum, kaya iba ang tunog ng puno at bato, at ang isang swing na walang natamaan ay may magaan na tik — mas mabuti ang isang miss na naririnig kaysa isang miss na parang walang nangyari.
+
+Walang laman sa ibang pagkakataon, at iyon lang ang kailangan: isang notang nagsimulang tumugtog ay tumutugtog hanggang matapos, kaya patuloy pa ring tumutunog ang martilyo kahit walang laman na ang listahang ito sa susunod na sandali.¶
+tugtogKapagTinamaan: nasira
+	? ((siraNgayon.haba() > 0) ? siraNgayon.isalin(
+					ƒ(i9•bagay2) (i9.uri3 = '🪵') ? 5 1
+				) [3])
+		[]
+
+¶Ang pindot na nag-swing, at iyon lang. Nananatiling nakahanda ang martilyo hanggang sa susunod na sandali, kaya kung wala ito, anumang pindutang pinindot sa panahong iyon ay magpapatunog ng tama nang dalawang beses.¶
+iginiit2: ((∆ susi3) & (susi3 = 'Kalawakan')) | (∆ tapik)
+
+tunogKapagTinamaan: Musika(
+		Track(
+			tugtogKapagTinamaan
+			instrumento: Instrumento.mgaTambol
+			loop: ⊥
+		)
+		iReplay: iginiit2
+		pangalan: 'tama'
+	)
+
+¶Isang lugar na kasabay mo habang nagtatrabaho ka: isang mabagal na pentatonikong himig sa plauta, isang kampana na sumasagot dito paminsan-minsan, at isang drone sa ilalim. Pentatonic dahil walang notang maaaring magkasalungat, kaya hindi kailanman nagreresolba ang loop sa anumang tiyak, at hindi kailanman kumakatunog nang mali laban sa pagbagsak ng martilyo sa ibabaw nito. Labing-anim na beat ang haba sa halip na walo, kaya matagal bago ito bumalik sa simula.¶
+ingaySaPaligid: Musika(
+		[
+			Track(
+				[1 ø ø 3 ø ø 5 ø ø 3 ø ø 2 ø ø ø]
+				instrumento: Instrumento.plauta
+				beat: 1beats
+				lakasNgTunog: 30%
+			)
+			Track(
+				[ø ø ø ø ø ø 8 ø ø ø ø ø ø ø 6 ø]
+				instrumento: Instrumento.kampana
+				beat: 1beats
+				lakasNgTunog: 20%
+			)
+			Track(
+				[{1 5} {1 5} {4 8} {1 5}]
+				instrumento: Instrumento.synthPad
+				beat: 4beats
+				lakasNgTunog: 25%
+			)
+		]
+		tempo: 60beats/min
+		iskala: Musika.pentatonic
+		lakasNgTunog: 45%
+		pangalan: 'kalikasan'
+	)
+
+¶Ang gantimpala sa pagtugma sa lahat ng kumukupas na bloke: isang tumataas na tugtog ng trumpeta sa parehong pentatonikong iskala na inaawit ng bukid mula pa noon, isang chord na pagdadapuan, at isang kislap ng kampana sa ibabaw.
+
+Walang umuulit dito, at iyon ang dahilan kung bakit ito isang fanfare sa halip na isang bagong background. Ang isang beses-lang na tugtog na natapos na ay nananatiling tahimik habang naroon ito sa entablado, kaya tahimik uli ang screen ng panalo at ipinapaubaya ang atmospera dito; sa pagsisimula ng bagong round, aalisin ito sa entablado at makakalimutan, kaya ang susunod na estrukturang matatapos mo ay tumutunog uli mula sa simula.¶
+tunogNgPanalo: Musika(
+		[
+			Track(
+				[1 3 5 8 ø 8 ø ø {1 5 8} ø ø ø ø ø ø ø]
+				instrumento: Instrumento.trumpeta
+				beat: 0.5beats
+				loop: ⊥
+			)
+			Track(
+				[ø ø ø ø ø ø ø ø 8 ø 10 ø 12 ø ø ø]
+				instrumento: Instrumento.kampana
+				beat: 0.5beats
+				lakasNgTunog: 45%
+				loop: ⊥
+			)
+			Track(
+				[{1 3 5} ø {4 6 8} ø]
+				instrumento: Instrumento.piyano
+				beat: 2beats
+				lakasNgTunog: 40%
+				loop: ⊥
+			)
+			Track(
+				[1 ø 3 ø 1 3 1 ø 4 ø ø ø ø ø ø ø]
+				instrumento: Instrumento.mgaTambol
+				beat: 0.5beats
+				lakasNgTunog: 35%
+				loop: ⊥
+			)
+		]
+		tempo: 132beats/min
+		iskala: Musika.pentatonic
+		pangalan: 'nagawa na'
+	)
+
+¶Nasa entablado lamang ito kapag nanalo ka na, at ang isang walang-laman na listahan ay kumakalat papunta sa wala.¶
+listahanNgPanalo: (laro11.yugto = 3) ? [tunogNgPanalo] []
+
+Entablado(
+	[
+		:mgaHanayNgLupa
+		:layerNgMundo
+		ingaySaPaligid
+		tunogKapagTinamaan
+		:listahanNgPanalo
+	]
+	lugar: Lugar(((laro11.x4 + 0.2) · 1m) cameraY cameraZ)
+	background: Kulay(78% 18 240°)
+	kulay: Kulay(20% 0 0°)
+	pangIbabaw: layerNgOverlay
+)

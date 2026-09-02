@@ -1,0 +1,41 @@
+👨‍👨‍👧‍👦
+Întrebări
+=== start/en
+¶Apasă taste pentru a lansa semne de întrebare săltărețe peste o familie nedumerită.¶
+•întrebare(id2•"" vx•#m/s vy•#m/s va•#°/s)
+
+apăsat: ∆ Cheie()
+numărare2•#: 0 … apăsat … numărare2 + 1
+întrebări•[întrebare]: [] … apăsat … [
+			:întrebări
+			întrebare(
+				numărare2 → ""
+				Aleatoriu(30m/s 50m/s)
+				Aleatoriu(30m/s 50m/s)
+				Aleatoriu(0°/s 30°/s)
+			)
+		]
+
+Etapă(
+	[
+		Fraza('👨‍👨‍👧‍👦' loc: Loc(0m 0m) faţă: "Noto Emoji")
+		Figură(Dreptunghi(-5m 0m 25m -1m))
+		:întrebări.traduce(
+			ƒ(î•întrebare index2•#) (
+					inițializează: apăsat & (index2 = întrebări.lungime(
+									))
+					Fraza(
+						'Î'
+						nume: î.id2
+						loc: Mişcare(
+							viteză: Viteză(î.vx î.vy î.va)
+						)
+						materie: Materie()
+						odihnă: Poză(
+							opacitate: inițializează ? 0% 100%
+						)
+					)
+				)
+		)
+	]
+)

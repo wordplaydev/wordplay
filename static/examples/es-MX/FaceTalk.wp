@@ -1,0 +1,33 @@
+🗣
+Charla facial
+===
+¶Tus expresiones faciales, rastreadas por la cámara y narradas en el escenario.¶
+
+¶Crea un flujo de rostro para rastrear expresiones¶
+cara2: Cara(200ms)
+
+¶Decide entre sonreír, fruncir el ceño, parpadear o nada¶
+estadoDeÁnimo: cara2.ojosAbiertos ?
+		(cara2.cantidadSonrisa > 0.6 ? 'smiling'
+				cara2.cantidadCeñoFruncido > 0.4 ? 'frowning'
+					'')
+		'blinking'
+
+¶Convierte el estado de ánimo en un emoji, y dale al rostro una burbuja de diálogo que lo diga.Darle a la burbuja un @Say hace que el estado de ánimo también se diga en voz alta, y la burbuja sirve como el texto al pie del escenario.¶
+Escenario(
+	[
+		Frase(
+			(estadoDeÁnimo = 'blinking' ? '😴'
+					estadoDeÁnimo = 'smiling' ? '😀'
+						estadoDeÁnimo = 'frowning' ? '🙁'
+							'😐')
+			tamaño: 8m
+			burbuja: (estadoDeÁnimo = ''
+				? Burbuja(
+						`/Sonríe, frunce el ceño o cierra los ojos/`
+						ajuste: 8m
+					)
+					Burbuja(decir(estadoDeÁnimo)))
+		)
+	]
+)

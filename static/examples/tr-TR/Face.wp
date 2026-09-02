@@ -1,0 +1,56 @@
+🙂
+Yüz
+===
+¶Gülümserken, surat asarken, ağzın açık kalırken ve göz kırparken yüzünü yansıtan bir emoji.¶
+yüz2: Yüz()
+
+Sahne(
+	[
+		İfadeetmek(
+			(yüz2.ağızAçık ? '😮'
+					yüz2.gülümseme ? '😀'
+						yüz2.kaşÇatma ? '🙁'
+							yüz2.kaşlarKalkık ? '😲'
+								(yüz2.gözlerAçık ? '🙂' '😑'))
+			yer: yüz2.yer
+			boyut: 4m
+		)
+		Grup(
+			Yığın('|')
+			[
+				İfadeetmek((yüz2.gözlerAçık ? '👀' '😑') boyut: 1.5m)
+				İfadeetmek(
+					'😊'
+					boyut: (yüz2.gülümsemeMiktarı · 2m) + 0.5m
+				)
+				İfadeetmek(
+					'👄'
+					boyut: (yüz2.ağızAçıklıkMiktarı · 2m) + 0.5m
+				)
+				İfadeetmek(
+					'🤨'
+					boyut: (yüz2.kaşKaldırmaMiktarı · 2m) + 0.5m
+				)
+			]
+			yer: Yer(-9m 8m)
+		)
+		İfadeetmek(
+			'dön 🧭'
+			yer: Yer(9m 8m 0m)
+			boyut: 2m
+			rotasyon: yüz2.dön
+		)
+		İfadeetmek(
+			'eğ 🧭'
+			yer: Yer(9m 2m)
+			rotasyon: yüz2.eğ
+			boyut: 2m
+		)
+		İfadeetmek(
+			`/Kameraya yüzünü göster/`
+			yer: Yer(-6m -12m)
+			boyut: 1m
+		)
+	]
+	yer: Yer(0m 0m -20m)
+)

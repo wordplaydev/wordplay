@@ -1,0 +1,524 @@
+█
+Taman
+=== start/en
+¶Taman zen yang digambar dari blok-blok berwarna, dengan air yang bergoyang lembut.¶
+rumput: Warna(54% 84 117°)
+batu2: Warna(74% 0 200°)
+bambu: Warna(77% 88 109°)
+dinding: Warna(0% 0 0°)
+air2: Warna(50% 89 279°)
+bergoyang2: Urutan(
+		{
+			0%: Pose(warna: air2 rotasi: 0°)
+			50%: Pose(rotasi: 7°)
+			100%: Pose(rotasi: 0°)
+		}
+		lamanya: 1.5s
+	)
+
+Panggung(
+	[
+		Frasa(
+			'█'
+			ukuran: 16m
+			beristirahat: Pose(warna: Warna(100% 0 348°))
+			tempat: Tempat(7.3125m -13.125m 0m)
+			rotasi: 90°
+		)
+		Frasa(
+			'█'
+			ukuran: 16m
+			beristirahat: Pose(warna: Warna(100% 0 348°))
+			tempat: Tempat(-8.75m -13m 1m)
+			rotasi: 90°
+		)
+		Frasa(
+			'█'
+			ukuran: 32m
+			beristirahat: Pose(warna: Warna(73% 95 279°))
+			tempat: Tempat(-5.6875m -44.0625m 0m)
+			rotasi: 89°
+		)
+		Frasa(
+			'太阳'
+			ukuran: 4m
+			tempat: Tempat(-16.5m 15.75m 5m)
+			beristirahat: Urutan(
+				{
+					0%: Pose(warna: Warna(90% 93 85°) rotasi: 0°)
+					100%: Pose(rotasi: 360°)
+				}
+				lamanya: 30s
+				gaya: 'straight'
+			)
+		)
+		Frasa(
+			'壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁'
+			beristirahat: Pose(warna: dinding)
+			tempat: Tempat(-13.9375m 3.5m 0m)
+			ukuran: 2m
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-5.8125m -9.5625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(1.5m -6.9375m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-5.125m -8.25m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-0.4375m -8.5625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-2.875m -8.125m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-4.125m -8.3125m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-7.1875m -10.0625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-10.1875m -10.5625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-11.1875m -10.5625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-10.25m -9.1875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-8.5625m -8.6875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-8.6875m -10.0625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-1.5m -8m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(3.5m -8m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(1.1875m -8.5625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-2.8125m -9.5625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(2.5m -8m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-1.8125m -9.5625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(0m -7m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(2.5m -6.5m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(6.4375m -7.0625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(5.1875m -7.0625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-0.6875m -10.125m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(0.9375m -9.625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(7.4375m -8.1875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(2.25m -9.5625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(3.5625m -9.625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(5m -9.0625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(6.125m -8.1875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(9.625m -10.0625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(9.375m -7.3125m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(8m -6.5m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(10.8125m -7.1875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(13.625m -7.1875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(17.5m -7.5m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(12m -7.5m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(12.5625m -10.0625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-7.625m -8.8125m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(3.875m -6.4375m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-13.25m -8.625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-9.375m -8.0625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-13.8125m -10m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-11.375m -8.8125m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-12.5m -9.625m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(12.625m -6m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(7.5m -9.8125m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(16.3125m -6.1875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(17.8125m -6.1875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(17.8125m -9.6875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(16.3125m -9.6875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(16.3125m -8.1875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(15.3125m -6.6875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(14.8125m -8.1875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(14.8125m -9.6875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(13.5m -8.9375m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(11.8125m -9.1875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(8.3125m -9.1875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(6.5m -9.5m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(9.8125m -8.6875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(10.8125m -9.1875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(14.3125m -5.6875m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'草'
+			tempat: Tempat(-4.5m -9.5m 0m)
+			beristirahat: Pose(warna: rumput)
+		)
+		Frasa(
+			'石'
+			beristirahat: Pose(warna: batu2)
+			ukuran: 2.75m
+			tempat: Tempat(-7.6875m -5.9375m -1m)
+			rotasi: 25°
+		)
+		Frasa(
+			'石'
+			beristirahat: Pose(warna: batu2)
+			ukuran: 2m
+			tempat: Tempat(-5m -6.625m -1m)
+		)
+		Frasa(
+			'石'
+			beristirahat: Pose(warna: batu2)
+			ukuran: 2.75m
+			tempat: Tempat(-7.6875m -8.5625m -1m)
+		)
+		Frasa(
+			'石'
+			beristirahat: Pose(warna: batu2)
+			ukuran: 1.25m
+			tempat: Tempat(-6.375m -3.375m -1m)
+		)
+		Frasa(
+			'石'
+			beristirahat: Pose(warna: batu2)
+			ukuran: 2.75m
+			tempat: Tempat(-3.125m -6.625m -1m)
+			rotasi: 341°
+		)
+		Frasa(
+			'石'
+			beristirahat: Pose(warna: batu2)
+			ukuran: 2.75m
+			tempat: Tempat(-4.75m -4.25m -1m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(-0.5m -0.5m 0m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(0.9375m -3.5m 0m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(1m -5m 0m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(-0.5m 2.5m 0m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(-0.5m 3.5m 0m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(-0.5m 4.5m 0m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(-0.5m 1m 0m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(-0.5m -5m 0m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(-0.5m -3.5m 0m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(-0.5625m -2m 0m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(1m 1m 0m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(1m -0.5m 0m)
+		)
+		Frasa(
+			'竹'
+			beristirahat: Pose(warna: bambu)
+			ukuran: 1.25m
+			tempat: Tempat(1m -2m 0m)
+		)
+		Frasa(
+			'水'
+			beristirahat: bergoyang2
+			tempat: Tempat(-13.4375m -18m -2m)
+			ukuran: 6.75m
+			rotasi: 80°
+		)
+		Frasa(
+			'水'
+			beristirahat: bergoyang2
+			tempat: Tempat(18m -16.5m -2m)
+			ukuran: 6.75m
+			rotasi: 80°
+		)
+		Frasa(
+			'水'
+			beristirahat: bergoyang2
+			tempat: Tempat(-8.5m -17.625m -2m)
+			ukuran: 6.75m
+			rotasi: 259°
+		)
+		Frasa(
+			'水'
+			beristirahat: bergoyang2
+			tempat: Tempat(2.625m -17.375m -2m)
+			ukuran: 6.75m
+			rotasi: 80°
+		)
+		Frasa(
+			'水'
+			beristirahat: bergoyang2
+			tempat: Tempat(10.6875m -16m -2m)
+			ukuran: 6.75m
+			rotasi: 37°
+		)
+	]
+	latarbelakang: Warna(87% 97 263°)
+)

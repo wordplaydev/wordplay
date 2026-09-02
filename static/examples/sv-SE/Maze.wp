@@ -1,0 +1,124 @@
+↑
+Labyrint
+=== start/en
+¶A maze is a 2D grid of emoji, with some functions for checking the state at particular grid postions.
+Mazes are generated randomly.¶/en
+•labyrint() (
+	rutnät•[[''|ø]]:
+		[
+			['🎬' '❤' '❌' ø ø]
+			['❤' ø ø ø ø]
+			['🐈' '😀' '💬' '🫥' '😞']
+			[ø '👍' ø ø '😕']
+			['🤩' '🥹' ø '😫' '😡']
+		]
+
+	ƒ cell2(rad•# kolumn•#) (
+			celler: rutnät[rad]
+			celler•[] ? celler[kolumn] ø
+		)
+
+	ƒ tillåten(rad2•# kolumn2•#) cell2(rad2 kolumn2)•''
+)
+
+labyrint2: labyrint()
+
+•tillstånd(rad3•# kolumn3•# steg•#)
+(
+	ƒ ner2() tillstånd(rad3 + 1 kolumn3 steg + 1)
+	ƒ upp() tillstånd(rad3 - 1 kolumn3 steg + 1)
+	ƒ vänster2() tillstånd(rad3 kolumn3 - 1 steg + 1)
+	ƒ höger() tillstånd(rad3 kolumn3 + 1 steg + 1)
+)
+
+ƒ tillåten2(tillstånd2•tillstånd rad4•# kolumn4•#) labyrint2.tillåten(
+		tillstånd2.rad3 + rad4
+		tillstånd2.kolumn3 + kolumn4
+	)
+
+riktning2: Val()
+tillstånd3•tillstånd: tillstånd(1 1 0) … ∆ riktning2 …
+		((riktning2 = "left") & tillåten2(tillstånd3 0 -1)) ? tillstånd3.vänster2(
+			)
+			((riktning2 = "right") & tillåten2(tillstånd3 0 1)) ? tillstånd3.höger(
+				)
+				((riktning2 = "up") & tillåten2(tillstånd3 -1 0)) ? tillstånd3.upp(
+					)
+					((riktning2 = "down") & tillåten2(tillstånd3 1 0)) ? tillstånd3.ner2(
+						)
+						tillstånd3
+
+nuvarande: (
+		cell3: labyrint2.cell2(
+				tillstånd3.rad3
+				tillstånd3.kolumn3
+			)
+		cell3 ?? ' ')
+upp2: labyrint2.cell2(
+		tillstånd3.rad3 - 1
+		tillstånd3.kolumn3
+	)•''
+ner3: labyrint2.cell2(
+		tillstånd3.rad3 + 1
+		tillstånd3.kolumn3
+	)•''
+vänster3: labyrint2.cell2(
+		tillstånd3.rad3
+		tillstånd3.kolumn3 - 1
+	)•''
+höger2: labyrint2.cell2(
+		tillstånd3.rad3
+		tillstånd3.kolumn3 + 1
+	)•''
+vann: nuvarande = '🤩'
+
+Etapp(
+	[
+		Grupp(
+			Rutnät(3 3 0.25m)
+			[
+				ø
+				Fras(
+					'↑'
+					namn: 'up'
+					valbara: upp2
+					vilande: Pose(opacitet: upp2 ? 1 0.2)
+				)
+				ø
+				Fras(
+					'←'
+					namn: 'left'
+					valbara: vänster3
+					vilande: Pose(opacitet: vänster3 ? 1 0.2)
+				)
+				Fras(
+					nuvarande
+					vilande: vann ?
+						Sekvens.snurra(
+							varaktighet: 1s
+							stil: 'straight'
+						)
+						Pose()
+				)
+				Fras(
+					'→'
+					namn: 'right'
+					valbara: höger2
+					vilande: Pose(opacitet: höger2 ? 1 0.2)
+				)
+				ø
+				Fras(
+					'↓'
+					namn: 'down'
+					valbara: ner3
+					vilande: Pose(opacitet: ner3 ? 1 0.2)
+				)
+				ø
+			]
+		)
+	]
+	plats: Plats(0m 0m -3m)
+	ansikte: 'Noto Emoji'
+	bakgrund: Färg(0 0 0°)
+	vilande: Pose(Färg(100 100 0°))
+)

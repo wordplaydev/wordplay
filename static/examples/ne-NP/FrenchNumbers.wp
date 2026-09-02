@@ -1,0 +1,84 @@
+t
+फ्रान्सेली अंकहरू
+=== start/en-US,start/fr-FR
+¶मञ्चमा देखिएको फ्रान्सेली अङ्कसँग मिल्ने अङ्क थिच्नुहोस्।¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶अनुमान लगाउने अङ्कहरू¶
+¶Les nombres à deviner¶/fr
+अङ्कहरू,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶गोप्य कुराहरू भनेको १ देखि ९ सम्मका अङ्कहरू क्रमरहित गरी राखिएका हुन्¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+गोप्यकुराहरू: [1 2 3 4 5 6 7 8 9].फिटिएको()
+
+¶अन्तिम पटक कुन कुञ्जी थिचिएको थियो?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+कुञ्जी2,clé/fr: कुञ्जी()
+
+¶हरेक पटक कुञ्जी थिचिँदा हालको गोप्य कुरा बढ्छ, तर १० मा पुगेपछि रोकिन्छ¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+गोप्यअनुक्रमणिका,secretIndice/fr•#:
+	1 …
+	∆ कुञ्जी2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶गोप्य अनुक्रमणिकाको आधारमा हालको गोप्य कुरा¶
+हालकोगोप्यकुरा,secretActuel/fr: गोप्यकुराहरू[गोप्यअनुक्रमणिका]
+
+¶यदि थिचिएको अङ्क अघिल्लो गोप्य अङ्कसँग मिल्यो भने अनुमान सही थियो¶
+सही: clé → # = गोप्यकुराहरू[गोप्यअनुक्रमणिका - 1]
+
+¶अङ्कहरू ० बाट सुरु हुन्छन् र अनुमान सही भएमा बढ्छन्।¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+अङ्कहरू2•#: 0 …
+	∆ कुञ्जी2 …
+		सही ?
+			अङ्कहरू2 + 1
+			अङ्कहरू2
+
+¶जित्नु भनेको ९ जना अङ्कहरू सबै पाउनु हो¶
+जित्नु,gagner/fr: अङ्कहरू2 = 9
+
+¶गोप्य अनुक्रमणिका १० मा पुगेपछि सकिन्छ¶
+खेलसमाप्त: गोप्यअनुक्रमणिका = 10
+
+¶हालको फ्रान्सेली अङ्क र हालको अङ्कहरू देखाउनुहोस्। सबै ९ गोप्य कुरा सकिएपछि, अन्तिम परिणाम देखाउनुहोस्¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Stage(
+	[
+		समूह(
+			Stack()
+			[
+				खेलसमाप्त ?
+					वाक्यांश(
+						जित्नु ?
+							'तिमीलाई फ्रान्सेली अङ्कहरू थाहा छ!'"Tu connais les chiffres français!"/fr
+							'लगभग भयो, फेरि प्रयास गर'"presque, réessaye"/fr
+						आकार: 2m
+					)
+					वाक्यांश(numeros[secretActuel] आकार: 2m)
+				वाक्यांश("\अङ्कहरू2\ points!" आकार: 1m)
+				वाक्यांश(
+					गोप्यअनुक्रमणिका = 1 ?
+						'यो कुन अङ्क हो?''quel est ce numéro ?'/fr
+						सही ?
+							'सही!'
+							"That was \गोप्यकुराहरू[गोप्यअनुक्रमणिका - 1]\"
+				)
+			]
+		)
+	]
+	अनुहार: "Aclonica"
+)

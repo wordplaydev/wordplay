@@ -1,0 +1,30 @@
+🎄
+Pasko
+===
+¶Isang punong Pasko na umuugoy at gumagalaw sa isang umuulit na sayaw, habang tumutunog ang mga kuliling nito.
+
+Ang himig ay nakakabit sa unang @Pose ng sayaw. Ang isang @Pose ay maaaring magdala ng @Music, at ito ay tumutugtog sa mismong sandaling ginawa ang tindig na iyon — kaya nagsisimula ulit ang parirala tuwing babalik ang sayaw sa simula, at ang ulit ng animasyon at ang ulit ng musika ay iisang ulit lamang. Walang bumibilang ng bit para panatilihing magkasabay ang mga ito.
+
+Pinili ang dalawang haba para magkatugma: walong bit sa bilis na 160 ay tatlong segundo, at limang hakbang na kalahating segundo bawat isa ay tatlong segundo rin. Ang isang tindig ay isang saglit lamang, hindi isang bagay na tumatagal, kaya hindi umaangkop dito ang karaniwang pag-uulit ng isang @Track — ang musika ng isang tindig ay laging tumutugtog nang isang beses lamang mula umpisa hanggang wakas.¶
+
+kuliling: Musika(
+		Track([3 3 3𝅗𝅥 3 3 3𝅗𝅥] instrumento: Instrumento.kampana)
+		tempo: 160beats/min
+		lakasNgTunog: 55%
+		pangalan: 'kuliling'
+	)
+
+Parirala(
+	'🎄'
+	nagpapahinga: Pagkakasunodsunod(
+		{
+			0: Pose(pagikot: 0° musika: kuliling)
+			1: Pose(pagikot: 15°)
+			2: Pose(pagikot: 0°)
+			3: Pose(offset: Lugar(-0.25m))
+			4: Pose(offset: Lugar(0.25m))
+			5: Pose(offset: Lugar(-0.25m))
+		}
+		0.6s
+	)
+)

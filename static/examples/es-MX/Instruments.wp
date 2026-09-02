@@ -1,0 +1,99 @@
+🎛️
+Instrumentos
+=== start/en
+¶Los mismos ocho compases, tocados por cada instrumento de la paleta. Elige un nombre y la melodía mantiene su lugar; solo cambia el sonido. Los dos gatos son el mismo gato, y lo mismo pasa con los dos perros: uno de cada par es una batería, así que la melodía suena como ruidos, y el otro tiene tono, así que la canta.
+
+La mayoría de estos son grabaciones reales. Los cuatro sintetizadores no imitan nada: son sintetizadores, y ese es su sonido. El último de ellos canta, que es para lo que sirven las palabras en la pista; todos los demás instrumentos las ignoran.¶
+
+¶Qué instrumento está tocando la melodía. Choice() devuelve el nombre de la salida seleccionable que se eligió, y ø hasta que se elige algo.¶
+elegido: Elección()
+
+¶Una entrada por instrumento: cómo llamarlo, qué lo toca y el color que toma su botón.¶
+•voz2(etiqueta•'' ícono•'' sonido•Instrumento matiz•#°)
+
+voces•[voz2]: [
+		voz2('piano' '🎹' Instrumento.piano 260°)
+		voz2('guitarra' '🎸' Instrumento.guitarraAcustica 20°)
+		voz2('eléctrica' '⚡' Instrumento.guitarraElectrica 5°)
+		voz2('violín' '🎻' Instrumento.violín 40°)
+		voz2('flauta' '🪈' Instrumento.flauta 180°)
+		voz2('trompeta' '🎺' Instrumento.trompeta 50°)
+		voz2('saxofón' '🎷' Instrumento.saxofón 70°)
+		voz2('armónica' '🌬' Instrumento.armónica 150°)
+		voz2('campana' '🔔' Instrumento.campana 55°)
+		voz2('tambores' '🥁' Instrumento.tambores 0°)
+		voz2('didyeridú' '🎶' Instrumento.didgeridoo 15°)
+		voz2('gato' '🐱' Instrumento.gato 330°)
+		voz2('gato afinado' '😺' Instrumento.gatoAfinado 350°)
+		voz2('perro' '🐶' Instrumento.perro 35°)
+		voz2('perro afinado' '🐕' Instrumento.perroAfinado 125°)
+		voz2('sintetizador' '🎛' Instrumento.sintetizador 290°)
+		voz2('bajo' '🎛' Instrumento.bajoSintetizador 310°)
+		voz2('colchón' '🎛' Instrumento.padSintetizador 200°)
+		voz2('voz' '🤖' Instrumento.voz 95°)
+	]
+
+¶La voz elegida, o el piano antes de que alguien elija. find() devuelve ø cuando nada coincide, así que el respaldo tiene que ser una Voice propia.¶
+elegido2: voces.encontrar(
+		ƒ(voz3•voz2) voz3.etiqueta = elegido
+	)
+actual•voz2: elegido2•ø ? voz2(
+			'piano'
+			'🎹'
+			Instrumento.piano
+			260°
+		) elegido2
+
+¶Una melodía que se queda quieta mientras el instrumento debajo de ella cambia. Son grados, no notas, así que significa lo mismo en cada instrumento, y en la batería se lee como ritmo en su lugar, ya que ahí los grados indican posiciones en el kit.¶
+melodía2: [1 3 5 6 5 3 2 ø]
+
+¶Una sílaba por nota, escrita en el Alfabeto Fonético Internacional, donde cada letra es un sonido. Solo la voz que canta usa esto; el resto de la paleta lo ignora. El descanso no lleva sílaba, así que siete sonidos cubren ocho entradas.¶
+letra: 'la li lu le lo li la'
+
+¶Un botón por instrumento: el ícono va arriba de su nombre, para que no se encimen. Las frases que se pueden elegir son las que lee Choice(), y la actual se dibuja más brillante para que veas dónde estás.¶
+ƒ botón(voz4•voz2)
+	Grupo(
+		Pila(relleno: 0.1m)
+		[
+			Frase(voz4.ícono 1.1m)
+			Frase(voz4.etiqueta 0.5m)
+		]
+		nombre: voz4.etiqueta
+		seleccionable: ⊤
+		color: (voz4.etiqueta = actual.etiqueta)
+		? Color(95% 60 voz4.matiz)
+			Color(60% 8 voz4.matiz)
+	)
+
+¶Todo lo visible va en un solo Stack. Un Stage centra cada uno de sus hijos por separado, así que si se dejan sueltos quedarían todos encimados uno sobre otro — el diseño tiene que decir que van uno arriba del otro.
+
+Los botones van en un Grid en lugar de un Row. Ponerlos todos en una sola fila sería más ancho que un teléfono, y un Stage reduce su contenido para que quepa, así que las etiquetas se encogerían hasta no poder leerse. Solo se indican las columnas: se dejan las filas sin indicar y el Grid calcula cuántas necesita, así que agregar un instrumento no significa tener que editar esto.
+
+La música conserva un solo nombre todo el tiempo, en lugar de tomar el del instrumento. El nombre de un 🎼 es su identidad: si lo renombras, quien escucha oye que comienza una pieza distinta, así que la melodía volvería al principio con cada cambio, y la partitura dibujaría las notas del instrumento anterior junto a las del nuevo hasta que se desplazaran fuera de vista.¶
+Escenario(
+	[
+		Grupo(
+			Pila(relleno: 0.6m)
+			[
+				Frase(actual.ícono 2.5m)
+				Frase(actual.etiqueta 1.2m)
+				Grupo(
+					Cuadrícula(columnas: 5 relleno: 0.4m)
+					voces.traducir(ƒ(voz5•voz2) botón(voz5))
+				)
+			]
+		)
+		Música(
+			Pista(
+				melodía2
+				instrumento: actual.sonido
+				palabras: letra
+			)
+			tempo: 120beats/min
+			escala: Música.pentatónica
+			nombre: 'melodía'
+		)
+	]
+	fondo: Color(14% 12 280°)
+	color: Color(95% 0 0°)
+)

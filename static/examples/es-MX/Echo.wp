@@ -1,0 +1,25 @@
+💬
+Eco
+=== start
+¶Lo que el público escriba en la barra de chat se convierte en esta frase.¶
+mensaje: Charla()
+
+¶Comienza con un mensaje inicial y luego repite cada mensaje nuevo. El texto se transforma de las palabras viejas a las nuevas, letra por letra.¶
+palabras2: '¡di algo!' … ∆ mensaje … mensaje
+
+¶Cambia a un tamaño, una inclinación y un color al azar cada vez que llega un mensaje nuevo.¶
+tamaño2: 2m … ∆ mensaje … Azar(1m 4m)
+inclinación: 0° … ∆ mensaje … Azar(-30 30) × 1°
+matiz: 200° … ∆ mensaje … Azar(360) × 1°
+
+Frase(
+	palabras2
+	tamaño: tamaño2
+	inmóvil: Pose(
+		rotación: inclinación
+		color: Color(25% 100 matiz)
+	)
+	duración: .5s
+	cambiando: 'edit'
+	envolver: 20m
+)

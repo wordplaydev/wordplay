@@ -1,0 +1,345 @@
+🐤
+Colibri
+=== start/en
+¶Un joc cu o pasăre care fredonează! Apasă un clic sau o tastă pentru a bate din aripi, sau fredonează în microfon — pasărea plutește la înălțimea tonului fredonării tale. Strecoară-te prin spațiile dintre stivele de emoji. Atingerea unei stive sau a solului termină jocul; după o coliziune, jocul numără invers și o ia de la capăt.¶
+
+¶Fiecare obstacol este o stivă de emoji dintr-una din aceste colecții.¶
+genuri: [
+		['🌵' '🌱' '🌿' '🍀' '🎋']
+		['🍩' '🧁' '🍰' '🍪' '🍦']
+		['🐙' '🐟' '🦀' '🐡' '🦑']
+		['🚗' '🚌' '🚕' '🚙' '🚓']
+		['🌸' '🌼' '🌻' '🌷' '💐']
+		['⭐' '🌟' '✨' '☁' '🌙']
+	]
+
+¶Cât se deplasează un obstacol spre stânga la fiecare tact.¶
+viteză2: 0.2m
+
+¶Orice coliziune cu pasărea. Tavanul se numește „cer”, așa că atingerea lui doar o face pe pasăre să sară înapoi, în loc să termine jocul.¶
+prăbușire: Coliziune('pasăre')
+fatal: prăbușire•ø ? ⊥ (prăbușire.obiect ≠ 'sky')
+
+tic: Timp(40ms)
+tactDeJoc: Timp(100ms)
+
+¶Starea jocului: o fază (1 = numărătoare inversă, 2 = joc în desfășurare, 3 = coliziune) și de câte zecimi de secundă suntem în acea fază. Numărăm tactele unui singur ceas, în loc să scădem timpi, pentru că fiecare Time() începe de la zero.¶
+•joc(fază•# ticuri•#)
+joc2•joc: joc(1 0) …
+	∆ tactDeJoc | fatal …
+		joc2.fază ???
+			1: (joc2.ticuri ≥ 36) ? joc(2 0) joc(
+					1
+					joc2.ticuri + 1
+				)
+			2: fatal ? joc(3 0) joc2
+			3: (joc2.ticuri ≥ 25) ? joc(1 0)
+				¶Cât timp pasărea se sprijină pe ceva, coliziunile mențin această reacție ocupată; numără doar tactele reale ale ceasului, ca pauza să aibă mereu aceeași lungime.¶
+				joc(3 joc2.ticuri + (∆ tactDeJoc ? 1 0))
+			joc2
+
+¶Numărul de numărătoare inversă de afișat: 3, 2, 1.¶
+numărare2: (joc2.ticuri < 12) ? 3 (joc2.ticuri < 24) ? 2 1
+
+¶Alege cum să joci selectând butonul 🎤 sau ⌨: fredonatul mișcă pasărea, iar clicurile și tastele o fac să bată din aripi. Sunt moduri separate, ca vorbitul lângă microfon să nu intre în conflict cu tastatura.¶
+ales: Alegere()
+mod•'': 'tap' … (ales = 'hum') | (ales = 'tap') … ales
+
+¶În modul de apăsare, batele din aripi când faci clic sau apeși orice tastă.¶
+flutură: (mod = 'tap') & (∆ Buton() | ∆ Cheie())
+
+¶În modul de fredonat, pasărea plutește la înălțimea date de tonul vocii tale — notele joase aproape de sol, notele înalte aproape de cer — și nu mai sus.¶
+înălțimeSunet: Pas()
+fredonat: (mod = 'hum') & (înălțimeSunet > 50hz)
+
+ƒ înălțimeSunetSpreÎnălțime(hz•#hz)
+	(hz < 80hz) ? -4m
+		(hz > 400hz) ? 5m
+			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+
+¶Pasărea se apropie treptat de înălțimea fredonată, puțin câte puțin, ca să plutească lin în loc să tresară la fiecare mică variație a tonului.¶
+înălțimeSunetY•#m: 1m … ∆ înălțimeSunet … fredonat ? (0.8 × înălțimeSunetY) + (0.2 × înălțimeSunetSpreÎnălțime(
+							înălțimeSunet
+						)) înălțimeSunetY
+
+¶Pasărea plutește pe loc în timpul numărătorii inverse, bate din aripi în sus sau plutește la tonul fredonat cât timp joci, și se rostogolește sub greutatea gravitației după o coliziune.¶
+locPasăre: Mişcare(
+		Loc(-4m 1m)
+		următorulloc:
+		(joc2.fază = 1) ? Loc(-4m 1m)
+			((joc2.fază = 2) & fredonat) ? Loc(
+					-4m
+					înălțimeSunetY
+				) ø
+		următoareaviteză:
+		(joc2.fază = 1) ? Viteză(0m/s 0m/s)
+			((joc2.fază = 2) & fredonat) ? Viteză(0m/s 0m/s)
+				((joc2.fază = 2) & flutură) ? Viteză(0m/s 15m/s) ø
+	)
+
+¶Emoji-ul de pui privește spre stânga, așa că fiecare poziție îl întoarce spre direcția în care se îndreaptă.¶
+pasăre: Fraza(
+		'🐤'
+		1m
+		nume: 'pasăre'
+		loc: locPasăre
+		materie: Materie(1kg 0.4 0)
+		odihnă:
+		(joc2.fază = 3) ? Poză(rotaţie: 180° flipx: ⊤)
+			Secvenţă(
+				{
+					0%: Poză(flipx: ⊤ rotaţie: -12°)
+					50%: Poză(flipx: ⊤ rotaţie: 12°)
+					100%: Poză(flipx: ⊤ rotaţie: -12°)
+				}
+				0.35s
+			)
+	)
+
+¶Fiecare obstacol are: o poziție orizontală, câte emoji-uri atârnă din partea de sus și din ce colecție de emoji-uri este format. Obstacolele se deplasează spre stânga cât timp joci, reapar din dreapta cu o formă nouă aleasă la întâmplare și se resetează la un joc nou.¶
+•țeavă(x2•#m sus•# gen•#)
+
+țeavă1•țeavă: țeavă(10m Aleatoriu(1 5) Aleatoriu(1 6)) …
+	((joc2.fază = 1) & (țeavă1.x2 ≠ 10m)) | ((joc2.fază = 2) & ∆ tic) …
+		(joc2.fază = 1) ? țeavă(
+				10m
+				Aleatoriu(1 5)
+				Aleatoriu(1 6)
+			)
+			(țeavă1.x2 < -13m) ? țeavă(
+					țeavă1.x2 + 24m
+					Aleatoriu(1 5)
+					Aleatoriu(1 6)
+				)
+				țeavă(țeavă1.x2 - viteză2 țeavă1.sus țeavă1.gen)
+
+țeavă2•țeavă: țeavă(16m Aleatoriu(1 5) Aleatoriu(1 6)) …
+	((joc2.fază = 1) & (țeavă2.x2 ≠ 16m)) | ((joc2.fază = 2) & ∆ tic) …
+		(joc2.fază = 1) ? țeavă(
+				16m
+				Aleatoriu(1 5)
+				Aleatoriu(1 6)
+			)
+			(țeavă2.x2 < -13m) ? țeavă(
+					țeavă2.x2 + 24m
+					Aleatoriu(1 5)
+					Aleatoriu(1 6)
+				)
+				țeavă(țeavă2.x2 - viteză2 țeavă2.sus țeavă2.gen)
+
+țeavă3•țeavă: țeavă(22m Aleatoriu(1 5) Aleatoriu(1 6)) …
+	((joc2.fază = 1) & (țeavă3.x2 ≠ 22m)) | ((joc2.fază = 2) & ∆ tic) …
+		(joc2.fază = 1) ? țeavă(
+				22m
+				Aleatoriu(1 5)
+				Aleatoriu(1 6)
+			)
+			(țeavă3.x2 < -13m) ? țeavă(
+					țeavă3.x2 + 24m
+					Aleatoriu(1 5)
+					Aleatoriu(1 6)
+				)
+				țeavă(țeavă3.x2 - viteză2 țeavă3.sus țeavă3.gen)
+
+țeavă4•țeavă: țeavă(28m Aleatoriu(1 5) Aleatoriu(1 6)) …
+	((joc2.fază = 1) & (țeavă4.x2 ≠ 28m)) | ((joc2.fază = 2) & ∆ tic) …
+		(joc2.fază = 1) ? țeavă(
+				28m
+				Aleatoriu(1 5)
+				Aleatoriu(1 6)
+			)
+			(țeavă4.x2 < -13m) ? țeavă(
+					țeavă4.x2 + 24m
+					Aleatoriu(1 5)
+					Aleatoriu(1 6)
+				)
+				țeavă(țeavă4.x2 - viteză2 țeavă4.sus țeavă4.gen)
+
+¶A trecut tocmai un obstacol pe lângă pasăre?¶
+ƒ trecut(x3•#m) (x3 ≤ -5m) & (x3 > (-5m - viteză2))
+
+scor•#: 0 …
+	(joc2.fază = 1) | ((joc2.fază = 2) & ∆ tic) …
+		(joc2.fază = 1) ? 0
+			(trecut(țeavă1.x2) | trecut(țeavă2.x2) | trecut(
+						țeavă3.x2
+					) | trecut(țeavă4.x2)) ? scor + 1
+				scor
+
+¶Construiește un teanc de emoji-uri ca pe o coloană fizică. Durata de 0 face ca revenirea în partea dreaptă să fie instantanee, nu o alunecare vizibilă.¶
+ƒ coloană(celule•# gen2•# x4•#m y2•#m)
+	Grup(
+		Stivă('|' 0m)
+		(celule → []).traduce(
+			ƒ(celulă2•#) Fraza(
+					genuri[gen2][1 + ((celulă2 - 1) % 5)]
+					1m
+				)
+		)
+		loc: Loc(x4 y2)
+		materie: Materie()
+		durată: 0s
+	)
+
+¶Un obstacol are două coloane: una atârnă din cer, alta crește din sol, cu un spațiu de aproximativ 6 metri între ele.¶
+ƒ stive(țeavă5•țeavă) [
+		coloană(
+			țeavă5.sus
+			țeavă5.gen
+			țeavă5.x2
+			6m - (țeavă5.sus × 1m)
+		)
+		coloană(6 - țeavă5.sus țeavă5.gen țeavă5.x2 -6m)
+	]
+
+¶Solul lovește pasărea; cerul o împinge înapoi în jos.¶
+sol2: Figură(
+		Dreptunghi(-8m -5.7m 8m -6m)
+		fundal: Culoare(60% 60 130°)
+	)
+cer: Figură(Dreptunghi(-8m 7m 8m 6m) nume: 'sky')
+pereteStânga: Figură(Dreptunghi(-8.4m 6m -8m -6m))
+pereteDreapta: Figură(Dreptunghi(8m 6m 8.4m -6m))
+
+scorVizualizare: Fraza("\scor\" 1.5m loc: Loc(-0.5m 4m))
+suprapuneri:
+	joc2.fază ???
+		1: [Fraza("\numărare2\" 3m loc: Loc(-1m -1.5m))]
+		3: [Fraza('💥' 3m loc: Loc(-1.5m -1.5m))]
+		[]
+
+¶Comutatorul de mod: modul de joc ales este luminat, celălalt este estompat.¶
+butonFredonare: Fraza(
+		'🎤'
+		0.8m
+		nume: 'hum'
+		selectabil: ⊤
+		loc: Loc(-4.2m 4.7m)
+		odihnă: (mod = 'hum') ? Poză() Poză(opacitate: 40%)
+	)
+butonApăsare: Fraza(
+		'⌨'
+		0.8m
+		nume: 'tap'
+		selectabil: ⊤
+		loc: Loc(-3m 4.7m)
+		odihnă: (mod = 'tap') ? Poză() Poză(opacitate: 40%)
+	)
+
+instrucțiuni1: Fraza(
+		'Alege ⌨ ca să bați din aripi cu clicuri și taste, sau 🎤 ca să fredonezi înălțimea păsării tale!'
+		0.45m
+		loc: Loc(-6.9m -4.7m)
+	)
+instrucțiuni2: Fraza(
+		'Strecoară-te prin spații. Nu atinge teancurile!'
+		0.4m
+		loc: Loc(-4.5m -5.4m)
+	)
+
+¶O bătaie din aripi este deja o singură evaluare — reacția care ridică pasărea se declanșează la clic sau apăsarea unei taste și la nimic altceva — așa că poate reda sunetul aripii direct: o notă în cadrul în care bați din aripi și nimic în restul timpului. O notă care a început se redă până la capăt, așa că golirea acestei liste un cadru mai târziu nu întrerupe aripa. În modul de fredonat nu există deloc bătăi din aripi, așa că lista rămâne goală și pasărea tace cât timp îi cânți.¶
+noteBătaieDinAripi: flutură ? [3] []
+
+sunetBătaieDinAripi: Muzică(
+		Pistă(
+			noteBătaieDinAripi
+			instrument: Instrument.tobe
+			volum: 70%
+			buclă: ⊥
+		)
+		reluare: flutură
+		nume: 'flutură'
+	)
+
+¶Douăzeci de porți, de la neliniștit la frenetic. Schimbarea tempoului se inserează la următorul timp muzical, în loc să o ia de la capăt, așa că fiecare poartă strânge bucla sub tine fără să-și piardă vreodată locul — iar o coliziune readuce scorul la zero, ceea ce încetinește totul din nou, complet.¶
+urgență: (scor ÷ 20).min(1)
+
+¶Frigian pentru treapta a doua coborâtă: un semiton deasupra tonicii, cea mai neliniștitoare notă posibilă fără a ieși din gamă. Basul se sprijină pe ea la fiecare a doua măsură, iar figura de sintetizator se termină acolo, așa că bucla nu se așază niciodată definitiv.¶
+melodieNeliniștită: Muzică(
+		[
+			Pistă(
+				[1 ø 1 ø 2 ø 1 ø]
+				instrument: Instrument.sintetizatorBas
+				bătaie: 1beats
+				volum: 50%
+			)
+			Pistă(
+				[5 ø 4 ø 5 ø 4 2]
+				instrument: Instrument.sintetizator
+				bătaie: 1beats
+				volum: 35%
+			)
+			Pistă(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 3 3]
+				instrument: Instrument.tobe
+				bătaie: 0.5beats
+				volum: 35%
+			)
+		]
+		tempo: (100beats/min + (urgență · 100beats/min))
+		gamă: Muzică.frigian
+		nume: 'neliniștit'
+	)
+
+¶Se derulează pe parcursul numărătorii inverse și al zborului, apoi se oprește brusc la o coliziune, ca 💥 să aibă tot spațiul pentru el.¶
+listăMelodii: (joc2.fază = 3) ? [] [melodieNeliniștită]
+
+¶Coliziunea: un cimbal, o bufnitură joasă și gama neliniștitoare căzând singură de sus în jos — aceleași note în jurul cărora s-a învârtit melodia, ajungând în sfârșit nicăieri.
+
+Aceasta nu are nevoie de @Music.replay. Ajungerea pe scenă este un motiv să sune, iar un sunet unic care s-a redat deja tace până când pleacă; numărătoarea inversă îl scoate de pe scenă și îl uită, așa că următoarea coliziune îl redă din nou de la capăt. Durează aproximativ un timp și jumătate, încăpând confortabil în cele două secunde și jumătate cât ține pauza de coliziune.¶
+sunetDeMoarte: Muzică(
+		[
+			Pistă(
+				[8 7 5 4 2 1 ø ø]
+				instrument: Instrument.sintetizator
+				bătaie: 0.25beats
+				volum: 55%
+				buclă: ⊥
+			)
+			Pistă(
+				[4 ø]
+				instrument: Instrument.tobe
+				bătaie: 1beats
+				volum: 50%
+				buclă: ⊥
+			)
+			Pistă(
+				[1 ø]
+				instrument: Instrument.sintetizatorBas
+				bătaie: 1beats
+				volum: 60%
+				buclă: ⊥
+			)
+		]
+		tempo: 100beats/min
+		gamă: Muzică.frigian
+		nume: 'prăbușire'
+	)
+
+listăDeMoarte: (joc2.fază = 3) ? [sunetDeMoarte] []
+
+Etapă(
+	[
+		pasăre
+		sunetBătaieDinAripi
+		:listăMelodii
+		:listăDeMoarte
+		:stive(țeavă1)
+		:stive(țeavă2)
+		:stive(țeavă3)
+		:stive(țeavă4)
+		sol2
+		cer
+		pereteStânga
+		pereteDreapta
+		scorVizualizare
+		:suprapuneri
+		butonFredonare
+		butonApăsare
+		instrucțiuni1
+		instrucțiuni2
+	]
+	loc: Loc(0m 0m -12m)
+	cadru: Dreptunghi(-8m 6m 8m -6m)
+	fundal: Culoare(90% 20 240°)
+)

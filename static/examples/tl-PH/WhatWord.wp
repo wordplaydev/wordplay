@@ -1,0 +1,306 @@
+W
+AnongSalita
+=== start/en
+¶Isang larong panghula ng salita sa Ingles, Espanyol, at Arabe.¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] natitira2•[""] simulan2•?) (
+	lihim: simulan2 ? natitira2[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (lihim.haba(
+			) × 3) - guesses.haba()
+	status/en,estado/es,حالة/ar:
+		lihim = "" ? "start"
+			lihim → [""].lahat(
+				ƒ(titik2•"") guesses.aymay(titik2)
+			) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: Susi()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.inayos(ƒ() Random())
+		⊥
+	) … ∆ key …
+		key = 'Pagtakas' ? Game(
+				[]
+				words.inayos(ƒ() Random())
+				⊥
+			)
+			(state.status ≠ "playing") & (key = 'Kalawakan') ? Game(
+					[]
+					state.natitira2.walangUna()
+					⊤
+				)
+				(state.status = "playing") & (key.haba() = 1) & ~state.guesses.aymay(
+						key
+					) ?
+					Game(state.guesses.kasama(key) state.natitira2 ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: Parirala(
+		state.lihim → [""].isalin(
+			ƒ(titik3•"") ((state.status = "lost") | state.guesses.aymay(
+							titik3
+						)) ? titik3 "."
+		).sumali(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: Pose(kalabuan: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": Grupo(
+			Patongpatong()
+			[
+				Parirala(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					lugar: Lugar(z: -1m)
+					pagpasok: Pose(kalabuan: 0%)
+					nagpapahinga: Pagkakasunodsunod.ugoy(tagal: 1s)
+				)
+				Parirala(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			palabas: fade
+		)
+		"lost": Grupo(
+			Patongpatong()
+			[
+				board
+				Parirala(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					pagpasok: Pose(pagikot: 0°)
+					nagpapahinga: Pose(pagikot: -5°)
+				)
+			]
+			palabas: fade
+		)
+		"won": Grupo(
+			Patongpatong()
+			[
+				board.nagpapahinga:Pagkakasunodsunod.tumalbog(3m 1s)
+				Parirala(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			palabas: fade
+		)
+		Grupo(
+			Patongpatong()
+			[
+				board
+				Parirala(
+					state.guesses.haba() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.sumali(
+							' '
+						)\"/en"Suposiciones: \state.guesses.sumali(' ')\"/es"التخمينات \state.guesses.sumali(
+							' '
+						)\"/ar
+				)
+				Parirala(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					nagpapahinga: Pagkakasunodsunod.ugoy(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶Isang mabagal na anyo na umiikot pabalik sa sarili nito sa halip na pumunta kahit saan, kaya't ito ang dahilan kung bakit ito dapat pag-isipan. Bawat awit sa ibaba ay walong tibok ang haba, kaya lahat sila ay bumabalik nang sabay-sabay at ang loop ay walang tahi.¶
+tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶Kung gaano karami sa iyong baon ang nagastos, mula 0 na may lahat pang laruin hanggang 1 na wala nang natitira. Walang laman ang lihim bago ang unang round, kaya ang paghahati ay binabantayan sa halip na hayaang hatiin sa zero.¶
+pinakamataasNaBilangNgHula: state.lihim.haba() × 3
+presyon: (pinakamataasNaBilangNgHula = 0) ? 0 (((1 - (state.guessesRemaining ÷ pinakamataasNaBilangNgHula)).pinakamataas(
+					0
+				)).minuto(
+				1
+			))
+
+¶Mapag-isip sa 54 na tibok bawat minuto, madalian sa 120, at bawat hula ay kaunti itong ginagalaw. Ang pagbabago ng tempo ay isinasama sa susunod na tibok sa halip na magsimula ulit, kaya ang loop ay nananatili sa lugar nito at basta yumuyuko pasulong — naroon ang tahimik na tambol para marinig ang yukong iyon, dahil mahirap maramdaman ang pagbabago ng tempo sa ilalim ng mahahabang haba ng tunog.¶
+musikaNgPalaisipan: Musika(
+		[
+			Track(
+				tema
+				instrumento: Instrumento.piyano
+				beat: 0.5beats
+				lakasNgTunog: 50%
+			)
+			Track(
+				[{1 3 5} {4 6 8}]
+				instrumento: Instrumento.synthPad
+				beat: 4beats
+				lakasNgTunog: 35%
+			)
+			Track(
+				[ø ø 8 ø ø ø 6 ø]
+				instrumento: Instrumento.kampana
+				beat: 1beats
+				lakasNgTunog: 30%
+			)
+			Track(
+				[1 ø ø ø 1 ø ø ø]
+				instrumento: Instrumento.mgaTambol
+				beat: 1beats
+				lakasNgTunog: 20%
+			)
+		]
+		tempo: (54beats/min + (presyon · 66beats/min))
+		iskala: Musika.dorian
+		pangalan: 'palaisipan'
+	)
+
+¶Nanalo ka: ang tema ay dalawang beses na mas mabilis, doble ang taas ng isang oktaba sa isang kampana, sa mga pangunahing korda lamang sa halimbawa.¶
+awitNgPanalo: Musika(
+		[
+			Track(
+				tema
+				instrumento: Instrumento.piyano
+				beat: 0.5beats
+				lakasNgTunog: 50%
+			)
+			Track(
+				tema
+				instrumento: Instrumento.kampana
+				beat: 0.5beats
+				susi: 12semitones
+				lakasNgTunog: 35%
+			)
+			Track(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				instrumento: Instrumento.synthPad
+				beat: 2beats
+				lakasNgTunog: 35%
+			)
+			Track(
+				[1 ø 3 ø 2 ø 3 ø]
+				instrumento: Instrumento.mgaTambol
+				beat: 1beats
+				lakasNgTunog: 30%
+			)
+		]
+		tempo: 96beats/min
+		iskala: Musika.major
+		pangalan: 'panalo'
+	)
+
+¶Natalo ka: ang tema ay isang oktaba pababa at mas mabagal kaysa sa anumang punto habang naglalaro ka, sa mga kordang humihinto sa ikaapat sa halip na umuuwi, kaya't ang loop ay hindi kailanman naresolba.¶
+awitNgTalo: Musika(
+		[
+			Track(
+				tema
+				instrumento: Instrumento.piyano
+				beat: 0.5beats
+				susi: -12semitones
+				lakasNgTunog: 45%
+			)
+			Track(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				instrumento: Instrumento.synthPad
+				beat: 2beats
+				lakasNgTunog: 40%
+			)
+			Track(
+				[ø ø 5 ø ø ø 4 ø]
+				instrumento: Instrumento.kampana
+				beat: 1beats
+				lakasNgTunog: 25%
+			)
+			Track(
+				[1 ø ø ø ø ø ø ø]
+				instrumento: Instrumento.mgaTambol
+				beat: 1beats
+				lakasNgTunog: 20%
+			)
+		]
+		tempo: 46beats/min
+		iskala: Musika.minor
+		pangalan: 'talo'
+	)
+
+¶Ang tugtugin lamang para sa kasalukuyang estado ang nasa entablado, at ang @Music na wala na roon ay humihinto — kaya ang pagtatapos ng round ang nagbabago ng musika.
+
+Lahat ng tatlo ay tumutugtog ng parehong tema, at ang eskala sa ilalim nito ang gumagawa ng trabaho. Nadadaanan ng tema ang mga antas 1, 4, 5, 6 at 8, at sumasang-ayon ang @Music.major sa @Music.dorian sa bawat isa sa mga ito — ang mga antas kung saan sila nagkakaiba, ang ikatlo at ikapito, ay wala sa melodiya. Kaya't hindi ginagalaw ng panalo ang kahit isang tunog ng himig na inaawit mo habang nag-iisip ka; ang mga kordang nasa ilalim ay gumagamit ng ikatlo, at ang mga iyon ay nagiging pangunahing korda. Humihiwalay ang @Music.minor mula sa dorian sa ikaanim, na nadadaanan ng tema, kaya't ang pagkatalo ay pinapatag din ang tunog na iyon bukod pa sa pagbaba ng linya ng isang oktaba.¶
+soundtrack: state.status ???
+		"won": awitNgPanalo
+		"lost": awitNgTalo
+		musikaNgPalaisipan
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+Entablado(
+	[screen soundtrack]
+	lugar: Lugar(0m 0m -12m)
+	mukha: "Poor Story"
+	background: Kulay(0% 0 0°)
+	kulay: Kulay(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'soro'
+	'unggoy'
+	'beaver'
+	'baka'
+	'lobo'
+	'kambing'
+	'usa'
+	'baboy'
+	'chinchilla'
+	'ardilya'
+	'daga'
+	'shrew'
+	'mole'
+	'armadilyo'
+	'opossum'
+	'elepante'
+	'paniki'
+	'asno'
+	'kabayo'
+	'hedgehog'
+	'pusa'
+	'giraffe'
+	'gorilya'
+	'poke'
+	'tao'
+	'kangaroo'
+	'marmot'
+	'hamster'
+	'mouse'
+	'kuneho'
+	'tupa'
+	'jaguar'
+	'tsimpanse'
+	'baboon'
+	'raccoon'
+	'mole'
+	'shrew'
+	'echidna'
+	'tapir'
+].inayos(
+	ƒ() Random()
+)

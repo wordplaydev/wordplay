@@ -1,0 +1,40 @@
+H
+ಅಡೋಬೋ ಪಾಕವಿಧಾನ
+=== start/en
+¶ಫಿಲಿಪ್ಪೀನ್ಸ್‌ನ ಚಿಕನ್ ಅಡೋಬೊ ಅಡುಗೆಗಾಗಿ ದೃಶ್ಯ-ದೃಶ್ಯದ ವಿಧಾನ.¶
+
+¶ಇವು ತೋರಿಸಬೇಕಾದ ದೃಶ್ಯಗಳ ಪಟ್ಟಿ¶
+ವಾಕ್ಯಗಳು: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`ಅಡೋಬಾಂಗ್ ಮನೋಕ್ @lamamel/adobo! (ತಿನ್ನಲು ಮೌಸ್ ಅನ್ನು ಚಲಿಸಿ)`)
+		(`ಮಸರಾಪ್! @lamamel/emptyadobo`)
+	]
+
+¶ಇವು ಮೌಸ್ ಚಲಿಸುವ ಮೂಲಕ ಮಾತ್ರ ಮುಂದೆ ಸಾಗಬೇಕಾದ ವಾಕ್ಯಗಳ ಪಟ್ಟಿ.¶
+ವಾಕ್ಯಗಳನ್ನುಸ್ಥಳಾಂತರಿಸಿ: [9 11]
+
+¶ಈಗಿನ ವಾಕ್ಯ 1 ರಿಂದ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ, ಮತ್ತು ಮೌಸ್ ಪರದೆಯ ಒಂದು ನಿರ್ದಿಷ್ಟ ಸ್ಥಾನಕ್ಕೆ ಹೋದಾಗ ಅಥವಾ ಇತರ ವಾಕ್ಯಗಳಿಗಾಗಿ ಒಂದು ಗುಂಡಿ ಅಥವಾ ಕೀಲಿ ಒತ್ತಿದಾಗ ಒಂದು ಒಂದು ಹೆಚ್ಚಾಗುತ್ತದೆ.¶
+ಬಿಂದು: ಪಾಯಿಂಟರ್()
+ಈಗಿನವಾಕ್ಯ•#: 1 …
+	ವಾಕ್ಯಗಳನ್ನುಸ್ಥಳಾಂತರಿಸಿ.ಹೊಂದಿದೆ(ಈಗಿನವಾಕ್ಯ) ?
+		(ಬಿಂದು.x > 2m) & (ಬಿಂದು.ವೈ > 3m)
+		∆ ಬಟನ್() | ∆ ಕೀ()
+		…
+		(ಈಗಿನವಾಕ್ಯ <
+				ವಾಕ್ಯಗಳು.ಉದ್ದ()) ?
+			ಈಗಿನವಾಕ್ಯ + 1
+			ಈಗಿನವಾಕ್ಯ
+
+ಹಂತ(
+	[ನುಡಿಗಟ್ಟು(ವಾಕ್ಯಗಳು[ಈಗಿನವಾಕ್ಯ] ಸುತ್ತು: 10m)]
+	ಮುಖ: 'Short Stack'
+)

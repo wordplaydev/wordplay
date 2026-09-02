@@ -1,0 +1,56 @@
+🎵
+Notas de tom
+===
+¶Cante ou cantarole, e veja a nota que está a fazer — duas vezes. A nota da esquerda lê o valor @Pitch em bruto e treme; a nota da direita faz a média dos últimos tons e mantém-se estável. @Pitch indica 0hz quando não ouve nada com clareza, por isso ambas as notas saltam esses momentos e mostram · em vez disso.¶
+notas2: [
+		'A'
+		'A♯'
+		'B'
+		'C'
+		'C♯'
+		'D'
+		'D♯'
+		'E'
+		'F'
+		'F♯'
+		'G'
+		'G♯'
+	]
+notaDe: ƒ(hz•#hz) hz > 0hz ? notas2[(((((12 × (hz ÷ 440hz).log(
+										2
+									)).redondo(
+							)) % 12) + 12) % 12) + 1] '·'
+suave2: ƒ(sinal•…#hz) (
+			ouvido: (←← 8 sinal).exceto(0hz)
+			(ouvido.combinado(0hz ƒ(total•#hz v•#hz) total + v) ÷ ouvido.comprimento(
+					)) ?? 0hz
+		)
+tom2: Tom()
+Fase(
+	[
+		Grupo(
+			Monte()
+			[
+				Frase('ruidoso' cor: Cor(60% 90 30°))
+				Frase(
+					notaDe(tom2)
+					tamanho: 6m
+					cor: Cor(60% 90 30°)
+				)
+			]
+			local: Local(-4m 0m)
+		)
+		Grupo(
+			Monte()
+			[
+				Frase('suave' cor: Cor(70% 90 240°))
+				Frase(
+					notaDe(suave2(tom2))
+					tamanho: 6m
+					cor: Cor(70% 90 240°)
+				)
+			]
+			local: Local(4m 0m)
+		)
+	]
+)

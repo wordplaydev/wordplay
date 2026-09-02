@@ -1,0 +1,38 @@
+l
+Manşetler
+=== start/en
+¶İnternetten alınan ve sahnede üst üste dizilen canlı New York Times başlıkları.¶
+başlıklar: Websayfası(
+		'https://www.nytimes.com'
+		'.indicate-hover'
+	)
+başlıklar•# ?
+	İfadeetmek('yükleniyor')
+	Grup(
+		Yığın('<')
+		[
+			İfadeetmek(
+				`*New York Times Başlıkları*`
+				2m
+				yüz: 'Arvo'
+			)
+		].Listeile(
+			başlıklar.altdizi(1 7).tercümeetmek(
+				ƒ(başlık)
+					İfadeetmek(
+						başlık
+						dürüm: 20m
+						hizalama: '<'
+						yüz: 'Ubuntu'
+						dinlenme: Sekans(
+							{
+								0%: Poz(rotasyon: 3°)
+								50%: Poz(rotasyon: -3°)
+								100%: Poz(rotasyon: 3°)
+							}
+							süre: 3s
+						)
+					)
+			)
+		)
+	)

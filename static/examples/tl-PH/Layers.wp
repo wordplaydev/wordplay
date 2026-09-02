@@ -1,0 +1,32 @@
+o
+Mga Layer
+=== start
+¶Mga bolang tumatalbog sa magkakaibang lalim, para ipakita ang mga layer ng parallax.¶
+bilang2: 10 → []
+
+ƒ mgaBola(z2•#m) bilang2.isalin(
+		ƒ()
+			Parirala(
+				'o'
+				lugar: Paggalaw(
+					Lugar(Random(-10 10) × 1m Random(0 10) × 1m z2)
+					Bilis(Random(-10 10) × 1m/s Random(-5 5) × 1m/s)
+				)
+				materya: Materya(pagtalbog: 0.8 alitan: 0)
+			)
+	)
+
+Entablado(
+	[
+		:mgaBola(0m)
+		:mgaBola(-10m)
+		:mgaBola(10m)
+		Hugis(Bilog(2m 0m 1m 0m))
+		Hugis(Bilog(2m 9m -3m 10m))
+		Hugis(Poligon(2m 5 -5m 0m -10m))
+		Hugis(Parihaba(-20m 0m 20m -1m 0m))
+		Hugis(Parihaba(-20m 0m 20m -1m 10m) pagikot: 25°)
+		Hugis(Parihaba(-20m 0m 20m -1m -10m) pagikot: -10°)
+	]
+	lugar: Lugar(0m 10m -30m)
+)

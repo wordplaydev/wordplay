@@ -1,0 +1,57 @@
+s
+Płynność sekwencji
+===
+¶Ta sama animacja samochodu na osiem sposobów, po jednym dla każdego stylu wygładzania.¶
+klatkiKluczowe: {
+		0%: Poza(zrównoważyć: Miejsce(-1m 0m))
+		25%: Poza(zrównoważyć: Miejsce(1m 0m))
+		50%: Poza(zrównoważyć: Miejsce(1m 0m))
+		75%: Poza(zrównoważyć: Miejsce(-1m 0m))
+		100%: Poza(zrównoważyć: Miejsce(-1m 0m))
+	}
+
+Scena(
+	[
+		Grupa(
+			Siatka(4 2 wypełnieniekomórek: 0.25m)
+			[
+				Wyrażenie('prosto' rozmiar: 0.25m)
+				Wyrażenie(
+					"🚗"
+					spoczynkowy: Sekwencja(
+						klatkiKluczowe
+						3s
+						styl: "straight"
+					)
+				)
+				Wyrażenie('ostrożnie' rozmiar: 0.25m)
+				Wyrażenie(
+					"🚚"
+					spoczynkowy: Sekwencja(
+						klatkiKluczowe
+						3s
+						styl: "cautious"
+					)
+				)
+				Wyrażenie('powoli' rozmiar: 0.25m)
+				Wyrażenie(
+					"🚙"
+					spoczynkowy: Sekwencja(
+						klatkiKluczowe
+						3s
+						styl: "pokey"
+					)
+				)
+				Wyrażenie('szybko' rozmiar: 0.25m)
+				Wyrażenie(
+					"🏎"
+					spoczynkowy: Sekwencja(
+						klatkiKluczowe
+						3s
+						styl: "zippy"
+					)
+				)
+			]
+		)
+	]
+)

@@ -1,0 +1,89 @@
+🧶
+Rzut
+=== start
+¶Kieruj kotem za pomocą klawiszy strzałek i skacz.
+
+Kot miauczy za każdym razem, gdy się porusza. Miauczenie jest zawieszone na pierwszej @Pose jego animacji ruchu: @Pose może przenosić @Music, który odtwarza się w chwili, gdy ta poza zostaje przyjęta, a ruch przyjmuje swoje pozy za każdym razem, gdy się zaczyna. Kołysanie jest napisane wprost, a nie pozostawione jako \Sekwencja.kołysać(
+)\, ponieważ gotowe animacje tworzą własne pozy, a poza to miejsce, w którym musi znaleźć się dźwięk.¶
+
+¶Jeden krótki okrzyk. Dwa ruchy blisko siebie dzielą jedno miauknięcie, zamiast odtwarzać dwa naraz, bo drugi ruch przychodzi, gdy pierwsze kołysanie jeszcze trwa.¶
+miau2: Muzyka(
+		Ścieżka([1] instrument: Instrument.kot)
+		głośność: 45%
+		nazwa: 'miau'
+	)
+
+•pozycjaKota(pozycja•#m kierunek2•#)
+
+klawisz2: Klawisz()
+prędkość2: 1m
+
+miejsceKiciusia: pozycjaKota(5m 1) … ∆ klawisz2 …
+		((klawisz2 = 'Strzałka w lewo') & (miejsceKiciusia.pozycja > -10m)) ? pozycjaKota(
+				miejsceKiciusia.pozycja - prędkość2
+				1
+			)
+			((klawisz2 = 'Strzałka w prawo') & (miejsceKiciusia.pozycja < 8m)) ? pozycjaKota(
+					miejsceKiciusia.pozycja + prędkość2
+					-1
+				)
+				miejsceKiciusia
+
+kotek: Wyrażenie(
+		"🐈"
+		twarz: "Noto Color Emoji"
+		nazwa: 'kotek'
+		rozmiar: 2m
+		miejsce: Miejsce(miejsceKiciusia.pozycja 0m)
+		spoczynkowy: Poza(flipx: miejsceKiciusia.kierunek2 < 0)
+		poruszający: Sekwencja(
+			{
+				0%: Poza(obrót: -5° muzyka: miau2)
+				50%: Poza(obrót: 5°)
+				100%: Poza(obrót: -5°)
+			}
+			0.25s
+			"zippy"
+		)
+		materiał: Materiał(1000kg zaokrąglenie: 0.5)
+	)
+
+skok: Kolizja('piłka' 'kotek')
+
+piłkaMiejsce: Ruch(
+		Miejsce(0m 9m)
+		następnaprędkość:
+		skok•ø ? ø
+			Prędkość(
+				((skok.kierunek.X ÷ -1m) × Losowy(15m/s 25m/s)) + Losowy(
+						-3m/s
+						3m/s
+					)
+				Losowy(27m/s 30m/s)
+				(skok.kierunek.X ÷ -1m) × Losowy(0°/s 15°/s)
+			)
+	)
+
+piłka: Wyrażenie(
+		"🧶"
+		nazwa: 'piłka'
+		miejsce: piłkaMiejsce
+		materiał: Materiał(1kg 0.5 0 1)
+	)
+
+Scena(
+	[
+		Kształt(Prostokąt(-10m 0m 10m -3m))
+		Kształt(Prostokąt(-10m -1m -9m 11m))
+		Kształt(Prostokąt(10m -1m 9m 11m))
+		Kształt(Prostokąt(-10m 10m 10m 11m))
+		piłka
+		kotek
+		Wyrażenie(
+			'naciśnij ← →, aby zagrać!'
+			miejsce: Miejsce(-4m -2m)
+			kolor: Kolor.biały
+		)
+	]
+	miejsce: Miejsce(y: 5m z: -10m)
+)

@@ -1,0 +1,209 @@
+👩‍💻
+Espacio en el código
+=== start/en
+¶Este proyecto muestra datos reales y públicos sobre cuántas mujeres obtienen títulos en ciencias de la computación en Estados Unidos, y cómo ha cambiado esto con el tiempo.
+
+Usa dos tablas de datos, una llamada años y otra llamada campos, y luego te deja elegir una de tres vistas con los botones de arriba. Cada vista es una gráfica de barras hecha con emojis de mujer, con una explicación en lenguaje sencillo en el pie de página.¶
+↓ years
+↓ fields
+
+¶La función fill hace una sola barra sólida. Repite el emoji de mujer count veces y las junta en un solo texto sin espacios, así que la fila se lee como una barra continua en vez de puntos separados.¶
+ƒ relleno2(cantidad2•#) (cantidad2 → []).traducir(ƒ() '👩').unirse(
+		''
+	)
+
+¶La función chart dibuja una gráfica de barras a partir de tres listas que coinciden entre sí: una etiqueta, una longitud de barra en emoji y un valor. Cada barra es una fila de una pila alineada a la izquierda, así que todas las barras comienzan en el mismo borde y sus longitudes se pueden comparar directamente. La etiqueta y el valor van al final de cada barra en la misma fila, lo que los mantiene alineados con su barra.¶
+ƒ gráfica(etiquetas•[''] unidades•[#] valores•[''])
+	Grupo(
+		Pila('<' relleno: 0.2m)
+		unidades.traducir(
+			ƒ(u•# i•#)
+				Grupo(
+					Fila('|' relleno: 0.3m)
+					[
+						Frase(relleno2(u) tamaño: 0.3m)
+						Frase(
+							`\etiquetas[i]\ \valores[i]\`
+							tamaño: 0.28m
+							color: Color(45% 0 0°)
+						)
+					]
+				)
+		)
+	)
+
+¶Vista 1 — "El auge y la caída". Para cada año en los datos dibujamos una barra cuya longitud es el porcentaje de títulos de ciencias de la computación obtenidos por mujeres. Cada emoji de mujer representa alrededor de 5 por ciento, así que dividimos el porcentaje entre 5 para obtener la longitud de la barra.¶
+filasDeTiempo: (years ⎡?año2 porcentaje⎦ ⊤) → []
+vistaDeTiempo: gráfica(
+		filasDeTiempo.traducir(ƒ(fila2) fila2.año2)
+		filasDeTiempo.traducir(
+			ƒ(fila3) (fila3.porcentaje ÷ 5).rondear()
+		)
+		filasDeTiempo.traducir(
+			ƒ(fila4) (fila4.porcentaje.rondear() → '') + '%'
+		)
+	)
+
+¶Vista 2 — "Un campo fuera de ritmo". Comparamos la proporción de mujeres en distintos campos de estudio en un año reciente. Las filas ya están ordenadas de la mayor proporción de mujeres a la menor, así que ciencias de la computación cae al final de la gráfica.¶
+filasDeCampos: (fields ⎡?campo porcentaje2⎦ ⊤) → []
+vistaDeCampos: gráfica(
+		filasDeCampos.traducir(ƒ(fila5) fila5.campo)
+		filasDeCampos.traducir(
+			ƒ(fila6) (fila6.porcentaje2 ÷ 5).rondear()
+		)
+		filasDeCampos.traducir(
+			ƒ(fila7) (fila7.porcentaje2 → '') + '%'
+		)
+	)
+
+¶Vista 3 — "Más mujeres, menor proporción". Estas son dos mediciones distintas, así que las dibujamos como dos gráficas separadas, una junto a la otra. La gráfica izquierda cuenta mujeres (cada emoji representa unas 2,000 personas); la gráfica derecha muestra su proporción de todos los títulos (cada emoji representa unos 5 por ciento). Dentro de cada gráfica, las dos barras usan la misma unidad, así que se pueden comparar: la cantidad casi se duplica mientras la proporción cae.¶
+filasDeConteo: (years ⎡?año2 mujeres porcentaje⎦ ((año2 = '1984') | (año2 = '2022'))) → []
+antes: filasDeConteo[1]
+ahora: filasDeConteo[2]
+
+gráficaDeMujeres: gráfica(
+		['1984' '2022']
+		[
+			(antes.mujeres ÷ 2000).rondear()
+			(ahora.mujeres ÷ 2000).rondear()
+		]
+		[antes.mujeres → '' ahora.mujeres → '']
+	)
+gráficaDePorcentaje: gráfica(
+		['1984' '2022']
+		[
+			(antes.porcentaje ÷ 5).rondear()
+			(ahora.porcentaje ÷ 5).rondear()
+		]
+		[
+			(antes.porcentaje.rondear() → '') + '%'
+			(ahora.porcentaje.rondear() → '') + '%'
+		]
+	)
+vistaDeConteos: Grupo(
+		Fila('<' relleno: 1.5m)
+		[
+			Grupo(
+				Pila('|' relleno: 0.3m)
+				[
+					Frase(
+						`/Mujeres que obtienen títulos en ciencias de la computación/`
+						tamaño: 0.28m
+					)
+					gráficaDeMujeres
+				]
+			)
+			Grupo(
+				Pila('|' relleno: 0.3m)
+				[
+					Frase(
+						`/Su proporción de todos los títulos en ciencias de la computación/`
+						tamaño: 0.28m
+					)
+					gráficaDePorcentaje
+				]
+			)
+		]
+	)
+
+¶Los tres botones. Choice reporta el nombre de la Phrase seleccionable que la lectora haya elegido por última vez. Comenzamos en la vista de tiempo y actualizamos cada vez que cambia la elección.¶
+opción: Elección()
+actual: 'time' … ∆ opción … opción
+
+pestañas: Grupo(
+		Fila('|' relleno: 0.6m)
+		[
+			Frase(
+				'▸ A través del tiempo'
+				seleccionable: ⊤
+				nombre: 'time'
+				tamaño: 0.35m
+				color: Color(60% 50 20°)
+			)
+			Frase(
+				'▸ Por campo'
+				seleccionable: ⊤
+				nombre: 'fields'
+				tamaño: 0.35m
+				color: Color(60% 50 140°)
+			)
+			Frase(
+				'▸ Cantidad contra proporción'
+				seleccionable: ⊤
+				nombre: 'cantidades'
+				tamaño: 0.35m
+				color: Color(60% 50 280°)
+			)
+		]
+	)
+
+¶Elige la gráfica y el pie de página para la vista actual.¶
+cuerpo: actual = 'time' ? vistaDeTiempo (actual = 'fields' ? vistaDeCampos vistaDeConteos)
+
+pieDePágina:
+	actual = 'time' ?
+		Frase(
+			`/La proporción de títulos de licenciatura en ciencias de la computación obtenidos por mujeres en Estados Unidos llegó a su punto más alto con 37% en 1984, luego cayó durante unos 25 años hasta cerca de 18% alrededor de 2008, y se ha recuperado solo poco a poco. Cada 👩 ≈ 5%. Fuente: NCES Digest of Education Statistics, Tabla 325.35./`
+			envolver: 9m
+			tamaño: 0.26m
+		)
+		actual = 'fields' ?
+			Frase(
+				`/Alrededor de 2018, las mujeres obtuvieron la mayoría de los títulos en psicología y biología, casi la mitad de los títulos en matemáticas y ciencias sociales, pero menos del 20% de los títulos en ciencias de la computación, casi la proporción más baja de cualquier campo. Cada 👩 ≈ 5%. Fuente: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
+				envolver: 9m
+				tamaño: 0.26m
+			)
+			Frase(
+				`/En 1984 alrededor de 12,000 mujeres obtuvieron títulos en ciencias de la computación, es decir, 37% del total. Para 2022, más de 24,000 lo lograron, el doble de personas, pero solo 23%: el campo creció tan rápido que el número de hombres creció aún más rápido. Una cantidad que aumenta puede seguir siendo una proporción que se reduce. Fuente: NCES./`
+				envolver: 9m
+				tamaño: 0.26m
+			)
+
+Escenario(
+	[
+		Grupo(
+			Pila('|' relleno: 0.4m)
+			[
+				Frase(
+					`BRECHA EN CÓDIGO`
+					tamaño: 0.7m
+					fuente: 'Monoton'
+				)
+				Frase(
+					`/¿Quién obtiene títulos en ciencias de la computación?/`
+					tamaño: 0.35m
+				)
+				pestañas
+				cuerpo
+				pieDePágina
+			]
+		)
+	]
+	cara: 'Quicksand'
+)
+=== years/en
+¶Porcentaje de títulos de licenciatura en ciencias de la computación e información obtenidos por mujeres en Estados Unidos, por año, con el número de mujeres y el número total de títulos. Fuente: National Center for Education Statistics, Digest of Education Statistics, Tabla 325.35. https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+⎡año2•'' mujeres•# total•# porcentaje•#⎦
+⎡'1971' 324 2388 13.6⎦
+⎡'1976' 1118 5652 19.8⎦
+⎡'1984' 12023 32439 37.1⎦
+⎡'1990' 8188 27347 29.9⎦
+⎡'1995' 6749 24506 27.5⎦
+⎡'2001' 12219 44142 27.7⎦
+⎡'2005' 11986 54111 22.2⎦
+⎡'2008' 6792 38523 17.6⎦
+⎡'2011' 7589 43066 17.6⎦
+⎡'2015' 10742 59586 18⎦
+⎡'2019' 18316 88638 20.7⎦
+⎡'2022' 24542 108503 22.6⎦
+=== fields/en
+¶Porcentaje de títulos de licenciatura obtenidos por mujeres en Estados Unidos en cada campo de estudio, alrededor de 2018, ordenados de la mayor proporción a la menor. Fuente: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering. https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+⎡campo•'' porcentaje2•#⎦
+⎡'Psicología' 72⎦
+⎡'Biología' 60⎦
+⎡'Ciencias sociales' 55⎦
+⎡'Matemáticas y estadística' 42⎦
+⎡'Ciencias físicas' 41⎦
+⎡'Ciencias de la Tierra' 38⎦
+⎡'Ingeniería' 22⎦
+⎡'Ciencias de la computación' 20⎦

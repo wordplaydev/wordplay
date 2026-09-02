@@ -1,0 +1,248 @@
+W
+猜单词
+=== start/en
+¶一个用英语、西班牙语和阿拉伯语猜词的游戏。¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] 剩余•[""] 开始2•?) (
+	秘密: 开始2 ? 剩余[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (秘密.长度(
+			) × 3) - guesses.长度()
+	status/en,estado/es,حالة/ar:
+		秘密 = "" ? "start"
+			秘密 → [""].所有(ƒ(字母•"") guesses.包含(字母)) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: 钥匙()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.排序好的(ƒ() 随机())
+		⊥
+	) … ∆ key …
+		key = "Escape" ? Game([] words.排序好的(ƒ() 随机()) ⊥)
+			(state.status ≠ "playing") & (key = "Space") ? Game(
+					[]
+					state.剩余.除第一个()
+					⊤
+				)
+				(state.status = "playing") & (key.长度() = 1) & ~state.guesses.包含(
+						key
+					) ?
+					Game(state.guesses.加(key) state.剩余 ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: 短语(
+		state.秘密 → [""].翻译(
+			ƒ(字母2•"") ((state.status = "lost") | state.guesses.包含(
+							字母2
+						)) ? 字母2 "."
+		).连接(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: 姿势(不透明度: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": 组合(
+			堆叠()
+			[
+				短语(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					位置: 位置(z: -1m)
+					进入: 姿势(不透明度: 0%)
+					休息: 排序.摇摆(时长: 1s)
+				)
+				短语(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			退出: fade
+		)
+		"lost": 组合(
+			堆叠()
+			[
+				board
+				短语(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					进入: 姿势(旋转: 0°)
+					休息: 姿势(旋转: -5°)
+				)
+			]
+			退出: fade
+		)
+		"won": 组合(
+			堆叠()
+			[
+				board.休息:排序.弹跳(3m 1s)
+				短语(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			退出: fade
+		)
+		组合(
+			堆叠()
+			[
+				board
+				短语(
+					state.guesses.长度() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.连接(
+							' '
+						)\"/en"Suposiciones: \state.guesses.连接(' ')\"/es"التخمينات \state.guesses.连接(
+							' '
+						)\"/ar
+				)
+				短语(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					休息: 排序.摇摆(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶一段缓慢的旋律，绕回自己而不是走向别处，这正是它值得回味的地方。下面每条音轨都是八拍长，所以它们都会一起绕回来，循环没有接缝。¶
+主题2: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶这是你用掉的零花钱比例，从 0（还有全部机会可以玩）到 1（什么都不剩）。在第一轮之前，秘密是空的，所以除法有保护，不会除以零。¶
+最大猜测次数: state.秘密.长度() × 3
+压力: (最大猜测次数 = 0) ? 0 (((1 - (state.guessesRemaining ÷ 最大猜测次数)).最大(
+					0
+				)).最小(
+				1
+			))
+
+¶每分钟 54 拍时显得沉思，120 拍时显得急促，每次猜测都会让它稍微加快一点。改变速度会在下一拍衔接进去，而不是重新开始，所以循环保持原位，只是稍稍前倾——那段安静的鼓声就是用来让这种前倾被听见的，因为在长音符下面改变速度是很难察觉的。¶
+解谜音乐: 音乐(
+		[
+			音轨(主题2 乐器: 乐器.钢琴 节拍: 0.5beats 音量: 50%)
+			音轨([{1 3 5} {4 6 8}] 乐器: 乐器.合成铺底 节拍: 4beats 音量: 35%)
+			音轨([ø ø 8 ø ø ø 6 ø] 乐器: 乐器.铃 节拍: 1beats 音量: 30%)
+			音轨([1 ø ø ø 1 ø ø ø] 乐器: 乐器.鼓 节拍: 1beats 音量: 20%)
+		]
+		速度: (54beats/min + (压力 · 66beats/min))
+		音阶: 音乐.多利亚调式
+		名字: '谜题'
+	)
+
+¶你赢了：主题变成两倍速，用钟琴音色升高八度演奏两遍，配上例子中仅有的大和弦。¶
+胜利音乐: 音乐(
+		[
+			音轨(主题2 乐器: 乐器.钢琴 节拍: 0.5beats 音量: 50%)
+			音轨(主题2 乐器: 乐器.铃 节拍: 0.5beats 调: 12semitones 音量: 35%)
+			音轨(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				乐器: 乐器.合成铺底
+				节拍: 2beats
+				音量: 35%
+			)
+			音轨([1 ø 3 ø 2 ø 3 ø] 乐器: 乐器.鼓 节拍: 1beats 音量: 30%)
+		]
+		速度: 96beats/min
+		音阶: 音乐.大调
+		名字: '获胜'
+	)
+
+¶你输了：主题降低八度，速度比你玩的时候任何一刻都慢，配的和弦落在第四级而不是回到主音，所以循环永远不会收束。¶
+失败音乐: 音乐(
+		[
+			音轨(主题2 乐器: 乐器.钢琴 节拍: 0.5beats 调: -12semitones 音量: 45%)
+			音轨(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				乐器: 乐器.合成铺底
+				节拍: 2beats
+				音量: 40%
+			)
+			音轨([ø ø 5 ø ø ø 4 ø] 乐器: 乐器.铃 节拍: 1beats 音量: 25%)
+			音轨([1 ø ø ø ø ø ø ø] 乐器: 乐器.鼓 节拍: 1beats 音量: 20%)
+		]
+		速度: 46beats/min
+		音阶: 音乐.小调
+		名字: '失败'
+	)
+
+¶舞台上只播放当前状态对应的曲子，一旦某个 @Music 不再存在，它就会停止——所以结束这一轮才会改变音乐。
+
+三段音乐用的是同一个主题，起作用的是它下面的音阶。主题触及第 1、4、5、6、8 级音，而 @Music.major 在这些音级上都和 @Music.dorian 一致——它们不同的地方是第三级和第七级，而这两级不在旋律里出现。所以胜利不会改变你思考时哼的那段旋律里的任何一个音；不过底下的和弦确实用到了第三级，那里就会变成大和弦。@Music.minor 在第六级上偏离多利亚调式，而主题恰好触及这一级，所以失败既会把那个音降半音，也会把整条旋律降低八度。¶
+配乐: state.status ???
+		"won": 胜利音乐
+		"lost": 失败音乐
+		解谜音乐
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+舞台(
+	[screen 配乐]
+	位置: 位置(0m 0m -12m)
+	朝向: "Poor Story"
+	背景: 颜色(0% 0 0°)
+	颜色: 颜色(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'狐狸'
+	'猴子'
+	'海狸'
+	'奶牛'
+	'狼'
+	'山羊'
+	'鹿'
+	'猪'
+	'龙猫'
+	'松鼠'
+	'老鼠'
+	'鼩鼱'
+	'鼹鼠'
+	'犰狳'
+	'负鼠'
+	'大象'
+	'蝙蝠'
+	'驴子'
+	'马'
+	'刺猬'
+	'猫'
+	'长颈鹿'
+	'大猩猩'
+	'海豹'
+	'人类'
+	'袋鼠'
+	'旱獭'
+	'仓鼠'
+	'鼠标'
+	'兔子'
+	'绵羊'
+	'美洲豹'
+	'黑猩猩'
+	'狒狒'
+	'浣熊'
+	'鼹鼠'
+	'鼩鼱'
+	'针鼹'
+	'貘'
+].排序好的(
+	ƒ() 随机()
+)

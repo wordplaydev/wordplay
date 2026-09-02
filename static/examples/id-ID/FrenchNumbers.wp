@@ -1,0 +1,84 @@
+t
+Angka Prancis
+=== start/en-US,start/fr-FR
+¶Tekan angka yang cocok dengan angka Prancis di panggung.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶Angka-angka yang harus ditebak¶
+¶Les nombres à deviner¶/fr
+angka2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶Rahasia adalah angka 1 sampai 9 dalam urutan acak¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+rahasia: [1 2 3 4 5 6 7 8 9].diacak()
+
+¶Apa kunci terakhir yang ditekan?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+kunci2,clé/fr: Kunci()
+
+¶Rahasia saat ini bertambah setiap kali sebuah kunci ditekan, tetapi berhenti di 10¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+indeksRahasia,secretIndice/fr•#:
+	1 …
+	∆ kunci2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶Rahasia saat ini, berdasarkan indeks rahasia¶
+rahasiaSaatIni,secretActuel/fr: rahasia[indeksRahasia]
+
+¶Tebakan itu benar jika angka yang ditekan cocok dengan angka rahasia sebelumnya¶
+benar2: clé → # = rahasia[indeksRahasia - 1]
+
+¶Poin dimulai dari 0 dan bertambah jika tebakan itu benar.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+poin•#: 0 …
+	∆ kunci2 …
+		benar2 ?
+			poin + 1
+			poin
+
+¶Menang berarti mendapatkan semua 9 angka¶
+menang,gagner/fr: poin = 9
+
+¶Selesai saat berada di indeks rahasia 10¶
+permainanSelesai: indeksRahasia = 10
+
+¶Tampilkan angka Prancis saat ini dan poin saat ini. Setelah semua 9 rahasia, tampilkan hasil akhir¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Panggung(
+	[
+		Kelompok(
+			Tumpukan()
+			[
+				permainanSelesai ?
+					Frasa(
+						menang ?
+							'Kamu tahu angka Prancis!'"Tu connais les chiffres français!"/fr
+							'hampir benar, coba lagi'"presque, réessaye"/fr
+						ukuran: 2m
+					)
+					Frasa(numeros[secretActuel] ukuran: 2m)
+				Frasa("\poin\ points!" ukuran: 1m)
+				Frasa(
+					indeksRahasia = 1 ?
+						'angka berapakah ini?''quel est ce numéro ?'/fr
+						benar2 ?
+							'Benar!'
+							"That was \rahasia[indeksRahasia - 1]\"
+				)
+			]
+		)
+	]
+	menghadapi: "Aclonica"
+)

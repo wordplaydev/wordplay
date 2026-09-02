@@ -1,0 +1,24 @@
+🎭
+Talade ord
+=== start
+¶Tala, och dina ord dyker upp på slumpmässiga platser och i slumpmässiga storlekar.¶
+klick: Knapp(ø)
+tal2: Tal(återställa: klick språk: 'sv-SE' begränsa: 10)
+x2: Slumpmässig(-10m 10m) … ∆ tal2 … Slumpmässig(-10m 10m)
+y2: Slumpmässig(-10m 10m) … ∆ tal2 … Slumpmässig(-10m 10m)
+textstorlek: Slumpmässig(1m 3m) … ∆ tal2 … Slumpmässig(
+			1m
+			3m
+		)
+Etapp(
+	[
+		Fras(
+			tal2
+			plats: Plats(x2 y2)
+			färg: Färg(0% 0% 0°)
+			storlek: textstorlek
+		)
+	]
+	bakgrund: Färg(100% 0% 0°)
+)
+

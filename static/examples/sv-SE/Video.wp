@@ -1,0 +1,83 @@
+📹
+Video
+===
+¶Din kameraström, omritad i realtid: som färgade bokstäver, som ASCII-skuggning, eller som färgade rutor. Välj en stil med knapparna längst ner.¶
+
+¶Vilken stilknapp som klickades senast. Choice rapporterar namnet på den valbara frasen som tittaren valde, och stilen behåller det senaste den hörde.¶
+val: Val()
+stil2: 'letters' … ∆ val … val
+
+¶Emojier är stora, så emoji-stilen hämtar från ett grövre rutnät. Båda rutnäten täcker samma 16 gånger 12 meter, så att byta stil ändrar aldrig storleken på bilden eller flyttar kameran.¶
+kolumner2: (stil2 = 'emoji') ? 16 32
+rader2: (stil2 = 'emoji') ? 12 24
+cell2: (stil2 = 'emoji') ? 1m 0.5m
+
+¶Mitten av rutnätet, där bilden är centrerad.¶
+mittenkolumn: (kolumner2 + 1) ÷ 2
+mittenrad: (rader2 + 1) ÷ 2
+
+¶En färg per cell, direkt från kameran.¶
+färger: Kamera((kolumner2 × 1px) (rader2 × 1px) 33ms)
+
+¶Tio tecken från mörkt till ljust. ASCII-stilen väljer ett efter hur ljus pixeln är.¶
+skala2: "@%#*+=-:. " → []
+
+¶Tjugofyra band på 15° runt färgcirkeln, så varje pixel tar den ruta som ligger närmast dess färg.¶
+rutor: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
+
+¶Hur en pixel ser ut i den aktuella stilen. En pixel med nästan ingen färg har ingen kulör värd att visa, så den faller tillbaka på en ljus eller en mörk ruta.¶
+ƒ tecken2(färg2•Färg)
+	(stil2 = 'ascii') ?
+		"\skala2[((färg2.lätthet × 9).runda()) + 1]\"
+		((stil2 = 'emoji') ?
+				((färg2.chroma < 8) ?
+						((färg2.lätthet < 50%) ? "⬛" "⬜")
+						"\rutor[(((färg2.nyans ÷ 1°) ÷ 15).rundaner()) + 1]\")
+				'en')
+
+¶Bilden: en fras per pixel, ordnad från mitten och utåt, så att kameran alltid har sammabild att rama in oavsett hur grovt rutnätet är, och spegelvänd så att den läses som i en spegel.¶
+bild: färger.kombinerad(
+		[]
+		ƒ(fraser•[Fras] rad•[Färg] y2•#)
+			fraser.medLista(
+				rad.översätta(
+					ƒ(färg3•Färg x2•#)
+						Fras(
+							tecken2(färg3)
+							plats: Plats(
+								((mittenkolumn - x2) × cell2)
+								((mittenrad - y2) × cell2)
+							)
+							varaktighet: 0s
+							storlek: (stil2 = 'ascii') ? 0.75m ((stil2 = 'emoji') ? 1.15m 1m)
+							ansikte: (stil2 = 'ascii') ? "Noto Sans Mono"/en ø
+							färg: (stil2 = 'letters') ? färg3 ø
+						)
+				)
+			)
+	)
+
+¶En stilknapp, ljus när den är den stil som visas. Namnet är det som Choice rapporterar när knappen klickas eller väljs med tangentbordet.¶
+ƒ knapp(id2•'')
+	Fras(
+		id2
+		0.5m
+		namn: id2
+		valbara: ⊤
+		vilande: (stil2 = id2) ? Pose() Pose(opacitet: 40%)
+	)
+
+¶En rad håller knapparna jämnt fördelade och i linje oavsett hur långa orden är, ochutan egen plats sitter raden i mitten, så förskjutningen är allt som behövs för attflytta den till skärmens nederkant. Den har sin egen bakgrund, eftersom text över envideo bara är läsbar av tur.¶
+knappar: Grupp(
+		Rad(stoppning: 0.5m)
+		[knapp('letters') knapp('ascii') knapp('emoji')]
+		bakgrund: Färg(100% 0 0°)
+		offset: Plats(0m -4.5m)
+	)
+
+¶Knapparna ligger i scenens överlägg, som är fastsatt platt mot skärmen: de behållersamma storlek och plats oavsett hur bilden ramas in, och bilden ramas in som om deinte fanns där.¶
+Etapp(
+	bild
+	beskrivning: "camera video drawn with \stil2\"
+	överlagring: [knappar]
+)

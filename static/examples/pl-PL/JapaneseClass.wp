@@ -1,0 +1,37 @@
+O
+Klasa japońska
+=== start
+¶Historia opowiedziana scena po scenie o pierwszym dniu lekcji japońskiego.¶
+
+¶To jest lista scen do pokazania¶
+zdania: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶To jest lista zdań, które można przechodzić dalej tylko poprzez mówienie.¶
+mówZdania: [5 7 9]
+
+¶Bieżące zdanie zaczyna się od 1 i zwiększa się, gdy głośność mikrofonu przekroczy 0,8 w przypadku zdania mówionego, albo gdy zostanie naciśnięty przycisk lub klawisz w przypadku innych zdań.¶
+bieżąceZdanie•#: 1 …
+	mówZdania.ma(bieżąceZdanie) ?
+		Tom() > .6
+		∆ Przycisk() | ∆ Klawisz()
+		…
+		(bieżąceZdanie <
+				zdania.długość()) ?
+			bieżąceZdanie + 1
+			bieżąceZdanie
+
+Scena(
+	[Wyrażenie(zdania[bieżąceZdanie] zawinąć: 10m)]
+	twarz: 'Sue Ellen Francisco'
+)

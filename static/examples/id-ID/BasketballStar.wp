@@ -1,0 +1,96 @@
+🏀
+Bintang Bola Basket
+=== start
+¶Arahkan dengan penunjukmu dan klik untuk melempar bola ke keranjang.¶
+klik: ∆ Tombol()
+
+hitunganKlik: 0 … klik … 1 + ⬚
+
+¶Simpan posisi x penunjuk pada saat melempar, supaya bola jatuh dari tempat pemain mengarah, bukan melompat kembali ke x = 0¶
+tembakanX: 0m … (klik & ((hitunganKlik % 2) = 1)) … Penunjuk(
+		).X
+
+posisiBolaBasket: (hitunganKlik % 2) = 0 ? Tempat(
+			X: Penunjuk().X
+			y: 8m
+			z: 0m
+		) Gerakan(tempat: Tempat(tembakanX 8m 0m))
+
+bolaBasket: Frasa(
+		"🏀"
+		0.7m
+		urusan: Urusan(0.623kg 0.5)
+		tempat: posisiBolaBasket
+		nama: 'bola basket'
+	)
+
+¶Keranjang bergeser ke kiri dan kanan terus-menerus, digerakkan oleh sinus dari waktu¶
+posisiXKeranjang: (Waktu() ÷ 600ms).dosa() · 6m
+
+¶Baca posisi bola saat ini sekali saja untuk memeriksa skor¶
+bolaX: (bolaBasket.tempat ?? Tempat()).X
+bolaY: (bolaBasket.tempat ?? Tempat()).y
+
+percobaan: (hitunganKlik ÷ 2).Ringkasan()
+
+¶inBin bernilai benar setiap kali bola berada di dalam keranjang. Reaksi skor hanya terjadi saat inBin berubah menjadi benar DAN percobaan saat ini lebih besar dari skor, jadi masuk kedua kalinya dalam lemparan yang sama — misalnya bola memantul di dalam keranjang, atau keranjang bergeser kembali menutupi bola — tidak akan dihitung sampai lemparan berikutnya menambah hitungan percobaan¶
+diDalamKeranjang: (bolaX < (posisiXKeranjang + 0.9m)) & (bolaX > (posisiXKeranjang - 0.9m)) & (bolaY < 2.9m) & (bolaY > 0.3m)
+skor: 0 … diDalamKeranjang & (percobaan > skor) … 1 + skor
+
+bintangBolaBasket: Kelompok(
+		Tumpukan('|' 0.5m)
+		[
+			Frasa(`*Bintang Bola Basket*` .8m)
+			Frasa('Arahkan dengan penunjukmu.' .6m)
+			Frasa(
+				'Klik untuk menjatuhkan 🏀 ke dalam keranjang yang bergerak.'
+				.6m
+			)
+			Frasa('Skor: ' + skor → '' .8m)
+			Frasa('Percobaan: ' + percobaan → '' .8m)
+		]
+		ukuran: 2m
+		menghadapi: "Sue Ellen Francisco"
+		mengimbangi: Tempat(0m 8m 0m)
+	)
+
+Panggung(
+	[
+		bolaBasket
+		¶Dinding keranjang diperluas menjadi setebal 0,3 meter (dari 0,1 meter) supaya keranjang yang bergerak ke samping tidak bisa menembus bola, dan setinggi 3 meter (dari 2 meter) supaya bola dengan pantulan 0,5 tidak bisa memantul melewati tepi keranjang¶
+		Bangun(
+			Persegipanjang(
+				-1.2m + posisiXKeranjang
+				0.3m
+				1.2m + posisiXKeranjang
+				0m
+				0m
+			)
+			latarbelakang: Warna(60% 100 30°)
+		)
+		Bangun(
+			Persegipanjang(
+				0.9m + posisiXKeranjang
+				3m
+				1.2m + posisiXKeranjang
+				0m
+				0m
+			)
+			latarbelakang: Warna(60% 100 30°)
+		)
+		Bangun(
+			Persegipanjang(
+				-1.2m + posisiXKeranjang
+				3m
+				-0.9m + posisiXKeranjang
+				0m
+				0m
+			)
+			latarbelakang: Warna(60% 100 30°)
+		)
+		Bangun(Persegipanjang(-10m 0.01m 10m -2m))
+		bintangBolaBasket
+	]
+	tempat: Tempat(X: 0m y: 5m z: -10m)
+	gayaberat: 5m/s^2
+)

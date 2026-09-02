@@ -1,0 +1,84 @@
+t
+ফৰাচী সংখ্যা
+=== start/en-US,start/fr-FR
+¶মঞ্চত থাকা ফৰাচী সংখ্যাটোৰ সৈতে মিল থাকা সংখ্যাটো টিপক।¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶অনুমান কৰিবলগীয়া সংখ্যাসমূহ¶
+¶Les nombres à deviner¶/fr
+সংখ্যা2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶গুপ্ত সংখ্যাসমূহ হ'ল ১ ৰ পৰা ৯ লৈকে, যাদৃচ্ছিকভাৱে সজাই দিয়া¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+গুপ্তসংখ্যা: [1 2 3 4 5 6 7 8 9].শ্বাফেলকৰিলে()
+
+¶সৰ্বশেষ টিপা চাবিটো কি আছিল?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+চাবি2,clé/fr: চাবি()
+
+¶চাবি টিপাৰ প্ৰতিবাৰতে বৰ্তমানৰ গুপ্ত সংখ্যাটো বৃদ্ধি হয়, কিন্তু ১০ লে গৈ ৰুকে¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+গুপ্তসংখ্যাৰসূচী,secretIndice/fr•#:
+	1 …
+	∆ চাবি2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶গুপ্ত সংখ্যাৰ সূচীৰ ওপৰত আধাৰিত বৰ্তমানৰ গুপ্ত সংখ্যাটো¶
+বৰ্তমানগুপ্তসংখ্যা,secretActuel/fr: গুপ্তসংখ্যা[গুপ্তসংখ্যাৰসূচী]
+
+¶টিপা সংখ্যাটোৱে আগৰ গুপ্ত সংখ্যাটোৰ সৈতে মিল খালে অনুমানটো শুদ্ধ হয়¶
+শুদ্ধ2: clé → # = গুপ্তসংখ্যা[গুপ্তসংখ্যাৰসূচী - 1]
+
+¶পইণ্ট ০ ৰ পৰা আৰম্ভ হয় আৰু অনুমানটো শুদ্ধ হ'লে বৃদ্ধি পায়।¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+পইণ্ট•#: 0 …
+	∆ চাবি2 …
+		শুদ্ধ2 ?
+			পইণ্ট + 1
+			পইণ্ট
+
+¶জয় লাভ কৰাৰ মানে হ'ল সকলো ৯টা সংখ্যা পাওঁটা¶
+জয়,gagner/fr: পইণ্ট = 9
+
+¶গুপ্ত সংখ্যাৰ সূচী ১০ ত থাকিলে খেল সম্পূৰ্ণ হয়¶
+খেলসমাপ্ত: গুপ্তসংখ্যাৰসূচী = 10
+
+¶বৰ্তমানৰ ফৰাচী সংখ্যাটো আৰু বৰ্তমানৰ পইণ্টবিলাক দেখুৱাওক। সকলো ৯টা গুপ্ত সংখ্যাৰ পিছত এটা চূড়ান্ত ফলাফল দেখুৱাওক¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+মঞ্চ(
+	[
+		গোট(
+			স্তূপ()
+			[
+				খেলসমাপ্ত ?
+					বাক্যাংশ(
+						জয় ?
+							'তুমি ফৰাচী সংখ্যাবিলাক জানো!'"Tu connais les chiffres français!"/fr
+							'অলপ ওচৰতে আছে, আকৌ চেষ্টা কৰক'"presque, réessaye"/fr
+						আকাৰ: 2m
+					)
+					বাক্যাংশ(numeros[secretActuel] আকাৰ: 2m)
+				বাক্যাংশ("\পইণ্ট\ points!" আকাৰ: 1m)
+				বাক্যাংশ(
+					গুপ্তসংখ্যাৰসূচী = 1 ?
+						'এইটো কি সংখ্যা?''quel est ce numéro ?'/fr
+						শুদ্ধ2 ?
+							'শুদ্ধ!'
+							"That was \গুপ্তসংখ্যা[গুপ্তসংখ্যাৰসূচী - 1]\"
+				)
+			]
+		)
+	]
+	চেহেৰা: "Aclonica"
+)

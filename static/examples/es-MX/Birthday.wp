@@ -1,0 +1,198 @@
+🎂
+Feliz cumpleaños
+=== start/en
+¶Feliz cumpleaños en tres partes: una melodía, una armonía debajo de ella, y acordes que sostienen ambas.
+
+Cada parte está escrita en grados de la escala, así que 1 es la tónica y 8 es la tónica una octava más arriba. Por eso la melodía suena igual sin importar en qué tono la pongas: cambia @Music/key y toda la canción se mueve con ella, incluyendo a quienes cantan.
+
+La melodía y la armonía se mueven en medios pulsos y los acordes en pulsos completos, así que cada parte dice cuánto dura cada una de sus notas y aun así coinciden.¶
+
+¶Pulsos desde que empezó la canción, para que el pastel se mueva con ella. @Beat cuenta desde cero antes de que suene la música, así que el pastel solo se queda quieto.¶
+pulso2: Pulso()
+conteo2: pulso2.conteo
+
+¶La melodía. Dos corcheas, luego notas más largas: los silencios son los que crean el ritmo, ya que cada nota dura el mismo medio pulso.¶
+melodía2: [
+		5
+		5
+		6
+		ø
+		5
+		ø
+		8
+		ø
+		7
+		ø
+		ø
+		ø
+		5
+		5
+		6
+		ø
+		5
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		5
+		5
+		12
+		ø
+		10
+		ø
+		8
+		ø
+		7
+		ø
+		6
+		ø
+		ø
+		11
+		11
+		10
+		ø
+		8
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Una segunda voz debajo de la melodía, en los mismos medios pulsos.¶
+contralto: [
+		5
+		5
+		3
+		ø
+		3
+		ø
+		3
+		ø
+		4
+		ø
+		ø
+		ø
+		4
+		4
+		4
+		ø
+		4
+		ø
+		4
+		ø
+		5
+		ø
+		ø
+		ø
+		5
+		5
+		5
+		ø
+		8
+		ø
+		5
+		ø
+		5
+		ø
+		4
+		ø
+		6
+		6
+		6
+		ø
+		6
+		ø
+		5
+		ø
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Acordes, uno por pulso. Un conjunto suena sus grados juntos, así que {1 3 5} es la tríada tónica y {4 5 7 9} es la que quiere resolver de vuelta a ella.¶
+acordes: [
+		ø
+		{1 3 5}
+		ø
+		ø
+		{4 5 7 9}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{4 6 8}
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		{4 5 7 9}
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶El pastel crece en cada pulso y se asienta entre ellos.¶
+ƒ pastel() Frase(
+		'🎂'
+		(4m + ((conteo2 % 2) · 0.4m))
+		duración: 0.2s
+	)
+
+Escenario(
+	[
+		Grupo(
+			Pila(relleno: 0.5m)
+			[
+				pastel()
+				Frase('Feliz cumpleaños' 1.3m)
+			]
+		)
+		Música(
+			[
+				Pista(
+					melodía2
+					instrumento: Instrumento.flauta
+					pulso: 0.5beats
+				)
+				Pista(
+					contralto
+					instrumento: Instrumento.violín
+					pulso: 0.5beats
+					volumen: 65%
+				)
+				Pista(
+					acordes
+					instrumento: Instrumento.piano
+					pulso: 1beats
+					volumen: 55%
+				)
+			]
+			tempo: 116beats/min
+			nombre: 'cumpleaños'
+		)
+	]
+	fondo: Color(18% 20 330°)
+	color: Color(96% 0 0°)
+)

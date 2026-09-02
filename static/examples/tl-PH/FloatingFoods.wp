@@ -1,0 +1,26 @@
+🥮
+Mga Lutong Lumulutang
+===
+¶Isang grid ng masasarap na putahe, may isang napapalitan ng iba tuwing isang segundo.¶
+pagkain: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
+
+pinakabago•['']:
+	pagkain … ∆ Oras(1000ms) …
+		pinakabago.palitan(Random(1 6) pagkain.random())
+
+Grupo(
+	Grid(3 3 1m 1m)
+	pinakabago.isalin(
+		ƒ(putahe•"" indeks2•#)
+			Parirala(
+				putahe
+				pangalan: "\putahe\-\indeks2\"
+				pagpasok: Pose(kalabuan: 0 sukat: 2)
+				nagpapahinga: Pagkakasunodsunod.ugoy(
+					360°
+					tagal: 4s
+				)
+				tagal: 1s
+			)
+	)
+)

@@ -1,0 +1,26 @@
+മ
+Letras
+=== start/en
+¶Uma grelha de letras de muitos sistemas de escrita, com uma a mudar a cada segundo.¶
+letras: 'മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ' ÷ ""
+
+maisRecente•['']:
+	letras … ∆ Tempo(1000ms) …
+		maisRecente.substituir(
+			Aleatório(1 25)
+			letras.aleatório()
+		)
+
+Grupo(
+	Rede(5 5 0.25m 1m 1m)
+	maisRecente.traduzir(
+		ƒ(letra•"" índice2•#)
+			Frase(
+				letra
+				nome: "\letra\-\índice2\"
+				entrando: Pose(opacidade: 0 escala: 2)
+				descansar: Sequência.balançar(duração: 0.25s)
+				duração: 0.5s
+			)
+	)
+)

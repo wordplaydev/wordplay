@@ -1,0 +1,207 @@
+👩‍💻
+Code-Lücke
+=== start/en
+¶Dieses Projekt zeigt echte, öffentliche Daten dazu, wie viele Frauen in den Vereinigten Staaten einen Abschluss in Informatik machen, und wie sich das im Laufe der Zeit verändert hat. Es nutzt zwei Datentabellen, eine mit dem Namen years und eine mit dem Namen fields. Mit den Knöpfen oben kannst du eine von drei Ansichten wählen. Jede Ansicht ist ein Balkendiagramm aus Frauen-Emojis, mit einer einfachen Erklärung in der Fußzeile.¶
+↓ years
+↓ fields
+
+¶Die fill-Funktion erstellt einen einzelnen durchgehenden Balken. Sie wiederholt das Frauen-Emoji countmal und fügt sie zu einem einzigen Textstück ohne Lücken zusammen, sodass die row wie ein durchgehender Balken aussieht statt wie einzelne Punkte.¶
+ƒ füllung(zähler•#) (zähler → []).übersetzen(ƒ() '👩').verbinden(
+		''
+	)
+
+¶Die chart-Funktion zeichnet ein Balkendiagramm aus drei passenden Listen: einer Beschriftung, einer Balkenlänge in Emoji und einem Wert. Jeder Balken ist eine Zeile eines linksbündigen Stapels, sodass alle Balken am selben Rand beginnen und ihre Längen direkt verglichen werden können. Die Beschriftung und der Wert stehen am Ende jedes Balkens in derselben Zeile, sodass sie mit ihrem Balken auf einer Linie bleiben.¶
+ƒ diagramm(beschriftungen•[''] einheiten•[#] werte•[''])
+	Gruppe(
+		Stapel('<' Polsterung: 0.2m)
+		einheiten.übersetzen(
+			ƒ(e•# i•#)
+				Gruppe(
+					Reihe('|' Polsterung: 0.3m)
+					[
+						Satzglied(füllung(e) Größe: 0.3m)
+						Satzglied(
+							`\beschriftungen[i]\ \werte[i]\`
+							Größe: 0.28m
+							Farbe: Farbe(45% 0 0°)
+						)
+					]
+				)
+		)
+	)
+
+¶Ansicht 1 — „Aufstieg und Fall“.Für jedes Jahr in den Daten zeichnen wir einen Balken, dessen Länge dem Prozentsatz der von Frauen erworbenen Informatikabschlüsse entspricht. Jedes Frauen-Emoji steht für etwa 5 Prozent, deshalb teilen wir den Prozentsatz durch 5, um die Balkenlänge zu erhalten.¶
+zeitZeilen: (years ⎡?jahr prozent⎦ ⊤) → []
+zeitAnsicht: diagramm(
+		zeitZeilen.übersetzen(ƒ(reihe) reihe.jahr)
+		zeitZeilen.übersetzen(
+			ƒ(reihe2) (reihe2.prozent ÷ 5).runden()
+		)
+		zeitZeilen.übersetzen(
+			ƒ(reihe3) (reihe3.prozent.runden() → '') + '%'
+		)
+	)
+
+¶Ansicht 2 — „Ein Fach fällt aus dem Rahmen“.Wir vergleichen den Frauenanteil in verschiedenen Studienfächern in einem aktuellen Jahr. Die Zeilen sind bereits vom höchsten zum niedrigsten Frauenanteil geordnet, sodass Informatik ganz unten im Diagramm landet.¶
+feldZeilen: (fields ⎡?feld prozent2⎦ ⊤) → []
+felderAnsicht: diagramm(
+		feldZeilen.übersetzen(ƒ(reihe4) reihe4.feld)
+		feldZeilen.übersetzen(
+			ƒ(reihe5) (reihe5.prozent2 ÷ 5).runden()
+		)
+		feldZeilen.übersetzen(
+			ƒ(reihe6) (reihe6.prozent2 → '') + '%'
+		)
+	)
+
+¶Ansicht 3 — „Mehr Frauen, kleinerer Anteil“.Dies sind zwei unterschiedliche Messgrößen, deshalb zeichnen wir sie als zwei getrennte Diagramme nebeneinander. Das linke Diagramm zählt Frauen (jedes Emoji steht für etwa 2.000 Personen); das rechte Diagramm zeigt ihren Anteil an allen Abschlüssen (jedes Emoji steht für etwa 5 Prozent). Innerhalb jedes Diagramms verwenden die beiden Balken dieselbe Einheit, sind also vergleichbar: Die Anzahl verdoppelt sich fast, während der Anteil sinkt.¶
+anzahlZeilen: (years ⎡?jahr frauen prozent⎦ ((jahr = '1984') | (jahr = '2022'))) → []
+alt: anzahlZeilen[1]
+jetzt: anzahlZeilen[2]
+
+frauenDiagramm: diagramm(
+		['1984' '2022']
+		[
+			(alt.frauen ÷ 2000).runden()
+			(jetzt.frauen ÷ 2000).runden()
+		]
+		[alt.frauen → '' jetzt.frauen → '']
+	)
+anteilDiagramm: diagramm(
+		['1984' '2022']
+		[
+			(alt.prozent ÷ 5).runden()
+			(jetzt.prozent ÷ 5).runden()
+		]
+		[
+			(alt.prozent.runden() → '') + '%'
+			(jetzt.prozent.runden() → '') + '%'
+		]
+	)
+anzahlenAnsicht: Gruppe(
+		Reihe('<' Polsterung: 1.5m)
+		[
+			Gruppe(
+				Stapel('|' Polsterung: 0.3m)
+				[
+					Satzglied(
+						`/Frauen, die einen Informatikabschluss erwerben/`
+						Größe: 0.28m
+					)
+					frauenDiagramm
+				]
+			)
+			Gruppe(
+				Stapel('|' Polsterung: 0.3m)
+				[
+					Satzglied(
+						`/Ihr Anteil an allen Informatikabschlüssen/`
+						Größe: 0.28m
+					)
+					anteilDiagramm
+				]
+			)
+		]
+	)
+
+¶Die drei Schaltflächen. Choice gibt den Namen der zuletzt angeklickten auswählbaren Phrase an. Wir starten mit der Zeitansicht und aktualisieren, sobald sich die Auswahl ändert.¶
+auswahl: Auswahl()
+aktuell: 'time' … ∆ auswahl … auswahl
+
+reiter: Gruppe(
+		Reihe('|' Polsterung: 0.6m)
+		[
+			Satzglied(
+				'▸ Im Zeitverlauf'
+				wählbar: ⊤
+				Name: 'time'
+				Größe: 0.35m
+				Farbe: Farbe(60% 50 20°)
+			)
+			Satzglied(
+				'▸ Nach Fach'
+				wählbar: ⊤
+				Name: 'fields'
+				Größe: 0.35m
+				Farbe: Farbe(60% 50 140°)
+			)
+			Satzglied(
+				'▸ Anzahl vs. Anteil'
+				wählbar: ⊤
+				Name: 'Anzahlen'
+				Größe: 0.35m
+				Farbe: Farbe(60% 50 280°)
+			)
+		]
+	)
+
+¶Wähle das Diagramm und die Fußzeile für die aktuelle Ansicht aus.¶
+hauptteil: aktuell = 'time' ? zeitAnsicht (aktuell = 'fields' ? felderAnsicht anzahlenAnsicht)
+
+fußzeile:
+	aktuell = 'time' ?
+		Satzglied(
+			`/Der Anteil von Frauen an US-amerikanischen Informatik-Bachelorabschlüssen erreichte 1984 mit 37 % seinen Höchststand, fiel dann über etwa 25 Jahre auf rund 18 % um das Jahr 2008 und erholt sich seither nur langsam. Jedes 👩 ≈ 5 %. Quelle: NCES Digest of Education Statistics, Tabelle 325.35./`
+			wickeln: 9m
+			Größe: 0.26m
+		)
+		aktuell = 'fields' ?
+			Satzglied(
+				`/Um das Jahr 2018 erwarben Frauen die meisten Psychologie- und Biologieabschlüsse, etwa die Hälfte der Mathematik- und Sozialwissenschaftsabschlüsse, aber unter 20 % der Informatikabschlüsse — fast der niedrigste Anteil aller Fächer. Jedes 👩 ≈ 5 %. Quelle: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
+				wickeln: 9m
+				Größe: 0.26m
+			)
+			Satzglied(
+				`/1984 erwarben etwa 12.000 Frauen einen Informatikabschluss — das waren 37 %. Bis 2022 waren es über 24.000, doppelt so viele Menschen, aber nur noch 23 %: Das Fach wuchs so schnell, dass die Zahl der Männer noch schneller wuchs. Eine steigende Anzahl kann trotzdem einen sinkenden Anteil bedeuten. Quelle: NCES./`
+				wickeln: 9m
+				Größe: 0.26m
+			)
+
+Bühne(
+	[
+		Gruppe(
+			Stapel('|' Polsterung: 0.4m)
+			[
+				Satzglied(
+					`CODE-LÜCKE`
+					Größe: 0.7m
+					gesicht: 'Monoton'
+				)
+				Satzglied(
+					`/Wer erwirbt Informatikabschlüsse?/`
+					Größe: 0.35m
+				)
+				reiter
+				hauptteil
+				fußzeile
+			]
+		)
+	]
+	gesicht: 'Quicksand'
+)
+=== years/en
+¶Prozentsatz der US-amerikanischen Bachelorabschlüsse in Informatik, die von Frauen erworben wurden, nach Jahr, mit der Anzahl der Frauen und der Gesamtzahl der Abschlüsse. Quelle: National Center for Education Statistics, Digest of Education Statistics, Tabelle 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+⎡jahr•'' frauen•# gesamt•# prozent•#⎦
+⎡'1971' 324 2388 13.6⎦
+⎡'1976' 1118 5652 19.8⎦
+⎡'1984' 12023 32439 37.1⎦
+⎡'1990' 8188 27347 29.9⎦
+⎡'1995' 6749 24506 27.5⎦
+⎡'2001' 12219 44142 27.7⎦
+⎡'2005' 11986 54111 22.2⎦
+⎡'2008' 6792 38523 17.6⎦
+⎡'2011' 7589 43066 17.6⎦
+⎡'2015' 10742 59586 18⎦
+⎡'2019' 18316 88638 20.7⎦
+⎡'2022' 24542 108503 22.6⎦
+=== fields/en
+¶Prozentsatz der US-amerikanischen Bachelorabschlüsse, die Frauen in jedem Studienfach um das Jahr 2018 erworben haben, geordnet vom höchsten zum niedrigsten Anteil. Quelle: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+⎡feld•'' prozent2•#⎦
+⎡'Psychologie' 72⎦
+⎡'Biologie' 60⎦
+⎡'Sozialwissenschaft' 55⎦
+⎡'Mathematik & Statistik' 42⎦
+⎡'Naturwissenschaft' 41⎦
+⎡'Geowissenschaft' 38⎦
+⎡'Ingenieurwesen' 22⎦
+⎡'Informatik' 20⎦

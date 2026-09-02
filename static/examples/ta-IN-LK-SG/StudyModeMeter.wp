@@ -1,0 +1,78 @@
+⏳
+படிப்பு முறை அளவுகோல்
+=== start/en
+¶படிப்பு நேரத்தைச் சேர்க்க கிளிக் செய்யுங்கள். அளவுகோல் அமைதியிலிருந்து கவனம் செலுத்துதலுக்கும், பின் மிகைச்சுமைக்கும் மாறுவதைப் பாருங்கள்.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+செயல்: தேர்வு()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+படிப்புநேரம்:
+	0 …
+	∆ செயல் …
+		செயல் = 'reset' ?
+			0
+			படிப்புநேரம் + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+விளக்கம்2:
+	'உங்கள் படிப்பு நேரத்தை அதிகரிக்க “படிப்பு நேரம் சேர் +1” என்பதைக் கிளிக் செய்யுங்கள். மீண்டும் தொடங்க “மீட்டமை” என்பதைக் கிளிக் செய்யுங்கள்.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+நேரஉரை:
+	'நீங்கள் படித்த நேரம்: ' + படிப்புநேரம் → '' + ' மணி நேரம்.'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+மனநிலை:
+	படிப்புநேரம் < 3 ?
+		'🌿 அமைதி முறை — படிப்பு நேரத்தைச் சேர்க்க கிளிக் செய்யுங்கள்'
+		படிப்புநேரம் < 6 ?
+			'📚 கவன முறை — நீங்கள் சிறப்பாக செயல்படும் நிலையில் இருக்கிறீர்கள்!'
+			'🔥 மிகைச்சுமை முறை — ஓய்வு எடுத்து "மீட்டமை" செய்யுங்கள்'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+மேடை(
+	[
+		குழு(
+			அடுக்கிவைக்கவும்()
+			[
+				சொற்றொடர்('படிப்பு முறை அளவுகோல்' அளவு: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				சொற்றொடர்(விளக்கம்2 அளவு: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				சொற்றொடர்(நேரஉரை அளவு: 0.4m)
+
+				சொற்றொடர்(மனநிலை அளவு: 0.75m)
+
+				குழு(
+					வரிசை(திணிப்பு: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						சொற்றொடர்(
+							'படிப்பு நேரம் சேர் +1'
+							தேர்ந்தெடுக்கக்கூடியது: ⊤
+							பெயர்: 'சேர்'
+							நிறம்: நிறம்(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						சொற்றொடர்(
+							'மீட்டமை'
+							தேர்ந்தெடுக்கக்கூடியது: ⊤
+							பெயர்: 'reset'
+							நிறம்: நிறம்(69% 47 271°)
+						)
+					]
+				)
+			]
+			முகம்: "Aclonica"
+		)
+	]
+)

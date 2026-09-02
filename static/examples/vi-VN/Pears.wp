@@ -1,0 +1,156 @@
+M
+Quả lê
+=== start/en
+¶Đây là một câu chuyện ngắn có thể tương tác. Nó có nhiều cảnh khác nhau và chuyển giữa các cảnh dựa trên những tương tác khác nhau, như bấm chuột, va chạm, và các hành động khác. Một phần thú vị khi trải nghiệm câu chuyện là tìm ra những tương tác cần thiết để câu chuyện tiếp tục.¶
+phầnMởĐầu: [
+		Cụmtừ(`Bố tôi muốn về.` vịTrí: VịTrí(-9m 0m))
+	]
+
+xungĐột: [
+		Cụmtừ(`"Mẹ ơi, mình phải đi rồi."` vịTrí: VịTrí(-8m 7m))
+		Cụmtừ(`/"Cầm lấy, về nhà đi."/` vịTrí: VịTrí(1m 4m))
+		Cụmtừ(
+			`"Mẹ ơi, chúng con không muốn gì cả!"`
+			vịTrí: VịTrí(-8m 1m)
+		)
+		Cụmtừ(
+			`"Cầm lấy, về nhà đi!"`
+			kíchcỡ: 2m
+			vịTrí: VịTrí(-6m -4m)
+			nghỉngơi: Sựliêntiếp.lắc()
+		)
+	]
+
+caoTràoDângLên1: [
+		Cụmtừ(
+			`Bà 炮炮👵🏽 của tôi bước ra sân sau`
+			vịTrí: VịTrí(-9m 7m)
+		)
+		Cụmtừ(`Tôi đi theo bà, đầy tò mò` vịTrí: VịTrí(-6m 4m))
+		Cụmtừ(
+			`👵🏽`
+			tên: 'paupau'
+			kíchcỡ: 2m
+			vấnđề: Vấnđề()
+			vịTrí: VịTrí(6m -6m)
+			bongBóng: `/"沙梨🍐, cầm lấy về nhà đi!"/`
+		)
+		Cụmtừ(
+			`👧🏻`
+			tên: 'tôi'
+			kíchcỡ: 1m
+			vấnđề: Vấnđề()
+			vịTrí: Vịtrí(VịTrí(-8m -6m))
+		)
+	]
+
+caoTràoDângLên2: [
+		Cụmtừ(
+			`Bà dừng lại bên một cây nhỏ.`
+			vịTrí: VịTrí(-9m 6m)
+		)
+		Cụmtừ(
+			`Trên đó lủng lẳng hàng chục quả 沙梨 vàng tươi`
+			vịTrí: VịTrí(-9m 1m)
+			bọc: 10m
+		)
+		Cụmtừ(
+			`"Mẹ ơi, chúng con không muốn ăn lê đâu."`
+			kíchcỡ: .75m
+			vịTrí: VịTrí(-4m 0m)
+		)
+		Cụmtừ(
+			`/Tôi muốn một quả lê./`
+			kíchcỡ: 2m
+			vịTrí: VịTrí(-8m -3m)
+		)
+		Cụmtừ(
+			"🍐"
+			kíchcỡ: 2m
+			vịTrí: VịTrí(-1m -7m)
+			tên: 'pear'
+			cóthểlựachọn: ⊤
+		)
+	]
+
+¶Chúng ta chọn trước những vị trí để chúng rơi xuống đúng chỗ đó.¶
+địaĐiểm: (6 → []).dịch(
+		ƒ() VịTrí(Ngẫunhiên(-2m 2m) Ngẫunhiên(-3m -5m))
+	)
+đỉnhĐiểm: [
+		Cụmtừ(`Bà quỳ xuống trên đất.` vịTrí: VịTrí(-9m 6m))
+		Cụmtừ(`Cầm lấy một con dao` vịTrí: VịTrí(-9m 4m))
+		Cụmtừ(`Và cẩn thận cắt sáu quả` vịTrí: VịTrí(-9m 2m))
+		Cụmtừ(
+			`Thả chúng vào cái giỏ bên dưới`
+			vịTrí: VịTrí(-9m 0m)
+		)
+		Cụmtừ("🧺" kíchcỡ: 4m vịTrí: VịTrí(-2m -12m))
+		Cụmtừ(
+			"🌳"
+			tên: "tree"
+			kíchcỡ: 5m
+			vịTrí: VịTrí(-3m -7m)
+			cóthểlựachọn: ⊤
+		)
+		:địaĐiểm.dịch(
+			ƒ(đặt chỉMục2)
+				Cụmtừ(
+					"🍐"
+					tên: "pear\chỉMục2\"
+					vịTrí: Sựlựachọn() = 'tree' ? Cửđộng(đặt) đặt
+				)
+		)
+		Cụmtừ("🔪" vịTrí: Contrỏ())
+	]
+
+kếtThúc2: [
+		Cụmtừ(`Bà mang chúng đến cho tôi` vịTrí: VịTrí(-9m 6m))
+		Cụmtừ(`Quỳ xuống ngang tầm tôi` vịTrí: VịTrí(-8m 4m))
+		Cụmtừ(`Và đưa cho tôi cái giỏ` vịTrí: VịTrí(-7m 2m))
+		Cụmtừ(`/"Cầm lấy về nhà đi"/` vịTrí: VịTrí(0m -2m))
+	]
+
+lờiCảmƠn: [
+		Cụmtừ(`của /Amy J. Ko/`)
+	]
+
+câuChuyện: [
+		phầnMởĐầu
+		xungĐột
+		caoTràoDângLên1
+		caoTràoDângLên2
+		đỉnhĐiểm
+		kếtThúc2
+		lờiCảmƠn
+	]
+
+¶Theo dõi số lần nhấp và chạm¶
+nhấp2: ∆ Cáinút()
+¶Theo dõi khoảng thời gian sau khi cây được nhấp vào¶
+thờiGianSauKhiCắt: 0ms … Sựlựachọn() = 'tree' … Thờigian(
+			1000ms
+		)
+¶Theo dõi khi chúng ta đến chỗ Pau Pau¶
+ởNhàPauPau: ∆ Vachạm('tôi')
+¶Theo dõi khi quả lê được chọn¶
+đãChọnLê: Sựlựachọn() = 'pear'
+¶Thay đổi đoạn dựa trên đoạn hiện tại¶
+đoạn•#:
+	1 …
+	đoạn ???
+		1: nhấp2
+		2: nhấp2
+		3: ởNhàPauPau
+		4: đãChọnLê
+		5: thờiGianSauKhiCắt > 1500ms
+		6: ∆ Cáinút()
+		⊥
+		… đoạn + 1
+
+Sânkhấu(
+	câuChuyện[đoạn]
+	khuônmặt: 'Arvo'
+	vịTrí: VịTrí(0m 0m -20m)
+	khung: Hìnhchữnhật(-10m 10m 10m -10m)
+)

@@ -1,0 +1,92 @@
+🎐
+Mga Kampanilya
+=== start/en
+¶Limang kuliling na nagbibitin nang pahilera, binilang isa hanggang lima. Pindutin ang A, S, D, F, o G, at ang kuliling na hinampas mo ay lalago at liliwanag, tapos unti-unting babagal hanggang tumigil. Ang buong hilera ay bahagyang gumagalaw, may tumutugtog man o wala.
+
+Ito ay isang instrumento. Wala itong tunog. Ang mga numero ay isang iskor na, hindi lang pa ito naitutugtog. Ang bahaging tinanggal sa itaas ng entablado ang tunog, na naghihintay para umiral ang @Music.¶
+
+pinindot: Susi()
+tik: Oras(30ms)
+
+¶Kung gaano ang tugtog na nawawala sa kuliling sa bawat frame.¶
+paglabo: 0.03
+
+¶Isang kuliling: anong antas ito, aling susi ang humahampas dito, saan ito nagbibitin, ang kulay-tono nito, at kung gaano lakas ito tumutunog pa — 1 kapag bagong hinampas, 0 kapag tahimik na.¶
+•kuliling(antas•# susi2•'' x2•#m hue•#° enerhiya•#)
+
+¶Hampasin ang kuliling na ang susi nito ay pinindot, at pabayaan ang lahat ng ibang kuliling na tumigil.¶
+ƒ tugtog(hanay•[kuliling] tama•'' hinampas•?)
+	hanay.isalin(
+		ƒ(kuliling2•kuliling)
+			(hinampas & (tama = kuliling2.susi2))
+			? kuliling2.enerhiya:1
+				kuliling2.enerhiya:(kuliling2.enerhiya - paglabo).pinakamataas(
+					0
+				)
+	)
+
+mgaKuliling•[kuliling]: [
+		kuliling(1 'isang' -6m 20° 0)
+		kuliling(2 's' -3m 75° 0)
+		kuliling(3 'd' 0m 140° 0)
+		kuliling(4 'f' 3m 205° 0)
+		kuliling(5 'g' 6m 270° 0)
+	] … (∆ pinindot | ∆ tik) … tugtog(
+			mgaKuliling
+			pinindot
+			(∆ pinindot)
+		)
+
+¶Ang kuliling ay lalago at liliwanag habang tumutugtog, at palaging bahagyang gumagalaw, kaya buhay ang hilera kahit walang tumutugtog.¶
+ƒ tanawNgKuliling(kuliling3•kuliling)
+	Parirala(
+		(kuliling3.antas → '')
+		(2m + (kuliling3.enerhiya · 1.5m))
+		lugar: Lugar(kuliling3.x2 0m)
+		tagal: 0.12s
+		kulay: Kulay(
+			(45% + (kuliling3.enerhiya · 40%))
+			(20 + (kuliling3.enerhiya · 80))
+			kuliling3.hue
+		)
+		nagpapahinga: Pagkakasunodsunod.ugoy(3° 2.5s)
+	)
+
+¶Ang susi na humahampas sa bawat kuliling, na nakalimbag sa ilalim nito.¶
+ƒ tanawNgSusi(kuliling4•kuliling)
+	Parirala(
+		kuliling4.susi2
+		0.7m
+		lugar: Lugar(kuliling4.x2 -3m)
+		kulay: Kulay(60% 0 0°)
+	)
+
+¶Ang dalawang bindings na ito ang buong tunog: hanapin ang kuliling na tumutunog sa sandaling ito, at ibigay ang antas nito sa isang batingaw, na tumutugtog ulit sa bawat pindot upang ang bawat hampas ay isang bagong tunog sa halip na paulit-ulit lang. Limang kuliling, limang antas ng isang pentatonic scale, kaya walang maling tono.¶
+tumutunog2: mgaKuliling.pansala(
+		ƒ(kuliling5•kuliling) kuliling5.enerhiya = 1
+	)
+kanta: Musika(
+		Track(
+			tumutunog2 ↦ ⬚.antas
+			instrumento: Instrumento.kampana
+			loop: ⊥
+		)
+		iskala: Musika.pentatonic
+		iReplay: ∆ pinindot
+	)
+
+Entablado(
+	[
+		Parirala(
+			'━━━━━━━━━━━━━'
+			1m
+			lugar: Lugar(-6m 2.5m)
+			kulay: Kulay(45% 0 0°)
+		)
+		:mgaKuliling ↦ tanawNgKuliling(⬚)
+		:mgaKuliling ↦ tanawNgSusi(⬚)
+		kanta
+	]
+	background: Kulay(16% 15 280°)
+	kulay: Kulay(95% 0 0°)
+)

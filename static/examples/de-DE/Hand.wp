@@ -1,0 +1,52 @@
+🖐
+Hand
+===
+¶Halte deine Finger vor die Kamera. Eine Emoji-Hand zählt mit.¶
+hand2: Hand()
+
+Bühne(
+	[
+		Satzglied(
+			(hand2.Finger = 0 ? '✊'
+					hand2.Finger = 1 ? '☝'
+						hand2.Finger = 2 ? '✌'
+							hand2.Finger = 3 ? '🤟'
+								hand2.Finger = 4 ? '🖖'
+									'🖐')
+			Ort: hand2.Ort
+			Größe: 2m
+			Versatz: Ort(-1m)
+		)
+		Gruppe(
+			Reihe('<')
+			[
+				Satzglied('1⃣' Versatz: Ort(0m hand2.Daumen ? 1m 0m))
+				Satzglied('2⃣' Versatz: Ort(0m hand2.Index ? 1m 0m))
+				Satzglied('3⃣' Versatz: Ort(0m hand2.Mitte ? 1m 0m))
+				Satzglied('4⃣' Versatz: Ort(0m hand2.Ring ? 1m 0m))
+				Satzglied(
+					'5⃣'
+					Versatz: Ort(0m hand2.kleinerFinger ? 1m 0m)
+				)
+			]
+			Ort: Ort(-4.5m 5m)
+		)
+		Gruppe(
+			Stapel('|')
+			[
+				Satzglied((hand2.Palme ? '🤚' '🤛') Größe: 2m)
+				Satzglied(
+					(hand2.offen ? 'offen' 'geschlossen')
+					Größe: 1.5m
+				)
+			]
+			Ort: Ort(-2m -8m)
+		)
+		Satzglied(
+			`/Zeig der Kamera deine Hand/`
+			Ort: Ort(-6m -10m)
+			Größe: 1m
+		)
+	]
+	Ort: Ort(0m 0m -20m)
+)

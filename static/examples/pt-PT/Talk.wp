@@ -1,0 +1,5 @@
+😐
+Falar
+=== start
+¶Um emoji que abre a boca quando fala alto.¶
+Frase(Volume() > 0.5 ? "😮" "😐" 5m)

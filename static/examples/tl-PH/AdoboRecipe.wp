@@ -1,0 +1,45 @@
+H
+Recipe ng Adobo
+=== start/en
+¶Isang recipe na ipinapakita eksena-eksena para sa adobong manok.¶
+
+¶Ito ang listahan ng mga eksena na ipapakita¶
+mgaPangungusap: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Adobong Manók @lamamel/adobo! (igalaw ang mouse para kumain)`)
+		(`Masarap! @lamamel/emptyadobo`)
+	]
+
+¶Ito ang listahan ng mga pangungusap na dapat lamang sumulong kapag iginalaw ang mouse.¶
+ilipatAngMgaPangungusap: [9 11]
+
+¶Ang kasalukuyang pangungusap ay nagsisimula sa 1, at dumaragdag kapag napunta ang mouse sa isang tiyak na coordinate sa screen, o kapag pinindot ang isang button o key para sa iba pang mga pangungusap.¶
+puntos: Panturo()
+kasalukuyangPangungusap•#: 1 …
+	ilipatAngMgaPangungusap.aymay(kasalukuyangPangungusap) ?
+		(puntos.x > 2m) & (puntos.taon > 3m)
+		∆ Butones() | ∆ Susi()
+		…
+		(kasalukuyangPangungusap <
+				mgaPangungusap.haba()) ?
+			kasalukuyangPangungusap + 1
+			kasalukuyangPangungusap
+
+Entablado(
+	[
+		Parirala(
+			mgaPangungusap[kasalukuyangPangungusap]
+			pambalot: 10m
+		)
+	]
+	mukha: 'Short Stack'
+)

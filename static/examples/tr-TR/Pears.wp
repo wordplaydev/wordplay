@@ -1,0 +1,156 @@
+M
+Armutlar
+=== start/en
+¶Bu, etkileşimli bir kısa hikayedir. Birkaç farklı sahne içerir ve tıklama, çarpışma gibi farklı etkileşimlere göre bu sahneler arasında geçiş yapar. Bu hikayeyi yaşamanın eğlenceli yanlarından biri, hikayeyi ilerletmek için gereken etkileşimleri keşfetmektir.¶
+giriş2: [
+		İfadeetmek(`Babam gitmek istiyordu.` yer: Yer(-9m 0m))
+	]
+
+çakışma: [
+		İfadeetmek(`"Anne", gitmemiz gerek.` yer: Yer(-8m 7m))
+		İfadeetmek(`/"Al eve git."/` yer: Yer(1m 4m))
+		İfadeetmek(
+			`"Anne bir şey istemiyoruz!"`
+			yer: Yer(-8m 1m)
+		)
+		İfadeetmek(
+			`"Al eve git!"`
+			boyut: 2m
+			yer: Yer(-6m -4m)
+			dinlenme: Sekans.sallamak()
+		)
+	]
+
+yükselenOlay1: [
+		İfadeetmek(`炮炮👵🏽'm arka bahçeye çıktı` yer: Yer(-9m 7m))
+		İfadeetmek(`Onu merakla takip ettim` yer: Yer(-6m 4m))
+		İfadeetmek(
+			`👵🏽`
+			isim: 'paupau'
+			boyut: 2m
+			konu: Konu()
+			yer: Yer(6m -6m)
+			balon: `/"沙梨🍐, al eve git!"/`
+		)
+		İfadeetmek(
+			`👧🏻`
+			isim: 'ben'
+			boyut: 1m
+			konu: Konu()
+			yer: Atama(Yer(-8m -6m))
+		)
+	]
+
+yükselenOlay2: [
+		İfadeetmek(
+			`Küçük bir ağacın önünde durdu.`
+			yer: Yer(-9m 6m)
+		)
+		İfadeetmek(
+			`Üzerinde onlarca parlak sarı 沙梨 birbirine dolanmıştı`
+			yer: Yer(-9m 1m)
+			dürüm: 10m
+		)
+		İfadeetmek(
+			`"Anne, biz armut istemiyoruz."`
+			boyut: .75m
+			yer: Yer(-4m 0m)
+		)
+		İfadeetmek(
+			`/Ben bir armut istedim./`
+			boyut: 2m
+			yer: Yer(-8m -3m)
+		)
+		İfadeetmek(
+			"🍐"
+			boyut: 2m
+			yer: Yer(-1m -7m)
+			isim: 'pear'
+			seçilebilir: ⊤
+		)
+	]
+
+¶Yerleri önceden belirliyoruz, böylece hepsi aynı yerden düşebiliyor.¶
+yerler: (6 → []).tercümeetmek(
+		ƒ() Yer(Rastgele(-2m 2m) Rastgele(-3m -5m))
+	)
+dorukNokta: [
+		İfadeetmek(`Toprağa çöktü.` yer: Yer(-9m 6m))
+		İfadeetmek(`Bir bıçak aldı` yer: Yer(-9m 4m))
+		İfadeetmek(
+			`Ve dikkatle altısını kesti`
+			yer: Yer(-9m 2m)
+		)
+		İfadeetmek(
+			`Onları altındaki sepete bıraktı`
+			yer: Yer(-9m 0m)
+		)
+		İfadeetmek("🧺" boyut: 4m yer: Yer(-2m -12m))
+		İfadeetmek(
+			"🌳"
+			isim: "tree"
+			boyut: 5m
+			yer: Yer(-3m -7m)
+			seçilebilir: ⊤
+		)
+		:yerler.tercümeetmek(
+			ƒ(yerleştir dizin2)
+				İfadeetmek(
+					"🍐"
+					isim: "pear\dizin2\"
+					yer: Seçenek() = 'tree' ? Hareket(yerleştir) yerleştir
+				)
+		)
+		İfadeetmek("🔪" yer: İşaretçi())
+	]
+
+çözüm: [
+		İfadeetmek(`Onları bana getirdi` yer: Yer(-9m 6m))
+		İfadeetmek(`Yanıma çöktü` yer: Yer(-8m 4m))
+		İfadeetmek(`Ve sepeti bana verdi` yer: Yer(-7m 2m))
+		İfadeetmek(`/"Al, eve git"/` yer: Yer(0m -2m))
+	]
+
+jenerik: [
+		İfadeetmek(`yazan /Amy J. Ko/`)
+	]
+
+hikaye: [
+		giriş2
+		çakışma
+		yükselenOlay1
+		yükselenOlay2
+		dorukNokta
+		çözüm
+		jenerik
+	]
+
+¶Tıklamaları ve dokunmaları say¶
+tıkla: ∆ Düğme()
+¶Ağaca tıklandıktan ne kadar süre sonra olduğunu say¶
+kesintidenSonrakiZaman: 0ms … Seçenek() = 'tree' … Zaman(
+			1000ms
+		)
+¶Pau Pau'ya ulaştığımızda kaydet¶
+pauPauʼda: ∆ Çarpışma('ben')
+¶Armut seçildiğinde kaydet¶
+armutʼuSeçti: Seçenek() = 'pear'
+¶Bölümü şu anki bölüme göre değiştir¶
+bölüm2•#:
+	1 …
+	bölüm2 ???
+		1: tıkla
+		2: tıkla
+		3: pauPauʼda
+		4: armutʼuSeçti
+		5: kesintidenSonrakiZaman > 1500ms
+		6: ∆ Düğme()
+		⊥
+		… bölüm2 + 1
+
+Sahne(
+	hikaye[bölüm2]
+	yüz: 'Arvo'
+	yer: Yer(0m 0m -20m)
+	çerçeve: Dikdörtgen(-10m 10m 10m -10m)
+)

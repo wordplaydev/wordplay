@@ -1,0 +1,13 @@
+⚫
+Amplitude
+===
+¶Eine Reihe von Punkten, die je nach Lautstärke deines Mikrofons leuchten und verblassen.¶
+amplituden•[#]: ←← 10 Volumen()
+vis: amplituden.übersetzen(
+		ƒ(verstärkung•#) Satzglied(
+				"⚫"
+				Opazität: verstärkung
+				Größe: 10m
+			)
+	)
+Bühne([Gruppe(Reihe() vis)] Ort: Ort(0m 0m -50m))

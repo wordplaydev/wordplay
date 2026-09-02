@@ -1,0 +1,30 @@
+🎃
+Pumpa
+=== start
+¶En pumpalykta som flimrar och dyker upp på ett nytt ställe varje sekund.¶
+tid: Tid(1000ms)
+plats2: Plats(0m 0m) … ∆ tid … Plats(
+			Slumpmässig(-4m 4m)
+			Slumpmässig(-4m 4m)
+			Slumpmässig(-4m 0m)
+		)
+opacitet2: 1 … ∆ tid … Slumpmässig(0.25 1)
+visa: ⊤ … ∆ tid … ~visa
+pumpa: Fras(
+		'🎃'
+		opacitet: opacitet2
+		plats: plats2
+		gårin: Sekvens(
+			{
+				0%: Pose(skala: 1.25 rotation: -21°)
+				20%: Pose(skala: 0.75 rotation: 13°)
+				40%: Pose(skala: 1 rotation: -7°)
+				60%: Pose(skala: 1.25 rotation: 19°)
+				100%: Pose()
+			}
+			0.5s
+			räkna: 3x
+		)
+	)
+
+Etapp(visa ? [pumpa] [] bakgrund: Färg(0% 0 0°))

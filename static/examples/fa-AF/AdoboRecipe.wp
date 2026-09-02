@@ -1,0 +1,40 @@
+H
+دستور پخت آدوبو
+=== start/en
+¶دستور پخت آدوبوی مرغ فیلیپینی، صحنه به صحنه.¶
+
+¶این‌ها فهرست صحنه‌هایی هستند که نشان داده می‌شوند¶
+جمله‌ها: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`آدوبونگ مانوک @lamamel/adobo! (موس را حرکت بده تا بخوری)`)
+		(`خوشمزه است! @lamamel/emptyadobo`)
+	]
+
+¶این‌ها فهرست جمله‌هایی هستند که فقط با حرکت موس باید پیش بروند.¶
+جابه‌جاییجمله‌ها: [9 11]
+
+¶جملهٔ کنونی از ۱ آغاز می‌شود، و اگر موس به نقطهٔ خاصی روی صفحه برود، یا برای جمله‌های دیگر دکمه یا کلیدی فشرده شود، یکی بیشتر می‌شود.¶
+نقطه: اشاره‌گر()
+جملهٔکنونی•#: 1 …
+	جابه‌جاییجمله‌ها.دارد(جملهٔکنونی) ?
+		(نقطه.x > 2m) & (نقطه.y > 3m)
+		∆ دکمه() | ∆ کلید()
+		…
+		(جملهٔکنونی <
+				جمله‌ها.طول()) ?
+			جملهٔکنونی + 1
+			جملهٔکنونی
+
+صحنه(
+	[عبارت(جمله‌ها[جملهٔکنونی] پیچیدن: 10m)]
+	قلم: 'Short Stack'
+)

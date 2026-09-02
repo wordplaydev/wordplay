@@ -1,0 +1,89 @@
+🧶
+Saltar
+=== start
+¶Dirige a un gato con las teclas de flecha y hazlo saltar.
+
+El gato maúlla cada vez que se mueve. El maullido cuelga de la primera @Pose de su animación de movimiento: una @Pose puede llevar una @Music, que suena en el momento en que esa postura se toma, y un movimiento marca sus posturas cada vez que una comienza. El balanceo se escribe por completo en lugar de dejarse como\Secuencia.vaivén(
+)\ porque las animaciones ya hechas crean sus propias posturas, y una postura es el lugar donde tiene que ir el sonido.¶
+
+¶Un grito corto. Dos movimientos muy seguidos comparten un maullido en lugar de sumar dos, ya que el segundo llega mientras el primer balanceo todavía se está balanceando.¶
+miau2: Música(
+		Pista([1] instrumento: Instrumento.gato)
+		volumen: 45%
+		nombre: 'miau'
+	)
+
+•posiciónDelGato(posición•#m dirección2•#)
+
+tecla2: Tecla()
+velocidad2: 1m
+
+lugarGatuno: posiciónDelGato(5m 1) … ∆ tecla2 …
+		((tecla2 = "FlechaIzquierda") & (lugarGatuno.posición > -10m)) ? posiciónDelGato(
+				lugarGatuno.posición - velocidad2
+				1
+			)
+			((tecla2 = "FlechaDerecha") & (lugarGatuno.posición < 8m)) ? posiciónDelGato(
+					lugarGatuno.posición + velocidad2
+					-1
+				)
+				lugarGatuno
+
+gatito: Frase(
+		"🐈"
+		fuente: "Noto Color Emoji"
+		nombre: 'gatito'
+		tamaño: 2m
+		lugar: Lugar(lugarGatuno.posición 0m)
+		inmóvil: Pose(voltearx: lugarGatuno.dirección2 < 0)
+		moviendo: Secuencia(
+			{
+				0%: Pose(rotación: -5° música: miau2)
+				50%: Pose(rotación: 5°)
+				100%: Pose(rotación: -5°)
+			}
+			0.25s
+			"zippy"
+		)
+		materia: Materia(1000kg redondez: 0.5)
+	)
+
+saltar: Colisión('pelota' 'gatito')
+
+pelotaColocar: Movimiento(
+		Lugar(0m 9m)
+		siguientevelocidad:
+		saltar•ø ? ø
+			Velocidad(
+				((saltar.dirección.x ÷ -1m) × Azar(15m/s 25m/s)) + Azar(
+						-3m/s
+						3m/s
+					)
+				Azar(27m/s 30m/s)
+				(saltar.dirección.x ÷ -1m) × Azar(0°/s 15°/s)
+			)
+	)
+
+pelota: Frase(
+		"🧶"
+		nombre: 'pelota'
+		lugar: pelotaColocar
+		materia: Materia(1kg 0.5 0 1)
+	)
+
+Escenario(
+	[
+		Figura(Rectángulo(-10m 0m 10m -3m))
+		Figura(Rectángulo(-10m -1m -9m 11m))
+		Figura(Rectángulo(10m -1m 9m 11m))
+		Figura(Rectángulo(-10m 10m 10m 11m))
+		pelota
+		gatito
+		Frase(
+			'¡presiona ← → para jugar!'
+			lugar: Lugar(-4m -2m)
+			color: Color.blanco
+		)
+	]
+	lugar: Lugar(y: 5m z: -10m)
+)

@@ -1,0 +1,29 @@
+m
+Mumla
+=== start
+¶Fortsätt klicka så blir mumlandet allt fetare.¶
+klick•#: 0 … ∆ Knapp() … klick + 1
+
+klick < 3 ?
+	Fras(
+		'mumla'
+		storlek: 1m
+		namn: 'mum'
+		gårin: Pose(skala: 0)
+		vilande: Sekvens(
+			{
+				0%: Pose(skala: (klick + 1) × 1.1)
+				50%: Pose(skala: (klick + 1) × 0.9)
+				100%: Pose(skala: (klick + 1) × 1.1)
+			}
+			varaktighet: 0.5s
+		)
+		avslutar: Sekvens(
+			{
+				0%: Pose(opacitet: 1 skala: 1)
+				100%: Pose(opacitet: 0 skala: 10)
+			}
+			varaktighet: 2s
+		)
+	)
+	Fras('klar')

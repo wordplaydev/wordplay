@@ -1,0 +1,28 @@
+ぁ
+Hiragana
+=== start
+¶Hiragana care cad din cauza gravitației; apasă pentru a schimba direcția în jos.¶
+numărare2: 32
+
+gravitație•#m/s^2: 15m/s^2 … ∆ Buton() … -gravitație
+
+hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
+
+litere: numărare2 → [].traduce(
+		ƒ(număr2 index2)
+			Fraza(
+				hiragana[număr2]
+				loc: Mişcare(
+					Loc((index2 - (numărare2 ÷ 2)) × 0.2m 10m)
+					Viteză(unghi: Aleatoriu(-5 5) × 1°/s)
+				)
+				materie: Materie(elasticitate: 0.3)
+			)
+	)
+
+
+Etapă(
+	[:litere Figură(Dreptunghi(-40m 0m 40m -2m))]
+	gravitaţie: gravitație
+	loc: Loc(0m 5m -20m)
+)

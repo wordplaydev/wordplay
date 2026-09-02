@@ -1,0 +1,44 @@
+👨‍👨‍👧‍👦
+Fragen
+=== start/en
+¶Drücke Tasten, um hüpfende Fragezeichen über eine verwirrte Familie fliegen zu lassen.¶
+•frage(id2•"" vx•#m/s vy•#m/s va•#°/s)
+
+gedrückt: ∆ Schlüssel()
+zähler•#: 0 … gedrückt … zähler + 1
+fragen•[frage]: [] … gedrückt … [
+			:fragen
+			frage(
+				zähler → ""
+				Zufällig(30m/s 50m/s)
+				Zufällig(30m/s 50m/s)
+				Zufällig(0°/s 30°/s)
+			)
+		]
+
+Bühne(
+	[
+		Satzglied('👨‍👨‍👧‍👦' Ort: Ort(0m 0m) gesicht: "Noto Emoji")
+		Gestalt(Rechteck(-5m 0m 25m -1m))
+		:fragen.übersetzen(
+			ƒ(f2•frage index2•#) (
+					start2: gedrückt & (index2 = fragen.Länge())
+					Satzglied(
+						'F'
+						Name: f2.id2
+						Ort: Bewegung(
+							Geschwindigkeit: Geschwindigkeit(
+								f2.vx
+								f2.vy
+								f2.va
+							)
+						)
+						Gegenstand: Gegenstand()
+						Ruhen: Pose(
+							Opazität: start2 ? 0% 100%
+						)
+					)
+				)
+		)
+	]
+)

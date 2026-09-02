@@ -1,0 +1,40 @@
+H
+아도보 요리법
+=== start/en
+¶필리핀 치킨 아도보를 장면별로 만드는 방법.¶
+
+¶보여줄 장면들의 목록입니다¶
+문장들: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`아도봉 마녹 @lamamel/adobo! (마우스를 움직여 먹어 보세요)`)
+		(`마사랍! @lamamel/emptyadobo`)
+	]
+
+¶마우스를 움직여야만 다음으로 넘어가는 문장들의 목록입니다.¶
+문장이동: [9 11]
+
+¶현재 문장은 1에서 시작하며, 마우스가 화면의 특정 좌표로 이동하면 다음 문장으로 넘어갑니다. 다른 문장들은 버튼이나 키를 누르면 넘어갑니다.¶
+지점: 포인터()
+현재문장•#: 1 …
+	문장이동.가지다(현재문장) ?
+		(지점.엑스 > 2m) & (지점.와이 > 3m)
+		∆ 버튼() | ∆ 키()
+		…
+		(현재문장 <
+				문장들.길이()) ?
+			현재문장 + 1
+			현재문장
+
+단계(
+	[구절(문장들[현재문장] 포장하다: 10m)]
+	얼굴: 'Short Stack'
+)

@@ -1,0 +1,176 @@
+🚣
+Rema, Rema
+=== start/en
+¶Row, Row, Row Your Boat — uma vez do início ao fim, dez segundos certos, com uma pequena frota a remar ao som dela.
+
+A canção está em 6/8, por isso cada compasso tem seis colcheias e cada entrada destas listas é uma delas. Vinte e quatro tempos a 144 tempos por minuto dá exatamente dez segundos.
+
+Os barcos são guiados por @Beat em vez de um relógio, por isso puxam mesmo ao tempo certo da música, e não apenas perto dele — e ficam parados até ela começar, porque @Beat mantém-se no tempo zero até lá.¶
+
+batida2: Batida()
+remada: batida2.contar
+
+¶A melodia. Row row row your boat, gently down the stream — as notas longas são longas porque as pausas a seguir mantêm a grelha, já que cada entrada dura a mesma colcheia.¶
+melodia2: [
+		1
+		ø
+		ø
+		1
+		ø
+		ø
+		1
+		ø
+		2
+		3
+		ø
+		ø
+		3
+		ø
+		2
+		3
+		ø
+		4
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		8
+		8
+		8
+		5
+		5
+		5
+		3
+		3
+		3
+		1
+		1
+		1
+		5
+		ø
+		4
+		3
+		ø
+		2
+		1
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Um acorde no topo de cada compasso. Mantém-se na tónica até ao penúltimo compasso, que se apoia na quinta para que o último compasso pareça uma chegada.¶
+acordes: [
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{5 7 9 11}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶A remada: um som grave para puxar e um som brilhante para recuperar, uma vez por compasso.¶
+remos: [
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+	]
+
+¶Um barco. Desliza um pouco mais a cada tempo e balança para o outro lado de cada vez, o que dá a sensação de remar; a raia define a altura a que fica e a distância à frente com que começou, para que não se movam todos ao mesmo tempo.¶
+ƒ barco(faixa•# iniciar2•#)•Frase
+	Frase(
+		'🚣'
+		1.5m
+		local: Local(
+			((((remada + iniciar2) % 16) - 8) · 1.1) · 1m
+			((faixa · 1.9) - 1.9) · 1m
+		)
+		rotação: (((remada + faixa) % 2) = 0) ? 9° -9°
+		duração: 0.2s
+	)
+
+frota: [barco(0 0) barco(1 6) barco(2 11)]
+
+Fase(
+	[
+		:frota
+		Frase(
+			'〰〰〰〰〰〰〰〰'
+			1m
+			local: Local(-8m -3.2m)
+			cor: Cor(48% 22 240°)
+		)
+		Frase(
+			'Rema, rema, rema o teu barco'
+			0.9m
+			local: Local(-4.4m 3.4m)
+		)
+		Música(
+			[
+				Faixa(
+					melodia2
+					instrumento: Instrumento.flauta
+					batida: 0.5beats
+				)
+				Faixa(
+					acordes
+					instrumento: Instrumento.piano
+					batida: 1beats
+					volume: 60%
+				)
+				Faixa(
+					remos
+					instrumento: Instrumento.bateria
+					batida: 1beats
+					volume: 45%
+				)
+			]
+			andamento: 144beats/min
+			nome: 'barco'
+		)
+	]
+	fundo: Cor(22% 18 230°)
+	cor: Cor(96% 0 0°)
+)

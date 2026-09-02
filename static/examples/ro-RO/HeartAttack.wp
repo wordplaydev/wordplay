@@ -1,0 +1,539 @@
+🧟
+Atac de cord
+=== start/en
+¶Atac de inimă — o versiune blândă, la persoana întâi, a unei bătălii regale. Stai nemișcat și privești prin camera Scenei în timp ce o hoardă de zombi așteaptă în față. Pe rând, cel mai apropiat zombi se apropie clătinându-se drept spre tine. Îți alegi direcția cu ← →, cu mouse-ul, sau atingând ecranul într-o parte, și arunci o inimă cu Space, un clic, sau o atingere. O inimă se oprește la prima figură pe care o întâlnește, așa că țintește bine: lovește un zombi și acesta se transformă înapoi într-o persoană fericită, iar tu marchezi un punct — și fiecare punct face ca zombii să se apropie mai repede. O persoană transformată rămâne pe loc și blochează inimile tale, așa că ai grijă la unghi. Transformă pe toată lumea ca să câștigi; lasă un zombi să te ajungă și s-a terminat. Enter sau o atingere pornește jocul, și îl pornește din nou.
+
+Fiecare etapă are propria melodie, iar toate patru sunt construite din aceeași temă — vezi @Music mai jos.¶
+
+¶Câți zombi încep pe teren.¶
+numărulDeZombi: 8
+
+¶Mișcare și cameră, în metri: cât te deplasezi lateral la fiecare apăsare de tastă, limitele stânga/dreapta, adâncimea fixă a camerei în timpul jocului, și unde se așază camera (mai în spate) când se afișează un meniu.¶
+pasulLateral: 1.2m
+limitaStângă: -8m
+limitaDreaptă: 8m
+adâncimeaDeJoc: -1m
+adâncimeaMeniului: -10m
+
+¶Unde apar zombii — răspândiți de la aproape la departe, toți bine în fața ta — și zona în care se plimbă cei care hoinăresc (marginea apropiată a acesteia rămâne mereu în fața ta, astfel încât doar cei care atacă te pot ajunge cu adevărat).¶
+adâncimeaDeAparițieApropiată: 6m
+adâncimeaDeAparițieÎndepărtată: 22m
+adâncimeaDeHoinărealăApropiată: 3m
+adâncimeaDeHoinărealăÎndepărtată: 24m
+
+¶Reglaje pentru inimă și coliziuni: cum zboară și se estompează o inimă, cum lovește, cât de aproape trebuie să ajungă un zombi ca jocul să se termine, și cum se mișcă cei care atacă — apropiindu-se, hoinărind, șerpuind, urmărindu-te și accelerând cu fiecare punct. Cei mai apropiați doi zombi atacă în același timp; restul hoinăresc.¶
+vitezaInimii: 1m
+razaInimii: 26m
+razaDeLovire: 1.8m
+distanțaDeAtingere: 1.8m
+vitezaDeBazăAAtacului: 0.1m
+vitezaDeHoinăreală: 0.1m
+vitezaDeZigzag: 0.12m
+lățimeaZigzagului: 1.8m
+vitezaSpreCasă: 0.05m
+creștereaVitezeiPePunct: 0.2
+
+¶Persoanele fericite în care se poate transforma un zombi convertit.¶
+oameni: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '🧑‍🎤' '🦸' '🧚' '🧑‍🍳' '🕺' '💃' '🧑‍⚕']
+
+¶O figură pe teren: o poziție, o direcție de hoinăreală pe fiecare axă (fiecare -1 sau 1, folosită doar cât timp hoinărește), dacă mai este zombi, și ce emoji se afișează (🧟 cât timp este zombi, o persoană odată transformat).¶
+•zombi(x2•#m z2•#m direcțiaX•# direcțiaZ•# înViață•? față2•"")
+
+¶Tot jocul într-o singură valoare: etapa (1 = început, 2 = joc în desfășurare, 3 = câștig, 4 = pierdere), poziția camerei/jucătorului, starea inimii, scorul, și toți cei de pe teren.¶
+•joc(fază•# camerax•#m zCameră•#m inimă•? inimăx•#m inimăz•#m inimăînceput•#m scor•# zombi2•[zombi])
+
+¶Distanța la pătrat este mai bună decât o distanță reală aici: nu sunt necesare rădăcini pătrate, iar unitățile rămân clare (metri înmulțiți cu metri), astfel încât comparația trece mereu verificarea de tip.¶
+ƒ aproape(unux•#m unuz•#m doix•#m doiz•#m rază2•#m)
+	(((unux - doix) · (unux - doix)) + ((unuz - doiz) · (unuz - doiz))) < (rază2 · rază2)
+
+¶Câte figuri mai sunt zombi.¶
+ƒ numărviicount(zombi3•[zombi]) zombi3.filtra(
+		ƒ(zombi4•zombi) zombi4.înViață
+	).lungime(
+	)
+
+¶Se clatină un pas spre jucător: înainte în adâncime, șerpuind stânga-dreapta pentru a fi mai greu de lovit, schimbând direcția de șerpuire la marginile unei benzi din jurul direcției tale, și urmărindu-te ușor între mișcări, astfel încât o eschivă îți oferă doar o clipă.¶
+ƒ năVaSpreJucător(zombi5•zombi camerax2•#m vitezăatac•#m) (
+		țesutx: zombi5.x2 + (zombi5.direcțiaX · vitezaDeZigzag)
+		orientatx: țesutx + ((camerax2 - țesutx).maxim(
+						vitezaSpreCasă · -1
+					)).min(
+					vitezaSpreCasă
+				)
+		lamargine: (țesutx > (camerax2 + lățimeaZigzagului)) | (țesutx < (camerax2 - lățimeaZigzagului))
+		zombi(
+			orientatx
+			(zombi5.z2 - vitezăatac)
+			(lamargine ? (zombi5.direcțiaX · -1) zombi5.direcțiaX)
+			zombi5.direcțiaZ
+			zombi5.înViață
+			zombi5.față2
+		)
+	)
+
+¶Hoinărește un pas: se deplasează în direcția de hoinăreală, ricoșând de marginile terenului rămânând pe loc și inversând direcția în care se îndrepta.¶
+ƒ rătăcește(zombi6•zombi viteză2•#m) (
+		noux: zombi6.x2 + (zombi6.direcțiaX · viteză2)
+		nouz: zombi6.z2 + (zombi6.direcțiaZ · viteză2)
+		săritx: (noux > limitaDreaptă) | (noux < limitaStângă)
+		săritz: (nouz > adâncimeaDeHoinărealăÎndepărtată) | (nouz < adâncimeaDeHoinărealăApropiată)
+		zombi(
+			(săritx ? zombi6.x2 noux)
+			(săritz ? zombi6.z2 nouz)
+			(săritx ? (zombi6.direcțiaX · -1) zombi6.direcțiaX)
+			(săritz ? (zombi6.direcțiaZ · -1) zombi6.direcțiaZ)
+			zombi6.înViață
+			zombi6.față2
+		)
+	)
+
+¶Teren nou de zombi, răspândiți de la aproape la departe, împrăștiați de la stânga la dreapta, fiecare hoinărind într-o direcție aleatorie.¶
+ƒ creeazăzombi()
+	(numărulDeZombi → []).traduce(
+		ƒ(index2•#)
+			zombi(
+				Aleatoriu(limitaStângă limitaDreaptă)
+				(adâncimeaDeAparițieApropiată + (index2 · ((adâncimeaDeAparițieÎndepărtată - adâncimeaDeAparițieApropiată) ÷ numărulDeZombi)))
+				[-1 1].aleatoriu()
+				[-1 1].aleatoriu()
+				⊤
+				'🧟'
+			)
+	)
+
+¶Începe o rundă nouă: în joc, camera la nivelul ochilor, fără inimă, fără scor.¶
+ƒ jocNou() joc(
+		2
+		0m
+		adâncimeaDeJoc
+		⊥
+		0m
+		0m
+		0m
+		0
+		creeazăzombi()
+	)
+
+¶Aruncă o inimă pe culoarul tău, doar dacă nu mai e deja una în aer. Pornește chiar în fața locului unde stai, nu a locului unde e camera, din același motiv pentru care funcționează testul de rază de acțiune.¶
+ƒ aruncăInima(joc2•joc)
+	joc2.inimă ? joc2 joc(
+			joc2.fază
+			joc2.camerax
+			joc2.zCameră
+			⊤
+			joc2.camerax
+			(adâncimeaDeJoc + 1m)
+			adâncimeaDeJoc
+			joc2.scor
+			joc2.zombi2
+		)
+
+¶Mută-ți culoarul cu un pas către un punct, fără să depășești limitele tale. Cursorul indică punctul din lume peste care se află, deci distanța lui față de culoarul tău arată cât de departe stă la stânga sau la dreapta ta — mișcarea către el permite cursorului să țintească, iar o atingere pe oricare parte te mută în acea direcție.¶
+ƒ focalizeazăSpre(joc3•joc țintă•#m)
+	joc3.camerax:(joc3.camerax + ((țintă - joc3.camerax).maxim(
+					pasulLateral · -1
+				)).min(
+				pasulLateral
+			)).maxim(
+		limitaStângă
+	).min(
+		limitaDreaptă
+	)
+
+¶O apăsare de tastă în timpul jocului: mișcare laterală stânga sau dreapta, sau aruncarea unei inimi.¶
+ƒ aplicăApăsareTastă(joc4•joc cheie2•"")
+	(cheie2 = 'SăgeatăStânga') ? focalizeazăSpre(
+			joc4
+			(joc4.camerax - pasulLateral)
+		)
+		(cheie2 = 'SăgeatăDreapta') ? focalizeazăSpre(
+				joc4
+				(joc4.camerax + pasulLateral)
+			)
+			(cheie2 = 'Spaţiu') ? aruncăInima(joc4)
+				joc4
+
+¶Un cadru din lume: inima zboară până lovește prima figură din calea ei (o persoană întoarsă o oprește la fel ca un zombi), un zombi lovit se întoarce, cei doi zombi cei mai apropiați mărșăluiesc spre jucător în timp ce restul rătăcesc, apoi se verifică o victorie (toți s-au întors) sau o înfrângere (un zombi te-a ajuns). La victorie sau înfrângere, camera se oprește în locul meniului.¶
+ƒ avanseazăLumea(joc5•joc) (
+		următoareaInimăZ: joc5.inimă ? (joc5.inimăz + vitezaInimii) joc5.inimăz
+		inimăEstompată: joc5.inimă & ((următoareaInimăZ - joc5.inimăînceput) > razaInimii)
+		inimăActivă: joc5.inimă & ~inimăEstompată
+		vitezăatac2: vitezaDeBazăAAtacului · (1 + (joc5.scor · creștereaVitezeiPePunct))
+		¶Zombii vii cei mai apropiați atacă; adâncimea lor îi arată mai jos.¶
+		viuDupăAdâncime: joc5.zombi2.filtra(
+				ƒ(zombi7•zombi) zombi7.înViață
+			).sortat(
+				ƒ(zombi8•zombi) zombi8.z2
+			)
+		adâncimeaPrimuluiÎncărcător: (viuDupăAdâncime.lungime() ≥ 1) ? viuDupăAdâncime[1].z2 -999m
+		secondChargerDepth: (viuDupăAdâncime.lungime() ≥ 2) ? viuDupăAdâncime[2].z2 -999m
+		figuriPeTraseu: inimăActivă ? joc5.zombi2.filtra(
+					ƒ(zombi9•zombi) aproape(
+							zombi9.x2
+							zombi9.z2
+							joc5.inimăx
+							următoareaInimăZ
+							razaDeLovire
+						)
+				) []
+		figurăLovită: figuriPeTraseu.sortat(
+				ƒ(zombi10•zombi) zombi10.z2
+			).primul(
+			)
+		adâncimeLovită: (figurăLovită•ø) ? -999m figurăLovită.z2
+		seConvertește: (figurăLovită•ø) ? ⊥ figurăLovită.înViață
+		următoriiZombi: joc5.zombi2.traduce(
+				ƒ(zombi11•zombi)
+					zombi11.înViață ?
+						((seConvertește & (zombi11.z2 = adâncimeLovită)) ? zombi(
+									zombi11.x2
+									zombi11.z2
+									zombi11.direcțiaX
+									zombi11.direcțiaZ
+									⊥
+									oameni.aleatoriu()
+								)
+								(((zombi11.z2 = adâncimeaPrimuluiÎncărcător) | (zombi11.z2 = secondChargerDepth)) ? năVaSpreJucător(
+											zombi11
+											joc5.camerax
+											vitezăatac2
+										) rătăcește(zombi11 vitezaDeHoinăreală)))
+						zombi11
+			)
+		numărConvertit: numărviicount(joc5.zombi2) - numărviicount(
+					următoriiZombi
+				)
+		următoareaInimă: inimăActivă & (figurăLovită•ø)
+		¶Orice zombi viu care ajunge la adâncimea ta termină jocul — indiferent de culoarul lui — astfel încât niciunul nu poate trece pe lângă tine într-o stare fără scăpare. Aceasta se măsoară față de\adâncimeaDeJoc\, locul unde stai, și niciodată față de cameră: scena trage camera înapoi pe ecrane mici, iar privitorul o poate apropia și mai mult, și nimic din asta nu ar trebui să schimbe cât de aproape trebuie să ajungă un zombi.¶
+		pierdut: următoriiZombi.filtra(
+				ƒ(zombi12•zombi) zombi12.înViață & (zombi12.z2 ≤ (adâncimeaDeJoc + distanțaDeAtingere))
+			).lungime(
+			) > 0
+		aCâștigat: numărviicount(următoriiZombi) = 0
+		următoareaFază: aCâștigat ? 3 (pierdut ? 4 2)
+		următoareaCamerăX: (următoareaFază = 2) ? joc5.camerax 0m
+		următoareaCamerăZ: (următoareaFază = 2) ? joc5.zCameră adâncimeaMeniului
+		joc(
+			următoareaFază
+			următoareaCamerăX
+			următoareaCamerăZ
+			următoareaInimă
+			joc5.inimăx
+			următoareaInimăZ
+			joc5.inimăînceput
+			(joc5.scor + numărConvertit)
+			următoriiZombi
+		)
+	)
+
+cheie3: Cheie()
+tic: Timp(30ms)
+indicator: Indicator()
+apasă: Buton()
+
+¶Bătaia inimii jocului, condusă de patru intrări: un tic al ceasului, o tastă, mișcarea cursorului și o apăsare/atingere. În timpul jocului, un tic avansează lumea, tastele mișcă lateral și aruncă, mișcarea cursorului țintește culoarul tău, iar o atingere aruncă o inimă. Dintr-un meniu, tasta Enter sau o atingere începe o rundă nouă — o atingere pentru ca jucătorii cu ecran tactil să poată începe, și Enter (nu Space) pentru ca apăsarea repetată a tastei Space pentru aruncare să nu repornească niciodată din greșeală.¶
+joc6•joc: joc(
+		1
+		0m
+		adâncimeaMeniului
+		⊥
+		0m
+		0m
+		0m
+		0
+		creeazăzombi()
+	)
+	… (∆ tic | ∆ cheie3 | ∆ indicator | ∆ apasă) …
+		(joc6.fază = 2)
+		? (∆ tic ? avanseazăLumea(joc6)
+					(∆ cheie3 ? aplicăApăsareTastă(joc6 cheie3)
+							(∆ indicator ? focalizeazăSpre(
+										joc6
+										indicator.x
+									) aruncăInima(joc6))))
+			(∆ tic ? joc6
+					(∆ cheie3 ? ((cheie3 = 'Introduceți') ? jocNou() joc6)
+							(∆ apasă ? jocNou() joc6)))
+
+¶O singură figură pe scenă: zombii se leagănă, persoanele întoarse fac o săritură fericită. Adâncimea face restul — un zombi care atacă pare tot mai mare pe măsură ce se apropie. Durata de 0s face ca fiecare pas să apară instant, în loc să se aline treptat, astfel încât mișcarea pare formată din cadre line, nu dintr-o recuperare întârziată.¶
+ƒ vizualizareZombi(zombi13•zombi)
+	Fraza(
+		zombi13.față2
+		2m
+		durată: 0s
+		loc: Loc(zombi13.x2 0m zombi13.z2)
+		odihnă: zombi13.înViață
+		? Secvenţă.legănare(4° 1s "zippy")
+			Secvenţă(
+				{
+					0%: Poză(scară: 1)
+					50%: Poză(scară: 1.2)
+					100%: Poză(scară: 1)
+				}
+				0.6s
+			)
+	)
+
+¶Podeaua: bare la adâncimi tot mai mari pe care perspectiva le citește ca un plan de sol care se retrage spre orizont, estompându-se din verde spre turcoaz pentru atmosferă. Prima bară este linia pe care un zombi trebuie s-o traverseze ca să termine jocul, desenată în roșu de avertizare pentru ca regula să fie vizibilă: camera se trage înapoi pe ecrane mici și privitorul poate mări îndepărtarea, iar un zombi care pare departe stă totuși pe această linie când te prinde.¶
+podea: [
+		Fraza(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			durată: 0s
+			loc: Loc(
+				0m
+				-2.8m
+				(adâncimeaDeJoc + distanțaDeAtingere)
+			)
+			culoare: Culoare(58% 55 25°)
+		)
+		Fraza(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			durată: 0s
+			loc: Loc(0m -2.8m 4m)
+			culoare: Culoare(56% 40 130°)
+		)
+		Fraza(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			durată: 0s
+			loc: Loc(0m -2.8m 6m)
+			culoare: Culoare(50% 36 136°)
+		)
+		Fraza(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			durată: 0s
+			loc: Loc(0m -2.8m 8m)
+			culoare: Culoare(45% 32 142°)
+		)
+		Fraza(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			durată: 0s
+			loc: Loc(0m -2.8m 11m)
+			culoare: Culoare(40% 28 148°)
+		)
+		Fraza(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			durată: 0s
+			loc: Loc(0m -2.8m 15m)
+			culoare: Culoare(35% 24 154°)
+		)
+		Fraza(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			durată: 0s
+			loc: Loc(0m -2.8m 20m)
+			culoare: Culoare(31% 20 160°)
+		)
+	]
+
+¶O inimă zburătoare în lume, și un afișaj de scor fixat plat în partea de sus a ecranului prin suprapunerea scenei, astfel încât rămâne pe loc pe măsură ce camera se mișcă lateral.¶
+vizualizareInimă: Fraza(
+		'🫀'
+		1.2m
+		durată: 0s
+		loc: Loc(joc6.inimăx 0m joc6.inimăz)
+	)
+afișajScor: Fraza("🫀 \joc6.scor\" 1.2m loc: Loc(0m 4m))
+
+¶Textul meniului, folosit în comun de ecranele de start, victorie și înfrângere.¶
+titluEcran: joc6.fază ???
+		3: '🎉 Ai salvat pe toată lumea! 🎉'
+		4: '💀 Un zombi te-a prins! 💀'
+		'🫀 ATAC DE INIMĂ 🫀'
+subtitluEcran: (joc6.fază = 1) ? 'O hoardă de zombi e liberă. Întoarce-i cu dragoste.' "Score: \joc6.scor\"
+linieDeÎnceput: (joc6.fază = 1) ? 'Apasă Enter sau atinge ecranul pentru a începe' 'Apasă Enter sau atinge ecranul pentru a juca din nou'
+
+vizualizareEcran: [
+		Grup(
+			Stivă()
+			[
+				Fraza(titluEcran 1.1m)
+				Fraza(subtitluEcran 0.6m)
+				Fraza(
+					'← → sau arată cu degetul pentru a țintí'
+					0.5m
+				)
+				Fraza(
+					'Space, click sau atingere pentru o inimă 🫀'
+					0.5m
+				)
+				Fraza(linieDeÎnceput 0.7m)
+			]
+		)
+	]
+
+¶Arată terenul și podeaua lui în timpul jocului, iar meniul în celelalte cazuri. Fiecare listă e goală în faza greșită, iar o listă goală se răspândește în nimic.¶
+listăPodea: (joc6.fază = 2) ? podea []
+listăZombi: (joc6.fază = 2) ? joc6.zombi2.traduce(
+			ƒ(zombi14•zombi) vizualizareZombi(zombi14)
+		) []
+listăInimi: ((joc6.fază = 2) & joc6.inimă) ? [
+			vizualizareInimă
+		] []
+stratScor: (joc6.fază = 2) ? [afișajScor] []
+listăEcran: (joc6.fază ≠ 2) ? vizualizareEcran []
+
+¶Culoarea scenei reflectă rezultatul: verde cald la victorie, roșu închis la înfrângere, și mov crepuscular implicit la început sau în timpul jocului.¶
+fundalScenă: joc6.fază ???
+		3: Culoare(48% 42 145°)
+		4: Culoare(22% 45 25°)
+		Culoare(25% 20 285°)
+
+¶O singură temă străbate toate cele patru melodii: în sus pe triada minoră până la a șasea treaptă și înapoi în jos. Trucul este că aceleași șapte trepte sună sinistru în minor armonic și vesel în major, astfel încât muzica de victorie cântă exact aceeași melodie — doar că nu mai pare dintr-un film de groază.
+
+Fiecare piesă de mai jos are exact opt bătăi lungime, indiferent de lungimea notelor, astfel încât toate revin împreună și fiecare melodie se repetă fără întrerupere.¶
+temă: [1 ø 3 ø 5 ø 6 ø 5 ø 3 ø 1 ø ø ø]
+
+¶Așteptând să înceapă: un bâzâit lent, tema departe pe un clopoțel, și o bătaie de inimă dedesubt.¶
+melodieMeniu: Muzică(
+		[
+			Pistă(
+				temă
+				instrument: Instrument.clopoțel
+				bătaie: 0.5beats
+				volum: 45%
+			)
+			Pistă(
+				[{1 3 5} {1 3 5} {6 8 10} {5 7 9}]
+				instrument: Instrument.sintetizatorPad
+				bătaie: 2beats
+				volum: 40%
+			)
+			Pistă(
+				[1 ø 1 ø 6 ø 5 ø]
+				instrument: Instrument.sintetizatorBas
+				bătaie: 1beats
+				volum: 50%
+			)
+			Pistă(
+				[1 ø ø ø 1 ø ø ø]
+				instrument: Instrument.tobe
+				bătaie: 1beats
+				volum: 30%
+			)
+		]
+		tempo: 72beats/min
+		gamă: Muzică.minorArmonic
+		nume: 'meniu'
+	)
+
+¶Urmărirea: aceeași temă, cu o viteză aproape dublă, peste o linie de bas continuă și o toba care nu se oprește niciodată.¶
+melodieUrmărire: Muzică(
+		[
+			Pistă(
+				temă
+				instrument: Instrument.sintetizator
+				bătaie: 0.5beats
+				volum: 45%
+			)
+			Pistă(
+				[1 ø 1 1 1 ø 1 1 6 ø 6 6 5 ø 5 5]
+				instrument: Instrument.sintetizatorBas
+				bătaie: 0.5beats
+				volum: 55%
+			)
+			Pistă(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 1 3]
+				instrument: Instrument.tobe
+				bătaie: 0.5beats
+				volum: 40%
+			)
+		]
+		tempo: 132beats/min
+		gamă: Muzică.minorArmonic
+		nume: 'urmărire'
+	)
+
+¶Victoria: aceeași temă în gama majoră, dublată cu o octavă mai sus la flaut, peste cele mai luminoase acorduri din exemplu. Singura melodie veselă de aici.¶
+melodieCâștig: Muzică(
+		[
+			Pistă(
+				temă
+				instrument: Instrument.clopoțel
+				bătaie: 0.5beats
+				volum: 55%
+			)
+			Pistă(
+				temă
+				instrument: Instrument.flaut
+				bătaie: 0.5beats
+				cheie: 12semitones
+				volum: 40%
+			)
+			Pistă(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				instrument: Instrument.pian
+				bătaie: 2beats
+				volum: 45%
+			)
+			Pistă(
+				[1 ø 3 ø 2 ø 3 ø]
+				instrument: Instrument.tobe
+				bătaie: 1beats
+				volum: 35%
+			)
+		]
+		tempo: 120beats/min
+		gamă: Muzică.major
+		nume: 'câștig'
+	)
+
+¶Înfrângerea: tema cu o octavă mai jos și la jumătate din viteza meniului, peste un bâzâit de didgeridoo și acorduri care renunță să se întoarcă acasă — se termină pe treapta a șasea în loc de tonică, așa că bucla nu se rezolvă niciodată.¶
+melodiePierdere: Muzică(
+		[
+			Pistă(
+				temă
+				instrument: Instrument.clopoțel
+				bătaie: 0.5beats
+				cheie: -12semitones
+				volum: 45%
+			)
+			Pistă(
+				[1 ø ø ø]
+				instrument: Instrument.didgeridoo
+				bătaie: 2beats
+				volum: 50%
+			)
+			Pistă(
+				[{1 3 5} {1 3 5} {6 8 10} {6 8 10}]
+				instrument: Instrument.sintetizatorPad
+				bătaie: 2beats
+				volum: 40%
+			)
+			Pistă(
+				[1 ø ø ø ø ø ø ø]
+				instrument: Instrument.tobe
+				bătaie: 1beats
+				volum: 30%
+			)
+		]
+		tempo: 56beats/min
+		gamă: Muzică.minorArmonic
+		nume: 'pierdere'
+	)
+
+¶Doar melodia fazei curente este pe scenă, iar un @Music care nu mai este acolo se oprește — deci schimbarea fazei este cea care schimbă muzica.¶
+coloanăSonoră: joc6.fază ???
+		1: melodieMeniu
+		3: melodieCâștig
+		4: melodiePierdere
+		melodieUrmărire
+
+Etapă(
+	[
+		:listăPodea
+		:listăZombi
+		:listăInimi
+		:listăEcran
+		coloanăSonoră
+	]
+	loc: Loc(joc6.camerax 0m joc6.zCameră)
+	fundal: fundalScenă
+	culoare: Culoare(97% 0 0°)
+	suprapunere: stratScor
+)

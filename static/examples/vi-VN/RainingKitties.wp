@@ -1,0 +1,46 @@
+🐈
+Mưa Mèo Con
+=== start/en
+¶Năm mươi con mèo con rơi xuống sân khấu.¶
+đếm2: 50
+kíchThước2: 30
+
+•mèoCon(x2•# y2•# z2•# góc2•# tốcĐộ•#) ()
+
+¶Đầu tiên, tạo một danh sách 20 con mèo con, mỗi con đặt ở một vị trí ngẫu nhiên. Khi đồng hồ tích tắc, di chuyển tất cả chúng xuống một chút.¶
+mèoCon2•[mèoCon]:
+	đếm2 → [].dịch(
+		ƒ(_) mèoCon(
+				Ngẫunhiên(-kíchThước2 kíchThước2)
+				Ngẫunhiên(-kíchThước2 kíchThước2)
+				Ngẫunhiên(0 kíchThước2 ÷ 2)
+				Ngẫunhiên(360)
+				Ngẫunhiên(-30 30)
+			)
+	)
+	… ∆ Thờigian() …
+		mèoCon2.dịch(
+			ƒ(mèoCon3•mèoCon)
+				(mèoCon3.y2:mèoCon3.y2 < -kíchThước2 ? kíchThước2 mèoCon3.y2 - 2)
+				.góc2:mèoCon3.góc2 + mèoCon3.tốcĐộ
+		)
+
+¶Chuyển các con mèo con thành các cụm từ¶
+Sânkhấu(
+	mèoCon2.dịch(
+		ƒ(mèoCon4•mèoCon)
+			Cụmtừ(
+				"🐈"
+				khuônmặt: "Noto Color Emoji"
+				kíchcỡ: 5m
+				vịTrí: VịTrí(
+					mèoCon4.x2 × 1m
+					mèoCon4.y2 × 1m
+					mèoCon4.z2 × 1m
+				)
+				xoay: mèoCon4.góc2 × 1°
+				khoảngthờigian: 0s
+			)
+	)
+	vịTrí: VịTrí(0m 0m -5m)
+)

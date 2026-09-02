@@ -1,0 +1,95 @@
+🏀
+Basketstjärna
+=== start
+¶Sikta med pekaren och klicka för att skjuta i korgen.¶
+klick: ∆ Knapp()
+
+klickantal: 0 … klick … 1 + ⬚
+
+¶Sparar pekarens x-position i skottögonblicket, så att bollen faller från platsen spelaren siktade mot, i stället för att hoppa tillbaka till x = 0¶
+skottX: 0m … (klick & ((klickantal % 2) = 1)) … Pekare().x
+
+basketplacering: (klickantal % 2) = 0 ? Plats(
+			x: Pekare().x
+			y: 8m
+			z: 0m
+		) Rörelse(plats: Plats(skottX 8m 0m))
+
+basket: Fras(
+		"🏀"
+		0.7m
+		materia: Materia(0.623kg 0.5)
+		plats: basketplacering
+		namn: 'basket'
+	)
+
+¶Korgen glider hela tiden fram och tillbaka, styrd av sinus av tiden¶
+korgXPlacering: (Tid() ÷ 600ms).synd() · 6m
+
+¶Läser bollens nuvarande position en gång för poängkontrollen¶
+bollX: (basket.plats ?? Plats()).x
+bollY: (basket.plats ?? Plats()).y
+
+försök: (klickantal ÷ 2).roundUp()
+
+¶inBin är sant när bollen befinner sig inuti korgen. Poängreaktionen utlöses bara när inBin övergår till sant OCH det nuvarande försöket ligger före poängen, så att en andra träff under samma skott — studsar inuti korgen, eller att korgen glider tillbaka över bollen — inte gör något förrän nästa skott ökar försöksräknaren¶
+iKorgen: (bollX < (korgXPlacering + 0.9m)) & (bollX > (korgXPlacering - 0.9m)) & (bollY < 2.9m) & (bollY > 0.3m)
+poäng: 0 … iKorgen & (försök > poäng) … 1 + poäng
+
+basketstjärna: Grupp(
+		Stack('|' 0.5m)
+		[
+			Fras(`*Basketstjärna*` .8m)
+			Fras('Sikta med pekaren.' .6m)
+			Fras(
+				'Klicka för att släppa 🏀 i den rörliga korgen.'
+				.6m
+			)
+			Fras('Poäng: ' + poäng → '' .8m)
+			Fras('Försök: ' + försök → '' .8m)
+		]
+		storlek: 2m
+		ansikte: "Sue Ellen Francisco"
+		offset: Plats(0m 8m 0m)
+	)
+
+Etapp(
+	[
+		basket
+		¶Korgens väggar har gjorts 0,3 m tjocka (från 0,1 m) så att den sidledes rörliga korgen inte kan glida rakt igenom bollen, och 3 m höga (från 2 m) så att en boll med studsstyrka 0,5 inte kan studsa tillbaka över kanten¶
+		Figur(
+			Rektangel(
+				-1.2m + korgXPlacering
+				0.3m
+				1.2m + korgXPlacering
+				0m
+				0m
+			)
+			bakgrund: Färg(60% 100 30°)
+		)
+		Figur(
+			Rektangel(
+				0.9m + korgXPlacering
+				3m
+				1.2m + korgXPlacering
+				0m
+				0m
+			)
+			bakgrund: Färg(60% 100 30°)
+		)
+		Figur(
+			Rektangel(
+				-1.2m + korgXPlacering
+				3m
+				-0.9m + korgXPlacering
+				0m
+				0m
+			)
+			bakgrund: Färg(60% 100 30°)
+		)
+		Figur(Rektangel(-10m 0.01m 10m -2m))
+		basketstjärna
+	]
+	plats: Plats(x: 0m y: 5m z: -10m)
+	allvar: 5m/s^2
+)

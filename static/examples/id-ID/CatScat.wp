@@ -1,0 +1,149 @@
+🐱
+Kucing Scat!
+=== start/en
+¶Seekor kucing bersenandung scat, selamanya, tak pernah dengan cara yang sama dua kali.
+
+Seluruh solo ini adalah improvisasi: tidak ada melodi yang ditulis di sini. Setiap kali paduan suara dimulai, kucing memilih nada baru dan frasa dibangun ulang, jadi apa yang kamu dengar sekarang tidak akan terulang.
+
+Ia bernyanyi dalam lima jalur suara yang bergiliran, bukan berbunyi bersamaan — not seperempat, lalu not seperdelapan, lalu not bertiga, lalu not setengah, lalu satu nada panjang — karena seekor kucing hanya punya satu suara, dan jika dua jalur berbunyi bersamaan, itu berarti ia punya dua suara. Setiap jalur diam selama birama-birama lain berjalan, dan itulah yang membuatnya tetap menjadi solo.
+
+Suara ini adalah kucing yang disetel nadanya, \AlatMusik.kucingBernada\: satu suara meong, dengan nada tertentu, sehingga sebuah derajat memilih satu nada dan kucing itu benar-benar menyanyikan lagunya, bukan mengucapkan dua belas hal yang berbeda. Skalanya adalah skala blues, yang tidak memiliki nada salah — dan memang harus begitu, karena setiap nada di sini dipilih secara acak, jadi urutan apa pun harus tetap terdengar bagus.
+
+Ini lambat untuk sebuah scat. Satu suara meong butuh sekitar delapan persepuluh detik untuk diucapkan, dan pada tempo yang lebih cepat, not seperempat akan memotong suara kucing di tengah kata.¶
+
+ketukan2: Ketukan()
+hitungan2: ketukan2.hitung
+
+¶Satu nada, atau kadang tidak ada nada sama sekali: sekitar satu dari tujuh kali menjadi sunyi. Itu cukup memberi ruang bagi kucing untuk menutup mulutnya sesekali tanpa membuat solo terasa kosong — dan karena jeda-jeda ini muncul secara kebetulan, tidak ada dua paduan suara yang bernapas di tempat yang sama.¶
+ƒ mungkin(nada2•#)•#|ø (Acak() > 0.15) ? nada2 ø
+
+¶Satu nada, di suatu tempat dalam oktaf yang nyaman bagi kucing. Derajat 1 adalah nada tempat frasa itu kembali ke rumah, dan 8 adalah satu oktaf blues sedikit di atasnya — cukup jauh untuk terdengar seperti nyanyian, tetapi cukup dekat sehingga suara meong itu masih terdengar seperti meong, bukan seperti nada yang direntangkan.¶
+ƒ suara2()•#|ø mungkin(Acak(1 8))
+
+¶Semua yang dinyanyikan kucing dalam satu kali paduan suara. Setiap bagian sama panjangnya dengan yang lain dalam hitungan ketukan — tiga puluh dua — sehingga semuanya tetap selaras walau dibagi dengan cara berbeda-beda.¶
+•paduanSuara(memanggil•[#|ø] berjalan•[#|ø] ayun2•[#|ø] menyimpan•[#|ø] ekor•[#|ø])
+
+¶Not seperempat, birama satu dan dua: tiga nada, lalu napas sejenak, kemudian tiga nada yang sama dijawab dengan akhiran baru. Tanya jawab adalah dasar dari sebuah frasa scat, dan mengulang sebuah pola sebelum mengubahnya sedikit adalah yang membuatnya terdengar seperti disusun, bukan asal-asalan.¶
+ƒ memanggil2()•[#|ø] (
+		a2: suara2()
+		b2: suara2()
+		c2: suara2()
+		(32 → []).menerjemahkan(
+			ƒ(i•#)
+				(i = 1) ? a2
+					(i = 2) ? b2
+						(i = 3) ? c2
+							(i = 5) ? a2
+								(i = 6) ? b2
+									(i = 7) ? suara2()
+										ø
+		)
+	)
+
+¶Not seperdelapan, birama tiga dan empat: sebuah rangkaian nada yang naik satu derajat setiap kali dari mana pun ia mulai, lalu berputar kembali ke bawah setelah mencapai puncak oktaf. Enam belas not seperdelapan dalam delapan derajat berarti rangkaian ini naik dua kali penuh, dan itulah yang membuatnya terdengar seperti rangkaian nada, bukan sebuah lagu.
+
+Inilah nada-nada terpendek dalam karya ini, dan satu-satunya bagian di mana suara kucing terpotong: dua not seperdelapan dalam satu ketukan lebih cepat daripada waktu yang dibutuhkan untuk menyelesaikan satu suara meong, dan begitulah suara suku kata scat yang cepat memang terdengar.¶
+ƒ berjalan2()•[#|ø] (
+		rumah: Acak(1 8)
+		(64 → []).menerjemahkan(
+			ƒ(i2•#)
+				((i2 < 17) | (i2 > 32)) ? ø
+					mungkin((((rumah + (i2 - 17)) - 1) % 8) + 1)
+		)
+	)
+
+¶Not bertiga, birama lima dan enam: satu kelompok tiga nada yang berputar terus-menerus. Tiga nada dalam ruang dua ketukan ditulis persis seperti itu — 2 ketukan ÷ 3 — yang menjelaskan dengan jelas apa itu not bertiga.¶
+ƒ ayun3()•[#|ø] (
+		sel2: [suara2() suara2() suara2()]
+		(48 → []).menerjemahkan(
+			ƒ(i3•#)
+				((i3 < 25) | (i3 > 36)) ? ø
+					sel2[(((i3 - 25) % 3) + 1)]
+		)
+	)
+
+¶Not setengah, birama tujuh: kucing melambat dan berhenti pada dua nada panjang. Nada yang ditahan membuat mulut tetap terbuka selama nada itu berbunyi, dan itulah rupa dari menahan sebuah nada.¶
+ƒ menyimpan2()•[#|ø]
+	(16 → []).menerjemahkan(
+		ƒ(i4•#)
+			(i4 = 13) ? suara2()
+				(i4 = 14) ? suara2()
+					ø
+	)
+
+¶Not penuh, birama delapan: nada 1, ditahan. Kembali ke nada pertama dari tangga nada adalah hal yang membuat sebuah frasa terdengar selesai, bukan sekadar berhenti.¶
+ƒ ekor2()•[#|ø] (8 → []).menerjemahkan(
+		ƒ(i5•#) (i5 = 8) ? 1 ø
+	)
+
+ƒ berimprovisasi()•paduanSuara paduanSuara(
+		memanggil2()
+		berjalan2()
+		ayun3()
+		menyimpan2()
+		ekor2()
+	)
+
+¶Chorus baru setiap tiga puluh dua ketukan. Chorus lama tetap dipakai di antara batas-batas itu, agar bagian solo terdengar cukup lama untuk didengar. Mengubahnya tepat pada batas berarti pemainnya menyambungnya pas di ketukan, bukan memotong kucing itu di tengah nada.¶
+paduanSuara2•paduanSuara: berimprovisasi() … ∆ ketukan2 …
+		((hitungan2 % 32) = 0) ? berimprovisasi() paduanSuara2
+
+¶Kucing itu bergoyang mengikuti ketukan. Ia bersandar ke arah lain pada setiap hitungan satu, sehingga goyangannya menjadi denyut itu sendiri, bukan sekadar hiasan di atasnya.¶
+miring2: ((hitungan2 % 2) = 0) ? -1 1
+
+¶Apakah kucing itu sedang mengeluarkan suara sekarang. @Beat memberikan satu @Part untuk setiap trek, dan sebuah bagian tetap ⊤ selama setiap ketukan yang ditahan oleh sebuah nada, sehingga ini bernilai ⊤ kapan pun ada sesuatu yang terdengar.¶
+bernyanyi: ketukan2.bagian.menerjemahkan(
+		ƒ(bagian2•Bagian) bagian2.berbunyi
+	).memiliki(
+		⊤
+	)
+
+¶Mulutnya: terbuka tepat saat sebuah nada terdengar, tertutup saat tidak ada nada. Tidak ada yang menghitung ketukan di sini — ia bertanya pada musik apa yang sedang terjadi, sehingga wajahnya tidak akan pernah keluar dari irama yang kamu dengar. Jeda-jeda yang tersebar itulah yang memberinya kesempatan untuk menutup mulut, sehingga sekitar satu dari tujuh nada menjadi diam.¶
+mulut: bernyanyi ? '😺' '🐱'
+
+Panggung(
+	[
+		Frasa(
+			mulut
+			5m
+			tempat: Tempat((miring2 · 0.7) · 1m -0.6m)
+			rotasi: (miring2 · 7) · 1°
+			lamanya: 0.22s
+		)
+		Frasa('Kucing Scat!' 1.4m tempat: Tempat(-2.6m 3.6m))
+		Musik(
+			[
+				Trek(
+					paduanSuara2.memanggil
+					alatMusik: AlatMusik.kucingBernada
+					ketukan: 1beats
+				)
+				Trek(
+					paduanSuara2.berjalan
+					alatMusik: AlatMusik.kucingBernada
+					ketukan: 0.5beats
+				)
+				Trek(
+					paduanSuara2.ayun2
+					alatMusik: AlatMusik.kucingBernada
+					ketukan: 2beats ÷ 3
+				)
+				Trek(
+					paduanSuara2.menyimpan
+					alatMusik: AlatMusik.kucingBernada
+					ketukan: 2beats
+				)
+				Trek(
+					paduanSuara2.ekor
+					alatMusik: AlatMusik.kucingBernada
+					ketukan: 4beats
+				)
+			]
+			tempo: 76beats/min
+			tanggaNada: Musik.blues
+			nama: 'scat'
+		)
+	]
+	latarbelakang: Warna(16% 14 30°)
+	warna: Warna(96% 0 0°)
+)

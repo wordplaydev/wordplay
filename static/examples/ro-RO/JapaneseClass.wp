@@ -1,0 +1,37 @@
+O
+Clasă de japoneză
+=== start
+¶O poveste, scenă cu scenă, despre prima zi la ora de japoneză.¶
+
+¶Aceasta este lista scenelor de arătat¶
+propoziții: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶Aceasta este lista propozițiilor care trebuie avansate doar prin vorbire.¶
+rosteștePropoziții: [5 7 9]
+
+¶Propoziția curentă începe de la 1 și crește dacă volumul microfonului trece de 0,8 pentru o propoziție vorbită, sau dacă se apasă un buton ori o tastă pentru celelalte propoziții.¶
+propozițiaCurentă•#: 1 …
+	rosteștePropoziții.are(propozițiaCurentă) ?
+		Volum() > .6
+		∆ Buton() | ∆ Cheie()
+		…
+		(propozițiaCurentă <
+				propoziții.lungime()) ?
+			propozițiaCurentă + 1
+			propozițiaCurentă
+
+Etapă(
+	[Fraza(propoziții[propozițiaCurentă] înfășura: 10m)]
+	faţă: 'Sue Ellen Francisco'
+)

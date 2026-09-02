@@ -1,0 +1,32 @@
+⌕
+Modele
+=== start
+¶Scrie o propoziție cu niște numere în ea. Voi găsi fiecare număr și le voi arăta mai jos, apărând pe măsură ce le găsesc. Un tipar descrie forma textului — aici,\⣿ >0 #⣿\ înseamnă „una sau mai multe cifre”, iar ⌕ găsește fiecare loc în care apare.¶
+intrare: Chat()
+text2: 'Am 3 pisici, 12 pești și 144 de furnici' … ∆ intrare … intrare
+
+¶Caută în text fiecare șir de cifre. Fiecare rezultat este un Result cu textul găsit.¶
+numere2: text2 ⌕ ⣿ >0 #⣿
+
+Etapă(
+	[
+		Grup(
+			Stivă()
+			[
+				Fraza(text2 dimensiune: 1m)
+				Grup(
+					Stivă()
+					numere2.traduce(
+						ƒ(număr2•Rezultat)
+							Fraza(
+								număr2.text
+								dimensiune: 1.5m
+								intrând: Poză(opacitate: 0 scară: 0.5)
+								durată: 0.5s
+							)
+					)
+				)
+			]
+		)
+	]
+)

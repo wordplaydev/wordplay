@@ -1,0 +1,84 @@
+t
+מספרים בצרפתית
+=== start/en-US,start/fr-FR
+¶לחצו על הספרה שמתאימה למספר הצרפתי שעל הבמה.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶המספרים לניחוש¶
+¶Les nombres à deviner¶/fr
+מספרים2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶הסודות הם המספרים 1 עד 9 בסדר אקראי¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+סודות: [1 2 3 4 5 6 7 8 9].ערבב()
+
+¶מהו המקש האחרון שנלחץ?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+מפתח3,clé/fr: מפתח()
+
+¶הסוד הנוכחי גדל בכל פעם שלוחצים על מקש, אך נעצר ב־10¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+מדדסוד,secretIndice/fr•#:
+	1 …
+	∆ מפתח3 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶הסוד הנוכחי, לפי מַדָד הסוד¶
+סודנוכחי,secretActuel/fr: סודות[מדדסוד]
+
+¶הניחוש היה נכון אם המספר שנלחץ תואם לסוד הקודם¶
+נכון: clé → # = סודות[מדדסוד - 1]
+
+¶הנקודות מתחילות מ־0 ועולות אם הניחוש היה נכון.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+נקודות2•#: 0 …
+	∆ מפתח3 …
+		נכון ?
+			נקודות2 + 1
+			נקודות2
+
+¶ניצחון פירושו לקבל את כל 9 המספרים¶
+ניצחון,gagner/fr: נקודות2 = 9
+
+¶המשחק נגמר כשמַדָד הסוד מגיע ל־10¶
+סוףהמשחק: מדדסוד = 10
+
+¶מציג את המספר הצרפתי הנוכחי ואת הנקודות הנוכחיות. אחרי כל 9 הסודות, מציג תוצאה סופית¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+שלב(
+	[
+		קבוצה(
+			לערום()
+			[
+				סוףהמשחק ?
+					משפט(
+						ניצחון ?
+							'אתם יודעים מספרים בצרפתית!'"Tu connais les chiffres français!"/fr
+							'כמעט, נסו שוב'"presque, réessaye"/fr
+						גודל: 2m
+					)
+					משפט(numeros[secretActuel] גודל: 2m)
+				משפט("\נקודות2\ points!" גודל: 1m)
+				משפט(
+					מדדסוד = 1 ?
+						'איזה מספר זה?''quel est ce numéro ?'/fr
+						נכון ?
+							'נכון!'
+							"That was \סודות[מדדסוד - 1]\"
+				)
+			]
+		)
+	]
+	פנים: "Aclonica"
+)

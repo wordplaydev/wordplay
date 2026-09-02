@@ -1,0 +1,334 @@
+⚽
+Futbol
+=== start/en
+¶Yukarıdan görünen bir kalecilik oyunu. Solda duran kalenin önündeki eldivensin. Sahanın bir yerinden sırayla bir top vurulur, kale ağzındaki bir noktayı hedefler. Sen de yukarı ve aşağı hareket ederek topun önüne geçmeye çalışırsın. Sayı, tuttuğun şutları gösterir: bir şutu her kurtardığında yükselip dikleşir, bir top yanından geçtiğinde ise şişip sarsılır.¶
+
+¶Şutun nereye çekildiği ve eldivenin nerede durduğu. Bir kale, onu koruyan kalecinin genişliğinin sekiz katı kadardır. Bu yüzden bir kişi ortada durup her şeyi kurtaramaz.
+
+Bir @Place, bir çıktının orta noktası değil sol alt köşesidir. Bu yüzden aşağıya doğru çekilen veya sıkıştırılan her şey merkezlere göre hesaplanır ve bir @Place olduğunda boyutunun yarısından vazgeçer. Bir emoji de kendi boyutundan çok daha büyük çizilir — 0.6m'lik bir ⚽ yaklaşık 0.9m'yi doldurur, 1.2m'lik bir 🧤 ise yaklaşık 1.25m'yi. Bu yüzden bu yarılar ölçülür, boyuttan yarıya bölünmez. Eldivenin hızı, her tikte ne kadar kaydığıdır.¶
+kaleX: -7m
+ağızKenar: 5.2m
+topYarı: 0.45m
+kaleciX: -6.5m
+kaleciYarı: 0.62m
+kaleciErişim: 4.5m
+kaleciHız: 0.55m
+
+tık: Zaman(50ms)
+bas: Anahtar(aşağı: ⊤)
+bırak: Anahtar(aşağı: ⊥)
+
+¶Eldivenin hangi yöne gittiği. Basılan bir ok tuşu eldiveni harekete geçirir, aynı tuşu bırakmak ise onu durdurur. Böylece eldiven, tuşu bastığın sürece kayar. Bu genişlikteki bir ağız boyunca, her basışta bir adım atmak asla zamanında oraya varmazdı.¶
+kayma•#: 0 … ∆ bas | ∆ bırak …
+		∆ bas ?
+			((bas = 'Yukarı Ok') ? 1 ((bas = 'Aşağı Ok') ? -1 kayma))
+			((bırak = 'Yukarı Ok') & (kayma = 1)) ? 0
+				((bırak = 'Aşağı Ok') & (kayma = -1)) ? 0
+					kayma
+
+¶Eldiven fizik kurallarıyla hareket etmez, bu yüzden doğrudan yönlendirilebilir. Ulaşabildiği sınırların ucunda durur, böylece asla kaleden dışarı çıkamaz.¶
+kaleciY•#m: 0m … ∆ tık …
+		((kaleciY + (kayma × kaleciHız)).maksimum(
+				kaleciErişim · -1
+			)).dakika(
+			kaleciErişim
+		)
+
+¶Bir kurtarış ve bir gol. Her @Collision, bir temasın başladığını ve bir temasın bittiğini bildirir. Bu yüzden ikisi de bunun bir başlangıç olduğunu kontrol eden bir denetimle eşleştirilir: bu denetim olmadan her kurtarış ve her gol iki kez sayılırdı.¶
+eldivenVuruşu: Çarpışma('top' 'kaleci')
+fileVuruşu: Çarpışma('top' 'ağ')
+kurtarıldı: (∆ eldivenVuruşu) & ~(eldivenVuruşu•ø)
+golOldu: (∆ fileVuruşu) & ~(fileVuruşu•ø)
+
+•şut(sx•#m sy•#m eğim•# hız2•#m/s)
+
+¶Durulacak bir yer, ağızda hedeflenecek bir yer ve ikisi arasındaki çizgi. Bu iki uç arasındaki eğimi hesaplamak, hangi yönden gelirse gelsin her şutu tam hedefine ulaştıran şeydir.¶
+ƒ yeniŞut()•şut (
+		x2: Rastgele(2m 6m)
+		y2: Rastgele(-5.5m 5.5m)
+		nişanAl: Rastgele(-4.7m 4.7m)
+		¶Eğim, koşunun her metre x için ne kadar y'den vazgeçtiğidir. Bir bölmenin sonucu olmayabilir, bu yüzden ø durumu sahanın dümdüz aşağısına doğru bir şuta geri döner; kickeri asla kale çizgisinde durmaz, bu yüzden bu durum hiç ortaya çıkmaz.¶
+		düşür: (nişanAl - y2) ÷ (kaleX - x2)
+		şut(x2 y2 (düşür•ø ? 0 düşür) Rastgele(16m/s 22m/s))
+	)
+
+¶1 = top, kickerın ayaklarında bekliyor, 2 = top yolda, 3 = top temizleniyor. Saatler değil tikler sayılır, çünkü her @Timestarts sıfırdan başlar. Bloklar gördüğün şeydir; servisler ise sadece her şutta sayıya yeni bir isim vermek içindir, bu da animasyonunu yeniden başlatan şeydir.¶
+•tur(evre•# tik•# bloklar•# servisler•# son2•# atış•şut)
+tur2•tur: tur(1 0 0 0 0 yeniŞut()) …
+	∆ tık | kurtarıldı | golOldu …
+		tur2.evre ???
+			1: (tur2.tik ≥ 14)
+			? tur(
+					2
+					0
+					tur2.bloklar
+					tur2.servisler
+					tur2.son2
+					tur2.atış
+				)
+				tur(
+					1
+					(tur2.tik + (∆ tık ? 1 0))
+					tur2.bloklar
+					tur2.servisler
+					tur2.son2
+					tur2.atış
+				)
+			2: kurtarıldı ? tur(
+					3
+					0
+					(tur2.bloklar + 1)
+					(tur2.servisler + 1)
+					1
+					tur2.atış
+				)
+				golOldu ? tur(
+						3
+						0
+						tur2.bloklar
+						(tur2.servisler + 1)
+						2
+						tur2.atış
+					)
+					¶Hiç varmayan bir top — örneğin bir kurtarışla tekrar oyuna geri çarpılan bir top — birkaç saniye sonra vazgeçilir. Böylece oyun, hiç gelmeyecek bir sonucu beklerken asla takılıp kalmaz.¶
+					(tur2.tik ≥ 70)
+					? tur(
+							3
+							0
+							tur2.bloklar
+							(tur2.servisler + 1)
+							3
+							tur2.atış
+						)
+						tur(
+							2
+							(tur2.tik + (∆ tık ? 1 0))
+							tur2.bloklar
+							tur2.servisler
+							tur2.son2
+							tur2.atış
+						)
+			3: (tur2.tik ≥ 16)
+			? tur(
+					1
+					0
+					tur2.bloklar
+					tur2.servisler
+					tur2.son2
+					yeniŞut()
+				)
+				tur(
+					3
+					(tur2.tik + (∆ tık ? 1 0))
+					tur2.bloklar
+					tur2.servisler
+					tur2.son2
+					tur2.atış
+				)
+			tur2
+
+¶Topun kickerın ayağından ayrıldığı tek değerlendirme. Bunun anlık olması gerekir: topa çarpan şey budur ve topa iki kez çarpmak hızını iki katına çıkarırdı.¶
+vurulan: (∆ tık) & (tur2.evre = 2) & (tur2.tik = 0)
+
+¶Beklerken sabit tutulur, tekmelendiğinde hedeflenen çizgisi boyunca vurulur ve bir kurtarışla ya da ağın arkasıyla sahanın ilerisine geri çarpılır — bu aynı zamanda topun kalenin içinde zıplayıp ağı defalarca öttürmesini de engelleyen şeydir. Hava, yerdeki çim gibi yuvarlanan bir topu yavaşlatır, bu yüzden şutlar yavaşça yaklaşır.¶
+topYerleştir: Hareket(
+		Yer((tur2.atış.sx - topYarı) (tur2.atış.sy - topYarı))
+		sonrakiyer:
+		(tur2.evre = 1) ? Yer(
+				(tur2.atış.sx - topYarı)
+				(tur2.atış.sy - topYarı)
+			) ø
+		sonrakihız:
+		(tur2.evre = 1) ? Hız(0m/s 0m/s 0°/s)
+			vurulan ? Hız(
+					(tur2.atış.hız2 · -1)
+					((tur2.atış.hız2 · -1) × tur2.atış.eğim)
+					Rastgele(-45°/s 45°/s)
+				)
+				(kurtarıldı | golOldu) ? Hız(
+						Rastgele(8m/s 14m/s)
+						Rastgele(-5m/s 5m/s)
+						Rastgele(-45°/s 45°/s)
+					)
+					ø
+	)
+
+top2: İfadeetmek(
+		'⚽'
+		0.6m
+		isim: 'top'
+		yer: topYerleştir
+		konu: Konu(0.45kg 0.7 0.02)
+	)
+
+¶Eldiven, yukarıda isimle izlenir; fiziksel dünyada olmak için gereken tek şey budur, bu yüzden bir @Matter'a ihtiyacı yoktur. Fizik yerine program tarafından yerleştirilir, bu yüzden topa çarpmak yerine topun içinden geçer; yukarıdaki kurtarış topu geri gönderen şeydir. Hareketleri yumuşatılmamıştır, bu yüzden peşinden yavaşça gelmek yerine tam olarak yönlendirdiğin yerdedir.¶
+kaleci: İfadeetmek(
+		'🧤'
+		1.2m
+		isim: 'kaleci'
+		yer: Yer(kaleciX (kaleciY - kaleciYarı))
+		süre: 0s
+	)
+
+¶Şut çekmek üzere olan kişi ve nereden çektiği. Sadece top beklerken sahada bulunur.¶
+vurucu: İfadeetmek(
+		'🦵'
+		1.2m
+		yer: Yer((tur2.atış.sx + 0.5m) (tur2.atış.sy - 0.6m))
+		süre: 0s
+	)
+vurucuListesi: (tur2.evre = 1) ? [vurucu] []
+
+¶Kale: ağız, arkasındaki ağ ve üstteki ve alttaki direk. Sadece ağ isimlendirilmiştir, bu yüzden sadece ağ gol sayabilir — bir direğe çarpan top sadece geri sekerdi. Ağ kasıtlı olarak kalındır: en hızlı şut, fizik adımları arasında yaklaşık yarım metre kat eder ve daha ince bir ağdan hiç değmeden geçip gidebilirdi.¶
+kaleAğıŞekli: Şekil(
+		Dikdörtgen(-8m ağızKenar -7.2m (ağızKenar · -1))
+		isim: 'ağ'
+		arkaplan: Renk(96% 0 0°)
+	)
+direkÜst: Şekil(
+		Dikdörtgen(-8m 7m -7.2m ağızKenar)
+		arkaplan: Renk(35% 0 0°)
+	)
+direkAlt: Şekil(
+		Dikdörtgen(-8m (ağızKenar · -1) -7.2m -7m)
+		arkaplan: Renk(35% 0 0°)
+	)
+
+¶Temizlenen bir topu sahada tutan yan çizgiler.¶
+duvarÜst: Şekil(
+		Dikdörtgen(-8m 7m 8m 6.8m)
+		arkaplan: Renk(88% 5 130°)
+	)
+duvarAlt: Şekil(
+		Dikdörtgen(-8m -6.8m 8m -7m)
+		arkaplan: Renk(88% 5 130°)
+	)
+duvarSağ: Şekil(
+		Dikdörtgen(7.8m 7m 8m -7m)
+		arkaplan: Renk(88% 5 130°)
+	)
+
+¶Bir kurtarış: sayı biraz yukarı fırlar ve yerleşmeden önce bir an orada durur.¶
+kurtarışBükülme: Sekans(
+		{
+			0%: Poz(ölçek: 1)
+			30%: Poz(ölçek: 1.5 telafietmek: Yer(0m 0.4m))
+			65%: Poz(ölçek: 1.35 telafietmek: Yer(0m 0.25m))
+			100%: Poz(ölçek: 1)
+		}
+		0.5s
+	)
+
+¶Bir gol: sayı ekranı dolduracak şekilde büyür ve sallanır, böylece seni geçen bir şut asla gözden kaçırabileceğin bir şey olmaz.¶
+golSarsıntısı: Sekans(
+		{
+			0%: Poz(ölçek: 1)
+			8%: Poz(ölçek: 3.6 rotasyon: -10°)
+			24%: Poz(
+				ölçek: 3.6
+				rotasyon: 10°
+				telafietmek: Yer(0.4m 0m)
+			)
+			40%: Poz(
+				ölçek: 3.6
+				rotasyon: -10°
+				telafietmek: Yer(-0.4m 0m)
+			)
+			56%: Poz(
+				ölçek: 3.6
+				rotasyon: 8°
+				telafietmek: Yer(0.3m 0m)
+			)
+			72%: Poz(ölçek: 3.4 rotasyon: -6°)
+			100%: Poz(ölçek: 1)
+		}
+		1s
+	)
+
+¶Engellenen şut sayısı. İsmi servis numarasını taşır, bu yüzden her şut ona yeni bir kimlik verir ve animasyonu tekrar oynar — ismi hiç değişmeyen bir sayı yalnızca bir kez animasyon oynar ve sonra hareketsiz kalırdı.¶
+skorGörünümü: İfadeetmek(
+		"🧤 \tur2.bloklar\"
+		1.4m
+		isim: "score\tur2.servisler\"
+		yer: Yer(-1.4m 4m)
+		süre: 0.2s
+		giriş: tur2.son2 ???
+			1: kurtarışBükülme
+			2: golSarsıntısı
+			Poz()
+	)
+
+¶Talimatlar, kaplama katmanında değil sahada yer alır: kaplama katmanının alt kenarı müziğin çizildiği yerdir, oraya yazılan metin üzerine çizilirdi.¶
+talimatlar: İfadeetmek(
+		'eldivenini hareket ettirmek için ⬆ ⬇ tuşlarına bas — her şutu engelle!'
+		0.55m
+		yer: Yer(-6.4m -6.4m)
+	)
+
+¶Üç ses: vuruş, kurtarış, gol. Her biri, onu doğuran evre sürdüğü kadar sahneye konur ve sonra sahneden alınır. Sahneye ulaşmak, ses çıkarmak için yeterli bir sebeptir; bir kez çalınıp biten bir ses ise, sahneden çıkıp geri gelene kadar sessiz kalır. Bu yüzden bunların hiçbirine @Music.replay gerekmez ve program başladığında hiçbiri ses çıkarmaz.
+
+Bunları bu şekilde yazmak, notaların tek başına anlatamayacağı bir şeyi anlatır: her ses, turun bir evresine aittir ve tam o evre kadar sürer. @Music.replay ise, bir aralık yerine tek bir ana karşılık veren bir ses için kullanılan diğer yazım biçimidir.¶
+vuruşSesi: Müzik(
+		Parça(
+			[1]
+			çalgı: Çalgı.davul
+			vuruş: 0.25beats
+			sesDüzeyi: 60%
+			döngü: ⊥
+		)
+		isim: 'vuruş'
+	)
+
+kurtarışSesi: Müzik(
+		Parça(
+			[8 12 15]
+			çalgı: Çalgı.çan
+			vuruş: 0.2beats
+			sesDüzeyi: 70%
+			döngü: ⊥
+		)
+		isim: 'kurtarış'
+	)
+
+golSesi: Müzik(
+		Parça(
+			[5 4 2 1]
+			çalgı: Çalgı.trompet
+			vuruş: 0.3beats
+			sesDüzeyi: 65%
+			döngü: ⊥
+		)
+		isim: 'hedef'
+	)
+
+sonuçSesi: tur2.son2 ???
+		1: [kurtarışSesi]
+		2: [golSesi]
+		[]
+
+sesListesi: tur2.evre ???
+		2: [vuruşSesi]
+		3: sonuçSesi
+		[]
+
+Sahne(
+	[
+		top2
+		kaleci
+		:vurucuListesi
+		kaleAğıŞekli
+		direkÜst
+		direkAlt
+		duvarÜst
+		duvarAlt
+		duvarSağ
+		talimatlar
+		:sesListesi
+	]
+	yer: Yer(0m 0m -14m)
+	çerçeve: Dikdörtgen(-8m 7m 8m -7m)
+	arkaplan: Renk(62% 40 140°)
+	renk: Renk(20% 0 0°)
+	yerçekimi: 0m/s^2
+	kaplama: [skorGörünümü]
+)

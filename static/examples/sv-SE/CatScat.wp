@@ -1,0 +1,145 @@
+🐱
+Kattscat!
+=== start/en
+¶En katt som scattar, för evigt, aldrig på samma sätt två gånger.
+
+Hela solot är improviserat: inget här är en nedskriven melodi. Varje refräng väljer katten nya toner och frasen byggs om, så det du hör nu kommer inte tillbaka.
+
+Den sjunger i fem spår som turas om i stället för att låta samtidigt — fjärdedelsnoter, sedan åttondelar, sedan trioler, sedan en halvnot, sedan en lång ton — för en katt har bara en röst, och två spår som lät samtidigt skulle ge den två. Varje spår är tyst genom alla andras takter, och det är det som gör det till ett solo.
+
+Rösten är den stämda katten, \Instrument.tonsattKatt\: ett jam, med en tonhöjd, så en grad väljer en ton och katten sjunger faktiskt melodin i stället för att säga tolv olika saker. Skalan är bluesskalan, som inte har några fel toner — och det måste den vara, för varje ton här väljs slumpmässigt, så vilken ordning som helst måste låta bra.
+
+Det är långsamt för en scat. Ett jam tar ungefär åtta tiondels sekund att säga, och i ett snabbare tempo skulle fjärdedelsnoterna klippa av katten mitt i ordet.¶
+
+slag2: Takt()
+antal2: slag2.räkna
+
+¶En ton, eller ibland ingenting: ungefär var sjunde blir tyst. Det ger katten lagom med luft för att stänga munnen då och då utan att göra solot tunnare — och eftersom pauserna hamnar där slumpen vill, andas inga två refränger på samma ställe.¶
+ƒ kanske(ton•#)•#|ø (Slumpmässig() > 0.15) ? ton ø
+
+¶En ton, någonstans i kattens bekväma oktav. Grad 1 är tonen som frasen kommer hem till, och 8 är en bluesoktav och lite till ovanför den — tillräckligt långt bort för att låta som sång, tillräckligt nära för att jamet fortfarande låter som ett jam och inte som ett utdraget ljud.¶
+ƒ röst2()•#|ø kanske(Slumpmässig(1 8))
+
+¶Allt katten sjunger i en refräng. Varje del är lika lång som alla andra i slag — trettiotvå — så de håller takten även om de delar upp den olika.¶
+•refräng(anrop•[#|ø] kör•[#|ø] svinga•[#|ø] håller•[#|ø] svans•[#|ø])
+
+¶Fjärdedelsnoter, takt ett och två: tre toner, en paus, sedan samma tre besvarade med ett nytt slut. Fråga och svar är grunden i en scat-fras, och att upprepa en figur innan man böjer den är det som gör att den låter komponerad i stället för slumpmässig.¶
+ƒ anrop2()•[#|ø] (
+		en2: röst2()
+		b2: röst2()
+		c2: röst2()
+		(32 → []).översätta(
+			ƒ(i•#)
+				(i = 1) ? en2
+					(i = 2) ? b2
+						(i = 3) ? c2
+							(i = 5) ? en2
+								(i = 6) ? b2
+									(i = 7) ? röst2()
+										ø
+		)
+	)
+
+¶Åttondelar, takt tre och fyra: en löpning som klättrar uppåt i skalan ett steg i taget från var den än börjar, och som viker tillbaka till botten vid toppen av oktaven. Sexton åttondelar över åtta grader betyder att löpningen klättrar hela vägen två gånger, vilket är det som gör att den låter som en löpning i stället för en melodi.
+
+Detta är de kortaste tonerna i stycket, och den enda platsen där katten blir avklippt: två åttondelar på ett slag är snabbare än ett jam hinner avsluta, vilket är precis hur en snabb scat-stavelse låter ändå.¶
+ƒ kör2()•[#|ø] (
+		hem: Slumpmässig(1 8)
+		(64 → []).översätta(
+			ƒ(i2•#)
+				((i2 < 17) | (i2 > 32)) ? ø
+					kanske((((hem + (i2 - 17)) - 1) % 8) + 1)
+		)
+	)
+
+¶Trioler, takt fem och sex: en cell med tre toner som vänds om och om igen. Tre på plats av två skrivs exakt så — 2 slag ÷ 3 — vilket säger rakt ut vad en triol är.¶
+ƒ svinga2()•[#|ø] (
+		cell2: [röst2() röst2() röst2()]
+		(48 → []).översätta(
+			ƒ(i3•#)
+				((i3 < 25) | (i3 > 36)) ? ø
+					cell2[(((i3 - 25) % 3) + 1)]
+		)
+	)
+
+¶Halvnoter, takt sju: katten saktar ner och landar på två långa toner. En hållen ton håller munnen öppen hela tiden den låter, vilket är precis hur det ser ut att hålla en ton.¶
+ƒ håller2()•[#|ø]
+	(16 → []).översätta(
+		ƒ(i4•#)
+			(i4 = 13) ? röst2()
+				(i4 = 14) ? röst2()
+					ø
+	)
+
+¶En helnot, takt åtta: ton 1, hållen. Att komma hem till den första tonen i skalan är det som får en fras att låta avslutad, inte bara stoppad.¶
+ƒ svans2()•[#|ø] (8 → []).översätta(ƒ(i5•#) (i5 = 8) ? 1 ø)
+
+ƒ improvisera()•refräng refräng(
+		anrop2()
+		kör2()
+		svinga2()
+		håller2()
+		svans2()
+	)
+
+¶En ny refräng var trettioandra slag. Den gamla behålls mellan gränserna, så soloti hinner höras klart. Att byta precis på gränsen gör att spelaren klipper in den på slaget, i stället för att avbryta katten mitt i en ton.¶
+refräng2•refräng: improvisera() … ∆ slag2 …
+		((antal2 % 32) = 0) ? improvisera() refräng2
+
+¶Katten svajar till takten. Den lutar åt andra hållet på varje etta, så gungandet är själva pulsen, inte bara en utsmyckning ovanpå den.¶
+luta2: ((antal2 % 2) = 0) ? -1 1
+
+¶Om katten låter just nu. @Beat ger tillbaka en @Part för varje spår, och en del förblir ⊤ genom hela det slag som en hållen ton varar. Så detta är ⊤ närhelst något hörs.¶
+sjunger: slag2.delar.översätta(ƒ(del•Del) del.klingande).har(
+		⊤
+	)
+
+¶Munnen: öppen precis när en ton låter, stängd när ingen gör det. Inget här räknar slag — den frågar musiken vad den gör, så ansiktet kan aldrig hamna ur takt med det du hör. De utspridda tystnaderna är det som ger munnen något att stänga kring, vilket är varför ungefär var sjunde ton blir tyst.¶
+mun: sjunger ? '😺' '🐱'
+
+Etapp(
+	[
+		Fras(
+			mun
+			5m
+			plats: Plats((luta2 · 0.7) · 1m -0.6m)
+			rotation: (luta2 · 7) · 1°
+			varaktighet: 0.22s
+		)
+		Fras('Kattscat!' 1.4m plats: Plats(-2.6m 3.6m))
+		Musik(
+			[
+				Spår(
+					refräng2.anrop
+					instrument: Instrument.tonsattKatt
+					takt: 1beats
+				)
+				Spår(
+					refräng2.kör
+					instrument: Instrument.tonsattKatt
+					takt: 0.5beats
+				)
+				Spår(
+					refräng2.svinga
+					instrument: Instrument.tonsattKatt
+					takt: 2beats ÷ 3
+				)
+				Spår(
+					refräng2.håller
+					instrument: Instrument.tonsattKatt
+					takt: 2beats
+				)
+				Spår(
+					refräng2.svans
+					instrument: Instrument.tonsattKatt
+					takt: 4beats
+				)
+			]
+			tempo: 76beats/min
+			skala: Musik.blues
+			namn: 'scat'
+		)
+	]
+	bakgrund: Färg(16% 14 30°)
+	färg: Färg(96% 0 0°)
+)

@@ -1,0 +1,56 @@
+🐭
+Tangkap
+=== start/en
+¶Tangkap tikus yang berlari kecil dengan klik — klik lagi untuk melepaskannya.
+
+Kedua suara berasal dari pose itu sendiri. Sebuah @Pose dapat membawa @Music, yang dimainkan saat pose itu terjadi: suara terkaman terdengar saat pose diam tikus berubah menjadi pose tertangkap, dan suara berlari kecil terdengar saat putaran mencapai pose tengah yang menjadi kuncinya. Tidak perlu ada penghubung antara animasi dan suara — pose adalah tempat keduanya bertemu.¶
+
+¶Dua bagian singkat. Sebuah @Track biasanya berulang terus, tetapi pose adalah suatu saat, bukan sesuatu yang berlangsung lama, jadi musik sebuah pose selalu hanya dimainkan satu kali.¶
+terkaman: Musik(
+		Trek([5 1] alatMusik: AlatMusik.lonceng ketukan: 1beats)
+		volume: 50%
+		nama: 'terkaman'
+	)
+berlariKecil: Musik(
+		Trek(
+			[1 2]
+			alatMusik: AlatMusik.seruling
+			ketukan: 1beats
+		)
+		volume: 35%
+		nama: 'berlari kecil'
+	)
+
+¶Jika frasa yang dipilih adalah tikus, ubah status tertangkap tikus itu.¶
+nama2: Pilihan()
+tertangkap: ⊥ … ∆ (nama2) … (nama2 = 'mouse') & ~tertangkap
+¶Setiap detik, gerakkan tikus¶
+tempat2: Tempat(0m 0m 0m) … ∆ Waktu(1000ms) … tertangkap ? Tempat(
+				0m
+				0m
+			) Tempat(Acak(-2m 2m) Acak(-2m 2m))
+
+Panggung(
+	[
+		Frasa(
+			"🐭"
+			dapatdipilih: ⊤
+			tempat: tempat2
+			beristirahat: tertangkap ? Pose(
+					rotasi: 180°
+					musik: terkaman
+				) Pose()
+			pindah: tertangkap ? Pose() Urutan(
+					{
+						0%: Pose(rotasi: 0°)
+						50%: Pose(rotasi: 180° musik: berlariKecil)
+						100%: Pose(rotasi: 360°)
+					}
+				)
+			lamanya: 1s
+			nama: 'mouse'
+		)
+	]
+	tempat: Tempat(0m 0m -5m)
+	bingkai: Persegipanjang(-3m 3m 3m -3m)
+)

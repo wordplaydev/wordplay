@@ -1,0 +1,39 @@
+🪐
+Orbites
+=== start
+¶Trois planètes tournent autour d'une étoile qui les attire.¶
+
+¶C'est l'étoile qui attire, donc elle a besoin de @Matter avec une force d'attraction. Elle n'a pas de @Motion, donc rien ne l'attire en retour et elle reste où elle est. Un @Place est le coin d'une sortie plutôt que son milieu, donc l'étoile est déplacée de la moitié de sa propre taille pour placer son milieu au centre du ciel.¶
+soleil: Phrase(
+		'⭐'
+		2m
+		nom: 'soleil'
+		lieu: Lieu(-1m -1m)
+		matière: Matière(2000kg tirer: 1)
+	)
+
+¶Une planète n'a besoin d'aucun @Matter. Avoir un @Motion est ce qui permet à l'attraction de l'étoile de la déplacer. La vitesse à laquelle elle doit voyager pour tourner en rond au lieu de tomber dépend de sa distance, donc chaque planète reçoit la vitesse qui maintient son propre anneau.¶
+planète: ƒ(glyphe•"" appelé•"" large•#m loin•#m vitesse2•#m/s)
+		Phrase(
+			glyphe
+			large
+			nom: appelé
+			lieu: Mouvement(
+				Lieu(loin - (large ÷ 2) 0m - (large ÷ 2))
+				Vitesse(0m/s vitesse2)
+			)
+		)
+
+¶Le ciel n'a pas de gravité propre, sinon tout tomberait par le bas. Il n'a pas d'air non plus, donc les planètes continuent d'avancer au lieu de ralentir jusqu'à l'arrêt.¶
+Scène(
+	[
+		soleil
+		planète('🌍' 'terre' 0.8m 3m 11.5m/s)
+		planète('🪐' 'annelé' 1m 5m 8.6m/s)
+		planète('🌕' 'lune' 0.6m 7m 7.3m/s)
+	]
+	arrièreplan: Couleur(15% 20 300°)
+	pesanteur: 0m/s^2
+	air: 0
+	lieu: Lieu(0m 0m -14m)
+)

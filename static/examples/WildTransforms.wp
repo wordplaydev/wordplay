@@ -1,5 +1,5 @@
 🐈
 Wild Transforms
-=== 
+===
 ¶A cat stress-testing scale, spin, and offset all at once.¶
 Phrase("🐈" size: 10m resting:Pose(scale: 2 offset: Place(1m 1m 5m) rotation: (Time(500ms) % 360) × 1°/ms) duration: 0.25s)

@@ -1,0 +1,57 @@
+s
+Pelunakan Urutan
+===
+¶Animasi mobil yang sama dengan delapan cara, satu untuk setiap gaya kelancaran gerakan.¶
+bingkaiKunci: {
+		0%: Pose(mengimbangi: Tempat(-1m 0m))
+		25%: Pose(mengimbangi: Tempat(1m 0m))
+		50%: Pose(mengimbangi: Tempat(1m 0m))
+		75%: Pose(mengimbangi: Tempat(-1m 0m))
+		100%: Pose(mengimbangi: Tempat(-1m 0m))
+	}
+
+Panggung(
+	[
+		Kelompok(
+			Jaringan(4 2 bantalansel: 0.25m)
+			[
+				Frasa('lurus' ukuran: 0.25m)
+				Frasa(
+					"🚗"
+					beristirahat: Urutan(
+						bingkaiKunci
+						3s
+						gaya: "straight"
+					)
+				)
+				Frasa('hati-hati' ukuran: 0.25m)
+				Frasa(
+					"🚚"
+					beristirahat: Urutan(
+						bingkaiKunci
+						3s
+						gaya: "cautious"
+					)
+				)
+				Frasa('lambat' ukuran: 0.25m)
+				Frasa(
+					"🚙"
+					beristirahat: Urutan(
+						bingkaiKunci
+						3s
+						gaya: "pokey"
+					)
+				)
+				Frasa('cepat' ukuran: 0.25m)
+				Frasa(
+					"🏎"
+					beristirahat: Urutan(
+						bingkaiKunci
+						3s
+						gaya: "zippy"
+					)
+				)
+			]
+		)
+	]
+)

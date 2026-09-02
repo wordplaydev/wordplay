@@ -1,0 +1,89 @@
+🧶
+Atlayış
+=== start
+¶Ok tuşlarıyla bir kediyi yönet ve üzerine atla.
+
+Kedi hareket ettiği her an miyavlar. Miyav, hareket animasyonunun ilk@Pose'una bağlıdır: bir @Pose, bir @Music taşıyabilir; bu ses, o duruşayakalandığı an çalar ve bir hareket başladığı her an kendi duruşlarınıyakalar. Salınım, hazır bırakılmak yerine yazılmıştır çünkü \Sekans.sallanmak(
+)\ - hazır animasyonlar kendi duruşlarını kendileri oluşturur, ve ses tam olarak bir duruşun bulunduğu yere gitmelidir.¶
+
+¶Kısa bir miyav sesi. Birbirine yakın iki hareket, iki miyavı üst üste bindirmekyerine tek bir miyavı paylaşır; çünkü ikincisi geldiğinde ilk salınım hâlâsürmektedir.¶
+miyav2: Müzik(
+		Parça([1] çalgı: Çalgı.kedi)
+		sesDüzeyi: 45%
+		isim: 'miyav'
+	)
+
+•kediKonumu(konum•#m yön2•#)
+
+anahtar2: Anahtar()
+hız2: 1m
+
+kedicikYeri: kediKonumu(5m 1) … ∆ anahtar2 …
+		((anahtar2 = 'Sol Ok') & (kedicikYeri.konum > -10m)) ? kediKonumu(
+				kedicikYeri.konum - hız2
+				1
+			)
+			((anahtar2 = 'Sağ Ok') & (kedicikYeri.konum < 8m)) ? kediKonumu(
+					kedicikYeri.konum + hız2
+					-1
+				)
+				kedicikYeri
+
+kedicik: İfadeetmek(
+		"🐈"
+		yüz: "Noto Color Emoji"
+		isim: 'kedicik'
+		boyut: 2m
+		yer: Yer(kedicikYeri.konum 0m)
+		dinlenme: Poz(tersçevir: kedicikYeri.yön2 < 0)
+		hareketeden: Sekans(
+			{
+				0%: Poz(rotasyon: -5° müzik: miyav2)
+				50%: Poz(rotasyon: 5°)
+				100%: Poz(rotasyon: -5°)
+			}
+			0.25s
+			"zippy"
+		)
+		konu: Konu(1000kg yuvarlaklık: 0.5)
+	)
+
+atılma: Çarpışma('top' 'kedicik')
+
+topYerleştir: Hareket(
+		Yer(0m 9m)
+		sonrakihız:
+		atılma•ø ? ø
+			Hız(
+				((atılma.yön.X ÷ -1m) × Rastgele(15m/s 25m/s)) + Rastgele(
+						-3m/s
+						3m/s
+					)
+				Rastgele(27m/s 30m/s)
+				(atılma.yön.X ÷ -1m) × Rastgele(0°/s 15°/s)
+			)
+	)
+
+top2: İfadeetmek(
+		"🧶"
+		isim: 'top'
+		yer: topYerleştir
+		konu: Konu(1kg 0.5 0 1)
+	)
+
+Sahne(
+	[
+		Şekil(Dikdörtgen(-10m 0m 10m -3m))
+		Şekil(Dikdörtgen(-10m -1m -9m 11m))
+		Şekil(Dikdörtgen(10m -1m 9m 11m))
+		Şekil(Dikdörtgen(-10m 10m 10m 11m))
+		top2
+		kedicik
+		İfadeetmek(
+			'oynamak için ← → tuşlarına bas!'
+			yer: Yer(-4m -2m)
+			renk: Renk.beyaz
+		)
+	]
+	yer: Yer(ve: 5m z: -10m)
+)

@@ -1,0 +1,42 @@
+カ
+Gissa katakana
+=== start
+¶Gissa vilken katakana som hör ihop med hiraganan för att få poäng.¶
+ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを'/ja → []
+カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ'/ja → []
+
+•ゲーム/ja,Game/en(秘密/ja,secret/en•# スコア/ja,score/en•#)
+選択/ja,selection/en: Val()
+
+¶Starta spelet med en slumpad hiragana och noll poäng. När ett val görs, skapa ett nytt tillstånd som väljer ett nytt tecken och ökar poängen om valet var rätt.¶
+¶ランダムなひらがなと 0 ポイントでゲームを開始します。
+選択が行われたら、新しい文字を選択し、正しい場合はスコアを増分する新しいステータスを作成します。¶/ja
+配置/ja,status/en: ゲーム(Slumpmässig(1 46) 0) … ∆ 選択 …
+		ゲーム(
+			Slumpmässig(1 46)
+			配置.秘密 → '' = 選択 ?
+				配置.スコア + 1
+				配置.スコア - 1
+		)
+
+Etapp(
+	[
+		Grupp(
+			Stack()
+			[
+				Fras(
+					`/What is the matching hiragana?/``/対応するひらがなは何ですか？/`/ja
+				)
+				Fras(`*\カタカナ[配置.secret]\*` 2m)
+				Grupp(
+					Rutnät(10 5 1m 1m 1m)
+					ひらがな.översätta(
+						ƒ(シンボル/ja•'' 指数/ja,index/en)
+							Fras(シンボル namn: 指数 → '' valbara: ⊤)
+					)
+				)
+				Fras(`*\配置.score\* points!``*\配置.score\* 正解です！`/ja)
+			]
+		)
+	]
+)

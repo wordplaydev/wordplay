@@ -1,0 +1,176 @@
+🚣
+Vâslește la barca ta
+=== start/en
+¶Vâslește, vâslește, vâslește barca ta — o singură dată, exact zece secunde, cu o mică flotilă care vâslește pe ea.
+
+Cântecul este în 6/8, deci fiecare măsură are șase optimi, iar fiecare element din aceste liste este una dintre ele. Douăzeci și patru de timpi la 144 de bătăi pe minut înseamnă exact zece secunde.
+
+Bărcile sunt conduse de @Beat și nu de un ceas, așa că trag exact pe bătaia muzicii, nu doar aproape de ea — și stau nemișcate până când aceasta începe, pentru că @Beat rămâne pe bătaia zero până atunci.¶
+
+puls2: Bătaie()
+vâslire: puls2.număr
+
+¶Melodia. Vâslește, vâslește, vâslește barca ta, ușor pe râu în jos — notele lungi sunt lungi pentru că pauzele de după ele păstrează ritmul, deoarece fiecare element durează cât o optime.¶
+melodie2: [
+		1
+		ø
+		ø
+		1
+		ø
+		ø
+		1
+		ø
+		2
+		3
+		ø
+		ø
+		3
+		ø
+		2
+		3
+		ø
+		4
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		8
+		8
+		8
+		5
+		5
+		5
+		3
+		3
+		3
+		1
+		1
+		1
+		5
+		ø
+		4
+		3
+		ø
+		2
+		1
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Un acord la începutul fiecărei măsuri. Rămâne pe tonica principală tot timpul, până la penultima măsură, care se sprijină pe a cincea treaptă, ca ultima măsură să pară o încheiere.¶
+acorduri: [
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{5 7 9 11}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Vâslitura: o lovitură joasă pentru tragere și una luminoasă pentru revenire, o dată pe măsură.¶
+vâsle: [
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+	]
+
+¶O barcă. Alunecă puțin mai departe la fiecare timp și se leagănă în cealaltă parte de fiecare dată, ceea ce arată ca o vâslire; culoarul stabilește cât de sus stă și cât de mult a pornit înainte, ca să nu se miște toate la fel.¶
+ƒ barcă(culoar•# început2•#)•Fraza
+	Fraza(
+		'🚣'
+		1.5m
+		loc: Loc(
+			((((vâslire + început2) % 16) - 8) · 1.1) · 1m
+			((culoar · 1.9) - 1.9) · 1m
+		)
+		rotaţie: (((vâslire + culoar) % 2) = 0) ? 9° -9°
+		durată: 0.2s
+	)
+
+flotă: [barcă(0 0) barcă(1 6) barcă(2 11)]
+
+Etapă(
+	[
+		:flotă
+		Fraza(
+			'〰〰〰〰〰〰〰〰'
+			1m
+			loc: Loc(-8m -3.2m)
+			culoare: Culoare(48% 22 240°)
+		)
+		Fraza(
+			'Vâslește, vâslește, vâslește barca ta'
+			0.9m
+			loc: Loc(-4.4m 3.4m)
+		)
+		Muzică(
+			[
+				Pistă(
+					melodie2
+					instrument: Instrument.flaut
+					bătaie: 0.5beats
+				)
+				Pistă(
+					acorduri
+					instrument: Instrument.pian
+					bătaie: 1beats
+					volum: 60%
+				)
+				Pistă(
+					vâsle
+					instrument: Instrument.tobe
+					bătaie: 1beats
+					volum: 45%
+				)
+			]
+			tempo: 144beats/min
+			nume: 'barcă'
+		)
+	]
+	fundal: Culoare(22% 18 230°)
+	culoare: Culoare(96% 0 0°)
+)

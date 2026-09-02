@@ -1,0 +1,40 @@
+H
+Công thức Adobo
+=== start/en
+¶Công thức nấu adobo gà Philippines, kể theo từng cảnh.¶
+
+¶Đây là danh sách các cảnh sẽ hiển thị¶
+câu2: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Adobong Manók @lamamel/adobo! (di chuyển chuột để ăn)`)
+		(`Ngon quá! @lamamel/emptyadobo`)
+	]
+
+¶Đây là danh sách các câu chỉ nên chuyển tiếp khi di chuyển chuột.¶
+diChuyểnCácCâu: [9 11]
+
+¶Câu hiện tại bắt đầu từ 1, và tăng lên khi chuột đến một tọa độ nhất định trên màn hình, hoặc khi một nút hay phím được nhấn cho các câu khác.¶
+điểm2: Contrỏ()
+câuHiệnTại•#: 1 …
+	diChuyểnCácCâu.có(câuHiệnTại) ?
+		(điểm2.x > 2m) & (điểm2.y > 3m)
+		∆ Cáinút() | ∆ Chìakhóa()
+		…
+		(câuHiệnTại <
+				câu2.chiềudài()) ?
+			câuHiệnTại + 1
+			câuHiệnTại
+
+Sânkhấu(
+	[Cụmtừ(câu2[câuHiệnTại] bọc: 10m)]
+	khuônmặt: 'Short Stack'
+)

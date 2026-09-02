@@ -1,0 +1,43 @@
+✨
+Ślad słów
+===
+¶Ten projekt rysuje kontury słowa "wordplay" za pomocą komety z kropek, która przesuwa się wokół liter, poruszana przez strumień Time(). W każdej chwili świeci połowa słowa, gasnąc od jasnego blasku na czole śladu do przezroczystości na jego końcu.¶
+
+punkty2: Kontur(
+		'wordplay'
+		"Noto Sans"
+		3m
+		miejsce: Miejsce(-6m 0m)
+		rozstaw: 0.5m
+	)
+
+¶Ile punktów jest na konturze oraz bezpieczna liczba do dzielenia, zanim czcionka się załaduje (gdy lista jest jeszcze pusta).¶
+liczba2: punkty2.długość()
+
+¶Ślad pokrywa połowę słowa, więc połowa jest zawsze widoczna.¶
+ślad: liczba2 ÷ 2
+
+¶Indeks głowy, który przesuwa się o jeden punkt co takt i zawija wokół słowa.¶
+głowa: 0 … ∆ Czas(10ms) … ((głowa + 1) % liczba2) ?? 0
+
+Scena(
+	punkty2.tłumaczyć(
+		ƒ(punkt2•Miejsce indeks2•#)
+			(
+				¶Ile punktów za głową znajduje się ten punkt, licząc z zawinięciem.¶
+				wiek: ((((głowa - indeks2) + 1) + liczba2) % liczba2) ?? 0
+				Wyrażenie(
+					"•"
+					rozmiar: 1m
+					miejsce: punkt2
+					kolor: Kolor(
+						90%
+						100
+						((indeks2 ÷ liczba2) ?? 0) × 360°
+					)
+					nieprzezroczystość: wiek < ślad ? 1 - ((wiek ÷ ślad) ?? 0) 0
+					czastrwania: 0s
+				))
+	)
+	tło: Kolor(8% 0 0°)
+)

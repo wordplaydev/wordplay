@@ -10,6 +10,8 @@ import Match from '@nodes/Match';
 import type Node from '@nodes/Node';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
+import { isSupportedCalendar } from '@locale/dateTimeFormats';
+import { isSupportedTimeZone } from '@locale/timeZones';
 import { EQUALS_SYMBOL, NOT_EQUALS_SYMBOL } from '@parser/Symbols';
 
 /**
@@ -27,6 +29,10 @@ import { EQUALS_SYMBOL, NOT_EQUALS_SYMBOL } from '@parser/Symbols';
 export function shouldTranslateText(
     node: Docs | FormattedLiteral | TextLiteral,
     project: Project,
+    /** The project's compared text values (see {@link getComparedTextValues}),
+     *  precomputed by the caller so a whole project pays for one walk. When
+     *  given, a literal spelling one of them is data wherever it appears. */
+    comparedValues?: Set<string>,
 ): boolean {
     // Documentation and formatted literals are always prose.
     if (!(node instanceof TextLiteral)) return true;
@@ -39,8 +45,34 @@ export function shouldTranslateText(
     // same exclusion already applies to names.
     if (!/\p{L}/u.test(text)) return false;
 
+    // A value the program compares against somewhere is code everywhere: the
+    // comparison operand itself is protected below, so translating the *other*
+    // occurrences breaks the equality while leaving it looking intact.
+    if (
+        comparedValues !== undefined &&
+        node.getOptions().some((option) => comparedValues.has(option.getText()))
+    )
+        return false;
+
+    // An IANA time zone (`'Asia/Tokyo'`) or a calendar identifier
+    // (`'japanese'`) is a name the platform knows, not a word: translating one
+    // raises UnknownTimeZone/UnknownCalendar, which is how every localized
+    // Clock lost the example in its own documentation. Decided by the same
+    // validators the conflicts use, so this can never drift from them.
+    if (isSupportedTimeZone(text) || isSupportedCalendar(text)) return false;
+
+    return (
+        !isComparedValue(node, project) && !isLiteralTextInput(node, project)
+    );
+}
+
+/**
+ * Whether this literal sits in a position the program treats as data: an
+ * equality operand, a match subject or key, a map key.
+ */
+function isComparedValue(node: TextLiteral, project: Project): boolean {
     const root = project.getRoot(node);
-    if (root === undefined) return true;
+    if (root === undefined) return false;
     const parent = root.getParent(node);
 
     // An operand of an equality comparison is a value being matched, not prose.
@@ -54,19 +86,39 @@ export function shouldTranslateText(
         (parent.left === node || parent.right === node) &&
         isEquality(parent, project)
     )
-        return false;
+        return true;
 
     // The thing a match compares, and the keys it compares against, are values
     // for the same reason.
-    if (parent instanceof Match && parent.value === node) return false;
+    if (parent instanceof Match && parent.value === node) return true;
     if (parent instanceof KeyValue && parent.key === node) {
         const grandparent = root.getParent(parent);
         if (grandparent instanceof Match || grandparent instanceof MapLiteral)
-            return false;
+            return true;
     }
 
-    // An input whose expected type is literal text can't accept anything else.
-    return !isLiteralTextInput(node, project);
+    return false;
+}
+
+/**
+ * Every text value this project compares against somewhere: equality operands,
+ * match subjects and keys, map keys. A literal spelling one of these is a code
+ * value *everywhere* it appears, not just at the comparison: WhatWord assigns
+ * `"playing"` to its status in one branch and asks `status ≠ "playing"` in
+ * another, and translating the assignment while the protected comparison kept
+ * its English silently breaks the game — the same failure as #1276, one step
+ * removed. Callers pass the result back into {@link shouldTranslateText}.
+ */
+export function getComparedTextValues(project: Project): Set<string> {
+    const values = new Set<string>();
+    for (const source of project.getSources())
+        for (const node of source.nodes())
+            if (node instanceof TextLiteral && isComparedValue(node, project))
+                for (const option of node.getOptions()) {
+                    const text = option.getText();
+                    if (text.length > 0) values.add(text);
+                }
+    return values;
 }
 
 /** Whether this binary evaluation is `=` or `≠`, whatever the locale calls it. */

@@ -1,0 +1,65 @@
+☁
+LetrasLluviosas
+=== start/en
+¶Este programa tiene un conjunto de letras que caen como lluvia hacia el suelo, siguiendo las reglas de la física. Cuando tocan el suelo, pueden volver a caer de nuevo.Siempre cae el mismo número de letras, pero mostramos un número distinto de ellas según la amplitud del micrófono.¶
+
+¶El número máximo de letras¶
+cantidad2: 100
+¶La dispersión horizontal de las letras¶
+tamaño2: 20m
+
+¶La amplitud del micrófono¶
+amperios: Volumen()
+
+¶La letra elegida, su posición, su velocidad de rotación y si es visible.¶
+•letra(letra2•"" x2•#m y2•#m ángulo2•# velocidad2•# visible•?)
+
+tic: Tiempo()
+
+¶Iniciar como una lista de letras al azar en posiciones al azar¶
+letras•[letra]: cantidad2 → [#].traducir(
+		ƒ(_) letra(
+				'abcdefghijklmnopqrstuvwxyz' → [''].azar()
+				Azar(-tamaño2 tamaño2)
+				Azar(0m tamaño2 + 2m)
+				Azar(360)
+				Azar(-15 15)
+				⊥
+			)
+	)
+	… ∆ tic …
+		¶Si la letra está por encima del eje y, muévela un poco hacia abajo y hazla girar.Si no, colócala de nuevo por encima del límite y decide al azar si es visible.¶
+		letras.traducir(
+			ƒ(letra3•letra)
+				letra3.y2 > 0m ? (letra3.y2:letra3.y2 - 0.5m).ángulo2:letra3.ángulo2 + letra3.velocidad2
+					(letra3.y2:tamaño2 + 2m).visible:Azar(0 amperios) > 0.5
+		)
+
+¶Convertir las letras en frases¶
+Escenario(
+	[
+		Frase("☁" tamaño: 3m lugar: Lugar(-8m 12m))
+		Frase("☁" tamaño: 5m lugar: Lugar(8m 11m))
+		Frase(
+			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+			lugar: Lugar(-3.5 × tamaño2 -0.5m)
+		)
+	].adjuntar(
+		letras.traducir(
+			ƒ(letra4•letra)
+				Frase(
+					letra4.letra2
+					tamaño: 1m
+					lugar: Lugar(letra4.x2 letra4.y2)
+					rotación: letra4.ángulo2 × 1°
+					inmóvil: Pose(
+						opacidad: letra4.visible ? 1 0
+						color: Color(100% 0 0°)
+					)
+					duración: 0s
+				)
+		)
+	)
+	lugar: Lugar(0m 1 × tamaño2 -15m)
+	fondo: Color(63% 93 248°)
+)

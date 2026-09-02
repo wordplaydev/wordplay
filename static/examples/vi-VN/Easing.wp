@@ -1,0 +1,57 @@
+s
+Đường Cong Chuyển Động Của Chuỗi
+===
+¶Cùng một hoạt cảnh xe hơi theo tám cách, mỗi cách một kiểu chuyển động.¶
+khungHìnhChính: {
+		0%: Tưthế(bùlại: VịTrí(-1m 0m))
+		25%: Tưthế(bùlại: VịTrí(1m 0m))
+		50%: Tưthế(bùlại: VịTrí(1m 0m))
+		75%: Tưthế(bùlại: VịTrí(-1m 0m))
+		100%: Tưthế(bùlại: VịTrí(-1m 0m))
+	}
+
+Sânkhấu(
+	[
+		Nhóm(
+			Lưới(4 2 đệmtếbào: 0.25m)
+			[
+				Cụmtừ('thẳng đều' kíchcỡ: 0.25m)
+				Cụmtừ(
+					"🚗"
+					nghỉngơi: Sựliêntiếp(
+						khungHìnhChính
+						3s
+						phongcách: "straight"
+					)
+				)
+				Cụmtừ('thận trọng' kíchcỡ: 0.25m)
+				Cụmtừ(
+					"🚚"
+					nghỉngơi: Sựliêntiếp(
+						khungHìnhChính
+						3s
+						phongcách: "cautious"
+					)
+				)
+				Cụmtừ('chậm rì' kíchcỡ: 0.25m)
+				Cụmtừ(
+					"🚙"
+					nghỉngơi: Sựliêntiếp(
+						khungHìnhChính
+						3s
+						phongcách: "pokey"
+					)
+				)
+				Cụmtừ('nhanh nhẹn' kíchcỡ: 0.25m)
+				Cụmtừ(
+					"🏎"
+					nghỉngơi: Sựliêntiếp(
+						khungHìnhChính
+						3s
+						phongcách: "zippy"
+					)
+				)
+			]
+		)
+	]
+)

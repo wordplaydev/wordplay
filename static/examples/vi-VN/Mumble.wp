@@ -1,0 +1,29 @@
+m
+Mumble
+=== start
+¶Tiếp tục bấm để làm cho tiếng lẩm bẩm đậm hơn.¶
+lầnBấm•#: 0 … ∆ Cáinút() … lầnBấm + 1
+
+lầnBấm < 3 ?
+	Cụmtừ(
+		'lẩm bẩm'
+		kíchcỡ: 1m
+		tên: 'lầm bầm'
+		vào: Tưthế(tỉlệ: 0)
+		nghỉngơi: Sựliêntiếp(
+			{
+				0%: Tưthế(tỉlệ: (lầnBấm + 1) × 1.1)
+				50%: Tưthế(tỉlệ: (lầnBấm + 1) × 0.9)
+				100%: Tưthế(tỉlệ: (lầnBấm + 1) × 1.1)
+			}
+			khoảngthờigian: 0.5s
+		)
+		thoátra: Sựliêntiếp(
+			{
+				0%: Tưthế(độmờđục: 1 tỉlệ: 1)
+				100%: Tưthế(độmờđục: 0 tỉlệ: 10)
+			}
+			khoảngthờigian: 2s
+		)
+	)
+	Cụmtừ('xong')

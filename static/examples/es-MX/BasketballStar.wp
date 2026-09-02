@@ -1,0 +1,95 @@
+🏀
+Estrella del básquetbol
+=== start
+¶Apunta con tu puntero y haz clic para encestar.¶
+clic2: ∆ Botón()
+
+conteoDeClics: 0 … clic2 … 1 + ⬚
+
+¶Captura la x del puntero en el momento de lanzar, para que el balón caiga desde donde apuntó el jugador en lugar de saltar de vuelta a x = 0¶
+tiroX: 0m … (clic2 & ((conteoDeClics % 2) = 1)) … Puntero().x
+
+lugarDelBalón: (conteoDeClics % 2) = 0 ? Lugar(
+			x: Puntero().x
+			y: 8m
+			z: 0m
+		) Movimiento(lugar: Lugar(tiroX 8m 0m))
+
+basquetbol: Frase(
+		"🏀"
+		0.7m
+		materia: Materia(0.623kg 0.5)
+		lugar: lugarDelBalón
+		nombre: 'basquetbol'
+	)
+
+¶La canasta se desliza de un lado a otro sin parar, guiada por el seno del tiempo¶
+lugarXDeLaCanasta: (Tiempo() ÷ 600ms).seno() · 6m
+
+¶Lee la posición actual del balón una sola vez para revisar el puntaje¶
+balónX: (basquetbol.lugar ?? Lugar()).x
+balónY: (basquetbol.lugar ?? Lugar()).y
+
+intento: (conteoDeClics ÷ 2).rondearArriba()
+
+¶inBin es verdadero cuando el balón está dentro de la canasta. La reacción del puntaje solo ocurre cuando inBin cambia a verdadero Y el intento actual va adelante del puntaje, así que cualquier segunda entrada durante el mismo tiro —rebotes dentro de la canasta, o la canasta deslizándose de vuelta sobre el balón— no hace nada hasta que el siguiente tiro aumente el contador de intentos¶
+enLaCanasta: (balónX < (lugarXDeLaCanasta + 0.9m)) & (balónX > (lugarXDeLaCanasta - 0.9m)) & (balónY < 2.9m) & (balónY > 0.3m)
+puntaje: 0 … enLaCanasta & (intento > puntaje) … 1 + puntaje
+
+estrellaDelBasquetbol: Grupo(
+		Pila('|' 0.5m)
+		[
+			Frase(`*Estrella del basquetbol*` .8m)
+			Frase('Apunta con tu puntero.' .6m)
+			Frase(
+				'Haz clic para dejar caer el 🏀 en la canasta en movimiento.'
+				.6m
+			)
+			Frase('Puntaje: ' + puntaje → '' .8m)
+			Frase('Intentos: ' + intento → '' .8m)
+		]
+		tamaño: 2m
+		fuente: "Sue Ellen Francisco"
+		desplazamiento: Lugar(0m 8m 0m)
+	)
+
+Escenario(
+	[
+		basquetbol
+		¶Las paredes de la canasta se extendieron a 0.3m de grosor (antes 0.1m) para que la canasta, al moverse de lado a lado, no pueda atravesar el balón, y a 3m de alto (antes 2m) para que un balón con rebote de 0.5 no pueda rebotar de vuelta sobre el borde¶
+		Figura(
+			Rectángulo(
+				-1.2m + lugarXDeLaCanasta
+				0.3m
+				1.2m + lugarXDeLaCanasta
+				0m
+				0m
+			)
+			fondo: Color(60% 100 30°)
+		)
+		Figura(
+			Rectángulo(
+				0.9m + lugarXDeLaCanasta
+				3m
+				1.2m + lugarXDeLaCanasta
+				0m
+				0m
+			)
+			fondo: Color(60% 100 30°)
+		)
+		Figura(
+			Rectángulo(
+				-1.2m + lugarXDeLaCanasta
+				3m
+				-0.9m + lugarXDeLaCanasta
+				0m
+				0m
+			)
+			fondo: Color(60% 100 30°)
+		)
+		Figura(Rectángulo(-10m 0.01m 10m -2m))
+		estrellaDelBasquetbol
+	]
+	lugar: Lugar(x: 0m y: 5m z: -10m)
+	gravedad: 5m/s^2
+)

@@ -1,0 +1,33 @@
+🗣
+Conversa de Rosto
+===
+¶As suas expressões faciais, captadas pela câmara e narradas no palco.¶
+
+¶Crie um fluxo de rosto para seguir expressões¶
+rosto2: Cara(200ms)
+
+¶Escolha entre sorrir, franzir a testa, pestanejar, ou nada¶
+estadoDeEspírito: rosto2.olhosAbertos ?
+		(rosto2.quantidadeSorriso > 0.6 ? 'smiling'
+				rosto2.quantidadeFranzir > 0.4 ? 'frowning'
+					'')
+		'blinking'
+
+¶Converta o estado de espírito num emoji, e dê ao rosto um balão de fala que o diga. Dar ao balão um @Say significa que o estado de espírito é dito em voz alta além de mostrado, e o balão substitui a legenda no rodapé do palco.¶
+Fase(
+	[
+		Frase(
+			(estadoDeEspírito = 'blinking' ? '😴'
+					estadoDeEspírito = 'smiling' ? '😀'
+						estadoDeEspírito = 'frowning' ? '🙁'
+							'😐')
+			tamanho: 8m
+			balão: (estadoDeEspírito = ''
+				? Balão(
+						`/Sorria, franza a testa, ou feche os olhos/`
+						envolver: 8m
+					)
+					Balão(Dizer(estadoDeEspírito)))
+		)
+	]
+)

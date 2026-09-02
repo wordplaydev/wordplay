@@ -1,0 +1,252 @@
+Y
+Aventura
+=== start/en
+¶Uma aventura em texto com quinze salas: acorda amarrado(a) numa sala escura e fria e tem de encontrar um dos quatro finais possíveis para esta noite. As salas ligam-se umas às outras, por isso um caminho errado é um ciclo e não um beco sem saída, e aquilo que está a transportar decide quais as passagens que se abrem para si.¶
+
+¶Uma saída de uma sala: o nome da escolha, o id da sala para onde essa escolha leva, e, no caso de uma porta trancada, o que tem de estar a transportar para a usar.O truque está em nomear o destino em vez de o guardar. Um bind tem de existir antes de poder ser mencionado, por isso uma história construída só com binds só pode apontar para trás e nunca pode voltar a um ponto anterior. Um id de texto não tem essa regra, por isso duas salas podem nomear-se uma à outra, e o mapa pode ter ciclos.¶
+•porta(etiqueta•'' divisão•'' precisa•'': '')
+
+¶Uma sala. A maior parte das salas só precisa das três primeiras partes: um id, o que se encontra lá, e as suas portas. As três últimas são para as salas especiais — uma que lhe entrega algo, e as quatro que terminam a história.¶
+•divisão2(id2•'' descrição2•'' portas•[porta]: [] levar•'': '' final•'': '' ganhou•?: ⊥)
+
+¶Onde está e o que está a transportar. É isto que a história realmente é: um id de sala e um pequeno conjunto de coisas.¶
+•jornada(divisão3•'' mala•[''])
+
+¶Todas as salas numa única lista. Só a primeira importa pela sua posição: é onde a história começa, e para onde qualquer final o(a) reenvia.¶
+divisões•[divisão2]: [
+		divisão2(
+			'cela'
+			'Acorda numa sala escura e fria que cheira a mofo. Tem os pulsos amarrados atrás das costas, e quem fez os nós não teve pressa nenhuma.'
+			[
+				porta('virar-se de lado' 'chão')
+				porta('ficar quieto(a) e escutar' 'escutar')
+			]
+		)
+		divisão2(
+			'escutar'
+			'Duas vozes chegam através das tábuas do chão. Estão a discutir sobre quem deixou o portão aberto, e nenhuma delas parece preocupada consigo.'
+			[porta('virar-se de lado' 'chão')]
+		)
+		divisão2(
+			'chão'
+			'De lado, consegue ver por baixo do catre: uma faca sobre as lajes, enferrujada ao longo da lâmina, perto o suficiente para alcançar se estiver disposto(a) a colocar a cara no chão.'
+			[
+				porta('pegar nela e cortar as cordas' 'cave')
+				porta(
+					'ficar quieto(a) e escutar de novo'
+					'escutar'
+				)
+			]
+		)
+		divisão2(
+			'cave'
+			'A cave, já de pé: o catre, um monte de corda cortada, uma escada a subir por uma parede e uma passagem baixa a sair pela outra.'
+			[
+				porta('subir a escada' 'escada')
+				porta('seguir pela passagem baixa' 'passagem')
+			]
+			levar: 'faca'
+		)
+		divisão2(
+			'escada'
+			'Degraus desgastados no meio. A meio caminho há um patamar com uma lanterna pendurada num gancho, e por cima do patamar a escada continua a subir.'
+			[
+				porta('pegar na lanterna' 'lanterna')
+				porta('continuar a subir' 'porta')
+				porta('voltar a descer' 'cave')
+			]
+		)
+		divisão2(
+			'lanterna'
+			'O pavio pega na segunda tentativa, e o patamar acaba por ser muito mais pequeno do que a escuridão fazia parecer.'
+			[
+				porta('continuar a subir' 'porta')
+				porta('voltar a descer' 'cave')
+			]
+			levar: 'lanterna'
+		)
+		divisão2(
+			'porta'
+			'No topo da escada, uma porta pesada trancada do outro lado. O ferrolho é velho e a fenda ao lado é larga o suficiente para uma lâmina.'
+			[
+				porta('forçar o ferrolho com a faca' 'salão')
+				porta('voltar a descer' 'escada')
+			]
+		)
+		divisão2(
+			'salão'
+			'Um salão com uma lareira fria e duas cadeiras afastadas dela, como se a discussão tivesse terminado à pressa. No extremo há um portão, e uma luz cinzenta por baixo dele.'
+			[
+				porta('atravessar até ao portão' 'portão')
+				porta('voltar a descer a escada' 'escada')
+			]
+		)
+		divisão2(
+			'portão'
+			'O portão está acorrentado, e a corrente passa por um cadeado do tamanho do seu punho. Depois dele a estrada desce para o vale.'
+			[
+				porta(
+					'girar a chave no cadeado'
+					'encosta'
+					precisa: 'chave'
+				)
+				porta('subir pela corrente em vez disso' 'subir')
+				porta('voltar ao salão' 'salão')
+			]
+		)
+		divisão2(
+			'passagem'
+			'A passagem é baixa ao ponto de ter de avançar com uma mão à frente, e tem cheiro de rio. Poucos passos depois, a escuridão deixa de ser uma sombra e torna-se uma parede.'
+			[
+				porta('avançar às apalpadelas' 'às ciegas')
+				porta(
+					'levar a luz consigo'
+					'cripta'
+					precisa: 'lanterna'
+				)
+				porta('voltar pelo caminho por onde veio' 'cave')
+			]
+		)
+		divisão2(
+			'cripta'
+			'A lanterna encontra uma sala baixa de caixas de pedra, e num gancho ao lado da última, uma chave enferrujada com um pedaço de pano ainda amarrado nela.'
+			[
+				porta('seguir em frente até à água' 'rio')
+				porta('voltar pela passagem' 'passagem')
+			]
+			levar: 'chave'
+		)
+		divisão2(
+			'às ciegas'
+			'Segue em frente com uma mão à frente. A mão não encontra nada, e pouco depois os pés também não. A escuridão fica com o que lhe é dado.'
+			final: 'A escuridão fica consigo.'
+		)
+		divisão2(
+			'subir'
+			'Está quase no topo quando a corrente se lembra de como é velha. Encontram-no ao pé do portão ao amanhecer, e desta vez trazem corda suficiente para dois.'
+			final: 'Apanhado(a) no portão.'
+		)
+		divisão2(
+			'rio'
+			'A passagem termina numa grelha sobre água corrente. As barras são velhas e a faca é paciente. Sai com o rio, e a casa fica longe para trás antes de o céu sequer clarear.'
+			final: 'Sai com o rio.'
+			ganhou: ⊤
+		)
+		divisão2(
+			'encosta'
+			'A chave gira, a corrente cai na erva, e o portão abre-se sem um som que alguém ouça. O vale está cinzento de manhã, e a estrada é sua.'
+			final: 'Sai pelo portão.'
+			ganhou: ⊤
+		)
+	]
+
+¶A sala com este id. find() devolve ø quando nada corresponde, e um id que não nomeia nenhuma sala é um buraco no mapa, e não uma curva na história, por isso a primeira sala serve em seu lugar.¶
+ƒ ir(queria•'')•divisão2 divisões.encontrar(
+		ƒ(divisão4•divisão2) divisão4.id2 = queria
+	) ?? divisões[1]
+
+¶As portas que pode realmente tomar a partir daqui. Uma porta trancada para a qual não tem nada simplesmente não é oferecida, por isso parece uma parede até ter em mãos aquilo que a abre.¶
+ƒ caminhos(aqui•divisão2 mala2•[''])•[porta]
+	aqui.portas.filtro(
+		ƒ(porta2•porta) (porta2.precisa = '') | mala2.tem(
+					porta2.precisa
+				)
+	)
+
+¶Entra numa sala, apanhando tudo o que ela tiver. add() dar-lhe-ia facilmente uma segunda faca, por isso pergunte primeiro.¶
+ƒ chegar(aqui2•divisão2 mala3•[''])•jornada
+	jornada(
+		aqui2.id2
+		((aqui2.levar ≠ '') & (~mala3.tem(aqui2.levar))) ? mala3.com(
+				aqui2.levar
+			) mala3
+	)
+
+chave2: Chave()
+
+¶Uma tecla premida, por ordem: num final, qualquer tecla acorda-o de novo na primeira sala; uma tecla que não seja 1, 2 ou 3 não significa nada; um número maior do que o número de portas desta sala também não significa nada; e só depois disso é que é uma porta. Esse terceiro teste é o que vale a pena escrever, porque o acesso à lista dá a volta — sem ele, premir 3 numa sala com duas portas escolheria silenciosamente a primeira.¶
+ƒ passo(t•jornada c2•'')•jornada (
+		aqui3: ir(t.divisão3)
+		portas2: caminhos(aqui3 t.mala)
+		aqui3.final ≠ '' ? jornada('cela' [])
+			~((c2 = '1') | (c2 = '2') | (c2 = '3')) ? t
+				(c2 → #) > portas2.comprimento() ? t
+					chegar(ir(portas2[c2 → #].divisão) t.mala)
+	)
+
+jornada2•jornada: jornada('cela' []) … ∆ chave2 … passo(
+			jornada2
+			chave2
+		)
+
+aqui4: ir(jornada2.divisão3)
+portas3: caminhos(aqui4 jornada2.mala)
+
+¶O que está a transportar, mostrado apenas quando transporta alguma coisa.¶
+aTransportar:
+	jornada2.mala.comprimento() > 0
+	? [
+			Frase(
+				`*a transportar* \jornada2.mala.juntar(' · ')\`
+				tamanho: 0.3m
+				alinhamento: '|'
+				cor: Cor(60% 30 0°)
+			)
+		]
+		[]
+
+¶O que está por baixo da sala: as suas portas, numeradas de modo a que o que lê seja o que prime, ou, num final, como terminou e a única chave que o recomeça.¶
+abaixo:
+	aqui4.final ≠ ''
+	? [
+			Frase(
+				`*\aqui4.final\*`
+				tamanho: 0.8m
+				alinhamento: '|'
+				cor: aqui4.ganhou ? Cor(85% 50 90°) Cor(45% 40 25°)
+				duração: 1.5s
+				entrando: Pose(opacidade: 0% escala: 0.5)
+			)
+			Frase(
+				`prima qualquer tecla para acordar de novo`
+				tamanho: 0.3m
+				alinhamento: '|'
+				duração: 3s
+				entrando: Pose(opacidade: 0%)
+			)
+		]
+		portas3.traduzir(
+			ƒ(porta3•porta índice2•#)
+				Frase(
+					`\índice2\. *\porta3.etiqueta\*`
+					tamanho: 0.5m
+					alinhamento: '|'
+					nome: porta3.etiqueta
+					duração: 1s
+					entrando: Pose(opacidade: 0%)
+				)
+		)
+
+Fase(
+	[
+		Grupo(
+			Monte()
+			[
+				Frase(
+					aqui4.descrição2
+					tamanho: 0.5m
+					envolver: 14m
+					alinhamento: '|'
+					nome: aqui4.id2
+					duração: 0.5s
+					entrando: Pose(desvio: Local(0m 2m))
+				)
+				:aTransportar
+				:abaixo
+			]
+		)
+	]
+	fundo: Cor(0 0 0°)
+	cor: Cor(100% 0 0°)
+	fonte: "Permanent Marker"
+)

@@ -1,0 +1,24 @@
+🎭
+CuvinteRostite
+=== start
+¶Vorbește, iar cuvintele tale apar în locuri și mărimi întâmplătoare.¶
+clic: Buton(ø)
+vorbire: Vorbire(resetare: clic limbă: 'ro-RO' limită: 10)
+x2: Aleatoriu(-10m 10m) … ∆ vorbire … Aleatoriu(-10m 10m)
+y2: Aleatoriu(-10m 10m) … ∆ vorbire … Aleatoriu(-10m 10m)
+dimensiuneText: Aleatoriu(1m 3m) … ∆ vorbire … Aleatoriu(
+			1m
+			3m
+		)
+Etapă(
+	[
+		Fraza(
+			vorbire
+			loc: Loc(x2 y2)
+			culoare: Culoare(0% 0% 0°)
+			dimensiune: dimensiuneText
+		)
+	]
+	fundal: Culoare(100% 0% 0°)
+)
+

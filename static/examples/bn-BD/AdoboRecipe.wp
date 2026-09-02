@@ -1,0 +1,40 @@
+H
+আদোবো রেসিপি
+=== start/en
+¶ফিলিপিনো চিকেন আদোবো তৈরির দৃশ্য-অনুযায়ী রেসিপি।¶
+
+¶এগুলো হলো দেখানোর জন্য দৃশ্যের তালিকা¶
+বাক্য: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`আদোবং মানোক @lamamel/adobo! (খেতে হলে মাউস ঘুরিয়ে নাও)`)
+		(`মজাদার! @lamamel/emptyadobo`)
+	]
+
+¶এগুলো হলো এমন বাক্যের তালিকা, যা কেবল মাউস সরালেই এগিয়ে যাবে।¶
+বাক্যসরাও: [9 11]
+
+¶বর্তমান বাক্য ১ থেকে শুরু হয়, এবং মাউস স্ক্রিনের কোনো নির্দিষ্ট স্থানাংকে গেলে এগিয়ে যায়, বা অন্য বাক্যগুলোর জন্য কোনো বোতাম বা চাবি চাপলে এগিয়ে যায়।¶
+বিন্দু2: পয়েন্টার()
+বর্তমানবাক্য•#: 1 …
+	বাক্যসরাও.আছে(বর্তমানবাক্য) ?
+		(বিন্দু2.x > 2m) & (বিন্দু2.y > 3m)
+		∆ বোতাম() | ∆ চাবি()
+		…
+		(বর্তমানবাক্য <
+				বাক্য.দৈর্ঘ্য()) ?
+			বর্তমানবাক্য + 1
+			বর্তমানবাক্য
+
+মঞ্চ(
+	[বাক্যাংশ(বাক্য[বর্তমানবাক্য] মোড়ানো: 10m)]
+	মুখ: 'Short Stack'
+)

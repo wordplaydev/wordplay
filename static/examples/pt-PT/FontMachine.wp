@@ -1,0 +1,27 @@
+t
+Máquina de Tipos de Letra
+=== start
+¶Pressione qualquer tecla para mudar o tipo de letra de cada letra de "tipografia" para um tipo de letra aleatório.¶
+tiposDeLetra: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+símbolos: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ tornarAleatório()
+	símbolos.traduzir(
+		ƒ(símbolo) Frase(
+				símbolo
+				fonte: tiposDeLetra.aleatório()
+				duração: 0s
+			)
+	)
+
+frases: tornarAleatório() … ∆ Chave() | ∆ Botão() … tornarAleatório(
+		)
+
+Fase([Grupo(Linha('|' 0m) frases local: Local(0m 0m))])

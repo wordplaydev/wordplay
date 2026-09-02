@@ -1,0 +1,131 @@
+T
+Wiersz
+=== start
+¶Wiersz, w którym linie wpływają jedna po drugiej, każda robiąc swoje własne wejście.¶
+•linia(tekst2•"" pozycja•Poza|Sekwencja tył: Kolor(
+			100
+			100
+			100°
+		) przód: Kolor(0 0 0°))
+
+¶Lista linii wiersza, każda z własną pozycją.¶
+wiersz: [
+		linia(
+			'Plik komputerowy'
+			Poza(
+				nieprzezroczystość: 0%
+				zrównoważyć: Miejsce(y: -5m)
+			)
+		)
+		linia(
+			'o którym'
+			Poza(
+				nieprzezroczystość: 0%
+				zrównoważyć: Miejsce(y: -5m)
+			)
+		)
+		linia('nie mam żadnego wspomnienia' Poza(obrót: 10°))
+		linia(
+			'klikam, żeby go otworzyć'
+			Sekwencja(
+				{
+					0%: Poza(skala: 1)
+					50%: Poza(skala: 0.7)
+					100%: Poza(skala: 1)
+				}
+				0.25s
+			)
+		)
+		linia(
+			'patrzę'
+			Poza(
+				nieprzezroczystość: 0%
+				zrównoważyć: Miejsce(y: -5m)
+			)
+		)
+		linia(
+			'przewijam dalej w dół'
+			Poza(
+				nieprzezroczystość: 0%
+				zrównoważyć: Miejsce(y: 5m)
+			)
+		)
+		linia(
+			'ekran'
+			Poza(
+				nieprzezroczystość: 0%
+				zrównoważyć: Miejsce(y: -5m)
+			)
+		)
+		linia(
+			'pozostaje podświetlony i pusty'
+			Poza(
+				nieprzezroczystość: 0%
+				zrównoważyć: Miejsce(y: -5m)
+			)
+			Kolor(0 0 0°)
+			Kolor(100 100 0°)
+		)
+		linia(
+			'tak znowu spotykam siebie samą'
+			Poza(
+				nieprzezroczystość: 0%
+				zrównoważyć: Miejsce(y: -5m)
+			)
+		)
+		linia(
+			'pełną nadziei i bezużyteczną'
+			Poza(
+				nieprzezroczystość: 0%
+				zrównoważyć: Miejsce(y: -5m)
+			)
+		)
+		linia(
+			'tajemnicę'
+			Poza(
+				nieprzezroczystość: 0%
+				zrównoważyć: Miejsce(y: -5m)
+			)
+		)
+		linia(
+			'tak dokładnie jak wtedy'
+			Poza(
+				nieprzezroczystość: 0%
+				zrównoważyć: Miejsce(y: -5m)
+			)
+		)
+		linia('19 sierpnia 2010, 11:08' Poza())
+	]
+
+liczba2: 1 … ∆ Przycisk() | ∆ Klawisz() …
+		(liczba2 = (wiersz.długość() + 1)) ? 1 liczba2 + 1
+linia2: wiersz[liczba2]
+
+liczba2 ≤ wiersz.długość() ?
+	Scena(
+		[
+			Wyrażenie(
+				linia2.tekst2
+				wstępowanie: linia2.pozycja
+				czastrwania: 1s
+				nazwa: liczba2 → ""
+				styl: 'cautious'
+			)
+		]
+		tło: linia2.tył
+		spoczynkowy: Poza(kolor: linia2.przód)
+	)
+	Scena(
+		[
+			Grupa(
+				Stos()
+				[
+					Wyrażenie('RADA DLA SIEBIE SAMEJ')
+					Wyrażenie('Jane Hirshfield')
+				]
+				wstępowanie: Poza(skala: 0.75)
+			)
+		]
+		tło: Kolor(0% 0 0°)
+		kolor: Kolor(100% 100 0°)
+	)

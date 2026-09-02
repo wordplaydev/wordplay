@@ -1,0 +1,194 @@
+🔍
+Arată și povestește
+=== start/en
+¶Arată și povestește — un joc cu camera, contra timp. Îți cer să găsești lucruri, unul câte unul, și spun fiecare cu voce tare. Ține fiecare lucru în fața camerei până îl recunosc, apoi aleg altul. Nu ai lucrul cerut? Apasă → și voi cere altul — sărirea nu contează împotriva ta niciodată. Găsește cinci lucruri într-un minut și câștigi; al cincilea are nevoie mereu de două persoane în imagine în același timp. Minutul începe când camera ta se pornește, așa că pregătirea nu îți consumă timp niciodată, iar când timpul se termină, spun că jocul s-a terminat. Fiecare lucru găsit face cuvintele puțin mai mari, iar când câștigi, ele explodează ca niște confetti peste un „Ai câștigat!”¶
+
+¶Un lucru de căutat: emoji-ul pe care îl arăt, cuvintele pe care le arăt, numele pe care camera mea îl dă lucrului (după care îl recunosc) și de câte exemplare am nevoie să văd deodată (două, pentru persoane).¶
+•țintă(emoji•'' etichetă•'' nume3•'' nevoie•#)
+
+¶Lucrurile pe care le-aș putea cere. Fiecare nume este exact felul în care @Objects numește lucrul, ca să îl pot recunoaște în cameră. Arăt câte unul deodată și aleg altul de fiecare dată când îl găsești sau îl sari.¶
+grup•[țintă]: [
+		țintă('☕' 'o cană' 'cană' 1)
+		țintă('📖' 'o carte' 'carte' 1)
+		țintă('📱' 'un telefon' 'telefon' 1)
+		țintă('💻' 'un laptop' 'laptop' 1)
+		țintă('⌨' 'o tastatură' 'tastatură' 1)
+		țintă('🖱' 'un mouse' 'mouse' 1)
+		țintă('✂' 'foarfece' 'foarfece' 1)
+		țintă('🍾' 'o sticlă' 'sticlă' 1)
+		țintă('🪑' 'un scaun' 'scaun' 1)
+		țintă('🕐' 'un ceas' 'ceas' 1)
+		țintă('🍌' 'o banană' 'banană' 1)
+		țintă('🍎' 'un măr' 'măr' 1)
+		țintă('🧸' 'un ursuleț de pluș' 'ursuleț de pluș' 1)
+		țintă('🪴' 'o plantă în ghiveci' 'plantă în ghiveci' 1)
+		țintă('🏺' 'o vază' 'vază' 1)
+		țintă('🎒' 'un rucsac' 'rucsac' 1)
+	]
+
+¶Ce să ceri în continuare, ținând cont de emoji-urile pe care le-ai găsit deja și de lucrul de evitat repetării: pentru primele patru, un obiect nou, ales la întâmplare, pe care nu l-ai mai cerut încă, apoi mereu două persoane pentru al cincilea.¶
+ƒ alege(găsit•[''] evită•țintă)
+	(găsit.lungime() ≥ 4)
+	? țintă('👥' 'două persoane' 'persoană' 2)
+		grup.fără(evită).filtra(
+			ƒ(t•țintă) ~(găsit.are(t.emoji))
+		).aleatoriu(
+		)
+
+¶Camera. Nu i se spune ce să caute — pur și simplu raportează tot ce vede și avansează singură, așa că jocul reacționează direct la ea, fără un ceas.¶
+observări: Obiecte(număr: 10 încredere: 0.5)
+
+¶Tasta → (sau o atingere) pentru a sări peste.¶
+sari: Cheie('SăgeatăDreapta' ⊤)
+
+¶Un ceas, pentru numărătoarea inversă și pentru animația confetiilor de câștig. Vânătoarea în sine nu îl folosește — @Objects o conduce pe aceasta.¶
+ceas: Timp(30ms)
+
+¶Cât durează o rundă.¶
+limită2•#s: 60s
+
+¶Momentul în care camera raportează pentru prima dată, reținut. Numărătoarea inversă începe de aici, nu de la zero, așa că timpul așteptat pentru a-ți partaja camera și timpul de încărcare a modelului nu îți consumă niciodată din minut — @Objects raportează prima sa citire imediat ce vede un cadru, indiferent dacă acesta conține ceva sau nu.¶
+începutLa•#ms: 0ms
+	… ((∆ observări) & (⬚ = 0ms)) …
+		ceas
+
+¶Cât timp a mai rămas: întregul minut până când camera pornește, apoi orice a mai rămas din el, niciodată sub zero — astfel încât, odată consumat timpul, rămâne consumat, în loc să continue să scadă sub zero.¶
+stânga2•#s: (începutLa = 0ms) ? limită2 ((limită2 - ((ceas - începutLa) → #s)).maxim(
+				0s
+			))
+
+¶Jocul: emoji-urile găsite până acum (câștigi la cinci) și lucrul cerut chiar acum.¶
+•vânătoare(găsit2•[''] țintă2•țintă)
+
+¶Avansează pe baza unei citiri a camerei (sau a unei sărituri), oprindu-se odată ce sunt găsite cinci, astfel încât ecranul de câștig este construit o singură dată, iar confetiile sale sunt lăsate în pace să zboare. Săritura reface lucrul cerut fără să-ți schimbe scorul; văzând suficient din lucrul cerut printre observații, se acordă găsirea și se cere următorul lucru.¶
+ƒ pas(h2•vânătoare sărit•? văzut•[Lucru]) (
+		numărare2: văzut.filtra(
+				ƒ(t2•Lucru) t2.nume = h2.țintă2.nume3
+			).lungime(
+			)
+		următorulGăsit: [:h2.găsit2 h2.țintă2.emoji]
+		sărit
+		? vânătoare(h2.găsit2 alege(h2.găsit2 h2.țintă2))
+			((numărare2 ≥ h2.țintă2.nevoie)
+				? vânătoare(
+						următorulGăsit
+						alege(următorulGăsit h2.țintă2)
+					)
+					h2)
+	)
+
+¶Vânătoarea se oprește și atunci când minutul s-a scurs, astfel încât o găsire produsă după expirarea timpului nu poate trece pe furiș de ecranul de sfârșit al jocului.¶
+vânătoare2•vânătoare: vânătoare([] grup.aleatoriu())
+	… ((∆ observări | ∆ sari) & (⬚.găsit2.lungime() < 5) & (stânga2 > 0s)) …
+		pas(⬚ (∆ sari) observări)
+
+¶Momentul în care câștigi, reținut — astfel încât confetiile se animă începând de la timpul zero.¶
+câștigatLa•#ms: 0ms
+	… ((vânătoare2.găsit2.lungime() ≥ 5) & (⬚ = 0ms)) …
+		ceas
+
+¶O bucată de confeti care zboară: un emoji, o viteză de pornire (fără unitate — magnitudine în metri pe secundă) și o rotație. Stocarea unor numere simple menține calculul traiectoriei de mai jos simplu.¶
+•scânteie(emoji2•'' vx•# vy•# rotit•#)
+
+¶Confetti, generat o singură dată în momentul în care câștigi, și niciodată reconstruit. @Objectskeeps detectează, deci fiecare citire re-evaluează programul — îngheța bucățile în această listă (se umple o dată, când câștigi, apoi condiția ei se oprește) face ca fiecare bucată să păstreze aceeași viteză de zbor, în loc să fie reinventată la fiecare cadru.¶
+scântei•[scânteie]: []
+	… ((vânătoare2.găsit2.lungime() ≥ 5) & (⬚.lungime() = 0)) …
+		(60 → []).traduce(
+			ƒ()
+				scânteie(
+					vânătoare2.găsit2.aleatoriu()
+					Aleatoriu(-8 8)
+					Aleatoriu(3 13)
+					Aleatoriu(-200 200)
+				)
+		)
+
+¶Gravitația pentru arcul confetti-ului, în metri pe secundă la pătrat.¶
+g•#: 9
+
+¶Mesajul: un emoji mare, numele lui, progresul tău, timpul rămas și cum sări peste. Cuvintele cresc cu fiecare descoperire pentru a ridica miza — puțin, ca să încapă și cinci descoperiri pe scenă. Numărătoarea inversă rotunjește în sus, deci arată 1 până în secunda în care timpul s-a terminat cu adevărat.¶
+ƒ îndemn(h3•vânătoare) (
+		mare: (2m + (h3.găsit2.lungime() · 0.3m))
+		Grup(
+			Stivă('|' 0.4m)
+			[
+				Fraza(
+					h3.țintă2.emoji
+					faţă: "Noto Color Emoji"
+					dimensiune: mare + 1m
+				)
+				Fraza(h3.țintă2.etichetă dimensiune: mare)
+				Fraza(
+					`găsite \h3.găsit2.lungime() → ''\ din 5`
+					dimensiune: 0.7m
+				)
+				Fraza(
+					`⏳ \(stânga2 ÷ 1s).ridica() → ''\ secunde rămase`
+					dimensiune: 0.6m
+				)
+				Fraza(
+					'nu îl ai? apasă → pentru altul'
+					dimensiune: 0.5m
+				)
+			]
+		)
+	)
+
+¶Așază fiecare scânteie pe propriul arc, calculat din cât timp a zburat: se mișcă spre exterior cu viteza ei în timp ce gravitația o trage înapoi în jos (formula clasică ½·g·t²). Pentru că noi calculăm poziția în loc să ne bazăm pe motorul de fizică, re-evaluarea constantă a camerei doar redesenează fiecare bucată acolo unde ar trebui să fie — fără să sară înapoi în centru.¶
+ƒ confetti() (
+		t3: (ceas - câștigatLa) ÷ 1000ms
+		scântei.traduce(
+			ƒ(s•scânteie)
+				Fraza(
+					s.emoji2
+					faţă: "Noto Color Emoji"
+					dimensiune: 1.5m
+					rotaţie: (s.rotit · t3) · 1°
+					loc: Loc(
+						(s.vx · t3) · 1m
+						((s.vy · t3) - ((g · t3 · t3) ÷ 2)) · 1m
+					)
+				)
+		)
+	)
+
+¶Câștigi când găsești cinci: un „Ai câștigat!” centrat, spus cu voce tare și arătat pe ecran, cu emojiurile găsite explodând ca un confetti peste el, dezvăluite pe măsură ce confetti-ul cade.¶
+ƒ finală() [
+		Grup(Stivă() [Fraza('Ai câștigat!' dimensiune: 2m)])
+		Cuvânt('Ai câștigat!')
+		:confetti()
+	]
+
+¶Minutul s-a terminat: cât de departe ai ajuns, spus cu voce tare și arătat pe ecran.¶
+ƒ gameOver(h4•vânătoare) [
+		Grup(
+			Stivă('|' 0.4m)
+			[
+				Fraza('⌛' faţă: "Noto Color Emoji" dimensiune: 3m)
+				Fraza('Timpul s-a terminat!' dimensiune: 2m)
+				Fraza(
+					`ai găsit \h4.găsit2.lungime() → ''\ din 5`
+					dimensiune: 0.7m
+				)
+			]
+		)
+		Cuvânt(
+			"Time is up. Game over. You found \h4.găsit2.lungime() → ''\ of 5."
+		)
+	]
+
+¶Spune cu voce tare lucrul curent, pentru jucătorii care nu pot citi mesajul sau vor doar să îl asculte. Say vorbește doar când textul lui se schimbă — deci anunță fiecare lucru nou o singură dată, nu la fiecare citire a camerei.¶
+ƒ anunță(h5•vânătoare) Cuvânt(
+		'găsește ' + h5.țintă2.etichetă
+	)
+
+¶Câștigul este verificat primul, deci terminarea timpului poate însemna doar o înfrângere.¶
+Etapă(
+	(vânătoare2.găsit2.lungime() ≥ 5)
+	? finală()
+		((stânga2 ≤ 0s) ? gameOver(vânătoare2) [
+					îndemn(vânătoare2)
+					anunță(vânătoare2)
+				])
+	loc: Loc(0m 0m -12m)
+)

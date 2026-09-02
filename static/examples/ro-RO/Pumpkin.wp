@@ -1,0 +1,30 @@
+🎃
+Dovleac
+=== start
+¶Un dovleac cu față sculptată care pâlpâie și reapare într-un loc nou în fiecare secundă.¶
+timp: Timp(1000ms)
+loc2: Loc(0m 0m) … ∆ timp … Loc(
+			Aleatoriu(-4m 4m)
+			Aleatoriu(-4m 4m)
+			Aleatoriu(-4m 0m)
+		)
+opacitate2: 1 … ∆ timp … Aleatoriu(0.25 1)
+arată: ⊤ … ∆ timp … ~arată
+dovleac: Fraza(
+		'🎃'
+		opacitate: opacitate2
+		loc: loc2
+		intrând: Secvenţă(
+			{
+				0%: Poză(scară: 1.25 rotaţie: -21°)
+				20%: Poză(scară: 0.75 rotaţie: 13°)
+				40%: Poză(scară: 1 rotaţie: -7°)
+				60%: Poză(scară: 1.25 rotaţie: 19°)
+				100%: Poză()
+			}
+			0.5s
+			conta: 3x
+		)
+	)
+
+Etapă(arată ? [dovleac] [] fundal: Culoare(0% 0 0°))

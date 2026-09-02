@@ -1,0 +1,66 @@
+4
+Madlib
+=== start
+¶Un madlib: aporta las palabras y obtén una historia disparatada.¶
+
+¶Esto lleva el registro de los tipos de palabras que necesitamos y cuántas de cada una¶
+•categoríaGramatical(etiqueta•"" cantidad2•#)
+
+¶Estas son las palabras que necesitamos para el madlib de abajo.¶
+turnos: [
+		categoríaGramatical('adjetivos' 4)
+		categoríaGramatical('sustantivos' 3)
+		categoríaGramatical('verbos, tiempo pasado' 3)
+		categoríaGramatical('adverbios' 4)
+	]
+
+chat: Charla()
+¶Cada vez que se envía un chat, pasa a la siguiente categoría gramatical¶
+turno: 1 … ∆ chat … turno + 1
+¶Cada vez que se envía un chat, divide el chat por espacios y agrégalo a las respuestas¶
+respuestas•[['']]: [] … ∆ chat … [:respuestas chat ÷ ' ']
+
+¶Le damos números a estos índices para hacer el madlib más fácil de leer¶
+adjetivos: 1
+sustantivos: 2
+adverbios: 4
+verbos: 3
+
+preguntar: respuestas.longitud() < 4
+
+Escenario(
+	[
+		¶Antes de tener las respuestas, pide las respuestas¶
+		preguntar ?
+			Grupo(
+				Pila('|' 0.25m)
+				[
+					Frase(
+						`\turnos[turno].cantidad2\ \turnos[turno].etiqueta\ ¡por favor!`
+					)
+					Frase('(separadas por espacios)' 0.5m)
+				]
+			)
+			¶Después de tener las respuestas, muestra el madlib¶
+			(
+				¶Haz una lista de oraciones con las respuestas¶
+				oraciones: [
+						`Hoy fui al zoológico.`
+						`Vi un(a) *\respuestas[sustantivos][1]\* *\respuestas[adverbios][1]\* saltando de un lado a otro en su árbol.`
+						`Él *\respuestas[verbos][1]\* *\respuestas[adverbios][2]\* por el gran túnel que llevaba a su *\respuestas[adjetivos][2]\* *\respuestas[sustantivos][2]\*.`
+						`Conseguí unos cacahuates y se los pasé por la jaula a un *\respuestas[sustantivos][3]\* gigante y gris que se alzaba sobre mi cabeza.`
+						`Darle de comer a ese animal me dio hambre.`
+						`Fui a buscar una *\respuestas[adjetivos][3]\* bola de helado.`
+						`Me llenó el estómago.`
+						`Después *\respuestas[verbos][2]\* *\respuestas[adverbios][2]\* para alcanzar nuestro camión.`
+						`Cuando llegué a casa le *\respuestas[verbos][3]\* a mi mamá un día *\respuestas[adjetivos][4]\* en el zoológico.`
+					]
+				¶Tradúcelas en frases¶
+				Grupo(
+					Pila('<')
+					oraciones.traducir(ƒ(oración) Frase(oración))
+				)
+			)
+	]
+	cara: 'Phudu'
+)

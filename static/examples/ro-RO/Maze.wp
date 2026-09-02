@@ -1,0 +1,115 @@
+↑
+Labirint
+=== start/en
+¶A maze is a 2D grid of emoji, with some functions for checking the state at particular grid postions.
+Mazes are generated randomly.¶/en
+•labirint() (
+	grilă•[[''|ø]]:
+		[
+			['🎬' '❤' '❌' ø ø]
+			['❤' ø ø ø ø]
+			['🐈' '😀' '💬' '🫥' '😞']
+			[ø '👍' ø ø '😕']
+			['🤩' '🥹' ø '😫' '😡']
+		]
+
+	ƒ celulă2(rând•# coloană•#) (
+			celule: grilă[rând]
+			celule•[] ? celule[coloană] ø
+		)
+
+	ƒ permis(rând2•# coloană2•#) celulă2(rând2 coloană2)•''
+)
+
+labirint2: labirint()
+
+•stare(rând3•# coloană3•# pași•#)
+(
+	ƒ jos2() stare(rând3 + 1 coloană3 pași + 1)
+	ƒ sus() stare(rând3 - 1 coloană3 pași + 1)
+	ƒ stânga2() stare(rând3 coloană3 - 1 pași + 1)
+	ƒ dreapta() stare(rând3 coloană3 + 1 pași + 1)
+)
+
+ƒ permis2(stare2•stare rând4•# coloană4•#) labirint2.permis(
+		stare2.rând3 + rând4
+		stare2.coloană3 + coloană4
+	)
+
+direcție: Alegere()
+stare3•stare: stare(1 1 0) … ∆ direcție …
+		((direcție = "left") & permis2(stare3 0 -1)) ? stare3.stânga2(
+			)
+			((direcție = "right") & permis2(stare3 0 1)) ? stare3.dreapta(
+				)
+				((direcție = "up") & permis2(stare3 -1 0)) ? stare3.sus(
+					)
+					((direcție = "down") & permis2(stare3 1 0)) ? stare3.jos2(
+						)
+						stare3
+
+curent: (
+		celulă3: labirint2.celulă2(
+				stare3.rând3
+				stare3.coloană3
+			)
+		celulă3 ?? ' ')
+sus2: labirint2.celulă2(stare3.rând3 - 1 stare3.coloană3)•''
+jos3: labirint2.celulă2(stare3.rând3 + 1 stare3.coloană3)•''
+stânga3: labirint2.celulă2(
+		stare3.rând3
+		stare3.coloană3 - 1
+	)•''
+dreapta2: labirint2.celulă2(
+		stare3.rând3
+		stare3.coloană3 + 1
+	)•''
+aCâștigat: curent = '🤩'
+
+Etapă(
+	[
+		Grup(
+			Grilă(3 3 0.25m)
+			[
+				ø
+				Fraza(
+					'↑'
+					nume: 'up'
+					selectabil: sus2
+					odihnă: Poză(opacitate: sus2 ? 1 0.2)
+				)
+				ø
+				Fraza(
+					'←'
+					nume: 'left'
+					selectabil: stânga3
+					odihnă: Poză(opacitate: stânga3 ? 1 0.2)
+				)
+				Fraza(
+					curent
+					odihnă: aCâștigat ?
+						Secvenţă.rotire(durată: 1s stil: 'straight')
+						Poză()
+				)
+				Fraza(
+					'→'
+					nume: 'right'
+					selectabil: dreapta2
+					odihnă: Poză(opacitate: dreapta2 ? 1 0.2)
+				)
+				ø
+				Fraza(
+					'↓'
+					nume: 'down'
+					selectabil: jos3
+					odihnă: Poză(opacitate: jos3 ? 1 0.2)
+				)
+				ø
+			]
+		)
+	]
+	loc: Loc(0m 0m -3m)
+	faţă: 'Noto Emoji'
+	fundal: Culoare(0 0 0°)
+	odihnă: Poză(Culoare(100 100 0°))
+)

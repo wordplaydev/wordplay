@@ -1,0 +1,28 @@
+ぁ
+Hiragana
+=== start
+¶Yer çekimiyle düşen hiragana harfleri; hangi yönün aşağı olduğunu değiştirmek için tıkla.¶
+sayaç: 32
+
+yerÇekimi•#m/s^2: 15m/s^2 … ∆ Düğme() … -yerÇekimi
+
+hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
+
+harfler2: sayaç → [].tercümeetmek(
+		ƒ(sayı2 dizin2)
+			İfadeetmek(
+				hiragana[sayı2]
+				yer: Hareket(
+					Yer((dizin2 - (sayaç ÷ 2)) × 0.2m 10m)
+					Hız(açı: Rastgele(-5 5) × 1°/s)
+				)
+				konu: Konu(zıplama: 0.3)
+			)
+	)
+
+
+Sahne(
+	[:harfler2 Şekil(Dikdörtgen(-40m 0m 40m -2m))]
+	yerçekimi: yerÇekimi
+	yer: Yer(0m 5m -20m)
+)

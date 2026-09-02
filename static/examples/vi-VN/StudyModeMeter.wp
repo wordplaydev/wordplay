@@ -1,0 +1,78 @@
+⏳
+Đồng Hồ Đo Chế Độ Học
+=== start/en
+¶Nhấn để thêm giờ học và xem đồng hồ đo chuyển từ bình yên sang tập trung rồi đến quá tải.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+hànhĐộng: Sựlựachọn()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+giờHọc:
+	0 …
+	∆ hànhĐộng …
+		hànhĐộng = 'reset' ?
+			0
+			giờHọc + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+giảiThích:
+	'Nhấn “Thêm Giờ Học +1” để tăng thời gian học. Nhấn “Đặt lại” để bắt đầu lại.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+vănBảnSốGiờ:
+	'Bạn đã học ' + giờHọc → '' + ' giờ.'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+tâmTrạng:
+	giờHọc < 3 ?
+		'🌿 CHẾ ĐỘ BÌNH YÊN — nhấn để thêm thời gian học'
+		giờHọc < 6 ?
+			'📚 CHẾ ĐỘ TẬP TRUNG — bạn đang trong vùng làm việc hiệu quả!'
+			'🔥 CHẾ ĐỘ QUÁ TẢI — hãy nghỉ ngơi và "đặt lại"'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp()
+			[
+				Cụmtừ('Đồng Hồ Đo Chế Độ Học' kíchcỡ: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				Cụmtừ(giảiThích kíchcỡ: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				Cụmtừ(vănBảnSốGiờ kíchcỡ: 0.4m)
+
+				Cụmtừ(tâmTrạng kíchcỡ: 0.75m)
+
+				Nhóm(
+					Hàngngang(đệm: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						Cụmtừ(
+							'Thêm Giờ Học +1'
+							cóthểlựachọn: ⊤
+							tên: 'thêm'
+							màusắc: Màusắc(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						Cụmtừ(
+							'Đặt lại'
+							cóthểlựachọn: ⊤
+							tên: 'reset'
+							màusắc: Màusắc(69% 47 271°)
+						)
+					]
+				)
+			]
+			khuônmặt: "Aclonica"
+		)
+	]
+)

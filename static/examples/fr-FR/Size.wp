@@ -1,0 +1,15 @@
+s
+Taille
+=== start/en
+¶Clique ou appuie sur une touche pour passer de GRAND à petit sur des couleurs changeantes.¶
+word/en,字/zh: (Bouton(ø) | ∆ Clé()) ? Phrase(
+			"BIG"/en"大"/zh
+			taille: 5m
+		) Phrase("small"/en"小"/zh taille: 1m)
+time/en,時間/zh: ((Temps(1234ms)) ÷ 1ms) × 1°
+
+Scène(
+	[word]
+	lieu: Lieu(0m 0m -5m)
+	arrièreplan: Couleur(80% 28 time)
+)

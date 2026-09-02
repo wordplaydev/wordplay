@@ -1,0 +1,201 @@
+👩‍💻
+Khoảng Trống Mã Số
+=== start/en
+¶Dự án này trình bày dữ liệu công khai có thật về số phụ nữ tốt nghiệp ngành khoa học máy tính tại Hoa Kỳ, và cách con số đó đã thay đổi theo thời gian.
+
+Dự án dùng hai bảng dữ liệu, một bảng tên là years và một bảng tên là fields, rồi cho bạn chọn một trong ba khung nhìn bằng các nút ở phía trên. Mỗi khung nhìn là một biểu đồ cột làm từ biểu tượng phụ nữ, kèm theo lời giải thích bằng ngôn ngữ đơn giản ở chân trang.¶
+↓ years
+↓ fields
+
+¶Hàm fill tạo ra một thanh đặc. Nó lặp lại biểu tượng cảm xúc người phụ nữ count lần và ghép chúng thành một đoạn văn bản duy nhất không có khoảng trống, để hàng hiện ra như một thanh liền mạch thay vì các dấu chấm riêng lẻ.¶
+ƒ tôMàu(đếm2•#) (đếm2 → []).dịch(ƒ() '👩').thamgia('')
+
+¶Hàm chart vẽ một biểu đồ cột từ ba danh sách tương ứng nhau: một nhãn, một độ dài thanh bằng biểu tượng cảm xúc, và một giá trị. Mỗi thanh là một hàng trong một chồng canh trái, vì vậy tất cả các thanh đều bắt đầu từ cùng một cạnh và có thể so sánh độ dài của chúng trực tiếp. Nhãn và giá trị nằm ở cuối mỗi thanh trên cùng một hàng, giúp chúng luôn thẳng hàng với thanh của mình.¶
+ƒ biểuĐồ(nhãn•[''] đơnVị•[#] giáTrị2•[''])
+	Nhóm(
+		Ngănxếp('<' đệm: 0.2m)
+		đơnVị.dịch(
+			ƒ(đv•# i•#)
+				Nhóm(
+					Hàngngang('|' đệm: 0.3m)
+					[
+						Cụmtừ(tôMàu(đv) kíchcỡ: 0.3m)
+						Cụmtừ(
+							`\nhãn[i]\ \giáTrị2[i]\`
+							kíchcỡ: 0.28m
+							màusắc: Màusắc(45% 0 0°)
+						)
+					]
+				)
+		)
+	)
+
+¶Khung nhìn 1 — "Thăng và trầm".Với mỗi năm trong dữ liệu, ta vẽ một thanh có độ dài bằng phần trăm số bằng cấp khoa học máy tính do phụ nữ giành được. Mỗi biểu tượng cảm xúc người phụ nữ tượng trưng cho khoảng 5 phần trăm, vì vậy ta chia phần trăm cho 5 để có độ dài thanh.¶
+hàngThờiGian: (years ⎡?năm phầnTrăm⎦ ⊤) → []
+khungNhìnThờiGian: biểuĐồ(
+		hàngThờiGian.dịch(ƒ(hàng2) hàng2.năm)
+		hàngThờiGian.dịch(ƒ(hàng3) (hàng3.phầnTrăm ÷ 5).tròn())
+		hàngThờiGian.dịch(
+			ƒ(hàng4) (hàng4.phầnTrăm.tròn() → '') + '%'
+		)
+	)
+
+¶Khung nhìn 2 — "Một ngành đi lệch nhịp".Ta so sánh tỉ lệ phụ nữ giữa các ngành học khác nhau trong một năm gần đây. Các hàng đã được sắp xếp từ nhiều phụ nữ nhất đến ít nhất, vì vậy khoa học máy tính rơi xuống cuối biểu đồ.¶
+hàngLĩnhVực: (fields ⎡?lĩnhVực phầnTrăm2⎦ ⊤) → []
+khungNhìnLĩnhVực: biểuĐồ(
+		hàngLĩnhVực.dịch(ƒ(hàng5) hàng5.lĩnhVực)
+		hàngLĩnhVực.dịch(ƒ(hàng6) (hàng6.phầnTrăm2 ÷ 5).tròn())
+		hàngLĩnhVực.dịch(ƒ(hàng7) (hàng7.phầnTrăm2 → '') + '%')
+	)
+
+¶Khung nhìn 3 — "Nhiều phụ nữ hơn, tỉ lệ nhỏ hơn".Đây là hai phép đo khác nhau, vì vậy ta vẽ chúng thành hai biểu đồ riêng biệt đặt cạnh nhau. Biểu đồ bên trái đếm số phụ nữ (mỗi biểu tượng cảm xúc là khoảng 2.000 người); biểu đồ bên phải cho thấy tỉ lệ của họ trong tổng số bằng cấp (mỗi biểu tượng cảm xúc là khoảng 5 phần trăm). Trong mỗi biểu đồ, hai thanh dùng cùng một đơn vị, nên có thể so sánh được: số lượng gần như tăng gấp đôi trong khi tỉ lệ lại giảm.¶
+hàngSốLượng: (years ⎡?năm phụNữ phầnTrăm⎦ ((năm = '1984') | (năm = '2022'))) → []
+cũ: hàngSốLượng[1]
+hiệnTại: hàngSốLượng[2]
+
+biểuĐồPhụNữ: biểuĐồ(
+		['1984' '2022']
+		[
+			(cũ.phụNữ ÷ 2000).tròn()
+			(hiệnTại.phụNữ ÷ 2000).tròn()
+		]
+		[cũ.phụNữ → '' hiệnTại.phụNữ → '']
+	)
+biểuĐồTỉLệ: biểuĐồ(
+		['1984' '2022']
+		[
+			(cũ.phầnTrăm ÷ 5).tròn()
+			(hiệnTại.phầnTrăm ÷ 5).tròn()
+		]
+		[
+			(cũ.phầnTrăm.tròn() → '') + '%'
+			(hiệnTại.phầnTrăm.tròn() → '') + '%'
+		]
+	)
+khungNhìnSốLượng: Nhóm(
+		Hàngngang('<' đệm: 1.5m)
+		[
+			Nhóm(
+				Ngănxếp('|' đệm: 0.3m)
+				[
+					Cụmtừ(
+						`/Phụ nữ nhận bằng khoa học máy tính/`
+						kíchcỡ: 0.28m
+					)
+					biểuĐồPhụNữ
+				]
+			)
+			Nhóm(
+				Ngănxếp('|' đệm: 0.3m)
+				[
+					Cụmtừ(
+						`/Tỉ lệ của họ trong tổng số bằng cấp khoa học máy tính/`
+						kíchcỡ: 0.28m
+					)
+					biểuĐồTỉLệ
+				]
+			)
+		]
+	)
+
+¶Ba nút bấm. Choice cho biết tên của Phrase có thể chọn mà người đọc bấm vào lần cuối. Chúng ta bắt đầu ở chế độ xem thời gian và cập nhật mỗi khi lựa chọn thay đổi.¶
+lựaChọn: Sựlựachọn()
+hiệnTại2: 'time' … ∆ lựaChọn … lựaChọn
+
+thẻ: Nhóm(
+		Hàngngang('|' đệm: 0.6m)
+		[
+			Cụmtừ(
+				'▸ Theo thời gian'
+				cóthểlựachọn: ⊤
+				tên: 'time'
+				kíchcỡ: 0.35m
+				màusắc: Màusắc(60% 50 20°)
+			)
+			Cụmtừ(
+				'▸ Theo ngành'
+				cóthểlựachọn: ⊤
+				tên: 'fields'
+				kíchcỡ: 0.35m
+				màusắc: Màusắc(60% 50 140°)
+			)
+			Cụmtừ(
+				'▸ Số lượng so với tỉ lệ'
+				cóthểlựachọn: ⊤
+				tên: 'số lượng'
+				kíchcỡ: 0.35m
+				màusắc: Màusắc(60% 50 280°)
+			)
+		]
+	)
+
+¶Chọn biểu đồ và phần chân trang cho khung nhìn hiện tại.¶
+phầnThân: hiệnTại2 = 'time' ? khungNhìnThờiGian (hiệnTại2 = 'fields' ? khungNhìnLĩnhVực khungNhìnSốLượng)
+
+chânTrang:
+	hiệnTại2 = 'time' ?
+		Cụmtừ(
+			`/Tỉ lệ bằng cử nhân khoa học máy tính ở Hoa Kỳ do phụ nữ giành được đạt đỉnh 37% vào năm 1984, sau đó giảm trong khoảng 25 năm xuống còn khoảng 18% vào năm 2008, và chỉ hồi phục rất chậm. Mỗi 👩 ≈ 5%. Nguồn: NCES Digest of Education Statistics, Bảng 325.35./`
+			bọc: 9m
+			kíchcỡ: 0.26m
+		)
+		hiệnTại2 = 'fields' ?
+			Cụmtừ(
+				`/Vào khoảng năm 2018, phụ nữ giành phần lớn bằng cấp ngành tâm lý học và sinh học, khoảng một nửa bằng cấp ngành toán học và khoa học xã hội, nhưng chỉ dưới 20% bằng cấp khoa học máy tính — gần như là tỉ lệ thấp nhất trong mọi ngành. Mỗi 👩 ≈ 5%. Nguồn: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
+				bọc: 9m
+				kíchcỡ: 0.26m
+			)
+			Cụmtừ(
+				`/Năm 1984, khoảng 12.000 phụ nữ giành bằng khoa học máy tính — chiếm 37%. Đến năm 2022, con số này vượt quá 24.000, gấp đôi số người, nhưng chỉ còn 23%: ngành này phát triển nhanh đến mức số lượng nam giới còn tăng nhanh hơn nữa. Một con số đang tăng vẫn có thể là một tỉ lệ đang thu hẹp. Nguồn: NCES./`
+				bọc: 9m
+				kíchcỡ: 0.26m
+			)
+
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp('|' đệm: 0.4m)
+			[
+				Cụmtừ(
+					`KHOẢNG CÁCH MÃ SỐ`
+					kíchcỡ: 0.7m
+					khuônmặt: 'Monoton'
+				)
+				Cụmtừ(
+					`/Ai giành được bằng khoa học máy tính?/`
+					kíchcỡ: 0.35m
+				)
+				thẻ
+				phầnThân
+				chânTrang
+			]
+		)
+	]
+	khuônmặt: 'Quicksand'
+)
+=== years/en
+¶Phần trăm bằng cử nhân khoa học máy tính và thông tin ở Hoa Kỳ do phụ nữ giành được, theo từng năm, cùng với số lượng phụ nữ và tổng số bằng cấp. Nguồn: National Center for Education Statistics, Digest of Education Statistics, Bảng 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+⎡năm•'' phụNữ•# tổngSố•# phầnTrăm•#⎦
+⎡'1971' 324 2388 13.6⎦
+⎡'1976' 1118 5652 19.8⎦
+⎡'1984' 12023 32439 37.1⎦
+⎡'1990' 8188 27347 29.9⎦
+⎡'1995' 6749 24506 27.5⎦
+⎡'2001' 12219 44142 27.7⎦
+⎡'2005' 11986 54111 22.2⎦
+⎡'2008' 6792 38523 17.6⎦
+⎡'2011' 7589 43066 17.6⎦
+⎡'2015' 10742 59586 18⎦
+⎡'2019' 18316 88638 20.7⎦
+⎡'2022' 24542 108503 22.6⎦
+=== fields/en
+¶Phần trăm bằng cử nhân ở Hoa Kỳ do phụ nữ giành được trong từng ngành học, vào khoảng năm 2018, sắp xếp từ tỉ lệ cao nhất đến thấp nhất. Nguồn: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+⎡lĩnhVực•'' phầnTrăm2•#⎦
+⎡'Tâm lý học' 72⎦
+⎡'Sinh học' 60⎦
+⎡'Khoa học xã hội' 55⎦
+⎡'Toán học & thống kê' 42⎦
+⎡'Khoa học tự nhiên' 41⎦
+⎡'Khoa học Trái Đất' 38⎦
+⎡'Kỹ thuật' 22⎦
+⎡'Khoa học máy tính' 20⎦

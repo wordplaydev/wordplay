@@ -1,0 +1,40 @@
+H
+Resep Adobo
+=== start/en
+¶Resep adobo ayam Filipina, adegan demi adegan.¶
+
+¶Ini adalah daftar adegan yang akan ditampilkan¶
+kalimat: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Adobong Manók @lamamel/adobo! (gerakkan mouse untuk makan)`)
+		(`Masarap! @lamamel/emptyadobo`)
+	]
+
+¶Ini adalah daftar kalimat yang hanya boleh dilanjutkan dengan menggerakkan mouse.¶
+pindahkanKalimat: [9 11]
+
+¶Kalimat saat ini dimulai dari 1, dan bertambah jika mouse bergerak ke titik tertentu di layar, atau jika tombol tertentu ditekan untuk kalimat lainnya.¶
+titik2: Penunjuk()
+kalimatSaatIni•#: 1 …
+	pindahkanKalimat.memiliki(kalimatSaatIni) ?
+		(titik2.X > 2m) & (titik2.y > 3m)
+		∆ Tombol() | ∆ Kunci()
+		…
+		(kalimatSaatIni <
+				kalimat.panjang()) ?
+			kalimatSaatIni + 1
+			kalimatSaatIni
+
+Panggung(
+	[Frasa(kalimat[kalimatSaatIni] membungkus: 10m)]
+	menghadapi: 'Short Stack'
+)

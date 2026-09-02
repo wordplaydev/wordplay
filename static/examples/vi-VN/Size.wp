@@ -1,0 +1,15 @@
+s
+Kích thước
+=== start/en
+¶Nhấn chuột hoặc phím để đổi giữa TO và nhỏ trên những màu sắc đang đổi.¶
+word/en,字/zh: (Cáinút(ø) | ∆ Chìakhóa()) ? Cụmtừ(
+			"BIG"/en"大"/zh
+			kíchcỡ: 5m
+		) Cụmtừ("small"/en"小"/zh kíchcỡ: 1m)
+time/en,時間/zh: ((Thờigian(1234ms)) ÷ 1ms) × 1°
+
+Sânkhấu(
+	[word]
+	vịTrí: VịTrí(0m 0m -5m)
+	lýlịch: Màusắc(80% 28 time)
+)

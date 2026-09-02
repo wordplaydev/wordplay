@@ -1,0 +1,642 @@
+🔨
+Blocs de construction
+=== start/en
+¶Blocs de construction — couper, porter et empiler. Tu es le petit personnage sur un champ vert parsemé d'arbres et de rochers. Marche avec les touches fléchées ; tu te tournes vers l'endroit où tu marches, et le curseur flottant montre la cellule sur laquelle tu es sur le point d'agir.
+
+La touche Espace fait les deux actions, et le curseur te dit laquelle. Quand le tas devant toi monte au-dessus de tes pieds, le curseur est une 🪏 et Espace fait tomber son sommet ; quand le tas est à la hauteur de tes pieds ou en dessous, le curseur est un 🔨 et Espace empile un bloc dessus. Donc récolter, c'est juste marcher vers un arbre et appuyer sur Espace, et construire vers le haut veut dire grimper en avançant. Marche sur un morceau détaché pour le ramasser — un arbre donne du 🪵 bois, un rocher donne une 🧱 brique — et appuie sur Maj pour changer lequel tu empileras.
+
+Tu ne peux atteindre qu'un seul bloc au-dessus de tes propres pieds, et le curseur s'efface quand quelque chose est hors de portée. Un rocher fait deux de haut, donc tu peux l'aplatir depuis le sol — mais un arbre fait trois, donc sa cime a besoin de hauteur. Appuie sur j pour sauter et frapper au sommet, ou empile un bloc, monte dessus, et travaille à partir de là. Marcher ne fait jamais grimper, donc tu peux toujours te placer face à quelque chose et agir dessus.
+
+Les blocs effacés montrent la structure que tu essaies de faire, et chacun devient solide dès que tu le reproduis. Reproduis-les tous et tu gagnes — tout le reste que tu laisses traîner ne regarde que toi, donc une marche que tu as construite pour grimper peut simplement rester là où elle est.¶
+
+¶Le monde est une grille de cellules à nombres entiers, et les mètres n'apparaissent que lors du dessin. Cela garde chaque position exacte : se tenir à côté de quelque chose, s'empiler sur quelque chose, et atteindre le but sont tous simplement des nombres entiers égaux entre eux, donc rien ne dérive jamais d'un demi-bloc.
+
+Le terrain ne fait volontairement que cinq cellules de profondeur, et cela est lié à la proximité de la caméra — voir la caméra près du bas.¶
+xMin: -4
+xMax: 4
+zMin: 0
+zMax: 4
+yMax: 4
+
+¶À quelle distance sous le niveau des yeux se trouve le sol, en cellules. Plus la caméra est proche, plus tout s'affiche grand, et plus cela pousse le terrain vers le bas de l'écran, donc ce réglage et la distance de la caméra doivent bouger ensemble.¶
+chuteAuSol: 0.8
+
+¶À quelle distance derrière toi la caméra se place, en cellules. Cela seul détermine la taille de tout ce qu'on voit : la scène divise par la distance à la caméra, donc trois cellules en arrière t'affichent environ deux fois et demie plus grand que ta taille réelle.¶
+arrièreCaméra: 3
+
+¶À quelle distance de l'origine se trouve tout le terrain. La scène met le monde à l'échelle par un sur la position de la caméra elle-même, et chaque élément par l'inverse, ce qui s'annule — sauf quand la position de la caméra atteint zéro, où toute la scène s'aplatit puis se retourne. La caméra se place à cameraBack cellules derrière toi, donc placer le terrain aussi loin garde la position de la caméra confortablement négative, même quand tu marches jusqu'à la dernière rangée. Cela ne change rien à l'apparence de quoi que ce soit ; cela sert juste à éloigner le calcul de zéro.¶
+arrièreMonde: 4
+
+¶Le centre d'une cellule en mètres. La moitié décale x vers l'arrière parce qu'une phrase est placée par son bord gauche.¶
+ƒ àX(c2•#) ((c2 - 0.5) · 1m)
+ƒ àY(c3•#) ((c3 - chuteAuSol) · 1m)
+ƒ àZ(c4•#) ((c4 - arrièreMonde) · 1m)
+
+¶Combien de temps le marteau reste armé, et combien d'images tu restes en l'air après un saut. Ce temps en l'air est ce qui rend le saut utilisable : sans lui, un saut ne durerait qu'une seule image, bien trop court pour appuyer sur une flèche, frapper, ou atterrir sur un bloc.¶
+ticsDeBalancement: 2
+ticsDeSuspension: 4
+
+¶Quelle part du monde derrière toi est encore dessinée. Voir la caméra ci-dessous pour comprendre pourquoi cela existe : plus la caméra est proche, moins on peut dessiner de rangées derrière toi avant que l'une d'elles ne se retrouve devant l'objectif et s'étale sur toute la vue.¶
+dessinerDerrière: 1
+
+¶À quelle hauteur au-dessus de tes propres pieds tu peux travailler. Un bloc, c'est ce qui rend la hauteur importante : un rocher fait deux de haut, donc tu peux l'aplatir depuis le sol, mais un arbre fait trois, donc tu dois sauter ou te tenir sur quelque chose pour atteindre sa cime — et cette même limite décide jusqu'où tu peux empiler.¶
+portée: 1
+
+¶Un cube posé dans une cellule. Son genre est l'émoji lui-même, donc dessiner un bloc n'a jamais besoin de recherche.¶
+•bloc(x2•# y2•# z2•# genre2•"")
+
+¶Un morceau détaché qui tombe au sol. Il se souvient de la cellule d'où il s'est détaché, donc sa première image se dessine là où était le bloc, et chaque image suivante se dessine là où il a atterri — c'est l'adoucissement propre de la phrase qui fait le vol. L'identifiant existe seulement pour lui donner son propre nom sur la scène, puisque deux morceaux peuvent atterrir sur une même cellule.¶
+•élément(id2•# x3•# z3•# depuisX•# depuisY•# depuisZ•# genre3•"" âge•#)
+
+¶Tout le jeu dans une seule valeur : la phase (1 = titre, 2 = en jeu, 3 = gagné), où tu te trouves et dans quelle direction tu as bougé en dernier, combien de temps tu peux rester en l'air dans un saut, ce que tu as en poche et quel matériau tu poserais, combien de coups il reste dans le marteau, l'identifiant de la prochaine pièce détachée, la structure à reproduire, et tout le reste du monde.¶
+•jeu(phase•# x4•# y3•# z4•# faceÀX•# faceÀZ•# suspendu•# bois•# brique•# sélectionné•"" balancement2•# identifiantSuivant•# but•[bloc] blocs•[bloc] objets•[élément])
+
+¶Un arbre, ce sont trois cubes empilés, et un rocher, deux — ce ne sont pas des objets uniques, mais plusieurs blocs dans une colonne, donc chaque pièce doit être détachée séparément au marteau. Les deux ont une largeur d'une colonne, ce qui permet de garantir, dès leur apparition, que deux blocs ne partagent jamais une cellule.¶
+formeArbre: [
+		bloc(0 0 0 '🌳')
+		bloc(0 1 0 '🌳')
+		bloc(0 2 0 '🌳')
+	]
+formeRocher: [bloc(0 0 0 '🪨') bloc(0 1 0 '🪨')]
+
+ƒ formeÀ(forme•[bloc] cx•# cz•#) forme.traduire(
+		ƒ(b2•bloc) bloc(cx b2.y2 cz b2.genre2)
+	)
+
+¶Ce que devient une pièce cassée.¶
+ƒ produitDe(genre4•"") genre4 ???
+		'🌳': '🪵'
+		'🪨': '🧱'
+		genre4
+
+¶Une nouvelle structure à reproduire : deux tours, chacune de un à trois blocs de haut, placées au hasard dans une paire de colonnes du milieu, sur la rangée arrière du terrain. Ces colonnes du milieu sont justement celles où les ressources n'apparaissent jamais, donc une tour ne peut jamais tomber à l'intérieur d'un arbre. Chaque colonne est pleine depuis le sol, car empiler pose toujours un bloc en haut d'une colonne — il est impossible de créer un bloc flottant, donc il est impossible d'en demander un. Six blocs est le maximum, ce qu'un terrain avec trois rochers donne en briques, donc même une structure entièrement en briques peut être construite.¶
+ƒ faireApparaîtreBut() (
+		profondeur2: zMax
+		paire2: [-1 0 1].mélangé().sousséquence(1 2)
+		paire2.combiné(
+			[]
+			ƒ(structure•[bloc] cx2•#)
+				structure.avecListe(
+					(Aléatoire(1 2) → []).traduire(
+						ƒ(niveau•#)
+							bloc(
+								cx2
+								(niveau - 1)
+								profondeur2
+								['🪵' '🧱'].aléatoire()
+							)
+					)
+				)
+		)
+	)
+
+¶Si une cellule fait partie du terrain ou non.¶
+ƒ dansLesLimites(cx3•# cz2•#) (cx3 ≥ xMin) & (cx3 ≤ xMax) & (cz2 ≥ zMin) & (cz2 ≤ zMax)
+
+¶La hauteur d'une colonne. Chaque colonne est pleine depuis le sol — les formes poussent ainsi, empiler ajoute en haut, et le marteau retire par le haut — donc simplement compter les blocs d'une colonne donne à la fois sa hauteur et la première cellule libre au-dessus.¶
+ƒ hauteurDeColonne(blocs2•[bloc] cx4•# cz3•#) blocs2.filtre(
+		ƒ(b3•bloc) (b3.x2 = cx4) & (b3.z2 = cz3)
+	).longueur(
+	)
+
+¶Si une cellule précise contient un type précis de bloc. Poser la question de cette façon — en comptant les correspondances plutôt qu'en récupérant un bloc qui pourrait ne pas exister — évite d'avoir à transporter et à déballer un « peut-être un bloc ».¶
+ƒ contenuDeCellule(blocs3•[bloc] cx5•# cy•# cz4•# genre5•"")
+	blocs3.filtre(
+		ƒ(b4•bloc) (b4.x2 = cx5) & (b4.y2 = cy) & (b4.z2 = cz4) & (b4.genre2 = genre5)
+	).longueur(
+	) > 0
+
+¶Un nouveau terrain : trois arbres et trois rochers, chacun sur sa propre colonne, à une profondeur aléatoire. Mélanger les colonnes en premier permet de rendre aléatoire l'endroit où poussent les arbres. Les colonnes les plus proches du milieu sont volontairement exclues, pour que rien ne pousse jamais là où tu te trouves ou là où les tours se placent.¶
+générerLesColonnes: [-4 -3 -2 2 3 4]
+
+ƒ générerLeMonde()
+	générerLesColonnes.mélangé().combiné(
+		[]
+		ƒ(champ•[bloc] cx6•# indice2•#)
+			champ.avecListe(
+				formeÀ(
+					((indice2 ≤ 3) ? formeArbre formeRocher)
+					cx6
+					Aléatoire(zMin zMax)
+				)
+			)
+	)
+
+¶Les blocs de l'objectif que tu n'as pas encore reproduits. C'est toute la boucle de retour d'information : les tours estompées disparaissent un bloc à la fois pendant que tu construis, et c'est aussi la raison pour laquelle un bloc estompé et un bloc réel ne partagent jamais une cellule — ce qui compte, car la scène trie seulement par profondeur, et deux choses à la même profondeur seraient tirées au hasard.¶
+ƒ objectifNonAtteint(blocs4•[bloc] but2•[bloc])
+	but2.filtre(
+		ƒ(g•bloc) ~contenuDeCellule(
+				blocs4
+				g.x2
+				g.y2
+				g.z2
+				g.genre2
+			)
+	)
+
+¶Tu as gagné une fois que chaque bloc de la structure est reproduit. Tout ce que tu as laissé traîner d'autre — des marches que tu as construites pour grimper, un tas que tu n'as jamais utilisé — ne compte pas, donc rien n'a besoin d'être rangé pour terminer. Une cellule objectif demande un matériau précis, donc un arbre qui se trouve par hasard au bon endroit ne peut pas la satisfaire.¶
+ƒ objectifAtteint(blocs5•[bloc] but3•[bloc]) objectifNonAtteint(
+		blocs5
+		but3
+	).longueur(
+	) = 0
+
+¶Fais un pas. Tu te tournes toujours pour faire face à la direction où tu as essayé d'aller, même quand le pas lui-même échoue, donc marcher vers quelque chose, c'est comment tu te tournes vers lui. Tu n'entres dans une cellule que si sa pile n'est pas plus haute que la hauteur où tu te trouves déjà — marcher ne fait jamais grimper, car un pas qui grimperait te porterait sur la chose même que tu essayais de détacher au marteau. Saute avec j pour te retrouver au-dessus d'un bloc, puis marche dessus.¶
+ƒ déplacer(jeu2•jeu dx•# dz•#) (
+		orienté: (jeu2.faceÀX:dx).faceÀZ:dz
+		xCible: jeu2.x4 + dx
+		zCible: jeu2.z4 + dz
+		~dansLesLimites(xCible zCible) ? orienté (
+				hauteur2: hauteurDeColonne(
+						orienté.blocs
+						xCible
+						zCible
+					)
+				(hauteur2 ≤ jeu2.y3) ? ((orienté.x4:xCible).z4:zCible) orienté
+			)
+	)
+
+¶Sauter, mais seulement à partir de quelque chose sur lequel tu te trouves déjà. Vérifier si tu es au-dessus de ton propre appui, voilà le vrai test : le temps de suspension qui se termine n'est pas la même chose qu'avoir atterri, donc un saut qui refuserait seulement pendant que la suspension dure pourrait être relancé en plein milieu de la chute, puis encore pendant la descente qui suit — en grimpant le ciel une cellule à la fois. C'est ainsi que tu atteins tout ce qui est hors de portée de bras sans devoir d'abord construire une marche.¶
+ƒ sauter(jeu3•jeu)
+	(jeu3.y3 > hauteurDeColonne(jeu3.blocs jeu3.x4 jeu3.z4)) ? jeu3
+		((jeu3.y3:(jeu3.y3 + 1).min(yMax)).suspendu:ticsDeSuspension)
+
+¶Frappe ce qui est devant toi. Seule la pièce du haut de cette colonne se détache, ce qui explique pourquoi un arbre demande trois coups — et cela veut dire que tu ne peux jamais laisser une pièce flotter, donc rien n'a jamais besoin de tomber. Tu ne peux atteindre qu'un bloc situé juste au-dessus de ton propre appui, donc une cime hors de portée ne se détache simplement pas ; monte plus haut et frappe encore. La pièce détachée roule une cellule plus loin, loin de toi, sauf si cette cellule est hors du terrain ou déjà occupée, dans ce cas elle tombe là où elle se trouvait. Le marteau s'arme, que tu touches ou non, donc même un coup manqué compte comme un coup.¶
+ƒ toucher(jeu4•jeu) (
+		xCible2: jeu4.x4 + jeu4.faceÀX
+		zCible2: jeu4.z4 + jeu4.faceÀZ
+		yDuSommet: hauteurDeColonne(jeu4.blocs xCible2 zCible2) - 1
+		¶Transformer directement la cellule cible en le morceau qu'elle donnerait évite de trimballer un possible-bloc : une colonne vide se transforme simplement en rien.¶
+		produit: (yDuSommet > (jeu4.y3 + portée)) ? '' jeu4.blocs.filtre(
+					ƒ(b5•bloc) (b5.x2 = xCible2) & (b5.y2 = yDuSommet) & (b5.z2 = zCible2)
+				).combiné(
+					''
+					ƒ(jusquʼici•"" b6•bloc) jusquʼici + produitDe(
+								b6.genre2
+							)
+				)
+		balancé: jeu4.balancement2:ticsDeBalancement
+		(produit = '') ? balancé (
+				restant: balancé.blocs.filtre(
+						ƒ(b7•bloc) ~((b7.x2 = xCible2) & (b7.y2 = yDuSommet) & (b7.z2 = zCible2))
+					)
+				atterrirX: xCible2 + jeu4.faceÀX
+				atterrirZ: zCible2 + jeu4.faceÀZ
+				effacer: dansLesLimites(atterrirX atterrirZ) & (hauteurDeColonne(
+								restant
+								atterrirX
+								atterrirZ
+							) = 0)
+				tombé: balancé.objets.avec(
+						élément(
+							balancé.identifiantSuivant
+							(effacer ? atterrirX xCible2)
+							(effacer ? atterrirZ zCible2)
+							xCible2
+							yDuSommet
+							zCible2
+							produit
+							0
+						)
+					)
+				((balancé.blocs:restant).objets:tombé).identifiantSuivant:(balancé.identifiantSuivant + 1)
+			)
+	)
+
+¶Empile un de tes blocs sur la colonne devant toi, si tu en as un à revendre et qu'il y a de la place au-dessus. La portée n'est pas vérifiée ici : ceci ne se déclenche que lorsque le tas est à hauteur de tes pieds ou plus bas, donc le nouveau bloc atterrit toujours à portée de main.¶
+ƒ placer(jeu5•jeu) (
+		xCible3: jeu5.x4 + jeu5.faceÀX
+		zCible3: jeu5.z4 + jeu5.faceÀZ
+		hauteur3: hauteurDeColonne(jeu5.blocs xCible3 zCible3)
+		stock: (jeu5.sélectionné = '🪵') ? jeu5.bois jeu5.brique
+		(~dansLesLimites(xCible3 zCible3) | (stock = 0) | (hauteur3 > yMax)) ? jeu5 (
+				dépensé: (jeu5.sélectionné = '🪵') ? (jeu5.bois:(jeu5.bois - 1)) (jeu5.brique:(jeu5.brique - 1))
+				dépensé.blocs:jeu5.blocs.avec(
+					bloc(xCible3 hauteur3 zCible3 jeu5.sélectionné)
+				)
+			)
+	)
+
+¶Selon que la barre d'espace construirait plutôt que casser. Le tas devant toi décide : à hauteur de tes pieds ou plus bas, tu ajoutes un bloc dessus, au-dessus de tes pieds, tu en fais tomber le sommet. Une seule touche fait les deux, et le curseur montre laquelle — donc construire vers le haut veut dire grimper en même temps, c'est à ça que sert le saut, et tu peux toujours reprendre ce que tu as mal placé en te plaçant à la même hauteur que lui.¶
+ƒ construction(jeu6•jeu)
+	hauteurDeColonne(
+		jeu6.blocs
+		(jeu6.x4 + jeu6.faceÀX)
+		(jeu6.z4 + jeu6.faceÀZ)
+	) ≤ jeu6.y3
+
+ƒ agir(jeu7•jeu) construction(jeu7) ? placer(jeu7) toucher(
+			jeu7
+		)
+
+¶Change le matériau que tu empilerais.¶
+ƒ basculer(jeu8•jeu) jeu8.sélectionné:((jeu8.sélectionné = '🪵') ? '🧱' '🪵')
+
+¶Une touche pressée pendant la partie. La touche arrive ici en simple texte plutôt que d'être comparée dans la réaction, ce qui garde les tests ∆ de la réaction concentrés sur le flux lui-même.¶
+ƒ appliquerTouchePressée(jeu9•jeu clé2•"")
+	(clé2 = 'Flèche gauche') ? déplacer(jeu9 -1 0)
+		((clé2 = 'Flèche droite') ? déplacer(jeu9 1 0)
+				((clé2 = 'Flèche vers le haut') ? déplacer(
+							jeu9
+							0
+							1
+						)
+						((clé2 = 'Flèche vers le bas') ? déplacer(
+									jeu9
+									0
+									-1
+								)
+								((clé2 = 'Espace') ? agir(jeu9)
+										((clé2 = 'Changement') ? basculer(jeu9)
+												((clé2 = 'j') ? sauter(jeu9) jeu9))))))
+
+¶Une nouvelle partie.¶
+ƒ nouveauJeu() jeu(
+		2
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		faireApparaîtreBut()
+		générerLeMonde()
+		[]
+	)
+
+¶Une image : fait vieillir les morceaux détachés pour qu'ils atterrissent, restent en suspens puis tombent au sommet de ce sur quoi tu te trouves, ramasse tout ce qui est sur ta cellule, laisse le marteau retomber, et vérifie les tours.¶
+ƒ avancerMonde(jeu10•jeu) (
+		vieilli: jeu10.objets.traduire(
+				ƒ(i•élément) (i.âge = 0) ? (i.âge:1) i
+			)
+		debout: hauteurDeColonne(jeu10.blocs jeu10.x4 jeu10.z4)
+		prochainAccroché: (jeu10.suspendu > 0) ? (jeu10.suspendu - 1) 0
+		prochainY: ((jeu10.suspendu = 0) & (jeu10.y3 > debout)) ? (jeu10.y3 - 1) jeu10.y3
+		¶Tu es toujours à la hauteur de la colonne sur laquelle tu te trouves, et tout ce qui s'y trouve aussi, donc partager une cellule suffit pour ramasser quelque chose.¶
+		sousLesPieds: vieilli.filtre(
+				ƒ(i2•élément) (i2.x3 = jeu10.x4) & (i2.z3 = jeu10.z4) & (i2.âge > 0)
+			)
+		gardé: vieilli.filtre(
+				ƒ(i3•élément) ~((i3.x3 = jeu10.x4) & (i3.z3 = jeu10.z4) & (i3.âge > 0))
+			)
+		aObtenuDuBois: sousLesPieds.filtre(
+				ƒ(i4•élément) i4.genre3 = '🪵'
+			).longueur(
+			)
+		aObtenuUneBrique: sousLesPieds.filtre(
+				ƒ(i5•élément) i5.genre3 = '🧱'
+			).longueur(
+			)
+		jeu(
+			(objectifAtteint(jeu10.blocs jeu10.but) ? 3 jeu10.phase)
+			jeu10.x4
+			prochainY
+			jeu10.z4
+			jeu10.faceÀX
+			jeu10.faceÀZ
+			prochainAccroché
+			(jeu10.bois + aObtenuDuBois)
+			(jeu10.brique + aObtenuUneBrique)
+			jeu10.sélectionné
+			((jeu10.balancement2 > 0) ? (jeu10.balancement2 - 1) 0)
+			jeu10.identifiantSuivant
+			jeu10.but
+			jeu10.blocs
+			gardé
+		)
+	)
+
+clé3: Clé()
+tic: Temps(150ms)
+tapoter: Bouton()
+
+¶Le battement de cœur, piloté par trois entrées. Pendant la partie, un tic fait avancer le monde, les touches font tout le reste, et un clic fait un coup. Depuis le titre ou l'écran de victoire, Entrée ou un clic démarre une nouvelle partie.¶
+jeu11•jeu: jeu(
+		1
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		faireApparaîtreBut()
+		générerLeMonde()
+		[]
+	)
+	… (∆ tic | ∆ clé3 | ∆ tapoter) …
+		(jeu11.phase = 2)
+		? (∆ tic ? avancerMonde(jeu11)
+					(∆ clé3 ? appliquerTouchePressée(jeu11 clé3) agir(
+								jeu11
+							)))
+			(∆ tic ? jeu11
+					(∆ clé3 ? ((clé3 = 'Entrer') ? nouveauJeu() jeu11)
+							(∆ tapoter ? nouveauJeu() jeu11)))
+
+¶Tout dans le monde est dessiné sans transition adoucie, donc un pas atterrit sur l'image où tu appuies plutôt que de glisser après toi, et chaque pièce porte un nom construit à partir de sa cellule. Le nom est la partie importante : la scène distingue les sorties par nom, et une liste sans noms est distinguée par position, donc casser un bloc au milieu d'une pile donnerait à chaque bloc au-dessus l'identité de son voisin et les ferait tous glisser d'un emplacement.¶
+¶A green emoji is about a quarter wider than it is tall, so the tiles are sized
+down to land exactly one to a cell and keep the ground lined up with the blocks
+standing on it.¶
+tailleDeLaTuile: 0.8m
+
+rangéesDeSol: [0 1 2 3 4].filtre(
+		ƒ(rangée•#) rangée ≥ (jeu11.z4 - dessinerDerrière)
+	).traduire(
+		ƒ(rangée2•#)
+			Phrase(
+				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+				tailleDeLaTuile
+				durée: 0s
+				nom: "g\rangée2\"
+				lieu: Lieu(àX(xMin) àY(-1) àZ(rangée2))
+			)
+	)
+
+vuesDeBlocs: jeu11.blocs.filtre(
+		ƒ(b8•bloc) b8.z2 ≥ (jeu11.z4 - dessinerDerrière)
+	).traduire(
+		ƒ(b9•bloc)
+			Phrase(
+				b9.genre2
+				1m
+				durée: 0s
+				nom: "b\b9.x2\,\b9.y2\,\b9.z2\"
+				lieu: Lieu(àX(b9.x2) àY(b9.y2) àZ(b9.z2))
+			)
+	)
+
+¶Les tours que tu vises, en transparence, et seulement les parties que tu n'as pas encore construites.¶
+vuesFantômes: objectifNonAtteint(jeu11.blocs jeu11.but).filtre(
+		ƒ(g2•bloc) g2.z2 ≥ (jeu11.z4 - dessinerDerrière)
+	).traduire(
+		ƒ(g3•bloc)
+			Phrase(
+				g3.genre2
+				1m
+				durée: 0s
+				opacité: 35%
+				nom: "h\g3.x2\,\g3.y2\,\g3.z2\"
+				lieu: Lieu(àX(g3.x2) àY(g3.y2) àZ(g3.z2))
+			)
+	)
+
+¶Un morceau détaché. C'est la seule chose sur scène qui glisse en douceur plutôt que de sauter d'un coup — sa première image est là où le bloc s'est cassé et le reste est là où il a atterri, et la transition entre les deux, c'est la culbute.¶
+vuesDʼobjets: jeu11.objets.filtre(
+		ƒ(i6•élément) i6.z3 ≥ (jeu11.z4 - dessinerDerrière)
+	).traduire(
+		ƒ(i7•élément)
+			Phrase(
+				i7.genre3
+				0.6m
+				durée: 0.3s
+				nom: "i\i7.id2\"
+				lieu: (i7.âge = 0)
+				? Lieu(
+						àX(i7.depuisX)
+						àY(i7.depuisY)
+						àZ(i7.depuisZ)
+					)
+					Lieu(
+						àX(i7.x3)
+						àY(hauteurDeColonne(jeu11.blocs i7.x3 i7.z3))
+						àZ(i7.z3)
+					)
+			)
+	)
+
+¶Une durée, c'est ce qui transforme un pas en mouvement du tout au tout : sans elle, la scène ne construit aucune animation pour lui et chaque déplacement se téléporte. Un poil moins d'un tic veut dire que chaque pas et chaque saut se stabilise juste avant que le suivant arrive. L'étirement pendant qu'il est en l'air, c'est le même tour que le marteau armé pour le coup — une pose différente maintenue aussi longtemps que dure l'état, plutôt qu'une animation qui démarre et s'arrête.¶
+vueDuJoueur: Phrase(
+		'🚶🏻‍♀'
+		1.1m
+		durée: 0.14s
+		nom: 'joueur'
+		échelle: ((jeu11.suspendu > 0) ? 1.08 1)
+		flipx: jeu11.faceÀX > 0
+		lieu: Lieu(àX(jeu11.x4) àY(jeu11.y3) àZ(jeu11.z4))
+	)
+
+¶Le curseur survole la cellule où ta prochaine action atterrira — l'espace libre au sommet de la pile que tu regardes. Un coup casse le bloc situé juste en dessous et une construction remplit la cellule qu'il marque, donc il n'y a jamais de doute sur ce que tu es en train de casser ou où un bloc va aller. Il flotte un peu au-dessus de cette cellule pour rester visible quand elle est juste devant toi et que ton propre corps la cacherait sinon. Il s'arme au moment où tu frappes et revient tout seul en douceur, ce qui se déclenche exactement au moment du coup plutôt qu'en boucle. Il se cache quand tu regardes vers le bord du terrain, puisqu'il n'y a rien là sur quoi agir.¶
+xCible4: jeu11.x4 + jeu11.faceÀX
+zCible4: jeu11.z4 + jeu11.faceÀZ
+yCible: hauteurDeColonne(jeu11.blocs xCible4 zCible4)
+
+¶Laquelle des deux actions la barre d'espace ferait à la colonne devant toi, et si cela donnerait un résultat : casser demande que le sommet soit à portée, et construire demande qu'il reste du matériau choisi dans tes poches. Le curseur s'estompe chaque fois que la réponse est non, donc une poche vide se lit de la même façon qu'un sommet hors de portée plutôt qu'une pression qui ne fait discrètement rien.¶
+constructionIci: yCible ≤ jeu11.y3
+àPortée: (yCible - 1) ≤ (jeu11.y3 + portée)
+stockIci: (jeu11.sélectionné = '🪵') ? jeu11.bois jeu11.brique
+peutAgir: constructionIci ? (stockIci > 0) àPortée
+
+vueDuCurseur: Phrase(
+		(constructionIci ? '🔨' '🪏')
+		0.85m
+		durée: 0.12s
+		nom: 'curseur'
+		rotation: ((jeu11.balancement2 > 0) ? -55° 0°)
+		opacité: (peutAgir ? 100% 30%)
+		lieu: Lieu(
+			àX(xCible4)
+			àY(yCible + 0.55)
+			àZ(zCible4)
+		)
+	)
+
+listeDeCurseurs: dansLesLimites(xCible4 zCible4) ? [
+			vueDuCurseur
+		] []
+
+¶Les poches et le matériau actuel, fixés à plat sur l'écran pour que la profondeur ne les rétrécisse jamais.¶
+affichageTêteHaute: [
+		Phrase(
+			"🪵 \jeu11.bois\   🧱 \jeu11.brique\   🔨 \jeu11.sélectionné\"
+			0.5m
+			lieu: Lieu(-6.6m 4.3m)
+		)
+	]
+
+titreDeLʼécran: (jeu11.phase = 3) ? "🎉 Tu l'as construit ! 🎉" '🔨 BLOCS DE CONSTRUCTION 🔨'
+ligneDeDépart: (jeu11.phase = 3) ? 'Appuie sur Entrée ou clique pour construire à nouveau' 'Appuie sur Entrée ou clique pour commencer'
+
+¶Les écrans sont posés bien à plat sur un terrain plein d'arbres et de personnages. Le groupe porte donc son propre fond opaque : des mots foncés sur des branches et des toits sont durs à lire, et un panneau uni les garde lisibles tout en laissant voir le monde autour.¶
+vueDeLʼécran: [
+		Groupe(
+			Empiler()
+			[
+				Phrase(titreDeLʼécran 1.1m nom: 's1')
+				Phrase(
+					'Les flèches font marcher · tu fais face au sens où tu as marché'
+					0.5m
+					nom: 's2'
+				)
+				Phrase(
+					'Espace agit sur le curseur : 🪏 casse · 🔨 construit'
+					0.5m
+					nom: 's3'
+				)
+				Phrase(
+					'Maj échange 🪵 🧱 · j saute pour atteindre plus haut'
+					0.5m
+					nom: 's4'
+				)
+				Phrase(
+					'Atteins un bloc plus haut · fais correspondre les blocs pâlis'
+					0.5m
+					nom: 's5'
+				)
+				Phrase(ligneDeDépart 0.7m nom: 's6')
+			]
+			arrièreplan: Couleur(90% 10 240°)
+		)
+	]
+
+¶La caméra garde une distance fixe derrière toi au lieu de rester immobile. Tu gardes donc la même taille à l'écran, peu importe la distance parcourue, et le terrain glisse devant toi, juste par-dessus ton épaule. Elle te suit aussi sur les côtés, donc marcher jusqu'au bord du terrain fait glisser le monde plutôt que de te laisser hors de vue.
+
+Le cinquième d'une cellule est un léger décalage de centrage : un personnage est dessiné depuis son bord gauche, qui se trouve à mi-cellule, et son dessin est un peu plus large que la cellule où il se tient.
+
+La scène met tout à l'échelle selon la distance à la caméra, et quelque chose situé à une seule cellule devant l'objectif s'affiche huit fois plus grand que nature. À cette distance, le monde à plus d'une rangée derrière toi n'est tout simplement pas dessiné. Les tours se trouvent toujours sur la dernière rangée, celle que la distance d'affichage ne peut jamais couper. Elles restent donc visibles depuis n'importe où tu peux marcher.¶
+zDeLaCaméra: ((jeu11.z4 - arrièreMonde - arrièreCaméra) · 1m)
+
+¶La caméra se règle sur la hauteur de ce sur quoi tu te trouves, plutôt que sur la tienne. Ainsi, grimper sur une pile fait monter la caméra avec toi et te garde dans le cadre, tandis qu'un saut reste bien un saut : pendant un saut, tu t'éloignes vraiment de la caméra au lieu de l'entraîner avec toi.¶
+yDeLaCaméra: (hauteurDeColonne(
+			jeu11.blocs
+			jeu11.x4
+			jeu11.z4
+		) · 1m)
+
+¶Le monde est dessiné de la même façon à chaque étape, donc les écrans de titre et de victoire montrent le terrain exactement comme tu vas y jouer, plutôt qu'une scène de menu séparée.¶
+coucheDuMonde: [
+		:vuesDeBlocs
+		:vuesFantômes
+		:vuesDʼobjets
+		vueDuJoueur
+		:listeDeCurseurs
+	]
+
+¶Tout ce qui te parle se trouve dans la superposition de la scène, fixée bien à plat sur l'écran, donc à l'abri de la caméra et de la profondeur. Placer les écrans ici plutôt que dans le monde est ce qui les garde lisibles : tout ce qui est placé dans le monde a une certaine profondeur, et les rangées de sol plus proches de la caméra seraient dessinées par-dessus.¶
+coucheDeSuperposition: (jeu11.phase = 2) ? affichageTêteHaute vueDeLʼécran
+
+¶Une pièce délogée est encore sur sa première image, la seule image qui la distingue des pièces déjà posées autour — le même âge que le dessin utilise pour décider s'il faut la faire démarrer là où le bloc s'est cassé.¶
+casséMaintenant: jeu11.objets.filtre(
+		ƒ(i8•élément) i8.âge = 0
+	)
+
+¶Indique si le marteau vient juste de frapper. Seul le fait de casser l'active, donc c'est ⊥ pour un appui qui a plutôt empilé un bloc.¶
+cassé: jeu11.balancement2 = ticsDeBalancement
+
+¶Le son du coup. Le bois frappe avec un tom et la pierre avec une grosse caisse, donc un arbre et un rocher ne sonnent pas pareil, et un coup qui n'a rien touché produit un tic léger — un coup manqué qu'on entend vaut mieux qu'un coup manqué qui ne fait aucun bruit.
+
+Vide le reste du temps, ce qui suffit : une note déjà lancée joue jusqu'au bout, donc le marteau continue de résonner même si cette liste se vide dès le battement suivant.¶
+notesDeCoup: cassé
+	? ((casséMaintenant.longueur() > 0) ? casséMaintenant.traduire(
+					ƒ(i9•élément) (i9.genre3 = '🪵') ? 5 1
+				) [3])
+		[]
+
+¶L'appui qui a frappé, et seulement celui-là. Le marteau reste armé jusqu'au battement suivant, donc sans cela, toute touche pressée pendant cette fenêtre ferait entendre le coup une deuxième fois.¶
+balancé2: ((∆ clé3) & (clé3 = 'Espace')) | (∆ tapoter)
+
+sonDeCoup: Musique(
+		Piste(
+			notesDeCoup
+			instrument: Instrument.batterie
+			boucle: ⊥
+		)
+		rejouer: balancé2
+		nom: 'toucher'
+	)
+
+¶Un endroit où se sentir bien pendant que tu travailles : une lente figure pentatonique à la flûte, une cloche qui lui répond de temps en temps, et un bourdon en dessous. Pentatonique parce qu'aucune de ses notes ne peut entrer en conflit, donc la boucle ne se résout jamais vers quelque chose de précis et ne sonne jamais faux quand le marteau tombe par-dessus. Seize temps de long plutôt que huit, donc ça prend du temps avant de revenir au début.¶
+ambiance: Musique(
+		[
+			Piste(
+				[1 ø ø 3 ø ø 5 ø ø 3 ø ø 2 ø ø ø]
+				instrument: Instrument.flûte
+				battement: 1beats
+				volume: 30%
+			)
+			Piste(
+				[ø ø ø ø ø ø 8 ø ø ø ø ø ø ø 6 ø]
+				instrument: Instrument.cloche
+				battement: 1beats
+				volume: 20%
+			)
+			Piste(
+				[{1 5} {1 5} {4 8} {1 5}]
+				instrument: Instrument.synthéNappe
+				battement: 4beats
+				volume: 25%
+			)
+		]
+		tempo: 60beats/min
+		gamme: Musique.pentatonique
+		volume: 45%
+		nom: 'nature'
+	)
+
+¶La récompense pour avoir fait correspondre chaque bloc pâli : une montée de trompette sur la même gamme pentatonique que le terrain fredonne depuis le début, un accord où se poser, et un scintillement de cloche par-dessus.
+
+Rien ici ne boucle, ce qui en fait une fanfare plutôt qu'un nouveau fond sonore. Un son joué une seule fois reste silencieux une fois terminé tant qu'il est sur scène, donc l'écran de victoire redevient silencieux et laisse la place à l'ambiance ; commencer une nouvelle manche le retire de la scène et l'efface, donc la prochaine structure que tu termines le fait entendre à nouveau depuis le début.¶
+sonDeVictoire: Musique(
+		[
+			Piste(
+				[1 3 5 8 ø 8 ø ø {1 5 8} ø ø ø ø ø ø ø]
+				instrument: Instrument.trompette
+				battement: 0.5beats
+				boucle: ⊥
+			)
+			Piste(
+				[ø ø ø ø ø ø ø ø 8 ø 10 ø 12 ø ø ø]
+				instrument: Instrument.cloche
+				battement: 0.5beats
+				volume: 45%
+				boucle: ⊥
+			)
+			Piste(
+				[{1 3 5} ø {4 6 8} ø]
+				instrument: Instrument.piano
+				battement: 2beats
+				volume: 40%
+				boucle: ⊥
+			)
+			Piste(
+				[1 ø 3 ø 1 3 1 ø 4 ø ø ø ø ø ø ø]
+				instrument: Instrument.batterie
+				battement: 0.5beats
+				volume: 35%
+				boucle: ⊥
+			)
+		]
+		tempo: 132beats/min
+		gamme: Musique.pentatonique
+		nom: 'construit'
+	)
+
+¶Il n'est sur scène qu'une fois que tu as gagné, et une liste vide ne donne plus rien à afficher.¶
+listeDeVictoire: (jeu11.phase = 3) ? [sonDeVictoire] []
+
+Scène(
+	[
+		:rangéesDeSol
+		:coucheDuMonde
+		ambiance
+		sonDeCoup
+		:listeDeVictoire
+	]
+	lieu: Lieu(
+		((jeu11.x4 + 0.2) · 1m)
+		yDeLaCaméra
+		zDeLaCaméra
+	)
+	arrièreplan: Couleur(78% 18 240°)
+	couleur: Couleur(20% 0 0°)
+	superposition: coucheDeSuperposition
+)

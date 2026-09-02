@@ -1,0 +1,23 @@
+🥮
+Makanan Melayang
+===
+¶Sebuah kotak berisi hidangan-hidangan lezat, satu diganti dengan yang lain setiap detik.¶
+makanan: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
+
+terbaru•['']:
+	makanan … ∆ Waktu(1000ms) …
+		terbaru.mengganti(Acak(1 6) makanan.acak())
+
+Kelompok(
+	Jaringan(3 3 1m 1m)
+	terbaru.menerjemahkan(
+		ƒ(hidangan•"" indeks2•#)
+			Frasa(
+				hidangan
+				nama: "\hidangan\-\indeks2\"
+				memasuki: Pose(kegelapan: 0 skala: 2)
+				beristirahat: Urutan.bergoyang(360° lamanya: 4s)
+				lamanya: 1s
+			)
+	)
+)

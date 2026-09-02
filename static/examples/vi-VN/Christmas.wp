@@ -1,0 +1,30 @@
+🎄
+Giáng sinh
+===
+¶Một cây thông Noel lắc lư và uốn éo theo một điệu nhảy vòng lặp, và kêu leng keng khi làm điều đó.
+
+Bản nhạc gắn với @Pose đầu tiên của điệu nhảy. Một @Pose có thể mang một @Music, và nó vang lên ngay lúc dáng đứng đó được thực hiện — vì thế đoạn nhạc bắt đầu lại mỗi khi điệu nhảy quay vòng, và vòng lặp của hoạt ảnh cùng vòng lặp của âm nhạc chính là một vòng lặp duy nhất. Không có gì đếm nhịp để giữ chúng khớp với nhau.
+
+Hai độ dài được chọn để khớp nhau: tám nhịp ở tốc độ 160 kéo dài ba giây, và năm bước nửa giây cũng kéo dài ba giây. Một dáng đứng chỉ là một khoảnh khắc chứ không phải thứ kéo dài liên tục, nên vòng lặp thường thấy của @Track không áp dụng ở đây — nhạc của một dáng đứng luôn chỉ vang lên đúng một lần.¶
+
+lengKeng: ÂmNhạc(
+		BảnNhạc([3 3 3𝅗𝅥 3 3 3𝅗𝅥] nhạcCụ: NhạcCụ.chuông)
+		nhịpĐộ: 160beats/min
+		âmLượng: 55%
+		tên: 'leng keng'
+	)
+
+Cụmtừ(
+	'🎄'
+	nghỉngơi: Sựliêntiếp(
+		{
+			0: Tưthế(xoay: 0° âmNhạc: lengKeng)
+			1: Tưthế(xoay: 15°)
+			2: Tưthế(xoay: 0°)
+			3: Tưthế(bùlại: VịTrí(-0.25m))
+			4: Tưthế(bùlại: VịTrí(0.25m))
+			5: Tưthế(bùlại: VịTrí(-0.25m))
+		}
+		0.6s
+	)
+)

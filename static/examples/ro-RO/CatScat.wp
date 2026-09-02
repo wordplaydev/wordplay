@@ -1,0 +1,145 @@
+🐱
+Scat de pisică!
+=== start/en
+¶O pisică ce improvizează scat, la nesfârșit, niciodată la fel de două ori.
+
+Întregul solo este improvizat: nimic de aici nu este o melodie scrisă. La fiecare refren, pisica alege note noi și fraza este reconstruită, așa că ceea ce auzi acum nu se va mai repeta.
+
+Cântă pe cinci piste care se alternează în loc să sune împreună — note de pătrime, apoi optimi, apoi triolete, apoi o doime, apoi o notă lungă — pentru că o pisică are o singură voce, iar două piste care sună în același timp i-ar da două voci. Fiecare pistă tace în timp ce toate celelalte cântă, ceea ce îl păstrează un solo.
+
+Vocea este pisica acordată, \Instrument.pisicăCuNote\: un miaunat, cu înălțime muzicală, astfel încât un grad alege o notă, iar pisica chiar cântă melodia în loc să spună douăsprezece lucruri diferite. Gama este blues, care nu are note greșite — și trebuie să fie așa, pentru că fiecare notă de aici este aleasă la întâmplare, așa că orice ordine trebuie să sune bine.
+
+Este lent pentru un scat. Un miaunat durează aproximativ opt zecimi de secundă, iar la un tempo mai rapid notele de pătrime ar întrerupe pisica la jumătatea cuvântului.¶
+
+puls2: Bătaie()
+numărare2: puls2.număr
+
+¶O notă, sau din când în când nimic: aproximativ una din șapte rămâne tăcută. Este suficient aer pentru ca pisica să-și închidă gura ici și colo fără a subția solo-ul — și, cum pauzele cad oriunde le pune întâmplarea, niciun refren nu respiră în același loc.¶
+ƒ poate(notă•#)•#|ø (Aleatoriu() > 0.15) ? notă ø
+
+¶O notă, undeva în octava confortabilă a pisicii. Gradul 1 este nota la care fraza se întoarce acasă, iar 8 este o octavă blues și puțin peste ea — suficient de departe pentru a suna ca un cântec, suficient de aproape pentru ca miaunatul să sune tot ca un miaunat, nu ca unul întins.¶
+ƒ voce2()•#|ø poate(Aleatoriu(1 8))
+
+¶Tot ce cântă pisica într-un refren. Fiecare parte este la fel de lungă ca toate celelalte în timpi — treizeci și doi — astfel încât rămân sincronizate oricât de diferit s-ar împărți.¶
+•refren(apeluri•[#|ø] rulează•[#|ø] balansare•[#|ø] conține•[#|ø] coadă•[#|ø])
+
+¶Note de pătrime, măsurile unu și doi: trei note, o pauză de respirație, apoi aceleași trei note, cu un răspuns cu un final nou. Întrebare și răspuns este scheletul unei fraze scat, iar repetarea unei figuri înainte de a o schimba este ceea ce o face să sune compusă, nu întâmplătoare.¶
+ƒ apeluri2()•[#|ø] (
+		un: voce2()
+		b2: voce2()
+		c2: voce2()
+		(32 → []).traduce(
+			ƒ(i•#)
+				(i = 1) ? un
+					(i = 2) ? b2
+						(i = 3) ? c2
+							(i = 5) ? un
+								(i = 6) ? b2
+									(i = 7) ? voce2()
+										ø
+		)
+	)
+
+¶Optimi, măsurile trei și patru: o alergare care urcă gama treaptă cu treaptă de oriunde ar începe, revenind la bază în vârful octavei. Șaisprezece optimi peste opt grade înseamnă că alergarea urcă întreaga distanță de două ori, ceea ce o face să se citească drept o alergare, nu o melodie.
+
+Acestea sunt cele mai scurte note din piesă și singurul loc unde pisica este întreruptă: doi optimi într-un timp este mai rapid decât poate termina un miaunat, ceea ce este exact cum sună o silabă rapidă de scat oricum.¶
+ƒ rulează2()•[#|ø] (
+		acasă: Aleatoriu(1 8)
+		(64 → []).traduce(
+			ƒ(i2•#)
+				((i2 < 17) | (i2 > 32)) ? ø
+					poate((((acasă + (i2 - 17)) - 1) % 8) + 1)
+		)
+	)
+
+¶Triolete, măsurile cinci și șase: o celulă de trei note care se repetă la nesfârșit. Trei în spațiul a doi este scris exact așa — 2 timpi ÷ 3 — ceea ce spune cu voce tare ce este un triolet.¶
+ƒ balansare2()•[#|ø] (
+		celulă2: [voce2() voce2() voce2()]
+		(48 → []).traduce(
+			ƒ(i3•#)
+				((i3 < 25) | (i3 > 36)) ? ø
+					celulă2[(((i3 - 25) % 3) + 1)]
+		)
+	)
+
+¶Doimi, măsura șapte: pisica încetinește și ajunge pe două note lungi. O notă ținută menține gura deschisă tot timpul cât sună, ceea ce arată cum se ține o notă.¶
+ƒ conține2()•[#|ø]
+	(16 → []).traduce(
+		ƒ(i4•#)
+			(i4 = 13) ? voce2()
+				(i4 = 14) ? voce2()
+					ø
+	)
+
+¶O notă întreagă, măsura opt: gradul 1, ținută. Revenirea la prima notă a gamei este ceea ce face ca o frază să sune terminată, nu doar oprită.¶
+ƒ coadă2()•[#|ø] (8 → []).traduce(ƒ(i5•#) (i5 = 8) ? 1 ø)
+
+ƒ improvizează()•refren refren(
+		apeluri2()
+		rulează2()
+		balansare2()
+		conține2()
+		coadă2()
+	)
+
+¶Un refren nou la fiecare treizeci și două de bătăi. Cel vechi este păstrat între limite, astfel încât solo-ul rămâne neschimbat destul de mult timp cât să fie auzit; schimbarea lui exact la limită înseamnă că interpretul îl inserează pe bătaie, nu taie pisica în mijlocul unei note.¶
+refren2•refren: improvizează() … ∆ puls2 …
+		((numărare2 % 32) = 0) ? improvizează() refren2
+
+¶Pisica se leagănă pe bătaie. Se apleacă în cealaltă direcție la fiecare bătaie, astfel încât legănatul este chiar pulsul, nu doar o decorație peste el.¶
+apleacă: ((numărare2 % 2) = 0) ? -1 1
+
+¶Dacă pisica scoate un sunet chiar acum. @Beat dă înapoi câte un @Part pentru fiecare pistă, iar o parte rămâne ⊤ pe toată durata bătăilor cât ține o notă susținută, așa că această valoare este ⊤ oricând se aude ceva.¶
+cântând: puls2.părți.traduce(ƒ(parte2•Parte) parte2.sunet).are(
+		⊤
+	)
+
+¶Gura ei: deschisă exact atunci când o notă sună, închisă când nu sună niciuna. Nimic aici nu numără bătăile — se întreabă muzica ce face, astfel încât fața nu poate ieși niciodată din ritm cu ceea ce auzi. Pauzele răzlețe sunt ceea ce îi dă un moment să se închidă, de aceea aproximativ o notă din șapte rămâne tăcută.¶
+gură: cântând ? '😺' '🐱'
+
+Etapă(
+	[
+		Fraza(
+			gură
+			5m
+			loc: Loc((apleacă · 0.7) · 1m -0.6m)
+			rotaţie: (apleacă · 7) · 1°
+			durată: 0.22s
+		)
+		Fraza('Scat de pisică!' 1.4m loc: Loc(-2.6m 3.6m))
+		Muzică(
+			[
+				Pistă(
+					refren2.apeluri
+					instrument: Instrument.pisicăCuNote
+					bătaie: 1beats
+				)
+				Pistă(
+					refren2.rulează
+					instrument: Instrument.pisicăCuNote
+					bătaie: 0.5beats
+				)
+				Pistă(
+					refren2.balansare
+					instrument: Instrument.pisicăCuNote
+					bătaie: 2beats ÷ 3
+				)
+				Pistă(
+					refren2.conține
+					instrument: Instrument.pisicăCuNote
+					bătaie: 2beats
+				)
+				Pistă(
+					refren2.coadă
+					instrument: Instrument.pisicăCuNote
+					bătaie: 4beats
+				)
+			]
+			tempo: 76beats/min
+			gamă: Muzică.blues
+			nume: 'scat'
+		)
+	]
+	fundal: Culoare(16% 14 30°)
+	culoare: Culoare(96% 0 0°)
+)

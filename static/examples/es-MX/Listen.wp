@@ -1,0 +1,5 @@
+🔈
+Escuchar
+=== start
+¶Un emoji de bocina que crece con lo fuerte que suena tu micrófono.¶
+Frase("🔈" inmóvil: Pose(escala: Volumen()))

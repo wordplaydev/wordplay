@@ -1,0 +1,166 @@
+A
+Nome Animado
+=== English/en
+¶This project has an English and a Hindi version.
+Change the locale on stage to see each one!¶/en
+¶यह कार्यक्रम दो रूप मे हैं: अंग्रेज़ी और हिंदी। मंच पर भाषा बदलिए
+दोनो देखने के लिए!¶/hi
+
+🌍/en ?
+	¶A small, simple animation of my name Aditi according to my identity.
+	- I'm very passionate about writing, so the 'A' is written in an ink-like
+	font and rotating to imitate writing the letter somewhat.
+	- Aditi is the name of the Hindu goddess of the earth, which is why
+	the 'd' is spinning around and flashing blue and green.
+	- My favorite color is periwinkle, and I love to listen to and make music,
+	which is why 'i' is represented by an eighth note in that color and
+	jumping up and down as notes do.
+	- Lastly, the 't' and 'i' are combined into another musical note (two
+	eighth notes beamed together), just to emphasize that I like music and
+	creatively write those two letters.¶/en
+
+	¶This Group arranges each letter of my name into row format so they
+	show up in a horizontal line, as you can see on stage.¶/en
+	(
+		Grupo(
+			Linha()
+			[
+				¶Each Phrase contains one symbol to represent a letter of my name.
+				This allows me to animate each letter individually! I'm using
+				resting Sequences so that the letters move while on stage.¶/en
+				Frase(
+					'A'/en
+					fonte: 'Pacifico'
+					entrando: Sequência(
+						{
+							0%: Pose(opacidade: 0%)
+							25%: Pose(opacidade: 25%)
+							50%: Pose(opacidade: 50%)
+							75%: Pose(opacidade: 75%)
+							100%: Pose()
+						}
+					)
+					descansar: Sequência(
+						{
+							0%: Pose()
+							50%: Pose(rotação: 180°)
+							100%: Pose(rotação: 359°)
+						}
+						duração: 1s
+					)
+					duração: 1s
+				)
+				Frase(
+					'd'/en
+					fonte: 'Aclonica'
+					descansar: Sequência(
+						{
+							0%: Pose(cor: Cor(0.5 100 180°) invertirx: ⊤)
+							50%: Pose(cor: Cor(27% 112 267°))
+							75%: Pose(
+								cor: Cor(0.5 100 180°)
+								invertirx: ⊤
+							)
+						}
+						duração: 2s
+					)
+					estilo: 'straight'
+					duração: 5s
+					cor: Cor(0.5 100 180°)
+				)
+				Frase(
+					'♪'
+					descansar: Sequência(
+						{
+							0%: Pose(
+								desvio: Movimento(
+									Local(0m 0.5m 0m rotação: 0°)
+									Velocidade(0m/s 0m/s 0°/s)
+								)
+							)
+							25%: Pose()
+							50%: Pose(desvio: Local(0m 0m 0m))
+							75%: Pose(desvio: Local(0m -0.5m 0m))
+							100%: Pose()
+						}
+					)
+					duração: 5s
+					cor: Cor(74% 100 292°)
+				)
+				Frase(
+					'♫'
+					descansar: Sequência(
+						{
+							0%: Pose(rotação: 20°)
+							50%: Pose(rotação: -20°)
+							100%: Pose(rotação: 20°)
+						}
+					)
+				)
+			]
+		)
+	)
+
+	¶एक छोटा सा कार्यक्रम जो मेरी नाम अदिती दिखाता हैं, मेरे पहचान के अनुुसार।
+	- मुझे लोगों को देखना अच्छी लगती हैं, बात करने की बजाय। इस लिए “अ”
+	 अंदर-बाहर आ और जा रहा हैं।
+	- मेरी पसंद वाली रंग पेरिविंकल हैं, तो “दि” वह रंग दिखा रहा हैं।
+	- भूदेवी की एक दूसरी नाम “अदिती” हैं, तो “ती” भूमि जैसे घूम रहा हैं,
+	उसके रंग के साथ।¶/hi
+
+	¶यह ‘ग्रूप’ मेरी नाम की हर अक्षर सजाता हैं ताकी वे दिखते हैं जैसे आप को
+	दिखाई देता हैं मंच पर।¶/hi
+	(
+		Grupo(
+			Linha()
+			[
+				¶हर बोल एक अक्षर रखता हैं मेरी नाम की। यह मुझे हर अक्षर को हिलाने देता हैं।
+				मैं आराम-वाले @Sequence का इस्तेमाल कर रही हूँ ताकी अक्षर मंच पर हिले।¶/hi
+				Frase(
+					'अ'/hi
+					fonte: 'Pacifico'
+					descansar: Sequência(
+						{
+							0%: Pose(opacidade: 0%)
+							25%: Pose(opacidade: 25%)
+							50%: Pose(opacidade: 50%)
+							75%: Pose(opacidade: 75%)
+							100%: Pose()
+						}
+						duração: 2s
+					)
+				)
+				Frase(
+					'दि'/hi
+					descansar: Sequência(
+						{
+							0%: Pose(cor: Cor(0% 0 0°))
+							50%: Pose(cor: Cor(74% 100 291°))
+							100%: Pose()
+						}
+						duração: 2s
+					)
+					duração: 5s
+					cor: Cor(74% 100 292°)
+				)
+				Frase(
+					'ती'/hi
+					fonte: 'Aclonica'
+					descansar: Sequência(
+						{
+							0%: Pose(cor: Cor(0.5 100 180°) invertirx: ⊤)
+							50%: Pose(cor: Cor(27% 112 267°))
+							75%: Pose(
+								cor: Cor(0.5 100 180°)
+								invertirx: ⊤
+							)
+						}
+						duração: 2s
+					)
+					estilo: 'straight'
+					duração: 5s
+					cor: Cor(0.5 100 180°)
+				)
+			]
+		)
+	)

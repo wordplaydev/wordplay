@@ -1,0 +1,345 @@
+⚽
+Futebol
+=== start/en
+¶Um jogo de guarda-redes visto de cima. É a luva à frente da baliza, à esquerda. Uma bola de cada vez é chutada de algum ponto do campo, apontada a um sítio dentro da boca da baliza, e move-se para cima e para baixo para lhe fazer frente. O número conta os remates que já bloqueou: ergue-se bem alto cada vez que faz uma defesa, e aumenta e abana quando uma bola lhe passa ao lado.¶
+
+¶O local para onde um remate é apontado, e o local onde está a luva. Uma baliza tem cerca de oito vezes a largura do guarda-redes que a protege, e é por isso que uma pessoa não consegue simplesmente ficar no meio dela e defender tudo.
+
+Um @Place é o canto inferior esquerdo de um resultado, e não o seu centro. Por isso, tudo o que é apontado ou limitado por baixo é calculado a partir dos centros, e perde metade do tamanho quando se torna um @Place. Um emoji também ocupa bastante mais espaço do que o seu tamanho indica — uma ⚽ de 0,6m ocupa cerca de 0,9m, e uma 🧤 de 1,2m cerca de 1,25m — por isso essas metades são medidas, e não calculadas a partir do tamanho a dividir. A velocidade da luva é a distância que ela percorre a cada instante.¶
+xDaBaliza: -7m
+limiteDaBoca: 5.2m
+metadeDaBola: 0.45m
+keeperX: -6.5m
+keeperHalf: 0.62m
+keeperReach: 4.5m
+keeperSpeed: 0.55m
+
+tique: Tempo(50ms)
+premir: Chave(parabaixo: ⊤)
+soltar: Chave(parabaixo: ⊥)
+
+¶A direção em que a luva se move. Premir uma seta faz a luva começar a mover-se, e largar essa mesma seta faz com que pare. Assim, a luva desliza enquanto mantiver a tecla premida. Numa baliza tão larga, um passo por cada pressão nunca chegaria a tempo.¶
+deslizar•#: 0 … ∆ premir | ∆ soltar …
+		∆ premir ?
+			((premir = 'Seta para cima') ? 1 ((premir = 'Seta para baixo') ? -1 deslizar))
+			((soltar = 'Seta para cima') & (deslizar = 1)) ? 0
+				((soltar = 'Seta para baixo') & (deslizar = -1)) ? 0
+					deslizar
+
+¶A luva não é movida pela física, por isso pode ser controlada diretamente. Ela para nos limites do seu alcance, por isso nunca pode sair da baliza.¶
+keeperY•#m: 0m … ∆ tique …
+		((keeperY + (deslizar × keeperSpeed)).máx(
+				keeperReach · -1
+			)).min(
+			keeperReach
+		)
+
+¶Uma defesa e um golo. Cada @Collision regista o início e o fim de um toque, por isso ambos são combinados com uma verificação de que se trata de um início: sem essa verificação, cada defesa e cada golo contariam a dobrar.¶
+toqueNaLuva: Colisão('bola' 'guarda-redes')
+toqueNaRede: Colisão('bola' 'rede')
+defendido: (∆ toqueNaLuva) & ~(toqueNaLuva•ø)
+marcado: (∆ toqueNaRede) & ~(toqueNaRede•ø)
+
+•remate(sx•#m sy•#m inclinação•# velocidade2•#m/s)
+
+¶Um lugar onde ficar, um lugar na baliza para apontar, e a linha entre os dois. Calcular a inclinação a partir dos dois extremos é o que faz com que cada remate acerte exatamente no alvo, seja qual for a direção de onde vem.¶
+ƒ novoRemate()•remate (
+		x2: Aleatório(2m 6m)
+		y2: Aleatório(-5.5m 5.5m)
+		apontar: Aleatório(-4.7m 4.7m)
+		¶A inclinação é a quantidade de y que o percurso perde por cada metro de x. Uma divisão pode não ter resposta, por isso o caso ø recorre a um remate direto ao longo do campo; o marcador nunca fica sobre a linha de baliza, por isso esse caso nunca acontece.¶
+		largar: (apontar - y2) ÷ (xDaBaliza - x2)
+		remate(
+			x2
+			y2
+			(largar•ø ? 0 largar)
+			Aleatório(16m/s 22m/s)
+		)
+	)
+
+¶1 = a bola está à espera nos pés do marcador, 2 = está a caminho, 3 = está a ser afastada. Os instantes são contados em vez de se subtrair relógios, já que cada @Timestarts conta a partir de zero. Os blocos são o que se vê; os serviços só existem para dar ao número um novo nome a cada remate, o que é o que faz reproduzir a sua animação.¶
+•ronda(fase•# tiques•# blocos•# serviços•# último2•# remate2•remate)
+ronda2•ronda: ronda(1 0 0 0 0 novoRemate()) …
+	∆ tique | defendido | marcado …
+		ronda2.fase ???
+			1: (ronda2.tiques ≥ 14)
+			? ronda(
+					2
+					0
+					ronda2.blocos
+					ronda2.serviços
+					ronda2.último2
+					ronda2.remate2
+				)
+				ronda(
+					1
+					(ronda2.tiques + (∆ tique ? 1 0))
+					ronda2.blocos
+					ronda2.serviços
+					ronda2.último2
+					ronda2.remate2
+				)
+			2: defendido ? ronda(
+					3
+					0
+					(ronda2.blocos + 1)
+					(ronda2.serviços + 1)
+					1
+					ronda2.remate2
+				)
+				marcado ? ronda(
+						3
+						0
+						ronda2.blocos
+						(ronda2.serviços + 1)
+						2
+						ronda2.remate2
+					)
+					¶Uma bola que nunca chega a lado nenhum — por exemplo, devolvida ao jogo por uma defesa — é abandonada ao fim de alguns segundos, para que o jogo nunca fique bloqueado à espera de um resultado que não vai acontecer.¶
+					(ronda2.tiques ≥ 70)
+					? ronda(
+							3
+							0
+							ronda2.blocos
+							(ronda2.serviços + 1)
+							3
+							ronda2.remate2
+						)
+						ronda(
+							2
+							(ronda2.tiques + (∆ tique ? 1 0))
+							ronda2.blocos
+							ronda2.serviços
+							ronda2.último2
+							ronda2.remate2
+						)
+			3: (ronda2.tiques ≥ 16)
+			? ronda(
+					1
+					0
+					ronda2.blocos
+					ronda2.serviços
+					ronda2.último2
+					novoRemate()
+				)
+				ronda(
+					3
+					(ronda2.tiques + (∆ tique ? 1 0))
+					ronda2.blocos
+					ronda2.serviços
+					ronda2.último2
+					ronda2.remate2
+				)
+			ronda2
+
+¶A única avaliação em que a bola sai do pé do marcador. Tem de ser momentânea: é o que faz a bola ser rematada, e rematá-la duas vezes duplicaria a sua velocidade.¶
+chutada: (∆ tique) & (ronda2.fase = 2) & (ronda2.tiques = 0)
+
+¶Fica imóvel enquanto espera, é impulsionada ao longo da linha para onde é apontada quando é rematada, e é devolvida campo acima por uma defesa ou pela parte de trás da rede — o que também impede que uma bola fique a saltar dentro da baliza, fazendo soar a rede vezes sem conta. O ar abranda uma bola a rolar, tal como faria a relva, por isso os remates vão perdendo velocidade.¶
+colocaçãoDaBola: Movimento(
+		Local(
+			(ronda2.remate2.sx - metadeDaBola)
+			(ronda2.remate2.sy - metadeDaBola)
+		)
+		próximolugar:
+		(ronda2.fase = 1) ? Local(
+				(ronda2.remate2.sx - metadeDaBola)
+				(ronda2.remate2.sy - metadeDaBola)
+			) ø
+		próximavelocidade:
+		(ronda2.fase = 1) ? Velocidade(0m/s 0m/s 0°/s)
+			chutada ? Velocidade(
+					(ronda2.remate2.velocidade2 · -1)
+					((ronda2.remate2.velocidade2 · -1) × ronda2.remate2.inclinação)
+					Aleatório(-45°/s 45°/s)
+				)
+				(defendido | marcado) ? Velocidade(
+						Aleatório(8m/s 14m/s)
+						Aleatório(-5m/s 5m/s)
+						Aleatório(-45°/s 45°/s)
+					)
+					ø
+	)
+
+bola: Frase(
+		'⚽'
+		0.6m
+		nome: 'bola'
+		local: colocaçãoDaBola
+		matéria: Matéria(0.45kg 0.7 0.02)
+	)
+
+¶A luva é observada pelo nome acima, o que basta para que faça parte do mundo físico, por isso não precisa de @Matter. É colocada pelo programa, e não pela física, por isso atravessa a bola em vez de a atingir; a defesa acima é o que envia a bola de volta. Os seus movimentos não são suavizados, por isso está exatamente onde a controlou, em vez de se deslocar lentamente atrás de si.¶
+keeper: Frase(
+		'🧤'
+		1.2m
+		nome: 'guarda-redes'
+		local: Local(keeperX (keeperY - keeperHalf))
+		duração: 0s
+	)
+
+¶Quem está prestes a rematar, e de onde. Só existe no campo enquanto a bola espera.¶
+rematador: Frase(
+		'🦵'
+		1.2m
+		local: Local(
+			(ronda2.remate2.sx + 0.5m)
+			(ronda2.remate2.sy - 0.6m)
+		)
+		duração: 0s
+	)
+listaDeRematadores: (ronda2.fase = 1) ? [rematador] []
+
+¶A baliza: a boca, a rede na parte de trás, e um poste acima e outro abaixo. Só a rede tem nome, por isso só a rede pode marcar golo — uma bola que atingisse um poste simplesmente ressaltaria. A rede é propositadamente espessa: o remate mais rápido percorre cerca de meio metro entre cada passo da física, e uma rede mais fina poderia deixá-la passar sem sequer lhe tocar.¶
+formaDaRede: Figura(
+		Retângulo(-8m limiteDaBoca -7.2m (limiteDaBoca · -1))
+		nome: 'rede'
+		fundo: Cor(96% 0 0°)
+	)
+posteDeCima: Figura(
+		Retângulo(-8m 7m -7.2m limiteDaBoca)
+		fundo: Cor(35% 0 0°)
+	)
+posteDeBaixo: Figura(
+		Retângulo(-8m (limiteDaBoca · -1) -7.2m -7m)
+		fundo: Cor(35% 0 0°)
+	)
+
+¶As linhas laterais, que mantêm uma bola afastada dentro do campo.¶
+paredeDeCima: Figura(
+		Retângulo(-8m 7m 8m 6.8m)
+		fundo: Cor(88% 5 130°)
+	)
+paredeDeBaixo: Figura(
+		Retângulo(-8m -6.8m 8m -7m)
+		fundo: Cor(88% 5 130°)
+	)
+paredeDaDireita: Figura(
+		Retângulo(7.8m 7m 8m -7m)
+		fundo: Cor(88% 5 130°)
+	)
+
+¶Uma defesa: o número surge de repente, um pouco maior, e fica assim por um instante antes de assentar.¶
+flexãoDaDefesa: Sequência(
+		{
+			0%: Pose(escala: 1)
+			30%: Pose(escala: 1.5 desvio: Local(0m 0.4m))
+			65%: Pose(escala: 1.35 desvio: Local(0m 0.25m))
+			100%: Pose(escala: 1)
+		}
+		0.5s
+	)
+
+¶Um golo: o número aumenta até preencher o ecrã e treme, para que um remate que passe por si nunca passe despercebido.¶
+abanãoDaBaliza: Sequência(
+		{
+			0%: Pose(escala: 1)
+			8%: Pose(escala: 3.6 rotação: -10°)
+			24%: Pose(
+				escala: 3.6
+				rotação: 10°
+				desvio: Local(0.4m 0m)
+			)
+			40%: Pose(
+				escala: 3.6
+				rotação: -10°
+				desvio: Local(-0.4m 0m)
+			)
+			56%: Pose(
+				escala: 3.6
+				rotação: 8°
+				desvio: Local(0.3m 0m)
+			)
+			72%: Pose(escala: 3.4 rotação: -6°)
+			100%: Pose(escala: 1)
+		}
+		1s
+	)
+
+¶A contagem de remates bloqueados. O seu nome inclui o número do serviço, por isso cada remate dá-lhe uma nova identidade e a sua animação é reproduzida outra vez — um número cujo nome nunca mudasse animar-se-ia uma vez e depois ficaria parado.¶
+vistaDaPontuação: Frase(
+		"🧤 \ronda2.blocos\"
+		1.4m
+		nome: "score\ronda2.serviços\"
+		local: Local(-1.4m 4m)
+		duração: 0.2s
+		entrando: ronda2.último2 ???
+			1: flexãoDaDefesa
+			2: abanãoDaBaliza
+			Pose()
+	)
+
+¶As instruções aparecem sobre o campo, e não na sobreposição: a margem inferior da sobreposição é onde fica a representação da música, e o texto aí seria desenhado por cima dela.¶
+instruções: Frase(
+		'mantenha pressionado ⬆ ⬇ para mover a sua luva — bloqueie todos os remates!'
+		0.55m
+		local: Local(-6.4m -6.4m)
+	)
+
+¶Três sons: o remate, a defesa, a rede. Cada um é colocado no palco enquanto durar a fase que o provoca, e é retirado depois disso. Chegar ao palco já é motivo suficiente para tocar, e um som único que já tocou fica em silêncio até saír e voltar — por isso nenhum destes precisa de um @Music.replay, e nenhum deles toca quando o programa começa.
+
+Escrevê-los assim diz algo que as notas por si só não diriam: cada som pertence a uma fase da jogada, e dura exatamente o tempo que essa fase durar. @Music.replay é a outra forma de escrever, para um som que responde a um único momento em vez de a um período.¶
+somDoChute: Música(
+		Faixa(
+			[1]
+			instrumento: Instrumento.bateria
+			batida: 0.25beats
+			volume: 60%
+			ciclo: ⊥
+		)
+		nome: 'remate'
+	)
+
+somDaDefesa: Música(
+		Faixa(
+			[8 12 15]
+			instrumento: Instrumento.sino
+			batida: 0.2beats
+			volume: 70%
+			ciclo: ⊥
+		)
+		nome: 'defesa'
+	)
+
+somDoGolo: Música(
+		Faixa(
+			[5 4 2 1]
+			instrumento: Instrumento.trompete
+			batida: 0.3beats
+			volume: 65%
+			ciclo: ⊥
+		)
+		nome: 'objetivo'
+	)
+
+somDoResultado: ronda2.último2 ???
+		1: [somDaDefesa]
+		2: [somDoGolo]
+		[]
+
+listaDeSons: ronda2.fase ???
+		2: [somDoChute]
+		3: somDoResultado
+		[]
+
+Fase(
+	[
+		bola
+		keeper
+		:listaDeRematadores
+		formaDaRede
+		posteDeCima
+		posteDeBaixo
+		paredeDeCima
+		paredeDeBaixo
+		paredeDaDireita
+		instruções
+		:listaDeSons
+	]
+	local: Local(0m 0m -14m)
+	moldura: Retângulo(-8m 7m 8m -7m)
+	fundo: Cor(62% 40 140°)
+	cor: Cor(20% 0 0°)
+	gravidade: 0m/s^2
+	sobreposição: [vistaDaPontuação]
+)

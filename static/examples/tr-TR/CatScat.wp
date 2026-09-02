@@ -1,0 +1,153 @@
+🐱
+Kedi Miyavlaması!
+=== start/en
+¶Bir kedi scat söylüyor, sonsuza dek, hiçbir zaman aynı şekilde iki kez değil.
+
+Solonun tamamı doğaçlamadır: burada yazılmış bir ezgi yoktur. Her koroda kedi yeni notalar seçer ve cümle yeniden kurulur, bu yüzden şimdi duyduğun şey bir daha geri gelmez.
+
+Birbiriyle aynı anda değil, sırayla çalan beş parçada söyler — önce dörtlük notalar, sonra sekizlikler, sonra üçlemeler, sonra bir ikilik, sonra da tek bir uzun nota — çünkü bir kedinin tek bir sesi vardır ve aynı anda çalan iki parça ona iki ses verirdi. Her parça, diğer herkesin ölçüleri boyunca susar; onu solo yapan da budur.
+
+Ses, akort edilmiş kedidir, \Çalgı.perdeliKedi\: tek bir miyav, perdeli, böylece bir derece bir nota seçer ve kedi on iki farklı şey söylemek yerine gerçekten o ezgiyi söyler. Gam bluestur, çünkü onda yanlış nota yoktur — ve öyle olmak zorundadır, çünkü buradaki her nota rastgele seçilir, bu yüzden hangi sıra gelirse gelsin kulağa hoş gelmelidir.
+
+Bir scat için yavaştır. Bir miyavın söylenmesi yaklaşık sekiz onda bir saniye sürer ve daha hızlı bir tempoda dörtlük notalar kediyi kelimenin ortasında keser.¶
+
+vuruş2: Vuruş()
+sayaç: vuruş2.say
+
+¶Bir nota, ya da bazen hiçbir şey: yaklaşık yedide biri sessiz kalır. Bu, kedinin solo çok inceltmeden ara sıra ağzını kapatabilmesi için yeterli bir nefes payıdır — ve suskular şansın koyduğu yere düştüğü için, hiçbir iki koro aynı yerde nefes almaz.¶
+ƒ belki(nota•#)•#|ø (Rastgele() > 0.15) ? nota ø
+
+¶Bir nota, kedinin rahat oktavının bir yerinde. 1. derece, cümlenin geri döndüğü notadır ve 8, onun biraz üstünde bir blues oktavıdır — şarkı söyler gibi duyulacak kadar uzak, ama miyavın hâlâ uzatılmış değil de gerçek bir miyav gibi duyulacağı kadar yakın.¶
+ƒ ses2()•#|ø belki(Rastgele(1 8))
+
+¶Kedinin bir koroda söylediği her şey. Her parça, vuruş sayısı bakımından diğerlerinin hepsi kadar uzundur — otuz iki — böylece farklı şekillerde bölünseler bile birlikte ilerlerler.¶
+•koro(çağırır•[#|ø] çalışır•[#|ø] salla2•[#|ø] tutar•[#|ø] kuyruk•[#|ø])
+
+¶Dörtlük notalar, birinci ve ikinci ölçüler: üç nota, bir nefes, sonra aynı üç nota yeni bir bitişle yanıtlanır. Çağrı ve yanıt, bir scat cümlesinin iskeletidir; bir motifi bükmeden önce tekrar etmek, onu rastgele değil de bestelenmiş gibi gösterir.¶
+ƒ çağırır2()•[#|ø] (
+		bir: ses2()
+		b2: ses2()
+		c2: ses2()
+		(32 → []).tercümeetmek(
+			ƒ(i•#)
+				(i = 1) ? bir
+					(i = 2) ? b2
+						(i = 3) ? c2
+							(i = 5) ? bir
+								(i = 6) ? b2
+									(i = 7) ? ses2()
+										ø
+		)
+	)
+
+¶Sekizlik notalar, üçüncü ve dördüncü ölçüler: nereden başlarsa başlasın gamı adım adım tırmanan bir koşu, oktavın tepesinde yeniden alta sarar. Sekiz derece üzerinde on altı sekizlik, koşunun tüm yolu iki kez tırmandığı anlamına gelir; onu bir ezgi değil de bir koşu gibi gösteren de budur.
+
+Bunlar eserdeki en kısa notalardır ve kedinin kesildiği tek yerdir: bir vuruşta iki sekizlik, bir miyavın bitebileceğinden daha hızlıdır — zaten hızlı bir scat hecesi de böyle duyulur.¶
+ƒ çalışır2()•[#|ø] (
+		yuva: Rastgele(1 8)
+		(64 → []).tercümeetmek(
+			ƒ(i2•#)
+				((i2 < 17) | (i2 > 32)) ? ø
+					belki((((yuva + (i2 - 17)) - 1) % 8) + 1)
+		)
+	)
+
+¶Üçlemeler, beşinci ve altıncı ölçüler: üç notalık bir hücre durmadan dönüp durur. İkinin içinde üç, tam olarak öyle yazılır — 2 vuruş ÷ 3 — bu da bir üçlemenin ne olduğunu sözle anlatır.¶
+ƒ salla3()•[#|ø] (
+		hücre2: [ses2() ses2() ses2()]
+		(48 → []).tercümeetmek(
+			ƒ(i3•#)
+				((i3 < 25) | (i3 > 36)) ? ø
+					hücre2[(((i3 - 25) % 3) + 1)]
+		)
+	)
+
+¶İkilik notalar, yedinci ölçü: kedi yavaşlar ve iki uzun notaya konar. Uzatılan bir nota, ses çıktığı sürece ağzı açık tutar; bir notayı tutmak böyle görünür.¶
+ƒ tutar2()•[#|ø]
+	(16 → []).tercümeetmek(
+		ƒ(i4•#)
+			(i4 = 13) ? ses2()
+				(i4 = 14) ? ses2()
+					ø
+	)
+
+¶Sekizinci ölçüde bir tam nota: derece 1, uzun tutulan. Bir müzik cümlesinin bitmiş gibi değil de sadece durmuş gibi gelmesini önleyen şey, dizinin ilk notasına geri dönmektir.¶
+ƒ kuyruk2()•[#|ø] (8 → []).tercümeetmek(
+		ƒ(i5•#) (i5 = 8) ? 1 ø
+	)
+
+ƒ doğaçlamaYap()•koro koro(
+		çağırır2()
+		çalışır2()
+		salla3()
+		tutar2()
+		kuyruk2()
+	)
+
+¶Her otuz iki vuruşta yeni bir nakarat gelir. Eskisi sınırlar arasında korunur, böylece solo yeterince uzun süre kalır ve duyulabilir. Onu tam sınırda değiştirmek, çalanın onu notanın ortasından kesmek yerine tam vuruşta eklemesi demektir.¶
+koro2•koro: doğaçlamaYap() … ∆ vuruş2 …
+		((sayaç % 32) = 0) ? doğaçlamaYap() koro2
+
+¶Kedi vuruşa göre sallanıyor. Her vuruşta diğer yöne eğiliyor, böylece sallanma bir süsleme değil, ritmin kendisi oluyor.¶
+eğil: ((sayaç % 2) = 0) ? -1 1
+
+¶Kedinin şu anda ses çıkarıp çıkarmadığı. @Beat, her parça için bir @Part değeri döndürür. Bir parça, uzun tutulan bir notanın sürdüğü her vuruş boyunca ⊤ kalır. Bu yüzden bu değer, herhangi bir şey duyulabildiği sürece ⊤ olur.¶
+şarkıSöyleme: vuruş2.parçalar.tercümeetmek(
+		ƒ(parça•Bölüm) parça.çalıyor
+	).sahipolmak(
+		⊤
+	)
+
+¶Ağzı: tam bir nota çalarken açık, çalmıyorken kapalı. Burada hiçbir şey vuruş saymaz — müziğe ne yaptığını sorar, böylece yüz duyduğun şeyle asla zamanlamadan sapmaz. Dağınık susuşlar ona kapanacak bir an verir; işte bu yüzden yaklaşık her yedi notadan biri sessiz kalır.¶
+ağız: şarkıSöyleme ? '😺' '🐱'
+
+Sahne(
+	[
+		İfadeetmek(
+			ağız
+			5m
+			yer: Yer((eğil · 0.7) · 1m -0.6m)
+			rotasyon: (eğil · 7) · 1°
+			süre: 0.22s
+		)
+		İfadeetmek(
+			'Kedi Miyavlaması!'
+			1.4m
+			yer: Yer(-2.6m 3.6m)
+		)
+		Müzik(
+			[
+				Parça(
+					koro2.çağırır
+					çalgı: Çalgı.perdeliKedi
+					vuruş: 1beats
+				)
+				Parça(
+					koro2.çalışır
+					çalgı: Çalgı.perdeliKedi
+					vuruş: 0.5beats
+				)
+				Parça(
+					koro2.salla2
+					çalgı: Çalgı.perdeliKedi
+					vuruş: 2beats ÷ 3
+				)
+				Parça(
+					koro2.tutar
+					çalgı: Çalgı.perdeliKedi
+					vuruş: 2beats
+				)
+				Parça(
+					koro2.kuyruk
+					çalgı: Çalgı.perdeliKedi
+					vuruş: 4beats
+				)
+			]
+			tempo: 76beats/min
+			gam: Müzik.blues
+			isim: 'miyavlama'
+		)
+	]
+	arkaplan: Renk(16% 14 30°)
+	renk: Renk(96% 0 0°)
+)

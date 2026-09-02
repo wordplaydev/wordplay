@@ -32,6 +32,14 @@ function parsePreviewLine(line: string): string | undefined {
 export function parseSerializedProject(
     project: string,
     id: string,
+    /**
+     * When given, the project's declared locales, overriding the tags derived
+     * from source-header names. A per-locale translation of an example can't
+     * always self-declare through its headers: a master like AnimatedName tags
+     * its source names pedagogically, so header tags describe content, not the
+     * file's language.
+     */
+    locales?: string[],
 ): SerializedProject {
     let lines = project.split('\n');
 
@@ -83,7 +91,12 @@ export function parseSerializedProject(
         name,
         id,
         sources: sources,
-        locales: languages.size === 0 ? ['en-US'] : Array.from(languages),
+        locales:
+            locales !== undefined && locales.length > 0
+                ? locales
+                : languages.size === 0
+                  ? ['en-US']
+                  : Array.from(languages),
         owner: null,
         collaborators: [],
         public: true,
@@ -112,17 +125,87 @@ export function parseSerializedProject(
     };
 }
 
-/** Asynchronously fetch the example */
+/** Fetch one `.wp` file, or undefined if it doesn't exist or isn't one. */
+async function fetchExampleFile(url: string): Promise<string | undefined> {
+    const response = await fetch(url);
+    if (!response.ok) return undefined;
+    const text = await response.text();
+    // A hosting SPA fallback can serve HTML with a 200; never parse markup as a project.
+    if (text.trimStart().startsWith('<')) return undefined;
+    return text;
+}
+
+/**
+ * Asynchronously fetch the example, in the viewer's chosen locales when
+ * translations exist (#1310). Each locale's translation is a complete
+ * rewrite-mode file at `/examples/<locale>/<Name>.wp`; one chosen locale is
+ * served directly, several are composited into one multilingual project, and
+ * a locale without a file falls back to the en-US master. This shapes only
+ * read-only example loading — a persisted project's locales are never derived
+ * from the viewer's (#1246).
+ */
 export async function getExample(
     id: string,
+    /** The viewer's chosen locale codes, in preference order. Empty = the
+     *  en-US master, as before per-locale translations existed. */
+    locales: string[] = [],
 ): Promise<SerializedProject | undefined> {
+    const name = id.split('-')[1];
     try {
-        const response = await fetch(`/examples/${id.split('-')[1]}.wp`);
-        if (!response.ok) return undefined;
-        const text = await response.text();
-        // A hosting SPA fallback can serve HTML with a 200; never parse markup as a project.
-        if (text.trimStart().startsWith('<')) return undefined;
-        return parseSerializedProject(text, id);
+        const chosen = locales.filter(
+            (locale, index) => locales.indexOf(locale) === index,
+        );
+        const translated = chosen.filter((locale) => locale !== 'en-US');
+        const [master, ...translations] = await Promise.all([
+            fetchExampleFile(`/examples/${name}.wp`),
+            ...translated.map((locale) =>
+                fetchExampleFile(`/examples/${locale}/${name}.wp`),
+            ),
+        ]);
+        if (master === undefined) return undefined;
+
+        // The available representation of each chosen locale, in preference
+        // order: its translation, or the master for en-US itself.
+        const inputs = chosen.flatMap((locale) => {
+            if (locale === 'en-US') return [{ locale, text: master }];
+            const text = translations[translated.indexOf(locale)];
+            return text === undefined ? [] : [{ locale, text }];
+        });
+
+        // Nothing translated (or no locales given): the master, as always.
+        if (inputs.length === 0) return parseSerializedProject(master, id);
+
+        // A viewer whose primary locale has no translation reads the en-US
+        // fallback, so the master becomes the base with the rest appended.
+        if (
+            inputs[0].locale !== chosen[0] &&
+            !inputs.some((input) => input.locale === 'en-US')
+        )
+            inputs.unshift({ locale: 'en-US', text: master });
+
+        // One available locale: serve its file directly, declaring the locale
+        // it was fetched for (its headers can't always self-declare).
+        if (inputs.length === 1)
+            return parseSerializedProject(
+                inputs[0].text,
+                id,
+                inputs[0].locale === 'en-US' ? undefined : [inputs[0].locale],
+            );
+
+        // Several: composite them. Dynamically imported because compositing
+        // parses sources, and examples.ts is statically reachable from every
+        // page through the database — the import budget
+        // (importGraph.test.ts) is why.
+        const { compositeExample } = await import('./compositeExample');
+        const [base, ...secondaries] = inputs.map((input) => ({
+            locale: input.locale,
+            project: parseSerializedProject(
+                input.text,
+                id,
+                input.locale === 'en-US' ? undefined : [input.locale],
+            ),
+        }));
+        return compositeExample(id, base, secondaries);
     } catch (error) {
         console.error(error);
         return undefined;

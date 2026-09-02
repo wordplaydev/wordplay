@@ -1,0 +1,23 @@
+മ
+Mga Titik
+=== start/en
+¶Isang grid ng mga titik mula sa maraming sistema ng pagsulat, may isang nagbabago bawat segundo.¶
+mgaLetra: 'മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ' ÷ ""
+
+pinakabago•['']:
+	mgaLetra … ∆ Oras(1000ms) …
+		pinakabago.palitan(Random(1 25) mgaLetra.random())
+
+Grupo(
+	Grid(5 5 0.25m 1m 1m)
+	pinakabago.isalin(
+		ƒ(titik2•"" indeks2•#)
+			Parirala(
+				titik2
+				pangalan: "\titik2\-\indeks2\"
+				pagpasok: Pose(kalabuan: 0 sukat: 2)
+				nagpapahinga: Pagkakasunodsunod.ugoy(tagal: 0.25s)
+				tagal: 0.5s
+			)
+	)
+)

@@ -1,0 +1,121 @@
+↑
+Labyrinth
+=== start/en
+¶A maze is a 2D grid of emoji, with some functions for checking the state at particular grid postions.
+Mazes are generated randomly.¶/en
+•labyrinth() (
+	raster•[[''|ø]]:
+		[
+			['🎬' '❤' '❌' ø ø]
+			['❤' ø ø ø ø]
+			['🐈' '😀' '💬' '🫥' '😞']
+			[ø '👍' ø ø '😕']
+			['🤩' '🥹' ø '😫' '😡']
+		]
+
+	ƒ zelle2(reihe•# spalte•#) (
+			zellen: raster[reihe]
+			zellen•[] ? zellen[spalte] ø
+		)
+
+	ƒ erlaubt(reihe2•# spalte2•#) zelle2(reihe2 spalte2)•''
+)
+
+labyrinth2: labyrinth()
+
+•zustand(reihe3•# spalte3•# schritte•#)
+(
+	ƒ runter2() zustand(reihe3 + 1 spalte3 schritte + 1)
+	ƒ hoch() zustand(reihe3 - 1 spalte3 schritte + 1)
+	ƒ links2() zustand(reihe3 spalte3 - 1 schritte + 1)
+	ƒ rechts() zustand(reihe3 spalte3 + 1 schritte + 1)
+)
+
+ƒ erlaubt2(zustand2•zustand reihe4•# spalte4•#) labyrinth2.erlaubt(
+		zustand2.reihe3 + reihe4
+		zustand2.spalte3 + spalte4
+	)
+
+richtung: Auswahl()
+zustand3•zustand: zustand(1 1 0) … ∆ richtung …
+		((richtung = "left") & erlaubt2(zustand3 0 -1)) ? zustand3.links2(
+			)
+			((richtung = "right") & erlaubt2(zustand3 0 1)) ? zustand3.rechts(
+				)
+				((richtung = "up") & erlaubt2(zustand3 -1 0)) ? zustand3.hoch(
+					)
+					((richtung = "down") & erlaubt2(zustand3 1 0)) ? zustand3.runter2(
+						)
+						zustand3
+
+aktuell: (
+		zelle3: labyrinth2.zelle2(
+				zustand3.reihe3
+				zustand3.spalte3
+			)
+		zelle3 ?? ' ')
+hoch2: labyrinth2.zelle2(
+		zustand3.reihe3 - 1
+		zustand3.spalte3
+	)•''
+runter3: labyrinth2.zelle2(
+		zustand3.reihe3 + 1
+		zustand3.spalte3
+	)•''
+links3: labyrinth2.zelle2(
+		zustand3.reihe3
+		zustand3.spalte3 - 1
+	)•''
+rechts2: labyrinth2.zelle2(
+		zustand3.reihe3
+		zustand3.spalte3 + 1
+	)•''
+gewonnen: aktuell = '🤩'
+
+Bühne(
+	[
+		Gruppe(
+			Netz(3 3 0.25m)
+			[
+				ø
+				Satzglied(
+					'↑'
+					Name: 'up'
+					wählbar: hoch2
+					Ruhen: Pose(Opazität: hoch2 ? 1 0.2)
+				)
+				ø
+				Satzglied(
+					'←'
+					Name: 'left'
+					wählbar: links3
+					Ruhen: Pose(Opazität: links3 ? 1 0.2)
+				)
+				Satzglied(
+					aktuell
+					Ruhen: gewonnen ?
+						Reihenfolge.drehen(Dauer: 1s Stil: 'straight')
+						Pose()
+				)
+				Satzglied(
+					'→'
+					Name: 'right'
+					wählbar: rechts2
+					Ruhen: Pose(Opazität: rechts2 ? 1 0.2)
+				)
+				ø
+				Satzglied(
+					'↓'
+					Name: 'down'
+					wählbar: runter3
+					Ruhen: Pose(Opazität: runter3 ? 1 0.2)
+				)
+				ø
+			]
+		)
+	]
+	Ort: Ort(0m 0m -3m)
+	gesicht: 'Noto Emoji'
+	Hintergrund: Farbe(0 0 0°)
+	Ruhen: Pose(Farbe(100 100 0°))
+)

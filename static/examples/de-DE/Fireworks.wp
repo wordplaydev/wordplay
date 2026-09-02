@@ -1,0 +1,595 @@
+🎆
+Feuerwerk
+=== start/en
+¶Feuerwerk, das mit der Musik losgeht: Jedes Instrument, das auf einem Schlag klingt, taucht als sich selbst auf, bleibt einen Moment hängen und verschwindet dann wieder.
+
+Hier wird nichts nach einer festen Uhr gezeichnet. @Beat übergibt einen @Downbeat, sobald jeder Schlag hörbar wird, und ein @Downbeat trägt eine @Part für jede @Track — welches Instrument es ist, ob es gerade klingt, welchen Ton es spielt und wie laut es ist. So ist eine Explosion pro klingender Stimme eine einzelne @List/translate, und die Musik zeichnet sich selbst.
+
+Jede Explosion trägt die Nummer ihres Schlags als Namen, deshalb sind die Explosionen jedes Schlags neue Ausgaben: Sie zeigen ihre Eingangspose beim Erscheinen und ihre Ausgangspose, wenn der nächste Schlag sie ersetzt. Das Aufblitzen und das Verschwinden sind diese beiden Posen.
+
+Das Lied ist /The Star-Spangled Banner/ — John Stafford Smiths Melodie von etwa 1773, längst gemeinfrei — von Anfang bis Ende, bis zur letzten Zeile. Jede Note trägt ihre eigene Länge als Notenwert, geschrieben auf der Zahl — \8𝅘𝅥𝅮\ ist eine Achtelnote, \13𝅗𝅥\ eine Halbe, \13𝅗𝅥𝅭\ eine punktierte Halbe — so sind die Auftakte, die punktierten Figuren und die lang gehaltenen Noten echte Zeitdauern und kein Raster aus gleichen Schlägen. Eine einfache Zahl ist ein Schlag. Pausen brauchen trotzdem einen @Note, denn \ø\ ist keine Zahl und kann daher keinen Wert tragen. Es nutzt die chromatische Tonleiter, damit die erhöhte Quarte überhaupt geschrieben werden kann: Jeder Schritt ist ein Halbtonschritt.¶
+
+schlag2: Takt()
+zähler: schlag2.Zählung
+
+¶Nur die Stimmen, die wirklich einen Klang erzeugen, werden zu Feuerwerk; eine ruhende Spur bleibt dunkel. Bevor die Musik beginnt, gibt es noch gar keine Stimmen, daher ist der Himmel leer.¶
+feuert•[Teil]: schlag2.Teile.Filter(ƒ(p•Teil) p.Klingen)
+
+¶Jedes Instrument explodiert als sich selbst, und genau darum geht es: Man sieht, welches Instrument gerade gespielt hat.¶
+ƒ gesicht2(p2•Teil)•''
+	(p2.Instrument.id = 'trumpet') ? '🎺'
+		(p2.Instrument.id = 'flute') ? '🪈'
+			(p2.Instrument.id = 'bell') ? '🔔'
+				(p2.Instrument.id = 'piano') ? '🎹'
+					(p2.Instrument.id = 'violin') ? '🎻'
+						(p2.Instrument.id = 'drums') ? '🥁'
+							'🎵'
+
+¶Jedes Instrument behält seine eigene Spur, verteilt über den ganzen Himmel. Weil das Instrument selbst genutzt wird statt seiner Position in der Liste, bleibt eine Spur stehen, wenn ein anderes Instrument verstummt.¶
+ƒ spur(p3•Teil)•#
+	(p3.Instrument.id = 'trumpet') ? -6
+		(p3.Instrument.id = 'flute') ? -3.6
+			(p3.Instrument.id = 'bell') ? -1.2
+				(p3.Instrument.id = 'piano') ? 1.2
+					(p3.Instrument.id = 'violin') ? 3.6
+						(p3.Instrument.id = 'drums') ? 6
+							0
+
+¶Wie hoch eine Explosion sitzt: ihr Ton. Jede Stimme hier klingt gerade, deshalb hat sie einen.¶
+ƒ höhe(p4•Teil)•# p4.Stufen[1]
+
+¶Eine Explosion, die mit ihrem Ton aufsteigt und mit der Lautstärke anschwillt.¶
+ƒ explosion(p5•Teil i•#)•Satzglied
+	Satzglied(
+		gesicht2(p5)
+		(0.9m + (p5.Lautstärke · 1.6m))
+		Ort: Ort(
+			(spur(p5) + p5.Balance) · 1m
+			(((höhe(p5) · 0.22) - 1.8) · 1m)
+		)
+		Name: 'burst \zähler\ \i\'
+		Eingabe: Reihenfolge(
+			{
+				0%: Pose(Skala: 0.1 Opazität: 0%)
+				40%: Pose(Skala: 1.35 Opazität: 100%)
+				100%: Pose(Skala: 1 Opazität: 100%)
+			}
+			0.3s
+		)
+		Ausstieg: Reihenfolge(
+			{
+				0%: Pose(Versatz: Ort(0m 0m) Opazität: 100%)
+				100%: Pose(Versatz: Ort(0m -5m) Opazität: 0%)
+			}
+			0.9s
+		)
+	)
+
+¶Die Melodie. Stufen sind Halbtonschritte von der tiefen Grundtonart aus: 1 ist dieser Ton, 13 ist eine Oktave höher, und 7 ist die erhöhte Quarte. Zwei Zeilen teilen sich dieselbe Melodie, dann kommt die Bridge, dann die letzte Zeile.¶
+melodie2: [
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		17𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		17
+		18
+		20
+		20𝅗𝅥
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15
+		17
+		18
+		18𝅗𝅥
+		18
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8
+		13
+		13
+		13𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		10
+		10
+		10
+		15
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13𝅘𝅥𝅮
+		13
+		12
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		13𝅘𝅥𝅭
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		18𝅘𝅥𝅮
+		20𝅗𝅥
+		13𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅭
+		18𝅘𝅥𝅮
+		15
+		13𝅗𝅥𝅭
+	]
+
+¶Ein Grundton unter jedem Takt.¶
+bass: [
+		Note(ø 1beats)
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+	]
+
+¶Eine Glocke auf jedem zweiten betonten Schlag, sodass sie nicht bei jeder Explosion dabei ist.¶
+glocke: [
+		Note(ø 1beats)
+		13
+		Note(ø 2beats)
+		Note(ø 3beats)
+		20
+		Note(ø 2beats)
+		Note(ø 3beats)
+		20
+		Note(ø 2beats)
+		Note(ø 3beats)
+		20
+		Note(ø 2beats)
+		Note(ø 3beats)
+		13
+		Note(ø 2beats)
+		Note(ø 3beats)
+		20
+		Note(ø 2beats)
+		Note(ø 3beats)
+		20
+		Note(ø 2beats)
+		Note(ø 3beats)
+		20
+		Note(ø 2beats)
+		Note(ø 3beats)
+		13
+		Note(ø 2beats)
+		Note(ø 3beats)
+		20
+		Note(ø 2beats)
+		Note(ø 3beats)
+		20
+		Note(ø 2beats)
+		Note(ø 3beats)
+		20
+		Note(ø 2beats)
+		Note(ø 3beats)
+		13
+		Note(ø 2beats)
+		Note(ø 3beats)
+		20
+		Note(ø 2beats)
+		Note(ø 3beats)
+		20
+		Note(ø 2beats)
+		Note(ø 3beats)
+		20
+		Note(ø 2beats)
+		Note(ø 3beats)
+	]
+
+¶Streicher ab der Bridge, sodass der Klang dichter wird.¶
+geige: [
+		Note(ø 1beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+	]
+
+¶Eine Diskantstimme nur an den Höhepunkten der Phrasen.¶
+flöte: [
+		Note(ø 1beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 1beats)
+		25
+		Note(ø 1beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 1beats)
+		25
+		Note(ø 1beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 1beats)
+		25
+		Note(ø 1beats)
+		Note(ø 3beats)
+		Note(ø 3beats)
+		Note(ø 1beats)
+		25
+		Note(ø 1beats)
+		Note(ø 3beats)
+	]
+
+¶Ein Marsch darunter.¶
+schlagzeug: [
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Note(ø 0.5beats)
+		3𝅘𝅥𝅮
+	]
+
+Bühne(
+	[
+		:feuert.übersetzen(ƒ(p6•Teil i2•#) explosion(p6 i2))
+		Musik(
+			[
+				Spur(
+					melodie2
+					Instrument: Instrument.Trompete
+					Lautstärke: 90%
+					Schleife: ⊥
+				)
+				Spur(
+					bass
+					Instrument: Instrument.Klavier
+					Tonart: -12semitones
+					Lautstärke: 50%
+					Balance: -0.4
+					Schleife: ⊥
+				)
+				Spur(
+					glocke
+					Instrument: Instrument.Glocke
+					Lautstärke: 55%
+					Schleife: ⊥
+				)
+				Spur(
+					geige
+					Instrument: Instrument.Geige
+					Lautstärke: 45%
+					Balance: 0.3
+					Schleife: ⊥
+				)
+				Spur(
+					flöte
+					Instrument: Instrument.Flöte
+					Lautstärke: 65%
+					Schleife: ⊥
+				)
+				Spur(
+					schlagzeug
+					Instrument: Instrument.Schlagzeug
+					Lautstärke: 45%
+					Schleife: ⊥
+				)
+			]
+			Tempo: 84beats/min
+			Tonleiter: Musik.chromatisch
+			Name: 'Hymne'
+		)
+	]
+	Hintergrund: Farbe(10% 12 265°)
+	Farbe: Farbe(96% 0 0°)
+)

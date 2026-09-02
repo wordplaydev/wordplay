@@ -1,0 +1,52 @@
+🖐
+Main
+===
+¶Lève des doigts devant ta caméra et une main émoji compte avec toi.¶
+main: Main()
+
+Scène(
+	[
+		Phrase(
+			(main.doigts = 0 ? '✊'
+					main.doigts = 1 ? '☝'
+						main.doigts = 2 ? '✌'
+							main.doigts = 3 ? '🤟'
+								main.doigts = 4 ? '🖖'
+									'🖐')
+			lieu: main.lieu
+			taille: 2m
+			compenser: Lieu(-1m)
+		)
+		Groupe(
+			Rangée('<')
+			[
+				Phrase('1⃣' compenser: Lieu(0m main.pouce ? 1m 0m))
+				Phrase('2⃣' compenser: Lieu(0m main.indice ? 1m 0m))
+				Phrase('3⃣' compenser: Lieu(0m main.milieu ? 1m 0m))
+				Phrase('4⃣' compenser: Lieu(0m main.anneau ? 1m 0m))
+				Phrase(
+					'5⃣'
+					compenser: Lieu(0m main.petitdoigt ? 1m 0m)
+				)
+			]
+			lieu: Lieu(-4.5m 5m)
+		)
+		Groupe(
+			Empiler('|')
+			[
+				Phrase((main.palmier ? '🤚' '🤛') taille: 2m)
+				Phrase(
+					(main.ouvrir ? 'ouverte' 'fermée')
+					taille: 1.5m
+				)
+			]
+			lieu: Lieu(-2m -8m)
+		)
+		Phrase(
+			`/Montre ta main à la caméra/`
+			lieu: Lieu(-6m -10m)
+			taille: 1m
+		)
+	]
+	lieu: Lieu(0m 0m -20m)
+)

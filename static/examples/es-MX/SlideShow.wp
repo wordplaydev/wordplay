@@ -1,0 +1,100 @@
+🎬
+Presentación de diapositivas
+=== start
+¶Una presentación que cuenta cómo nació Wordplay; presiona → y ← para avanzar por ella.¶
+
+¶Una diapositiva de la presentación: un personaje, un título y las palabras debajo de él.¶
+•diapositiva(emoji•'' título•'' cuerpo•''|`…`)
+
+¶La historia. Agrega, quita o cambia estas diapositivas para contar la tuya.¶
+diapositivas: [
+		diapositiva(
+			'🎭'
+			'Wordplay'
+			'La historia de cómo nació este lenguaje. Presiona → para avanzar, y ← para retroceder.'
+		)
+		diapositiva(
+			'✒'
+			'Un amor por las letras'
+			'Hace mucho tiempo, Amy se enamoró de la tipografía: las formas de las letras y el ritmo de las palabras en una página.'
+		)
+		diapositiva(
+			'💻'
+			'Un amor por el código'
+			'También se enamoró de la programación, y de cómo unas pocas palabras podían hacer que las cosas se movieran.'
+		)
+		diapositiva(
+			'🧭'
+			'Dos amores, separados'
+			'Pero la tipografía y la programación vivían en mundos distintos, y pocas herramientas invitaban a amar ambas a la vez.'
+		)
+		diapositiva(
+			'😄'
+			'Una persona joven'
+			'Años después, conoció a una persona joven que amaba los emojis, y quería hacerlos bailar.'
+		)
+		diapositiva(
+			'💡'
+			'Una idea'
+			'¿Qué tal si un lenguaje de programación hiciera fácil hacer bailar a los emojis?'
+		)
+		diapositiva(
+			'🌱'
+			'Wordplay comienza'
+			'Así que empezó a construir uno, donde escribir código significa mover palabras y caracteres por un escenario.'
+		)
+		diapositiva(
+			'🧑‍🏫'
+			'Diseñado en conjunto'
+			'Lo diseñó junto con muchas personas jóvenes y maestras, quienes dijeron qué querían crear y qué se les dificultaba.'
+		)
+		diapositiva(
+			'🌏'
+			'Siempre en evolución'
+			'Desde entonces no ha dejado de crecer, para que más personas puedan crear más de lo que imaginan.'
+		)
+		diapositiva(
+			'✨'
+			'Tu turno'
+			`¿Qué sueñas con crear que todavía no es posible? Cuéntanos en <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+		)
+	]
+
+total: diapositivas.longitud()
+
+tecla2: Tecla()
+
+¶La diapositiva que mostramos ahora. Derecha avanza, izquierda regresa, y ambas se detienen en los extremos en lugar de dar la vuelta.¶
+índice2•#: 1 … ∆ tecla2 …
+		(tecla2 = 'FlechaDerecha') ? ((índice2 < total) ? índice2 + 1 índice2)
+			(tecla2 = 'FlechaIzquierda') ? ((índice2 > 1) ? índice2 - 1 índice2)
+				índice2
+
+diapositiva2: diapositivas[índice2]
+
+Escenario(
+	[
+		Grupo(
+			Pila('|' 0.4m)
+			[
+				Frase(diapositiva2.emoji tamaño: 2m)
+				Frase(
+					`*\diapositiva2.título\*`
+					tamaño: 1.2m
+					alineación: '|'
+				)
+				Frase(
+					diapositiva2.cuerpo
+					tamaño: 0.5m
+					envolver: 12m
+					alineación: '|'
+				)
+				Frase(
+					`\índice2\ de \total\`
+					tamaño: 0.25m
+					alineación: '|'
+				)
+			]
+		)
+	]
+)

@@ -1,0 +1,30 @@
+🎃
+Calabaza
+=== start
+¶Una calabaza de Halloween que parpadea y reaparece en un lugar nuevo cada segundo.¶
+tiempo2: Tiempo(1000ms)
+lugar2: Lugar(0m 0m) … ∆ tiempo2 … Lugar(
+			Azar(-4m 4m)
+			Azar(-4m 4m)
+			Azar(-4m 0m)
+		)
+opacidad2: 1 … ∆ tiempo2 … Azar(0.25 1)
+mostrar: ⊤ … ∆ tiempo2 … ~mostrar
+calabaza: Frase(
+		'🎃'
+		opacidad: opacidad2
+		lugar: lugar2
+		entrando: Secuencia(
+			{
+				0%: Pose(escala: 1.25 rotación: -21°)
+				20%: Pose(escala: 0.75 rotación: 13°)
+				40%: Pose(escala: 1 rotación: -7°)
+				60%: Pose(escala: 1.25 rotación: 19°)
+				100%: Pose()
+			}
+			0.5s
+			cuenta: 3x
+		)
+	)
+
+Escenario(mostrar ? [calabaza] [] fondo: Color(0% 0 0°))

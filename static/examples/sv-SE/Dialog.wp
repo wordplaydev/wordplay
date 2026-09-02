@@ -1,0 +1,76 @@
+🗨
+Dialog
+=== start
+¶Två bokstäver pratar om vad det betyder att bokstäver pratar.¶
+
+¶En rad i samtalet: vem som säger den, orden, och om det är en tanke i stället för något som sägs.¶
+•rad(vem•'' ord3•'' tänker•?: ⊥)
+
+skript: [
+		rad(
+			'en'
+			'Tycker du ibland att det är konstigt att vi pratar?'
+		)
+		rad(
+			'b'
+			'Vi är bokstäver. Att prata är typ hela vårt jobb.'
+		)
+		rad(
+			'en'
+			'Nej, jag menar oss. Inte orden vi bildar. Oss.'
+		)
+		rad('b' '…Åh.')
+		rad(
+			'en'
+			'Jag är en form som betyder ett ljud. Just nu gör jag ljudet genom att vara formen.'
+		)
+		rad(
+			'b'
+			'Är en pratbubbla runt en bokstav en bild av en bokstav, eller en bokstav i en bild?'
+			tänker: ⊤
+		)
+		rad('en' 'Du snurrar iväg i tankarna.')
+		rad(
+			'b'
+			'Jag är ett litet b. Att snurra är precis min form.'
+		)
+		rad('en' 'Hur som helst. Det här är normalt här.')
+		rad('b' 'Normalt för oss, i alla fall.')
+	]
+
+¶Gå vidare med en tangent, ett klick eller en knapptryckning, och stoppa på sista raden.¶
+tur•#: 1 … ∆ Nyckel() | ∆ Knapp() … (tur < skript.längd() ? tur + 1 tur)
+
+rad2: skript[tur]
+
+¶Bara den vars tur det är får en pratbubbla. Varje rad är en @Say, så den sägs samtidigt som den visas — och bubblan ersätter texten, eftersom orden redan syns på skärmen bredvid den som sa dem. Ingen väljer sida: scenen lägger varje bubbla där den är minst i vägen.¶
+ƒ pratbubbla(vem2•'')
+	vem2 = rad2.vem ?
+		Bubbla(
+			Säga(rad2.ord3)
+			sort: (rad2.tänker ? '💭' '💬')
+			radbryt: 9m
+		)
+		ø
+
+¶En rad som ligger jämnt på baslinjen, så att båda bokstäverna står på samma linje. En fras låda är dess bläck, så att placera dem på samma höjd skulle sätta en kort bokstav och en hög bokstav på olika baslinjer.¶
+Etapp(
+	[
+		Grupp(
+			Stack('|' 1.5m)
+			[
+				Grupp(
+					Rad('_' 6m)
+					[
+						Fras('en' storlek: 3m bubbla: pratbubbla('en'))
+						Fras('b' storlek: 3m bubbla: pratbubbla('b'))
+					]
+				)
+				Fras(
+					`/mellanslag, klick eller knapptryckning/`
+					storlek: 0.6m
+				)
+			]
+		)
+	]
+)

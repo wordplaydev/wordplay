@@ -1,0 +1,85 @@
+0⃣
+Calculadora
+=== start/en
+¶Uma calculadora de bolso construída a partir de algumas funções aritméticas.¶
+
+¶Funções que realizam cálculos¶
+ƒ addition(num1•# num2•#) num1 + num2
+ƒ subtraction(num12•# num22•#) num12 - num22
+ƒ multiplication(num13•# num23•#) num13 × num23
+ƒ division(num14•# num24•#) num14 ÷ num24
+
+choice: Escolha()
+frame2: 1 … ∆ (choice) … 1 + frame2
+
+¶Booleanos que guardam se cada valor já foi selecionado¶
+num1picked: ⊥ … ∆ (choice) … (choice.começa('num1')) & ~num1picked
+num2picked: ⊥ … ∆ (choice) … (choice.começa('num2')) & ~num2picked
+opicked: ⊥ … ∆ (choice) … (choice.começa('op')) & ~opicked
+
+¶Guarda os operandos e os operadores¶
+num15: ø → # … num1picked … ((choice ÷ '')[-1]) → #
+num25: ø → # … num2picked … ((choice ÷ '')[-1]) → #
+operator: ø … opicked … ((choice ÷ '')[-1])
+
+¶Ecrã para selecionar o primeiro número¶
+numbers1: Grupo(
+		Rede(2 5)
+		[
+			Frase("0⃣" selecionável: ⊤ nome: 'num1_0')
+			Frase("1⃣" selecionável: ⊤ nome: 'num1_1')
+			Frase("2⃣" selecionável: ⊤ nome: 'num1_2')
+			Frase("3⃣" selecionável: ⊤ nome: 'num1_3')
+			Frase("4⃣" selecionável: ⊤ nome: 'num1_4')
+			Frase("5⃣" selecionável: ⊤ nome: 'num1_5')
+			Frase("6⃣" selecionável: ⊤ nome: 'num1_6')
+			Frase("7⃣" selecionável: ⊤ nome: 'num1_7')
+			Frase("8⃣" selecionável: ⊤ nome: 'num1_8')
+			Frase("9⃣" selecionável: ⊤ nome: 'num1_9')
+		]
+	)
+
+¶Ecrã para selecionar o segundo número¶
+numbers2: Grupo(
+		Rede(2 5)
+		[
+			Frase("0⃣" selecionável: ⊤ nome: 'num2_0')
+			Frase("1⃣" selecionável: ⊤ nome: 'num2_1')
+			Frase("2⃣" selecionável: ⊤ nome: 'num2_2')
+			Frase("3⃣" selecionável: ⊤ nome: 'num2_3')
+			Frase("4⃣" selecionável: ⊤ nome: 'num2_4')
+			Frase("5⃣" selecionável: ⊤ nome: 'num2_5')
+			Frase("6⃣" selecionável: ⊤ nome: 'num2_6')
+			Frase("7⃣" selecionável: ⊤ nome: 'num2_7')
+			Frase("8⃣" selecionável: ⊤ nome: 'num2_8')
+			Frase("9⃣" selecionável: ⊤ nome: 'num2_9')
+		]
+	)
+
+¶Ecrã para selecionar o operador¶
+operators: Grupo(
+		Rede(2 2)
+		[
+			Frase("➕" selecionável: ⊤ nome: 'op_a')
+			Frase("➖" selecionável: ⊤ nome: 'op_s')
+			Frase("✖" selecionável: ⊤ nome: 'op_m')
+			Frase("➗" selecionável: ⊤ nome: 'op_d')
+		]
+	)
+
+¶Ecrã para mostrar o resultado¶
+result: ((operator = 'a') | (operator = 's')) ?
+		(operator = 'a' ? addition(num15 num25) subtraction(
+					num15
+					num25
+				))
+		(operator = 'm' ? multiplication(num15 num25) division(
+					num15
+					num25
+				))
+
+¶Percorrer cada um dos ecrãs¶
+setup: [numbers1 operators numbers2 result]
+
+¶Mostrar¶
+setup[frame2]

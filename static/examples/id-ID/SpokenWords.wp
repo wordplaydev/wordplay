@@ -1,0 +1,25 @@
+🎭
+KataYangDiucapkan
+=== start
+¶Ucapkan, dan kata-katamu akan muncul di tempat dan ukuran acak.¶
+klik: Tombol(ø)
+ucapan: Pidato(
+		mengaturulang: klik
+		bahasa: 'id-ID'
+		membatasi: 10
+	)
+x2: Acak(-10m 10m) … ∆ ucapan … Acak(-10m 10m)
+y2: Acak(-10m 10m) … ∆ ucapan … Acak(-10m 10m)
+ukuranteks: Acak(1m 3m) … ∆ ucapan … Acak(1m 3m)
+Panggung(
+	[
+		Frasa(
+			ucapan
+			tempat: Tempat(x2 y2)
+			warna: Warna(0% 0% 0°)
+			ukuran: ukuranteks
+		)
+	]
+	latarbelakang: Warna(100% 0% 0°)
+)
+

@@ -1,0 +1,156 @@
+🎹
+Piano virtual
+=== start
+¶¡Un piano de una octava que puedes tocar!Para la mejor experiencia, apaga la visualización de música.¶
+
+¶Esta asignación guarda un flujo de Tecla que detecta cuál tecla presionaste.¶
+presionada: Tecla()
+
+¶Esto guarda una relación entre las teclas que presionas y las notas que van a sonar,tanto en forma de texto (para mostrar la nota que suena) como en un textonumérico literal (para convertirlo en un número (#) e ingresarlo en una lista de Pista).
+
+Se eligió esta distribución para imitar de cerca las teclas de un piano, con lasteclas blancas representadas por letras, y las teclas negras representadaspor números.¶
+mapanotas: {
+		'w': ['Do' "1"]
+		'3': ['Do# / Reb' "2"]
+		'e': ['Re' "3"]
+		'4': ['Re# / Mib' "4"]
+		'r': ['Mi' "5"]
+		't': ['Fa' "6"]
+		'6': ['Fa# / Solb' "7"]
+		'y': ['Sol' "8"]
+		'7': ['Sol# / Lab' "9"]
+		'u': ['La' "10"]
+		'8': ['La# / Sib' "11"]
+		'i': ['Si' "12"]
+		'o': ['Do5' "13"]
+	}
+
+¶Esta función devuelve el nombre de la nota, según cuál tecla se presionó.Si la tecla no correspondía a una nota válida, devuelve texto vacío.¶
+ƒ devuelveTexto(tecla2•"")•"" (mapanotas{tecla2} ≠ ø) ? mapanotas{tecla2}[1] ""
+
+¶Esta función devuelve el número de la nota que corresponde a la tecla presionada en una lista,para usarse como entrada en una Pista. Si la tecla presionada no es válida, devuelveuna lista vacía.¶
+ƒ devuelveNota(tecla3•"")•[] [
+		(mapanotas{tecla3} ≠ ø) ? (mapanotas{tecla3}[2] → #) []
+	]
+
+¶Esta función recibe una lista numérica y devuelve una Pista con esa lista de notas.El bucle está apagado para que la nota suene solo una vez cuando se presiona la tecla.¶
+ƒ devuelvePista(nota•[#]) Pista(nota bucle: ⊥)
+
+¶Estas dos asignaciones definen el color que toma la tecla correspondientecuando se presiona y cuando no se presiona.¶
+presionarColor: Color(10 270 50°)
+colorNulo: Color(0 0 0°)
+
+¶Esto hace sonar la pista correspondiente a la tecla presionada. La escala es cromáticapara que las pistas puedan usar todos los semitonos. La repetición está activadapara cuando se presiona una tecla válida, de modo que la pista suene cada vezque se presiona la tecla, incluso dos veces seguidas.¶
+Música(
+	devuelvePista(devuelveNota(presionada))
+	escala: Música.cromática
+	repetir: mapanotas{presionada} ≠ ø
+)
+
+¶Muestra el piano, las teclas para presionar, y la nota que suena cuando sepresiona una tecla.¶
+Grupo(
+	Pila('>' 1m)
+	[
+		Grupo(
+			Fila('>' -.3m)
+			[
+				Frase(
+					'▯'
+					nombre: 'w'
+					tamaño: 3m
+					color: presionada = 'w' ? presionarColor colorNulo
+				)
+				Frase(
+					'▮'
+					nombre: '3'
+					tamaño: 3m
+					color: presionada = '3' ? presionarColor colorNulo
+				)
+				Frase(
+					'▯'
+					nombre: 'e'
+					tamaño: 3m
+					color: presionada = 'e' ? presionarColor colorNulo
+				)
+				Frase(
+					'▮'
+					nombre: '4'
+					tamaño: 3m
+					color: presionada = '4' ? presionarColor colorNulo
+				)
+				Frase(
+					'▯'
+					nombre: 'r'
+					tamaño: 3m
+					color: presionada = 'r' ? presionarColor colorNulo
+				)
+				Frase(
+					'▯'
+					nombre: 't'
+					tamaño: 3m
+					color: presionada = 't' ? presionarColor colorNulo
+				)
+				Frase(
+					'▮'
+					nombre: '6'
+					tamaño: 3m
+					color: presionada = '6' ? presionarColor colorNulo
+				)
+				Frase(
+					'▯'
+					nombre: 'y'
+					tamaño: 3m
+					color: presionada = 'y' ? presionarColor colorNulo
+				)
+				Frase(
+					'▮'
+					nombre: '7'
+					tamaño: 3m
+					color: presionada = '7' ? presionarColor colorNulo
+				)
+				Frase(
+					'▯'
+					nombre: 'u'
+					tamaño: 3m
+					color: presionada = 'u' ? presionarColor colorNulo
+				)
+				Frase(
+					'▮'
+					nombre: '8'
+					tamaño: 3m
+					color: presionada = '8' ? presionarColor colorNulo
+				)
+				Frase(
+					'▯'
+					nombre: 'i'
+					tamaño: 3m
+					color: presionada = 'i' ? presionarColor colorNulo
+				)
+				Frase(
+					'▯'
+					nombre: 'o'
+					tamaño: 3m
+					color: presionada = 'o' ? presionarColor colorNulo
+				)
+			]
+		)
+
+		Grupo(
+			Fila('>' 1.1m)
+			[
+				Frase('w')
+				Frase('3')
+				Frase('e')
+				Frase('4')
+				Frase('r t')
+				Frase('6')
+				Frase('y')
+				Frase('7')
+				Frase('u')
+				Frase('8')
+				Frase('i  o')
+			]
+		)
+		Frase(devuelveTexto(presionada))
+	]
+)

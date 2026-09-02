@@ -1,0 +1,22 @@
+t
+字体机器
+=== start
+¶按任意键，用随机字体重新排版“typography”里的每个字母。¶
+字体2: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+符号: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ 随机2()
+	符号.翻译(
+		ƒ(符号2) 短语(符号2 表面: 字体2.随机() 持续时间: 0s)
+	)
+
+短语3: 随机2() … ∆ 钥匙() | ∆ 按钮() … 随机2()
+
+舞台([组合(横排('|' 0m) 短语3 位置: 位置(0m 0m))])

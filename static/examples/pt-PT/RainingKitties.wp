@@ -1,0 +1,46 @@
+🐈
+A Chover Gatinhos
+=== start/en
+¶Cinquenta gatinhos a cair pelo palco.¶
+contagem2: 50
+tamanho2: 30
+
+•gatinho(x2•# y2•# z2•# ângulo2•# velocidade2•#) ()
+
+¶No início, cria uma lista de 20 gatinhos, cada um colocado num sítio aleatório. Quando o relógio marca a hora, move-os todos um pouco para baixo.¶
+gatinhos•[gatinho]:
+	contagem2 → [].traduzir(
+		ƒ(_) gatinho(
+				Aleatório(-tamanho2 tamanho2)
+				Aleatório(-tamanho2 tamanho2)
+				Aleatório(0 tamanho2 ÷ 2)
+				Aleatório(360)
+				Aleatório(-30 30)
+			)
+	)
+	… ∆ Tempo() …
+		gatinhos.traduzir(
+			ƒ(gatinho2•gatinho)
+				(gatinho2.y2:gatinho2.y2 < -tamanho2 ? tamanho2 gatinho2.y2 - 2)
+				.ângulo2:gatinho2.ângulo2 + gatinho2.velocidade2
+		)
+
+¶Converter os gatinhos em frases¶
+Fase(
+	gatinhos.traduzir(
+		ƒ(gatinho3•gatinho)
+			Frase(
+				"🐈"
+				fonte: "Noto Color Emoji"
+				tamanho: 5m
+				local: Local(
+					gatinho3.x2 × 1m
+					gatinho3.y2 × 1m
+					gatinho3.z2 × 1m
+				)
+				rotação: gatinho3.ângulo2 × 1°
+				duração: 0s
+			)
+	)
+	local: Local(0m 0m -5m)
+)

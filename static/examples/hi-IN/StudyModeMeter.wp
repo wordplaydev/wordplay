@@ -1,0 +1,78 @@
+⏳
+पढ़ाई स्थिति मीटर
+=== start/en
+¶पढ़ाई के घंटे जोड़ने के लिए क्लिक करें और देखें कि मीटर शांत से ध्यान और फिर अधिक भार तक कैसे बदलता है।¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+अंक: चयन()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+पढ़ाईकेघंटे:
+	0 …
+	∆ अंक …
+		अंक = 'reset' ?
+			0
+			पढ़ाईकेघंटे + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+स्पष्टीकरण:
+	'अपना पढ़ाई का समय बढ़ाने के लिए “पढ़ाई का घंटा जोड़ें +1” पर क्लिक करें। फिर से शुरू करने के लिए “रीसेट” पर क्लिक करें।'
+
+¶Hours text shows how many hours the user has studied.¶/en
+घंटेलेख:
+	'आपने पढ़ाई की है ' + पढ़ाईकेघंटे → '' + ' घंटे।'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+मनोदशा:
+	पढ़ाईकेघंटे < 3 ?
+		'🌿 शांत स्थिति — पढ़ाई का समय जोड़ने के लिए क्लिक करें'
+		पढ़ाईकेघंटे < 6 ?
+			'📚 ध्यान स्थिति — आप काम की सही स्थिति में हैं!'
+			'🔥 अधिक भार स्थिति — आराम करें और "रीसेट" करें'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+मंच(
+	[
+		समूह(
+			ढेर()
+			[
+				वाक्यांश('पढ़ाई स्थिति मीटर' आकार: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				वाक्यांश(स्पष्टीकरण आकार: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				वाक्यांश(घंटेलेख आकार: 0.4m)
+
+				वाक्यांश(मनोदशा आकार: 0.75m)
+
+				समूह(
+					पंक्ति(अंतराल: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						वाक्यांश(
+							'पढ़ाई का घंटा जोड़ें +1'
+							चुननेयोग्य: ⊤
+							नाम: 'जोड़ें'
+							रंग: रंग(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						वाक्यांश(
+							'रीसेट'
+							चुननेयोग्य: ⊤
+							नाम: 'reset'
+							रंग: रंग(69% 47 271°)
+						)
+					]
+				)
+			]
+			फ़ॉन्ट: "Aclonica"
+		)
+	]
+)

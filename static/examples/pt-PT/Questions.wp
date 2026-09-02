@@ -1,0 +1,41 @@
+👨‍👨‍👧‍👦
+Perguntas
+=== start/en
+¶Prima teclas para lançar pontos de interrogação saltitantes sobre uma família intrigada.¶
+•pergunta2(id2•"" vx•#m/s vy•#m/s va•#°/s)
+
+pressionada: ∆ Chave()
+contagem2•#: 0 … pressionada … contagem2 + 1
+perguntas•[pergunta2]: [] … pressionada … [
+			:perguntas
+			pergunta2(
+				contagem2 → ""
+				Aleatório(30m/s 50m/s)
+				Aleatório(30m/s 50m/s)
+				Aleatório(0°/s 30°/s)
+			)
+		]
+
+Fase(
+	[
+		Frase('👨‍👨‍👧‍👦' local: Local(0m 0m) fonte: "Noto Emoji")
+		Figura(Retângulo(-5m 0m 25m -1m))
+		:perguntas.traduzir(
+			ƒ(q•pergunta2 índice2•#) (
+					iniciar2: pressionada & (índice2 = perguntas.comprimento(
+									))
+					Frase(
+						'Q'
+						nome: q.id2
+						local: Movimento(
+							velocidade: Velocidade(q.vx q.vy q.va)
+						)
+						matéria: Matéria()
+						descansar: Pose(
+							opacidade: iniciar2 ? 0% 100%
+						)
+					)
+				)
+		)
+	]
+)

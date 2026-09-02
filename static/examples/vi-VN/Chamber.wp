@@ -1,0 +1,76 @@
+文
+Buồng
+=== start
+¶Một trăm chữ cái từ bốn hệ chữ viết đang nảy trong một hộp kín; lật lực hấp dẫn hoặc lắc chúng lên.¶
+đếm2: 100
+
+¶Bốn bảng chữ cái mà các chữ cái này được lấy ra từ đó.¶
+latin: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
+hyLạp: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
+ảRập: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
+cjk: '日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪' → ['']
+
+¶Bộ điều khiển nào vừa được bấm.¶
+lựaChọn: Sựlựachọn()
+
+¶Xáo trộn cả bốn bảng chữ cái cùng một lần, khi chương trình bắt đầu, rồi giữ thứ tự đó mãi mãi. Một phép xáo trộn viết dưới dạng một liên kết đơn giản sẽ gán cho mỗi chữ cái một ký tự mới ở mỗi khung hình.¶
+kýTự: [:latin :hyLạp :ảRập :cjk].xáotrộn() … ∆ lựaChọn … kýTự
+
+¶Chỉ đúng ở lần tính toán do nút lắc gây ra, nên mỗi lần bấm các chữ cái chỉ nhận một cú đẩy, thay vì bị đẩy ở mỗi khung hình.¶
+lắc2: (∆ lựaChọn) & (lựaChọn = 'shake')
+
+¶Công cụ chuyển đổi bật giữa lực hấp dẫn của Trái Đất và không có lực hấp dẫn.¶
+rơi: ⊤ … ∆ lựaChọn … (lựaChọn = 'gravity') ? ~rơi rơi
+
+¶Một tốc độ, hướng đi và độ xoay ngẫu nhiên.¶
+ƒ phóng() Vậntốc(
+		Ngẫunhiên(-12m/s 12m/s)
+		Ngẫunhiên(-12m/s 12m/s)
+		Ngẫunhiên(-120°/s 120°/s)
+	)
+
+chữCái: đếm2 → [].dịch(
+		ƒ(số2)
+			Cụmtừ(
+				kýTự[số2]
+				tên: "glyph\số2\"
+				vịTrí: Cửđộng(
+					VịTrí(Ngẫunhiên(-7.5m 7.5m) Ngẫunhiên(-5.5m 5.5m))
+					phóng()
+					vậntốctiếptheo: lắc2 ? phóng() ø
+				)
+				vấnđề: Vấnđề(độđànhồi: 0.7 masát: 0)
+			)
+	)
+
+¶Hai bộ điều khiển. Chúng không có khối lượng và vị trí của chúng không phải là một Motion, nên bộ máy vật lý bỏ qua chúng.¶
+chuyển: Cụmtừ(
+		rơi ? '⬇ lực hấp dẫn' '🌌 trôi nổi'
+		0.7m
+		tên: 'gravity'
+		cóthểlựachọn: ⊤
+		vịTrí: VịTrí(-13m 1m)
+	)
+
+máyLắc: Cụmtừ(
+		'🎲 lắc'
+		0.7m
+		tên: 'shake'
+		cóthểlựachọn: ⊤
+		vịTrí: VịTrí(-13m -1m)
+	)
+
+Sânkhấu(
+	[
+		¶Bốn bức tường, đủ dày để không có gì xuyên qua khi di chuyển nhanh.¶
+		Hìnhdạng(Hìnhchữnhật(-8.6m 6.6m 8.6m 6m))
+		Hìnhdạng(Hìnhchữnhật(-8.6m -6m 8.6m -6.6m))
+		Hìnhdạng(Hìnhchữnhật(-8.6m 6.6m -8m -6.6m))
+		Hìnhdạng(Hìnhchữnhật(8m 6.6m 8.6m -6.6m))
+		:chữCái
+		chuyển
+		máyLắc
+	]
+	trọnglực: rơi ? 9.8m/s^2 0m/s^2
+	vịTrí: VịTrí(-2.5m 0m -11m)
+)

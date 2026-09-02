@@ -1,0 +1,105 @@
+🔁
+Waldough Nerede?
+=== start/en
+¶Kalabalığın içinde saklanan Waldough'u bul: turuncu tişörtlü adamı ara ve kazanmak için ona tıkla!¶
+
+isim3: Seçenek()
+yakalandı: ⊥ … ∆ (isim3) … (isim3 = 'ResetButton') ? ⊥ ((isim3 = 'Waldough') | yakalandı)
+skor: 0 … ∆ (isim3) … (isim3 = 'Waldough') ? 1 + skor skor
+
+ƒ nokta() Yer(
+		((0.1 × Rastgele(-9m 9m)) + Rastgele(-2m 1m))
+		((0.1 × Rastgele(-9m 9m)) + Rastgele(-2m 1m))
+	)
+ƒ yeniNoktalar() [
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+		nokta()
+	]
+noktalar2: yeniNoktalar() … ∆ (isim3) … (isim3 = 'ResetButton') ? yeniNoktalar(
+			) noktalar2
+
+
+Sahne(
+	[
+		İfadeetmek(
+			"🔁"
+			seçilebilir: ⊤
+			yer: Yer(4m -0.5m)
+			dinlenme: yakalandı ? Poz(rotasyon: 180°) Poz()
+			süre: 0.5s
+			isim: 'ResetButton'
+		)
+		İfadeetmek(
+			'Turuncu tişörtü ara'
+			0.2m
+			yer: Yer(-6.2m 0.75m)
+			yüz: 'Carter One'
+		)
+		İfadeetmek(
+			'adamı (adı Waldough) bul ve'
+			0.2m
+			yer: Yer(-6.4m 0.25m)
+			yüz: 'Carter One'
+		)
+		İfadeetmek(
+			'kazanmak için ona tıkla!🧍🏻'
+			0.2m
+			yer: Yer(-6.0m -0.25m)
+			yüz: 'Carter One'
+		)
+		İfadeetmek(
+			'Skor: ' + skor → ''
+			0.5m
+			yer: Yer(-5.9m -1m)
+		)
+
+		İfadeetmek("🏀" yer: noktalar2[1])
+		İfadeetmek("🦧" yer: noktalar2[2])
+		İfadeetmek("🍊" yer: noktalar2[3])
+		İfadeetmek("👻" yer: noktalar2[4])
+		İfadeetmek("🤖" yer: noktalar2[5])
+		İfadeetmek("👽" yer: noktalar2[6])
+		İfadeetmek("🐀" yer: noktalar2[7])
+		İfadeetmek("🦣" yer: noktalar2[8])
+		İfadeetmek("🐸" yer: noktalar2[9])
+		İfadeetmek("🍎" yer: noktalar2[10])
+		İfadeetmek("💧" yer: noktalar2[11])
+		İfadeetmek("🍔" yer: noktalar2[12])
+		İfadeetmek("❤" yer: noktalar2[13])
+		İfadeetmek("🍥" yer: noktalar2[14])
+		İfadeetmek(
+			"🧍🏻"
+			seçilebilir: ~yakalandı
+			yer: noktalar2[15]
+			dinlenme: yakalandı ? Poz(rotasyon: 180°) Poz()
+			süre: 0s
+			isim: 'Waldough'
+		)
+		İfadeetmek("🔥" yer: noktalar2[16])
+		İfadeetmek("🎂" yer: noktalar2[17])
+		İfadeetmek("🐕" yer: noktalar2[18])
+		İfadeetmek("🦈" yer: noktalar2[19])
+		Şekil(Dikdörtgen(-3.5m -3m 3.5m -3.5m))
+		Şekil(Dikdörtgen(-3.5m 3.5m 3.5m 3m))
+		Şekil(Dikdörtgen(-3.5m 3.5m -3m -3.5m))
+		Şekil(Dikdörtgen(3m 3.5m 3.5m -3.5m))
+	]
+	yer: Yer(0m 0m -5m)
+)

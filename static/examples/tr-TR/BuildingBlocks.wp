@@ -1,0 +1,633 @@
+🔨
+Yapı Taşları
+=== start/en
+¶Yapı Taşları — kes, taşı ve üst üste koy. Sen, ağaçlar ve kayalarla dolu yeşil bir alanda duran küçük bir figürsün. Ok tuşlarıyla yürürsün; yürüdüğün yöne dönersin ve süzülen imleç, üzerinde işlem yapmak üzere olduğun hücreyi gösterir.
+
+Boşluk tuşu iki iş de yapar, imleç sana hangisini yapacağını söyler. Önündeki yığın ayaklarının üzerine çıktığında imleç 🪏 olur ve Boşluk tuşu üstünü kırar; yığın ayaklarınla aynı hizada ya da altındaysa imleç 🔨 olur ve Boşluk tuşu üzerine bir blok koyar. Yani toplamak, bir ağacın yanına gidip Boşluk tuşuna basmaktır; yukarı doğru inşa etmekse ilerledikçe tırmanmak demektir. Gevşek bir parçanın üzerinden yürürsen onu cebine atarsın — bir ağaç sana 🪵 odun, bir kaya 🧱 tuğla verir — ve hangisini üst üste koyacağını değiştirmek için Shift tuşuna bas.
+
+Sadece kendi bastığın yerin bir blok üstüne ulaşabilirsin ve bir şey erişiminin dışındaysa imleç solar. Bir kaya iki blok yüksekliğinde, bu yüzden onu yerden üstünden kesebilirsin — ama bir ağaç üç blok yüksekliğinde, o yüzden tepesine ulaşmak için yükseklik gerekir. Zirvesine ulaşmak için j tuşuna basıp zıplayarak vurabilir, ya da bir blok koyup üzerine çıkıp oradan çalışabilirsin. Yürümek asla tırmanmaz, bu yüzden her zaman bir şeyin karşısına geçip üzerinde işlem yapabilirsin.
+
+Solgun bloklar, yapmaya çalıştığın yapıyı gösterir ve her biri sen onu eşleştirdikçe katılaşır. Hepsini eşleştirirsen kazanırsın — geriye bıraktığın her şey senin kendi işindir, yani tırmanmak için yaptığın bir basamak olduğu yerde kalabilir.¶
+
+¶Dünya, tam sayılı hücrelerden oluşan bir ızgaradır ve metreler yalnızca çizim sırasında görünür. Bu, her konumu tam yapar: bir şeyin yanında durmak, bir şeyin üstüne yığmak ve hedefi eşleştirmek, tam sayıların birbirine eşit olmasından ibarettir, böylece hiçbir şey asla yarım blok kayıp hizadan çıkmaz.
+
+Alan bilerek sadece beş hücre derinliğindedir ve bu, kameranın ne kadar yakın durduğuyla ilgilidir — alttaki kamerayı incele.¶
+minX: -4
+maksX: 4
+minZ: 0
+maksZ: 4
+maksY: 4
+
+¶Zeminin göz hizasının kaç hücre altında olduğunu gösterir. Kamera ne kadar yakınsa, her şey o kadar büyük çizilir ve bu alanı ekranda o kadar aşağı iter, bu yüzden bu değer ile kamera mesafesi birlikte değişmelidir.¶
+zeminDüşüşü: 0.8
+
+¶Kameranın senin kaç hücre arkanda durduğunu gösterir. Bu tek başına her şeyin ne kadar büyük göründüğünü belirler: sahne, kameraya olan mesafeye bölünür, yani üç hücre geride olmak seni gerçek boyutunun yaklaşık iki buçuk katı büyüklükte gösterir.¶
+kameraArkası: 3
+
+¶Tüm alanın başlangıç noktasından ne kadar uzakta durduğunu gösterir. Sahne, dünyayı kameranın kendi konumunun tersiyle ölçeklendirir ve her parçayı da tersiyle, bu da birbirini götürür — kameranın konumu sıfıra ulaştığında sahne tamamen düzleşip tersine döner. Kamera senin cameraBack kadar hücre arkanda durur, bu yüzden alanı bu kadar uzakta tutmak, en arka sıraya yürüdüğünde bile kameranın konumunu rahatça negatif tutar. Hiçbir şeyin görünüşünü etkilemez; sadece hesaplamaları sıfırdan uzak tutar.¶
+dünyaArkası: 4
+
+¶Bir hücrenin merkezi, metre cinsinden. Yarım değer x'i geriye kaydırır çünkü bir ifade sol kenarından yerleştirilir.¶
+ƒ xʼte(c2•#) ((c2 - 0.5) · 1m)
+ƒ yʼde(c3•#) ((c3 - zeminDüşüşü) · 1m)
+ƒ zʼde(c4•#) ((c4 - dünyaArkası) · 1m)
+
+¶Çekicin ne kadar süre gerili kaldığını ve bir zıplamadan sonra kaç kare havada asılı kaldığını gösterir. Bu asılı kalma, zıplamayı kullanılabilir kılar: bu olmasa bir zıplama tek bir kare sürerdi, bu da bir ok tuşuna basmak, sallamak ya da bir bloğa inmek için çok kısa olurdu.¶
+salınımTikleri: 2
+asılıKalmaTikleri: 4
+
+¶Arkandaki dünyanın ne kadarının hâlâ çizildiğini gösterir. Bunun neden var olduğunu görmek için aşağıdaki kameraya bak: kamera ne kadar yakınsa, arkandaki o kadar az sıra çizilebilir; aksi halde biri lensin önüne geçip görüntüde devasa görünür.¶
+arkayaÇiz: 1
+
+¶Kendi bastığın yerin ne kadar üstünde çalışabileceğini gösterir. Bir blok, yüksekliği önemli kılan şeydir: bir kaya iki blok yüksekliğinde, bu yüzden yerde durarak üstünü kesebilirsin, ama bir ağaç üç blok yüksekliğinde, bu yüzden tepesine ulaşmak için zıplaman ya da bir şeyin üstüne çıkman gerekir — ve aynı sınır ne kadar yükseğe yığabileceğini de belirler.¶
+erişim: 1
+
+¶Bir hücrede duran tek bir küp. Türü emojinin kendisidir, bu yüzden bir bloğu çizmek asla bir arama gerektirmez.¶
+•blok(x2•# y2•# z2•# tür2•"")
+
+¶Koparılıp yere düşen bir parça. Kırıldığı hücreyi hatırlar, bu yüzden ilk karesi bloğun eskiden bulunduğu yerde çizilir ve sonraki her kare düştüğü yerde çizilir — uçuşu ifadenin kendi yumuşatması yapar. Kimlik yalnızca sahnede kendine ait bir isim vermek için vardır, çünkü iki parça aynı hücreye düşebilir.¶
+•öğe2(kimlik2•# x3•# z3•# xʼten•# yʼden•# zʼden•# tür3•"" yaş•#)
+
+¶Tüm oyun tek bir değerde: aşama (1 = başlık, 2 = oynanıyor, 3 = kazanıldı), nerede durduğun ve son hangi yöne hareket ettiğin, bir zıplamada ne kadar havada kalabileceğin, ceplerinde ne olduğu ve hangi malzemeyi yerleştireceğin, çekiçte ne kadar sallama hakkı kaldığı, bir sonraki serbest parçanın kimliği, eşleştirilecek yapı ve dünyadaki her şey.¶
+•oyun(evre•# x4•# y3•# z4•# xYönünde•# zYönünde•# asılıDur•# tahta•# tuğla•# seçili•"" salla2•# sonrakiKimlik•# hedef2•[blok] bloklar•[blok] öğeler•[öğe2])
+
+¶Bir ağaç üst üste duran üç küpten, bir kaya bloğu ise ikiden oluşur — her biri tek bir nesne değil, bir sütun içinde birkaç bloktur, bu yüzden her parçanın ayrı ayrı çekiçle sökülmesi gerekir. İkisi de tek sütun genişliğindedir, bu sayede oluşum sırasında hiçbir iki bloğun aynı hücreyi paylaşmayacağı garanti edilir.¶
+ağaçŞekli: [
+		blok(0 0 0 '🌳')
+		blok(0 1 0 '🌳')
+		blok(0 2 0 '🌳')
+	]
+kayaŞekli: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
+
+ƒ şekilKonumu(şekil•[blok] kx•# kz•#) şekil.tercümeetmek(
+		ƒ(b2•blok) blok(kx b2.y2 kz b2.tür2)
+	)
+
+¶Kırılan bir parçanın dönüştüğü şey.¶
+ƒ çarpım(tür4•"") tür4 ???
+		'🌳': '🪵'
+		'🪨': '🧱'
+		tür4
+
+¶Eşleştirilecek yeni bir yapı: her biri bir ile üç blok yüksekliğinde iki kule, ortadaki sütunlardan rastgele bir çiftinde, alanın arka sırasında yer alır. O orta sütunlar tam olarak kaynakların hiç oluşmadığı sütunlardır, bu yüzden bir kule asla bir ağacın içine düşemez. Her sütun yerden itibaren doludur, çünkü yığma her zaman bir sütunun tepesine düşer — havada duran bir blok oluşturmanın bir yolu yoktur, dolayısıyla böyle bir şey istemenin de bir yolu yoktur. Altı blok üst sınırdır; bu da üç kaya bloğundan oluşan bir alanın tuğlada verdiği miktardır, böylece tamamen tuğladan oluşan bir yapı bile inşa edilebilir.¶
+ƒ hedefOluştur() (
+		derinlik2: maksZ
+		çift2: [-1 0 1].karıştırılmış().altdizi(1 2)
+		çift2.birleştirilmiş(
+			[]
+			ƒ(yapı•[blok] kx2•#)
+				yapı.Listeile(
+					(Rastgele(1 2) → []).tercümeetmek(
+						ƒ(seviye•#)
+							blok(
+								kx2
+								(seviye - 1)
+								derinlik2
+								['🪵' '🧱'].rastgele()
+							)
+					)
+				)
+		)
+	)
+
+¶Bir hücrenin alanda olup olmadığı.¶
+ƒ sınırlarIçinde(kx3•# kz2•#) (kx3 ≥ minX) & (kx3 ≤ maksX) & (kz2 ≥ minZ) & (kz2 ≤ maksZ)
+
+¶Bir sütunun ne kadar yüksek olduğu. Her sütun yerden itibaren doludur — şekiller böyle büyür, yığma tepeye eklenir, çekiçleme tepeden alır — bu yüzden bir sütunun bloklarını saymak hem yüksekliğini hem de üzerindeki ilk boş hücreyi verir.¶
+ƒ kolonYüksekliği(bloklar2•[blok] kx4•# kz3•#) bloklar2.filtre(
+		ƒ(b3•blok) (b3.x2 = kx4) & (b3.z2 = kz3)
+	).uzunluk(
+	)
+
+¶Tam olarak bir hücrenin tam olarak bir blok türünü içerip içermediği. Soruyu bu şekilde sormak — orada olmayabilecek bir bloğu almak yerine eşleşmeleri saymak — belki-bir-blok olan bir şeyin taşınıp açılması gerekliliğini ortadan kaldırır.¶
+ƒ hücreİçeriği(bloklar3•[blok] kx5•# cy•# kz4•# tür5•"")
+	bloklar3.filtre(
+		ƒ(b4•blok) (b4.x2 = kx5) & (b4.y2 = cy) & (b4.z2 = kz4) & (b4.tür2 = tür5)
+	).uzunluk(
+	) > 0
+
+¶Yeni bir alan: her biri kendi sütununda, rastgele bir derinlikte üç ağaç ve üç kaya bloğu. Önce sütunları karıştırmak, hangilerinin ağaç yetiştireceğini rastgele belirler. Ortaya en yakın sütunlar bilerek dışarıda bırakılır, böylece hiçbir şey senin durduğun yerde veya kulelerin bulunduğu yerde büyümez.¶
+kolonlarıOluştur: [-4 -3 -2 2 3 4]
+
+ƒ dünyayıOluştur()
+	kolonlarıOluştur.karıştırılmış().birleştirilmiş(
+		[]
+		ƒ(alan•[blok] kx6•# dizin2•#)
+			alan.Listeile(
+				şekilKonumu(
+					((dizin2 ≤ 3) ? ağaçŞekli kayaŞekli)
+					kx6
+					Rastgele(minZ maksZ)
+				)
+			)
+	)
+
+¶Henüz eşleştirmediğin hedef blokların hangileri olduğu. Bütün geri bildirim döngüsü budur: soluk kuleler sen inşa ettikçe blok blok erir, ve bu aynı zamanda soluk bir bloğun gerçek bir blokla asla aynı hücreyi paylaşmamasının nedenidir — bu önemlidir, çünkü sahne yalnızca derinliğe göre sıralanır ve aynı derinlikte iki şey olması yazı tura atmak gibi olurdu.¶
+ƒ ulaşılmamışHedef(bloklar4•[blok] hedef3•[blok])
+	hedef3.filtre(
+		ƒ(g•blok) ~hücreİçeriği(bloklar4 g.x2 g.y2 g.z2 g.tür2)
+	)
+
+¶Yapının her bloğu eşleştirildiğinde kazanmış olursun. Etrafta bıraktığın başka her şey senin bileceğin bir iştir — tırmanmak için yaptığın basamaklar, hiç kullanmadığın bir yığın — bitirmek için hiçbir şeyi toparlaman gerekmez. Bir hedef hücre tam olarak belirli bir malzeme ister, bu yüzden doğru yerde duran bir ağaç bile bu isteği karşılayamaz.¶
+ƒ hedefeUlaşıldı(bloklar5•[blok] hedef4•[blok]) ulaşılmamışHedef(
+		bloklar5
+		hedef4
+	).uzunluk(
+	) = 0
+
+¶Bir adım at. Gitmeye çalıştığın yöne her zaman dönersin, adım başarısız olsa bile — yani bir şeye doğru yürümek, ona yönelmenin yoludur. Sadece yığını zaten bulunduğun yükseklikten daha yüksek olmayan bir hücreye girebilirsin — yürümek asla tırmanmaz, çünkü tırmanan bir adım seni tam da çekiçlemeye çalıştığın şeyin üzerine taşırdı. Bir bloğun üstüne çıkmak için j ile zıpla, sonra üzerine yürü.¶
+ƒ hareketEt(oyun2•oyun dx•# dz•#) (
+		yönelmiş: (oyun2.xYönünde:dx).zYönünde:dz
+		hedefX: oyun2.x4 + dx
+		hedefZ: oyun2.z4 + dz
+		~sınırlarIçinde(hedefX hedefZ) ? yönelmiş (
+				yükseklik2: kolonYüksekliği(
+						yönelmiş.bloklar
+						hedefX
+						hedefZ
+					)
+				(yükseklik2 ≤ oyun2.y3) ? ((yönelmiş.x4:hedefX).z4:hedefZ) yönelmiş
+			)
+	)
+
+¶Zıpla, ama yalnızca üzerinde durduğun bir şeyden. Kendi ayak bastığın yerin üstünde olup olmadığını sormak önemli olan testtir: havada kalma süresinin bitmesi, yere inmiş olmakla aynı şey değildir, bu yüzden yalnızca havada kalma süresi bitince reddeden bir zıplama, düşüşün ortasında tekrar başlatılabilir ve oradan inişin ortasında tekrar — gökyüzüne hücre hücre tırmanmak gibi. Önce basamak yapmadan kol boyunun ötesindeki bir şeye ulaşmanın yolu budur.¶
+ƒ zıpla(oyun3•oyun)
+	(oyun3.y3 > kolonYüksekliği(
+				oyun3.bloklar
+				oyun3.x4
+				oyun3.z4
+			)) ? oyun3
+		((oyun3.y3:(oyun3.y3 + 1).dakika(maksY)).asılıDur:asılıKalmaTikleri)
+
+¶Önündeki her şeye sallan. Yalnızca o sütunun en üstteki parçası çıkar — bu yüzden bir ağacın çıkması üç vuruş alır — ve bu, bir parçayı asla havada bırakamayacağın anlamına gelir, böylece hiçbir şey düşmek zorunda kalmaz. Yalnızca kendi ayak bastığın yerin bir üstündeki bir bloğa ulaşabilirsin, bu yüzden erişemeyeceğin bir tepe basitçe çıkmaz; daha yükseğe çık ve tekrar sallan. Serbest kalan parça senden uzağa, bir hücre daha yuvarlanır — o hücre alanın dışındaysa veya zaten doluysa, bulunduğu yerde düşer. Çekiç, vurup vurmadığına bakmaksızın geri çekilir, yani ıskalasa bile sallanmış olur.¶
+ƒ çarptı(oyun4•oyun) (
+		hedefX2: oyun4.x4 + oyun4.xYönünde
+		hedefZ2: oyun4.z4 + oyun4.zYönünde
+		üstY: kolonYüksekliği(oyun4.bloklar hedefX2 hedefZ2) - 1
+		¶Hedef hücreyi, ortaya çıkacağı parçanın içine doğrudan katlamak, bir blok-olabilir şeyi taşımayı gerektirmez: boş bir kolon basitçe hiçliğe katlanır.¶
+		çarpım2: (üstY > (oyun4.y3 + erişim)) ? '' oyun4.bloklar.filtre(
+					ƒ(b5•blok) (b5.x2 = hedefX2) & (b5.y2 = üstY) & (b5.z2 = hedefZ2)
+				).birleştirilmiş(
+					''
+					ƒ(şimdiyeKadar•"" b6•blok) şimdiyeKadar + çarpım(
+								b6.tür2
+							)
+				)
+		sallandı: oyun4.salla2:salınımTikleri
+		(çarpım2 = '') ? sallandı (
+				kalan2: sallandı.bloklar.filtre(
+						ƒ(b7•blok) ~((b7.x2 = hedefX2) & (b7.y2 = üstY) & (b7.z2 = hedefZ2))
+					)
+				inişX: hedefX2 + oyun4.xYönünde
+				inişZ: hedefZ2 + oyun4.zYönünde
+				temizle: sınırlarIçinde(inişX inişZ) & (kolonYüksekliği(
+								kalan2
+								inişX
+								inişZ
+							) = 0)
+				düştü: sallandı.öğeler.ile(
+						öğe2(
+							sallandı.sonrakiKimlik
+							(temizle ? inişX hedefX2)
+							(temizle ? inişZ hedefZ2)
+							hedefX2
+							üstY
+							hedefZ2
+							çarpım2
+							0
+						)
+					)
+				((sallandı.bloklar:kalan2).öğeler:düştü).sonrakiKimlik:(sallandı.sonrakiKimlik + 1)
+			)
+	)
+
+¶Elinde bir tane varsa ve üstte yer varsa, bloklarından birini önündeki kolonun üstüne yığ. Erişim burada kontrol edilmez: bu yalnızca yığın ayağının altında veya ayağının hizasındayken çalışır, bu yüzden yeni blok her zaman kol mesafende iner.¶
+ƒ yerleştir(oyun5•oyun) (
+		hedefX3: oyun5.x4 + oyun5.xYönünde
+		hedefZ3: oyun5.z4 + oyun5.zYönünde
+		yükseklik3: kolonYüksekliği(
+				oyun5.bloklar
+				hedefX3
+				hedefZ3
+			)
+		stok: (oyun5.seçili = '🪵') ? oyun5.tahta oyun5.tuğla
+		(~sınırlarIçinde(hedefX3 hedefZ3) | (stok = 0) | (yükseklik3 > maksY)) ? oyun5 (
+				harcandı: (oyun5.seçili = '🪵') ? (oyun5.tahta:(oyun5.tahta - 1)) (oyun5.tuğla:(oyun5.tuğla - 1))
+				harcandı.bloklar:oyun5.bloklar.ile(
+					blok(hedefX3 yükseklik3 hedefZ3 oyun5.seçili)
+				)
+			)
+	)
+
+¶Boşluk tuşunun kırmak yerine inşa edip etmeyeceği. Önündeki yığın buna karar verir: ayağının altındaysa veya hizasındaysa üstüne bir blok daha yığarsın, üstündeyse en üsttekini devirirsin. Tek bir tuş ikisini de yapar, imleç ise hangisi olacağını gösterir. Yukarı doğru inşa etmek, ilerledikçe tırmanmak demektir; zıplama da tam bunun içindir. Yanlış yere koyduğun bir şeyi, onunla aynı hizada durarak her zaman geri alabilirsin.¶
+ƒ bina(oyun6•oyun)
+	kolonYüksekliği(
+		oyun6.bloklar
+		(oyun6.x4 + oyun6.xYönünde)
+		(oyun6.z4 + oyun6.zYönünde)
+	) ≤ oyun6.y3
+
+ƒ davranış(oyun7•oyun) bina(oyun7) ? yerleştir(oyun7) çarptı(
+			oyun7
+		)
+
+¶Yığmak istediğin malzemeyi değiştir.¶
+ƒ açKapa(oyun8•oyun) oyun8.seçili:((oyun8.seçili = '🪵') ? '🧱' '🪵')
+
+¶Oyun sırasında bir tuşa basma. Tuş, tepkinin içinde karşılaştırılmak yerine buraya düz metin olarak gelir; bu sayede tepkinin ∆ testleri yalnızca akışın kendisine bakmaya devam eder.¶
+ƒ tuşBasışınıUygula(oyun9•oyun anahtar2•"")
+	(anahtar2 = 'Sol Ok') ? hareketEt(oyun9 -1 0)
+		((anahtar2 = 'Sağ Ok') ? hareketEt(oyun9 1 0)
+				((anahtar2 = 'Yukarı Ok') ? hareketEt(oyun9 0 1)
+						((anahtar2 = 'Aşağı Ok') ? hareketEt(
+									oyun9
+									0
+									-1
+								)
+								((anahtar2 = 'Uzay') ? davranış(oyun9)
+										((anahtar2 = 'Vardiya') ? açKapa(oyun9)
+												((anahtar2 = 'j') ? zıpla(oyun9) oyun9))))))
+
+¶Yeni bir tur.¶
+ƒ yeniOyun() oyun(
+		2
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		hedefOluştur()
+		dünyayıOluştur()
+		[]
+	)
+
+¶Bir kare: gevşek parçaların olgunlaşıp yerine oturmasını, asılı kalıp ardından üzerinde durduğun şeyin en üstüne düşmesini sağla, hücrende olan her şeyi cebine at, çekici geri getir ve kuleleri kontrol et.¶
+ƒ dünyaʼyıIlerlet(oyun10•oyun) (
+		yaşlandı: oyun10.öğeler.tercümeetmek(
+				ƒ(i•öğe2) (i.yaş = 0) ? (i.yaş:1) i
+			)
+		ayakta: kolonYüksekliği(
+				oyun10.bloklar
+				oyun10.x4
+				oyun10.z4
+			)
+		sonrakiAsılış: (oyun10.asılıDur > 0) ? (oyun10.asılıDur - 1) 0
+		sonrakiY: ((oyun10.asılıDur = 0) & (oyun10.y3 > ayakta)) ? (oyun10.y3 - 1) oyun10.y3
+		¶Her zaman üzerinde durduğun kolonun yüksekliğindesin, orada duran her şey de öyle; bu yüzden bir şeyi almak için tek gereken, onunla aynı hücreyi paylaşmaktır.¶
+		ayakAltında: yaşlandı.filtre(
+				ƒ(i2•öğe2) (i2.x3 = oyun10.x4) & (i2.z3 = oyun10.z4) & (i2.yaş > 0)
+			)
+		tutuldu: yaşlandı.filtre(
+				ƒ(i3•öğe2) ~((i3.x3 = oyun10.x4) & (i3.z3 = oyun10.z4) & (i3.yaş > 0))
+			)
+		odunAldı: ayakAltında.filtre(ƒ(i4•öğe2) i4.tür3 = '🪵').uzunluk(
+			)
+		tuğlaAldı: ayakAltında.filtre(ƒ(i5•öğe2) i5.tür3 = '🧱').uzunluk(
+			)
+		oyun(
+			(hedefeUlaşıldı(oyun10.bloklar oyun10.hedef2) ? 3 oyun10.evre)
+			oyun10.x4
+			sonrakiY
+			oyun10.z4
+			oyun10.xYönünde
+			oyun10.zYönünde
+			sonrakiAsılış
+			(oyun10.tahta + odunAldı)
+			(oyun10.tuğla + tuğlaAldı)
+			oyun10.seçili
+			((oyun10.salla2 > 0) ? (oyun10.salla2 - 1) 0)
+			oyun10.sonrakiKimlik
+			oyun10.hedef2
+			oyun10.bloklar
+			tutuldu
+		)
+	)
+
+anahtar3: Anahtar()
+tık: Zaman(150ms)
+dokun: Düğme()
+
+¶Üç girdiyle çalışan kalp atışı. Oyun sırasında bir tik dünyayı ilerletir, tuşlar geri kalan her şeyi yapar ve bir tıklama vuruş yapar. Başlık ekranından veya kazanma ekranından Enter tuşu ya da bir tıklama yeni bir tur başlatır.¶
+oyun11•oyun: oyun(
+		1
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		hedefOluştur()
+		dünyayıOluştur()
+		[]
+	)
+	… (∆ tık | ∆ anahtar3 | ∆ dokun) …
+		(oyun11.evre = 2)
+		? (∆ tık ? dünyaʼyıIlerlet(oyun11)
+					(∆ anahtar3 ? tuşBasışınıUygula(oyun11 anahtar3) davranış(
+								oyun11
+							)))
+			(∆ tık ? oyun11
+					(∆ anahtar3 ? ((anahtar3 = 'Girmek') ? yeniOyun() oyun11)
+							(∆ dokun ? yeniOyun() oyun11)))
+
+¶Dünyadaki her şey yumuşatma olmadan çizilir; bu yüzden bir adım, senin peşinden kaymak yerine bastığın karede hemen gerçekleşir ve her parça, kendi hücresinden oluşturulmuş bir isim taşır. Önemli olan bu isimdir: sahne, çıktıları isme göre birbirinden ayırır; isimsiz bir liste ise konuma göre ayrılır. Bu yüzden bir yığının ortasından bir blok çıkarmak, üstündeki her bloğa komşusunun kimliğini verir ve hepsini bir konum aşağı kaydırır.¶
+¶A green emoji is about a quarter wider than it is tall, so the tiles are sized
+down to land exactly one to a cell and keep the ground lined up with the blocks
+standing on it.¶
+karoBoyutu: 0.8m
+
+zeminSıraları: [0 1 2 3 4].filtre(
+		ƒ(sıra•#) sıra ≥ (oyun11.z4 - arkayaÇiz)
+	).tercümeetmek(
+		ƒ(sıra2•#)
+			İfadeetmek(
+				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+				karoBoyutu
+				süre: 0s
+				isim: "g\sıra2\"
+				yer: Yer(xʼte(minX) yʼde(-1) zʼde(sıra2))
+			)
+	)
+
+blokGörünümleri: oyun11.bloklar.filtre(
+		ƒ(b8•blok) b8.z2 ≥ (oyun11.z4 - arkayaÇiz)
+	).tercümeetmek(
+		ƒ(b9•blok)
+			İfadeetmek(
+				b9.tür2
+				1m
+				süre: 0s
+				isim: "b\b9.x2\,\b9.y2\,\b9.z2\"
+				yer: Yer(xʼte(b9.x2) yʼde(b9.y2) zʼde(b9.z2))
+			)
+	)
+
+¶Ulaşmaya çalıştığın kuleler, solgun bir görünümle, ve yalnızca henüz inşa etmediğin parçalar.¶
+hayaletGörünümleri: ulaşılmamışHedef(
+		oyun11.bloklar
+		oyun11.hedef2
+	).filtre(
+		ƒ(g2•blok) g2.z2 ≥ (oyun11.z4 - arkayaÇiz)
+	).tercümeetmek(
+		ƒ(g3•blok)
+			İfadeetmek(
+				g3.tür2
+				1m
+				süre: 0s
+				opaklık: 35%
+				isim: "h\g3.x2\,\g3.y2\,\g3.z2\"
+				yer: Yer(xʼte(g3.x2) yʼde(g3.y2) zʼde(g3.z2))
+			)
+	)
+
+¶Gevşek bir parça. Sahnede aniden değil, yumuşak geçişle hareket eden tek şey budur: ilk karesi bloğun kırıldığı yerde, geri kalanı ise indiği yerdedir; ikisi arasındaki yumuşak geçiş de yuvarlanmanın kendisidir.¶
+öğeGörünümleri: oyun11.öğeler.filtre(
+		ƒ(i6•öğe2) i6.z3 ≥ (oyun11.z4 - arkayaÇiz)
+	).tercümeetmek(
+		ƒ(i7•öğe2)
+			İfadeetmek(
+				i7.tür3
+				0.6m
+				süre: 0.3s
+				isim: "i\i7.kimlik2\"
+				yer: (i7.yaş = 0)
+				? Yer(xʼte(i7.xʼten) yʼde(i7.yʼden) zʼde(i7.zʼden))
+					Yer(
+						xʼte(i7.x3)
+						yʼde(
+							kolonYüksekliği(oyun11.bloklar i7.x3 i7.z3)
+						)
+						zʼde(i7.z3)
+					)
+			)
+	)
+
+¶Bir adımı hareket haline getiren şey aslında süredir: süre olmadığında sahne, onun için bir animasyon oluşturmayı atlar ve her hareket ışınlanma gibi anında olur. Bir tikten biraz kısa bir süre, her adımın ve her zıplamanın bir sonraki gelmeden hemen önce yerine oturması demektir. Havadayken gerilmesi, çekicin geriye çekilmiş vuruşuyla aynı numaradır: başlayıp biten bir animasyon yerine, durum sürdüğü sürece tutulan farklı bir duruş.¶
+oyuncuGörünümü: İfadeetmek(
+		'🚶🏻‍♀'
+		1.1m
+		süre: 0.14s
+		isim: 'oyuncu'
+		ölçek: ((oyun11.asılıDur > 0) ? 1.08 1)
+		tersçevir: oyun11.xYönünde > 0
+		yer: Yer(
+			xʼte(oyun11.x4)
+			yʼde(oyun11.y3)
+			zʼde(oyun11.z4)
+		)
+	)
+
+¶İmleç, bir sonraki hareketinin ineceği hücrenin üzerinde durur — yani karşındaki yığının üstündeki boş alanda. Bir vuruş, tam altındaki bloğu kırar; bir yığma ise işaretlediği hücreyi doldurur. Böylece neyi kıracağın veya bir bloğun nereye gideceği konusunda hiçbir belirsizlik olmaz. İmleç, o hücrenin biraz üzerinde durur; böylece hücre tam önündeyken ve gövden onu kapatacak olsa bile görünür kalır. Vuruş yaptığın anda geriye çekilir ve kendiliğinden yerine yumuşakça döner; bu, döngü halinde değil tam vuruş anında tetiklenir. Alanın kenarına doğru bakıyorsan gizlenir, çünkü orada üzerinde işlem yapılacak bir şey yoktur.¶
+hedefX4: oyun11.x4 + oyun11.xYönünde
+hedefZ4: oyun11.z4 + oyun11.zYönünde
+hedefY: kolonYüksekliği(oyun11.bloklar hedefX4 hedefZ4)
+
+¶Boşluk tuşunun önündeki kolona hangi iki işten birini yapacağı ve bunun bir sonuç doğurup doğurmayacağı: kırmak için en üstün erişim mesafesinde olması, inşa etmek içinse ceplerinde seçilen malzemeden kalmış olması gerekir. Cevap hayır olduğunda imleç solar; böylece boş bir cep, erişilemeyen bir tepeyle aynı şekilde okunur, sessizce hiçbir şey yapmayan bir tuşa basış gibi değil.¶
+buradaİnşaEdiliyor: hedefY ≤ oyun11.y3
+erişimde: (hedefY - 1) ≤ (oyun11.y3 + erişim)
+buradaStok: (oyun11.seçili = '🪵') ? oyun11.tahta oyun11.tuğla
+davranabilir: buradaİnşaEdiliyor ? (buradaStok > 0) erişimde
+
+imleçGörünümü: İfadeetmek(
+		(buradaİnşaEdiliyor ? '🔨' '🪏')
+		0.85m
+		süre: 0.12s
+		isim: 'imleç'
+		rotasyon: ((oyun11.salla2 > 0) ? -55° 0°)
+		opaklık: (davranabilir ? 100% 30%)
+		yer: Yer(
+			xʼte(hedefX4)
+			yʼde(hedefY + 0.55)
+			zʼde(hedefZ4)
+		)
+	)
+
+imleçListesi: sınırlarIçinde(hedefX4 hedefZ4) ? [
+			imleçGörünümü
+		] []
+
+¶Cepler ve kullanılan malzeme, derinlik onları küçültmesin diye ekrana düz olarak sabitlenmiştir.¶
+göstergePaneli: [
+		İfadeetmek(
+			"🪵 \oyun11.tahta\   🧱 \oyun11.tuğla\   🔨 \oyun11.seçili\"
+			0.5m
+			yer: Yer(-6.6m 4.3m)
+		)
+	]
+
+ekranBaşlığı: (oyun11.evre = 3) ? '🎉 Yaptın! 🎉' '🔨 YAPI BLOKLARI 🔨'
+başlangıçSatırı: (oyun11.evre = 3) ? 'Tekrar inşa etmek için Enter tuşuna bas ya da tıkla' 'Başlamak için Enter tuşuna bas ya da tıkla'
+
+¶Ekranlar, ağaçlarla ve figürlerle dolu bir alanın tam üzerine düz biçimde yerleşir. Bu yüzden grup kendi opak arka planını taşır — dalların ve çatıların üzerindeki koyu renkli yazılar okumayı zorlaştırır, sağlam bir panel ise çevredeki dünyayı hâlâ görünür bırakırken yazıları okunaklı tutar.¶
+ekranGörünümü: [
+		Grup(
+			Yığın()
+			[
+				İfadeetmek(ekranBaşlığı 1.1m isim: 's1')
+				İfadeetmek(
+					'Oklar yürür · yürüdüğün yöne dönersin'
+					0.5m
+					isim: 's2'
+				)
+				İfadeetmek(
+					'Boşluk tuşu imleci etkiler: 🪏 kırar · 🔨 inşa eder'
+					0.5m
+					isim: 's3'
+				)
+				İfadeetmek(
+					'Shift 🪵 ile 🧱 arasında geçiş yapar · j, yukarı ulaşmak için zıplar'
+					0.5m
+					isim: 's4'
+				)
+				İfadeetmek(
+					'Bir blok yukarı ulaş · soluk blokları eşleştir'
+					0.5m
+					isim: 's5'
+				)
+				İfadeetmek(başlangıçSatırı 0.7m isim: 's6')
+			]
+			arkaplan: Renk(90% 10 240°)
+		)
+	]
+
+¶Kamera sabit durmak yerine seninle aynı mesafeyi korur, arkanda kalır. Böylece ne kadar ileri yürürsen yürü ekranda hep aynı boyutta kalırsın ve alan tam omzunun üzerinden kayarak geçer. Kamera seni yanlara doğru da takip eder, bu yüzden alanın kenarına yürümek dünyayı kaydırır, seni kenarda bırakmaz. Bir hücrenin beşte biri, ortalamak için küçük bir kaymadır: bir figür, hücrenin yarısı kadar içeride duran sol kenarından çizilir ve simgesi, üzerinde durduğu hücreden biraz daha geniştir.
+
+Sahne, her şeyi kameraya olan uzaklığına göre ölçekler; kameranın hemen önündeki tek bir hücre, gerçek boyutunun sekiz katı büyüklükte gösterilir. Bu yüzden bu mesafede, arkanda bir sıradan daha uzakta kalan dünya hiç çizilmez. Kuleler her zaman en arka sırada durur; bu sıra, çizim mesafesinin asla kesemeyeceği tek sıradır, bu yüzden nereye yürürsen yürü görünür kalırlar.¶
+kameraZ: ((oyun11.z4 - dünyaArkası - kameraArkası) · 1m)
+
+¶Kamera, senin bulunduğun yüksekliğe değil, üzerinde durduğun şeyin yüksekliğine göre hareket eder. Böylece bir yığının üzerine tırmandığında kamera da seninle birlikte yükselir ve seni görüş alanında tutar. Buna karşın bir zıplama yine de zıplama gibi hissettirir — zıpladığında kameraya bağlı kalmak yerine gerçekten kameradan uzaklaşarak yükselirsin.¶
+kameraY: (kolonYüksekliği(
+			oyun11.bloklar
+			oyun11.x4
+			oyun11.z4
+		) · 1m)
+
+¶Dünya her aşamada aynı şekilde çizilir. Bu yüzden başlık ve kazanma ekranları, ayrı bir menü sahnesi değil, oynayacağın alanı olduğu gibi gösterir.¶
+dünyaKatmanı: [
+		:blokGörünümleri
+		:hayaletGörünümleri
+		:öğeGörünümleri
+		oyuncuGörünümü
+		:imleçListesi
+	]
+
+¶Seninle konuşan her şey, sahnenin ekrana sabitlenmiş katmanında yer alır; bu yüzden kameradan ve derinlikten etkilenmez. Ekranların dünyada değil burada olması, onları okunaklı tutan şeydir: dünyaya yerleştirilen her şey bir derinlikte durur ve kameraya daha yakın olan zemin sıraları onun üzerine çizilir.¶
+kaplamaKatmanı: (oyun11.evre = 2) ? göstergePaneli ekranGörünümü
+
+¶Yerinden sökülen bir parça hâlâ ilk karesindedir; bu, onu zaten etrafta duran parçalardan ayıran tek karedir — çizim de blok kırıldığı yerde parçayı başlatıp başlatmayacağına aynı yaşa bakarak karar verir.¶
+şuAnKırık: oyun11.öğeler.filtre(ƒ(i8•öğe2) i8.yaş = 0)
+
+¶Çekicin az önce sallanıp sallanmadığı. Onu yalnızca kırmak tetikler, bu yüzden bir bloğu üst üste koyan bir basış için bu değer ⊥ olur.¶
+kırıldı: oyun11.salla2 = salınımTikleri
+
+¶Sallamanın nasıl bir ses çıkardığı. Odun bir tom sesiyle, taş ise bas davulla vurur; böylece bir ağaç ile bir kaya aynı sesi çıkarmaz. Hiçbir şeye çarpmayan bir sallama ise hafif bir tık sesi verir — duyulabilen bir ıska, hiçbir şey olmamış gibi hissettiren bir ıskadan daha iyidir.
+
+Geri kalan zamanlarda boştur, ve bu yeterlidir: başlamış bir nota sonuna kadar çalar, bu yüzden bu liste bir sonraki adımda boşalsa bile çekiç sesi yankılanmaya devam eder.¶
+vuruşNotaları: kırıldı
+	? ((şuAnKırık.uzunluk() > 0) ? şuAnKırık.tercümeetmek(
+					ƒ(i9•öğe2) (i9.tür3 = '🪵') ? 5 1
+				) [3])
+		[]
+
+¶Sallanan basış, yalnızca o basış. Çekiç bir sonraki adıma kadar geride kalır; bu bilgi olmasaydı o an içinde basılan herhangi bir tuş vuruşu bir kez daha duyururdu.¶
+sallandı2: ((∆ anahtar3) & (anahtar3 = 'Uzay')) | (∆ dokun)
+
+vuruşSesi: Müzik(
+		Parça(vuruşNotaları çalgı: Çalgı.davul döngü: ⊥)
+		tekrarOynat: sallandı2
+		isim: 'çarptı'
+	)
+
+¶Çalışırken yanında olacak bir şey: bir flütte yavaş, pentatonik bir ezgi, ara sıra ona cevap veren bir çan ve altında sürekli çalan bir uğultu. Pentatonik olması, hiçbir notanın çatışmaması demektir; bu yüzden döngü hiçbir zaman belirli bir yere ulaşmaz ve üzerine düşen çekiç sesiyle asla uyumsuz gelmez. Sekiz yerine on altı vuruş uzunluğundadır, bu yüzden baştan başlaması biraz zaman alır.¶
+ortamSesi: Müzik(
+		[
+			Parça(
+				[1 ø ø 3 ø ø 5 ø ø 3 ø ø 2 ø ø ø]
+				çalgı: Çalgı.flüt
+				vuruş: 1beats
+				sesDüzeyi: 30%
+			)
+			Parça(
+				[ø ø ø ø ø ø 8 ø ø ø ø ø ø ø 6 ø]
+				çalgı: Çalgı.çan
+				vuruş: 1beats
+				sesDüzeyi: 20%
+			)
+			Parça(
+				[{1 5} {1 5} {4 8} {1 5}]
+				çalgı: Çalgı.synthPad
+				vuruş: 4beats
+				sesDüzeyi: 25%
+			)
+		]
+		tempo: 60beats/min
+		gam: Müzik.pentatonik
+		sesDüzeyi: 45%
+		isim: 'doğa'
+	)
+
+¶Her soluk bloğu eşleştirmenin ödülü: alanın baştan beri mırıldandığı aynı pentatonik gamda yükselen bir trompet dizisi, üzerine oturacak bir akor ve tepesinde parıldayan bir çan sesi.
+
+Burada hiçbir şey döngü hâlinde çalmaz; onu yeni bir arka plan yerine bir fanfar yapan da budur. Bir kez çalınıp biten bir ses, sahnede dururken sessiz kalır; bu yüzden kazanma ekranı yeniden sessizleşir ve ortam sesini öne çıkarır. Yeni bir tur başlatmak onu sahneden kaldırır ve unutur, böylece tamamladığın bir sonraki yapı sesi yeniden baştan duyurur.¶
+kazanmaSesi: Müzik(
+		[
+			Parça(
+				[1 3 5 8 ø 8 ø ø {1 5 8} ø ø ø ø ø ø ø]
+				çalgı: Çalgı.trompet
+				vuruş: 0.5beats
+				döngü: ⊥
+			)
+			Parça(
+				[ø ø ø ø ø ø ø ø 8 ø 10 ø 12 ø ø ø]
+				çalgı: Çalgı.çan
+				vuruş: 0.5beats
+				sesDüzeyi: 45%
+				döngü: ⊥
+			)
+			Parça(
+				[{1 3 5} ø {4 6 8} ø]
+				çalgı: Çalgı.piyano
+				vuruş: 2beats
+				sesDüzeyi: 40%
+				döngü: ⊥
+			)
+			Parça(
+				[1 ø 3 ø 1 3 1 ø 4 ø ø ø ø ø ø ø]
+				çalgı: Çalgı.davul
+				vuruş: 0.5beats
+				sesDüzeyi: 35%
+				döngü: ⊥
+			)
+		]
+		tempo: 132beats/min
+		gam: Müzik.pentatonik
+		isim: 'inşa edildi'
+	)
+
+¶Yalnızca kazandığında sahnede belirir, boş bir liste ise hiçliğe dağılır.¶
+kazanmaListesi: (oyun11.evre = 3) ? [kazanmaSesi] []
+
+Sahne(
+	[
+		:zeminSıraları
+		:dünyaKatmanı
+		ortamSesi
+		vuruşSesi
+		:kazanmaListesi
+	]
+	yer: Yer(((oyun11.x4 + 0.2) · 1m) kameraY kameraZ)
+	arkaplan: Renk(78% 18 240°)
+	renk: Renk(20% 0 0°)
+	kaplama: kaplamaKatmanı
+)

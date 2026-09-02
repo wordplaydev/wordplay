@@ -1,0 +1,524 @@
+█
+Garten
+=== start/en
+¶Ein Zen-Garten aus bunten Blöcken, mit sanft wogendem Wasser.¶
+gras: Farbe(54% 84 117°)
+stein: Farbe(74% 0 200°)
+bambus: Farbe(77% 88 109°)
+wand: Farbe(0% 0 0°)
+wasser: Farbe(50% 89 279°)
+wippen: Reihenfolge(
+		{
+			0%: Pose(Farbe: wasser Drehung: 0°)
+			50%: Pose(Drehung: 7°)
+			100%: Pose(Drehung: 0°)
+		}
+		Dauer: 1.5s
+	)
+
+Bühne(
+	[
+		Satzglied(
+			'█'
+			Größe: 16m
+			Ruhen: Pose(Farbe: Farbe(100% 0 348°))
+			Ort: Ort(7.3125m -13.125m 0m)
+			Drehung: 90°
+		)
+		Satzglied(
+			'█'
+			Größe: 16m
+			Ruhen: Pose(Farbe: Farbe(100% 0 348°))
+			Ort: Ort(-8.75m -13m 1m)
+			Drehung: 90°
+		)
+		Satzglied(
+			'█'
+			Größe: 32m
+			Ruhen: Pose(Farbe: Farbe(73% 95 279°))
+			Ort: Ort(-5.6875m -44.0625m 0m)
+			Drehung: 89°
+		)
+		Satzglied(
+			'太阳'
+			Größe: 4m
+			Ort: Ort(-16.5m 15.75m 5m)
+			Ruhen: Reihenfolge(
+				{
+					0%: Pose(Farbe: Farbe(90% 93 85°) Drehung: 0°)
+					100%: Pose(Drehung: 360°)
+				}
+				Dauer: 30s
+				Stil: 'straight'
+			)
+		)
+		Satzglied(
+			'壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁'
+			Ruhen: Pose(Farbe: wand)
+			Ort: Ort(-13.9375m 3.5m 0m)
+			Größe: 2m
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-5.8125m -9.5625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(1.5m -6.9375m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-5.125m -8.25m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-0.4375m -8.5625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-2.875m -8.125m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-4.125m -8.3125m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-7.1875m -10.0625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-10.1875m -10.5625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-11.1875m -10.5625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-10.25m -9.1875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-8.5625m -8.6875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-8.6875m -10.0625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-1.5m -8m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(3.5m -8m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(1.1875m -8.5625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-2.8125m -9.5625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(2.5m -8m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-1.8125m -9.5625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(0m -7m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(2.5m -6.5m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(6.4375m -7.0625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(5.1875m -7.0625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-0.6875m -10.125m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(0.9375m -9.625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(7.4375m -8.1875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(2.25m -9.5625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(3.5625m -9.625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(5m -9.0625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(6.125m -8.1875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(9.625m -10.0625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(9.375m -7.3125m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(8m -6.5m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(10.8125m -7.1875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(13.625m -7.1875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(17.5m -7.5m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(12m -7.5m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(12.5625m -10.0625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-7.625m -8.8125m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(3.875m -6.4375m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-13.25m -8.625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-9.375m -8.0625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-13.8125m -10m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-11.375m -8.8125m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-12.5m -9.625m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(12.625m -6m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(7.5m -9.8125m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(16.3125m -6.1875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(17.8125m -6.1875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(17.8125m -9.6875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(16.3125m -9.6875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(16.3125m -8.1875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(15.3125m -6.6875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(14.8125m -8.1875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(14.8125m -9.6875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(13.5m -8.9375m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(11.8125m -9.1875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(8.3125m -9.1875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(6.5m -9.5m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(9.8125m -8.6875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(10.8125m -9.1875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(14.3125m -5.6875m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'草'
+			Ort: Ort(-4.5m -9.5m 0m)
+			Ruhen: Pose(Farbe: gras)
+		)
+		Satzglied(
+			'石'
+			Ruhen: Pose(Farbe: stein)
+			Größe: 2.75m
+			Ort: Ort(-7.6875m -5.9375m -1m)
+			Drehung: 25°
+		)
+		Satzglied(
+			'石'
+			Ruhen: Pose(Farbe: stein)
+			Größe: 2m
+			Ort: Ort(-5m -6.625m -1m)
+		)
+		Satzglied(
+			'石'
+			Ruhen: Pose(Farbe: stein)
+			Größe: 2.75m
+			Ort: Ort(-7.6875m -8.5625m -1m)
+		)
+		Satzglied(
+			'石'
+			Ruhen: Pose(Farbe: stein)
+			Größe: 1.25m
+			Ort: Ort(-6.375m -3.375m -1m)
+		)
+		Satzglied(
+			'石'
+			Ruhen: Pose(Farbe: stein)
+			Größe: 2.75m
+			Ort: Ort(-3.125m -6.625m -1m)
+			Drehung: 341°
+		)
+		Satzglied(
+			'石'
+			Ruhen: Pose(Farbe: stein)
+			Größe: 2.75m
+			Ort: Ort(-4.75m -4.25m -1m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(-0.5m -0.5m 0m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(0.9375m -3.5m 0m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(1m -5m 0m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(-0.5m 2.5m 0m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(-0.5m 3.5m 0m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(-0.5m 4.5m 0m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(-0.5m 1m 0m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(-0.5m -5m 0m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(-0.5m -3.5m 0m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(-0.5625m -2m 0m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(1m 1m 0m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(1m -0.5m 0m)
+		)
+		Satzglied(
+			'竹'
+			Ruhen: Pose(Farbe: bambus)
+			Größe: 1.25m
+			Ort: Ort(1m -2m 0m)
+		)
+		Satzglied(
+			'水'
+			Ruhen: wippen
+			Ort: Ort(-13.4375m -18m -2m)
+			Größe: 6.75m
+			Drehung: 80°
+		)
+		Satzglied(
+			'水'
+			Ruhen: wippen
+			Ort: Ort(18m -16.5m -2m)
+			Größe: 6.75m
+			Drehung: 80°
+		)
+		Satzglied(
+			'水'
+			Ruhen: wippen
+			Ort: Ort(-8.5m -17.625m -2m)
+			Größe: 6.75m
+			Drehung: 259°
+		)
+		Satzglied(
+			'水'
+			Ruhen: wippen
+			Ort: Ort(2.625m -17.375m -2m)
+			Größe: 6.75m
+			Drehung: 80°
+		)
+		Satzglied(
+			'水'
+			Ruhen: wippen
+			Ort: Ort(10.6875m -16m -2m)
+			Größe: 6.75m
+			Drehung: 37°
+		)
+	]
+	Hintergrund: Farbe(87% 97 263°)
+)

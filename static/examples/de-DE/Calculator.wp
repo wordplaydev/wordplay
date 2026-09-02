@@ -1,0 +1,85 @@
+0⃣
+Rechner
+=== start/en
+¶Ein Taschenrechner, gebaut aus ein paar Rechenfunktionen.¶
+
+¶Funktionen, die Berechnungen durchführen¶
+ƒ addition(zahl1•# zahl2•#) zahl1 + zahl2
+ƒ subtraktion(zahl12•# zahl22•#) zahl12 - zahl22
+ƒ multiplikation(zahl13•# zahl23•#) zahl13 × zahl23
+ƒ division(zahl14•# zahl24•#) zahl14 ÷ zahl24
+
+auswahl: Auswahl()
+rahmen2: 1 … ∆ (auswahl) … 1 + rahmen2
+
+¶Booleans, die festhalten, ob jeder Wert ausgewählt wurde¶
+zahl1gewählt: ⊥ … ∆ (auswahl) … (auswahl.beginnt('zahl1')) & ~zahl1gewählt
+zahl2gewählt: ⊥ … ∆ (auswahl) … (auswahl.beginnt('zahl2')) & ~zahl2gewählt
+opgewählt: ⊥ … ∆ (auswahl) … (auswahl.beginnt('op')) & ~opgewählt
+
+¶Hält die Operanden und Operatoren fest¶
+zahl15: ø → # … zahl1gewählt … ((auswahl ÷ '')[-1]) → #
+zahl25: ø → # … zahl2gewählt … ((auswahl ÷ '')[-1]) → #
+operator: ø … opgewählt … ((auswahl ÷ '')[-1])
+
+¶Bildschirm zum Auswählen der ersten Zahl¶
+zahlen1: Gruppe(
+		Netz(2 5)
+		[
+			Satzglied("0⃣" wählbar: ⊤ Name: 'zahl1_0')
+			Satzglied("1⃣" wählbar: ⊤ Name: 'zahl1_1')
+			Satzglied("2⃣" wählbar: ⊤ Name: 'num1_2')
+			Satzglied("3⃣" wählbar: ⊤ Name: 'num1_3')
+			Satzglied("4⃣" wählbar: ⊤ Name: 'num1_4')
+			Satzglied("5⃣" wählbar: ⊤ Name: 'num1_5')
+			Satzglied("6⃣" wählbar: ⊤ Name: 'num1_6')
+			Satzglied("7⃣" wählbar: ⊤ Name: 'num1_7')
+			Satzglied("8⃣" wählbar: ⊤ Name: 'num1_8')
+			Satzglied("9⃣" wählbar: ⊤ Name: 'num1_9')
+		]
+	)
+
+¶Bildschirm zum Auswählen der zweiten Zahl¶
+zahlen2: Gruppe(
+		Netz(2 5)
+		[
+			Satzglied("0⃣" wählbar: ⊤ Name: 'num2_0')
+			Satzglied("1⃣" wählbar: ⊤ Name: 'num2_1')
+			Satzglied("2⃣" wählbar: ⊤ Name: 'num2_2')
+			Satzglied("3⃣" wählbar: ⊤ Name: 'num2_3')
+			Satzglied("4⃣" wählbar: ⊤ Name: 'num2_4')
+			Satzglied("5⃣" wählbar: ⊤ Name: 'num2_5')
+			Satzglied("6⃣" wählbar: ⊤ Name: 'num2_6')
+			Satzglied("7⃣" wählbar: ⊤ Name: 'num2_7')
+			Satzglied("8⃣" wählbar: ⊤ Name: 'num2_8')
+			Satzglied("9⃣" wählbar: ⊤ Name: 'num2_9')
+		]
+	)
+
+¶Bildschirm zum Auswählen des Operators¶
+operatoren: Gruppe(
+		Netz(2 2)
+		[
+			Satzglied("➕" wählbar: ⊤ Name: 'op_a')
+			Satzglied("➖" wählbar: ⊤ Name: 'op_s')
+			Satzglied("✖" wählbar: ⊤ Name: 'op_m')
+			Satzglied("➗" wählbar: ⊤ Name: 'op_d')
+		]
+	)
+
+¶Bildschirm zum Anzeigen des Ergebnisses¶
+ergebnis: ((operator = 'a') | (operator = 's')) ?
+		(operator = 'a' ? addition(zahl15 zahl25) subtraktion(
+					zahl15
+					zahl25
+				))
+		(operator = 'm' ? multiplikation(zahl15 zahl25) division(
+					zahl15
+					zahl25
+				))
+
+¶Gehe jeden Bildschirm durch¶
+einrichtung: [zahlen1 operatoren zahlen2 ergebnis]
+
+¶Anzeigen¶
+einrichtung[rahmen2]

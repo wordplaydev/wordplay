@@ -1,0 +1,28 @@
+ぁ
+Hiragana
+=== start
+¶Hiragana som faller på grund av gravitation. Klicka för att byta vilken väg som är ner.¶
+antal2: 32
+
+gravitation•#m/s^2: 15m/s^2 … ∆ Knapp() … -gravitation
+
+hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
+
+bokstäver: antal2 → [].översätta(
+		ƒ(nummer2 index2)
+			Fras(
+				hiragana[nummer2]
+				plats: Rörelse(
+					Plats((index2 - (antal2 ÷ 2)) × 0.2m 10m)
+					Hastighet(vinkel: Slumpmässig(-5 5) × 1°/s)
+				)
+				materia: Materia(studsighet: 0.3)
+			)
+	)
+
+
+Etapp(
+	[:bokstäver Figur(Rektangel(-40m 0m 40m -2m))]
+	allvar: gravitation
+	plats: Plats(0m 5m -20m)
+)

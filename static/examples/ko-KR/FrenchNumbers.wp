@@ -1,0 +1,84 @@
+t
+프랑스어 숫자
+=== start/en-US,start/fr-FR
+¶무대에 나온 프랑스어 숫자와 맞는 숫자 키를 누르세요.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶맞혀야 할 숫자들¶
+¶Les nombres à deviner¶/fr
+숫자2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶비밀은 1부터 9까지의 숫자를 무작위 순서로 늘어놓은 것입니다¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+비밀: [1 2 3 4 5 6 7 8 9].섞인()
+
+¶가장 최근에 누른 키는 무엇일까요?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+키2,clé/fr: 키()
+
+¶현재 비밀은 키를 누를 때마다 늘어나지만, 10에서 멈춥니다¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+비밀인덱스,secretIndice/fr•#:
+	1 …
+	∆ 키2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶비밀 인덱스에 따라 정해지는 현재 비밀¶
+현재비밀,secretActuel/fr: 비밀[비밀인덱스]
+
+¶누른 숫자가 이전 비밀 숫자와 같으면 정답입니다¶
+정답: clé → # = 비밀[비밀인덱스 - 1]
+
+¶점수는 0에서 시작하고, 정답을 맞히면 올라갑니다.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+점수•#: 0 …
+	∆ 키2 …
+		정답 ?
+			점수 + 1
+			점수
+
+¶9개의 숫자를 모두 맞히면 승리합니다¶
+승리,gagner/fr: 점수 = 9
+
+¶비밀 인덱스가 10이 되면 끝납니다¶
+게임종료: 비밀인덱스 = 10
+
+¶현재 프랑스어 숫자와 현재 점수를 보여주고, 9개의 비밀이 모두 끝나면 최종 결과를 보여줍니다¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+단계(
+	[
+		그룹(
+			스택()
+			[
+				게임종료 ?
+					구절(
+						승리 ?
+							'당신은 프랑스어 숫자를 알고 있어요!'"Tu connais les chiffres français!"/fr
+							'거의 다 왔어요, 다시 해보세요'"presque, réessaye"/fr
+						크기: 2m
+					)
+					구절(numeros[secretActuel] 크기: 2m)
+				구절("\점수\ points!" 크기: 1m)
+				구절(
+					비밀인덱스 = 1 ?
+						'이건 무슨 숫자일까요?''quel est ce numéro ?'/fr
+						정답 ?
+							'정답입니다!'
+							"That was \비밀[비밀인덱스 - 1]\"
+				)
+			]
+		)
+	]
+	얼굴: "Aclonica"
+)

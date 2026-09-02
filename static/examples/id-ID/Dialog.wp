@@ -1,0 +1,78 @@
+🗨
+Dialog
+=== start
+¶Dua huruf membicarakan apa artinya huruf itu bisa bicara.¶
+
+¶Satu baris percakapan: siapa yang mengatakannya, kata-katanya, dan apakah itu dipikirkan atau diucapkan.¶
+•baris2(siapa•'' kata2•'' berpikir•?: ⊥)
+
+skrip: [
+		baris2(
+			'a'
+			'Apakah kamu pernah berpikir bahwa aneh rasanya kita bisa bicara?'
+		)
+		baris2(
+			'b'
+			'Kita ini huruf. Berbicara memang tugas kita.'
+		)
+		baris2(
+			'a'
+			'Bukan, maksudku kita sendiri. Bukan kata-kata yang kita buat. Kita.'
+		)
+		baris2('b' '…Oh.')
+		baris2(
+			'a'
+			'Aku adalah bentuk yang berarti sebuah bunyi. Sekarang aku sedang membuat bunyi itu dengan menjadi bentuk itu.'
+		)
+		baris2(
+			'b'
+			'Apakah gelembung bicara di sekitar sebuah huruf itu gambar dari sebuah huruf, atau huruf dari sebuah gambar?'
+			berpikir: ⊤
+		)
+		baris2('a' 'Kamu jadi berputar-putar.')
+		baris2(
+			'b'
+			'Aku adalah huruf b. Berputar-putar itu memang bentuk siluetku.'
+		)
+		baris2('a' 'Pokoknya. Ini hal biasa di sini.')
+		baris2('b' 'Biasa bagi kita, setidaknya.')
+	]
+
+¶Lanjutkan dengan menekan tombol, klik, atau ketuk, dan berhenti di baris terakhir.¶
+giliran•#: 1 … ∆ Kunci() | ∆ Tombol() … (giliran < skrip.panjang(
+				) ? giliran + 1 giliran)
+
+baris3: skrip[giliran]
+
+¶Hanya siapa pun yang sedang mendapat giliran yang punya gelembung. Setiap baris adalah @Say, jadi diucapkan sekaligus ditampilkan — dan gelembung itu menggantikan keterangan, karena kata-katanya sudah ada di layar di samping siapa pun yang mengucapkannya. Tidak ada yang memilih sisi: panggung meletakkan setiap gelembung di tempat yang paling tidak menghalangi.¶
+ƒ gelembung2(siapa2•'')
+	siapa2 = baris3.siapa ?
+		Gelembung(
+			Mengatakan(baris3.kata2)
+			jenis: (baris3.berpikir ? '💭' '💬')
+			bungkus: 9m
+		)
+		ø
+
+¶Sebuah baris disejajarkan pada garis dasar, sehingga kedua huruf berada pada satu baris. Kotak sebuah frasa adalah tintanya, jadi menempatkannya pada ketinggian yang sama akan membuat huruf pendek dan huruf tinggi berada pada garis dasar yang berbeda.¶
+Panggung(
+	[
+		Kelompok(
+			Tumpukan('|' 1.5m)
+			[
+				Kelompok(
+					Baris('_' 6m)
+					[
+						Frasa('a' ukuran: 3m gelembung: gelembung2('a'))
+						Frasa(
+							'b'
+							ukuran: 3m
+							gelembung: gelembung2('b')
+						)
+					]
+				)
+				Frasa(`/spasi, klik, atau ketuk/` ukuran: 0.6m)
+			]
+		)
+	]
+)

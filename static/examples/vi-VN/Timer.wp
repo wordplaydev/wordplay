@@ -1,0 +1,10 @@
+•
+Bộ đếm giờ
+===
+¶Một hàng chấm tròn tăng dần đến năm rồi bắt đầu lại, mỗi giây một lần.¶
+Cụmtừ(
+	"•".lặplại(
+		((Thờigian(1000ms) → #s) % 5).làmtrònxuống() + 1s
+	)
+	khoảngthờigian: 0s
+)

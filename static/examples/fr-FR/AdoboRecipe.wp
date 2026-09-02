@@ -1,0 +1,40 @@
+H
+Recette d'Adobo
+=== start/en
+¶Une recette scène par scène pour l'adobo de poulet philippin.¶
+
+¶Voici la liste des scènes à montrer¶
+phrases2: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Adobong Manók @lamamel/adobo ! (bouge la souris pour manger)`)
+		(`Masarap ! @lamamel/emptyadobo`)
+	]
+
+¶Voici la liste des phrases qui doivent avancer seulement quand on bouge la souris.¶
+déplacerLesPhrases: [9 11]
+
+¶La phrase actuelle commence à 1. Elle augmente si la souris va à un certain endroit de l'écran, ou si on appuie sur un bouton ou une touche pour les autres phrases.¶
+point2: Aiguille()
+phraseActuelle•#: 1 …
+	déplacerLesPhrases.a(phraseActuelle) ?
+		(point2.x > 2m) & (point2.et > 3m)
+		∆ Bouton() | ∆ Clé()
+		…
+		(phraseActuelle <
+				phrases2.longueur()) ?
+			phraseActuelle + 1
+			phraseActuelle
+
+Scène(
+	[Phrase(phrases2[phraseActuelle] envelopper: 10m)]
+	affronter: 'Short Stack'
+)

@@ -1,0 +1,39 @@
+🪐
+Banor
+=== start
+¶Tre planeter kretsar kring en stjärna som drar i dem.¶
+
+¶Stjärnan drar i planeterna, så den behöver @Matter med en dragkraft. Den har ingen @Motion, så inget drar tillbaka i den, och den stannar där den är. En @Place är ett hörn av utdatan i stället för dess mitt, så stjärnan flyttas ett halvt steg av sin egen storlek för att få sin mitt i himlens mitt.¶
+sol: Fras(
+		'⭐'
+		2m
+		namn: 'sol'
+		plats: Plats(-1m -1m)
+		materia: Materia(2000kg dra: 1)
+	)
+
+¶En planet behöver ingen @Matter alls. Att ha en @Motion är det som gör att stjärnans dragkraft kan flytta den. Hur fort den måste färdas för att kretsa runt i stället för att falla in beror på hur långt ut den är, så varje planet får den hastighet som håller den i sin egen bana.¶
+planet: ƒ(tecken2•"" kallad•"" bred•#m långt•#m hastighet2•#m/s)
+		Fras(
+			tecken2
+			bred
+			namn: kallad
+			plats: Rörelse(
+				Plats(långt - (bred ÷ 2) 0m - (bred ÷ 2))
+				Hastighet(0m/s hastighet2)
+			)
+		)
+
+¶Himlen har ingen egen tyngdkraft, annars skulle allt falla ut genom botten. Den har heller ingen luft, så planeterna fortsätter röra sig i stället för att sakta ner och stanna.¶
+Etapp(
+	[
+		sol
+		planet('🌍' 'jord' 0.8m 3m 11.5m/s)
+		planet('🪐' 'med ring' 1m 5m 8.6m/s)
+		planet('🌕' 'måne' 0.6m 7m 7.3m/s)
+	]
+	bakgrund: Färg(15% 20 300°)
+	allvar: 0m/s^2
+	luft: 0
+	plats: Plats(0m 0m -14m)
+)

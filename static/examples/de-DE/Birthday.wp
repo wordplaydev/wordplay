@@ -1,0 +1,198 @@
+🎂
+Happy Birthday
+=== start/en
+¶Happy Birthday in drei Teilen: eine Melodie, eine Harmonie darunter, und Akkorde, die beide tragen.
+
+Jeder Teil ist in Tonstufen geschrieben, also ist 1 der Grundton und 8 der Grundton eine Oktave höher. Deshalb klingt die Melodie gleich, egal in welcher Tonart du sie spielst — ändere @Music/key und das ganze Lied bewegt sich mit, auch die Sängerinnen und Sänger.
+
+Die Melodie und die Harmonie bewegen sich in halben Schlägen und die Akkorde in ganzen, also sagt jeder Teil selbst, wie lang seine Einträge sind, und trotzdem passt alles zusammen.¶
+
+¶Schläge seit Beginn des Liedes, damit sich der Kuchen dazu bewegen kann. @Beat zählt von null, bevor die Musik spielt, also bleibt der Kuchen einfach still stehen.¶
+schlag2: Takt()
+zähler: schlag2.Zählung
+
+¶Die Melodie. Zwei Achtel, dann längere Töne — die Pausen machen den Rhythmus aus, denn jeder Eintrag dauert den gleichen halben Schlag.¶
+melodie2: [
+		5
+		5
+		6
+		ø
+		5
+		ø
+		8
+		ø
+		7
+		ø
+		ø
+		ø
+		5
+		5
+		6
+		ø
+		5
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		5
+		5
+		12
+		ø
+		10
+		ø
+		8
+		ø
+		7
+		ø
+		6
+		ø
+		ø
+		11
+		11
+		10
+		ø
+		8
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Eine zweite Stimme unter der Melodie, in den gleichen halben Schlägen.¶
+alt: [
+		5
+		5
+		3
+		ø
+		3
+		ø
+		3
+		ø
+		4
+		ø
+		ø
+		ø
+		4
+		4
+		4
+		ø
+		4
+		ø
+		4
+		ø
+		5
+		ø
+		ø
+		ø
+		5
+		5
+		5
+		ø
+		8
+		ø
+		5
+		ø
+		5
+		ø
+		4
+		ø
+		6
+		6
+		6
+		ø
+		6
+		ø
+		5
+		ø
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Akkorde, einer pro Schlag. Eine Menge spielt ihre Tonstufen zusammen, also ist {1 3 5} der Grundakkord und {4 5 7 9} der Akkord, der sich dorthin zurück auflösen will.¶
+akkorde: [
+		ø
+		{1 3 5}
+		ø
+		ø
+		{4 5 7 9}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{4 6 8}
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		{4 5 7 9}
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Der Kuchen wächst bei jedem Schlag und sinkt dazwischen wieder.¶
+ƒ kuchen() Satzglied(
+		'🎂'
+		(4m + ((zähler % 2) · 0.4m))
+		Dauer: 0.2s
+	)
+
+Bühne(
+	[
+		Gruppe(
+			Stapel(Polsterung: 0.5m)
+			[
+				kuchen()
+				Satzglied('Happy Birthday' 1.3m)
+			]
+		)
+		Musik(
+			[
+				Spur(
+					melodie2
+					Instrument: Instrument.Flöte
+					Schlag: 0.5beats
+				)
+				Spur(
+					alt
+					Instrument: Instrument.Geige
+					Schlag: 0.5beats
+					Lautstärke: 65%
+				)
+				Spur(
+					akkorde
+					Instrument: Instrument.Klavier
+					Schlag: 1beats
+					Lautstärke: 55%
+				)
+			]
+			Tempo: 116beats/min
+			Name: 'Geburtstag'
+		)
+	]
+	Hintergrund: Farbe(18% 20 330°)
+	Farbe: Farbe(96% 0 0°)
+)

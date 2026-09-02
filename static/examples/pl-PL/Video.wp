@@ -1,0 +1,90 @@
+📹
+Wideo
+===
+¶Obraz z twojej kamery, przemalowany na żywo: jako kolorowe litery, jako cieniowanie ASCII albo jako kolorowe kwadraty. Wybierz styl przyciskami na dole.¶
+
+¶Który przycisk stylu został kliknięty jako ostatni. $Choice podaje nazwę wybieranej frazy, którą wybrała osoba patrząca, a styl zapamiętuje to, co usłyszał ostatnio.¶
+wybór: Wybór()
+styl2: 'letters' … ∆ wybór … wybór
+
+¶Emotikony są duże, więc styl z emotikonami korzysta z grubszej siatki. Obie siatki obejmują ten sam obszar 16 na 12 metrów, więc zmiana stylu nigdy nie zmienia rozmiaru obrazu ani nie przesuwa kamery.¶
+kolumny2: (styl2 = 'emoji') ? 16 32
+rzędy: (styl2 = 'emoji') ? 12 24
+komórka2: (styl2 = 'emoji') ? 1m 0.5m
+
+¶Środek siatki, w którym wyśrodkowany jest obraz.¶
+środkowaKolumna: (kolumny2 + 1) ÷ 2
+środkowyRząd: (rzędy + 1) ÷ 2
+
+¶Jeden kolor na komórkę, prosto z kamery.¶
+kolory: Kamera((kolumny2 × 1px) (rzędy × 1px) 33ms)
+
+¶Dziesięć znaków od ciemnego do jasnego. Styl ASCII wybiera jeden z nich w zależności od jasności piksela.¶
+pasmo: "@%#*+=-:. " → []
+
+¶Dwadzieścia cztery pasma po 15° wokół kręgu barw, tak że każdy piksel dostaje kwadrat najbliższy jego kolorowi.¶
+kwadraty: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
+
+¶Jak wygląda jeden piksel w aktualnym stylu. Piksel z niewielką ilością koloru nie ma barwy warty pokazania, więc wtedy zamiast niej pojawia się jasny lub ciemny kwadrat.¶
+ƒ glif(kolor2•Kolor)
+	(styl2 = 'ascii') ?
+		"\pasmo[((kolor2.lekkość × 9).okrągły()) + 1]\"
+		((styl2 = 'emoji') ?
+				((kolor2.barwa < 8) ?
+						((kolor2.lekkość < 50%) ? "⬛" "⬜")
+						"\kwadraty[(((kolor2.odcień ÷ 1°) ÷ 15).zaokrąglićwdół(
+							)) + 1]\")
+				'a')
+
+¶Obraz: jedna fraza na piksel, ułożona od środka na zewnątrz, tak że kamera ma ten samobraz do ukazania, niezależnie od tego, jak gruba jest siatka, i odbita w lewo-prawo, taby czytało się go tak jak w zwierciadle.¶
+obraz: kolory.łączny(
+		[]
+		ƒ(frazy•[Wyrażenie] rząd•[Kolor] y2•#)
+			frazy.zListą(
+				rząd.tłumaczyć(
+					ƒ(kolor3•Kolor x2•#)
+						Wyrażenie(
+							glif(kolor3)
+							miejsce: Miejsce(
+								((środkowaKolumna - x2) × komórka2)
+								((środkowyRząd - y2) × komórka2)
+							)
+							czastrwania: 0s
+							rozmiar: (styl2 = 'ascii') ? 0.75m ((styl2 = 'emoji') ? 1.15m 1m)
+							twarz: (styl2 = 'ascii') ? "Noto Sans Mono"/en ø
+							kolor: (styl2 = 'letters') ? kolor3 ø
+						)
+				)
+			)
+	)
+
+¶Jeden przycisk stylu, jasny, gdy jest to styl aktualnie wyświetlany. Nazwa to to, co $Choice podaje, gdy przycisk zostanie kliknięty albo wybrany klawiaturą.¶
+ƒ przycisk(id2•'')
+	Wyrażenie(
+		id2
+		0.5m
+		nazwa: id2
+		wybieralny: ⊤
+		spoczynkowy: (styl2 = id2) ? Poza() Poza(
+				nieprzezroczystość: 40%
+			)
+	)
+
+¶Rząd rozmieszcza przyciski równomiernie i wyrównuje je niezależnie od długości ich słów, a nie mając własnego miejsca, rząd znajduje się na środku, więc samo przesunięcie wystarcza, by opuścić go na dół ekranu. Ma swoje własne tło, bo słowa na filmie są czytelne tylko przez przypadek.¶
+przyciski: Grupa(
+		Wiersz(wyściółka: 0.5m)
+		[
+			przycisk('letters')
+			przycisk('ascii')
+			przycisk('emoji')
+		]
+		tło: Kolor(100% 0 0°)
+		zrównoważyć: Miejsce(0m -4.5m)
+	)
+
+¶Przyciski znajdują się na nakładce scены, która jest przypięta płasko do ekranu: zachowują ten sam rozmiar i miejsce niezależnie od tego, jak ukazany jest obraz, a obraz jest ukazany tak, jakby ich tam nie było.¶
+Scena(
+	obraz
+	opis: "camera video drawn with \styl2\"
+	nakładka: [przyciski]
+)

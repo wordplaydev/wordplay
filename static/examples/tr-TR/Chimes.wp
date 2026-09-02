@@ -1,0 +1,84 @@
+🎐
+Çanlar
+=== start/en
+¶Bir sırada asılı beş çan var, birden beşe kadar numaralanmış. A, S, D, F ya da G tuşuna bas; vurduğun çan kabarıp parlar, sonra yeniden durgunlaşır. Kimse çalmasa bile bütün sıra hafifçe sallanır.
+
+Bu bir çalgıdır. Ses çıkarmaz. Rakamlar zaten bir nota dizisidir; sadece henüz çalınmamışlardır. Sahnenin üstündeki gizlenmiş blok sestir, @Music'ın var olmasını bekler.¶
+
+basıldı: Anahtar()
+tık: Zaman(30ms)
+
+¶Bir çanın her karede çınlamasından ne kadar kaybettiği.¶
+sönüm: 0.03
+
+¶Bir çan: hangi derecede olduğu, hangi tuşun ona vurduğu, nerede asılı durduğu, tonu ve ne kadar hâlâ çınladığı — az önce vurulduysa 1, durgunsa 0.¶
+•çan2(derece2•# anahtar2•'' x2•#m ton•#° enerji•#)
+
+¶Tuşuna basılan çanı çal, diğer bütün çanların durgunlaşmasına izin ver.¶
+ƒ çınlama(sıra•[çan2] çarptı•'' çalındı•?)
+	sıra.tercümeetmek(
+		ƒ(çan3•çan2)
+			(çalındı & (çarptı = çan3.anahtar2))
+			? çan3.enerji:1
+				çan3.enerji:(çan3.enerji - sönüm).maksimum(0)
+	)
+
+çanlar•[çan2]: [
+		çan2(1 'bir' -6m 20° 0)
+		çan2(2 's' -3m 75° 0)
+		çan2(3 'd' 0m 140° 0)
+		çan2(4 'f' 3m 205° 0)
+		çan2(5 'g' 6m 270° 0)
+	] … (∆ basıldı | ∆ tık) … çınlama(
+			çanlar
+			basıldı
+			(∆ basıldı)
+		)
+
+¶Bir çan çınladıkça kabarıp parlar ve her zaman hafifçe sallanır, böylece kimse çalmasa da sıra canlı kalır.¶
+ƒ çanGörünümü(çan4•çan2)
+	İfadeetmek(
+		(çan4.derece2 → '')
+		(2m + (çan4.enerji · 1.5m))
+		yer: Yer(çan4.x2 0m)
+		süre: 0.12s
+		renk: Renk(
+			(45% + (çan4.enerji · 40%))
+			(20 + (çan4.enerji · 80))
+			çan4.ton
+		)
+		dinlenme: Sekans.sallanmak(3° 2.5s)
+	)
+
+¶Her çanı çalan tuş, çanın altında yazılıdır.¶
+ƒ tuşGörünümü(çan5•çan2)
+	İfadeetmek(
+		çan5.anahtar2
+		0.7m
+		yer: Yer(çan5.x2 -3m)
+		renk: Renk(60% 0 0°)
+	)
+
+¶Bu iki bağlama sesin tamamını oluşturur: şu an çınlayan çanı bul ve derecesini bir zile ver; her basışta yeniden çalınır, böylece her vuruş aynı sesin tekrarı değil yeni bir ses olur. Beş çan, pentatonik bir dizinin beş derecesi; yani yanlış nota diye bir şey yoktur.¶
+çınlıyor: çanlar.filtre(ƒ(çan6•çan2) çan6.enerji = 1)
+şarkı: Müzik(
+		Parça(çınlıyor ↦ ⬚.derece2 çalgı: Çalgı.çan döngü: ⊥)
+		gam: Müzik.pentatonik
+		tekrarOynat: ∆ basıldı
+	)
+
+Sahne(
+	[
+		İfadeetmek(
+			'━━━━━━━━━━━━━'
+			1m
+			yer: Yer(-6m 2.5m)
+			renk: Renk(45% 0 0°)
+		)
+		:çanlar ↦ çanGörünümü(⬚)
+		:çanlar ↦ tuşGörünümü(⬚)
+		şarkı
+	]
+	arkaplan: Renk(16% 15 280°)
+	renk: Renk(95% 0 0°)
+)

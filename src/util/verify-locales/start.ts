@@ -41,6 +41,7 @@ import {
     syncTutorialStructure,
 } from '@util/verify-locales/syncTutorialStructure';
 import { buildHowToBundle } from '@util/verify-locales/buildHowTos';
+import { verifyExamples } from '@util/verify-locales/verifyExamples';
 import { verifyHowTo } from '@util/verify-locales/verifyHowTo';
 import {
     createUnwrittenLocale,
@@ -370,6 +371,26 @@ async function handleLocale(
         locale,
         FixRequested || TranslationRequested,
         localeText,
+    );
+
+    // Verify and optionally translate the gallery examples (#1310). Opt-in per
+    // locale — only locales with a static/examples/<locale>/ directory
+    // participate, and an explicit `+example` flag opts one in — so a bare
+    // translate run doesn't silently buy 75 files for every draft locale.
+    await verifyExamples(
+        localeLog.scope('Examples'),
+        locale,
+        localeText.language,
+        localeText.regions,
+        TranslationRequested && selection.isIncluded('example'),
+        OverrideMachineTranslations,
+        selection.exampleIds(),
+        translator,
+        // The revised locale: examples retarget names this run may have just
+        // translated, the same reason how-tos take it.
+        revisedLocale,
+        FixRequested || TranslationRequested,
+        selection.isExplicitlyIncluded('example'),
     );
 
     // Generate this locale's emoji translations as part of a translate/override

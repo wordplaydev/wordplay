@@ -1,0 +1,56 @@
+🙂
+Wajah
+===
+¶Sebuah emoji yang meniru wajahmu saat kamu tersenyum, cemberut, membuka mulut, dan berkedip.¶
+wajah2: Wajah()
+
+Panggung(
+	[
+		Frasa(
+			(wajah2.mulutTerbuka ? '😮'
+					wajah2.tersenyum ? '😀'
+						wajah2.cemberut ? '🙁'
+							wajah2.alisTerangkat ? '😲'
+								(wajah2.mataTerbuka ? '🙂' '😑'))
+			tempat: wajah2.tempat
+			ukuran: 4m
+		)
+		Kelompok(
+			Tumpukan('|')
+			[
+				Frasa((wajah2.mataTerbuka ? '👀' '😑') ukuran: 1.5m)
+				Frasa(
+					'😊'
+					ukuran: (wajah2.jumlahSenyum · 2m) + 0.5m
+				)
+				Frasa(
+					'👄'
+					ukuran: (wajah2.jumlahMulutTerbuka · 2m) + 0.5m
+				)
+				Frasa(
+					'🤨'
+					ukuran: (wajah2.jumlahAlisTerangkat · 2m) + 0.5m
+				)
+			]
+			tempat: Tempat(-9m 8m)
+		)
+		Frasa(
+			'putar 🧭'
+			tempat: Tempat(9m 8m 0m)
+			ukuran: 2m
+			rotasi: wajah2.putar
+		)
+		Frasa(
+			'miring 🧭'
+			tempat: Tempat(9m 2m)
+			rotasi: wajah2.miring
+			ukuran: 2m
+		)
+		Frasa(
+			`/Tunjukkan wajahmu ke kamera/`
+			tempat: Tempat(-6m -12m)
+			ukuran: 1m
+		)
+	]
+	tempat: Tempat(0m 0m -20m)
+)

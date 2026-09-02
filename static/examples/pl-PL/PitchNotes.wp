@@ -1,0 +1,56 @@
+🎵
+Nuty wysokości dźwięku
+===
+¶Zaśpiewaj lub zanuć i zobacz nutę, którą tworzysz — dwa razy. Lewa nuta czyta surowy sygnał @Pitch i drga. Prawa nuta liczy średnią z ostatnich kilku wysokości i pozostaje stabilna. @Pitch pokazuje 0 herców, gdy nie słyszy niczego wyraźnego, więc obie nuty pomijają te chwile i pokazują · zamiast nuty.¶
+nuty2: [
+		'A'
+		'A♯'
+		'B'
+		'C'
+		'C♯'
+		'D'
+		'D♯'
+		'E'
+		'F'
+		'F♯'
+		'G'
+		'G♯'
+	]
+nutaZ: ƒ(hz•#hz) hz > 0hz ? nuty2[(((((12 × (hz ÷ 440hz).log(
+										2
+									)).okrągły(
+							)) % 12) + 12) % 12) + 1] '·'
+gładki2: ƒ(sygnał•…#hz) (
+			usłyszany: (←← 8 sygnał).bez(0hz)
+			(usłyszany.łączny(0hz ƒ(suma2•#hz v•#hz) suma2 + v) ÷ usłyszany.długość(
+					)) ?? 0hz
+		)
+wysokośćDźwięku: Poziom()
+Scena(
+	[
+		Grupa(
+			Stos()
+			[
+				Wyrażenie('szumiący' kolor: Kolor(60% 90 30°))
+				Wyrażenie(
+					nutaZ(wysokośćDźwięku)
+					rozmiar: 6m
+					kolor: Kolor(60% 90 30°)
+				)
+			]
+			miejsce: Miejsce(-4m 0m)
+		)
+		Grupa(
+			Stos()
+			[
+				Wyrażenie('gładki' kolor: Kolor(70% 90 240°))
+				Wyrażenie(
+					nutaZ(gładki2(wysokośćDźwięku))
+					rozmiar: 6m
+					kolor: Kolor(70% 90 240°)
+				)
+			]
+			miejsce: Miejsce(4m 0m)
+		)
+	]
+)

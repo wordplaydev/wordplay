@@ -1,0 +1,32 @@
+⌕
+Mga Pattern
+=== start
+¶Mag-type ng isang pangungusap na may mga numero rito. Hahanapin ko ang bawat numero at ipapakita ito sa ibaba, lalaki habang nahahanap ko ang mga ito. Naglalarawan ang isang pattern sa hugis ng teksto — dito,\⣿ >0 #⣿\ ay nangangahulugang “isa o higit pang digit,” at ⌕ ang naghahanap ng bawat pagkakataon na lumitaw ito.¶
+input: Makipagchat()
+teksto2: 'May 3 pusa ako, 12 isda, at 144 langgam' … ∆ input … input
+
+¶Hanapin sa teksto ang bawat grupo ng mga digit. Ang bawat resulta ay isang Result na may kaakibat na tugmang teksto.¶
+mgaNumero: teksto2 ⌕ ⣿ >0 #⣿
+
+Entablado(
+	[
+		Grupo(
+			Patongpatong()
+			[
+				Parirala(teksto2 laki: 1m)
+				Grupo(
+					Patongpatong()
+					mgaNumero.isalin(
+						ƒ(bilang2•Resulta)
+							Parirala(
+								bilang2.teksto
+								laki: 1.5m
+								pagpasok: Pose(kalabuan: 0 sukat: 0.5)
+								tagal: 0.5s
+							)
+					)
+				)
+			]
+		)
+	]
+)

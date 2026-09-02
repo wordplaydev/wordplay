@@ -1,0 +1,41 @@
+👨‍👨‍👧‍👦
+Questions
+=== start/en
+¶Appuie sur des touches pour lancer des points d'interrogation bondissants au-dessus d'une famille perplexe.¶
+•question(id2•"" vx•#m/s vy•#m/s va•#°/s)
+
+appuyée: ∆ Clé()
+compte2•#: 0 … appuyée … compte2 + 1
+questions•[question]: [] … appuyée … [
+			:questions
+			question(
+				compte2 → ""
+				Aléatoire(30m/s 50m/s)
+				Aléatoire(30m/s 50m/s)
+				Aléatoire(0°/s 30°/s)
+			)
+		]
+
+Scène(
+	[
+		Phrase('👨‍👨‍👧‍👦' lieu: Lieu(0m 0m) affronter: "Noto Emoji")
+		Forme(Rectangle(-5m 0m 25m -1m))
+		:questions.traduire(
+			ƒ(q•question indice2•#) (
+					initialiser: appuyée & (indice2 = questions.longueur(
+									))
+					Phrase(
+						'Q'
+						nom: q.id2
+						lieu: Mouvement(
+							vitesse: Vitesse(q.vx q.vy q.va)
+						)
+						matière: Matière()
+						aurepos: Pose(
+							opacité: initialiser ? 0% 100%
+						)
+					)
+				)
+		)
+	]
+)

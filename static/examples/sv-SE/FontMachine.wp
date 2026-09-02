@@ -1,0 +1,26 @@
+t
+Typsnittsmaskin
+=== start
+¶Tryck på valfri tangent för att sätta om varje bokstav i "typography" i ett slumpmässigt typsnitt.¶
+typsnitt: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+symboler: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ slumpa()
+	symboler.översätta(
+		ƒ(symbol) Fras(
+				symbol
+				ansikte: typsnitt.slumpmässig()
+				varaktighet: 0s
+			)
+	)
+
+fraser: slumpa() … ∆ Nyckel() | ∆ Knapp() … slumpa()
+
+Etapp([Grupp(Rad('|' 0m) fraser plats: Plats(0m 0m))])

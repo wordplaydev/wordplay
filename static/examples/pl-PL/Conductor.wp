@@ -1,0 +1,292 @@
+🫲
+Dyrygent
+=== start/en
+¶Dyryguj cesarską flotą jedną ręką. Bez klawiatury, bez przycisków — kamera obserwuje twoją rękę, a ośmioosobowa orkiestra odpowiada.
+
+Podnieś rękę, a orkiestra dołącza, część po części, aż zagra wszystkich osiem. Opuść ją, a odpadają, aż zostanie sama melodia. Przesuń rękę w lewo, by zwolnić marsz, w prawo, by go przyspieszyć. To, ile palców pokażesz, wybiera, kto gra melodię.
+
+Każda instrukcja jest wypisana na scenie, więc możesz się jej nauczyć bez czytania tego tekstu.¶
+
+ręka: Ręka()
+
+¶Wysokość ręki mówi, ile orkiestry słychać, a ruch w bok mówi, jak szybko gra muzyka. Oba te ustawienia są odczytywane wprost z ręki, a nie zapamiętywane, więc podążają za nią bez przerwy. Każde z nich jest zaokrąglane do jednego kroku, więc muzyka zmienia się tylko wtedy, gdy zmiana jest na tyle duża, by ją usłyszeć. Dzięki temu drżąca ręka nie przepisuje nut dwadzieścia razy na sekundę.¶
+podnieś: ((ręka.miejsce.y + 3m) ÷ 6m).min(1).maks(0)
+warstwy: 1 + ((podnieś · 7).okrągły())
+
+zasięg: ((ręka.miejsce.X + 5m) ÷ 10m).min(1).maks(0)
+tempo2: 72 + ((zasięg · 8).okrągły() · 12)
+
+¶Kto gra melodię. Zaciśnięta pięść i ręka poza kadrem liczą się tak samo, jako brak palców. Brak palców oznacza, że gra ten, kto grał wcześniej — inaczej odwrócenie wzroku zmieniałoby melodię.¶
+polecane: 5 … ∆ ręka …
+		(ręka.palce = 0) ? polecane ręka.palce
+
+ƒ głos2(liczba2•#)•Instrument
+	(liczba2 = 1) ? Instrument.pianino
+		(liczba2 = 2) ? Instrument.skrzypce
+			(liczba2 = 3) ? Instrument.flet
+				(liczba2 = 4) ? Instrument.gitaraElektryczna
+					Instrument.trąbka
+
+ƒ ikona(liczba3•#)•''
+	(liczba3 = 1) ? '🎹'
+		(liczba3 = 2) ? '🎻'
+			(liczba3 = 3) ? '🪈'
+				(liczba3 = 4) ? '⚡'
+					'🎺'
+
+¶Jak głośna jest dana część. Każda część brzmi w muzyce przez cały czas, więc żadna z nich nigdy nie traci swojego miejsca — te, które są powyżej ręki, są po prostu ściszone do zera.
+
+Każda z nich jest ustawiona wyraźnie ciszej niż melodia, a wszystkie osiem razem brzmi mniej niż dwa razy głośniej niż ona sama. Osiem części na pełnej głośności nie daje głośnej orkiestry, tylko brzmi jak jedna wielka plama dźwięku, bo wszystko, co gra naraz, musi zmieścić się w tym samym głośniku.¶
+ƒ usłyszany(ranga•# głośno•%)•% (ranga ≤ warstwy) ? głośno 0%
+
+¶Marsz Cesarski, osiem taktów, jeden takt na linijkę. Zapisano go w skali chromatycznej, żeby w ogóle dało się zapisać jego dźwięki spoza tonacji — obniżony drugi stopień oraz chromatyczne przejście w drugiej połowie. Stopień 1 to tonika, a każdy krok w górę to jeden półton, więc te liczby oznaczają odległości między dźwiękami, a nie stopnie skali.
+
+Wartości nut niosą rytm. Sama liczba trwa tyle, ile jedna miara utworu, czyli ćwierćnutę. Każda inna długość jest zapisana obok liczby: 𝅘𝅥𝅮𝅭 to ósemka z kropką, a 𝅘𝅥𝅯 to szesnastka, które pchają marsz do przodu, a 𝅗𝅥 to półnuta, na której melodia się zatrzymuje. Każda linijka sumuje się do czterech uderzeń.¶
+marsz: [
+		5
+		5
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		12
+		12
+		12
+		13𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		4
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		17
+		5𝅘𝅥𝅮𝅭
+		5𝅘𝅥𝅯
+		17
+		16𝅘𝅥𝅮𝅭
+		15𝅘𝅥𝅯
+		14𝅘𝅥𝅯
+		13𝅘𝅥𝅯
+		14
+		6𝅘𝅥𝅮
+		11
+		9𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		7𝅘𝅥𝅯
+		6𝅘𝅥𝅯
+		7
+		1𝅘𝅥𝅮
+		4
+		1𝅘𝅥𝅮𝅭
+		4𝅘𝅥𝅯
+		8
+		5𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		12𝅗𝅥
+	]
+
+¶Cztery takty dźwięków podstawowych pod spodem, maszerujące w ćwierćnutach. To krótsza część niż melodia, a każda ścieżka powtarza się według swojej własnej długości, więc te cztery takty pojawiają się dwa razy, zanim melodia zdąży zagrać swoje osiem.¶
+bas: [
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		5
+		5
+		12
+		8
+	]
+
+¶Jeden takt bębnów, w rytmie samej melodii. Stopnie wybierają dźwięk z zestawu perkusyjnego, a nie ze skali, bo ten instrument nie ma wysokości dźwięku. 1 to stopa, 2 to werbel, 3 to hi-hat, a 5 to tom.¶
+perkusja2: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
+
+¶Akordy na słabych uderzeniach — to one nie pozwalają marszowi stać w miejscu. Trzeci takt skłania się ku akordowi molowemu, o półtora tonu niżej. Stąd biorą się obniżone dźwięki w melodii.¶
+smyczki: [
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{1 4 8}
+		ø
+		{1 4 8}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+	]
+
+¶Te same cztery takty, grane jako czyste kwinty, jeden takt naraz. Kwinta nie ma tercji, więc nie wchodzi w drogę chromatycznym dźwiękom nad nią.¶
+podkład: [{5 12} {5 12} {1 8} {5 12}]
+
+¶Dzwonek na pierwszym i trzecim takcie. Jego jednostka to cała nuta, więc pauza tutaj oznacza całą pustą miarę.¶
+dzwonki: [5 ø 1 ø]
+
+¶Wysoka odpowiedź w przerwach, tam gdzie melodia się zatrzymuje.¶
+licznik: [
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		20𝅗𝅥
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		17𝅗𝅥
+	]
+
+piosenka: Muzyka(
+		[
+			Ścieżka(
+				marsz
+				instrument: głos2(polecane)
+				głośność: 55%
+				rytm: 1𝅘𝅥
+			)
+			Ścieżka(
+				bas
+				instrument: Instrument.basSyntezatora
+				rytm: 1𝅘𝅥
+				tonacja: -24semitones
+				głośność: usłyszany(2 30%)
+			)
+			Ścieżka(
+				perkusja2
+				instrument: Instrument.perkusja
+				rytm: 1𝅘𝅥
+				głośność: usłyszany(3 20%)
+			)
+			Ścieżka(
+				marsz
+				instrument: Instrument.saksofon
+				rytm: 1𝅘𝅥
+				tonacja: -12semitones
+				głośność: usłyszany(4 22%)
+			)
+			Ścieżka(
+				podkład
+				instrument: Instrument.padSyntezatora
+				rytm: 1𝅝
+				tonacja: -12semitones
+				głośność: usłyszany(5 16%)
+			)
+			Ścieżka(
+				smyczki
+				instrument: Instrument.skrzypce
+				rytm: 1𝅘𝅥
+				głośność: usłyszany(6 18%)
+			)
+			Ścieżka(
+				dzwonki
+				instrument: Instrument.dzwonek
+				rytm: 1𝅝
+				tonacja: 12semitones
+				głośność: usłyszany(7 12%)
+			)
+			Ścieżka(
+				licznik
+				instrument: Instrument.flet
+				rytm: 1𝅘𝅥
+				głośność: usłyszany(8 14%)
+			)
+		]
+		tempo: tempo2 · 1beats/min
+		skala: Muzyka.chromatyczna
+		nazwa: 'marsz cesarski'
+	)
+
+¶Jak daleko poleciała flota. Liczy własne uderzenia zamiast odczytywać zegar, a liczy je szybciej, gdy marsz przyspiesza, więc statki lecą w rytm muzyki.¶
+podróż: 0 … ∆ Czas(40ms) … podróż + (tempo2 ÷ 72)
+
+ƒ stan()•'' '\warstwy\ of 8 playing · \tempo2\ beats a minute'
+
+¶Jedna linijka instrukcji, przyciemniona, żeby najpierw rzucała się w oczy flota i wyróżniony gracz.¶
+ƒ linia(tekst2•'')•Wyrażenie Wyrażenie(
+		tekst2
+		0.3m
+		kolor: Kolor(64% 4 265°)
+	)
+
+¶Instrukcje, ułożone przy lewej krawędzi zamiast na środku, żeby wzrok mógł biec prosto w dół.¶
+wyświetlacz: Grupa(
+		Stos('<' 0.16m)
+		[
+			Wyrażenie(
+				ikona(polecane)
+				0.9m
+				kolor: Kolor(56% 65 25°)
+			)
+			Wyrażenie(stan() 0.38m kolor: Kolor(70% 25 30°))
+			linia('podnieś rękę — więcej orkiestry')
+			linia('opuść ją — sama melodia')
+			linia(
+				'ręka w lewo — wolniej · ręka w prawo — szybciej'
+			)
+			linia('palce w górze — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺')
+		]
+	)
+
+¶Statek przelatujący przez scenę, lecący w pasie wyraźnie powyżej instrukcji, żeby nigdy nie zasłonić tekstu. Jego pas określa, jak wysoko leci i jak daleko zaczyna, więc statki nigdy nie lecą w szyku.¶
+ƒ statek(glif•'' pas•# prędkość2•#)•Wyrażenie
+	Wyrażenie(
+		glif
+		0.7m
+		miejsce: Miejsce(
+			(((((podróż · prędkość2) + (pas · 47)) % 200) - 100) · 0.045) · 1m
+			((pas · 0.65) + 2.2) · 1m
+		)
+	)
+
+flota: [
+		statek('🛸' 0 3)
+		statek('🚀' 1 2)
+		statek('🛰' 2 4)
+		statek('🛸' 3 5)
+	]
+
+ƒ gwiazda(x2•# y2•# rozmiar2•#)•Wyrażenie
+	Wyrażenie(
+		'✦'
+		rozmiar2 · 1m
+		miejsce: Miejsce(x2 · 1m y2 · 1m)
+		kolor: Kolor(46% 8 275°)
+	)
+
+¶Scena powiększa się tak, by zmieściło się na niej wszystko, co się na niej znajduje. Gdyby cokolwiek się poruszało, przeskalowywałoby to cały obraz przy każdym uderzeniu i sprawiało, że słowa by pływały. Cztery narożne gwiazdy są dalej niż kiedykolwiek doleci jakikolwiek statek i dalej niż najdłuższa linijka tekstu, więc dopasowanie ma ramę, która nigdy się nie zmienia, a obraz stoi nieruchomo. Reszta to po prostu niebo.¶
+gwiazdy: [
+		gwiazda(-5.6 -2.3 0.18)
+		gwiazda(5.6 -2.3 0.18)
+		gwiazda(-5.6 5 0.18)
+		gwiazda(5.6 5 0.18)
+		gwiazda(-4.9 2.1 0.22)
+		gwiazda(-3.9 3.9 0.14)
+		gwiazda(-2.2 2.5 0.18)
+		gwiazda(1.1 3.4 0.14)
+		gwiazda(2.7 4.4 0.22)
+		gwiazda(4.6 2.7 0.14)
+	]
+
+Scena(
+	[:gwiazdy :flota wyświetlacz piosenka]
+	tło: Kolor(7% 6 275°)
+	kolor: Kolor(88% 3 265°)
+)

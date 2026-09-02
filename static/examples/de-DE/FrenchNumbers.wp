@@ -1,0 +1,84 @@
+t
+Französische Zahlen
+=== start/en-US,start/fr-FR
+¶Drücke die Ziffer, die zur französischen Zahl auf der Bühne passt.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶Die zu erratenden Zahlen¶
+¶Les nombres à deviner¶/fr
+zahlen,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶Die Geheimnisse sind die Zahlen 1 bis 9 in zufälliger Reihenfolge¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+geheimnisse: [1 2 3 4 5 6 7 8 9].gemischt()
+
+¶Welche Taste wurde zuletzt gedrückt?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+schlüssel2,clé/fr: Schlüssel()
+
+¶Das aktuelle Geheimnis wird bei jedem Tastendruck erhöht, bleibt aber bei 10 stehen¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+secretIndex,secretIndice/fr•#:
+	1 …
+	∆ schlüssel2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶Das aktuelle Geheimnis, abhängig vom Geheimnis-Index¶
+aktuellesGeheimnis,secretActuel/fr: geheimnisse[secretIndex]
+
+¶Die Vermutung war richtig, wenn die gedrückte Zahl mit der vorherigen geheimen Zahl übereinstimmt¶
+richtig: clé → # = geheimnisse[secretIndex - 1]
+
+¶Die Punkte beginnen bei 0 und steigen, wenn die Vermutung richtig war.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+punkte•#: 0 …
+	∆ schlüssel2 …
+		richtig ?
+			punkte + 1
+			punkte
+
+¶Gewonnen hat, wer alle 9 Zahlen errät¶
+gewonnen,gagner/fr: punkte = 9
+
+¶Fertig, wenn der Geheimnis-Index 10 erreicht ist¶
+spielende: secretIndex = 10
+
+¶Zeige die aktuelle französische Zahl und die aktuellen Punkte. Nach allen 9 Geheimnissen wird ein Endergebnis angezeigt¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Bühne(
+	[
+		Gruppe(
+			Stapel()
+			[
+				spielende ?
+					Satzglied(
+						gewonnen ?
+							'Du kennst die französischen Zahlen!'"Tu connais les chiffres français!"/fr
+							'fast, versuch es noch einmal'"presque, réessaye"/fr
+						Größe: 2m
+					)
+					Satzglied(numeros[secretActuel] Größe: 2m)
+				Satzglied("\punkte\ points!" Größe: 1m)
+				Satzglied(
+					secretIndex = 1 ?
+						'welche Zahl ist das?''quel est ce numéro ?'/fr
+						richtig ?
+							'Richtig!'
+							"That was \geheimnisse[secretIndex - 1]\"
+				)
+			]
+		)
+	]
+	gesicht: "Aclonica"
+)

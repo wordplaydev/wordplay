@@ -1,0 +1,28 @@
+ぁ
+Hiragana
+=== start
+¶Hiragana a cair sob a gravidade; clique para inverter o sentido para baixo.¶
+contagem2: 32
+
+gravidade2•#m/s^2: 15m/s^2 … ∆ Botão() … -gravidade2
+
+hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
+
+letras: contagem2 → [].traduzir(
+		ƒ(número2 índice2)
+			Frase(
+				hiragana[número2]
+				local: Movimento(
+					Local((índice2 - (contagem2 ÷ 2)) × 0.2m 10m)
+					Velocidade(ângulo: Aleatório(-5 5) × 1°/s)
+				)
+				matéria: Matéria(elasticidade: 0.3)
+			)
+	)
+
+
+Fase(
+	[:letras Figura(Retângulo(-40m 0m 40m -2m))]
+	gravidade: gravidade2
+	local: Local(0m 5m -20m)
+)

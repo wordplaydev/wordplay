@@ -1,0 +1,40 @@
+H
+Adobo-recept
+=== start/en
+¶Ett recept, scen för scen, på filippinsk kyckling-adobo.¶
+
+¶Detta är listan över scener som ska visas¶
+meningar: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Adobong Manók @lamamel/adobo! (flytta musen för att äta)`)
+		(`Masarap! @lamamel/emptyadobo`)
+	]
+
+¶Detta är listan över meningar som bara ska gå vidare när musen flyttas.¶
+flyttaMeningar: [9 11]
+
+¶Den aktuella meningen börjar på 1, och ökar om musen når en viss punkt på skärmen, eller om en knapp eller tangent trycks ner för andra meningar.¶
+punkt2: Pekare()
+aktuellMening•#: 1 …
+	flyttaMeningar.har(aktuellMening) ?
+		(punkt2.x > 2m) & (punkt2.y > 3m)
+		∆ Knapp() | ∆ Nyckel()
+		…
+		(aktuellMening <
+				meningar.längd()) ?
+			aktuellMening + 1
+			aktuellMening
+
+Etapp(
+	[Fras(meningar[aktuellMening] sjal: 10m)]
+	ansikte: 'Short Stack'
+)

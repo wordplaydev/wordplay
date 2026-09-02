@@ -1,0 +1,102 @@
+🎛️
+Instrumente
+=== start/en
+¶Aceleași opt măsuri, cântate de fiecare instrument din paletă. Alege un nume,și melodia își păstrează locul — doar sunetul se schimbă. Cele două pisici suntaceeași pisică, la fel și cei doi câini: unul din fiecare este o trusă, deci melodiase citește ca zgomote, iar celălalt are înălțime, deci o cântă.
+
+Majoritatea acestora sunt înregistrări reale. Cele patru sintetizatoare nu imităceva anume: sunt sintetizatoare, și acela este sunetul lor. Ultimul dintre elecântă, de aceea există cuvinte pe pistă — orice alt instrument de aici leignoră.¶
+
+¶Ce instrument cântă melodia. Choice() dă înapoi numele oricăruioutput selectabil ales, și ø până când ceva este ales.¶
+ales: Alegere()
+
+¶O intrare pentru fiecare instrument: cum se numește, ce cântă și ce culoareprimește butonul lui.¶
+•voce2(etichetă•'' pictogramă•'' sunet2•Instrument nuanță•#°)
+
+voci•[voce2]: [
+		voce2('pian' '🎹' Instrument.pian 260°)
+		voce2('chitară' '🎸' Instrument.chitarăAcustică 20°)
+		voce2('electrică' '⚡' Instrument.chitarăElectrică 5°)
+		voce2('vioară' '🎻' Instrument.vioară 40°)
+		voce2('flaut' '🪈' Instrument.flaut 180°)
+		voce2('trompetă' '🎺' Instrument.trompetă 50°)
+		voce2('saxofon' '🎷' Instrument.saxofon 70°)
+		voce2('muzicuță' '🌬' Instrument.muzicuță 150°)
+		voce2('clopoțel' '🔔' Instrument.clopoțel 55°)
+		voce2('tobe' '🥁' Instrument.tobe 0°)
+		voce2('didgeridoo' '🎶' Instrument.didgeridoo 15°)
+		voce2('pisică' '🐱' Instrument.pisică 330°)
+		voce2(
+			'pisică acordată'
+			'😺'
+			Instrument.pisicăCuNote
+			350°
+		)
+		voce2('câine' '🐶' Instrument.câine 35°)
+		voce2('câine acordat' '🐕' Instrument.câineCuNote 125°)
+		voce2('sintetizator' '🎛' Instrument.sintetizator 290°)
+		voce2('bas' '🎛' Instrument.sintetizatorBas 310°)
+		voce2('pernă' '🎛' Instrument.sintetizatorPad 200°)
+		voce2('voce' '🤖' Instrument.voce 95°)
+	]
+
+¶Vocea aleasă, sau pianul înainte ca cineva să aleagă ceva. find() dă înapoi øcând nimic nu se potrivește, așa că valoarea de rezervă trebuie să fie o Voceproprie.¶
+ales2: voci.găsi(ƒ(voce3•voce2) voce3.etichetă = ales)
+curent•voce2: ales2•ø ? voce2(
+			'pian'
+			'🎹'
+			Instrument.pian
+			260°
+		) ales2
+
+¶O melodie care rămâne neschimbată în timp ce instrumentul de dedesubt sechimbă. Trepte, nu note, deci înseamnă același lucru pe orice instrument — iarla tobe se citește ca ritm în schimb, fiindcă acolo treptele indică poziția în trusă.¶
+melodie2: [1 3 5 6 5 3 2 ø]
+
+¶O silabă pentru fiecare notă, scrisă în Alfabetul Fonetic Internațional, undefiecare literă este un sunet. Doar vocea care cântă folosește acestea; restulpaletei le ignoră. Restul nu ia nicio silabă, așa că șapte sunete acoperă optintrări.¶
+vers: 'la li lu le lo li la'
+
+¶Câte un buton pentru fiecare instrument: pictograma este pusă peste numele lui, ca să nu se încurce între ele. $Choice() citește frazele care pot fi alese, iar cea aleasă în acest moment este desenată mai luminos, ca să vezi unde te afli.¶
+ƒ buton(voce4•voce2)
+	Grup(
+		Stivă(umplutură: 0.1m)
+		[
+			Fraza(voce4.pictogramă 1.1m)
+			Fraza(voce4.etichetă 0.5m)
+		]
+		nume: voce4.etichetă
+		selectabil: ⊤
+		culoare: (voce4.etichetă = curent.etichetă)
+		? Culoare(95% 60 voce4.nuanță)
+			Culoare(60% 8 voce4.nuanță)
+	)
+
+¶Tot ce se vede intră într-o singură Stack. O Stage centrează fiecare dintre copiii ei separat, deci lăsați liberi ar sta toți unul peste altul — aranjamentul trebuie să spună că merg unul deasupra celuilalt.
+
+Butoanele merg într-o Grid, nu într-un Row. Toate într-un singur rând sunt mai late decât un telefon, iar o Stage micșorează conținutul ca să încapă, deci etichetele se micșorează până când nu mai pot fi citite. Doar coloanele sunt date: lasă rândurile deoparte și Grid află câte îi trebuie, așa că adăugarea unui instrument nu înseamnă editarea aici.
+
+Muzica păstrează un singur nume tot timpul, în loc să îl ia pe cel al instrumentului. Numele unei 🎼 este identitatea ei: redenumește-o și cel care ascultă aude începând o piesă diferită, deci melodia ar sări înapoi la început la fiecare schimbare, iar partitura ar desena notele instrumentului vechi lângă cel nou până când s-ar derula în afară.¶
+Etapă(
+	[
+		Grup(
+			Stivă(umplutură: 0.6m)
+			[
+				Fraza(curent.pictogramă 2.5m)
+				Fraza(curent.etichetă 1.2m)
+				Grup(
+					Grilă(coloane: 5 umplutură: 0.4m)
+					voci.traduce(ƒ(voce5•voce2) buton(voce5))
+				)
+			]
+		)
+		Muzică(
+			Pistă(
+				melodie2
+				instrument: curent.sunet2
+				cuvinte: vers
+			)
+			tempo: 120beats/min
+			gamă: Muzică.pentatonic
+			nume: 'melodie'
+		)
+	]
+	fundal: Culoare(14% 12 280°)
+	culoare: Culoare(95% 0 0°)
+)

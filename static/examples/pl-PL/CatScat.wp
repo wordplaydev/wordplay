@@ -1,0 +1,151 @@
+🐱
+Kot Scatuje!
+=== start/en
+¶Kot scatuje, zawsze na nowo, nigdy tak samo dwa razy.
+
+Całe solo jest improwizowane: nic tu nie jest zapisaną melodią. W każdym chórze kot wybiera nowe dźwięki i fraza jest budowana od nowa, więc to, co słyszysz teraz, już się nie powtórzy.
+
+Śpiewa w pięciu ścieżkach, które grają na zmianę zamiast razem — ćwierćnuty, potem ósemki, potem tercje, potem półnuty, potem jedna długa nuta — ponieważ kot ma jeden głos, a dwie ścieżki brzmiące naraz dałyby mu dwa głosy. Każda ścieżka milczy przez takty wszystkich pozostałych, i to właśnie sprawia, że to jest solo.
+
+Głos to nastrojony kot, \Instrument.kotZWysokością\: jedno miau, o określonej wysokości, więc stopień skali wybiera nutę i kot naprawdę śpiewa melodię, zamiast wypowiadać dwanaście różnych rzeczy. Skala to blues, w której nie ma złych nut — i musi tak być, bo każda nuta tutaj jest losowana, więc każda kolejność musi brzmieć dobrze.
+
+To wolne tempo jak na scat. Miauknięcie trwa około ośmiu dziesiątych sekundy, a przy szybszym tempie ćwierćnuty ucinałyby kota w połowie słowa.¶
+
+takt: Rytm()
+liczba2: takt.liczba
+
+¶Nuta, albo od czasu do czasu cisza: mniej więcej co siódma nuta milknie. To wystarczająco dużo powietrza, by kot mógł tu i ówdzie zamknąć pysk, nie rozrzedzając przy tym solo — a ponieważ pauzy trafiają tam, gdzie zdecyduje przypadek, żadne dwa chóry nie oddychają w tym samym miejscu.¶
+ƒ może(nuta•#)•#|ø (Losowy() > 0.15) ? nuta ø
+
+¶Jedna nuta, gdzieś w wygodnej oktawie kota. Stopień 1 to nuta, do której wraca fraza, a 8 to oktawa bluesowa nieco powyżej niej — na tyle daleko, by brzmiało to jak śpiew, i na tyle blisko, by miauknięcie wciąż brzmiało jak miauknięcie, a nie jak rozciągnięty dźwięk.¶
+ƒ głos2()•#|ø może(Losowy(1 8))
+
+¶Wszystko, co kot śpiewa w jednym chórze. Każda część trwa tyle samo uderzeń co pozostałe — trzydzieści dwa — więc pozostają zsynchronizowane, niezależnie od tego, jak różnie się dzielą.¶
+•chór(woła•[#|ø] biegnie•[#|ø] machnięcie•[#|ø] trzyma•[#|ø] ogon•[#|ø])
+
+¶Ćwierćnuty, takty pierwszy i drugi: trzy nuty, oddech, a potem te same trzy nuty z nowym zakończeniem jako odpowiedź. Zawołanie i odpowiedź to szkielet frazy scatowej, a powtórzenie figury przed jej zmianą sprawia, że brzmi to jak coś skomponowanego, a nie losowego.¶
+ƒ woła2()•[#|ø] (
+		a2: głos2()
+		b2: głos2()
+		c2: głos2()
+		(32 → []).tłumaczyć(
+			ƒ(i2•#)
+				(i2 = 1) ? a2
+					(i2 = 2) ? b2
+						(i2 = 3) ? c2
+							(i2 = 5) ? a2
+								(i2 = 6) ? b2
+									(i2 = 7) ? głos2()
+										ø
+		)
+	)
+
+¶Ósemki, takty trzeci i czwarty: bieg, który wspina się po skali krok po kroku, zaczynając w dowolnym miejscu i wracając na dół na szczycie oktawy. Szesnaście ósemek na osiem stopni oznacza, że bieg pokonuje całą skalę dwukrotnie, co sprawia, że brzmi to jak bieg, a nie jak melodia.
+
+To najkrótsze nuty w utworze i jedyne miejsce, w którym kot zostaje przycięty: dwie ósemki w jednym uderzeniu to szybciej, niż miauknięcie zdąży się skończyć, a właśnie tak brzmi szybka sylaba scatu.¶
+ƒ biegnie2()•[#|ø] (
+		dom: Losowy(1 8)
+		(64 → []).tłumaczyć(
+			ƒ(i3•#)
+				((i3 < 17) | (i3 > 32)) ? ø
+					może((((dom + (i3 - 17)) - 1) % 8) + 1)
+		)
+	)
+
+¶Tercje, takty piąty i szósty: trzynutowa komórka powtarzana raz za razem. Trzy w przestrzeni dwóch uderzeń zapisuje się dokładnie tak — 2 uderzenia ÷ 3 — co mówi wprost, czym jest tercja.¶
+ƒ machnięcie2()•[#|ø] (
+		komórka2: [głos2() głos2() głos2()]
+		(48 → []).tłumaczyć(
+			ƒ(i4•#)
+				((i4 < 25) | (i4 > 36)) ? ø
+					komórka2[(((i4 - 25) % 3) + 1)]
+		)
+	)
+
+¶Półnuty, takt siódmy: kot zwalnia i ląduje na dwóch długich nutach. Trzymana nuta sprawia, że pysk pozostaje otwarty przez cały czas jej brzmienia, i tak właśnie wygląda trzymanie nuty.¶
+ƒ trzyma2()•[#|ø]
+	(16 → []).tłumaczyć(
+		ƒ(i5•#)
+			(i5 = 13) ? głos2()
+				(i5 = 14) ? głos2()
+					ø
+	)
+
+¶Cała nuta, takt ósmy: stopień 1, przytrzymany. Powrót do pierwszego dźwięku skali sprawia, że fraza brzmi na zakończoną, a nie tylko urwaną.¶
+ƒ ogon2()•[#|ø] (8 → []).tłumaczyć(ƒ(i6•#) (i6 = 8) ? 1 ø)
+
+ƒ improwizuj()•chór chór(
+		woła2()
+		biegnie2()
+		machnięcie2()
+		trzyma2()
+		ogon2()
+	)
+
+¶Nowy refren co trzydzieści dwa uderzenia. Stary jest zachowany między granicami taktów, więc solówka trwa wystarczająco długo, by ją usłyszeć. Zmiana dokładnie na granicy oznacza, że muzyk wplata ją w rytm, zamiast przerywać kota w połowie dźwięku.¶
+chór2•chór: improwizuj() … ∆ takt …
+		((liczba2 % 32) = 0) ? improwizuj() chór2
+
+¶Kot kołysze się w rytm. Przechyla się w drugą stronę przy każdym uderzeniu, więc kołysanie samo jest pulsem, a nie tylko ozdobą na nim.¶
+chudy: ((liczba2 % 2) = 0) ? -1 1
+
+¶Czy kot wydaje teraz jakiś dźwięk. @Beat zwraca jedną wartość @Part dla każdej ścieżki, a część pozostaje ⊤ przez każde uderzenie, w którym trwa przytrzymany dźwięk, więc to jest ⊤ zawsze, gdy coś jest słyszalne.¶
+śpiewanie: takt.części.tłumaczyć(
+		ƒ(część•Część) część.brzmienie
+	).ma(
+		⊤
+	)
+
+¶Jego pysk: otwarty dokładnie wtedy, gdy brzmi dźwięk, zamknięty, gdy żaden nie brzmi. Nic tutaj nie liczy uderzeń — pysk pyta muzykę, co teraz robi, więc mimika nigdy nie może wypaść z rytmu tego, co słyszysz. Rozrzucone pauzy dają mu okazję do zamknięcia, dlatego mniej więcej co siódmy dźwięk milknie.¶
+pysk: śpiewanie ? '😺' '🐱'
+
+Scena(
+	[
+		Wyrażenie(
+			pysk
+			5m
+			miejsce: Miejsce((chudy · 0.7) · 1m -0.6m)
+			obrót: (chudy · 7) · 1°
+			czastrwania: 0.22s
+		)
+		Wyrażenie(
+			'Kot Scatuje!'
+			1.4m
+			miejsce: Miejsce(-2.6m 3.6m)
+		)
+		Muzyka(
+			[
+				Ścieżka(
+					chór2.woła
+					instrument: Instrument.kotZWysokością
+					rytm: 1beats
+				)
+				Ścieżka(
+					chór2.biegnie
+					instrument: Instrument.kotZWysokością
+					rytm: 0.5beats
+				)
+				Ścieżka(
+					chór2.machnięcie
+					instrument: Instrument.kotZWysokością
+					rytm: 2beats ÷ 3
+				)
+				Ścieżka(
+					chór2.trzyma
+					instrument: Instrument.kotZWysokością
+					rytm: 2beats
+				)
+				Ścieżka(
+					chór2.ogon
+					instrument: Instrument.kotZWysokością
+					rytm: 4beats
+				)
+			]
+			tempo: 76beats/min
+			skala: Muzyka.bluesowa
+			nazwa: 'scat'
+		)
+	]
+	tło: Kolor(16% 14 30°)
+	kolor: Kolor(96% 0 0°)
+)

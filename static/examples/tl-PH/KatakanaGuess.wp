@@ -1,0 +1,44 @@
+カ
+Hulaan ang Katakana
+=== start
+¶Hulaan kung aling katakana ang tugma sa hiragana upang makakuha ng puntos.¶
+ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを'/ja → []
+カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ'/ja → []
+
+•ゲーム/ja,Game/en(秘密/ja,secret/en•# スコア/ja,score/en•#)
+選択/ja,selection/en: Pagpipilian()
+
+¶Simulan ang laro gamit ang isang random na hiragana at zero puntos. Kapag may napiling sagot, gumawa ng bagong estado na pumipili ng bagong karakter at nagdaragdag ng puntos kung tama ang sagot.¶
+¶ランダムなひらがなと 0 ポイントでゲームを開始します。
+選択が行われたら、新しい文字を選択し、正しい場合はスコアを増分する新しいステータスを作成します。¶/ja
+配置/ja,status/en: ゲーム(Random(1 46) 0) … ∆ 選択 …
+		ゲーム(
+			Random(1 46)
+			配置.秘密 → '' = 選択 ?
+				配置.スコア + 1
+				配置.スコア - 1
+		)
+
+Entablado(
+	[
+		Grupo(
+			Patongpatong()
+			[
+				Parirala(
+					`/What is the matching hiragana?/``/対応するひらがなは何ですか？/`/ja
+				)
+				Parirala(`*\カタカナ[配置.secret]\*` 2m)
+				Grupo(
+					Grid(10 5 1m 1m 1m)
+					ひらがな.isalin(
+						ƒ(シンボル/ja•'' 指数/ja,index/en)
+							Parirala(シンボル pangalan: 指数 → '' mapipili: ⊤)
+					)
+				)
+				Parirala(
+					`*\配置.score\* points!``*\配置.score\* 正解です！`/ja
+				)
+			]
+		)
+	]
+)

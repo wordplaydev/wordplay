@@ -1,0 +1,78 @@
+⏳
+Meteran Mode Belajar
+=== start/en
+¶Klik untuk menambah jam belajar dan lihat meteran berubah dari tenang ke fokus lalu ke kelebihan beban.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+tindakan: Pilihan()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+jamBelajar:
+	0 …
+	∆ tindakan …
+		tindakan = 'reset' ?
+			0
+			jamBelajar + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+penjelasan:
+	'Klik “Tambah Jam Belajar +1” untuk menambah waktu belajarmu. Klik “Atur Ulang” untuk mulai dari awal.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+teksJam:
+	'Kamu sudah belajar ' + jamBelajar → '' + ' jam.'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+suasanaHati:
+	jamBelajar < 3 ?
+		'🌿 MODE TENANG — klik untuk menambah waktu belajar'
+		jamBelajar < 6 ?
+			'📚 MODE FOKUS — kamu sedang berada di zona produktif!'
+			'🔥 MODE KELEBIHAN BEBAN — istirahatlah dan "atur ulang"'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+Panggung(
+	[
+		Kelompok(
+			Tumpukan()
+			[
+				Frasa('Meteran Mode Belajar' ukuran: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				Frasa(penjelasan ukuran: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				Frasa(teksJam ukuran: 0.4m)
+
+				Frasa(suasanaHati ukuran: 0.75m)
+
+				Kelompok(
+					Baris(lapisan: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						Frasa(
+							'Tambah Jam Belajar +1'
+							dapatdipilih: ⊤
+							nama: 'tambah'
+							warna: Warna(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						Frasa(
+							'Atur Ulang'
+							dapatdipilih: ⊤
+							nama: 'reset'
+							warna: Warna(69% 47 271°)
+						)
+					]
+				)
+			]
+			menghadapi: "Aclonica"
+		)
+	]
+)

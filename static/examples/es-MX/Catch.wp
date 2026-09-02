@@ -1,0 +1,61 @@
+🐭
+Atrapar
+=== start/en
+¶Atrapa al ratón que corretea con un clic — haz clic otra vez para dejarlo libre.
+
+Ambos sonidos vienen de las poses mismas. Una @Pose puede llevar una @Music, que suena en el momento en que se toma esa pose: el salto suena cuando la pose de reposo del ratón cambia a la de atrapado, y el correteo suena cuando el giro llega a la pose de la mitad a la que está unido. No hay que conectar nada entre la animación y el sonido — la pose es donde se encuentran.¶
+
+¶Dos piezas breves. Una @Track se repite por defecto, pero una pose es un instante y no algo que dura, así que la música de una pose siempre suena una sola vez.¶
+saltar: Música(
+		Pista(
+			[5 1]
+			instrumento: Instrumento.campana
+			pulso: 1beats
+		)
+		volumen: 50%
+		nombre: 'saltar'
+	)
+correteo: Música(
+		Pista(
+			[1 2]
+			instrumento: Instrumento.flauta
+			pulso: 1beats
+		)
+		volumen: 35%
+		nombre: 'correteo'
+	)
+
+¶Si la frase seleccionada es el ratón, cambia si el ratón está atrapado o no.¶
+nombre2: Elección()
+atrapado: ⊥ … ∆ (nombre2) … (nombre2 = 'mouse') & ~atrapado
+¶Cada segundo, mueve al ratón¶
+lugar2: Lugar(0m 0m 0m) … ∆ Tiempo(1000ms) … atrapado ? Lugar(
+				0m
+				0m
+			) Lugar(Azar(-2m 2m) Azar(-2m 2m))
+
+Escenario(
+	[
+		Frase(
+			"🐭"
+			seleccionable: ⊤
+			lugar: lugar2
+			inmóvil: atrapado ? Pose(
+					rotación: 180°
+					música: saltar
+				) Pose(
+				)
+			moviendo: atrapado ? Pose() Secuencia(
+					{
+						0%: Pose(rotación: 0°)
+						50%: Pose(rotación: 180° música: correteo)
+						100%: Pose(rotación: 360°)
+					}
+				)
+			duración: 1s
+			nombre: 'mouse'
+		)
+	]
+	lugar: Lugar(0m 0m -5m)
+	marco: Rectángulo(-3m 3m 3m -3m)
+)

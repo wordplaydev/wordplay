@@ -1,0 +1,40 @@
+👨‍👨‍👧‍👦
+Sorular
+=== start/en
+¶Şaşırmış bir ailenin üzerine zıplayan soru işaretleri fırlatmak için tuşlara bas.¶
+•soru(kimlik2•"" vx•#m/s vy•#m/s va•#°/s)
+
+basıldı: ∆ Anahtar()
+sayaç•#: 0 … basıldı … sayaç + 1
+sorular•[soru]: [] … basıldı … [
+			:sorular
+			soru(
+				sayaç → ""
+				Rastgele(30m/s 50m/s)
+				Rastgele(30m/s 50m/s)
+				Rastgele(0°/s 30°/s)
+			)
+		]
+
+Sahne(
+	[
+		İfadeetmek('👨‍👨‍👧‍👦' yer: Yer(0m 0m) yüz: "Noto Emoji")
+		Şekil(Dikdörtgen(-5m 0m 25m -1m))
+		:sorular.tercümeetmek(
+			ƒ(s•soru dizin2•#) (
+					başlat: basıldı & (dizin2 = sorular.uzunluk())
+					İfadeetmek(
+						'S'
+						isim: s.kimlik2
+						yer: Hareket(
+							hız: Hız(s.vx s.vy s.va)
+						)
+						konu: Konu()
+						dinlenme: Poz(
+							opaklık: başlat ? 0% 100%
+						)
+					)
+				)
+		)
+	]
+)

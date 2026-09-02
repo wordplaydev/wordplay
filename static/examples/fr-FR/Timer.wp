@@ -1,0 +1,10 @@
+•
+Minuteur
+===
+¶Une rangée de points qui grandit jusqu'à cinq, puis recommence, une fois par seconde.¶
+Phrase(
+	"•".répété(
+		((Temps(1000ms) → #s) % 5).arrondirverslebas() + 1s
+	)
+	durée: 0s
+)

@@ -1,0 +1,542 @@
+🧟
+Zawał serca
+=== start/en
+¶Atak Serc — łagodna wersja bitwy o przetrwanie z widokiem pierwszej osoby. Stoisz nieruchomo i patrzysz przez kamerę Sceny, a przed tobą czeka horda zombie. Jeden po drugim, najbliższy zombie idzie prosto w twoją stronę. Celuj w swój pas ruchu strzałkami ← →, wskaźnikiem albo dotknięciem po jednej lub drugiej stronie ekranu, a rzucaj serce spacją, kliknięciem albo dotknięciem. Serce zatrzymuje się na pierwszej postaci, którą napotka, więc mierz dokładnie: trafiony zombie zmienia się w radosnego człowieka, a ty zdobywasz punkt — a każdy punkt sprawia, że zombie zbliżają się szybciej. Zmieniona osoba stoi w miejscu i blokuje twoje serca, więc uważaj na kąt rzutu. Zmień wszystkich, by wygrać; jeśli zombie cię dosięgnie, gra się kończy. Enter albo dotknięcie ekranu zaczyna grę, i zaczyna ją ponownie.
+
+Każda faza ma własną melodię, a wszystkie cztery powstały z tego samego motywu — zobacz @Music niżej.¶
+
+¶Ile zombie zaczyna na polu gry.¶
+liczbaZombie: 8
+
+¶Ruch i kamera, w metrach: jak daleko przesuwasz się przy każdym naciśnięciu klawisza, twoje granice w lewo i prawo, stała głębokość kamery podczas gry oraz miejsce, w którym kamera się chowa (dalej w tyle), gdy widać menu.¶
+krokUniku: 1.2m
+lewaGranica: -8m
+prawaGranica: 8m
+głębokośćGry: -1m
+głębokośćMenu: -10m
+
+¶Miejsca, w których pojawiają się zombie — rozłożone od bliska do daleka, zawsze dobrze przed tobą — oraz obszar, po którym wędrują te błąkające się (jego bliższa krawędź zostaje przed tobą, więc tylko atakujące mogą cię naprawdę dosięgnąć).¶
+spawnDepthNear: 6m
+spawnDepthFar: 22m
+roamDepthNear: 3m
+roamDepthFar: 24m
+
+¶Ustawienia serc i zderzeń: jak serce leci i zanika, jak trafia, jak blisko musi podejść zombie, by gra się skończyła, oraz jak poruszają się atakujące zombie — zbliżając się, błądząc, kluczy, śledząc cię i przyspieszając z każdym punktem. Dwaj najbliżsi zombie atakują naraz; reszta się błąka.¶
+prędkośćSerca: 1m
+zasięgSerca: 26m
+promieńTrafienia: 1.8m
+odległośćZasięgu: 1.8m
+podstawowaPrędkośćSzarży: 0.1m
+prędkośćWędrowania: 0.1m
+prędkośćWężykowania: 0.12m
+szerokośćWężykowania: 1.8m
+prędkośćPowrotu: 0.05m
+przyspieszenieZaPunkt: 0.2
+
+¶Szczęśliwi ludzie, w których może zmienić się nawrócony zombie.¶
+ludzie: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '🧑‍🎤' '🦸' '🧚' '🧑‍🍳' '🕺' '💃' '🧑‍⚕']
+
+¶Jedna postać na polu gry: pozycja, kierunek wędrówki na każdej osi (każdy równy -1 lub 1, używany tylko podczas błądzenia), czy nadal jest zombie, oraz jaką emotikonę pokazać (🧟, gdy jest zombie, osobę po zmianie).¶
+•zombie(x2•#m z2•#m kierunekX•# kierunekZ•# żywy•? twarz2•"")
+
+¶Cała gra w jednej wartości: faza (1 = start, 2 = gra trwa, 3 = wygrana, 4 = przegrana), pozycja kamery i gracza, stan serca, wynik oraz wszyscy na polu gry.¶
+•gra(faza•# kameraX•#m kameraZ•#m serce•? serceX•#m serceZ•#m serceStart•#m wynik•# zombie2•[zombie])
+
+¶Kwadrat odległości działa tu lepiej niż odległość prawdziwa: nie trzeba liczyć pierwiastków kwadratowych, a jednostki pozostają proste (metry razy metry), więc porównanie zawsze zgadza się pod względem typu.¶
+ƒ blisko(jedenX•#m jedenZ•#m dwaX•#m dwaZ•#m promień2•#m)
+	(((jedenX - dwaX) · (jedenX - dwaX)) + ((jedenZ - dwaZ) · (jedenZ - dwaZ))) < (promień2 · promień2)
+
+¶Ile postaci wciąż jest zombie.¶
+ƒ liczbaŻywych(zombie3•[zombie]) zombie3.filtr(
+		ƒ(zombie4•zombie) zombie4.żywy
+	).długość(
+	)
+
+¶Zrób jeden krok w stronę gracza: naprzód w głąb, kluczy z boku na bok, by trudniej było go trafić, zmieniając kierunek kluczenia na krawędziach pasa wokół twojej trasy, i delikatnie kierując się w twoją stronę między zwrotami, tak by unik dawał tylko chwilę wytchnienia.¶
+ƒ pędziWStronęGracza(zombie5•zombie kameraX2•#m prędkośćAtaku•#m) (
+		kluczoneX: zombie5.x2 + (zombie5.kierunekX · prędkośćWężykowania)
+		namierzoneX: kluczoneX + ((kameraX2 - kluczoneX).maks(
+						prędkośćPowrotu · -1
+					)).min(
+					prędkośćPowrotu
+				)
+		naKrawędzi: (kluczoneX > (kameraX2 + szerokośćWężykowania)) | (kluczoneX < (kameraX2 - szerokośćWężykowania))
+		zombie(
+			namierzoneX
+			(zombie5.z2 - prędkośćAtaku)
+			(naKrawędzi ? (zombie5.kierunekX · -1) zombie5.kierunekX)
+			zombie5.kierunekZ
+			zombie5.żywy
+			zombie5.twarz2
+		)
+	)
+
+¶Zrób jeden krok błądzenia: przesuń się w kierunku wędrówki, odbijając się od krawędzi pola gry przez zatrzymanie się i odwrócenie kierunku, w którym się poruszał.¶
+ƒ wędruj(zombie6•zombie prędkość2•#m) (
+		nowyX: zombie6.x2 + (zombie6.kierunekX · prędkość2)
+		nowyZ: zombie6.z2 + (zombie6.kierunekZ · prędkość2)
+		odbicieX: (nowyX > prawaGranica) | (nowyX < lewaGranica)
+		odbicieZ: (nowyZ > roamDepthFar) | (nowyZ < roamDepthNear)
+		zombie(
+			(odbicieX ? zombie6.x2 nowyX)
+			(odbicieZ ? zombie6.z2 nowyZ)
+			(odbicieX ? (zombie6.kierunekX · -1) zombie6.kierunekX)
+			(odbicieZ ? (zombie6.kierunekZ · -1) zombie6.kierunekZ)
+			zombie6.żywy
+			zombie6.twarz2
+		)
+	)
+
+¶Świeże pole zombie, rozłożone od bliska do daleka, rozrzucone od lewej do prawej, każdy błądzący w losowym kierunku.¶
+ƒ twórzZombie()
+	(liczbaZombie → []).tłumaczyć(
+		ƒ(indeks2•#)
+			zombie(
+				Losowy(lewaGranica prawaGranica)
+				(spawnDepthNear + (indeks2 · ((spawnDepthFar - spawnDepthNear) ÷ liczbaZombie)))
+				[-1 1].losowy()
+				[-1 1].losowy()
+				⊤
+				'🧟'
+			)
+	)
+
+¶Zacznij nową rundę: gra trwa, kamera na wysokości oczu, brak serca, brak wyniku.¶
+ƒ nowaGra() gra(
+		2
+		0m
+		głębokośćGry
+		⊥
+		0m
+		0m
+		0m
+		0
+		twórzZombie()
+	)
+
+¶Rzuć serce w swój obecny pas, jeśli żadne inne nie leci w powietrzu. Zaczynatuż przed miejscem, w którym stoisz, a nie tam, gdzie jest kamera — z tego samegopowodu co test zasięgu.¶
+ƒ rzućSerce(gra2•gra)
+	gra2.serce ? gra2 gra(
+			gra2.faza
+			gra2.kameraX
+			gra2.kameraZ
+			⊤
+			gra2.kameraX
+			(głębokośćGry + 1m)
+			głębokośćGry
+			gra2.wynik
+			gra2.zombie2
+		)
+
+¶Przesuń swój pas o jeden krok w stronę wskazanego miejsca, ale nigdy poza swojegranice. Wskaźnik podaje miejsce na świecie, nad którym się znajduje, więc jegoodległość od twojego pasa mówi, jak daleko leży po twojej lewej lub prawej stronie— zbliżanie się do niego pozwala wskaźnikowi celować, a stuknięcie z każdej stronyprzesuwa cię w tę stronę.¶
+ƒ skupNa(gra3•gra cel•#m)
+	gra3.kameraX:(gra3.kameraX + ((cel - gra3.kameraX).maks(
+					krokUniku · -1
+				)).min(
+				krokUniku
+			)).maks(
+		lewaGranica
+	).min(
+		prawaGranica
+	)
+
+¶Naciśnięcie klawisza podczas gry: przesunięcie w lewo lub w prawo, albo rzutserca.¶
+ƒ zastosujNaciśnięcieKlawisza(gra4•gra klawisz2•"")
+	(klawisz2 = 'Strzałka w lewo') ? skupNa(
+			gra4
+			(gra4.kameraX - krokUniku)
+		)
+		(klawisz2 = 'Strzałka w prawo') ? skupNa(
+				gra4
+				(gra4.kameraX + krokUniku)
+			)
+			(klawisz2 = 'Przestrzeń') ? rzućSerce(gra4)
+				gra4
+
+¶Jedna klatka świata: serce leci, aż trafi pierwszą postać na swojej drodze(odwrócona osoba blokuje je tak samo jak zombie), trafiony zombie zostajeodwrócony, dwa najbliższe zombie idą w stronę gracza, a resztka błąka się, apotem następuje sprawdzenie wygranej (wszyscy odwróceni) albo przegranej (zombiedosięgnął cię). Przy wygranej lub przegranej kamera zatrzymuje się w miejscumenu.¶
+ƒ przesuńŚwiat(gra5•gra) (
+		następneSerceZ: gra5.serce ? (gra5.serceZ + prędkośćSerca) gra5.serceZ
+		serceWyblakłe: gra5.serce & ((następneSerceZ - gra5.serceStart) > zasięgSerca)
+		serceAktywne: gra5.serce & ~serceWyblakłe
+		prędkośćAtaku2: podstawowaPrędkośćSzarży · (1 + (gra5.wynik · przyspieszenieZaPunkt))
+		¶Najbliższe żywe zombie atakują; ich głębokość wskazuje, które to są.¶
+		żywyWgGłębokości: gra5.zombie2.filtr(
+				ƒ(zombie7•zombie) zombie7.żywy
+			).posortowane(
+				ƒ(zombie8•zombie) zombie8.z2
+			)
+		pierwszaGłębokośćSzarżującego: (żywyWgGłębokości.długość(
+				) ≥ 1) ? żywyWgGłębokości[1].z2 -999m
+		drugaGłębokośćSzarżującego: (żywyWgGłębokości.długość() ≥ 2) ? żywyWgGłębokości[2].z2 -999m
+		postacieNaŚcieżce: serceAktywne ? gra5.zombie2.filtr(
+					ƒ(zombie9•zombie) blisko(
+							zombie9.x2
+							zombie9.z2
+							gra5.serceX
+							następneSerceZ
+							promieńTrafienia
+						)
+				) []
+		trafionaPostać: postacieNaŚcieżce.posortowane(
+				ƒ(zombie10•zombie) zombie10.z2
+			).Pierwszy(
+			)
+		trafionaGłębokość: (trafionaPostać•ø) ? -999m trafionaPostać.z2
+		nawracanie: (trafionaPostać•ø) ? ⊥ trafionaPostać.żywy
+		następneZombie: gra5.zombie2.tłumaczyć(
+				ƒ(zombie11•zombie)
+					zombie11.żywy ?
+						((nawracanie & (zombie11.z2 = trafionaGłębokość)) ? zombie(
+									zombie11.x2
+									zombie11.z2
+									zombie11.kierunekX
+									zombie11.kierunekZ
+									⊥
+									ludzie.losowy()
+								)
+								(((zombie11.z2 = pierwszaGłębokośćSzarżującego) | (zombie11.z2 = drugaGłębokośćSzarżującego)) ? pędziWStronęGracza(
+											zombie11
+											gra5.kameraX
+											prędkośćAtaku2
+										) wędruj(zombie11 prędkośćWędrowania)))
+						zombie11
+			)
+		liczbaNawróconych: liczbaŻywych(gra5.zombie2) - liczbaŻywych(
+					następneZombie
+				)
+		następneSerce: serceAktywne & (trafionaPostać•ø)
+		¶Każde żywe zombie, które dosięgnie twojej głębokości, kończy grę — niezależnieod pasa — dzięki temu żadne nie może cię przemknąć w stan, którego nie da sięwygrać. To mierzy się względem\głębokośćGry\, czyli miejsca, w którym stoisz, a nigdy względem kamery: scena odsuwakamerę na małych ekranach, a widz może ją jeszcze bardziej powiększyć, i nic ztego nie powinno zmieniać, jak blisko musi podejść zombie.¶
+		utracone: następneZombie.filtr(
+				ƒ(zombie12•zombie) zombie12.żywy & (zombie12.z2 ≤ (głębokośćGry + odległośćZasięgu))
+			).długość(
+			) > 0
+		wygrał: liczbaŻywych(następneZombie) = 0
+		następnaFaza: wygrał ? 3 (utracone ? 4 2)
+		następnaKameraX: (następnaFaza = 2) ? gra5.kameraX 0m
+		następnaKameraZ: (następnaFaza = 2) ? gra5.kameraZ głębokośćMenu
+		gra(
+			następnaFaza
+			następnaKameraX
+			następnaKameraZ
+			następneSerce
+			gra5.serceX
+			następneSerceZ
+			gra5.serceStart
+			(gra5.wynik + liczbaNawróconych)
+			następneZombie
+		)
+	)
+
+klawisz3: Klawisz()
+tyknięcie: Czas(30ms)
+wskaźnik: Wskaźnik()
+stuknij: Przycisk()
+
+¶Bicie serca gry, kierowane czterema wejściami: tyknięciem zegara, klawiszem,ruchem wskaźnika i kliknięciem lub stuknięciem. Podczas gry tyknięcie napędzaświat, klawisze przesuwają i rzucają, ruch wskaźnika celuje twoim pasem, astuknięcie rzuca serce. W menu klawisz Enter lub stuknięcie zaczynają nowąrundę — stuknięcie, aby gracze dotykowi mogli zacząć, a Enter (nie spacja), abymocne wciskanie spacji do rzucania nigdy nie uruchamiało gry przez przypadek.¶
+gra6•gra: gra(
+		1
+		0m
+		głębokośćMenu
+		⊥
+		0m
+		0m
+		0m
+		0
+		twórzZombie()
+	)
+	… (∆ tyknięcie | ∆ klawisz3 | ∆ wskaźnik | ∆ stuknij) …
+		(gra6.faza = 2)
+		? (∆ tyknięcie ? przesuńŚwiat(gra6)
+					(∆ klawisz3 ? zastosujNaciśnięcieKlawisza(
+								gra6
+								klawisz3
+							)
+							(∆ wskaźnik ? skupNa(gra6 wskaźnik.X) rzućSerce(
+										gra6
+									))))
+			(∆ tyknięcie ? gra6
+					(∆ klawisz3 ? ((klawisz3 = 'Wchodzić') ? nowaGra(
+									) gra6)
+							(∆ stuknij ? nowaGra() gra6)))
+
+¶Jedna postać na scenie: zombie kołyszą się, odwrócone osoby wykonują radosnymały podskok. Resztę robi głębokość — atakujący zombie wydaje się coraz większy,gdy się zbliża. Czas trwania 0s sprawia, że każdy krok pojawia się natychmiast,bez wygładzania, dzięki czemu ruch wygląda jak płynne klatki, a nie opóźnionedogonienie.¶
+ƒ widokZombie(zombie13•zombie)
+	Wyrażenie(
+		zombie13.twarz2
+		2m
+		czastrwania: 0s
+		miejsce: Miejsce(zombie13.x2 0m zombie13.z2)
+		spoczynkowy: zombie13.żywy
+		? Sekwencja.kołysać(4° 1s "zippy")
+			Sekwencja(
+				{
+					0%: Poza(skala: 1)
+					50%: Poza(skala: 1.2)
+					100%: Poza(skala: 1)
+				}
+				0.6s
+			)
+	)
+
+¶Podłoga: paski na coraz większych głębokościach, które perspektywa odczytujejako płaszczyznę gruntu oddalającą się do horyzontu, przechodzącą od zielonegodo morskiego dla efektu atmosfery. Pierwszy pasek to linia, którą zombie musiprzekroczyć, aby zakończyć grę, narysowana ostrzegawczą czerwienią, by regułabyła widoczna: kamera odsuwa się na małych ekranach, a widz może ją jeszczepomniejszyć, a zombie, które wygląda daleko, wciąż stoi na tej linii, gdy ciędosięgnie.¶
+podłoga: [
+		Wyrażenie(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			czastrwania: 0s
+			miejsce: Miejsce(
+				0m
+				-2.8m
+				(głębokośćGry + odległośćZasięgu)
+			)
+			kolor: Kolor(58% 55 25°)
+		)
+		Wyrażenie(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			czastrwania: 0s
+			miejsce: Miejsce(0m -2.8m 4m)
+			kolor: Kolor(56% 40 130°)
+		)
+		Wyrażenie(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			czastrwania: 0s
+			miejsce: Miejsce(0m -2.8m 6m)
+			kolor: Kolor(50% 36 136°)
+		)
+		Wyrażenie(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			czastrwania: 0s
+			miejsce: Miejsce(0m -2.8m 8m)
+			kolor: Kolor(45% 32 142°)
+		)
+		Wyrażenie(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			czastrwania: 0s
+			miejsce: Miejsce(0m -2.8m 11m)
+			kolor: Kolor(40% 28 148°)
+		)
+		Wyrażenie(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			czastrwania: 0s
+			miejsce: Miejsce(0m -2.8m 15m)
+			kolor: Kolor(35% 24 154°)
+		)
+		Wyrażenie(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			czastrwania: 0s
+			miejsce: Miejsce(0m -2.8m 20m)
+			kolor: Kolor(31% 20 160°)
+		)
+	]
+
+¶Latające serce w świecie oraz wynik przypięty płasko do góry ekranu poprzeznakładkę scenę, dzięki czemu pozostaje na miejscu, gdy kamera przesuwa się.¶
+widokSerca: Wyrażenie(
+		'🫀'
+		1.2m
+		czastrwania: 0s
+		miejsce: Miejsce(gra6.serceX 0m gra6.serceZ)
+	)
+wyświetlaczWyniku: Wyrażenie(
+		"🫀 \gra6.wynik\"
+		1.2m
+		miejsce: Miejsce(0m 4m)
+	)
+
+¶Tekst menu, wspólny dla ekranów startu, wygranej i przegranej.¶
+tytułEkranu: gra6.faza ???
+		3: '🎉 Uratowałeś wszystkich! 🎉'
+		4: '💀 Zombie cię dostał! 💀'
+		'🫀 ATAK SERCA 🫀'
+podtytułEkranu: (gra6.faza = 1) ? 'Horda zombie jest na wolności. Odwróć je z miłością.' "Score: \gra6.wynik\"
+liniaStartowa: (gra6.faza = 1) ? 'Naciśnij Enter lub stuknij, aby zacząć' 'Naciśnij Enter lub stuknij, aby zagrać jeszcze raz'
+
+widokEkranu: [
+		Grupa(
+			Stos()
+			[
+				Wyrażenie(tytułEkranu 1.1m)
+				Wyrażenie(podtytułEkranu 0.6m)
+				Wyrażenie('← → lub wskaż, aby celować' 0.5m)
+				Wyrażenie(
+					'Spacja, kliknięcie lub stuknięcie, aby rzucić serce 🫀'
+					0.5m
+				)
+				Wyrażenie(liniaStartowa 0.7m)
+			]
+		)
+	]
+
+¶Pokaż pole i jego podłogę podczas gry, a menu w innym wypadku. Każda listajest pusta w niewłaściwej fazie, a pusta lista rozprasza się w nic.¶
+listaPodłoża: (gra6.faza = 2) ? podłoga []
+listaZombie: (gra6.faza = 2) ? gra6.zombie2.tłumaczyć(
+			ƒ(zombie14•zombie) widokZombie(zombie14)
+		) []
+listaSerc: ((gra6.faza = 2) & gra6.serce) ? [widokSerca] []
+warstwaWyniku: (gra6.faza = 2) ? [wyświetlaczWyniku] []
+listaEkranów: (gra6.faza ≠ 2) ? widokEkranu []
+
+¶Odcień scena odzwierciedla wynik: ciepła zieleń przy wygranej, ciemnaczerwień przy przegranej, a domyślny zmierzchowy fiolet podczas startu lub gry.¶
+tłoSceny: gra6.faza ???
+		3: Kolor(48% 42 145°)
+		4: Kolor(22% 45 25°)
+		Kolor(25% 20 285°)
+
+¶Jeden motyw przewija się przez wszystkie cztery melodie: w górę po molowymtrójdźwięku do szóstego stopnia i z powrotem. Sztuczka polega na tym, że tychsamych siedem stopni jest złowrogich w molu harmonicznym, a radosnych w durze,więc muzyka zwycięstwa gra tę samą melodię — po prostu przestaje przypominaćfilm grozy.
+
+Każda ścieżka poniżej trwa dokładnie osiem uderzeń, niezależnie od długościnut, dzięki czemu wszystkie wracają razem, a każda melodia zapętla się bezszwu.¶
+motyw: [1 ø 3 ø 5 ø 6 ø 5 ø 3 ø 1 ø ø ø]
+
+¶Czekanie na start: powolny dron, motyw daleko na dzwonku i bicie serca podspodem.¶
+piosenkaMenu: Muzyka(
+		[
+			Ścieżka(
+				motyw
+				instrument: Instrument.dzwonek
+				rytm: 0.5beats
+				głośność: 45%
+			)
+			Ścieżka(
+				[{1 3 5} {1 3 5} {6 8 10} {5 7 9}]
+				instrument: Instrument.padSyntezatora
+				rytm: 2beats
+				głośność: 40%
+			)
+			Ścieżka(
+				[1 ø 1 ø 6 ø 5 ø]
+				instrument: Instrument.basSyntezatora
+				rytm: 1beats
+				głośność: 50%
+			)
+			Ścieżka(
+				[1 ø ø ø 1 ø ø ø]
+				instrument: Instrument.perkusja
+				rytm: 1beats
+				głośność: 30%
+			)
+		]
+		tempo: 72beats/min
+		skala: Muzyka.molowaHarmoniczna
+		nazwa: 'menu'
+	)
+
+¶Pościg: ten sam motyw niemal dwa razy szybciej, nad pulsującym basem i rytmem, który nigdy nie ustaje.¶
+piosenkaPościgu: Muzyka(
+		[
+			Ścieżka(
+				motyw
+				instrument: Instrument.syntezator
+				rytm: 0.5beats
+				głośność: 45%
+			)
+			Ścieżka(
+				[1 ø 1 1 1 ø 1 1 6 ø 6 6 5 ø 5 5]
+				instrument: Instrument.basSyntezatora
+				rytm: 0.5beats
+				głośność: 55%
+			)
+			Ścieżka(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 1 3]
+				instrument: Instrument.perkusja
+				rytm: 0.5beats
+				głośność: 40%
+			)
+		]
+		tempo: 132beats/min
+		skala: Muzyka.molowaHarmoniczna
+		nazwa: 'pościg'
+	)
+
+¶Wygrana: ten sam motyw w skali durowej, podwojony o oktawę wyżej na flecie, nad najjaśniejszymi akordami w tym przykładzie. To jedyna radosna melodia tutaj.¶
+piosenkaWygranej: Muzyka(
+		[
+			Ścieżka(
+				motyw
+				instrument: Instrument.dzwonek
+				rytm: 0.5beats
+				głośność: 55%
+			)
+			Ścieżka(
+				motyw
+				instrument: Instrument.flet
+				rytm: 0.5beats
+				tonacja: 12semitones
+				głośność: 40%
+			)
+			Ścieżka(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				instrument: Instrument.pianino
+				rytm: 2beats
+				głośność: 45%
+			)
+			Ścieżka(
+				[1 ø 3 ø 2 ø 3 ø]
+				instrument: Instrument.perkusja
+				rytm: 1beats
+				głośność: 35%
+			)
+		]
+		tempo: 120beats/min
+		skala: Muzyka.durowa
+		nazwa: 'wygrana'
+	)
+
+¶Przegrana: motyw o oktawę niżej i o połowę wolniej niż w menu, nad dudniącym dźwiękiem didgeridoo i akordami, które nie wracają do domu — kończą się na sekście zamiast na tonice, więc pętla nigdy się nie rozwiązuje.¶
+piosenkaPrzegranej: Muzyka(
+		[
+			Ścieżka(
+				motyw
+				instrument: Instrument.dzwonek
+				rytm: 0.5beats
+				tonacja: -12semitones
+				głośność: 45%
+			)
+			Ścieżka(
+				[1 ø ø ø]
+				instrument: Instrument.didgeridoo
+				rytm: 2beats
+				głośność: 50%
+			)
+			Ścieżka(
+				[{1 3 5} {1 3 5} {6 8 10} {6 8 10}]
+				instrument: Instrument.padSyntezatora
+				rytm: 2beats
+				głośność: 40%
+			)
+			Ścieżka(
+				[1 ø ø ø ø ø ø ø]
+				instrument: Instrument.perkusja
+				rytm: 1beats
+				głośność: 30%
+			)
+		]
+		tempo: 56beats/min
+		skala: Muzyka.molowaHarmoniczna
+		nazwa: 'przegrana'
+	)
+
+¶Na scenie jest tylko melodia dla obecnej fazy, a @Music, którego już tam nie ma, przestaje grać — więc zmiana fazy zmienia muzykę.¶
+ścieżkaDźwiękowa: gra6.faza ???
+		1: piosenkaMenu
+		3: piosenkaWygranej
+		4: piosenkaPrzegranej
+		piosenkaPościgu
+
+Scena(
+	[
+		:listaPodłoża
+		:listaZombie
+		:listaSerc
+		:listaEkranów
+		ścieżkaDźwiękowa
+	]
+	miejsce: Miejsce(gra6.kameraX 0m gra6.kameraZ)
+	tło: tłoSceny
+	kolor: Kolor(97% 0 0°)
+	nakładka: warstwaWyniku
+)

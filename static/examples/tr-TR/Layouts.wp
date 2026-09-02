@@ -1,0 +1,46 @@
+K
+Yerleşimler
+=== start
+¶Satırlar, yığınlar ve öbek gruplarının her biri hareketli pozlar veriyor.¶
+nabız2: Sekans(
+		{
+			0%: Poz(ölçek: .9)
+			50%: Poz(ölçek: 1.1)
+			100%: Poz(ölçek: .9)
+		}
+	)
+zsıçra: Sekans(
+		{
+			0%: Poz(telafietmek: Yer(z: 0m))
+			50%: Poz(telafietmek: Yer(z: -2m))
+			100%: Poz(telafietmek: Yer(z: 0m))
+		}
+		1s
+	)
+
+Grup(
+	Sıra()
+	[
+		Grup(
+			Yığın()
+			[
+				İfadeetmek('Kedicik')
+				İfadeetmek('Kedi' dinlenme: zsıçra)
+				Grup(
+					Sıra()
+					[İfadeetmek('Köpek') İfadeetmek('Köpekgil')]
+					dinlenme: nabız2
+				)
+				İfadeetmek('Kedigil')
+			]
+		)
+		Grup(
+			Yığın()
+			[
+				İfadeetmek('Selam')
+				İfadeetmek('Merhaba')
+			]
+			dinlenme: Sekans.döndürmek(2s "straight")
+		)
+	]
+)

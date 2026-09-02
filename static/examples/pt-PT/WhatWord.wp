@@ -1,0 +1,304 @@
+W
+QualPalavra
+=== start/en
+¶Um jogo de adivinhar palavras em inglês, espanhol e árabe.¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] restante2•[""] iniciar2•?) (
+	segredo: iniciar2 ? restante2[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (segredo.comprimento(
+			) × 3) - guesses.comprimento()
+	status/en,estado/es,حالة/ar:
+		segredo = "" ? "start"
+			segredo → [""].tudo(ƒ(letra•"") guesses.tem(letra)) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: Chave()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.ordenado(ƒ() Aleatório())
+		⊥
+	) … ∆ key …
+		key = 'Escapar' ? Game(
+				[]
+				words.ordenado(ƒ() Aleatório())
+				⊥
+			)
+			(state.status ≠ "playing") & (key = 'Espaço') ? Game(
+					[]
+					state.restante2.excetoPrimeiro()
+					⊤
+				)
+				(state.status = "playing") & (key.comprimento() = 1) & ~state.guesses.tem(
+						key
+					) ?
+					Game(state.guesses.com(key) state.restante2 ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: Frase(
+		state.segredo → [""].traduzir(
+			ƒ(letra2•"") ((state.status = "lost") | state.guesses.tem(
+							letra2
+						)) ? letra2 "."
+		).juntar(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: Pose(opacidade: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": Grupo(
+			Monte()
+			[
+				Frase(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					local: Local(z: -1m)
+					entrando: Pose(opacidade: 0%)
+					descansar: Sequência.balançar(duração: 1s)
+				)
+				Frase(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			sair: fade
+		)
+		"lost": Grupo(
+			Monte()
+			[
+				board
+				Frase(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					entrando: Pose(rotação: 0°)
+					descansar: Pose(rotação: -5°)
+				)
+			]
+			sair: fade
+		)
+		"won": Grupo(
+			Monte()
+			[
+				board.descansar:Sequência.ressaltar(3m 1s)
+				Frase(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			sair: fade
+		)
+		Grupo(
+			Monte()
+			[
+				board
+				Frase(
+					state.guesses.comprimento() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.juntar(
+							' '
+						)\"/en"Suposiciones: \state.guesses.juntar(' ')\"/es"التخمينات \state.guesses.juntar(
+							' '
+						)\"/ar
+				)
+				Frase(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					descansar: Sequência.balançar(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶Uma figura lenta que dá voltas sobre si mesma em vez de ir para algum lado, o que a torna algo para se pensar. Cada faixa abaixo tem oito batidas, por isso todas voltam ao início juntas e o ciclo não tem emenda.¶
+tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶Quanto da sua semanada já foi gasto, de 0 com tudo por jogar a 1 com nada restante. O segredo está vazio antes da primeira ronda, por isso a divisão é protegida em vez de se deixar dividir por zero.¶
+maxGuesses: state.segredo.comprimento() × 3
+pressão: (maxGuesses = 0) ? 0 (((1 - (state.guessesRemaining ÷ maxGuesses)).máx(
+					0
+				)).min(
+				1
+			))
+
+¶Pensativo a 54 batidas por minuto, urgente a 120, e cada tentativa move-o um pouco. Mudar o andamento entra na batida seguinte em vez de recomeçar, por isso o ciclo mantém o seu lugar e apenas se inclina para a frente — o tambor discreto está lá para tornar essa inclinação audível, já que uma mudança de andamento sob notas longas é difícil de sentir.¶
+músicaDoEnigma: Música(
+		[
+			Faixa(
+				tema
+				instrumento: Instrumento.piano
+				batida: 0.5beats
+				volume: 50%
+			)
+			Faixa(
+				[{1 3 5} {4 6 8}]
+				instrumento: Instrumento.sintetizadorPad
+				batida: 4beats
+				volume: 35%
+			)
+			Faixa(
+				[ø ø 8 ø ø ø 6 ø]
+				instrumento: Instrumento.sino
+				batida: 1beats
+				volume: 30%
+			)
+			Faixa(
+				[1 ø ø ø 1 ø ø ø]
+				instrumento: Instrumento.bateria
+				batida: 1beats
+				volume: 20%
+			)
+		]
+		andamento: (54beats/min + (pressão · 66beats/min))
+		escala: Música.dórica
+		nome: 'enigma'
+	)
+
+¶Ganhou: o tema ao dobro da velocidade, uma oitava acima num sino, sobre os únicos acordes maiores do exemplo.¶
+cançãoDeVitória: Música(
+		[
+			Faixa(
+				tema
+				instrumento: Instrumento.piano
+				batida: 0.5beats
+				volume: 50%
+			)
+			Faixa(
+				tema
+				instrumento: Instrumento.sino
+				batida: 0.5beats
+				chave: 12semitones
+				volume: 35%
+			)
+			Faixa(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				instrumento: Instrumento.sintetizadorPad
+				batida: 2beats
+				volume: 35%
+			)
+			Faixa(
+				[1 ø 3 ø 2 ø 3 ø]
+				instrumento: Instrumento.bateria
+				batida: 1beats
+				volume: 30%
+			)
+		]
+		andamento: 96beats/min
+		escala: Música.maior
+		nome: 'ganhar'
+	)
+
+¶Perdeu: o tema uma oitava abaixo e mais lento do que alguma vez ficou enquanto jogava, sobre acordes que assentam na quarta em vez de voltarem ao início, por isso o ciclo nunca se resolve.¶
+cançãoDeDerrota: Música(
+		[
+			Faixa(
+				tema
+				instrumento: Instrumento.piano
+				batida: 0.5beats
+				chave: -12semitones
+				volume: 45%
+			)
+			Faixa(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				instrumento: Instrumento.sintetizadorPad
+				batida: 2beats
+				volume: 40%
+			)
+			Faixa(
+				[ø ø 5 ø ø ø 4 ø]
+				instrumento: Instrumento.sino
+				batida: 1beats
+				volume: 25%
+			)
+			Faixa(
+				[1 ø ø ø ø ø ø ø]
+				instrumento: Instrumento.bateria
+				batida: 1beats
+				volume: 20%
+			)
+		]
+		andamento: 46beats/min
+		escala: Música.menor
+		nome: 'perder'
+	)
+
+¶Só a melodia do estado atual está no palco, e um @Music que já não está ali para — assim, terminar a ronda é o que muda a música.
+
+Todos os três tocam o mesmo tema, e a escala por baixo é que faz o trabalho. O tema toca os graus 1, 4, 5, 6 e 8, e @Music.major concorda com @Music.dorian em todos eles — os graus onde se separam, a terceira e a sétima, não estão na melodia. Por isso a vitória não move uma única nota da melodia que estava a cantarolar enquanto pensava; os acordes por baixo é que usam a terceira, e esses tornam-se maiores. @Music.minor separa-se do modo dórico na sexta, que o tema toca, por isso a derrota também achata essa nota, além de descer a linha uma oitava.¶
+bandaSonora: state.status ???
+		"won": cançãoDeVitória
+		"lost": cançãoDeDerrota
+		músicaDoEnigma
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+Fase(
+	[screen bandaSonora]
+	local: Local(0m 0m -12m)
+	fonte: "Poor Story"
+	fundo: Cor(0% 0 0°)
+	cor: Cor(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'raposa'
+	'macaco'
+	'castor'
+	'vaca'
+	'lobo'
+	'cabra'
+	'veado'
+	'porco'
+	'chinchila'
+	'esquilo'
+	'rato'
+	'musaranho'
+	'toupeira'
+	'tatu'
+	'gambá'
+	'elefante'
+	'morcego'
+	'burro'
+	'cavalo'
+	'ouriço'
+	'gato'
+	'girafa'
+	'gorila'
+	'foca'
+	'humano'
+	'canguru'
+	'marmota'
+	'hamster'
+	'rato'
+	'coelho'
+	'ovelha'
+	'jaguar'
+	'chimpanzé'
+	'babuíno'
+	'guaxinim'
+	'toupeira'
+	'musaranho'
+	'equidna'
+	'tapir'
+].ordenado(
+	ƒ() Aleatório()
+)

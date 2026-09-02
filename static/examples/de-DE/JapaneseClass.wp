@@ -1,0 +1,37 @@
+O
+Japanischkurs
+=== start
+¶Eine Geschichte in Szenen über den ersten Tag im Japanisch-Unterricht.¶
+
+¶Das ist die Liste der Szenen, die gezeigt werden sollen.¶
+sätze: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶Das ist die Liste der Sätze, die nur durch Sprechen weitergeschaltet werden sollen.¶
+sätzeSprechen: [5 7 9]
+
+¶Der aktuelle Satz beginnt bei 1. Er erhöht sich, wenn die Mikrofonlautstärke bei einem Sprech-Satz über 0,8 steigt, oder wenn bei anderen Sätzen eine Taste oder ein Knopf gedrückt wird.¶
+aktuellerSatz•#: 1 …
+	sätzeSprechen.hat(aktuellerSatz) ?
+		Volumen() > .6
+		∆ Taste() | ∆ Schlüssel()
+		…
+		(aktuellerSatz <
+				sätze.Länge()) ?
+			aktuellerSatz + 1
+			aktuellerSatz
+
+Bühne(
+	[Satzglied(sätze[aktuellerSatz] wickeln: 10m)]
+	gesicht: 'Sue Ellen Francisco'
+)

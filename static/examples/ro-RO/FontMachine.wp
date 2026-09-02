@@ -1,0 +1,27 @@
+t
+Mașina de fonturi
+=== start
+¶Apasă orice tastă pentru a reașeza fiecare literă din „typography” cu un font ales la întâmplare.¶
+fonturi: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+simboluri2: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ aleatorizează()
+	simboluri2.traduce(
+		ƒ(simbol) Fraza(
+				simbol
+				faţă: fonturi.aleatoriu()
+				durată: 0s
+			)
+	)
+
+fraze: aleatorizează() … ∆ Cheie() | ∆ Buton() … aleatorizează(
+		)
+
+Etapă([Grup(Rând('|' 0m) fraze loc: Loc(0m 0m))])

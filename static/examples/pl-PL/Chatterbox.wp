@@ -1,0 +1,98 @@
+🤖
+Gaduła
+=== start
+¶Chatterbox to malutki robot-słuchacz, zainspirowany Elizą, pierwszym w historii chatbotem, stworzonym w 1966 roku. Wpisz coś w pasku rozmowy, a on odpowie, zapisując dziennik waszej rozmowy.¶
+
+¶Jedna linia rozmowy: kto coś powiedział i co powiedział.¶
+•linia(mówiący•'' słowa2•'')
+
+wiadomość: Pogawędzić()
+
+¶Zanim Chatterbox powtórzy twoje słowa, zamienia zaimki, podmieniając każde słowo według tej mapy: "mój" zmienia się w "twój", a "ja" zmienia się w "ty". Dzięki temu zdanie "czuję, że mnie nienawidzisz" wraca jako "Dlaczego czujesz, że cię nienawidzę?"¶
+zamiany: {
+		'I': 'you'
+		'i': 'you'
+		"I'm": 'jesteś'
+		"i'm": 'jesteś'
+		'me': 'you'
+		'my': 'your'
+		'mine': 'yours'
+		'myself': 'yourself'
+		'am': 'są'
+		'you': 'I'
+		'your': 'my'
+		'yours': 'mine'
+		'yourself': 'myself'
+	}
+ƒ odzwierciedlaj(słowa3•'')•'' słowa3.segmentowany(' ').tłumaczyć(
+		ƒ(słowo2•'') zamiany{słowo2} ?? słowo2
+	).dołączyć(
+		' '
+	)
+
+¶Chatterbox wybiera odpowiedź, dopasowując wzory do wiadomości. Aa ignoruje wielkość liter, a nazwana grupa taka jak nastrój wychwytuje wszystko aż do znaku kończącego zdanie, dzięki czemu odpowiedź może powtórzyć twoje własne słowa — to sztuczka, której użyła oryginalna Eliza. Ostatnia reguła to zapasowa opcja: losowo wybrana zachęta, żebyś mówił dalej.¶
+ƒ odpowiedź(słowa4•'')•'' (
+		uczucia: słowa4 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
+		istoty: słowa4 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
+		chęci: słowa4 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		życzenia: słowa4 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
+		uczucia.długość() > 0 ? 'Dlaczego czujesz ' + odzwierciedlaj(
+					uczucia[1].grupy{'nastrój'} ?? ''
+				) + '?'
+			istoty.długość() > 0 ? 'Jak długo już jesteś ' + odzwierciedlaj(
+						istoty[1].grupy{'stan'} ?? ''
+					) + '?'
+				chęci.długość() > 0 ? 'Co by to dla ciebie znaczyło, gdybyś miał ' + odzwierciedlaj(
+							chęci[1].grupy{'pragnienie'} ?? ''
+						) + '?'
+					życzenia.długość() > 0 ? 'Co by się zmieniło, gdyby ' + odzwierciedlaj(
+								życzenia[1].grupy{'życzenie'} ?? ''
+							) + '?'
+						(słowa4 ⌕ ⣿ Aa("because")⣿).długość() > 0 ? 'Czy to prawdziwy powód?'
+							(słowa4 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).długość(
+							) > 0 ? 'Opowiedz mi więcej o swojej rodzinie.'
+								słowa4.Kończysię('?') ? 'Pytasz mnie? A ty co myślisz?'
+									(słowa4 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? 'Cześć! Jak się dziś czujesz?'
+										[
+											'Opowiedz mi więcej.'
+											'Mów dalej.'
+											'Jak się z tym czujesz?'
+											'Rozumiem. Słucham cię.'
+										].losowy(
+										)
+	)
+
+¶Zapis zaczyna się od powitania i rośnie o dwie linijki po każdej wiadomości: najpierw twoja, potem odpowiedź Gaduły.¶
+dziennik•[linia]: [
+		linia('🤖' 'Cześć! Jestem Gaduła. Jak się masz?')
+	] … ∆ wiadomość …
+		dziennik.z(linia('🙂' wiadomość)).z(
+			linia('🤖' odpowiedź(wiadomość))
+		)
+
+¶Pokazuj tylko najnowsze linijki, żeby stare ustąpiły miejsca nowym.¶
+ostatnie: dziennik.długość() ≤ 8 ? dziennik dziennik.podsekwencja(
+			dziennik.długość() - 7
+		)
+
+Scena(
+	[
+		Grupa(
+			Stos('<' 0.5m)
+			ostatnie.tłumaczyć(
+				ƒ(linia2•linia)
+					Wyrażenie(
+						linia2.mówiący + ' ' + linia2.słowa2
+						rozmiar: 0.75m
+						zawinąć: 22m
+						wstępowanie: Poza(
+							nieprzezroczystość: 0
+							skala: 0.5
+						)
+						czastrwania: 0.4s
+					)
+			)
+		)
+	]
+	miejsce: Miejsce(0m 0m -12m)
+)

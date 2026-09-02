@@ -1,0 +1,114 @@
+🎛️
+Instrumenty
+=== start/en
+¶Te same osiem taktów, zagrane przez każdy instrument z palety. Wybierz nazwę, a melodia zostaje na miejscu — zmienia się tylko dźwięk. Dwa koty to ten sam kot, i podobnie dwa psy: jeden z każdej pary to zestaw perkusyjny, więc melodia brzmi jak odgłosy, a drugi ma wysokość dźwięku, więc śpiewa ją.
+
+Większość z nich to prawdziwe nagrania. Cztery syntezatory niczego nie imitują: są syntezatorami i to jest właśnie ich dźwięk. Ostatni z nich śpiewa, do czego służą słowa na tym utworze — każdy inny instrument tutaj je ignoruje.¶
+
+¶Który instrument gra melodię. Choice() zwraca nazwę wybranego elementu wyjściowego, który można wybrać, a ø, gdy nic nie zostało wybrane.¶
+wybrane: Wybór()
+
+¶Jeden wpis na instrument: jak go nazwać, co gra i jaki kolor przyjmuje jego przycisk.¶
+•głos2(etykieta•'' ikona•'' dźwięk•Instrument odcień2•#°)
+
+głosy•[głos2]: [
+		głos2('pianino' '🎹' Instrument.pianino 260°)
+		głos2('gitara' '🎸' Instrument.gitaraAkustyczna 20°)
+		głos2(
+			'elektryczna'
+			'⚡'
+			Instrument.gitaraElektryczna
+			5°
+		)
+		głos2('skrzypce' '🎻' Instrument.skrzypce 40°)
+		głos2('flet' '🪈' Instrument.flet 180°)
+		głos2('trąbka' '🎺' Instrument.trąbka 50°)
+		głos2('saksofon' '🎷' Instrument.saksofon 70°)
+		głos2('harmonijka' '🌬' Instrument.harmonijka 150°)
+		głos2('dzwonek' '🔔' Instrument.dzwonek 55°)
+		głos2('perkusja' '🥁' Instrument.perkusja 0°)
+		głos2('didgeridoo' '🎶' Instrument.didgeridoo 15°)
+		głos2('kot' '🐱' Instrument.kot 330°)
+		głos2(
+			'kot z wysokością dźwięku'
+			'😺'
+			Instrument.kotZWysokością
+			350°
+		)
+		głos2('pies' '🐶' Instrument.pies 35°)
+		głos2(
+			'pies z wysokością dźwięku'
+			'🐕'
+			Instrument.piesZWysokością
+			125°
+		)
+		głos2('syntezator' '🎛' Instrument.syntezator 290°)
+		głos2('bas' '🎛' Instrument.basSyntezatora 310°)
+		głos2('podkład' '🎛' Instrument.padSyntezatora 200°)
+		głos2('głos' '🤖' Instrument.głos 95°)
+	]
+
+¶Wybrany głos, albo pianino, zanim ktoś coś wybierze. find() zwraca ø, gdy nic nie znajdzie, więc wartość zastępcza musi być własnym Głosem.¶
+wybrany: głosy.znajdować(
+		ƒ(głos3•głos2) głos3.etykieta = wybrane
+	)
+obecny•głos2: wybrany•ø ? głos2(
+			'pianino'
+			'🎹'
+			Instrument.pianino
+			260°
+		) wybrany
+
+¶Melodia, która pozostaje na miejscu, gdy zmienia się instrument pod nią. Używa stopni, nie nut, więc znaczy to samo na każdym instrumencie — a na perkusji brzmi jak rytm, bo stopnie tam wskazują elementy zestawu.¶
+melodia2: [1 3 5 6 5 3 2 ø]
+
+¶Jedna sylaba na nutę, zapisana w Międzynarodowym Alfabecie Fonetycznym, gdzie każda litera to jeden dźwięk. Używa ich tylko głos śpiewający; resztę palety je ignoruje. Reszta nie przyjmuje sylaby, więc siedem dźwięków wystarcza na osiem wpisów.¶
+tekstPiosenki: 'la li lu le lo li la'
+
+¶Jeden przycisk na instrument: ikona nad nazwą, tak by się nie stykały. Wybieralne wyrażenia to te, które odczytuje Choice(), a to bieżące jest narysowane jaśniej, byś widział, gdzie jesteś.¶
+ƒ przycisk(głos4•głos2)
+	Grupa(
+		Stos(wyściółka: 0.1m)
+		[
+			Wyrażenie(głos4.ikona 1.1m)
+			Wyrażenie(głos4.etykieta 0.5m)
+		]
+		nazwa: głos4.etykieta
+		wybieralny: ⊤
+		kolor: (głos4.etykieta = obecny.etykieta)
+		? Kolor(95% 60 głos4.odcień2)
+			Kolor(60% 8 głos4.odcień2)
+	)
+
+¶Wszystko widoczne trafia do jednego Stack. Stage centruje każde ze swoich dzieci osobno, więc zostawione same sobie leżałyby jedno na drugim — układ musi powiedzieć, że mają iść jedno nad drugim.
+
+Przyciski trafiają do Grid, a nie do Row. Wszystkie w jednym rzędzie byłyby szersze niż telefon, a Stage zmniejsza swoją zawartość, by się zmieściła, więc etykiety kurczyłyby się, aż nie dałoby się ich odczytać. Podane są tylko kolumny: rzędy zostają pominięte, a Grid sam wylicza, ile ich potrzebuje, więc dodanie instrumentu nie wymaga zmiany tego kodu.
+
+Muzyka przez cały czas zachowuje jedną nazwę, zamiast przejmować nazwę instrumentu. Nazwa 🎼 to jego tożsamość: zmiana nazwy sprawia, że odtwarzacz słyszy początek innego utworu, więc melodia wracałaby do początku przy każdej zmianie, a partytura rysowałaby nuty starego instrumentu obok nowego, dopóki by nie zniknęły.¶
+Scena(
+	[
+		Grupa(
+			Stos(wyściółka: 0.6m)
+			[
+				Wyrażenie(obecny.ikona 2.5m)
+				Wyrażenie(obecny.etykieta 1.2m)
+				Grupa(
+					Siatka(kolumny: 5 wyściółka: 0.4m)
+					głosy.tłumaczyć(ƒ(głos5•głos2) przycisk(głos5))
+				)
+			]
+		)
+		Muzyka(
+			Ścieżka(
+				melodia2
+				instrument: obecny.dźwięk
+				słowa: tekstPiosenki
+			)
+			tempo: 120beats/min
+			skala: Muzyka.pentatoniczna
+			nazwa: 'melodia'
+		)
+	]
+	tło: Kolor(14% 12 280°)
+	kolor: Kolor(95% 0 0°)
+)

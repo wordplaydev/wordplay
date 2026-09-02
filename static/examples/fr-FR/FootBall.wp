@@ -1,0 +1,345 @@
+⚽
+Football
+=== start/en
+¶Un jeu de gardien de but vu de dessus. Tu es le gant devant le but, à gauche. Un ballon à la fois est frappé depuis un point du terrain, visant un endroit à l'intérieur de la cage, et tu bouges de haut en bas pour te mettre sur sa trajectoire. Le nombre compte les tirs que tu as arrêtés : il se redresse chaque fois que tu fais un arrêt, et il grossit et tremble quand un tir passe.¶
+
+¶L'endroit visé par un tir, et l'endroit où se tient le gant. Un but mesure environ huit fois la largeur du gardien qui le défend, c'est pourquoi une seule personne ne peut pas simplement se tenir au milieu et tout arrêter.
+
+Un @Place est le coin en bas à gauche d'une sortie, et non son centre. Donc tout ce qui est visé ou limité en dessous est calculé à partir de centres, et perd la moitié de sa taille en devenant un @Place. Un émoji se dessine aussi bien plus grand que sa taille indiquée — un ⚽ de 0,6 m occupe environ 0,9 m, un 🧤 de 1,2 m environ 1,25 m — donc ces moitiés sont mesurées, et non simplement divisées par deux à partir de la taille. La vitesse du gant est la distance qu'il parcourt à chaque tic.¶
+xDuBut: -7m
+bordDeLaBouche: 5.2m
+moitiéDuBallon: 0.45m
+xDuGardien: -6.5m
+moitiéDuGardien: 0.62m
+portéeDuGardien: 4.5m
+vitesseDuGardien: 0.55m
+
+tic: Temps(50ms)
+appuyer: Clé(verslebas: ⊤)
+relâcher: Clé(verslebas: ⊥)
+
+¶La direction dans laquelle le gant se déplace. Appuyer sur une flèche le fait bouger, et relâcher cette même flèche l'arrête. Le gant glisse donc tant que vous maintenez la touche enfoncée. Sur une largeur de but pareille, avancer d'un pas à chaque pression n'arriverait jamais à temps.¶
+dériver2•#: 0 … ∆ appuyer | ∆ relâcher …
+		∆ appuyer ?
+			((appuyer = 'Flèche vers le haut') ? 1 ((appuyer = 'Flèche vers le bas') ? -1 dériver2))
+			((relâcher = 'Flèche vers le haut') & (dériver2 = 1)) ? 0
+				((relâcher = 'Flèche vers le bas') & (dériver2 = -1)) ? 0
+					dériver2
+
+¶Le gant n'est pas déplacé par la physique, donc on peut le diriger directement. Il s'arrête aux limites de sa portée, donc il ne peut jamais s'éloigner du but.¶
+yDuGardien•#m: 0m … ∆ tic …
+		((yDuGardien + (dériver2 × vitesseDuGardien)).max(
+				portéeDuGardien · -1
+			)).min(
+			portéeDuGardien
+		)
+
+¶Un arrêt et un but. Chaque @Collision signale un début de contact et une fin de contact, donc les deux sont associés à une vérification que celui-ci est bien un début : sans elle, chaque arrêt et chaque but compteraient double.¶
+coupDeGant: Collision('ballon' 'gardien')
+coupDeFilet: Collision('ballon' 'filet')
+arrêté: (∆ coupDeGant) & ~(coupDeGant•ø)
+marqué: (∆ coupDeFilet) & ~(coupDeFilet•ø)
+
+•tir(tx•#m ty•#m inclinaison•# vitesse2•#m/s)
+
+¶Un endroit où se tenir, un endroit dans la bouche du but à viser, et la ligne entre les deux. Calculer la pente à partir de ces deux points permet à chaque tir d'atteindre exactement sa cible, peu importe la direction d'où il vient.¶
+ƒ nouveauTir()•tir (
+		x2: Aléatoire(2m 6m)
+		y2: Aléatoire(-5.5m 5.5m)
+		viser: Aléatoire(-4.7m 4.7m)
+		¶La pente indique combien de y la trajectoire perd par mètre de x. Une division peut n'avoir aucune réponse, donc le cas ø revient à un tir droit devant, vers le fond du terrain. Le tireur ne se tient jamais sur la ligne de but, donc ce cas ne se produit jamais.¶
+		chute: (viser - y2) ÷ (xDuBut - x2)
+		tir(x2 y2 (chute•ø ? 0 chute) Aléatoire(16m/s 22m/s))
+	)
+
+¶1 = le ballon attend aux pieds du tireur, 2 = il est en chemin, 3 = il est en train d'être dégagé. On compte les tics plutôt que de soustraire des horloges, puisque chaque @Timestarts repart de zéro. Les blocs sont ce que vous voyez ; les services servent uniquement à donner un nouveau nom au nombre à chaque tir, ce qui relance son animation.¶
+•manche(phase•# tics•# blocs•# sert•# dernier2•# tir2•tir)
+manche2•manche: manche(1 0 0 0 0 nouveauTir()) …
+	∆ tic | arrêté | marqué …
+		manche2.phase ???
+			1: (manche2.tics ≥ 14)
+			? manche(
+					2
+					0
+					manche2.blocs
+					manche2.sert
+					manche2.dernier2
+					manche2.tir2
+				)
+				manche(
+					1
+					(manche2.tics + (∆ tic ? 1 0))
+					manche2.blocs
+					manche2.sert
+					manche2.dernier2
+					manche2.tir2
+				)
+			2: arrêté ? manche(
+					3
+					0
+					(manche2.blocs + 1)
+					(manche2.sert + 1)
+					1
+					manche2.tir2
+				)
+				marqué ? manche(
+						3
+						0
+						manche2.blocs
+						(manche2.sert + 1)
+						2
+						manche2.tir2
+					)
+					¶Un ballon qui n'arrive jamais — renvoyé dans le jeu par un arrêt, par exemple — est abandonné après quelques secondes, afin que le jeu ne reste jamais bloqué à attendre un résultat qui ne viendra pas.¶
+					(manche2.tics ≥ 70)
+					? manche(
+							3
+							0
+							manche2.blocs
+							(manche2.sert + 1)
+							3
+							manche2.tir2
+						)
+						manche(
+							2
+							(manche2.tics + (∆ tic ? 1 0))
+							manche2.blocs
+							manche2.sert
+							manche2.dernier2
+							manche2.tir2
+						)
+			3: (manche2.tics ≥ 16)
+			? manche(
+					1
+					0
+					manche2.blocs
+					manche2.sert
+					manche2.dernier2
+					nouveauTir()
+				)
+				manche(
+					3
+					(manche2.tics + (∆ tic ? 1 0))
+					manche2.blocs
+					manche2.sert
+					manche2.dernier2
+					manche2.tir2
+				)
+			manche2
+
+¶La seule évaluation où le ballon quitte le pied du tireur. Elle doit être instantanée : c'est ce qui frappe le ballon, et le frapper deux fois doublerait sa vitesse.¶
+frappé: (∆ tic) & (manche2.phase = 2) & (manche2.tics = 0)
+
+¶Maintenu immobile pendant qu'il attend, frappé le long de sa ligne visée quand il est botté, et renvoyé vers le haut du terrain par un arrêt ou par le fond du filet — ce qui empêche aussi un ballon de rebondir sans arrêt à l'intérieur du but en faisant sonner le filet encore et encore. L'air ralentit un ballon qui roule, comme le ferait l'herbe, ce qui adoucit les tirs.¶
+ballonPlacer: Mouvement(
+		Lieu(
+			(manche2.tir2.tx - moitiéDuBallon)
+			(manche2.tir2.ty - moitiéDuBallon)
+		)
+		endroitsuivant:
+		(manche2.phase = 1) ? Lieu(
+				(manche2.tir2.tx - moitiéDuBallon)
+				(manche2.tir2.ty - moitiéDuBallon)
+			) ø
+		prochainevitesse:
+		(manche2.phase = 1) ? Vitesse(0m/s 0m/s 0°/s)
+			frappé ? Vitesse(
+					(manche2.tir2.vitesse2 · -1)
+					((manche2.tir2.vitesse2 · -1) × manche2.tir2.inclinaison)
+					Aléatoire(-45°/s 45°/s)
+				)
+				(arrêté | marqué) ? Vitesse(
+						Aléatoire(8m/s 14m/s)
+						Aléatoire(-5m/s 5m/s)
+						Aléatoire(-45°/s 45°/s)
+					)
+					ø
+	)
+
+ballon: Phrase(
+		'⚽'
+		0.6m
+		nom: 'ballon'
+		lieu: ballonPlacer
+		matière: Matière(0.45kg 0.7 0.02)
+	)
+
+¶Le gant est suivi par son nom plus haut, ce qui suffit à le rendre présent dans le monde physique, donc il n'a pas besoin de @Matter. Il est placé par le programme plutôt que par la physique, donc il traverse le ballon au lieu de le frapper ; c'est l'arrêt décrit plus haut qui renvoie le ballon. Ses mouvements ne sont pas animés en fondu, donc il se trouve exactement où vous l'avez dirigé, au lieu de vous suivre progressivement.¶
+gardien: Phrase(
+		'🧤'
+		1.2m
+		nom: 'gardien'
+		lieu: Lieu(xDuGardien (yDuGardien - moitiéDuGardien))
+		durée: 0s
+	)
+
+¶Qui est sur le point de tirer, et d'où. Seulement sur le terrain pendant que le ballon attend.¶
+tireur: Phrase(
+		'🦵'
+		1.2m
+		lieu: Lieu(
+			(manche2.tir2.tx + 0.5m)
+			(manche2.tir2.ty - 0.6m)
+		)
+		durée: 0s
+	)
+tireurListe: (manche2.phase = 1) ? [tireur] []
+
+¶Le but : la bouche, le filet à l'arrière, et un poteau au-dessus et en dessous. Seul le filet porte un nom, donc seul le filet peut marquer un but — un ballon qui heurte un poteau rebondirait simplement. Le filet est volontairement épais : le tir le plus rapide parcourt environ un demi-mètre entre deux étapes de calcul physique, et un filet plus fin pourrait le laisser passer sans jamais le toucher.¶
+filetForme: Forme(
+		Rectangle(
+			-8m
+			bordDeLaBouche
+			-7.2m
+			(bordDeLaBouche · -1)
+		)
+		nom: 'filet'
+		arrièreplan: Couleur(96% 0 0°)
+	)
+poteauHaut: Forme(
+		Rectangle(-8m 7m -7.2m bordDeLaBouche)
+		arrièreplan: Couleur(35% 0 0°)
+	)
+poteauBas: Forme(
+		Rectangle(-8m (bordDeLaBouche · -1) -7.2m -7m)
+		arrièreplan: Couleur(35% 0 0°)
+	)
+
+¶Les lignes de touche, qui gardent un ballon dégagé sur le terrain.¶
+murHaut: Forme(
+		Rectangle(-8m 7m 8m 6.8m)
+		arrièreplan: Couleur(88% 5 130°)
+	)
+murBas: Forme(
+		Rectangle(-8m -6.8m 8m -7m)
+		arrièreplan: Couleur(88% 5 130°)
+	)
+murDroite: Forme(
+		Rectangle(7.8m 7m 8m -7m)
+		arrièreplan: Couleur(88% 5 130°)
+	)
+
+¶Un arrêt : le nombre bondit un peu et reste là un instant avant de se stabiliser.¶
+arrêtFlexion: Séquence(
+		{
+			0%: Pose(échelle: 1)
+			30%: Pose(échelle: 1.5 compenser: Lieu(0m 0.4m))
+			65%: Pose(échelle: 1.35 compenser: Lieu(0m 0.25m))
+			100%: Pose(échelle: 1)
+		}
+		0.5s
+	)
+
+¶Un but : le nombre grossit jusqu'à remplir l'écran et tremble, pour qu'un tir qui vous échappe ne passe jamais inaperçu.¶
+butSecousse: Séquence(
+		{
+			0%: Pose(échelle: 1)
+			8%: Pose(échelle: 3.6 rotation: -10°)
+			24%: Pose(
+				échelle: 3.6
+				rotation: 10°
+				compenser: Lieu(0.4m 0m)
+			)
+			40%: Pose(
+				échelle: 3.6
+				rotation: -10°
+				compenser: Lieu(-0.4m 0m)
+			)
+			56%: Pose(
+				échelle: 3.6
+				rotation: 8°
+				compenser: Lieu(0.3m 0m)
+			)
+			72%: Pose(échelle: 3.4 rotation: -6°)
+			100%: Pose(échelle: 1)
+		}
+		1s
+	)
+
+¶Le nombre de tirs arrêtés. Son nom porte le numéro du service, donc chaque tir lui donne une nouvelle identité et son animation rejoue — un nombre dont le nom ne changerait jamais s'animerait une fois puis resterait immobile.¶
+scoreVue: Phrase(
+		"🧤 \manche2.blocs\"
+		1.4m
+		nom: "score\manche2.sert\"
+		lieu: Lieu(-1.4m 4m)
+		durée: 0.2s
+		entrer: manche2.dernier2 ???
+			1: arrêtFlexion
+			2: butSecousse
+			Pose()
+	)
+
+¶Les instructions s'affichent sur le terrain plutôt que dans la superposition : le bord inférieur de la superposition est l'endroit où se trouve le rendu de la musique, et un texte à cet endroit serait recouvert.¶
+instructions: Phrase(
+		'maintenez ⬆ ⬇ pour déplacer votre gant — arrêtez chaque tir !'
+		0.55m
+		lieu: Lieu(-6.4m -6.4m)
+	)
+
+¶Trois sons : le tir, l'arrêt, le filet. Chacun est mis sur scène aussi longtemps que dure la phase qui le déclenche, puis retiré ensuite. Arriver sur la scène suffit comme raison de sonner, et un son ponctuel déjà joué reste silencieux jusqu'à ce qu'il quitte la scène et y revienne — aucun d'eux n'a donc besoin d'un @Music.replay, et aucun ne sonne quand le programme démarre.
+
+Écrire les choses ainsi dit quelque chose que les notes seules ne diraient pas : chaque son appartient à une phase de la manche, et dure exactement aussi longtemps que cette phase. @Music.replay est l'autre façon d'écrire cela, pour un son qui répond à un instant précis plutôt qu'à une durée.¶
+tirSon: Musique(
+		Piste(
+			[1]
+			instrument: Instrument.batterie
+			battement: 0.25beats
+			volume: 60%
+			boucle: ⊥
+		)
+		nom: 'tir'
+	)
+
+arrêtSon: Musique(
+		Piste(
+			[8 12 15]
+			instrument: Instrument.cloche
+			battement: 0.2beats
+			volume: 70%
+			boucle: ⊥
+		)
+		nom: 'arrêt'
+	)
+
+butSon: Musique(
+		Piste(
+			[5 4 2 1]
+			instrument: Instrument.trompette
+			battement: 0.3beats
+			volume: 65%
+			boucle: ⊥
+		)
+		nom: 'but'
+	)
+
+résultatSon: manche2.dernier2 ???
+		1: [arrêtSon]
+		2: [butSon]
+		[]
+
+sonListe: manche2.phase ???
+		2: [tirSon]
+		3: résultatSon
+		[]
+
+Scène(
+	[
+		ballon
+		gardien
+		:tireurListe
+		filetForme
+		poteauHaut
+		poteauBas
+		murHaut
+		murBas
+		murDroite
+		instructions
+		:sonListe
+	]
+	lieu: Lieu(0m 0m -14m)
+	cadre: Rectangle(-8m 7m 8m -7m)
+	arrièreplan: Couleur(62% 40 140°)
+	couleur: Couleur(20% 0 0°)
+	pesanteur: 0m/s^2
+	superposition: [scoreVue]
+)

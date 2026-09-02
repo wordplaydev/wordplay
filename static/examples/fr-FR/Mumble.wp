@@ -1,0 +1,29 @@
+m
+Marmonner
+=== start
+¶Continue à cliquer pour rendre le marmonnement plus fort.¶
+clics•#: 0 … ∆ Bouton() … clics + 1
+
+clics < 3 ?
+	Phrase(
+		'marmonner'
+		taille: 1m
+		nom: 'marmonne'
+		entrer: Pose(échelle: 0)
+		aurepos: Séquence(
+			{
+				0%: Pose(échelle: (clics + 1) × 1.1)
+				50%: Pose(échelle: (clics + 1) × 0.9)
+				100%: Pose(échelle: (clics + 1) × 1.1)
+			}
+			durée: 0.5s
+		)
+		sortant: Séquence(
+			{
+				0%: Pose(opacité: 1 échelle: 1)
+				100%: Pose(opacité: 0 échelle: 10)
+			}
+			durée: 2s
+		)
+	)
+	Phrase('terminé')

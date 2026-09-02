@@ -1,0 +1,199 @@
+🍂
+Peta Pribadi – Tempat-Tempat yang Pernah Saya Tinggali
+=== English/en
+¶This project has an English and a Hindi version.
+Change the locale on stage to see each one!¶/en
+¶यह कार्यक्रम दो रूप मे हैं: अंग्रेज़ी और हिंदी। मंच पर भाषा बदलिए
+दोनो देखने के लिए!¶/hi
+
+¶This project shows a map of landmarks and a moveable 
+character. When the character collides with a landmark
+then their speech bubble changes.¶/en
+¶यह कार्यक्रम कई जगह दिखाता है, और उसके साथ एक शख़्स जिसको हिला सकते हो।
+जब यह शख़्स कुच जगह से टकराता है, उसकी बात बदलती है।¶/hi
+
+¶This collision stream checks for collisions between the phrase
+with the name 'me' and any other phrases. When a collision happens,
+it's value stores a 'Rebound' object that contains the object collided with.¶/en
+¶यह टकराना वाला धारा ढूंढता है किसी टक्कर के लिये, जो “मैं”-वाला बोल और दूसरे बोल के बीच
+में हो। जब टक्कर मिलता है, “मैं” वाला नाम एक ‘पलट’ रखता है। यह ‘पलट’ के पास
+है वह चीज़ जिसके साथ “मैं” वाला नाम टकराया था।¶/hi
+choice/en,चारा/hi: Tabrakan('me'/en,'मैं'/hi)
+name/en,नाम/hi: (choice = ø ? "" choice.obyek)
+
+¶The words are written one line at a time, so this joins them back into a
+single run for the speech bubble to wrap however it likes.¶/en
+¶शब्द एक-एक पंक्ति में लिखे गए हैं, इसलिए यह उन्हें वापस एक ही धारा में जोड़ता है
+ताकि बातचीत का बुलबुला उन्हें अपनी तरह से लपेट सके।¶/hi
+ƒ alir(garis•[`…`])
+	garis.panjang() < 2 ? garis[1]
+		garis.suburutan(2).gabungan(
+			garis[1]
+			ƒ(akm berikutnya) akm + `` + berikutnya
+		)
+
+¶This 'otherwise' checks the name of the collided object
+and chooses a list of formatted text based on the name.
+If there's no name, it defaults to starting text.
+The text displayed depends on the language chosen on stage.¶/en
+¶यह ‘वरना’ टकराया हुआ चीज़ का नाम देखता है और चुनता है वह शब्दों की सूची जिसका नाम मिलता है 
+उसके साथ। अगर कोई नाम नही है, यह पहले शब्दों की सूची दिखाता हैं।
+चुुना हुआ भाषा के अनुसार शब्दों दिखते हैं।¶/hi
+about/en,बात/hi:
+	🌍/en ? (
+			name ???
+				"Virginia": [
+					`*(2005 – 2007)*`/en
+					`I was born in *Arlington, Virginia*!`/en
+					`I lived here until I was two,`/en
+					`a couple of months after my`/en
+					`brother was born.`/en
+					`I don't remember anything about`/en
+					`living here, but a lot of the`/en
+					`pics I've seen are of the fall`/en
+					`colors!`/en
+				]
+
+				"California": [
+					`*(2007 – 2013)*`/en
+					`I spent most of my youngest years`/en
+					`in *Foster City, California*!`/en
+					`This place was the most memorable`/en
+					`for me.`/en
+					`On my 6th birthday, I ended up with`/en
+					`a soft toy duck, which I call Cute`/en
+					`Duckie. She is still my favorite,`/en
+					`to this day.`/en
+				]
+				"India": [
+					`*(2013 – 2015)*`/en
+					`I lived in *Hyderabad, Telangana*,`/en
+					`which is in *India*. At this time,`/en
+					`Telangana actually didn't exist!`/en
+					`It used to be a part of a state`/en
+					`called Andhra Pradesh.`/en
+					`I was here for 3rd and 4th grade,`/en
+					`and both years, I went on a school`/en
+					`trip where we camped overnight.`/en
+					`It was really fun!`/en
+				]
+				"Washington": [
+					`*(2015 – present)*`/en
+					`I've been living in`/en
+					`*Washington* ever since—over`/en
+					`half my life now, actually!`/en
+					`I've actually experienced all`/en
+					`the levels of school here:`/en
+					`elementary (5th grade), middle,`/en
+					`high, now university.`/en
+				]
+				[`Flapping my wings…`/en]
+		)
+
+		(
+			नाम ???
+				"वर्जिनिया": [
+					`*(२००५ – २००७)*`/en
+					`मैं *आर्लिंटन, वर्जिनिया* में पैदा हुई थी!`/en
+					`मैं दो साल तक यहाँ रही थी, मेरे भाई`/en
+					`पैदा होने के कुच महिने बाद।`/en
+					`मुझे इधर रहने का कुच याद नही है,`/en
+					`लेकिन बहुत सारे तसवीर रंगीन पत्ते`/en
+					`के हैं!`/en
+				]
+				"कॅलिफ़ोर्निया": [
+					`*(२००७ – २०१३)*`/en
+					`मैं जब छोटी थी, मैने कई साल बिताऐ थे`/en
+					`*फ़ास्टर सिटी, कॅलिफ़ोर्निया* में!`/en
+					`यह जगह सब्से यादगार थि मेरे लिये।`/en
+					`मेरे छठवी जनम-दिन पर एक मुलायम सी`/en
+					`बत्तख की खिलौना मिली थी, जो मैं`/en
+					`बुलाती हूँ क्यूट डकी। वह आज तक भी`/en
+					`मेरी सब्से पसंद वाली खिलौना है।`/en
+				]
+				"भारत": [
+					`*(२०१३ – २०१५)*`/en
+					`मैं *हैदराबाद, तेलंगाना* में रहती थी, *भारत*`/en
+					`में। इस समय पर तेलंगाना होता नही था! आंध्र`/en
+					`प्रदेश का हिस्सा हुआ होता था।`/en
+					`मैं इधर तीसरा और चौथा क्लास के लिये थि,`/en
+					`और दोनो साल, मैं एक स्कूल ट्रिप पे गयी थी,`/en
+					`जहाँ हम कैंपिंग किये थे। बहुत मज़ा आया!`/en
+				]
+				"वाशिंटन": [
+					`*(२०१५ – आज)*`/en
+					`तब से मैं *वाशिंटन* में रही हूँ—`/en
+					`आधा ज़िंदगी से ऊपर के लिये!`/en
+					`मैं पाँचवा क्लास से कॉलेज तक`/en
+					`पढ़ाई की हूँ।`/en
+				]
+				[`मैं उड़ी…`/en]
+		)
+
+¶This stream starts in the middle, but can be changed with
+the keyboard arrows or clicking the stage.
+We use it to place the character.¶/en
+¶यह धारा बीच में शुरु होता है, लेकिन कीबोर्ड या माउस के साथ बदल सकते हैं।
+हम इस के साथ character को मंच पर रखते हैं।¶/hi
+where/en,किधर/hi: Penempatan(Tempat(0m 0m))
+
+¶This takes all of the content above and renders it,
+putting each landmark on stage in a particular location
+and giving the bird a speech bubble holding the current about text.
+Each landmark needs a name and matter in order for the collision
+stream to check collisions.¶/en
+¶यह ऊपर सब मंच पर दिखाता हैं। हर स्थान मंच पर किसी जगह डालता हैं, और
+शब्दों की सूची बदलता हैं ताकी मंच पर दिखाई दे। हर स्थान एक नाम और माल चहिए,
+टक्कर-वाला धारा को टक्कर मिलने के लिए।¶/hi
+Panggung(
+	[
+		Frasa(
+			'🍂'
+			nama: "Virginia"/en,"वर्जिनिया"/hi
+			tempat: Tempat(-3m 0m)
+			urusan: Urusan()
+		)
+		Frasa(
+			`@ellipsis/CuteDuckie`
+			nama: "California"/en,"कॅलिफ़ोर्निया"/hi
+			tempat: Tempat(-10m 0m)
+			urusan: Urusan()
+			ukuran: 1.4m
+		)
+		Frasa(
+			'🏕'
+			nama: "India"/en,"भारत"/hi
+			tempat: Tempat(5m -6m)
+			urusan: Urusan()
+		)
+		Frasa(
+			`@ellipsis/GoDawgs`
+			nama: "Washington"/en,"वाशिंटन"/hi
+			tempat: Tempat(-10m 6m)
+			urusan: Urusan()
+			ukuran: 1.4m
+		)
+		Frasa(
+			'🐤'
+			nama: "me"/en,"मैं"/hi
+			tempat: where
+			urusan: Urusan()
+			pindah: Urutan(
+				{
+					0%: Pose()
+					50%: Pose(mengimbangi: Tempat(0m 1m 0m))
+					100%: Pose(mengimbangi: Tempat(0m 0m 0m))
+				}
+				lamanya: 0.5s
+			)
+			gelembung: Gelembung(
+				alir(about)
+				ukuran: 0.5m
+				bungkus: 9m
+				warna: Warna(0% 0 0°)
+				latarBelakang: Warna(100% 0 0°)
+			)
+		)
+	]
+	latarbelakang: Warna(18% 72 280°)
+)

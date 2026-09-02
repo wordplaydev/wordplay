@@ -1,0 +1,10 @@
+•
+Cronometru
+===
+¶Un șir de puncte care crește până la cinci și reîncepe, o dată pe secundă.¶
+Fraza(
+	"•".repetat(
+		((Timp(1000ms) → #s) % 5).rotunjireînjos() + 1s
+	)
+	durată: 0s
+)

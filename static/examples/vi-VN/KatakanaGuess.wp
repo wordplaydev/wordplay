@@ -1,0 +1,44 @@
+カ
+Đoán Chữ Katakana
+=== start
+¶Đoán xem chữ katakana nào khớp với chữ hiragana để ghi điểm.¶
+ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを'/ja → []
+カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ'/ja → []
+
+•ゲーム/ja,Game/en(秘密/ja,secret/en•# スコア/ja,score/en•#)
+選択/ja,selection/en: Sựlựachọn()
+
+¶Bắt đầu trò chơi với một chữ hiragana ngẫu nhiên và số điểm bằng không. Khi có một lựa chọn được đưa ra, tạo một trạng thái mới chọn một ký tự mới và tăng điểm nếu lựa chọn đó đúng.¶
+¶ランダムなひらがなと 0 ポイントでゲームを開始します。
+選択が行われたら、新しい文字を選択し、正しい場合はスコアを増分する新しいステータスを作成します。¶/ja
+配置/ja,status/en: ゲーム(Ngẫunhiên(1 46) 0) … ∆ 選択 …
+		ゲーム(
+			Ngẫunhiên(1 46)
+			配置.秘密 → '' = 選択 ?
+				配置.スコア + 1
+				配置.スコア - 1
+		)
+
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp()
+			[
+				Cụmtừ(
+					`/What is the matching hiragana?/``/対応するひらがなは何ですか？/`/ja
+				)
+				Cụmtừ(`*\カタカナ[配置.secret]\*` 2m)
+				Nhóm(
+					Lưới(10 5 1m 1m 1m)
+					ひらがな.dịch(
+						ƒ(シンボル/ja•'' 指数/ja,index/en)
+							Cụmtừ(シンボル tên: 指数 → '' cóthểlựachọn: ⊤)
+					)
+				)
+				Cụmtừ(
+					`*\配置.score\* points!``*\配置.score\* 正解です！`/ja
+				)
+			]
+		)
+	]
+)

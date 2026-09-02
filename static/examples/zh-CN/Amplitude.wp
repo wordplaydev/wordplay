@@ -1,5 +1,7 @@
+⚫
 振幅
 ===
-amplitudes•[#]: ←← 10 Volume()
-vis: amplitudes.translate(ƒ (amp•#) Phrase("⚫️" opacity: amp size: 10m))
-Stage([Group( Row() vis )] place: Place(0m 0m -50m))
+¶一排会随着麦克风音量发光和变暗的点。¶
+振幅•[#]: ←← 10 音量()
+可视化: 振幅.翻译(ƒ(振幅2•#) 短语("⚫" 不透明度: 振幅2 尺寸: 10m))
+舞台([组合(横排() 可视化)] 位置: 位置(0m 0m -50m))

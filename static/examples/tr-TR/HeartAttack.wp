@@ -1,0 +1,539 @@
+🧟
+Kalp Krizi
+=== start/en
+¶Kalp Krizi — bir battle royale oyununun yumuşak, birinci şahıs bir yorumu. Sen sabit durursun ve Sahnenin kamerasından öne bakarsın, önünde de bir zombi sürüsü seni bekler. Her seferinde bir zombi, sana doğru sürüklenerek yaklaşır. ← → tuşlarıyla, imleçle ya da ekranın bir yanına dokunarak yönünü ayarla ve Boşluk tuşuyla, bir tıklamayla veya dokunuşla bir kalp fırlat. Bir kalp, karşısına çıkan ilk figürde durur, o yüzden atışını iyi hedefle: bir zombiye vurursan o mutlu bir insana dönüşür ve sen bir puan kazanırsın — her puan zombileri daha da hızlandırır. Dönüşmüş bir insan olduğu yerde durur ve kalplerini engeller, bu yüzden açına dikkat et. Herkesi dönüştürürsen kazanırsın; bir zombi sana ulaşırsa oyun biter. Enter tuşuna basmak veya dokunmak oyunu başlatır, ve yeniden başlatır.
+
+Her aşamanın kendi melodisi var, ve dördü de aynı temadan oluşur — aşağıda, @Music'ya bak.¶
+
+¶Sahada başlangıçta kaç zombi olduğu.¶
+zombiSayısı: 8
+
+¶Hareket ve kamera, metre olarak: her tuşa basışta ne kadar yana kaydığın, sol/sağ sınırların, oynarken kameranın sabit uzaklığı, ve bir menü gösterilirken kameranın nerede durduğu (daha geride).¶
+yanAdım: 1.2m
+solSınır: -8m
+sağSınır: 8m
+oyunDerinliği: -1m
+menüDerinliği: -10m
+
+¶Zombilerin nerede belirdiği — yakından uzağa yayılmış, hepsi senin önünde — ve dolaşan zombilerin içinde gezindiği kutu (yakın kenarı senin önünde tutulur, böylece sadece hücum edenler sana ulaşabilir).¶
+doğmaDerinliğiYakın: 6m
+doğmaDerinliğiUzak: 22m
+dolaşmaDerinliğiYakın: 3m
+dolaşmaDerinliğiUzak: 24m
+
+¶Kalp ve çarpışma ayarları: bir kalbin nasıl uçtuğu ve söndüğü, nasıl çarptığı, oyunun bitmesi için bir zombinin ne kadar yaklaşması gerektiği, ve hücum eden zombilerin nasıl hareket ettiği — yaklaşma, dolaşma, kıvırma, seni izleme, ve her puanla hızlanma. En yakın iki zombi aynı anda hücum eder; diğerleri dolaşır.¶
+kalpHızı: 1m
+kalpMenzili: 26m
+vuruşYarıçapı: 1.8m
+erişimMesafesi: 1.8m
+temelYüklenmeHızı: 0.1m
+dolaşmaHızı: 0.1m
+dokumaHızı: 0.12m
+dokumaGenişliği: 1.8m
+yuvayaDönüşHızı: 0.05m
+puanBaşınaHızlanma: 0.2
+
+¶Dönüştürülmüş bir zombinin dönüşebileceği mutlu insanlar.¶
+insanlar: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '🧑‍🎤' '🦸' '🧚' '🧑‍🍳' '🕺' '💃' '🧑‍⚕']
+
+¶Sahadaki bir figür: bir konum, her eksende bir dolaşma yönü (her biri -1 veya 1, sadece dolaşırken kullanılır), hâlâ zombi olup olmadığı, ve hangi emojinin gösterileceği (zombiyken 🧟, dönüştükten sonra bir insan).¶
+•zombi(x2•#m z2•#m yönX•# yönZ•# canlı•? yüz2•"")
+
+¶Bütün oyun bir değerde: aşama (1 = başlangıç, 2 = oynanış, 3 = kazanma, 4 = kaybetme), kamera/oyuncu konumu, kalbin durumu, skor, ve sahadaki herkes.¶
+•oyun(evre•# kameraX•#m kameraZ•#m kalp•? kalpX•#m kalpZ•#m kalpBaşlangıç•#m skor•# zombiler•[zombi])
+
+¶Burada karesi alınmış uzaklık, gerçek uzaklıktan daha iyi çalışır: karekök gerekmez, ve birimler düzgün kalır (metre kere metre), böylece karşılaştırma her zaman tip uyumlu olur.¶
+ƒ yakın(birX•#m birZ•#m ikiX•#m ikiZ•#m yarıçap2•#m)
+	(((birX - ikiX) · (birX - ikiX)) + ((birZ - ikiZ) · (birZ - ikiZ))) < (yarıçap2 · yarıçap2)
+
+¶Hâlâ zombi olan kaç figür kaldığı.¶
+ƒ canlıSayısı(zombiler2•[zombi]) zombiler2.filtre(
+		ƒ(zombi2•zombi) zombi2.canlı
+	).uzunluk(
+	)
+
+¶Oyuncuya bir adım daha yaklaş: vurulmayı zorlaştırmak için yana kıvırarak ileri hareket et, şeridin çevresindeki bir bandın kenarlarında kıvrılma yönünü değiştir, ve sallanmalar arasında yumuşakça oyuncuyu izle, böylece kaçış sadece kısa bir süre kazandırır.¶
+ƒ oyuncuyaDoğruSaldır(zombi3•zombi kameraX2•#m saldırıHızı•#m) (
+		dokunmuşX: zombi3.x2 + (zombi3.yönX · dokumaHızı)
+		yönlendirilmişX: dokunmuşX + ((kameraX2 - dokunmuşX).maksimum(
+						yuvayaDönüşHızı · -1
+					)).dakika(
+					yuvayaDönüşHızı
+				)
+		kenarda: (dokunmuşX > (kameraX2 + dokumaGenişliği)) | (dokunmuşX < (kameraX2 - dokumaGenişliği))
+		zombi(
+			yönlendirilmişX
+			(zombi3.z2 - saldırıHızı)
+			(kenarda ? (zombi3.yönX · -1) zombi3.yönX)
+			zombi3.yönZ
+			zombi3.canlı
+			zombi3.yüz2
+		)
+	)
+
+¶Bir adım dolaş: dolaşma yönünde kay, sahanın kenarlarına çarpınca olduğun yerde dur ve gittiğin yönü ters çevir.¶
+ƒ dolaş(zombi4•zombi hız2•#m) (
+		yeniX: zombi4.x2 + (zombi4.yönX · hız2)
+		yeniZ: zombi4.z2 + (zombi4.yönZ · hız2)
+		sıçramaX: (yeniX > sağSınır) | (yeniX < solSınır)
+		sıçramaZ: (yeniZ > dolaşmaDerinliğiUzak) | (yeniZ < dolaşmaDerinliğiYakın)
+		zombi(
+			(sıçramaX ? zombi4.x2 yeniX)
+			(sıçramaZ ? zombi4.z2 yeniZ)
+			(sıçramaX ? (zombi4.yönX · -1) zombi4.yönX)
+			(sıçramaZ ? (zombi4.yönZ · -1) zombi4.yönZ)
+			zombi4.canlı
+			zombi4.yüz2
+		)
+	)
+
+¶Yakından uzağa yayılmış, sağdan sola dağılmış, her biri rastgele bir yönde dolaşan taze bir zombi sahası.¶
+ƒ zombiOluştur()
+	(zombiSayısı → []).tercümeetmek(
+		ƒ(dizin2•#)
+			zombi(
+				Rastgele(solSınır sağSınır)
+				(doğmaDerinliğiYakın + (dizin2 · ((doğmaDerinliğiUzak - doğmaDerinliğiYakın) ÷ zombiSayısı)))
+				[-1 1].rastgele()
+				[-1 1].rastgele()
+				⊤
+				'🧟'
+			)
+	)
+
+¶Yeni bir tur başlat: oynanıyor, kamera göz hizasında, kalp yok, skor yok.¶
+ƒ yeniOyun() oyun(
+		2
+		0m
+		oyunDerinliği
+		⊥
+		0m
+		0m
+		0m
+		0
+		zombiOluştur()
+	)
+
+¶Bulunduğun şeride bir kalp fırlat, havada zaten bir tane yoksa. Kalp tam durduğun yerin biraz ilerisinden başlar, kameranın olduğu yerden değil; erişim testinin de aynı sebeple yaptığı gibi.¶
+ƒ kalpFırlat(oyun2•oyun)
+	oyun2.kalp ? oyun2 oyun(
+			oyun2.evre
+			oyun2.kameraX
+			oyun2.kameraZ
+			⊤
+			oyun2.kameraX
+			(oyunDerinliği + 1m)
+			oyunDerinliği
+			oyun2.skor
+			oyun2.zombiler
+		)
+
+¶Şeridini bir adım bir noktaya doğru kaydır, ama asla sınırlarını aşma. İşaretçi, üzerinde bulunduğu dünya noktasını bildirir, bu yüzden şeridine olan uzaklığı, senin soluna mı sağına mı düştüğünü gösterir — o noktaya doğru adım atmak işaretçinin hedef almasını sağlar ve herhangi bir tarafa dokunmak seni o yöne hareket ettirir.¶
+ƒ doğruOdaklan(oyun3•oyun hedef2•#m)
+	oyun3.kameraX:(oyun3.kameraX + ((hedef2 - oyun3.kameraX).maksimum(
+					yanAdım · -1
+				)).dakika(
+				yanAdım
+			)).maksimum(
+		solSınır
+	).dakika(
+		sağSınır
+	)
+
+¶Oynarken bir tuşa basmak: sola ya da sağa kaymak, ya da bir kalp fırlatmak.¶
+ƒ tuşBasışınıUygula(oyun4•oyun anahtar2•"")
+	(anahtar2 = 'Sol Ok') ? doğruOdaklan(
+			oyun4
+			(oyun4.kameraX - yanAdım)
+		)
+		(anahtar2 = 'Sağ Ok') ? doğruOdaklan(
+				oyun4
+				(oyun4.kameraX + yanAdım)
+			)
+			(anahtar2 = 'Uzay') ? kalpFırlat(oyun4)
+				oyun4
+
+¶Dünyanın bir karesi: kalp, yolundaki ilk figüre çarpana kadar uçar (dönüştürülmüş bir kişi de tıpkı bir zombi gibi onu engeller), vurulan bir zombiyi dönüştürür, en yakın iki zombiyi oyuncuya doğru yürütürken geri kalanlar dolaşır, sonra bir kazanma (herkes dönüştü) ya da kaybetme (bir zombi sana ulaştı) durumu var mı diye bakar. Kazanma ya da kaybetmede kamera menü noktasında sabitlenir.¶
+ƒ dünyaʼyıIlerlet(oyun5•oyun) (
+		sıradakiKalpZ: oyun5.kalp ? (oyun5.kalpZ + kalpHızı) oyun5.kalpZ
+		kalpSoluk: oyun5.kalp & ((sıradakiKalpZ - oyun5.kalpBaşlangıç) > kalpMenzili)
+		kalpEtkin: oyun5.kalp & ~kalpSoluk
+		saldırıHızı2: temelYüklenmeHızı · (1 + (oyun5.skor · puanBaşınaHızlanma))
+		¶En yakındaki canlı zombiler saldırır; onları seçen şey derinlikleridir.¶
+		derinliğeGöreCanlı: oyun5.zombiler.filtre(
+				ƒ(zombi5•zombi) zombi5.canlı
+			).sıralanmış(
+				ƒ(zombi6•zombi) zombi6.z2
+			)
+		birinciŞarjCihazıDerinliği: (derinliğeGöreCanlı.uzunluk(
+				) ≥ 1) ? derinliğeGöreCanlı[1].z2 -999m
+		ikinciŞarjCihazıDerinliği: (derinliğeGöreCanlı.uzunluk() ≥ 2) ? derinliğeGöreCanlı[2].z2 -999m
+		yoldakiFigürler: kalpEtkin ? oyun5.zombiler.filtre(
+					ƒ(zombi7•zombi) yakın(
+							zombi7.x2
+							zombi7.z2
+							oyun5.kalpX
+							sıradakiKalpZ
+							vuruşYarıçapı
+						)
+				) []
+		vurulanFigür: yoldakiFigürler.sıralanmış(
+				ƒ(zombi8•zombi) zombi8.z2
+			).Birinci(
+			)
+		vurulanDerinlik: (vurulanFigür•ø) ? -999m vurulanFigür.z2
+		dönüştürülüyor: (vurulanFigür•ø) ? ⊥ vurulanFigür.canlı
+		sıradakiZombiler: oyun5.zombiler.tercümeetmek(
+				ƒ(zombi9•zombi)
+					zombi9.canlı ?
+						((dönüştürülüyor & (zombi9.z2 = vurulanDerinlik)) ? zombi(
+									zombi9.x2
+									zombi9.z2
+									zombi9.yönX
+									zombi9.yönZ
+									⊥
+									insanlar.rastgele()
+								)
+								(((zombi9.z2 = birinciŞarjCihazıDerinliği) | (zombi9.z2 = ikinciŞarjCihazıDerinliği)) ? oyuncuyaDoğruSaldır(
+											zombi9
+											oyun5.kameraX
+											saldırıHızı2
+										) dolaş(zombi9 dolaşmaHızı)))
+						zombi9
+			)
+		dönüştürülenSayısı: canlıSayısı(oyun5.zombiler) - canlıSayısı(
+					sıradakiZombiler
+				)
+		sıradakiKalp: kalpEtkin & (vurulanFigür•ø)
+		¶Senin derinliğine ulaşan herhangi bir canlı zombi oyunu bitirir — hangi şeritte olursa olsun — böylece bir zombi asla kazanılamaz bir duruma sızamaz. Bu, şuna göre ölçülür\oyunDerinliği\, yani senin durduğun yere göre, hiçbir zaman kameraya göre değil: sahne, küçük ekranlarda kamerayı geriye çeker ve izleyici onu daha da yakınlaştırabilir; bunların hiçbiri bir zombinin ne kadar yaklaşması gerektiğini değiştirmemelidir.¶
+		kaybedilen: sıradakiZombiler.filtre(
+				ƒ(zombi10•zombi) zombi10.canlı & (zombi10.z2 ≤ (oyunDerinliği + erişimMesafesi))
+			).uzunluk(
+			) > 0
+		kazandı: canlıSayısı(sıradakiZombiler) = 0
+		sıradakiAşama: kazandı ? 3 (kaybedilen ? 4 2)
+		sıradakiKameraX: (sıradakiAşama = 2) ? oyun5.kameraX 0m
+		sıradakiKameraZ: (sıradakiAşama = 2) ? oyun5.kameraZ menüDerinliği
+		oyun(
+			sıradakiAşama
+			sıradakiKameraX
+			sıradakiKameraZ
+			sıradakiKalp
+			oyun5.kalpX
+			sıradakiKalpZ
+			oyun5.kalpBaşlangıç
+			(oyun5.skor + dönüştürülenSayısı)
+			sıradakiZombiler
+		)
+	)
+
+anahtar3: Anahtar()
+tık: Zaman(30ms)
+işaretçi: İşaretçi()
+dokun: Düğme()
+
+¶Oyunun kalp atışı, dört girdi tarafından yönlendirilir: bir saat tıkırtısı, bir tuş, işaretçi hareketi ve bir tıklama/dokunma. Oynarken bir tık dünyayı ilerletir, tuşlar kaydırır ve fırlatır, işaretçi hareketi şeridini hedefler ve bir dokunuş bir kalp fırlatır. Bir menüden, bir Enter tuşu ya da bir dokunuş yeni bir tur başlatır — dokunuş, dokunmatik oyuncuların başlayabilmesi için; Enter ise (Boşluk değil) fırlatmak için Boşluğa basıp durmanın yanlışlıkla yeniden başlatmaması için.¶
+oyun6•oyun: oyun(
+		1
+		0m
+		menüDerinliği
+		⊥
+		0m
+		0m
+		0m
+		0
+		zombiOluştur()
+	)
+	… (∆ tık | ∆ anahtar3 | ∆ işaretçi | ∆ dokun) …
+		(oyun6.evre = 2)
+		? (∆ tık ? dünyaʼyıIlerlet(oyun6)
+					(∆ anahtar3 ? tuşBasışınıUygula(oyun6 anahtar3)
+							(∆ işaretçi ? doğruOdaklan(oyun6 işaretçi.X) kalpFırlat(
+										oyun6
+									))))
+			(∆ tık ? oyun6
+					(∆ anahtar3 ? ((anahtar3 = 'Girmek') ? yeniOyun() oyun6)
+							(∆ dokun ? yeniOyun() oyun6)))
+
+¶Sahnedeki bir figür: zombiler sallanır, dönüştürülen insanlar mutlu küçük bir sıçrama yapar. Gerisini derinlik halleder — yaklaşan bir zombi yaklaştıkça daha büyük görünür. 0 saniyelik süre, her adımın yumuşatma yerine anında gerçekleşmesini sağlar, böylece hareket geride kalan bir yakalama yerine akıcı kareler gibi görünür.¶
+ƒ zombiGörünümü(zombi11•zombi)
+	İfadeetmek(
+		zombi11.yüz2
+		2m
+		süre: 0s
+		yer: Yer(zombi11.x2 0m zombi11.z2)
+		dinlenme: zombi11.canlı
+		? Sekans.sallanmak(4° 1s "zippy")
+			Sekans(
+				{
+					0%: Poz(ölçek: 1)
+					50%: Poz(ölçek: 1.2)
+					100%: Poz(ölçek: 1)
+				}
+				0.6s
+			)
+	)
+
+¶Zemin: yükselen derinliklerde çubuklar, perspektifin ufka doğru uzanan bir zemin düzlemi gibi okuduğu, atmosfer için yeşilden gök mavisine solan çubuklar. İlk çubuk, oyunu bitirmek için bir zombinin geçmesi gereken çizgidir; kural görünür olsun diye uyarı kırmızısıyla çizilmiştir: kamera küçük ekranlarda geriye çekilir ve izleyici uzaklaştırabilir, uzakta görünen bir zombi bile sana ulaştığında hâlâ bu çizginin üzerinde durur.¶
+zemin2: [
+		İfadeetmek(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			süre: 0s
+			yer: Yer(0m -2.8m (oyunDerinliği + erişimMesafesi))
+			renk: Renk(58% 55 25°)
+		)
+		İfadeetmek(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			süre: 0s
+			yer: Yer(0m -2.8m 4m)
+			renk: Renk(56% 40 130°)
+		)
+		İfadeetmek(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			süre: 0s
+			yer: Yer(0m -2.8m 6m)
+			renk: Renk(50% 36 136°)
+		)
+		İfadeetmek(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			süre: 0s
+			yer: Yer(0m -2.8m 8m)
+			renk: Renk(45% 32 142°)
+		)
+		İfadeetmek(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			süre: 0s
+			yer: Yer(0m -2.8m 11m)
+			renk: Renk(40% 28 148°)
+		)
+		İfadeetmek(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			süre: 0s
+			yer: Yer(0m -2.8m 15m)
+			renk: Renk(35% 24 154°)
+		)
+		İfadeetmek(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			süre: 0s
+			yer: Yer(0m -2.8m 20m)
+			renk: Renk(31% 20 160°)
+		)
+	]
+
+¶Dünyada uçan bir kalp ve sahnenin kaplaması aracılığıyla ekranın üstüne düz şekilde sabitlenmiş bir skor göstergesi, böylece kamera kaydıkça yerinde kalır.¶
+kalpGörünümü: İfadeetmek(
+		'🫀'
+		1.2m
+		süre: 0s
+		yer: Yer(oyun6.kalpX 0m oyun6.kalpZ)
+	)
+puanGösterimi: İfadeetmek(
+		"🫀 \oyun6.skor\"
+		1.2m
+		yer: Yer(0m 4m)
+	)
+
+¶Başlangıç, kazanma ve kaybetme ekranlarının paylaştığı menü metni.¶
+ekranBaşlığı: oyun6.evre ???
+		3: '🎉 Herkesi kurtardın! 🎉'
+		4: '💀 Bir zombi seni yakaladı! 💀'
+		'🫀 KALP KRİZİ 🫀'
+ekranAltBaşlığı: (oyun6.evre = 1) ? 'Bir zombi sürüsü serbest kaldı. Onları sevgiyle geri çevir.' "Score: \oyun6.skor\"
+başlangıçSatırı: (oyun6.evre = 1) ? "Başlamak için Enter'a bas ya da dokun" "Tekrar oynamak için Enter'a bas ya da dokun"
+
+ekranGörünümü: [
+		Grup(
+			Yığın()
+			[
+				İfadeetmek(ekranBaşlığı 1.1m)
+				İfadeetmek(ekranAltBaşlığı 0.6m)
+				İfadeetmek(
+					'← → veya hedeflemek için işaret et'
+					0.5m
+				)
+				İfadeetmek(
+					'Kalp için Boşluk, tıklama ya da dokunma kullan 🫀'
+					0.5m
+				)
+				İfadeetmek(başlangıçSatırı 0.7m)
+			]
+		)
+	]
+
+¶Oynarken alanı ve zeminini göster, diğer zamanlarda menüyü göster. Yanlış aşamada her liste boştur ve boş bir liste hiçbir şeye yayılmaz.¶
+zeminListesi: (oyun6.evre = 2) ? zemin2 []
+zombiListesi: (oyun6.evre = 2) ? oyun6.zombiler.tercümeetmek(
+			ƒ(zombi12•zombi) zombiGörünümü(zombi12)
+		) []
+kalpListesi: ((oyun6.evre = 2) & oyun6.kalp) ? [
+			kalpGörünümü
+		] []
+skorKatmanı: (oyun6.evre = 2) ? [puanGösterimi] []
+ekranListesi: (oyun6.evre ≠ 2) ? ekranGörünümü []
+
+¶Sahne rengi sonucu yansıtır: kazanmada sıcak bir yeşil, kaybetmede koyu bir kırmızı, başlarken ya da oynarken ise varsayılan alacakaranlık moru.¶
+sahneArkaPlanı: oyun6.evre ???
+		3: Renk(48% 42 145°)
+		4: Renk(22% 45 25°)
+		Renk(25% 20 285°)
+
+¶Dört melodinin tamamında tek bir tema geçer: minör üçlüden altıncıya kadar yükselip sonra tekrar iner. İşin sırrı şu ki, aynı yedi derece harmonik minörde uğursuz, majörde ise neşeli olur; bu yüzden kazanma müziği tamamen aynı melodiyi çalar — sadece artık bir korku filmi gibi durmaz.
+
+Aşağıdaki her parça, nota uzunluğu ne olursa olsun tam olarak sekiz vuruş uzunluğundadır, böylece hepsi birlikte döner ve her melodi dikişsiz şekilde tekrar eder.¶
+tema: [1 ø 3 ø 5 ø 6 ø 5 ø 3 ø 1 ø ø ø]
+
+¶Başlamayı bekliyor: yavaş bir uğultu, bir zilde uzaktan duyulan tema ve altında bir kalp atışı.¶
+menüŞarkısı: Müzik(
+		[
+			Parça(
+				tema
+				çalgı: Çalgı.çan
+				vuruş: 0.5beats
+				sesDüzeyi: 45%
+			)
+			Parça(
+				[{1 3 5} {1 3 5} {6 8 10} {5 7 9}]
+				çalgı: Çalgı.synthPad
+				vuruş: 2beats
+				sesDüzeyi: 40%
+			)
+			Parça(
+				[1 ø 1 ø 6 ø 5 ø]
+				çalgı: Çalgı.synthBass
+				vuruş: 1beats
+				sesDüzeyi: 50%
+			)
+			Parça(
+				[1 ø ø ø 1 ø ø ø]
+				çalgı: Çalgı.davul
+				vuruş: 1beats
+				sesDüzeyi: 30%
+			)
+		]
+		tempo: 72beats/min
+		gam: Müzik.harmonikMinör
+		isim: 'menü'
+	)
+
+¶Kovalamaca: aynı tema, neredeyse iki kat hızda, hiç durmayan bir bas ve kick ritmi üzerinde.¶
+kovalamacaŞarkısı: Müzik(
+		[
+			Parça(
+				tema
+				çalgı: Çalgı.synth
+				vuruş: 0.5beats
+				sesDüzeyi: 45%
+			)
+			Parça(
+				[1 ø 1 1 1 ø 1 1 6 ø 6 6 5 ø 5 5]
+				çalgı: Çalgı.synthBass
+				vuruş: 0.5beats
+				sesDüzeyi: 55%
+			)
+			Parça(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 1 3]
+				çalgı: Çalgı.davul
+				vuruş: 0.5beats
+				sesDüzeyi: 40%
+			)
+		]
+		tempo: 132beats/min
+		gam: Müzik.harmonikMinör
+		isim: 'kovalamaca'
+	)
+
+¶Kazanma: aynı tema majör tonda, bir flütte bir oktav yukarı ikilenmiş, örnekteki en parlak akorların üzerinde. Buradaki tek mutlu ezgi.¶
+kazanmaŞarkısı: Müzik(
+		[
+			Parça(
+				tema
+				çalgı: Çalgı.çan
+				vuruş: 0.5beats
+				sesDüzeyi: 55%
+			)
+			Parça(
+				tema
+				çalgı: Çalgı.flüt
+				vuruş: 0.5beats
+				anahtar: 12semitones
+				sesDüzeyi: 40%
+			)
+			Parça(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				çalgı: Çalgı.piyano
+				vuruş: 2beats
+				sesDüzeyi: 45%
+			)
+			Parça(
+				[1 ø 3 ø 2 ø 3 ø]
+				çalgı: Çalgı.davul
+				vuruş: 1beats
+				sesDüzeyi: 35%
+			)
+		]
+		tempo: 120beats/min
+		gam: Müzik.majör
+		isim: 'kazan'
+	)
+
+¶Kaybetme: tema bir oktav aşağıda ve menünün yarı hızında, bir digeridoo uğultusu ve eve dönmekten vazgeçen akorlar üzerinde — bunlar tonik yerine altıncı derecede biter, böylece döngü hiçbir zaman tamamlanmaz.¶
+kaybetmeŞarkısı: Müzik(
+		[
+			Parça(
+				tema
+				çalgı: Çalgı.çan
+				vuruş: 0.5beats
+				anahtar: -12semitones
+				sesDüzeyi: 45%
+			)
+			Parça(
+				[1 ø ø ø]
+				çalgı: Çalgı.didgeridoo
+				vuruş: 2beats
+				sesDüzeyi: 50%
+			)
+			Parça(
+				[{1 3 5} {1 3 5} {6 8 10} {6 8 10}]
+				çalgı: Çalgı.synthPad
+				vuruş: 2beats
+				sesDüzeyi: 40%
+			)
+			Parça(
+				[1 ø ø ø ø ø ø ø]
+				çalgı: Çalgı.davul
+				vuruş: 1beats
+				sesDüzeyi: 30%
+			)
+		]
+		tempo: 56beats/min
+		gam: Müzik.harmonikMinör
+		isim: 'kaybet'
+	)
+
+¶Sahnede yalnızca o anki aşamanın ezgisi vardır, ve artık orada olmayan bir @Music durur — yani aşamayı değiştirmek, müziği değiştiren şeydir.¶
+filmMüziği: oyun6.evre ???
+		1: menüŞarkısı
+		3: kazanmaŞarkısı
+		4: kaybetmeŞarkısı
+		kovalamacaŞarkısı
+
+Sahne(
+	[
+		:zeminListesi
+		:zombiListesi
+		:kalpListesi
+		:ekranListesi
+		filmMüziği
+	]
+	yer: Yer(oyun6.kameraX 0m oyun6.kameraZ)
+	arkaplan: sahneArkaPlanı
+	renk: Renk(97% 0 0°)
+	kaplama: skorKatmanı
+)

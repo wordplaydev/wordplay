@@ -1,0 +1,147 @@
+🐱
+Chat Scat !
+=== start/en
+¶Un chat qui scatte, pour toujours, jamais deux fois de la même façon.
+
+Tout le solo est improvisé : rien ici n'est une mélodie écrite. À chaque refrain, le chat choisit de nouvelles notes et la phrase est reconstruite, donc ce que tu entends maintenant ne reviendra pas.
+
+Il chante sur cinq pistes qui se relaient plutôt que de sonner ensemble — des noires, puis des croches, puis des triolets, puis une blanche, puis une longue note — car un chat n'a qu'une voix, et deux pistes qui sonnent en même temps lui en donneraient deux. Chaque piste se tait pendant les mesures des autres, ce qui garde ce solo comme un vrai solo.
+
+La voix est le chat accordé, \Instrument.chatAvecHauteur\: un miaou, avec une hauteur précise, pour qu'un degré choisisse une note et que le chat chante vraiment l'air au lieu de dire douze choses différentes. La gamme est celle du blues, qui n'a pas de fausse note — et c'est nécessaire, car chaque note ici est choisie au hasard, donc tout ordre doit sonner bien.
+
+C'est lent pour un scat. Un miaou prend environ huit dixièmes de seconde à dire, et à un tempo plus rapide, les noires couperaient le chat à mi-mot.¶
+
+temps: Rythme()
+compte2: temps.nombre
+
+¶Une note, ou parfois rien : environ une fois sur sept, c'est le silence. Cela donne assez d'air au chat pour fermer la bouche de temps en temps sans affaiblir le solo — et comme les silences tombent au hasard, deux refrains ne respirent jamais au même endroit.¶
+ƒ maybe(note•#)•#|ø (Aléatoire() > 0.15) ? note ø
+
+¶Une note, quelque part dans l'octave confortable du chat. Le degré 1 est la note où revient la phrase, et le degré 8 est une octave de blues, un peu au-dessus — assez loin pour ressembler à du chant, assez proche pour que le miaou sonne encore comme un miaou et non comme un miaou étiré.¶
+ƒ voix2()•#|ø maybe(Aléatoire(1 8))
+
+¶Tout ce que le chat chante en un refrain. Chaque partie dure autant de temps que les autres — trente-deux temps — donc elles restent synchronisées, même si elles se divisent différemment.¶
+•chœur(appels•[#|ø] exécute•[#|ø] balancement2•[#|ø] tient•[#|ø] fin2•[#|ø])
+
+¶Noires, mesures un et deux : trois notes, une respiration, puis les mêmes trois notes reprises avec une nouvelle fin. L'appel et la réponse forment la base d'une phrase de scat, et répéter une figure avant de la transformer, c'est ce qui la fait sonner composée plutôt qu'aléatoire.¶
+ƒ appels2()•[#|ø] (
+		un2: voix2()
+		b2: voix2()
+		c2: voix2()
+		(32 → []).traduire(
+			ƒ(i•#)
+				(i = 1) ? un2
+					(i = 2) ? b2
+						(i = 3) ? c2
+							(i = 5) ? un2
+								(i = 6) ? b2
+									(i = 7) ? voix2()
+										ø
+		)
+	)
+
+¶Croches, mesures trois et quatre : une gamme qui monte pas à pas depuis son point de départ, puis revient en bas au sommet de l'octave. Seize croches sur huit degrés veulent dire que la gamme monte deux fois entièrement, ce qui la fait sonner comme une gamme plutôt qu'un air.
+
+Ce sont les notes les plus courtes du morceau, et le seul endroit où le chat est coupé : deux croches en un temps, c'est plus rapide qu'un miaou ne peut finir, ce qui ressemble justement à une syllabe de scat rapide.¶
+ƒ exécute2()•[#|ø] (
+		retour: Aléatoire(1 8)
+		(64 → []).traduire(
+			ƒ(i2•#)
+				((i2 < 17) | (i2 > 32)) ? ø
+					maybe((((retour + (i2 - 17)) - 1) % 8) + 1)
+		)
+	)
+
+¶Triolets, mesures cinq et six : une cellule de trois notes qui tourne sans arrêt. Trois dans l'espace de deux s'écrit exactement ainsi — 2 temps ÷ 3 — ce qui dit à voix haute ce qu'est un triolet.¶
+ƒ balancement3()•[#|ø] (
+		cellule2: [voix2() voix2() voix2()]
+		(48 → []).traduire(
+			ƒ(i3•#)
+				((i3 < 25) | (i3 > 36)) ? ø
+					cellule2[(((i3 - 25) % 3) + 1)]
+		)
+	)
+
+¶Blanches, mesure sept : le chat ralentit et se pose sur deux longues notes. Une note tenue garde la bouche ouverte tout le temps qu'elle sonne, ce à quoi ressemble le fait de tenir une note.¶
+ƒ tient2()•[#|ø]
+	(16 → []).traduire(
+		ƒ(i4•#)
+			(i4 = 13) ? voix2()
+				(i4 = 14) ? voix2()
+					ø
+	)
+
+¶Une ronde, mesure huit : degré 1, tenue. Revenir à la première note de la gamme est ce qui fait qu'une phrase sonne comme terminée, plutôt que simplement arrêtée.¶
+ƒ fin3()•[#|ø] (8 → []).traduire(ƒ(i5•#) (i5 = 8) ? 1 ø)
+
+ƒ improviser()•chœur chœur(
+		appels2()
+		exécute2()
+		balancement3()
+		tient2()
+		fin3()
+	)
+
+¶Un nouveau refrain toutes les trente-deux pulsations. L'ancien est gardé entre les limites, pour que le solo reste stable assez longtemps pour être entendu ; le changer exactement à la limite fait que le joueur l'insère sur le temps, sans couper le chat en pleine note.¶
+refrain•chœur: improviser() … ∆ temps …
+		((compte2 % 32) = 0) ? improviser() refrain
+
+¶Le chat se balance au rythme. Il penche de l'autre côté à chaque temps, si bien que le balancement est le battement lui-même, et non une simple décoration.¶
+pencher: ((compte2 % 2) = 0) ? -1 1
+
+¶Indique si le chat fait un son en ce moment. @Beat renvoie un @Part pour chaque piste, et une partie reste ⊤ pendant tout le temps qu'une note tenue dure, donc ceci vaut ⊤ dès que quelque chose est audible.¶
+chanter: temps.parties.traduire(
+		ƒ(partie•Partie) partie.sonnant
+	).a(
+		⊤
+	)
+
+¶Sa bouche : ouverte exactement quand une note résonne, fermée quand ce n'est pas le cas. Rien ici ne compte les temps — elle demande à la musique ce qu'elle fait, si bien que le visage ne peut jamais se décaler par rapport à ce qu'on entend. Les silences dispersés lui donnent des moments pour se fermer, c'est pourquoi environ une note sur sept reste silencieuse.¶
+bouche: chanter ? '😺' '🐱'
+
+Scène(
+	[
+		Phrase(
+			bouche
+			5m
+			lieu: Lieu((pencher · 0.7) · 1m -0.6m)
+			rotation: (pencher · 7) · 1°
+			durée: 0.22s
+		)
+		Phrase('Chat Scat !' 1.4m lieu: Lieu(-2.6m 3.6m))
+		Musique(
+			[
+				Piste(
+					refrain.appels
+					instrument: Instrument.chatAvecHauteur
+					battement: 1beats
+				)
+				Piste(
+					refrain.exécute
+					instrument: Instrument.chatAvecHauteur
+					battement: 0.5beats
+				)
+				Piste(
+					refrain.balancement2
+					instrument: Instrument.chatAvecHauteur
+					battement: 2beats ÷ 3
+				)
+				Piste(
+					refrain.tient
+					instrument: Instrument.chatAvecHauteur
+					battement: 2beats
+				)
+				Piste(
+					refrain.fin2
+					instrument: Instrument.chatAvecHauteur
+					battement: 4beats
+				)
+			]
+			tempo: 76beats/min
+			gamme: Musique.blues
+			nom: 'scat'
+		)
+	]
+	arrièreplan: Couleur(16% 14 30°)
+	couleur: Couleur(96% 0 0°)
+)

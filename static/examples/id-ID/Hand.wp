@@ -1,0 +1,67 @@
+🖐
+Tangan
+===
+¶Angkat jari ke depan kamera, dan tangan emoji akan menghitung bersamamu.¶
+tangan: Tangan()
+
+Panggung(
+	[
+		Frasa(
+			(tangan.jarijari = 0 ? '✊'
+					tangan.jarijari = 1 ? '☝'
+						tangan.jarijari = 2 ? '✌'
+							tangan.jarijari = 3 ? '🤟'
+								tangan.jarijari = 4 ? '🖖'
+									'🖐')
+			tempat: tangan.tempat
+			ukuran: 2m
+			mengimbangi: Tempat(-1m)
+		)
+		Kelompok(
+			Baris('<')
+			[
+				Frasa(
+					'1⃣'
+					mengimbangi: Tempat(0m tangan.ibujari ? 1m 0m)
+				)
+				Frasa(
+					'2⃣'
+					mengimbangi: Tempat(0m tangan.indeks ? 1m 0m)
+				)
+				Frasa(
+					'3⃣'
+					mengimbangi: Tempat(0m tangan.tengah ? 1m 0m)
+				)
+				Frasa(
+					'4⃣'
+					mengimbangi: Tempat(0m tangan.cincin ? 1m 0m)
+				)
+				Frasa(
+					'5⃣'
+					mengimbangi: Tempat(
+						0m
+						tangan.jarikelingking ? 1m 0m
+					)
+				)
+			]
+			tempat: Tempat(-4.5m 5m)
+		)
+		Kelompok(
+			Tumpukan('|')
+			[
+				Frasa((tangan.telapak ? '🤚' '🤛') ukuran: 2m)
+				Frasa(
+					(tangan.membuka ? 'terbuka' 'tertutup')
+					ukuran: 1.5m
+				)
+			]
+			tempat: Tempat(-2m -8m)
+		)
+		Frasa(
+			`/Tunjukkan tanganmu ke kamera/`
+			tempat: Tempat(-6m -10m)
+			ukuran: 1m
+		)
+	]
+	tempat: Tempat(0m 0m -20m)
+)

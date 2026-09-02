@@ -1,0 +1,25 @@
+💬
+Eco
+=== start
+¶Tudo o que o público escrever na barra de conversa torna-se nesta frase.¶
+mensagem: Conversa()
+
+¶Comece com uma frase inicial e depois mostre cada nova mensagem. O texto transforma-se das palavras antigas para as novas, uma letra de cada vez.¶
+palavras2: 'diga algo!' … ∆ mensagem … mensagem
+
+¶Sorteia de novo um tamanho, uma inclinação e uma cor aleatórios sempre que chega uma nova mensagem.¶
+tamanho2: 2m … ∆ mensagem … Aleatório(1m 4m)
+inclinação: 0° … ∆ mensagem … Aleatório(-30 30) × 1°
+tonalidade: 200° … ∆ mensagem … Aleatório(360) × 1°
+
+Frase(
+	palavras2
+	tamanho: tamanho2
+	descansar: Pose(
+		rotação: inclinação
+		cor: Cor(25% 100 tonalidade)
+	)
+	duração: .5s
+	aMudar: 'edit'
+	envolver: 20m
+)

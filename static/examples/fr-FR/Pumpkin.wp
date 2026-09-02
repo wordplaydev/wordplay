@@ -1,0 +1,33 @@
+🎃
+Citrouille
+=== start
+¶Une citrouille d'Halloween qui vacille et réapparaît à un nouvel endroit chaque seconde.¶
+temps: Temps(1000ms)
+placer: Lieu(0m 0m) … ∆ temps … Lieu(
+			Aléatoire(-4m 4m)
+			Aléatoire(-4m 4m)
+			Aléatoire(-4m 0m)
+		)
+opacité2: 1 … ∆ temps … Aléatoire(0.25 1)
+afficher: ⊤ … ∆ temps … ~afficher
+citrouille: Phrase(
+		'🎃'
+		opacité: opacité2
+		lieu: placer
+		entrer: Séquence(
+			{
+				0%: Pose(échelle: 1.25 rotation: -21°)
+				20%: Pose(échelle: 0.75 rotation: 13°)
+				40%: Pose(échelle: 1 rotation: -7°)
+				60%: Pose(échelle: 1.25 rotation: 19°)
+				100%: Pose()
+			}
+			0.5s
+			compter: 3x
+		)
+	)
+
+Scène(
+	afficher ? [citrouille] []
+	arrièreplan: Couleur(0% 0 0°)
+)

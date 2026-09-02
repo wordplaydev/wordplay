@@ -1,0 +1,40 @@
+H
+Przepis na Adobo
+=== start/en
+¶Przepis krok po kroku na filipińskie kurczaki adobo.¶
+
+¶To jest lista scen do pokazania¶
+zdania: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Adobong Manók @lamamel/adobo! (poruszaj myszą, żeby jeść)`)
+		(`Pyszne! @lamamel/emptyadobo`)
+	]
+
+¶To jest lista zdań, które powinny się zmieniać tylko przez poruszanie myszą.¶
+przesuńZdania: [9 11]
+
+¶Bieżące zdanie zaczyna się od 1 i zwiększa się, gdy mysz dotrze do określonego miejsca na ekranie, albo gdy zostanie naciśnięty przycisk lub klawisz dla innych zdań.¶
+punkt2: Wskaźnik()
+bieżąceZdanie•#: 1 …
+	przesuńZdania.ma(bieżąceZdanie) ?
+		(punkt2.X > 2m) & (punkt2.y > 3m)
+		∆ Przycisk() | ∆ Klawisz()
+		…
+		(bieżąceZdanie <
+				zdania.długość()) ?
+			bieżąceZdanie + 1
+			bieżąceZdanie
+
+Scena(
+	[Wyrażenie(zdania[bieżąceZdanie] zawinąć: 10m)]
+	twarz: 'Short Stack'
+)

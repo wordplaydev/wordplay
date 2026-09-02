@@ -1,0 +1,39 @@
+o
+Camadas
+=== start
+¶Bolas a saltar a diferentes profundidades para mostrar as camadas de paralaxe.¶
+contagem2: 10 → []
+
+ƒ bolas(z2•#m) contagem2.traduzir(
+		ƒ()
+			Frase(
+				'o'
+				local: Movimento(
+					Local(
+						Aleatório(-10 10) × 1m
+						Aleatório(0 10) × 1m
+						z2
+					)
+					Velocidade(
+						Aleatório(-10 10) × 1m/s
+						Aleatório(-5 5) × 1m/s
+					)
+				)
+				matéria: Matéria(elasticidade: 0.8 atrito: 0)
+			)
+	)
+
+Fase(
+	[
+		:bolas(0m)
+		:bolas(-10m)
+		:bolas(10m)
+		Figura(Círculo(2m 0m 1m 0m))
+		Figura(Círculo(2m 9m -3m 10m))
+		Figura(Polígono(2m 5 -5m 0m -10m))
+		Figura(Retângulo(-20m 0m 20m -1m 0m))
+		Figura(Retângulo(-20m 0m 20m -1m 10m) rotação: 25°)
+		Figura(Retângulo(-20m 0m 20m -1m -10m) rotação: -10°)
+	]
+	local: Local(0m 10m -30m)
+)

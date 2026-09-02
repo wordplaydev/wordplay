@@ -1,0 +1,84 @@
+t
+フランス語の数字
+=== start/en-US,start/fr-FR
+¶ステージにあるフランス語の数字と同じ数字キーを押してください。¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶当てる数字¶
+¶Les nombres à deviner¶/fr
+数字,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶シークレットは、1から9までの数字をランダムな順番にしたものです¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+シークレット: [1 2 3 4 5 6 7 8 9].シャッフル済み()
+
+¶最後に押されたキーは何ですか？¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+キー2,clé/fr: キー()
+
+¶現在のシークレットは、キーが押されるたびに増えますが、10で止まります¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+シークレットインデックス,secretIndice/fr•#:
+	1 …
+	∆ キー2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶シークレット インデックスにもとづく、現在のシークレット¶
+現在のシークレット,secretActuel/fr: シークレット[シークレットインデックス]
+
+¶押した数字が前のシークレットの数字と同じなら、推測は正解です¶
+正解: clé → # = シークレット[シークレットインデックス - 1]
+
+¶得点は0から始まり、推測が正解だと増えます。¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+得点•#: 0 …
+	∆ キー2 …
+		正解 ?
+			得点 + 1
+			得点
+
+¶9つの数字すべてを当てると勝利です¶
+勝利,gagner/fr: 得点 = 9
+
+¶シークレット インデックスが10になったら終了です¶
+ゲームオーバー: シークレットインデックス = 10
+
+¶現在のフランス語の数字と現在の得点を表示します。9つのシークレットがすべて終わったら、最終結果を表示します¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+ステージ(
+	[
+		グループ(
+			積み重ね()
+			[
+				ゲームオーバー ?
+					フレーズ(
+						勝利 ?
+							'あなたはフランス語の数字を知っています！'"Tu connais les chiffres français!"/fr
+							'もう少し、もう一度やってみよう'"presque, réessaye"/fr
+						大きさ: 2m
+					)
+					フレーズ(numeros[secretActuel] 大きさ: 2m)
+				フレーズ("\得点\ points!" 大きさ: 1m)
+				フレーズ(
+					シークレットインデックス = 1 ?
+						'これは何の数字ですか？''quel est ce numéro ?'/fr
+						正解 ?
+							'正解！'
+							"That was \シークレット[シークレットインデックス - 1]\"
+				)
+			]
+		)
+	]
+	顔: "Aclonica"
+)

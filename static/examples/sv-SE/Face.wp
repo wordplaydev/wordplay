@@ -1,0 +1,56 @@
+🙂
+Ansikte
+===
+¶En emoji som speglar ditt ansikte när du ler, rynkar pannan, gapar och blinkar.¶
+ansikte2: Ansikte()
+
+Etapp(
+	[
+		Fras(
+			(ansikte2.munÖppen ? '😮'
+					ansikte2.leende ? '😀'
+						ansikte2.rynkarPannan ? '🙁'
+							ansikte2.höjdaÖgonbryn ? '😲'
+								(ansikte2.ögonÖppna ? '🙂' '😑'))
+			plats: ansikte2.plats
+			storlek: 4m
+		)
+		Grupp(
+			Stack('|')
+			[
+				Fras((ansikte2.ögonÖppna ? '👀' '😑') storlek: 1.5m)
+				Fras(
+					'😊'
+					storlek: (ansikte2.leendeMängd · 2m) + 0.5m
+				)
+				Fras(
+					'👄'
+					storlek: (ansikte2.munÖppenMängd · 2m) + 0.5m
+				)
+				Fras(
+					'🤨'
+					storlek: (ansikte2.ögonbrynHöjdMängd · 2m) + 0.5m
+				)
+			]
+			plats: Plats(-9m 8m)
+		)
+		Fras(
+			'vänd 🧭'
+			plats: Plats(9m 8m 0m)
+			storlek: 2m
+			rotation: ansikte2.vrid
+		)
+		Fras(
+			'lut 🧭'
+			plats: Plats(9m 2m)
+			rotation: ansikte2.luta
+			storlek: 2m
+		)
+		Fras(
+			`/Visa kameran ditt ansikte/`
+			plats: Plats(-6m -12m)
+			storlek: 1m
+		)
+	]
+	plats: Plats(0m 0m -20m)
+)

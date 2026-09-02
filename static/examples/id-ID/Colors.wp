@@ -1,0 +1,18 @@
+w
+Pertunjukan Warna
+===
+¶Klik untuk menggoyangkan dan mengubah warna kata "wowie" secara acak.¶
+warna2: Warna(0% 0 0°) … ∆ Tombol() … Warna(
+			50%
+			Acak() × 200
+			Acak() × 360°
+		)
+
+Frasa(
+	'wowie'
+	nama: 'kucing'
+	ukuran: 6m
+	warna: warna2
+	rotasi: (Acak() - 0.5) × 30°
+	lamanya: .1s
+)

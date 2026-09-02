@@ -1,0 +1,176 @@
+🚣
+Płynie Łódka
+=== start/en
+¶Płynie, płynie, płynie łódka — jeden raz od początku do końca, dokładnie dziesięć sekund, z małą flotyllą wiosłującą do rytmu.
+
+Ta piosenka jest w metrum 6/8, więc każdy takt to sześć ósemek, a każdy wpis na tych listach to jedna z nich. Dwadzieścia cztery uderzenia przy tempie 144 uderzeń na minutę dają równo dziesięć sekund.
+
+Łódki poruszają się dzięki @Beat, a nie dzięki zegarowi, więc płyną zgodnie z rytmem muzyki, a nie tylko w jej pobliżu — i stoją w miejscu, aż muzyka się zacznie, bo @Beat zostaje na uderzeniu zero do tego momentu.¶
+
+takt: Rytm()
+uderzenieWiosłem: takt.liczba
+
+¶Melodia. Płynie, płynie, płynie łódka cichutko po strumieniu — długie nuty są długie, bo pauzy po nich utrzymują siatkę rytmu, ponieważ każdy wpis trwa tyle samo, co jedna ósemka.¶
+melodia2: [
+		1
+		ø
+		ø
+		1
+		ø
+		ø
+		1
+		ø
+		2
+		3
+		ø
+		ø
+		3
+		ø
+		2
+		3
+		ø
+		4
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		8
+		8
+		8
+		5
+		5
+		5
+		3
+		3
+		3
+		1
+		1
+		1
+		5
+		ø
+		4
+		3
+		ø
+		2
+		1
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Akord na początku każdego taktu. Pozostaje na tonice przez całą piosenkę, aż do przedostatniego taktu, który opiera się na kwincie, dzięki czemu ostatni takt brzmi jak zakończenie.¶
+akordy: [
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{5 7 9 11}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Uderzenie wiosłem: niski dźwięk na pociągnięcie i jasny dźwięk na powrót, raz na takt.¶
+wiosła: [
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+	]
+
+¶Łódka. Przesuwa się odrobinę dalej z każdym uderzeniem i kołysze się w drugą stronę każdym razem, co wygląda jak wiosłowanie; tor wyznacza, jak wysoko łódka się znajduje i jak daleko zaczęła, dzięki czemu nie płyną wszystkie razem.¶
+ƒ łódka(pas•# start2•#)•Wyrażenie
+	Wyrażenie(
+		'🚣'
+		1.5m
+		miejsce: Miejsce(
+			((((uderzenieWiosłem + start2) % 16) - 8) · 1.1) · 1m
+			((pas · 1.9) - 1.9) · 1m
+		)
+		obrót: (((uderzenieWiosłem + pas) % 2) = 0) ? 9° -9°
+		czastrwania: 0.2s
+	)
+
+flota: [łódka(0 0) łódka(1 6) łódka(2 11)]
+
+Scena(
+	[
+		:flota
+		Wyrażenie(
+			'〰〰〰〰〰〰〰〰'
+			1m
+			miejsce: Miejsce(-8m -3.2m)
+			kolor: Kolor(48% 22 240°)
+		)
+		Wyrażenie(
+			'Płynie, płynie, płynie łódka'
+			0.9m
+			miejsce: Miejsce(-4.4m 3.4m)
+		)
+		Muzyka(
+			[
+				Ścieżka(
+					melodia2
+					instrument: Instrument.flet
+					rytm: 0.5beats
+				)
+				Ścieżka(
+					akordy
+					instrument: Instrument.pianino
+					rytm: 1beats
+					głośność: 60%
+				)
+				Ścieżka(
+					wiosła
+					instrument: Instrument.perkusja
+					rytm: 1beats
+					głośność: 45%
+				)
+			]
+			tempo: 144beats/min
+			nazwa: 'łódka'
+		)
+	]
+	tło: Kolor(22% 18 230°)
+	kolor: Kolor(96% 0 0°)
+)

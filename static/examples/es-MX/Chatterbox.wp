@@ -1,0 +1,95 @@
+🤖
+Parlanchina
+=== start
+¶Chatterbox es un pequeño robot que escucha, inspirado en Eliza, el primer chatbot de la historia, creado en 1966. Escribe en la barra de chat y te responderá, guardando un registro de tu conversación.¶
+
+¶Una línea de conversación: quién la dijo y qué dijo.¶
+•línea(quienHabla•'' palabras2•'')
+
+mensaje: Charla()
+
+¶Antes de repetir tus palabras, Chatterbox cambia los pronombres, intercambiando cada palabra con este mapa: mi se convierte en tu, y yo se convierte en tú. Así, "siento que me odias" regresa como "¿por qué sientes que te odio?"¶
+intercambios: {
+		'I': 'you'
+		'i': 'you'
+		"I'm": 'tú eres'
+		"i'm": 'tú eres'
+		'me': 'you'
+		'my': 'your'
+		'mine': 'yours'
+		'myself': 'yourself'
+		'am': 'son'
+		'you': 'I'
+		'your': 'my'
+		'yours': 'mine'
+		'yourself': 'myself'
+	}
+ƒ reflejar(palabras3•'')•'' palabras3.segmento(' ').traducir(
+		ƒ(palabra2•'') intercambios{palabra2} ?? palabra2
+	).unirse(
+		' '
+	)
+
+¶Chatterbox elige una respuesta comparando patrones con el mensaje. Aa ignora las mayúsculas, y una captura con nombre como ánimo toma todo hasta cualquier signo de puntuación final, para que la respuesta pueda repetir tus propias palabras: el truco que usaba la Eliza original. La última regla es un respaldo: un empujón elegido al azar para seguir haciéndote hablar.¶
+ƒ respuesta(palabras4•'')•'' (
+		sentimientos: palabras4 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
+		seres: palabras4 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
+		deseos: palabras4 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		anhelos: palabras4 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
+		sentimientos.longitud() > 0 ? '¿Por qué sientes ' + reflejar(
+					sentimientos[1].grupos{'ánimo'} ?? ''
+				) + '?'
+			seres.longitud() > 0 ? '¿Cuánto tiempo llevas ' + reflejar(
+						seres[1].grupos{'estado'} ?? ''
+					) + '?'
+				deseos.longitud() > 0 ? '¿Qué significaría para ti tener ' + reflejar(
+							deseos[1].grupos{'deseo'} ?? ''
+						) + '?'
+					anhelos.longitud() > 0 ? '¿Qué cambiaría si ' + reflejar(
+								anhelos[1].grupos{'deseo'} ?? ''
+							) + '?'
+						(palabras4 ⌕ ⣿ Aa("because")⣿).longitud() > 0 ? '¿Esa es la razón verdadera?'
+							(palabras4 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).longitud(
+							) > 0 ? 'Cuéntame más sobre tu familia.'
+								palabras4.termina('?') ? '¿Me lo preguntas a mí? ¿Tú qué piensas?'
+									(palabras4 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? '¡Hola! ¿Cómo te sientes hoy?'
+										[
+											'Cuéntame más.'
+											'Sigue.'
+											'¿Cómo te hace sentir eso?'
+											'Ya veo. Te escucho.'
+										].azar(
+										)
+	)
+
+¶El registro comienza con un saludo, y crece dos líneas con cada mensaje: el tuyo, y luego la respuesta de Chatterbox.¶
+registro•[línea]: [
+		línea('🤖' '¡Hola! Soy Chatterbox. ¿Cómo estás?')
+	] … ∆ mensaje …
+		registro.agregar(línea('🙂' mensaje)).agregar(
+			línea('🤖' respuesta(mensaje))
+		)
+
+¶Muestra solo las líneas más recientes, para que las viejas dejen espacio a las nuevas.¶
+reciente: registro.longitud() ≤ 8 ? registro registro.subsecuencia(
+			registro.longitud() - 7
+		)
+
+Escenario(
+	[
+		Grupo(
+			Pila('<' 0.5m)
+			reciente.traducir(
+				ƒ(línea2•línea)
+					Frase(
+						línea2.quienHabla + ' ' + línea2.palabras2
+						tamaño: 0.75m
+						envolver: 22m
+						entrando: Pose(opacidad: 0 escala: 0.5)
+						duración: 0.4s
+					)
+			)
+		)
+	]
+	lugar: Lugar(0m 0m -12m)
+)

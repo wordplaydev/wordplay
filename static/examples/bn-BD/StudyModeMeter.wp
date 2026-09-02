@@ -1,0 +1,78 @@
+⏳
+পড়াশোনার মোড মিটার
+=== start/en
+¶পড়াশোনার সময় যোগ করতে ক্লিক করো, আর দেখো মিটার কীভাবে শান্ত থেকে মনোযোগে, তারপর বাড়াবাড়িতে বদলায়।¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+কাজ: পছন্দ()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+পড়াশোনারসময়:
+	0 …
+	∆ কাজ …
+		কাজ = 'reset' ?
+			0
+			পড়াশোনারসময় + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+ব্যাখ্যা:
+	'পড়াশোনার সময় বাড়াতে “পড়ার ঘণ্টা যোগ করো +১” বাটনে ক্লিক করো। আবার শুরু করতে “রিসেট” বাটনে ক্লিক করো।'
+
+¶Hours text shows how many hours the user has studied.¶/en
+ঘণ্টারলেখা:
+	'তুমি পড়েছ ' + পড়াশোনারসময় → '' + ' ঘণ্টা।'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+মেজাজ:
+	পড়াশোনারসময় < 3 ?
+		'🌿 শান্ত মোড — পড়াশোনার সময় যোগ করতে ক্লিক করো'
+		পড়াশোনারসময় < 6 ?
+			'📚 মনোযোগ মোড — তুমি এখন কাজের সেরা সময়ে আছো!'
+			'🔥 বাড়াবাড়ি মোড — একটু বিরতি নাও আর "রিসেট" করো'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+মঞ্চ(
+	[
+		দল(
+			স্তূপ()
+			[
+				বাক্যাংশ('পড়াশোনার মোড মিটার' আকার: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				বাক্যাংশ(ব্যাখ্যা আকার: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				বাক্যাংশ(ঘণ্টারলেখা আকার: 0.4m)
+
+				বাক্যাংশ(মেজাজ আকার: 0.75m)
+
+				দল(
+					সারি(প্যাডিং: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						বাক্যাংশ(
+							'পড়ার ঘণ্টা যোগ করো +১'
+							নির্বাচনযোগ্য: ⊤
+							নাম: 'যোগ করো'
+							রঙ: রঙ(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						বাক্যাংশ(
+							'রিসেট'
+							নির্বাচনযোগ্য: ⊤
+							নাম: 'reset'
+							রঙ: রঙ(69% 47 271°)
+						)
+					]
+				)
+			]
+			মুখ: "Aclonica"
+		)
+	]
+)

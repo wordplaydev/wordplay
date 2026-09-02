@@ -1,0 +1,77 @@
+文
+Kammer
+=== start
+¶Hundert Buchstaben aus vier Schriftsystemen hüpfen in einer geschlossenen Box. Dreh die Schwerkraft um oder schüttle sie durcheinander.¶
+zähler: 100
+
+¶Die vier Alphabete, aus denen die Buchstaben stammen.¶
+lateinisch: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
+griechisch: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
+arabisch: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
+cjk: '日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪' → ['']
+
+¶Welches Steuerelement zuletzt angeklickt wurde.¶
+auswahl: Auswahl()
+
+¶Mische alle vier Alphabete einmal zusammen, wenn das Programm startet, und behalte diese Reihenfolge dann für immer bei. Eine Mischung, die als einfache Bindung geschrieben ist, würde jedem Buchstaben bei jedem Bild ein neues Zeichen zuteilen.¶
+schriftzeichen: [:lateinisch :griechisch :arabisch :cjk].gemischt(
+	) … ∆ auswahl … schriftzeichen
+
+¶Nur bei der Auswertung wahr, die durch den Klick auf den Schüttel-Knopf ausgelöst wurde. So bekommen die Buchstaben pro Klick genau einen Schubs, statt bei jedem Bild geschoben zu werden.¶
+schütteln2: (∆ auswahl) & (auswahl = 'shake')
+
+¶Der Schalter wechselt zwischen Erdschwerkraft und keiner Schwerkraft.¶
+fallen: ⊤ … ∆ auswahl … (auswahl = 'gravity') ? ~fallen fallen
+
+¶Eine zufällige Geschwindigkeit, Richtung und Drehung.¶
+ƒ start2() Geschwindigkeit(
+		Zufällig(-12m/s 12m/s)
+		Zufällig(-12m/s 12m/s)
+		Zufällig(-120°/s 120°/s)
+	)
+
+buchstaben: zähler → [].übersetzen(
+		ƒ(zahl2)
+			Satzglied(
+				schriftzeichen[zahl2]
+				Name: "glyph\zahl2\"
+				Ort: Bewegung(
+					Ort(Zufällig(-7.5m 7.5m) Zufällig(-5.5m 5.5m))
+					start2()
+					nächsteGeschwindigkeit: schütteln2 ? start2() ø
+				)
+				Gegenstand: Gegenstand(Sprungkraft: 0.7 Reibung: 0)
+			)
+	)
+
+¶Die zwei Steuerelemente. Sie haben keine Masse und ihr Platz ist keine Bewegung, deshalb lässt die Physik-Engine sie in Ruhe.¶
+schalter: Satzglied(
+		fallen ? '⬇ Schwerkraft' '🌌 schwebend'
+		0.7m
+		Name: 'gravity'
+		wählbar: ⊤
+		Ort: Ort(-13m 1m)
+	)
+
+schüttler: Satzglied(
+		'🎲 schütteln'
+		0.7m
+		Name: 'shake'
+		wählbar: ⊤
+		Ort: Ort(-13m -1m)
+	)
+
+Bühne(
+	[
+		¶Vier Wände, dick genug, damit nichts mit hoher Geschwindigkeit hindurchdringt.¶
+		Gestalt(Rechteck(-8.6m 6.6m 8.6m 6m))
+		Gestalt(Rechteck(-8.6m -6m 8.6m -6.6m))
+		Gestalt(Rechteck(-8.6m 6.6m -8m -6.6m))
+		Gestalt(Rechteck(8m 6.6m 8.6m -6.6m))
+		:buchstaben
+		schalter
+		schüttler
+	]
+	Schwere: fallen ? 9.8m/s^2 0m/s^2
+	Ort: Ort(-2.5m 0m -11m)
+)

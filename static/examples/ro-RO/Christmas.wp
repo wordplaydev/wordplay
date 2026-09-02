@@ -1,0 +1,30 @@
+🎄
+Crăciun
+===
+¶Un brad de Crăciun care se leagănă și se clatină într-un dans în buclă, și sună din clopoței în timp ce face asta.
+
+Melodia atârnă de primul @Pose al dansului. Un @Pose poate purta un @Music, și acestacântă chiar în clipa în care poza este făcută — așa că fraza muzicală o ia de la capătde fiecare dată când dansul revine la început, iar bucla animației și bucla muziciisunt aceeași buclă. Nimic nu numără timpii ca să le țină împreună.
+
+Cele două durate sunt alese să se potrivească: opt timpi la 160 înseamnă treisecunde, iar cinci pași de o jumătate de secundă înseamnă tot trei secunde. O pozăeste o clipă, nu ceva care durează, așa că bucla obișnuită a unui @Track nu se aplicăaici — muzica unei poze cântă mereu exact o singură dată.¶
+
+clopoței: Muzică(
+		Pistă([3 3 3𝅗𝅥 3 3 3𝅗𝅥] instrument: Instrument.clopoțel)
+		tempo: 160beats/min
+		volum: 55%
+		nume: 'clopoței'
+	)
+
+Fraza(
+	'🎄'
+	odihnă: Secvenţă(
+		{
+			0: Poză(rotaţie: 0° muzică: clopoței)
+			1: Poză(rotaţie: 15°)
+			2: Poză(rotaţie: 0°)
+			3: Poză(compensare: Loc(-0.25m))
+			4: Poză(compensare: Loc(0.25m))
+			5: Poză(compensare: Loc(-0.25m))
+		}
+		0.6s
+	)
+)

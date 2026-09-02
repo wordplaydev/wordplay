@@ -1,0 +1,35 @@
+o
+Ebenen
+=== start
+¶Bälle, die in verschiedenen Tiefen springen, um Parallax-Ebenen zu zeigen.¶
+zähler: 10 → []
+
+ƒ bälle(z2•#m) zähler.übersetzen(
+		ƒ()
+			Satzglied(
+				'o'
+				Ort: Bewegung(
+					Ort(Zufällig(-10 10) × 1m Zufällig(0 10) × 1m z2)
+					Geschwindigkeit(
+						Zufällig(-10 10) × 1m/s
+						Zufällig(-5 5) × 1m/s
+					)
+				)
+				Gegenstand: Gegenstand(Sprungkraft: 0.8 Reibung: 0)
+			)
+	)
+
+Bühne(
+	[
+		:bälle(0m)
+		:bälle(-10m)
+		:bälle(10m)
+		Gestalt(Kreis(2m 0m 1m 0m))
+		Gestalt(Kreis(2m 9m -3m 10m))
+		Gestalt(Vieleck(2m 5 -5m 0m -10m))
+		Gestalt(Rechteck(-20m 0m 20m -1m 0m))
+		Gestalt(Rechteck(-20m 0m 20m -1m 10m) Drehung: 25°)
+		Gestalt(Rechteck(-20m 0m 20m -1m -10m) Drehung: -10°)
+	]
+	Ort: Ort(0m 10m -30m)
+)

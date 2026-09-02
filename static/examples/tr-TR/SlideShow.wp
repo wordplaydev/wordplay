@@ -1,0 +1,100 @@
+🎬
+Slayt Gösterisi
+=== start
+¶Wordplay'in nasıl ortaya çıktığını anlatan bir slayt gösterisi; ilerlemek için → ve ← tuşlarına bas.¶
+
+¶Gösterinin bir slaytı: bir karakter, bir başlık ve altındaki sözler.¶
+•slayt(emoji•'' başlık•'' gövde•''|`…`)
+
+¶Hikâye. Kendi hikâyeni anlatmak için bu slaytları ekle, kaldır ya da değiştir.¶
+slaytlar: [
+		slayt(
+			'🎭'
+			'Wordplay'
+			'Bu dilin nasıl ortaya çıktığının hikâyesi. İleri gitmek için →, geri gitmek için ← tuşuna bas.'
+		)
+		slayt(
+			'✒'
+			'Harflere duyulan sevgi'
+			'Uzun zaman önce Amy, tipografiye âşık oldu: harflerin şekillerine ve sayfadaki sözcüklerin ritmine.'
+		)
+		slayt(
+			'💻'
+			'Koda duyulan sevgi'
+			'Programlamaya da âşık oldu, birkaç sözcüğün bir şeyleri hareket ettirebilmesine hayran kaldı.'
+		)
+		slayt(
+			'🧭'
+			'Ayrı duran iki sevgi'
+			'Ama tipografi ile programlama farklı dünyalarda yaşıyordu ve çok az araç insanı ikisini birden sevmeye davet ediyordu.'
+		)
+		slayt(
+			'😄'
+			'Genç bir kişi'
+			'Yıllar sonra, emojileri seven ve onları dans ettirmek isteyen genç bir kişiyle tanıştı.'
+		)
+		slayt(
+			'💡'
+			'Bir fikir'
+			'Ya bir programlama dili emojileri dans ettirmeyi kolaylaştırsaydı?'
+		)
+		slayt(
+			'🌱'
+			'Wordplay başlıyor'
+			'Böylece kod yazmanın, sözcükleri ve karakterleri bir sahnede hareket ettirmek anlamına geldiği bir dil yapmaya başladı.'
+		)
+		slayt(
+			'🧑‍🏫'
+			'Birlikte tasarlandı'
+			'Onu, ne yapmak istediklerini ve önlerine ne çıktığını anlatan birçok genç ve öğretmenle birlikte tasarladı.'
+		)
+		slayt(
+			'🌏'
+			'Sürekli gelişiyor'
+			'O günden beri büyümeye devam ediyor, böylece daha çok insan hayal ettiklerinden daha fazlasını yapabiliyor.'
+		)
+		slayt(
+			'✨'
+			'Senin sıran'
+			`Henüz yapılamayan ama hayalini kurduğun bir şey var mı? Bize <GitHub@https://github.com/wordplaydev/wordplay/issues> adresinden söyle.`
+		)
+	]
+
+toplam2: slaytlar.uzunluk()
+
+anahtar2: Anahtar()
+
+¶Şu anda gösterdiğimiz slayt. Sağ ok ileri götürür, sol ok geri götürür. İkisi de uçlarda durur, baştan başlamaz.¶
+dizin2•#: 1 … ∆ anahtar2 …
+		(anahtar2 = 'Sağ Ok') ? ((dizin2 < toplam2) ? dizin2 + 1 dizin2)
+			(anahtar2 = 'Sol Ok') ? ((dizin2 > 1) ? dizin2 - 1 dizin2)
+				dizin2
+
+slayt2: slaytlar[dizin2]
+
+Sahne(
+	[
+		Grup(
+			Yığın('|' 0.4m)
+			[
+				İfadeetmek(slayt2.emoji boyut: 2m)
+				İfadeetmek(
+					`*\slayt2.başlık\*`
+					boyut: 1.2m
+					hizalama: '|'
+				)
+				İfadeetmek(
+					slayt2.gövde
+					boyut: 0.5m
+					dürüm: 12m
+					hizalama: '|'
+				)
+				İfadeetmek(
+					`\dizin2\ / \toplam2\`
+					boyut: 0.25m
+					hizalama: '|'
+				)
+			]
+		)
+	]
+)

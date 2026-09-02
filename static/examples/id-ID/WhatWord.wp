@@ -1,0 +1,306 @@
+W
+KataApa
+=== start/en
+¶Permainan tebak kata dalam bahasa Inggris, Spanyol, dan Arab.¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] tersisa•[""] awal2•?) (
+	rahasia: awal2 ? tersisa[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (rahasia.panjang(
+			) × 3) - guesses.panjang()
+	status/en,estado/es,حالة/ar:
+		rahasia = "" ? "start"
+			rahasia → [""].semua(
+				ƒ(huruf•"") guesses.memiliki(huruf)
+			) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: Kunci()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.diurutkan(ƒ() Acak())
+		⊥
+	) … ∆ key …
+		key = 'Melarikan diri' ? Game(
+				[]
+				words.diurutkan(ƒ() Acak())
+				⊥
+			)
+			(state.status ≠ "playing") & (key = 'Ruang angkasa') ? Game(
+					[]
+					state.tersisa.tanpaPertama()
+					⊤
+				)
+				(state.status = "playing") & (key.panjang() = 1) & ~state.guesses.memiliki(
+						key
+					) ?
+					Game(state.guesses.dengan(key) state.tersisa ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: Frasa(
+		state.rahasia → [""].menerjemahkan(
+			ƒ(huruf2•"") ((state.status = "lost") | state.guesses.memiliki(
+							huruf2
+						)) ? huruf2 "."
+		).bergabung(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: Pose(kegelapan: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": Kelompok(
+			Tumpukan()
+			[
+				Frasa(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					tempat: Tempat(z: -1m)
+					memasuki: Pose(kegelapan: 0%)
+					beristirahat: Urutan.bergoyang(lamanya: 1s)
+				)
+				Frasa(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			keluar: fade
+		)
+		"lost": Kelompok(
+			Tumpukan()
+			[
+				board
+				Frasa(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					memasuki: Pose(rotasi: 0°)
+					beristirahat: Pose(rotasi: -5°)
+				)
+			]
+			keluar: fade
+		)
+		"won": Kelompok(
+			Tumpukan()
+			[
+				board.beristirahat:Urutan.melambung(3m 1s)
+				Frasa(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			keluar: fade
+		)
+		Kelompok(
+			Tumpukan()
+			[
+				board
+				Frasa(
+					state.guesses.panjang() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.bergabung(
+							' '
+						)\"/en"Suposiciones: \state.guesses.bergabung(
+							' '
+						)\"/es"التخمينات \state.guesses.bergabung(' ')\"/ar
+				)
+				Frasa(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					beristirahat: Urutan.bergoyang(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶Sebuah alur pelan yang berputar kembali ke dirinya sendiri, bukan pergi ke mana pun, dan itulah yang membuatnya patut direnungkan. Setiap trek di bawah ini panjangnya delapan ketukan, jadi semuanya kembali bersamaan dan perulangannya tidak memiliki sambungan.¶
+tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶Berapa banyak uang jajanmu yang sudah terpakai, dari 0 saat semuanya masih bisa dimainkan hingga 1 saat tidak ada yang tersisa. Rahasianya kosong sebelum ronde pertama, jadi pembagiannya dijaga agar tidak membagi dengan nol.¶
+jumlahMaksimalTebakan: state.rahasia.panjang() × 3
+tekanan: (jumlahMaksimalTebakan = 0) ? 0 (((1 - (state.guessesRemaining ÷ jumlahMaksimalTebakan)).maksimal(
+					0
+				)).menit(
+				1
+			))
+
+¶Merenung di 54 ketukan per menit, mendesak di 120, dan setiap tebakan menggerakkannya sedikit. Mengubah tempo menyambung di ketukan berikutnya, bukan mulai dari awal, jadi perulangan tetap pada tempatnya dan hanya condong ke depan — drum pelan itu ada agar condongan itu bisa terdengar, karena perubahan tempo di bawah nada panjang sulit dirasakan.¶
+puzzleMusic: Musik(
+		[
+			Trek(
+				tema
+				alatMusik: AlatMusik.piano
+				ketukan: 0.5beats
+				volume: 50%
+			)
+			Trek(
+				[{1 3 5} {4 6 8}]
+				alatMusik: AlatMusik.synthPad
+				ketukan: 4beats
+				volume: 35%
+			)
+			Trek(
+				[ø ø 8 ø ø ø 6 ø]
+				alatMusik: AlatMusik.lonceng
+				ketukan: 1beats
+				volume: 30%
+			)
+			Trek(
+				[1 ø ø ø 1 ø ø ø]
+				alatMusik: AlatMusik.drum
+				ketukan: 1beats
+				volume: 20%
+			)
+		]
+		tempo: (54beats/min + (tekanan · 66beats/min))
+		tanggaNada: Musik.dorian
+		nama: 'teka-teki'
+	)
+
+¶Kamu menang: tema dimainkan dua kali lebih cepat, digandakan satu oktaf lebih tinggi pada bel, di atas satu-satunya akor mayor dalam contoh ini.¶
+songMenang: Musik(
+		[
+			Trek(
+				tema
+				alatMusik: AlatMusik.piano
+				ketukan: 0.5beats
+				volume: 50%
+			)
+			Trek(
+				tema
+				alatMusik: AlatMusik.lonceng
+				ketukan: 0.5beats
+				kunci: 12semitones
+				volume: 35%
+			)
+			Trek(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				alatMusik: AlatMusik.synthPad
+				ketukan: 2beats
+				volume: 35%
+			)
+			Trek(
+				[1 ø 3 ø 2 ø 3 ø]
+				alatMusik: AlatMusik.drum
+				ketukan: 1beats
+				volume: 30%
+			)
+		]
+		tempo: 96beats/min
+		tanggaNada: Musik.mayor
+		nama: 'menang'
+	)
+
+¶Kamu kalah: tema satu oktaf lebih rendah dan lebih lambat daripada saat kamu bermain, di atas akor yang berhenti di nada keempat alih-alih kembali ke rumah, sehingga perulangan tidak pernah selesai.¶
+songKalah: Musik(
+		[
+			Trek(
+				tema
+				alatMusik: AlatMusik.piano
+				ketukan: 0.5beats
+				kunci: -12semitones
+				volume: 45%
+			)
+			Trek(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				alatMusik: AlatMusik.synthPad
+				ketukan: 2beats
+				volume: 40%
+			)
+			Trek(
+				[ø ø 5 ø ø ø 4 ø]
+				alatMusik: AlatMusik.lonceng
+				ketukan: 1beats
+				volume: 25%
+			)
+			Trek(
+				[1 ø ø ø ø ø ø ø]
+				alatMusik: AlatMusik.drum
+				ketukan: 1beats
+				volume: 20%
+			)
+		]
+		tempo: 46beats/min
+		tanggaNada: Musik.minor
+		nama: 'kalah'
+	)
+
+¶Hanya lagu untuk status saat ini yang ada di panggung, dan @Music yang sudah tidak ada lagi akan berhenti — jadi menyelesaikan ronde itulah yang mengubah musiknya.
+
+Ketiganya memainkan tema yang sama, dan tangga nada di bawahnya yang melakukan tugasnya. Tema ini menyentuh nada ke-1, 4, 5, 6, dan 8, dan @Music.major sama dengan @Music.dorian pada setiap nada itu — nada tempat mereka berbeda, yaitu nada ketiga dan ketujuh, tidak ada dalam melodi. Jadi kemenangan tidak mengubah satu nada pun dari lagu yang kamu dengungkan saat berpikir; tetapi akor di bawahnya memang memakai nada ketiga, dan itu berubah menjadi mayor. @Music.minor berbeda dari dorian pada nada keenam, yang justru disentuh oleh tema, sehingga kekalahan meratakan nada itu juga, selain menurunkan garis melodi satu oktaf.¶
+soundtrack: state.status ???
+		"won": songMenang
+		"lost": songKalah
+		puzzleMusic
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+Panggung(
+	[screen soundtrack]
+	tempat: Tempat(0m 0m -12m)
+	menghadapi: "Poor Story"
+	latarbelakang: Warna(0% 0 0°)
+	warna: Warna(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'rubah'
+	'monyet'
+	'berang-berang'
+	'sapi'
+	'serigala'
+	'kambing'
+	'rusa'
+	'babi'
+	'chinchilla'
+	'tupai'
+	'tikus'
+	'celurut'
+	'tikus tanah'
+	'trenggiling raksasa'
+	'opossum'
+	'gajah'
+	'kelelawar'
+	'keledai'
+	'kuda'
+	'landak mini'
+	'kucing'
+	'jerapah'
+	'gorila'
+	'anjing laut'
+	'manusia'
+	'kanguru'
+	'marmot'
+	'hamster'
+	'tetikus'
+	'kelinci'
+	'domba'
+	'jaguar'
+	'simpanse'
+	'baboon'
+	'rakun'
+	'tikus tanah'
+	'celurut'
+	'ekidna'
+	'tapir'
+].diurutkan(
+	ƒ() Acak()
+)

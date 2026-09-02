@@ -1,0 +1,56 @@
+🙂
+Mặt
+===
+¶Một biểu tượng cảm xúc phản chiếu khuôn mặt bạn khi bạn cười, cau mày, há miệng và chớp mắt.¶
+khuônMặt2: KhuônMặt()
+
+Sânkhấu(
+	[
+		Cụmtừ(
+			(khuônMặt2.miệngMở ? '😮'
+					khuônMặt2.cườiTươi ? '😀'
+						khuônMặt2.cauMày ? '🙁'
+							khuônMặt2.lôngMàyNhướn ? '😲'
+								(khuônMặt2.mắtMở ? '🙂' '😑'))
+			vịTrí: khuônMặt2.vịTrí
+			kíchcỡ: 4m
+		)
+		Nhóm(
+			Ngănxếp('|')
+			[
+				Cụmtừ((khuônMặt2.mắtMở ? '👀' '😑') kíchcỡ: 1.5m)
+				Cụmtừ(
+					'😊'
+					kíchcỡ: (khuônMặt2.mứcĐộCười · 2m) + 0.5m
+				)
+				Cụmtừ(
+					'👄'
+					kíchcỡ: (khuônMặt2.mứcĐộMiệngMở · 2m) + 0.5m
+				)
+				Cụmtừ(
+					'🤨'
+					kíchcỡ: (khuônMặt2.mứcĐộNhướnLôngMày · 2m) + 0.5m
+				)
+			]
+			vịTrí: VịTrí(-9m 8m)
+		)
+		Cụmtừ(
+			'xoay 🧭'
+			vịTrí: VịTrí(9m 8m 0m)
+			kíchcỡ: 2m
+			xoay: khuônMặt2.xoay
+		)
+		Cụmtừ(
+			'nghiêng 🧭'
+			vịTrí: VịTrí(9m 2m)
+			xoay: khuônMặt2.nghiêng
+			kíchcỡ: 2m
+		)
+		Cụmtừ(
+			`/Hãy đưa khuôn mặt bạn vào camera/`
+			vịTrí: VịTrí(-6m -12m)
+			kíchcỡ: 1m
+		)
+	]
+	vịTrí: VịTrí(0m 0m -20m)
+)

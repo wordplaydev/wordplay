@@ -1,0 +1,46 @@
+K
+Disposições
+=== start
+¶Linhas, pilhas e grupos de frases, cada uma a fazer poses animadas.¶
+pulsar: Sequência(
+		{
+			0%: Pose(escala: .9)
+			50%: Pose(escala: 1.1)
+			100%: Pose(escala: .9)
+		}
+	)
+saltarEmZ: Sequência(
+		{
+			0%: Pose(desvio: Local(z: 0m))
+			50%: Pose(desvio: Local(z: -2m))
+			100%: Pose(desvio: Local(z: 0m))
+		}
+		1s
+	)
+
+Grupo(
+	Linha()
+	[
+		Grupo(
+			Monte()
+			[
+				Frase('Gatinho')
+				Frase('Gato' descansar: saltarEmZ)
+				Grupo(
+					Linha()
+					[Frase('Cão') Frase('Canino')]
+					descansar: pulsar
+				)
+				Frase('Felino')
+			]
+		)
+		Grupo(
+			Monte()
+			[
+				Frase('Olá')
+				Frase('Olá')
+			]
+			descansar: Sequência.rodar(2s "straight")
+		)
+	]
+)

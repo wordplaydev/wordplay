@@ -1,0 +1,27 @@
+t
+Schriftmaschine
+=== start
+¶Drücke eine beliebige Taste, um jeden Buchstaben von „typography“ neu in einer zufälligen Schriftart zu setzen.¶
+schriftarten: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+symbole: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ zufälligAnordnen()
+	symbole.übersetzen(
+		ƒ(symbol) Satzglied(
+				symbol
+				gesicht: schriftarten.zufällig()
+				Dauer: 0s
+			)
+	)
+
+phrasen: zufälligAnordnen() … ∆ Schlüssel() | ∆ Taste() … zufälligAnordnen(
+		)
+
+Bühne([Gruppe(Reihe('|' 0m) phrasen Ort: Ort(0m 0m))])

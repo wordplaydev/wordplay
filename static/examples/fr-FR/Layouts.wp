@@ -1,0 +1,46 @@
+K
+Mises en page
+=== start
+¶Des rangées, des piles et des groupes de phrases, chacune prenant des poses animées.¶
+palpiter: Séquence(
+		{
+			0%: Pose(échelle: .9)
+			50%: Pose(échelle: 1.1)
+			100%: Pose(échelle: .9)
+		}
+	)
+zrebondir: Séquence(
+		{
+			0%: Pose(compenser: Lieu(j: 0m))
+			50%: Pose(compenser: Lieu(j: -2m))
+			100%: Pose(compenser: Lieu(j: 0m))
+		}
+		1s
+	)
+
+Groupe(
+	Rangée()
+	[
+		Groupe(
+			Empiler()
+			[
+				Phrase('Minou')
+				Phrase('Chat' aurepos: zrebondir)
+				Groupe(
+					Rangée()
+					[Phrase('Chien') Phrase('Canin')]
+					aurepos: palpiter
+				)
+				Phrase('Félin')
+			]
+		)
+		Groupe(
+			Empiler()
+			[
+				Phrase('Salut')
+				Phrase('Bonjour')
+			]
+			aurepos: Séquence.tournoiement(2s "straight")
+		)
+	]
+)

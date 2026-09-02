@@ -1,0 +1,101 @@
+T
+Poème
+=== start
+¶Un poème dont les lignes dérivent, chacune faisant sa propre entrée.¶
+•ligne(texte2•"" pose•Pose|Séquence arrière: Couleur(
+			100
+			100
+			100°
+		) avant: Couleur(0 0 0°))
+
+¶Une liste de lignes du poème, chacune avec une pose.¶
+poème: [
+		ligne(
+			'Le fichier informatique'
+			Pose(opacité: 0% compenser: Lieu(et: -5m))
+		)
+		ligne(
+			'dont'
+			Pose(opacité: 0% compenser: Lieu(et: -5m))
+		)
+		ligne("je n'ai aucun souvenir" Pose(rotation: 10°))
+		ligne(
+			"je clique pour l'ouvrir"
+			Séquence(
+				{
+					0%: Pose(échelle: 1)
+					50%: Pose(échelle: 0.7)
+					100%: Pose(échelle: 1)
+				}
+				0.25s
+			)
+		)
+		ligne(
+			'regarde'
+			Pose(opacité: 0% compenser: Lieu(et: -5m))
+		)
+		ligne(
+			'fais défiler plus bas'
+			Pose(opacité: 0% compenser: Lieu(et: 5m))
+		)
+		ligne(
+			"l'écran"
+			Pose(opacité: 0% compenser: Lieu(et: -5m))
+		)
+		ligne(
+			'reste rétroéclairé et vide'
+			Pose(opacité: 0% compenser: Lieu(et: -5m))
+			Couleur(0 0 0°)
+			Couleur(100 100 0°)
+		)
+		ligne(
+			'ainsi je me retrouve moi-même'
+			Pose(opacité: 0% compenser: Lieu(et: -5m))
+		)
+		ligne(
+			"plein d'espoir et inutile"
+			Pose(opacité: 0% compenser: Lieu(et: -5m))
+		)
+		ligne(
+			'un mystère'
+			Pose(opacité: 0% compenser: Lieu(et: -5m))
+		)
+		ligne(
+			"exactement comme j'ai dû le faire"
+			Pose(opacité: 0% compenser: Lieu(et: -5m))
+		)
+		ligne('le 19 août 2010, à 11h08' Pose())
+	]
+
+nombre2: 1 … ∆ Bouton() | ∆ Clé() …
+		(nombre2 = (poème.longueur() + 1)) ? 1 nombre2 + 1
+ligne2: poème[nombre2]
+
+nombre2 ≤ poème.longueur() ?
+	Scène(
+		[
+			Phrase(
+				ligne2.texte2
+				entrer: ligne2.pose
+				durée: 1s
+				nom: nombre2 → ""
+				style: 'cautious'
+			)
+		]
+		arrièreplan: ligne2.arrière
+		aurepos: Pose(couleur: ligne2.avant)
+	)
+	Scène(
+		[
+			Groupe(
+				Empiler()
+				[
+					Phrase('CONSEIL À MOI-MÊME')
+					Phrase('Jane Hirshfield')
+				]
+				entrer: Pose(échelle: 0.75)
+			)
+		]
+		arrièreplan: Couleur(0% 0 0°)
+		couleur: Couleur(100% 100 0°)
+	)

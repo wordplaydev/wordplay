@@ -10,7 +10,7 @@ Oto najmniejsza wersja tego. Najpierw kliknij scenę, aby nasłuchiwała, a pote
 
 \slides: ['pierwszy' 'drugi' 'trzeci']
 key: Key()
-index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'Strzałka w prawo') ? ((index < slides.length()) ? index + 1 index) (key = 'Strzałka w lewo') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
  @Reaction  to jego serce. Zaczyna się od \1\, a za każdym razem, gdy  @Key  się zmienia, decyduje, jaka powinna być nowa liczba.Jeśli naciśnięto prawą strzałkę, dodaje jeden; jeśli naciśnięto lewą strzałkę, odejmuje jeden; w przeciwnym razie zostaje taka sama.

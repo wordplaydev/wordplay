@@ -1,0 +1,22 @@
+t
+글꼴 기계
+=== start
+¶아무 키나 누르면 "typography"의 각 글자를 무작위 글꼴로 다시 배치합니다.¶
+글꼴: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+기호: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ 무작위로섞기()
+	기호.번역하다(
+		ƒ(기호2) 구절(기호2 얼굴: 글꼴.무작위의() 지속: 0s)
+	)
+
+문구2: 무작위로섞기() … ∆ 키() | ∆ 버튼() … 무작위로섞기()
+
+단계([그룹(행('|' 0m) 문구2 위치: 위치(0m 0m))])

@@ -10,7 +10,7 @@
 
 \slides: ['ראשון' 'שני' 'שלישי']
 key: Key()
-index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'חץ ימינה') ? ((index < slides.length()) ? index + 1 index) (key = 'חץ שמאלה') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
 ה @Reaction  הוא הלב של זה. הוא מתחיל ב\1\ , ובכל פעם שה @Key  משתנה, הוא מחליט מה צריך להיות המספר החדש.אם נלחץ החץ ימינה, הוא מוסיף אחד; אם נלחץ החץ שמאלה, הוא מחסר אחד; אחרת הוא נשאר אותו הדבר.

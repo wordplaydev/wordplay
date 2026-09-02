@@ -1,0 +1,50 @@
+1
+RotatingBinary
+=== start/en
+¶Ein Feld aus Einsen und Nullen, das sich langsam an einer Stelle dreht.¶
+langsameDrehung: Reihenfolge.drehen(10s "straight")
+
+Bühne(
+	[
+		Satzglied(
+			'1'
+			Ort: Ort(-0.5m -0.125m 0m)
+			Ruhen: langsameDrehung
+		)
+		Satzglied(
+			'0'
+			Ort: Ort(1.25m -0.25m 0m)
+			Ruhen: langsameDrehung
+		)
+		Satzglied(
+			'1'
+			Ort: Ort(-2.3125m 0.0625m 0m)
+			Ruhen: langsameDrehung
+		)
+		Satzglied(
+			'0'
+			Ort: Ort(-1.6875m -1m 0m)
+			Ruhen: langsameDrehung
+		)
+		Satzglied(
+			'1'
+			Ort: Ort(-1.4375m 0.75m 0m)
+			Ruhen: langsameDrehung
+		)
+		Satzglied(
+			'0'
+			Ort: Ort(0.375m -1.3125m 0m)
+			Ruhen: langsameDrehung
+		)
+		Satzglied(
+			'0'
+			Ort: Ort(-0.6875m -1.75m 0m)
+			Ruhen: langsameDrehung
+		)
+		Satzglied(
+			'1'
+			Ort: Ort(0.4375m 1.125m 0m)
+			Ruhen: langsameDrehung
+		)
+	]
+)

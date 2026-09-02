@@ -1,0 +1,176 @@
+🚣
+Rame, rame, ta barque
+=== start/en
+¶Rame, rame, rame ton bateau — une fois en entier, dix secondes exactement, avec une petite flotte qui rame en rythme.
+
+La chanson est en 6/8, donc chaque mesure compte six croches, et chaque entrée de ces listes en est une. Vingt-quatre temps à 144 temps par minute donnent dix secondes pile.
+
+Les bateaux sont menés par @Beat plutôt que par une horloge, donc ils avancent exactement sur le temps de la musique, et pas seulement à peu près — et ils restent immobiles avant le départ, car @Beat reste sur le temps zéro jusque-là.¶
+
+temps: Rythme()
+coupDeRame: temps.nombre
+
+¶La mélodie. Rame, rame, rame ton bateau, doucement au fil de l'eau — les notes longues sont longues parce que les silences qui suivent maintiennent la grille, puisque chaque entrée dure la même croche.¶
+mélodie2: [
+		1
+		ø
+		ø
+		1
+		ø
+		ø
+		1
+		ø
+		2
+		3
+		ø
+		ø
+		3
+		ø
+		2
+		3
+		ø
+		4
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		8
+		8
+		8
+		5
+		5
+		5
+		3
+		3
+		3
+		1
+		1
+		1
+		5
+		ø
+		4
+		3
+		ø
+		2
+		1
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Un accord au début de chaque mesure. Il reste sur la tonique tout du long jusqu'à l'avant-dernière mesure, qui s'appuie sur la quinte pour que la dernière mesure ait l'air d'une arrivée.¶
+accords: [
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{5 7 9 11}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Le coup de rame : un coup grave pour tirer et un coup clair pour revenir, une fois par mesure.¶
+rames: [
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+	]
+
+¶Un bateau. Il glisse un peu plus loin à chaque temps et bascule de l'autre côté à chaque fois, ce qui donne l'impression de ramer ; la voie fixe la hauteur à laquelle il se trouve et la distance qu'il a déjà parcourue au départ, pour qu'ils ne bougent pas tous ensemble.¶
+ƒ bateau(voie•# commencer2•#)•Phrase
+	Phrase(
+		'🚣'
+		1.5m
+		lieu: Lieu(
+			((((coupDeRame + commencer2) % 16) - 8) · 1.1) · 1m
+			((voie · 1.9) - 1.9) · 1m
+		)
+		rotation: (((coupDeRame + voie) % 2) = 0) ? 9° -9°
+		durée: 0.2s
+	)
+
+flotte: [bateau(0 0) bateau(1 6) bateau(2 11)]
+
+Scène(
+	[
+		:flotte
+		Phrase(
+			'〰〰〰〰〰〰〰〰'
+			1m
+			lieu: Lieu(-8m -3.2m)
+			couleur: Couleur(48% 22 240°)
+		)
+		Phrase(
+			'Rame, rame, rame ton bateau'
+			0.9m
+			lieu: Lieu(-4.4m 3.4m)
+		)
+		Musique(
+			[
+				Piste(
+					mélodie2
+					instrument: Instrument.flûte
+					battement: 0.5beats
+				)
+				Piste(
+					accords
+					instrument: Instrument.piano
+					battement: 1beats
+					volume: 60%
+				)
+				Piste(
+					rames
+					instrument: Instrument.batterie
+					battement: 1beats
+					volume: 45%
+				)
+			]
+			tempo: 144beats/min
+			nom: 'bateau'
+		)
+	]
+	arrièreplan: Couleur(22% 18 230°)
+	couleur: Couleur(96% 0 0°)
+)

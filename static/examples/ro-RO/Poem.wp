@@ -1,0 +1,101 @@
+T
+Poezie
+=== start
+¶Un poem ale cărui versuri plutesc înăuntru, fiecare făcându-și propria intrare.¶
+•rând(text2•"" pozare•Poză|Secvenţă înapoi: Culoare(
+			100
+			100
+			100°
+		) înainte: Culoare(0 0 0°))
+
+¶O listă cu versurile poemului, fiecare cu o pozare.¶
+poem: [
+		rând(
+			'Fișierul din calculator'
+			Poză(opacitate: 0% compensare: Loc(y: -5m))
+		)
+		rând(
+			'despre care'
+			Poză(opacitate: 0% compensare: Loc(y: -5m))
+		)
+		rând('nu-mi amintesc nimic' Poză(rotaţie: 10°))
+		rând(
+			'dau clic să-l deschid'
+			Secvenţă(
+				{
+					0%: Poză(scară: 1)
+					50%: Poză(scară: 0.7)
+					100%: Poză(scară: 1)
+				}
+				0.25s
+			)
+		)
+		rând(
+			'privesc'
+			Poză(opacitate: 0% compensare: Loc(y: -5m))
+		)
+		rând(
+			'derulez mai jos'
+			Poză(opacitate: 0% compensare: Loc(y: 5m))
+		)
+		rând(
+			'ecranul'
+			Poză(opacitate: 0% compensare: Loc(y: -5m))
+		)
+		rând(
+			'rămâne luminat din spate și gol'
+			Poză(opacitate: 0% compensare: Loc(y: -5m))
+			Culoare(0 0 0°)
+			Culoare(100 100 0°)
+		)
+		rând(
+			'așa mă întâlnesc din nou cu mine însămi'
+			Poză(opacitate: 0% compensare: Loc(y: -5m))
+		)
+		rând(
+			'plină de speranță și inutilă'
+			Poză(opacitate: 0% compensare: Loc(y: -5m))
+		)
+		rând(
+			'un mister'
+			Poză(opacitate: 0% compensare: Loc(y: -5m))
+		)
+		rând(
+			'exact așa cum trebuie să fi făcut'
+			Poză(opacitate: 0% compensare: Loc(y: -5m))
+		)
+		rând('pe 19 august 2010, ora 11:08' Poză())
+	]
+
+număr2: 1 … ∆ Buton() | ∆ Cheie() …
+		(număr2 = (poem.lungime() + 1)) ? 1 număr2 + 1
+rând2: poem[număr2]
+
+număr2 ≤ poem.lungime() ?
+	Etapă(
+		[
+			Fraza(
+				rând2.text2
+				intrând: rând2.pozare
+				durată: 1s
+				nume: număr2 → ""
+				stil: 'cautious'
+			)
+		]
+		fundal: rând2.înapoi
+		odihnă: Poză(culoare: rând2.înainte)
+	)
+	Etapă(
+		[
+			Grup(
+				Stivă()
+				[
+					Fraza('SFAT PENTRU MINE ÎNSĂMI')
+					Fraza('Jane Hirshfield')
+				]
+				intrând: Poză(scară: 0.75)
+			)
+		]
+		fundal: Culoare(0% 0 0°)
+		culoare: Culoare(100% 100 0°)
+	)

@@ -227,7 +227,16 @@ export function parseBinaryEvaluate(tokens: Tokens): Expression {
             !(tokens.nextIsUnaryWord() && tokens.nextHasPrecedingLineBreak()) &&
             (tokens.nextIs(Sym.Operator) ||
                 (tokens.nextIs(Sym.Type) &&
-                    !tokens.nextHasPrecedingLineBreak())),
+                    !tokens.nextHasPrecedingLineBreak() &&
+                    // A localized keyword word is dual-typed (Sym.Name plus
+                    // the keyword's own symbol), so a locale whose word for
+                    // `type` is also an input's name made `Bubble(… kind: …)`
+                    // parse as an `Is` and swallow the rest of the call. An
+                    // input name is always followed immediately by its `:`,
+                    // and a real `•` is always followed by a type, so the
+                    // colon settles it. Not a keyword-specific rule: `•` the
+                    // glyph is never followed by `:` either.
+                    !tokens.afterNextIs(Sym.Bind))),
         () =>
             (left = tokens.nextIs(Sym.Type)
                 ? new Is(left, tokens.read(Sym.Type), parseType(tokens))

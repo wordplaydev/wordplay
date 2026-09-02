@@ -1,0 +1,109 @@
+🎛️
+Mga Instrumento
+=== start/en
+¶Ang parehong walong sukat, na tinutugtog ng bawat instrumento sa palette. Pumili ng pangalan at nananatili ang lugar ng himig — ang tunog lang ang nagbabago. Ang dalawang pusa ay iisang pusa, at ganoon din ang dalawang aso: isa sa bawat isa ay isang kit, kaya ang tune ay nababasa bilang mga ingay, at ang isa ay may tono, kaya ito ay kumakanta.
+
+Karamihan sa mga ito ay tunay na mga rekording. Ang apat na synthesizer ay hindi gumagaya ng kahit ano: sila ay mga synthesizer, at iyon ang tunog nila. Ang huli sa kanila ay kumakanta, at doon ginagamit ang mga salita sa track — hindi ito pinapansin ng lahat ng ibang instrumento dito.¶
+
+¶Kung aling instrumento ang tumutugtog ng himig. Ibinabalik ng Choice() ang pangalan ng kung anong napiling output ang mapipili, at ø kung wala pang napipili.¶
+pinili: Pagpipilian()
+
+¶Isang entry para sa bawat instrumento: ano ang itatawag dito, ano ang tumutugtog nito, at kung anong kulay ang kukunin ng buton nito.¶
+•tinig(tatak•'' icon•'' tunog•Instrumento hue•#°)
+
+mgaTinig•[tinig]: [
+		tinig('piano' '🎹' Instrumento.piyano 260°)
+		tinig('gitara' '🎸' Instrumento.gitaraAkustiko 20°)
+		tinig('elektrik' '⚡' Instrumento.gitaraElektriko 5°)
+		tinig('biyolin' '🎻' Instrumento.biyolin 40°)
+		tinig('plauta' '🪈' Instrumento.plauta 180°)
+		tinig('trumpeta' '🎺' Instrumento.trumpeta 50°)
+		tinig('saxophone' '🎷' Instrumento.saksopon 70°)
+		tinig('harmonika' '🌬' Instrumento.harmonika 150°)
+		tinig('kampana' '🔔' Instrumento.kampana 55°)
+		tinig('mga tambol' '🥁' Instrumento.mgaTambol 0°)
+		tinig('didgeridoo' '🎶' Instrumento.didgeridoo 15°)
+		tinig('pusa' '🐱' Instrumento.pusa 330°)
+		tinig(
+			'pusang may tono'
+			'😺'
+			Instrumento.pusangMayTono
+			350°
+		)
+		tinig('aso' '🐶' Instrumento.aso 35°)
+		tinig(
+			'asong may tono'
+			'🐕'
+			Instrumento.asongMayTono
+			125°
+		)
+		tinig('synth' '🎛' Instrumento.synth 290°)
+		tinig('bass' '🎛' Instrumento.synthBass 310°)
+		tinig('pad' '🎛' Instrumento.synthPad 200°)
+		tinig('boses' '🤖' Instrumento.boses 95°)
+	]
+
+¶Ang piniling tinig, o ang piano bago pa may pumili. Ibinabalik ng find() ang ø kapag walang tumutugma, kaya ang panlaban ay dapat na isang Voice mismo.¶
+pinili2: mgaTinig.hanapin(
+		ƒ(boses2•tinig) boses2.tatak = pinili
+	)
+kasalukuyan•tinig: pinili2•ø ? tinig(
+			'piano'
+			'🎹'
+			Instrumento.piyano
+			260°
+		) pinili2
+
+¶Isang himig na nananatili habang nagbabago ang instrumentong tumutugtog nito. Mga antas, hindi mga nota, kaya iisa ang kahulugan nito sa bawat instrumento — at sa drums, ito ay nababasa bilang ritmo sa halip, dahil doon ang mga antas ang nag-iindeks sa kit.¶
+himig2: [1 3 5 6 5 3 2 ø]
+
+¶Isang pantig bawat nota, isinulat gamit ang International Phonetic Alphabet, kung saan ang bawat titik ay isang tunog. Ang tinig lang na kumakanta ang gumagamit nito; hindi ito pinapansin ng iba pang bahagi ng palette. Walang pantig ang natitira, kaya sapat na ang pitong tunog para sa walong entry.¶
+liriko: 'la li lu le lo li la'
+
+¶Isang buton para sa bawat instrumento: ang icon ay nakapatong sa ibabaw ng pangalan nito, para hindi sila magkatagpo. Ang mga parirala na mapipili ay ang binabasa ng Choice(), at ang kasalukuyang napili ay iginuguhit nang mas maliwanag para makita mo kung nasaan ka.¶
+ƒ buton(boses3•tinig)
+	Grupo(
+		Patongpatong(padding: 0.1m)
+		[
+			Parirala(boses3.icon 1.1m)
+			Parirala(boses3.tatak 0.5m)
+		]
+		pangalan: boses3.tatak
+		mapipili: ⊤
+		kulay: (boses3.tatak = kasalukuyan.tatak)
+		? Kulay(95% 60 boses3.hue)
+			Kulay(60% 8 boses3.hue)
+	)
+
+¶Lahat ng nakikita ay nasa iisang Stack. Ang isang Stage ay ikinakatong ang bawat anak nito nang mag-isa, kaya kung hindi ito ayusin, magkakapatong sila lahat — kailangang sabihin ng layout na dapat silang nakapatong isa sa ibabaw ng isa.
+
+Ang mga buton ay nasa isang Grid sa halip na Row. Kung isang hilera lang silang lahat, mas malapad pa ito kaysa sa isang telepono, at pinapaliit ng Stage ang laman nito para magkasya, kaya lumiliit ang mga label hanggang hindi na mabasa. Ang mga haligi lang ang ibinigay: iwanang blangko ang mga hilera at kakalkulahin mismo ng Grid kung ilan ang kailangan, kaya ang pagdaragdag ng instrumento ay hindi na nangangailangan ng pag-eedit dito.
+
+Ang musika ay nananatili sa iisang pangalan sa buong panahon sa halip na kunin ang pangalan ng instrumento. Ang pangalan ng isang 🎼 ay ang pagkakakilanlan nito: kung papalitan mo ito, maririnig ng manlalaro ang simula ng ibang piyesa, kaya babalik ang himig sa umpisa sa tuwing magpapalit ka, at iguguhit ng iskor ang mga nota ng lumang instrumento sa tabi ng bago hanggang sa mag-scroll ang mga ito palayo.¶
+Entablado(
+	[
+		Grupo(
+			Patongpatong(padding: 0.6m)
+			[
+				Parirala(kasalukuyan.icon 2.5m)
+				Parirala(kasalukuyan.tatak 1.2m)
+				Grupo(
+					Grid(mgakolum: 5 padding: 0.4m)
+					mgaTinig.isalin(ƒ(boses4•tinig) buton(boses4))
+				)
+			]
+		)
+		Musika(
+			Track(
+				himig2
+				instrumento: kasalukuyan.tunog
+				mgaSalita: liriko
+			)
+			tempo: 120beats/min
+			iskala: Musika.pentatonic
+			pangalan: 'himig'
+		)
+	]
+	background: Kulay(14% 12 280°)
+	kulay: Kulay(95% 0 0°)
+)

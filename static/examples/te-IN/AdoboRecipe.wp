@@ -1,0 +1,40 @@
+H
+అడోబో వంటకం
+=== start/en
+¶ఫిలిప్పీన్స్ చికెన్ అడోబో కోసం సన్నివేశాల వారీగా ఉన్న వంటకం.¶
+
+¶ఇవి చూపించాల్సిన సన్నివేశాల జాబితా¶
+వాక్యాలు: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`అడోబోంగ్ మనోక్ @lamamel/adobo! (తినడానికి మౌస్‌ను చుట్టూ కదిలించండి)`)
+		(`రుచిగా ఉంది! @lamamel/emptyadobo`)
+	]
+
+¶ఇవి మౌస్‌ను కదిలించడం వల్ల మాత్రమే ముందుకు సాగాల్సిన వాక్యాల జాబితా.¶
+వాక్యాలనుతరలించండి: [9 11]
+
+¶ప్రస్తుత వాక్యం 1 నుండి మొదలవుతుంది, మరియు మౌస్ తెరపై ఒక నిర్దిష్ట స్థానానికి వెళ్ళినప్పుడు పెరుగుతుంది, లేదా మిగతా వాక్యాల కోసం ఒక బటన్ లేదా కీని నొక్కినప్పుడు పెరుగుతుంది.¶
+బిందువు: పాయింటర్()
+ప్రస్తుతవాక్యం•#: 1 …
+	వాక్యాలనుతరలించండి.ఉంది(ప్రస్తుతవాక్యం) ?
+		(బిందువు.xఅనేపదాన్ని > 2m) & (బిందువు.వై > 3m)
+		∆ బటన్() | ∆ కీ()
+		…
+		(ప్రస్తుతవాక్యం <
+				వాక్యాలు.పొడవు()) ?
+			ప్రస్తుతవాక్యం + 1
+			ప్రస్తుతవాక్యం
+
+స్టేజ్(
+	[పదబంధం(వాక్యాలు[ప్రస్తుతవాక్యం] చుట్టు: 10m)]
+	ముఖం: 'Short Stack'
+)

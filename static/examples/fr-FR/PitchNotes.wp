@@ -1,0 +1,56 @@
+🎵
+Notes de hauteur
+===
+¶Chante ou fredonne, et regarde la note que tu fais — deux fois. La note de gauche lit @Pitch brut et tremble ; la note de droite fait la moyenne des dernières hauteurs et reste stable. @Pitch affiche 0hz quand il n'entend rien de clair, alors les deux notes sautent ces moments et montrent · à la place.¶
+notes2: [
+		'La'
+		'La♯'
+		'Si'
+		'Do'
+		'Do♯'
+		'Ré'
+		'Ré♯'
+		'Mi'
+		'Fa'
+		'Fa♯'
+		'Sol'
+		'Sol♯'
+	]
+noteDe: ƒ(hz•#hz) hz > 0hz ? notes2[(((((12 × (hz ÷ 440hz).log(
+										2
+									)).rond(
+							)) % 12) + 12) % 12) + 1] '·'
+lisse2: ƒ(signal•…#hz) (
+			entendu: (←← 8 signal).sansTout(0hz)
+			(entendu.combiné(0hz ƒ(total•#hz v•#hz) total + v) ÷ entendu.longueur(
+					)) ?? 0hz
+		)
+hauteurDuSon: Pas()
+Scène(
+	[
+		Groupe(
+			Empiler()
+			[
+				Phrase('bruyant' couleur: Couleur(60% 90 30°))
+				Phrase(
+					noteDe(hauteurDuSon)
+					taille: 6m
+					couleur: Couleur(60% 90 30°)
+				)
+			]
+			lieu: Lieu(-4m 0m)
+		)
+		Groupe(
+			Empiler()
+			[
+				Phrase('lisse' couleur: Couleur(70% 90 240°))
+				Phrase(
+					noteDe(lisse2(hauteurDuSon))
+					taille: 6m
+					couleur: Couleur(70% 90 240°)
+				)
+			]
+			lieu: Lieu(4m 0m)
+		)
+	]
+)

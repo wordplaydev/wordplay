@@ -1,0 +1,304 @@
+W
+WhatWord
+=== start/en
+¶Một trò chơi đoán từ bằng tiếng Anh, tiếng Tây Ban Nha và tiếng Ả Rập.¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] cònLại•[""] bắtĐầu2•?) (
+	bíMật: bắtĐầu2 ? cònLại[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (bíMật.chiềudài(
+			) × 3) - guesses.chiềudài()
+	status/en,estado/es,حالة/ar:
+		bíMật = "" ? "start"
+			bíMật → [""].tấtcả(ƒ(chữCái•"") guesses.có(chữCái)) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: Chìakhóa()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.đãsắpxếp(ƒ() Ngẫunhiên())
+		⊥
+	) … ∆ key …
+		key = 'Bỏ trốn' ? Game(
+				[]
+				words.đãsắpxếp(ƒ() Ngẫunhiên())
+				⊥
+			)
+			(state.status ≠ "playing") & (key = 'Không gian') ? Game(
+					[]
+					state.cònLại.khôngcóFirst()
+					⊤
+				)
+				(state.status = "playing") & (key.chiềudài() = 1) & ~state.guesses.có(
+						key
+					) ?
+					Game(state.guesses.với(key) state.cònLại ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: Cụmtừ(
+		state.bíMật → [""].dịch(
+			ƒ(chữCái2•"") ((state.status = "lost") | state.guesses.có(
+							chữCái2
+						)) ? chữCái2 "."
+		).thamgia(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: Tưthế(độmờđục: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": Nhóm(
+			Ngănxếp()
+			[
+				Cụmtừ(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					vịTrí: VịTrí(z: -1m)
+					vào: Tưthế(độmờđục: 0%)
+					nghỉngơi: Sựliêntiếp.đungđưa(khoảngthờigian: 1s)
+				)
+				Cụmtừ(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			thoátra: fade
+		)
+		"lost": Nhóm(
+			Ngănxếp()
+			[
+				board
+				Cụmtừ(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					vào: Tưthế(xoay: 0°)
+					nghỉngơi: Tưthế(xoay: -5°)
+				)
+			]
+			thoátra: fade
+		)
+		"won": Nhóm(
+			Ngănxếp()
+			[
+				board.nghỉngơi:Sựliêntiếp.tunglên(3m 1s)
+				Cụmtừ(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			thoátra: fade
+		)
+		Nhóm(
+			Ngănxếp()
+			[
+				board
+				Cụmtừ(
+					state.guesses.chiềudài() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.thamgia(
+							' '
+						)\"/en"Suposiciones: \state.guesses.thamgia(' ')\"/es"التخمينات \state.guesses.thamgia(
+							' '
+						)\"/ar
+				)
+				Cụmtừ(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					nghỉngơi: Sựliêntiếp.đungđưa(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶Một hình dạng chậm rãi tự xoay vòng thay vì đi đến đâu cả, chính điều đó khiến nó đáng để suy ngẫm. Mỗi đoạn nhạc dưới đây dài tám nhịp, nên tất cả cùng quay về với nhau và vòng lặp không có mối nối.¶
+chủĐề: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶Cho biết bạn đã tiêu bao nhiêu tiền tiêu vặt, từ 0 khi còn nguyên để chơi đến 1 khi không còn gì. Giá trị bí mật rỗng trước vòng chơi đầu tiên, nên phép chia được canh chừng cẩn thận thay vì để chia cho không.¶
+sốLầnĐoánTốiĐa: state.bíMật.chiềudài() × 3
+ápLực: (sốLầnĐoánTốiĐa = 0) ? 0 (((1 - (state.guessesRemaining ÷ sốLầnĐoánTốiĐa)).tốiđa(
+					0
+				)).phút(
+				1
+			))
+
+¶Trầm lắng ở 54 nhịp một phút, gấp gáp ở 120, và mỗi lần đoán đều làm nó thay đổi một chút. Việc đổi nhịp độ được ghép vào ngay ở nhịp tiếp theo thay vì bắt đầu lại từ đầu, nên vòng lặp vẫn giữ đúng vị trí và chỉ đơn giản là nghiêng về phía trước — tiếng trống nhẹ ở đó để làm cho sự nghiêng đó nghe rõ, vì một thay đổi nhịp độ dưới những nốt ngân dài rất khó cảm nhận.¶
+nhạcCâuĐố: ÂmNhạc(
+		[
+			BảnNhạc(
+				chủĐề
+				nhạcCụ: NhạcCụ.đànPiano
+				nhịp: 0.5beats
+				âmLượng: 50%
+			)
+			BảnNhạc(
+				[{1 3 5} {4 6 8}]
+				nhạcCụ: NhạcCụ.đànPadTổngHợp
+				nhịp: 4beats
+				âmLượng: 35%
+			)
+			BảnNhạc(
+				[ø ø 8 ø ø ø 6 ø]
+				nhạcCụ: NhạcCụ.chuông
+				nhịp: 1beats
+				âmLượng: 30%
+			)
+			BảnNhạc(
+				[1 ø ø ø 1 ø ø ø]
+				nhạcCụ: NhạcCụ.trống
+				nhịp: 1beats
+				âmLượng: 20%
+			)
+		]
+		nhịpĐộ: (54beats/min + (ápLực · 66beats/min))
+		thangÂm: ÂmNhạc.dorian
+		tên: 'câu đố'
+	)
+
+¶Bạn đã thắng: giai điệu chủ đề nhanh gấp đôi, được nhân đôi lên một quãng tám trên tiếng chuông, trên nền chỉ toàn hợp âm trưởng trong ví dụ.¶
+bàiHátThắng: ÂmNhạc(
+		[
+			BảnNhạc(
+				chủĐề
+				nhạcCụ: NhạcCụ.đànPiano
+				nhịp: 0.5beats
+				âmLượng: 50%
+			)
+			BảnNhạc(
+				chủĐề
+				nhạcCụ: NhạcCụ.chuông
+				nhịp: 0.5beats
+				chìaKhóa: 12semitones
+				âmLượng: 35%
+			)
+			BảnNhạc(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				nhạcCụ: NhạcCụ.đànPadTổngHợp
+				nhịp: 2beats
+				âmLượng: 35%
+			)
+			BảnNhạc(
+				[1 ø 3 ø 2 ø 3 ø]
+				nhạcCụ: NhạcCụ.trống
+				nhịp: 1beats
+				âmLượng: 30%
+			)
+		]
+		nhịpĐộ: 96beats/min
+		thangÂm: ÂmNhạc.trưởng
+		tên: 'thắng'
+	)
+
+¶Bạn đã thua: giai điệu chủ đề thấp xuống một quãng tám và chậm hơn bất kỳ lúc nào trong khi bạn chơi, trên nền hợp âm dừng lại ở bậc bốn thay vì trở về chủ âm, nên vòng lặp không bao giờ kết thúc trọn vẹn.¶
+bàiHátThua: ÂmNhạc(
+		[
+			BảnNhạc(
+				chủĐề
+				nhạcCụ: NhạcCụ.đànPiano
+				nhịp: 0.5beats
+				chìaKhóa: -12semitones
+				âmLượng: 45%
+			)
+			BảnNhạc(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				nhạcCụ: NhạcCụ.đànPadTổngHợp
+				nhịp: 2beats
+				âmLượng: 40%
+			)
+			BảnNhạc(
+				[ø ø 5 ø ø ø 4 ø]
+				nhạcCụ: NhạcCụ.chuông
+				nhịp: 1beats
+				âmLượng: 25%
+			)
+			BảnNhạc(
+				[1 ø ø ø ø ø ø ø]
+				nhạcCụ: NhạcCụ.trống
+				nhịp: 1beats
+				âmLượng: 20%
+			)
+		]
+		nhịpĐộ: 46beats/min
+		thangÂm: ÂmNhạc.thứ
+		tên: 'thua'
+	)
+
+¶Chỉ có giai điệu ứng với trạng thái hiện tại được phát trên sân khấu, và một @Music không còn ở đó nữa sẽ dừng lại — vì vậy việc hoàn thành vòng chơi chính là điều làm thay đổi âm nhạc.
+
+Cả ba đều chơi cùng một giai điệu chủ đề, và thang âm bên dưới mới là thứ tạo ra sự khác biệt. Giai điệu chủ đề chạm vào các bậc 1, 4, 5, 6 và 8, và @Music.major trùng khớp với @Music.dorian ở mọi bậc đó — những bậc mà chúng khác nhau, bậc ba và bậc bảy, không nằm trong giai điệu. Vì vậy chiến thắng không làm đổi một nốt nào của giai điệu bạn đang ngân nga trong khi suy nghĩ; nhưng các hợp âm bên dưới có dùng bậc ba, và chúng chuyển thành trưởng. @Music.minor tách khỏi thang âm dorian ở bậc sáu, mà giai điệu chủ đề có chạm vào, nên khi thua, nốt đó cũng bị hạ thấp cùng với việc giai điệu bị đưa xuống một quãng tám.¶
+nhạcNền: state.status ???
+		"won": bàiHátThắng
+		"lost": bàiHátThua
+		nhạcCâuĐố
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+Sânkhấu(
+	[screen nhạcNền]
+	vịTrí: VịTrí(0m 0m -12m)
+	khuônmặt: "Poor Story"
+	lýlịch: Màusắc(0% 0 0°)
+	màusắc: Màusắc(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'cáo'
+	'khỉ'
+	'hải ly'
+	'bò'
+	'sói'
+	'dê'
+	'hươu'
+	'lợn'
+	'chinchilla'
+	'sóc'
+	'chuột'
+	'chuột chù'
+	'chuột chũi'
+	'con tatu'
+	'con chuột túi opossum'
+	'con voi'
+	'con dơi'
+	'con lừa'
+	'con ngựa'
+	'con nhím'
+	'mèo'
+	'con hươu cao cổ'
+	'con khỉ đột'
+	'con hải cẩu'
+	'con người'
+	'con chuột túi kangaroo'
+	'con macmot'
+	'con chuột hamster'
+	'chuột máy tính'
+	'con thỏ'
+	'con cừu'
+	'con báo đốm'
+	'con tinh tinh'
+	'con khỉ đầu chó'
+	'con gấu mèo'
+	'chuột chũi'
+	'chuột chù'
+	'con thú lông nhím'
+	'con heo vòi'
+].đãsắpxếp(
+	ƒ() Ngẫunhiên()
+)

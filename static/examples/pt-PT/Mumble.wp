@@ -1,0 +1,29 @@
+m
+Murmúrio
+=== start
+¶Continue a clicar para tornar o murmúrio mais forte.¶
+cliques•#: 0 … ∆ Botão() … cliques + 1
+
+cliques < 3 ?
+	Frase(
+		'murmurar'
+		tamanho: 1m
+		nome: 'psiu'
+		entrando: Pose(escala: 0)
+		descansar: Sequência(
+			{
+				0%: Pose(escala: (cliques + 1) × 1.1)
+				50%: Pose(escala: (cliques + 1) × 0.9)
+				100%: Pose(escala: (cliques + 1) × 1.1)
+			}
+			duração: 0.5s
+		)
+		sair: Sequência(
+			{
+				0%: Pose(opacidade: 1 escala: 1)
+				100%: Pose(opacidade: 0 escala: 10)
+			}
+			duração: 2s
+		)
+	)
+	Frase('concluído')

@@ -1,0 +1,85 @@
+0⃣
+Kalkulator
+=== start/en
+¶Kalkulator saku yang dibuat dari beberapa fungsi hitung.¶
+
+¶Fungsi yang melakukan perhitungan¶
+ƒ penjumlahan(num1•# num2•#) num1 + num2
+ƒ pengurangan(num12•# num22•#) num12 - num22
+ƒ perkalian(num13•# num23•#) num13 × num23
+ƒ pembagian(num14•# num24•#) num14 ÷ num24
+
+pilihan: Pilihan()
+bingkai2: 1 … ∆ (pilihan) … 1 + bingkai2
+
+¶Boolean untuk mencatat apakah setiap nilai sudah dipilih¶
+num1picked: ⊥ … ∆ (pilihan) … (pilihan.mulai('num1')) & ~num1picked
+num2picked: ⊥ … ∆ (pilihan) … (pilihan.mulai('num2')) & ~num2picked
+opicked: ⊥ … ∆ (pilihan) … (pilihan.mulai('op')) & ~opicked
+
+¶Mencatat operand dan operator¶
+num15: ø → # … num1picked … ((pilihan ÷ '')[-1]) → #
+num25: ø → # … num2picked … ((pilihan ÷ '')[-1]) → #
+operator: ø … opicked … ((pilihan ÷ '')[-1])
+
+¶Layar untuk memilih angka pertama¶
+numbers1: Kelompok(
+		Jaringan(2 5)
+		[
+			Frasa("0⃣" dapatdipilih: ⊤ nama: 'num1_0')
+			Frasa("1⃣" dapatdipilih: ⊤ nama: 'num1_1')
+			Frasa("2⃣" dapatdipilih: ⊤ nama: 'num1_2')
+			Frasa("3⃣" dapatdipilih: ⊤ nama: 'num1_3')
+			Frasa("4⃣" dapatdipilih: ⊤ nama: 'num1_4')
+			Frasa("5⃣" dapatdipilih: ⊤ nama: 'num1_5')
+			Frasa("6⃣" dapatdipilih: ⊤ nama: 'num1_6')
+			Frasa("7⃣" dapatdipilih: ⊤ nama: 'num1_7')
+			Frasa("8⃣" dapatdipilih: ⊤ nama: 'num1_8')
+			Frasa("9⃣" dapatdipilih: ⊤ nama: 'num1_9')
+		]
+	)
+
+¶Layar untuk memilih angka kedua¶
+numbers2: Kelompok(
+		Jaringan(2 5)
+		[
+			Frasa("0⃣" dapatdipilih: ⊤ nama: 'num2_0')
+			Frasa("1⃣" dapatdipilih: ⊤ nama: 'num2_1')
+			Frasa("2⃣" dapatdipilih: ⊤ nama: 'num2_2')
+			Frasa("3⃣" dapatdipilih: ⊤ nama: 'num2_3')
+			Frasa("4⃣" dapatdipilih: ⊤ nama: 'num2_4')
+			Frasa("5⃣" dapatdipilih: ⊤ nama: 'num2_5')
+			Frasa("6⃣" dapatdipilih: ⊤ nama: 'num2_6')
+			Frasa("7⃣" dapatdipilih: ⊤ nama: 'num2_7')
+			Frasa("8⃣" dapatdipilih: ⊤ nama: 'num2_8')
+			Frasa("9⃣" dapatdipilih: ⊤ nama: 'num2_9')
+		]
+	)
+
+¶Layar untuk memilih operator¶
+operators: Kelompok(
+		Jaringan(2 2)
+		[
+			Frasa("➕" dapatdipilih: ⊤ nama: 'op_a')
+			Frasa("➖" dapatdipilih: ⊤ nama: 'op_s')
+			Frasa("✖" dapatdipilih: ⊤ nama: 'op_m')
+			Frasa("➗" dapatdipilih: ⊤ nama: 'op_d')
+		]
+	)
+
+¶Layar untuk menampilkan hasil¶
+hasil: ((operator = 'a') | (operator = 's')) ?
+		(operator = 'a' ? penjumlahan(num15 num25) pengurangan(
+					num15
+					num25
+				))
+		(operator = 'm' ? perkalian(num15 num25) pembagian(
+					num15
+					num25
+				))
+
+¶Lihat setiap layar¶
+pengaturan: [numbers1 operators numbers2 hasil]
+
+¶Tampilkan¶
+pengaturan[bingkai2]

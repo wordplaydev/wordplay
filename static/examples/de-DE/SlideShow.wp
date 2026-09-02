@@ -1,0 +1,100 @@
+🎬
+Diaschau
+=== start
+¶Eine Diashow, die erzählt, wie Wordplay entstanden ist. Drücke → und ←, um dich hindurchzubewegen.¶
+
+¶Eine Folie der Show: eine Figur, ein Titel und der Text darunter.¶
+•folie(emoji•'' titel•'' hauptteil•''|`…`)
+
+¶Die Geschichte. Füge diese Folien hinzu, entferne sie oder ändere sie, um deine eigene Geschichte zu erzählen.¶
+folien: [
+		folie(
+			'🎭'
+			'Wordplay'
+			'Die Geschichte, wie diese Sprache entstanden ist. Drücke →, um vorwärtszugehen, und ←, um zurückzugehen.'
+		)
+		folie(
+			'✒'
+			'Eine Liebe zu Buchstaben'
+			'Vor langer Zeit verliebte sich Amy in Typografie: die Formen von Buchstaben und den Rhythmus von Wörtern auf einer Seite.'
+		)
+		folie(
+			'💻'
+			'Eine Liebe zum Programmieren'
+			'Sie verliebte sich auch ins Programmieren, und wie ein paar Wörter Dinge in Bewegung bringen konnten.'
+		)
+		folie(
+			'🧭'
+			'Zwei Lieben, getrennt'
+			'Aber Typografie und Programmieren lebten in verschiedenen Welten. Nur wenige Werkzeuge luden dazu ein, beides gleichzeitig zu lieben.'
+		)
+		folie(
+			'😄'
+			'Ein junger Mensch'
+			'Jahre später traf sie einen jungen Menschen, der Emojis liebte und sie tanzen lassen wollte.'
+		)
+		folie(
+			'💡'
+			'Eine Idee'
+			'Was wäre, wenn eine Programmiersprache es leicht machen würde, Emojis tanzen zu lassen?'
+		)
+		folie(
+			'🌱'
+			'Wordplay entsteht'
+			'Also begann sie, eine solche Sprache zu bauen, in der Code schreiben bedeutet, Wörter und Zeichen auf einer Bühne zu bewegen.'
+		)
+		folie(
+			'🧑‍🏫'
+			'Gemeinsam entworfen'
+			'Sie entwarf sie zusammen mit vielen jungen Menschen und Lehrkräften, die sagten, was sie machen wollten und was ihnen im Weg stand.'
+		)
+		folie(
+			'🌏'
+			'Immer in Bewegung'
+			'Sie wächst seitdem immer weiter, damit mehr Menschen mehr von dem erschaffen können, was sie sich vorstellen.'
+		)
+		folie(
+			'✨'
+			'Du bist dran'
+			`Wovon träumst du, das es noch nicht gibt? Erzähl es uns unter <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+		)
+	]
+
+gesamt: folien.Länge()
+
+schlüssel2: Schlüssel()
+
+¶Die Folie, die wir gerade zeigen. Rechts geht vorwärts, links geht zurück, und beide stoppen an den Enden, statt von vorn zu beginnen.¶
+index2•#: 1 … ∆ schlüssel2 …
+		(schlüssel2 = 'Pfeil nach rechts') ? ((index2 < gesamt) ? index2 + 1 index2)
+			(schlüssel2 = 'Pfeil nach links') ? ((index2 > 1) ? index2 - 1 index2)
+				index2
+
+folie2: folien[index2]
+
+Bühne(
+	[
+		Gruppe(
+			Stapel('|' 0.4m)
+			[
+				Satzglied(folie2.emoji Größe: 2m)
+				Satzglied(
+					`*\folie2.titel\*`
+					Größe: 1.2m
+					Ausrichtung: '|'
+				)
+				Satzglied(
+					folie2.hauptteil
+					Größe: 0.5m
+					wickeln: 12m
+					Ausrichtung: '|'
+				)
+				Satzglied(
+					`\index2\ von \gesamt\`
+					Größe: 0.25m
+					Ausrichtung: '|'
+				)
+			]
+		)
+	]
+)

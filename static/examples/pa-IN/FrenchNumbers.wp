@@ -1,0 +1,84 @@
+t
+ਫ਼ਰਾਂਸੀਸੀ ਅੰਕ
+=== start/en-US,start/fr-FR
+¶ਮੰਚ ਉੱਤੇ ਦਿਖ ਰਹੇ ਫ੍ਰੈਂਚ ਨੰਬਰ ਨਾਲ ਮੇਲ ਖਾਂਦਾ ਅੰਕ ਦੱਬੋ।¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶ਅੰਦਾਜ਼ਾ ਲਾਉਣ ਵਾਲੇ ਨੰਬਰ¶
+¶Les nombres à deviner¶/fr
+ਨੰਬਰ2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶ਭੇਤ 1 ਤੋਂ 9 ਤੱਕ ਦੇ ਨੰਬਰ ਹਨ, ਜੋ ਬੇਤਰਤੀਬੇ ਕ੍ਰਮ ਵਿੱਚ ਹਨ¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+ਭੇਤ: [1 2 3 4 5 6 7 8 9].ਬਦਲਿਆ()
+
+¶ਆਖ਼ਰੀ ਵਾਰ ਕਿਹੜੀ ਕੁੰਜੀ ਦੱਬੀ ਗਈ ਸੀ?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+ਕੁੰਜੀ2,clé/fr: ਕੁੰਜੀ()
+
+¶ਹਰ ਵਾਰ ਕੁੰਜੀ ਦੱਬਣ 'ਤੇ ਮੌਜੂਦਾ ਭੇਤ ਵਧਦਾ ਹੈ, ਪਰ 10 'ਤੇ ਰੁਕ ਜਾਂਦਾ ਹੈ¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+ਭੇਤਸੂਚਕਾਂਕ,secretIndice/fr•#:
+	1 …
+	∆ ਕੁੰਜੀ2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶ਮੌਜੂਦਾ ਭੇਤ, ਭੇਤ ਸੂਚਕਾਂਕ ਦੇ ਆਧਾਰ 'ਤੇ¶
+ਮੌਜੂਦਾਭੇਤ,secretActuel/fr: ਭੇਤ[ਭੇਤਸੂਚਕਾਂਕ]
+
+¶ਜੇ ਦੱਬਿਆ ਗਿਆ ਨੰਬਰ ਪਿਛਲੇ ਭੇਤ ਵਾਲੇ ਨੰਬਰ ਨਾਲ ਮੇਲ ਖਾਂਦਾ ਸੀ, ਤਾਂ ਅੰਦਾਜ਼ਾ ਸਹੀ ਸੀ¶
+ਸਹੀ2: clé → # = ਭੇਤ[ਭੇਤਸੂਚਕਾਂਕ - 1]
+
+¶ਅੰਕ 0 ਤੋਂ ਸ਼ੁਰੂ ਹੁੰਦੇ ਹਨ ਅਤੇ ਜੇ ਅੰਦਾਜ਼ਾ ਸਹੀ ਹੋਵੇ ਤਾਂ ਵਧਦੇ ਹਨ।¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+ਅੰਕ2•#: 0 …
+	∆ ਕੁੰਜੀ2 …
+		ਸਹੀ2 ?
+			ਅੰਕ2 + 1
+			ਅੰਕ2
+
+¶ਜਿੱਤਣ ਦਾ ਮਤਲਬ ਹੈ ਸਾਰੇ 9 ਨੰਬਰ ਪ੍ਰਾਪਤ ਕਰਨਾ¶
+ਜਿੱਤ,gagner/fr: ਅੰਕ2 = 9
+
+¶ਭੇਤ ਸੂਚਕਾਂਕ 10 'ਤੇ ਪਹੁੰਚਣ 'ਤੇ ਖੇਡ ਪੂਰੀ ਹੋ ਜਾਂਦੀ ਹੈ¶
+ਖੇਡਖ਼ਤਮ: ਭੇਤਸੂਚਕਾਂਕ = 10
+
+¶ਮੌਜੂਦਾ ਫ੍ਰੈਂਚ ਨੰਬਰ ਅਤੇ ਮੌਜੂਦਾ ਅੰਕ ਦਿਖਾਓ। ਸਾਰੇ 9 ਭੇਤਾਂ ਪਿੱਛੋਂ, ਅੰਤਿਮ ਨਤੀਜਾ ਦਿਖਾਓ¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+ਸਟੇਜ(
+	[
+		ਸਮੂਹ(
+			ਸਟੈਕ()
+			[
+				ਖੇਡਖ਼ਤਮ ?
+					ਵਾਕੰਸ਼(
+						ਜਿੱਤ ?
+							'ਤੁਸੀਂ ਫ੍ਰੈਂਚ ਨੰਬਰ ਜਾਣਦੇ ਹੋ!'"Tu connais les chiffres français!"/fr
+							'ਲਗਭਗ ਸਹੀ, ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ'"presque, réessaye"/fr
+						ਆਕਾਰ: 2m
+					)
+					ਵਾਕੰਸ਼(numeros[secretActuel] ਆਕਾਰ: 2m)
+				ਵਾਕੰਸ਼("\ਅੰਕ2\ points!" ਆਕਾਰ: 1m)
+				ਵਾਕੰਸ਼(
+					ਭੇਤਸੂਚਕਾਂਕ = 1 ?
+						'ਇਹ ਕਿਹੜਾ ਨੰਬਰ ਹੈ?''quel est ce numéro ?'/fr
+						ਸਹੀ2 ?
+							'ਸਹੀ!'
+							"That was \ਭੇਤ[ਭੇਤਸੂਚਕਾਂਕ - 1]\"
+				)
+			]
+		)
+	]
+	ਚਿਹਰਾ: "Aclonica"
+)

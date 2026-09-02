@@ -1,0 +1,59 @@
+🙂
+Gesicht
+===
+¶Ein Emoji, das dein Gesicht spiegelt, wenn du lächelst, die Stirn runzelst, den Mund aufreißt oder blinzelst.¶
+gesicht2: Gesicht()
+
+Bühne(
+	[
+		Satzglied(
+			(gesicht2.mundOffen ? '😮'
+					gesicht2.lächelnd ? '😀'
+						gesicht2.stirnrunzelnd ? '🙁'
+							gesicht2.augenbrauenHoch ? '😲'
+								(gesicht2.augenOffen ? '🙂' '😑'))
+			Ort: gesicht2.Ort
+			Größe: 4m
+		)
+		Gruppe(
+			Stapel('|')
+			[
+				Satzglied(
+					(gesicht2.augenOffen ? '👀' '😑')
+					Größe: 1.5m
+				)
+				Satzglied(
+					'😊'
+					Größe: (gesicht2.lächelnMenge · 2m) + 0.5m
+				)
+				Satzglied(
+					'👄'
+					Größe: (gesicht2.mundOffenMenge · 2m) + 0.5m
+				)
+				Satzglied(
+					'🤨'
+					Größe: (gesicht2.augenbrauenHochMenge · 2m) + 0.5m
+				)
+			]
+			Ort: Ort(-9m 8m)
+		)
+		Satzglied(
+			'drehen 🧭'
+			Ort: Ort(9m 8m 0m)
+			Größe: 2m
+			Drehung: gesicht2.drehen
+		)
+		Satzglied(
+			'neigen 🧭'
+			Ort: Ort(9m 2m)
+			Drehung: gesicht2.neigen
+			Größe: 2m
+		)
+		Satzglied(
+			`/Zeig der Kamera dein Gesicht/`
+			Ort: Ort(-6m -12m)
+			Größe: 1m
+		)
+	]
+	Ort: Ort(0m 0m -20m)
+)

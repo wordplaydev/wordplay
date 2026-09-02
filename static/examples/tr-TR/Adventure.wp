@@ -1,0 +1,253 @@
+Y
+Macera
+=== start/en
+¶On beş odada geçen bir metin macerası: karanlık, soğuk bir odada bağlanmış olarak uyan ve bu gecenin bitebileceği dört yoldan birini bul. Odalar birbirine geri döner, bu yüzden yanlış bir dönüş çıkmaz sokak değil bir döngüdür; taşıdığın şeyler hangi geçitlerin sana açık olduğunu belirler.¶
+
+¶Bir odadan çıkış yolu: seçeneğin adı, açıldığı odanın kimliği ve kilitli bir kapı için kullanmak üzere taşıman gereken şey.Buradaki asıl numara, hedefi elde tutmak yerine ona sadece isimle işaret etmektir. Bir bağın var olabilmesi için önce ondan söz edilmiş olması gerekir, bu yüzden bağlardan kurulan bir hikâye yalnızca geriye doğru işaret edebilir ve asla başa dönemez. Bir metin kimliğinde böyle bir kural yoktur, bu yüzden iki oda birbirini adlandırabilir ve haritada döngüler olabilir.¶
+•kapı(etiket•'' oda•'' gerekli•'': '')
+
+¶Bir oda. Çoğu oda yalnızca ilk üç şeye ihtiyaç duyar: bir kimlik, orada ne bulunduğu ve kapıları. Son üçü ise özel odalar içindir — sana bir şey veren oda ve hikâyeyi bitiren dört oda.¶
+•oda2(kimlik2•'' açıklama2•'' kapılar•[kapı]: [] al•'': '' bitiş•'': '' kazandı•?: ⊥)
+
+¶Nerede olduğun ve ne taşıdığın. Hikâyenin kendisi aslında budur: bir oda kimliği ve küçük bir eşya yığını.¶
+•yolculuk(oda3•'' topla•[''])
+
+¶Tek bir listedeki her oda. Sadece ilki konumu itibarıyla önemlidir: hikâyenin başladığı yer ve her bitişin seni geri gönderdiği yerdir.¶
+odalar•[oda2]: [
+		oda2(
+			'hücre'
+			'Küf kokan, karanlık ve soğuk bir odada uyanıyorsun. Bileklerin arkadan bağlanmış ve düğümleri atan kişi hiç acele etmemiş.'
+			[
+				kapı('yan tarafına dön' 'zemin')
+				kapı('kıpırdamadan dinle' 'dinle')
+			]
+		)
+		oda2(
+			'dinle'
+			'Döşeme tahtalarının arasından iki ses geliyor. Kapıyı kimin açık bıraktığını tartışıyorlar ve ikisi de senin için endişeli görünmüyor.'
+			[kapı('yan tarafına dön' 'zemin')]
+		)
+		oda2(
+			'zemin'
+			'Yan tarafından ranzanın altını görebiliyorsun: taş döşemenin üzerinde, sırtı boyunca paslanmış bir bıçak duruyor. Yüzünü zemine yaklaştırmaya razı olursan ona ulaşabilirsin.'
+			[
+				kapı('onu al ve kendini kes' 'mahzen')
+				kapı('kıpırdamadan tekrar dinle' 'dinle')
+			]
+		)
+		oda2(
+			'mahzen'
+			'Mahzen, ayakta durunca: ranza, kesilmiş bir ip yığını, bir duvara tırmanan merdiven ve diğer duvardan dışarı uzanan alçak bir geçit.'
+			[
+				kapı('merdivene tırman' 'merdiven')
+				kapı('alçak geçidi kullan' 'geçit')
+			]
+			al: 'bıçak'
+		)
+		oda2(
+			'merdiven'
+			'Basamakların ortası aşınmış, çukurlaşmış. Yarı yolda bir sahanlık var, bir kancadan asılı bir fener sallanıyor. Sahanlığın üstünde merdiven devam ediyor.'
+			[
+				kapı('feneri al' 'fener')
+				kapı('tırmanmaya devam et' 'kapı')
+				kapı('geri aşağı in' 'mahzen')
+			]
+		)
+		oda2(
+			'fener'
+			'Fitil ikinci denemede tutuşuyor, sahanlık ise karanlığın gösterdiğinden çok daha küçük çıkıyor.'
+			[
+				kapı('tırmanmaya devam et' 'kapı')
+				kapı('geri aşağı in' 'mahzen')
+			]
+			al: 'fener'
+		)
+		oda2(
+			'kapı'
+			'Merdivenin üstünde, karşı taraftan sürgülenmiş ağır bir kapı. Sürgü eski ve yanındaki aralık bir bıçağın geçmesine yetecek genişlikte.'
+			[
+				kapı('sürgüyü bıçakla zorla' 'koridor')
+				kapı('geri aşağı in' 'merdiven')
+			]
+		)
+		oda2(
+			'koridor'
+			'Ocağı sönmüş bir koridor ve ondan geriye itilmiş iki sandalye, sanki tartışma aceleyle bitmiş gibi. En sonda bir kapı var, kapının altından gri bir ışık sızıyor.'
+			[
+				kapı('kapıya doğru geç' 'kapı')
+				kapı('merdivenden geri in' 'merdiven')
+			]
+		)
+		oda2(
+			'kapı'
+			'Kapı zincirli, zincir yumruğun büyüklüğünde bir kilitten geçiyor. Kapının ötesinde yol vadiye doğru iniyor.'
+			[
+				kapı(
+					'anahtarı kilitte çevir'
+					'tepelik'
+					gerekli: 'anahtar'
+				)
+				kapı('onun yerine zincire tırman' 'tırman')
+				kapı('koridora geri dön' 'koridor')
+			]
+		)
+		oda2(
+			'geçit'
+			'Geçit o kadar alçak ki bir elinle ilerlemek zorundasın, nehir kokuyor. Birkaç adım sonra karanlık artık bir gölge olmaktan çıkıp duvara dönüşüyor.'
+			[
+				kapı('elini yordamla ilerlet' 'kör')
+				kapı(
+					'ışığı içeri taşı'
+					'mezar odası'
+					gerekli: 'fener'
+				)
+				kapı('geldiğin yoldan geri çık' 'mahzen')
+			]
+		)
+		oda2(
+			'mezar odası'
+			'Fener, taş kutuların bulunduğu alçak bir oda buluyor. Sonuncunun yanındaki bir kancada, içinden hâlâ bir bez parçası geçirilmiş, paslı bir anahtar duruyor.'
+			[
+				kapı('suya doğru ilerle' 'nehir')
+				kapı('geçitten geri dön' 'geçit')
+			]
+			al: 'anahtar'
+		)
+		oda2(
+			'kör'
+			'Bir elini uzatarak ilerliyorsun. El hiçbir şey bulamıyor, ve bir an sonra ayakların da bulamıyor. Karanlık, kendisine verilen şeyi elinde tutar.'
+			bitiş: 'Karanlık seni tutuyor.'
+		)
+		oda2(
+			'tırman'
+			'Yolun büyük kısmını tırmandın ki zincir ne kadar eski olduğunu hatırlıyor. Şafakta seni kapının dibinde buluyorlar, bu kez iki kişiye yetecek kadar ip getiriyorlar.'
+			bitiş: 'Kapıda yakalandın.'
+		)
+		oda2(
+			'nehir'
+			'Geçit, akan suyun üzerindeki bir ızgarada sona eriyor. Parmaklıklar eski, bıçak ise sabırlı. Nehirle birlikte dışarı çıkıyorsun, gökyüzü henüz griye dönmeden ev çok geride kalıyor.'
+			bitiş: 'Nehirle birlikte dışarı.'
+			kazandı: ⊤
+		)
+		oda2(
+			'tepelik'
+			'Anahtar dönüyor, zincir çimenlerin üzerine dökülüyor ve kapı kimsenin duymayacağı bir sessizlikle açılıyor. Vadi sabahın griliğiyle kaplı, ve yol şimdi senin.'
+			bitiş: 'Kapıdan çıkış.'
+			kazandı: ⊤
+		)
+	]
+
+¶Bu kimlikle eşleşen oda. find() hiçbir eşleşme olmadığında ø döndürür, ve hiçbir odayı adlandırmayan bir kimlik, hikâyede bir dönüş noktası değil, haritada bir boşluktur; bu yüzden onun yerine ilk oda kullanılır.¶
+ƒ git(istedi•'')•oda2 odalar.bulmak(
+		ƒ(oda4•oda2) oda4.kimlik2 = istedi
+	) ?? odalar[1]
+
+¶Buradan gerçekten geçebileceğin kapılar. Elinde hiçbir şeyin olmadığı kilitli bir kapı sana hiç sunulmaz; onu açacak şey ellerine geçene kadar sadece bir duvar gibi görünür.¶
+ƒ yollar(burada•oda2 topla2•[''])•[kapı]
+	burada.kapılar.filtre(
+		ƒ(kapı2•kapı) (kapı2.gerekli = '') | topla2.sahipolmak(
+					kapı2.gerekli
+				)
+	)
+
+¶Bir odaya gir ve içinde ne varsa al. add() sana ikinci bir bıçağı bile seve seve verirdi, o yüzden önce sor.¶
+ƒ ulaş(burada2•oda2 topla3•[''])•yolculuk
+	yolculuk(
+		burada2.kimlik2
+		((burada2.al ≠ '') & (~topla3.sahipolmak(burada2.al))) ? topla3.ile(
+				burada2.al
+			) topla3
+	)
+
+anahtar2: Anahtar()
+
+¶Bir tuşa basma sırası şöyle işler: bir bitişte, herhangi bir tuş seni yeniden ilk odada uyandırır; 1, 2 ya da 3 olmayan bir tuş hiçbir şey yapmaz; bu odadaki kapı sayısını aşan bir sayı da hiçbir şey yapmaz; ve ancak bundan sonra bir kapı sayılır. O üçüncü kontrol, not almaya değer bir şeydir, çünkü liste erişimi baştan başlar — bu kontrol olmadan, iki kapılı bir odada 3'e basmak sessizce ilk kapıyı seçerdi.¶
+ƒ adım(t•yolculuk k•'')•yolculuk (
+		burada3: git(t.oda3)
+		kapılar2: yollar(burada3 t.topla)
+		burada3.bitiş ≠ '' ? yolculuk('hücre' [])
+			~((k = '1') | (k = '2') | (k = '3')) ? t
+				(k → #) > kapılar2.uzunluk() ? t
+					ulaş(git(kapılar2[k → #].oda) t.topla)
+	)
+
+yolculuk2•yolculuk: yolculuk('hücre' []) … ∆ anahtar2 … adım(
+			yolculuk2
+			anahtar2
+		)
+
+burada4: git(yolculuk2.oda3)
+kapılar3: yollar(burada4 yolculuk2.topla)
+
+¶Taşıdığın şeyler, ancak bir şey taşıdığında gösterilir.¶
+taşımak:
+	yolculuk2.topla.uzunluk() > 0
+	? [
+			İfadeetmek(
+				`*taşınıyor* \yolculuk2.topla.katılmak(' · ')\`
+				boyut: 0.3m
+				hizalama: '|'
+				renk: Renk(60% 30 0°)
+			)
+		]
+		[]
+
+¶Odanın altında yatan şey: kapıları, okuduğunla bastığın aynı olacak şekilde numaralandırılmıştır; ya da bir bitişte, hikâyenin nasıl bittiği ve onu yeniden başlatan tek anahtar.¶
+aşağıda:
+	burada4.bitiş ≠ ''
+	? [
+			İfadeetmek(
+				`*\burada4.bitiş\*`
+				boyut: 0.8m
+				hizalama: '|'
+				renk: burada4.kazandı ? Renk(85% 50 90°) Renk(
+						45%
+						40
+						25°
+					)
+				süre: 1.5s
+				giriş: Poz(opaklık: 0% ölçek: 0.5)
+			)
+			İfadeetmek(
+				`yeniden uyanmak için herhangi bir tuşa bas`
+				boyut: 0.3m
+				hizalama: '|'
+				süre: 3s
+				giriş: Poz(opaklık: 0%)
+			)
+		]
+		kapılar3.tercümeetmek(
+			ƒ(kapı3•kapı dizin2•#)
+				İfadeetmek(
+					`\dizin2\. *\kapı3.etiket\*`
+					boyut: 0.5m
+					hizalama: '|'
+					isim: kapı3.etiket
+					süre: 1s
+					giriş: Poz(opaklık: 0%)
+				)
+		)
+
+Sahne(
+	[
+		Grup(
+			Yığın()
+			[
+				İfadeetmek(
+					burada4.açıklama2
+					boyut: 0.5m
+					dürüm: 14m
+					hizalama: '|'
+					isim: burada4.kimlik2
+					süre: 0.5s
+					giriş: Poz(telafietmek: Yer(0m 2m))
+				)
+				:taşımak
+				:aşağıda
+			]
+		)
+	]
+	arkaplan: Renk(0 0 0°)
+	renk: Renk(100% 0 0°)
+	yüz: "Permanent Marker"
+)

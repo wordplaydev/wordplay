@@ -1,0 +1,26 @@
+🥮
+Mâncăruri Zburătoare
+===
+¶O grilă cu feluri de mâncare gustoase, în care unul este schimbat cu altul în fiecare secundă.¶
+mâncare: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
+
+celMaiRecent•['']:
+	mâncare … ∆ Timp(1000ms) …
+		celMaiRecent.înlocui(
+			Aleatoriu(1 6)
+			mâncare.aleatoriu()
+		)
+
+Grup(
+	Grilă(3 3 1m 1m)
+	celMaiRecent.traduce(
+		ƒ(felDeMâncare•"" index2•#)
+			Fraza(
+				felDeMâncare
+				nume: "\felDeMâncare\-\index2\"
+				intrând: Poză(opacitate: 0 scară: 2)
+				odihnă: Secvenţă.legănare(360° durată: 4s)
+				durată: 1s
+			)
+	)
+)

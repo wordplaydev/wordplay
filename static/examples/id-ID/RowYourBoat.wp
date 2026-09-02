@@ -1,0 +1,176 @@
+🚣
+Kayuh Perahumu
+=== start/en
+¶Row, Row, Row Your Boat — satu kali putaran, tepat sepuluh detik, dengan sedikit armada yang mendayung mengikutinya.
+
+Lagu ini berbirama 6/8, jadi setiap birama berisi enam not seperdelapan dan setiap entri dalam daftar ini adalah salah satunya. Dua puluh empat ketukan pada 144 ketukan per menit menghasilkan tepat sepuluh detik.
+
+Perahu-perahu digerakkan oleh @Beat, bukan oleh jam, sehingga mereka menarik dayung tepat pada ketukan musik, bukan hanya mendekatinya — dan mereka diam sampai musik dimulai, karena @Beat tetap berada di ketukan nol sampai saat itu.¶
+
+ketukan2: Ketukan()
+kayuhan: ketukan2.hitung
+
+¶Melodinya. Row row row your boat, gently down the stream — not-not panjang terasa panjang karena diam sesudahnya menjaga irama, sebab setiap entri berlangsung selama satu not seperdelapan yang sama.¶
+melodi: [
+		1
+		ø
+		ø
+		1
+		ø
+		ø
+		1
+		ø
+		2
+		3
+		ø
+		ø
+		3
+		ø
+		2
+		3
+		ø
+		4
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		8
+		8
+		8
+		5
+		5
+		5
+		3
+		3
+		3
+		1
+		1
+		1
+		5
+		ø
+		4
+		3
+		ø
+		2
+		1
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Sebuah akor di awal setiap birama. Akor ini tetap sama sepanjang lagu sampai birama kedua dari akhir, yang bersandar pada nada kelima sehingga birama terakhir terasa seperti tempat tiba.¶
+kord: [
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{5 7 9 11}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Kayuhan: satu pukulan rendah untuk menarik dan satu pukulan terang untuk kembali, sekali setiap birama.¶
+dayung: [
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+	]
+
+¶Sebuah perahu. Perahu ini bergeser sedikit lebih jauh pada setiap ketukan dan bergoyang ke arah lain setiap kalinya, itulah yang terlihat seperti mendayung; jalurnya menentukan seberapa tinggi posisinya dan seberapa jauh ia memulai, sehingga mereka tidak bergerak bersamaan.¶
+ƒ perahu(jalur•# awal2•#)•Frasa
+	Frasa(
+		'🚣'
+		1.5m
+		tempat: Tempat(
+			((((kayuhan + awal2) % 16) - 8) · 1.1) · 1m
+			((jalur · 1.9) - 1.9) · 1m
+		)
+		rotasi: (((kayuhan + jalur) % 2) = 0) ? 9° -9°
+		lamanya: 0.2s
+	)
+
+armada: [perahu(0 0) perahu(1 6) perahu(2 11)]
+
+Panggung(
+	[
+		:armada
+		Frasa(
+			'〰〰〰〰〰〰〰〰'
+			1m
+			tempat: Tempat(-8m -3.2m)
+			warna: Warna(48% 22 240°)
+		)
+		Frasa(
+			'Row, row, row your boat'
+			0.9m
+			tempat: Tempat(-4.4m 3.4m)
+		)
+		Musik(
+			[
+				Trek(
+					melodi
+					alatMusik: AlatMusik.seruling
+					ketukan: 0.5beats
+				)
+				Trek(
+					kord
+					alatMusik: AlatMusik.piano
+					ketukan: 1beats
+					volume: 60%
+				)
+				Trek(
+					dayung
+					alatMusik: AlatMusik.drum
+					ketukan: 1beats
+					volume: 45%
+				)
+			]
+			tempo: 144beats/min
+			nama: 'perahu'
+		)
+	]
+	latarbelakang: Warna(22% 18 230°)
+	warna: Warna(96% 0 0°)
+)

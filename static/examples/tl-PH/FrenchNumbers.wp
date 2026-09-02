@@ -1,0 +1,84 @@
+t
+Mga Numero sa Wikang Pranses
+=== start/en-US,start/fr-FR
+¶Pindutin ang digit na tumutugma sa numerong Pranses na nakikita sa entablado.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶Ang mga numerong hulaan¶
+¶Les nombres à deviner¶/fr
+mgaNumero,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶Ang mga sikreto ay ang mga numero 1 hanggang 9 sa di-inaasahang pagkakasunod-sunod¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+mgaSikreto: [1 2 3 4 5 6 7 8 9].hinalo()
+
+¶Ano ang pinakahuling key na pinindot?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+susi2,clé/fr: Susi()
+
+¶Ang kasalukuyang sikreto ay tumataas nang isa sa tuwing pipindutin ang isang key, pero titigil sa 10¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+indeksNgSikreto,secretIndice/fr•#:
+	1 …
+	∆ susi2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶Ang kasalukuyang sikreto, batay sa indeks ng sikreto¶
+kasalukuyangSikreto,secretActuel/fr: mgaSikreto[indeksNgSikreto]
+
+¶Tama ang hula kung ang numerong pinindot ay tumutugma sa naunang sikretong numero¶
+tama: clé → # = mgaSikreto[indeksNgSikreto - 1]
+
+¶Nagsisimula ang mga puntos sa 0 at tumataas kung tama ang hula.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+puntos•#: 0 …
+	∆ susi2 …
+		tama ?
+			puntos + 1
+			puntos
+
+¶Ang manalo ay ang makuha ang lahat ng 9 na numero¶
+panalo,gagner/fr: puntos = 9
+
+¶Tapos na kapag nasa indeks ng sikreto 10¶
+taposNaAngLaro: indeksNgSikreto = 10
+
+¶Ipakita ang kasalukuyang numerong Pranses at ang kasalukuyang puntos. Pagkatapos ng lahat ng 9 na sikreto, ipakita ang huling resulta¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Entablado(
+	[
+		Grupo(
+			Patongpatong()
+			[
+				taposNaAngLaro ?
+					Parirala(
+						panalo ?
+							'Alam mo na ang mga numerong Pranses!'"Tu connais les chiffres français!"/fr
+							'malapit na, subukan ulit'"presque, réessaye"/fr
+						laki: 2m
+					)
+					Parirala(numeros[secretActuel] laki: 2m)
+				Parirala("\puntos\ points!" laki: 1m)
+				Parirala(
+					indeksNgSikreto = 1 ?
+						'anong numero ito?''quel est ce numéro ?'/fr
+						tama ?
+							'Tama!'
+							"That was \mgaSikreto[indeksNgSikreto - 1]\"
+				)
+			]
+		)
+	]
+	mukha: "Aclonica"
+)

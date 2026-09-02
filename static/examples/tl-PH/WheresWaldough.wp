@@ -1,0 +1,105 @@
+🔁
+Nasaan si Waldough?
+=== start/en
+¶Hanapin si Waldough na nagtatago sa maraming tao: hanapin ang lalaking naka-kulay-kahel na damit at i-click siya para manalo!¶
+
+pangalan3: Pagpipilian()
+nahuli: ⊥ … ∆ (pangalan3) … (pangalan3 = 'ResetButton') ? ⊥ ((pangalan3 = 'Waldough') | nahuli)
+iskor: 0 … ∆ (pangalan3) … (pangalan3 = 'Waldough') ? 1 + iskor iskor
+
+ƒ batik() Lugar(
+		((0.1 × Random(-9m 9m)) + Random(-2m 1m))
+		((0.1 × Random(-9m 9m)) + Random(-2m 1m))
+	)
+ƒ bagongMgaTuldok() [
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+		batik()
+	]
+mgaTuldok2: bagongMgaTuldok() … ∆ (pangalan3) … (pangalan3 = 'ResetButton') ? bagongMgaTuldok(
+			) mgaTuldok2
+
+
+Entablado(
+	[
+		Parirala(
+			"🔁"
+			mapipili: ⊤
+			lugar: Lugar(4m -0.5m)
+			nagpapahinga: nahuli ? Pose(pagikot: 180°) Pose()
+			tagal: 0.5s
+			pangalan: 'ResetButton'
+		)
+		Parirala(
+			'Hanapin ang kulay-kahel na damit'
+			0.2m
+			lugar: Lugar(-6.2m 0.75m)
+			mukha: 'Carter One'
+		)
+		Parirala(
+			'lalaki (na nagngangalang Waldough) at'
+			0.2m
+			lugar: Lugar(-6.4m 0.25m)
+			mukha: 'Carter One'
+		)
+		Parirala(
+			'i-click siya para manalo!🧍🏻'
+			0.2m
+			lugar: Lugar(-6.0m -0.25m)
+			mukha: 'Carter One'
+		)
+		Parirala(
+			'Iskor: ' + iskor → ''
+			0.5m
+			lugar: Lugar(-5.9m -1m)
+		)
+
+		Parirala("🏀" lugar: mgaTuldok2[1])
+		Parirala("🦧" lugar: mgaTuldok2[2])
+		Parirala("🍊" lugar: mgaTuldok2[3])
+		Parirala("👻" lugar: mgaTuldok2[4])
+		Parirala("🤖" lugar: mgaTuldok2[5])
+		Parirala("👽" lugar: mgaTuldok2[6])
+		Parirala("🐀" lugar: mgaTuldok2[7])
+		Parirala("🦣" lugar: mgaTuldok2[8])
+		Parirala("🐸" lugar: mgaTuldok2[9])
+		Parirala("🍎" lugar: mgaTuldok2[10])
+		Parirala("💧" lugar: mgaTuldok2[11])
+		Parirala("🍔" lugar: mgaTuldok2[12])
+		Parirala("❤" lugar: mgaTuldok2[13])
+		Parirala("🍥" lugar: mgaTuldok2[14])
+		Parirala(
+			"🧍🏻"
+			mapipili: ~nahuli
+			lugar: mgaTuldok2[15]
+			nagpapahinga: nahuli ? Pose(pagikot: 180°) Pose()
+			tagal: 0s
+			pangalan: 'Waldough'
+		)
+		Parirala("🔥" lugar: mgaTuldok2[16])
+		Parirala("🎂" lugar: mgaTuldok2[17])
+		Parirala("🐕" lugar: mgaTuldok2[18])
+		Parirala("🦈" lugar: mgaTuldok2[19])
+		Hugis(Parihaba(-3.5m -3m 3.5m -3.5m))
+		Hugis(Parihaba(-3.5m 3.5m 3.5m 3m))
+		Hugis(Parihaba(-3.5m 3.5m -3m -3.5m))
+		Hugis(Parihaba(3m 3.5m 3.5m -3.5m))
+	]
+	lugar: Lugar(0m 0m -5m)
+)

@@ -1,0 +1,35 @@
+o
+Warstwy
+=== start
+¶Piłki odbijające się na różnych głębokościach, aby pokazać warstwy paralaksy.¶
+liczba2: 10 → []
+
+ƒ piłki(z2•#m) liczba2.tłumaczyć(
+		ƒ()
+			Wyrażenie(
+				'o'
+				miejsce: Ruch(
+					Miejsce(Losowy(-10 10) × 1m Losowy(0 10) × 1m z2)
+					Prędkość(
+						Losowy(-10 10) × 1m/s
+						Losowy(-5 5) × 1m/s
+					)
+				)
+				materiał: Materiał(sprężystość: 0.8 tarcie: 0)
+			)
+	)
+
+Scena(
+	[
+		:piłki(0m)
+		:piłki(-10m)
+		:piłki(10m)
+		Kształt(Koło(2m 0m 1m 0m))
+		Kształt(Koło(2m 9m -3m 10m))
+		Kształt(Wielokąt(2m 5 -5m 0m -10m))
+		Kształt(Prostokąt(-20m 0m 20m -1m 0m))
+		Kształt(Prostokąt(-20m 0m 20m -1m 10m) obrót: 25°)
+		Kształt(Prostokąt(-20m 0m 20m -1m -10m) obrót: -10°)
+	]
+	miejsce: Miejsce(0m 10m -30m)
+)

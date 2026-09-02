@@ -1,0 +1,340 @@
+⚽
+Fotboll
+=== start/en
+¶Ett målvaktsspel sett uppifrån. Du är handsken framför målet till vänster. En boll i taget skjuts från någonstans nere på planen, siktad mot en punkt inne i målgapet, och du flyttar dig upp och ner för att stoppa den. Talet räknar skotten du har räddat: det reser sig när du räddar ett skott, och sväller och skakar när ett smiter förbi dig.¶
+
+¶Var ett skott siktar, och var handsken står. Ett mål är ungefär åtta gångerbredden på målvakten som vaktar det, vilket är varför en person inte helt enkeltkan stå i mitten av det och rädda allt.
+
+En @Place är ett utdatas nedre vänstra hörn, inte dess mitt, så allt som siktaseller klämmas nedanför räknas i mittpunkter och ger upp halva sin storlek när dendblir en @Place. En emoji ritas också en bra bit större än sin storlek — en 0,6 m ⚽fyller ungefär 0,9 m, en 1,2 m 🧤 ungefär 1,25 m — så de halvorna är uppmätta,inte halverade från storleken. Handskens hastighet är hur långt den glider varjetick.¶
+målX: -7m
+munKant: 5.2m
+bollHalva: 0.45m
+målvaktX: -6.5m
+målvaktHalva: 0.62m
+målvaktRäckvidd: 4.5m
+målvaktHastighet: 0.55m
+
+tick: Tid(50ms)
+tryck: Nyckel(ner: ⊤)
+släpp: Nyckel(ner: ⊥)
+
+¶Vilket håll handsken rör sig åt. En pil som trycks ned sätter den i rörelse, ochatt släppa samma pil stoppar den, så handsken glider så länge du håller nertangenten. Över en så bred målgap skulle ett steg per tryck aldrig hinna frami tid.¶
+drift2•#: 0 … ∆ tryck | ∆ släpp …
+		∆ tryck ?
+			((tryck = 'Pil upp') ? 1 ((tryck = 'Pil ner') ? -1 drift2))
+			((släpp = 'Pil upp') & (drift2 = 1)) ? 0
+				((släpp = 'Pil ner') & (drift2 = -1)) ? 0
+					drift2
+
+¶Handsken styrs inte av fysik, så den kan styras direkt. Den stoppar vidändarna av sin räckvidd, så den kan aldrig vandra iväg från målet.¶
+målvaktY•#m: 0m … ∆ tick …
+		((målvaktY + (drift2 × målvaktHastighet)).max(
+				målvaktRäckvidd · -1
+			)).min(
+			målvaktRäckvidd
+		)
+
+¶En räddning och ett mål. Varje @Collision rapporterar en beröring som börjar och enberöring som slutar, så båda paras med en kontroll att det just är en start:utan den skulle varje räddning och varje mål räknas dubbelt.¶
+handskeTräff: Kollision('boll' 'målvakt')
+nätTräff: Kollision('boll' 'nät')
+räddad: (∆ handskeTräff) & ~(handskeTräff•ø)
+gjordeMål: (∆ nätTräff) & ~(nätTräff•ø)
+
+•skott(sx•#m sy•#m lutning•# hastighet2•#m/s)
+
+¶Någonstans att stå, någonstans i målgapet att sikta mot, och linjen mellan dem.Att räkna ut lutningen mellan de två ändarna är det som gör att varje skotthamnar exakt på mål, oavsett vilket håll det kommer ifrån.¶
+ƒ nyttSkott()•skott (
+		x2: Slumpmässig(2m 6m)
+		y2: Slumpmässig(-5.5m 5.5m)
+		sikte: Slumpmässig(-4.7m 4.7m)
+		¶Lutningen är hur mycket y-rörelsen ger upp per meter x. En division kan sakna svar, så ø-fallet faller tillbaka på ett skott rakt nedför planen; sparkarenstår aldrig på mållinjen, så det inträffar aldrig.¶
+		fall: (sikte - y2) ÷ (målX - x2)
+		skott(x2 y2 (fall•ø ? 0 fall) Slumpmässig(16m/s 22m/s))
+	)
+
+¶1 = bollen väntar vid sparkarens fötter, 2 = den är på väg, 3 = den blirundanröjd. Tickar räknas i stället för att klockor dras av, eftersom varje@Timestarts från noll. Blocken är det du ser; serverna finns bara därför att ge nummretett nytt namn varje skott, vilket är det som spelar upp dess animation igen.¶
+•omgång(fas•# ticka•# block•# serveringar•# sista2•# skott2•skott)
+runda2•omgång: omgång(1 0 0 0 0 nyttSkott()) …
+	∆ tick | räddad | gjordeMål …
+		runda2.fas ???
+			1: (runda2.ticka ≥ 14)
+			? omgång(
+					2
+					0
+					runda2.block
+					runda2.serveringar
+					runda2.sista2
+					runda2.skott2
+				)
+				omgång(
+					1
+					(runda2.ticka + (∆ tick ? 1 0))
+					runda2.block
+					runda2.serveringar
+					runda2.sista2
+					runda2.skott2
+				)
+			2: räddad ? omgång(
+					3
+					0
+					(runda2.block + 1)
+					(runda2.serveringar + 1)
+					1
+					runda2.skott2
+				)
+				gjordeMål ? omgång(
+						3
+						0
+						runda2.block
+						(runda2.serveringar + 1)
+						2
+						runda2.skott2
+					)
+					¶En boll som aldrig kommer fram — slagen tillbaka i öppet spel av en räddning,till exempel — ges upp efter några sekunder, så spelet aldrig kan fastnaoch vänta på ett utfall som inte kommer.¶
+					(runda2.ticka ≥ 70)
+					? omgång(
+							3
+							0
+							runda2.block
+							(runda2.serveringar + 1)
+							3
+							runda2.skott2
+						)
+						omgång(
+							2
+							(runda2.ticka + (∆ tick ? 1 0))
+							runda2.block
+							runda2.serveringar
+							runda2.sista2
+							runda2.skott2
+						)
+			3: (runda2.ticka ≥ 16)
+			? omgång(
+					1
+					0
+					runda2.block
+					runda2.serveringar
+					runda2.sista2
+					nyttSkott()
+				)
+				omgång(
+					3
+					(runda2.ticka + (∆ tick ? 1 0))
+					runda2.block
+					runda2.serveringar
+					runda2.sista2
+					runda2.skott2
+				)
+			runda2
+
+¶Den enda utvärdering där bollen lämnar sparkarens fot. Den måste varamomentan: det är den som träffar bollen, och att träffa den två gånger skulledubbla dess hastighet.¶
+sparkad: (∆ tick) & (runda2.fas = 2) & (runda2.ticka = 0)
+
+¶Hålls stilla medan den väntar, träffas längs sin siktade linje när den sparkas,och slås tillbaka uppåt planen av en räddning eller av nätets baksida — vilketockså är det som hindrar en boll från att skramla runt inne i målet och fånätet att skallra om och om igen. Luften saktar in en rullande boll, precissom gräs skulle göra, så skott dämpas.¶
+bollPlacera: Rörelse(
+		Plats(
+			(runda2.skott2.sx - bollHalva)
+			(runda2.skott2.sy - bollHalva)
+		)
+		nästaplats:
+		(runda2.fas = 1) ? Plats(
+				(runda2.skott2.sx - bollHalva)
+				(runda2.skott2.sy - bollHalva)
+			) ø
+		nästahastighet:
+		(runda2.fas = 1) ? Hastighet(0m/s 0m/s 0°/s)
+			sparkad ? Hastighet(
+					(runda2.skott2.hastighet2 · -1)
+					((runda2.skott2.hastighet2 · -1) × runda2.skott2.lutning)
+					Slumpmässig(-45°/s 45°/s)
+				)
+				(räddad | gjordeMål) ? Hastighet(
+						Slumpmässig(8m/s 14m/s)
+						Slumpmässig(-5m/s 5m/s)
+						Slumpmässig(-45°/s 45°/s)
+					)
+					ø
+	)
+
+boll: Fras(
+		'⚽'
+		0.6m
+		namn: 'boll'
+		plats: bollPlacera
+		materia: Materia(0.45kg 0.7 0.02)
+	)
+
+¶Handsken bevakas via namn ovan, vilket är allt som krävs för att vara med i denfysiska världen, så den behöver ingen @Matter. Den placeras av programmetsnarare än av fysiken, så den passerar genom bollen i stället för att träffa den;räddningen ovan är det som skickar bollen tillbaka. Dess rörelser toneras inte,så den befinner sig exakt där du styrde den i stället för att glida efter dig.¶
+målvakt: Fras(
+		'🧤'
+		1.2m
+		namn: 'målvakt'
+		plats: Plats(målvaktX (målvaktY - målvaktHalva))
+		varaktighet: 0s
+	)
+
+¶Vem som är på väg att skjuta, och varifrån. Bara på planen medan bollenväntar.¶
+skytt: Fras(
+		'🦵'
+		1.2m
+		plats: Plats(
+			(runda2.skott2.sx + 0.5m)
+			(runda2.skott2.sy - 0.6m)
+		)
+		varaktighet: 0s
+	)
+skyttLista: (runda2.fas = 1) ? [skytt] []
+
+¶Målet: gapet, nätet tvärs över dess baksida, och en stolpe ovanför ochunder. Bara nätet har ett namn, så bara nätet kan ge mål — en boll som trättenen stolpe skulle bara studsa iväg. Nätet är avsiktligt tjockt: det snabbastesskottet färdas ungefär en halv meter mellan fysiksteg, och ett tunnare nätskulle det kunna passera rakt igenom utan att någonsin röra det.¶
+nätForm: Figur(
+		Rektangel(-8m munKant -7.2m (munKant · -1))
+		namn: 'nät'
+		bakgrund: Färg(96% 0 0°)
+	)
+stolpeTopp: Figur(
+		Rektangel(-8m 7m -7.2m munKant)
+		bakgrund: Färg(35% 0 0°)
+	)
+stolpeBotten: Figur(
+		Rektangel(-8m (munKant · -1) -7.2m -7m)
+		bakgrund: Färg(35% 0 0°)
+	)
+
+¶Sidlinjerna, som håller en undanröjd boll på planen.¶
+väggTopp: Figur(
+		Rektangel(-8m 7m 8m 6.8m)
+		bakgrund: Färg(88% 5 130°)
+	)
+väggBotten: Figur(
+		Rektangel(-8m -6.8m 8m -7m)
+		bakgrund: Färg(88% 5 130°)
+	)
+väggHöger: Figur(
+		Rektangel(7.8m 7m 8m -7m)
+		bakgrund: Färg(88% 5 130°)
+	)
+
+¶En räddning: numret hoppar upp lite och står kvar en stund innan det lugnar sig.¶
+räddaBöj: Sekvens(
+		{
+			0%: Pose(skala: 1)
+			30%: Pose(skala: 1.5 offset: Plats(0m 0.4m))
+			65%: Pose(skala: 1.35 offset: Plats(0m 0.25m))
+			100%: Pose(skala: 1)
+		}
+		0.5s
+	)
+
+¶Ett mål: numret sväller upp och fyller skärmen och skakar, så ett skott somtar sig förbi dig aldrig är något du kan missa.¶
+målSkaka: Sekvens(
+		{
+			0%: Pose(skala: 1)
+			8%: Pose(skala: 3.6 rotation: -10°)
+			24%: Pose(
+				skala: 3.6
+				rotation: 10°
+				offset: Plats(0.4m 0m)
+			)
+			40%: Pose(
+				skala: 3.6
+				rotation: -10°
+				offset: Plats(-0.4m 0m)
+			)
+			56%: Pose(
+				skala: 3.6
+				rotation: 8°
+				offset: Plats(0.3m 0m)
+			)
+			72%: Pose(skala: 3.4 rotation: -6°)
+			100%: Pose(skala: 1)
+		}
+		1s
+	)
+
+¶Antalet blockerade skott. Dess namn bär servenumret, så varje skott ger detden en ny identitet och dess animation spelas upp igen — ett nummer vars namnaldrig ändrades skulle animeras en gång och sedan stå still.¶
+poängVy: Fras(
+		"🧤 \runda2.block\"
+		1.4m
+		namn: "score\runda2.serveringar\"
+		plats: Plats(-1.4m 4m)
+		varaktighet: 0.2s
+		gårin: runda2.sista2 ???
+			1: räddaBöj
+			2: målSkaka
+			Pose()
+	)
+
+¶Instruktionerna ligger på planen snarare än i overlayen: overlayens nederkant är där musikrenderingen står, och text där skulle ritas över.¶
+instruktioner: Fras(
+		'håll ⬆ ⬇ nedtryckt för att flytta din handske — blockera varje skott!'
+		0.55m
+		plats: Plats(-6.4m -6.4m)
+	)
+
+¶Tre ljud: skottet, räddningen, målet. Varje ljud läggs på scenen så länge som fasen som orsakar det varar, och tas bort igen efteråt. Att nå scenen är skäl nog att låta, och ett engångsljud som har spelats klart förblir tyst tills det lämnar och kommer tillbaka — så inget av dem behöver en @Music.replay, och inget av dem låter när programmet startar.
+
+Att skriva dem på detta sätt säger något som noterna ensamma inte skulle säga: varje ljud hör till en fas av rundan, och varar precis lika länge som den fasen gör. @Music.replay är det andra sättet att skriva, för ett ljud som svarar på ett enda ögonblick istället för en sträcka.¶
+sparkLjud: Musik(
+		Spår(
+			[1]
+			instrument: Instrument.trummor
+			takt: 0.25beats
+			volym: 60%
+			loop: ⊥
+		)
+		namn: 'skott'
+	)
+
+räddaLjud: Musik(
+		Spår(
+			[8 12 15]
+			instrument: Instrument.klocka
+			takt: 0.2beats
+			volym: 70%
+			loop: ⊥
+		)
+		namn: 'räddning'
+	)
+
+målLjud: Musik(
+		Spår(
+			[5 4 2 1]
+			instrument: Instrument.trumpet
+			takt: 0.3beats
+			volym: 65%
+			loop: ⊥
+		)
+		namn: 'mål'
+	)
+
+resultatLjud: runda2.sista2 ???
+		1: [räddaLjud]
+		2: [målLjud]
+		[]
+
+ljudLista: runda2.fas ???
+		2: [sparkLjud]
+		3: resultatLjud
+		[]
+
+Etapp(
+	[
+		boll
+		målvakt
+		:skyttLista
+		nätForm
+		stolpeTopp
+		stolpeBotten
+		väggTopp
+		väggBotten
+		väggHöger
+		instruktioner
+		:ljudLista
+	]
+	plats: Plats(0m 0m -14m)
+	ram: Rektangel(-8m 7m 8m -7m)
+	bakgrund: Färg(62% 40 140°)
+	färg: Färg(20% 0 0°)
+	allvar: 0m/s^2
+	överlagring: [poängVy]
+)

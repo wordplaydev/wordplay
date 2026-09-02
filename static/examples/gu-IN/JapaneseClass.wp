@@ -1,0 +1,37 @@
+O
+જાપાનીઝ ભાષાનો વર્ગ
+=== start
+¶જાપાનીઝ વર્ગના પહેલા દિવસ વિશે દ્રશ્ય-દર-દ્રશ્ય વાર્તા.¶
+
+¶આ બતાવવાના દ્રશ્યોની યાદી છે¶
+વાક્યો: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶આ એ વાક્યોની યાદી છે જે ફક્ત બોલવાથી જ આગળ વધવા જોઈએ.¶
+વાક્યોબોલો: [5 7 9]
+
+¶વર્તમાન વાક્ય ૧થી શરૂ થાય છે, અને બોલવાના વાક્ય માટે માઇકનો અવાજ .8થી વધારે થાય ત્યારે, અથવા બીજા વાક્યો માટે કોઈ બટન કે ચાવી દબાવવામાં આવે ત્યારે આગળ વધે છે.¶
+વર્તમાનવાક્ય•#: 1 …
+	વાક્યોબોલો.ધરાવેછે(વર્તમાનવાક્ય) ?
+		વોલ્યુમ() > .6
+		∆ બટન() | ∆ કી()
+		…
+		(વર્તમાનવાક્ય <
+				વાક્યો.લંબાઈ()) ?
+			વર્તમાનવાક્ય + 1
+			વર્તમાનવાક્ય
+
+સ્ટેજ(
+	[વાક્ય(વાક્યો[વર્તમાનવાક્ય] લપેટી: 10m)]
+	ચહેરો: 'Sue Ellen Francisco'
+)

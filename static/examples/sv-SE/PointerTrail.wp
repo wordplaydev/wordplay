@@ -1,0 +1,16 @@
+✨
+Pekarspår
+===
+¶Flytta pekaren för att rita ett tonande regnbågsspår. @Previous (←←) minns de fem senaste @Pointer-platserna, och @List.translate ritar en punkt för varje, som tonar bort och byter färg från äldst till nyast.¶
+historik•[Plats]: ←← 5 Pekare()
+Etapp(
+	historik.översätta(
+		ƒ(punkt2•Plats index2•#)
+			Fras(
+				'●'
+				färg: Färg(75% 100 index2 × 40°)
+				opacitet: index2 ÷ historik.längd()
+				plats: Plats(punkt2.x punkt2.y)
+			)
+	)
+)

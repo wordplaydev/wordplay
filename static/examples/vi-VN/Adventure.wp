@@ -1,0 +1,247 @@
+Y
+Phiêu lưu
+=== start/en
+¶Một cuộc phiêu lưu bằng chữ trong mười lăm căn phòng: bạn thức dậy, bị trói trong một căn phòng tối và lạnh, và phải tìm ra một trong bốn cách để đêm nay kết thúc. Các phòng dẫn ngược trở lại nhau, nên đi sai đường chỉ là một vòng lặp, không phải ngõ cụt, và những gì bạn đang mang theo sẽ quyết định con đường nào mở ra cho bạn.¶
+
+¶Một đường ra khỏi phòng: tên của lựa chọn đó, mã số của phòng mà nó dẫn tới, và, nếu đó là một cửa bị khóa, thứ bạn cần mang theo để mở nó. Bí quyết ở đây là đặt tên cho đích đến, thay vì giữ trực tiếp lấy nó. Một biến phải tồn tại trước khi có thể được nói tới, nên một câu chuyện được xây từ các biến chỉ có thể chỉ về phía trước, không thể quay vòng lại. Một mã số văn bản thì không có quy tắc đó, nên hai phòng có thể cùng đặt tên chỉ tới nhau, và bản đồ có thể có vòng lặp.¶
+•cửa(nhãn•'' phòng•'' cần•'': '')
+
+¶Một căn phòng. Hầu hết các phòng chỉ cần ba phần đầu: một mã số, những gì bạn tìm thấy ở đó, và các cửa của nó. Ba phần cuối dành cho những phòng đặc biệt — một phòng đưa cho bạn một thứ gì đó, và bốn phòng kết thúc câu chuyện.¶
+•phòng2(mãSố•'' môTả2•'' cửa2•[cửa]: [] lấy•'': '' kếtThúc2•'': '' thắng•?: ⊥)
+
+¶Nơi bạn đang ở và những gì bạn đang mang theo. Đây chính là câu chuyện: một mã số phòng và một nhóm nhỏ đồ vật.¶
+•hànhTrình(phòng3•'' gói2•[''])
+
+¶Mọi căn phòng nằm trong một danh sách. Chỉ phòng đầu tiên là quan trọng về vị trí: đó là nơi câu chuyện bắt đầu, và là nơi mọi kết thúc đưa bạn trở lại.¶
+phòng4•[phòng2]: [
+		phòng2(
+			'phòng giam'
+			'Bạn thức dậy trong một căn phòng tối và lạnh, có mùi mốc. Cổ tay bạn bị trói phía sau lưng, và người thắt nút dây đó chẳng vội vàng gì cả.'
+			[
+				cửa('lật người sang một bên' 'sàn nhà')
+				cửa('nằm yên và lắng nghe' 'lắng nghe')
+			]
+		)
+		phòng2(
+			'lắng nghe'
+			'Hai giọng nói vọng xuống qua các tấm ván sàn. Họ đang tranh nhau về việc ai đã để cổng mở, và cả hai đều không có vẻ lo lắng gì về bạn.'
+			[cửa('lật người sang một bên' 'sàn nhà')]
+		)
+		phòng2(
+			'sàn nhà'
+			'Nằm nghiêng, bạn có thể nhìn thấy dưới chiếc giường xếp: một con dao trên nền đá, phần sống dao đã bị gỉ, đủ gần để lấy được nếu bạn chịu áp mặt xuống sàn.'
+			[
+				cửa('lấy dao và cắt dây trói cho mình' 'hầm chứa')
+				cửa('nằm yên và lắng nghe tiếp' 'lắng nghe')
+			]
+		)
+		phòng2(
+			'hầm chứa'
+			'Căn hầm, khi đứng lên: chiếc giường xếp, một đoạn dây đã bị cắt rơi trên sàn, một cầu thang leo lên một bên vách, và một đường hầm thấp chạy ra phía bên kia.'
+			[
+				cửa('leo lên cầu thang' 'cầu thang')
+				cửa('đi vào đường hầm thấp' 'đường hầm')
+			]
+			lấy: 'dao'
+		)
+		phòng2(
+			'cầu thang'
+			'Các bậc thang mòn lõm ở giữa. Đi được nửa đường có một chiếu nghỉ, trên đó treo một cây đèn lồng ở móc, và phía trên chiếu nghỉ cầu thang vẫn tiếp tục.'
+			[
+				cửa('lấy cây đèn lồng' 'đèn lồng')
+				cửa('tiếp tục leo lên' 'cửa')
+				cửa('đi ngược xuống' 'hầm chứa')
+			]
+		)
+		phòng2(
+			'đèn lồng'
+			'Bấc đèn bắt lửa ở lần thử thứ hai, và chiếu nghỉ hóa ra nhỏ hơn nhiều so với khi còn tối.'
+			[
+				cửa('tiếp tục leo lên' 'cửa')
+				cửa('đi ngược xuống' 'hầm chứa')
+			]
+			lấy: 'đèn lồng'
+		)
+		phòng2(
+			'cửa'
+			'Ở đỉnh cầu thang là một cánh cửa nặng nề bị chốt từ phía bên kia. Chốt cửa đã cũ và khe hở bên cạnh đủ rộng để luồn một lưỡi dao.'
+			[
+				cửa('dùng dao cạy chốt cửa' 'sảnh')
+				cửa('đi ngược xuống' 'cầu thang')
+			]
+		)
+		phòng2(
+			'sảnh'
+			'Một gian sảnh có lò sưởi đã tắt lạnh và hai chiếc ghế bị đẩy ra xa, như thể cuộc cãi vã vừa kết thúc vội vàng. Ở đầu kia là một cánh cổng, và có ánh sáng xám dưới khe cổng.'
+			[
+				cửa('băng qua đến cổng' 'cổng')
+				cửa('đi ngược xuống cầu thang' 'cầu thang')
+			]
+		)
+		phòng2(
+			'cổng'
+			'Cánh cổng bị xích lại, và sợi xích luồn qua một ổ khóa to bằng nắm tay bạn. Qua khỏi đó, con đường đi xuống thung lũng.'
+			[
+				cửa(
+					'xoay chìa khóa trong ổ khóa'
+					'sườn đồi'
+					cần: 'chìa khóa'
+				)
+				cửa('leo theo sợi xích thay vào đó' 'leo')
+				cửa('quay lại gian sảnh' 'sảnh')
+			]
+		)
+		phòng2(
+			'đường hầm'
+			'Lối đi thấp đến mức bạn phải bò bằng một tay, và nó có mùi của dòng sông. Đi vào vài bước, bóng tối không còn là một sắc màu nữa mà trở thành một bức tường.'
+			[
+				cửa('mò mẫm đi tiếp' 'mù lòa')
+				cửa('mang ánh sáng vào' 'hầm mộ' cần: 'đèn lồng')
+				cửa('quay ra theo lối bạn đã đến' 'hầm chứa')
+			]
+		)
+		phòng2(
+			'hầm mộ'
+			'Chiếc đèn lồng tìm thấy một căn phòng thấp đầy hộp đá, và trên một cái móc bên cạnh cái hộp cuối cùng, có một chiếc chìa khóa rỉ sét với một mảnh vải vẫn còn buộc quanh nó.'
+			[
+				cửa('đi tiếp về phía dòng nước' 'dòng sông')
+				cửa('quay lại lối đi' 'đường hầm')
+			]
+			lấy: 'chìa khóa'
+		)
+		phòng2(
+			'mù lòa'
+			'Bạn đi tiếp với một tay đưa ra phía trước. Bàn tay không chạm vào gì cả, và một lúc sau chân bạn cũng vậy. Bóng tối giữ lấy những gì được trao cho nó.'
+			kếtThúc2: 'Bóng tối giữ lấy bạn.'
+		)
+		phòng2(
+			'leo'
+			'Bạn đã leo được gần hết đường lên thì sợi xích nhớ ra nó đã cũ đến mức nào. Họ tìm thấy bạn dưới chân cổng lúc bình minh, và lần này họ mang theo đủ dây thừng cho hai người.'
+			kếtThúc2: 'Bị bắt tại cổng.'
+		)
+		phòng2(
+			'dòng sông'
+			'Lối đi kết thúc ở một tấm chắn sắt phía trên dòng nước đang chảy. Những thanh sắt đã cũ, và con dao thì kiên nhẫn. Bạn thoát ra cùng dòng sông, và ngôi nhà đã ở xa phía sau bạn từ trước khi bầu trời kịp ửng xám.'
+			kếtThúc2: 'Ra đi cùng dòng sông.'
+			thắng: ⊤
+		)
+		phòng2(
+			'sườn đồi'
+			'Chiếc chìa khóa xoay, sợi xích đổ xuống bãi cỏ, và cánh cổng mở ra không một tiếng động nào ai nghe thấy. Thung lũng xám màu buổi sáng, và con đường là của bạn.'
+			kếtThúc2: 'Ra ngoài qua cổng.'
+			thắng: ⊤
+		)
+	]
+
+¶Căn phòng có id này. find() trả về ø khi không có gì khớp, và một id không đặt tên cho căn phòng nào là một lỗ hổng trên bản đồ chứ không phải một khúc rẽ trong câu chuyện, vì vậy phòng đầu tiên sẽ thay thế cho nó.¶
+ƒ đi(muốn•'')•phòng2 phòng4.tìmthấy(
+		ƒ(phòng5•phòng2) phòng5.mãSố = muốn
+	) ?? phòng4[1]
+
+¶Những cánh cửa bạn thực sự có thể đi từ đây. Một cánh cửa khóa mà bạn không có gì để mở thì đơn giản là không được đưa ra, vì vậy nó chỉ đọc như một bức tường cho đến khi thứ mở được nó nằm trong tay bạn.¶
+ƒ đường(ởĐây•phòng2 gói3•[''])•[cửa]
+	ởĐây.cửa2.lọc(
+		ƒ(cửa3•cửa) (cửa3.cần = '') | gói3.có(cửa3.cần)
+	)
+
+¶Bước vào một căn phòng, nhặt lấy bất cứ thứ gì nó chứa. add() sẽ vui vẻ đưa cho bạn một con dao thứ hai, vì vậy hãy hỏi trước.¶
+ƒ đến2(ởĐây2•phòng2 gói4•[''])•hànhTrình
+	hànhTrình(
+		ởĐây2.mãSố
+		((ởĐây2.lấy ≠ '') & (~gói4.có(ởĐây2.lấy))) ? gói4.với(
+				ởĐây2.lấy
+			) gói4
+	)
+
+chìaKhóa2: Chìakhóa()
+
+¶Một lần nhấn phím, theo thứ tự: ở phần kết, bất kỳ phím nào cũng đánh thức bạn lại ở căn phòng đầu tiên; một phím không phải 1, 2 hay 3 thì không có nghĩa gì; một số vượt quá số cửa trong căn phòng này cũng không có nghĩa gì; và chỉ khi đó nó mới là một cánh cửa. Phép thử thứ ba đó đáng để ghi lại, vì việc truy cập danh sách sẽ quay vòng — nếu không có nó, nhấn 3 trong một căn phòng có hai cửa sẽ âm thầm chọn cánh cửa đầu tiên.¶
+ƒ bước(t•hànhTrình k•'')•hànhTrình (
+		ởĐây3: đi(t.phòng3)
+		cửa4: đường(ởĐây3 t.gói2)
+		ởĐây3.kếtThúc2 ≠ '' ? hànhTrình('phòng giam' [])
+			~((k = '1') | (k = '2') | (k = '3')) ? t
+				(k → #) > cửa4.chiềudài() ? t
+					đến2(đi(cửa4[k → #].phòng) t.gói2)
+	)
+
+hànhTrình2•hànhTrình: hànhTrình('phòng giam' []) … ∆ chìaKhóa2 … bước(
+			hànhTrình2
+			chìaKhóa2
+		)
+
+ởĐây4: đi(hànhTrình2.phòng3)
+cửa5: đường(ởĐây4 hànhTrình2.gói2)
+
+¶Những gì bạn đang mang theo, chỉ hiện ra khi bạn đang mang theo thứ gì đó.¶
+đangMangTheo:
+	hànhTrình2.gói2.chiềudài() > 0
+	? [
+			Cụmtừ(
+				`*đang mang theo* \hànhTrình2.gói2.thamgia(' · ')\`
+				kíchcỡ: 0.3m
+				sựcănchỉnh: '|'
+				màusắc: Màusắc(60% 30 0°)
+			)
+		]
+		[]
+
+¶Những gì nằm bên dưới căn phòng: các cánh cửa của nó, được đánh số sao cho những gì bạn đọc chính là những gì bạn nhấn, hoặc, ở phần kết, cách nó kết thúc và chiếc chìa khóa duy nhất để bắt đầu lại.¶
+dướiĐây:
+	ởĐây4.kếtThúc2 ≠ ''
+	? [
+			Cụmtừ(
+				`*\ởĐây4.kếtThúc2\*`
+				kíchcỡ: 0.8m
+				sựcănchỉnh: '|'
+				màusắc: ởĐây4.thắng ? Màusắc(85% 50 90°) Màusắc(
+						45%
+						40
+						25°
+					)
+				khoảngthờigian: 1.5s
+				vào: Tưthế(độmờđục: 0% tỉlệ: 0.5)
+			)
+			Cụmtừ(
+				`nhấn phím bất kỳ để thức dậy lần nữa`
+				kíchcỡ: 0.3m
+				sựcănchỉnh: '|'
+				khoảngthờigian: 3s
+				vào: Tưthế(độmờđục: 0%)
+			)
+		]
+		cửa5.dịch(
+			ƒ(cửa6•cửa chỉMục2•#)
+				Cụmtừ(
+					`\chỉMục2\. *\cửa6.nhãn\*`
+					kíchcỡ: 0.5m
+					sựcănchỉnh: '|'
+					tên: cửa6.nhãn
+					khoảngthờigian: 1s
+					vào: Tưthế(độmờđục: 0%)
+				)
+		)
+
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp()
+			[
+				Cụmtừ(
+					ởĐây4.môTả2
+					kíchcỡ: 0.5m
+					bọc: 14m
+					sựcănchỉnh: '|'
+					tên: ởĐây4.mãSố
+					khoảngthờigian: 0.5s
+					vào: Tưthế(bùlại: VịTrí(0m 2m))
+				)
+				:đangMangTheo
+				:dướiĐây
+			]
+		)
+	]
+	lýlịch: Màusắc(0 0 0°)
+	màusắc: Màusắc(100% 0 0°)
+	khuônmặt: "Permanent Marker"
+)

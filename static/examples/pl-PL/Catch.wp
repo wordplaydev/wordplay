@@ -1,0 +1,56 @@
+🐭
+Przechwyć
+=== start/en
+¶Złap biegającą myszkę kliknięciem — kliknij ponownie, żeby ją puścić.
+
+Oba dźwięki pochodzą z samych póz. @Pose może nosić w sobie @Music, który odtwarza się w chwili, gdy dana poza zostaje przyjęta: dźwięk skoku odzywa się, gdy spoczynkowa poza myszki zmienia się na złapaną, a dźwięk bieganiny odzywa się, gdy obrót dociera do połówkowej pozy, do której jest przypisany. Nic nie trzeba łączyć między animacją a dźwiękiem — poza jest miejscem, w którym się spotykają.¶
+
+¶Dwa krótkie utwory. @Track domyślnie odtwarza się w pętli, ale poza to chwila, a nie coś, co trwa, więc muzyka pozy zawsze gra tylko raz.¶
+skok: Muzyka(
+		Ścieżka(
+			[5 1]
+			instrument: Instrument.dzwonek
+			rytm: 1beats
+		)
+		głośność: 50%
+		nazwa: 'skok'
+	)
+bieganina: Muzyka(
+		Ścieżka([1 2] instrument: Instrument.flet rytm: 1beats)
+		głośność: 35%
+		nazwa: 'bieganina'
+	)
+
+¶Jeśli wybrana fraza to myszka, przełącz, czy myszka jest złapana.¶
+nazwa3: Wybór()
+złapany: ⊥ … ∆ (nazwa3) … (nazwa3 = 'mouse') & ~złapany
+¶Co sekundę przesuwaj myszkę¶
+miejsce2: Miejsce(0m 0m 0m) … ∆ Czas(1000ms) … złapany ? Miejsce(
+				0m
+				0m
+			) Miejsce(Losowy(-2m 2m) Losowy(-2m 2m))
+
+Scena(
+	[
+		Wyrażenie(
+			"🐭"
+			wybieralny: ⊤
+			miejsce: miejsce2
+			spoczynkowy: złapany ? Poza(
+					obrót: 180°
+					muzyka: skok
+				) Poza()
+			poruszający: złapany ? Poza() Sekwencja(
+					{
+						0%: Poza(obrót: 0°)
+						50%: Poza(obrót: 180° muzyka: bieganina)
+						100%: Poza(obrót: 360°)
+					}
+				)
+			czastrwania: 1s
+			nazwa: 'mouse'
+		)
+	]
+	miejsce: Miejsce(0m 0m -5m)
+	rama: Prostokąt(-3m 3m 3m -3m)
+)

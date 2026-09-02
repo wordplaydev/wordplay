@@ -1,0 +1,73 @@
+⏳
+讀書模式指針
+=== start/en
+¶點一下來增加讀書時數，看看指針從冷靜變成專注，再變成超載。¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+動作: 選擇()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+讀書時數:
+	0 …
+	∆ 動作 …
+		動作 = 'reset' ?
+			0
+			讀書時數 + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+說明2:
+	'點一下「增加讀書時數 +1」來增加你的讀書時間。點一下「重設」重新開始。'
+
+¶Hours text shows how many hours the user has studied.¶/en
+時數文字:
+	'你已經讀書了 ' + 讀書時數 → '' + ' 小時。'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+mood:
+	讀書時數 < 3 ?
+		'🌿 冷靜模式 — 點一下來增加讀書時間'
+		讀書時數 < 6 ?
+			'📚 專注模式 — 你正處於高效率的狀態！'
+			'🔥 超載模式 — 休息一下，按「重設」吧'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+舞台(
+	[
+		組合(
+			堆疊()
+			[
+				短語('讀書模式指針' 尺寸: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				短語(說明2 尺寸: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				短語(時數文字 尺寸: 0.4m)
+
+				短語(mood 尺寸: 0.75m)
+
+				組合(
+					行(填滿: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						短語(
+							'增加讀書時數 +1'
+							可選擇的: ⊤
+							名字: '新增'
+							色彩: 色彩(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						短語('重設' 可選擇的: ⊤ 名字: 'reset' 色彩: 色彩(69% 47 271°))
+					]
+				)
+			]
+			表面: "Aclonica"
+		)
+	]
+)

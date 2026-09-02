@@ -1,0 +1,35 @@
+⌕
+Wzory
+=== start
+¶Wpisz zdanie z kilkoma liczbami w środku. Znajdę każdą liczbę i pokażę ją poniżej, powiększając się w miarę odnajdywania. Wzorzec opisuje kształt tekstu — tutaj,\⣿ >0 #⣿\ oznacza „jedna lub więcej cyfr”, a ⌕ znajduje każde miejsce, gdzie się pojawia.¶
+wejście: Pogawędzić()
+tekst2: 'Mam 3 koty, 12 ryb i 144 mrówki' … ∆ wejście … wejście
+
+¶Przeszukaj tekst w poszukiwaniu każdego ciągu cyfr. Każdy wynik to Result z dopasowanym tekstem.¶
+liczby: tekst2 ⌕ ⣿ >0 #⣿
+
+Scena(
+	[
+		Grupa(
+			Stos()
+			[
+				Wyrażenie(tekst2 rozmiar: 1m)
+				Grupa(
+					Stos()
+					liczby.tłumaczyć(
+						ƒ(liczba2•Wynik)
+							Wyrażenie(
+								liczba2.tekst
+								rozmiar: 1.5m
+								wstępowanie: Poza(
+									nieprzezroczystość: 0
+									skala: 0.5
+								)
+								czastrwania: 0.5s
+							)
+					)
+				)
+			]
+		)
+	]
+)

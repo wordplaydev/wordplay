@@ -1,0 +1,157 @@
+🎹
+Sanal Piyano
+=== start
+¶Çalabileceğin bir oktavlık bir piyano!En iyi deneyim için müzik görselleştirmesini kapat.¶
+
+¶Bu bağlama, hangi tuşa bastığını algılayan bir Anahtar akışı saklar.¶
+basıldı: Anahtar()
+
+¶Bu, bastığın tuşlardan çalınacak notalara giden bir eşlemeyi saklar. Bu eşleme hem metin biçiminde (çalınan notayı göstermek için) hem de sayısal bir metin biçiminde (bir sayıya (#) çevirip bir Parça listesine girdi olarak vermek için) tutulur.
+
+Düzen, piyano tuşlarına yakın olacak şekilde seçildi: beyaz tuşlar harflerle, siyah tuşlar ise rakamlarla gösteriliyor.¶
+notaharitası: {
+		'w': ['C' "1"]
+		'3': ['Do# / Reb' "2"]
+		'e': ['D' "3"]
+		'4': ['Re# / Mib' "4"]
+		'r': ['E' "5"]
+		't': ['F' "6"]
+		'6': ['Fa# / Solb' "7"]
+		'y': ['G' "8"]
+		'7': ['Sol# / Lab' "9"]
+		'u': ['A' "10"]
+		'8': ['La# / Sib' "11"]
+		'i': ['B' "12"]
+		'o': ['Do5' "13"]
+	}
+
+¶Bu fonksiyon, basılan tuşa göre notanın ismini döndürür. Eğer tuş geçerli bir nota değilse, boş bir metin döndürür.¶
+ƒ metinDöndür(anahtar2•"")•"" (notaharitası{anahtar2} ≠ ø) ? notaharitası{anahtar2}[1] ""
+
+¶Bu fonksiyon, basılan tuşa karşılık gelen nota numarasını bir liste içinde döndürür; bu liste bir Parça içinde girdi olarak kullanılır. Basılan tuş geçersizse, boş bir liste döndürür.¶
+ƒ notaDöndür(anahtar3•"")•[] [
+		(notaharitası{anahtar3} ≠ ø) ? (notaharitası{anahtar3}[2] → #) [
+			]
+	]
+
+¶Bu fonksiyon, sayısal bir liste alır ve bu nota listesine sahip bir Parça döndürür. Döngü kapalıdır, böylece tuşa basıldığında nota yalnızca bir kez çalar.¶
+ƒ parçaDöndür(nota•[#]) Parça(nota döngü: ⊥)
+
+¶Bu iki bağlama, ilgili tuşa basıldığında ve basılmadığında o tuşun alacağı rengi tanımlar.¶
+rengeBas: Renk(10 270 50°)
+boşRenk: Renk(0 0 0°)
+
+¶Bu, basılan tuşa karşılık gelen parçayı çalar. Gam kromatik olarak ayarlanmıştır, böylece parçalar tüm yarım tonlara erişebilir. Yeniden çalma, geçerli bir tuşa basıldığında etkinleşecek şekilde ayarlanmıştır; böylece tuşa üst üste iki kez basılsa bile parça her seferinde çalar.¶
+Müzik(
+	parçaDöndür(notaDöndür(basıldı))
+	gam: Müzik.kromatik
+	tekrarOynat: notaharitası{basıldı} ≠ ø
+)
+
+¶Piyanoyu, basılacak tuşları ve bir tuşa basıldığında çalınan notayı gösterme.¶
+Grup(
+	Yığın('>' 1m)
+	[
+		Grup(
+			Sıra('>' -.3m)
+			[
+				İfadeetmek(
+					'▯'
+					isim: 'w'
+					boyut: 3m
+					renk: basıldı = 'w' ? rengeBas boşRenk
+				)
+				İfadeetmek(
+					'▮'
+					isim: '3'
+					boyut: 3m
+					renk: basıldı = '3' ? rengeBas boşRenk
+				)
+				İfadeetmek(
+					'▯'
+					isim: 'e'
+					boyut: 3m
+					renk: basıldı = 'e' ? rengeBas boşRenk
+				)
+				İfadeetmek(
+					'▮'
+					isim: '4'
+					boyut: 3m
+					renk: basıldı = '4' ? rengeBas boşRenk
+				)
+				İfadeetmek(
+					'▯'
+					isim: 'r'
+					boyut: 3m
+					renk: basıldı = 'r' ? rengeBas boşRenk
+				)
+				İfadeetmek(
+					'▯'
+					isim: 't'
+					boyut: 3m
+					renk: basıldı = 't' ? rengeBas boşRenk
+				)
+				İfadeetmek(
+					'▮'
+					isim: '6'
+					boyut: 3m
+					renk: basıldı = '6' ? rengeBas boşRenk
+				)
+				İfadeetmek(
+					'▯'
+					isim: 'y'
+					boyut: 3m
+					renk: basıldı = 'y' ? rengeBas boşRenk
+				)
+				İfadeetmek(
+					'▮'
+					isim: '7'
+					boyut: 3m
+					renk: basıldı = '7' ? rengeBas boşRenk
+				)
+				İfadeetmek(
+					'▯'
+					isim: 'u'
+					boyut: 3m
+					renk: basıldı = 'u' ? rengeBas boşRenk
+				)
+				İfadeetmek(
+					'▮'
+					isim: '8'
+					boyut: 3m
+					renk: basıldı = '8' ? rengeBas boşRenk
+				)
+				İfadeetmek(
+					'▯'
+					isim: 'i'
+					boyut: 3m
+					renk: basıldı = 'i' ? rengeBas boşRenk
+				)
+				İfadeetmek(
+					'▯'
+					isim: 'o'
+					boyut: 3m
+					renk: basıldı = 'o' ? rengeBas boşRenk
+				)
+			]
+		)
+
+		Grup(
+			Sıra('>' 1.1m)
+			[
+				İfadeetmek('w')
+				İfadeetmek('3')
+				İfadeetmek('e')
+				İfadeetmek('4')
+				İfadeetmek('r t')
+				İfadeetmek('6')
+				İfadeetmek('y')
+				İfadeetmek('7')
+				İfadeetmek('u')
+				İfadeetmek('8')
+				İfadeetmek('i  o')
+			]
+		)
+		İfadeetmek(metinDöndür(basıldı))
+	]
+)

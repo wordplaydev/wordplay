@@ -1,0 +1,621 @@
+🔨
+Bausteine
+=== start/en
+¶Bausteine — hacken, tragen und stapeln. Du bist die kleine Figur auf einer grünen Wiese mit Bäumen und Felsbrocken. Du gehst mit den Pfeiltasten; du drehst dich in die Richtung, in die du gehst, und der schwebende Zeiger zeigt die Zelle, auf die du als Nächstes einwirkst.
+
+Die Leertaste macht beide Aufgaben, und der Zeiger zeigt dir, welche gerade gilt. Wenn der Stapel vor dir höher ist als deine Füße, ist der Zeiger eine 🪏 und die Leertaste schlägt das oberste Stück ab. Wenn der Stapel auf gleicher Höhe wie deine Füße oder tiefer ist, ist der Zeiger ein 🔨 und die Leertaste stapelt einen Block darauf. Sammeln heißt also einfach: zu einem Baum gehen und die Leertaste drücken. Nach oben bauen heißt: beim Gehen mitklettern. Läufst du über ein loses Stück, steckst du es ein — ein Baum gibt dir 🪵 Holz, ein Felsbrocken gibt dir 🧱 Ziegel — und mit Shift wechselst du, welches du stapeln willst.
+
+Du kannst nur einen Block über deiner eigenen Standhöhe erreichen, und der Zeiger wird blass, wenn etwas außer Reichweite ist. Ein Felsbrocken ist zwei Zellen hoch, du kannst ihn also vom Boden aus krönen — aber ein Baum ist drei Zellen hoch, seine Krone braucht also mehr Höhe. Drücke j, um zu hüpfen und oben zuzuschlagen, oder stapel einen Block, klettere hinauf und arbeite von dort aus weiter. Gehen allein bringt dich nie höher, du kannst dich also immer vor etwas hinstellen und darauf einwirken.
+
+Blasse Blöcke zeigen die Struktur, die du bauen sollst, und jeder wird fest, sobald du ihn passend gebaut hast. Baue alle nach und du gewinnst — alles andere, das du herumstehen lässt, ist deine eigene Sache. Eine Stufe, die du zum Klettern gebaut hast, darf also einfach stehen bleiben.¶
+
+¶Die Welt ist ein Raster aus Zellen mit ganzen Zahlen, und Meter tauchen nur beim Zeichnen auf. So bleibt jede Position genau: Neben etwas stehen, auf etwas stapeln und das Ziel treffen — das sind alles Fälle, in denen ganze Zahlen gleich sind. Nichts verschiebt sich je um einen halben Block.
+
+Das Feld ist absichtlich nur fünf Zellen tief, und das hängt damit zusammen, wie nah die Kamera steht — siehe die Kamera weiter unten.¶
+minX: -4
+maxX: 4
+minZ: 0
+maxZ: 4
+maxY: 4
+
+¶Wie weit unter Augenhöhe der Boden liegt, in Zellen. Je näher die Kamera ist, desto größer wird alles dargestellt, und desto weiter schiebt das den Boden nach unten auf dem Bildschirm. Dieser Wert und der Kamera-Abstand müssen sich also zusammen ändern.¶
+bodenFall: 0.8
+
+¶Wie weit die Kamera hinter dir bleibt, in Zellen. Allein dieser Wert bestimmt, wie groß alles wirkt: Die Bühne teilt durch den Abstand zur Kamera, also erscheint drei Zellen dahinter alles etwa zweieinhalbmal so groß wie in echt.¶
+kameraHinten: 3
+
+¶Wie weit das ganze Feld vom Ursprung entfernt liegt. Die Bühne skaliert die Welt mit eins geteilt durch die eigene Position der Kamera, und jedes Teil mit dem Kehrwert — das hebt sich auf, außer wenn die Kamera-Position null erreicht. Dann wird die ganze Szene flach und dreht sich dann um. Die Kamera bleibt cameraBack Zellen hinter dir, das Feld so weit hinauszuschieben hält die Kamera-Position also bequem im negativen Bereich, selbst wenn du zur hintersten Reihe gehst. Es verändert nicht, wie irgendetwas aussieht — es hält die Rechnung nur von null fern.¶
+weltHinten: 4
+
+¶Die Mitte einer Zelle in Metern. Die Hälfte verschiebt x nach hinten, weil ein Phrase an seiner linken Kante platziert wird.¶
+ƒ beiX(c2•#) ((c2 - 0.5) · 1m)
+ƒ beiY(c3•#) ((c3 - bodenFall) · 1m)
+ƒ beiZ(c4•#) ((c4 - weltHinten) · 1m)
+
+¶Wie lange der Hammer gespannt bleibt, und wie viele Bilder du nach einem Hüpfer in der Luft hängst. Das Hängen macht das Springen erst brauchbar: Ohne es würde ein Hüpfer nur ein einziges Bild dauern — viel zu kurz, um einen Pfeil zu drücken, zuzuschlagen oder auf einem Block zu landen.¶
+schwungTakte: 2
+hängTakte: 4
+
+¶Wie viel von der Welt hinter dir noch gezeichnet wird. Sieh dir die Kamera weiter unten an, um zu verstehen, warum es das überhaupt gibt: Je näher die Kamera ist, desto weniger Reihen hinter dir können gezeichnet werden, bevor eine davon vor der Linse landet und sich über das ganze Bild aufbläht.¶
+hintenZeichnen: 1
+
+¶Wie weit über deiner eigenen Standhöhe du arbeiten kannst. Ein Block macht den Höhenunterschied aus: Ein Felsbrocken ist zwei Zellen hoch, du kannst ihn also vom Boden aus krönen, aber ein Baum ist drei Zellen hoch, also musst du hüpfen oder auf etwas stehen, um seine Krone zu erreichen — und dieselbe Grenze bestimmt, wie hoch du stapeln kannst.¶
+reichweite: 1
+
+¶Ein Würfel, der in einer Zelle sitzt. Seine Art ist das Emoji selbst, deshalb braucht das Zeichnen eines Blocks keine Nachschlage-Tabelle.¶
+•block(x2•# y2•# z2•# art•"")
+
+¶Ein Stück, das abgeschlagen wurde und zu Boden fällt. Es merkt sich die Zelle, aus der es herausgebrochen ist, sodass sein erstes Bild dort gezeichnet wird, wo der Block war, und jedes weitere Bild dort, wo es gelandet ist — das eigene Ease-Verhalten des Phrase erzeugt den Flug. Die id dient nur dazu, ihm einen eigenen Namen auf der Bühne zu geben, da zwei Stücke auf derselben Zelle landen können.¶
+•element(id2•# x3•# z3•# vonX•# vonY•# vonZ•# art2•"" alter•#)
+
+¶Das ganze Spiel in einem Wert: die Phase (1 = Titel, 2 = Spielen, 3 = gewonnen), wo du stehst und in welche Richtung du zuletzt gegangen bist, wie lange du in einem Sprung noch schweben kannst, was in deinen Taschen ist und welches Material du platzieren würdest, wie viel Schwung dem Hammer noch bleibt, die Kennung für das nächste lose Stück, die Struktur, die du nachbauen musst, und alles in der Welt.¶
+•spiel(phase•# x4•# y3•# z4•# zuXGewandt•# zuZGewandt•# hängen•# holz•# ziegel•# ausgewählt•"" schwingen2•# nächsteID•# ziel•[block] blöcke•[block] elemente•[element])
+
+¶Ein Baum besteht aus drei gestapelten Würfeln, ein Felsbrocken aus zwei — nicht als ein Objekt jeweils, sondern als mehrere Blöcke in einer Spalte, sodass jedes Stück einzeln abgehämmert werden muss. Beide sind eine Spalte breit, wodurch beim Erscheinen sichergestellt werden kann, dass sich niemals zwei Blöcke eine Zelle teilen.¶
+baumForm: [
+		block(0 0 0 '🌳')
+		block(0 1 0 '🌳')
+		block(0 2 0 '🌳')
+	]
+felsblockForm: [block(0 0 0 '🪨') block(0 1 0 '🪨')]
+
+ƒ formBei(form2•[block] cx•# cz•#) form2.übersetzen(
+		ƒ(b2•block) block(cx b2.y2 cz b2.art)
+	)
+
+¶Was aus einem abgeschlagenen Stück wird.¶
+ƒ produktVon(art3•"") art3 ???
+		'🌳': '🪵'
+		'🪨': '🧱'
+		art3
+
+¶Eine neue Struktur zum Nachbauen: zwei Türme, jeder ein bis drei Blöcke hoch, in einem zufälligen Paar der mittleren Spalten, in der hinteren Reihe des Feldes. Genau in diesen mittleren Spalten erscheinen niemals Rohstoffe, sodass ein Turm nie in einem Baum landen kann. Jede Spalte ist von unten bis oben massiv, weil beim Stapeln immer oben auf eine Spalte gelegt wird — ein schwebender Block kann nicht entstehen, also kann auch keiner angefragt werden. Sechs Blöcke sind die Obergrenze, das liefert ein Feld mit drei Felsbrocken an Stein, also lässt sich sogar eine reine Steinstruktur bauen.¶
+ƒ zielErzeugen() (
+		tiefe: maxZ
+		paar: [-1 0 1].gemischt().Folge(1 2)
+		paar.kombinieren(
+			[]
+			ƒ(struktur•[block] cx2•#)
+				struktur.mitListe(
+					(Zufällig(1 2) → []).übersetzen(
+						ƒ(level•#)
+							block(
+								cx2
+								(level - 1)
+								tiefe
+								['🪵' '🧱'].zufällig()
+							)
+					)
+				)
+		)
+	)
+
+¶Ob eine Zelle überhaupt auf dem Feld liegt.¶
+ƒ inGrenzen(cx3•# cz2•#) (cx3 ≥ minX) & (cx3 ≤ maxX) & (cz2 ≥ minZ) & (cz2 ≤ maxZ)
+
+¶Wie hoch eine Spalte ist. Jede Spalte ist von unten bis oben massiv — so wachsen Formen, Stapeln fügt oben hinzu, und Hämmern nimmt von oben weg — deshalb ergibt einfaches Zählen der Blöcke einer Spalte sowohl ihre Höhe als auch die erste freie Zelle darüber.¶
+ƒ spalteHöhe(blöcke2•[block] cx4•# cz3•#) blöcke2.Filter(
+		ƒ(b3•block) (b3.x2 = cx4) & (b3.z2 = cz3)
+	).Länge(
+	)
+
+¶Ob genau eine Zelle genau eine bestimmte Art von Block enthält. Die Frage so zu stellen — Übereinstimmungen zu zählen statt einen Block zu holen, der vielleicht nicht da ist — verhindert, dass ein vielleicht-vorhandener Block herumgetragen und ausgepackt werden muss.¶
+ƒ zelleEnthält(blöcke3•[block] cx5•# cy•# cz4•# art4•"")
+	blöcke3.Filter(
+		ƒ(b4•block) (b4.x2 = cx5) & (b4.y2 = cy) & (b4.z2 = cz4) & (b4.art = art4)
+	).Länge(
+	) > 0
+
+¶Ein neues Feld: drei Bäume und drei Felsbrocken, jeder auf seiner eigenen Spalte, in zufälliger Tiefe. Zuerst die Spalten zu mischen macht zufällig, welche davon Bäume wachsen lassen. Die Spalten in der Mitte werden absichtlich ausgelassen, sodass nie etwas dort wächst, wo du stehst oder wo die Türme hinkommen.¶
+spaltenErzeugen: [-4 -3 -2 2 3 4]
+
+ƒ weltErzeugen()
+	spaltenErzeugen.gemischt().kombinieren(
+		[]
+		ƒ(feld•[block] cx6•# index2•#)
+			feld.mitListe(
+				formBei(
+					((index2 ≤ 3) ? baumForm felsblockForm)
+					cx6
+					Zufällig(minZ maxZ)
+				)
+			)
+	)
+
+¶Welche Zielblöcke du noch nicht nachgebaut hast. Das ist der ganze Rückmeldungs-Kreislauf: Die blassen Türme lösen sich Block für Block auf, während du baust, und das ist zugleich der Grund, warum ein blasser Block und ein echter Block niemals eine Zelle teilen — das ist wichtig, denn die Bühne sortiert nur nach Tiefe, und zwei Dinge in derselben Tiefe wären reiner Zufall.¶
+ƒ zielNichtErreicht(blöcke4•[block] ziel2•[block])
+	ziel2.Filter(
+		ƒ(g•block) ~zelleEnthält(blöcke4 g.x2 g.y2 g.z2 g.art)
+	)
+
+¶Du hast gewonnen, sobald jeder Block der Struktur nachgebaut ist. Alles andere, was du herumliegen lässt, ist deine Sache — Stufen, die du zum Klettern gebaut hast, ein Haufen, den du nie benutzt hast — nichts muss aufgeräumt werden, um fertig zu sein. Eine Zielzelle verlangt genau ein bestimmtes Material, also kann ein Baum, der zufällig am richtigen Platz steht, sie nicht erfüllen.¶
+ƒ zielErreicht(blöcke5•[block] ziel3•[block]) zielNichtErreicht(
+		blöcke5
+		ziel3
+	).Länge(
+	) = 0
+
+¶Mach einen Schritt. Du drehst dich immer in die Richtung, in die du gehen wolltest, selbst wenn der Schritt selbst fehlschlägt — so richtest du dich aus, indem du gegen etwas läufst. Du trittst nur in eine Zelle, deren Stapel nicht höher ist als die Höhe, auf der du schon stehst — Laufen klettert niemals, denn ein Schritt, der klettern würde, würde dich auf genau das Ding tragen, das du eigentlich abhämmern wolltest. Hüpfe mit j, um über einen Block zu kommen, und lauf dann darauf.¶
+ƒ bewegen(spiel2•spiel dx•# dz•#) (
+		zugewandt: (spiel2.zuXGewandt:dx).zuZGewandt:dz
+		zielX: spiel2.x4 + dx
+		zielZ: spiel2.z4 + dz
+		~inGrenzen(zielX zielZ) ? zugewandt (
+				höhe: spalteHöhe(zugewandt.blöcke zielX zielZ)
+				(höhe ≤ spiel2.y3) ? ((zugewandt.x4:zielX).z4:zielZ) zugewandt
+			)
+	)
+
+¶Hüpfe, aber nur von etwas, auf dem du stehst. Zu prüfen, ob du auf deinem eigenen Untergrund stehst, ist der entscheidende Test: Dass die Schwebezeit endet, ist nicht dasselbe wie zu landen. Ein Hüpfer, der nur verweigert würde, solange die Schwebezeit anhält, könnte mitten im Fall erneut ausgelöst werden, und danach wieder beim weiteren Fallen — so klettert man Zelle für Zelle in den Himmel. So erreichst du alles außerhalb deiner Armreichweite, ohne vorher eine Stufe zu bauen.¶
+ƒ springen(spiel3•spiel)
+	(spiel3.y3 > spalteHöhe(
+				spiel3.blöcke
+				spiel3.x4
+				spiel3.z4
+			)) ? spiel3
+		((spiel3.y3:(spiel3.y3 + 1).Mindest(maxY)).hängen:hängTakte)
+
+¶Schlag auf das, was vor dir ist. Nur das oberste Stück dieser Spalte löst sich, deshalb braucht ein Baum drei Schläge — und das bedeutet, dass nie ein Stück schwebend zurückbleiben kann, also muss nie etwas herunterfallen. Du erreichst nur einen Block, der eine Ebene über deinem eigenen Untergrund liegt, also löst sich eine Krone außerhalb deiner Reichweite einfach nicht; steig höher und schlag erneut. Das lose Stück rollt eine Zelle weiter, von dir weg, außer diese Zelle liegt außerhalb des Feldes oder ist schon belegt — dann fällt es dort, wo es stand. Der Hammer holt aus, egal ob du triffst, also schwingt er auch bei einem Fehlschlag.¶
+ƒ treffer(spiel4•spiel) (
+		zielX2: spiel4.x4 + spiel4.zuXGewandt
+		zielZ2: spiel4.z4 + spiel4.zuZGewandt
+		oberesY: spalteHöhe(spiel4.blöcke zielX2 zielZ2) - 1
+		¶Wenn man die Zielzelle direkt in das Stück faltet, das dabei entstehen würde, muss man nicht ständig ein „vielleicht ein Block“ mit sich herumtragen: Eine leere Spalte faltet sich einfach zu nichts.¶
+		produkt: (oberesY > (spiel4.y3 + reichweite)) ? '' spiel4.blöcke.Filter(
+					ƒ(b5•block) (b5.x2 = zielX2) & (b5.y2 = oberesY) & (b5.z2 = zielZ2)
+				).kombinieren(
+					''
+					ƒ(bisher•"" b6•block) bisher + produktVon(b6.art)
+				)
+		geschwungen: spiel4.schwingen2:schwungTakte
+		(produkt = '') ? geschwungen (
+				übrig: geschwungen.blöcke.Filter(
+						ƒ(b7•block) ~((b7.x2 = zielX2) & (b7.y2 = oberesY) & (b7.z2 = zielZ2))
+					)
+				landeX: zielX2 + spiel4.zuXGewandt
+				landeZ: zielZ2 + spiel4.zuZGewandt
+				leeren: inGrenzen(landeX landeZ) & (spalteHöhe(
+								übrig
+								landeX
+								landeZ
+							) = 0)
+				fallenGelassen: geschwungen.elemente.mit(
+						element(
+							geschwungen.nächsteID
+							(leeren ? landeX zielX2)
+							(leeren ? landeZ zielZ2)
+							zielX2
+							oberesY
+							zielZ2
+							produkt
+							0
+						)
+					)
+				((geschwungen.blöcke:übrig).elemente:fallenGelassen).nächsteID:(geschwungen.nächsteID + 1)
+			)
+	)
+
+¶Staple einen deiner Blöcke oben auf die Spalte vor dir, wenn du noch einen übrig hast und oben Platz ist. Die Reichweite wird hier nicht geprüft: Das läuft nur, wenn der Stapel auf oder unter deinen Füßen ist, sodass der neue Block immer in Armlänge landet.¶
+ƒ platzieren(spiel5•spiel) (
+		zielX3: spiel5.x4 + spiel5.zuXGewandt
+		zielZ3: spiel5.z4 + spiel5.zuZGewandt
+		höhe2: spalteHöhe(spiel5.blöcke zielX3 zielZ3)
+		vorrat: (spiel5.ausgewählt = '🪵') ? spiel5.holz spiel5.ziegel
+		(~inGrenzen(zielX3 zielZ3) | (vorrat = 0) | (höhe2 > maxY)) ? spiel5 (
+				ausgegeben: (spiel5.ausgewählt = '🪵') ? (spiel5.holz:(spiel5.holz - 1)) (spiel5.ziegel:(spiel5.ziegel - 1))
+				ausgegeben.blöcke:spiel5.blöcke.mit(
+					block(zielX3 höhe2 zielZ3 spiel5.ausgewählt)
+				)
+			)
+	)
+
+¶Ob die Leertaste bauen oder abbauen würde. Das entscheidet der Stapel vor dir: Auf oder unter deinen Füßen stapelst du einen weiteren Block darauf, darüber schlägst du die Spitze ab. Eine Taste macht beides, und der Zeiger zeigt, was passiert — nach oben bauen heißt also, beim Bauen mitzuklettern, wofür der Sprung da ist. Und du kannst immer etwas zurücknehmen, das du an der falschen Stelle abgelegt hast, indem du auf gleicher Höhe damit stehst.¶
+ƒ gebäude(spiel6•spiel)
+	spalteHöhe(
+		spiel6.blöcke
+		(spiel6.x4 + spiel6.zuXGewandt)
+		(spiel6.z4 + spiel6.zuZGewandt)
+	) ≤ spiel6.y3
+
+ƒ spielen(spiel7•spiel) gebäude(spiel7) ? platzieren(
+			spiel7
+		) treffer(spiel7)
+
+¶Wechsle, welches Material du stapeln würdest.¶
+ƒ umschalten(spiel8•spiel) spiel8.ausgewählt:((spiel8.ausgewählt = '🪵') ? '🧱' '🪵')
+
+¶Ein Tastendruck während des Spiels. Die Taste kommt hier als reiner Text an, statt draußen in der Reaktion verglichen zu werden. So bleiben die ∆-Tests der Reaktion auf den Datenstrom selbst gerichtet.¶
+ƒ tastendruckAnwenden(spiel9•spiel schlüssel2•"")
+	(schlüssel2 = 'Pfeil nach links') ? bewegen(spiel9 -1 0)
+		((schlüssel2 = 'Pfeil nach rechts') ? bewegen(spiel9 1 0)
+				((schlüssel2 = 'Pfeil nach oben') ? bewegen(spiel9 0 1)
+						((schlüssel2 = 'Pfeil nach unten') ? bewegen(
+									spiel9
+									0
+									-1
+								)
+								((schlüssel2 = 'Raum') ? spielen(spiel9)
+										((schlüssel2 = 'Schicht') ? umschalten(
+													spiel9
+												)
+												((schlüssel2 = 'j') ? springen(
+															spiel9
+														) spiel9))))))
+
+¶Eine neue Runde.¶
+ƒ neuesSpiel() spiel(
+		2
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		zielErzeugen()
+		weltErzeugen()
+		[]
+	)
+
+¶Ein Bild: Lass die losen Teile altern, damit sie landen, hängen und dann oben auf das fallen, worüber du stehst, steck alles ein, was auf deiner Zelle liegt, lass den Hammer zurückfallen und prüfe die Türme.¶
+ƒ weltFortschreitenLassen(spiel10•spiel) (
+		gealtert: spiel10.elemente.übersetzen(
+				ƒ(i•element) (i.alter = 0) ? (i.alter:1) i
+			)
+		stehend: spalteHöhe(
+				spiel10.blöcke
+				spiel10.x4
+				spiel10.z4
+			)
+		nächstesHängen: (spiel10.hängen > 0) ? (spiel10.hängen - 1) 0
+		nächstesY: ((spiel10.hängen = 0) & (spiel10.y3 > stehend)) ? (spiel10.y3 - 1) spiel10.y3
+		¶Du bist immer auf der Höhe der Spalte, auf der du stehst, und alles, was dort liegt, ebenso. Deshalb reicht es, sich eine Zelle zu teilen, um etwas aufzuheben.¶
+		unterDenFüßen: gealtert.Filter(
+				ƒ(i2•element) (i2.x3 = spiel10.x4) & (i2.z3 = spiel10.z4) & (i2.alter > 0)
+			)
+		behalten: gealtert.Filter(
+				ƒ(i3•element) ~((i3.x3 = spiel10.x4) & (i3.z3 = spiel10.z4) & (i3.alter > 0))
+			)
+		holzErhalten: unterDenFüßen.Filter(
+				ƒ(i4•element) i4.art2 = '🪵'
+			).Länge(
+			)
+		ziegelErhalten: unterDenFüßen.Filter(
+				ƒ(i5•element) i5.art2 = '🧱'
+			).Länge(
+			)
+		spiel(
+			(zielErreicht(spiel10.blöcke spiel10.ziel) ? 3 spiel10.phase)
+			spiel10.x4
+			nächstesY
+			spiel10.z4
+			spiel10.zuXGewandt
+			spiel10.zuZGewandt
+			nächstesHängen
+			(spiel10.holz + holzErhalten)
+			(spiel10.ziegel + ziegelErhalten)
+			spiel10.ausgewählt
+			((spiel10.schwingen2 > 0) ? (spiel10.schwingen2 - 1) 0)
+			spiel10.nächsteID
+			spiel10.ziel
+			spiel10.blöcke
+			behalten
+		)
+	)
+
+schlüssel3: Schlüssel()
+takt2: Zeit(150ms)
+tippen: Taste()
+
+¶Der Herzschlag, angetrieben von drei Eingaben. Während des Spiels bringt ein Takt die Welt voran, Tasten erledigen alles andere, und ein Klick schwingt. Vom Titel- oder Gewinnbildschirm aus startet Enter oder ein Klick eine neue Runde.¶
+spiel11•spiel: spiel(
+		1
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		zielErzeugen()
+		weltErzeugen()
+		[]
+	)
+	… (∆ takt2 | ∆ schlüssel3 | ∆ tippen) …
+		(spiel11.phase = 2)
+		? (∆ takt2 ? weltFortschreitenLassen(spiel11)
+					(∆ schlüssel3 ? tastendruckAnwenden(
+								spiel11
+								schlüssel3
+							) spielen(spiel11)))
+			(∆ takt2 ? spiel11
+					(∆ schlüssel3 ? ((schlüssel3 = 'Eingeben') ? neuesSpiel(
+									) spiel11)
+							(∆ tippen ? neuesSpiel() spiel11)))
+
+¶Alles in der Welt wird ohne Weichzeichnung gezeichnet, sodass ein Schritt genau in dem Bild landet, in dem du drückst, statt danach hinterherzugleiten. Und jedes Stück trägt einen Namen, der aus seiner Zelle gebildet wird. Der Name ist der wichtige Teil: Die Bühne unterscheidet Ausgaben anhand des Namens, und eine Liste ohne Namen wird nach Position unterschieden. Würde man also einen Block aus der Mitte eines Stapels herausbrechen, bekäme jeder Block darüber die Identität seines Nachbarn und würde eine Position nach unten rutschen.¶
+¶A green emoji is about a quarter wider than it is tall, so the tiles are sized
+down to land exactly one to a cell and keep the ground lined up with the blocks
+standing on it.¶
+kachelgröße: 0.8m
+
+bodenreihen: [0 1 2 3 4].Filter(
+		ƒ(reihe•#) reihe ≥ (spiel11.z4 - hintenZeichnen)
+	).übersetzen(
+		ƒ(reihe2•#)
+			Satzglied(
+				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+				kachelgröße
+				Dauer: 0s
+				Name: "g\reihe2\"
+				Ort: Ort(beiX(minX) beiY(-1) beiZ(reihe2))
+			)
+	)
+
+blockansichten: spiel11.blöcke.Filter(
+		ƒ(b8•block) b8.z2 ≥ (spiel11.z4 - hintenZeichnen)
+	).übersetzen(
+		ƒ(b9•block)
+			Satzglied(
+				b9.art
+				1m
+				Dauer: 0s
+				Name: "b\b9.x2\,\b9.y2\,\b9.z2\"
+				Ort: Ort(beiX(b9.x2) beiY(b9.y2) beiZ(b9.z2))
+			)
+	)
+
+¶Die Türme, auf die du hinarbeitest, blass dargestellt, und zwar nur die Teile, die du noch nicht gebaut hast.¶
+geisteransichten: zielNichtErreicht(
+		spiel11.blöcke
+		spiel11.ziel
+	).Filter(
+		ƒ(g2•block) g2.z2 ≥ (spiel11.z4 - hintenZeichnen)
+	).übersetzen(
+		ƒ(g3•block)
+			Satzglied(
+				g3.art
+				1m
+				Dauer: 0s
+				Opazität: 35%
+				Name: "h\g3.x2\,\g3.y2\,\g3.z2\"
+				Ort: Ort(beiX(g3.x2) beiY(g3.y2) beiZ(g3.z2))
+			)
+	)
+
+¶Ein loses Stück. Das ist das einzige Ding auf der Bühne, das sanft gleitet statt zu springen — sein erstes Bild ist dort, wo der Block zerbrach, und der Rest ist dort, wo er landete, und das sanfte Dazwischen ist der Sturz.¶
+objektansichten: spiel11.elemente.Filter(
+		ƒ(i6•element) i6.z3 ≥ (spiel11.z4 - hintenZeichnen)
+	).übersetzen(
+		ƒ(i7•element)
+			Satzglied(
+				i7.art2
+				0.6m
+				Dauer: 0.3s
+				Name: "i\i7.id2\"
+				Ort: (i7.alter = 0)
+				? Ort(beiX(i7.vonX) beiY(i7.vonY) beiZ(i7.vonZ))
+					Ort(
+						beiX(i7.x3)
+						beiY(spalteHöhe(spiel11.blöcke i7.x3 i7.z3))
+						beiZ(i7.z3)
+					)
+			)
+	)
+
+¶Eine Dauer ist überhaupt das, was einen Schritt zu Bewegung macht: Ohne sie überspringt die Bühne das Erstellen einer Animation für ihn, und jede Bewegung wird augenblicklich ausgeführt. Etwas weniger als ein Takt bedeutet, dass sich jeder Schritt und jeder Sprung kurz vor dem nächsten einpendelt. Das Strecken, während er in der Luft ist, ist derselbe Trick wie der gespannte Schwung des Hammers — eine andere Haltung, die so lange gehalten wird, wie der Zustand andauert, statt einer Animation zum Starten und Stoppen.¶
+spieleransicht: Satzglied(
+		'🚶🏻‍♀'
+		1.1m
+		Dauer: 0.14s
+		Name: 'Spieler'
+		Skala: ((spiel11.hängen > 0) ? 1.08 1)
+		flipx: spiel11.zuXGewandt > 0
+		Ort: Ort(
+			beiX(spiel11.x4)
+			beiY(spiel11.y3)
+			beiZ(spiel11.z4)
+		)
+	)
+
+¶Der Zeiger schwebt über der Zelle, auf der deine nächste Aktion landet — dem freien Platz oben auf dem Stapel, dem du gegenüberstehst. Ein Schwung zerbricht den Block direkt darunter, und ein Stapel füllt die Zelle, die er markiert, sodass nie unklar ist, was du gleich zerbrichst oder wohin ein Block gehen wird. Er schwebt etwas über dieser Zelle, damit er sichtbar bleibt, wenn die Zelle direkt vor dir liegt und dein eigener Körper sie sonst verdecken würde. Er spannt sich in dem Moment zurück, in dem du schwingst, und gleitet von selbst wieder heim, was genau beim Treffer auslöst, statt in einer Schleife zu laufen. Er verschwindet, wenn du zum Rand des Feldes hin schaust, weil dort nichts ist, worauf man einwirken könnte.¶
+zielX4: spiel11.x4 + spiel11.zuXGewandt
+zielZ4: spiel11.z4 + spiel11.zuZGewandt
+zielY: spalteHöhe(spiel11.blöcke zielX4 zielZ4)
+
+¶Welche der beiden Aufgaben die Leertaste an der Spalte vor dir ausführen würde, und ob dabei überhaupt etwas herauskäme: Zum Abbauen muss die Spitze in Reichweite sein, und zum Bauen muss noch etwas vom gewählten Material in deinen Taschen sein. Der Zeiger verblasst, sobald die Antwort Nein ist, sodass eine leere Tasche genauso aussieht wie eine unerreichbare Spitze, statt wie ein Tastendruck, der einfach nichts bewirkt.¶
+bautHier: zielY ≤ spiel11.y3
+inReichweite: (zielY - 1) ≤ (spiel11.y3 + reichweite)
+vorratHier: (spiel11.ausgewählt = '🪵') ? spiel11.holz spiel11.ziegel
+kannHandeln: bautHier ? (vorratHier > 0) inReichweite
+
+zeigeransicht: Satzglied(
+		(bautHier ? '🔨' '🪏')
+		0.85m
+		Dauer: 0.12s
+		Name: 'Zeiger'
+		Drehung: ((spiel11.schwingen2 > 0) ? -55° 0°)
+		Opazität: (kannHandeln ? 100% 30%)
+		Ort: Ort(beiX(zielX4) beiY(zielY + 0.55) beiZ(zielZ4))
+	)
+
+zeigerliste: inGrenzen(zielX4 zielZ4) ? [zeigeransicht] []
+
+¶Taschen und aktuelles Material, flach am Bildschirm fixiert, sodass die Tiefe sie nie verkleinert.¶
+anzeige: [
+		Satzglied(
+			"🪵 \spiel11.holz\   🧱 \spiel11.ziegel\   🔨 \spiel11.ausgewählt\"
+			0.5m
+			Ort: Ort(-6.6m 4.3m)
+		)
+	]
+
+bildschirmtitel: (spiel11.phase = 3) ? '🎉 Du hast es gebaut! 🎉' '🔨 BAUSTEINE 🔨'
+startzeile: (spiel11.phase = 3) ? 'Drücke Enter oder klicke, um erneut zu bauen' 'Drücke Enter oder klicke, um zu starten'
+
+¶Die Bildschirme liegen flach über einem Feld voller Bäume und Figuren. Deshalb hat die Gruppe einen eigenen, blickdichten Hintergrund. Dunkle Wörter über Ästen und Dächern sind schwer zu lesen. Eine feste Fläche hält sie lesbar, ohne die Welt dahinter zu verdecken.¶
+bildschirmansicht: [
+		Gruppe(
+			Stapel()
+			[
+				Satzglied(bildschirmtitel 1.1m Name: 's1')
+				Satzglied(
+					'Pfeile gehen · du blickst in die Richtung, in die du gegangen bist'
+					0.5m
+					Name: 's2'
+				)
+				Satzglied(
+					'Leertaste wirkt auf den Zeiger: 🪏 bricht ab · 🔨 baut'
+					0.5m
+					Name: 's3'
+				)
+				Satzglied(
+					'Umschalttaste tauscht 🪵 🧱 · j springt hoch, um etwas zu erreichen'
+					0.5m
+					Name: 's4'
+				)
+				Satzglied(
+					'Erreiche einen Block weiter oben · finde die passenden verblassten Blöcke'
+					0.5m
+					Name: 's5'
+				)
+				Satzglied(startzeile 0.7m Name: 's6')
+			]
+			Hintergrund: Farbe(90% 10 240°)
+		)
+	]
+
+¶Die Kamera hält einen festen Abstand hinter dir, statt still zu stehen. So bleibst du auf dem Bildschirm immer gleich groß, egal wie weit du gehst, und das Feld gleitet über deine Schulter an dir vorbei. Sie folgt dir auch seitlich, sodass das Gehen zum Rand des Feldes die Welt verschiebt, statt dich aus dem Bild zu lassen. Das Fünftel einer Zelle ist ein kleiner Ausgleich zur Mitte: Eine Figur wird von ihrer linken Kante aus gezeichnet, die eine halbe Zelle versetzt liegt, und ihr Zeichen ist etwas breiter als die Zelle, in der sie steht.
+
+Die Bühne skaliert alles nach dem Abstand zur Kamera. Eine einzige Zelle vor der Linse wird achtmal so groß dargestellt wie in echt. Bei dieser Entfernung wird die Welt mehr als eine Reihe hinter dir einfach nicht mehr gezeichnet. Die Türme stehen immer in der hintersten Reihe, der einen Reihe, die die Sichtweite nie abschneiden kann. So bleiben sie sichtbar, egal wo du hingehst.¶
+kameraZ: ((spiel11.z4 - weltHinten - kameraHinten) · 1m)
+
+¶Die Kamera bewegt sich auf der Höhe dessen, worauf du gerade stehst, statt auf deiner eigenen Höhe. Kletterst du auf einen Stapel, steigt die Kamera mit dir und behält dich im Bild. Ein Sprung wirkt trotzdem wie ein Sprung – dabei entfernst du dich wirklich von der Kamera, statt sie mitzuziehen.¶
+kameraY: (spalteHöhe(spiel11.blöcke spiel11.x4 spiel11.z4) · 1m)
+
+¶Die Welt wird in jeder Phase gleich gezeichnet. Der Titelbildschirm und der Gewinnbildschirm zeigen also genau das Feld, in dem du auch spielst, statt einer eigenen Menüszene.¶
+weltebene: [
+		:blockansichten
+		:geisteransichten
+		:objektansichten
+		spieleransicht
+		:zeigerliste
+	]
+
+¶Alles, was mit dir spricht, liegt in der Überlagerung der Bühne. Diese ist fest auf den Bildschirm gepinnt und wird daher weder von der Kamera noch von der Tiefe beeinflusst. Dass die Anzeige hier liegt und nicht in der Welt, hält sie lesbar: Alles, was in der Welt platziert wird, hat eine bestimmte Tiefe, und die näher an der Kamera liegenden Bodenreihen würden darüber gezeichnet werden.¶
+überlagerungsebene: (spiel11.phase = 2) ? anzeige bildschirmansicht
+
+¶Ein losgeschlagenes Teil ist noch bei seinem ersten Bild, dem einen Bild, das es von den Teilen unterscheidet, die schon herumliegen – das gleiche Alter, das die Zeichnung nutzt, um zu entscheiden, ob es dort startet, wo der Block zerbrochen ist.¶
+jetztKaputt: spiel11.elemente.Filter(
+		ƒ(i8•element) i8.alter = 0
+	)
+
+¶Ob der Hammer gerade geschwungen wurde. Nur das Abbrechen spannt ihn, also ist dies ⊥ für einen Druck, der stattdessen einen Block gestapelt hat.¶
+kaputtgegangen: spiel11.schwingen2 = schwungTakte
+
+¶Wie der Schlag geklungen hat. Holz klingt mit einem Tom, Stein mit der Basstrommel. So klingen ein Baum und ein Felsblock nicht gleich, und ein Schlag ins Leere bekommt ein leises Ticken. Ein hörbarer Fehlschlag ist besser als einer, bei dem es klingt, als wäre nichts passiert.
+
+Die restliche Zeit ist es leer, und das reicht: Ein Ton, der begonnen hat, spielt bis zum Ende, sodass der Hammer noch nachklingt, obwohl diese Liste im nächsten Takt schon wieder leer ist.¶
+hitNotes: kaputtgegangen
+	? ((jetztKaputt.Länge() > 0) ? jetztKaputt.übersetzen(
+					ƒ(i9•element) (i9.art2 = '🪵') ? 5 1
+				) [3])
+		[]
+
+¶Der Druck, der den Schlag ausgelöst hat, und nur dieser. Der Hammer bleibt bis zum nächsten Takt gespannt. Ohne dies würde jede Taste, die in diesem Zeitfenster gedrückt wird, den Treffer ein zweites Mal erklingen lassen.¶
+geschwungen2: ((∆ schlüssel3) & (schlüssel3 = 'Raum')) | (∆ tippen)
+
+hitSound: Musik(
+		Spur(
+			hitNotes
+			Instrument: Instrument.Schlagzeug
+			Schleife: ⊥
+		)
+		Wiederholen: geschwungen2
+		Name: 'Treffer'
+	)
+
+¶Ein Ort zum Verweilen während du arbeitest: eine langsame pentatonische Melodie auf einer Flöte, eine Glocke, die ab und zu antwortet, und ein Dauerton darunter. Pentatonisch, weil sich keine der Noten stoßen kann. So löst sich die Schleife nie zu etwas Bestimmtem auf und klingt nie falsch, wenn der Hammer darüber landet. Sechzehn statt acht Schläge lang, sodass es eine Weile dauert, bis sie wiederkommt.¶
+stimmung: Musik(
+		[
+			Spur(
+				[1 ø ø 3 ø ø 5 ø ø 3 ø ø 2 ø ø ø]
+				Instrument: Instrument.Flöte
+				Schlag: 1beats
+				Lautstärke: 30%
+			)
+			Spur(
+				[ø ø ø ø ø ø 8 ø ø ø ø ø ø ø 6 ø]
+				Instrument: Instrument.Glocke
+				Schlag: 1beats
+				Lautstärke: 20%
+			)
+			Spur(
+				[{1 5} {1 5} {4 8} {1 5}]
+				Instrument: Instrument.synthPad
+				Schlag: 4beats
+				Lautstärke: 25%
+			)
+		]
+		Tempo: 60beats/min
+		Tonleiter: Musik.pentatonisch
+		Lautstärke: 45%
+		Name: 'Natur'
+	)
+
+¶Die Belohnung dafür, jeden verblassten Block zu treffen: ein Trompetenlauf auf derselben pentatonischen Tonleiter, die das Feld die ganze Zeit summt, ein Akkord zum Landen, und ein Glockenfunkeln obendrauf.
+
+Nichts davon wiederholt sich, und genau das macht es zu einer Fanfare statt zu einem neuen Hintergrund. Ein einmaliger Klang, der abgespielt wurde, bleibt still, solange er auf der Bühne liegt. So wird es auf dem Gewinnbildschirm wieder still, und die Stimmung übernimmt wieder. Ein neuer Durchgang nimmt ihn von der Bühne und vergisst ihn, sodass er beim nächsten fertigen Bauwerk wieder von vorn erklingt.¶
+winSound: Musik(
+		[
+			Spur(
+				[1 3 5 8 ø 8 ø ø {1 5 8} ø ø ø ø ø ø ø]
+				Instrument: Instrument.Trompete
+				Schlag: 0.5beats
+				Schleife: ⊥
+			)
+			Spur(
+				[ø ø ø ø ø ø ø ø 8 ø 10 ø 12 ø ø ø]
+				Instrument: Instrument.Glocke
+				Schlag: 0.5beats
+				Lautstärke: 45%
+				Schleife: ⊥
+			)
+			Spur(
+				[{1 3 5} ø {4 6 8} ø]
+				Instrument: Instrument.Klavier
+				Schlag: 2beats
+				Lautstärke: 40%
+				Schleife: ⊥
+			)
+			Spur(
+				[1 ø 3 ø 1 3 1 ø 4 ø ø ø ø ø ø ø]
+				Instrument: Instrument.Schlagzeug
+				Schlag: 0.5beats
+				Lautstärke: 35%
+				Schleife: ⊥
+			)
+		]
+		Tempo: 132beats/min
+		Tonleiter: Musik.pentatonisch
+		Name: 'gebaut'
+	)
+
+¶Es ist erst auf der Bühne, wenn du gewonnen hast, und eine leere Liste löst sich in nichts auf.¶
+winList: (spiel11.phase = 3) ? [winSound] []
+
+Bühne(
+	[:bodenreihen :weltebene stimmung hitSound :winList]
+	Ort: Ort(((spiel11.x4 + 0.2) · 1m) kameraY kameraZ)
+	Hintergrund: Farbe(78% 18 240°)
+	Farbe: Farbe(20% 0 0°)
+	überlagern: überlagerungsebene
+)

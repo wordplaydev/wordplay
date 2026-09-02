@@ -1,0 +1,35 @@
+o
+Katmanlar
+=== start
+¶Farklı derinliklerde zıplayan toplar, paralaks katmanlarını gösteriyor.¶
+sayaç: 10 → []
+
+ƒ toplar(z2•#m) sayaç.tercümeetmek(
+		ƒ()
+			İfadeetmek(
+				'o'
+				yer: Hareket(
+					Yer(Rastgele(-10 10) × 1m Rastgele(0 10) × 1m z2)
+					Hız(
+						Rastgele(-10 10) × 1m/s
+						Rastgele(-5 5) × 1m/s
+					)
+				)
+				konu: Konu(zıplama: 0.8 sürtünme: 0)
+			)
+	)
+
+Sahne(
+	[
+		:toplar(0m)
+		:toplar(-10m)
+		:toplar(10m)
+		Şekil(Daire(2m 0m 1m 0m))
+		Şekil(Daire(2m 9m -3m 10m))
+		Şekil(Çokgen(2m 5 -5m 0m -10m))
+		Şekil(Dikdörtgen(-20m 0m 20m -1m 0m))
+		Şekil(Dikdörtgen(-20m 0m 20m -1m 10m) rotasyon: 25°)
+		Şekil(Dikdörtgen(-20m 0m 20m -1m -10m) rotasyon: -10°)
+	]
+	yer: Yer(0m 10m -30m)
+)

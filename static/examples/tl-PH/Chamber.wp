@@ -1,0 +1,76 @@
+文
+Silid
+=== start
+¶Isandaang letra mula sa apat na sistema ng pagsulat, tumatalbog sa loob ng saradong kahon; baliktarin ang gravity o yugyugin ang mga ito.¶
+bilang2: 100
+
+¶Ang apat na alpabeto na pinagmulan ng mga letra.¶
+latin: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
+griyego: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
+arabik: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
+cjk: '日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪' → ['']
+
+¶Alin ang kontrol na huling na-click.¶
+pagpili: Pagpipilian()
+
+¶Ihalo ang apat na alpabeto nang minsan, kapag nagsimula ang programa, at panatilihin ang ayos na ito magpakailanman. Kung isusulat ang paghalo bilang payak na bind, bibigyan ang bawat letra ng bagong karakter sa bawat frame.¶
+mgaGuhit: [:latin :griyego :arabik :cjk].hinalo() … ∆ pagpili … mgaGuhit
+
+¶Totoo lang sa ebalwasyong dulot ng butong pang-yugyog, kaya isang tulak lang ang natatanggap ng mga letra kada click, sa halip na itulak sila sa bawat frame.¶
+nayayanig: (∆ pagpili) & (pagpili = 'shake')
+
+¶Ang switch ay lumilipat sa pagitan ng gravity ng daigdig at walang gravity.¶
+nahuhulog: ⊤ … ∆ pagpili … (pagpili = 'gravity') ? ~nahuhulog nahuhulog
+
+¶Isang random na bilis, direksyon, at pag-ikot.¶
+ƒ ilunsad() Bilis(
+		Random(-12m/s 12m/s)
+		Random(-12m/s 12m/s)
+		Random(-120°/s 120°/s)
+	)
+
+mgaLetra: bilang2 → [].isalin(
+		ƒ(bilang3)
+			Parirala(
+				mgaGuhit[bilang3]
+				pangalan: "glyph\bilang3\"
+				lugar: Paggalaw(
+					Lugar(Random(-7.5m 7.5m) Random(-5.5m 5.5m))
+					ilunsad()
+					susunodnabilis: nayayanig ? ilunsad() ø
+				)
+				materya: Materya(pagtalbog: 0.7 alitan: 0)
+			)
+	)
+
+¶Ang dalawang kontrol. Walang bagay ang mga ito at hindi Motion ang kanilang lugar, kaya hindi sila kinikilos ng makinarya ng pisika.¶
+switch: Parirala(
+		nahuhulog ? '⬇ gravity' '🌌 lumulutang'
+		0.7m
+		pangalan: 'gravity'
+		mapipili: ⊤
+		lugar: Lugar(-13m 1m)
+	)
+
+shaker: Parirala(
+		'🎲 yumayanig'
+		0.7m
+		pangalan: 'shake'
+		mapipili: ⊤
+		lugar: Lugar(-13m -1m)
+	)
+
+Entablado(
+	[
+		¶Apat na dingding, makapal na sapat para walang tumagos sa loob kahit anong bilis.¶
+		Hugis(Parihaba(-8.6m 6.6m 8.6m 6m))
+		Hugis(Parihaba(-8.6m -6m 8.6m -6.6m))
+		Hugis(Parihaba(-8.6m 6.6m -8m -6.6m))
+		Hugis(Parihaba(8m 6.6m 8.6m -6.6m))
+		:mgaLetra
+		switch
+		shaker
+	]
+	grabidad: nahuhulog ? 9.8m/s^2 0m/s^2
+	lugar: Lugar(-2.5m 0m -11m)
+)

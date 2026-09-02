@@ -1,0 +1,157 @@
+🎹
+Pian virtual
+=== start
+¶Un pian cu o octavă pe care poți să-l cânți!Pentru cea mai bună experiență, oprește vizualizarea muzicii.¶
+
+¶Această legătură stochează un flux de Taste care detectează tasta pe care ai apăsat-o.¶
+apăsat: Cheie()
+
+¶Aceasta stochează o hartă între tastele pe care le apeși și notele pe care le vor cânta,atât sub formă de text (pentru a afișa nota cântată), cât și ca literal textnumeric (pentru a-l transforma într-un număr (#) și a-l introduce într-o listă de Pistă).
+
+Aranjamentul specific a fost ales pentru a semăna cât mai mult cu clapele unui pian,clapele albe fiind reprezentate de caractere alfabetice, iar clapele negre fiindreprezentate de caractere numerice.¶
+hartăDeNote: {
+		'w': ['Do' "1"]
+		'3': ['Do# / Reb' "2"]
+		'e': ['Re' "3"]
+		'4': ['Re# / Mib' "4"]
+		'r': ['Mi' "5"]
+		't': ['Fa' "6"]
+		'6': ['Fa# / Solb' "7"]
+		'y': ['Sol' "8"]
+		'7': ['Sol# / Lab' "9"]
+		'u': ['La' "10"]
+		'8': ['La# / Sib' "11"]
+		'i': ['Si' "12"]
+		'o': ['Do5' "13"]
+	}
+
+¶Această funcție întoarce numele notei, în funcție de tasta apăsată.Dacă tasta nu corespundea unei note valide, întoarce text gol.¶
+ƒ întoarceText(cheie2•"")•"" (hartăDeNote{cheie2} ≠ ø) ? hartăDeNote{cheie2}[1] ""
+
+¶Această funcție întoarce numărul notei corespunzător tastei apăsate, într-o listă,pentru a fi folosit ca intrare într-o Pistă. Dacă tasta apăsată nu este validă,întoarce o listă goală.¶
+ƒ întoarceNotă(cheie3•"")•[] [
+		(hartăDeNote{cheie3} ≠ ø) ? (hartăDeNote{cheie3}[2] → #) [
+			]
+	]
+
+¶Această funcție primește o listă numerică și întoarce o Pistă cu acea listă de note.Repetarea este oprită, astfel încât nota să se cânte o singură dată când tasta este apăsată.¶
+ƒ întoarcePistă(notă•[#]) Pistă(notă buclă: ⊥)
+
+¶Aceste două legături definesc culoarea pe care o are tasta corespunzătoareatunci când este apăsată și când nu este apăsată.¶
+apasăCuloare: Culoare(10 270 50°)
+culoareNulă: Culoare(0 0 0°)
+
+¶Aceasta cântă pista corespunzătoare tastei apăsate. Scara este cromatică, astfelîncât pistele pot folosi toate semitonurile. Repetarea este activată atunci cândo tastă validă este apăsată, astfel încât pista se cântă de fiecare dată cândtasta este apăsată, chiar și de două ori la rând.¶
+Muzică(
+	întoarcePistă(întoarceNotă(apăsat))
+	gamă: Muzică.cromatic
+	reluare: hartăDeNote{apăsat} ≠ ø
+)
+
+¶Afișează pianul, tastele care pot fi apăsate și nota cântată atunci cândo tastă este apăsată.¶
+Grup(
+	Stivă('>' 1m)
+	[
+		Grup(
+			Rând('>' -.3m)
+			[
+				Fraza(
+					'▯'
+					nume: 'w'
+					dimensiune: 3m
+					culoare: apăsat = 'w' ? apasăCuloare culoareNulă
+				)
+				Fraza(
+					'▮'
+					nume: '3'
+					dimensiune: 3m
+					culoare: apăsat = '3' ? apasăCuloare culoareNulă
+				)
+				Fraza(
+					'▯'
+					nume: 'e'
+					dimensiune: 3m
+					culoare: apăsat = 'e' ? apasăCuloare culoareNulă
+				)
+				Fraza(
+					'▮'
+					nume: '4'
+					dimensiune: 3m
+					culoare: apăsat = '4' ? apasăCuloare culoareNulă
+				)
+				Fraza(
+					'▯'
+					nume: 'r'
+					dimensiune: 3m
+					culoare: apăsat = 'r' ? apasăCuloare culoareNulă
+				)
+				Fraza(
+					'▯'
+					nume: 't'
+					dimensiune: 3m
+					culoare: apăsat = 't' ? apasăCuloare culoareNulă
+				)
+				Fraza(
+					'▮'
+					nume: '6'
+					dimensiune: 3m
+					culoare: apăsat = '6' ? apasăCuloare culoareNulă
+				)
+				Fraza(
+					'▯'
+					nume: 'y'
+					dimensiune: 3m
+					culoare: apăsat = 'y' ? apasăCuloare culoareNulă
+				)
+				Fraza(
+					'▮'
+					nume: '7'
+					dimensiune: 3m
+					culoare: apăsat = '7' ? apasăCuloare culoareNulă
+				)
+				Fraza(
+					'▯'
+					nume: 'u'
+					dimensiune: 3m
+					culoare: apăsat = 'u' ? apasăCuloare culoareNulă
+				)
+				Fraza(
+					'▮'
+					nume: '8'
+					dimensiune: 3m
+					culoare: apăsat = '8' ? apasăCuloare culoareNulă
+				)
+				Fraza(
+					'▯'
+					nume: 'i'
+					dimensiune: 3m
+					culoare: apăsat = 'i' ? apasăCuloare culoareNulă
+				)
+				Fraza(
+					'▯'
+					nume: 'o'
+					dimensiune: 3m
+					culoare: apăsat = 'o' ? apasăCuloare culoareNulă
+				)
+			]
+		)
+
+		Grup(
+			Rând('>' 1.1m)
+			[
+				Fraza('w')
+				Fraza('3')
+				Fraza('e')
+				Fraza('4')
+				Fraza('r t')
+				Fraza('6')
+				Fraza('y')
+				Fraza('7')
+				Fraza('u')
+				Fraza('8')
+				Fraza('i  o')
+			]
+		)
+		Fraza(întoarceText(apăsat))
+	]
+)

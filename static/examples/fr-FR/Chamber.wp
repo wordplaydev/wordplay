@@ -1,0 +1,76 @@
+文
+Chambre
+=== start
+¶Cent lettres de quatre systèmes d'écriture qui rebondissent dans une boîte fermée ; inverse la gravité ou secoue-les.¶
+compte2: 100
+
+¶Les quatre alphabets dont viennent les lettres.¶
+latin: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
+grec: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
+arabe: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
+cjc: '日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪' → ['']
+
+¶Quel contrôle a été cliqué en dernier.¶
+choix: Choix()
+
+¶Mélange les quatre alphabets ensemble une seule fois, au démarrage du programme, puis garde cet ordre pour toujours. Un mélange écrit comme une simple liaison donnerait un nouveau caractère à chaque lettre à chaque image.¶
+glyphes2: [:latin :grec :arabe :cjc].mélangé() … ∆ choix … glyphes2
+
+¶Vrai seulement lors de l'évaluation provoquée par le bouton secouer, pour que les lettres reçoivent une seule poussée par clic au lieu d'être bousculées à chaque image.¶
+secouer: (∆ choix) & (choix = 'shake')
+
+¶L'interrupteur bascule entre la gravité terrestre et l'absence de gravité.¶
+chute: ⊤ … ∆ choix … (choix = 'gravity') ? ~chute chute
+
+¶Une vitesse, une direction et une rotation aléatoires.¶
+ƒ lancer() Vitesse(
+		Aléatoire(-12m/s 12m/s)
+		Aléatoire(-12m/s 12m/s)
+		Aléatoire(-120°/s 120°/s)
+	)
+
+lettres: compte2 → [].traduire(
+		ƒ(nombre2)
+			Phrase(
+				glyphes2[nombre2]
+				nom: "glyph\nombre2\"
+				lieu: Mouvement(
+					Lieu(Aléatoire(-7.5m 7.5m) Aléatoire(-5.5m 5.5m))
+					lancer()
+					prochainevitesse: secouer ? lancer() ø
+				)
+				matière: Matière(rebondissement: 0.7 friction: 0)
+			)
+	)
+
+¶Les deux contrôles. Ils n'ont pas de matière et leur place n'est pas un Motion, donc le moteur physique les laisse tranquilles.¶
+interrupteur: Phrase(
+		chute ? '⬇ gravité' '🌌 flottant'
+		0.7m
+		nom: 'gravity'
+		sélectionnable: ⊤
+		lieu: Lieu(-13m 1m)
+	)
+
+secoueur: Phrase(
+		'🎲 secouer'
+		0.7m
+		nom: 'shake'
+		sélectionnable: ⊤
+		lieu: Lieu(-13m -1m)
+	)
+
+Scène(
+	[
+		¶Quatre murs, assez épais pour que rien ne les traverse à grande vitesse.¶
+		Forme(Rectangle(-8.6m 6.6m 8.6m 6m))
+		Forme(Rectangle(-8.6m -6m 8.6m -6.6m))
+		Forme(Rectangle(-8.6m 6.6m -8m -6.6m))
+		Forme(Rectangle(8m 6.6m 8.6m -6.6m))
+		:lettres
+		interrupteur
+		secoueur
+	]
+	pesanteur: chute ? 9.8m/s^2 0m/s^2
+	lieu: Lieu(-2.5m 0m -11m)
+)

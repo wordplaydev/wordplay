@@ -1,0 +1,528 @@
+🧟
+Hjärtattack
+=== start/en
+¶Hjärtattack — en mild variant av en battle royale, sedd i förstaperson. Du står stilla och tittar ut genom scenens kamera medan en hord av zombier väntar framför dig.En i taget vandrar den närmaste zombien rakt mot dig. Sikta med din bana med ← →, din pekare, eller ett tryck på endera sidan av skärmen, och kasta ett hjärta med mellanslag, ett klick, eller ett tryck. Ett hjärta stannar vid den första gestalten det möter, så sikta rakt: träffar du en zombie blir den en glad person igen och du får ett poäng — och varje poäng gör att zombierna kommer närmare snabbare. En person som blivit omvandlad står kvar och blockerar dina hjärtan, så tänk på vinkeln. Omvandla alla för att vinna; låt en zombie nå dig så är det slut. Enter eller ett tryck startar, och startar om.
+
+Varje fas har sin egen melodi, och alla fyra bygger på samma tema — se @Music längre ner.¶
+
+¶Hur många zombier som börjar på fältet.¶
+zombieantal: 8
+
+¶Rörelse och kamera, i meter: hur långt du förflyttar dig i sidled per tangenttryckning, dina gränser åt vänster/höger, kamerans fasta djup medan du spelar, och var kameran placeras (längre bak) medan en meny visas.¶
+sidosteg: 1.2m
+vänstergräns: -8m
+högergräns: 8m
+speldjup: -1m
+menydjup: -10m
+
+¶Var zombier dyker upp — utspridda från nära till långt bort, alltid en bra bit framför dig — och den ruta de vandrande zombierna rör sig inom (dess nära kant hålls framför dig, så bara anfallande zombier faktiskt kan nå dig).¶
+spawndjupnära: 6m
+spawndjuplångt: 22m
+strövdjupnära: 3m
+strövdjuplångt: 24m
+
+¶Inställningar för hjärta och kollision: hur ett hjärta flyger och tonas bort, hur det träffar, hur nära en zombie måste komma för att spelet ska ta slut, och hur anfallande zombier rör sig — de närmar sig, vandrar, slingrar sig och siktar in sig på dig, och blir snabbare för varje poäng. De två närmaste zombierna anfaller samtidigt; resten vandrar.¶
+hjärtahastighet: 1m
+hjärtaräckvidd: 26m
+träffradie: 1.8m
+räckviddavstånd: 1.8m
+basladdningshastighet: 0.1m
+strövhastighet: 0.1m
+vävhastighet: 0.12m
+vävbredd: 1.8m
+hemhastighet: 0.05m
+hastighetsökningperpoäng: 0.2
+
+¶De glada personer en omvandlad zombie kan bli.¶
+personer: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '🧑‍🎤' '🦸' '🧚' '🧑‍🍳' '🕺' '💃' '🧑‍⚕']
+
+¶En gestalt på fältet: en position, en vandringsriktning på varje axel (var och en -1 eller 1, används bara medan den vandrar), om den fortfarande är en zombie, och vilken emoji som ska visas (🧟 medan den är zombie, en person när den är omvandlad).¶
+•zombie(x2•#m z2•#m riktningx•# riktningz•# levande•? ansikte2•"")
+
+¶Hela spelet i ett värde: fasen (1 = start, 2 = spelar, 3 = vinst, 4 = förlust), kamerans/spelarens position, hjärtats tillstånd, poängen, och alla på fältet.¶
+•spel(fas•# kameraX•#m cameraZ•#m hjärta•? hjärtaX•#m hjärtaZ•#m hjärtaStart•#m poäng•# zombier•[zombie])
+
+¶Kvadrerat avstånd fungerar bättre än ett verkligt avstånd här: inga kvadratrötter behövs, och enheterna förblir enkla (meter gånger meter), så jämförelsen alltid typkontrolleras korrekt.¶
+ƒ nära(ettX•#m ettZ•#m tvåX•#m tvåZ•#m radie2•#m)
+	(((ettX - tvåX) · (ettX - tvåX)) + ((ettZ - tvåZ) · (ettZ - tvåZ))) < (radie2 · radie2)
+
+¶Hur många gestalter som fortfarande är zombier.¶
+ƒ levandeAntal(zombier2•[zombie]) zombier2.filtrera(
+		ƒ(zombie2•zombie) zombie2.levande
+	).längd(
+	)
+
+¶Vandra ett steg mot spelaren: framåt i djup medan den slingrar sig i sidled för att vara svårare att träffa, byter riktning på slingringen vid kanterna av ett band runt din bana, och siktar mjukt in sig mot dig mellan svängarna så att en undanmanöver bara vinner ett ögonblick.¶
+ƒ anfallaMotSpelare(zombie3•zombie kameraX2•#m anfallsHastighet•#m) (
+		vävdX: zombie3.x2 + (zombie3.riktningx · vävhastighet)
+		styrdX: vävdX + ((kameraX2 - vävdX).max(
+						hemhastighet · -1
+					)).min(
+					hemhastighet
+				)
+		vidKant: (vävdX > (kameraX2 + vävbredd)) | (vävdX < (kameraX2 - vävbredd))
+		zombie(
+			styrdX
+			(zombie3.z2 - anfallsHastighet)
+			(vidKant ? (zombie3.riktningx · -1) zombie3.riktningx)
+			zombie3.riktningz
+			zombie3.levande
+			zombie3.ansikte2
+		)
+	)
+
+¶Vandra ett steg: driv i vandringsriktningen, studsa mot fältets kanter genom att stå kvar och byta den riktning den var på väg mot.¶
+ƒ vandra(zombie4•zombie hastighet2•#m) (
+		nyX: zombie4.x2 + (zombie4.riktningx · hastighet2)
+		nyZ: zombie4.z2 + (zombie4.riktningz · hastighet2)
+		studsaX: (nyX > högergräns) | (nyX < vänstergräns)
+		studsaZ: (nyZ > strövdjuplångt) | (nyZ < strövdjupnära)
+		zombie(
+			(studsaX ? zombie4.x2 nyX)
+			(studsaZ ? zombie4.z2 nyZ)
+			(studsaX ? (zombie4.riktningx · -1) zombie4.riktningx)
+			(studsaZ ? (zombie4.riktningz · -1) zombie4.riktningz)
+			zombie4.levande
+			zombie4.ansikte2
+		)
+	)
+
+¶Nytt fält med zombier, utspridda från nära till långt bort, spridda från vänster till höger, var och en vandrande i en slumpmässig riktning.¶
+ƒ skapaZombier()
+	(zombieantal → []).översätta(
+		ƒ(index2•#)
+			zombie(
+				Slumpmässig(vänstergräns högergräns)
+				(spawndjupnära + (index2 · ((spawndjuplångt - spawndjupnära) ÷ zombieantal)))
+				[-1 1].slumpmässig()
+				[-1 1].slumpmässig()
+				⊤
+				'🧟'
+			)
+	)
+
+¶Starta en ny omgång: spelar, kamera i ögonhöjd, inget hjärta, inga poäng.¶
+ƒ nyttSpel() spel(
+		2
+		0m
+		speldjup
+		⊥
+		0m
+		0m
+		0m
+		0
+		skapaZombier()
+	)
+
+¶Kasta ett hjärta nedåt i ditt nuvarande spårfält, om det inte redan är ett i luften. Det startar precis framför där du står, inte där kameran är, av samma anledning som räckviddstestet gör.¶
+ƒ kastaHjärta(spel2•spel)
+	spel2.hjärta ? spel2 spel(
+			spel2.fas
+			spel2.kameraX
+			spel2.cameraZ
+			⊤
+			spel2.kameraX
+			(speldjup + 1m)
+			speldjup
+			spel2.poäng
+			spel2.zombier
+		)
+
+¶Knuffa ditt spårfält ett steg mot en plats, men aldrig förbi dina gränser. Pekaren visar vilken plats i världen den är över, så avståndet från ditt spårfält visar hur långt den sitter till vänster eller höger om dig — att flytta mot den låter pekaren sikta, och ett tryck på endera sidan flyttar dig åt det hållet.¶
+ƒ fokuseraMot(spel3•spel mål•#m)
+	spel3.kameraX:(spel3.kameraX + ((mål - spel3.kameraX).max(
+					sidosteg · -1
+				)).min(
+				sidosteg
+			)).max(
+		vänstergräns
+	).min(
+		högergräns
+	)
+
+¶En knapptryckning medan du spelar: flytta i sidled åt vänster eller höger, eller kasta ett hjärta.¶
+ƒ tillämpaTangenttryckning(spel4•spel nyckel2•"")
+	(nyckel2 = 'Pil vänster') ? fokuseraMot(
+			spel4
+			(spel4.kameraX - sidosteg)
+		)
+		(nyckel2 = 'Pil Höger') ? fokuseraMot(
+				spel4
+				(spel4.kameraX + sidosteg)
+			)
+			(nyckel2 = 'Utrymme') ? kastaHjärta(spel4)
+				spel4
+
+¶En bildruta av världen: låt hjärtat flyga tills det träffar den första figuren i sin väg (en omvänd person blockerar det precis som en zombie), vänd en träffad zombie, låt de två närmaste zombierna marschera mot spelaren medan de andra vandrar fritt, och kontrollera sedan om spelet är vunnet (alla vända) eller förlorat (en zombie nådde dig). Vid vinst eller förlust parkerar kameran vid menyplatsen.¶
+ƒ gåVidareVärld(spel5•spel) (
+		nästaHjärtaZ: spel5.hjärta ? (spel5.hjärtaZ + hjärtahastighet) spel5.hjärtaZ
+		hjärtaBleknat: spel5.hjärta & ((nästaHjärtaZ - spel5.hjärtaStart) > hjärtaräckvidd)
+		hjärtaAktivt: spel5.hjärta & ~hjärtaBleknat
+		anfallsHastighet2: basladdningshastighet · (1 + (spel5.poäng · hastighetsökningperpoäng))
+		¶De närmaste levande zombierna stormar fram; deras djup pekar ut dem nedanför.¶
+		levandeEfterDjup: spel5.zombier.filtrera(
+				ƒ(zombie5•zombie) zombie5.levande
+			).sorterad(
+				ƒ(zombie6•zombie) zombie6.z2
+			)
+		förstaLaddareDjup: (levandeEfterDjup.längd() ≥ 1) ? levandeEfterDjup[1].z2 -999m
+		andraLaddareDjup: (levandeEfterDjup.längd() ≥ 2) ? levandeEfterDjup[2].z2 -999m
+		figurerIBana: hjärtaAktivt ? spel5.zombier.filtrera(
+					ƒ(zombie7•zombie) nära(
+							zombie7.x2
+							zombie7.z2
+							spel5.hjärtaX
+							nästaHjärtaZ
+							träffradie
+						)
+				) []
+		träffadFigur: figurerIBana.sorterad(
+				ƒ(zombie8•zombie) zombie8.z2
+			).första(
+			)
+		träffatDjup: (träffadFigur•ø) ? -999m träffadFigur.z2
+		omvandlar: (träffadFigur•ø) ? ⊥ träffadFigur.levande
+		nästaZombier: spel5.zombier.översätta(
+				ƒ(zombie9•zombie)
+					zombie9.levande ?
+						((omvandlar & (zombie9.z2 = träffatDjup)) ? zombie(
+									zombie9.x2
+									zombie9.z2
+									zombie9.riktningx
+									zombie9.riktningz
+									⊥
+									personer.slumpmässig()
+								)
+								(((zombie9.z2 = förstaLaddareDjup) | (zombie9.z2 = andraLaddareDjup)) ? anfallaMotSpelare(
+											zombie9
+											spel5.kameraX
+											anfallsHastighet2
+										) vandra(zombie9 strövhastighet)))
+						zombie9
+			)
+		antalOmvandlade: levandeAntal(spel5.zombier) - levandeAntal(
+					nästaZombier
+				)
+		nästaHjärta: hjärtaAktivt & (träffadFigur•ø)
+		¶Varje levande zombie som når ditt djup avslutar spelet — oavsett vilket spårfält den är i — så att ingen kan smita förbi dig till ett läge som inte kan vinnas. Detta mäts mot\speldjup\, där du står, och aldrig mot kameran: scenen drar kameran bakåt på små skärmar och den som tittar kan zooma ytterligare, och inget av detta ska ändra hur nära en zombie måste komma.¶
+		förlorad: nästaZombier.filtrera(
+				ƒ(zombie10•zombie) zombie10.levande & (zombie10.z2 ≤ (speldjup + räckviddavstånd))
+			).längd(
+			) > 0
+		vann: levandeAntal(nästaZombier) = 0
+		nästaFas: vann ? 3 (förlorad ? 4 2)
+		nästaKameraX: (nästaFas = 2) ? spel5.kameraX 0m
+		nästaKameraZ: (nästaFas = 2) ? spel5.cameraZ menydjup
+		spel(
+			nästaFas
+			nästaKameraX
+			nästaKameraZ
+			nästaHjärta
+			spel5.hjärtaX
+			nästaHjärtaZ
+			spel5.hjärtaStart
+			(spel5.poäng + antalOmvandlade)
+			nästaZombier
+		)
+	)
+
+nyckel3: Nyckel()
+tick: Tid(30ms)
+pekare: Pekare()
+tryck: Knapp()
+
+¶Spelets hjärtslag, drivet av fyra indata: ett klocktick, en knapp, pekarrörelse och ett klick eller tryck. Medan du spelar för ett tick världen framåt, knappar flyttar i sidled och kastar, pekarrörelse siktar ditt spårfält, och ett tryck kastar ett hjärta. Från en meny startar Enter-knappen eller ett tryck en ny omgång — ett tryck så att spelare med pekskärm kan starta, och Enter (inte mellanslag) så att den som mashar mellanslag för att kasta aldrig råkar starta om av misstag.¶
+spel6•spel: spel(1 0m menydjup ⊥ 0m 0m 0m 0 skapaZombier())
+	… (∆ tick | ∆ nyckel3 | ∆ pekare | ∆ tryck) …
+		(spel6.fas = 2)
+		? (∆ tick ? gåVidareVärld(spel6)
+					(∆ nyckel3 ? tillämpaTangenttryckning(
+								spel6
+								nyckel3
+							)
+							(∆ pekare ? fokuseraMot(spel6 pekare.x) kastaHjärta(
+										spel6
+									))))
+			(∆ tick ? spel6
+					(∆ nyckel3 ? ((nyckel3 = 'Skriva in') ? nyttSpel(
+									) spel6)
+							(∆ tryck ? nyttSpel() spel6)))
+
+¶En figur på scenen: zombier vajar, vända personer gör ett glatt litet hopp. Djupet gör resten — en anstormande zombie ser större ut ju närmare den kommer. Varaktigheten 0s gör att varje steg sker direkt istället för att glida, så rörelsen upplevs som jämna bildrutor istället för ett släpande ryck.¶
+ƒ zombieVy(zombie11•zombie)
+	Fras(
+		zombie11.ansikte2
+		2m
+		varaktighet: 0s
+		plats: Plats(zombie11.x2 0m zombie11.z2)
+		vilande: zombie11.levande
+		? Sekvens.vingla(4° 1s "zippy")
+			Sekvens(
+				{
+					0%: Pose(skala: 1)
+					50%: Pose(skala: 1.2)
+					100%: Pose(skala: 1)
+				}
+				0.6s
+			)
+	)
+
+¶Golvet: staplar på stigande djup som perspektivet läser som ett marklager som drar sig mot horisonten, tonande från grönt till turkost för atmosfär. Den första stapeln är linjen en zombie måste korsa för att avsluta spelet, ritad i varnande rött så att regeln syns: kameran dras bakåt på små skärmar och den som tittar kan zooma ut, och en zombie som ser långt bort ut står fortfarande på denna linje när den når dig.¶
+golv: [
+		Fras(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			varaktighet: 0s
+			plats: Plats(0m -2.8m (speldjup + räckviddavstånd))
+			färg: Färg(58% 55 25°)
+		)
+		Fras(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			varaktighet: 0s
+			plats: Plats(0m -2.8m 4m)
+			färg: Färg(56% 40 130°)
+		)
+		Fras(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			varaktighet: 0s
+			plats: Plats(0m -2.8m 6m)
+			färg: Färg(50% 36 136°)
+		)
+		Fras(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			varaktighet: 0s
+			plats: Plats(0m -2.8m 8m)
+			färg: Färg(45% 32 142°)
+		)
+		Fras(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			varaktighet: 0s
+			plats: Plats(0m -2.8m 11m)
+			färg: Färg(40% 28 148°)
+		)
+		Fras(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			varaktighet: 0s
+			plats: Plats(0m -2.8m 15m)
+			färg: Färg(35% 24 154°)
+		)
+		Fras(
+			"▬▬▬▬▬▬▬▬▬▬"
+			1.4m
+			varaktighet: 0s
+			plats: Plats(0m -2.8m 20m)
+			färg: Färg(31% 20 160°)
+		)
+	]
+
+¶Ett flygande hjärta i världen, och en poängvisning fäst platt längst upp på skärmen via scenens överlägg, så den ligger still medan kameran flyttar i sidled.¶
+hjärtaVy: Fras(
+		'🫀'
+		1.2m
+		varaktighet: 0s
+		plats: Plats(spel6.hjärtaX 0m spel6.hjärtaZ)
+	)
+poängVisning: Fras(
+		"🫀 \spel6.poäng\"
+		1.2m
+		plats: Plats(0m 4m)
+	)
+
+¶Menytexten, delad av start-, vinst- och förlustskärmarna.¶
+skärmtitel: spel6.fas ???
+		3: '🎉 Du räddade alla! 🎉'
+		4: '💀 En zombie tog dig! 💀'
+		'🫀 HJÄRTATTACK 🫀'
+skärmUndertext: (spel6.fas = 1) ? 'En horde av zombier är lös. Vänd dem tillbaka med kärlek.' "Score: \spel6.poäng\"
+startrad: (spel6.fas = 1) ? 'Tryck Enter eller tryck för att starta' 'Tryck Enter eller tryck för att spela igen'
+
+skärmvy: [
+		Grupp(
+			Stack()
+			[
+				Fras(skärmtitel 1.1m)
+				Fras(skärmUndertext 0.6m)
+				Fras('← → eller peka för att sikta' 0.5m)
+				Fras(
+					'Mellanslag, klicka eller tryck för ett hjärta 🫀'
+					0.5m
+				)
+				Fras(startrad 0.7m)
+			]
+		)
+	]
+
+¶Visa fältet och dess golv medan du spelar, och menyn annars. Varje lista är tom i fel skede, och en tom lista sprider sig till ingenting.¶
+golvLista: (spel6.fas = 2) ? golv []
+zombieLista: (spel6.fas = 2) ? spel6.zombier.översätta(
+			ƒ(zombie12•zombie) zombieVy(zombie12)
+		) []
+hjärtaLista: ((spel6.fas = 2) & spel6.hjärta) ? [hjärtaVy] [
+		]
+poängLager: (spel6.fas = 2) ? [poängVisning] []
+skärmLista: (spel6.fas ≠ 2) ? skärmvy []
+
+¶Scenens färgton speglar resultatet: en varm grön vid vinst, en mörk röd vid förlust, och standardfärgen skymningslila medan spelet startar eller pågår.¶
+scenBakgrund: spel6.fas ???
+		3: Färg(48% 42 145°)
+		4: Färg(22% 45 25°)
+		Färg(25% 20 285°)
+
+¶Ett tema löper genom alla fyra melodierna: upp genom molltreklangen till sjätte tonen och tillbaka ner. Tricket är att dessa samma sju tonsteg låter olycksbådande i harmonisk moll och glada i dur, så vinstmusiken spelar exakt samma melodi — den bara slutar låta som en skräckfilm.
+
+Varje spår nedan är exakt åtta slag långt oavsett notlängd, så de kommer alla runt tillsammans och varje melodi loopar utan en söm.¶
+tema: [1 ø 3 ø 5 ø 6 ø 5 ø 3 ø 1 ø ø ø]
+
+¶Väntar på att starta: en långsam ton, temat långt bort på en klocka, och ett hjärtslag under.¶
+menySång: Musik(
+		[
+			Spår(
+				tema
+				instrument: Instrument.klocka
+				takt: 0.5beats
+				volym: 45%
+			)
+			Spår(
+				[{1 3 5} {1 3 5} {6 8 10} {5 7 9}]
+				instrument: Instrument.syntPad
+				takt: 2beats
+				volym: 40%
+			)
+			Spår(
+				[1 ø 1 ø 6 ø 5 ø]
+				instrument: Instrument.syntBas
+				takt: 1beats
+				volym: 50%
+			)
+			Spår(
+				[1 ø ø ø 1 ø ø ø]
+				instrument: Instrument.trummor
+				takt: 1beats
+				volym: 30%
+			)
+		]
+		tempo: 72beats/min
+		skala: Musik.harmoniskMoll
+		namn: 'meny'
+	)
+
+¶Jakten: samma tema i nästan dubbla hastigheten, över en basslinga och en trumma som aldrig slutar.¶
+jaktSång: Musik(
+		[
+			Spår(
+				tema
+				instrument: Instrument.synt
+				takt: 0.5beats
+				volym: 45%
+			)
+			Spår(
+				[1 ø 1 1 1 ø 1 1 6 ø 6 6 5 ø 5 5]
+				instrument: Instrument.syntBas
+				takt: 0.5beats
+				volym: 55%
+			)
+			Spår(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 1 3]
+				instrument: Instrument.trummor
+				takt: 0.5beats
+				volym: 40%
+			)
+		]
+		tempo: 132beats/min
+		skala: Musik.harmoniskMoll
+		namn: 'jakt'
+	)
+
+¶Segern: samma tema i dur, dubblerat en oktav upp på en flöjt, över de gladaste ackorden i exemplet. Den enda glada melodin här.¶
+vinstSång: Musik(
+		[
+			Spår(
+				tema
+				instrument: Instrument.klocka
+				takt: 0.5beats
+				volym: 55%
+			)
+			Spår(
+				tema
+				instrument: Instrument.flöjt
+				takt: 0.5beats
+				tonart: 12semitones
+				volym: 40%
+			)
+			Spår(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				instrument: Instrument.piano
+				takt: 2beats
+				volym: 45%
+			)
+			Spår(
+				[1 ø 3 ø 2 ø 3 ø]
+				instrument: Instrument.trummor
+				takt: 1beats
+				volym: 35%
+			)
+		]
+		tempo: 120beats/min
+		skala: Musik.dur
+		namn: 'vinn'
+	)
+
+¶Förlusten: temat en oktav ner och i halva hastigheten av menyn, över en didgeridoo-drone och ackord som ger upp på att komma hem — de slutar på sexten istället för grundtonen, så slingan löser sig aldrig.¶
+förlustSång: Musik(
+		[
+			Spår(
+				tema
+				instrument: Instrument.klocka
+				takt: 0.5beats
+				tonart: -12semitones
+				volym: 45%
+			)
+			Spår(
+				[1 ø ø ø]
+				instrument: Instrument.didgeridoo
+				takt: 2beats
+				volym: 50%
+			)
+			Spår(
+				[{1 3 5} {1 3 5} {6 8 10} {6 8 10}]
+				instrument: Instrument.syntPad
+				takt: 2beats
+				volym: 40%
+			)
+			Spår(
+				[1 ø ø ø ø ø ø ø]
+				instrument: Instrument.trummor
+				takt: 1beats
+				volym: 30%
+			)
+		]
+		tempo: 56beats/min
+		skala: Musik.harmoniskMoll
+		namn: 'förlora'
+	)
+
+¶Bara melodin för den nuvarande fasen finns på scenen, och en @Music som inte längre finns där stannar — så det är bytet av fas som ändrar musiken.¶
+ljudspår: spel6.fas ???
+		1: menySång
+		3: vinstSång
+		4: förlustSång
+		jaktSång
+
+Etapp(
+	[
+		:golvLista
+		:zombieLista
+		:hjärtaLista
+		:skärmLista
+		ljudspår
+	]
+	plats: Plats(spel6.kameraX 0m spel6.cameraZ)
+	bakgrund: scenBakgrund
+	färg: Färg(97% 0 0°)
+	överlagring: poängLager
+)

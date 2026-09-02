@@ -1,0 +1,40 @@
+👨‍👨‍👧‍👦
+Mga Tanong
+=== start/en
+¶Pindutin ang mga susi para maglabas ng tumatalbog na mga tandang pananong sa ibabaw ng isang naguguluhang pamilya.¶
+•tanong2(id2•"" vx•#m/s vy•#m/s va•#°/s)
+
+pinindot: ∆ Susi()
+bilang2•#: 0 … pinindot … bilang2 + 1
+mgaTanong•[tanong2]: [] … pinindot … [
+			:mgaTanong
+			tanong2(
+				bilang2 → ""
+				Random(30m/s 50m/s)
+				Random(30m/s 50m/s)
+				Random(0°/s 30°/s)
+			)
+		]
+
+Entablado(
+	[
+		Parirala('👨‍👨‍👧‍👦' lugar: Lugar(0m 0m) mukha: "Noto Emoji")
+		Hugis(Parihaba(-5m 0m 25m -1m))
+		:mgaTanong.isalin(
+			ƒ(q•tanong2 indeks2•#) (
+					simulan2: pinindot & (indeks2 = mgaTanong.haba())
+					Parirala(
+						'Q'
+						pangalan: q.id2
+						lugar: Paggalaw(
+							bilis: Bilis(q.vx q.vy q.va)
+						)
+						materya: Materya()
+						nagpapahinga: Pose(
+							kalabuan: simulan2 ? 0% 100%
+						)
+					)
+				)
+		)
+	]
+)

@@ -1,0 +1,65 @@
+☁
+RainingLetters
+=== start/en
+¶Ang programang ito ay may hanay ng mga titik na umuulan at bumabagsak sa lupa ayon sa mga batas ng pisika. Kapag tumama sila, maaari na silang bumagsak ulit.Palagi tayong may parehong bilang ng mga titik na bumabagsak, pero magkaiba ang bilang ng nakikitang mga tiitk depende sa amplitude ng mikropono.¶
+
+¶Ang pinakamataas na bilang ng mga titik¶
+bilang2: 100
+¶Ang pahalang na pagkalat ng mga titik¶
+sukat2: 20m
+
+¶Ang amplitude ng mikropono¶
+amps: Dami()
+
+¶Ang napiling titik at ang posisyon nito, bilis ng pag-ikot, at kung ito ay nakikita o hindi.¶
+•titik2(titik3•"" x2•#m y2•#m anggulo2•# bilis2•# nakikita•?)
+
+tik: Oras()
+
+¶Simulan bilang isang listahan ng mga random na titik sa mga random na posisyon¶
+mgaLetra•[titik2]: bilang2 → [#].isalin(
+		ƒ(_) titik2(
+				'abcdefghijklmnopqrstuvwxyz' → [''].random()
+				Random(-sukat2 sukat2)
+				Random(0m sukat2 + 2m)
+				Random(360)
+				Random(-15 15)
+				⊥
+			)
+	)
+	… ∆ tik …
+		¶Kung ang titik ay nasa itaas ng y-axis, ilipat ito nang bahagya pababa at paikutin. Kung hindi, ibalik ito sa itaas ng hangganan at random na piliin kung ito ay makikita o hindi.¶
+		mgaLetra.isalin(
+			ƒ(titik4•titik2)
+				titik4.y2 > 0m ? (titik4.y2:titik4.y2 - 0.5m).anggulo2:titik4.anggulo2 + titik4.bilis2
+					(titik4.y2:sukat2 + 2m).nakikita:Random(0 amps) > 0.5
+		)
+
+¶Gawing mga parirala ang mga titik¶
+Entablado(
+	[
+		Parirala("☁" laki: 3m lugar: Lugar(-8m 12m))
+		Parirala("☁" laki: 5m lugar: Lugar(8m 11m))
+		Parirala(
+			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+			lugar: Lugar(-3.5 × sukat2 -0.5m)
+		)
+	].kasamaangListahan(
+		mgaLetra.isalin(
+			ƒ(titik5•titik2)
+				Parirala(
+					titik5.titik3
+					laki: 1m
+					lugar: Lugar(titik5.x2 titik5.y2)
+					pagikot: titik5.anggulo2 × 1°
+					nagpapahinga: Pose(
+						kalabuan: titik5.nakikita ? 1 0
+						kulay: Kulay(100% 0 0°)
+					)
+					tagal: 0s
+				)
+		)
+	)
+	lugar: Lugar(0m 1 × sukat2 -15m)
+	background: Kulay(63% 93 248°)
+)

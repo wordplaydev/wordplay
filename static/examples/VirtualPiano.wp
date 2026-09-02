@@ -43,7 +43,7 @@ empty list.¶
 
 ¶This function takes in a numeric list and returns a Track with that note list.
 Loop is off so that the note plays once when the key is pressed.¶
-ƒ returnTrack(note•[#]) Track(note loop: false)
+ƒ returnTrack(note•[#]) Track(note loop: ⊥)
 
 ¶These two binds map define the color to make the corresponding key when
 it is pressed and when it is not.¶

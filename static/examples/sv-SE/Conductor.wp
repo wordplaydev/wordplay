@@ -1,0 +1,288 @@
+🫲
+Dirigent
+=== start/en
+¶Dirigera en kejserlig flotta med en hand. Inget tangentbord, inga knappar — kameran ser din hand och en åttamannaorkester svarar.
+
+Höj handen och orkestern fylls på, en stämma i taget, tills alla åtta spelar. Sänk den och de faller bort tills bara melodin är kvar. Skjut handen åt vänster för att sakta ner marschen, åt höger för att driva på den. Antalet fingrar du håller upp bestämmer vem som spelar melodin.
+
+Varje instruktion visas på scenen, så du kan lära dig det utan att läsa detta.¶
+
+hand2: Hand()
+
+¶Höjden visar hur mycket orkester som spelar, och sidled visar hur snabbt det går. Båda läses direkt av handen istället för att sparas i minnet, så de följer handen hela tiden. Vardera avrundas till ett steg, så musiken ändras bara när förändringen är stor nog att höra. En hand som skakar skriver alltså inte om notbladet tjugo gånger i sekunden.¶
+lyft: ((hand2.plats.y + 3m) ÷ 6m).min(1).max(0)
+lager: 1 + ((lyft · 7).runda())
+
+räckvidd: ((hand2.plats.x + 5m) ÷ 10m).min(1).max(0)
+takt2: 72 + ((räckvidd · 8).runda() · 12)
+
+¶Vem som spelar melodin. En knuten näve och en hand utanför bild räknas båda som noll fingrar, så noll fingrar behåller den som redan spelade — annars skulle det byta melodi bara för att man tittade bort.¶
+utvald: 5 … ∆ hand2 …
+		(hand2.fingrar = 0) ? utvald hand2.fingrar
+
+ƒ röst2(antal2•#)•Instrument
+	(antal2 = 1) ? Instrument.piano
+		(antal2 = 2) ? Instrument.fiol
+			(antal2 = 3) ? Instrument.flöjt
+				(antal2 = 4) ? Instrument.elGitarr
+					Instrument.trumpet
+
+ƒ ikon(antal3•#)•''
+	(antal3 = 1) ? '🎹'
+		(antal3 = 2) ? '🎻'
+			(antal3 = 3) ? '🪈'
+				(antal3 = 4) ? '⚡'
+					'🎺'
+
+¶Hur högt en stämma spelar. Varje stämma finns med i musiken hela tiden, så ingen av dem tappar sin plats — de som ligger ovanför handen är bara nedvridna helt och hållet.
+
+Varje stämma ligger tydligt under melodin i volym, och alla åtta tillsammans blir mindre än dubbelt så starka som den. Åtta stämmor på full volym ger inte en stark orkester, de ger en rörig orkester, eftersom allt som låter samtidigt måste rymmas i samma högtalare.¶
+ƒ hörd(rang•# högljudd•%)•% (rang ≤ lager) ? högljudd 0%
+
+¶Den kejserliga marschen, åtta takter, en takt per rad. Den är skriven i en kromatisk skala så att tonerna utanför tonarten — den sänkta andraton och den kromatiska glidningen i andra halvan — går att skriva alls: grad 1 är grundtonen och varje steg upp är ett halvt tonsteg, så dessa siffror är intervall och inte skalsteg.
+
+Notvärdena bär rytmen. En ensam siffra varar spårets takt, en fjärdedelsnot här, och alla andra längder anges direkt på siffran: 𝅘𝅥𝅮𝅭 för den punkterade åttondelen och 𝅘𝅥𝅯 för sextondelen som knycker marschen framåt, 𝅗𝅥 för halvnoten den landar på. Varje rad blir sammanlagt fyra slag.¶
+marsch: [
+		5
+		5
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		12
+		12
+		12
+		13𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		4
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		17
+		5𝅘𝅥𝅮𝅭
+		5𝅘𝅥𝅯
+		17
+		16𝅘𝅥𝅮𝅭
+		15𝅘𝅥𝅯
+		14𝅘𝅥𝅯
+		13𝅘𝅥𝅯
+		14
+		6𝅘𝅥𝅮
+		11
+		9𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		7𝅘𝅥𝅯
+		6𝅘𝅥𝅯
+		7
+		1𝅘𝅥𝅮
+		4
+		1𝅘𝅥𝅮𝅭
+		4𝅘𝅥𝅯
+		8
+		5𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		12𝅗𝅥
+	]
+
+¶Fyra takter med grundtoner under, som marscherar i fjärdedelar. Den är kortare än melodin, och varje spår upprepar sig efter sin egen längd, så dessa fyra takter kommer runt två gånger för melodins åtta.¶
+bas2: [
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		5
+		5
+		12
+		8
+	]
+
+¶En enda takt trummor, i melodins egen rytm. Graderna väljer ur ett trumset istället för en skala på ett instrument utan tonhöjd, så 1 är bastrumman, 2 virveltrumman, 3 hi-haten och 5 tomtrumman.¶
+trummor2: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
+
+¶Ackord på mellanslagen, den knuff som gör att en marsch inte står stilla. Den tredje takten lutar mot mollackordet en och en halv ton lägre, vilket är där melodins sänkta toner kommer ifrån.¶
+stråkar: [
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{1 4 8}
+		ø
+		{1 4 8}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+	]
+
+¶Samma fyra takter hållna som rena kvinter, en per takt. En kvint saknar ters, så den håller sig undan de kromatiska tonerna ovanför.¶
+matta: [{5 12} {5 12} {1 8} {5 12}]
+
+¶En klocka på första och tredje takten. Dess taktvärde är en helnot, så en paus här betyder en hel takts tystnad.¶
+klockor: [5 ø 1 ø]
+
+¶Ett högt svar i luckorna, där melodin står still.¶
+räknare: [
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		20𝅗𝅥
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		17𝅗𝅥
+	]
+
+sång: Musik(
+		[
+			Spår(
+				marsch
+				instrument: röst2(utvald)
+				volym: 55%
+				takt: 1𝅘𝅥
+			)
+			Spår(
+				bas2
+				instrument: Instrument.syntBas
+				takt: 1𝅘𝅥
+				tonart: -24semitones
+				volym: hörd(2 30%)
+			)
+			Spår(
+				trummor2
+				instrument: Instrument.trummor
+				takt: 1𝅘𝅥
+				volym: hörd(3 20%)
+			)
+			Spår(
+				marsch
+				instrument: Instrument.saxofon
+				takt: 1𝅘𝅥
+				tonart: -12semitones
+				volym: hörd(4 22%)
+			)
+			Spår(
+				matta
+				instrument: Instrument.syntPad
+				takt: 1𝅝
+				tonart: -12semitones
+				volym: hörd(5 16%)
+			)
+			Spår(
+				stråkar
+				instrument: Instrument.fiol
+				takt: 1𝅘𝅥
+				volym: hörd(6 18%)
+			)
+			Spår(
+				klockor
+				instrument: Instrument.klocka
+				takt: 1𝅝
+				tonart: 12semitones
+				volym: hörd(7 12%)
+			)
+			Spår(
+				räknare
+				instrument: Instrument.flöjt
+				takt: 1𝅘𝅥
+				volym: hörd(8 14%)
+			)
+		]
+		tempo: takt2 · 1beats/min
+		skala: Musik.kromatisk
+		namn: 'kejserlig marsch'
+	)
+
+¶Hur långt flottan har rest. Den räknar sina egna klockslag istället för att läsa av klockan, och räknar dem snabbare när marschen går fortare, så skeppen flyger i takt med tempot.¶
+resa: 0 … ∆ Tid(40ms) … resa + (takt2 ÷ 72)
+
+ƒ status()•'' '\lager\ of 8 playing · \takt2\ beats a minute'
+
+¶En rad av instruktionerna, nedtonad så att flottan och huvudspelaren läses först.¶
+ƒ rad(text2•'')•Fras Fras(
+		text2
+		0.3m
+		färg: Färg(64% 4 265°)
+	)
+
+¶Instruktionerna, staplade mot vänsterkanten istället för centrerade, så att ögat kan löpa rakt nedåt.¶
+visning: Grupp(
+		Stack('<' 0.16m)
+		[
+			Fras(ikon(utvald) 0.9m färg: Färg(56% 65 25°))
+			Fras(status() 0.38m färg: Färg(70% 25 30°))
+			rad('höj handen — mer orkester')
+			rad('sänk den — bara melodin')
+			rad(
+				'hand vänster — långsammare · hand höger — snabbare'
+			)
+			rad('fingrar upp — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺')
+		]
+	)
+
+¶Ett skepp som korsar scenen, flygande i ett band långt ovanför instruktionerna så att det aldrig korsar texten. Dess bana bestämmer hur högt det flyger och hur långt in det startar, så de flyger aldrig i formation.¶
+ƒ skepp(tecken2•'' bana•# hastighet2•#)•Fras
+	Fras(
+		tecken2
+		0.7m
+		plats: Plats(
+			(((((resa · hastighet2) + (bana · 47)) % 200) - 100) · 0.045) · 1m
+			((bana · 0.65) + 2.2) · 1m
+		)
+	)
+
+flotta: [
+		skepp('🛸' 0 3)
+		skepp('🚀' 1 2)
+		skepp('🛰' 2 4)
+		skepp('🛸' 3 5)
+	]
+
+ƒ stjärna(x2•# y2•# storlek2•#)•Fras
+	Fras(
+		'✦'
+		storlek2 · 1m
+		plats: Plats(x2 · 1m y2 · 1m)
+		färg: Färg(46% 8 275°)
+	)
+
+¶Scenen zoomar för att passa allt som finns på den, så allt som rör sig skulle skala om hela bilden vid varje klockslag och få orden att flyta omkring. De fyra hörnstjärnorna ligger längre ut än skeppen någonsin flyger och längre ut än den längsta textraden, så anpassningen får en ram som aldrig ändras och bilden håller sig stilla. Resten är bara himmel.¶
+stjärnor: [
+		stjärna(-5.6 -2.3 0.18)
+		stjärna(5.6 -2.3 0.18)
+		stjärna(-5.6 5 0.18)
+		stjärna(5.6 5 0.18)
+		stjärna(-4.9 2.1 0.22)
+		stjärna(-3.9 3.9 0.14)
+		stjärna(-2.2 2.5 0.18)
+		stjärna(1.1 3.4 0.14)
+		stjärna(2.7 4.4 0.22)
+		stjärna(4.6 2.7 0.14)
+	]
+
+Etapp(
+	[:stjärnor :flotta visning sång]
+	bakgrund: Färg(7% 6 275°)
+	färg: Färg(88% 3 265°)
+)

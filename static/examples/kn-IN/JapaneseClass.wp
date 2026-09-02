@@ -1,0 +1,37 @@
+O
+ಜಪಾನೀ ತರಗತಿ
+=== start
+¶ಜಪಾನೀ ಭಾಷೆಯ ತರಗತಿಯ ಮೊದಲ ದಿನದ ಬಗ್ಗೆ ದೃಶ್ಯ-ದೃಶ್ಯವಾಗಿ ಸಾಗುವ ಕಥೆ.¶
+
+¶ಇವು ತೋರಿಸಬೇಕಾದ ದೃಶ್ಯಗಳ ಪಟ್ಟಿ¶
+ವಾಕ್ಯಗಳು: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶ಇವು ಮಾತನಾಡುವ ಮೂಲಕ ಮಾತ್ರ ಮುಂದೆ ಸಾಗಬೇಕಾದ ವಾಕ್ಯಗಳ ಪಟ್ಟಿ.¶
+ವಾಕ್ಯಗಳನ್ನುಮಾತನಾಡಿ: [5 7 9]
+
+¶ಪ್ರಸ್ತುತ ವಾಕ್ಯ 1ರಿಂದ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ. ಮಾತನಾಡುವ ವಾಕ್ಯಕ್ಕೆ ಮೈಕ್ ಶಬ್ದದ ಮಟ್ಟ .8ಗಿಂತ ಹೆಚ್ಚಾದಾಗ, ಅಥವಾ ಇತರ ವಾಕ್ಯಗಳಿಗೆ ಬಟನ್ ಅಥವಾ ಕೀ ಒತ್ತಿದಾಗ, ಅದು ಒಂದು ಸಂಖ್ಯೆ ಹೆಚ್ಚಾಗುತ್ತದೆ.¶
+ಈಗಿನವಾಕ್ಯ•#: 1 …
+	ವಾಕ್ಯಗಳನ್ನುಮಾತನಾಡಿ.ಹೊಂದಿದೆ(ಈಗಿನವಾಕ್ಯ) ?
+		ಸಂಪುಟ() > .6
+		∆ ಬಟನ್() | ∆ ಕೀ()
+		…
+		(ಈಗಿನವಾಕ್ಯ <
+				ವಾಕ್ಯಗಳು.ಉದ್ದ()) ?
+			ಈಗಿನವಾಕ್ಯ + 1
+			ಈಗಿನವಾಕ್ಯ
+
+ಹಂತ(
+	[ನುಡಿಗಟ್ಟು(ವಾಕ್ಯಗಳು[ಈಗಿನವಾಕ್ಯ] ಸುತ್ತು: 10m)]
+	ಮುಖ: 'Sue Ellen Francisco'
+)

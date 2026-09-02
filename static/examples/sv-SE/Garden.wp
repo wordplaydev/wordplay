@@ -1,0 +1,524 @@
+█
+Trädgård
+=== start/en
+¶En zenträdgård ritad med färgade block, med mjukt guppande vatten.¶
+gräs: Färg(54% 84 117°)
+sten: Färg(74% 0 200°)
+bambu: Färg(77% 88 109°)
+vägg: Färg(0% 0 0°)
+vatten: Färg(50% 89 279°)
+guppa: Sekvens(
+		{
+			0%: Pose(färg: vatten rotation: 0°)
+			50%: Pose(rotation: 7°)
+			100%: Pose(rotation: 0°)
+		}
+		varaktighet: 1.5s
+	)
+
+Etapp(
+	[
+		Fras(
+			'█'
+			storlek: 16m
+			vilande: Pose(färg: Färg(100% 0 348°))
+			plats: Plats(7.3125m -13.125m 0m)
+			rotation: 90°
+		)
+		Fras(
+			'█'
+			storlek: 16m
+			vilande: Pose(färg: Färg(100% 0 348°))
+			plats: Plats(-8.75m -13m 1m)
+			rotation: 90°
+		)
+		Fras(
+			'█'
+			storlek: 32m
+			vilande: Pose(färg: Färg(73% 95 279°))
+			plats: Plats(-5.6875m -44.0625m 0m)
+			rotation: 89°
+		)
+		Fras(
+			'太阳'
+			storlek: 4m
+			plats: Plats(-16.5m 15.75m 5m)
+			vilande: Sekvens(
+				{
+					0%: Pose(färg: Färg(90% 93 85°) rotation: 0°)
+					100%: Pose(rotation: 360°)
+				}
+				varaktighet: 30s
+				stil: 'straight'
+			)
+		)
+		Fras(
+			'壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁'
+			vilande: Pose(färg: vägg)
+			plats: Plats(-13.9375m 3.5m 0m)
+			storlek: 2m
+		)
+		Fras(
+			'草'
+			plats: Plats(-5.8125m -9.5625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(1.5m -6.9375m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-5.125m -8.25m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-0.4375m -8.5625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-2.875m -8.125m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-4.125m -8.3125m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-7.1875m -10.0625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-10.1875m -10.5625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-11.1875m -10.5625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-10.25m -9.1875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-8.5625m -8.6875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-8.6875m -10.0625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-1.5m -8m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(3.5m -8m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(1.1875m -8.5625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-2.8125m -9.5625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(2.5m -8m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-1.8125m -9.5625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(0m -7m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(2.5m -6.5m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(6.4375m -7.0625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(5.1875m -7.0625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-0.6875m -10.125m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(0.9375m -9.625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(7.4375m -8.1875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(2.25m -9.5625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(3.5625m -9.625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(5m -9.0625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(6.125m -8.1875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(9.625m -10.0625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(9.375m -7.3125m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(8m -6.5m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(10.8125m -7.1875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(13.625m -7.1875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(17.5m -7.5m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(12m -7.5m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(12.5625m -10.0625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-7.625m -8.8125m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(3.875m -6.4375m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-13.25m -8.625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-9.375m -8.0625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-13.8125m -10m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-11.375m -8.8125m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-12.5m -9.625m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(12.625m -6m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(7.5m -9.8125m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(16.3125m -6.1875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(17.8125m -6.1875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(17.8125m -9.6875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(16.3125m -9.6875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(16.3125m -8.1875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(15.3125m -6.6875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(14.8125m -8.1875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(14.8125m -9.6875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(13.5m -8.9375m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(11.8125m -9.1875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(8.3125m -9.1875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(6.5m -9.5m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(9.8125m -8.6875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(10.8125m -9.1875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(14.3125m -5.6875m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'草'
+			plats: Plats(-4.5m -9.5m 0m)
+			vilande: Pose(färg: gräs)
+		)
+		Fras(
+			'石'
+			vilande: Pose(färg: sten)
+			storlek: 2.75m
+			plats: Plats(-7.6875m -5.9375m -1m)
+			rotation: 25°
+		)
+		Fras(
+			'石'
+			vilande: Pose(färg: sten)
+			storlek: 2m
+			plats: Plats(-5m -6.625m -1m)
+		)
+		Fras(
+			'石'
+			vilande: Pose(färg: sten)
+			storlek: 2.75m
+			plats: Plats(-7.6875m -8.5625m -1m)
+		)
+		Fras(
+			'石'
+			vilande: Pose(färg: sten)
+			storlek: 1.25m
+			plats: Plats(-6.375m -3.375m -1m)
+		)
+		Fras(
+			'石'
+			vilande: Pose(färg: sten)
+			storlek: 2.75m
+			plats: Plats(-3.125m -6.625m -1m)
+			rotation: 341°
+		)
+		Fras(
+			'石'
+			vilande: Pose(färg: sten)
+			storlek: 2.75m
+			plats: Plats(-4.75m -4.25m -1m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(-0.5m -0.5m 0m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(0.9375m -3.5m 0m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(1m -5m 0m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(-0.5m 2.5m 0m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(-0.5m 3.5m 0m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(-0.5m 4.5m 0m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(-0.5m 1m 0m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(-0.5m -5m 0m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(-0.5m -3.5m 0m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(-0.5625m -2m 0m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(1m 1m 0m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(1m -0.5m 0m)
+		)
+		Fras(
+			'竹'
+			vilande: Pose(färg: bambu)
+			storlek: 1.25m
+			plats: Plats(1m -2m 0m)
+		)
+		Fras(
+			'水'
+			vilande: guppa
+			plats: Plats(-13.4375m -18m -2m)
+			storlek: 6.75m
+			rotation: 80°
+		)
+		Fras(
+			'水'
+			vilande: guppa
+			plats: Plats(18m -16.5m -2m)
+			storlek: 6.75m
+			rotation: 80°
+		)
+		Fras(
+			'水'
+			vilande: guppa
+			plats: Plats(-8.5m -17.625m -2m)
+			storlek: 6.75m
+			rotation: 259°
+		)
+		Fras(
+			'水'
+			vilande: guppa
+			plats: Plats(2.625m -17.375m -2m)
+			storlek: 6.75m
+			rotation: 80°
+		)
+		Fras(
+			'水'
+			vilande: guppa
+			plats: Plats(10.6875m -16m -2m)
+			storlek: 6.75m
+			rotation: 37°
+		)
+	]
+	bakgrund: Färg(87% 97 263°)
+)

@@ -1,0 +1,34 @@
+l
+Tiêu đề
+=== start/en
+¶Tin tức trực tiếp từ New York Times, lấy từ mạng và xếp chồng trên sân khấu.¶
+tinTức: Trangweb(
+		'https://www.nytimes.com'
+		'.indicate-hover'
+	)
+tinTức•# ?
+	Cụmtừ('đang tải')
+	Nhóm(
+		Ngănxếp('<')
+		[
+			Cụmtừ(`*Tin Tức New York Times*` 2m khuônmặt: 'Arvo')
+		].thêm(
+			tinTức.chuỗicon(1 7).dịch(
+				ƒ(tinTức2)
+					Cụmtừ(
+						tinTức2
+						bọc: 20m
+						sựcănchỉnh: '<'
+						khuônmặt: 'Ubuntu'
+						nghỉngơi: Sựliêntiếp(
+							{
+								0%: Tưthế(xoay: 3°)
+								50%: Tưthế(xoay: -3°)
+								100%: Tưthế(xoay: 3°)
+							}
+							khoảngthờigian: 3s
+						)
+					)
+			)
+		)
+	)

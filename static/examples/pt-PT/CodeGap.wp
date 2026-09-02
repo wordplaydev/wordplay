@@ -1,0 +1,211 @@
+👩‍💻
+Lacuna no Código
+=== start/en
+¶Este projeto mostra, em forma visual, dados reais e públicos sobre quantas mulheres obtêm diplomas em informática nos Estados Unidos, e como esse número mudou ao longo do tempo.
+
+Usa duas tabelas de dados, uma chamada anos e outra chamada campos, e permite escolher uma de três vistas com os botões no topo. Cada vista é um gráfico de barras feito com o emoji de mulher, com uma explicação em linguagem simples no rodapé.¶
+↓ years
+↓ fields
+
+¶A função fill cria uma única barra sólida. Repete o emoji da mulher count vezes e junta-os num único trecho de texto sem espaços, para que a linha apareça como uma barra contínua em vez de pontos separados.¶
+ƒ preenchimento2(contagem2•#) (contagem2 → []).traduzir(
+		ƒ() '👩'
+	).juntar(
+		''
+	)
+
+¶A função chart desenha um gráfico de barras a partir de três listas correspondentes: uma etiqueta, um comprimento de barra em emoji e um valor. Cada barra é uma linha de uma pilha alinhada à esquerda, para que todas as barras comecem na mesma margem e os seus comprimentos possam ser comparados diretamente. A etiqueta e o valor ficam no fim de cada barra, na mesma linha, o que os mantém alinhados com a sua barra.¶
+ƒ gráfico(etiquetas•[''] unidades•[#] valores•[''])
+	Grupo(
+		Monte('<' preenchimento: 0.2m)
+		unidades.traduzir(
+			ƒ(u•# i•#)
+				Grupo(
+					Linha('|' preenchimento: 0.3m)
+					[
+						Frase(preenchimento2(u) tamanho: 0.3m)
+						Frase(
+							`\etiquetas[i]\ \valores[i]\`
+							tamanho: 0.28m
+							cor: Cor(45% 0 0°)
+						)
+					]
+				)
+		)
+	)
+
+¶Vista 1 — "A Subida e a Queda".Para cada ano dos dados, desenhamos uma barra cujo comprimento é a percentagem de licenciaturas em informática obtidas por mulheres. Cada emoji de mulher representa cerca de 5 por cento, por isso dividimos a percentagem por 5 para obter o comprimento da barra.¶
+linhasDeTempo: (years ⎡?ano2 percentagem⎦ ⊤) → []
+vistaDeTempo: gráfico(
+		linhasDeTempo.traduzir(ƒ(linha) linha.ano2)
+		linhasDeTempo.traduzir(
+			ƒ(linha2) (linha2.percentagem ÷ 5).redondo()
+		)
+		linhasDeTempo.traduzir(
+			ƒ(linha3) (linha3.percentagem.redondo() → '') + '%'
+		)
+	)
+
+¶Vista 2 — "Uma Área Fora de Sintonia".Comparamos a proporção de mulheres em diferentes áreas de estudo num ano recente. As linhas já estão ordenadas da maior para a menor proporção de mulheres, por isso a informática cai para o fundo do gráfico.¶
+linhasDeCampos: (fields ⎡?campo percentagem2⎦ ⊤) → []
+vistaDeCampos: gráfico(
+		linhasDeCampos.traduzir(ƒ(linha4) linha4.campo)
+		linhasDeCampos.traduzir(
+			ƒ(linha5) (linha5.percentagem2 ÷ 5).redondo()
+		)
+		linhasDeCampos.traduzir(
+			ƒ(linha6) (linha6.percentagem2 → '') + '%'
+		)
+	)
+
+¶Vista 3 — "Mais Mulheres, Proporção Menor".Estas são duas medições diferentes, por isso desenhamo-las como dois gráficos separados, lado a lado. O gráfico da esquerda conta mulheres (cada emoji representa cerca de 2000 pessoas); o gráfico da direita mostra a sua proporção em todas as licenciaturas (cada emoji representa cerca de 5 por cento). Dentro de cada gráfico, as duas barras usam a mesma unidade, por isso são comparáveis: a contagem quase duplica enquanto a proporção desce.¶
+linhasDeContagem: (years ⎡?ano2 mulheres percentagem⎦ ((ano2 = '1984') | (ano2 = '2022'))) → []
+antigo: linhasDeContagem[1]
+agora: linhasDeContagem[2]
+
+gráficoDeMulheres: gráfico(
+		['1984' '2022']
+		[
+			(antigo.mulheres ÷ 2000).redondo()
+			(agora.mulheres ÷ 2000).redondo()
+		]
+		[antigo.mulheres → '' agora.mulheres → '']
+	)
+gráficoDePartilha: gráfico(
+		['1984' '2022']
+		[
+			(antigo.percentagem ÷ 5).redondo()
+			(agora.percentagem ÷ 5).redondo()
+		]
+		[
+			(antigo.percentagem.redondo() → '') + '%'
+			(agora.percentagem.redondo() → '') + '%'
+		]
+	)
+vistaDeContagens: Grupo(
+		Linha('<' preenchimento: 1.5m)
+		[
+			Grupo(
+				Monte('|' preenchimento: 0.3m)
+				[
+					Frase(
+						`/Mulheres a obter licenciaturas em informática/`
+						tamanho: 0.28m
+					)
+					gráficoDeMulheres
+				]
+			)
+			Grupo(
+				Monte('|' preenchimento: 0.3m)
+				[
+					Frase(
+						`/A sua proporção em todas as licenciaturas de informática/`
+						tamanho: 0.28m
+					)
+					gráficoDePartilha
+				]
+			)
+		]
+	)
+
+¶Os três botões. Choice indica o nome da Phrase selecionável em que o leitor clicou pela última vez. Começamos na vista do tempo e atualizamos sempre que a escolha muda.¶
+choice: Escolha()
+atual: 'time' … ∆ choice … choice
+
+separadores: Grupo(
+		Linha('|' preenchimento: 0.6m)
+		[
+			Frase(
+				'▸ Ao longo do tempo'
+				selecionável: ⊤
+				nome: 'time'
+				tamanho: 0.35m
+				cor: Cor(60% 50 20°)
+			)
+			Frase(
+				'▸ Por área'
+				selecionável: ⊤
+				nome: 'fields'
+				tamanho: 0.35m
+				cor: Cor(60% 50 140°)
+			)
+			Frase(
+				'▸ Contagem vs proporção'
+				selecionável: ⊤
+				nome: 'contagens'
+				tamanho: 0.35m
+				cor: Cor(60% 50 280°)
+			)
+		]
+	)
+
+¶Escolha o gráfico e o rodapé para a vista atual.¶
+corpo: atual = 'time' ? vistaDeTempo (atual = 'fields' ? vistaDeCampos vistaDeContagens)
+
+rodapé:
+	atual = 'time' ?
+		Frase(
+			`/A proporção de licenciaturas em informática dos Estados Unidos obtidas por mulheres atingiu o pico de 37% em 1984, depois desceu durante cerca de 25 anos até cerca de 18% por volta de 2008, e recuperou apenas lentamente desde então. Cada 👩 ≈ 5%. Fonte: NCES Digest of Education Statistics, Tabela 325.35./`
+			envolver: 9m
+			tamanho: 0.26m
+		)
+		atual = 'fields' ?
+			Frase(
+				`/Por volta de 2018, as mulheres obtinham a maioria das licenciaturas em psicologia e biologia, cerca de metade das licenciaturas em matemática e ciências sociais, mas menos de 20% das licenciaturas em informática — quase a proporção mais baixa de todas as áreas. Cada 👩 ≈ 5%. Fonte: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
+				envolver: 9m
+				tamanho: 0.26m
+			)
+			Frase(
+				`/Em 1984, cerca de 12 000 mulheres obtiveram licenciaturas em informática — 37% do total. Em 2022, mais de 24 000 obtiveram-nas, o dobro das pessoas, mas apenas 23%: a área cresceu tão depressa que o número de homens cresceu ainda mais depressa. Uma contagem crescente pode ainda assim ser uma proporção decrescente. Fonte: NCES./`
+				envolver: 9m
+				tamanho: 0.26m
+			)
+
+Fase(
+	[
+		Grupo(
+			Monte('|' preenchimento: 0.4m)
+			[
+				Frase(
+					`O FOSSO DO CÓDIGO`
+					tamanho: 0.7m
+					fonte: 'Monoton'
+				)
+				Frase(
+					`/Quem obtém licenciaturas em informática?/`
+					tamanho: 0.35m
+				)
+				separadores
+				corpo
+				rodapé
+			]
+		)
+	]
+	fonte: 'Quicksand'
+)
+=== years/en
+¶Percentagem de licenciaturas dos Estados Unidos em ciências da computação e da informação obtidas por mulheres, por ano, com o número de mulheres e o número total de licenciaturas. Fonte: National Center for Education Statistics, Digest of Education Statistics, Tabela 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+⎡ano2•'' mulheres•# total•# percentagem•#⎦
+⎡'1971' 324 2388 13.6⎦
+⎡'1976' 1118 5652 19.8⎦
+⎡'1984' 12023 32439 37.1⎦
+⎡'1990' 8188 27347 29.9⎦
+⎡'1995' 6749 24506 27.5⎦
+⎡'2001' 12219 44142 27.7⎦
+⎡'2005' 11986 54111 22.2⎦
+⎡'2008' 6792 38523 17.6⎦
+⎡'2011' 7589 43066 17.6⎦
+⎡'2015' 10742 59586 18⎦
+⎡'2019' 18316 88638 20.7⎦
+⎡'2022' 24542 108503 22.6⎦
+=== fields/en
+¶Percentagem de licenciaturas dos Estados Unidos obtidas por mulheres em cada área de estudo, por volta de 2018, ordenadas da proporção mais alta para a mais baixa. Fonte: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+⎡campo•'' percentagem2•#⎦
+⎡'Psicologia' 72⎦
+⎡'Biologia' 60⎦
+⎡'Ciências sociais' 55⎦
+⎡'Matemática e estatística' 42⎦
+⎡'Ciências físicas' 41⎦
+⎡'Ciências da Terra' 38⎦
+⎡'Engenharia' 22⎦
+⎡'Informática' 20⎦

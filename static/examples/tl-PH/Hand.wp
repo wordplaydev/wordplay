@@ -1,0 +1,58 @@
+🖐
+Kamay
+===
+¶Itaas ang iyong mga daliri sa harap ng iyong camera, at may emoji ng kamay na bibilang kasabay nito.¶
+kamay: Kamay()
+
+Entablado(
+	[
+		Parirala(
+			(kamay.mgadaliri = 0 ? '✊'
+					kamay.mgadaliri = 1 ? '☝'
+						kamay.mgadaliri = 2 ? '✌'
+							kamay.mgadaliri = 3 ? '🤟'
+								kamay.mgadaliri = 4 ? '🖖'
+									'🖐')
+			lugar: kamay.lugar
+			laki: 2m
+			offset: Lugar(-1m)
+		)
+		Grupo(
+			Hilera('<')
+			[
+				Parirala(
+					'1⃣'
+					offset: Lugar(0m kamay.hinlalaki ? 1m 0m)
+				)
+				Parirala(
+					'2⃣'
+					offset: Lugar(0m kamay.indeks ? 1m 0m)
+				)
+				Parirala('3⃣' offset: Lugar(0m kamay.gitna ? 1m 0m))
+				Parirala(
+					'4⃣'
+					offset: Lugar(0m kamay.singsing ? 1m 0m)
+				)
+				Parirala('5⃣' offset: Lugar(0m kamay.pinky ? 1m 0m))
+			]
+			lugar: Lugar(-4.5m 5m)
+		)
+		Grupo(
+			Patongpatong('|')
+			[
+				Parirala((kamay.palad ? '🤚' '🤛') laki: 2m)
+				Parirala(
+					(kamay.bukas ? 'bukas' 'sarado')
+					laki: 1.5m
+				)
+			]
+			lugar: Lugar(-2m -8m)
+		)
+		Parirala(
+			`/Ipakita sa camera ang iyong kamay/`
+			lugar: Lugar(-6m -10m)
+			laki: 1m
+		)
+	]
+	lugar: Lugar(0m 0m -20m)
+)

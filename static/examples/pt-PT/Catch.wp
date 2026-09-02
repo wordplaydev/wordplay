@@ -1,0 +1,60 @@
+🐭
+Capturar
+=== start/en
+¶Apanhe o rato em correria com um clique — clique outra vez para o libertar.
+
+Ambos os sons vêm das próprias poses. Uma @Pose pode ter associada uma @Music, que toca no momento em que essa pose acontece: o som do salto toca quando a pose de repouso do rato muda para a pose de apanhado, e o som da correria toca quando a rotação chega à pose intermédia a que está associado. Não é preciso ligar nada entre a animação e o som — a pose é o ponto onde se encontram.¶
+
+¶Duas peças curtas. Uma @Track repete-se por definição, mas uma pose é um instante e não algo que dura, por isso a música de uma pose toca sempre só uma vez.¶
+salto: Música(
+		Faixa(
+			[5 1]
+			instrumento: Instrumento.sino
+			batida: 1beats
+		)
+		volume: 50%
+		nome: 'salto'
+	)
+correria: Música(
+		Faixa(
+			[1 2]
+			instrumento: Instrumento.flauta
+			batida: 1beats
+		)
+		volume: 35%
+		nome: 'correria'
+	)
+
+¶Se a frase selecionada for o rato, alterna entre apanhado e livre.¶
+nome3: Escolha()
+apanhado: ⊥ … ∆ (nome3) … (nome3 = 'mouse') & ~apanhado
+¶A cada segundo, move o rato¶
+colocar: Local(0m 0m 0m) … ∆ Tempo(1000ms) … apanhado ? Local(
+				0m
+				0m
+			) Local(Aleatório(-2m 2m) Aleatório(-2m 2m))
+
+Fase(
+	[
+		Frase(
+			"🐭"
+			selecionável: ⊤
+			local: colocar
+			descansar: apanhado ? Pose(
+					rotação: 180°
+					música: salto
+				) Pose()
+			mudança: apanhado ? Pose() Sequência(
+					{
+						0%: Pose(rotação: 0°)
+						50%: Pose(rotação: 180° música: correria)
+						100%: Pose(rotação: 360°)
+					}
+				)
+			duração: 1s
+			nome: 'mouse'
+		)
+	]
+	local: Local(0m 0m -5m)
+	moldura: Retângulo(-3m 3m 3m -3m)
+)

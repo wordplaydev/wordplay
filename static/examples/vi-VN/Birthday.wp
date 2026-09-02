@@ -1,0 +1,194 @@
+🎂
+Chúc Mừng Sinh Nhật
+=== start/en
+¶Bài Chúc Mừng Sinh Nhật chia thành ba bè: một giai điệu, một bè hòa âm bên dưới, và các hợp âm nâng đỡ cả hai.
+
+Mỗi bè được viết theo bậc âm giai, vậy nên 1 là âm chủ và 8 là âm chủ cao hơn một quãng tám. Vì vậy giai điệu vẫn nghe giống nhau dù bạn đặt nó ở giọng nào — đổi @Music/key thì cả bài hát sẽ đổi theo, kể cả người hát.
+
+Giai điệu và bè hòa âm di chuyển theo nửa nhịp còn hợp âm theo cả nhịp, nên mỗi bè tự nói rõ mục của nó dài bao lâu mà vẫn khớp với nhau.¶
+
+¶Số nhịp kể từ khi bài hát bắt đầu, để bánh kem có thể chuyển động theo. @Beat đếm từ số không trước khi nhạc phát, nên bánh kem cứ đứng yên.¶
+nhịp2: Nhịp()
+đếm2: nhịp2.đếm
+
+¶Giai điệu. Hai nốt móc đơn, rồi đến các nốt dài hơn — chính các dấu lặng tạo nên nhịp điệu, vì mỗi mục đều kéo dài đúng nửa nhịp.¶
+giaiĐiệu2: [
+		5
+		5
+		6
+		ø
+		5
+		ø
+		8
+		ø
+		7
+		ø
+		ø
+		ø
+		5
+		5
+		6
+		ø
+		5
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		5
+		5
+		12
+		ø
+		10
+		ø
+		8
+		ø
+		7
+		ø
+		6
+		ø
+		ø
+		11
+		11
+		10
+		ø
+		8
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Một bè thứ hai bên dưới giai điệu, cùng theo nửa nhịp.¶
+bèTrầm: [
+		5
+		5
+		3
+		ø
+		3
+		ø
+		3
+		ø
+		4
+		ø
+		ø
+		ø
+		4
+		4
+		4
+		ø
+		4
+		ø
+		4
+		ø
+		5
+		ø
+		ø
+		ø
+		5
+		5
+		5
+		ø
+		8
+		ø
+		5
+		ø
+		5
+		ø
+		4
+		ø
+		6
+		6
+		6
+		ø
+		6
+		ø
+		5
+		ø
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Hợp âm, mỗi nhịp một hợp âm. Một tập hợp phát ra các bậc âm cùng lúc, nên {1 3 5} là hợp âm ba chủ và {4 5 7 9} là hợp âm muốn quay trở lại về nó.¶
+hợpÂm: [
+		ø
+		{1 3 5}
+		ø
+		ø
+		{4 5 7 9}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{4 6 8}
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		{4 5 7 9}
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Bánh kem phồng lên ở mỗi nhịp rồi lắng xuống giữa các nhịp.¶
+ƒ bánhKem() Cụmtừ(
+		'🎂'
+		(4m + ((đếm2 % 2) · 0.4m))
+		khoảngthờigian: 0.2s
+	)
+
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp(đệm: 0.5m)
+			[
+				bánhKem()
+				Cụmtừ('Chúc Mừng Sinh Nhật' 1.3m)
+			]
+		)
+		ÂmNhạc(
+			[
+				BảnNhạc(giaiĐiệu2 nhạcCụ: NhạcCụ.sáo nhịp: 0.5beats)
+				BảnNhạc(
+					bèTrầm
+					nhạcCụ: NhạcCụ.đànVĩCầm
+					nhịp: 0.5beats
+					âmLượng: 65%
+				)
+				BảnNhạc(
+					hợpÂm
+					nhạcCụ: NhạcCụ.đànPiano
+					nhịp: 1beats
+					âmLượng: 55%
+				)
+			]
+			nhịpĐộ: 116beats/min
+			tên: 'sinh nhật'
+		)
+	]
+	lýlịch: Màusắc(18% 20 330°)
+	màusắc: Màusắc(96% 0 0°)
+)

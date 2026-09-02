@@ -1,0 +1,14 @@
+🐈
+Wilde Verwandlungen
+===
+¶Eine Katze testet Skalierung, Drehung und Verschiebung gleichzeitig auf Belastbarkeit.¶
+Satzglied(
+	"🐈"
+	Größe: 10m
+	Ruhen: Pose(
+		Skala: 2
+		Versatz: Ort(1m 1m 5m)
+		Drehung: (Zeit(500ms) % 360) × 1°/ms
+	)
+	Dauer: 0.25s
+)

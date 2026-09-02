@@ -1,0 +1,68 @@
+☁
+LettresQuiPleuvent
+=== start/en
+¶Ce programme a un ensemble de lettres qui tombent comme de la pluie vers le sol selon les règles de la physique, et une fois qu'elles touchent le sol, elles peuvent retomber de nouveau. Nous avons toujours le même nombre de lettres qui tombent, mais nous en rendons visible un nombre différent selon l'amplitude du microphone.¶
+
+¶Le nombre maximum de lettres¶
+compte2: 100
+¶L'étalement horizontal des lettres¶
+taille2: 20m
+
+¶L'amplitude du micro¶
+ampères: Volume()
+
+¶La lettre choisie ainsi que sa position, sa vitesse de rotation et si elle est visible.¶
+•lettre(lettre2•"" x2•#m y2•#m angle2•# vitesse2•# visible•?)
+
+tic: Temps()
+
+¶Initialiser comme une liste de lettres aléatoires à des positions aléatoires¶
+lettres•[lettre]: compte2 → [#].traduire(
+		ƒ(_) lettre(
+				'abcdefghijklmnopqrstuvwxyz' → [''].aléatoire()
+				Aléatoire(-taille2 taille2)
+				Aléatoire(0m taille2 + 2m)
+				Aléatoire(360)
+				Aléatoire(-15 15)
+				⊥
+			)
+	)
+	… ∆ tic …
+		¶Si la lettre est au-dessus de l'axe des y, la déplacer un peu vers le bas et la faire tourner. Sinon, la replacer au-dessus du seuil et décider au hasard si elle est visible.¶
+		lettres.traduire(
+			ƒ(lettre3•lettre)
+				lettre3.y2 > 0m ? (lettre3.y2:lettre3.y2 - 0.5m).angle2:lettre3.angle2 + lettre3.vitesse2
+					(lettre3.y2:taille2 + 2m).visible:Aléatoire(
+						0
+						ampères
+					) > 0.5
+		)
+
+¶Transformer les lettres en phrases¶
+Scène(
+	[
+		Phrase("☁" taille: 3m lieu: Lieu(-8m 12m))
+		Phrase("☁" taille: 5m lieu: Lieu(8m 11m))
+		Phrase(
+			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+			lieu: Lieu(-3.5 × taille2 -0.5m)
+		)
+	].avecListe(
+		lettres.traduire(
+			ƒ(lettre4•lettre)
+				Phrase(
+					lettre4.lettre2
+					taille: 1m
+					lieu: Lieu(lettre4.x2 lettre4.y2)
+					rotation: lettre4.angle2 × 1°
+					aurepos: Pose(
+						opacité: lettre4.visible ? 1 0
+						couleur: Couleur(100% 0 0°)
+					)
+					durée: 0s
+				)
+		)
+	)
+	lieu: Lieu(0m 1 × taille2 -15m)
+	arrièreplan: Couleur(63% 93 248°)
+)

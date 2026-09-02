@@ -1,0 +1,18 @@
+w
+Buổi trình diễn Màu sắc
+===
+¶Nhấn để rung lắc và đổi màu ngẫu nhiên cho từ "wowie".¶
+màuSắc2: Màusắc(0% 0 0°) … ∆ Cáinút() … Màusắc(
+			50%
+			Ngẫunhiên() × 200
+			Ngẫunhiên() × 360°
+		)
+
+Cụmtừ(
+	'wowie'
+	tên: 'mèo con'
+	kíchcỡ: 6m
+	màusắc: màuSắc2
+	xoay: (Ngẫunhiên() - 0.5) × 30°
+	khoảngthờigian: .1s
+)

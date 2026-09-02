@@ -1,0 +1,35 @@
+o
+Lapisan
+=== start
+¶Bola-bola memantul di kedalaman berbeda untuk menunjukkan lapisan paralaks.¶
+hitungan2: 10 → []
+
+ƒ bola(z2•#m) hitungan2.menerjemahkan(
+		ƒ()
+			Frasa(
+				'o'
+				tempat: Gerakan(
+					Tempat(Acak(-10 10) × 1m Acak(0 10) × 1m z2)
+					Kecepatan(Acak(-10 10) × 1m/s Acak(-5 5) × 1m/s)
+				)
+				urusan: Urusan(kekenyalan: 0.8 gesekan: 0)
+			)
+	)
+
+Panggung(
+	[
+		:bola(0m)
+		:bola(-10m)
+		:bola(10m)
+		Bangun(Lingkaran(2m 0m 1m 0m))
+		Bangun(Lingkaran(2m 9m -3m 10m))
+		Bangun(Poligon(2m 5 -5m 0m -10m))
+		Bangun(Persegipanjang(-20m 0m 20m -1m 0m))
+		Bangun(Persegipanjang(-20m 0m 20m -1m 10m) rotasi: 25°)
+		Bangun(
+			Persegipanjang(-20m 0m 20m -1m -10m)
+			rotasi: -10°
+		)
+	]
+	tempat: Tempat(0m 10m -30m)
+)

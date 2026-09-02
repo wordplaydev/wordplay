@@ -1,0 +1,166 @@
+A
+اسم متحرك
+=== English/en
+¶This project has an English and a Hindi version.
+Change the locale on stage to see each one!¶/en
+¶यह कार्यक्रम दो रूप मे हैं: अंग्रेज़ी और हिंदी। मंच पर भाषा बदलिए
+दोनो देखने के लिए!¶/hi
+
+🌍/en ?
+	¶A small, simple animation of my name Aditi according to my identity.
+	- I'm very passionate about writing, so the 'A' is written in an ink-like
+	font and rotating to imitate writing the letter somewhat.
+	- Aditi is the name of the Hindu goddess of the earth, which is why
+	the 'd' is spinning around and flashing blue and green.
+	- My favorite color is periwinkle, and I love to listen to and make music,
+	which is why 'i' is represented by an eighth note in that color and
+	jumping up and down as notes do.
+	- Lastly, the 't' and 'i' are combined into another musical note (two
+	eighth notes beamed together), just to emphasize that I like music and
+	creatively write those two letters.¶/en
+
+	¶This Group arranges each letter of my name into row format so they
+	show up in a horizontal line, as you can see on stage.¶/en
+	(
+		مجموعة(
+			صف()
+			[
+				¶Each Phrase contains one symbol to represent a letter of my name.
+				This allows me to animate each letter individually! I'm using
+				resting Sequences so that the letters move while on stage.¶/en
+				عبارة(
+					'A'/en
+					شكل: 'Pacifico'
+					entering: تسلسل(
+						{
+							0%: Pose(opacity: 0%)
+							25%: Pose(opacity: 25%)
+							50%: Pose(opacity: 50%)
+							75%: Pose(opacity: 75%)
+							100%: Pose()
+						}
+					)
+					resting: تسلسل(
+						{
+							0%: Pose()
+							50%: Pose(rotation: 180°)
+							100%: Pose(rotation: 359°)
+						}
+						duration: 1s
+					)
+					مدة: 1s
+				)
+				عبارة(
+					'd'/en
+					شكل: 'Aclonica'
+					resting: تسلسل(
+						{
+							0%: Pose(color: Color(0.5 100 180°) flipx: ⊤)
+							50%: Pose(color: Color(27% 112 267°))
+							75%: Pose(
+								color: Color(0.5 100 180°)
+								flipx: ⊤
+							)
+						}
+						duration: 2s
+					)
+					نمط: 'straight'
+					مدة: 5s
+					لون: Color(0.5 100 180°)
+				)
+				عبارة(
+					'♪'
+					resting: تسلسل(
+						{
+							0%: Pose(
+								offset: الحركة(
+									مكان(0m 0.5m 0m rotation: 0°)
+									سرعة(0m/s 0m/s 0°/s)
+								)
+							)
+							25%: Pose()
+							50%: Pose(offset: مكان(0m 0m 0m))
+							75%: Pose(offset: مكان(0m -0.5m 0m))
+							100%: Pose()
+						}
+					)
+					مدة: 5s
+					لون: Color(74% 100 292°)
+				)
+				عبارة(
+					'♫'
+					resting: تسلسل(
+						{
+							0%: Pose(rotation: 20°)
+							50%: Pose(rotation: -20°)
+							100%: Pose(rotation: 20°)
+						}
+					)
+				)
+			]
+		)
+	)
+
+	¶एक छोटा सा कार्यक्रम जो मेरी नाम अदिती दिखाता हैं, मेरे पहचान के अनुुसार।
+	- मुझे लोगों को देखना अच्छी लगती हैं, बात करने की बजाय। इस लिए “अ”
+	 अंदर-बाहर आ और जा रहा हैं।
+	- मेरी पसंद वाली रंग पेरिविंकल हैं, तो “दि” वह रंग दिखा रहा हैं।
+	- भूदेवी की एक दूसरी नाम “अदिती” हैं, तो “ती” भूमि जैसे घूम रहा हैं,
+	उसके रंग के साथ।¶/hi
+
+	¶यह ‘ग्रूप’ मेरी नाम की हर अक्षर सजाता हैं ताकी वे दिखते हैं जैसे आप को
+	दिखाई देता हैं मंच पर।¶/hi
+	(
+		مجموعة(
+			صف()
+			[
+				¶हर बोल एक अक्षर रखता हैं मेरी नाम की। यह मुझे हर अक्षर को हिलाने देता हैं।
+				मैं आराम-वाले @Sequence का इस्तेमाल कर रही हूँ ताकी अक्षर मंच पर हिले।¶/hi
+				عبارة(
+					'अ'/hi
+					شكل: 'Pacifico'
+					resting: تسلسل(
+						{
+							0%: Pose(opacity: 0%)
+							25%: Pose(opacity: 25%)
+							50%: Pose(opacity: 50%)
+							75%: Pose(opacity: 75%)
+							100%: Pose()
+						}
+						duration: 2s
+					)
+				)
+				عبارة(
+					'दि'/hi
+					resting: تسلسل(
+						{
+							0%: Pose(color: Color(0% 0 0°))
+							50%: Pose(color: Color(74% 100 291°))
+							100%: Pose()
+						}
+						duration: 2s
+					)
+					مدة: 5s
+					لون: Color(74% 100 292°)
+				)
+				عبارة(
+					'ती'/hi
+					شكل: 'Aclonica'
+					resting: تسلسل(
+						{
+							0%: Pose(color: Color(0.5 100 180°) flipx: ⊤)
+							50%: Pose(color: Color(27% 112 267°))
+							75%: Pose(
+								color: Color(0.5 100 180°)
+								flipx: ⊤
+							)
+						}
+						duration: 2s
+					)
+					نمط: 'straight'
+					مدة: 5s
+					لون: Color(0.5 100 180°)
+				)
+			]
+		)
+	)

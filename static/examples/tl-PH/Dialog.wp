@@ -1,0 +1,77 @@
+🗨
+Diyalogo
+=== start
+¶May dalawang letrang nag-uusap tungkol sa kahulugan ng pag-uusap ng mga letra.¶
+
+¶Isang linya ng usapan: kung sino ang nagsasalita, ang mga salita, at kung ito ay iniisip lamang at hindi sinasabi.¶
+•linya(sino•'' mgaSalita2•'' thinking•?: ⊥)
+
+kodigo: [
+		linya(
+			'isang'
+			'Naiisip mo ba minsan na kakaiba ang pag-uusap natin?'
+		)
+		linya(
+			'b'
+			'Mga letra tayo. Ang pag-uusap ang halos buong trabaho natin.'
+		)
+		linya(
+			'isang'
+			'Hindi, ang tinutukoy ko ay tayo. Hindi ang mga salitang binubuo natin. Tayo.'
+		)
+		linya('b' '…Ah.')
+		linya(
+			'isang'
+			'Ako ay isang hugis na may kahulugang tunog. Ngayon, ginagawa ko ang tunog sa pamamagitan ng pagiging hugis.'
+		)
+		linya(
+			'b'
+			'Ang bula ng pananalita sa paligid ng isang letra ba ay larawan ng isang letra, o letra ng isang larawan?'
+			thinking: ⊤
+		)
+		linya(
+			'isang'
+			'Parang naliligaw ka na sa iyong iniisip.'
+		)
+		linya(
+			'b'
+			'Ako ay isang b. Ang paikot-ikot ay talagang ang aking anyo.'
+		)
+		linya('isang' 'Kahit paano. Normal lang ito dito.')
+		linya('b' 'Normal naman para sa atin.')
+	]
+
+¶Sumulong gamit ang isang key, isang click, o isang tap, at huminto sa huling linya.¶
+pagkakataon•#: 1 … ∆ Susi() | ∆ Butones() … (pagkakataon < kodigo.haba(
+				) ? pagkakataon + 1 pagkakataon)
+
+linya2: kodigo[pagkakataon]
+
+¶Ang tanging nagkakaroon ng bula ay ang sinumang may pagkakataon. Bawat linya ay @Say, kaya ito ay sinasabi rin at ipinapakita rin — at ang bula ang siyang pumapalit sa caption, dahil nasa tabi na ng nagsalita ang mga salita sa screen. Walang pumipili ng gilid: inilalagay ng entablado ang bawat bula kung saan man ito hindi nakakaabala.¶
+ƒ bula2(sino2•'')
+	sino2 = linya2.sino ?
+		Bula(
+			Sabihin(linya2.mgaSalita2)
+			uri: (linya2.thinking ? '💭' '💬')
+			balutin: 9m
+		)
+		ø
+
+¶Isang hanay na nakahanay sa baseline, para ang dalawang letra ay nasa isang linya. Ang kahon ng isang parirala ay ang kanyang tinta, kaya kung ilalagay sila sa parehong taas, magkaiba ang baseline ng maikling letra at ng mataas na letra.¶
+Entablado(
+	[
+		Grupo(
+			Patongpatong('|' 1.5m)
+			[
+				Grupo(
+					Hilera('_' 6m)
+					[
+						Parirala('isang' laki: 3m bula: bula2('isang'))
+						Parirala('b' laki: 3m bula: bula2('b'))
+					]
+				)
+				Parirala(`/space, click, o tap/` laki: 0.6m)
+			]
+		)
+	]
+)

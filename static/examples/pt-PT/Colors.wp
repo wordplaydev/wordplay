@@ -1,0 +1,18 @@
+w
+Espetáculo de Cores
+===
+¶Clique para agitar e mudar a cor da palavra "wowie" ao acaso.¶
+cor2: Cor(0% 0 0°) … ∆ Botão() … Cor(
+			50%
+			Aleatório() × 200
+			Aleatório() × 360°
+		)
+
+Frase(
+	'wowie'
+	nome: 'gatinho'
+	tamanho: 6m
+	cor: cor2
+	rotação: (Aleatório() - 0.5) × 30°
+	duração: .1s
+)

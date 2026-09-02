@@ -1,0 +1,339 @@
+🐤
+Sinek Kuşu
+=== start/en
+¶Mırıldanan bir kuş oyunu! Kanat çırpmak için bir tuşa bas ya da tıkla, ya da mikrofona mırıldan — kuş, mırıltının perdesine göre bir yüksekliğe süzülür. Emoji yığınlarının arasındaki boşluklardan geç. Bir yığına ya da zemine dokunmak oyunu bitirir; bir çarpışmadan sonra geri sayım başlar ve oyun yeniden başlar.¶
+
+¶Her engel, bu koleksiyonlardan birine ait emojilerden oluşan bir yığındır.¶
+türler: [
+		['🌵' '🌱' '🌿' '🍀' '🎋']
+		['🍩' '🧁' '🍰' '🍪' '🍦']
+		['🐙' '🐟' '🦀' '🐡' '🦑']
+		['🚗' '🚌' '🚕' '🚙' '🚓']
+		['🌸' '🌼' '🌻' '🌷' '💐']
+		['⭐' '🌟' '✨' '☁' '🌙']
+	]
+
+¶Bir engelin her tikte ne kadar sola hareket ettiği.¶
+hız2: 0.2m
+
+¶Kuşla olan her türlü çarpışma. Tavan 'gökyüzü' olarak adlandırılır, bu yüzden ona çarpmak oyunu bitirmez, sadece kuşu geri sektirir.¶
+çarpışma: Çarpışma('kuş')
+ölümcül: çarpışma•ø ? ⊥ (çarpışma.nesne ≠ 'sky')
+
+tık: Zaman(40ms)
+oyunTıkı: Zaman(100ms)
+
+¶Oyunun durumu: bir aşama (1 = geri sayım, 2 = oynanıyor, 3 = çarpıldı) ve bu aşamada kaç saniyenin onda biri geçtiği. Zamanları birbirinden çıkarmak yerine tek bir saatin tiklerini sayarız, çünkü her Time() sıfırdan başlar.¶
+•oyun(evre•# tik•#)
+oyun2•oyun: oyun(1 0) …
+	∆ oyunTıkı | ölümcül …
+		oyun2.evre ???
+			1: (oyun2.tik ≥ 36) ? oyun(2 0) oyun(1 oyun2.tik + 1)
+			2: ölümcül ? oyun(3 0) oyun2
+			3: (oyun2.tik ≥ 25) ? oyun(1 0)
+				¶Kuş bir şeyin üzerinde dururken, çarpışmalar bu tepkimeyi sürekli meşgul eder; duraklamanın her zaman aynı uzunlukta olması için sadece gerçek saat tiklerini sayarız.¶
+				oyun(3 oyun2.tik + (∆ oyunTıkı ? 1 0))
+			oyun2
+
+¶Gösterilecek geri sayım sayısı: 3, 2, 1.¶
+sayaç: (oyun2.tik < 12) ? 3 (oyun2.tik < 24) ? 2 1
+
+¶🎤 ya da ⌨ düğmesini seçerek nasıl oynayacağını belirle: mırıldanmak kuşu hareket ettirir, tıklamalar ve tuşlar ise kanat çırptırır. Modlar ayrıdır, böylece mikrofonun yakınında konuşmak klavyeyle çakışmaz.¶
+seçilmiş: Seçenek()
+mod•'': 'tap' … (seçilmiş = 'hum') | (seçilmiş = 'tap') … seçilmiş
+
+¶Dokunma modunda, tıklayınca ya da herhangi bir tuşa basınca kanat çırp.¶
+kanatÇırp: (mod = 'tap') & (∆ Düğme() | ∆ Anahtar())
+
+¶Uğultu modunda, kuş senin uğultunun perdesine göre yüksekliğe süzülür — alçak notalar yere yakın, tiz notalar gökyüzüne yakın olur — ve daha yükseğe çıkmaz.¶
+perde2: Saha()
+mırıltı: (mod = 'hum') & (perde2 > 50hz)
+
+ƒ perdeDenYüksekliğe(hz•#hz)
+	(hz < 80hz) ? -4m
+		(hz > 400hz) ? 5m
+			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+
+¶Kuş, uğultuyla belirlenen yüksekliğe azar azar yaklaşır. Böylece perdedeki her titremede sarsılmak yerine yumuşakça süzülür.¶
+perdeY•#m: 1m … ∆ perde2 … mırıltı ? (0.8 × perdeY) + (0.2 × perdeDenYüksekliğe(
+							perde2
+						)) perdeY
+
+¶Kuş geri sayım sırasında havada asılı kalır, oyun sırasında yukarı çırpınır ya da uğultunun perdesinde süzülür, çarpışmadan sonra ise yerçekimiyle yuvarlanır.¶
+kuşYeri: Hareket(
+		Yer(-4m 1m)
+		sonrakiyer:
+		(oyun2.evre = 1) ? Yer(-4m 1m)
+			((oyun2.evre = 2) & mırıltı) ? Yer(-4m perdeY) ø
+		sonrakihız:
+		(oyun2.evre = 1) ? Hız(0m/s 0m/s)
+			((oyun2.evre = 2) & mırıltı) ? Hız(0m/s 0m/s)
+				((oyun2.evre = 2) & kanatÇırp) ? Hız(0m/s 15m/s) ø
+	)
+
+¶Civciv emojisi sola bakar, bu yüzden her poz onu gideceği yöne baksın diye çevirir.¶
+kuş: İfadeetmek(
+		'🐤'
+		1m
+		isim: 'kuş'
+		yer: kuşYeri
+		konu: Konu(1kg 0.4 0)
+		dinlenme:
+		(oyun2.evre = 3) ? Poz(rotasyon: 180° tersçevir: ⊤)
+			Sekans(
+				{
+					0%: Poz(tersçevir: ⊤ rotasyon: -12°)
+					50%: Poz(tersçevir: ⊤ rotasyon: 12°)
+					100%: Poz(tersçevir: ⊤ rotasyon: -12°)
+				}
+				0.35s
+			)
+	)
+
+¶Her engel şunlardan oluşur: yatay bir konum, tepeden sarkan emoji sayısı ve hangi emoji koleksiyonundan yapıldığı. Engeller oyun sırasında sola doğru ilerler, sağdan rastgele yeni bir şekille yeniden belirir ve yeni bir oyun için sıfırlanır.¶
+•boru(x2•#m üst•# tür2•#)
+
+boru1•boru: boru(10m Rastgele(1 5) Rastgele(1 6)) …
+	((oyun2.evre = 1) & (boru1.x2 ≠ 10m)) | ((oyun2.evre = 2) & ∆ tık) …
+		(oyun2.evre = 1) ? boru(
+				10m
+				Rastgele(1 5)
+				Rastgele(1 6)
+			)
+			(boru1.x2 < -13m) ? boru(
+					boru1.x2 + 24m
+					Rastgele(1 5)
+					Rastgele(1 6)
+				)
+				boru(boru1.x2 - hız2 boru1.üst boru1.tür2)
+
+boru2•boru: boru(16m Rastgele(1 5) Rastgele(1 6)) …
+	((oyun2.evre = 1) & (boru2.x2 ≠ 16m)) | ((oyun2.evre = 2) & ∆ tık) …
+		(oyun2.evre = 1) ? boru(
+				16m
+				Rastgele(1 5)
+				Rastgele(1 6)
+			)
+			(boru2.x2 < -13m) ? boru(
+					boru2.x2 + 24m
+					Rastgele(1 5)
+					Rastgele(1 6)
+				)
+				boru(boru2.x2 - hız2 boru2.üst boru2.tür2)
+
+boru3•boru: boru(22m Rastgele(1 5) Rastgele(1 6)) …
+	((oyun2.evre = 1) & (boru3.x2 ≠ 22m)) | ((oyun2.evre = 2) & ∆ tık) …
+		(oyun2.evre = 1) ? boru(
+				22m
+				Rastgele(1 5)
+				Rastgele(1 6)
+			)
+			(boru3.x2 < -13m) ? boru(
+					boru3.x2 + 24m
+					Rastgele(1 5)
+					Rastgele(1 6)
+				)
+				boru(boru3.x2 - hız2 boru3.üst boru3.tür2)
+
+boru4•boru: boru(28m Rastgele(1 5) Rastgele(1 6)) …
+	((oyun2.evre = 1) & (boru4.x2 ≠ 28m)) | ((oyun2.evre = 2) & ∆ tık) …
+		(oyun2.evre = 1) ? boru(
+				28m
+				Rastgele(1 5)
+				Rastgele(1 6)
+			)
+			(boru4.x2 < -13m) ? boru(
+					boru4.x2 + 24m
+					Rastgele(1 5)
+					Rastgele(1 6)
+				)
+				boru(boru4.x2 - hız2 boru4.üst boru4.tür2)
+
+¶Az önce bir engel kuşun yanından geçti mi?¶
+ƒ geçildi(x3•#m) (x3 ≤ -5m) & (x3 > (-5m - hız2))
+
+skor•#: 0 …
+	(oyun2.evre = 1) | ((oyun2.evre = 2) & ∆ tık) …
+		(oyun2.evre = 1) ? 0
+			(geçildi(boru1.x2) | geçildi(boru2.x2) | geçildi(
+						boru3.x2
+					) | geçildi(boru4.x2)) ? skor + 1
+				skor
+
+¶Bir emoji yığınını fiziksel bir sütun olarak kur. 0'lık süre, sağ tarafa dönüşün görünür bir kayma yerine anında olmasını sağlar.¶
+ƒ kolon(hücreler•# tür3•# x4•#m y2•#m)
+	Grup(
+		Yığın('|' 0m)
+		(hücreler → []).tercümeetmek(
+			ƒ(hücre2•#) İfadeetmek(
+					türler[tür3][1 + ((hücre2 - 1) % 5)]
+					1m
+				)
+		)
+		yer: Yer(x4 y2)
+		konu: Konu()
+		süre: 0s
+	)
+
+¶Bir engel iki sütundan oluşur: biri gökyüzünden sarkar, biri yerden yükselir; aralarında yaklaşık 6 metrelik bir boşluk vardır.¶
+ƒ yığınlar(boru5•boru) [
+		kolon(
+			boru5.üst
+			boru5.tür2
+			boru5.x2
+			6m - (boru5.üst × 1m)
+		)
+		kolon(6 - boru5.üst boru5.tür2 boru5.x2 -6m)
+	]
+
+¶Yer kuşu çarptırır; gökyüzü ise onu geri aşağı sektirir.¶
+zemin2: Şekil(
+		Dikdörtgen(-8m -5.7m 8m -6m)
+		arkaplan: Renk(60% 60 130°)
+	)
+gökyüzü: Şekil(Dikdörtgen(-8m 7m 8m 6m) isim: 'sky')
+solDuvar: Şekil(Dikdörtgen(-8.4m 6m -8m -6m))
+sağDuvar: Şekil(Dikdörtgen(8m 6m 8.4m -6m))
+
+skorGörünümü: İfadeetmek("\skor\" 1.5m yer: Yer(-0.5m 4m))
+kaplamalar:
+	oyun2.evre ???
+		1: [İfadeetmek("\sayaç\" 3m yer: Yer(-1m -1.5m))]
+		3: [İfadeetmek('💥' 3m yer: Yer(-1.5m -1.5m))]
+		[]
+
+¶Mod seçici: seçilen oynama biçimi parlak görünür, diğeri sönük görünür.¶
+mırıldanmaDüğmesi: İfadeetmek(
+		'🎤'
+		0.8m
+		isim: 'hum'
+		seçilebilir: ⊤
+		yer: Yer(-4.2m 4.7m)
+		dinlenme: (mod = 'hum') ? Poz() Poz(opaklık: 40%)
+	)
+dokunmaDüğmesi: İfadeetmek(
+		'⌨'
+		0.8m
+		isim: 'tap'
+		seçilebilir: ⊤
+		yer: Yer(-3m 4.7m)
+		dinlenme: (mod = 'tap') ? Poz() Poz(opaklık: 40%)
+	)
+
+talimatlar1: İfadeetmek(
+		"Tıklamalar ve tuşlarla kanat çırpmak için ⌨'i, kuşunun yüksekliğini uğultunla belirlemek için 🎤'i seç!"
+		0.45m
+		yer: Yer(-6.9m -4.7m)
+	)
+talimatlar2: İfadeetmek(
+		'Boşluklardan geç. Yığınlara dokunma!'
+		0.4m
+		yer: Yer(-4.5m -5.4m)
+	)
+
+¶Bir kanat çırpışı zaten tek bir değerlendirmedir — kuşu yukarı kaldıran tepki yalnızca tıklama ya da tuşla tetiklenir, başka hiçbir şeyle değil — bu yüzden kanadı doğrudan seslendirebilir: çırptığın karede tek bir nota çalar, geri kalan zamanda hiçbir şey çalmaz. Başlamış bir nota sonuna kadar çalar, bu yüzden bir kare sonra bu listeyi boşaltmak kanadı yarıda kesmez. Uğultu modunda hiç kanat çırpma olmaz, bu yüzden liste boş kalır ve sen kuşa şarkı söylerken kuş sessiz kalır.¶
+kanatÇırpmaNotaları: kanatÇırp ? [3] []
+
+kanatÇırpmaSesi: Müzik(
+		Parça(
+			kanatÇırpmaNotaları
+			çalgı: Çalgı.davul
+			sesDüzeyi: 70%
+			döngü: ⊥
+		)
+		tekrarOynat: kanatÇırp
+		isim: 'kanat çırp'
+	)
+
+¶Tedirginden çılgına uzanan yirmi kapı. Tempoyu değiştirmek baştan başlamak yerine bir sonraki vuruşta devreye girer, böylece her kapı döngüyü yerinden oynatmadan sıkılaştırır — bir çarpışma ise puanı sıfıra döndürür ve her şeyi yeniden en baştan başlatır.¶
+aciliyet: (skor ÷ 20).dakika(1)
+
+¶Bemol ikinci derece için Frig makamı: ana perdenin bir yarım ton üstünde, gamdan çıkmadan bulunabilecek en gergin nota. Bas her iki ölçüden birinde bu notaya dayanır ve synth figürü orada biter, böylece döngü hiçbir zaman bir yere yerleşmez.¶
+endişeliŞarkı: Müzik(
+		[
+			Parça(
+				[1 ø 1 ø 2 ø 1 ø]
+				çalgı: Çalgı.synthBass
+				vuruş: 1beats
+				sesDüzeyi: 50%
+			)
+			Parça(
+				[5 ø 4 ø 5 ø 4 2]
+				çalgı: Çalgı.synth
+				vuruş: 1beats
+				sesDüzeyi: 35%
+			)
+			Parça(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 3 3]
+				çalgı: Çalgı.davul
+				vuruş: 0.5beats
+				sesDüzeyi: 35%
+			)
+		]
+		tempo: (100beats/min + (aciliyet · 100beats/min))
+		gam: Müzik.phrygian
+		isim: 'tedirgin'
+	)
+
+¶Geri sayım ve uçuş boyunca çalar, çarpışmada aniden durur; böylece 💥 sesi tek başına duyulur.¶
+şarkıListesi: (oyun2.evre = 3) ? [] [endişeliŞarkı]
+
+¶Çarpışma: bir zil sesi, alçak bir gümbürtü ve tedirgin gamın tepeden kendi üstüne düşmesi — şarkının etrafında dönüp durduğu aynı notalar, sonunda hiçbir yere varmadan biter.
+
+Bunun için @Music.replay'a gerek yoktur. Sahneye ulaşmak, ses çıkarmak için yeterli bir sebeptir; çalıp bitmiş tek seferlik bir ses, sahneden ayrılana kadar sessiz kalır. Geri sayım onu sahneden kaldırır ve unutur, böylece bir sonraki çarpışma onu yeniden baştan seslendirir. Yaklaşık bir buçuk vuruş sürer, bu da çarpışma duraklamasının sürdüğü iki buçuk saniyenin rahatça içine sığar.¶
+ölümSesi: Müzik(
+		[
+			Parça(
+				[8 7 5 4 2 1 ø ø]
+				çalgı: Çalgı.synth
+				vuruş: 0.25beats
+				sesDüzeyi: 55%
+				döngü: ⊥
+			)
+			Parça(
+				[4 ø]
+				çalgı: Çalgı.davul
+				vuruş: 1beats
+				sesDüzeyi: 50%
+				döngü: ⊥
+			)
+			Parça(
+				[1 ø]
+				çalgı: Çalgı.synthBass
+				vuruş: 1beats
+				sesDüzeyi: 60%
+				döngü: ⊥
+			)
+		]
+		tempo: 100beats/min
+		gam: Müzik.phrygian
+		isim: 'çarpışma'
+	)
+
+ölümListesi: (oyun2.evre = 3) ? [ölümSesi] []
+
+Sahne(
+	[
+		kuş
+		kanatÇırpmaSesi
+		:şarkıListesi
+		:ölümListesi
+		:yığınlar(boru1)
+		:yığınlar(boru2)
+		:yığınlar(boru3)
+		:yığınlar(boru4)
+		zemin2
+		gökyüzü
+		solDuvar
+		sağDuvar
+		skorGörünümü
+		:kaplamalar
+		mırıldanmaDüğmesi
+		dokunmaDüğmesi
+		talimatlar1
+		talimatlar2
+	]
+	yer: Yer(0m 0m -12m)
+	çerçeve: Dikdörtgen(-8m 6m 8m -6m)
+	arkaplan: Renk(90% 20 240°)
+)

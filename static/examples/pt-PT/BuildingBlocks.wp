@@ -1,0 +1,624 @@
+🔨
+Blocos de Construção
+=== start/en
+¶Blocos de Construção — cortar, transportar e empilhar. Você é a pequena figura num campo verde salpicado de árvores e pedregulhos. Anda com as teclas de setas; você vira-se para o lado para onde andou, e o cursor flutuante mostra a célula em que está prestes a atuar.
+
+O Espaço faz as duas tarefas, e o cursor diz-lhe qual. Quando a pilha à sua frente sobe acima dos seus pés, o cursor é uma 🪏 e o Espaço derruba o topo dela; quando a pilha está ao nível dos seus pés ou abaixo, o cursor é um 🔨 e o Espaço empilha um bloco sobre ela. Assim, apanhar é apenas caminhar até uma árvore e premir Espaço, e construir para cima significa subir à medida que avança. Ande sobre uma peça solta para a guardar — uma árvore dá 🪵 madeira, um pedregulho dá 🧱 tijolo — e prima Shift para trocar qual delas vai empilhar.
+
+Só consegue alcançar um bloco acima do chão onde está, e o cursor desvanece quando algo está fora de alcance. Um pedregulho tem dois blocos de altura, por isso pode cortar o topo a partir do chão — mas uma árvore tem três, por isso a copa precisa de altura. Prima j para saltar e atacar no ponto mais alto, ou empilhe um bloco, suba para cima dele e trabalhe a partir daí. Andar nunca sobe, por isso pode sempre colocar-se em frente de algo e atuar sobre ele.
+
+Os blocos desvanecidos mostram a estrutura que está a tentar fazer, e cada um fica sólido assim que o iguala. Iguale-os todos e ganha — tudo o resto que deixar por aí é problema seu, por isso um degrau que construiu para subir pode simplesmente ficar onde está.¶
+
+¶O mundo é uma grelha de células com números inteiros, e os metros só aparecem ao desenhar. Isso mantém cada posição exata: estar ao lado de algo, empilhar em cima de algo, e igualar o objetivo são tudo apenas números inteiros a serem iguais, por isso nada nunca fica meio bloco desalinhado.
+
+O campo tem apenas cinco células de profundidade de propósito, e isso está ligado à proximidade da câmara — veja a câmara perto do fundo.¶
+minX: -4
+maxX: 4
+minZ: 0
+maxZ: 4
+maxY: 4
+
+¶A que distância abaixo do nível dos olhos fica o chão, em células. Quanto mais perto está a câmara, maior tudo é desenhado e mais isto empurra o campo para baixo no ecrã, por isso esta distância e a distância da câmara têm de mudar juntas.¶
+quedaAoChão: 0.8
+
+¶A que distância atrás de si a câmara se posiciona, em células. Isto por si só define o tamanho de tudo: o palco divide pela distância da câmara, por isso três células atrás desenha-o cerca de duas vezes e meia maior que o tamanho real.¶
+trásDaCâmara: 3
+
+¶A que distância o campo inteiro fica da origem. O palco escala o mundo por um sobre a posição da própria câmara e cada peça pelo inverso, o que se anula — a não ser que a posição da câmara chegue a zero, onde toda a cena se achata e depois vira do avesso. A câmara fica cameraBack células atrás de si, por isso manter o campo tão afastado mantém a posição da câmara confortavelmente negativa mesmo quando anda até à fila de trás. Isto não tem efeito no aspeto de nada; apenas mantém a aritmética longe de zero.¶
+trásDoMundo: 4
+
+¶O centro de uma célula em metros. A metade desloca o x para trás porque uma frase é colocada pela sua margem esquerda.¶
+ƒ emX(c2•#) ((c2 - 0.5) · 1m)
+ƒ emY(c3•#) ((c3 - quedaAoChão) · 1m)
+ƒ emZ(c4•#) ((c4 - trásDoMundo) · 1m)
+
+¶Quanto tempo o martelo fica preparado, e quantos frames fica no ar depois de um salto. A pausa no ar é o que torna o salto utilizável: sem ela, um salto duraria um único frame, demasiado curto para premir uma seta, atacar, ou aterrar num bloco.¶
+ticksDeBalanço: 2
+ticksSuspenso: 4
+
+¶Quanto do mundo atrás de si ainda é desenhado. Veja a câmara abaixo para perceber porque isto existe: quanto mais perto está a câmara, menos filas atrás de si podem ser desenhadas antes de uma delas acabar em frente da lente e se espalhar por todo o ecrã.¶
+desenharAtrás: 1
+
+¶A que altura acima do seu próprio chão pode trabalhar. Um bloco é o que torna a altura importante: um pedregulho tem dois blocos de altura, por isso pode cortar o topo estando no chão, mas uma árvore tem três, por isso tem de saltar ou subir para algo para alcançar a copa — e o mesmo limite decide até que altura pode empilhar.¶
+alcance: 1
+
+¶Um cubo que está numa célula. O seu tipo é o próprio emoji, por isso desenhar um bloco nunca precisa de uma pesquisa.¶
+•bloco(x2•# y2•# z2•# tipo2•"")
+
+¶Uma peça que se soltou e caiu para o chão. Ela recorda a célula de onde se partiu, por isso o seu primeiro frame desenha-se onde o bloco estava e cada frame seguinte desenha-se onde caiu — a suavização própria da frase é que faz o voo. O id existe apenas para lhe dar um nome próprio no palco, já que duas peças podem cair na mesma célula.¶
+•item2(id2•# x3•# z3•# deX•# deY•# deZ•# tipo3•"" idade•#)
+
+¶O jogo todo num só valor: a fase (1 = título, 2 = a jogar, 3 = ganhou), onde está e para que lado se moveu da última vez, quanto tempo ainda pode ficar suspenso(a) num salto, o que tem nos bolsos e que material vai colocar, quanto impulso ainda resta no martelo, o identificador da próxima peça solta, a estrutura a igualar, e tudo o que existe no mundo.¶
+•jogo(fase•# x4•# y3•# z4•# orientadoParaX•# orientadoParaZ•# suspender•# madeira•# tijolo•# selecionado•"" balançar2•# próximoID•# objetivo•[bloco] blocos•[bloco] itens•[item2])
+
+¶Uma árvore são três cubos empilhados e um pedregulho são dois — não são um objeto cada, mas sim vários blocos numa coluna, por isso cada peça tem de ser martelada em separado. Ambos têm a largura de uma coluna, o que garante que, ao aparecer, dois blocos nunca ocupam a mesma célula.¶
+formaDaÁrvore: [
+		bloco(0 0 0 '🌳')
+		bloco(0 1 0 '🌳')
+		bloco(0 2 0 '🌳')
+	]
+formaDoRochedo: [bloco(0 0 0 '🪨') bloco(0 1 0 '🪨')]
+
+ƒ formaEm(forma2•[bloco] cx•# cz•#) forma2.traduzir(
+		ƒ(b2•bloco) bloco(cx b2.y2 cz b2.tipo2)
+	)
+
+¶Em que se transforma uma peça partida.¶
+ƒ produtoDe(tipo4•"") tipo4 ???
+		'🌳': '🪵'
+		'🪨': '🧱'
+		tipo4
+
+¶Uma nova estrutura a igualar: duas torres, cada uma com uma a três blocos de altura, num par aleatório das colunas do meio, na fila de trás do campo. Essas colunas do meio são exatamente aquelas onde os recursos nunca aparecem, por isso uma torre nunca pode cair dentro de uma árvore. Todas as colunas são sólidas desde o chão, porque empilhar cai sempre no topo de uma coluna — não há forma de criar um bloco flutuante, logo não há forma de o pedir. Seis blocos é o limite máximo, que é o que um campo de três pedregulhos produz em tijolo, por isso até uma estrutura totalmente em tijolo pode ser construída.¶
+ƒ gerarObjetivo() (
+		profundidade2: maxZ
+		par: [-1 0 1].embaralhado().subsequência(1 2)
+		par.combinado(
+			[]
+			ƒ(estrutura•[bloco] cx2•#)
+				estrutura.comlista(
+					(Aleatório(1 2) → []).traduzir(
+						ƒ(nível•#)
+							bloco(
+								cx2
+								(nível - 1)
+								profundidade2
+								['🪵' '🧱'].aleatório()
+							)
+					)
+				)
+		)
+	)
+
+¶Se uma célula está sequer no campo.¶
+ƒ dentroDosLimites(cx3•# cz2•#) (cx3 ≥ minX) & (cx3 ≤ maxX) & (cz2 ≥ minZ) & (cz2 ≤ maxZ)
+
+¶A altura de uma coluna. Todas as colunas são sólidas desde o chão — as formas crescem assim, empilhar acrescenta ao topo e martelar retira do topo — por isso basta contar os blocos de uma coluna para saber a sua altura e a primeira célula livre acima dela.¶
+ƒ alturaColuna(blocos2•[bloco] cx4•# cz3•#) blocos2.filtro(
+		ƒ(b3•bloco) (b3.x2 = cx4) & (b3.z2 = cz3)
+	).comprimento(
+	)
+
+¶Se uma célula exata contém um tipo exato de bloco. Fazer a pergunta desta forma — contar correspondências em vez de ir buscar um bloco que pode não existir — evita ter de transportar e desembrulhar um talvez-um-bloco.¶
+ƒ célulaContém(blocos3•[bloco] cx5•# cy•# cz4•# tipo5•"")
+	blocos3.filtro(
+		ƒ(b4•bloco) (b4.x2 = cx5) & (b4.y2 = cy) & (b4.z2 = cz4) & (b4.tipo2 = tipo5)
+	).comprimento(
+	) > 0
+
+¶Um novo campo: três árvores e três pedregulhos, cada um na sua própria coluna, a uma profundidade aleatória. Baralhar primeiro as colunas é o que torna aleatório em quais delas crescem árvores. As colunas mais próximas do meio ficam de fora de propósito, para que nada nasça onde está a personagem ou onde ficam as torres.¶
+gerarColunas: [-4 -3 -2 2 3 4]
+
+ƒ gerarMundo()
+	gerarColunas.embaralhado().combinado(
+		[]
+		ƒ(campo•[bloco] cx6•# índice2•#)
+			campo.comlista(
+				formaEm(
+					((índice2 ≤ 3) ? formaDaÁrvore formaDoRochedo)
+					cx6
+					Aleatório(minZ maxZ)
+				)
+			)
+	)
+
+¶Que blocos-objetivo ainda não foram igualados. Este é todo o ciclo de resposta: as torres esbatidas dissolvem-se um bloco de cada vez à medida que se constrói, e isso é também a razão pela qual um bloco esbatido e um bloco real nunca partilham uma célula — o que é importante, porque o palco ordena apenas pela profundidade, e duas coisas à mesma profundidade seriam decididas ao acaso.¶
+ƒ objetivoNãoCumprido(blocos4•[bloco] objetivo2•[bloco])
+	objetivo2.filtro(
+		ƒ(g•bloco) ~célulaContém(blocos4 g.x2 g.y2 g.z2 g.tipo2)
+	)
+
+¶Ganha assim que todos os blocos da estrutura estiverem igualados. Tudo o resto que deixou por aí — degraus que construiu para subir, uma pilha que nunca usou — é consigo, por isso não é preciso arrumar nada para terminar. Uma célula-objetivo pede um material exato, por isso uma árvore que por acaso esteja no sítio certo não a pode satisfazer.¶
+ƒ objetivoCumprido(blocos5•[bloco] objetivo3•[bloco]) objetivoNãoCumprido(
+		blocos5
+		objetivo3
+	).comprimento(
+	) = 0
+
+¶Dar um passo. Vira-se sempre para o lado para onde tentou ir, mesmo quando o passo falha, por isso caminhar contra algo é a forma de se posicionar de frente para isso. Só entra numa célula cuja pilha não seja mais alta do que a altura em que já está — caminhar nunca sobe, porque um passo que subisse levá-lo-ia para cima da própria coisa que estava a tentar martelar. Salte com j para ficar acima de um bloco e depois caminhe para cima dele.¶
+ƒ mover2(jogo2•jogo dx•# dz•#) (
+		virado: (jogo2.orientadoParaX:dx).orientadoParaZ:dz
+		alvoX: jogo2.x4 + dx
+		alvoZ: jogo2.z4 + dz
+		~dentroDosLimites(alvoX alvoZ) ? virado (
+				altura2: alturaColuna(virado.blocos alvoX alvoZ)
+				(altura2 ≤ jogo2.y3) ? ((virado.x4:alvoX).z4:alvoZ) virado
+			)
+	)
+
+¶Saltar, mas só a partir de algo onde está de pé. Perguntar se está acima do seu próprio apoio é o teste que importa: o impulso a esgotar-se não é o mesmo que ter aterrado, por isso um salto que só recusasse enquanto o impulso durasse podia ser relançado a meio da queda, e outra vez na descida a partir daí — subindo o céu uma célula de cada vez. É assim que se alcança qualquer coisa fora do alcance do braço sem antes construir um degrau.¶
+ƒ saltar(jogo3•jogo)
+	(jogo3.y3 > alturaColuna(jogo3.blocos jogo3.x4 jogo3.z4)) ? jogo3
+		((jogo3.y3:(jogo3.y3 + 1).min(maxY)).suspender:ticksSuspenso)
+
+¶Bater no que estiver à sua frente. Só a peça do topo dessa coluna se solta, o que faz com que uma árvore leve três golpes — e significa que nunca pode deixar uma peça a flutuar, por isso nada nunca precisa de cair. Só consegue alcançar um bloco acima do seu próprio apoio, por isso uma copa fora de alcance simplesmente não se solta; suba mais e bata outra vez. A peça solta tomba uma célula mais além, para longe de si, a não ser que essa célula esteja fora do campo ou já esteja ocupada, caso em que cai no lugar onde estava. O martelo arma quer acerte quer não, por isso uma falha também gasta o golpe.¶
+ƒ atingir(jogo4•jogo) (
+		alvoX2: jogo4.x4 + jogo4.orientadoParaX
+		alvoZ2: jogo4.z4 + jogo4.orientadoParaZ
+		topoY: alturaColuna(jogo4.blocos alvoX2 alvoZ2) - 1
+		¶Transformar a célula alvo diretamente na peça que ela produziria evita ter de andar com um talvez-um-bloco por aí: uma coluna vazia transforma-se simplesmente em nada.¶
+		produto: (topoY > (jogo4.y3 + alcance)) ? '' jogo4.blocos.filtro(
+					ƒ(b5•bloco) (b5.x2 = alvoX2) & (b5.y2 = topoY) & (b5.z2 = alvoZ2)
+				).combinado(
+					''
+					ƒ(atéAgora•"" b6•bloco) atéAgora + produtoDe(
+								b6.tipo2
+							)
+				)
+		balançado: jogo4.balançar2:ticksDeBalanço
+		(produto = '') ? balançado (
+				restante2: balançado.blocos.filtro(
+						ƒ(b7•bloco) ~((b7.x2 = alvoX2) & (b7.y2 = topoY) & (b7.z2 = alvoZ2))
+					)
+				aterrarX: alvoX2 + jogo4.orientadoParaX
+				aterrarZ: alvoZ2 + jogo4.orientadoParaZ
+				limpar: dentroDosLimites(aterrarX aterrarZ) & (alturaColuna(
+								restante2
+								aterrarX
+								aterrarZ
+							) = 0)
+				largado: balançado.itens.com(
+						item2(
+							balançado.próximoID
+							(limpar ? aterrarX alvoX2)
+							(limpar ? aterrarZ alvoZ2)
+							alvoX2
+							topoY
+							alvoZ2
+							produto
+							0
+						)
+					)
+				((balançado.blocos:restante2).itens:largado).próximoID:(balançado.próximoID + 1)
+			)
+	)
+
+¶Empilhe um dos seus blocos em cima da coluna à sua frente, se lhe sobrar algum e houver espaço por cima. O alcance não é verificado aqui: isto só acontece quando a pilha está ao nível dos seus pés ou abaixo, por isso o novo bloco cai sempre ao alcance do seu braço.¶
+ƒ colocar(jogo5•jogo) (
+		alvoX3: jogo5.x4 + jogo5.orientadoParaX
+		alvoZ3: jogo5.z4 + jogo5.orientadoParaZ
+		altura3: alturaColuna(jogo5.blocos alvoX3 alvoZ3)
+		reserva: (jogo5.selecionado = '🪵') ? jogo5.madeira jogo5.tijolo
+		(~dentroDosLimites(alvoX3 alvoZ3) | (reserva = 0) | (altura3 > maxY)) ? jogo5 (
+				gasto: (jogo5.selecionado = '🪵') ? (jogo5.madeira:(jogo5.madeira - 1)) (jogo5.tijolo:(jogo5.tijolo - 1))
+				gasto.blocos:jogo5.blocos.com(
+					bloco(alvoX3 altura3 alvoZ3 jogo5.selecionado)
+				)
+			)
+	)
+
+¶Se a barra de espaço vai construir ou destruir. A pilha à sua frente decide: ao nível dos seus pés ou abaixo, empilha outro bloco em cima dela; acima dos seus pés, tira o topo. Uma única tecla faz as duas coisas, e o cursor mostra qual delas — por isso construir para cima significa subir à medida que avança, que é para isso que serve o salto, e pode sempre desfazer algo que colocou no sítio errado ficando ao mesmo nível dessa peça.¶
+ƒ aConstruir(jogo6•jogo)
+	alturaColuna(
+		jogo6.blocos
+		(jogo6.x4 + jogo6.orientadoParaX)
+		(jogo6.z4 + jogo6.orientadoParaZ)
+	) ≤ jogo6.y3
+
+ƒ ato(jogo7•jogo) aConstruir(jogo7) ? colocar(jogo7) atingir(
+			jogo7
+		)
+
+¶Mudar o material que gostaria de empilhar.¶
+ƒ alternar(jogo8•jogo) jogo8.selecionado:((jogo8.selecionado = '🪵') ? '🧱' '🪵')
+
+¶Uma tecla premida durante o jogo. A tecla chega aqui como texto simples, em vez de ser comparada na reação, o que mantém os testes ∆ da reação a olhar apenas para o próprio stream.¶
+ƒ aplicarTeclaPressionada(jogo9•jogo chave2•"")
+	(chave2 = 'Seta para a esquerda') ? mover2(jogo9 -1 0)
+		((chave2 = 'Seta para a direita') ? mover2(jogo9 1 0)
+				((chave2 = 'Seta para cima') ? mover2(jogo9 0 1)
+						((chave2 = 'Seta para baixo') ? mover2(
+									jogo9
+									0
+									-1
+								)
+								((chave2 = 'Espaço') ? ato(jogo9)
+										((chave2 = 'Turno') ? alternar(jogo9)
+												((chave2 = 'j') ? saltar(jogo9) jogo9))))))
+
+¶Uma nova ronda.¶
+ƒ novoJogo() jogo(
+		2
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		gerarObjetivo()
+		gerarMundo()
+		[]
+	)
+
+¶Um fotograma: envelhecer as peças soltas para que caiam, fiquem suspensas e depois caiam para o topo daquilo sobre o qual está, guardar nos bolsos o que estiver na sua célula, deixar o martelo voltar à posição inicial e verificar as torres.¶
+ƒ avançarMundo(jogo10•jogo) (
+		envelhecido: jogo10.itens.traduzir(
+				ƒ(i•item2) (i.idade = 0) ? (i.idade:1) i
+			)
+		emPé: alturaColuna(jogo10.blocos jogo10.x4 jogo10.z4)
+		próximoSuspenso: (jogo10.suspender > 0) ? (jogo10.suspender - 1) 0
+		próximoY: ((jogo10.suspender = 0) & (jogo10.y3 > emPé)) ? (jogo10.y3 - 1) jogo10.y3
+		¶Está sempre à altura da coluna sobre a qual está, tal como tudo o que aí se encontrar, por isso basta partilhar uma célula para apanhar alguma coisa.¶
+		debaixoDosPés: envelhecido.filtro(
+				ƒ(i2•item2) (i2.x3 = jogo10.x4) & (i2.z3 = jogo10.z4) & (i2.idade > 0)
+			)
+		mantido: envelhecido.filtro(
+				ƒ(i3•item2) ~((i3.x3 = jogo10.x4) & (i3.z3 = jogo10.z4) & (i3.idade > 0))
+			)
+		obteveMadeira: debaixoDosPés.filtro(
+				ƒ(i4•item2) i4.tipo3 = '🪵'
+			).comprimento(
+			)
+		obteveTijolo: debaixoDosPés.filtro(
+				ƒ(i5•item2) i5.tipo3 = '🧱'
+			).comprimento(
+			)
+		jogo(
+			(objetivoCumprido(jogo10.blocos jogo10.objetivo) ? 3 jogo10.fase)
+			jogo10.x4
+			próximoY
+			jogo10.z4
+			jogo10.orientadoParaX
+			jogo10.orientadoParaZ
+			próximoSuspenso
+			(jogo10.madeira + obteveMadeira)
+			(jogo10.tijolo + obteveTijolo)
+			jogo10.selecionado
+			((jogo10.balançar2 > 0) ? (jogo10.balançar2 - 1) 0)
+			jogo10.próximoID
+			jogo10.objetivo
+			jogo10.blocos
+			mantido
+		)
+	)
+
+chave3: Chave()
+tique: Tempo(150ms)
+tocar: Botão()
+
+¶O batimento, comandado por três entradas. Durante o jogo, um tique avança o mundo, as teclas fazem tudo o resto, e um clique dá uma pancada. A partir do título ou do ecrã de vitória, Enter ou um clique inicia uma nova ronda.¶
+jogo11•jogo: jogo(
+		1
+		0
+		0
+		0
+		0
+		1
+		0
+		0
+		0
+		'🪵'
+		0
+		1
+		gerarObjetivo()
+		gerarMundo()
+		[]
+	)
+	… (∆ tique | ∆ chave3 | ∆ tocar) …
+		(jogo11.fase = 2)
+		? (∆ tique ? avançarMundo(jogo11)
+					(∆ chave3 ? aplicarTeclaPressionada(
+								jogo11
+								chave3
+							) ato(jogo11)))
+			(∆ tique ? jogo11
+					(∆ chave3 ? ((chave3 = 'Entrar') ? novoJogo() jogo11)
+							(∆ tocar ? novoJogo() jogo11)))
+
+¶Tudo no mundo é desenhado sem suavização, por isso um passo aparece logo no fotograma em que carrega, em vez de deslizar depois, e cada peça tem um nome construído a partir da sua célula. O nome é a parte importante: o palco distingue os elementos de saída pelo nome, e uma lista sem nomes é distinguida pela posição, por isso retirar um bloco do meio de uma pilha faria com que todos os blocos acima dele ficassem com a identidade do vizinho, e todos deslizariam para baixo uma posição.¶
+¶A green emoji is about a quarter wider than it is tall, so the tiles are sized
+down to land exactly one to a cell and keep the ground lined up with the blocks
+standing on it.¶
+tamanhoDoBloco: 0.8m
+
+linhasDoSolo: [0 1 2 3 4].filtro(
+		ƒ(linha•#) linha ≥ (jogo11.z4 - desenharAtrás)
+	).traduzir(
+		ƒ(linha2•#)
+			Frase(
+				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+				tamanhoDoBloco
+				duração: 0s
+				nome: "g\linha2\"
+				local: Local(emX(minX) emY(-1) emZ(linha2))
+			)
+	)
+
+vistasDeBlocos: jogo11.blocos.filtro(
+		ƒ(b8•bloco) b8.z2 ≥ (jogo11.z4 - desenharAtrás)
+	).traduzir(
+		ƒ(b9•bloco)
+			Frase(
+				b9.tipo2
+				1m
+				duração: 0s
+				nome: "b\b9.x2\,\b9.y2\,\b9.z2\"
+				local: Local(emX(b9.x2) emY(b9.y2) emZ(b9.z2))
+			)
+	)
+
+¶As torres que está a tentar alcançar, esbatidas, mostrando apenas as partes que ainda não construiu.¶
+vistasFantasma: objetivoNãoCumprido(
+		jogo11.blocos
+		jogo11.objetivo
+	).filtro(
+		ƒ(g2•bloco) g2.z2 ≥ (jogo11.z4 - desenharAtrás)
+	).traduzir(
+		ƒ(g3•bloco)
+			Frase(
+				g3.tipo2
+				1m
+				duração: 0s
+				opacidade: 35%
+				nome: "h\g3.x2\,\g3.y2\,\g3.z2\"
+				local: Local(emX(g3.x2) emY(g3.y2) emZ(g3.z2))
+			)
+	)
+
+¶Uma peça solta. Esta é a única coisa no palco que se move de forma suave em vez de saltar de repente — o seu primeiro fotograma está no local onde o bloco se partiu, e o resto está onde caiu, sendo o movimento suave entre os dois a queda.¶
+vistasDeItens: jogo11.itens.filtro(
+		ƒ(i6•item2) i6.z3 ≥ (jogo11.z4 - desenharAtrás)
+	).traduzir(
+		ƒ(i7•item2)
+			Frase(
+				i7.tipo3
+				0.6m
+				duração: 0.3s
+				nome: "i\i7.id2\"
+				local: (i7.idade = 0)
+				? Local(emX(i7.deX) emY(i7.deY) emZ(i7.deZ))
+					Local(
+						emX(i7.x3)
+						emY(alturaColuna(jogo11.blocos i7.x3 i7.z3))
+						emZ(i7.z3)
+					)
+			)
+	)
+
+¶Uma duração é o que transforma um passo em movimento: sem ela, o palco não cria nenhuma animação para ele e cada movimento é instantâneo. Um tempo ligeiramente inferior a um tique faz com que cada passo e cada salto se acomodem mesmo antes de o seguinte chegar. O esticar enquanto está no ar é o mesmo truque do balanço preparado do martelo — uma pose diferente mantida enquanto durar o estado, em vez de uma animação que começa e termina.¶
+vistaDoJogador: Frase(
+		'🚶🏻‍♀'
+		1.1m
+		duração: 0.14s
+		nome: 'jogador(a)'
+		balança: ((jogo11.suspender > 0) ? 1.08 1)
+		invertirx: jogo11.orientadoParaX > 0
+		local: Local(
+			emX(jogo11.x4)
+			emY(jogo11.y3)
+			emZ(jogo11.z4)
+		)
+	)
+
+¶O cursor paira sobre a célula onde a sua próxima ação vai atuar — o espaço livre no topo da pilha à sua frente. Uma pancada parte o bloco diretamente por baixo dele, e uma construção preenche a célula que marca, por isso nunca há dúvida sobre o que está prestes a partir ou onde um bloco vai ficar. Flutua um pouco acima dessa célula para se manter visível quando a célula está mesmo à sua frente e o seu próprio corpo a tapava. Recua no momento em que dá a pancada e volta suavemente sozinho, disparando exatamente no momento do impacto em vez de repetir em ciclo. Esconde-se quando está virado(a) para fora do campo, já que não há nada ali para atuar.¶
+alvoX4: jogo11.x4 + jogo11.orientadoParaX
+alvoZ4: jogo11.z4 + jogo11.orientadoParaZ
+yDeDestino: alturaColuna(jogo11.blocos alvoX4 alvoZ4)
+
+¶Qual das duas ações a barra de espaço faria na coluna à sua frente, e se resultaria em alguma coisa: partir precisa de o topo estar ao alcance, e construir precisa de sobrar algum material do tipo escolhido nos seus bolsos. O cursor desvanece-se sempre que a resposta é não, para que um bolso vazio pareça igual a uma coroa fora de alcance, em vez de um toque que não faz nada silenciosamente.¶
+aConstruirAqui: yDeDestino ≤ jogo11.y3
+aoAlcance: (yDeDestino - 1) ≤ (jogo11.y3 + alcance)
+stockAqui: (jogo11.selecionado = '🪵') ? jogo11.madeira jogo11.tijolo
+podeAtuar: aConstruirAqui ? (stockAqui > 0) aoAlcance
+
+vistaDoCursor: Frase(
+		(aConstruirAqui ? '🔨' '🪏')
+		0.85m
+		duração: 0.12s
+		nome: 'cursor'
+		rotação: ((jogo11.balançar2 > 0) ? -55° 0°)
+		opacidade: (podeAtuar ? 100% 30%)
+		local: Local(
+			emX(alvoX4)
+			emY(yDeDestino + 0.55)
+			emZ(alvoZ4)
+		)
+	)
+
+listaDoCursor: dentroDosLimites(alvoX4 alvoZ4) ? [
+			vistaDoCursor
+		] []
+
+¶Bolsos e material atual, fixados diretamente no ecrã para que a profundidade nunca os torne mais pequenos.¶
+hud: [
+		Frase(
+			"🪵 \jogo11.madeira\   🧱 \jogo11.tijolo\   🔨 \jogo11.selecionado\"
+			0.5m
+			local: Local(-6.6m 4.3m)
+		)
+	]
+
+títuloDoEcrã: (jogo11.fase = 3) ? '🎉 Construiu-o! 🎉' '🔨 BLOCOS DE CONSTRUÇÃO 🔨'
+linhaInicial: (jogo11.fase = 3) ? 'Prima Enter ou clique para construir novamente' 'Prima Enter ou clique para iniciar'
+
+¶Os ecrãs ficam sobrepostos a um campo cheio de árvores e figuras, por isso o grupo tem o seu próprio fundo opaco — palavras escuras sobre ramos e telhados são difíceis de ler, e um painel sólido mantém-nas legíveis sem deixar de mostrar o mundo à volta.¶
+vistaDoEcrã: [
+		Grupo(
+			Monte()
+			[
+				Frase(títuloDoEcrã 1.1m nome: 's1')
+				Frase(
+					'As setas fazem-te andar · ficas virado(a) para o lado para onde andaste'
+					0.5m
+					nome: 's2'
+				)
+				Frase(
+					'Espaço atua sobre o cursor: 🪏 parte · 🔨 constrói'
+					0.5m
+					nome: 's3'
+				)
+				Frase(
+					'Shift troca 🪵 🧱 · j salta para alcançar'
+					0.5m
+					nome: 's4'
+				)
+				Frase(
+					'Alcança um bloco acima · combina com os blocos esbatidos'
+					0.5m
+					nome: 's5'
+				)
+				Frase(linhaInicial 0.7m nome: 's6')
+			]
+			fundo: Cor(90% 10 240°)
+		)
+	]
+
+¶A câmara mantém sempre a mesma distância atrás de ti, em vez de ficar parada, por isso mantens o mesmo tamanho no ecrã por mais longe que andes, e o campo desliza junto a ti, mesmo por cima do teu ombro. Também te segue para os lados, por isso andar até à borda do campo faz o mundo deslizar em vez de te deixar fora dele. O quinto de uma célula é um pequeno ajuste de centragem: uma figura é desenhada a partir da sua margem esquerda, que fica meia célula deslocada, e o seu desenho é um pouco mais largo do que a célula onde está.
+
+O palco escala tudo conforme a distância à câmara, e algo a uma única célula à frente da lente é desenhado oito vezes maior do que o real — por isso, a esta distância, o mundo a mais do que uma fila atrás de ti simplesmente não é desenhado. As torres ficam sempre na fila do fundo, que é a única fila que a distância de desenho nunca corta, por isso mantêm-se visíveis de qualquer ponto onde possas andar.¶
+zDaCâmara: ((jogo11.z4 - trásDoMundo - trásDaCâmara) · 1m)
+
+¶A câmara acompanha a altura daquilo sobre o que estás, em vez da tua própria altura, por isso subir para uma pilha faz a câmara subir contigo e manter-te enquadrado(a), enquanto um salto continua a parecer um salto — durante um salto afastas-te mesmo da câmara, em vez de a arrastares contigo.¶
+yDaCâmara: (alturaColuna(jogo11.blocos jogo11.x4 jogo11.z4) · 1m)
+
+¶O mundo é desenhado da mesma forma em todas as fases, por isso os ecrãs de título e de vitória mostram o campo exatamente como vais jogá-lo, em vez de um cenário de menu separado.¶
+camadaDoMundo: [
+		:vistasDeBlocos
+		:vistasFantasma
+		:vistasDeItens
+		vistaDoJogador
+		:listaDoCursor
+	]
+
+¶Tudo o que fala contigo aparece na sobreposição do palco, que fica fixa ao ecrã e por isso não é afetada pela câmara nem pela profundidade. Colocar o ecrã aqui, em vez de no mundo, é o que os mantém legíveis: tudo o que é colocado no mundo fica a uma certa profundidade, e as filas de chão mais próximas da câmara seriam desenhadas por cima dele.¶
+camadaDeSobreposição: (jogo11.fase = 2) ? hud vistaDoEcrã
+
+¶Uma peça derrubada está ainda no seu primeiro fotograma, que é o único fotograma que a distingue das peças que já estão espalhadas — é a mesma idade que o desenho usa para decidir se deve começar a peça no lugar onde o bloco partiu.¶
+partidoAgora: jogo11.itens.filtro(ƒ(i8•item2) i8.idade = 0)
+
+¶Se o martelo acabou de bater. Só partir o ativa, por isso isto fica ⊥ para uma pressão que, em vez disso, empilhou um bloco.¶
+partiu: jogo11.balançar2 = ticksDeBalanço
+
+¶Como soou a pancada. A madeira bate com um som de tom-tom e a pedra com um som de bombo, por isso uma árvore e uma pedra não soam da mesma forma, e uma pancada que não acertou em nada tem um som leve — uma falha que se ouve é melhor do que uma falha que parece que nada aconteceu.
+
+Vazio no resto do tempo, e é só isso que é preciso: uma nota que já começou toca até ao fim, por isso o martelo continua a ressoar mesmo que esta lista fique vazia logo no fotograma seguinte.¶
+notasDeAcerto: partiu
+	? ((partidoAgora.comprimento() > 0) ? partidoAgora.traduzir(
+					ƒ(i9•item2) (i9.tipo3 = '🪵') ? 5 1
+				) [3])
+		[]
+
+¶A pressão que bateu, e só essa pressão. O martelo fica pronto a disparar até ao fotograma seguinte, por isso, sem isto, qualquer tecla premida nesse intervalo faria soar o golpe uma segunda vez.¶
+balançado2: ((∆ chave3) & (chave3 = 'Espaço')) | (∆ tocar)
+
+somDeAcerto: Música(
+		Faixa(
+			notasDeAcerto
+			instrumento: Instrumento.bateria
+			ciclo: ⊥
+		)
+		repetir: balançado2
+		nome: 'atingir'
+	)
+
+¶Um sítio para estar enquanto trabalhas: uma melodia pentatónica lenta numa flauta, um sino que responde de vez em quando, e um som contínuo por baixo. Pentatónica porque nenhuma das suas notas entra em conflito, por isso o ciclo nunca resolve para nada em concreto e nunca soa mal quando o martelo bate por cima dela. Tem dezasseis tempos em vez de oito, por isso demora algum tempo a repetir-se.¶
+ambiente: Música(
+		[
+			Faixa(
+				[1 ø ø 3 ø ø 5 ø ø 3 ø ø 2 ø ø ø]
+				instrumento: Instrumento.flauta
+				batida: 1beats
+				volume: 30%
+			)
+			Faixa(
+				[ø ø ø ø ø ø 8 ø ø ø ø ø ø ø 6 ø]
+				instrumento: Instrumento.sino
+				batida: 1beats
+				volume: 20%
+			)
+			Faixa(
+				[{1 5} {1 5} {4 8} {1 5}]
+				instrumento: Instrumento.sintetizadorPad
+				batida: 4beats
+				volume: 25%
+			)
+		]
+		andamento: 60beats/min
+		escala: Música.pentatónica
+		volume: 45%
+		nome: 'natureza'
+	)
+
+¶A recompensa por combinar todos os blocos esbatidos: uma trompete a subir a mesma escala pentatónica que o campo tem vindo a cantarolar desde o início, um acorde onde pousar, e um brilho de sino por cima.
+
+Nada aqui se repete em ciclo, e é isso que faz dele uma fanfarra e não um novo fundo sonoro. Um som único que já tocou fica em silêncio enquanto está no palco, por isso o ecrã de vitória volta a ficar em silêncio e deixa o ambiente sonoro tomar conta; começar uma nova ronda tira-o do palco e esquece-o, por isso a próxima estrutura que completares volta a ouvi-lo desde o início.¶
+somDeVitória: Música(
+		[
+			Faixa(
+				[1 3 5 8 ø 8 ø ø {1 5 8} ø ø ø ø ø ø ø]
+				instrumento: Instrumento.trompete
+				batida: 0.5beats
+				ciclo: ⊥
+			)
+			Faixa(
+				[ø ø ø ø ø ø ø ø 8 ø 10 ø 12 ø ø ø]
+				instrumento: Instrumento.sino
+				batida: 0.5beats
+				volume: 45%
+				ciclo: ⊥
+			)
+			Faixa(
+				[{1 3 5} ø {4 6 8} ø]
+				instrumento: Instrumento.piano
+				batida: 2beats
+				volume: 40%
+				ciclo: ⊥
+			)
+			Faixa(
+				[1 ø 3 ø 1 3 1 ø 4 ø ø ø ø ø ø ø]
+				instrumento: Instrumento.bateria
+				batida: 0.5beats
+				volume: 35%
+				ciclo: ⊥
+			)
+		]
+		andamento: 132beats/min
+		escala: Música.pentatónica
+		nome: 'construído'
+	)
+
+¶Só está no palco depois de teres ganhado, e uma lista vazia dissolve-se no nada.¶
+listaDeVitória: (jogo11.fase = 3) ? [somDeVitória] []
+
+Fase(
+	[
+		:linhasDoSolo
+		:camadaDoMundo
+		ambiente
+		somDeAcerto
+		:listaDeVitória
+	]
+	local: Local(
+		((jogo11.x4 + 0.2) · 1m)
+		yDaCâmara
+		zDaCâmara
+	)
+	fundo: Cor(78% 18 240°)
+	cor: Cor(20% 0 0°)
+	sobreposição: camadaDeSobreposição
+)

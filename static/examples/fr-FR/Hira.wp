@@ -1,0 +1,28 @@
+ぁ
+Hiragana
+=== start
+¶Des hiragana tombent à cause de la gravité ; clique pour inverser le sens du bas.¶
+compte2: 32
+
+gravité•#m/s^2: 15m/s^2 … ∆ Bouton() … -gravité
+
+hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
+
+lettres: compte2 → [].traduire(
+		ƒ(nombre2 indice2)
+			Phrase(
+				hiragana[nombre2]
+				lieu: Mouvement(
+					Lieu((indice2 - (compte2 ÷ 2)) × 0.2m 10m)
+					Vitesse(angle: Aléatoire(-5 5) × 1°/s)
+				)
+				matière: Matière(rebondissement: 0.3)
+			)
+	)
+
+
+Scène(
+	[:lettres Forme(Rectangle(-40m 0m 40m -2m))]
+	pesanteur: gravité
+	lieu: Lieu(0m 5m -20m)
+)

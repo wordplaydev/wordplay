@@ -1,0 +1,93 @@
+🤖
+Guralivul
+=== start
+¶Chatterbox este un mic robot ascultător, inspirat de Eliza, primul chatbot din lume, creat în 1966. Scrie în bara de chat și îți va răspunde, păstrând un jurnal al conversației tale.¶
+
+¶Un rând din conversație: cine a spus ceva și ce a spus.¶
+•rând(vorbitor•'' cuvinte2•'')
+
+mesaj: Chat()
+
+¶Înainte să îți repete cuvintele, Chatterbox schimbă pronumele, înlocuind fiecare cuvânt după această regulă: „al meu” devine „al tău”, iar „eu” devine „tu”. Astfel, „Simt că mă urăști” devine „De ce simți că te urăsc?”¶
+schimbări: {
+		'I': 'you'
+		'i': 'you'
+		"I'm": 'tu ești'
+		"i'm": 'tu ești'
+		'me': 'you'
+		'my': 'your'
+		'mine': 'yours'
+		'myself': 'yourself'
+		'am': 'sunt'
+		'you': 'I'
+		'your': 'my'
+		'yours': 'mine'
+		'yourself': 'myself'
+	}
+ƒ reflectă(cuvinte3•'')•'' cuvinte3.segmentat(' ').traduce(
+		ƒ(cuvânt2•'') schimbări{cuvânt2} ?? cuvânt2
+	).alăturăte(
+		' '
+	)
+
+¶Chatterbox alege un răspuns potrivind tipare cu mesajul tău. Aa ignoră majusculele, iar o captură denumită precum mood preia tot până la un semn de punctuație final, astfel încât răspunsul poate să îți repete propriile cuvinte — trucul folosit de Eliza originală. Ultima regulă este una de rezervă: un îndemn ales la întâmplare, ca să te facă să continui să vorbești.¶
+ƒ răspuns(cuvinte4•'')•'' (
+		sentimente: cuvinte4 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
+		ființe: cuvinte4 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
+		dorințe: cuvinte4 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		urări: cuvinte4 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
+		sentimente.lungime() > 0 ? 'De ce simți ' + reflectă(
+					sentimente[1].grupuri{'stare de spirit'} ?? ''
+				) + '?'
+			ființe.lungime() > 0 ? 'De cât timp ești ' + reflectă(
+						ființe[1].grupuri{'stare'} ?? ''
+					) + '?'
+				dorințe.lungime() > 0 ? 'Ce ar însemna pentru tine să ai ' + reflectă(
+							dorințe[1].grupuri{'dorință'} ?? ''
+						) + '?'
+					urări.lungime() > 0 ? 'Ce s-ar schimba dacă ' + reflectă(
+								urări[1].grupuri{'dorință'} ?? ''
+							) + '?'
+						(cuvinte4 ⌕ ⣿ Aa("because")⣿).lungime() > 0 ? 'Acesta este motivul adevărat?'
+							(cuvinte4 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).lungime(
+							) > 0 ? 'Spune-mi mai multe despre familia ta.'
+								cuvinte4.setermină('?') ? 'Mă întrebi pe mine? Tu ce crezi?'
+									(cuvinte4 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? 'Bună! Cum te simți azi?'
+										[
+											'Spune-mi mai multe.'
+											'Continuă.'
+											'Cum te face asta să te simți?'
+											'Înțeleg. Te ascult.'
+										].aleatoriu(
+										)
+	)
+
+¶Jurnalul începe cu un salut și crește cu câte două linii la fiecare mesaj: al tău, apoi răspunsul lui Chatterbox.¶
+jurnal•[rând]: [
+		rând('🤖' 'Bună! Sunt Chatterbox. Ce mai faci?')
+	] … ∆ mesaj …
+		jurnal.cu(rând('🙂' mesaj)).cu(rând('🤖' răspuns(mesaj)))
+
+¶Arată doar cele mai noi linii, ca cele vechi să facă loc celor noi.¶
+recent: jurnal.lungime() ≤ 8 ? jurnal jurnal.subsecvență(
+			jurnal.lungime() - 7
+		)
+
+Etapă(
+	[
+		Grup(
+			Stivă('<' 0.5m)
+			recent.traduce(
+				ƒ(rând2•rând)
+					Fraza(
+						rând2.vorbitor + ' ' + rând2.cuvinte2
+						dimensiune: 0.75m
+						înfășura: 22m
+						intrând: Poză(opacitate: 0 scară: 0.5)
+						durată: 0.4s
+					)
+			)
+		)
+	]
+	loc: Loc(0m 0m -12m)
+)

@@ -1,0 +1,78 @@
+⏳
+अध्ययन मोड मिटर
+=== start/en
+¶अध्ययन घण्टा थप्न क्लिक गर र मिटर शान्तबाट ध्यानमग्न हुँदै अत्यधिक बोझमा कसरी सर्छ हेर।¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+कार्य: छनोट()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+अध्ययनघण्टा:
+	0 …
+	∆ कार्य …
+		कार्य = 'reset' ?
+			0
+			अध्ययनघण्टा + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+व्याख्या:
+	'आफ्नो अध्ययन समय बढाउन “Add Study Hour +1” मा क्लिक गर। फेरि सुरु गर्न “Reset” मा क्लिक गर।'
+
+¶Hours text shows how many hours the user has studied.¶/en
+घण्टापाठ:
+	'तिमीले ' + अध्ययनघण्टा → '' + ' घण्टा अध्ययन गर्यौ।'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+मनोदशा:
+	अध्ययनघण्टा < 3 ?
+		'🌿 शान्त मोड — अध्ययन समय थप्न क्लिक गर'
+		अध्ययनघण्टा < 6 ?
+			'📚 ध्यान मोड — तिमी उत्पादक क्षेत्रमा छौ!'
+			'🔥 अत्यधिक बोझ मोड — विश्राम लेऊ र "Reset" गर'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+Stage(
+	[
+		समूह(
+			Stack()
+			[
+				वाक्यांश('अध्ययन मोड मिटर' आकार: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				वाक्यांश(व्याख्या आकार: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				वाक्यांश(घण्टापाठ आकार: 0.4m)
+
+				वाक्यांश(मनोदशा आकार: 0.75m)
+
+				समूह(
+					Row(प्याडिङ: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						वाक्यांश(
+							'अध्ययन घण्टा थप +1'
+							छनोटगर्नमिल्ने: ⊤
+							नाम: 'थप्नुहोस्'
+							रङ: रङ(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						वाक्यांश(
+							'फेरि सुरु गर्नुहोस्'
+							छनोटगर्नमिल्ने: ⊤
+							नाम: 'reset'
+							रङ: रङ(69% 47 271°)
+						)
+					]
+				)
+			]
+			फन्ट: "Aclonica"
+		)
+	]
+)

@@ -1,0 +1,37 @@
+O
+Clase de japonés
+=== start
+¶Una historia contada escena por escena sobre el primer día de clase de japonés.¶
+
+¶Ésta es la lista de escenas que se van a mostrar¶
+oraciones: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶Ésta es la lista de oraciones que sólo deben avanzar al hablar.¶
+decirOraciones: [5 7 9]
+
+¶La oración actual comienza en 1, y avanza si el volumen del micrófono sube arriba de .8 en una oración hablada, o si se presiona un botón o una tecla en las demás oraciones.¶
+oraciónActual•#: 1 …
+	decirOraciones.tiene(oraciónActual) ?
+		Volumen() > .6
+		∆ Botón() | ∆ Tecla()
+		…
+		(oraciónActual <
+				oraciones.longitud()) ?
+			oraciónActual + 1
+			oraciónActual
+
+Escenario(
+	[Frase(oraciones[oraciónActual] envolver: 10m)]
+	cara: 'Sue Ellen Francisco'
+)

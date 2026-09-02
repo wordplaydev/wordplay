@@ -1,0 +1,595 @@
+🎆
+Artificii
+=== start/en
+¶Artificii care izbucnesc odată cu muzica: fiecare instrument care sună peun timp apare ca el însuși, rămâne o clipă, apoi dispare.
+
+Aici nimic nu este desenat după un ceas. @Beat predă un @Downbeat de fiecare datăcând un timp devine audibil, iar un @Downbeat poartă o @Part pentru fiecare@Track — ce instrument este, dacă sună, ce notă are și cât de tare este.Astfel, o explozie pentru fiecare parte care sună este o singură @List/translate, iarmuzica se desenează singură.
+
+Fiecare explozie primește numele numărului timpului, așa că exploziilefiecărui timp sunt ieșiri noi: ele își arată poziția de intrare cândapar și poziția de ieșire când următorul timp le înlocuiește. Apariția șidispariția sunt aceste două poziții.
+
+Melodia este /The Star-Spangled Banner/ — melodia lui John Stafford Smithdin jurul anului 1773, de mult în domeniul public — cântată în întregime,până la ultimul vers. Fiecare notă poartă propria durată scrisă ca valoarede notă pe numărul ei — \8𝅘𝅥𝅮\ este o optime, \13𝅗𝅥\ o doime, \13𝅗𝅥𝅭\ o doime cu punct — astfel încât notele de anacruză,figurile cu punct și notele lungi ținute sunt durate reale, nu o grilă detimpi egali. Un număr simplu este un timp. Pauzele au totuși nevoie de un@Note, deoarece \ø\ nu este un număr și deci nu poate purta o valoare. Este pe scaracromatică, astfel încât cvarta mărită poate fi scrisă deloc: fiecare treaptăeste un semiton.¶
+
+puls2: Bătaie()
+numărare2: puls2.număr
+
+¶Doar părțile care sună cu adevărat devin artificii; o pistă care tacerămâne întunecată. Înainte ca muzica să înceapă, nu există nicio parte,așa că cerul este gol.¶
+declanșare•[Parte]: puls2.părți.filtra(ƒ(p•Parte) p.sunet)
+
+¶Fiecare instrument izbucnește ca el însuși, ceea ce este chiar ideea: poțivedea care instrument tocmai a cântat.¶
+ƒ față2(p2•Parte)•''
+	(p2.instrument.id = 'trumpet') ? '🎺'
+		(p2.instrument.id = 'flute') ? '🪈'
+			(p2.instrument.id = 'bell') ? '🔔'
+				(p2.instrument.id = 'piano') ? '🎹'
+					(p2.instrument.id = 'violin') ? '🎻'
+						(p2.instrument.id = 'drums') ? '🥁'
+							'🎵'
+
+¶Fiecare instrument își păstrează propria bandă, întinsă pe tot cerul.Folosirea instrumentului, în loc de poziția lui în listă, ține banda pe locchiar și atunci când alt instrument tace.¶
+ƒ culoar(p3•Parte)•#
+	(p3.instrument.id = 'trumpet') ? -6
+		(p3.instrument.id = 'flute') ? -3.6
+			(p3.instrument.id = 'bell') ? -1.2
+				(p3.instrument.id = 'piano') ? 1.2
+					(p3.instrument.id = 'violin') ? 3.6
+						(p3.instrument.id = 'drums') ? 6
+							0
+
+¶Cât de sus stă o explozie: nota ei. Fiecare parte de aici sună, deci arecâte una.¶
+ƒ înălțime2(p4•Parte)•# p4.grade[1]
+
+¶O explozie, care se ridică odată cu nota ei și crește odată cu cât de tareeste.¶
+ƒ explozie(p5•Parte i•#)•Fraza
+	Fraza(
+		față2(p5)
+		(0.9m + (p5.volum · 1.6m))
+		loc: Loc(
+			(culoar(p5) + p5.panoramare) · 1m
+			(((înălțime2(p5) · 0.22) - 1.8) · 1m)
+		)
+		nume: 'burst \numărare2\ \i\'
+		intrând: Secvenţă(
+			{
+				0%: Poză(scară: 0.1 opacitate: 0%)
+				40%: Poză(scară: 1.35 opacitate: 100%)
+				100%: Poză(scară: 1 opacitate: 100%)
+			}
+			0.3s
+		)
+		ieșire: Secvenţă(
+			{
+				0%: Poză(compensare: Loc(0m 0m) opacitate: 100%)
+				100%: Poză(compensare: Loc(0m -5m) opacitate: 0%)
+			}
+			0.9s
+		)
+	)
+
+¶Melodia. Treptele sunt semitonuri de la tonica joasă: 1 este acea notă, 13este o octavă mai sus, iar 7 este cvarta mărită. Două rânduri împart aceeașimelodie, apoi puntea, apoi ultimul vers.¶
+melodie2: [
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		17𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		17
+		18
+		20
+		20𝅗𝅥
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15
+		17
+		18
+		18𝅗𝅥
+		18
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8
+		13
+		13
+		13𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		10
+		10
+		10
+		15
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13𝅘𝅥𝅮
+		13
+		12
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		13𝅘𝅥𝅭
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		18𝅘𝅥𝅮
+		20𝅗𝅥
+		13𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅭
+		18𝅘𝅥𝅮
+		15
+		13𝅗𝅥𝅭
+	]
+
+¶O fundamentală sub fiecare măsură.¶
+bas: [
+		Notă(ø 1beats)
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+	]
+
+¶Un clopoțel pe timpii tari alternativi, așa că nu apare în fiecare explozie.¶
+clopoțel2: [
+		Notă(ø 1beats)
+		13
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		20
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		20
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		20
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		13
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		20
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		20
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		20
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		13
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		20
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		20
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		20
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		13
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		20
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		20
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+		20
+		Notă(ø 2beats)
+		Notă(ø 3beats)
+	]
+
+¶Corzi de la punte încolo, astfel încât textura crește.¶
+vioară2: [
+		Notă(ø 1beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+	]
+
+¶O voce superioară doar la vârfurile frazelor.¶
+flaut2: [
+		Notă(ø 1beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 1beats)
+		25
+		Notă(ø 1beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 1beats)
+		25
+		Notă(ø 1beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 1beats)
+		25
+		Notă(ø 1beats)
+		Notă(ø 3beats)
+		Notă(ø 3beats)
+		Notă(ø 1beats)
+		25
+		Notă(ø 1beats)
+		Notă(ø 3beats)
+	]
+
+¶Un marș dedesubt.¶
+tobe2: [
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Notă(ø 0.5beats)
+		3𝅘𝅥𝅮
+	]
+
+Etapă(
+	[
+		:declanșare.traduce(ƒ(p6•Parte i2•#) explozie(p6 i2))
+		Muzică(
+			[
+				Pistă(
+					melodie2
+					instrument: Instrument.trompetă
+					volum: 90%
+					buclă: ⊥
+				)
+				Pistă(
+					bas
+					instrument: Instrument.pian
+					cheie: -12semitones
+					volum: 50%
+					balans: -0.4
+					buclă: ⊥
+				)
+				Pistă(
+					clopoțel2
+					instrument: Instrument.clopoțel
+					volum: 55%
+					buclă: ⊥
+				)
+				Pistă(
+					vioară2
+					instrument: Instrument.vioară
+					volum: 45%
+					balans: 0.3
+					buclă: ⊥
+				)
+				Pistă(
+					flaut2
+					instrument: Instrument.flaut
+					volum: 65%
+					buclă: ⊥
+				)
+				Pistă(
+					tobe2
+					instrument: Instrument.tobe
+					volum: 45%
+					buclă: ⊥
+				)
+			]
+			tempo: 84beats/min
+			gamă: Muzică.cromatic
+			nume: 'imn'
+		)
+	]
+	fundal: Culoare(10% 12 265°)
+	culoare: Culoare(96% 0 0°)
+)

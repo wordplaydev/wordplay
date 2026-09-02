@@ -1,0 +1,302 @@
+W
+WhatWord
+=== start/en
+¶Un juego de adivinar palabras en inglés, español y árabe.¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] restante•[""] comenzar•?) (
+	secreto: comenzar ? restante[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (secreto.longitud(
+			) × 3) - guesses.longitud()
+	status/en,estado/es,حالة/ar:
+		secreto = "" ? "start"
+			secreto → [""].todos(
+				ƒ(letra•"") guesses.tiene(letra)
+			) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: Tecla()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.ordenado(ƒ() Azar())
+		⊥
+	) … ∆ key …
+		key = "Escape" ? Game([] words.ordenado(ƒ() Azar()) ⊥)
+			(state.status ≠ "playing") & (key = "Espacio") ? Game(
+					[]
+					state.restante.sinPrimero()
+					⊤
+				)
+				(state.status = "playing") & (key.longitud() = 1) & ~state.guesses.tiene(
+						key
+					) ?
+					Game(state.guesses.agregar(key) state.restante ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: Frase(
+		state.secreto → [""].traducir(
+			ƒ(letra2•"") ((state.status = "lost") | state.guesses.tiene(
+							letra2
+						)) ? letra2 "."
+		).unirse(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: Pose(opacidad: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": Grupo(
+			Pila()
+			[
+				Frase(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					lugar: Lugar(z: -1m)
+					entrando: Pose(opacidad: 0%)
+					inmóvil: Secuencia.vaivén(duración: 1s)
+				)
+				Frase(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			saliendo: fade
+		)
+		"lost": Grupo(
+			Pila()
+			[
+				board
+				Frase(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					entrando: Pose(rotación: 0°)
+					inmóvil: Pose(rotación: -5°)
+				)
+			]
+			saliendo: fade
+		)
+		"won": Grupo(
+			Pila()
+			[
+				board.inmóvil:Secuencia.rebote(3m 1s)
+				Frase(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			saliendo: fade
+		)
+		Grupo(
+			Pila()
+			[
+				board
+				Frase(
+					state.guesses.longitud() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.unirse(
+							' '
+						)\"/en"Suposiciones: \state.guesses.unirse(' ')\"/es"التخمينات \state.guesses.unirse(
+							' '
+						)\"/ar
+				)
+				Frase(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					inmóvil: Secuencia.vaivén(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶Una figura lenta que da vueltas sobre sí misma en lugar de ir a algún lugar, y eso es justo lo que la hace digna de pensarse. Cada pista de abajo dura ocho tiempos, así que todas regresan juntas y el bucle no tiene costura.¶
+tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶Cuánto de tu mesada se ha gastado, desde 0 con todo por jugar hasta 1 sin nada restante. El secreto está vacío antes de la primera ronda, así que la división está protegida en lugar de dejarse dividir entre cero.¶
+intentosMáximos: state.secreto.longitud() × 3
+presión: (intentosMáximos = 0) ? 0 (((1 - (state.guessesRemaining ÷ intentosMáximos)).máximo(
+					0
+				)).mínimo(
+				1
+			))
+
+¶Pensativo a 54 tiempos por minuto, urgente a 120, y cada intento lo mueve un poco. Cambiar el tempo se inserta en el siguiente tiempo en lugar de comenzar de nuevo, así que el bucle mantiene su lugar y simplemente se inclina hacia adelante; el tambor suave está ahí para que se escuche esa inclinación, ya que un cambio de tempo bajo notas largas es difícil de sentir.¶
+músicaDelRompecabezas: Música(
+		[
+			Pista(
+				tema
+				instrumento: Instrumento.piano
+				pulso: 0.5beats
+				volumen: 50%
+			)
+			Pista(
+				[{1 3 5} {4 6 8}]
+				instrumento: Instrumento.padSintetizador
+				pulso: 4beats
+				volumen: 35%
+			)
+			Pista(
+				[ø ø 8 ø ø ø 6 ø]
+				instrumento: Instrumento.campana
+				pulso: 1beats
+				volumen: 30%
+			)
+			Pista(
+				[1 ø ø ø 1 ø ø ø]
+				instrumento: Instrumento.tambores
+				pulso: 1beats
+				volumen: 20%
+			)
+		]
+		tempo: (54beats/min + (presión · 66beats/min))
+		escala: Música.dórica
+		nombre: 'rompecabezas'
+	)
+
+¶Ganaste: el tema al doble de velocidad, duplicado una octava arriba en una campana, sobre los únicos acordes mayores del ejemplo.¶
+canciónDeVictoria: Música(
+		[
+			Pista(
+				tema
+				instrumento: Instrumento.piano
+				pulso: 0.5beats
+				volumen: 50%
+			)
+			Pista(
+				tema
+				instrumento: Instrumento.campana
+				pulso: 0.5beats
+				clave: 12semitones
+				volumen: 35%
+			)
+			Pista(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				instrumento: Instrumento.padSintetizador
+				pulso: 2beats
+				volumen: 35%
+			)
+			Pista(
+				[1 ø 3 ø 2 ø 3 ø]
+				instrumento: Instrumento.tambores
+				pulso: 1beats
+				volumen: 30%
+			)
+		]
+		tempo: 96beats/min
+		escala: Música.mayor
+		nombre: 'ganar'
+	)
+
+¶Perdiste: el tema una octava abajo y más lento de lo que llegó a estar mientras jugabas, sobre acordes que se posan en el cuarto grado en lugar de volver a casa, así que el bucle nunca se resuelve.¶
+canciónDeDerrota: Música(
+		[
+			Pista(
+				tema
+				instrumento: Instrumento.piano
+				pulso: 0.5beats
+				clave: -12semitones
+				volumen: 45%
+			)
+			Pista(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				instrumento: Instrumento.padSintetizador
+				pulso: 2beats
+				volumen: 40%
+			)
+			Pista(
+				[ø ø 5 ø ø ø 4 ø]
+				instrumento: Instrumento.campana
+				pulso: 1beats
+				volumen: 25%
+			)
+			Pista(
+				[1 ø ø ø ø ø ø ø]
+				instrumento: Instrumento.tambores
+				pulso: 1beats
+				volumen: 20%
+			)
+		]
+		tempo: 46beats/min
+		escala: Música.menor
+		nombre: 'perder'
+	)
+
+¶Solo la melodía del estado actual está en el escenario, y un @Music que ya no está presente se detiene, así que terminar la ronda es lo que cambia la música.
+
+Las tres tocan el mismo tema, y la escala debajo es la que hace el trabajo. El tema toca los grados 1, 4, 5, 6 y 8, y @Music.major coincide con @Music.dorian en todos ellos: los grados donde se separan, el tercero y el séptimo, no están en la melodía. Así que la victoria no mueve ni una nota de la tonada que tarareabas mientras pensabas; los acordes debajo sí usan el tercero, y esos se vuelven mayores. @Music.minor se separa del modo dórico en el sexto grado, que el tema sí toca, así que la derrota aplana también esa nota además de bajar la línea una octava.¶
+bandaSonora: state.status ???
+		"won": canciónDeVictoria
+		"lost": canciónDeDerrota
+		músicaDelRompecabezas
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+Escenario(
+	[screen bandaSonora]
+	lugar: Lugar(0m 0m -12m)
+	cara: "Poor Story"
+	fondo: Color(0% 0 0°)
+	color: Color(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'zorro'
+	'mono'
+	'castor'
+	'vaca'
+	'lobo'
+	'cabra'
+	'venado'
+	'cerdo'
+	'chinchilla'
+	'ardilla'
+	'rata'
+	'musaraña'
+	'topo'
+	'armadillo'
+	'zarigüeya'
+	'elefante'
+	'murciélago'
+	'burro'
+	'caballo'
+	'erizo'
+	'gato'
+	'jirafa'
+	'gorila'
+	'foca'
+	'humano'
+	'canguro'
+	'marmota'
+	'hámster'
+	'mouse'
+	'conejo'
+	'oveja'
+	'jaguar'
+	'chimpancé'
+	'babuino'
+	'mapache'
+	'topo'
+	'musaraña'
+	'equidna'
+	'tapir'
+].ordenado(
+	ƒ() Azar()
+)

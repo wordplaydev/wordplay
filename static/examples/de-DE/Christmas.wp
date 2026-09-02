@@ -1,0 +1,30 @@
+🎄
+Weihnachten
+===
+¶Ein Weihnachtsbaum, der in einem sich wiederholenden Tanz wackelt und wippt – und dabei mit Glöckchen klingelt.
+
+Die Melodie hängt an der ersten @Pose des Tanzes. Eine @Pose kann eine @Music tragen, und diese spielt genau in dem Moment, in dem diese Pose eingenommen wird. So beginnt die Melodie jedes Mal neu, wenn der Tanz von vorn beginnt. Die Wiederholung der Animation und die Wiederholung der Musik sind also dieselbe Wiederholung. Nichts zählt Schläge, um sie zusammenzuhalten.
+
+Die beiden Längen sind so gewählt, dass sie zusammenpassen: Acht Schläge bei 160 ergeben drei Sekunden, und fünf halbe Sekunden lange Schritte ergeben ebenfalls drei Sekunden. Eine Pose ist ein Augenblick und keine andauernde Sache. Deshalb gilt die übliche Wiederholung eines @Track hier nicht – die Musik einer Pose spielt immer genau einmal durch.¶
+
+glöckchen: Musik(
+		Spur([3 3 3𝅗𝅥 3 3 3𝅗𝅥] Instrument: Instrument.Glocke)
+		Tempo: 160beats/min
+		Lautstärke: 55%
+		Name: 'Glöckchen'
+	)
+
+Satzglied(
+	'🎄'
+	Ruhen: Reihenfolge(
+		{
+			0: Pose(Drehung: 0° Musik: glöckchen)
+			1: Pose(Drehung: 15°)
+			2: Pose(Drehung: 0°)
+			3: Pose(Versatz: Ort(-0.25m))
+			4: Pose(Versatz: Ort(0.25m))
+			5: Pose(Versatz: Ort(-0.25m))
+		}
+		0.6s
+	)
+)

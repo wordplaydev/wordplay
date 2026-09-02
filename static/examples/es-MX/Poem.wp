@@ -1,0 +1,101 @@
+T
+Poema
+=== start
+¶Un poema cuyas líneas llegan flotando, cada una haciendo su propia entrada.¶
+•línea(texto2•"" pose•Pose|Secuencia atrás: Color(
+			100
+			100
+			100°
+		) adelante: Color(0 0 0°))
+
+¶Una lista de líneas del poema, cada una con una pose.¶
+poema: [
+		línea(
+			'El archivo de la computadora'
+			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
+		)
+		línea(
+			'del cual'
+			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
+		)
+		línea('no tengo ningún recuerdo' Pose(rotación: 10°))
+		línea(
+			'hago clic para abrirlo'
+			Secuencia(
+				{
+					0%: Pose(escala: 1)
+					50%: Pose(escala: 0.7)
+					100%: Pose(escala: 1)
+				}
+				0.25s
+			)
+		)
+		línea(
+			'miro'
+			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
+		)
+		línea(
+			'bajo más con el desplazamiento'
+			Pose(opacidad: 0% desplazamiento: Lugar(y: 5m))
+		)
+		línea(
+			'la pantalla'
+			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
+		)
+		línea(
+			'se queda encendida y vacía'
+			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
+			Color(0 0 0°)
+			Color(100 100 0°)
+		)
+		línea(
+			'así me encuentro de nuevo conmigo misma'
+			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
+		)
+		línea(
+			'llena de esperanza e inútil'
+			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
+		)
+		línea(
+			'un misterio'
+			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
+		)
+		línea(
+			'tal como debo haberlo hecho'
+			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
+		)
+		línea('el 19 de agosto de 2010, 11:08 a.m.' Pose())
+	]
+
+número2: 1 … ∆ Botón() | ∆ Tecla() …
+		(número2 = (poema.longitud() + 1)) ? 1 número2 + 1
+línea2: poema[número2]
+
+número2 ≤ poema.longitud() ?
+	Escenario(
+		[
+			Frase(
+				línea2.texto2
+				entrando: línea2.pose
+				duración: 1s
+				nombre: número2 → ""
+				estilo: 'cautious'
+			)
+		]
+		fondo: línea2.atrás
+		inmóvil: Pose(color: línea2.adelante)
+	)
+	Escenario(
+		[
+			Grupo(
+				Pila()
+				[
+					Frase('CONSEJO PARA MÍ MISMA')
+					Frase('Jane Hirshfield')
+				]
+				entrando: Pose(escala: 0.75)
+			)
+		]
+		fondo: Color(0% 0 0°)
+		color: Color(100% 100 0°)
+	)

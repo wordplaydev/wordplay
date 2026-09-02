@@ -1,0 +1,527 @@
+█
+Grădină
+=== start/en
+¶O grădină zen desenată din blocuri colorate, cu apă care se leagănă ușor.¶
+iarbă: Culoare(54% 84 117°)
+stâncă: Culoare(74% 0 200°)
+bambus: Culoare(77% 88 109°)
+perete: Culoare(0% 0 0°)
+apă: Culoare(50% 89 279°)
+balansare: Secvenţă(
+		{
+			0%: Poză(culoare: apă rotaţie: 0°)
+			50%: Poză(rotaţie: 7°)
+			100%: Poză(rotaţie: 0°)
+		}
+		durată: 1.5s
+	)
+
+Etapă(
+	[
+		Fraza(
+			'█'
+			dimensiune: 16m
+			odihnă: Poză(culoare: Culoare(100% 0 348°))
+			loc: Loc(7.3125m -13.125m 0m)
+			rotaţie: 90°
+		)
+		Fraza(
+			'█'
+			dimensiune: 16m
+			odihnă: Poză(culoare: Culoare(100% 0 348°))
+			loc: Loc(-8.75m -13m 1m)
+			rotaţie: 90°
+		)
+		Fraza(
+			'█'
+			dimensiune: 32m
+			odihnă: Poză(culoare: Culoare(73% 95 279°))
+			loc: Loc(-5.6875m -44.0625m 0m)
+			rotaţie: 89°
+		)
+		Fraza(
+			'太阳'
+			dimensiune: 4m
+			loc: Loc(-16.5m 15.75m 5m)
+			odihnă: Secvenţă(
+				{
+					0%: Poză(
+						culoare: Culoare(90% 93 85°)
+						rotaţie: 0°
+					)
+					100%: Poză(rotaţie: 360°)
+				}
+				durată: 30s
+				stil: 'straight'
+			)
+		)
+		Fraza(
+			'壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁'
+			odihnă: Poză(culoare: perete)
+			loc: Loc(-13.9375m 3.5m 0m)
+			dimensiune: 2m
+		)
+		Fraza(
+			'草'
+			loc: Loc(-5.8125m -9.5625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(1.5m -6.9375m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-5.125m -8.25m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-0.4375m -8.5625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-2.875m -8.125m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-4.125m -8.3125m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-7.1875m -10.0625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-10.1875m -10.5625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-11.1875m -10.5625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-10.25m -9.1875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-8.5625m -8.6875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-8.6875m -10.0625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-1.5m -8m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(3.5m -8m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(1.1875m -8.5625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-2.8125m -9.5625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(2.5m -8m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-1.8125m -9.5625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(0m -7m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(2.5m -6.5m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(6.4375m -7.0625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(5.1875m -7.0625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-0.6875m -10.125m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(0.9375m -9.625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(7.4375m -8.1875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(2.25m -9.5625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(3.5625m -9.625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(5m -9.0625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(6.125m -8.1875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(9.625m -10.0625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(9.375m -7.3125m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(8m -6.5m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(10.8125m -7.1875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(13.625m -7.1875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(17.5m -7.5m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(12m -7.5m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(12.5625m -10.0625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-7.625m -8.8125m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(3.875m -6.4375m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-13.25m -8.625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-9.375m -8.0625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-13.8125m -10m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-11.375m -8.8125m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-12.5m -9.625m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(12.625m -6m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(7.5m -9.8125m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(16.3125m -6.1875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(17.8125m -6.1875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(17.8125m -9.6875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(16.3125m -9.6875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(16.3125m -8.1875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(15.3125m -6.6875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(14.8125m -8.1875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(14.8125m -9.6875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(13.5m -8.9375m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(11.8125m -9.1875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(8.3125m -9.1875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(6.5m -9.5m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(9.8125m -8.6875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(10.8125m -9.1875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(14.3125m -5.6875m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'草'
+			loc: Loc(-4.5m -9.5m 0m)
+			odihnă: Poză(culoare: iarbă)
+		)
+		Fraza(
+			'石'
+			odihnă: Poză(culoare: stâncă)
+			dimensiune: 2.75m
+			loc: Loc(-7.6875m -5.9375m -1m)
+			rotaţie: 25°
+		)
+		Fraza(
+			'石'
+			odihnă: Poză(culoare: stâncă)
+			dimensiune: 2m
+			loc: Loc(-5m -6.625m -1m)
+		)
+		Fraza(
+			'石'
+			odihnă: Poză(culoare: stâncă)
+			dimensiune: 2.75m
+			loc: Loc(-7.6875m -8.5625m -1m)
+		)
+		Fraza(
+			'石'
+			odihnă: Poză(culoare: stâncă)
+			dimensiune: 1.25m
+			loc: Loc(-6.375m -3.375m -1m)
+		)
+		Fraza(
+			'石'
+			odihnă: Poză(culoare: stâncă)
+			dimensiune: 2.75m
+			loc: Loc(-3.125m -6.625m -1m)
+			rotaţie: 341°
+		)
+		Fraza(
+			'石'
+			odihnă: Poză(culoare: stâncă)
+			dimensiune: 2.75m
+			loc: Loc(-4.75m -4.25m -1m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(-0.5m -0.5m 0m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(0.9375m -3.5m 0m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(1m -5m 0m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(-0.5m 2.5m 0m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(-0.5m 3.5m 0m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(-0.5m 4.5m 0m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(-0.5m 1m 0m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(-0.5m -5m 0m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(-0.5m -3.5m 0m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(-0.5625m -2m 0m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(1m 1m 0m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(1m -0.5m 0m)
+		)
+		Fraza(
+			'竹'
+			odihnă: Poză(culoare: bambus)
+			dimensiune: 1.25m
+			loc: Loc(1m -2m 0m)
+		)
+		Fraza(
+			'水'
+			odihnă: balansare
+			loc: Loc(-13.4375m -18m -2m)
+			dimensiune: 6.75m
+			rotaţie: 80°
+		)
+		Fraza(
+			'水'
+			odihnă: balansare
+			loc: Loc(18m -16.5m -2m)
+			dimensiune: 6.75m
+			rotaţie: 80°
+		)
+		Fraza(
+			'水'
+			odihnă: balansare
+			loc: Loc(-8.5m -17.625m -2m)
+			dimensiune: 6.75m
+			rotaţie: 259°
+		)
+		Fraza(
+			'水'
+			odihnă: balansare
+			loc: Loc(2.625m -17.375m -2m)
+			dimensiune: 6.75m
+			rotaţie: 80°
+		)
+		Fraza(
+			'水'
+			odihnă: balansare
+			loc: Loc(10.6875m -16m -2m)
+			dimensiune: 6.75m
+			rotaţie: 37°
+		)
+	]
+	fundal: Culoare(87% 97 263°)
+)

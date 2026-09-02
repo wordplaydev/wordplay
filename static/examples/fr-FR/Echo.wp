@@ -1,0 +1,25 @@
+💬
+Écho
+=== start
+¶Ce que le public tape dans la barre de discussion devient cette phrase.¶
+message: Chat()
+
+¶Commence avec un message, puis répète chaque nouveau message. Le texte se transforme des anciens mots vers les nouveaux, lettre par lettre.¶
+mots2: 'dis quelque chose !' … ∆ message … message
+
+¶Change au hasard la taille, l'inclinaison et la couleur à chaque nouveau message.¶
+taille2: 2m … ∆ message … Aléatoire(1m 4m)
+inclinaison: 0° … ∆ message … Aléatoire(-30 30) × 1°
+teinte2: 200° … ∆ message … Aléatoire(360) × 1°
+
+Phrase(
+	mots2
+	taille: taille2
+	aurepos: Pose(
+		rotation: inclinaison
+		couleur: Couleur(25% 100 teinte2)
+	)
+	durée: .5s
+	changer: 'edit'
+	envelopper: 20m
+)

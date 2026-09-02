@@ -1,0 +1,168 @@
+M
+Pir
+=== start/en
+¶Ini adalah cerita pendek yang interaktif. Cerita ini punya beberapa adegan berbeda dan berpindah dari satu ke yang lain karena berbagai interaksi, seperti klik, tabrakan, dan aksi lainnya. Bagian serunya adalah menemukan interaksi yang tepat untuk melanjutkan cerita.¶
+pengantar: [
+		Frasa(`Ayahku ingin pergi.` tempat: Tempat(-9m 0m))
+	]
+
+konflik: [
+		Frasa(
+			`"Mama", kita harus pergi.`
+			tempat: Tempat(-8m 7m)
+		)
+		Frasa(`/"Ayo pulang."/` tempat: Tempat(1m 4m))
+		Frasa(
+			`"Mama, kami tidak mau apa-apa!"`
+			tempat: Tempat(-8m 1m)
+		)
+		Frasa(
+			`"Ayo pulang!"`
+			ukuran: 2m
+			tempat: Tempat(-6m -4m)
+			beristirahat: Urutan.menggoyang()
+		)
+	]
+
+aksiMeningkat1: [
+		Frasa(
+			`炮炮👵🏽ku melangkah ke halaman belakang`
+			tempat: Tempat(-9m 7m)
+		)
+		Frasa(
+			`Aku mengikutinya, penasaran`
+			tempat: Tempat(-6m 4m)
+		)
+		Frasa(
+			`👵🏽`
+			nama: 'paupau'
+			ukuran: 2m
+			urusan: Urusan()
+			tempat: Tempat(6m -6m)
+			gelembung: `/"沙梨🍐, ayo pulang!"/`
+		)
+		Frasa(
+			`👧🏻`
+			nama: 'aku'
+			ukuran: 1m
+			urusan: Urusan()
+			tempat: Penempatan(Tempat(-8m -6m))
+		)
+	]
+
+aksiMeningkat2: [
+		Frasa(
+			`Dia berhenti di sebuah pohon kecil.`
+			tempat: Tempat(-9m 6m)
+		)
+		Frasa(
+			`Di atasnya bergelantungan puluhan 沙梨 kuning cerah`
+			tempat: Tempat(-9m 1m)
+			membungkus: 10m
+		)
+		Frasa(
+			`"Bu, kami tidak mau pir."`
+			ukuran: .75m
+			tempat: Tempat(-4m 0m)
+		)
+		Frasa(
+			`/Aku ingin sebuah pir./`
+			ukuran: 2m
+			tempat: Tempat(-8m -3m)
+		)
+		Frasa(
+			"🍐"
+			ukuran: 2m
+			tempat: Tempat(-1m -7m)
+			nama: 'pear'
+			dapatdipilih: ⊤
+		)
+	]
+
+¶Kami menentukan tempat lebih dulu supaya kami bisa membuatnya jatuh dari tempat yang sama.¶
+tempat2: (6 → []).menerjemahkan(
+		ƒ() Tempat(Acak(-2m 2m) Acak(-3m -5m))
+	)
+puncak: [
+		Frasa(`Dia berlutut di tanah.` tempat: Tempat(-9m 6m))
+		Frasa(`Mengambil sebuah pisau` tempat: Tempat(-9m 4m))
+		Frasa(
+			`Dan dengan hati-hati memotong enam`
+			tempat: Tempat(-9m 2m)
+		)
+		Frasa(
+			`Menjatuhkannya ke keranjang di bawah`
+			tempat: Tempat(-9m 0m)
+		)
+		Frasa("🧺" ukuran: 4m tempat: Tempat(-2m -12m))
+		Frasa(
+			"🌳"
+			nama: "tree"
+			ukuran: 5m
+			tempat: Tempat(-3m -7m)
+			dapatdipilih: ⊤
+		)
+		:tempat2.menerjemahkan(
+			ƒ(tempat3 indeks2)
+				Frasa(
+					"🍐"
+					nama: "pear\indeks2\"
+					tempat: Pilihan() = 'tree' ? Gerakan(tempat3) tempat3
+				)
+		)
+		Frasa("🔪" tempat: Penunjuk())
+	]
+
+penyelesaian: [
+		Frasa(`Dia membawanya kepadaku` tempat: Tempat(-9m 6m))
+		Frasa(`Berlutut di depanku` tempat: Tempat(-8m 4m))
+		Frasa(
+			`Dan memberiku keranjang itu`
+			tempat: Tempat(-7m 2m)
+		)
+		Frasa(`/"Bawa pulang"/` tempat: Tempat(0m -2m))
+	]
+
+kredit: [
+		Frasa(`oleh /Amy J. Ko/`)
+	]
+
+cerita: [
+		pengantar
+		konflik
+		aksiMeningkat1
+		aksiMeningkat2
+		puncak
+		penyelesaian
+		kredit
+	]
+
+¶Catat klik dan ketukan¶
+klik: ∆ Tombol()
+¶Catat berapa lama setelah pohon itu diklik¶
+waktuSetelahPotongan: 0ms … Pilihan() = 'tree' … Waktu(
+			1000ms
+		)
+¶Catat saat kami tiba di Pau Pau¶
+diPauPau: ∆ Tabrakan('aku')
+¶Catat saat pir itu dipilih¶
+memilihPir: Pilihan() = 'pear'
+¶Ubah bagian berdasarkan bagian yang sedang berlangsung¶
+bagian2•#:
+	1 …
+	bagian2 ???
+		1: klik
+		2: klik
+		3: diPauPau
+		4: memilihPir
+		5: waktuSetelahPotongan > 1500ms
+		6: ∆ Tombol()
+		⊥
+		… bagian2 + 1
+
+Panggung(
+	cerita[bagian2]
+	menghadapi: 'Arvo'
+	tempat: Tempat(0m 0m -20m)
+	bingkai: Persegipanjang(-10m 10m 10m -10m)
+)

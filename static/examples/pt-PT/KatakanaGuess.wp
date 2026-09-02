@@ -1,0 +1,44 @@
+カ
+Adivinha o Katakana
+=== start
+¶Adivinhe qual é o katakana correspondente ao hiragana para ganhar pontos.¶
+ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを'/ja → []
+カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ'/ja → []
+
+•ゲーム/ja,Game/en(秘密/ja,secret/en•# スコア/ja,score/en•#)
+選択/ja,selection/en: Escolha()
+
+¶Iniciar o jogo com um hiragana aleatório e zero pontos.Quando uma escolha é feita, criar um novo estado que escolhe um novo carácter e aumenta a pontuação se a escolha estiver correta.¶
+¶ランダムなひらがなと 0 ポイントでゲームを開始します。
+選択が行われたら、新しい文字を選択し、正しい場合はスコアを増分する新しいステータスを作成します。¶/ja
+配置/ja,status/en: ゲーム(Aleatório(1 46) 0) … ∆ 選択 …
+		ゲーム(
+			Aleatório(1 46)
+			配置.秘密 → '' = 選択 ?
+				配置.スコア + 1
+				配置.スコア - 1
+		)
+
+Fase(
+	[
+		Grupo(
+			Monte()
+			[
+				Frase(
+					`/What is the matching hiragana?/``/対応するひらがなは何ですか？/`/ja
+				)
+				Frase(`*\カタカナ[配置.secret]\*` 2m)
+				Grupo(
+					Rede(10 5 1m 1m 1m)
+					ひらがな.traduzir(
+						ƒ(シンボル/ja•'' 指数/ja,index/en)
+							Frase(シンボル nome: 指数 → '' selecionável: ⊤)
+					)
+				)
+				Frase(
+					`*\配置.score\* points!``*\配置.score\* 正解です！`/ja
+				)
+			]
+		)
+	]
+)

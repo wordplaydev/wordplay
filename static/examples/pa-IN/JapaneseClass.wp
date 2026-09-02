@@ -1,0 +1,37 @@
+O
+ਜਾਪਾਨੀ ਭਾਸ਼ਾ ਦੀ ਕਲਾਸ
+=== start
+¶ਜਾਪਾਨੀ ਕਲਾਸ ਦੇ ਪਹਿਲੇ ਦਿਨ ਬਾਰੇ ਦ੍ਰਿਸ਼-ਦਰ-ਦ੍ਰਿਸ਼ ਕਹਾਣੀ।¶
+
+¶ਇਹ ਦਿਖਾਉਣ ਵਾਲੇ ਦ੍ਰਿਸ਼ਾਂ ਦੀ ਸੂਚੀ ਹੈ¶
+ਵਾਕ: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶ਇਹ ਉਹਨਾਂ ਵਾਕਾਂ ਦੀ ਸੂਚੀ ਹੈ ਜਿਨ੍ਹਾਂ ਨੂੰ ਸਿਰਫ਼ ਬੋਲ ਕੇ ਹੀ ਅੱਗੇ ਵਧਾਇਆ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ।¶
+ਵਾਕਬੋਲੋ: [5 7 9]
+
+¶ਮੌਜੂਦਾ ਵਾਕ 1 ਤੋਂ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ, ਅਤੇ ਬੋਲਣ ਵਾਲੇ ਵਾਕ ਲਈ ਜਦੋਂ ਮਾਈਕ ਦੀ ਆਵਾਜ਼ .8 ਤੋਂ ਵੱਧ ਜਾਂਦੀ ਹੈ, ਜਾਂ ਹੋਰ ਵਾਕਾਂ ਲਈ ਜਦੋਂ ਕੋਈ ਬਟਨ ਜਾਂ ਕੁੰਜੀ ਦਬਾਈ ਜਾਂਦੀ ਹੈ, ਤਾਂ ਵਧ ਜਾਂਦਾ ਹੈ।¶
+ਮੌਜੂਦਾਵਾਕ•#: 1 …
+	ਵਾਕਬੋਲੋ.ਕੋਲਹੈ(ਮੌਜੂਦਾਵਾਕ) ?
+		ਵਾਲੀਅਮ() > .6
+		∆ ਬਟਨ() | ∆ ਕੁੰਜੀ()
+		…
+		(ਮੌਜੂਦਾਵਾਕ <
+				ਵਾਕ.ਲੰਬਾਈ()) ?
+			ਮੌਜੂਦਾਵਾਕ + 1
+			ਮੌਜੂਦਾਵਾਕ
+
+ਸਟੇਜ(
+	[ਵਾਕੰਸ਼(ਵਾਕ[ਮੌਜੂਦਾਵਾਕ] ਸਮੇਟਣਾ: 10m)]
+	ਚਿਹਰਾ: 'Sue Ellen Francisco'
+)

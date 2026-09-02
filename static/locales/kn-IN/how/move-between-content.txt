@@ -10,7 +10,7 @@
 
 \slides: ['ಮೊದಲನೆಯದು' 'ಎರಡನೆಯದು' 'ಮೂರನೆಯದು']
 key: Key()
-index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'ಬಲ ಬಾಣ') ? ((index < slides.length()) ? index + 1 index) (key = 'ಬಾಣದ ಎಡ') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
 ಈ  @Reaction  ಇದರ ಹೃದಯವಾಗಿದೆ. ಇದು \1\ ನಲ್ಲಿ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ, ಮತ್ತು  @Key  ಬದಲಾದ ಪ್ರತಿ ಬಾರಿಯೂ, ಹೊಸ ಸಂಖ್ಯೆ ಏನಾಗಿರಬೇಕು ಎಂದು ಅದು ನಿರ್ಧರಿಸುತ್ತದೆ.ಬಲ ಬಾಣವನ್ನು ಒತ್ತಿದ್ದರೆ, ಅದು ಒಂದನ್ನು ಸೇರಿಸುತ್ತದೆ; ಎಡ ಬಾಣವನ್ನು ಒತ್ತಿದ್ದರೆ, ಅದು ಒಂದನ್ನು ಕಳೆಯುತ್ತದೆ; ಇಲ್ಲದಿದ್ದರೆ ಅದು ಹಾಗೆಯೇ ಇರುತ್ತದೆ.

@@ -1,0 +1,198 @@
+🎂
+Happy Birthday
+=== start/en
+¶Happy Birthday sa tatlong bahagi: isang himig, isang harmonya sa ilalim nito, at mga kord na sumusuporta sa dalawa.
+
+Bawat bahagi ay nakasulat gamit ang mga antas ng eskala, kaya ang 1 ay ang tonic at ang 8 ay ang tonic isang oktaba pataas. Kaya naman pareho pa rin ang himig anuman ang key na ginamit mo — palitan ang @Music/key at kasabay nitong gagalaw ang buong kanta, pati na ang mga umaawit.
+
+Gumagalaw ang himig at ang harmonya sa kalahating tibok, at ang mga kord naman sa buong tibok, kaya sinasabi ng bawat bahagi kung gaano katagal ang sarili nitong mga entrada, pero nananatili pa rin silang magkatugma.¶
+
+¶Bilang ng tibok mula nang magsimula ang kanta, para makagalaw ang keyk kasabay nito. Nagbibilang ang @Beat mula sa zero bago pa man tumugtog ang musika, kaya nananatiling tahimik lang ang keyk.¶
+tibok2: Kumpas()
+bilang2: tibok2.bilangin
+
+¶Ang himig. Dalawang ikawalo, pagkatapos ay mas mahahabang nota — ang mga pahinga ang bumubuo sa ritmo, dahil bawat entrada ay tumatagal ng parehong kalahating tibok.¶
+himig2: [
+		5
+		5
+		6
+		ø
+		5
+		ø
+		8
+		ø
+		7
+		ø
+		ø
+		ø
+		5
+		5
+		6
+		ø
+		5
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		5
+		5
+		12
+		ø
+		10
+		ø
+		8
+		ø
+		7
+		ø
+		6
+		ø
+		ø
+		11
+		11
+		10
+		ø
+		8
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Isang pangalawang tinig sa ibaba ng himig, sa parehong kalahating tibok.¶
+alto: [
+		5
+		5
+		3
+		ø
+		3
+		ø
+		3
+		ø
+		4
+		ø
+		ø
+		ø
+		4
+		4
+		4
+		ø
+		4
+		ø
+		4
+		ø
+		5
+		ø
+		ø
+		ø
+		5
+		5
+		5
+		ø
+		8
+		ø
+		5
+		ø
+		5
+		ø
+		4
+		ø
+		6
+		6
+		6
+		ø
+		6
+		ø
+		5
+		ø
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Mga kord, isa bawat tibok. Ang isang set ay tumutunog ng mga antas nito nang sabay-sabay, kaya ang {1 3 5} ay ang tonic triad at ang {4 5 7 9} ay ang isa na gustong bumalik dito.¶
+mgaKord: [
+		ø
+		{1 3 5}
+		ø
+		ø
+		{4 5 7 9}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{4 6 8}
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		{4 5 7 9}
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Lumalaki ang keyk sa bawat tibok at humuhupa sa pagitan ng mga ito.¶
+ƒ keyk() Parirala(
+		'🎂'
+		(4m + ((bilang2 % 2) · 0.4m))
+		tagal: 0.2s
+	)
+
+Entablado(
+	[
+		Grupo(
+			Patongpatong(padding: 0.5m)
+			[
+				keyk()
+				Parirala('Happy Birthday' 1.3m)
+			]
+		)
+		Musika(
+			[
+				Track(
+					himig2
+					instrumento: Instrumento.plauta
+					beat: 0.5beats
+				)
+				Track(
+					alto
+					instrumento: Instrumento.biyolin
+					beat: 0.5beats
+					lakasNgTunog: 65%
+				)
+				Track(
+					mgaKord
+					instrumento: Instrumento.piyano
+					beat: 1beats
+					lakasNgTunog: 55%
+				)
+			]
+			tempo: 116beats/min
+			pangalan: 'kaarawan'
+		)
+	]
+	background: Kulay(18% 20 330°)
+	kulay: Kulay(96% 0 0°)
+)

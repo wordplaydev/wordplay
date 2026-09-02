@@ -1,0 +1,86 @@
+📹
+Vídeo
+===
+¶A imagem da sua câmara, pintada de novo em tempo real: como letras coloridas, como sombreado ASCII, ou como quadrados coloridos. Escolha um estilo com os botões no fundo.¶
+
+¶Qual foi o último botão de estilo clicado. Choice indica o nome da frase selecionável que a pessoa escolheu, e o estilo mantém o que ouviu por último.¶
+choice: Escolha()
+estilo2: 'letters' … ∆ choice … choice
+
+¶Os emojis são grandes, por isso o estilo de emoji usa uma grelha mais grosseira. As duas grelhas cobrem a mesma área de 16 por 12 metros, por isso mudar de estilo nunca redimensiona a imagem nem move a câmara.¶
+colunas2: (estilo2 = 'emoji') ? 16 32
+linhas2: (estilo2 = 'emoji') ? 12 24
+cela: (estilo2 = 'emoji') ? 1m 0.5m
+
+¶O meio da grelha, que é onde a imagem fica centrada.¶
+colunaDoMeio: (colunas2 + 1) ÷ 2
+linhaDoMeio: (linhas2 + 1) ÷ 2
+
+¶Uma cor por célula, diretamente da câmara.¶
+cores: Câmera((colunas2 × 1px) (linhas2 × 1px) 33ms)
+
+¶Dez caracteres do escuro ao claro. O estilo ASCII escolhe um consoante o brilho do pixel.¶
+gradiente: "@%#*+=-:. " → []
+
+¶Vinte e quatro bandas de 15° à volta do círculo de matiz, para que cada pixel use o quadrado mais próximo da sua cor.¶
+quadrados: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
+
+¶O aspeto de um pixel no estilo atual. Um pixel com quase nenhuma cor não tem matiz que valha a pena mostrar, por isso usa um quadrado claro ou escuro.¶
+ƒ glifo(cor2•Cor)
+	(estilo2 = 'ascii') ?
+		"\gradiente[((cor2.leveza × 9).redondo()) + 1]\"
+		((estilo2 = 'emoji') ?
+				((cor2.croma < 8) ?
+						((cor2.leveza < 50%) ? "⬛" "⬜")
+						"\quadrados[(((cor2.matiz ÷ 1°) ÷ 15).arredondarParaBaixo(
+							)) + 1]\")
+				'um')
+
+¶A imagem: uma frase por pixel, disposta do meio para fora, para que a câmara tenha sempre a mesma imagem para enquadrar, seja qual for a grosseria da grelha, e espelhada da esquerda para a direita para se ler como num espelho.¶
+imagem: cores.combinado(
+		[]
+		ƒ(frases•[Frase] linha•[Cor] y2•#)
+			frases.comlista(
+				linha.traduzir(
+					ƒ(cor3•Cor x2•#)
+						Frase(
+							glifo(cor3)
+							local: Local(
+								((colunaDoMeio - x2) × cela)
+								((linhaDoMeio - y2) × cela)
+							)
+							duração: 0s
+							tamanho: (estilo2 = 'ascii') ? 0.75m ((estilo2 = 'emoji') ? 1.15m 1m)
+							fonte: (estilo2 = 'ascii') ? "Noto Sans Mono"/en ø
+							cor: (estilo2 = 'letters') ? cor3 ø
+						)
+				)
+			)
+	)
+
+¶Um botão de estilo, iluminado quando é o estilo mostrado. O nome é o que Choice indica quando o botão é clicado ou escolhido com o teclado.¶
+ƒ botão(id2•'')
+	Frase(
+		id2
+		0.5m
+		nome: id2
+		selecionável: ⊤
+		descansar: (estilo2 = id2) ? Pose() Pose(
+				opacidade: 40%
+			)
+	)
+
+¶Uma linha mantém os botões igualmente espaçados e alinhados, seja qual for o comprimento das suas palavras, e sem um lugar próprio, a linha fica no meio, por isso o deslocamento é tudo o que é preciso para a levar para o fundo do ecrã. Ela leva o seu próprio fundo, já que palavras sobre um vídeo só se leem bem por sorte.¶
+botões: Grupo(
+		Linha(preenchimento: 0.5m)
+		[botão('letters') botão('ascii') botão('emoji')]
+		fundo: Cor(100% 0 0°)
+		desvio: Local(0m -4.5m)
+	)
+
+¶Os botões ficam na sobreposição do palco, que está fixa ao ecrã: mantêm o mesmo tamanho e lugar seja qual for o enquadramento da imagem, e a imagem é enquadrada como se eles não existissem.¶
+Fase(
+	imagem
+	descrição: "camera video drawn with \estilo2\"
+	sobreposição: [botões]
+)

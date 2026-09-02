@@ -1,0 +1,14 @@
+🐈
+Perubahan Liar
+===
+¶Seekor kucing yang menguji skala, putaran, dan pergeseran sekaligus.¶
+Frasa(
+	"🐈"
+	ukuran: 10m
+	beristirahat: Pose(
+		skala: 2
+		mengimbangi: Tempat(1m 1m 5m)
+		rotasi: (Waktu(500ms) % 360) × 1°/ms
+	)
+	lamanya: 0.25s
+)

@@ -1,0 +1,43 @@
+✨
+Kelime İzi
+===
+¶Bu proje, bir Time() akışıyla harflerin çevresinde süpürerek dolaşan noktalardan oluşan bir kuyruklu yıldızla "wordplay" kelimesinin dış hattını çizer. Kelimenin yarısı her an parlar; izin başında en parlak olur, sonuna doğru saydamlaşarak kaybolur.¶
+
+puanlar: Kontur(
+		'wordplay'
+		"Noto Sans"
+		3m
+		yer: Yer(-6m 0m)
+		aralık: 0.5m
+	)
+
+¶Dış hat üzerinde kaç nokta olduğu ve yazı türü henüz yüklenmemişken (liste hâlâ boşken) bölme işleminde kullanılacak güvenli bir sayı.¶
+sayaç: puanlar.uzunluk()
+
+¶İz, kelimenin yarısını kaplar, bu yüzden yarısı her zaman görünür.¶
+iz: sayaç ÷ 2
+
+¶Her tikte bir nokta ilerleyen ve kelimenin çevresinde tekrar başa dönen bir baş dizini.¶
+baş: 0 … ∆ Zaman(10ms) … ((baş + 1) % sayaç) ?? 0
+
+Sahne(
+	puanlar.tercümeetmek(
+		ƒ(nokta•Yer dizin2•#)
+			(
+				¶Bu noktanın baştan kaç nokta geride olduğu; sona gelince başa döner.¶
+				yaş: ((((baş - dizin2) + 1) + sayaç) % sayaç) ?? 0
+				İfadeetmek(
+					"•"
+					boyut: 1m
+					yer: nokta
+					renk: Renk(
+						90%
+						100
+						((dizin2 ÷ sayaç) ?? 0) × 360°
+					)
+					opaklık: yaş < iz ? 1 - ((yaş ÷ iz) ?? 0) 0
+					süre: 0s
+				))
+	)
+	arkaplan: Renk(8% 0 0°)
+)

@@ -1,0 +1,95 @@
+🧶
+Zupacken
+=== start
+¶Steuere eine Katze mit den Pfeiltasten und lass sie zuschnappen.
+
+Die Katze miaut jedes Mal, wenn sie sich bewegt. Das Miauen hängt am ersten @Pose ihrer Bewegungsanimation: Ein @Pose kann ein @Music tragen, das genau in dem Moment abgespielt wird, in dem diese Haltung erreicht wird. Und eine Bewegung erreicht ihre Haltungen jedes Mal, wenn sie beginnt. Das Wiegen wird deshalb ausgeschrieben, statt es als \Reihenfolge.wiegen(
+)\ zu belassen, weil die fertigen Animationen ihre eigenen Haltungen aufbauen, und eine Haltung ist der Ort, an dem der Klang hin muss.¶
+
+¶Ein kurzer Ruf. Zwei Bewegungen kurz hintereinander teilen sich ein Miauen, statt zwei übereinanderzulegen, weil die zweite ankommt, während das erste Wiegen noch läuft.¶
+miau: Musik(
+		Spur([1] Instrument: Instrument.Katze)
+		Lautstärke: 45%
+		Name: 'miau'
+	)
+
+•katzenposition(position•#m richtung•#)
+
+schlüssel2: Schlüssel()
+geschwindigkeit: 1m
+
+katzenplatz: katzenposition(5m 1) … ∆ schlüssel2 …
+		((schlüssel2 = "Pfeil nach links") & (katzenplatz.position > -10m)) ? katzenposition(
+				katzenplatz.position - geschwindigkeit
+				1
+			)
+			((schlüssel2 = "Pfeil nach rechts") & (katzenplatz.position < 8m)) ? katzenposition(
+					katzenplatz.position + geschwindigkeit
+					-1
+				)
+				katzenplatz
+
+kätzchen: Satzglied(
+		"🐈"
+		gesicht: "Noto Color Emoji"
+		Name: 'Kätzchen'
+		Größe: 2m
+		Ort: Ort(katzenplatz.position 0m)
+		Ruhen: Pose(flipx: katzenplatz.richtung < 0)
+		ziehenum: Reihenfolge(
+			{
+				0%: Pose(Drehung: -5° Musik: miau)
+				50%: Pose(Drehung: 5°)
+				100%: Pose(Drehung: -5°)
+			}
+			0.25s
+			"zippy"
+		)
+		Gegenstand: Gegenstand(1000kg Rundung: 0.5)
+	)
+
+anspringen: Kollision('Ball' 'Kätzchen')
+
+ballPlatz: Bewegung(
+		Ort(0m 9m)
+		nächsteGeschwindigkeit:
+		anspringen•ø ? ø
+			Geschwindigkeit(
+				((anspringen.Richtung.X ÷ -1m) × Zufällig(
+							15m/s
+							25m/s
+						)) + Zufällig(
+						-3m/s
+						3m/s
+					)
+				Zufällig(27m/s 30m/s)
+				(anspringen.Richtung.X ÷ -1m) × Zufällig(
+						0°/s
+						15°/s
+					)
+			)
+	)
+
+ball: Satzglied(
+		"🧶"
+		Name: 'Ball'
+		Ort: ballPlatz
+		Gegenstand: Gegenstand(1kg 0.5 0 1)
+	)
+
+Bühne(
+	[
+		Gestalt(Rechteck(-10m 0m 10m -3m))
+		Gestalt(Rechteck(-10m -1m -9m 11m))
+		Gestalt(Rechteck(10m -1m 9m 11m))
+		Gestalt(Rechteck(-10m 10m 10m 11m))
+		ball
+		kätzchen
+		Satzglied(
+			'Drücke ← →, um es abzuspielen!'
+			Ort: Ort(-4m -2m)
+			Farbe: Farbe.Weiß
+		)
+	]
+	Ort: Ort(j: 5m z: -10m)
+)

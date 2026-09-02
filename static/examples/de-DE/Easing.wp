@@ -1,0 +1,57 @@
+s
+Sequenz-Verlauf
+===
+¶Dieselbe Auto-Animation auf acht Arten, eine für jeden Bewegungsstil.¶
+schlüsselbilder: {
+		0%: Pose(Versatz: Ort(-1m 0m))
+		25%: Pose(Versatz: Ort(1m 0m))
+		50%: Pose(Versatz: Ort(1m 0m))
+		75%: Pose(Versatz: Ort(-1m 0m))
+		100%: Pose(Versatz: Ort(-1m 0m))
+	}
+
+Bühne(
+	[
+		Gruppe(
+			Netz(4 2 Zellenpolsterung: 0.25m)
+			[
+				Satzglied('gerade' Größe: 0.25m)
+				Satzglied(
+					"🚗"
+					Ruhen: Reihenfolge(
+						schlüsselbilder
+						3s
+						Stil: "straight"
+					)
+				)
+				Satzglied('vorsichtig' Größe: 0.25m)
+				Satzglied(
+					"🚚"
+					Ruhen: Reihenfolge(
+						schlüsselbilder
+						3s
+						Stil: "cautious"
+					)
+				)
+				Satzglied('gemütlich' Größe: 0.25m)
+				Satzglied(
+					"🚙"
+					Ruhen: Reihenfolge(
+						schlüsselbilder
+						3s
+						Stil: "pokey"
+					)
+				)
+				Satzglied('flott' Größe: 0.25m)
+				Satzglied(
+					"🏎"
+					Ruhen: Reihenfolge(
+						schlüsselbilder
+						3s
+						Stil: "zippy"
+					)
+				)
+			]
+		)
+	]
+)

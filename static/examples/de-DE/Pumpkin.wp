@@ -1,0 +1,30 @@
+🎃
+Kürbis
+=== start
+¶Ein Kürbisgesicht, das flackert und jede Sekunde an einer neuen Stelle wieder auftaucht.¶
+zeit: Zeit(1000ms)
+platzieren: Ort(0m 0m) … ∆ zeit … Ort(
+			Zufällig(-4m 4m)
+			Zufällig(-4m 4m)
+			Zufällig(-4m 0m)
+		)
+deckkraft: 1 … ∆ zeit … Zufällig(0.25 1)
+zeigen: ⊤ … ∆ zeit … ~zeigen
+kürbis: Satzglied(
+		'🎃'
+		Opazität: deckkraft
+		Ort: platzieren
+		Eingabe: Reihenfolge(
+			{
+				0%: Pose(Skala: 1.25 Drehung: -21°)
+				20%: Pose(Skala: 0.75 Drehung: 13°)
+				40%: Pose(Skala: 1 Drehung: -7°)
+				60%: Pose(Skala: 1.25 Drehung: 19°)
+				100%: Pose()
+			}
+			0.5s
+			zählen: 3x
+		)
+	)
+
+Bühne(zeigen ? [kürbis] [] Hintergrund: Farbe(0% 0 0°))

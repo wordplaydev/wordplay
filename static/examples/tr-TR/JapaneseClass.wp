@@ -1,0 +1,37 @@
+O
+Japonca dersi
+=== start
+¶Bir Japonca dersinin ilk gününü sahne sahne anlatan bir hikaye.¶
+
+¶Bunlar gösterilecek sahnelerin listesidir¶
+cümleler: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶Bunlar, yalnızca konuşularak ilerletilmesi gereken cümlelerin listesidir.¶
+cümleleriSeslendir: [5 7 9]
+
+¶Şimdiki cümle 1'den başlar. Konuşma gerektiren bir cümlede mikrofon sesi .8 değerinin üstüne çıkarsa, ya da diğer cümlelerde bir düğmeye veya tuşa basılırsa bir artar.¶
+şimdikiCümle•#: 1 …
+	cümleleriSeslendir.sahipolmak(şimdikiCümle) ?
+		Hacim() > .6
+		∆ Düğme() | ∆ Anahtar()
+		…
+		(şimdikiCümle <
+				cümleler.uzunluk()) ?
+			şimdikiCümle + 1
+			şimdikiCümle
+
+Sahne(
+	[İfadeetmek(cümleler[şimdikiCümle] dürüm: 10m)]
+	yüz: 'Sue Ellen Francisco'
+)

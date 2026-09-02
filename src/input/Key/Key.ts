@@ -1,8 +1,10 @@
 import createStreamEvaluator from '@input/createStreamEvaluator';
 import { WellKnownKeys, type KeyMap } from '@input/Key/KeyboardKeys';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
 import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
 import NoneLiteral from '@nodes/NoneLiteral';
@@ -19,11 +21,33 @@ import SingletonStreamValue from '@values/SingletonStreamValue';
 import TextValue from '@values/TextValue';
 import type { StreamKind } from '@values/StreamValue';
 
+/** Annotation-stripped key tables, keyed by the raw table object so the strip
+ *  runs once per loaded locale rather than on every keystroke. */
+const KeyMapCache = new WeakMap<object, KeyMap>();
+
 /** Look up the locale's keyboard-key-name table. Bundled in the main locale
  *  JSON under `ui.input.Key.keys` (see InputTexts.ts), so it's synchronously
- *  available wherever a `Locales` is. */
+ *  available wherever a `Locales` is.
+ *
+ *  Aliases are read straight off the locale JSON, so each is stripped of its
+ *  write-status annotation: a machine-translated locale stores `$~Espacio`,
+ *  and serving that raw made the stream report `$~Espacio` for the space bar —
+ *  no program's comparison could ever match it, and `canonicalizeKeyName`
+ *  couldn't recognize the locale's own alias either. */
+function getKeyMapOf(locale: LocaleText): KeyMap {
+    const raw = locale.input.Key.keys;
+    if (raw === undefined) return {};
+    const cached = KeyMapCache.get(raw);
+    if (cached !== undefined) return cached;
+    const stripped: KeyMap = {};
+    for (const [canonical, aliases] of Object.entries(raw))
+        stripped[canonical] = aliases.map((alias) => withoutAnnotations(alias));
+    KeyMapCache.set(raw, stripped);
+    return stripped;
+}
+
 function getKeyMap(locales: Locales): KeyMap {
-    return (locales.getLocale().input.Key.keys ?? {}) as KeyMap;
+    return getKeyMapOf(locales.getLocale());
 }
 
 /** Localize the browser's English `event.key` to the primary locale's display
@@ -49,7 +73,9 @@ export function localizeKeyName(
  *  any single Unicode grapheme — those don't need aliasing). */
 export function canonicalizeKeyName(userKey: string, locales: Locales): string {
     for (const locale of locales.getLocales()) {
-        const map = (locale.input.Key.keys ?? {}) as KeyMap;
+        // Through the same annotation-stripped cache as getKeyMap, or a
+        // machine-translated locale's own aliases are never recognized.
+        const map = getKeyMapOf(locale);
         for (const [canonical, aliases] of Object.entries(map)) {
             if (aliases.some((a) => a === userKey)) return canonical;
         }

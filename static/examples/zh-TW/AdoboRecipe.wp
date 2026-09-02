@@ -1,0 +1,40 @@
+H
+阿多波食譜
+=== start/en
+¶一份逐幕呈現的菲律賓雞肉阿多波食譜。¶
+
+¶這些是要顯示的場景清單¶
+句子: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`Adobong Manók @lamamel/adobo！（移動滑鼠來吃吧）`)
+		(`好吃！@lamamel/emptyadobo`)
+	]
+
+¶這些句子只能透過移動滑鼠來前進。¶
+移動句子: [9 11]
+
+¶目前句子從 1 開始，當滑鼠移到螢幕上某個座標時就會增加，其他句子則靠按按鈕或按鍵來增加。¶
+點2: 連結()
+目前句子•#: 1 …
+	移動句子.包含(目前句子) ?
+		(點2.x > 2m) & (點2.y > 3m)
+		∆ 按鈕() | ∆ 鑰匙()
+		…
+		(目前句子 <
+				句子.長度()) ?
+			目前句子 + 1
+			目前句子
+
+舞台(
+	[短語(句子[目前句子] 包裹: 10m)]
+	字体: 'Short Stack'
+)

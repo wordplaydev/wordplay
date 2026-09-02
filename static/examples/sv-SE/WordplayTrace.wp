@@ -1,0 +1,43 @@
+✨
+Ordspår
+===
+¶Det här projektet ritar upp konturerna av ordet "wordplay" med en komet av punkter som sveper runt bokstäverna, driven av en Time()-ström. Halva ordet lyser vid varje ögonblick, och tonas från ljust vid spårets huvud till genomskinligt vid svansen.¶
+
+poäng: Kontur(
+		'wordplay'
+		"Noto Sans"
+		3m
+		plats: Plats(-6m 0m)
+		mellanrum: 0.5m
+	)
+
+¶Hur många punkter som finns på konturen, och ett säkert tal att dela med innan typsnittet har laddats (när listan fortfarande är tom).¶
+antal2: poäng.längd()
+
+¶Spåret täcker halva ordet, så hälften syns alltid.¶
+spår2: antal2 ÷ 2
+
+¶Ett huvudindex som rör sig en punkt framåt varje tick och går runt ordet.¶
+huvud: 0 … ∆ Tid(10ms) … ((huvud + 1) % antal2) ?? 0
+
+Etapp(
+	poäng.översätta(
+		ƒ(punkt2•Plats index2•#)
+			(
+				¶Hur många punkter bakom huvudet denna är, med runtgång.¶
+				ålder: ((((huvud - index2) + 1) + antal2) % antal2) ?? 0
+				Fras(
+					"•"
+					storlek: 1m
+					plats: punkt2
+					färg: Färg(
+						90%
+						100
+						((index2 ÷ antal2) ?? 0) × 360°
+					)
+					opacitet: ålder < spår2 ? 1 - ((ålder ÷ spår2) ?? 0) 0
+					varaktighet: 0s
+				))
+	)
+	bakgrund: Färg(8% 0 0°)
+)

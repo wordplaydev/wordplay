@@ -1,0 +1,58 @@
+🎵
+Tonhöhen
+===
+¶Singe oder summe, und sieh dir die Note an, die du machst — zweimal. Die linke Note zeigt den rohen @Pitch-Wert und zittert; die rechte Note bildet den Durchschnitt der letzten Tonhöhen und bleibt ruhig. @Pitch zeigt 0hz an, wenn nichts Klares zu hören ist. Dann überspringen beide Noten diese Momente und zeigen stattdessen · an.¶
+noten: [
+		'A'
+		'A♯'
+		'H'
+		'C'
+		'C♯'
+		'D'
+		'D♯'
+		'E'
+		'F'
+		'F♯'
+		'G'
+		'G♯'
+	]
+noteVon: ƒ(hz•#hz) hz > 0hz ? noten[(((((12 × (hz ÷ 440hz).log(
+										2
+									)).runden(
+							)) % 12) + 12) % 12) + 1] '·'
+weich: ƒ(signal•…#hz) (
+			gehört: (←← 8 signal).ohne(0hz)
+			(gehört.kombinieren(
+					0hz
+					ƒ(gesamt•#hz v•#hz) gesamt + v
+				) ÷ gehört.Länge()) ?? 0hz
+		)
+tonhöhe: Tonhöhe()
+Bühne(
+	[
+		Gruppe(
+			Stapel()
+			[
+				Satzglied('rauschend' Farbe: Farbe(60% 90 30°))
+				Satzglied(
+					noteVon(tonhöhe)
+					Größe: 6m
+					Farbe: Farbe(60% 90 30°)
+				)
+			]
+			Ort: Ort(-4m 0m)
+		)
+		Gruppe(
+			Stapel()
+			[
+				Satzglied('weich' Farbe: Farbe(70% 90 240°))
+				Satzglied(
+					noteVon(weich(tonhöhe))
+					Größe: 6m
+					Farbe: Farbe(70% 90 240°)
+				)
+			]
+			Ort: Ort(4m 0m)
+		)
+	]
+)

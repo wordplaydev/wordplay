@@ -1,0 +1,85 @@
+t
+Nombres en français
+=== start/en-US,start/fr-FR
+¶Press the digit that matches the French number on stage.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶The numbers to guess¶
+¶Les nombres à deviner¶/fr
+numbers,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶The secrets are the numbers 1 to 9 in random order¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+secrets: [1 2 3 4 5 6 7 8 9].mélangé()
+
+¶What's the latest key pressed?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+key,clé/fr: Clé()
+
+¶The current secret is increased each time a key is pressed, but stops at 10¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+secretIndex,secretIndice/fr•#:
+	1 …
+	∆ clé …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶Le secret actuel, selon l'indice du secret¶
+currentSecret,secretActuel/fr: secrets[secretIndice]
+
+¶La réponse était correcte si le nombre pressé correspond au précédent nombre secret¶
+correct: clé → # = secrets[secretIndice - 1]
+
+¶Points start at 0 and increase if the guess was correct.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+points2•#: 0 …
+	∆ clé …
+		correct ?
+			points2 + 1
+			points2
+
+¶Gagner signifie trouver les 9 nombres¶
+win,gagner/fr: points2 = 9
+
+¶Terminé quand l'indice du secret atteint 10¶
+findujeu: secretIndice = 10
+
+¶Show the current french number and the current points
+After all the 9 secrets, show a final result¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Scène(
+	[
+		Groupe(
+			Empiler()
+			[
+				findujeu ?
+					Phrase(
+						gagner ?
+							"You know french numbers!""Tu connais les chiffres français!"/fr
+							"almost, try again""presque, réessaye"/fr
+						taille: 2m
+					)
+					Phrase(numeros[secretActuel] taille: 2m)
+				Phrase("\points2\ points!" taille: 1m)
+				Phrase(
+					secretIndice = 1 ?
+						'what number is this?''quel est ce numéro ?'/fr
+						correct ?
+							'Correct !'
+							"That was \secrets[secretIndice - 1]\"
+				)
+			]
+		)
+	]
+	affronter: "Aclonica"
+)

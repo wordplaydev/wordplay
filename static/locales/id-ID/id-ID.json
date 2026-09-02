@@ -3309,7 +3309,7 @@
                         "$~Saya membuat @List baru dengan item yang diberikan di bagian akhir.",
                         "\\['apel' 'pisang' 'mangga'].with('semangka')\\"
                     ],
-                    "names": ["$~dengan", "$~menambahkan"],
+                    "names": "$~dengan",
                     "inputs": [
                         {
                             "doc": "$~Aku adalah @value yang ingin kamu tambahkan.",
@@ -3324,7 +3324,7 @@
                         "Menggunakan @Spread sedikit lebih mudah, seperti ini:",
                         "\\['apel' 'pisang' 'mangga' :['semangka' 'belimbing']]\\"
                     ],
-                    "names": ["$~denganDaftar", "$~menambahkan"],
+                    "names": "$~denganDaftar",
                     "inputs": [
                         {
                             "doc": "$~Daftar nilai yang akan ditambahkan.",

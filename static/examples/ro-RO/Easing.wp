@@ -1,0 +1,41 @@
+s
+Netezirea Secvenței
+===
+¶Aceeași animație cu o maşină în opt variante, câte una pentru fiecare stil de mişcare.¶
+cadreCheie: {
+		0%: Poză(compensare: Loc(-1m 0m))
+		25%: Poză(compensare: Loc(1m 0m))
+		50%: Poză(compensare: Loc(1m 0m))
+		75%: Poză(compensare: Loc(-1m 0m))
+		100%: Poză(compensare: Loc(-1m 0m))
+	}
+
+Etapă(
+	[
+		Grup(
+			Grilă(4 2 umpluturăcelulară: 0.25m)
+			[
+				Fraza('drept' dimensiune: 0.25m)
+				Fraza(
+					"🚗"
+					odihnă: Secvenţă(cadreCheie 3s stil: "straight")
+				)
+				Fraza('prudent' dimensiune: 0.25m)
+				Fraza(
+					"🚚"
+					odihnă: Secvenţă(cadreCheie 3s stil: "cautious")
+				)
+				Fraza('lent' dimensiune: 0.25m)
+				Fraza(
+					"🚙"
+					odihnă: Secvenţă(cadreCheie 3s stil: "pokey")
+				)
+				Fraza('rapid' dimensiune: 0.25m)
+				Fraza(
+					"🏎"
+					odihnă: Secvenţă(cadreCheie 3s stil: "zippy")
+				)
+			]
+		)
+	]
+)

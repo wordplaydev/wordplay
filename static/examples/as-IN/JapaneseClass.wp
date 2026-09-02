@@ -1,0 +1,37 @@
+O
+জাপানী ভাষাৰ শ্ৰেণী
+=== start
+¶জাপানী পাঠৰ প্ৰথম দিনৰ বিষয়ে দৃশ্যে দৃশ্যে কোৱা এটা কাহিনী।¶
+
+¶এইবোৰ দেখুৱাব লগীয়া দৃশ্যৰ তালিকা¶
+বাক্য: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶এইবোৰ হৈছে সেই বাক্যবোৰৰ তালিকা, যিবোৰ কেৱল কথা কৈহে আগুৱাব লাগে।¶
+বাক্যকওক: [5 7 9]
+
+¶বৰ্তমান বাক্যটো ১ ৰ পৰা আৰম্ভ হয়, আৰু কোৱা বাক্যৰ বাবে মাইক্ৰ'ফ'নৰ শব্দৰ পৰিমাণ .৮ তকৈ বেছি হ'লে, বা আন বাক্যৰ বাবে কোনো বুটাম বা চাবি টিপিলে, ই বাঢ়ি যায়।¶
+বৰ্তমানবাক্য•#: 1 …
+	বাক্যকওক.আছে(বৰ্তমানবাক্য) ?
+		পৰিমাণ() > .6
+		∆ বুটাম() | ∆ চাবি()
+		…
+		(বৰ্তমানবাক্য <
+				বাক্য.দৈৰ্ঘ্য()) ?
+			বৰ্তমানবাক্য + 1
+			বৰ্তমানবাক্য
+
+মঞ্চ(
+	[বাক্যাংশ(বাক্য[বৰ্তমানবাক্য] মেৰিওৱা: 10m)]
+	চেহেৰা: 'Sue Ellen Francisco'
+)

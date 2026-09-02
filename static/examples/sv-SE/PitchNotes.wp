@@ -1,0 +1,56 @@
+🎵
+Tonhöjdsnoter
+===
+¶Sjung eller nyn, och se tonen du gör — två gånger. Den vänstra tonen läser den råa @Pitch och hoppar; den högra tonen räknar ut medelvärdet av de senaste tonhöjderna och håller sig stadig. @Pitch säger 0hz när den inte hör något tydligt, så båda tonerna hoppar över de stunderna och visar · istället.¶
+toner: [
+		'A'
+		'A♯'
+		'B'
+		'C'
+		'C♯'
+		'D'
+		'D♯'
+		'E'
+		'F'
+		'F♯'
+		'G'
+		'G♯'
+	]
+notAv: ƒ(hz•#hz) hz > 0hz ? toner[(((((12 × (hz ÷ 440hz).log(
+										2
+									)).runda(
+							)) % 12) + 12) % 12) + 1] '·'
+jämn: ƒ(signal•…#hz) (
+			hörd: (←← 8 signal).utan(0hz)
+			(hörd.kombinerad(0hz ƒ(totalt•#hz v•#hz) totalt + v) ÷ hörd.längd(
+					)) ?? 0hz
+		)
+tonhöjd2: Tonhöjd()
+Etapp(
+	[
+		Grupp(
+			Stack()
+			[
+				Fras('brusig' färg: Färg(60% 90 30°))
+				Fras(
+					notAv(tonhöjd2)
+					storlek: 6m
+					färg: Färg(60% 90 30°)
+				)
+			]
+			plats: Plats(-4m 0m)
+		)
+		Grupp(
+			Stack()
+			[
+				Fras('jämn' färg: Färg(70% 90 240°))
+				Fras(
+					notAv(jämn(tonhöjd2))
+					storlek: 6m
+					färg: Färg(70% 90 240°)
+				)
+			]
+			plats: Plats(4m 0m)
+		)
+	]
+)

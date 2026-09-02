@@ -1,0 +1,56 @@
+🎵
+Note muzicale
+===
+¶Cântă sau fredonează și vezi nota pe care o faci — de două ori. Nota din stânga citește @Pitch brut și tremură; nota din dreapta face media ultimelor mai multe înălțimi și rămâne stabilă. @Pitch arată 0hz când nu aude nimic clar, așa că ambele note sar peste acele momente și arată · în loc.¶
+note2: [
+		'La'
+		'La♯'
+		'Si'
+		'Do'
+		'Do♯'
+		'Re'
+		'Re♯'
+		'Mi'
+		'Fa'
+		'Fa♯'
+		'Sol'
+		'Sol♯'
+	]
+notaDin: ƒ(hz•#hz) hz > 0hz ? note2[(((((12 × (hz ÷ 440hz).log(
+										2
+									)).rundă(
+							)) % 12) + 12) % 12) + 1] '·'
+lină: ƒ(semnal•…#hz) (
+			auzit: (←← 8 semnal).fără(0hz)
+			(auzit.combinate(0hz ƒ(total•#hz v•#hz) total + v) ÷ auzit.lungime(
+					)) ?? 0hz
+		)
+înălțimeSunet: Pas()
+Etapă(
+	[
+		Grup(
+			Stivă()
+			[
+				Fraza('zgomotoasă' culoare: Culoare(60% 90 30°))
+				Fraza(
+					notaDin(înălțimeSunet)
+					dimensiune: 6m
+					culoare: Culoare(60% 90 30°)
+				)
+			]
+			loc: Loc(-4m 0m)
+		)
+		Grup(
+			Stivă()
+			[
+				Fraza('lină' culoare: Culoare(70% 90 240°))
+				Fraza(
+					notaDin(lină(înălțimeSunet))
+					dimensiune: 6m
+					culoare: Culoare(70% 90 240°)
+				)
+			]
+			loc: Loc(4m 0m)
+		)
+	]
+)

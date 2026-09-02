@@ -1,0 +1,13 @@
+⚫
+Amplituda
+===
+¶Rząd punktów, które świecą i gasną wraz z głośnością twojego mikrofonu.¶
+amplitudy•[#]: ←← 10 Tom()
+wiz: amplitudy.tłumaczyć(
+		ƒ(amp•#) Wyrażenie(
+				"⚫"
+				nieprzezroczystość: amp
+				rozmiar: 10m
+			)
+	)
+Scena([Grupa(Wiersz() wiz)] miejsce: Miejsce(0m 0m -50m))

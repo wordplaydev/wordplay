@@ -1,0 +1,37 @@
+O
+जापानी कक्षा
+=== start
+¶जापानी भाषा की पहली कक्षा के दिन की कहानी, दृश्य दर दृश्य।¶
+
+¶ये दिखाए जाने वाले दृश्यों की सूची है¶
+वाक्य: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶यह उन वाक्यों की सूची है जो केवल बोलने से आगे बढ़ेंगे।¶
+वाक्यबोलो: [5 7 9]
+
+¶मौजूदा वाक्य 1 से शुरू होता है। यह तब आगे बढ़ता है जब बोलने वाले वाक्य के लिए माइक्रोफ़ोन की आवाज़ .8 से ऊपर जाती है, या दूसरे वाक्यों के लिए कोई बटन या कुंजी दबाई जाती है।¶
+मौजूदावाक्य•#: 1 …
+	वाक्यबोलो.शामिल(मौजूदावाक्य) ?
+		आवाज़() > .6
+		∆ बटन() | ∆ चाबी()
+		…
+		(मौजूदावाक्य <
+				वाक्य.length()) ?
+			मौजूदावाक्य + 1
+			मौजूदावाक्य
+
+मंच(
+	[वाक्यांश(वाक्य[मौजूदावाक्य] लपेटना: 10m)]
+	फलक: 'Sue Ellen Francisco'
+)

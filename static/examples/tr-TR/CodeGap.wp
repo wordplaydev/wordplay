@@ -1,0 +1,203 @@
+👩‍💻
+Kod Boşluğu
+=== start/en
+¶Bu proje, Amerika Birleşik Devletleri'nde kaç kadının bilgisayar bilimi diploması aldığını ve bunun zamanla nasıl değiştiğini gösteren gerçek, herkese açık verileri görselleştirir. Biri yıllar, diğeri alanlar adında iki veri tablosu kullanır ve üstteki düğmelerle üç görünümden birini seçmene izin verir. Her görünüm, kadın emojisinden yapılmış bir çubuk grafiktir ve altbilgide sade bir dille açıklama sunar.¶
+↓ years
+↓ fields
+
+¶fill fonksiyonu tek bir dolu çubuk yapar. Kadın emojisini countkez tekrarlar ve bunları aralarında boşluk olmadan tek bir metin parçasında birleştirir. Böylece rowayrı noktalar gibi değil, tek bir sürekli çubuk gibi görünür.¶
+ƒ doldur(sayaç•#) (sayaç → []).tercümeetmek(ƒ() '👩').katılmak(
+		''
+	)
+
+¶chart fonksiyonu, birbirine karşılık gelen üç liste kullanarak bir çubuk grafik çizer: bir etiket, emoji ile gösterilen bir çubuk uzunluğu ve bir değer. Her çubuk, sola hizalanmış bir yığının bir satırıdır. Böylece tüm çubuklar aynı kenardan başlar ve uzunlukları doğrudan karşılaştırılabilir. Etiket ve değer, her çubuğun aynı satırının sonunda yer alır. Bu, onları çubuklarıyla hizalı tutar.¶
+ƒ grafik(etiketler•[''] birimler•[#] değerler•[''])
+	Grup(
+		Yığın('<' dolgu: 0.2m)
+		birimler.tercümeetmek(
+			ƒ(u•# i•#)
+				Grup(
+					Sıra('|' dolgu: 0.3m)
+					[
+						İfadeetmek(doldur(u) boyut: 0.3m)
+						İfadeetmek(
+							`\etiketler[i]\ \değerler[i]\`
+							boyut: 0.28m
+							renk: Renk(45% 0 0°)
+						)
+					]
+				)
+		)
+	)
+
+¶Görünüm 1 — "Yükseliş ve Düşüş".Verideki her yıl için, bilgisayar bilimi diplomalarının kadınlar tarafından kazanılan yüzdesini gösteren bir çubuk çizeriz. Her kadın emojisi yaklaşık yüzde 5'i temsil eder. Bu yüzden çubuk uzunluğunu bulmak için yüzdeyi 5'e böleriz.¶
+zamanSatırları: (years ⎡?yıl2 yüzde⎦ ⊤) → []
+zamanGörünümü: grafik(
+		zamanSatırları.tercümeetmek(ƒ(sıra) sıra.yıl2)
+		zamanSatırları.tercümeetmek(
+			ƒ(sıra2) (sıra2.yüzde ÷ 5).yuvarlak()
+		)
+		zamanSatırları.tercümeetmek(
+			ƒ(sıra3) (sıra3.yüzde.yuvarlak() → '') + '%'
+		)
+	)
+
+¶Görünüm 2 — "Uyumsuz Bir Alan".Yakın bir yıldaki farklı çalışma alanlarında kadınların oranını karşılaştırırız. Satırlar, en çok kadından en aza doğru sıralanmıştır. Bu yüzden bilgisayar bilimi grafiğin en altına düşer.¶
+alanSatırları: (fields ⎡?alan yüzde2⎦ ⊤) → []
+alanlarGörünümü: grafik(
+		alanSatırları.tercümeetmek(ƒ(sıra4) sıra4.alan)
+		alanSatırları.tercümeetmek(
+			ƒ(sıra5) (sıra5.yüzde2 ÷ 5).yuvarlak()
+		)
+		alanSatırları.tercümeetmek(
+			ƒ(sıra6) (sıra6.yüzde2 → '') + '%'
+		)
+	)
+
+¶Görünüm 3 — "Daha Çok Kadın, Daha Küçük Oran".Bunlar iki farklı ölçüm olduğu için, yan yana iki ayrı grafik olarak çizeriz. Soldaki grafik kadın sayısını gösterir (her emoji yaklaşık 2.000 kişidir); sağdaki grafik onların tüm diplomalar içindeki oranını gösterir (her emoji yaklaşık yüzde 5'tir). Her grafiğin içinde iki çubuk aynı birimi kullanır, bu yüzden karşılaştırılabilirler: sayı neredeyse iki katına çıkarken, oran düşer.¶
+sayımSatırları: (years ⎡?yıl2 kadınlar yüzde⎦ ((yıl2 = '1984') | (yıl2 = '2022'))) → []
+eski: sayımSatırları[1]
+şimdi: sayımSatırları[2]
+
+kadınlarGrafiği: grafik(
+		['1984' '2022']
+		[
+			(eski.kadınlar ÷ 2000).yuvarlak()
+			(şimdi.kadınlar ÷ 2000).yuvarlak()
+		]
+		[eski.kadınlar → '' şimdi.kadınlar → '']
+	)
+payGrafiği: grafik(
+		['1984' '2022']
+		[
+			(eski.yüzde ÷ 5).yuvarlak()
+			(şimdi.yüzde ÷ 5).yuvarlak()
+		]
+		[
+			(eski.yüzde.yuvarlak() → '') + '%'
+			(şimdi.yüzde.yuvarlak() → '') + '%'
+		]
+	)
+sayımlarGörünümü: Grup(
+		Sıra('<' dolgu: 1.5m)
+		[
+			Grup(
+				Yığın('|' dolgu: 0.3m)
+				[
+					İfadeetmek(
+						`/Bilgisayar bilimi diploması kazanan kadınlar/`
+						boyut: 0.28m
+					)
+					kadınlarGrafiği
+				]
+			)
+			Grup(
+				Yığın('|' dolgu: 0.3m)
+				[
+					İfadeetmek(
+						`/Tüm bilgisayar bilimi diplomaları içindeki payları/`
+						boyut: 0.28m
+					)
+					payGrafiği
+				]
+			)
+		]
+	)
+
+¶Üç düğme. Choice, okuyucunun son tıkladığı seçilebilir Phrase'in ismini bildirir. Zaman görünümüyle başlarız ve seçim her değiştiğinde güncelleriz.¶
+seçim: Seçenek()
+güncel: 'time' … ∆ seçim … seçim
+
+sekmeler: Grup(
+		Sıra('|' dolgu: 0.6m)
+		[
+			İfadeetmek(
+				'▸ Zamana göre'
+				seçilebilir: ⊤
+				isim: 'time'
+				boyut: 0.35m
+				renk: Renk(60% 50 20°)
+			)
+			İfadeetmek(
+				'▸ Alana göre'
+				seçilebilir: ⊤
+				isim: 'fields'
+				boyut: 0.35m
+				renk: Renk(60% 50 140°)
+			)
+			İfadeetmek(
+				'▸ Sayı mı oran mı'
+				seçilebilir: ⊤
+				isim: 'sayılar'
+				boyut: 0.35m
+				renk: Renk(60% 50 280°)
+			)
+		]
+	)
+
+¶Geçerli görünüm için grafiği ve alt bilgiyi seç.¶
+gövde: güncel = 'time' ? zamanGörünümü (güncel = 'fields' ? alanlarGörünümü sayımlarGörünümü)
+
+altbilgi:
+	güncel = 'time' ?
+		İfadeetmek(
+			`/ABD'de bilgisayar bilimi lisans diplomalarında kadınların payı 1984'te yüzde 37 ile zirveye çıktı, ardından yaklaşık 25 yıl boyunca düşerek 2008 civarında yaklaşık yüzde 18'e indi ve o zamandan sonra yalnızca yavaşça toparlandı. Her 👩 ≈ yüzde 5. Kaynak: NCES Digest of Education Statistics, Tablo 325.35./`
+			dürüm: 9m
+			boyut: 0.26m
+		)
+		güncel = 'fields' ?
+			İfadeetmek(
+				`/2018 civarında kadınlar psikoloji ve biyoloji diplomalarının çoğunu, matematik ve sosyal bilim diplomalarının yaklaşık yarısını kazandı, ama bilgisayar bilimi diplomalarının yüzde 20'sinden azını aldı — bu, tüm alanlar arasında en düşük orana yakın bir değer. Her 👩 ≈ yüzde 5. Kaynak: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
+				dürüm: 9m
+				boyut: 0.26m
+			)
+			İfadeetmek(
+				`/1984'te yaklaşık 12.000 kadın bilgisayar bilimi diploması aldı — bu, o yılın diplomalarının yüzde 37'siydi. 2022'de bu sayı 24.000'i geçti, yani iki kat daha çok kişi, ama yalnızca yüzde 23'ü oluşturuyordu: alan öyle hızlı büyüdü ki erkeklerin sayısı daha da hızlı büyüdü. Artan bir sayı, yine de küçülen bir oran olabilir. Kaynak: NCES./`
+				dürüm: 9m
+				boyut: 0.26m
+			)
+
+Sahne(
+	[
+		Grup(
+			Yığın('|' dolgu: 0.4m)
+			[
+				İfadeetmek(`KOD BOŞLUĞU` boyut: 0.7m yüz: 'Monoton')
+				İfadeetmek(
+					`/Bilgisayar bilimi diplomasını kimler alıyor?/`
+					boyut: 0.35m
+				)
+				sekmeler
+				gövde
+				altbilgi
+			]
+		)
+	]
+	yüz: 'Quicksand'
+)
+=== years/en
+¶ABD'de bilgisayar ve bilgi bilimleri lisans diplomalarının kadınlar tarafından kazanılan yüzdesi, yıllara göre, kadın sayısı ve toplam diploma sayısıyla birlikte. Kaynak: National Center for Education Statistics, Digest of Education Statistics, Tablo 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+⎡yıl2•'' kadınlar•# toplam2•# yüzde•#⎦
+⎡'1971' 324 2388 13.6⎦
+⎡'1976' 1118 5652 19.8⎦
+⎡'1984' 12023 32439 37.1⎦
+⎡'1990' 8188 27347 29.9⎦
+⎡'1995' 6749 24506 27.5⎦
+⎡'2001' 12219 44142 27.7⎦
+⎡'2005' 11986 54111 22.2⎦
+⎡'2008' 6792 38523 17.6⎦
+⎡'2011' 7589 43066 17.6⎦
+⎡'2015' 10742 59586 18⎦
+⎡'2019' 18316 88638 20.7⎦
+⎡'2022' 24542 108503 22.6⎦
+=== fields/en
+¶2018 civarında, her çalışma alanında kadınlar tarafından kazanılan ABD lisans diplomalarının yüzdesi, en yüksek orandan en düşüğe doğru sıralanmıştır. Kaynak: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+⎡alan•'' yüzde2•#⎦
+⎡'Psikoloji' 72⎦
+⎡'Biyoloji' 60⎦
+⎡'Sosyal bilim' 55⎦
+⎡'Matematik ve istatistik' 42⎦
+⎡'Fizik bilimleri' 41⎦
+⎡'Yer bilimi' 38⎦
+⎡'Mühendislik' 22⎦
+⎡'Bilgisayar bilimi' 20⎦

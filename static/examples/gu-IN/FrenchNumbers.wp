@@ -1,0 +1,84 @@
+t
+ફ્રેન્ચ સંખ્યાઓ
+=== start/en-US,start/fr-FR
+¶મંચ પર બતાવેલી ફ્રેન્ચ સંખ્યા સાથે મેળ ખાતો અંક દબાવો.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶અનુમાન લગાવવાની સંખ્યાઓ¶
+¶Les nombres à deviner¶/fr
+સંખ્યાઓ2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶ગુપ્ત આંકડા 1 થી 9 સુધીની સંખ્યાઓ છે, જે અવ્યવસ્થિત ક્રમમાં છે¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+ગુપ્તઆંકડા: [1 2 3 4 5 6 7 8 9].શફલ્ડ()
+
+¶સૌથી છેલ્લે કઈ ચાવી દબાવવામાં આવી?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+ચાવી2,clé/fr: કી()
+
+¶દર વખતે ચાવી દબાવવામાં આવે ત્યારે વર્તમાન ગુપ્ત આંકડો વધે છે, પણ 10 પર અટકી જાય છે¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+secretIndex,secretIndice/fr•#:
+	1 …
+	∆ ચાવી2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶વર્તમાન ગુપ્ત આંકડો, secret index પર આધારિત¶
+currentSecret,secretActuel/fr: ગુપ્તઆંકડા[secretIndex]
+
+¶જો દબાવેલી સંખ્યા પાછલા ગુપ્ત આંકડા સાથે મેળ ખાય, તો અનુમાન સાચું હતું¶
+સાચું2: clé → # = ગુપ્તઆંકડા[secretIndex - 1]
+
+¶ગુણ 0 થી શરૂ થાય છે અને અનુમાન સાચું હોય તો વધે છે.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+ગુણ•#: 0 …
+	∆ ચાવી2 …
+		સાચું2 ?
+			ગુણ + 1
+			ગુણ
+
+¶જીતવાનો અર્થ છે બધા 9 આંકડા મેળવવા¶
+જીત,gagner/fr: ગુણ = 9
+
+¶secret index 10 પર પહોંચે ત્યારે પૂરું¶
+રમતપૂરી: secretIndex = 10
+
+¶વર્તમાન ફ્રેન્ચ સંખ્યા અને વર્તમાન ગુણ બતાવો. બધા 9 ગુપ્ત આંકડા પછી, અંતિમ પરિણામ બતાવો¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+સ્ટેજ(
+	[
+		સમૂહ(
+			સ્ટેક()
+			[
+				રમતપૂરી ?
+					વાક્ય(
+						જીત ?
+							'તમે ફ્રેન્ચ સંખ્યાઓ જાણો છો!'"Tu connais les chiffres français!"/fr
+							'લગભગ સાચું, ફરી પ્રયત્ન કરો'"presque, réessaye"/fr
+						કદ: 2m
+					)
+					વાક્ય(numeros[secretActuel] કદ: 2m)
+				વાક્ય("\ગુણ\ points!" કદ: 1m)
+				વાક્ય(
+					secretIndex = 1 ?
+						'આ કઈ સંખ્યા છે?''quel est ce numéro ?'/fr
+						સાચું2 ?
+							'સાચું!'
+							"That was \ગુપ્તઆંકડા[secretIndex - 1]\"
+				)
+			]
+		)
+	]
+	ચહેરો: "Aclonica"
+)

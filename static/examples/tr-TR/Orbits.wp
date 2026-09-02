@@ -1,0 +1,39 @@
+🪐
+Yörüngeler
+=== start
+¶Kendilerini çeken bir yıldızın etrafında dönen üç gezegen.¶
+
+¶Çekme işini yıldız yaptığı için, onun bir çekiş gücü olan @Matter'a ihtiyacı vardır. Onun @Motion'ı yoktur, bu yüzden hiçbir şey onu geri çekmez ve o olduğu yerde kalır. Bir @Place, bir çıktının ortası değil köşesidir. Bu yüzden yıldız, ortasını gökyüzünün merkezine koymak için kendi boyunun yarısı kadar kaydırılır.¶
+güneş: İfadeetmek(
+		'⭐'
+		2m
+		isim: 'güneş'
+		yer: Yer(-1m -1m)
+		konu: Konu(2000kg çek: 1)
+	)
+
+¶Bir gezegenin hiç @Matter'a ihtiyacı yoktur. Bir @Motion'a sahip olmak, yıldızın çekiş gücünün onu hareket ettirmesini sağlar. Düşmek yerine dönebilmesi için ne kadar hızlı gitmesi gerektiği, ne kadar uzakta olduğuna bağlıdır. Bu yüzden her gezegene, kendi yörüngesinde kalmasını sağlayan hız verilir.¶
+gezegen: ƒ(harfIşareti•"" adında•"" geniş•#m uzak•#m hız2•#m/s)
+		İfadeetmek(
+			harfIşareti
+			geniş
+			isim: adında
+			yer: Hareket(
+				Yer(uzak - (geniş ÷ 2) 0m - (geniş ÷ 2))
+				Hız(0m/s hız2)
+			)
+		)
+
+¶Gökyüzünün kendi yerçekimi yoktur, yoksa her şey aşağıdan dökülüp giderdi. Havası da yoktur, bu yüzden gezegenler yavaşlayıp durmak yerine hareket etmeye devam eder.¶
+Sahne(
+	[
+		güneş
+		gezegen('🌍' 'dünya' 0.8m 3m 11.5m/s)
+		gezegen('🪐' 'halkalı' 1m 5m 8.6m/s)
+		gezegen('🌕' 'ay' 0.6m 7m 7.3m/s)
+	]
+	arkaplan: Renk(15% 20 300°)
+	yerçekimi: 0m/s^2
+	hava: 0
+	yer: Yer(0m 0m -14m)
+)

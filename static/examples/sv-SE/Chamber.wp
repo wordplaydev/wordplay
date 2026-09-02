@@ -1,0 +1,79 @@
+文
+Kammare
+=== start
+¶Hundra bokstäver från fyra skriftsystem som studsar i en sluten låda. Vänd tyngdkraften eller skaka dem.¶
+antal2: 100
+
+¶De fyra alfabeten som bokstäverna kommer från.¶
+latinska: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
+grekiska: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
+arabiska: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
+cjk: '日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪' → ['']
+
+¶Vilken kontroll som klickades senast.¶
+val: Val()
+
+¶Blanda alla fyra alfabeten en gång, när programmet startar, och behåll sedan den ordningen för alltid. En blandning skriven som en enkel bind skulle ge varje bokstav ett nytt tecken varje bildruta.¶
+tecken2: [:latinska :grekiska :arabiska :cjk].blandade() … ∆ val … tecken2
+
+¶Sant bara vid den utvärdering som skakknappen orsakade, så bokstäverna får en knuff per klick istället för att knuffas varje bildruta.¶
+skakning: (∆ val) & (val = 'shake')
+
+¶Omkopplaren växlar mellan jordens tyngdkraft och ingen tyngdkraft.¶
+fallande: ⊤ … ∆ val … (val = 'gravity') ? ~fallande fallande
+
+¶En slumpmässig hastighet, riktning och snurr.¶
+ƒ start2() Hastighet(
+		Slumpmässig(-12m/s 12m/s)
+		Slumpmässig(-12m/s 12m/s)
+		Slumpmässig(-120°/s 120°/s)
+	)
+
+bokstäver: antal2 → [].översätta(
+		ƒ(nummer2)
+			Fras(
+				tecken2[nummer2]
+				namn: "glyph\nummer2\"
+				plats: Rörelse(
+					Plats(
+						Slumpmässig(-7.5m 7.5m)
+						Slumpmässig(-5.5m 5.5m)
+					)
+					start2()
+					nästahastighet: skakning ? start2() ø
+				)
+				materia: Materia(studsighet: 0.7 friktion: 0)
+			)
+	)
+
+¶De två kontrollerna. De har ingen massa och deras plats är inte en Motion, så fysikmotorn låter dem vara.¶
+omkopplare: Fras(
+		fallande ? '⬇ tyngdkraft' '🌌 flytande'
+		0.7m
+		namn: 'gravity'
+		valbara: ⊤
+		plats: Plats(-13m 1m)
+	)
+
+skakare: Fras(
+		'🎲 skaka'
+		0.7m
+		namn: 'shake'
+		valbara: ⊤
+		plats: Plats(-13m -1m)
+	)
+
+Etapp(
+	[
+		¶Fyra väggar, tillräckligt tjocka så att ingenting går igenom dem i hög fart.¶
+		Figur(Rektangel(-8.6m 6.6m 8.6m 6m))
+		Figur(Rektangel(-8.6m -6m 8.6m -6.6m))
+		Figur(Rektangel(-8.6m 6.6m -8m -6.6m))
+		Figur(Rektangel(8m 6.6m 8.6m -6.6m))
+		:bokstäver
+		omkopplare
+		skakare
+	]
+	allvar: fallande ? 9.8m/s^2 0m/s^2
+	plats: Plats(-2.5m 0m -11m)
+)

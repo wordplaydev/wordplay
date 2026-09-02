@@ -1,0 +1,78 @@
+⏳
+Panukat ng Modo ng Pag-aaral
+=== start/en
+¶I-click para magdagdag ng oras ng pag-aaral at panoorin ang panukat na magbago mula kalmado tungo sa nakatuon hanggang sa sobra-sobra.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+aksyon: Pagpipilian()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+studyHours:
+	0 …
+	∆ aksyon …
+		aksyon = 'reset' ?
+			0
+			studyHours + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+paliwanag:
+	'I-click ang “Magdagdag ng Oras ng Pag-aaral +1” para dagdagan ang iyong oras ng pag-aaral. I-click ang “I-reset” para magsimula ulit.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+tekstongOras:
+	'Nag-aral ka ng ' + studyHours → '' + ' oras.'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+mood:
+	studyHours < 3 ?
+		'🌿 MODONG KALMADO — i-click para magdagdag ng oras ng pag-aaral'
+		studyHours < 6 ?
+			'📚 MODONG NAKATUON — nasa produktibong sona ka!'
+			'🔥 MODONG SOBRA-SOBRA — magpahinga at pindutin ang "i-reset"'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+Entablado(
+	[
+		Grupo(
+			Patongpatong()
+			[
+				Parirala('Panukat ng Modo ng Pag-aaral' laki: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				Parirala(paliwanag laki: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				Parirala(tekstongOras laki: 0.4m)
+
+				Parirala(mood laki: 0.75m)
+
+				Grupo(
+					Hilera(padding: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						Parirala(
+							'Magdagdag ng Oras ng Pag-aaral +1'
+							mapipili: ⊤
+							pangalan: 'idagdag'
+							kulay: Kulay(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						Parirala(
+							'I-reset'
+							mapipili: ⊤
+							pangalan: 'reset'
+							kulay: Kulay(69% 47 271°)
+						)
+					]
+				)
+			]
+			mukha: "Aclonica"
+		)
+	]
+)

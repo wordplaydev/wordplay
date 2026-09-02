@@ -1,0 +1,358 @@
+🐤
+Burung Kolibri
+=== start/en
+¶Permainan burung yang berdengung! Klik atau tekan tombol untuk mengepak, atau bersenandunglah ke mikrofon — burung akan melayang setinggi nada dengungan kamu. Selipkan burung melalui celah antara tumpukan emoji. Menyentuh tumpukan atau tanah membuat permainan berakhir; setelah itu, hitungan mundur dimulai dan permainan diulang dari awal.¶
+
+¶Setiap penghalang adalah tumpukan emoji dari salah satu kumpulan ini.¶
+genre: [
+		['🌵' '🌱' '🌿' '🍀' '🎋']
+		['🍩' '🧁' '🍰' '🍪' '🍦']
+		['🐙' '🐟' '🦀' '🐡' '🦑']
+		['🚗' '🚌' '🚕' '🚙' '🚓']
+		['🌸' '🌼' '🌻' '🌷' '💐']
+		['⭐' '🌟' '✨' '☁' '🌙']
+	]
+
+¶Seberapa jauh penghalang bergerak ke kiri pada setiap detak.¶
+kecepatan2: 0.2m
+
+¶Setiap tabrakan dengan burung. Langit-langit diberi nama 'langit' sehingga menyentuhnya hanya membuat burung memantul, bukan membuat permainan berakhir.¶
+kecelakaan: Tabrakan('burung')
+fatal: kecelakaan•ø ? ⊥ (kecelakaan.obyek ≠ 'sky')
+
+detak2: Waktu(40ms)
+detakPermainan: Waktu(100ms)
+
+¶Keadaan permainan: sebuah tahap (1 = hitungan mundur, 2 = bermain, 3 = berakhir) dan sudah berapa persepuluh detik kita berada di tahap itu. Kita menghitung detak dari satu jam, bukan mengurangi waktu, karena setiap Time() dimulai dari nol.¶
+•permainan(fase•# detak3•#)
+permainan2•permainan: permainan(1 0) …
+	∆ detakPermainan | fatal …
+		permainan2.fase ???
+			1: (permainan2.detak3 ≥ 36) ? permainan(2 0) permainan(
+					1
+					permainan2.detak3 + 1
+				)
+			2: fatal ? permainan(3 0) permainan2
+			3: (permainan2.detak3 ≥ 25) ? permainan(1 0)
+				¶Saat burung bertumpu pada sesuatu, tabrakan tetap membuat reaksi ini sibuk; hanya hitung detak jam yang sungguh terjadi agar jeda selalu memiliki panjang yang sama.¶
+				permainan(
+					3
+					permainan2.detak3 + (∆ detakPermainan ? 1 0)
+				)
+			permainan2
+
+¶Angka hitungan mundur yang ditampilkan: 3, 2, 1.¶
+hitungan2: (permainan2.detak3 < 12) ? 3 (permainan2.detak3 < 24) ? 2 1
+
+¶Pilih cara bermain dengan memilih tombol 🎤 atau ⌨: bersenandung membuat burung bergerak, atau klik dan tombol membuatnya mengepak. Kedua cara ini dipisahkan, agar bicara di dekat mikrofon tidak bertentangan dengan keyboard.¶
+dipilih: Pilihan()
+mode•'': 'tap' … (dipilih = 'hum') | (dipilih = 'tap') … dipilih
+
+¶Dalam mode tap, kepakkan sayap saat mengeklik atau menekan tombol apa saja.¶
+kepak: (mode = 'tap') & (∆ Tombol() | ∆ Kunci())
+
+¶Dalam mode dengung, burung melayang setinggi nada dengunganmu — nada rendah dekat tanah, nada tinggi dekat langit — dan tidak lebih tinggi lagi.¶
+tinggiNada: Melempar()
+dengungan: (mode = 'hum') & (tinggiNada > 50hz)
+
+ƒ tinggiNadaKeTinggi(hz•#hz)
+	(hz < 80hz) ? -4m
+		(hz > 400hz) ? 5m
+			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+
+¶Bergeraklah sedikit demi sedikit menuju ketinggian dengungan, agar burung meluncur dengan mulus, bukan bergetar setiap kali nada sedikit berubah.¶
+tinggiNadaY•#m: 1m … ∆ tinggiNada … dengungan ? (0.8 × tinggiNadaY) + (0.2 × tinggiNadaKeTinggi(
+							tinggiNada
+						)) tinggiNadaY
+
+¶Burung melayang diam saat hitung mundur, mengepak ke atas atau melayang sesuai nada dengungan saat permainan berjalan, lalu jatuh karena gravitasi setelah menabrak.¶
+tempatBurung: Gerakan(
+		Tempat(-4m 1m)
+		tempatberikutnya:
+		(permainan2.fase = 1) ? Tempat(-4m 1m)
+			((permainan2.fase = 2) & dengungan) ? Tempat(
+					-4m
+					tinggiNadaY
+				) ø
+		kecepatanberikutnya:
+		(permainan2.fase = 1) ? Kecepatan(0m/s 0m/s)
+			((permainan2.fase = 2) & dengungan) ? Kecepatan(
+					0m/s
+					0m/s
+				)
+				((permainan2.fase = 2) & kepak) ? Kecepatan(
+						0m/s
+						15m/s
+					) ø
+	)
+
+¶Emoji anak burung menghadap kiri, jadi setiap pose membaliknya agar menghadap ke arah tujuannya.¶
+burung: Frasa(
+		'🐤'
+		1m
+		nama: 'burung'
+		tempat: tempatBurung
+		urusan: Urusan(1kg 0.4 0)
+		beristirahat:
+		(permainan2.fase = 3) ? Pose(rotasi: 180° flipx: ⊤)
+			Urutan(
+				{
+					0%: Pose(flipx: ⊤ rotasi: -12°)
+					50%: Pose(flipx: ⊤ rotasi: 12°)
+					100%: Pose(flipx: ⊤ rotasi: -12°)
+				}
+				0.35s
+			)
+	)
+
+¶Setiap rintangan punya: posisi mendatar, berapa banyak emoji yang menggantung dari atas, dan kumpulan emoji penyusunnya. Rintangan bergerak ke kiri saat permainan berjalan, muncul lagi dari kanan dengan bentuk acak baru, lalu diatur ulang untuk permainan baru.¶
+•pipa(x2•#m atas2•# genre2•#)
+
+pipa1•pipa: pipa(10m Acak(1 5) Acak(1 6)) …
+	((permainan2.fase = 1) & (pipa1.x2 ≠ 10m)) | ((permainan2.fase = 2) & ∆ detak2) …
+		(permainan2.fase = 1) ? pipa(10m Acak(1 5) Acak(1 6))
+			(pipa1.x2 < -13m) ? pipa(
+					pipa1.x2 + 24m
+					Acak(1 5)
+					Acak(1 6)
+				)
+				pipa(
+					pipa1.x2 - kecepatan2
+					pipa1.atas2
+					pipa1.genre2
+				)
+
+pipa2•pipa: pipa(16m Acak(1 5) Acak(1 6)) …
+	((permainan2.fase = 1) & (pipa2.x2 ≠ 16m)) | ((permainan2.fase = 2) & ∆ detak2) …
+		(permainan2.fase = 1) ? pipa(16m Acak(1 5) Acak(1 6))
+			(pipa2.x2 < -13m) ? pipa(
+					pipa2.x2 + 24m
+					Acak(1 5)
+					Acak(1 6)
+				)
+				pipa(
+					pipa2.x2 - kecepatan2
+					pipa2.atas2
+					pipa2.genre2
+				)
+
+pipa3•pipa: pipa(22m Acak(1 5) Acak(1 6)) …
+	((permainan2.fase = 1) & (pipa3.x2 ≠ 22m)) | ((permainan2.fase = 2) & ∆ detak2) …
+		(permainan2.fase = 1) ? pipa(22m Acak(1 5) Acak(1 6))
+			(pipa3.x2 < -13m) ? pipa(
+					pipa3.x2 + 24m
+					Acak(1 5)
+					Acak(1 6)
+				)
+				pipa(
+					pipa3.x2 - kecepatan2
+					pipa3.atas2
+					pipa3.genre2
+				)
+
+pipa4•pipa: pipa(28m Acak(1 5) Acak(1 6)) …
+	((permainan2.fase = 1) & (pipa4.x2 ≠ 28m)) | ((permainan2.fase = 2) & ∆ detak2) …
+		(permainan2.fase = 1) ? pipa(28m Acak(1 5) Acak(1 6))
+			(pipa4.x2 < -13m) ? pipa(
+					pipa4.x2 + 24m
+					Acak(1 5)
+					Acak(1 6)
+				)
+				pipa(
+					pipa4.x2 - kecepatan2
+					pipa4.atas2
+					pipa4.genre2
+				)
+
+¶Apakah sebuah rintangan baru saja melewati burung?¶
+ƒ terlewati(x3•#m) (x3 ≤ -5m) & (x3 > (-5m - kecepatan2))
+
+skor•#: 0 …
+	(permainan2.fase = 1) | ((permainan2.fase = 2) & ∆ detak2) …
+		(permainan2.fase = 1) ? 0
+			(terlewati(pipa1.x2) | terlewati(pipa2.x2) | terlewati(
+						pipa3.x2
+					) | terlewati(pipa4.x2)) ? skor + 1
+				skor
+
+¶Bangun satu tumpukan emoji sebagai kolom fisik. Durasi 0 detik membuat perpindahan kembali ke sisi kanan terjadi seketika, bukan tergeser secara terlihat.¶
+ƒ kolom2(sel2•# genre3•# x4•#m y2•#m)
+	Kelompok(
+		Tumpukan('|' 0m)
+		(sel2 → []).menerjemahkan(
+			ƒ(sel3•#) Frasa(
+					genre[genre3][1 + ((sel3 - 1) % 5)]
+					1m
+				)
+		)
+		tempat: Tempat(x4 y2)
+		urusan: Urusan()
+		lamanya: 0s
+	)
+
+¶Sebuah rintangan terdiri dari dua kolom: satu menggantung dari langit, satu tumbuh dari tanah, dengan celah sekitar 6 meter di antara keduanya.¶
+ƒ tumpukan(pipa5•pipa) [
+		kolom2(
+			pipa5.atas2
+			pipa5.genre2
+			pipa5.x2
+			6m - (pipa5.atas2 × 1m)
+		)
+		kolom2(6 - pipa5.atas2 pipa5.genre2 pipa5.x2 -6m)
+	]
+
+¶Tanah membuat burung menabrak; langit memantulkannya kembali ke bawah.¶
+tanah2: Bangun(
+		Persegipanjang(-8m -5.7m 8m -6m)
+		latarbelakang: Warna(60% 60 130°)
+	)
+langit: Bangun(Persegipanjang(-8m 7m 8m 6m) nama: 'sky')
+dindingKiri: Bangun(Persegipanjang(-8.4m 6m -8m -6m))
+dindingKanan: Bangun(Persegipanjang(8m 6m 8.4m -6m))
+
+tampilanSkor: Frasa("\skor\" 1.5m tempat: Tempat(-0.5m 4m))
+lapisan2:
+	permainan2.fase ???
+		1: [Frasa("\hitungan2\" 3m tempat: Tempat(-1m -1.5m))]
+		3: [Frasa('💥' 3m tempat: Tempat(-1.5m -1.5m))]
+		[]
+
+¶Pengalih mode: cara bermain yang dipilih tampak terang, yang lain tampak redup.¶
+tombolDengung: Frasa(
+		'🎤'
+		0.8m
+		nama: 'hum'
+		dapatdipilih: ⊤
+		tempat: Tempat(-4.2m 4.7m)
+		beristirahat: (mode = 'hum') ? Pose() Pose(
+				kegelapan: 40%
+			)
+	)
+tombolKetuk: Frasa(
+		'⌨'
+		0.8m
+		nama: 'tap'
+		dapatdipilih: ⊤
+		tempat: Tempat(-3m 4.7m)
+		beristirahat: (mode = 'tap') ? Pose() Pose(
+				kegelapan: 40%
+			)
+	)
+
+petunjuk1: Frasa(
+		'Pilih ⌨ untuk mengepakkan sayap dengan klik dan tombol, atau 🎤 untuk mendengungkan ketinggian burungmu!'
+		0.45m
+		tempat: Tempat(-6.9m -4.7m)
+	)
+petunjuk2: Frasa(
+		'Selipkan diri lewat celah-celah. Jangan sentuh tumpukannya!'
+		0.4m
+		tempat: Tempat(-4.5m -5.4m)
+	)
+
+¶Satu kepakan sayap sudah merupakan satu evaluasi tunggal — reaksi yang mengangkat burung terjadi saat klik atau tombol ditekan, dan tidak pada saat lainnya — sehingga bisa langsung membunyikan sayap: satu nada pada bingkai saat mengepak, dan tidak ada nada pada waktu lainnya. Nada yang sudah mulai akan dimainkan sampai selesai, jadi mengosongkan daftar ini satu bingkai kemudian tidak memotong suara sayap. Dalam mode dengung tidak ada kepakan sama sekali, jadi daftar ini tetap kosong dan burung diam saat kamu bernyanyi untuknya.¶
+nadaKepak: kepak ? [3] []
+
+suaraKepak: Musik(
+		Trek(
+			nadaKepak
+			alatMusik: AlatMusik.drum
+			volume: 70%
+			perulangan: ⊥
+		)
+		putarUlang: kepak
+		nama: 'kepak'
+	)
+
+¶Dua puluh gerbang dari yang tenang hingga yang menegangkan. Mengubah tempo akan menyambung pada ketukan berikutnya, bukan mengulang dari awal, sehingga setiap gerbang mempercepat perulangan tanpa pernah kehilangan iramanya — dan sebuah tabrakan mengembalikan skor ke nol, yang memperlambat semuanya kembali dari awal.¶
+ketegangan: (skor ÷ 20).menit(1)
+
+¶Frigia untuk nada kedua yang datar: satu setengah nada di atas nada dasar, nada paling gelisah yang masih ada dalam tangga nada itu. Bas bersandar padanya setiap dua birama, dan pola synth berakhir di situ, sehingga perulangan tidak pernah terasa tenang.¶
+laguCemas: Musik(
+		[
+			Trek(
+				[1 ø 1 ø 2 ø 1 ø]
+				alatMusik: AlatMusik.synthBass
+				ketukan: 1beats
+				volume: 50%
+			)
+			Trek(
+				[5 ø 4 ø 5 ø 4 2]
+				alatMusik: AlatMusik.synth
+				ketukan: 1beats
+				volume: 35%
+			)
+			Trek(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 3 3]
+				alatMusik: AlatMusik.drum
+				ketukan: 0.5beats
+				volume: 35%
+			)
+		]
+		tempo: (100beats/min + (ketegangan · 100beats/min))
+		tanggaNada: Musik.phrygian
+		nama: 'gelisah'
+	)
+
+¶Ini berjalan sepanjang hitung mundur dan penerbangan, lalu berhenti total saat terjadi tabrakan, sehingga 💥 mendapat ruangnya sendiri.¶
+daftarLagu: (permainan2.fase = 3) ? [] [laguCemas]
+
+¶Tabrakan: sebuah simbal, dentuman rendah, dan tangga nada yang gelisah jatuh dari atas ke bawah — nada-nada yang sama yang terus diputar-putar oleh lagu ini, akhirnya tidak menuju ke mana pun.
+
+Yang ini tidak perlu @Music.replay. Sampainya di panggung sudah menjadi alasan untuk berbunyi, dan efek sekali putar yang sudah selesai akan diam sampai ia pergi; hitung mundur membawanya keluar panggung dan melupakannya, sehingga tabrakan berikutnya membunyikannya lagi dari awal. Ini berlangsung sekitar satu setengah ketukan, cukup nyaman dalam rentang dua setengah detik jeda tabrakan.¶
+suaraKematian: Musik(
+		[
+			Trek(
+				[8 7 5 4 2 1 ø ø]
+				alatMusik: AlatMusik.synth
+				ketukan: 0.25beats
+				volume: 55%
+				perulangan: ⊥
+			)
+			Trek(
+				[4 ø]
+				alatMusik: AlatMusik.drum
+				ketukan: 1beats
+				volume: 50%
+				perulangan: ⊥
+			)
+			Trek(
+				[1 ø]
+				alatMusik: AlatMusik.synthBass
+				ketukan: 1beats
+				volume: 60%
+				perulangan: ⊥
+			)
+		]
+		tempo: 100beats/min
+		tanggaNada: Musik.phrygian
+		nama: 'kecelakaan'
+	)
+
+daftarKematian: (permainan2.fase = 3) ? [suaraKematian] []
+
+Panggung(
+	[
+		burung
+		suaraKepak
+		:daftarLagu
+		:daftarKematian
+		:tumpukan(pipa1)
+		:tumpukan(pipa2)
+		:tumpukan(pipa3)
+		:tumpukan(pipa4)
+		tanah2
+		langit
+		dindingKiri
+		dindingKanan
+		tampilanSkor
+		:lapisan2
+		tombolDengung
+		tombolKetuk
+		petunjuk1
+		petunjuk2
+	]
+	tempat: Tempat(0m 0m -12m)
+	bingkai: Persegipanjang(-8m 6m 8m -6m)
+	latarbelakang: Warna(90% 20 240°)
+)

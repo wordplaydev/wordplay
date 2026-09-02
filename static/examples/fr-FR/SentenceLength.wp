@@ -1,0 +1,26 @@
+H
+LongueurPhrase
+===
+¶Écris dans la barre de discussion et elle compte les caractères de ta phrase.¶
+phrase3: Chat()
+longueur2: Chat().longueur()
+
+Groupe(
+	Empiler()
+	[
+		Phrase(
+			`*Bonjour ! Bienvenue dans le calculateur de longueur de phrase.*`
+			lieu: Lieu(0m 1m)
+		)
+		Phrase(
+			'Écris quelque chose dans la barre de message !'
+			lieu: Lieu(0m -1m)
+		)
+		Phrase(
+			'Ta phrase contient ' + (longueur2 → '') + ' caractères !'
+			aurepos: Séquence.balancement(durée: 3s)
+			lieu: Lieu(0m -3m)
+		)
+		Phrase(phrase3 lieu: Lieu(0m -5m) envelopper: 25m)
+	]
+)

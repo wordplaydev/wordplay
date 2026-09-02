@@ -1,0 +1,10 @@
+•
+Pengatur Waktu
+===
+¶Sebaris titik yang bertambah sampai lima lalu mulai lagi dari awal, setiap satu detik.¶
+Frasa(
+	"•".ulang(
+		((Waktu(1000ms) → #s) % 5).bulatkankebawah() + 1s
+	)
+	lamanya: 0s
+)

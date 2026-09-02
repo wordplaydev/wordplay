@@ -1,0 +1,89 @@
+🧶
+Saltar
+=== start
+¶Conduza um gato com as teclas de setas e faça-o saltar.
+
+O gato mia sempre que se move. O miau fica preso ao primeiro @Pose da suaanimação de movimento: um @Pose pode ter um @Music, que toca no momento em que essapose é assumida, e um movimento assume as suas poses cada vez que uma começa. O balanço éescrito por extenso em vez de ser deixado como \Sequência.balançar(
+)\ porque as animações prontasa usar criam as suas próprias poses, e uma pose é o lugar onde o som tem de ir.¶
+
+¶Um grito curto. Dois movimentos próximos partilham um miau em vez de se juntarem dois,já que o segundo chega enquanto o primeiro balanço ainda está a balançar.¶
+miau2: Música(
+		Faixa([1] instrumento: Instrumento.gato)
+		volume: 45%
+		nome: 'miau'
+	)
+
+•posiçãoDoGato(posição•#m direção2•#)
+
+chave2: Chave()
+velocidade2: 1m
+
+lugarDoGatinho: posiçãoDoGato(5m 1) … ∆ chave2 …
+		((chave2 = 'Seta para a esquerda') & (lugarDoGatinho.posição > -10m)) ? posiçãoDoGato(
+				lugarDoGatinho.posição - velocidade2
+				1
+			)
+			((chave2 = 'Seta para a direita') & (lugarDoGatinho.posição < 8m)) ? posiçãoDoGato(
+					lugarDoGatinho.posição + velocidade2
+					-1
+				)
+				lugarDoGatinho
+
+gatinho: Frase(
+		"🐈"
+		fonte: "Noto Color Emoji"
+		nome: 'gatinho'
+		tamanho: 2m
+		local: Local(lugarDoGatinho.posição 0m)
+		descansar: Pose(invertirx: lugarDoGatinho.direção2 < 0)
+		mudança: Sequência(
+			{
+				0%: Pose(rotação: -5° música: miau2)
+				50%: Pose(rotação: 5°)
+				100%: Pose(rotação: -5°)
+			}
+			0.25s
+			"zippy"
+		)
+		matéria: Matéria(1000kg arredondamento: 0.5)
+	)
+
+salto: Colisão('bola' 'gatinho')
+
+colocaçãoDaBola: Movimento(
+		Local(0m 9m)
+		próximavelocidade:
+		salto•ø ? ø
+			Velocidade(
+				((salto.direção.x ÷ -1m) × Aleatório(15m/s 25m/s)) + Aleatório(
+						-3m/s
+						3m/s
+					)
+				Aleatório(27m/s 30m/s)
+				(salto.direção.x ÷ -1m) × Aleatório(0°/s 15°/s)
+			)
+	)
+
+bola: Frase(
+		"🧶"
+		nome: 'bola'
+		local: colocaçãoDaBola
+		matéria: Matéria(1kg 0.5 0 1)
+	)
+
+Fase(
+	[
+		Figura(Retângulo(-10m 0m 10m -3m))
+		Figura(Retângulo(-10m -1m -9m 11m))
+		Figura(Retângulo(10m -1m 9m 11m))
+		Figura(Retângulo(-10m 10m 10m 11m))
+		bola
+		gatinho
+		Frase(
+			'prima ← → para jogar!'
+			local: Local(-4m -2m)
+			cor: Cor.branco
+		)
+	]
+	local: Local(y: 5m z: -10m)
+)

@@ -1,0 +1,84 @@
+📹
+Video
+===
+¶Dein Kamerabild, live neu gemalt: als farbige Buchstaben, als ASCII-Schattierung oder als farbige Quadrate. Wähle einen Stil mit den Schaltflächen unten.¶
+
+¶Welche Stil-Schaltfläche zuletzt angeklickt wurde. Choice zeigt den Namen der auswählbaren Phrase, die die Person gewählt hat, und der Stil behält, was er zuletzt gehört hat.¶
+auswahl: Auswahl()
+stil: 'letters' … ∆ auswahl … auswahl
+
+¶Emojis sind groß, deshalb nutzt der Emoji-Stil ein gröberes Gitter. Beide Gitter decken die gleichen 16 mal 12 Meter ab, deshalb ändert ein Stilwechsel nie die Größe des Bildes und bewegt auch nie die Kamera.¶
+spalten: (stil = 'emoji') ? 16 32
+zeilen: (stil = 'emoji') ? 12 24
+zelle2: (stil = 'emoji') ? 1m 0.5m
+
+¶Die Mitte des Gitters, wo das Bild zentriert ist.¶
+mittlereSpalte: (spalten + 1) ÷ 2
+mittlereZeile: (zeilen + 1) ÷ 2
+
+¶Eine Farbe pro Zelle, direkt von der Kamera.¶
+farben: Kamera((spalten × 1px) (zeilen × 1px) 33ms)
+
+¶Zehn Zeichen von dunkel bis hell. Der ASCII-Stil wählt eines danach, wie hell das Pixel ist.¶
+verlauf: "@%#*+=-:. " → []
+
+¶Vierundzwanzig 15°-Streifen rund um den Farbkreis, sodass jedes Pixel das Quadrat nimmt, das seiner Farbe am nächsten ist.¶
+quadrate: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
+
+¶Wie ein Pixel im aktuellen Stil aussieht. Ein Pixel mit fast keiner Farbe hat keinen Farbton, der sich zu zeigen lohnt, deshalb greift es auf ein helles oder dunkles Quadrat zurück.¶
+ƒ zeichen(farbe2•Farbe)
+	(stil = 'ascii') ?
+		"\verlauf[((farbe2.Helligkeit × 9).runden()) + 1]\"
+		((stil = 'emoji') ?
+				((farbe2.Chroma < 8) ?
+						((farbe2.Helligkeit < 50%) ? "⬛" "⬜")
+						"\quadrate[(((farbe2.Farbton ÷ 1°) ÷ 15).abrunden(
+							)) + 1]\")
+				'ein')
+
+¶Das Bild: eine Phrase pro Pixel, angeordnet von der Mitte nach außen, damit die Kamera immer das gleiche Bild einrahmt, egal wie grob das Gitter ist, und links-rechts gespiegelt, damit es so aussieht wie in einem Spiegel.¶
+bild: farben.kombinieren(
+		[]
+		ƒ(phrasen•[Satzglied] reihe•[Farbe] y2•#)
+			phrasen.mitListe(
+				reihe.übersetzen(
+					ƒ(farbe3•Farbe x2•#)
+						Satzglied(
+							zeichen(farbe3)
+							Ort: Ort(
+								((mittlereSpalte - x2) × zelle2)
+								((mittlereZeile - y2) × zelle2)
+							)
+							Dauer: 0s
+							Größe: (stil = 'ascii') ? 0.75m ((stil = 'emoji') ? 1.15m 1m)
+							gesicht: (stil = 'ascii') ? "Noto Sans Mono"/en ø
+							Farbe: (stil = 'letters') ? farbe3 ø
+						)
+				)
+			)
+	)
+
+¶Eine Stil-Schaltfläche, hell, wenn sie den gezeigten Stil darstellt. Der Name ist das, was Choice meldet, wenn die Schaltfläche angeklickt oder mit der Tastatur gewählt wird.¶
+ƒ knopf(id2•'')
+	Satzglied(
+		id2
+		0.5m
+		Name: id2
+		wählbar: ⊤
+		Ruhen: (stil = id2) ? Pose() Pose(Opazität: 40%)
+	)
+
+¶Eine Zeile hält die Schaltflächen gleich weit auseinander und ausgerichtet, egal wie lang ihre Wörter sind. Ohne eigenen Platz sitzt die Zeile in der Mitte, deshalb reicht der Versatz aus, um sie an den unteren Bildschirmrand zu setzen. Sie trägt einen eigenen Hintergrund, denn Wörter über einem Video sind nur durch Zufall lesbar.¶
+schaltflächen: Gruppe(
+		Reihe(Polsterung: 0.5m)
+		[knopf('letters') knopf('ascii') knopf('emoji')]
+		Hintergrund: Farbe(100% 0 0°)
+		Versatz: Ort(0m -4.5m)
+	)
+
+¶Die Schaltflächen liegen in der Überlagerung der Bühne, die fest am Bildschirm angepinnt ist: Sie bleiben in Größe und Platz gleich, egal wie das Bild eingerahmt ist, und das Bild wird eingerahmt, als wären sie gar nicht da.¶
+Bühne(
+	bild
+	Beschreibung: "camera video drawn with \stil\"
+	überlagern: [schaltflächen]
+)

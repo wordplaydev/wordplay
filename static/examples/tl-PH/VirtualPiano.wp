@@ -1,0 +1,156 @@
+🎹
+Birtuwal na Piyano
+=== start
+¶Isang piyanong may isang octave na maaari mong tugtugin!Para sa pinakamainam na karanasan, patayin ang visualization ng musika.¶
+
+¶Itong bind ay nag-iimbak ng Key stream na nakakakita kung aling key ang pinindot mo.¶
+pinindot: Susi()
+
+¶Ito ay nag-iimbak ng pagmamapa mula sa mga key na pinindot mo tungo sa mga note na tutugtugin,sa parehong anyong text (para ipakita ang note na tinutugtog) at anyong numerikong textliteral (para i-convert sa numero (#) at ilagay bilang input sa isang Track list).
+
+Ang partikular na ayos na ito ay pinili para halos gayahin ang mga key ng piyano, kung saan ang mga puting key ay kinakatawan ng mga letra, at ang mga itim na key ay kinakatawan ng mga numero.¶
+notemap: {
+		'w': ['C' "1"]
+		'3': ['C# / Db' "2"]
+		'e': ['D' "3"]
+		'4': ['D# / Eb' "4"]
+		'r': ['E' "5"]
+		't': ['F' "6"]
+		'6': ['F# / Gb' "7"]
+		'y': ['G' "8"]
+		'7': ['G# / Ab' "9"]
+		'u': ['A' "10"]
+		'8': ['A# / Bb' "11"]
+		'i': ['B' "12"]
+		'o': ['C5' "13"]
+	}
+
+¶Ang function na ito ay nagbabalik ng pangalan ng note, batay sa kung aling key ang pinindot.Kung ang key ay hindi wastong note, nagbabalik ito ng walang lamang text.¶
+ƒ ibalikNaText(susi2•"")•"" (notemap{susi2} ≠ ø) ? notemap{susi2}[1] ""
+
+¶Ang function na ito ay nagbabalik ng numero ng note na katugma ng key na pinindot sa isang list,na gagamitin bilang input sa isang Track. Kung ang key na pinindot ay hindi wasto, nagbabalikito ng walang lamang list.¶
+ƒ ibalikNaNote(susi3•"")•[] [
+		(notemap{susi3} ≠ ø) ? (notemap{susi3}[2] → #) []
+	]
+
+¶Kinukuha ng function na ito ang isang numerikong list at nagbabalik ng Track kasama ang note list na iyon.Naka-off ang Loop para minsan lang tumugtog ang note kapag pinindot ang key.¶
+ƒ ibalikNaTrack(nota•[#]) Track(nota loop: ⊥)
+
+¶Ang dalawang bind na ito ay tumutukoy sa kulay na gagawin sa katugmang key kapagpinindot ito at kapag hindi.¶
+pindutinNaColor: Kulay(10 270 50°)
+nullNaColor: Kulay(0 0 0°)
+
+¶Ito ay tumutugtog ng track na katugma ng key na pinindot. Chromatic ang Scale para ang mga track ay makakuha ng lahat ng semitone. Naka-set ang Replay para kapagpinindot ang wastong key, tumutugtog ang track sa tuwing pinindot ang key, kahitdalawang beses nang sunod-sunod.¶
+Musika(
+	ibalikNaTrack(ibalikNaNote(pinindot))
+	iskala: Musika.chromatic
+	iReplay: notemap{pinindot} ≠ ø
+)
+
+¶Ipinapakita ang piyano, ang mga key na pipindutin, at ang note na tinutugtog kapagpinindot ang isang key.¶
+Grupo(
+	Patongpatong('>' 1m)
+	[
+		Grupo(
+			Hilera('>' -.3m)
+			[
+				Parirala(
+					'▯'
+					pangalan: 'w'
+					laki: 3m
+					kulay: pinindot = 'w' ? pindutinNaColor nullNaColor
+				)
+				Parirala(
+					'▮'
+					pangalan: '3'
+					laki: 3m
+					kulay: pinindot = '3' ? pindutinNaColor nullNaColor
+				)
+				Parirala(
+					'▯'
+					pangalan: 'e'
+					laki: 3m
+					kulay: pinindot = 'e' ? pindutinNaColor nullNaColor
+				)
+				Parirala(
+					'▮'
+					pangalan: '4'
+					laki: 3m
+					kulay: pinindot = '4' ? pindutinNaColor nullNaColor
+				)
+				Parirala(
+					'▯'
+					pangalan: 'r'
+					laki: 3m
+					kulay: pinindot = 'r' ? pindutinNaColor nullNaColor
+				)
+				Parirala(
+					'▯'
+					pangalan: 't'
+					laki: 3m
+					kulay: pinindot = 't' ? pindutinNaColor nullNaColor
+				)
+				Parirala(
+					'▮'
+					pangalan: '6'
+					laki: 3m
+					kulay: pinindot = '6' ? pindutinNaColor nullNaColor
+				)
+				Parirala(
+					'▯'
+					pangalan: 'y'
+					laki: 3m
+					kulay: pinindot = 'y' ? pindutinNaColor nullNaColor
+				)
+				Parirala(
+					'▮'
+					pangalan: '7'
+					laki: 3m
+					kulay: pinindot = '7' ? pindutinNaColor nullNaColor
+				)
+				Parirala(
+					'▯'
+					pangalan: 'u'
+					laki: 3m
+					kulay: pinindot = 'u' ? pindutinNaColor nullNaColor
+				)
+				Parirala(
+					'▮'
+					pangalan: '8'
+					laki: 3m
+					kulay: pinindot = '8' ? pindutinNaColor nullNaColor
+				)
+				Parirala(
+					'▯'
+					pangalan: 'i'
+					laki: 3m
+					kulay: pinindot = 'i' ? pindutinNaColor nullNaColor
+				)
+				Parirala(
+					'▯'
+					pangalan: 'o'
+					laki: 3m
+					kulay: pinindot = 'o' ? pindutinNaColor nullNaColor
+				)
+			]
+		)
+
+		Grupo(
+			Hilera('>' 1.1m)
+			[
+				Parirala('w')
+				Parirala('3')
+				Parirala('e')
+				Parirala('4')
+				Parirala('r t')
+				Parirala('6')
+				Parirala('y')
+				Parirala('7')
+				Parirala('u')
+				Parirala('8')
+				Parirala('i  o')
+			]
+		)
+		Parirala(ibalikNaText(pinindot))
+	]
+)

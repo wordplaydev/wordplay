@@ -1,0 +1,300 @@
+W
+ما الكلمة
+=== start/en
+¶لعبة تخمين كلمات بالإنجليزية والإسبانية والعربية.¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] المتبقي•[""] بداية2•?) (
+	سرّي: بداية2 ? المتبقي[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (سرّي.الطول(
+			) × 3) - guesses.الطول()
+	status/en,estado/es,حالة/ar:
+		سرّي = "" ? "start"
+			سرّي → [""].all(ƒ(حرف•"") guesses.يحتوي(حرف)) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: ⌨()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.sorted(ƒ() عشوائي())
+		⊥
+	) … ∆ key …
+		key = "Escape" ? Game([] words.sorted(ƒ() عشوائي()) ⊥)
+			(state.status ≠ "playing") & (key = "Space") ? Game(
+					[]
+					state.المتبقي.بدونالأول()
+					⊤
+				)
+				(state.status = "playing") & (key.الطول() = 1) & ~state.guesses.يحتوي(
+						key
+					) ?
+					Game(state.guesses.مع(key) state.المتبقي ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: عبارة(
+		state.سرّي → [""].translate(
+			ƒ(حرف2•"") ((state.status = "lost") | state.guesses.يحتوي(
+							حرف2
+						)) ? حرف2 "."
+		).ادمج(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: Pose(opacity: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": مجموعة(
+			كومة()
+			[
+				عبارة(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					مكان: مكان(z: -1m)
+					entering: Pose(opacity: 0%)
+					resting: تسلسل.sway(duration: 1s)
+				)
+				عبارة(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			exiting: fade
+		)
+		"lost": مجموعة(
+			كومة()
+			[
+				board
+				عبارة(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					entering: Pose(rotation: 0°)
+					resting: Pose(rotation: -5°)
+				)
+			]
+			exiting: fade
+		)
+		"won": مجموعة(
+			كومة()
+			[
+				board.resting:تسلسل.bounce(3m 1s)
+				عبارة(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			exiting: fade
+		)
+		مجموعة(
+			كومة()
+			[
+				board
+				عبارة(
+					state.guesses.الطول() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.ادمج(
+							' '
+						)\"/en"Suposiciones: \state.guesses.ادمج(' ')\"/es"التخمينات \state.guesses.ادمج(
+							' '
+						)\"/ar
+				)
+				عبارة(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					resting: تسلسل.sway(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶شكل بطيء يعود إلى نفسه بدل أن يمضي إلى مكان ما، وهذا ما يجعله يستحق التفكير فيه. كل مقطوعة أدناه طولها ثماني نبضات، فهي كلها تعود معًا في النهاية ولا تترك أي فجوة في الحلقة.¶
+موضوع2: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶مقدار ما أُنفق من مصروفك، من 0 حين يكون كل شيء متاحًا للّعب، إلى 1 حين لا يبقى شيء. الكلمة السرّية تكون فارغة قبل الجولة الأولى، لذلك يُحمى القسمة بدل تركها تُقسّم على صفر.¶
+أقصىعددتخمينات: state.سرّي.الطول() × 3
+ضغط: (أقصىعددتخمينات = 0) ? 0 (((1 - (state.guessesRemaining ÷ أقصىعددتخمينات)).الأكبر(
+					0
+				)).الأصغر(
+				1
+			))
+
+¶هادئ عند 54 نبضة في الدقيقة، وسريع ومتوتر عند 120، وكل تخمين يحرّكه قليلًا. تغيير السرعة يندمج عند النبضة التالية بدل أن يبدأ من جديد، فتحافظ الحلقة على موقعها وتنحني للأمام فقط — الطبلة الهادئة موجودة لتجعل هذا الانحناء مسموعًا، لأن تغيّر السرعة تحت نغمات طويلة يصعب الإحساس به.¶
+موسيقىاللغز: موسيقى(
+		[
+			مسار(
+				موضوع2
+				آلة: آلة.بيانو
+				نبضة: 0.5beats
+				مستوىالصوت: 50%
+			)
+			مسار(
+				[{1 3 5} {4 6 8}]
+				آلة: آلة.مُركِّبباد
+				نبضة: 4beats
+				مستوىالصوت: 35%
+			)
+			مسار(
+				[ø ø 8 ø ø ø 6 ø]
+				آلة: آلة.جرس
+				نبضة: 1beats
+				مستوىالصوت: 30%
+			)
+			مسار(
+				[1 ø ø ø 1 ø ø ø]
+				آلة: آلة.طبول
+				نبضة: 1beats
+				مستوىالصوت: 20%
+			)
+		]
+		إيقاع: (54beats/min + (ضغط · 66beats/min))
+		سلم: موسيقى.دوري
+		اسم: 'لغز'
+	)
+
+¶لقد فزت: الموضوع يتكرر بسرعة الضعف، ومُضاعَف بمقدار أوكتاف على جرس، فوق الوتريات الكبرى الوحيدة في المثال.¶
+أغنيةالفوز: موسيقى(
+		[
+			مسار(
+				موضوع2
+				آلة: آلة.بيانو
+				نبضة: 0.5beats
+				مستوىالصوت: 50%
+			)
+			مسار(
+				موضوع2
+				آلة: آلة.جرس
+				نبضة: 0.5beats
+				مفتاح: 12semitones
+				مستوىالصوت: 35%
+			)
+			مسار(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				آلة: آلة.مُركِّبباد
+				نبضة: 2beats
+				مستوىالصوت: 35%
+			)
+			مسار(
+				[1 ø 3 ø 2 ø 3 ø]
+				آلة: آلة.طبول
+				نبضة: 1beats
+				مستوىالصوت: 30%
+			)
+		]
+		إيقاع: 96beats/min
+		سلم: موسيقى.كبير
+		اسم: 'فوز'
+	)
+
+¶لقد خسرت: الموضوع أوكتافًا أدنى وأبطأ من أي وقت أثناء لعبك، فوق وتريات تستقر على الدرجة الرابعة بدل العودة إلى الأصل، فلا تنتهي الحلقة أبدًا.¶
+أغنيةالخسارة: موسيقى(
+		[
+			مسار(
+				موضوع2
+				آلة: آلة.بيانو
+				نبضة: 0.5beats
+				مفتاح: -12semitones
+				مستوىالصوت: 45%
+			)
+			مسار(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				آلة: آلة.مُركِّبباد
+				نبضة: 2beats
+				مستوىالصوت: 40%
+			)
+			مسار(
+				[ø ø 5 ø ø ø 4 ø]
+				آلة: آلة.جرس
+				نبضة: 1beats
+				مستوىالصوت: 25%
+			)
+			مسار(
+				[1 ø ø ø ø ø ø ø]
+				آلة: آلة.طبول
+				نبضة: 1beats
+				مستوىالصوت: 20%
+			)
+		]
+		إيقاع: 46beats/min
+		سلم: موسيقى.صغير
+		اسم: 'خسارة'
+	)
+
+¶اللحن الخاص بالحالة الحالية فقط هو الذي يُعرض على المسرح، وحين يتوقف @Music الذي لم يعد موجودًا — فإن إنهاء الجولة هو ما يغيّر الموسيقى.
+
+المقطوعات الثلاث تعزف نفس الموضوع، والسلم الموسيقي تحته هو ما يقوم بالعمل. الموضوع يلمس الدرجات 1 و4 و5 و6 و8، ويتفق @Music.major مع @Music.dorian في كل واحدة منها — والدرجات التي يختلفان فيها، وهي الثالثة والسابعة، ليست في اللحن. لذلك الفوز لا يغيّر أي نغمة من اللحن الذي كنت تدندنه وأنت تفكر؛ لكن الوتريات تحته تستخدم الدرجة الثالثة، وتلك تتحول إلى كبرى. @Music.minor يختلف عن السلم الدوري عند الدرجة السادسة، التي يلمسها الموضوع أيضًا، فالخسارة تُخفّض تلك النغمة أيضًا مع خفض الخط اللحني أوكتافًا كاملة.¶
+شريطالصوت: state.status ???
+		"won": أغنيةالفوز
+		"lost": أغنيةالخسارة
+		موسيقىاللغز
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+مسرح(
+	[screen شريطالصوت]
+	مكان: مكان(0m 0m -12m)
+	face: "Poor Story"
+	background: Color(0% 0 0°)
+	color: Color(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'ثعلب'
+	'قرد'
+	'قندس'
+	'بقرة'
+	'ذئب'
+	'ماعز'
+	'غزال'
+	'خنزير'
+	'شنشيلا'
+	'سنجاب'
+	'جرذ'
+	'زبابة'
+	'خلد'
+	'مدرع'
+	'أبوسوم'
+	'فيل'
+	'خفاش'
+	'حمار'
+	'حصان'
+	'قنفذ'
+	'قطة'
+	'زرافة'
+	'غوريلا'
+	'فقمة'
+	'إنسان'
+	'كنغر'
+	'مرموط'
+	'هامستر'
+	'فأر'
+	'أرنب'
+	'خروف'
+	'جاغوار'
+	'شمبانزي'
+	'بابون'
+	'راكون'
+	'خلد'
+	'زبابة'
+	'إكيدنا'
+	'تابير'
+].sorted(
+	ƒ() عشوائي()
+)

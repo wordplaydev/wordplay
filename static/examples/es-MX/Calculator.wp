@@ -1,0 +1,82 @@
+0⃣
+Calculadora
+=== start/en
+¶Una calculadora de bolsillo hecha con unas cuantas funciones aritméticas.¶
+
+¶Funciones que hacen cálculos¶
+ƒ suma2(num1•# num2•#) num1 + num2
+ƒ resta(num12•# num22•#) num12 - num22
+ƒ multiplicación(num13•# num23•#) num13 × num23
+ƒ división(num14•# num24•#) num14 ÷ num24
+
+opción: Elección()
+cuadro: 1 … ∆ (opción) … 1 + cuadro
+
+¶Booleanos que llevan el registro de si cada valor ya fue elegido¶
+num1elegido: ⊥ … ∆ (opción) … (opción.comienza('num1')) & ~num1elegido
+num2elegido: ⊥ … ∆ (opción) … (opción.comienza('num2')) & ~num2elegido
+oelegido: ⊥ … ∆ (opción) … (opción.comienza('op')) & ~oelegido
+
+¶Lleva el registro de los operandos y los operadores¶
+num15: ø → # … num1elegido … ((opción ÷ '')[-1]) → #
+num25: ø → # … num2elegido … ((opción ÷ '')[-1]) → #
+operador: ø … oelegido … ((opción ÷ '')[-1])
+
+¶Pantalla para elegir el primer número¶
+numeros1: Grupo(
+		Cuadrícula(2 5)
+		[
+			Frase("0⃣" seleccionable: ⊤ nombre: 'num1_0')
+			Frase("1⃣" seleccionable: ⊤ nombre: 'num1_1')
+			Frase("2⃣" seleccionable: ⊤ nombre: 'num1_2')
+			Frase("3⃣" seleccionable: ⊤ nombre: 'num1_3')
+			Frase("4⃣" seleccionable: ⊤ nombre: 'num1_4')
+			Frase("5⃣" seleccionable: ⊤ nombre: 'num1_5')
+			Frase("6⃣" seleccionable: ⊤ nombre: 'num1_6')
+			Frase("7⃣" seleccionable: ⊤ nombre: 'num1_7')
+			Frase("8⃣" seleccionable: ⊤ nombre: 'num1_8')
+			Frase("9⃣" seleccionable: ⊤ nombre: 'num1_9')
+		]
+	)
+
+¶Pantalla para elegir el segundo número¶
+numeros2: Grupo(
+		Cuadrícula(2 5)
+		[
+			Frase("0⃣" seleccionable: ⊤ nombre: 'num2_0')
+			Frase("1⃣" seleccionable: ⊤ nombre: 'num2_1')
+			Frase("2⃣" seleccionable: ⊤ nombre: 'num2_2')
+			Frase("3⃣" seleccionable: ⊤ nombre: 'num2_3')
+			Frase("4⃣" seleccionable: ⊤ nombre: 'num2_4')
+			Frase("5⃣" seleccionable: ⊤ nombre: 'num2_5')
+			Frase("6⃣" seleccionable: ⊤ nombre: 'num2_6')
+			Frase("7⃣" seleccionable: ⊤ nombre: 'num2_7')
+			Frase("8⃣" seleccionable: ⊤ nombre: 'num2_8')
+			Frase("9⃣" seleccionable: ⊤ nombre: 'num2_9')
+		]
+	)
+
+¶Pantalla para elegir el operador¶
+operadores: Grupo(
+		Cuadrícula(2 2)
+		[
+			Frase("➕" seleccionable: ⊤ nombre: 'op_a')
+			Frase("➖" seleccionable: ⊤ nombre: 'op_s')
+			Frase("✖" seleccionable: ⊤ nombre: 'op_m')
+			Frase("➗" seleccionable: ⊤ nombre: 'op_d')
+		]
+	)
+
+¶Pantalla para mostrar el resultado¶
+resultado2: ((operador = 'a') | (operador = 's')) ?
+		(operador = 'a' ? suma2(num15 num25) resta(num15 num25))
+		(operador = 'm' ? multiplicación(num15 num25) división(
+					num15
+					num25
+				))
+
+¶Recorre cada una de las pantallas¶
+configuración: [numeros1 operadores numeros2 resultado2]
+
+¶Mostrar¶
+configuración[cuadro]

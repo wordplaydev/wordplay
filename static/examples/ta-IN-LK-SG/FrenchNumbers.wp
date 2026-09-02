@@ -1,0 +1,84 @@
+t
+பிரெஞ்சு எண்கள்
+=== start/en-US,start/fr-FR
+¶மேடையில் உள்ள பிரெஞ்சு எண்ணுக்கு பொருந்தும் இலக்கத்தை அழுத்து.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶கண்டுபிடிக்க வேண்டிய எண்கள்¶
+¶Les nombres à deviner¶/fr
+எண்கள்2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶மறைவெண்கள் என்பது 1 முதல் 9 வரையிலான எண்கள், சீரற்ற வரிசையில்¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+மறைவெண்கள்: [1 2 3 4 5 6 7 8 9].கலக்கினார்()
+
+¶கடைசியாக அழுத்திய விசை என்ன?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+முக்கிய2,clé/fr: முக்கிய()
+
+¶ஒவ்வொரு முறை விசை அழுத்தும்போதும் இப்போதைய மறைவெண் அதிகரிக்கும், ஆனால் 10 இல் நிற்கும்¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+மறைவெண்குறியீட்டு,secretIndice/fr•#:
+	1 …
+	∆ முக்கிய2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶மறைவெண் குறியீட்டின் அடிப்படையில் இப்போதைய மறைவெண்¶
+இப்போதையமறைவெண்,secretActuel/fr: மறைவெண்கள்[மறைவெண்குறியீட்டு]
+
+¶அழுத்திய எண் முந்தைய மறைவெண் எண்ணுக்கு பொருந்தினால் யூகம் சரியாக இருக்கும்¶
+சரி2: clé → # = மறைவெண்கள்[மறைவெண்குறியீட்டு - 1]
+
+¶புள்ளிகள் 0 இல் தொடங்கும், யூகம் சரியாக இருந்தால் அதிகரிக்கும்.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+புள்ளிகள்2•#: 0 …
+	∆ முக்கிய2 …
+		சரி2 ?
+			புள்ளிகள்2 + 1
+			புள்ளிகள்2
+
+¶வெற்றி பெறுவது என்றால் எல்லா 9 எண்களையும் பெறுவது¶
+வெற்றி,gagner/fr: புள்ளிகள்2 = 9
+
+¶மறைவெண் குறியீட்டு 10 ஆக இருக்கும்போது முடிந்துவிடும்¶
+விளையாட்டுமுடிந்தது: மறைவெண்குறியீட்டு = 10
+
+¶இப்போதைய பிரெஞ்சு எண்ணையும் இப்போதைய புள்ளிகளையும் காட்டு. எல்லா 9 மறைவெண்களும் முடிந்த பிறகு, இறுதி முடிவைக் காட்டு¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+மேடை(
+	[
+		குழு(
+			அடுக்கிவைக்கவும்()
+			[
+				விளையாட்டுமுடிந்தது ?
+					சொற்றொடர்(
+						வெற்றி ?
+							'உனக்கு பிரெஞ்சு எண்கள் தெரியும்!'"Tu connais les chiffres français!"/fr
+							'கிட்டத்தட்ட சரி, மீண்டும் முயற்சி செய்'"presque, réessaye"/fr
+						அளவு: 2m
+					)
+					சொற்றொடர்(numeros[secretActuel] அளவு: 2m)
+				சொற்றொடர்("\புள்ளிகள்2\ points!" அளவு: 1m)
+				சொற்றொடர்(
+					மறைவெண்குறியீட்டு = 1 ?
+						'இது என்ன எண்?''quel est ce numéro ?'/fr
+						சரி2 ?
+							'சரி!'
+							"That was \மறைவெண்கள்[மறைவெண்குறியீட்டு - 1]\"
+				)
+			]
+		)
+	]
+	முகம்: "Aclonica"
+)

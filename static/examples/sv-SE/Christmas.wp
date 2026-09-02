@@ -1,0 +1,30 @@
+🎄
+Jul
+===
+¶Ett julgran som vaggar och skakar i en dans som upprepas, och pinglar medan den gör det.
+
+Melodin sitter fast i dansens första @Pose. En @Pose kan bära en @Music, och den spelas i samma stund som posen intas — så frasen börjar om varje gång dansen kommer runt igen, och animationens loop och musikens loop är samma loop. Ingenting räknar takter för att hålla dem samman.
+
+De två längderna är valda för att passa ihop: åtta slag i 160 är tre sekunder, och fem halvsekundssteg tar också tre sekunder. En pose är ett ögonblick och inte något som pågår, så en @Track's vanliga upprepning gäller inte här — en poses musik spelas alltid igenom exakt en gång.¶
+
+pingla: Musik(
+		Spår([3 3 3𝅗𝅥 3 3 3𝅗𝅥] instrument: Instrument.klocka)
+		tempo: 160beats/min
+		volym: 55%
+		namn: 'pingla'
+	)
+
+Fras(
+	'🎄'
+	vilande: Sekvens(
+		{
+			0: Pose(rotation: 0° musik: pingla)
+			1: Pose(rotation: 15°)
+			2: Pose(rotation: 0°)
+			3: Pose(offset: Plats(-0.25m))
+			4: Pose(offset: Plats(0.25m))
+			5: Pose(offset: Plats(-0.25m))
+		}
+		0.6s
+	)
+)

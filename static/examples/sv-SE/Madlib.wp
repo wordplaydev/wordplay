@@ -1,0 +1,66 @@
+4
+Madlib
+=== start
+¶En pratkvarn: ge orden, få en tokig historia.¶
+
+¶Detta håller reda på vilka ordklasser vi behöver, och hur många av varje¶
+•ordklass(etikett•"" antal2•#)
+
+¶Det här är orden vi behöver för pratkvarnen nedan.¶
+omgångar: [
+		ordklass('adjektiv' 4)
+		ordklass('substantiv' 3)
+		ordklass('verb, dåtid' 3)
+		ordklass('adverb' 4)
+	]
+
+chatt: Chatta()
+¶Varje gång en chatt skickas in, gå vidare till nästa ordklass¶
+tur: 1 … ∆ chatt … tur + 1
+¶Varje gång en chatt skickas in, dela upp chatten vid mellanslag och lägg till i svaren¶
+svar•[['']]: [] … ∆ chatt … [:svar chatt ÷ ' ']
+
+¶Vi ger dessa index nummer för att göra pratkvarnen lättare att läsa¶
+adjektiv: 1
+substantiv: 2
+adverb: 4
+verb: 3
+
+fråga2: svar.längd() < 4
+
+Etapp(
+	[
+		¶Innan vi har svaren, fråga efter svar¶
+		fråga2 ?
+			Grupp(
+				Stack('|' 0.25m)
+				[
+					Fras(
+						`\omgångar[tur].antal2\ \omgångar[tur].etikett\ tack!`
+					)
+					Fras('(åtskilda med mellanslag)' 0.5m)
+				]
+			)
+			¶När vi har svaren, visa pratkvarnen¶
+			(
+				¶Gör en lista med meningar utifrån svaren¶
+				meningar: [
+						`Idag gick jag till djurparken.`
+						`Jag såg en/ett *\svar[substantiv][1]\* *\svar[adverb][1]\* som hoppade upp och ner i sitt träd.`
+						`Han *\svar[verb][1]\* *\svar[adverb][2]\* genom den stora tunneln som ledde till dess *\svar[adjektiv][2]\* *\svar[substantiv][2]\*.`
+						`Jag hämtade jordnötter och räckte dem genom buren till en jättestor grå *\svar[substantiv][3]\* som tornade upp sig över mitt huvud.`
+						`Jag blev hungrig av att mata det djuret.`
+						`Jag gick för att hämta en *\svar[adjektiv][3]\* glasskula.`
+						`Den fyllde min mage.`
+						`Efteråt *\svar[verb][2]\* *\svar[adverb][2]\* för att hinna med vår buss.`
+						`När jag kom hem *\svar[verb][3]\* min mamma om en *\svar[adjektiv][4]\* dag på djurparken.`
+					]
+				¶Översätt dem till fraser¶
+				Grupp(
+					Stack('<')
+					meningar.översätta(ƒ(mening) Fras(mening))
+				)
+			)
+	]
+	ansikte: 'Phudu'
+)

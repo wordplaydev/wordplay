@@ -1,0 +1,46 @@
+🐈
+Yağmur Gibi Yağan Kediler
+=== start/en
+¶Sahneye yağmur gibi düşen elli kedi.¶
+sayaç: 50
+boyut2: 30
+
+•kedicik(x2•# y2•# z2•# açı2•# hız2•#) ()
+
+¶Önce, her biri rastgele bir yere yerleştirilmiş 20 kediden oluşan bir liste yap. Saat her tıkladığında, hepsini biraz aşağı kaydır.¶
+kediler•[kedicik]:
+	sayaç → [].tercümeetmek(
+		ƒ(_) kedicik(
+				Rastgele(-boyut2 boyut2)
+				Rastgele(-boyut2 boyut2)
+				Rastgele(0 boyut2 ÷ 2)
+				Rastgele(360)
+				Rastgele(-30 30)
+			)
+	)
+	… ∆ Zaman() …
+		kediler.tercümeetmek(
+			ƒ(kedicik2•kedicik)
+				(kedicik2.y2:kedicik2.y2 < -boyut2 ? boyut2 kedicik2.y2 - 2)
+				.açı2:kedicik2.açı2 + kedicik2.hız2
+		)
+
+¶Kedileri ifadelere dönüştür¶
+Sahne(
+	kediler.tercümeetmek(
+		ƒ(kedicik3•kedicik)
+			İfadeetmek(
+				"🐈"
+				yüz: "Noto Color Emoji"
+				boyut: 5m
+				yer: Yer(
+					kedicik3.x2 × 1m
+					kedicik3.y2 × 1m
+					kedicik3.z2 × 1m
+				)
+				rotasyon: kedicik3.açı2 × 1°
+				süre: 0s
+			)
+	)
+	yer: Yer(0m 0m -5m)
+)

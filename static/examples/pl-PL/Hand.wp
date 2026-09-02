@@ -1,0 +1,64 @@
+🖐
+Ręka
+===
+¶Pokaż palce swojej kamerze, a dłoń z emoji będzie liczyć razem z tobą.¶
+ręka: Ręka()
+
+Scena(
+	[
+		Wyrażenie(
+			(ręka.palce = 0 ? '✊'
+					ręka.palce = 1 ? '☝'
+						ręka.palce = 2 ? '✌'
+							ręka.palce = 3 ? '🤟'
+								ręka.palce = 4 ? '🖖'
+									'🖐')
+			miejsce: ręka.miejsce
+			rozmiar: 2m
+			zrównoważyć: Miejsce(-1m)
+		)
+		Grupa(
+			Wiersz('<')
+			[
+				Wyrażenie(
+					'1⃣'
+					zrównoważyć: Miejsce(0m ręka.kciuk ? 1m 0m)
+				)
+				Wyrażenie(
+					'2⃣'
+					zrównoważyć: Miejsce(0m ręka.indeks ? 1m 0m)
+				)
+				Wyrażenie(
+					'3⃣'
+					zrównoważyć: Miejsce(0m ręka.środek ? 1m 0m)
+				)
+				Wyrażenie(
+					'4⃣'
+					zrównoważyć: Miejsce(0m ręka.pierścień ? 1m 0m)
+				)
+				Wyrażenie(
+					'5⃣'
+					zrównoważyć: Miejsce(0m ręka.małypalec ? 1m 0m)
+				)
+			]
+			miejsce: Miejsce(-4.5m 5m)
+		)
+		Grupa(
+			Stos('|')
+			[
+				Wyrażenie((ręka.palma ? '🤚' '🤛') rozmiar: 2m)
+				Wyrażenie(
+					(ręka.Otwarte ? 'otwarta' 'zamknięta')
+					rozmiar: 1.5m
+				)
+			]
+			miejsce: Miejsce(-2m -8m)
+		)
+		Wyrażenie(
+			`/Pokaż kamerze swoją dłoń/`
+			miejsce: Miejsce(-6m -10m)
+			rozmiar: 1m
+		)
+	]
+	miejsce: Miejsce(0m 0m -20m)
+)

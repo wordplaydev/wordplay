@@ -1,0 +1,84 @@
+t
+Γαλλικοί Αριθμοί
+=== start/en-US,start/fr-FR
+¶Πάτησε το ψηφίο που ταιριάζει με τον γαλλικό αριθμό στη σκηνή.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶Οι αριθμοί προς μάντεψη¶
+¶Les nombres à deviner¶/fr
+αριθμοί2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶Τα μυστικά είναι οι αριθμοί από το 1 έως το 9 σε τυχαία σειρά¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+μυστικά: [1 2 3 4 5 6 7 8 9].ανακατεμένο()
+
+¶Ποιο ήταν το τελευταίο πλήκτρο που πατήθηκε;¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+κλειδί2,clé/fr: Κλειδί()
+
+¶Το τρέχον μυστικό αυξάνεται κάθε φορά που πατιέται ένα πλήκτρο, αλλά σταματά στο 10¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+δείκτηςΜυστικού,secretIndice/fr•#:
+	1 …
+	∆ κλειδί2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶Το τρέχον μυστικό, με βάση τον δείκτη μυστικού¶
+τρέχονΜυστικό,secretActuel/fr: μυστικά[δείκτηςΜυστικού]
+
+¶Η μαντεψιά ήταν σωστή αν ο αριθμός που πατήθηκε ταιριάζει με τον προηγούμενο μυστικό αριθμό¶
+σωστό: clé → # = μυστικά[δείκτηςΜυστικού - 1]
+
+¶Οι πόντοι ξεκινούν από το 0 και αυξάνονται αν η μαντεψιά ήταν σωστή.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+πόντοι•#: 0 …
+	∆ κλειδί2 …
+		σωστό ?
+			πόντοι + 1
+			πόντοι
+
+¶Η νίκη σημαίνει ότι βρήκες και τους 9 αριθμούς¶
+νίκη,gagner/fr: πόντοι = 9
+
+¶Τελειώνει όταν ο δείκτης μυστικού φτάσει στο 10¶
+τέλοςΠαιχνιδιού: δείκτηςΜυστικού = 10
+
+¶Δείξε τον τρέχοντα γαλλικό αριθμό και τους τρέχοντες πόντους. Μετά από όλα τα 9 μυστικά, δείξε ένα τελικό αποτέλεσμα¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Στάδιο(
+	[
+		Ομάδα(
+			Σωρός()
+			[
+				τέλοςΠαιχνιδιού ?
+					Φράση(
+						νίκη ?
+							'Ξέρεις τους γαλλικούς αριθμούς!'"Tu connais les chiffres français!"/fr
+							'σχεδόν, δοκίμασε ξανά'"presque, réessaye"/fr
+						μέγεθος: 2m
+					)
+					Φράση(numeros[secretActuel] μέγεθος: 2m)
+				Φράση("\πόντοι\ points!" μέγεθος: 1m)
+				Φράση(
+					δείκτηςΜυστικού = 1 ?
+						'ποιος αριθμός είναι αυτός;''quel est ce numéro ?'/fr
+						σωστό ?
+							'Σωστά!'
+							"That was \μυστικά[δείκτηςΜυστικού - 1]\"
+				)
+			]
+		)
+	]
+	πρόσωπο: "Aclonica"
+)

@@ -1,0 +1,76 @@
+文
+Oda
+=== start
+¶Dört yazı sisteminden yüz harf, kapalı bir kutu içinde zıplıyor; yer çekimini ters çevir ya da onları salla.¶
+sayaç: 100
+
+¶Harflerin alındığı dört alfabe.¶
+latin: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
+yunan: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
+arap: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
+cjk: '日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪' → ['']
+
+¶En son hangi kontrolün tıklandığı.¶
+seçim: Seçenek()
+
+¶Program başladığında dört alfabeyi bir kez birbirine karıştır ve o sıralamayı sonsuza dek koru. Basit bir bağlama olarak yazılan bir karıştırma, her karede her harfe yeni bir karakter dağıtırdı.¶
+harfler2: [:latin :yunan :arap :cjk].karıştırılmış() … ∆ seçim … harfler2
+
+¶Yalnızca sallama düğmesinin neden olduğu değerlendirmede doğru olur, böylece harfler her karede itilmek yerine her tıklamada bir kez itilir.¶
+sallanma: (∆ seçim) & (seçim = 'shake')
+
+¶Anahtar, dünya yer çekimi ile yer çekimsizlik arasında geçiş yapar.¶
+düşme: ⊤ … ∆ seçim … (seçim = 'gravity') ? ~düşme düşme
+
+¶Rastgele bir hız, yön ve dönüş.¶
+ƒ başlat() Hız(
+		Rastgele(-12m/s 12m/s)
+		Rastgele(-12m/s 12m/s)
+		Rastgele(-120°/s 120°/s)
+	)
+
+harfler3: sayaç → [].tercümeetmek(
+		ƒ(sayı2)
+			İfadeetmek(
+				harfler2[sayı2]
+				isim: "glyph\sayı2\"
+				yer: Hareket(
+					Yer(Rastgele(-7.5m 7.5m) Rastgele(-5.5m 5.5m))
+					başlat()
+					sonrakihız: sallanma ? başlat() ø
+				)
+				konu: Konu(zıplama: 0.7 sürtünme: 0)
+			)
+	)
+
+¶İki kontrol. Kütleleri yoktur ve konumları bir Motion olmadığından fizik motoru onlara dokunmaz.¶
+anahtar2: İfadeetmek(
+		düşme ? '⬇ yer çekimi' '🌌 süzülme'
+		0.7m
+		isim: 'gravity'
+		seçilebilir: ⊤
+		yer: Yer(-13m 1m)
+	)
+
+sallayıcı: İfadeetmek(
+		'🎲 sallanma'
+		0.7m
+		isim: 'shake'
+		seçilebilir: ⊤
+		yer: Yer(-13m -1m)
+	)
+
+Sahne(
+	[
+		¶Dört duvar, hiçbir şeyin hızla içinden geçemeyeceği kadar kalın.¶
+		Şekil(Dikdörtgen(-8.6m 6.6m 8.6m 6m))
+		Şekil(Dikdörtgen(-8.6m -6m 8.6m -6.6m))
+		Şekil(Dikdörtgen(-8.6m 6.6m -8m -6.6m))
+		Şekil(Dikdörtgen(8m 6.6m 8.6m -6.6m))
+		:harfler3
+		anahtar2
+		sallayıcı
+	]
+	yerçekimi: düşme ? 9.8m/s^2 0m/s^2
+	yer: Yer(-2.5m 0m -11m)
+)

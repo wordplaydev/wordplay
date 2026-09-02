@@ -1,0 +1,95 @@
+🤖
+Plaudertasche
+=== start
+¶Chatterbox ist ein kleiner Roboter-Zuhörer. Er ist inspiriert von Eliza, dem allerersten Chatbot, der 1966 gebaut wurde. Schreibe etwas in die Chatleiste, und er antwortet dir. Dabei führt er ein Protokoll deines Gesprächs.¶
+
+¶Eine Zeile eines Gesprächs: wer etwas gesagt hat und was gesagt wurde.¶
+•zeile(sprecher•'' wörter•'')
+
+nachricht: Plaudern()
+
+¶Bevor Chatterbox deine Wörter zurückgibt, tauscht er die Fürwörter aus. Dabei nutzt er diese Zuordnung: aus mein wird dein, und aus ich wird du. So wird aus "Ich habe das Gefühl, dass du mich hasst" die Antwort "Warum hast du das Gefühl, dass ich dich hasse?"¶
+tausche: {
+		'I': 'you'
+		'i': 'you'
+		"I'm": 'du bist'
+		"i'm": 'du bist'
+		'me': 'you'
+		'my': 'your'
+		'mine': 'yours'
+		'myself': 'yourself'
+		'am': 'sind'
+		'you': 'I'
+		'your': 'my'
+		'yours': 'mine'
+		'yourself': 'myself'
+	}
+ƒ spiegeln(wörter2•'')•'' wörter2.segmentiert(' ').übersetzen(
+		ƒ(wort2•'') tausche{wort2} ?? wort2
+	).verbinden(
+		' '
+	)
+
+¶Chatterbox wählt eine Antwort aus, indem er Muster mit der Nachricht vergleicht. Aa ignoriert Groß- und Kleinschreibung, und eine benannte Erfassung wie Stimmung schnappt sich alles bis zu einem Satzzeichen. So kann die Antwort deine eigenen Wörter zurückgeben - genau der Trick, den die ursprüngliche Eliza nutzte. Die letzte Regel ist eine Rückfalloption: ein zufällig gewählter Anstoß, damit du weiter redest.¶
+ƒ antwort(wörter3•'')•'' (
+		gefühle: wörter3 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
+		wesen: wörter3 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
+		wünsche: wörter3 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		wünsche2: wörter3 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
+		gefühle.Länge() > 0 ? 'Warum fühlst du dich ' + spiegeln(
+					gefühle[1].Gruppen{'Stimmung'} ?? ''
+				) + '?'
+			wesen.Länge() > 0 ? 'Wie lange bist du schon ' + spiegeln(
+						wesen[1].Gruppen{'Zustand'} ?? ''
+					) + '?'
+				wünsche.Länge() > 0 ? 'Was würde es für dich bedeuten, ' + spiegeln(
+							wünsche[1].Gruppen{'Wunsch'} ?? ''
+						) + '?'
+					wünsche2.Länge() > 0 ? 'Was würde sich ändern, wenn ' + spiegeln(
+								wünsche2[1].Gruppen{'Wunsch'} ?? ''
+							) + '?'
+						(wörter3 ⌕ ⣿ Aa("because")⣿).Länge() > 0 ? 'Ist das der wahre Grund?'
+							(wörter3 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).Länge(
+							) > 0 ? 'Erzähl mir mehr über deine Familie.'
+								wörter3.endet('?') ? 'Du fragst mich? Was denkst du?'
+									(wörter3 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? 'Hallo! Wie fühlst du dich heute?'
+										[
+											'Erzähl mir mehr.'
+											'Mach weiter.'
+											'Wie fühlst du dich dabei?'
+											'Verstehe. Ich höre zu.'
+										].zufällig(
+										)
+	)
+
+¶Das Protokoll beginnt mit einer Begrüßung und wächst mit jeder Nachricht um zwei Zeilen: deine Nachricht, dann die Antwort von Chatterbox.¶
+protokoll•[zeile]: [
+		zeile('🤖' 'Hallo! Ich bin Chatterbox. Wie geht es dir?')
+	] … ∆ nachricht …
+		protokoll.mit(zeile('🙂' nachricht)).mit(
+			zeile('🤖' antwort(nachricht))
+		)
+
+¶Zeig nur die neuesten Zeilen, damit alte Zeilen Platz für neue machen.¶
+kürzlich: protokoll.Länge() ≤ 8 ? protokoll protokoll.Folge(
+			protokoll.Länge() - 7
+		)
+
+Bühne(
+	[
+		Gruppe(
+			Stapel('<' 0.5m)
+			kürzlich.übersetzen(
+				ƒ(zeile2•zeile)
+					Satzglied(
+						zeile2.sprecher + ' ' + zeile2.wörter
+						Größe: 0.75m
+						wickeln: 22m
+						Eingabe: Pose(Opazität: 0 Skala: 0.5)
+						Dauer: 0.4s
+					)
+			)
+		)
+	]
+	Ort: Ort(0m 0m -12m)
+)

@@ -1,0 +1,597 @@
+🎆
+Havai Fişekler
+=== start/en
+¶Müzikle birlikte patlayan havai fişekler: her vuruşta çalan her çalgı,kendi haliyle beliriyor, bir an asılı kalıyor, sonra kayboluyor.
+
+Burada hiçbir şey bir saate göre çizilmiyor. Her vuruş duyulur olduğunda @Beat @Downbeat'e dönüşüyor ve bir @Downbeat, her @Track için bir @Part taşıyor —hangi çalgı olduğu, ses verip vermediği, hangi notada olduğu ve ne kadar yüksekses verdiği. Böylece çalan her ses için tek bir patlama, tek bir @List/translate oluyor vemüzik kendi kendini çiziyor.
+
+Her patlama, vuruş numarasıyla adlandırılır, bu yüzden her vuruşun patlamalarıyeni çıktılardır: girişte kendi giriş duruşlarını, bir sonraki vuruş onlarınyerini alırken de çıkış duruşlarını sergilerler. Belirme ve kaybolma bu ikiduruştur.
+
+Ezgi /The Star-Spangled Banner/'dır — John Stafford Smith'in yaklaşık1773'ten kalma, çoktan kamu malı olmuş melodisi — baştan sona, son satırdabiterek. Her nota, sayının üzerine yazılmış bir nota değeri olarak kendiuzunluğunu taşır — \8𝅘𝅥𝅮\ sekizlik, \13𝅗𝅥\ ikilik, \13𝅗𝅥𝅭\ noktalı ikilik — böylece hazırlık notaları,noktalı figürler ve uzun tutulan notalar, eşit vuruşlardan oluşan bir ızgaradeğil, gerçek sürelerdir. Düz bir sayı bir vuruştur. Susma işaretleri de bir@Note'a ihtiyaç duyar, çünkü \ø\ bir sayı değildir, bu yüzden bir değer taşıyamaz. Kromatik dizideyazılmıştır, böylece yükseltilmiş dördüncü derece de yazılabilir: her adımbir yarım tondur.¶
+
+vuruş2: Vuruş()
+sayaç: vuruş2.say
+
+¶Yalnızca gerçekten ses çıkaran parçalar havai fişeğe dönüşür; susan biriz karanlıkta kalır. Müzik başlamadan önce hiç parça yoktur, bu yüzden gökyüzüboştur.¶
+patlıyor•[Bölüm]: vuruş2.parçalar.filtre(
+		ƒ(p•Bölüm) p.çalıyor
+	)
+
+¶Her çalgı, kendi haliyle patlar; asıl mesele de budur: hangisininyeni çaldığını görebilirsin.¶
+ƒ yüz2(p2•Bölüm)•''
+	(p2.çalgı.kimlik = 'trumpet') ? '🎺'
+		(p2.çalgı.kimlik = 'flute') ? '🪈'
+			(p2.çalgı.kimlik = 'bell') ? '🔔'
+				(p2.çalgı.kimlik = 'piano') ? '🎹'
+					(p2.çalgı.kimlik = 'violin') ? '🎻'
+						(p2.çalgı.kimlik = 'drums') ? '🥁'
+							'🎵'
+
+¶Her çalgı, tüm gökyüzüne yayılmış kendi şeridini korur. Listedekikonumu yerine çalgının kendisini kullanmak, başka bir çalgı sustuğunda bileşeridin yerinde kalmasını sağlar.¶
+ƒ şerit(p3•Bölüm)•#
+	(p3.çalgı.kimlik = 'trumpet') ? -6
+		(p3.çalgı.kimlik = 'flute') ? -3.6
+			(p3.çalgı.kimlik = 'bell') ? -1.2
+				(p3.çalgı.kimlik = 'piano') ? 1.2
+					(p3.çalgı.kimlik = 'violin') ? 3.6
+						(p3.çalgı.kimlik = 'drums') ? 6
+							0
+
+¶Bir patlamanın ne kadar yükseğe çıktığı: notası. Buradaki her parça sesverdiği için bir notası vardır.¶
+ƒ yükseklik2(p4•Bölüm)•# p4.dereceler[1]
+
+¶Bir patlama, notasıyla yükselir ve ne kadar yüksek sesle çalındığınagöre büyür.¶
+ƒ patlama(p5•Bölüm i•#)•İfadeetmek
+	İfadeetmek(
+		yüz2(p5)
+		(0.9m + (p5.sesSeviyesi · 1.6m))
+		yer: Yer(
+			(şerit(p5) + p5.denge) · 1m
+			(((yükseklik2(p5) · 0.22) - 1.8) · 1m)
+		)
+		isim: 'burst \sayaç\ \i\'
+		giriş: Sekans(
+			{
+				0%: Poz(ölçek: 0.1 opaklık: 0%)
+				40%: Poz(ölçek: 1.35 opaklık: 100%)
+				100%: Poz(ölçek: 1 opaklık: 100%)
+			}
+			0.3s
+		)
+		çıkış: Sekans(
+			{
+				0%: Poz(telafietmek: Yer(0m 0m) opaklık: 100%)
+				100%: Poz(telafietmek: Yer(0m -5m) opaklık: 0%)
+			}
+			0.9s
+		)
+	)
+
+¶Ezgi. Dereceler, alt tonikten itibaren yarım tonlardır: 1 o notadır, 13bir oktav yukarıdır ve 7 yükseltilmiş dördüncü derecedir. İki satır aynıezgiyi paylaşır, sonra köprü, sonra son satır gelir.¶
+ezgi: [
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		17𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		17
+		18
+		20
+		20𝅗𝅥
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15
+		17
+		18
+		18𝅗𝅥
+		18
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8
+		13
+		13
+		13𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		10
+		10
+		10
+		15
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13𝅘𝅥𝅮
+		13
+		12
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		13𝅘𝅥𝅭
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		18𝅘𝅥𝅮
+		20𝅗𝅥
+		13𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅭
+		18𝅘𝅥𝅮
+		15
+		13𝅗𝅥𝅭
+	]
+
+¶Her ölçünün altında bir kök notası.¶
+bas: [
+		Nota(ø 1beats)
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+	]
+
+¶Sırayla değişen güçlü vuruşlarda bir çan, bu yüzden her patlamada yoktur.¶
+çan2: [
+		Nota(ø 1beats)
+		13
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		13
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		13
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		13
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+	]
+
+¶Köprüden itibaren yaylı çalgılar, böylece doku zenginleşir.¶
+keman2: [
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+	]
+
+¶Yalnızca cümlelerin doruklarında bir üst ezgi.¶
+flüt2: [
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 1beats)
+		25
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 1beats)
+		25
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 1beats)
+		25
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 1beats)
+		25
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+	]
+
+¶Altında bir marş.¶
+davullar: [
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+	]
+
+Sahne(
+	[
+		:patlıyor.tercümeetmek(ƒ(p6•Bölüm i2•#) patlama(p6 i2))
+		Müzik(
+			[
+				Parça(
+					ezgi
+					çalgı: Çalgı.trompet
+					sesDüzeyi: 90%
+					döngü: ⊥
+				)
+				Parça(
+					bas
+					çalgı: Çalgı.piyano
+					anahtar: -12semitones
+					sesDüzeyi: 50%
+					kaydırma: -0.4
+					döngü: ⊥
+				)
+				Parça(
+					çan2
+					çalgı: Çalgı.çan
+					sesDüzeyi: 55%
+					döngü: ⊥
+				)
+				Parça(
+					keman2
+					çalgı: Çalgı.keman
+					sesDüzeyi: 45%
+					kaydırma: 0.3
+					döngü: ⊥
+				)
+				Parça(
+					flüt2
+					çalgı: Çalgı.flüt
+					sesDüzeyi: 65%
+					döngü: ⊥
+				)
+				Parça(
+					davullar
+					çalgı: Çalgı.davul
+					sesDüzeyi: 45%
+					döngü: ⊥
+				)
+			]
+			tempo: 84beats/min
+			gam: Müzik.kromatik
+			isim: 'marş'
+		)
+	]
+	arkaplan: Renk(10% 12 265°)
+	renk: Renk(96% 0 0°)
+)

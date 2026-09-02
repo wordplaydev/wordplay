@@ -1,0 +1,77 @@
+🗨
+Hộp thoại
+=== start
+¶Hai chữ cái nói về việc chữ cái nói chuyện có nghĩa là gì.¶
+
+¶Một dòng trong cuộc nói chuyện: ai nói, lời nói là gì, và đó là suy nghĩ hay là lời nói ra.¶
+•dòng(ai•'' từNgữ2•'' suyNghĩ•?: ⊥)
+
+kịchBản: [
+		dòng(
+			'a'
+			'Bạn có bao giờ thấy lạ khi chúng ta đang nói chuyện không?'
+		)
+		dòng(
+			'b'
+			'Chúng ta là chữ cái. Nói chuyện gần như là cả công việc của chúng ta.'
+		)
+		dòng(
+			'a'
+			'Không, tôi muốn nói về chính chúng ta. Không phải những lời chúng ta tạo ra. Chúng ta.'
+		)
+		dòng('b' '…Ồ.')
+		dòng(
+			'a'
+			'Tôi là một hình dạng mang nghĩa một âm thanh. Ngay lúc này tôi đang tạo ra âm thanh bằng cách là hình dạng đó.'
+		)
+		dòng(
+			'b'
+			'Một bong bóng lời nói quanh một chữ cái là hình vẽ của chữ cái, hay là chữ cái của một hình vẽ?'
+			suyNghĩ: ⊤
+		)
+		dòng('a' 'Bạn đang xoáy vòng rồi.')
+		dòng(
+			'b'
+			'Tôi là chữ b. Xoáy vòng đúng là hình dáng của tôi.'
+		)
+		dòng('a' 'Thôi mà. Ở đây chuyện này là bình thường.')
+		dòng('b' 'Bình thường với chúng ta thôi, dù sao.')
+	]
+
+¶Nhấn một phím, bấm chuột, hoặc chạm để đi tiếp, và dừng lại ở dòng cuối cùng.¶
+lượt•#: 1 … ∆ Chìakhóa() | ∆ Cáinút() … (lượt < kịchBản.chiềudài(
+				) ? lượt + 1 lượt)
+
+dòng2: kịchBản[lượt]
+
+¶Chỉ ai đang đến lượt mới có bong bóng. Mỗi dòng đều là một @Say, nên nó vừa được nói ravừa được hiện ra — và bong bóng thay cho phụ đề, vì lời nói đãcó sẵn trên màn hình bên cạnh người nói. Không ai chọn phía nào cả: sân khấu đặtmỗi bong bóng ở nơi ít cản đường nhất.¶
+ƒ bongBóng2(ai2•'')
+	ai2 = dòng2.ai ?
+		BongBóng(
+			Nói(dòng2.từNgữ2)
+			loại: (dòng2.suyNghĩ ? '💭' '💬')
+			gói: 9m
+		)
+		ø
+
+¶Một dòng được xếp thẳng theo đường nền, để cả hai chữ cái cùng nằm trên một dòng. Khung của một cụm từlà mực của nó, nên nếu đặt chúng ở cùng một độ cao thì một chữ cái thấp và một chữ cáicao sẽ nằm trên các đường nền khác nhau.¶
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp('|' 1.5m)
+			[
+				Nhóm(
+					Hàngngang('_' 6m)
+					[
+						Cụmtừ('a' kíchcỡ: 3m bongBóng: bongBóng2('a'))
+						Cụmtừ('b' kíchcỡ: 3m bongBóng: bongBóng2('b'))
+					]
+				)
+				Cụmtừ(
+					`/dấu cách, bấm chuột, hoặc chạm/`
+					kíchcỡ: 0.6m
+				)
+			]
+		)
+	]
+)

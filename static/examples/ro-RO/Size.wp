@@ -1,0 +1,15 @@
+s
+Dimensiune
+=== start/en
+¶Apasă clic sau o tastă pentru a comuta între MARE și mic, pe fundal de culori care se schimbă.¶
+word/en,字/zh: (Buton(ø) | ∆ Cheie()) ? Fraza(
+			"BIG"/en"大"/zh
+			dimensiune: 5m
+		) Fraza("small"/en"小"/zh dimensiune: 1m)
+time/en,時間/zh: ((Timp(1234ms)) ÷ 1ms) × 1°
+
+Etapă(
+	[word]
+	loc: Loc(0m 0m -5m)
+	fundal: Culoare(80% 28 time)
+)

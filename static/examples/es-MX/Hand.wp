@@ -1,0 +1,64 @@
+🖐
+Mano
+===
+¶Levanta los dedos frente a tu cámara y una mano emoji cuenta junto contigo.¶
+mano2: Mano()
+
+Escenario(
+	[
+		Frase(
+			(mano2.dedos = 0 ? '✊'
+					mano2.dedos = 1 ? '☝'
+						mano2.dedos = 2 ? '✌'
+							mano2.dedos = 3 ? '🤟'
+								mano2.dedos = 4 ? '🖖'
+									'🖐')
+			lugar: mano2.lugar
+			tamaño: 2m
+			desplazamiento: Lugar(-1m)
+		)
+		Grupo(
+			Fila('<')
+			[
+				Frase(
+					'1⃣'
+					desplazamiento: Lugar(0m mano2.pulgar ? 1m 0m)
+				)
+				Frase(
+					'2⃣'
+					desplazamiento: Lugar(0m mano2.índice ? 1m 0m)
+				)
+				Frase(
+					'3⃣'
+					desplazamiento: Lugar(0m mano2.medio ? 1m 0m)
+				)
+				Frase(
+					'4⃣'
+					desplazamiento: Lugar(0m mano2.anular ? 1m 0m)
+				)
+				Frase(
+					'5⃣'
+					desplazamiento: Lugar(0m mano2.meñique ? 1m 0m)
+				)
+			]
+			lugar: Lugar(-4.5m 5m)
+		)
+		Grupo(
+			Pila('|')
+			[
+				Frase((mano2.palma ? '🤚' '🤛') tamaño: 2m)
+				Frase(
+					(mano2.abierta ? 'abierta' 'cerrada')
+					tamaño: 1.5m
+				)
+			]
+			lugar: Lugar(-2m -8m)
+		)
+		Frase(
+			`/Muéstrale tu mano a la cámara/`
+			lugar: Lugar(-6m -10m)
+			tamaño: 1m
+		)
+	]
+	lugar: Lugar(0m 0m -20m)
+)

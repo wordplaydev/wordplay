@@ -1,0 +1,39 @@
+o
+Calques
+=== start
+¶Des balles qui rebondissent à différentes profondeurs pour montrer l'effet de parallaxe.¶
+compte2: 10 → []
+
+ƒ balles(z2•#m) compte2.traduire(
+		ƒ()
+			Phrase(
+				'o'
+				lieu: Mouvement(
+					Lieu(
+						Aléatoire(-10 10) × 1m
+						Aléatoire(0 10) × 1m
+						z2
+					)
+					Vitesse(
+						Aléatoire(-10 10) × 1m/s
+						Aléatoire(-5 5) × 1m/s
+					)
+				)
+				matière: Matière(rebondissement: 0.8 friction: 0)
+			)
+	)
+
+Scène(
+	[
+		:balles(0m)
+		:balles(-10m)
+		:balles(10m)
+		Forme(Cercle(2m 0m 1m 0m))
+		Forme(Cercle(2m 9m -3m 10m))
+		Forme(Polygone(2m 5 -5m 0m -10m))
+		Forme(Rectangle(-20m 0m 20m -1m 0m))
+		Forme(Rectangle(-20m 0m 20m -1m 10m) rotation: 25°)
+		Forme(Rectangle(-20m 0m 20m -1m -10m) rotation: -10°)
+	]
+	lieu: Lieu(0m 10m -30m)
+)

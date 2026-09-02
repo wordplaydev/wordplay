@@ -1,0 +1,50 @@
+1
+NhịPhânXoay
+=== start/en
+¶Một vùng gồm các số 1 và số 0, xoay chậm tại chỗ.¶
+xoayChậm: Sựliêntiếp.quay(10s "straight")
+
+Sânkhấu(
+	[
+		Cụmtừ(
+			'1'
+			vịTrí: VịTrí(-0.5m -0.125m 0m)
+			nghỉngơi: xoayChậm
+		)
+		Cụmtừ(
+			'0'
+			vịTrí: VịTrí(1.25m -0.25m 0m)
+			nghỉngơi: xoayChậm
+		)
+		Cụmtừ(
+			'1'
+			vịTrí: VịTrí(-2.3125m 0.0625m 0m)
+			nghỉngơi: xoayChậm
+		)
+		Cụmtừ(
+			'0'
+			vịTrí: VịTrí(-1.6875m -1m 0m)
+			nghỉngơi: xoayChậm
+		)
+		Cụmtừ(
+			'1'
+			vịTrí: VịTrí(-1.4375m 0.75m 0m)
+			nghỉngơi: xoayChậm
+		)
+		Cụmtừ(
+			'0'
+			vịTrí: VịTrí(0.375m -1.3125m 0m)
+			nghỉngơi: xoayChậm
+		)
+		Cụmtừ(
+			'0'
+			vịTrí: VịTrí(-0.6875m -1.75m 0m)
+			nghỉngơi: xoayChậm
+		)
+		Cụmtừ(
+			'1'
+			vịTrí: VịTrí(0.4375m 1.125m 0m)
+			nghỉngơi: xoayChậm
+		)
+	]
+)

@@ -1,0 +1,84 @@
+t
+ফরাসি সংখ্যা
+=== start/en-US,start/fr-FR
+¶মঞ্চে দেখানো ফ্রেঞ্চ সংখ্যার সাথে মিলে যাওয়া অঙ্কটি চাপো।¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶অনুমান করার সংখ্যাগুলো¶
+¶Les nombres à deviner¶/fr
+সংখ্যা2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶গোপন সংখ্যাগুলো হলো ১ থেকে ৯ পর্যন্ত সংখ্যা, এলোমেলো ক্রমে¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+গোপনসংখ্যা: [1 2 3 4 5 6 7 8 9].এলোমেলোকরা()
+
+¶সবশেষে চাপা চাবিটি কী?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+চাবি2,clé/fr: চাবি()
+
+¶একটি চাবি চাপা হলে বর্তমান গোপন সংখ্যা বাড়ে, কিন্তু ১০-এ থেমে যায়¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+গোপনসূচক,secretIndice/fr•#:
+	1 …
+	∆ চাবি2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶বর্তমান গোপন সংখ্যা, গোপন সূচকের উপর ভিত্তি করে¶
+বর্তমানগোপনসংখ্যা,secretActuel/fr: গোপনসংখ্যা[গোপনসূচক]
+
+¶চাপা সংখ্যাটি আগের গোপন সংখ্যার সাথে মিললে অনুমানটি সঠিক ছিল¶
+সঠিক: clé → # = গোপনসংখ্যা[গোপনসূচক - 1]
+
+¶পয়েন্ট শুরু হয় ০ থেকে, এবং অনুমান সঠিক হলে বাড়ে।¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+পয়েন্ট•#: 0 …
+	∆ চাবি2 …
+		সঠিক ?
+			পয়েন্ট + 1
+			পয়েন্ট
+
+¶জয় মানে হলো সব ৯টি সংখ্যা পাওয়া¶
+জয়,gagner/fr: পয়েন্ট = 9
+
+¶গোপন সূচক ১০-এ পৌঁছালে শেষ¶
+খেলাশেষ: গোপনসূচক = 10
+
+¶বর্তমান ফ্রেঞ্চ সংখ্যা এবং বর্তমান পয়েন্ট দেখাও। সব ৯টি গোপন সংখ্যার পর একটি শেষ ফলাফল দেখাও¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+মঞ্চ(
+	[
+		দল(
+			স্তূপ()
+			[
+				খেলাশেষ ?
+					বাক্যাংশ(
+						জয় ?
+							'তুমি ফ্রেঞ্চ সংখ্যা জানো!'"Tu connais les chiffres français!"/fr
+							'প্রায় হয়ে গেছে, আবার চেষ্টা করো'"presque, réessaye"/fr
+						আকার: 2m
+					)
+					বাক্যাংশ(numeros[secretActuel] আকার: 2m)
+				বাক্যাংশ("\পয়েন্ট\ points!" আকার: 1m)
+				বাক্যাংশ(
+					গোপনসূচক = 1 ?
+						'এটি কোন সংখ্যা?''quel est ce numéro ?'/fr
+						সঠিক ?
+							'সঠিক!'
+							"That was \গোপনসংখ্যা[গোপনসূচক - 1]\"
+				)
+			]
+		)
+	]
+	মুখ: "Aclonica"
+)

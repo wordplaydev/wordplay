@@ -1,0 +1,84 @@
+t
+Franska siffror
+=== start/en-US,start/fr-FR
+¶Tryck på siffran som matchar det franska talet på scenen.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶Talen som ska gissas¶
+¶Les nombres à deviner¶/fr
+tal2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶Hemligheterna är talen 1 till 9 i slumpmässig ordning¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+hemligheter: [1 2 3 4 5 6 7 8 9].blandade()
+
+¶Vilken är den senaste tangenten som tryckts?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+nyckel2,clé/fr: Nyckel()
+
+¶Den nuvarande hemligheten ökar varje gång en tangent trycks, men stannar vid 10¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+hemligtIndex,secretIndice/fr•#:
+	1 …
+	∆ nyckel2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶Den nuvarande hemligheten, baserad på det hemliga indexet¶
+nuvarandeHemlighet,secretActuel/fr: hemligheter[hemligtIndex]
+
+¶Gissningen var rätt om talet som tryckts matchar det förra hemliga talet¶
+rätt2: clé → # = hemligheter[hemligtIndex - 1]
+
+¶Poängen börjar på 0 och ökar om gissningen var rätt.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+poäng•#: 0 …
+	∆ nyckel2 …
+		rätt2 ?
+			poäng + 1
+			poäng
+
+¶Att vinna betyder att få alla 9 tal¶
+vinn,gagner/fr: poäng = 9
+
+¶Klar när det hemliga indexet är 10¶
+speletSlut: hemligtIndex = 10
+
+¶Visa det nuvarande franska talet och den nuvarande poängen. Efter alla 9 hemligheter, visa ett slutresultat¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Etapp(
+	[
+		Grupp(
+			Stack()
+			[
+				speletSlut ?
+					Fras(
+						vinn ?
+							'Du kan franska tal!'"Tu connais les chiffres français!"/fr
+							'nästan, försök igen'"presque, réessaye"/fr
+						storlek: 2m
+					)
+					Fras(numeros[secretActuel] storlek: 2m)
+				Fras("\poäng\ points!" storlek: 1m)
+				Fras(
+					hemligtIndex = 1 ?
+						'vilket tal är detta?''quel est ce numéro ?'/fr
+						rätt2 ?
+							'Rätt!'
+							"That was \hemligheter[hemligtIndex - 1]\"
+				)
+			]
+		)
+	]
+	ansikte: "Aclonica"
+)

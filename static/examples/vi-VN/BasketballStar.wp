@@ -1,0 +1,95 @@
+🏀
+Ngôi Sao Bóng Rổ
+=== start
+¶Ngắm bằng con trỏ của bạn và nhấp để ném bóng vào rổ.¶
+nhấp2: ∆ Cáinút()
+
+sốLầnNhấp: 0 … nhấp2 … 1 + ⬚
+
+¶Ghi lại vị trí x của con trỏ vào lúc ném, để quả bóng rơi xuống từ nơi người chơi ngắm thay vì bật ngược về x = 0¶
+némX: 0m … (nhấp2 & ((sốLầnNhấp % 2) = 1)) … Contrỏ().x
+
+vịTríBóngRổ: (sốLầnNhấp % 2) = 0 ? VịTrí(
+			x: Contrỏ().x
+			y: 8m
+			z: 0m
+		) Cửđộng(vịTrí: VịTrí(némX 8m 0m))
+
+bóngRổ: Cụmtừ(
+		"🏀"
+		0.7m
+		vấnđề: Vấnđề(0.623kg 0.5)
+		vịTrí: vịTríBóngRổ
+		tên: 'bóng rổ'
+	)
+
+¶Cái giỏ trượt qua lại liên tục, được điều khiển bởi sin của thời gian¶
+vịTríXCủaGiỏ: (Thờigian() ÷ 600ms).tộilỗi() · 6m
+
+¶Đọc vị trí hiện tại của quả bóng một lần để kiểm tra điểm số¶
+bóngX: (bóngRổ.vịTrí ?? VịTrí()).x
+bóngY: (bóngRổ.vịTrí ?? VịTrí()).y
+
+lầnThử: (sốLầnNhấp ÷ 2).tổnghợp()
+
+¶inBin là đúng bất cứ khi nào quả bóng nằm bên trong giỏ. Phản ứng tính điểm chỉ xảy ra khi inBin chuyển sang đúng VÀ lần thử hiện tại vượt qua điểm số, vì vậy bất kỳ lần vào giỏ thứ hai nào trong cùng một lần ném — như bóng nảy bên trong giỏ, hoặc giỏ trượt ngược lại qua bóng — sẽ không có tác dụng gì cho đến khi lần ném tiếp theo làm tăng bộ đếm lần thử¶
+trongGiỏ: (bóngX < (vịTríXCủaGiỏ + 0.9m)) & (bóngX > (vịTríXCủaGiỏ - 0.9m)) & (bóngY < 2.9m) & (bóngY > 0.3m)
+điểmSố: 0 … trongGiỏ & (lầnThử > điểmSố) … 1 + điểmSố
+
+ngôiSaoBóngRổ: Nhóm(
+		Ngănxếp('|' 0.5m)
+		[
+			Cụmtừ(`*Ngôi sao bóng rổ*` .8m)
+			Cụmtừ('Ngắm bằng con trỏ của bạn.' .6m)
+			Cụmtừ(
+				'Nhấp để thả 🏀 vào cái giỏ đang di chuyển.'
+				.6m
+			)
+			Cụmtừ('Điểm số: ' + điểmSố → '' .8m)
+			Cụmtừ('Số lần thử: ' + lầnThử → '' .8m)
+		]
+		kíchcỡ: 2m
+		khuônmặt: "Sue Ellen Francisco"
+		bùlại: VịTrí(0m 8m 0m)
+	)
+
+Sânkhấu(
+	[
+		bóngRổ
+		¶Thành giỏ được tăng độ dày lên 0,3 mét (từ 0,1 mét) để cái giỏ di chuyển ngang không thể xuyên qua quả bóng, và cao 3 mét (từ 2 mét) để quả bóng có độ nảy 0,5 không thể nảy ngược qua vành giỏ¶
+		Hìnhdạng(
+			Hìnhchữnhật(
+				-1.2m + vịTríXCủaGiỏ
+				0.3m
+				1.2m + vịTríXCủaGiỏ
+				0m
+				0m
+			)
+			lýlịch: Màusắc(60% 100 30°)
+		)
+		Hìnhdạng(
+			Hìnhchữnhật(
+				0.9m + vịTríXCủaGiỏ
+				3m
+				1.2m + vịTríXCủaGiỏ
+				0m
+				0m
+			)
+			lýlịch: Màusắc(60% 100 30°)
+		)
+		Hìnhdạng(
+			Hìnhchữnhật(
+				-1.2m + vịTríXCủaGiỏ
+				3m
+				-0.9m + vịTríXCủaGiỏ
+				0m
+				0m
+			)
+			lýlịch: Màusắc(60% 100 30°)
+		)
+		Hìnhdạng(Hìnhchữnhật(-10m 0.01m 10m -2m))
+		ngôiSaoBóngRổ
+	]
+	vịTrí: VịTrí(x: 0m y: 5m z: -10m)
+	trọnglực: 5m/s^2
+)

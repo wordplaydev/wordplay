@@ -13,6 +13,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📎 You can now say which code you're talking about. Put your cursor in the code, press the 📎 beside the message box, and your message carries that line. You can send just the link, with no words at all. (#820)
 - 👥 Code somebody has talked about gets a 👥 in the margin beside it. Press it to read what was said. The link follows your program too: add lines above it and it still points at the same code, and if that code goes away the link says so instead of pointing somewhere wrong. (#820)
 - 📐 You can now pick which corner of the screen the stage sits in: top left, top right, bottom left, or bottom right. The guide, palette, and collaborate tiles move to match, and your code stays in the middle. (#925)
+- 🌐 We translated the built-in [gallery](https://wordplay.dev/galleries) examples into other languages, starting with Spanish and Chinese. An example now opens in the languages you've chosen, and when you choose several, it carries them all at once. (#1310)
 
 ### Changed
 
@@ -26,6 +27,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐛 A button you'd moved to with the keyboard was dimmed along with the rest of the tile's header, which made the focus outline hard to see. A header you're working in is no longer dimmed.
 - 🐛 The settings no longer slide sideways on a narrow window. Rows of buttons now wrap onto a second line instead of running off the edge.
 - 🎨 One of the layout buttons in the settings showed a colored icon while the rest were black and white. They all match now.
+- 🐛 We fixed a bug where a project written in Serbian compared things the wrong way around: Wordplay had the symbol for "is not equal" written as "is equal", so programs quietly did the opposite of what they said. (#1310)
+- 🌐 We fixed bugs that could break a program rewritten in another language: a word the program checks for stays as it is everywhere it appears, symbols like ~ stay symbols, a name never turns into a word the language already uses for something else, and an input keeps working when its name matches one of those words. (#1310)
+- 🤝 We fixed a bug where remixing a project named in several languages garbled its name.
 
 ## 0.33.1 - 2026-08-30
 

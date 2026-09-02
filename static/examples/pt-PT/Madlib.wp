@@ -1,0 +1,69 @@
+4
+Madlib
+=== start
+¶Um jogo de palavras: dê as palavras e obtenha uma história engraçada.¶
+
+¶Isto guarda os tipos de palavras de que precisamos, e as suas contagens¶
+•classeDePalavras(etiqueta•"" contagem2•#)
+
+¶Estas são as palavras de que precisamos para o jogo de palavras abaixo.¶
+turnos: [
+		classeDePalavras('adjetivos' 4)
+		classeDePalavras('nomes' 3)
+		classeDePalavras('verbos, no passado' 3)
+		classeDePalavras('advérbios' 4)
+	]
+
+conversa: Conversa()
+¶Sempre que uma conversa é enviada, avança para a próxima classe de palavras¶
+vez: 1 … ∆ conversa … vez + 1
+¶Sempre que uma conversa é enviada, divide a conversa pelos espaços e adiciona às respostas¶
+respostas•[['']]: [] … ∆ conversa … [
+			:respostas
+			conversa ÷ ' '
+		]
+
+¶Damos números a estes índices para tornar o jogo de palavras mais fácil de ler¶
+adjetivos: 1
+nomes: 2
+advérbios: 4
+verbos: 3
+
+perguntar: respostas.comprimento() < 4
+
+Fase(
+	[
+		¶Antes de termos as respostas, pede respostas¶
+		perguntar ?
+			Grupo(
+				Monte('|' 0.25m)
+				[
+					Frase(
+						`\turnos[vez].contagem2\ \turnos[vez].etiqueta\ por favor!`
+					)
+					Frase('(separadas por espaços)' 0.5m)
+				]
+			)
+			¶Depois de termos as respostas, mostra o jogo de palavras¶
+			(
+				¶Cria uma lista de frases com as respostas¶
+				frases: [
+						`Hoje fui ao jardim zoológico.`
+						`Vi um(a) *\respostas[nomes][1]\* *\respostas[advérbios][1]\* a saltar de um lado para o outro na sua árvore.`
+						`Ele *\respostas[verbos][1]\* *\respostas[advérbios][2]\* pelo grande túnel que levava ao seu *\respostas[adjetivos][2]\* *\respostas[nomes][2]\*.`
+						`Arranjei uns amendoins e passei-os pela jaula a um gigantesco * cinzento.\respostas[nomes][3]\* a elevar-se acima da minha cabeça.`
+						`Dar de comer àquele animal deu-me fome.`
+						`Fui buscar uma *\respostas[adjetivos][3]\* bola de gelado.`
+						`Encheu-me a barriga.`
+						`Depois *\respostas[verbos][2]\* *\respostas[advérbios][2]\* para apanhar o nosso autocarro.`
+						`Quando cheguei a casa *\respostas[verbos][3]\* à minha mãe por um dia *\respostas[adjetivos][4]\* no jardim zoológico.`
+					]
+				¶Traduza-os em frases¶
+				Grupo(
+					Monte('<')
+					frases.traduzir(ƒ(frase2) Frase(frase2))
+				)
+			)
+	]
+	fonte: 'Phudu'
+)

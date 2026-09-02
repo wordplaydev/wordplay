@@ -1,0 +1,202 @@
+🔍
+Ipakita at Ikwento
+=== start/en
+¶Ipakita at Ikwento — isang larong gamit ang kamera, laban sa oras. Hihilingin kong maghanap ka ng mga bagay, isa-isa, at sasabihin ko ang bawat isa nang malakas. Itapat ang bawat bagay sa iyong kamera hanggang makita ko ito, tapos hihiling ako ng iba. Wala kang bagay na hiniling ko? Pindutin ang → at hihiling ako ng ibang bagay — ang paglaktaw ay hindi mo kalugihan. Makahanap ng lima sa loob ng isang minuto at manalo ka; kailangan lagi ng dalawang tao sa larawan para sa ikalimang bagay. Nagsisimula ang minuto kapag gumising ang iyong kamera, kaya ang paghahanda ay hindi kumukuha ng oras mo, at kapag naubos na ang oras, sasabihin kong tapos na ang laro. Bawat nahanap na bagay ay lumalaki nang kaunti ang mga salita, at kapag nanalo ka, sasabog ang mga ito tulad ng kumpeti sa ibabaw ng "Panalo ka!"¶
+
+¶Isang bagay na hahanapin: ang emoji na ipinapakita ko, ang mga salitang ipinapakita ko, ang pangalan na ibinibigay dito ng modelo ng aking kamera (kung saan ko ito itinutumbas), at kung ilan ang kailangan kong makita nang sabay-sabay (dalawa, para sa mga tao).¶
+•target(emoji•'' tatak•'' pangalan3•'' kailangan•#)
+
+¶Ang mga bagay na maaaring hilingin ko. Bawat pangalan ay eksaktong tawag ni @Objects sa bagay, para makita ko ito sa kamera. Nagpapakita ako ng isa sa isang pagkakataon at humihiling ng iba tuwing nahahanap mo ito o nilalaktawan ito.¶
+pondo•[target]: [
+		target('☕' 'isang tasa' 'tasa' 1)
+		target('📖' 'isang libro' 'libro' 1)
+		target('📱' 'isang telepono' 'telepono' 1)
+		target('💻' 'isang laptop' 'laptop' 1)
+		target('⌨' 'isang keyboard' 'keyboard' 1)
+		target('🖱' 'isang mouse' 'mouse' 1)
+		target('✂' 'gunting' 'gunting' 1)
+		target('🍾' 'isang bote' 'bote' 1)
+		target('🪑' 'isang upuan' 'upuan' 1)
+		target('🕐' 'isang orasan' 'orasan' 1)
+		target('🍌' 'isang saging' 'saging' 1)
+		target('🍎' 'isang mansanas' 'mansanas' 1)
+		target('🧸' 'isang manikang oso' 'manikang oso' 1)
+		target(
+			'🪴'
+			'isang halamang de-paso'
+			'halamang de-paso'
+			1
+		)
+		target('🏺' 'isang plorera' 'plorera' 1)
+		target('🎒' 'isang bag' 'bag' 1)
+	]
+
+¶Kung ano ang hihilingin sunod, batay sa mga emoji na nahanap mo na at sa bagay na dapat iwasang ulitin: isang bagong bagay na kusang pinili at hindi pa hiniling para sa unang apat, pagkatapos ay laging dalawang tao para sa ikalima.¶
+ƒ pumili(nahanap•[''] iwasan•target)
+	(nahanap.haba() ≥ 4)
+	? target('👥' 'dalawang tao' 'tao' 2)
+		pondo.nangwalang(iwasan).pansala(
+			ƒ(t•target) ~(nahanap.aymay(t.emoji))
+		).random(
+		)
+
+¶Ang kamera. Hindi ito sinasabihan kung ano ang hahanapin — sinasabi lang nito lahat ng nakikita nito, at kusa itong tumatakbo, kaya ang laro ay tumutugon dito nang direkta nang walang orasan.¶
+nakita: MgaBagay(bilang: 10 tiwala: 0.5)
+
+¶Ang → na susi (o isang tapik) para lumaktaw.¶
+laktawan: Susi('PalasoKanan' ⊤)
+
+¶Isang orasan, para sa pagbibilang pababa at para sa animasyon ng nagwaging confetti. Ang pangangaso mismo ay hindi ito ginagamit — @Objects ang nagpapatakbo niyon.¶
+orasan: Oras(30ms)
+
+¶Gaano katagal ang isang laro.¶
+limitasyon2•#s: 60s
+
+¶Ang sandali nang unang nag-ulat ang kamera, na naitanda. Dito nagsisimula ang pagbibilang pababa sa halip na sa zero, kaya ang paghihintay na ibahagi ang iyong kamera at ang paghihintay sa modelo na mag-load ay hindi kailanman kumakain sa iyong isang minuto — inuulat ng @Objects ang kauna-unahan nitong resulta sa sandaling makakita ito ng isang frame, mayroon man o walang laman dito.¶
+sinimulanNoong•#ms: 0ms
+	… ((∆ nakita) & (⬚ = 0ms)) …
+		orasan
+
+¶Kung gaano karaming oras ang natitira: ang buong minuto hanggang sa gumising ang kamera, pagkatapos kung ano man ang natitira nito, hindi kailanman bababa sa zero — kaya kapag naubos na ang oras, mananatili itong naubos sa halip na bumilang patungo sa negatibong numero.¶
+kaliwa2•#s: (sinimulanNoong = 0ms) ? limitasyon2 ((limitasyon2 - ((orasan - sinimulanNoong) → #s)).pinakamataas(
+				0s
+			))
+
+¶Ang laro: ang mga emoji na nahanap na (mananalo sa lima) at ang bagay na hinihiling ngayon.¶
+•paghahanap2(nahanap2•[''] target2•target)
+
+¶Sumulong batay sa resulta ng kamera (o sa paglaktaw), tumitigil kapag lima na ang nahanap para maitayo lang minsan ang panalong eksena at hayaan ang confetti nito na lumipad nang hindi naaabala. Ang paglaktaw ay pumipili ulit ng bagong bagay nang hindi binabago ang iyong bilang; ang pagkakita ng sapat sa hinihiling na bagay sa mga nakita ay tumatala sa isang tagumpay at humihiling ng susunod na bagay.¶
+ƒ hakbang(o2•paghahanap2 nilaktawan•? nakita2•[Bagay]) (
+		bilang2: nakita2.pansala(
+				ƒ(t2•Bagay) t2.pangalan = o2.target2.pangalan3
+			).haba(
+			)
+		susunodNaNahanap: [:o2.nahanap2 o2.target2.emoji]
+		nilaktawan
+		? paghahanap2(
+				o2.nahanap2
+				pumili(o2.nahanap2 o2.target2)
+			)
+			((bilang2 ≥ o2.target2.kailangan)
+				? paghahanap2(
+						susunodNaNahanap
+						pumili(susunodNaNahanap o2.target2)
+					)
+					o2)
+	)
+
+¶Ang pangangaso ay tumitigil din kapag naubos na ang minuto, kaya ang isang tagumpay na dumating pagkatapos maubos ang oras ay hindi na makakalusot lampas sa eksena ng katapusan ng laro.¶
+maghanap•paghahanap2: paghahanap2([] pondo.random())
+	… ((∆ nakita | ∆ laktawan) & (⬚.nahanap2.haba() < 5) & (kaliwa2 > 0s)) …
+		hakbang(⬚ (∆ laktawan) nakita)
+
+¶Ang sandali ng iyong tagumpay, na naitanda — para ang confetti ay mag-animate mula sa oras na zero.¶
+nanaloNoong•#ms: 0ms
+	… ((maghanap.nahanap2.haba() ≥ 5) & (⬚ = 0ms)) …
+		orasan
+
+¶Isang lumilipad na piraso ng confetti: isang emoji, isang bilis ng pagputok (walang yunit — magnitud ng metro kada segundo), at isang ikot. Ang pag-iimbak ng payak na mga numero ay pinapanatiling simple ang matematika ng landas sa ibaba.¶
+•kislap2(emoji2•'' vx•# vy•# iniikot•#)
+
+¶Ang kumpeti, ginawa lang minsan sa sandaling manalo ka, at hindi na muling ginagawa. Nakikita ang @Objectskeeps, kaya bawat pagbasa ay muling sinusuri ang programa — pero pinapanatili ang mga piraso sa listahang ito (napupuno ito minsan lang, kapag nanalo ka, tapos huminto na ang kondisyon nito) ay nangangahulugang bawat isa ay pareho pa rin ang bilis na ginagamit sa paglipad, sa halip na muling gawin sa bawat frame.¶
+mgaKislap•[kislap2]: []
+	… ((maghanap.nahanap2.haba() ≥ 5) & (⬚.haba() = 0)) …
+		(60 → []).isalin(
+			ƒ()
+				kislap2(
+					maghanap.nahanap2.random()
+					Random(-8 8)
+					Random(3 13)
+					Random(-200 200)
+				)
+		)
+
+¶Grabidad para sa pag-arko ng kumpeti, sa metro kada segundo kada segundo.¶
+g•#: 9
+
+¶Ang tanong: isang malaking emoji, ang pangalan nito, ang iyong progreso, ang natitirang oras, at kung paano lalaktawan ito. Lumalaki ang mga salita sa bawat natagpuan para taasan ang hamon — nang kaunti lang, para kasya pa rin ang limang natagpuan sa entablado. Ang countdown ay nag-ro-round up, kaya nagpapakita ito ng 1 hanggang sa sandaling talagang naubos na ang oras.¶
+ƒ paalala(o3•paghahanap2) (
+		malaki: (2m + (o3.nahanap2.haba() · 0.3m))
+		Grupo(
+			Patongpatong('|' 0.4m)
+			[
+				Parirala(
+					o3.target2.emoji
+					mukha: "Noto Color Emoji"
+					laki: malaki + 1m
+				)
+				Parirala(o3.target2.tatak laki: malaki)
+				Parirala(
+					`natagpuan \o3.nahanap2.haba() → ''\ sa 5`
+					laki: 0.7m
+				)
+				Parirala(
+					`⏳ \(kaliwa2 ÷ 1s).roundUp() → ''\ segundo na lang`
+					laki: 0.6m
+				)
+				Parirala(
+					'wala ka nito? pindutin ang → para sa iba'
+					laki: 0.5m
+				)
+			]
+		)
+	)
+
+¶Ilagay ang bawat kislap sa sarili nitong arko, kinakalkula batay sa kung gaano na katagal itong lumilipad: gumagalaw ito palabas sa bilis nito habang hinihila pababa ng grabidad (ang klasikong ½·g·t²). Dahil kinakalkula natin ang posisyon sa halip na umasa sa physics engine, ang paulit-ulit na muling pagsusuri ng kamera ay iginuguhit lang muli ang bawat piraso kung saan dapat ito naroroon — walang biglaang pagbalik sa gitna.¶
+ƒ kompeti() (
+		t3: (orasan - nanaloNoong) ÷ 1000ms
+		mgaKislap.isalin(
+			ƒ(s•kislap2)
+				Parirala(
+					s.emoji2
+					mukha: "Noto Color Emoji"
+					laki: 1.5m
+					pagikot: (s.iniikot · t3) · 1°
+					lugar: Lugar(
+						(s.vx · t3) · 1m
+						((s.vy · t3) - ((g · t3 · t3) ÷ 2)) · 1m
+					)
+				)
+		)
+	)
+
+¶Nananalo ka sa pamamagitan ng paghahanap ng lima: isang nakasentrong "Panalo ka!", sinasabi nang malakas gayundin ipinapakita, kasama ang mga natagpuang emoji na sumasabog na parang kumpeti sa ibabaw nito, lumalabas habang bumabagsak ang kumpeti.¶
+ƒ pangwakas() [
+		Grupo(Patongpatong() [Parirala('Panalo ka!' laki: 2m)])
+		Sabihin('Panalo ka!')
+		:kompeti()
+	]
+
+¶Naubos na ang isang minuto: kung gaano ka na kalayo, sinasabi nang malakas gayundin ipinapakita.¶
+ƒ taposNaAngLaro(o4•paghahanap2) [
+		Grupo(
+			Patongpatong('|' 0.4m)
+			[
+				Parirala('⌛' mukha: "Noto Color Emoji" laki: 3m)
+				Parirala('Ubos na ang oras!' laki: 2m)
+				Parirala(
+					`nahanap mo \o4.nahanap2.haba() → ''\ sa 5`
+					laki: 0.7m
+				)
+			]
+		)
+		Sabihin(
+			"Time is up. Game over. You found \o4.nahanap2.haba() → ''\ of 5."
+		)
+	]
+
+¶Sabihin nang malakas ang kasalukuyang bagay, para sa mga manlalaro na hindi makabasa ng tanong o gusto lang itong marinig. Nagsasalita lang ang Say kapag nagbago ang teksto nito — kaya inihahayag nito ang bawat bagong bagay minsan lang, hindi sa bawat pagbasa ng kamera.¶
+ƒ ianunsyo(o5•paghahanap2) Sabihin(
+		'hanapin ' + o5.target2.tatak
+	)
+
+¶Sinusuri muna kung nanalo, kaya ang pag-ubos ng oras ay maaari lang mangahulugan ng pagkatalo.¶
+Entablado(
+	(maghanap.nahanap2.haba() ≥ 5)
+	? pangwakas()
+		((kaliwa2 ≤ 0s) ? taposNaAngLaro(maghanap) [
+					paalala(maghanap)
+					ianunsyo(maghanap)
+				])
+	lugar: Lugar(0m 0m -12m)
+)

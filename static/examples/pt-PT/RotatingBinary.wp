@@ -1,0 +1,50 @@
+1
+BinárioRotativo
+=== start/en
+¶Um campo de uns e zeros, a rodar lentamente no mesmo sítio.¶
+rotaçãoLenta: Sequência.rodar(10s "straight")
+
+Fase(
+	[
+		Frase(
+			'1'
+			local: Local(-0.5m -0.125m 0m)
+			descansar: rotaçãoLenta
+		)
+		Frase(
+			'0'
+			local: Local(1.25m -0.25m 0m)
+			descansar: rotaçãoLenta
+		)
+		Frase(
+			'1'
+			local: Local(-2.3125m 0.0625m 0m)
+			descansar: rotaçãoLenta
+		)
+		Frase(
+			'0'
+			local: Local(-1.6875m -1m 0m)
+			descansar: rotaçãoLenta
+		)
+		Frase(
+			'1'
+			local: Local(-1.4375m 0.75m 0m)
+			descansar: rotaçãoLenta
+		)
+		Frase(
+			'0'
+			local: Local(0.375m -1.3125m 0m)
+			descansar: rotaçãoLenta
+		)
+		Frase(
+			'0'
+			local: Local(-0.6875m -1.75m 0m)
+			descansar: rotaçãoLenta
+		)
+		Frase(
+			'1'
+			local: Local(0.4375m 1.125m 0m)
+			descansar: rotaçãoLenta
+		)
+	]
+)

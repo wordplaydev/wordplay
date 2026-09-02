@@ -1,0 +1,44 @@
+カ
+Katakana raten
+=== start
+¶Errate, welches Katakana zum Hiragana passt, um Punkte zu bekommen.¶
+ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを'/ja → []
+カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ'/ja → []
+
+•ゲーム/ja,Game/en(秘密/ja,secret/en•# スコア/ja,score/en•#)
+選択/ja,selection/en: Auswahl()
+
+¶Starte das Spiel mit einem zufälligen Hiragana und null Punkten. Wenn eine Wahl getroffen wird, erstelle einen neuen Zustand: Er wählt ein neues Zeichen und erhöht die Punktzahl, wenn die Wahl richtig war.¶
+¶ランダムなひらがなと 0 ポイントでゲームを開始します。
+選択が行われたら、新しい文字を選択し、正しい場合はスコアを増分する新しいステータスを作成します。¶/ja
+配置/ja,status/en: ゲーム(Zufällig(1 46) 0) … ∆ 選択 …
+		ゲーム(
+			Zufällig(1 46)
+			配置.秘密 → '' = 選択 ?
+				配置.スコア + 1
+				配置.スコア - 1
+		)
+
+Bühne(
+	[
+		Gruppe(
+			Stapel()
+			[
+				Satzglied(
+					`/What is the matching hiragana?/``/対応するひらがなは何ですか？/`/ja
+				)
+				Satzglied(`*\カタカナ[配置.secret]\*` 2m)
+				Gruppe(
+					Netz(10 5 1m 1m 1m)
+					ひらがな.übersetzen(
+						ƒ(シンボル/ja•'' 指数/ja,index/en)
+							Satzglied(シンボル Name: 指数 → '' wählbar: ⊤)
+					)
+				)
+				Satzglied(
+					`*\配置.score\* points!``*\配置.score\* 正解です！`/ja
+				)
+			]
+		)
+	]
+)

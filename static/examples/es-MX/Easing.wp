@@ -1,0 +1,57 @@
+s
+Suavizado de secuencia
+===
+¶La misma animación del auto, de ocho formas, una para cada estilo de suavizado.¶
+fotogramasClave: {
+		0%: Pose(desplazamiento: Lugar(-1m 0m))
+		25%: Pose(desplazamiento: Lugar(1m 0m))
+		50%: Pose(desplazamiento: Lugar(1m 0m))
+		75%: Pose(desplazamiento: Lugar(-1m 0m))
+		100%: Pose(desplazamiento: Lugar(-1m 0m))
+	}
+
+Escenario(
+	[
+		Grupo(
+			Cuadrícula(4 2 alturadecelda: 0.25m)
+			[
+				Frase('recto' tamaño: 0.25m)
+				Frase(
+					"🚗"
+					inmóvil: Secuencia(
+						fotogramasClave
+						3s
+						estilo: "straight"
+					)
+				)
+				Frase('cauteloso' tamaño: 0.25m)
+				Frase(
+					"🚚"
+					inmóvil: Secuencia(
+						fotogramasClave
+						3s
+						estilo: "cautious"
+					)
+				)
+				Frase('lento' tamaño: 0.25m)
+				Frase(
+					"🚙"
+					inmóvil: Secuencia(
+						fotogramasClave
+						3s
+						estilo: "pokey"
+					)
+				)
+				Frase('veloz' tamaño: 0.25m)
+				Frase(
+					"🏎"
+					inmóvil: Secuencia(
+						fotogramasClave
+						3s
+						estilo: "zippy"
+					)
+				)
+			]
+		)
+	]
+)

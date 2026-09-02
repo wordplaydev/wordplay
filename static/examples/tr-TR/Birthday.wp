@@ -1,0 +1,194 @@
+🎂
+İyi ki Doğdun
+=== start/en
+¶İyi ki Doğdun şarkısı üç parça halinde: bir ezgi, altındaki bir armoni ve ikisini birlikte taşıyan akorlar.
+
+Her parça gam derecesiyle yazılır, yani 1 tonik ve 8 bir oktav yukarıdaki toniktir. Bu yüzden şarkı hangi tona koyarsan koy aynı okunur — @Music/key'ı değiştir, şarkıcılar dahil bütün şarkı onunla birlikte kayar.
+
+Ezgi ve armoni yarım vuruşlarla, akorlar ise tam vuruşlarla ilerler. Bu yüzden her parça kendi notalarının ne kadar sürdüğünü söyler ve yine de birbirine denk gelirler.¶
+
+¶Şarkı başladığından beri geçen vuruşlar, böylece pasta onlarla birlikte hareket edebilir. Müzik çalmadan önce @Beat sıfırdan sayar, bu yüzden pasta sadece hareketsiz durur.¶
+vuruş2: Vuruş()
+sayaç: vuruş2.say
+
+¶Ezgi. İki sekizlik nota, sonra daha uzun notalar — ritmi oluşturan susuşlardır, çünkü her nota aynı yarım vuruş kadar sürer.¶
+ezgi: [
+		5
+		5
+		6
+		ø
+		5
+		ø
+		8
+		ø
+		7
+		ø
+		ø
+		ø
+		5
+		5
+		6
+		ø
+		5
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		5
+		5
+		12
+		ø
+		10
+		ø
+		8
+		ø
+		7
+		ø
+		6
+		ø
+		ø
+		11
+		11
+		10
+		ø
+		8
+		ø
+		9
+		ø
+		8
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Ezginin altında, aynı yarım vuruşlarla ilerleyen ikinci bir ses.¶
+alto: [
+		5
+		5
+		3
+		ø
+		3
+		ø
+		3
+		ø
+		4
+		ø
+		ø
+		ø
+		4
+		4
+		4
+		ø
+		4
+		ø
+		4
+		ø
+		5
+		ø
+		ø
+		ø
+		5
+		5
+		5
+		ø
+		8
+		ø
+		5
+		ø
+		5
+		ø
+		4
+		ø
+		6
+		6
+		6
+		ø
+		6
+		ø
+		5
+		ø
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Akorlar, her vuruşta bir tane. Bir küme, derecelerini birlikte seslendirir, yani {1 3 5} tonik üçlüsüdür ve {4 5 7 9} ona geri dönmek isteyen akordur.¶
+akorlar: [
+		ø
+		{1 3 5}
+		ø
+		ø
+		{4 5 7 9}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		ø
+		ø
+		ø
+		{4 6 8}
+		ø
+		ø
+		ø
+		{1 3 5}
+		ø
+		{4 5 7 9}
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Pasta her vuruşta büyür ve aralarında sakinleşir.¶
+ƒ pasta() İfadeetmek(
+		'🎂'
+		(4m + ((sayaç % 2) · 0.4m))
+		süre: 0.2s
+	)
+
+Sahne(
+	[
+		Grup(
+			Yığın(dolgu: 0.5m)
+			[
+				pasta()
+				İfadeetmek('İyi ki Doğdun' 1.3m)
+			]
+		)
+		Müzik(
+			[
+				Parça(ezgi çalgı: Çalgı.flüt vuruş: 0.5beats)
+				Parça(
+					alto
+					çalgı: Çalgı.keman
+					vuruş: 0.5beats
+					sesDüzeyi: 65%
+				)
+				Parça(
+					akorlar
+					çalgı: Çalgı.piyano
+					vuruş: 1beats
+					sesDüzeyi: 55%
+				)
+			]
+			tempo: 116beats/min
+			isim: 'doğum günü'
+		)
+	]
+	arkaplan: Renk(18% 20 330°)
+	renk: Renk(96% 0 0°)
+)

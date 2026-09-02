@@ -1,0 +1,147 @@
+🐱
+Cat Scat!
+=== start/en
+¶Isang pusang nag-"scat", palaging-palagi, hindi kailanman sa parehong paraan nang dalawang ulit.
+
+Buong solo ay improbisado: walang nakasulat na himig dito. Sa bawat koro, pumipili ang pusa ng mga bagong nota at binubuo ulit ang parirala, kaya ang naririnig mo ngayon ay hindi na babalik.
+
+Umaawit ito sa limang track na humahalinhinan sa isa't isa sa halip na magsabay — mga quarter note, tapos eighth note, tapos triplet, tapos half note, tapos isang mahabang nota — dahil isa lang ang boses ng pusa, at kapag sabay na tumunog ang dalawang track, magiging dalawa ang boses nito. Nagpapahinga ang bawat track sa mga sukat ng iba pang track, at ito ang dahilan kung bakit ito nananatiling solo.
+
+Ang boses ay ang pusang naka-tune, \Instrumento.pusangMayTono\: isang meow, may itinakdang tono, kaya ang bawat digri ay pumipili ng nota at aktwal na kumakanta ang pusa ng himig sa halip na sabihin ang labindalawang magkaibang bagay. Ang iskala ay blues, na walang maling nota — at dapat talagang ganito, dahil ang bawat nota dito ay napipili nang random, kaya kailangang maganda ang tunog anumang pagkakasunod-sunod.
+
+Mabagal ito para sa isang "scat". Tumatagal ng humigit-kumulang walong ikasampu ng segundo ang isang meow, at kung mas mabilis ang tempo, naputol ang pusa sa kalagitnaan ng meow ng mga quarter note.¶
+
+tibok2: Kumpas()
+bilang2: tibok2.bilangin
+
+¶Isang nota, o kung minsan ay walang tunog: humigit-kumulang isa sa pito ang natatahimik. Sapat na ito para makasarado ng bibig ang pusa paminsan-minsan nang hindi pinapanghina ang solo — at dahil ang mga saglit ng katahimikan ay nahuhulog kung saan man itinakda ng tsansa, walang dalawang koro ang humihinga sa parehong lugar.¶
+ƒ maaari(nota•#)•#|ø (Random() > 0.15) ? nota ø
+
+¶Isang nota, sa kahit saang bahagi ng komportableng oktaba ng pusa. Digri 1 ang nota na pinagbabalikan ng parirala, at 8 ay isang oktaba ng blues at bahagya na sa itaas nito — malayo nang sapat upang parang kumakanta, pero malapit na sapat upang ang meow ay parang meow pa rin sa halip na inunat na tunog.¶
+ƒ boses2()•#|ø maaari(Random(1 8))
+
+¶Lahat ng inaawit ng pusa sa isang koro. Ang bawat bahagi ay may parehong haba ng lahat ng iba pa kung bilangin sa beats — tatlumpu't dalawa — kaya nananatili silang magkasabay kahit magkaiba ang paghati nila.¶
+•koro(tumatawag•[#|ø] tumatakbo•[#|ø] indayog•[#|ø] humahawak•[#|ø] buntot•[#|ø])
+
+¶Mga quarter note, sukat isa at dalawa: tatlong nota, isang paghinto, tapos ang parehong tatlong nota na sinagot ng bagong pagtatapos. Ang tawag-at-tugon ang buto't balat ng isang "scat" na parirala, at ang pag-uulit ng isang pattern bago ito baguhin ang dahilan kung bakit parang sinadya ito sa halip na random.¶
+ƒ tumatawag2()•[#|ø] (
+		isang2: boses2()
+		b2: boses2()
+		c2: boses2()
+		(32 → []).isalin(
+			ƒ(i•#)
+				(i = 1) ? isang2
+					(i = 2) ? b2
+						(i = 3) ? c2
+							(i = 5) ? isang2
+								(i = 6) ? b2
+									(i = 7) ? boses2()
+										ø
+		)
+	)
+
+¶Mga eighth note, sukat tatlo at apat: isang takbo na umaakyat sa iskala isang hakbang sa isang pagkakataon mula sa kahit saan ito magsimula, na babalik sa ibaba pagdating sa itaas ng oktaba. Labing-anim na eighth note kada walong digri ay nangangahulugang umaakyat ang takbo nang dalawang buong ikot, at ito ang dahilan kung bakit ito parang isang takbo sa halip na isang himig.
+
+Ang mga ito ang pinakamaikling nota sa piyesa, at ang isang bahagi kung saan naputol ang pusa: dalawang eighth note sa isang beat ay mas mabilis kaysa sa kayang tapusin ng isang meow, na kung anong tunog ang mabilis na "scat" na silaba.¶
+ƒ tumatakbo2()•[#|ø] (
+		tahanan: Random(1 8)
+		(64 → []).isalin(
+			ƒ(i2•#)
+				((i2 < 17) | (i2 > 32)) ? ø
+					maaari((((tahanan + (i2 - 17)) - 1) % 8) + 1)
+		)
+	)
+
+¶Mga triplet, sukat lima at anim: isang tatlong-notang yunit na inuulit nang paulit-ulit. Ang tatlo sa espasyo ng dalawa ay isinusulat nang eksakto bilang ganito — 2beats ÷ 3 — na sinasabi nang malinaw kung ano ang isang triplet.¶
+ƒ indayog2()•[#|ø] (
+		selula2: [boses2() boses2() boses2()]
+		(48 → []).isalin(
+			ƒ(i3•#)
+				((i3 < 25) | (i3 > 36)) ? ø
+					selula2[(((i3 - 25) % 3) + 1)]
+		)
+	)
+
+¶Mga half note, sukat pito: bumabagal ang pusa at dumapo sa dalawang mahabang nota. Ang isang tinutuhog na nota ay nananatiling bukas ang bibig sa buong tagal ng tunog nito, na kung anong hitsura ang tumuhog ng isang nota.¶
+ƒ humahawak2()•[#|ø]
+	(16 → []).isalin(
+		ƒ(i4•#)
+			(i4 = 13) ? boses2()
+				(i4 = 14) ? boses2()
+					ø
+	)
+
+¶Isang buong nota, ika-walong bar: antas 1, tinagal. Ang pagbalik sa unang nota ng iskala ang nagpapatunog sa isang parirala na tapos, hindi lamang biglang huminto.¶
+ƒ buntot2()•[#|ø] (8 → []).isalin(ƒ(i5•#) (i5 = 8) ? 1 ø)
+
+ƒ improbisahin()•koro koro(
+		tumatawag2()
+		tumatakbo2()
+		indayog2()
+		humahawak2()
+		buntot2()
+	)
+
+¶Bagong koro bawat tatlumpu't dalawang tibok. Itinatago ang lumang koro sa pagitan ng mga hangganan, para manatiling matatag ang solo nang sapat upang marinig; ang pagpalit dito mismo sa hangganan ay nangangahulugang idinurugtong ito ng manlalaro sa tibok, sa halip na basta putulin ang pusa sa gitna ng isang nota.¶
+koro2•koro: improbisahin() … ∆ tibok2 …
+		((bilang2 % 32) = 0) ? improbisahin() koro2
+
+¶Umiindayog ang pusa ayon sa tibok. Umiindayog ito sa kabilang direksyon sa bawat isang tibok, kaya ang pag-indayog mismo ang siyang tibok, hindi lamang palamuti dito.¶
+kiling: ((bilang2 % 2) = 0) ? -1 1
+
+¶Kung gumagawa ba ang pusa ng tunog ngayon. Ibinabalik ng @Beat ang isang @Part para sa bawat track, at nananatiling ⊤ ang isang bahagi sa buong tagal ng tibok na pinapanatili ng isang tinagal na nota, kaya ito ay ⊤ tuwing may naririnig na tunog.¶
+kumakanta: tibok2.mgaBahagi.isalin(
+		ƒ(bahagi•Bahagi) bahagi.tumutunog
+	).aymay(
+		⊤
+	)
+
+¶Ang kanyang bibig: bukas mismo kapag tumutunog ang isang nota, sarado kapag walang tunog. Walang binibilang na tibok dito — tinatanong nito ang musika kung ano ang ginagawa nito, kaya hindi kailanman lalayo ang mukha sa oras ng naririnig mo. Ang mga kalat-kalat na pahinga ang nagbibigay dito ng lugar upang magsara, kaya't halos isa sa bawat pitong nota ang natatahimik.¶
+bibig: kumakanta ? '😺' '🐱'
+
+Entablado(
+	[
+		Parirala(
+			bibig
+			5m
+			lugar: Lugar((kiling · 0.7) · 1m -0.6m)
+			pagikot: (kiling · 7) · 1°
+			tagal: 0.22s
+		)
+		Parirala('Cat Scat!' 1.4m lugar: Lugar(-2.6m 3.6m))
+		Musika(
+			[
+				Track(
+					koro2.tumatawag
+					instrumento: Instrumento.pusangMayTono
+					beat: 1beats
+				)
+				Track(
+					koro2.tumatakbo
+					instrumento: Instrumento.pusangMayTono
+					beat: 0.5beats
+				)
+				Track(
+					koro2.indayog
+					instrumento: Instrumento.pusangMayTono
+					beat: 2beats ÷ 3
+				)
+				Track(
+					koro2.humahawak
+					instrumento: Instrumento.pusangMayTono
+					beat: 2beats
+				)
+				Track(
+					koro2.buntot
+					instrumento: Instrumento.pusangMayTono
+					beat: 4beats
+				)
+			]
+			tempo: 76beats/min
+			iskala: Musika.blues
+			pangalan: 'scat'
+		)
+	]
+	background: Kulay(16% 14 30°)
+	kulay: Kulay(96% 0 0°)
+)

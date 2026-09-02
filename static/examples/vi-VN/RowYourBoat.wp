@@ -1,0 +1,172 @@
+🚣
+Chèo Thuyền Của Bạn
+=== start/en
+¶Row, Row, Row Your Boat — chơi một lần, đúng mười giây, cùng một đội thuyền nhỏ chèo theo nhịp.
+
+Bài hát này ở nhịp 6/8, nên mỗi ô nhịp có sáu nốt móc đơn, và mỗi mục trong các danh sách này là một nốt như vậy. Hai mươi bốn nhịp với tốc độ 144 nhịp một phút cho ra đúng mười giây.
+
+Các thuyền được điều khiển bởi @Beat chứ không phải bởi một cái đồng hồ, nên chúng kéo đúng theo nhịp của bản nhạc, không chỉ gần đúng nhịp — và chúng đứng yên cho đến khi nhạc bắt đầu, vì @Beat giữ ở nhịp số không cho đến lúc đó.¶
+
+nhịp2: Nhịp()
+nhịpChèo: nhịp2.đếm
+
+¶Giai điệu. Row row row your boat, gently down the stream — các nốt dài là dài vì các dấu lặng theo sau chúng giữ đúng khung nhịp, bởi mỗi mục kéo dài bằng một nốt móc đơn.¶
+giaiĐiệu2: [
+		1
+		ø
+		ø
+		1
+		ø
+		ø
+		1
+		ø
+		2
+		3
+		ø
+		ø
+		3
+		ø
+		2
+		3
+		ø
+		4
+		5
+		ø
+		ø
+		ø
+		ø
+		ø
+		8
+		8
+		8
+		5
+		5
+		5
+		3
+		3
+		3
+		1
+		1
+		1
+		5
+		ø
+		4
+		3
+		ø
+		2
+		1
+		ø
+		ø
+		ø
+		ø
+		ø
+	]
+
+¶Một hợp âm ở đầu mỗi ô nhịp. Nó giữ nguyên ở âm chủ suốt bài cho đến ô nhịp gần cuối, khi đó nó dựa vào bậc năm để ô nhịp cuối cùng nghe như một điểm đến.¶
+hợpÂm: [
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+		{5 7 9 11}
+		ø
+		ø
+		{1 3 5}
+		ø
+		ø
+	]
+
+¶Nhịp chèo: một tiếng trầm để kéo và một tiếng sáng để hồi lại, mỗi ô nhịp một lần.¶
+máiChèo: [
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+		1
+		ø
+		3
+	]
+
+¶Một chiếc thuyền. Nó trượt thêm một chút ở mỗi nhịp và nghiêng qua bên khác mỗi lần, đó chính là điều tạo cảm giác đang chèo thuyền; làn đường quyết định nó nằm cao bao nhiêu và bắt đầu trước bao xa, để chúng không di chuyển giống nhau.¶
+ƒ thuyền(làn•# bắtĐầu2•#)•Cụmtừ
+	Cụmtừ(
+		'🚣'
+		1.5m
+		vịTrí: VịTrí(
+			((((nhịpChèo + bắtĐầu2) % 16) - 8) · 1.1) · 1m
+			((làn · 1.9) - 1.9) · 1m
+		)
+		xoay: (((nhịpChèo + làn) % 2) = 0) ? 9° -9°
+		khoảngthờigian: 0.2s
+	)
+
+độiTàu: [thuyền(0 0) thuyền(1 6) thuyền(2 11)]
+
+Sânkhấu(
+	[
+		:độiTàu
+		Cụmtừ(
+			'〰〰〰〰〰〰〰〰'
+			1m
+			vịTrí: VịTrí(-8m -3.2m)
+			màusắc: Màusắc(48% 22 240°)
+		)
+		Cụmtừ(
+			'Row, row, row your boat'
+			0.9m
+			vịTrí: VịTrí(-4.4m 3.4m)
+		)
+		ÂmNhạc(
+			[
+				BảnNhạc(giaiĐiệu2 nhạcCụ: NhạcCụ.sáo nhịp: 0.5beats)
+				BảnNhạc(
+					hợpÂm
+					nhạcCụ: NhạcCụ.đànPiano
+					nhịp: 1beats
+					âmLượng: 60%
+				)
+				BảnNhạc(
+					máiChèo
+					nhạcCụ: NhạcCụ.trống
+					nhịp: 1beats
+					âmLượng: 45%
+				)
+			]
+			nhịpĐộ: 144beats/min
+			tên: 'thuyền'
+		)
+	]
+	lýlịch: Màusắc(22% 18 230°)
+	màusắc: Màusắc(96% 0 0°)
+)

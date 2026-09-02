@@ -1,0 +1,78 @@
+⏳
+Compteur de mode d'étude
+=== start/en
+¶Clique pour ajouter des heures d'étude et regarde le compteur passer de calme à concentré à surchargé.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+action: Choix()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+heuresDʼétude:
+	0 …
+	∆ action …
+		action = 'reset' ?
+			0
+			heuresDʼétude + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+explication:
+	"Clique sur « Ajouter une heure d'étude +1 » pour augmenter ton temps d'étude. Clique sur « Réinitialiser » pour recommencer."
+
+¶Hours text shows how many hours the user has studied.¶/en
+texteDesHeures:
+	'Tu as étudié ' + heuresDʼétude → '' + ' heure(s).'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+humeur:
+	heuresDʼétude < 3 ?
+		"🌿 MODE CALME — clique pour ajouter du temps d'étude"
+		heuresDʼétude < 6 ?
+			'📚 MODE CONCENTRÉ — tu es dans la zone productive !'
+			'🔥 MODE SURCHARGE — fais une pause et clique sur « réinitialiser »'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+Scène(
+	[
+		Groupe(
+			Empiler()
+			[
+				Phrase("Compteur de mode d'étude" taille: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				Phrase(explication taille: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				Phrase(texteDesHeures taille: 0.4m)
+
+				Phrase(humeur taille: 0.75m)
+
+				Groupe(
+					Rangée(rembourrage: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						Phrase(
+							"Ajouter une heure d'étude +1"
+							sélectionnable: ⊤
+							nom: 'ajouter'
+							couleur: Couleur(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						Phrase(
+							'Réinitialiser'
+							sélectionnable: ⊤
+							nom: 'reset'
+							couleur: Couleur(69% 47 271°)
+						)
+					]
+				)
+			]
+			affronter: "Aclonica"
+		)
+	]
+)

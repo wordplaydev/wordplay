@@ -1,0 +1,26 @@
+H
+CümleUzunluğu
+===
+¶Sohbet çubuğuna yazın, cümlenizin karakterlerini sayacaktır.¶
+cümle: Sohbet()
+uzunluk2: Sohbet().uzunluk()
+
+Grup(
+	Yığın()
+	[
+		İfadeetmek(
+			`*Merhaba! Cümle uzunluğu hesaplayıcısına hoş geldiniz.*`
+			yer: Yer(0m 1m)
+		)
+		İfadeetmek(
+			'Mesaj çubuğuna bir şeyler yazın!'
+			yer: Yer(0m -1m)
+		)
+		İfadeetmek(
+			'Cümleniz ' + (uzunluk2 → '') + ' karakter uzunluğunda!'
+			dinlenme: Sekans.sallanmak(süre: 3s)
+			yer: Yer(0m -3m)
+		)
+		İfadeetmek(cümle yer: Yer(0m -5m) dürüm: 25m)
+	]
+)

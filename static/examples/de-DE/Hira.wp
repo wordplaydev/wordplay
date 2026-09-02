@@ -1,0 +1,28 @@
+ぁ
+Hiragana
+=== start
+¶Hiragana fallen durch die Schwerkraft; klicke, um die Richtung von unten zu ändern.¶
+zähler: 32
+
+schwerkraft•#m/s^2: 15m/s^2 … ∆ Taste() … -schwerkraft
+
+hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
+
+buchstaben: zähler → [].übersetzen(
+		ƒ(zahl2 index2)
+			Satzglied(
+				hiragana[zahl2]
+				Ort: Bewegung(
+					Ort((index2 - (zähler ÷ 2)) × 0.2m 10m)
+					Geschwindigkeit(Winkel: Zufällig(-5 5) × 1°/s)
+				)
+				Gegenstand: Gegenstand(Sprungkraft: 0.3)
+			)
+	)
+
+
+Bühne(
+	[:buchstaben Gestalt(Rechteck(-40m 0m 40m -2m))]
+	Schwere: schwerkraft
+	Ort: Ort(0m 5m -20m)
+)

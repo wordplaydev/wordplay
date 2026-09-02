@@ -1,0 +1,290 @@
+🫲
+Yönetici
+=== start/en
+¶Tek elinle bir imparatorluk filosunu yönet. Klavye yok, düğme yok — kamera elini izler ve sekiz kişilik bir orkestra sana cevap verir.
+
+Elini kaldır, orkestra tek tek katılır, ta ki sekizi de çalana kadar. Elini indir, tek tek susarlar, ta ki sadece melodi kalana kadar. Sola kaydır, marş yavaşlasın; sağa kaydır, hızlansın. Kaç parmak kaldırırsan, melodiyi o kadar çalgı çalar.¶
+
+el: El()
+
+¶Yükseklik orkestranın ne kadarının çaldığını, yandalık ise ne kadar hızlı çaldığını gösterir. İkisi de hafızada tutulmaz, doğrudan elden okunur, böylece eli sürekli takip ederler. Her biri bir basamağa yuvarlanır, böylece müzik ancak kulakla fark edilecek kadar büyük bir değişiklik olduğunda değişir. Titreyen bir el, notaları saniyede yirmi kez yeniden yazmaz.¶
+kaldırmak2: ((el.yer.ve + 3m) ÷ 6m).dakika(1).maksimum(0)
+katmanlar: 1 + ((kaldırmak2 · 7).yuvarlak())
+
+erişim: ((el.yer.X + 5m) ÷ 10m).dakika(1).maksimum(0)
+tempo2: 72 + ((erişim · 8).yuvarlak() · 12)
+
+¶Melodiyi kim çalar. Yumruk yapılmış bir el de, kadraj dışındaki bir el de sıfır parmak sayılır. Bu yüzden parmak yoksa, önceden çalan çalmaya devam eder — yoksa başka yöne bakmak bile şarkıyı değiştirirdi.¶
+öneÇıkan: 5 … ∆ el …
+		(el.parmaklar = 0) ? öneÇıkan el.parmaklar
+
+ƒ ses2(sayaç•#)•Çalgı
+	(sayaç = 1) ? Çalgı.piyano
+		(sayaç = 2) ? Çalgı.keman
+			(sayaç = 3) ? Çalgı.flüt
+				(sayaç = 4) ? Çalgı.elektroGitar
+					Çalgı.trompet
+
+ƒ simge(sayaç2•#)•''
+	(sayaç2 = 1) ? '🎹'
+		(sayaç2 = 2) ? '🎻'
+			(sayaç2 = 3) ? '🪈'
+				(sayaç2 = 4) ? '⚡'
+					'🎺'
+
+¶Bir parçanın ne kadar yüksek sesle çaldığı. Her parça her zaman müziğin içinde kalır, hiçbiri asla yerini kaybetmez — elin üstünde kalanlar sadece tamamen kısılmıştır.
+
+Her biri melodinin oldukça altında ayarlanır ve sekizi birden onun iki katından bile azdır. Sekiz parçanın hepsi tam sesle çalarsa, gürültülü bir orkestra değil, karmaşık bir orkestra ortaya çıkar; çünkü aynı anda çalan her şey aynı hoparlörden çıkmak zorundadır.¶
+ƒ duyulmuş(sıra•# yüksekSesli•%)•% (sıra ≤ katmanlar) ? yüksekSesli 0%
+
+¶İmparatorluk Marşı, sekiz ölçü, her satırda bir ölçü. Kromatik bir dizi üzerinde yazılmıştır, çünkü öyle olmasaydı diziye uymayan notaları — bemol ikinci derece ve ikinci yarıdaki kromatik kayma — yazmak mümkün olmazdı: 1. derece tonik nottur ve her adım bir yarım tondur. Bu yüzden bu sayılar dizi basamakları değil, aralıklardır.
+
+Nota değerleri ritmi taşır. Yalın bir sayı, parçanın vuruşu kadar sürer, burada bir dörtlük nota kadar; başka herhangi bir uzunluk sayının üstünde belirtilir: marşı ileri fırlatan noktalı sekizlik için 𝅘𝅥𝅮𝅭, onaltılık için 𝅘𝅥𝅯 ve yerleştiği ikilik nota için 𝅗𝅥. Her satır toplamda dört vuruş eder.¶
+yürüyüş: [
+		5
+		5
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		12
+		12
+		12
+		13𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		4
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		17
+		5𝅘𝅥𝅮𝅭
+		5𝅘𝅥𝅯
+		17
+		16𝅘𝅥𝅮𝅭
+		15𝅘𝅥𝅯
+		14𝅘𝅥𝅯
+		13𝅘𝅥𝅯
+		14
+		6𝅘𝅥𝅮
+		11
+		9𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		7𝅘𝅥𝅯
+		6𝅘𝅥𝅯
+		7
+		1𝅘𝅥𝅮
+		4
+		1𝅘𝅥𝅮𝅭
+		4𝅘𝅥𝅯
+		8
+		5𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		12𝅗𝅥
+	]
+
+¶Altında dörtlük vuruşlarla ilerleyen dört ölçülük kök nota. Melodiden daha kısadır ve her parça kendi uzunluğunda döngüye girer, bu yüzden bu dört ölçü, melodinin sekiz ölçüsü boyunca iki kez tekrarlanır.¶
+bas: [
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		5
+		5
+		12
+		8
+	]
+
+¶Melodinin kendi ritminde, tek bir ölçülük davul. Perdesi olmayan bir çalgıda dereceler bir diziden değil bir davul setinden seçilir, bu yüzden 1 bas davulu, 2 trampeti, 3 hi-hat'ı ve 5 tomu gösterir.¶
+davullar: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
+
+¶Vuruş aralarındaki akorlar, bir marşı yerinde saymaktan alıkoyan itiş. Üçüncü ölçü, bir buçuk basamak aşağıdaki minör akora yaslanır; melodinin bemol notaları da buradan gelir.¶
+telliÇalgılar: [
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{1 4 8}
+		ø
+		{1 4 8}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+	]
+
+¶Aynı dört ölçü, yalın beşliler olarak, her ölçüde bir tane, sürekli tutulur. Beşlinin içinde üçlü yoktur, bu yüzden üstündeki kromatik notaların önüne geçmez.¶
+yastık: [{5 12} {5 12} {1 8} {5 12}]
+
+¶Birinci ve üçüncü ölçüde bir çan. Vuruşu bir tam nota olduğundan, buradaki bir es tam bir ölçülük sessizlik demektir.¶
+çanlar: [5 ø 1 ø]
+
+¶Melodinin durduğu boşluklarda gelen tiz bir cevap.¶
+sayaç3: [
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		20𝅗𝅥
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		17𝅗𝅥
+	]
+
+şarkı: Müzik(
+		[
+			Parça(
+				yürüyüş
+				çalgı: ses2(öneÇıkan)
+				sesDüzeyi: 55%
+				vuruş: 1𝅘𝅥
+			)
+			Parça(
+				bas
+				çalgı: Çalgı.synthBass
+				vuruş: 1𝅘𝅥
+				anahtar: -24semitones
+				sesDüzeyi: duyulmuş(2 30%)
+			)
+			Parça(
+				davullar
+				çalgı: Çalgı.davul
+				vuruş: 1𝅘𝅥
+				sesDüzeyi: duyulmuş(3 20%)
+			)
+			Parça(
+				yürüyüş
+				çalgı: Çalgı.saksofon
+				vuruş: 1𝅘𝅥
+				anahtar: -12semitones
+				sesDüzeyi: duyulmuş(4 22%)
+			)
+			Parça(
+				yastık
+				çalgı: Çalgı.synthPad
+				vuruş: 1𝅝
+				anahtar: -12semitones
+				sesDüzeyi: duyulmuş(5 16%)
+			)
+			Parça(
+				telliÇalgılar
+				çalgı: Çalgı.keman
+				vuruş: 1𝅘𝅥
+				sesDüzeyi: duyulmuş(6 18%)
+			)
+			Parça(
+				çanlar
+				çalgı: Çalgı.çan
+				vuruş: 1𝅝
+				anahtar: 12semitones
+				sesDüzeyi: duyulmuş(7 12%)
+			)
+			Parça(
+				sayaç3
+				çalgı: Çalgı.flüt
+				vuruş: 1𝅘𝅥
+				sesDüzeyi: duyulmuş(8 14%)
+			)
+		]
+		tempo: tempo2 · 1beats/min
+		gam: Müzik.kromatik
+		isim: 'imparatorluk marşı'
+	)
+
+¶Filonun ne kadar yol katettiği. Saati okumak yerine kendi tik sayısını sayar ve marş hızlandıkça daha hızlı sayar, böylece gemiler tempoyla birlikte uçar.¶
+yolculuk: 0 … ∆ Zaman(40ms) … yolculuk + (tempo2 ÷ 72)
+
+ƒ durum()•'' '\katmanlar\ of 8 playing · \tempo2\ beats a minute'
+
+¶Talimatların bir satırı, soluk renkte; böylece önce filo ve öne çıkan oyuncu okunur.¶
+ƒ satır(metin2•'')•İfadeetmek İfadeetmek(
+		metin2
+		0.3m
+		renk: Renk(64% 4 265°)
+	)
+
+¶Talimatlar, ortalanmak yerine sol kenara dayalı sıralanmıştır, böylece göz düz aşağıya doğru okuyabilir.¶
+görüntü: Grup(
+		Yığın('<' 0.16m)
+		[
+			İfadeetmek(
+				simge(öneÇıkan)
+				0.9m
+				renk: Renk(56% 65 25°)
+			)
+			İfadeetmek(durum() 0.38m renk: Renk(70% 25 30°))
+			satır('elini kaldır — orkestra büyür')
+			satır('indir — sadece melodi kalır')
+			satır('el sola — yavaşlar · el sağa — hızlanır')
+			satır(
+				'parmaklar yukarı — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺'
+			)
+		]
+	)
+
+¶Sahneyi geçen bir gemi, talimatların oldukça üzerindeki bir şeritte uçar, böylece asla metnin üzerinden geçmez. Bulunduğu şerit, ne kadar yükseğe uçtuğunu ve ne kadar ileriden başladığını belirler, bu yüzden gemiler asla aynı düzende uçmaz.¶
+ƒ gemi(harfIşareti•'' şerit•# hız2•#)•İfadeetmek
+	İfadeetmek(
+		harfIşareti
+		0.7m
+		yer: Yer(
+			(((((yolculuk · hız2) + (şerit · 47)) % 200) - 100) · 0.045) · 1m
+			((şerit · 0.65) + 2.2) · 1m
+		)
+	)
+
+filo: [
+		gemi('🛸' 0 3)
+		gemi('🚀' 1 2)
+		gemi('🛰' 2 4)
+		gemi('🛸' 3 5)
+	]
+
+ƒ yıldız(x2•# y2•# boyut2•#)•İfadeetmek
+	İfadeetmek(
+		'✦'
+		boyut2 · 1m
+		yer: Yer(x2 · 1m y2 · 1m)
+		renk: Renk(46% 8 275°)
+	)
+
+¶Sahne, üzerindeki her şeye sığacak şekilde yakınlaşıp uzaklaşır. Bu yüzden hareket eden herhangi bir şey her tikte tüm görüntüyü yeniden ölçeklendirir ve kelimeler kayıyormuş gibi görünür. Dört köşedeki yıldızlar, gemilerin uçtuğu her yerden ve en uzun metin satırından bile daha uzaktadır. Böylece sığdırma çerçevesi hiç değişmez ve görüntü sabit kalır. Geri kalan her şey sadece gökyüzüdür.¶
+yıldızlar: [
+		yıldız(-5.6 -2.3 0.18)
+		yıldız(5.6 -2.3 0.18)
+		yıldız(-5.6 5 0.18)
+		yıldız(5.6 5 0.18)
+		yıldız(-4.9 2.1 0.22)
+		yıldız(-3.9 3.9 0.14)
+		yıldız(-2.2 2.5 0.18)
+		yıldız(1.1 3.4 0.14)
+		yıldız(2.7 4.4 0.22)
+		yıldız(4.6 2.7 0.14)
+	]
+
+Sahne(
+	[:yıldızlar :filo görüntü şarkı]
+	arkaplan: Renk(7% 6 275°)
+	renk: Renk(88% 3 265°)
+)

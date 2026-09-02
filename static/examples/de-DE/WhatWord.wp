@@ -1,0 +1,306 @@
+W
+WelchesWort
+=== start/en
+¶Ein Wortratespiel auf Englisch, Spanisch und Arabisch.¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] übrig•[""] anfang•?) (
+	geheim: anfang ? übrig[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (geheim.Länge(
+			) × 3) - guesses.Länge()
+	status/en,estado/es,حالة/ar:
+		geheim = "" ? "start"
+			geheim → [""].alle(
+				ƒ(buchstabe•"") guesses.hat(buchstabe)
+			) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: Schlüssel()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.sortiert(ƒ() Zufällig())
+		⊥
+	) … ∆ key …
+		key = "Flucht" ? Game(
+				[]
+				words.sortiert(ƒ() Zufällig())
+				⊥
+			)
+			(state.status ≠ "playing") & (key = "Raum") ? Game(
+					[]
+					state.übrig.ohneVor()
+					⊤
+				)
+				(state.status = "playing") & (key.Länge() = 1) & ~state.guesses.hat(
+						key
+					) ?
+					Game(state.guesses.mit(key) state.übrig ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: Satzglied(
+		state.geheim → [""].übersetzen(
+			ƒ(buchstabe2•"") ((state.status = "lost") | state.guesses.hat(
+							buchstabe2
+						)) ? buchstabe2 "."
+		).verbinden(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: Pose(Opazität: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": Gruppe(
+			Stapel()
+			[
+				Satzglied(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					Ort: Ort(z: -1m)
+					Eingabe: Pose(Opazität: 0%)
+					Ruhen: Reihenfolge.wiegen(Dauer: 1s)
+				)
+				Satzglied(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			Ausstieg: fade
+		)
+		"lost": Gruppe(
+			Stapel()
+			[
+				board
+				Satzglied(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					Eingabe: Pose(Drehung: 0°)
+					Ruhen: Pose(Drehung: -5°)
+				)
+			]
+			Ausstieg: fade
+		)
+		"won": Gruppe(
+			Stapel()
+			[
+				board.Ruhen:Reihenfolge.hüpfen(3m 1s)
+				Satzglied(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			Ausstieg: fade
+		)
+		Gruppe(
+			Stapel()
+			[
+				board
+				Satzglied(
+					state.guesses.Länge() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.verbinden(
+							' '
+						)\"/en"Suposiciones: \state.guesses.verbinden(
+							' '
+						)\"/es"التخمينات \state.guesses.verbinden(' ')\"/ar
+				)
+				Satzglied(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					Ruhen: Reihenfolge.wiegen(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶Eine langsame Figur, die sich immer wieder um sich selbst dreht, statt irgendwohin zu führen. Genau das macht sie zum Nachdenken. Jede Spur unten ist acht Schläge lang, sodass sie alle zusammen zurückkehren und die Schleife keine Nahtstelle hat.¶
+thema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶Wie viel von deinem Taschengeld schon ausgegeben ist, von 0 mit allem noch offen bis 1 mit nichts mehr übrig. Das Geheimnis ist vor der ersten Runde leer, deshalb wird die Division geschützt, statt durch null zu teilen.¶
+maxVersuche: state.geheim.Länge() × 3
+druck: (maxVersuche = 0) ? 0 (((1 - (state.guessesRemaining ÷ maxVersuche)).max(
+					0
+				)).Mindest(
+				1
+			))
+
+¶Nachdenklich bei 54 Schlägen pro Minute, dringend bei 120, und jeder Versuch bewegt es ein Stück weiter. Eine Tempoänderung setzt beim nächsten Schlag ein, statt neu zu beginnen. So behält die Schleife ihren Platz und lehnt sich einfach nach vorn — die leise Trommel macht dieses Vorlehnen hörbar, denn eine Tempoänderung unter lang gehaltenen Tönen ist schwer zu spüren.¶
+puzzleMusic: Musik(
+		[
+			Spur(
+				thema
+				Instrument: Instrument.Klavier
+				Schlag: 0.5beats
+				Lautstärke: 50%
+			)
+			Spur(
+				[{1 3 5} {4 6 8}]
+				Instrument: Instrument.synthPad
+				Schlag: 4beats
+				Lautstärke: 35%
+			)
+			Spur(
+				[ø ø 8 ø ø ø 6 ø]
+				Instrument: Instrument.Glocke
+				Schlag: 1beats
+				Lautstärke: 30%
+			)
+			Spur(
+				[1 ø ø ø 1 ø ø ø]
+				Instrument: Instrument.Schlagzeug
+				Schlag: 1beats
+				Lautstärke: 20%
+			)
+		]
+		Tempo: (54beats/min + (druck · 66beats/min))
+		Tonleiter: Musik.dorisch
+		Name: 'Rätsel'
+	)
+
+¶Du hast gewonnen: das Thema doppelt so schnell, eine Oktave höher auf einer Glocke verdoppelt, über den einzigen Dur-Akkorden im Beispiel.¶
+winSong: Musik(
+		[
+			Spur(
+				thema
+				Instrument: Instrument.Klavier
+				Schlag: 0.5beats
+				Lautstärke: 50%
+			)
+			Spur(
+				thema
+				Instrument: Instrument.Glocke
+				Schlag: 0.5beats
+				Tonart: 12semitones
+				Lautstärke: 35%
+			)
+			Spur(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				Instrument: Instrument.synthPad
+				Schlag: 2beats
+				Lautstärke: 35%
+			)
+			Spur(
+				[1 ø 3 ø 2 ø 3 ø]
+				Instrument: Instrument.Schlagzeug
+				Schlag: 1beats
+				Lautstärke: 30%
+			)
+		]
+		Tempo: 96beats/min
+		Tonleiter: Musik.Dur
+		Name: 'gewonnen'
+	)
+
+¶Du hast verloren: das Thema eine Oktave tiefer und langsamer, als es je war, während du gespielt hast, über Akkorden, die sich auf der Quarte niederlassen, statt heimzukehren, sodass die Schleife sich nie auflöst.¶
+loseSong: Musik(
+		[
+			Spur(
+				thema
+				Instrument: Instrument.Klavier
+				Schlag: 0.5beats
+				Tonart: -12semitones
+				Lautstärke: 45%
+			)
+			Spur(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				Instrument: Instrument.synthPad
+				Schlag: 2beats
+				Lautstärke: 40%
+			)
+			Spur(
+				[ø ø 5 ø ø ø 4 ø]
+				Instrument: Instrument.Glocke
+				Schlag: 1beats
+				Lautstärke: 25%
+			)
+			Spur(
+				[1 ø ø ø ø ø ø ø]
+				Instrument: Instrument.Schlagzeug
+				Schlag: 1beats
+				Lautstärke: 20%
+			)
+		]
+		Tempo: 46beats/min
+		Tonleiter: Musik.Moll
+		Name: 'verlieren'
+	)
+
+¶Nur die Melodie für den aktuellen Status läuft auf der Bühne, und ein @Music, der nicht mehr da ist, stoppt — so verändert das Beenden der Runde die Musik.
+
+Alle drei spielen dasselbe Thema, und die Tonleiter darunter erledigt die Arbeit. Das Thema berührt die Stufen 1, 4, 5, 6 und 8, und @Music.major stimmt mit @Music.dorian bei jeder einzelnen davon überein — die Stufen, an denen sie sich trennen, die Terz und die Septime, kommen in der Melodie nicht vor. Deshalb verändert der Sieg keinen einzigen Ton der Melodie, die du beim Nachdenken vor dich hin summt; die Akkorde darunter benutzen aber die Terz, und die werden Dur. @Music.minor weicht bei der Sexte von Dorisch ab, die das Thema berührt, sodass die Niederlage auch diesen einen Ton absenkt und die Linie zusätzlich eine Oktave tiefer legt.¶
+soundtrack: state.status ???
+		"won": winSong
+		"lost": loseSong
+		puzzleMusic
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+Bühne(
+	[screen soundtrack]
+	Ort: Ort(0m 0m -12m)
+	gesicht: "Poor Story"
+	Hintergrund: Farbe(0% 0 0°)
+	Farbe: Farbe(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'Fuchs'
+	'Affe'
+	'Biber'
+	'Kuh'
+	'Wolf'
+	'Ziege'
+	'Reh'
+	'Schwein'
+	'Chinchilla'
+	'Eichhörnchen'
+	'Ratte'
+	'Spitzmaus'
+	'Maulwurf'
+	'Gürteltier'
+	'Opossum'
+	'Elefant'
+	'Fledermaus'
+	'Esel'
+	'Pferd'
+	'Igel'
+	'Katze'
+	'Giraffe'
+	'Gorilla'
+	'Robbe'
+	'Mensch'
+	'Känguru'
+	'Murmeltier'
+	'Hamster'
+	'Maus'
+	'Kaninchen'
+	'Schaf'
+	'Jaguar'
+	'Schimpanse'
+	'Pavian'
+	'Waschbär'
+	'Maulwurf'
+	'Spitzmaus'
+	'Ameisenigel'
+	'Tapir'
+].sortiert(
+	ƒ() Zufällig()
+)

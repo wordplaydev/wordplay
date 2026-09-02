@@ -1,0 +1,84 @@
+t
+Бројеви на француском
+=== start/en-US,start/fr-FR
+¶Притисни цифру која одговара француском броју на позорници.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶Бројеви које треба погодити¶
+¶Les nombres à deviner¶/fr
+бројеви,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶Тајне су бројеви од 1 до 9, поређани случајним редоследом¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+тајне: [1 2 3 4 5 6 7 8 9].промешано()
+
+¶Који је последњи притиснути кључ?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+кључ2,clé/fr: Кључ()
+
+¶Тренутна тајна се повећава сваки пут кад се притисне неки кључ, али стаје на 10¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+индексТајне,secretIndice/fr•#:
+	1 …
+	∆ кључ2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶Тренутна тајна, на основу индекса тајне¶
+тренутнаТајна,secretActuel/fr: тајне[индексТајне]
+
+¶Погодак је тачан ако притиснути број одговара претходном тајном броју¶
+тачно2: clé → # = тајне[индексТајне - 1]
+
+¶Поени почињу од 0 и повећавају се ако је погодак тачан.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+поени•#: 0 …
+	∆ кључ2 …
+		тачно2 ?
+			поени + 1
+			поени
+
+¶Победа значи погодити свих 9 бројева¶
+победа,gagner/fr: поени = 9
+
+¶Готово је када индекс тајне достигне 10¶
+крајИгре: индексТајне = 10
+
+¶Прикажи тренутни француски број и тренутне поене. После свих 9 тајни, прикажи коначан резултат¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Стаге(
+	[
+		Група(
+			Стацк()
+			[
+				крајИгре ?
+					Фраза(
+						победа ?
+							'Знаш француске бројеве!'"Tu connais les chiffres français!"/fr
+							'скоро, покушај поново'"presque, réessaye"/fr
+						величина: 2m
+					)
+					Фраза(numeros[secretActuel] величина: 2m)
+				Фраза("\поени\ points!" величина: 1m)
+				Фраза(
+					индексТајне = 1 ?
+						'који је ово број?''quel est ce numéro ?'/fr
+						тачно2 ?
+							'Тачно!'
+							"That was \тајне[индексТајне - 1]\"
+				)
+			]
+		)
+	]
+	лице: "Aclonica"
+)

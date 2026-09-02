@@ -1,0 +1,26 @@
+t
+Maszyna Czcionek
+=== start
+¶Naciśnij dowolny klawisz, aby wyświetlić każdą literę słowa "typografia" losową czcionką.¶
+czcionki: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+symbole: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ losuj()
+	symbole.tłumaczyć(
+		ƒ(symbol) Wyrażenie(
+				symbol
+				twarz: czcionki.losowy()
+				czastrwania: 0s
+			)
+	)
+
+frazy: losuj() … ∆ Klawisz() | ∆ Przycisk() … losuj()
+
+Scena([Grupa(Wiersz('|' 0m) frazy miejsce: Miejsce(0m 0m))])

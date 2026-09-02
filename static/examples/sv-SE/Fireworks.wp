@@ -1,0 +1,595 @@
+🎆
+Fyrverkerier
+=== start/en
+¶Fyrverkerier som smäller med musiken: varje instrument som hörs på ettslag dyker upp som sig själv, hänger kvar ett ögonblick och falnar bort.
+
+Inget här ritas efter en klocka. @Beat lämnar över en @Downbeat när varje slagblir hörbart, och en @Downbeat bär en @Part för varje @Track — vilketinstrument det är, om det låter, vilken ton det spelar och hur starkt. Såett utbrott per klingande del är en enda @List/translate, och musiken ritar sig själv.
+
+Varje utbrott namnges med slagnumret, så varje slags utbrott är nyautdata: de spelar sin startpose på väg in och sin slutpose när nästa slagtar över. Smällen och fallet är dessa två poser.
+
+Melodin är /The Star-Spangled Banner/ — John Stafford Smiths melodi frånungefär 1773, som länge varit fri att använda — hela vägen igenom, och slutarpå den sista raden. Varje ton bär sin egen längd som ett notvärde skrivet påtalet — \8𝅘𝅥𝅮\ är en åttondel, \13𝅗𝅥\ en halvnot, \13𝅗𝅥𝅭\ en punkterad halvnot — så upptaktstoner,punkterade figurer och långa hållna toner blir verkliga tidslängder istället för ett rutnät av lika slag. Ett vanligt tal är ett slag. Pausermåste ändå ha en @Note, eftersom \ø\ inte är ett tal och därför inte kan bära ett värde. Det ärskrivet i den kromatiska skalan, så att den höjda kvarten kan skrivas alls:varje steg är en halvton.¶
+
+slag2: Takt()
+antal2: slag2.räkna
+
+¶Bara de delar som faktiskt låter blir fyrverkerier; ett spår som vilarförblir mörkt. Innan musiken börjar finns inga delar alls, så himlen ärtom.¶
+avfyrar•[Del]: slag2.delar.filtrera(ƒ(p•Del) p.klingande)
+
+¶Varje instrument smäller som sig självt, och det är hela poängen: du kanse vilket som just spelade.¶
+ƒ ansikte2(p2•Del)•''
+	(p2.instrument.id = 'trumpet') ? '🎺'
+		(p2.instrument.id = 'flute') ? '🪈'
+			(p2.instrument.id = 'bell') ? '🔔'
+				(p2.instrument.id = 'piano') ? '🎹'
+					(p2.instrument.id = 'violin') ? '🎻'
+						(p2.instrument.id = 'drums') ? '🥁'
+							'🎵'
+
+¶Varje instrument har sin egen bana, spridd över hela himlen. Att användainstrumentet i stället för dess plats i listan gör att banan står stillanär ett annat instrument tystnar.¶
+ƒ bana(p3•Del)•#
+	(p3.instrument.id = 'trumpet') ? -6
+		(p3.instrument.id = 'flute') ? -3.6
+			(p3.instrument.id = 'bell') ? -1.2
+				(p3.instrument.id = 'piano') ? 1.2
+					(p3.instrument.id = 'violin') ? 3.6
+						(p3.instrument.id = 'drums') ? 6
+							0
+
+¶Hur högt ett utbrott sitter: dess ton. Varje del här klingar, så den haren.¶
+ƒ höjd2(p4•Del)•# p4.grader[1]
+
+¶Ett utbrott, som stiger med sin ton och sväller med hur starkt det ljuder.¶
+ƒ utbrott(p5•Del i•#)•Fras
+	Fras(
+		ansikte2(p5)
+		(0.9m + (p5.volym · 1.6m))
+		plats: Plats(
+			(bana(p5) + p5.panorering) · 1m
+			(((höjd2(p5) · 0.22) - 1.8) · 1m)
+		)
+		namn: 'burst \antal2\ \i\'
+		gårin: Sekvens(
+			{
+				0%: Pose(skala: 0.1 opacitet: 0%)
+				40%: Pose(skala: 1.35 opacitet: 100%)
+				100%: Pose(skala: 1 opacitet: 100%)
+			}
+			0.3s
+		)
+		avslutar: Sekvens(
+			{
+				0%: Pose(offset: Plats(0m 0m) opacitet: 100%)
+				100%: Pose(offset: Plats(0m -5m) opacitet: 0%)
+			}
+			0.9s
+		)
+	)
+
+¶Melodin. Grader är halvtoner från grundtonen: 1 är den tonen, 13 är enoktav upp, och 7 är den höjda kvarten. Två rader delar samma melodi, sedanmellanpartiet, sedan sista raden.¶
+melodi2: [
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		17𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		17
+		18
+		20
+		20𝅗𝅥
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15
+		17
+		18
+		18𝅗𝅥
+		18
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8
+		13
+		13
+		13𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		10
+		10
+		10
+		15
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13𝅘𝅥𝅮
+		13
+		12
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		13𝅘𝅥𝅭
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		18𝅘𝅥𝅮
+		20𝅗𝅥
+		13𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅭
+		18𝅘𝅥𝅮
+		15
+		13𝅗𝅥𝅭
+	]
+
+¶En grundton under varje takt.¶
+bas2: [
+		Not(ø 1beats)
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+	]
+
+¶En klocka på varannan taktnedslag, så den finns inte i varje utbrott.¶
+klocka2: [
+		Not(ø 1beats)
+		13
+		Not(ø 2beats)
+		Not(ø 3beats)
+		20
+		Not(ø 2beats)
+		Not(ø 3beats)
+		20
+		Not(ø 2beats)
+		Not(ø 3beats)
+		20
+		Not(ø 2beats)
+		Not(ø 3beats)
+		13
+		Not(ø 2beats)
+		Not(ø 3beats)
+		20
+		Not(ø 2beats)
+		Not(ø 3beats)
+		20
+		Not(ø 2beats)
+		Not(ø 3beats)
+		20
+		Not(ø 2beats)
+		Not(ø 3beats)
+		13
+		Not(ø 2beats)
+		Not(ø 3beats)
+		20
+		Not(ø 2beats)
+		Not(ø 3beats)
+		20
+		Not(ø 2beats)
+		Not(ø 3beats)
+		20
+		Not(ø 2beats)
+		Not(ø 3beats)
+		13
+		Not(ø 2beats)
+		Not(ø 3beats)
+		20
+		Not(ø 2beats)
+		Not(ø 3beats)
+		20
+		Not(ø 2beats)
+		Not(ø 3beats)
+		20
+		Not(ø 2beats)
+		Not(ø 3beats)
+	]
+
+¶Stråkar från mellanpartiet och framåt, så klangen växer.¶
+fiol2: [
+		Not(ø 1beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+	]
+
+¶En övermelodi bara i frasernas toppar.¶
+flöjt2: [
+		Not(ø 1beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 1beats)
+		25
+		Not(ø 1beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 1beats)
+		25
+		Not(ø 1beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 1beats)
+		25
+		Not(ø 1beats)
+		Not(ø 3beats)
+		Not(ø 3beats)
+		Not(ø 1beats)
+		25
+		Not(ø 1beats)
+		Not(ø 3beats)
+	]
+
+¶En marsch under.¶
+trummor2: [
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Not(ø 0.5beats)
+		3𝅘𝅥𝅮
+	]
+
+Etapp(
+	[
+		:avfyrar.översätta(ƒ(p6•Del i2•#) utbrott(p6 i2))
+		Musik(
+			[
+				Spår(
+					melodi2
+					instrument: Instrument.trumpet
+					volym: 90%
+					loop: ⊥
+				)
+				Spår(
+					bas2
+					instrument: Instrument.piano
+					tonart: -12semitones
+					volym: 50%
+					panorering: -0.4
+					loop: ⊥
+				)
+				Spår(
+					klocka2
+					instrument: Instrument.klocka
+					volym: 55%
+					loop: ⊥
+				)
+				Spår(
+					fiol2
+					instrument: Instrument.fiol
+					volym: 45%
+					panorering: 0.3
+					loop: ⊥
+				)
+				Spår(
+					flöjt2
+					instrument: Instrument.flöjt
+					volym: 65%
+					loop: ⊥
+				)
+				Spår(
+					trummor2
+					instrument: Instrument.trummor
+					volym: 45%
+					loop: ⊥
+				)
+			]
+			tempo: 84beats/min
+			skala: Musik.kromatisk
+			namn: 'hymn'
+		)
+	]
+	bakgrund: Färg(10% 12 265°)
+	färg: Färg(96% 0 0°)
+)

@@ -1,0 +1,100 @@
+🎬
+Bildspel
+=== start
+¶Ett bildspel som berättar hur Wordplay blev till. Tryck på → och ← för att bläddra.¶
+
+¶En bild i bildspelet: en figur, en titel och orden under den.¶
+•bild(emoji•'' titel•'' innehåll2•''|`…`)
+
+¶Berättelsen. Lägg till, ta bort eller ändra dessa bilder för att berätta din egen.¶
+bilder: [
+		bild(
+			'🎭'
+			'Wordplay'
+			'Berättelsen om hur detta språk blev till. Tryck på → för att gå framåt, och ← för att gå bakåt.'
+		)
+		bild(
+			'✒'
+			'En kärlek till bokstäver'
+			'För länge sedan blev Amy kär i typografi: formen på bokstäver och rytmen i ord på en sida.'
+		)
+		bild(
+			'💻'
+			'En kärlek till kod'
+			'Hon blev kär i programmering också, och i hur några ord kunde få saker att röra sig.'
+		)
+		bild(
+			'🧭'
+			'Två kärlekar, isär'
+			'Men typografi och programmering fanns i olika världar, och få verktyg lät någon älska båda samtidigt.'
+		)
+		bild(
+			'😄'
+			'En ung person'
+			'År senare träffade hon en ung person som älskade emojier, och ville få dem att dansa.'
+		)
+		bild(
+			'💡'
+			'En idé'
+			'Tänk om ett programmeringsspråk gjorde det lätt att få emojier att dansa?'
+		)
+		bild(
+			'🌱'
+			'Wordplay börjar'
+			'Så hon började bygga ett, där att koda betyder att flytta ord och tecken runt på en scen.'
+		)
+		bild(
+			'🧑‍🏫'
+			'Skapat tillsammans'
+			'Hon skapade det tillsammans med många unga och lärare, som berättade vad de ville göra, och vad som stod i vägen.'
+		)
+		bild(
+			'🌏'
+			'Alltid under utveckling'
+			'Det har fortsatt växa sedan dess, så att fler människor kan skapa mer av det de föreställer sig.'
+		)
+		bild(
+			'✨'
+			'Din tur'
+			`Vad drömmer du om att göra som inte går ännu? Berätta för oss på <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+		)
+	]
+
+totalt: bilder.längd()
+
+nyckel2: Nyckel()
+
+¶Bilden vi visar just nu. Höger flyttar framåt, vänster flyttar bakåt, och båda stannar vid ändarna i stället för att börja om.¶
+index2•#: 1 … ∆ nyckel2 …
+		(nyckel2 = 'Pil Höger') ? ((index2 < totalt) ? index2 + 1 index2)
+			(nyckel2 = 'Pil vänster') ? ((index2 > 1) ? index2 - 1 index2)
+				index2
+
+bild2: bilder[index2]
+
+Etapp(
+	[
+		Grupp(
+			Stack('|' 0.4m)
+			[
+				Fras(bild2.emoji storlek: 2m)
+				Fras(
+					`*\bild2.titel\*`
+					storlek: 1.2m
+					inriktning: '|'
+				)
+				Fras(
+					bild2.innehåll2
+					storlek: 0.5m
+					sjal: 12m
+					inriktning: '|'
+				)
+				Fras(
+					`\index2\ av \totalt\`
+					storlek: 0.25m
+					inriktning: '|'
+				)
+			]
+		)
+	]
+)

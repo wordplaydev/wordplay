@@ -1,0 +1,44 @@
+カ
+Tebak Katakana
+=== start
+¶Tebak katakana mana yang cocok dengan hiragana untuk mendapatkan poin.¶
+ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを'/ja → []
+カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ'/ja → []
+
+•ゲーム/ja,Game/en(秘密/ja,secret/en•# スコア/ja,score/en•#)
+選択/ja,selection/en: Pilihan()
+
+¶Mulai permainan dengan hiragana acak dan poin nol. Saat pilihan dibuat, buat keadaan baru yang memilih karakter baru dan menambah poin jika jawabannya benar.¶
+¶ランダムなひらがなと 0 ポイントでゲームを開始します。
+選択が行われたら、新しい文字を選択し、正しい場合はスコアを増分する新しいステータスを作成します。¶/ja
+配置/ja,status/en: ゲーム(Acak(1 46) 0) … ∆ 選択 …
+		ゲーム(
+			Acak(1 46)
+			配置.秘密 → '' = 選択 ?
+				配置.スコア + 1
+				配置.スコア - 1
+		)
+
+Panggung(
+	[
+		Kelompok(
+			Tumpukan()
+			[
+				Frasa(
+					`/What is the matching hiragana?/``/対応するひらがなは何ですか？/`/ja
+				)
+				Frasa(`*\カタカナ[配置.secret]\*` 2m)
+				Kelompok(
+					Jaringan(10 5 1m 1m 1m)
+					ひらがな.menerjemahkan(
+						ƒ(シンボル/ja•'' 指数/ja,index/en)
+							Frasa(シンボル nama: 指数 → '' dapatdipilih: ⊤)
+					)
+				)
+				Frasa(
+					`*\配置.score\* points!``*\配置.score\* 正解です！`/ja
+				)
+			]
+		)
+	]
+)

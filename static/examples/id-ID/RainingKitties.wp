@@ -1,0 +1,46 @@
+🐈
+Hujan Anak Kucing
+=== start/en
+¶Lima puluh kucing berjatuhan di panggung.¶
+hitungan2: 50
+ukuran2: 30
+
+•kucingKecil(x2•# y2•# z2•# sudut2•# kecepatan2•#) ()
+
+¶Pada awalnya, buat daftar berisi 20 kucing, masing-masing diletakkan di tempat acak. Saat jam berdetak, gerakkan semuanya ke bawah sedikit.¶
+kitties•[kucingKecil]:
+	hitungan2 → [].menerjemahkan(
+		ƒ(_) kucingKecil(
+				Acak(-ukuran2 ukuran2)
+				Acak(-ukuran2 ukuran2)
+				Acak(0 ukuran2 ÷ 2)
+				Acak(360)
+				Acak(-30 30)
+			)
+	)
+	… ∆ Waktu() …
+		kitties.menerjemahkan(
+			ƒ(kucing2•kucingKecil)
+				(kucing2.y2:kucing2.y2 < -ukuran2 ? ukuran2 kucing2.y2 - 2)
+				.sudut2:kucing2.sudut2 + kucing2.kecepatan2
+		)
+
+¶Ubah kucing-kucing itu menjadi frasa¶
+Panggung(
+	kitties.menerjemahkan(
+		ƒ(kucing3•kucingKecil)
+			Frasa(
+				"🐈"
+				menghadapi: "Noto Color Emoji"
+				ukuran: 5m
+				tempat: Tempat(
+					kucing3.x2 × 1m
+					kucing3.y2 × 1m
+					kucing3.z2 × 1m
+				)
+				rotasi: kucing3.sudut2 × 1°
+				lamanya: 0s
+			)
+	)
+	tempat: Tempat(0m 0m -5m)
+)

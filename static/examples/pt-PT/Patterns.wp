@@ -1,0 +1,32 @@
+⌕
+Padrões
+=== start
+¶Escreva uma frase com alguns números. Vou encontrar cada número e mostrá-los abaixo, aparecendo à medida que os encontro. Um padrão descreve a forma do texto — aqui,\⣿ >0 #⣿\ significa “um ou mais dígitos”, e ⌕ encontra cada lugar onde aparece.¶
+entrada: Conversa()
+texto2: 'Tenho 3 gatos, 12 peixes e 144 formigas' … ∆ entrada … entrada
+
+¶Procura no texto cada sequência de dígitos. Cada resultado é um Resultado com o seu texto correspondente.¶
+números2: texto2 ⌕ ⣿ >0 #⣿
+
+Fase(
+	[
+		Grupo(
+			Monte()
+			[
+				Frase(texto2 tamanho: 1m)
+				Grupo(
+					Monte()
+					números2.traduzir(
+						ƒ(número2•Resultado)
+							Frase(
+								número2.texto
+								tamanho: 1.5m
+								entrando: Pose(opacidade: 0 escala: 0.5)
+								duração: 0.5s
+							)
+					)
+				)
+			]
+		)
+	]
+)

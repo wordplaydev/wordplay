@@ -1,0 +1,90 @@
+🎐
+Klockspel
+=== start/en
+¶Fem klockor hänger på rad, numrerade ett till fem. Tryck på A, S, D, F eller G, så sväller klockan du slår an och blir ljusare, och lugnar sig sedan igen. Hela raden gungar lite, oavsett om någon spelar eller inte.
+
+Det är ett instrument. Det låter inte. Siffrorna är redan ett notblad, de bara spelas inte ännu. Det uteslutna blocket ovanför scenen är ljudet, som väntar på att @Music ska finnas.¶
+
+nedtryckt: Nyckel()
+tick: Tid(30ms)
+
+¶Hur mycket av sin klang en klocka förlorar varje bildruta.¶
+avklingning: 0.03
+
+¶En klocka: vilken grad den har, vilken tangent som slår an den, var den hänger, dess nyans, och hur starkt den fortfarande ringer — 1 precis slagen, 0 i vila.¶
+•klockspel(grad2•# nyckel2•'' x2•#m nyans2•#° energi•#)
+
+¶Slå an klockan vars tangent trycktes ner, och låt alla andra klockor lugna sig.¶
+ƒ klang(rad•[klockspel] träff•'' slagen•?)
+	rad.översätta(
+		ƒ(klocka2•klockspel)
+			(slagen & (träff = klocka2.nyckel2))
+			? klocka2.energi:1
+				klocka2.energi:(klocka2.energi - avklingning).max(0)
+	)
+
+klockor•[klockspel]: [
+		klockspel(1 'en' -6m 20° 0)
+		klockspel(2 's' -3m 75° 0)
+		klockspel(3 'd' 0m 140° 0)
+		klockspel(4 'f' 3m 205° 0)
+		klockspel(5 'g' 6m 270° 0)
+	] … (∆ nedtryckt | ∆ tick) … klang(
+			klockor
+			nedtryckt
+			(∆ nedtryckt)
+		)
+
+¶En klocka sväller och blir ljusare med sin klang, och gungar alltid lite, så raden lever även när ingen spelar.¶
+ƒ klockvy(klocka3•klockspel)
+	Fras(
+		(klocka3.grad2 → '')
+		(2m + (klocka3.energi · 1.5m))
+		plats: Plats(klocka3.x2 0m)
+		varaktighet: 0.12s
+		färg: Färg(
+			(45% + (klocka3.energi · 40%))
+			(20 + (klocka3.energi · 80))
+			klocka3.nyans2
+		)
+		vilande: Sekvens.vingla(3° 2.5s)
+	)
+
+¶Tangenten som slår an varje klocka, skriven under den.¶
+ƒ tangentvy(klocka4•klockspel)
+	Fras(
+		klocka4.nyckel2
+		0.7m
+		plats: Plats(klocka4.x2 -3m)
+		färg: Färg(60% 0 0°)
+	)
+
+¶Dessa två bindningar är hela ljudet: hitta klockan som ringer just nu, och ge dess grad till en klocka, som spelas om vid varje tryck så att varje slag blir ett nytt ljud i stället för samma igen. Fem klockor, fem grader av en pentatonisk skala, så det finns ingen fel ton.¶
+ringande: klockor.filtrera(
+		ƒ(klocka5•klockspel) klocka5.energi = 1
+	)
+sång: Musik(
+		Spår(
+			ringande ↦ ⬚.grad2
+			instrument: Instrument.klocka
+			loop: ⊥
+		)
+		skala: Musik.pentatonisk
+		spelaom: ∆ nedtryckt
+	)
+
+Etapp(
+	[
+		Fras(
+			'━━━━━━━━━━━━━'
+			1m
+			plats: Plats(-6m 2.5m)
+			färg: Färg(45% 0 0°)
+		)
+		:klockor ↦ klockvy(⬚)
+		:klockor ↦ tangentvy(⬚)
+		sång
+	]
+	bakgrund: Färg(16% 15 280°)
+	färg: Färg(95% 0 0°)
+)

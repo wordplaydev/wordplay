@@ -1,0 +1,100 @@
+🎬
+Apresentação de Diapositivos
+=== start
+¶Uma apresentação de diapositivos que conta como o Wordplay surgiu; prima → e ← para avançar e recuar.¶
+
+¶Um diapositivo da apresentação: uma personagem, um título e as palavras abaixo dele.¶
+•diapositivo(emoji•'' título•'' corpo•''|`…`)
+
+¶A história. Adicione, remova ou altere estes diapositivos para contar a sua própria história.¶
+diapositivos: [
+		diapositivo(
+			'🎭'
+			'Wordplay'
+			'A história de como este idioma surgiu. Prima → para avançar, e ← para recuar.'
+		)
+		diapositivo(
+			'✒'
+			'Um amor pelas letras'
+			'Há muito tempo, a Amy apaixonou-se pela tipografia: as formas das letras e o ritmo das palavras numa página.'
+		)
+		diapositivo(
+			'💻'
+			'Um amor pelo código'
+			'Ela também se apaixonou pela programação, e pela forma como algumas palavras conseguiam fazer as coisas moverem-se.'
+		)
+		diapositivo(
+			'🧭'
+			'Dois amores, separados'
+			'Mas a tipografia e a programação viviam em mundos diferentes, e poucas ferramentas convidavam alguém a amar ambas ao mesmo tempo.'
+		)
+		diapositivo(
+			'😄'
+			'Uma pessoa jovem'
+			'Anos mais tarde, ela conheceu uma pessoa jovem que adorava emojis, e queria fazê-los dançar.'
+		)
+		diapositivo(
+			'💡'
+			'Uma ideia'
+			'E se um idioma de programação tornasse fácil fazer os emojis dançar?'
+		)
+		diapositivo(
+			'🌱'
+			'O Wordplay começa'
+			'Então ela começou a construir um, no qual escrever código significa mover palavras e caracteres num palco.'
+		)
+		diapositivo(
+			'🧑‍🏫'
+			'Criado em conjunto'
+			'Ela criou-o com muitos jovens e professor(a)es, que diziam o que queriam fazer, e o que os impedia.'
+		)
+		diapositivo(
+			'🌏'
+			'Sempre a evoluir'
+			'Desde então, tem continuado a crescer, para que mais pessoas possam criar mais do que imaginam.'
+		)
+		diapositivo(
+			'✨'
+			'É a sua vez'
+			`O que sonha fazer que ainda não é possível? Diga-nos em <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+		)
+	]
+
+total: diapositivos.comprimento()
+
+chave2: Chave()
+
+¶O diapositivo que estamos a mostrar agora. Direita avança, esquerda recua, e ambos param nos extremos em vez de voltar ao início.¶
+índice2•#: 1 … ∆ chave2 …
+		(chave2 = 'Seta para a direita') ? ((índice2 < total) ? índice2 + 1 índice2)
+			(chave2 = 'Seta para a esquerda') ? ((índice2 > 1) ? índice2 - 1 índice2)
+				índice2
+
+diapositivo2: diapositivos[índice2]
+
+Fase(
+	[
+		Grupo(
+			Monte('|' 0.4m)
+			[
+				Frase(diapositivo2.emoji tamanho: 2m)
+				Frase(
+					`*\diapositivo2.título\*`
+					tamanho: 1.2m
+					alinhamento: '|'
+				)
+				Frase(
+					diapositivo2.corpo
+					tamanho: 0.5m
+					envolver: 12m
+					alinhamento: '|'
+				)
+				Frase(
+					`\índice2\ de \total\`
+					tamanho: 0.25m
+					alinhamento: '|'
+				)
+			]
+		)
+	]
+)

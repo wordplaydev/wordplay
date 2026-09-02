@@ -1,0 +1,46 @@
+K
+Aranjamente
+=== start
+¶Rânduri, stive și grupuri de fraze, fiecare cu poziții animate.¶
+pulsație: Secvenţă(
+		{
+			0%: Poză(scară: .9)
+			50%: Poză(scară: 1.1)
+			100%: Poză(scară: .9)
+		}
+	)
+săltare: Secvenţă(
+		{
+			0%: Poză(compensare: Loc(z: 0m))
+			50%: Poză(compensare: Loc(z: -2m))
+			100%: Poză(compensare: Loc(z: 0m))
+		}
+		1s
+	)
+
+Grup(
+	Rând()
+	[
+		Grup(
+			Stivă()
+			[
+				Fraza('Pisicuță')
+				Fraza('Pisică' odihnă: săltare)
+				Grup(
+					Rând()
+					[Fraza('Câine') Fraza('Canin')]
+					odihnă: pulsație
+				)
+				Fraza('Felin')
+			]
+		)
+		Grup(
+			Stivă()
+			[
+				Fraza('Salut')
+				Fraza('Bună')
+			]
+			odihnă: Secvenţă.rotire(2s "straight")
+		)
+	]
+)

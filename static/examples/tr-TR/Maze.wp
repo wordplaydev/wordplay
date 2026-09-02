@@ -1,0 +1,106 @@
+↑
+Labirent
+=== start/en
+¶A maze is a 2D grid of emoji, with some functions for checking the state at particular grid postions.
+Mazes are generated randomly.¶/en
+•labirent() (
+	ızgara•[[''|ø]]:
+		[
+			['🎬' '❤' '❌' ø ø]
+			['❤' ø ø ø ø]
+			['🐈' '😀' '💬' '🫥' '😞']
+			[ø '👍' ø ø '😕']
+			['🤩' '🥹' ø '😫' '😡']
+		]
+
+	ƒ hücre2(sıra•# kolon•#) (
+			hücreler: ızgara[sıra]
+			hücreler•[] ? hücreler[kolon] ø
+		)
+
+	ƒ izinVerilen(sıra2•# kolon2•#) hücre2(sıra2 kolon2)•''
+)
+
+labirent2: labirent()
+
+•durum(sıra3•# kolon3•# adımlar•#)
+(
+	ƒ aşağı2() durum(sıra3 + 1 kolon3 adımlar + 1)
+	ƒ yukarı() durum(sıra3 - 1 kolon3 adımlar + 1)
+	ƒ sol2() durum(sıra3 kolon3 - 1 adımlar + 1)
+	ƒ sağ() durum(sıra3 kolon3 + 1 adımlar + 1)
+)
+
+ƒ izinVerilen2(durum2•durum sıra4•# kolon4•#) labirent2.izinVerilen(
+		durum2.sıra3 + sıra4
+		durum2.kolon3 + kolon4
+	)
+
+yön2: Seçenek()
+durum3•durum: durum(1 1 0) … ∆ yön2 …
+		((yön2 = "left") & izinVerilen2(durum3 0 -1)) ? durum3.sol2(
+			)
+			((yön2 = "right") & izinVerilen2(durum3 0 1)) ? durum3.sağ(
+				)
+				((yön2 = "up") & izinVerilen2(durum3 -1 0)) ? durum3.yukarı(
+					)
+					((yön2 = "down") & izinVerilen2(durum3 1 0)) ? durum3.aşağı2(
+						)
+						durum3
+
+güncel: (
+		hücre3: labirent2.hücre2(durum3.sıra3 durum3.kolon3)
+		hücre3 ?? ' ')
+yukarı2: labirent2.hücre2(durum3.sıra3 - 1 durum3.kolon3)•''
+aşağı3: labirent2.hücre2(durum3.sıra3 + 1 durum3.kolon3)•''
+sol3: labirent2.hücre2(durum3.sıra3 durum3.kolon3 - 1)•''
+sağ2: labirent2.hücre2(durum3.sıra3 durum3.kolon3 + 1)•''
+kazandı: güncel = '🤩'
+
+Sahne(
+	[
+		Grup(
+			Izgara(3 3 0.25m)
+			[
+				ø
+				İfadeetmek(
+					'↑'
+					isim: 'up'
+					seçilebilir: yukarı2
+					dinlenme: Poz(opaklık: yukarı2 ? 1 0.2)
+				)
+				ø
+				İfadeetmek(
+					'←'
+					isim: 'left'
+					seçilebilir: sol3
+					dinlenme: Poz(opaklık: sol3 ? 1 0.2)
+				)
+				İfadeetmek(
+					güncel
+					dinlenme: kazandı ?
+						Sekans.döndürmek(süre: 1s stil: 'straight')
+						Poz()
+				)
+				İfadeetmek(
+					'→'
+					isim: 'right'
+					seçilebilir: sağ2
+					dinlenme: Poz(opaklık: sağ2 ? 1 0.2)
+				)
+				ø
+				İfadeetmek(
+					'↓'
+					isim: 'down'
+					seçilebilir: aşağı3
+					dinlenme: Poz(opaklık: aşağı3 ? 1 0.2)
+				)
+				ø
+			]
+		)
+	]
+	yer: Yer(0m 0m -3m)
+	yüz: 'Noto Emoji'
+	arkaplan: Renk(0 0 0°)
+	dinlenme: Poz(Renk(100 100 0°))
+)

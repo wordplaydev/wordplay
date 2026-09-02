@@ -1,0 +1,33 @@
+🗣
+Usapang Mukha
+===
+¶Ang mga ekspresyon ng iyong mukha, sinusubaybayan ng kamera at isinasalaysay sa entablado.¶
+
+¶Gumawa ng face stream para masubaybayan ang mga ekspresyon¶
+mukha2: Mukha(200ms)
+
+¶Pumili sa pagngiti, pagkunot ng noo, pagkindat, o walang gawin¶
+mood: mukha2.mgaMataBukas ?
+		(mukha2.gaanoKalakiNgiti > 0.6 ? 'smiling'
+				mukha2.gaanoKalakiSimangot > 0.4 ? 'frowning'
+					'')
+		'blinking'
+
+¶Gawing emoji ang mood, at bigyan ang mukha ng bulong ng pananalita na sinasabi ito. Kapag binigyan mo ng @Say ang bulong, ang mood ay sinasabi rin nang malakas bukod sa ipinapakita, at ang bulong ang humahalili sa caption sa ibaba ng entablado.¶
+Entablado(
+	[
+		Parirala(
+			(mood = 'blinking' ? '😴'
+					mood = 'smiling' ? '😀'
+						mood = 'frowning' ? '🙁'
+							'😐')
+			laki: 8m
+			bula: (mood = ''
+				? Bula(
+						`/Ngiti, kunot ang noo, o ipikit ang mga mata/`
+						balutin: 8m
+					)
+					Bula(Sabihin(mood)))
+		)
+	]
+)

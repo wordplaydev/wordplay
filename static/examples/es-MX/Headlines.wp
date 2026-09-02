@@ -1,0 +1,38 @@
+l
+Titulares
+=== start/en
+¶Titulares en vivo del New York Times, tomados de la web y apilados en el escenario.¶
+titulares: PáginaWeb(
+		'https://www.nytimes.com'
+		'.indicate-hover'
+	)
+titulares•# ?
+	Frase('cargando')
+	Grupo(
+		Pila('<')
+		[
+			Frase(
+				`*Titulares del New York Times*`
+				2m
+				fuente: 'Arvo'
+			)
+		].adjuntar(
+			titulares.subsecuencia(1 7).traducir(
+				ƒ(titular)
+					Frase(
+						titular
+						envolver: 20m
+						alineación: '<'
+						fuente: 'Ubuntu'
+						inmóvil: Secuencia(
+							{
+								0%: Pose(rotación: 3°)
+								50%: Pose(rotación: -3°)
+								100%: Pose(rotación: 3°)
+							}
+							duración: 3s
+						)
+					)
+			)
+		)
+	)

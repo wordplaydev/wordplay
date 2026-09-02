@@ -1,0 +1,46 @@
+K
+Layouts
+=== start
+¶Reihen, Stapel und Gruppen von Phrasen, jede in einer animierten Pose.¶
+pochen: Reihenfolge(
+		{
+			0%: Pose(Skala: .9)
+			50%: Pose(Skala: 1.1)
+			100%: Pose(Skala: .9)
+		}
+	)
+zhüpfen: Reihenfolge(
+		{
+			0%: Pose(Versatz: Ort(z: 0m))
+			50%: Pose(Versatz: Ort(z: -2m))
+			100%: Pose(Versatz: Ort(z: 0m))
+		}
+		1s
+	)
+
+Gruppe(
+	Reihe()
+	[
+		Gruppe(
+			Stapel()
+			[
+				Satzglied('Kätzchen')
+				Satzglied('Katze' Ruhen: zhüpfen)
+				Gruppe(
+					Reihe()
+					[Satzglied('Hund') Satzglied('Hund')]
+					Ruhen: pochen
+				)
+				Satzglied('Katze')
+			]
+		)
+		Gruppe(
+			Stapel()
+			[
+				Satzglied('Hallo')
+				Satzglied('Hallo')
+			]
+			Ruhen: Reihenfolge.drehen(2s "straight")
+		)
+	]
+)

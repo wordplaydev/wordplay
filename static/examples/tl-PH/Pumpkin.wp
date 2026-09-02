@@ -1,0 +1,33 @@
+🎃
+Kalabasa
+=== start
+¶Isang jack-o'-lantern na kumikislap at muling lumalabas sa ibang lugar bawat segundo.¶
+oras2: Oras(1000ms)
+ilagay: Lugar(0m 0m) … ∆ oras2 … Lugar(
+			Random(-4m 4m)
+			Random(-4m 4m)
+			Random(-4m 0m)
+		)
+kakapalan: 1 … ∆ oras2 … Random(0.25 1)
+ipakita: ⊤ … ∆ oras2 … ~ipakita
+kalabasa: Parirala(
+		'🎃'
+		kalabuan: kakapalan
+		lugar: ilagay
+		pagpasok: Pagkakasunodsunod(
+			{
+				0%: Pose(sukat: 1.25 pagikot: -21°)
+				20%: Pose(sukat: 0.75 pagikot: 13°)
+				40%: Pose(sukat: 1 pagikot: -7°)
+				60%: Pose(sukat: 1.25 pagikot: 19°)
+				100%: Pose()
+			}
+			0.5s
+			bilangin: 3x
+		)
+	)
+
+Entablado(
+	ipakita ? [kalabasa] []
+	background: Kulay(0% 0 0°)
+)

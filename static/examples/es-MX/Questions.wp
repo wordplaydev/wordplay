@@ -1,0 +1,41 @@
+👨‍👨‍👧‍👦
+Preguntas
+=== start/en
+¶Presiona teclas para lanzar signos de pregunta rebotando sobre una familia confundida.¶
+•pregunta(id2•"" vx•#m/s vy•#m/s va•#°/s)
+
+presionada: ∆ Tecla()
+cantidad2•#: 0 … presionada … cantidad2 + 1
+preguntas•[pregunta]: [] … presionada … [
+			:preguntas
+			pregunta(
+				cantidad2 → ""
+				Azar(30m/s 50m/s)
+				Azar(30m/s 50m/s)
+				Azar(0°/s 30°/s)
+			)
+		]
+
+Escenario(
+	[
+		Frase('👨‍👨‍👧‍👦' lugar: Lugar(0m 0m) fuente: "Noto Emoji")
+		Figura(Rectángulo(-5m 0m 25m -1m))
+		:preguntas.traducir(
+			ƒ(p•pregunta índice2•#) (
+					inicializar: presionada & (índice2 = preguntas.longitud(
+									))
+					Frase(
+						'P'
+						nombre: p.id2
+						lugar: Movimiento(
+							velocidad: Velocidad(p.vx p.vy p.va)
+						)
+						materia: Materia()
+						inmóvil: Pose(
+							opacidad: inicializar ? 0% 100%
+						)
+					)
+				)
+		)
+	]
+)

@@ -1,0 +1,43 @@
+✨
+Bakas ng Salita
+===
+¶Ipinapakita ng proyektong ito ang balangkas ng salitang "wordplay" gamit ang kometa ng mga tuldok na dumadaloy sa paligid ng mga titik, na kinokontrol ng isang Time() stream. Kumikislap ang kalahati ng salita anumang oras, mula sa maliwanag sa ulo ng bakas hanggang sa nawawala sa buntot.¶
+
+puntos: Kontur(
+		'wordplay'
+		"Noto Sans"
+		3m
+		lugar: Lugar(-6m 0m)
+		pagitan: 0.5m
+	)
+
+¶Ilang puntos ang nasa balangkas, at isang ligtas na bilang na gagamitin sa paghahati bago pa maisakarga ang font (kapag walang laman pa ang listahan).¶
+bilang2: puntos.haba()
+
+¶Sinasaklaw ng bakas ang kalahati ng salita, kaya laging kalahati ang nakikita.¶
+landas: bilang2 ÷ 2
+
+¶Isang indeks ng ulo na sumusulong ng isang puntos bawat tick at umiikot pabalik sa salita.¶
+ulo: 0 … ∆ Oras(10ms) … ((ulo + 1) % bilang2) ?? 0
+
+Entablado(
+	puntos.isalin(
+		ƒ(puntos2•Lugar indeks2•#)
+			(
+				¶Ilang puntos ang layo nito sa likod ng ulo, na umiikot pabalik.¶
+				edad: ((((ulo - indeks2) + 1) + bilang2) % bilang2) ?? 0
+				Parirala(
+					"•"
+					laki: 1m
+					lugar: puntos2
+					kulay: Kulay(
+						90%
+						100
+						((indeks2 ÷ bilang2) ?? 0) × 360°
+					)
+					kalabuan: edad < landas ? 1 - ((edad ÷ landas) ?? 0) 0
+					tagal: 0s
+				))
+	)
+	background: Kulay(8% 0 0°)
+)

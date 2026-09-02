@@ -1,0 +1,306 @@
+W
+JakieSłowo
+=== start/en
+¶Gra w odgadywanie słów po angielsku, hiszpańsku i arabsku.¶
+↓ words
+
+¶a list of guesses and a secret word¶/en
+¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
+¶قائمة التخمينات وكلمة سرية¶/ar
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] pozostałe•[""] start2•?) (
+	tajemnica: start2 ? pozostałe[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (tajemnica.długość(
+			) × 3) - guesses.długość()
+	status/en,estado/es,حالة/ar:
+		tajemnica = "" ? "start"
+			tajemnica → [""].Wszystko(
+				ƒ(litera•"") guesses.ma(litera)
+			) ? "won"
+				guessesRemaining ≤ 0 ? "lost"
+					"playing"
+)
+
+key/en,tecla/es,مفتاح/ar: Klawisz()
+
+¶When the keyboard state changes, the game state changes.¶/en
+¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
+¶عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.¶/ar
+state/en,estado/es,حالة/ar•Game: Game(
+		[]
+		words.posortowane(ƒ() Losowy())
+		⊥
+	) … ∆ key …
+		key = 'Ucieczka' ? Game(
+				[]
+				words.posortowane(ƒ() Losowy())
+				⊥
+			)
+			(state.status ≠ "playing") & (key = 'Przestrzeń') ? Game(
+					[]
+					state.pozostałe.bezPierwszego()
+					⊤
+				)
+				(state.status = "playing") & (key.długość() = 1) & ~state.guesses.ma(
+						key
+					) ?
+					Game(state.guesses.z(key) state.pozostałe ⊤)
+					state
+
+¶The board is a translation of the secret, accounting for guesses¶/en
+¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
+¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
+board/en,tabelro/es,طاولة/ar: Wyrażenie(
+		state.tajemnica → [""].tłumaczyć(
+			ƒ(litera2•"") ((state.status = "lost") | state.guesses.ma(
+							litera2
+						)) ? litera2 "."
+		).dołączyć(
+			' '
+		)
+		2m
+	)
+
+fade/en,descolorar/es,يختفي/ar: Poza(nieprzezroczystość: 0)
+
+¶Construct the game scene¶/en
+¶Construye la escena del juego¶/es
+¶قم ببناء مشهد اللعبة¶/ar
+screen/en,cine/es,إظهار/ar:
+	state.status ???
+		"start": Grupa(
+			Stos()
+			[
+				Wyrażenie(
+					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+					3m
+					miejsce: Miejsce(z: -1m)
+					wstępowanie: Poza(nieprzezroczystość: 0%)
+					spoczynkowy: Sekwencja.kołysać(czastrwania: 1s)
+				)
+				Wyrażenie(
+					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
+				)
+			]
+			wychodzenie: fade
+		)
+		"lost": Grupa(
+			Stos()
+			[
+				board
+				Wyrażenie(
+					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
+					wstępowanie: Poza(obrót: 0°)
+					spoczynkowy: Poza(obrót: -5°)
+				)
+			]
+			wychodzenie: fade
+		)
+		"won": Grupa(
+			Stos()
+			[
+				board.spoczynkowy:Sekwencja.odbićsię(3m 1s)
+				Wyrażenie(
+					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+				)
+			]
+			wychodzenie: fade
+		)
+		Grupa(
+			Stos()
+			[
+				board
+				Wyrażenie(
+					state.guesses.długość() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.dołączyć(
+							' '
+						)\"/en"Suposiciones: \state.guesses.dołączyć(
+							' '
+						)\"/es"التخمينات \state.guesses.dołączyć(' ')\"/ar
+				)
+				Wyrażenie(
+					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+					spoczynkowy: Sekwencja.kołysać(
+						2°
+						(state.guessesRemaining ÷ 5) × 1s
+					)
+				)
+			]
+		)
+
+¶Wolna figura, która krąży wokół siebie, a nie prowadzi nigdzie — właśnie to sprawia, że warto się w niej zamyślić. Każdy utwór poniżej ma osiem uderzeń, więc wszystkie wracają razem do początku i pętla nie ma szwu.¶
+motyw: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶Ile z twojego kieszonkowego zostało wydane, od 0, gdy wszystko jest jeszcze do zagrania, do 1, gdy nic nie zostało. Tajemnica jest pusta przed pierwszą rundą, więc dzielenie jest zabezpieczone, a nie pozostawione na dzielenie przez zero.¶
+maksimumPrób: state.tajemnica.długość() × 3
+presja: (maksimumPrób = 0) ? 0 (((1 - (state.guessesRemaining ÷ maksimumPrób)).maks(
+					0
+				)).min(
+				1
+			))
+
+¶Zamyślone przy 54 uderzeniach na minutę, naglące przy 120 — każda próba przesuwa je odrobinę. Zmiana tempa łączy się przy następnym uderzeniu, a nie zaczyna od nowa, więc pętla zachowuje swoje miejsce i tylko lekko przyspiesza — cichy bęben ma sprawić, by to przyspieszenie było słyszalne, bo zmianę tempa pod długimi, wybrzmiewającymi nutami trudno wyczuć.¶
+muzykaZagadki: Muzyka(
+		[
+			Ścieżka(
+				motyw
+				instrument: Instrument.pianino
+				rytm: 0.5beats
+				głośność: 50%
+			)
+			Ścieżka(
+				[{1 3 5} {4 6 8}]
+				instrument: Instrument.padSyntezatora
+				rytm: 4beats
+				głośność: 35%
+			)
+			Ścieżka(
+				[ø ø 8 ø ø ø 6 ø]
+				instrument: Instrument.dzwonek
+				rytm: 1beats
+				głośność: 30%
+			)
+			Ścieżka(
+				[1 ø ø ø 1 ø ø ø]
+				instrument: Instrument.perkusja
+				rytm: 1beats
+				głośność: 20%
+			)
+		]
+		tempo: (54beats/min + (presja · 66beats/min))
+		skala: Muzyka.dorycka
+		nazwa: 'zagadka'
+	)
+
+¶Wygrałeś: temat dwa razy szybszy, powtórzony oktawę wyżej na dzwonku, ponad jedynymi durowymi akordami w tym przykładzie.¶
+piosenkaWygranej: Muzyka(
+		[
+			Ścieżka(
+				motyw
+				instrument: Instrument.pianino
+				rytm: 0.5beats
+				głośność: 50%
+			)
+			Ścieżka(
+				motyw
+				instrument: Instrument.dzwonek
+				rytm: 0.5beats
+				tonacja: 12semitones
+				głośność: 35%
+			)
+			Ścieżka(
+				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
+				instrument: Instrument.padSyntezatora
+				rytm: 2beats
+				głośność: 35%
+			)
+			Ścieżka(
+				[1 ø 3 ø 2 ø 3 ø]
+				instrument: Instrument.perkusja
+				rytm: 1beats
+				głośność: 30%
+			)
+		]
+		tempo: 96beats/min
+		skala: Muzyka.durowa
+		nazwa: 'wygrana'
+	)
+
+¶Przegrałeś: temat oktawę niżej i wolniejszy, niż był kiedykolwiek podczas gry, na akordach, które zatrzymują się na czwartym stopniu, a nie wracają do domu, więc pętla nigdy się nie rozwiązuje.¶
+piosenkaPrzegranej: Muzyka(
+		[
+			Ścieżka(
+				motyw
+				instrument: Instrument.pianino
+				rytm: 0.5beats
+				tonacja: -12semitones
+				głośność: 45%
+			)
+			Ścieżka(
+				[{1 3 5} {1 3 5} {4 6 8} {4 6 8}]
+				instrument: Instrument.padSyntezatora
+				rytm: 2beats
+				głośność: 40%
+			)
+			Ścieżka(
+				[ø ø 5 ø ø ø 4 ø]
+				instrument: Instrument.dzwonek
+				rytm: 1beats
+				głośność: 25%
+			)
+			Ścieżka(
+				[1 ø ø ø ø ø ø ø]
+				instrument: Instrument.perkusja
+				rytm: 1beats
+				głośność: 20%
+			)
+		]
+		tempo: 46beats/min
+		skala: Muzyka.molowa
+		nazwa: 'przegrana'
+	)
+
+¶Na scenie gra tylko melodia dla aktualnego stanu, a @Music, którego już nie ma, przestaje grać — więc to zakończenie rundy zmienia muzykę.
+
+Wszystkie trzy grają ten sam temat, a robotę wykonuje skala pod nim. Temat dotyka stopni 1, 4, 5, 6 i 8, a @Music.major zgadza się z @Music.dorian na każdym z nich — stopnie, w których się rozchodzą, trzeci i siódmy, nie występują w melodii. Więc wygrana nie zmienia ani jednej nuty melodii, którą nucisz podczas myślenia; akordy pod nią jednak używają trzeciego stopnia i stają się durowe. @Music.minor różni się od skali dorian na szóstym stopniu, który temat dotyka, więc przegrana obniża tę jedną nutę, a do tego zniża całą linię o oktawę.¶
+ścieżkaDźwiękowa: state.status ???
+		"won": piosenkaWygranej
+		"lost": piosenkaPrzegranej
+		muzykaZagadki
+
+¶Create a world with the screen in it¶/en
+¶Crea un mundo con la pantalla en él¶/es
+¶اصنع عالمًا مع الشاشة بداخله¶/ar
+Scena(
+	[screen ścieżkaDźwiękowa]
+	miejsce: Miejsce(0m 0m -12m)
+	twarz: "Poor Story"
+	tło: Kolor(0% 0 0°)
+	kolor: Kolor(100% 0 0°)
+)
+=== words
+¶These are the secret words. Don't tell anyone!¶/en
+¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es
+¶هذه هي الكلمات السرية. لا تخبر أحدا!¶/ar
+[
+	'lis'
+	'małpa'
+	'bóbr'
+	'krowa'
+	'wilk'
+	'koza'
+	'jeleń'
+	'świnia'
+	'szynszyla'
+	'wiewiórka'
+	'szczur'
+	'ryjówka'
+	'kret'
+	'pancernik'
+	'oposum'
+	'słoń'
+	'nietoperz'
+	'osioł'
+	'koń'
+	'jeż'
+	'kot'
+	'żyrafa'
+	'goryl'
+	'foka'
+	'człowiek'
+	'kangur'
+	'świstak'
+	'chomik'
+	'mysz'
+	'królik'
+	'owca'
+	'jaguar'
+	'szympans'
+	'pawian'
+	'szop'
+	'kret'
+	'ryjówka'
+	'kolczatka'
+	'tapir'
+].posortowane(
+	ƒ() Losowy()
+)

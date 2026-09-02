@@ -1,0 +1,209 @@
+👩‍💻
+Luka w kodzie
+=== start/en
+¶Ten projekt pokazuje prawdziwe, publiczne dane o tym, ile kobiet zdobywa dyplomy z informatyki w Stanach Zjednoczonych i jak to się zmieniało.
+
+Korzysta z dwóch tabel danych, jednej o nazwie lata i jednej o nazwie pola. Potem pozwala wybrać jeden z trzech widoków za pomocą przycisków na górze. Każdy widok to wykres słupkowy zbudowany z emotikonów kobiet, z prostym wyjaśnieniem w stopce.¶
+↓ years
+↓ fields
+
+¶Funkcja fill tworzy jeden pełny słupek. Powtarza emoji kobiety countrazy i łączy je w jeden ciąg tekstu bez przerw, więc wierszwygląda jak jeden ciągły słupek, a nie osobne kropki.¶
+ƒ wypełnienie(liczba2•#) (liczba2 → []).tłumaczyć(ƒ() '👩').dołączyć(
+		''
+	)
+
+¶Funkcja chart rysuje wykres słupkowy z trzech pasujących list: etykiety,długości słupka w emoji i wartości. Każdy słupek to jeden wiersz stosuwyrównanego do lewej, więc wszystkie słupki zaczynają się od tej samejkrawędzi i można bezpośrednio porównać ich długości. Etykieta i wartośćznajdują się na końcu każdego słupka w tym samym wierszu, dzięki czemusą ustawione w linii z jego słupkiem.¶
+ƒ wykres(etykiety•[''] jednostki•[#] wartości•[''])
+	Grupa(
+		Stos('<' wyściółka: 0.2m)
+		jednostki.tłumaczyć(
+			ƒ(j•# i2•#)
+				Grupa(
+					Wiersz('|' wyściółka: 0.3m)
+					[
+						Wyrażenie(wypełnienie(j) rozmiar: 0.3m)
+						Wyrażenie(
+							`\etykiety[i2]\ \wartości[i2]\`
+							rozmiar: 0.28m
+							kolor: Kolor(45% 0 0°)
+						)
+					]
+				)
+		)
+	)
+
+¶Widok 1 — "Wzlot i upadek".Dla każdego roku w danych rysujemy słupek, którego długość to procentdyplomów z informatyki uzyskanych przez kobiety. Każde emoji kobietyoznacza około 5 procent, więc dzielimy procent przez 5, aby uzyskaćdługość słupka.¶
+wierszeCzasu: (years ⎡?rok2 procent⎦ ⊤) → []
+widokCzasu: wykres(
+		wierszeCzasu.tłumaczyć(ƒ(rząd) rząd.rok2)
+		wierszeCzasu.tłumaczyć(
+			ƒ(rząd2) (rząd2.procent ÷ 5).okrągły()
+		)
+		wierszeCzasu.tłumaczyć(
+			ƒ(rząd3) (rząd3.procent.okrągły() → '') + '%'
+		)
+	)
+
+¶Widok 2 — "Jedna dziedzina nie na miejscu".Porównujemy udział kobiet w różnych dziedzinach studiów w jednymniedawnym roku. Wiersze są już ułożone od największego do najmniejszegoudziału kobiet, więc informatyka spada na sam dół wykresu.¶
+wierszePól: (fields ⎡?pole procent2⎦ ⊤) → []
+widokPól: wykres(
+		wierszePól.tłumaczyć(ƒ(rząd4) rząd4.pole)
+		wierszePól.tłumaczyć(
+			ƒ(rząd5) (rząd5.procent2 ÷ 5).okrągły()
+		)
+		wierszePól.tłumaczyć(
+			ƒ(rząd6) (rząd6.procent2 → '') + '%'
+		)
+	)
+
+¶Widok 3 — "Więcej kobiet, mniejszy udział".To dwa różne pomiary, więc rysujemy je jako dwa osobne wykresy obok siebie.Lewy wykres liczy kobiety (każde emoji to około 2000 osób); prawy wykrespokazuje ich udział we wszystkich dyplomach (każde emoji to około5 procent). W każdym wykresie oba słupki używają tej samej jednostki, więcmożna je porównać: liczba niemal się podwaja, a udział spada.¶
+wierszeLiczby: (years ⎡?rok2 kobiety procent⎦ ((rok2 = '1984') | (rok2 = '2022'))) → []
+stary: wierszeLiczby[1]
+teraz: wierszeLiczby[2]
+
+wykresKobiet: wykres(
+		['1984' '2022']
+		[
+			(stary.kobiety ÷ 2000).okrągły()
+			(teraz.kobiety ÷ 2000).okrągły()
+		]
+		[stary.kobiety → '' teraz.kobiety → '']
+	)
+wykresUdziału: wykres(
+		['1984' '2022']
+		[
+			(stary.procent ÷ 5).okrągły()
+			(teraz.procent ÷ 5).okrągły()
+		]
+		[
+			(stary.procent.okrągły() → '') + '%'
+			(teraz.procent.okrągły() → '') + '%'
+		]
+	)
+widokLiczb: Grupa(
+		Wiersz('<' wyściółka: 1.5m)
+		[
+			Grupa(
+				Stos('|' wyściółka: 0.3m)
+				[
+					Wyrażenie(
+						`/Kobiety zdobywające dyplomy z informatyki/`
+						rozmiar: 0.28m
+					)
+					wykresKobiet
+				]
+			)
+			Grupa(
+				Stos('|' wyściółka: 0.3m)
+				[
+					Wyrażenie(
+						`/Ich udział we wszystkich dyplomach z informatyki/`
+						rozmiar: 0.28m
+					)
+					wykresUdziału
+				]
+			)
+		]
+	)
+
+¶Trzy przyciski. Choice podaje nazwę wybieralnego Phrase, który czytelnikostatnio kliknął. Zaczynamy od widoku czasowego i aktualizujemy go zakażdym razem, gdy wybór się zmienia.¶
+wybór: Wybór()
+obecny: 'time' … ∆ wybór … wybór
+
+zakładki: Grupa(
+		Wiersz('|' wyściółka: 0.6m)
+		[
+			Wyrażenie(
+				'▸ W czasie'
+				wybieralny: ⊤
+				nazwa: 'time'
+				rozmiar: 0.35m
+				kolor: Kolor(60% 50 20°)
+			)
+			Wyrażenie(
+				'▸ Według dziedziny'
+				wybieralny: ⊤
+				nazwa: 'fields'
+				rozmiar: 0.35m
+				kolor: Kolor(60% 50 140°)
+			)
+			Wyrażenie(
+				'▸ Liczba a udział'
+				wybieralny: ⊤
+				nazwa: 'liczby'
+				rozmiar: 0.35m
+				kolor: Kolor(60% 50 280°)
+			)
+		]
+	)
+
+¶Wybierz wykres i stopkę dla bieżącego widoku.¶
+treść2: obecny = 'time' ? widokCzasu (obecny = 'fields' ? widokPól widokLiczb)
+
+stopka:
+	obecny = 'time' ?
+		Wyrażenie(
+			`/Udział amerykańskich dyplomów licencjackich z informatyki uzyskanych przez kobiety osiągnął szczyt na poziomie 37% w 1984 roku, potem spadał przez około 25 lat do mniej więcej 18% około 2008 roku, i od tego czasu odbudowuje się bardzo powoli. Każde 👩 ≈ 5%. Źródło: NCES Digest of Education Statistics, Tabela 325.35./`
+			zawinąć: 9m
+			rozmiar: 0.26m
+		)
+		obecny = 'fields' ?
+			Wyrażenie(
+				`/Około 2018 roku kobiety zdobywały większość dyplomów z psychologii i biologii, około połowę dyplomów z matematyki i nauk społecznych, ale mniej niż 20% dyplomów z informatyki — niemal najniższy udział spośród wszystkich dziedzin. Każde 👩 ≈ 5%. Źródło: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
+				zawinąć: 9m
+				rozmiar: 0.26m
+			)
+			Wyrażenie(
+				`/W 1984 roku około 12 000 kobiet zdobyło dyplomy z informatyki — 37% wszystkich absolwentów. Do 2022 roku było ich ponad 24 000, dwa razy więcej osób, a mimo to tylko 23%: dziedzina rozwijała się tak szybko, że liczba mężczyzn rosła jeszcze szybciej. Rosnąca liczba wciąż może oznaczać kurczący się udział. Źródło: NCES./`
+				zawinąć: 9m
+				rozmiar: 0.26m
+			)
+
+Scena(
+	[
+		Grupa(
+			Stos('|' wyściółka: 0.4m)
+			[
+				Wyrażenie(
+					`LUKA W KODZIE`
+					rozmiar: 0.7m
+					twarz: 'Monoton'
+				)
+				Wyrażenie(
+					`/Kto zdobywa dyplomy z informatyki?/`
+					rozmiar: 0.35m
+				)
+				zakładki
+				treść2
+				stopka
+			]
+		)
+	]
+	twarz: 'Quicksand'
+)
+=== years/en
+¶Procent amerykańskich dyplomów licencjackich z informatyki i nauko informacji uzyskanych przez kobiety, według roku, wraz z liczbą kobieti łączną liczbą dyplomów. Źródło: National Center for Education Statistics,Digest of Education Statistics, Tabela 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+⎡rok2•'' kobiety•# suma2•# procent•#⎦
+⎡'1971' 324 2388 13.6⎦
+⎡'1976' 1118 5652 19.8⎦
+⎡'1984' 12023 32439 37.1⎦
+⎡'1990' 8188 27347 29.9⎦
+⎡'1995' 6749 24506 27.5⎦
+⎡'2001' 12219 44142 27.7⎦
+⎡'2005' 11986 54111 22.2⎦
+⎡'2008' 6792 38523 17.6⎦
+⎡'2011' 7589 43066 17.6⎦
+⎡'2015' 10742 59586 18⎦
+⎡'2019' 18316 88638 20.7⎦
+⎡'2022' 24542 108503 22.6⎦
+=== fields/en
+¶Procent amerykańskich dyplomów licencjackich uzyskanych przez kobiety wkażdej dziedzinie studiów, około 2018 roku, uporządkowany od najwyższegodo najniższego udziału. Źródło: National Science Foundation, NCSES, Women,Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+⎡pole•'' procent2•#⎦
+⎡'Psychologia' 72⎦
+⎡'Biologia' 60⎦
+⎡'Nauki społeczne' 55⎦
+⎡'Matematyka i statystyka' 42⎦
+⎡'Nauki fizyczne' 41⎦
+⎡'Nauki o Ziemi' 38⎦
+⎡'Inżynieria' 22⎦
+⎡'Informatyka' 20⎦

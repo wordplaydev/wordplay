@@ -1,0 +1,84 @@
+t
+Números em Francês
+=== start/en-US,start/fr-FR
+¶Pressione o dígito que corresponde ao número francês no palco.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶Os números a adivinhar¶
+¶Les nombres à deviner¶/fr
+números2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶Os segredos são os números de 1 a 9 por ordem aleatória¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+segredos: [1 2 3 4 5 6 7 8 9].embaralhado()
+
+¶Qual foi a última tecla pressionada?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+chave2,clé/fr: Chave()
+
+¶O segredo atual aumenta cada vez que uma tecla é pressionada, mas para no 10¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+índiceDoSegredo,secretIndice/fr•#:
+	1 …
+	∆ chave2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶O segredo atual, com base no índice do segredo¶
+segredoAtual,secretActuel/fr: segredos[índiceDoSegredo]
+
+¶A tentativa estava correta se o número pressionado corresponder ao número secreto anterior¶
+correto: clé → # = segredos[índiceDoSegredo - 1]
+
+¶Os pontos começam em 0 e aumentam se a tentativa estiver correta.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+pontos2•#: 0 …
+	∆ chave2 …
+		correto ?
+			pontos2 + 1
+			pontos2
+
+¶Ganhar significa obter todos os 9 números¶
+ganhar,gagner/fr: pontos2 = 9
+
+¶Termina quando o índice do segredo chega a 10¶
+fimDeJogo: índiceDoSegredo = 10
+
+¶Mostre o número francês atual e os pontos atuais. Depois dos 9 segredos, mostre um resultado final¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+Fase(
+	[
+		Grupo(
+			Monte()
+			[
+				fimDeJogo ?
+					Frase(
+						ganhar ?
+							'Sabe os números em francês!'"Tu connais les chiffres français!"/fr
+							'quase, tente outra vez'"presque, réessaye"/fr
+						tamanho: 2m
+					)
+					Frase(numeros[secretActuel] tamanho: 2m)
+				Frase("\pontos2\ points!" tamanho: 1m)
+				Frase(
+					índiceDoSegredo = 1 ?
+						'que número é este?''quel est ce numéro ?'/fr
+						correto ?
+							'Correto!'
+							"That was \segredos[índiceDoSegredo - 1]\"
+				)
+			]
+		)
+	]
+	fonte: "Aclonica"
+)

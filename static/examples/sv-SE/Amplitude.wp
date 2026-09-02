@@ -1,0 +1,9 @@
+⚫
+Amplitud
+===
+¶En rad prickar som lyser upp och tonar bort med volymen från din mikrofon.¶
+amplituder•[#]: ←← 10 Volym()
+vis: amplituder.översätta(
+		ƒ(amp•#) Fras("⚫" opacitet: amp storlek: 10m)
+	)
+Etapp([Grupp(Rad() vis)] plats: Plats(0m 0m -50m))

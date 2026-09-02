@@ -1,0 +1,30 @@
+🎄
+Natal
+===
+¶Sebuah pohon Natal yang bergoyang dan menari dalam tarian berulang, sambil berdenting seperti lonceng.
+
+Lagunya menempel pada @Pose pertama dalam tarian itu. Sebuah @Pose bisa membawa @Music, dan itu dimainkan tepat saat pose itu terbentuk — jadi bagian lagu itu mulai lagi setiap kali tariannya berputar kembali, dan perulangan animasi serta perulangan musiknya menjadi perulangan yang sama. Tidak ada yang menghitung ketukan untuk membuat keduanya tetap selaras.
+
+Kedua panjang waktu itu dipilih agar cocok: delapan ketukan pada 160 sama dengan tiga detik, dan lima langkah setengah detik juga memakan waktu tiga detik. Sebuah pose adalah sesuatu yang terjadi sesaat, bukan sesuatu yang bertahan lama, jadi perulangan biasa pada @Track tidak berlaku di sini — musik untuk sebuah pose selalu dimainkan tepat satu kali penuh.¶
+
+lonceng2: Musik(
+		Trek([3 3 3𝅗𝅥 3 3 3𝅗𝅥] alatMusik: AlatMusik.lonceng)
+		tempo: 160beats/min
+		volume: 55%
+		nama: 'lonceng'
+	)
+
+Frasa(
+	'🎄'
+	beristirahat: Urutan(
+		{
+			0: Pose(rotasi: 0° musik: lonceng2)
+			1: Pose(rotasi: 15°)
+			2: Pose(rotasi: 0°)
+			3: Pose(mengimbangi: Tempat(-0.25m))
+			4: Pose(mengimbangi: Tempat(0.25m))
+			5: Pose(mengimbangi: Tempat(-0.25m))
+		}
+		0.6s
+	)
+)

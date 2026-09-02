@@ -1,0 +1,25 @@
+💬
+Tiếng vọng
+=== start
+¶Bất cứ điều gì người xem gõ vào thanh trò chuyện sẽ trở thành cụm từ này.¶
+lờiNhắn: Tròchuyện()
+
+¶Bắt đầu với một câu gợi ý, rồi lặp lại mỗi tin nhắn mới. Văn bản biến đổi từ chữ cũ sang chữ mới, từng chữ cái một.¶
+từNgữ2: 'nói gì đi!' … ∆ lờiNhắn … lờiNhắn
+
+¶Đổi ngẫu nhiên kích cỡ, độ nghiêng và màu sắc mỗi khi có tin nhắn mới đến.¶
+kíchThước2: 2m … ∆ lờiNhắn … Ngẫunhiên(1m 4m)
+nghiêng2: 0° … ∆ lờiNhắn … Ngẫunhiên(-30 30) × 1°
+sắcĐộ: 200° … ∆ lờiNhắn … Ngẫunhiên(360) × 1°
+
+Cụmtừ(
+	từNgữ2
+	kíchcỡ: kíchThước2
+	nghỉngơi: Tưthế(
+		xoay: nghiêng2
+		màusắc: Màusắc(25% 100 sắcĐộ)
+	)
+	khoảngthờigian: .5s
+	đangThayĐổi: 'edit'
+	bọc: 20m
+)

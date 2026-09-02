@@ -1,0 +1,18 @@
+w
+Farbenshow
+===
+¶Klicke, damit das Wort „wowie“ wackelt und zufällig seine Farbe ändert.¶
+farbe2: Farbe(0% 0 0°) … ∆ Taste() … Farbe(
+			50%
+			Zufällig() × 200
+			Zufällig() × 360°
+		)
+
+Satzglied(
+	'wowie'
+	Name: 'Kätzchen'
+	Größe: 6m
+	Farbe: farbe2
+	Drehung: (Zufällig() - 0.5) × 30°
+	Dauer: .1s
+)

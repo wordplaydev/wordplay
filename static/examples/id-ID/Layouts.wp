@@ -1,0 +1,46 @@
+K
+Tata Letak
+=== start
+¶Baris, tumpukan, dan kelompok frasa, masing-masing membentuk pose animasi.¶
+berdenyut: Urutan(
+		{
+			0%: Pose(skala: .9)
+			50%: Pose(skala: 1.1)
+			100%: Pose(skala: .9)
+		}
+	)
+zpantul: Urutan(
+		{
+			0%: Pose(mengimbangi: Tempat(z: 0m))
+			50%: Pose(mengimbangi: Tempat(z: -2m))
+			100%: Pose(mengimbangi: Tempat(z: 0m))
+		}
+		1s
+	)
+
+Kelompok(
+	Baris()
+	[
+		Kelompok(
+			Tumpukan()
+			[
+				Frasa('Kucing Kecil')
+				Frasa('Kucing' beristirahat: zpantul)
+				Kelompok(
+					Baris()
+					[Frasa('Anjing') Frasa('Anjing')]
+					beristirahat: berdenyut
+				)
+				Frasa('Kucing')
+			]
+		)
+		Kelompok(
+			Tumpukan()
+			[
+				Frasa('Hai')
+				Frasa('Halo')
+			]
+			beristirahat: Urutan.putaran(2s "straight")
+		)
+	]
+)

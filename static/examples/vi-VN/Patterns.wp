@@ -1,0 +1,32 @@
+⌕
+Khuôn mẫu
+=== start
+¶Hãy gõ một câu có vài con số trong đó. Mình sẽ tìm mọi con số và hiện chúng bên dưới, lớn dần khi mình tìm thấy. Một mẫu mô tả hình dạng của văn bản — ở đây,\⣿ >0 #⣿\ nghĩa là “một hoặc nhiều chữ số,” và ⌕ tìm mọi chỗ nó xuất hiện.¶
+đầuVào: Tròchuyện()
+vănBản2: 'Tôi có 3 con mèo, 12 con cá, và 144 con kiến' … ∆ đầuVào … đầuVào
+
+¶Tìm trong văn bản mọi chuỗi chữ số liên tiếp. Mỗi kết quả là một Result cùng với đoạn văn bản khớp của nó.¶
+số2: vănBản2 ⌕ ⣿ >0 #⣿
+
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp()
+			[
+				Cụmtừ(vănBản2 kíchcỡ: 1m)
+				Nhóm(
+					Ngănxếp()
+					số2.dịch(
+						ƒ(số3•Kếtquả)
+							Cụmtừ(
+								số3.chữ
+								kíchcỡ: 1.5m
+								vào: Tưthế(độmờđục: 0 tỉlệ: 0.5)
+								khoảngthờigian: 0.5s
+							)
+					)
+				)
+			]
+		)
+	]
+)

@@ -1,0 +1,78 @@
+⏳
+અભ્યાસ સ્થિતિ મીટર
+=== start/en
+¶અભ્યાસ કલાકો ઉમેરવા માટે ક્લિક કરો અને જુઓ કે મીટર શાંતિથી ધ્યાન તરફ અને પછી અતિભારણ તરફ કેવી રીતે બદલાય છે.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+કાર્ય: પસંદગી()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+અભ્યાસકલાકો:
+	0 …
+	∆ કાર્ય …
+		કાર્ય = 'reset' ?
+			0
+			અભ્યાસકલાકો + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+સમજૂતી:
+	'તમારો અભ્યાસ સમય વધારવા માટે “અભ્યાસ કલાક ઉમેરો +1” પર ક્લિક કરો. ફરીથી શરૂ કરવા માટે “રીસેટ” પર ક્લિક કરો.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+કલાકોનુંલખાણ:
+	'તમે અભ્યાસ કર્યો ' + અભ્યાસકલાકો → '' + ' કલાક.'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+મનસ્થિતિ:
+	અભ્યાસકલાકો < 3 ?
+		'🌿 શાંત સ્થિતિ — અભ્યાસ સમય ઉમેરવા માટે ક્લિક કરો'
+		અભ્યાસકલાકો < 6 ?
+			'📚 ધ્યાન સ્થિતિ — તમે ઉત્પાદક ક્ષેત્રમાં છો!'
+			'🔥 અતિભારણ સ્થિતિ — વિરામ લો અને "રીસેટ" કરો'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+સ્ટેજ(
+	[
+		સમૂહ(
+			સ્ટેક()
+			[
+				વાક્ય('અભ્યાસ સ્થિતિ મીટર' કદ: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				વાક્ય(સમજૂતી કદ: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				વાક્ય(કલાકોનુંલખાણ કદ: 0.4m)
+
+				વાક્ય(મનસ્થિતિ કદ: 0.75m)
+
+				સમૂહ(
+					પંક્તિ(ગાદી: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						વાક્ય(
+							'અભ્યાસ કલાક ઉમેરો +1'
+							પસંદકરીશકાયતેવું: ⊤
+							નામ: 'ઉમેરો'
+							રંગ: રંગ(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						વાક્ય(
+							'રીસેટ'
+							પસંદકરીશકાયતેવું: ⊤
+							નામ: 'reset'
+							રંગ: રંગ(69% 47 271°)
+						)
+					]
+				)
+			]
+			ચહેરો: "Aclonica"
+		)
+	]
+)

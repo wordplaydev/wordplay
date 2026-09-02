@@ -1,0 +1,10 @@
+•
+Stoper
+===
+¶Rząd punktów, który rośnie do pięciu i zaczyna się od nowa, raz na sekundę.¶
+Wyrażenie(
+	"•".powtarzającysię(
+		((Czas(1000ms) → #s) % 5).zaokrąglićwdół() + 1s
+	)
+	czastrwania: 0s
+)

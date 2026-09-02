@@ -1,0 +1,37 @@
+O
+Cours de japonais
+=== start
+¶Une histoire scène par scène sur un premier jour de cours de japonais.¶
+
+¶Voici la liste des scènes à montrer¶
+phrases2: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶Voici la liste des phrases qui ne doivent avancer que si on les prononce à voix haute.¶
+prononcerLesPhrases: [5 7 9]
+
+¶La phrase actuelle commence à 1, et avance si le volume du micro dépasse 0,8 pour une phrase à prononcer, ou si on appuie sur un bouton ou une touche pour les autres phrases.¶
+phraseActuelle•#: 1 …
+	prononcerLesPhrases.a(phraseActuelle) ?
+		Volume() > .6
+		∆ Bouton() | ∆ Clé()
+		…
+		(phraseActuelle <
+				phrases2.longueur()) ?
+			phraseActuelle + 1
+			phraseActuelle
+
+Scène(
+	[Phrase(phrases2[phraseActuelle] envelopper: 10m)]
+	affronter: 'Sue Ellen Francisco'
+)

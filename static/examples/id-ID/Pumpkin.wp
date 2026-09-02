@@ -1,0 +1,33 @@
+🎃
+Labu
+=== start
+¶Sebuah lentera labu yang berkedip dan muncul kembali di tempat baru setiap detik.¶
+waktu: Waktu(1000ms)
+tempat2: Tempat(0m 0m) … ∆ waktu … Tempat(
+			Acak(-4m 4m)
+			Acak(-4m 4m)
+			Acak(-4m 0m)
+		)
+opasitas: 1 … ∆ waktu … Acak(0.25 1)
+tampilkan: ⊤ … ∆ waktu … ~tampilkan
+labu: Frasa(
+		'🎃'
+		kegelapan: opasitas
+		tempat: tempat2
+		memasuki: Urutan(
+			{
+				0%: Pose(skala: 1.25 rotasi: -21°)
+				20%: Pose(skala: 0.75 rotasi: 13°)
+				40%: Pose(skala: 1 rotasi: -7°)
+				60%: Pose(skala: 1.25 rotasi: 19°)
+				100%: Pose()
+			}
+			0.5s
+			menghitung: 3x
+		)
+	)
+
+Panggung(
+	tampilkan ? [labu] []
+	latarbelakang: Warna(0% 0 0°)
+)

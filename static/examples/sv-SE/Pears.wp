@@ -1,0 +1,157 @@
+M
+Päron
+=== start/en
+¶Det här är en interaktiv kort berättelse. Den har flera olika scener och byter mellan dem beroende på olika handlingar, som klick, krockar och annat du gör. En del av det roliga är att upptäcka vad du måste göra för att berättelsen ska gå vidare.¶
+inledning: [
+		Fras(`Min pappa ville åka hem.` plats: Plats(-9m 0m))
+	]
+
+konflikt: [
+		Fras(`"Mamma", vi måste gå.` plats: Plats(-8m 7m))
+		Fras(`/"Ta och gå hem."/` plats: Plats(1m 4m))
+		Fras(
+			`"Mamma, vi vill inte ha något!"`
+			plats: Plats(-8m 1m)
+		)
+		Fras(
+			`"Ta och gå hem!"`
+			storlek: 2m
+			plats: Plats(-6m -4m)
+			vilande: Sekvens.skaka()
+		)
+	]
+
+stigandeHandling1: [
+		Fras(`Min 炮炮👵🏽 gick ut på gården` plats: Plats(-9m 7m))
+		Fras(
+			`Jag följde efter henne, nyfiken`
+			plats: Plats(-6m 4m)
+		)
+		Fras(
+			`👵🏽`
+			namn: 'paupau'
+			storlek: 2m
+			materia: Materia()
+			plats: Plats(6m -6m)
+			bubbla: `/"沙梨🍐, ta och gå hem!"/`
+		)
+		Fras(
+			`👧🏻`
+			namn: 'jag'
+			storlek: 1m
+			materia: Materia()
+			plats: Placering(Plats(-8m -6m))
+		)
+	]
+
+stigandeHandling2: [
+		Fras(
+			`Hon stannade vid ett litet träd.`
+			plats: Plats(-9m 6m)
+		)
+		Fras(
+			`På det hängde dussintals klarblanka gula 沙梨`
+			plats: Plats(-9m 1m)
+			sjal: 10m
+		)
+		Fras(
+			`"Mamma, vi vill inte ha några päron."`
+			storlek: .75m
+			plats: Plats(-4m 0m)
+		)
+		Fras(
+			`/Jag ville ha ett päron./`
+			storlek: 2m
+			plats: Plats(-8m -3m)
+		)
+		Fras(
+			"🍐"
+			storlek: 2m
+			plats: Plats(-1m -7m)
+			namn: 'pear'
+			valbara: ⊤
+		)
+	]
+
+¶Vi bestämmer platser i förväg så att vi kan få dem att falla från samma ställe.¶
+platser: (6 → []).översätta(
+		ƒ() Plats(Slumpmässig(-2m 2m) Slumpmässig(-3m -5m))
+	)
+höjdpunkt: [
+		Fras(`Hon knäböjde i jorden.` plats: Plats(-9m 6m))
+		Fras(`Tog en kniv` plats: Plats(-9m 4m))
+		Fras(
+			`Och skar av sex, försiktigt`
+			plats: Plats(-9m 2m)
+		)
+		Fras(
+			`Släppte dem i korgen under sig`
+			plats: Plats(-9m 0m)
+		)
+		Fras("🧺" storlek: 4m plats: Plats(-2m -12m))
+		Fras(
+			"🌳"
+			namn: "tree"
+			storlek: 5m
+			plats: Plats(-3m -7m)
+			valbara: ⊤
+		)
+		:platser.översätta(
+			ƒ(plats2 index2)
+				Fras(
+					"🍐"
+					namn: "pear\index2\"
+					plats: Val() = 'tree' ? Rörelse(plats2) plats2
+				)
+		)
+		Fras("🔪" plats: Pekare())
+	]
+
+upplösning2: [
+		Fras(`Hon bar dem till mig` plats: Plats(-9m 6m))
+		Fras(`Knäböjde ner till mig` plats: Plats(-8m 4m))
+		Fras(`Och räckte mig korgen` plats: Plats(-7m 2m))
+		Fras(`/"Ta och gå hem"/` plats: Plats(0m -2m))
+	]
+
+eftertext: [
+		Fras(`av /Amy J. Ko/`)
+	]
+
+berättelse: [
+		inledning
+		konflikt
+		stigandeHandling1
+		stigandeHandling2
+		höjdpunkt
+		upplösning2
+		eftertext
+	]
+
+¶Håll koll på klick och tryck¶
+klick: ∆ Knapp()
+¶Håll koll på hur lång tid som gått efter att trädet klickats på¶
+tidEfterKlippet: 0ms … Val() = 'tree' … Tid(1000ms)
+¶Håll koll på när vi når Pau Pau¶
+hosPauPau: ∆ Kollision('jag')
+¶Håll koll på när päronet väljs¶
+valdePäron: Val() = 'pear'
+¶Ändra segmentet utifrån det nuvarande segmentet¶
+del•#:
+	1 …
+	del ???
+		1: klick
+		2: klick
+		3: hosPauPau
+		4: valdePäron
+		5: tidEfterKlippet > 1500ms
+		6: ∆ Knapp()
+		⊥
+		… del + 1
+
+Etapp(
+	berättelse[del]
+	ansikte: 'Arvo'
+	plats: Plats(0m 0m -20m)
+	ram: Rektangel(-10m 10m 10m -10m)
+)

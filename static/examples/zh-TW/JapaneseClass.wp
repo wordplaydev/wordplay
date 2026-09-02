@@ -1,0 +1,37 @@
+O
+日語課
+=== start
+¶一個關於日文課第一天的分場故事。¶
+
+¶這些是要顯示的場景清單¶
+句子: [
+		`On my first day of high school, I started *Japanese* class.`/en
+		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
+		`Then she cupped her hand by her ears and said *聞く* 👂🏻. We listened.`/en
+		`Then she cupped her hands around her mouth and said *話す* 🗣, and we looked at each other, unsure what to do.`/en
+		`I yelled out "/speak!/"`/en
+		`She wagged her finger and said /日本語でお願いします/, paused, and repeated /話せます/`/en
+		`And so I said "/hana say mas/"`/en
+		`"/はい、いいですね/", she said, smiling, then reaching her arms out wide to the group, /みんな/!`/en
+		`And we all said "/hanasemas!/"`/en
+		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
+	]
+
+¶這是一份句子清單，只能靠朗讀來推進。¶
+朗讀句子: [5 7 9]
+
+¶目前的句子從 1 開始，如果是要朗讀的句子，麥克風音量超過 .8 就會往前推進；如果是其他句子，按下按鈕或按鍵就會往前推進。¶
+目前句子•#: 1 …
+	朗讀句子.包含(目前句子) ?
+		音量() > .6
+		∆ 按鈕() | ∆ 鑰匙()
+		…
+		(目前句子 <
+				句子.長度()) ?
+			目前句子 + 1
+			目前句子
+
+舞台(
+	[短語(句子[目前句子] 包裹: 10m)]
+	字体: 'Sue Ellen Francisco'
+)

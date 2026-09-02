@@ -1,0 +1,98 @@
+T
+Bài thơ
+=== start
+¶Một bài thơ có những dòng thơ trôi vào, mỗi dòng tự bước ra sân khấu theo cách riêng của mình.¶
+•dòng(vănBản2•"" tưThế•Tưthế|Sựliêntiếp lùi: Màusắc(
+			100
+			100
+			100°
+		) tiến: Màusắc(0 0 0°))
+
+¶Một danh sách các dòng của bài thơ, mỗi dòng có một tư thế riêng.¶
+bàiThơ: [
+		dòng(
+			'Tập tin máy tính'
+			Tưthế(độmờđục: 0% bùlại: VịTrí(y: -5m))
+		)
+		dòng('mà' Tưthế(độmờđục: 0% bùlại: VịTrí(y: -5m)))
+		dòng('tôi chẳng còn nhớ gì' Tưthế(xoay: 10°))
+		dòng(
+			'tôi nhấp chuột mở nó ra'
+			Sựliêntiếp(
+				{
+					0%: Tưthế(tỉlệ: 1)
+					50%: Tưthế(tỉlệ: 0.7)
+					100%: Tưthế(tỉlệ: 1)
+				}
+				0.25s
+			)
+		)
+		dòng('nhìn' Tưthế(độmờđục: 0% bùlại: VịTrí(y: -5m)))
+		dòng(
+			'cuộn xuống thêm nữa'
+			Tưthế(độmờđục: 0% bùlại: VịTrí(y: 5m))
+		)
+		dòng(
+			'màn hình'
+			Tưthế(độmờđục: 0% bùlại: VịTrí(y: -5m))
+		)
+		dòng(
+			'vẫn sáng đèn nền và trống rỗng'
+			Tưthế(độmờđục: 0% bùlại: VịTrí(y: -5m))
+			Màusắc(0 0 0°)
+			Màusắc(100 100 0°)
+		)
+		dòng(
+			'thế là tôi lại gặp chính mình'
+			Tưthế(độmờđục: 0% bùlại: VịTrí(y: -5m))
+		)
+		dòng(
+			'đầy hy vọng và vô dụng'
+			Tưthế(độmờđục: 0% bùlại: VịTrí(y: -5m))
+		)
+		dòng(
+			'một điều bí ẩn'
+			Tưthế(độmờđục: 0% bùlại: VịTrí(y: -5m))
+		)
+		dòng(
+			'đúng như tôi hẳn đã từng làm'
+			Tưthế(độmờđục: 0% bùlại: VịTrí(y: -5m))
+		)
+		dòng(
+			'ngày 19 tháng 8 năm 2010, lúc 11 giờ 08 sáng'
+			Tưthế()
+		)
+	]
+
+số2: 1 … ∆ Cáinút() | ∆ Chìakhóa() …
+		(số2 = (bàiThơ.chiềudài() + 1)) ? 1 số2 + 1
+dòng2: bàiThơ[số2]
+
+số2 ≤ bàiThơ.chiềudài() ?
+	Sânkhấu(
+		[
+			Cụmtừ(
+				dòng2.vănBản2
+				vào: dòng2.tưThế
+				khoảngthờigian: 1s
+				tên: số2 → ""
+				phongcách: 'cautious'
+			)
+		]
+		lýlịch: dòng2.lùi
+		nghỉngơi: Tưthế(màusắc: dòng2.tiến)
+	)
+	Sânkhấu(
+		[
+			Nhóm(
+				Ngănxếp()
+				[
+					Cụmtừ('LỜI KHUYÊN CHO CHÍNH MÌNH')
+					Cụmtừ('Jane Hirshfield')
+				]
+				vào: Tưthế(tỉlệ: 0.75)
+			)
+		]
+		lýlịch: Màusắc(0% 0 0°)
+		màusắc: Màusắc(100% 100 0°)
+	)

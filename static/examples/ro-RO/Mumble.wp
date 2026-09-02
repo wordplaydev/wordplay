@@ -1,0 +1,29 @@
+m
+Bolboroseală
+=== start
+¶Continuă să apeși ca să faci mormăiala tot mai puternică.¶
+clicuri•#: 0 … ∆ Buton() … clicuri + 1
+
+clicuri < 3 ?
+	Fraza(
+		'mormăie'
+		dimensiune: 1m
+		nume: 'mama'
+		intrând: Poză(scară: 0)
+		odihnă: Secvenţă(
+			{
+				0%: Poză(scară: (clicuri + 1) × 1.1)
+				50%: Poză(scară: (clicuri + 1) × 0.9)
+				100%: Poză(scară: (clicuri + 1) × 1.1)
+			}
+			durată: 0.5s
+		)
+		ieșire: Secvenţă(
+			{
+				0%: Poză(opacitate: 1 scară: 1)
+				100%: Poză(opacitate: 0 scară: 10)
+			}
+			durată: 2s
+		)
+	)
+	Fraza('terminat')

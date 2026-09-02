@@ -1,0 +1,342 @@
+🐤
+Kolibri
+=== start/en
+¶Ett spel med en gnolande fågel! Klicka eller tryck på en tangent för att flaxa, eller gnola i mikrofonen — fågeln svävar till den höjd som din gnolningens tonhöjd visar. Smyg dig genom öppningarna mellan emoji-staplarna. Om du rör en stapel eller marken kraschar spelet. Efter en krasch räknas det ner och spelet börjar om.¶
+
+¶Varje hinder är en stapel med emojier från en av dessa samlingar.¶
+genrer: [
+		['🌵' '🌱' '🌿' '🍀' '🎋']
+		['🍩' '🧁' '🍰' '🍪' '🍦']
+		['🐙' '🐟' '🦀' '🐡' '🦑']
+		['🚗' '🚌' '🚕' '🚙' '🚓']
+		['🌸' '🌼' '🌻' '🌷' '💐']
+		['⭐' '🌟' '✨' '☁' '🌙']
+	]
+
+¶Hur långt ett hinder flyttas åt vänster vid varje tick.¶
+hastighet2: 0.2m
+
+¶Alla krockar med fågeln. Taket kallas 'himmel', så om fågeln nuddar det studsar den bara i stället för att krascha.¶
+krasch: Kollision('fågel')
+ödesdiger: krasch•ø ? ⊥ (krasch.objekt ≠ 'sky')
+
+tick: Tid(40ms)
+speltick: Tid(100ms)
+
+¶Spelets tillstånd: en fas (1 = nedräkning, 2 = spelar, 3 = kraschad) och hur många tiondels sekunder vi har varit i den. Vi räknar tickar från en klocka i stället för att dra av tider, eftersom varje Time() börjar från noll.¶
+•spel(fas•# ticka•#)
+spel2•spel: spel(1 0) …
+	∆ speltick | ödesdiger …
+		spel2.fas ???
+			1: (spel2.ticka ≥ 36) ? spel(2 0) spel(
+					1
+					spel2.ticka + 1
+				)
+			2: ödesdiger ? spel(3 0) spel2
+			3: (spel2.ticka ≥ 25) ? spel(1 0)
+				¶Medan fågeln vilar på något håller krockar denna reaktion upptagen. Räkna bara riktiga klocktickar, så att pausen alltid blir lika lång.¶
+				spel(3 spel2.ticka + (∆ speltick ? 1 0))
+			spel2
+
+¶Nedräkningssiffran som visas: 3, 2, 1.¶
+antal2: (spel2.ticka < 12) ? 3 (spel2.ticka < 24) ? 2 1
+
+¶Välj hur du vill spela genom att trycka på knappen 🎤 eller ⌨: gnolande flyttar fågeln, och klick eller tangenter får den att flaxa. Lägena är åtskilda, så att prat nära mikrofonen inte krockar med tangentbordet.¶
+vald: Val()
+läge•'': 'tap' … (vald = 'hum') | (vald = 'tap') … vald
+
+¶I tryckläge flaxar du när du klickar eller trycker på en tangent.¶
+flaxa: (läge = 'tap') & (∆ Knapp() | ∆ Nyckel())
+
+¶I nynningsläge flyter fågeln till höjden som ditt nynnande har i tonhöjd — låga toner nära marken, höga toner nära himlen — och inte högre än det.¶
+tonhöjd2: Tonhöjd()
+nynnande: (läge = 'hum') & (tonhöjd2 > 50hz)
+
+ƒ tonhöjdTillHöjd(hz•#hz)
+	(hz < 80hz) ? -4m
+		(hz > 400hz) ? 5m
+			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+
+¶Fågeln närmar sig den nynnade höjden lite i taget, så att den glider i stället för att rycka till vid varje litet skiftning i tonhöjden.¶
+tonhöjdY•#m: 1m … ∆ tonhöjd2 … nynnande ? (0.8 × tonhöjdY) + (0.2 × tonhöjdTillHöjd(
+							tonhöjd2
+						)) tonhöjdY
+
+¶Fågeln svävar under nedräkningen, flaxar uppåt eller flyter vid den nynnade tonhöjden medan spelet pågår, och faller sedan nedåt av tyngdkraften efter en krock.¶
+fågelPlats: Rörelse(
+		Plats(-4m 1m)
+		nästaplats:
+		(spel2.fas = 1) ? Plats(-4m 1m)
+			((spel2.fas = 2) & nynnande) ? Plats(-4m tonhöjdY) ø
+		nästahastighet:
+		(spel2.fas = 1) ? Hastighet(0m/s 0m/s)
+			((spel2.fas = 2) & nynnande) ? Hastighet(0m/s 0m/s)
+				((spel2.fas = 2) & flaxa) ? Hastighet(0m/s 15m/s) ø
+	)
+
+¶Kycklingemojin är vänd åt vänster, så varje position vänder på den för att den ska peka dit den är på väg.¶
+fågel: Fras(
+		'🐤'
+		1m
+		namn: 'fågel'
+		plats: fågelPlats
+		materia: Materia(1kg 0.4 0)
+		vilande:
+		(spel2.fas = 3) ? Pose(rotation: 180° flipx: ⊤)
+			Sekvens(
+				{
+					0%: Pose(flipx: ⊤ rotation: -12°)
+					50%: Pose(flipx: ⊤ rotation: 12°)
+					100%: Pose(flipx: ⊤ rotation: -12°)
+				}
+				0.35s
+			)
+	)
+
+¶Varje hinder har: en horisontell position, hur många emojier som hänger uppifrån, och vilken emojisamling det är byggt av. Hindren rör sig åt vänster medan spelet pågår, kommer tillbaka från höger med en ny slumpad form, och nollställs vid en ny omgång.¶
+•rör(x2•#m topp•# genre•#)
+
+rör1•rör: rör(10m Slumpmässig(1 5) Slumpmässig(1 6)) …
+	((spel2.fas = 1) & (rör1.x2 ≠ 10m)) | ((spel2.fas = 2) & ∆ tick) …
+		(spel2.fas = 1) ? rör(
+				10m
+				Slumpmässig(1 5)
+				Slumpmässig(1 6)
+			)
+			(rör1.x2 < -13m) ? rör(
+					rör1.x2 + 24m
+					Slumpmässig(1 5)
+					Slumpmässig(1 6)
+				)
+				rör(rör1.x2 - hastighet2 rör1.topp rör1.genre)
+
+rör2•rör: rör(16m Slumpmässig(1 5) Slumpmässig(1 6)) …
+	((spel2.fas = 1) & (rör2.x2 ≠ 16m)) | ((spel2.fas = 2) & ∆ tick) …
+		(spel2.fas = 1) ? rör(
+				16m
+				Slumpmässig(1 5)
+				Slumpmässig(1 6)
+			)
+			(rör2.x2 < -13m) ? rör(
+					rör2.x2 + 24m
+					Slumpmässig(1 5)
+					Slumpmässig(1 6)
+				)
+				rör(rör2.x2 - hastighet2 rör2.topp rör2.genre)
+
+rör3•rör: rör(22m Slumpmässig(1 5) Slumpmässig(1 6)) …
+	((spel2.fas = 1) & (rör3.x2 ≠ 22m)) | ((spel2.fas = 2) & ∆ tick) …
+		(spel2.fas = 1) ? rör(
+				22m
+				Slumpmässig(1 5)
+				Slumpmässig(1 6)
+			)
+			(rör3.x2 < -13m) ? rör(
+					rör3.x2 + 24m
+					Slumpmässig(1 5)
+					Slumpmässig(1 6)
+				)
+				rör(rör3.x2 - hastighet2 rör3.topp rör3.genre)
+
+rör4•rör: rör(28m Slumpmässig(1 5) Slumpmässig(1 6)) …
+	((spel2.fas = 1) & (rör4.x2 ≠ 28m)) | ((spel2.fas = 2) & ∆ tick) …
+		(spel2.fas = 1) ? rör(
+				28m
+				Slumpmässig(1 5)
+				Slumpmässig(1 6)
+			)
+			(rör4.x2 < -13m) ? rör(
+					rör4.x2 + 24m
+					Slumpmässig(1 5)
+					Slumpmässig(1 6)
+				)
+				rör(rör4.x2 - hastighet2 rör4.topp rör4.genre)
+
+¶Just passerade ett hinder fågeln?¶
+ƒ passerad(x3•#m) (x3 ≤ -5m) & (x3 > (-5m - hastighet2))
+
+poäng•#: 0 …
+	(spel2.fas = 1) | ((spel2.fas = 2) & ∆ tick) …
+		(spel2.fas = 1) ? 0
+			(passerad(rör1.x2) | passerad(rör2.x2) | passerad(
+						rör3.x2
+					) | passerad(rör4.x2)) ? poäng + 1
+				poäng
+
+¶Bygg en stapel med emojier som en fysisk kolumn. Varaktigheten på 0 gör att det ser ut som en direkt hoppning tillbaka till högersidan i stället för en synlig glidning.¶
+ƒ kolumn(celler•# genre2•# x4•#m y2•#m)
+	Grupp(
+		Stack('|' 0m)
+		(celler → []).översätta(
+			ƒ(cell2•#) Fras(
+					genrer[genre2][1 + ((cell2 - 1) % 5)]
+					1m
+				)
+		)
+		plats: Plats(x4 y2)
+		materia: Materia()
+		varaktighet: 0s
+	)
+
+¶Ett hinder består av två kolumner: en som hänger från himlen, en som växer från marken, med ett mellanrum på ungefär 6 meter mellan dem.¶
+ƒ staplar(rör5•rör) [
+		kolumn(
+			rör5.topp
+			rör5.genre
+			rör5.x2
+			6m - (rör5.topp × 1m)
+		)
+		kolumn(6 - rör5.topp rör5.genre rör5.x2 -6m)
+	]
+
+¶Marken krossar fågeln; himlen studsar den nedåt igen.¶
+mark: Figur(
+		Rektangel(-8m -5.7m 8m -6m)
+		bakgrund: Färg(60% 60 130°)
+	)
+himmel: Figur(Rektangel(-8m 7m 8m 6m) namn: 'sky')
+vänsterVägg: Figur(Rektangel(-8.4m 6m -8m -6m))
+högerVägg: Figur(Rektangel(8m 6m 8.4m -6m))
+
+poängVy: Fras("\poäng\" 1.5m plats: Plats(-0.5m 4m))
+överlägg:
+	spel2.fas ???
+		1: [Fras("\antal2\" 3m plats: Plats(-1m -1.5m))]
+		3: [Fras('💥' 3m plats: Plats(-1.5m -1.5m))]
+		[]
+
+¶Lägesväljaren: det valda sättet att spela lyser starkt, det andra är nedtonat.¶
+humButton: Fras(
+		'🎤'
+		0.8m
+		namn: 'hum'
+		valbara: ⊤
+		plats: Plats(-4.2m 4.7m)
+		vilande: (läge = 'hum') ? Pose() Pose(opacitet: 40%)
+	)
+tapButton: Fras(
+		'⌨'
+		0.8m
+		namn: 'tap'
+		valbara: ⊤
+		plats: Plats(-3m 4.7m)
+		vilande: (läge = 'tap') ? Pose() Pose(opacitet: 40%)
+	)
+
+instruktioner1: Fras(
+		'Välj ⌨ för att flaxa med klick och tangenter, eller 🎤 för att nynna fågelns höjd!'
+		0.45m
+		plats: Plats(-6.9m -4.7m)
+	)
+instruktioner2: Fras(
+		'Ta dig igenom öppningarna. Rör inte staplarna!'
+		0.4m
+		plats: Plats(-4.5m -5.4m)
+	)
+
+¶En flaxning är redan en enda utvärdering — reaktionen som lyfter fågeln utlöses vid klicket eller tangenten och vid ingenting annat — så den kan ge ljud från vingen direkt: en ton på bildrutan där du flaxar, och ingenting under resten av tiden. En ton som redan har startat spelas till slutet, så att tömma listan en bildruta senare stänger inte av vingljudet i förtid. I nynningsläge finns det inga flaxningar alls, så listan förblir tom och fågeln är tyst medan du sjunger till den.¶
+flaxnoter: flaxa ? [3] []
+
+flaxljud: Musik(
+		Spår(
+			flaxnoter
+			instrument: Instrument.trummor
+			volym: 70%
+			loop: ⊥
+		)
+		spelaom: flaxa
+		namn: 'flaxa'
+	)
+
+¶Tjugo grindar från oroligt till hetsigt. Att ändra tempot kopplas in vid nästa takt istället för att börja om, så varje grind spänner loopen under dig utan att den tappar sin plats — och en krock nollställer poängen, vilket varvar ner allt igen.¶
+brådska: (poäng ÷ 20).min(1)
+
+¶Frygiskt för den sänkta andra tonen: ett halvtonsteg ovanför grundtonen, den mest oroande tonen som finns utan att lämna skalan. Basen lutar sig mot den varannan takt, och synthfrasen slutar just där, så loopen aldrig riktigt landar.¶
+ängsligSång: Musik(
+		[
+			Spår(
+				[1 ø 1 ø 2 ø 1 ø]
+				instrument: Instrument.syntBas
+				takt: 1beats
+				volym: 50%
+			)
+			Spår(
+				[5 ø 4 ø 5 ø 4 2]
+				instrument: Instrument.synt
+				takt: 1beats
+				volym: 35%
+			)
+			Spår(
+				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 3 3]
+				instrument: Instrument.trummor
+				takt: 0.5beats
+				volym: 35%
+			)
+		]
+		tempo: (100beats/min + (brådska · 100beats/min))
+		skala: Musik.frygisk
+		namn: 'orolig'
+	)
+
+¶Den spelar genom hela nedräkningen och flygningen och stannar tvärt vid en krock, så att 💥 får utrymmet helt för sig själv.¶
+sånglista: (spel2.fas = 3) ? [] [ängsligSång]
+
+¶Kraschen: en cymbal, en dov duns, och den oroliga skalan som faller nedåt genom sig själv från toppen — samma toner som låten har kretsat kring, och som till slut inte leder någonstans.
+
+Den här behöver inget @Music.replay. Att nå scenen är skäl nog att låta, och ett engångsljud som har spelats klart är tyst tills det lämnar scenen; nedräkningen tar det av scenen och glömmer det, så nästa krock låter det igen från toppen. Det varar ungefär en och en halv takt, gott och väl inom de två och en halv sekunder som krockpausen pågår.¶
+dödsljud: Musik(
+		[
+			Spår(
+				[8 7 5 4 2 1 ø ø]
+				instrument: Instrument.synt
+				takt: 0.25beats
+				volym: 55%
+				loop: ⊥
+			)
+			Spår(
+				[4 ø]
+				instrument: Instrument.trummor
+				takt: 1beats
+				volym: 50%
+				loop: ⊥
+			)
+			Spår(
+				[1 ø]
+				instrument: Instrument.syntBas
+				takt: 1beats
+				volym: 60%
+				loop: ⊥
+			)
+		]
+		tempo: 100beats/min
+		skala: Musik.frygisk
+		namn: 'krasch'
+	)
+
+dödslista: (spel2.fas = 3) ? [dödsljud] []
+
+Etapp(
+	[
+		fågel
+		flaxljud
+		:sånglista
+		:dödslista
+		:staplar(rör1)
+		:staplar(rör2)
+		:staplar(rör3)
+		:staplar(rör4)
+		mark
+		himmel
+		vänsterVägg
+		högerVägg
+		poängVy
+		:överlägg
+		humButton
+		tapButton
+		instruktioner1
+		instruktioner2
+	]
+	plats: Plats(0m 0m -12m)
+	ram: Rektangel(-8m 6m 8m -6m)
+	bakgrund: Färg(90% 20 240°)
+)

@@ -1,0 +1,68 @@
+☁
+LitereCareCad
+=== start/en
+¶Acest program are un set de litere care cad ca ploaia spre pământ, urmând regulile fizicii, iar când ating solul, pot cădea din nou.Numărul de litere care cad rămâne mereu același, dar facem vizibil un număr diferit dintre ele, în funcție de amplitudinea microfonului.¶
+
+¶Numărul maxim de litere¶
+numărare2: 100
+¶Întinderea pe orizontală a literelor¶
+mărime2: 20m
+
+¶Amplitudinea microfonului¶
+amperi: Volum()
+
+¶Litera aleasă, poziția ei, viteza de rotație și dacă este vizibilă.¶
+•literă(literă2•"" x2•#m y2•#m unghi2•# viteză2•# vizibil•?)
+
+tic: Timp()
+
+¶Inițializează ca o listă de litere aleatorii în poziții aleatorii¶
+litere•[literă]: numărare2 → [#].traduce(
+		ƒ(_) literă(
+				'abcdefghijklmnopqrstuvwxyz' → [''].aleatoriu()
+				Aleatoriu(-mărime2 mărime2)
+				Aleatoriu(0m mărime2 + 2m)
+				Aleatoriu(360)
+				Aleatoriu(-15 15)
+				⊥
+			)
+	)
+	… ∆ tic …
+		¶Dacă litera este deasupra axei y, mut-o puțin în jos și rotește-o.Altfel, repoziționeaz-o deasupra pragului și decide aleatoriu dacă este vizibilă.¶
+		litere.traduce(
+			ƒ(literă3•literă)
+				literă3.y2 > 0m ? (literă3.y2:literă3.y2 - 0.5m).unghi2:literă3.unghi2 + literă3.viteză2
+					(literă3.y2:mărime2 + 2m).vizibil:Aleatoriu(
+						0
+						amperi
+					) > 0.5
+		)
+
+¶Transformă literele în fraze¶
+Etapă(
+	[
+		Fraza("☁" dimensiune: 3m loc: Loc(-8m 12m))
+		Fraza("☁" dimensiune: 5m loc: Loc(8m 11m))
+		Fraza(
+			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+			loc: Loc(-3.5 × mărime2 -0.5m)
+		)
+	].cuLista(
+		litere.traduce(
+			ƒ(literă4•literă)
+				Fraza(
+					literă4.literă2
+					dimensiune: 1m
+					loc: Loc(literă4.x2 literă4.y2)
+					rotaţie: literă4.unghi2 × 1°
+					odihnă: Poză(
+						opacitate: literă4.vizibil ? 1 0
+						culoare: Culoare(100% 0 0°)
+					)
+					durată: 0s
+				)
+		)
+	)
+	loc: Loc(0m 1 × mărime2 -15m)
+	fundal: Culoare(63% 93 248°)
+)

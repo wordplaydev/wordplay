@@ -1,0 +1,76 @@
+文
+Ruang
+=== start
+¶Seratus huruf dari empat sistem penulisan memantul dalam kotak tertutup; balik gravitasi atau guncang huruf-huruf itu.¶
+hitungan2: 100
+
+¶Empat alfabet asal huruf-huruf ini.¶
+latin: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
+yunani: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
+arab: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
+cjk: '日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪' → ['']
+
+¶Tombol mana yang terakhir diklik.¶
+pilihan: Pilihan()
+
+¶Kocok keempat alfabet bersama sekali, saat program mulai berjalan, lalu simpan urutan itu selamanya. Jika kocokan ditulis sebagai ikatan biasa, setiap huruf akan mendapat karakter baru pada setiap bingkai.¶
+glif2: [:latin :yunani :arab :cjk].diacak() … ∆ pilihan … glif2
+
+¶Bernilai benar hanya pada evaluasi yang disebabkan oleh tombol guncang, sehingga huruf-huruf mendapat satu dorongan per klik, bukan didorong pada setiap bingkai.¶
+mengguncang: (∆ pilihan) & (pilihan = 'shake')
+
+¶Tombol ini beralih antara gravitasi bumi dan tanpa gravitasi.¶
+jatuh: ⊤ … ∆ pilihan … (pilihan = 'gravity') ? ~jatuh jatuh
+
+¶Kecepatan, arah, dan putaran yang acak.¶
+ƒ meluncurkan() Kecepatan(
+		Acak(-12m/s 12m/s)
+		Acak(-12m/s 12m/s)
+		Acak(-120°/s 120°/s)
+	)
+
+huruf: hitungan2 → [].menerjemahkan(
+		ƒ(angka2)
+			Frasa(
+				glif2[angka2]
+				nama: "glyph\angka2\"
+				tempat: Gerakan(
+					Tempat(Acak(-7.5m 7.5m) Acak(-5.5m 5.5m))
+					meluncurkan()
+					kecepatanberikutnya: mengguncang ? meluncurkan() ø
+				)
+				urusan: Urusan(kekenyalan: 0.7 gesekan: 0)
+			)
+	)
+
+¶Dua tombol kontrol. Keduanya tidak memiliki massa dan posisinya bukan sebuah Motion, sehingga mesin fisika membiarkan keduanya begitu saja.¶
+tombol: Frasa(
+		jatuh ? '⬇ gravitasi' '🌌 melayang'
+		0.7m
+		nama: 'gravity'
+		dapatdipilih: ⊤
+		tempat: Tempat(-13m 1m)
+	)
+
+pengguncang: Frasa(
+		'🎲 goyang'
+		0.7m
+		nama: 'shake'
+		dapatdipilih: ⊤
+		tempat: Tempat(-13m -1m)
+	)
+
+Panggung(
+	[
+		¶Empat dinding, cukup tebal sehingga tidak ada yang bisa menerobos dengan cepat.¶
+		Bangun(Persegipanjang(-8.6m 6.6m 8.6m 6m))
+		Bangun(Persegipanjang(-8.6m -6m 8.6m -6.6m))
+		Bangun(Persegipanjang(-8.6m 6.6m -8m -6.6m))
+		Bangun(Persegipanjang(8m 6.6m 8.6m -6.6m))
+		:huruf
+		tombol
+		pengguncang
+	]
+	gayaberat: jatuh ? 9.8m/s^2 0m/s^2
+	tempat: Tempat(-2.5m 0m -11m)
+)

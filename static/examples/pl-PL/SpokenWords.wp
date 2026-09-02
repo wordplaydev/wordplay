@@ -1,0 +1,25 @@
+🎭
+SłowaMówione
+=== start
+¶Mów, a twoje słowa pojawią się w przypadkowych miejscach i rozmiarach.¶
+kliknięcie: Przycisk(ø)
+mowa: Przemówienie(
+		nastawić: kliknięcie
+		język: 'pl-PL'
+		słowa: 10
+	)
+x2: Losowy(-10m 10m) … ∆ mowa … Losowy(-10m 10m)
+y2: Losowy(-10m 10m) … ∆ mowa … Losowy(-10m 10m)
+rozmiartekstu: Losowy(1m 3m) … ∆ mowa … Losowy(1m 3m)
+Scena(
+	[
+		Wyrażenie(
+			mowa
+			miejsce: Miejsce(x2 y2)
+			kolor: Kolor(0% 0% 0°)
+			rozmiar: rozmiartekstu
+		)
+	]
+	tło: Kolor(100% 0% 0°)
+)
+

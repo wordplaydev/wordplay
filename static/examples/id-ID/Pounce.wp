@@ -1,0 +1,89 @@
+🧶
+Terkam
+=== start
+¶Kendalikan kucing dengan tombol panah dan buat ia menerkam.
+
+Kucing itu mengeong setiap kali bergerak. Suara meong itu menempel pada @Pose pertama dari animasi geraknya: sebuah @Pose bisa membawa @Music, yang dimainkan saat pose itu terbentuk, dan sebuah gerakan membentuk pose-posenya setiap kali gerakan itu dimulai. Ayunan ini ditulis sendiri, bukan dibiarkan sebagai \Urutan.bergoyang(
+)\ karena animasi siap pakai membangun posenya sendiri, dan pose adalah tempat suara itu harus diletakkan.¶
+
+¶Satu teriakan pendek. Dua gerakan yang berdekatan berbagi satu meong, bukan menumpuk dua suara, karena gerakan kedua muncul saat ayunan pertama masih berlangsung.¶
+meong2: Musik(
+		Trek([1] alatMusik: AlatMusik.kucing)
+		volume: 45%
+		nama: 'meong'
+	)
+
+•posisiKucing(posisi•#m arah2•#)
+
+kunci2: Kunci()
+kecepatan2: 1m
+
+tempatKitty: posisiKucing(5m 1) … ∆ kunci2 …
+		((kunci2 = 'Panah Kiri') & (tempatKitty.posisi > -10m)) ? posisiKucing(
+				tempatKitty.posisi - kecepatan2
+				1
+			)
+			((kunci2 = 'Panah Kanan') & (tempatKitty.posisi < 8m)) ? posisiKucing(
+					tempatKitty.posisi + kecepatan2
+					-1
+				)
+				tempatKitty
+
+kucing2: Frasa(
+		"🐈"
+		menghadapi: "Noto Color Emoji"
+		nama: 'kucing'
+		ukuran: 2m
+		tempat: Tempat(tempatKitty.posisi 0m)
+		beristirahat: Pose(flipx: tempatKitty.arah2 < 0)
+		pindah: Urutan(
+			{
+				0%: Pose(rotasi: -5° musik: meong2)
+				50%: Pose(rotasi: 5°)
+				100%: Pose(rotasi: -5°)
+			}
+			0.25s
+			"zippy"
+		)
+		urusan: Urusan(1000kg kebulatan: 0.5)
+	)
+
+terkaman: Tabrakan('bola' 'kucing')
+
+tempatBola: Gerakan(
+		Tempat(0m 9m)
+		kecepatanberikutnya:
+		terkaman•ø ? ø
+			Kecepatan(
+				((terkaman.arah.X ÷ -1m) × Acak(15m/s 25m/s)) + Acak(
+						-3m/s
+						3m/s
+					)
+				Acak(27m/s 30m/s)
+				(terkaman.arah.X ÷ -1m) × Acak(0°/s 15°/s)
+			)
+	)
+
+bola: Frasa(
+		"🧶"
+		nama: 'bola'
+		tempat: tempatBola
+		urusan: Urusan(1kg 0.5 0 1)
+	)
+
+Panggung(
+	[
+		Bangun(Persegipanjang(-10m 0m 10m -3m))
+		Bangun(Persegipanjang(-10m -1m -9m 11m))
+		Bangun(Persegipanjang(10m -1m 9m 11m))
+		Bangun(Persegipanjang(-10m 10m 10m 11m))
+		bola
+		kucing2
+		Frasa(
+			'tekan ← → untuk memainkan!'
+			tempat: Tempat(-4m -2m)
+			warna: Warna.putih
+		)
+	]
+	tempat: Tempat(y: 5m z: -10m)
+)

@@ -1,0 +1,92 @@
+🎐
+Campanas
+=== start/en
+¶Cinco campanillas cuelgan en fila, numeradas del uno al cinco. Presiona A, S, D, F o G, y la campanilla que golpeas crece y se ilumina, y luego vuelve a su reposo. Toda la fila se mece un poco, sin importar si alguien está tocando o no.
+
+Es un instrumento. No hace ningún sonido. Los números ya forman una partitura; solo que aún no se han tocado. El bloque oculto arriba del escenario es el sonido, esperando a que @Music exista.¶
+
+presionada: Tecla()
+tic: Tiempo(30ms)
+
+¶Cuánto de su sonar pierde una campanilla en cada cuadro.¶
+decaimiento: 0.03
+
+¶Una campanilla: qué grado es, qué tecla la golpea, dónde cuelga, su matiz, y qué tan fuerte sigue sonando — 1 recién golpeada, 0 en reposo.¶
+•campanilla(grado2•# tecla2•'' x2•#m matiz•#° energía•#)
+
+¶Golpea la campanilla cuya tecla fue presionada, y deja que todas las demás se calmen.¶
+ƒ sonar(fila2•[campanilla] golpe•'' golpeada•?)
+	fila2.traducir(
+		ƒ(campanilla2•campanilla)
+			(golpeada & (golpe = campanilla2.tecla2))
+			? campanilla2.energía:1
+				campanilla2.energía:(campanilla2.energía - decaimiento).máximo(
+					0
+				)
+	)
+
+campanillas•[campanilla]: [
+		campanilla(1 'a' -6m 20° 0)
+		campanilla(2 's' -3m 75° 0)
+		campanilla(3 'd' 0m 140° 0)
+		campanilla(4 'f' 3m 205° 0)
+		campanilla(5 'g' 6m 270° 0)
+	] … (∆ presionada | ∆ tic) … sonar(
+			campanillas
+			presionada
+			(∆ presionada)
+		)
+
+¶Una campanilla crece y se ilumina con su sonar, y siempre se mece un poco, así que la fila está viva aunque nadie esté tocando.¶
+ƒ vistaDeCampanilla(campanilla3•campanilla)
+	Frase(
+		(campanilla3.grado2 → '')
+		(2m + (campanilla3.energía · 1.5m))
+		lugar: Lugar(campanilla3.x2 0m)
+		duración: 0.12s
+		color: Color(
+			(45% + (campanilla3.energía · 40%))
+			(20 + (campanilla3.energía · 80))
+			campanilla3.matiz
+		)
+		inmóvil: Secuencia.vaivén(3° 2.5s)
+	)
+
+¶La tecla que golpea cada campanilla, impresa debajo de ella.¶
+ƒ vistaDeTecla(campanilla4•campanilla)
+	Frase(
+		campanilla4.tecla2
+		0.7m
+		lugar: Lugar(campanilla4.x2 -3m)
+		color: Color(60% 0 0°)
+	)
+
+¶Estas dos vinculaciones son todo el sonido: encuentran la campanilla que suena en este instante, y le entregan su grado a una campana, que se reproduce en cada presión para que cada golpe sea un sonido nuevo y no el mismo otra vez. Cinco campanillas, cinco grados de una escala pentatónica, así que no hay nota equivocada.¶
+sonando2: campanillas.filtro(
+		ƒ(campanilla5•campanilla) campanilla5.energía = 1
+	)
+canción: Música(
+		Pista(
+			sonando2 ↦ ⬚.grado2
+			instrumento: Instrumento.campana
+			bucle: ⊥
+		)
+		escala: Música.pentatónica
+		repetir: ∆ presionada
+	)
+
+Escenario(
+	[
+		Frase(
+			'━━━━━━━━━━━━━'
+			1m
+			lugar: Lugar(-6m 2.5m)
+			color: Color(45% 0 0°)
+		)
+		:campanillas ↦ vistaDeCampanilla(⬚)
+		:campanillas ↦ vistaDeTecla(⬚)
+		canción
+	]
+	fondo: Color(16% 15 280°)
+	color: Color(95% 0 0°)
+)

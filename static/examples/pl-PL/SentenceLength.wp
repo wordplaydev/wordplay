@@ -1,0 +1,30 @@
+H
+DługośćZdania
+===
+¶Wpisz coś w pasku czatu, a policzy znaki twojego zdania.¶
+zdanie2: Pogawędzić()
+długość2: Pogawędzić().długość()
+
+Grupa(
+	Stos()
+	[
+		Wyrażenie(
+			`*Cześć! Witaj w liczniku długości zdania.*`
+			miejsce: Miejsce(0m 1m)
+		)
+		Wyrażenie(
+			'Wpisz coś w pasku wiadomości!'
+			miejsce: Miejsce(0m -1m)
+		)
+		Wyrażenie(
+			'Twoje zdanie ma ' + (długość2 → '') + ' znaków długości!'
+			spoczynkowy: Sekwencja.kołysać(czastrwania: 3s)
+			miejsce: Miejsce(0m -3m)
+		)
+		Wyrażenie(
+			zdanie2
+			miejsce: Miejsce(0m -5m)
+			zawinąć: 25m
+		)
+	]
+)

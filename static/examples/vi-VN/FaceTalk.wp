@@ -1,0 +1,33 @@
+🗣
+Trò Chuyện Bằng Khuôn Mặt
+===
+¶Biểu cảm khuôn mặt của bạn, được máy ảnh theo dõi và thuật lại trên sân khấu.¶
+
+¶Tạo một luồng khuôn mặt để theo dõi biểu cảm¶
+khuônMặt2: KhuônMặt(200ms)
+
+¶Chọn giữa cười, cau mày, chớp mắt, hoặc không làm gì cả¶
+tâmTrạng: khuônMặt2.mắtMở ?
+		(khuônMặt2.mứcĐộCười > 0.6 ? 'smiling'
+				khuônMặt2.mứcĐộCauMày > 0.4 ? 'frowning'
+					'')
+		'blinking'
+
+¶Chuyển tâm trạng thành biểu tượng cảm xúc, và cho khuôn mặt một bong bóng lời nói để nói ra.Cho bong bóng một @Say nghĩa là tâm trạng vừa được nói to lên vừa được hiển thị, vàbong bóng thay thế cho phụ đề ở chân sân khấu.¶
+Sânkhấu(
+	[
+		Cụmtừ(
+			(tâmTrạng = 'blinking' ? '😴'
+					tâmTrạng = 'smiling' ? '😀'
+						tâmTrạng = 'frowning' ? '🙁'
+							'😐')
+			kíchcỡ: 8m
+			bongBóng: (tâmTrạng = ''
+				? BongBóng(
+						`/Cười, cau mày, hoặc nhắm mắt lại/`
+						gói: 8m
+					)
+					BongBóng(Nói(tâmTrạng)))
+		)
+	]
+)

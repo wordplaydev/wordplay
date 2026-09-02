@@ -17,6 +17,7 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { toTokens } from '@parser/toTokens';
 import checkDocContent from '@util/verify-locales/checkDocContent';
+import checkBasisNames from '@util/verify-locales/checkBasisNames';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
 import checkExampleNames from '@util/verify-locales/checkExampleNames';
@@ -394,6 +395,7 @@ async function checkLocale(
 
     // Two distinct global shares (output types, input streams, sequences) must not share a name.
     checkGlobalNames(log, revised);
+    checkBasisNames(log, revised);
 
     // Check every pair for errors.
     const pairs = getKeyTemplatePairs(revised);

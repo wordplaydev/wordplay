@@ -1,0 +1,100 @@
+🎬
+Diaporama
+=== start
+¶Un diaporama qui raconte comment Wordplay est né ; appuie sur → et ← pour avancer et reculer.¶
+
+¶Une diapositive du diaporama : un personnage, un titre, et les mots en dessous.¶
+•diapositive(émoji•'' titre•'' corps•''|`…`)
+
+¶L'histoire. Ajoute, retire ou change ces diapositives pour raconter la tienne.¶
+diapositives: [
+		diapositive(
+			'🎭'
+			'Wordplay'
+			"L'histoire de la naissance de cette langue. Appuie sur → pour avancer, et sur ← pour revenir en arrière."
+		)
+		diapositive(
+			'✒'
+			'Une passion pour les lettres'
+			'Il y a longtemps, Amy est tombée amoureuse de la typographie : la forme des lettres, et le rythme des mots sur une page.'
+		)
+		diapositive(
+			'💻'
+			'Une passion pour le code'
+			'Elle est aussi tombée amoureuse de la programmation, et de la façon dont quelques mots pouvaient faire bouger les choses.'
+		)
+		diapositive(
+			'🧭'
+			'Deux passions, séparées'
+			"Mais la typographie et la programmation vivaient dans des mondes différents, et peu d'outils invitaient à aimer les deux à la fois."
+		)
+		diapositive(
+			'😄'
+			'Un jeune'
+			'Des années plus tard, elle a rencontré un jeune qui aimait les émojis, et voulait les faire danser.'
+		)
+		diapositive(
+			'💡'
+			'Une idée'
+			'Et si une langue de programmation rendait facile de faire danser les émojis ?'
+		)
+		diapositive(
+			'🌱'
+			'Wordplay commence'
+			'Alors elle a commencé à en créer une, où écrire du code veut dire déplacer des mots et des caractères sur une scène.'
+		)
+		diapositive(
+			'🧑‍🏫'
+			'Conçue ensemble'
+			"Elle l'a conçue avec beaucoup de jeunes et d'enseignants, qui ont dit ce qu'ils voulaient créer, et ce qui les gênait."
+		)
+		diapositive(
+			'🌏'
+			'Toujours en évolution'
+			"Elle n'a cessé de grandir depuis, pour que plus de personnes puissent créer plus de ce qu'elles imaginent."
+		)
+		diapositive(
+			'✨'
+			'À toi de jouer'
+			`Que rêves-tu de créer, mais que tu ne peux pas encore faire ? Dis-le nous sur <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+		)
+	]
+
+total: diapositives.longueur()
+
+clé2: Clé()
+
+¶La diapositive que nous montrons maintenant. La flèche droite avance, la flèche gauche recule, et les deux s'arrêtent aux extrémités au lieu de recommencer au début.¶
+indice2•#: 1 … ∆ clé2 …
+		(clé2 = 'Flèche droite') ? ((indice2 < total) ? indice2 + 1 indice2)
+			(clé2 = 'Flèche gauche') ? ((indice2 > 1) ? indice2 - 1 indice2)
+				indice2
+
+diapositive2: diapositives[indice2]
+
+Scène(
+	[
+		Groupe(
+			Empiler('|' 0.4m)
+			[
+				Phrase(diapositive2.émoji taille: 2m)
+				Phrase(
+					`*\diapositive2.titre\*`
+					taille: 1.2m
+					alignement: '|'
+				)
+				Phrase(
+					diapositive2.corps
+					taille: 0.5m
+					envelopper: 12m
+					alignement: '|'
+				)
+				Phrase(
+					`\indice2\ sur \total\`
+					taille: 0.25m
+					alignement: '|'
+				)
+			]
+		)
+	]
+)

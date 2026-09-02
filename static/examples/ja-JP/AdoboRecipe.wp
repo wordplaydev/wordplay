@@ -1,0 +1,40 @@
+H
+アドボのレシピ
+=== start/en
+¶フィリピンのチキンアドボの、場面ごとのレシピ。¶
+
+¶これは表示する場面のリストです。¶
+文: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`アドボン・マノック @lamamel/adobo！（マウスを動かして食べよう）`)
+		(`おいしい！ @lamamel/emptyadobo`)
+	]
+
+¶これは、マウスを動かしたときだけ進む文のリストです。¶
+文を移動する: [9 11]
+
+¶現在の文は1から始まり、マウスが画面上のある座標に来たとき、または他の文のためにボタンかキーが押されたときに増えます。¶
+点2: ポインター()
+現在の文•#: 1 …
+	文を移動する.ふくむ(現在の文) ?
+		(点2.x > 2m) & (点2.y > 3m)
+		∆ ボタン() | ∆ キー()
+		…
+		(現在の文 <
+				文.長さ()) ?
+			現在の文 + 1
+			現在の文
+
+ステージ(
+	[フレーズ(文[現在の文] 折り返し: 10m)]
+	顔: 'Short Stack'
+)

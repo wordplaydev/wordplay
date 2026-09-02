@@ -1,0 +1,68 @@
+☁
+RainingLetters
+=== start/en
+¶Ten program tworzy zbiór spadających liter, które opadają na ziemię zgodnie z zasadami fizyki. Kiedy dotkną ziemi, mogą znów zacząć spadać.Zawsze spada ta sama liczba liter, ale pokazujemy inną ich liczbęw zależności od wzmocnienia mikrofonu.¶
+
+¶Maksymalna liczba liter¶
+liczba2: 100
+¶Poziomy rozrzut liter¶
+rozmiar2: 20m
+
+¶Wzmocnienie mikrofonu¶
+wzmocnienie: Tom()
+
+¶Wybrana litera oraz jej pozycja, prędkość obrotu i to, czy jest widoczna.¶
+•litera(litera2•"" x2•#m y2•#m kąt2•# prędkość2•# widoczna•?)
+
+tyknięcie: Czas()
+
+¶Utwórz listę losowych liter w losowych pozycjach¶
+litery•[litera]: liczba2 → [#].tłumaczyć(
+		ƒ(_) litera(
+				'abcdefghijklmnopqrstuvwxyz' → [''].losowy()
+				Losowy(-rozmiar2 rozmiar2)
+				Losowy(0m rozmiar2 + 2m)
+				Losowy(360)
+				Losowy(-15 15)
+				⊥
+			)
+	)
+	… ∆ tyknięcie …
+		¶Jeśli litera znajduje się powyżej osi Y, przesuń ją trochę w dół i obróć.W przeciwnym razie ustaw ją ponownie powyżej progu i losowo zdecyduj, czy ma być widoczna.¶
+		litery.tłumaczyć(
+			ƒ(litera3•litera)
+				litera3.y2 > 0m ? (litera3.y2:litera3.y2 - 0.5m).kąt2:litera3.kąt2 + litera3.prędkość2
+					(litera3.y2:rozmiar2 + 2m).widoczna:Losowy(
+						0
+						wzmocnienie
+					) > 0.5
+		)
+
+¶Zamień litery na frazy¶
+Scena(
+	[
+		Wyrażenie("☁" rozmiar: 3m miejsce: Miejsce(-8m 12m))
+		Wyrażenie("☁" rozmiar: 5m miejsce: Miejsce(8m 11m))
+		Wyrażenie(
+			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+			miejsce: Miejsce(-3.5 × rozmiar2 -0.5m)
+		)
+	].zListą(
+		litery.tłumaczyć(
+			ƒ(litera4•litera)
+				Wyrażenie(
+					litera4.litera2
+					rozmiar: 1m
+					miejsce: Miejsce(litera4.x2 litera4.y2)
+					obrót: litera4.kąt2 × 1°
+					spoczynkowy: Poza(
+						nieprzezroczystość: litera4.widoczna ? 1 0
+						kolor: Kolor(100% 0 0°)
+					)
+					czastrwania: 0s
+				)
+		)
+	)
+	miejsce: Miejsce(0m 1 × rozmiar2 -15m)
+	tło: Kolor(63% 93 248°)
+)

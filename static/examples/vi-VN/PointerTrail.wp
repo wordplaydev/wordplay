@@ -1,0 +1,16 @@
+✨
+Vệt con trỏ
+===
+¶Di chuyển con trỏ để vẽ một vệt cầu vồng mờ dần. @Previous (←←) ghi nhớ năm @Pointer gần nhất, và @List.translate vẽ một chấm cho mỗi vị trí, mờ dần và đổi màu từ cũ nhất đến mới nhất.¶
+lịchSử•[VịTrí]: ←← 5 Contrỏ()
+Sânkhấu(
+	lịchSử.dịch(
+		ƒ(vịTrí2•VịTrí chỉMục2•#)
+			Cụmtừ(
+				'●'
+				màusắc: Màusắc(75% 100 chỉMục2 × 40°)
+				độmờđục: chỉMục2 ÷ lịchSử.chiềudài()
+				vịTrí: VịTrí(vịTrí2.x vịTrí2.y)
+			)
+	)
+)

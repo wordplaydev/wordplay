@@ -1,0 +1,597 @@
+🎆
+Fogo de artifício
+=== start/en
+¶Fogos de artifício que disparam com a música: cada instrumento que soa numabatida aparece como ele próprio, fica um momento suspenso, e depois cai.
+
+Aqui nada é desenhado com base num relógio. @Beat entrega um @Downbeat sempre quecada batida se torna audível, e um @Downbeat transporta um @Part para cada@Track — que instrumento é, se está a soar, em que nota está, e com quevolume. Assim, uma explosão por cada parte que soa é um único @List/translate, e amúsica desenha-se a si própria.
+
+Cada explosão tem o nome do número da batida, por isso as explosões de cadabatida são sempre novos elementos: mostram a sua pose de entrada ao apareceme a sua pose de saída quando a batida seguinte as substitui. O aparecimento ea queda são essas duas poses.
+
+A melodia é /The Star-Spangled Banner/ — a melodia de John Stafford Smith,de cerca de 1773, há muito em domínio público — do início ao fim, terminandona última linha. Cada nota tem a sua própria duração escrita como um valorde nota junto ao número — \8𝅘𝅥𝅮\ é uma colcheia, \13𝅗𝅥\ uma mínima, \13𝅗𝅥𝅭\ uma mínima com ponto — assim, as anacruses,as figuras com ponto e as notas longas são durações reais e não uma grelhade batidas iguais. Um número simples vale uma batida. As pausas continuam aprecisar de um @Note, porque \ø\ não é um número e por isso não pode ter um valor. Está na escalacromática, para que a quarta aumentada possa ser escrita: cada grau é umsemitom.¶
+
+batida2: Batida()
+contagem2: batida2.contar
+
+¶Só as partes que realmente estão a soar se tornam fogos de artifício; umapista em silêncio mantém-se escura. Antes de a música começar não hánenhuma parte, por isso o céu está vazio.¶
+aDisparar•[Parte]: batida2.partes.filtro(
+		ƒ(p•Parte) p.aSoar
+	)
+
+¶Cada instrumento explode como ele próprio, e é esse o objetivo: dá para vernitidamente qual acabou de tocar.¶
+ƒ rosto2(p2•Parte)•''
+	(p2.instrumento.id = 'trumpet') ? '🎺'
+		(p2.instrumento.id = 'flute') ? '🪈'
+			(p2.instrumento.id = 'bell') ? '🔔'
+				(p2.instrumento.id = 'piano') ? '🎹'
+					(p2.instrumento.id = 'violin') ? '🎻'
+						(p2.instrumento.id = 'drums') ? '🥁'
+							'🎵'
+
+¶Cada instrumento mantém a sua própria faixa, espalhada por todo o céu. Usaro instrumento em vez da sua posição na lista faz com que uma faixa se mantenhaparada quando outro instrumento fica em silêncio.¶
+ƒ faixa(p3•Parte)•#
+	(p3.instrumento.id = 'trumpet') ? -6
+		(p3.instrumento.id = 'flute') ? -3.6
+			(p3.instrumento.id = 'bell') ? -1.2
+				(p3.instrumento.id = 'piano') ? 1.2
+					(p3.instrumento.id = 'violin') ? 3.6
+						(p3.instrumento.id = 'drums') ? 6
+							0
+
+¶A que altura fica uma explosão: é a sua nota. Todas as partes aqui estão asoar, por isso todas têm uma.¶
+ƒ altura2(p4•Parte)•# p4.graus[1]
+
+¶Uma explosão, que sobe com a sua nota e cresce conforme o volume.¶
+ƒ explosão(p5•Parte i•#)•Frase
+	Frase(
+		rosto2(p5)
+		(0.9m + (p5.volume · 1.6m))
+		local: Local(
+			(faixa(p5) + p5.balanço) · 1m
+			(((altura2(p5) · 0.22) - 1.8) · 1m)
+		)
+		nome: 'burst \contagem2\ \i\'
+		entrando: Sequência(
+			{
+				0%: Pose(escala: 0.1 opacidade: 0%)
+				40%: Pose(escala: 1.35 opacidade: 100%)
+				100%: Pose(escala: 1 opacidade: 100%)
+			}
+			0.3s
+		)
+		sair: Sequência(
+			{
+				0%: Pose(desvio: Local(0m 0m) opacidade: 100%)
+				100%: Pose(desvio: Local(0m -5m) opacidade: 0%)
+			}
+			0.9s
+		)
+	)
+
+¶A melodia. Os graus são semitons a partir da tónica grave: 1 é essa nota,13 é uma oitava acima, e 7 é a quarta aumentada. Duas linhas partilham a mesmamelodia, depois vem a ponte, e por fim a última linha.¶
+melodia2: [
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		8𝅘𝅥𝅮
+		5𝅘𝅥𝅮
+		1
+		5
+		8
+		13𝅗𝅥
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		13
+		8
+		5
+		1
+		17𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		17
+		18
+		20
+		20𝅗𝅥
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15
+		17
+		18
+		18𝅗𝅥
+		18
+		17
+		15
+		13
+		12𝅗𝅥
+		10𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		13
+		5
+		7
+		8𝅗𝅥
+		8
+		13
+		13
+		13𝅘𝅥𝅮
+		12𝅘𝅥𝅮
+		10
+		10
+		10
+		15
+		18𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		13𝅘𝅥𝅮
+		13
+		12
+		8𝅘𝅥𝅮
+		8𝅘𝅥𝅮
+		13𝅘𝅥𝅭
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅮
+		18𝅘𝅥𝅮
+		20𝅗𝅥
+		13𝅘𝅥𝅮
+		15𝅘𝅥𝅮
+		17𝅘𝅥𝅭
+		18𝅘𝅥𝅮
+		15
+		13𝅗𝅥𝅭
+	]
+
+¶Uma nota fundamental sob cada compasso.¶
+baixo: [
+		Nota(ø 1beats)
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+		8𝅗𝅥𝅭
+		1𝅗𝅥𝅭
+	]
+
+¶Um sino em batidas fortes alternadas, por isso não aparece em todas asexplosões.¶
+sino2: [
+		Nota(ø 1beats)
+		13
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		13
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		13
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		13
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+		20
+		Nota(ø 2beats)
+		Nota(ø 3beats)
+	]
+
+¶Cordas a partir da ponte em diante, para que a textura vá crescendo.¶
+violino2: [
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+		20𝅗𝅥𝅭
+		13𝅗𝅥𝅭
+	]
+
+¶Uma linha aguda só nos pontos mais altos das frases.¶
+flauta2: [
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 1beats)
+		25
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 1beats)
+		25
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 1beats)
+		25
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+		Nota(ø 3beats)
+		Nota(ø 1beats)
+		25
+		Nota(ø 1beats)
+		Nota(ø 3beats)
+	]
+
+¶Uma marcha por baixo de tudo.¶
+tambores: [
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		1𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+		2𝅘𝅥𝅮
+		Nota(ø 0.5beats)
+		3𝅘𝅥𝅮
+	]
+
+Fase(
+	[
+		:aDisparar.traduzir(ƒ(p6•Parte i2•#) explosão(p6 i2))
+		Música(
+			[
+				Faixa(
+					melodia2
+					instrumento: Instrumento.trompete
+					volume: 90%
+					ciclo: ⊥
+				)
+				Faixa(
+					baixo
+					instrumento: Instrumento.piano
+					chave: -12semitones
+					volume: 50%
+					panorâmica: -0.4
+					ciclo: ⊥
+				)
+				Faixa(
+					sino2
+					instrumento: Instrumento.sino
+					volume: 55%
+					ciclo: ⊥
+				)
+				Faixa(
+					violino2
+					instrumento: Instrumento.violino
+					volume: 45%
+					panorâmica: 0.3
+					ciclo: ⊥
+				)
+				Faixa(
+					flauta2
+					instrumento: Instrumento.flauta
+					volume: 65%
+					ciclo: ⊥
+				)
+				Faixa(
+					tambores
+					instrumento: Instrumento.bateria
+					volume: 45%
+					ciclo: ⊥
+				)
+			]
+			andamento: 84beats/min
+			escala: Música.cromática
+			nome: 'hino'
+		)
+	]
+	fundo: Cor(10% 12 265°)
+	cor: Cor(96% 0 0°)
+)

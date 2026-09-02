@@ -1,0 +1,26 @@
+മ
+Litere
+=== start/en
+¶O grilă de litere din multe sisteme de scriere, cu una schimbată în fiecare secundă.¶
+litere: 'മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ' ÷ ""
+
+celMaiRecent•['']:
+	litere … ∆ Timp(1000ms) …
+		celMaiRecent.înlocui(
+			Aleatoriu(1 25)
+			litere.aleatoriu()
+		)
+
+Grup(
+	Grilă(5 5 0.25m 1m 1m)
+	celMaiRecent.traduce(
+		ƒ(literă•"" index2•#)
+			Fraza(
+				literă
+				nume: "\literă\-\index2\"
+				intrând: Poză(opacitate: 0 scară: 2)
+				odihnă: Secvenţă.legănare(durată: 0.25s)
+				durată: 0.5s
+			)
+	)
+)

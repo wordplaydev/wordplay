@@ -1,0 +1,95 @@
+🏀
+Star du basket-ball
+=== start
+¶Vise avec ton pointeur et clique pour tirer au panier.¶
+clic: ∆ Bouton()
+
+nombreDeClics: 0 … clic … 1 + ⬚
+
+¶Capture la position x du pointeur au moment du tir, pour que le ballon tombe de l'endroit visé par le joueur au lieu de revenir à x = 0¶
+tirX: 0m … (clic & ((nombreDeClics % 2) = 1)) … Aiguille().x
+
+placeDuBallonDeBasket: (nombreDeClics % 2) = 0 ? Lieu(
+			x: Aiguille().x
+			et: 8m
+			j: 0m
+		) Mouvement(lieu: Lieu(tirX 8m 0m))
+
+ballonDeBasket: Phrase(
+		"🏀"
+		0.7m
+		matière: Matière(0.623kg 0.5)
+		lieu: placeDuBallonDeBasket
+		nom: 'ballon de basket'
+	)
+
+¶Le panier glisse d'un côté à l'autre en continu, guidé par le sinus du temps¶
+placeDuPanierX: (Temps() ÷ 600ms).sin() · 6m
+
+¶Lit la position actuelle du ballon une seule fois pour vérifier le score¶
+ballonX: (ballonDeBasket.lieu ?? Lieu()).x
+ballonY: (ballonDeBasket.lieu ?? Lieu()).et
+
+tentative: (nombreDeClics ÷ 2).tourdHorizon()
+
+¶inBin est vrai chaque fois que le ballon se trouve à l'intérieur du panier. La réaction du score ne se déclenche que lorsque inBin passe à vrai ET que la tentative actuelle dépasse le score, donc toute deuxième entrée pendant le même tir — rebonds à l'intérieur du panier, ou le panier qui glisse à nouveau sur le ballon — n'a aucun effet jusqu'à ce que le tir suivant fasse avancer le compteur de tentatives¶
+dansLePanier: (ballonX < (placeDuPanierX + 0.9m)) & (ballonX > (placeDuPanierX - 0.9m)) & (ballonY < 2.9m) & (ballonY > 0.3m)
+score: 0 … dansLePanier & (tentative > score) … 1 + score
+
+starDuBasket: Groupe(
+		Empiler('|' 0.5m)
+		[
+			Phrase(`*Star du basket*` .8m)
+			Phrase('Vise avec ton pointeur.' .6m)
+			Phrase(
+				'Clique pour faire tomber le 🏀 dans le panier en mouvement.'
+				.6m
+			)
+			Phrase('Score : ' + score → '' .8m)
+			Phrase('Tentatives : ' + tentative → '' .8m)
+		]
+		taille: 2m
+		affronter: "Sue Ellen Francisco"
+		compenser: Lieu(0m 8m 0m)
+	)
+
+Scène(
+	[
+		ballonDeBasket
+		¶Les parois du panier sont passées à 0,3 m d'épaisseur (contre 0,1 m) pour que le panier, qui se déplace latéralement, ne puisse pas traverser le ballon, et à 3 m de haut (contre 2 m) pour qu'un ballon avec un rebond de 0,5 ne puisse pas rebondir au-dessus du bord¶
+		Forme(
+			Rectangle(
+				-1.2m + placeDuPanierX
+				0.3m
+				1.2m + placeDuPanierX
+				0m
+				0m
+			)
+			arrièreplan: Couleur(60% 100 30°)
+		)
+		Forme(
+			Rectangle(
+				0.9m + placeDuPanierX
+				3m
+				1.2m + placeDuPanierX
+				0m
+				0m
+			)
+			arrièreplan: Couleur(60% 100 30°)
+		)
+		Forme(
+			Rectangle(
+				-1.2m + placeDuPanierX
+				3m
+				-0.9m + placeDuPanierX
+				0m
+				0m
+			)
+			arrièreplan: Couleur(60% 100 30°)
+		)
+		Forme(Rectangle(-10m 0.01m 10m -2m))
+		starDuBasket
+	]
+	lieu: Lieu(x: 0m et: 5m j: -10m)
+	pesanteur: 5m/s^2
+)

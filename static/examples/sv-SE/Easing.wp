@@ -1,0 +1,49 @@
+s
+Sekvensutjämning
+===
+¶Samma bilanimation på åtta sätt, ett för varje utjämningsstil.¶
+nyckelbilder: {
+		0%: Pose(offset: Plats(-1m 0m))
+		25%: Pose(offset: Plats(1m 0m))
+		50%: Pose(offset: Plats(1m 0m))
+		75%: Pose(offset: Plats(-1m 0m))
+		100%: Pose(offset: Plats(-1m 0m))
+	}
+
+Etapp(
+	[
+		Grupp(
+			Rutnät(4 2 cellstoppning: 0.25m)
+			[
+				Fras('rak' storlek: 0.25m)
+				Fras(
+					"🚗"
+					vilande: Sekvens(
+						nyckelbilder
+						3s
+						stil: "straight"
+					)
+				)
+				Fras('försiktig' storlek: 0.25m)
+				Fras(
+					"🚚"
+					vilande: Sekvens(
+						nyckelbilder
+						3s
+						stil: "cautious"
+					)
+				)
+				Fras('trög' storlek: 0.25m)
+				Fras(
+					"🚙"
+					vilande: Sekvens(nyckelbilder 3s stil: "pokey")
+				)
+				Fras('snabb' storlek: 0.25m)
+				Fras(
+					"🏎"
+					vilande: Sekvens(nyckelbilder 3s stil: "zippy")
+				)
+			]
+		)
+	]
+)

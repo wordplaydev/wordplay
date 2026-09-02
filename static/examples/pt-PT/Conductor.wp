@@ -1,0 +1,290 @@
+🫲
+Condutor(a)
+=== start/en
+¶Dirija uma frota imperial com uma só mão. Sem teclado, sem botões — a câmara observa a sua mão e uma orquestra de oito partes responde.
+
+Levante a mão e a orquestra entra, uma parte de cada vez, até tocarem todas as oito. Baixe-a e vão desaparecendo até restar só a melodia. Deslize para a esquerda para abrandar a marcha, para a direita para a acelerar. O número de dedos que levanta escolhe quem toca a melodia.
+
+Todas as instruções aparecem escritas no palco, para as poder aprender sem ler isto.¶
+
+mão: Mão()
+
+¶A altura indica quanta orquestra toca e o movimento lateral indica a rapidez, ambos lidos diretamente da mão em vez de guardados em memória, pelo que a seguem de forma contínua. Cada valor é arredondado a um degrau, para que a música só mude quando a mudança for grande o suficiente para se ouvir, e uma mão trémula não reescreva a partitura vinte vezes por segundo.¶
+elevar: ((mão.local.y + 3m) ÷ 6m).min(1).máx(0)
+camadas: 1 + ((elevar · 7).redondo())
+
+alcance: ((mão.local.x + 5m) ÷ 10m).min(1).máx(0)
+ritmo2: 72 + ((alcance · 8).redondo() · 12)
+
+¶Quem toca a melodia. Um punho fechado e uma mão fora do enquadramento contam ambos como nenhum dedo, por isso nenhum dedo mantém quem estava a tocar — caso contrário, desviar o olhar mudaria a melodia.¶
+destacado: 5 … ∆ mão …
+		(mão.dedos = 0) ? destacado mão.dedos
+
+ƒ voz2(contagem2•#)•Instrumento
+	(contagem2 = 1) ? Instrumento.piano
+		(contagem2 = 2) ? Instrumento.violino
+			(contagem2 = 3) ? Instrumento.flauta
+				(contagem2 = 4) ? Instrumento.guitarraElétrica
+					Instrumento.trompete
+
+ƒ ícone(contagem3•#)•''
+	(contagem3 = 1) ? '🎹'
+		(contagem3 = 2) ? '🎻'
+			(contagem3 = 3) ? '🪈'
+				(contagem3 = 4) ? '⚡'
+					'🎺'
+
+¶O volume de uma parte. Todas as partes permanecem sempre na música, por isso nenhuma delas perde nunca o seu lugar — as que estão acima da mão ficam apenas com o volume todo no mínimo.
+
+Cada uma é definida bem abaixo da melodia, e todas as oito juntas somam menos do dobro dela. Oito partes a todo o volume não fazem uma orquestra alta, fazem uma orquestra confusa, porque tudo a soar ao mesmo tempo tem de passar pelo mesmo altifalante.¶
+ƒ ouvido(posição•# alto•%)•% (posição ≤ camadas) ? alto 0%
+
+¶A Marcha Imperial, oito compassos, um compasso por linha. Está escrita numa escala cromática, para que as suas notas fora do tom — a segunda bemol e o deslize cromático na segunda metade — possam sequer ser escritas: o grau 1 é a tónica e cada passo acima é um semitom, por isso estes números são intervalos e não graus de escala.
+
+Os valores das notas indicam o ritmo. Um número simples dura o tempo da faixa, uma semínima aqui, e qualquer outra duração diz-se pelo próprio número: 𝅘𝅥𝅮𝅭 para a colcheia pontuada e 𝅘𝅥𝅯 para a semicolcheia que impulsionam a marcha, 𝅗𝅥 para a mínima em que assenta. Cada linha soma quatro tempos.¶
+marcha: [
+		5
+		5
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		12
+		12
+		12
+		13𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		4
+		1𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		5𝅗𝅥
+		17
+		5𝅘𝅥𝅮𝅭
+		5𝅘𝅥𝅯
+		17
+		16𝅘𝅥𝅮𝅭
+		15𝅘𝅥𝅯
+		14𝅘𝅥𝅯
+		13𝅘𝅥𝅯
+		14
+		6𝅘𝅥𝅮
+		11
+		9𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		7𝅘𝅥𝅯
+		6𝅘𝅥𝅯
+		7
+		1𝅘𝅥𝅮
+		4
+		1𝅘𝅥𝅮𝅭
+		4𝅘𝅥𝅯
+		8
+		5𝅘𝅥𝅮𝅭
+		8𝅘𝅥𝅯
+		12𝅗𝅥
+	]
+
+¶Quatro compassos de notas fundamentais por baixo, marchando em semínimas. É mais curto do que a melodia, e cada faixa repete-se conforme a sua própria duração, por isso estes quatro compassos surgem duas vezes para os oito da melodia.¶
+baixo: [
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		5
+		5
+		12
+		8
+	]
+
+¶Um único compasso de bateria, no ritmo próprio da melodia. Os graus escolhem peças de um kit em vez de graus de escala, num instrumento sem altura definida, por isso 1 é o bombo, 2 é a caixa, 3 é o prato hi-hat e 5 é o tom.¶
+tambores: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
+
+¶Acordes nos contratempos, o empurrão que impede a marcha de ficar parada. O terceiro compasso inclina-se para o acorde menor um tom e meio abaixo, de onde vêm as notas bemóis da melodia.¶
+cordas: [
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+		ø
+		{1 4 8}
+		ø
+		{1 4 8}
+		ø
+		{5 8 12}
+		ø
+		{5 8 12}
+	]
+
+¶Os mesmos quatro compassos sustidos como quintas simples, uma por compasso. Uma quinta não tem terceira, por isso não interfere com as notas cromáticas acima.¶
+almofada: [{5 12} {5 12} {1 8} {5 12}]
+
+¶Um sino no primeiro compasso e no terceiro. O seu tempo é uma semibreve, por isso uma pausa aqui é um compasso inteiro de silêncio.¶
+sinos: [5 ø 1 ø]
+
+¶Uma resposta aguda nos espaços, onde a melodia se mantém parada.¶
+contador: [
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		20𝅗𝅥
+		ø
+		ø
+		ø
+		ø
+		ø
+		ø
+		17𝅗𝅥
+	]
+
+canção: Música(
+		[
+			Faixa(
+				marcha
+				instrumento: voz2(destacado)
+				volume: 55%
+				batida: 1𝅘𝅥
+			)
+			Faixa(
+				baixo
+				instrumento: Instrumento.sintetizadorBaixo
+				batida: 1𝅘𝅥
+				chave: -24semitones
+				volume: ouvido(2 30%)
+			)
+			Faixa(
+				tambores
+				instrumento: Instrumento.bateria
+				batida: 1𝅘𝅥
+				volume: ouvido(3 20%)
+			)
+			Faixa(
+				marcha
+				instrumento: Instrumento.saxofone
+				batida: 1𝅘𝅥
+				chave: -12semitones
+				volume: ouvido(4 22%)
+			)
+			Faixa(
+				almofada
+				instrumento: Instrumento.sintetizadorPad
+				batida: 1𝅝
+				chave: -12semitones
+				volume: ouvido(5 16%)
+			)
+			Faixa(
+				cordas
+				instrumento: Instrumento.violino
+				batida: 1𝅘𝅥
+				volume: ouvido(6 18%)
+			)
+			Faixa(
+				sinos
+				instrumento: Instrumento.sino
+				batida: 1𝅝
+				chave: 12semitones
+				volume: ouvido(7 12%)
+			)
+			Faixa(
+				contador
+				instrumento: Instrumento.flauta
+				batida: 1𝅘𝅥
+				volume: ouvido(8 14%)
+			)
+		]
+		andamento: ritmo2 · 1beats/min
+		escala: Música.cromática
+		nome: 'marcha imperial'
+	)
+
+¶A distância que a frota já percorreu. Conta os seus próprios impulsos em vez de ler o relógio, e conta-os mais depressa quando a marcha é mais rápida, para que as naves voem ao ritmo da música.¶
+viajar: 0 … ∆ Tempo(40ms) … viajar + (ritmo2 ÷ 72)
+
+ƒ estado()•'' '\camadas\ of 8 playing · \ritmo2\ beats a minute'
+
+¶Uma linha das instruções, esbatida para que a frota e o intérprete em destaque se leiam primeiro.¶
+ƒ linha(texto2•'')•Frase Frase(
+		texto2
+		0.3m
+		cor: Cor(64% 4 265°)
+	)
+
+¶As instruções, alinhadas à margem esquerda em vez de centradas, para que o olhar as possa percorrer diretamente.¶
+visor: Grupo(
+		Monte('<' 0.16m)
+		[
+			Frase(ícone(destacado) 0.9m cor: Cor(56% 65 25°))
+			Frase(estado() 0.38m cor: Cor(70% 25 30°))
+			linha('levante a mão — mais orquestra')
+			linha('baixe-a — só a melodia')
+			linha(
+				'mão à esquerda — mais devagar · mão à direita — mais depressa'
+			)
+			linha(
+				'dedos levantados — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺'
+			)
+		]
+	)
+
+¶Uma nave a atravessar o palco, a voar numa faixa bem acima das instruções para nunca cruzar o texto. A sua faixa define a altura a que voa e a que distância começa, para que nunca voem em formação.¶
+ƒ navio(glifo•'' faixa•# velocidade2•#)•Frase
+	Frase(
+		glifo
+		0.7m
+		local: Local(
+			(((((viajar · velocidade2) + (faixa · 47)) % 200) - 100) · 0.045) · 1m
+			((faixa · 0.65) + 2.2) · 1m
+		)
+	)
+
+frota: [
+		navio('🛸' 0 3)
+		navio('🚀' 1 2)
+		navio('🛰' 2 4)
+		navio('🛸' 3 5)
+	]
+
+ƒ estrela(x2•# y2•# tamanho2•#)•Frase
+	Frase(
+		'✦'
+		tamanho2 · 1m
+		local: Local(x2 · 1m y2 · 1m)
+		cor: Cor(46% 8 275°)
+	)
+
+¶O palco ajusta-se para caber tudo o que nele está, por isso qualquer coisa que se mova voltaria a redimensionar toda a imagem a cada impulso e deixaria as palavras a tremer. As quatro estrelas dos cantos ficam mais afastadas do que as naves alguma vez voam e mais afastadas do que a linha de texto mais longa, para que o ajuste tenha uma moldura que nunca muda e a imagem se mantenha estável. O resto é só céu.¶
+estrelas: [
+		estrela(-5.6 -2.3 0.18)
+		estrela(5.6 -2.3 0.18)
+		estrela(-5.6 5 0.18)
+		estrela(5.6 5 0.18)
+		estrela(-4.9 2.1 0.22)
+		estrela(-3.9 3.9 0.14)
+		estrela(-2.2 2.5 0.18)
+		estrela(1.1 3.4 0.14)
+		estrela(2.7 4.4 0.22)
+		estrela(4.6 2.7 0.14)
+	]
+
+Fase(
+	[:estrelas :frota visor canção]
+	fundo: Cor(7% 6 275°)
+	cor: Cor(88% 3 265°)
+)

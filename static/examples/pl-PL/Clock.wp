@@ -1,0 +1,9 @@
+🕰️
+Zegar
+=== start/en
+¶Zegar dostosowany do języka, w jednej linijce kodu. @Now zmienia @Moment co sekundę, a \Teraz(
+) → ''\ zamienia to na tekst w twoim języku, kalendarzu i strefie czasowej, więc zegar zmienia język razem z twoimi ustawieniami. Spróbuj podać @Now częstotliwość, strefę czasową i kalendarz, na przykład \Teraz(
+	1s
+	'Asia/Tokyo''japanese'
+)\.¶
+Wyrażenie(Teraz() → '' twarz: 'Doto')

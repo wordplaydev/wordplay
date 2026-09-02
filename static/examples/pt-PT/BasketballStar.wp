@@ -1,0 +1,96 @@
+🏀
+Estrela do Basquetebol
+=== start
+¶Aponte com o seu ponteiro e clique para lançar à cesta.¶
+clicar: ∆ Botão()
+
+contagemDeCliques: 0 … clicar … 1 + ⬚
+
+¶Captura a posição x do ponteiro no momento do lançamento, para que a bola caia a partir do sítio onde o jogador apontou, em vez de voltar para x = 0¶
+lançamentoX: 0m … (clicar & ((contagemDeCliques % 2) = 1)) … Ponteiro(
+		).x
+
+posiçãoDaBolaDeBasquetebol: (contagemDeCliques % 2) = 0 ? Local(
+			x: Ponteiro().x
+			y: 8m
+			z: 0m
+		) Movimento(local: Local(lançamentoX 8m 0m))
+
+basquetebol: Frase(
+		"🏀"
+		0.7m
+		matéria: Matéria(0.623kg 0.5)
+		local: posiçãoDaBolaDeBasquetebol
+		nome: 'basquetebol'
+	)
+
+¶O cesto deslize-se continuamente de um lado para o outro, guiado pelo seno do tempo¶
+posiçãoXDoCesto: (Tempo() ÷ 600ms).pecado() · 6m
+
+¶Lê a posição atual da bola uma vez, para verificar a pontuação¶
+bolaX: (basquetebol.local ?? Local()).x
+bolaY: (basquetebol.local ?? Local()).y
+
+tentativa: (contagemDeCliques ÷ 2).arredondarParaCima()
+
+¶inBin é verdadeiro sempre que a bola está dentro do interior do cesto. A reação da pontuação só é acionada quando inBin passa a verdadeiro E a tentativa atual está adiante da pontuação, para que qualquer segunda entrada durante o mesmo lançamento — ricochetes dentro do cesto, ou o cesto a deslizar de volta sobre a bola — não tenha efeito, até que o próximo lançamento aumente o contador de tentativas¶
+noCesto: (bolaX < (posiçãoXDoCesto + 0.9m)) & (bolaX > (posiçãoXDoCesto - 0.9m)) & (bolaY < 2.9m) & (bolaY > 0.3m)
+pontuação: 0 … noCesto & (tentativa > pontuação) … 1 + pontuação
+
+estrelaDoBasquetebol: Grupo(
+		Monte('|' 0.5m)
+		[
+			Frase(`*Estrela do Basquetebol*` .8m)
+			Frase('Aponte com o seu ponteiro.' .6m)
+			Frase(
+				'Clique para deixar cair a 🏀 no cesto em movimento.'
+				.6m
+			)
+			Frase('Pontuação: ' + pontuação → '' .8m)
+			Frase('Tentativas: ' + tentativa → '' .8m)
+		]
+		tamanho: 2m
+		fonte: "Sue Ellen Francisco"
+		desvio: Local(0m 8m 0m)
+	)
+
+Fase(
+	[
+		basquetebol
+		¶As paredes do cesto foram alargadas para 0,3 m de espessura (a partir de 0,1 m), para que o cesto em movimento lateral não consiga atravessar a bola, e aumentadas para 3 m de altura (a partir de 2 m), para que uma bola com 0,5 de elasticidade não consiga saltar de volta por cima do aro¶
+		Figura(
+			Retângulo(
+				-1.2m + posiçãoXDoCesto
+				0.3m
+				1.2m + posiçãoXDoCesto
+				0m
+				0m
+			)
+			fundo: Cor(60% 100 30°)
+		)
+		Figura(
+			Retângulo(
+				0.9m + posiçãoXDoCesto
+				3m
+				1.2m + posiçãoXDoCesto
+				0m
+				0m
+			)
+			fundo: Cor(60% 100 30°)
+		)
+		Figura(
+			Retângulo(
+				-1.2m + posiçãoXDoCesto
+				3m
+				-0.9m + posiçãoXDoCesto
+				0m
+				0m
+			)
+			fundo: Cor(60% 100 30°)
+		)
+		Figura(Retângulo(-10m 0.01m 10m -2m))
+		estrelaDoBasquetebol
+	]
+	local: Local(x: 0m y: 5m z: -10m)
+	gravidade: 5m/s^2
+)

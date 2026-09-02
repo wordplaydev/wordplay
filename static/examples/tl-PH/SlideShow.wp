@@ -1,0 +1,100 @@
+🎬
+Slide Show
+=== start
+¶Isang palabas ng mga islayd na nagkukwento kung paano nagsimula ang Wordplay; pindutin ang → at ← para dumaan dito.¶
+
+¶Isang islayd ng palabas: isang tauhan, isang pamagat, at mga salita sa ibaba nito.¶
+•islayd(emoji•'' pamagat•'' katawan•''|`…`)
+
+¶Ang kwento. Magdagdag, magtanggal, o magbago ng mga islayd na ito para ikwento ang sarili mong kwento.¶
+mgaIslayd: [
+		islayd(
+			'🎭'
+			'Wordplay'
+			'Ang kwento kung paano nagsimula ang wikang ito. Pindutin ang → para pumunta sa susunod, at ← para bumalik.'
+		)
+		islayd(
+			'✒'
+			'Isang pagmamahal sa mga letra'
+			'Noong unang panahon, umibig si Amy sa tipograpiya: ang hugis ng mga letra, at ang ritmo ng mga salita sa isang pahina.'
+		)
+		islayd(
+			'💻'
+			'Isang pagmamahal sa kodigo'
+			'Umibig din siya sa pagpo-programa, at sa kung paano magagawa ng ilang salita lamang na magpagalaw ng mga bagay.'
+		)
+		islayd(
+			'🧭'
+			'Dalawang pag-ibig, magkalayo'
+			'Pero magkaiba ang mundo ng tipograpiya at ng pagpo-programa, at kakaunti ang mga kagamitan na nag-aanyaya sa isang tao na mahalin ang dalawa nang sabay.'
+		)
+		islayd(
+			'😄'
+			'Isang bata'
+			'Pagkalipas ng maraming taon, nakilala niya ang isang bata na mahilig sa mga emoji, at gustong pasayawin ang mga ito.'
+		)
+		islayd(
+			'💡'
+			'Isang ideya'
+			'Paano kung may wikang pamprograma na magpapadali sa pagpapasayaw ng mga emoji?'
+		)
+		islayd(
+			'🌱'
+			'Nagsimula ang Wordplay'
+			'Kaya nagsimula siyang gumawa ng isa, kung saan ang pagsulat ng kodigo ay ang paggalaw ng mga salita at karakter sa entablado.'
+		)
+		islayd(
+			'🧑‍🏫'
+			'Ginawa nang sama-sama'
+			'Dinisenyo niya ito kasama ang maraming kabataan at guro, na nagsabi kung ano ang gusto nilang gawin, at kung ano ang humahadlang sa kanila.'
+		)
+		islayd(
+			'🌏'
+			'Patuloy na umuunlad'
+			'Patuloy itong lumalago mula noon, para mas maraming tao ang makagawa ng mas marami sa kanilang inaasam.'
+		)
+		islayd(
+			'✨'
+			'Ikaw naman'
+			`Ano ang pinangarap mong gawin na hindi pa posible ngayon? Sabihin mo sa amin sa <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+		)
+	]
+
+kabuuan2: mgaIslayd.haba()
+
+susi2: Susi()
+
+¶Ang slide na ipinapakita namin ngayon. Ang kanan ay pumapasulong, ang kaliwa ay pumapaurong, at pareho silang huminto sa mga dulo sa halip na bumalik sa simula.¶
+indeks2•#: 1 … ∆ susi2 …
+		(susi2 = 'PalasoKanan') ? ((indeks2 < kabuuan2) ? indeks2 + 1 indeks2)
+			(susi2 = 'Palaso Kaliwa') ? ((indeks2 > 1) ? indeks2 - 1 indeks2)
+				indeks2
+
+islayd2: mgaIslayd[indeks2]
+
+Entablado(
+	[
+		Grupo(
+			Patongpatong('|' 0.4m)
+			[
+				Parirala(islayd2.emoji laki: 2m)
+				Parirala(
+					`*\islayd2.pamagat\*`
+					laki: 1.2m
+					pagkakahanay: '|'
+				)
+				Parirala(
+					islayd2.katawan
+					laki: 0.5m
+					pambalot: 12m
+					pagkakahanay: '|'
+				)
+				Parirala(
+					`\indeks2\ ng \kabuuan2\`
+					laki: 0.25m
+					pagkakahanay: '|'
+				)
+			]
+		)
+	]
+)

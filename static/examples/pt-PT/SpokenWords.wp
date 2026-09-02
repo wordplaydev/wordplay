@@ -1,0 +1,28 @@
+🎭
+PalavrasFaladas
+=== start
+¶Fale, e as suas palavras aparecem em lugares e tamanhos aleatórios.¶
+clicar: Botão(ø)
+discurso: Fala(
+		reiniciar: clicar
+		idioma: 'pt-PT'
+		limite: 10
+	)
+x2: Aleatório(-10m 10m) … ∆ discurso … Aleatório(-10m 10m)
+y2: Aleatório(-10m 10m) … ∆ discurso … Aleatório(-10m 10m)
+tamanhoDoTexto: Aleatório(1m 3m) … ∆ discurso … Aleatório(
+			1m
+			3m
+		)
+Fase(
+	[
+		Frase(
+			discurso
+			local: Local(x2 y2)
+			cor: Cor(0% 0% 0°)
+			tamanho: tamanhoDoTexto
+		)
+	]
+	fundo: Cor(100% 0% 0°)
+)
+

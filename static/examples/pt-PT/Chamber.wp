@@ -1,0 +1,76 @@
+文
+Câmara
+=== start
+¶Cem letras de quatro sistemas de escrita a saltar numa caixa fechada; inverta a gravidade ou abane-as.¶
+contagem2: 100
+
+¶Os quatro alfabetos de onde as letras são tiradas.¶
+latim: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
+grego: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
+árabe: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
+cjk: '日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪' → ['']
+
+¶Qual foi o último controlo clicado.¶
+choice: Escolha()
+
+¶Baralha os quatro alfabetos todos juntos uma vez, quando o programa começa, e depois mantém essa ordem para sempre. Um baralhar escrito como uma simples associação daria a cada letra um carácter novo em cada fotograma.¶
+glifos2: [:latim :grego :árabe :cjk].embaralhado() … ∆ choice … glifos2
+
+¶Verdadeiro apenas na avaliação causada pelo botão de abanar, para que as letras recebam um só impulso por clique, em vez de serem empurradas em cada fotograma.¶
+aAbanar: (∆ choice) & (choice = 'shake')
+
+¶O interruptor alterna entre a gravidade da Terra e nenhuma gravidade.¶
+aCair: ⊤ … ∆ choice … (choice = 'gravity') ? ~aCair aCair
+
+¶Uma velocidade, direção e rotação aleatórias.¶
+ƒ lançar() Velocidade(
+		Aleatório(-12m/s 12m/s)
+		Aleatório(-12m/s 12m/s)
+		Aleatório(-120°/s 120°/s)
+	)
+
+letras: contagem2 → [].traduzir(
+		ƒ(número2)
+			Frase(
+				glifos2[número2]
+				nome: "glyph\número2\"
+				local: Movimento(
+					Local(Aleatório(-7.5m 7.5m) Aleatório(-5.5m 5.5m))
+					lançar()
+					próximavelocidade: aAbanar ? lançar() ø
+				)
+				matéria: Matéria(elasticidade: 0.7 atrito: 0)
+			)
+	)
+
+¶Os dois controlos. Não têm matéria e o seu lugar não é um Movimento, por isso o motor de física não lhes toca.¶
+interruptor: Frase(
+		aCair ? '⬇ gravidade' '🌌 a flutuar'
+		0.7m
+		nome: 'gravity'
+		selecionável: ⊤
+		local: Local(-13m 1m)
+	)
+
+agitador: Frase(
+		'🎲 abanar'
+		0.7m
+		nome: 'shake'
+		selecionável: ⊤
+		local: Local(-13m -1m)
+	)
+
+Fase(
+	[
+		¶Quatro paredes, suficientemente grossas para que nada as atravesse a alta velocidade.¶
+		Figura(Retângulo(-8.6m 6.6m 8.6m 6m))
+		Figura(Retângulo(-8.6m -6m 8.6m -6.6m))
+		Figura(Retângulo(-8.6m 6.6m -8m -6.6m))
+		Figura(Retângulo(8m 6.6m 8.6m -6.6m))
+		:letras
+		interruptor
+		agitador
+	]
+	gravidade: aCair ? 9.8m/s^2 0m/s^2
+	local: Local(-2.5m 0m -11m)
+)

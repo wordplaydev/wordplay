@@ -1,0 +1,78 @@
+⏳
+Lernmodus-Anzeige
+=== start/en
+¶Klicke, um Lernstunden hinzuzufügen, und beobachte, wie sich der Zeiger von ruhig zu konzentriert zu überlastet bewegt.¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+aktion: Auswahl()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+lernstunden:
+	0 …
+	∆ aktion …
+		aktion = 'reset' ?
+			0
+			lernstunden + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+erklärung:
+	'Klicke auf „Lernstunde hinzufügen +1“, um deine Lernzeit zu erhöhen. Klicke auf „Zurücksetzen“, um von vorne zu beginnen.'
+
+¶Hours text shows how many hours the user has studied.¶/en
+hoursText:
+	'Du hast ' + lernstunden → '' + ' Stunde(n) gelernt.'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+stimmung:
+	lernstunden < 3 ?
+		'🌿 RUHE-MODUS — klicke, um Lernzeit hinzuzufügen'
+		lernstunden < 6 ?
+			'📚 KONZENTRATIONS-MODUS — du bist in der produktiven Zone!'
+			'🔥 ÜBERLASTUNGS-MODUS — mach eine Pause und klicke auf „Zurücksetzen“'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+Bühne(
+	[
+		Gruppe(
+			Stapel()
+			[
+				Satzglied('Lernmodus-Anzeige' Größe: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				Satzglied(erklärung Größe: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				Satzglied(hoursText Größe: 0.4m)
+
+				Satzglied(stimmung Größe: 0.75m)
+
+				Gruppe(
+					Reihe(Polsterung: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						Satzglied(
+							'Lernstunde hinzufügen +1'
+							wählbar: ⊤
+							Name: 'hinzufügen'
+							Farbe: Farbe(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						Satzglied(
+							'Zurücksetzen'
+							wählbar: ⊤
+							Name: 'reset'
+							Farbe: Farbe(69% 47 271°)
+						)
+					]
+				)
+			]
+			gesicht: "Aclonica"
+		)
+	]
+)

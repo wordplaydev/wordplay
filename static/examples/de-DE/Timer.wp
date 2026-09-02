@@ -1,0 +1,8 @@
+•
+Timer
+===
+¶Eine Reihe von Punkten, die bis fünf wächst und dann jede Sekunde von vorne beginnt.¶
+Satzglied(
+	"•".wiederholen(((Zeit(1000ms) → #s) % 5).abrunden() + 1s)
+	Dauer: 0s
+)

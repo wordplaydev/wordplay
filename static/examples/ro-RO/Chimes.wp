@@ -1,0 +1,92 @@
+🎐
+Clopoței
+=== start/en
+¶Cinci clopoței atârnați la rând, numerotați de la unu la cinci. Apasă A, S, D, F sau G și clopoțelul lovit se umflă și se luminează, apoi se liniștește din nou. Tot rândul se leagănă puțin, indiferent dacă cineva cântă sau nu.
+
+Este un instrument. Nu scoate niciun sunet. Cifrele sunt deja o partitură; doar că încă nu este cântată. Blocul ascuns de deasupra scenei este sunetul, care așteaptă ca @Music să existe.¶
+
+apăsat: Cheie()
+tic: Timp(30ms)
+
+¶Cât de mult din sunetul său pierde un clopoțel la fiecare cadru.¶
+stingere: 0.03
+
+¶Un clopoțel: ce treaptă este, ce tastă îl lovește, unde atârnă, nuanța lui și cât de tare încă mai sună — 1 tocmai lovit, 0 în repaus.¶
+•clopoțel2(treaptă•# cheie2•'' x2•#m nuanță•#° energie•#)
+
+¶Lovește clopoțelul a cărui tastă a fost apăsată și lasă toți ceilalți clopoței să se liniștească.¶
+ƒ sunet2(rând•[clopoțel2] lovește•'' lovit•?)
+	rând.traduce(
+		ƒ(clopoțel3•clopoțel2)
+			(lovit & (lovește = clopoțel3.cheie2))
+			? clopoțel3.energie:1
+				clopoțel3.energie:(clopoțel3.energie - stingere).maxim(
+					0
+				)
+	)
+
+clopoței•[clopoțel2]: [
+		clopoțel2(1 'un' -6m 20° 0)
+		clopoțel2(2 's' -3m 75° 0)
+		clopoțel2(3 'd' 0m 140° 0)
+		clopoțel2(4 'f' 3m 205° 0)
+		clopoțel2(5 'g' 6m 270° 0)
+	] … (∆ apăsat | ∆ tic) … sunet2(
+			clopoței
+			apăsat
+			(∆ apăsat)
+		)
+
+¶Un clopoțel se umflă și se luminează odată cu sunetul lui și se leagănă mereu puțin, așa că rândul este viu chiar și când nimeni nu cântă.¶
+ƒ vizualizareClopoței(clopoțel4•clopoțel2)
+	Fraza(
+		(clopoțel4.treaptă → '')
+		(2m + (clopoțel4.energie · 1.5m))
+		loc: Loc(clopoțel4.x2 0m)
+		durată: 0.12s
+		culoare: Culoare(
+			(45% + (clopoțel4.energie · 40%))
+			(20 + (clopoțel4.energie · 80))
+			clopoțel4.nuanță
+		)
+		odihnă: Secvenţă.legănare(3° 2.5s)
+	)
+
+¶Tasta care lovește fiecare clopoțel, scrisă dedesubtul lui.¶
+ƒ vizualizareTaste(clopoțel5•clopoțel2)
+	Fraza(
+		clopoțel5.cheie2
+		0.7m
+		loc: Loc(clopoțel5.x2 -3m)
+		culoare: Culoare(60% 0 0°)
+	)
+
+¶Aceste două legături sunt tot sunetul: găsește clopoțelul care sună chiar acum și dă treapta lui unui clopot, redându-l la fiecare apăsare, astfel încât fiecare lovitură să fie un sunet nou, nu același de dinainte. Cinci clopoței, cinci trepte ale unei game pentatonice, deci nu există notă greșită.¶
+sună: clopoței.filtra(
+		ƒ(clopoțel6•clopoțel2) clopoțel6.energie = 1
+	)
+melodie2: Muzică(
+		Pistă(
+			sună ↦ ⬚.treaptă
+			instrument: Instrument.clopoțel
+			buclă: ⊥
+		)
+		gamă: Muzică.pentatonic
+		reluare: ∆ apăsat
+	)
+
+Etapă(
+	[
+		Fraza(
+			'━━━━━━━━━━━━━'
+			1m
+			loc: Loc(-6m 2.5m)
+			culoare: Culoare(45% 0 0°)
+		)
+		:clopoței ↦ vizualizareClopoței(⬚)
+		:clopoței ↦ vizualizareTaste(⬚)
+		melodie2
+	]
+	fundal: Culoare(16% 15 280°)
+	culoare: Culoare(95% 0 0°)
+)

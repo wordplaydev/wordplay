@@ -1,0 +1,44 @@
+カ
+Ghicește Katakana
+=== start
+¶Ghicește ce katakana se potrivește cu hiragana ca să câștigi puncte.¶
+ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを'/ja → []
+カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ'/ja → []
+
+•ゲーム/ja,Game/en(秘密/ja,secret/en•# スコア/ja,score/en•#)
+選択/ja,selection/en: Alegere()
+
+¶Începe jocul cu o hiragana aleasă la întâmplare și zero puncte. Când se face o alegere, creează o stare nouă care alege un caracter nou și mărește scorul dacă alegerea a fost corectă.¶
+¶ランダムなひらがなと 0 ポイントでゲームを開始します。
+選択が行われたら、新しい文字を選択し、正しい場合はスコアを増分する新しいステータスを作成します。¶/ja
+配置/ja,status/en: ゲーム(Aleatoriu(1 46) 0) … ∆ 選択 …
+		ゲーム(
+			Aleatoriu(1 46)
+			配置.秘密 → '' = 選択 ?
+				配置.スコア + 1
+				配置.スコア - 1
+		)
+
+Etapă(
+	[
+		Grup(
+			Stivă()
+			[
+				Fraza(
+					`/What is the matching hiragana?/``/対応するひらがなは何ですか？/`/ja
+				)
+				Fraza(`*\カタカナ[配置.secret]\*` 2m)
+				Grup(
+					Grilă(10 5 1m 1m 1m)
+					ひらがな.traduce(
+						ƒ(シンボル/ja•'' 指数/ja,index/en)
+							Fraza(シンボル nume: 指数 → '' selectabil: ⊤)
+					)
+				)
+				Fraza(
+					`*\配置.score\* points!``*\配置.score\* 正解です！`/ja
+				)
+			]
+		)
+	]
+)

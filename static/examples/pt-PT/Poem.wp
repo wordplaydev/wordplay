@@ -1,0 +1,104 @@
+T
+Poema
+=== start
+¶Um poema cujas linhas surgem lentamente, cada uma fazendo a sua própria entrada.¶
+•linha(texto2•"" pose•Pose|Sequência trás: Cor(
+			100
+			100
+			100°
+		) frente: Cor(0 0 0°))
+
+¶Uma lista das linhas do poema, cada uma com uma pose.¶
+poema: [
+		linha(
+			'O ficheiro do computador'
+			Pose(opacidade: 0% desvio: Local(y: -5m))
+		)
+		linha(
+			'do qual'
+			Pose(opacidade: 0% desvio: Local(y: -5m))
+		)
+		linha(
+			'não tenho qualquer lembrança'
+			Pose(rotação: 10°)
+		)
+		linha(
+			'abro-o com um clique'
+			Sequência(
+				{
+					0%: Pose(escala: 1)
+					50%: Pose(escala: 0.7)
+					100%: Pose(escala: 1)
+				}
+				0.25s
+			)
+		)
+		linha(
+			'olhar'
+			Pose(opacidade: 0% desvio: Local(y: -5m))
+		)
+		linha(
+			'deslizar mais para baixo'
+			Pose(opacidade: 0% desvio: Local(y: 5m))
+		)
+		linha(
+			'o ecrã'
+			Pose(opacidade: 0% desvio: Local(y: -5m))
+		)
+		linha(
+			'continua iluminado e vazio'
+			Pose(opacidade: 0% desvio: Local(y: -5m))
+			Cor(0 0 0°)
+			Cor(100 100 0°)
+		)
+		linha(
+			'assim volto a encontrar-me'
+			Pose(opacidade: 0% desvio: Local(y: -5m))
+		)
+		linha(
+			'esperançoso e inútil'
+			Pose(opacidade: 0% desvio: Local(y: -5m))
+		)
+		linha(
+			'um mistério'
+			Pose(opacidade: 0% desvio: Local(y: -5m))
+		)
+		linha(
+			'exatamente como devo ter feito'
+			Pose(opacidade: 0% desvio: Local(y: -5m))
+		)
+		linha('em 19 de agosto de 2010, às 11h08' Pose())
+	]
+
+número2: 1 … ∆ Botão() | ∆ Chave() …
+		(número2 = (poema.comprimento() + 1)) ? 1 número2 + 1
+linha2: poema[número2]
+
+número2 ≤ poema.comprimento() ?
+	Fase(
+		[
+			Frase(
+				linha2.texto2
+				entrando: linha2.pose
+				duração: 1s
+				nome: número2 → ""
+				estilo: 'cautious'
+			)
+		]
+		fundo: linha2.trás
+		descansando: Pose(cor: linha2.frente)
+	)
+	Fase(
+		[
+			Grupo(
+				Monte()
+				[
+					Frase('CONSELHO A MIM MESMO(A)')
+					Frase('Jane Hirshfield')
+				]
+				entrar: Pose(escala: 0.75)
+			)
+		]
+		fundo: Cor(0% 0 0°)
+		cor: Cor(100% 100 0°)
+	)

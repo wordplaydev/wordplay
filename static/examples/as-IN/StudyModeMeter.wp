@@ -1,0 +1,78 @@
+⏳
+পঢ়াৰ অৱস্থা মিটাৰ
+=== start/en
+¶পঢ়াৰ ঘণ্টা যোগ কৰিবলে ক্লিক কৰক আৰু মিটাৰ শান্তৰ পৰা মনোযোগত আৰু অতি বেছি হোৱাত সলনি হোৱা চাওক।¶
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+অভিনয়: পচন্দ()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates depends on the action the user selects.¶/en
+পঢ়াৰঘণ্টা:
+	0 …
+	∆ অভিনয় …
+		অভিনয় = 'reset' ?
+			0
+			পঢ়াৰঘণ্টা + 1
+
+¶Explanation shows a visible instruction for the user.¶/en
+ব্যাখ্যা:
+	'তোমাৰ পঢ়াৰ সময় বৃদ্ধি কৰিবলে “পঢ়াৰ ঘণ্টা যোগ কৰক +1” ক্লিক কৰক। পুনৰ আৰম্ভ কৰিবলে “পুনঃসেট কৰক” ক্লিক কৰক।'
+
+¶Hours text shows how many hours the user has studied.¶/en
+ঘণ্টাৰপাঠ্য:
+	'তুমি ' + পঢ়াৰঘণ্টা → '' + ' ঘণ্টা পঢ়িছা।'
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+মেজাজ:
+	পঢ়াৰঘণ্টা < 3 ?
+		'🌿 শান্ত অৱস্থা — পঢ়াৰ সময় যোগ কৰিবলে ক্লিক কৰক'
+		পঢ়াৰঘণ্টা < 6 ?
+			'📚 মনোযোগ অৱস্থা — তুমি ফলপ্ৰসূ অঞ্চলত আছা!'
+			'🔥 অতি বেছি অৱস্থা — এটা বিৰতি লওক আৰু "পুনঃসেট কৰক"'
+
+¶Stage creates the visible scene.
+The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
+মঞ্চ(
+	[
+		গোট(
+			স্তূপ()
+			[
+				বাক্যাংশ('পঢ়াৰ অৱস্থা মিটাৰ' আকাৰ: 0.5m)
+
+				¶This Phrase shows the explanation on the screen.¶/en
+				বাক্যাংশ(ব্যাখ্যা আকাৰ: 0.4m)
+
+				¶This Phrase shows the current number of study hours.¶/en
+				বাক্যাংশ(ঘণ্টাৰপাঠ্য আকাৰ: 0.4m)
+
+				বাক্যাংশ(মেজাজ আকাৰ: 0.75m)
+
+				গোট(
+					শাৰী(পেডিং: 3m)
+					[
+						¶This selectable Phrase lets the user add one study hour.
+						Its name is add, so selecting it updates the action choice.¶/en
+						বাক্যাংশ(
+							'পঢ়াৰ ঘণ্টা যোগ কৰক +1'
+							নিৰ্বাচনযোগ্য: ⊤
+							নাম: 'যোগ কৰক'
+							ৰং: ৰং(80% 45 0°)
+						)
+
+						¶This selectable Phrase lets the user reset the tracker.
+						Its name is reset, so selecting it sets study hours back to 0.¶/en
+						বাক্যাংশ(
+							'পুনঃসেট কৰক'
+							নিৰ্বাচনযোগ্য: ⊤
+							নাম: 'reset'
+							ৰং: ৰং(69% 47 271°)
+						)
+					]
+				)
+			]
+			চেহেৰা: "Aclonica"
+		)
+	]
+)

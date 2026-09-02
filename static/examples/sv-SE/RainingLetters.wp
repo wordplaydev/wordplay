@@ -1,0 +1,68 @@
+☁
+RegnandeBokstäver
+=== start/en
+¶Detta program har en samling bokstäver som regnar och faller mot marken enligt fysikens lagar. När de träffar marken kan de falla igen.Vi har alltid samma antal bokstäver som faller, men vi gör olika många synligaberoende på mikrofonens amplitud.¶
+
+¶Det högsta antalet bokstäver¶
+antal2: 100
+¶Bokstävernas vågräta spridning¶
+storlek2: 20m
+
+¶Mikrofonens amplitud¶
+ampere: Volym()
+
+¶Den valda bokstaven och dess position, rotationshastighet och om den är synlig.¶
+•bokstav(bokstav2•"" x2•#m y2•#m vinkel2•# hastighet2•# synlig•?)
+
+tick: Tid()
+
+¶Starta som en lista med slumpmässiga bokstäver på slumpmässiga platser¶
+bokstäver•[bokstav]: antal2 → [#].översätta(
+		ƒ(_) bokstav(
+				'abcdefghijklmnopqrstuvwxyz' → [''].slumpmässig()
+				Slumpmässig(-storlek2 storlek2)
+				Slumpmässig(0m storlek2 + 2m)
+				Slumpmässig(360)
+				Slumpmässig(-15 15)
+				⊥
+			)
+	)
+	… ∆ tick …
+		¶Om bokstaven är ovanför y-axeln, flytta den lite nedåt och rotera den.Annars, nollställ den ovanför gränsen och avgör slumpmässigt om den ska vara synlig.¶
+		bokstäver.översätta(
+			ƒ(bokstav3•bokstav)
+				bokstav3.y2 > 0m ? (bokstav3.y2:bokstav3.y2 - 0.5m).vinkel2:bokstav3.vinkel2 + bokstav3.hastighet2
+					(bokstav3.y2:storlek2 + 2m).synlig:Slumpmässig(
+						0
+						ampere
+					) > 0.5
+		)
+
+¶Gör om bokstäverna till fraser¶
+Etapp(
+	[
+		Fras("☁" storlek: 3m plats: Plats(-8m 12m))
+		Fras("☁" storlek: 5m plats: Plats(8m 11m))
+		Fras(
+			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+			plats: Plats(-3.5 × storlek2 -0.5m)
+		)
+	].medLista(
+		bokstäver.översätta(
+			ƒ(bokstav4•bokstav)
+				Fras(
+					bokstav4.bokstav2
+					storlek: 1m
+					plats: Plats(bokstav4.x2 bokstav4.y2)
+					rotation: bokstav4.vinkel2 × 1°
+					vilande: Pose(
+						opacitet: bokstav4.synlig ? 1 0
+						färg: Färg(100% 0 0°)
+					)
+					varaktighet: 0s
+				)
+		)
+	)
+	plats: Plats(0m 1 × storlek2 -15m)
+	bakgrund: Färg(63% 93 248°)
+)

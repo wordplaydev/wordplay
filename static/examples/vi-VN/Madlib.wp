@@ -1,0 +1,66 @@
+4
+Điền Vào Chỗ Trống
+=== start
+¶Một trò chơi điền từ: bạn cho từ, nhận được một câu chuyện ngớ ngẩn.¶
+
+¶Cái này theo dõi các loại từ ta cần, và số lượng của chúng¶
+•từLoại(nhãn•"" đếm2•#)
+
+¶Đây là những từ ta cần cho trò điền từ bên dưới.¶
+lượt: [
+		từLoại('tính từ' 4)
+		từLoại('danh từ' 3)
+		từLoại('động từ, thì quá khứ' 3)
+		từLoại('trạng từ' 4)
+	]
+
+tròChuyện: Tròchuyện()
+¶Mỗi lần một tin nhắn được gửi, chuyển sang từ loại tiếp theo¶
+lượt2: 1 … ∆ tròChuyện … lượt2 + 1
+¶Mỗi lần một tin nhắn được gửi, tách tin nhắn theo dấu cách và thêm vào các câu trả lời¶
+câuTrảLời•[['']]: [] … ∆ tròChuyện … [
+			:câuTrảLời
+			tròChuyện ÷ ' '
+		]
+
+¶Ta đánh số các chỉ mục này để trò điền từ dễ đọc hơn¶
+tínhTừ: 1
+danhTừ: 2
+trạngTừ: 4
+độngTừ: 3
+
+hỏi: câuTrảLời.chiềudài() < 4
+
+Sânkhấu(
+	[
+		¶Trước khi có câu trả lời, hãy hỏi để có câu trả lời¶
+		hỏi ?
+			Nhóm(
+				Ngănxếp('|' 0.25m)
+				[
+					Cụmtừ(
+						`\lượt[lượt2].đếm2\ \lượt[lượt2].nhãn\ nhé!`
+					)
+					Cụmtừ('(ngăn cách bằng dấu cách)' 0.5m)
+				]
+			)
+			¶Sau khi có câu trả lời, hiển thị trò điền từ¶
+			(
+				¶Tạo một danh sách các câu bằng các câu trả lời¶
+				câu2: [
+						`Hôm nay tôi đã đi sở thú.`
+						`Tôi thấy một *\câuTrảLời[danhTừ][1]\* *\câuTrảLời[trạngTừ][1]\* nhảy lên nhảy xuống trên cây.`
+						`Nó *\câuTrảLời[độngTừ][1]\* *\câuTrảLời[trạngTừ][2]\* qua đường hầm lớn dẫn đến *\câuTrảLời[tínhTừ][2]\* *\câuTrảLời[danhTừ][2]\* của nó.`
+						`Tôi lấy vài hạt đậu phộng và đưa qua chuồng cho một con * to lớn màu xám\câuTrảLời[danhTừ][3]\* cao lớn sừng sững trên đầu tôi.`
+						`Cho con vật đó ăn làm tôi thấy đói.`
+						`Tôi đi lấy một *\câuTrảLời[tínhTừ][3]\* muỗng kem.`
+						`Nó làm tôi no bụng.`
+						`Sau đó tôi *\câuTrảLời[độngTừ][2]\* *\câuTrảLời[trạngTừ][2]\* để kịp bắt xe buýt.`
+						`Khi về đến nhà, tôi *\câuTrảLời[độngTừ][3]\* mẹ tôi xin một ngày *\câuTrảLời[tínhTừ][4]\* ở sở thú.`
+					]
+				¶Dịch chúng thành các cụm từ¶
+				Nhóm(Ngănxếp('<') câu2.dịch(ƒ(câu3) Cụmtừ(câu3)))
+			)
+	]
+	khuônmặt: 'Phudu'
+)

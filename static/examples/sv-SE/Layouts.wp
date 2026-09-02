@@ -1,0 +1,46 @@
+K
+Layouter
+=== start
+¶Rader, staplar och grupper av fraser, som alla intar animerade poser.¶
+pulsera: Sekvens(
+		{
+			0%: Pose(skala: .9)
+			50%: Pose(skala: 1.1)
+			100%: Pose(skala: .9)
+		}
+	)
+zstudsa: Sekvens(
+		{
+			0%: Pose(offset: Plats(z: 0m))
+			50%: Pose(offset: Plats(z: -2m))
+			100%: Pose(offset: Plats(z: 0m))
+		}
+		1s
+	)
+
+Grupp(
+	Rad()
+	[
+		Grupp(
+			Stack()
+			[
+				Fras('Kissekatt')
+				Fras('Katt' vilande: zstudsa)
+				Grupp(
+					Rad()
+					[Fras('Hund') Fras('Hunddjur')]
+					vilande: pulsera
+				)
+				Fras('Kattdjur')
+			]
+		)
+		Grupp(
+			Stack()
+			[
+				Fras('Hej')
+				Fras('Hej')
+			]
+			vilande: Sekvens.snurra(2s "straight")
+		)
+	]
+)

@@ -1,0 +1,74 @@
+🗨
+Diálogo
+=== start
+¶Duas letras falam sobre o que significa as letras falarem.¶
+
+¶Uma linha da conversa: quem a diz, as palavras, e se é pensada em vez de dita.¶
+•linha(quem•'' palavras2•'' aPensar•?: ⊥)
+
+guião: [
+		linha(
+			'um'
+			'Alguma vez achas estranho estarmos a falar?'
+		)
+		linha(
+			'b'
+			'Somos letras. Falar é mais ou menos todo o nosso trabalho.'
+		)
+		linha(
+			'um'
+			'Não, refiro-me a nós. Não às palavras que formamos. Nós.'
+		)
+		linha('b' '…Ah.')
+		linha(
+			'um'
+			'Sou uma forma que representa um som. Agora mesmo estou a fazer o som ao ser a forma.'
+		)
+		linha(
+			'b'
+			'Um balão de fala à volta de uma letra é a imagem de uma letra, ou uma letra de uma imagem?'
+			aPensar: ⊤
+		)
+		linha('um' 'Estás a andar em espiral.')
+		linha(
+			'b'
+			'Sou um b. Andar em espiral é literalmente a minha silhueta.'
+		)
+		linha('um' 'Enfim. Isto é normal aqui.')
+		linha('b' 'Normal para nós, pelo menos.')
+	]
+
+¶Avança com uma tecla, um clique ou um toque, e para na última linha.¶
+vez•#: 1 … ∆ Chave() | ∆ Botão() … (vez < guião.comprimento(
+				) ? vez + 1 vez)
+
+linha2: guião[vez]
+
+¶Só quem tem a vez recebe um balão. Cada linha é um @Say, por isso é falada e também mostrada — e o balão substitui a legenda, já que as palavras já estão no ecrã ao lado de quem as disse. Ninguém escolhe um lado: o palco coloca cada balão onde menos atrapalhe.¶
+ƒ balão2(quem2•'')
+	quem2 = linha2.quem ?
+		Balão(
+			Dizer(linha2.palavras2)
+			tipo: (linha2.aPensar ? '💭' '💬')
+			envolver: 9m
+		)
+		ø
+
+¶Uma fila alinhada na linha de base, para que ambas as letras fiquem na mesma linha. A caixa de uma frase é a sua tinta, por isso colocá-las à mesma altura poria uma letra baixa e uma alta em linhas de base diferentes.¶
+Fase(
+	[
+		Grupo(
+			Monte('|' 1.5m)
+			[
+				Grupo(
+					Linha('_' 6m)
+					[
+						Frase('um' tamanho: 3m balão: balão2('um'))
+						Frase('b' tamanho: 3m balão: balão2('b'))
+					]
+				)
+				Frase(`/espaço, clique ou toque/` tamanho: 0.6m)
+			]
+		)
+	]
+)

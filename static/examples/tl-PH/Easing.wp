@@ -1,0 +1,57 @@
+s
+Pagpapadulas ng Sequence
+===
+¶Ang parehong animasyon ng kotse sa walong paraan, isa para sa bawat estilo ng pag-inog.¶
+mgaKeyframe: {
+		0%: Pose(offset: Lugar(-1m 0m))
+		25%: Pose(offset: Lugar(1m 0m))
+		50%: Pose(offset: Lugar(1m 0m))
+		75%: Pose(offset: Lugar(-1m 0m))
+		100%: Pose(offset: Lugar(-1m 0m))
+	}
+
+Entablado(
+	[
+		Grupo(
+			Grid(4 2 pagpapatongngcell: 0.25m)
+			[
+				Parirala('tuwid' laki: 0.25m)
+				Parirala(
+					"🚗"
+					nagpapahinga: Pagkakasunodsunod(
+						mgaKeyframe
+						3s
+						estilo: "straight"
+					)
+				)
+				Parirala('maingat' laki: 0.25m)
+				Parirala(
+					"🚚"
+					nagpapahinga: Pagkakasunodsunod(
+						mgaKeyframe
+						3s
+						estilo: "cautious"
+					)
+				)
+				Parirala('mabagal' laki: 0.25m)
+				Parirala(
+					"🚙"
+					nagpapahinga: Pagkakasunodsunod(
+						mgaKeyframe
+						3s
+						estilo: "pokey"
+					)
+				)
+				Parirala('mabilis' laki: 0.25m)
+				Parirala(
+					"🏎"
+					nagpapahinga: Pagkakasunodsunod(
+						mgaKeyframe
+						3s
+						estilo: "zippy"
+					)
+				)
+			]
+		)
+	]
+)

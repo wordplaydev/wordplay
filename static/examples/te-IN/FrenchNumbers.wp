@@ -1,0 +1,84 @@
+t
+ఫ్రెంచ్ సంఖ్యలు
+=== start/en-US,start/fr-FR
+¶వేదికపై ఉన్న ఫ్రెంచ్ సంఖ్యకు సరిపోలే అంకెను నొక్కండి.¶
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
+¶ఊహించాల్సిన సంఖ్యలు¶
+¶Les nombres à deviner¶/fr
+సంఖ్యలు2,numeros/fr: [
+		"un"/fr
+		"deux"/fr
+		"trois"/fr
+		"quatre"/fr
+		"cinq"/fr
+		"six"/fr
+		"sept"/fr
+		"huit"/fr
+		"neuf"/fr
+	]
+
+¶రహస్యాలు అంటే 1 నుండి 9 వరకు సంఖ్యలు, యాదృచ్ఛిక క్రమంలో¶
+¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
+రహస్యాలు: [1 2 3 4 5 6 7 8 9].షఫుల్చేయబడింది()
+
+¶చివరిగా నొక్కిన కీ ఏది?¶
+¶Quelle est la dernière touche appuyée ?¶/fr
+కీ2,clé/fr: కీ()
+
+¶ప్రతిసారి ఒక కీ నొక్కినప్పుడు ప్రస్తుత రహస్యం పెరుగుతుంది, కానీ 10 వద్ద ఆగిపోతుంది¶
+¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
+రహస్యసూచిక,secretIndice/fr•#:
+	1 …
+	∆ కీ2 …
+		(secretIndice < 10) ? secretIndice + 1 secretIndice
+
+¶రహస్య సూచిక ఆధారంగా ఉండే ప్రస్తుత రహస్యం¶
+ప్రస్తుతరహస్యం,secretActuel/fr: రహస్యాలు[రహస్యసూచిక]
+
+¶నొక్కిన సంఖ్య మునుపటి రహస్య సంఖ్యతో సరిపోలితే ఊహ సరైనదిగా పరిగణించబడుతుంది¶
+సరైనది: clé → # = రహస్యాలు[రహస్యసూచిక - 1]
+
+¶పాయింట్లు 0 నుండి మొదలవుతాయి, ఊహ సరైనది అయితే పెరుగుతాయి.¶
+¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
+పాయింట్లు•#: 0 …
+	∆ కీ2 …
+		సరైనది ?
+			పాయింట్లు + 1
+			పాయింట్లు
+
+¶గెలుపు అంటే మొత్తం 9 సంఖ్యలను పొందడం¶
+గెలుపు,gagner/fr: పాయింట్లు = 9
+
+¶రహస్య సూచిక 10కి చేరినప్పుడు ఆట పూర్తవుతుంది¶
+ఆటముగిసింది: రహస్యసూచిక = 10
+
+¶ప్రస్తుత ఫ్రెంచ్ సంఖ్యను మరియు ప్రస్తుత పాయింట్లను చూపించు. అన్ని 9 రహస్యాల తర్వాత, తుది ఫలితాన్ని చూపించు¶
+¶Affichez le nombre de français actuel et le nombre de points actuel.
+Après les 9 secrets, affichez le résultat final.¶/fr
+స్టేజ్(
+	[
+		సమూహం(
+			స్టాక్()
+			[
+				ఆటముగిసింది ?
+					పదబంధం(
+						గెలుపు ?
+							'మీకు ఫ్రెంచ్ సంఖ్యలు తెలుసు!'"Tu connais les chiffres français!"/fr
+							'దాదాపు సరైనది, మళ్ళీ ప్రయత్నించండి'"presque, réessaye"/fr
+						పరిమాణం: 2m
+					)
+					పదబంధం(numeros[secretActuel] పరిమాణం: 2m)
+				పదబంధం("\పాయింట్లు\ points!" పరిమాణం: 1m)
+				పదబంధం(
+					రహస్యసూచిక = 1 ?
+						'ఇది ఏ సంఖ్య?''quel est ce numéro ?'/fr
+						సరైనది ?
+							'సరైనది!'
+							"That was \రహస్యాలు[రహస్యసూచిక - 1]\"
+				)
+			]
+		)
+	]
+	ముఖం: "Aclonica"
+)

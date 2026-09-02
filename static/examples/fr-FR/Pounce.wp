@@ -1,0 +1,89 @@
+🧶
+Bond
+=== start
+¶Dirige un chat avec les touches fléchées et fais-le bondir.
+
+Le chat miaule à chaque fois qu'il bouge. Le miaou est accroché au premier @Pose de son animation de mouvement : un @Pose peut porter un @Music, qui joue au moment où cette pose est prise, et un mouvement déclenche ses poses à chaque fois que l'une d'elles commence. Le balancement est écrit en entier plutôt que laissé comme \Séquence.balancement(
+)\ parce que les animations toutes faites construisent leurs propres poses, et une pose est l'endroit où le son doit se déclencher.¶
+
+¶Un court cri. Deux mouvements rapprochés partagent un seul miaou plutôt que d'en empiler deux, car le second arrive alors que le premier balancement se balance encore.¶
+miaou2: Musique(
+		Piste([1] instrument: Instrument.chat)
+		volume: 45%
+		nom: 'miaou'
+	)
+
+•positionDuChat(position•#m direction2•#)
+
+clé2: Clé()
+vitesse2: 1m
+
+lieuDuMinou: positionDuChat(5m 1) … ∆ clé2 …
+		((clé2 = 'Flèche gauche') & (lieuDuMinou.position > -10m)) ? positionDuChat(
+				lieuDuMinou.position - vitesse2
+				1
+			)
+			((clé2 = 'Flèche droite') & (lieuDuMinou.position < 8m)) ? positionDuChat(
+					lieuDuMinou.position + vitesse2
+					-1
+				)
+				lieuDuMinou
+
+minou: Phrase(
+		"🐈"
+		affronter: "Noto Color Emoji"
+		nom: 'minou'
+		taille: 2m
+		lieu: Lieu(lieuDuMinou.position 0m)
+		aurepos: Pose(flipx: lieuDuMinou.direction2 < 0)
+		mobile: Séquence(
+			{
+				0%: Pose(rotation: -5° musique: miaou2)
+				50%: Pose(rotation: 5°)
+				100%: Pose(rotation: -5°)
+			}
+			0.25s
+			"zippy"
+		)
+		matière: Matière(1000kg rondeur: 0.5)
+	)
+
+bond: Collision('ballon' 'minou')
+
+ballonPlacer: Mouvement(
+		Lieu(0m 9m)
+		prochainevitesse:
+		bond•ø ? ø
+			Vitesse(
+				((bond.direction.x ÷ -1m) × Aléatoire(15m/s 25m/s)) + Aléatoire(
+						-3m/s
+						3m/s
+					)
+				Aléatoire(27m/s 30m/s)
+				(bond.direction.x ÷ -1m) × Aléatoire(0°/s 15°/s)
+			)
+	)
+
+ballon: Phrase(
+		"🧶"
+		nom: 'ballon'
+		lieu: ballonPlacer
+		matière: Matière(1kg 0.5 0 1)
+	)
+
+Scène(
+	[
+		Forme(Rectangle(-10m 0m 10m -3m))
+		Forme(Rectangle(-10m -1m -9m 11m))
+		Forme(Rectangle(10m -1m 9m 11m))
+		Forme(Rectangle(-10m 10m 10m 11m))
+		ballon
+		minou
+		Phrase(
+			'appuie sur ← → pour jouer !'
+			lieu: Lieu(-4m -2m)
+			couleur: Couleur.blanc
+		)
+	]
+	lieu: Lieu(et: 5m j: -10m)
+)

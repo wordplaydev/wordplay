@@ -1,0 +1,33 @@
+🗣
+Vorbă pe față
+===
+¶Expresiile tale faciale, urmărite de cameră și povestite pe scenă.¶
+
+¶Creează un flux de fețe pentru a urmări expresiile¶
+față2: Față(200ms)
+
+¶Alege între zâmbet, încruntare, clipit sau nimic¶
+stareDeSpirit: față2.ochiDeschiși ?
+		(față2.câtDeMultZâmbet > 0.6 ? 'smiling'
+				față2.câtDeMultÎncruntat > 0.4 ? 'frowning'
+					'')
+		'blinking'
+
+¶Transformă starea sufletească într-un emoji și dă feței o bulă de vorbire care o spune. Dacă dai bulei un @Say, starea sufletească este și rostită cu voce tare, nu doar arătată, iar bula ține locul descrierii de la baza scenei.¶
+Etapă(
+	[
+		Fraza(
+			(stareDeSpirit = 'blinking' ? '😴'
+					stareDeSpirit = 'smiling' ? '😀'
+						stareDeSpirit = 'frowning' ? '🙁'
+							'😐')
+			dimensiune: 8m
+			balon: (stareDeSpirit = ''
+				? Balon(
+						`/Zâmbește, încruntă-te sau închide ochii/`
+						încadrare: 8m
+					)
+					Balon(Cuvânt(stareDeSpirit)))
+		)
+	]
+)

@@ -1,0 +1,101 @@
+T
+Tula
+=== start
+¶Isang tula na ang mga taludtod ay dahan-dahang pumapasok, bawat isa'y may sariling pagdating.¶
+•linya(teksto2•"" pustura•Pose|Pagkakasunodsunod likod: Kulay(
+			100
+			100
+			100°
+		) harap: Kulay(0 0 0°))
+
+¶Isang listahan ng mga taludtod ng tula, bawat isa'y may pustura.¶
+tula: [
+		linya(
+			'Ang file ng kompyuter'
+			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+		)
+		linya(
+			'na kung saan'
+			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+		)
+		linya('wala akong maalala' Pose(pagikot: 10°))
+		linya(
+			'binuksan ko ito'
+			Pagkakasunodsunod(
+				{
+					0%: Pose(sukat: 1)
+					50%: Pose(sukat: 0.7)
+					100%: Pose(sukat: 1)
+				}
+				0.25s
+			)
+		)
+		linya(
+			'tingnan'
+			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+		)
+		linya(
+			'mag-scroll pa pababa'
+			Pose(kalabuan: 0% offset: Lugar(taon: 5m))
+		)
+		linya(
+			'ang eksena'
+			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+		)
+		linya(
+			'nananatiling maliwanag ang ilaw sa likod ngunit walang laman'
+			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+			Kulay(0 0 0°)
+			Kulay(100 100 0°)
+		)
+		linya(
+			"kaya't nakikita ko muli ang aking sarili"
+			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+		)
+		linya(
+			'puno ng pag-asa ngunit walang kabuluhan'
+			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+		)
+		linya(
+			'isang misteryo'
+			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+		)
+		linya(
+			'eksakto gaya ng ginawa ko dati'
+			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+		)
+		linya('noong Agosto 19, 2010, 11:08 ng umaga' Pose())
+	]
+
+bilang2: 1 … ∆ Butones() | ∆ Susi() …
+		(bilang2 = (tula.haba() + 1)) ? 1 bilang2 + 1
+linya2: tula[bilang2]
+
+bilang2 ≤ tula.haba() ?
+	Entablado(
+		[
+			Parirala(
+				linya2.teksto2
+				pagpasok: linya2.pustura
+				tagal: 1s
+				pangalan: bilang2 → ""
+				estilo: 'cautious'
+			)
+		]
+		background: linya2.likod
+		nagpapahinga: Pose(kulay: linya2.harap)
+	)
+	Entablado(
+		[
+			Grupo(
+				Patongpatong()
+				[
+					Parirala('PAYO SA AKING SARILI')
+					Parirala('Jane Hirshfield')
+				]
+				pagpasok: Pose(sukat: 0.75)
+			)
+		]
+		background: Kulay(0% 0 0°)
+		kulay: Kulay(100% 100 0°)
+	)

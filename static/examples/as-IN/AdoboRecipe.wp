@@ -1,0 +1,40 @@
+H
+আডোবো ৰেচিপি
+=== start/en
+¶ফিলিপিনো ৰঁধা কুকুৰাৰ মাংসৰ এটা দৃশ্য-দৃশ্যৰ পাকপ্ৰণালী।¶
+
+¶এইবোৰ দেখুৱাব লগীয়া দৃশ্যৰ তালিকা¶
+বাক্য: [
+		`*How to Cook Filipino Chicken 🥘 Adobo`/en
+		"Ingredients:"/en
+		"Ingredients: Chicken Wings🐔"/en
+		"Ingredients: Chicken Wings🐔 Garlic🧄"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾"/en
+		"Ingredients: Chicken Wings🐔, Garlic🧄, Soy Sauce🍶, Vinegar🍾, Bay Leaves🍃"/en
+		"Put it all in a bowl and…"/en
+		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
+		"Put it on rice and you now have…"/en
+		(`আডোবং মানক @lamamel/adobo! (খাবলৈ মাউছটো লৰচৰ কৰাওক)`)
+		(`মজাদাৰ! @lamamel/emptyadobo`)
+	]
+
+¶এইবোৰ হৈছে সেই বাক্যৰ তালিকা যিবোৰ কেৱল মাউছ লৰচৰ কৰালেহে আগবাঢ়িব লাগে।¶
+বাক্যবোৰলৰচৰকৰাওক: [9 11]
+
+¶বৰ্তমান বাক্যটো ১ৰ পৰা আৰম্ভ হয়, আৰু মাউছটো স্ক্ৰীণৰ কোনো নিৰ্দিষ্ট স্থানলৈ গ'লে, বা আন বাক্যৰ বাবে কোনো বুটাম বা চাবি টিপিলে ই বাঢ়ি যায়।¶
+বিন্দু2: পইণ্টাৰ()
+বৰ্তমানবাক্য•#: 1 …
+	বাক্যবোৰলৰচৰকৰাওক.আছে(বৰ্তমানবাক্য) ?
+		(বিন্দু2.x > 2m) & (বিন্দু2.y > 3m)
+		∆ বুটাম() | ∆ চাবি()
+		…
+		(বৰ্তমানবাক্য <
+				বাক্য.দৈৰ্ঘ্য()) ?
+			বৰ্তমানবাক্য + 1
+			বৰ্তমানবাক্য
+
+মঞ্চ(
+	[বাক্যাংশ(বাক্য[বৰ্তমানবাক্য] মেৰিওৱা: 10m)]
+	চেহেৰা: 'Short Stack'
+)

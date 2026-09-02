@@ -1,0 +1,30 @@
+🎃
+Balkabağı
+=== start
+¶Titreyen ve her saniye yeni bir yerde beliren oyulmuş bir balkabağı feneri.¶
+zaman: Zaman(1000ms)
+yerleştir: Yer(0m 0m) … ∆ zaman … Yer(
+			Rastgele(-4m 4m)
+			Rastgele(-4m 4m)
+			Rastgele(-4m 0m)
+		)
+saydamlık: 1 … ∆ zaman … Rastgele(0.25 1)
+göster: ⊤ … ∆ zaman … ~göster
+balkabağı: İfadeetmek(
+		'🎃'
+		opaklık: saydamlık
+		yer: yerleştir
+		giriş: Sekans(
+			{
+				0%: Poz(ölçek: 1.25 rotasyon: -21°)
+				20%: Poz(ölçek: 0.75 rotasyon: 13°)
+				40%: Poz(ölçek: 1 rotasyon: -7°)
+				60%: Poz(ölçek: 1.25 rotasyon: 19°)
+				100%: Poz()
+			}
+			0.5s
+			saymak: 3x
+		)
+	)
+
+Sahne(göster ? [balkabağı] [] arkaplan: Renk(0% 0 0°))

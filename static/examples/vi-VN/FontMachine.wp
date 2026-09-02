@@ -1,0 +1,27 @@
+t
+Máy Phông Chữ
+=== start
+¶Nhấn phím bất kỳ để đổi kiểu chữ của mỗi chữ cái trong từ "typography" sang một phông chữ ngẫu nhiên.¶
+phôngChữ: [
+		"Arvo"/en
+		"Modak"/en
+		"Poor Story"/en
+		"Tangerine"/en
+		"Monoton"/en
+		"Quicksand"/en
+	]!
+kýHiệu: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ ngẫuNhiênHóa()
+	kýHiệu.dịch(
+		ƒ(kýHiệu2) Cụmtừ(
+				kýHiệu2
+				khuônmặt: phôngChữ.ngẫunhiên()
+				khoảngthờigian: 0s
+			)
+	)
+
+cụmTừ: ngẫuNhiênHóa() … ∆ Chìakhóa() | ∆ Cáinút() … ngẫuNhiênHóa(
+		)
+
+Sânkhấu([Nhóm(Hàngngang('|' 0m) cụmTừ vịTrí: VịTrí(0m 0m))])

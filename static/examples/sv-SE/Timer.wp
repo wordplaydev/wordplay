@@ -1,0 +1,8 @@
+•
+Timer
+===
+¶En rad prickar som växer till fem och börjar om, en gång i sekunden.¶
+Fras(
+	"•".upprepas(((Tid(1000ms) → #s) % 5).rundaner() + 1s)
+	varaktighet: 0s
+)

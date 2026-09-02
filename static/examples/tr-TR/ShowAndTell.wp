@@ -1,0 +1,192 @@
+🔍
+Göster ve Anlat
+=== start/en
+¶Göster ve Anlat — zamana karşı bir kamera oyunu. Senden bir şeyler bulmanı isterim,birer birer, ve her birini sesli söylerim. Ben görene kadar kamerana tut,sonra başka bir şey söylerim. İstediğim şey elinde yok mu? → tuşuna bas,başka bir şey isteyeyim — atlamak sana zarar vermez. Bir dakikada beş şeybulursan kazanırsın; beşinci şey için resimde her zaman iki kişi olmalı. Dakikakameran açılınca başlar, yani hazırlanmak sana zaman kaybettirmez, ve süredolunca oyunun bittiğini söylerim. Her bulduğunda yazılar biraz büyür,ve kazandığında "Kazandın!" yazısı konfeti gibi patlar.¶
+
+¶Aranacak bir şey: gösterdiğim emoji, gösterdiğim yazı, kamera modelimin onaverdiği isim (eşleştirdiğim şey) ve aynı anda kaç tane görmem gerektiği(insanlar için iki).¶
+•hedef2(emoji•'' etiket•'' isim3•'' gerek•#)
+
+¶İsteyebileceğim şeyler. Her isim, @Objects'ın o şeye verdiği isimle tamamenaynıdır, böylece onu kamerada tanıyabilirim. Birer birer gösterir vebulduğunda veya atladığında başka bir şey seçerim.¶
+havuz•[hedef2]: [
+		hedef2('☕' 'bir bardak' 'bardak' 1)
+		hedef2('📖' 'bir kitap' 'kitap' 1)
+		hedef2('📱' 'bir telefon' 'telefon' 1)
+		hedef2(
+			'💻'
+			'bir dizüstü bilgisayar'
+			'dizüstü bilgisayar'
+			1
+		)
+		hedef2('⌨' 'bir klavye' 'klavye' 1)
+		hedef2('🖱' 'bir fare' 'fare' 1)
+		hedef2('✂' 'makas' 'makas' 1)
+		hedef2('🍾' 'bir şişe' 'şişe' 1)
+		hedef2('🪑' 'bir sandalye' 'sandalye' 1)
+		hedef2('🕐' 'bir saat' 'saat' 1)
+		hedef2('🍌' 'bir muz' 'muz' 1)
+		hedef2('🍎' 'bir elma' 'elma' 1)
+		hedef2('🧸' 'bir oyuncak ayı' 'oyuncak ayı' 1)
+		hedef2('🪴' 'saksıdaki bir bitki' 'saksıdaki bitki' 1)
+		hedef2('🏺' 'bir vazo' 'vazo' 1)
+		hedef2('🎒' 'bir sırt çantası' 'sırt çantası' 1)
+	]
+
+¶Şimdiye kadar bulduğun emojilere ve tekrar etmemen gereken şeye bakarak sırada ne isteneceği: ilk dört seferde henüz istenmemiş yeni ve rastgele bir nesne, beşincisinde ise her zaman iki kişi.¶
+ƒ seç(bulundu•[''] kaçın•hedef2)
+	(bulundu.uzunluk() ≥ 4)
+	? hedef2('👥' 'iki kişi' 'kişi' 2)
+		havuz.olmadan(kaçın).filtre(
+			ƒ(t•hedef2) ~(bulundu.sahipolmak(t.emoji))
+		).rastgele(
+		)
+
+¶Kamera. Ona ne arayacağı söylenmez — sadece gördüğü her şeyi bildirir ve kendi başına ilerler, böylece oyun kendisini doğrudan buna göre ayarlar, bir saate gerek kalmaz.¶
+görülenler: Nesneler(sayı: 10 güven: 0.5)
+
+¶Atlamak için → tuşu (veya bir dokunuş).¶
+atla: Anahtar('Sağ Ok' ⊤)
+
+¶Geri sayım ve kazanma konfetisinin canlandırılması için bir saat. Aramanın kendisi bunu kullanmaz — bunu @Objects yönetir.¶
+saat2: Zaman(30ms)
+
+¶Bir turun ne kadar sürdüğü.¶
+sınır•#s: 60s
+
+¶Kameranın ilk bildirimde bulunduğu anın hatırlanması. Geri sayım burada başlar, sıfırda değil; böylece kameranı paylaşmak için beklemek ve modelin yüklenmesini beklemek dakikandan asla zaman çalmaz — @Objects bir kareyi gördüğü anda, içinde bir şey olsun ya da olmasın, ilk okumasını bildirir.¶
+başladı•#ms: 0ms
+	… ((∆ görülenler) & (⬚ = 0ms)) …
+		saat2
+
+¶Ne kadar zaman kaldığı: kamera uyanana kadar geçen tüm dakika, sonra ondan kalan her ne ise, hiçbir zaman sıfırın altına inmeden — böylece zaman bitince eksi sayılara geçmeden bitmiş kalır.¶
+sol2•#s: (başladı = 0ms) ? sınır ((sınır - ((saat2 - başladı) → #s)).maksimum(
+				0s
+			))
+
+¶Oyun: şimdiye kadar bulunan emojiler (beşte kazanılır) ve şu anda istenen şey.¶
+•av(bulundu2•[''] hedef3•hedef2)
+
+¶Bir kamera okumasından (veya bir atlamadan) ilerlemek, beşi bulunca durmak; böylece kazanma ekranı bir kez oluşturulur ve konfetisi uçmaya bırakılır. Atlamak sayını değiştirmeden şeyi yeniden çeker; istenen şeyin görüntülerde yeterince görülmesi buluşu sayar ve sıradaki şeyi ister.¶
+ƒ adım(s•av atlandı•? görüldü•[Şey]) (
+		sayaç: görüldü.filtre(
+				ƒ(t2•Şey) t2.isim = s.hedef3.isim3
+			).uzunluk(
+			)
+		sıradakiBulunan: [:s.bulundu2 s.hedef3.emoji]
+		atlandı
+		? av(s.bulundu2 seç(s.bulundu2 s.hedef3))
+			((sayaç ≥ s.hedef3.gerek)
+				? av(sıradakiBulunan seç(sıradakiBulunan s.hedef3))
+					s)
+	)
+
+¶Dakika bitince arama da durur, böylece süre dolduktan sonra gelen bir buluş oyun bitti ekranını atlayamaz.¶
+av2•av: av([] havuz.rastgele())
+	… ((∆ görülenler | ∆ atla) & (⬚.bulundu2.uzunluk() < 5) & (sol2 > 0s)) …
+		adım(⬚ (∆ atla) görülenler)
+
+¶Kazandığın anın hatırlanması — böylece konfeti sıfırıncı zamandan canlanmaya başlar.¶
+kazandı•#ms: 0ms
+	… ((av2.bulundu2.uzunluk() ≥ 5) & (⬚ = 0ms)) …
+		saat2
+
+¶Uçan bir konfeti parçası: bir emoji, bir patlama hızı (birimsiz — saniyedeki metre büyüklüğünde) ve bir dönüş. Düz sayıları saklamak, aşağıdaki yörünge hesaplarını basit tutar.¶
+•kıvılcım(emoji2•'' vx•# vy•# döndürüldü•#)
+
+¶Kutlama kağıtları, kazandığın an bir kez oluşturulur ve bir daha yeniden oluşturulmaz. @Objectskeeps algılandığında, her okuma programı yeniden değerlendirir — bu listedeki parçaları dondurmak (liste bir kez, kazandığında dolar, sonra koşulu durur) her birinin her karede yeniden üretilmek yerine uçtuğu aynı hızı korumasını sağlar.¶
+kıvılcımlar•[kıvılcım]: []
+	… ((av2.bulundu2.uzunluk() ≥ 5) & (⬚.uzunluk() = 0)) …
+		(60 → []).tercümeetmek(
+			ƒ()
+				kıvılcım(
+					av2.bulundu2.rastgele()
+					Rastgele(-8 8)
+					Rastgele(3 13)
+					Rastgele(-200 200)
+				)
+		)
+
+¶Kutlama kağıtlarının çiziminde yer çekimi, saniye kare başına metre olarak.¶
+g•#: 9
+
+¶İstem: büyük bir emoji, adı, ilerlemen, kalan süre ve nasıl atlanacağı. Her bulmada kelimeler biraz büyüyerek gerginliği artırır — çok az, böylece beş bulma bile sahnede sığar. Geri sayım yukarı yuvarlanır, bu yüzden süre gerçekten bitene kadar 1 yazar.¶
+ƒ istem(s2•av) (
+		büyük: (2m + (s2.bulundu2.uzunluk() · 0.3m))
+		Grup(
+			Yığın('|' 0.4m)
+			[
+				İfadeetmek(
+					s2.hedef3.emoji
+					yüz: "Noto Color Emoji"
+					boyut: büyük + 1m
+				)
+				İfadeetmek(s2.hedef3.etiket boyut: büyük)
+				İfadeetmek(
+					`bulunan \s2.bulundu2.uzunluk() → ''\ / 5`
+					boyut: 0.7m
+				)
+				İfadeetmek(
+					`⏳ \(sol2 ÷ 1s).hesabıyuvarlamak() → ''\ saniye kaldı`
+					boyut: 0.6m
+				)
+				İfadeetmek(
+					'bu değil mi? başka biri için → tuşuna bas'
+					boyut: 0.5m
+				)
+			]
+		)
+	)
+
+¶Her kıvılcımı, ne kadar süredir uçtuğuna göre hesaplanan kendi yörüngesine yerleştir: hızıyla dışarı doğru hareket ederken yer çekimi onu aşağı çeker (klasik ½·g·t² formülü). Konumu fizik motoruna dayanmak yerine kendimiz hesapladığımız için, kameranın sürekli yeniden değerlendirmesi her parçayı olması gereken yere yeniden çizer — merkeze geri sıçrama olmaz.¶
+ƒ konfeti() (
+		t3: (saat2 - kazandı) ÷ 1000ms
+		kıvılcımlar.tercümeetmek(
+			ƒ(s3•kıvılcım)
+				İfadeetmek(
+					s3.emoji2
+					yüz: "Noto Color Emoji"
+					boyut: 1.5m
+					rotasyon: (s3.döndürüldü · t3) · 1°
+					yer: Yer(
+						(s3.vx · t3) · 1m
+						((s3.vy · t3) - ((g · t3 · t3) ÷ 2)) · 1m
+					)
+				)
+		)
+	)
+
+¶Beş tanesini bularak kazanırsın: ortalanmış bir "Kazandın!" yazısı, hem sesli söylenir hem gösterilir, bulunan emojiler üzerinde kutlama kağıtları gibi patlar ve kutlama kağıtları düşerken ortaya çıkar.¶
+ƒ final() [
+		Grup(Yığın() [İfadeetmek('Kazandın!' boyut: 2m)])
+		Söylemek('Kazandın!')
+		:konfeti()
+	]
+
+¶Bir dakika doldu: ne kadar ilerlediğin, hem sesli söylenir hem gösterilir.¶
+ƒ oyunBitti(s4•av) [
+		Grup(
+			Yığın('|' 0.4m)
+			[
+				İfadeetmek('⌛' yüz: "Noto Color Emoji" boyut: 3m)
+				İfadeetmek('Süre doldu!' boyut: 2m)
+				İfadeetmek(
+					`bulduğun sayı: \s4.bulundu2.uzunluk() → ''\ / 5`
+					boyut: 0.7m
+				)
+			]
+		)
+		Söylemek(
+			"Time is up. Game over. You found \s4.bulundu2.uzunluk(
+			) → ''\ of 5."
+		)
+	]
+
+¶İstemi okuyamayan veya sadece duymak isteyen oyuncular için, şu anki şeyi sesli söyle. Say yalnızca metni değiştiğinde konuşur — böylece her yeni şeyi bir kez duyurur, her kamera okumasında değil.¶
+ƒ duyur(s5•av) Söylemek('bul ' + s5.hedef3.etiket)
+
+¶Önce kazanma kontrol edilir, bu yüzden sürenin bitmesi ancak kaybetmek anlamına gelebilir.¶
+Sahne(
+	(av2.bulundu2.uzunluk() ≥ 5)
+	? final()
+		((sol2 ≤ 0s) ? oyunBitti(av2) [istem(av2) duyur(av2)])
+	yer: Yer(0m 0m -12m)
+)

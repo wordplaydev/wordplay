@@ -1,0 +1,84 @@
+📹
+Video
+===
+¶Imaginea camerei tale, redesenată în timp real: ca litere colorate, ca umbre ASCII, sau ca pătrate colorate. Alege un stil cu butoanele de jos.¶
+
+¶Care buton de stil a fost apăsat ultima dată. Choice raportează numele frazei selectabile pe care privitorul a ales-o, iar stilul păstrează ultimul lucru auzit.¶
+choice: Alegere()
+stil2: 'letters' … ∆ choice … choice
+
+¶Emoji sunt mari, așa că stilul cu emoji folosește o grilă mai grosieră. Ambele grile acoperă aceiași 16 pe 12 metri, deci schimbarea stilului nu redimensionează niciodată imaginea și nu mișcă camera.¶
+coloane2: (stil2 = 'emoji') ? 16 32
+rânduri2: (stil2 = 'emoji') ? 12 24
+celulă2: (stil2 = 'emoji') ? 1m 0.5m
+
+¶Mijlocul grilei, unde este centrată imaginea.¶
+coloanaDinMijloc: (coloane2 + 1) ÷ 2
+rândulDinMijloc: (rânduri2 + 1) ÷ 2
+
+¶O culoare pe celulă, direct de la cameră.¶
+culori: Cameră((coloane2 × 1px) (rânduri2 × 1px) 33ms)
+
+¶Zece caractere de la întunecat la luminos. Stilul ASCII alege unul în funcție de cât de luminos este pixelul.¶
+gamă2: "@%#*+=-:. " → []
+
+¶Douăzeci și patru de benzi de 15° în jurul cercului nuanțelor, astfel încât fiecare pixel ia pătratul cel mai apropiat de culoarea lui.¶
+pătrate: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
+
+¶Cum arată un pixel în stilul actual. Un pixel cu aproape nicio culoare nu are nicio nuanță de arătat, așa că revine la un pătrat luminos sau întunecat.¶
+ƒ glif(culoare2•Culoare)
+	(stil2 = 'ascii') ?
+		"\gamă2[((culoare2.ușurință × 9).rundă()) + 1]\"
+		((stil2 = 'emoji') ?
+				((culoare2.cromă < 8) ?
+						((culoare2.ușurință < 50%) ? "⬛" "⬜")
+						"\pătrate[(((culoare2.nuanţă ÷ 1°) ÷ 15).rotunjireînjos(
+							)) + 1]\")
+				'un')
+
+¶Imaginea: o frază pe pixel, așezată dinspre mijloc înspre exterior, astfel încât camera are aceeași imagine de încadrat oricât de grosieră ar fi grila, și oglindită de la stânga la dreapta astfel încât se citește așa cum arată o oglindă.¶
+imagine: culori.combinate(
+		[]
+		ƒ(fraze•[Fraza] rând•[Culoare] y2•#)
+			fraze.cuLista(
+				rând.traduce(
+					ƒ(culoare3•Culoare x2•#)
+						Fraza(
+							glif(culoare3)
+							loc: Loc(
+								((coloanaDinMijloc - x2) × celulă2)
+								((rândulDinMijloc - y2) × celulă2)
+							)
+							durată: 0s
+							dimensiune: (stil2 = 'ascii') ? 0.75m ((stil2 = 'emoji') ? 1.15m 1m)
+							faţă: (stil2 = 'ascii') ? "Noto Sans Mono"/en ø
+							culoare: (stil2 = 'letters') ? culoare3 ø
+						)
+				)
+			)
+	)
+
+¶Un buton de stil, luminos atunci când acela este stilul afișat. Numele este ceea ce raportează Choice atunci când butonul este apăsat sau ales cu tastatura.¶
+ƒ buton(id2•'')
+	Fraza(
+		id2
+		0.5m
+		nume: id2
+		selectabil: ⊤
+		odihnă: (stil2 = id2) ? Poză() Poză(opacitate: 40%)
+	)
+
+¶Un rând menține butoanele spațiate uniform și aliniate indiferent de lungimea cuvintelor lor, iar fără un loc propriu, rândul stă la mijloc, astfel încât decalajul este tot ce e nevoie pentru a-l coborî în josul ecranului. Are propriul fundal, deoarece cuvintele peste un videoclip sunt lizibile doar din întâmplare.¶
+butoane: Grup(
+		Rând(umplutură: 0.5m)
+		[buton('letters') buton('ascii') buton('emoji')]
+		fundal: Culoare(100% 0 0°)
+		compensare: Loc(0m -4.5m)
+	)
+
+¶Butoanele stau pe suprapunerea scenei, care este fixată plat pe ecran: rămân la aceeași dimensiune și loc indiferent cum e încadrată imaginea, iar imaginea este încadrată ca și cum ele nu ar exista.¶
+Etapă(
+	imagine
+	descriere: "camera video drawn with \stil2\"
+	suprapunere: [butoane]
+)
