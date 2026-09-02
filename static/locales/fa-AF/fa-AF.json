@@ -7785,7 +7785,8 @@
                     "tab": "$~تب"
                 },
                 "selected": "$~$#count[$count حرف گزیده شد|$count حرف گزیده شد]: $text",
-                "unknownPosition": "$~در کد"
+                "unknownPosition": "$~در کد",
+                "selectedNodes": "$~$#count[$count گره انتخاب شد|$count گره انتخاب شد]، از $first تا $last"
             },
             "error": {
                 "invalidName": "$~این باید یک نام معتبر وردپلی باشد.",

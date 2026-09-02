@@ -26,14 +26,14 @@ function project(code: string) {
 test('a list item can be recycled (removed outright)', () => {
     const { source, project: p } = project('[1 2 3]');
     const item = source.find<NumberLiteral>(NumberLiteral);
-    expect(canRecycleDraggedNode(p, item)).toBe(true);
+    expect(canRecycleDraggedNode(p, [item])).toBe(true);
 });
 
 test('a required expression can be recycled (blanks to a placeholder)', () => {
     // Dragging the `1` out of `1 + 2` leaves `_ + 2` — a Minor placeholder conflict, not a rejection.
     const { source, project: p } = project('1 + 2');
     const one = source.find<NumberLiteral>(NumberLiteral);
-    expect(canRecycleDraggedNode(p, one)).toBe(true);
+    expect(canRecycleDraggedNode(p, [one])).toBe(true);
 });
 
 test('a removal that leaves an unknown name is still recyclable (semantic conflicts warn, not block)', () => {
@@ -41,21 +41,21 @@ test('a removal that leaves an unknown name is still recyclable (semantic confli
     // mistake the creator can repair in place — the removal is permitted and warned, not blocked.
     const { source, project: p } = project('a: 1\na + 2');
     const bind = source.find<Bind>(Bind);
-    expect(canRecycleDraggedNode(p, bind)).toBe(true);
+    expect(canRecycleDraggedNode(p, [bind])).toBe(true);
 });
 
 test('the root of a source cannot be recycled (removing it changes nothing)', () => {
     // Dragging the whole program/root block over the bin can't replace the root via descendant
     // replacement, so it would be a no-op — treat it as not removable.
     const { source, project: p } = project('1 + 2');
-    expect(canRecycleDraggedNode(p, source.expression)).toBe(false);
+    expect(canRecycleDraggedNode(p, [source.expression])).toBe(false);
 });
 
 test('a node not rooted in a source cannot be recycled', () => {
     const { project: p } = project('1');
     // A rootless expression (e.g. a palette concept dragged from the Wellspring/Guide).
     const rootless = parseExpression(toTokens('1'));
-    expect(canRecycleDraggedNode(p, rootless)).toBe(false);
+    expect(canRecycleDraggedNode(p, [rootless])).toBe(false);
 });
 
 // The pattern sublanguage is its own guide section (Purpose.Patterns), next to

@@ -1,4 +1,13 @@
 import { describesOwnType } from '@nodes/conciseRef';
+import {
+    getSiblingRange,
+    nodesInRange,
+    listKindOf,
+    rangeIsRemovable,
+    siblingOf,
+    withoutRun,
+    type SiblingRange,
+} from '@edit/caret/siblingRange';
 import type { LocaleTextAccessor, default as Locales } from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Block from '@nodes/Block';
@@ -130,6 +139,12 @@ export default class Caret {
     readonly entry: Entry;
     // The node recently added.
     readonly addition: Node | undefined;
+    /** The other end of a contiguous sibling selection, when there is one.
+     *  Defined only when `position` is a Node that shares a parent and list field
+     *  with it, so a selection is always a run the grammar can express. Cleared by
+     *  any reposition, the way `visualColumn` is, so a selection can only survive
+     *  where a caller deliberately carries it forward. */
+    readonly anchor: Node | undefined;
 
     // The token we're at, including preceding space.
     readonly tokenIncludingSpace: Token | undefined;
@@ -152,6 +167,9 @@ export default class Caret {
          *  cleared, so any caret operation that doesn't explicitly carry it forward
          *  resets the goal column. */
         visualColumn: number | undefined = undefined,
+        /** The other end of a sibling selection. Trailing and optional so no
+         *  existing construction has to say anything about selections. */
+        anchor: Node | undefined = undefined,
     ) {
         this.source = source;
         this.position = position;
@@ -159,6 +177,12 @@ export default class Caret {
 
         this.entry = entry;
         this.addition = addition;
+        // Only a node position can carry a selection; anything else is a text
+        // caret, whose range is already expressed by the position itself.
+        this.anchor =
+            position instanceof Node && anchor !== position
+                ? anchor
+                : undefined;
 
         this.tokenIncludingSpace =
             typeof this.position === 'number'
@@ -946,6 +970,25 @@ export default class Caret {
         return (l) => l.ui.source.cursor.ignored.noMove;
     }
 
+    /**
+     * Extend (or shrink) a sibling selection by moving its focus one node along
+     * its list, anchoring on the current node the first time. The keyboard
+     * counterpart of a text range's expandInline, and refused at the ends of the
+     * list rather than silently doing nothing.
+     */
+    expandNode(direction: -1 | 1): Caret | LocaleTextAccessor {
+        if (!(this.position instanceof Node))
+            return (l) => l.ui.source.cursor.ignored.noMove;
+        const next = siblingOf(this.source.root, this.position, direction);
+        if (next === undefined) return (l) => l.ui.source.cursor.ignored.noMove;
+        // Anchor stays put, so moving back toward it shrinks the selection and
+        // returning to it collapses the selection entirely.
+        const anchor = this.anchor ?? this.position;
+        return next === anchor
+            ? this.withPosition(next).withoutRange()
+            : this.withPosition(next).withRange(anchor);
+    }
+
     expandInline(amount: number) {
         // Currently a position? Create a range with the current position as the start, and the end with the adjustment.
         if (isPosition(this.position)) {
@@ -1066,6 +1109,9 @@ export default class Caret {
             console.trace();
             return this;
         }
+        // No anchor is passed on purpose: repositioning collapses a selection,
+        // the same rule visualColumn follows. Everything that means to keep a
+        // selection goes through withRange instead.
         return new Caret(
             this.source,
             typeof position === 'number'
@@ -1087,12 +1133,23 @@ export default class Caret {
     // moment a non-vertical command repositions the caret. See visualColumn.
 
     withSource(source: Source) {
+        // A reparse only preserves node identity where the hash-reuse pass
+        // matched, so a selection whose ends didn't survive is dropped rather
+        // than carried as a pair of nodes the new source has never heard of.
+        const anchor =
+            this.anchor !== undefined &&
+            source.has(this.anchor) &&
+            this.position instanceof Node &&
+            source.has(this.position)
+                ? this.anchor
+                : undefined;
         return new Caret(
             source,
             this.position,
             this.entry,
             this.addition,
             this.visualColumn,
+            anchor,
         );
     }
 
@@ -1103,6 +1160,7 @@ export default class Caret {
             entry,
             this.addition,
             this.visualColumn,
+            this.anchor,
         );
     }
 
@@ -1113,6 +1171,7 @@ export default class Caret {
             this.entry,
             addition,
             this.visualColumn,
+            this.anchor,
         );
     }
 
@@ -1123,6 +1182,7 @@ export default class Caret {
             this.entry,
             undefined,
             this.visualColumn,
+            this.anchor,
         );
     }
 
@@ -1133,10 +1193,107 @@ export default class Caret {
     withoutVisualColumn(): Caret {
         return this.visualColumn === undefined
             ? this
-            : new Caret(this.source, this.position, this.entry, this.addition);
+            : new Caret(
+                  this.source,
+                  this.position,
+                  this.entry,
+                  this.addition,
+                  undefined,
+                  this.anchor,
+              );
+    }
+
+    /**
+     * This caret with a contiguous sibling selection running from `anchor` to the
+     * current node position. Returns this caret unchanged when the two aren't
+     * siblings in one list field, so an invalid selection can never be built.
+     */
+    withRange(anchor: Node): Caret {
+        if (
+            !(this.position instanceof Node) ||
+            getSiblingRange(this.source.root, anchor, this.position) ===
+                undefined
+        )
+            return this;
+        return new Caret(
+            this.source,
+            this.position,
+            this.entry,
+            this.addition,
+            this.visualColumn,
+            anchor,
+        );
+    }
+
+    /** This caret with any selection collapsed to its focus node. */
+    withoutRange(): Caret {
+        return this.anchor === undefined
+            ? this
+            : new Caret(
+                  this.source,
+                  this.position,
+                  this.entry,
+                  this.addition,
+                  this.visualColumn,
+                  undefined,
+              );
+    }
+
+    /**
+     * The text span a node selection covers, from the first selected node's start
+     * to the last one's end. Because a selection is always a contiguous run, this
+     * is exactly the text between them, which is what lets copying and the screen
+     * reader's native field selection reuse the text-range paths unchanged.
+     */
+    getSelectionSpan(): [number, number] | undefined {
+        const selected = this.getSelectedNodes();
+        if (selected.length === 0) return undefined;
+        const start = this.source.getNodeFirstPosition(selected[0]);
+        const end = this.source.getNodeLastPosition(
+            selected[selected.length - 1],
+        );
+        return start === undefined || end === undefined
+            ? undefined
+            : [start, end];
+    }
+
+    /** True if more than one node is selected. */
+    isRangeOfNodes(): this is { position: Node } {
+        return this.anchor !== undefined && this.position instanceof Node;
+    }
+
+    /** The sibling run this caret selects, if it selects more than one node. */
+    getSelectedRange(): SiblingRange | undefined {
+        return this.anchor !== undefined && this.position instanceof Node
+            ? getSiblingRange(this.source.root, this.anchor, this.position)
+            : undefined;
+    }
+
+    /**
+     * Every node this caret selects, in document order: the whole run when there
+     * is one, the single node when the position is a node, and nothing when the
+     * caret is a text position or range.
+     */
+    getSelectedNodes(): Node[] {
+        const range = this.getSelectedRange();
+        if (range) return nodesInRange(range);
+        return this.position instanceof Node ? [this.position] : [];
     }
 
     insertNode(node: Node, offset: number): Edit | undefined {
+        // A run of selected nodes is replaced by the inserted node, the way a
+        // single selected node is. Removal first, then the ordinary text insert.
+        const range = this.getSelectedRange();
+        if (range !== undefined) {
+            const removal = withoutRun(this.source, range);
+            if (removal === undefined) return undefined;
+            return new Caret(
+                removal.source,
+                removal.position,
+                undefined,
+                undefined,
+            ).insertNode(node, offset);
+        }
         if (isNode(this.position)) {
             const position = this.source.getNodeFirstPosition(this.position);
             if (position === undefined) return undefined;
@@ -1200,6 +1357,24 @@ export default class Caret {
     ): Edit | ProjectRevision | LocaleTextAccessor {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
+
+        // Several nodes selected? Remove the run first and insert where it was,
+        // the same two steps a selected text range takes. Routed through delete
+        // so the blocks-mode soundness gate applies to the removal too.
+        if (this.getSelectedRange() !== undefined) {
+            const removal = this.delete(project, false, blocks);
+            if (removal === undefined)
+                return (l) => l.ui.source.cursor.ignored.noInsert;
+            if (!Array.isArray(removal)) return removal;
+            return removal[1].insert(
+                text,
+                blocks,
+                project,
+                complete,
+                onBlockReject,
+                fillPlaceholders,
+            );
+        }
 
         if (blocks) {
             // Don't permit tabs or newlines unless inside a block editable token.
@@ -1789,6 +1964,35 @@ export default class Caret {
     ): Edit | ProjectRevision | LocaleTextAccessor | undefined {
         const offset = forward ? 0 : -1;
 
+        // Several nodes selected? Remove the whole run in one edit. Checked first,
+        // since a run is also a node position and would otherwise delete only its
+        // focus. withoutRun does the space bookkeeping a per-node removal gets
+        // wrong (see siblingRange).
+        const range = this.getSelectedRange();
+        if (range !== undefined) {
+            if (!rangeIsRemovable(range))
+                return (l) => l.ui.source.cursor.ignored.noDelete;
+            const removal = withoutRun(this.source, range);
+            if (removal === undefined)
+                return (l) => l.ui.source.cursor.ignored.noDelete;
+            // Blocks mode holds a bulk removal to the same soundness gate as
+            // every other edit there.
+            if (
+                validOnly &&
+                project.getNewConflicts(this.source, removal.source).length > 0
+            )
+                return (l) => l.ui.source.cursor.ignored.noError;
+            return [
+                removal.source,
+                new Caret(
+                    removal.source,
+                    removal.position,
+                    undefined,
+                    undefined,
+                ),
+            ];
+        }
+
         // If the position is a number, see if this is a rename
         if (isPosition(this.position)) {
             // Otherwise, figure out what to delete.
@@ -2169,6 +2373,12 @@ export default class Caret {
         // Whether in blocks mode, which navigates by node rather than by text position.
         blocks = false,
     ): Revision | undefined {
+        // Several nodes selected? Wrap the whole run in one container. This is the
+        // operation multiple selection exists for, and the reason a run must be
+        // contiguous siblings: they can be replaced by one node in their own list.
+        const range = this.getSelectedRange();
+        if (range !== undefined) return this.wrapRange(range, key);
+
         let node = this.position instanceof Node ? this.position : undefined;
         if (node instanceof Token && !node.isSymbol(Sym.End))
             node = this.source.root.getParent(node);
@@ -2236,6 +2446,70 @@ export default class Caret {
             : node instanceof ExpressionPlaceholder
               ? node
               : (newSource.getNodeLastPosition(node) ?? wrapper);
+
+        return [
+            newSource,
+            this.withSource(newSource)
+                .withAddition(wrapper)
+                .withPosition(caretTarget),
+        ];
+    }
+
+    /**
+     * Replace a run of selected siblings with one container holding them all.
+     * Only the container wrappers apply — a binary operator takes a single left
+     * operand, so it has nothing to do with a run and declines.
+     */
+    private wrapRange(range: SiblingRange, key: string): Revision | undefined {
+        const nodes = nodesInRange(range);
+        if (!nodes.every((node) => node instanceof Expression))
+            return undefined;
+
+        const keyTokens = tokens(key);
+        if (keyTokens.length !== 2 || !keyTokens[1].isSymbol(Sym.End)) return;
+        const token = keyTokens[0];
+
+        const wrapper: Expression | undefined = token.isSymbol(Sym.EvalOpen)
+            ? Block.make(nodes)
+            : token.isSymbol(Sym.ListOpen)
+              ? ListLiteral.make(nodes)
+              : token.isSymbol(Sym.SetOpen)
+                ? SetLiteral.make(nodes)
+                : undefined;
+        if (wrapper === undefined) return;
+
+        // The run's own list has to accept the container standing in for it.
+        if (!(listKindOf(range)?.allowsItem(wrapper) ?? false)) return;
+
+        const newList = [
+            ...range.list.slice(0, range.start),
+            wrapper,
+            ...range.list.slice(range.end + 1),
+        ];
+        const newParent = range.parent.replace(range.list, newList, 'silent');
+        if (newParent === range.parent) return;
+
+        const expression = this.source.expression;
+        const newProgram =
+            range.parent === expression && newParent instanceof Program
+                ? newParent
+                : expression.replace(range.parent, newParent);
+
+        // The container takes the run's place, so it inherits the run's leading
+        // space and the run's first node starts fresh inside it.
+        const spaces = this.source.spaces
+            .withSpace(wrapper, this.source.spaces.getSpace(nodes[0]))
+            .withSpace(nodes[0], '');
+
+        let newSource = this.source.withProgram(newProgram, spaces);
+        newSource = newSource.withSpaces(
+            getPreferredSpaces(newParent, newSource.spaces),
+        );
+
+        // Land just before the closing delimiter, ready for the next entry —
+        // the same place a single-node wrap leaves the caret.
+        const caretTarget =
+            newSource.getNodeLastPosition(nodes[nodes.length - 1]) ?? wrapper;
 
         return [
             newSource,
@@ -2359,6 +2633,25 @@ export default class Caret {
                         type && !describesOwnType(this.addition)
                             ? new NodeRef(type, locales, context)
                             : undefined,
+                })
+                .toText();
+        }
+
+        /** If several nodes are selected, say how many and which ends they run
+         * between. A bare count is the same words for every selection of that
+         * size, so it would be heard once and then sound broken; the ends are
+         * what actually differ from one selection to the next. */
+        const selected = this.getSelectedNodes();
+        if (selected.length > 1) {
+            return locales
+                .concretize((l) => l.ui.source.cursor.selectedNodes, {
+                    count: selected.length,
+                    first: new NodeRef(selected[0], locales, context),
+                    last: new NodeRef(
+                        selected[selected.length - 1],
+                        locales,
+                        context,
+                    ),
                 })
                 .toText();
         }

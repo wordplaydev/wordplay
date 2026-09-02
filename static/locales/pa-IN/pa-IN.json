@@ -7479,7 +7479,8 @@
                 "insertEighthNote": "$~ਇੱਕ ਅੱਠਵਾਂ ਨੋਟ ਪਾਓ, ਅੱਧਾ ਤਾਲ ਲੰਬਾ",
                 "insertDottedEighthNote": "$~ਇੱਕ ਬਿੰਦੀ ਵਾਲਾ ਅੱਠਵਾਂ ਨੋਟ ਪਾਓ, ਤਿੰਨ ਚੌਥਾਈ ਤਾਲ ਲੰਬਾ",
                 "insertSixteenthNote": "$~ਇੱਕ ਸੋਲ੍ਹਵਾਂ ਨੋਟ ਪਾਓ, ਇੱਕ ਚੌਥਾਈ ਤਾਲ ਲੰਬਾ",
-                "insertDottedSixteenthNote": "$~ਇੱਕ ਬਿੰਦੀ ਵਾਲਾ ਸੋਲ੍ਹਵਾਂ ਨੋਟ ਪਾਓ, ਤਿੰਨ ਅੱਠਵੇਂ ਤਾਲ ਲੰਬਾ"
+                "insertDottedSixteenthNote": "$~ਇੱਕ ਬਿੰਦੀ ਵਾਲਾ ਸੋਲ੍ਹਵਾਂ ਨੋਟ ਪਾਓ, ਤਿੰਨ ਅੱਠਵੇਂ ਤਾਲ ਲੰਬਾ",
+                "selectedNodes": "$~$#count[$count ਨੋਡ ਚੁਣਿਆ|$count ਨੋਡ ਚੁਣੇ], $first ਤੋਂ $last ਤੱਕ"
             },
             "options": {
                 "locale": {

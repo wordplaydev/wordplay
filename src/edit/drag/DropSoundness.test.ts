@@ -68,7 +68,9 @@ function expectRoundTrip(source: Source, what: string) {
     ).toBe(true);
 }
 
-/** All model-level drop targets in a source: nodes, plus start/end insertion points of list fields. */
+/** All model-level drop targets in a source: nodes, plus every insertion index of
+ *  every list field. Interior indices matter as much as the ends: dropping a run
+ *  into the middle of the list it came from is how a creator reorders. */
 function getTargets(source: Source): (Node | InsertionPoint)[] {
     const targets: (Node | InsertionPoint)[] = [...source.nodes()];
     for (const node of source.nodes()) {
@@ -76,28 +78,41 @@ function getTargets(source: Source): (Node | InsertionPoint)[] {
             const value = node.getField(field.name);
             if (field.kind instanceof ListOf && Array.isArray(value)) {
                 const list = value.filter((item) => item instanceof Node);
-                targets.push(
-                    new InsertionPoint(
-                        node,
-                        field.name,
-                        list,
-                        undefined,
-                        undefined,
-                        0,
-                    ),
-                    new InsertionPoint(
-                        node,
-                        field.name,
-                        list,
-                        undefined,
-                        undefined,
-                        list.length,
-                    ),
-                );
+                for (let index = 0; index <= list.length; index++)
+                    targets.push(
+                        new InsertionPoint(
+                            node,
+                            field.name,
+                            list,
+                            undefined,
+                            undefined,
+                            index,
+                        ),
+                    );
             }
         }
     }
     return targets;
+}
+
+/** Every contiguous run of two or more siblings in a list field — what a
+ *  multiple node selection can hold, and so what a drag can carry. */
+function getRuns(source: Source): Node[][] {
+    const runs: Node[][] = [];
+    for (const node of source.nodes()) {
+        for (const field of node.getGrammar()) {
+            const value = node.getField(field.name);
+            if (!(field.kind instanceof ListOf) || !Array.isArray(value))
+                continue;
+            const list = value.filter(
+                (item) => item instanceof Node && item.toWordplay() !== '',
+            );
+            for (let start = 0; start < list.length; start++)
+                for (let end = start + 1; end < list.length; end++)
+                    runs.push(list.slice(start, end + 1));
+        }
+    }
+    return runs;
 }
 
 describe('every permitted drop round-trips', () => {
@@ -114,18 +129,24 @@ describe('every permitted drop round-trips', () => {
             );
             // Zero-width nodes (an empty Unit, an empty Docs) have no extent to press on, so
             // they can't be picked up in the editor; only visible nodes drag here.
-            const draggables = [
-                ...source.nodes(
-                    (n): n is Node =>
-                        !(n instanceof Token) && n.toWordplay() !== '',
-                ),
-                ...PaletteDrops(),
+            const draggables: Node[][] = [
+                ...source
+                    .nodes(
+                        (n): n is Node =>
+                            !(n instanceof Token) && n.toWordplay() !== '',
+                    )
+                    .map((node) => [node]),
+                ...PaletteDrops().map((node) => [node]),
+                // Runs of siblings, which a multiple node selection can drag.
+                ...getRuns(source),
             ];
             const targets = getTargets(source);
             let simulated = 0;
+            let runsSimulated = 0;
             for (const dragged of draggables) {
                 for (const target of targets) {
-                    if (dragged === target) continue;
+                    if (target instanceof Node && dragged.includes(target))
+                        continue;
                     // Mirror the pointer path's structural pre-checks.
                     if (
                         target instanceof Node &&
@@ -134,12 +155,13 @@ describe('every permitted drop round-trips', () => {
                         continue;
                     if (
                         target instanceof InsertionPoint &&
-                        dragged.contains(target.node)
+                        dragged.some((node) => node.contains(target.node))
                     )
                         continue;
                     if (!isDropPermitted(project, source, dragged, target))
                         continue;
                     simulated++;
+                    if (dragged.length > 1) runsSimulated++;
                     const [, newSource] = dropNodeOnSource(
                         project,
                         source,
@@ -148,7 +170,9 @@ describe('every permitted drop round-trips', () => {
                     );
                     expectRoundTrip(
                         newSource,
-                        `dropping ${dragged.toWordplay()} on ${
+                        `dropping ${dragged
+                            .map((node) => node.toWordplay())
+                            .join(' ')} on ${
                             target instanceof Node
                                 ? target.toWordplay()
                                 : `${target.field}[${target.index}]`
@@ -158,6 +182,16 @@ describe('every permitted drop round-trips', () => {
             }
             // The property is vacuous if nothing was permitted; every program allows some drops.
             expect(simulated).toBeGreaterThan(0);
+            // And it would be vacuous *for runs* if only single nodes ever got
+            // this far — exactly what a run-shaped bug looks like: every run
+            // rejected, and the property still green. Only asked of the programs
+            // that have a run to drag; four in the corpus (a borrow, a share, a
+            // pattern, a conversion) have no list holding two draggable items.
+            if (getRuns(source).length > 0)
+                expect(
+                    runsSimulated,
+                    `no run of siblings was ever permitted to drop`,
+                ).toBeGreaterThan(0);
         },
         60000,
     );

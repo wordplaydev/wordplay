@@ -7461,7 +7461,8 @@
                 "insertEighthNote": "$~팔분음표를 넣어요. 반 박자 길이예요",
                 "insertDottedEighthNote": "$~점 팔분음표를 넣어요. 사분의 삼 박자 길이예요",
                 "insertSixteenthNote": "$~십육분음표를 넣어요. 사분의 일 박자 길이예요",
-                "insertDottedSixteenthNote": "$~점 십육분음표를 넣어요. 팔분의 삼 박자 길이예요"
+                "insertDottedSixteenthNote": "$~점 십육분음표를 넣어요. 팔분의 삼 박자 길이예요",
+                "selectedNodes": "$~노드 $#count[$count개]개 선택됨, $first 부터 $last 까지"
             },
             "options": {
                 "locale": {

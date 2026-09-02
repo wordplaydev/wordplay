@@ -7738,7 +7738,8 @@
                 "insertEighthNote": "$~Introdu o optime de notă, lungă de jumătate de bătaie",
                 "insertDottedEighthNote": "$~Introdu o optime de notă cu punct, lungă de trei sferturi de bătaie",
                 "insertSixteenthNote": "$~Introdu o șaisprezecime de notă, lungă de un sfert de bătaie",
-                "insertDottedSixteenthNote": "$~Introdu o șaisprezecime de notă cu punct, lungă de trei optimi de bătaie"
+                "insertDottedSixteenthNote": "$~Introdu o șaisprezecime de notă cu punct, lungă de trei optimi de bătaie",
+                "selectedNodes": "$~$#count[$#count nod selectat|$count noduri selectate|$count de noduri selectate] de la $first până la $last"
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",

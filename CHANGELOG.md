@@ -4,6 +4,13 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+### 0.34.1 - 2026-09-02
+
+### Added
+
+- 🧩 You can now choose more than one piece of code at a time. Hold shift and press an arrow to reach the next piece beside it, then delete, cut, copy, or put them all in one list or group together. (#177)
+- 🖱️ You can drag everything you've chosen at once. Press anywhere inside your choice and drag, and all of it moves together and stays chosen where it lands. (#177)
+
 ## 0.34.0 - 2026-09-01
 
 ### Added
@@ -30,6 +37,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐛 We fixed a bug where a project written in Serbian compared things the wrong way around: Wordplay had the symbol for "is not equal" written as "is equal", so programs quietly did the opposite of what they said. (#1310)
 - 🌐 We fixed bugs that could break a program rewritten in another language: a word the program checks for stays as it is everywhere it appears, symbols like ~ stay symbols, a name never turns into a word the language already uses for something else, and an input keeps working when its name matches one of those words. (#1310)
 - 🤝 We fixed a bug where remixing a project named in several languages garbled its name.
+- 🐛 The label naming the code you've chosen sat on top of that code and ate your presses, so you couldn't press or drag the very thing it named. Presses now pass through it. (#177)
 
 ## 0.33.1 - 2026-08-30
 

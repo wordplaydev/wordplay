@@ -7477,7 +7477,8 @@
                 "insertEighthNote": "$~Infoga en åttondelsnot, ett halvt taktslag lång",
                 "insertDottedEighthNote": "$~Infoga en punkterad åttondelsnot, tre fjärdedels taktslag lång",
                 "insertSixteenthNote": "$~Infoga en sextondelsnot, en fjärdedels taktslag lång",
-                "insertDottedSixteenthNote": "$~Infoga en punkterad sextondelsnot, tre åttondels taktslag lång"
+                "insertDottedSixteenthNote": "$~Infoga en punkterad sextondelsnot, tre åttondels taktslag lång",
+                "selectedNodes": "$~$#count[$count nod vald|$count noder valda], $first till $last"
             },
             "options": {
                 "locale": {

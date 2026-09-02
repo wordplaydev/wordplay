@@ -7694,7 +7694,8 @@
                 "insertEighthNote": "$~أدرج ثُمن نوتة، طولها نصف نبضة",
                 "insertDottedEighthNote": "$~أدرج ثُمن نوتة منقّطة، طولها ثلاثة أرباع نبضة",
                 "insertSixteenthNote": "$~أدرج نوتة من ستة عشر، طولها ربع نبضة",
-                "insertDottedSixteenthNote": "$~أدرج نوتة من ستة عشر منقّطة، طولها ثلاثة أثمان نبضة"
+                "insertDottedSixteenthNote": "$~أدرج نوتة من ستة عشر منقّطة، طولها ثلاثة أثمان نبضة",
+                "selectedNodes": "$~تم تحديد $#count[لا عناصر محددة|عنصر واحد ($count)|عنصران ($count)|$count عناصر|$count عنصرًا|$count عنصر]، من $first إلى $last"
             },
             "error": {
                 "invalidName": "$~يجب أن يكون هذا اسم Wordplay صالحًا.",

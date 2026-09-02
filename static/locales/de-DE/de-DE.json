@@ -7469,7 +7469,8 @@
                 "insertEighthNote": "$~Füge eine Achtelnote ein, einen halben Schlag lang",
                 "insertDottedEighthNote": "$~Füge eine punktierte Achtelnote ein, drei Viertel eines Schlags lang",
                 "insertSixteenthNote": "$~Füge eine Sechzehntelnote ein, ein Viertel eines Schlags lang",
-                "insertDottedSixteenthNote": "$~Füge eine punktierte Sechzehntelnote ein, drei Achtel eines Schlags lang"
+                "insertDottedSixteenthNote": "$~Füge eine punktierte Sechzehntelnote ein, drei Achtel eines Schlags lang",
+                "selectedNodes": "$~$#count[$count Knoten ausgewählt|$count Knoten ausgewählt], $first bis $last"
             },
             "options": {
                 "locale": {

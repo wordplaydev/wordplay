@@ -84,11 +84,11 @@
     );
 
     function handleBinPointerUp() {
-        const node = $dragged;
+        const nodes = $dragged;
         if (dragged) dragged.set(undefined);
         dragOverBin = false;
-        if (node && canRecycleDraggedNode(project, node))
-            recycleDraggedNode(project, node);
+        if (nodes && canRecycleDraggedNode(project, nodes))
+            recycleDraggedNode(project, nodes);
     }
 
     /**

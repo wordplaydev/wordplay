@@ -7482,7 +7482,8 @@
                 "insertEighthNote": "$~એક આઠમાંશ નોંધ દાખલ કરો, અડધો બીટ લાંબી",
                 "insertDottedEighthNote": "$~એક ટપકાવાળી આઠમાંશ નોંધ દાખલ કરો, પોણો બીટ લાંબી",
                 "insertSixteenthNote": "$~એક સોળમાંશ નોંધ દાખલ કરો, ચતુર્થાંશ બીટ લાંબી",
-                "insertDottedSixteenthNote": "$~એક ટપકાવાળી સોળમાંશ નોંધ દાખલ કરો, ત્રણ આઠમાંશ બીટ લાંબી"
+                "insertDottedSixteenthNote": "$~એક ટપકાવાળી સોળમાંશ નોંધ દાખલ કરો, ત્રણ આઠમાંશ બીટ લાંબી",
+                "selectedNodes": "$~$#count[$count નોડ પસંદ કરેલ|$count નોડ પસંદ કરેલ] છે, $first થી $last સુધી"
             },
             "options": {
                 "locale": {

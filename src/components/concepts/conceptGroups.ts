@@ -6,6 +6,11 @@ import NodeConcept from '@concepts/NodeConcept';
 import { Purpose, type PurposeType } from '@concepts/Purpose';
 import StructureConcept from '@concepts/StructureConcept';
 import { Projects } from '@db/projects/Projects';
+import {
+    getSiblingRange,
+    rangeIsRemovable,
+    withoutRun,
+} from '@edit/caret/siblingRange';
 import type Project from '@db/projects/Project';
 import type LanguageCode from '@locale/LanguageCode';
 import {
@@ -267,11 +272,28 @@ export function getPurposeIcons(language: LanguageCode): string[] {
  */
 function getRecycledSource(
     project: Project,
-    node: Node,
+    nodes: Node[],
 ): [Source, Source] | undefined {
+    const node = nodes[0];
+    if (node === undefined) return undefined;
+
     // See if we can remove the node from its root.
     const source = project.getRoot(node)?.root;
     if (source === undefined || !(source instanceof Source)) return undefined;
+
+    // Several nodes? They're a contiguous run of siblings in one list, so they
+    // come out together — with the run's own space handling, since removing them
+    // one at a time would leave a blank line behind each.
+    if (nodes.length > 1) {
+        const range = getSiblingRange(
+            source.root,
+            node,
+            nodes[nodes.length - 1],
+        );
+        if (range === undefined || !rangeIsRemovable(range)) return undefined;
+        const removal = withoutRun(source, range);
+        return removal === undefined ? undefined : [source, removal.source];
+    }
 
     // Figure out what to replace the dragged node with. By default, we remove it.
     const type =
@@ -298,8 +320,11 @@ function getRecycledSource(
  * introduce a new blocking (Error) conflict / unparsable code. A required node
  * that blanks to an {@link ExpressionPlaceholder} (a Minor conflict) is fine.
  */
-export function canRecycleDraggedNode(project: Project, node: Node): boolean {
-    const result = getRecycledSource(project, node);
+export function canRecycleDraggedNode(
+    project: Project,
+    nodes: Node[],
+): boolean {
+    const result = getRecycledSource(project, nodes);
     if (result === undefined) return false;
     const [source, newSource] = result;
     // A recycle that doesn't change the source removes nothing — e.g. the root block, which
@@ -314,8 +339,8 @@ export function canRecycleDraggedNode(project: Project, node: Node): boolean {
  * recycle bin. Replaces a standalone expression with an
  * {@link ExpressionPlaceholder}; removes list items outright.
  */
-export function recycleDraggedNode(project: Project, node: Node): void {
-    const result = getRecycledSource(project, node);
+export function recycleDraggedNode(project: Project, nodes: Node[]): void {
+    const result = getRecycledSource(project, nodes);
     if (result === undefined) return;
     const [source, newSource] = result;
 
@@ -323,6 +348,6 @@ export function recycleDraggedNode(project: Project, node: Node): void {
     Projects.reviseProject(
         project
             .withSource(source, newSource)
-            .withCaret(newSource, source.getNodeFirstPosition(node) ?? 0),
+            .withCaret(newSource, source.getNodeFirstPosition(nodes[0]) ?? 0),
     );
 }

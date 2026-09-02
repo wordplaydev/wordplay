@@ -232,6 +232,13 @@ export function getEditsAt(
             locales,
         );
     }
+    // Several nodes selected? Offer nothing, as a selected text range already
+    // does: an edit that replaces a whole run has no expression of its own here,
+    // and the run's own operations (delete, cut, wrap) are commands, not menu items.
+    else if (caret.isRangeOfNodes()) {
+        note(`Caret is a run of nodes; no menu.`, 0);
+        return [];
+    }
     // If we have a node selected, find possible replacements or removals.
     else if (caret.position instanceof Node) {
         note(

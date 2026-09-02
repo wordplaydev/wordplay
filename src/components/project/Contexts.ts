@@ -442,9 +442,11 @@ export const [getDragTarget, setDragTarget] = createOptionalContext<
     Writable<InsertionPoint | AssignmentPoint | undefined> | undefined
 >();
 
-/** The current node being dragged */
+/** What's currently being dragged: one node, or a contiguous run of siblings when
+ *  a multiple selection is picked up. Always an array, never a bare node, so no
+ *  consumer has to tell the two apart. */
 export const [getDragged, setDragged] =
-    createOptionalContext<Writable<Node | undefined>>();
+    createOptionalContext<Writable<Node[] | undefined>>();
 
 /** Node highlights to render in an editor */
 export const [getHighlights, setHighlights] =

@@ -72,7 +72,7 @@
             event.target.releasePointerCapture(event.pointerId);
 
         // Set the dragged node to a deep clone of the (it may contain nodes from declarations that we don't want leaking into the program);
-        if (dragged) dragged.set(node.clone());
+        if (dragged) dragged.set([node.clone()]);
     }
 
     // Briefly shows a confirmation after copying, so the code views give feedback that they were copied.

@@ -444,12 +444,18 @@ test('resolving a color needs no basis', () => {
  * for prose while staying far below what a real leak costs. The file counts are
  * unchanged and stay exact, since those *do* move one at a time and are the
  * sharper signal.
+ *
+ * Multiple node selection (#177) adds a field and a few methods to `Caret` and a
+ * selection anchor to the carets setting — no new dependency, and no new file,
+ * since the anchor setting lives beside the caret one rather than in a module of
+ * its own. It spent the last kilobytes of `galleries`' cap, which moves up a
+ * round number; the other four still fit.
  */
 test.each([
     ['src/routes/+layout.svelte', 502, 3.67],
     ['src/components/app/Page.svelte', 525, 3.92],
     ['src/routes/[[locale]]/+page.svelte', 540, 4.0],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 544, 4.01],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 544, 4.02],
     ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.04],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);

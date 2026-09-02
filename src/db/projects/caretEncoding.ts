@@ -47,7 +47,11 @@ import { base64ToBytes, bytesToBase64 } from './ProjectCRDT';
 export type RemoteCaret =
     | { kind: 'point'; pos: string }
     | { kind: 'range'; anchor: string; head: string }
-    | { kind: 'node'; path: Path }
+    /** `anchor` is the other end of a multiple node selection, when the peer has
+     *  one. An optional field on the existing variant rather than a new `kind`:
+     *  a peer on an older build ignores what it doesn't know and still draws the
+     *  caret's node, where an unknown kind would hide their caret entirely. */
+    | { kind: 'node'; path: Path; anchor?: Path }
     | null;
 
 /**
@@ -69,12 +73,19 @@ export function encodeRemoteCaret(
     yText: Y.Text,
     source: Source,
     position: number | Node | [number, number] | null,
+    /** The other end of a multiple node selection, when the caret has one. */
+    anchor?: Node,
 ): RemoteCaret {
     if (position === null) return null;
 
     if (position instanceof Node) {
         const path = source.root.getPath(position);
-        return path === undefined ? null : { kind: 'node', path };
+        if (path === undefined) return null;
+        const anchorPath =
+            anchor !== undefined ? source.root.getPath(anchor) : undefined;
+        return anchorPath === undefined
+            ? { kind: 'node', path }
+            : { kind: 'node', path, anchor: anchorPath };
     }
 
     if (typeof position === 'number') {
@@ -151,6 +162,21 @@ export function decodeRemoteCaret(
     } catch {
         return null;
     }
+}
+
+/**
+ * The other end of a peer's node selection, resolved against the local source
+ * the same forgiving way their caret is. Null when they have no selection, or
+ * when the payload predates selections — which is why this is separate from
+ * {@link decodeRemoteCaret} rather than widening what it returns.
+ */
+export function decodeRemoteCaretAnchor(
+    payload: RemoteCaret,
+    source: Source,
+): Path | null {
+    return payload !== null && payload.kind === 'node' && payload.anchor
+        ? findNearestExistingPath(payload.anchor, source)
+        : null;
 }
 
 /**

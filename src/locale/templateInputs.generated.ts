@@ -795,6 +795,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.project.link.backTo': ['place'],
     'ui.project.options.layout.auto': ['layout'],
     'ui.source.cursor.selected': ['#count', 'text'],
+    'ui.source.cursor.selectedNodes': ['#count', 'first', 'last'],
     'ui.source.cursor.tab': ['control', 'alt'],
     'ui.source.empty': ['symbol'],
     'ui.source.fold.collapse': ['name'],

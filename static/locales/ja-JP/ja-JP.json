@@ -7489,7 +7489,8 @@
                 "insertEighthNote": "$~8分音符を入れます。半拍の長さです",
                 "insertDottedEighthNote": "$~付点8分音符を入れます。4分の3拍の長さです",
                 "insertSixteenthNote": "$~16分音符を入れます。4分の1拍の長さです",
-                "insertDottedSixteenthNote": "$~付点16分音符を入れます。8分の3拍の長さです"
+                "insertDottedSixteenthNote": "$~付点16分音符を入れます。8分の3拍の長さです",
+                "selectedNodes": "$~$#count[$count個のノードを選択中、$firstから$lastまで]"
             },
             "options": {
                 "locale": {

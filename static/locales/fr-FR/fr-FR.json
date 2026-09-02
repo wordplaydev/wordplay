@@ -7477,7 +7477,8 @@
                 "insertEighthNote": "$~Insérer une croche, longue d'un demi-temps",
                 "insertDottedEighthNote": "$~Insérer une croche pointée, longue de trois quarts de temps",
                 "insertSixteenthNote": "$~Insérer une double croche, longue d'un quart de temps",
-                "insertDottedSixteenthNote": "$~Insérer une double croche pointée, longue de trois huitièmes de temps"
+                "insertDottedSixteenthNote": "$~Insérer une double croche pointée, longue de trois huitièmes de temps",
+                "selectedNodes": "$~$#count[$#count nœud sélectionné|$count nœuds sélectionnés|$count nœuds sélectionnés], de $first à $last"
             },
             "options": {
                 "locale": {

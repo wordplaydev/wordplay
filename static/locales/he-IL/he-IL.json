@@ -7719,7 +7719,8 @@
                 "insertEighthNote": "$~הוסף שמינית, באורך חצי פעימה",
                 "insertDottedEighthNote": "$~הוסף שמינית עם נקודה, באורך שלושה רבעי פעימה",
                 "insertSixteenthNote": "$~הוסף שש־עשרה, באורך רבע פעימה",
-                "insertDottedSixteenthNote": "$~הוסף שש־עשרה עם נקודה, באורך שלוש שמיניות של פעימה"
+                "insertDottedSixteenthNote": "$~הוסף שש־עשרה עם נקודה, באורך שלוש שמיניות של פעימה",
+                "selectedNodes": "$~$#count[נבחר צומת אחד ($#count)|נבחרו שני צמתים ($count)|נבחרו $count צמתים] מ־$first עד $last"
             },
             "error": {
                 "invalidName": "$~זה חייב להיות שם חוקי של משחק מילים.",

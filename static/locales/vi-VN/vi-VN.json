@@ -7732,7 +7732,8 @@
                 "insertEighthNote": "$~Chèn một nốt móc đơn, dài nửa phách",
                 "insertDottedEighthNote": "$~Chèn một nốt móc đơn có chấm, dài ba phần tư phách",
                 "insertSixteenthNote": "$~Chèn một nốt móc kép, dài một phần tư phách",
-                "insertDottedSixteenthNote": "$~Chèn một nốt móc kép có chấm, dài ba phần tám phách"
+                "insertDottedSixteenthNote": "$~Chèn một nốt móc kép có chấm, dài ba phần tám phách",
+                "selectedNodes": "$~Đã chọn $#count[$count nút] nút, từ $first đến $last"
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",

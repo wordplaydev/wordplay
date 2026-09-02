@@ -7739,7 +7739,8 @@
                 "insertEighthNote": "$~Sisipkan not seperdelapan, sepanjang setengah ketukan",
                 "insertDottedEighthNote": "$~Sisipkan not seperdelapan bertitik, sepanjang tiga perempat ketukan",
                 "insertSixteenthNote": "$~Sisipkan not seperenam belas, sepanjang seperempat ketukan",
-                "insertDottedSixteenthNote": "$~Sisipkan not seperenam belas bertitik, sepanjang tiga perdelapan ketukan"
+                "insertDottedSixteenthNote": "$~Sisipkan not seperenam belas bertitik, sepanjang tiga perdelapan ketukan",
+                "selectedNodes": "$~$#count[$count node dipilih]|, $first sampai $last"
             },
             "error": {
                 "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",

@@ -82,14 +82,16 @@ export function getNodeAt(
 export function getBlockInsertionPoint(
     context: Context,
     event: PointerEvent,
-    candidate: Node,
+    candidate: Node[],
 ): InsertionPoint | AssignmentPoint | undefined {
     // Find the node under the pointer. If there isn't one, bail.
     const nodeUnderPointer = getNodeAt(context.source, event, false);
     if (nodeUnderPointer === undefined) return undefined;
 
     // Don't allow parents to be inserted into their children.
-    if (candidate.contains(nodeUnderPointer)) return undefined;
+    // Nothing being dragged can receive its own drop.
+    if (candidate.some((node) => node.contains(nodeUnderPointer)))
+        return undefined;
 
     // Does the node under the pointer have an empty or node-list inside it?
     const el = document.elementFromPoint(event.clientX, event.clientY);
@@ -122,7 +124,7 @@ export function getBlockInsertionPoint(
 function getEmptyInsertionPoint(
     nodeUnderPointer: Node,
     fieldName: string,
-    candidate: Node,
+    candidate: Node[],
     context: Context,
 ): InsertionPoint | AssignmentPoint | undefined {
     const fieldValue = nodeUnderPointer.getField(fieldName);
@@ -174,7 +176,7 @@ function getListInsertionPoint(
     list: HTMLElement,
     nodeUnderPointer: Node,
     event: PointerEvent,
-    candidate: Node,
+    candidate: Node[],
 ): InsertionPoint | undefined {
     // Get the relevant metadata.
     const fieldName = list.dataset.field;

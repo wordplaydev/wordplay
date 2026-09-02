@@ -7470,7 +7470,8 @@
                 "insertEighthNote": "$~insertar una corchea, de medio tiempo",
                 "insertDottedEighthNote": "$~insertar una corchea con puntillo, de tres cuartos de tiempo",
                 "insertSixteenthNote": "$~insertar una semicorchea, de un cuarto de tiempo",
-                "insertDottedSixteenthNote": "$~insertar una semicorchea con puntillo, de tres octavos de tiempo"
+                "insertDottedSixteenthNote": "$~insertar una semicorchea con puntillo, de tres octavos de tiempo",
+                "selectedNodes": "$~$#count[$#count nodo seleccionado|$count nodos seleccionados|$count nodos seleccionados], de $first a $last"
             },
             "options": {
                 "locale": {

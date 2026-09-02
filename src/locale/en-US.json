@@ -7791,6 +7791,7 @@
                     "tab": "tab"
                 },
                 "selected": "selected $#count[$count character|$count characters]: $text",
+                "selectedNodes": "$#count[$count node|$count nodes] selected, $first through $last",
                 "unknownPosition": "in the code"
             },
             "error": {

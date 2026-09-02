@@ -478,3 +478,64 @@ describe('Project.serialize — Firestore-compatible output', () => {
         expect(() => ProjectSchema.parse(serialized)).not.toThrow();
     });
 });
+
+describe('multiple node selections', () => {
+    /** A project whose one source has three statements to select among. */
+    function makeSelectable() {
+        return Project.make(
+            'project-1',
+            'original',
+            new Source('main', '1\n2\n3'),
+            [],
+            DefaultLocale,
+        );
+    }
+
+    test('a selection round-trips through the project document', () => {
+        const project = makeSelectable();
+        const source = project.getMain();
+        const statements = source.expression.expression.statements;
+
+        const revised = project.withCaret(source, statements[2], statements[0]);
+        const parsed = ProjectSchema.parse(revised.serialize());
+        expect(parsed.sources[0].anchor).toBeDefined();
+
+        // And it resolves back to the node it named.
+        expect(revised.getCaretAnchor(source)).toBe(statements[0]);
+    });
+
+    test('a caret without a selection writes no anchor at all', () => {
+        // A project with no selection has to serialize exactly as it did before
+        // selections existed, or every project would gain a key on first save.
+        const project = makeSelectable();
+        const source = project.getMain();
+        const serialized = project
+            .withCaret(source, source.expression.expression.statements[0])
+            .serialize();
+        expect('anchor' in serialized.sources[0]).toBe(false);
+    });
+
+    test('a document carrying an anchor still parses where anchors are unknown', () => {
+        // The anchor is a companion key rather than a fourth arm of the caret
+        // schema, so a build that predates selections parses the project and
+        // simply ignores it. Model that with a schema that never declared it.
+        const project = makeSelectable();
+        const source = project.getMain();
+        const serialized = project
+            .withCaret(
+                source,
+                source.expression.expression.statements[2],
+                source.expression.expression.statements[0],
+            )
+            .serialize();
+
+        const WithoutAnchor = z.object({
+            names: z.string(),
+            code: z.string(),
+            caret: z.unknown(),
+        });
+        expect(WithoutAnchor.safeParse(serialized.sources[0]).success).toBe(
+            true,
+        );
+    });
+});

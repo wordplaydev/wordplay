@@ -32,6 +32,11 @@ const SourceSchema = z.object({
     names: z.string(),
     code: z.string(),
     caret: CaretSchema,
+    /** The other end of a multiple node selection, when the caret has one. A
+     *  companion to `caret` rather than a fourth arm of CaretSchema on purpose:
+     *  z.object strips keys it doesn't know, so a client that predates selections
+     *  still parses the project and simply shows the caret's own node. */
+    anchor: PathSchema.optional(),
 });
 
 /** Schema for a history entry */

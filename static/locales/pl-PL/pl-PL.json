@@ -7498,7 +7498,8 @@
                 "insertEighthNote": "$~Wstaw ósemkę, długą na pół uderzenia",
                 "insertDottedEighthNote": "$~Wstaw ósemkę z kropką, długą na trzy czwarte uderzenia",
                 "insertSixteenthNote": "$~Wstaw szesnastkę, długą na jedną czwartą uderzenia",
-                "insertDottedSixteenthNote": "$~Wstaw szesnastkę z kropką, długą na trzy ósme uderzenia"
+                "insertDottedSixteenthNote": "$~Wstaw szesnastkę z kropką, długą na trzy ósme uderzenia",
+                "selectedNodes": "$~$#count[$count węzeł zaznaczony|$count węzły zaznaczone|$count węzłów zaznaczonych|$count węzła zaznaczone], od $first do $last"
             },
             "options": {
                 "locale": {

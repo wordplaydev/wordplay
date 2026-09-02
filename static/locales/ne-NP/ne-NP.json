@@ -7750,7 +7750,8 @@
                 "insertEighthNote": "$~एउटा आठौं स्वर हाल्नुहोस्, आधा बीट लामो",
                 "insertDottedEighthNote": "$~एउटा थोप्ला भएको आठौं स्वर हाल्नुहोस्, तीन चौथाइ बीट लामो",
                 "insertSixteenthNote": "$~एउटा सोह्रौं स्वर हाल्नुहोस्, एक चौथाइ बीट लामो",
-                "insertDottedSixteenthNote": "$~एउटा थोप्ला भएको सोह्रौं स्वर हाल्नुहोस्, तीन बटौंश बीट लामो"
+                "insertDottedSixteenthNote": "$~एउटा थोप्ला भएको सोह्रौं स्वर हाल्नुहोस्, तीन बटौंश बीट लामो",
+                "selectedNodes": "$~$#count[$count नोड|$count नोडहरू] छानियो, $first देखि $last सम्म"
             },
             "error": {
                 "invalidName": "$~यो मान्य Wordplay नाम हुनुपर्छ।",

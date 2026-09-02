@@ -7731,7 +7731,8 @@
                 "insertEighthNote": "$~Inserir uma colcheia, com meio tempo de duração",
                 "insertDottedEighthNote": "$~Inserir uma colcheia pontuada, com três quartos de tempo de duração",
                 "insertSixteenthNote": "$~Inserir uma semicolcheia, com um quarto de tempo de duração",
-                "insertDottedSixteenthNote": "$~Inserir uma semicolcheia pontuada, com três oitavos de tempo de duração"
+                "insertDottedSixteenthNote": "$~Inserir uma semicolcheia pontuada, com três oitavos de tempo de duração",
+                "selectedNodes": "$~$#count[$#count nó selecionado|$count nós selecionados|$count nós selecionados] selecionados, de $first a $last"
             },
             "error": {
                 "invalidName": "Este deve ser um nome válido para um jogo de palavras.",

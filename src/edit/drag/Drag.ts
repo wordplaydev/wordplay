@@ -11,6 +11,7 @@ import Token from '@nodes/Token';
 import Type from '@nodes/Type';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import type Spaces from '@parser/Spaces';
 
 /**
  * Represents a node, list on the node, and index in the list at which to insert a node.
@@ -76,25 +77,26 @@ export class AssignmentPoint {
 export function dropNodeOnSource(
     project: Project,
     source: Source,
-    dragged: Node,
+    dragged: Node[],
     target: Node | InsertionPoint | AssignmentPoint,
-): [Project, Source, Node] {
-    const root = project.getRoot(dragged);
+): [Project, Source, Node[]] {
+    const first = dragged[0];
+    const root = project.getRoot(first);
     const draggedRoot = root?.root;
 
     let editedProgram = source.expression;
     let editedSpace = source.spaces;
 
-    // Clone the dragged node in case it came with nodes that we shouldn't mess with.
-    const draggedNode = dragged;
-    const draggedClone: Node = draggedNode.clone();
+    // Clone what's being dragged, in case it came with nodes we shouldn't mess with.
+    const draggedClones: Node[] = dragged.map((node) => node.clone());
 
-    // First, decide whether to remove the node or replace it with a placeholder.
-    // We do this based on the node's field: if it is in a list or can be undefined, then we remove,
+    // First, decide whether to remove the nodes or replace them with a placeholder.
+    // We do this based on the field: if it is in a list or can be undefined, then we remove,
     // otherwise we replace with a placeholder. This ensures that we don't introduce a syntax error.
 
-    // Get the field of the node.
-    const field = root?.getParent(dragged)?.getFieldOfChild(dragged);
+    // Get the field of the first node. A run is always siblings in one list field,
+    // so one field describes all of them.
+    const field = root?.getParent(first)?.getFieldOfChild(first);
 
     // Get the root of the dragged program.
     const draggedInSource = draggedRoot instanceof Source;
@@ -107,10 +109,9 @@ export function dropNodeOnSource(
               field.kind.isOptional() || field.kind instanceof ListOf
               ? undefined
               : // Is the node an expression and the field allows expressions? Replace with an expression placeholder of the type of the current expression.
-                dragged instanceof Expression &&
-                  field.kind.allowsKind(Expression)
+                first instanceof Expression && field.kind.allowsKind(Expression)
                 ? ExpressionPlaceholder.make(
-                      dragged.getType(project.getContext(source)),
+                      first.getType(project.getContext(source)),
                   )
                 : // Is the field a type? Replace with a type placeholder.
                   field.kind.allowsKind(Type)
@@ -123,35 +124,63 @@ export function dropNodeOnSource(
     const sourceReplacements: [Source, Source][] = [];
 
     // This should be the node to pretty print after dropping, to ensure semantic spacing is intact.
-    let nodeToFormat: Node = draggedClone;
+    let nodeToFormat: Node = draggedClones[0];
 
-    // Case 1: We're replacing the hovered node with the dragged node.
+    /** Splice the clones into a list in place of `count` items at `index`. */
+    function spliceInto(list: Node[], index: number, count: number) {
+        editedProgram = editedProgram.replace(list, [
+            ...list.slice(0, index),
+            ...draggedClones,
+            ...list.slice(index + count),
+        ]);
+        nodeToFormat =
+            editedProgram
+                .nodes()
+                .find((node) => node.containsChild(draggedClones[0])) ??
+            draggedClones[0];
+    }
+
+    // Case 1: We're replacing the hovered node with what's being dragged.
     if (target instanceof Node) {
-        // Replace the hovered node in this source with the dragged node.
-        editedProgram = editedProgram.replace(target, draggedClone);
+        if (draggedClones.length === 1) {
+            // Replace the hovered node in this source with the dragged node.
+            editedProgram = editedProgram.replace(target, draggedClones[0]);
 
-        // Give the space of the hovered node to the dragged clone.
-        editedSpace = editedSpace.withReplacement(target, draggedClone);
+            // Give the space of the hovered node to the dragged clone.
+            editedSpace = editedSpace.withReplacement(target, draggedClones[0]);
 
-        // Format what was dragged
-        nodeToFormat = draggedClone;
+            // Format what was dragged
+            nodeToFormat = draggedClones[0];
+        } else {
+            // A run replaces one item of a list with several. Anywhere else has
+            // one slot, which isValidDropTarget has already ruled out.
+            const targetParent = project.getRoot(target)?.getParent(target);
+            const targetField =
+                targetParent === undefined
+                    ? undefined
+                    : project.getRoot(target)?.getContainingParentList(target);
+            const targetList =
+                targetParent !== undefined && targetField !== undefined
+                    ? targetParent.getField(targetField)
+                    : undefined;
+            if (targetParent === undefined || !Array.isArray(targetList))
+                return [project, source, dragged];
+            const index = targetList.indexOf(target);
+            if (index < 0) return [project, source, dragged];
+
+            // No space is handed to the clones here. The replaced node's space
+            // belonged to its position, and once the origin removal runs the run
+            // may sit at a different one — at the head of the list, where that
+            // space would read as a stray gap. The destination's preferred
+            // spacing below is computed from where the run actually ends up.
+            spliceInto(targetList, index, 1);
+        }
     }
     // Case 2: We're inserting into a list
     else if (target instanceof InsertionPoint) {
         const insertion = target;
         // Replace the old list with a new one that has the insertion.
-        editedProgram = editedProgram.replace(insertion.list, [
-            ...insertion.list.slice(0, insertion.index),
-            draggedClone,
-            ...insertion.list.slice(insertion.index),
-        ]);
-
-        // Format the node containing the list
-        nodeToFormat =
-            editedProgram
-                .nodes()
-                .find((node) => node.containsChild(draggedClone)) ??
-            draggedClone;
+        spliceInto(insertion.list, insertion.index, 0);
 
         // Find the node at the index. It's either the node in the list at the index or or the token after the list,
         // which might be empty. To find this, we ask the node the list is in
@@ -180,8 +209,12 @@ export function dropNodeOnSource(
         const beforeSpace = space.substring(0, index);
         const afterSpace = space.substring(index);
 
-        // Give the space prior to the index to the dragged node.
-        editedSpace = editedSpace.withSpace(draggedClone, beforeSpace);
+        // Give the space prior to the index to the first dragged node. The rest
+        // of a run gets the destination's preferred spacing below: a run moved
+        // from statements into an inline list should read like that list, and
+        // carrying its own line breaks in would be permanent, since formatting
+        // only ever adds them.
+        editedSpace = editedSpace.withSpace(draggedClones[0], beforeSpace);
         if (nodeAtIndex) {
             // Make sure the preferred space is there, to avoid parsing issues.
             editedSpace = editedSpace.withSpace(nodeAtIndex, afterSpace);
@@ -189,8 +222,13 @@ export function dropNodeOnSource(
     }
     // Case 3: We're assigning to an unassigned field.
     else if (target instanceof AssignmentPoint) {
+        // A field takes one node; a run has nothing to assign.
+        if (draggedClones.length > 1) return [project, source, dragged];
         // Set the field to the dragged clone.
-        const revisedParent = target.parent.replace(target.field, draggedClone);
+        const revisedParent = target.parent.replace(
+            target.field,
+            draggedClones[0],
+        );
         // Update the edited program (or if the revised parent is a program, use that).
         editedProgram =
             editedProgram instanceof Program && revisedParent instanceof Program
@@ -201,38 +239,97 @@ export function dropNodeOnSource(
         nodeToFormat = revisedParent;
     }
 
-    // If the dragged node came from a Source we have a replacement (undefined or a Node)
+    // If what was dragged came from a Source we have a replacement (undefined or a Node)
     // update the the source. We handle it differently based on whether it was this editors source or another editor's source.
     if (replacement !== null && draggedInSource) {
+        /** Take a run out of a tree by identity, one node at a time. Identity
+         * rather than the list, because the insertion above may already have
+         * rebuilt that list — which is what a move within one list does. No
+         * space transfer: Spaces.withReplacement concatenates the gap before a
+         * removal onto the gap after it, so doing it per node would leave one
+         * blank line per node removed. The follower keeps its own space, and
+         * inherits the run's leading one so a run taken from the head of a list
+         * doesn't leave the list opening with a gap. */
+        const removeRun = (
+            tree: Program,
+            spaces: Spaces,
+        ): [Program, Spaces] => {
+            let program = tree;
+            for (const node of dragged)
+                program = program.replace(node, undefined);
+            const parent = draggedRoot.root.getParent(first);
+            const containing = draggedRoot.root.getContainingParentList(first);
+            const list =
+                parent !== undefined && containing !== undefined
+                    ? parent.getField(containing)
+                    : undefined;
+            const following = Array.isArray(list)
+                ? list[list.indexOf(dragged[dragged.length - 1]) + 1]
+                : undefined;
+            return [
+                program,
+                following === undefined
+                    ? spaces
+                    : spaces.withSpace(following, spaces.getSpace(first)),
+            ];
+        };
+
         // If it's this source, do the replacement on it.
         if (draggedRoot === source) {
-            editedProgram = editedProgram.replace(draggedNode, replacement);
-            editedSpace = editedSpace.withReplacement(draggedNode, replacement);
+            if (dragged.length > 1) {
+                [editedProgram, editedSpace] = removeRun(
+                    editedProgram,
+                    editedSpace,
+                );
+            } else {
+                editedProgram = editedProgram.replace(first, replacement);
+                editedSpace = editedSpace.withReplacement(first, replacement);
+            }
         }
         // Some other source...
         else {
             // If we found one, update the project with a new source with a new program that replaces the dragged node with the placeholder
             // and preserves the space preceding the dragged node.
-            sourceReplacements.push([
-                draggedRoot,
-                draggedRoot
-                    .replace(draggedNode, replacement)
-                    .withSpaces(
-                        draggedRoot.spaces.withReplacement(
-                            draggedNode,
-                            replacement,
+            if (dragged.length > 1) {
+                const [program, spaces] = removeRun(
+                    draggedRoot.expression,
+                    draggedRoot.spaces,
+                );
+                sourceReplacements.push([
+                    draggedRoot,
+                    draggedRoot.withProgram(program, spaces),
+                ]);
+            } else
+                sourceReplacements.push([
+                    draggedRoot,
+                    draggedRoot
+                        .replace(first, replacement)
+                        .withSpaces(
+                            draggedRoot.spaces.withReplacement(
+                                first,
+                                replacement,
+                            ),
                         ),
-                    ),
-            ]);
+                ]);
         }
     }
+
+    // Removing the run rebuilt this source's tree, so the node captured for
+    // formatting is from before the run left — formatting against it spaces the
+    // list as it was, and hands a stray gap to whatever the run stood in front of.
+    if (draggedInSource && draggedRoot === source && dragged.length > 1)
+        nodeToFormat =
+            editedProgram
+                .nodes()
+                .find((node) => node.containsChild(draggedClones[0])) ??
+            nodeToFormat;
 
     // For palette drops (the dragged node came from the Wellspring/Guide rather than from a source),
     // replace any placeholders inside the dropped subtree with reasonable typed defaults, so the
     // dropped concept evaluates immediately instead of throwing a placeholder exception. We scope
     // strictly to the dropped subtree (draggedClone's descendants), leaving placeholders elsewhere in
     // the program untouched, and leave placeholders whose type has no default for the creator to fill.
-    let droppedNode: Node = draggedClone;
+    let droppedNodes: Node[] = [...draggedClones];
     if (!draggedInSource) {
         // Build a provisional source and project so each placeholder's computeType() has a context to
         // walk up to its parent Evaluate/Bind and resolve its expected input type.
@@ -247,49 +344,50 @@ export function dropNodeOnSource(
         const context = provisionalProject.getContext(provisionalSource);
         const locales = project.getLocales();
 
-        // Pair each placeholder in the dropped subtree with its first default, skipping any with none.
-        const pairs = draggedClone
-            .nodes(
-                (n): n is ExpressionPlaceholder =>
-                    n instanceof ExpressionPlaceholder,
-            )
-            .map((placeholder) => {
-                const def = ExpressionPlaceholder.getDefaultExpressions(
-                    placeholder,
-                    context,
-                    locales,
-                )[0];
-                return def ? ([placeholder, def] as const) : undefined;
-            })
-            .filter(
-                (pair): pair is readonly [ExpressionPlaceholder, Expression] =>
-                    pair !== undefined,
-            );
+        for (const [position, clone] of draggedClones.entries()) {
+            // Pair each placeholder in the dropped subtree with its first default, skipping any with none.
+            const pairs = clone
+                .nodes(
+                    (n): n is ExpressionPlaceholder =>
+                        n instanceof ExpressionPlaceholder,
+                )
+                .map((placeholder) => {
+                    const def = ExpressionPlaceholder.getDefaultExpressions(
+                        placeholder,
+                        context,
+                        locales,
+                    )[0];
+                    return def ? ([placeholder, def] as const) : undefined;
+                })
+                .filter(
+                    (
+                        pair,
+                    ): pair is readonly [ExpressionPlaceholder, Expression] =>
+                        pair !== undefined,
+                );
 
-        if (pairs.length > 0) {
+            if (pairs.length === 0) continue;
+
             // Build the resolved subtree. Successive replace() is valid: each untouched sibling
             // placeholder keeps its identity (clone only rebuilds the path to the replaced node)
             // until it is itself replaced.
-            let resolvedClone: Node = draggedClone;
+            let resolvedClone: Node = clone;
             for (const [placeholder, def] of pairs)
                 resolvedClone = resolvedClone.replace(placeholder, def);
 
-            // Swap the live draggedClone for the resolved subtree in the program and its spacing.
-            editedProgram = editedProgram.replace(draggedClone, resolvedClone);
-            editedSpace = editedSpace.withReplacement(
-                draggedClone,
-                resolvedClone,
-            );
+            // Swap the live clone for the resolved subtree in the program and its spacing.
+            editedProgram = editedProgram.replace(clone, resolvedClone);
+            editedSpace = editedSpace.withReplacement(clone, resolvedClone);
 
             // Re-point the node to format and the returned node to the live resolved subtree.
             nodeToFormat =
-                nodeToFormat === draggedClone
+                nodeToFormat === clone
                     ? resolvedClone
                     : (editedProgram
                           .nodes()
                           .find((n) => n.containsChild(resolvedClone)) ??
                       resolvedClone);
-            droppedNode = resolvedClone;
+            droppedNodes[position] = resolvedClone;
         }
     }
 
@@ -302,7 +400,7 @@ export function dropNodeOnSource(
     // Finally, add this editor's updated source to the list of sources to replace in the project.
     sourceReplacements.push([source, newSource]);
 
-    return [project.withSources(sourceReplacements), newSource, droppedNode];
+    return [project.withSources(sourceReplacements), newSource, droppedNodes];
 }
 
 export function getInsertionPoint(
@@ -354,8 +452,18 @@ export function getInsertionPoint(
  * as an item when the field is a list. This is the single structural check shared by every drop path
  * (node replacement, list insertion, and field assignment) so they can't drift apart.
  */
-export function kindAcceptsDrop(kind: FieldKind, node: Node): boolean {
-    return kind instanceof ListOf ? kind.allowsItem(node) : kind.allows(node);
+export function kindAcceptsDrop(kind: FieldKind, nodes: Node[]): boolean {
+    if (nodes.length === 0) return false;
+    // A run of nodes can only land where a list can hold it: a single-valued
+    // field has one slot, and nothing sensible to do with several nodes.
+    if (nodes.length > 1)
+        return (
+            kind instanceof ListOf &&
+            nodes.every((node) => kind.allowsItem(node))
+        );
+    return kind instanceof ListOf
+        ? kind.allowsItem(nodes[0])
+        : kind.allows(nodes[0]);
 }
 
 /**
@@ -366,11 +474,11 @@ export function kindAcceptsDrop(kind: FieldKind, node: Node): boolean {
  */
 export function isValidDropTarget(
     project: Project,
-    dragged: Node,
+    dragged: Node[],
     target: Node,
 ): boolean {
-    // Is the target inside the dragged node? If so, we can't drop it there.
-    if (dragged.contains(target)) return false;
+    // Is the target inside anything being dragged? If so, we can't drop it there.
+    if (dragged.some((node) => node.contains(target))) return false;
 
     // What field is the target currently set on?
     const field = project
@@ -415,7 +523,7 @@ export function targetAnchorNode(
 export function getDropConflicts(
     project: Project,
     source: Source,
-    dragged: Node,
+    dragged: Node[],
     target: Node | InsertionPoint | AssignmentPoint,
 ): { conflicts: Conflict[]; project: Project } {
     // Stale target guard: a mid-drag project revision (e.g. a temporal stream tick) replaces the tree
@@ -451,7 +559,7 @@ export function getDropConflicts(
 export function getBlockingDropConflicts(
     project: Project,
     source: Source,
-    dragged: Node,
+    dragged: Node[],
     target: Node | InsertionPoint | AssignmentPoint,
 ): Conflict[] {
     return getDropConflicts(project, source, dragged, target).conflicts.filter(
@@ -490,7 +598,7 @@ function dropRoundTrips(before: Project, after: Project): boolean {
 export function isDropPermitted(
     project: Project,
     source: Source,
-    dragged: Node,
+    dragged: Node[],
     target: Node | InsertionPoint | AssignmentPoint,
 ): boolean {
     if (target instanceof Node && !isValidDropTarget(project, dragged, target))
@@ -523,7 +631,7 @@ export function isDropPermitted(
  */
 export function resolveStructuralReplacementTarget(
     project: Project,
-    dragged: Node,
+    dragged: Node[],
     hovered: Node,
 ): Node {
     const root = project.getRoot(hovered);
@@ -547,7 +655,7 @@ export function resolveStructuralReplacementTarget(
 export function resolvePermittedDropTarget(
     project: Project,
     source: Source,
-    dragged: Node,
+    dragged: Node[],
     target: Node | InsertionPoint | AssignmentPoint,
     limit = 3,
 ): Node | InsertionPoint | AssignmentPoint | undefined {

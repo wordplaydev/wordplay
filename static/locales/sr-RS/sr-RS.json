@@ -7488,7 +7488,8 @@
                 "insertEighthNote": "$~Уметни осмину ноте, дугу пола такта",
                 "insertDottedEighthNote": "$~Уметни осмину ноте са тачком, дугу три четвртине такта",
                 "insertSixteenthNote": "$~Уметни шеснаестину ноте, дугу четвртину такта",
-                "insertDottedSixteenthNote": "$~Уметни шеснаестину ноте са тачком, дугу три осмине такта"
+                "insertDottedSixteenthNote": "$~Уметни шеснаестину ноте са тачком, дугу три осмине такта",
+                "selectedNodes": "$~$#count[изабран је $#count чвор|изабрана су $count чвора|изабрано је $count чворова], од $first до $last"
             },
             "options": {
                 "locale": {

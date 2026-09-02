@@ -7448,7 +7448,8 @@
                 "insertEighthNote": "$~插入一个八分音符，长半拍",
                 "insertDottedEighthNote": "$~插入一个附点八分音符，长四分之三拍",
                 "insertSixteenthNote": "$~插入一个十六分音符，长四分之一拍",
-                "insertDottedSixteenthNote": "$~插入一个附点十六分音符，长八分之三拍"
+                "insertDottedSixteenthNote": "$~插入一个附点十六分音符，长八分之三拍",
+                "selectedNodes": "$~已选择 $#count[$count 个节点]，从 $first 到 $last"
             },
             "options": {
                 "locale": {

@@ -25,7 +25,10 @@
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { Creators } from '@db/Database';
     import { Projects } from '@db/projects/Projects';
-    import { decodeRemoteCaret } from '@db/projects/caretEncoding';
+    import {
+        decodeRemoteCaret,
+        decodeRemoteCaretAnchor,
+    } from '@db/projects/caretEncoding';
     import {
         assignDistinctColors,
         isPresenceStale,
@@ -228,12 +231,46 @@
                 continue;
             }
 
-            // Path — block-mode node selection. Resolve it to a Node in
-            // the local source, then outline that node's rendered view
-            // (same geometry as the local user's own selection).
+            // Path — a node selection. Resolve it to a Node in the local
+            // source, then outline that node's rendered view (same geometry
+            // as the local user's own selection).
             if (Array.isArray(decoded)) {
                 const node = source.root.resolvePath(decoded);
                 if (node === undefined) continue;
+
+                // Several nodes selected? The run is contiguous, so it draws as
+                // one shape over the text between its ends — the same geometry a
+                // selection range uses, rather than a shape per node.
+                const anchorPath = decodeRemoteCaretAnchor(peer.caret, source);
+                const anchor =
+                    anchorPath === null
+                        ? undefined
+                        : source.root.resolvePath(anchorPath);
+                if (anchor !== undefined && anchor !== node) {
+                    const ends = [node, anchor].flatMap((each) => {
+                        const start = source.getNodeFirstPosition(each);
+                        const end = source.getNodeLastPosition(each);
+                        return start === undefined || end === undefined
+                            ? []
+                            : [start, end];
+                    });
+                    if (ends.length === 4) {
+                        const outline = getRangeOutline(
+                            source,
+                            Math.min(...ends),
+                            Math.max(...ends),
+                            getNodeView,
+                            true,
+                            rtl,
+                            blocks,
+                        );
+                        if (outline !== undefined) {
+                            out.push({ ...common, kind: 'node', outline });
+                            continue;
+                        }
+                    }
+                }
+
                 const nodeView = getNodeView(node);
                 if (nodeView === undefined) continue;
                 const outline = getOutlineOf(nodeView, true, rtl, blocks);

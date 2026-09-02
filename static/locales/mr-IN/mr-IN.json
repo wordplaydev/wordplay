@@ -7489,7 +7489,8 @@
                 "insertEighthNote": "$~एक अष्टमांश स्वर घाला, अर्धी मात्रा लांब",
                 "insertDottedEighthNote": "$~एक बिंदुयुक्त अष्टमांश स्वर घाला, पाऊण मात्रा लांब",
                 "insertSixteenthNote": "$~एक सोळावा स्वर घाला, चतुर्थांश मात्रा लांब",
-                "insertDottedSixteenthNote": "$~एक बिंदुयुक्त सोळावा स्वर घाला, तीन अष्टमांश मात्रा लांब"
+                "insertDottedSixteenthNote": "$~एक बिंदुयुक्त सोळावा स्वर घाला, तीन अष्टमांश मात्रा लांब",
+                "selectedNodes": "$~$#count[$count नोड निवडला|$count नोड निवडले], $first ते $last"
             },
             "options": {
                 "locale": {

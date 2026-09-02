@@ -7735,7 +7735,8 @@
                 "insertEighthNote": "$~Maglagay ng eighth note, kalahating beat ang haba",
                 "insertDottedEighthNote": "$~Maglagay ng dotted eighth note, tatlong-kapat na beat ang haba",
                 "insertSixteenthNote": "$~Maglagay ng sixteenth note, isang-kapat na beat ang haba",
-                "insertDottedSixteenthNote": "$~Maglagay ng dotted sixteenth note, tatlong-kawalo na beat ang haba"
+                "insertDottedSixteenthNote": "$~Maglagay ng dotted sixteenth note, tatlong-kawalo na beat ang haba",
+                "selectedNodes": "$~$#count[$count node na napili|$count na node na napili], mula sa $first hanggang $last"
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",

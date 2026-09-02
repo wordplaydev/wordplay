@@ -164,14 +164,14 @@ test.each([
         // Node targets must be structurally valid drop targets. (Insertion points carry their own
         // structural validity from detection, so isValidDropTarget doesn't apply to them.)
         if (!(targetNode instanceof InsertionPoint))
-            expect(isValidDropTarget(project, draggedNode, targetNode)).toBe(
+            expect(isValidDropTarget(project, [draggedNode], targetNode)).toBe(
                 true,
             );
 
         const [newProject] = dropNodeOnSource(
             project,
             sources[0],
-            draggedNode,
+            [draggedNode],
             targetNode,
         ) ?? [undefined, undefined];
 
@@ -191,7 +191,7 @@ test('getDropConflicts returns [] for a clean placeholder replacement', () => {
     const dragged = parseExpression(toTokens('1'));
     const target = source.find(ExpressionPlaceholder);
     expect(
-        getDropConflicts(project, source, dragged, target).conflicts,
+        getDropConflicts(project, source, [dragged], target).conflicts,
     ).toHaveLength(0);
 });
 
@@ -210,7 +210,7 @@ test('getDropConflicts returns [] when a drop only leaves a placeholder behind (
     const dragged = supplement.find<Node>(NumberLiteral);
     const target = main.find(ExpressionPlaceholder);
     expect(
-        getDropConflicts(project, main, dragged, target).conflicts,
+        getDropConflicts(project, main, [dragged], target).conflicts,
     ).toHaveLength(0);
 });
 
@@ -233,10 +233,10 @@ test('getDropConflicts no-ops for a stale target anchored outside the project (#
         1,
     );
     expect(() =>
-        getDropConflicts(project, source, dragged, target),
+        getDropConflicts(project, source, [dragged], target),
     ).not.toThrow();
     expect(
-        getDropConflicts(project, source, dragged, target).conflicts,
+        getDropConflicts(project, source, [dragged], target).conflicts,
     ).toHaveLength(0);
 });
 
@@ -255,7 +255,7 @@ test('getDropConflicts reports the conflict a type-erroring drop would introduce
     );
     // The drop is permitted (Place(1) is produced) but introduces a major conflict we can explain.
     expect(
-        getDropConflicts(project, source, dragged, target).conflicts.length,
+        getDropConflicts(project, source, [dragged], target).conflicts.length,
     ).toBeGreaterThan(0);
 });
 
@@ -267,12 +267,12 @@ test('a drop that creates an unknown name is permitted with a warning', () => {
     const dragged = parseExpression(toTokens('saddf'));
     const target = source.find(ExpressionPlaceholder);
     expect(
-        getBlockingDropConflicts(project, source, dragged, target),
+        getBlockingDropConflicts(project, source, [dragged], target),
     ).toHaveLength(0);
-    expect(isDropPermitted(project, source, dragged, target)).toBe(true);
+    expect(isDropPermitted(project, source, [dragged], target)).toBe(true);
     // The conflict is still reported for feedback.
     expect(
-        getDropConflicts(project, source, dragged, target).conflicts.map(
+        getDropConflicts(project, source, [dragged], target).conflicts.map(
             (c) => c.constructor.name,
         ),
     ).toContain('UnknownName');
@@ -286,13 +286,13 @@ test('a type-mismatch drop onto a placeholder lands there, warned', () => {
     // elevating to a cleaner enclosing replacement.
     const dragged = parseExpression(toTokens('"hi"'));
     const target = source.find(ExpressionPlaceholder);
-    expect(isDropPermitted(project, source, dragged, target)).toBe(true);
+    expect(isDropPermitted(project, source, [dragged], target)).toBe(true);
     expect(
-        getDropConflicts(project, source, dragged, target).conflicts.map(
+        getDropConflicts(project, source, [dragged], target).conflicts.map(
             (c) => c.constructor.name,
         ),
     ).toContain('IncompatibleType');
-    expect(resolvePermittedDropTarget(project, source, dragged, target)).toBe(
+    expect(resolvePermittedDropTarget(project, source, [dragged], target)).toBe(
         target,
     );
 });
@@ -303,9 +303,9 @@ test('a structurally invalid drop is still blocked', () => {
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('2'));
     const target = source.find<Bind>(Bind).names.names[0];
-    expect(isDropPermitted(project, source, dragged, target)).toBe(false);
+    expect(isDropPermitted(project, source, [dragged], target)).toBe(false);
     expect(
-        resolvePermittedDropTarget(project, source, dragged, target),
+        resolvePermittedDropTarget(project, source, [dragged], target),
     ).not.toBe(target);
 });
 
@@ -315,7 +315,7 @@ test('a palette drop fills typed placeholders with their defaults', () => {
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('Phrase(_)'));
     const target = source.find(ExpressionPlaceholder);
-    const [newProject] = dropNodeOnSource(project, source, dragged, target);
+    const [newProject] = dropNodeOnSource(project, source, [dragged], target);
     // Phrase's text input default is an empty text literal, so no placeholder remains.
     expect(
         newProject
@@ -334,7 +334,7 @@ test('a palette drop resolves an ambiguous slot to the first autocomplete pick',
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('Group(_ _)'));
     const target = source.find(ExpressionPlaceholder);
-    const [newProject] = dropNodeOnSource(project, source, dragged, target);
+    const [newProject] = dropNodeOnSource(project, source, [dragged], target);
     // ⬇ is Stack (the first concrete arrangement in basis order); content is an empty list.
     expect(newProject.getMain().toWordplay()).toBe('Group(⬇() [])');
     expect(
@@ -361,7 +361,7 @@ test('an editor-internal move does not fill placeholders', () => {
     );
     const dragged = supplement.find<Evaluate>(Evaluate);
     const target = main.find(ExpressionPlaceholder);
-    const [newProject] = dropNodeOnSource(project, main, dragged, target);
+    const [newProject] = dropNodeOnSource(project, main, [dragged], target);
     expect(newProject.getMain().toWordplay()).toBe('Phrase(_)');
 });
 
@@ -372,7 +372,7 @@ test('a palette drop leaves placeholders with no default alone', () => {
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('_'));
     const target = source.find(ExpressionPlaceholder);
-    const [newProject] = dropNodeOnSource(project, source, dragged, target);
+    const [newProject] = dropNodeOnSource(project, source, [dragged], target);
     expect(newProject.getMain().toWordplay()).toBe('_');
 });
 
@@ -421,13 +421,13 @@ test('dropping a structure into a wrong-typed function input elevates to a clean
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('Group(_ _)'));
     const target = source.find(TextLiteral);
-    expect(isDropPermitted(project, source, dragged, target)).toBe(true);
+    expect(isDropPermitted(project, source, [dragged], target)).toBe(true);
     expect(
-        getDropConflicts(project, source, dragged, target).conflicts.map(
+        getDropConflicts(project, source, [dragged], target).conflicts.map(
             (c) => c.constructor.name,
         ),
     ).toContain('IncompatibleInput');
-    expect(resolvePermittedDropTarget(project, source, dragged, target)).toBe(
+    expect(resolvePermittedDropTarget(project, source, [dragged], target)).toBe(
         source.find(Evaluate),
     );
 });
@@ -445,10 +445,15 @@ test('resolvePermittedDropTarget elevates a conflicted release on a function nam
     const stack = source.find<Evaluate>(Evaluate, 0); // the ⬇() call
 
     const fun = stack.fun; // the ⬇ Reference
-    const resolved = resolvePermittedDropTarget(project, source, dragged, fun);
+    const resolved = resolvePermittedDropTarget(
+        project,
+        source,
+        [dragged],
+        fun,
+    );
     expect(resolved).toBe(stack);
     if (resolved === undefined) return;
-    const [newProject] = dropNodeOnSource(project, source, dragged, resolved);
+    const [newProject] = dropNodeOnSource(project, source, [dragged], resolved);
     expect(newProject.getMain().toWordplay()).toBe('Group(Row() [])');
 });
 
@@ -460,7 +465,9 @@ test('resolvePermittedDropTarget lands warned when nothing near is conflict-free
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('saddf'));
     const fun = source.find<Evaluate>(Evaluate, 0).fun;
-    expect(resolvePermittedDropTarget(project, source, dragged, fun)).toBe(fun);
+    expect(resolvePermittedDropTarget(project, source, [dragged], fun)).toBe(
+        fun,
+    );
 });
 
 test('resolveStructuralReplacementTarget keeps a permitted direct target', () => {
@@ -468,7 +475,7 @@ test('resolveStructuralReplacementTarget keeps a permitted direct target', () =>
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('2'));
     const target = source.find(ExpressionPlaceholder);
-    expect(resolveStructuralReplacementTarget(project, dragged, target)).toBe(
+    expect(resolveStructuralReplacementTarget(project, [dragged], target)).toBe(
         target,
     );
 });
@@ -481,6 +488,131 @@ test('resolveStructuralReplacementTarget does not elevate a permitted function-n
     const dragged = parseExpression(toTokens('Row')); // a bare function name
     const stack = source.find<Evaluate>(Evaluate, 0); // the ⬇() call
     const fun = stack.fun;
-    expect(isDropPermitted(project, source, dragged, fun)).toBe(true);
-    expect(resolveStructuralReplacementTarget(project, dragged, fun)).toBe(fun);
+    expect(isDropPermitted(project, source, [dragged], fun)).toBe(true);
+    expect(resolveStructuralReplacementTarget(project, [dragged], fun)).toBe(
+        fun,
+    );
+});
+
+/**
+ * Dragging a RUN of sibling nodes. A run only exists where a list holds it, which
+ * is what makes each of these well defined: it can move within its list, into
+ * another list, or across sources, and it declines anywhere with a single slot.
+ */
+
+/** The values of the source's first list literal. */
+function valuesOf(source: Source): Node[] {
+    return source.find<ListLiteral>(ListLiteral).values;
+}
+
+test('a run moves within its own list', () => {
+    const source = new Source('test', '[1 2 3 4]');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const list = source.find<ListLiteral>(ListLiteral);
+    const values = valuesOf(source);
+    // Take 1 and 2 and drop them after 4.
+    const [newProject] = dropNodeOnSource(
+        project,
+        source,
+        [values[0], values[1]],
+        new InsertionPoint(
+            list,
+            'values',
+            list.values,
+            undefined,
+            undefined,
+            4,
+        ),
+    );
+    expect(newProject.getMain().toWordplay()).toBe('[3 4 1 2]');
+});
+
+test('a run replaces a single item of a list, one becoming several', () => {
+    const source = new Source('test', '[1 2 9]');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const values = valuesOf(source);
+    const [newProject] = dropNodeOnSource(
+        project,
+        source,
+        [values[0], values[1]],
+        values[2],
+    );
+    expect(newProject.getMain().toWordplay()).toBe('[1 2]');
+});
+
+test('a run moves to another source, closing the gap it left', () => {
+    const main = new Source('test', '[9]');
+    const supplement = new Source('other', '[1 2 3]');
+    const project = Project.make(
+        null,
+        'test',
+        main,
+        [supplement],
+        DefaultLocale,
+    );
+    const donor = supplement.find<ListLiteral>(ListLiteral);
+    const target = main.find<ListLiteral>(ListLiteral);
+    const [newProject] = dropNodeOnSource(
+        project,
+        main,
+        [donor.values[0], donor.values[1]],
+        new InsertionPoint(
+            target,
+            'values',
+            target.values,
+            undefined,
+            undefined,
+            0,
+        ),
+    );
+    expect(newProject.getMain().toWordplay()).toBe('[1 2 9]');
+    // The donor keeps only what wasn't dragged, with no gap where the run was.
+    expect(newProject.getSupplements()[0].toWordplay()).toBe('[3]');
+});
+
+test('a run is not a valid drop target for a single slot', () => {
+    // A binary evaluate's operand is one slot; several nodes have nothing to do
+    // there, so the target never highlights and the drop never resolves.
+    const source = new Source('test', '[1 2] + _');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const values = valuesOf(source);
+    const target = source.find(ExpressionPlaceholder);
+    expect(isValidDropTarget(project, [values[0], values[1]], target)).toBe(
+        false,
+    );
+    // One node of the same run is fine there, which is what makes this a rule
+    // about the run rather than about those nodes.
+    expect(isValidDropTarget(project, [values[0]], target)).toBe(true);
+});
+
+test('a run cannot be dropped onto itself', () => {
+    const source = new Source('test', '[1 2 3]');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const values = valuesOf(source);
+    expect(isValidDropTarget(project, [values[0], values[1]], values[1])).toBe(
+        false,
+    );
+});
+
+test('a run of statements keeps its own line breaks when it moves', () => {
+    const source = new Source('test', '1\n2\n3\n[]');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const block = source.expression.expression;
+    const list = source.find<ListLiteral>(ListLiteral);
+    const [newProject] = dropNodeOnSource(
+        project,
+        source,
+        [block.statements[0], block.statements[1]],
+        new InsertionPoint(
+            list,
+            'values',
+            list.values,
+            undefined,
+            undefined,
+            0,
+        ),
+    );
+    // The run left no blank lines behind — removing its members one at a time
+    // would have accumulated one line break per node onto what followed.
+    expect(newProject.getMain().toWordplay()).toBe('3\n[1 2]');
 });

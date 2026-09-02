@@ -7463,7 +7463,8 @@
                 "insertEighthNote": "$~एक आठवाँ नोट डालो, आधा बीट लंबा",
                 "insertDottedEighthNote": "$~एक बिंदु वाला आठवाँ नोट डालो, तीन चौथाई बीट लंबा",
                 "insertSixteenthNote": "$~एक सोलहवाँ नोट डालो, एक चौथाई बीट लंबा",
-                "insertDottedSixteenthNote": "$~एक बिंदु वाला सोलहवाँ नोट डालो, तीन आठवाँ बीट लंबा"
+                "insertDottedSixteenthNote": "$~एक बिंदु वाला सोलहवाँ नोट डालो, तीन आठवाँ बीट लंबा",
+                "selectedNodes": "$~$#count[$count नोड चुना गया|$count नोड चुने गए], $first से $last तक"
             },
             "options": {
                 "locale": {

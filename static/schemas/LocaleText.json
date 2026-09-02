@@ -26177,6 +26177,10 @@
                                             "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22text%22%5D%3E",
                                             "description": "[plain] Describes a selection: how many characters, and their text"
                                         },
+                                        "selectedNodes": {
+                                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22first%22%2C%22last%22%5D%3E",
+                                            "description": "[plain] Describes a selection of several nodes. $#count is how many, $first and $last are the first and last of them. Naming the ends is what makes two different selections of the same size sound different."
+                                        },
                                         "sourceEnd": {
                                             "description": "[plain] Move cursor to end of source",
                                             "type": "string"
@@ -26290,6 +26294,7 @@
                                         "ignored",
                                         "echo",
                                         "selected",
+                                        "selectedNodes",
                                         "unknownPosition"
                                     ],
                                     "type": "object"
@@ -27936,6 +27941,9 @@
             "type": "string"
         },
         "Template<[\"#count\",\"extra\"]>": {
+            "type": "string"
+        },
+        "Template<[\"#count\",\"first\",\"last\"]>": {
             "type": "string"
         },
         "Template<[\"#count\",\"language\"]>": {

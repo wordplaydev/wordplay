@@ -259,6 +259,19 @@
             : undefined;
     }
 
+    /** The locally-persisted selection anchor for this source, resolved against
+     *  the current tree. Stored beside the caret rather than inside it, so an
+     *  older build simply restores the caret's own node. */
+    function localCaretAnchor(): Node | undefined {
+        const stored = Settings.getProjectCaretAnchor(
+            project.getID(),
+            project.getIndexOfSource(source),
+        );
+        return stored === undefined
+            ? undefined
+            : source.root.resolvePath(stored);
+    }
+
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     // We start at the saved caret position or 0. We also share it with parents through a bind.
     // For an editable editor, prefer the locally-persisted caret (updated on every
@@ -373,6 +386,10 @@
             undefined,
             undefined,
             undefined,
+            // The Caret constructor drops an anchor that isn't a sibling of the
+            // position, so a stale pair restores as a plain node selection.
+            (editable ? localCaretAnchor() : undefined) ??
+                project.getCaretAnchor(source),
         ),
     );
 
@@ -414,6 +431,10 @@
                 : c.withPosition(snapped, c.entry, c.visualColumn);
         }
         if (pos instanceof Node) {
+            // A selection whose other end has been folded out of view would
+            // cover code the creator can't see, so it collapses to its focus.
+            if (c.anchor !== undefined && isNodeHidden(c.anchor, rendered))
+                return c.withoutRange();
             if (!isNodeHidden(pos, rendered)) return c;
             const ancestor = nearestRenderedAncestor(c.source, pos, rendered);
             return ancestor === undefined
@@ -506,12 +527,20 @@
     const debouncedCaret = debounced(() => $caret, 1000);
     $effect(() => {
         const position = debouncedCaret.current.position;
+        const anchor = debouncedCaret.current.anchor;
         untrack(() => {
             if (!editable) return;
             Settings.setProjectCaret(
                 project.getID(),
                 project.getIndexOfSource(source),
                 serializeCaretPosition(source, position),
+            );
+            Settings.setProjectCaretAnchor(
+                project.getID(),
+                project.getIndexOfSource(source),
+                anchor !== undefined && source.has(anchor)
+                    ? source.root.getPath(anchor)
+                    : undefined,
             );
         });
     });
@@ -551,7 +580,7 @@
         if (crdt === undefined) return;
         const sourceIndex = project.getIndexOfSource(source);
         const yText = crdt.getYText(sourceIndex);
-        const encoded = encodeRemoteCaret(yText, source, c.position);
+        const encoded = encodeRemoteCaret(yText, source, c.position, c.anchor);
         localCaretEncoded = encoded;
         const tracker = Projects.getPresenceTracker(project.getID());
         if (tracker !== undefined) tracker.updateCaret(sourceIndex, encoded);
@@ -908,7 +937,7 @@
     let dragStartPosition: CaretPosition | undefined = $state(undefined);
 
     // The possible candidate for dragging
-    let dragCandidate: Node | undefined = $state(undefined);
+    let dragCandidate: Node[] | undefined = $state(undefined);
 
     // Token rects captured at drag-start (see handlePointerMove), so text-mode
     // insertion resolution measures against a layout the insertion marker can't
@@ -1279,18 +1308,35 @@
                       undefined,
                   ]);
 
-        if (newProject === undefined || droppedNode === undefined) return;
+        if (
+            newProject === undefined ||
+            droppedNode === undefined ||
+            droppedNode.length === 0
+        )
+            return;
 
         // Set the caret to the first placeholder or the dragged node, or the node itself if there isn't one.
-        const newCaretPosition =
-            droppedNode.getFirstPlaceholder() ?? droppedNode;
-        caret.set(
-            $caret.withPosition(newCaretPosition).withAddition(droppedNode),
-        );
+        const first = droppedNode[0];
+        const last = droppedNode[droppedNode.length - 1];
+        const newCaretPosition = first.getFirstPlaceholder() ?? first;
+        // A run stays selected where it lands, so a follow-up drag or delete acts
+        // on what was just moved. No addition is recorded for one: it's announced
+        // in preference to the position, and would name one node out of several.
+        // Built on the NEW source, because withRange checks that the two ends are
+        // siblings — and the caret's own source is still the pre-drop one here,
+        // where the dropped clones don't exist at all.
+        const dropped =
+            droppedNode.length > 1
+                ? $caret
+                      .withSource(newSource)
+                      .withPosition(last)
+                      .withRange(first)
+                : $caret.withPosition(newCaretPosition).withAddition(first);
+        caret.set(dropped);
 
         // Update the project with the new source files
         Projects.reviseProject(
-            newProject.withCaret(newSource, newCaretPosition),
+            newProject.withCaret(newSource, dropped.position, dropped.anchor),
         );
 
         // Focus the node caret selected.
@@ -1592,11 +1638,22 @@
         // range selection.
         const selectedNode =
             $caret.position instanceof Node ? $caret.position : undefined;
-        const draggingSelection =
-            event.shiftKey &&
-            selectedNode !== undefined &&
+        // Pressing anywhere inside a RUN picks up the whole run, with no modifier:
+        // the run is the unit the creator built, and re-selecting one node of it
+        // would throw that away. A single node still needs shift, so pressing a
+        // child of a selected node keeps selecting the child as it always has.
+        const draggingRun =
+            $caret.isRangeOfNodes() &&
             nonTokenNodeUnderPointer !== undefined &&
-            selectedNode.contains(nonTokenNodeUnderPointer);
+            $caret
+                .getSelectedNodes()
+                .some((node) => node.contains(nonTokenNodeUnderPointer));
+        const draggingSelection =
+            draggingRun ||
+            (event.shiftKey &&
+                selectedNode !== undefined &&
+                nonTokenNodeUnderPointer !== undefined &&
+                selectedNode.contains(nonTokenNodeUnderPointer));
         const newPosition = draggingSelection
             ? selectedNode
             : // If there's an ampty position, use that.
@@ -1625,8 +1682,16 @@
                             .find((a) => a.isPlaceholder())
                       : // Otherwise choose an index position under the mouse
                         hit.index;
+        // The run to pick up, read before the caret moves: repositioning collapses
+        // a selection, so asking afterward would always find just one node.
+        const runUnderPointer = draggingRun
+            ? $caret.getSelectedNodes()
+            : undefined;
+
         // If we found a position, set it and reset the ignore feedback.
-        if (newPosition !== undefined) {
+        // Pressing inside a run leaves the caret alone — the press is the start of
+        // dragging what's selected, not a request to select something smaller.
+        if (newPosition !== undefined && !draggingRun) {
             caret.set($caret.withPosition(newPosition));
             resetIgnored(true);
             announcePointerCaret();
@@ -1666,16 +1731,21 @@
             nonTokenNodeUnderPointer &&
             ($blocks || event.shiftKey)
         ) {
-            dragCandidate = draggingSelection
-                ? selectedNode
-                : nonTokenNodeUnderPointer;
+            dragCandidate = runUnderPointer
+                ? runUnderPointer
+                : draggingSelection && selectedNode !== undefined
+                  ? [selectedNode]
+                  : [nonTokenNodeUnderPointer];
 
             // The source, its program, and the root block have no field anywhere to be dropped
             // into, so a drag would start and silently go nowhere. Don't pick them up.
             if (
-                dragCandidate instanceof Source ||
-                dragCandidate instanceof Program ||
-                (dragCandidate instanceof Block && dragCandidate.isRoot())
+                dragCandidate.some(
+                    (node) =>
+                        node instanceof Source ||
+                        node instanceof Program ||
+                        (node instanceof Block && node.isRoot()),
+                )
             )
                 dragCandidate = undefined;
 
@@ -1813,12 +1883,12 @@
      * debounce and gate the actual drop in handleRelease. */
     function resolveReplacementTargetMemoized(
         under: Node,
-        dragged: Node,
+        dragged: Node[],
     ): Node {
         if (
             lastResolvedTarget !== undefined &&
             lastResolvedTarget.underId === under.id &&
-            lastResolvedTarget.draggedId === dragged.id
+            lastResolvedTarget.draggedId === dragged[0].id
         )
             return lastResolvedTarget.resolved;
         const resolved = resolveStructuralReplacementTarget(
@@ -1828,7 +1898,7 @@
         );
         lastResolvedTarget = {
             underId: under.id,
-            draggedId: dragged.id,
+            draggedId: dragged[0].id,
             resolved,
         };
         return resolved;
@@ -2350,7 +2420,11 @@
                         ? newSource
                         : project
                               .withSource(source, newSource)
-                              .withCaret(newSource, newCaret.position),
+                              .withCaret(
+                                  newSource,
+                                  newCaret.position,
+                                  newCaret.anchor,
+                              ),
                 );
                 caret.set(
                     newSource instanceof Project
@@ -2450,18 +2524,19 @@
         if (input === null || composing || skipNextInput) return;
         const text = current.source.getCode().toString();
         if (input.value !== text) input.value = text;
-        // Map the caret to a field selection: a position collapses, a
-        // range selects, and a node selects its token span.
+        // Map the caret to a field selection: a position collapses, a range
+        // selects, and a node selection selects its whole token span — which for
+        // a run of nodes is the text between its ends, since a run is contiguous.
         const position = current.position;
         const [start, end] =
             typeof position === 'number'
                 ? [position, position]
                 : Array.isArray(position)
                   ? position
-                  : [
+                  : (current.getSelectionSpan() ?? [
                         current.getTextPosition(true) ?? 0,
                         current.getTextPosition(false) ?? 0,
-                    ];
+                    ]);
         // A range's anchor can follow its focus; the field needs them ordered.
         const low = Math.min(start, end);
         const high = Math.max(start, end);
@@ -2561,8 +2636,15 @@
         let newCaret = $caret;
         let newSource: Source | undefined = source;
 
-        // First, delete any selected node.
-        if (newCaret.position instanceof Node) {
+        // First, delete any selected node — or the whole run, when several are
+        // selected; deleteNode would take only the focus.
+        if (newCaret.isRangeOfNodes()) {
+            const edit = newCaret.delete(project, false, $blocks);
+            if (Array.isArray(edit) && edit[0] instanceof Source) {
+                newSource = edit[0];
+                newCaret = edit[1];
+            } else if (typeof edit === 'function') setIgnored(edit);
+        } else if (newCaret.position instanceof Node) {
             const edit = newCaret.deleteNode(
                 newCaret.position,
                 $blocks,
@@ -2956,8 +3038,17 @@
 
         let newCaret = $caret;
 
-        // First, delete any selected node, as typing over a selection does.
-        if (newCaret.position instanceof Node) {
+        // First, delete any selected node, as typing over a selection does — or
+        // the whole run, when several are selected.
+        if (newCaret.isRangeOfNodes()) {
+            const edit = newCaret.delete(project, false, $blocks);
+            if (Array.isArray(edit) && edit[0] instanceof Source)
+                newCaret = edit[1];
+            else {
+                if (typeof edit === 'function') setIgnored(edit);
+                return;
+            }
+        } else if (newCaret.position instanceof Node) {
             const edit = newCaret.deleteNode(
                 newCaret.position,
                 $blocks,
@@ -3202,7 +3293,9 @@
         prevConflictsKey = {
             project,
             nodeConflicts: $nodeConflicts,
-            dragged: $dragged,
+            // The run's first node identifies the drag; the array around it is
+            // rebuilt on every pointer move and would key nothing.
+            dragged: $dragged?.[0],
             hoveredAny: $hoveredAny,
             caretNode,
             tokenAtCaret,
@@ -4408,6 +4501,21 @@
 
     .caret-description.visible {
         opacity: 1;
+    }
+
+    /* The panel floats over the code it describes — when a node is selected it
+       covers that node entirely — so it must not intercept presses, or the thing
+       it describes can't be pressed to drag it. (It also stayed hit-testable
+       while invisible, since opacity alone doesn't stop events.) Its own
+       controls, the menu trigger and the concept links, opt back in. */
+    .caret-description {
+        pointer-events: none;
+    }
+
+    .caret-description :global(a),
+    .caret-description :global(button),
+    .caret-description :global([role='button']) {
+        pointer-events: auto;
     }
 
     .caret-description.ignored {

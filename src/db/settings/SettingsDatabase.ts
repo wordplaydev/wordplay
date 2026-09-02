@@ -22,7 +22,7 @@ import { BlocksSetting } from '@db/settings/BlocksSetting';
 import { WordsSetting } from '@db/settings/WordsSetting';
 import { CameraSetting } from '@db/settings/CameraSetting';
 import { ChatLanguageSetting } from '@db/settings/ChatLanguageSetting';
-import { CaretsSetting } from '@db/settings/CaretsSetting';
+import { CaretAnchorsSetting, CaretsSetting } from '@db/settings/CaretsSetting';
 import { FoldsSetting } from '@db/settings/FoldsSetting';
 import type { Path } from '@nodes/Root';
 import type { SerializedCaret } from '@db/projects/ProjectSchemas';
@@ -253,6 +253,7 @@ export default class SettingsDatabase {
     readonly settings = {
         layouts: LayoutsSetting,
         carets: CaretsSetting,
+        caretAnchors: CaretAnchorsSetting,
         folds: FoldsSetting,
         arrangement: ArrangementSetting,
         stagePlacement: StagePlacementSetting,
@@ -508,13 +509,46 @@ export default class SettingsDatabase {
         });
     }
 
+    /** The persisted selection anchor for a project source, or undefined. */
+    getProjectCaretAnchor(
+        projectID: string,
+        sourceIndex: number,
+    ): Path | undefined {
+        return this.settings.caretAnchors.get()[projectID]?.[sourceIndex];
+    }
+
+    /** Record (or, with undefined, clear) a source's selection anchor. */
+    setProjectCaretAnchor(
+        projectID: string,
+        sourceIndex: number,
+        anchor: Path | undefined,
+    ) {
+        const all = this.settings.caretAnchors.get();
+        const current = all[projectID]?.[sourceIndex];
+        if (JSON.stringify(current) === JSON.stringify(anchor)) return;
+        const sources = { ...all[projectID] };
+        if (anchor === undefined) delete sources[sourceIndex];
+        else sources[sourceIndex] = anchor;
+        this.settings.caretAnchors.set(this.database, {
+            ...all,
+            [projectID]: sources,
+        });
+    }
+
     /** Drop a project's persisted carets (on local deletion). */
     removeProjectCarets(projectID: string) {
         const all = this.settings.carets.get();
-        if (!(projectID in all)) return;
-        const next = { ...all };
-        delete next[projectID];
-        this.settings.carets.set(this.database, next);
+        if (projectID in all) {
+            const next = { ...all };
+            delete next[projectID];
+            this.settings.carets.set(this.database, next);
+        }
+        const anchors = this.settings.caretAnchors.get();
+        if (projectID in anchors) {
+            const next = { ...anchors };
+            delete next[projectID];
+            this.settings.caretAnchors.set(this.database, next);
+        }
     }
 
     /** The persisted folded-node paths for a project source, or undefined. */

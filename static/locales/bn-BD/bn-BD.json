@@ -7730,7 +7730,8 @@
                 "insertEighthNote": "$~একটি অষ্টমাংশ নোট বসাও, আধা বিট দীর্ঘ",
                 "insertDottedEighthNote": "$~একটি ডটওয়ালা অষ্টমাংশ নোট বসাও, তিন-চতুর্থাংশ বিট দীর্ঘ",
                 "insertSixteenthNote": "$~একটি ষোড়শাংশ নোট বসাও, এক-চতুর্থাংশ বিট দীর্ঘ",
-                "insertDottedSixteenthNote": "$~একটি ডটওয়ালা ষোড়শাংশ নোট বসাও, তিন-অষ্টমাংশ বিট দীর্ঘ"
+                "insertDottedSixteenthNote": "$~একটি ডটওয়ালা ষোড়শাংশ নোট বসাও, তিন-অষ্টমাংশ বিট দীর্ঘ",
+                "selectedNodes": "$~$#count[$count নোড নির্বাচিত|$count টি নোড নির্বাচিত], $first থেকে $last"
             },
             "error": {
                 "invalidName": "$~এটি অবশ্যই একটি বৈধ Wordplay নাম হতে হবে।",

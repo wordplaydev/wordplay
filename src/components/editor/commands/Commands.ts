@@ -1224,20 +1224,25 @@ const ExpandPriorLine: Command = {
     shift: true,
     key: 'ArrowUp',
     keySymbol: '↑',
-    // Expand the selection by one visual row up in text mode (matching
-    // ArrowUp's movement). No vertical expansion in blocks mode.
+    // On a selected node, extend the sibling selection; otherwise expand by one
+    // visual row up in text mode (matching ArrowUp's movement). Blocks mode has
+    // no visual rows to expand across.
     execute: ({ caret, blocks, view, getTokenViews, locales }) =>
-        caret && view && getTokenViews
-            ? blocks
-                ? false
-                : (expandCaretVisualVertical(
-                      -1,
-                      view,
-                      caret,
-                      getTokenViews,
-                      locales.getDirection() === 'rtl',
-                  ) ?? true)
-            : false,
+        caret === undefined
+            ? false
+            : caret.position instanceof Node
+              ? caret.expandNode(-1)
+              : view && getTokenViews
+                ? blocks
+                    ? false
+                    : (expandCaretVisualVertical(
+                          -1,
+                          view,
+                          caret,
+                          getTokenViews,
+                          locales.getDirection() === 'rtl',
+                      ) ?? true)
+                : false,
 };
 
 const MoveNextLine: Command = {
@@ -1277,20 +1282,25 @@ const ExpandNextLine: Command = {
     shift: true,
     key: 'ArrowDown',
     keySymbol: '↓',
-    // Expand the selection by one visual row down in text mode (matching
-    // ArrowDown's movement). No vertical expansion in blocks mode.
+    // On a selected node, extend the sibling selection; otherwise expand by one
+    // visual row down in text mode (matching ArrowDown's movement). Blocks mode
+    // has no visual rows to expand across.
     execute: ({ caret, blocks, view, getTokenViews, locales }) =>
-        caret && view && getTokenViews
-            ? blocks
-                ? false
-                : (expandCaretVisualVertical(
-                      1,
-                      view,
-                      caret,
-                      getTokenViews,
-                      locales.getDirection() === 'rtl',
-                  ) ?? true)
-            : false,
+        caret === undefined
+            ? false
+            : caret.position instanceof Node
+              ? caret.expandNode(1)
+              : view && getTokenViews
+                ? blocks
+                    ? false
+                    : (expandCaretVisualVertical(
+                          1,
+                          view,
+                          caret,
+                          getTokenViews,
+                          locales.getDirection() === 'rtl',
+                      ) ?? true)
+                : false,
 };
 
 /** The vertical caret-movement commands, which own the caret's visual goal
@@ -1366,16 +1376,19 @@ const Commands: Command[] = [
         key: 'ArrowLeft',
         keySymbol: '←',
         execute: ({ caret, blocks, folded, getTokenViews }) =>
-            caret
-                ? blocks
+            caret === undefined
+                ? false
+                : // A selected node extends by sibling; a text caret by character.
+                  caret.position instanceof Node
+                  ? caret.expandNode(-1)
+                  : blocks
                     ? false
                     : skipFolded(
                           caret.expandInline(-1),
                           -1,
                           folded,
                           getTokenViews,
-                      )
-                : false,
+                      ),
     },
     {
         symbol: '→',
@@ -1415,16 +1428,19 @@ const Commands: Command[] = [
         key: 'ArrowRight',
         keySymbol: '→',
         execute: ({ caret, blocks, folded, getTokenViews }) =>
-            caret
-                ? blocks
+            caret === undefined
+                ? false
+                : // A selected node extends by sibling; a text caret by character.
+                  caret.position instanceof Node
+                  ? caret.expandNode(1)
+                  : blocks
                     ? false
                     : skipFolded(
                           caret.expandInline(1),
                           1,
                           folded,
                           getTokenViews,
-                      )
-                : false,
+                      ),
     },
     {
         symbol: '⇤',
@@ -2374,7 +2390,18 @@ const Commands: Command[] = [
             typeof ClipboardItem !== 'undefined',
         execute: ({ caret, project, blocks }) => {
             if (caret === undefined) return false;
-            if (caret.isNode()) {
+            // A run of nodes is contiguous, so it copies as the span of text
+            // between its ends — the same text branch a selection range uses.
+            const span = caret.isRangeOfNodes()
+                ? caret.getSelectionSpan()
+                : undefined;
+            if (span) {
+                return toClipboard(
+                    caret.source
+                        .getGraphemesBetween(span[0], span[1])
+                        .toString(),
+                ).then(() => caret.delete(project, false, blocks) ?? true);
+            } else if (caret.isNode()) {
                 copyNode(
                     caret.position,
                     getPreferredSpaces(caret.source),
@@ -2414,7 +2441,16 @@ const Commands: Command[] = [
             caret !== undefined && (caret.isNode() || caret.isRange()),
         execute: ({ caret }) => {
             if (caret === undefined) return false;
-            if (caret.isNode())
+            const span = caret.isRangeOfNodes()
+                ? caret.getSelectionSpan()
+                : undefined;
+            if (span)
+                return toClipboard(
+                    caret.source
+                        .getGraphemesBetween(span[0], span[1])
+                        .toString(),
+                );
+            else if (caret.isNode())
                 return copyNode(
                     caret.position,
                     getPreferredSpaces(caret.source),

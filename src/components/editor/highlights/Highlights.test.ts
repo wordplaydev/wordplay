@@ -60,7 +60,7 @@ describe('getDragHighlights', () => {
         const result = getDragHighlights(
             source,
             project,
-            dragged,
+            [dragged],
             undefined,
             undefined,
             true,
@@ -83,7 +83,7 @@ describe('getDragHighlights', () => {
             result = getDragHighlights(
                 source,
                 project,
-                dragged,
+                [dragged],
                 staleHovered,
                 undefined,
                 true,

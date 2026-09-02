@@ -813,6 +813,8 @@ type UITexts = {
             };
             /** [plain] Describes a selection: how many characters, and their text */
             selected: Template<['#count', 'text']>;
+            /** [plain] Describes a selection of several nodes. $#count is how many, $first and $last are the first and last of them. Naming the ends is what makes two different selections of the same size sound different. */
+            selectedNodes: Template<['#count', 'first', 'last']>;
             /** [plain] Where the caret is when nothing more specific applies */
             unknownPosition: string;
         };

@@ -220,7 +220,12 @@ export const StampedMetadataFields: readonly (keyof ProjectData & string)[] = [
     'researchConsent',
 ];
 
-type SerializedSourceCaret = { source: Source; caret: SerializedCaret };
+type SerializedSourceCaret = {
+    source: Source;
+    caret: SerializedCaret;
+    /** The other end of a multiple node selection, when there is one. */
+    anchor?: Path;
+};
 
 /**
  * The maximum number of code points we allow in the history. We allow about 20% of a 1 MB project file.
@@ -1194,7 +1199,7 @@ export default class Project {
             : this.withSources(replacements);
     }
 
-    withCaret(source: Source, caret: CaretPosition) {
+    withCaret(source: Source, caret: CaretPosition, anchor?: Node) {
         return this.revised({
             carets: this.data.carets.map((sourceCaret) =>
                 sourceCaret.source === source
@@ -1204,6 +1209,11 @@ export default class Project {
                               caret instanceof Node
                                   ? source.root.getPath(caret)
                                   : caret,
+                          // Only a node caret can carry a selection, and only
+                          // while the anchor is still in this source.
+                          ...(anchor !== undefined && source.has(anchor)
+                              ? { anchor: source.root.getPath(anchor) }
+                              : {}),
                       }
                     : sourceCaret,
             ),
@@ -1237,7 +1247,13 @@ export default class Project {
                 ([original]) => original === caret.source,
             );
             return replacement !== undefined
-                ? { source: replacement[1], caret: caret.caret }
+                ? {
+                      source: replacement[1],
+                      caret: caret.caret,
+                      ...(caret.anchor !== undefined
+                          ? { anchor: caret.anchor }
+                          : {}),
+                  }
                 : caret;
         });
 
@@ -1523,6 +1539,12 @@ export default class Project {
             : resolveCaretPosition(source, position);
     }
 
+    /** The other end of a persisted multiple node selection, if it still resolves. */
+    getCaretAnchor(source: Source): Node | undefined {
+        const path = this.data.carets.find((c) => c.source === source)?.anchor;
+        return path === undefined ? undefined : source.root.resolvePath(path);
+    }
+
     static deserializeSource(
         source: SerializedSource,
         keywords?: KeywordIndex,
@@ -1583,7 +1605,11 @@ export default class Project {
             collaborators: project.collaborators,
             public: project.public,
             carets: project.sources.map((s, index) => {
-                return { source: sources[index], caret: s.caret };
+                return {
+                    source: sources[index],
+                    caret: s.caret,
+                    ...(s.anchor !== undefined ? { anchor: s.anchor } : {}),
+                };
             }),
             listed: project.listed,
             archived: project.archived,
@@ -1910,12 +1936,16 @@ export default class Project {
 
     getSerializedSources(): SerializedSource[] {
         return this.getSources().map((source) => {
+            const caret = this.data.carets.find((c) => c.source === source);
             return {
                 names: source.names.toWordplay(),
                 code: source.code.toString(),
-                caret:
-                    this.data.carets.find((c) => c.source === source)?.caret ??
-                    0,
+                caret: caret?.caret ?? 0,
+                // Omitted when absent, so a project without a selection
+                // serializes exactly as it did before selections existed.
+                ...(caret?.anchor !== undefined
+                    ? { anchor: caret.anchor }
+                    : {}),
             };
         });
     }

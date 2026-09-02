@@ -7484,7 +7484,8 @@
                 "insertEighthNote": "$~Dörtte üç vuruş uzunluğunda noktalı bir sekizlik nota ekle",
                 "insertDottedEighthNote": "$~Dörtte bir vuruş uzunluğunda bir on altılık nota ekle",
                 "insertSixteenthNote": "$~Sekizde üç vuruş uzunluğunda noktalı bir on altılık nota ekle",
-                "insertDottedSixteenthNote": "$~müzik ve ses yap"
+                "insertDottedSixteenthNote": "$~müzik ve ses yap",
+                "selectedNodes": "$~$#count[$count düğüm seçildi|$count düğüm seçildi], $first ile $last arası"
             },
             "options": {
                 "locale": {

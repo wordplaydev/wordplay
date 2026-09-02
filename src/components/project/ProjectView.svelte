@@ -270,8 +270,8 @@
         warn?: boolean;
         /** True if public dialog should show */
         shareable?: boolean;
-        /** The node being dragged */
-        dragged?: Node | undefined;
+        /** What's being dragged: one node, or a run of siblings. */
+        dragged?: Node[] | undefined;
         /** The concept index used for this project */
         index?: ConceptIndex | undefined;
         /** Whether to persist the layout for layter */
@@ -1235,7 +1235,7 @@
     >(undefined);
 
     /* A global context for a node being dragged */
-    let draggedStore = writable<Node | undefined>(dragged);
+    let draggedStore = writable<Node[] | undefined>(dragged);
     $effect(() => {
         dragged = $draggedStore;
     });
@@ -1960,8 +1960,10 @@
     // When the locale direction changes, update the output.
     $effect(() => {
         const direction = $locales.getDirection();
-        /** After each update, measure an outline of the node view in the drag container. */
-        const nodeView = dragContainer?.querySelector('.node-view');
+        /** After each update, measure an outline of what's in the drag container.
+         *  The container rather than its first `.node-view`, so a run of nodes
+         *  outlines as the whole run instead of only the node it starts with. */
+        const nodeView = dragContainer;
         if (nodeView instanceof HTMLElement)
             outline = {
                 types: ['dragging'],
@@ -2076,7 +2078,13 @@
         // If dragging something
         if (dragged) {
             // And the latest source does not contain what's being dragged
-            if (!latestSource.getSource(project)?.contains(dragged)) {
+            if (
+                !dragged.some(
+                    (node) =>
+                        latestSource.getSource(project)?.contains(node) ??
+                        false,
+                )
+            ) {
                 // Move the source to the end and make it visible.
                 layout = currentLayout
                     .withTileLast(latestSource)
@@ -3761,13 +3769,17 @@
                 style="left: {pointerX - 5}px; top:{pointerY - 5}px;"
                 bind:this={dragContainer}
             >
-                <RootView
-                    node={dragged}
-                    inline
-                    spaces={project.getSourceOf(dragged)?.spaces}
-                    locale={$locales.getLocale()}
-                    blocks={$blocks}
-                />
+                <!-- One view per dragged node: a run is contiguous siblings, so
+                     they read as the run they are when stacked in order. -->
+                {#each dragged as node (node.id)}
+                    <RootView
+                        {node}
+                        inline
+                        spaces={project.getSourceOf(node)?.spaces}
+                        locale={$locales.getLocale()}
+                        blocks={$blocks}
+                    />
+                {/each}
             </div>
         {/if}
     {/if}

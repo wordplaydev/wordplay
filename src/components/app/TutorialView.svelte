@@ -237,10 +237,10 @@
     });
 
     /** This is bound to the project view's context */
-    let dragged = $state<Node | undefined>();
+    let dragged = $state<Node[] | undefined>();
 
     /** This is the tutorial's own dragged store, which we keep in a context */
-    let localDragged = writable<Node | undefined>();
+    let localDragged = writable<Node[] | undefined>();
     setDragged(localDragged);
 
     /** The slot a `@Tour/<id>` in the dialog writes to. It lives here rather

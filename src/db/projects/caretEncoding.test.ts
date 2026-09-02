@@ -2,7 +2,11 @@ import { describe, expect, test } from 'vitest';
 import * as Y from 'yjs';
 import type { Path } from '@nodes/Root';
 import Source from '@nodes/Source';
-import { decodeRemoteCaret, encodeRemoteCaret } from './caretEncoding';
+import {
+    decodeRemoteCaret,
+    decodeRemoteCaretAnchor,
+    encodeRemoteCaret,
+} from './caretEncoding';
 
 /** Narrowing predicate — decodeRemoteCaret can return `Path` *or*
  *  `[number, number]`, and `Array.isArray` alone can't tell them
@@ -230,4 +234,59 @@ test('a removal repair leaves the caret where the removed node started', async (
     const newProject = project.withRevisedNodes([[bind, undefined]]);
     const newSource = newProject.getSources()[0];
     expect(newProject.getCaretPosition(newSource)).toBe(start);
+});
+
+describe('multiple node selections', () => {
+    test("a peer's selection publishes both of its ends", () => {
+        const source = makeSource('1\n2\n3');
+        const yText = ytextFor(source.code.toString());
+        const statements = source.expression.expression.statements;
+
+        const payload = encodeRemoteCaret(
+            yText,
+            source,
+            statements[2],
+            statements[0],
+        );
+        expect(payload?.kind).toBe('node');
+
+        // Both ends resolve, so a peer can outline the whole run.
+        const focus = decodeRemoteCaret(payload, yText, source);
+        const anchor = decodeRemoteCaretAnchor(payload, source);
+        expect(isPath(focus)).toBe(true);
+        expect(anchor).not.toBeNull();
+        expect(isPath(focus) ? source.root.resolvePath(focus) : undefined).toBe(
+            statements[2],
+        );
+        expect(
+            anchor === null ? undefined : source.root.resolvePath(anchor),
+        ).toBe(statements[0]);
+    });
+
+    test('a caret without a selection publishes no anchor', () => {
+        const source = makeSource('1\n2');
+        const yText = ytextFor(source.code.toString());
+        const statements = source.expression.expression.statements;
+        const payload = encodeRemoteCaret(yText, source, statements[0]);
+        expect(decodeRemoteCaretAnchor(payload, source)).toBeNull();
+    });
+
+    test('a payload carrying an anchor still reads as a plain node selection', () => {
+        // The anchor is an extra field on the existing 'node' variant rather than
+        // a new kind, so a peer that predates selections decodes the focus node
+        // exactly as before instead of failing and hiding the caret.
+        const source = makeSource('1\n2\n3');
+        const yText = ytextFor(source.code.toString());
+        const statements = source.expression.expression.statements;
+        const payload = encodeRemoteCaret(
+            yText,
+            source,
+            statements[0],
+            statements[1],
+        );
+        const decoded = decodeRemoteCaret(payload, yText, source);
+        expect(
+            isPath(decoded) ? source.root.resolvePath(decoded) : undefined,
+        ).toBe(statements[0]);
+    });
 });

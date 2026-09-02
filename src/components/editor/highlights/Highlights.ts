@@ -258,10 +258,14 @@ export function getCaretHighlights(
 
     const context = project.getContext(source);
 
-    if (caret.position instanceof Node)
+    // Every node of a selection, which is the whole sibling run when the caret has
+    // an anchor and just the position otherwise. One outline per node rather than
+    // one merged span, since Highlights is already keyed by node and NodeView
+    // already styles a selected block from it.
+    for (const selected of caret.getSelectedNodes())
         highlights.add(
             source,
-            caret.position,
+            selected,
             !blocks ? 'selected' : 'blockselected',
         );
 
@@ -333,22 +337,24 @@ export function getCaretHighlights(
 }
 
 /** Per-(source, dragged-node) cache of the static "structural drop targets" highlight slice (the
- * 'target' and 'empty' marks). This set doesn't change for the duration of a drag — the dragged node
- * and source are constant — so the O(N) tree walk happens once per drag rather than on every pointer
- * move over empty space. The outer WeakMap auto-evicts when the source is replaced (any edit); the
- * inner WeakMap keys on dragged-node identity. Mirrors {@link referenceIndexCache}. */
+ * 'target' and 'empty' marks). This set doesn't change for the duration of a drag — what's being
+ * dragged and the source are constant — so the O(N) tree walk happens once per drag rather than on
+ * every pointer move over empty space. The outer WeakMap auto-evicts when the source is replaced
+ * (any edit); the inner WeakMap keys on the FIRST dragged node's identity, which identifies the drag
+ * as well as the whole run does — a run doesn't change while it's in the air, and the array holding
+ * it is rebuilt on every pointer move, so it would key nothing. Mirrors {@link referenceIndexCache}. */
 const dropTargetCache = new WeakMap<Source, WeakMap<Node, Highlights>>();
 function getDropTargetHighlights(
     source: Source,
     project: Project,
-    dragged: Node,
+    dragged: Node[],
 ): Highlights {
     let perDragged = dropTargetCache.get(source);
     if (perDragged === undefined) {
         perDragged = new WeakMap();
         dropTargetCache.set(source, perDragged);
     }
-    let slice = perDragged.get(dragged);
+    let slice = perDragged.get(dragged[0]);
     if (slice === undefined) {
         slice = new Highlights();
         for (const target of source.expression.nodes()) {
@@ -380,7 +386,7 @@ function getDropTargetHighlights(
                     slice.addEmpty(target, field.name);
             }
         }
-        perDragged.set(dragged, slice);
+        perDragged.set(dragged[0], slice);
     }
     return slice;
 }
@@ -389,7 +395,7 @@ function getDropTargetHighlights(
 export function getDragHighlights(
     source: Source,
     project: Project,
-    dragged: Node | undefined,
+    dragged: Node[] | undefined,
     hovered: Node | undefined,
     insertion: InsertionPoint | AssignmentPoint | undefined,
     blocks: boolean,
@@ -401,10 +407,11 @@ export function getDragHighlights(
 ): Highlights {
     const highlights = new Highlights();
 
-    if (dragged !== undefined) {
-        // Highlight the dragged node. (A rootless dragged node — a palette drop — isn't in the source,
+    if (dragged !== undefined && dragged.length > 0) {
+        // Highlight what's being dragged — every node of it, when a run is in the
+        // air. (A rootless dragged node — a palette drop — isn't in the source,
         // so this is a no-op for it; that's fine.)
-        highlights.add(source, dragged, 'dragged');
+        for (const node of dragged) highlights.add(source, node, 'dragged');
 
         // Stale target guard for #1213: a mid-drag project revision replaces the tree with new node
         // identities while the drag stores still reference old nodes. Ignore a hovered/insertion
@@ -540,7 +547,7 @@ export function getHighlights(
     project: Project,
     evaluator: Evaluator,
     caret: Caret,
-    dragged: Node | undefined,
+    dragged: Node[] | undefined,
     hovered: Node | undefined,
     insertion: InsertionPoint | AssignmentPoint | undefined,
     animatingNodes: Set<Node> | undefined,

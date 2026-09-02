@@ -455,15 +455,16 @@
 
     // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
     function handleDrop() {
-        const node: Node | undefined = $dragged;
+        const nodes: Node[] | undefined = $dragged;
 
         // Release the dragged node.
         if (dragged) dragged.set(undefined);
 
-        // No node released, or its removal would be rejected? We're done.
-        if (node === undefined || !canRecycleDraggedNode(project, node)) return;
+        // Nothing released, or its removal would be rejected? We're done.
+        if (nodes === undefined || !canRecycleDraggedNode(project, nodes))
+            return;
 
-        recycleDraggedNode(project, node);
+        recycleDraggedNode(project, nodes);
     }
 
     // Navigation: the history → query effect keeps the search box in sync with each of
