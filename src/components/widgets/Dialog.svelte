@@ -229,8 +229,8 @@
     }
 
     dialog.wide {
-        /* Fill the window width (minus margins) for maximum horizontal space. */
-        width: 95vw;
+        /* Fill the window along the text (minus margins) for maximum room. */
+        inline-size: 95dvi;
     }
 
     /* An open modal must paint even when an ancestor is hidden — e.g. a dialog
@@ -244,8 +244,10 @@
 
     dialog.fixed {
         /* Height is set inline; scroll the body so the dialog stays put as
-           content changes. The sticky close button rides the scroll. */
-        overflow-y: auto;
+           content changes. The sticky close button rides the scroll. Unqualified
+           `auto` rather than `overflow-y`, since which axis overflows is the
+           writing mode's business. */
+        overflow: auto;
     }
 
     /* Opt-in for dialogs whose body swaps between panes of different heights —
@@ -254,12 +256,13 @@
        anchoring the top edge holds it still. Capped at the space below the
        anchor so a taller pane scrolls inside the dialog rather than running off
        the window, which is what avoids having to measure the panes up front.
-       `dvh` so mobile browser chrome doesn't push the dialog off-screen. */
+       Dynamic viewport units so mobile browser chrome doesn't push the dialog
+       off-screen, and the block-axis ones so the anchor follows the text. */
     dialog.pinned {
-        margin-block-start: 20dvh;
+        margin-block-start: 20dvb;
         margin-block-end: auto;
-        max-height: calc(100dvh - 20dvh - 2em);
-        overflow-y: auto;
+        max-block-size: calc(100dvb - 20dvb - 2em);
+        overflow: auto;
     }
 
     dialog::backdrop {
@@ -283,9 +286,10 @@
     }
 
     .content {
-        min-height: 100%;
+        min-block-size: 100%;
         padding: 1em;
-        padding-top: 0;
+        /* The heading already provides the leading gap. */
+        padding-block-start: 0;
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);

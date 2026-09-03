@@ -4,7 +4,11 @@
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import { blocks, Settings, wrap } from '@db/Database';
+    import { blocks, Settings, sourceWriting, wrap } from '@db/Database';
+    import eligibleWritingLayouts from '@edit/eligibleWritingLayouts';
+    import type Project from '@db/projects/Project';
+    import type Source from '@nodes/Source';
+    import type { WritingLayout } from '@locale/Scripts';
     import type Locale from '@locale/Locale';
     import {
         BLOCK_EDITING_SYMBOL,
@@ -14,6 +18,10 @@
 
     interface Props {
         sourceID: string;
+        /** The project and source this toolbar acts on, so the writing-layout
+         *  control can tell what this code's glyphs allow. */
+        project: Project;
+        source: Source;
         navigateCommands: Command[];
         modifyCommands: Command[];
         editable: boolean;
@@ -24,6 +32,8 @@
 
     let {
         sourceID,
+        project,
+        source,
         navigateCommands,
         modifyCommands,
         editable,
@@ -48,17 +58,52 @@
 
     const hasLocale = $derived(localesUsed.length > 0);
 
+    /** The layouts this source's own glyphs allow. Offered rather than imposed:
+     *  the code decides what is possible and the creator decides what to see. */
+    const layouts = $derived(eligibleWritingLayouts(source));
+
+    /** The vertical layout on offer, when there is one. Exactly one can be —
+     *  a letter belongs to one vertical tradition, so either every letter agrees
+     *  or none is offered. */
+    const verticalLayout = $derived(layouts[1]);
+
+    const sourceIndex = $derived(project.getIndexOfSource(source));
+
+    /** The chosen layout, ignored when this source is no longer eligible for it
+     *  — typing a Latin name into a Japanese program takes vertical away. */
+    const layout: WritingLayout = $derived.by(() => {
+        const chosen = $sourceWriting[project.getID()]?.[sourceIndex];
+        return chosen !== undefined && layouts.includes(chosen)
+            ? chosen
+            : 'horizontal-tb';
+    });
+
+    /** Indices into `mode.writing`'s four options, which this reuses rather than
+     *  adding strings of its own. */
+    const WritingOptions: WritingLayout[] = [
+        'horizontal-tb',
+        'vertical-rl',
+        'vertical-lr',
+    ];
+
     // Item layout (each index = one overflow unit):
     //   0           : mode toggle
     //   1           : locale chooser (only when hasLocale)
     //   1+|2+ ..    : individual command buttons
+    //   trailing    : the display toggles that apply (see `trailing`)
     const localeOffset = $derived(hasLocale ? 1 : 0);
     // The soft-wrap toggle is a final item, shown only in text mode (blocks mode
     // manages its own layout and is out of scope for wrapping).
     const showWrap = $derived(!$blocks);
-    const itemCount = $derived(
-        1 + localeOffset + commands.length + (showWrap ? 1 : 0),
-    );
+    /** Trailing display toggles, listed so adding one doesn't mean redoing the
+     *  index arithmetic for the others. */
+    const trailing = $derived([
+        ...(showWrap ? ['wrap'] : []),
+        ...(verticalLayout !== undefined ? ['writing'] : []),
+    ]);
+    const commandsStart = $derived(1 + localeOffset);
+    const trailingStart = $derived(commandsStart + commands.length);
+    const itemCount = $derived(trailingStart + trailing.length);
 </script>
 
 {#snippet renderItem(i: number)}
@@ -82,7 +127,7 @@
                 change={(locale) => onChangeLocale(locale)}
             />
         </span>
-    {:else if showWrap && i === itemCount - 1}
+    {:else if i >= trailingStart && trailing[i - trailingStart] === 'wrap'}
         <span data-uiid="wrapToggle">
             <Mode
                 icons={['↔', '↩']}
@@ -93,8 +138,30 @@
                 modeLabels={false}
             />
         </span>
+    {:else if i >= trailingStart && trailing[i - trailingStart] === 'writing'}
+        <!-- Shown only when this source's glyphs allow something other than
+             horizontal, and offering only the direction they are actually set
+             in. Reuses the settings dialog's writing strings rather than adding
+             its own, trimming the vertical direction this code can't use and
+             `automatic` — eligibility already answers what that would ask. -->
+        <span data-uiid="writingToggle">
+            <Mode
+                icons={['↔↓', '↕←', '↕→', '🌐']}
+                modes={(l) => l.ui.dialog.settings.mode.writing}
+                choice={WritingOptions.indexOf(layout)}
+                select={(mode) =>
+                    Settings.setSourceWriting(
+                        project.getID(),
+                        sourceIndex,
+                        WritingOptions[mode] ?? 'horizontal-tb',
+                    )}
+                omit={verticalLayout === 'vertical-rl' ? [2, 3] : [1, 3]}
+                labeled={false}
+                modeLabels={false}
+            />
+        </span>
     {:else}
-        <CommandButton command={commands[i - 1 - localeOffset]} {sourceID} />
+        <CommandButton command={commands[i - commandsStart]} {sourceID} />
     {/if}
 {/snippet}
 

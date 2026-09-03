@@ -1,3 +1,4 @@
+import type { WritingLayout } from '@locale/Scripts';
 import type { TourID } from '@components/project/tours';
 import type { ActiveHint } from '@components/widgets/Hint.svelte';
 import type { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
@@ -310,6 +311,10 @@ export type EditorState = {
     canUnfoldAll: () => boolean;
     zoom: number;
     setZoom: (z: number) => void;
+    /** The writing layout this editor's code is laid out in, which comes from
+     *  the source's own glyphs rather than the creator's interface setting. The
+     *  command dispatcher needs it to know what the arrow keys mean. */
+    writingLayout: WritingLayout;
 };
 export const [getEditors, setEditors] =
     createOptionalContext<Writable<Map<string, EditorState>>>();

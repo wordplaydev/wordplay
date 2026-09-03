@@ -4,6 +4,7 @@ import concretize from '@locale/concretize';
 import { type LocaleTextAccessor } from '@locale/Locales';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import { type SupportedLocale } from '@locale/SupportedLocales';
+import { resolveWritingLayout } from '@locale/Scripts';
 // Value symbols from firebase/auth are dynamically imported at use so the auth
 // SDK stays out of the eager chunk; only the erased types are imported here.
 import { type Auth, type Unsubscribe, type User } from 'firebase/auth';
@@ -1278,6 +1279,25 @@ export const stagePlacement = Settings.settings.stagePlacement.value;
 export const locales = DB.Locales.locales;
 export const localesReady = DB.Locales.localesReady;
 export const writingLayout = Settings.settings.writingLayout.value;
+
+/** The writing layout chosen per project source, so an editor re-lays-out the
+ * moment its toolbar control changes. The raw store: an editor resolves it
+ * against what its own source is eligible for. */
+export const sourceWriting = Settings.settings.sourceWriting.value;
+
+/** The writing layout actually in force for the interface and editor: the
+ * creator's choice resolved against the locales they read, so a choice that is
+ * no longer offered stops applying without being forgotten. Everything that
+ * lays out UI text reads this, never the raw setting. */
+export const writingMode = derived(
+    [Settings.settings.writingLayout.value, DB.Locales.locales],
+    ([choice, locs]) =>
+        resolveWritingLayout(
+            choice,
+            locs.getLayout(),
+            locs.getVerticalLayout(),
+        ),
+);
 export const camera = Settings.settings.camera.value;
 export const dark = Settings.settings.dark.value;
 

@@ -24,6 +24,7 @@
 <script lang="ts">
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { Creators } from '@db/Database';
+    import type { WritingLayout } from '@locale/Scripts';
     import { Projects } from '@db/projects/Projects';
     import {
         decodeRemoteCaret,
@@ -66,6 +67,9 @@
         /** Right-to-left layout — flips the outline geometry the same
          *  way the local user's range highlight handles RTL. */
         rtl: boolean;
+        /** The writing layout the editor's code is laid out in, so a peer's
+         *  highlight traces the same rows the local one does. */
+        writingLayout: WritingLayout;
     }
 
     let {
@@ -76,6 +80,7 @@
         blocks,
         getNodeView,
         rtl,
+        writingLayout,
     }: Props = $props();
 
     let tracker = $derived(Projects.getPresenceTracker(projectID));
@@ -222,7 +227,7 @@
                     decoded[0],
                     decoded[1],
                     getNodeView,
-                    true,
+                    writingLayout,
                     rtl,
                     blocks,
                 );
@@ -260,7 +265,7 @@
                             Math.min(...ends),
                             Math.max(...ends),
                             getNodeView,
-                            true,
+                            writingLayout,
                             rtl,
                             blocks,
                         );
@@ -273,7 +278,12 @@
 
                 const nodeView = getNodeView(node);
                 if (nodeView === undefined) continue;
-                const outline = getOutlineOf(nodeView, true, rtl, blocks);
+                const outline = getOutlineOf(
+                    nodeView,
+                    writingLayout,
+                    rtl,
+                    blocks,
+                );
                 out.push({ ...common, kind: 'node', outline });
             }
         }

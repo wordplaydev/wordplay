@@ -317,7 +317,7 @@
     </td>
 {/snippet}
 
-<Writing>
+<Writing reading>
     <PageHeader header={(l) => l.ui.page.design.header} />
     <div class="section-content">
         <MarkupHTMLView markup={(l) => l.ui.page.design.description} />

@@ -5,19 +5,29 @@ import {
     nearestInRow,
     targetRowPosition,
     targetRowPositionFromSpan,
-    type RectLike,
     type RowMember,
 } from './rowModel';
+import type { LogicalRect } from '@components/editor/util/axes';
 
-/** Build a member whose `data` is a string id, for terse assertions. */
+/** Build a member whose `data` is a string id, for terse assertions. The
+ *  arguments are in the logical basis: a span across lines, then a span along
+ *  the text. */
 function m(
     id: string,
-    top: number,
-    bottom: number,
-    left = 0,
-    right = 10,
+    blockStart: number,
+    blockEnd: number,
+    inlineStart = 0,
+    inlineEnd = 10,
 ): RowMember<string> {
-    return { data: id, rect: { top, bottom, left, right } satisfies RectLike };
+    return {
+        data: id,
+        rect: {
+            blockStart,
+            blockEnd,
+            inlineStart,
+            inlineEnd,
+        } satisfies LogicalRect,
+    };
 }
 
 /** The ids of each row, top-to-bottom (sorted within a row, since intra-row
@@ -99,10 +109,13 @@ describe('nearestInRow', () => {
     ])[0];
 
     test('picks the member containing x and clamps x into it', () => {
-        expect(nearestInRow(row, 5)).toEqual({ member: row.members[0], x: 5 });
+        expect(nearestInRow(row, 5)).toEqual({
+            member: row.members[0],
+            inline: 5,
+        });
         expect(nearestInRow(row, 25)).toEqual({
             member: row.members[1],
-            x: 25,
+            inline: 25,
         });
     });
 
@@ -110,18 +123,18 @@ describe('nearestInRow', () => {
         // x=14 is closer to left's right edge (10) than right's left edge (20).
         expect(nearestInRow(row, 14)).toEqual({
             member: row.members[0],
-            x: 10,
+            inline: 10,
         });
         expect(nearestInRow(row, 17)).toEqual({
             member: row.members[1],
-            x: 20,
+            inline: 20,
         });
     });
 
     test('x past all content clamps to the far member edge', () => {
         expect(nearestInRow(row, 100)).toEqual({
             member: row.members[1],
-            x: 30,
+            inline: 30,
         });
     });
 });
@@ -136,7 +149,7 @@ describe('targetRowPosition', () => {
     test('steps exactly one row down and lands at the goal column', () => {
         const result = targetRowPosition(rows, 5, 1, 25);
         expect(result?.member.data).toBe('mid');
-        expect(result?.x).toBe(10); // clamped to mid's narrow right edge
+        expect(result?.inline).toBe(10); // clamped to mid's narrow far edge
     });
 
     test('steps exactly one row up', () => {

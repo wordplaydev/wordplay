@@ -50,6 +50,7 @@
         locales,
         localesReady,
         Settings,
+        writingMode,
     } from '@db/Database';
     import shouldPromptForLocale, {
         hasBeenAsked,
@@ -190,6 +191,20 @@
         };
     });
 
+    /** Publish the writing layout on the root element so stylesheets can key off
+        it. Deliberately an attribute rather than `writing-mode` on <html>: text
+        surfaces opt in (see --wordplay-writing-mode in app.html), because the
+        spatial chrome — toolbars, the tile manager, sliders, pickers — stays
+        horizontal whatever the writing mode, and inheriting would turn it all
+        sideways. */
+    $effect(() => {
+        if (browser)
+            document.documentElement.setAttribute(
+                'data-writing-layout',
+                $writingMode,
+            );
+    });
+
     /** When the dark setting changes, drive the html element's color-scheme,
         which both light-dark() and native form controls track. 'light dark'
         means follow the OS; a single keyword forces that mode. */
@@ -261,7 +276,7 @@
                     SupportedLocales.includes(l as SupportedLocale),
                 ) as SupportedLocale[];
             if (valid.length > 0) {
-                DB.Locales.setLocales(valid);
+                DB.Locales.setLocalesFromURL(valid);
                 // Arriving by a URL that names a language is a choice too, and it has to
                 // be recorded separately: setLocales skips the write when the value is
                 // unchanged, so picking the default (en-US) would otherwise store nothing

@@ -604,8 +604,17 @@
 >
     <!-- The panel the section tabs control. It can't be a child of Tabbed: it's a
          scrolling sibling of the sticky header, so it's wired up by id instead. -->
+    <!-- Reading a concept's documentation is long-form prose, so it carries the
+         writing mode; browsing a listing is not, and must not — a card grid
+         inside vertical text is laid out within a column and collapses to a
+         column's width (38px against 1248) whatever mode it declares for
+         itself. This pane shows one or the other, never both, so the condition
+         is the whole rule, and it reaches every concept view: a structure's
+         binds included. -->
     <div
         class="content"
+        class:reading-surface={currentConcept !== undefined && !searchActive}
+        class:reading-pane={currentConcept !== undefined && !searchActive}
         id="docs-browse-panel"
         role="tabpanel"
         aria-labelledby="docs-browse-tab-{Modes.indexOf(mode)}"
@@ -898,7 +907,8 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        overflow-x: auto;
+        /* The trail runs along the text, so that is the axis it scrolls. */
+        overflow-inline: auto;
         font-size: var(--wordplay-small-font-size);
         gap: var(--wordplay-spacing-half);
         padding-inline-start: var(--wordplay-spacing);
@@ -961,6 +971,12 @@
     }
 
     .howtos {
+        /* A card grid, not a flow of prose. It needs no writing mode of its own
+           because the browse panel is deliberately not a reading surface: a
+           block inside vertical text is laid out within a *column*, so a grid
+           placed there collapses to a column's width however it declares
+           itself — measured at 38px against 1248px horizontally. Only the prose
+           in this pane is marked, never the directory around it. */
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
         gap: 1em;

@@ -1,9 +1,15 @@
 import type { Page } from '@playwright/test';
 import { idFromURL } from './idFromURL';
 
-export async function createTestProject(page: Page): Promise<string> {
+export async function createTestProject(
+    page: Page,
+    /** The UI locale to load in. It lives in the URL rather than in settings, so
+     *  a spec that needs a particular language has to ask for it here — setting
+     *  it in localStorage is overwritten by this navigation. */
+    locale = 'en-US',
+): Promise<string> {
     // Create a new project
-    await page.goto('/en-US/projects');
+    await page.goto(`/${locale}/projects`);
     await page.getByTestId('addproject').click();
 
     // Wait for the page to redirect to the new project

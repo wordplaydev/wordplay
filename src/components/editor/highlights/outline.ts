@@ -1,4 +1,5 @@
 import { TAB_WIDTH } from '@parser/Spaces';
+import type { WritingLayout } from '@locale/Scripts';
 import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
 
 export type Rect = {
@@ -19,6 +20,32 @@ export type Outline = {
 };
 
 export const OutlinePadding = 2;
+
+type Pos = { x: number; y: number };
+
+/**
+ * A reversible mapping between physical editor coordinates and the frame the row
+ * tracer below works in — rows stacked down y, each running along x. Writing
+ * vertically swaps those two axes; `vertical-rl` also runs its lines right to
+ * left, so the transposed stacking axis is negated to keep rows in increasing
+ * order. Transposing lets one tracer serve every writing mode, and leaves the
+ * horizontal path byte-for-byte what it was.
+ */
+function rowFrame(layout: WritingLayout): {
+    rect: (r: Rect) => Rect;
+    point: (p: Pos) => Pos;
+} {
+    if (layout === 'horizontal-tb') return { rect: (r) => r, point: (p) => p };
+    const forward = layout === 'vertical-lr';
+    return {
+        rect: (r) => {
+            const t = forward ? r.l : -r.r;
+            const b = forward ? r.r : -r.l;
+            return { l: r.t, t, r: r.b, b, w: r.b - r.t, h: b - t };
+        },
+        point: (p) => ({ x: forward ? p.y : -p.y, y: p.x }),
+    };
+}
 
 /** How far apart two rows' edges can be and still be drawn as one straight edge.
  *  See getOutlineOfRows. */
@@ -359,7 +386,7 @@ export function createRectangleOutlineOf(
  * without re-querying the DOM twice. */
 export function getRowsOf(
     nodeView: HTMLElement,
-    horizontal: boolean,
+    layout: WritingLayout,
     rtl: boolean,
     blocks: boolean,
 ): Rect[] {
@@ -381,7 +408,7 @@ export function getRowsOf(
     )
         return rectsToRows(
             [getTokenContentRect(getEditorOffset(nodeView), nodeView, blocks)],
-            horizontal,
+            layout,
             rtl,
         );
 
@@ -404,14 +431,18 @@ export function getRowsOf(
     if (rects.length === 0)
         rects = [getViewRect(getEditorOffset(nodeView), nodeView)];
 
-    return rectsToRows(rects, horizontal, rtl);
+    return rectsToRows(rects, layout, rtl);
 }
 
 export function rectsToRows(
     rects: Rect[],
-    horizontal: boolean,
+    layout: WritingLayout,
     rtl: boolean,
 ): Rect[] {
+    const horizontal = layout === 'horizontal-tb';
+    // Writing vertically, lines progress along x, and which way is a property of
+    // the writing mode rather than of the locale's inline direction.
+    const backwards = horizontal ? rtl : layout === 'vertical-rl';
     // Segment the rectangles into rows, walking them in visual order.
     //
     // Sorted here rather than trusted from the caller: a range's rects come from
@@ -422,7 +453,7 @@ export function rectsToRows(
     const ordered = [...rects].sort((a, b) =>
         horizontal
             ? a.t - b.t || a.l - b.l
-            : rtl
+            : backwards
               ? b.r - a.r || a.t - b.t
               : a.l - b.l || a.t - b.t,
     );
@@ -439,7 +470,7 @@ export function rectsToRows(
             lastRect === undefined ||
             (horizontal
                 ? rect.t + rect.h / 2 <= lastRect.b
-                : rtl
+                : backwards
                   ? rect.r - rect.w / 2 >= lastRect.l
                   : rect.l + rect.w / 2 <= lastRect.r)
         )
@@ -465,7 +496,7 @@ export function rectsToRows(
 export function underlineFromRows(
     rows: Rect[],
     nodeView: HTMLElement,
-    horizontal: boolean,
+    layout: WritingLayout,
     offset = 0,
 ): Outline {
     if (rows.length === 0) {
@@ -482,19 +513,25 @@ export function underlineFromRows(
         };
     }
 
-    const path = horizontal
-        ? rows
-              .map(
-                  (row) =>
-                      `M ${row.l} ${row.b + offset} L ${row.r} ${row.b + offset}`,
-              )
-              .join(' ')
-        : rows
-              .map(
-                  (row) =>
-                      `M ${row.l} ${row.t + offset} L ${row.l} ${row.b + offset}`,
-              )
-              .join(' ');
+    // Writing vertically the underline runs alongside the column, on the side the
+    // *next* line isn't — so it never collides with the text that follows it.
+    const path =
+        layout === 'horizontal-tb'
+            ? rows
+                  .map(
+                      (row) =>
+                          `M ${row.l} ${row.b + offset} L ${row.r} ${row.b + offset}`,
+                  )
+                  .join(' ')
+            : rows
+                  .map((row) => {
+                      const side =
+                          layout === 'vertical-rl'
+                              ? row.r + offset
+                              : row.l - offset;
+                      return `M ${side} ${row.t} L ${side} ${row.b}`;
+                  })
+                  .join(' ');
     let minx = Infinity,
         miny = Infinity,
         maxx = -Infinity,
@@ -512,28 +549,28 @@ export function underlineFromRows(
 
 export function getUnderlineOf(
     nodeView: HTMLElement,
-    horizontal: boolean,
+    layout: WritingLayout,
     rtl: boolean,
     blocks: boolean,
     offset = 0,
 ) {
     return underlineFromRows(
-        getRowsOf(nodeView, horizontal, rtl, blocks),
+        getRowsOf(nodeView, layout, rtl, blocks),
         nodeView,
-        horizontal,
+        layout,
         offset,
     );
 }
 
 export default function getOutlineOf(
     nodeView: HTMLElement,
-    horizontal: boolean,
+    layout: WritingLayout,
     rtl: boolean,
     blocks: boolean,
 ): Outline {
-    const lines = getRowsOf(nodeView, horizontal, rtl, blocks);
+    const lines = getRowsOf(nodeView, layout, rtl, blocks);
 
-    return getOutlineOfRows(lines);
+    return getOutlineOfRows(lines, layout);
 }
 
 /**
@@ -553,15 +590,19 @@ export default function getOutlineOf(
  * A midpoint also absorbs a gap and an overlap identically, so each chain is
  * monotone in y by construction and a reversal isn't representable.
  */
-export function getOutlineOfRows(lines: Rect[]): Outline {
+export function getOutlineOfRows(
+    lines: Rect[],
+    layout: WritingLayout = 'horizontal-tb',
+): Outline {
     if (lines.length === 0)
         return { path: '', minx: 0, miny: 0, maxx: 0, maxy: 0 };
 
     const padding = 3;
+    const frame = rowFrame(layout);
 
     // Visual order, not document order: rows arrive in source order, so an
     // out-of-order row would send the trace back up the page.
-    const sorted = [...lines].sort((a, b) => a.t - b.t || a.l - b.l);
+    const sorted = lines.map(frame.rect).sort((a, b) => a.t - b.t || a.l - b.l);
 
     // Snap edges that are within a pixel or two of the row above. Lines measure
     // slightly differently depending on which glyphs they begin and end with, and
@@ -597,7 +638,6 @@ export function getOutlineOfRows(lines: Rect[]): Outline {
     const edgeBottom = (i: number) =>
         i === rows.length - 1 ? bottom : boundaries[i];
 
-    type Pos = { x: number; y: number };
     const points: Pos[] = [];
     // Down the right edges…
     for (let i = 0; i < rows.length; i++) {
@@ -613,10 +653,15 @@ export function getOutlineOfRows(lines: Rect[]): Outline {
 
     // Rows that share an extent would otherwise emit zero-length segments, which
     // a round-joined stroke wider than the padding paints as a visible bump.
-    const path = points.filter(
-        (pos, i) =>
-            i === 0 || pos.x !== points[i - 1].x || pos.y !== points[i - 1].y,
-    );
+    const path = points
+        .filter(
+            (pos, i) =>
+                i === 0 ||
+                pos.x !== points[i - 1].x ||
+                pos.y !== points[i - 1].y,
+        )
+        // Back to physical coordinates, since the path is drawn on the page.
+        .map(frame.point);
 
     return {
         path: `M ${path.map((pos) => `${pos.x} ${pos.y}`).join(' L ')} Z`,

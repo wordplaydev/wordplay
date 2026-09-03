@@ -42,6 +42,10 @@
 
 <style>
     .external-example {
+        /* Code is set horizontally whatever the reader's prose is set in, the
+           same rule RootView applies to Wordplay's own: a Python listing turned
+           on its side is unreadable, and its line breaks mean something. */
+        writing-mode: horizontal-tb;
         display: flex;
         flex-direction: column;
         gap: calc(var(--wordplay-spacing) / 2);

@@ -1,5 +1,10 @@
 <script lang="ts">
-    import { locales, animationDuration, animationFactor } from '@db/Database';
+    import {
+        locales,
+        animationDuration,
+        animationFactor,
+        writingMode,
+    } from '@db/Database';
     import { scrolling } from '@db/settings/scrolling';
     import { type Snippet } from 'svelte';
     import { slide } from 'svelte/transition';
@@ -150,10 +155,13 @@
                     : 'below'
                 : flip
                   ? 'flip'
-                  : 'reading'} {typeof document !== 'undefined'
-                ? document.documentElement.dir
-                : 'ltr'}"
-            transition:slide|local={{ duration: $animationDuration }}
+                  : 'reading'} {$locales.getDirection()}"
+            transition:slide|local={{
+                duration: $animationDuration,
+                // The bubble grows across the lines, which is the x axis when
+                // the reader writes vertically.
+                axis: $writingMode === 'horizontal-tb' ? 'y' : 'x',
+            }}
         >
             {#if scroll}
                 <div class="scroller">{@render content()}</div>

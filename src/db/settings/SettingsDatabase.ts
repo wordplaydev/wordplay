@@ -2,7 +2,11 @@ import type { SupportedLocale } from '@locale/SupportedLocales';
 import { doc, getDoc } from 'firebase/firestore';
 import type { SerializedLayout } from '@components/project/Layout';
 import Layout from '@components/project/Layout';
-import type { WritingLayoutChoice } from '@locale/Scripts';
+import {
+    resolveWritingLayout,
+    type WritingLayout,
+    type WritingLayoutChoice,
+} from '@locale/Scripts';
 import type Progress from '../../tutorial/Progress';
 import { CreatorCollection } from '@db/creators/CreatorDatabase';
 import type { Database } from '@db/Database';
@@ -75,7 +79,10 @@ import type { TutorialMode } from '../../tutorial/TutorialMode';
 import { UpdatesSetting } from '@db/settings/UpdatesSetting';
 import { WellspringSetting } from '@db/settings/WellspringSetting';
 import { WrapSetting } from '@db/settings/WrapSetting';
-import { WritingLayoutSetting } from '@db/settings/WritingLayoutSetting';
+import {
+    SourceWritingSetting,
+    WritingLayoutSetting,
+} from '@db/settings/WritingLayoutSetting';
 import type { SidebarState } from '@db/settings/SidebarSetting';
 import type Setting from '@db/settings/Setting';
 
@@ -260,6 +267,7 @@ export default class SettingsDatabase {
         animationFactor: AnimationFactorSetting,
         locales: LocalesSetting,
         writingLayout: WritingLayoutSetting,
+        sourceWriting: SourceWritingSetting,
         tutorial: TutorialSetting,
         contrastLanguage: ContrastLanguageSetting,
         face: FaceSetting,
@@ -356,7 +364,11 @@ export default class SettingsDatabase {
                 this.database,
                 data.animationFactor,
             );
-            this.settings.locales.set(this.database, data.locales);
+            // Except when this page load's URL named the locale, which is a
+            // more recent choice than whatever the document happens to hold.
+            // See LocalesDatabase.localesCameFromURL.
+            if (!this.database.Locales.localesCameFromURL())
+                this.settings.locales.set(this.database, data.locales);
             this.settings.tutorial.set(this.database, data.tutorial);
             this.settings.writingLayout.set(this.database, data.writingLayout);
             this.settings.howToNotifications.set(
@@ -551,6 +563,39 @@ export default class SettingsDatabase {
         }
     }
 
+    /** The writing layout a creator chose for one source's code, or undefined
+     *  when they haven't chosen. Only honoured when the source is still eligible
+     *  for it — see `eligibleWritingLayouts`, which the editor consults, because
+     *  editing Latin into a Japanese program takes vertical off the table. */
+    getSourceWriting(
+        projectID: string,
+        sourceIndex: number,
+    ): WritingLayout | undefined {
+        return this.settings.sourceWriting.get()[projectID]?.[sourceIndex];
+    }
+
+    setSourceWriting(
+        projectID: string,
+        sourceIndex: number,
+        layout: WritingLayout,
+    ) {
+        const all = this.settings.sourceWriting.get();
+        if (all[projectID]?.[sourceIndex] === layout) return;
+        this.settings.sourceWriting.set(this.database, {
+            ...all,
+            [projectID]: { ...all[projectID], [sourceIndex]: layout },
+        });
+    }
+
+    removeSourceWriting(projectID: string) {
+        const all = this.settings.sourceWriting.get();
+        if (projectID in all) {
+            const next = { ...all };
+            delete next[projectID];
+            this.settings.sourceWriting.set(this.database, next);
+        }
+    }
+
     /** The persisted folded-node paths for a project source, or undefined. */
     getProjectFolds(
         projectID: string,
@@ -600,6 +645,15 @@ export default class SettingsDatabase {
 
     setWritingLayout(layout: WritingLayoutChoice) {
         this.settings.writingLayout.set(this.database, layout);
+    }
+
+    /** The writing layout in force for the interface and editor. */
+    getWritingMode(): WritingLayout {
+        return resolveWritingLayout(
+            this.settings.writingLayout.get(),
+            this.database.Locales.getWritingLayout(),
+            this.database.Locales.getVerticalLayout(),
+        );
     }
 
     setTutorialProgress(progress: Progress) {

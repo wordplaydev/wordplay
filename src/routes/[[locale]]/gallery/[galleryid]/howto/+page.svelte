@@ -405,7 +405,7 @@
 {#if gallery === null || (gallery === undefined && urlID !== null && urlLoaded === null)}
     <Loading />
 {:else if gallery === undefined && (galleryID === undefined || urlID === null || urlLoaded === false)}
-    <Writing>
+    <Writing reading>
         <PageHeader />
         <Notice text={(l) => l.ui.howto.error.unknown} />
     </Writing>

@@ -611,6 +611,12 @@
 
 <style>
     .markup {
+        /* Deliberately does NOT set a writing mode. Markup renders everywhere —
+           settings rows, dialog explanations, notices, tooltips, chat — and a
+           vertically-set settings dialog is not something any Japanese
+           application does: vertical is for reading at length, not for
+           operating an interface. The long-form reading surfaces set the mode
+           on themselves instead and this inherits it. */
         display: flex;
         flex-direction: column;
         /* Authored prose opts out of the global `user-select: none`; lists and
@@ -634,16 +640,32 @@
         margin-block-end: 1em;
     }
 
+    /* A paragraph wipes in across the text — down the page horizontally, across
+       it vertically. Two keyframe sets and a swapped `animation-name` rather
+       than one set driven by custom properties: a `var()` inside a keyframe's
+       `transform` is resolvable but not obviously static to a compositor, and
+       this animation runs once per paragraph on every documentation page and
+       every lesson turn. Scaling the wrong axis reads as a squash, not a
+       reveal. */
     .paragraph.animated {
         transform: scaleY(0);
-        animation-name: pop;
+        animation-name: pop-block;
         animation-duration: 200ms;
         animation-delay: var(--delay);
         animation-fill-mode: forwards;
-        transform-origin: top;
+        transform-origin: top left;
     }
 
-    @keyframes pop {
+    :global(:root[data-writing-layout^='vertical']) .paragraph.animated {
+        transform: scaleX(0);
+        animation-name: pop-inline;
+    }
+
+    :global(:root[data-writing-layout='vertical-rl']) .paragraph.animated {
+        transform-origin: top right;
+    }
+
+    @keyframes pop-block {
         0% {
             opacity: 0;
             transform: scaleY(0);
@@ -655,6 +677,21 @@
         100% {
             opacity: 1;
             transform: scaleY(1);
+        }
+    }
+
+    @keyframes pop-inline {
+        0% {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        80% {
+            opacity: 0.9;
+            transform: scaleX(1.05);
+        }
+        100% {
+            opacity: 1;
+            transform: scaleX(1);
         }
     }
 

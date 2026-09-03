@@ -1960,6 +1960,9 @@
     // When the locale direction changes, update the output.
     $effect(() => {
         const direction = $locales.getDirection();
+        // The dragged code's own layout, not the interface's: a drag out of a
+        // horizontal editor must outline horizontally however the creator reads.
+        const dragLayout = focusedEditorState?.writingLayout ?? 'horizontal-tb';
         /** After each update, measure an outline of what's in the drag container.
          *  The container rather than its first `.node-view`, so a run of nodes
          *  outlines as the whole run instead of only the node it starts with. */
@@ -1969,13 +1972,13 @@
                 types: ['dragging'],
                 outline: getOutlineOf(
                     nodeView,
-                    true,
+                    dragLayout,
                     direction === 'rtl',
                     $blocks,
                 ),
                 underline: getUnderlineOf(
                     nodeView,
-                    true,
+                    dragLayout,
                     direction === 'rtl',
                     $blocks,
                 ),
@@ -2016,6 +2019,7 @@
         help: () => (showHelpDialog = !showHelpDialog),
         zoom: focusedEditorState?.zoom,
         setZoom: focusedEditorState?.setZoom,
+        writingLayout: focusedEditorState?.writingLayout,
     });
 
     // Create reactive context to share the above.
@@ -3395,6 +3399,9 @@
                                         ></RemixButton>{/if}
                                     <Toolbar
                                         sourceID={tile.id}
+                                        {project}
+                                        source={getSourceByTileID(tile.id) ??
+                                            sources[0]}
                                         navigateCommands={VisibleNavigateCommands}
                                         modifyCommands={VisibleModifyCommands}
                                         {editable}

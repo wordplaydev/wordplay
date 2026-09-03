@@ -3,6 +3,7 @@ import type { RegionCode } from '@locale/Regions';
 import {
     Scripts,
     type Script,
+    type ScriptMetadata,
     type WritingDirection,
     type WritingLayout,
 } from '@locale/Scripts';
@@ -2311,6 +2312,21 @@ export function getLanguageLayout(code: LanguageCode): WritingLayout {
 
 export function getLanguageScripts(code: LanguageCode): Script[] {
     return Languages[code].scripts;
+}
+
+/** The vertical layout this language's dominant script is set in, if it has a
+ *  vertical tradition at all. Note this is not `getLanguageLayout(code)` —
+ *  Japanese reads horizontally by default and is still set vertically in
+ *  literature, so the two answers differ for every CJK language. */
+export function getLanguageVerticalLayout(
+    code: LanguageCode,
+): WritingLayout | undefined {
+    // Annotated rather than read straight off Scripts: the map is declared with
+    // `satisfies`, so each entry keeps its literal type and an optional field is
+    // absent from the ones that don't set it.
+    const script: ScriptMetadata | undefined =
+        Scripts[Languages[code].scripts[0]];
+    return script?.verticalLayout;
 }
 
 /** True if any language's `scripts` array includes the given script. Uses

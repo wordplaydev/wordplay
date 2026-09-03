@@ -1,5 +1,11 @@
 import { Projects } from '@db/projects/Projects';
 import type { CommandFeedback } from '@components/editor/commands/feedback';
+import type { WritingLayout } from '@locale/Scripts';
+import {
+    editorAxes,
+    isArrowKey,
+    remapArrowKey,
+} from '@components/editor/util/axes';
 import Caret from '@edit/caret/Caret';
 import type { InsertContext } from '@edit/insertContext';
 import BooleanType from '@nodes/BooleanType';
@@ -201,6 +207,10 @@ export type CommandContext = {
     blocks: boolean;
     /** The HTMLElement rendering the editor */
     view: HTMLElement | undefined;
+    /** The writing layout the focused editor's code is laid out in. Comes from
+     *  that source's own glyphs, not the creator's interface setting, so the
+     *  arrow keys mean what they mean for *this* code (#1203). */
+    writingLayout?: WritingLayout | undefined;
     toggleMenu?: () => void;
     /** Toggle the focused editor's search field. */
     toggleSearch?: () => void;
@@ -309,6 +319,32 @@ export function handleKeyCommand(
     // Map meta key to control on Mac OS/iOS.
     const control = event.metaKey || event.ctrlKey;
 
+    // In a vertical writing mode the arrows mean different motions than they do
+    // horizontally, so translate the keystroke into the horizontal key with the
+    // same meaning and match the command table against that. Doing it here, once,
+    // is what lets every command keep its meaning and its localized description.
+    //
+    // Only unmodified arrows qualify — Shift included, since extending a
+    // selection is caret motion. Control and Alt arrows are bound to things that
+    // aren't text motion at all (stepping the evaluator, incrementing a literal),
+    // and remapping those would silently swap one command for another. Testing
+    // that first also keeps the setting out of the hot path: this runs on every
+    // keydown, and resolving it reads every chosen locale.
+    const motionKey =
+        !control &&
+        !event.altKey &&
+        (isArrowKey(event.key) || isArrowKey(event.code));
+    let key = event.key;
+    let code = event.code;
+    if (motionKey) {
+        // The focused editor's layout, never the interface's: a Latin project
+        // keeps its horizontal arrows for someone reading a vertical interface.
+        const layout = context.writingLayout ?? 'horizontal-tb';
+        const writingDirection = context.locales.getDirection();
+        key = remapArrowKey(key, layout, writingDirection);
+        code = remapArrowKey(code, layout, writingDirection);
+    }
+
     let matchedShortcut = false;
 
     // Loop through the commands and see if there's a match to this event.
@@ -324,8 +360,8 @@ export function handleKeyCommand(
             // shortcut, like the pattern glyphs) deliberately omit `key`; without
             // this guard they'd match every unmodified keystroke and clobber it.
             ((command.key === undefined && command.typing === true) ||
-                command.key === event.code ||
-                command.key === event.key)
+                command.key === code ||
+                command.key === key)
         ) {
             // Update matched shortcut to true, since we matched one.
             // The only one that doesn't count is the insert symbol catch all.
@@ -1202,17 +1238,16 @@ const MovePriorLine: Command = {
     // soft-wrapped rows). When the rendered rows can't say where to go — the end
     // of a program, a row outside a virtualized window, a caret not yet laid out
     // — step by source line instead, so the key never silently does nothing.
-    execute: ({ caret, blocks, view, getTokenViews, locales }) => {
+    execute: ({ caret, blocks, view, getTokenViews, locales, database }) => {
         if (caret === undefined || !view || !getTokenViews) return false;
+        const axes = editorAxes(
+            view,
+            database.Settings.getWritingMode(),
+            locales.getDirection(),
+        );
         const visual = blocks
-            ? moveVisualVertical(-1, view, caret, getTokenViews)
-            : moveCaretVisualVertical(
-                  -1,
-                  view,
-                  caret,
-                  getTokenViews,
-                  locales.getDirection() === 'rtl',
-              );
+            ? moveVisualVertical(-1, view, caret, getTokenViews, axes)
+            : moveCaretVisualVertical(-1, view, caret, getTokenViews, axes);
         return visual ?? caret.moveLineVertical(-1, blocks);
     },
 };
@@ -1232,7 +1267,7 @@ const ExpandPriorLine: Command = {
     // node the caret is in — expandNode extends from there. Otherwise expand by
     // one visual row up, falling back to a source-line step when the
     // rendered rows can't say where to go.
-    execute: ({ caret, blocks, view, getTokenViews, locales }) => {
+    execute: ({ caret, blocks, view, getTokenViews, locales, database }) => {
         if (caret === undefined) return false;
         if (caret.position instanceof Node) return caret.expandNode(-1);
         if (blocks) return caret.selectTokenNode();
@@ -1242,7 +1277,11 @@ const ExpandPriorLine: Command = {
             view,
             caret,
             getTokenViews,
-            locales.getDirection() === 'rtl',
+            editorAxes(
+                view,
+                database.Settings.getWritingMode(),
+                locales.getDirection(),
+            ),
         );
         return visual ?? caret.expandLineVertical(-1);
     },
@@ -1263,17 +1302,16 @@ const MoveNextLine: Command = {
     // soft-wrapped rows). When the rendered rows can't say where to go — the end
     // of a program, a row outside a virtualized window, a caret not yet laid out
     // — step by source line instead, so the key never silently does nothing.
-    execute: ({ caret, blocks, view, getTokenViews, locales }) => {
+    execute: ({ caret, blocks, view, getTokenViews, locales, database }) => {
         if (caret === undefined || !view || !getTokenViews) return false;
+        const axes = editorAxes(
+            view,
+            database.Settings.getWritingMode(),
+            locales.getDirection(),
+        );
         const visual = blocks
-            ? moveVisualVertical(1, view, caret, getTokenViews)
-            : moveCaretVisualVertical(
-                  1,
-                  view,
-                  caret,
-                  getTokenViews,
-                  locales.getDirection() === 'rtl',
-              );
+            ? moveVisualVertical(1, view, caret, getTokenViews, axes)
+            : moveCaretVisualVertical(1, view, caret, getTokenViews, axes);
         return visual ?? caret.moveLineVertical(1, blocks);
     },
 };
@@ -1293,7 +1331,7 @@ const ExpandNextLine: Command = {
     // node the caret is in — expandNode extends from there. Otherwise expand by
     // one visual row down, falling back to a source-line step when the
     // rendered rows can't say where to go.
-    execute: ({ caret, blocks, view, getTokenViews, locales }) => {
+    execute: ({ caret, blocks, view, getTokenViews, locales, database }) => {
         if (caret === undefined) return false;
         if (caret.position instanceof Node) return caret.expandNode(1);
         if (blocks) return caret.selectTokenNode();
@@ -1303,7 +1341,11 @@ const ExpandNextLine: Command = {
             view,
             caret,
             getTokenViews,
-            locales.getDirection() === 'rtl',
+            editorAxes(
+                view,
+                database.Settings.getWritingMode(),
+                locales.getDirection(),
+            ),
         );
         return visual ?? caret.expandLineVertical(1);
     },

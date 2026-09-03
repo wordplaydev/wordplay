@@ -8,11 +8,16 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
+- 🌐 If you read a language written down the page — like Chinese, Japanese, Korean, or Mongolian — you can now set Wordplay to read that way too. The lessons and each thing the guide explains run top to bottom. Buttons, menus, and lists stay as they were. (#1203)
+- 🌐 Code written entirely in a language that goes down the page can now be shown that way, with a button above the editor. It only appears when your code is actually written that way, and only offers the direction that language uses — so a program written in English stays as it is. (#1203)
 - 🧩 You can now choose more than one piece of code at a time. Hold shift and press an arrow to reach the next piece beside it, then delete, cut, copy, or put them all in one list or group together. (#177)
 - 🖱️ You can drag everything you've chosen at once. Press anywhere inside your choice and drag, and all of it moves together and stays chosen where it lands. (#177)
 
 ### Changed
 
+- 🌐 The writing layout setting now only appears if you've chosen a language that is actually written down the page, and only offers the direction that language really uses. It never helped anyone reading English, and picking it just turned the words sideways. (#220, #1203)
+- 🎨 What your program shows on stage now follows the language of the project, not the settings of whoever is looking at it. So a project you share looks the way you made it for everyone. (#1203)
+- ✍️ How your code is laid out now follows the code itself, not the language you read the app in. Before, choosing to read Wordplay top to bottom turned everyone's code sideways, even code written in English. (#1203)
 - ✍️ Pressing up on the first line now moves the cursor to the very start of your program, and down on the last line moves it to the very end.
 - 🧩 In blocks mode, holding shift and pressing up or down now chooses the code your cursor is in. Before, it scrolled the page and said the key did nothing.
 
@@ -21,6 +26,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ✍️ We fixed pressing up or down doing nothing. In blocks mode the cursor at the end of a program couldn't move up at all; now every press either moves it or says why it can't.
 - ✍️ Pressing up or down inside a long, wrapped line left the cursor where it was. It now moves a row, like it should.
 - 🐛 Pressing Escape to choose the code around your cursor sometimes chose the piece before it instead of the one you were in.
+- 🐛 Speech bubbles didn't flip around for right to left languages like Arabic and Hebrew. Now they do. (#1203)
 
 ## 0.34.0 - 2026-09-01
 

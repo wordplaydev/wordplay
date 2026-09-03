@@ -164,3 +164,29 @@ test.describe('landscape tablet', () => {
         await expectReachableThroughout(page);
     });
 });
+
+/**
+ * Login is one of the route links, so it lines up with them. It sat at the page
+ * edge instead, a good 140px outside the grid below it, because the grid is
+ * capped at the measure and centered while its sibling was left to stretch —
+ * which reads as a mistake next to an otherwise centered page.
+ */
+test('the login link starts where the route grid starts', async ({ page }) => {
+    await page.goto('/en-US');
+    const login = page.locator('.links > .biglink').first();
+    // Signed out, which is when the link exists at all.
+    await login.waitFor({ timeout: 15000 });
+    const edges = await page.evaluate(() => {
+        const start = (selector: string) => {
+            const found = document.querySelector(selector);
+            if (found === null) return null;
+            const box = found.getBoundingClientRect();
+            return { x: Math.round(box.x), width: Math.round(box.width) };
+        };
+        return {
+            login: start('.links > .biglink'),
+            grid: start('.links .actions'),
+        };
+    });
+    expect(edges.login).toEqual(edges.grid);
+});

@@ -979,121 +979,124 @@
                                 bind:view={nextButton}
                             ></Button>
                         </div>
-                        {#if act === undefined}
-                            <div class="title play"
-                                ><LocalizedText
-                                    path={(l) => l.glossary.wordplay.word}
-                                /></div
-                            >
-                        {:else if scene === undefined}
-                            <div class="title act"
-                                ><LocalizedText
-                                    path={(l) => l.glossary.act.word}
-                                />
-                                {progress.act}<p
-                                    ><em
-                                        ><LocalizedText
-                                            overrideKey={actTitlePath(
-                                                progress.mode,
-                                                progress.act - 1,
-                                            )}
-                                            sourceText={act.title}
-                                        /></em
-                                    ></p
-                                ></div
-                            >
-                        {:else if dialog === undefined}
-                            <div class="title scene"
-                                ><LocalizedText
-                                    path={(l) => getConceptName(l, 'scene')}
-                                />
-                                {progress.scene}<p
-                                    ><em
-                                        ><LocalizedText
-                                            overrideKey={sceneTitlePath(
-                                                progress.mode,
-                                                progress.act - 1,
-                                                progress.scene - 1,
-                                            )}
-                                            sourceText={scene.title}
-                                        /></em
-                                    ></p
-                                >{#if scene.subtitle}<em
-                                        ><LocalizedText
-                                            overrideKey={sceneSubtitlePath(
-                                                progress.mode,
-                                                progress.act - 1,
-                                                progress.scene - 1,
-                                            )}
-                                            sourceText={scene.subtitle}
-                                        /></em
-                                    >{/if}</div
-                            >
-                        {:else}
-                            {#key turns}
-                                {#each turns as turn}
-                                    {@const character = turn.dialog[0]}
-                                    {@const concept =
-                                        projectContext?.getConceptByName(
-                                            character,
-                                        )}
-                                    <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
-                                    <Speech
-                                        eyes
-                                        character={concept ??
-                                            BasisCharacters[
-                                                character as keyof typeof BasisCharacters
-                                            ] ?? {
-                                                symbols: character,
-                                            }}
-                                        flip={turn.dialog[0] !==
-                                            'FunctionDefinition'}
-                                        baseline
-                                        scroll={false}
-                                        emotion={Emotion[turn.dialog[1]]}
-                                    >
-                                        {#snippet content()}
-                                            <MarkupHTMLView
-                                                markup={turn.speech}
-                                                overrideKey={dialogTextPath(
+                        <div class="lines reading-surface">
+                            {#if act === undefined}
+                                <div class="title play"
+                                    ><LocalizedText
+                                        path={(l) => l.glossary.wordplay.word}
+                                    /></div
+                                >
+                            {:else if scene === undefined}
+                                <div class="title act"
+                                    ><LocalizedText
+                                        path={(l) => l.glossary.act.word}
+                                    />
+                                    {progress.act}<p
+                                        ><em
+                                            ><LocalizedText
+                                                overrideKey={actTitlePath(
+                                                    progress.mode,
+                                                    progress.act - 1,
+                                                )}
+                                                sourceText={act.title}
+                                            /></em
+                                        ></p
+                                    ></div
+                                >
+                            {:else if dialog === undefined}
+                                <div class="title scene"
+                                    ><LocalizedText
+                                        path={(l) => getConceptName(l, 'scene')}
+                                    />
+                                    {progress.scene}<p
+                                        ><em
+                                            ><LocalizedText
+                                                overrideKey={sceneTitlePath(
                                                     progress.mode,
                                                     progress.act - 1,
                                                     progress.scene - 1,
-                                                    turn.lineIndex,
                                                 )}
-                                                sourceText={turn.rawText}
-                                            />{#each turn.others as echo, i}<div
-                                                    class="dialog-echo"
-                                                    lang={echo.language}
-                                                    dir={echo.direction}
-                                                    style="font-size: {0.8 **
-                                                        (i + 1)}em"
-                                                    ><MarkupHTMLView
-                                                        markup={echo.markup}
-                                                    /></div
-                                                >{/each}
-                                        {/snippet}
-                                    </Speech>
-                                {/each}
-                            {/key}
-                            <!-- Beside the tour it offers, rather than up in the
-                                 nav row: this is the choice being made here, and
-                                 the nav row is a fixed three-part layout the
-                                 narrow dialog column has no room to grow. -->
-                            {#if gated}
-                                <div class="skip">
-                                    <Button
-                                        tip={(l) => l.ui.page.learn.tour.skip}
-                                        action={skipTours}
-                                        bind:view={skipButton}
-                                        ><LocalizedText
-                                            path={(l) =>
+                                                sourceText={scene.title}
+                                            /></em
+                                        ></p
+                                    >{#if scene.subtitle}<em
+                                            ><LocalizedText
+                                                overrideKey={sceneSubtitlePath(
+                                                    progress.mode,
+                                                    progress.act - 1,
+                                                    progress.scene - 1,
+                                                )}
+                                                sourceText={scene.subtitle}
+                                            /></em
+                                        >{/if}</div
+                                >
+                            {:else}
+                                {#key turns}
+                                    {#each turns as turn}
+                                        {@const character = turn.dialog[0]}
+                                        {@const concept =
+                                            projectContext?.getConceptByName(
+                                                character,
+                                            )}
+                                        <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
+                                        <Speech
+                                            eyes
+                                            character={concept ??
+                                                BasisCharacters[
+                                                    character as keyof typeof BasisCharacters
+                                                ] ?? {
+                                                    symbols: character,
+                                                }}
+                                            flip={turn.dialog[0] !==
+                                                'FunctionDefinition'}
+                                            baseline
+                                            scroll={false}
+                                            emotion={Emotion[turn.dialog[1]]}
+                                        >
+                                            {#snippet content()}
+                                                <MarkupHTMLView
+                                                    markup={turn.speech}
+                                                    overrideKey={dialogTextPath(
+                                                        progress.mode,
+                                                        progress.act - 1,
+                                                        progress.scene - 1,
+                                                        turn.lineIndex,
+                                                    )}
+                                                    sourceText={turn.rawText}
+                                                />{#each turn.others as echo, i}<div
+                                                        class="dialog-echo"
+                                                        lang={echo.language}
+                                                        dir={echo.direction}
+                                                        style="font-size: {0.8 **
+                                                            (i + 1)}em"
+                                                        ><MarkupHTMLView
+                                                            markup={echo.markup}
+                                                        /></div
+                                                    >{/each}
+                                            {/snippet}
+                                        </Speech>
+                                    {/each}
+                                {/key}
+                                <!-- Beside the tour it offers, rather than up in the
+                                     nav row: this is the choice being made here, and
+                                     the nav row is a fixed three-part layout the
+                                     narrow dialog column has no room to grow. -->
+                                {#if gated}
+                                    <div class="skip">
+                                        <Button
+                                            tip={(l) =>
                                                 l.ui.page.learn.tour.skip}
-                                        /></Button
-                                    >
-                                </div>
+                                            action={skipTours}
+                                            bind:view={skipButton}
+                                            ><LocalizedText
+                                                path={(l) =>
+                                                    l.ui.page.learn.tour.skip}
+                                            /></Button
+                                        >
+                                    </div>
+                                {/if}
                             {/if}
-                        {/if}
+                        </div>
                     </div>
                 </div>
                 <!-- Create a new view from scratch when the code changes -->
@@ -1274,7 +1277,22 @@
         display: flex;
         flex-direction: column;
         gap: calc(2 * var(--wordplay-spacing));
-        padding-top: calc(2 * var(--wordplay-spacing));
+        padding-block-start: calc(2 * var(--wordplay-spacing));
+        width: 100%;
+    }
+
+    /* The lines are a block of their own inside the turns so that the writing
+       mode can land on the prose without taking the nav row above it: a flex row
+       in vertical text runs *down* the page, so the ← title → row became a
+       1083px-wide vertical stack that pushed the lesson off the left edge.
+       Horizontally this box is invisible — it repeats the column and gap it
+       replaces, so the lines sit exactly where they did. */
+    .lines {
+        display: flex;
+        flex-direction: column;
+        gap: calc(2 * var(--wordplay-spacing));
+        flex: 1;
+        min-height: 0;
         width: 100%;
     }
 
@@ -1303,7 +1321,8 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-        overflow-y: auto;
+        /* Which axis overflows is the writing mode's business. */
+        overflow: auto;
         flex: 1;
         padding: var(--wordplay-spacing);
     }
@@ -1341,7 +1360,20 @@
         color: var(--wordplay-inactive-color);
     }
 
-    /* A responsive design for vertical screens. */
+    /* Stack the dialog above the project instead of beside it. Two different
+       situations want exactly this layout:
+
+       - A taller-than-wide screen, where a 20-30em column beside the project
+         leaves neither enough room.
+       - A vertical writing mode, where the reason is the shape of the prose
+         rather than the shape of the screen: text that runs down the page fills
+         a wide, short block, so a narrow column is the wrong container for it.
+
+       Stated twice because CSS can't union an at-rule with a selector, and the
+       alternatives are worse: routing both through custom properties would take
+       five of them and still split the border rules, and detecting portrait in
+       JS would trade a media query for a resize listener. The two blocks must
+       be kept in step. */
     @media (orientation: portrait) {
         .content {
             flex-direction: column;
@@ -1354,10 +1386,40 @@
             max-height: fit-content;
             border-inline-end: none;
             border-inline-start: none;
-            border-top: var(--wordplay-border-width) solid
+            /* Block-axis rather than top/bottom: identical here, and correct
+               when the dialog is stacked because the reader writes vertically. */
+            border-block-start: var(--wordplay-border-width) solid
                 var(--wordplay-border-color);
-            border-bottom: var(--wordplay-border-width) solid
+            border-block-end: var(--wordplay-border-width) solid
                 var(--wordplay-border-color);
         }
+    }
+
+    /* Vertical text takes its line length from the block's *height*, so the
+       tall narrow column the dialog already occupies is the right container for
+       it — a full-height column is a ~47-character line, where stacking it into
+       a wide strip gave 12. That is the opposite of what stacking assumed, and
+       it is why there is no vertical counterpart to the portrait rules above:
+       the default layout is already correct.
+
+       Where portrait *does* stack it, `max-height: fit-content` leaves the lines
+       nowhere to run, so the strip states a height instead. */
+    @media (orientation: portrait) {
+        :global(:root[data-writing-layout^='vertical']) .dialog {
+            height: min(40em, 40dvh);
+            max-height: none;
+            flex: none;
+        }
+    }
+
+    /* Vertical prose sized by its container rather than by the viewport: this is
+       `reading-surface` without `reading-pane`, because a lesson's dialog is a
+       strip inside a page, not a pane that fills one. It carries the scroller
+       for the reason the shared rule gives — columns grow toward decreasing x,
+       and no left-to-right ancestor can scroll that way. */
+    :global(:root[data-writing-layout^='vertical']) .lines {
+        inline-size: 100%;
+        block-size: 100%;
+        overflow: auto;
     }
 </style>

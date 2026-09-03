@@ -18,6 +18,7 @@ import {
     type Row,
     type RowMember,
 } from '@components/editor/caret/rowModel';
+import type { Axes, LogicalRect, RectLike } from '@components/editor/util/axes';
 
 /**
  * Given a rendered source, and a pointer event, find the empty list insertion under the
@@ -298,8 +299,9 @@ export function getTextInsertionPointsAt(
     getTokenViews: () => HTMLElement[],
     editor: HTMLElement | null,
     blocks: boolean,
-    /** True if the editor's writing direction is right-to-left */
-    rtl: boolean,
+    /** How this editor's writing mode maps physical geometry onto the inline
+     *  and block axes. */
+    axes: Axes,
     /** Token rects frozen at drag-start, so the insertion marker's own reflow
      *  can't perturb the line resolution mid-drag (fixes a per-pixel oscillation
      *  when dragging over a blank line). See getEndOfLinePosition. */
@@ -315,7 +317,7 @@ export function getTextInsertionPointsAt(
         getTokenViews,
         editor,
         blocks,
-        rtl,
+        axes,
         rectFor,
     );
 
@@ -398,8 +400,9 @@ export function getCaretPositionAt(
     editor: HTMLElement | null,
     /** True if in blocks editing mode */
     blocks: boolean,
-    /** True if the editor's writing direction is right-to-left */
-    rtl: boolean,
+    /** How this editor's writing mode maps physical geometry onto the inline
+     *  and block axes. */
+    axes: Axes,
     /** Optional frozen-at-drag-start token rects (see getEndOfLinePosition). Only
      *  the drag insertion path passes this; clicks/vertical movement use live
      *  geometry (the default). */
@@ -418,11 +421,16 @@ export function getCaretPositionAt(
         return undefined;
 
     // Is the pointer over a token?
-    const tokenPosition = getTokenPosition(elementAtCursor, point, caret);
+    const tokenPosition = getTokenPosition(elementAtCursor, point, caret, axes);
     if (tokenPosition !== undefined) return tokenPosition;
 
     // Is the pointer over space before a token?
-    const spacePosition = getSpacePosition(point, elementAtCursor, source);
+    const spacePosition = getSpacePosition(
+        point,
+        elementAtCursor,
+        source,
+        axes,
+    );
     if (spacePosition !== undefined) return spacePosition;
 
     if (!blocks) {
@@ -438,7 +446,7 @@ export function getCaretPositionAt(
                       editor,
                       caret,
                       getTokenViews,
-                      rtl,
+                      axes,
                       point.clientX,
                       point.clientY,
                       rectFor,
@@ -448,7 +456,7 @@ export function getCaretPositionAt(
                       source,
                       getTokenViews,
                       caret,
-                      rtl,
+                      axes,
                       rectFor,
                   );
         if (fallback !== undefined) return fallback;
@@ -469,7 +477,7 @@ export function caretBarRect(editor: HTMLElement): DOMRect | undefined {
     const bar = editor.querySelector('.caret .bar');
     if (!(bar instanceof HTMLElement)) return undefined;
     const rect = bar.getBoundingClientRect();
-    return rect.height === 0 ? undefined : rect;
+    return isRendered(rect) ? rect : undefined;
 }
 
 /** The bounding rect of the token at `index` — the visual row of a position that
@@ -485,7 +493,7 @@ function rowRectOfIndex(
     const view = editor.querySelector(`.token-view[data-id="${token.id}"]`);
     if (!(view instanceof HTMLElement)) return undefined;
     const rect = view.getBoundingClientRect();
-    return rect.height === 0 ? undefined : rect;
+    return isRendered(rect) ? rect : undefined;
 }
 
 /** Resolve the source index at horizontal `x` on the visual row whose vertical
@@ -499,67 +507,74 @@ function geometricCaretIndexAt(
     editor: HTMLElement,
     caret: Caret,
     getTokenViews: () => HTMLElement[],
-    rtl: boolean,
+    axes: Axes,
     x: number,
     y: number,
     /** See getEndOfLinePosition: frozen-at-drag-start token rects during a drag. */
     rectFor: (el: HTMLElement) => DOMRect = (el) => el.getBoundingClientRect(),
 ): number | undefined {
-    // Gather the token-views and space runs whose vertical band contains y —
-    // i.e. everything on the target *visual* row. We resolve within this row
-    // only, so a caret never escapes to another visual row of the same wrapped
-    // source line (e.g. snapping to the source line's end when x is past a short
-    // row's content, instead of to that row's end).
-    const onRow: { el: HTMLElement; rect: DOMRect; space: boolean }[] = [];
-    for (const tokenView of getTokenViews()) {
-        const r = rectFor(tokenView);
-        if (r.height > 0 && y >= r.top && y <= r.bottom)
-            onRow.push({ el: tokenView, rect: r, space: false });
-    }
-    for (const spaceText of editor.querySelectorAll('.space-text')) {
-        if (!(spaceText instanceof HTMLElement)) continue;
-        const r = spaceText.getBoundingClientRect();
-        if (r.height > 0 && y >= r.top && y <= r.bottom)
-            onRow.push({ el: spaceText, rect: r, space: true });
-    }
+    const at = axes.point(x, y);
+    // Gather the token-views and space runs whose band across the lines contains
+    // the point — i.e. everything on the target *visual* row. We resolve within
+    // this row only, so a caret never escapes to another visual row of the same
+    // wrapped source line (e.g. snapping to the source line's end when the point
+    // is past a short row's content, instead of to that row's end).
+    const onRow: { el: HTMLElement; rect: LogicalRect; space: boolean }[] = [];
+    const consider = (el: HTMLElement, raw: DOMRect, space: boolean) => {
+        // Filter with the scalar test, then project: this runs over every token
+        // view in the source on every pointer move while a selection is being
+        // dragged, and projecting first allocated three objects per token.
+        if (!isRendered(raw) || !axes.containsBlock(raw, at.block)) return;
+        onRow.push({ el, rect: axes.rect(raw), space });
+    };
+    for (const tokenView of getTokenViews())
+        consider(tokenView, rectFor(tokenView), false);
+    for (const spaceText of editor.querySelectorAll('.space-text'))
+        if (spaceText instanceof HTMLElement)
+            consider(spaceText, spaceText.getBoundingClientRect(), true);
 
     // No element on this row (e.g. a blank line): defer to the line-boundary
     // resolver, which derives an empty line's position from neighbouring rows,
-    // and returns undefined when there's genuinely no row at y (a document edge).
+    // and returns undefined when there's genuinely no row there (a document edge).
     if (onRow.length === 0)
         return getEndOfLinePosition(
             { clientX: x, clientY: y },
             caret.source,
             getTokenViews,
             caret,
-            rtl,
+            axes,
             rectFor,
         );
 
-    const resolve = (item: (typeof onRow)[number], clientX: number) =>
-        item.space
-            ? getSpacePosition({ clientX, clientY: y }, item.el, caret.source)
-            : getTokenPosition(item.el, { clientX, clientY: y }, caret);
+    const resolve = (item: (typeof onRow)[number], inline: number) => {
+        const point = axes.client({ inline, block: at.block });
+        return item.space
+            ? getSpacePosition(point, item.el, caret.source, axes)
+            : getTokenPosition(item.el, point, caret, axes);
+    };
 
-    // The element horizontally containing x → precise offset within it.
+    // The element containing the point along the text → precise offset within it.
     for (const item of onRow) {
-        if (x >= item.rect.left && x <= item.rect.right) {
-            const p = resolve(item, x);
+        if (
+            at.inline >= item.rect.inlineStart &&
+            at.inline <= item.rect.inlineEnd
+        ) {
+            const p = resolve(item, at.inline);
             if (p !== undefined) return p;
         }
     }
 
-    // x is in a gap, or before/after all content on this row. Clamp to the
-    // nearest element's edge and resolve there, so we land at this row's
+    // The point is in a gap, or before/after all content on this row. Clamp to
+    // the nearest element's edge and resolve there, so we land at this row's
     // start/end rather than the source line's, staying on the target row.
     let nearest = onRow[0];
     let nearestDistance = Number.POSITIVE_INFINITY;
     for (const item of onRow) {
         const distance =
-            x < item.rect.left
-                ? item.rect.left - x
-                : x > item.rect.right
-                  ? x - item.rect.right
+            at.inline < item.rect.inlineStart
+                ? item.rect.inlineStart - at.inline
+                : at.inline > item.rect.inlineEnd
+                  ? at.inline - item.rect.inlineEnd
                   : 0;
         if (distance < nearestDistance) {
             nearestDistance = distance;
@@ -568,7 +583,10 @@ function geometricCaretIndexAt(
     }
     return resolve(
         nearest,
-        Math.min(Math.max(x, nearest.rect.left), nearest.rect.right),
+        Math.min(
+            Math.max(at.inline, nearest.rect.inlineStart),
+            nearest.rect.inlineEnd,
+        ),
     );
 }
 
@@ -587,26 +605,42 @@ export function elementRowRects(el: HTMLElement): DOMRect[] {
  *  it's a whitespace run (resolved differently than a token). */
 type TextMember = { el: HTMLElement; space: boolean };
 
+/** Whether an element is laid out at all. A blank line has extent across the
+ *  lines but none along the text, so this tests the *thickness* of a rendered
+ *  row — height when writing horizontally, width when writing vertically —
+ *  rather than height unconditionally, which would drop every row in a
+ *  vertical editor. */
+export function isRendered(rect: RectLike): boolean {
+    return rect.bottom - rect.top > 0 || rect.right - rect.left > 0;
+}
+
 /** Carve the editor's rendered token-views and space runs into visual rows. A
  *  blank line is a zero-WIDTH but non-zero-HEIGHT space span, so it still marks
  *  a row. Excludes folded (.hide) and zero-height elements. */
 function gatherTextRows(
     editor: HTMLElement,
     getTokenViews: () => HTMLElement[],
+    axes: Axes,
 ): Row<TextMember>[] {
     const members: RowMember<TextMember>[] = [];
     for (const tokenView of getTokenViews()) {
         if (tokenView.closest('.hide') !== null) continue;
         for (const rect of elementRowRects(tokenView))
-            if (rect.height > 0)
-                members.push({ data: { el: tokenView, space: false }, rect });
+            if (isRendered(rect))
+                members.push({
+                    data: { el: tokenView, space: false },
+                    rect: axes.rect(rect),
+                });
     }
     for (const spaceText of editor.querySelectorAll('.space-text')) {
         if (!(spaceText instanceof HTMLElement)) continue;
         if (spaceText.closest('.hide') !== null) continue;
         const rect = spaceText.getBoundingClientRect();
-        if (rect.height > 0)
-            members.push({ data: { el: spaceText, space: true }, rect });
+        if (isRendered(rect))
+            members.push({
+                data: { el: spaceText, space: true },
+                rect: axes.rect(rect),
+            });
     }
     return buildRows(members);
 }
@@ -617,22 +651,24 @@ function nodeViewRect(editor: HTMLElement, node: Node): DOMRect | undefined {
     const view = editor.querySelector(`.node-view[data-id="${node.id}"]`);
     if (!(view instanceof HTMLElement)) return undefined;
     const rect = view.getBoundingClientRect();
-    return rect.height === 0 ? undefined : rect;
+    return isRendered(rect) ? rect : undefined;
 }
 
-/** Resolve a chosen text-mode row member to a source index at horizontal `x`. */
+/** Resolve a chosen text-mode row member to a source index at `inline`. */
 function resolveTextMember(
     member: RowMember<TextMember>,
-    x: number,
+    inline: number,
     caret: Caret,
+    axes: Axes,
 ): number | undefined {
-    const point: ViewportPoint = {
-        clientX: x,
-        clientY: (member.rect.top + member.rect.bottom) / 2,
-    };
+    // Back to viewport coordinates, since the resolvers below hit-test there.
+    const point: ViewportPoint = axes.client({
+        inline,
+        block: (member.rect.blockStart + member.rect.blockEnd) / 2,
+    });
     return member.data.space
-        ? getSpacePosition(point, member.data.el, caret.source)
-        : getTokenPosition(member.data.el, point, caret);
+        ? getSpacePosition(point, member.data.el, caret.source, axes)
+        : getTokenPosition(member.data.el, point, caret, axes);
 }
 
 /** The source index of a caret's active (moving) end — the position whose visual
@@ -670,43 +706,44 @@ export function moveCaretVisualVertical(
     editor: HTMLElement,
     caret: Caret,
     getTokenViews: () => HTMLElement[],
-    rtl: boolean,
+    axes: Axes,
 ): Caret | undefined {
-    // A selected node anchors the move from its whole box (its bottom going
-    // down, top going up), so a move steps to the row just past the node rather
-    // than somewhere inside it. The rendered "bar" for a node selection is a
-    // scroll-placement spot, not the node's location, so we must NOT use it.
+    // A selected node anchors the move from its whole box (its far edge going
+    // forward, near edge going back), so a move steps to the row just past the
+    // node rather than somewhere inside it. The rendered "bar" for a node
+    // selection is a scroll-placement spot, not the node's location, so we must
+    // NOT use it.
     const node = caret.position instanceof Node ? caret.position : undefined;
-    const origin =
+    const box =
         node !== undefined
             ? nodeViewRect(editor, node)
             : caretOriginRect(editor, caret);
-    if (origin === undefined) return undefined;
+    if (box === undefined) return undefined;
+    const origin = axes.rect(box);
 
     // The remembered goal column from a prior vertical move, so moving through a
     // short line and back to a longer one returns to the original column;
     // otherwise anchor to the origin's leading edge.
-    const goalX = caret.visualColumn ?? (rtl ? origin.right : origin.left);
+    const goalInline = caret.visualColumn ?? origin.inlineStart;
     // For a plain caret the span is its center (a single row); for a node it's
-    // the node's full vertical extent (it may cover several rows).
-    const top =
-        node !== undefined ? origin.top : (origin.top + origin.bottom) / 2;
-    const bottom =
-        node !== undefined ? origin.bottom : (origin.top + origin.bottom) / 2;
+    // the node's full extent across lines (it may cover several rows).
+    const center = (origin.blockStart + origin.blockEnd) / 2;
+    const from = node !== undefined ? origin.blockStart : center;
+    const to = node !== undefined ? origin.blockEnd : center;
     const target = targetRowPositionFromSpan(
-        gatherTextRows(editor, getTokenViews),
-        top,
-        bottom,
+        gatherTextRows(editor, getTokenViews, axes),
+        from,
+        to,
         direction,
-        goalX,
+        goalInline,
     );
     if (target === undefined) return undefined;
-    const index = resolveTextMember(target.member, target.x, caret);
+    const index = resolveTextMember(target.member, target.inline, caret, axes);
     // Carry the goal column forward so the next consecutive vertical move reuses
     // it. Any non-vertical caret operation omits it via withPosition and resets.
     return index === undefined
         ? undefined
-        : caret.withPosition(index, undefined, goalX);
+        : caret.withPosition(index, undefined, goalInline);
 }
 
 /** Expand (or shrink) the selection by one visual row up (-1) or down (1) —
@@ -718,7 +755,7 @@ export function expandCaretVisualVertical(
     editor: HTMLElement,
     caret: Caret,
     getTokenViews: () => HTMLElement[],
-    rtl: boolean,
+    axes: Axes,
 ): Caret | undefined {
     const pos = caret.position;
     let anchor: number;
@@ -734,43 +771,38 @@ export function expandCaretVisualVertical(
     // The moving end's row: its caret bar when collapsed (a bar is rendered), or
     // the token at the moving end when it's already a range (no bar is rendered).
     const bar = caretBarRect(editor);
-    const fromRect = bar ?? rowRectOfIndex(editor, caret, movingEnd);
-    if (fromRect === undefined) return undefined;
+    const box = bar ?? rowRectOfIndex(editor, caret, movingEnd);
+    if (box === undefined) return undefined;
+    const from = axes.rect(box);
 
-    // Horizontal goal: the remembered column if a vertical run is in progress,
-    // else the bar (collapsed), else the moving end's row start.
-    const goalX =
-        caret.visualColumn ??
-        (bar
-            ? rtl
-                ? bar.right
-                : bar.left
-            : rtl
-              ? fromRect.right
-              : fromRect.left);
+    // Goal along the text: the remembered column if a run of cross-line moves is
+    // in progress, else the leading edge of the bar (collapsed) or of the moving
+    // end's row.
+    const goalInline = caret.visualColumn ?? from.inlineStart;
 
-    const center = (fromRect.top + fromRect.bottom) / 2;
+    const center = (from.blockStart + from.blockEnd) / 2;
     const target = targetRowPositionFromSpan(
-        gatherTextRows(editor, getTokenViews),
+        gatherTextRows(editor, getTokenViews, axes),
         center,
         center,
         direction,
-        goalX,
+        goalInline,
     );
     if (target === undefined) return undefined;
-    const index = resolveTextMember(target.member, target.x, caret);
+    const index = resolveTextMember(target.member, target.inline, caret, axes);
     if (index === undefined) return undefined;
     // Collapse to a plain caret if the active end lands back on the anchor; a
     // zero-width range would render neither a bar nor a highlight.
     return anchor === index
-        ? caret.withPosition(index, undefined, goalX)
-        : caret.withPosition([anchor, index], undefined, goalX);
+        ? caret.withPosition(index, undefined, goalInline)
+        : caret.withPosition([anchor, index], undefined, goalInline);
 }
 
 export function getTokenPosition(
     elementAtCursor: HTMLElement,
     point: ViewportPoint,
     caret: Caret,
+    axes: Axes,
 ): number | undefined {
     // If we've selected a token view, figure out what position in the text to place the caret.
     // Use closest() so that child elements inside a placeholder's .token-view are also handled.
@@ -795,43 +827,41 @@ export function getTokenPosition(
     // text literal used to land back where it started. Measure within the
     // fragment the point is actually on, counting the width of the ones before
     // it. With one fragment this is exactly the whole-box calculation.
-    const rects = elementRowRects(tokenViewEl);
-    const totalWidth = rects.reduce(
-        (sum, rect) => sum + (rect.right - rect.left),
-        0,
-    );
+    const at = axes.point(point.clientX, point.clientY);
+    const rects = elementRowRects(tokenViewEl).map((rect) => axes.rect(rect));
+    const extentOf = (rect: LogicalRect) => rect.inlineEnd - rect.inlineStart;
+    const totalExtent = rects.reduce((sum, rect) => sum + extentOf(rect), 0);
     let chosen = rects[0];
-    let precedingWidth = 0;
+    let precedingExtent = 0;
     let bestDistance = Number.POSITIVE_INFINITY;
-    let widthBefore = 0;
+    let extentBefore = 0;
     for (const rect of rects) {
         const distance =
-            point.clientY >= rect.top && point.clientY <= rect.bottom
+            at.block >= rect.blockStart && at.block <= rect.blockEnd
                 ? 0
-                : Math.abs((rect.top + rect.bottom) / 2 - point.clientY);
+                : Math.abs((rect.blockStart + rect.blockEnd) / 2 - at.block);
         if (distance < bestDistance) {
             bestDistance = distance;
             chosen = rect;
-            precedingWidth = widthBefore;
+            precedingExtent = extentBefore;
         }
-        widthBefore += rect.right - rect.left;
+        extentBefore += extentOf(rect);
     }
 
-    const chosenWidth = chosen.right - chosen.left;
     const offset = Math.max(
         0,
-        Math.min(chosenWidth, point.clientX - chosen.left),
+        Math.min(extentOf(chosen), at.inline - chosen.inlineStart),
     );
     const newPosition = Math.max(
         startIndex,
         Math.min(
             lastIndex,
             startIndex +
-                (totalWidth === 0
+                (totalExtent === 0
                     ? 0
                     : Math.round(
                           token.getTextLength() *
-                              ((precedingWidth + offset) / totalWidth),
+                              ((precedingExtent + offset) / totalExtent),
                       )),
         ),
     );
@@ -842,6 +872,7 @@ function getSpacePosition(
     point: ViewportPoint,
     elementAtCursor: HTMLElement,
     source: Source,
+    axes: Axes,
 ): number | undefined {
     // Find the overall space view the cursor is in.
     const spaceView = elementAtCursor.closest('.space');
@@ -885,16 +916,21 @@ function getSpacePosition(
         .reduce((sum, segment) => sum + segment.length + 1, 0);
 
     // Get the percent within the bounds of the space text that the pointer is.
-    const spaceTextViewBounds = spaceTextView.getBoundingClientRect();
+    const spaceTextViewBounds = axes.rect(
+        spaceTextView.getBoundingClientRect(),
+    );
+    const spaceExtent =
+        spaceTextViewBounds.inlineEnd - spaceTextViewBounds.inlineStart;
 
-    // Zero-width space text (e.g. a lone newline) has no horizontal extent to
-    // measure against — return the position at the start of this space line,
+    // Space text with no extent along the text (e.g. a lone newline) has nothing
+    // to measure against — return the position at the start of this space line,
     // which is the end of the previous line's content.
-    if (spaceTextViewBounds.width === 0)
-        return spaceStartPosition + offsetToLine;
+    if (spaceExtent === 0) return spaceStartPosition + offsetToLine;
 
     const proportion =
-        (point.clientX - spaceTextViewBounds.left) / spaceTextViewBounds.width;
+        (axes.point(point.clientX, point.clientY).inline -
+            spaceTextViewBounds.inlineStart) /
+        spaceExtent;
 
     // Map the proportion to a SOURCE offset within this line. The rendered line
     // expands each tab to TAB_WIDTH columns (lineSpace is the rendered text), so
@@ -979,81 +1015,52 @@ function getEndOfLinePosition(
     source: Source,
     getTokenViews: () => Iterable<HTMLElement>,
     caret: Caret,
-    /** True if the editor's writing direction is right-to-left */
-    rtl: boolean,
+    axes: Axes,
     /** Measures a token view's rect. During a drag this returns positions
      *  frozen at drag-start so the insertion marker's own layout reflow can't
-     *  shift `nearestBelowTop` and make this line resolution oscillate. */
+     *  shift `nearestBelowStart` and make this line resolution oscillate. */
     rectFor: (el: HTMLElement) => DOMRect = (el) => el.getBoundingClientRect(),
 ): number | undefined {
+    const at = axes.point(event.clientX, event.clientY);
     // Otherwise, the pointer is over the editor. We only place the caret
     // in text mode, where there is a predictable grid layout.
     // We first find the closest line, then find the end of that line.
     const closestToken = Array.from(getTokenViews())
         .map((tokenView) => {
-            const textRect = rectFor(tokenView);
+            const rect = axes.rect(rectFor(tokenView));
             return {
                 view: tokenView,
-                textDistance:
-                    textRect === undefined
-                        ? Number.POSITIVE_INFINITY
-                        : Math.abs(
-                              event.clientY -
-                                  (textRect.top + textRect.height / 2),
-                          ),
-                textLeft:
-                    textRect === undefined
-                        ? Number.POSITIVE_INFINITY
-                        : textRect.left,
-                textRight:
-                    textRect === undefined
-                        ? Number.POSITIVE_INFINITY
-                        : textRect.right,
-                textTop:
-                    textRect === undefined
-                        ? Number.POSITIVE_INFINITY
-                        : textRect.top,
-                textBottom:
-                    textRect === undefined
-                        ? Number.POSITIVE_INFINITY
-                        : textRect.bottom,
-                leftDistance:
-                    textRect === undefined
-                        ? Number.POSITIVE_INFINITY
-                        : Math.abs(event.clientX - textRect.left),
-                rightDistance:
-                    textRect === undefined
-                        ? Number.POSITIVE_INFINITY
-                        : Math.abs(event.clientX - textRect.right),
+                rect,
+                blockDistance: Math.abs(
+                    at.block - (rect.blockStart + rect.blockEnd) / 2,
+                ),
+                edgeDistance: Math.min(
+                    Math.abs(at.inline - rect.inlineStart),
+                    Math.abs(at.inline - rect.inlineEnd),
+                ),
                 hidden: tokenView.closest('.hide') !== null,
             };
         })
-        // Filter by tokens within the vertical boundaries of the token.
+        // Keep only tokens whose band across the lines contains the pointer.
         .filter(
             (text) =>
                 !text.hidden &&
-                text.textDistance !== Number.POSITIVE_INFINITY &&
-                event.clientY >= text.textTop &&
-                event.clientY <= text.textBottom,
+                at.block >= text.rect.blockStart &&
+                at.block <= text.rect.blockEnd,
         )
-        // Sort by increasing horizontal distance from the pointer
-        .sort(
-            (a, b) =>
-                Math.min(a.leftDistance, a.rightDistance) -
-                Math.min(b.leftDistance, b.rightDistance),
-        )[0]; // Choose the closest.
+        // Sort by increasing distance along the text from the pointer.
+        .sort((a, b) => a.edgeDistance - b.edgeDistance)[0]; // Closest.
 
     // If we found one, choose either the beginnng or end of the line.
     if (closestToken) {
         const [token] = getTokenFromElement(caret, closestToken.view) ?? [];
         if (token === undefined) return undefined;
 
-        // Whether the pointer is in the empty space *after* the line's content
-        // depends on writing direction: to the right of the content in LTR, to
-        // the left of it in RTL.
-        const afterLine = rtl
-            ? event.clientX < closestToken.textLeft
-            : closestToken.textRight < event.clientX;
+        // Whether the pointer is in the empty space *after* the line's content.
+        // In the logical basis this is one comparison in every writing mode —
+        // to the right of the content in LTR, to the left in RTL, below it when
+        // writing vertically.
+        const afterLine = closestToken.rect.inlineEnd < at.inline;
         return afterLine
             ? source.getEndOfTokenLine(token)
             : (source.getTokenSpacePosition(token) ??
@@ -1069,34 +1076,39 @@ function getEndOfLinePosition(
     // height as 0, so any Y-containment check against them is unreliable and
     // causes getCaretPositionAt to always fall through to the end-of-source
     // fallback, producing the selection flicker described above.
-    let nearestBelowTop = Number.POSITIVE_INFINITY;
+    let nearestBelowStart = Number.POSITIVE_INFINITY;
     let nearestBelowToken: Token | undefined;
-    let lineHeight = 0;
+    let lineThickness = 0;
 
     for (const tokenView of getTokenViews()) {
         if (tokenView.closest('.hide') !== null) continue;
-        const rect = rectFor(tokenView);
-        if (rect.height > lineHeight) lineHeight = rect.height;
-        if (rect.top > event.clientY && rect.top < nearestBelowTop) {
+        // Scalars rather than a projected rect, for the reason `consider` gives
+        // above: this walks every token view in the source.
+        const raw = rectFor(tokenView);
+        const blockStart = axes.blockStart(raw);
+        const thickness = axes.blockEnd(raw) - blockStart;
+        if (thickness > lineThickness) lineThickness = thickness;
+        if (blockStart > at.block && blockStart < nearestBelowStart) {
             const result = getTokenFromElement(caret, tokenView);
             if (result !== undefined) {
-                nearestBelowTop = rect.top;
+                nearestBelowStart = blockStart;
                 nearestBelowToken = result[0];
             }
         }
     }
 
-    // No token below the cursor: cursor is past the last line of content.
+    // No token past the cursor: cursor is past the last line of content.
     // Return undefined so the caller falls back to source.getCode().getLength().
-    if (nearestBelowToken === undefined || lineHeight === 0) return undefined;
+    if (nearestBelowToken === undefined || lineThickness === 0)
+        return undefined;
 
     const lineBelow = source.getLine(nearestBelowToken);
     if (lineBelow === undefined) return undefined;
 
-    // Compute which source line the cursor is on by measuring its Y distance
-    // above the nearest-below token and dividing by the line height.
+    // Compute which source line the cursor is on by measuring its distance
+    // across the lines from the nearest following token, in line thicknesses.
     const linesAbove = Math.round(
-        (nearestBelowTop - event.clientY) / lineHeight,
+        (nearestBelowStart - at.block) / lineThickness,
     );
     const targetLine = lineBelow - linesAbove;
 

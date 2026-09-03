@@ -450,13 +450,32 @@ test('resolving a color needs no basis', () => {
  * since the anchor setting lives beside the caret one rather than in a module of
  * its own. It spent the last kilobytes of `galleries`' cap, which moves up a
  * round number; the other four still fit.
+ *
+ * Deriving the editor's writing mode from the code it holds is **+0 files**
+ * again, and deliberately so twice over: the eligibility module is reached only
+ * from the editor, and its per-source setting was added to the existing
+ * `WritingLayoutSetting.ts` rather than a file of its own — a new settings file
+ * is reached by all five through `SettingsDatabase`, and would have cost each of
+ * them a file, exactly as `CaretAnchorsSetting` did before it was merged into
+ * `CaretsSetting`. The bytes that move are that setting's explanation, which
+ * every page carries for the same reason.
+ *
+ * Writing-mode support (#1203) is **+0 files** on all five, which is the fact
+ * worth checking: the logical-axis basis the editor's geometry is rebuilt on
+ * (`components/editor/util/axes.ts`) is reached only from the editor, and none
+ * of these five entries reach the editor. What does move is bytes, and it is
+ * the shared-prose case this file's headroom exists for — the `verticalCapable`
+ * flag and its explanation in `Scripts.ts`, the resolver in the same file, and
+ * the queries added to `Locales`/`LanguageCode`, all of which every page
+ * carries because every page resolves a locale. Every byte cap moves up by a
+ * hundredth of a megabyte; no file count moves at all.
  */
 test.each([
-    ['src/routes/+layout.svelte', 502, 3.67],
-    ['src/components/app/Page.svelte', 525, 3.92],
-    ['src/routes/[[locale]]/+page.svelte', 540, 4.0],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 544, 4.02],
-    ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.04],
+    ['src/routes/+layout.svelte', 502, 3.68],
+    ['src/components/app/Page.svelte', 525, 3.93],
+    ['src/routes/[[locale]]/+page.svelte', 540, 4.02],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 544, 4.03],
+    ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.05],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

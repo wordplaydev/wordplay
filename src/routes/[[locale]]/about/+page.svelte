@@ -6,7 +6,7 @@
 
 <Title text={(l) => l.ui.page.about.header} />
 
-<Writing>
+<Writing reading>
     <PageHeader
         header={(l) => l.ui.page.about.header}
         description={(l) => l.ui.page.about.content}

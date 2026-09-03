@@ -1,6 +1,7 @@
 <script lang="ts">
     import NodeView from '@components/editor/nodes/NodeView.svelte';
     import type Caret from '@edit/caret/Caret';
+    import type { WritingLayout } from '@locale/Scripts';
     import type Locale from '@locale/Locale';
     import Docs from '@nodes/Docs';
     import type { LanguageTagged } from '@nodes/LanguageTagged';
@@ -59,6 +60,16 @@
         removed?: Node[];
         /** Nodes that should render as "…" instead of their full subtree. */
         elided?: Node[];
+        /**
+         * The writing layout this code is set in. Left undefined everywhere but
+         * the editor, so `.root`'s `horizontal-tb` applies: a snippet inside a
+         * concept's documentation or a lesson's dialog must not be laid out
+         * sideways by the *reader's* prose setting. The editor is the one place
+         * that decides its code's layout, so it says so — without this, that
+         * rule reached inside the editor and forced its code back horizontal
+         * while the editor element itself still reported vertical.
+         */
+        layout?: WritingLayout | undefined;
     }
 
     let {
@@ -76,6 +87,7 @@
         wrap = false,
         removed = [],
         elided = [],
+        layout = undefined,
     }: Props = $props();
 
     // Deliberately the initial value: a view doesn't change whether it wraps
@@ -379,6 +391,7 @@
     <span
         class="root inline"
         style="--line-count: {lineDigits}; --marker-column: {markerColumn}"
+        style:writing-mode={layout}
         class:inert
         class:elide
         class:wrap
@@ -391,6 +404,7 @@
     <code
         class="root"
         style="--line-count: {lineDigits}; --marker-column: {markerColumn}"
+        style:writing-mode={layout}
         class:inert
         class:elide
         class:wrap
@@ -403,6 +417,13 @@
 
 <style>
     .root {
+        /* Code is code, not prose. Rendered snippets appear inside markup — a
+           concept's documentation, a lesson's dialog — and would otherwise
+           inherit that surface's writing mode, laying a program and its output
+           preview out sideways because of the language the *reader* chose. The
+           editor sets its own mode deliberately; everywhere else code is
+           horizontal. */
+        writing-mode: horizontal-tb;
         font-family: var(--wordplay-code-font);
         font-weight: 400;
 

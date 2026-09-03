@@ -362,6 +362,10 @@ export default class LocalesDatabase {
         return get(this.locales).getLayout();
     }
 
+    getVerticalLayout() {
+        return get(this.locales).getVerticalLayout();
+    }
+
     /**
      * Set the languages, load all locales if they aren't loaded, and save the new
      * configuration.
@@ -371,6 +375,34 @@ export default class LocalesDatabase {
      * to every open project made a project's basis — and so its conflicts — depend on who
      * last opened it (#1246). A creator adds a language through the languages dialog.
      */
+    /**
+     * Whether this page load's locale came from the URL. Latched, and
+     * deliberately never cleared: arriving at `/he-IL/…` is a choice made now,
+     * while the creator document is a choice made at some earlier point on some
+     * other device — so the settings sync, which lands whenever the network
+     * answers, must not overwrite it. Without this a signed-in creator who
+     * followed a link written in another language watched that language render
+     * and then flip back to their own, at a moment decided by how fast Firestore
+     * replied. It is why `validation-rtl`'s Hebrew tests failed only in a full
+     * shard, and passed on their own.
+     */
+    private fromURL = false;
+
+    /** Whether the URL named the locale this page is showing. */
+    localesCameFromURL(): boolean {
+        return this.fromURL;
+    }
+
+    /** Set the locales the URL asked for. See {@link localesCameFromURL}. */
+    async setLocalesFromURL(
+        preferredLocales: SupportedLocale[],
+    ): Promise<LocaleText[]> {
+        // Latched synchronously, before anything is awaited, so the flag is
+        // already set by the time a settings sync started earlier can apply.
+        this.fromURL = true;
+        return this.setLocales(preferredLocales);
+    }
+
     async setLocales(
         preferredLocales: SupportedLocale[],
     ): Promise<LocaleText[]> {
