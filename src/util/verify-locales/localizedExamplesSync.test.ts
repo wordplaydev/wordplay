@@ -1,6 +1,9 @@
 import type LocaleText from '@locale/LocaleText';
 import { getLocalePath } from '@util/verify-locales/LocaleSchema';
-import { retargetSerializedExample } from '@util/verify-locales/retargetExampleNames';
+import {
+    retargetSerializedExample,
+    type SerializedExampleSource,
+} from '@util/verify-locales/retargetExampleNames';
 import {
     ExamplesRoot,
     localizedExamplesPath,
@@ -33,7 +36,15 @@ const ExampleLocales = fs
     )
     .map((entry) => entry.name);
 
-const Timeout = 240_000;
+/* Per locale, not for all of them at once. As a single test this walked 31
+   locale directories of 75 examples each, analyzing 2,325 projects, and had
+   grown past its own 240s budget on CI — failing on `main` as well as on every
+   branch, since the work grows with each locale that adopts localized examples.
+   Splitting it removes the cliff rather than moving it: each locale gets its own
+   budget, a slow run degrades one at a time, and a failure names the locale
+   instead of a list. The total work is unchanged — vitest runs a file's tests in
+   one worker, sequentially — so the job's wall clock is what it was. */
+const Timeout = 60_000;
 
 function read<T>(file: string): T | undefined {
     try {
@@ -43,46 +54,54 @@ function read<T>(file: string): T | undefined {
     }
 }
 
-test(
-    'localized gallery examples match their master and their locale',
-    () => {
+/* Masters are parsed once for the whole file rather than once per locale: there
+   are 75 of them and 31 locales, so this is 75 parses instead of 2,325. Safe
+   because the parse takes no locale and what comes back is plain serialized
+   data — `retargetSerializedExample` builds its own `Source` and `Project`
+   objects from it and never writes to it. */
+const masters = new Map<string, SerializedExampleSource[]>();
+
+test.each(ExampleLocales)(
+    'localized gallery examples in %s match their master and their locale',
+    (code) => {
         const stale: string[] = [];
         const divergent: string[] = [];
         const orphaned: string[] = [];
-        for (const code of ExampleLocales) {
-            const locale: LocaleText | undefined = read(getLocalePath(code));
-            if (locale === undefined) continue;
-            const dir = localizedExamplesPath(code);
-            const files = fs
-                .readdirSync(dir, { withFileTypes: true })
-                .filter((entry) => entry.isFile() && entry.name.endsWith('.wp'))
-                .map((entry) => entry.name);
-            for (const filename of files) {
-                const masterPath = path.join(ExamplesRoot, filename);
-                if (!fs.existsSync(masterPath)) {
-                    orphaned.push(`${code}/${filename}`);
-                    continue;
-                }
-                const id = filename.replace('.wp', '');
-                const master = parseSerializedProject(
+        const locale: LocaleText | undefined = read(getLocalePath(code));
+        if (locale === undefined) return;
+        const dir = localizedExamplesPath(code);
+        const files = fs
+            .readdirSync(dir, { withFileTypes: true })
+            .filter((entry) => entry.isFile() && entry.name.endsWith('.wp'))
+            .map((entry) => entry.name);
+        for (const filename of files) {
+            const masterPath = path.join(ExamplesRoot, filename);
+            if (!fs.existsSync(masterPath)) {
+                orphaned.push(`${code}/${filename}`);
+                continue;
+            }
+            const id = filename.replace('.wp', '');
+            let master = masters.get(filename);
+            if (master === undefined) {
+                master = parseSerializedProject(
                     fs.readFileSync(masterPath, 'utf8'),
                     id,
-                );
-                const localized = parseSerializedProject(
-                    fs.readFileSync(path.join(dir, filename), 'utf8'),
-                    id,
-                );
-                const result = retargetSerializedExample(
-                    master.sources,
-                    localized.sources,
-                    locale,
-                    locale.language,
-                );
-                if (result.kind === 'retargeted')
-                    stale.push(`${code}/${filename}`);
-                else if (result.kind === 'divergent')
-                    divergent.push(`${code}/${filename}`);
+                ).sources;
+                masters.set(filename, master);
             }
+            const localized = parseSerializedProject(
+                fs.readFileSync(path.join(dir, filename), 'utf8'),
+                id,
+            );
+            const result = retargetSerializedExample(
+                master,
+                localized.sources,
+                locale,
+                locale.language,
+            );
+            if (result.kind === 'retargeted') stale.push(`${code}/${filename}`);
+            else if (result.kind === 'divergent')
+                divergent.push(`${code}/${filename}`);
         }
         expect(
             stale,
