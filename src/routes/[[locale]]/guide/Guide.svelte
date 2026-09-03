@@ -21,6 +21,7 @@
     import {
         currentConcept,
         popTo,
+        remapConcepts,
         type GuideHistory,
         type GuidePlace,
     } from '@components/concepts/GuideHistory';
@@ -176,8 +177,46 @@
     let indexStore = $state({ index });
     setConceptIndex(indexStore);
 
+    /** The index the history's concepts were resolved against, so a rebuild can
+     *  remap them. The history holds `Concept` objects by reference, and
+     *  changing locale rebuilds the index with fresh ones — after which the
+     *  concept still renders, because it carries its own documentation, while
+     *  everything the *new* index is asked about it comes back empty. That is
+     *  why a concept's how-to links vanished on a locale change and came back on
+     *  a refresh: `getHowTosForConcept` is a `Map` keyed by concept identity. */
+    let resolvedAgainst: ConceptIndex | undefined = undefined;
+
     $effect(() => {
-        indexStore.index = index;
+        const rebuilt = index;
+        indexStore.index = rebuilt;
+
+        const previous = resolvedAgainst;
+        resolvedAgainst = rebuilt;
+        // Nothing to remap on the first build: `onMount` resolves the history
+        // from the URL against whatever index is current then.
+        if (previous === undefined || previous === rebuilt) return;
+        path.update((history) => {
+            const remapped = remapConcepts(history, (concept) =>
+                rebuilt.getCorresponding(concept),
+            );
+            /* Compared by object identity, and deliberately not with
+               `sameHistory`: that asks `isEqualTo`, which is the very comparison
+               that calls a stale concept and its replacement the same thing — so
+               using it here computed the remap and then threw it away, leaving
+               the bug exactly as it was. What has to change is the reference. */
+            const moved =
+                remapped.length !== history.length ||
+                remapped.some((place, index) => {
+                    const before = history[index];
+                    return (
+                        place.kind !== before.kind ||
+                        (place.kind === 'concept' &&
+                            before.kind === 'concept' &&
+                            place.concept !== before.concept)
+                    );
+                });
+            return moved ? remapped : history;
+        });
     });
 
     $effect(() => {

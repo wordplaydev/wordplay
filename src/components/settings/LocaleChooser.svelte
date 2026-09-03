@@ -239,6 +239,7 @@
     explanation={prompt ? undefined : (l) => l.ui.dialog.locale.explanation}
     button={showButton
         ? {
+              testid: 'locale-chooser',
               tip: (l) => l.ui.dialog.locale.button.show,
               icon: selectedLocales.some((locale) => isLocaleDraft(locale))
                   ? MACHINE_TRANSLATED_SYMBOL
