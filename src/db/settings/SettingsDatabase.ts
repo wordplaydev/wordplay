@@ -364,7 +364,11 @@ export default class SettingsDatabase {
                 this.database,
                 data.animationFactor,
             );
-            this.settings.locales.set(this.database, data.locales);
+            // Except when this page load's URL named the locale, which is a
+            // more recent choice than whatever the document happens to hold.
+            // See LocalesDatabase.localesCameFromURL.
+            if (!this.database.Locales.localesCameFromURL())
+                this.settings.locales.set(this.database, data.locales);
             this.settings.tutorial.set(this.database, data.tutorial);
             this.settings.writingLayout.set(this.database, data.writingLayout);
             this.settings.howToNotifications.set(
