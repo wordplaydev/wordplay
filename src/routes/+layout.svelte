@@ -276,7 +276,7 @@
                     SupportedLocales.includes(l as SupportedLocale),
                 ) as SupportedLocale[];
             if (valid.length > 0) {
-                DB.Locales.setLocales(valid);
+                DB.Locales.setLocalesFromURL(valid);
                 // Arriving by a URL that names a language is a choice too, and it has to
                 // be recorded separately: setLocales skips the write when the value is
                 // unchanged, so picking the default (en-US) would otherwise store nothing
