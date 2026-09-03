@@ -377,6 +377,13 @@
                 --wordplay-widget-height: 1.5em;
                 --wordplay-min-line-height: 3ex;
 
+                /* The writing mode text surfaces lay themselves out in. Set on
+                   :root rather than applied there, because only surfaces that
+                   are *text* opt in: toolbars, the tile manager, sliders and
+                   pickers are spatial and stay horizontal whatever the creator
+                   reads in. +layout.svelte stamps data-writing-layout. */
+                --wordplay-writing-mode: horizontal-tb;
+
                 /* How much of the stage floor the two renderings that must not
                    be overlapped stand on (see MusicVisualizationOverlap).
                    Declared here rather than in each rendering because the floor
@@ -842,6 +849,70 @@
                 height: 100%;
                 overflow: hidden;
                 overscroll-behavior: none;
+            }
+
+            :root[data-writing-layout='vertical-rl'] {
+                --wordplay-writing-mode: vertical-rl;
+            }
+
+            :root[data-writing-layout='vertical-lr'] {
+                --wordplay-writing-mode: vertical-lr;
+            }
+
+            /* A long-form reading surface: the guide's documentation, a lesson's
+               dialog, a static page's prose. These opt in to the writing mode;
+               everything else stays horizontal by omission, which is the point
+               of not setting it on :root. The line is between reading and
+               operating — no Japanese application sets its settings dialog
+               vertically, so markup in dialogs, notices and tooltips is
+               deliberately left alone. */
+            /* Named `reading-surface`, not `reading`: Speech.svelte already uses
+               a positional `reading` class meaning "tail on the side the reader
+               starts from", and this rule is global and unscoped, so it silently
+               turned every palette, annotation and error bubble in the app
+               vertical. A global class has the whole app for a namespace. */
+            .reading-surface {
+                writing-mode: var(--wordplay-writing-mode);
+            }
+
+            /* Writing vertically, a block needs three things that horizontal
+               prose gets for free, and each of these supplies one.
+
+               A MEASURE, stated as a definite `inline-size` rather than a
+               maximum: a maximum is not a size, and the surface takes its height
+               from its content, so without a definite one the two collapse each
+               other — measured at a 32px box holding zero-height text. It comes
+               from the viewport rather than a percentage because the surface is
+               a flex item and `flex: 1` wins over `inline-size: 100%` on the
+               parent's main axis. `40em` is the measure the app already uses
+               horizontally (see Writing.svelte, the surface that has always
+               worked), bounded by the window so a short one still fits; a
+               viewport fraction alone is not a measure, and capping to `100dvh`
+               meant a ~1500px line on a tall screen that never needed to wrap.
+
+               A BOUND on the other axis, because once the text does wrap the
+               columns grow without limit and push their container past the edge
+               of the window.
+
+               And ITS OWN SCROLLER, because the columns grow toward *decreasing*
+               x and a left-to-right ancestor cannot scroll that way — so the
+               overflow is simply unreachable. The element carrying the writing
+               mode is the only one whose scroll origin is the edge its own text
+               starts at.
+
+               This is a SEPARATE class from `reading-surface` because it answers
+               a different question. `reading-surface` says "this is prose"; this
+               says "and it is a pane that fills the window", which is true of the
+               guide and the static pages and false of a lesson's dialog, whose
+               height is the strip its container gives it. Sizing every surface
+               from the viewport put a 640px-tall block inside a 378px-tall
+               dialog, which is what made the tutorial unreadable. */
+            :root[data-writing-layout='vertical-rl'] .reading-pane,
+            :root[data-writing-layout='vertical-lr'] .reading-pane {
+                flex: none;
+                inline-size: min(40em, 80dvh);
+                block-size: 100%;
+                overflow: auto;
             }
 
             html {

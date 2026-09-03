@@ -362,6 +362,10 @@ export default class LocalesDatabase {
         return get(this.locales).getLayout();
     }
 
+    getVerticalLayout() {
+        return get(this.locales).getVerticalLayout();
+    }
+
     /**
      * Set the languages, load all locales if they aren't loaded, and save the new
      * configuration.

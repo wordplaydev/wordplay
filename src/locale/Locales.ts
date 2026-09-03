@@ -13,6 +13,7 @@ import {
     getLanguageDirection,
     getLanguageLayout,
     getLanguageScripts,
+    getLanguageVerticalLayout,
 } from '@locale/LanguageCode';
 import { localeToString } from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
@@ -156,6 +157,16 @@ export default class Locales {
     /** Get the writing layout (horizontal/vertical) for the most preferred locale. */
     getLayout() {
         return getLanguageLayout(this.getLocale().language);
+    }
+
+    /** The vertical layout *any* chosen locale is set in, which is what decides
+     *  whether the writing layout setting is offered at all and which of the two
+     *  vertical modes it offers. Any rather than the primary, because someone
+     *  writing in both English and Japanese should still get the choice. */
+    getVerticalLayout() {
+        return this.getLanguages()
+            .map(getLanguageVerticalLayout)
+            .find((layout) => layout !== undefined);
     }
 
     hasLanguage(lang: LanguageCode) {

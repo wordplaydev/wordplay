@@ -1,3 +1,4 @@
+import type { WritingLayout } from '@locale/Scripts';
 import {
     getOutlineOfRows,
     getRoundedBlockOutline,
@@ -590,7 +591,7 @@ export function getHighlights(
 /** Populate the given Set with nodes to highlight. */
 export function updateOutlines(
     highlights: Highlights,
-    horizontal: boolean,
+    layout: WritingLayout,
     rtl: boolean,
     blocks: boolean,
     getNodeView: (node: Node) => HTMLElement | undefined,
@@ -617,7 +618,7 @@ export function updateOutlines(
         // the position tracks the current node-view location.
         if (!skipCrossCall) rows = rowsCache?.get(view);
         if (rows === undefined) {
-            rows = getRowsOf(view, horizontal, rtl, blocks);
+            rows = getRowsOf(view, layout, rtl, blocks);
             if (!skipCrossCall) rowsCache?.set(view, rows);
         }
         callRows.set(view, rows);
@@ -682,7 +683,7 @@ export function updateOutlines(
                                   underline: underlineFromRows(
                                       rows,
                                       fieldView,
-                                      horizontal,
+                                      layout,
                                   ),
                               };
                         outlines.push(emptyOutline);
@@ -705,11 +706,7 @@ export function updateOutlines(
                     : {
                           types: types,
                           outline: getOutlineOfRows(rows),
-                          underline: underlineFromRows(
-                              rows,
-                              nodeView,
-                              horizontal,
-                          ),
+                          underline: underlineFromRows(rows, nodeView, layout),
                       };
                 outlines.push(outline);
                 nodeViews.set(outline, nodeView);
@@ -772,7 +769,7 @@ export function updateOutlines(
                     // setting matters.
                     getRowsForView(view, false),
                     view,
-                    horizontal,
+                    layout,
                     offset,
                 );
             }
@@ -788,7 +785,7 @@ export function getRangeOutline(
     start: number,
     end: number,
     getNodeView: (node: Node) => HTMLElement | undefined,
-    horzontal: boolean,
+    layout: WritingLayout,
     rtl: boolean,
     blocks: boolean,
 ): Outline | undefined {
@@ -918,5 +915,5 @@ export function getRangeOutline(
     }
 
     if (allRects.length === 0) return undefined;
-    return getOutlineOfRows(rectsToRows(allRects, horzontal, rtl));
+    return getOutlineOfRows(rectsToRows(allRects, layout, rtl), layout);
 }

@@ -8,7 +8,7 @@
 
 <Title text={(l) => l.ui.page.rights.header} />
 
-<Writing>
+<Writing reading>
     <PageHeader
         header={(l) => l.ui.page.rights.header}
         description={(l) => l.ui.page.rights.content}

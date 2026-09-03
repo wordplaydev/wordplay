@@ -36,12 +36,7 @@
     import { DefaultSize, toOverlayStage } from '@output/Output/Stage';
     import type Evaluator from '@runtime/Evaluator';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import {
-        animationFactor,
-        locales,
-        musicVisualization,
-        writingLayout,
-    } from '@db/Database';
+    import { animationFactor, locales, musicVisualization } from '@db/Database';
     import LightShow from '@components/output/LightShow.svelte';
     import Mood from '@components/output/Mood.svelte';
     import Sheet from '@components/output/Sheet.svelte';
@@ -473,13 +468,12 @@
         });
     });
 
-    // The effective writing layout for output: an explicit setting, or the
-    // project locale's layout when the setting is 'auto'.
-    let outputLayout = $derived(
-        $writingLayout === 'auto'
-            ? project.getLocales().getLayout()
-            : $writingLayout,
-    );
+    // The writing layout for output comes from the PROJECT's locale, never the
+    // viewer's setting. A composition belongs to whoever wrote it, so it must
+    // look the same to everyone — the rule RenderContext.locales already follows
+    // for direction. A creator who wants vertical output says so per Phrase, via
+    // its `direction` (#220).
+    let outputLayout = $derived(project.getLocales().getLayout());
     let context = $derived.by(() => {
         // Depend on the font-load generation so text re-measures when
         // lazily-loaded faces arrive (default/preloaded faces never touch

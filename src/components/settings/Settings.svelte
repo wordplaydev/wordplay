@@ -134,6 +134,11 @@
      *  no media devices at all. */
     let omit = $derived(devicesRetrieved ? [] : [InputTab]);
 
+    /** The one vertical layout the creator's scripts are set in, if any. Decides
+     *  both whether the writing-layout control appears and which of its two
+     *  vertical options is meaningful. */
+    let verticalLayout = $derived($locales.getVerticalLayout());
+
     // Fall back to the first tab if the selected one is hidden, so the dialog
     // can't end up showing no panel with no tab marked selected.
     $effect(() => {
@@ -156,6 +161,7 @@
         tip: (l) => l.ui.dialog.settings.button.show,
         icon: '⚙',
         background: true,
+        testid: 'settings',
     }}
     header={(l) => l.ui.dialog.settings.header}
     explanation={(l) => l.ui.dialog.settings.explanation}
@@ -323,29 +329,41 @@
                         icons={AnimationFactorIcons}
                         modeLabels={false}
                     />
-                    <Mode
-                        grid
-                        synced
-                        modes={(l) => l.ui.dialog.settings.mode.writing}
-                        choice={$writingLayout === 'horizontal-tb'
-                            ? 0
-                            : $writingLayout === 'vertical-rl'
-                              ? 1
-                              : $writingLayout === 'vertical-lr'
-                                ? 2
-                                : 3}
-                        select={(choice) =>
-                            Settings.setWritingLayout(
-                                choice === 0
-                                    ? 'horizontal-tb'
-                                    : choice === 1
-                                      ? 'vertical-rl'
-                                      : choice === 2
-                                        ? 'vertical-lr'
-                                        : 'auto',
-                            )}
-                        icons={['↔↓', '↕←', '↕→', '🌐']}
-                    />
+                    <!-- Only offered when a chosen locale reads in a script with a
+                         vertical tradition, and then only the one vertical mode
+                         that script is actually set in: Japanese, Chinese and
+                         Korean run their columns right to left, Mongolian and
+                         Phags-pa left to right, and no script uses both. For a
+                         Latin-script creator the choice is not merely unused but
+                         actively unhelpful — it turns their interface sideways
+                         for no reason anyone reads (#220). -->
+                    {#if verticalLayout !== undefined}
+                        <Mode
+                            grid
+                            synced
+                            uiid="writingLayout"
+                            modes={(l) => l.ui.dialog.settings.mode.writing}
+                            choice={$writingLayout === 'horizontal-tb'
+                                ? 0
+                                : $writingLayout === 'vertical-rl'
+                                  ? 1
+                                  : $writingLayout === 'vertical-lr'
+                                    ? 2
+                                    : 3}
+                            select={(choice) =>
+                                Settings.setWritingLayout(
+                                    choice === 0
+                                        ? 'horizontal-tb'
+                                        : choice === 1
+                                          ? 'vertical-rl'
+                                          : choice === 2
+                                            ? 'vertical-lr'
+                                            : 'auto',
+                                )}
+                            icons={['↔↓', '↕←', '↕→', '🌐']}
+                            omit={verticalLayout === 'vertical-rl' ? [2] : [1]}
+                        />
+                    {/if}
                 </div>
             {:else if tab === 1}
                 <div class="controls">

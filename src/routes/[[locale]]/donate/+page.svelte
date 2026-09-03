@@ -8,7 +8,7 @@
 
 <Title text={(l) => l.ui.page.donate.header} />
 
-<Writing>
+<Writing reading>
     <PageHeader
         header={(l) => l.ui.page.donate.header}
         description={(l) => l.ui.page.donate.content}

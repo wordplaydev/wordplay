@@ -1,9 +1,31 @@
 <script module lang="ts">
+    /** Where the caret sits, in the logical basis: a point along the text and a
+     *  band across the lines. This is what every branch of computePlacement
+     *  produces; `axes` turns it into the physical box below. */
+    type CaretPlacement = {
+        /** Where the caret sits along the text. */
+        inline: number;
+        /** Where its band across the lines begins. */
+        block: number;
+        /** How far that band reaches — one line's thickness. */
+        extent: number;
+        /** Where UI placed after the caret begins. Usually block + extent, but a
+         *  node selection's hidden scroll spot deliberately collapses it. */
+        blockEnd: number;
+    };
+
+    /** The caret's rendered box, in container-relative CSS pixels. `extent` is
+     *  the bar's length across the lines — its height when writing horizontally
+     *  and its width when writing vertically — which is why it is named for
+     *  neither. */
     export type CaretBounds = {
         top: number;
         left: number;
-        height: number;
+        right: number;
         bottom: number;
+        extent: number;
+        /** True when the bar runs down the screen, i.e. text reads across it. */
+        horizontal: boolean;
     };
 
     /** A blocks-mode visual-row member: a blank line (carrying the source index
@@ -34,6 +56,7 @@
         editor: HTMLElement,
         caret: Caret,
         getTokenViews: () => HTMLElement[],
+        axes: Axes,
     ): Row<BlockMember>[] {
         const members: RowMember<BlockMember>[] = [];
         for (const el of getTokenViews()) {
@@ -52,7 +75,7 @@
             // find no row to leave.
             const landable = Caret.isTokenBlockEditable(node);
             for (const rect of elementRowRects(el))
-                if (rect.height > 0)
+                if (isRendered(rect))
                     members.push({
                         data: {
                             kind: 'token',
@@ -62,7 +85,7 @@
                             end,
                             landable,
                         },
-                        rect,
+                        rect: axes.rect(rect),
                     });
         }
         for (const el of editor.querySelectorAll('.break[data-node-id]')) {
@@ -71,11 +94,18 @@
             const position = breakElementPosition(caret.source, el);
             if (position === undefined) continue;
             const rect = el.getBoundingClientRect();
-            if (rect.height > 0)
-                members.push({ data: { kind: 'break', position }, rect });
+            if (isRendered(rect))
+                members.push({
+                    data: { kind: 'break', position },
+                    rect: axes.rect(rect),
+                });
         }
         return buildRows(members);
     }
+
+    /** How thick the caret bar is across the text — a CSS length, since it's a
+     *  chrome measurement rather than a measured one. */
+    const CaretThickness = '2px';
 
     /** The row the caret is currently on, plus its horizontal x there — derived
      *  from the caret's LOGICAL position against the gathered members, NOT the
@@ -97,26 +127,27 @@
     function findCurrentBlockRow(
         rows: Row<BlockMember>[],
         position: number,
-    ): { index: number; x: number } {
+    ): { index: number; inline: number } {
         for (let index = 0; index < rows.length; index++) {
             for (const member of rows[index].members) {
                 const data = member.data;
+                const { inlineStart, inlineEnd } = member.rect;
                 if (data.kind === 'break') {
                     if (data.position === position)
-                        return { index, x: member.rect.left };
+                        return { index, inline: inlineStart };
                 } else if (position >= data.start && position <= data.end) {
                     const length = data.end - data.start;
-                    const x =
+                    const inline =
                         length <= 0
-                            ? member.rect.left
-                            : member.rect.left +
+                            ? inlineStart
+                            : inlineStart +
                               ((position - data.start) / length) *
-                                  (member.rect.right - member.rect.left);
-                    return { index, x };
+                                  (inlineEnd - inlineStart);
+                    return { index, inline };
                 }
             }
         }
-        return { index: -1, x: 0 };
+        return { index: -1, inline: 0 };
     }
 
     /** The node Caret.getBlockPositions would select for `node`: an only-child
@@ -139,8 +170,9 @@
      *  Caret.getBlockPositions does, so keyboard and arrow navigation agree). */
     function resolveBlockMember(
         member: RowMember<BlockMember>,
-        x: number,
+        inline: number,
         caret: Caret,
+        axes: Axes,
     ): Node | number | undefined {
         const data = member.data;
         if (data.kind === 'break') return data.position;
@@ -149,11 +181,12 @@
         if (Caret.isTokenTextBlockEditable(token, parent))
             return getTokenPosition(
                 el,
-                {
-                    clientX: x,
-                    clientY: (member.rect.top + member.rect.bottom) / 2,
-                },
+                axes.client({
+                    inline,
+                    block: (member.rect.blockStart + member.rect.blockEnd) / 2,
+                }),
                 caret,
+                axes,
             );
         return blockPositionForNode(token, caret);
     }
@@ -173,11 +206,13 @@
         editor: HTMLElement,
         caret: Caret,
         getTokenViews: () => HTMLElement[],
+        axes: Axes,
     ): Caret | undefined {
-        const rows = gatherBlockRows(editor, caret, getTokenViews);
+        const rows = gatherBlockRows(editor, caret, getTokenViews, axes);
 
-        let target: { member: RowMember<BlockMember>; x: number } | undefined;
-        let goalX: number;
+        let target:
+            { member: RowMember<BlockMember>; inline: number } | undefined;
+        let goalInline: number;
         if (caret.position instanceof Node) {
             const el = getNodeView(editor, caret.position);
             // Structural first: if the selected node is a direct element of a
@@ -201,17 +236,19 @@
             // usable bar (CaretView draws a scroll-placement spot, not the node's
             // location), so anchor on the node's own box and step to the row just
             // past its full vertical extent.
-            const box = el?.getBoundingClientRect();
-            if (box === undefined || box.height === 0) return undefined;
-            goalX = caret.visualColumn ?? (box.left + box.right) / 2;
+            const raw = el?.getBoundingClientRect();
+            if (raw === undefined || !isRendered(raw)) return undefined;
+            const box = axes.rect(raw);
+            goalInline =
+                caret.visualColumn ?? (box.inlineStart + box.inlineEnd) / 2;
             // Row bounds are unchanged by the narrowing, so the span still
             // picks the same rows; only where it may land is restricted.
             target = targetRowPositionFromSpan(
                 rows.map(landableRow),
-                box.top,
-                box.bottom,
+                box.blockStart,
+                box.blockEnd,
                 direction,
-                goalX,
+                goalInline,
             );
         } else {
             // A numeric position: find the row from the caret's logical position
@@ -221,20 +258,25 @@
                 : caret.position;
             const current = findCurrentBlockRow(rows, position);
             if (current.index < 0) return undefined;
-            goalX = caret.visualColumn ?? current.x;
+            goalInline = caret.visualColumn ?? current.inline;
             const next = current.index + direction;
             target =
                 next < 0 || next >= rows.length
                     ? undefined
-                    : nearestInRow(landableRow(rows[next]), goalX);
+                    : nearestInRow(landableRow(rows[next]), goalInline);
         }
         if (target === undefined) return undefined;
-        const result = resolveBlockMember(target.member, target.x, caret);
+        const result = resolveBlockMember(
+            target.member,
+            target.inline,
+            caret,
+            axes,
+        );
         // Carry the goal column forward so consecutive vertical moves keep the
         // same column; any non-vertical caret operation clears it.
         return result === undefined
             ? undefined
-            : caret.withPosition(result, undefined, goalX);
+            : caret.withPosition(result, undefined, goalInline);
     }
 
     export function getTokenView(
@@ -294,7 +336,14 @@
         breakElementPosition,
         elementRowRects,
         getTokenPosition,
+        isRendered,
     } from '@components/editor/pointer/PointerUtilities';
+    import {
+        editorAxes,
+        type Axes,
+        type LogicalRect,
+    } from '@components/editor/util/axes';
+    import type { WritingLayout } from '@locale/Scripts';
     import {
         getEditor,
         getEffectiveFolded,
@@ -328,9 +377,9 @@
         getTokenViews: () => HTMLElement[];
         /** The editor view */
         viewport: HTMLElement | null;
-        /** Width and height of the viewport */
-        viewportWidth: number;
-        viewportHeight: number;
+        /** The writing layout the editor's code is laid out in, from the
+         *  source's own glyphs rather than the interface setting. */
+        writingLayout: WritingLayout;
         /** Current zoom of the editor */
         zoom: number;
         /** True if the caret was just placed by a pointer event; suppresses auto-scroll */
@@ -346,7 +395,7 @@
         location = $bindable(undefined),
         getTokenViews,
         viewport,
-        viewportWidth,
+        writingLayout,
         zoom,
         placedByPointer,
     }: Props = $props();
@@ -378,9 +427,6 @@
     // scrolls a stationary caret off-window (a windowRevision recompute reuses the
     // same Caret object, so that must scroll freely, not snap back).
     let lastCaretForScrollIn: Caret | undefined = undefined;
-
-    /** Derive the direction of text for the current locale */
-    let leftToRight = $derived($locales.getDirection() === 'ltr');
 
     // The grapheme offset from the start of the current token, if there is one.
     let tokenOffset: number | undefined = $derived.by(() => {
@@ -732,21 +778,26 @@
               source: typeof caret.source;
               zoom: number;
               blocks: boolean;
-              horizontal: boolean;
+              layout: Axes['layout'];
               lineHeight: number;
           }
         | undefined;
 
+    /** The caret's extent across the lines, and the pitch from one line to the
+     *  next — both on the block axis, so "height" here is a width when writing
+     *  vertically. */
     function computeCaretAndLineHeight(
         currentToken: Token,
         currentTokenRect: DOMRect,
-        horizontal: boolean,
+        axes: Axes,
     ): [number, number] {
-        let caretHeight = horizontal
-            ? currentTokenRect.height
-            : currentTokenRect.width;
+        const blockExtent = (rect: DOMRect) => {
+            const logical = axes.rect(rect);
+            return logical.blockEnd - logical.blockStart;
+        };
+        let caretHeight = blockExtent(currentTokenRect);
 
-        // If the caret height is invisible, try to find a token before and get its height.
+        // If the caret extent is invisible, try to find a token before and use its.
         if (caretHeight === 0) {
             // Skip tokens folded out of the DOM — their view resolves (via the
             // ancestor fallback) to the tall folded wrapper, which would give the
@@ -755,7 +806,8 @@
             while (before !== undefined && isTokenHidden(before))
                 before = caret.source.getTokenBefore(before);
             const beforeView = before ? getNodeView(before) : undefined;
-            caretHeight = beforeView?.getBoundingClientRect().height ?? 0;
+            const beforeRect = beforeView?.getBoundingClientRect();
+            caretHeight = beforeRect ? blockExtent(beforeRect) : 0;
         }
 
         // Reuse the cached line height when the only thing that changed is caret
@@ -765,7 +817,7 @@
             cachedLineHeight.source === caret.source &&
             cachedLineHeight.zoom === zoom &&
             cachedLineHeight.blocks === blocks &&
-            cachedLineHeight.horizontal === horizontal
+            cachedLineHeight.layout === axes.layout
         )
             return [caretHeight, cachedLineHeight.lineHeight];
 
@@ -805,22 +857,19 @@
                 firstTokenView.querySelector('.token-view') ?? firstTokenView
             ).getBoundingClientRect();
 
-            lineHeight = horizontal
-                ? (firstTokenAfterLineBreakBound.top - firstTokenBound.top) /
-                  lineBreakCount
-                : (firstTokenAfterLineBreakBound.left - firstTokenBound.left) /
-                  lineBreakCount;
+            lineHeight =
+                (axes.rect(firstTokenAfterLineBreakBound).blockStart -
+                    axes.rect(firstTokenBound).blockStart) /
+                lineBreakCount;
         } else {
-            lineHeight = horizontal
-                ? currentTokenRect.height
-                : currentTokenRect.width;
+            lineHeight = blockExtent(currentTokenRect);
         }
 
         cachedLineHeight = {
             source: caret.source,
             zoom,
             blocks,
-            horizontal,
+            layout: axes.layout,
             lineHeight,
         };
 
@@ -835,17 +884,13 @@
         currentToken: Token,
         /** The index into the space where the caret is. */
         caretIndex: number,
-    ): {
-        beforeSpaceLeft: number;
-        beforeSpaceTop: number;
-        beforeSpaceWidth: number;
-        beforeSpaceHeight: number;
-    } {
+        axes: Axes,
+    ): LogicalRect {
         const zero = {
-            beforeSpaceLeft: 0,
-            beforeSpaceTop: 0,
-            beforeSpaceWidth: 0,
-            beforeSpaceHeight: 0,
+            inlineStart: 0,
+            inlineEnd: 0,
+            blockStart: 0,
+            blockEnd: 0,
         };
 
         // Get the .space wrapper for this token.
@@ -903,32 +948,48 @@
         // to the line element's left/top so the caller still gets a usable
         // anchor for the caret.
         if (rect.width === 0 && rect.height === 0) {
-            const lineRect = containingLine.getBoundingClientRect();
-            return {
-                beforeSpaceLeft: lineRect.left,
-                beforeSpaceTop: lineRect.top,
-                beforeSpaceWidth: 0,
-                beforeSpaceHeight: lineRect.height,
-            };
+            const line = axes.rect(containingLine.getBoundingClientRect());
+            // No extent along the text, but the line's own thickness across it.
+            return { ...line, inlineEnd: line.inlineStart };
         }
 
-        return {
-            beforeSpaceLeft: rect.left,
-            beforeSpaceTop: rect.top,
-            beforeSpaceWidth: rect.width,
-            beforeSpaceHeight: rect.height,
-        };
+        return axes.rect(rect);
     }
 
     function computeLocation(): CaretBounds | undefined {
+        if (viewport === null) return;
+        const axes = editorAxes(
+            viewport,
+            writingLayout,
+            $locales.getDirection(),
+        );
+        const placement = computePlacement(axes);
+        if (placement === undefined) return undefined;
+
+        // One projection, at the end: everything above is written in the logical
+        // basis, so the writing mode is accounted for exactly once.
+        const box = axes.box({
+            inlineStart: placement.inline,
+            inlineEnd: placement.inline,
+            blockStart: placement.block,
+            blockEnd: placement.blockEnd,
+        });
+        return {
+            left: box.left,
+            top: box.top,
+            right: box.right,
+            bottom: box.bottom,
+            extent: placement.extent,
+            horizontal: axes.horizontal,
+        };
+    }
+
+    function computePlacement(axes: Axes): CaretPlacement | undefined {
         if (caret === undefined) return;
 
         // The DOM may have changed since the last pass; rebuild the rendered-id
         // set lazily if any hidden-token check needs it (see isTokenHidden).
         renderedTokenIdSet = null;
-
-        // The editor is always horizontal-tb
-        const horizontal = true;
 
         // Start assuming no position.
         location = undefined;
@@ -941,7 +1002,8 @@
 
         // Get the editor's leading inline padding, since the caret's start is
         // measured from there. getComputedStyle resolves the logical property to
-        // the correct physical side (left in LTR, right in RTL).
+        // the correct physical side — left in LTR, right in RTL, and the top
+        // edge in a vertical writing mode — so it is already what we want.
         if (editorPadding === undefined) {
             const editorStyle = window.getComputedStyle(viewport);
             editorPadding = parseInt(
@@ -951,10 +1013,28 @@
             );
         }
 
-        // Compute the top left of the editor's viewport.
-        const viewportRect = viewport.getBoundingClientRect();
-        const viewportXOffset = -viewportRect.left;
-        const viewportYOffset = -viewportRect.top;
+        /** Project a measured rect into the viewport's logical basis. Every
+         *  coordinate below is in it, so no branch has to know which physical
+         *  axis the text is running along. */
+        const project = (rect: DOMRect | undefined) =>
+            rect === undefined ? undefined : axes.rect(rect);
+        const across = (rect: LogicalRect) => rect.blockEnd - rect.blockStart;
+
+        /** Where a line's content begins along the text: past the editor's own
+         *  leading padding and the line gutter. The whole gutter, not just the
+         *  number — a line can also begin with a chat reference's marker, and
+         *  measuring only the number would put the caret a marker's width early. */
+        const contentInlineStart = () => {
+            const gutter = project(
+                element?.parentElement
+                    ?.querySelector('.line-start')
+                    ?.getBoundingClientRect(),
+            );
+            return (
+                (editorPadding ?? 0) +
+                (gutter ? gutter.inlineEnd - gutter.inlineStart : 0)
+            );
+        };
 
         // If the caret is a node, find the bottom left token view.
         if (caret.position instanceof Node) {
@@ -968,15 +1048,15 @@
                 );
                 const placeholderViewRect =
                     placeholderView?.getBoundingClientRect();
-                if (placeholderViewRect) {
+                const placeholder = project(placeholderViewRect);
+                if (placeholder) {
                     return {
-                        left:
-                            placeholderViewRect.left +
-                            viewportXOffset +
-                            placeholderViewRect.width / 2,
-                        top: placeholderViewRect.top + viewportYOffset,
-                        height: placeholderViewRect.height,
-                        bottom: placeholderViewRect.bottom + viewportYOffset,
+                        inline:
+                            (placeholder.inlineStart + placeholder.inlineEnd) /
+                            2,
+                        block: placeholder.blockStart,
+                        extent: across(placeholder),
+                        blockEnd: placeholder.blockEnd,
                     };
                 }
             }
@@ -999,30 +1079,29 @@
                 const rects = tokenAndValueViews.map((t) =>
                     t.getBoundingClientRect(),
                 );
-                const left = Math.min(...rects.map((r) => r.left));
-                const top = Math.min(...rects.map((r) => r.top));
-                const bottom = Math.max(...rects.map((r) => r.bottom));
-                const height = bottom - Math.min(...rects.map((r) => r.top));
+                const logical = rects.map((r) => axes.rect(r));
+                const inline = Math.min(...logical.map((r) => r.inlineStart));
+                const first = Math.min(...logical.map((r) => r.blockStart));
+                const last = Math.max(...logical.map((r) => r.blockEnd));
+                const reach = last - first;
 
-                // If the total height of the block is more than the height of one token,
-                // then we place above the block, otherwise below it.
-
-                const tokenHeight = rects[0].height;
-                const topPlacement = Math.max(
-                    0,
-                    top - tokenHeight - editorPadding,
-                );
-                const bottomPlacement = bottom + editorPadding;
-                const vertical =
-                    (height > tokenHeight * 2 && topPlacement > tokenHeight * 2
-                        ? topPlacement
-                        : bottomPlacement) + viewportYOffset;
+                // If the node covers more than two lines, place the spot before
+                // it; otherwise after it.
+                const tokenExtent = across(logical[0]);
+                const before = Math.max(0, first - tokenExtent - editorPadding);
+                const after = last + editorPadding;
+                const block =
+                    reach > tokenExtent * 2 && before > tokenExtent * 2
+                        ? before
+                        : after;
 
                 return {
-                    left: left + viewportXOffset,
-                    top: vertical,
-                    height: tokenHeight,
-                    bottom: vertical,
+                    inline,
+                    block,
+                    extent: tokenExtent,
+                    // Collapsed on purpose: this spot exists to scroll to, not
+                    // to hang anything below.
+                    blockEnd: block,
                 };
             }
         }
@@ -1065,7 +1144,9 @@
                             : [];
                         const lastBreak = allBreaks.at(-1);
                         if (lastBreak) {
-                            const breakRect = lastBreak.getBoundingClientRect();
+                            const breakRect = axes.rect(
+                                lastBreak.getBoundingClientRect(),
+                            );
                             // Use the left of the last node-view in the same
                             // node-list as the inline start (same as case 2).
                             const nodeList = lastBreak.parentElement;
@@ -1077,30 +1158,17 @@
                                     el.classList.contains('node-view'),
                                 )
                                 .at(-1);
-                            const nodeRect =
-                                lastNodeView?.getBoundingClientRect();
-                            // The whole line gutter, not just the number: a
-                            // line can also begin with a chat reference's
-                            // marker, and measuring only the number would put
-                            // the caret a marker's width to its left.
-                            const lineWidth =
-                                element?.parentElement
-                                    ?.querySelector('.line-start')
-                                    ?.getBoundingClientRect().width ?? 0;
-                            const editorHorizontalStart =
-                                leftToRight && horizontal
-                                    ? (editorPadding ?? 0) + lineWidth
-                                    : viewportWidth - (editorPadding ?? 0);
+                            const nodeRect = project(
+                                lastNodeView?.getBoundingClientRect(),
+                            );
                             const inlineStart = nodeRect
-                                ? (leftToRight
-                                      ? nodeRect.left
-                                      : nodeRect.right) + viewportXOffset
-                                : editorHorizontalStart;
+                                ? nodeRect.inlineStart
+                                : contentInlineStart();
                             return {
-                                left: inlineStart,
-                                top: breakRect.top + viewportYOffset,
-                                height: breakRect.height,
-                                bottom: breakRect.bottom + viewportYOffset,
+                                inline: inlineStart,
+                                block: breakRect.blockStart,
+                                extent: across(breakRect),
+                                blockEnd: breakRect.blockEnd,
                             };
                         }
                     }
@@ -1118,26 +1186,26 @@
                         ? getNodeView(visibleLast)
                         : null;
                     if (lastTokenView !== null) {
-                        const bounds = lastTokenView.getBoundingClientRect();
+                        const bounds = axes.rect(
+                            lastTokenView.getBoundingClientRect(),
+                        );
                         return {
-                            left:
-                                (leftToRight ? bounds.right : bounds.left) +
-                                viewportXOffset,
-                            top: bounds.top + viewportYOffset,
-                            height: bounds.height,
-                            bottom: bounds.bottom + viewportYOffset,
+                            inline: bounds.inlineEnd,
+                            block: bounds.blockStart,
+                            extent: across(bounds),
+                            blockEnd: bounds.blockEnd,
                         };
                     }
                 }
             }
             const blockView = getNodeView(block);
             if (blockView !== null) {
-                const bounds = blockView.getBoundingClientRect();
+                const bounds = axes.rect(blockView.getBoundingClientRect());
                 return {
-                    left: bounds.left + viewportXOffset,
-                    top: bounds.top + viewportYOffset,
-                    height: bounds.height,
-                    bottom: bounds.bottom + viewportYOffset,
+                    inline: bounds.inlineStart,
+                    block: bounds.blockStart,
+                    extent: across(bounds),
+                    blockEnd: bounds.blockEnd,
                 };
             }
         }
@@ -1163,22 +1231,15 @@
             const renderView =
                 renderToken !== undefined ? getNodeView(renderToken) : null;
             if (renderView === null) return;
-            const rect = renderView.getBoundingClientRect();
+            const rect = axes.rect(renderView.getBoundingClientRect());
             // Prior token → caret at its trailing edge (just before `…`); forward
             // fallback → leading edge, as before.
             const atEnd = prior !== undefined;
-            const edge = atEnd
-                ? leftToRight
-                    ? rect.right
-                    : rect.left
-                : leftToRight
-                  ? rect.left
-                  : rect.right;
             return {
-                left: edge + viewportXOffset,
-                top: rect.top + viewportYOffset,
-                height: rect.height,
-                bottom: rect.bottom + viewportYOffset,
+                inline: atEnd ? rect.inlineEnd : rect.inlineStart,
+                block: rect.blockStart,
+                extent: across(rect),
+                blockEnd: rect.blockEnd,
             };
         }
 
@@ -1187,17 +1248,14 @@
 
         // Figure out where the token view is, so we can properly offset the caret position in the editor.
         const tokenViewRect = tokenView.getBoundingClientRect();
-
-        // Find the token start position, depending on whether we're rendering left to right or right to left.
-        let tokenStart =
-            (leftToRight ? tokenViewRect.left : tokenViewRect.right) +
-            viewportXOffset;
-        let tokenTop = tokenViewRect.top + viewportYOffset;
+        const tokenBox = axes.rect(tokenViewRect);
+        const tokenStart = tokenBox.inlineStart;
+        const tokenTop = tokenBox.blockStart;
 
         const [caretHeight, lineHeight] = computeCaretAndLineHeight(
             token,
             tokenViewRect,
-            horizontal,
+            axes,
         );
 
         // Is the caret in the text, and not the space? We need to measure it's location in the text.
@@ -1208,15 +1266,16 @@
                 blocks,
             ) ?? [0, 0];
 
+            // The measured segment is a physical box; how far along the text it
+            // reaches is its width when writing across the screen and its height
+            // when writing down it.
+            const alongText = axes.horizontal ? widthAtCaret : heightAtCaret;
+
             return {
-                // If horizontal, set the left of the caret offset at the measured width in the direction of the writing.
-                left:
-                    tokenStart +
-                    (horizontal ? (leftToRight ? 1 : -1) * widthAtCaret : 0),
-                // If vertical, set the top of the caret offset at the measured height in the direction of the writing.
-                top: tokenTop + (horizontal ? 0 : heightAtCaret),
-                height: caretHeight,
-                bottom: tokenTop + tokenViewRect.height,
+                inline: tokenStart + alongText,
+                block: tokenTop,
+                extent: caretHeight,
+                blockEnd: tokenTop + across(tokenBox),
             };
         }
         // If the caret is in the preceding space, compute the top/left of the space position.
@@ -1235,26 +1294,19 @@
             const spaceBefore = explicitSpace.substring(0, spaceIndex);
             const spaceAfter = explicitSpace.substring(spaceIndex);
 
-            const {
-                beforeSpaceWidth,
-                beforeSpaceHeight,
-                beforeSpaceLeft,
-                beforeSpaceTop,
-            } = computeSpaceDimensions(viewport, token, spaceIndex);
+            const beforeSpace = computeSpaceDimensions(
+                viewport,
+                token,
+                spaceIndex,
+                axes,
+            );
+            // How far the space before the caret reaches along the text. In the
+            // logical basis this simply adds — the direction-dependent sign the
+            // physical version needed is already in the projection.
+            const spaceAlongText =
+                beforeSpace.inlineEnd - beforeSpace.inlineStart;
 
-            // Find the line gutter's inline end — the marker column and the
-            // number together, since either may be absent.
-            const lineWidth =
-                element?.parentElement
-                    ?.querySelector('.line-start')
-                    ?.getBoundingClientRect().width ?? 0;
-
-            // Find the start position of the editor, based on language direction.
-            const editorHorizontalStart =
-                leftToRight && horizontal
-                    ? editorPadding + lineWidth
-                    : viewportWidth - editorPadding;
-            const editorVerticalStart = editorPadding + 4;
+            const editorInlineStart = contentInlineStart();
 
             // Find the right side of token just prior to the current one that has this space.
             let priorToken: Token | undefined = token;
@@ -1290,44 +1342,27 @@
                     break;
             } while (true);
 
-            const priorTokenViewRect = priorTokenView?.getBoundingClientRect();
-            let priorTokenHorizontalEnd =
-                priorTokenViewRect === undefined
-                    ? editorHorizontalStart
-                    : (leftToRight
-                          ? priorTokenViewRect.right
-                          : priorTokenViewRect.left) + viewportXOffset;
-
-            let priorTokenVerticalEnd =
-                priorTokenViewRect === undefined
-                    ? editorVerticalStart
-                    : (leftToRight
-                          ? priorTokenViewRect.bottom
-                          : priorTokenViewRect.top) + viewportYOffset;
-
-            let priorTokenLeft =
-                priorTokenViewRect === undefined
-                    ? editorHorizontalStart - (!horizontal ? lineHeight : 0)
-                    : priorTokenViewRect.left + viewportXOffset;
+            const priorTokenBox = project(
+                priorTokenView?.getBoundingClientRect(),
+            );
+            const priorTokenInlineEnd =
+                priorTokenBox === undefined
+                    ? editorInlineStart
+                    : priorTokenBox.inlineEnd;
 
             // 1) Trailing space (the caret is before the first newline)
             if (spaceBefore.indexOfCharacter('\n') < 0) {
-                if (horizontal) {
+                {
                     const blocksSpace = blocks && spaceBefore.getLength() > 0;
                     // Across a fold the nearest visible prior token is many
                     // collapsed lines away, so its rect can't anchor this space;
                     // use the measured .space element (as blocks mode does).
                     if (crossedFold && !blocksSpace) {
-                        const spaceTopAnchor =
-                            beforeSpaceTop - viewportRect.top;
                         return {
-                            left:
-                                beforeSpaceLeft -
-                                viewportRect.left +
-                                beforeSpaceWidth,
-                            top: spaceTopAnchor,
-                            height: caretHeight,
-                            bottom: spaceTopAnchor + caretHeight,
+                            inline: beforeSpace.inlineEnd,
+                            block: beforeSpace.blockStart,
+                            extent: caretHeight,
+                            blockEnd: beforeSpace.blockStart + caretHeight,
                         };
                     }
                     // The top of the prior visible token's line — the right
@@ -1335,17 +1370,15 @@
                     // beforeSpaceTop is display:none (so its rect is ~0, which
                     // would pin the caret to the viewport top).
                     let priorTokenTop: number;
-                    if (priorTokenViewRect !== undefined)
-                        priorTokenTop =
-                            priorTokenViewRect.top + viewportYOffset;
+                    if (priorTokenBox !== undefined)
+                        priorTokenTop = priorTokenBox.blockStart;
                     else if (explicitSpace.indexOfCharacter('\n') >= 0) {
-                        const spaceRect = viewport
-                            .querySelector(`.space[data-id='${token.id}']`)
-                            ?.getBoundingClientRect();
-                        priorTokenTop =
-                            spaceRect !== undefined
-                                ? spaceRect.top + viewportYOffset
-                                : tokenTop;
+                        const spaceRect = project(
+                            viewport
+                                .querySelector(`.space[data-id='${token.id}']`)
+                                ?.getBoundingClientRect(),
+                        );
+                        priorTokenTop = spaceRect?.blockStart ?? tokenTop;
                     } else priorTokenTop = tokenTop;
 
                     // For horizontal layout, place the caret to the right of the
@@ -1354,31 +1387,17 @@
                     // the line box (the blank-line fix). In BLOCKS mode that element
                     // is hidden, so anchor on the prior token's line instead (and on
                     // the measured space only when there ARE rendered spaces).
-                    const trailingTop = blocks
-                        ? blocksSpace
-                            ? beforeSpaceTop - viewportRect.top
-                            : priorTokenTop
-                        : beforeSpaceTop - viewportRect.top;
+                    const trailingTop =
+                        blocks && !blocksSpace
+                            ? priorTokenTop
+                            : beforeSpace.blockStart;
                     return {
-                        left: blocksSpace
-                            ? beforeSpaceLeft -
-                              viewportRect.left +
-                              beforeSpaceWidth
-                            : priorTokenHorizontalEnd +
-                              (leftToRight ? 1 : -1) * beforeSpaceWidth,
-                        top: trailingTop,
-                        height: caretHeight,
-                        bottom: trailingTop + caretHeight,
-                    };
-                } else {
-                    // For vertical layouts, place the caret to below the prior token, {spaces} after.
-                    return {
-                        left: priorTokenLeft,
-                        top:
-                            priorTokenVerticalEnd +
-                            (leftToRight ? 1 : -1) * beforeSpaceHeight,
-                        height: caretHeight,
-                        bottom: priorTokenLeft + caretHeight,
+                        inline: blocksSpace
+                            ? beforeSpace.inlineEnd
+                            : priorTokenInlineEnd + spaceAlongText,
+                        block: trailingTop,
+                        extent: caretHeight,
+                        blockEnd: trailingTop + caretHeight,
                     };
                 }
             }
@@ -1392,13 +1411,14 @@
                     `.space[data-id='${token.id}']`,
                 );
                 const spaceViewTop =
-                    (spaceView?.getBoundingClientRect().top ?? 0) -
-                    viewportRect.top;
+                    project(spaceView?.getBoundingClientRect())?.blockStart ??
+                    0;
 
-                // Figure out the height of a line break.
-                const breakHeight =
-                    viewport.querySelector('.break')?.getBoundingClientRect()
-                        .height ?? lineHeight;
+                // Figure out the thickness of a line break.
+                const breakRect = project(
+                    viewport.querySelector('.break')?.getBoundingClientRect(),
+                );
+                const breakHeight = breakRect ? across(breakRect) : lineHeight;
 
                 // Place the caret's left the number of spaces on this line.
                 // If in blocks mode, account for the fact that we render one fewer spaces due to block layout.
@@ -1406,10 +1426,11 @@
                     (spaceBefore.split('\n').length - 1 - (blocks ? 1 : 0)) *
                     (blocks ? breakHeight : lineHeight);
 
-                if (horizontal) {
-                    // Place the caret's top at {tokenHeight} * {number of new lines prior}
+                {
+                    // Place the caret's block start at one line's thickness per
+                    // newline before it.
                     let spaceTop: number;
-                    let inlineStart = editorHorizontalStart;
+                    let inlineStart = editorInlineStart;
                     if (blocks) {
                         // In blocks mode, NodeView renders the .space span as a sibling of
                         // the .node-view div — both are direct children of .node-list.
@@ -1433,13 +1454,14 @@
                                     breaksBefore.unshift(siblings[i]);
                                 else break;
                             }
-                            const breakRect =
+                            const breakBefore = project(
                                 breaksBefore[
                                     breakDivIdx
-                                ]?.getBoundingClientRect();
+                                ]?.getBoundingClientRect(),
+                            );
                             spaceTop =
-                                breakRect !== undefined
-                                    ? breakRect.top + viewportYOffset
+                                breakBefore !== undefined
+                                    ? breakBefore.blockStart
                                     : spaceViewTop + offset;
 
                             // Use the left edge of the preceding node-view in
@@ -1450,12 +1472,9 @@
                                 if (
                                     siblings[i].classList.contains('node-view')
                                 ) {
-                                    const nodeRect =
-                                        siblings[i].getBoundingClientRect();
-                                    inlineStart =
-                                        (leftToRight
-                                            ? nodeRect.left
-                                            : nodeRect.right) + viewportXOffset;
+                                    inlineStart = axes.rect(
+                                        siblings[i].getBoundingClientRect(),
+                                    ).inlineStart;
                                     break;
                                 }
                             }
@@ -1471,25 +1490,13 @@
                         // spacing, drifting the caret several px too high and
                         // compounding per blank line (which also broke ArrowDown,
                         // since the mis-placed caret bar fed the next target y).
-                        spaceTop = beforeSpaceTop - viewportRect.top;
+                        spaceTop = beforeSpace.blockStart;
                     }
                     return {
-                        left:
-                            inlineStart +
-                            (leftToRight ? 1 : -1) * beforeSpaceWidth,
-                        top: spaceTop,
-                        height: caretHeight,
-                        bottom: spaceTop + caretHeight,
-                    };
-                } else {
-                    const spaceLeft = priorTokenLeft - offset;
-                    return {
-                        left: spaceLeft,
-                        top:
-                            editorVerticalStart +
-                            (leftToRight ? 1 : -1) * beforeSpaceHeight,
-                        height: caretHeight,
-                        bottom: spaceLeft + caretHeight,
+                        inline: inlineStart + spaceAlongText,
+                        block: spaceTop,
+                        extent: caretHeight,
+                        blockEnd: spaceTop + caretHeight,
                     };
                 }
             }
@@ -1505,11 +1512,12 @@
                         (explicitSpace.getLength() - spaceIndex),
                 );
 
-                let spaceTop = tokenTop;
+                const spaceTop = tokenTop;
 
-                // Figure out where to start. In text mode, it's the editor left.
-                // In blocks mode, it's the left of the node on this line.
-                let horizontalStart: number;
+                // Figure out where to start. In text mode it's the editor's
+                // content start; in blocks mode, the start of the node on this
+                // line.
+                let inlineStart: number;
                 if (blocks) {
                     // The .space element for this token is a direct child of .node-list,
                     // and its next sibling is the .node-view for the node on this line.
@@ -1526,35 +1534,18 @@
                         )
                             ? spaceEl.nextElementSibling
                             : null;
-                    if (nodeViewEl) {
-                        const rect = nodeViewEl.getBoundingClientRect();
-                        horizontalStart =
-                            (leftToRight ? rect.left : rect.right) +
-                            viewportXOffset;
-                    } else {
-                        horizontalStart = editorHorizontalStart;
-                    }
-                } else horizontalStart = editorHorizontalStart;
+                    inlineStart = nodeViewEl
+                        ? axes.rect(nodeViewEl.getBoundingClientRect())
+                              .inlineStart
+                        : editorInlineStart;
+                } else inlineStart = editorInlineStart;
 
-                if (horizontal) {
-                    return {
-                        left:
-                            horizontalStart +
-                            (leftToRight ? 1 : -1) * beforeSpaceWidth,
-                        top: spaceTop,
-                        height: caretHeight,
-                        bottom: spaceTop + caretHeight,
-                    };
-                } else {
-                    return {
-                        left: tokenStart,
-                        top:
-                            editorVerticalStart +
-                            (leftToRight ? 1 : -1) * beforeSpaceHeight,
-                        height: caretHeight,
-                        bottom: spaceTop + caretHeight,
-                    };
-                }
+                return {
+                    inline: inlineStart + spaceAlongText,
+                    block: spaceTop,
+                    extent: caretHeight,
+                    blockEnd: spaceTop + caretHeight,
+                };
             }
         }
     }
@@ -1573,6 +1564,7 @@
     class:focused={$editor?.focused}
     class:readonly={!editable}
     class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
+    class:vertical={location !== undefined && !location.horizontal}
     style:display={location === undefined ? 'none' : null}
     style:left={location ? `${location.left}px` : null}
     style:top={location ? `${location.top}px` : null}
@@ -1580,11 +1572,15 @@
     ><span
         class="bar"
         style:width={location
-            ? !editable || blocks
-                ? 'var(--wordplay-focus-width)'
-                : `2px`
+            ? location.horizontal
+                ? CaretThickness
+                : `${location.extent}px`
             : null}
-        style:height={location ? `${location.height}px` : null}
+        style:height={location
+            ? location.horizontal
+                ? `${location.extent}px`
+                : CaretThickness
+            : null}
     ></span>{#if !blocks}<div class="trigger"
             ><MenuTrigger anchor={caret.position} /></div
         >{/if}</span
@@ -1619,8 +1615,24 @@
 
     .bar {
         display: inline-block;
+        /* A minimum length across the lines, so an unmeasured caret is still
+           visible. Which physical axis that is depends on the writing mode, so
+           the vertical case restates it rather than relying on a logical
+           property: the bar's own box has no writing mode of its own. */
         min-height: var(--wordplay-min-line-height);
         background-color: var(--wordplay-foreground);
+    }
+
+    .caret.vertical .bar {
+        min-height: 0;
+        min-width: var(--wordplay-min-line-height);
+    }
+
+    /* Writing vertically, the bar is thin top-to-bottom instead, so the trigger
+       centers on the other axis. */
+    .caret.vertical .trigger {
+        top: 50%;
+        transform: translateY(-50%);
     }
 
     .caret.blink .bar {

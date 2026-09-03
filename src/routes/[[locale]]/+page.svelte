@@ -568,6 +568,18 @@
         padding-block: calc(var(--wordplay-spacing) * 2);
     }
 
+    /* Login is one of the route links, so it starts where they start. The grid
+       below it is capped at the measure and centered, so a sibling left to
+       stretch begins a long way outside of it. `align-self` rather than the
+       `margin-inline: auto` the grid uses: an auto margin on a flex item's cross
+       axis cancels the stretch, which shrinks the link to its text and centers
+       *that* — 42px at x619 instead of the grid's 960 at x160. */
+    .links > :global(.biglink) {
+        align-self: center;
+        inline-size: 100%;
+        max-inline-size: var(--measure);
+    }
+
     .locale-word {
         display: inline-block;
         /* Factor-scaled so reduced motion (factor 0) swaps without animating,

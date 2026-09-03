@@ -1605,6 +1605,11 @@
     }
 
     .scroller {
+        /* Physical: chat is an operating surface, never a reading surface, so
+           it is always horizontal — the logical spelling would be identical here
+           and `overflow-block`/`overflow-inline` are far newer than the rest of
+           the logical properties this codebase relies on, so an engine that
+           dropped them would leave the message list unable to scroll at all. */
         overflow-y: auto;
         overflow-x: clip;
         flex: 1 1 0;

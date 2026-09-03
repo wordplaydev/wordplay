@@ -50,6 +50,7 @@
         locales,
         localesReady,
         Settings,
+        writingMode,
     } from '@db/Database';
     import shouldPromptForLocale, {
         hasBeenAsked,
@@ -188,6 +189,20 @@
             window.removeEventListener('beforeunload', warnUnsaved);
             DB.clean();
         };
+    });
+
+    /** Publish the writing layout on the root element so stylesheets can key off
+        it. Deliberately an attribute rather than `writing-mode` on <html>: text
+        surfaces opt in (see --wordplay-writing-mode in app.html), because the
+        spatial chrome — toolbars, the tile manager, sliders, pickers — stays
+        horizontal whatever the writing mode, and inheriting would turn it all
+        sideways. */
+    $effect(() => {
+        if (browser)
+            document.documentElement.setAttribute(
+                'data-writing-layout',
+                $writingMode,
+            );
     });
 
     /** When the dark setting changes, drive the html element's color-scheme,

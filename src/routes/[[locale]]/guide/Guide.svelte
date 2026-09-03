@@ -276,6 +276,9 @@
         <Breadcrumbs {extra} />
     </div>
 
+    <!-- The page header is chrome — a title and a one-line orientation, the
+         same category as a dialog's explanation, which also stays horizontal.
+         The documentation below is the reading. -->
     <div class="header">
         <Header text={(l) => l.ui.page.guide.header} />
         <MarkupHTMLView markup={(l) => l.ui.page.guide.description} />
@@ -306,8 +309,9 @@
            first viewport. A sticky element only stays within its containing
            block, which must therefore be the scroll container that holds all
            the content. */
-        overflow-y: auto;
-        min-height: 0;
+        /* Which axis overflows is the writing mode's business. */
+        overflow: auto;
+        min-block-size: 0;
     }
 
     .breadcrumb-bar {

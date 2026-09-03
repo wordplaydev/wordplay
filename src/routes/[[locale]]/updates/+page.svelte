@@ -87,7 +87,7 @@
     </li>
 {/snippet}
 
-<Writing>
+<Writing reading>
     <PageHeader
         header={(l) => l.ui.page.updates.header}
         description={(l) => l.ui.page.updates.content}

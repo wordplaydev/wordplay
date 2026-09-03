@@ -123,8 +123,12 @@
         insertTab,
         locales,
         showLines,
+        sourceWriting,
         wrap,
     } from '@db/Database';
+    import { editorAxes } from '@components/editor/util/axes';
+    import eligibleWritingLayouts from '@edit/eligibleWritingLayouts';
+    import type { WritingLayout } from '@locale/Scripts';
     import { Projects } from '@db/projects/Projects';
     import {
         type RemoteCaret,
@@ -687,6 +691,37 @@
     /** The DOM node representing the editor */
     let editor: HTMLElement | null = $state(null);
 
+    /** Which layouts this source's own glyphs allow. Latin-only code can only be
+     *  read horizontally whatever the creator has chosen for the interface. */
+    let eligibleLayouts = $derived(eligibleWritingLayouts(source));
+
+    /** The layout this editor is actually laid out in: what the creator chose
+     *  for this source, when the source is still eligible for it.
+     *
+     *  Re-checked against eligibility on every edit rather than only at load,
+     *  because typing a Latin name into a Japanese program takes vertical off
+     *  the table — and an editor left vertical with Latin in it is exactly the
+     *  state this whole mechanism exists to prevent. Deliberately NOT the global
+     *  `writingMode`: that is how the creator reads the interface, and code is
+     *  not the interface (#1203). */
+    let writingLayout: WritingLayout = $derived.by(() => {
+        // Read through the store, not Settings.getSourceWriting, so choosing in
+        // the toolbar re-lays-out this editor immediately.
+        const chosen =
+            $sourceWriting[project.getID()]?.[project.getIndexOfSource(source)];
+        return chosen !== undefined && eligibleLayouts.includes(chosen)
+            ? chosen
+            : 'horizontal-tb';
+    });
+
+    /** How this editor's writing mode maps physical geometry onto the inline and
+     *  block axes. Built fresh per use rather than derived, because it measures
+     *  the editor's box, and a value cached across a scroll or resize would place
+     *  the caret and hit-test clicks against a stale frame. */
+    function getAxes() {
+        return editorAxes(editor, writingLayout, $locales.getDirection());
+    }
+
     /** The width and height of the editor viewport */
     let editorWidth = $state(0);
     let editorHeight = $state(0);
@@ -788,6 +823,7 @@
         canFoldAll: () => canFoldAllValue,
         canUnfoldAll: () => canUnfoldAllValue,
         zoom,
+        writingLayout,
         setZoom,
     });
     setEditor(editContext);
@@ -1524,7 +1560,7 @@
             getTokenViews,
             editor,
             $blocks,
-            $locales.getDirection() === 'rtl',
+            getAxes(),
         );
         // Resolve the element under the pointer once so placeCaretAt can reuse it
         // (and clickIndex) instead of re-running the hit-test and the (possibly
@@ -1840,7 +1876,7 @@
                 getTokenViews,
                 editor,
                 $blocks,
-                $locales.getDirection() === 'rtl',
+                getAxes(),
             );
             if (typeof position === 'number') {
                 // If a node is currently selected (e.g. via double-click), there's
@@ -2011,7 +2047,7 @@
                     getTokenViews,
                     editor,
                     $blocks,
-                    $locales.getDirection() === 'rtl',
+                    getAxes(),
                     dragTokenRects
                         ? (el) =>
                               dragTokenRects?.get(el) ??
@@ -2886,6 +2922,7 @@
                 notify?.clear(LargeDeletionNotification),
             notify,
             zoom,
+            writingLayout,
             setZoom,
             getMode: projectCommandContext?.context.getMode,
             setMode: projectCommandContext?.context.setMode,
@@ -3189,6 +3226,7 @@
                 edit: handleEdit,
                 sourceID: sourceID,
                 blocks: inBlocks,
+                writingLayout,
                 project: _project,
                 focused: isFocused,
                 toggleMenu,
@@ -3780,7 +3818,7 @@
                     tick().then(() => {
                         outlines = updateOutlines(
                             $highlights,
-                            true,
+                            writingLayout,
                             $locales.getDirection() === 'rtl',
                             $blocks,
                             getNodeView,
@@ -3815,7 +3853,7 @@
             tick().then(() => {
                 outlines = updateOutlines(
                     $highlights,
-                    true,
+                    writingLayout,
                     $locales.getDirection() === 'rtl',
                     $blocks,
                     getNodeView,
@@ -3835,7 +3873,7 @@
                   $caret.position[0],
                   $caret.position[1],
                   getNodeView,
-                  true,
+                  writingLayout,
                   $locales.getDirection() === 'rtl',
                   $blocks,
               )
@@ -3916,7 +3954,7 @@
                         match.start,
                         match.end,
                         getNodeView,
-                        true,
+                        writingLayout,
                         rtl,
                         $blocks,
                     ),
@@ -4000,6 +4038,9 @@
     cursor; NodeViews inside carry aria-description (not labels or roles),
     and caret state is announced via the centralized live region.
 -->
+<!-- The editor overrides --wordplay-writing-mode locally (`.editor`'s rule
+     consumes it), so its layout comes from this source's own glyphs rather than
+     from how the creator has chosen to read the interface. -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
     data-testid="editor"
@@ -4009,6 +4050,7 @@
     class:evaluation-mode={$evaluation?.mode === 'play' ||
         $evaluation?.mode === 'debug'}
     class:readonly={!editable}
+    style:--wordplay-writing-mode={writingLayout}
     class:focused
     class:dragging={dragCandidate !== undefined || $dragged !== undefined}
     class:invalid-drop={$dragged !== undefined &&
@@ -4145,6 +4187,7 @@
             blocks={$blocks}
             lines={$showLines}
             inline={false}
+            layout={writingLayout}
         />
         {#snippet failed(error, reset)}
             <!-- Usually visible for a single tick before the automatic retry, but a
@@ -4209,8 +4252,7 @@
         ignored={shakeCaret}
         {getTokenViews}
         viewport={editor}
-        viewportWidth={editorWidth}
-        viewportHeight={editorHeight}
+        {writingLayout}
         {zoom}
         placedByPointer={caretSetByPointer}
         bind:location={caretLocation}
@@ -4226,6 +4268,7 @@
         viewport={editor}
         blocks={$blocks}
         {getNodeView}
+        {writingLayout}
         rtl={$locales.getDirection() === 'rtl'}
     />
     <!--
@@ -4337,6 +4380,11 @@
 
 <style>
     .editor {
+        /* Code is text, so it follows the creator's writing mode. Everything
+           below is already written in flow-relative terms (flex column is the
+           block axis; min-width/height are the box's own), so this is the only
+           declaration the container needs. */
+        writing-mode: var(--wordplay-writing-mode);
         white-space: nowrap;
         line-height: var(--wordplay-code-line-height);
         position: relative;
@@ -4352,9 +4400,9 @@
         padding: var(--wordplay-spacing);
         flex: 1;
         cursor: text;
-        margin-bottom: auto;
-        min-width: fit-content;
-        min-height: fit-content;
+        margin-block-end: auto;
+        min-inline-size: fit-content;
+        min-block-size: fit-content;
         display: flex;
         flex-direction: column;
         gap: 0;
@@ -4367,7 +4415,9 @@
        leading-whitespace indentation. */
     .editor.wrap {
         white-space: pre-wrap;
-        min-width: 0;
+        /* Release the fit-content floor on the axis the text runs along, which
+           is what lets a line wrap at all. */
+        min-inline-size: 0;
     }
 
     /* Read-only editor: a subtle 3px checkerboard texture signals the source can't be
@@ -4538,6 +4588,12 @@
        reserves no flex track (the code isn't pushed down) while its child panel
        overflows downward and paints above the code. */
     .editor-controls {
+        /* Chrome inside a text surface, so it opts back out of the writing mode
+           the editor sets. Without this its flow-relative pins (align-self,
+           order) resolve against vertical text and the search field lands in the
+           wrong corner — the same reason toolbars stay horizontal app-wide, one
+           level further in. */
+        writing-mode: horizontal-tb;
         position: sticky;
         top: 0;
         right: 0;
@@ -4552,6 +4608,8 @@
            scroll-top, instead of floating one spacing below it. The matching
            positive margin-bottom cancels this in flex layout (net height 0), so
            the code's own top padding is unchanged. */
+        /* physical: pins to the editor viewport's top border, which is chrome
+           and stays put whichever way the code reads. */
         margin-top: calc(-1 * var(--wordplay-spacing));
         margin-bottom: var(--wordplay-spacing);
     }
@@ -4561,6 +4619,7 @@
        inner corner). Controls stack top-to-bottom, right-aligned, with a gap, so
        they reflow as the search field expands rather than overlapping. */
     .editor-controls-panel {
+        writing-mode: horizontal-tb;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
@@ -4569,6 +4628,7 @@
         background: var(--wordplay-background);
         border-inline-start: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
+        /* physical: the panel hangs from a screen corner, not a text edge. */
         border-bottom: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
         border-end-start-radius: var(--wordplay-border-radius);

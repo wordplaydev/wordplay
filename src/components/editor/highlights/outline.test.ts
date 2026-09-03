@@ -49,7 +49,7 @@ describe('rectsToRows', () => {
         expect(
             rectsToRows(
                 [row(10, 10, 40, 24), row(45, 10, 90, 24)],
-                true,
+                'horizontal-tb',
                 false,
             ),
         ).toEqual([{ l: 10, t: 10, r: 90, b: 24, w: 80, h: 14 }]);
@@ -67,7 +67,7 @@ describe('rectsToRows', () => {
             row(45, 10, 90, 24), // line 1 token
             row(45, 60, 60, 74), // line 3 token
         ];
-        expect(rectsToRows(shuffled, true, false)).toEqual([
+        expect(rectsToRows(shuffled, 'horizontal-tb', false)).toEqual([
             { l: 10, t: 10, r: 90, b: 24, w: 80, h: 14 },
             { l: 10, t: 35, r: 90, b: 49, w: 80, h: 14 },
             { l: 10, t: 60, r: 60, b: 74, w: 50, h: 14 },
@@ -78,7 +78,7 @@ describe('rectsToRows', () => {
         // The overhang: a row must not inherit the width of the line above it.
         const rows = rectsToRows(
             [row(10, 35, 300, 49), row(10, 10, 40, 24)],
-            true,
+            'horizontal-tb',
             false,
         );
         expect(rows.map((r) => r.r)).toEqual([40, 300]);
@@ -217,5 +217,59 @@ describe('getOutlineOfRows', () => {
             maxx: 0,
             maxy: 0,
         });
+    });
+});
+
+describe('vertical writing modes', () => {
+    /** Transpose a rect the way a vertical writing mode lays the same content
+     *  out: what ran along x now runs along y, and vice versa. */
+    function transpose(r: Rect): Rect {
+        return { l: r.t, t: r.l, r: r.b, b: r.r, w: r.h, h: r.w };
+    }
+
+    const lines = [row(10, 10, 100, 24), row(10, 30, 200, 44)];
+
+    test('a vertical-lr outline is the horizontal one, transposed', () => {
+        // The tracer is the same algorithm in every writing mode, so laying the
+        // same content out down the page must give the same shape on its side.
+        const horizontal = points(getOutlineOfRows(lines).path);
+        const vertical = points(
+            getOutlineOfRows(lines.map(transpose), 'vertical-lr').path,
+        );
+        expect(vertical).toEqual(horizontal.map(([x, y]) => [y, x]));
+    });
+
+    test('vertical-rl stacks its lines leftward', () => {
+        // Lines progress right to left, so the second line must trace further
+        // left than the first — the direction that distinguishes rl from lr.
+        const columns = [row(100, 10, 124, 100), row(60, 10, 84, 200)];
+        const outline = getOutlineOfRows(columns, 'vertical-rl');
+        const lr = getOutlineOfRows(columns, 'vertical-lr');
+        // Same content, opposite stacking: the two disagree about where the
+        // shape sits, which is exactly what the mode decides.
+        expect(outline.path).not.toEqual(lr.path);
+        // Both still bound the content they were given.
+        for (const shape of [outline, lr]) {
+            expect(shape.minx).toBeLessThan(shape.maxx);
+            expect(shape.miny).toBeLessThan(shape.maxy);
+        }
+    });
+
+    test('a vertical outline closes and retraces nothing', () => {
+        // The invariant the horizontal tracer is held to, in the other frame.
+        for (const layout of ['vertical-rl', 'vertical-lr'] as const)
+            expect(
+                zeroLengthSegments(
+                    getOutlineOfRows(lines.map(transpose), layout).path,
+                ),
+            ).toBe(0);
+    });
+
+    test('horizontal is unchanged by the layout argument', () => {
+        // The default and the explicit value must agree, since every existing
+        // caller relies on the default.
+        expect(getOutlineOfRows(lines).path).toBe(
+            getOutlineOfRows(lines, 'horizontal-tb').path,
+        );
     });
 });

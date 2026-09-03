@@ -21,6 +21,27 @@ export function layoutToCSS(layout: WritingLayoutSymbol): WritingLayout {
     return CSSByLayout[layout] ?? 'horizontal-tb';
 }
 
+/** The writing layout in force, given the creator's choice and the locales they
+ *  read. The one thing anything reads — never the raw setting.
+ *
+ *  A closed gate resolves to horizontal without touching the stored value, so
+ *  someone who chose vertical, then dropped the locale that offered the choice,
+ *  gets a horizontal interface rather than a vertical one with no control left
+ *  to undo it — and gets their choice back when they re-add the locale. */
+export function resolveWritingLayout(
+    choice: WritingLayoutChoice,
+    localeLayout: WritingLayout,
+    /** The vertical layout the reader's scripts are set in, if any. */
+    verticalLayout: WritingLayout | undefined,
+): WritingLayout {
+    if (choice === 'auto') return localeLayout;
+    if (choice === 'horizontal-tb') return 'horizontal-tb';
+    // Any vertical choice resolves to the one layout the reader's script is
+    // actually set in — or to horizontal when it has none, so a choice that is
+    // no longer offered stops applying without being forgotten.
+    return verticalLayout ?? 'horizontal-tb';
+}
+
 export type ScriptMetadata = {
     /** The script's name in the script itself (e.g. "देवनागरी" for Devanagari)
      *  when a confident native form exists. For historical or technical
@@ -35,6 +56,19 @@ export type ScriptMetadata = {
      *  Defaults to horizontal-tb — most historical vertical scripts are
      *  rendered horizontally in modern computing environments. */
     layout: WritingLayout;
+    /** The vertical layout this script is actually set in, when it has a living
+     *  vertical tradition. Deliberately separate from `layout`, which is the
+     *  script's *modern default*: CJK is correctly horizontal-tb today, yet CJK
+     *  readers are exactly the people who might choose vertical. Folding the two
+     *  together would make 'auto' resolve Japanese to vertical, which is wrong.
+     *
+     *  A layout rather than a boolean, because the two vertical modes are not
+     *  interchangeable: Japanese, Chinese, and Korean run their columns
+     *  right-to-left, Mongolian and Phags-pa left-to-right, and no script uses
+     *  both. Offering a reader the other one offers something nothing they read
+     *  is ever set in. Gates the writing-layout setting; see
+     *  Locales.getVerticalLayout. */
+    verticalLayout?: WritingLayout;
     /** A single exemplar glyph of this script, shown inside the Wordplay
      *  logo's speech bubble when this is the viewer's dominant script.
      *  Only populated for scripts that are the dominant script of a
@@ -159,6 +193,7 @@ export const Scripts = {
         en: 'Bopomofo',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        verticalLayout: 'vertical-rl',
     },
     Brah: {
         name: '𑀥𑀁𑀫𑀮𑀺𑀧𑀺',
@@ -374,12 +409,14 @@ export const Scripts = {
         en: 'Hangul',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        verticalLayout: 'vertical-rl',
     },
     Hani: {
         name: '汉字',
         en: 'Han',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        verticalLayout: 'vertical-rl',
     },
     Hano: {
         name: 'Hanunoo',
@@ -392,6 +429,7 @@ export const Scripts = {
         en: 'Han (Simplified)',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        verticalLayout: 'vertical-rl',
         glyph: '文',
     },
     Hant: {
@@ -399,6 +437,7 @@ export const Scripts = {
         en: 'Han (Traditional)',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        verticalLayout: 'vertical-rl',
     },
     Hatr: {
         name: 'Hatran',
@@ -418,6 +457,7 @@ export const Scripts = {
         en: 'Hiragana',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        verticalLayout: 'vertical-rl',
         glyph: 'あ',
     },
     Hluw: {
@@ -467,6 +507,7 @@ export const Scripts = {
         en: 'Katakana',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        verticalLayout: 'vertical-rl',
     },
     Kawi: {
         name: 'Kawi',
@@ -510,6 +551,7 @@ export const Scripts = {
         en: 'Korean',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        verticalLayout: 'vertical-rl',
         glyph: '가',
     },
     Krai: {
@@ -657,6 +699,7 @@ export const Scripts = {
         direction: 'ltr',
         // Written top-to-bottom in columns that progress left-to-right.
         layout: 'vertical-lr',
+        verticalLayout: 'vertical-lr',
     },
     Mroo: {
         name: 'Mro',
@@ -796,6 +839,7 @@ export const Scripts = {
         direction: 'ltr',
         // Written top-to-bottom in columns that progress left-to-right.
         layout: 'vertical-lr',
+        verticalLayout: 'vertical-lr',
     },
     Phli: {
         name: 'Inscriptional Pahlavi',
