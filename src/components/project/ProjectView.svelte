@@ -1466,7 +1466,7 @@
                                 ? conceptHistoryFromURL(newIndex)
                                 : $path
                                   ? remapConcepts($path, (concept) =>
-                                        newIndex.getEquivalent(concept),
+                                        newIndex.getCorresponding(concept),
                                     )
                                   : []
                             : [],

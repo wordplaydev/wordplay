@@ -393,6 +393,24 @@ export default class ConceptIndex {
         return this.concepts.find((c) => c.isEqualTo(concept));
     }
 
+    /**
+     * The concept in this index that corresponds to one resolved against an
+     * earlier index — the same concept, after a rebuild. Structural equality
+     * first, since that is exact when the index was rebuilt for the same locales
+     * (an edit, a new source). Then the URL token, which is what carries a
+     * concept across a change of *locale*: a basis is built per locale, so the
+     * definitions a concept wraps are different objects and `isEqualTo` matched
+     * only 121 of 902 concepts, while the token matched all 902 — it is a
+     * concept's character before its name, and a character is the same word in
+     * every language.
+     */
+    getCorresponding(concept: Concept): Concept | undefined {
+        return (
+            this.getEquivalent(concept) ??
+            this.getConceptByToken(this.getConceptToken(concept))
+        );
+    }
+
     /** Returns all concepts that are not subconcepts and that have the given purpose. */
     getPrimaryConceptsWithPurpose(purpose: PurposeType): Concept[] {
         return this.primaryConcepts.filter((c) => c.purpose === purpose);
@@ -465,8 +483,26 @@ export default class ConceptIndex {
         );
     }
 
+    /** Concepts by their own URL token, built once. Remapping a history happens
+     *  on every index rebuild — which in a project is every edit — and a linear
+     *  scan per concept made that quadratic. A miss falls through to the
+     *  exhaustive match, which also accepts a concept's other names, so a URL
+     *  written with one of those still resolves. */
+    private conceptsByToken: Map<string, Concept> | undefined;
+
     getConceptByToken(token: string): Concept | undefined {
-        return this.concepts.find((c) => this.conceptMatchesToken(c, token));
+        if (this.conceptsByToken === undefined) {
+            this.conceptsByToken = new Map();
+            for (const concept of this.concepts) {
+                const own = this.getConceptToken(concept);
+                if (!this.conceptsByToken.has(own))
+                    this.conceptsByToken.set(own, concept);
+            }
+        }
+        return (
+            this.conceptsByToken.get(token) ??
+            this.concepts.find((c) => this.conceptMatchesToken(c, token))
+        );
     }
 
     addExample(node: Node) {
