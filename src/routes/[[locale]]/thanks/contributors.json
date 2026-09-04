@@ -1,5 +1,5 @@
 {
-    "created": "2026-08-28T09:03:39.055Z",
+    "created": "2026-09-04T09:03:53.553Z",
     "contributors": [
         {
             "login": "amyjko",
@@ -7,29 +7,29 @@
             "avatar_url": "https://avatars.githubusercontent.com/u/552276?v=4",
             "html_url": "https://github.com/amyjko",
             "counts": {
-                "commit": 6884,
-                "issue": 459,
-                "pull_request": 96,
-                "issue_comment": 2085,
-                "pr_review": 347,
+                "commit": 6913,
+                "issue": 460,
+                "pull_request": 101,
+                "issue_comment": 2098,
+                "pr_review": 348,
                 "pr_review_comment": 80
             },
-            "latest": "2026-08-28T05:42:17Z"
+            "latest": "2026-09-04T06:18:15Z"
         },
         {
             "login": "tiaL-ops",
-            "name": "tiaL-ops",
+            "name": "Landy Rakotoarison",
             "avatar_url": "https://avatars.githubusercontent.com/u/104815994?v=4",
             "html_url": "https://github.com/tiaL-ops",
             "counts": {
-                "commit": 3,
+                "commit": 4,
                 "issue": 0,
                 "pull_request": 2,
-                "issue_comment": 20,
+                "issue_comment": 25,
                 "pr_review": 4,
                 "pr_review_comment": 4
             },
-            "latest": "2026-08-27T04:27:28Z"
+            "latest": "2026-09-03T16:18:48Z"
         },
         {
             "login": "ellipsis7449",
