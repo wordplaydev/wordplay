@@ -1,6 +1,6 @@
 import { configDefaults, defineConfig, mergeConfig } from 'vitest/config';
-import IsolatedTests from './src/util/isolatedTests';
-import viteConfig from './vite.config';
+import IsolatedTests from './src/util/isolatedTests.ts';
+import viteConfig from './vite.config.js';
 
 // Rules tests need the Firestore emulator; run them via `npm run test:rules`.
 const Exclude = [...configDefaults.exclude, 'tests/end2end/*', 'tests/rules/*'];
