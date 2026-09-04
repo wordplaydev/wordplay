@@ -40,6 +40,7 @@ import {
     hasUnclosedText,
     mismatchedDelimiter,
 } from '@util/verify-locales/protect';
+import { localeExamplesMayHaveChanged } from '@util/verify-locales/exampleFreshness';
 import { retargetSerializedExample } from '@util/verify-locales/retargetExampleNames';
 import type Translator from '@util/verify-locales/Translator';
 import writeFormatted from '@util/verify-locales/writeFormatted';
@@ -167,12 +168,22 @@ export async function verifyExamples(
         log.bad(`Failed to check for orphaned examples: ${error}`);
     }
 
+    // Re-deriving 75 examples against their master is the most expensive thing
+    // this verifier does, and nothing a change leaves untouched can have gone
+    // stale. A read-only run therefore skips a locale whose examples, own names,
+    // and en-US's names are all unchanged since the branch point — the question
+    // `driftSince` already asks of translations. Repairing runs never skip: fix
+    // and translate may have work queued from before the base.
+    const readOnly = !fix && !translateContent;
+    const skippable =
+        readOnly && !named && !localeExamplesMayHaveChanged(locale);
+
     // Bring every localized example's names back in line with what the locale
     // declares, and learn which files have structurally diverged from their
     // master. Runs in every mode: the repair is deterministic, so it needs no
     // translation run — the same reasoning as retargetHowToExamples.
     const divergent =
-        localeText !== undefined
+        localeText !== undefined && !skippable
             ? retargetLocalizedExamples(
                   log,
                   masterFiles,
@@ -181,6 +192,11 @@ export async function verifyExamples(
                   fix || translateContent,
               )
             : new Set<string>();
+
+    if (skippable)
+        log.good(
+            `Examples are unchanged since the branch point; skipped re-deriving them.`,
+        );
 
     if (!translateContent) {
         // Verification is read-only: report missing files and divergence. A

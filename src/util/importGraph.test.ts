@@ -469,13 +469,20 @@ test('resolving a color needs no basis', () => {
  * the queries added to `Locales`/`LanguageCode`, all of which every page
  * carries because every page resolves a locale. Every byte cap moves up by a
  * hundredth of a megabyte; no file count moves at all.
+ *
+ * The ASCII fast path in `UnicodeString.getGraphemes` is a few hundred bytes in
+ * a module every page already carries, and no new file: segmenting was the
+ * largest single cost in parsing a program, so skipping Intl.Segmenter for text
+ * that cannot contain a multi-character cluster took `npm run locales` from
+ * 134s to 127s and the unit suite from 112s to 72s. `projects` is the one entry
+ * with no slack left for it, so only its byte budget moves.
  */
 test.each([
     ['src/routes/+layout.svelte', 502, 3.68],
     ['src/components/app/Page.svelte', 525, 3.93],
     ['src/routes/[[locale]]/+page.svelte', 540, 4.02],
     ['src/routes/[[locale]]/galleries/+page.svelte', 544, 4.03],
-    ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.05],
+    ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.06],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

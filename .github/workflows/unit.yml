@@ -51,6 +51,17 @@ jobs:
                   cache: 'npm'
             - run: npm ci
               name: Install dependencies
+            # Verifying the localized gallery examples re-derives 75 `.wp` files
+            # per locale against their masters, which is most of this job. Nothing
+            # a change leaves untouched can have gone stale, so the verifier skips
+            # locales unchanged since this base — the same base, resolved the same
+            # way, that the drift job gates on. Without it a shallow clone has no
+            # `main` to compare against and the full pass runs.
+            - name: Fetch the base commit
+              run: |
+                  BASE="${{ github.event.pull_request.base.sha || github.event.before }}"
+                  echo "WORDPLAY_LOCALES_BASE=$BASE" >> "$GITHUB_ENV"
+                  git fetch --depth=1 origin "$BASE"
             - run: npm run locales
               name: Verify locales
 

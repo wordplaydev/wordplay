@@ -865,6 +865,28 @@ function conflictCountOf(project: Project): number {
     return Array.from(project.analyze().conflictedNodes.values()).flat().length;
 }
 
+/**
+ * The en-US side of a retarget is the same project for every locale, but a full
+ * verify calls this once per (locale, example) — 31 locales x 75 examples — and
+ * so parsed the same 75 masters 2,325 times, which was the largest single cost
+ * in `npm run locales`. Memoize them on their own serialized content, never on a
+ * name: a hit requires byte-identical sources, so it cannot return a project for
+ * anything but the input it was built from, whatever else shares this module.
+ */
+const MasterProjects = new Map<string, Project | undefined>();
+
+function masterProject(
+    enSources: SerializedExampleSource[],
+): Project | undefined {
+    const key = JSON.stringify(enSources);
+    let project = MasterProjects.get(key);
+    if (project === undefined && !MasterProjects.has(key)) {
+        project = makeMultiSourceProject('en', enSources, DefaultLocale);
+        MasterProjects.set(key, project);
+    }
+    return project;
+}
+
 function retargetSerialized(
     enSources: SerializedExampleSource[],
     loSources: SerializedExampleSource[],
@@ -873,7 +895,7 @@ function retargetSerialized(
     depth: number,
 ): SerializedRetargetResult {
     if (enSources.length !== loSources.length) return { kind: 'divergent' };
-    const enProject = makeMultiSourceProject('en', enSources, DefaultLocale);
+    const enProject = masterProject(enSources);
     const loProject = makeMultiSourceProject('localized', loSources, locale);
     if (enProject === undefined || loProject === undefined)
         return { kind: 'divergent' };

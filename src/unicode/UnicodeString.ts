@@ -5,6 +5,11 @@
 // unsupported-browser gate (static/scripts/unsupported.js).
 const Segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
 
+// Segmenting is the largest single cost in parsing a program, since `Token` builds
+// one of these per token. Every ASCII character is its own grapheme cluster except
+// CR LF, so ASCII without U+000D splits by code unit for an identical answer.
+const AsciiWithoutCR = /^[\x00-\x0C\x0E-\x7F]*$/;
+
 export default class UnicodeString {
     readonly text: string;
 
@@ -18,10 +23,9 @@ export default class UnicodeString {
 
     getGraphemes() {
         if (this._segments === undefined)
-            this._segments = Array.from(
-                Segmenter.segment(this.text),
-                (s) => s.segment,
-            );
+            this._segments = AsciiWithoutCR.test(this.text)
+                ? this.text.split('')
+                : Array.from(Segmenter.segment(this.text), (s) => s.segment);
         return this._segments;
     }
 
