@@ -18,7 +18,7 @@
                             "FunctionDefinition",
                             "cheerful",
                             "$~Witaj w @wordplay! Słyszę, że znasz się trochę na programowaniu? Świetnie! Ten krótki przewodnik pokazuje, co jest podobne, a co inne w Wordplay.",
-                            "$~Żebyś wiedział, co jest na tym ekranie: ta strona pokazuje okno @tutorial i widok @project. Widać *scenę* @UI/stage, która pokazuje wynik programu, oraz *edytor* @UI/editor, który zawiera kod programu.",
+                            "$~Żebyś wiedział, co jest na tym ekranie: ta strona pokazuje okno @tutorial i widok @project. Widać *scenę* @UI/stage, która pokazuje wynik programu, oraz *@editor* @UI/editor, który zawiera @code programu.",
                             "$~Ten program jest pusty, więc jego wynik to tylko zachęta do napisania programu.",
                             "$~Jest wiele innych przycisków do zatrzymywania i uruchamiania programu oraz edycji kodu, ale na razie się nimi nie przejmuj."
                         ],
@@ -29,7 +29,7 @@
                             "happy",
                             "$~W większości języków programowania program to lista instrukcji, które mówią komputerowi, co ma *zrobić*, na przykład wypisać @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
-                            "$~W @wordplay programy to *wyrażenia*, które mówią, jaki ma być /wynik/ programu, a nie jak ma go uzyskać.",
+                            "$~W @wordplay programy to *wyrażenia*, które mówią, jaki ma być /wynik/ programu, a nie @how ma go uzyskać.",
                             "$~Ten program oblicza się do wartości \\'cześć'\\, która jest następnie pokazana na scenie. Bez polecenia wypisania, tylko @expression, które mówi, do jakiej wartości się obliczyć."
                         ],
                         null,
@@ -103,7 +103,7 @@
                             "neutral",
                             "$~Większość języków ma wiele „prostych” typów @value.",
                             "\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
-                            "$~@wordplay ma podobny zapis dla tych typów, ale pozwala też dodać inne informacje, takie jak znaczniki @language dla tekstu w wielu językach oraz jednostki przy liczbach."
+                            "$~@wordplay ma podobny zapis dla tych typów, ale pozwala też dodać inne informacje, takie @how znaczniki @language dla tekstu w wielu językach oraz jednostki przy liczbach."
                         ],
                         null,
                         {
@@ -166,9 +166,9 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Dla zbiorów wartości, takich jak listy i tablice, inne języki programowania używają konstrukcji takich jak pętle *for* i *while*, aby zbudować nowy zbiór z wartości istniejącego zbioru.",
+                            "$~Dla zbiorów wartości, takich @how listy i tablice, inne języki programowania używają konstrukcji takich jak pętle *for* i *while*, aby zbudować nowy zbiór z wartości istniejącego zbioru.",
                             "\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
-                            "$~@wordplay ma prostą konstrukcję @Translate*, która używa symbolu \\↦\\: buduje nowy @List, @Set lub @Map, zastępując każdy element (przedstawiony przez @placeholder \\⬚\\) nową @value. To podwaja każdy element, tworząc \\[2 4 6]\\.",
+                            "$~@wordplay ma prostą konstrukcję @Translate*, która używa symbolu \\↦\\: buduje nowy @List, @Set lub @Map, zastępując każdy @element (przedstawiony przez @placeholder \\⬚\\) nową @value. To podwaja każdy element, tworząc \\[2 4 6]\\.",
                             "$~Są też potężniejsze rzeczy, takie jak @List.translate i @List.combine, jeśli potrzebujesz bardziej złożonych operacji."
                         ],
                         null,
@@ -181,7 +181,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Każdy język programowania ma funkcje, które pozwalają deklarować wielokrotnego użytku @blocks kodu, przyjmujące dane wejściowe i tworzące na ich podstawie wynik, o dowolnej złożoności:",
+                            "$~Każdy @language programowania ma funkcje, które pozwalają deklarować wielokrotnego użytku @blocks kodu, przyjmujące dane wejściowe i tworzące na ich podstawie wynik, o dowolnej złożoności:",
                             "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
                             "$~@wordplay też obsługuje definicje funkcji, ale z symbolem ƒ. Tak jak wszystkie programy w Wordplay, funkcje muszą obliczyć się do @value."
                         ]
@@ -214,7 +214,7 @@
                             "$~Większość języków programowania ma sposób na przyjęcie danych wejściowych od użytkownika:",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
                             "$~Dane wejściowe w @wordplay pochodzą ze *strumieni*, które są specjalnymi wartościami zmieniającymi się w czasie, w odpowiedzi na dane wejściowe, i powodują ponowne obliczenie programu Wordplay z nową wartością strumienia.",
-                            "$~Ten program na przykład używa strumienia @Time, aby napędzać obrót emoji globusa. Za każdym razem, gdy strumień @Time() tyka do nowej @value, program oblicza się ponownie z nową wartością, aktualizując wartość programu na @Stage."
+                            "$~Ten program na przykład używa strumienia @Time, aby napędzać obrót emoji globusa. Za każdym razem, gdy @stream @Time() tyka do nowej @value, program oblicza się ponownie z nową wartością, aktualizując wartość programu na @Stage."
                         ],
                         null,
                         { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
@@ -223,7 +223,7 @@
                             "curious",
                             "$~Interaktywność w większości języków programowania zwykle oznacza rejestrowanie obsługi zdarzeń i funkcji zwrotnych:",
                             "\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
-                            "$~W @wordplay dla interaktywności możemy po prostu użyć strumieni takich jak @Button, @Key i @Pointer, aby tworzyć interaktywne elementy. Tekst tego @Phrase zależy od tego, czy @Button jest kliknięty, używając @Conditional do sprawdzenia, czy strumień @Button się zmienił (@Changed)."
+                            "$~W @wordplay dla interaktywności możemy po prostu użyć strumieni takich @how @Button, @Key i @Pointer, aby tworzyć interaktywne elementy. Tekst tego @Phrase zależy od tego, czy @Button jest kliknięty, używając @Conditional do sprawdzenia, czy strumień @Button się zmienił (@Changed)."
                         ],
                         null,
                         {
@@ -261,7 +261,7 @@
                             "angry",
                             "$~Inne języki zgłaszają *błędy* — znak, że program zrobił coś niedozwolonego:",
                             "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
-                            "$~@wordplay nazywa błędy *konfliktami*: dwie rzeczy, które nie mogą być jednocześnie prawdziwe, jak dodawanie liczby i tekstu w poniższym programie.",
+                            "$~@wordplay nazywa błędy *konfliktami*: dwie rzeczy, które nie mogą być jednocześnie prawdziwe, @how dodawanie liczby i tekstu w poniższym programie.",
                             "$~Wordplay podkreśli konflikty i pokaże je na pasku bocznym @UI/conflict. Zaproponuje też sposoby rozwiązania konfliktu, aby naprawić problem."
                         ],
                         null,
@@ -271,7 +271,7 @@
                             "happy",
                             "$~Większość języków programowania oferuje jakieś narzędzia do szukania błędów, które pomagają twórcom zrozumieć i rozwiązać problemy w kodzie. Ale wiele po prostu używa instrukcji wypisania, aby sprawdzić wartości zmiennych w konsoli:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay oferuje bardziej rozbudowane debugowanie. Możesz krok po kroku iść *do przodu* i *do tyłu* przez działanie kodu. Naciśnij przycisk debugowania ⏸️ w przełączniku trybów @UI/modeSwitcher nad sceną, aby wejść w tryb *debugowania*: wartość każdego wyrażenia pojawia się obok niego w kodzie, a @UI/stepControls pozwala krok po kroku iść w dowolnym kierunku, dzięki czemu widać, jak powstaje wartość. Oto przewodnik po wszystkim: @Tour/stage",
+                            "$~@wordplay oferuje bardziej rozbudowane debugowanie. Możesz krok po kroku iść *do przodu* i *do tyłu* przez działanie kodu. Naciśnij przycisk debugowania ⏸️ w przełączniku trybów @UI/modeSwitcher nad sceną, aby wejść w tryb *debugowania*: @value każdego wyrażenia pojawia się obok niego w kodzie, a @UI/stepControls pozwala krok po kroku iść w dowolnym kierunku, dzięki czemu widać, jak powstaje wartość. Oto przewodnik po wszystkim: @Tour/stage",
                             "$~Pozostałe tryby też są ważne: tryb ✏️ *edycji* służy do zmieniania programu, gdy scena pozostaje zatrzymana, a tryb ▶️ *odtwarzania* uruchamia go na żywo, reagując na dane wejściowe w czasie rzeczywistym.",
                             "$~Potrzebujesz więcej wskazówek? Przycisk @UI/stageTourLaunch obok nazwy sceny pokazuje przewodnik po tych elementach sterujących."
                         ]
@@ -288,7 +288,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Zbudujmy mały interaktywny @project w trzech krokach.",
-                            "$~*Raz:* zadeklaruj swoje dane i *strumienie*. Tutaj strumień @Time o nazwie elapsed mówi, jak długo program działa."
+                            "$~*Raz:* zadeklaruj swoje dane i *strumienie*. Tutaj @stream @Time o nazwie elapsed mówi, jak długo program działa."
                         ],
                         null,
                         {
@@ -327,7 +327,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Możemy uczynić to jeszcze bardziej interaktywnym, dodając dane wejściowe od użytkownika, aby sterować obrotem, na przykład @Volume z wejścia mikrofonu. To wartość między 0 a 1, więc możemy ją przypisać do 360 stopni.",
+                            "$~Możemy uczynić to jeszcze bardziej interaktywnym, dodając dane wejściowe od użytkownika, aby sterować obrotem, na przykład @Volume z wejścia mikrofonu. To @value między 0 a 1, więc możemy ją przypisać do 360 stopni.",
                             "$~Tak wygląda większość projektów: deklaracje, potem reakcje, a potem wynik. <Guide//guide> ma sekcję @how pełną przepisów do nauki, kopiowania i edycji.",
                             "$~Miłego tworzenia!"
                         ]

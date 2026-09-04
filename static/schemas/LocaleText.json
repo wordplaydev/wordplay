@@ -3630,6 +3630,9 @@
                         "state": {
                             "$ref": "#/definitions/GlossaryText"
                         },
+                        "stream": {
+                            "$ref": "#/definitions/GlossaryText"
+                        },
                         "tutorial": {
                             "$ref": "#/definitions/GlossaryText"
                         },
@@ -3663,6 +3666,7 @@
                         "element",
                         "scope",
                         "state",
+                        "stream",
                         "sideEffect",
                         "abstraction",
                         "project",

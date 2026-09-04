@@ -33,6 +33,7 @@ import type Log from '@util/verify-locales/Log';
 import { getCheckableLocalePairs } from '@util/verify-locales/verifyLocale';
 import { mismatchedConceptLinks } from '@util/verify-locales/protect';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
+import { ReservedConceptIDs } from '@nodes/ConceptLink';
 import { getTranslatableTutorialPairs } from '@util/verify-locales/verifyTutorial';
 import type Tutorial from '../../tutorial/Tutorial';
 
@@ -80,12 +81,44 @@ function requeue(text: string): string {
     return `${Revised}${text.replace(/^(?:\$[?!~])+/, '')}`;
 }
 
+/**
+ * A bare `@reference` — no `.member` or `/tag` suffix — that names no concept,
+ * which is what a glossary reference is. Concept ids are the capitalized English
+ * keys of the locale's `node`/`basis`/`input`/`output` blocks and survive
+ * translation verbatim, so testing membership separates the two in every script,
+ * including the caseless ones where a lowercase test would not.
+ *
+ * The suffix test looks for `.`/`/` *followed by a letter*, not for the
+ * separator alone: a reference that ends a sentence ("the program @code.") is
+ * followed by a period that begins no member, and rejecting it there left the
+ * commonest position in all of this prose unnormalized.
+ */
+const BareReference =
+    /@([\p{L}][\p{L}\p{N}]*)(?![\p{L}\p{N}])(?![./][\p{L}])/gu;
+
+/**
+ * Drop the `@` from glossary references, so introducing one doesn't read as
+ * drift. Linking a word the reader already had — `stream` becoming `@stream` —
+ * adds a definition without moving the meaning of a single sentence, and the
+ * translations are linked by the same deterministic pass (`glossaryLinks.ts`)
+ * rather than re-bought. Without this, that one pass marked 1144 strings `$!`
+ * across 29 locales and queued them all for paid re-translation.
+ *
+ * Concept links are deliberately left alone: `@Phrase` becoming `@Group` is a
+ * change of subject, and that is drift.
+ */
+export function withoutGlossaryReferences(text: string): string {
+    return text.replace(BareReference, (whole, name: string) =>
+        ReservedConceptIDs.has(name) ? whole : name,
+    );
+}
+
 /** Canonical, comparable form of a pair's value. */
 function canonicalize(value: string | string[]): string {
+    const normalize = (text: string) =>
+        withoutGlossaryReferences(withoutLeadingAnnotation(text));
     return JSON.stringify(
-        typeof value === 'string'
-            ? withoutLeadingAnnotation(value)
-            : value.map(withoutLeadingAnnotation),
+        typeof value === 'string' ? normalize(value) : value.map(normalize),
     );
 }
 

@@ -860,6 +860,7 @@ export const TERMINOLOGY_NAMES: readonly string[] = [
     'stage',
     'start',
     'state',
+    'stream',
     'tutorial',
     'type',
     'value',

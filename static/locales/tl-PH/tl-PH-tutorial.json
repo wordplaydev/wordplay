@@ -629,7 +629,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Ganito ang hitsura ng bawat evaluate @UI/Evaluate: some function, na sinusundan ng kaliwa at kanang panaklong, na may kahit anong bilang ng mga input sa pagitan ng mga ito. Dito, ang function lang ang meron ako ay @ExpressionPlaceholder at tatlo pa bilang placeholder inputs."
+                            "$~Ganito ang hitsura ng bawat evaluate @UI/Evaluate: some function, na sinusundan ng kaliwa at kanang panaklong, na may kahit anong bilang ng mga input sa pagitan ng mga ito. Dito, ang function lang ang meron ako ay @ExpressionPlaceholder at tatlo pa bilang @placeholder inputs."
                         ],
                         {
                             "edit": "_(_ _ _)",
@@ -755,7 +755,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Namiss ko talaga si @Evaluate. Hindi ko maisip ang Verse kung wala sila.",
-                            "$~Pero minsan, medyo… mapilit sila. Sana sana… ewan ko ba, maniwala sila sa sarili nila? Ang dami nilang nagagawa, pero hindi nila nakikita. Ibig kong sabihin, binabago nila ang mga *halaga* tungo sa ibang *halaga*! Ang ginagawa ko lang ay ibigay ang recipe. Sila ang nagluluto. Minsan pakiramdam ko ang ginagawa ko lang ay magbigay, at ang ginagawa nila ay kumuha. Nakakasakal."
+                            "$~Pero minsan, medyo… mapilit sila. Sana sana… ewan ko ba, maniwala sila sa sarili nila? Ang dami nilang nagagawa, pero hindi nila nakikita. Ibig kong sabihin, binabago nila ang mga *@value* tungo sa ibang *halaga*! Ang ginagawa ko lang ay ibigay ang recipe. Sila ang nagluluto. Minsan pakiramdam ko ang ginagawa ko lang ay magbigay, at ang ginagawa nila ay kumuha. Nakakasakal."
                         ],
                         null,
                         {
@@ -783,7 +783,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Ang mga *Ekspresyon* ay kung paano tayo lumilikha ng mga halaga. Lahat ng ekspresyon ay mga pagsusuri ng mga tungkuling aking ginagawa. Ang resulta ng pagsusuri ng isang ekspresyon ay isang halaga ng ilang uri."
+                            "$~Ang mga *@expression* ay kung paano tayo lumilikha ng mga halaga. Lahat ng ekspresyon ay mga pagsusuri ng mga tungkuling aking ginagawa. Ang resulta ng pagsusuri ng isang ekspresyon ay isang halaga ng ilang uri."
                         ],
                         null,
                         { "fit": "#Symbol 🤔" },
@@ -1145,7 +1145,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~(Malaking tulong ito kapag sinusubukang tukuyin kung ang maraming ekspresyon ay pawang totoo, dahil totoo lamang ito kapag ang lahat ay totoo)."
+                            "$~(Malaking tulong ito kapag sinusubukang tukuyin kung ang maraming @expression ay pawang totoo, dahil totoo lamang ito kapag ang lahat ay totoo)."
                         ],
                         null,
                         { "edit": "(⊤ | ⊤) = ⊥" },
@@ -1646,7 +1646,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Maaaring magtaka ka kung paano sila nagkakasundo sa isang grupo. Buweno, mayroong ibang grupo ng mga tao sa Talata na puro pagsasama-sama ng mga pinahahalagahan sa mga grupo. Tinatawag natin silang *mga koleksyon*. Ang mga koleksyon ay *mga halaga* din; binubuo lamang ang mga ito ng mas maliliit na halaga o kahit na iba pang mga koleksyon. Halimbawa, maaaring mayroon kang listahan ng @Text, isang set ng @Number, o kahit isang listahan ng mga listahan."
+                            "$~Maaaring magtaka ka kung paano sila nagkakasundo sa isang grupo. Buweno, mayroong ibang grupo ng mga tao sa Talata na puro pagsasama-sama ng mga pinahahalagahan sa mga grupo. Tinatawag natin silang *mga koleksyon*. Ang mga koleksyon ay *mga @value* din; binubuo lamang ang mga ito ng mas maliliit na halaga o kahit na iba pang mga koleksyon. Halimbawa, maaaring mayroon kang listahan ng @Text, isang set ng @Number, o kahit isang listahan ng mga listahan."
                         ],
                         {
                             "fit": "Group(Row() [Phrase('[') Phrase('\"hi\"') Phrase('⊤') Phrase('42') Phrase('ø') Phrase(']') ])"
@@ -1739,7 +1739,7 @@
                         [
                             "List",
                             "excited",
-                            "$~Sige. Una, at pinakamahalaga, inayos ko ang mga halaga. Anumang ekspresyon ang gusto mo: mga numero, salita, iba pang listahan — maaari kong pangkatin ang kahit ano nang magkakasunod.",
+                            "$~Sige. Una, at pinakamahalaga, inayos ko ang mga halaga. Anumang @expression ang gusto mo: mga numero, salita, iba pang listahan — maaari kong pangkatin ang kahit ano nang magkakasunod.",
                             "$~Halimbawa, tingnan ang nakakatuwang listahang ito. Nakakita ka na ba ng katulad nito? Napakaganda! Ang unang sampung numero, ayon sa pagkakasunod-sunod."
                         ],
                         { "edit": "[1 2 3 4 5 6 7 8 9 10]" },
@@ -1837,7 +1837,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~List, ang tanga mo. Ang dami pang ibang magagandang bagay na magagawa mo; lagi akong humahanga. Nandito ka ba kung may mga tanong ang kaibigan nating bagong direktor?"
+                            "$~List, ang tanga mo. Ang dami pang ibang magagandang bagay na magagawa mo; lagi akong humahanga. Nandito ka ba kung may mga @query ang kaibigan nating bagong direktor?"
                         ],
                         [
                             "List",
@@ -1874,7 +1874,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Ang dami kong tanong! Nandito ako para ipakilala sa inyo ang isang taong nag-iisip na magdirek. Natututunan nila ang lahat tungkol sa Verse at umaasa silang maibahagi ang kanilang inspirasyon sa atin! Kakausap lang namin kay @List, pero nakausap din namin kanina sina @Number, @Boolean, @Text, @Evaluate, at @Program. Susunod na kaming pumunta sa inyo dahil makikilala namin ang lahat ng koleksyon!"
+                            "$~Ang dami kong @query! Nandito ako para ipakilala sa inyo ang isang taong nag-iisip na magdirek. Natututunan nila ang lahat tungkol sa Verse at umaasa silang maibahagi ang kanilang inspirasyon sa atin! Kakausap lang namin kay @List, pero nakausap din namin kanina sina @Number, @Boolean, @Text, @Evaluate, at @Program. Susunod na kaming pumunta sa inyo dahil makikilala namin ang lahat ng koleksyon!"
                         ],
                         null,
                         [
@@ -2438,7 +2438,7 @@
                         [
                             "Conditional",
                             "curious",
-                            "$~At isipin mo rin ang mga tanong na sasagutin ko — bakit \\⊤\\ at \\⊥\\ lang ang masasagot ko? Bakit hindi numero? Wala ba akong karapatang magdesisyon kung maganda ang \\1\\?"
+                            "$~At isipin mo rin ang mga @query na sasagutin ko — bakit \\⊤\\ at \\⊥\\ lang ang masasagot ko? Bakit hindi numero? Wala ba akong karapatang magdesisyon kung maganda ang \\1\\?"
                         ],
                         {
                             "edit": "1 ? 'beautiful' 'ugly'",
@@ -2604,7 +2604,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Magbabago ang stream na ito anumang oras na pinindot ang anumang key. Ngunit maaari mong sabihin sa isang key stream na magbago lamang kapag pinindot ang isang partikular na key. Nakikita mo ba kung paano nagbabago ang stream sa \\a\\ sa unang pagkakataon ngunit hindi na magbabago pagkatapos? Iyon ay dahil nagbabago lamang ang stream na ito kapag pinindot ang \\a\\, kaya palagi nitong ipinapakita ang \\a\\. Ngunit palagi mong makikita ang bagong halaga ng key na lilitaw sa timeline."
+                            "$~Magbabago ang stream na ito anumang oras na pinindot ang anumang key. Ngunit maaari mong sabihin sa isang key stream na magbago lamang kapag pinindot ang isang partikular na key. Nakikita mo ba kung paano nagbabago ang stream sa \\a\\ sa unang pagkakataon ngunit hindi na magbabago pagkatapos? Iyon ay dahil nagbabago lamang ang stream na ito kapag pinindot ang \\a\\, kaya palagi nitong ipinapakita ang \\a\\. Ngunit palagi mong makikita ang bagong @value ng key na lilitaw sa timeline."
                         ],
                         ["Key", "neutral", "$~klik 'a'…"],
                         { "edit": "Key('a')" },
@@ -2810,7 +2810,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Sa ngayon, lahat ng *stream* na ating napag-usapan ay mga pagkakasunod-sunod ng mga simpleng halaga, tulad ng @Text o @Number. Gayunpaman, ang ilang mga stream ay maaaring makagawa ng mga kumplikadong halaga.",
+                            "$~Sa ngayon, lahat ng *stream* na ating napag-usapan ay mga pagkakasunod-sunod ng mga simpleng @value, tulad ng @Text o @Number. Gayunpaman, ang ilang mga stream ay maaaring makagawa ng mga kumplikadong halaga.",
                             "$~Ang @Motion ay isa sa mga pinakainteresante sa mga iyon. Gumagawa ito ng stream ng @Place."
                         ],
                         null,
@@ -3312,7 +3312,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "$~Nararamdaman mo ba na medyo wala ka sa sarili mong posisyon? Siguro binibigyan mo ang mundo ng kaunting @Pose.rotation habang umiikot. Subukan mong baguhin ang halaga ng rotation para paikutin ako!"
+                            "$~Nararamdaman mo ba na medyo wala ka sa sarili mong posisyon? Siguro binibigyan mo ang mundo ng kaunting @Pose.rotation habang umiikot. Subukan mong baguhin ang @value ng rotation para paikutin ako!"
                         ],
                         {
                             "fit": "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
@@ -3955,7 +3955,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Tunay ngang ganoon sila, na may lahat ng uri ng ekspresyon mula sa kanilang mundo."
+                            "$~Tunay ngang ganoon sila, na may lahat ng uri ng @expression mula sa kanilang mundo."
                         ],
                         [
                             "Stage",
@@ -4193,7 +4193,7 @@
                         [
                             "Music",
                             "kind",
-                            "$~Pindutin muli ang play. Ang @Music.scale at @Music.key ay gumagalaw sa buong piyesa nang sabay. \\pan\\ ay naglalagay ng bawat boses sa isang lugar sa silid. Binabasa ng kampana ang mga halaga ng nota — \\𝅘𝅥𝅮\\ ay isang ikawalo — at ang @Note ay may sariling lakas ng tunog. Ang huling boses ay may \\words\\, kaya inaawit nito, isang beses, dahil ang \\loop\\ nito ay \\⊥\\."
+                            "$~Pindutin muli ang play. Ang @Music.scale at @Music.key ay gumagalaw sa buong piyesa nang sabay. \\pan\\ ay naglalagay ng bawat boses sa isang lugar sa silid. Binabasa ng kampana ang mga @value ng nota — \\𝅘𝅥𝅮\\ ay isang ikawalo — at ang @Note ay may sariling lakas ng tunog. Ang huling boses ay may \\words\\, kaya inaawit nito, isang beses, dahil ang \\loop\\ nito ay \\⊥\\."
                         ],
                         [
                             "Music",
@@ -4730,7 +4730,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~At isa pang bagay na kayang gawin ng @Block ay isang bagay na nakita mo na. Ang @Block ay nagbibigay-daan sa iyong pangalanan ang mga bagay gamit ang @Bind. Ngunit ang anumang pangalan na tinukoy sa @Block ay tinukoy lang sa loob ng mga panaklong. Hindi bago at hindi pagkatapos. Halimbawa, tingnan mo ito. \\a\\ ay tinukoy bilang \\1\\, pagkatapos nagsisimula ang isang block at \\b\\ ay tinukoy bilang \\2\\, pagkatapos \\c\\ ay tinukoy bilang kabuuan nila, pagkatapos isinusulat ko ang \\c\\ nang mag-isa. Ang mga pahayag na @Bind ay mga side effect — nagpapakilala sila ng mga pangalan ngunit walang sariling @value. Kaya ang value ko ay kung ano man ang ginagawa ng mga hindi-@Bind na expression. Dito iyon ay \\c\\, na kung saan ay \\3\\. Tama?"
+                            "$~At isa pang bagay na kayang gawin ng @Block ay isang bagay na nakita mo na. Ang @Block ay nagbibigay-daan sa iyong pangalanan ang mga bagay gamit ang @Bind. Ngunit ang anumang pangalan na tinukoy sa @Block ay tinukoy lang sa loob ng mga panaklong. Hindi bago at hindi pagkatapos. Halimbawa, tingnan mo ito. \\a\\ ay tinukoy bilang \\1\\, pagkatapos nagsisimula ang isang block at \\b\\ ay tinukoy bilang \\2\\, pagkatapos \\c\\ ay tinukoy bilang kabuuan nila, pagkatapos isinusulat ko ang \\c\\ nang mag-isa. Ang mga pahayag na @Bind ay mga @sideEffect — nagpapakilala sila ng mga pangalan ngunit walang sariling @value. Kaya ang value ko ay kung ano man ang ginagawa ng mga hindi-@Bind na expression. Dito iyon ay \\c\\, na kung saan ay \\3\\. Tama?"
                         ],
                         {
                             "edit": [
@@ -5050,7 +5050,7 @@
                         [
                             "StructureDefinition",
                             "eager",
-                            "$~Sige. Ang ginagawa ko ay pagsasama-samahin ang mga halaga at mga tungkulin, na gumagawa ng isang maayos at maliit na lalagyan para sa maraming magkakaugnay na bagay. Halimbawa, isipin mong gusto mong gumawa ng isang maliit na marquee na nag-uugnay sa isang serye ng mga mensahe. Isang dating direktor ang gumawa ng isa sa mga ito at gusto niyang ipakita ang mga mensaheng ito."
+                            "$~Sige. Ang ginagawa ko ay pagsasama-samahin ang mga @value at mga tungkulin, na gumagawa ng isang maayos at maliit na lalagyan para sa maraming magkakaugnay na bagay. Halimbawa, isipin mong gusto mong gumawa ng isang maliit na marquee na nag-uugnay sa isang serye ng mga mensahe. Isang dating direktor ang gumawa ng isa sa mga ito at gusto niyang ipakita ang mga mensaheng ito."
                         ],
                         {
                             "edit": [
@@ -5635,7 +5635,7 @@
                         [
                             "Number",
                             "serious",
-                            "$~1) Ikaw ang nagpapatakbo ng aming mga pagtatanghal, 2) ang @FunctionDefinition ay magiging walang silbi kung wala ka, 3) literal mong binabago ang mga bagay-bagay tungo sa mga ganap na bagong halaga, 4) dumarating ka sa napakaraming iba't ibang anyo, 5) binibigyan mo kaming lahat ng layunin, 6) lahat kami ay umaasa sa iyo para sa gabay…"
+                            "$~1) Ikaw ang nagpapatakbo ng aming mga pagtatanghal, 2) ang @FunctionDefinition ay magiging walang silbi kung wala ka, 3) literal mong binabago ang mga bagay-bagay tungo sa mga ganap na bagong @value, 4) dumarating ka sa napakaraming iba't ibang anyo, 5) binibigyan mo kaming lahat ng layunin, 6) lahat kami ay umaasa sa iyo para sa gabay…"
                         ],
                         null,
                         { "fit": "Stage([] background: Color(20% 0 0°))" },
@@ -5990,7 +5990,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Ginawa namin… pero hindi namin magagawa iyon kung wala ang aming bagong kaibigang direktor. Binasag nila ang aming katahimikan; ipinaalala nila sa amin kung bakit kami nagkakaroon ng mga ekspresyon, nang magkasama."
+                            "$~Ginawa namin… pero hindi namin magagawa iyon kung wala ang aming bagong kaibigang direktor. Binasag nila ang aming katahimikan; ipinaalala nila sa amin kung bakit kami nagkakaroon ng mga @expression, nang magkasama."
                         ],
                         null,
                         { "fit": "#Symbol ?" },

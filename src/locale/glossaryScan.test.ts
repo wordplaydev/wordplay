@@ -79,3 +79,52 @@ test('matches case-insensitively at a sentence start', () => {
     expect(found).toHaveLength(1);
     expect(found[0].suggestion).toBe('@value matters');
 });
+
+test('a subconcept reference is protected, separator and all', () => {
+    // `CONCEPT_RE` used to match only a reference's head, so the `name` in
+    // `@Phrase.name` looked like bare prose and a suggestion rewrote it to
+    // `@Phrase.@name`, breaking the reference it was sitting inside.
+    const names = [{ id: 'name', word: 'name', forms: ['names'] }];
+    expect(
+        scanLiteralGlossaryTerms('every @Phrase.name is unique', names),
+    ).toEqual([]);
+    // A language tag was already protected; keep it that way.
+    expect(scanLiteralGlossaryTerms('read @Phrase/en aloud', names)).toEqual(
+        [],
+    );
+    // A bare occurrence beside one is still found.
+    expect(
+        scanLiteralGlossaryTerms('@Phrase.name gives it a name', names)[0]
+            .suggestion,
+    ).toBe('@Phrase.name gives it a @name');
+});
+
+test('a web link is protected, label and url alike', () => {
+    // `<2-letter code@https://…>` became `<2-letter @code@https://…>`, which no
+    // longer parses as a link: the `@` in a web link is a separator, not a
+    // reference, so a term in the label must be left alone.
+    const codes = [{ id: 'code', word: 'code', forms: ['codes'] }];
+    expect(
+        scanLiteralGlossaryTerms(
+            'its <2-letter code@https://x.dev/codes>',
+            codes,
+        ),
+    ).toEqual([]);
+    // Ordinary angle-bracketed prose is not a link and stays scannable.
+    expect(
+        scanLiteralGlossaryTerms('compare <a> and code here', codes)[0]
+            .suggestion,
+    ).toBe('compare <a> and @code here');
+});
+
+test('a word carrying a combining mark is not a match', () => {
+    // The Arabic for "region" written with a hamza the glossary's own spelling
+    // lacks: matching it left the mark behind as `@regionٔ`, a reference
+    // that resolves to nothing.
+    const regions = [{ id: 'region', word: 'منطقة' }];
+    expect(scanLiteralGlossaryTerms('اسم منطقةٔ زمنية', regions)).toEqual([]);
+    // The bare word still matches.
+    expect(
+        scanLiteralGlossaryTerms('اسم منطقة زمنية', regions)[0].suggestion,
+    ).toBe('اسم @region زمنية');
+});

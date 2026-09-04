@@ -18,7 +18,7 @@
                             "FunctionDefinition",
                             "cheerful",
                             "$~Chào mừng bạn đến với @wordplay! Mình nghe nói bạn đã biết một chút về lập trình? Tuyệt vời! Chuyến tham quan ngắn này cho bạn thấy điểm giống và điểm khác của Wordplay.",
-                            "$~Để bạn nắm rõ mọi thứ trên màn hình này, trang này hiển thị hộp thoại @tutorial và một khung xem @project. Bạn có thể thấy *sân khấu* @UI/stage, nơi hiện kết quả của chương trình, và *trình soạn thảo* @UI/editor, nơi chứa code của chương trình.",
+                            "$~Để bạn nắm rõ mọi thứ trên màn hình này, trang này hiển thị hộp thoại @tutorial và một khung xem @project. Bạn có thể thấy *sân khấu* @UI/stage, nơi hiện kết quả của chương trình, và *@editor* @UI/editor, nơi chứa code của chương trình.",
                             "$~Chương trình này đang trống, nên kết quả của nó chỉ là một lời nhắc để viết một chương trình.",
                             "$~Còn nhiều nút điều khiển khác để tạm dừng, chạy chương trình và chỉnh sửa code, nhưng bạn đừng lo về chúng lúc này."
                         ],
@@ -27,7 +27,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Trong hầu hết các ngôn ngữ lập trình, một chương trình là một danh sách các câu lệnh bảo máy tính *làm* gì, như in ra một @value:",
+                            "$~Trong hầu hết các @language lập trình, một chương trình là một danh sách các câu lệnh bảo máy tính *làm* gì, như in ra một @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~Trong @wordplay, các chương trình là *expression* nói rằng /kết quả/ của chương trình phải là gì, chứ không phải cách tạo ra nó.",
                             "$~Chương trình này được tính ra value \\'hi'\\, rồi value đó được hiện lên sân khấu. Không có lệnh in, chỉ có một @expression nói value cần tính ra là gì."
@@ -57,7 +57,7 @@
                         [
                             "Conditional",
                             "neutral",
-                            "$~Các ngôn ngữ lập trình khác thường có câu lệnh *if* để làm những việc khác nhau dựa trên một @condition:",
+                            "$~Các @language lập trình khác thường có câu lệnh *if* để làm những việc khác nhau dựa trên một @condition:",
                             "\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
                             "$~Trong @wordplay, mọi thứ đều là @expression, nên @Conditional là một *expression* được viết với một condition, rồi một \\?\\, rồi một expression đúng và một expression sai. Không cần từ khóa nào"
                         ],
@@ -157,7 +157,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Một thao tác phổ biến trong lập trình là chuyển dữ liệu từ @type này sang @type khác. Ví dụ, ta có thể muốn chuyển một số thành một @value văn bản:",
+                            "$~Một thao tác phổ @variable trong lập trình là chuyển dữ liệu từ @type này sang @type khác. Ví dụ, ta có thể muốn chuyển một số thành một @value văn bản:",
                             "\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
                             "$~Mọi value của @wordplay đều có một cấu trúc @Convert cho phép bạn chuyển đổi giữa các type. Ví dụ này chuyển \\1m\\ sang feet, rồi sang @Text. Mỗi type của value có cả một tập hợp các phép chuyển đổi được hỗ trợ"
                         ],
@@ -166,7 +166,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Với các tập hợp value như danh sách và mảng, các ngôn ngữ lập trình khác dùng các cấu trúc như vòng lặp *for* và *while* để xây một tập hợp mới từ các value của một tập hợp đã có.",
+                            "$~Với các tập hợp value như danh sách và mảng, các @language lập trình khác dùng các cấu trúc như vòng lặp *for* và *while* để xây một tập hợp mới từ các value của một tập hợp đã có.",
                             "\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
                             "$~@wordplay có một cấu trúc @Translate* đơn giản dùng ký hiệu \\↦\\: nó xây một @List, @Set hoặc @Map mới, thay mỗi mục (được biểu thị bằng @placeholder \\⬚\\) bằng một @value mới. Cái này nhân đôi mỗi mục để tạo ra \\[2 4 6]\\.",
                             "$~Cũng có những thứ mạnh hơn như @List.translate và @List.combine, phòng khi bạn cần các thao tác phức tạp hơn."
@@ -199,10 +199,10 @@
                         [
                             "Stage",
                             "neutral",
-                            "$~Các ngôn ngữ lập trình khác in văn bản ra một console, vẽ lên một canvas, hoặc sửa một trang web:",
+                            "$~Các @language lập trình khác in văn bản ra một console, vẽ lên một canvas, hoặc sửa một trang web:",
                             "\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
                             "$~Đầu ra của @wordplay là kiểu chữ: một @Phrase, một @Group, hoặc một @Stage, hiện văn bản có kiểu dáng, chuyển động và tương tác trên màn hình, hoặc được trình đọc màn hình đọc lên.",
-                            "$~Ví dụ dưới đây cho thấy một @Stage với một @Phrase duy nhất có chuyển động phóng to ở trạng thái nghỉ."
+                            "$~Ví dụ dưới đây cho thấy một @Stage với một @Phrase duy nhất có chuyển động phóng to ở @state nghỉ."
                         ],
                         null,
                         {
@@ -213,7 +213,7 @@
                             "neutral",
                             "$~Hầu hết các ngôn ngữ lập trình có cách nhận đầu vào từ người dùng:",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
-                            "$~Đầu vào của @wordplay đến từ các *luồng*, là các value đặc biệt thay đổi theo thời gian, để phản ứng với đầu vào, và làm cho chương trình Wordplay tính lại với value mới của luồng.",
+                            "$~Đầu vào của @wordplay đến từ các *@stream*, là các value đặc biệt thay đổi theo thời gian, để phản ứng với đầu vào, và làm cho chương trình Wordplay tính lại với value mới của luồng.",
                             "$~Ví dụ, chương trình này dùng một luồng @Time để điều khiển sự xoay của biểu tượng quả địa cầu. Mỗi khi luồng @Time() chuyển sang một @value mới, chương trình tính lại với value mới đó, cập nhật value của chương trình trên @Stage."
                         ],
                         null,
@@ -259,7 +259,7 @@
                         [
                             "FunctionDefinition",
                             "angry",
-                            "$~Các ngôn ngữ khác ném ra *lỗi* — dấu hiệu cho thấy một chương trình đã làm điều không được phép:",
+                            "$~Các @language khác ném ra *lỗi* — dấu hiệu cho thấy một chương trình đã làm điều không được phép:",
                             "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
                             "$~@wordplay gọi các lỗi là *conflict*: hai thứ không thể cùng đúng, như cộng một số với văn bản trong chương trình dưới đây.",
                             "$~Wordplay sẽ gạch chân các conflict và hiện chúng ở thanh bên @UI/conflict. Nó cũng sẽ đưa ra các gợi ý giải quyết conflict, để sửa vấn đề."
@@ -271,7 +271,7 @@
                             "happy",
                             "$~Hầu hết các ngôn ngữ lập trình cung cấp một loại công cụ gỡ lỗi nào đó để giúp người sáng tạo hiểu và giải quyết các vấn đề trong code của họ. Nhưng nhiều người chỉ dùng câu lệnh in để kiểm tra value của các variable trong một console:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay mang đến trải nghiệm gỡ lỗi tốt hơn, cho phép bạn bước *tới* và *lùi* qua từng bước tính toán. Nhấn nút gỡ lỗi ⏸️ ở bộ chuyển chế độ @UI/modeSwitcher phía trên sân khấu để vào chế độ *gỡ lỗi*: giá trị của mỗi biểu thức sẽ hiện bên cạnh nó trong mã số, và @UI/stepControls bước qua từng bước tính toán theo bất kỳ hướng nào, để bạn xem cách một giá trị được tạo ra. Đây là phần hướng dẫn chi tiết về tất cả những điều đó: @Tour/stage",
+                            "$~@wordplay mang đến trải nghiệm gỡ lỗi tốt hơn, cho phép bạn bước *tới* và *lùi* qua từng bước tính toán. Nhấn nút gỡ lỗi ⏸️ ở bộ chuyển chế độ @UI/modeSwitcher phía trên sân khấu để vào chế độ *gỡ lỗi*: @value của mỗi @expression sẽ hiện bên cạnh nó trong @code, và @UI/stepControls bước qua từng bước tính toán theo bất kỳ hướng nào, để bạn xem cách một giá trị được tạo ra. Đây là phần hướng dẫn chi tiết về tất cả những điều đó: @Tour/stage",
                             "$~Các chế độ khác cũng quan trọng: chế độ ✏️ *chỉnh sửa* dùng để thay đổi chương trình trong khi sân khấu đứng yên, còn chế độ ▶️ *chạy* sẽ cho chương trình hoạt động thật, phản hồi các đầu vào ngay lập tức.",
                             "$~Bạn muốn có thêm hướng dẫn? Nút @UI/stageTourLaunch bên cạnh tên của sân khấu sẽ hướng dẫn bạn cách dùng các nút điều khiển này."
                         ]
@@ -288,7 +288,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Hãy xây một @project tương tác nhỏ trong ba bước.",
-                            "$~*Một:* khai báo dữ liệu và *luồng* của bạn. Ở đây một luồng @Time tên là elapsed báo chương trình đã chạy bao lâu."
+                            "$~*Một:* khai báo dữ liệu và *@stream* của bạn. Ở đây một luồng @Time tên là elapsed báo chương trình đã chạy bao lâu."
                         ],
                         null,
                         {

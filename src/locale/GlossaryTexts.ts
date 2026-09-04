@@ -33,6 +33,7 @@ export type GlossaryId =
     | 'element'
     | 'scope'
     | 'state'
+    | 'stream'
     | 'sideEffect'
     | 'abstraction'
     | 'project'

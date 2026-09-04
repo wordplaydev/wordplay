@@ -18,7 +18,7 @@
                             "FunctionDefinition",
                             "cheerful",
                             "Welcome to @wordplay! I hear you know a bit about programming? Great! This brief tour shows what's similar and what's different about Wordplay.",
-                            "Just so you know everything on this screen, this page shows @tutorial dialog and a @project view. You can see the *stage* @UI/stage, which shows program output, and *editor* @UI/editor, which is the program code.",
+                            "Just so you know everything on this screen, this page shows @tutorial dialog and a @project view. You can see the *stage* @UI/stage, which shows program output, and *@editor* @UI/editor, which is the program @code.",
                             "This program is blank, so it's output is just a prompt to write a program.",
                             "There are many other controls for pausing and playing the program and editing code, but don't worry about those for now."
                         ],
@@ -27,7 +27,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "In most programming languages, a program is a list of statements that tell the computer what to *do*, like printing a @value:",
+                            "In most programming @languages, a program is a list of statements that tell the computer what to *do*, like printing a @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "In @wordplay, programs are *expressions* that say what the /result/ of the program should be, not how it should produce it.",
                             "This program evalutes to the value \\'hi'\\, which is then shown on stage. No print command, just an @expression that says what value to evaluate to."
@@ -57,7 +57,7 @@
                         [
                             "Conditional",
                             "neutral",
-                            "Other programming languages typically have an *if* statement to do different things based on a @condition:",
+                            "Other programming @languages typically have an *if* statement to do different things based on a @condition:",
                             "\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
                             "In @wordplay, everything is an @expression, so the @Conditional is an *expression* written with a condition, then a \\?\\, then a true expression and a false expression. No keywords required"
                         ],
@@ -167,7 +167,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "For collections of values like lists and arrays, other programming languages use constructs like *for* and *while* loops to construct a new collection from an existing collection's values.",
+                            "For collections of values like lists and arrays, other programming @languages use constructs like *for* and *while* loops to construct a new collection from an existing collection's values.",
                             "\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
                             "@wordplay's has a simple @Translate* construct that uses the \\↦\\ symbol: it builds a new @List, @Set or @Map, replacing each item (represented by the \\⬚\\ @placeholder), with a new @value. This doubles each item to make \\[2 4 6]\\.",
                             "There are also more powerful things like @List.translate and @List.combine, in case you need more complex operations."
@@ -182,7 +182,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "Every programming language has functions, which allow to you declare reusable @blocks of code that take input and produce output based on them, of arbtirary complexity:",
+                            "Every programming language has functions, which allow to you declare reusable @blocks of @code that take input and produce output based on them, of arbtirary complexity:",
                             "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
                             "@wordplay also supports function definitions, but with the ƒ symbol. Just like all Wordplay programs, functions must evaluate to a @value."
                         ]
@@ -200,7 +200,7 @@
                         [
                             "Stage",
                             "neutral",
-                            "Other programming languages print text to a console, draw to a canvas, or modify a webpage:",
+                            "Other programming @languages print text to a console, draw to a canvas, or modify a webpage:",
                             "\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
                             "@wordplay's output is typographic: a @Phrase, a @Group, or a @Stage, which shows styled, animated, and interactive text on screen, or read by a screen reader.",
                             "The example below shows a @Stage with a single @Phrase that has a resting scaling animation."
@@ -214,7 +214,7 @@
                             "neutral",
                             "Most programming languages have a way to take input from the user:",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
-                            "@wordplay's input comes from *streams*, which are special values that change over time, in response to input, and cause the Wordplay program to re-evaluate with the stream's new value.",
+                            "@wordplay's input comes from *@streams*, which are special values that change over time, in response to input, and cause the Wordplay program to re-evaluate with the stream's new value.",
                             "This program, for example, uses a @Time stream to drive the rotation of the globe emoji.Every time the @Time() stream ticks to a new @value, the program re-evaluates with the new value, updating the value of the program on @Stage."
                         ],
                         null,
@@ -224,7 +224,7 @@
                             "curious",
                             "Interactivity in most programming languages elsewhere means registering event handlers and callbacks:",
                             "\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
-                            "In @wordplay, interactivity we can just use streams like @Button, @Key, and @Pointer to create interactive elements. The text of this @Phrase is based on whether the @Button is clicked, using a @Conditional to see if the @Button stream has @Changed."
+                            "In @wordplay, interactivity we can just use streams like @Button, @Key, and @Pointer to create interactive @elements. The text of this @Phrase is based on whether the @Button is clicked, using a @Conditional to see if the @Button stream has @Changed."
                         ],
                         null,
                         {
@@ -237,7 +237,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "Other programming languages let you change the values of variables at runtime, which can be useful for creating dynamic and interactive applications. But they require you to remember to update the values in the correct places, and update what is shown on screen when those values change:",
+                            "Other programming languages let you change the values of @variables at runtime, which can be useful for creating dynamic and interactive applications. But they require you to remember to update the values in the correct places, and update what is shown on screen when those values change:",
                             "\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
                             "@wordplay simplifies this by using a @Reaction @expression, which starts at an initial value, checks a @condition that refers to stream inputs, and updates the value of the expression based on the stream's changes. In this example, every time the @Button stream changes, we update the value of count, and that updates the @Phrase shown on @Stage."
                         ]
@@ -260,9 +260,9 @@
                         [
                             "FunctionDefinition",
                             "angry",
-                            "Other languages throw *errors* — a sign a program did something that's not allowed:",
+                            "Other @languages throw *errors* — a sign a program did something that's not allowed:",
                             "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
-                            "@wordplay calls errors *conflicts*: two things that can't both be true, like adding a number and text in the program below.",
+                            "@wordplay calls errors *@conflicts*: two things that can't both be true, like adding a number and text in the program below.",
                             "Wordplay will underline conflicts and show them in the sidebar @UI/conflict. It will also offer conflict resolution suggestions, to fix the problem."
                         ],
                         null,
@@ -270,9 +270,9 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "Most programming languages offer some kind of debugging tools to help creators understand and resolve issues in their code. But many just use print statements to check the values of variables in a console:",
+                            "Most programming languages offer some kind of debugging tools to help creators understand and resolve issues in their @code. But many just use print statements to check the @values of @variables in a console:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "@wordplay provides a more sophisticated debugging experience, allowing you to step *forwards* and *backwards* through its evaluation. Press the ⏸️ debug button in the mode switcher @UI/modeSwitcher above the stage to enter *debug* mode: the value of each expression appears next to it in the code, and the @UI/stepControls step evaluation in any direction, so you can watch how a value is built. Here’s a guided tour of all of it: @Tour/stage",
+                            "@wordplay provides a more sophisticated debugging experience, allowing you to step *forwards* and *backwards* through its evaluation. Press the ⏸️ debug button in the mode switcher @UI/modeSwitcher above the stage to enter *debug* mode: the value of each @expression appears next to it in the code, and the @UI/stepControls step evaluation in any direction, so you can watch how a value is built. Here’s a guided tour of all of it: @Tour/stage",
                             "The other modes matter too: ✏️ *edit* mode is for changing the program while the stage stays frozen, and ▶️ *play* mode runs it live, responding to inputs in real time.",
                             "Want more guidance? The @UI/stageTourLaunch button next to the stage's name gives a guided tour of these controls."
                         ]
@@ -289,7 +289,7 @@
                             "FunctionDefinition",
                             "happy",
                             "Let's build a tiny interactive @project in three steps.",
-                            "*One:* declare your data and *streams*. Here a @Time stream named elapsed reports how long the program has run."
+                            "*One:* declare your data and *@streams*. Here a @Time stream named elapsed reports how long the program has run."
                         ],
                         null,
                         {
@@ -302,7 +302,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "*Two:* *react* to the stream by deriving new @Bind values. Here turn converts the elapsed time into degrees, recomputing whenever elapsed changes."
+                            "*Two:* *react* to the stream by deriving new @Bind @values. Here turn converts the elapsed time into degrees, recomputing whenever elapsed changes."
                         ],
                         null,
                         {

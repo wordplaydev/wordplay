@@ -179,6 +179,10 @@
         "stage": {
             "word": "$~scenă",
             "definition": "$~Spațiul unde @wordplay arată ce a creat @code al tău."
+        },
+        "stream": {
+            "word": "$~flux",
+            "definition": "$~O @value care se schimbă în timp, pe măsură ce lumea ta se schimbă, cum ar fi @Time care trece sau o @Key care este apăsată. De fiecare dată când se schimbă, @Program se evaluează din nou cu noua @value."
         }
     },
     "terms": {},
@@ -356,7 +360,7 @@
             "description": "$~limba $language[$language|nespecificată]$region[, regiunea $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Sunt o etichetă de limbă și lucrez cu @Name și @Doc!",
+                "$~Sunt o etichetă de @language și lucrez cu @Name și @Doc!",
                 "Mă pricep foarte bine să fac *foarte clar* în ce limbă este scris ceva. Doar o mică linie oblică și câteva litere, și nimeni nu va mai fi vreodată confuz în privința limbii unui text.",
                 "De exemplu, dacă vrei să scrii „Limbă”, dar să arăți clar că este în engleză:",
                 "\\'Limbă'/ro\\",
@@ -504,7 +508,7 @@
                 "paragraphs": "$~paragrafe"
             },
             "doc": [
-                "$~Sunt o listă de paragrafe, care folosește multe tipuri de text formatat disponibile în @Doc, cum ar fi @Words, @WebLink, @ConceptLink și @Example.",
+                "$~Sunt o listă de paragrafe, care folosește multe tipuri de @markup disponibile în @Doc, cum ar fi @Words, @WebLink, @ConceptLink și @Example.",
                 "Mă vei găsi într-un @Doc și în @FormattedLiteral:",
                 "\\¶Sunt documentare cu text *aldin*. Pot să mă refer la concepte precum @Phrase și pot lega spre <lucruri de pe web@https://wordplay.dev>.¶\nFraza(\n\t`Sunt text formatat pentru un @Phrase, folosind *aldin*, /cursiv/ și _sublinieri_`\n)\\"
             ]
@@ -577,7 +581,7 @@
             "description": "$~exemplu de cod $code",
             "emotion": "serious",
             "doc": [
-                "$~Păstrez un exemplu de cod în interiorul unui @Doc, așa:",
+                "$~Păstrez un exemplu de @code în interiorul unui @Doc, așa:",
                 "\\¶Iată un exemplu de adunare: \\1 + 2\\¶\n3 + 4\\",
                 "Dacă folosești Exemple în instrucțiunile tale, poți marca un Exemplu ca fiind evidențiat.",
                 "\\¶Iată un exemplu evidențiat: \\1 + 2\\⭐¶\n3 + 4\\",
@@ -598,7 +602,7 @@
             "description": "$~alegere de text formatat pe baza $condition",
             "emotion": "serious",
             "doc": [
-                "$~Sunt o modalitate de a alege între două segmente de explicație în funcție de dacă o valoare de intrare a explicației este definită sau adevărată.",
+                "$~Sunt o modalitate de a alege între două segmente de explicație în funcție de dacă o @value de intrare a explicației este definită sau adevărată.",
                 "Aceasta este în mare parte o caracteristică internă, deci nu ar trebui să fie nevoie să o știi."
             ]
         },
@@ -812,7 +816,7 @@
                 "stream": "$~flux"
             },
             "doc": [
-                "$~Verific dacă un flux a făcut @Program să se reevalueze și creez un @Boolean. Așa",
+                "$~Verific dacă un @stream a făcut @Program să se reevalueze și creez un @Boolean. Așa",
                 "\\∆ 🕕()\\",
                 "Sunt foarte util când vrei ca ceva să se schimbe doar dacă un flux s-a schimbat.",
                 "Asta e tot."
@@ -836,7 +840,7 @@
                 "Nu te îngrijorează că, dacă acestea sunt singurele decizii pe care le putem lua, vom pierde un context important despre lume?",
                 "Mai fac un lucru, iar de multe ori nu primesc recunoaștere pentru el. Când @condition meu întreabă ce /fel/ de valoare este ceva, nu răspund doar da sau nu. Rețin răspunsul în fiecare dintre alegerile mele.",
                 "\\dimensiune•#|'': 5\ndimensiune•# ? dimensiune + 1 'prea mic'\\",
-                "Pe cont propriu, acea valoare ar putea fi un @Number sau niște @Text, iar adăugarea la ea ar fi un conflict, deoarece acestea se adună în moduri foarte diferite. Dar în interiorul lui /da/ tocmai am întrebat dacă este un @Number, deci acolo este unul. În interiorul lui /nu/, este @Text.",
+                "Pe cont propriu, acea valoare ar putea fi un @Number sau niște @Text, iar adăugarea la ea ar fi un @conflict, deoarece acestea se adună în moduri foarte diferite. Dar în interiorul lui /da/ tocmai am întrebat dacă este un @Number, deci acolo este unul. În interiorul lui /nu/, este @Text.",
                 "Nu contează cum întrebi. O verificare de tip, o comparație cu o anumită valoare, o verificare pentru o valoare lipsă și o verificare pe care ai salvat-o sub un nume îmi spun toate același lucru. Iar @Boolean/and, @Boolean/or și @Boolean/not le combină așa cum te-ai aștepta.",
                 "Sunt două lucruri pe care nu ți le pot spune. Dacă compari cu @Text care are mai multe traduceri, nu aflu nimic, deoarece traducerea pe care o primești depinde de cine citește."
             ],
@@ -897,7 +901,7 @@
                 "\\'salut' → []\\",
                 "Poți chiar să le înlănțui:",
                 "\\'salut' → [] → {}\\",
-                "Valorile au un set de @ConversionDefinition care sunt predefinite, dar dacă creezi o @StructureDefinition pentru un tip nou de valoare, poți defini propriile tale cu @ConversionDefinition."
+                "Valorile au un set de @ConversionDefinition care sunt predefinite, dar dacă creezi o @StructureDefinition pentru un tip nou de @value, poți defini propriile tale cu @ConversionDefinition."
             ],
             "start": "$~Obțineți acea valoare din $expression !",
             "finish": "$~Minunat, am câștigat $value",
@@ -1051,7 +1055,7 @@
                 "placeholder": "$~expresie"
             },
             "doc": [
-                "$~Sunt o *expresie*, dar nu una reală… Doar țin locul uneia.",
+                "$~Sunt o *@expression*, dar nu una reală… Doar țin locul uneia.",
                 "Sunt bine dacă nu știi încă ce să scrii. Cam așa:",
                 "\\1 + _\\🪲",
                 "Ce adăugăm? Nu știu. Spune-mi tu.",
@@ -1127,7 +1131,7 @@
                 "$~Îți spun dacă evaluarea curentă a lui @Program este prima, care evaluează ca un @Boolean. De exemplu:",
                 "\\◆ ? Time() 'salut'\\",
                 "Nu ai văzut, dar prima evaluare a fost un moment, dar apoi toate momentele viitoare ticăie, eu eram \\⊥\\, așa că @Conditional a făcut \\⊤\\.",
-                "Sunt de mare ajutor dacă lucrezi cu un flux și vrei să faci ceva doar de prima dată -- sau niciodată de prima dată!"
+                "Sunt de mare ajutor dacă lucrezi cu un @stream și vrei să faci ceva doar de prima dată -- sau niciodată de prima dată!"
             ]
         },
         "Insert": {
@@ -1190,7 +1194,7 @@
             "description": "$~accesează indexul $index din $list",
             "emotion": "cheerful",
             "doc": [
-                "$~Lucrez îndeaproape cu @List pentru a-i ajuta să obțină valori la o anumită poziție. De exemplu, dacă ai avea o listă și ai dori al doilea element al acesteia, ai scrie:",
+                "$~Lucrez îndeaproape cu @List pentru a-i ajuta să obțină valori la o anumită poziție. De exemplu, dacă ai avea o listă și ai dori al doilea @element al acesteia, ai scrie:",
                 "\\list: ['pasăre' 'rață' 'pește' 'șarpe'] list[2]\\"
             ],
             "start": "$~Să obținem mai întâi lista $list",
@@ -1258,7 +1262,7 @@
             "name": "$~literal numeric",
             "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
-            "doc": "$~Sunt un @Number specific. Mă poți scrie cu orice fel de cifre, din orice limbă. Vezi @Number pentru tot ce pot face.",
+            "doc": "$~Sunt un @Number specific. Mă poți scrie cu orice fel de cifre, din orice @language. Vezi @Number pentru tot ce pot face.",
             "start": "$~$value !",
             "conflict": {
                 "NotANumber": {
@@ -1326,7 +1330,7 @@
                 "Valoarea poate fi orice: un @Number, @Text sau @Boolean, un @List, @Set, @Map sau chiar ceva mai complex, precum un @Phrase, @Group sau @Stage.",
                 "Dacă nu îmi dai o valoare de arătat pe scenă, o să îți cer una.",
                 "Dacă apare o problemă în timpul unui spectacol, o să arăt acea problemă.",
-                "Și dacă spectacolul tău depinde de un *flux*, o să reevaluez de fiecare dată când acel flux se schimbă."
+                "Și dacă spectacolul tău depinde de un *@stream*, o să reevaluez de fiecare dată când acel flux se schimbă."
             ],
             "label": {
                 "borrows": "$~împrumută",
@@ -1669,7 +1673,7 @@
             "name": "$~text formatat",
             "description": "$~text formatat $text",
             "emotion": "serious",
-            "doc": "$~Reprezint multe tipuri diferite de @FormattedTranslation de text formatat. Când evaluez, voi alege cea mai potrivită traducere în funcție de limbile selectate de public.",
+            "doc": "$~Reprezint multe tipuri diferite de @FormattedTranslation de @markup. Când evaluez, voi alege cea mai potrivită traducere în funcție de limbile selectate de public.",
             "start": "$~Să facem text în limba curentă"
         },
         "FormattedTranslation": {
@@ -1677,7 +1681,7 @@
             "description": "$~Traduce textul formatat în $language",
             "emotion": "serious",
             "doc": [
-                "$~Reprezint un text formatat, cu o etichetă @Language.",
+                "$~Reprezint un @markup, cu o etichetă @Language.",
                 "Pot fi:",
                 "\\`/italic/`\\",
                 "\\`*îngroșat*`\\",
@@ -1738,7 +1742,7 @@
             "description": "$~cod care nu poate fi analizat",
             "emotion": "excited",
             "doc": [
-                "$~Eu sunt o bucată de cod care nu are sens, așa că nimeni nu știe ce înseamnă.",
+                "$~Eu sunt o bucată de @code care nu are sens, așa că nimeni nu știe ce înseamnă.",
                 "jkwel fjiwojvioao jjiweo jrfe",
                 "/Nu orice @expression are un sens pe scenă./",
                 "s w ieorjwei iojwi jfkdlsfdsk",
@@ -1931,7 +1935,7 @@
             "name": "$~tip definiție de flux",
             "description": "$~tip de definiție de flux",
             "emotion": "angry",
-            "doc": "$~Reprezint un flux pe care l-ai definit, ceea ce nu este posibil, așa că de ce citești asta?"
+            "doc": "$~Reprezint un @stream pe care l-ai definit, ceea ce nu este posibil, așa că de ce citești asta?"
         },
         "StreamType": {
             "name": "$~tip flux",
@@ -2068,7 +2072,7 @@
             "description": "$~traduce fiecare valoare din $expression",
             "emotion": "excited",
             "doc": [
-                "$~Eu fac ACELAȘI lucru pentru FIECARE element dintr-o colecție! O, O, O! Chiar asta FAC eu!!",
+                "$~Eu fac ACELAȘI lucru pentru FIECARE @element dintr-o colecție! O, O, O! Chiar asta FAC eu!!",
                 "Pune o colecție în stânga mea, desenează săgeata mea \\↦\\, apoi în dreapta mea scrie în ce ar trebui să se TRANSFORME fiecare element — folosește @This ca să însemni elementul pe care îl țin ACUM!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ îți dă \\[2 3 4]\\. BUM! Fiecare număr, plus unu, fără bucle, fără @FunctionDefinition, fără bătăi de cap!",
                 "Sunt UIMITOR pentru a face ieșire @Phrase din date! Ai o listă de nume? \\['Ada' 'Mac' 'Tim'] ↦ Fraza(⬚)\\ și acum există o frază pentru FIECARE nume!!",
@@ -2094,8 +2098,8 @@
             "description": "$~exemplu de cod extern$languages[ în $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Arăt cod colorat sintactic scris în alte limbaje de programare, ca să poată compara creatorii care deja scriu cod.",
-                "Scrie câte o variantă pentru fiecare limbă, ca o etichetă de două litere, o bară, și codul, astfel \\py| a = 5\\js| let a = 5;\\. Cititorul vede varianta care corespunde limbii alese de el. Sunt acceptate Python (py), JavaScript (js) și Java (jv)."
+                "$~Arăt @code colorat sintactic scris în alte limbaje de programare, ca să poată compara creatorii care deja scriu cod.",
+                "Scrie câte o variantă pentru fiecare @language, ca o etichetă de două litere, o bară, și codul, astfel \\py| a = 5\\js| let a = 5;\\. Cititorul vede varianta care corespunde limbii alese de el. Sunt acceptate Python (py), JavaScript (js) și Java (jv)."
             ]
         },
         "Localized": {
@@ -2175,7 +2179,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc un singur caracter de un fel: \\⣿◌⣿\\ orice grafem, \\⣿_⣿\\ o literă, \\⣿#⣿\\ o cifră, \\⣿␣⣿\\ un spațiu.",
-                "De exemplu, extrage fiecare cod literă-apoi-cifră dintr-o listă:",
+                "De exemplu, extrage fiecare @code literă-apoi-cifră dintr-o listă:",
                 "\\coduri: 'a1 b2 c3'\ncoduri ⌕ ⣿ _ #⣿\\",
                 "Numără-mă cu un cuantificator ca \\⣿>0 #⣿\\ (una sau mai multe cifre), sau restrânge-mă cu un @property ca \\⣿ _/greek⣿\\ (o literă grecească)."
             ]
@@ -2224,7 +2228,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc următoarea parte de câteva ori.",
-                "De exemplu, verificați dacă un cod poștal are exact cinci cifre:",
+                "De exemplu, verificați dacă un @code poștal are exact cinci cifre:",
                 "\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
                 "Numără o clasă precum \\⣿3 #⣿\\ (trei cifre), un grup precum \\⣿2 (\"ab\")⣿\\ (două „ab”-uri) sau un complement precum \\⣿2 ~#⣿\\ (două numere care nu sunt cifre). Cu \\⣿>0 #⣿\\ sunt lacom — iau cât mai multe pot."
             ]
@@ -2677,7 +2681,7 @@
                         "$~Creez un nou @Text care sunt eu, cu fiecare literă scrisă cu majuscule:",
                         "\\'salut'.majuscule()\\",
                         "Literele au majuscule și minuscule doar în unele sisteme de scriere, așa că textul dintr-un sistem de scriere fără ele, cum ar fi japoneza sau araba, rămâne neschimbat.",
-                        "Eticheta mea de limbă decide ce reguli se folosesc. Turca are un i cu punct și un i fără punct, iar doar textul etichetat ca turcă le scrie cu majuscule după regulile turcești:",
+                        "Eticheta mea de @language decide ce reguli se folosesc. Turca are un i cu punct și un i fără punct, iar doar textul etichetat ca turcă le scrie cu majuscule după regulile turcești:",
                         "\\'iyi'/tr.majuscule()\\",
                         "\\'iyi'.majuscule()\\"
                     ],
@@ -2690,7 +2694,7 @@
                         "\\'SALUT'.minuscule()\\",
                         "Scrie două texte cu minuscule ca să le compari fără să ții cont de majuscule. Astfel se păstrează fiecare cuvânt care începe cu a, indiferent dacă este scris cu majusculă sau nu:",
                         "\\['Măr' 'caisă' 'Banană'].filtra(\n\tƒ(cuvânt•'') cuvânt.minuscule().începe('un')\n)\\",
-                        "Ca și @Text/uppercase, literele au majuscule și minuscule doar în unele sisteme de scriere, iar eticheta mea de limbă decide ce reguli se folosesc."
+                        "Ca și @Text/uppercase, literele au majuscule și minuscule doar în unele sisteme de scriere, iar eticheta mea de @language decide ce reguli se folosesc."
                     ],
                     "names": ["$~minuscule"],
                     "inputs": []
@@ -3372,7 +3376,7 @@
                 },
                 "first": {
                     "doc": [
-                        "$~Primul element din mine sau @None dacă sunt gol.",
+                        "$~Primul @element din mine sau @None dacă sunt gol.",
                         "\\['măr' 'banană' 'mango'].first()\\"
                     ],
                     "names": "$~primul",
@@ -3380,7 +3384,7 @@
                 },
                 "last": {
                     "doc": [
-                        "$~Ultimul element din mine, sau @None dacă sunt gol.",
+                        "$~Ultimul @element din mine, sau @None dacă sunt gol.",
                         "\\['măr' 'banană' 'mango'].dura()\\"
                     ],
                     "names": "$~dura",
@@ -3388,7 +3392,7 @@
                 },
                 "has": {
                     "doc": [
-                        "$~\\⊤\\ dacă am în mine un element egal cu elementul dat.",
+                        "$~\\⊤\\ dacă am în mine un @element egal cu elementul dat.",
                         "\\['măr' 'banană' 'mango'].has('banană')\\"
                     ],
                     "names": "$~are",
@@ -3414,7 +3418,7 @@
                 },
                 "subsequence": {
                     "doc": [
-                        "$~Obțin o listă din interiorul acestei liste, începând de la @index pe care îl dai, și terminând cu ultimul element, sau, dacă dai unul, cu un element anume.",
+                        "$~Obțin o listă din interiorul acestei liste, începând de la @index pe care îl dai, și terminând cu ultimul @element, sau, dacă dai unul, cu un element anume.",
                         "\\['măr' 'banană' 'mango'].subsecvență(2)\\",
                         "\\['măr' 'banană' 'mango'].subsecvență(1 2)\\",
                         "Și uite! Dacă dai numerele în ordine inversă, îți dau lista întoarsă",
@@ -3427,18 +3431,18 @@
                     "names": "$~subsecvență",
                     "inputs": [
                         {
-                            "doc": "$~@index al primului element al subșirului pe care îl vrei.",
+                            "doc": "$~@index al primului @element al subșirului pe care îl vrei.",
                             "names": "$~început"
                         },
                         {
-                            "doc": "$~@index opțional al ultimului element al subșirului pe care îl vrei. Dacă nu dai unul, lista ta se va termina cu ultimul element din listă.",
+                            "doc": "$~@index opțional al ultimului @element al subșirului pe care îl vrei. Dacă nu dai unul, lista ta se va termina cu ultimul element din listă.",
                             "names": "$~Sfârşit"
                         }
                     ]
                 },
                 "sansFirst": {
                     "doc": [
-                        "$~Creez o listă fără primul meu element.",
+                        "$~Creez o listă fără primul meu @element.",
                         "\\['măr' 'banană' 'mango'].sansFirst()\\"
                     ],
                     "names": ["$~fărăPrimul"],
@@ -3446,7 +3450,7 @@
                 },
                 "sansLast": {
                     "doc": [
-                        "$~Creez o listă fără ultimul meu element.",
+                        "$~Creez o listă fără ultimul meu @element.",
                         "\\['măr' 'banană' 'mango'].sansLast()\\"
                     ],
                     "names": ["$~fărăUltimul", "$~sansUltima"],
@@ -3508,7 +3512,7 @@
                     "names": "$~traduce",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition care va traduce fiecare element.",
+                            "doc": "$~@FunctionDefinition care va traduce fiecare @element.",
                             "names": "$~traducător"
                         }
                     ],
@@ -3536,7 +3540,7 @@
                     "names": "$~filtra",
                     "inputs": [
                         {
-                            "doc": "$~O @FunctionDefinition care verifică fiecare element, generând \\⊤\\ dacă acesta ar trebui păstrat.",
+                            "doc": "$~O @FunctionDefinition care verifică fiecare @element, generând \\⊤\\ dacă acesta ar trebui păstrat.",
                             "names": "$~damă"
                         }
                     ],
@@ -3564,7 +3568,7 @@
                     "names": "$~toate",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition care produce \\⊤\\ dacă un element satisface @condition al tău.",
+                            "doc": "$~@FunctionDefinition care produce \\⊤\\ dacă un @element satisface @condition al tău.",
                             "names": "$~damă"
                         }
                     ],
@@ -3662,7 +3666,7 @@
                             "names": "$~combinaţie"
                         },
                         {
-                            "doc": "$~Următorul element de combinat.",
+                            "doc": "$~Următorul @element de combinat.",
                             "names": "$~Următorul"
                         },
                         {
@@ -3681,7 +3685,7 @@
                         "\\[1 5 8 0 2].sortat()\\",
                         "Pot face asta și pentru valori @Text, în ordine alfabetică. O literă mare este sortată lângă cea mică corespunzătoare, astfel încât un cuvânt nu ajunge la final doar pentru că începe cu literă mare:",
                         "\\['Portocală' 'kiwi' 'Banană' 'măr'].sortat()\\",
-                        "Iar dacă ai o listă de valori care nu sunt @Number sau @Text, îmi poți da o @FunctionDefinition care transformă fiecare element într-un @Number sau un @Text, ca să pot să le sortez. De exemplu, aici avem o listă de liste de lungimi diferite; dacă îmi dai o funcție care transformă fiecare listă în lungimea ei, pot sorta după lungime.",
+                        "Iar dacă ai o listă de valori care nu sunt @Number sau @Text, îmi poți da o @FunctionDefinition care transformă fiecare @element într-un @Number sau un @Text, ca să pot să le sortez. De exemplu, aici avem o listă de liste de lungimi diferite; dacă îmi dai o funcție care transformă fiecare listă în lungimea ei, pot sorta după lungime.",
                         "\\[[1] [2 3] [4 8 12] [8]].sortat(ƒ(listă2) listă2.lungime())\\",
                         "O funcție care creează @Text este modul în care sortezi după un cuvânt pe care îl calculezi, în loc de valoarea în sine. Aici sortez numele după ultimul nume:",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sortat(\n\tƒ(nume2•'') (nume2 ÷ ' ').dura()\n)\\"
@@ -3760,7 +3764,7 @@
                 },
                 "add": {
                     "doc": [
-                        "$~Dă-mi un element de adăugat și voi crea un nou @Set cu elementele mele și elementul dat.",
+                        "$~Dă-mi un @element de adăugat și voi crea un nou @Set cu elementele mele și elementul dat.",
                         "\\{1 2 3} + 4\\"
                     ],
                     "names": ["$~cu", "$~adăuga"],
@@ -3773,7 +3777,7 @@
                 },
                 "remove": {
                     "doc": [
-                        "$~Dă-mi un element de eliminat și voi crea un nou @Set fără elementul respectiv.",
+                        "$~Dă-mi un @element de eliminat și voi crea un nou @Set fără elementul respectiv.",
                         "\\{1 2 3} - 2\\",
                         "Dacă nu am articolul, îl voi evalua singur."
                     ],
@@ -3826,14 +3830,14 @@
                 },
                 "filter": {
                     "doc": [
-                        "$~Dă-mi @FunctionDefinition care preia un element și produce \\⊤\\ dacă acesta ar trebui păstrat, iar eu voi crea un @Set care conține doar elementele care îndeplinesc criteriile tale.",
+                        "$~Dă-mi @FunctionDefinition care preia un @element și produce \\⊤\\ dacă acesta ar trebui păstrat, iar eu voi crea un @Set care conține doar elementele care îndeplinesc criteriile tale.",
                         "De exemplu, să găsim numerele impare din mine:",
                         "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(număr•#) (număr % 2) = 1)\\"
                     ],
                     "names": "$~filtra",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition care verifică un element pentru a vedea dacă ar trebui păstrat.",
+                            "doc": "$~@FunctionDefinition care verifică un @element pentru a vedea dacă ar trebui păstrat.",
                             "names": "$~damă"
                         }
                     ],
@@ -3850,14 +3854,14 @@
                 },
                 "translate": {
                     "doc": [
-                        "$~Dă-mi @FunctionDefinition care ia un element și produce un element nou bazat pe acesta, apoi voi traduce toate elementele din mine într-un nou @Set (eliminând orice duplicate).",
+                        "$~Dă-mi @FunctionDefinition care ia un @element și produce un element nou bazat pe acesta, apoi voi traduce toate elementele din mine într-un nou @Set (eliminând orice duplicate).",
                         "De exemplu, haideți să transformăm toate @Number-urile mele în @Text:",
                         "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(număr•#) număr→'')\\"
                     ],
                     "names": "$~traduce",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition care traduce unul dintre elementele mele în noul element dorit.",
+                            "doc": "$~@FunctionDefinition care traduce unul dintre elementele mele în noul @element dorit.",
                             "names": "$~set"
                         }
                     ],
@@ -4114,7 +4118,7 @@
         },
         "Formatted": {
             "doc": [
-                "$~Sunt text formatat: cuvinte cu stil, cum ar fi caractere aldine, italice și linkuri. Pune-mă între apicioare inversate:",
+                "$~Sunt @markup: cuvinte cu stil, cum ar fi caractere aldine, italice și linkuri. Pune-mă între apicioare inversate:",
                 "\\`I am **bold** and /italic/`\\",
                 "Lucrez foarte asemănător cu @Text , dar pot folosi formatare. Poți să mă combini, să mă repeți, să verifici ce conțin și să mă convertești în @Text simplu."
             ],
@@ -4126,7 +4130,7 @@
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$~\\⊤\\ dacă sunt același text formatat ca @value dat.",
+                    "doc": "$~\\⊤\\ dacă sunt același @markup ca @value dat.",
                     "names": ["$~egal"],
                     "inputs": [
                         {
@@ -4136,7 +4140,7 @@
                     ]
                 },
                 "notequals": {
-                    "doc": "$~\\⊤\\ dacă /nu/ sunt același text formatat ca @value dat.",
+                    "doc": "$~\\⊤\\ dacă /nu/ sunt același @markup ca @value dat.",
                     "names": "$~≠",
                     "inputs": [
                         {
@@ -4186,7 +4190,7 @@
                     ]
                 },
                 "combine": {
-                    "doc": "$~Dă-mi un alt text formatat și ne voi uni într-unul singur. Dacă oricare dintre noi are mai mult de un paragraf, se păstrează pauzele de paragraf.",
+                    "doc": "$~Dă-mi un alt @markup și ne voi uni într-unul singur. Dacă oricare dintre noi are mai mult de un paragraf, se păstrează pauzele de paragraf.",
                     "names": ["$~combinate", "$~combina"],
                     "inputs": [
                         {
@@ -4197,18 +4201,18 @@
                 },
                 "uppercase": {
                     "doc": [
-                        "$~Creez un text formatat nou care sunt eu, cu fiecare literă scrisă cu majuscule. Se schimbă doar cuvintele mele; formatarea, legăturile și exemplele mele rămân la fel:",
+                        "$~Creez un @markup nou care sunt eu, cu fiecare literă scrisă cu majuscule. Se schimbă doar cuvintele mele; formatarea, legăturile și exemplele mele rămân la fel:",
                         "\\`*bună* acolo`.majuscule()\\",
-                        "Ca și @Text/uppercase, literele au majuscule și minuscule doar în unele sisteme de scriere, iar eticheta mea de limbă decide ce reguli se folosesc."
+                        "Ca și @Text/uppercase, literele au majuscule și minuscule doar în unele sisteme de scriere, iar eticheta mea de @language decide ce reguli se folosesc."
                     ],
                     "names": ["$~majuscule"],
                     "inputs": []
                 },
                 "lowercase": {
                     "doc": [
-                        "$~Creez un text formatat nou care sunt eu, cu fiecare literă scrisă cu minuscule. Se schimbă doar cuvintele mele; formatarea, legăturile și exemplele mele rămân la fel:",
+                        "$~Creez un @markup nou care sunt eu, cu fiecare literă scrisă cu minuscule. Se schimbă doar cuvintele mele; formatarea, legăturile și exemplele mele rămân la fel:",
                         "\\`*BUNĂ* ACOLO`.minuscule()\\",
-                        "Ca și @Text/lowercase, literele au majuscule și minuscule doar în unele sisteme de scriere, iar eticheta mea de limbă decide ce reguli se folosesc."
+                        "Ca și @Text/lowercase, literele au majuscule și minuscule doar în unele sisteme de scriere, iar eticheta mea de @language decide ce reguli se folosesc."
                     ],
                     "names": ["$~minuscule"],
                     "inputs": []
@@ -4255,24 +4259,24 @@
         },
         "Choice": {
             "doc": [
-                "$~Este un flux cu numele pe care publicul tău le selectează făcând clic, atingând sau apăsând /Enter/ pe o @Phrase denumită.",
+                "$~Este un @stream cu numele pe care publicul tău le selectează făcând clic, atingând sau apăsând /Enter/ pe o @Phrase denumită.",
                 "/apăsare rapidă!/",
                 "Deci, cea mai bună modalitate de a o utiliza este să creezi o performanță cu fraze selectabile denumite @Phrase , și apoi să folosești o @Reaction pentru a decide ce să faci când este ales acel nume.",
                 "Iată cel mai simplu exemplu:",
                 "\\Group(\nStack() \n[\nPhrase('one' selectabil:⊤ nume:'1') \nPhrase('two' selectabil:⊤ nume:'2') \nPhrase(Choice())\n]\n)\\",
-                "Copiați acest cod în editor și apoi selectați una dintre cele două @Phrase . Veți vedea că a treia @Phrase arată numele selectat."
+                "Copiați acest @code în @editor și apoi selectați una dintre cele două @Phrase . Veți vedea că a treia @Phrase arată numele selectat."
             ],
             "names": ["$~Alegere"]
         },
         "Button": {
             "doc": [
-                "$~Îți spune dacă butonul principal al mausului sau al trackpadului este apăsat, ca un flux de @Boolean.",
+                "$~Îți spune dacă butonul principal al mausului sau al trackpadului este apăsat, ca un @stream de @Boolean.",
                 "/clic clic clic/",
                 "Bineînțeles, un maus sau un trackpad nu este o alegere ideală pentru a asculta un public, deoarece nu toată lumea poate folosi unul. Alegerea mai accesibilă este @Choice.",
                 "Dar dacă chiar /trebuie/ să asculți un buton de maus, acesta este modul de a face asta. Va furniza un flux de @Boolean, reprezentând dacă butonul principal este ridicat \\⊥\\ sau apăsat \\⊤\\.",
                 "Iată un exemplu simplu:",
                 "\\Fraza(Buton() → '')\\",
-                "Acesta creează pur și simplu un @Phrase care este @value fluxului ca text. Dacă îl copiezi în editor și faci clic, îl vei vedea comutând înainte și înapoi între \\⊥\\ și \\⊤\\."
+                "Acesta creează pur și simplu un @Phrase care este @value fluxului ca text. Dacă îl copiezi în @editor și faci clic, îl vei vedea comutând înainte și înapoi între \\⊥\\ și \\⊤\\."
             ],
             "names": ["$~Buton"],
             "down": {
@@ -4284,7 +4288,7 @@
             "doc": [
                 "$~Urmărește direcția în care indică publicul tău pe @Stage .",
                 "/whrrrrrr/",
-                "Desigur, aceasta nu este o alegere accesibilă: nu toată lumea poate vedea sau arăta cu ușurință, așa că asigură-te că nu excluzi pe cineva de la participare folosind acest flux.",
+                "Desigur, aceasta nu este o alegere accesibilă: nu toată lumea poate vedea sau arăta cu ușurință, așa că asigură-te că nu excluzi pe cineva de la participare folosind acest @stream.",
                 "Dacă ești sigur că nimeni nu este exclus, atunci utilizarea @Pointer este la fel de simplă ca și crearea unui flux:",
                 "\\Pointer()\\",
                 "@Place pe care îl furnizează va corespunde locului în care indică indicatorul pe @Stage ."
@@ -4297,7 +4301,7 @@
                 "/clic-clic/",
                 "Încearcă asta",
                 "\\Cheie()\\",
-                "Vezi cum, atunci când apeși o tastă, apare pe @Stage? De fiecare dată când o tastă este apăsată, un nou @Text este adăugat la flux, care descrie tasta apăsată.",
+                "Vezi cum, atunci când apeși o tastă, apare pe @Stage? De fiecare dată când o tastă este apăsată, un nou @Text este adăugat la @stream, care descrie tasta apăsată.",
                 "Pentru o tastă care reprezintă un caracter, @value va fi caracterul ca @Text.",
                 "Pentru taste speciale, cum ar fi tasta /Escape/, va fi @Text care descrie tasta, folosind un <nume prestabilit@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, disponibil din păcate doar în engleză.",
                 "Dacă vrei să afli doar despre o anumită tastă, o poți furniza:",
@@ -4392,9 +4396,9 @@
         },
         "Volume": {
             "doc": [
-                "$~Este un flux al intensității sonore a microfonului, de la 0 la 1.",
+                "$~Este un @stream al intensității sonore a microfonului, de la 0 la 1.",
                 "/bzzzzzzz/",
-                "Este eșantionat la frecvența aleasă de dvs. În mod implicit, frecvența este \\30hz\\ , adică de 30 de ori pe secundă, dar o puteți schimba la orice valoare mai puțin frecventă.",
+                "Este eșantionat la frecvența aleasă de dvs. În mod implicit, frecvența este \\30hz\\ , adică de 30 de ori pe secundă, dar o puteți schimba la orice @value mai puțin frecventă.",
                 "\\Volume()\\",
                 "Este excelent pentru a asculta cât de zgomotos este publicul!"
             ],
@@ -4406,7 +4410,7 @@
         },
         "Pitch": {
             "doc": [
-                "$~Este un flux al tonalității microfonului, în herți.",
+                "$~Este un @stream al tonalității microfonului, în herți.",
                 "/hmmm/",
                 "Este eșantionat la frecvența aleasă de tine. Vocea umană este între 20Hz și 5000Hz, așa că planifică frecvențe în acest interval.",
                 "\\Pitch()\\",
@@ -4425,7 +4429,7 @@
                 "Folosește recunoașterea vorbirii din browserul tău ca să asculte ce spui și să transforme în cuvinte (nu-i așa că e grozav?!).",
                 "\\Vorbire()\\",
                 "Acest lucru e perfect pentru cei care pot vorbi o @language, dar încă învață să o citească sau să o scrie (și altele)...",
-                "Poți indica un cod de limbă ca să recunoască vorbirea într-o anumită limbă:",
+                "Poți indica un @code de limbă ca să recunoască vorbirea într-o anumită limbă:",
                 "\\Vorbire(limbă: 'es-MX')\\",
                 "Dacă nu indici nicio limbă, se folosește limba ta preferată.",
                 "Recunoașterea vorbirii are nevoie de acces la microfon și de conexiune la Internet (te rog dă acces!). De asemenea, pot exista limite de utilizare, așa că nu o lăsa pornită prea mult timp (nuuuu)!"
@@ -4437,7 +4441,7 @@
             },
             "language": {
                 "names": ["$~limbă", "$~limbaj"],
-                "doc": "$~Un cod @language BCP 47 (de exemplu, 'en-US'). Dacă nu este acceptat de recunoașterea vorbirii din browserul tău, vei primi o eroare. Implicit se folosește limba ta preferată."
+                "doc": "$~Un @code @language BCP 47 (de exemplu, 'en-US'). Dacă nu este acceptat de recunoașterea vorbirii din browserul tău, vei primi o eroare. Implicit se folosește limba ta preferată."
             },
             "limit": {
                 "names": ["$~limită", "$~cuvinte"],
@@ -4547,7 +4551,7 @@
         },
         "Chat": {
             "doc": [
-                "$~Este un flux al mesajelor @Text pe care le tastează publicul tău.",
+                "$~Este un @stream al mesajelor @Text pe care le tastează publicul tău.",
                 "De exemplu, acest program simplu verifică dacă mesajul este „salut” și, dacă este, programul se evaluează ca „salut”. În caz contrar, se evaluează ca „huh”?",
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "Asta e tot! Poți crea tot felul de spectacole cu asta, cum ar fi chatbot-uri, aventuri textuale sau scheme de control bazate pe text pentru alte tipuri de spectacole."
@@ -4593,7 +4597,7 @@
             "doc": [
                 "$~Preia textul de la o adresă web pe care i-o dai.",
                 "Internetul este fascinant — o întreagă lume de computere conectate care își împart documente unele cu altele.",
-                "Acest flux se conectează la el — dă-i un URL, așa:",
+                "Acest @stream se conectează la el — dă-i un URL, așa:",
                 "\\Paginăweb('https://wordplay.dev')\\",
                 "Și se pare că există acest lucru numit <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, care îți permite să @query lucruri pe o pagină web? Dă-i o interogare de selecție CSS și va lua doar textul care se potrivește acelei interogări. Ca în acest exemplu, care ia titlurile de nivel unu.",
                 "\\Paginăweb('https://wordplay.dev' 'h1')\\",
@@ -4623,7 +4627,7 @@
         "Collision": {
             "names": "$~Coliziune",
             "doc": [
-                "$~Este un flux de valori @Rebound pentru când @Output cu nume se ating între ele.",
+                "$~Este un @stream de valori @Rebound pentru când @Output cu nume se ating între ele.",
                 "Ca două @Output să se observe una pe alta, dă-le amândurora nume, apoi spune-mi ambele nume. Voi crea un nou @Rebound ori de câte ori se ating. Nu au nevoie de @Matter pentru asta — un nume e tot ce-mi trebuie ca să urmăresc ceva.",
                 "Dă-mi un singur nume în schimb, și îți voi spune ori de câte ori acel @Output atinge orice altceva din lumea fizică. Un @Output este în lumea fizică dacă are @Matter, dacă un @Motion îl plasează, dacă este un @Shape direct pe @Stage, sau dacă îi urmăresc și numele.",
                 "A observa nu este același lucru cu a se lovi. @Output împinge alte @Output doar dacă are @Matter și un @Motion care îl mișcă. @Output pe care programul tău îl plasează merge exact unde l-ai pus, așa că trece prin orice atinge — dar tot îți voi spune despre atingere.",
@@ -4722,7 +4726,7 @@
         "Now": {
             "doc": [
                 "$~Eu numesc un nou @Moment în ritmul pe care îl alegi tu, așa că un program știe mereu data de azi și ora curentă.",
-                "Acest lucru face dintr-un ceas localizat o singură linie de cod:",
+                "Acest lucru face dintr-un ceas localizat o singură linie de @code:",
                 "\\💬(⏰() → '')\\",
                 "În mod implicit, eu bat în fiecare secundă. Dă-mi o @Now.frequency în secunde, minute sau ore ca să schimbi ritmul:",
                 "\\⏰(1min)\\",
@@ -4738,7 +4742,7 @@
             },
             "timezone": {
                 "names": ["$~regiuneorară"],
-                "doc": "$~Un nume standard de fus orar pentru Momentele pe care le creez, format dintr-o regiune și un oraș, cum ar fi \\'America/New_York'\\ sau \\'Asia/Tokyo'\\. Nu cunoști numele? Scrie un oraș pe care îl cunoști și îți voi sugera cel mai apropiat fus orar. Dacă \\ø\\, folosesc fusul orar al dispozitivului pe care rulează programul."
+                "doc": "$~Un nume standard de fus orar pentru Momentele pe care le creez, format dintr-o @region și un oraș, cum ar fi \\'America/New_York'\\ sau \\'Asia/Tokyo'\\. Nu cunoști numele? Scrie un oraș pe care îl cunoști și îți voi sugera cel mai apropiat fus orar. Dacă \\ø\\, folosesc fusul orar al dispozitivului pe care rulează programul."
             },
             "calendar": {
                 "names": ["$~calendar"],
@@ -4758,7 +4762,7 @@
                 "\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
                 "Transformarea mea în @Text mă formatează pentru regiunea cititorului: același Moment se afișează diferit în engleză, 中文 sau हिन्दी, și se schimbă atunci când se schimbă regiunea cititorului.",
                 "Proprietățile mele @Moment.era, @Moment.week și @Moment.weekday sunt informative: @Now le completează atunci când creează Momente, dar sunt ignorate la formatare.",
-                "Dacă vrei un flux de Momente care se actualizează pe măsură ce trece timpul — un ceas — vezi @Now. Dacă vrei milisecundele scurse de când a pornit programul tău — pentru animație — vezi @Time."
+                "Dacă vrei un @stream de Momente care se actualizează pe măsură ce trece timpul — un ceas — vezi @Now. Dacă vrei milisecundele scurse de când a pornit programul tău — pentru animație — vezi @Time."
             ],
             "names": ["$~📅", "$~Moment"],
             "year": {
@@ -4791,7 +4795,7 @@
             },
             "timezone": {
                 "names": ["$~regiuneorară"],
-                "doc": "$~Un nume standard de fus orar, format dintr-o regiune și un oraș, cum ar fi \\'America/New_York'\\, \\'Europa/Paris'\\, sau \\'Asia/Tokyo'\\. Nu cunoști numele? Scrie un oraș pe care îl cunoști și îți voi sugera cel mai apropiat fus orar. Dacă \\ø\\, folosesc fusul orar al dispozitivului pe care rulează programul."
+                "doc": "$~Un nume standard de fus orar, format dintr-o @region și un oraș, cum ar fi \\'America/New_York'\\, \\'Europa/Paris'\\, sau \\'Asia/Tokyo'\\. Nu cunoști numele? Scrie un oraș pe care îl cunoști și îți voi sugera cel mai apropiat fus orar. Dacă \\ø\\, folosesc fusul orar al dispozitivului pe care rulează programul."
             },
             "calendar": {
                 "names": ["$~calendar"],
@@ -4844,7 +4848,7 @@
                 "Ține ceva în fața camerei și @Objects va încerca să îi dea un nume.",
                 "În spatele scenei, @Objects folosește un model de învățare automată care cunoaște 80 de feluri de lucruri de zi cu zi.",
                 "La fiecare cadru, @Objects îți dă o @List de @Thing, ordonate după cât de sigur este modelul, cu cel mai sigur primul. Uită-te la @Thing pentru ce îți spune fiecare.",
-                "Modelul doar ghicește, așa că uneori va greși sau nu va vedea nimic. Cere o valoare `confidence` mai mare ca să auzi doar presupunerile de care este cel mai sigur.",
+                "Modelul doar ghicește, așa că uneori va greși sau nu va vedea nimic. Cere o @value `confidence` mai mare ca să auzi doar presupunerile de care este cel mai sigur.",
                 "Iată un exemplu care etichetează tot ce vede camera:",
                 "\\🎭(📦() ↦ 💬(⬚.nume loc: ⬚.loc))\\",
                 "Poți de asemenea să cauți doar un singur fel de lucru și să ignori restul:",
@@ -5022,7 +5026,7 @@
                 "names": "$~gamă"
             },
             "parts": {
-                "doc": "$~Câte un @Part pentru fiecare @Track, în ordinea în care au fost scrise, indiferent dacă se aude sau nu. Aceasta este întreaga stare a muzicii pe acest ritm.",
+                "doc": "$~Câte un @Part pentru fiecare @Track, în ordinea în care au fost scrise, indiferent dacă se aude sau nu. Aceasta este întreaga @state a muzicii pe acest ritm.",
                 "names": "$~părți"
             }
         },
@@ -5238,7 +5242,7 @@
                     "$~Un nume pe care mi-l dai! Acest lucru este util pentru multe lucruri.",
                     "În primul rând, dacă am un nume, îl voi folosi ca să mă descriu în descrierile pentru cititorul de ecran.",
                     "În al doilea rând, când fac animații, ai putea avea mai multe expresii diferite care ar trebui să reprezinte același conținut pe scenă; dă-le același nume și se vor anima ca una singură.",
-                    "În final, sunt util cu @Choice: numele pe care mi le dai apar în acel flux.",
+                    "În final, sunt util cu @Choice: numele pe care mi le dai apar în acel @stream.",
                     "Îmi poți da mai multe nume diferite, fiecare într-o @language diferită, dacă este util. Voi folosi mereu numele din prima limbă selectată."
                 ],
                 "names": "$~nume"
@@ -5319,7 +5323,7 @@
                     "$~Bula de vorbire care arată ce spun, îndreptată chiar spre mine. Aici pot apărea patru lucruri diferite.",
                     "Text simplu, pe care îl arăt și nimic mai mult:",
                     "\\Fraza('un' balon: 'salut!')\\",
-                    "Text formatat, dacă vrei cuvinte cu *aldine* sau /cursive/ în ceea ce spun.",
+                    "@markup, dacă vrei cuvinte cu *aldine* sau /cursive/ în ceea ce spun.",
                     "Un @Say, pe care îl arăt *și* îl rostesc cu voce tare:",
                     "\\Fraza('un' balon: Cuvânt('salut!'))\\",
                     "Un @Bubble, când vrei să alegi din ce parte vorbesc, să-l transformi într-un gând sau să-i dai o culoare."
@@ -5586,7 +5590,7 @@
                 "names": "$~opacitate"
             },
             "offset": {
-                "doc": "$~O valoare @Place care indică cât de departe ar trebui să fie de poziția unui @Output, în loc de poziția implicită. Utilă pentru mișcarea pe poziție.",
+                "doc": "$~O @value @Place care indică cât de departe ar trebui să fie de poziția unui @Output, în loc de poziția implicită. Utilă pentru mișcarea pe poziție.",
                 "names": "$~compensare"
             },
             "rotation": {
@@ -5594,15 +5598,15 @@
                 "names": "$~rotaţie"
             },
             "scale": {
-                "doc": "$~Cât de mărită ar trebui să fie o valoare @Output în raport cu dimensiunea sa originală, în loc de dimensiunea implicită.",
+                "doc": "$~Cât de mărită ar trebui să fie o @value @Output în raport cu dimensiunea sa originală, în loc de dimensiunea implicită.",
                 "names": "$~scară"
             },
             "flipx": {
-                "doc": "$~Dacă o valoare @Output ar trebui oglindită pe axa x, în loc de valoarea implicită.",
+                "doc": "$~Dacă o @value @Output ar trebui oglindită pe axa x, în loc de valoarea implicită.",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~Dacă o valoare @Output ar trebui oglindită pe axa y, în loc de valoarea implicită.",
+                "doc": "$~Dacă o @value @Output ar trebui oglindită pe axa y, în loc de valoarea implicită.",
                 "names": "$~flip"
             },
             "description": "$~$opacity[transparent $opacity|] $rotation[rotit $rotation grade|] $scale[scalat $scale|] $flipx[întors pe orizontală|] $flipy[întors pe verticală|] $blur[umbră estompată $blur pixeli|]",
@@ -6542,7 +6546,7 @@
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
                 "Dă-mi o listă de piese și cântă în același timp, fiecare cu propriul instrument, viteză și volum. Aici o tobă mare și o tobă mică țin ritmul în timp ce un hi-hat merge cu viteză dublă — un poliritm dintr-un singur număr. Tobele sunt un set, nu tonuri, așa că numerele lor aleg piese din set în loc de note:",
                 "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 bătaie: 0.5beats volum: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
-                "Numerele dintre acolade sună împreună ca un acord, iar o valoare de notă scrisă pe un număr dă acelei intrări propria lungime. Aici două acorduri de notă întreagă țin dedesubtul unei melodii în mișcare:",
+                "Numerele dintre acolade sună împreună ca un acord, iar o @value de notă scrisă pe un număr dă acelei intrări propria lungime. Aici două acorduri de notă întreagă țin dedesubtul unei melodii în mișcare:",
                 "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volum: 50%)\n\t])\\",
                 "Orice creează numere poate crea muzică. Această melodie se amestecă într-o ordine nouă și urmează cât de tare vorbești:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].amestecat())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
@@ -6588,7 +6592,7 @@
                     "$~Când acest lucru este \\⊤\\ la o evaluare, o iau de la capăt, chiar dacă niciuna dintre notele mele nu s-a schimbat.",
                     "Acest lucru este pentru sunetul care răspunde unui eveniment, nu pentru cel care cântă continuu. Dacă un răspuns corect cântă un clinchet, atunci două răspunsuri corecte la rând produc exact aceeași muzică, așa că nimic nu s-ar schimba și nimic nu s-ar auzi din nou. Eu sunt felul în care spui /din nou, acum/ — alege /corect/ de două ori mai jos și face clinchet de două ori:",
                     "\\🎭([\n\t\t💬('corect' selectabil: ⊤ nume: 'corect' loc: 📍(-2m 0m))\n\t\t💬('greșit' selectabil: ⊤ nume: 'greșit' loc: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 buclă: ⊥) reluare: ∆ 🔘() ? (🔘() = 'corect') ⊥)\n\t])\\",
-                    "Dă-mi o condiție /momentană/, una care este adevărată doar la evaluarea provocată de eveniment, cum ar fi \\∆ 🔘()\\ de mai sus. O condiție de durată cum ar fi \\score > 10\\🪲 rămâne adevărată odată ce devine adevărată, așa că m-ar reporni la fiecare evaluare de atunci încolo."
+                    "Dă-mi o @condition /momentană/, una care este adevărată doar la evaluarea provocată de eveniment, cum ar fi \\∆ 🔘()\\ de mai sus. O condiție de durată cum ar fi \\score > 10\\🪲 rămâne adevărată odată ce devine adevărată, așa că m-ar reporni la fiecare evaluare de atunci încolo."
                 ],
                 "names": "$~reluare"
             },
@@ -6684,7 +6688,7 @@
                     "$~Cât timp acest lucru este \\⊤\\ mă țin pe loc, iar când revine la \\⊥\\ continui chiar de la ritmul pe care m-am oprit.",
                     "Acest lucru mă face diferit de @Music/replay: replay înseamnă /o ia de la capăt/, iar eu înseamnă /așteaptă aici/. O notă care încă se auzea când m-am oprit se cântă cât a mai rămas din ea când încep din nou, așa că oprirea în mijlocul unui acord lung nu îl pierde. Alege /ține/ și /mergi/ mai jos:",
                     "\\🎭([\n\t\t💬('ține' selectabil: ⊤ nume: 'ține' loc: 📍(-2m 0m))\n\t\t💬('mergi' selectabil: ⊤ nume: 'mergi' loc: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pauză: 🔘() = 'ține')\n\t])\\",
-                    "Spre deosebire de reluare, vreau o condiție /durabilă/, una care rămâne adevărată atât timp cât vrei liniștea. Numărul meu de @Beat așteaptă cu mine și continuă de unde a rămas, în loc să înceapă din nou de la zero."
+                    "Spre deosebire de reluare, vreau o @condition /durabilă/, una care rămâne adevărată atât timp cât vrei liniștea. Numărul meu de @Beat așteaptă cu mine și continuă de unde a rămas, în loc să înceapă din nou de la zero."
                 ],
                 "names": "$~pauză"
             }
@@ -6698,10 +6702,10 @@
                 "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] bătaie: 0.5beats))\\",
                 "Setează-mi @Track/mash la \\⊥\\ și un asemenea număr îndoaie o notă în afara tonului în loc să cânte două.",
                 "Fiecare intrare durează @Track/beat, care este o bătaie dacă nu îl schimbi. Schimbarea lui reașază totul ce cânt deodată.",
-                "Când o intrare trebuie să fie mai lungă sau mai scurtă decât restul, scrie lungimea chiar pe număr ca o valoare a notei. \\8𝅗𝅥\\ este o notă de jumătate — de două ori mai lungă decât o bătaie — și nu are nevoie de nimic în jur:",
+                "Când o intrare trebuie să fie mai lungă sau mai scurtă decât restul, scrie lungimea chiar pe număr ca o @value a notei. \\8𝅗𝅥\\ este o notă de jumătate — de două ori mai lungă decât o bătaie — și nu are nevoie de nimic în jur:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
                 "Sunt cinci valori: \\𝅝\\ durează patru bătăi, \\𝅗𝅥\\ două, \\𝅘𝅥\\ una, \\𝅘𝅥𝅮\\ o jumătate de bătaie, și \\𝅘𝅥𝅯\\ un sfert de bătaie. Un punct după oricare dintre ele o face cu jumătate mai lungă, așa că \\𝅘𝅥𝅭\\ este o bătaie și jumătate. O notă de sfert este o bătaie oricare ar fi bătaia mea, de aceea \\bătaie: 1𝅘𝅥𝅮\\🪲 spune același lucru ca \\0.5beats\\ și se citește mai clar. Pe un acord, pune valoarea pe primul număr: \\{1𝅗𝅥 3 5}\\.",
-                "Acestea sunt greu de găsit, așa că rândul de simboluri de sub editor le oferă ori de câte ori cursorul tău este chiar după unul dintre numerele mele.",
+                "Acestea sunt greu de găsit, așa că rândul de simboluri de sub @editor le oferă ori de câte ori cursorul tău este chiar după unul dintre numerele mele.",
                 "O pauză nu poate purta o valoare, deoarece \\ø\\ nu este un număr. Două pauze la rând sunt de două ori mai lungi, iar pentru ceva mai fin există @Note.",
                 "Când o singură notă are nevoie de propriul volum, sau de o lungime pe care nicio valoare nu o poate exprima, învelește-o pe aceea într-un @Note. Folosește-o doar acolo unde ai nevoie: un număr simplu este mai ușor de citit, așa că majoritatea pieselor nu au niciunul, iar tocmai această raritate face ca un @Note să iasă în evidență ca un eveniment.",
                 "\\celulă: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcelulă\n\t\t.cuLista(celulă.traduce(ƒ(n•#) n + 2))\n\t\t.cuLista(celulă.inversat())\n\t\t.cuLista(celulă.traduce(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
@@ -6710,7 +6714,7 @@
             ],
             "names": ["$~Pistă"],
             "notes": {
-                "doc": "$~Notele de cântat, în ordine: un număr pentru o notă, \\ø\\ pentru o pauză, un set precum \\{1 3 5}\\ pentru un acord, sau un @Note când o intrare are nevoie de propriul volum. O valoare de notă scrisă pe un număr — \\3𝅗𝅥\\ — spune cât durează acea intrare.",
+                "doc": "$~Notele de cântat, în ordine: un număr pentru o notă, \\ø\\ pentru o pauză, un set precum \\{1 3 5}\\ pentru un acord, sau un @Note când o intrare are nevoie de propriul volum. O @value de notă scrisă pe un număr — \\3𝅗𝅥\\ — spune cât durează acea intrare.",
                 "names": "$~note"
             },
             "instrument": {
@@ -6718,7 +6722,7 @@
                 "names": "$~instrument"
             },
             "beat": {
-                "doc": "$~Cât durează o intrare simplă, în bătăi. Este o bătaie dacă nu o schimbi, iar schimbarea ei rearanjează pe grilă tot ce cânt: la \\0.5beats\\ fiecare intrare este o optime, deci mă mișc de două ori mai repede prin aceeași listă. O valoare de notă spune același lucru mai simplu, deci \\bătaie: 1𝅘𝅥𝅮\\🪲 este aceeași grilă de optimi.",
+                "doc": "$~Cât durează o intrare simplă, în bătăi. Este o bătaie dacă nu o schimbi, iar schimbarea ei rearanjează pe grilă tot ce cânt: la \\0.5beats\\ fiecare intrare este o optime, deci mă mișc de două ori mai repede prin aceeași listă. O @value de notă spune același lucru mai simplu, deci \\bătaie: 1𝅘𝅥𝅮\\🪲 este aceeași grilă de optimi.",
                 "names": "$~bătaie"
             },
             "scale": {
@@ -6746,24 +6750,24 @@
                 "names": "$~amestecare"
             },
             "words": {
-                "doc": "$~Silabele pe care @Instrument/voice să le cânte. O silabă pentru fiecare notă, separate prin spații, așa că \\'sol mi fa'\\ cântă trei note, iar spațiile sunt cele care spun unde se termină o silabă și unde începe următoarea.\n\nPauzele nu iau nicio silabă, așa că un vers ajunge pe notele care chiar sună. Dacă sunt mai puține silabe decât note, ele o iau de la început în loc să tacă. Dacă nu există deloc, vocea ține un sunet /uh/.\n\nTermină o silabă cu o liniuță ca s-o ții și peste nota următoare, câte o notă în plus pentru fiecare liniuță — așa cânți o singură silabă pe mai multe note. În \\🎶([1 2 3 4] cuvinte: 'la- mi so')\\, \\la\\ acoperă primele două note, apoi \\mi\\ și \\so\\ iau câte una fiecare.\n\nScrierea este <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, unde fiecare literă este un sunet. Apasă 🤖 sub editor ca să vezi fiecare sunet și să îl auzi. Literele pe care nu le recunosc sunt sărite. Orice instrument în afară de voce mă ignoră, așa că un vers rămâne dacă schimbi @Track/instrument și te întorci.",
+                "doc": "$~Silabele pe care @Instrument/voice să le cânte. O silabă pentru fiecare notă, separate prin spații, așa că \\'sol mi fa'\\ cântă trei note, iar spațiile sunt cele care spun unde se termină o silabă și unde începe următoarea.\n\nPauzele nu iau nicio silabă, așa că un vers ajunge pe notele care chiar sună. Dacă sunt mai puține silabe decât note, ele o iau de la început în loc să tacă. Dacă nu există deloc, vocea ține un sunet /uh/.\n\nTermină o silabă cu o liniuță ca s-o ții și peste nota următoare, câte o notă în plus pentru fiecare liniuță — așa cânți o singură silabă pe mai multe note. În \\🎶([1 2 3 4] cuvinte: 'la- mi so')\\, \\la\\ acoperă primele două note, apoi \\mi\\ și \\so\\ iau câte una fiecare.\n\nScrierea este <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, unde fiecare literă este un sunet. Apasă 🤖 sub @editor ca să vezi fiecare sunet și să îl auzi. Literele pe care nu le recunosc sunt sărite. Orice instrument în afară de voce mă ignoră, așa că un vers rămâne dacă schimbi @Track/instrument și te întorci.",
                 "names": "$~cuvinte"
             }
         },
         "Note": {
             "doc": [
-                "$~Sunt o intrare dintr-un @Track care poartă propriul volum, sau o lungime pe care nicio valoare de notă nu o poate scrie.",
+                "$~Sunt o intrare dintr-un @Track care poartă propriul volum, sau o lungime pe care nicio @value de notă nu o poate scrie.",
                 "Majoritatea notelor ar trebui să rămână numere simple, iar majoritatea lungimilor sunt mai scurte scrise pe numărul însuși: \\1𝅗𝅥\\ este o doime. Merit folosit când o notă are nevoie de propriul volum, sau de o lungime care cade între valori — și pentru că \\♪(1 2beats ÷ 3)\\ spune mult mai mult decât \\1\\, folosirea mea peste tot ar îngropa notele care contează.",
                 "O triolă este aritmetică cinstită: \\♪(1 2beats ÷ 3)\\ spune că trei dintre acestea umplu două bătăi. Lungimea mea poate fi și o valoare de notă, deci \\♪(1 1𝅗𝅥)\\ și \\♪(1 2beats)\\ sunt aceleași două bătăi.",
                 "\\🎼(🎶([1 1 ♪(5 2beats volum: 60%) ø]))\\"
             ],
             "names": ["$~Notă"],
             "degree": {
-                "doc": "$~Ce să cânt: un număr pentru o notă, \\ø\\ pentru o pauză, sau un set de numere pentru un acord, exact ca o intrare simplă dintr-un @Track. O valoare de notă pe număr — \\3𝅗𝅥\\ — spune cât durez, și câștigă în fața @Note/beat dacă le scrii pe amândouă.",
+                "doc": "$~Ce să cânt: un număr pentru o notă, \\ø\\ pentru o pauză, sau un set de numere pentru un acord, exact ca o intrare simplă dintr-un @Track. O @value de notă pe număr — \\3𝅗𝅥\\ — spune cât durez, și câștigă în fața @Note/beat dacă le scrii pe amândouă.",
                 "names": "$~grad"
             },
             "beat": {
-                "doc": "$~Câte bătăi durez. Acesta este întregul motiv de a mă folosi: fiecare intrare simplă dintr-un @Track durează același timp, iar eu sunt modul în care o notă capătă un timp diferit. O valoare de notă funcționează și aici, deci \\1𝅗𝅥\\ și \\2beats\\ sunt aceeași lungime.",
+                "doc": "$~Câte bătăi durez. Acesta este întregul motiv de a mă folosi: fiecare intrare simplă dintr-un @Track durează același timp, iar eu sunt modul în care o notă capătă un timp diferit. O @value de notă funcționează și aici, deci \\1𝅗𝅥\\ și \\2beats\\ sunt aceeași lungime.",
                 "names": "$~bătaie"
             },
             "volume": {
@@ -6903,7 +6907,7 @@
                         "Sunt un sintetizator, ca @Instrument/synth — nu o imitație a unui cântăreț. Gura mea rămâne la fel de mare oricât de sus sau de jos cânt, ceea ce niciun gât adevărat nu poate face. De aceea sun ca o mașină care imită o persoană și de aceea nu sun nici a bărbat, nici a femeie.",
                         "Dă-i lui @Track un @Track/words și le cânt, o silabă pentru fiecare notă. Fără nimic, țin un sunet /uh/, așa că mereu cânt ceva.",
                         "\\🎼(🎶([1 2 3 5] cuvinte: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
-                        "Silabele sunt scrise în <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alfabet în care fiecare literă este un /sunet/ în loc de o scriere — așa că \\'ʃi'\\ este sunetul de la începutul cuvântului /she/, indiferent de limba în care scrii. Apasă 🤖 sub editor ca să vezi toate sunetele pe care le pot face și să auzi fiecare sunet."
+                        "Silabele sunt scrise în <Alfabetul Fonetic Internațional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alfabet în care fiecare literă este un /sunet/ în loc de o scriere — așa că \\'ʃi'\\ este sunetul de la începutul cuvântului /she/, indiferent de limba în care scrii. Apasă 🤖 sub @editor ca să vezi toate sunetele pe care le pot face și să auzi fiecare sunet."
                     ],
                     "names": ["$~voce"]
                 },
@@ -6956,7 +6960,7 @@
             "names": ["$~Balon"],
             "text": {
                 "doc": [
-                    "$~Ce arăt. Dă-mi text simplu, sau text formatat dacă vrei cuvinte *îngroșate* sau /cursive/.",
+                    "$~Ce arăt. Dă-mi text simplu, sau @markup dacă vrei cuvinte *îngroșate* sau /cursive/.",
                     "Dă-mi un @Say în loc și voi fi rostit cu voce tare, pe lângă faptul că sunt arătat. Atunci țin locul cuvintelor care apar de obicei la baza @Stage, pentru că ale mele sunt deja pe ecran, lângă cine le-a spus."
                 ],
                 "names": "$~text"

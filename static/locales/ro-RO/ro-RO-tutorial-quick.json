@@ -27,17 +27,17 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~În majoritatea limbajelor de programare, un program este o listă de instrucțiuni care îi spun computerului ce să *facă*, cum ar fi afișarea unei valori:",
+                            "$~În majoritatea limbajelor de programare, un program este o listă de @how care îi spun computerului ce să *facă*, cum ar fi afișarea unei valori:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~În @wordplay, programele sunt *expresii* care spun care ar trebui să fie /rezultatul/ programului, nu cum ar trebui să îl producă.",
-                            "$~Acest program se evaluează la valoarea \\'salut'\\, care apoi este arătată pe scenă. Nicio comandă de afișare, doar o expresie care spune la ce valoare să se evalueze."
+                            "$~Acest program se evaluează la valoarea \\'salut'\\, care apoi este arătată pe scenă. Nicio comandă de afișare, doar o @expression care spune la ce @value să se evalueze."
                         ],
                         null,
                         { "edit": ["message: 'hi'", "message"] },
                         [
                             "Bind",
                             "neutral",
-                            "$~În alte limbaje, o variabilă este un recipient cu nume pentru o valoare, iar valoarea ei se poate schimba:",
+                            "$~În alte limbaje, o @variable este un recipient cu nume pentru o valoare, iar valoarea ei se poate schimba:",
                             "\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
                             "$~În @wordplay, valorile cu nume nu se pot schimba niciodată. Ele sunt „neschimbătoare”, ceea ce înseamnă că nu li se pot atribui valori noi. De aceea le numim @Bind în loc de variabilă, deoarece nu pot varia.",
                             "$~Vom vorbi în curând despre cum să scrii programe interactive fără variabile care se pot schimba."
@@ -57,16 +57,16 @@
                         [
                             "Conditional",
                             "neutral",
-                            "$~Alte limbaje de programare au de obicei o instrucțiune *if* pentru a face lucruri diferite în funcție de o condiție:",
+                            "$~Alte limbaje de programare au de obicei o instrucțiune *if* pentru a face lucruri diferite în funcție de o @condition:",
                             "\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
-                            "$~În @wordplay, totul este o expresie, așa că @Conditional este o *expresie* scrisă cu o condiție, apoi un \\?\\, apoi o expresie pentru adevărat și o expresie pentru fals. Nu sunt necesare cuvinte cheie"
+                            "$~În @wordplay, totul este o @expression, așa că @Conditional este o *expresie* scrisă cu o condiție, apoi un \\?\\, apoi o expresie pentru adevărat și o expresie pentru fals. Nu sunt necesare cuvinte cheie"
                         ],
                         null,
                         { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Unele limbaje au și o instrucțiune *switch* pentru a face lucruri diferite în funcție de o valoare:",
+                            "$~Unele limbaje au și o instrucțiune *switch* pentru a face lucruri diferite în funcție de o @value:",
                             "\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv| switch (n) {\n  case 1: System.out.println(\"one\"); break;\n  case 2: System.out.println(\"two\"); break;\n  default: System.out.println(\"many\"); break;\n}\\",
                             "$~@wordplay are @Match, care alege un rezultat în funcție de valoare."
                         ],
@@ -75,7 +75,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Unele limbaje au și un operator de *combinare cu null* pentru a oferi o valoare implicită atunci când o variabilă este null sau nedefinită:",
+                            "$~Unele limbaje au și un @operator de *combinare cu null* pentru a oferi o valoare implicită atunci când o @variable este null sau nedefinită:",
                             "\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
                             "$~@wordplay are operatorul @Otherwise pentru a obține același rezultat."
                         ]
@@ -103,7 +103,7 @@
                             "neutral",
                             "$~Majoritatea limbajelor au mai multe tipuri de valori „primitive”.",
                             "\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
-                            "$~@wordplay are o sintaxă asemănătoare pentru aceste tipuri, dar îți permite și să adaugi alte informații, cum ar fi etichete de limbă pentru text în mai multe limbi și unități la numere."
+                            "$~@wordplay are o sintaxă asemănătoare pentru aceste tipuri, dar îți permite și să adaugi alte informații, cum ar fi etichete de @language pentru text în mai multe limbi și unități la numere."
                         ],
                         null,
                         {
@@ -157,7 +157,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~O operație frecventă în programare este transformarea datelor dintr-un tip în altul. De exemplu, am putea dori să transformăm un număr într-o valoare text:",
+                            "$~O operație frecventă în programare este transformarea datelor dintr-un tip în altul. De exemplu, am putea dori să transformăm un număr într-o @value text:",
                             "\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
                             "$~Toate valorile din @wordplay au o construcție @Convert care îți permite să transformi între tipuri. Acest exemplu transformă \\1m\\ în picioare, și apoi în @Text. Fiecare tip de valoare are o întreagă colecție de conversii acceptate"
                         ],
@@ -168,7 +168,7 @@
                             "neutral",
                             "$~Pentru colecții de valori, cum ar fi listele și tablourile, alte limbaje de programare folosesc construcții precum buclele *for* și *while* pentru a construi o nouă colecție din valorile unei colecții existente.",
                             "\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
-                            "$~@wordplay are o construcție simplă @Translate* care folosește simbolul \\↦\\: construiește o nouă @List, @Set sau @Map, înlocuind fiecare element (reprezentat de marcajul de loc \\⬚\\) cu o nouă valoare. Aceasta dublează fiecare element pentru a obține \\[2 4 6]\\.",
+                            "$~@wordplay are o construcție simplă @Translate* care folosește simbolul \\↦\\: construiește o nouă @List, @Set sau @Map, înlocuind fiecare @element (reprezentat de marcajul de loc \\⬚\\) cu o nouă valoare. Aceasta dublează fiecare element pentru a obține \\[2 4 6]\\.",
                             "$~Există și lucruri mai puternice, cum ar fi @List.translate și @List.combine, în cazul în care ai nevoie de operații mai complexe."
                         ],
                         null,
@@ -181,7 +181,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Fiecare limbaj de programare are funcții, care îți permit să declari blocuri de cod refolosibile care primesc o intrare și produc o ieșire pe baza ei, de orice complexitate:",
+                            "$~Fiecare limbaj de programare are funcții, care îți permit să declari @blocks de @code refolosibile care primesc o intrare și produc o ieșire pe baza ei, de orice complexitate:",
                             "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
                             "$~@wordplay acceptă și definiții de funcții, dar cu simbolul ƒ. La fel ca toate programele Wordplay, funcțiile trebuie să se evalueze la o valoare."
                         ]
@@ -213,8 +213,8 @@
                             "neutral",
                             "$~Majoritatea limbajelor de programare au o modalitate de a primi o intrare de la utilizator:",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
-                            "$~Intrarea în @wordplay vine din *fluxuri*, care sunt valori speciale ce se schimbă în timp, ca răspuns la o intrare, și fac ca programul Wordplay să se reevalueze cu noua valoare a fluxului.",
-                            "$~Acest program, de exemplu, folosește un flux @Time pentru a controla rotirea emoji-ului cu globul. De fiecare dată când fluxul @Time() trece la o nouă valoare, programul se reevaluează cu noua valoare, actualizând valoarea programului pe @Stage."
+                            "$~Intrarea în @wordplay vine din *fluxuri*, care sunt valori speciale ce se schimbă în timp, ca răspuns la o intrare, și fac ca programul Wordplay să se reevalueze cu noua @value a fluxului.",
+                            "$~Acest program, de exemplu, folosește un @stream @Time pentru a controla rotirea emoji-ului cu globul. De fiecare dată când fluxul @Time() trece la o nouă valoare, programul se reevaluează cu noua valoare, actualizând valoarea programului pe @Stage."
                         ],
                         null,
                         { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
@@ -238,7 +238,7 @@
                             "happy",
                             "$~Alte limbaje de programare îți permit să schimbi valorile variabilelor în timpul rulării, ceea ce poate fi util pentru a crea aplicații dinamice și interactive. Dar ele îți cer să ții minte să actualizezi valorile în locurile corecte și să actualizezi ce este arătat pe ecran atunci când acele valori se schimbă:",
                             "\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
-                            "$~@wordplay simplifică acest lucru folosind o expresie @Reaction, care pornește de la o valoare inițială, verifică o condiție care se referă la intrările fluxurilor și actualizează valoarea expresiei pe baza schimbărilor fluxului. În acest exemplu, de fiecare dată când fluxul @Button se schimbă, actualizăm valoarea lui count, iar asta actualizează @Phrase arătată pe @Stage."
+                            "$~@wordplay simplifică acest lucru folosind o @expression @Reaction, care pornește de la o valoare inițială, verifică o @condition care se referă la intrările fluxurilor și actualizează valoarea expresiei pe baza schimbărilor fluxului. În acest exemplu, de fiecare dată când fluxul @Button se schimbă, actualizăm valoarea lui count, iar asta actualizează @Phrase arătată pe @Stage."
                         ]
                     ]
                 },
@@ -269,9 +269,9 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Majoritatea limbajelor de programare oferă un fel de instrumente de depanare pentru a-i ajuta pe creatori să înțeleagă și să rezolve problemele din codul lor. Dar multe folosesc doar instrucțiuni de afișare pentru a verifica valorile variabilelor într-o consolă:",
+                            "$~Majoritatea limbajelor de programare oferă un fel de instrumente de depanare pentru a-i ajuta pe creatori să înțeleagă și să rezolve problemele din codul lor. Dar multe folosesc doar @how de afișare pentru a verifica valorile variabilelor într-o consolă:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay oferă o experiență de depanare mai avansată, care îți permite să treci *înainte* și *înapoi* prin evaluarea sa. Apasă butonul de depanare ⏸️ din comutatorul de mod @UI/modeSwitcher de deasupra scenei pentru a intra în modul *depanare*: valoarea fiecărei expresii apare lângă ea în cod, iar @UI/stepControls îți permite să evaluezi pas cu pas în orice direcție, ca să vezi cum se construiește o valoare. Iată un tur ghidat cu tot ce trebuie știut: @Tour/stage",
+                            "$~@wordplay oferă o experiență de depanare mai avansată, care îți permite să treci *înainte* și *înapoi* prin evaluarea sa. Apasă butonul de depanare ⏸️ din comutatorul de mod @UI/modeSwitcher de deasupra scenei pentru a intra în modul *depanare*: valoarea fiecărei expresii apare lângă ea în @code, iar @UI/stepControls îți permite să evaluezi pas cu pas în orice direcție, ca să vezi cum se construiește o @value. Iată un tur ghidat cu tot ce trebuie știut: @Tour/stage",
                             "$~Celelalte moduri contează și ele: modul ✏️ *editare* servește la schimbarea programului, în timp ce scena rămâne înghețată, iar modul ▶️ *joacă* îl pornește pe viu, răspunzând la intrări în timp real.",
                             "$~Vrei mai multe explicații? Butonul @UI/stageTourLaunch de lângă numele scenei oferă un tur ghidat al acestor comenzi."
                         ]
@@ -288,7 +288,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Hai să construim un mic @project interactiv în trei pași.",
-                            "$~*Unu:* declară-ți datele și *fluxurile*. Aici un flux @Time numit elapsed raportează de cât timp rulează programul."
+                            "$~*Unu:* declară-ți datele și *fluxurile*. Aici un @stream @Time numit elapsed raportează de cât timp rulează programul."
                         ],
                         null,
                         {
@@ -327,7 +327,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Putem face acest lucru și mai interactiv adăugând o intrare de la utilizator pentru a controla rotirea, cum ar fi @Volume al intrării de la microfon. Este o valoare între 0 și 1, așa că o putem mapa pe 360 de grade.",
+                            "$~Putem face acest lucru și mai interactiv adăugând o intrare de la utilizator pentru a controla rotirea, cum ar fi @Volume al intrării de la microfon. Este o @value între 0 și 1, așa că o putem mapa pe 360 de grade.",
                             "$~Aceasta este forma majorității proiectelor: declarații, apoi reacții, apoi ieșire. <Guide//guide> are o secțiune @how plină de rețete de studiat, copiat și editat.",
                             "$~Creație plăcută!"
                         ]

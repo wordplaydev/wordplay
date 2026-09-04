@@ -76,7 +76,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~Bạn là người thật, có suy nghĩ, ý tưởng và giá trị để chia sẻ chứ không phải là một trong những con robot chỉ biết lặp lại lời người khác một cách vô hồn? Nếu bạn là người, thì có lẽ bạn có thể mang lại ý nghĩa cho cuộc sống của chúng ta?"
+                            "$~Bạn là người thật, có suy nghĩ, ý tưởng và @value để chia sẻ chứ không phải là một trong những con robot chỉ biết lặp lại lời người khác một cách vô hồn? Nếu bạn là người, thì có lẽ bạn có thể mang lại ý nghĩa cho cuộc sống của chúng ta?"
                         ],
                         null,
                         [
@@ -258,7 +258,7 @@
                             "FunctionDefinition",
                             "confused",
                             "$~Chào bạn, @ExpressionPlaceholder?",
-                            "$~Ừm, bình thường chúng có ở khắp mọi nơi. Giờ thì chúng dường như biến mất không dấu vết..."
+                            "$~Ừm, bình thường chúng có ở khắp mọi nơi. Giờ thì chúng dường như @variable mất không dấu vết..."
                         ],
                         [
                             "ExpressionPlaceholder",
@@ -474,7 +474,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Vậy nên, @UnparsableExpression muốn bạn thử tạo ra càng nhiều biểu thức như vậy càng tốt. (Bạn chỉ cần nhấn loạn xạ một loạt ký tự ngẫu nhiên và có thể tạo ra được rất nhiều)."
+                            "$~Vậy nên, @UnparsableExpression muốn bạn thử tạo ra càng nhiều @expression như vậy càng tốt. (Bạn chỉ cần nhấn loạn xạ một loạt ký tự ngẫu nhiên và có thể tạo ra được rất nhiều)."
                         ],
                         { "edit": "" },
                         null,
@@ -607,7 +607,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Hàm là một dạng thuật giả kim. Chúng nhận bất kỳ số lượng đầu vào nào và sử dụng những đầu vào đó để tạo ra một đầu ra duy nhất. Chúng có thể có tên hoặc không có tên. Chúng có thể có không đầu vào, năm đầu vào hoặc một số lượng không xác định. Và điều kỳ diệu ở đây là: chúng giống như @Program và có thể có bất kỳ số lượng biểu thức nào để tạo ra một giá trị."
+                            "$~Hàm là một dạng thuật giả kim. Chúng nhận bất kỳ số lượng đầu vào nào và sử dụng những đầu vào đó để tạo ra một đầu ra duy nhất. Chúng có thể có tên hoặc không có tên. Chúng có thể có không đầu vào, năm đầu vào hoặc một số lượng không xác định. Và điều kỳ diệu ở đây là: chúng giống như @Program và có thể có bất kỳ số lượng @expression nào để tạo ra một @value."
                         ],
                         null,
                         [
@@ -633,7 +633,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Mọi phép tính đều trông như thế này @UI/Evaluate: một hàm số, theo sau là dấu ngoặc đơn mở và đóng, với bất kỳ số lượng đầu vào nào ở giữa. Ở đây, tôi chỉ có @ExpressionPlaceholder làm hàm số và ba chỗ giữ chỗ làm đầu vào."
+                            "$~Mọi phép tính đều trông như thế này @UI/Evaluate: một hàm số, theo sau là dấu ngoặc đơn mở và đóng, với bất kỳ số lượng đầu vào nào ở giữa. Ở đây, tôi chỉ có @ExpressionPlaceholder làm hàm số và ba @placeholder làm đầu vào."
                         ],
                         {
                             "edit": "_(_ _ _)",
@@ -759,7 +759,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Tôi thực sự rất nhớ @Evaluate. Tôi không thể tưởng tượng Verse sẽ như thế nào nếu thiếu họ.",
-                            "$~Nhưng đôi khi họ hơi… dựa dẫm. Tôi ước gì họ… tôi không biết nữa, tin tưởng vào bản thân mình? Họ có thể làm được rất nhiều việc, nhưng họ không nhận ra điều đó. Ý tôi là, họ biến *giá trị* này thành *giá trị* khác! Tôi chỉ cung cấp công thức, còn họ thì nấu nướng. Đôi khi tôi cảm thấy mình chỉ cho đi, còn họ chỉ biết nhận. Thật ngột ngạt."
+                            "$~Nhưng đôi khi họ hơi… dựa dẫm. Tôi ước gì họ… tôi không biết nữa, tin tưởng vào bản thân mình? Họ có thể làm được rất nhiều việc, nhưng họ không nhận ra điều đó. Ý tôi là, họ @variable *@value* này thành *giá trị* khác! Tôi chỉ cung cấp công thức, còn họ thì nấu nướng. Đôi khi tôi cảm thấy mình chỉ cho đi, còn họ chỉ biết nhận. Thật ngột ngạt."
                         ],
                         null,
                         {
@@ -787,7 +787,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Biểu thức là cách chúng ta tạo ra các giá trị. Tất cả các biểu thức đều là sự đánh giá các hàm mà tôi tạo ra. Kết quả của việc đánh giá một biểu thức là một giá trị thuộc một kiểu nào đó."
+                            "$~@expression là cách chúng ta tạo ra các giá trị. Tất cả các biểu thức đều là sự đánh giá các hàm mà tôi tạo ra. Kết quả của việc đánh giá một biểu thức là một giá trị thuộc một kiểu nào đó."
                         ],
                         null,
                         { "fit": "#Symbol 🤔" },
@@ -1145,14 +1145,14 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~(Điều này thực sự hữu ích khi cố gắng xác định xem nhiều biểu thức có cùng đúng hay không, bởi vì nó chỉ đúng khi mọi thứ đều đúng)."
+                            "$~(Điều này thực sự hữu ích khi cố gắng xác định xem nhiều @expression có cùng đúng hay không, bởi vì nó chỉ đúng khi mọi thứ đều đúng)."
                         ],
                         null,
                         { "edit": "(⊤ | ⊤) = ⊥" },
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Còn cái kia là @Boolean.or, đúng không? Nó cũng nhận một đầu vào? Nhưng nó sẽ trả về \\⊤\\ nếu một trong hai điều kiện là đúng?"
+                            "$~Còn cái kia là @Boolean.or, đúng không? Nó cũng nhận một đầu vào? Nhưng nó sẽ trả về \\⊤\\ nếu một trong hai @condition là đúng?"
                         ],
                         [
                             "⊤",
@@ -1424,7 +1424,7 @@
                         [
                             "Number",
                             "angry",
-                            "$~Không. Đó là lý do mình gạch chân @conflict. Mình không thích cộng những thứ không hợp nhau. Mình chỉ cộng được các số hợp nhau thôi. Điều này cũng áp dụng cho phép nhân, phép chia, và tất cả các hàm khác của mình. Bạn muốn sửa không? Đổi táo thành cam hoặc cam thành táo, thì conflict sẽ biến mất. Hãy chắc chắn không có khoảng trắng giữa số và đơn vị; nếu không, mình sẽ không biết đó là đơn vị. Và hãy chắc chắn các đơn vị /giống hệt/ nhau. Mình không biết gì về đơn vị của con người đâu; chúng chẳng có ý nghĩa gì với mình. Mình chỉ so sánh tên đơn vị, và nếu chúng không khớp thì BÙM!"
+                            "$~Không. Đó là lý do mình gạch chân @conflict. Mình không thích cộng những thứ không hợp nhau. Mình chỉ cộng được các số hợp nhau thôi. Điều này cũng áp dụng cho phép nhân, phép chia, và tất cả các hàm khác của mình. Bạn muốn sửa không? Đổi táo thành cam hoặc cam thành táo, thì conflict sẽ @variable mất. Hãy chắc chắn không có khoảng trắng giữa số và đơn vị; nếu không, mình sẽ không biết đó là đơn vị. Và hãy chắc chắn các đơn vị /giống hệt/ nhau. Mình không biết gì về đơn vị của con người đâu; chúng chẳng có ý nghĩa gì với mình. Mình chỉ so sánh tên đơn vị, và nếu chúng không khớp thì BÙM!"
                         ],
                         null,
                         [
@@ -1464,7 +1464,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~… Bạn còn nhớ tôi đã nói với bạn rằng họ có thể đánh giá bất kỳ hàm nào có dấu ngoặc đơn \\1.add(1)\\ nhưng cũng có thể đánh giá các hàm có hai đầu vào với toán tử trung tố \\1 + 1\\? Chà, họ còn có thêm một thủ thuật nữa cho các hàm chỉ có một đầu vào: định dạng một ngôi."
+                            "$~… Bạn còn nhớ tôi đã nói với bạn rằng họ có thể đánh giá bất kỳ hàm nào có dấu ngoặc đơn \\1.add(1)\\ nhưng cũng có thể đánh giá các hàm có hai đầu vào với @operator trung tố \\1 + 1\\? Chà, họ còn có thêm một thủ thuật nữa cho các hàm chỉ có một đầu vào: định dạng một ngôi."
                         ],
                         null,
                         [
@@ -1629,7 +1629,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Bạn biết không? Giá trị trong cộng đồng của chúng ta khác biệt quá nhiều. @Text với thế giới văn hóa rộng lớn từ thế giới loài người… @Boolean với tầm nhìn nhị phân về thế giới… @Number với niềm đam mê vô tận với việc đếm mọi thứ… @None với cách lặng lẽ quan sát sự vắng mặt của vạn vật… Thế giới của chúng ta không bao giờ nhàm chán!"
+                            "$~Bạn biết không? @value trong cộng đồng của chúng ta khác biệt quá nhiều. @Text với thế giới văn hóa rộng lớn từ thế giới loài người… @Boolean với tầm nhìn nhị phân về thế giới… @Number với niềm đam mê vô tận với việc đếm mọi thứ… @None với cách lặng lẽ quan sát sự vắng mặt của vạn vật… Thế giới của chúng ta không bao giờ nhàm chán!"
                         ],
                         {
                             "fit": "Group(Stack() [Phrase('\"\"') Phrase('⊤⊥') Phrase('#') Phrase('ø')])"
@@ -1772,7 +1772,7 @@
                         [
                             "List",
                             "happy",
-                            "$~Tôi thích việc mình cũng thích sự ngăn nắp! Được rồi, tôi đang nói đến đâu rồi nhỉ. À đúng rồi, thứ ba, và điều này cũng rất quan trọng, KHÔNG DẤU PHẨY! Tôi biết rằng ở một số nền văn hóa, người ta thích đặt dấu phẩy giữa các mục trong danh sách, nhưng tôi không thích chúng. Chúng giống như những mẩu rác nhỏ làm cản trở sự sắp xếp thanh lịch của tôi, và mọi người luôn quên mất chúng. Nếu bạn gặp khó khăn trong việc nhìn thấy ranh giới giữa các biểu thức, chỉ cần thêm dấu xuống dòng. Có lẽ bạn có thể loại bỏ những thứ phiền phức đó? Hãy thêm dấu xuống dòng nếu bạn muốn. Bất cứ thứ gì khác ngoài dấu phẩy. Ghê quá!"
+                            "$~Tôi thích việc mình cũng thích sự ngăn nắp! Được rồi, tôi đang nói đến đâu rồi nhỉ. À đúng rồi, thứ ba, và điều này cũng rất quan trọng, KHÔNG DẤU PHẨY! Tôi biết rằng ở một số nền văn hóa, người ta thích đặt dấu phẩy giữa các mục trong danh sách, nhưng tôi không thích chúng. Chúng giống như những mẩu rác nhỏ làm cản trở sự sắp xếp thanh lịch của tôi, và mọi người luôn quên mất chúng. Nếu bạn gặp khó khăn trong việc nhìn thấy ranh giới giữa các @expression, chỉ cần thêm dấu xuống dòng. Có lẽ bạn có thể loại bỏ những thứ phiền phức đó? Hãy thêm dấu xuống dòng nếu bạn muốn. Bất cứ thứ gì khác ngoài dấu phẩy. Ghê quá!"
                         ],
                         {
                             "edit": "[ 1, 2, 3, 4, 5]",
@@ -2165,7 +2165,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Chúng là gì?",
-                            "$~Chuyển đổi. Chúng là phép thuật của thế giới này, giúp biến một @type của @value thành một cái khác. Hãy đi gặp chúng nào."
+                            "$~Chuyển đổi. Chúng là phép thuật của thế giới này, giúp @variable một @type của @value thành một cái khác. Hãy đi gặp chúng nào."
                         ]
                     ]
                 },
@@ -2341,7 +2341,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Trên hành trình của mình, chúng ta đã gặp gỡ rất nhiều loại giá trị và thảo luận về rất nhiều cách làm việc với chúng. Chỉ còn một giá trị nữa mà tôi muốn giới thiệu với các bạn. Chúng đặc biệt quan trọng vì chúng là yếu tố làm cho các màn trình diễn của chúng ta trở nên năng động. Chúng được gọi là @Conditional, và chúng là nhân vật trung tâm trong Verse, chịu trách nhiệm đưa ra *quyết định*."
+                            "$~Trên hành trình của mình, chúng ta đã gặp gỡ rất nhiều loại @value và thảo luận về rất nhiều cách làm việc với chúng. Chỉ còn một giá trị nữa mà tôi muốn giới thiệu với các bạn. Chúng đặc biệt quan trọng vì chúng là yếu tố làm cho các màn trình diễn của chúng ta trở nên năng động. Chúng được gọi là @Conditional, và chúng là nhân vật trung tâm trong Verse, chịu trách nhiệm đưa ra *quyết định*."
                         ],
                         null,
                         [
@@ -2498,7 +2498,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Mình muốn cho bạn thấy sự kết nối giữa các thế giới của chúng ta và những gì chúng có thể tạo ra. Chúng ta gọi chúng là *luồng nhập vào*, và có lẽ chúng là kiểu nhập vào kỳ diệu nhất trong Verse. Chúng giống như các hàm tạo ra một loại @value đặc biệt thay đổi khi thế giới của bạn thay đổi. Chúng cũng không thể giao tiếp theo những cách bạn quen thuộc. Chúng giống như nhịp tim từ một thế giới khác. Vậy nên mình sẽ cố hết sức giải thích cách chúng hoạt động, vì chúng không thể tự giải thích được.",
+                            "$~Mình muốn cho bạn thấy sự kết nối giữa các thế giới của chúng ta và những gì chúng có thể tạo ra. Chúng ta gọi chúng là *@stream nhập vào*, và có lẽ chúng là kiểu nhập vào kỳ diệu nhất trong Verse. Chúng giống như các hàm tạo ra một loại @value đặc biệt thay đổi khi thế giới của bạn thay đổi. Chúng cũng không thể giao tiếp theo những cách bạn quen thuộc. Chúng giống như nhịp tim từ một thế giới khác. Vậy nên mình sẽ cố hết sức giải thích cách chúng hoạt động, vì chúng không thể tự giải thích được.",
                             "$~Bạn đã sẵn sàng gặp gỡ một người chưa?"
                         ]
                     ]
@@ -2512,7 +2512,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Hãy bắt đầu với luồng cơ bản nhất trong tất cả: @Time. Để tạo một luồng, chúng ta dùng @Evaluate và cho tên của @type luồng mà bạn muốn."
+                            "$~Hãy bắt đầu với @stream cơ bản nhất trong tất cả: @Time. Để tạo một luồng, chúng ta dùng @Evaluate và cho tên của @type luồng mà bạn muốn."
                         ],
                         ["Time", "neutral", "$~Tích tích tích tích tích tích…"],
                         { "edit": "Time()" },
@@ -2527,7 +2527,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Bạn thấy \\1000ms\\ đó không? Đó là một tham số @Time.frequency cho @Time biết rằng nó sẽ đếm mỗi 1000 mili giây thay vì mặc định là mỗi 33 mili giây. Giờ nó giống như một bộ đếm đếm mỗi giây. Các tham số đầu vào mà @Time nhận được giống như một cấu hình: chúng cho luồng biết cách hoạt động."
+                            "$~Bạn thấy \\1000ms\\ đó không? Đó là một @parameter @Time.frequency cho @Time biết rằng nó sẽ đếm mỗi 1000 mili giây thay vì mặc định là mỗi 33 mili giây. Giờ nó giống như một bộ đếm đếm mỗi giây. Các tham số đầu vào mà @Time nhận được giống như một cấu hình: chúng cho luồng biết cách hoạt động."
                         ],
                         [
                             "Time",
@@ -2539,7 +2539,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Nhưng chúng ta có thể dùng tất cả các nhân vật tuyệt vời mà chúng ta đã gặp để biến đổi thời gian thêm nữa. Ví dụ, sẽ thế nào nếu chúng ta muốn biết thời gian có phải là bội số của \\2\\ không? Chúng ta có thể dùng @Number.remainder, cái lấy số dư của một phép chia. Nếu số dư bằng không, chúng ta sẽ đánh giá thành \\⊤\\ và \\⊥\\ nếu không. Nhấn phát ▶️ và xem nó thay đổi qua lại giữa \\⊤\\ và \\⊥\\ như thế nào nhé? Thật kỳ diệu."
+                            "$~Nhưng chúng ta có thể dùng tất cả các nhân vật tuyệt vời mà chúng ta đã gặp để @variable đổi thời gian thêm nữa. Ví dụ, sẽ thế nào nếu chúng ta muốn biết thời gian có phải là bội số của \\2\\ không? Chúng ta có thể dùng @Number.remainder, cái lấy số dư của một phép chia. Nếu số dư bằng không, chúng ta sẽ đánh giá thành \\⊤\\ và \\⊥\\ nếu không. Nhấn phát ▶️ và xem nó thay đổi qua lại giữa \\⊤\\ và \\⊥\\ như thế nào nhé? Thật kỳ diệu."
                         ],
                         [
                             "Time",
@@ -2562,7 +2562,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Dòng thời gian @UI/timeline cho phép bạn quay ngược lại xem các lần tính toán đó, để bạn có thể quan sát @Evaluate xử lý từng biểu thức mà bạn đã học, từng bước một, cho đến khi nó đạt tới giá trị mà @Program hiện trên @stage. Hãy ở lại chế độ ⏸️ gỡ lỗi — đó là nơi dòng thời gian tồn tại — và một trong chúng tôi sẽ chỉ cho bạn biết mọi nút điều khiển của nó ở đâu. Sau đó hãy đi khám phá; khi xong, nút chuyển chế độ @UI/modeSwitcher sẽ đưa bạn trở lại chế độ ▶️ chạy hoặc ✏️ chỉnh sửa. @Tour/stage"
+                            "$~Dòng thời gian @UI/timeline cho phép bạn quay ngược lại xem các lần tính toán đó, để bạn có thể quan sát @Evaluate xử lý từng @expression mà bạn đã học, từng bước một, cho đến khi nó đạt tới @value mà @Program hiện trên @stage. Hãy ở lại chế độ ⏸️ gỡ lỗi — đó là nơi dòng thời gian tồn tại — và một trong chúng tôi sẽ chỉ cho bạn biết mọi nút điều khiển của nó ở đâu. Sau đó hãy đi khám phá; khi xong, nút chuyển chế độ @UI/modeSwitcher sẽ đưa bạn trở lại chế độ ▶️ chạy hoặc ✏️ chỉnh sửa. @Tour/stage"
                         ],
                         [
                             "Time",
@@ -2590,13 +2590,13 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Nếu mình không nhầm, ở thế giới của bạn có một thứ gọi là “bàn phím” phải không? Đó là cách chọn ai trong số chúng ta mà bạn muốn xuất hiện trong tài liệu của bạn, đúng không? À, trong Verse, chúng ta nhận những yêu cầu này dưới dạng một luồng văn bản, mỗi value văn bản đại diện cho @key đã được nhấn. Chúng ta dùng chúng để lắng nghe những gì người ở thế giới của bạn đang gõ. Luồng này được gọi là @Key."
+                            "$~Nếu mình không nhầm, ở thế giới của bạn có một thứ gọi là “bàn phím” phải không? Đó là cách chọn ai trong số chúng ta mà bạn muốn xuất hiện trong @documentation của bạn, đúng không? À, trong Verse, chúng ta nhận những yêu cầu này dưới dạng một @stream văn bản, mỗi value văn bản đại diện cho @key đã được nhấn. Chúng ta dùng chúng để lắng nghe những gì người ở thế giới của bạn đang gõ. Luồng này được gọi là @Key."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Đây là một ví dụ đơn giản. Nhấp chuột vào vùng làm việc hoặc chọn vùng làm việc bằng bàn phím, sau đó nhấn bất kỳ phím nào. Bạn sẽ thấy phím bạn vừa gõ xuất hiện theo tên. Điều này là do mỗi khi luồng phím thay đổi, @Program sẽ đánh giá luồng phím ở giá trị mới nhất và hiển thị nó trên vùng làm việc."
+                            "$~Đây là một ví dụ đơn giản. Nhấp chuột vào vùng làm việc hoặc chọn vùng làm việc bằng bàn phím, sau đó nhấn bất kỳ phím nào. Bạn sẽ thấy phím bạn vừa gõ xuất hiện theo tên. Điều này là do mỗi khi luồng phím thay đổi, @Program sẽ đánh giá luồng phím ở @value mới nhất và hiển thị nó trên vùng làm việc."
                         ],
                         ["Key", "neutral", "$~lách cách lách cách lách cách"],
                         { "edit": "Key()" },
@@ -2638,7 +2638,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Trong thế giới của các bạn cũng có những thứ gọi là 'chuột', 'bàn di chuột' và 'màn hình cảm ứng' phải không? Chúng xuất hiện trong thế giới của chúng ta dưới dạng các luồng @Pointer, là một luồng các vị trí trên sân khấu."
+                            "$~Trong thế giới của các bạn cũng có những thứ gọi là 'chuột', 'bàn di chuột' và 'màn hình cảm ứng' phải không? Chúng xuất hiện trong thế giới của chúng ta dưới dạng các @stream @Pointer, là một luồng các vị trí trên sân khấu."
                         ],
                         null,
                         [
@@ -2691,7 +2691,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Dùng một luồng @Button là một cách để tiến qua các giai đoạn của buổi biểu diễn hoặc để kích hoạt một thay đổi nào đó trong buổi biểu diễn. Chương trình nhỏ này lắng nghe các lần nhấn nút và bắt đầu bằng việc hiển thị \\'buồn'\\, nhưng khi luồng @Button thay đổi thành đúng, @Conditional đánh giá thành \\'vui vẻ'\\ thay vào đó."
+                            "$~Dùng một @stream @Button là một cách để tiến qua các giai đoạn của buổi biểu diễn hoặc để kích hoạt một thay đổi nào đó trong buổi biểu diễn. Chương trình nhỏ này lắng nghe các lần nhấn nút và bắt đầu bằng việc hiển thị \\'buồn'\\, nhưng khi luồng @Button thay đổi thành đúng, @Conditional đánh giá thành \\'vui vẻ'\\ thay vào đó."
                         ],
                         { "edit": "Phrase(Button(ø) ? 'happy' 'sad')" }
                     ]
@@ -2713,7 +2713,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~@Volume có thể được dùng để làm cho các buổi biểu diễn phản ứng với âm thanh từ khán giả. Ví dụ, ở đây chúng ta có thể tạo một hình ảnh nhỏ về biên độ bằng cách chuyển đổi số biên độ từ luồng thành một số lượng ký tự \\'o'\\ nhất định. Bạn có thấy khi bạn tạo tiếng ồn thì có nhiều \\'o'\\ hơn không? Biên độ @Volume được chia cho \\10\\, đưa nó vào \\0\\ đến \\10\\ khoảng. Sau đó, @value đó được đưa vào hàm @Text.repeat, hàm này lặp lại \\'o'\\ số lần đã cho."
+                            "$~@Volume có thể được dùng để làm cho các buổi biểu diễn phản ứng với âm thanh từ khán giả. Ví dụ, ở đây chúng ta có thể tạo một hình ảnh nhỏ về biên độ bằng cách chuyển đổi số biên độ từ @stream thành một số lượng ký tự \\'o'\\ nhất định. Bạn có thấy khi bạn tạo tiếng ồn thì có nhiều \\'o'\\ hơn không? Biên độ @Volume được chia cho \\10\\, đưa nó vào \\0\\ đến \\10\\ khoảng. Sau đó, @value đó được đưa vào hàm @Text.repeat, hàm này lặp lại \\'o'\\ số lần đã cho."
                         ],
                         ["Volume", "neutral", "$~bzzzZZZZZzzzzzzZZZZ…"],
                         { "edit": "'o'.repeat(Volume() × 10)" }
@@ -2742,7 +2742,7 @@
                         [
                             "FunctionDefinition",
                             "surprised",
-                            "$~Chúng ta có thể cho @Random biết phạm vi số mà chúng ta muốn bằng cách cung cấp số tối thiểu và số tối đa. Ví dụ này cung cấp các số nằm giữa \\1\\ và \\10\\:"
+                            "$~Chúng ta có thể cho @Random biết @scope số mà chúng ta muốn bằng cách cung cấp số tối thiểu và số tối đa. Ví dụ này cung cấp các số nằm giữa \\1\\ và \\10\\:"
                         ],
                         ["Random", "neutral", "$~1… 7… 3… 9… 10… 2…"],
                         { "edit": "Random(1 10)" },
@@ -2750,7 +2750,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Ngẫu nhiên thật thú vị! Chúng ta có thể sử dụng nó với các luồng dữ liệu để tạo ra sự hỗn loạn vui nhộn. Ví dụ, ở đây chúng ta chọn một từ ngẫu nhiên từ một danh sách các từ. Điều này tương đương với \\['kitty' 'cat' 'feline'].random()\\. Cứ nhấn phím ↻ để nhận được một từ đồng nghĩa khác của từ \"mèo\"! Hãy thử thêm từ của riêng bạn vào danh sách và xem bạn có thể làm cho từ đó xuất hiện không."
+                            "$~Ngẫu nhiên thật thú vị! Chúng ta có thể sử dụng nó với các @stream dữ liệu để tạo ra sự hỗn loạn vui nhộn. Ví dụ, ở đây chúng ta chọn một từ ngẫu nhiên từ một danh sách các từ. Điều này tương đương với \\['kitty' 'cat' 'feline'].random()\\. Cứ nhấn phím ↻ để nhận được một từ đồng nghĩa khác của từ \"mèo\"! Hãy thử thêm từ của riêng bạn vào danh sách và xem bạn có thể làm cho từ đó xuất hiện không."
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         { "edit": "['kitty' 'cat' 'feline'][Random(1 3)]" }
@@ -2810,7 +2810,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Cho đến nay, tất cả các *luồng* mà chúng ta đã thảo luận đều là các chuỗi giá trị đơn giản, chẳng hạn như @Text hoặc @Number. Tuy nhiên, một số luồng có thể tạo ra các giá trị phức tạp.",
+                            "$~Cho đến nay, tất cả các *@stream* mà chúng ta đã thảo luận đều là các chuỗi @value đơn giản, chẳng hạn như @Text hoặc @Number. Tuy nhiên, một số luồng có thể tạo ra các giá trị phức tạp.",
                             "$~@Motion là một trong những cái thú vị nhất. Nó tạo ra một luồng dữ liệu từ @Place."
                         ],
                         null,
@@ -2848,7 +2848,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~À, đúng rồi! Đó là vì chúng ta quên gán thuộc tính @Matter cho quả bóng. Matter là một cách để cho chúng ta biết trọng lượng của @Output, độ nảy của nó và lực ma sát mà nó cần có.",
+                            "$~À, đúng rồi! Đó là vì chúng ta quên gán @property @Matter cho quả bóng. Matter là một cách để cho chúng ta biết trọng lượng của @Output, độ nảy của nó và lực ma sát mà nó cần có.",
                             "$~Hãy làm cho quả bóng thật đàn hồi và nhẹ. Tuyệt vời, giờ nó đã đàn hồi rồi!"
                         ],
                         null,
@@ -2911,7 +2911,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Thậm chí, người ta còn có thể biết khi nào một @Output va chạm với một output khác bằng một luồng liên quan có tên là @Collision.",
-                            "$~Chúng ta chỉ cần đặt tên cho hai biến @Output của mình. Hay là 'ball' và 'ground'?",
+                            "$~Chúng ta chỉ cần đặt tên cho hai @variable @Output của mình. Hay là 'ball' và 'ground'?",
                             "$~Sau đó, @Collision sẽ trả về @Rebound khi chúng chạm vào nhau và @None khi chúng không chạm vào nhau.",
                             "$~Hãy làm cho quả bóng to lên mỗi khi chạm đất để nhấn mạnh!"
                         ],
@@ -2938,7 +2938,7 @@
                             "FunctionDefinition",
                             "kind",
                             "$~Đôi khi, một buổi biểu diễn là một sự tương tác. Khán giả nói điều gì đó, và chúng ta đáp lại.",
-                            "$~Đó chính là mục đích của @Chat. Khi bạn sử dụng nó, một ô nhỏ sẽ hiện lên trên màn hình để khán giả nhập tin nhắn, và khi họ gửi tin nhắn, @Text sẽ được thêm vào luồng tin nhắn để chương trình phản hồi."
+                            "$~Đó chính là mục đích của @Chat. Khi bạn sử dụng nó, một ô nhỏ sẽ hiện lên trên màn hình để khán giả nhập tin nhắn, và khi họ gửi tin nhắn, @Text sẽ được thêm vào @stream tin nhắn để chương trình phản hồi."
                         ],
                         null,
                         { "edit": "Chat()" },
@@ -2998,7 +2998,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Khi đã có danh sách từ, bạn có thể làm bất cứ điều gì với chúng! Ví dụ như chọn năm từ đầu tiên và biến chúng thành những cụm từ xoay vòng chẳng hạn."
+                            "$~Khi đã có danh sách từ, bạn có thể làm bất cứ điều gì với chúng! Ví dụ như chọn năm từ đầu tiên và @variable chúng thành những cụm từ xoay vòng chẳng hạn."
                         ]
                     ]
                 },
@@ -3012,7 +3012,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Tất cả những luồng thông tin mà tôi đã cho bạn xem đều đến từ thế giới của bạn. Nhưng đôi khi, việc tạo ra những luồng thông tin của riêng bạn dựa trên những luồng thông tin khác cũng rất hữu ích. Đó là lúc người bạn của tôi, @Reaction, xuất hiện! @Reaction, bạn có ở đây không?"
+                            "$~Tất cả những @stream thông tin mà tôi đã cho bạn xem đều đến từ thế giới của bạn. Nhưng đôi khi, việc tạo ra những luồng thông tin của riêng bạn dựa trên những luồng thông tin khác cũng rất hữu ích. Đó là lúc người bạn của tôi, @Reaction, xuất hiện! @Reaction, bạn có ở đây không?"
                         ],
                         [
                             "Reaction",
@@ -3029,7 +3029,7 @@
                         [
                             "Reaction",
                             "sad",
-                            "$~Lạ thật, lạ thật. Cả đời tôi luôn hướng đến sự thay đổi, luôn lắng nghe và quan sát những ý kiến mới từ mọi người, giúp biến chúng thành những giá trị. Nhưng cho đến tận lúc nãy chẳng có gì cả… Khoan đã… đó có phải là một người không?"
+                            "$~Lạ thật, lạ thật. Cả đời tôi luôn hướng đến sự thay đổi, luôn lắng nghe và quan sát những ý kiến mới từ mọi người, giúp @variable chúng thành những giá trị. Nhưng cho đến tận lúc nãy chẳng có gì cả… Khoan đã… đó có phải là một người không?"
                         ],
                         null,
                         { "fit": "Phrase('…' resting:Pose(rotation: 360°))" },
@@ -3176,7 +3176,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Tôi hiểu rồi. Văn bản, số liệu, danh sách và luồng dữ liệu thì nhàm chán quá. Có lẽ tôi vẫn chưa cho các bạn thấy hết những thứ chúng ta có thể tạo ra với tất cả những thứ này. Có lẽ đã đến lúc chúng ta bắt đầu nói về đầu ra rồi."
+                            "$~Tôi hiểu rồi. Văn bản, số liệu, danh sách và @stream dữ liệu thì nhàm chán quá. Có lẽ tôi vẫn chưa cho các bạn thấy hết những thứ chúng ta có thể tạo ra với tất cả những thứ này. Có lẽ đã đến lúc chúng ta bắt đầu nói về đầu ra rồi."
                         ],
                         null,
                         { "fit": "#Symbol 🤗" },
@@ -3190,7 +3190,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~Bạn còn nhớ kết quả mà tôi đã cho bạn xem cách đây khá lâu không, @Phrase? Đó là nơi mà các màn trình diễn thực sự bắt đầu. Chúng ta hãy bắt đầu từ đó! Và sau đó tôi sẽ chỉ cho bạn những cách để xây dựng các màn trình diễn ngày càng thú vị hơn từ khối xây dựng cơ bản đó. Mời bạn làm quen!"
+                            "$~Bạn còn nhớ kết quả mà tôi đã cho bạn xem cách đây khá lâu không, @Phrase? Đó là nơi mà các màn trình diễn thực sự bắt đầu. Chúng ta hãy bắt đầu từ đó! Và sau đó tôi sẽ chỉ cho bạn những cách để xây dựng các màn trình diễn ngày càng thú vị hơn từ @blocks xây dựng cơ bản đó. Mời bạn làm quen!"
                         ]
                     ]
                 },
@@ -3225,7 +3225,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Mọi thứ im lặng quá. Kể từ khi giám đốc cũ rời đi, mọi thứ trở nên trống rỗng. Nhưng điều đó đang thay đổi! Chúng ta có người mới rồi! Chúng ta đã gặp gỡ toàn bộ gia đình: @Program, @ExpressionPlaceholder, @Evaluate, tất cả các giá trị, tất cả các bộ sưu tập. Chúng ta cũng vừa dành thời gian với tất cả các luồng, và cả @Reaction và @Conditional nữa. Tôi bắt đầu cảm nhận được mọi thứ, rung động. Nhưng tôi chưa giới thiệu giám đốc mới của chúng ta nhiều về những gì anh ấy làm trên sân khấu nhỉ? Đây là thế giới của anh ấy chứ không phải của tôi; tôi nghĩ chúng ta nên đến gặp anh ấy trước."
+                            "$~Mọi thứ im lặng quá. Kể từ khi giám đốc cũ rời đi, mọi thứ trở nên trống rỗng. Nhưng điều đó đang thay đổi! Chúng ta có người mới rồi! Chúng ta đã gặp gỡ toàn bộ gia đình: @Program, @ExpressionPlaceholder, @Evaluate, tất cả các @value, tất cả các bộ sưu tập. Chúng ta cũng vừa dành thời gian với tất cả các @stream, và cả @Reaction và @Conditional nữa. Tôi bắt đầu cảm nhận được mọi thứ, rung động. Nhưng tôi chưa giới thiệu giám đốc mới của chúng ta nhiều về những gì anh ấy làm trên sân khấu nhỉ? Đây là thế giới của anh ấy chứ không phải của tôi; tôi nghĩ chúng ta nên đến gặp anh ấy trước."
                         ],
                         null,
                         [
@@ -3355,7 +3355,7 @@
                         [
                             "Phrase",
                             "neutral",
-                            "$~Giờ thì chúng ta đã giải quyết xong những chuyện đó rồi, chúng ta có thể nói về khiêu vũ nhé, cưng! Khiêu vũ là một trong những điều tôi thích nhất. Tôi có *bốn* cách di chuyển. Đầu tiên, tôi có thể dùng @Phrase.entering. Enter là cách tôi bước lên sân khấu. Nếu bạn không cho tôi biết cách vào, tôi sẽ chỉ BLIP xuất hiện trên sân khấu như thể tôi dịch chuyển tức thời đến đó. Nhưng nếu bạn cho tôi @Pose, tôi sẽ bắt đầu với tư thế bạn đưa cho, sau đó chuyển sang tư thế nghỉ ngơi của mình. Ví dụ, hãy làm cho tôi từ trạng thái vô hình hiện ra rõ ràng trước mặt bạn nhé."
+                            "$~Giờ thì chúng ta đã giải quyết xong những chuyện đó rồi, chúng ta có thể nói về khiêu vũ nhé, cưng! Khiêu vũ là một trong những điều tôi thích nhất. Tôi có *bốn* cách di chuyển. Đầu tiên, tôi có thể dùng @Phrase.entering. Enter là cách tôi bước lên sân khấu. Nếu bạn không cho tôi biết cách vào, tôi sẽ chỉ BLIP xuất hiện trên sân khấu như thể tôi dịch chuyển tức thời đến đó. Nhưng nếu bạn cho tôi @Pose, tôi sẽ bắt đầu với tư thế bạn đưa cho, sau đó chuyển sang tư thế nghỉ ngơi của mình. Ví dụ, hãy làm cho tôi từ @state vô hình hiện ra rõ ràng trước mặt bạn nhé."
                         ],
                         { "edit": "Phrase('hi' entering: Pose(opacity: 0))" },
                         null,
@@ -3402,7 +3402,7 @@
                         [
                             "Phrase",
                             "surprised",
-                            "$~Không phải lối thoát mà bạn mong muốn sao? Màn biến mất đột ngột có vẻ hơi đột ngột nhỉ? Hãy cho tôi một @Phrase.exiting @Pose, và tôi sẽ lướt đi trên sân khấu theo bất kỳ tư thế nào bạn muốn. Nào, chúng ta sẽ để tôi trở nên to lớn hơn bình thường, rơi lộn ngược và mờ dần về @Pose.opacity \\0\\."
+                            "$~Không phải lối thoát mà bạn mong muốn sao? Màn @variable mất đột ngột có vẻ hơi đột ngột nhỉ? Hãy cho tôi một @Phrase.exiting @Pose, và tôi sẽ lướt đi trên sân khấu theo bất kỳ tư thế nào bạn muốn. Nào, chúng ta sẽ để tôi trở nên to lớn hơn bình thường, rơi lộn ngược và mờ dần về @Pose.opacity \\0\\."
                         ],
                         {
                             "fit": "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
@@ -3449,7 +3449,7 @@
                             "Phrase",
                             "sad",
                             "$~Ôi trời ôi trời ôi trời, tôi KHÔNG thể tin là mình đã quên mất màu sắc. Được rồi, vậy bất kỳ @Pose nào cũng có thể có màu, đúng không? Nhưng @Color có ba phần. Đầu tiên, một @Color.lightness từ 0 đến 100%, bạn có thể coi nó như độ sáng của một căn phòng, từ đen đến trắng với màu sắc ở giữa tại 50%.",
-                            "$~Tiếp theo là tham số @Color.chroma nằm giữa 0 và ∞, bạn có thể hiểu nó như là chỉ số thể hiện độ đậm nhạt của màu sắc, từ màu xám không màu đến màu sắc rực rỡ.",
+                            "$~Tiếp theo là @parameter @Color.chroma nằm giữa 0 và ∞, bạn có thể hiểu nó như là chỉ số thể hiện độ đậm nhạt của màu sắc, từ màu xám không màu đến màu sắc rực rỡ.",
                             "$~Và cuối cùng, một @Color.hue, mà bạn có thể hình dung như một vòng tròn màu sắc, từ đỏ đến xanh lá cây đến xanh dương theo độ. Vậy bạn muốn tôi có màu đỏ tươi? Hãy đặt màu tư thế nghỉ của tôi thành \\Color(50% 300 30°)\\."
                         ],
                         { "edit": "Phrase('red' color: 🌈(50% 300 30°))" },
@@ -3871,7 +3871,7 @@
                         [
                             "Group",
                             "surprised",
-                            "$~Ừm, trông nó giống như một lưới 4x2 nhỉ? Hãy làm cho nó rõ ràng hơn một chút bằng cách nghiêng hai chồng giấy. À, đúng rồi, bạn có thể cho tôi tất cả các thuộc tính giống như @Phrase!"
+                            "$~Ừm, trông nó giống như một lưới 4x2 nhỉ? Hãy làm cho nó rõ ràng hơn một chút bằng cách nghiêng hai chồng giấy. À, đúng rồi, bạn có thể cho tôi tất cả các @property giống như @Phrase!"
                         ],
                         {
                             "edit": [
@@ -4002,7 +4002,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Bạn cũng có thể áp dụng tất cả các thuộc tính tương tự cho @Stage như đối với @Group hoặc @Phrase. Hãy cùng nghiêng cả sân khấu nào!"
+                            "$~Bạn cũng có thể áp dụng tất cả các @property tương tự cho @Stage như đối với @Group hoặc @Phrase. Hãy cùng nghiêng cả sân khấu nào!"
                         ],
                         ["Stage", "surprised", "$~KHOAN ĐÃ, CẨN THẬN NHÉ…"],
                         {
@@ -4044,7 +4044,7 @@
                         [
                             "Music",
                             "serious",
-                            "$~Tôi biến những con số thành âm thanh."
+                            "$~Tôi @variable những con số thành âm thanh."
                         ],
                         [
                             "FunctionDefinition",
@@ -4181,7 +4181,7 @@
                         [
                             "Music",
                             "kind",
-                            "$~Hãy nhấn phát lại lần nữa. @Music.scale và @Music.key di chuyển cả bản nhạc cùng một lúc. \\pan\\ đặt mỗi giọng vào một nơi nào đó trong phòng. Chuông đọc giá trị nốt nhạc — \\𝅘𝅥𝅮\\ là một phần tám — và một @Note mang âm lượng riêng của nó. Giọng cuối cùng có \\words\\, nên nó hát chúng, một lần, bởi vì \\loop\\ của nó là \\⊥\\."
+                            "$~Hãy nhấn phát lại lần nữa. @Music.scale và @Music.key di chuyển cả bản nhạc cùng một lúc. \\pan\\ đặt mỗi giọng vào một nơi nào đó trong phòng. Chuông đọc @value nốt nhạc — \\𝅘𝅥𝅮\\ là một phần tám — và một @Note mang âm lượng riêng của nó. Giọng cuối cùng có \\words\\, nên nó hát chúng, một lần, bởi vì \\loop\\ của nó là \\⊥\\."
                         ],
                         [
                             "Music",
@@ -4256,7 +4256,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Và bây giờ, bạn có thể đang nghĩ, vậy còn các hiệu ứng chuyển tiếp giữa chúng thì sao? Chúng ta có thể kiểm soát điều đó bằng @Phrase.entering và @Phrase.exiting, thiết lập @Pose để bắt đầu và kết thúc. Ví dụ, ở đây, chúng ta bắt đầu và kết thúc mỗi @Phrase ở trạng thái vô hình, vì vậy nó sẽ mờ dần vào và ra."
+                            "$~Và bây giờ, bạn có thể đang nghĩ, vậy còn các hiệu ứng chuyển tiếp giữa chúng thì sao? Chúng ta có thể kiểm soát điều đó bằng @Phrase.entering và @Phrase.exiting, thiết lập @Pose để bắt đầu và kết thúc. Ví dụ, ở đây, chúng ta bắt đầu và kết thúc mỗi @Phrase ở @state vô hình, vì vậy nó sẽ mờ dần vào và ra."
                         ],
                         {
                             "edit": [
@@ -4346,7 +4346,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Vậy là bạn đã biết đến @Key, @Pointer và @Button, những luồng tương tác mà chúng ta vừa nói đến? Chúng rất thú vị, nhưng lại có một vấn đề: không phải ai trong khán giả cũng có thể sử dụng chúng. Một số người không có tay, hoặc không thể sử dụng tay, hoặc không thể sử dụng tay một cách chính xác để nhấn phím hoặc dùng chuột. Chúng ta biết rằng nhiều người sử dụng giọng nói để giao tiếp với thế giới xung quanh, hoặc thậm chí là bằng mắt. Vì vậy, việc sử dụng @Key, @Pointer hoặc @Button có nghĩa là một số người trong khán giả của bạn sẽ không thể tham gia."
+                            "$~Vậy là bạn đã biết đến @Key, @Pointer và @Button, những @stream tương tác mà chúng ta vừa nói đến? Chúng rất thú vị, nhưng lại có một vấn đề: không phải ai trong khán giả cũng có thể sử dụng chúng. Một số người không có tay, hoặc không thể sử dụng tay, hoặc không thể sử dụng tay một cách chính xác để nhấn phím hoặc dùng chuột. Chúng ta biết rằng nhiều người sử dụng giọng nói để giao tiếp với thế giới xung quanh, hoặc thậm chí là bằng mắt. Vì vậy, việc sử dụng @Key, @Pointer hoặc @Button có nghĩa là một số người trong khán giả của bạn sẽ không thể tham gia."
                         ],
                         null,
                         [
@@ -4718,7 +4718,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Và còn một điều nữa mà @Block có thể làm là điều bạn đã thấy rồi. @Block cho phép bạn đặt tên cho các thứ bằng @Bind. Nhưng bất kỳ tên nào được định nghĩa trong @Block chỉ được định nghĩa bên trong dấu ngoặc đơn. Không phải trước và không phải sau. Ví dụ, hãy xem đây. \\a\\ được định nghĩa là \\1\\, rồi một khối bắt đầu và \\b\\ được định nghĩa là \\2\\, rồi \\c\\ được định nghĩa là tổng của chúng, rồi tôi viết \\c\\ một mình. Các câu lệnh @Bind là side effect — chúng giới thiệu các tên nhưng không có @value riêng của chúng. Vậy nên value của tôi là bất cứ thứ gì mà các expression không phải @Bind tạo ra. Ở đây thì chỉ là \\c\\, tức là \\3\\. Đúng không?"
+                            "$~Và còn một điều nữa mà @Block có thể làm là điều bạn đã thấy rồi. @Block cho phép bạn đặt tên cho các thứ bằng @Bind. Nhưng bất kỳ tên nào được định nghĩa trong @Block chỉ được định nghĩa bên trong dấu ngoặc đơn. Không phải trước và không phải sau. Ví dụ, hãy xem đây. \\a\\ được định nghĩa là \\1\\, rồi một @blocks bắt đầu và \\b\\ được định nghĩa là \\2\\, rồi \\c\\ được định nghĩa là tổng của chúng, rồi tôi viết \\c\\ một mình. Các câu lệnh @Bind là side effect — chúng giới thiệu các tên nhưng không có @value riêng của chúng. Vậy nên value của tôi là bất cứ thứ gì mà các expression không phải @Bind tạo ra. Ở đây thì chỉ là \\c\\, tức là \\3\\. Đúng không?"
                         ],
                         {
                             "edit": [
@@ -4856,7 +4856,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Đây là một ví dụ siêu đơn giản. Đơn giản nhất luôn đó! Cái này định nghĩa một hàm mà lúc nào cũng cho ra số \\1\\. Vậy thôi. Không hữu ích lắm phải không? Nó không có tên, không nhận đối số nào, và lúc nào cũng cho ra \\1\\.",
+                            "$~Đây là một ví dụ siêu đơn giản. Đơn giản nhất luôn đó! Cái này định nghĩa một hàm mà lúc nào cũng cho ra số \\1\\. Vậy thôi. Không hữu ích lắm phải không? Nó không có tên, không nhận @argument nào, và lúc nào cũng cho ra \\1\\.",
                             "$~Bạn cũng có thể thấy rằng @Program được đánh giá thành một trong số tôi, một @FunctionDefinition. Đúng vậy, @FunctionDefinition cũng là các giá trị! Tôi không hiểu tại sao ai đó lại tạo ra một hàm vô dụng như vậy, nhưng như tôi đã nói: tôi không phải là người có ý tưởng; chính bạn mới là người đó."
                         ],
                         { "edit": "ƒ() 1" },
@@ -5038,7 +5038,7 @@
                         [
                             "StructureDefinition",
                             "eager",
-                            "$~Được rồi. Vậy thì, điều tôi làm là kết hợp các giá trị và chức năng lại với nhau, tạo ra một khung chứa nhỏ gọn gàng cho một loạt các thứ có liên quan. Ví dụ, hãy tưởng tượng bạn muốn tạo một bảng chạy chữ nhỏ hiển thị lặp đi lặp lại một loạt các thông báo. Một đạo diễn trước đó đã tạo ra một cái tương tự và muốn hiển thị những thông báo này."
+                            "$~Được rồi. Vậy thì, điều tôi làm là kết hợp các @value và chức năng lại với nhau, tạo ra một khung chứa nhỏ gọn gàng cho một loạt các thứ có liên quan. Ví dụ, hãy tưởng tượng bạn muốn tạo một bảng chạy chữ nhỏ hiển thị lặp đi lặp lại một loạt các thông báo. Một đạo diễn trước đó đã tạo ra một cái tương tự và muốn hiển thị những thông báo này."
                         ],
                         {
                             "edit": [
@@ -5074,7 +5074,7 @@
                         [
                             "StructureDefinition",
                             "excited",
-                            "$~Sau đó, họ nhớ đến @Reaction, có thể dùng để phản hồi các thay đổi của luồng. Họ muốn thông điệp thay đổi mỗi hai giây, nên họ tạo luồng @Time chạy mỗi 2 giây và dùng @Reaction để tăng @index tiếp theo mỗi lần. @Reaction này nói hãy bắt đầu tại \\1\\, và khi thời gian thay đổi mỗi \\2000ms\\, tính ra giá trị trước đó của \\index + 1\\. Bằng cách này, \\index\\ tăng thêm \\1\\ mỗi hai giây, làm thay đổi thông điệp được hiển thị. Tuyệt, nó chạy được!"
+                            "$~Sau đó, họ nhớ đến @Reaction, có thể dùng để phản hồi các thay đổi của @stream. Họ muốn thông điệp thay đổi mỗi hai giây, nên họ tạo luồng @Time chạy mỗi 2 giây và dùng @Reaction để tăng @index tiếp theo mỗi lần. @Reaction này nói hãy bắt đầu tại \\1\\, và khi thời gian thay đổi mỗi \\2000ms\\, tính ra giá trị trước đó của \\index + 1\\. Bằng cách này, \\index\\ tăng thêm \\1\\ mỗi hai giây, làm thay đổi thông điệp được hiển thị. Tuyệt, nó chạy được!"
                         ],
                         {
                             "edit": [
@@ -5320,7 +5320,7 @@
                         [
                             "Doc",
                             "serious",
-                            "$~À, bạn có thể đặt tôi ở gần như bất cứ đâu bên trong @Program. Ví dụ, giả sử bạn tạo một @Bind và bạn muốn nói rõ giá trị đó dùng để làm gì. Ví dụ, ở đây chúng ta có một giá trị đơn giản đã được đặt tên, nhưng điều tôi đang làm là đưa ra một lời giải thích rộng hơn về vai trò của nó."
+                            "$~À, bạn có thể đặt tôi ở gần như bất cứ đâu bên trong @Program. Ví dụ, giả sử bạn tạo một @Bind và bạn muốn nói rõ @value đó dùng để làm gì. Ví dụ, ở đây chúng ta có một giá trị đơn giản đã được đặt tên, nhưng điều tôi đang làm là đưa ra một lời giải thích rộng hơn về vai trò của nó."
                         ],
                         {
                             "edit": [
@@ -5623,7 +5623,7 @@
                         [
                             "Number",
                             "serious",
-                            "$~1) Về cơ bản, bạn điều hành mọi hoạt động của chúng tôi, 2) @FunctionDefinition sẽ vô dụng nếu không có bạn, 3) bạn thực sự biến đổi mọi thứ thành những giá trị hoàn toàn mới, 4) bạn xuất hiện dưới nhiều hình thức khác nhau, 5) bạn mang lại mục đích sống cho tất cả chúng ta, 6) tất cả chúng ta đều trông cậy vào sự hướng dẫn của bạn…"
+                            "$~1) Về cơ bản, bạn điều hành mọi hoạt động của chúng tôi, 2) @FunctionDefinition sẽ vô dụng nếu không có bạn, 3) bạn thực sự @variable đổi mọi thứ thành những @value hoàn toàn mới, 4) bạn xuất hiện dưới nhiều hình thức khác nhau, 5) bạn mang lại mục đích sống cho tất cả chúng ta, 6) tất cả chúng ta đều trông cậy vào sự hướng dẫn của bạn…"
                         ],
                         null,
                         { "fit": "Stage([] background: Color(20% 0 0°))" },
@@ -5814,7 +5814,7 @@
                         [
                             "Reaction",
                             "kind",
-                            "$~Tôi có thể thay đổi nó! Chúng ta cần một luồng @Time, nhưng chúng ta cũng cần thay đổi các ký tự. Nhưng giá trị tiếp theo nên là gì?"
+                            "$~Tôi có thể thay đổi nó! Chúng ta cần một @stream @Time, nhưng chúng ta cũng cần thay đổi các ký tự. Nhưng giá trị tiếp theo nên là gì?"
                         ],
                         { "edit": "#EvaluateDance9" },
                         null,

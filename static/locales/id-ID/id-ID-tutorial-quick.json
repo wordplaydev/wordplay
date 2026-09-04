@@ -18,7 +18,7 @@
                             "FunctionDefinition",
                             "cheerful",
                             "$~Selamat datang di @wordplay! Saya dengar kamu sudah tahu sedikit tentang pemrograman? Bagus! Tur singkat ini menunjukkan apa yang mirip dan apa yang berbeda di Wordplay.",
-                            "$~Agar kamu tahu semua yang ada di layar ini, halaman ini menunjukkan dialog @tutorial dan tampilan @project. Kamu bisa melihat *panggung* @UI/stage, yang menampilkan keluaran program, dan *editor* @UI/editor, yang berisi code program.",
+                            "$~Agar kamu tahu semua yang ada di layar ini, halaman ini menunjukkan dialog @tutorial dan tampilan @project. Kamu bisa melihat *panggung* @UI/stage, yang menampilkan keluaran program, dan *@editor* @UI/editor, yang berisi code program.",
                             "$~Program ini kosong, jadi keluarannya hanya sebuah ajakan untuk menulis program.",
                             "$~Ada banyak kontrol lain untuk menjeda dan menjalankan program serta mengedit code, tetapi jangan khawatir tentang itu sekarang."
                         ],
@@ -27,9 +27,9 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Di kebanyakan bahasa pemrograman, sebuah program adalah daftar pernyataan yang memberi tahu komputer apa yang harus *dilakukan*, seperti mencetak sebuah @value:",
+                            "$~Di kebanyakan @language pemrograman, sebuah program adalah daftar pernyataan yang memberi tahu komputer apa yang harus *dilakukan*, seperti mencetak sebuah @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
-                            "$~Di @wordplay, program adalah *expression* yang menyatakan apa /hasil/ dari program tersebut, bukan bagaimana cara menghasilkannya.",
+                            "$~Di @wordplay, program adalah *expression* yang menyatakan apa /hasil/ dari program tersebut, bukan bagaimana @how menghasilkannya.",
                             "$~Program ini mengevaluasi menjadi value \\'hai'\\, yang kemudian ditampilkan di panggung. Tidak ada perintah cetak, hanya sebuah @expression yang menyatakan value apa yang harus dievaluasi."
                         ],
                         null,
@@ -57,7 +57,7 @@
                         [
                             "Conditional",
                             "neutral",
-                            "$~Bahasa pemrograman lain biasanya punya pernyataan *if* untuk melakukan hal berbeda berdasarkan sebuah @condition:",
+                            "$~@language pemrograman lain biasanya punya pernyataan *if* untuk melakukan hal berbeda berdasarkan sebuah @condition:",
                             "\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
                             "$~Di @wordplay, semuanya adalah @expression, jadi @Conditional adalah *expression* yang ditulis dengan sebuah kondisi, lalu \\?\\, lalu sebuah expression benar dan sebuah expression salah. Tidak perlu kata kunci"
                         ],
@@ -117,7 +117,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Bahasa pemrograman juga punya cara membuat kumpulan value, seperti daftar, himpunan, dan peta (sering dikenal sebagai kamus atau hash):",
+                            "$~Bahasa pemrograman juga punya @how membuat kumpulan value, seperti daftar, himpunan, dan peta (sering dikenal sebagai kamus atau hash):",
                             "\\py| list = [1, 2, 3]\nset = {1, 2, 3}\nmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv| let array = [1, 2, 3];\nlet set = new java.util.HashSet<>([1, 2, 3]);\nlet map = new java.util.HashMap<>();\nmap.put(\"a\", 1);\\",
                             "$~@wordplay menggunakan sintaks berbeda untuk kumpulan ini, terutama menggunakan spasi untuk memisahkan value, bukan koma."
                         ],
@@ -166,7 +166,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Untuk kumpulan value seperti daftar dan array, bahasa pemrograman lain menggunakan konstruksi seperti loop *for* dan *while* untuk membangun kumpulan baru dari value kumpulan yang ada.",
+                            "$~Untuk kumpulan value seperti daftar dan array, @language pemrograman lain menggunakan konstruksi seperti loop *for* dan *while* untuk membangun kumpulan baru dari value kumpulan yang ada.",
                             "\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
                             "$~@wordplay punya konstruksi @Translate* yang sederhana, yang menggunakan simbol \\↦\\: ia membangun @List, @Set, atau @Map baru, mengganti setiap item (diwakili oleh @placeholder \\⬚\\), dengan @value baru. Ini menggandakan setiap item untuk membuat \\[2 4 6]\\.",
                             "$~Ada juga hal yang lebih kuat seperti @List.translate dan @List.combine, jika kamu butuh operasi yang lebih rumit."
@@ -199,7 +199,7 @@
                         [
                             "Stage",
                             "neutral",
-                            "$~Bahasa pemrograman lain mencetak teks ke konsol, menggambar ke kanvas, atau mengubah halaman web:",
+                            "$~@language pemrograman lain mencetak teks ke konsol, menggambar ke kanvas, atau mengubah halaman web:",
                             "\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
                             "$~Keluaran @wordplay bersifat tipografis: sebuah @Phrase, @Group, atau @Stage, yang menampilkan teks bergaya, beranimasi, dan interaktif di layar, atau dibacakan oleh pembaca layar.",
                             "$~Contoh di bawah menunjukkan sebuah @Stage dengan satu @Phrase yang punya animasi penskalaan saat diam."
@@ -211,9 +211,9 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Kebanyakan bahasa pemrograman punya cara untuk mengambil masukan dari pengguna:",
+                            "$~Kebanyakan bahasa pemrograman punya @how untuk mengambil masukan dari pengguna:",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
-                            "$~Masukan @wordplay berasal dari *aliran*, yaitu value khusus yang berubah seiring waktu, sebagai tanggapan atas masukan, dan menyebabkan program Wordplay mengevaluasi ulang dengan value baru dari aliran tersebut.",
+                            "$~Masukan @wordplay berasal dari *@stream*, yaitu value khusus yang berubah seiring waktu, sebagai tanggapan atas masukan, dan menyebabkan program Wordplay mengevaluasi ulang dengan value baru dari aliran tersebut.",
                             "$~Program ini, misalnya, menggunakan aliran @Time untuk menggerakkan putaran emoji bola dunia. Setiap kali aliran @Time() berdetak ke @value baru, program mengevaluasi ulang dengan value baru, memperbarui value program di @Stage."
                         ],
                         null,
@@ -259,9 +259,9 @@
                         [
                             "FunctionDefinition",
                             "angry",
-                            "$~Bahasa lain melempar *kesalahan* — tanda bahwa program melakukan sesuatu yang tidak diizinkan:",
+                            "$~@language lain melempar *kesalahan* — tanda bahwa program melakukan sesuatu yang tidak diizinkan:",
                             "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
-                            "$~@wordplay menyebut kesalahan sebagai *konflik*: dua hal yang tidak bisa sama-sama benar, seperti menambahkan angka dan teks pada program di bawah.",
+                            "$~@wordplay menyebut kesalahan sebagai *@conflict*: dua hal yang tidak bisa sama-sama benar, seperti menambahkan angka dan teks pada program di bawah.",
                             "$~Wordplay akan menggarisbawahi konflik dan menampilkannya di bilah sisi @UI/conflict. Ia juga akan menawarkan saran penyelesaian konflik, untuk memperbaiki masalah."
                         ],
                         null,
@@ -271,7 +271,7 @@
                             "happy",
                             "$~Kebanyakan bahasa pemrograman menawarkan semacam alat debugging untuk membantu pembuat memahami dan menyelesaikan masalah dalam code mereka. Tetapi banyak yang hanya menggunakan pernyataan cetak untuk memeriksa value variable di konsol:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay memberi pengalaman debug yang lebih canggih, yang memungkinkanmu melangkah *maju* dan *mundur* dalam evaluasinya. Tekan tombol debug ⏸️ pada pengalih mode @UI/modeSwitcher di atas panggung untuk masuk ke mode *debug*: nilai setiap ekspresi muncul di sebelahnya dalam kode, dan @UI/stepControls melangkah evaluasi ke arah mana pun, sehingga kamu bisa melihat bagaimana sebuah nilai dibentuk. Berikut panduan lengkapnya: @Tour/stage",
+                            "$~@wordplay memberi pengalaman debug yang lebih canggih, yang memungkinkanmu melangkah *maju* dan *mundur* dalam evaluasinya. Tekan tombol debug ⏸️ pada pengalih mode @UI/modeSwitcher di atas panggung untuk masuk ke mode *debug*: @value setiap @expression muncul di sebelahnya dalam @code, dan @UI/stepControls melangkah evaluasi ke arah mana pun, sehingga kamu bisa melihat bagaimana sebuah nilai dibentuk. Berikut panduan lengkapnya: @Tour/stage",
                             "$~Mode lainnya juga penting: mode ✏️ *edit* untuk mengubah program saat panggung tetap diam, dan mode ▶️ *main* menjalankannya secara langsung, menanggapi masukan secara langsung.",
                             "$~Ingin panduan lebih lengkap? Tombol @UI/stageTourLaunch di sebelah nama panggung memberi tur berpandu tentang kontrol-kontrol ini."
                         ]
@@ -288,7 +288,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Mari kita bangun sebuah @project interaktif kecil dalam tiga langkah.",
-                            "$~*Satu:* nyatakan data dan *aliran*-mu. Di sini aliran @Time bernama elapsed melaporkan berapa lama program telah berjalan."
+                            "$~*Satu:* nyatakan data dan *@stream*-mu. Di sini aliran @Time bernama elapsed melaporkan berapa lama program telah berjalan."
                         ],
                         null,
                         {

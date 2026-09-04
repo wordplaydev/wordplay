@@ -18,7 +18,7 @@
                             "FunctionDefinition",
                             "cheerful",
                             "$~欢迎来到 @wordplay！听说你已经懂一点编程了？太好了！这个简短的导览会告诉你 Wordplay 有哪些地方相似，又有哪些地方不同。",
-                            "$~先让你了解这个屏幕上的一切：这个页面展示了 @tutorial 对话框和 @project 视图。你可以看到 *舞台* @UI/stage，它显示程序的输出，还有 *编辑器* @UI/editor，它是程序的代码。",
+                            "$~先让你了解这个屏幕上的一切：这个页面展示了 @tutorial 对话框和 @project 视图。你可以看到 *舞台* @UI/stage，它显示程序的输出，还有 *@editor* @UI/editor，它是程序的代码。",
                             "$~这个程序是空白的，所以它的输出只是一个提示，让你去写一个程序。",
                             "$~还有很多其他控件，用来暂停和播放程序，以及编辑代码，不过现在先别担心这些。"
                         ],
@@ -103,7 +103,7 @@
                             "neutral",
                             "$~大多数语言有很多“基本”的 @value 类型。",
                             "\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
-                            "$~@wordplay 对这些类型有相似的写法，但也允许你加上其他信息，比如给多语言文本加 @language 标记，给数字加单位。"
+                            "$~@wordplay 对这些类型有相似的写法，但也允许你加上其他信息，比如给多语言文本加 @language @markup，给数字加单位。"
                         ],
                         null,
                         {
@@ -213,7 +213,7 @@
                             "neutral",
                             "$~大多数编程语言都有办法从用户那里获取输入：",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
-                            "$~@wordplay 的输入来自 *流*，它们是会随时间改变的特殊值，会响应输入，并让 Wordplay 程序用流的新值重新求值。",
+                            "$~@wordplay 的输入来自 *@stream*，它们是会随时间改变的特殊值，会响应输入，并让 Wordplay 程序用流的新值重新求值。",
                             "$~举个例子，这个程序使用一个 @Time 流来驱动地球表情符号的旋转。每当 @Time() 流跳到一个新的 @value 时，程序就会用这个新值重新求值，更新 @Stage 上程序的值。"
                         ],
                         null,
@@ -261,7 +261,7 @@
                             "angry",
                             "$~其他语言会抛出 *错误* —— 这是程序做了不被允许的事情的标志：",
                             "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
-                            "$~@wordplay 把错误叫做 *冲突*：就是两件不能同时成立的事，比如在下面的程序里把一个数字和文本相加。",
+                            "$~@wordplay 把错误叫做 *@conflict*：就是两件不能同时成立的事，比如在下面的程序里把一个数字和文本相加。",
                             "$~Wordplay 会给冲突画上下划线，并在侧边栏 @UI/conflict 里显示它们。它还会提供解决冲突的建议，来修复这个问题。"
                         ],
                         null,
@@ -288,7 +288,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~让我们分三步来构建一个小小的可交互 @project。",
-                            "$~*第一步：* 声明你的数据和 *流*。这里有一个名叫 elapsed 的 @Time 流，它报告程序运行了多久。"
+                            "$~*第一步：* 声明你的数据和 *@stream*。这里有一个名叫 elapsed 的 @Time 流，它报告程序运行了多久。"
                         ],
                         null,
                         {

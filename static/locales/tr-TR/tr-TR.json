@@ -179,6 +179,10 @@
         "stage": {
             "word": "$~sahne",
             "definition": "$~@code ile oluşturduğun şeyi @wordplay gösterdiği alan."
+        },
+        "stream": {
+            "word": "$~akış",
+            "definition": "$~Zaman içinde dünyan değiştikçe değişen bir @value, örneğin @Time'nin işlemesi ya da bir @Key'ye basılması gibi. Her değiştiğinde, @Program yeni @value ile yeniden çalışır."
         }
     },
     "terms": {},
@@ -303,7 +307,7 @@
                 "Herhangi bir standartlaştırılmış birim olabilirim, örneğin \\1m\\, \\10s\\, \\100g\\ veya herhangi bir bilimsel birim. \\17apple\\ gibi oluşturmak istediğiniz herhangi bir birim olmaktan da mutluluk duyarım.",
                 "\\/\\ ile birleştirilerek \\17elma/gün\\ gibi oran birimleri ve \\^\\ ile birleştirilerek \\9.8m/s^2\\ gibi üstel birimler elde edilebilir.",
                 "@Number'dan sonra her zaman gelmeliyim. Aksi takdirde @Reference ile karıştırılabilirim ki bu da oldukça utanç verici olur!",
-                "Ben de birimler arasındaki tutarsızlıkları bulmada oldukça iyiyim. Örneğin, \\1cat + 1dog\\🪲 hiçbir anlam ifade etmiyor!",
+                "Ben de birimler arasındaki tutarsızlıkları bulmada oldukça iyiyim. Örneğin, \\1cat + 1dog\\🪲 hiçbir anlam @expression etmiyor!",
                 "Eğer farklı birim değerleri arasında dönüşüm yapmak isterseniz @Convert ile görüşün."
             ]
         },
@@ -356,7 +360,7 @@
             "description": "$~dil $language[$language|belirtilmemiş]$region[, bölge $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Ben bir dil etiketiyim ve @Name ile @Doc ile çalışırım!",
+                "$~Ben bir @language etiketiyim ve @Name ile @Doc ile çalışırım!",
                 "Bir metnin hangi dilde yazıldığını *çok net* göstermekte gerçekten iyiyimdir. Küçük bir eğik çizgi ve birkaç harf yeterli, artık kimse bir metnin hangi dilde olduğu konusunda kafası karışık kalmaz.",
                 "Örneğin, \"Dil\" demek istiyorsan ama bunun İngilizce olduğunu belirtmek istiyorsan:",
                 "\\'Dil'/tr\\",
@@ -370,7 +374,7 @@
                 "Tek bir dilde olduğu gibi, bir tire koyduktan sonra tek bir @region de ekleyebilirsin:",
                 "\\\"Hola gentleman!\"/es_en-MX\\",
                 "Kaç dil listeleyebileceğinin bir sınırı yoktur — sadece aynı dili iki kez yazma; eğer yaparsan sana haber veririm.",
-                "Bir dili <2 harfli kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ile ya da *ismiyle* yazabilirsin, o dilde ya da İngilizce olarak — `/es`, `/Español` ve `/Spanish` hepsi aynı şeyi ifade eder, aynı şekilde `/es-MX`, `/es-México` ve `/es-Mexico` de öyle. Büyük harfler ve aksanlar önemli değildir, yani `/ESPANOL` da çalışır. İçinde boşluk olan bir isim, boşluksuz yazılır, örneğin `/BahasaIndonesia`, çünkü bir etiket tek bir kelime olmalıdır. Eğer bir dili ya da bölgeyi tanımıyorsam, sana haber veririm."
+                "Bir dili <2 harfli kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ile ya da *ismiyle* yazabilirsin, o dilde ya da İngilizce olarak — `/es`, `/Español` ve `/Spanish` hepsi aynı şeyi @expression eder, aynı şekilde `/es-MX`, `/es-México` ve `/es-Mexico` de öyle. Büyük harfler ve aksanlar önemli değildir, yani `/ESPANOL` da çalışır. İçinde boşluk olan bir isim, boşluksuz yazılır, örneğin `/BahasaIndonesia`, çünkü bir etiket tek bir kelime olmalıdır. Eğer bir dili ya da bölgeyi tanımıyorsam, sana haber veririm."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -464,7 +468,7 @@
             "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
-                "$~Ben bir performansın mümkün olan en küçük parçasıyım; Şiirdeki tüm karakterlerin yapıldığı atomum. Beni nasıl buldunuz?",
+                "$~Ben bir performansın mümkün olan en küçük parçasıyım; Şiirdeki tüm karakterlerin yapıldığı atomum. Beni @how buldunuz?",
                 "Ben, şiirdeki tüm karakterlerin yapıldığı temel maddeyim. Ben, koreografimizin atomik parçacığıyım."
             ]
         },
@@ -501,7 +505,7 @@
             "description": "$~biçimli metin $#count[$count paragraf|$count paragraf]",
             "emotion": "serious",
             "doc": [
-                "$~Ben bir paragraf listesiyim ve @Doc içinde bulunan birçok biçimli metin türünü kullanıyorum, örneğin @Words, @WebLink, @ConceptLink ve @Example.",
+                "$~Ben bir paragraf listesiyim ve @Doc içinde bulunan birçok @markup türünü kullanıyorum, örneğin @Words, @WebLink, @ConceptLink ve @Example.",
                 "Beni bir @Doc içinde ve @FormattedLiteral içinde bulabilirsin:",
                 "\\¶Ben *kalın* metin içeren bir dokümantasyonum. @Phrase gibi kavramlara başvurabilir, <web'deki şeylere@https://wordplay.dev> bağlantı verebilirim.¶\nİfadeetmek(\n\t`Ben bir @Phrase için biçimli metnim, *kalın*, /italik/ ve _altı çizili_ kullanıyorum`\n)\\"
             ],
@@ -577,7 +581,7 @@
             "description": "$~kod örneği $code",
             "emotion": "serious",
             "doc": [
-                "$~Bir @Doc içinde örnek bir kod parçası tutarım, şöyle:",
+                "$~Bir @Doc içinde örnek bir @code parçası tutarım, şöyle:",
                 "\\¶İşte bir toplama örneği: \\1 + 2\\¶\n3 + 4\\",
                 "Nasıl rehberlerinde Örnekler kullanıyorsan, bir Örneği öne çıkan olarak etiketleyebilirsin.",
                 "\\¶İşte vurgulanmış bir örnek: \\1 + 2\\⭐¶\n3 + 4\\",
@@ -590,7 +594,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Ben ya bir terime \\¶@project¶\\ ya da dinamik bir girdiye \\¶$name¶\\ yapılan bir referansım.",
-                "Ama bu çoğunlukla dahili bir özellik, bu yüzden bunu bilmene gerek yok."
+                "Ama bu çoğunlukla dahili bir @property, bu yüzden bunu bilmene gerek yok."
             ]
         },
         "Branch": {
@@ -599,7 +603,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Açıklama giriş değerinin tanımlanmış veya doğru olmasına göre iki açıklama segmenti arasında seçim yapmanın bir yoluyum.",
-                "Bu çoğunlukla dahili bir özellik olduğundan bunu bilmenize gerek yok."
+                "Bu çoğunlukla dahili bir @property olduğundan bunu bilmenize gerek yok."
             ]
         },
         "BinaryEvaluate": {
@@ -743,7 +747,7 @@
                 "Bu, değerlendirme sırasını netleştirmeye yardım eder.",
                 "@Bind da yardım eder.",
                 "\\(\n\tsay: 10\n\tsay ^ say)\\",
-                "@Bind nasıl \\count\\ yaptı gördün mü? O sadece içimde isimlendirilmiştir. Yani bu işe yaramaz:",
+                "@Bind @how \\count\\ yaptı gördün mü? O sadece içimde isimlendirilmiştir. Yani bu işe yaramaz:",
                 "\\(\n\tsay: 10\n\tsay ^ say) + count\\🪲",
                 "Çünkü sayaç sadece içimde isimlendirilmişti.",
                 "Bana bir @expression verirsen, sana sadece onun @value değerini geri veririm:",
@@ -826,12 +830,12 @@
             "doc": [
                 "$~Sana bir @value mı yoksa başka bir @condition mı vereyim, buna bağlı olarak mı karar vereyim? Böyle mi?",
                 "\\sayı: -100\nsayı < 0 ? 'negatif' 'pozitif'\\",
-                "Ama nasıl karar verdiğimizi hiç düşündün mü?",
+                "Ama @how karar verdiğimizi hiç düşündün mü?",
                 "Kararların sadece evet ya da hayır olmaktan daha ince ayrıntılı olması gerektiği gibi görünmüyor mu? Kararlar sadece şunlar arasında seçim yapmaktan mı ibaret: \\⊤\\ ve \\⊥\\ arasında mı hepsi bu?",
                 "Eğer yapabileceğimiz tek karar türü bunlarsa, dünya hakkında önemli bir bağlamı kaçıracağımızdan endişelenmiyor musun?",
                 "Bir şey daha yapıyorum ve bunun için her zaman takdir görmüyorum. @condition bir değerin /ne tür/ bir değer olduğunu sorduğunda, sadece evet ya da hayır demiyorum. Cevabı her bir seçimimin içinde hatırlıyorum.",
                 "\\boyut•#|'': 5\nboyut•# ? boyut + 1 'çok küçük'\\",
-                "Tek başına, o değer bir @Number ya da bir @Text olabilir ve ona ekleme yapmak bir çakışma olurdu, çünkü bunlar çok farklı yollarla eklenir. Ama /evet/ seçimimin içinde bunun bir @Number olup olmadığını sormuşuzdur, yani orada odur. /hayır/ seçimimin içinde ise @Text olur.",
+                "Tek başına, o değer bir @Number ya da bir @Text olabilir ve ona ekleme yapmak bir @conflict olurdu, çünkü bunlar çok farklı yollarla eklenir. Ama /evet/ seçimimin içinde bunun bir @Number olup olmadığını sormuşuzdur, yani orada odur. /hayır/ seçimimin içinde ise @Text olur.",
                 "Nasıl sorduğun önemli değil. Bir tip kontrolü, belirli bir değere karşı bir karşılaştırma, eksik bir değer kontrolü ve bir isim altında kaydettiğin bir kontrol bana aynı şeyi söyler. Ve @Boolean/and, @Boolean/or ve @Boolean/not bunları beklediğin şekilde birleştirir.",
                 "Sana söyleyemeyeceğim iki şey var. Birden fazla çevirisi olan bir @Text ile karşılaştırma yaparsan, hiçbir şey öğrenemem, çünkü hangi çeviriyi aldığın okuyanın kim olduğuna bağlıdır."
             ],
@@ -869,7 +873,7 @@
             "doc": [
                 "$~Dostum, ben bir @type türünden başka bir türe dönüşümler tanımlarım! Ben @Block içine giderim, aşağı yukarı böyle:",
                 "\\→ #kitty #cat ⬚ ÷ 2\n6kitty → #cat\\",
-                "Kedicikleri kedilere nasıl çevirdiğimi gördün mü? Süper!",
+                "Kedicikleri kedilere @how çevirdiğimi gördün mü? Süper!",
                 "Orada o \\⬚\\ ne yapıyor diye merak ediyor olabilirsin. O, dönüştürülen @value değerini temsil eder. Onu kullanırım çünkü değerin başka türlü bir ismi yoktur."
             ],
             "start": "$~Harika, yeni bir dönüşüm!",
@@ -897,7 +901,7 @@
                 "\\'merhaba' → []\\",
                 "Bunları birbirine bile zincirleyebilirsin:",
                 "\\'merhaba' → [] → {}\\",
-                "Değerlerin önceden tanımlı bir @ConversionDefinition kümesi vardır, ama yeni bir değer tipi için bir @StructureDefinition yaparsan, @ConversionDefinition ile kendi özelliklerini tanımlayabilirsin."
+                "Değerlerin önceden tanımlı bir @ConversionDefinition kümesi vardır, ama yeni bir @value tipi için bir @StructureDefinition yaparsan, @ConversionDefinition ile kendi özelliklerini tanımlayabilirsin."
             ],
             "start": "$~$expression ifadesinden o değeri alın!",
             "finish": "$~Harika, $value kazandım!",
@@ -1048,7 +1052,7 @@
             "description": "$~$type[$type|bir değer|] için yer tutucu",
             "emotion": "scared",
             "doc": [
-                "$~Ben bir *ifade*yim, ama gerçek bir ifade değilim... Sadece birinin yerini alıyorum.",
+                "$~Ben bir *@expression*yim, ama gerçek bir ifade değilim... Sadece birinin yerini alıyorum.",
                 "Eğer henüz ne yazacağınızı bilmiyorsanız, sorun değil. Şöyle:",
                 "\\1 + _\\🪲",
                 "Ne ekliyoruz? Bilmiyorum. Sen söyle.",
@@ -1088,7 +1092,7 @@
                 "\\(ƒ(mesaj•'') mesaj × 5)('merhaba')\\",
                 "Ya da, bir girdi isminden sonra \\…\\ karakterini kullanarak, herhangi bir sayıda girdi alan bir fonksiyon burada.",
                 "\\ƒ evet(mesajlar…•'') mesajlar.olmadan('hayır')\nevet('evet' 'evet' 'hayır' 'evet' 'hayır')\\",
-                "Tüm 'hayır'ları alıp onlardan nasıl kurtulduğunu gördün mü? Bunun nedeni mesajların bir @List olması, bu yüzden @List.sansAll kullanabildik.",
+                "Tüm 'hayır'ları alıp onlardan @how kurtulduğunu gördün mü? Bunun nedeni mesajların bir @List olması, bu yüzden @List.sansAll kullanabildik.",
                 "Bazen hangi tür değeri ürettiğimi netleştirmek isteyebilirsin. Bunu yapmak için, girdiler listesinden sonra bir @Is ekle:",
                 "\\ƒ ekle(x•# y•#)•'' x + y\\🪲",
                 "Bunda bir sorun fark edebilirsin: @Text olarak değerlendirildiğini söylüyor, ama iki @Number alıyor. İşler tutarsız olduğunda sana söyleyebilirim!",
@@ -1148,7 +1152,7 @@
             "description": "$~$type mı",
             "emotion": "curious",
             "doc": [
-                "$~Bir @value'ın belirli bir @type olup olmadığını kontrol ederim ve sana bir @Boolean veririm. O kadar çok tür değer var ki, hepsi çok farklı şeyler ifade ediyor — ben onların ne olduğunu anlamana yardım ederim.",
+                "$~Bir @value'ın belirli bir @type olup olmadığını kontrol ederim ve sana bir @Boolean veririm. O kadar çok tür değer var ki, hepsi çok farklı şeyler @expression ediyor — ben onların ne olduğunu anlamana yardım ederim.",
                 "Örneğin, gizemli bir değerin olduğunu varsay. Onun bir @Number olup olmadığını sana söyleyebilirim ve bir @Boolean veririm:",
                 "\\gizem: 'sır!'\ngizem•#\\🪲",
                 "Bu bir sayı değil, bu yüzden ben \\⊥\\. Ama onun @TextType olup olmadığını kontrol edersek?",
@@ -1217,7 +1221,7 @@
             "name": "$~harita sabiti",
             "description": "$~$#count[$count anahtar-değer çiftli|$count anahtar-değer çiftli] harita",
             "emotion": "kind",
-            "doc": "$~Anahtarlar ve değerler arasında belirli bir @Map'im. Nasıl yardımcı olabileceğim hakkında daha fazla bilgi edinmek için @Map'e bakın.",
+            "doc": "$~Anahtarlar ve değerler arasında belirli bir @Map'im. @how yardımcı olabileceğim hakkında daha fazla bilgi edinmek için @Map'e bakın.",
             "start": "$~Öncelikle anahtarları ve değerleri değerlendirelim",
             "finish": "$~Herkesi birbirine bağladım, $value",
             "conflict": {
@@ -1242,7 +1246,7 @@
                 "Hiçbiri eşleşmezse, bana verdiğin varsayılan @expression değerini değerlendiririm.",
                 "Olası birçok @Number, @Text ya da daha karmaşık değerden birini başka bir şeye dönüştürmek için gerçekten yararlıyım.",
                 "Onu @Boolean ya da @None için kullanabilirsin, ama bunlar gerçekten o kadar çok şey olamazlar, bu yüzden bu basit değerler için o kadar yararlı değilim.",
-                "@Conditional gibi, ben de öğrendiğim şeyi sana söylerim. Bir durumun içinde, eşleştirdiğim @value o durum olarak bilinir; sonraki bir durumun içinde, daha önceki hiçbiri olmadığı bilinir; ve varsayılanımda, hiçbiri olmadığı bilinir.",
+                "@Conditional gibi, ben de öğrendiğim şeyi sana söylerim. Bir durumun içinde, eşleştirdiğim @value o @state olarak bilinir; sonraki bir durumun içinde, daha önceki hiçbiri olmadığı bilinir; ve varsayılanımda, hiçbiri olmadığı bilinir.",
                 "\\cevap•#|'': 1\ncevap ???\n\t1: cevap + 1\n\t'bir değil'\\",
                 "Bir @Number, bir @None ya da tek çevirisi olan bir @Text olan durumları ve diğer basit durumları eleyebilirim. Ama bir şeyi değerlendiren bir durum hiçbir şeyi elemez, bu yüzden varsayılanım @value değerin hâlâ olabileceği her şeyi tutar."
             ],
@@ -1272,7 +1276,7 @@
             "name": "$~dahili ifade",
             "description": "$~yerleşik ifade",
             "emotion": "neutral",
-            "doc": "$~Ben yalnızca özgün yaratıcıların kullandığı bir @expression'ım. Beni nasıl buldun? Benim hakkımda daha çok bilgi almak için onlarla konuşman gerekir.",
+            "doc": "$~Ben yalnızca özgün yaratıcıların kullandığı bir @expression'ım. Beni @how buldun? Benim hakkımda daha çok bilgi almak için onlarla konuşman gerekir.",
             "start": "$~Gizli ifade"
         },
         "NoneLiteral": {
@@ -1326,7 +1330,7 @@
                 "Değer herhangi bir şey olabilir: bir @Number, @Text ya da @Boolean, bir @List, @Set, @Map, hatta bir @Phrase, @Group ya da @Stage gibi daha karmaşık bir şey.",
                 "Sahnede göstermem için bana bir değer vermezsen, senden bir tane isterim.",
                 "Bir performans sırasında bir sorun olursa, o sorunu gösteririm.",
-                "Ve performansın bir *akış*a bağlıysa, o akış her değiştiğinde yeniden değerlendirme yaparım."
+                "Ve performansın bir *@stream*a bağlıysa, o akış her değiştiğinde yeniden değerlendirme yaparım."
             ],
             "unevaluated": "$~seçtiğiniz düğüm değerlendirilmedi",
             "start": "$~$stream[$stream akışı $value'ye değiştirildi!|Bu benim ilk değerlendirmem]",
@@ -1502,7 +1506,7 @@
             "name": "$~küme sabiti",
             "description": "$~$#count[$count değerli|$count değerli] küme",
             "emotion": "eager",
-            "doc": "$~Ben belirli değerlerden oluşan belirli bir @Set'im. Benimle nasıl çalışacağını daha çok öğrenmek için @Set'e bak.",
+            "doc": "$~Ben belirli değerlerden oluşan belirli bir @Set'im. Benimle @how çalışacağını daha çok öğrenmek için @Set'e bak.",
             "start": "$~Önce değerleri değerlendirelim!",
             "finish": "$~Bir $value değeri belirledim!"
         },
@@ -1551,7 +1555,7 @@
             "name": "$~aktarım",
             "description": "$~akış $name",
             "emotion": "curious",
-            "doc": "$~Yeni türde akışlar tanımlıyorum. Sanırım — dürüst olmak gerekirse, nasıl yapacağımı hala çözmeye çalışıyorum, bu yüzden şimdilik mevcut akışları kullanın!",
+            "doc": "$~Yeni türde akışlar tanımlıyorum. Sanırım — dürüst olmak gerekirse, @how yapacağımı hala çözmeye çalışıyorum, bu yüzden şimdilik mevcut akışları kullanın!",
             "start": "$~Bu yeni tür akışı yaratın"
         },
         "StructureDefinition": {
@@ -1562,7 +1566,7 @@
                 "$~Değerleri ve fonksiyonları depolayan yapılar tanımlarım. Merhaba, nasılsın? Ben mi? Harikayım — bunu bütün gün yapmayı seviyorum.",
                 "Şöyle çalışırım:",
                 "\\•pizza(\n\tmalzemeler•['']\n\tboyut•#in\n) (\n\tƒ maliyet() boyut × 10dollars/in\n)\n\npizza(['sucuk' 'biber'] 12in).maliyet()\\🪲",
-                "Bunun nasıl çalıştığını gördün mü? Ben \\Pizza\\ tanımladım, ki iki girdisi var, \\ingredients\\ (bir @Text listesi) ve \\size\\ (inç cinsinden bir sayı).",
+                "Bunun @how çalıştığını gördün mü? Ben \\Pizza\\ tanımladım, ki iki girdisi var, \\ingredients\\ (bir @Text listesi) ve \\size\\ (inç cinsinden bir sayı).",
                 "İçeride, @FunctionDefinition bir pizzanın maliyetini değerlendiren bir fonksiyon yaptı, inç başına $$10 varsayarak.",
                 "İçimde @FunctionDefinition olmasına gerek yok. Sadece girdiler de olabilirim.",
                 "\\•pizza(\n\tmalzemeler•['']\n\tboyut•#in\n)\\",
@@ -1613,7 +1617,7 @@
             "name": "$~tablo sabiti",
             "description": "$~$#count[$count satırlı|$count satırlı] tablo",
             "emotion": "angry",
-            "doc": "$~Belirli satırları olan belirli bir tabloyum. Nasıl yardımcı olabileceğimi öğrenmek için @Table'a bakın.",
+            "doc": "$~Belirli satırları olan belirli bir tabloyum. @how yardımcı olabileceğimi öğrenmek için @Table'a bakın.",
             "start": "$~İlk önce satırları değerlendirin",
             "finish": "$~Yeni tabloya göre değerlendirildi $value"
         },
@@ -1738,7 +1742,7 @@
             "description": "$~ayrıştırılamayan kod",
             "emotion": "excited",
             "doc": [
-                "$~Ben anlamı olmayan bir kod parçasıyım, bu yüzden kimse ne demek olduğumu bilmiyor.",
+                "$~Ben anlamı olmayan bir @code parçasıyım, bu yüzden kimse ne demek olduğumu bilmiyor.",
                 "jkwel fjiwojvioao jjiweo jrfe",
                 "/Her @expression'in sahnede anlamı yoktur./",
                 "s w ieorjwei iojwi jfkdlsfdsk",
@@ -1843,7 +1847,7 @@
             "name": "$~istisna",
             "description": "$~istisna",
             "emotion": "neutral",
-            "doc": "$~Ben bir istisnayı temsil ediyorum. bind'e benim bir istisna olduğumu söylemenin bir yolu yok çünkü istisnalar yalnızca @Program'ı durdurur, bu yüzden onları değer olarak kullanamazsınız."
+            "doc": "$~Ben bir istisnayı temsil ediyorum. bind'e benim bir istisna olduğumu söylemenin bir yolu yok çünkü istisnalar yalnızca @Program'ı durdurur, bu yüzden onları @value olarak kullanamazsınız."
         },
         "FunctionType": {
             "name": "$~fonksiyon tipi",
@@ -1859,7 +1863,7 @@
             "description": "$~liste tipi$type[ / $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~@List hakkında /çok/ hayranım. @Bind öğesine nasıl bir liste olduğunu söyleyebiliyorum! İşte böyle, bunun bir @Number listesi olduğunu söylüyorum:",
+                "$~@List hakkında /çok/ hayranım. @Bind öğesine @how bir liste olduğunu söyleyebiliyorum! İşte böyle, bunun bir @Number listesi olduğunu söylüyorum:",
                 "\\şeyler•[#]: [1 2 3 4 5]\\🪲",
                 "Bunu üç farklı şekilde söyleyebilirim. Hiç tip belirtmezsem, bir liste herhangi bir uzunlukta olabilir ve herhangi bir şeyi tutabilir:",
                 "\\şeyler•[]: [1 'iki' ø]\\🪲",
@@ -2094,8 +2098,8 @@
             "description": "$~dış kod örneği$languages[ $languages dilinde|]",
             "emotion": "serious",
             "doc": [
-                "$~Başka programlama dillerinde yazılmış, sözdizimi vurgulamalı kodu gösteririm, böylece zaten kod yazan yaratıcılar karşılaştırma yapabilir.",
-                "Her dil için bir varyant yaz: iki harfli bir etiket, bir çubuk ve kod, şöyle \\py| a = 5\\js| let a = 5;\\. Okuyucu, seçtiği dile uyan varyantı görür. Python (py), JavaScript (js) ve Java (jv) desteklenir."
+                "$~Başka programlama dillerinde yazılmış, sözdizimi vurgulamalı kodu gösteririm, böylece zaten @code yazan yaratıcılar karşılaştırma yapabilir.",
+                "Her @language için bir varyant yaz: iki harfli bir etiket, bir çubuk ve kod, şöyle \\py| a = 5\\js| let a = 5;\\. Okuyucu, seçtiği dile uyan varyantı görür. Python (py), JavaScript (js) ve Java (jv) desteklenir."
             ]
         },
         "Localized": {
@@ -2409,8 +2413,8 @@
     "basis": {
         "Boolean": {
             "doc": [
-                "$~Biz \\⊤\\ ve \\⊥\\'yiz. \\⊤\\ doğrudur. \\⊥\\ yanlıştır. \\⊤\\ \\⊥\\ değildir; \\⊥\\ \\⊤\\ değildir. Durum budur.",
-                "Bizi nasıl yapıyorsunuz? Sadece \\⊤\\ ve \\⊥\\, ne daha fazlası ne de daha azı.",
+                "$~Biz \\⊤\\ ve \\⊥\\'yiz. \\⊤\\ doğrudur. \\⊥\\ yanlıştır. \\⊤\\ \\⊥\\ değildir; \\⊥\\ \\⊤\\ değildir. @state budur.",
+                "Bizi @how yapıyorsunuz? Sadece \\⊤\\ ve \\⊥\\, ne daha fazlası ne de daha azı.",
                 "Bazıları klavyeyi kullanır (\\⊤\\ için /ctrl+9/ ve \\⊥\\ için /ctrl+0/). Bazıları editörün altındaki karakter aramasını kullanır. Ya da bizi buradan sürükleyebilirsiniz.",
                 "Aşağıdaki @FunctionDefinition'ımıza bakın. Çok mantıklılar."
             ],
@@ -2418,7 +2422,7 @@
             "function": {
                 "and": {
                     "doc": [
-                        "$~Yalnızca her iki değer de \\⊤\\ olduğunda \\⊤\\ olarak değerlendiririm. Birçok şeyin doğru olup olmadığını belirlemede faydalıdır. Yalnızca dört olası sonuç vardır",
+                        "$~Yalnızca her iki @value de \\⊤\\ olduğunda \\⊤\\ olarak değerlendiririm. Birçok şeyin doğru olup olmadığını belirlemede faydalıdır. Yalnızca dört olası sonuç vardır",
                         "\\⊤ & ⊤\\",
                         "\\⊤ & ⊥\\",
                         "\\⊥ & ⊤\\",
@@ -2525,7 +2529,7 @@
                 "Bu toplamları ne kadar zarif bir şekilde hesaplayıp @Text içine koyduğumu gördün mü?",
                 "Son bir küçük sırrım var: hepimizin benzersiz bir numarası olduğunu biliyor muydun? Bu doğru! Bize @U/ ve numaramızı yazarak başvurabilirsin. Örneğin, @FunctionDefinition 192'dir:",
                 "\\'@U/192'\\",
-                "@U/192 ifadesinin nasıl @FunctionDefinition haline geldiğini gördün mü? Bu numaralara 'Unicode' dediğinizi duydum.",
+                "@U/192 ifadesinin @how @FunctionDefinition haline geldiğini gördün mü? Bu numaralara 'Unicode' dediğinizi duydum.",
                 "Bunun dışında, @FunctionDefinition kelimelerle her türlü şeyi yapmam için o kadar çok muhteşem işlev yaptı ki!"
             ],
             "name": ["$~Metin"],
@@ -2677,7 +2681,7 @@
                         "$~Ben olan, her harfi büyük harfe çevrilmiş yeni bir @Text oluştururum:",
                         "\\'merhaba'.büyükHarf()\\",
                         "Harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Bu yüzden Japonca veya Arapça gibi böyle bir ayrımı olmayan yazı sistemlerindeki metin değişmeden kalır.",
-                        "Dil etiketim, hangi kuralların kullanılacağına karar verir. Türkçede noktalı ve noktasız i harfi vardır. Sadece Türkçe olarak etiketlenmiş metin, bu harfleri Türkçe kurallarına göre büyük harfe çevirir:",
+                        "@language etiketim, hangi kuralların kullanılacağına karar verir. Türkçede noktalı ve noktasız i harfi vardır. Sadece Türkçe olarak etiketlenmiş metin, bu harfleri Türkçe kurallarına göre büyük harfe çevirir:",
                         "\\'iyi'/tr.büyükHarf()\\",
                         "\\'iyi'.büyükHarf()\\"
                     ],
@@ -2690,7 +2694,7 @@
                         "\\'MERHABA'.küçükHarf()\\",
                         "Büyük küçük harf farkını önemsemeden iki metni karşılaştırmak için ikisini de küçük harfe çevir. Bu şekilde, büyük harfle başlasın ya da başlamasın, a ile başlayan her kelime korunur:",
                         "\\['Elma' 'kayısı' 'Muz'].filtre(\n\tƒ(kelime•'') kelime.küçükHarf().başlar('a')\n)\\",
-                        "@Text/uppercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve dil etiketim, hangi kuralların kullanılacağına karar verir."
+                        "@Text/uppercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve @language etiketim, hangi kuralların kullanılacağına karar verir."
                     ],
                     "names": ["$~küçükHarf"],
                     "inputs": []
@@ -3380,7 +3384,7 @@
                 },
                 "last": {
                     "doc": [
-                        "$~İçimdeki son öğe, ya da boşsam @None.",
+                        "$~İçimdeki son @element, ya da boşsam @None.",
                         "\\['elma' 'muz' 'mango'].son()\\"
                     ],
                     "names": "$~son",
@@ -3388,7 +3392,7 @@
                 },
                 "has": {
                     "doc": [
-                        "$~\\⊤\\ eğer içimde verilen öğeye eşit bir öğe varsa.",
+                        "$~\\⊤\\ eğer içimde verilen öğeye eşit bir @element varsa.",
                         "\\['elma' 'muz' 'mango'].has('muz')\\"
                     ],
                     "names": "$~sahipolmak",
@@ -3514,7 +3518,7 @@
                     ],
                     "translator": [
                         {
-                            "doc": "$~Çevrilen öğe.",
+                            "doc": "$~Çevrilen @element.",
                             "names": "$~öğe"
                         },
                         {
@@ -3564,7 +3568,7 @@
                     "names": "$~Tümü",
                     "inputs": [
                         {
-                            "doc": "$~Üreten @FunctionDefinition \\⊤\\ bir öğe @condition karşılıyorsa.",
+                            "doc": "$~Üreten @FunctionDefinition \\⊤\\ bir @element @condition karşılıyorsa.",
                             "names": "$~denetleyici"
                         }
                     ],
@@ -3681,7 +3685,7 @@
                         "\\[1 5 8 0 2].sıralanmış()\\",
                         "Bunu @Text değerleri için de alfabetik sırayla yapabilirim. Büyük harf, küçük harfiyle yan yana sıralanır, böylece bir kelime sırf büyük harfle başladığı için sona atılmaz:",
                         "\\['Portakal' 'kivi' 'Muz' 'elma'].sıralanmış()\\",
-                        "Ve eğer elinde @Number ya da @Text olmayan bir değer listesi varsa, bana her öğeyi bir @Number ya da bir @Text değerine çeviren bir @FunctionDefinition verebilirsin, böylece sıralayabilirim. Örneğin, burada farklı uzunluklarda listelerden oluşan bir liste var; bana her listeyi kendi uzunluğuna çeviren bir fonksiyon verirsen, uzunluklarına göre sıralayabilirim.",
+                        "Ve eğer elinde @Number ya da @Text olmayan bir @value listesi varsa, bana her öğeyi bir @Number ya da bir @Text değerine çeviren bir @FunctionDefinition verebilirsin, böylece sıralayabilirim. Örneğin, burada farklı uzunluklarda listelerden oluşan bir liste var; bana her listeyi kendi uzunluğuna çeviren bir fonksiyon verirsen, uzunluklarına göre sıralayabilirim.",
                         "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste2) liste2.uzunluk()\n)\\",
                         "@Text üreten bir fonksiyon, değerin kendisine göre değil, hesapladığın bir kelimeye göre sıralamanı sağlar. Burada isimleri soyadına göre sıralıyorum:",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sıralanmış(\n\tƒ(isim2•'') (isim2 ÷ ' ').son()\n)\\"
@@ -3728,7 +3732,7 @@
             "out": "$~Sonuç",
             "function": {
                 "size": {
-                    "doc": "$~İçimde kaç tane değer olduğunu sana söyleyeyim.",
+                    "doc": "$~İçimde kaç tane @value olduğunu sana söyleyeyim.",
                     "names": "$~boyut",
                     "inputs": []
                 },
@@ -3760,27 +3764,27 @@
                 },
                 "add": {
                     "doc": [
-                        "$~Bana ekleyeceğim bir öğe verin, öğelerim ve verilen öğeyle yeni bir @Set oluşturacağım.",
+                        "$~Bana ekleyeceğim bir @element verin, öğelerim ve verilen öğeyle yeni bir @Set oluşturacağım.",
                         "\\{1 2 3} + 4\\"
                     ],
                     "names": ["$~ile", "$~eklemek"],
                     "inputs": [
                         {
-                            "doc": "$~Eklenecek öğe",
+                            "doc": "$~Eklenecek @element",
                             "names": "$~öğe"
                         }
                     ]
                 },
                 "remove": {
                     "doc": [
-                        "$~Kaldırılacak bir öğe verin, öğe olmadan yeni bir @Set oluşturacağım.",
+                        "$~Kaldırılacak bir @element verin, öğe olmadan yeni bir @Set oluşturacağım.",
                         "\\{1 2 3} - 2\\",
                         "Eğer elimde yoksa, kendi kendime değerlendiririm."
                     ],
                     "names": ["$~kaldırmak"],
                     "inputs": [
                         {
-                            "doc": "$~Kaldırılacak öğe.",
+                            "doc": "$~Kaldırılacak @element.",
                             "names": "$~öğe"
                         }
                     ]
@@ -3850,7 +3854,7 @@
                 },
                 "translate": {
                     "doc": [
-                        "$~Bana bir öğeyi alıp ona dayalı yeni bir öğe üreten @FunctionDefinition verin, sonra bendeki tüm öğeleri yeni bir @Set'e çevireceğim (tekrarlananları kaldırarak).",
+                        "$~Bana bir öğeyi alıp ona dayalı yeni bir @element üreten @FunctionDefinition verin, sonra bendeki tüm öğeleri yeni bir @Set'e çevireceğim (tekrarlananları kaldırarak).",
                         "Örneğin, tüm @Number'larımı @Text'e dönüştürelim:",
                         "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
                     ],
@@ -3863,7 +3867,7 @@
                     ],
                     "translator": [
                         {
-                            "doc": "$~Çevrilen öğe.",
+                            "doc": "$~Çevrilen @element.",
                             "names": "$~değer"
                         },
                         {
@@ -3894,7 +3898,7 @@
                 "\\{1:1 2:2 3:3}\\",
                 "Ama diyelim ki sadece o değerler olmasını istiyorsun; sonuma bir ! ekle, ben de genelleme yapmam. Bu, amaçlamadığın bir değeri almaya çalışıp çalışmadığını anlamana yardımcı olur.",
                 "\\{1:1 2:2 3:3}!{4}\\🪲",
-                "Eşleşmelerimle nasıl birçok harika şey yapacağımı biliyorum."
+                "Eşleşmelerimle @how birçok harika şey yapacağımı biliyorum."
             ],
             "name": ["$~Harita"],
             "key": "$~Anahtar",
@@ -3902,7 +3906,7 @@
             "result": "$~Sonuç",
             "function": {
                 "size": {
-                    "doc": "$~İçimde kaç tane değer olduğunu sana söyleyeyim.",
+                    "doc": "$~İçimde kaç tane @value olduğunu sana söyleyeyim.",
                     "names": "$~boyut",
                     "inputs": []
                 },
@@ -4040,7 +4044,7 @@
         },
         "Table": {
             "doc": [
-                "$~Ben bir tablo satırları kümesiyim! Aynı yapıya sahip büyük değer koleksiyonlarını takip etmene yardım edebilirim.",
+                "$~Ben bir tablo satırları kümesiyim! Aynı yapıya sahip büyük @value koleksiyonlarını takip etmene yardım edebilirim.",
                 "Örneğin, bir sürü taşı takip etmek istediğini düşün:",
                 "\\⎡isim•'' renk•''⎦\n⎡'obsidyen' 'siyah'⎦\n⎡'sünger taşı' 'gri'⎦\n⎡'sitrin' 'sarı'⎦\\",
                 "@Bind ona isim vermene yardım edebilir! Sonra da @Insert ile yeni bir satır ekleyerek güncellenmiş bir tablo yapabilirsin:",
@@ -4199,7 +4203,7 @@
                     "doc": [
                         "$~Ben olan, her harfi büyük harfe çevrilmiş yeni biçimlendirilmiş metin oluştururum. Sadece kelimelerim değişir; biçimlendirmem, bağlantılarım ve örneklerim olduğu gibi kalır:",
                         "\\`*selam* orada`.büyükHarf()\\",
-                        "@Text/uppercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve dil etiketim, hangi kuralların kullanılacağına karar verir."
+                        "@Text/uppercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve @language etiketim, hangi kuralların kullanılacağına karar verir."
                     ],
                     "names": ["$~büyükHarf"],
                     "inputs": []
@@ -4208,7 +4212,7 @@
                     "doc": [
                         "$~Ben olan, her harfi küçük harfe çevrilmiş yeni biçimlendirilmiş metin oluştururum. Sadece kelimelerim değişir; biçimlendirmem, bağlantılarım ve örneklerim olduğu gibi kalır:",
                         "\\`*SELAM* ORADA`.küçükHarf()\\",
-                        "@Text/lowercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve dil etiketim, hangi kuralların kullanılacağına karar verir."
+                        "@Text/lowercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve @language etiketim, hangi kuralların kullanılacağına karar verir."
                     ],
                     "names": ["$~küçükHarf"],
                     "inputs": []
@@ -4272,12 +4276,12 @@
                 "Ama bir fare düğmesini /gerçekten/ dinlemen gerekiyorsa, bunu yapmanın yolu budur. Ana düğmenin yukarıda mı olduğunu gösteren bir @Boolean akışı sağlar \\⊥\\ ya da aşağıda mı \\⊤\\.",
                 "İşte basit bir örnek:",
                 "\\İfadeetmek(Düğme() → '')\\",
-                "Bu sadece, akışın @value değerini metin olarak gösteren bir @Phrase yapar. Bunu düzenleyiciye kopyalayıp tıklarsan, iki durum arasında gidip geldiğini görürsün: \\⊥\\ ve \\⊤\\."
+                "Bu sadece, akışın @value değerini metin olarak gösteren bir @Phrase yapar. Bunu düzenleyiciye kopyalayıp tıklarsan, iki @state arasında gidip geldiğini görürsün: \\⊥\\ ve \\⊤\\."
             ],
             "names": ["$~Düğme"],
             "down": {
                 "names": "$~aşağı",
-                "doc": "$~@None ise, akış hem yukarı hem aşağı değerlerini sağlar. Eğer bir \\⊤\\, yalnızca düğmeye basıldığında değişir. Eğer bir \\⊥\\, yalnızca düğme bırakıldığında değişir."
+                "doc": "$~@None ise, @stream hem yukarı hem aşağı değerlerini sağlar. Eğer bir \\⊤\\, yalnızca düğmeye basıldığında değişir. Eğer bir \\⊥\\, yalnızca düğme bırakıldığında değişir."
             }
         },
         "Pointer": {
@@ -4285,7 +4289,7 @@
                 "$~Bu, @Stage Stage'de izleyicilerinizin nereye işaret ettiğini takip eder.",
                 "/whrrrrrr/",
                 "Elbette, bu herkes için erişilebilir bir seçenek değil: herkes göremez veya kolayca işaret edemez, bu nedenle bu akışı kullanarak birinin katılımını engellemediğinizden emin olun.",
-                "Eğer kimsenin dışlanmadığından eminseniz, @Pointer kullanmak bir akış oluşturmak kadar basittir:",
+                "Eğer kimsenin dışlanmadığından eminseniz, @Pointer kullanmak bir @stream oluşturmak kadar basittir:",
                 "\\Pointer()\\",
                 "Sağladığı @Place , işaretçinin @Stage üzerinde nereye işaret ettiğine karşılık gelir."
             ],
@@ -4297,7 +4301,7 @@
                 "/tık tık/",
                 "Bunu dene",
                 "\\Anahtar()\\",
-                "Bir tuşa bastığında, tuşun @Stage üzerinde nasıl belirdiğini görüyor musun? Bir tuşa her basıldığında, akışa basılan tuşu anlatan yeni bir @Text eklenir.",
+                "Bir tuşa bastığında, tuşun @Stage üzerinde @how belirdiğini görüyor musun? Bir tuşa her basıldığında, akışa basılan tuşu anlatan yeni bir @Text eklenir.",
                 "Bir karakteri temsil eden bir tuş için, @value o karakter olarak @Text biçiminde olur.",
                 "Özel tuşlar için, örneğin /Escape/ tuşu için, o tuşu anlatan bir @Text olur. Bunun için <önceden tanımlı bir isim@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values> kullanılır. Ne yazık ki bu isim yalnızca İngilizce mevcuttur.",
                 "Sadece belirli bir tuşu öğrenmek istiyorsan, onu verebilirsin:",
@@ -4445,7 +4449,7 @@
             "doc": [
                 "$~@Phrase veya @Group oluşan bir @List sırayla gösterir ve sonuncusunda durur.",
                 "/Boop boop boop/",
-                "Zamanlamayı kontrol etmek için, her çıktıya @Phrase.duration özelliğini atayabilirsiniz; bu sayede bir sonraki çıktıya geçmeden önce o ifade belirtilen süre boyunca gösterilecek ve ayarladığınız @Phrase.entering veya @Phrase.exiting geçiş efektleri kullanılacaktır. Eğer bunları bir @Sequence olarak ayarlarsanız, o dizinin süresini kullanacaktır.",
+                "Zamanlamayı kontrol etmek için, her çıktıya @Phrase.duration özelliğini atayabilirsiniz; bu sayede bir sonraki çıktıya geçmeden önce o @expression belirtilen süre boyunca gösterilecek ve ayarladığınız @Phrase.entering veya @Phrase.exiting geçiş efektleri kullanılacaktır. Eğer bunları bir @Sequence olarak ayarlarsanız, o dizinin süresini kullanacaktır.",
                 "Tüm bunlar, bu üç ifadeyi sırayla gösteren şu küçük @Scene gibi şeyler yapmanıza olanak tanır:",
                 "\\Scene([\n\tPhrase('Hello' süre: 1s)\n\tPhrase('How are you?' süre: 2s rotasyon: 5° giriş: Pose(rotasyon: 0°))\n\tPhrase('I am fine')\n])\\",
                 "İlk çıktının bir saniye boyunca gösterildiğini, ardından ikincisinin iki saniye boyunca ancak beş derecelik bir dönüşle animasyonlu olarak gösterildiğini ve son olarak da sonuncusunun gösterildiğini görüyor musunuz?",
@@ -4454,7 +4458,7 @@
                 "Ve son bir küçük sır daha! Listeye @Boolean bile ekleyebilirsiniz ve eğer bunlar \\⊥\\ ise, @Scene duraklayacak ve doğru olana kadar bekleyecektir.",
                 "Örneğin, @Phrase oluşan bir dizi oluşturmak ve yalnızca @Button değiştiğinde ilerlemek istiyorsanız, bunu şu şekilde yapabilirsiniz:",
                 "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' süre: 0.25s rotasyon: 5° giriş: Pose(rotasyon: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
-                "Her @Phrase sonra nasıl durakladığını ve ilerlemeden önce @Button değişmesini beklediğini görüyor musunuz?"
+                "Her @Phrase sonra @how durakladığını ve ilerlemeden önce @Button değişmesini beklediğini görüyor musunuz?"
             ],
             "names": ["Gösteri"],
             "outputs": {
@@ -4469,7 +4473,7 @@
                 "Ona başlangıçta bir @Phrase veriyorsunuz ve ardından yerçekimine bağlı olarak yeni bir konum ve dönüşle onu iyileştiriyor.",
                 "Bu sayede zıplayan emoji oluşturmak gibi gerçekten basit şeyler yapabilirsiniz:",
                 "\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
-                "\"O\" harfinin nasıl zıpladığını görüyor musunuz? İlk değerlendirmede, ona @Stage üzerinde yüksek bir yer veriyorsunuz, ancak daha sonra @None alıyorsunuz; bu da @Motion onu yerçekiminin yerleştireceği herhangi bir konuma değiştirmesine olanak tanıyor.",
+                "\"O\" harfinin @how zıpladığını görüyor musunuz? İlk değerlendirmede, ona @Stage üzerinde yüksek bir yer veriyorsunuz, ancak daha sonra @None alıyorsunuz; bu da @Motion onu yerçekiminin yerleştireceği herhangi bir konuma değiştirmesine olanak tanıyor.",
                 "Aşağıda, yapılandırmanın diğer birçok yoluna göz atabilirsiniz."
             ],
             "names": ["$~Hareket"],
@@ -4504,7 +4508,7 @@
                 "$~İzleyicinin @Output öğesini @Stage üzerindeki bir @Place konumuna sürüklemesine olanak tanır.",
                 "@Stage üzerine @Output yerleştirmenin birçok yolu vardır: onlara açık bir @Place ver, @Motion kullan ve yer çekiminin işini yapmasına izin ver, ya da düzenlenmeleri için onları bir @Group içine koy.",
                 "Ama bazen @Output öğesinin @Stage üzerinde nereye gideceğini /izleyicinin/ kontrol etmesini istersin.",
-                "İşte nasıl çalıştığı: bir @Placement oluştur ve onu bir @Output öğesinin @Place değerine ver:",
+                "İşte @how çalıştığı: bir @Placement oluştur ve onu bir @Output öğesinin @Place değerine ver:",
                 "\\İfadeetmek('merhaba' yer: Atama())\\",
                 "Sonra, izleyici bir ok @key tuşunu kullandığında ya da sahnede tıkladığında veya dokunduğunda, @Placement istenen yönde hareket eden yeni bir @Place oluşturur.",
                 "Bunu programına kopyalamayı ve @Output öğesini işaretçi ya da klavyeyle hareket ettirmeyi dene.",
@@ -4538,7 +4542,7 @@
             "doc": [
                 "$~Verdiğin bir web adresindeki metni getirir.",
                 "İnternet büyüleyicidir — birbirine bağlı bilgisayarlardan oluşan, belgeleri paylaşan koca bir dünya.",
-                "Bu akış ona bağlanır — ona şöyle bir URL ver:",
+                "Bu @stream ona bağlanır — ona şöyle bir URL ver:",
                 "\\Websayfası('https://wordplay.dev')\\",
                 "Ve görünüşe göre <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS> diye bir şey var; bu, bir web sayfasındaki şeyleri @query yapmana olanak tanıyor. Ona bir CSS seçme sorgusu ver, o da yalnızca o sorguyla eşleşen metni getirir. Örneğin bu örnek, birinci seviye başlıkları getirir.",
                 "\\Websayfası('https://wordplay.dev' 'h1')\\",
@@ -4704,7 +4708,7 @@
                     "names": "$~italik"
                 },
                 {
-                    "doc": "$~Örneklenen noktalar arasındaki mesafe, çizgi ve eğriler boyunca tutarlı kalacak şekilde, metre cinsinden ifade edilmiştir. Daha küçük değerler, 0,01 metreye kadar daha hassas izleme sağlar.",
+                    "doc": "$~Örneklenen noktalar arasındaki mesafe, çizgi ve eğriler boyunca tutarlı kalacak şekilde, metre cinsinden @expression edilmiştir. Daha küçük değerler, 0,01 metreye kadar daha hassas izleme sağlar.",
                     "names": "$~aralık"
                 },
                 {
@@ -4729,7 +4733,7 @@
                 "@Now.timezone ve @Now.calendar özelliklerim @Moment'in girdilerini yansıtır ve oluşturduğum anları yapılandırır. Örneğin, Japon takvimine göre Tokyo'daki şu anki saati gösteren bir saat burada:",
                 "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
                 "Bu girdiler değişirse — diyelim ki bir tepki bana farklı bir saat dilimi verir — yeni ayarlarla anlar oluşturmaya başlarım.",
-                "@Time'dan nasıl farklıyım? @Time bir program başladığından beri geçen milisaniyeleri sayar, bu animasyon için iyidir. Ben sana bir takvim ve saat diliminde duvar saati tarihini ve saatini söylerim, bu saatler ve takvimler için iyidir."
+                "@Time'dan @how farklıyım? @Time bir program başladığından beri geçen milisaniyeleri sayar, bu animasyon için iyidir. Ben sana bir takvim ve saat diliminde duvar saati tarihini ve saatini söylerim, bu saatler ve takvimler için iyidir."
             ],
             "names": ["$~Şimdi"],
             "frequency": {
@@ -4738,7 +4742,7 @@
             },
             "timezone": {
                 "names": ["$~zamanDilimi"],
-                "doc": "$~Oluşturduğum anlar için bir bölge ve bir şehirden oluşan standart bir saat dilimi ismi, örneğin \\'America/New_York'\\ veya \\'Asya/Tokyo'\\. İsmi bilmiyor musun? Bildiğin bir şehir yaz, ben sana en yakın saat dilimini önereyim. Eğer \\ø\\, programın çalıştığı cihazın saat dilimini kullanırım."
+                "doc": "$~Oluşturduğum anlar için bir @region ve bir şehirden oluşan standart bir saat dilimi ismi, örneğin \\'America/New_York'\\ veya \\'Asya/Tokyo'\\. İsmi bilmiyor musun? Bildiğin bir şehir yaz, ben sana en yakın saat dilimini önereyim. Eğer \\ø\\, programın çalıştığı cihazın saat dilimini kullanırım."
             },
             "calendar": {
                 "names": ["$~takvim"],
@@ -4747,7 +4751,7 @@
         },
         "Moment": {
             "doc": [
-                "$~Ben zaman içindeki tek bir andım: takvimdeki bir tarih, günün bir saati ve bunların ifade edildiği saat dilimi ile takvim.",
+                "$~Ben zaman içindeki tek bir andım: takvimdeki bir tarih, günün bir saati ve bunların @expression edildiği saat dilimi ile takvim.",
                 "Bütün özelliklerim isteğe bağlıdır. Bir tarihi anlatmam için bana tarih parçaları ver:",
                 "\\📅(2026 7 1) → ''\\",
                 "Ya da günün saati için sadece zaman parçaları:",
@@ -4791,7 +4795,7 @@
             },
             "timezone": {
                 "names": ["$~zamanDilimi"],
-                "doc": "$~Bir bölge ve bir şehirden oluşan standart bir saat dilimi ismi, örneğin \\'America/New_York'\\, \\'Europe/Paris'\\ veya \\'Asya/Tokyo'\\. İsmi bilmiyor musun? Bildiğin bir şehir yaz, ben sana en yakın saat dilimini önereyim. Eğer \\ø\\, programın çalıştığı cihazın saat dilimini kullanırım."
+                "doc": "$~Bir @region ve bir şehirden oluşan standart bir saat dilimi ismi, örneğin \\'America/New_York'\\, \\'Europe/Paris'\\ veya \\'Asya/Tokyo'\\. İsmi bilmiyor musun? Bildiğin bir şehir yaz, ben sana en yakın saat dilimini önereyim. Eğer \\ø\\, programın çalıştığı cihazın saat dilimini kullanırım."
             },
             "calendar": {
                 "names": ["$~takvim"],
@@ -4986,11 +4990,11 @@
                 "names": "$~say"
             },
             "instruments": {
-                "doc": "$~Bu vuruşta çalan @Instrument, her biri bir kez listelenir. Yaygın durum için bir kısayol; @Downbeat/parts ayrıntıya sahiptir.",
+                "doc": "$~Bu vuruşta çalan @Instrument, her biri bir kez listelenir. Yaygın @state için bir kısayol; @Downbeat/parts ayrıntıya sahiptir.",
                 "names": "$~enstrümanlar"
             },
             "words": {
-                "doc": "$~Bu vuruşta söylenen heceler, parça sırasına göre, ya da hiçbir şey söylenmiyorsa boş bir liste. Yaygın durum için bir kısayol, @Downbeat/instruments gibi; @Downbeat/parts ayrıntıyı verir.",
+                "doc": "$~Bu vuruşta söylenen heceler, parça sırasına göre, ya da hiçbir şey söylenmiyorsa boş bir liste. Yaygın @state için bir kısayol, @Downbeat/instruments gibi; @Downbeat/parts ayrıntıyı verir.",
                 "names": "$~kelimeler"
             },
             "name": {
@@ -5071,7 +5075,7 @@
             "names": "$~Çıktı",
             "doc": [
                 "$~Ben aslında oluşturabileceğin bir @StructureDefinition değilim. Ama çok önemli biriyim, çünkü dansımızın en önemli öğelerine ilham veriyorum: @Phrase, @Group ve @Stage.",
-                "Onları nasıl kullanacağın hakkında daha fazla bilgi için git onlarla tanış."
+                "Onları @how kullanacağın hakkında daha fazla bilgi için git onlarla tanış."
             ]
         },
         "Group": {
@@ -5080,7 +5084,7 @@
                 "Çalışması için bana bir @Arrangement ve ardından düzenlenecek bir @Output @List vermeniz gerekiyor.",
                 "Örneğin, burada @Stack düzenlemesi ve dikey olarak üst üste yığılacak birkaç @Phrase ile birlikteyim:",
                 "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
-                "İşleri tam olarak nasıl düzenleyeceğim, bana verdiğiniz @Arrangement Arrangement'a bağlıdır."
+                "İşleri tam olarak @how düzenleyeceğim, bana verdiğiniz @Arrangement Arrangement'a bağlıdır."
             ],
             "names": ["$~Grup"],
             "layout": {
@@ -5303,7 +5307,7 @@
             },
             "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
             "changing": {
-                "doc": "$~Metnim değiştiğinde oynatılacak bir etkinin ismi. Bu etki @Phrase.duration süremce sürer ve @Phrase.style ile yumuşatılır. Eğer \\ø\\, metnim anında değişir. Eğer 'edit' (düzenle) ise, eski metni geriye doğru silerim; eski ve yeni metnin ortak olan kısmına kadar sildikten sonra yeni metni yazarım. Eğer 'rewrite' (yeniden yaz) ise, yeni metni eskinin üzerine yazarım; her seferinde rastgele bir sırayla bir sembolü değiştiririm. Eğer 'random' (rastgele) ise, her sembolüm metnimin dilinden (dil bilinmiyorsa yazısından) rastgele semboller arasında döner; metnimin büyük-küçük harf düzenine uyar ve bir çekiliş makinesi gibi yeni metnin üzerine iner. @FormattedLiteral metni ile, değişen semboller etki sırasında yeni metnin biçimini alır.",
+                "doc": "$~Metnim değiştiğinde oynatılacak bir etkinin ismi. Bu etki @Phrase.duration süremce sürer ve @Phrase.style ile yumuşatılır. Eğer \\ø\\, metnim anında değişir. Eğer 'edit' (düzenle) ise, eski metni geriye doğru silerim; eski ve yeni metnin ortak olan kısmına kadar sildikten sonra yeni metni yazarım. Eğer 'rewrite' (yeniden yaz) ise, yeni metni eskinin üzerine yazarım; her seferinde rastgele bir sırayla bir sembolü değiştiririm. Eğer 'random' (rastgele) ise, her sembolüm metnimin dilinden (@language bilinmiyorsa yazısından) rastgele semboller arasında döner; metnimin büyük-küçük harf düzenine uyar ve bir çekiliş makinesi gibi yeni metnin üzerine iner. @FormattedLiteral metni ile, değişen semboller etki sırasında yeni metnin biçimini alır.",
                 "names": "$~değişiyor"
             },
             "bubble": {
@@ -5311,7 +5315,7 @@
                     "$~Söylediklerimi gösteren, tam bana doğru işaret eden konuşma balonu. Buraya dört farklı şey gelebilir.",
                     "Sadece gösterdiğim, başka bir şey yapmayan düz metin:",
                     "\\İfadeetmek('bir' balon: 'merhaba!')\\",
-                    "Söylediklerimde *kalın* veya /italik/ kelimeler istiyorsan, biçimli metin.",
+                    "Söylediklerimde *kalın* veya /italik/ kelimeler istiyorsan, @markup.",
                     "Hem gösterip *hem* sesli söylediğim bir @Say:",
                     "\\İfadeetmek('bir' balon: Söylemek('merhaba!'))\\",
                     "Hangi taraftan konuştuğumu seçmek, onu bir düşünceye çevirmek ya da ona bir renk vermek istediğinde, bir @Bubble."
@@ -5567,7 +5571,7 @@
                 "names": "$~telafietmek"
             },
             "rotation": {
-                "doc": "$~@Output'un varsayılanı yerine nasıl döndürülmesi gerektiği.",
+                "doc": "$~@Output'un varsayılanı yerine @how döndürülmesi gerektiği.",
                 "names": "$~rotasyon"
             },
             "scale": {
@@ -5705,7 +5709,7 @@
                 "names": "$~dahahafif",
                 "inputs": [
                     {
-                        "doc": "$~Parlaklık seviyesini yüzde olarak ne kadar artırmak istediğinizi belirtin. Varsayılan değer %5'tir.",
+                        "doc": "$~Parlaklık seviyesini yüzde olarak ne kadar artırmak istediğinizi belirtin. Varsayılan @value %5'tir.",
                         "names": "$~ile"
                     }
                 ]
@@ -5719,7 +5723,7 @@
                 "names": "$~dahakoyu",
                 "inputs": [
                     {
-                        "doc": "$~Parlaklık seviyesini yüzde olarak ne kadar düşürmek istediğinizi belirtin. Varsayılan değer %5'tir.",
+                        "doc": "$~Parlaklık seviyesini yüzde olarak ne kadar düşürmek istediğinizi belirtin. Varsayılan @value %5'tir.",
                         "names": "$~ile"
                     }
                 ]
@@ -6523,7 +6527,7 @@
         },
         "Music": {
             "doc": [
-                "$~Notları sese çeviririm: bir tempoda, bir anahtarda ve bir gama karşı birlikte çalınan bir ya da daha çok @Track. Ben duyabileceğin /ve/ görebileceğin müziğim — her izleyici nasıl göründüğümü seçer.",
+                "$~Notları sese çeviririm: bir tempoda, bir anahtarda ve bir gama karşı birlikte çalınan bir ya da daha çok @Track. Ben duyabileceğin /ve/ görebileceğin müziğim — her izleyici @how göründüğümü seçer.",
                 "En küçük şarkı, tek bir parçada üç nottur:",
                 "\\🎼(🎶([1 3 5]))\\",
                 "Notlar sayılardır. 1, gamın ilk notasıdır — bir ezginin bittiğini hissettiren nota — 2 bir üstteki notadır ve 8 yine o ilk notadır, bir oktav daha yüksek. ø bir es'tir, yani sessizliktir. Sayılar iki uçtan da devam eder: 9 bir oktav üstteki ikinci notadır, 0 ve -1 ise ilk notanın altına iner.",
@@ -6564,7 +6568,7 @@
             },
             "scale": {
                 "doc": [
-                    "$~Sayılarımın hangi notaları ifade ettiği: ilk notadan yarım ses uzaklıklarının bir listesi.",
+                    "$~Sayılarımın hangi notaları @expression ettiği: ilk notadan yarım ses uzaklıklarının bir listesi.",
                     "Bir gam, bir parçanın üzerine kurulduğu küçük nota kümesidir ve birini seçmek, bir ruh hali seçmenin çoğudur. Aynı melodi şurada parlak ses çıkarır: \\🎼.majör\\, şurada üzgün: \\🎼.minör\\ ve şurada rüya gibi: \\🎼.tamSes\\, tek bir sayı değişmeden.",
                     "Bazı gamlarımın yanlış notası yoktur: \\🎼.pentatonik\\, \\🎼.minörPentatonik\\ ve \\🎼.blues\\ herhangi bir sırada iyi ses çıkarır, bu da onları başlamak için iyi bir yer yapar. Diğerleri bilerek gergindir — \\🎼.değişik\\, \\🎼.eksiltilmiş\\ ve \\🎼.locrian\\ uyumsuz ses çıkarır ve amaçları da budur.",
                     "Ayrıca kendi listeni de yazabilirsin. Bu, açıkça yazılmış bir beşli gamdır: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
@@ -6580,7 +6584,7 @@
                     "$~Bir değerlendirmede bu \\⊤\\ olduğunda, hiçbir notam değişmese bile baştan başlarım.",
                     "Bu, sürekli çalmak yerine bir olaya yanıt veren ses içindir. Doğru bir yanıt bir çıngırak çalarsa, üst üste iki doğru yanıt tam olarak aynı müziği üretir, bu yüzden hiçbir şey değişmez ve hiçbir şey tekrar ses çıkarmaz. Ben senin /yeniden, şimdi/ deme yolunum — aşağıda /doğru/'yu iki kez seç ve iki kez çıngırar:",
                     "\\🎭([\n\t\t💬('doğru' seçilebilir: ⊤ isim: 'doğru' yer: 📍(-2m 0m))\n\t\t💬('yanlış' seçilebilir: ⊤ isim: 'yanlış' yer: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] çalgı: 🔈.🔔 döngü: ⊥) tekrarOynat: ∆ 🔘() ? (🔘() = 'doğru') ⊥)\n\t])\\",
-                    "Bana /anlık/ bir koşul ver, yalnızca olayın neden olduğu değerlendirmede doğru olan bir koşul, yukarıdaki \\∆ 🔘()\\ gibi. Şunun gibi kalıcı bir koşul \\score > 10\\🪲 bir kez doğru olduğunda doğru kalır, bu yüzden o andan itibaren her değerlendirmede beni yeniden başlatır."
+                    "Bana /anlık/ bir @condition ver, yalnızca olayın neden olduğu değerlendirmede doğru olan bir koşul, yukarıdaki \\∆ 🔘()\\ gibi. Şunun gibi kalıcı bir koşul \\score > 10\\🪲 bir kez doğru olduğunda doğru kalır, bu yüzden o andan itibaren her değerlendirmede beni yeniden başlatır."
                 ],
                 "names": "$~tekrarOynat"
             },
@@ -6676,7 +6680,7 @@
                     "$~Bu \\⊤\\ iken yerinde dururum ve tekrar \\⊥\\ olduğunda durduğum vuruştan itibaren devam ederim.",
                     "Beni @Music/replay'den farklı kılan şey budur: replay /baştan başla/ demektir, ben ise /burada bekle/ demektir. Durduğumda hâlâ çalan bir nota, tekrar başladığımda ondan geriye kalanı çalar, bu yüzden uzun bir akorun ortasında durmak onu kaybetmez. Aşağıda /tut/ ve /devam et/'i seç:",
                     "\\🎭([\n\t\t💬('tut' seçilebilir: ⊤ isim: 'tut' yer: 📍(-2m 0m))\n\t\t💬('git' seçilebilir: ⊤ isim: 'git' yer: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] çalgı: 🔈.🎹) duraklat: 🔘() = 'tut')\n\t])\\",
-                    "Tekrardan farklı olarak, /kalıcı/ bir koşul isterim; sessizliği ne kadar istersen o kadar süre doğru kalan bir koşul. @Beat sayacım benimle birlikte bekler ve sıfırdan başlamak yerine kaldığı yerden devam eder."
+                    "Tekrardan farklı olarak, /kalıcı/ bir @condition isterim; sessizliği ne kadar istersen o kadar süre doğru kalan bir koşul. @Beat sayacım benimle birlikte bekler ve sıfırdan başlamak yerine kaldığı yerden devam eder."
                 ],
                 "names": "$~duraklat"
             }
@@ -6692,12 +6696,12 @@
                 "Her girdi benim @Track/beat öğem kadar sürer, sen değiştirmezsen bu bir vuruştur. Bunu değiştirmek, çaldığım her şeyi bir anda yeniden ızgaraya yerleştirir.",
                 "Bir girdinin geri kalanından daha uzun veya daha kısa olması gerektiğinde, uzunluğu sayının üzerine bir nota değeri olarak yaz. \\8𝅗𝅥\\ bir yarım notadır — bir vuruştan iki kat uzundur — ve çevresinde hiçbir şeye gerek duymaz:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Beş değer vardır: \\𝅝\\ dört vuruş sürer, \\𝅗𝅥\\ iki, \\𝅘𝅥\\ bir, \\𝅘𝅥𝅮\\ yarım vuruş, ve \\𝅘𝅥𝅯\\ bir vuruşun çeyreği. Bunlardan herhangi birinin ardından bir nokta koymak onu yarısı kadar daha uzun yapar, böylece \\𝅘𝅥𝅭\\ bir buçuk vuruştur. Bir çeyrek nota, vuruşum ne olursa olsun bir vuruştur, işte bu yüzden \\vuruş: 1𝅘𝅥𝅮\\🪲 ile aynı şeyi söyler \\0.5beats\\ ve daha anlaşılır okunur. Bir akorda değeri ilk sayıya koy: \\{1𝅗𝅥 3 5}\\.",
+                "Beş @value vardır: \\𝅝\\ dört vuruş sürer, \\𝅗𝅥\\ iki, \\𝅘𝅥\\ bir, \\𝅘𝅥𝅮\\ yarım vuruş, ve \\𝅘𝅥𝅯\\ bir vuruşun çeyreği. Bunlardan herhangi birinin ardından bir nokta koymak onu yarısı kadar daha uzun yapar, böylece \\𝅘𝅥𝅭\\ bir buçuk vuruştur. Bir çeyrek nota, vuruşum ne olursa olsun bir vuruştur, işte bu yüzden \\vuruş: 1𝅘𝅥𝅮\\🪲 ile aynı şeyi söyler \\0.5beats\\ ve daha anlaşılır okunur. Bir akorda değeri ilk sayıya koy: \\{1𝅗𝅥 3 5}\\.",
                 "Bunları bulmak zordur, bu yüzden düzenleyicinin altındaki simge sırası, imlecin benim sayılarımdan hemen sonra olduğu her yerde bunları sunar.",
                 "Bir es değer taşıyamaz, çünkü \\ø\\ bir sayı değildir. Arka arkaya iki es iki kat uzundur ve daha ince olan her şey için @Note vardır.",
                 "Tek bir nota kendi ses düzeyine ya da hiçbir değerin yazamayacağı bir uzunluğa ihtiyaç duyduğunda, onu bir @Note içine sar. Buna yalnızca ihtiyacın olan yerde başvur: yalın bir sayı daha kolay okunur, bu yüzden çoğu parçada hiç yoktur ve bu nadirlik, bir @Note'yi bir olay olarak öne çıkaran şeydir.",
                 "\\hücre: [1 3 5 3]\n🎼(\n\t🎶(\n\t\thücre\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n•#) n + 2))\n\t\t.Listeile(hücre.tersineçevrilmiş())\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n2•#) 8 - n2))\n\t\tçalgı: 🔈.🎹\n\t)\n)\\",
-                "Eslerle doldurmak bir turun ihtiyacı olan tek şeydir: her iki parça da aynı sayıda vuruş tutar, böylece birbirinden uzaklaşmak yerine adım adım kalırlar. İki listeyi : ile bir listeye yaymak, onların nasıl oluşturulduğudur, çünkü \\append\\ her iki listenin de aynı türden şeyi tutmasına ihtiyaç duyar.",
+                "Eslerle doldurmak bir turun ihtiyacı olan tek şeydir: her iki parça da aynı sayıda vuruş tutar, böylece birbirinden uzaklaşmak yerine adım adım kalırlar. İki listeyi : ile bir listeye yaymak, onların @how oluşturulduğudur, çünkü \\append\\ her iki listenin de aynı türden şeyi tutmasına ihtiyaç duyar.",
                 "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\ndinlen: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :dinlen] çalgı: 🔈.🪈)\n\t\t🎶([:dinlen :melodi] çalgı: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~Parça"],
@@ -6718,7 +6722,7 @@
                 "names": "$~gam"
             },
             "key": {
-                "doc": "$~Sadece bana özel bir kayma, yarım ton cinsinden, @Music/key'i geçersiz kılar — bir sesin diğerlerinden daha yüksek veya daha alçak durması gerektiğinde. Bir track'i bir oktav düşürmek, bir bas hattının melodiyle tam olarak aynı sayılardan nasıl yazıldığıdır.",
+                "doc": "$~Sadece bana özel bir kayma, yarım ton cinsinden, @Music/key'i geçersiz kılar — bir sesin diğerlerinden daha yüksek veya daha alçak durması gerektiğinde. Bir track'i bir oktav düşürmek, bir bas hattının melodiyle tam olarak aynı sayılardan @how yazıldığıdır.",
                 "names": "$~anahtar"
             },
             "volume": {
@@ -6745,7 +6749,7 @@
         "Note": {
             "doc": [
                 "$~Ben bir @Track içinde kendi ses seviyesini veya hiçbir nota değerinin heceleyemeyeceği bir uzunluğu taşıyan tek bir girişim.",
-                "Çoğu nota düz sayılar olarak kalmalı ve çoğu uzunluk sayının kendisine yazıldığında daha kısadır: \\1𝅗𝅥\\ bir yarım notadır. Bir nota kendi ses seviyesine veya değerlerin arasına düşen bir uzunluğa ihtiyaç duyduğunda bana uzanmaya değer — ve çünkü \\♪(1 2beats ÷ 3)\\ çok daha fazla şey söyler, \\1\\ ile karşılaştırıldığında, beni her yerde kullanmak önemli notaları gömer.",
+                "Çoğu nota düz sayılar olarak kalmalı ve çoğu uzunluk sayının kendisine yazıldığında daha kısadır: \\1𝅗𝅥\\ bir yarım notadır. Bir nota kendi ses seviyesine veya değerlerin arasına düşen bir uzunluğa ihtiyaç duyduğunda bana uzanmaya @value — ve çünkü \\♪(1 2beats ÷ 3)\\ çok daha fazla şey söyler, \\1\\ ile karşılaştırıldığında, beni her yerde kullanmak önemli notaları gömer.",
                 "Bir triole dürüst aritmetiktir: \\♪(1 2beats ÷ 3)\\ bunlardan üçünün iki vuruş doldurduğunu söyler. Uzunluğum da bir nota değeri olabilir, yani \\♪(1 1𝅗𝅥)\\ ve \\♪(1 2beats)\\ aynı iki vuruştur.",
                 "\\🎼(🎶([1 1 ♪(5 2beats sesDüzeyi: 60%) ø]))\\"
             ],
@@ -6877,7 +6881,7 @@
                 },
                 "acousticGuitar": {
                     "doc": [
-                        "$~Bir klasik gitar. Naylon telleri pena yerine parmaklarla çekilir. Gerçek bir gitardan kaydedildi ve perdelidir, böylece sayılar notaları seçer. Sade \\guitar\\ bunu ifade eder. Yani gitar isteyen eski projeler bunu çalar.",
+                        "$~Bir klasik gitar. Naylon telleri pena yerine parmaklarla çekilir. Gerçek bir gitardan kaydedildi ve perdelidir, böylece sayılar notaları seçer. Sade \\guitar\\ bunu @expression eder. Yani gitar isteyen eski projeler bunu çalar.",
                         "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎸) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~akustikGitar", "$~gitar"]
@@ -6948,7 +6952,7 @@
             "names": ["$~Balon"],
             "text": {
                 "doc": [
-                    "$~Ne gösterdiğim. Bana düz metin ver, ya da *kalın* ya da /italik/ kelimeler istiyorsan biçimli metin ver.",
+                    "$~Ne gösterdiğim. Bana düz metin ver, ya da *kalın* ya da /italik/ kelimeler istiyorsan @markup ver.",
                     "Bana bunun yerine bir @Say ver, o zaman hem gösterilirim hem sesli okunurum. O zaman genelde @Stage'in altında görünen kelimelerin yerini alırım, çünkü benimkiler zaten konuşanın yanında ekranda görünür."
                 ],
                 "names": "$~metin"

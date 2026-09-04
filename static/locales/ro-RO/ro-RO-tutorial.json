@@ -183,7 +183,7 @@
                             "$~Sunt organizatorul programului pentru un spectacol. Înainte să începem, hai să-ți arăt totul: @Tour/source",
                             "$~Cutia aceea de acolo @UI/editor este @editor. Acolo scrii tu. Tot ce scrii acolo este o instrucțiune pentru mine.",
                             "$~Spațiul acela de acolo @UI/stage este @stage. Orice rezultă din instrucțiunile tale, îl arăt acolo.",
-                            "$~*Regizorul* — acela ești tu! — decide ce instrucțiuni ne dă. Înainte să începem, lasă-mă să-ți arăt @editor: @Tour/source"
+                            "$~*Regizorul* — acela ești tu! — decide ce @how ne dă. Înainte să începem, lasă-mă să-ți arăt @editor: @Tour/source"
                         ],
                         null,
                         [
@@ -599,7 +599,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Funcțiile sunt un fel de alchimie. Ele primesc orice număr de intrări și le folosesc pentru a produce o singură ieșire. Pot avea nume sau pot fi fără nume. Pot avea zero intrări, cinci sau un număr necunoscut. Iar alchimia: sunt ca @Program și pot avea orice număr de expresii pentru a produce o valoare."
+                            "$~Funcțiile sunt un fel de alchimie. Ele primesc orice număr de intrări și le folosesc pentru a produce o singură ieșire. Pot avea nume sau pot fi fără nume. Pot avea zero intrări, cinci sau un număr necunoscut. Iar alchimia: sunt ca @Program și pot avea orice număr de expresii pentru a produce o @value."
                         ],
                         null,
                         [
@@ -760,7 +760,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~... *Valori*? Îmi pare rău, știu că ar trebui să fim în acest mare tur prin *Vers*. Pur și simplu nu știu ce să fac cu @Evaluate. Deci... *valori*. Nu le-am explicat încă, nu-i așa? Hm... cum să explic... Știi ce sunt „datele”? Ca numerele și textul? Valorile sunt oricare dintre aceste lucruri. O valoare poate fi la fel de mică ca un număr sau la fel de mare ca o scenă întreagă pe scenă, plină de personaje care dansează și se mișcă. Unele valori sunt alcătuite din multe alte valori, cum ar fi structuri mari și elaborate de valori de date împletite."
+                            "$~... *Valori*? Îmi pare rău, știu că ar trebui să fim în acest mare tur prin *Vers*. Pur și simplu nu știu ce să fac cu @Evaluate. Deci... *valori*. Nu le-am explicat încă, nu-i așa? Hm... cum să explic... Știi ce sunt „datele”? Ca numerele și textul? Valorile sunt oricare dintre aceste lucruri. O @value poate fi la fel de mică ca un număr sau la fel de mare ca o scenă întreagă pe scenă, plină de personaje care dansează și se mișcă. Unele valori sunt alcătuite din multe alte valori, cum ar fi structuri mari și elaborate de valori de date împletite."
                         ],
                         null,
                         {
@@ -1794,7 +1794,7 @@
                         [
                             "List",
                             "happy",
-                            "$~Interesant, nu? Dă-mi un loc din listă și eu voi înfășura în jur. De exemplu, \\-1\\ este ultimul element din listă, iar dacă lista are cinci elemente, atunci @index \\6\\ este primul element. Dacă îmi dai indexul \\0\\, atunci îți voi da @NoneLiteral pentru că nu există nimic acolo. Are sens?"
+                            "$~Interesant, nu? Dă-mi un loc din listă și eu voi înfășura în jur. De exemplu, \\-1\\ este ultimul @element din listă, iar dacă lista are cinci elemente, atunci @index \\6\\ este primul element. Dacă îmi dai indexul \\0\\, atunci îți voi da @NoneLiteral pentru că nu există nimic acolo. Are sens?"
                         ],
                         null,
                         [
@@ -2488,7 +2488,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Să începem cu cel mai elementar flux dintre toate: @Time. Pentru a face un flux, folosim @Evaluate și dăm numele @type de flux pe care îl vrei."
+                            "$~Să începem cu cel mai elementar @stream dintre toate: @Time. Pentru a face un flux, folosim @Evaluate și dăm numele @type de flux pe care îl vrei."
                         ],
                         ["Time", "neutral", "$~tic tic tic tic tic…"],
                         { "edit": "Time()" },
@@ -2496,7 +2496,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Apasă butonul ▶️ de redare din comutatorul de mod @UI/modeSwitcher de deasupra scenei pentru a vedea timpul cum se mișcă. Vezi cum se schimbă timpul? Fluxurile sunt o serie de valori. De fiecare dată când un flux primește o valoare nouă, @Program se reevaluează cu noua valoare a fluxului. De aceea acest program continuă să numere în sus: am făcut un flux de timp care începe la timpul 0 milisecunde și apoi se actualizează mereu de fiecare dată când ceasul lui ticăie. Acest timp este timpul tău, din lumea ta. Când vrei să schimbi codul, treci înapoi la modul de editare ✏️; în timp ce editezi, scena rămâne înghețată la momentul actual."
+                            "$~Apasă butonul ▶️ de redare din comutatorul de mod @UI/modeSwitcher de deasupra scenei pentru a vedea timpul cum se mișcă. Vezi cum se schimbă timpul? Fluxurile sunt o serie de valori. De fiecare dată când un flux primește o @value nouă, @Program se reevaluează cu noua valoare a fluxului. De aceea acest program continuă să numere în sus: am făcut un flux de timp care începe la timpul 0 milisecunde și apoi se actualizează mereu de fiecare dată când ceasul lui ticăie. Acest timp este timpul tău, din lumea ta. Când vrei să schimbi codul, treci înapoi la modul de editare ✏️; în timp ce editezi, scena rămâne înghețată la momentul actual."
                         ],
                         ["Time", "neutral", "$~tic tic tic tic tic…"],
                         null,
@@ -2566,7 +2566,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Dacă nu mă înșel, există un lucru în lumea ta numit „tastatură”? Este un mod de a selecta pe care dintre noi vrei să apară în documentele tale, nu? Ei bine, în Univers, primim aceste cereri ca un flux de text, fiecare valoare de text reprezentând @key care a fost apăsată. Le folosim pentru a asculta ce tastează oamenii din lumea ta. Acest flux se numește @Key."
+                            "$~Dacă nu mă înșel, există un lucru în lumea ta numit „tastatură”? Este un mod de a selecta pe care dintre noi vrei să apară în documentele tale, nu? Ei bine, în Univers, primim aceste cereri ca un @stream de text, fiecare @value de text reprezentând @key care a fost apăsată. Le folosim pentru a asculta ce tastează oamenii din lumea ta. Acest flux se numește @Key."
                         ],
                         null,
                         [
@@ -2614,7 +2614,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Mai ai în lumea ta ceva numit „mouse”, „trackpad-uri” și „ecrane tactile”? Acestea apar în lumea noastră ca fluxuri @Pointer, care reprezintă un flux de locuri pe scenă."
+                            "$~Mai ai în lumea ta ceva numit „mouse”, „trackpad-uri” și „ecrane tactile”? Acestea apar în lumea noastră ca fluxuri @Pointer, care reprezintă un @stream de locuri pe scenă."
                         ],
                         null,
                         [
@@ -2651,7 +2651,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~@Button este similar cu @Key, dar corespunde butonului principal al indicatorului, la fel ca un clic sau o atingere. Este doar un flux de \\⊤\\, care indică momentul în care butonul indicatorului este apăsat. Apăsați butonul respectiv și urmăriți cum apar evenimentele pe cronologie."
+                            "$~@Button este similar cu @Key, dar corespunde butonului principal al indicatorului, la fel ca un clic sau o atingere. Este doar un @stream de \\⊤\\, care indică momentul în care butonul indicatorului este apăsat. Apăsați butonul respectiv și urmăriți cum apar evenimentele pe cronologie."
                         ],
                         ["Button", "neutral", "$~clic… clic… clic…"],
                         { "edit": "Button()" },
@@ -2659,7 +2659,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Îl poți configura să schimbe doar în sus sau în jos prin transmiterea unui parametru \\⊤\\ sau \\⊥\\."
+                            "$~Îl poți configura să schimbe doar în sus sau în jos prin transmiterea unui @parameter \\⊤\\ sau \\⊥\\."
                         ],
                         ["Button", "neutral", "$~jos… jos… jos…"],
                         { "edit": "Button(ø)" },
@@ -2681,7 +2681,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Lumea ta și lumea noastră au și ele sunet. Știai că te putem auzi cu consimțământul tău? Ascultăm cu un flux numit @Volume, care oferă o secvență de amplitudini de nivel scăzut. Microfonul tău ar putea solicita permisiunea de a fi partajat cu noi. După ce faci acest lucru, vei vedea un număr care corespunde amplitudinii, între \\0\\ și \\100\\."
+                            "$~Lumea ta și lumea noastră au și ele sunet. Știai că te putem auzi cu consimțământul tău? Ascultăm cu un @stream numit @Volume, care oferă o secvență de amplitudini de nivel scăzut. Microfonul tău ar putea solicita permisiunea de a fi partajat cu noi. După ce faci acest lucru, vei vedea un număr care corespunde amplitudinii, între \\0\\ și \\100\\."
                         ],
                         ["Volume", "neutral", "$~bzzzZZZZZZzzzzzzZZZZ…"],
                         { "edit": "Volume()" },
@@ -2708,7 +2708,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Mai există o sursă de date de intrare pe care vreau să v-o arăt. Vă amintiți de \\[].random()\\ de mai devreme, din @List?",
-                            "$~În interior, folosește o @FunctionDefinition numită @Random, care oferă o secvență infinită de numere aleatorii. Este un fel de flux, deoarece generează input din lumea ta, nu din a noastră. Dar este puțin diferit de celelalte fluxuri prin faptul că nu determină reevaluarea unui @Program.",
+                            "$~În interior, folosește o @FunctionDefinition numită @Random, care oferă o secvență infinită de numere aleatorii. Este un fel de @stream, deoarece generează input din lumea ta, nu din a noastră. Dar este puțin diferit de celelalte fluxuri prin faptul că nu determină reevaluarea unui @Program.",
                             "$~În schimb, de fiecare dată când este evaluat, dă un număr aleatoriu diferit.",
                             "$~Vezi acel mic buton ↻ @UI/resetEvaluator din bara de instrumente a scenei (și, de asemenea, din cronologie)? Apasă pe acesta pentru a reevalua programul manual și vei vedea un număr nou între \\0\\ și \\1\\ de fiecare dată."
                         ],
@@ -2748,7 +2748,7 @@
                             "FunctionDefinition",
                             "kind",
                             "$~Uneori, e plăcut să interacționăm cu publicul la noi, pe @Stage.",
-                            "$~@Placement este o modalitate excelentă de a face asta! Este un flux de @Place care răspunde la tastele săgeată, clicuri și atingeri de pe tastatură.",
+                            "$~@Placement este o modalitate excelentă de a face asta! Este un @stream de @Place care răspunde la tastele săgeată, clicuri și atingeri de pe tastatură.",
                             "$~Încearcă să le folosești ca să miști hot dog-ul."
                         ],
                         null,
@@ -2787,7 +2787,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Până acum, toate *fluxurile* despre care am vorbit sunt secvențe de valori simple, cum ar fi @Text sau @Number. Unele fluxuri, însă, pot produce valori complexe.",
-                            "$~@Motion este unul dintre cele mai interesante dintre acestea. Creează un flux de @Place."
+                            "$~@Motion este unul dintre cele mai interesante dintre acestea. Creează un @stream de @Place."
                         ],
                         null,
                         {
@@ -2914,7 +2914,7 @@
                             "FunctionDefinition",
                             "kind",
                             "$~Uneori, o reprezentație este o interacțiune. Publicul spune ceva, iar noi spunem ceva înapoi.",
-                            "$~Pentru asta există @Chat. Când îl folosești, va apărea o mică casetă pe scenă pentru ca publicul să scrie, iar când își trimit mesajul, @Text va fi adăugat în flux pentru ca programul să poată răspunde."
+                            "$~Pentru asta există @Chat. Când îl folosești, va apărea o mică casetă pe scenă pentru ca publicul să scrie, iar când își trimit mesajul, @Text va fi adăugat în @stream pentru ca programul să poată răspunde."
                         ],
                         null,
                         { "edit": "Chat()" },
@@ -3040,7 +3040,7 @@
                         [
                             "Reaction",
                             "serious",
-                            "$~Iată un exemplu. Vezi fluxul @Key? Dacă pui ∆ înaintea lui, întrebi: /S-a schimbat acest flux?/ Înainte să se schimbe, eu dau valoarea inițială, \\1m\\. Dar când apeși tasta spațiu, @Program se reevaluează, iar eu dau *următorul* @expression, care este \\1m\\ plus valoarea anterioară a fluxului; aceasta este reprezentată de \\.\\. Aceasta adaugă \\1m\\ la mărimea frazei, făcând cuvântul să crească tot mai mult."
+                            "$~Iată un exemplu. Vezi fluxul @Key? Dacă pui ∆ înaintea lui, întrebi: /S-a schimbat acest @stream?/ Înainte să se schimbe, eu dau valoarea inițială, \\1m\\. Dar când apeși tasta spațiu, @Program se reevaluează, iar eu dau *următorul* @expression, care este \\1m\\ plus valoarea anterioară a fluxului; aceasta este reprezentată de \\.\\. Aceasta adaugă \\1m\\ la mărimea frazei, făcând cuvântul să crească tot mai mult."
                         ],
                         {
                             "fix": "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"
@@ -3162,7 +3162,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~Îți amintești rezultatul pe care ți l-am arătat acum mult timp, @Phrase? Aici încep cu adevărat performanțele. Să începem de acolo! Și apoi îți voi arăta modalități de a construi performanțe din ce în ce mai interesante pornind de la acel element constitutiv. Permite-mi să te prezint!"
+                            "$~Îți amintești rezultatul pe care ți l-am arătat acum mult timp, @Phrase? Aici încep cu adevărat performanțele. Să începem de acolo! Și apoi îți voi arăta modalități de a construi performanțe din ce în ce mai interesante pornind de la acel @element constitutiv. Permite-mi să te prezint!"
                         ]
                     ]
                 },
@@ -3408,7 +3408,7 @@
                         [
                             "Phrase",
                             "happy",
-                            "$~Bineînțeles! De fiecare dată când te saturi să te joci cu intrările lui @Evaluate, poți oricând selecta o frază pe scenă, și va apărea o paletă, care îți permite să schimbi orice lucru mic ai dori: mărimea mea, fontul, locul, pozele. Există doar o regulă: dacă setezi oricare dintre acestea la un @expression în loc de doar o valoare, va trebui să le schimbi jos în @Program, nu în paletă. Îmbracă-mă cum vrei tu!"
+                            "$~Bineînțeles! De fiecare dată când te saturi să te joci cu intrările lui @Evaluate, poți oricând selecta o frază pe scenă, și va apărea o paletă, care îți permite să schimbi orice lucru mic ai dori: mărimea mea, fontul, locul, pozele. Există doar o regulă: dacă setezi oricare dintre acestea la un @expression în loc de doar o @value, va trebui să le schimbi jos în @Program, nu în paletă. Îmbracă-mă cum vrei tu!"
                         ],
                         { "edit": "Phrase('dress me up!')" },
                         null,
@@ -3735,7 +3735,7 @@
                         [
                             "Group",
                             "serious",
-                            "$~Dar uneori, cu toții avem nevoie de puțin spațiu. Așadar, puteți adăuga un element de umplere lui @Stack. Încercați să schimbați elementul de umplere cu un alt @NumberLiteral!"
+                            "$~Dar uneori, cu toții avem nevoie de puțin spațiu. Așadar, puteți adăuga un @element de umplere lui @Stack. Încercați să schimbați elementul de umplere cu un alt @NumberLiteral!"
                         ],
                         {
                             "edit": [
@@ -4328,7 +4328,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Toată lumea ar trebui să poată participa! Așadar, acum că am vorbit despre @Phrase mai în detaliu, am vrut să vă arăt un ultim flux, @Choice, care este un flux de nume @Phrase care au fost selectate, independent de modul în care au fost selectate. De exemplu, un public ar putea folosi un mouse pentru a face clic pe o @Phrase, ar putea folosi o tastatură pentru a o selecta sau ar putea folosi alte dispozitive. Indiferent ce folosesc, @Choice va conține cea mai recentă selecție a lor."
+                            "$~Toată lumea ar trebui să poată participa! Așadar, acum că am vorbit despre @Phrase mai în detaliu, am vrut să vă arăt un ultim @stream, @Choice, care este un flux de nume @Phrase care au fost selectate, independent de modul în care au fost selectate. De exemplu, un public ar putea folosi un mouse pentru a face clic pe o @Phrase, ar putea folosi o tastatură pentru a o selecta sau ar putea folosi alte dispozitive. Indiferent ce folosesc, @Choice va conține cea mai recentă selecție a lor."
                         ],
                         null,
                         [
@@ -4754,7 +4754,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Dar dacă nu există expresii de păstrat? Doar instrucțiuni @Bind?"
+                            "$~Dar dacă nu există expresii de păstrat? Doar @how @Bind?"
                         ],
                         [
                             "Block",
@@ -4770,7 +4770,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~A, și încă ceva interesant! Când vrei o listă, nu trebuie să tastezi întotdeauna parantezele. Poți pur și simplu să pui fiecare element pe o linie separată în interiorul @Block și va face același lucru."
+                            "$~A, și încă ceva interesant! Când vrei o listă, nu trebuie să tastezi întotdeauna parantezele. Poți pur și simplu să pui fiecare @element pe o linie separată în interiorul @Block și va face același lucru."
                         ],
                         [
                             "Block",
@@ -5046,7 +5046,7 @@
                         [
                             "StructureDefinition",
                             "excited",
-                            "$~Apoi, și-au amintit de @Reaction, care poate fi folosit pentru a răspunde la schimbările fluxului. Voiau ca mesajul să se schimbe la fiecare două secunde, așa că au făcut un flux @Time care ticăie la fiecare 2 secunde și au folosit @Reaction pentru a mări următorul @index de fiecare dată. Acest @Reaction spune: începe la \\1\\, și când timpul se schimbă la fiecare \\2000ms\\, evaluează la valoarea anterioară a lui \\index + 1\\. În acest fel, \\index\\ crește cu \\1\\ la fiecare două secunde, schimbând mesajul afișat. Ura, funcționează!"
+                            "$~Apoi, și-au amintit de @Reaction, care poate fi folosit pentru a răspunde la schimbările fluxului. Voiau ca mesajul să se schimbe la fiecare două secunde, așa că au făcut un @stream @Time care ticăie la fiecare 2 secunde și au folosit @Reaction pentru a mări următorul @index de fiecare dată. Acest @Reaction spune: începe la \\1\\, și când timpul se schimbă la fiecare \\2000ms\\, evaluează la valoarea anterioară a lui \\index + 1\\. În acest fel, \\index\\ crește cu \\1\\ la fiecare două secunde, schimbând mesajul afișat. Ura, funcționează!"
                         ],
                         {
                             "edit": [
@@ -5180,7 +5180,7 @@
                         [
                             "StructureDefinition",
                             "surprised",
-                            "$~Vai de mine, am uitat să explic asta. Folosești un mini-me, @PropertyReference. De exemplu, cu acel exemplu de joc, vezi cum am definit un Game @StructureDefinition, apoi am creat o valoare \\Game\\ cu scorul \\0\\, \\3\\ vieți și nivelul \\1\\? Pentru a obține viețile, spunem pur și simplu \\status.lives\\, iar rezultatul va fi \\3\\."
+                            "$~Vai de mine, am uitat să explic asta. Folosești un mini-me, @PropertyReference. De exemplu, cu acel exemplu de joc, vezi cum am definit un Game @StructureDefinition, apoi am creat o @value \\Game\\ cu scorul \\0\\, \\3\\ vieți și nivelul \\1\\? Pentru a obține viețile, spunem pur și simplu \\status.lives\\, iar rezultatul va fi \\3\\."
                         ],
                         {
                             "edit": [
@@ -5292,7 +5292,7 @@
                         [
                             "Doc",
                             "serious",
-                            "$~Ei bine, mă poți plasa aproape oriunde în @Program. De exemplu, să presupunem că creezi un @Bind și vrei să spui la ce servește valoarea. De exemplu, aici avem o valoare simplă pe care am denumit-o, dar ceea ce fac este să ofer o explicație mai amplă a rolului său."
+                            "$~Ei bine, mă poți plasa aproape oriunde în @Program. De exemplu, să presupunem că creezi un @Bind și vrei să spui la ce servește valoarea. De exemplu, aici avem o @value simplă pe care am denumit-o, dar ceea ce fac este să ofer o explicație mai amplă a rolului său."
                         ],
                         {
                             "edit": [
@@ -5774,7 +5774,7 @@
                         [
                             "Reaction",
                             "kind",
-                            "$~Pot să-l schimb! Avem nevoie de un flux @Time, dar trebuie să schimbăm și caracterele. Dar care ar trebui să fie următoarea valoare?"
+                            "$~Pot să-l schimb! Avem nevoie de un @stream @Time, dar trebuie să schimbăm și caracterele. Dar care ar trebui să fie următoarea @value?"
                         ],
                         { "edit": "#EvaluateDance9" },
                         null,

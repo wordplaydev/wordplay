@@ -476,9 +476,15 @@ test('resolving a color needs no basis', () => {
  * that cannot contain a multi-character cluster took `npm run locales` from
  * 134s to 127s and the unit suite from 112s to 72s. `projects` is the one entry
  * with no slack left for it, so only its byte budget moves.
+ *
+ * The `stream` glossary term (#960) is **+0 files** and a few hundred bytes in
+ * `en-US.json`, which every page carries because every page resolves a locale.
+ * A glossary term is the cheapest place to put learner vocabulary for exactly
+ * this reason: it is data in a file already on every graph, not a module. Only
+ * `+layout.svelte` had no room left for it, so only its byte budget moves.
  */
 test.each([
-    ['src/routes/+layout.svelte', 502, 3.68],
+    ['src/routes/+layout.svelte', 502, 3.69],
     ['src/components/app/Page.svelte', 525, 3.93],
     ['src/routes/[[locale]]/+page.svelte', 540, 4.02],
     ['src/routes/[[locale]]/galleries/+page.svelte', 544, 4.03],

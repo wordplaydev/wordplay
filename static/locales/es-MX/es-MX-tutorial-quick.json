@@ -18,7 +18,7 @@
                             "FunctionDefinition",
                             "cheerful",
                             "$~¡Bienvenido a @wordplay! ¿Escuché que sabes algo de programación? ¡Genial! Este breve recorrido muestra qué es parecido y qué es diferente en Wordplay.",
-                            "$~Para que conozcas todo lo que hay en esta pantalla, esta página muestra el diálogo de @tutorial y una vista de @project. Puedes ver el *escenario* @UI/stage, que muestra la salida del programa, y el *editor* @UI/editor, que es el código del programa.",
+                            "$~Para que conozcas todo lo que hay en esta pantalla, esta página muestra el diálogo de @tutorial y una vista de @project. Puedes ver el *escenario* @UI/stage, que muestra la salida del programa, y el *@editor* @UI/editor, que es el @code del programa.",
                             "$~Este programa está en blanco, así que su salida es solo un mensaje que te invita a escribir un programa.",
                             "$~Hay muchos otros controles para pausar y reproducir el programa y editar el código, pero no te preocupes por ellos por ahora."
                         ],
@@ -168,7 +168,7 @@
                             "neutral",
                             "$~Para colecciones de valores como listas y arreglos, otros lenguajes de programación usan construcciones como ciclos *for* y *while* para crear una nueva colección a partir de los valores de una colección existente.",
                             "\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
-                            "$~@wordplay tiene una construcción @Translate* sencilla que usa el símbolo \\↦\\: crea una nueva @List, @Set o @Map, reemplazando cada elemento (representado por el @placeholder \\⬚\\), con un nuevo @value. Esto duplica cada elemento para hacer \\[2 4 6]\\.",
+                            "$~@wordplay tiene una construcción @Translate* sencilla que usa el símbolo \\↦\\: crea una nueva @List, @Set o @Map, reemplazando cada @element (representado por el @placeholder \\⬚\\), con un nuevo @value. Esto duplica cada elemento para hacer \\[2 4 6]\\.",
                             "$~También hay cosas más potentes como @List.translate y @List.combine, en caso de que necesites operaciones más complejas."
                         ],
                         null,
@@ -181,7 +181,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Todos los lenguajes de programación tienen funciones, que te permiten declarar bloques de código reutilizables que toman una entrada y producen una salida basada en ella, de complejidad arbitraria:",
+                            "$~Todos los lenguajes de programación tienen funciones, que te permiten declarar @blocks de @code reutilizables que toman una entrada y producen una salida basada en ella, de complejidad arbitraria:",
                             "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
                             "$~@wordplay también admite definiciones de funciones, pero con el símbolo ƒ. Al igual que todos los programas de Wordplay, las funciones deben evaluar a un @value."
                         ]
@@ -213,7 +213,7 @@
                             "neutral",
                             "$~La mayoría de los lenguajes de programación tienen una forma de tomar entrada del usuario:",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
-                            "$~La entrada de @wordplay viene de *flujos*, que son valores especiales que cambian con el tiempo, en respuesta a la entrada, y hacen que el programa de Wordplay se vuelva a evaluar con el nuevo valor del flujo.",
+                            "$~La entrada de @wordplay viene de *flujos*, que son valores especiales que cambian con el tiempo, en respuesta a la entrada, y hacen que el programa de Wordplay se vuelva a evaluar con el nuevo valor del @stream.",
                             "$~Este programa, por ejemplo, usa un flujo @Time para impulsar la rotación del emoji del globo. Cada vez que el flujo @Time() avanza a un nuevo @value, el programa se vuelve a evaluar con el nuevo valor, actualizando el valor del programa en el @Stage."
                         ],
                         null,
@@ -262,16 +262,16 @@
                             "$~Otros lenguajes lanzan *errores*: una señal de que un programa hizo algo que no está permitido:",
                             "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
                             "$~@wordplay llama a los errores *conflictos*: dos cosas que no pueden ser verdaderas al mismo tiempo, como sumar un número y texto en el programa de abajo.",
-                            "$~Wordplay subrayará los conflictos y los mostrará en la barra lateral @UI/conflict. También ofrecerá sugerencias para resolver el conflicto y arreglar el problema."
+                            "$~Wordplay subrayará los conflictos y los mostrará en la barra lateral @UI/conflict. También ofrecerá sugerencias para resolver el @conflict y arreglar el problema."
                         ],
                         null,
                         { "edit": "(1 + 2) × 3" },
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~La mayoría de los lenguajes de programación ofrecen algún tipo de herramientas de depuración para ayudar a los creadores a entender y resolver problemas en su código. Pero muchos solo usan instrucciones para mostrar y así comprobar los valores de las variables en una consola:",
+                            "$~La mayoría de los lenguajes de programación ofrecen algún tipo de herramientas de depuración para ayudar a los creadores a entender y resolver problemas en su @code. Pero muchos solo usan instrucciones para mostrar y así comprobar los valores de las variables en una consola:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay ofrece una manera más completa de depurar, y te deja avanzar y retroceder paso a paso por su evaluación. Presiona el botón de depurar ⏸️ en el selector de modo @UI/modeSwitcher arriba del escenario para entrar en modo *depurar*: el valor de cada expresión aparece junto a ella en el código, y @UI/stepControls puedes avanzar o retroceder paso a paso, así puedes ver cómo se construye un valor. Aquí hay un recorrido guiado de todo esto: @Tour/stage",
+                            "$~@wordplay ofrece una manera más completa de depurar, y te deja avanzar y retroceder paso a paso por su evaluación. Presiona el botón de depurar ⏸️ en el selector de modo @UI/modeSwitcher arriba del escenario para entrar en modo *depurar*: el @value de cada @expression aparece junto a ella en el código, y @UI/stepControls puedes avanzar o retroceder paso a paso, así puedes ver cómo se construye un valor. Aquí hay un recorrido guiado de todo esto: @Tour/stage",
                             "$~Los otros modos también importan: el modo ✏️ *editar* sirve para cambiar el programa mientras el escenario se queda congelado, y el modo ▶️ *jugar* lo ejecuta en vivo, respondiendo a las entradas en tiempo real.",
                             "$~¿Quieres más ayuda? El botón @UI/stageTourLaunch junto al nombre del escenario te muestra un recorrido guiado por estos controles."
                         ]
@@ -288,7 +288,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Construyamos un pequeño @project interactivo en tres pasos.",
-                            "$~*Uno:* declara tus datos y *flujos*. Aquí un flujo @Time llamado elapsed informa cuánto tiempo lleva ejecutándose el programa."
+                            "$~*Uno:* declara tus datos y *flujos*. Aquí un @stream @Time llamado elapsed informa cuánto tiempo lleva ejecutándose el programa."
                         ],
                         null,
                         {
@@ -327,7 +327,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Podemos hacer esto aún más interactivo agregando entrada del usuario para controlar la rotación, como el @Volume de la entrada del micrófono. Es un valor entre 0 y 1, así que podemos asignarlo a 360 grados.",
+                            "$~Podemos hacer esto aún más interactivo agregando entrada del usuario para controlar la rotación, como el @Volume de la entrada del micrófono. Es un @value entre 0 y 1, así que podemos asignarlo a 360 grados.",
                             "$~Esa es la forma de la mayoría de los proyectos: declaraciones, luego reacciones, luego salida. La <Guide//guide> tiene una sección @how llena de recetas para estudiar, copiar y editar.",
                             "$~¡Feliz creación!"
                         ]

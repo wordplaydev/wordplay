@@ -13,20 +13,35 @@ import type { GlossaryWord, LiteralTermFinding } from 'shared-types';
 /** The mention rule, matching `MENTION_RE` in `templateInputs.ts`: a `$` (not
  *  doubled) followed by an id, `?`, or `!`. */
 const MENTION_RE = /(?<!\$)\$([a-zA-Z0-9]+|\?|!)/g;
-/** A `@Concept` reference, optionally language-tagged (e.g. `@Phrase/en`). */
-const CONCEPT_RE = /@[\p{L}][\p{L}\p{N}]*(?:\/[\p{L}]+)?/gu;
+/** A `@Concept` reference, optionally carrying a subconcept or language suffix
+ *  (e.g. `@Phrase.name`, `@Phrase/en`). The `.property` half matters: matching
+ *  only the head left `name` in `@Phrase.name` unprotected, so a term whose word
+ *  is `name` was "linked" inside the reference, rewriting it to `@Phrase.@name`
+ *  and breaking it. Mirrors `ConceptRegExPattern` in the tokenizer, which allows
+ *  either separator. */
+const CONCEPT_RE = /@[\p{L}][\p{L}\p{N}]*(?:[./][\p{L}][\p{L}\p{N}]*)?/gu;
 /** An embedded `\code\` block (Wordplay program). */
 const CODE_RE = /\\[^\\]*\\?/g;
+/** A `<label@url>` web link. The `@` inside one is a separator, not a
+ *  reference, so linking a term in the label ran the two together:
+ *  `<2-letter code@https://…>` became `<2-letter @code@https://…>`, which is no
+ *  longer a link. Requiring an `@` inside keeps this off ordinary `<`/`>` prose. */
+const WEBLINK_RE = /<[^<>\n]*@[^<>\n]*>/g;
 
+/** Combining marks count as part of the word, the rule `REFERENCEABLE` below
+ *  already follows. Without them a word carrying a mark the glossary's own
+ *  spelling lacks — Arabic `\u0645\u0646\u0637\u0642\u0629\u0654` against `\u0645\u0646\u0637\u0642\u0629` — passed the
+ *  boundary test, and the mark was orphaned onto the reference (`@region\u0654`),
+ *  which then resolved to nothing. */
 function isWordChar(c: string | undefined): boolean {
-    return c !== undefined && /[\p{L}\p{N}]/u.test(c);
+    return c !== undefined && /[\p{L}\p{M}\p{N}]/u.test(c);
 }
 
 /** Collect [start, end) ranges that must not be touched: code blocks, concept
  *  references, and existing mentions. */
 function protectedRanges(text: string): Array<[number, number]> {
     const ranges: Array<[number, number]> = [];
-    for (const re of [CODE_RE, CONCEPT_RE, MENTION_RE]) {
+    for (const re of [CODE_RE, WEBLINK_RE, CONCEPT_RE, MENTION_RE]) {
         re.lastIndex = 0;
         let m: RegExpExecArray | null;
         while ((m = re.exec(text)) !== null) {

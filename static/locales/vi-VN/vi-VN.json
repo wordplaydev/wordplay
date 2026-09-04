@@ -179,6 +179,10 @@
         "stage": {
             "word": "$~sân khấu",
             "definition": "$~Không gian nơi @wordplay hiển thị những gì @code của bạn tạo ra."
+        },
+        "stream": {
+            "word": "$~luồng",
+            "definition": "$~Một @value thay đổi theo thời gian khi thế giới của bạn thay đổi, giống như @Time đang trôi qua hoặc một @Key đang được nhấn. Mỗi khi nó thay đổi, @Program sẽ được tính lại với @value mới."
         }
     },
     "terms": {},
@@ -304,7 +308,7 @@
                 "Tôi có thể kết hợp với \\/\\ để tạo ra các đơn vị tỉ lệ như \\17apple/day\\ và với \\^\\ để tạo ra các đơn vị lũy thừa như \\9.8m/s^2\\",
                 "Tôi luôn phải đứng sau một @Number. Nếu không, tôi có thể bị nhầm với @Reference, điều đó thật ngại ngùng!",
                 "Tôi cũng khá giỏi trong việc tìm ra những điểm không nhất quán giữa các đơn vị. Ví dụ, \\1cat + 1dog\\🪲 chẳng có nghĩa gì cả!",
-                "Nếu bạn muốn chuyển đổi giữa các giá trị đơn vị khác nhau, hãy nói chuyện với @Convert."
+                "Nếu bạn muốn chuyển đổi giữa các @value đơn vị khác nhau, hãy nói chuyện với @Convert."
             ]
         },
         "Doc": {
@@ -333,7 +337,7 @@
             "description": "$~danh sách tài liệu$languages[ bằng $languages| gồm $count]",
             "emotion": "serious",
             "doc": [
-                "$~Tôi là một danh sách các @Doc, hữu ích khi bạn có nhiều bản dịch của @Doc trong các ngôn ngữ khác nhau.",
+                "$~Tôi là một danh sách các @Doc, hữu ích khi bạn có nhiều bản dịch của @Doc trong các @language khác nhau.",
                 "Bạn không cần làm gì đặc biệt để tạo danh sách. Chỉ cần đặt nhiều @Doc cạnh nhau, như thế này:",
                 "\\¶Xin chào¶/vi\n¶Xin chào¶/es\nchào: '…'\\🪲"
             ],
@@ -356,7 +360,7 @@
             "description": "$~ngôn ngữ $language[$language|chưa xác định]$region[, vùng đất $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Tôi là một thẻ ngôn ngữ và tôi làm việc với @Name và @Doc!",
+                "$~Tôi là một thẻ @language và tôi làm việc với @Name và @Doc!",
                 "Tôi rất giỏi trong việc làm cho *rõ ràng như pha lê* một thứ được viết bằng ngôn ngữ nào. Chỉ cần một dấu gạch chéo nhỏ và vài chữ cái, không ai sẽ nhầm lẫn về ngôn ngữ của một đoạn văn bản nữa.",
                 "Ví dụ, nếu bạn muốn nói \"Ngôn ngữ\" nhưng muốn làm rõ đó là tiếng Anh:",
                 "\\'Ngôn ngữ'/vi\\",
@@ -409,7 +413,7 @@
                 "\\chào: 5\nchào\\",
                 "Bởi vì @Bind có thể xuất hiện ở rất nhiều nơi, tôi cũng có thể xuất hiện ở nhiều nơi. Tôi đã ở trong một @Block phía trên, nhưng tôi cũng có thể ở trong một @FunctionDefinition. Ở đây tôi đang đặt tên tạm thời cho một thông điệp:",
                 "\\ƒ nói(tinNhắn•'') tinNhắn\\",
-                "Tôi được định nghĩa bên trong @FunctionDefinition, và ngay khi hàm tính toán xong, tôi biến mất.",
+                "Tôi được định nghĩa bên trong @FunctionDefinition, và ngay khi hàm tính toán xong, tôi @variable mất.",
                 "Bạn có thể dùng @Language để chỉ ra tên của tôi bằng ngôn ngữ nào. Điều này hữu ích khi chia sẻ tác phẩm của bạn với người khác, phòng khi họ muốn đọc chương trình của bạn."
             ]
         },
@@ -430,7 +434,7 @@
             "name": "$~hàngngang",
             "description": "$~hàng gồm $#count[$count tế bào]",
             "emotion": "shy",
-            "doc": "$~Tôi đại diện cho một hàng trong @Table. Có lẽ tốt nhất là nên nói chuyện với @Table, họ biết mọi thứ về tôi. Tôi chỉ ngồi đó và giữ cho các giá trị được thẳng hàng :(",
+            "doc": "$~Tôi đại diện cho một hàng trong @Table. Có lẽ tốt nhất là nên nói chuyện với @Table, họ biết mọi thứ về tôi. Tôi chỉ ngồi đó và giữ cho các @value được thẳng hàng :(",
             "conflict": {
                 "InvalidRow": {
                     "name": "$~hàng không hợp lệ",
@@ -504,7 +508,7 @@
                 "paragraphs": "$~đoạn văn"
             },
             "doc": [
-                "$~Tôi là một danh sách các đoạn văn, dùng nhiều kiểu văn bản định dạng có trong @Doc, như @Words, @WebLink, @ConceptLink, và @Example.",
+                "$~Tôi là một danh sách các đoạn văn, dùng nhiều kiểu @markup có trong @Doc, như @Words, @WebLink, @ConceptLink, và @Example.",
                 "Bạn sẽ thấy tôi trong một @Doc, và trong @FormattedLiteral:",
                 "\\¶Tôi là tài liệu có chữ *đậm*. Tôi có thể nhắc đến các khái niệm như @Phrase và liên kết đến <những thứ trên mạng@https://wordplay.dev>.¶\nCụmtừ(\n\t`Tôi là văn bản định dạng cho @Phrase, dùng *đậm*, /nghiêng/, và _gạch chân_`\n)\\"
             ]
@@ -577,7 +581,7 @@
             "description": "$~ví dụ mã số $code",
             "emotion": "serious",
             "doc": [
-                "$~Tôi giữ một đoạn mã số ví dụ bên trong một @Doc, như thế này:",
+                "$~Tôi giữ một đoạn @code ví dụ bên trong một @Doc, như thế này:",
                 "\\¶Đây là một ví dụ về phép cộng: \\1 + 2\\¶\n3 + 4\\",
                 "Nếu bạn đang dùng các Ví dụ trong bài làm cách nào để của mình, bạn có thể gắn nhãn nổi bật cho một Ví dụ.",
                 "\\¶Đây là một ví dụ được đánh dấu nổi bật: \\1 + 2\\⭐¶\n3 + 4\\",
@@ -598,7 +602,7 @@
             "description": "$~lựa chọn văn bản định dạng dựa trên $condition",
             "emotion": "serious",
             "doc": [
-                "$~Tôi sử dụng phương pháp lựa chọn giữa hai đoạn giải thích dựa trên việc giá trị đầu vào của đoạn giải thích đó được xác định hay là đúng.",
+                "$~Tôi sử dụng phương pháp lựa chọn giữa hai đoạn giải thích dựa trên việc @value đầu vào của đoạn giải thích đó được xác định hay là đúng.",
                 "Tuy nhiên, đây chủ yếu là một tính năng nội bộ, vì vậy bạn không cần phải biết đến nó."
             ]
         },
@@ -650,7 +654,7 @@
                 "Bạn thấy tôi vừa làm gì không?",
                 "Một giá trị, ba tên.",
                 "Bạn có thể gọi số năm đó bằng *bất kỳ* tên nào trong số đó.",
-                "Điều này đặc biệt hữu ích khi bạn muốn đặt tên bằng nhiều ngôn ngữ:",
+                "Điều này đặc biệt hữu ích khi bạn muốn đặt tên bằng nhiều @language:",
                 "\\joe: 5\\🪲",
                 "Bạn thấy tôi vừa làm gì không? Ba tên cho một giá trị, chỉ khác ngôn ngữ thôi!",
                 "Được rồi, tôi còn một bí mật cuối cùng.",
@@ -750,7 +754,7 @@
                 "\\(1 + 1)\\",
                 "Nếu bạn cho tôi nhiều hơn một, tôi gom chúng vào một danh sách, theo thứ tự:",
                 "\\(1 2 3 4 5)\\",
-                "Các câu lệnh @Bind là hiệu ứng phụ, không phải giá trị, nên chúng không xuất hiện trong danh sách:",
+                "Các câu lệnh @Bind là @sideEffect, không phải giá trị, nên chúng không xuất hiện trong danh sách:",
                 "\\(\n\ta: 1\n\tb: 2\n\ta + b\n\ta × b\n)\\",
                 "Điều đó cho ra \\[3 2]\\: chỉ là các giá trị từ hai biểu thức không phải @Bind."
             ],
@@ -812,7 +816,7 @@
                 "stream": "$~suối"
             },
             "doc": [
-                "$~Tôi kiểm tra xem một luồng có khiến @Program đánh giá lại hay không, và tạo một @Boolean. Ví dụ như thế này.",
+                "$~Tôi kiểm tra xem một @stream có khiến @Program đánh giá lại hay không, và tạo một @Boolean. Ví dụ như thế này.",
                 "\\∆ Time()\\",
                 "Tôi thực sự hữu ích khi bạn muốn một thứ gì đó chỉ thay đổi khi luồng dữ liệu thay đổi.",
                 "Vậy thôi."
@@ -836,7 +840,7 @@
                 "Bạn có lo rằng nếu đây là loại quyết định duy nhất chúng ta có thể đưa ra, thì chúng ta sẽ bỏ lỡ một số bối cảnh quan trọng về thế giới không?",
                 "Có một điều nữa mình làm, và mình không phải lúc nào cũng được ghi nhận vì nó. Khi @condition của mình hỏi rằng một thứ gì đó thuộc /kiểu/ giá trị nào, mình không chỉ trả lời đúng hay sai. Mình ghi nhớ câu trả lời bên trong mỗi lựa chọn của mình.",
                 "\\kíchThước•#|'': 5\nkíchThước•# ? kíchThước + 1 'quá nhỏ'\\",
-                "Tự thân nó, giá trị đó có thể là một @Number hoặc một ít @Text, và việc cộng thêm vào nó sẽ là một xung đột, vì những thứ đó được cộng theo những cách rất khác nhau. Nhưng bên trong phần /đúng/ của mình, chúng ta vừa hỏi liệu nó có phải là một @Number không, nên ở đó nó là một cái. Bên trong phần /sai/ của mình, nó là @Text.",
+                "Tự thân nó, giá trị đó có thể là một @Number hoặc một ít @Text, và việc cộng thêm vào nó sẽ là một @conflict, vì những thứ đó được cộng theo những cách rất khác nhau. Nhưng bên trong phần /đúng/ của mình, chúng ta vừa hỏi liệu nó có phải là một @Number không, nên ở đó nó là một cái. Bên trong phần /sai/ của mình, nó là @Text.",
                 "Bạn hỏi theo cách nào cũng không quan trọng. Một phép kiểm tra kiểu, một phép so sánh với một giá trị cụ thể, một phép kiểm tra giá trị bị thiếu, và một phép kiểm tra bạn lưu dưới một tên đều nói với mình cùng một điều. Và @Boolean/and, @Boolean/or, và @Boolean/not kết hợp chúng theo cách bạn mong đợi.",
                 "Có hai điều mình không thể nói với bạn. Nếu bạn so sánh với @Text có nhiều bản dịch, mình không biết được gì cả, vì bản dịch bạn nhận được tùy thuộc vào ai đang đọc."
             ],
@@ -874,7 +878,7 @@
             "doc": [
                 "Này anh bạn, tôi định nghĩa các chuyển đổi từ @type này sang kiểu dữ liệu khác! Tôi vào @Block, đại loại như thế này:",
                 "\\→ #kitty #cat ⬚ ÷ 2\n6kitty→#cat\\",
-                "Các bạn thấy tôi đã biến những chú mèo con thành mèo trưởng thành như thế nào chưa? Tuyệt vời!",
+                "Các bạn thấy tôi đã @variable những chú mèo con thành mèo trưởng thành như thế nào chưa? Tuyệt vời!",
                 "Có thể bạn đang thắc mắc dấu chấm \\⬚\\ ở đó có ý nghĩa gì. Nó đại diện cho @value đang được chuyển đổi. Tôi sử dụng nó vì nếu không thì giá trị đó không có tên."
             ],
             "start": "$~Tuyệt vời, một bản chuyển đổi mới!",
@@ -891,7 +895,7 @@
             "description": "$~chuyển $expression sang $type",
             "emotion": "cheerful",
             "doc": [
-                "$~Tôi biến các giá trị từ @type này sang kiểu khác. Này — xem thử nhé:",
+                "$~Tôi @variable các @value từ @type này sang kiểu khác. Này — xem thử nhé:",
                 "\\1 → \"\"\\",
                 "\\5s → #ms\\",
                 "\\'xin chào' → []\\",
@@ -1036,8 +1040,8 @@
             "description": "$~đầu vào $name, $type",
             "emotion": "serious",
             "doc": [
-                "$~Tôi là một tham số đầu vào được truyền cho @Evaluate. Tên của tôi tương ứng với tên của tham số đầu vào trong @FunctionDefinition hoặc @StructureDefinition đang được đánh giá.",
-                "Tôi có thể hỗ trợ xử lý các hàm có nhiều giá trị mặc định, trong trường hợp bạn chỉ muốn ghi đè một giá trị đầu vào cụ thể mà không cần cung cấp tất cả các giá trị khác.",
+                "$~Tôi là một @parameter đầu vào được truyền cho @Evaluate. Tên của tôi tương ứng với tên của tham số đầu vào trong @FunctionDefinition hoặc @StructureDefinition đang được đánh giá.",
+                "Tôi có thể hỗ trợ xử lý các hàm có nhiều @value mặc định, trong trường hợp bạn chỉ muốn ghi đè một giá trị đầu vào cụ thể mà không cần cung cấp tất cả các giá trị khác.",
                 "Ví dụ, @Phrase có rất nhiều giá trị mặc định để điều khiển kiểu dáng của nó. Giả sử bạn muốn gán một số @Text và @Color, nhưng không muốn thêm bất cứ thứ gì khác vào danh sách đầu vào của nó. Bạn có thể sử dụng tôi để làm điều đó:",
                 "\\Phrase('Tôi màu tím!' màusắc: Color(50% 52 300°))\\"
             ],
@@ -1051,7 +1055,7 @@
                 "placeholder": "$~sự biểu lộ"
             },
             "doc": [
-                "$~Tôi là một *biểu thức*, nhưng không phải biểu thức thật… Tôi chỉ đứng vào chỗ của một biểu thức thôi.",
+                "$~Tôi là một *@expression*, nhưng không phải biểu thức thật… Tôi chỉ đứng vào chỗ của một biểu thức thôi.",
                 "Tôi hữu ích khi bạn chưa biết phải viết gì. Giống như thế này:",
                 "\\1 + _\\🪲",
                 "Chúng ta đang cộng gì đây? Tôi không biết. Bạn nói cho tôi biết đi.",
@@ -1124,10 +1128,10 @@
             "description": "$~đúng ở lần đánh giá đầu tiên",
             "emotion": "curious",
             "doc": [
-                "$~Tôi sẽ cho bạn biết liệu giá trị đánh giá hiện tại của @Program có phải là giá trị đánh giá đầu tiên, trả về một giá trị @Boolean hay không. Ví dụ:",
+                "$~Tôi sẽ cho bạn biết liệu @value đánh giá hiện tại của @Program có phải là giá trị đánh giá đầu tiên, trả về một giá trị @Boolean hay không. Ví dụ:",
                 "\\◆ ? Time() 'hi'\\",
                 "Bạn không thấy điều đó, nhưng lần đánh giá đầu tiên là một khoảng thời gian, nhưng sau đó tất cả các lần cập nhật thời gian tiếp theo, tôi đều là \\⊥\\, vì vậy @Conditional đã tạo ra \\⊤\\.",
-                "Tôi thực sự hữu ích nếu bạn đang làm việc với luồng dữ liệu và chỉ muốn thực hiện một thao tác nào đó lần đầu tiên -- hoặc thậm chí không bao giờ thực hiện lần đầu tiên!"
+                "Tôi thực sự hữu ích nếu bạn đang làm việc với @stream dữ liệu và chỉ muốn thực hiện một thao tác nào đó lần đầu tiên -- hoặc thậm chí không bao giờ thực hiện lần đầu tiên!"
             ]
         },
         "Insert": {
@@ -1190,7 +1194,7 @@
             "description": "$~truy cập chỉ mục $index của $list",
             "emotion": "cheerful",
             "doc": [
-                "$~Tôi hợp tác chặt chẽ với @List để giúp họ lấy giá trị tại một vị trí cụ thể. Ví dụ, nếu bạn có một danh sách và muốn lấy phần tử thứ hai của nó, bạn sẽ viết:",
+                "$~Tôi hợp tác chặt chẽ với @List để giúp họ lấy @value tại một vị trí cụ thể. Ví dụ, nếu bạn có một danh sách và muốn lấy @element thứ hai của nó, bạn sẽ viết:",
                 "\\list: ['bird' 'duck' 'fish' 'snake']\nlist[2]\\"
             ],
             "start": "$~Hãy lấy danh sách $list trước nhé!",
@@ -1200,7 +1204,7 @@
             "name": "$~danh sách viết trực tiếp",
             "description": "$~danh sách gồm $#count[$count giá trị]",
             "emotion": "eager",
-            "doc": "$~Tôi là một @List các giá trị cụ thể! Hãy xem @List để tìm hiểu thêm về những gì bạn có thể làm với tôi.",
+            "doc": "$~Tôi là một @List các @value cụ thể! Hãy xem @List để tìm hiểu thêm về những gì bạn có thể làm với tôi.",
             "start": "$~Trước tiên, hãy đánh giá các mặt hàng.",
             "finish": "$~Tôi đã tạo ra một cái tên! $value"
         },
@@ -1209,7 +1213,7 @@
             "description": "$~trải ra của $list[$list|một danh sách]",
             "emotion": "serious",
             "doc": [
-                "$~Tôi giúp bạn xây dựng một @List từ các giá trị của các danh sách khác. Ví dụ như thế này:",
+                "$~Tôi giúp bạn xây dựng một @List từ các @value của các danh sách khác. Ví dụ như thế này:",
                 "\\list: [1 2 3]\nfinal: [:list 4 5 6]\\🪲"
             ]
         },
@@ -1220,7 +1224,7 @@
             "label": {
                 "values": "$~đôi"
             },
-            "doc": "$~Tôi là một @Map cụ thể giữa các khóa và giá trị. Hãy xem @Map để tìm hiểu thêm về cách tôi hữu ích.",
+            "doc": "$~Tôi là một @Map cụ thể giữa các khóa và @value. Hãy xem @Map để tìm hiểu thêm về cách tôi hữu ích.",
             "start": "$~Trước tiên, hãy cùng đánh giá các khóa và giá trị.",
             "finish": "$~Tôi đã kết nối mọi người, $value",
             "conflict": {
@@ -1240,7 +1244,7 @@
                 "other": "$~mặc định"
             },
             "doc": [
-                "$~Tôi là lần kiểm tra điều kiện huy hoàng nhất: Tôi lấy một @value, so sánh nó với bao nhiêu trường hợp cũng được, và tính toán cái nào khớp!",
+                "$~Tôi là lần kiểm tra @condition huy hoàng nhất: Tôi lấy một @value, so sánh nó với bao nhiêu trường hợp cũng được, và tính toán cái nào khớp!",
                 "Ví dụ, nếu bạn có một @Number và muốn chuyển nó thành một @Text, bạn có thể làm gì đó như thế này:",
                 "\\số: 2\nsố ???\n\t1: 'một'\n\t2: 'hai'\n\t3: 'ba'\n\t'lớn hơn!'\\",
                 "Nếu không cái nào khớp, tôi tính toán @expression mặc định mà bạn đưa cho tôi.",
@@ -1258,7 +1262,7 @@
             "name": "$~số viết trực tiếp",
             "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
-            "doc": "$~Tôi là một @Number cụ thể. Bạn có thể viết cho tôi bằng bất kỳ loại chữ số nào từ bất kỳ ngôn ngữ nào. Xem @Number để biết tất cả những gì tôi có thể làm.",
+            "doc": "$~Tôi là một @Number cụ thể. Bạn có thể viết cho tôi bằng bất kỳ loại chữ số nào từ bất kỳ @language nào. Xem @Number để biết tất cả những gì tôi có thể làm.",
             "start": "$~$value !",
             "conflict": {
                 "NotANumber": {
@@ -1299,9 +1303,9 @@
             "description": "$~$number giá trị trước$range[|] của $stream",
             "emotion": "serious",
             "doc": [
-                "$~Tôi nhìn lại lịch sử của một dòng suối và kể cho bạn nghe một trong những giá trị quá khứ của nó. Bạn đã bao giờ muốn nhớ về quá khứ chưa?",
+                "$~Tôi nhìn lại lịch sử của một dòng suối và kể cho bạn nghe một trong những @value quá khứ của nó. Bạn đã bao giờ muốn nhớ về quá khứ chưa?",
                 "Tôi là người ghi chép chính thức của câu thơ này!",
-                "Ví dụ, đây là trạng thái @Time cách đây năm giây:",
+                "Ví dụ, đây là @state @Time cách đây năm giây:",
                 "\\← 5 Time(1000ms)\\",
                 "Bạn thấy đấy, nó hiển thị @None trong 5 giây, rồi đột nhiên trở lại thời điểm trước đó?",
                 "Nếu bạn muốn lấy một vài giá trị gần nhất, hãy gửi cho tôi hai mũi tên, và tôi sẽ hiểu con số đó là số lượng:",
@@ -1326,7 +1330,7 @@
                 "Giá trị có thể là bất cứ thứ gì: một @Number, @Text, hoặc @Boolean, một @List, @Set, @Map, hoặc thậm chí thứ gì đó phức tạp hơn, như một @Phrase, @Group, hoặc @Stage.",
                 "Nếu bạn không đưa cho tôi một giá trị để hiển thị trên sân khấu, tôi sẽ hỏi bạn một cái.",
                 "Nếu có vấn đề trong lúc trình diễn, tôi sẽ hiển thị vấn đề đó.",
-                "Và nếu màn trình diễn của bạn phụ thuộc vào một *luồng*, tôi sẽ tính lại mỗi khi luồng đó thay đổi."
+                "Và nếu màn trình diễn của bạn phụ thuộc vào một *@stream*, tôi sẽ tính lại mỗi khi luồng đó thay đổi."
             ],
             "label": {
                 "borrows": "$~mượn",
@@ -1396,7 +1400,7 @@
                 "property": "$~tài sản"
             },
             "doc": [
-                "$~Tôi lấy giúp bạn một trong các thuộc tính của một @StructureDefinition @value.",
+                "$~Tôi lấy giúp bạn một trong các @property của một @StructureDefinition @value.",
                 "Giống như khi bạn có một cấu trúc về các thành phố, bạn có thể lấy các giá trị của nó bằng tôi như thế này:",
                 "\\•thànhPhố(tên•'' dânSố•#people)\n\nportland: thànhPhố('Portland' 800000people)\n\nportland.dânSố\\"
             ],
@@ -1413,8 +1417,8 @@
                 "next": "$~Kế tiếp"
             },
             "doc": [
-                "$~Tôi tạo một luồng phát trực tiếp mới và nó sẽ cập nhật mỗi khi có sự thay đổi từ luồng phát khác. Phát trực tiếp thật tuyệt vời!",
-                "Ví dụ, nếu bạn muốn biến @Time thành tiếng tích tắc, nhưng thay vì hiển thị số, bạn có thể làm như thế này:",
+                "$~Tôi tạo một @stream phát trực tiếp mới và nó sẽ cập nhật mỗi khi có sự thay đổi từ luồng phát khác. Phát trực tiếp thật tuyệt vời!",
+                "Ví dụ, nếu bạn muốn @variable @Time thành tiếng tích tắc, nhưng thay vì hiển thị số, bạn có thể làm như thế này:",
                 "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "Điều đó giống như nói \"/bắt đầu bằng từ 'bắt đầu' và sau đó nếu thời gian thay đổi, hãy chuyển sang số chẵn hoặc số lẻ, tùy thuộc vào thời gian.\"",
                 "Vậy là tôi cũng giống như một dòng chảy, nhưng là dòng chảy dựa trên các dòng chảy khác. Tuyệt vời, phải không?"
@@ -1502,7 +1506,7 @@
             "name": "$~tập hợp viết trực tiếp",
             "description": "$~tập hợp gồm $#count[$count giá trị]",
             "emotion": "eager",
-            "doc": "$~Tôi là một @Set cụ thể của các giá trị cụ thể. Xem @Set để biết thêm về cách làm việc với tôi.",
+            "doc": "$~Tôi là một @Set cụ thể của các @value cụ thể. Xem @Set để biết thêm về cách làm việc với tôi.",
             "start": "$~Trước tiên hãy đánh giá các giá trị!",
             "finish": "$~Tôi đã tạo một tập hợp $value!"
         },
@@ -1544,14 +1548,14 @@
             "doc": [
                 "$~Tôi là khung có tên bao quanh một @Program — tôi đặt cho nó một tên và giữ @code của nó. Ồ, bạn biết @Program chứ? Tôi giúp bạn đặt tên cho chúng.",
                 "Bạn cũng có thể tạo các @Source @UI/addSource khác, với các @Program khác, và @Borrow những thứ từ các @Program khác đó để dùng trong một chương trình khác.",
-                "Đây có thể là cách hay để sắp xếp một màn trình diễn lớn thành các tài liệu riêng biệt."
+                "Đây có thể là cách hay để sắp xếp một màn trình diễn lớn thành các @documentation riêng biệt."
             ]
         },
         "StreamDefinition": {
             "name": "$~suối",
             "description": "$~luồng $name",
             "emotion": "curious",
-            "doc": "$~Tôi đang định nghĩa các loại luồng dữ liệu mới. Tôi /nghĩ/ — thành thật mà nói, tôi vẫn đang tìm hiểu cách làm, vì vậy hiện tại cứ dùng các luồng dữ liệu hiện có nhé!",
+            "doc": "$~Tôi đang định nghĩa các loại @stream dữ liệu mới. Tôi /nghĩ/ — thành thật mà nói, tôi vẫn đang tìm hiểu cách làm, vì vậy hiện tại cứ dùng các luồng dữ liệu hiện có nhé!",
             "start": "$~Tạo ra loại luồng mới này"
         },
         "StructureDefinition": {
@@ -1669,7 +1673,7 @@
             "name": "$~văn bản có định dạng",
             "description": "$~văn bản định dạng $text",
             "emotion": "serious",
-            "doc": "$~Tôi đại diện cho nhiều bản dịch định dạng khác nhau của văn bản được định dạng bởi @FormattedTranslation. Khi đánh giá, tôi sẽ chọn bản dịch phù hợp nhất dựa trên ngôn ngữ mà người dùng đã chọn.",
+            "doc": "$~Tôi đại diện cho nhiều bản dịch định dạng khác nhau của văn bản được định dạng bởi @FormattedTranslation. Khi đánh giá, tôi sẽ chọn bản dịch phù hợp nhất dựa trên @language mà người dùng đã chọn.",
             "start": "$~Hãy soạn thảo văn bản bằng ngôn ngữ hiện tại."
         },
         "FormattedTranslation": {
@@ -1693,12 +1697,12 @@
             "description": "$~cấu trúc này",
             "emotion": "serious",
             "doc": [
-                "$~Tôi là \\⬚\\, một ô vuông nhỏ đại diện cho bất cứ thứ gì @value mà mã số xung quanh đang xử lý, để bạn không cần đặt tên cho nó.",
+                "$~Tôi là \\⬚\\, một ô vuông nhỏ đại diện cho bất cứ thứ gì @value mà @code xung quanh đang xử lý, để bạn không cần đặt tên cho nó.",
                 "Bên trong một @ConversionDefinition, tôi là giá trị đang được chuyển đổi:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Bên trong một @Reaction, tôi là giá trị gần đây nhất:",
                 "\\2 … ∆ Thờigian(1000ms) … ⬚ × 2\\",
-                "Bên trong một @Translate, tôi là phần tử hiện tại đang được ánh xạ, vì vậy điều này thêm một vào mỗi giá trị:",
+                "Bên trong một @Translate, tôi là @element hiện tại đang được ánh xạ, vì vậy điều này thêm một vào mỗi giá trị:",
                 "\\[1 2 3] ↦ ⬚ + 1\\",
                 "Và bên trong một @StructureDefinition, tôi chính là giá trị hiện tại, nên tôi có thể chạm tới các phần của chính mình bằng \\⬚.rank\\🪲, giống như tôi chạm tới các phần của giá trị khác bằng \\other.rank\\🪲:",
                 "\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
@@ -1738,7 +1742,7 @@
             "description": "$~mã số không thể phân tích",
             "emotion": "excited",
             "doc": [
-                "$~Tôi là một đoạn mã số vô nghĩa, nên không ai biết nó có ý nghĩa gì.",
+                "$~Tôi là một đoạn @code vô nghĩa, nên không ai biết nó có ý nghĩa gì.",
                 "jkwel fjiwojvioao jjiweo jrfe",
                 "/Không phải mọi @expression đều có ý nghĩa trên sân khấu./",
                 "s w ieorjwei iojwi jfkdlsfdsk",
@@ -1774,7 +1778,7 @@
             "description": "$~cập nhật các hàng trong $table khớp với $query",
             "emotion": "kind",
             "doc": [
-                "$~Tôi giúp sửa lại một @Table, tìm các hàng khớp với một @condition, rồi tạo ra các hàng đã sửa với giá trị mới.",
+                "$~Tôi giúp sửa lại một @Table, tìm các hàng khớp với một @condition, rồi tạo ra các hàng đã sửa với @value mới.",
                 "Vậy nên, nếu bạn có một bảng nhân vật và điểm số, và bạn muốn cho mỗi nhân vật trong một đội một điểm, bạn có thể làm thế này:",
                 "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
                 "Bạn có thể dùng một @Bind để nói cột nào cần thay đổi, và bạn có thể dùng bất kỳ tên cột nào hoặc tên khác trong @scope trong điều kiện."
@@ -1843,7 +1847,7 @@
             "name": "$~ngoạilệ",
             "description": "$~ngoại lệ",
             "emotion": "neutral",
-            "doc": "$~Tôi đại diện cho một ngoại lệ. Không có cách nào để báo cho bind biết tôi là một ngoại lệ, vì ngoại lệ chỉ luôn dừng @Program, nên bạn không thể dùng chúng làm giá trị."
+            "doc": "$~Tôi đại diện cho một ngoại lệ. Không có cách nào để báo cho bind biết tôi là một ngoại lệ, vì ngoại lệ chỉ luôn dừng @Program, nên bạn không thể dùng chúng làm @value."
         },
         "FunctionType": {
             "name": "$~kiểu hàm",
@@ -1874,7 +1878,7 @@
             "description": "$~kiểu bản đồ từ $key[$key|bất kỳ] tới $value[$value|bất kỳ]",
             "emotion": "kind",
             "doc": [
-                "$~Tôi cho @Bind biết loại @Map mà một tên chứa — các kiểu dữ liệu của khóa và giá trị của nó. Bạn có biết @Map tuyệt vời đến mức nào không? Thật sự rất tuyệt vời. Đây là một bản đồ ánh xạ các số sang danh sách:",
+                "$~Tôi cho @Bind biết loại @Map mà một tên chứa — các kiểu dữ liệu của khóa và @value của nó. Bạn có biết @Map tuyệt vời đến mức nào không? Thật sự rất tuyệt vời. Đây là một bản đồ ánh xạ các số sang danh sách:",
                 "\\stuff•{'':[]}: {}\\🪲"
             ]
         },
@@ -1892,7 +1896,7 @@
             "description": "$~kiểu cấu trúc $name",
             "emotion": "curious",
             "doc": [
-                "$~Tôi đại diện cho một @StructureDefinition bằng tên của nó. Vậy nên, nếu bạn có một cấu trúc như thế này, bạn có thể tạo một @Bind lưu các giá trị mà nó tạo ra.",
+                "$~Tôi đại diện cho một @StructureDefinition bằng tên của nó. Vậy nên, nếu bạn có một cấu trúc như thế này, bạn có thể tạo một @Bind lưu các @value mà nó tạo ra.",
                 "\\•Friend(name•'')\nbestie•Friend: Friend('Jonah')\\🪲"
             ],
             "conflict": {
@@ -1931,7 +1935,7 @@
             "name": "$~kiểu định nghĩa luồng",
             "description": "$~kiểu định nghĩa luồng",
             "emotion": "angry",
-            "doc": "$~Tôi đại diện cho một luồng dữ liệu do chính bạn định nghĩa, điều này là không thể, vậy tại sao bạn lại đọc đoạn này?"
+            "doc": "$~Tôi đại diện cho một @stream dữ liệu do chính bạn định nghĩa, điều này là không thể, vậy tại sao bạn lại đọc đoạn này?"
         },
         "StreamType": {
             "name": "$~kiểu luồng",
@@ -2068,11 +2072,11 @@
             "description": "$~dịch từng giá trị của $expression",
             "emotion": "excited",
             "doc": [
-                "$~Tôi làm CÙNG MỘT việc với MỌI phần tử trong một tập hợp! Ồ Ồ Ồ! Đó đúng là việc tôi LÀM!!",
-                "Đặt một tập hợp ở bên trái tôi, vẽ mũi tên của tôi \\↦\\, rồi ở bên phải của mình hãy viết mỗi món nên BIẾN THÀNH cái gì — dùng @This để chỉ món mà mình đang cầm NGAY BÂY GIỜ!",
+                "$~Tôi làm CÙNG MỘT việc với MỌI @element trong một tập hợp! Ồ Ồ Ồ! Đó đúng là việc tôi LÀM!!",
+                "Đặt một tập hợp ở bên trái tôi, vẽ mũi tên của tôi \\↦\\, rồi ở bên phải của mình hãy viết mỗi món nên @variable THÀNH cái gì — dùng @This để chỉ món mà mình đang cầm NGAY BÂY GIỜ!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ cho bạn \\[2 3 4]\\. BÙM! Mỗi số, cộng thêm một, không vòng lặp, không @FunctionDefinition, không rắc rối!",
                 "Mình TUYỆT VỜI trong việc tạo ra output @Phrase từ dữ liệu! Có một danh sách tên? \\['Ada' 'Mac' 'Tim'] ↦ Cụmtừ(⬚)\\ và bây giờ có một cụm từ cho MỖI cái tên!!",
-                "Mình hoạt động với @List, @Set, @Map (mình thay đổi GIÁ TRỊ của bản đồ — các chìa khóa vẫn ở đúng chỗ của chúng!), và cả @Table nữa!",
+                "Mình hoạt động với @List, @Set, @Map (mình thay đổi @value của bản đồ — các chìa khóa vẫn ở đúng chỗ của chúng!), và cả @Table nữa!",
                 "Muốn cái gì đó cầu kỳ hơn — như @index của mỗi món, hoặc một hàm bạn có thể dùng lại ở nhiều nơi? Hãy ghé thăm các anh chị họ bình tĩnh, trưởng thành của mình như @List.translate. Nhưng để ánh xạ nhanh hằng ngày, mình ở đây!!"
             ],
             "start": "$~Chờ chút, để tôi lấy hết mọi thứ trong $expression !",
@@ -2094,7 +2098,7 @@
             "description": "$~ví dụ mã số bên ngoài$languages[ bằng $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Tôi hiển thị mã số có tô sáng cú pháp được viết bằng các ngôn ngữ lập trình khác, để những người sáng tạo đã biết viết mã có thể so sánh.",
+                "$~Tôi hiển thị @code có tô sáng cú pháp được viết bằng các @language lập trình khác, để những người sáng tạo đã biết viết mã có thể so sánh.",
                 "Hãy viết mỗi phiên bản cho một ngôn ngữ dưới dạng nhãn hai chữ cái, một dấu gạch đứng, rồi đến mã số, ví dụ như \\py| a = 5\\js| let a = 5;\\. Người đọc sẽ thấy phiên bản khớp với ngôn ngữ họ đã chọn. Hỗ trợ Python (py), JavaScript (js) và Java (jv)."
             ]
         },
@@ -2278,7 +2282,7 @@
                 "$~Tôi khớp với bất kỳ một ký tự nào từ một tập hợp các tùy chọn.",
                 "Ví dụ, hãy tìm các nguyên âm trong một từ:",
                 "\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
-                "Trộn lẫn các phạm vi và lớp, ví dụ như \\⣿{\"a\"–\"z\" #}⣿\\ hoặc \\⣿{# \"a\"–\"f\"}⣿\\ (một chữ số thập lục phân). Phủ định tôi bằng @PatternComplement , ví dụ như \\⣿~{\"!\" \"?\"}⣿\\ ."
+                "Trộn lẫn các @scope và lớp, ví dụ như \\⣿{\"a\"–\"z\" #}⣿\\ hoặc \\⣿{# \"a\"–\"f\"}⣿\\ (một chữ số thập lục phân). Phủ định tôi bằng @PatternComplement , ví dụ như \\⣿~{\"!\" \"?\"}⣿\\ ."
             ]
         },
         "PatternRange": {
@@ -2359,7 +2363,7 @@
             "description": "$~tham chiếu ngược",
             "emotion": "curious",
             "doc": [
-                "$~Tôi khớp với cùng một văn bản mà @PatternCapture đã khớp trước đó — chỉ cần viết tên gốc của phần tử được chụp.",
+                "$~Tôi khớp với cùng một văn bản mà @PatternCapture đã khớp trước đó — chỉ cần viết tên gốc của @element được chụp.",
                 "Ví dụ, hãy tìm một từ được lặp lại ngay sau đó:",
                 "\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
                 "Một tên đơn thuần không phải là tên bắt giữ thì được gọi là một lớp có tên, ví dụ như \\⣿linebreak⣿\\ ."
@@ -2391,7 +2395,7 @@
                 "$~Tôi khớp với các phần của tôi mà bỏ qua chữ hoa và chữ thường.",
                 "Ví dụ, kiểm tra một từ bỏ qua cách viết hoa của nó:",
                 "\\hétLên: 'XIN CHÀO'\nhétLên ≈ ⣿ Aa(\"hello\")⣿\\",
-                "Bao các phần của tôi như \\⣿ Aa(\"hi\")⣿\\ (khớp với \"HI\", \"Hi\", hoặc \"hi\"). Thêm một @language cho các quy tắc của nó, như \\⣿ Aa/tr(\"i\")⣿\\ (i của tiếng Turk), và tôi cũng giới hạn phạm vi cho một @PatternBackref, như \\⣿ Aa(w: (2 _) w)⣿\\."
+                "Bao các phần của tôi như \\⣿ Aa(\"hi\")⣿\\ (khớp với \"HI\", \"Hi\", hoặc \"hi\"). Thêm một @language cho các quy tắc của nó, như \\⣿ Aa/tr(\"i\")⣿\\ (i của tiếng Turk), và tôi cũng giới hạn @scope cho một @PatternBackref, như \\⣿ Aa(w: (2 _) w)⣿\\."
             ]
         },
         "PatternType": {
@@ -2411,14 +2415,14 @@
             "doc": [
                 "$~Chúng ta là \\⊤\\ và \\⊥\\. \\⊤\\ là đúng. \\⊥\\ là sai. \\⊤\\ không phải là \\⊥\\; \\⊥\\ không phải là \\⊤\\. Sự thật là như vậy.",
                 "Bạn tạo ra chúng tôi như thế nào? Chỉ có \\⊤\\ và \\⊥\\, không hơn không kém.",
-                "Một số người dùng bàn phím (/ctrl+9/ cho \\⊤\\ và /ctrl+0/ cho \\⊥\\). Một số người dùng chức năng tìm kiếm ký tự ở cuối trình soạn thảo. Hoặc bạn có thể kéo chúng tôi từ đây.",
+                "Một số người dùng bàn phím (/ctrl+9/ cho \\⊤\\ và /ctrl+0/ cho \\⊥\\). Một số người dùng chức năng tìm kiếm ký tự ở cuối @editor. Hoặc bạn có thể kéo chúng tôi từ đây.",
                 "Hãy xem phần @FunctionDefinition bên dưới. Chúng rất logic."
             ],
             "name": ["$~⊤⊥", "$~Boolean"],
             "function": {
                 "and": {
                     "doc": [
-                        "$~Tôi đánh giá thành \\⊤\\ *chỉ* khi cả hai giá trị đều là \\⊤\\. Hữu ích để xác định xem nhiều thứ có đều đúng hay không. Chỉ có bốn kết quả có thể xảy ra",
+                        "$~Tôi đánh giá thành \\⊤\\ *chỉ* khi cả hai @value đều là \\⊤\\. Hữu ích để xác định xem nhiều thứ có đều đúng hay không. Chỉ có bốn kết quả có thể xảy ra",
                         "\\⊤ & ⊤\\",
                         "\\⊤ & ⊥\\",
                         "\\⊥ & ⊤\\",
@@ -2427,7 +2431,7 @@
                     "names": ["$~Và", "và"],
                     "inputs": [
                         {
-                            "doc": "$~Biến @Boolean khác cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, thì giá trị của biến này không quan trọng, hàm sẽ trả về \\⊥\\.",
+                            "doc": "$~@variable @Boolean khác cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, thì @value của biến này không quan trọng, hàm sẽ trả về \\⊥\\.",
                             "names": "$~giátrị"
                         }
                     ]
@@ -2443,13 +2447,13 @@
                     "names": ["$~hoặc"],
                     "inputs": [
                         {
-                            "doc": "$~Biến @Boolean còn lại cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, hàm sẽ chỉ trả về \\⊤\\ nếu biến này cũng là \\⊤\\.",
+                            "doc": "$~@variable @Boolean còn lại cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, hàm sẽ chỉ trả về \\⊤\\ nếu biến này cũng là \\⊤\\.",
                             "names": "$~giátrị"
                         }
                     ]
                 },
                 "not": {
-                    "doc": "$~Tôi lấy giá trị ngược lại của chính mình: nếu \\⊤\\, nó cho ra \\⊥\\, nếu \\⊥\\, nó cho ra \\⊤\\.",
+                    "doc": "$~Tôi lấy @value ngược lại của chính mình: nếu \\⊤\\, nó cho ra \\⊥\\, nếu \\⊥\\, nó cho ra \\⊤\\.",
                     "names": ["$~không"],
                     "inputs": []
                 },
@@ -2520,12 +2524,12 @@
                 "Chỉ cần nhớ đóng tớ lại nếu bạn đã mở tớ ra, và dùng đúng ký hiệu tương ứng. Nếu không, tớ sẽ không biết là bạn đã viết xong lời của mình.",
                 "\\'xin chào'/vi'hola'/es-MX\\",
                 "Bạn cũng có thể gắn thẻ ngôn ngữ cho tớ, và thậm chí đưa nhiều bản dịch. Tớ sẽ đánh giá theo những ngôn ngữ đang được chọn hiện tại, nếu có một ngôn ngữ khớp.",
-                "Nếu bạn muốn tạo ra tớ cùng vài giá trị khác, bạn có thể làm thế này:",
+                "Nếu bạn muốn tạo ra tớ cùng vài @value khác, bạn có thể làm thế này:",
                 "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
                 "Bạn thấy tớ vừa tính những phép cộng đó một cách gọn gàng và đặt chúng vào bên trong @Text chưa?",
                 "Tớ còn một bí mật nhỏ cuối cùng: bạn có biết mỗi chúng ta đều có một con số riêng không? Đúng vậy đó! Bạn có thể nhắc đến chúng tớ bằng cách viết @U/ và con số của chúng tớ. Ví dụ, @FunctionDefinition là 192:",
                 "\\'@U/192'\\",
-                "Bạn thấy @U/192 đã biến thành @FunctionDefinition như thế nào chưa? Tớ nghe nói bạn gọi những con số này là 'Unicode'.",
+                "Bạn thấy @U/192 đã @variable thành @FunctionDefinition như thế nào chưa? Tớ nghe nói bạn gọi những con số này là 'Unicode'.",
                 "Ngoài ra, còn có rất nhiều hàm tuyệt vời mà @FunctionDefinition đã tạo ra cho tớ để làm đủ mọi thứ với chữ nghĩa!"
             ],
             "name": ["$~Chữ"],
@@ -2613,7 +2617,7 @@
                     "names": ["$~lặplại", "$~lặplại"],
                     "inputs": [
                         {
-                            "doc": "$~Số lần lặp lại ý trong văn bản mới.",
+                            "doc": "$~Số @iteration lại ý trong văn bản mới.",
                             "names": "$~đếm"
                         }
                     ]
@@ -2628,7 +2632,7 @@
                     "names": ["$~phânđoạn", "$~phânđoạn"],
                     "inputs": [
                         {
-                            "doc": "$~Thuộc tính @Text được sử dụng làm dấu phân cách.",
+                            "doc": "$~@property @Text được sử dụng làm dấu phân cách.",
                             "names": "$~dấuphâncách"
                         }
                     ]
@@ -2677,7 +2681,7 @@
                         "$~Tôi tạo ra một @Text mới là chính tôi, với mọi chữ cái đều viết hoa:",
                         "\\'xin chào'.chữHoa()\\",
                         "Chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, nên văn bản thuộc hệ chữ viết không có sự phân biệt này, như tiếng Nhật hay tiếng Ả Rập, sẽ không thay đổi.",
-                        "Thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào. Tiếng Thổ Nhĩ Kỳ có chữ i có chấm và i không chấm, và chỉ văn bản được gắn thẻ là tiếng Thổ Nhĩ Kỳ mới viết hoa chúng theo cách của tiếng Thổ Nhĩ Kỳ:",
+                        "Thẻ @language của tôi quyết định dùng quy tắc của ngôn ngữ nào. Tiếng Thổ Nhĩ Kỳ có chữ i có chấm và i không chấm, và chỉ văn bản được gắn thẻ là tiếng Thổ Nhĩ Kỳ mới viết hoa chúng theo cách của tiếng Thổ Nhĩ Kỳ:",
                         "\\'iyi'/tr.chữHoa()\\",
                         "\\'iyi'.chữHoa()\\"
                     ],
@@ -2690,7 +2694,7 @@
                         "\\'XIN CHÀO'.chữThường()\\",
                         "Hãy chuyển hai đoạn văn bản thành chữ thường để so sánh chúng mà không quan tâm đến việc viết hoa. Cách này giữ lại mọi từ bắt đầu bằng chữ a, dù nó có được viết hoa hay không:",
                         "\\['Táo' 'mơ' 'Chuối'].lọc(\n\tƒ(từ2•'') từ2.chữThường().bắtđầu('a')\n)\\",
-                        "Giống như @Text/uppercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào."
+                        "Giống như @Text/uppercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ @language của tôi quyết định dùng quy tắc của ngôn ngữ nào."
                     ],
                     "names": ["$~chữThường"],
                     "inputs": []
@@ -2898,7 +2902,7 @@
                 },
                 "round": {
                     "doc": [
-                        "$~Tôi tạo một biến @Number mới để làm tròn số đến số nguyên gần nhất.",
+                        "$~Tôi tạo một @variable @Number mới để làm tròn số đến số nguyên gần nhất.",
                         "\\9.4.round()\\",
                         "\\9.5.round()\\",
                         "\\9.6.round()\\"
@@ -2908,7 +2912,7 @@
                 },
                 "roundDown": {
                     "doc": [
-                        "$~Tôi tạo một biến @Number mới làm tròn đến số nguyên nhỏ nhất nhỏ hơn tôi.",
+                        "$~Tôi tạo một @variable @Number mới làm tròn đến số nguyên nhỏ nhất nhỏ hơn tôi.",
                         "\\10.5.roundDown()\\",
                         "\\10.1.roundDown()\\",
                         "\\10.01.roundDown()\\"
@@ -3289,7 +3293,7 @@
                 "$~Tôi là một dãy các giá trị, thuộc bất kỳ loại nào!",
                 "Bạn có thể đặt bất cứ thứ gì vào trong tôi: @Boolean, @Number, @Text, @None, thậm chí cả @List, @Set, @Map khác, hoặc bất kỳ @expression nào. Đây là một ví dụ đơn giản:",
                 "\\['táo' 'chuối' 'xoài']\\",
-                "Điều làm tôi đặc biệt là tôi giữ mọi thứ theo thứ tự và tôi đánh số mọi thứ từ 1 đến số phần tử có trong tôi.",
+                "Điều làm tôi đặc biệt là tôi giữ mọi thứ theo thứ tự và tôi đánh số mọi thứ từ 1 đến số @element có trong tôi.",
                 "Các phần tử của tôi được đánh số, bắt đầu từ 1. Bạn có thể lấy các giá trị mà tôi đang lưu bằng @ListAccess, dùng số của chúng:",
                 "Ví dụ, @value thứ hai trong danh sách này là \\['chuối']\\",
                 "\\['táo' 'chuối' 'xoài'][2]\\",
@@ -3319,7 +3323,7 @@
                 },
                 "append": {
                     "doc": [
-                        "$~Tôi tạo một @List mới với các giá trị của mình, sau đó thêm tất cả các giá trị của @List đã cho sau tôi.",
+                        "$~Tôi tạo một @List mới với các @value của mình, sau đó thêm tất cả các giá trị của @List đã cho sau tôi.",
                         "\\['apple' 'banana' 'mango'].withList(['watermelon' 'starfruit'])\\",
                         "Sử dụng @Spread sẽ dễ hơn một chút, như thế này:",
                         "\\['táo' 'chuối' 'xoài' :['dưa hấu' 'quả khế']]\\"
@@ -3327,7 +3331,7 @@
                     "names": ["$~thêm"],
                     "inputs": [
                         {
-                            "doc": "$~Danh sách các giá trị cần thêm vào.",
+                            "doc": "$~Danh sách các @value cần thêm vào.",
                             "names": "$~danhsách"
                         }
                     ]
@@ -3350,7 +3354,7 @@
                     ]
                 },
                 "length": {
-                    "doc": "$~@Number các phần tử trong mình.",
+                    "doc": "$~@Number các @element trong mình.",
                     "names": ["$~chiềudài"],
                     "inputs": []
                 },
@@ -3364,7 +3368,7 @@
                 },
                 "shuffled": {
                     "doc": [
-                        "$~Tạo một danh sách mới với các phần tử trong danh sách được sắp xếp ngẫu nhiên.",
+                        "$~Tạo một danh sách mới với các @element trong danh sách được sắp xếp ngẫu nhiên.",
                         "\\['táo' 'chuối' 'xoài'].xáotrộn()\\"
                     ],
                     "names": "$~xáotrộn",
@@ -3380,7 +3384,7 @@
                 },
                 "last": {
                     "doc": [
-                        "$~Phần tử cuối cùng trong tôi, hoặc @None nếu tôi trống rỗng.",
+                        "$~@element cuối cùng trong tôi, hoặc @None nếu tôi trống rỗng.",
                         "\\['quả táo' 'quả chuối' 'quả xoài'].cuốicùng()\\"
                     ],
                     "names": "$~cuốicùng",
@@ -3414,7 +3418,7 @@
                 },
                 "subsequence": {
                     "doc": [
-                        "$~Tôi lấy một danh sách bên trong danh sách này, bắt đầu tại @index mà bạn cung cấp, và kết thúc ở phần tử cuối cùng, hoặc nếu bạn cung cấp một phần tử, thì kết thúc ở một phần tử cụ thể.",
+                        "$~Tôi lấy một danh sách bên trong danh sách này, bắt đầu tại @index mà bạn cung cấp, và kết thúc ở @element cuối cùng, hoặc nếu bạn cung cấp một phần tử, thì kết thúc ở một phần tử cụ thể.",
                         "\\['táo' 'chuối' 'xoài'].chuỗicon(2)\\",
                         "\\['táo' 'chuối' 'xoài'].chuỗicon(1 2)\\",
                         "Và hãy xem này! Nếu bạn cung cấp các số không theo thứ tự, tôi sẽ cho bạn kết quả đảo ngược",
@@ -3427,11 +3431,11 @@
                     "names": "$~chuỗicon",
                     "inputs": [
                         {
-                            "doc": "$~@index của phần tử đầu tiên trong chuỗi con mà bạn muốn.",
+                            "doc": "$~@index của @element đầu tiên trong chuỗi con mà bạn muốn.",
                             "names": "$~bắtđầu"
                         },
                         {
-                            "doc": "$~@index tùy chọn của phần tử cuối cùng trong chuỗi con mà bạn muốn. Nếu bạn không đưa ra, danh sách của bạn sẽ kết thúc bằng phần tử cuối cùng trong danh sách.",
+                            "doc": "$~@index tùy chọn của @element cuối cùng trong chuỗi con mà bạn muốn. Nếu bạn không đưa ra, danh sách của bạn sẽ kết thúc bằng phần tử cuối cùng trong danh sách.",
                             "names": "$~kếtthúc"
                         }
                     ]
@@ -3500,7 +3504,7 @@
                 },
                 "translate": {
                     "doc": [
-                        "$~Hãy đưa cho mình một @FunctionDefinition nhận vào một @value và một @index tùy chọn rồi tạo ra một giá trị, và mình sẽ chạy nó trên từng phần tử của mình, biến các giá trị của mình thành các giá trị mới.",
+                        "$~Hãy đưa cho mình một @FunctionDefinition nhận vào một @value và một @index tùy chọn rồi tạo ra một giá trị, và mình sẽ chạy nó trên từng @element của mình, @variable các giá trị của mình thành các giá trị mới.",
                         "Ví dụ, hãy tưởng tượng mình là một danh sách @Number và bạn muốn nhân đôi tất cả chúng:",
                         "\\[2 4 6 8].dịch(ƒ(số•#) số × 2)\\"
                     ],
@@ -3517,7 +3521,7 @@
                             "names": "$~mục"
                         },
                         {
-                            "doc": "$~@index của phần tử đang được dịch.",
+                            "doc": "$~@index của @element đang được dịch.",
                             "names": "$~chỉmục"
                         },
                         {
@@ -3528,7 +3532,7 @@
                 },
                 "filter": {
                     "doc": [
-                        "$~Hãy đưa cho tôi một @FunctionDefinition nhận một @value và @index tùy chọn làm đầu vào và tạo ra một @Boolean, tôi sẽ tạo một danh sách mới chỉ gồm các phần tử cho kết quả \\⊤\\.",
+                        "$~Hãy đưa cho tôi một @FunctionDefinition nhận một @value và @index tùy chọn làm đầu vào và tạo ra một @Boolean, tôi sẽ tạo một danh sách mới chỉ gồm các @element cho kết quả \\⊤\\.",
                         "Ví dụ, hãy tưởng tượng tôi là một danh sách @Number và bạn chỉ muốn những số dương:",
                         "\\[2 -4 8 -16].lọc(ƒ(số•#) số ≥ 0)\\"
                     ],
@@ -3545,7 +3549,7 @@
                             "names": "$~mục"
                         },
                         {
-                            "doc": "$~@index của phần tử đang được kiểm tra.",
+                            "doc": "$~@index của @element đang được kiểm tra.",
                             "names": "$~chỉmục"
                         },
                         {
@@ -3563,7 +3567,7 @@
                     "names": "$~tấtcả",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition tạo ra \\⊤\\ nếu một phần tử thỏa mãn @condition của bạn.",
+                            "doc": "$~@FunctionDefinition tạo ra \\⊤\\ nếu một @element thỏa mãn @condition của bạn.",
                             "names": "$~ngườikiểmtra"
                         }
                     ],
@@ -3573,7 +3577,7 @@
                             "names": "$~mục"
                         },
                         {
-                            "doc": "$~@index của phần tử đang được kiểm tra.",
+                            "doc": "$~@index của @element đang được kiểm tra.",
                             "names": "$~chỉmục"
                         },
                         {
@@ -3601,11 +3605,11 @@
                             "names": "$~mục"
                         },
                         {
-                            "doc": "$~@index của phần tử đang được kiểm tra.",
+                            "doc": "$~@index của @element đang được kiểm tra.",
                             "names": "$~chỉmục"
                         },
                         {
-                            "doc": "$~Danh sách đang được lập chỉ mục con.",
+                            "doc": "$~Danh sách đang được lập @index con.",
                             "names": "$~danhsách"
                         }
                     ]
@@ -3629,7 +3633,7 @@
                             "names": "$~mục"
                         },
                         {
-                            "doc": "$~@index của phần tử đang được kiểm tra.",
+                            "doc": "$~@index của @element đang được kiểm tra.",
                             "names": "$~chỉmục"
                         },
                         {
@@ -3640,7 +3644,7 @@
                 },
                 "combine": {
                     "doc": [
-                        "$~Hãy đưa cho tôi một @FunctionDefinition nhận tổ hợp gần nhất và @value tiếp theo, rồi tạo ra tổ hợp tiếp theo. Tôi sẽ đi từ phần tử đầu tiên đến phần tử cuối cùng của tôi, tạo ra các tổ hợp liên tiếp, và cho ra kết quả là tổ hợp cuối cùng mà @FunctionDefinition của bạn tính ra.",
+                        "$~Hãy đưa cho tôi một @FunctionDefinition nhận tổ hợp gần nhất và @value tiếp theo, rồi tạo ra tổ hợp tiếp theo. Tôi sẽ đi từ @element đầu tiên đến phần tử cuối cùng của tôi, tạo ra các tổ hợp liên tiếp, và cho ra kết quả là tổ hợp cuối cùng mà @FunctionDefinition của bạn tính ra.",
                         "Điều này rất hữu ích để gộp tất cả các phần tử trong tôi thành một giá trị duy nhất. Ví dụ, hãy tưởng tượng bạn muốn cộng một danh sách các số:",
                         "\\[3 9 2 8 1 4].kếthợp(0 ƒ(tổng•# số•#) tổng + số)\\"
                     ],
@@ -3665,7 +3669,7 @@
                             "names": "$~Kếtiếp"
                         },
                         {
-                            "doc": "$~@index của phần tử tiếp theo",
+                            "doc": "$~@index của @element tiếp theo",
                             "names": "$~chỉmục"
                         },
                         {
@@ -3676,11 +3680,11 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Tôi có thể nhận một danh sách, và tạo ra một danh sách mới với các giá trị đã được sắp xếp. Như thế này:",
+                        "$~Tôi có thể nhận một danh sách, và tạo ra một danh sách mới với các @value đã được sắp xếp. Như thế này:",
                         "\\[1 5 8 0 2].đãsắpxếp()\\",
                         "Tôi cũng có thể làm điều đó với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ cái viết hoa được sắp xếp ngay cạnh chữ cái viết thường của nó, nên một từ không bị đẩy xuống cuối chỉ vì bắt đầu bằng chữ hoa:",
                         "\\['Cam' 'kiwi' 'Chuối' 'táo'].đãsắpxếp()\\",
-                        "Và nếu bạn có một danh sách các giá trị không phải @Number hay @Text, bạn có thể đưa cho tôi một @FunctionDefinition biến mỗi phần tử thành một @Number hoặc một @Text để tôi có thể sắp xếp nó. Ví dụ, đây là một danh sách các danh sách có độ dài khác nhau; nếu bạn đưa cho tôi một hàm biến mỗi danh sách thành độ dài của nó, tôi có thể sắp xếp theo độ dài của chúng.",
+                        "Và nếu bạn có một danh sách các giá trị không phải @Number hay @Text, bạn có thể đưa cho tôi một @FunctionDefinition @variable mỗi @element thành một @Number hoặc một @Text để tôi có thể sắp xếp nó. Ví dụ, đây là một danh sách các danh sách có độ dài khác nhau; nếu bạn đưa cho tôi một hàm biến mỗi danh sách thành độ dài của nó, tôi có thể sắp xếp theo độ dài của chúng.",
                         "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách2) danhSách2.chiềudài()\n)\\",
                         "Một hàm tạo ra @Text là cách bạn sắp xếp theo một từ mà bạn tính toán, thay vì theo chính giá trị đó. Ở đây tôi sắp xếp tên theo họ:",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên2•'') (tên2 ÷ ' ').cuốicùng()\n)\\"
@@ -3688,13 +3692,13 @@
                     "names": "$~đãsắpxếp",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên biến giá trị thành một @Number hoặc một @Text có thể dùng để sắp xếp danh sách.",
+                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên @variable giá trị thành một @Number hoặc một @Text có thể dùng để sắp xếp danh sách.",
                             "names": "$~bộđiềukhiểntrìnhtự"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value cần biến thành một @Number hoặc một @Text.",
+                            "doc": "$~@value cần @variable thành một @Number hoặc một @Text.",
                             "names": "$~giátrị"
                         }
                     ]
@@ -3709,7 +3713,7 @@
             "doc": [
                 "$~Mình là một tập hợp các giá trị! Nghĩa là mình có thể chứa bất kỳ số lượng giá trị nào, kể cả không có giá trị nào. Bạn có thể tạo ra mình như thế này:",
                 "\\{1 2 3}\\",
-                "Mình rất hữu ích nếu bạn muốn giữ một bộ sưu tập các thứ mà không có phần tử trùng lặp.",
+                "Mình rất hữu ích nếu bạn muốn giữ một bộ sưu tập các thứ mà không có @element trùng lặp.",
                 "Nghĩa là nếu bạn đưa cho mình những giá trị mình đã có, mình sẽ bỏ qua những cái thừa.",
                 "Ví dụ, tập hợp này có nhiều phần tử trùng lặp:",
                 "\\{1 1 2 2 3 3}\\",
@@ -3727,13 +3731,13 @@
             "out": "$~KếtQuả",
             "function": {
                 "size": {
-                    "doc": "$~Tôi sẽ cho bạn biết tôi có bao nhiêu giá trị.",
+                    "doc": "$~Tôi sẽ cho bạn biết tôi có bao nhiêu @value.",
                     "names": "$~kíchcỡ",
                     "inputs": []
                 },
                 "equals": {
                     "doc": [
-                        "$~Tôi là \\⊤\\ nếu @Set đã cho và tôi có cùng các giá trị chính xác:",
+                        "$~Tôi là \\⊤\\ nếu @Set đã cho và tôi có cùng các @value chính xác:",
                         "\\{1 2 3} = {2 3 4}\\"
                     ],
                     "names": ["$~bằng"],
@@ -3746,7 +3750,7 @@
                 },
                 "notequals": {
                     "doc": [
-                        "$~Tôi \\⊤\\ nếu @Set đã cho và tôi không có các giá trị hoàn toàn giống nhau:",
+                        "$~Tôi \\⊤\\ nếu @Set đã cho và tôi không có các @value hoàn toàn giống nhau:",
                         "\\{1 2 3} ≠ {2 3 4}\\"
                     ],
                     "names": ["$~khôngbằng"],
@@ -3866,7 +3870,7 @@
                             "names": "$~giátrị"
                         },
                         {
-                            "doc": "$~Bộ tài liệu đang được dịch",
+                            "doc": "$~Bộ @documentation đang được dịch",
                             "names": "$~bộ"
                         }
                     ]
@@ -3901,7 +3905,7 @@
             "result": "$~KếtQuả",
             "function": {
                 "size": {
-                    "doc": "$~Tôi sẽ cho bạn biết tôi có bao nhiêu giá trị.",
+                    "doc": "$~Tôi sẽ cho bạn biết tôi có bao nhiêu @value.",
                     "names": "$~kíchcỡ",
                     "inputs": []
                 },
@@ -3983,7 +3987,7 @@
                     "names": "$~lọc",
                     "inputs": [
                         {
-                            "doc": "$~Tham số @FunctionDefinition quyết định có giữ lại cặp ghép nối hay không.",
+                            "doc": "$~@parameter @FunctionDefinition quyết định có giữ lại cặp ghép nối hay không.",
                             "names": "$~ngườikiểmtra"
                         }
                     ],
@@ -4039,7 +4043,7 @@
         },
         "Table": {
             "doc": [
-                "$~Tôi là một tập hợp các hàng của bảng! Tôi có thể giúp bạn theo dõi những bộ sưu tập lớn gồm các giá trị có cùng cấu trúc.",
+                "$~Tôi là một tập hợp các hàng của bảng! Tôi có thể giúp bạn theo dõi những bộ sưu tập lớn gồm các @value có cùng cấu trúc.",
                 "Ví dụ, hãy tưởng tượng bạn muốn theo dõi một loạt viên đá:",
                 "\\⎡tên•'' màuSắc•''⎦\n⎡'đá vỏ chai' 'đen'⎦\n⎡'đá bọt' 'xám'⎦\n⎡'thạch anh vàng' 'vàng'⎦\\",
                 "@Bind có thể giúp bạn đặt tên cho nó! Và sau đó bạn có thể làm những việc như tạo một bảng đã chỉnh sửa với một hàng mới @Insert:",
@@ -4087,7 +4091,7 @@
             "name": ["$~Kếtcấu"],
             "function": {
                 "equals": {
-                    "doc": "$~Tôi kiểm tra xem các thuộc tính của mình có cùng tên và giá trị với các thuộc tính của một cấu trúc khác hay không.",
+                    "doc": "$~Tôi kiểm tra xem các @property của mình có cùng tên và @value với các thuộc tính của một cấu trúc khác hay không.",
                     "names": ["$~bằng"],
                     "inputs": [
                         {
@@ -4097,7 +4101,7 @@
                     ]
                 },
                 "notequal": {
-                    "doc": "$~Tôi kiểm tra xem các thuộc tính của mình có khác biệt gì về tên và giá trị so với các cấu trúc khác hay không.",
+                    "doc": "$~Tôi kiểm tra xem các @property của mình có khác biệt gì về tên và @value so với các cấu trúc khác hay không.",
                     "names": ["$~khôngbằng"],
                     "inputs": [
                         {
@@ -4198,7 +4202,7 @@
                     "doc": [
                         "$~Tôi tạo ra một đoạn văn bản đã định dạng mới là chính tôi, với mọi chữ cái đều viết hoa. Chỉ có các từ của tôi thay đổi; định dạng, đường liên kết và ví dụ của tôi vẫn giữ nguyên:",
                         "\\`*chào* bạn`.chữHoa()\\",
-                        "Giống như @Text/uppercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào."
+                        "Giống như @Text/uppercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ @language của tôi quyết định dùng quy tắc của ngôn ngữ nào."
                     ],
                     "names": ["$~chữHoa"],
                     "inputs": []
@@ -4207,7 +4211,7 @@
                     "doc": [
                         "$~Tôi tạo ra một đoạn văn bản đã định dạng mới là chính tôi, với mọi chữ cái đều viết thường. Chỉ có các từ của tôi thay đổi; định dạng, đường liên kết và ví dụ của tôi vẫn giữ nguyên:",
                         "\\`*CHÀO* BẠN`.chữThường()\\",
-                        "Giống như @Text/lowercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ ngôn ngữ của tôi quyết định dùng quy tắc của ngôn ngữ nào."
+                        "Giống như @Text/lowercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ @language của tôi quyết định dùng quy tắc của ngôn ngữ nào."
                     ],
                     "names": ["$~chữThường"],
                     "inputs": []
@@ -4259,31 +4263,31 @@
                 "Vì vậy, cách tốt nhất để sử dụng nó là tạo một màn trình diễn với các cụm từ có thể chọn được đặt tên @Phrase , và sau đó sử dụng @Reaction để quyết định hành động cần thực hiện khi tên đó được chọn.",
                 "Đây là ví dụ đơn giản nhất:",
                 "\\Group(\nStack() \n[\nPhrase('one' cóthểlựachọn:⊤ tên:'1') \nPhrase('two' cóthểlựachọn:⊤ tên:'2') \nPhrase(Choice())\n]\n)\\",
-                "Sao chép đoạn mã này vào trình soạn thảo rồi chọn một trong hai @Phrase . Bạn sẽ thấy @Phrase thứ ba hiển thị tên đã được chọn."
+                "Sao chép đoạn mã này vào @editor rồi chọn một trong hai @Phrase . Bạn sẽ thấy @Phrase thứ ba hiển thị tên đã được chọn."
             ],
             "names": ["$~Sựlựachọn"]
         },
         "Button": {
             "doc": [
-                "$~Nó cho bạn biết nút chính của chuột hoặc bàn di chuột có đang được nhấn không, dưới dạng một luồng các @Boolean.",
+                "$~Nó cho bạn biết nút chính của chuột hoặc bàn di chuột có đang được nhấn không, dưới dạng một @stream các @Boolean.",
                 "/nhấp nhấp nhấp/",
                 "Dĩ nhiên, chuột hoặc bàn di chuột không phải lựa chọn lý tưởng để lắng nghe khán giả, vì không phải ai cũng dùng được. Lựa chọn dễ tiếp cận hơn là @Choice.",
                 "Nhưng nếu bạn /thật sự/ cần lắng nghe một nút chuột, thì đây là cách làm. Nó sẽ cung cấp một luồng các @Boolean, thể hiện việc nút chính đang được nhả lên \\⊥\\ hay được nhấn xuống \\⊤\\.",
                 "Đây là một ví dụ đơn giản:",
                 "\\Cụmtừ(Cáinút() → '')\\",
-                "Cái này chỉ tạo ra một @Phrase là @value của luồng dưới dạng văn bản. Nếu bạn sao chép nó vào trình soạn thảo và nhấp, bạn sẽ thấy nó chuyển qua lại giữa \\⊥\\ và \\⊤\\."
+                "Cái này chỉ tạo ra một @Phrase là @value của luồng dưới dạng văn bản. Nếu bạn sao chép nó vào @editor và nhấp, bạn sẽ thấy nó chuyển qua lại giữa \\⊥\\ và \\⊤\\."
             ],
             "names": ["$~Cáinút"],
             "down": {
                 "names": "$~xuống",
-                "doc": "$~Nếu là @None, luồng dữ liệu sẽ cung cấp cả giá trị lên và xuống. Nếu là \\⊤\\, giá trị chỉ thay đổi khi nút được nhấn. Nếu là \\⊥\\, giá trị chỉ thay đổi khi nút được nhả ra."
+                "doc": "$~Nếu là @None, @stream dữ liệu sẽ cung cấp cả @value lên và xuống. Nếu là \\⊤\\, giá trị chỉ thay đổi khi nút được nhấn. Nếu là \\⊥\\, giá trị chỉ thay đổi khi nút được nhả ra."
             }
         },
         "Pointer": {
             "doc": [
                 "$~Nó theo dõi vị trí mà khán giả của bạn đang chỉ vào trên @Stage .",
                 "/whrrrrrr/",
-                "Tất nhiên, đây không phải là lựa chọn dễ tiếp cận: không phải ai cũng có thể nhìn thấy hoặc dễ dàng chỉ trỏ, vì vậy hãy chắc chắn rằng bạn không loại trừ bất kỳ ai khỏi việc tham gia bằng cách sử dụng luồng phát này.",
+                "Tất nhiên, đây không phải là lựa chọn dễ tiếp cận: không phải ai cũng có thể nhìn thấy hoặc dễ dàng chỉ trỏ, vì vậy hãy chắc chắn rằng bạn không loại trừ bất kỳ ai khỏi việc tham gia bằng cách sử dụng @stream phát này.",
                 "Nếu bạn chắc chắn không có ai bị loại trừ, thì việc sử dụng @Pointer đơn giản chỉ là tạo một luồng:",
                 "\\Pointer()\\",
                 "Thuộc @Place mà nó cung cấp sẽ tương ứng với vị trí mà con trỏ đang trỏ tới trên @Stage ."
@@ -4296,7 +4300,7 @@
                 "/lách cách/",
                 "Hãy thử điều này",
                 "\\Chìakhóa()\\",
-                "Bạn có thấy khi bạn gõ một phím, nó hiện ra trên @Stage không? Mỗi lần một phím được nhấn xuống, một @Text mới sẽ được thêm vào luồng, mô tả phím vừa được nhấn.",
+                "Bạn có thấy khi bạn gõ một phím, nó hiện ra trên @Stage không? Mỗi lần một phím được nhấn xuống, một @Text mới sẽ được thêm vào @stream, mô tả phím vừa được nhấn.",
                 "Với một phím đại diện cho một ký tự, @value sẽ là ký tự đó dưới dạng @Text.",
                 "Với các phím đặc biệt, như phím /Escape/, nó sẽ là @Text mô tả phím đó, dùng một <tên định sẵn@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, tiếc là chỉ có bằng tiếng Anh.",
                 "Nếu bạn chỉ muốn biết về một phím cụ thể, bạn có thể cung cấp nó:",
@@ -4391,7 +4395,7 @@
         },
         "Volume": {
             "doc": [
-                "$~Đó là một luồng thể hiện độ lớn âm thanh của micro, từ 0 đến 1.",
+                "$~Đó là một @stream thể hiện độ lớn âm thanh của micro, từ 0 đến 1.",
                 "/bzzzzzzz/",
                 "Nó được lấy mẫu ở tần số bạn chọn. Theo mặc định, tần số là \\30hz\\ , hoặc 30 lần mỗi giây, nhưng bạn có thể thay đổi nó thành bất kỳ tần số nào thấp hơn.",
                 "\\Volume()\\",
@@ -4407,7 +4411,7 @@
             "doc": [
                 "$~Đây là chuỗi tín hiệu âm thanh từ micro, tính bằng hertz.",
                 "/Hừm/",
-                "Âm thanh được lấy mẫu ở tần số bạn chọn. Giọng nói con người nằm trong khoảng từ 20Hz đến 5000Hz, vì vậy hãy chọn các con số trong phạm vi đó.",
+                "Âm thanh được lấy mẫu ở tần số bạn chọn. Giọng nói con người nằm trong khoảng từ 20Hz đến 5000Hz, vì vậy hãy chọn các con số trong @scope đó.",
                 "\\Pitch()\\",
                 "Đây là công cụ tuyệt vời để nghe rõ giọng điệu khi ai đó nói hoặc hát."
             ],
@@ -4424,7 +4428,7 @@
                 "Về cơ bản, @List đại diện cho một hình ảnh, nhưng bạn sẽ quyết định sử dụng nó như thế nào.",
                 "Bạn có thể thử thể hiện hình ảnh bằng nhiều @Phrase , trông sẽ khá thú vị đấy! Hãy thử sao chép đoạn mã này...",
                 "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' vịTrí: Place((x - 1) × 0.5m y × -0.5m) màusắc: color khoảngthờigian: 0s\n)\n)\n)\n)\n)\\",
-                "Nhưng bạn cũng có thể phân tích màu sắc để quyết định xem đèn có bật hay tắt, hoặc liệu một màu cụ thể có phổ biến hay không, cho phép khán giả tác động đến màn trình diễn bằng màu sắc mà họ thể hiện."
+                "Nhưng bạn cũng có thể phân tích màu sắc để quyết định xem đèn có bật hay tắt, hoặc liệu một màu cụ thể có phổ @variable hay không, cho phép khán giả tác động đến màn trình diễn bằng màu sắc mà họ thể hiện."
             ],
             "names": ["$~Máyảnh"],
             "width": {
@@ -4491,7 +4495,7 @@
         },
         "Chat": {
             "doc": [
-                "$~Đây là luồng tin nhắn @Text mà người xem của bạn nhập vào.",
+                "$~Đây là @stream tin nhắn @Text mà người xem của bạn nhập vào.",
                 "Ví dụ, chương trình đơn giản này kiểm tra xem thông điệp có phải là 'hello' hay không, và nếu đúng thì chương trình sẽ trả về 'hi'. Nếu không thì nó sẽ trả về 'huh'?",
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "Vậy là xong! Bạn có thể tạo ra đủ loại hình trình diễn với công cụ này, chẳng hạn như chatbot, trò chơi phiêu lưu bằng văn bản, hoặc các sơ đồ điều khiển dựa trên văn bản cho các loại hình trình diễn khác."
@@ -4507,7 +4511,7 @@
                 "\\Cụmtừ('chào' vịTrí: Vịtrí())\\",
                 "Sau đó, bất cứ khi nào khán giả dùng một phím mũi tên @key hoặc nhấp hay chạm vào sân khấu, @Placement sẽ tạo ra một @Place mới di chuyển theo hướng mong muốn.",
                 "Hãy thử sao chép cái này vào chương trình của bạn và di chuyển @Output bằng con trỏ hoặc bàn phím.",
-                "Bạn có thể tùy chỉnh @Placement, bật và tắt chuyển động theo một số chiều nhất định, thay đổi mức độ di chuyển của một @Place, và @Place ban đầu mà luồng khởi đầu."
+                "Bạn có thể tùy chỉnh @Placement, bật và tắt chuyển động theo một số chiều nhất định, thay đổi mức độ di chuyển của một @Place, và @Place ban đầu mà @stream khởi đầu."
             ],
             "names": ["$~Vịtrí"],
             "inputs": [
@@ -4536,8 +4540,8 @@
         "Webpage": {
             "doc": [
                 "$~Nó lấy văn bản tại một địa chỉ web mà bạn đưa cho nó.",
-                "Internet thật hấp dẫn — cả một thế giới máy tính kết nối với nhau chia sẻ tài liệu.",
-                "Luồng này kết nối với nó — hãy đưa cho nó một URL, như thế này:",
+                "Internet thật hấp dẫn — cả một thế giới máy tính kết nối với nhau chia sẻ @documentation.",
+                "@stream này kết nối với nó — hãy đưa cho nó một URL, như thế này:",
                 "\\Trangweb('https://wordplay.dev')\\",
                 "Và hình như có một thứ gọi là <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, cho phép bạn @query các thứ trên một trang web? Đưa cho nó một truy vấn chọn CSS và nó sẽ chỉ lấy văn bản khớp với truy vấn đó. Như ví dụ này, lấy các tiêu đề cấp một.",
                 "\\Trangweb('https://wordplay.dev' 'h1')\\",
@@ -4567,7 +4571,7 @@
         "Collision": {
             "names": "$~Vachạm",
             "doc": [
-                "$~Đây là một dòng các giá trị @Rebound, dùng khi các @Output có tên chạm vào nhau.",
+                "$~Đây là một dòng các @value @Rebound, dùng khi các @Output có tên chạm vào nhau.",
                 "Để hai @Output nhận ra nhau, hãy đặt tên cho cả hai, rồi cho tôi biết cả hai tên đó. Tôi sẽ tạo một @Rebound mới mỗi khi chúng chạm nhau. Chúng không cần @Matter để làm việc đó — chỉ cần có tên là tôi có thể theo dõi.",
                 "Hãy cho tôi một tên thôi, và tôi sẽ báo cho bạn biết mỗi khi @Output đó chạm vào bất cứ thứ gì khác trong thế giới vật lý. Một @Output nằm trong thế giới vật lý nếu nó có @Matter, nếu một @Motion đặt nó vào đó, nếu nó là một @Shape nằm trực tiếp trên @Stage, hoặc nếu tôi cũng đang theo dõi tên của nó.",
                 "Nhận ra không giống với việc va chạm và bật lại. @Output chỉ đẩy các @Output khác đi khi nó có @Matter và một @Motion đang làm nó chuyển động. @Output mà chương trình của bạn đặt vào sẽ đi đúng vào nơi bạn đặt nó, nên nó xuyên qua bất cứ thứ gì nó chạm vào — nhưng tôi vẫn sẽ báo cho bạn biết về cú chạm đó.",
@@ -4613,7 +4617,7 @@
         },
         "Speech": {
             "doc": [
-                "$~Nó nhận diện lời nói và biến nó thành @Text.",
+                "$~Nó nhận diện lời nói và @variable nó thành @Text.",
                 "/xin chào!/",
                 "Nó dùng khả năng nhận diện giọng nói của trình duyệt để nghe những gì bạn nói và biến nó thành từ ngữ (điều này thật tuyệt phải không?!).",
                 "\\Lờinói()\\",
@@ -4663,7 +4667,7 @@
             },
             "resolution": {
                 "names": ["$~nghịquyết"],
-                "doc": "$~Độ rộng tính bằng pixel mà camera lấy mẫu trước khi chạy mô hình bàn tay. Giá trị cao hơn có thể cho ra các điểm mốc chính xác hơn một chút nhưng tốn nhiều thời gian hơn cho mỗi khung hình."
+                "doc": "$~Độ rộng tính bằng pixel mà camera lấy mẫu trước khi chạy mô hình bàn tay. @value cao hơn có thể cho ra các điểm mốc chính xác hơn một chút nhưng tốn nhiều thời gian hơn cho mỗi khung hình."
             }
         },
         "Contour": {
@@ -4671,7 +4675,7 @@
                 "$~Nó phác họa đường viền của từng ký tự dưới dạng @List của @Place .",
                 "Hãy cung cấp cho nó một đoạn văn bản và một kiểu phông chữ, và nó sẽ đồ lại đường viền của từng ký tự từng điểm một.",
                 "\\Contour('a' \"Noto Sans\")\\",
-                "Hãy đưa các giá trị @Place đó vào một @List gồm @Phrase để thấy đường viền được vẽ dưới dạng các chấm:",
+                "Hãy đưa các @value @Place đó vào một @List gồm @Phrase để thấy đường viền được vẽ dưới dạng các chấm:",
                 "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' vịTrí: point)))\\",
                 "Bạn có thể điều chỉnh kích thước đường viền bằng @Number of meters, di chuyển điểm gốc bằng @Place , chọn độ đậm phông chữ, bật chế độ in nghiêng và đặt `spacing` giữa các điểm theo khoảng cách tính bằng mét. `spacing` nhỏ hơn sẽ vẽ đường viền sát hơn, với các điểm cách đều nhau dọc theo cả đường thẳng và đường cong.",
                 "Một số ký tự, như biểu tượng cảm xúc màu sắc, không có đường viền, vì vậy chúng không được tính điểm. Trong khi tải phông chữ, nó sẽ trả về một @List trống, sau đó sẽ điền thông tin vào khi hoàn tất."
@@ -4691,7 +4695,7 @@
                     "names": "$~kíchcỡ"
                 },
                 {
-                    "doc": "$~Thuộc tính @Place tùy chọn dùng để dịch chuyển mọi điểm.",
+                    "doc": "$~@property @Place tùy chọn dùng để dịch chuyển mọi điểm.",
                     "names": "$~địađiểm"
                 },
                 {
@@ -4703,7 +4707,7 @@
                     "names": "$~chữnghiêng"
                 },
                 {
-                    "doc": "$~Khoảng cách tính bằng mét giữa các điểm được lấy mẫu dọc theo đường viền, được giữ nhất quán dọc theo cả đường thẳng và đường cong. Giá trị nhỏ hơn cho phép vẽ chi tiết hơn, đến mức tối thiểu là 0,01 mét.",
+                    "doc": "$~Khoảng cách tính bằng mét giữa các điểm được lấy mẫu dọc theo đường viền, được giữ nhất quán dọc theo cả đường thẳng và đường cong. @value nhỏ hơn cho phép vẽ chi tiết hơn, đến mức tối thiểu là 0,01 mét.",
                     "names": "$~khoảngcách"
                 },
                 {
@@ -4721,7 +4725,7 @@
         "Now": {
             "doc": [
                 "$~Tôi đánh dấu một @Moment mới theo nhịp mà bạn chọn, nên chương trình luôn biết ngày hôm nay và giờ hiện tại.",
-                "Điều này biến một chiếc đồng hồ theo vùng đất thành một dòng mã số:",
+                "Điều này @variable một chiếc đồng hồ theo @region thành một dòng @code:",
                 "\\Cụmtừ(⏰() → '')\\",
                 "Mặc định thì tôi đánh dấu mỗi giây. Hãy cho tôi một @Now.frequency tính bằng giây, phút, hoặc giờ để đổi nhịp:",
                 "\\⏰(1min)\\",
@@ -4737,7 +4741,7 @@
             },
             "timezone": {
                 "names": ["$~timezone"],
-                "doc": "$~Một tên múi giờ chuẩn cho các Moment mà tôi tạo ra, gồm một vùng đất và một thành phố, ví dụ như \\'America/New_York'\\ hoặc \\'Châu Á/Tokyo'\\. Không biết tên? Hãy viết một thành phố mà bạn biết và tôi sẽ gợi ý múi giờ gần nhất. Nếu \\ø\\, tôi dùng múi giờ của thiết bị đang chạy chương trình."
+                "doc": "$~Một tên múi giờ chuẩn cho các Moment mà tôi tạo ra, gồm một @region và một thành phố, ví dụ như \\'America/New_York'\\ hoặc \\'Châu Á/Tokyo'\\. Không biết tên? Hãy viết một thành phố mà bạn biết và tôi sẽ gợi ý múi giờ gần nhất. Nếu \\ø\\, tôi dùng múi giờ của thiết bị đang chạy chương trình."
             },
             "calendar": {
                 "names": ["$~calendar"],
@@ -4747,17 +4751,17 @@
         "Moment": {
             "doc": [
                 "$~Mình là một khoảnh khắc duy nhất trong thời gian: một ngày trên lịch, một giờ trong ngày, cùng với múi giờ và lịch mà chúng được ghi theo.",
-                "Tất cả thuộc tính của mình đều không bắt buộc. Hãy cho mình các phần ngày để mô tả một ngày:",
+                "Tất cả @property của mình đều không bắt buộc. Hãy cho mình các phần ngày để mô tả một ngày:",
                 "\\📅(2026 7 1) → ''\\",
                 "Hoặc chỉ các phần giờ, để chỉ một giờ trong ngày:",
                 "\\📅(hour: 15 minute: 30) → ''\\",
                 "Nếu bạn không cho mình phần nào cả, mình sẽ chuyển thành ngày giờ hiện tại, ở bất cứ nơi nào chương trình đang chạy. Nếu bạn bỏ trống một số phần, thì bất kỳ phần nào lớn hơn phần lớn nhất bạn đã cho sẽ lấy từ ngày giờ hiện tại, còn các phần nhỏ hơn thì bắt đầu từ điểm khởi đầu của chúng: vậy nên \\📅(month: 12) → ''\\ là ngày 1 tháng 12 của năm nay, vào lúc nửa đêm. Khi chuyển mình chỉ hiện ra những loại phần mà bạn đã cho: các phần ngày tạo ra một ngày, các phần giờ tạo ra một giờ, và cả hai tạo ra cả hai:",
                 "\\📅() → ''\\",
-                "@Moment.timezone của mình nhận một tên múi giờ IANA chuẩn như \\'America/Los_Angeles'\\ hoặc \\'Châu Á/Tokyo'\\; nếu bạn để trống nó là \\ø\\, mình sẽ dùng múi giờ của thiết bị mà chương trình đang chạy trên đó. @Moment.calendar của mình nhận một tên lịch Unicode như \\'gregory'\\, \\'tiếng Do Thái'\\, hoặc \\'tiếng Nhật'\\; nếu bạn để trống nó là \\ø\\, mình sẽ dùng lịch theo vùng ngôn ngữ của người đọc. @Moment.year, @Moment.month, và @Moment.day của mình đều theo lịch đó:",
+                "@Moment.timezone của mình nhận một tên múi giờ IANA chuẩn như \\'America/Los_Angeles'\\ hoặc \\'Châu Á/Tokyo'\\; nếu bạn để trống nó là \\ø\\, mình sẽ dùng múi giờ của thiết bị mà chương trình đang chạy trên đó. @Moment.calendar của mình nhận một tên lịch Unicode như \\'gregory'\\, \\'tiếng Do Thái'\\, hoặc \\'tiếng Nhật'\\; nếu bạn để trống nó là \\ø\\, mình sẽ dùng lịch theo vùng @language của người đọc. @Moment.year, @Moment.month, và @Moment.day của mình đều theo lịch đó:",
                 "\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
                 "Khi chuyển mình sang @Text sẽ định dạng mình theo vùng ngôn ngữ của người đọc: cùng một Moment sẽ hiển thị khác nhau bằng tiếng Anh, 中文, hoặc हिन्दी, và thay đổi khi vùng ngôn ngữ của người đọc thay đổi.",
                 "@Moment.era, @Moment.week, và @Moment.weekday của mình mang tính thông tin: @Now điền chúng vào khi tạo ra các Moment, nhưng chúng bị bỏ qua khi định dạng.",
-                "Nếu bạn muốn một luồng các Moment tự cập nhật khi thời gian trôi qua — một cái đồng hồ — hãy xem @Now. Nếu bạn muốn số mili giây đã trôi qua kể từ khi chương trình của bạn bắt đầu — để làm hoạt hình — hãy xem @Time."
+                "Nếu bạn muốn một @stream các Moment tự cập nhật khi thời gian trôi qua — một cái đồng hồ — hãy xem @Now. Nếu bạn muốn số mili giây đã trôi qua kể từ khi chương trình của bạn bắt đầu — để làm hoạt hình — hãy xem @Time."
             ],
             "names": ["$~📅", "$~Moment"],
             "year": {
@@ -4790,7 +4794,7 @@
             },
             "timezone": {
                 "names": ["$~timezone"],
-                "doc": "$~Một tên múi giờ chuẩn, gồm một vùng đất và một thành phố, ví dụ như \\'America/New_York'\\, \\'Europe/Paris'\\, hoặc \\'Châu Á/Tokyo'\\. Không biết tên? Hãy viết một thành phố mà bạn biết và tôi sẽ gợi ý múi giờ gần nhất. Nếu \\ø\\, tôi dùng múi giờ của thiết bị đang chạy chương trình."
+                "doc": "$~Một tên múi giờ chuẩn, gồm một @region và một thành phố, ví dụ như \\'America/New_York'\\, \\'Europe/Paris'\\, hoặc \\'Châu Á/Tokyo'\\. Không biết tên? Hãy viết một thành phố mà bạn biết và tôi sẽ gợi ý múi giờ gần nhất. Nếu \\ø\\, tôi dùng múi giờ của thiết bị đang chạy chương trình."
             },
             "calendar": {
                 "names": ["$~calendar"],
@@ -4833,7 +4837,7 @@
             },
             "resolution": {
                 "names": ["$~độPhânGiải"],
-                "doc": "$~Chiều rộng tính bằng điểm ảnh mà máy ảnh được lấy mẫu trước khi chạy mô hình khuôn mặt. Giá trị cao hơn có thể cho các điểm mốc chính xác hơn một chút nhưng tốn nhiều thời gian hơn mỗi khung hình."
+                "doc": "$~Chiều rộng tính bằng điểm ảnh mà máy ảnh được lấy mẫu trước khi chạy mô hình khuôn mặt. @value cao hơn có thể cho các điểm mốc chính xác hơn một chút nhưng tốn nhiều thời gian hơn mỗi khung hình."
             }
         },
         "Objects": {
@@ -4856,7 +4860,7 @@
                     "names": "$~tầnSuất"
                 },
                 {
-                    "doc": "$~Chiều rộng tính bằng điểm ảnh dùng để lấy mẫu máy ảnh trước khi tìm đồ vật. Mô hình nhìn vào một ô vuông 320 điểm ảnh, nên giá trị lớn hơn chủ yếu tốn thời gian.",
+                    "doc": "$~Chiều rộng tính bằng điểm ảnh dùng để lấy mẫu máy ảnh trước khi tìm đồ vật. Mô hình nhìn vào một ô vuông 320 điểm ảnh, nên @value lớn hơn chủ yếu tốn thời gian.",
                     "names": "$~độPhânGiải"
                 },
                 {
@@ -5017,14 +5021,14 @@
                 "names": "$~thangÂm"
             },
             "parts": {
-                "doc": "$~Một @Part cho mỗi @Track, theo thứ tự chúng được viết, dù nó có đang vang lên hay không. Đây là toàn bộ trạng thái của bản nhạc trong nhịp này.",
+                "doc": "$~Một @Part cho mỗi @Track, theo thứ tự chúng được viết, dù nó có đang vang lên hay không. Đây là toàn bộ @state của bản nhạc trong nhịp này.",
                 "names": "$~phần"
             }
         },
         "Part": {
             "doc": [
-                "$~Tôi là trạng thái của một @Track trong một nhịp: nó đang chơi gì, to cỡ nào, và ở scale nào. Một @Downbeat mang một cái tôi cho mỗi bản, nên hình ảnh có thể vẽ từng giọng riêng thay vì hòa lẫn.",
-                "Các giá trị của tôi là những giá trị mà bộ phát đang thực sự dùng, sau khi mọi mặc định và ghi đè đã được áp dụng — nên scale và chìa khóa của tôi là của bản đó, không phải của bản nhạc, khi bản đó tự đặt riêng."
+                "$~Tôi là @state của một @Track trong một nhịp: nó đang chơi gì, to cỡ nào, và ở scale nào. Một @Downbeat mang một cái tôi cho mỗi bản, nên hình ảnh có thể vẽ từng giọng riêng thay vì hòa lẫn.",
+                "Các @value của tôi là những giá trị mà bộ phát đang thực sự dùng, sau khi mọi mặc định và ghi đè đã được áp dụng — nên scale và chìa khóa của tôi là của bản đó, không phải của bản nhạc, khi bản đó tự đặt riêng."
             ],
             "names": "$~Phần",
             "instrument": {
@@ -5232,8 +5236,8 @@
                 "doc": [
                     "$~Một cái tên bạn đặt cho tôi! Điều này hữu ích cho nhiều thứ.",
                     "Đầu tiên, nếu tôi có tên, tôi sẽ dùng nó để mô tả bản thân trong các mô tả cho trình đọc màn hình.",
-                    "Thứ hai, khi tạo hoạt ảnh, bạn có thể có nhiều biểu thức khác nhau nhưng đại diện cho cùng một nội dung trên sân khấu; hãy đặt cho chúng cùng một tên và chúng sẽ chuyển động như một.",
-                    "Cuối cùng, tôi hữu ích với @Choice: các tên bạn đặt cho tôi sẽ xuất hiện trong luồng đó.",
+                    "Thứ hai, khi tạo hoạt ảnh, bạn có thể có nhiều @expression khác nhau nhưng đại diện cho cùng một nội dung trên sân khấu; hãy đặt cho chúng cùng một tên và chúng sẽ chuyển động như một.",
+                    "Cuối cùng, tôi hữu ích với @Choice: các tên bạn đặt cho tôi sẽ xuất hiện trong @stream đó.",
                     "Bạn có thể đặt cho tôi nhiều tên khác nhau, mỗi tên bằng một @language khác, nếu điều đó hữu ích. Tôi sẽ luôn dùng tên bằng ngôn ngữ được chọn đầu tiên."
                 ],
                 "names": "$~tên"
@@ -5306,7 +5310,7 @@
             },
             "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
             "changing": {
-                "doc": "$~Tên của một hiệu ứng để phát khi văn bản của tôi thay đổi, trong khoảng @Phrase.duration của tôi, được làm mượt bởi @Phrase.style của tôi. Nếu \\ø\\, văn bản của tôi thay đổi ngay lập tức. Nếu là 'edit', tôi xóa văn bản cũ trở lại phần mà văn bản cũ và mới cùng chia sẻ, rồi gõ ra văn bản mới. Nếu là 'rewrite', tôi gõ văn bản mới đè lên văn bản cũ, thay thế từng ký hiệu một theo thứ tự ngẫu nhiên. Nếu là 'random', mỗi ký hiệu của tôi quay qua các ký hiệu ngẫu nhiên từ ngôn ngữ của văn bản của tôi (hoặc chữ viết của nó, khi không biết ngôn ngữ), khớp với chữ hoa chữ thường của văn bản của tôi, giống như một máy quay may mắn, cho đến khi nó dừng ở văn bản mới. Với văn bản @FormattedLiteral, các ký hiệu đang thay đổi sẽ mang định dạng của văn bản mới trong lúc diễn ra hiệu ứng.",
+                "doc": "$~Tên của một hiệu ứng để phát khi văn bản của tôi thay đổi, trong khoảng @Phrase.duration của tôi, được làm mượt bởi @Phrase.style của tôi. Nếu \\ø\\, văn bản của tôi thay đổi ngay lập tức. Nếu là 'edit', tôi xóa văn bản cũ trở lại phần mà văn bản cũ và mới cùng chia sẻ, rồi gõ ra văn bản mới. Nếu là 'rewrite', tôi gõ văn bản mới đè lên văn bản cũ, thay thế từng ký hiệu một theo thứ tự ngẫu nhiên. Nếu là 'random', mỗi ký hiệu của tôi quay qua các ký hiệu ngẫu nhiên từ @language của văn bản của tôi (hoặc chữ viết của nó, khi không biết ngôn ngữ), khớp với chữ hoa chữ thường của văn bản của tôi, giống như một máy quay may mắn, cho đến khi nó dừng ở văn bản mới. Với văn bản @FormattedLiteral, các ký hiệu đang thay đổi sẽ mang định dạng của văn bản mới trong lúc diễn ra hiệu ứng.",
                 "names": "$~đangThayĐổi"
             },
             "bubble": {
@@ -5335,7 +5339,7 @@
                 "names": "$~sựcănchỉnh"
             },
             "padding": {
-                "doc": "$~Khoảng cách đệm cần đặt giữa các giá trị đầu ra.",
+                "doc": "$~Khoảng cách đệm cần đặt giữa các @value đầu ra.",
                 "names": "$~đệm"
             }
         },
@@ -5348,7 +5352,7 @@
                 "names": "$~sựcănchỉnh"
             },
             "padding": {
-                "doc": "$~Khoảng cách đệm cần đặt giữa các giá trị đầu ra.",
+                "doc": "$~Khoảng cách đệm cần đặt giữa các @value đầu ra.",
                 "names": "$~đệm"
             }
         },
@@ -5403,7 +5407,7 @@
                 "names": "$~Sựmiêutả"
             },
             "selectable": {
-                "doc": "$~Tôi có đủ điều kiện để được chọn tham gia chương trình @Choice hay không?",
+                "doc": "$~Tôi có đủ @condition để được chọn tham gia chương trình @Choice hay không?",
                 "names": "$~cóthểlựachọn"
             },
             "color": {
@@ -5558,15 +5562,15 @@
                 "names": "$~phongcách"
             },
             "color": {
-                "doc": "$~Thuộc tính @Color và @Output nên ở vị trí này, thay vì vị trí mặc định.",
+                "doc": "$~@property @Color và @Output nên ở vị trí này, thay vì vị trí mặc định.",
                 "names": "$~màusắc"
             },
             "opacity": {
-                "doc": "$~Độ trong suốt của @Output nên nằm trong khoảng từ \\0\\ đến \\1\\, thay vì giá trị mặc định. Điều này hữu ích cho việc làm mờ dần vào và ra.",
+                "doc": "$~Độ trong suốt của @Output nên nằm trong khoảng từ \\0\\ đến \\1\\, thay vì @value mặc định. Điều này hữu ích cho việc làm mờ dần vào và ra.",
                 "names": "$~độmờđục"
             },
             "offset": {
-                "doc": "$~Thuộc tính @Place cho biết vị trí cần dịch chuyển so với vị trí mặc định của @Output. Hữu ích cho việc điều chỉnh vị trí linh hoạt.",
+                "doc": "$~@property @Place cho biết vị trí cần dịch chuyển so với vị trí mặc định của @Output. Hữu ích cho việc điều chỉnh vị trí linh hoạt.",
                 "names": "$~bùlại"
             },
             "rotation": {
@@ -5587,14 +5591,14 @@
             },
             "description": "$~$opacity[trong suốt $opacity|] $rotation[xoay $rotation độ|] $scale[thu nhỏ $scale|] $flipx[lật ngang|] $flipy[lật dọc|] $blur[bóng mờ $blur pixel|]",
             "music": {
-                "doc": "$~@Music tôi nên phát khi trạng thái hoạt ảnh của tôi bắt đầu, hoặc khi một @Sequence chạm tới tôi. Đây là một âm thanh ngắn; tôi chỉ phát một lần duy nhất.",
+                "doc": "$~@Music tôi nên phát khi @state hoạt ảnh của tôi bắt đầu, hoặc khi một @Sequence chạm tới tôi. Đây là một âm thanh ngắn; tôi chỉ phát một lần duy nhất.",
                 "names": "$~âmNhạc"
             }
         },
         "Color": {
             "doc": [
                 "$~Tôi là một màu sắc nhìn thấy được, tạo thành từ ba chiều thiết yếu.",
-                "Đây là một số màu phổ biến quanh vòng tròn màu, ở độ sáng trung bình và độ tươi cao:",
+                "Đây là một số màu phổ @variable quanh vòng tròn màu, ở độ sáng trung bình và độ tươi cao:",
                 "\\Màusắc(50% 100 0°)\\",
                 "\\Màusắc(50% 100 30°)\\",
                 "\\Màusắc(50% 100 60°)\\",
@@ -5766,7 +5770,7 @@
                     ],
                     "names": ["đungđưa"],
                     "angle": {
-                        "doc": "$~Nghiêng bao xa về mỗi hướng. Giá trị nhỏ trông nhẹ nhàng; giá trị lớn trông cuống cuồng.",
+                        "doc": "$~Nghiêng bao xa về mỗi hướng. @value nhỏ trông nhẹ nhàng; giá trị lớn trông cuống cuồng.",
                         "names": ["$~góc"]
                     }
                 },
@@ -5988,7 +5992,7 @@
                     ],
                     "names": ["$~xoayvòng"],
                     "angle": {
-                        "doc": "$~Xoay bao nhiêu trước khi biến mất, tính bằng độ.",
+                        "doc": "$~Xoay bao nhiêu trước khi @variable mất, tính bằng độ.",
                         "names": ["$~góc"]
                     }
                 },
@@ -6042,7 +6046,7 @@
                 },
                 "slidein": {
                     "doc": [
-                        "$~Tôi trượt một @Output vào vị trí từ bất cứ nơi nào bạn thích, mà không mờ dần. Hãy cho tôi một @Place và tôi sẽ bắt đầu ở đó rồi kết thúc ở trạng thái nghỉ, nên một hiệu ứng động bao trùm mọi hướng.",
+                        "$~Tôi trượt một @Output vào vị trí từ bất cứ nơi nào bạn thích, mà không mờ dần. Hãy cho tôi một @Place và tôi sẽ bắt đầu ở đó rồi kết thúc ở @state nghỉ, nên một hiệu ứng động bao trùm mọi hướng.",
                         "\\Cụmtừ('🐈' vào: 💃.trượtVào(📍(0m -4m)))\\"
                     ],
                     "names": ["$~trượtVào"],
@@ -6148,7 +6152,7 @@
             "doc": "$~Tôi cho biết @Output nặng, nảy và trơn đến mức nào. @Output có tôi và một @Motion thì rắn chắc: nó bật lại khỏi @Shape trên @Stage và khỏi các @Output khác đang chuyển động. @Output mà chương trình của bạn đặt vào sẽ đi đến đúng nơi bạn đặt nó, và xuyên qua bất cứ thứ gì nó chạm vào. @Output không cần tôi để được @Collision nhận ra — chỉ cần có tên là đủ cho việc đó.",
             "names": ["$~Vấnđề"],
             "mass": {
-                "doc": "$~Khối lượng, tính bằng kilogam.",
+                "doc": "$~@blocks lượng, tính bằng kilogam.",
                 "names": "$~khối"
             },
             "bounciness": {
@@ -6368,7 +6372,7 @@
             "defaultDescription": "$~Nói $text"
         },
         "Gesture": {
-            "doc": "$~Tôi là một ảnh chụp về tư thế tay được camera phát hiện, phát ra bởi luồng @Hand. Vị trí của tôi cho bạn biết bàn tay ở đâu trên sân khấu, các ngón tay của tôi cho biết có bao nhiêu ngón đang duỗi ra, open của tôi là đúng khi bàn tay mở (3 ngón trở lên duỗi ra), và ngón cái, @index, ngón giữa, ngón đeo nhẫn, và ngón út mỗi cái cho biết ngón cụ thể nào đang duỗi ra. Lòng bàn tay của tôi là đúng khi lòng bàn tay hướng về phía camera, sai khi mu bàn tay hướng về phía camera.",
+            "doc": "$~Tôi là một ảnh chụp về tư thế tay được camera phát hiện, phát ra bởi @stream @Hand. Vị trí của tôi cho bạn biết bàn tay ở đâu trên sân khấu, các ngón tay của tôi cho biết có bao nhiêu ngón đang duỗi ra, open của tôi là đúng khi bàn tay mở (3 ngón trở lên duỗi ra), và ngón cái, @index, ngón giữa, ngón đeo nhẫn, và ngón út mỗi cái cho biết ngón cụ thể nào đang duỗi ra. Lòng bàn tay của tôi là đúng khi lòng bàn tay hướng về phía camera, sai khi mu bàn tay hướng về phía camera.",
             "names": ["$~Cửchỉ"],
             "place": {
                 "doc": "$~Vị trí bàn tay trên sân khấu.",
@@ -6408,7 +6412,7 @@
             }
         },
         "Result": {
-            "doc": "$~Tôi là kết quả khớp đầu tiên của tìm kiếm mẫu với \\⌕\\ : văn bản khớp, vị trí của nó và bất kỳ phần tử nào được bắt giữ.",
+            "doc": "$~Tôi là kết quả khớp đầu tiên của tìm kiếm mẫu với \\⌕\\ : văn bản khớp, vị trí của nó và bất kỳ @element nào được bắt giữ.",
             "names": ["$~Kếtquả"],
             "text": {
                 "doc": "$~Toàn bộ văn bản khớp nhau.",
@@ -6441,7 +6445,7 @@
             "random": "$~ngẫuNhiên"
         },
         "Expression": {
-            "doc": "$~Tôi là một ảnh chụp nhanh của một biểu cảm khuôn mặt được máy ảnh phát hiện, phát ra từ luồng @Face. Vị trí của tôi cho bạn biết khuôn mặt ở đâu trên sân khấu. @Expression.leftEyeOpen, @Expression.rightEyeOpen, và @Expression.eyesOpen của tôi cho biết mắt có mở hay không. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, và @Expression.browsRaised của tôi cho biết khuôn mặt đang làm gì, và mỗi cái có một lượng tương ứng (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) từ 0 đến 1 cho biết nó mạnh đến mức nào. @Expression.turn và @Expression.tilt của tôi cho biết đầu đang hướng về phía nào, tính bằng độ.",
+            "doc": "$~Tôi là một ảnh chụp nhanh của một biểu cảm khuôn mặt được máy ảnh phát hiện, phát ra từ @stream @Face. Vị trí của tôi cho bạn biết khuôn mặt ở đâu trên sân khấu. @Expression.leftEyeOpen, @Expression.rightEyeOpen, và @Expression.eyesOpen của tôi cho biết mắt có mở hay không. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, và @Expression.browsRaised của tôi cho biết khuôn mặt đang làm gì, và mỗi cái có một lượng tương ứng (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) từ 0 đến 1 cho biết nó mạnh đến mức nào. @Expression.turn và @Expression.tilt của tôi cho biết đầu đang hướng về phía nào, tính bằng độ.",
             "names": ["$~BiểuCảm"],
             "place": {
                 "doc": "$~Khuôn mặt ở đâu trên sân khấu.",
@@ -6501,10 +6505,10 @@
             }
         },
         "Thing": {
-            "doc": "$~Tôi là một thứ mà máy ảnh nhìn thấy, được gửi ra trong một @List bởi luồng @Objects. Tên của tôi cho biết tôi là gì, độ tin cậy của tôi cho biết mô hình chắc chắn đến mức nào, vị trí của tôi cho biết tôi ở đâu trên sân khấu, còn chiều rộng và chiều cao của tôi cho biết tôi trông lớn cỡ nào.",
+            "doc": "$~Tôi là một thứ mà máy ảnh nhìn thấy, được gửi ra trong một @List bởi @stream @Objects. Tên của tôi cho biết tôi là gì, độ tin cậy của tôi cho biết mô hình chắc chắn đến mức nào, vị trí của tôi cho biết tôi ở đâu trên sân khấu, còn chiều rộng và chiều cao của tôi cho biết tôi trông lớn cỡ nào.",
             "names": ["$~Vật"],
             "name": {
-                "doc": "$~Thứ đó là gì, bằng ngôn ngữ của bạn.",
+                "doc": "$~Thứ đó là gì, bằng @language của bạn.",
                 "names": ["$~tên"]
             },
             "confidence": {
@@ -6526,7 +6530,7 @@
         },
         "Music": {
             "doc": [
-                "$~Tôi biến các nốt nhạc thành âm thanh: một hoặc nhiều @Track phát cùng nhau, ở một nhịp độ, trong một tông, dựa trên một thang âm. Tôi là âm nhạc mà bạn có thể nghe /và/ nhìn thấy — mỗi người xem chọn cách tôi xuất hiện.",
+                "$~Tôi @variable các nốt nhạc thành âm thanh: một hoặc nhiều @Track phát cùng nhau, ở một nhịp độ, trong một tông, dựa trên một thang âm. Tôi là âm nhạc mà bạn có thể nghe /và/ nhìn thấy — mỗi người xem chọn cách tôi xuất hiện.",
                 "Bài hát nhỏ nhất là ba nốt trên một bản nhạc:",
                 "\\🎼(🎶([1 3 5]))\\",
                 "Nốt nhạc là các con số. 1 là nốt đầu tiên của thang âm — nốt mà một giai điệu nghe như đã kết thúc — 2 là nốt tiếp theo cao hơn, và 8 lại là nốt đầu tiên đó, nhưng cao hơn một quãng tám. ø là một nốt nghỉ, tức là sự im lặng. Các con số vẫn tiếp tục vượt qua cả hai đầu: 9 là nốt thứ hai cao hơn một quãng tám, còn 0 và -1 bước xuống dưới nốt đầu tiên.",
@@ -6537,7 +6541,7 @@
                 "\\🎼(🎶([1 ø 5 ø]) nhịpĐộ: 90beats/min)\\",
                 "Hãy đưa cho tôi một danh sách các bản nhạc và chúng phát cùng lúc, mỗi bản với nhạc cụ, tốc độ, và âm lượng riêng. Ở đây một trống bass và một trống snare giữ nhịp trong khi hi-hat chạy với tốc độ gấp đôi — một đa nhịp điệu tạo ra từ một con số. Trống là một bộ dụng cụ chứ không có cao độ, nên các con số của chúng chọn từng phần của bộ trống thay vì các nốt:",
                 "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] nhạcCụ: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] nhạcCụ: 🔈.🥁 nhịp: 0.5beats âmLượng: 30%)\n\t]\n\tnhịpĐộ: 96beats/min\n)\\",
-                "Các con số bên trong dấu ngoặc nhọn vang lên cùng nhau thành một hợp âm, và một giá trị nốt viết trên một con số cho mục đó độ dài riêng. Ở đây hai hợp âm nốt tròn giữ ở dưới một giai điệu đang chuyển động:",
+                "Các con số bên trong dấu ngoặc nhọn vang lên cùng nhau thành một hợp âm, và một @value nốt viết trên một con số cho mục đó độ dài riêng. Ở đây hai hợp âm nốt tròn giữ ở dưới một giai điệu đang chuyển động:",
                 "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] nhạcCụ: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] nhạcCụ: 🔈.🎹 âmLượng: 50%)\n\t])\\",
                 "Bất cứ thứ gì tạo ra số đều có thể tạo ra nhạc. Giai điệu này tự xáo trộn thành một trật tự mới, và đi theo độ to của giọng bạn đang nói:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].xáotrộn())\n\tnhịpĐộ: (60 + (🎤() × 120)) × 1beats/min\n)\\",
@@ -6583,7 +6587,7 @@
                     "$~Khi cái này là \\⊤\\ trong một lần chạy, tôi bắt đầu lại từ đầu, ngay cả khi không nốt nào của tôi thay đổi.",
                     "Cái này dành cho âm thanh đáp lại một sự kiện thay vì chơi liên tục. Nếu một câu trả lời đúng phát tiếng ding, thì hai câu trả lời đúng liền nhau tạo ra đúng cùng bản nhạc, nên sẽ không có gì thay đổi và không có gì vang lên lại. Tôi là cách bạn nói /lại đi, ngay bây giờ/ — chọn /đúng/ hai lần bên dưới và nó ding hai lần:",
                     "\\🎭([\n\t\tCụmtừ('đúng' cóthểlựachọn: ⊤ tên: 'đúng' vịTrí: 📍(-2m 0m))\n\t\tCụmtừ('sai' cóthểlựachọn: ⊤ tên: 'sai' vịTrí: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] nhạcCụ: 🔈.🔔 vòngLặp: ⊥) phátLại: ∆ 🔘() ? (🔘() = 'đúng') ⊥)\n\t])\\",
-                    "Đưa cho tôi một điều kiện /nhất thời/, cái chỉ đúng trong lần chạy mà sự kiện gây ra, như \\∆ 🔘()\\ ở trên. Một điều kiện kéo dài như \\score > 10\\🪲 giữ đúng một khi nó trở thành đúng, nên nó sẽ khởi động lại tôi trong mỗi lần chạy kể từ đó."
+                    "Đưa cho tôi một @condition /nhất thời/, cái chỉ đúng trong lần chạy mà sự kiện gây ra, như \\∆ 🔘()\\ ở trên. Một điều kiện kéo dài như \\score > 10\\🪲 giữ đúng một khi nó trở thành đúng, nên nó sẽ khởi động lại tôi trong mỗi lần chạy kể từ đó."
                 ],
                 "names": "$~phátLại"
             },
@@ -6679,7 +6683,7 @@
                     "$~Trong khi cái này là \\⊤\\ tôi đứng yên, và khi nó trở về \\⊥\\ tôi tiếp tục từ đúng nhịp mà tôi đã dừng.",
                     "Đây là điều khiến tôi khác với @Music/replay: replay nghĩa là /bắt đầu lại/, còn tôi nghĩa là /chờ ở đây/. Một nốt vẫn còn đang vang khi tôi dừng sẽ chơi hết phần còn lại của nó khi tôi bắt đầu lại, nên dừng giữa một hợp âm dài không làm mất nó. Chọn /giữ/ và /đi/ bên dưới:",
                     "\\🎭([\n\t\tCụmtừ('giữ' cóthểlựachọn: ⊤ tên: 'giữ' vịTrí: 📍(-2m 0m))\n\t\tCụmtừ('đi' cóthểlựachọn: ⊤ tên: 'đi' vịTrí: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] nhạcCụ: 🔈.🎹) tạmDừng: 🔘() = 'giữ')\n\t])\\",
-                    "Khác với phát lại, tôi muốn một điều kiện /lâu dài/, một điều kiện giữ đúng chừng nào bạn còn muốn sự im lặng. Bộ đếm @Beat của tôi chờ cùng tôi và tiếp tục từ chỗ nó đang dừng, thay vì bắt đầu lại từ số không."
+                    "Khác với phát lại, tôi muốn một @condition /lâu dài/, một điều kiện giữ đúng chừng nào bạn còn muốn sự im lặng. Bộ đếm @Beat của tôi chờ cùng tôi và tiếp tục từ chỗ nó đang dừng, thay vì bắt đầu lại từ số không."
                 ],
                 "names": "$~tạmDừng"
             }
@@ -6693,10 +6697,10 @@
                 "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] nhịp: 0.5beats))\\",
                 "Đặt @Track/mash của tôi thành \\⊥\\ và một con số như vậy sẽ bẻ cong một nốt lệch khỏi cao độ thay vì chơi hai nốt.",
                 "Mỗi mục kéo dài bằng @Track/beat của tôi, tức là một phách trừ khi bạn thay đổi nó. Thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi cùng một lúc.",
-                "Khi một mục cần dài hơn hoặc ngắn hơn phần còn lại, hãy viết độ dài ngay trên con số đó như một giá trị nốt. \\8𝅗𝅥\\ là một nốt trắng — dài gấp đôi một phách — và không cần gì bao quanh nó:",
+                "Khi một mục cần dài hơn hoặc ngắn hơn phần còn lại, hãy viết độ dài ngay trên con số đó như một @value nốt. \\8𝅗𝅥\\ là một nốt trắng — dài gấp đôi một phách — và không cần gì bao quanh nó:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
                 "Có năm giá trị: \\𝅝\\ kéo dài bốn phách, \\𝅗𝅥\\ hai phách, \\𝅘𝅥\\ một phách, \\𝅘𝅥𝅮\\ nửa phách, và \\𝅘𝅥𝅯\\ một phần tư phách. Một dấu chấm sau bất kỳ nốt nào làm cho nó dài thêm một nửa nữa, nên \\𝅘𝅥𝅭\\ là một phách rưỡi. Một nốt đen là một phách dù phách của tôi là gì, đó là lý do tại sao \\nhịp: 1𝅘𝅥𝅮\\🪲 nói cùng một điều như \\0.5beats\\ và đọc dễ hiểu hơn. Trên một hợp âm, đặt giá trị lên con số đầu tiên: \\{1𝅗𝅥 3 5}\\.",
-                "Những thứ này khó tìm, nên hàng ký hiệu bên dưới trình soạn thảo sẽ cung cấp chúng bất cứ khi nào con trỏ của bạn nằm ngay sau một con số của tôi.",
+                "Những thứ này khó tìm, nên hàng ký hiệu bên dưới @editor sẽ cung cấp chúng bất cứ khi nào con trỏ của bạn nằm ngay sau một con số của tôi.",
                 "Một dấu lặng không thể mang giá trị, vì \\ø\\ không phải là con số. Hai dấu lặng liền nhau dài gấp đôi, và với bất cứ điều gì tinh tế hơn thì có @Note.",
                 "Khi một nốt đơn cần âm lượng riêng, hoặc một độ dài mà không giá trị nào diễn tả được, hãy bọc nốt đó trong một @Note. Chỉ dùng nó ở nơi bạn cần: một con số trần trụi thì dễ đọc hơn, nên hầu hết các bản nhạc chẳng có cái nào cả, và sự hiếm hoi đó chính là điều khiến một @Note nổi bật như một sự kiện.",
                 "\\tếBào: [1 3 5 3]\n🎼(\n\t🎶(\n\t\ttếBào\n\t\t.withList(tếBào.dịch(ƒ(n•#) n + 2))\n\t\t.withList(tếBào.đảongược())\n\t\t.withList(tếBào.dịch(ƒ(n2•#) 8 - n2))\n\t\tnhạcCụ: 🔈.🎹\n\t)\n)\\",
@@ -6705,7 +6709,7 @@
             ],
             "names": ["$~BảnNhạc"],
             "notes": {
-                "doc": "$~Các nốt cần chơi, theo thứ tự: một số cho một nốt, \\ø\\ cho một dấu lặng, một tập hợp như \\{1 3 5}\\ cho một hợp âm, hoặc một @Note khi một mục cần âm lượng riêng. Một giá trị nốt viết trên một số — \\3𝅗𝅥\\ — cho biết mục đó kéo dài bao lâu.",
+                "doc": "$~Các nốt cần chơi, theo thứ tự: một số cho một nốt, \\ø\\ cho một dấu lặng, một tập hợp như \\{1 3 5}\\ cho một hợp âm, hoặc một @Note khi một mục cần âm lượng riêng. Một @value nốt viết trên một số — \\3𝅗𝅥\\ — cho biết mục đó kéo dài bao lâu.",
                 "names": "$~nốtNhạc"
             },
             "instrument": {
@@ -6713,7 +6717,7 @@
                 "names": "$~nhạcCụ"
             },
             "beat": {
-                "doc": "$~Một mục trần kéo dài bao lâu, tính bằng phách. Nó là một phách trừ khi bạn thay đổi nó, và thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi: ở \\0.5beats\\ mỗi mục là một nốt móc đơn, nên tôi đi qua cùng danh sách nhanh gấp đôi. Một giá trị nốt nói cùng một điều dễ hiểu hơn, nên \\nhịp: 1𝅘𝅥𝅮\\🪲 là cùng cái lưới nốt móc đơn đó.",
+                "doc": "$~Một mục trần kéo dài bao lâu, tính bằng phách. Nó là một phách trừ khi bạn thay đổi nó, và thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi: ở \\0.5beats\\ mỗi mục là một nốt móc đơn, nên tôi đi qua cùng danh sách nhanh gấp đôi. Một @value nốt nói cùng một điều dễ hiểu hơn, nên \\nhịp: 1𝅘𝅥𝅮\\🪲 là cùng cái lưới nốt móc đơn đó.",
                 "names": "$~nhịp"
             },
             "scale": {
@@ -6733,7 +6737,7 @@
                 "names": "$~cânBằngTráiPhải"
             },
             "loop": {
-                "doc": "$~Tôi có bắt đầu lại khi đến điểm kết thúc hay không. Tôi sẽ bắt đầu lại trừ khi giá trị này là \\⊥\\, đó là điều mà một âm thanh một lần như tiếng ding cần.",
+                "doc": "$~Tôi có bắt đầu lại khi đến điểm kết thúc hay không. Tôi sẽ bắt đầu lại trừ khi @value này là \\⊥\\, đó là điều mà một âm thanh một lần như tiếng ding cần.",
                 "names": "$~vòngLặp"
             },
             "mash": {
@@ -6741,24 +6745,24 @@
                 "names": "$~nghiềnNát"
             },
             "words": {
-                "doc": "$~Các âm tiết để @Instrument/voice hát. Mỗi nốt một âm tiết, cách nhau bằng khoảng trắng, nên \\'son mi fa'\\ hát ba nốt và các khoảng trắng cho biết một âm tiết kết thúc ở đâu và âm tiết tiếp theo bắt đầu.\n\nCác nốt nghỉ không cần âm tiết, nên lời hát rơi vào những nốt thực sự có tiếng. Nếu có ít âm tiết hơn số nốt, chúng sẽ bắt đầu lại từ đầu thay vì im lặng. Nếu hoàn toàn không có âm tiết nào, giọng hát giữ một âm /uh/.\n\nKết thúc một âm tiết bằng dấu gạch nối để giữ nó qua nốt tiếp theo nữa, thêm một nốt cho mỗi dấu gạch nối — đó là cách bạn hát một âm tiết qua nhiều nốt. Trong \\🎶([1 2 3 4] từNgữ: 'la- mi so')\\, \\la\\ bao gồm hai nốt đầu tiên, rồi \\mi\\ và \\so\\ mỗi cái lấy một nốt.\n\nCách viết là <Bảng Chữ Cái Ngữ Âm Quốc Tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, trong đó mỗi chữ cái là một âm. Nhấn 🤖 dưới trình soạn thảo để xem mọi âm và nghe nó. Những chữ cái tôi không nhận ra sẽ bị bỏ qua. Mọi nhạc cụ khác ngoài giọng hát đều bỏ qua tôi, nên lời hát vẫn còn khi bạn đổi @Track/instrument rồi đổi lại.",
+                "doc": "$~Các âm tiết để @Instrument/voice hát. Mỗi nốt một âm tiết, cách nhau bằng khoảng trắng, nên \\'son mi fa'\\ hát ba nốt và các khoảng trắng cho biết một âm tiết kết thúc ở đâu và âm tiết tiếp theo bắt đầu.\n\nCác nốt nghỉ không cần âm tiết, nên lời hát rơi vào những nốt thực sự có tiếng. Nếu có ít âm tiết hơn số nốt, chúng sẽ bắt đầu lại từ đầu thay vì im lặng. Nếu hoàn toàn không có âm tiết nào, giọng hát giữ một âm /uh/.\n\nKết thúc một âm tiết bằng dấu gạch nối để giữ nó qua nốt tiếp theo nữa, thêm một nốt cho mỗi dấu gạch nối — đó là cách bạn hát một âm tiết qua nhiều nốt. Trong \\🎶([1 2 3 4] từNgữ: 'la- mi so')\\, \\la\\ bao gồm hai nốt đầu tiên, rồi \\mi\\ và \\so\\ mỗi cái lấy một nốt.\n\nCách viết là <Bảng Chữ Cái Ngữ Âm Quốc Tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, trong đó mỗi chữ cái là một âm. Nhấn 🤖 dưới @editor để xem mọi âm và nghe nó. Những chữ cái tôi không nhận ra sẽ bị bỏ qua. Mọi nhạc cụ khác ngoài giọng hát đều bỏ qua tôi, nên lời hát vẫn còn khi bạn đổi @Track/instrument rồi đổi lại.",
                 "names": "$~từNgữ"
             }
         },
         "Note": {
             "doc": [
-                "$~Tôi là một mục trong một @Track mang âm lượng riêng, hoặc một độ dài mà không giá trị nốt nào ghi được.",
+                "$~Tôi là một mục trong một @Track mang âm lượng riêng, hoặc một độ dài mà không @value nốt nào ghi được.",
                 "Hầu hết các nốt nên giữ là số trần, và hầu hết các độ dài viết ngắn gọn hơn trên chính con số: \\1𝅗𝅥\\ là một nốt trắng. Đáng dùng tôi khi một nốt cần âm lượng riêng, hoặc một độ dài nằm giữa các giá trị — và vì \\♪(1 2beats ÷ 3)\\ nói nhiều hơn nhiều so với \\1\\, dùng tôi ở mọi nơi sẽ chôn vùi những nốt quan trọng.",
                 "Một chùm ba là phép tính trung thực: \\♪(1 2beats ÷ 3)\\ cho biết ba nốt này lấp đầy hai phách. Độ dài của tôi cũng có thể là một giá trị nốt, nên \\♪(1 1𝅗𝅥)\\ và \\♪(1 2beats)\\ là cùng hai phách đó.",
                 "\\🎼(🎶([1 1 ♪(5 2beats âmLượng: 60%) ø]))\\"
             ],
             "names": ["$~NốtNhạc"],
             "degree": {
-                "doc": "$~Chơi gì: một số cho một nốt, \\ø\\ cho một dấu lặng, hoặc một tập hợp các số cho một hợp âm, đúng như một mục trần trong một @Track. Một giá trị nốt trên con số — \\3𝅗𝅥\\ — cho biết tôi kéo dài bao lâu, và thắng @Note/beat nếu bạn viết cả hai.",
+                "doc": "$~Chơi gì: một số cho một nốt, \\ø\\ cho một dấu lặng, hoặc một tập hợp các số cho một hợp âm, đúng như một mục trần trong một @Track. Một @value nốt trên con số — \\3𝅗𝅥\\ — cho biết tôi kéo dài bao lâu, và thắng @Note/beat nếu bạn viết cả hai.",
                 "names": "$~bậc"
             },
             "beat": {
-                "doc": "$~Tôi kéo dài bao nhiêu phách. Đây chính là toàn bộ lý do để dùng tôi: mọi mục trần trong một @Track kéo dài cùng thời gian, và tôi là cách để một nốt có thời gian khác. Một giá trị nốt cũng dùng được ở đây, nên \\1𝅗𝅥\\ và \\2beats\\ là cùng một độ dài.",
+                "doc": "$~Tôi kéo dài bao nhiêu phách. Đây chính là toàn bộ lý do để dùng tôi: mọi mục trần trong một @Track kéo dài cùng thời gian, và tôi là cách để một nốt có thời gian khác. Một @value nốt cũng dùng được ở đây, nên \\1𝅗𝅥\\ và \\2beats\\ là cùng một độ dài.",
                 "names": "$~nhịp"
             },
             "volume": {
@@ -6898,7 +6902,7 @@
                         "Tôi là một máy tổng hợp âm thanh, giống như @Instrument/synth — không phải bắt chước một ca sĩ. Miệng tôi giữ nguyên kích thước dù tôi hát cao hay thấp, điều mà không cổ họng thật nào làm được. Đó là lý do tôi nghe giống như một cỗ máy đang giả giọng một người, và tại sao tôi nghe không giống đàn ông cũng không giống phụ nữ.",
                         "Hãy cho @Track của tôi một @Track/words và tôi sẽ hát chúng, mỗi nốt một âm tiết. Nếu không có, tôi giữ một âm /uh/, nên tôi luôn hát điều gì đó.",
                         "\\🎼(🎶([1 2 3 5] từNgữ: 'la la la la' nhạcCụ: 🔈.🤖) nhịpĐộ: 120beats/min)\\",
-                        "Các âm tiết được viết bằng <Bảng Chữ Cái Ngữ Âm Quốc Tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, một bảng chữ cái trong đó mỗi chữ cái là một /âm/ chứ không phải một cách viết — nên \\'ʃi'\\ là âm ở đầu từ /cô ấy/, dù bạn viết bằng ngôn ngữ nào. Nhấn 🤖 bên dưới trình soạn thảo để xem mọi âm mà tôi có thể tạo ra và nghe từng âm một."
+                        "Các âm tiết được viết bằng <Bảng Chữ Cái Ngữ Âm Quốc Tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, một bảng chữ cái trong đó mỗi chữ cái là một /âm/ chứ không phải một cách viết — nên \\'ʃi'\\ là âm ở đầu từ /cô ấy/, dù bạn viết bằng @language nào. Nhấn 🤖 bên dưới @editor để xem mọi âm mà tôi có thể tạo ra và nghe từng âm một."
                     ],
                     "names": ["$~giọngNói"]
                 },
@@ -6945,7 +6949,7 @@
                 "$~Tôi cho thấy một @Phrase đang nói gì, trong một bong bóng chỉ thẳng vào người đó. Đưa tôi vào @Phrase.bubble của một câu và để các chữ cái lên tiếng:",
                 "\\Cụmtừ('a' bongBóng: 'chào bạn!')\\",
                 "Đưa cho tôi một @Say thay vì chữ, tôi sẽ được đọc to lên chứ không chỉ hiện ra thôi.",
-                "Đổi @Bubble.kind của tôi thành một suy nghĩ, tôi sẽ biến thành bong bóng suy nghĩ.",
+                "Đổi @Bubble.kind của tôi thành một suy nghĩ, tôi sẽ @variable thành bong bóng suy nghĩ.",
                 "Tôi chỉ là vật trang trí, nên không có gì trên sân khấu phải nhường chỗ cho tôi — nhưng @Stage vẫn luôn giữ tôi trong tầm nhìn."
             ],
             "names": ["$~BongBóng"],

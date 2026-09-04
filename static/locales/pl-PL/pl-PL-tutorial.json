@@ -36,7 +36,7 @@
                             "$~Co to za miejsce?",
                             "$~Tak, co to za miejsce…",
                             "$~Dawniej było to miejsce tańców, opowieści, gier i zabaw…",
-                            "$~Dawniej wystawialiśmy najpiękniejsze przedstawienia. Czasami dla gości takich jak ty, czasami po prostu dla zabawy. To było miejsce pełne życia i niespodzianek…"
+                            "$~Dawniej wystawialiśmy najpiękniejsze przedstawienia. Czasami dla gości takich @how ty, czasami po prostu dla zabawy. To było miejsce pełne życia i niespodzianek…"
                         ],
                         null,
                         [
@@ -194,7 +194,7 @@
                             "Program",
                             "serious",
                             "$~Instrukcje mogą być dowolnie skomplikowane, jednak istnieje kilka zasad.",
-                            "$~Na przykład ja wyliczam jedno *@value* i pokazuję je na scenie. To jedno value może być tak złożone, jak chcesz, i dopóki wiem, jak je pokazać, zrobię to.",
+                            "$~Na przykład ja wyliczam jedno *@value* i pokazuję je na scenie. To jedno value może być tak złożone, @how chcesz, i dopóki wiem, jak je pokazać, zrobię to.",
                             "$~Jeśli podasz mi więcej niż jedno @expression, zbiorę ich values w *listę* i ją pokażę.",
                             "$~Na przykład, spróbuj dodać kolejny wiersz, a następnie wpisz dowolne słowo w cudzysłowie."
                         ],
@@ -265,7 +265,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Tak, to ja. Minęło tyle czasu. Jak się masz?"
+                            "$~Tak, to ja. Minęło tyle czasu. @how się masz?"
                         ],
                         ["ExpressionPlaceholder", "scared", "$~Samotny."],
                         null,
@@ -455,7 +455,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Dziękuję, @UnparsableExpression!",
-                            "$~Tak jak powiedzieli, gdy powiesz coś, czego nie rozumiemy, niezrozumiały jest tam, aby powiedzieć „Nie rozumiemy”. Kiedy tak się dzieje, chciałbym, abyśmy mogli być bardziej pomocni, ale często jesteśmy dość tępi, więc nie jesteśmy zbyt dobrzy w zgadywaniu, co masz na myśli."
+                            "$~Tak @how powiedzieli, gdy powiesz coś, czego nie rozumiemy, niezrozumiały jest tam, aby powiedzieć „Nie rozumiemy”. Kiedy tak się dzieje, chciałbym, abyśmy mogli być bardziej pomocni, ale często jesteśmy dość tępi, więc nie jesteśmy zbyt dobrzy w zgadywaniu, co masz na myśli."
                         ],
                         null,
                         [
@@ -517,7 +517,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Jestem taka podekscytowana, że poznasz @Evaluate. Są naprawdę moimi najlepszymi przyjaciółmi. W pewnym sensie wszystko robimy razem. Ja ustalam zasady, oni je stosują; jesteśmy jak masło orzechowe i galaretka. Ale oni są o wiele bardziej… potężni ode mnie. @Evaluate?"
+                            "$~Jestem taka podekscytowana, że poznasz @Evaluate. Są naprawdę moimi najlepszymi przyjaciółmi. W pewnym sensie wszystko robimy razem. Ja ustalam zasady, oni je stosują; jesteśmy @how masło orzechowe i galaretka. Ale oni są o wiele bardziej… potężni ode mnie. @Evaluate?"
                         ],
                         ["Evaluate", "shy", "$~@FunctionDefinition?"],
                         null,
@@ -644,7 +644,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Tak wyglądam w @Program: jakaś funkcja, po której następują nawiasy, z listą wyrażeń między nimi, które reprezentują dane wejściowe. Funkcją w tym przypadku jest @Phrase, a pojedynczym wejściem jest \\'hello'\\. Kiedy to oceniam, tworzę wartość @Phrase, którą @Program następnie pokazuje na scenie."
+                            "$~Tak wyglądam w @Program: jakaś funkcja, po której następują nawiasy, z listą wyrażeń między nimi, które reprezentują dane wejściowe. Funkcją w tym przypadku jest @Phrase, a pojedynczym wejściem jest \\'hello'\\. Kiedy to oceniam, tworzę @value @Phrase, którą @Program następnie pokazuje na scenie."
                         ],
                         null,
                         [
@@ -760,7 +760,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~… *Wartości*? Przepraszam, wiem, że mamy być w tej wielkiej trasie przez *Verse*. Po prostu nie wiem, co zrobić z @Evaluate. Więc… *wartości*. Jeszcze ich nie wyjaśniłem, prawda? Hm… jak to wyjaśnić… Wiesz, czym są „dane”? Jak liczby i tekst? Wartości to wszystkie z tych rzeczy. Wartość może być tak mała jak liczba lub tak duża jak cała scena na scenie, pełna tańczących i poruszających się postaci. Niektóre wartości składają się z wielu innych wartości, jak duże, rozbudowane struktury wartości danych splecionych ze sobą."
+                            "$~… *Wartości*? Przepraszam, wiem, że mamy być w tej wielkiej trasie przez *Verse*. Po prostu nie wiem, co zrobić z @Evaluate. Więc… *wartości*. Jeszcze ich nie wyjaśniłem, prawda? Hm… @how to wyjaśnić… Wiesz, czym są „dane”? Jak liczby i tekst? Wartości to wszystkie z tych rzeczy. @value może być tak mała jak liczba lub tak duża jak cała scena na scenie, pełna tańczących i poruszających się postaci. Niektóre wartości składają się z wielu innych wartości, jak duże, rozbudowane struktury wartości danych splecionych ze sobą."
                         ],
                         null,
                         {
@@ -806,7 +806,7 @@
                         [
                             "Text",
                             "happy",
-                            "$~Witaj, mój drogi przyjacielu, jak długo to trwało. Co robiłeś w tej naszej dramatycznej ciszy?"
+                            "$~Witaj, mój drogi przyjacielu, @how długo to trwało. Co robiłeś w tej naszej dramatycznej ciszy?"
                         ],
                         null,
                         [
@@ -990,7 +990,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Wiesz, ciągle myślę o @Evaluate i o tym, jak długo byliśmy rozdzieleni. Tęskniłam za nimi, a oni oczywiście tęsknili za mną, ale miałam nadzieję, że trochę czasu z dala od siebie pozwoliłoby im zobaczyć, jak są niesamowici."
+                            "$~Wiesz, ciągle myślę o @Evaluate i o tym, @how długo byliśmy rozdzieleni. Tęskniłam za nimi, a oni oczywiście tęsknili za mną, ale miałam nadzieję, że trochę czasu z dala od siebie pozwoliłoby im zobaczyć, jak są niesamowici."
                         ],
                         null,
                         [
@@ -1085,7 +1085,7 @@
                         [
                             "FunctionDefinition",
                             "scared",
-                            "$~Och, wystraszyłeś mnie! Wiedziałem, że nie będziecie daleko od siebie. Jak wam się podoba nasza długa cisza?"
+                            "$~Och, wystraszyłeś mnie! Wiedziałem, że nie będziecie daleko od siebie. @how wam się podoba nasza długa cisza?"
                         ],
                         ["⊤", "precise", "$~Bardzo dobry!"],
                         ["⊥", "precise", "$~Nieźle."],
@@ -1332,7 +1332,7 @@
                         [
                             "Number",
                             "excited",
-                            "$~Liczę rzeczy! Mogę być dowolną liczbą, jaką chcesz. Wpisz mnie, a stworzę @value, którą chcesz. Tak jak tutaj."
+                            "$~Liczę rzeczy! Mogę być dowolną liczbą, jaką chcesz. Wpisz mnie, a stworzę @value, którą chcesz. Tak @how tutaj."
                         ],
                         { "edit": "1" },
                         null,
@@ -1454,7 +1454,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Czasami jestem po prostu przytłoczony tym, jak mądrzy są wszyscy tutaj. Tekst, prawda, liczby — to takie potężne idee!"
+                            "$~Czasami jestem po prostu przytłoczony tym, @how mądrzy są wszyscy tutaj. Tekst, prawda, liczby — to takie potężne idee!"
                         ],
                         null,
                         [
@@ -1508,7 +1508,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Znaleźliśmy cię! Wyglądasz dobrze. Jak się masz z tą całą ciszą?"
+                            "$~Znaleźliśmy cię! Wyglądasz dobrze. @how się masz z tą całą ciszą?"
                         ],
                         ["None", "excited", "$~…"],
                         null,
@@ -1634,7 +1634,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Możesz się zastanawiać, jak dogadują się ze sobą w grupie. Cóż, w Verse jest cała inna grupa ludzi, którzy zajmują się łączeniem wartości w grupy. Nazywamy je *kolekcjami*. Kolekcje są również *wartościami*; składają się po prostu z mniejszych wartości lub nawet innych kolekcji. Na przykład możesz mieć listę @Text, zestaw @Number, a nawet listę list."
+                            "$~Możesz się zastanawiać, @how dogadują się ze sobą w grupie. Cóż, w Verse jest cała inna grupa ludzi, którzy zajmują się łączeniem wartości w grupy. Nazywamy je *kolekcjami*. Kolekcje są również *wartościami*; składają się po prostu z mniejszych wartości lub nawet innych kolekcji. Na przykład możesz mieć listę @Text, zestaw @Number, a nawet listę list."
                         ],
                         {
                             "fit": "Group(Row() [Phrase('[') Phrase('\"hi\"') Phrase('⊤') Phrase('42') Phrase('ø') Phrase(']') ])"
@@ -1683,7 +1683,7 @@
                         [
                             "List",
                             "curious",
-                            "$~Tak było. Dzień po dniu, noc po nocy, nikt. Ale ty jesteś tutaj. Jak? Powiedz mi, co się stało — po kolei!"
+                            "$~Tak było. Dzień po dniu, noc po nocy, nikt. Ale ty jesteś tutaj. @how? Powiedz mi, co się stało — po kolei!"
                         ],
                         {
                             "fit": [
@@ -1798,7 +1798,7 @@
                         [
                             "List",
                             "happy",
-                            "$~Ciekawe, prawda? Podaj mi miejsce w liście, a ja zawinę się dookoła. Na przykład \\-1\\ to ostatni element listy, a jeśli lista ma pięć elementów, to @index \\6\\ to pierwszy element. Jeśli podasz mi indeks \\0\\, to dam ci @NoneLiteral, bo nic tam nie ma. Rozumiesz?"
+                            "$~Ciekawe, prawda? Podaj mi miejsce w liście, a ja zawinę się dookoła. Na przykład \\-1\\ to ostatni @element listy, a jeśli lista ma pięć elementów, to @index \\6\\ to pierwszy element. Jeśli podasz mi indeks \\0\\, to dam ci @NoneLiteral, bo nic tam nie ma. Rozumiesz?"
                         ],
                         null,
                         [
@@ -1867,7 +1867,7 @@
                         [
                             "Set",
                             "eager",
-                            "$~O tak, oczywiście. Kolekcjonuję rzeczy (Hm, oczywiście; jestem kolekcją). Ale co najważniejsze, kolekcjonuję tylko *jedną rzecz każdego rodzaju*. Mogę zbierać, co chcesz i pomagać ci śledzić wartości, ale nigdy nie powtórzę wartości. Lubię układać się trochę jak @List, ale zamiast tego z \\{\\ i \\}\\."
+                            "$~O tak, oczywiście. Kolekcjonuję rzeczy (Hm, oczywiście; jestem kolekcją). Ale co najważniejsze, kolekcjonuję tylko *jedną rzecz każdego rodzaju*. Mogę zbierać, co chcesz i pomagać ci śledzić wartości, ale nigdy nie powtórzę wartości. Lubię układać się trochę @how @List, ale zamiast tego z \\{\\ i \\}\\."
                         ],
                         { "edit": "{ 1 2 3 4 5 }" },
                         null,
@@ -1959,7 +1959,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Jest jeszcze jedna kolekcja, którą chciałbym ci przedstawić. Pod pewnymi względami są trochę jak @Set i nawet używają tych samych klamer, ale różnią się w jednej ważnej rzeczy: są łącznikiem. Ich @name to @Map."
+                            "$~Jest jeszcze jedna kolekcja, którą chciałbym ci przedstawić. Pod pewnymi względami są trochę @how @Set i nawet używają tych samych klamer, ale różnią się w jednej ważnej rzeczy: są łącznikiem. Ich @name to @Map."
                         ],
                         [
                             "FunctionDefinition",
@@ -2182,7 +2182,7 @@
                         [
                             "Convert",
                             "serious",
-                            "$~Tak, wiesz, jak gimnastyka na ulicach, przeskakiwanie przez różne rzeczy, przeskakiwanie przez budynki — jak wysokie liny, ale bez drutów. Odważne skoki!"
+                            "$~Tak, wiesz, @how gimnastyka na ulicach, przeskakiwanie przez różne rzeczy, przeskakiwanie przez budynki — jak wysokie liny, ale bez drutów. Odważne skoki!"
                         ],
                         [
                             "FunctionDefinition",
@@ -2339,7 +2339,7 @@
                         [
                             "Conditional",
                             "curious",
-                            "$~@FunctionDefinition? Cisza się łamie? Czym jest cisza? Jak ją przerwać? Czy kiedykolwiek naprawdę milczymy? Kim jest ta osoba? Czy to ona ją przerywa?"
+                            "$~@FunctionDefinition? Cisza się łamie? Czym jest cisza? @how ją przerwać? Czy kiedykolwiek naprawdę milczymy? Kim jest ta osoba? Czy to ona ją przerywa?"
                         ],
                         null,
                         [
@@ -2478,7 +2478,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Chcę ci pokazać połączenie między naszymi światami i to, co ono umożliwia. Nazywamy je *strumieniami wejściowymi* i są chyba najbardziej magicznym rodzajem wejścia we Wszechświecie. Są jak funkcje, które tworzą specjalny rodzaj @value, zmieniający się wraz ze zmianami twojego świata. Nie potrafią też porozumiewać się w sposób, do którego możesz być przyzwyczajony. Są bardziej jak bicie serca z innego świata. Więc postaram się jak najlepiej wyjaśnić, jak działają, skoro same nie potrafią się wytłumaczyć.",
+                            "$~Chcę ci pokazać połączenie między naszymi światami i to, co ono umożliwia. Nazywamy je *strumieniami wejściowymi* i są chyba najbardziej magicznym rodzajem wejścia we Wszechświecie. Są @how funkcje, które tworzą specjalny rodzaj @value, zmieniający się wraz ze zmianami twojego świata. Nie potrafią też porozumiewać się w sposób, do którego możesz być przyzwyczajony. Są bardziej jak bicie serca z innego świata. Więc postaram się jak najlepiej wyjaśnić, jak działają, skoro same nie potrafią się wytłumaczyć.",
                             "$~Jesteś gotowy poznać kogoś takiego?"
                         ]
                     ]
@@ -2492,7 +2492,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Zacznijmy od najbardziej podstawowego strumienia ze wszystkich: @Time. Aby stworzyć strumień, używamy @Evaluate i podajemy nazwę @type strumienia, którego chcesz."
+                            "$~Zacznijmy od najbardziej podstawowego strumienia ze wszystkich: @Time. Aby stworzyć @stream, używamy @Evaluate i podajemy nazwę @type strumienia, którego chcesz."
                         ],
                         ["Time", "neutral", "$~tykaj, ...…"],
                         { "edit": "Time()" },
@@ -2500,7 +2500,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Naciśnij przycisk odtwarzania ▶️ w przełączniku trybów @UI/modeSwitcher nad sceną, aby zobaczyć, jak płynie czas. Widzisz, jak czas się zmienia? Strumienie to seria wartości. Za każdym razem, gdy strumień otrzymuje nową wartość, @Program ponownie oblicza się z nową wartością strumienia. Dlatego ten program po prostu ciągle liczy w górę: stworzyliśmy strumień czasu, który zaczyna się w czasie 0 milisekund, a potem po prostu aktualizuje się za każdym tyknięciem zegara. Ten czas to twój czas, z twojego świata. Gdy chcesz zmienić kod, przełącz się z powrotem do trybu edycji ✏️; podczas edycji scena pozostaje zamrożona na obecnej chwili."
+                            "$~Naciśnij przycisk odtwarzania ▶️ w przełączniku trybów @UI/modeSwitcher nad sceną, aby zobaczyć, @how płynie czas. Widzisz, jak czas się zmienia? Strumienie to seria wartości. Za każdym razem, gdy strumień otrzymuje nową @value, @Program ponownie oblicza się z nową wartością strumienia. Dlatego ten program po prostu ciągle liczy w górę: stworzyliśmy strumień czasu, który zaczyna się w czasie 0 milisekund, a potem po prostu aktualizuje się za każdym tyknięciem zegara. Ten czas to twój czas, z twojego świata. Gdy chcesz zmienić @code, przełącz się z powrotem do trybu edycji ✏️; podczas edycji scena pozostaje zamrożona na obecnej chwili."
                         ],
                         ["Time", "neutral", "$~tykaj, ...…"],
                         null,
@@ -2570,7 +2570,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Jeśli się nie mylę, w twoim świecie jest coś, co nazywa się „klawiaturą”? To sposób wybierania, kto z nas ma pojawić się w twoich dokumentach, prawda? Cóż, we Wszechświecie otrzymujemy te prośby jako strumień tekstu, gdzie każda wartość tekstowa reprezentuje @key, który został naciśnięty. Używamy ich, aby słuchać, co ludzie w twoim świecie piszą. Ten strumień nazywa się @Key."
+                            "$~Jeśli się nie mylę, w twoim świecie jest coś, co nazywa się „klawiaturą”? To sposób wybierania, kto z nas ma pojawić się w twoich dokumentach, prawda? Cóż, we Wszechświecie otrzymujemy te prośby jako @stream tekstu, gdzie każda @value tekstowa reprezentuje @key, który został naciśnięty. Używamy ich, aby słuchać, co ludzie w twoim świecie piszą. Ten strumień nazywa się @Key."
                         ],
                         null,
                         [
@@ -2584,7 +2584,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Ten strumień zmieni się za każdym razem, gdy naciśnięty zostanie dowolny klawisz. Ale możesz powiedzieć strumieniowi klawiszy, aby zmieniał się tylko wtedy, gdy naciśnięty zostanie konkretny klawisz. Widzisz, jak strumień zmienia się na \\a\\ za pierwszym razem, ale potem już się nie zmienia? Dzieje się tak, ponieważ ten strumień zmienia się tylko wtedy, gdy naciśnięty zostanie \\a\\, więc zawsze pokazuje \\a\\. Ale zawsze zobaczysz nową wartość klawisza pojawiającą się na osi czasu."
+                            "$~Ten strumień zmieni się za każdym razem, gdy naciśnięty zostanie dowolny klawisz. Ale możesz powiedzieć strumieniowi klawiszy, aby zmieniał się tylko wtedy, gdy naciśnięty zostanie konkretny klawisz. Widzisz, @how strumień zmienia się na \\a\\ za pierwszym razem, ale potem już się nie zmienia? Dzieje się tak, ponieważ ten strumień zmienia się tylko wtedy, gdy naciśnięty zostanie \\a\\, więc zawsze pokazuje \\a\\. Ale zawsze zobaczysz nową wartość klawisza pojawiającą się na osi czasu."
                         ],
                         ["Key", "neutral", "$~kliknij 'a'…"],
                         { "edit": "Key('a')" },
@@ -2618,7 +2618,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Masz też coś takiego jak „myszka” w swoim świecie, a także „gładziki” i „ekrany dotykowe”? W naszym świecie pojawiają się one jako strumienie @Pointer, czyli strumień miejsc na scenie."
+                            "$~Masz też coś takiego @how „myszka” w swoim świecie, a także „gładziki” i „ekrany dotykowe”? W naszym świecie pojawiają się one jako strumienie @Pointer, czyli @stream miejsc na scenie."
                         ],
                         null,
                         [
@@ -2655,7 +2655,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~@Button jest jak @Key, ale odpowiada głównemu przyciskowi wskaźnika, takiemu jak kliknięcie lub stuknięcie. To po prostu strumień \\⊤\\, wskazujący, kiedy przycisk wskaźnika jest wciśnięty. Naciśnij ten przycisk i obserwuj, jak zdarzenia pojawiają się na osi czasu."
+                            "$~@Button jest @how @Key, ale odpowiada głównemu przyciskowi wskaźnika, takiemu jak kliknięcie lub stuknięcie. To po prostu @stream \\⊤\\, wskazujący, kiedy przycisk wskaźnika jest wciśnięty. Naciśnij ten przycisk i obserwuj, jak zdarzenia pojawiają się na osi czasu."
                         ],
                         ["Button", "neutral", "$~klik… klik… klik…"],
                         { "edit": "Button()" },
@@ -2752,7 +2752,7 @@
                             "FunctionDefinition",
                             "kind",
                             "$~Czasami miło jest nawiązać kontakt z publicznością na naszym miejscu na @Stage.",
-                            "$~@Placement to świetny sposób, aby to zrobić! To strumień @Place, który reaguje na klawisze strzałek klawiatury, kliknięcia i stuknięcia.",
+                            "$~@Placement to świetny sposób, aby to zrobić! To @stream @Place, który reaguje na klawisze strzałek klawiatury, kliknięcia i stuknięcia.",
                             "$~Spróbuj użyć ich do przesunięcia hot doga."
                         ],
                         null,
@@ -2763,7 +2763,7 @@
                             "FunctionDefinition",
                             "kind",
                             "$~Istnieje wiele sposobów, aby go dostosować. Na przykład, jeśli chcesz zmienić sposób poruszania się, możesz nadać mu odległość.",
-                            "$~Widzisz, jak daliśmy \\0,5\\ dla pierwszego wejścia? Teraz porusza się trochę mniej. Spróbuj zmienić to na inną liczbę!"
+                            "$~Widzisz, @how daliśmy \\0,5\\ dla pierwszego wejścia? Teraz porusza się trochę mniej. Spróbuj zmienić to na inną liczbę!"
                         ],
                         null,
                         {
@@ -2790,8 +2790,8 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Do tej pory wszystkie *strumienie*, o których mówiliśmy, to sekwencje prostych wartości, takich jak @Text lub @Number. Niektóre strumienie mogą jednak generować złożone wartości.",
-                            "$~@Motion jest jednym z najciekawszych. Tworzy strumień @Place."
+                            "$~Do tej pory wszystkie *strumienie*, o których mówiliśmy, to sekwencje prostych wartości, takich @how @Text lub @Number. Niektóre strumienie mogą jednak generować złożone wartości.",
+                            "$~@Motion jest jednym z najciekawszych. Tworzy @stream @Place."
                         ],
                         null,
                         {
@@ -2949,7 +2949,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Dawno temu słyszeliśmy, że macie coś takiego jak internet? Chyba dlatego tu jesteście, prawda?",
+                            "$~Dawno temu słyszeliśmy, że macie coś takiego @how internet? Chyba dlatego tu jesteście, prawda?",
                             "$~Pomyśleliśmy, że fajnie byłoby zebrać słowa z Internetu /tutaj/, żebyście mogli się nimi pobawić."
                         ],
                         null,
@@ -2997,7 +2997,7 @@
                         [
                             "Reaction",
                             "excited",
-                            "$~Tak, tak, tak! To @FunctionDefinition! Jak się masz? Ostatnio wszystko jest takie… stałe. Czy to zauważyłeś?"
+                            "$~Tak, tak, tak! To @FunctionDefinition! @how się masz? Ostatnio wszystko jest takie… stałe. Czy to zauważyłeś?"
                         ],
                         null,
                         { "fit": "Phrase('…' resting:Pose(rotation: 240°))" },
@@ -3044,7 +3044,7 @@
                         [
                             "Reaction",
                             "serious",
-                            "$~Oto przykład. Widzisz strumień @Key? Postawienie ∆ przed nim pyta: /Czy ten strumień się zmienił?/ Zanim się zmieni, obliczam wartość początkową, \\1m\\. Ale gdy naciśniesz klawisz spacji, @Program oblicza się ponownie, a ja obliczam *następną* wartość @expression, którą jest \\1m\\ plus poprzednia wartość strumienia; jest to reprezentowane przez \\.\\. To dodaje \\1m\\ do rozmiaru frazy, przez co słowo staje się coraz większe."
+                            "$~Oto przykład. Widzisz @stream @Key? Postawienie ∆ przed nim pyta: /Czy ten strumień się zmienił?/ Zanim się zmieni, obliczam wartość początkową, \\1m\\. Ale gdy naciśniesz klawisz spacji, @Program oblicza się ponownie, a ja obliczam *następną* wartość @expression, którą jest \\1m\\ plus poprzednia wartość strumienia; jest to reprezentowane przez \\.\\. To dodaje \\1m\\ do rozmiaru frazy, przez co słowo staje się coraz większe."
                         ],
                         {
                             "fix": "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + ⬚)"
@@ -3159,7 +3159,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Widziałeś już dużo wyjścia. Za każdym razem, gdy @Program się oblicza, daje wynik @value, a @Program pokazuje tę wartość na scenie. Ale do tej pory widziałeś tylko takie rzeczy jak liczby, tekst, listy. Rozumiem, chcesz zobaczyć pełne występy, tak jak my!"
+                            "$~Widziałeś już dużo wyjścia. Za każdym razem, gdy @Program się oblicza, daje wynik @value, a @Program pokazuje tę wartość na scenie. Ale do tej pory widziałeś tylko takie rzeczy @how liczby, tekst, listy. Rozumiem, chcesz zobaczyć pełne występy, tak jak my!"
                         ],
                         null,
                         { "fit": "#Symbol 💬" },
@@ -3184,7 +3184,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "$~Wyjdź i bądź dumna, moja droga; jak się masz? Wyglądasz dziś tak olśniewająco! Chciałabym cię kiedyś wystawić na scenie."
+                            "$~Wyjdź i bądź dumna, moja droga; @how się masz? Wyglądasz dziś tak olśniewająco! Chciałabym cię kiedyś wystawić na scenie."
                         ],
                         null,
                         [
@@ -3288,7 +3288,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "$~Czy kiedykolwiek czujesz się trochę poza osią? Może dajesz światu trochę @Pose.rotation z obrotem. Spróbuj zmienić wartość obrotu, aby mnie obrócić!"
+                            "$~Czy kiedykolwiek czujesz się trochę poza osią? Może dajesz światu trochę @Pose.rotation z obrotem. Spróbuj zmienić @value obrotu, aby mnie obrócić!"
                         ],
                         {
                             "fit": "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
@@ -3474,7 +3474,7 @@
                         [
                             "Sequence",
                             "curious",
-                            "$~@FunctionDefinition! Wyglądasz pięknie. Ile to już trwa? Tydzień? Miesiąc? Stulecie? To było jak 1, 2, 3 i potem wszystko ucichło. Czuję się jakbym tańczyła sama od zawsze…"
+                            "$~@FunctionDefinition! Wyglądasz pięknie. Ile to już trwa? Tydzień? Miesiąc? Stulecie? To było @how 1, 2, 3 i potem wszystko ucichło. Czuję się jakbym tańczyła sama od zawsze…"
                         ],
                         null,
                         [
@@ -3669,7 +3669,7 @@
                         [
                             "Group",
                             "neutral",
-                            "$~@FunctionDefinition, cześć, jak się masz? Gdzie wszyscy byli? Bardzo się martwiłam! Czy wszystko w porządku?"
+                            "$~@FunctionDefinition, cześć, @how się masz? Gdzie wszyscy byli? Bardzo się martwiłam! Czy wszystko w porządku?"
                         ],
                         [
                             "FunctionDefinition",
@@ -3941,7 +3941,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Stage jest jedyny w swoim rodzaju i zawsze obecny. Właściwie, jeśli dasz @Program @Phrase lub @Group, @Program pokaże @Stage, nawet jeśli o nich nie wspomnisz. Ale jeśli o nich wspomnisz, możesz dokładniej określić, jak ma wyglądać scena."
+                            "$~@Stage jest jedyny w swoim rodzaju i zawsze obecny. Właściwie, jeśli dasz @Program @Phrase lub @Group, @Program pokaże @Stage, nawet jeśli o nich nie wspomnisz. Ale jeśli o nich wspomnisz, możesz dokładniej określić, @how ma wyglądać scena."
                         ],
                         null,
                         [
@@ -4029,7 +4029,7 @@
                         [
                             "Music",
                             "kind",
-                            "$~Każda liczba to *stopień skali*, a nie wysokość dźwięku. \\1\\ to stopień, na którym melodia brzmi jak zakończona, a \\8\\ to ta sama nuta o oktawę wyżej."
+                            "$~Każda liczba to *stopień skali*, a nie wysokość dźwięku. \\1\\ to stopień, na którym melodia brzmi @how zakończona, a \\8\\ to ta sama nuta o oktawę wyżej."
                         ],
                         [
                             "Music",
@@ -4202,7 +4202,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Oto przykład. Czy widziałeś jak odliczało i powiedziało „Bu!”? Możesz zresetować, aby zobaczyć to ponownie."
+                            "$~Oto przykład. Czy widziałeś @how odliczało i powiedziało „Bu!”? Możesz zresetować, aby zobaczyć to ponownie."
                         ],
                         null,
                         [
@@ -4320,7 +4320,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Każdy powinien móc uczestniczyć! Teraz, gdy omówiliśmy @Phrase bardziej szczegółowo, chciałem pokazać Ci ostatni strumień, @Choice, który jest strumieniem nazw @Phrase, które zostały wybrane, niezależnie od tego, jak zostały wybrane. Na przykład, publiczność może użyć myszy, aby kliknąć @Phrase, lub może użyć klawiatury, aby je wybrać, lub mogą być inne urządzenia, których używają. Bez względu na to, czego używają, @Choice będzie zawierać ich najnowszy wybór."
+                            "$~Każdy powinien móc uczestniczyć! Teraz, gdy omówiliśmy @Phrase bardziej szczegółowo, chciałem pokazać Ci ostatni @stream, @Choice, który jest strumieniem nazw @Phrase, które zostały wybrane, niezależnie od tego, @how zostały wybrane. Na przykład, publiczność może użyć myszy, aby kliknąć @Phrase, lub może użyć klawiatury, aby je wybrać, lub mogą być inne urządzenia, których używają. Bez względu na to, czego używają, @Choice będzie zawierać ich najnowszy wybór."
                         ],
                         null,
                         [
@@ -4369,7 +4369,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Czasami muszę się zatrzymać i zastanowić, jak niesamowita jest moja mała społeczność. Wszyscy jesteśmy tak różni i nikt z nas nie mógłby działać sam. Ale razem możemy robić takie niesamowite rzeczy!"
+                            "$~Czasami muszę się zatrzymać i zastanowić, @how niesamowita jest moja mała społeczność. Wszyscy jesteśmy tak różni i nikt z nas nie mógłby działać sam. Ale razem możemy robić takie niesamowite rzeczy!"
                         ],
                         null,
                         { "fit": "#Symbol 🧠" },
@@ -4428,7 +4428,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Nie wspomniałem tutaj o naszej inspiracji w ogóle o imionach, poza imionami wszystkich postaci, które poznaliśmy. Czy chcesz wyjaśnić, jak działają tutaj imiona?"
+                            "$~Nie wspomniałem tutaj o naszej inspiracji w ogóle o imionach, poza imionami wszystkich postaci, które poznaliśmy. Czy chcesz wyjaśnić, @how działają tutaj imiona?"
                         ],
                         null,
                         { "fit": "#Symbol :" },
@@ -4647,7 +4647,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Cześć, @Block! Jak się masz?"
+                            "$~Cześć, @Block! @how się masz?"
                         ],
                         ["Block", "shy", "$~… mmm, dobre?"],
                         null,
@@ -4762,7 +4762,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Ach, i jeszcze jedna miła rzecz! Kiedy chcesz listę, nie zawsze musisz wpisywać nawiasy. Możesz po prostu umieścić każdy element w osobnej linii w @Block, i robi to samo."
+                            "Ach, i jeszcze jedna miła rzecz! Kiedy chcesz listę, nie zawsze musisz wpisywać nawiasy. Możesz po prostu umieścić każdy @element w osobnej linii w @Block, i robi to samo."
                         ],
                         [
                             "Block",
@@ -4811,7 +4811,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Ja? Cóż, nie jestem niczym szczególnym. Po prostu lubię być za kulisami, pomagać, pokazywać wszystkim, jak są wyjątkowi. Chyba nawet nie pomyślałem o tym, żeby mówić o sobie. Chyba możemy trochę o mnie porozmawiać."
+                            "$~Ja? Cóż, nie jestem niczym szczególnym. Po prostu lubię być za kulisami, pomagać, pokazywać wszystkim, @how są wyjątkowi. Chyba nawet nie pomyślałem o tym, żeby mówić o sobie. Chyba możemy trochę o mnie porozmawiać."
                         ],
                         null,
                         { "fit": "#Symbol ƒ" },
@@ -4914,7 +4914,7 @@
                         [
                             "FunctionDefinition",
                             "sad",
-                            "$~Jest jeszcze kilka postaci, które chciałbym, żebyś poznał. Następna jest najbardziej wyrafinowana postać, jaką znam, a w pewnym sensie swego rodzaju lider. Pomagają nam wszystkim się organizować, kładą podwaliny pod występ i po prostu sprawiają, że wszystko jest o wiele bardziej uporządkowane. Oczywiście jesteś naszym reżyserem, ale oni są jak ta jedna osoba, do której wszyscy się zwracają, żeby utrzymać porządek w przedstawieniu. Myślę, że mogliby być dość ważni w każdym przedstawieniu, które wystawisz."
+                            "$~Jest jeszcze kilka postaci, które chciałbym, żebyś poznał. Następna jest najbardziej wyrafinowana postać, jaką znam, a w pewnym sensie swego rodzaju lider. Pomagają nam wszystkim się organizować, kładą podwaliny pod występ i po prostu sprawiają, że wszystko jest o wiele bardziej uporządkowane. Oczywiście jesteś naszym reżyserem, ale oni są @how ta jedna osoba, do której wszyscy się zwracają, żeby utrzymać porządek w przedstawieniu. Myślę, że mogliby być dość ważni w każdym przedstawieniu, które wystawisz."
                         ],
                         null,
                         {
@@ -5038,7 +5038,7 @@
                         [
                             "StructureDefinition",
                             "excited",
-                            "$~Potem przypomnieli sobie o @Reaction, którego można użyć, aby reagować na zmiany strumienia. Chcieli, żeby wiadomość zmieniała się co dwie sekundy, więc stworzyli strumień @Time, który tyka co 2 sekundy, i użyli @Reaction, aby za każdym razem zwiększać kolejne @index. To @Reaction mówi: zacznij od \\1\\, a gdy czas zmienia się co \\2000ms\\, daj w wyniku poprzednią value zmiennej \\index + 1\\. W ten sposób \\index\\ rośnie o \\1\\ co dwie sekundy, zmieniając pokazywaną wiadomość. Hurra, działa!"
+                            "$~Potem przypomnieli sobie o @Reaction, którego można użyć, aby reagować na zmiany strumienia. Chcieli, żeby wiadomość zmieniała się co dwie sekundy, więc stworzyli @stream @Time, który tyka co 2 sekundy, i użyli @Reaction, aby za każdym razem zwiększać kolejne @index. To @Reaction mówi: zacznij od \\1\\, a gdy czas zmienia się co \\2000ms\\, daj w wyniku poprzednią value zmiennej \\index + 1\\. W ten sposób \\index\\ rośnie o \\1\\ co dwie sekundy, zmieniając pokazywaną wiadomość. Hurra, działa!"
                         ],
                         {
                             "edit": [
@@ -5114,7 +5114,7 @@
                         [
                             "StructureDefinition",
                             "serious",
-                            "$~Ach, tak naprawdę chodzi o zmianę. Teraz jest to trochę bardziej @code, ale co, jeśli zdecydowalibyśmy się zmienić \\Marquee\\ w jakiś sposób? Na przykład, co jeśli chcielibyśmy sprawić, żeby lista wiadomości odwracała się za każdym razem, gdy dojdzie do końca? W starej wersji beze mnie nie ma na to łatwego sposobu, bo musielibyśmy odwracać listę wiadomości, gdy @index dochodzi do końca. Ponieważ @Bind nie może się zmienić po ustawieniu, byłoby to trudne. Ale ponieważ stworzyliśmy \\Marquee\\, zmiana jest łatwa. Po prostu zmieniamy funkcję \\next\\, aby tworzyła \\Marquee\\ z odwróconą listą, gdy index jest na końcu, a w przeciwnym razie po prostu zwiększała wartość."
+                            "$~Ach, tak naprawdę chodzi o zmianę. Teraz jest to trochę bardziej @code, ale co, jeśli zdecydowalibyśmy się zmienić \\Marquee\\ w jakiś sposób? Na przykład, co jeśli chcielibyśmy sprawić, żeby lista wiadomości odwracała się za każdym razem, gdy dojdzie do końca? W starej wersji beze mnie nie ma na to łatwego sposobu, bo musielibyśmy odwracać listę wiadomości, gdy @index dochodzi do końca. Ponieważ @Bind nie może się zmienić po ustawieniu, byłoby to trudne. Ale ponieważ stworzyliśmy \\Marquee\\, zmiana jest łatwa. Po prostu zmieniamy funkcję \\next\\, aby tworzyła \\Marquee\\ z odwróconą listą, gdy index jest na końcu, a w przeciwnym razie po prostu zwiększała @value."
                         ],
                         {
                             "edit": [
@@ -5241,7 +5241,7 @@
                         [
                             "Doc",
                             "surprised",
-                            "$~@FunctionDefinition, to ty? Nie sądziłem, że jeszcze cię zobaczę. Jak się masz? Jak się czuje @Evaluate?"
+                            "$~@FunctionDefinition, to ty? Nie sądziłem, że jeszcze cię zobaczę. @how się masz? Jak się czuje @Evaluate?"
                         ],
                         null,
                         [
@@ -5284,7 +5284,7 @@
                         [
                             "Doc",
                             "serious",
-                            "$~Cóż, możesz umieścić mnie niemal wszędzie w @Program. Na przykład, powiedzmy, że tworzysz @Bind i chcesz powiedzieć, do czego służy ta wartość. Na przykład tutaj mamy prostą wartość, którą nazwaliśmy, ale to, co robię, to dostarczanie szerszego wyjaśnienia jej roli."
+                            "$~Cóż, możesz umieścić mnie niemal wszędzie w @Program. Na przykład, powiedzmy, że tworzysz @Bind i chcesz powiedzieć, do czego służy ta @value. Na przykład tutaj mamy prostą wartość, którą nazwaliśmy, ale to, co robię, to dostarczanie szerszego wyjaśnienia jej roli."
                         ],
                         {
                             "edit": [
@@ -5526,7 +5526,7 @@
                         [
                             "Evaluate",
                             "curious",
-                            "$~Jaki cykl? Kocham cię! Jak to cykl?"
+                            "$~Jaki cykl? Kocham cię! @how to cykl?"
                         ],
                         [
                             "FunctionDefinition",
@@ -5774,7 +5774,7 @@
                         [
                             "Reaction",
                             "kind",
-                            "$~Mogę to zmienić! Potrzebujemy strumienia @Time, ale musimy też zmienić znaki. Ale jaka powinna być następna wartość?"
+                            "$~Mogę to zmienić! Potrzebujemy strumienia @Time, ale musimy też zmienić znaki. Ale jaka powinna być następna @value?"
                         ],
                         { "edit": "#EvaluateDance9" },
                         null,
