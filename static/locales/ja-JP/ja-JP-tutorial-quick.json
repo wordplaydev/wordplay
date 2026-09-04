@@ -18,7 +18,7 @@
                             "FunctionDefinition",
                             "cheerful",
                             "$~@wordplayへようこそ！プログラミングを少し知っているのですね？すばらしい！この短いツアーでは、Wordplayが何と似ていて、何がちがうのかをお見せします。",
-                            "$~この画面のものを知っておいてもらうために、このページは@tutorial@project。プログラムの出力を見せる*ステージ*@UI/stage、プログラムのcodeである*エディター*@UI/editor。",
+                            "$~この画面のものを知っておいてもらうために、このページは@tutorial@project。プログラムの出力を見せる*ステージ*@UI/stage、プログラムのcodeである*@editor*@UI/editor。",
                             "$~このプログラムは空なので、出力はプログラムを書くようにうながすだけです。",
                             "$~プログラムを止めたり動かしたり、codeを編集したりするための、ほかにもたくさんの操作がありますが、今は気にしなくて大丈夫です。"
                         ],
@@ -213,7 +213,7 @@
                             "neutral",
                             "$~ほとんどのプログラミング言語には、ユーザーから入力を受け取る方法があります：",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
-                            "$~@wordplayの入力は*ストリーム*から来ます。ストリームは特別なvalueで、入力に応じて時間とともに変わり、Wordplayのプログラムをストリームの新しいvalueでもう一度評価させます。",
+                            "$~@wordplayの入力は*@stream*から来ます。ストリームは特別なvalueで、入力に応じて時間とともに変わり、Wordplayのプログラムをストリームの新しいvalueでもう一度評価させます。",
                             "$~たとえばこのプログラムは、@Timeストリームを使って地球の絵文字を回しています。@Time()ストリームが新しいvalueに進むたびに、プログラムは新しいvalueでもう一度評価され、@Time。"
                         ],
                         null,
@@ -288,7 +288,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~小さなインタラクティブな@project、三つの手順で作りましょう。",
-                            "$~*一つめ：*データと*ストリーム*を宣言します。ここでは、elapsedという名前の@Time、プログラムが動いてからどれくらいたったかを報告します。"
+                            "$~*一つめ：*データと*@stream*を宣言します。ここでは、elapsedという名前の@Time、プログラムが動いてからどれくらいたったかを報告します。"
                         ],
                         null,
                         {

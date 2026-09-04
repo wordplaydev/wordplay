@@ -236,7 +236,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Ang ibang mga programming language ay nagpapahintulot sa iyong baguhin ang mga value ng variable habang tumatakbo, na maaaring kapaki-pakinabang para gumawa ng dinamiko at interactive na mga aplikasyon. Pero kailangan mong tandaang i-update ang mga value sa tamang mga lugar, at i-update kung ano ang ipinapakita sa screen kapag nagbago ang mga value na iyon:",
+                            "$~Ang ibang mga programming language ay nagpapahintulot sa iyong baguhin ang mga value ng @variable habang tumatakbo, na maaaring kapaki-pakinabang para gumawa ng dinamiko at interactive na mga aplikasyon. Pero kailangan mong tandaang i-update ang mga value sa tamang mga lugar, at i-update kung ano ang ipinapakita sa screen kapag nagbago ang mga value na iyon:",
                             "\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
                             "$~Pinapasimple ito ng @wordplay sa paggamit ng isang @Reaction @expression, na nagsisimula sa isang unang value, sumusuri ng isang @condition na tumutukoy sa mga input ng stream, at ina-update ang value ng expression batay sa mga pagbabago ng stream. Sa halimbawang ito, sa tuwing magbabago ang @Button stream, ina-update natin ang value ng count, at ina-update nito ang @Phrase na ipinapakita sa @Stage."
                         ]
@@ -261,7 +261,7 @@
                             "angry",
                             "$~Ang ibang mga language ay naghahagis ng mga *error* — isang tanda na may ginawa ang programa na hindi pinapayagan:",
                             "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
-                            "$~Tinatawag ng @wordplay ang mga error na *conflict*: dalawang bagay na hindi maaaring parehong totoo, gaya ng pagdaragdag ng numero at text sa programa sa ibaba.",
+                            "$~Tinatawag ng @wordplay ang mga error na *@conflict*: dalawang bagay na hindi maaaring parehong totoo, gaya ng pagdaragdag ng numero at text sa programa sa ibaba.",
                             "$~Sasalungguhitan ng Wordplay ang mga conflict at ipapakita ang mga ito sa sidebar @UI/conflict. Magbibigay din ito ng mga mungkahi para lutasin ang conflict, para ayusin ang problema."
                         ],
                         null,
@@ -269,9 +269,9 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Karamihan ng mga programming language ay nag-aalok ng ilang uri ng mga kasangkapan sa debugging para tulungan ang mga gumagawa na maintindihan at lutasin ang mga isyu sa kanilang code. Pero marami ang gumagamit lang ng mga print statement para tingnan ang mga value ng variable sa isang console:",
+                            "$~Karamihan ng mga programming language ay nag-aalok ng ilang uri ng mga kasangkapan sa debugging para tulungan ang mga gumagawa na maintindihan at lutasin ang mga isyu sa kanilang code. Pero marami ang gumagamit lang ng mga print statement para tingnan ang mga value ng @variable sa isang console:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~Nagbibigay ang @wordplay ng mas mahusay na paraan ng pag-debug, na nagpapahintulot sa iyong mag-hakbang *pasulong* at *paatras* sa pagsusuri nito. Pindutin ang ⏸️ na buton ng debug sa tagapagpalit ng mode @UI/modeSwitcher sa itaas ng entablado para pumasok sa *debug* mode: lumalabas ang halaga ng bawat ekspresyon sa tabi nito sa kodigo, at ang @UI/stepControls ay maaaring mag-hakbang ng pagsusuri sa alinmang direksyon, para mapanood mo kung paano nabubuo ang isang halaga. Narito ang isang gabay na paikot-ikot sa lahat nito: @Tour/stage",
+                            "$~Nagbibigay ang @wordplay ng mas mahusay na paraan ng pag-debug, na nagpapahintulot sa iyong mag-hakbang *pasulong* at *paatras* sa pagsusuri nito. Pindutin ang ⏸️ na buton ng debug sa tagapagpalit ng mode @UI/modeSwitcher sa itaas ng entablado para pumasok sa *debug* mode: lumalabas ang @value ng bawat @expression sa tabi nito sa @code, at ang @UI/stepControls ay maaaring mag-hakbang ng pagsusuri sa alinmang direksyon, para mapanood mo kung paano nabubuo ang isang halaga. Narito ang isang gabay na paikot-ikot sa lahat nito: @Tour/stage",
                             "$~Mahalaga rin ang ibang mga mode: ang ✏️ *edit* mode ay para sa pagbabago ng programa habang nakatigil ang entablado, at ang ▶️ *play* mode naman ay pinapatakbo ito nang live, tumutugon sa mga input sa totoong oras.",
                             "$~Gusto mo ba ng karagdagang gabay? Ang buton na @UI/stageTourLaunch sa tabi ng pangalan ng entablado ay nagbibigay ng gabay na paglilibot sa mga kontrol na ito."
                         ]

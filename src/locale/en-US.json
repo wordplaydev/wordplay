@@ -83,6 +83,11 @@
             "forms": ["states"],
             "definition": "Information a @Program keeps and can change over time."
         },
+        "stream": {
+            "word": "stream",
+            "forms": ["streams"],
+            "definition": "A @value that changes over time as your world changes, like @Time ticking or a @Key being pressed. Every time it changes, @Program evaluates again with the new @value."
+        },
         "sideEffect": {
             "word": "side effect",
             "forms": ["side effects"],
@@ -340,7 +345,7 @@
                 "I can be combined with \\/\\ to make ratio units like \\17apple/day\\ and with \\^\\ to make exponentional units like \\9.8m/s^2\\",
                 "I must always come after a @Number. If I don't, I might be mistaken for @Reference, which would be quite embarrassing!",
                 "I'm pretty good at finding inconsistencies between units too. For example, \\1cat + 1dog\\🪲 doesn't make any sense!",
-                "If you ever want to convert between different values of units, go talk to @Convert."
+                "If you ever want to convert between different @values of units, go talk to @Convert."
             ]
         },
         "Doc": {
@@ -369,7 +374,7 @@
             "description": "documentation list$languages[ in $languages| of $count]",
             "emotion": "serious",
             "doc": [
-                "I'm a list of @Doc, useful when you have multiple translations of @Doc in different languages.",
+                "I'm a list of @Doc, useful when you have multiple translations of @Doc in different @languages.",
                 "You don't have to do anything special to make a list. Just put a bunch of @Doc next to each other, like this:",
                 "\\¶Hello¶/en\n¶Hola¶/es\ngreeting: '…'\\🪲"
             ],
@@ -392,7 +397,7 @@
             "description": "language $language[$language|unspecified]$region[, region $region|]",
             "emotion": "eager",
             "doc": [
-                "I'm a language tag and I work with @Name and @Doc!",
+                "I'm a @language tag and I work with @Name and @Doc!",
                 "I'm really good at making it *crystal clear* what language something is written in. Just a little slash and a couple letters, and no one will ever be confused about what language some text is in.",
                 "For example, if you want to say \"Language\" but make clear it's in English:",
                 "\\\"Language\"/en\\",
@@ -466,7 +471,7 @@
             "name": "row",
             "description": "row of $#count[$count cell|$count cells]",
             "emotion": "shy",
-            "doc": "I represent a row in a @Table. It's probably best to go talk to @Table, they know everything about me. I just sit around and keep values in line :(",
+            "doc": "I represent a row in a @Table. It's probably best to go talk to @Table, they know everything about me. I just sit around and keep @values in line :(",
             "conflict": {
                 "InvalidRow": {
                     "name": "invalid row",
@@ -540,7 +545,7 @@
                 "paragraphs": "paragraphs"
             },
             "doc": [
-                "I'm a list of paragraphs, using the many kinds of markup available in @Doc, such as @Words, @WebLink, @ConceptLink, and @Example.",
+                "I'm a list of paragraphs, using the many kinds of @markup available in @Doc, such as @Words, @WebLink, @ConceptLink, and @Example.",
                 "You'll find me in an @Doc, and in @FormattedLiteral:",
                 "\\¶I'm documentation with *bold* text.\nI can refer to concepts like @Phrase.\nI can link to <things on the web@https://wordplay.dev>.¶\nPhrase(\n\t`I'm markup for a @Phrase, using *bold*, /italics/, and _underlines_`\n)\\"
             ]
@@ -613,7 +618,7 @@
             "description": "code example $code",
             "emotion": "serious",
             "doc": [
-                "I hold an example bit of code inside a @Doc, like this:",
+                "I hold an example bit of @code inside a @Doc, like this:",
                 "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\",
                 "If you are using Examples in your how-tos, you can tag one Example as a highlight.",
                 "\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
@@ -625,7 +630,7 @@
             "description": "external code example$languages[ in $languages|]",
             "emotion": "serious",
             "doc": [
-                "I show syntax-highlighted code written in other programming languages, so creators who already code can compare.",
+                "I show syntax-highlighted @code written in other programming @languages, so creators who already code can compare.",
                 "Write one variant per language as a two-letter tag, a bar, and the code, like \\py| a = 5\\js| let a = 5;\\. The reader sees the one matching their chosen language. Python (py), JavaScript (js), and Java (jv) are supported."
             ]
         },
@@ -643,7 +648,7 @@
             "description": "markup choice on $condition",
             "emotion": "serious",
             "doc": [
-                "I'm a way of choosing between two segments of explanation based on whether a explanation input value is defined or true.",
+                "I'm a way of choosing between two segments of explanation based on whether a explanation input @value is defined or true.",
                 "This is mostly an internal feature though, so you shouldn't need to know it."
             ]
         },
@@ -695,7 +700,7 @@
                 "See what I did there? ",
                 "One value, three names.",
                 "You can refer to that five by *any* of those names.",
-                "This is especially when you want to give names in many languages:",
+                "This is especially when you want to give names in many @languages:",
                 "\\joe/en,aimee/fr,明/zh: 5\\🪲",
                 "See what I did there? Three names for one value, just in different languages!",
                 "Okay, I have one last secret.",
@@ -857,7 +862,7 @@
                 "stream": "stream"
             },
             "doc": [
-                "I check if a stream caused @Program to reevaluate, and make a @Boolean. Like this",
+                "I check if a @stream caused @Program to reevaluate, and make a @Boolean. Like this",
                 "\\∆ Time()\\",
                 "I'm really helpful when you want something to change only if a stream changed.",
                 "That's it."
@@ -881,7 +886,7 @@
                 "Aren't you worried that if these are the only kind of decisions we can make, we'll be missing some important context about the world?",
                 "There's one more thing I do, and I don't always get credit for it. When my @condition asks what /kind/ of value something is, I don't only answer yes or no. I remember the answer inside each of my choices.",
                 "\\size•#|'': 5\nsize•# ? size + 1 'too small'\\",
-                "On its own, that value could be a @Number or some @Text, and adding to it would be a conflict, since those are added in very different ways. But inside my /yes/ we have just asked whether it's a @Number, so there it is one. Inside my /no/, it's the @Text.",
+                "On its own, that value could be a @Number or some @Text, and adding to it would be a @conflict, since those are added in very different ways. But inside my /yes/ we have just asked whether it's a @Number, so there it is one. Inside my /no/, it's the @Text.",
                 "It doesn't matter how you ask. A type check, a comparison against a particular value, a check for a missing value, and a check you saved under a name all tell me the same thing. And @Boolean/and, @Boolean/or, and @Boolean/not combine them the way you would expect.",
                 "There are two things I can't tell you. If you compare against @Text that has several translations, I learn nothing, because which translation you get depends on who is reading."
             ],
@@ -936,7 +941,7 @@
             "description": "convert $expression to $type",
             "emotion": "cheerful",
             "doc": [
-                "I turn values from one @type to another. Yo — check it out:",
+                "I turn @values from one @type to another. Yo — check it out:",
                 "\\1 → \"\"\\",
                 "\\5s → #ms\\",
                 "\\\"hello\" → []\\",
@@ -969,7 +974,7 @@
                 "Put a collection on my left, draw my arrow \\↦\\, then on my right write what each item should TURN INTO — use @This to mean the item I'm holding RIGHT NOW!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ gives you \\[2 3 4]\\. BOOM! Every number, plus one, no loops, no @FunctionDefinition, no fuss!",
                 "I am AMAZING for making @Phrase output from data! Got a list of names? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ and now there's a phrase for EVERY name!!",
-                "I work on @List, @Set, @Map (I change the map's VALUES — the keys stay right where they are!), and even @Table!",
+                "I work on @List, @Set, @Map (I change the map's @VALUES — the keys stay right where they are!), and even @Table!",
                 "Want something fancier — like the @index of each item, or a function you can reuse in lots of places? Go visit my calmer, grown-up cousins like @List.translate. But for quick everyday mapping, I'm here!!"
             ],
             "start": "Hang on, lemme grab everything in $expression!",
@@ -1108,7 +1113,7 @@
             "emotion": "serious",
             "doc": [
                 "I'm an input given to an @Evaluate. My name corresponds to the name of input in the @FunctionDefinition or @StructureDefinition being evaluated.",
-                "I'm helpful with functions that have many default values, where you just want to override a specific input, without giving everything else.",
+                "I'm helpful with functions that have many default @values, where you just want to override a specific input, without giving everything else.",
                 "For example, @Phrase has many, many default values to control it's style. Let's say you wanted to give some @Text and a @Color, but nothing else in its input list. You can use me to do that:",
                 "\\Phrase('I am purple!' color: Color(50% 52 300°))\\"
             ],
@@ -1122,7 +1127,7 @@
                 "placeholder": "expression"
             },
             "doc": [
-                "I'm an *expression*, but not a real one… I just take the place of one.",
+                "I'm an *@expression*, but not a real one… I just take the place of one.",
                 "I'm good if you don't know what to write yet. Like this:",
                 "\\1 + _\\🪲",
                 "What are we adding? I don't know. You tell me.",
@@ -1198,7 +1203,7 @@
                 "I tell you whether the current evaluation of @Program is the first one, evaluating to a @Boolean. For example:",
                 "\\◆ ? Time() 'hi'\\",
                 "You didn't see it, but the first evaluation was a time, but then all future time ticks, I was \\⊥\\, so @Conditional made \\⊤\\.",
-                "I'm really helpful if you're working with a stream and you only want to do something the first time -- or never on the first time!"
+                "I'm really helpful if you're working with a @stream and you only want to do something the first time -- or never on the first time!"
             ]
         },
         "Insert": {
@@ -1261,7 +1266,7 @@
             "description": "access index $index of $list",
             "emotion": "cheerful",
             "doc": [
-                "I work closely with @List to help them get values at a particular position. So like, if you had a list, and you wanted its second item, you'd write:",
+                "I work closely with @List to help them get @values at a particular position. So like, if you had a list, and you wanted its second item, you'd write:",
                 "\\list: ['bird' 'duck' 'fish' 'snake']\nlist[2]\\"
             ],
             "start": "Let's get the list $list first",
@@ -1271,7 +1276,7 @@
             "name": "list literal",
             "description": "list of $#count[$count value|$count values]",
             "emotion": "eager",
-            "doc": "I'm a specific @List of values! See @List to learn more about what you can do with me.",
+            "doc": "I'm a specific @List of @values! See @List to learn more about what you can do with me.",
             "start": "Let's evaluate the items first",
             "finish": "I made a me! $value"
         },
@@ -1295,7 +1300,7 @@
             "description": "spread of $list[$list|a list]",
             "emotion": "serious",
             "doc": [
-                "I help you build a @List from the values of other lists. Like this:",
+                "I help you build a @List from the @values of other lists. Like this:",
                 "\\list: [1 2 3]\nfinal: [:list 4 5 6]\\🪲"
             ]
         },
@@ -1361,7 +1366,7 @@
             "emotion": "curious",
             "doc": [
                 "I match a single character of a kind: \\⣿◌⣿\\ any grapheme, \\⣿_⣿\\ a letter, \\⣿#⣿\\ a digit, \\⣿␣⣿\\ a space.",
-                "For example, pull each letter-then-digit code out of a list:",
+                "For example, pull each letter-then-digit @code out of a list:",
                 "\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿_ #⣿\\",
                 "Count me with a quantifier like \\⣿>0 #⣿\\ (one or more digits), or narrow me with a @property like \\⣿_/greek⣿\\ (a Greek letter)."
             ]
@@ -1410,7 +1415,7 @@
             "emotion": "curious",
             "doc": [
                 "I match the next part a number of times.",
-                "For example, check that a ZIP code is exactly five digits:",
+                "For example, check that a ZIP @code is exactly five digits:",
                 "\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
                 "Count a class like \\⣿3 #⣿\\ (three digits), a group like \\⣿2 (\"ab\")⣿\\ (two \"ab\"s), or a complement like \\⣿2 ~#⣿\\ (two non-digits). With \\⣿>0 #⣿\\ I'm greedy — I take as many as I can."
             ]
@@ -1577,7 +1582,7 @@
                 "I match my parts ignoring upper and lower case.",
                 "For example, check a word ignoring its capitalization:",
                 "\\shout: 'HELLO'\nshout ≈ ⣿Aa(\"hello\")⣿\\",
-                "Wrap my parts like \\⣿Aa(\"hi\")⣿\\ (matches \"HI\", \"Hi\", or \"hi\"). Add a @language for its rules, like \\⣿Aa/tr(\"i\")⣿\\ (Turkic i), and I scope a @PatternBackref too, like \\⣿Aa(w:(2 _) w)⣿\\."
+                "Wrap my parts like \\⣿Aa(\"hi\")⣿\\ (matches \"HI\", \"Hi\", or \"hi\"). Add a @language for its rules, like \\⣿Aa/tr(\"i\")⣿\\ (Turkic i), and I @scope a @PatternBackref too, like \\⣿Aa(w:(2 _) w)⣿\\."
             ]
         },
         "PatternType": {
@@ -1598,7 +1603,7 @@
             "label": {
                 "values": "pair"
             },
-            "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
+            "doc": "I'm a specific @Map between keys and @values. See @Map to learn more about how I'm helpful.",
             "start": "Let's evaluate the keys and values first",
             "finish": "I connected everyone, $value",
             "conflict": {
@@ -1636,7 +1641,7 @@
             "name": "number literal",
             "description": "$number$unit[ $unit|]",
             "emotion": "excited",
-            "doc": "I'm a specific @Number. You can write me with any kinds of digits from any kind of language. See @Number for everything I can do.",
+            "doc": "I'm a specific @Number. You can write me with any kinds of digits from any kind of @language. See @Number for everything I can do.",
             "start": "$value!",
             "conflict": {
                 "NotANumber": {
@@ -1677,7 +1682,7 @@
             "description": "previous $number value$range[s|] of $stream",
             "emotion": "serious",
             "doc": [
-                "I look back into a stream’s history and tell you one of its past values. Have you ever wanted to remember the past?",
+                "I look back into a @stream’s history and tell you one of its past @values. Have you ever wanted to remember the past?",
                 "I am the Verse's official record keeper!",
                 "For example, here's what @Time was five ticks ago:",
                 "\\← 5 Time(1000ms)\\",
@@ -1704,7 +1709,7 @@
                 "The value can be anything: a @Number, @Text, or @Boolean, a @List, @Set, @Map, or even something more complex, like a @Phrase, @Group, or @Stage.",
                 "If you don't give me a value to show on stage, I'll ask you for one.",
                 "If there's a problem during a performance, I'll show that problem.",
-                "And if your performance depends on a *stream*, I'll reevaluate every time that stream changes."
+                "And if your performance depends on a *@stream*, I'll reevaluate every time that stream changes."
             ],
             "label": {
                 "borrows": "borrows",
@@ -1774,7 +1779,7 @@
                 "property": "property"
             },
             "doc": [
-                "I get one of a @StructureDefinition @value's properties for you.",
+                "I get one of a @StructureDefinition @value's @properties for you.",
                 "Like if you had a structure about cities, you could get its values with me like this:",
                 "\\•City(name•'' population•#people)\n\nportland: City('Portland' 800000people)\n\nportland.population\\"
             ],
@@ -1791,7 +1796,7 @@
                 "next": "next"
             },
             "doc": [
-                "I make a new stream that updates whenever another stream changes. Streams are so awesome!",
+                "I make a new stream that updates whenever another stream changes. @Streams are so awesome!",
                 "Like, if you wanted @Time to tick, but like, to show words instead of numbers, you could do something like this:",
                 "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "That's like saying \"/begin with the word 'start' and then if time changes, change to either even or odd, based on the time./\"",
@@ -1880,7 +1885,7 @@
             "name": "set literal",
             "description": "set of $#count[$count value|$count values]",
             "emotion": "eager",
-            "doc": "I'm a specific @Set of specific values. See @Set to learn more about how to work with me.",
+            "doc": "I'm a specific @Set of specific @values. See @Set to learn more about how to work with me.",
             "start": "Let's evaluate the values first!",
             "finish": "I made a set $value!"
         },
@@ -1929,7 +1934,7 @@
             "name": "stream",
             "description": "stream $name",
             "emotion": "curious",
-            "doc": "I define new kinds of streams. I /think/ — honestly I'm still figuring out how, so for now just use the streams that exist!",
+            "doc": "I define new kinds of @streams. I /think/ — honestly I'm still figuring out how, so for now just use the streams that exist!",
             "start": "Create this new kind of stream"
         },
         "StructureDefinition": {
@@ -2047,7 +2052,7 @@
             "name": "formatted text",
             "description": "formatted text $text",
             "emotion": "serious",
-            "doc": "I represent many different @FormattedTranslation of formatted text. When I evaluate, I'll pick the best match based on the audience's selected languages.",
+            "doc": "I represent many different @FormattedTranslation of formatted text. When I evaluate, I'll pick the best match based on the audience's selected @languages.",
             "start": "Let's make text in the current language"
         },
         "FormattedTranslation": {
@@ -2071,7 +2076,7 @@
             "description": "this structure",
             "emotion": "serious",
             "doc": [
-                "I'm \\⬚\\, a little square that stands for whatever @value the surrounding code is working on, so you don't have to name it.",
+                "I'm \\⬚\\, a little square that stands for whatever @value the surrounding @code is working on, so you don't have to name it.",
                 "Inside a @ConversionDefinition, I'm the value being converted:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Inside a @Reaction, I'm the most recent value:",
@@ -2116,7 +2121,7 @@
             "description": "unparsable code",
             "emotion": "excited",
             "doc": [
-                "I'm a piece of code that doesn't make sense, so no one knows what it means.",
+                "I'm a piece of @code that doesn't make sense, so no one knows what it means.",
                 "jkwel fjiwojvioao jjiweo jrfe",
                 "/Not every @expression has meaning on stage./",
                 "s w ieorjwei iojwi jfkdlsfdsk",
@@ -2152,7 +2157,7 @@
             "description": "update rows in $table matching $query",
             "emotion": "kind",
             "doc": [
-                "I help revise a @Table, finding the rows that match a @condition, and then creating revised rows with new values.",
+                "I help revise a @Table, finding the rows that match a @condition, and then creating revised rows with new @values.",
                 "So like, if you had a table of characters and points, and you wanted to give every character on a team a point, you might do this:",
                 "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
                 "You can use a @Bind to say which columns to change, and you can use any of the column names or other names in @scope in the condition."
@@ -2221,7 +2226,7 @@
             "name": "exception",
             "description": "exception",
             "emotion": "neutral",
-            "doc": "I represent an exception. There's no way to tell bind that I am one, because exceptions only ever halt @Program, so you can't use them as values."
+            "doc": "I represent an exception. There's no way to tell bind that I am one, because exceptions only ever halt @Program, so you can't use them as @values."
         },
         "FunctionType": {
             "name": "function type",
@@ -2252,7 +2257,7 @@
             "description": "map type of $key[$key|any] to $value[$value|any]",
             "emotion": "kind",
             "doc": [
-                "I tell @Bind what kind of @Map a name holds — which types its keys and values are. Do you know how awesome @Map is? Like really awesome. Here is a map of numbers to lists:",
+                "I tell @Bind what kind of @Map a name holds — which types its keys and @values are. Do you know how awesome @Map is? Like really awesome. Here is a map of numbers to lists:",
                 "\\stuff•{'':[]}: {}\\🪲"
             ]
         },
@@ -2270,7 +2275,7 @@
             "description": "structure type $name",
             "emotion": "curious",
             "doc": [
-                "I represent a @StructureDefinition by its name. So like, if you had a structure like this, you could make a @Bind that stores the values it creates.",
+                "I represent a @StructureDefinition by its name. So like, if you had a structure like this, you could make a @Bind that stores the @values it creates.",
                 "\\•Friend(name•'')\nbestie•Friend: Friend('Jonah')\\🪲"
             ],
             "conflict": {
@@ -2309,14 +2314,14 @@
             "name": "stream definition type",
             "description": "stream definition type",
             "emotion": "angry",
-            "doc": "I represent a stream you have defined, which isn't possible, so why are you even reading this?"
+            "doc": "I represent a @stream you have defined, which isn't possible, so why are you even reading this?"
         },
         "StreamType": {
             "name": "stream type",
             "description": "stream type",
             "emotion": "curious",
             "doc": [
-                "I celebrate the beauty and meaning of streams… by telling @Bind to store them:",
+                "I celebrate the beauty and meaning of @streams… by telling @Bind to store them:",
                 "\\time•…#ms: Time()\\🪲"
             ]
         },
@@ -2447,14 +2452,14 @@
             "doc": [
                 "We are \\⊤\\ and \\⊥\\. \\⊤\\ is true. \\⊥\\ is false. \\⊤\\ is not \\⊥\\; \\⊥\\ is not \\⊤\\. This is how it is.",
                 "How do you make us? Just \\⊤\\ and \\⊥\\, nothing more, nothing less.",
-                "Some use the keyboard (/ctrl+9/ for \\⊤\\ and /ctrl+0/ for \\⊥\\). Some use the character search at the bottom of the editor. Or you can drag us from here.",
+                "Some use the keyboard (/ctrl+9/ for \\⊤\\ and /ctrl+0/ for \\⊥\\). Some use the character search at the bottom of the @editor. Or you can drag us from here.",
                 "Check out our @FunctionDefinition below. They're very logical."
             ],
             "name": ["⊤⊥", "Boolean"],
             "function": {
                 "and": {
                     "doc": [
-                        "I evaluate to \\⊤\\ *only* when both values are \\⊤\\. Helpful for determining if many things are all true. There are only four possible outcomes",
+                        "I evaluate to \\⊤\\ *only* when both @values are \\⊤\\. Helpful for determining if many things are all true. There are only four possible outcomes",
                         "\\⊤ & ⊤\\",
                         "\\⊤ & ⊥\\",
                         "\\⊥ & ⊤\\",
@@ -2556,7 +2561,7 @@
                 "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words.",
                 "\\'hello'/en'hola'/es-MX\\",
                 "You can also tag me with languages, and even give multiple translations. I'll evaluate to whatever languages are currently selected, if there's a matching language.",
-                "If you want to make me with some other values, you can do this:",
+                "If you want to make me with some other @values, you can do this:",
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
                 "I have one last little secret: did you know we all have a unique number? It's true! You can refer to us by writing @U/ and our number. For example, @FunctionDefinition is 192:",
@@ -2641,7 +2646,7 @@
                         "I make a new @Text that's me, with every letter in uppercase:",
                         "\\'hello'.uppercase()\\",
                         "Letters only have cases in some writing systems, so text in a writing system without them, like Japanese or Arabic, is unchanged.",
-                        "My language tag decides whose rules to use. Turkish has a dotted and a dotless i, and only text tagged as Turkish uppercases them the Turkish way:",
+                        "My @language tag decides whose rules to use. Turkish has a dotted and a dotless i, and only text tagged as Turkish uppercases them the Turkish way:",
                         "\\'iyi'/tr.uppercase()\\",
                         "\\'iyi'.uppercase()\\"
                     ],
@@ -2654,7 +2659,7 @@
                         "\\'HELLO'.lowercase()\\",
                         "Make two texts lowercase to compare them without caring about capitalization. This keeps every word that starts with an a, whether or not it's capitalized:",
                         "\\['Apple' 'apricot' 'Banana'].filter(ƒ(word•'') word.lowercase().starts('a'))\\",
-                        "Like @Text/uppercase, letters only have cases in some writing systems, and my language tag decides whose rules to use."
+                        "Like @Text/uppercase, letters only have cases in some writing systems, and my @language tag decides whose rules to use."
                     ],
                     "names": ["🔡", "lowercase"],
                     "inputs": []
@@ -2886,7 +2891,7 @@
                     "doc": [
                         "I make new formatted text that's me, with every letter in uppercase. Only my words change; my formatting, links, and examples stay as they are:",
                         "\\`*hi* there`.uppercase()\\",
-                        "Like @Text/uppercase, letters only have cases in some writing systems, and my language tag decides whose rules to use."
+                        "Like @Text/uppercase, letters only have cases in some writing systems, and my @language tag decides whose rules to use."
                     ],
                     "names": ["🔠", "uppercase"],
                     "inputs": []
@@ -2895,7 +2900,7 @@
                     "doc": [
                         "I make new formatted text that's me, with every letter in lowercase. Only my words change; my formatting, links, and examples stay as they are:",
                         "\\`*HI* THERE`.lowercase()\\",
-                        "Like @Text/lowercase, letters only have cases in some writing systems, and my language tag decides whose rules to use."
+                        "Like @Text/lowercase, letters only have cases in some writing systems, and my @language tag decides whose rules to use."
                     ],
                     "names": ["🔡", "lowercase"],
                     "inputs": []
@@ -3463,7 +3468,7 @@
                 },
                 "append": {
                     "doc": [
-                        "I create a new @List with my values, then all the values of the given @List after me.",
+                        "I create a new @List with my @values, then all the values of the given @List after me.",
                         "\\['apple' 'banana' 'mango'].withList(['watermelon' 'starfruit'])\\",
                         "It's a little bit easier to use @Spread though, like this:",
                         "\\['apple' 'banana' 'mango' :['watermelon' 'starfruit']]\\"
@@ -3471,7 +3476,7 @@
                     "names": ["withList", "append"],
                     "inputs": [
                         {
-                            "doc": "The list of values to add.",
+                            "doc": "The list of @values to add.",
                             "names": "list"
                         }
                     ]
@@ -3821,7 +3826,7 @@
                 },
                 "sorted": {
                     "doc": [
-                        " I can take a list, and make a new list with its values sorted. Like this:",
+                        " I can take a list, and make a new list with its @values sorted. Like this:",
                         "\\[1 5 8 0 2].sorted()\\",
                         "I can also do it for @Text values, in alphabetical order. A capital letter sorts next to its lowercase one, so a word isn't sent to the end just for starting with a capital:",
                         "\\['Orange' 'kiwi' 'Banana' 'apple'].sorted()\\",
@@ -3872,13 +3877,13 @@
             "out": "Result",
             "function": {
                 "size": {
-                    "doc": "I'll tell you how many values are in me.",
+                    "doc": "I'll tell you how many @values are in me.",
                     "names": "size",
                     "inputs": []
                 },
                 "equals": {
                     "doc": [
-                        "I'm \\⊤\\ if the given @Set and I have the exact same values:",
+                        "I'm \\⊤\\ if the given @Set and I have the exact same @values:",
                         "\\{1 2 3} = {2 3 4}\\"
                     ],
                     "names": ["=", "equals"],
@@ -3891,7 +3896,7 @@
                 },
                 "notequals": {
                     "doc": [
-                        "I'm \\⊤\\ if the given @Set and I don't have the exact same values:",
+                        "I'm \\⊤\\ if the given @Set and I don't have the exact same @values:",
                         "\\{1 2 3} ≠ {2 3 4}\\"
                     ],
                     "names": ["≠", "notequal"],
@@ -4046,7 +4051,7 @@
             "result": "Result",
             "function": {
                 "size": {
-                    "doc": "I'll tell you how many values are in me.",
+                    "doc": "I'll tell you how many @values are in me.",
                     "names": "size",
                     "inputs": []
                 },
@@ -4184,7 +4189,7 @@
         },
         "Table": {
             "doc": [
-                "I'm a set of table rows! I can help you keep track of large collections of values that have the same structure.",
+                "I'm a set of table rows! I can help you keep track of large collections of @values that have the same structure.",
                 "For example, imagine you wanted to keep track of a bunch of rocks:",
                 "\\⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\\",
                 "@Bind can help you name it! And then you can do things like make a revised table with an new row @Insert:",
@@ -4202,7 +4207,7 @@
             "row": "Row",
             "function": {
                 "equals": {
-                    "doc": "I check if I have the exact same cells in the exact same order as another @Table.",
+                    "doc": "I check if I have the exact same @cells in the exact same order as another @Table.",
                     "names": ["=", "equals"],
                     "inputs": [
                         {
@@ -4212,7 +4217,7 @@
                     ]
                 },
                 "notequal": {
-                    "doc": "I check if any of my cells are different or in a different order from another @Table.",
+                    "doc": "I check if any of my @cells are different or in a different order from another @Table.",
                     "names": ["≠", "notEquals"],
                     "inputs": [
                         {
@@ -4232,7 +4237,7 @@
             "name": ["Structure"],
             "function": {
                 "equals": {
-                    "doc": "I check if my properties are the same name and values as another structure's properties.",
+                    "doc": "I check if my @properties are the same name and @values as another structure's properties.",
                     "names": ["=", "equals"],
                     "inputs": [
                         {
@@ -4242,7 +4247,7 @@
                     ]
                 },
                 "notequal": {
-                    "doc": "I check if my properties are different in any way from the name and values as another structure's.",
+                    "doc": "I check if my @properties are different in any way from the name and @values as another structure's.",
                     "names": ["≠", "notEquals"],
                     "inputs": [
                         {
@@ -4288,36 +4293,36 @@
         },
         "Choice": {
             "doc": [
-                "It's a stream of the names your audience selects by clicking, tapping, or pressing /Enter/ on a named @Phrase.",
+                "It's a @stream of the names your audience selects by clicking, tapping, or pressing /Enter/ on a named @Phrase.",
                 "/clickety tap!/",
                 "So the best way to use it is to create a performance with named selectable phrases @Phrase, and then use a @Reaction to decide what to do when that name is chosen.",
                 "Here's the simplest example:",
                 "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
-                "Copy this into the editor and then select one of the two @Phrase. You'll see the third @Phrase shows the name that was selected."
+                "Copy this into the @editor and then select one of the two @Phrase. You'll see the third @Phrase shows the name that was selected."
             ],
             "names": ["🔘", "Choice"]
         },
         "Button": {
             "doc": [
-                "It tells you whether the mouse or trackpad's primary button is pressed, as a stream of @Boolean.",
+                "It tells you whether the mouse or trackpad's primary button is pressed, as a @stream of @Boolean.",
                 "/click click click/",
                 "Of course, a mouse or trackpad isn't an ideal choice for listening to an audience, since not everyone can use one. The more accessible choice is @Choice.",
                 "But if you /really/ need to listen to a mouse button, this is the way to do it. It will provide a stream of @Boolean, representing whether the primary button is up \\⊥\\ or down \\⊤\\.",
                 "Here's a simple example:",
                 "\\Phrase(Button() → '')\\",
-                "This just makes a @Phrase that is the @value of the stream as text. If you copy it into the editor and click, you'll see it toggle back and forth between \\⊥\\ and \\⊤\\."
+                "This just makes a @Phrase that is the @value of the stream as text. If you copy it into the @editor and click, you'll see it toggle back and forth between \\⊥\\ and \\⊤\\."
             ],
             "names": ["🖱️", "Button"],
             "down": {
                 "names": "down",
-                "doc": "If @None, the stream will provide both up and down values. If a \\⊤\\, it will only change with the button is pressed. If given a \\⊥\\, it will only change when the button is released."
+                "doc": "If @None, the @stream will provide both up and down @values. If a \\⊤\\, it will only change with the button is pressed. If given a \\⊥\\, it will only change when the button is released."
             }
         },
         "Pointer": {
             "doc": [
                 "It tracks where your audience is pointing on @Stage.",
                 "/whrrrrrr/",
-                "Of course, this is not an accessible choice: not everyone can see or easily point, so be really sure you're not excluding someone from participating by using this stream.",
+                "Of course, this is not an accessible choice: not everyone can see or easily point, so be really sure you're not excluding someone from participating by using this @stream.",
                 "If you're sure no one is excluded, then using @Pointer is as simple as just making a stream:",
                 "\\Pointer()\\",
                 "The @Place it provides will correspond to where on @Stage the pointer is pointing."
@@ -4330,7 +4335,7 @@
                 "/clickety/",
                 "Try this",
                 "\\Key()\\",
-                "See how when you type a key, it shows up on @Stage? Every time a key is pressed down, a new @Text is added to the stream, describing the key that was pressed.",
+                "See how when you type a key, it shows up on @Stage? Every time a key is pressed down, a new @Text is added to the @stream, describing the key that was pressed.",
                 "For a key that represents a character, the @value will be the character as @Text.",
                 "For special keys, like the /Escape/ key, it will be @Text that describes the key, using a <pre-defined name@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, unfortunately available only in English.",
                 "If you only want to know about a particular key, you can provide it:",
@@ -4426,7 +4431,7 @@
         "Now": {
             "doc": [
                 "I tick a new @Moment at whatever pace you choose, so a program always knows today's date and the current time.",
-                "This makes a localized clock one line of code:",
+                "This makes a localized clock one line of @code:",
                 "\\Phrase(Now() → '')\\",
                 "By default I tick every second. Give me a @Now.frequency in seconds, minutes, or hours to change the pace:",
                 "\\Now(1min)\\",
@@ -4442,7 +4447,7 @@
             },
             "timezone": {
                 "names": ["timezone"],
-                "doc": "A standard time zone name for the Moments I make, made of a region and a city, like \\'America/New_York'\\ or \\'Asia/Tokyo'\\. Don't know the name? Write a city you know and I'll suggest the closest time zone. If \\ø\\, I use the time zone of the device the program is running on."
+                "doc": "A standard time zone name for the Moments I make, made of a @region and a city, like \\'America/New_York'\\ or \\'Asia/Tokyo'\\. Don't know the name? Write a city you know and I'll suggest the closest time zone. If \\ø\\, I use the time zone of the device the program is running on."
             },
             "calendar": {
                 "names": ["calendar"],
@@ -4452,7 +4457,7 @@
         "Moment": {
             "doc": [
                 "I am a single moment in time: a date on a calendar, a time of day, and the time zone and calendar they are expressed in.",
-                "All of my properties are optional. Give me date parts to describe a date:",
+                "All of my @properties are optional. Give me date parts to describe a date:",
                 "\\Moment(2026 7 1) → ''\\",
                 "Or just time parts, for a time of day:",
                 "\\Moment(hour: 15 minute: 30) → ''\\",
@@ -4462,7 +4467,7 @@
                 "\\Moment(5786 10 4 calendar: 'hebrew') → ''\\",
                 "Converting me to @Text formats me for the reader's locale: the same Moment renders differently in English, 中文, or हिन्दी, and changes when the reader's locale changes.",
                 "My @Moment.era, @Moment.week, and @Moment.weekday are informational: @Now fills them in when it makes Moments, but they are ignored when formatting.",
-                "If you want a stream of Moments that updates as time passes — a clock — see @Now. If you want the milliseconds elapsed since your program started — for animation — see @Time."
+                "If you want a @stream of Moments that updates as time passes — a clock — see @Now. If you want the milliseconds elapsed since your program started — for animation — see @Time."
             ],
             "names": ["📅", "Moment"],
             "year": {
@@ -4495,7 +4500,7 @@
             },
             "timezone": {
                 "names": ["timezone"],
-                "doc": "A standard time zone name, made of a region and a city, like \\'America/New_York'\\, \\'Europe/Paris'\\, or \\'Asia/Tokyo'\\. Don't know the name? Write a city you know and I'll suggest the closest time zone. If \\ø\\, I use the time zone of the device the program is running on."
+                "doc": "A standard time zone name, made of a @region and a city, like \\'America/New_York'\\, \\'Europe/Paris'\\, or \\'Asia/Tokyo'\\. Don't know the name? Write a city you know and I'll suggest the closest time zone. If \\ø\\, I use the time zone of the device the program is running on."
             },
             "calendar": {
                 "names": ["calendar"],
@@ -4523,7 +4528,7 @@
         },
         "Volume": {
             "doc": [
-                "It's a stream of the microphone's loudness, from 0 to 1.",
+                "It's a @stream of the microphone's loudness, from 0 to 1.",
                 "/bzzzzzzz/",
                 "It's sampled at the frequency of your choice. By default, the frequency is \\30hz\\, or 30 times per second, but you can change it to anything less frequent.",
                 "\\Volume()\\",
@@ -4537,7 +4542,7 @@
         },
         "Pitch": {
             "doc": [
-                "It's a stream of the microphone's pitch, in hertz.",
+                "It's a @stream of the microphone's pitch, in hertz.",
                 "/hummmmm/",
                 "It's sampled at the frequency of your choice. The human voice is between 20Hz and 5000Hz, so plan on numbers in that range.",
                 "\\Pitch()\\",
@@ -4556,7 +4561,7 @@
                 "It uses your browser's speech recognition to listen to what you say and turn it into words (isn't this so cool?!).",
                 "\\Speech()\\",
                 "This is perfect for those who can speak a @language but are still learning to read or write it (and more)...",
-                "You can specify a language code to recognize speech in a particular language:",
+                "You can specify a language @code to recognize speech in a particular language:",
                 "\\Speech(language: 'es-MX')\\",
                 "If no language is specified, it defaults to your preferred language.",
                 "Speech recognition requires microphone access and Internet connection (please give access!). Also, there might be usage limits, so don't leave it on for too long (nooooo)!"
@@ -4568,7 +4573,7 @@
             },
             "language": {
                 "names": ["language", "lang"],
-                "doc": "A BCP 47 @language code (e.g., 'en-US'). If it's not supported by your browser's speech recognition, you'll get an error. It defaults to your preferred language."
+                "doc": "A BCP 47 @language @code (e.g., 'en-US'). If it's not supported by your browser's speech recognition, you'll get an error. It defaults to your preferred language."
             },
             "limit": {
                 "names": ["limit", "words"],
@@ -4624,7 +4629,7 @@
             },
             "resolution": {
                 "names": ["resolution"],
-                "doc": "The width in pixels at which to sample the camera before running the hand model. Higher values can give slightly more accurate landmarks but cost more time per frame."
+                "doc": "The width in pixels at which to sample the camera before running the hand model. Higher @values can give slightly more accurate landmarks but cost more time per frame."
             }
         },
         "Face": {
@@ -4644,7 +4649,7 @@
             },
             "resolution": {
                 "names": ["resolution"],
-                "doc": "The width in pixels at which to sample the camera before running the face model. Higher values can give slightly more accurate landmarks but cost more time per frame."
+                "doc": "The width in pixels at which to sample the camera before running the face model. Higher @values can give slightly more accurate landmarks but cost more time per frame."
             }
         },
         "Objects": {
@@ -4667,7 +4672,7 @@
                     "names": "frequency"
                 },
                 {
-                    "doc": "The width in pixels at which to sample the camera before looking for things. The model looks at a 320 pixel square, so larger values mostly cost time.",
+                    "doc": "The width in pixels at which to sample the camera before looking for things. The model looks at a 320 pixel square, so larger @values mostly cost time.",
                     "names": "resolution"
                 },
                 {
@@ -4817,7 +4822,7 @@
         },
         "Chat": {
             "doc": [
-                "It's a stream of the @Text messages your audience types.",
+                "It's a @stream of the @Text messages your audience types.",
                 "For example, this simple program checks if the message is 'hello', and if it is, the program evaluates to 'hi'. Otherwise, it evaluates to 'huh'?",
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "That's it! You can make all kinds of performances with this, like chat bots, text adventures, or text-based control schemes for other kinds of performances."
@@ -4829,7 +4834,7 @@
                 "It traces the outline of each letter's glyph as a @List of @Place.",
                 "Give it some text and a font face, and it'll trace each glyph's outline point by point.",
                 "\\Contour('a' \"Noto Sans\")\\",
-                "Feed those @Place values to a @List of @Phrase to see the outline drawn as dots:",
+                "Feed those @Place @values to a @List of @Phrase to see the outline drawn as dots:",
                 "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
                 "You can scale the outline with a @Number of meters, move its origin with a @Place, choose a font weight, turn on italics, and set the `spacing` between points as a distance in meters. A smaller `spacing` traces the outline more closely, with evenly spaced points along both lines and curves.",
                 "Some glyphs, like color emoji, have no outline, so they add no points. While it fetches the font, it'll give you an empty @List, then fill it in when it's ready."
@@ -4861,7 +4866,7 @@
                     "names": "italics"
                 },
                 {
-                    "doc": "The distance in meters between sampled points along the outline, kept consistent along lines and curves alike. Smaller values trace more finely, down to a minimum of 0.01 meters.",
+                    "doc": "The distance in meters between sampled points along the outline, kept consistent along lines and curves alike. Smaller @values trace more finely, down to a minimum of 0.01 meters.",
                     "names": "spacing"
                 },
                 {
@@ -4885,7 +4890,7 @@
                 "\\Phrase('hi' place: Placement())\\",
                 "Then, any time the audience uses an arrow @key or clicks or taps on stage, the @Placement will make a new @Place that moves in the desired direction.",
                 "Try copying this to your program and moving the @Output with the pointer or keyboard.",
-                "You can customize the @Placement, enabling and disabling movement on certain dimensions, changing how far a @Place moves, and the initial @Place the stream starts with."
+                "You can customize the @Placement, enabling and disabling movement on certain dimensions, changing how far a @Place moves, and the initial @Place the @stream starts with."
             ],
             "names": ["✥", "Placement"],
             "inputs": [
@@ -4915,7 +4920,7 @@
             "doc": [
                 "It fetches the text at a web address you give it.",
                 "The internet is fascinating — a whole world of connected computers sharing documents with each other.",
-                "This stream connects to it — give it a URL, like this:",
+                "This @stream connects to it — give it a URL, like this:",
                 "\\Webpage('https://wordplay.dev')\\",
                 "And there's apparently this thing called <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, which lets you @query things on a web page? Give it a CSS selection query and it'll get only the text that matches that query. Like this example, which gets the level one headers.",
                 "\\Webpage('https://wordplay.dev' 'h1')\\",
@@ -4945,7 +4950,7 @@
         "Collision": {
             "names": "Collision",
             "doc": [
-                "It's a stream of @Rebound values for when named @Output bump into each other.",
+                "It's a @stream of @Rebound @values for when named @Output bump into each other.",
                 "To have two @Output notice each other, give them both names, then give me both names. I'll make a new @Rebound whenever they touch. They don't need @Matter for that — a name is all I need to watch something.",
                 "Give me one name instead, and I'll tell you whenever that @Output touches anything else in the physical world. An @Output is in the physical world if it has @Matter, if a @Motion places it, if it's a @Shape directly on the @Stage, or if I'm watching its name too.",
                 "Noticing isn't the same as bouncing. @Output only pushes other @Output around if it has @Matter and a @Motion moving it. @Output that your program places goes exactly where you put it, so it passes through whatever it touches — I'll still tell you about the touch.",
@@ -5015,14 +5020,14 @@
                 "names": "words"
             },
             "parts": {
-                "doc": "One @Part for every @Track, in the order they were written, whether or not it is sounding. This is the whole state of the music on this beat.",
+                "doc": "One @Part for every @Track, in the order they were written, whether or not it is sounding. This is the whole @state of the music on this beat.",
                 "names": "parts"
             }
         },
         "Part": {
             "doc": [
-                "I am one @Track's state on one beat: what it is playing, how loud, and in what scale. A @Downbeat carries one of me per track, so a visualization can draw each voice separately rather than the mix.",
-                "My values are the ones the player is actually using, after every default and override has been applied — so my scale and key are that track's, not the music's, when the track sets its own."
+                "I am one @Track's @state on one beat: what it is playing, how loud, and in what scale. A @Downbeat carries one of me per track, so a visualization can draw each voice separately rather than the mix.",
+                "My @values are the ones the player is actually using, after every default and override has been applied — so my scale and key are that track's, not the music's, when the track sets its own."
             ],
             "names": "Part",
             "instrument": {
@@ -5099,7 +5104,7 @@
         "Output": {
             "names": "Output",
             "doc": [
-                "I am not a @StructureDefinition you can actually make. But I am a very important one, as I inspire the most important elements of our dance: @Phrase, @Group, and @Stage.",
+                "I am not a @StructureDefinition you can actually make. But I am a very important one, as I inspire the most important @elements of our dance: @Phrase, @Group, and @Stage.",
                 "Go meet them to learn more about how to use them."
             ]
         },
@@ -5270,8 +5275,8 @@
                 "doc": [
                     "A name you give me! This is helpful for many things.",
                     "First, if I have a name, I'll use it to describe myself in screen reader descriptions.",
-                    "Second, when animating, you might have multiple different expressions that are supposed to represent the same content on stage; give them the same name and they will animate as one.",
-                    "Finally, I'm helpful with @Choice: the names you give me appear in that stream.",
+                    "Second, when animating, you might have multiple different @expressions that are supposed to represent the same content on stage; give them the same name and they will animate as one.",
+                    "Finally, I'm helpful with @Choice: the names you give me appear in that @stream.",
                     "You can give me many different names, each in a different @language, if it's helpful. I'll always use the name in the first selected language."
                 ],
                 "names": "name"
@@ -5335,7 +5340,7 @@
                 "names": "exiting"
             },
             "changing": {
-                "doc": "The name of an effect to play when my text changes, over my @Phrase.duration, eased by my @Phrase.style. If \\ø\\, my text changes instantly. If 'edit', I erase the old text back to what the old and new text share, then type out the new text. If 'rewrite', I type the new text over the old, replacing one symbol at a time in a random order. If 'random', each of my symbols spins through random symbols from my text's language (or its script, when the language is unknown), matching my text's case, like a slot machine, until it lands on the new text. With @FormattedLiteral text, the changing symbols take on the new text's formatting during the effect.",
+                "doc": "The name of an effect to play when my text changes, over my @Phrase.duration, eased by my @Phrase.style. If \\ø\\, my text changes instantly. If 'edit', I erase the old text back to what the old and new text share, then type out the new text. If 'rewrite', I type the new text over the old, replacing one symbol at a time in a random order. If 'random', each of my symbols spins through random symbols from my text's @language (or its script, when the language is unknown), matching my text's case, like a slot machine, until it lands on the new text. With @FormattedLiteral text, the changing symbols take on the new text's formatting during the effect.",
                 "names": "changing"
             },
             "duration": {
@@ -5391,15 +5396,15 @@
                 "names": "columns"
             },
             "padding": {
-                "doc": "How much padding to place between cells.",
+                "doc": "How much padding to place between @cells.",
                 "names": "padding"
             },
             "cellWidth": {
-                "doc": "How wide the cells should be.",
+                "doc": "How wide the @cells should be.",
                 "names": "cellwidth"
             },
             "cellHeight": {
-                "doc": "How tall the cells should be.",
+                "doc": "How tall the @cells should be.",
                 "names": "cellpadding"
             }
         },
@@ -5529,7 +5534,7 @@
                 "\\Music(Track([1 ø 5 ø]) tempo: 90beats/min)\\",
                 "Hand me a list of tracks and they play at the same time, each with its own instrument, speed, and volume. Here a bass drum and a snare keep the beat while a hi-hat runs at double speed — a polyrhythm out of one number. Drums are a kit rather than pitched, so their numbers pick pieces of the kit instead of notes:",
                 "\\Music(\n\t[Track([1 ø 2 ø 1 ø 2 ø] instrument: Instrument.drums)\n\t Track([3 3 3 3 3 3 3 3] instrument: Instrument.drums beat: 0.5beats volume: 30%)]\n\ttempo: 96beats/min\n)\\",
-                "Numbers inside braces sound together as a chord, and a note value written on a number gives that entry its own length. Here two whole-note chords hold underneath a moving tune:",
+                "Numbers inside braces sound together as a chord, and a note @value written on a number gives that entry its own length. Here two whole-note chords hold underneath a moving tune:",
                 "\\Music([\n\tTrack([1 2 3 5 3 2 1 ø] instrument: Instrument.flute)\n\tTrack([{1𝅝 3 5} {5𝅝 7 9}] instrument: Instrument.piano volume: 50%)\n])\\",
                 "Anything that makes numbers can make music. This melody shuffles itself into a new order, and follows how loudly you are speaking:",
                 "\\Music(\n\tTrack([1 2 3 5 3 2 1].shuffled())\n\ttempo: (60 + (Volume() · 120)) · 1beats/min\n)\\",
@@ -5575,7 +5580,7 @@
                     "When this is \\⊤\\ on an evaluation, I start over from the top, even when none of my notes have changed.",
                     "This is for sound that answers an event rather than playing continuously. If a right answer plays a ding, then two right answers in a row produce exactly the same music, so nothing would change and nothing would sound again. I am how you say /again, now/ — choose /right/ twice below and it dings twice:",
                     "\\Stage([\n\tPhrase('right' selectable: ⊤ name: 'right' place: Place(-2m 0m))\n\tPhrase('wrong' selectable: ⊤ name: 'wrong' place: Place(2m 0m))\n\tMusic(Track([1 5 8] instrument: Instrument.bell loop: ⊥) replay: ∆ Choice() ? (Choice() = 'right') ⊥)\n])\\",
-                    "Hand me a /momentary/ condition, one that is true only on the evaluation the event caused, like the \\∆ Choice()\\ above. A lasting condition such as \\score > 10\\🪲 stays true once it becomes true, so it would restart me on every evaluation from then on."
+                    "Hand me a /momentary/ @condition, one that is true only on the evaluation the event caused, like the \\∆ Choice()\\ above. A lasting condition such as \\score > 10\\🪲 stays true once it becomes true, so it would restart me on every evaluation from then on."
                 ],
                 "names": "replay"
             },
@@ -5584,7 +5589,7 @@
                     "While this is \\⊤\\ I hold still, and when it goes back to \\⊥\\ I carry on from the very beat I stopped on.",
                     "This is what makes me different from @Music/replay: replay means /start over/, and I mean /wait here/. A note that was still sounding when I stopped plays out whatever was left of it when I start again, so stopping in the middle of a long chord does not lose it. Choose /hold/ and /go/ below:",
                     "\\Stage([\n\tPhrase('hold' selectable: ⊤ name: 'hold' place: Place(-2m 0m))\n\tPhrase('go' selectable: ⊤ name: 'go' place: Place(2m 0m))\n\tMusic(Track([1 3 5 8 5 3] instrument: Instrument.piano) pause: Choice() = 'hold')\n])\\",
-                    "Unlike replay, I want a /lasting/ condition, one that stays true for as long as you want the silence. My @Beat count waits with me and picks up where it was, rather than starting again at zero."
+                    "Unlike replay, I want a /lasting/ @condition, one that stays true for as long as you want the silence. My @Beat count waits with me and picks up where it was, rather than starting again at zero."
                 ],
                 "names": "pause"
             },
@@ -5685,10 +5690,10 @@
                 "\\Music(Track([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
                 "Set my @Track/mash to \\⊥\\ and a number like that bends one note off pitch instead of playing two.",
                 "Every entry lasts my @Track/beat, which is one beat unless you change it. Changing it re-grids everything I play at once.",
-                "When one entry should be longer or shorter than the rest, write the length on the number itself as a note value. \\8𝅗𝅥\\ is a half note — twice as long as a beat — and needs nothing around it:",
+                "When one entry should be longer or shorter than the rest, write the length on the number itself as a note @value. \\8𝅗𝅥\\ is a half note — twice as long as a beat — and needs nothing around it:",
                 "\\Music(Track([1 ø {1 3 5} 8𝅗𝅥]))\\",
                 "There are five values: \\𝅝\\ lasts four beats, \\𝅗𝅥\\ two, \\𝅘𝅥\\ one, \\𝅘𝅥𝅮\\ half a beat, and \\𝅘𝅥𝅯\\ a quarter of one. A dot after any of them makes it half again as long, so \\𝅘𝅥𝅭\\ is a beat and a half. A quarter note is one beat whatever my beat is, which is why \\beat: 1𝅘𝅥𝅮\\🪲 says the same thing as \\0.5beats\\ and reads more plainly. On a chord, put the value on the first number: \\{1𝅗𝅥 3 5}\\.",
-                "These are hard to find, so the row of symbols under the editor offers them whenever your cursor is just after a number of mine.",
+                "These are hard to find, so the row of symbols under the @editor offers them whenever your cursor is just after a number of mine.",
                 "A rest can't carry a value, because \\ø\\ is not a number. Two rests in a row are twice as long, and for anything finer there is @Note.",
                 "When a single note needs its own volume, or a length no value can spell, wrap that one in a @Note. Reach for it only where you need it: a bare number is easier to read, so most tracks have none at all, and that rarity is what makes a @Note stand out as an event.",
                 "\\cell: [1 3 5 3]\nMusic(\n\tTrack(\n\t\tcell\n\t\t\t.append(cell.translate(ƒ(n•#) n + 2))\n\t\t\t.append(cell.reverse())\n\t\t\t.append(cell.translate(ƒ(n•#) 8 - n))\n\t\tinstrument: Instrument.piano\n\t)\n)\\",
@@ -5697,7 +5702,7 @@
             ],
             "names": ["🎶", "Track"],
             "notes": {
-                "doc": "The notes to play, in order: a number for a note, \\ø\\ for a rest, a set like \\{1 3 5}\\ for a chord, or a @Note when one entry needs its own volume. A note value written on a number — \\3𝅗𝅥\\ — says how long that one entry lasts.",
+                "doc": "The notes to play, in order: a number for a note, \\ø\\ for a rest, a set like \\{1 3 5}\\ for a chord, or a @Note when one entry needs its own volume. A note @value written on a number — \\3𝅗𝅥\\ — says how long that one entry lasts.",
                 "names": "notes"
             },
             "instrument": {
@@ -5705,7 +5710,7 @@
                 "names": "instrument"
             },
             "beat": {
-                "doc": "How long one bare entry lasts, in beats. It is one beat unless you change it, and changing it re-grids everything I play: at \\0.5beats\\ every entry is an eighth note, so I move twice as fast through the same list. A note value says the same thing more plainly, so \\beat: 1𝅘𝅥𝅮\\🪲 is that same eighth-note grid.",
+                "doc": "How long one bare entry lasts, in beats. It is one beat unless you change it, and changing it re-grids everything I play: at \\0.5beats\\ every entry is an eighth note, so I move twice as fast through the same list. A note @value says the same thing more plainly, so \\beat: 1𝅘𝅥𝅮\\🪲 is that same eighth-note grid.",
                 "names": "beat"
             },
             "scale": {
@@ -5733,24 +5738,24 @@
                 "names": "mash"
             },
             "words": {
-                "doc": "The syllables for @Instrument/voice to sing. One syllable per note, separated by spaces, so \\'so mi fa'\\ sings three notes and the spaces are what say where one syllable ends and the next begins.\n\nRests take no syllable, so a lyric lands on the notes that actually sound. If there are fewer syllables than notes, they start over from the beginning rather than falling silent. If there are none at all, the voice holds an /uh/ sound.\n\nEnd a syllable with a hyphen to hold it across the next note too, one more note for each hyphen — which is how you sing one syllable over several notes. In \\Track([1 2 3 4] words: 'la- mi so')\\, \\la\\ covers the first two notes, then \\mi\\ and \\so\\ take one each.\n\nThe spelling is the <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, where each letter is one sound. Press 🤖 under the editor to see every sound and hear it. Letters I don't recognize are skipped. Every instrument other than the voice ignores me, so a lyric survives changing @Track/instrument and back.",
+                "doc": "The syllables for @Instrument/voice to sing. One syllable per note, separated by spaces, so \\'so mi fa'\\ sings three notes and the spaces are what say where one syllable ends and the next begins.\n\nRests take no syllable, so a lyric lands on the notes that actually sound. If there are fewer syllables than notes, they start over from the beginning rather than falling silent. If there are none at all, the voice holds an /uh/ sound.\n\nEnd a syllable with a hyphen to hold it across the next note too, one more note for each hyphen — which is how you sing one syllable over several notes. In \\Track([1 2 3 4] words: 'la- mi so')\\, \\la\\ covers the first two notes, then \\mi\\ and \\so\\ take one each.\n\nThe spelling is the <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, where each letter is one sound. Press 🤖 under the @editor to see every sound and hear it. Letters I don't recognize are skipped. Every instrument other than the voice ignores me, so a lyric survives changing @Track/instrument and back.",
                 "names": "words"
             }
         },
         "Note": {
             "doc": [
-                "I am one entry in a @Track that carries its own volume, or a length no note value can spell.",
+                "I am one entry in a @Track that carries its own volume, or a length no note @value can spell.",
                 "Most notes should stay plain numbers, and most lengths are shorter written on the number itself: \\1𝅗𝅥\\ is a half note. I am worth reaching for when one note needs its own volume, or a length that falls between the values — and because \\Note(1 2beats ÷ 3)\\ says so much more than \\1\\, using me everywhere would bury the notes that matter.",
                 "A triplet is honest arithmetic: \\Note(1 2beats ÷ 3)\\ says three of these fill two beats. My length can be a note value too, so \\Note(1 1𝅗𝅥)\\ and \\Note(1 2beats)\\ are the same two beats.",
                 "\\Music(Track([1 1 Note(5 2beats volume: 60%) ø]))\\"
             ],
             "names": ["♪", "Note"],
             "degree": {
-                "doc": "What to play: a number for a note, \\ø\\ for a rest, or a set of numbers for a chord, exactly as a bare entry in a @Track would be. A note value on the number — \\3𝅗𝅥\\ — says how long I last, and wins over @Note/beat if you write both.",
+                "doc": "What to play: a number for a note, \\ø\\ for a rest, or a set of numbers for a chord, exactly as a bare entry in a @Track would be. A note @value on the number — \\3𝅗𝅥\\ — says how long I last, and wins over @Note/beat if you write both.",
                 "names": "degree"
             },
             "beat": {
-                "doc": "How many beats I last. This is the whole reason to use me: every bare entry in a @Track lasts the same time, and I am how one note gets a different one. A note value works here too, so \\1𝅗𝅥\\ and \\2beats\\ are the same length.",
+                "doc": "How many beats I last. This is the whole reason to use me: every bare entry in a @Track lasts the same time, and I am how one note gets a different one. A note @value works here too, so \\1𝅗𝅥\\ and \\2beats\\ are the same length.",
                 "names": "beat"
             },
             "volume": {
@@ -5902,7 +5907,7 @@
                         "I am a synthesizer, like @Instrument/synth — not an imitation of a singer. My mouth stays the same size however high or low I sing, which no real throat can do. That is why I sound like a machine doing an impression of a person, and why I sound like neither a man nor a woman.",
                         "Give my @Track a @Track/words and I sing them, one syllable per note. Without any, I hold an /uh/ sound, so I always sing something.",
                         "\\Music(Track([1 2 3 5] words: 'la la la la' instrument: Instrument.voice) tempo: 120beats/min)\\",
-                        "The syllables are spelled in the <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, an alphabet where each letter is one /sound/ rather than one spelling — so \\'ʃi'\\ is the noise at the start of /she/, whatever language you write in. Press 🤖 under the editor to see every sound I can make and hear each one."
+                        "The syllables are spelled in the <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, an alphabet where each letter is one /sound/ rather than one spelling — so \\'ʃi'\\ is the noise at the start of /she/, whatever @language you write in. Press 🤖 under the @editor to see every sound I can make and hear each one."
                     ],
                     "names": ["🤖", "voice"]
                 }
@@ -6043,7 +6048,7 @@
                 "names": "flipy"
             },
             "music": {
-                "doc": "The @Music I should play when my animation state begins or when a @Sequence reaches me. A short sound is the point; I only ever play through once.",
+                "doc": "The @Music I should play when my animation @state begins or when a @Sequence reaches me. A short sound is the point; I only ever play through once.",
                 "names": "music"
             },
             "description": "$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]"
@@ -6223,7 +6228,7 @@
                     ],
                     "names": ["sway"],
                     "angle": {
-                        "doc": "How far to tilt in each direction. Small values look gentle; large ones look frantic.",
+                        "doc": "How far to tilt in each direction. Small @values look gentle; large ones look frantic.",
                         "names": ["angle"]
                     }
                 },
@@ -6586,7 +6591,7 @@
             }
         },
         "Gesture": {
-            "doc": "I'm a snapshot of a hand pose detected by the camera, emitted by the @Hand stream. My place tells you where the hand is on stage, my fingers tells you how many are extended, my open is true when the hand is open (3+ fingers extended), and my thumb, @index, middle, ring, and pinky each say which specific fingers are extended. My palm is true when the palm faces the camera, false when the back of the hand does.",
+            "doc": "I'm a snapshot of a hand pose detected by the camera, emitted by the @Hand @stream. My place tells you where the hand is on stage, my fingers tells you how many are extended, my open is true when the hand is open (3+ fingers extended), and my thumb, @index, middle, ring, and pinky each say which specific fingers are extended. My palm is true when the palm faces the camera, false when the back of the hand does.",
             "names": ["✋", "Gesture"],
             "place": {
                 "doc": "Where the hand is on stage.",
@@ -6626,10 +6631,10 @@
             }
         },
         "Thing": {
-            "doc": "I'm one thing the camera saw, emitted in a @List by the @Objects stream. My name says what I am, my confidence says how sure the model is, my place says where I was on stage, and my width and height say how big I looked.",
+            "doc": "I'm one thing the camera saw, emitted in a @List by the @Objects @stream. My name says what I am, my confidence says how sure the model is, my place says where I was on stage, and my width and height say how big I looked.",
             "names": ["🔎", "Thing"],
             "name": {
-                "doc": "What the thing is, in your language.",
+                "doc": "What the thing is, in your @language.",
                 "names": ["name"]
             },
             "confidence": {
@@ -6650,7 +6655,7 @@
             }
         },
         "Expression": {
-            "doc": "!I'm a snapshot of a facial expression detected by the camera, emitted by the @Face stream. My place tells you where the face is on stage. My @Expression.leftEyeOpen, @Expression.rightEyeOpen, and @Expression.eyesOpen say whether the eyes are open. My @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, and @Expression.browsRaised say what the face is doing, and each has a matching amount (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) from 0 to 1 for how strong it is. My @Expression.turn and @Expression.tilt say which way the head is facing, in degrees.",
+            "doc": "!I'm a snapshot of a facial expression detected by the camera, emitted by the @Face @stream. My place tells you where the face is on stage. My @Expression.leftEyeOpen, @Expression.rightEyeOpen, and @Expression.eyesOpen say whether the eyes are open. My @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, and @Expression.browsRaised say what the face is doing, and each has a matching amount (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) from 0 to 1 for how strong it is. My @Expression.turn and @Expression.tilt say which way the head is facing, in degrees.",
             "names": ["😀", "Expression"],
             "place": {
                 "doc": "Where the face is on stage.",

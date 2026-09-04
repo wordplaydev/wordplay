@@ -18,7 +18,7 @@
                             "FunctionDefinition",
                             "cheerful",
                             "$~Willkommen bei @wordplay! Ich höre, du weißt schon etwas über das Programmieren? Großartig! Diese kurze Tour zeigt, was bei Wordplay ähnlich und was anders ist.",
-                            "$~Damit du alles auf diesem Bildschirm kennst: Diese Seite zeigt einen @tutorial-Dialog und eine @project-Ansicht. Du kannst die *Bühne* @UI/stage sehen, die die Ausgabe des Programms zeigt, und den *Editor* @UI/editor, der den Programm-Code enthält.",
+                            "$~Damit du alles auf diesem Bildschirm kennst: Diese Seite zeigt einen @tutorial-Dialog und eine @project-Ansicht. Du kannst die *Bühne* @UI/stage sehen, die die Ausgabe des Programms zeigt, und den *@editor* @UI/editor, der den Programm-@code enthält.",
                             "$~Dieses Programm ist leer, deshalb ist seine Ausgabe nur eine Aufforderung, ein Programm zu schreiben.",
                             "$~Es gibt viele andere Bedienelemente, um das Programm anzuhalten und abzuspielen und den Code zu bearbeiten, aber darüber musst du dir jetzt keine Gedanken machen."
                         ],
@@ -30,17 +30,17 @@
                             "$~In den meisten Programmiersprachen ist ein Programm eine Liste von Anweisungen, die dem Computer sagen, was er *tun* soll, wie zum Beispiel einen value auszugeben:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~In @wordplay sind Programme *Ausdrücke*, die sagen, was das /Ergebnis/ des Programms sein soll, und nicht, wie es das erzeugen soll.",
-                            "$~Dieses Programm wird zum Wert ausgewertet \\'hallo'\\, der dann auf der Bühne gezeigt wird. Kein Ausgabebefehl, nur ein @expression, der sagt, zu welchem Wert ausgewertet werden soll."
+                            "$~Dieses Programm wird zum @value ausgewertet \\'hallo'\\, der dann auf der Bühne gezeigt wird. Kein Ausgabebefehl, nur ein @expression, der sagt, zu welchem Wert ausgewertet werden soll."
                         ],
                         null,
                         { "edit": ["message: 'hi'", "message"] },
                         [
                             "Bind",
                             "neutral",
-                            "$~In anderen Sprachen ist eine variable ein benannter Behälter für einen value, und sein Wert kann sich ändern:",
+                            "$~In anderen Sprachen ist eine @variable ein benannter Behälter für einen value, und sein Wert kann sich ändern:",
                             "\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
                             "$~In @wordplay können sich benannte Werte nie ändern. Sie sind 'unveränderlich', das heißt, ihnen können keine neuen Werte zugewiesen werden. Deshalb nennen wir sie @Bind statt variable, weil sie nicht variieren können.",
-                            "$~Wir sprechen bald darüber, wie man interaktive Programme ohne veränderbare variable schreibt."
+                            "$~Wir sprechen bald darüber, @how interaktive Programme ohne veränderbare variable schreibt."
                         ]
                     ]
                 },
@@ -68,14 +68,14 @@
                             "curious",
                             "$~Manche Sprachen haben auch eine *switch*-Anweisung, um je nach value unterschiedliche Dinge zu tun:",
                             "\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv| switch (n) {\n  case 1: System.out.println(\"one\"); break;\n  case 2: System.out.println(\"two\"); break;\n  default: System.out.println(\"many\"); break;\n}\\",
-                            "$~@wordplay hat @Match, das ein Ergebnis nach Wert auswählt."
+                            "$~@wordplay hat @Match, das ein Ergebnis nach @value auswählt."
                         ],
                         null,
                         { "edit": ["val: ø", "val ?? 0"] },
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Manche Sprachen haben auch einen *null-coalescing*-operator, um einen Standard-value zu liefern, wenn eine variable null oder undefiniert ist:",
+                            "$~Manche Sprachen haben auch einen *null-coalescing*-@operator, um einen Standard-value zu liefern, wenn eine @variable null oder undefiniert ist:",
                             "\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
                             "$~@wordplay hat den @Otherwise-Operator, um dasselbe Ergebnis zu erreichen."
                         ]
@@ -132,7 +132,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Manche Programmiersprachen erlauben dir, den type einer variable anzugeben, damit du sicherstellen kannst, dass alle Verwendungen der Variable gültig sind:",
+                            "$~Manche Programmiersprachen erlauben dir, den type einer @variable anzugeben, damit du sicherstellen kannst, dass alle Verwendungen der Variable gültig sind:",
                             "\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
                             "$~@wordplay hat auch einen Typ, aber Typen werden *erschlossen*. Meistens musst du sie nicht angeben. Manchmal musst du es aber doch, wenn wordplay den Typ nicht erschließen kann. Ein Listen-Typ kann auch für jede Stelle in einer Liste einen eigenen Typ angeben, so wie \\[# '']\\ für eine Liste mit genau zwei Dingen: einer Zahl, dann einem Wort."
                         ],
@@ -159,7 +159,7 @@
                             "curious",
                             "$~Eine häufige Aufgabe beim Programmieren ist es, Daten von einem type in einen anderen umzuwandeln. Zum Beispiel möchten wir vielleicht eine Zahl in einen Text-value umwandeln:",
                             "\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
-                            "$~Alle Werte in @wordplay haben ein @Convert-Konstrukt, mit dem du zwischen Typen umwandeln kannst. Dieses Beispiel wandelt \\1m\\ in Fuß um und dann in @Text. Jede Art von Wert hat eine ganze Sammlung unterstützter Umwandlungen"
+                            "$~Alle Werte in @wordplay haben ein @Convert-Konstrukt, mit dem du zwischen Typen umwandeln kannst. Dieses Beispiel wandelt \\1m\\ in Fuß um und dann in @Text. Jede Art von @value hat eine ganze Sammlung unterstützter Umwandlungen"
                         ],
                         null,
                         { "edit": "[1 2 3] ↦ ⬚ × 2" },
@@ -168,7 +168,7 @@
                             "neutral",
                             "$~Für Sammlungen von Werten wie Listen und Arrays verwenden andere Programmiersprachen Konstrukte wie *for*- und *while*-Schleifen, um aus den Werten einer bestehenden Sammlung eine neue Sammlung zu erstellen.",
                             "\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
-                            "$~@wordplay hat ein einfaches @Translate*-Konstrukt, das das \\↦\\-Symbol verwendet: Es baut eine neue @List, @Set oder @Map und ersetzt jedes Element (dargestellt durch den \\⬚\\-@placeholder) durch einen neuen value. Das verdoppelt jedes Element, um \\[2 4 6]\\ zu machen.",
+                            "$~@wordplay hat ein einfaches @Translate*-Konstrukt, das das \\↦\\-Symbol verwendet: Es baut eine neue @List, @Set oder @Map und ersetzt jedes @element (dargestellt durch den \\⬚\\-@placeholder) durch einen neuen value. Das verdoppelt jedes Element, um \\[2 4 6]\\ zu machen.",
                             "$~Es gibt auch mächtigere Dinge wie @List.translate und @List.combine, falls du komplexere Aufgaben brauchst."
                         ],
                         null,
@@ -181,7 +181,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Jede Programmiersprache hat Funktionen, mit denen du wiederverwendbare blocks von Code erstellen kannst, die Eingaben annehmen und daraus Ausgaben erzeugen, mit beliebiger Komplexität:",
+                            "$~Jede Programmiersprache hat Funktionen, mit denen du wiederverwendbare blocks von @code erstellen kannst, die Eingaben annehmen und daraus Ausgaben erzeugen, mit beliebiger Komplexität:",
                             "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
                             "$~@wordplay unterstützt auch Funktionsdefinitionen, aber mit dem ƒ-Symbol. Wie alle Wordplay-Programme müssen Funktionen zu einem value ausgewertet werden."
                         ]
@@ -213,7 +213,7 @@
                             "neutral",
                             "$~Die meisten Programmiersprachen haben eine Möglichkeit, Eingaben von der nutzenden Person anzunehmen:",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
-                            "$~Die Eingabe von @wordplay kommt von *Streams*, das sind besondere Werte, die sich über die Zeit ändern, als Antwort auf Eingaben, und das Wordplay-Programm dazu bringen, mit dem neuen Wert des Streams neu ausgewertet zu werden.",
+                            "$~Die Eingabe von @wordplay kommt von *Streams*, das sind besondere Werte, die sich über die Zeit ändern, als Antwort auf Eingaben, und das Wordplay-Programm dazu bringen, mit dem neuen @value des Streams neu ausgewertet zu werden.",
                             "$~Dieses Programm zum Beispiel verwendet einen @Time-Stream, um die Drehung des Globus-Emojis anzutreiben. Jedes Mal, wenn der @Time()-Stream zu einem neuen value tickt, wird das Programm mit dem neuen Wert neu ausgewertet und aktualisiert den Wert des Programms auf der @Stage."
                         ],
                         null,
@@ -269,9 +269,9 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Die meisten Programmiersprachen bieten eine Art Werkzeug zur Fehlersuche, um den Erstellenden zu helfen, Probleme in ihrem Code zu verstehen und zu lösen. Aber viele verwenden einfach Ausgabe-Anweisungen, um die Werte von Variablen in einer Konsole zu prüfen:",
+                            "$~Die meisten Programmiersprachen bieten eine Art Werkzeug zur Fehlersuche, um den Erstellenden zu helfen, Probleme in ihrem @code zu verstehen und zu lösen. Aber viele verwenden einfach Ausgabe-Anweisungen, um die Werte von Variablen in einer Konsole zu prüfen:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay bietet eine bessere Möglichkeit, Fehler zu suchen. Du kannst *vorwärts* und *rückwärts* durch die Auswertung gehen. Drücke den ⏸️-Debug-Knopf im Moduswechsler @UI/modeSwitcher über der Bühne, um in den *Debug*-Modus zu wechseln: Der Wert jedes Ausdrucks erscheint neben ihm im Code. Mit @UI/stepControls kannst du Schritt für Schritt in jede Richtung gehen und so beobachten, wie ein Wert entsteht. Hier ist eine geführte Tour durch alles: @Tour/stage",
+                            "$~@wordplay bietet eine bessere Möglichkeit, Fehler zu suchen. Du kannst *vorwärts* und *rückwärts* durch die Auswertung gehen. Drücke den ⏸️-Debug-Knopf im Moduswechsler @UI/modeSwitcher über der Bühne, um in den *Debug*-Modus zu wechseln: Der @value jedes Ausdrucks erscheint neben ihm im Code. Mit @UI/stepControls kannst du Schritt für Schritt in jede Richtung gehen und so beobachten, wie ein Wert entsteht. Hier ist eine geführte Tour durch alles: @Tour/stage",
                             "$~Die anderen Modi sind auch wichtig: Der Modus ✏️ *Bearbeiten* dient dazu, das Programm zu ändern, während die Bühne eingefroren bleibt. Der Modus ▶️ *Abspielen* führt es live aus und reagiert dabei sofort auf Eingaben.",
                             "$~Möchtest du mehr Hilfe? Der Knopf @UI/stageTourLaunch neben dem Namen der Bühne zeigt dir eine geführte Tour zu diesen Steuerungen."
                         ]
@@ -327,7 +327,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Wir können das noch interaktiver machen, indem wir eine Nutzereingabe hinzufügen, um die Drehung zu steuern, wie die @Volume der Mikrofon-Eingabe. Sie ist ein Wert zwischen 0 und 1, also können wir sie auf 360 Grad abbilden.",
+                            "$~Wir können das noch interaktiver machen, indem wir eine Nutzereingabe hinzufügen, um die Drehung zu steuern, wie die @Volume der Mikrofon-Eingabe. Sie ist ein @value zwischen 0 und 1, also können wir sie auf 360 Grad abbilden.",
                             "$~So sehen die meisten Projekte aus: erst Festlegungen, dann Reaktionen, dann Ausgabe. Der <Guide//guide> hat einen @how-Abschnitt voller Rezepte zum Studieren, Kopieren und Bearbeiten.",
                             "$~Viel Freude beim Erstellen!"
                         ]

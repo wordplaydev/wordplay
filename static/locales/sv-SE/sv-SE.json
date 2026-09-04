@@ -179,6 +179,10 @@
         "stage": {
             "word": "$~scen",
             "definition": "$~Utrymmet där @wordplay visar vad din @code har gjort."
+        },
+        "stream": {
+            "word": "$~ström",
+            "definition": "$~En @value som ändras med tiden när din värld ändras, som att @Time tickar eller en @Key trycks ner. Varje gång den ändras körs @Program igen med det nya @value."
         }
     },
     "terms": {},
@@ -333,7 +337,7 @@
             "description": "$~dokumentationslista$languages[ på $languages| med $count]",
             "emotion": "serious",
             "doc": [
-                "$~Jag är en lista över @Doc, användbar när du har flera översättningar av @Doc på olika språk.",
+                "$~Jag är en lista över @Doc, användbar när du har flera översättningar av @Doc på olika @language.",
                 "Du behöver inte göra något speciellt för att göra en lista. Lägg bara ett gäng @Doc bredvid varandra, så här:",
                 "\\¶Hej¶/sv\n¶Hola¶/es\nhälsning: '...'\\🪲"
             ],
@@ -357,7 +361,7 @@
             "emotion": "eager",
             "doc": [
                 "$~Jag är en språktagg och jag jobbar ihop med @Name och @Doc!",
-                "Jag är riktigt bra på att göra det *helt klart* vilket språk något är skrivet på. Bara ett litet snedstreck och några bokstäver, och ingen blir osäker på vilket språk en text har.",
+                "Jag är riktigt bra på att göra det *helt klart* vilket @language något är skrivet på. Bara ett litet snedstreck och några bokstäver, och ingen blir osäker på vilket språk en text har.",
                 "Om du till exempel vill skriva \"Language\" men visa att det är engelska:",
                 "\\'Språk'/sv\\",
                 "Du kan göra så här för ett @Name:",
@@ -501,7 +505,7 @@
             "description": "$~formaterad text med $#count[$count stycke|$count stycken]",
             "emotion": "serious",
             "doc": [
-                "$~Jag är en lista med stycken, som använder de många sorters formaterad text som finns i @Doc, till exempel @Words, @WebLink, @ConceptLink och @Example.",
+                "$~Jag är en lista med stycken, som använder de många sorters @markup som finns i @Doc, till exempel @Words, @WebLink, @ConceptLink och @Example.",
                 "Du hittar mig i en @Doc, och i @FormattedLiteral:",
                 "\\¶Jag är dokumentation med *fet* text. Jag kan hänvisa till begrepp som @Phrase och kan länka till <saker på webben@https://wordplay.dev>.¶\nFras(\n\t`Jag är formaterad text för en @Phrase, med *fet*, /kursiv/ och _understruken_ text`\n)\\"
             ],
@@ -577,7 +581,7 @@
             "description": "$~kodexempel $code",
             "emotion": "serious",
             "doc": [
-                "$~Jag rymmer en exempelbit koda inuti en @Doc, som denna:",
+                "$~Jag rymmer en exempelbit @code inuti en @Doc, som denna:",
                 "\\¶Här är ett exempel på addition: \\1 + 2\\¶\n3 + 4\\",
                 "Om du använder exempel i dina hur man-guider, kan du märka ett exempel som en höjdpunkt.",
                 "\\¶Här är ett markerat exempel: \\1 + 2\\⭐¶\n3 + 4\\",
@@ -650,7 +654,7 @@
                 "Ser du vad jag gjorde där?",
                 "Ett värde, tre namn.",
                 "Du kan hänvisa till den femman med *vilket som helst* av de namnen.",
-                "Det är särskilt bra när du vill ge namn på många språk:",
+                "Det är särskilt bra när du vill ge namn på många @language:",
                 "\\joe: 5\\🪲",
                 "Ser du vad jag gjorde där? Tre namn för ett värde, bara på olika språk!",
                 "Okej, jag har en sista hemlighet.",
@@ -811,7 +815,7 @@
             "doc": [
                 "$~Jag kontrollerar om en stream fick @Program att omvärdera och gör en @Boolean. Så här",
                 "\\∆ Tid()\\",
-                "Jag är verkligen hjälpsam när du bara vill att något ska ändras om en ström ändras.",
+                "Jag är verkligen hjälpsam när du bara vill att något ska ändras om en @stream ändras.",
                 "Det är allt."
             ],
             "start": "$~Låt oss se om $stream ändrades...",
@@ -831,7 +835,7 @@
                 "Är du inte orolig att om detta är de enda beslut vi kan fatta, så missar vi något viktigt sammanhang om världen?",
                 "Det finns en sak till som jag gör, och jag får inte alltid uppskattning för det. När min @condition frågar vilken /sorts/ värde något är, svarar jag inte bara ja eller nej. Jag kommer ihåg svaret inuti vart och ett av mina val.",
                 "\\storlek•#|'': 5\nstorlek•# ? storlek + 1 'för liten'\\",
-                "För sig själv kan det värdet vara en @Number eller ett @Text, och att lägga till det skulle bli en konflikt, eftersom de läggs ihop på helt olika sätt. Men inuti mitt /ja/ har vi just frågat om det är en @Number, så där är det en. Inuti mitt /nej/ är det @Text.",
+                "För sig själv kan det värdet vara en @Number eller ett @Text, och att lägga till det skulle bli en @conflict, eftersom de läggs ihop på helt olika sätt. Men inuti mitt /ja/ har vi just frågat om det är en @Number, så där är det en. Inuti mitt /nej/ är det @Text.",
                 "Det spelar ingen roll hur du frågar. En typkontroll, en jämförelse mot ett visst värde, en kontroll av ett saknat värde, och en kontroll som du sparat under ett namn säger mig alla samma sak. Och @Boolean/and, @Boolean/or och @Boolean/not kombinerar dem som du förväntar dig.",
                 "Det finns två saker jag inte kan berätta för dig. Om du jämför mot @Text som har flera översättningar lär jag mig inget, eftersom vilken översättning du får beror på vem som läser."
             ],
@@ -897,7 +901,7 @@
                 "\\'hej' → []\\",
                 "Du kan till och med kedja ihop dessa:",
                 "\\'hej' → [] → {}\\",
-                "Värden har en uppsättning @ConversionDefinition som är fördefinierade, men om du gör en @StructureDefinition för en ny typ av värde, kan du definiera dina egna med @ConversionDefinition."
+                "Värden har en uppsättning @ConversionDefinition som är fördefinierade, men om du gör en @StructureDefinition för en ny typ av @value, kan du definiera dina egna med @ConversionDefinition."
             ],
             "start": "$~Få det värdet från $expression!",
             "finish": "$~Fantastiskt, jag tjänade $value",
@@ -1048,7 +1052,7 @@
             "description": "$~platshållare för $type[$type|ett värde]",
             "emotion": "scared",
             "doc": [
-                "$~Jag är ett *uttryck*, men inte ett riktigt... jag tar bara platsen för ett.",
+                "$~Jag är ett *@expression*, men inte ett riktigt... jag tar bara platsen för ett.",
                 "Jag är bra om du inte vet vad du ska skriva än. Så här:",
                 "\\1 + _\\🪲",
                 "Vad lägger vi till? jag vet inte. Berätta för mig.",
@@ -1258,7 +1262,7 @@
             "name": "$~talbokstav",
             "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
-            "doc": "$~Jag är ett specifikt @Number. Du kan skriva till mig med alla typer av siffror från vilket språk som helst. Se @Number för allt jag kan göra.",
+            "doc": "$~Jag är ett specifikt @Number. Du kan skriva till mig med alla typer av siffror från vilket @language som helst. Se @Number för allt jag kan göra.",
             "start": "$~$value!",
             "conflict": {
                 "NotANumber": {
@@ -1326,7 +1330,7 @@
                 "Värdet kan vara vad som helst: en @Number, @Text, eller @Boolean, en @List, @Set, @Map, eller till och med något mer komplext, som en @Phrase, @Group, eller @Stage.",
                 "Om du inte ger mig ett värde att visa på scenen, ber jag dig om ett.",
                 "Om det uppstår ett problem under ett framträdande, visar jag det problemet.",
-                "Och om ditt framträdande beror på en *ström*, utvärderar jag om varje gång den strömmen ändras."
+                "Och om ditt framträdande beror på en *@stream*, utvärderar jag om varje gång den strömmen ändras."
             ],
             "unevaluated": "$~noden du valde utvärderades inte",
             "start": "$~$stream[$stream ström ändrad till $value!|Det är min första utvärdering]",
@@ -1669,7 +1673,7 @@
             "name": "$~formaterad text",
             "description": "$~formaterad text $text",
             "emotion": "serious",
-            "doc": "$~Jag representerar många olika @FormattedTranslation av formaterad text. När jag utvärderar väljer jag den bästa matchningen baserat på publikens valda språk.",
+            "doc": "$~Jag representerar många olika @FormattedTranslation av @markup. När jag utvärderar väljer jag den bästa matchningen baserat på publikens valda @language.",
             "start": "$~Låt oss skapa text på det aktuella språket"
         },
         "FormattedTranslation": {
@@ -1677,7 +1681,7 @@
             "description": "$~Översätt formaterad text till $language",
             "emotion": "serious",
             "doc": [
-                "$~Jag representerar en del formaterad text, med en @Language-tagg.",
+                "$~Jag representerar en del @markup, med en @Language-tagg.",
                 "jag kan vara:",
                 "\\`/kursiv/`\\",
                 "\\`*fet*`\\",
@@ -1931,7 +1935,7 @@
             "name": "$~strömdefinitionstyp",
             "description": "$~strömdefinitionstyp",
             "emotion": "angry",
-            "doc": "$~Jag representerar en ström som du har definierat, vilket inte är möjligt, så varför läser du ens detta?"
+            "doc": "$~Jag representerar en @stream som du har definierat, vilket inte är möjligt, så varför läser du ens detta?"
         },
         "StreamType": {
             "name": "$~strömtyp",
@@ -2094,8 +2098,8 @@
             "description": "$~externt kodexempel$languages[ i $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Jag visar syntaxmarkerad koda skriven i andra programmeringsspråk, så att skapare som redan kan koda kan jämföra.",
-                "Skriv en variant per språk som en tvåbokstavstagg, ett streck och koden, som \\py| a = 5\\js| let a = 5;\\. Läsaren ser den som matchar deras valda språk. Python (py), JavaScript (js) och Java (jv) stöds."
+                "$~Jag visar syntaxmarkerad @code skriven i andra programmeringsspråk, så att skapare som redan kan koda kan jämföra.",
+                "Skriv en variant per @language som en tvåbokstavstagg, ett streck och koden, som \\py| a = 5\\js| let a = 5;\\. Läsaren ser den som matchar deras valda språk. Python (py), JavaScript (js) och Java (jv) stöds."
             ]
         },
         "Localized": {
@@ -2391,7 +2395,7 @@
                 "$~Jag matchar mina delar och struntar i stora och små bokstäver.",
                 "Kontrollera till exempel ett ord utan att bry dig om versaler:",
                 "\\skrik: 'HEJ'\nskrik ≈ ⣿ Aa(\"hello\")⣿\\",
-                "Slå in mina delar som \\⣿ Aa(\"hi\")⣿\\ (matchar \"HI\", \"Hi\" eller \"hi\"). Lägg till en @language för dess regler, som \\⣿ Aa/tr(\"i\")⣿\\ (turkiskt i), och jag ger räckvidd åt en @PatternBackref också, som \\⣿ Aa(w: (2 _) w)⣿\\."
+                "Slå in mina delar som \\⣿ Aa(\"hi\")⣿\\ (matchar \"HI\", \"Hi\" eller \"hi\"). Lägg till en @language för dess regler, som \\⣿ Aa/tr(\"i\")⣿\\ (turkiskt i), och jag ger @scope åt en @PatternBackref också, som \\⣿ Aa(w: (2 _) w)⣿\\."
             ]
         },
         "PatternType": {
@@ -3678,7 +3682,7 @@
                         "\\[1 5 8 0 2].sorterad()\\",
                         "Jag kan också göra det för @Text-värden, i alfabetisk ordning. En stor bokstav sorteras bredvid sin lilla motsvarighet, så ett ord hamnar inte sist bara för att det börjar med en stor bokstav:",
                         "\\['Apelsin' 'kiwi' 'Banan' 'äpple'].sorterad()\\",
-                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör varje värde till en @Number eller en @Text så att jag kan sortera den. Här har vi till exempel en lista med listor av olika längd; om du ger mig en funktion som gör varje lista till dess längd, kan jag sortera efter längden.",
+                        "Och om du har en lista med värden som inte är @Number eller @Text, kan du ge mig en @FunctionDefinition som gör varje @value till en @Number eller en @Text så att jag kan sortera den. Här har vi till exempel en lista med listor av olika längd; om du ger mig en funktion som gör varje lista till dess längd, kan jag sortera efter längden.",
                         "\\[[1] [2 3] [4 8 12] [8]].sorterad(ƒ(lista2) lista2.längd())\\",
                         "En funktion som gör @Text är hur du sorterar efter ett ord du räknar fram, istället för efter värdet självt. Här sorterar jag namn efter det sista:",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorterad(\n\tƒ(namn2•'') (namn2 ÷ ' ').sista()\n)\\"
@@ -3891,7 +3895,7 @@
                 "\\{1:1 2:2 3:3}\\",
                 "Men säg att du vill vara säker på att det bara var precis dessa värden; lägg bara till ! i slutet av mig, så generaliserar jag inte. Det hjälper dig att veta om du försöker hämta ett värde du inte tänkte dig.",
                 "\\{1:1 2:2 3:3}!{4}\\🪲",
-                "Jag vet hur man gör många underbara saker med mina par."
+                "Jag vet @how gör många underbara saker med mina par."
             ],
             "name": ["$~Karta"],
             "key": "$~Nyckel",
@@ -3974,7 +3978,7 @@
                 },
                 "filter": {
                     "doc": [
-                        "$~Ge mig en @FunctionDefinition som tar en @key och @value och ger \\⊤\\ om en parning ska behållas. Jag skapar en ny @Map som uppfyller dina villkor.",
+                        "$~Ge mig en @FunctionDefinition som tar en @key och @value och ger \\⊤\\ om en parning ska behållas. Jag skapar en ny @Map som uppfyller dina @condition.",
                         "Här vill vi till exempel behålla alla parningar som är Amy eller har fler än noll poäng.",
                         "\\{'amy': 0points 'jen': 0points 'tony': 3points}.filtrera(\n\tƒ(nyckel•'' värde•#points) (nyckel = 'amy') | (värde > 0points)\n)\\"
                     ],
@@ -4111,7 +4115,7 @@
         },
         "Formatted": {
             "doc": [
-                "$~Jag har formaterad text: ord med stil, som fetstil, kursiv stil och länkar. Placera mig mellan bakåttecknen:",
+                "$~Jag har @markup: ord med stil, som fetstil, kursiv stil och länkar. Placera mig mellan bakåttecknen:",
                 "\\`I am **bold** and /italic/`\\",
                 "Jag fungerar ungefär som @Text , men jag kan hantera formatering. Du kan kombinera mig, upprepa mig, kontrollera vad jag innehåller och konvertera mig till vanlig @Text ."
             ],
@@ -4173,7 +4177,7 @@
                     ]
                 },
                 "repeat": {
-                    "doc": "$~Jag skapar ny formaterad text som är jag, upprepad det angivna antalet gånger. Om jag har mer än ett stycke behålls pauserna mellan kopiorna.",
+                    "doc": "$~Jag skapar ny @markup som är jag, upprepad det angivna antalet gånger. Om jag har mer än ett stycke behålls pauserna mellan kopiorna.",
                     "names": ["$~upprepade", "$~upprepa"],
                     "inputs": [
                         {
@@ -4183,7 +4187,7 @@
                     ]
                 },
                 "combine": {
-                    "doc": "$~Ge mig en annan formaterad text så sammanfogar jag oss till en. Om någon av oss har mer än ett stycke behålls styckebrytningarna.",
+                    "doc": "$~Ge mig en annan @markup så sammanfogar jag oss till en. Om någon av oss har mer än ett stycke behålls styckebrytningarna.",
                     "names": ["$~kombinerad", "$~kombinera"],
                     "inputs": [
                         {
@@ -4194,7 +4198,7 @@
                 },
                 "uppercase": {
                     "doc": [
-                        "$~Jag skapar ny formaterad text som är jag, med varje bokstav i versaler. Bara mina ord ändras; min formatering, mina länkar och exempel förblir som de är:",
+                        "$~Jag skapar ny @markup som är jag, med varje bokstav i versaler. Bara mina ord ändras; min formatering, mina länkar och exempel förblir som de är:",
                         "\\`*hej* där`.versaler()\\",
                         "Liksom @Text/uppercase har bokstäver bara skiftläge i vissa skriftsystem, och min språktagg avgör vilka regler som ska användas."
                     ],
@@ -4203,7 +4207,7 @@
                 },
                 "lowercase": {
                     "doc": [
-                        "$~Jag skapar ny formaterad text som är jag, med varje bokstav i gemener. Bara mina ord ändras; min formatering, mina länkar och exempel förblir som de är:",
+                        "$~Jag skapar ny @markup som är jag, med varje bokstav i gemener. Bara mina ord ändras; min formatering, mina länkar och exempel förblir som de är:",
                         "\\`*HEJ* DÄR`.gemener()\\",
                         "Liksom @Text/lowercase har bokstäver bara skiftläge i vissa skriftsystem, och min språktagg avgör vilka regler som ska användas."
                     ],
@@ -4252,7 +4256,7 @@
         },
         "Choice": {
             "doc": [
-                "$~Det är en ström av namn som din publik väljer genom att klicka, trycka på eller trycka på /Enter/ på en namngiven @Phrase .",
+                "$~Det är en @stream av namn som din publik väljer genom att klicka, trycka på eller trycka på /Enter/ på en namngiven @Phrase .",
                 "/klicka, tryck!/",
                 "Så det bästa sättet att använda det är att skapa en föreställning med namngivna, valbara fraser @Phrase , och sedan använda en @Reaction för att bestämma vad som ska göras när det namnet är valt.",
                 "Här är det enklaste exemplet:",
@@ -4263,7 +4267,7 @@
         },
         "Button": {
             "doc": [
-                "$~Den talar om för dig om musens eller styrplattans huvudknapp är nedtryckt, som en ström av @Boolean.",
+                "$~Den talar om för dig om musens eller styrplattans huvudknapp är nedtryckt, som en @stream av @Boolean.",
                 "/klick klick klick/",
                 "En mus eller styrplatta är förstås inte det bästa valet för att lyssna på en publik, eftersom alla inte kan använda en. Det mer tillgängliga valet är @Choice.",
                 "Men om du /verkligen/ behöver lyssna på en musknapp, är det så här du gör det. Den ger en ström av @Boolean, som visar om huvudknappen är uppe \\⊥\\ eller nere \\⊤\\.",
@@ -4282,7 +4286,7 @@
                 "$~Den spårar vart din publik pekar på @Stage .",
                 "/vrrrrr/",
                 "Naturligtvis är detta inte ett tillgängligt alternativ: inte alla kan se eller peka lätt, så se verkligen till att du inte utesluter någon från att delta genom att använda den här strömmen.",
-                "Om du är säker på att ingen är utesluten, är det lika enkelt att använda @Pointer som att bara skapa en ström:",
+                "Om du är säker på att ingen är utesluten, är det lika enkelt att använda @Pointer som att bara skapa en @stream:",
                 "\\Pointer()\\",
                 "Den @Place som den anger kommer att motsvara var på @Stage pekaren pekar."
             ],
@@ -4389,7 +4393,7 @@
         },
         "Volume": {
             "doc": [
-                "$~Det är en ström av mikrofonens ljudstyrka, från 0 till 1.",
+                "$~Det är en @stream av mikrofonens ljudstyrka, från 0 till 1.",
                 "/bzzzzzzzz/",
                 "Den samplas med den frekvens du väljer. Som standard är frekvensen \\30hz\\ , eller 30 gånger per sekund, men du kan ändra den till något mindre frekvent.",
                 "\\Volume()\\",
@@ -4403,7 +4407,7 @@
         },
         "Pitch": {
             "doc": [
-                "$~Det är en ström av mikrofonens tonhöjd, i hertz.",
+                "$~Det är en @stream av mikrofonens tonhöjd, i hertz.",
                 "/hummmmm/",
                 "Den samplas med den frekvens du väljer. Den mänskliga rösten ligger mellan 20 Hz och 5000 Hz, så planera för tal i det intervallet.",
                 "\\Pitch()\\",
@@ -4489,7 +4493,7 @@
         },
         "Chat": {
             "doc": [
-                "$~Det är en ström av @Text -meddelanden som din målgrupp skriver.",
+                "$~Det är en @stream av @Text -meddelanden som din målgrupp skriver.",
                 "Till exempel kontrollerar det här enkla programmet om meddelandet är \"hej\", och om det är det utvärderas programmet till \"hej\". Annars utvärderas det till \"va\"?",
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "Det var allt! Du kan skapa alla möjliga typer av föreställningar med detta, som chattrobotar, textäventyr eller textbaserade kontrollscheman för andra typer av föreställningar."
@@ -4535,7 +4539,7 @@
             "doc": [
                 "$~Den hämtar texten från en webbadress som du ger den.",
                 "Internet är fascinerande — en hel värld av sammankopplade datorer som delar dokument med varandra.",
-                "Denna ström ansluter till det — ge den en URL, så här:",
+                "Denna @stream ansluter till det — ge den en URL, så här:",
                 "\\webbsida('https://wordplay.dev')\\",
                 "Och det finns tydligen en sak som heter <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, som låter dig @query saker på en webbsida? Ge den en CSS-urvalsfråga så hämtar den bara den text som matchar den frågan. Som i detta exempel, som hämtar rubrikerna på nivå ett.",
                 "\\webbsida('https://wordplay.dev' 'h1')\\",
@@ -4565,7 +4569,7 @@
         "Collision": {
             "names": "$~Kollision",
             "doc": [
-                "$~Det är en ström av @Rebound-värden för när namngivna @Output krockar med varandra.",
+                "$~Det är en @stream av @Rebound-värden för när namngivna @Output krockar med varandra.",
                 "För att få två @Output att märka varandra, ge dem båda namn, och ge mig sedan båda namnen. Jag skapar en ny @Rebound varje gång de rör vid varandra. De behöver inte @Matter för det — ett namn räcker för att jag ska kunna bevaka något.",
                 "Ge mig ett namn istället, så berättar jag när det @Output rör vid något annat i den fysiska världen. En @Output är i den fysiska världen om den har @Matter, om en @Motion placerar den, om den är en @Shape direkt på @Stage, eller om jag också bevakar dess namn.",
                 "Att märka är inte samma sak som att studsa. @Output knuffar bara omkring andra @Output om den har @Matter och en @Motion som flyttar den. @Output som ditt program placerar går precis dit du sätter den, så den passerar rakt igenom det den rör vid — jag berättar ändå om beröringen.",
@@ -4719,7 +4723,7 @@
         "Now": {
             "doc": [
                 "$~Jag räknar upp ett nytt @Moment i vilken takt du än väljer, så ett program vet alltid dagens datum och den aktuella tiden.",
-                "Detta gör en lokaliserad klocka till en rad koda:",
+                "Detta gör en lokaliserad klocka till en rad @code:",
                 "\\💬(⏰() → '')\\",
                 "Som standard räknar jag upp varje sekund. Ge mig en @Now.frequency i sekunder, minuter eller timmar för att ändra takten:",
                 "\\⏰(1min)\\",
@@ -4735,7 +4739,7 @@
             },
             "timezone": {
                 "names": ["$~tidszon"],
-                "doc": "$~Ett standardnamn för tidszon för de Moment jag skapar, gjort av ett område och en stad, som \\'America/New_York'\\ eller \\'Asia/Tokyo'\\. Känner du inte till namnet? Skriv en stad du känner till, så föreslår jag den närmaste tidszonen. Om \\ø\\, använder jag tidszonen för enheten som programmet körs på."
+                "doc": "$~Ett standardnamn för tidszon för de Moment jag skapar, gjort av ett @region och en stad, som \\'America/New_York'\\ eller \\'Asia/Tokyo'\\. Känner du inte till namnet? Skriv en stad du känner till, så föreslår jag den närmaste tidszonen. Om \\ø\\, använder jag tidszonen för enheten som programmet körs på."
             },
             "calendar": {
                 "names": ["$~kalender"],
@@ -4755,7 +4759,7 @@
                 "\\📅(5786 10 4 kalender: 'hebrew') → ''\\",
                 "När jag omvandlas till @Text formateras jag för läsarens språkinställning: samma Moment visas olika på engelska, 中文 eller हिन्दी, och ändras när läsarens språkinställning ändras.",
                 "Min @Moment.era, @Moment.week och @Moment.weekday är informativa: @Now fyller i dem när den skapar Moment, men de ignoreras vid formatering.",
-                "Om du vill ha en ström av Moment som uppdateras när tiden går — en klocka — se @Now. Om du vill ha antalet millisekunder som gått sedan ditt program startade — för animering — se @Time."
+                "Om du vill ha en @stream av Moment som uppdateras när tiden går — en klocka — se @Now. Om du vill ha antalet millisekunder som gått sedan ditt program startade — för animering — se @Time."
             ],
             "names": ["$~📅", "$~Moment"],
             "year": {
@@ -4788,7 +4792,7 @@
             },
             "timezone": {
                 "names": ["$~tidszon"],
-                "doc": "$~Ett standardnamn för tidszon, gjort av ett område och en stad, som \\'America/New_York'\\, \\'Europa/Paris'\\, eller \\'Asia/Tokyo'\\. Känner du inte till namnet? Skriv en stad du känner till, så föreslår jag den närmaste tidszonen. Om \\ø\\, använder jag tidszonen för enheten som programmet körs på."
+                "doc": "$~Ett standardnamn för tidszon, gjort av ett @region och en stad, som \\'America/New_York'\\, \\'Europa/Paris'\\, eller \\'Asia/Tokyo'\\. Känner du inte till namnet? Skriv en stad du känner till, så föreslår jag den närmaste tidszonen. Om \\ø\\, använder jag tidszonen för enheten som programmet körs på."
             },
             "calendar": {
                 "names": ["$~kalender"],
@@ -5013,7 +5017,7 @@
         },
         "Part": {
             "doc": [
-                "$~Jag är ett @Track tillstånd på ett taktslag: vad det spelar, hur högt, och i vilken skala. Ett @Downbeat bär en av mig per spår, så att en visualisering kan rita varje stämma för sig i stället för mixen.",
+                "$~Jag är ett @Track @state på ett taktslag: vad det spelar, hur högt, och i vilken skala. Ett @Downbeat bär en av mig per spår, så att en visualisering kan rita varje stämma för sig i stället för mixen.",
                 "Mina värden är de som spelaren faktiskt använder, efter att varje standardval och åsidosättande har tillämpats — så min skala och nyckel är det spårets, inte musikens, när spåret sätter sina egna."
             ],
             "names": "$~Del",
@@ -5222,7 +5226,7 @@
                 "doc": [
                     "$~Ett namn du ger mig! Detta är bra för många saker.",
                     "För det första, om jag har ett namn, använder jag det för att beskriva mig själv i beskrivningar för skärmläsare.",
-                    "För det andra, när du animerar kan du ha flera olika uttryck som ska representera samma innehåll på scenen; ge dem samma namn så animeras de som ett.",
+                    "För det andra, när du animerar kan du ha flera olika @expression som ska representera samma innehåll på scenen; ge dem samma namn så animeras de som ett.",
                     "Till sist är jag användbar med @Choice: de namn du ger mig visas i den strömmen.",
                     "Du kan ge mig många olika namn, vart och ett på ett annat @language, om det är till hjälp. Jag använder alltid namnet på det första valda språket."
                 ],
@@ -5296,7 +5300,7 @@
             },
             "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
             "changing": {
-                "doc": "$~Namnet på en effekt som ska spelas när min text ändras, under min @Phrase.duration, mjukad av min @Phrase.style. Om \\ø\\, ändras min text direkt. Om 'edit' suddar jag bort den gamla texten tillbaka till det som den gamla och nya texten delar, och skriver sedan ut den nya texten. Om 'rewrite' skriver jag den nya texten över den gamla och byter ut en symbol i taget i slumpmässig ordning. Om 'random' snurrar var och en av mina symboler genom slumpmässiga symboler från min texts språk (eller dess skrift, när språket är okänt), och matchar min texts stora och små bokstäver, som en enarmad bandit, tills den landar på den nya texten. Med @FormattedLiteral-text tar de ändrade symbolerna den nya textens formatering under effekten.",
+                "doc": "$~Namnet på en effekt som ska spelas när min text ändras, under min @Phrase.duration, mjukad av min @Phrase.style. Om \\ø\\, ändras min text direkt. Om 'edit' suddar jag bort den gamla texten tillbaka till det som den gamla och nya texten delar, och skriver sedan ut den nya texten. Om 'rewrite' skriver jag den nya texten över den gamla och byter ut en symbol i taget i slumpmässig ordning. Om 'random' snurrar var och en av mina symboler genom slumpmässiga symboler från min texts @language (eller dess skrift, när språket är okänt), och matchar min texts stora och små bokstäver, som en enarmad bandit, tills den landar på den nya texten. Med @FormattedLiteral-text tar de ändrade symbolerna den nya textens formatering under effekten.",
                 "names": "$~ändras"
             },
             "bubble": {
@@ -5304,7 +5308,7 @@
                     "$~Pratbubblan som visar vad jag säger, pekar rakt på mig. Fyra olika saker kan finnas här.",
                     "Vanlig text, som jag bara visar utan mer:",
                     "\\Fras('en' bubbla: 'hej!')\\",
-                    "Formaterad text, om du vill ha *fetstilta* eller /kursiva/ ord i det jag säger.",
+                    "@markup, om du vill ha *fetstilta* eller /kursiva/ ord i det jag säger.",
                     "En @Say, som jag *både* visar och säger högt:",
                     "\\Fras('en' bubbla: Säga('hej!'))\\",
                     "En @Bubble, när du vill välja vilken sida jag pratar från, göra den till en tanke istället, eller ge den en färg."
@@ -6494,7 +6498,7 @@
             "doc": "$~Jag är en sak som kameran såg, utsänd i en @List av @Objects-strömmen. Mitt namn säger vad jag är, mitt förtroende säger hur säker modellen är, min plats säger var jag var på scenen, och min bredd och höjd säger hur stor jag såg ut.",
             "names": ["$~Sak"],
             "name": {
-                "doc": "$~Vad saken är, på ditt språk.",
+                "doc": "$~Vad saken är, på ditt @language.",
                 "names": ["$~namn"]
             },
             "confidence": {
@@ -6573,7 +6577,7 @@
                     "$~När detta är \\⊤\\ vid en utvärdering börjar jag om från början, även när ingen av mina toner har ändrats.",
                     "Detta är för ljud som svarar på en händelse i stället för att spela oavbrutet. Om ett rätt svar spelar ett pling, så ger två rätta svar i rad exakt samma musik, så inget skulle ändras och inget skulle låta igen. Jag är hur du säger /igen, nu/ — välj /rätt/ två gånger nedan så plingar det två gånger:",
                     "\\🎭([\n\t\t💬('rätt' valbara: ⊤ namn: 'rätt' plats: 📍(-2m 0m))\n\t\t💬('fel' valbara: ⊤ namn: 'fel' plats: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) spelaom: ∆ 🔘() ? (🔘() = 'rätt') ⊥)\n\t])\\",
-                    "Ge mig ett /tillfälligt/ villkor, ett som bara är sant på den utvärdering händelsen orsakade, som \\∆ 🔘()\\ ovan. Ett bestående villkor som \\score > 10\\🪲 förblir sant när det väl blir sant, så det skulle starta om mig vid varje utvärdering från och med då."
+                    "Ge mig ett /tillfälligt/ @condition, ett som bara är sant på den utvärdering händelsen orsakade, som \\∆ 🔘()\\ ovan. Ett bestående villkor som \\score > 10\\🪲 förblir sant när det väl blir sant, så det skulle starta om mig vid varje utvärdering från och med då."
                 ],
                 "names": "$~spelaom"
             },
@@ -6669,7 +6673,7 @@
                     "$~Medan detta är \\⊤\\ håller jag stilla, och när det går tillbaka till \\⊥\\ fortsätter jag från precis det taktslag jag stannade på.",
                     "Detta är det som gör mig annorlunda från @Music/replay: replay betyder /börja om/, och jag betyder /vänta här/. En ton som fortfarande lät när jag stannade spelar ut det som var kvar av den när jag börjar igen, så att stanna mitt i ett långt ackord förlorar det inte. Välj /håll/ och /gå/ nedan:",
                     "\\🎭([\n\t\t💬('håll' valbara: ⊤ namn: 'håll' plats: 📍(-2m 0m))\n\t\t💬('gå' valbara: ⊤ namn: 'gå' plats: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) paus: 🔘() = 'håll')\n\t])\\",
-                    "Till skillnad från omspelning vill jag ha ett /varaktigt/ villkor, ett som förblir sant så länge du vill ha tystnaden. Min @Beat-räkning väntar med mig och tar vid där den var, i stället för att börja om på noll."
+                    "Till skillnad från omspelning vill jag ha ett /varaktigt/ @condition, ett som förblir sant så länge du vill ha tystnaden. Min @Beat-räkning väntar med mig och tar vid där den var, i stället för att börja om på noll."
                 ],
                 "names": "$~paus"
             }
@@ -6687,7 +6691,7 @@
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
                 "Det finns fem värden: \\𝅝\\ varar fyra taktslag, \\𝅗𝅥\\ två, \\𝅘𝅥\\ ett, \\𝅘𝅥𝅮\\ ett halvt taktslag, och \\𝅘𝅥𝅯\\ en fjärdedel av ett. En punkt efter något av dem gör det hälften längre igen, så \\𝅘𝅥𝅭\\ är ett och ett halvt taktslag. En fjärdedelsnot är ett taktslag oavsett vad mitt taktslag är, vilket är varför \\slag: 1𝅘𝅥𝅮\\🪲 säger samma sak som \\0.5beats\\ och läses tydligare. På ett ackord, sätt värdet på det första numret: \\{1𝅗𝅥 3 5}\\.",
                 "De är svåra att hitta, så raden med symboler under redigeraren erbjuder dem när din markör står precis efter ett av mina nummer.",
-                "En paus kan inte bära ett värde, eftersom \\ø\\ inte är ett nummer. Två pauser i rad är dubbelt så långa, och för något finare finns @Note.",
+                "En paus kan inte bära ett @value, eftersom \\ø\\ inte är ett nummer. Två pauser i rad är dubbelt så långa, och för något finare finns @Note.",
                 "När en enda ton behöver sin egen volym, eller en längd som inget värde kan skriva, linda in just den i en @Note. Ta till den bara där du behöver den: ett naket nummer är lättare att läsa, så de flesta spår har inga alls, och just den sällsyntheten är det som gör att en @Note sticker ut som en händelse.",
                 "\\cell: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcell\n\t\t.medLista(cell.översätta(ƒ(n•#) n + 2))\n\t\t.medLista(cell.omvänt())\n\t\t.medLista(cell.översätta(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
                 "Att fylla ut med pauser är allt en runda behöver: båda delarna håller samma antal slag, så de håller takten i stället för att glida isär. Att sprida ut två listor till en med : är hur de byggs, eftersom \\append\\ kräver att båda listorna håller samma slags sak.",
@@ -6888,7 +6892,7 @@
                         "Jag är en synt, som @Instrument/synth — inte en imitation av en sångare. Min mun håller samma storlek hur högt eller lågt jag än sjunger, vilket ingen riktig strupe kan göra. Därför låter jag som en maskin som härmar en människa, och därför låter jag varken som en man eller en kvinna.",
                         "Ge min @Track en @Track/words så sjunger jag dem, en stavelse per ton. Utan någon håller jag ett /uh/-ljud, så jag sjunger alltid något.",
                         "\\🎼(🎶([1 2 3 5] ord: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
-                        "Stavelserna stavas i det <internationella fonetiska alfabetet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, ett alfabet där varje bokstav är ett /ljud/ istället för en stavning — så \\'ʃi'\\ är ljudet i början av /she/, oavsett vilket språk du skriver på. Tryck på 🤖 under redigeraren för att se alla ljud jag kan göra och höra vart och ett."
+                        "Stavelserna stavas i det <internationella fonetiska alfabetet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, ett alfabet där varje bokstav är ett /ljud/ istället för en stavning — så \\'ʃi'\\ är ljudet i början av /she/, oavsett vilket @language du skriver på. Tryck på 🤖 under redigeraren för att se alla ljud jag kan göra och höra vart och ett."
                     ],
                     "names": ["$~röst"]
                 },
@@ -6941,7 +6945,7 @@
             "names": ["$~Bubbla"],
             "text": {
                 "doc": [
-                    "$~Det jag visar. Ge mig vanlig text, eller formaterad text om du vill ha *fetstil* eller /kursiv/ text.",
+                    "$~Det jag visar. Ge mig vanlig text, eller @markup om du vill ha *fetstil* eller /kursiv/ text.",
                     "Ge mig en @Say istället, så blir jag uppläst högt och visad samtidigt. Då ersätter jag texten som annars visas längst ner vid @Stage, eftersom min text redan står bredvid den som sa den."
                 ],
                 "names": "$~text"

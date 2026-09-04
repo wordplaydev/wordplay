@@ -12,6 +12,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🌐 Code written entirely in a language that goes down the page can now be shown that way, with a button above the editor. It only appears when your code is actually written that way, and only offers the direction that language uses — so a program written in English stays as it is. (#1203)
 - 🧩 You can now choose more than one piece of code at a time. Hold shift and press an arrow to reach the next piece beside it, then delete, cut, copy, or put them all in one list or group together. (#177)
 - 🖱️ You can drag everything you've chosen at once. Press anywhere inside your choice and drag, and all of it moves together and stays chosen where it lands. (#177)
+- 📖 We added _stream_ to the glossary, so the word can tell you what it means wherever Wordplay uses it. (#960)
 
 ### Changed
 
@@ -20,6 +21,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ✍️ How your code is laid out now follows the code itself, not the language you read the app in. Before, choosing to read Wordplay top to bottom turned everyone's code sideways, even code written in English. (#1203)
 - ✍️ Pressing up on the first line now moves the cursor to the very start of your program, and down on the last line moves it to the very end.
 - 🧩 In blocks mode, holding shift and pressing up or down now chooses the code your cursor is in. Before, it scrolled the page and said the key did nothing.
+- 📖 Words like _value_, _expression_, and _stream_ now tell you what they mean the first time each [lesson](https://wordplay.dev/learn) or help page uses them, instead of many pages later or never at all. Point at the word, tab to it, or tap it. (#960)
 
 ### Fixed
 

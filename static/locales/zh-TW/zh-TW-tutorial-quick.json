@@ -18,7 +18,7 @@
                             "FunctionDefinition",
                             "cheerful",
                             "$~歡迎來到 @wordplay！聽說你已經懂一點程式設計？太好了！這個簡短的導覽會告訴你 Wordplay 哪裡相似、哪裡不同。",
-                            "$~先讓你認識畫面上的東西，這一頁顯示了 @tutorial 對話框和一個 @project 視圖。你可以看到*舞台* @UI/stage，它顯示程式的輸出；還有*編輯器* @UI/editor，它是程式的程式碼。",
+                            "$~先讓你認識畫面上的東西，這一頁顯示了 @tutorial 對話框和一個 @project 視圖。你可以看到*舞台* @UI/stage，它顯示程式的輸出；還有*@editor* @UI/editor，它是程式的程式碼。",
                             "$~這個程式是空白的，所以它的輸出只是提示你去寫一個程式。",
                             "$~還有許多其他控制項，可以暫停和播放程式，也可以編輯程式碼，但現在先別擔心那些。"
                         ],
@@ -213,7 +213,7 @@
                             "neutral",
                             "$~大多數程式語言都有方法可以接收使用者的輸入：",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
-                            "$~@wordplay 的輸入來自*串流*，它們是會隨時間改變的特殊值，會回應輸入，並讓 Wordplay 程式用串流的新值重新求值。",
+                            "$~@wordplay 的輸入來自*@stream*，它們是會隨時間改變的特殊值，會回應輸入，並讓 Wordplay 程式用串流的新值重新求值。",
                             "$~例如這個程式使用一個 @Time 串流來驅動地球表情符號的旋轉。每當 @Time() 串流跳動到一個新的 @value，程式就會用新值重新求值，並更新程式在 @Stage 上的值。"
                         ],
                         null,
@@ -261,7 +261,7 @@
                             "angry",
                             "$~其他語言會丟出*錯誤*——這是程式做了不被允許的事的徵兆：",
                             "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
-                            "$~@wordplay 把錯誤叫做*衝突*：兩件不能同時成立的事，例如在下面的程式中把一個數字和文字相加。",
+                            "$~@wordplay 把錯誤叫做*@conflict*：兩件不能同時成立的事，例如在下面的程式中把一個數字和文字相加。",
                             "$~Wordplay 會在衝突下畫底線，並把它們顯示在側邊欄 @UI/conflict 中。它也會提供解決衝突的建議，幫你修正問題。"
                         ],
                         null,
@@ -288,7 +288,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~讓我們用三個步驟做一個小小的互動式 @project。",
-                            "$~*第一步：*宣告你的資料和*串流*。這裡有一個名叫 elapsed 的 @Time 串流，它回報程式已經執行了多久。"
+                            "$~*第一步：*宣告你的資料和*@stream*。這裡有一個名叫 elapsed 的 @Time 串流，它回報程式已經執行了多久。"
                         ],
                         null,
                         {

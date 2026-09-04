@@ -179,6 +179,10 @@
         "stage": {
             "word": "$~scène",
             "definition": "$~L'espace où @wordplay montre ce que ton @code a créé."
+        },
+        "stream": {
+            "word": "$~flux",
+            "definition": "$~Un @value qui change avec le temps, comme @Time qui avance ou une @Key que l'on appuie. À chaque changement, @Program s'évalue à nouveau avec la nouvelle @value."
         }
     },
     "terms": {},
@@ -356,7 +360,7 @@
             "description": "$~langue $language[$language|non précisée]$region[, région $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Je suis une étiquette de langue et je fonctionne avec @Name et @Doc !",
+                "$~Je suis une étiquette de @language et je fonctionne avec @Name et @Doc !",
                 "Je suis vraiment doué pour montrer *très clairement* dans quelle langue quelque chose est écrit. Juste une petite barre et quelques lettres, et personne ne se demandera jamais dans quelle langue un texte est écrit.",
                 "Par exemple, si tu veux dire « Langue » mais montrer clairement que c'est en anglais :",
                 "\\'Langue'/fr\\",
@@ -501,7 +505,7 @@
             "description": "$~texte mis en forme $#count[$#count paragraphe|$count paragraphes|$count paragraphes]",
             "emotion": "serious",
             "doc": [
-                "$~Je suis une liste de paragraphes, utilisant les nombreux types de texte mis en forme disponibles dans @Doc, comme @Words, @WebLink, @ConceptLink, et @Example.",
+                "$~Je suis une liste de paragraphes, utilisant les nombreux types de @markup disponibles dans @Doc, comme @Words, @WebLink, @ConceptLink, et @Example.",
                 "Tu me trouveras dans un @Doc, et dans @FormattedLiteral :",
                 "\\¶Je suis un texte de documentation avec du texte *en gras*. Je peux faire référence à des concepts comme @Phrase et créer des liens vers <des pages sur le web@https://wordplay.dev>.¶\nPhrase(\n\t`Je suis un texte mis en forme pour @Phrase, avec du *gras*, de l'/italique/ et du _souligné_`\n)\\"
             ],
@@ -577,7 +581,7 @@
             "description": "$~exemple de code $code",
             "emotion": "serious",
             "doc": [
-                "$~Je contiens un exemple de code à l'intérieur d'un(e) @Doc, comme ceci :",
+                "$~Je contiens un exemple de @code à l'intérieur d'un(e) @Doc, comme ceci :",
                 "\\¶Voici un exemple d'addition : \\1 + 2\\¶\n3 + 4\\",
                 "Si vous utilisez des exemples dans vos comment faire, vous pouvez marquer un exemple comme un point fort.",
                 "\\¶Voici un exemple mis en avant : \\1 + 2\\⭐¶\n3 + 4\\",
@@ -598,7 +602,7 @@
             "description": "$~choix de texte mis en forme selon $condition",
             "emotion": "serious",
             "doc": [
-                "$~Je suis un moyen de choisir entre deux segments d'explication en fonction du fait qu'une valeur d'entrée d'explication est définie ou vraie.",
+                "$~Je suis un moyen de choisir entre deux segments d'explication en fonction du fait qu'une @value d'entrée d'explication est définie ou vraie.",
                 "Il s’agit principalement d’une fonctionnalité interne, vous n’avez donc pas besoin de la connaître."
             ]
         },
@@ -809,7 +813,7 @@
             "description": "$~vérification de changement sur $stream",
             "emotion": "serious",
             "doc": [
-                "$~Je vérifie si un flux a provoqué la réévaluation de @Program et crée un @Boolean. Comme ça",
+                "$~Je vérifie si un @stream a provoqué la réévaluation de @Program et crée un @Boolean. Comme ça",
                 "\\∆ Temps()\\",
                 "Je suis vraiment utile lorsque vous souhaitez que quelque chose change uniquement si un flux a changé.",
                 "C'est ça."
@@ -831,7 +835,7 @@
                 "N'as-tu pas peur que, si ce sont les seules décisions que l'on peut prendre, on passe à côté d'un contexte important du monde ?",
                 "Il y a une autre chose que je fais, et on ne me la reconnaît pas toujours. Quand mon @condition demande /quel/ genre de valeur est quelque chose, je ne réponds pas seulement oui ou non. Je garde en mémoire la réponse à l'intérieur de chacun de mes choix.",
                 "\\taille•#|'': 5\ntaille•# ? taille + 1 'trop petit'\\",
-                "Seule, cette valeur pourrait être un @Number ou du @Text, et y ajouter quelque chose serait un conflit, car ces choses s'ajoutent de façons très différentes. Mais à l'intérieur de mon /oui/, nous venons de demander si c'est un @Number, donc là c'en est un. À l'intérieur de mon /non/, c'est le @Text.",
+                "Seule, cette valeur pourrait être un @Number ou du @Text, et y ajouter quelque chose serait un @conflict, car ces choses s'ajoutent de façons très différentes. Mais à l'intérieur de mon /oui/, nous venons de demander si c'est un @Number, donc là c'en est un. À l'intérieur de mon /non/, c'est le @Text.",
                 "Peu importe comment tu demandes. Une vérification de taper, une comparaison avec une valeur précise, une vérification d'une valeur manquante, et une vérification que tu as enregistrée sous un nom me disent toutes la même chose. Et @Boolean/and, @Boolean/or et @Boolean/not les combinent comme tu t'y attends.",
                 "Il y a deux choses que je ne peux pas te dire. Si tu compares avec @Text qui a plusieurs traductions, je n'apprends rien, car la traduction que tu obtiens dépend de qui lit."
             ],
@@ -897,7 +901,7 @@
                 "\\'bonjour' → []\\",
                 "Tu peux même les enchaîner :",
                 "\\'bonjour' → [] → {}\\",
-                "Les valeurs ont un ensemble de @ConversionDefinition prédéfinies, mais si tu crées une @StructureDefinition pour un nouveau type de valeur, tu peux définir les tiennes avec @ConversionDefinition."
+                "Les valeurs ont un ensemble de @ConversionDefinition prédéfinies, mais si tu crées une @StructureDefinition pour un nouveau type de @value, tu peux définir les tiennes avec @ConversionDefinition."
             ],
             "start": "$~Obtenez cette valeur à partir de $expression!",
             "finish": "$~Génial, j'ai gagné $value",
@@ -1048,7 +1052,7 @@
             "description": "$~espace réservé pour $type[$type|une valeur]",
             "emotion": "scared",
             "doc": [
-                "$~Je suis une *expression*, mais pas une vraie… Je prends juste la place d'une.",
+                "$~Je suis une *@expression*, mais pas une vraie… Je prends juste la place d'une.",
                 "Je suis d'accord si tu ne sais pas encore quoi écrire.",
                 "\\1 + _\\🪲",
                 "Qu'est-ce qu'on ajoute ? Je ne sais pas. À vous de me le dire.",
@@ -1127,7 +1131,7 @@
                 "$~Je vous indique si l'évaluation actuelle de @Program est la première, évaluée en @Boolean. Par exemple :",
                 "\\◆ ? Time() 'hi'\\",
                 "Vous ne l'avez pas vu, mais la première évaluation était un temps, mais ensuite tous les futurs temps ont coché, j'étais \\⊥\\, donc @Conditional a fait \\⊤\\.",
-                "Je suis vraiment utile si vous travaillez avec un flux et que vous ne voulez faire quelque chose que la première fois - ou jamais la première fois!"
+                "Je suis vraiment utile si vous travaillez avec un @stream et que vous ne voulez faire quelque chose que la première fois - ou jamais la première fois!"
             ]
         },
         "Insert": {
@@ -1190,7 +1194,7 @@
             "description": "$~accéder à l'indice $index de $list",
             "emotion": "cheerful",
             "doc": [
-                "$~Je travaille en étroite collaboration avec @List pour les aider à obtenir des valeurs à une position particulière. Ainsi, si vous aviez une liste et que vous vouliez son deuxième élément, vous écririez :",
+                "$~Je travaille en étroite collaboration avec @List pour les aider à obtenir des valeurs à une position particulière. Ainsi, si vous aviez une liste et que vous vouliez son deuxième @element, vous écririez :",
                 "\\liste:['oiseau' 'canard' 'poisson' 'serpent']\nliste[2]\\"
             ],
             "start": "$~Commençons par obtenir la liste à $list",
@@ -1258,7 +1262,7 @@
             "name": "$~nombre littéral",
             "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
-            "doc": "$~Je suis un @Number spécifique. Vous pouvez m'écrire avec n'importe quel type de chiffres et dans n'importe quelle langue. Voir @Number pour tout ce que je peux faire.",
+            "doc": "$~Je suis un @Number spécifique. Vous pouvez m'écrire avec n'importe quel type de chiffres et dans n'importe quelle @language. Voir @Number pour tout ce que je peux faire.",
             "start": "$~$value!",
             "conflict": {
                 "NotANumber": {
@@ -1326,7 +1330,7 @@
                 "La valeur peut être n'importe quoi : un @Number, @Text ou @Boolean, un @List, @Set, @Map, ou même quelque chose de plus complexe, comme un @Phrase, @Group ou @Stage.",
                 "Si tu ne me donnes pas de valeur à montrer sur la scène, je t'en demanderai une.",
                 "S'il y a un problème pendant une performance, je montre ce problème.",
-                "Et si ta performance dépend d'un *flux*, je réévalue à chaque fois que ce flux change."
+                "Et si ta performance dépend d'un *@stream*, je réévalue à chaque fois que ce flux change."
             ],
             "unevaluated": "$~le nœud que vous avez choisi n'a pas été évalué",
             "start": "$~$stream[Le flux $stream a été changé en $value!|C'est ma première évaluation]",
@@ -1408,7 +1412,7 @@
             "description": "$~réaction à $condition",
             "emotion": "excited",
             "doc": [
-                "$~Je crée un nouveau flux qui se met à jour dès qu'un autre flux est modifié. Les flux, c'est génial !",
+                "$~Je crée un nouveau @stream qui se met à jour dès qu'un autre flux est modifié. Les flux, c'est génial !",
                 "Par exemple, si vous vouliez que @Time s'affiche, mais avec des mots au lieu de chiffres, vous pourriez faire quelque chose comme ceci :",
                 "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "C'est comme dire : « /commencez par le mot 'début' et ensuite, si l'heure change, passez à pair ou impair, en fonction de l'heure./ »",
@@ -1551,7 +1555,7 @@
             "name": "$~flux",
             "description": "$~flux $name",
             "emotion": "curious",
-            "doc": "$~Je définis de nouveaux types de flux. Enfin, je crois… honnêtement, je suis encore en train de chercher comment faire, alors pour l'instant, utilisez simplement les flux existants !",
+            "doc": "$~Je définis de nouveaux types de @stream. Enfin, je crois… honnêtement, je suis encore en train de chercher @how, alors pour l'instant, utilisez simplement les flux existants !",
             "start": "$~Créer ce nouveau type de flux"
         },
         "StructureDefinition": {
@@ -1693,12 +1697,12 @@
             "description": "$~cette structure",
             "emotion": "serious",
             "doc": [
-                "$~Je suis \\⬚\\, un petit carré qui représente n'importe quelle @value sur laquelle le code autour travaille, pour que tu n'aies pas à lui donner de nom.",
+                "$~Je suis \\⬚\\, un petit carré qui représente n'importe quelle @value sur laquelle le @code autour travaille, pour que tu n'aies pas à lui donner de nom.",
                 "À l'intérieur d'une @ConversionDefinition, je suis la valeur qui est convertie :",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "À l'intérieur d'une @Reaction, je suis la valeur la plus récente :",
                 "\\2 … ∆ Temps(1000ms) … ⬚ × 2\\",
-                "À l'intérieur d'un @Translate, je suis l'élément en cours de transformation, donc ceci ajoute un à chaque valeur :",
+                "À l'intérieur d'un @Translate, je suis l'@element en cours de transformation, donc ceci ajoute un à chaque valeur :",
                 "\\[1 2 3] ↦ ⬚ + 1\\",
                 "Et à l'intérieur d'un @StructureDefinition, je suis la valeur elle-même, donc je peux atteindre mes propres parties avec \\⬚.rank\\🪲, tout comme j'atteins les parties d'une autre valeur avec \\other.rank\\🪲 :",
                 "\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
@@ -1738,7 +1742,7 @@
             "description": "$~code illisible",
             "emotion": "excited",
             "doc": [
-                "$~Je suis un morceau de code qui n'a pas de sens, alors personne ne sait ce qu'il veut dire.",
+                "$~Je suis un morceau de @code qui n'a pas de sens, alors personne ne sait ce qu'il veut dire.",
                 "jkwel fjiwojvioao jjiweo jrfe",
                 "/Toutes les @expression n'ont pas de sens sur la scène./",
                 "s w ieorjwei iojwi jfkdlsfdsk",
@@ -1931,14 +1935,14 @@
             "name": "$~taper de définition de flux",
             "description": "$~type de définition de flux",
             "emotion": "angry",
-            "doc": "$~Je représente un flux que vous avez défini, ce qui n'est pas possible, alors pourquoi lisez-vous même ceci ?"
+            "doc": "$~Je représente un @stream que vous avez défini, ce qui n'est pas possible, alors pourquoi lisez-vous même ceci ?"
         },
         "StreamType": {
             "name": "$~taper de flux",
             "description": "$~type de flux",
             "emotion": "curious",
             "doc": [
-                "$~Je célèbre la beauté et la signification des flux… en disant à @Bind de les stocker:",
+                "$~Je célèbre la beauté et la signification des @stream… en disant à @Bind de les stocker:",
                 "\\time•…#ms: Heure()\\🪲"
             ]
         },
@@ -2068,7 +2072,7 @@
             "description": "$~traduire chaque valeur de $expression",
             "emotion": "excited",
             "doc": [
-                "$~Je fais la MÊME chose à CHAQUE élément d'une collection ! OH OH OH ! C'est littéralement ce que je FAIS !!",
+                "$~Je fais la MÊME chose à CHAQUE @element d'une collection ! OH OH OH ! C'est littéralement ce que je FAIS !!",
                 "Mets une collection à ma gauche, dessine ma flèche \\↦\\, puis à ma droite écris ce que chaque élément doit DEVENIR — utilise @This pour désigner l'élément que je tiens EN CE MOMENT !",
                 "\\[1 2 3] ↦ ⬚ + 1\\ te donne \\[2 3 4]\\. BOUM ! Chaque nombre, plus un, sans boucle, sans @FunctionDefinition, sans souci !",
                 "Je suis GÉNIAL pour créer une sortie @Phrase à partir de données ! Tu as une liste de noms ? \\['Ada' 'Mac' 'Tim'] ↦ 💬(⬚)\\ et maintenant il y a une phrase pour CHAQUE nom !!",
@@ -2094,7 +2098,7 @@
             "description": "$~exemple de code externe$languages[ en $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Je montre du code avec coloration syntaxique écrit dans d'autres langages de programmation, pour que les créateurs qui codent déjà puissent comparer.",
+                "$~Je montre du @code avec coloration syntaxique écrit dans d'autres langages de programmation, pour que les créateurs qui codent déjà puissent comparer.",
                 "Écrivez une variante par langage sous la forme d'une étiquette de deux lettres, une barre, puis le code, comme \\py| a = 5\\js| let a = 5;\\. Le lecteur voit celle qui correspond à la langue qu'il a choisie. Python (py), JavaScript (js) et Java (jv) sont pris en charge."
             ]
         },
@@ -2175,7 +2179,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Je correspond à un seul caractère d'un genre : \\⣿◌⣿\\ n'importe quel graphème, \\⣿_⣿\\ une lettre, \\⣿#⣿\\ un chiffre, \\⣿␣⣿\\ un espace.",
-                "Par exemple, extrais chaque code lettre-puis-chiffre d'une liste :",
+                "Par exemple, extrais chaque @code lettre-puis-chiffre d'une liste :",
                 "\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿ _ #⣿\\",
                 "Compte-moi avec un quantificateur comme \\⣿>0 #⣿\\ (un ou plusieurs chiffres), ou réduis-moi avec un @property comme \\⣿ _/greek⣿\\ (une lettre grecque)."
             ]
@@ -2224,7 +2228,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Je fais correspondre la partie suivante plusieurs fois.",
-                "Par exemple, vérifiez qu'un code postal comporte exactement cinq chiffres :",
+                "Par exemple, vérifiez qu'un @code postal comporte exactement cinq chiffres :",
                 "\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
                 "Comptez une classe comme \\⣿3 #⣿\\ (trois chiffres), un groupe comme \\⣿2 (\"ab\")⣿\\ (deux \"ab\"), ou un complément comme \\⣿2 ~#⣿\\ (deux caractères non numériques). Avec \\⣿>0 #⣿\\ je suis gourmand : j’en prends autant que possible."
             ]
@@ -2234,7 +2238,7 @@
             "description": "$~capture nommée $name",
             "emotion": "curious",
             "doc": [
-                "$~Je nomme un élément d'un match afin que vous puissiez le relire à partir de chaque @Result .",
+                "$~Je nomme un @element d'un match afin que vous puissiez le relire à partir de chaque @Result .",
                 "Par exemple, extraire l'année, le mois et le jour d'une date :",
                 "\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
                 "Réutilisez ce que j'ai capturé plus tard en écrivant à nouveau mon nom — voir @PatternBackref — comme \\⣿w:(>0 _) ␣ w⣿\\ pour trouver un mot doublé."
@@ -2264,7 +2268,7 @@
             "description": "$~groupe de motifs",
             "emotion": "curious",
             "doc": [
-                "$~Je regroupe les éléments afin qu'un nombre ou un choix s'applique à l'ensemble. Je ne capture jamais de motif ; pour cela, nommez un élément avec @PatternCapture .",
+                "$~Je regroupe les éléments afin qu'un nombre ou un choix s'applique à l'ensemble. Je ne capture jamais de motif ; pour cela, nommez un @element avec @PatternCapture .",
                 "Par exemple, vérifiez que le texte contient la syllabe « ab » répétée :",
                 "\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
                 "Comptez un groupe comme \\⣿2 (\"ab\")⣿\\ (deux \"ab\") ou offrez un choix comme \\⣿(◌ | #)⣿\\ (une lettre ou un chiffre)."
@@ -2391,7 +2395,7 @@
                 "$~Je corresponds à mes parties en ignorant les majuscules et minuscules.",
                 "Par exemple, vérifie un mot sans tenir compte de sa majuscule :",
                 "\\crier: 'BONJOUR'\ncrier ≈ ⣿ Aa(\"hello\")⣿\\",
-                "Entoure mes parties comme \\⣿ Aa(\"hi\")⣿\\ (correspond à « HI », « Hi » ou « hi »). Ajoute un @language pour ses règles, comme \\⣿ Aa/tr(\"i\")⣿\\ (i turcique), et je limite la portée d'un @PatternBackref aussi, comme \\⣿ Aa(w: (2 _) w)⣿\\."
+                "Entoure mes parties comme \\⣿ Aa(\"hi\")⣿\\ (correspond à « HI », « Hi » ou « hi »). Ajoute un @language pour ses règles, comme \\⣿ Aa/tr(\"i\")⣿\\ (i turcique), et je limite la @scope d'un @PatternBackref aussi, comme \\⣿ Aa(w: (2 _) w)⣿\\."
             ]
         },
         "PatternType": {
@@ -2411,7 +2415,7 @@
             "doc": [
                 "$~Nous sommes \\⊤\\ et \\⊥\\. \\⊤\\ est vrai. \\⊥\\ est faux. \\⊤\\ n'est pas \\⊥\\; \\⊥\\ n'est pas \\⊤\\. C'est comme ça.",
                 "Comment nous faites-vous ? Juste \\⊤\\ et \\⊥\\, rien de plus, rien de moins.",
-                "Certains utilisent le clavier (/ctrl+9/ pour \\⊤\\ et /ctrl+0/ pour \\⊥\\). Certains utilisent la recherche de caractères en bas de l'éditeur. Ou vous pouvez nous faire glisser à partir d'ici.",
+                "Certains utilisent le clavier (/ctrl+9/ pour \\⊤\\ et /ctrl+0/ pour \\⊥\\). Certains utilisent la recherche de caractères en bas de l'@editor. Ou vous pouvez nous faire glisser à partir d'ici.",
                 "Consultez notre @FunctionDefinition ci-dessous. Elles sont très logiques."
             ],
             "name": ["$~Booléen"],
@@ -2677,7 +2681,7 @@
                         "$~Je crée un nouveau @Text qui est moi, avec chaque lettre en majuscule :",
                         "\\'bonjour'.majuscule()\\",
                         "Les lettres n'ont de casse que dans certains systèmes d'écriture. Un texte écrit dans un système sans casse, comme le japonais ou l'arabe, reste donc inchangé.",
-                        "Ma balise de langue décide quelles règles utiliser. Le turc a un i pointé et un i non pointé, et seul un texte marqué comme turc les met en majuscule à la façon turque :",
+                        "Ma balise de @language décide quelles règles utiliser. Le turc a un i pointé et un i non pointé, et seul un texte marqué comme turc les met en majuscule à la façon turque :",
                         "\\'iyi'/tr.majuscule()\\",
                         "\\'iyi'.majuscule()\\"
                     ],
@@ -2690,7 +2694,7 @@
                         "\\'BONJOUR'.minuscule()\\",
                         "Mets deux textes en minuscule pour les comparer sans tenir compte des majuscules. Cela garde chaque mot qui commence par un a, qu'il soit en majuscule ou non :",
                         "\\['Pomme' 'abricot' 'Banane'].filtre(\n\tƒ(mot•'') mot.minuscule().commence('un')\n)\\",
-                        "Comme @Text/uppercase, les lettres n'ont de casse que dans certains systèmes d'écriture, et ma balise de langue décide quelles règles utiliser."
+                        "Comme @Text/uppercase, les lettres n'ont de casse que dans certains systèmes d'écriture, et ma balise de @language décide quelles règles utiliser."
                     ],
                     "names": ["$~minuscule"],
                     "inputs": []
@@ -3306,7 +3310,7 @@
             "function": {
                 "add": {
                     "doc": [
-                        "$~Je crée une nouvelle @List avec l'élément donné à la fin.",
+                        "$~Je crée une nouvelle @List avec l'@element donné à la fin.",
                         "\\['pomme' 'banane' 'mangue'].with('pastèque')\\"
                     ],
                     "names": "$~avec",
@@ -3372,7 +3376,7 @@
                 },
                 "first": {
                     "doc": [
-                        "$~Le premier élément en moi, ou @None si je suis vide.",
+                        "$~Le premier @element en moi, ou @None si je suis vide.",
                         "\\['pomme' 'banane' 'mangue'].first()\\"
                     ],
                     "names": "$~dabord",
@@ -3380,7 +3384,7 @@
                 },
                 "last": {
                     "doc": [
-                        "$~Le dernier élément en moi, ou @None si je suis vide.",
+                        "$~Le dernier @element en moi, ou @None si je suis vide.",
                         "\\['pomme' 'banane' 'mangue'].dernier()\\"
                     ],
                     "names": "$~dernier",
@@ -3388,7 +3392,7 @@
                 },
                 "has": {
                     "doc": [
-                        "$~\\⊤\\ si j'ai un élément égal à l'élément donné en moi.",
+                        "$~\\⊤\\ si j'ai un @element égal à l'élément donné en moi.",
                         "\\['pomme' 'banane' 'mangue'].has('banane')\\"
                     ],
                     "names": "$~a",
@@ -3414,7 +3418,7 @@
                 },
                 "subsequence": {
                     "doc": [
-                        "$~Je récupère une liste à l'intérieur de cette liste. Elle commence à l'@index que tu donnes et se termine au dernier élément, ou à un élément précis si tu en donnes un.",
+                        "$~Je récupère une liste à l'intérieur de cette liste. Elle commence à l'@index que tu donnes et se termine au dernier @element, ou à un élément précis si tu en donnes un.",
                         "\\['pomme' 'banane' 'mangue'].sousséquence(2)\\",
                         "\\['pomme' 'banane' 'mangue'].sousséquence(1 2)\\",
                         "Et regarde ! Si tu donnes des nombres dans le désordre, je te donne l'inverse",
@@ -3427,18 +3431,18 @@
                     "names": "$~sousséquence",
                     "inputs": [
                         {
-                            "doc": "$~L'@index du premier élément de la sous-suite que tu veux.",
+                            "doc": "$~L'@index du premier @element de la sous-suite que tu veux.",
                             "names": "$~commencer"
                         },
                         {
-                            "doc": "$~L'@index optionnel du dernier élément de la sous-suite que tu veux. Si tu n'en donnes pas, ta liste se terminera par le dernier élément de la liste.",
+                            "doc": "$~L'@index optionnel du dernier @element de la sous-suite que tu veux. Si tu n'en donnes pas, ta liste se terminera par le dernier élément de la liste.",
                             "names": "$~fin"
                         }
                     ]
                 },
                 "sansFirst": {
                     "doc": [
-                        "$~Je crée une liste sans mon premier élément.",
+                        "$~Je crée une liste sans mon premier @element.",
                         "\\['pomme' 'banane' 'mangue'].sansFirst()\\"
                     ],
                     "names": ["$~sansPremier", "$~sansPremier"],
@@ -3446,7 +3450,7 @@
                 },
                 "sansLast": {
                     "doc": [
-                        "$~Je crée une liste sans mon dernier élément.",
+                        "$~Je crée une liste sans mon dernier @element.",
                         "\\['pomme' 'banane' 'mangue'].sansLast()\\"
                     ],
                     "names": ["$~sansDernier", "$~sansDernier"],
@@ -3507,17 +3511,17 @@
                     "names": "$~traduire",
                     "inputs": [
                         {
-                            "doc": "$~La @FunctionDefinition qui traduira chaque élément.",
+                            "doc": "$~La @FunctionDefinition qui traduira chaque @element.",
                             "names": "$~traducteur"
                         }
                     ],
                     "translator": [
                         {
-                            "doc": "$~L'élément en cours de traduction.",
+                            "doc": "$~L'@element en cours de traduction.",
                             "names": "$~article"
                         },
                         {
-                            "doc": "$~Le @index de l'élément traduit.",
+                            "doc": "$~Le @index de l'@element traduit.",
                             "names": "$~indice"
                         },
                         {
@@ -3535,17 +3539,17 @@
                     "names": "$~filtre",
                     "inputs": [
                         {
-                            "doc": "$~Une @FunctionDefinition qui vérifie chaque élément, produisant \\⊤\\ s'il doit être conservé.",
+                            "doc": "$~Une @FunctionDefinition qui vérifie chaque @element, produisant \\⊤\\ s'il doit être conservé.",
                             "names": "$~vérificateur"
                         }
                     ],
                     "checker": [
                         {
-                            "doc": "$~L'élément en cours de vérification.",
+                            "doc": "$~L'@element en cours de vérification.",
                             "names": "$~article"
                         },
                         {
-                            "doc": "$~Le @index de l'élément vérifié.",
+                            "doc": "$~Le @index de l'@element vérifié.",
                             "names": "$~indice"
                         },
                         {
@@ -3563,17 +3567,17 @@
                     "names": "$~tous",
                     "inputs": [
                         {
-                            "doc": "$~La @FunctionDefinition qui produit \\⊤\\ si un élément satisfait ta @condition.",
+                            "doc": "$~La @FunctionDefinition qui produit \\⊤\\ si un @element satisfait ta @condition.",
                             "names": "$~vérificateur"
                         }
                     ],
                     "checker": [
                         {
-                            "doc": "$~L'élément en cours de vérification.",
+                            "doc": "$~L'@element en cours de vérification.",
                             "names": "$~article"
                         },
                         {
-                            "doc": "$~Le @index de l'élément vérifié.",
+                            "doc": "$~Le @index de l'@element vérifié.",
                             "names": "$~indice"
                         },
                         {
@@ -3597,11 +3601,11 @@
                     ],
                     "checker": [
                         {
-                            "doc": "$~L'élément en cours de vérification.",
+                            "doc": "$~L'@element en cours de vérification.",
                             "names": "$~article"
                         },
                         {
-                            "doc": "$~Le @index de l'élément vérifié.",
+                            "doc": "$~Le @index de l'@element vérifié.",
                             "names": "$~indice"
                         },
                         {
@@ -3612,7 +3616,7 @@
                 },
                 "find": {
                     "doc": [
-                        "$~Donne-moi une @FunctionDefinition qui prend un @value en entrée et produit un @Boolean s'il correspond à un critère, et je m'évaluerai à l'élément correspondant.",
+                        "$~Donne-moi une @FunctionDefinition qui prend un @value en entrée et produit un @Boolean s'il correspond à un critère, et je m'évaluerai à l'@element correspondant.",
                         "Par exemple, imagine que tu voulais trouver le premier animal qui contient la voyelle \\'e'\\ :",
                         "\\['chat' 'chien' 'rat' 'souris' 'poney'].trouver(\n\tƒ(animal•'') animal.a('e')\n)\\🪲"
                     ],
@@ -3625,11 +3629,11 @@
                     ],
                     "checker": [
                         {
-                            "doc": "$~L'élément en cours de vérification.",
+                            "doc": "$~L'@element en cours de vérification.",
                             "names": "$~article"
                         },
                         {
-                            "doc": "$~Le @index de l'élément vérifié.",
+                            "doc": "$~Le @index de l'@element vérifié.",
                             "names": "$~indice"
                         },
                         {
@@ -3661,11 +3665,11 @@
                             "names": "$~combinaison"
                         },
                         {
-                            "doc": "$~L'élément suivant à combiner.",
+                            "doc": "$~L'@element suivant à combiner.",
                             "names": "$~suivant"
                         },
                         {
-                            "doc": "$~Le @index de l'élément suivant",
+                            "doc": "$~Le @index de l'@element suivant",
                             "names": "$~indice"
                         },
                         {
@@ -3680,9 +3684,9 @@
                         "\\[1 5 8 0 2].trié()\\",
                         "Je peux aussi le faire pour des valeurs @Text, par ordre alphabétique. Une lettre majuscule se trie juste à côté de sa version minuscule, donc un mot n'est pas envoyé à la fin juste parce qu'il commence par une majuscule :",
                         "\\['Orange' 'kiwi' 'Banane' 'pomme'].trié()\\",
-                        "Et si tu as une liste de valeurs qui ne sont pas @Number ou @Text, tu peux me donner un @FunctionDefinition qui transforme chaque élément en @Number ou en @Text pour que je puisse le trier. Par exemple, voici une liste de listes de longueurs différentes ; si tu me donnes une fonction qui transforme chaque liste en sa longueur, je peux les trier par longueur.",
+                        "Et si tu as une liste de valeurs qui ne sont pas @Number ou @Text, tu peux me donner un @FunctionDefinition qui transforme chaque @element en @Number ou en @Text pour que je puisse le trier. Par exemple, voici une liste de listes de longueurs différentes ; si tu me donnes une fonction qui transforme chaque liste en sa longueur, je peux les trier par longueur.",
                         "\\[[1] [2 3] [4 8 12] [8]].trié(ƒ(liste3) liste3.longueur())\\",
-                        "Une fonction qui crée @Text permet de trier selon un mot que tu calcules, plutôt que selon la valeur elle-même. Ici, je trie des noms par le dernier nom :",
+                        "Une fonction qui crée @Text permet de trier selon un mot que tu calcules, plutôt que selon la @value elle-même. Ici, je trie des noms par le dernier nom :",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].trié(\n\tƒ(nom3•'') (nom3 ÷ ' ').dernier()\n)\\"
                     ],
                     "names": "$~trié",
@@ -3759,27 +3763,27 @@
                 },
                 "add": {
                     "doc": [
-                        "$~Donnez-moi un élément à ajouter et je créerai un nouveau @Set avec mes éléments et l'élément donné.",
+                        "$~Donnez-moi un @element à ajouter et je créerai un nouveau @Set avec mes éléments et l'élément donné.",
                         "\\{1 2 3} + 4\\"
                     ],
                     "names": ["add", "+"],
                     "inputs": [
                         {
-                            "doc": "$~L'élément à ajouter",
+                            "doc": "$~L'@element à ajouter",
                             "names": "$~article"
                         }
                     ]
                 },
                 "remove": {
                     "doc": [
-                        "$~Donnez-moi un élément à supprimer et je créerai un nouveau @Set sans l'élément.",
+                        "$~Donnez-moi un @element à supprimer et je créerai un nouveau @Set sans l'élément.",
                         "\\{1 2 3} - 2\\",
                         "Si je n'ai pas l'objet, je l'évaluerai simplement moi-même."
                     ],
                     "names": ["remove", "-"],
                     "inputs": [
                         {
-                            "doc": "$~L'élément à supprimer.",
+                            "doc": "$~L'@element à supprimer.",
                             "names": "$~article"
                         }
                     ]
@@ -3825,20 +3829,20 @@
                 },
                 "filter": {
                     "doc": [
-                        "$~Donnez-moi @FunctionDefinition qui prend un élément et produit \\⊤\\ s'il doit être conservé, et je créerai un @Set qui ne contient que les éléments qui répondent à vos critères.",
+                        "$~Donnez-moi @FunctionDefinition qui prend un @element et produit \\⊤\\ s'il doit être conservé, et je créerai un @Set qui ne contient que les éléments qui répondent à vos critères.",
                         "Par exemple, trouvons les nombres impairs en moi :",
                         "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
                     ],
                     "names": "filter",
                     "inputs": [
                         {
-                            "doc": "$~La @FunctionDefinition qui vérifie un élément pour voir s'il doit être conservé.",
+                            "doc": "$~La @FunctionDefinition qui vérifie un @element pour voir s'il doit être conservé.",
                             "names": "$~vérificateur"
                         }
                     ],
                     "checker": [
                         {
-                            "doc": "$~L'élément en cours de vérification.",
+                            "doc": "$~L'@element en cours de vérification.",
                             "names": "$~valeur"
                         },
                         {
@@ -3849,20 +3853,20 @@
                 },
                 "translate": {
                     "doc": [
-                        "$~Donnez-moi @FunctionDefinition qui prend un élément et produit un nouvel élément basé sur celui-ci, puis je traduirai tous les éléments en moi dans un nouveau @Set (en supprimant tous les doublons).",
+                        "$~Donnez-moi @FunctionDefinition qui prend un @element et produit un nouvel élément basé sur celui-ci, puis je traduirai tous les éléments en moi dans un nouveau @Set (en supprimant tous les doublons).",
                         "Par exemple, transformons tous mes @Number en @Text:",
                         "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
                     ],
                     "names": "translate",
                     "inputs": [
                         {
-                            "doc": "$~La @FunctionDefinition qui traduit l'un de mes éléments dans le nouvel élément que vous souhaitez.",
+                            "doc": "$~La @FunctionDefinition qui traduit l'un de mes éléments dans le nouvel @element que vous souhaitez.",
                             "names": "$~ensemble"
                         }
                     ],
                     "translator": [
                         {
-                            "doc": "$~L'élément en cours de traduction.",
+                            "doc": "$~L'@element en cours de traduction.",
                             "names": "$~valeur"
                         },
                         {
@@ -4198,7 +4202,7 @@
                     "doc": [
                         "$~Je crée un nouveau texte formaté qui est moi, avec chaque lettre en majuscule. Seuls mes mots changent ; ma mise en forme, mes liens et mes exemples restent tels quels :",
                         "\\`*salut* toi`.majuscule()\\",
-                        "Comme @Text/uppercase, les lettres n'ont de casse que dans certains systèmes d'écriture, et ma balise de langue décide quelles règles utiliser."
+                        "Comme @Text/uppercase, les lettres n'ont de casse que dans certains systèmes d'écriture, et ma balise de @language décide quelles règles utiliser."
                     ],
                     "names": ["$~majuscule"],
                     "inputs": []
@@ -4207,7 +4211,7 @@
                     "doc": [
                         "$~Je crée un nouveau texte formaté qui est moi, avec chaque lettre en minuscule. Seuls mes mots changent ; ma mise en forme, mes liens et mes exemples restent tels quels :",
                         "\\`*SALUT* TOI`.minuscule()\\",
-                        "Comme @Text/lowercase, les lettres n'ont de casse que dans certains systèmes d'écriture, et ma balise de langue décide quelles règles utiliser."
+                        "Comme @Text/lowercase, les lettres n'ont de casse que dans certains systèmes d'écriture, et ma balise de @language décide quelles règles utiliser."
                     ],
                     "names": ["$~minuscule"],
                     "inputs": []
@@ -4254,36 +4258,36 @@
         },
         "Choice": {
             "doc": [
-                "$~Il s'agit d'un flux des noms que votre public sélectionne en cliquant, en appuyant ou en appuyant sur /Entrée/ sur une @Phrase nommée.",
+                "$~Il s'agit d'un @stream des noms que votre public sélectionne en cliquant, en appuyant ou en appuyant sur /Entrée/ sur une @Phrase nommée.",
                 "/clic-clic !/",
                 "La meilleure façon de l'utiliser est donc de créer une performance avec des phrases sélectionnables nommées @Phrase , puis d'utiliser une @Reaction pour décider de ce qu'il faut faire lorsque ce nom est choisi.",
                 "Voici l'exemple le plus simple :",
                 "\\Group(\nStack() \n[\nPhrase('one' sélectionnable:⊤ nom:'1') \nPhrase('two' sélectionnable:⊤ nom:'2') \nPhrase(Choice())\n]\n)\\",
-                "Copiez ceci dans l'éditeur, puis sélectionnez l'une des deux @Phrase . Vous verrez que la troisième @Phrase affiche le nom sélectionné."
+                "Copiez ceci dans l'@editor, puis sélectionnez l'une des deux @Phrase . Vous verrez que la troisième @Phrase affiche le nom sélectionné."
             ],
             "names": ["$~Choix"]
         },
         "Button": {
             "doc": [
-                "$~Cela t'indique si le bouton principal de la souris ou du pavé tactile est pressé, sous forme d'un flux de @Boolean.",
+                "$~Cela t'indique si le bouton principal de la souris ou du pavé tactile est pressé, sous forme d'un @stream de @Boolean.",
                 "/clic clic clic/",
                 "Bien sûr, une souris ou un pavé tactile n'est pas un choix idéal pour écouter un public, car tout le monde ne peut pas en utiliser un. Le choix le plus accessible est @Choice.",
-                "Mais si tu as /vraiment/ besoin d'écouter un bouton de souris, voici comment faire. Cela fournira un flux de @Boolean, indiquant si le bouton principal est levé \\⊥\\ ou enfoncé \\⊤\\.",
+                "Mais si tu as /vraiment/ besoin d'écouter un bouton de souris, voici @how. Cela fournira un flux de @Boolean, indiquant si le bouton principal est levé \\⊥\\ ou enfoncé \\⊤\\.",
                 "Voici un exemple simple :",
                 "\\💬(Bouton() → '')\\",
-                "Ceci crée simplement un @Phrase qui est le @value du flux sous forme de texte. Si tu le copies dans l'éditeur et que tu cliques, tu le verras basculer entre \\⊥\\ et \\⊤\\."
+                "Ceci crée simplement un @Phrase qui est le @value du flux sous forme de texte. Si tu le copies dans l'@editor et que tu cliques, tu le verras basculer entre \\⊥\\ et \\⊤\\."
             ],
             "names": ["$~Bouton"],
             "down": {
                 "names": "$~verslebas",
-                "doc": "$~Si @None, le flux fournira à la fois les valeurs vers le haut et vers le bas. Si un \\⊤\\, il ne changera que lorsque le bouton est pressé. Si on donne un \\⊥\\, il ne changera que lorsque le bouton est relâché."
+                "doc": "$~Si @None, le @stream fournira à la fois les valeurs vers le haut et vers le bas. Si un \\⊤\\, il ne changera que lorsque le bouton est pressé. Si on donne un \\⊥\\, il ne changera que lorsque le bouton est relâché."
             }
         },
         "Pointer": {
             "doc": [
                 "$~Il permet de suivre où votre public pointe sur @Stage .",
                 "/whrrrrrr/",
-                "Bien sûr, ce choix n'est pas accessible à tous : tout le monde ne peut pas voir ou pointer facilement, alors assurez-vous de ne pas exclure quelqu'un de la participation en utilisant ce flux.",
+                "Bien sûr, ce choix n'est pas accessible à tous : tout le monde ne peut pas voir ou pointer facilement, alors assurez-vous de ne pas exclure quelqu'un de la participation en utilisant ce @stream.",
                 "Si vous êtes sûr que personne n'est exclu, alors utiliser @Pointer est aussi simple que de créer un flux :",
                 "\\Pointer()\\",
                 "L' @Place fourni correspondra à l'emplacement sur @Stage pointé par le pointeur."
@@ -4296,7 +4300,7 @@
                 "/clic clic/",
                 "Essaie ceci",
                 "\\Clé()\\",
-                "Tu vois comment, quand tu tapes une touche, elle apparaît sur @Stage ? Chaque fois qu'une touche est appuyée, un nouveau @Text s'ajoute au flux, décrivant la touche appuyée.",
+                "Tu vois comment, quand tu tapes une touche, elle apparaît sur @Stage ? Chaque fois qu'une touche est appuyée, un nouveau @Text s'ajoute au @stream, décrivant la touche appuyée.",
                 "Pour une touche qui représente un caractère, la @value sera le caractère sous forme de @Text.",
                 "Pour les touches spéciales, comme la touche /Échap/, ce sera @Text qui décrit la touche, en utilisant un <nom prédéfini@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, disponible malheureusement seulement en anglais.",
                 "Si tu veux seulement connaître une touche particulière, tu peux la fournir :",
@@ -4385,7 +4389,7 @@
             "names": ["$~Temps"],
             "frequency": {
                 "names": ["$~fréquence"],
-                "doc": "$~Il s'agit de la fréquence à laquelle le temps doit s'écouler. La valeur par défaut est de \\33ms\\, soit environ 30 fois par seconde."
+                "doc": "$~Il s'agit de la fréquence à laquelle le temps doit s'écouler. La @value par défaut est de \\33ms\\, soit environ 30 fois par seconde."
             },
             "relative": {
                 "names": ["$~relatif"],
@@ -4394,7 +4398,7 @@
         },
         "Volume": {
             "doc": [
-                "$~Il s'agit d'un flux de données représentant le niveau sonore du microphone, de 0 à 1.",
+                "$~Il s'agit d'un @stream de données représentant le niveau sonore du microphone, de 0 à 1.",
                 "/bzzzzzzz/",
                 "L'échantillonnage s'effectue à la fréquence de votre choix. Par défaut, la fréquence est \\30hz\\ , soit 30 fois par seconde, mais vous pouvez la modifier à une fréquence inférieure.",
                 "\\Volume()\\",
@@ -4408,7 +4412,7 @@
         },
         "Pitch": {
             "doc": [
-                "$~Il s'agit d'un flux de fréquences provenant du microphone, en hertz.",
+                "$~Il s'agit d'un @stream de fréquences provenant du microphone, en hertz.",
                 "/hummmmm/",
                 "L'échantillonnage se fait à la fréquence de votre choix. La voix humaine se situe entre 20 Hz et 5 000 Hz ; prévoyez donc des valeurs dans cette plage.",
                 "\\Pitch()\\",
@@ -4475,13 +4479,13 @@
             "doc": [
                 "$~Elle affiche une @List de @Phrase ou @Group une à une, en s'arrêtant sur la dernière.",
                 "/Boop boop boop/",
-                "Pour contrôler la durée d'affichage, vous pouvez définir la propriété @Phrase.duration de chaque sortie ; elle s'affichera alors pendant cette durée avant de passer à la suivante, en utilisant les transitions @Phrase.entering ou @Phrase.exiting que vous avez éventuellement configurées. Si vous les définissez sur une @Sequence , c'est sa durée qui sera utilisée.",
+                "Pour contrôler la durée d'affichage, vous pouvez définir la @property @Phrase.duration de chaque sortie ; elle s'affichera alors pendant cette durée avant de passer à la suivante, en utilisant les transitions @Phrase.entering ou @Phrase.exiting que vous avez éventuellement configurées. Si vous les définissez sur une @Sequence , c'est sa durée qui sera utilisée.",
                 "Tout cela vous permet de faire des choses comme cette petite @Scene , qui affiche ces trois phrases à l'unisson :",
                 "\\Scene([\n\tPhrase('Hello' durée: 1s)\n\tPhrase('How are you?' durée: 2s rotation: 5° entrer: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
                 "Vous voyez comment la première image est affichée pendant une seconde, puis la suivante pendant deux secondes, mais avec une rotation de cinq degrés, et enfin la dernière ?",
                 "Vous pouvez créer des séquences de sortie et d'animations très élaborées avec @Scene , et même rendre certaines parties dynamiques ou interactives, comme avec n'importe quelle autre @Phrase ou @Group .",
                 "Si vous avez une sortie animée imbriquée (un @Group avec @Phrase animée à l'intérieur), @Scene attendra que tout le contenu animé du @Group soit terminé.",
-                "Ah, et un dernier petit secret ! Vous pouvez même inclure @Boolean dans la liste, et si les valeurs sont \\⊥\\ , la @Scene se mettra en pause et attendra que la condition devienne vraie.",
+                "Ah, et un dernier petit secret ! Vous pouvez même inclure @Boolean dans la liste, et si les valeurs sont \\⊥\\ , la @Scene se mettra en pause et attendra que la @condition devienne vraie.",
                 "Par exemple, si vous souhaitez créer une séquence de @Phrase et ne passer à la suivante que lorsque @Button change, vous pouvez procéder comme suit :",
                 "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' durée: 0.25s rotation: 5° entrer: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
                 "Vous voyez comment il fait une pause après chaque @Phrase et attend que @Button change avant de passer à l'étape suivante ?"
@@ -4494,7 +4498,7 @@
         },
         "Chat": {
             "doc": [
-                "$~Il s'agit d'un flux de messages @Text que votre public saisit.",
+                "$~Il s'agit d'un @stream de messages @Text que votre public saisit.",
                 "Par exemple, ce programme simple vérifie si le message est « bonjour », et si c'est le cas, il renvoie « salut ». Sinon, il renvoie « hein ? »",
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "Et voilà ! Vous pouvez créer toutes sortes de performances avec ça, comme des chatbots, des aventures textuelles ou des systèmes de contrôle textuels pour d'autres types de performances."
@@ -4510,7 +4514,7 @@
                 "\\💬('salut' lieu: ✥())\\",
                 "Ensuite, chaque fois que le public utilise une @key fléchée ou clique ou touche la scène, le @Placement créera un nouveau @Place qui se déplace dans la direction voulue.",
                 "Essaie de copier ceci dans ton programme et de déplacer le @Output avec le pointeur ou le clavier.",
-                "Tu peux personnaliser le @Placement, en activant et désactivant le mouvement sur certaines dimensions, en changeant la distance qu'un @Place parcourt, et le @Place initial par lequel le flux commence."
+                "Tu peux personnaliser le @Placement, en activant et désactivant le mouvement sur certaines dimensions, en changeant la distance qu'un @Place parcourt, et le @Place initial par lequel le @stream commence."
             ],
             "names": ["$~✥", "$~Placement"],
             "inputs": [
@@ -4540,7 +4544,7 @@
             "doc": [
                 "$~Il récupère le texte à une adresse web que tu lui donnes.",
                 "Internet est fascinant — tout un monde d'ordinateurs connectés qui partagent des documents entre eux.",
-                "Ce flux s'y connecte — donne-lui une URL, comme ceci :",
+                "Ce @stream s'y connecte — donne-lui une URL, comme ceci :",
                 "\\Pageweb('https://wordplay.dev')\\",
                 "Et il paraît qu'il existe une chose appelée <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, qui te permet de @query des choses sur une page web ? Donne-lui une requête de sélection CSS et il récupérera seulement le texte qui correspond à cette requête. Comme cet exemple, qui récupère les titres de niveau un.",
                 "\\Pageweb('https://wordplay.dev' 'h1')\\",
@@ -4570,7 +4574,7 @@
         "Collision": {
             "names": "$~Collision",
             "doc": [
-                "$~C'est un flux de valeurs @Rebound pour quand des @Output nommés se heurtent.",
+                "$~C'est un @stream de valeurs @Rebound pour quand des @Output nommés se heurtent.",
                 "Pour que deux @Output se remarquent, donne-leur un nom à tous les deux, puis donne-moi les deux noms. Je créerai un nouveau @Rebound chaque fois qu'ils se touchent. Ils n'ont pas besoin de @Matter pour cela — un nom suffit pour que je surveille quelque chose.",
                 "Donne-moi plutôt un seul nom, et je te dirai chaque fois que ce @Output touche autre chose dans le monde physique. Un @Output est dans le monde physique s'il a @Matter, si un @Motion le place, s'il est un @Shape directement sur le @Stage, ou si je surveille aussi son nom.",
                 "Remarquer n'est pas la même chose que rebondir. @Output ne pousse d'autres @Output que s'il a @Matter et un @Motion qui le fait bouger. @Output que ton programme place va exactement là où tu l'as mis, donc il traverse tout ce qu'il touche — je te parlerai quand même du contact.",
@@ -4621,9 +4625,9 @@
                 "Il utilise la reconnaissance vocale de ton navigateur pour écouter ce que tu dis et le transformer en mots (n'est-ce pas génial ?!).",
                 "\\Discours()\\",
                 "C'est parfait pour ceux qui peuvent parler une @language mais apprennent encore à la lire ou l'écrire (et plus encore)...",
-                "Tu peux préciser un code de langue pour reconnaître la parole dans une langue particulière :",
+                "Tu peux préciser un @code de langue pour reconnaître la parole dans une langue particulière :",
                 "\\Discours(langue: 'es-MX')\\",
-                "Si aucune langue n'est indiquée, la valeur par défaut est ta langue préférée.",
+                "Si aucune langue n'est indiquée, la @value par défaut est ta langue préférée.",
                 "La reconnaissance vocale a besoin d'un accès au microphone et d'une connexion Internet (donne l'accès, s'il te plaît !). De plus, il peut y avoir des limites d'utilisation, alors ne la laisse pas activée trop longtemps (nooooon) !"
             ],
             "names": ["$~Discours", "$~Voix"],
@@ -4633,7 +4637,7 @@
             },
             "language": {
                 "names": ["$~langue", "$~langue"],
-                "doc": "$~Un code de @language BCP 47 (par exemple, « en-US »). Si ta reconnaissance vocale ne le prend pas en charge, tu obtiendras une erreur. La valeur par défaut est ta langue préférée."
+                "doc": "$~Un @code de @language BCP 47 (par exemple, « en-US »). Si ta reconnaissance vocale ne le prend pas en charge, tu obtiendras une erreur. La @value par défaut est ta langue préférée."
             },
             "limit": {
                 "names": ["$~limite", "$~mots"],
@@ -4706,7 +4710,7 @@
                     "names": "$~italique"
                 },
                 {
-                    "doc": "$~La distance en mètres entre les points échantillonnés le long du contour est constante, aussi bien sur les lignes que sur les courbes. Plus la valeur est petite, plus le tracé est précis, jusqu'à un minimum de 0,01 mètre.",
+                    "doc": "$~La distance en mètres entre les points échantillonnés le long du contour est constante, aussi bien sur les lignes que sur les courbes. Plus la @value est petite, plus le tracé est précis, jusqu'à un minimum de 0,01 mètre.",
                     "names": "$~espacement"
                 },
                 {
@@ -4724,7 +4728,7 @@
         "Now": {
             "doc": [
                 "$~Je fais avancer un nouveau @Moment au rythme que tu choisis, pour qu'un programme connaisse toujours la date d'aujourd'hui et l'heure actuelle.",
-                "Cela permet de faire une horloge locale en une seule ligne de code :",
+                "Cela permet de faire une horloge locale en une seule ligne de @code :",
                 "\\💬(⏰() → '')\\",
                 "Par défaut, j'avance chaque seconde. Donne-moi une @Now.frequency en secondes, en minutes ou en heures pour changer le rythme :",
                 "\\⏰(1min)\\",
@@ -4740,11 +4744,11 @@
             },
             "timezone": {
                 "names": ["$~fuseauHoraire"],
-                "doc": "$~Un nom standard de fuseau horaire pour les Moments que je crée, composé d'une région et d'une ville, comme \\'America/New_York'\\ ou \\'Asie/Tokyo'\\. Tu ne connais pas le nom ? Écris une ville que tu connais et je te proposerai le fuseau horaire le plus proche. Si \\ø\\, j'utilise le fuseau horaire de l'appareil sur lequel le programme s'exécute."
+                "doc": "$~Un nom standard de fuseau horaire pour les Moments que je crée, composé d'une @region et d'une ville, comme \\'America/New_York'\\ ou \\'Asie/Tokyo'\\. Tu ne connais pas le nom ? Écris une ville que tu connais et je te proposerai le fuseau horaire le plus proche. Si \\ø\\, j'utilise le fuseau horaire de l'appareil sur lequel le programme s'exécute."
             },
             "calendar": {
                 "names": ["$~calendrier"],
-                "doc": "$~Un nom de calendrier Unicode pour les Moments que je fais, comme \\'gregory'\\, \\'hébreu'\\, \\'chinois'\\, ou \\'japonais'\\. Si \\ø\\, j'utilise le calendrier de la région du lecteur."
+                "doc": "$~Un nom de calendrier Unicode pour les Moments que je fais, comme \\'gregory'\\, \\'hébreu'\\, \\'chinois'\\, ou \\'japonais'\\. Si \\ø\\, j'utilise le calendrier de la @region du lecteur."
             }
         },
         "Moment": {
@@ -4756,11 +4760,11 @@
                 "\\📅(heure: 15 minute: 30) → ''\\",
                 "Si tu ne me donnes aucune partie, je me convertis en la date et l'heure actuelles, là où le programme s'exécute. Si tu laisses de côté des parties, toute partie plus grande que la plus grande que tu as donnée provient de la date et de l'heure actuelles, et les parties plus petites commencent à leur début : ainsi \\📅(mois: 12) → ''\\ est le 1er décembre de cette année, à minuit. Ma conversion montre seulement les types de parties que tu as donnés : les parties de date font une date, les parties d'heure font une heure, et les deux font les deux :",
                 "\\📅() → ''\\",
-                "Ma @Moment.timezone prend un nom de fuseau horaire IANA standard comme \\'America/Los_Angeles'\\ ou \\'Asie/Tokyo'\\ ; si tu la laisses \\ø\\, j'utilise le fuseau horaire de l'appareil sur lequel le programme s'exécute. Mon @Moment.calendar prend un nom de calendrier Unicode comme \\'gregory'\\, \\'hébreu'\\, ou \\'japonais'\\ ; si tu le laisses \\ø\\, j'utilise le calendrier de la région du lecteur. Mon @Moment.year, @Moment.month et @Moment.day sont dans ce calendrier :",
+                "Ma @Moment.timezone prend un nom de fuseau horaire IANA standard comme \\'America/Los_Angeles'\\ ou \\'Asie/Tokyo'\\ ; si tu la laisses \\ø\\, j'utilise le fuseau horaire de l'appareil sur lequel le programme s'exécute. Mon @Moment.calendar prend un nom de calendrier Unicode comme \\'gregory'\\, \\'hébreu'\\, ou \\'japonais'\\ ; si tu le laisses \\ø\\, j'utilise le calendrier de la @region du lecteur. Mon @Moment.year, @Moment.month et @Moment.day sont dans ce calendrier :",
                 "\\📅(5786 10 4 calendrier: 'hebrew') → ''\\",
                 "Me convertir en @Text me met en forme pour la région du lecteur : le même Moment s'affiche différemment en anglais, en 中文 ou en हिन्दी, et change quand la région du lecteur change.",
                 "Mes @Moment.era, @Moment.week et @Moment.weekday sont informatifs : @Now les remplit quand il crée des Moments, mais ils sont ignorés lors de la mise en forme.",
-                "Si tu veux un flux de Moments qui se met à jour au fil du temps — une horloge — regarde @Now. Si tu veux les millisecondes écoulées depuis le démarrage de ton programme — pour l'animation — regarde @Time."
+                "Si tu veux un @stream de Moments qui se met à jour au fil du temps — une horloge — regarde @Now. Si tu veux les millisecondes écoulées depuis le démarrage de ton programme — pour l'animation — regarde @Time."
             ],
             "names": ["$~📅", "$~Moment"],
             "year": {
@@ -4793,11 +4797,11 @@
             },
             "timezone": {
                 "names": ["$~fuseauHoraire"],
-                "doc": "$~Un nom standard de fuseau horaire, composé d'une région et d'une ville, comme \\'America/New_York'\\, \\'Europe/Paris'\\, ou \\'Asie/Tokyo'\\. Tu ne connais pas le nom ? Écris une ville que tu connais et je te proposerai le fuseau horaire le plus proche. Si \\ø\\, j'utilise le fuseau horaire de l'appareil sur lequel le programme s'exécute."
+                "doc": "$~Un nom standard de fuseau horaire, composé d'une @region et d'une ville, comme \\'America/New_York'\\, \\'Europe/Paris'\\, ou \\'Asie/Tokyo'\\. Tu ne connais pas le nom ? Écris une ville que tu connais et je te proposerai le fuseau horaire le plus proche. Si \\ø\\, j'utilise le fuseau horaire de l'appareil sur lequel le programme s'exécute."
             },
             "calendar": {
                 "names": ["$~calendrier"],
-                "doc": "$~Un nom de calendrier Unicode, comme \\'gregory'\\, \\'hébreu'\\, \\'chinois'\\, ou \\'japonais'\\. Si \\ø\\, le calendrier de la région du lecteur."
+                "doc": "$~Un nom de calendrier Unicode, comme \\'gregory'\\, \\'hébreu'\\, \\'chinois'\\, ou \\'japonais'\\. Si \\ø\\, le calendrier de la @region du lecteur."
             },
             "era": {
                 "names": ["$~ère"],
@@ -5024,13 +5028,13 @@
                 "names": "$~gamme"
             },
             "parts": {
-                "doc": "$~Une @Part pour chaque @Track, dans l'ordre où elles ont été écrites, qu'elle sonne ou non. C'est tout l'état de la musique à ce temps.",
+                "doc": "$~Une @Part pour chaque @Track, dans l'ordre où elles ont été écrites, qu'elle sonne ou non. C'est tout l'@state de la musique à ce temps.",
                 "names": "$~parties"
             }
         },
         "Part": {
             "doc": [
-                "$~Je suis l'état d'une @Track à un temps : ce qu'elle joue, à quel volume, et dans quelle gamme. Un @Downbeat porte un exemplaire de moi par piste, pour qu'une visualisation puisse dessiner chaque voix séparément plutôt que le mélange.",
+                "$~Je suis l'@state d'une @Track à un temps : ce qu'elle joue, à quel volume, et dans quelle gamme. Un @Downbeat porte un exemplaire de moi par piste, pour qu'une visualisation puisse dessiner chaque voix séparément plutôt que le mélange.",
                 "Mes valeurs sont celles que le lecteur utilise vraiment, une fois toutes les valeurs par défaut et tous les remplacements appliqués. Ma gamme et ma clé sont donc celles de cette piste, pas celles de la musique, quand la piste fixe les siennes."
             ],
             "names": "$~Partie",
@@ -5360,7 +5364,7 @@
                     "$~Un nom que tu me donnes ! C'est utile pour beaucoup de choses.",
                     "D'abord, si j'ai un nom, je l'utiliserai pour me décrire dans les descriptions du lecteur d'écran.",
                     "Ensuite, lors d'une animation, tu peux avoir plusieurs expressions différentes censées représenter le même contenu sur la scène ; donne-leur le même nom et elles s'animeront comme une seule.",
-                    "Enfin, je suis utile avec @Choice : les noms que tu me donnes apparaissent dans ce flux.",
+                    "Enfin, je suis utile avec @Choice : les noms que tu me donnes apparaissent dans ce @stream.",
                     "Tu peux me donner plusieurs noms différents, chacun dans une @language différente, si c'est utile. J'utiliserai toujours le nom dans la première langue sélectionnée."
                 ],
                 "names": "$~nom"
@@ -5427,7 +5431,7 @@
             },
             "defaultDescription": "$~$size[$size mètre |]phrase $text $name[nommé $name|] $face[$face|] $animation $color[$color|] $bubble[disant $bubble|]",
             "changing": {
-                "doc": "$~Le nom d'un effet à jouer quand mon texte change, pendant ma @Phrase.duration, adouci par mon @Phrase.style. Si \\ø\\, mon texte change instantanément. Si 'edit', j'efface l'ancien texte jusqu'à ce que l'ancien et le nouveau texte partagent en commun, puis j'écris le nouveau texte. Si 'rewrite', j'écris le nouveau texte par-dessus l'ancien, en remplaçant un symbole à la fois dans un ordre aléatoire. Si 'random', chacun de mes symboles tourne à travers des symboles aléatoires de la langue de mon texte (ou de son écriture, quand la langue est inconnue), en respectant la casse de mon texte, comme une machine à sous, jusqu'à ce qu'il s'arrête sur le nouveau texte. Avec du texte @FormattedLiteral, les symboles qui changent prennent la mise en forme du nouveau texte pendant l'effet.",
+                "doc": "$~Le nom d'un effet à jouer quand mon texte change, pendant ma @Phrase.duration, adouci par mon @Phrase.style. Si \\ø\\, mon texte change instantanément. Si 'edit', j'efface l'ancien texte jusqu'à ce que l'ancien et le nouveau texte partagent en commun, puis j'écris le nouveau texte. Si 'rewrite', j'écris le nouveau texte par-dessus l'ancien, en remplaçant un symbole à la fois dans un ordre aléatoire. Si 'random', chacun de mes symboles tourne à travers des symboles aléatoires de la @language de mon texte (ou de son écriture, quand la langue est inconnue), en respectant la casse de mon texte, comme une machine à sous, jusqu'à ce qu'il s'arrête sur le nouveau texte. Avec du texte @FormattedLiteral, les symboles qui changent prennent la mise en forme du nouveau texte pendant l'effet.",
                 "names": "$~changer"
             },
             "bubble": {
@@ -5435,7 +5439,7 @@
                     "$~La bulle de dialogue qui montre ce que je dis, pointée juste vers moi. Quatre choses différentes peuvent aller ici.",
                     "Du texte simple, que je montre et rien de plus :",
                     "\\Phrase('un' bulle: 'salut !')\\",
-                    "Du texte mis en forme, si tu veux des mots en *gras* ou en /italique/ dans ce que je dis.",
+                    "Du @markup, si tu veux des mots en *gras* ou en /italique/ dans ce que je dis.",
                     "Un @Say, que je montre *et* que je dis à voix haute :",
                     "\\Phrase('un' bulle: Dire('salut !'))\\",
                     "Un @Bubble, quand tu veux choisir de quel côté je parle, en faire une pensée à la place, ou lui donner une couleur."
@@ -5671,7 +5675,7 @@
         "Pose": {
             "names": ["$~🤪", "$~Pose"],
             "doc": [
-                "$~Je capture une @Pose que @Output doit maintenir, et je suis l'élément de base de ses mouvements. Vous savez, quand quelqu'un prend une posture incroyable, marque une pause, et que tout le monde le regarde ? C'est moi.",
+                "$~Je capture une @Pose que @Output doit maintenir, et je suis l'@element de base de ses mouvements. Vous savez, quand quelqu'un prend une posture incroyable, marque une pause, et que tout le monde le regarde ? C'est moi.",
                 "Une pose réussie repose sur de nombreux éléments. Découvrez mes différentes suggestions pour trouver l'inspiration et créer des poses originales !"
             ],
             "style": {
@@ -5679,36 +5683,36 @@
                 "names": "$~style"
             },
             "color": {
-                "doc": "$~La @Color a @Output doit être dans cette pose, au lieu de sa valeur par défaut.",
+                "doc": "$~La @Color a @Output doit être dans cette pose, au lieu de sa @value par défaut.",
                 "names": "$~couleur"
             },
             "opacity": {
-                "doc": "$~La transparence d'une @Output doit être comprise entre \\0\\ et \\1\\, au lieu de sa valeur par défaut. Utile pour les fondus entrants et sortants.",
+                "doc": "$~La transparence d'une @Output doit être comprise entre \\0\\ et \\1\\, au lieu de sa @value par défaut. Utile pour les fondus entrants et sortants.",
                 "names": "$~opacité"
             },
             "offset": {
-                "doc": "$~Un @Place indiquant à quel point il doit être décalé par rapport à l'emplacement d'un @Output, au lieu de sa valeur par défaut. Utile pour bouger sur place.",
+                "doc": "$~Un @Place indiquant à quel point il doit être décalé par rapport à l'emplacement d'un @Output, au lieu de sa @value par défaut. Utile pour bouger sur place.",
                 "names": "$~compenser"
             },
             "rotation": {
-                "doc": "$~La rotation que doit subir un @Output, au lieu de sa valeur par défaut.",
+                "doc": "$~La rotation que doit subir un @Output, au lieu de sa @value par défaut.",
                 "names": "$~rotation"
             },
             "scale": {
-                "doc": "$~L'agrandissement que doit avoir un @Output par rapport à sa taille d'origine, au lieu de sa valeur par défaut.",
+                "doc": "$~L'agrandissement que doit avoir un @Output par rapport à sa taille d'origine, au lieu de sa @value par défaut.",
                 "names": "$~échelle"
             },
             "flipx": {
-                "doc": "$~Si une @Output doit être mise en miroir sur l'axe des x, au lieu de sa valeur par défaut.",
+                "doc": "$~Si une @Output doit être mise en miroir sur l'axe des x, au lieu de sa @value par défaut.",
                 "names": "$~flipx"
             },
             "flipy": {
-                "doc": "$~Si une @Output doit être mise en miroir sur l'axe des Y, au lieu de sa valeur par défaut.",
+                "doc": "$~Si une @Output doit être mise en miroir sur l'axe des Y, au lieu de sa @value par défaut.",
                 "names": "$~flippant"
             },
             "description": "$~$opacity[transparent $opacity|] $rotation[pivoté $rotation degrés|] $scale[mis à l'échelle $scale|] $flipx[retourné horizontalement|] $flipy[retourné verticalement|] $blur[ombre floue $blur pixels|]",
             "music": {
-                "doc": "$~Le @Music que je dois jouer quand mon état d'animation commence, ou quand un @Sequence m'atteint. Un son court, c'est le but ; je ne le joue qu'une seule fois.",
+                "doc": "$~Le @Music que je dois jouer quand mon @state d'animation commence, ou quand un @Sequence m'atteint. Un son court, c'est le but ; je ne le joue qu'une seule fois.",
                 "names": "$~musique"
             }
         },
@@ -6375,7 +6379,7 @@
             "defaultDescription": "$~Dites $text"
         },
         "Gesture": {
-            "doc": "$~Je suis une image d'une pose de main détectée par la caméra, émise par le flux @Hand. Ma place te dit où est la main sur la scène, mes doigts te disent combien sont tendus, mon ouvert est vrai quand la main est ouverte (3 doigts ou plus tendus), et mon pouce, @index, majeur, annulaire et auriculaire disent chacun quels doigts précis sont tendus. Ma paume est vraie quand la paume fait face à la caméra, et fausse quand c'est le dos de la main.",
+            "doc": "$~Je suis une image d'une pose de main détectée par la caméra, émise par le @stream @Hand. Ma place te dit où est la main sur la scène, mes doigts te disent combien sont tendus, mon ouvert est vrai quand la main est ouverte (3 doigts ou plus tendus), et mon pouce, @index, majeur, annulaire et auriculaire disent chacun quels doigts précis sont tendus. Ma paume est vraie quand la paume fait face à la caméra, et fausse quand c'est le dos de la main.",
             "names": ["$~Geste"],
             "place": {
                 "doc": "$~Où se trouve la main sur scène.",
@@ -6448,7 +6452,7 @@
             "random": "$~aléatoire"
         },
         "Expression": {
-            "doc": "$~Je suis un instantané d'une expression du visage détectée par la caméra, émis par le flux @Face. Ma position te dit où se trouve le visage sur la scène. Mes @Expression.leftEyeOpen, @Expression.rightEyeOpen et @Expression.eyesOpen disent si les yeux sont ouverts. Mes @Expression.mouthOpen, @Expression.smiling, @Expression.frowning et @Expression.browsRaised disent ce que fait le visage, et chacun a une quantité correspondante (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) de 0 à 1 selon son intensité. Mes @Expression.turn et @Expression.tilt disent dans quelle direction la tête est tournée, en degrés.",
+            "doc": "$~Je suis un instantané d'une expression du visage détectée par la caméra, émis par le @stream @Face. Ma position te dit où se trouve le visage sur la scène. Mes @Expression.leftEyeOpen, @Expression.rightEyeOpen et @Expression.eyesOpen disent si les yeux sont ouverts. Mes @Expression.mouthOpen, @Expression.smiling, @Expression.frowning et @Expression.browsRaised disent ce que fait le visage, et chacun a une quantité correspondante (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) de 0 à 1 selon son intensité. Mes @Expression.turn et @Expression.tilt disent dans quelle direction la tête est tournée, en degrés.",
             "names": ["$~😀", "$~Expression"],
             "place": {
                 "doc": "$~Où se trouve le visage sur la scène.",
@@ -6508,10 +6512,10 @@
             }
         },
         "Thing": {
-            "doc": "$~Je suis une chose que la caméra a vue. Le flux @Objects m'envoie dans une @List. Mon nom dit ce que je suis. Ma confiance dit à quel point le modèle est sûr. Ma place dit où j'étais sur la scène. Ma largeur et ma hauteur disent quelle taille j'avais.",
+            "doc": "$~Je suis une chose que la caméra a vue. Le @stream @Objects m'envoie dans une @List. Mon nom dit ce que je suis. Ma confiance dit à quel point le modèle est sûr. Ma place dit où j'étais sur la scène. Ma largeur et ma hauteur disent quelle taille j'avais.",
             "names": ["$~Chose"],
             "name": {
-                "doc": "$~Ce qu'est la chose, dans ta langue.",
+                "doc": "$~Ce qu'est la chose, dans ta @language.",
                 "names": ["$~nom"]
             },
             "confidence": {
@@ -6544,7 +6548,7 @@
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
                 "Donne-moi une liste de pistes et elles jouent en même temps, chacune avec son propre instrument, sa vitesse et son volume. Ici, une grosse caisse et une caisse claire tiennent le temps pendant qu'un charleston va deux fois plus vite — une polyrythmie faite d'un seul nombre. Les tambours forment un ensemble, pas des notes de hauteur précise, donc leurs nombres choisissent des pièces de l'ensemble au lieu de notes :",
                 "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 battement: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
-                "Des nombres entre accolades sonnent ensemble comme un accord, et une valeur de note écrite sur un nombre donne à cette entrée sa propre durée. Ici, deux accords de rondes tiennent en dessous d'une mélodie qui bouge :",
+                "Des nombres entre accolades sonnent ensemble comme un accord, et une @value de note écrite sur un nombre donne à cette entrée sa propre durée. Ici, deux accords de rondes tiennent en dessous d'une mélodie qui bouge :",
                 "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
                 "Tout ce qui produit des nombres peut faire de la musique. Cette mélodie se mélange dans un nouvel ordre, et suit le volume de ta voix quand tu parles :",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].mélangé())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
@@ -6590,7 +6594,7 @@
                     "$~Quand ceci est \\⊤\\ lors d'une évaluation, je recommence depuis le début, même si aucune de mes notes n'a changé.",
                     "C'est pour un son qui répond à un événement plutôt que de jouer en continu. Si une bonne réponse joue un ding, alors deux bonnes réponses de suite produisent exactement la même musique, donc rien ne changerait et rien ne sonnerait à nouveau. Je suis la façon de dire /encore, maintenant/. Choisis /juste/ deux fois ci-dessous et ça fait ding deux fois :",
                     "\\🎭([\n\t\t💬('correct' sélectionnable: ⊤ nom: 'correct' lieu: 📍(-2m 0m))\n\t\t💬('faux' sélectionnable: ⊤ nom: 'faux' lieu: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 boucle: ⊥) rejouer: ∆ 🔘() ? (🔘() = 'correct') ⊥)\n\t])\\",
-                    "Donne-moi une condition momentanée, une qui n'est vraie que lors de l'évaluation causée par l'événement, comme le \\∆ 🔘()\\ ci-dessus. Une condition durable comme \\score > 10\\🪲 reste vraie une fois qu'elle devient vraie, donc elle me redémarrerait à chaque évaluation à partir de là."
+                    "Donne-moi une @condition momentanée, une qui n'est vraie que lors de l'évaluation causée par l'événement, comme le \\∆ 🔘()\\ ci-dessus. Une condition durable comme \\score > 10\\🪲 reste vraie une fois qu'elle devient vraie, donc elle me redémarrerait à chaque évaluation à partir de là."
                 ],
                 "names": "$~rejouer"
             },
@@ -6604,7 +6608,7 @@
             },
             "scales": {
                 "major": {
-                    "doc": "$~La gamme majeure, ma valeur par défaut : joyeuse et familière.",
+                    "doc": "$~La gamme majeure, ma @value par défaut : joyeuse et familière.",
                     "names": "$~majeur"
                 },
                 "minor": {
@@ -6686,7 +6690,7 @@
                     "$~Tant que ceci est \\⊤\\ je m'arrête en place, et quand ça revient à \\⊥\\ je continue à partir du temps exact où je me suis arrêté.",
                     "C'est ce qui me rend différent de @Music/replay : replay veut dire /recommencer/, et moi je veux dire /attendre ici/. Une note qui sonnait encore quand je me suis arrêté joue ce qui lui restait quand je repars, donc s'arrêter au milieu d'un long accord ne le perd pas. Choisis /attendre/ et /continuer/ ci-dessous :",
                     "\\🎭([\n\t\t💬('tenir' sélectionnable: ⊤ nom: 'tenir' lieu: 📍(-2m 0m))\n\t\t💬('aller' sélectionnable: ⊤ nom: 'aller' lieu: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'tenir')\n\t])\\",
-                    "Contrairement à la relecture, je veux une condition qui /dure/, une qui reste vraie aussi longtemps que tu veux le silence. Mon compte @Beat attend avec moi et reprend là où il en était, au lieu de recommencer à zéro."
+                    "Contrairement à la relecture, je veux une @condition qui /dure/, une qui reste vraie aussi longtemps que tu veux le silence. Mon compte @Beat attend avec moi et reprend là où il en était, au lieu de recommencer à zéro."
                 ],
                 "names": "$~pause"
             }
@@ -6700,10 +6704,10 @@
                 "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] battement: 0.5beats))\\",
                 "Règle mon @Track/mash sur \\⊥\\ et un nombre comme celui-là fait dévier une note de sa hauteur au lieu d'en jouer deux.",
                 "Chaque entrée dure mon @Track/beat, qui est un temps sauf si tu le changes. Le changer réorganise d'un coup tout ce que je joue.",
-                "Quand une entrée doit être plus longue ou plus courte que les autres, écris la durée sur le nombre lui-même comme valeur de note. \\8𝅗𝅥\\ est une blanche — deux fois plus longue qu'un temps — et n'a besoin de rien autour d'elle :",
+                "Quand une entrée doit être plus longue ou plus courte que les autres, écris la durée sur le nombre lui-même comme @value de note. \\8𝅗𝅥\\ est une blanche — deux fois plus longue qu'un temps — et n'a besoin de rien autour d'elle :",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
                 "Il y a cinq valeurs : \\𝅝\\ dure quatre temps, \\𝅗𝅥\\ deux, \\𝅘𝅥\\ un, \\𝅘𝅥𝅮\\ un demi-temps, et \\𝅘𝅥𝅯\\ un quart de temps. Un point après l'une d'elles la rend une fois et demie plus longue, donc \\𝅘𝅥𝅭\\ est un temps et demi. Une noire vaut un temps quel que soit mon temps, c'est pourquoi \\battement: 1𝅘𝅥𝅮\\🪲 dit la même chose que \\0.5beats\\ et se lit plus simplement. Sur un accord, mets la valeur sur le premier nombre : \\{1𝅗𝅥 3 5}\\.",
-                "Elles sont difficiles à trouver, donc la rangée de symboles sous l'éditeur les propose chaque fois que ton curseur est juste après un de mes nombres.",
+                "Elles sont difficiles à trouver, donc la rangée de symboles sous l'@editor les propose chaque fois que ton curseur est juste après un de mes nombres.",
                 "Un silence ne peut pas porter de valeur, car \\ø\\ n'est pas un nombre. Deux silences de suite durent deux fois plus longtemps, et pour quelque chose de plus fin il y a @Note.",
                 "Quand une seule note a besoin de son propre volume, ou d'une durée qu'aucune valeur ne peut écrire, mets cette note dans un @Note. Utilise-le seulement là où tu en as besoin : un nombre simple est plus facile à lire, donc la plupart des pistes n'en ont aucun, et c'est cette rareté qui fait ressortir un @Note comme un évènement.",
                 "\\cellule: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcellule\n\t\t.avecListe(cellule.traduire(ƒ(n•#) n + 2))\n\t\t.avecListe(cellule.renversé())\n\t\t.avecListe(cellule.traduire(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
@@ -6712,7 +6716,7 @@
             ],
             "names": ["$~Piste"],
             "notes": {
-                "doc": "$~Les notes à jouer, dans l'ordre : un nombre pour une note, \\ø\\ pour un silence, un ensemble comme \\{1 3 5}\\ pour un accord, ou une @Note quand une entrée a besoin de son propre volume. Une valeur de note écrite sur un nombre — \\3𝅗𝅥\\ — dit combien de temps cette entrée dure.",
+                "doc": "$~Les notes à jouer, dans l'ordre : un nombre pour une note, \\ø\\ pour un silence, un ensemble comme \\{1 3 5}\\ pour un accord, ou une @Note quand une entrée a besoin de son propre volume. Une @value de note écrite sur un nombre — \\3𝅗𝅥\\ — dit combien de temps cette entrée dure.",
                 "names": "$~notes"
             },
             "instrument": {
@@ -6720,7 +6724,7 @@
                 "names": "$~instrument"
             },
             "beat": {
-                "doc": "$~Combien de temps dure une entrée simple, en temps. C'est un temps sauf si tu le changes, et le changer réorganise tout ce que je joue : à \\0.5beats\\ chaque entrée est une croche, donc je traverse la même liste deux fois plus vite. Une valeur de note dit la même chose plus simplement, donc \\battement: 1𝅘𝅥𝅮\\🪲 est cette même grille en croches.",
+                "doc": "$~Combien de temps dure une entrée simple, en temps. C'est un temps sauf si tu le changes, et le changer réorganise tout ce que je joue : à \\0.5beats\\ chaque entrée est une croche, donc je traverse la même liste deux fois plus vite. Une @value de note dit la même chose plus simplement, donc \\battement: 1𝅘𝅥𝅮\\🪲 est cette même grille en croches.",
                 "names": "$~battement"
             },
             "scale": {
@@ -6748,24 +6752,24 @@
                 "names": "$~écraser"
             },
             "words": {
-                "doc": "$~Les syllabes que @Instrument/voice doit chanter. Une syllabe par note, séparées par des espaces, donc \\'sol mi fa'\\ chante trois notes, et les espaces indiquent où une syllabe finit et où la suivante commence.\n\nLes silences ne prennent pas de syllabe, donc les paroles tombent sur les notes qui sonnent vraiment. S'il y a moins de syllabes que de notes, elles recommencent depuis le début au lieu de se taire. S'il n'y en a aucune, la voix tient un son /uh/.\n\nTermine une syllabe par un trait d'union pour la tenir aussi sur la note suivante, une note de plus par trait d'union — c'est ainsi que tu chantes une syllabe sur plusieurs notes. Dans \\🎶([1 2 3 4] mots: 'la- mi so')\\, \\la\\ couvre les deux premières notes, puis \\mi\\ et \\so\\ en prennent une chacun.\n\nL'orthographe suit l'<alphabet phonétique international@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, où chaque lettre est un son. Appuie sur 🤖 sous l'éditeur pour voir chaque son et l'écouter. Les lettres que je ne reconnais pas sont ignorées. Chaque instrument autre que la voix m'ignore, donc les paroles restent même si tu changes @Track/instrument puis reviens.",
+                "doc": "$~Les syllabes que @Instrument/voice doit chanter. Une syllabe par note, séparées par des espaces, donc \\'sol mi fa'\\ chante trois notes, et les espaces indiquent où une syllabe finit et où la suivante commence.\n\nLes silences ne prennent pas de syllabe, donc les paroles tombent sur les notes qui sonnent vraiment. S'il y a moins de syllabes que de notes, elles recommencent depuis le début au lieu de se taire. S'il n'y en a aucune, la voix tient un son /uh/.\n\nTermine une syllabe par un trait d'union pour la tenir aussi sur la note suivante, une note de plus par trait d'union — c'est ainsi que tu chantes une syllabe sur plusieurs notes. Dans \\🎶([1 2 3 4] mots: 'la- mi so')\\, \\la\\ couvre les deux premières notes, puis \\mi\\ et \\so\\ en prennent une chacun.\n\nL'orthographe suit l'<alphabet phonétique international@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, où chaque lettre est un son. Appuie sur 🤖 sous l'@editor pour voir chaque son et l'écouter. Les lettres que je ne reconnais pas sont ignorées. Chaque instrument autre que la voix m'ignore, donc les paroles restent même si tu changes @Track/instrument puis reviens.",
                 "names": "$~mots"
             }
         },
         "Note": {
             "doc": [
-                "$~Je suis une entrée dans une @Track qui porte son propre volume, ou une durée qu'aucune valeur de note ne peut écrire.",
+                "$~Je suis une entrée dans une @Track qui porte son propre volume, ou une durée qu'aucune @value de note ne peut écrire.",
                 "La plupart des notes devraient rester de simples nombres, et la plupart des durées s'écrivent plus court sur le nombre lui-même : \\1𝅗𝅥\\ est une blanche. Je vaux le coup quand une note a besoin de son propre volume, ou d'une durée qui tombe entre les valeurs — et parce que \\♪(1 2beats ÷ 3)\\ dit bien plus que \\1\\, m'utiliser partout enterrerait les notes qui comptent.",
                 "Un triolet est de l'arithmétique honnête : \\♪(1 2beats ÷ 3)\\ dit que trois de ceux-ci remplissent deux temps. Ma durée peut aussi être une valeur de note, donc \\♪(1 1𝅗𝅥)\\ et \\♪(1 2beats)\\ font les mêmes deux temps.",
                 "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
             "names": ["$~♪", "$~Note"],
             "degree": {
-                "doc": "$~Quoi jouer : un nombre pour une note, \\ø\\ pour un silence, ou un ensemble de nombres pour un accord, exactement comme une entrée simple dans une @Track. Une valeur de note sur le nombre — \\3𝅗𝅥\\ — dit combien de temps je dure, et l'emporte sur @Note/beat si tu écris les deux.",
+                "doc": "$~Quoi jouer : un nombre pour une note, \\ø\\ pour un silence, ou un ensemble de nombres pour un accord, exactement comme une entrée simple dans une @Track. Une @value de note sur le nombre — \\3𝅗𝅥\\ — dit combien de temps je dure, et l'emporte sur @Note/beat si tu écris les deux.",
                 "names": "$~degré"
             },
             "beat": {
-                "doc": "$~Combien de temps je dure. C'est toute la raison de m'utiliser : chaque entrée simple dans une @Track dure le même temps, et je suis le moyen qu'une note en obtienne un différent. Une valeur de note marche aussi ici, donc \\1𝅗𝅥\\ et \\2beats\\ ont la même durée.",
+                "doc": "$~Combien de temps je dure. C'est toute la raison de m'utiliser : chaque entrée simple dans une @Track dure le même temps, et je suis le moyen qu'une note en obtienne un différent. Une @value de note marche aussi ici, donc \\1𝅗𝅥\\ et \\2beats\\ ont la même durée.",
                 "names": "$~battement"
             },
             "volume": {
@@ -6796,7 +6800,7 @@
                 },
                 "drums": {
                     "doc": [
-                        "$~Une batterie. Enregistrée, et c'est un ensemble plutôt qu'un instrument accordé : les nombres choisissent un élément de la batterie plutôt qu'une note — \\1\\ grosse caisse, \\2\\ caisse claire, \\3\\ charleston, \\4\\ cymbale, \\5\\ tom, \\6\\ cloche à vache — et \\7\\ revient à la grosse caisse.",
+                        "$~Une batterie. Enregistrée, et c'est un ensemble plutôt qu'un instrument accordé : les nombres choisissent un @element de la batterie plutôt qu'une note — \\1\\ grosse caisse, \\2\\ caisse claire, \\3\\ charleston, \\4\\ cymbale, \\5\\ tom, \\6\\ cloche à vache — et \\7\\ revient à la grosse caisse.",
                         "\\🎼(🎶([1 2 3 4 5 6] battement: 2beats boucle: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~batterie"]
@@ -6905,7 +6909,7 @@
                         "Je suis un synthétiseur, comme @Instrument/synth — pas une imitation d'un chanteur. Ma bouche garde la même taille, que je chante haut ou bas, ce qu'aucune vraie gorge ne peut faire. C'est pourquoi je sonne comme une machine qui imite une personne, et pourquoi je ne sonne ni comme un homme ni comme une femme.",
                         "Donne à mon @Track un @Track/words et je les chante, une syllabe par note. Sans rien, je tiens un son /uh/, donc je chante toujours quelque chose.",
                         "\\🎼(🎶([1 2 3 5] mots: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
-                        "Les syllabes sont écrites dans l'<alphabet phonétique international@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alphabet où chaque lettre est un /son/ plutôt qu'une orthographe — donc \\'ʃi'\\ est le son au début de /elle/, quelle que soit la langue dans laquelle tu écris. Appuie sur 🤖 sous l'éditeur pour voir tous les sons que je peux faire et entendre chacun d'eux."
+                        "Les syllabes sont écrites dans l'<alphabet phonétique international@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, un alphabet où chaque lettre est un /son/ plutôt qu'une orthographe — donc \\'ʃi'\\ est le son au début de /elle/, quelle que soit la @language dans laquelle tu écris. Appuie sur 🤖 sous l'@editor pour voir tous les sons que je peux faire et entendre chacun d'eux."
                     ],
                     "names": ["$~voix"]
                 },
@@ -6958,7 +6962,7 @@
             "names": ["$~Bulle"],
             "text": {
                 "doc": [
-                    "$~Ce que je montre. Donne-moi du texte simple, ou du texte mis en forme si tu veux des mots en *gras* ou en /italique/.",
+                    "$~Ce que je montre. Donne-moi du texte simple, ou du @markup si tu veux des mots en *gras* ou en /italique/.",
                     "Donne-moi un @Say à la place, et je serai lue à voix haute en plus d'être affichée. Je remplace alors les mots qui apparaissent d'habitude au bas du @Stage, puisque les miens sont déjà à l'écran, juste à côté de celui ou celle qui les a dits."
                 ],
                 "names": "$~texte"

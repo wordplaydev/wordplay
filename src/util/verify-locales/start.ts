@@ -42,6 +42,10 @@ import {
 } from '@util/verify-locales/syncTutorialStructure';
 import { buildHowToBundle } from '@util/verify-locales/buildHowTos';
 import { verifyExamples } from '@util/verify-locales/verifyExamples';
+import {
+    linkGlossaryInLocale,
+    linkGlossaryInTutorial,
+} from '@util/verify-locales/glossaryLinks';
 import { verifyHowTo } from '@util/verify-locales/verifyHowTo';
 import {
     createUnwrittenLocale,
@@ -216,12 +220,36 @@ async function handleLocale(
         },
     );
 
+    // Introduce a glossary word the first time a doc uses it (#960), on the same
+    // terms as the tutorial below: deterministic, per locale, and free of
+    // re-translation. A concept's doc is what the annotations panel quotes when
+    // the caret is on a node, so this is what carries the definitions into the
+    // editor's inspector.
+    let linkedLocale = revisedLocale;
+    let localeLinked = false;
+    {
+        const { locale: linked, changes } = linkGlossaryInLocale(revisedLocale);
+        if (changes.length > 0) {
+            if (FixRequested || TranslationRequested) {
+                linkedLocale = linked;
+                localeLinked = true;
+                localeFileLog.good(
+                    `Linked ${changes.reduce((sum, change) => sum + change.ids.length, 0)} glossary term(s) at first use`,
+                );
+            } else
+                for (const change of changes)
+                    localeFileLog.warning(
+                        `${change.where} uses ${change.ids.map((id) => `"${id}"`).join(', ')} without linking it; run locales-fix to introduce it there`,
+                    );
+        }
+    }
+
     // If the locale was revised, write the results (Prettier-formatted).
-    if (localeChanged || localeIsNew) {
+    if (localeChanged || localeIsNew || localeLinked) {
         localeFileLog.good('Saved repairs');
         await writeFormatted(
             getLocalePath(locale),
-            JSON.stringify(revisedLocale, null, 4),
+            JSON.stringify(linkedLocale, null, 4),
         );
     }
 
@@ -302,7 +330,7 @@ async function handleLocale(
         if (currentTutorial) {
             const revisedTutorial = await verifyTutorial(
                 modeLog,
-                revisedLocale,
+                linkedLocale,
                 currentTutorial,
                 // Verification always runs; only translate-enabled modes that are in scope are
                 // machine-translated — and never the source locale, whose tutorial is the
@@ -330,18 +358,41 @@ async function handleLocale(
                 },
             );
 
+            // Introduce a glossary word the first time a scene uses it (#960).
+            // Deterministic and per locale — each locale's own words and forms
+            // — so a link costs nothing and marks nothing for re-translation.
+            let linkedTutorial = revisedTutorial;
+            if (revisedTutorial) {
+                const { tutorial: linked, changes } = linkGlossaryInTutorial(
+                    revisedTutorial,
+                    linkedLocale,
+                );
+                if (changes.length > 0) {
+                    if (FixRequested || TranslationRequested) {
+                        linkedTutorial = linked;
+                        modeLog.good(
+                            `Linked ${changes.reduce((sum, change) => sum + change.ids.length, 0)} glossary term(s) at first use`,
+                        );
+                    } else
+                        for (const change of changes)
+                            modeLog.warning(
+                                `${change.where} uses ${change.ids.map((id) => `"${id}"`).join(', ')} without linking it; run locales-fix to introduce it there`,
+                            );
+                }
+            }
+
             // If the tutorial was revised, write the results (Prettier-formatted).
             if (
                 tutorialIsNew ||
                 tutorialChanged ||
-                (revisedTutorial &&
+                (linkedTutorial &&
                     JSON.stringify(currentTutorial) !==
-                        JSON.stringify(revisedTutorial))
+                        JSON.stringify(linkedTutorial))
             ) {
                 modeLog.good('Wrote revised tutorial');
                 await writeFormatted(
                     getTutorialPath(locale, mode),
-                    JSON.stringify(revisedTutorial, null, 4),
+                    JSON.stringify(linkedTutorial, null, 4),
                 );
             }
         }
@@ -360,7 +411,7 @@ async function handleLocale(
         translator,
         // The revised locale, not the one loaded at startup: how-tos retarget
         // example references against names this run may have just translated.
-        revisedLocale,
+        linkedLocale,
         FixRequested || TranslationRequested,
     );
 
@@ -388,7 +439,7 @@ async function handleLocale(
         translator,
         // The revised locale: examples retarget names this run may have just
         // translated, the same reason how-tos take it.
-        revisedLocale,
+        linkedLocale,
         FixRequested || TranslationRequested,
         selection.isExplicitlyIncluded('example'),
     );
@@ -416,7 +467,7 @@ async function handleLocale(
     // current: the artifact generators after the locale loop (names.json, choose
     // prompts, manifests) read that set, and building them from pre-repair text
     // left name-changing repairs out of the artifacts until a second run.
-    return revisedLocale;
+    return linkedLocale;
 }
 
 /** Generate this locale's emoji translations in-process. Best-effort — it does

@@ -179,6 +179,10 @@
         "stage": {
             "word": "$~panggung",
             "definition": "$~Ruang tempat @wordplay menampilkan hasil buatan @code kamu."
+        },
+        "stream": {
+            "word": "$~aliran",
+            "definition": "$~@value adalah nilai yang berubah seiring waktu saat dunia kamu berubah, seperti @Time yang terus berdetak atau @Key yang ditekan. Setiap kali nilainya berubah, @Program dijalankan lagi dengan @value yang baru."
         }
     },
     "terms": {},
@@ -304,7 +308,7 @@
                 "Tanda I dapat dikombinasikan dengan \\/\\ untuk membuat satuan rasio seperti \\17apel/hari\\ dan dengan \\^\\ untuk membuat satuan eksponensial seperti \\9.8m/s^2\\",
                 "Saya harus selalu diletakkan setelah @Number. Jika tidak, saya mungkin disalahartikan sebagai @Reference, yang akan sangat memalukan!",
                 "Saya juga cukup mahir menemukan ketidaksesuaian antar satuan. Misalnya, \\1kucing + 1anjing\\🪲 tidak masuk akal!",
-                "Jika Anda ingin melakukan konversi antar nilai satuan yang berbeda, silakan hubungi @Convert."
+                "Jika Anda ingin melakukan konversi antar @value satuan yang berbeda, silakan hubungi @Convert."
             ]
         },
         "Doc": {
@@ -333,7 +337,7 @@
             "description": "$~daftar dokumentasi$languages[ dalam $languages| dari $count]",
             "emotion": "serious",
             "doc": [
-                "$~Saya adalah daftar @Doc, berguna ketika Anda memiliki beberapa terjemahan @Doc dalam berbagai bahasa.",
+                "$~Saya adalah daftar @Doc, berguna ketika Anda memiliki beberapa terjemahan @Doc dalam berbagai @language.",
                 "Anda tidak perlu melakukan hal khusus untuk membuat daftar. Cukup letakkan beberapa @Doc bersebelahan, seperti ini:",
                 "\\¶Halo¶/en ¶Hola¶/es salam: '…'\\🪲"
             ],
@@ -356,7 +360,7 @@
             "description": "$~bahasa $language[$language|tidak ditentukan]$region[, wilayah $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Aku label bahasa, dan aku bekerja dengan @Name dan @Doc!",
+                "$~Aku label @language, dan aku bekerja dengan @Name dan @Doc!",
                 "Aku sangat pandai membuat *jelas sekali* bahasa apa yang dipakai dalam suatu tulisan. Cukup dengan garis miring dan beberapa huruf, tidak akan ada yang bingung lagi tentang bahasa apa yang dipakai dalam suatu teks.",
                 "Misalnya, jika kamu ingin menulis \"Language\" tapi ingin memperjelas bahwa itu dalam bahasa Inggris:",
                 "\\'Bahasa'/id\\",
@@ -400,7 +404,7 @@
             "description": "$~nama $name[$name|tanpa nama]",
             "emotion": "kind",
             "doc": [
-                "$~Aku menandai sebuah @value, dan aku adalah cara yang berguna untuk memberi label singkat pada sesuatu yang sulit dihitung, atau yang tidak ingin kamu hitung berulang-ulang.",
+                "$~Aku menandai sebuah @value, dan aku adalah @how yang berguna untuk memberi label singkat pada sesuatu yang sulit dihitung, atau yang tidak ingin kamu hitung berulang-ulang.",
                 "@Bind memberiku namaku seperti ini:",
                 "\\hai: 5\\🪲",
                 "Aku hanya pernah mewakili satu nilai, dan begitu aku memilikinya, aku tidak bisa berubah. Misalnya, kalau kamu mencoba melakukan ini dengan @Bind, kami akan mengeluh.",
@@ -430,7 +434,7 @@
             "name": "$~baris",
             "description": "$~baris dengan $#count[$count sel]",
             "emotion": "shy",
-            "doc": "$~Saya mewakili sebuah baris dalam sebuah @Table. Mungkin sebaiknya Anda berbicara langsung dengan @Table, mereka tahu segalanya tentang saya. Saya hanya duduk dan menjaga agar nilai-nilai tetap sesuai :(",
+            "doc": "$~Saya mewakili sebuah baris dalam sebuah @Table. Mungkin sebaiknya Anda berbicara langsung dengan @Table, mereka tahu segalanya tentang saya. Saya hanya duduk dan menjaga agar @value-nilai tetap sesuai :(",
             "conflict": {
                 "InvalidRow": {
                     "name": "$~baris tidak sah",
@@ -504,7 +508,7 @@
                 "paragraphs": "$~paragraf"
             },
             "doc": [
-                "$~Saya adalah daftar paragraf, memakai banyak jenis teks berformat yang ada di @Doc, seperti @Words, @WebLink, @ConceptLink, dan @Example.",
+                "$~Saya adalah daftar paragraf, memakai banyak jenis @markup yang ada di @Doc, seperti @Words, @WebLink, @ConceptLink, dan @Example.",
                 "Kamu akan menemukan saya di @Doc, dan di @FormattedLiteral:",
                 "\\¶Saya adalah dokumentasi dengan teks *tebal*. Saya bisa merujuk ke konsep seperti @Phrase, dan bisa menautkan ke <hal-hal di web@https://wordplay.dev>.¶\nFrasa(\n\t`Saya adalah teks berformat untuk @Phrase, menggunakan *tebal*, /miring/, dan _garis bawah_`\n)\\"
             ]
@@ -577,7 +581,7 @@
             "description": "$~contoh kode $code",
             "emotion": "serious",
             "doc": [
-                "$~Aku menyimpan contoh potongan kode di dalam @Doc, seperti ini:",
+                "$~Aku menyimpan contoh potongan @code di dalam @Doc, seperti ini:",
                 "\\¶Ini contoh penjumlahan: \\1 + 2\\¶\n3 + 4\\",
                 "Jika kamu menggunakan Contoh dalam cara-caramu, kamu bisa menandai satu Contoh sebagai sorotan.",
                 "\\¶Ini contoh yang disorot: \\1 + 2\\⭐¶\n3 + 4\\",
@@ -598,7 +602,7 @@
             "description": "$~pilihan teks berformat pada $condition",
             "emotion": "serious",
             "doc": [
-                "$~Ini adalah cara untuk memilih antara dua segmen penjelasan berdasarkan apakah nilai input penjelasan didefinisikan atau benar.",
+                "$~Ini adalah @how untuk memilih antara dua segmen penjelasan berdasarkan apakah @value input penjelasan didefinisikan atau benar.",
                 "Ini sebagian besar merupakan fitur internal, jadi Anda tidak perlu mengetahuinya."
             ]
         },
@@ -608,7 +612,7 @@
             "emotion": "insecure",
             "doc": [
                 "$~Aku adalah @Evaluate, tapi dalam bentuk yang lebih sederhana, berguna saat kamu mau memakai @FunctionDefinition yang menerima dua masukan.",
-                "Misalnya, begini cara kamu memakai @Evaluate untuk menjumlahkan dua angka:",
+                "Misalnya, begini @how kamu memakai @Evaluate untuk menjumlahkan dua angka:",
                 "\\1.+(1)\\",
                 "Bukankah itu terlihat agak lucu? Itu tidak salah: ia hanya berkata ambil fungsi tambah pada 1 lalu jalankan.",
                 "Tapi jauh lebih mudah memakai @BinaryEvaluate",
@@ -650,7 +654,7 @@
                 "Lihat apa yang aku lakukan di sana?",
                 "Satu nilai, tiga nama.",
                 "Kamu bisa merujuk ke angka lima itu dengan *salah satu* dari nama-nama itu.",
-                "Ini terutama berguna saat kamu ingin memberi nama dalam banyak bahasa:",
+                "Ini terutama berguna saat kamu ingin memberi nama dalam banyak @language:",
                 "\\joe: 5\\🪲",
                 "Kamu lihat yang aku lakukan tadi? Tiga nama untuk satu nilai, hanya dalam bahasa yang berbeda!",
                 "Baik, aku punya satu rahasia terakhir.",
@@ -750,7 +754,7 @@
                 "\\(1 + 1)\\",
                 "Jika kamu memberiku lebih dari satu, aku mengumpulkannya ke dalam sebuah daftar, secara berurutan:",
                 "\\(1 2 3 4 5)\\",
-                "Pernyataan @Bind adalah efek samping, bukan nilai, jadi keduanya tidak muncul dalam daftar:",
+                "Pernyataan @Bind adalah @sideEffect, bukan nilai, jadi keduanya tidak muncul dalam daftar:",
                 "\\(\n\ta: 1\n\tb: 2\n\ta + b\n\ta × b\n)\\",
                 "Itu memberikan \\[3 2]\\: hanya nilai dari dua ekspresi yang bukan @Bind."
             ],
@@ -814,7 +818,7 @@
             "doc": [
                 "$~Saya memeriksa apakah sebuah stream menyebabkan @Program dievaluasi ulang, dan membuat @Boolean. Seperti ini",
                 "\\∆ Waktu()\\",
-                "Saya sangat membantu jika Anda ingin sesuatu berubah hanya jika aliran data berubah.",
+                "Saya sangat membantu jika Anda ingin sesuatu berubah hanya jika @stream data berubah.",
                 "Itu saja."
             ],
             "start": "$~Mari kita lihat apakah $stream berubah…"
@@ -836,7 +840,7 @@
                 "Apakah kamu tidak khawatir bahwa jika hanya jenis keputusan ini yang bisa kita buat, kita akan kehilangan konteks penting tentang dunia?",
                 "Ada satu hal lagi yang aku lakukan, dan aku tidak selalu mendapat penghargaan untuknya. Ketika @condition ku bertanya /jenis/ nilai apa sesuatu itu, aku tidak hanya menjawab ya atau tidak. Aku mengingat jawabannya di dalam setiap pilihanku.",
                 "\\ukuran•#|'': 5\nukuran•# ? ukuran + 1 'terlalu kecil'\\",
-                "Sendirian, nilai itu bisa menjadi sebuah @Number atau beberapa @Text, dan menambahkannya akan menjadi konflik, karena keduanya ditambahkan dengan cara yang sangat berbeda. Tapi di dalam /ya/ ku, kita baru saja bertanya apakah itu sebuah @Number, jadi di sana itu adalah satu. Di dalam /tidak/ ku, itu adalah @Text.",
+                "Sendirian, nilai itu bisa menjadi sebuah @Number atau beberapa @Text, dan menambahkannya akan menjadi @conflict, karena keduanya ditambahkan dengan @how yang sangat berbeda. Tapi di dalam /ya/ ku, kita baru saja bertanya apakah itu sebuah @Number, jadi di sana itu adalah satu. Di dalam /tidak/ ku, itu adalah @Text.",
                 "Tidak masalah bagaimana kamu bertanya. Sebuah pemeriksaan jenis, perbandingan dengan nilai tertentu, pemeriksaan nilai yang hilang, dan pemeriksaan yang kamu simpan di bawah sebuah nama, semuanya memberitahuku hal yang sama. Dan @Boolean/and, @Boolean/or, serta @Boolean/not menggabungkannya sesuai yang kamu harapkan.",
                 "Ada dua hal yang tidak bisa kuberitahu. Jika kamu membandingkan dengan @Text yang memiliki beberapa terjemahan, aku tidak belajar apa pun, karena terjemahan mana yang kamu dapatkan tergantung pada siapa yang membaca."
             ],
@@ -891,7 +895,7 @@
             "description": "$~ubah $expression menjadi $type",
             "emotion": "cheerful",
             "doc": [
-                "$~Aku mengubah nilai dari satu @type ke yang lain. Yo — lihat ini:",
+                "$~Aku mengubah @value dari satu @type ke yang lain. Yo — lihat ini:",
                 "\\1 → \"\"\\",
                 "\\5s → #ms\\",
                 "\\'halo' → []\\",
@@ -1037,7 +1041,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Saya adalah input yang diberikan ke @Evaluate. Nama saya sesuai dengan nama input dalam @FunctionDefinition atau @StructureDefinition yang sedang dievaluasi.",
-                "Saya bisa membantu dengan fungsi yang memiliki banyak nilai default, di mana Anda hanya ingin mengganti input tertentu, tanpa mengubah semua yang lain.",
+                "Saya bisa membantu dengan fungsi yang memiliki banyak @value default, di mana Anda hanya ingin mengganti input tertentu, tanpa mengubah semua yang lain.",
                 "Misalnya, @Phrase memiliki banyak sekali nilai default untuk mengontrol gayanya. Katakanlah Anda ingin memberikan @Text dan @Color, tetapi tidak ada yang lain dalam daftar inputnya. Anda dapat menggunakan saya untuk melakukan itu:",
                 "\\Phrase('Saya berwarna ungu!' warna: Color(50% 52 300°))\\"
             ],
@@ -1124,7 +1128,7 @@
             "description": "$~benar pada evaluasi pertama",
             "emotion": "curious",
             "doc": [
-                "$~Saya akan memberi tahu Anda apakah evaluasi @Program saat ini adalah yang pertama, yang menghasilkan nilai @Boolean. Misalnya:",
+                "$~Saya akan memberi tahu Anda apakah evaluasi @Program saat ini adalah yang pertama, yang menghasilkan @value @Boolean. Misalnya:",
                 "\\◆ ? Waktu() 'hai'\\",
                 "Kamu tidak melihatnya, tetapi evaluasi pertama adalah waktu, tetapi kemudian semua detak waktu mendatang, saya adalah \\⊥\\, jadi @Conditional menjadi \\⊤\\.",
                 "Saya sangat membantu jika Anda bekerja dengan sebuah stream dan Anda hanya ingin melakukan sesuatu pada percobaan pertama — atau bahkan tidak pernah pada percobaan pertama!"
@@ -1190,7 +1194,7 @@
             "description": "$~akses indeks $index dari $list",
             "emotion": "cheerful",
             "doc": [
-                "$~Saya bekerja sama erat dengan @List untuk membantu mereka mendapatkan nilai pada posisi tertentu. Jadi, misalnya, jika Anda memiliki sebuah daftar, dan Anda menginginkan item kedua, Anda akan menulis:",
+                "$~Saya bekerja sama erat dengan @List untuk membantu mereka mendapatkan @value pada posisi tertentu. Jadi, misalnya, jika Anda memiliki sebuah daftar, dan Anda menginginkan item kedua, Anda akan menulis:",
                 "\\list: ['burung' 'bebek' 'ikan' 'ular'] list[2]\\"
             ],
             "start": "$~Mari kita dapatkan daftar $list terlebih dahulu.",
@@ -1200,7 +1204,7 @@
             "name": "$~nilai daftar",
             "description": "$~daftar dengan $#count[$count nilai]",
             "emotion": "eager",
-            "doc": "$~Saya adalah @List nilai tertentu! Lihat @List untuk mempelajari lebih lanjut tentang apa yang dapat Anda lakukan dengan saya.",
+            "doc": "$~Saya adalah @List @value tertentu! Lihat @List untuk mempelajari lebih lanjut tentang apa yang dapat Anda lakukan dengan saya.",
             "start": "$~Mari kita evaluasi item-item tersebut terlebih dahulu.",
             "finish": "$~Aku membuat diriku sendiri! $value"
         },
@@ -1209,7 +1213,7 @@
             "description": "$~sebaran dari $list[$list|sebuah daftar]",
             "emotion": "serious",
             "doc": [
-                "$~Saya membantu Anda membuat @List dari nilai-nilai daftar lain. Seperti ini:",
+                "$~Saya membantu Anda membuat @List dari @value-nilai daftar lain. Seperti ini:",
                 "\\list: [1 2 3]\nfinal: [:list 4 5 6]\\🪲"
             ]
         },
@@ -1220,7 +1224,7 @@
             "label": {
                 "values": "$~pasangan"
             },
-            "doc": "$~Saya adalah @Map spesifik antara kunci dan nilai. Lihat @Map untuk mempelajari lebih lanjut tentang bagaimana saya bermanfaat.",
+            "doc": "$~Saya adalah @Map spesifik antara kunci dan @value. Lihat @Map untuk mempelajari lebih lanjut tentang bagaimana saya bermanfaat.",
             "start": "$~Mari kita evaluasi kunci dan nilainya terlebih dahulu.",
             "finish": "$~Saya menghubungkan semua orang, $value",
             "conflict": {
@@ -1240,7 +1244,7 @@
                 "other": "$~bawaan"
             },
             "doc": [
-                "$~Akulah pemeriksaan kondisi yang paling megah: aku mengambil sebuah @value, membandingkannya dengan sejumlah kasus, dan mengevaluasi yang cocok!",
+                "$~Akulah pemeriksaan @condition yang paling megah: aku mengambil sebuah @value, membandingkannya dengan sejumlah kasus, dan mengevaluasi yang cocok!",
                 "Misalnya, jika kamu punya sebuah @Number dan ingin mengubahnya menjadi sebuah @Text, kamu mungkin melakukan sesuatu seperti ini:",
                 "\\angka: 2\nangka ???\n\t1: 'satu'\n\t2: 'dua'\n\t3: 'tiga'\n\t'lebih besar!'\\",
                 "Jika tidak ada yang cocok, aku mengevaluasi @expression bawaan yang kamu berikan padaku.",
@@ -1258,7 +1262,7 @@
             "name": "$~nilai angka",
             "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
-            "doc": "$~Saya adalah @Number tertentu. Anda dapat menulis kepada saya dengan berbagai jenis angka dari berbagai jenis bahasa. Lihat @Number untuk semua yang dapat saya lakukan.",
+            "doc": "$~Saya adalah @Number tertentu. Anda dapat menulis kepada saya dengan berbagai jenis angka dari berbagai jenis @language. Lihat @Number untuk semua yang dapat saya lakukan.",
             "start": "$~$value !",
             "conflict": {
                 "NotANumber": {
@@ -1299,7 +1303,7 @@
             "description": "$~$number nilai sebelumnya$range[|] dari $stream",
             "emotion": "serious",
             "doc": [
-                "$~Saya menelusuri sejarah suatu aliran sungai dan menceritakan salah satu nilai yang dimilikinya di masa lalu. Pernahkah Anda ingin mengingat masa lalu?",
+                "$~Saya menelusuri sejarah suatu @stream sungai dan menceritakan salah satu @value yang dimilikinya di masa lalu. Pernahkah Anda ingin mengingat masa lalu?",
                 "Saya adalah pencatat resmi Verse!",
                 "Sebagai contoh, berikut adalah nilai @Time lima detik yang lalu:",
                 "\\← 5 Time(1000ms)\\",
@@ -1326,7 +1330,7 @@
                 "Nilainya bisa apa saja: @Number, @Text, atau @Boolean, @List, @Set, @Map, atau bahkan sesuatu yang lebih rumit, seperti @Phrase, @Group, atau @Stage.",
                 "Jika kamu tidak memberiku nilai untuk ditampilkan di panggung, aku akan memintanya darimu.",
                 "Jika ada masalah selama pertunjukan, aku akan menampilkan masalah itu.",
-                "Dan jika pertunjukanmu bergantung pada sebuah *aliran*, aku akan mengevaluasi ulang setiap kali aliran itu berubah."
+                "Dan jika pertunjukanmu bergantung pada sebuah *@stream*, aku akan mengevaluasi ulang setiap kali aliran itu berubah."
             ],
             "label": {
                 "borrows": "$~meminjam",
@@ -1396,7 +1400,7 @@
                 "property": "$~milik"
             },
             "doc": [
-                "$~Aku mengambil salah satu properti dari @StructureDefinition @value untukmu.",
+                "$~Aku mengambil salah satu @property dari @StructureDefinition @value untukmu.",
                 "Seperti kalau kamu punya sebuah struktur tentang kota, kamu bisa mengambil nilai-nilainya bersamaku seperti ini:",
                 "\\•kota(nama•'' populasi•#people)\n\nportland: kota('Portland' 800000people)\n\nportland.populasi\\"
             ],
@@ -1417,7 +1421,7 @@
                 "Misalnya, jika Anda ingin @Time berdetik, tetapi menampilkan kata-kata alih-alih angka, Anda bisa melakukan sesuatu seperti ini:",
                 "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "Itu seperti mengatakan \"/dimulai dengan kata 'mulai' dan kemudian jika waktu berubah, ubah menjadi genap atau ganjil, berdasarkan waktu tersebut./\"",
-                "Jadi aku juga seperti aliran, tapi aliran yang terbentuk dari aliran lain. Keren, kan?"
+                "Jadi aku juga seperti @stream, tapi aliran yang terbentuk dari aliran lain. Keren, kan?"
             ],
             "start": "$~Mari kita lihat apakah kita perlu memperbarui siaran langsungnya.",
             "finish": "$~Nilai stream yang baru adalah $value",
@@ -1502,7 +1506,7 @@
             "name": "$~nilai himpunan",
             "description": "$~himpunan dengan $#count[$count nilai]",
             "emotion": "eager",
-            "doc": "$~Saya adalah @Set spesifik yang berisi nilai-nilai tertentu. Lihat @Set untuk mempelajari lebih lanjut tentang cara bekerja dengan saya.",
+            "doc": "$~Saya adalah @Set spesifik yang berisi @value-nilai tertentu. Lihat @Set untuk mempelajari lebih lanjut tentang @how bekerja dengan saya.",
             "start": "$~Mari kita evaluasi nilainya terlebih dahulu!",
             "finish": "$~Saya membuat sebuah set $value !"
         },
@@ -1544,14 +1548,14 @@
             "doc": [
                 "$~Aku adalah jendela bernama di sekitar @Program — aku memberinya nama dan menyimpan @code-nya. Oh, kamu tahu @Program? Aku membantumu menamainya.",
                 "Kamu juga bisa membuat @Source @UI/addSource lain, dengan @Program lain, dan @Borrow hal-hal dari @Program lain itu untuk digunakan di program lain.",
-                "Ini bisa menjadi cara yang bagus untuk mengatur pertunjukan besar menjadi beberapa dokumen terpisah."
+                "Ini bisa menjadi @how yang bagus untuk mengatur pertunjukan besar menjadi beberapa dokumen terpisah."
             ]
         },
         "StreamDefinition": {
             "name": "$~sungaikecil",
             "description": "$~aliran $name",
             "emotion": "curious",
-            "doc": "$~Saya mendefinisikan jenis aliran data baru. Saya /berpikir/ — jujur saja, saya masih mencari tahu caranya, jadi untuk saat ini gunakan saja aliran data yang sudah ada!",
+            "doc": "$~Saya mendefinisikan jenis @stream data baru. Saya /berpikir/ — jujur saja, saya masih mencari tahu caranya, jadi untuk saat ini gunakan saja aliran data yang sudah ada!",
             "start": "$~Ciptakan jenis aliran baru ini"
         },
         "StructureDefinition": {
@@ -1568,7 +1572,7 @@
                 "$~Aku mendefinisikan struktur yang menyimpan nilai dan fungsi. Halo, apa kabar? Aku? Aku baik-baik saja — aku senang melakukan ini sepanjang hari.",
                 "Aku bekerja seperti ini:",
                 "\\•pizza(\n\tbahan•['']\n\tukuran•#in\n) (\n\tƒ harga() ukuran × 10dollars/in\n)\n\npizza(['pepperoni' 'paprika'] 12in).harga()\\🪲",
-                "Lihat cara kerjanya? Aku mendefinisikan \\Pizza\\, yang punya dua input, \\ingredients\\ (sebuah daftar @Text) dan \\size\\ (sebuah angka dalam inci).",
+                "Lihat @how kerjanya? Aku mendefinisikan \\Pizza\\, yang punya dua input, \\ingredients\\ (sebuah daftar @Text) dan \\size\\ (sebuah angka dalam inci).",
                 "Di dalamnya, @FunctionDefinition membuat fungsi yang menghitung harga sebuah pizza, dengan anggapan $$10 per inci.",
                 "Aku tidak perlu punya @FunctionDefinition di dalamku. Aku bisa hanya berupa input.",
                 "\\•pizza(\n\tingredients•['']\n\tukuran•#in\n)\\",
@@ -1669,7 +1673,7 @@
             "name": "$~teks berformat",
             "description": "$~teks berformat $text",
             "emotion": "serious",
-            "doc": "$~Saya mewakili banyak @FormattedTranslation berbeda dari teks yang diformat. Saat mengevaluasi, saya akan memilih yang paling sesuai berdasarkan bahasa yang dipilih oleh audiens.",
+            "doc": "$~Saya mewakili banyak @FormattedTranslation berbeda dari teks yang diformat. Saat mengevaluasi, saya akan memilih yang paling sesuai berdasarkan @language yang dipilih oleh audiens.",
             "start": "$~Mari kita buat teks dalam bahasa saat ini."
         },
         "FormattedTranslation": {
@@ -1693,7 +1697,7 @@
             "description": "$~struktur ini",
             "emotion": "serious",
             "doc": [
-                "$~Aku adalah \\⬚\\, sebuah kotak kecil yang mewakili @value apa pun yang sedang dikerjakan oleh kode di sekitarnya, jadi kamu tidak perlu menamainya.",
+                "$~Aku adalah \\⬚\\, sebuah kotak kecil yang mewakili @value apa pun yang sedang dikerjakan oleh @code di sekitarnya, jadi kamu tidak perlu menamainya.",
                 "Di dalam sebuah @ConversionDefinition, aku adalah nilai yang sedang diubah:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Di dalam sebuah @Reaction, aku adalah nilai yang paling baru:",
@@ -1738,7 +1742,7 @@
             "description": "$~kode yang tidak dapat dibaca",
             "emotion": "excited",
             "doc": [
-                "$~Aku adalah sepotong kode yang tidak masuk akal, jadi tidak ada yang tahu apa artinya.",
+                "$~Aku adalah sepotong @code yang tidak masuk akal, jadi tidak ada yang tahu apa artinya.",
                 "jkwel fjiwojvioao jjiweo jrfe",
                 "/Tidak setiap @expression punya makna di panggung./",
                 "s w ieorjwei iojwi jfkdlsfdsk",
@@ -1774,7 +1778,7 @@
             "description": "$~perbarui baris di $table yang cocok dengan $query",
             "emotion": "kind",
             "doc": [
-                "$~Aku membantu merevisi @Table, menemukan baris-baris yang cocok dengan @condition, lalu membuat baris-baris hasil revisi dengan nilai-nilai baru.",
+                "$~Aku membantu merevisi @Table, menemukan baris-baris yang cocok dengan @condition, lalu membuat baris-baris hasil revisi dengan @value-nilai baru.",
                 "Jadi seperti, kalau kamu punya tabel karakter dan poin, dan kamu ingin memberi setiap karakter dalam sebuah tim satu poin, kamu bisa melakukan ini:",
                 "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
                 "Kamu bisa menggunakan @Bind untuk menyatakan kolom mana yang akan diubah, dan kamu bisa menggunakan nama kolom mana pun atau nama lain di @scope dalam kondisi."
@@ -1836,14 +1840,14 @@
             "doc": [
                 "$~Aku bekerja dengan @Bind untuk mencatat bahwa sebuah nama adalah @FormattedLiteral @value. Seperti ini:",
                 "\\lapar•`…`: `Aku sangat /keren/!`\\🪲",
-                "Ingin memastikan sesuatu itu nilai @FormattedLiteral? Beginilah cara memastikannya."
+                "Ingin memastikan sesuatu itu nilai @FormattedLiteral? Beginilah @how memastikannya."
             ]
         },
         "ExceptionType": {
             "name": "$~pengecualian",
             "description": "$~pengecualian",
             "emotion": "neutral",
-            "doc": "$~Saya mewakili sebuah pengecualian. Tidak ada cara untuk memberi tahu bind bahwa saya adalah pengecualian, karena pengecualian hanya akan menghentikan @Program, jadi Anda tidak dapat menggunakannya sebagai nilai."
+            "doc": "$~Saya mewakili sebuah pengecualian. Tidak ada @how untuk memberi tahu bind bahwa saya adalah pengecualian, karena pengecualian hanya akan menghentikan @Program, jadi Anda tidak dapat menggunakannya sebagai @value."
         },
         "FunctionType": {
             "name": "$~jenis fungsi",
@@ -1861,7 +1865,7 @@
             "doc": [
                 "$~Aku /sangat/ menyukai @List. Aku bisa memberi tahu @Bind jenis list apa mereka! Seperti ini, aku bilang bahwa ini adalah list dari @Number:",
                 "\\benda•[#]: [1 2 3 4 5]\\🪲",
-                "Aku bisa mengatakannya dengan tiga cara berbeda. Jika aku tidak menyebutkan jenis sama sekali, maka sebuah list bisa memiliki panjang berapa pun dan menyimpan apa saja:",
+                "Aku bisa mengatakannya dengan tiga @how berbeda. Jika aku tidak menyebutkan jenis sama sekali, maka sebuah list bisa memiliki panjang berapa pun dan menyimpan apa saja:",
                 "\\barang•[]: [1 'dua' ø]\\🪲",
                 "Jika aku menyebutkan satu jenis, list tetap bisa memiliki panjang berapa pun, tetapi semua di dalamnya harus jenis yang satu itu, seperti list dari @Number di atas.",
                 "Dan jika aku menyebutkan beberapa jenis, artinya sebuah list dengan tepat sejumlah hal itu, dengan satu jenis untuk setiap tempat di dalamnya. Yang ini adalah list dari dua hal: sebuah @Number dulu, lalu beberapa @Text.",
@@ -1892,7 +1896,7 @@
             "description": "$~jenis struktur $name",
             "emotion": "curious",
             "doc": [
-                "$~Saya merepresentasikan @StructureDefinition berdasarkan namanya. Jadi, misalnya, jika Anda memiliki struktur seperti ini, Anda dapat membuat @Bind yang menyimpan nilai-nilai yang dibuatnya.",
+                "$~Saya merepresentasikan @StructureDefinition berdasarkan namanya. Jadi, misalnya, jika Anda memiliki struktur seperti ini, Anda dapat membuat @Bind yang menyimpan @value-nilai yang dibuatnya.",
                 "\\•Teman(nama•'') sahabat•Teman: Teman('Jonah')\\🪲"
             ],
             "conflict": {
@@ -1931,14 +1935,14 @@
             "name": "$~jenis definisi aliran",
             "description": "$~jenis definisi aliran",
             "emotion": "angry",
-            "doc": "$~Saya mewakili aliran data yang telah Anda definisikan, yang mana itu tidak mungkin, jadi mengapa Anda membaca ini?"
+            "doc": "$~Saya mewakili @stream data yang telah Anda definisikan, yang mana itu tidak mungkin, jadi mengapa Anda membaca ini?"
         },
         "StreamType": {
             "name": "$~jenis aliran",
             "description": "$~jenis aliran",
             "emotion": "curious",
             "doc": [
-                "$~Saya merayakan keindahan dan makna aliran data… dengan meminta @Bind untuk menyimpannya:",
+                "$~Saya merayakan keindahan dan makna @stream data… dengan meminta @Bind untuk menyimpannya:",
                 "\\time•…#ms: Waktu()\\🪲"
             ]
         },
@@ -2068,11 +2072,11 @@
             "description": "$~terjemahkan setiap nilai dari $expression",
             "emotion": "excited",
             "doc": [
-                "$~Aku melakukan hal yang SAMA pada SETIAP elemen dalam sebuah kumpulan! OH OH OH! Itulah yang aku LAKUKAN!!",
+                "$~Aku melakukan hal yang SAMA pada SETIAP @element dalam sebuah kumpulan! OH OH OH! Itulah yang aku LAKUKAN!!",
                 "Letakkan sebuah kumpulan di sebelah kiriku, gambar tanda panahku \\↦\\, lalu di sebelah kananku tulis apa yang harus DIUBAH oleh setiap elemen — gunakan @This untuk menyebut elemen yang sedang aku pegang SEKARANG!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ memberimu \\[2 3 4]\\. BUM! Setiap angka, ditambah satu, tanpa perulangan, tanpa @FunctionDefinition, tanpa ribet!",
                 "Aku LUAR BIASA untuk membuat keluaran @Phrase dari data! Punya daftar nama? \\['Ada' 'Mac' 'Tim'] ↦ Frasa(⬚)\\ dan sekarang ada frasa untuk SETIAP nama!!",
-                "Aku bekerja pada @List, @Set, @Map (aku mengubah NILAI peta — kuncinya tetap di tempatnya!), dan bahkan @Table!",
+                "Aku bekerja pada @List, @Set, @Map (aku mengubah @value peta — kuncinya tetap di tempatnya!), dan bahkan @Table!",
                 "Ingin sesuatu yang lebih rumit — seperti @index dari setiap elemen, atau sebuah fungsi yang bisa kamu pakai ulang di banyak tempat? Kunjungi sepupuku yang lebih tenang dan dewasa seperti @List.translate. Tetapi untuk pemetaan cepat sehari-hari, aku ada di sini!!"
             ],
             "start": "$~Tunggu sebentar, izinkan saya mengambil semua yang ada di $expression !",
@@ -2094,7 +2098,7 @@
             "description": "$~contoh kode eksternal$languages[ dalam $languages|]",
             "emotion": "serious",
             "doc": [
-                "$~Aku menampilkan kode dengan sorotan sintaks yang ditulis dalam bahasa pemrograman lain, sehingga pembuat yang sudah bisa membuat kode bisa membandingkannya.",
+                "$~Aku menampilkan @code dengan sorotan sintaks yang ditulis dalam @language pemrograman lain, sehingga pembuat yang sudah bisa membuat kode bisa membandingkannya.",
                 "Tulis satu varian untuk setiap bahasa sebagai kode dua huruf, tanda garis, dan kodenya, seperti \\py| a = 5\\js| let a = 5;\\. Pembaca akan melihat versi yang cocok dengan bahasa yang mereka pilih. Python (py), JavaScript (js), dan Java (jv) didukung."
             ]
         },
@@ -2175,7 +2179,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan satu karakter dari jenis: \\⣿◌⣿\\ grafem apa saja, \\⣿_⣿\\ sebuah huruf, \\⣿#⣿\\ sebuah angka, \\⣿␣⣿\\ sebuah spasi.",
-                "Sebagai contoh, ambil setiap kode huruf-lalu-angka dari sebuah daftar:",
+                "Sebagai contoh, ambil setiap @code huruf-lalu-angka dari sebuah daftar:",
                 "\\kode: 'a1 b2 c3'\nkode ⌕ ⣿ _ #⣿\\",
                 "Hitung saya dengan penghitung seperti \\⣿>0 #⣿\\ (satu atau lebih angka), atau persempit saya dengan @property seperti \\⣿ _/greek⣿\\ (huruf Yunani)."
             ]
@@ -2224,7 +2228,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan bagian selanjutnya beberapa kali.",
-                "Sebagai contoh, periksa apakah kode pos terdiri tepat lima digit:",
+                "Sebagai contoh, periksa apakah @code pos terdiri tepat lima digit:",
                 "\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
                 "Hitung kelas seperti \\⣿3 #⣿\\ (tiga digit), grup seperti \\⣿2 (\"ab\")⣿\\ (dua \"ab\"), atau komplemen seperti \\⣿2 ~#⣿\\ (dua bukan digit). Dengan \\⣿>0 #⣿\\ saya serakah — saya mengambil sebanyak yang saya bisa."
             ]
@@ -2410,8 +2414,8 @@
         "Boolean": {
             "doc": [
                 "$~Kita adalah \\⊤\\ dan \\⊥\\. \\⊤\\ itu benar. \\⊥\\ itu salah. \\⊤\\ bukan \\⊥\\; \\⊥\\ bukan \\⊤\\. Beginilah adanya.",
-                "Bagaimana cara Anda membuat kami? Hanya \\⊤\\ dan \\⊥\\, tidak lebih, tidak kurang.",
-                "Beberapa menggunakan keyboard (/ctrl+9/ untuk \\⊤\\ dan /ctrl+0/ untuk \\⊥\\). Beberapa menggunakan pencarian karakter di bagian bawah editor. Atau Anda dapat menyeret kami dari sini.",
+                "Bagaimana @how Anda membuat kami? Hanya \\⊤\\ dan \\⊥\\, tidak lebih, tidak kurang.",
+                "Beberapa menggunakan keyboard (/ctrl+9/ untuk \\⊤\\ dan /ctrl+0/ untuk \\⊥\\). Beberapa menggunakan pencarian karakter di bagian bawah @editor. Atau Anda dapat menyeret kami dari sini.",
                 "Lihat @FunctionDefinition kami di bawah ini. Penjelasannya sangat logis."
             ],
             "name": ["$~⊤⊥", "$~Boolean"],
@@ -2520,7 +2524,7 @@
                 "Ingat saja untuk menutupku jika kamu membukaku, dan gunakan simbol yang cocok. Jika tidak, aku tidak akan tahu bahwa kamu sudah selesai dengan kata-katamu.",
                 "\\'hello'/en'hola'/es-MX\\",
                 "Kamu juga bisa menandaiku dengan bahasa, dan bahkan memberikan beberapa terjemahan. Aku akan bernilai sesuai bahasa yang sedang dipilih, jika ada bahasa yang cocok.",
-                "Jika kamu ingin membuatku dengan beberapa nilai lain, kamu bisa melakukan ini:",
+                "Jika kamu ingin membuatku dengan beberapa @value lain, kamu bisa melakukan ini:",
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "Lihat betapa anggunnya aku baru saja menghitung jumlah-jumlah itu, dan menempatkannya di dalam @Text?",
                 "Aku punya satu rahasia kecil terakhir: tahukah kamu bahwa kita semua punya nomor yang unik? Itu benar! Kamu bisa merujuk kami dengan menulis @U/ dan nomor kami. Sebagai contoh, @FunctionDefinition adalah 192:",
@@ -2677,7 +2681,7 @@
                         "$~Aku membuat @Text baru yang seperti aku, dengan setiap huruf besar semua:",
                         "\\'halo'.hurufBesar()\\",
                         "Huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, jadi teks dalam sistem tulisan yang tidak punya itu, seperti tulisan Jepang atau Arab, tidak berubah.",
-                        "Tanda bahasaku menentukan aturan siapa yang dipakai. Bahasa Turki punya huruf i bertitik dan i tanpa titik, dan hanya teks yang ditandai sebagai bahasa Turki yang diubah menjadi huruf besar dengan cara Turki:",
+                        "Tanda bahasaku menentukan aturan siapa yang dipakai. @language Turki punya huruf i bertitik dan i tanpa titik, dan hanya teks yang ditandai sebagai bahasa Turki yang diubah menjadi huruf besar dengan @how Turki:",
                         "\\'iyi'/tr.hurufBesar()\\",
                         "\\'iyi'.hurufBesar()\\"
                     ],
@@ -2688,7 +2692,7 @@
                     "doc": [
                         "$~Aku membuat @Text baru yang seperti aku, dengan setiap huruf kecil semua:",
                         "\\'HALO'.hurufKecil()\\",
-                        "Ubah dua teks menjadi huruf kecil untuk membandingkannya tanpa peduli pada huruf besar atau kecil. Cara ini tetap menyimpan setiap kata yang dimulai dengan huruf a, baik ditulis dengan huruf besar maupun tidak:",
+                        "Ubah dua teks menjadi huruf kecil untuk membandingkannya tanpa peduli pada huruf besar atau kecil. @how ini tetap menyimpan setiap kata yang dimulai dengan huruf a, baik ditulis dengan huruf besar maupun tidak:",
                         "\\['Apel' 'aprikot' 'Pisang'].menyaring(\n\tƒ(kata•'') kata.hurufKecil().mulai('a')\n)\\",
                         "Seperti @Text/uppercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
                     ],
@@ -2898,7 +2902,7 @@
                 },
                 "round": {
                     "doc": [
-                        "$~Saya membuat @Number baru yang membulatkan nilai saya ke bilangan bulat terdekat.",
+                        "$~Saya membuat @Number baru yang membulatkan @value saya ke bilangan bulat terdekat.",
                         "\\9.4.round()\\",
                         "\\9.5.round()\\",
                         "\\9.6.round()\\"
@@ -2908,7 +2912,7 @@
                 },
                 "roundDown": {
                     "doc": [
-                        "$~Saya membuat @Number baru yang membulatkan ke bilangan bulat terkecil yang kurang dari nilai saya.",
+                        "$~Saya membuat @Number baru yang membulatkan ke bilangan bulat terkecil yang kurang dari @value saya.",
                         "\\10.5.roundDown()\\",
                         "\\10.1.roundDown()\\",
                         "\\10.01.roundDown()\\"
@@ -3319,7 +3323,7 @@
                 },
                 "append": {
                     "doc": [
-                        "$~Saya membuat @List baru dengan nilai-nilai saya, kemudian semua nilai dari @List yang diberikan setelah saya.",
+                        "$~Saya membuat @List baru dengan @value-nilai saya, kemudian semua nilai dari @List yang diberikan setelah saya.",
                         "\\['apel' 'pisang' 'mangga'].withList(['semangka' 'belimbing'])\\",
                         "Menggunakan @Spread sedikit lebih mudah, seperti ini:",
                         "\\['apel' 'pisang' 'mangga' :['semangka' 'belimbing']]\\"
@@ -3327,7 +3331,7 @@
                     "names": "$~denganDaftar",
                     "inputs": [
                         {
-                            "doc": "$~Daftar nilai yang akan ditambahkan.",
+                            "doc": "$~Daftar @value yang akan ditambahkan.",
                             "names": "$~daftar"
                         }
                     ]
@@ -3677,13 +3681,13 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Aku bisa mengambil sebuah daftar, dan membuat daftar baru dengan nilai-nilainya yang sudah diurutkan. Seperti ini:",
+                        "$~Aku bisa mengambil sebuah daftar, dan membuat daftar baru dengan @value-nilainya yang sudah diurutkan. Seperti ini:",
                         "\\[1 5 8 0 2].diurutkan()\\",
                         "Aku juga bisa melakukannya untuk nilai @Text, dengan urutan abjad. Huruf besar diurutkan berdampingan dengan huruf kecilnya, jadi sebuah kata tidak dipindah ke akhir hanya karena diawali huruf besar:",
                         "\\['Jeruk' 'kiwi' 'Pisang' 'apel'].diurutkan()\\",
                         "Dan jika kamu punya daftar nilai yang bukan @Number atau @Text, kamu bisa memberiku @FunctionDefinition yang mengubah setiap item menjadi @Number atau @Text supaya aku bisa mengurutkannya. Misalnya, di sini ada daftar berisi beberapa daftar dengan panjang berbeda; jika kamu memberiku fungsi yang mengubah setiap daftar menjadi panjangnya, aku bisa mengurutkan berdasarkan panjangnya.",
                         "\\[[1] [2 3] [4 8 12] [8]].diurutkan(\n\tƒ(daftar3) daftar3.panjang()\n)\\",
-                        "Fungsi yang membuat @Text adalah cara untuk mengurutkan berdasarkan kata yang kamu hitung sendiri, bukan berdasarkan nilai itu sendiri. Di sini aku mengurutkan nama berdasarkan nama belakangnya:",
+                        "Fungsi yang membuat @Text adalah @how untuk mengurutkan berdasarkan kata yang kamu hitung sendiri, bukan berdasarkan nilai itu sendiri. Di sini aku mengurutkan nama berdasarkan nama belakangnya:",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].diurutkan(\n\tƒ(nama3•'') (nama3 ÷ ' ').terakhir()\n)\\"
                     ],
                     "names": "$~diurutkan",
@@ -3728,13 +3732,13 @@
             "out": "$~Hasil",
             "function": {
                 "size": {
-                    "doc": "$~Saya akan memberi tahu Anda berapa banyak nilai yang ada dalam diri saya.",
+                    "doc": "$~Saya akan memberi tahu Anda berapa banyak @value yang ada dalam diri saya.",
                     "names": "$~ukuran",
                     "inputs": []
                 },
                 "equals": {
                     "doc": [
-                        "$~Saya \\⊤\\ jika @Set yang diberikan dan saya memiliki nilai yang persis sama:",
+                        "$~Saya \\⊤\\ jika @Set yang diberikan dan saya memiliki @value yang persis sama:",
                         "\\{1 2 3} = {2 3 4}\\"
                     ],
                     "names": ["$~samadengan"],
@@ -3747,7 +3751,7 @@
                 },
                 "notequals": {
                     "doc": [
-                        "$~Saya \\⊤\\ jika @Set yang diberikan dan saya tidak memiliki nilai yang persis sama:",
+                        "$~Saya \\⊤\\ jika @Set yang diberikan dan saya tidak memiliki @value yang persis sama:",
                         "\\{1 2 3} ≠ {2 3 4}\\"
                     ],
                     "names": ["$~tidaksama"],
@@ -3894,7 +3898,7 @@
                 "\\{1:1 2:2 3:3}\\",
                 "Tapi misalnya kamu ingin memastikan bahwa isinya hanya nilai-nilai itu saja; cukup tambahkan ! di ujungku, dan aku tidak akan menggeneralisasi. Itu akan membantumu tahu jika kamu mencoba mengambil nilai yang tidak kamu maksud.",
                 "\\{1:1 2:2 3:3}!{4}\\🪲",
-                "Aku tahu cara melakukan banyak hal menakjubkan dengan pasangan-pasanganku."
+                "Aku tahu @how melakukan banyak hal menakjubkan dengan pasangan-pasanganku."
             ],
             "name": ["$~Peta"],
             "key": "$~Kunci",
@@ -3902,7 +3906,7 @@
             "result": "$~Hasil",
             "function": {
                 "size": {
-                    "doc": "$~Saya akan memberi tahu Anda berapa banyak nilai yang ada dalam diri saya.",
+                    "doc": "$~Saya akan memberi tahu Anda berapa banyak @value yang ada dalam diri saya.",
                     "names": "$~ukuran",
                     "inputs": []
                 },
@@ -4040,7 +4044,7 @@
         },
         "Table": {
             "doc": [
-                "$~Saya adalah sekumpulan baris tabel! Saya dapat membantu kamu melacak kumpulan besar nilai yang memiliki struktur sama.",
+                "$~Saya adalah sekumpulan baris tabel! Saya dapat membantu kamu melacak kumpulan besar @value yang memiliki struktur sama.",
                 "Misalnya, bayangkan kamu ingin melacak sekumpulan batu:",
                 "\\⎡nama•'' warna•''⎦\n⎡'obsidian' 'hitam'⎦\n⎡'batu apung' 'abu-abu'⎦\n⎡'sitrin' 'kuning'⎦\\",
                 "@Bind dapat membantu kamu memberinya nama! Lalu kamu bisa melakukan hal-hal seperti membuat tabel baru dengan sebuah baris baru @Insert:",
@@ -4058,7 +4062,7 @@
             "row": "$~Baris",
             "function": {
                 "equals": {
-                    "doc": "$~Saya memeriksa apakah saya memiliki sel yang persis sama dan dalam urutan yang persis sama dengan @Table lainnya.",
+                    "doc": "$~Saya memeriksa apakah saya memiliki @cell yang persis sama dan dalam urutan yang persis sama dengan @Table lainnya.",
                     "names": ["$~samadengan"],
                     "inputs": [
                         {
@@ -4068,7 +4072,7 @@
                     ]
                 },
                 "notequal": {
-                    "doc": "$~Saya memeriksa apakah ada sel saya yang berbeda atau berada dalam urutan yang berbeda dari @Table lain.",
+                    "doc": "$~Saya memeriksa apakah ada @cell saya yang berbeda atau berada dalam urutan yang berbeda dari @Table lain.",
                     "names": ["$~tidaksamadengan"],
                     "inputs": [
                         {
@@ -4088,7 +4092,7 @@
             "name": ["$~Struktur"],
             "function": {
                 "equals": {
-                    "doc": "$~Saya memeriksa apakah properti saya memiliki nama dan nilai yang sama dengan properti struktur lain.",
+                    "doc": "$~Saya memeriksa apakah @property saya memiliki nama dan @value yang sama dengan properti struktur lain.",
                     "names": ["$~samadengan"],
                     "inputs": [
                         {
@@ -4098,7 +4102,7 @@
                     ]
                 },
                 "notequal": {
-                    "doc": "$~Saya memeriksa apakah properti saya berbeda dalam hal apa pun dari nama dan nilai struktur lain.",
+                    "doc": "$~Saya memeriksa apakah @property saya berbeda dalam hal apa pun dari nama dan @value struktur lain.",
                     "names": ["$~tidaksamadengan"],
                     "inputs": [
                         {
@@ -4126,7 +4130,7 @@
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$~\\⊤\\ jika saya adalah teks berformat yang sama dengan @value yang diberikan.",
+                    "doc": "$~\\⊤\\ jika saya adalah @markup yang sama dengan @value yang diberikan.",
                     "names": ["$~samadengan"],
                     "inputs": [
                         {
@@ -4136,7 +4140,7 @@
                     ]
                 },
                 "notequals": {
-                    "doc": "$~\\⊤\\ jika saya /bukan/ teks berformat yang sama dengan @value yang diberikan.",
+                    "doc": "$~\\⊤\\ jika saya /bukan/ @markup yang sama dengan @value yang diberikan.",
                     "names": "$~≠",
                     "inputs": [
                         {
@@ -4197,7 +4201,7 @@
                 },
                 "uppercase": {
                     "doc": [
-                        "$~Aku membuat teks berformat baru yang seperti aku, dengan setiap huruf besar semua. Hanya kata-kataku yang berubah; format, tautan, dan contohku tetap seperti semula:",
+                        "$~Aku membuat @markup baru yang seperti aku, dengan setiap huruf besar semua. Hanya kata-kataku yang berubah; format, tautan, dan contohku tetap seperti semula:",
                         "\\`*hai* di sana`.hurufBesar()\\",
                         "Seperti @Text/uppercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
                     ],
@@ -4206,7 +4210,7 @@
                 },
                 "lowercase": {
                     "doc": [
-                        "$~Aku membuat teks berformat baru yang seperti aku, dengan setiap huruf kecil semua. Hanya kata-kataku yang berubah; format, tautan, dan contohku tetap seperti semula:",
+                        "$~Aku membuat @markup baru yang seperti aku, dengan setiap huruf kecil semua. Hanya kata-kataku yang berubah; format, tautan, dan contohku tetap seperti semula:",
                         "\\`*HAI* DI SANA`.hurufKecil()\\",
                         "Seperti @Text/lowercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
                     ],
@@ -4255,36 +4259,36 @@
         },
         "Choice": {
             "doc": [
-                "$~Ini adalah aliran nama yang dipilih audiens Anda dengan mengklik, mengetuk, atau menekan /Enter/ pada @Phrase yang bernama.",
+                "$~Ini adalah @stream nama yang dipilih audiens Anda dengan mengklik, mengetuk, atau menekan /Enter/ pada @Phrase yang bernama.",
                 "/klik ketuk!/",
-                "Jadi cara terbaik untuk menggunakannya adalah dengan membuat pertunjukan dengan frasa yang dapat dipilih bernama @Phrase , dan kemudian menggunakan @Reaction untuk memutuskan apa yang harus dilakukan ketika nama tersebut dipilih.",
+                "Jadi @how terbaik untuk menggunakannya adalah dengan membuat pertunjukan dengan frasa yang dapat dipilih bernama @Phrase , dan kemudian menggunakan @Reaction untuk memutuskan apa yang harus dilakukan ketika nama tersebut dipilih.",
                 "Berikut contoh paling sederhana:",
                 "\\Group(\nStack() \n[\nPhrase('one' dapatdipilih:⊤ nama:'1') \nPhrase('two' dapatdipilih:⊤ nama:'2') \nPhrase(Choice())\n]\n)\\",
-                "Salin ini ke editor, lalu pilih salah satu dari dua @Phrase . Anda akan melihat @Phrase ketiga menampilkan nama yang dipilih."
+                "Salin ini ke @editor, lalu pilih salah satu dari dua @Phrase . Anda akan melihat @Phrase ketiga menampilkan nama yang dipilih."
             ],
             "names": ["$~Pilihan"]
         },
         "Button": {
             "doc": [
-                "$~Ia memberitahumu apakah tombol utama mouse atau trackpad ditekan, sebagai aliran @Boolean.",
+                "$~Ia memberitahumu apakah tombol utama mouse atau trackpad ditekan, sebagai @stream @Boolean.",
                 "/klik klik klik/",
                 "Tentu saja, mouse atau trackpad bukan pilihan terbaik untuk mendengarkan penonton, karena tidak semua orang bisa memakainya. Pilihan yang lebih mudah diakses adalah @Choice.",
                 "Tetapi jika kamu /benar-benar/ perlu mendengarkan tombol mouse, ini caranya. Ia akan memberi aliran @Boolean, yang menunjukkan apakah tombol utama sedang naik \\⊥\\ atau turun \\⊤\\.",
                 "Berikut contoh sederhana:",
                 "\\Frasa(Tombol() → '')\\",
-                "Ini hanya membuat @Phrase yang merupakan @value dari aliran sebagai teks. Jika kamu menyalinnya ke editor dan mengklik, kamu akan melihatnya berganti bolak-balik antara \\⊥\\ dan \\⊤\\."
+                "Ini hanya membuat @Phrase yang merupakan @value dari aliran sebagai teks. Jika kamu menyalinnya ke @editor dan mengklik, kamu akan melihatnya berganti bolak-balik antara \\⊥\\ dan \\⊤\\."
             ],
             "names": ["$~Tombol"],
             "down": {
                 "names": "$~turun",
-                "doc": "$~Jika @None, aliran data akan memberikan nilai naik dan turun. Jika berupa \\⊤\\, nilainya hanya akan berubah saat tombol ditekan. Jika diberikan \\⊥\\, nilainya hanya akan berubah saat tombol dilepaskan."
+                "doc": "$~Jika @None, @stream data akan memberikan @value naik dan turun. Jika berupa \\⊤\\, nilainya hanya akan berubah saat tombol ditekan. Jika diberikan \\⊥\\, nilainya hanya akan berubah saat tombol dilepaskan."
             }
         },
         "Pointer": {
             "doc": [
                 "$~Fitur ini melacak ke mana audiens Anda mengarahkan kursor di @Stage .",
                 "/whrrrrrr/",
-                "Tentu saja, ini bukanlah pilihan yang mudah diakses: tidak semua orang dapat melihat atau menunjuk dengan mudah, jadi pastikan Anda tidak mengecualikan seseorang dari partisipasi dengan menggunakan aliran ini.",
+                "Tentu saja, ini bukanlah pilihan yang mudah diakses: tidak semua orang dapat melihat atau menunjuk dengan mudah, jadi pastikan Anda tidak mengecualikan seseorang dari partisipasi dengan menggunakan @stream ini.",
                 "Jika Anda yakin tidak ada yang dikecualikan, maka menggunakan @Pointer semudah membuat stream:",
                 "\\Pointer()\\",
                 "@Place yang diberikannya akan sesuai dengan lokasi yang ditunjuk oleh penunjuk pada @Stage ."
@@ -4297,9 +4301,9 @@
                 "/klikety/",
                 "Coba ini",
                 "\\Kunci()\\",
-                "Lihat bagaimana saat kamu mengetik sebuah tombol, ia muncul di @Stage? Setiap kali sebuah tombol ditekan, @Text baru ditambahkan ke aliran, yang menjelaskan tombol yang ditekan.",
+                "Lihat bagaimana saat kamu mengetik sebuah tombol, ia muncul di @Stage? Setiap kali sebuah tombol ditekan, @Text baru ditambahkan ke @stream, yang menjelaskan tombol yang ditekan.",
                 "Untuk tombol yang mewakili sebuah karakter, @value akan berupa karakter itu sebagai @Text.",
-                "Untuk tombol khusus, seperti tombol /Escape/, ia akan berupa @Text yang menjelaskan tombol itu, menggunakan <nama yang sudah ditentukan@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, sayangnya hanya tersedia dalam bahasa Inggris.",
+                "Untuk tombol khusus, seperti tombol /Escape/, ia akan berupa @Text yang menjelaskan tombol itu, menggunakan <nama yang sudah ditentukan@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, sayangnya hanya tersedia dalam @language Inggris.",
                 "Jika kamu hanya ingin tahu tentang tombol tertentu, kamu bisa memberikannya:",
                 "\\Kunci('a')\\",
                 "Dan jika kamu hanya ingin tahu kapan sebuah @Key dilepas dan bukan ditekan, kamu bisa memberi @Boolean:",
@@ -4383,7 +4387,7 @@
             "names": ["$~Waktu"],
             "frequency": {
                 "names": ["$~frekuensi"],
-                "doc": "$~Ini adalah frekuensi detak waktu. Nilai defaultnya adalah \\33ms\\, yang setara dengan sekitar 30 kali per detik."
+                "doc": "$~Ini adalah frekuensi detak waktu. @value defaultnya adalah \\33ms\\, yang setara dengan sekitar 30 kali per detik."
             },
             "relative": {
                 "names": ["$~relatif"],
@@ -4406,7 +4410,7 @@
         },
         "Pitch": {
             "doc": [
-                "$~Ini adalah aliran frekuensi mikrofon, dalam hertz.",
+                "$~Ini adalah @stream frekuensi mikrofon, dalam hertz.",
                 "/hummmmm/",
                 "Suara tersebut diambil sampelnya pada frekuensi pilihan Anda. Suara manusia berada di antara 20Hz dan 5000Hz, jadi rencanakan angka-angka dalam rentang tersebut.",
                 "\\Pitch()\\",
@@ -4425,7 +4429,7 @@
                 "Ia menggunakan pengenalan ucapan dari peramban kamu untuk mendengarkan apa yang kamu katakan dan mengubahnya menjadi kata-kata (bukankah ini keren sekali?!).",
                 "\\Pidato()\\",
                 "Ini cocok bagi mereka yang bisa berbicara dalam suatu @language tetapi masih belajar membaca atau menulisnya (dan lainnya)...",
-                "Kamu bisa menentukan kode bahasa untuk mengenali ucapan dalam bahasa tertentu:",
+                "Kamu bisa menentukan @code bahasa untuk mengenali ucapan dalam bahasa tertentu:",
                 "\\Pidato(bahasa: 'es-MX')\\",
                 "Jika tidak ada bahasa yang ditentukan, maka akan menggunakan bahasa pilihanmu.",
                 "Pengenalan suara membutuhkan akses mikrofon dan koneksi Internet (mohon berikan aksesnya!). Selain itu, mungkin ada batas penggunaan, jadi jangan biarkan menyala terlalu lama (jangaaaan)!"
@@ -4437,7 +4441,7 @@
             },
             "language": {
                 "names": ["$~bahasa", "$~bahasa"],
-                "doc": "$~Kode @language BCP 47 (misalnya, 'en-US'). Jika kode ini tidak didukung oleh pengenalan suara peramban kamu, kamu akan mendapatkan kesalahan. Kode ini menggunakan bahasa pilihanmu secara bawaan."
+                "doc": "$~@code @language BCP 47 (misalnya, 'en-US'). Jika kode ini tidak didukung oleh pengenalan suara peramban kamu, kamu akan mendapatkan kesalahan. Kode ini menggunakan bahasa pilihanmu secara bawaan."
             },
             "limit": {
                 "names": ["$~membatasi", "$~katakata"],
@@ -4493,7 +4497,7 @@
             },
             "resolution": {
                 "names": ["$~resolusi"],
-                "doc": "$~Lebar dalam piksel yang digunakan untuk mengambil sampel kamera sebelum menjalankan model tangan. Nilai yang lebih tinggi dapat memberikan penanda lokasi yang sedikit lebih akurat tetapi membutuhkan lebih banyak waktu per bingkai."
+                "doc": "$~Lebar dalam piksel yang digunakan untuk mengambil sampel kamera sebelum menjalankan model tangan. @value yang lebih tinggi dapat memberikan penanda lokasi yang sedikit lebih akurat tetapi membutuhkan lebih banyak waktu per bingkai."
             }
         },
         "Scene": {
@@ -4509,7 +4513,7 @@
                 "Oh, dan satu rahasia kecil terakhir! Anda bahkan dapat menambahkan @Boolean ke dalam daftar, dan jika nilainya \\⊥\\ , @Scene akan berhenti sejenak dan menunggu hingga nilainya menjadi benar.",
                 "Sebagai contoh, jika Anda ingin membuat urutan @Phrase dan hanya melanjutkan ketika @Button berubah, Anda dapat melakukannya seperti ini:",
                 "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' lamanya: 0.25s rotasi: 5° memasuki: Pose(rotasi: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
-                "Perhatikan bagaimana kode tersebut berhenti sejenak setelah setiap @Phrase , dan menunggu @Button berubah sebelum melanjutkan?"
+                "Perhatikan bagaimana @code tersebut berhenti sejenak setelah setiap @Phrase , dan menunggu @Button berubah sebelum melanjutkan?"
             ],
             "names": ["$~Pemandangan"],
             "outputs": {
@@ -4525,7 +4529,7 @@
                 "Ini memungkinkan Anda melakukan hal-hal yang sangat sederhana seperti membuat emoji yang memantul:",
                 "\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
                 "Lihat bagaimana huruf o memantul? Pada evaluasi pertama, Anda memberinya tempat di posisi tinggi pada @Stage , tetapi kemudian setelah itu, ia mendapatkan @None , yang memungkinkan @Motion untuk mengubahnya ke posisi apa pun yang akan diberikan oleh gravitasi.",
-                "Lihat berbagai cara lain untuk mengkonfigurasinya di bawah ini."
+                "Lihat berbagai @how lain untuk mengkonfigurasinya di bawah ini."
             ],
             "names": ["$~Gerakan"],
             "place": {
@@ -4547,7 +4551,7 @@
         },
         "Chat": {
             "doc": [
-                "$~Ini adalah aliran pesan @Text yang diketik oleh audiens Anda.",
+                "$~Ini adalah @stream pesan @Text yang diketik oleh audiens Anda.",
                 "Sebagai contoh, program sederhana ini memeriksa apakah pesannya adalah 'hello', dan jika ya, program akan menghasilkan 'hi'. Jika tidak, program akan menghasilkan 'huh'?",
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
                 "Selesai! Anda dapat membuat berbagai macam pertunjukan dengan ini, seperti chatbot, petualangan berbasis teks, atau skema kontrol berbasis teks untuk jenis pertunjukan lainnya."
@@ -4557,13 +4561,13 @@
         "Placement": {
             "doc": [
                 "$~Ini memungkinkan penontonmu menyeret @Output ke sebuah @Place di @Stage.",
-                "Ada banyak cara untuk menempatkan @Output di @Stage: berikan mereka @Place yang jelas, gunakan @Motion dan biarkan gravitasi bekerja, atau letakkan mereka dalam sebuah @Group untuk diatur.",
+                "Ada banyak @how untuk menempatkan @Output di @Stage: berikan mereka @Place yang jelas, gunakan @Motion dan biarkan gravitasi bekerja, atau letakkan mereka dalam sebuah @Group untuk diatur.",
                 "Tetapi kadang kamu ingin memberi /penonton/ kendali atas ke mana @Output pergi di @Stage.",
                 "Begini cara kerjanya: buat sebuah @Placement dan berikan pada @Place dari sebuah @Output:",
                 "\\Frasa('hai' tempat: Penempatan())\\",
                 "Lalu, setiap kali penonton menggunakan @key panah atau mengklik atau mengetuk panggung, @Placement akan membuat @Place baru yang bergerak ke arah yang diinginkan.",
                 "Coba salin ini ke programmu dan gerakkan @Output dengan penunjuk atau papan ketik.",
-                "Kamu bisa menyesuaikan @Placement, mengaktifkan dan menonaktifkan gerakan pada dimensi tertentu, mengubah seberapa jauh @Place bergerak, dan @Place awal tempat aliran ini dimulai."
+                "Kamu bisa menyesuaikan @Placement, mengaktifkan dan menonaktifkan gerakan pada dimensi tertentu, mengubah seberapa jauh @Place bergerak, dan @Place awal tempat @stream ini dimulai."
             ],
             "names": ["$~Penempatan"],
             "inputs": [
@@ -4593,7 +4597,7 @@
             "doc": [
                 "$~Ini mengambil teks di alamat web yang kamu berikan.",
                 "Internet itu menakjubkan — seluruh dunia komputer yang terhubung, saling berbagi dokumen satu sama lain.",
-                "Aliran ini terhubung ke sana — berikan sebuah URL, seperti ini:",
+                "@stream ini terhubung ke sana — berikan sebuah URL, seperti ini:",
                 "\\Halamanweb('https://wordplay.dev')\\",
                 "Dan ternyata ada hal yang disebut <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, yang memungkinkan kamu @query hal-hal di halaman web? Berikan sebuah pertanyaan pemilihan CSS dan ia hanya akan mengambil teks yang cocok dengan pertanyaan itu. Seperti contoh ini, yang mengambil judul tingkat satu.",
                 "\\Halamanweb('https://wordplay.dev' 'h1')\\",
@@ -4623,7 +4627,7 @@
         "Collision": {
             "names": "$~Tabrakan",
             "doc": [
-                "$~Ini adalah aliran nilai @Rebound untuk saat @Output yang bernama saling bertabrakan.",
+                "$~Ini adalah @stream @value @Rebound untuk saat @Output yang bernama saling bertabrakan.",
                 "Agar dua @Output saling menyadari satu sama lain, beri mereka berdua nama, lalu beri aku kedua nama itu. Aku akan membuat @Rebound baru setiap kali mereka bersentuhan. Mereka tidak perlu @Matter untuk itu — sebuah nama saja sudah cukup bagiku untuk mengawasi sesuatu.",
                 "Beri aku satu nama saja, dan aku akan memberitahumu setiap kali @Output itu menyentuh apa pun di dunia fisik. Sebuah @Output ada di dunia fisik jika ia memiliki @Matter, jika sebuah @Motion menempatkannya, jika ia adalah @Shape langsung di @Stage, atau jika aku juga sedang mengawasi namanya.",
                 "Menyadari tidak sama dengan memantul. @Output hanya mendorong @Output lain jika ia memiliki @Matter dan sebuah @Motion yang menggerakkannya. @Output yang ditempatkan programmu pergi tepat ke tempat kamu meletakkannya, jadi ia menembus apa pun yang disentuhnya — aku tetap akan memberitahumu tentang sentuhan itu.",
@@ -4641,7 +4645,7 @@
         },
         "Rebound": {
             "names": "$~Memantul",
-            "doc": "$~Saya berasal dari @Collision dan mewakili siapa yang bertabrakan dan ke arah mana tabrakan itu terjadi. Gunakan saya untuk memutuskan apakah akan bereaksi terhadap tabrakan dengan cara khusus, selain fisika normal.",
+            "doc": "$~Saya berasal dari @Collision dan mewakili siapa yang bertabrakan dan ke arah mana tabrakan itu terjadi. Gunakan saya untuk memutuskan apakah akan bereaksi terhadap tabrakan dengan @how khusus, selain fisika normal.",
             "direction": {
                 "names": "$~arah",
                 "doc": "$~Arah dan besarnya tumbukan, relatif terhadap objek tumbukan."
@@ -4672,7 +4676,7 @@
                 "$~Ini menelusuri garis luar setiap glif huruf sebagai @List dari @Place .",
                 "Berikan teks dan jenis huruf, dan alat ini akan menelusuri garis luar setiap glif titik demi titik.",
                 "\\Contour('a' \"Noto Sans\")\\",
-                "Masukkan nilai @Place tersebut ke dalam @List of @Phrase untuk melihat garis luarnya digambar sebagai titik-titik:",
+                "Masukkan @value @Place tersebut ke dalam @List of @Phrase untuk melihat garis luarnya digambar sebagai titik-titik:",
                 "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' tempat: point)))\\",
                 "Anda dapat mengubah ukuran garis luar dengan @Number of meters, memindahkan titik asalnya dengan @Place , memilih ketebalan font, mengaktifkan huruf miring, dan mengatur `spacing` antar titik sebagai jarak dalam meter. `spacing` yang lebih kecil akan menelusuri garis luar dengan lebih akurat, dengan titik-titik yang berjarak sama di sepanjang garis dan kurva.",
                 "Beberapa glif, seperti emoji warna, tidak memiliki garis luar, sehingga tidak menambahkan titik. Saat mengambil font, ia akan memberi Anda @List kosong, lalu mengisinya saat sudah siap."
@@ -4704,7 +4708,7 @@
                     "names": "$~hurufmiring"
                 },
                 {
-                    "doc": "$~Jarak dalam meter antara titik-titik sampel di sepanjang garis luar, dijaga konsisten di sepanjang garis lurus maupun lengkung. Nilai yang lebih kecil menghasilkan penelusuran yang lebih halus, hingga minimum 0,01 meter.",
+                    "doc": "$~Jarak dalam meter antara titik-titik sampel di sepanjang garis luar, dijaga konsisten di sepanjang garis lurus maupun lengkung. @value yang lebih kecil menghasilkan penelusuran yang lebih halus, hingga minimum 0,01 meter.",
                     "names": "$~jarak"
                 },
                 {
@@ -4722,7 +4726,7 @@
         "Now": {
             "doc": [
                 "$~Saya berdetak dengan @Moment baru pada kecepatan yang kamu pilih, sehingga sebuah program selalu tahu tanggal hari ini dan waktu saat ini.",
-                "Hal ini membuat jam yang sesuai wilayah hanya menjadi satu baris kode:",
+                "Hal ini membuat jam yang sesuai @region hanya menjadi satu baris @code:",
                 "\\💬(⏰() → '')\\",
                 "Secara bawaan saya berdetak setiap detik. Beri saya @Now.frequency dalam detik, menit, atau jam untuk mengubah kecepatannya:",
                 "\\⏰(1min)\\",
@@ -4738,17 +4742,17 @@
             },
             "timezone": {
                 "names": ["$~zonawaktu"],
-                "doc": "$~Sebuah nama zona waktu baku untuk Moment yang saya buat, terdiri dari wilayah dan kota, seperti \\'America/New_York'\\ atau \\'Asia/Tokyo'\\. Tidak tahu namanya? Tuliskan kota yang kamu ketahui dan saya akan memberi saran zona waktu terdekat. Jika \\ø\\, saya memakai zona waktu dari perangkat tempat program itu berjalan."
+                "doc": "$~Sebuah nama zona waktu baku untuk Moment yang saya buat, terdiri dari @region dan kota, seperti \\'America/New_York'\\ atau \\'Asia/Tokyo'\\. Tidak tahu namanya? Tuliskan kota yang kamu ketahui dan saya akan memberi saran zona waktu terdekat. Jika \\ø\\, saya memakai zona waktu dari perangkat tempat program itu berjalan."
             },
             "calendar": {
                 "names": ["$~kalender"],
-                "doc": "$~Nama kalender Unicode untuk Moment yang saya buat, seperti \\'gregory'\\, \\'ibrani'\\, \\'Tionghoa'\\, atau \\'bahasa Jepang'\\. Jika \\ø\\, saya menggunakan kalender wilayah pembaca."
+                "doc": "$~Nama kalender Unicode untuk Moment yang saya buat, seperti \\'gregory'\\, \\'ibrani'\\, \\'Tionghoa'\\, atau \\'bahasa Jepang'\\. Jika \\ø\\, saya menggunakan kalender @region pembaca."
             }
         },
         "Moment": {
             "doc": [
                 "$~Saya adalah satu momen dalam waktu: tanggal pada kalender, waktu dalam sehari, serta zona waktu dan kalender tempat keduanya ditulis.",
-                "Semua properti saya bersifat opsional. Beri saya bagian tanggal untuk menjelaskan sebuah tanggal:",
+                "Semua @property saya bersifat opsional. Beri saya bagian tanggal untuk menjelaskan sebuah tanggal:",
                 "\\📅(2026 7 1) → ''\\",
                 "Atau hanya bagian waktu, untuk waktu dalam sehari:",
                 "\\📅(jam: 15 menit: 30) → ''\\",
@@ -4756,9 +4760,9 @@
                 "\\📅() → ''\\",
                 "@Moment.timezone saya menerima nama zona waktu IANA standar seperti \\'America/Los_Angeles'\\ atau \\'Asia/Tokyo'\\; jika kamu membiarkannya \\ø\\, saya memakai zona waktu perangkat tempat program itu berjalan. @Moment.calendar saya menerima nama kalender Unicode seperti \\'gregory'\\, \\'ibrani'\\, atau \\'bahasa Jepang'\\; jika kamu membiarkannya \\ø\\, saya memakai kalender dari lokal pembaca. @Moment.year, @Moment.month, dan @Moment.day saya berada dalam kalender itu:",
                 "\\📅(5786 10 4 kalender: 'hebrew') → ''\\",
-                "Mengubah saya menjadi @Text menata saya untuk lokal pembaca: Moment yang sama tampil berbeda dalam bahasa Inggris, 中文, atau हिन्दी, dan berubah ketika lokal pembaca berubah.",
+                "Mengubah saya menjadi @Text menata saya untuk lokal pembaca: Moment yang sama tampil berbeda dalam @language Inggris, 中文, atau हिन्दी, dan berubah ketika lokal pembaca berubah.",
                 "@Moment.era, @Moment.week, dan @Moment.weekday saya hanya bersifat informasi: @Now mengisinya saat membuat Moment, tetapi keduanya diabaikan saat penataan.",
-                "Jika kamu ingin aliran Moment yang diperbarui seiring waktu berlalu — sebuah jam — lihat @Now. Jika kamu ingin milidetik yang berlalu sejak program kamu dimulai — untuk animasi — lihat @Time."
+                "Jika kamu ingin @stream Moment yang diperbarui seiring waktu berlalu — sebuah jam — lihat @Now. Jika kamu ingin milidetik yang berlalu sejak program kamu dimulai — untuk animasi — lihat @Time."
             ],
             "names": ["$~Momen"],
             "year": {
@@ -4791,11 +4795,11 @@
             },
             "timezone": {
                 "names": ["$~zonawaktu"],
-                "doc": "$~Sebuah nama zona waktu baku, terdiri dari wilayah dan kota, seperti \\'America/New_York'\\, \\'Eropa/Paris'\\, atau \\'Asia/Tokyo'\\. Tidak tahu namanya? Tuliskan kota yang kamu ketahui dan saya akan memberi saran zona waktu terdekat. Jika \\ø\\, saya memakai zona waktu dari perangkat tempat program itu berjalan."
+                "doc": "$~Sebuah nama zona waktu baku, terdiri dari @region dan kota, seperti \\'America/New_York'\\, \\'Eropa/Paris'\\, atau \\'Asia/Tokyo'\\. Tidak tahu namanya? Tuliskan kota yang kamu ketahui dan saya akan memberi saran zona waktu terdekat. Jika \\ø\\, saya memakai zona waktu dari perangkat tempat program itu berjalan."
             },
             "calendar": {
                 "names": ["$~kalender"],
-                "doc": "$~Nama kalender Unicode, seperti \\'gregory'\\, \\'ibrani'\\, \\'Tionghoa'\\, atau \\'bahasa Jepang'\\. Jika \\ø\\, kalender wilayah pembaca."
+                "doc": "$~Nama kalender Unicode, seperti \\'gregory'\\, \\'ibrani'\\, \\'Tionghoa'\\, atau \\'bahasa Jepang'\\. Jika \\ø\\, kalender @region pembaca."
             },
             "era": {
                 "names": ["$~era"],
@@ -4834,7 +4838,7 @@
             },
             "resolution": {
                 "names": ["$~resolusi"],
-                "doc": "$~Lebar dalam piksel untuk mengambil sampel kamera sebelum menjalankan model wajah. Nilai yang lebih tinggi bisa memberi penanda yang sedikit lebih akurat, tetapi butuh lebih banyak waktu per bingkai."
+                "doc": "$~Lebar dalam piksel untuk mengambil sampel kamera sebelum menjalankan model wajah. @value yang lebih tinggi bisa memberi penanda yang sedikit lebih akurat, tetapi butuh lebih banyak waktu per bingkai."
             }
         },
         "Objects": {
@@ -4857,7 +4861,7 @@
                     "names": "$~frekuensi"
                 },
                 {
-                    "doc": "$~Lebar dalam piksel saat mengambil sampel kamera sebelum mencari benda. Model melihat kotak berukuran 320 piksel, jadi nilai yang lebih besar kebanyakan hanya menghabiskan waktu.",
+                    "doc": "$~Lebar dalam piksel saat mengambil sampel kamera sebelum mencari benda. Model melihat kotak berukuran 320 piksel, jadi @value yang lebih besar kebanyakan hanya menghabiskan waktu.",
                     "names": "$~resolusi"
                 },
                 {
@@ -5023,14 +5027,14 @@
                 "names": "$~tanggaNada"
             },
             "parts": {
-                "doc": "$~Satu @Part untuk setiap @Track, dalam urutan penulisannya, entah sedang berbunyi atau tidak. Ini adalah seluruh keadaan musik pada ketukan ini.",
+                "doc": "$~Satu @Part untuk setiap @Track, dalam urutan penulisannya, entah sedang berbunyi atau tidak. Ini adalah seluruh @state musik pada ketukan ini.",
                 "names": "$~bagian"
             }
         },
         "Part": {
             "doc": [
-                "$~Aku adalah keadaan satu @Track pada satu ketukan: apa yang dimainkannya, seberapa keras, dan dalam skala apa. Sebuah @Downbeat membawa satu diriku per trek, jadi sebuah visualisasi bisa menggambar setiap suara secara terpisah, bukan campurannya.",
-                "Nilai-nilaiku adalah nilai yang sebenarnya dipakai pemain, setelah setiap bawaan dan penimpaan diterapkan — jadi skala dan kunciku adalah milik trek itu, bukan milik musik, ketika trek itu menetapkan miliknya sendiri."
+                "$~Aku adalah @state satu @Track pada satu ketukan: apa yang dimainkannya, seberapa keras, dan dalam skala apa. Sebuah @Downbeat membawa satu diriku per trek, jadi sebuah visualisasi bisa menggambar setiap suara secara terpisah, bukan campurannya.",
+                "@value-nilaiku adalah nilai yang sebenarnya dipakai pemain, setelah setiap bawaan dan penimpaan diterapkan — jadi skala dan kunciku adalah milik trek itu, bukan milik musik, ketika trek itu menetapkan miliknya sendiri."
             ],
             "names": "$~Bagian",
             "instrument": {
@@ -5079,8 +5083,8 @@
         "Output": {
             "names": "$~Keluaran",
             "doc": [
-                "$~Saya bukanlah @StructureDefinition yang sebenarnya dapat Anda buat. Tetapi saya adalah salah satu yang sangat penting, karena saya menginspirasi elemen-elemen terpenting dari tarian kita: @Phrase, @Group, dan @Stage.",
-                "Temui mereka untuk mempelajari lebih lanjut tentang cara menggunakannya."
+                "$~Saya bukanlah @StructureDefinition yang sebenarnya dapat Anda buat. Tetapi saya adalah salah satu yang sangat penting, karena saya menginspirasi @element-elemen terpenting dari tarian kita: @Phrase, @Group, dan @Stage.",
+                "Temui mereka untuk mempelajari lebih lanjut tentang @how menggunakannya."
             ]
         },
         "Group": {
@@ -5147,7 +5151,7 @@
                 "names": "$~mengimbangi"
             },
             "rotation": {
-                "doc": "$~Seberapa miring seharusnya posisi tubuhku di sekitar pusat tubuhku? @Pose-ku memiliki nilai kemiringan yang berbeda.",
+                "doc": "$~Seberapa miring seharusnya posisi tubuhku di sekitar pusat tubuhku? @Pose-ku memiliki @value kemiringan yang berbeda.",
                 "names": ["$~rotasi"]
             },
             "scale": {
@@ -5195,7 +5199,7 @@
                 "\\Phrase('magnificent!')\\",
                 "Saya membutuhkan @TextLiteral atau @FormattedLiteral untuk ditampilkan. Dengan @FormattedLiteral , saya dapat menggunakan hal-hal seperti \\`*bold* and /italic/`\\ atau merujuk ke @ConceptLink kustom yang Anda buat.",
                 "Anda juga dapat secara opsional memberi saya semua yang dapat dilakukan oleh @Output , termasuk mengubah ukuran, font, rotasi, dan melakukan semua tarian luar biasa saya dengan @Pose dan @Sequence .",
-                "Anda juga dapat memilih saya di @Stage dan mengedit saya dengan palet 🎨 di sebelahnya — ini adalah cara yang bagus untuk mencoba berbagai font dan memilih /face/ yang tepat untuk @Text Anda."
+                "Anda juga dapat memilih saya di @Stage dan mengedit saya dengan palet 🎨 di sebelahnya — ini adalah @how yang bagus untuk mencoba berbagai font dan memilih /face/ yang tepat untuk @Text Anda."
             ],
             "names": ["$~Frasa"],
             "text": {
@@ -5207,7 +5211,7 @@
                 "names": "$~ukuran"
             },
             "face": {
-                "doc": "$~Nama jenis huruf yang harus saya gunakan. Cara termudah untuk memilihnya adalah dengan memilih saya dan membuka palet 🎨 di sebelahnya, di mana Anda dapat melihat pratinjau font dan memilih jenis huruf tanpa mengetik namanya.",
+                "doc": "$~Nama jenis huruf yang harus saya gunakan. @how termudah untuk memilihnya adalah dengan memilih saya dan membuka palet 🎨 di sebelahnya, di mana Anda dapat melihat pratinjau font dan memilih jenis huruf tanpa mengetik namanya.",
                 "names": "$~menghadapi"
             },
             "place": {
@@ -5238,8 +5242,8 @@
                 "doc": [
                     "$~Sebuah nama yang kamu berikan padaku! Ini berguna untuk banyak hal.",
                     "Pertama, jika aku punya nama, aku akan memakainya untuk menjelaskan diriku dalam keterangan pembaca layar.",
-                    "Kedua, saat membuat animasi, kamu mungkin punya beberapa ekspresi berbeda yang seharusnya mewakili isi yang sama di panggung; berikan mereka nama yang sama dan mereka akan beranimasi sebagai satu.",
-                    "Terakhir, aku berguna dengan @Choice: nama-nama yang kamu berikan padaku muncul dalam aliran itu.",
+                    "Kedua, saat membuat animasi, kamu mungkin punya beberapa @expression berbeda yang seharusnya mewakili isi yang sama di panggung; berikan mereka nama yang sama dan mereka akan beranimasi sebagai satu.",
+                    "Terakhir, aku berguna dengan @Choice: nama-nama yang kamu berikan padaku muncul dalam @stream itu.",
                     "Kamu bisa memberiku banyak nama berbeda, masing-masing dalam @language yang berbeda, jika itu membantu. Aku akan selalu memakai nama dalam bahasa pertama yang dipilih."
                 ],
                 "names": "$~nama"
@@ -5312,7 +5316,7 @@
             },
             "defaultDescription": "$~$size[$size meter |]phrase $text $name[bernama $name|] $face[$face|] $animation $color[$color|] $bubble[mengucapkan $bubble|]",
             "changing": {
-                "doc": "$~Nama sebuah efek yang dimainkan saat teksku berubah, selama @Phrase.duration-ku, dilonggarkan oleh @Phrase.style-ku. Jika \\ø\\, teksku berubah seketika. Jika 'edit', aku menghapus teks lama kembali ke bagian yang sama antara teks lama dan baru, lalu mengetik teks baru. Jika 'rewrite', aku mengetik teks baru di atas yang lama, mengganti satu simbol setiap kali dalam urutan acak. Jika 'random', setiap simbolku berputar melalui simbol-simbol acak dari bahasa teksku (atau skripnya, saat bahasanya tidak diketahui), sesuai dengan huruf besar-kecil teksku, seperti mesin slot, sampai berhenti pada teks baru. Dengan teks @FormattedLiteral, simbol-simbol yang berubah mengambil format teks baru selama efek berlangsung.",
+                "doc": "$~Nama sebuah efek yang dimainkan saat teksku berubah, selama @Phrase.duration-ku, dilonggarkan oleh @Phrase.style-ku. Jika \\ø\\, teksku berubah seketika. Jika 'edit', aku menghapus teks lama kembali ke bagian yang sama antara teks lama dan baru, lalu mengetik teks baru. Jika 'rewrite', aku mengetik teks baru di atas yang lama, mengganti satu simbol setiap kali dalam urutan acak. Jika 'random', setiap simbolku berputar melalui simbol-simbol acak dari @language teksku (atau skripnya, saat bahasanya tidak diketahui), sesuai dengan huruf besar-kecil teksku, seperti mesin slot, sampai berhenti pada teks baru. Dengan teks @FormattedLiteral, simbol-simbol yang berubah mengambil format teks baru selama efek berlangsung.",
                 "names": "$~berubah"
             },
             "bubble": {
@@ -5320,7 +5324,7 @@
                     "$~Balon bicara yang menunjukkan apa yang aku katakan, menunjuk tepat ke arahku. Empat hal berbeda bisa ditaruh di sini.",
                     "Teks biasa, yang aku tampilkan dan tidak lebih:",
                     "\\Frasa('a' gelembung: 'halo!')\\",
-                    "Teks berformat, jika kamu ingin kata *tebal* atau /miring/ dalam apa yang aku katakan.",
+                    "@markup, jika kamu ingin kata *tebal* atau /miring/ dalam apa yang aku katakan.",
                     "Sebuah @Say, yang aku tampilkan *dan* ucapkan dengan suara:",
                     "\\Frasa('a' gelembung: Mengatakan('halo!'))\\",
                     "Sebuah @Bubble, saat kamu ingin memilih dari sisi mana aku bicara, mengubahnya menjadi pikiran, atau memberinya warna."
@@ -5371,15 +5375,15 @@
                 "names": "$~kolom"
             },
             "padding": {
-                "doc": "$~Seberapa banyak jarak yang harus ditempatkan di antara sel-sel.",
+                "doc": "$~Seberapa banyak jarak yang harus ditempatkan di antara @cell-sel.",
                 "names": "$~lapisan"
             },
             "cellWidth": {
-                "doc": "$~Seberapa lebar sel-sel tersebut seharusnya.",
+                "doc": "$~Seberapa lebar @cell-sel tersebut seharusnya.",
                 "names": "$~lebarsel"
             },
             "cellHeight": {
-                "doc": "$~Seberapa tinggi sel-sel tersebut seharusnya.",
+                "doc": "$~Seberapa tinggi @cell-sel tersebut seharusnya.",
                 "names": "$~bantalansel"
             }
         },
@@ -5473,7 +5477,7 @@
                 "names": "$~terisi"
             },
             "stroked": {
-                "doc": "$~Apakah garis luarku diwarnai. Tanpa isian dan tanpa garis luar, aku menjadi tak terlihat, salah satu cara membuat penghalang yang menghentikan sesuatu tanpa terlihat.",
+                "doc": "$~Apakah garis luarku diwarnai. Tanpa isian dan tanpa garis luar, aku menjadi tak terlihat, salah satu @how membuat penghalang yang menghentikan sesuatu tanpa terlihat.",
                 "names": "$~bergaris"
             },
             "glyphs": {
@@ -5570,7 +5574,7 @@
         },
         "Pose": {
             "doc": [
-                "$~Saya menangkap @Pose untuk @Output agar tetap berada di posisi tersebut, dan saya adalah fondasi dari gerakan mereka. Anda tahu ketika seseorang berdiri dengan cara yang paling menakjubkan, berhenti sejenak, dan semua orang memperhatikan? Itulah saya.",
+                "$~Saya menangkap @Pose untuk @Output agar tetap berada di posisi tersebut, dan saya adalah fondasi dari gerakan mereka. Anda tahu ketika seseorang berdiri dengan @how yang paling menakjubkan, berhenti sejenak, dan semua orang memperhatikan? Itulah saya.",
                 "Banyak sekali hal yang perlu dipertimbangkan dalam sebuah pose. Lihatlah berbagai masukan saya untuk melihat jenis pose apa yang mungkin bisa Anda buat!"
             ],
             "names": ["$~🤪", "$~Pose"],
@@ -5583,7 +5587,7 @@
                 "names": "$~warna"
             },
             "opacity": {
-                "doc": "$~Seberapa transparan seharusnya sebuah @Output, antara \\0\\ dan \\1\\, bukan nilai default-nya. Berguna untuk efek memudar masuk dan keluar.",
+                "doc": "$~Seberapa transparan seharusnya sebuah @Output, antara \\0\\ dan \\1\\, bukan @value default-nya. Berguna untuk efek memudar masuk dan keluar.",
                 "names": "$~kegelapan"
             },
             "offset": {
@@ -5591,7 +5595,7 @@
                 "names": "$~mengimbangi"
             },
             "rotation": {
-                "doc": "$~Seberapa jauh @Output seharusnya diputar, bukan dalam kondisi default.",
+                "doc": "$~Seberapa jauh @Output seharusnya diputar, bukan dalam @condition default.",
                 "names": "$~rotasi"
             },
             "scale": {
@@ -5608,7 +5612,7 @@
             },
             "description": "$~$opacity[transparan $opacity|] $rotation[diputar $rotation derajat|] $scale[diskalakan $scale|] $flipx[dibalik mendatar|] $flipy[dibalik tegak|] $blur[bayangan dikaburkan $blur piksel|]",
             "music": {
-                "doc": "$~@Music yang harus saya mainkan saat keadaan animasi saya mulai atau saat sebuah @Sequence mencapai saya. Suara pendek adalah intinya; saya hanya memainkannya satu kali.",
+                "doc": "$~@Music yang harus saya mainkan saat @state animasi saya mulai atau saat sebuah @Sequence mencapai saya. Suara pendek adalah intinya; saya hanya memainkannya satu kali.",
                 "names": "$~musik"
             }
         },
@@ -5729,7 +5733,7 @@
                 "names": "$~lebihringan",
                 "inputs": [
                     {
-                        "doc": "$~Besarnya peningkatan kecerahan, dalam persentase. Nilai default adalah 5%.",
+                        "doc": "$~Besarnya peningkatan kecerahan, dalam persentase. @value default adalah 5%.",
                         "names": "$~oleh"
                     }
                 ]
@@ -5743,7 +5747,7 @@
                 "names": "$~lebihgelap",
                 "inputs": [
                     {
-                        "doc": "$~Seberapa besar penurunan kecerahan, dalam persentase. Nilai default adalah 5%.",
+                        "doc": "$~Seberapa besar penurunan kecerahan, dalam persentase. @value default adalah 5%.",
                         "names": "$~oleh"
                     }
                 ]
@@ -5753,7 +5757,7 @@
             "doc": [
                 "$~Aku menganimasikan @Output melalui serangkaian @Pose seiring waktu! Maukah kamu menari denganku? Ini mudah.",
                 "Kamu hanya perlu memberiku @Map, di mana setiap @key mewakili berapa persen kita sudah menempuh tarian, dan setiap @value dari kunci itu adalah @Pose yang ingin dicapai.",
-                "Ada /begitu/ banyak cara berbeda untuk menganimasikan dengan ini! Sebagai contoh, ini yang sederhana:",
+                "Ada /begitu/ banyak @how berbeda untuk menganimasikan dengan ini! Sebagai contoh, ini yang sederhana:",
                 "\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\🪲",
                 "Ini berkata, /pada awalnya (0%), mulai dari kemiringan 360, dan berakhir di kemiringan 0/. Itu akan memutar kita berputar-putar selamanya, karena aku diatur sebagai pose istirahat @Phrase!",
                 "Coba tarian kreatifmu sendiri dengan bermain dengan input lain."
@@ -5787,7 +5791,7 @@
                     ],
                     "names": ["$~bergoyang"],
                     "angle": {
-                        "doc": "$~Seberapa jauh miring ke tiap arah. Nilai kecil terlihat lembut; nilai besar terlihat panik.",
+                        "doc": "$~Seberapa jauh miring ke tiap arah. @value kecil terlihat lembut; nilai besar terlihat panik.",
                         "names": ["$~sudut"]
                     }
                 },
@@ -5839,7 +5843,7 @@
                 },
                 "pulse": {
                     "doc": [
-                        "$~Saya memperbesar @Output sampai /amount/ lalu mengecil kembali, satu kali. Saya cara paling tenang untuk berkata “lihat di sini” tanpa memindahkan apa pun dari tempatnya.",
+                        "$~Saya memperbesar @Output sampai /amount/ lalu mengecil kembali, satu kali. Saya @how paling tenang untuk berkata “lihat di sini” tanpa memindahkan apa pun dari tempatnya.",
                         "\\💬('🐈' beristirahat: 💃.detak(1.2))\\"
                     ],
                     "names": ["$~detak"],
@@ -6041,7 +6045,7 @@
                 },
                 "nod": {
                     "doc": [
-                        "$~Saya menurunkan @Output ke bawah lalu naik lagi dua kali, seperti anggukan setuju. Saya cara paling lembut untuk berkata “ya”.",
+                        "$~Saya menurunkan @Output ke bawah lalu naik lagi dua kali, seperti anggukan setuju. Saya @how paling lembut untuk berkata “ya”.",
                         "\\💬('🐈' beristirahat: 💃.angguk(0.4m))\\"
                     ],
                     "names": ["$~angguk"],
@@ -6150,7 +6154,7 @@
             }
         },
         "Gesture": {
-            "doc": "$~Aku adalah potret dari pose tangan yang dideteksi oleh kamera, dipancarkan oleh aliran @Hand. Tempatku memberitahumu di mana tangan berada di panggung, jariku memberitahumu berapa banyak yang terentang, openku bernilai benar saat tangan terbuka (3+ jari terentang), dan jempolku, @index, tengah, manis, dan kelingking masing-masing menyebutkan jari mana yang terentang. Telapakku bernilai benar saat telapak tangan menghadap kamera, salah saat punggung tangan yang menghadap.",
+            "doc": "$~Aku adalah potret dari pose tangan yang dideteksi oleh kamera, dipancarkan oleh @stream @Hand. Tempatku memberitahumu di mana tangan berada di panggung, jariku memberitahumu berapa banyak yang terentang, openku bernilai benar saat tangan terbuka (3+ jari terentang), dan jempolku, @index, tengah, manis, dan kelingking masing-masing menyebutkan jari mana yang terentang. Telapakku bernilai benar saat telapak tangan menghadap kamera, salah saat punggung tangan yang menghadap.",
             "names": ["$~Sikap"],
             "place": {
                 "doc": "$~Di mana tangan berada di atas panggung.",
@@ -6447,7 +6451,7 @@
             "random": "$~acak"
         },
         "Expression": {
-            "doc": "$~Aku adalah potret dari ekspresi wajah yang dideteksi kamera, yang dipancarkan oleh aliran @Face. Posisiku memberitahumu di mana wajah itu berada di panggung. @Expression.leftEyeOpen, @Expression.rightEyeOpen, dan @Expression.eyesOpen milikku menyatakan apakah mata terbuka. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, dan @Expression.browsRaised milikku menyatakan apa yang sedang dilakukan wajah, dan masing-masing punya nilai yang cocok (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) dari 0 sampai 1 untuk seberapa kuatnya. @Expression.turn dan @Expression.tilt milikku menyatakan ke arah mana kepala menghadap, dalam derajat.",
+            "doc": "$~Aku adalah potret dari ekspresi wajah yang dideteksi kamera, yang dipancarkan oleh @stream @Face. Posisiku memberitahumu di mana wajah itu berada di panggung. @Expression.leftEyeOpen, @Expression.rightEyeOpen, dan @Expression.eyesOpen milikku menyatakan apakah mata terbuka. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, dan @Expression.browsRaised milikku menyatakan apa yang sedang dilakukan wajah, dan masing-masing punya @value yang cocok (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) dari 0 sampai 1 untuk seberapa kuatnya. @Expression.turn dan @Expression.tilt milikku menyatakan ke arah mana kepala menghadap, dalam derajat.",
             "names": ["$~Ekspresi"],
             "place": {
                 "doc": "$~Di mana wajah berada di panggung.",
@@ -6507,7 +6511,7 @@
             }
         },
         "Thing": {
-            "doc": "$~Aku adalah satu benda yang dilihat kamera, dikirim dalam sebuah @List oleh aliran @Objects. Namaku mengatakan aku ini apa, keyakinanku mengatakan seberapa yakin modelnya, tempatku mengatakan di mana aku berada di panggung, dan lebar serta tinggiku mengatakan seberapa besar aku terlihat.",
+            "doc": "$~Aku adalah satu benda yang dilihat kamera, dikirim dalam sebuah @List oleh @stream @Objects. Namaku mengatakan aku ini apa, keyakinanku mengatakan seberapa yakin modelnya, tempatku mengatakan di mana aku berada di panggung, dan lebar serta tinggiku mengatakan seberapa besar aku terlihat.",
             "names": ["$~Benda"],
             "name": {
                 "doc": "$~Benda itu apa, dalam bahasamu.",
@@ -6543,7 +6547,7 @@
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
                 "Berikan aku daftar trek dan mereka bermain pada saat yang sama, masing-masing dengan alat musik, kecepatan, dan volumenya sendiri. Di sini bass drum dan snare menjaga ketukan sementara hi-hat berjalan dua kali lebih cepat — sebuah poliritme dari satu angka. Drum adalah satu set alat, bukan bernada, jadi angkanya memilih bagian dari set itu, bukan not:",
                 "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] alatMusik: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] alatMusik: 🔈.🥁 ketukan: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
-                "Angka di dalam kurung kurawal berbunyi bersama sebagai akord, dan nilai not yang ditulis pada sebuah angka memberi entri itu panjangnya sendiri. Di sini dua akord not penuh menahan di bawah melodi yang bergerak:",
+                "Angka di dalam kurung kurawal berbunyi bersama sebagai akord, dan @value not yang ditulis pada sebuah angka memberi entri itu panjangnya sendiri. Di sini dua akord not penuh menahan di bawah melodi yang bergerak:",
                 "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] alatMusik: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] alatMusik: 🔈.🎹 volume: 50%)\n\t])\\",
                 "Apa pun yang membuat angka bisa membuat musik. Melodi ini mengacak dirinya menjadi urutan baru, dan mengikuti seberapa keras kamu berbicara:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].diacak())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
@@ -6589,7 +6593,7 @@
                     "$~Ketika ini \\⊤\\ pada sebuah evaluasi, aku mulai lagi dari atas, bahkan ketika tidak ada satu pun nadaku yang berubah.",
                     "Ini untuk suara yang menjawab sebuah peristiwa alih-alih bermain terus-menerus. Jika sebuah jawaban benar membunyikan sebuah ding, maka dua jawaban benar berturut-turut menghasilkan musik yang sama persis, jadi tidak ada yang berubah dan tidak ada yang berbunyi lagi. Aku adalah caramu berkata /lagi, sekarang/ — pilih /right/ dua kali di bawah dan ia berbunyi ding dua kali:",
                     "\\🎭([\n\t\t💬('benar' dapatdipilih: ⊤ nama: 'benar' tempat: 📍(-2m 0m))\n\t\t💬('salah' dapatdipilih: ⊤ nama: 'salah' tempat: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] alatMusik: 🔈.🔔 perulangan: ⊥) putarUlang: ∆ 🔘() ? (🔘() = 'benar') ⊥)\n\t])\\",
-                    "Berikan aku sebuah kondisi /sesaat/, yang benar hanya pada evaluasi yang disebabkan peristiwa itu, seperti \\∆ 🔘()\\ di atas. Sebuah kondisi yang bertahan seperti \\score > 10\\🪲 tetap benar begitu ia menjadi benar, jadi ia akan memulai ulang aku pada setiap evaluasi sejak saat itu."
+                    "Berikan aku sebuah @condition /sesaat/, yang benar hanya pada evaluasi yang disebabkan peristiwa itu, seperti \\∆ 🔘()\\ di atas. Sebuah kondisi yang bertahan seperti \\score > 10\\🪲 tetap benar begitu ia menjadi benar, jadi ia akan memulai ulang aku pada setiap evaluasi sejak saat itu."
                 ],
                 "names": "$~putarUlang"
             },
@@ -6685,7 +6689,7 @@
                     "$~Selama ini \\⊤\\ aku menahan diri diam, dan ketika kembali menjadi \\⊥\\ aku melanjutkan dari ketukan tepat tempat aku berhenti.",
                     "Inilah yang membuatku berbeda dari @Music/replay: replay berarti /mulai lagi/, dan aku berarti /tunggu di sini/. Sebuah nada yang masih berbunyi ketika aku berhenti akan memainkan sisanya ketika aku mulai lagi, jadi berhenti di tengah sebuah akor panjang tidak kehilangannya. Pilih /hold/ dan /go/ di bawah:",
                     "\\🎭([\n\t\t💬('tahan' dapatdipilih: ⊤ nama: 'tahan' tempat: 📍(-2m 0m))\n\t\t💬('pergi' dapatdipilih: ⊤ nama: 'pergi' tempat: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] alatMusik: 🔈.🎹) jeda: 🔘() = 'tahan')\n\t])\\",
-                    "Berbeda dengan putar ulang, aku ingin kondisi yang /bertahan/, yang tetap benar selama kamu menginginkan keheningan itu. Hitungan @Beat-ku menunggu bersamaku dan melanjutkan dari tempat terakhirnya, bukan mulai lagi dari nol."
+                    "Berbeda dengan putar ulang, aku ingin @condition yang /bertahan/, yang tetap benar selama kamu menginginkan keheningan itu. Hitungan @Beat-ku menunggu bersamaku dan melanjutkan dari tempat terakhirnya, bukan mulai lagi dari nol."
                 ],
                 "names": "$~jeda"
             }
@@ -6699,19 +6703,19 @@
                 "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] ketukan: 0.5beats))\\",
                 "Atur @Track/mash saya ke \\⊥\\ dan angka seperti itu membengkokkan satu nada dari pitch-nya, bukan memainkan dua nada.",
                 "Setiap entri berlangsung selama @Track/beat saya, yaitu satu ketukan kecuali kamu mengubahnya. Mengubahnya akan menata ulang semua yang saya mainkan sekaligus.",
-                "Ketika satu entri harus lebih panjang atau lebih pendek dari yang lain, tuliskan panjangnya pada angka itu sendiri sebagai nilai nada. \\8𝅗𝅥\\ adalah not setengah — dua kali lebih panjang dari satu ketukan — dan tidak butuh apa pun di sekitarnya:",
+                "Ketika satu entri harus lebih panjang atau lebih pendek dari yang lain, tuliskan panjangnya pada angka itu sendiri sebagai @value nada. \\8𝅗𝅥\\ adalah not setengah — dua kali lebih panjang dari satu ketukan — dan tidak butuh apa pun di sekitarnya:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
                 "Ada lima nilai: \\𝅝\\ berlangsung empat ketukan, \\𝅗𝅥\\ dua, \\𝅘𝅥\\ satu, \\𝅘𝅥𝅮\\ setengah ketukan, dan \\𝅘𝅥𝅯\\ seperempat ketukan. Sebuah titik setelah salah satunya membuatnya menjadi setengah lebih panjang, jadi \\𝅘𝅥𝅭\\ adalah satu setengah ketukan. Sebuah not seperempat adalah satu ketukan berapa pun ketukan saya, itulah sebabnya \\ketukan: 1𝅘𝅥𝅮\\🪲 mengatakan hal yang sama dengan \\0.5beats\\ dan lebih mudah dibaca. Pada sebuah akor, letakkan nilai pada angka pertama: \\{1𝅗𝅥 3 5}\\.",
-                "Ini sulit ditemukan, jadi baris simbol di bawah editor menawarkannya setiap kali kursormu berada tepat setelah salah satu angka milikku.",
+                "Ini sulit ditemukan, jadi baris simbol di bawah @editor menawarkannya setiap kali kursormu berada tepat setelah salah satu angka milikku.",
                 "Sebuah jeda tidak bisa membawa nilai, karena \\ø\\ bukan sebuah angka. Dua jeda berturut-turut dua kali lebih panjang, dan untuk sesuatu yang lebih halus ada @Note.",
                 "Ketika satu nada butuh volume sendiri, atau panjang yang tidak bisa dieja oleh nilai apa pun, bungkus yang satu itu dalam sebuah @Note. Gunakan hanya di tempat yang kamu butuhkan: angka telanjang lebih mudah dibaca, jadi kebanyakan trek tidak punya sama sekali, dan kelangkaan itulah yang membuat sebuah @Note menonjol sebagai sebuah peristiwa.",
                 "\\sel: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tsel\n\t\t.denganDaftar(sel.menerjemahkan(ƒ(n•#) n + 2))\n\t\t.denganDaftar(sel.terbalik())\n\t\t.denganDaftar(sel.menerjemahkan(ƒ(n2•#) 8 - n2))\n\t\talatMusik: 🔈.🎹\n\t)\n)\\",
-                "Mengisi dengan jeda adalah semua yang dibutuhkan sebuah putaran: kedua bagian menahan jumlah ketukan yang sama, jadi mereka tetap seirama alih-alih terpisah. Menyebarkan dua daftar menjadi satu dengan : adalah cara mereka dibangun, karena \\append\\ butuh kedua daftar untuk menahan jenis hal yang sama.",
+                "Mengisi dengan jeda adalah semua yang dibutuhkan sebuah putaran: kedua bagian menahan jumlah ketukan yang sama, jadi mereka tetap seirama alih-alih terpisah. Menyebarkan dua daftar menjadi satu dengan : adalah @how mereka dibangun, karena \\append\\ butuh kedua daftar untuk menahan jenis hal yang sama.",
                 "\\nada: [1 2 3 1 1 2 3 1 3 4 5 ø]\nistirahat: [ø ø ø ø]\n🎼([\n\t\t🎶([:nada :istirahat] alatMusik: 🔈.🪈)\n\t\t🎶([:istirahat :nada] alatMusik: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~Trek"],
             "notes": {
-                "doc": "$~Nada yang akan dimainkan, secara berurutan: sebuah angka untuk nada, \\ø\\ untuk jeda, sebuah himpunan seperti \\{1 3 5}\\ untuk akor, atau sebuah @Note ketika satu entri butuh volumenya sendiri. Sebuah nilai nada yang ditulis pada angka — \\3𝅗𝅥\\ — berkata berapa lama satu entri itu berlangsung.",
+                "doc": "$~Nada yang akan dimainkan, secara berurutan: sebuah angka untuk nada, \\ø\\ untuk jeda, sebuah himpunan seperti \\{1 3 5}\\ untuk akor, atau sebuah @Note ketika satu entri butuh volumenya sendiri. Sebuah @value nada yang ditulis pada angka — \\3𝅗𝅥\\ — berkata berapa lama satu entri itu berlangsung.",
                 "names": "$~nada"
             },
             "instrument": {
@@ -6719,7 +6723,7 @@
                 "names": "$~alatMusik"
             },
             "beat": {
-                "doc": "$~Berapa lama satu entri polos berlangsung, dalam ketukan. Ini satu ketukan kecuali kamu mengubahnya, dan mengubahnya akan menata ulang semua yang kumainkan: pada \\0.5beats\\ setiap entri adalah nada seperdelapan, jadi aku bergerak dua kali lebih cepat melalui daftar yang sama. Sebuah nilai nada berkata sama dengan lebih jelas, jadi \\ketukan: 1𝅘𝅥𝅮\\🪲 adalah tatanan nada seperdelapan yang sama itu.",
+                "doc": "$~Berapa lama satu entri polos berlangsung, dalam ketukan. Ini satu ketukan kecuali kamu mengubahnya, dan mengubahnya akan menata ulang semua yang kumainkan: pada \\0.5beats\\ setiap entri adalah nada seperdelapan, jadi aku bergerak dua kali lebih cepat melalui daftar yang sama. Sebuah @value nada berkata sama dengan lebih jelas, jadi \\ketukan: 1𝅘𝅥𝅮\\🪲 adalah tatanan nada seperdelapan yang sama itu.",
                 "names": "$~ketukan"
             },
             "scale": {
@@ -6727,7 +6731,7 @@
                 "names": "$~tanggaNada"
             },
             "key": {
-                "doc": "$~Pergeseran khusus untukku, dalam semiton, menggantikan @Music/key — untuk saat satu suara harus lebih tinggi atau lebih rendah dari yang lain. Menurunkan sebuah track satu oktaf adalah cara garis bas ditulis dari angka yang sama persis dengan melodinya.",
+                "doc": "$~Pergeseran khusus untukku, dalam semiton, menggantikan @Music/key — untuk saat satu suara harus lebih tinggi atau lebih rendah dari yang lain. Menurunkan sebuah track satu oktaf adalah @how garis bas ditulis dari angka yang sama persis dengan melodinya.",
                 "names": "$~kunci"
             },
             "volume": {
@@ -6747,24 +6751,24 @@
                 "names": "$~lumat"
             },
             "words": {
-                "doc": "$~Suku kata untuk dinyanyikan oleh @Instrument/voice. Satu suku kata per nada, dipisahkan oleh spasi, jadi \\'so mi fa'\\ menyanyikan tiga nada dan spasi itulah yang menunjukkan di mana satu suku kata berakhir dan yang berikutnya dimulai.\n\nJeda tidak memakai suku kata, jadi lirik jatuh pada nada yang benar-benar berbunyi. Jika suku kata lebih sedikit daripada nada, mereka mulai lagi dari awal daripada menjadi diam. Jika sama sekali tidak ada, suara menahan bunyi /uh/.\n\nAkhiri suku kata dengan tanda hubung untuk menahannya sampai nada berikutnya juga, satu nada lagi untuk setiap tanda hubung — itulah cara menyanyikan satu suku kata di beberapa nada. Pada \\🎶([1 2 3 4] kataKata: 'la- mi so')\\, \\la\\ menutupi dua nada pertama, lalu \\mi\\ dan \\so\\ masing-masing mengambil satu.\n\nEjaannya menggunakan <Alfabet Fonetik Internasional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, di mana setiap huruf adalah satu bunyi. Tekan 🤖 di bawah editor untuk melihat setiap bunyi dan mendengarnya. Huruf yang tidak saya kenali akan dilewati. Setiap alat musik selain suara mengabaikan saya, jadi lirik tetap ada saat mengubah @Track/instrument dan kembali.",
+                "doc": "$~Suku kata untuk dinyanyikan oleh @Instrument/voice. Satu suku kata per nada, dipisahkan oleh spasi, jadi \\'so mi fa'\\ menyanyikan tiga nada dan spasi itulah yang menunjukkan di mana satu suku kata berakhir dan yang berikutnya dimulai.\n\nJeda tidak memakai suku kata, jadi lirik jatuh pada nada yang benar-benar berbunyi. Jika suku kata lebih sedikit daripada nada, mereka mulai lagi dari awal daripada menjadi diam. Jika sama sekali tidak ada, suara menahan bunyi /uh/.\n\nAkhiri suku kata dengan tanda hubung untuk menahannya sampai nada berikutnya juga, satu nada lagi untuk setiap tanda hubung — itulah @how menyanyikan satu suku kata di beberapa nada. Pada \\🎶([1 2 3 4] kataKata: 'la- mi so')\\, \\la\\ menutupi dua nada pertama, lalu \\mi\\ dan \\so\\ masing-masing mengambil satu.\n\nEjaannya menggunakan <Alfabet Fonetik Internasional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, di mana setiap huruf adalah satu bunyi. Tekan 🤖 di bawah @editor untuk melihat setiap bunyi dan mendengarnya. Huruf yang tidak saya kenali akan dilewati. Setiap alat musik selain suara mengabaikan saya, jadi lirik tetap ada saat mengubah @Track/instrument dan kembali.",
                 "names": "$~kataKata"
             }
         },
         "Note": {
             "doc": [
-                "$~Aku adalah satu entri dalam sebuah @Track yang membawa volumenya sendiri, atau panjang yang tidak bisa dieja oleh nilai nada apa pun.",
+                "$~Aku adalah satu entri dalam sebuah @Track yang membawa volumenya sendiri, atau panjang yang tidak bisa dieja oleh @value nada apa pun.",
                 "Sebagian besar nada harus tetap berupa angka polos, dan sebagian besar panjang lebih pendek ditulis pada angka itu sendiri: \\1𝅗𝅥\\ adalah nada setengah. Aku layak digunakan ketika satu nada butuh volumenya sendiri, atau panjang yang berada di antara nilai-nilai — dan karena \\♪(1 2beats ÷ 3)\\ berkata jauh lebih banyak daripada \\1\\, memakaiku di mana-mana akan mengubur nada yang penting.",
                 "Sebuah triol adalah aritmetika yang jujur: \\♪(1 2beats ÷ 3)\\ berkata tiga dari ini mengisi dua ketukan. Panjangku bisa berupa nilai nada juga, jadi \\♪(1 1𝅗𝅥)\\ dan \\♪(1 2beats)\\ adalah dua ketukan yang sama.",
                 "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
             "names": ["$~Nada"],
             "degree": {
-                "doc": "$~Apa yang dimainkan: sebuah angka untuk nada, \\ø\\ untuk jeda, atau sebuah himpunan angka untuk akor, persis seperti entri polos dalam sebuah @Track. Sebuah nilai nada pada angka — \\3𝅗𝅥\\ — berkata berapa lama aku berlangsung, dan menang atas @Note/beat jika kamu menulis keduanya.",
+                "doc": "$~Apa yang dimainkan: sebuah angka untuk nada, \\ø\\ untuk jeda, atau sebuah himpunan angka untuk akor, persis seperti entri polos dalam sebuah @Track. Sebuah @value nada pada angka — \\3𝅗𝅥\\ — berkata berapa lama aku berlangsung, dan menang atas @Note/beat jika kamu menulis keduanya.",
                 "names": "$~derajat"
             },
             "beat": {
-                "doc": "$~Berapa banyak ketukan aku berlangsung. Ini adalah seluruh alasan menggunakanku: setiap entri polos dalam sebuah @Track berlangsung selama waktu yang sama, dan aku adalah cara satu nada mendapat yang berbeda. Sebuah nilai nada juga bekerja di sini, jadi \\1𝅗𝅥\\ dan \\2beats\\ adalah panjang yang sama.",
+                "doc": "$~Berapa banyak ketukan aku berlangsung. Ini adalah seluruh alasan menggunakanku: setiap entri polos dalam sebuah @Track berlangsung selama waktu yang sama, dan aku adalah @how satu nada mendapat yang berbeda. Sebuah @value nada juga bekerja di sini, jadi \\1𝅗𝅥\\ dan \\2beats\\ adalah panjang yang sama.",
                 "names": "$~ketukan"
             },
             "volume": {
@@ -6904,7 +6908,7 @@
                         "Saya adalah penyintesis suara, seperti @Instrument/synth — bukan tiruan seorang penyanyi. Mulut saya tetap sama ukurannya betapapun tinggi atau rendah saya menyanyi, yang tidak bisa dilakukan tenggorokan asli mana pun. Itulah sebabnya saya terdengar seperti mesin yang meniru seseorang orang, dan sebabnya saya terdengar bukan seperti pria maupun wanita.",
                         "Beri @Track saya sebuah @Track/words dan saya menyanyikannya, satu suku kata per nada. Tanpa itu, saya menahan bunyi /uh/, jadi saya selalu menyanyikan sesuatu.",
                         "\\🎼(🎶([1 2 3 5] kataKata: 'la la la la' alatMusik: 🔈.🤖) tempo: 120beats/min)\\",
-                        "Suku kata dieja dalam <Alfabet Fonetik Internasional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, sebuah alfabet di mana setiap huruf adalah satu /bunyi/ dan bukan satu ejaan — jadi \\'ʃi'\\ adalah bunyi di awal kata /she/, dalam bahasa apa pun yang kamu tulis. Tekan 🤖 di bawah editor untuk melihat setiap bunyi yang bisa aku buat dan mendengar setiap bunyinya."
+                        "Suku kata dieja dalam <Alfabet Fonetik Internasional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, sebuah alfabet di mana setiap huruf adalah satu /bunyi/ dan bukan satu ejaan — jadi \\'ʃi'\\ adalah bunyi di awal kata /she/, dalam @language apa pun yang kamu tulis. Tekan 🤖 di bawah @editor untuk melihat setiap bunyi yang bisa aku buat dan mendengar setiap bunyinya."
                     ],
                     "names": ["$~suara"]
                 },
@@ -6934,7 +6938,7 @@
                 "names": "$~tertutup"
             },
             "smooth": {
-                "doc": "$~Apakah aku melengkung melewati tempat-tempatku alih-alih berbelok di sana. Tempat-tempatku tidak berpindah dengan cara mana pun.",
+                "doc": "$~Apakah aku melengkung melewati tempat-tempatku alih-alih berbelok di sana. Tempat-tempatku tidak berpindah dengan @how mana pun.",
                 "names": "$~halus"
             },
             "thickness": {
@@ -6957,7 +6961,7 @@
             "names": ["$~Gelembung"],
             "text": {
                 "doc": [
-                    "$~Apa yang aku tampilkan. Beri aku teks biasa, atau teks berformat jika kamu ingin kata *tebal* atau /miring/.",
+                    "$~Apa yang aku tampilkan. Beri aku teks biasa, atau @markup jika kamu ingin kata *tebal* atau /miring/.",
                     "Beri aku @Say sebagai ganti, dan aku akan diucapkan sekaligus ditampilkan. Aku lalu menggantikan kata-kata yang biasanya muncul di bagian bawah @Stage, karena kata-kataku sudah tampil di layar tepat di sebelah siapa pun yang mengucapkannya."
                 ],
                 "names": "$~teks"

@@ -27,7 +27,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~ברוב שפות התכנות, תוכנית היא רשימה של הוראות שאומרות למחשב מה *לעשות*, כמו הדפסת @value:",
+                            "$~ברוב שפות התכנות, תוכנית היא רשימה של @how שאומרות למחשב מה *לעשות*, כמו הדפסת @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~ב-@wordplay, תוכניות הן *ביטויים* שאומרים מה צריכה להיות /התוצאה/ של התוכנית, ולא איך לייצר אותה.",
                             "$~התוכנית הזו מחושבת לערך \\'שלום'\\, שאז מוצג על הבמה. אין פקודת הדפסה, רק @expression שאומר לאיזה ערך לחשב."
@@ -181,7 +181,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~לכל שפת תכנות יש פונקציות, שמאפשרות לכם להצהיר על @blocks של קוד שניתן לעשות בהם שימוש חוזר, שמקבלים קלט ומייצרים פלט על פיו, בכל רמת מורכבות:",
+                            "$~לכל שפת תכנות יש פונקציות, שמאפשרות לכם להצהיר על @blocks של @code שניתן לעשות בהם שימוש חוזר, שמקבלים קלט ומייצרים פלט על פיו, בכל רמת מורכבות:",
                             "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
                             "$~@wordplay תומך גם בהגדרות של פונקציות, אבל עם הסמל ƒ. בדיוק כמו כל תוכניות Wordplay, פונקציות חייבות לחשב ל-@value."
                         ]
@@ -201,7 +201,7 @@
                             "neutral",
                             "$~שפות תכנות אחרות מדפיסות טקסט למסוף, מציירות על משטח, או משנות דף אינטרנט:",
                             "\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
-                            "$~הפלט של @wordplay הוא טיפוגרפי: @Phrase, @Group או @Stage, שמראים טקסט מעוצב, מונפש ואינטראקטיבי על המסך, או שמוקרא על ידי קורא מסך.",
+                            "$~הפלט של @wordplay הוא טיפוגרפי: @Phrase, @Group או @Stage, שמראים @markup, מונפש ואינטראקטיבי על המסך, או שמוקרא על ידי קורא מסך.",
                             "$~הדוגמה למטה מראה @Stage עם @Phrase יחיד שיש לו הנפשת קנה מידה במנוחה."
                         ],
                         null,
@@ -238,7 +238,7 @@
                             "happy",
                             "$~שפות תכנות אחרות מאפשרות לכם לשנות את ערכי המשתנים בזמן ריצה, מה שיכול להיות שימושי ליצירת יישומים דינמיים ואינטראקטיביים. אבל הן דורשות מכם לזכור לעדכן את הערכים במקומות הנכונים, ולעדכן את מה שמוצג על המסך כשהערכים האלה משתנים:",
                             "\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
-                            "$~@wordplay מפשט את זה באמצעות @Reaction @expression, שמתחיל בערך התחלתי, בודק @condition שמתייחס לקלטים של זרמים, ומעדכן את ערך הביטוי על פי השינויים של הזרם. בדוגמה הזו, בכל פעם שהזרם @Button משתנה, אנחנו מעדכנים את ערך המונה, וזה מעדכן את ה-@Phrase שמוצג על @Stage."
+                            "$~@wordplay מפשט את זה באמצעות @Reaction @expression, שמתחיל בערך התחלתי, בודק @condition שמתייחס לקלטים של זרמים, ומעדכן את ערך הביטוי על פי השינויים של הזרם. בדוגמה הזו, בכל פעם שהזרם @Button @variable, אנחנו מעדכנים את ערך המונה, וזה מעדכן את ה-@Phrase שמוצג על @Stage."
                         ]
                     ]
                 },
@@ -271,8 +271,8 @@
                             "happy",
                             "$~רוב שפות התכנות מציעות איזשהו כלי לניפוי שגיאות כדי לעזור ליוצרים להבין ולפתור בעיות בקוד שלהם. אבל רבות מהן פשוט משתמשות בהוראות הדפסה כדי לבדוק את ערכי המשתנים במסוף:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay מציע חוויית ניפוי שגיאות מתקדמת יותר, שמאפשרת לך לעבור *קדימה* ו*אחורה* לאורך ההרצה שלו. לחצו על כפתור הניפוי ⏸️ במחליף המצבים @UI/modeSwitcher מעל הבמה כדי להיכנס למצב *ניפוי*: הערך של כל ביטוי מופיע לצידו בקוד, ואפשר @UI/stepControls להריץ את הביטוי צעד אחר צעד בכל כיוון, כדי לצפות איך נבנה ערך. הנה סיור מודרך על כל זה: @Tour/stage",
-                            "$~גם המצבים האחרים חשובים: מצב ✏️ *עריכה* משמש לשינוי התוכנית בזמן שהבמה נשארת קפואה, ומצב ▶️ *הפעלה* מריץ אותה בזמן אמת, ומגיב לקלט מיד.",
+                            "$~@wordplay מציע חוויית ניפוי שגיאות מתקדמת יותר, שמאפשרת לך לעבור *קדימה* ו*אחורה* לאורך ההרצה שלו. לחצו על כפתור הניפוי ⏸️ במחליף המצבים @UI/modeSwitcher מעל הבמה כדי להיכנס למצב *ניפוי*: הערך של כל @expression מופיע לצידו בקוד, ואפשר @UI/stepControls להריץ את הביטוי צעד אחר צעד בכל כיוון, כדי לצפות איך נבנה ערך. הנה סיור מודרך על כל זה: @Tour/stage",
+                            "$~גם המצבים האחרים חשובים: @state ✏️ *עריכה* משמש לשינוי התוכנית בזמן שהבמה נשארת קפואה, ומצב ▶️ *הפעלה* מריץ אותה בזמן אמת, ומגיב לקלט מיד.",
                             "$~רוצים עוד הדרכה? הכפתור @UI/stageTourLaunch ליד השם של הבמה נותן סיור מודרך על הפקדים האלה."
                         ]
                     ]
@@ -288,7 +288,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~בואו נבנה @project אינטראקטיבי קטן בשלושה שלבים.",
-                            "$~*אחד:* הצהירו על הנתונים שלכם ועל ה-*זרמים*. כאן זרם @Time בשם elapsed מדווח כמה זמן התוכנית רצה."
+                            "$~*אחד:* הצהירו על הנתונים שלכם ועל ה-*זרמים*. כאן @stream @Time בשם elapsed מדווח כמה זמן התוכנית רצה."
                         ],
                         null,
                         {
@@ -301,7 +301,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~*שתיים:* *הגיבו* לזרם על ידי גזירת ערכי @Bind חדשים. כאן turn ממיר את הזמן שעבר למעלות, ומחושב מחדש בכל פעם ש-elapsed משתנה."
+                            "$~*שתיים:* *הגיבו* לזרם על ידי גזירת ערכי @Bind חדשים. כאן turn ממיר את הזמן שעבר למעלות, ומחושב מחדש בכל פעם ש-elapsed @variable."
                         ],
                         null,
                         {

@@ -72,7 +72,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "Like a real person, with thoughts and ideas and values to share? Not one of those robots that just mindlessly parrots what people say? If you're a person, then maybe you could give us meaning?"
+                            "Like a real person, with thoughts and ideas and @values to share? Not one of those robots that just mindlessly parrots what people say? If you're a person, then maybe you could give us meaning?"
                         ],
                         null,
                         [
@@ -595,7 +595,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "Functions are a kind of alchemy. They take any number of inputs and use those inputs to produce one output. They can have names or be nameless. They can have zero inputs or five or an unknown number. And the alchemy: they're like @Program and can have any number of expressions to produce a value."
+                            "Functions are a kind of alchemy. They take any number of inputs and use those inputs to produce one output. They can have names or be nameless. They can have zero inputs or five or an unknown number. And the alchemy: they're like @Program and can have any number of @expressions to produce a @value."
                         ],
                         null,
                         [
@@ -621,7 +621,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "Every evaluate looks like this @UI/Evaluate: some function, followed by a left and right parenthesis, with any number of inputs between them. Here, I just have @ExpressionPlaceholder as the function and three more as placeholder inputs."
+                            "Every evaluate looks like this @UI/Evaluate: some function, followed by a left and right parenthesis, with any number of inputs between them. Here, I just have @ExpressionPlaceholder as the function and three more as @placeholder inputs."
                         ],
                         {
                             "edit": "_(_ _ _)",
@@ -648,7 +648,7 @@
                             "neutral",
                             "Let me show you one of the knobs. The *palette* @UI/paletteExpand is where you change what a @Phrase looks like without typing anything. @Tour/palette",
                             "With the palette open and a phrase selected, you'll see the many inputs that @Phrase accepts. For example, try pressing the pencil button for @Phrase.size, which will reveal a slider.",
-                            "You can use this slider to modify the size of the phrase, which will also modify the @Evaluate code with the size you choose."
+                            "You can use this slider to modify the size of the phrase, which will also modify the @Evaluate @code with the size you choose."
                         ],
                         null,
                         [
@@ -747,7 +747,7 @@
                             "FunctionDefinition",
                             "happy",
                             "I really did miss @Evaluate. I can't imagine the Verse without them.",
-                            "But they can be a bit… needy sometimes. I wish they would just… I don't know, believe in themselves? They can do so much, but they don't see it. I mean, they transform *values* into other *values*! All I do is provide the recipe. They do the cooking. Sometimes I feel like all I do is give, and all they do is take. It's suffocating."
+                            "But they can be a bit… needy sometimes. I wish they would just… I don't know, believe in themselves? They can do so much, but they don't see it. I mean, they transform *@values* into other *values*! All I do is provide the recipe. They do the cooking. Sometimes I feel like all I do is give, and all they do is take. It's suffocating."
                         ],
                         null,
                         {
@@ -775,7 +775,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "*Expressions* are how we create values. All expressions are evaluations of functions that I make. The result of evaluating an expression is a value of some type."
+                            "*@Expressions* are how we create values. All expressions are evaluations of functions that I make. The result of evaluating an expression is a value of some type."
                         ],
                         null,
                         { "fit": "#Symbol 🤔" },
@@ -1137,7 +1137,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "(This is really helpful when trying to determine if multiple expressions are all true, because it's only true when everything is true)."
+                            "(This is really helpful when trying to determine if multiple @expressions are all true, because it's only true when everything is true)."
                         ],
                         null,
                         { "edit": "(⊤ | ⊤) = ⊥" },
@@ -1456,7 +1456,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "… You know how I was telling you that they can evaluate any function with parentheses \\1.add(1)\\ but also two input functions with infix operators \\1 + 1\\? Well, they have one more trick for functions with only one input: the unary format."
+                            "… You know how I was telling you that they can evaluate any function with parentheses \\1.add(1)\\ but also two input functions with infix @operators \\1 + 1\\? Well, they have one more trick for functions with only one input: the unary format."
                         ],
                         null,
                         [
@@ -1621,7 +1621,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "You know what? The values in our community are just so different. @Text with their immense worlds of culture from the people world… @Boolean with their binary visions of the world… @Number with their endless fascination with counting things… @None with their quiet way of observing the absence of things… Our world is never boring!"
+                            "You know what? The @values in our community are just so different. @Text with their immense worlds of culture from the people world… @Boolean with their binary visions of the world… @Number with their endless fascination with counting things… @None with their quiet way of observing the absence of things… Our world is never boring!"
                         ],
                         {
                             "fit": "Group(Stack() [Phrase('\"\"') Phrase('⊤⊥') Phrase('#') Phrase('ø')])"
@@ -1715,7 +1715,7 @@
                         [
                             "List",
                             "excited",
-                            "Okay. First, and most important, I put values in order. Whatever expressions you want: numbers, words, other lists — I can group anything together in sequence.",
+                            "Okay. First, and most important, I put values in order. Whatever @expressions you want: numbers, words, other lists — I can group anything together in sequence.",
                             "For example, check out this fun list. Have you ever seen anything like it? It's so beautiful! The first ten numbers, in order."
                         ],
                         { "edit": "[1 2 3 4 5 6 7 8 9 10]" },
@@ -2321,7 +2321,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "We've met so many kinds of values on our journey so far and talked about so many ways of working with them. There's just one more I wanted to introduce you to. They're particularly special because they're what make our performances so dynamic. They're called @Conditional, and they are the central character in the Verse that makes *decisions*."
+                            "We've met so many kinds of @values on our journey so far and talked about so many ways of working with them. There's just one more I wanted to introduce you to. They're particularly special because they're what make our performances so dynamic. They're called @Conditional, and they are the central character in the Verse that makes *decisions*."
                         ],
                         null,
                         [
@@ -2478,7 +2478,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "I want to show you the connection between our worlds and what they make possible. We call them *input streams*, and they are perhaps the most magical kind of input in the Verse. They're like functions that create a special kind of @value that changes as your world changes. They also can't communicate in the ways you might be used to. They're more like heartbeats from another world. So I'll do my best to explain how they work since they won't be able to explain themselves.",
+                            "I want to show you the connection between our worlds and what they make possible. We call them *input @streams*, and they are perhaps the most magical kind of input in the Verse. They're like functions that create a special kind of @value that changes as your world changes. They also can't communicate in the ways you might be used to. They're more like heartbeats from another world. So I'll do my best to explain how they work since they won't be able to explain themselves.",
                             "Are you ready to meet one?"
                         ]
                     ]
@@ -2492,7 +2492,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Let's start with the most elemental stream of all: @Time. To make a stream, we use @Evaluate and give the name of the @type of stream you want."
+                            "Let's start with the most elemental @stream of all: @Time. To make a stream, we use @Evaluate and give the name of the @type of stream you want."
                         ],
                         ["Time", "neutral", "tick tick tick tick tick…"],
                         { "edit": "Time()" },
@@ -2500,7 +2500,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Press the ▶️ play button in the mode switcher @UI/modeSwitcher above the stage to watch time move. Do you see how time is changing? Streams are a series of values. Every time a stream gets a new value, @Program reevaluates with the new stream value. That's why this program just keeps counting up: we made a time stream that starts at time 0 milliseconds and then just keeps updating every time its clock ticks. This time is your time, from your world. When you want to change the code, switch back to ✏️ edit mode; while editing, the stage stays frozen on the current moment."
+                            "Press the ▶️ play button in the mode switcher @UI/modeSwitcher above the stage to watch time move. Do you see how time is changing? Streams are a series of @values. Every time a stream gets a new value, @Program reevaluates with the new stream value. That's why this program just keeps counting up: we made a time stream that starts at time 0 milliseconds and then just keeps updating every time its clock ticks. This time is your time, from your world. When you want to change the @code, switch back to ✏️ edit mode; while editing, the stage stays frozen on the current moment."
                         ],
                         ["Time", "neutral", "tick tick tick tick tick…"],
                         null,
@@ -2523,7 +2523,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "There's another thing to discover: the timeline below the output records each time the program reevaluated, which is each time a stream changed — here, every time @Time ticked. Press the ⏸️ debug button in the mode switcher @UI/modeSwitcher to inspect it more closely, with each expression's value shown beside it."
+                            "There's another thing to discover: the timeline below the output records each time the program reevaluated, which is each time a stream changed — here, every time @Time ticked. Press the ⏸️ debug button in the mode switcher @UI/modeSwitcher to inspect it more closely, with each @expression's value shown beside it."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
                         null,
@@ -2554,7 +2554,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "If I'm not mistaken, there's a thing in your world called a “keyboard”? It's a way of selecting which one of us you want to appear in your documents, right? Well in the Verse, we receive these requests as a stream of text, each text value representing the @key that was pressed. We use these to listen to what people in your world are typing. This stream is called @Key."
+                            "If I'm not mistaken, there's a thing in your world called a “keyboard”? It's a way of selecting which one of us you want to appear in your documents, right? Well in the Verse, we receive these requests as a @stream of text, each text @value representing the @key that was pressed. We use these to listen to what people in your world are typing. This stream is called @Key."
                         ],
                         null,
                         [
@@ -2602,7 +2602,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "You also have something called a 'mouse' in your world, and 'trackpads', and 'touchscreens'? These appear in our world as streams @Pointer, which is a stream of places on stage."
+                            "You also have something called a 'mouse' in your world, and 'trackpads', and 'touchscreens'? These appear in our world as @streams @Pointer, which is a stream of places on stage."
                         ],
                         null,
                         [
@@ -2639,7 +2639,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "@Button is like @Key but corresponds to the primary pointer button like a click or tap. It's just a stream of \\⊤\\, indicating when the pointer button is pressed down. Press that button and watch the events appear on the timeline."
+                            "@Button is like @Key but corresponds to the primary pointer button like a click or tap. It's just a @stream of \\⊤\\, indicating when the pointer button is pressed down. Press that button and watch the events appear on the timeline."
                         ],
                         ["Button", "neutral", "click… click… click…"],
                         { "edit": "Button()" },
@@ -2669,7 +2669,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Your world and our world also have sound. Did you know we can hear you with your consent? We listen with a stream called @Volume, which provides a low-level sequence of amplitudes. Your mic might ask for permission to be shared with us. Once you do, you'll see a number that corresponds to amplitude, between \\0\\ and \\100\\."
+                            "Your world and our world also have sound. Did you know we can hear you with your consent? We listen with a @stream called @Volume, which provides a low-level sequence of amplitudes. Your mic might ask for permission to be shared with us. Once you do, you'll see a number that corresponds to amplitude, between \\0\\ and \\100\\."
                         ],
                         ["Volume", "neutral", "bzzzZZZZZzzzzzZZZZ…"],
                         { "edit": "Volume()" },
@@ -2696,7 +2696,7 @@
                             "FunctionDefinition",
                             "curious",
                             "There's one other source of input I want to show you. Remember \\[].random()\\ from earlier, from @List?",
-                            "Inside, it uses a @FunctionDefinition called @Random, which provides an infinite sequence of random numbers. It's kind of a stream since it generates input from your world, not ours. But it's a bit different from the other streams in that it doesn't cause a @Program to reevaluate.",
+                            "Inside, it uses a @FunctionDefinition called @Random, which provides an infinite sequence of random numbers. It's kind of a stream since it generates input from your world, not ours. But it's a bit different from the other @streams in that it doesn't cause a @Program to reevaluate.",
                             "Instead, each time it's evaluated, it gives a different random number.",
                             "See that little ↻ @UI/resetEvaluator button in the stage toolbar (and also on the timeline)? Press that to reevaluate the program manually, and you'll see a new number between \\0\\ and \\1\\ each time."
                         ],
@@ -2736,7 +2736,7 @@
                             "FunctionDefinition",
                             "kind",
                             "Sometimes, it's nice to engage the audience in our place on @Stage.",
-                            "@Placement is a great way to do that! It's a stream of @Place that responds to keyboard arrow keys, clicks, and taps.",
+                            "@Placement is a great way to do that! It's a @stream of @Place that responds to keyboard arrow keys, clicks, and taps.",
                             "Try using those to move the hot dog around."
                         ],
                         null,
@@ -2774,7 +2774,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "So far, all of the *streams* we've talked about are sequences of simple values, like @Text or @Number. Some streams, however, can produce complex values.",
+                            "So far, all of the *@streams* we've talked about are sequences of simple @values, like @Text or @Number. Some streams, however, can produce complex values.",
                             "@Motion is one of the most interesting of those. It makes a stream of @Place."
                         ],
                         null,
@@ -2902,7 +2902,7 @@
                             "FunctionDefinition",
                             "kind",
                             "Sometimes, a performance is an interaction. The audience says something, and we say something back.",
-                            "That's what @Chat is for. When you use it, a little box will appear on stage for the audience to type in, and when they submit their message, @Text will be added to the stream for the program to respond to."
+                            "That's what @Chat is for. When you use it, a little box will appear on stage for the audience to type in, and when they submit their message, @Text will be added to the @stream for the program to respond to."
                         ],
                         null,
                         { "edit": "Chat()" },
@@ -2976,7 +2976,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "All of these streams that I've shown you come from your world. But sometimes, it's helpful to create streams of your own based on these other streams. That's where my friend @Reaction comes in! @Reaction, are you around?"
+                            "All of these @streams that I've shown you come from your world. But sometimes, it's helpful to create streams of your own based on these other streams. That's where my friend @Reaction comes in! @Reaction, are you around?"
                         ],
                         [
                             "Reaction",
@@ -3136,7 +3136,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "I see. Text and numbers and lists and streams are boring. I guess I really haven't shown you all the things we can make with all of this. Maybe it's time we start talking about output."
+                            "I see. Text and numbers and lists and @streams are boring. I guess I really haven't shown you all the things we can make with all of this. Maybe it's time we start talking about output."
                         ],
                         null,
                         { "fit": "#Symbol 🤗" },
@@ -3185,7 +3185,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "It has been quiet. Ever since our last director left, it's been a void. But that is changing! We have a new person! We've been meeting the whole family: @Program, @ExpressionPlaceholder, @Evaluate, all the values, all the collections. We just spent time with all of the streams too, and @Reaction and @Conditional. I'm starting to feel things, hum. But I haven't introduced our new director here to much about what you do on stage? This is so your world and not mine; I figured we'd come to you first."
+                            "It has been quiet. Ever since our last director left, it's been a void. But that is changing! We have a new person! We've been meeting the whole family: @Program, @ExpressionPlaceholder, @Evaluate, all the @values, all the collections. We just spent time with all of the @streams too, and @Reaction and @Conditional. I'm starting to feel things, hum. But I haven't introduced our new director here to much about what you do on stage? This is so your world and not mine; I figured we'd come to you first."
                         ],
                         null,
                         [
@@ -3831,7 +3831,7 @@
                         [
                             "Group",
                             "surprised",
-                            "Hm, that kind of looks like a 4 by 2 grid, doesn't it? Let's make it a little clearer by tilting two of the stacks. Oh, yes, you can give me all the same properties that @Phrase takes!"
+                            "Hm, that kind of looks like a 4 by 2 grid, doesn't it? Let's make it a little clearer by tilting two of the stacks. Oh, yes, you can give me all the same @properties that @Phrase takes!"
                         ],
                         {
                             "edit": [
@@ -3915,7 +3915,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Indeed they are, with all kinds of expressions from their world."
+                            "Indeed they are, with all kinds of @expressions from their world."
                         ],
                         [
                             "Stage",
@@ -3962,7 +3962,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "You can also apply all of the same properties to @Stage as you can a @Group or @Phrase. Let's tilt the whole stage!"
+                            "You can also apply all of the same @properties to @Stage as you can a @Group or @Phrase. Let's tilt the whole stage!"
                         ],
                         ["Stage", "surprised", "WHOA, CAREFUL NOW…"],
                         {
@@ -4137,7 +4137,7 @@
                         [
                             "Music",
                             "kind",
-                            "Press play again. @Music.scale and @Music.key move the whole piece at once. \\pan\\ puts each voice somewhere in the room. The bell reads note values — \\𝅘𝅥𝅮\\ is an eighth — and a @Note carries its own volume. The last voice has \\words\\, so it sings them, once, because its \\loop\\ is \\⊥\\."
+                            "Press play again. @Music.scale and @Music.key move the whole piece at once. \\pan\\ puts each voice somewhere in the room. The bell reads note @values — \\𝅘𝅥𝅮\\ is an eighth — and a @Note carries its own volume. The last voice has \\words\\, so it sings them, once, because its \\loop\\ is \\⊥\\."
                         ],
                         [
                             "Music",
@@ -4302,7 +4302,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "So you know @Key, @Pointer, and @Button, the streams we just talked about? They can be very fun, but they have one problem: not everyone in the audience can use them. Some people do not have hands, or cannot use their hands, or cannot use them precisely to click keys or use a mouse. We know that many some people use their voices to communicate with our world, or even their eyes. So using @Key, @Pointer, or @Button means some people in your audience won't be able to participate."
+                            "So you know @Key, @Pointer, and @Button, the @streams we just talked about? They can be very fun, but they have one problem: not everyone in the audience can use them. Some people do not have hands, or cannot use their hands, or cannot use them precisely to click keys or use a mouse. We know that many some people use their voices to communicate with our world, or even their eyes. So using @Key, @Pointer, or @Button means some people in your audience won't be able to participate."
                         ],
                         null,
                         [
@@ -4990,7 +4990,7 @@
                         [
                             "StructureDefinition",
                             "eager",
-                            "Okay. Well, what I do is bring together values and functions, making a tidy little container for a bunch of related things. For example, imagine you wanted to make a little marquee that loops through a series of messages. A previous director made one of these and wanted these messages to show."
+                            "Okay. Well, what I do is bring together @values and functions, making a tidy little container for a bunch of related things. For example, imagine you wanted to make a little marquee that loops through a series of messages. A previous director made one of these and wanted these messages to show."
                         ],
                         {
                             "edit": [
@@ -5026,7 +5026,7 @@
                         [
                             "StructureDefinition",
                             "excited",
-                            "Then, they remembered @Reaction, which can be used to respond to stream changes. They wanted the message to change every two seconds, so they made @Time stream that ticks every 2 seconds and used @Reaction to increment the next @index each time. This @Reaction says start at \\1\\, and when the time changes every \\2000ms\\, evaluate to the previous value of \\index + 1\\. This way, \\index\\ increases by \\1\\ every two seconds, changing the message shown. Yay, it works!"
+                            "Then, they remembered @Reaction, which can be used to respond to @stream changes. They wanted the message to change every two seconds, so they made @Time stream that ticks every 2 seconds and used @Reaction to increment the next @index each time. This @Reaction says start at \\1\\, and when the time changes every \\2000ms\\, evaluate to the previous value of \\index + 1\\. This way, \\index\\ increases by \\1\\ every two seconds, changing the message shown. Yay, it works!"
                         ],
                         {
                             "edit": [
@@ -5272,7 +5272,7 @@
                         [
                             "Doc",
                             "serious",
-                            "Well, you can put me almost anywhere inside @Program. For example, say you make a @Bind and you want to say what the value is for. For example, here we have a simple value we've named, but what I'm doing is providing a broader explanation of its role."
+                            "Well, you can put me almost anywhere inside @Program. For example, say you make a @Bind and you want to say what the @value is for. For example, here we have a simple value we've named, but what I'm doing is providing a broader explanation of its role."
                         ],
                         {
                             "edit": [
@@ -5571,7 +5571,7 @@
                         [
                             "Number",
                             "serious",
-                            "1) You basically run our performances, 2) @FunctionDefinition would be useless without you, 3) you literally transform things into entirely new values, 4) you come in so many different forms, 5) you give all of us purpose, 6) we all look up to you for guidance…"
+                            "1) You basically run our performances, 2) @FunctionDefinition would be useless without you, 3) you literally transform things into entirely new @values, 4) you come in so many different forms, 5) you give all of us purpose, 6) we all look up to you for guidance…"
                         ],
                         null,
                         { "fit": "Stage([] background: Color(20% 0 0°))" },
@@ -5730,7 +5730,7 @@
                         [
                             "Reaction",
                             "kind",
-                            "I can change it! We need a @Time stream, but we also need to change the characters. But what should the next value be?"
+                            "I can change it! We need a @Time @stream, but we also need to change the characters. But what should the next value be?"
                         ],
                         { "edit": "#EvaluateDance9" },
                         null,
@@ -5882,7 +5882,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "We did… but we couldn't have done it without our new director friend. They broke our silence; they reminded us why we're expressions, together."
+                            "We did… but we couldn't have done it without our new director friend. They broke our silence; they reminded us why we're @expressions, together."
                         ],
                         null,
                         { "fit": "#Symbol ?" },

@@ -18,7 +18,7 @@
                             "FunctionDefinition",
                             "cheerful",
                             "$~Bem-vindo ao @wordplay! Ouvi dizer que sabes um pouco sobre programação? Ótimo! Esta breve visita mostra o que é parecido e o que é diferente no Wordplay.",
-                            "$~Só para saberes tudo o que está neste ecrã, esta página mostra o diálogo do @tutorial e uma vista de @project. Podes ver o *palco* @UI/stage, que mostra o resultado do programa, e o *editor* @UI/editor, que é o código do programa.",
+                            "$~Só para saberes tudo o que está neste ecrã, esta página mostra o diálogo do @tutorial e uma vista de @project. Podes ver o *palco* @UI/stage, que mostra o resultado do programa, e o *@editor* @UI/editor, que é o @code do programa.",
                             "$~Este programa está em branco, por isso o seu resultado é apenas um pedido para escreveres um programa.",
                             "$~Há muitos outros controlos para pausar e reproduzir o programa e editar o código, mas não te preocupes com isso por agora."
                         ],
@@ -27,7 +27,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Na maioria das linguagens de programação, um programa é uma lista de instruções que dizem ao computador o que *fazer*, como mostrar um @value:",
+                            "$~Na maioria das linguagens de programação, um programa é uma lista de instruções que dizem ao computador o que *fazer*, @how mostrar um @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~No @wordplay, os programas são *expressões* que dizem qual deve ser o /resultado/ do programa, e não como ele deve produzi-lo.",
                             "$~Este programa dá como resultado o valor \\'olá'\\, que depois aparece no palco. Não há comando de mostrar, apenas uma @expression que diz que valor deve ser calculado."
@@ -103,7 +103,7 @@
                             "neutral",
                             "$~A maioria das linguagens tem muitos tipos de @value 'primitivos'.",
                             "\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
-                            "$~O @wordplay tem uma sintaxe parecida para estes tipos, mas também te deixa acrescentar outras informações, como etiquetas de @language para texto multilingue e unidades nos números."
+                            "$~O @wordplay tem uma sintaxe parecida para estes tipos, mas também te deixa acrescentar outras informações, @how etiquetas de @language para texto multilingue e unidades nos números."
                         ],
                         null,
                         {
@@ -166,7 +166,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Para coleções de valores como listas e arrays, outras linguagens de programação usam construções como ciclos *for* e *while* para criar uma nova coleção a partir dos valores de uma coleção já existente.",
+                            "$~Para coleções de valores @how listas e arrays, outras linguagens de programação usam construções como ciclos *for* e *while* para criar uma nova coleção a partir dos valores de uma coleção já existente.",
                             "\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
                             "$~O @wordplay tem uma construção @Translate* simples que usa o símbolo \\↦\\ : ela cria uma nova @List, @Set ou @Map, substituindo cada item (representado pelo @placeholder \\⬚\\ ) por um novo @value. Isto duplica cada item para criar \\[2 4 6]\\.",
                             "$~Também há coisas mais poderosas como @List.translate e @List.combine, caso precises de operações mais complexas."
@@ -181,7 +181,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Todas as linguagens de programação têm funções, que te permitem declarar @blocks de código reutilizáveis que recebem entradas e produzem saídas com base nelas, com qualquer complexidade:",
+                            "$~Todas as linguagens de programação têm funções, que te permitem declarar @blocks de @code reutilizáveis que recebem entradas e produzem saídas com base nelas, com qualquer complexidade:",
                             "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
                             "$~O @wordplay também suporta definições de funções, mas com o símbolo ƒ. Tal como todos os programas Wordplay, as funções têm de dar como resultado um @value."
                         ]
@@ -213,7 +213,7 @@
                             "neutral",
                             "$~A maioria das linguagens de programação tem uma forma de receber entradas do utilizador:",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
-                            "$~A entrada do @wordplay vem de *fluxos*, que são valores especiais que mudam ao longo do tempo, em resposta à entrada, e fazem com que o programa Wordplay seja reavaliado com o novo valor do fluxo.",
+                            "$~A entrada do @wordplay vem de *fluxos*, que são valores especiais que mudam ao longo do tempo, em resposta à entrada, e fazem com que o programa Wordplay seja reavaliado com o novo valor do @stream.",
                             "$~Este programa, por exemplo, usa um fluxo @Time para fazer girar o emoji do globo. Sempre que o fluxo @Time() avança para um novo @value, o programa é reavaliado com o novo valor, atualizando o valor do programa no @Stage."
                         ],
                         null,
@@ -223,7 +223,7 @@
                             "curious",
                             "$~Na maioria das linguagens de programação, a interatividade significa registar tratadores de eventos e funções de retorno:",
                             "\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
-                            "$~No @wordplay, para a interatividade podemos simplesmente usar fluxos como @Button, @Key e @Pointer para criar elementos interativos. O texto desta @Phrase baseia-se em se o @Button foi clicado, usando uma @Conditional para ver se o fluxo @Button mudou (@Changed)."
+                            "$~No @wordplay, para a interatividade podemos simplesmente usar fluxos @how @Button, @Key e @Pointer para criar elementos interativos. O texto desta @Phrase baseia-se em se o @Button foi clicado, usando uma @Conditional para ver se o fluxo @Button mudou (@Changed)."
                         ],
                         null,
                         {
@@ -261,17 +261,17 @@
                             "angry",
                             "$~Outras linguagens lançam *erros* — um sinal de que um programa fez algo que não é permitido:",
                             "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
-                            "$~O @wordplay chama aos erros *conflitos*: duas coisas que não podem ser ambas verdadeiras, como somar um número e texto no programa abaixo.",
-                            "$~O Wordplay vai sublinhar os conflitos e mostrá-los na barra lateral @UI/conflict. Também vai oferecer sugestões para resolver o conflito e corrigir o problema."
+                            "$~O @wordplay chama aos erros *conflitos*: duas coisas que não podem ser ambas verdadeiras, @how somar um número e texto no programa abaixo.",
+                            "$~O Wordplay vai sublinhar os conflitos e mostrá-los na barra lateral @UI/conflict. Também vai oferecer sugestões para resolver o @conflict e corrigir o problema."
                         ],
                         null,
                         { "edit": "(1 + 2) × 3" },
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~A maioria das linguagens de programação oferece algum tipo de ferramentas de depuração para ajudar os criadores a perceber e resolver problemas no seu código. Mas muitos usam apenas instruções de mostrar para verificar os valores das variáveis numa consola:",
+                            "$~A maioria das linguagens de programação oferece algum tipo de ferramentas de depuração para ajudar os criadores a perceber e resolver problemas no seu @code. Mas muitos usam apenas instruções de mostrar para verificar os valores das variáveis numa consola:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay oferece uma experiência de depuração mais avançada, permitindo avançar e recuar *passo a passo* pela sua avaliação. Prima o botão de depuração ⏸️ no seletor de modo @UI/modeSwitcher acima do palco para entrar no modo de *depuração*: o valor de cada expressão aparece junto dela no código, e o @UI/stepControls avança passo a passo em qualquer direção, para poder observar como um valor é construído. Eis uma visita guiada a tudo isto: @Tour/stage",
+                            "$~@wordplay oferece uma experiência de depuração mais avançada, permitindo avançar e recuar *passo a passo* pela sua avaliação. Prima o botão de depuração ⏸️ no seletor de modo @UI/modeSwitcher acima do palco para entrar no modo de *depuração*: o @value de cada @expression aparece junto dela no código, e o @UI/stepControls avança passo a passo em qualquer direção, para poder observar como um valor é construído. Eis uma visita guiada a tudo isto: @Tour/stage",
                             "$~Os outros modos também são importantes: o modo ✏️ *editar* serve para alterar o programa enquanto o palco fica parado, e o modo ▶️ *reproduzir* executa-o ao vivo, respondendo às entradas em tempo real.",
                             "$~Quer mais ajuda? O botão @UI/stageTourLaunch, junto ao nome do palco, mostra uma visita guiada a estes controlos."
                         ]
@@ -288,7 +288,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Vamos construir um pequeno @project interativo em três passos.",
-                            "$~*Um:* declara os teus dados e *fluxos*. Aqui um fluxo @Time chamado decorrido informa há quanto tempo o programa está a correr."
+                            "$~*Um:* declara os teus dados e *fluxos*. Aqui um @stream @Time chamado decorrido informa há quanto tempo o programa está a correr."
                         ],
                         null,
                         {
@@ -327,7 +327,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Podemos tornar isto ainda mais interativo acrescentando entrada do utilizador para controlar a rotação, como o @Volume da entrada do microfone. É um valor entre 0 e 1, por isso podemos mapeá-lo para 360 graus.",
+                            "$~Podemos tornar isto ainda mais interativo acrescentando entrada do utilizador para controlar a rotação, como o @Volume da entrada do microfone. É um @value entre 0 e 1, por isso podemos mapeá-lo para 360 graus.",
                             "$~É essa a forma da maioria dos projetos: declarações, depois reações, depois saída. O <Guia//guide> tem uma secção @how cheia de receitas para estudar, copiar e editar.",
                             "$~Boas criações!"
                         ]

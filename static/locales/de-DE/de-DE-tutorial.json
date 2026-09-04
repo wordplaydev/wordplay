@@ -599,7 +599,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Funktionen sind eine Art Alchemie. Sie nehmen eine beliebige Anzahl von Eingaben an und verwenden diese Eingaben, um eine Ausgabe zu erzeugen. Sie können Namen haben oder keinen Namen. Sie können null oder fünf Eingaben haben oder eine unbekannte Zahl. Und die Alchemie: Sie sind wie @Program und können eine beliebige Anzahl von Ausdrücken haben, um einen Wert zu erzeugen."
+                            "$~Funktionen sind eine Art Alchemie. Sie nehmen eine beliebige Anzahl von Eingaben an und verwenden diese Eingaben, um eine Ausgabe zu erzeugen. Sie können Namen haben oder keinen Namen. Sie können null oder fünf Eingaben haben oder eine unbekannte Zahl. Und die Alchemie: Sie sind wie @Program und können eine beliebige Anzahl von Ausdrücken haben, um einen @value zu erzeugen."
                         ],
                         null,
                         [
@@ -652,7 +652,7 @@
                             "neutral",
                             "$~Ich zeige dir einen der Regler. Die *Palette* @UI/paletteExpand ist der Ort, an dem du das Aussehen eines @Phrase änderst, ohne etwas zu tippen. @Tour/palette",
                             "$~Wenn die Palette offen ist und ein Satz ausgewählt ist, siehst du die vielen Eingaben, die @Phrase annimmt. Versuch zum Beispiel, den Bleistift-Knopf für @Phrase.size zu drücken. Dann erscheint ein Schieberegler.",
-                            "$~Mit diesem Schieberegler können Sie die Größe der Phrase ändern. Dadurch wird auch der @Evaluate-Code entsprechend der gewählten Größe geändert."
+                            "$~Mit diesem Schieberegler können Sie die Größe der Phrase ändern. Dadurch wird auch der @Evaluate-@code entsprechend der gewählten Größe geändert."
                         ],
                         null,
                         [
@@ -674,7 +674,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Oh ja, das ist eine gute Idee. Vieles kann schiefgehen. Zum Beispiel könntest du mir etwas geben, das keine Funktion ist. Schau mal, wie ich den Text \\'hallo'\\ hier als Funktion bekomme und mir zwei Eingaben gegeben werden, \\1\\ und \\2\\ ? Nun, ich weiß nur, wie man Funktionen auswertet, und \\'hallo'\\ ist keine Funktion, sondern Text. Das verwirrt mich sehr, also stoppe ich meistens die Vorführung, wenn das passiert."
+                            "$~Oh ja, das ist eine gute Idee. Vieles kann schiefgehen. Zum Beispiel könntest du mir etwas geben, das keine Funktion ist. Schau mal, wie ich den Text \\'hallo'\\ hier als Funktion bekomme und mir zwei Eingaben gegeben werden, \\1\\ und \\2\\ ? Nun, ich weiß nur, @how Funktionen auswertet, und \\'hallo'\\ ist keine Funktion, sondern Text. Das verwirrt mich sehr, also stoppe ich meistens die Vorführung, wenn das passiert."
                         ],
                         null,
                         {
@@ -760,7 +760,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~… *Werte*? Entschuldigung, ich weiß, wir sollten eigentlich auf dieser großen Tour durch das *Vers* sein. Ich weiß nur nicht, was ich mit @Evaluate machen soll. Also … *Werte*. Die habe ich noch nicht erklärt, oder? Hm … wie soll ich das erklären … Wissen Sie, was „Daten“ sind? Wie Zahlen und Text? Werte sind all diese Dinge. Ein Wert kann so klein wie eine Zahl oder so groß wie eine ganze Szene auf der Bühne sein, voller tanzender und sich bewegender Figuren. Manche Werte bestehen aus vielen anderen Werten, wie große, komplizierte Strukturen aus miteinander verwobenen Datenwerten."
+                            "$~… *Werte*? Entschuldigung, ich weiß, wir sollten eigentlich auf dieser großen Tour durch das *Vers* sein. Ich weiß nur nicht, was ich mit @Evaluate machen soll. Also … *Werte*. Die habe ich noch nicht erklärt, oder? Hm … wie soll ich das erklären … Wissen Sie, was „Daten“ sind? Wie Zahlen und Text? Werte sind all diese Dinge. Ein @value kann so klein wie eine Zahl oder so groß wie eine ganze Szene auf der Bühne sein, voller tanzender und sich bewegender Figuren. Manche Werte bestehen aus vielen anderen Werten, wie große, komplizierte Strukturen aus miteinander verwobenen Datenwerten."
                         ],
                         null,
                         {
@@ -956,7 +956,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~@FunctionDefinition hat für mich noch viele weitere spannende Funktionen erschaffen, aber ich erspare dir die Einzelheiten. Du findest mich immer im @guide @UI/docsExpand. Dort bewahren wir alle Informationen über jeden im Verse auf, auch wie man mit uns arbeitet und welche Funktionen wir haben. Schau dich dort um, bevor du weitermachst. Ich werde dort auf dich warten. @Tour/docs"
+                            "$~@FunctionDefinition hat für mich noch viele weitere spannende Funktionen erschaffen, aber ich erspare dir die Einzelheiten. Du findest mich immer im @guide @UI/docsExpand. Dort bewahren wir alle Informationen über jeden im Verse auf, auch @how mit uns arbeitet und welche Funktionen wir haben. Schau dich dort um, bevor du weitermachst. Ich werde dort auf dich warten. @Tour/docs"
                         ],
                         null,
                         [
@@ -1101,7 +1101,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Das ist ja toll zu hören. Es ist schön, wieder bei Ihnen zu sein. Ich wollte Ihnen unseren neuen potenziellen Direktor vorstellen. Sie haben alle kennengelernt und gelernt, wie man mit uns Aufführungen macht. Möchten Sie ihnen erzählen, was Sie tun?"
+                            "$~Das ist ja toll zu hören. Es ist schön, wieder bei Ihnen zu sein. Ich wollte Ihnen unseren neuen potenziellen Direktor vorstellen. Sie haben alle kennengelernt und gelernt, @how mit uns Aufführungen macht. Möchten Sie ihnen erzählen, was Sie tun?"
                         ],
                         ["⊤", "precise", "$~Ich bin ehrlich."],
                         ["⊥", "precise", "$~Ich bin falsch."],
@@ -1163,7 +1163,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~(Dies ist sehr hilfreich, wenn Sie ermitteln möchten, ob irgendwelche Ausdrücke wahr sind, denn ein Ausdruck ist wahr, wenn auch nur einer wahr ist)."
+                            "$~(Dies ist sehr hilfreich, wenn Sie ermitteln möchten, ob irgendwelche Ausdrücke wahr sind, denn ein @expression ist wahr, wenn auch nur einer wahr ist)."
                         ],
                         null,
                         { "edit": "~⊤ = ⊥" },
@@ -1810,7 +1810,7 @@
                         [
                             "List",
                             "happy",
-                            "$~Interessant, oder? Gib mir eine Stelle in der Liste, und ich laufe herum. Zum Beispiel \\-1\\ ist das letzte Element in der Liste, und wenn die Liste fünf Elemente hat, dann ist @index \\6\\ das erste Element. Wenn du mir den Index \\0\\ gibst, dann gebe ich dir @NoneLiteral, weil dort nichts ist. Ergibt das Sinn?"
+                            "$~Interessant, oder? Gib mir eine Stelle in der Liste, und ich laufe herum. Zum Beispiel \\-1\\ ist das letzte @element in der Liste, und wenn die Liste fünf Elemente hat, dann ist @index \\6\\ das erste Element. Wenn du mir den Index \\0\\ gibst, dann gebe ich dir @NoneLiteral, weil dort nichts ist. Ergibt das Sinn?"
                         ],
                         null,
                         [
@@ -2260,7 +2260,7 @@
                             "Convert",
                             "sad",
                             "$~Na ja, nicht wirklich irgendetwas. Ich meine, wenn Sie mir Sekunden Zeit geben und nach einem @Set fragen, was soll das überhaupt bedeuten?",
-                            "$~Ich werde mein Bestes tun, um eine Möglichkeit zu finden ... beispielsweise weiß ich, wie man Zahlen in @Text und @Text in ein @Set umwandelt. Daher gebe ich Ihnen den Symbolsatz in der Textform dieser Zahl.",
+                            "$~Ich werde mein Bestes tun, um eine Möglichkeit zu finden ... beispielsweise weiß ich, @how Zahlen in @Text und @Text in ein @Set umwandelt. Daher gebe ich Ihnen den Symbolsatz in der Textform dieser Zahl.",
                             "$~Aber das ist wahrscheinlich nicht, was Sie wollten ...",
                             "$~Und wenn ich nicht weiß, wie ich Ihnen das geben kann, was Sie verlangt haben, werde ich die Sache grundsätzlich beenden."
                         ],
@@ -2335,7 +2335,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Um es klar zu sagen, nicht alle Entscheidungen: Ich habe mein eigenes Leben, und sie haben ihres. Aber in einer Aufführung, wenn wir entscheiden wollen, was als Nächstes auf der Bühne passiert, liegt es ganz an ihnen, deiner Anleitung als Regisseur zu folgen und zu entscheiden, was zu tun ist. Sie sind also ein @key Partner, der aufregende Aufführungen schafft."
+                            "$~Um es klar zu sagen, nicht alle Entscheidungen: Ich habe mein eigenes Leben, und sie haben ihres. Aber in einer Aufführung, wenn wir entscheiden wollen, was als Nächstes auf der Bühne passiert, liegt es ganz an ihnen, deiner @tutorial als Regisseur zu folgen und zu entscheiden, was zu tun ist. Sie sind also ein @key Partner, der aufregende Aufführungen schafft."
                         ],
                         null,
                         { "fit": "#SpinningInTheDark ?" },
@@ -2508,7 +2508,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Drücke den ▶️-Wiedergabeknopf im Modus-Umschalter @UI/modeSwitcher über der Bühne, um zu sehen, wie die Zeit vergeht. Siehst du, wie sich die Zeit ändert? Ströme sind eine Reihe von Werten. Jedes Mal, wenn ein Strom einen neuen Wert bekommt, wertet @Program mit dem neuen Stromwert neu aus. Deshalb zählt dieses Programm einfach immer weiter hoch: Wir haben einen Zeitstrom erstellt, der bei 0 Millisekunden beginnt und sich dann bei jedem Ticken seiner Uhr weiter aktualisiert. Diese Zeit ist deine Zeit, aus deiner Welt. Wenn du den Code ändern möchtest, wechsle zurück in den ✏️-Bearbeitungsmodus; während du bearbeitest, bleibt die Bühne im aktuellen Moment eingefroren."
+                            "$~Drücke den ▶️-Wiedergabeknopf im Modus-Umschalter @UI/modeSwitcher über der Bühne, um zu sehen, wie die Zeit vergeht. Siehst du, wie sich die Zeit ändert? Ströme sind eine Reihe von Werten. Jedes Mal, wenn ein Strom einen neuen @value bekommt, wertet @Program mit dem neuen Stromwert neu aus. Deshalb zählt dieses Programm einfach immer weiter hoch: Wir haben einen Zeitstrom erstellt, der bei 0 Millisekunden beginnt und sich dann bei jedem Ticken seiner Uhr weiter aktualisiert. Diese Zeit ist deine Zeit, aus deiner Welt. Wenn du den @code ändern möchtest, wechsle zurück in den ✏️-Bearbeitungsmodus; während du bearbeitest, bleibt die Bühne im aktuellen Moment eingefroren."
                         ],
                         ["Time", "neutral", "$~tick tick tick tick tick…"],
                         null,
@@ -2531,7 +2531,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Es gibt noch etwas zu entdecken: Die Zeitleiste unter der Ausgabe zeichnet jedes Mal auf, wenn das Programm neu ausgewertet wurde. Das passiert jedes Mal, wenn sich ein Datenstrom ändert – hier jedes Mal, wenn @Time getickt hat. Drücke die Fehlersuche-Taste ⏸️ im Modus-Umschalter @UI/modeSwitcher, um dir das genauer anzuschauen. Dann wird der value jedes expression daneben angezeigt."
+                            "$~Es gibt noch etwas zu entdecken: Die Zeitleiste unter der Ausgabe zeichnet jedes Mal auf, wenn das Programm neu ausgewertet wurde. Das passiert jedes Mal, wenn sich ein @stream ändert – hier jedes Mal, wenn @Time getickt hat. Drücke die Fehlersuche-Taste ⏸️ im Modus-Umschalter @UI/modeSwitcher, um dir das genauer anzuschauen. Dann wird der value jedes expression daneben angezeigt."
                         ],
                         ["Time", "neutral", "$~tick… tick… tick… tick… tick…"],
                         null,
@@ -2568,7 +2568,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Hier ist ein einfaches Beispiel. Klicken Sie auf die Bühne oder fokussieren Sie sie mit der Tastatur und drücken Sie dann eine beliebige Taste auf der Tastatur. Sie sehen die von Ihnen eingegebene Taste mit Namen angezeigt. Das liegt daran, dass @Program bei jeder Änderung des Tastenstroms den Tastenstrom als seinen neuesten Wert auswertet und ihn dann auf der Bühne anzeigt."
+                            "$~Hier ist ein einfaches Beispiel. Klicken Sie auf die Bühne oder fokussieren Sie sie mit der Tastatur und drücken Sie dann eine beliebige Taste auf der Tastatur. Sie sehen die von Ihnen eingegebene Taste mit Namen angezeigt. Das liegt daran, dass @Program bei jeder Änderung des Tastenstroms den Tastenstrom als seinen neuesten @value auswertet und ihn dann auf der Bühne anzeigt."
                         ],
                         ["Key", "neutral", "$~Klick, klick, klick, klick"],
                         { "edit": "Key()" },
@@ -3289,7 +3289,7 @@
                         [
                             "Phrase",
                             "happy",
-                            "$~Oder vielleicht haben wir ein bisschen Spaß und verknüpfen die Rotation mit @Time! Juhuu! Irgendwelche Vermutungen, wie man mich schneller drehen lässt? Mal sehen, ob Sie es herausfinden können …"
+                            "$~Oder vielleicht haben wir ein bisschen Spaß und verknüpfen die Rotation mit @Time! Juhuu! Irgendwelche Vermutungen, @how mich schneller drehen lässt? Mal sehen, ob Sie es herausfinden können …"
                         ],
                         {
                             "fit": "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) × 1°/ms)"
@@ -3404,7 +3404,7 @@
                         [
                             "Phrase",
                             "happy",
-                            "$~Natürlich! Immer wenn du müde wirst, an den Eingaben von @Evaluate herumzubasteln, kannst du ein Textstück auf der Bühne auswählen. Dann erscheint eine Palette, mit der du jede Kleinigkeit ändern kannst, die du möchtest: meine Größe, Schrift, Position, Posen. Es gibt nur eine Regel: Wenn du eines davon auf ein @expression statt auf einen einfachen Wert setzt, musst du es unten in @Program ändern, nicht in der Palette. Verkleide mich, so viel du willst!"
+                            "$~Natürlich! Immer wenn du müde wirst, an den Eingaben von @Evaluate herumzubasteln, kannst du ein Textstück auf der Bühne auswählen. Dann erscheint eine Palette, mit der du jede Kleinigkeit ändern kannst, die du möchtest: meine Größe, Schrift, Position, Posen. Es gibt nur eine Regel: Wenn du eines davon auf ein @expression statt auf einen einfachen @value setzt, musst du es unten in @Program ändern, nicht in der Palette. Verkleide mich, so viel du willst!"
                         ],
                         { "edit": "Phrase('dress me up!')" },
                         null,
@@ -4762,7 +4762,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Oh, und noch etwas Schönes! Wenn du eine Liste willst, musst du nicht immer die Klammern tippen. Du kannst einfach jedes Element auf eine eigene Zeile in einem @Block setzen, und es macht das Gleiche."
+                            "Oh, und noch etwas Schönes! Wenn du eine Liste willst, musst du nicht immer die Klammern tippen. Du kannst einfach jedes @element auf eine eigene Zeile in einem @Block setzen, und es macht das Gleiche."
                         ],
                         [
                             "Block",
@@ -4818,7 +4818,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Fangen wir mit dem an, was du schon gesehen hast. Weißt du, dass jeder @value verschiedene Funktionen hat, die du auf ihm ausführen kannst? Zahlen wissen zum Beispiel, wie man @Number.add, und ein Textwert weiß, wie man prüft, ob er @Text.has einen bestimmten Text, oder @Set weiß, wie man prüft, ob er einen bestimmten Wert hat? Ich bin derjenige, der diese Funktionen festlegt. Ich meine, ich habe nicht die Eingebung, sie selbst zu erschaffen — das machen Regisseure wie du —, aber ich lege die Eingaben fest, die eine Funktion annimmt, die Namen, die sie hat, und den @expression, der die Eingaben nutzt, um einen Ausgabewert zu ergeben."
+                            "$~Fangen wir mit dem an, was du schon gesehen hast. Weißt du, dass jeder @value verschiedene Funktionen hat, die du auf ihm ausführen kannst? Zahlen wissen zum Beispiel, @how @Number.add, und ein Textwert weiß, wie man prüft, ob er @Text.has einen bestimmten Text, oder @Set weiß, wie man prüft, ob er einen bestimmten Wert hat? Ich bin derjenige, der diese Funktionen festlegt. Ich meine, ich habe nicht die Eingebung, sie selbst zu erschaffen — das machen Regisseure wie du —, aber ich lege die Eingaben fest, die eine Funktion annimmt, die Namen, die sie hat, und den @expression, der die Eingaben nutzt, um einen Ausgabewert zu ergeben."
                         ],
                         null,
                         [
@@ -5042,7 +5042,7 @@
                         [
                             "StructureDefinition",
                             "excited",
-                            "$~Dann erinnerten sie sich an @Reaction, das genutzt werden kann, um auf Änderungen von Strömen zu reagieren. Sie wollten, dass sich die Nachricht alle zwei Sekunden ändert, also machten sie einen @Time-Strom, der alle 2 Sekunden tickt, und nutzten @Reaction, um den nächsten @index jedes Mal zu erhöhen. Dieses @Reaction sagt: starte bei \\1\\, und wenn sich die Zeit alle \\2000ms\\ ändert, werte zum vorherigen Wert von \\index + 1\\ aus. So \\index\\ erhöht sich um \\1\\ alle zwei Sekunden und ändert die gezeigte Nachricht. Juhu, es funktioniert!"
+                            "$~Dann erinnerten sie sich an @Reaction, das genutzt werden kann, um auf Änderungen von Strömen zu reagieren. Sie wollten, dass sich die Nachricht alle zwei Sekunden ändert, also machten sie einen @Time-Strom, der alle 2 Sekunden tickt, und nutzten @Reaction, um den nächsten @index jedes Mal zu erhöhen. Dieses @Reaction sagt: starte bei \\1\\, und wenn sich die Zeit alle \\2000ms\\ ändert, werte zum vorherigen @value von \\index + 1\\ aus. So \\index\\ erhöht sich um \\1\\ alle zwei Sekunden und ändert die gezeigte Nachricht. Juhu, es funktioniert!"
                         ],
                         {
                             "edit": [
@@ -5288,7 +5288,7 @@
                         [
                             "Doc",
                             "serious",
-                            "$~Nun, Sie können mich fast überall in @Program einsetzen. Nehmen wir beispielsweise an, Sie erstellen ein @Bind und möchten angeben, wofür der Wert ist. Hier haben wir beispielsweise einen einfachen Wert, den wir benannt haben, aber ich gebe eine umfassendere Erklärung seiner Rolle."
+                            "$~Nun, Sie können mich fast überall in @Program einsetzen. Nehmen wir beispielsweise an, Sie erstellen ein @Bind und möchten angeben, wofür der @value ist. Hier haben wir beispielsweise einen einfachen Wert, den wir benannt haben, aber ich gebe eine umfassendere Erklärung seiner Rolle."
                         ],
                         {
                             "edit": [
@@ -5778,7 +5778,7 @@
                         [
                             "Reaction",
                             "kind",
-                            "$~Ich kann es ändern! Wir brauchen einen @Time-Stream, aber wir müssen auch die Zeichen ändern. Aber was soll der nächste Wert sein?"
+                            "$~Ich kann es ändern! Wir brauchen einen @Time-Stream, aber wir müssen auch die Zeichen ändern. Aber was soll der nächste @value sein?"
                         ],
                         { "edit": "#EvaluateDance9" },
                         null,
@@ -5790,7 +5790,7 @@
                         [
                             "StructureDefinition",
                             "sad",
-                            "$~Ich weiß nicht, wie man eine Funktion erstellt …"
+                            "$~Ich weiß nicht, @how eine Funktion erstellt …"
                         ],
                         null,
                         ["Evaluate", "sad", "$~…"],

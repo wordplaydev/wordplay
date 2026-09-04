@@ -18,7 +18,7 @@
                             "FunctionDefinition",
                             "cheerful",
                             "$~@wordplay'e hoş geldin! Programlama hakkında biraz bilgin olduğunu duydum, harika! Bu kısa tur, Wordplay'in nelerde benzer, nelerde farklı olduğunu gösterir.",
-                            "$~Bilgin olsun diye söyleyeyim, bu ekrandaki her şey: bu sayfa bir @tutorial penceresini ve bir @project görünümünü gösterir. *Sahne* @UI/stage'i görebilirsin, bu program çıktısını gösterir; ve *düzenleyici* @UI/editor'ü görebilirsin, bu da program kodudur.",
+                            "$~Bilgin olsun diye söyleyeyim, bu ekrandaki her şey: bu sayfa bir @tutorial penceresini ve bir @project görünümünü gösterir. *Sahne* @UI/stage'i görebilirsin, bu program çıktısını gösterir; ve *@editor* @UI/editor'ü görebilirsin, bu da program kodudur.",
                             "$~Bu program boş, bu yüzden çıktısı sadece bir program yazmanı isteyen bir mesajdır.",
                             "$~Programı duraklatmak, oynatmak ve kodu düzenlemek için başka birçok denetim var ama şimdilik bunlar için endişelenme."
                         ],
@@ -29,7 +29,7 @@
                             "happy",
                             "$~Çoğu programlama dilinde bir program, bilgisayara ne *yapacağını* söyleyen deyimlerin bir listesidir, örneğin bir değer yazdırmak gibi:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
-                            "$~@wordplay'de programlar, programın /sonucunun/ ne olması gerektiğini söyleyen *ifadelerdir*, sonucu nasıl üreteceğini değil.",
+                            "$~@wordplay'de programlar, programın /sonucunun/ ne olması gerektiğini söyleyen *ifadelerdir*, sonucu @how üreteceğini değil.",
                             "$~Bu program şu değere hesaplanır: \\'merhaba'\\, sonra bu değer sahnede gösterilir. Yazdırma komutu yok, sadece hangi değere hesaplanacağını söyleyen bir @expression var."
                         ],
                         null,
@@ -181,7 +181,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Her programlama dilinde fonksiyonlar vardır; bunlar girdi alan ve ona göre çıktı üreten, istediğin karmaşıklıkta yeniden kullanılabilir kod blokları bildirmene izin verir:",
+                            "$~Her programlama dilinde fonksiyonlar vardır; bunlar girdi alan ve ona göre çıktı üreten, istediğin karmaşıklıkta yeniden kullanılabilir @code blokları bildirmene izin verir:",
                             "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
                             "$~@wordplay de fonksiyon tanımlarını destekler ama ƒ sembolüyle. Tıpkı tüm Wordplay programları gibi, fonksiyonlar da bir @value'ya hesaplanmalıdır."
                         ]
@@ -238,7 +238,7 @@
                             "happy",
                             "$~Diğer programlama dilleri, değişkenlerin değerlerini çalışma sırasında değiştirmene izin verir; bu, dinamik ve etkileşimli uygulamalar oluşturmak için yararlı olabilir. Ama değerleri doğru yerlerde güncellemeyi ve bu değerler değiştiğinde ekranda gösterileni güncellemeyi hatırlamanı gerektirir:",
                             "\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
-                            "$~@wordplay bunu bir @Reaction @expression kullanarak basitleştirir; bu ifade bir başlangıç değerinden başlar, akış girdilerine atıfta bulunan bir @condition'u denetler ve ifadenin değerini akışın değişikliklerine göre günceller. Bu örnekte, @Button akışı her değiştiğinde count değerini güncelliyoruz ve bu da @Stage üzerinde gösterilen @Phrase'i günceller."
+                            "$~@wordplay bunu bir @Reaction @expression kullanarak basitleştirir; bu ifade bir başlangıç değerinden başlar, @stream girdilerine atıfta bulunan bir @condition'u denetler ve ifadenin değerini akışın değişikliklerine göre günceller. Bu örnekte, @Button akışı her değiştiğinde count değerini güncelliyoruz ve bu da @Stage üzerinde gösterilen @Phrase'i günceller."
                         ]
                     ]
                 },
@@ -271,7 +271,7 @@
                             "happy",
                             "$~Çoğu programlama dili, yaratıcıların kodlarındaki sorunları anlamasına ve çözmesine yardımcı olmak için bir tür hata ayıklama aracı sunar. Ama birçoğu, değişkenlerin değerlerini bir konsolda denetlemek için sadece yazdırma deyimleri kullanır:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay daha gelişmiş bir hata ayıklama deneyimi sunar. Bu sayede, hesaplanışını *ileri* ve *geri* adım adım izleyebilirsin. Sahnenin üstündeki mod değiştiricide @UI/modeSwitcher ⏸️ hata ayıklama düğmesine bas ve *hata ayıklama* moduna gir: her ifadenin değeri, kodda yanında görünür. @UI/stepControls ise adımları herhangi bir yönde ilerletir. Böylece bir değerin nasıl oluşturulduğunu izleyebilirsin. İşte hepsini gösteren rehberli bir tur: @Tour/stage",
+                            "$~@wordplay daha gelişmiş bir hata ayıklama deneyimi sunar. Bu sayede, hesaplanışını *ileri* ve *geri* adım adım izleyebilirsin. Sahnenin üstündeki mod değiştiricide @UI/modeSwitcher ⏸️ hata ayıklama düğmesine bas ve *hata ayıklama* moduna gir: her ifadenin değeri, kodda yanında görünür. @UI/stepControls ise adımları herhangi bir yönde ilerletir. Böylece bir değerin @how oluşturulduğunu izleyebilirsin. İşte hepsini gösteren rehberli bir tur: @Tour/stage",
                             "$~Diğer kipler de önemlidir: ✏️ *düzenleme* kipinde sahne dururken programı değiştirebilirsin, ▶️ *oynatma* kipi ise programı canlı çalıştırır ve girdilere anında yanıt verir.",
                             "$~Daha fazla rehberlik mi istiyorsun? Sahnenin isminin yanındaki @UI/stageTourLaunch düğmesi, bu kontroller hakkında rehberli bir tur sunar."
                         ]

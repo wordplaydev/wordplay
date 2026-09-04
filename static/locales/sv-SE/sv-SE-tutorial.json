@@ -78,7 +78,7 @@
                         [
                             "FunctionDefinition",
                             "scared",
-                            "$~Jag vet att det är mycket att fråga. Jag känner inte ens dig. Och jag skulle verkligen behöva prata med de andra..."
+                            "$~Jag vet att det är mycket att @query. Jag känner inte ens dig. Och jag skulle verkligen behöva prata med de andra..."
                         ],
                         null,
                         {
@@ -599,7 +599,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Funktioner är en sorts alkemi. De tar valfritt antal ingångar och använder dessa ingångar för att producera en utgång. De kan ha namn eller vara namnlösa. De kan ha noll ingångar eller fem eller ett okänt nummer. Och alkemin: de är som @Program och kan ha hur många uttryck som helst för att producera ett värde."
+                            "$~Funktioner är en sorts alkemi. De tar valfritt antal ingångar och använder dessa ingångar för att producera en utgång. De kan ha namn eller vara namnlösa. De kan ha noll ingångar eller fem eller ett okänt nummer. Och alkemin: de är som @Program och kan ha hur många @expression som helst för att producera ett @value."
                         ],
                         null,
                         [
@@ -674,7 +674,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Åh, ja, det är en bra idé. Mycket kan gå fel. Till exempel kan du ge mig något som inte är en funktion. Se hur jag får texten \\“hej”\\ här som en funktion och gett mig två ingångar, \\1\\ och \\2\\ ? Tja, jag vet bara hur man utvärderar funktioner, och \\“hej”\\ är inte en funktion; det är text. Det är väldigt förvirrande för mig, så jag stoppar i princip föreställningen om detta händer."
+                            "$~Åh, ja, det är en bra idé. Mycket kan gå fel. Till exempel kan du ge mig något som inte är en funktion. Se hur jag får texten \\“hej”\\ här som en funktion och gett mig två ingångar, \\1\\ och \\2\\ ? Tja, jag vet bara @how utvärderar funktioner, och \\“hej”\\ är inte en funktion; det är text. Det är väldigt förvirrande för mig, så jag stoppar i princip föreställningen om detta händer."
                         ],
                         null,
                         {
@@ -760,7 +760,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~… *Värden*? Förlåt, jag vet att vi ska vara med på den här stora turnén genom *Versen*. Jag vet bara inte vad jag ska göra med @Evaluate. Så... *värden*. Jag har inte förklarat dem än, eller hur? Hm... hur ska man förklara... Vet du vad \"data\" är? Gillar du siffror och text? Värderingar är någon av dessa saker. Ett värde kan vara så litet som ett nummer eller så stort som en hel scen på scenen, full av karaktärer som dansar och rör sig. Vissa värden är gjorda av många andra värden, som stora, utarbetade strukturer av datavärden sammanvävda."
+                            "$~… *Värden*? Förlåt, jag vet att vi ska vara med på den här stora turnén genom *Versen*. Jag vet bara inte vad jag ska göra med @Evaluate. Så... *värden*. Jag har inte förklarat dem än, eller hur? Hm... hur ska man förklara... Vet du vad \"data\" är? Gillar du siffror och text? Värderingar är någon av dessa saker. Ett @value kan vara så litet som ett nummer eller så stort som en hel scen på scenen, full av karaktärer som dansar och rör sig. Vissa värden är gjorda av många andra värden, som stora, utarbetade strukturer av datavärden sammanvävda."
                         ],
                         null,
                         {
@@ -779,7 +779,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~*Uttryck* är hur vi skapar värden. Alla uttryck är utvärderingar av funktioner som jag gör. Resultatet av att utvärdera ett uttryck är ett värde av någon typ."
+                            "$~*@expression* är hur vi skapar värden. Alla uttryck är utvärderingar av funktioner som jag gör. Resultatet av att utvärdera ett uttryck är ett värde av någon typ."
                         ],
                         null,
                         { "fit": "#Symbol 🤔" },
@@ -956,7 +956,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~@FunctionDefinition har skapat många fler intressanta funktioner för mig, men jag bespar dig detaljerna. Du kan alltid hitta mig i @guide @UI/docsExpand. Det är där vi håller all information om alla i Versen, inklusive hur man arbetar med oss och vilka funktioner vi har. Titta runt där innan du går vidare, jag väntar där inne. @Tour/docs"
+                            "$~@FunctionDefinition har skapat många fler intressanta funktioner för mig, men jag bespar dig detaljerna. Du kan alltid hitta mig i @guide @UI/docsExpand. Det är där vi håller all information om alla i Versen, inklusive @how arbetar med oss och vilka funktioner vi har. Titta runt där innan du går vidare, jag väntar där inne. @Tour/docs"
                         ],
                         null,
                         [
@@ -1101,7 +1101,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Tja, det är fantastiskt att höra. Det är bra att vara med dig igen. Jag ville presentera dig för vår nya kanske-direktör. De har träffat alla och lärt sig hur man kan spela med oss. Vill du berätta för dem vad du gör?"
+                            "$~Tja, det är fantastiskt att höra. Det är bra att vara med dig igen. Jag ville presentera dig för vår nya kanske-direktör. De har träffat alla och lärt sig @how kan spela med oss. Vill du berätta för dem vad du gör?"
                         ],
                         ["⊤", "precise", "$~Jag är sann."],
                         ["⊥", "precise", "$~Jag är falsk."],
@@ -1137,7 +1137,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~(Detta är verkligen användbart när man försöker avgöra om flera uttryck alla är sanna, eftersom det bara är sant när allt är sant)."
+                            "$~(Detta är verkligen användbart när man försöker avgöra om flera @expression alla är sanna, eftersom det bara är sant när allt är sant)."
                         ],
                         null,
                         { "edit": "(⊤ | ⊤) = ⊥" },
@@ -1187,7 +1187,7 @@
                             "curious",
                             "$~Och vad är du användbar för i våra föreställningar?"
                         ],
-                        ["⊤", "precise", "$~Fråga @Conditional."],
+                        ["⊤", "precise", "$~@query @Conditional."],
                         ["⊥", "precise", "$~Fråga oss inte."],
                         null,
                         [
@@ -1589,7 +1589,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Använd \\≈\\ för att fråga ”passar hela texten in i formen?” — du får ett \\⊤\\ eller \\⊥\\. Prova \\⌕\\ för att *hitta* varje plats där ett mönster finns, och @name de delar du vill behålla med \\namn: (…)\\."
+                            "$~Använd \\≈\\ för att @query ”passar hela texten in i formen?” — du får ett \\⊤\\ eller \\⊥\\. Prova \\⌕\\ för att *hitta* varje plats där ett mönster finns, och @name de delar du vill behålla med \\namn: (…)\\."
                         ],
                         {
                             "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
@@ -1719,7 +1719,7 @@
                         [
                             "List",
                             "excited",
-                            "$~Okej. Först, och viktigast, sätter jag ordning på värderingar. Vilka uttryck du än vill: siffror, ord, andra listor — jag kan gruppera vad som helst i sekvens.",
+                            "$~Okej. Först, och viktigast, sätter jag ordning på värderingar. Vilka @expression du än vill: siffror, ord, andra listor — jag kan gruppera vad som helst i sekvens.",
                             "$~Kolla till exempel in den här roliga listan. Har du någonsin sett något liknande? Det är så vackert! De första tio siffrorna, i ordning."
                         ],
                         { "edit": "[1 2 3 4 5 6 7 8 9 10]" },
@@ -2252,7 +2252,7 @@
                             "Convert",
                             "sad",
                             "$~Tja, inte som något. Jag menar, om du ger mig sekunder och ber om ett @Set, typ, vad betyder det ens?",
-                            "$~Jag ska göra mitt bästa för att hitta ett sätt... som, här, jag vet hur man förvandlar siffror till @Text och @Text till en @Set, så jag ger dig uppsättningen av symboler i textformen för detta antal.",
+                            "$~Jag ska göra mitt bästa för att hitta ett sätt... som, här, jag vet @how förvandlar siffror till @Text och @Text till en @Set, så jag ger dig uppsättningen av symboler i textformen för detta antal.",
                             "$~Men det var nog inte det du ville...",
                             "$~Och om jag inte vet hur jag ska ge dig det du bad om, kommer jag i princip att stänga av saker och ting."
                         ],
@@ -2355,7 +2355,7 @@
                             "Conditional",
                             "curious",
                             "$~Gör jag det?",
-                            "$~Jag fattar beslut, men vad jag egentligen gör är att koda de beslut som regissörer säger åt mig att fatta, så är det verkligen jag som fattar besluten?"
+                            "$~Jag fattar beslut, men vad jag egentligen gör är att @code de beslut som regissörer säger åt mig att fatta, så är det verkligen jag som fattar besluten?"
                         ],
                         null,
                         [
@@ -2504,7 +2504,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Tryck på ▶️-uppspelningsknappen i lägesväxlaren @UI/modeSwitcher ovanför scenen för att se tiden röra sig. Ser du hur tiden ändras? Flöden är en serie värden. Varje gång ett flöde får ett nytt värde utvärderar @Program på nytt med det nya flödesvärdet. Det är därför det här programmet bara fortsätter räkna uppåt: vi skapade ett tidsflöde som börjar vid tiden 0 millisekunder och sedan bara fortsätter uppdatera varje gång dess klocka tickar. Den här tiden är din tid, från din värld. När du vill ändra koden, växla tillbaka till ✏️-redigeringsläget; medan du redigerar stannar scenen frusen vid det aktuella ögonblicket."
+                            "$~Tryck på ▶️-uppspelningsknappen i lägesväxlaren @UI/modeSwitcher ovanför scenen för att se tiden röra sig. Ser du hur tiden ändras? Flöden är en serie värden. Varje gång ett flöde får ett nytt @value utvärderar @Program på nytt med det nya flödesvärdet. Det är därför det här programmet bara fortsätter räkna uppåt: vi skapade ett tidsflöde som börjar vid tiden 0 millisekunder och sedan bara fortsätter uppdatera varje gång dess klocka tickar. Den här tiden är din tid, från din värld. När du vill ändra koden, växla tillbaka till ✏️-redigeringsläget; medan du redigerar stannar scenen frusen vid det aktuella ögonblicket."
                         ],
                         ["Time", "neutral", "$~tick tick tick tick tick..."],
                         null,
@@ -2535,7 +2535,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Det finns en sak till att upptäcka: tidslinjen under utdatan visar varje gång programmet utvärderades på nytt, vilket är varje gång en ström ändrades — här, varje gång @Time tickade. Tryck på felsöknings-knappen ⏸️ i lägesväxlaren @UI/modeSwitcher för att undersöka den närmare, med varje uttrycks värde visat bredvid det."
+                            "$~Det finns en sak till att upptäcka: tidslinjen under utdatan visar varje gång programmet utvärderades på nytt, vilket är varje gång en @stream ändrades — här, varje gång @Time tickade. Tryck på felsöknings-knappen ⏸️ i lägesväxlaren @UI/modeSwitcher för att undersöka den närmare, med varje uttrycks värde visat bredvid det."
                         ],
                         [
                             "Time",
@@ -2580,7 +2580,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Här är ett enkelt exempel. Klicka på scenen eller fokusera den med tangentbordet och tryck sedan på valfri tangent. Du kommer att se nyckeln du har skrivit visas efter namn. Det beror på att varje gång nyckelströmmen ändras utvärderar @Program nyckelströmmen som dess senaste värde och visar den sedan på scenen."
+                            "$~Här är ett enkelt exempel. Klicka på scenen eller fokusera den med tangentbordet och tryck sedan på valfri tangent. Du kommer att se nyckeln du har skrivit visas efter namn. Det beror på att varje gång nyckelströmmen ändras utvärderar @Program nyckelströmmen som dess senaste @value och visar den sedan på scenen."
                         ],
                         ["Key", "neutral", "$~klick klick klick"],
                         { "edit": "Key()" },
@@ -2588,7 +2588,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Denna ström kommer att ändras varje gång en knapp trycks ned. Men du kan säga till en nyckelström att bara ändras när en viss tangent trycks ned. Se hur strömmen ändras till \\a\\ första gången men sedan inte ändras efter? Det beror på att den här strömmen bara ändras när \\a\\ trycks, så den visar alltid \\a\\. Men du kommer alltid att se det nya nyckelvärdet visas på tidslinjen."
+                            "$~Denna @stream kommer att ändras varje gång en knapp trycks ned. Men du kan säga till en nyckelström att bara ändras när en viss tangent trycks ned. Se hur strömmen ändras till \\a\\ första gången men sedan inte ändras efter? Det beror på att den här strömmen bara ändras när \\a\\ trycks, så den visar alltid \\a\\. Men du kommer alltid att se det nya nyckelvärdet visas på tidslinjen."
                         ],
                         ["Key", "neutral", "$~klicka på 'a'..."],
                         { "edit": "Key('a')" },
@@ -2622,7 +2622,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Har du också något som kallas \"mus\" i din värld, och \"styrplattor\" och \"pekskärmar\"? Dessa visas i vår värld som streams @Pointer, som är en ström av platser på scenen."
+                            "$~Har du också något som kallas \"mus\" i din värld, och \"styrplattor\" och \"pekskärmar\"? Dessa visas i vår värld som streams @Pointer, som är en @stream av platser på scenen."
                         ],
                         null,
                         [
@@ -2659,7 +2659,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~@Button är som @Key men motsvarar den primära pekarknappen som ett klick eller tryck. Det är bara en ström av \\⊤\\, som indikerar när pekknappen är nedtryckt. Tryck på den knappen och se händelserna visas på tidslinjen."
+                            "$~@Button är som @Key men motsvarar den primära pekarknappen som ett klick eller tryck. Det är bara en @stream av \\⊤\\, som indikerar när pekknappen är nedtryckt. Tryck på den knappen och se händelserna visas på tidslinjen."
                         ],
                         [
                             "Button",
@@ -2720,7 +2720,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Det finns en annan inputkälla som jag vill visa dig. Kommer du ihåg \\[].random()\\ från tidigare, från @List?",
-                            "$~Inuti använder den en @FunctionDefinition som heter @Random, som ger en oändlig sekvens av slumptal. Det är en slags ström eftersom det genererar input från din värld, inte vår. Men det skiljer sig lite från de andra strömmarna genom att det inte får ett @Program att omvärdera.",
+                            "$~Inuti använder den en @FunctionDefinition som heter @Random, som ger en oändlig sekvens av slumptal. Det är en slags @stream eftersom det genererar input från din värld, inte vår. Men det skiljer sig lite från de andra strömmarna genom att det inte får ett @Program att omvärdera.",
                             "$~Varje gång den utvärderas ger den istället ett annat slumptal.",
                             "$~Ser du den lilla knappen ↻ @UI/resetEvaluator i verktygsfältet på scenen (och även på tidslinjen)? Tryck på den för att köra programmet igen själv, så ser du ett nytt tal mellan \\0\\ och \\1\\ varje gång."
                         ],
@@ -2760,7 +2760,7 @@
                             "FunctionDefinition",
                             "kind",
                             "$~Ibland är det trevligt att engagera publiken i vår plats på @Stage.",
-                            "$~@Placement är ett bra sätt att göra det! Det är en ström av @Place som svarar på tangentbordets piltangenter, klick och tryck.",
+                            "$~@Placement är ett bra sätt att göra det! Det är en @stream av @Place som svarar på tangentbordets piltangenter, klick och tryck.",
                             "$~Försök att använda dem för att flytta runt korven."
                         ],
                         null,
@@ -2799,7 +2799,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Hittills är alla *strömmar* vi har pratat om sekvenser av enkla värden, som @Text eller @Number. Vissa strömmar kan dock producera komplexa värden.",
-                            "$~@Motion är en av de mest intressanta av dem. Det gör en ström av @Place."
+                            "$~@Motion är en av de mest intressanta av dem. Det gör en @stream av @Place."
                         ],
                         null,
                         {
@@ -3086,7 +3086,7 @@
                         [
                             "Changed",
                             "bored",
-                            "$~Jag menar, jag säger bara till om en ström förändrades. Ge mig en stream, så kollar jag. Det är allt."
+                            "$~Jag menar, jag säger bara till om en @stream förändrades. Ge mig en stream, så kollar jag. Det är allt."
                         ],
                         [
                             "Reaction",
@@ -3309,7 +3309,7 @@
                         [
                             "Phrase",
                             "happy",
-                            "$~Eller så kanske vi har lite kul och länkar rotation till @Time! Wheeeee. Några gissningar på hur man får mig att snurra snabbare? Se om du kan lista ut det..."
+                            "$~Eller så kanske vi har lite kul och länkar rotation till @Time! Wheeeee. Några gissningar på @how får mig att snurra snabbare? Se om du kan lista ut det..."
                         ],
                         {
                             "fit": "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) × 1°/ms)"
@@ -3424,7 +3424,7 @@
                         [
                             "Phrase",
                             "happy",
-                            "$~Såklart! När du tröttnar på att pilla med indata till @Evaluate kan du alltid välja en fras på scenen, så dyker en palett upp där du kan ändra vad du vill: min storlek, typsnitt, plats och poser. Det finns bara en regel: om du sätter någon av dessa till ett @expression i stället för bara ett värde, måste du ändra dem nere i @Program, inte i paletten. Klä upp mig hur mycket du vill!"
+                            "$~Såklart! När du tröttnar på att pilla med indata till @Evaluate kan du alltid välja en fras på scenen, så dyker en palett upp där du kan ändra vad du vill: min storlek, typsnitt, plats och poser. Det finns bara en regel: om du sätter någon av dessa till ett @expression i stället för bara ett @value, måste du ändra dem nere i @Program, inte i paletten. Klä upp mig hur mycket du vill!"
                         ],
                         { "edit": "Phrase('dress me up!')" },
                         null,
@@ -3943,7 +3943,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Det är de verkligen, med alla möjliga uttryck från deras värld."
+                            "$~Det är de verkligen, med alla möjliga @expression från deras värld."
                         ],
                         [
                             "Stage",
@@ -4332,7 +4332,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Alla ska kunna vara med! Nu när vi har pratat mer utförligt om @Phrase vill jag visa dig en sista ström, @Choice, som är en ström av @Phrase-namn som har valts, oavsett hur de valdes. En publik kan till exempel använda en mus för att klicka på ett @Phrase, eller de kan använda ett tangentbord för att välja det, eller så finns det andra enheter de använder. Vad de än använder kommer @Choice att innehålla deras senaste val."
+                            "$~Alla ska kunna vara med! Nu när vi har pratat mer utförligt om @Phrase vill jag visa dig en sista @stream, @Choice, som är en ström av @Phrase-namn som har valts, oavsett hur de valdes. En publik kan till exempel använda en mus för att klicka på ett @Phrase, eller de kan använda ett tangentbord för att välja det, eller så finns det andra enheter de använder. Vad de än använder kommer @Choice att innehålla deras senaste val."
                         ],
                         null,
                         [
@@ -4774,7 +4774,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Åh, och en trevlig sak till! När du vill ha en lista behöver du inte alltid skriva hakparenteserna. Du kan bara sätta varje element på sin egen rad inuti @Block, och det gör samma sak."
+                            "Åh, och en trevlig sak till! När du vill ha en lista behöver du inte alltid skriva hakparenteserna. Du kan bara sätta varje @element på sin egen rad inuti @Block, och det gör samma sak."
                         ],
                         [
                             "Block",
@@ -5054,7 +5054,7 @@
                         [
                             "StructureDefinition",
                             "excited",
-                            "$~Sedan kom de ihåg @Reaction, som kan användas för att svara på strömförändringar. De ville att meddelandet skulle ändras varannan sekund, så de gjorde en @Time-ström som tickar varannan sekund och använde @Reaction för att öka nästa @index varje gång. Denna @Reaction säger börja vid \\1\\, och när tiden ändras varje \\2000ms\\, utvärdera till det tidigare värdet av \\index + 1\\. På detta sätt \\index\\ ökar med \\1\\ varannan sekund, vilket ändrar meddelandet som visas. Hurra, det fungerar!"
+                            "$~Sedan kom de ihåg @Reaction, som kan användas för att svara på strömförändringar. De ville att meddelandet skulle ändras varannan sekund, så de gjorde en @Time-@stream som tickar varannan sekund och använde @Reaction för att öka nästa @index varje gång. Denna @Reaction säger börja vid \\1\\, och när tiden ändras varje \\2000ms\\, utvärdera till det tidigare värdet av \\index + 1\\. På detta sätt \\index\\ ökar med \\1\\ varannan sekund, vilket ändrar meddelandet som visas. Hurra, det fungerar!"
                         ],
                         {
                             "edit": [
@@ -5098,7 +5098,7 @@
                             "StructureDefinition",
                             "serious",
                             "$~Nu fungerar allt det där. Och vi kunde bara lämna det så här. Men det är också lite svårt att läsa och förstå. Det beror delvis på att vi upprepar oss själva: \\meddelanden[index]\\ visas två gånger, en gång i varje fras. Och @Reaction är väldigt lång. Vad kan vi göra för att förenkla det? Det är så jag kan hjälpa till. Jag gör i ordning saker för att göra dem lättare att förstå genom att ge återanvändbara koncept namn. Så tänk dig istället för alla dessa @Bind, vi gör istället en av mig och döper den till \\Marquee\\. Det är vad vi gör först. \\Marquee\\s jobb är att lagra meddelandena men också att ha en funktion för att gå vidare till nästa meddelande \\next()\\ och en funktion för att hämta det aktuella meddelandet \\now()\\.",
-                            "$~Sedan kan vi använda Marquee i reaktionen. Nu säger den bara att startvärdet är en marquee med de fem meddelandena, och nästa värde, efter varje klocktick, är nästa meddelande. Enklare, eller hur? Det beror på att all logik för nästa meddelanden finns i \\next()\\, som bara gör en ny \\Marquee\\ med samma meddelanden men ett uppdaterat @index. Vi får också några fördelar i de två @Phrase. Istället för att de behöver hänvisa till meddelandena och indexet som förut, kan vi bara säga \\marquee.now()\\, som hämtar det aktuella meddelandet i listan."
+                            "$~Sedan kan vi använda Marquee i reaktionen. Nu säger den bara att startvärdet är en marquee med de fem meddelandena, och nästa @value, efter varje klocktick, är nästa meddelande. Enklare, eller hur? Det beror på att all logik för nästa meddelanden finns i \\next()\\, som bara gör en ny \\Marquee\\ med samma meddelanden men ett uppdaterat @index. Vi får också några fördelar i de två @Phrase. Istället för att de behöver hänvisa till meddelandena och indexet som förut, kan vi bara säga \\marquee.now()\\, som hämtar det aktuella meddelandet i listan."
                         ],
                         {
                             "edit": [
@@ -5300,7 +5300,7 @@
                         [
                             "Doc",
                             "serious",
-                            "$~Tja, du kan placera mig nästan var som helst i @Program. Säg till exempel att du gör en @Bind och du vill säga vad värdet är för. Här har vi till exempel ett enkelt värde som vi har nämnt, men det jag gör är att ge en bredare förklaring av dess roll."
+                            "$~Tja, du kan placera mig nästan var som helst i @Program. Säg till exempel att du gör en @Bind och du vill säga vad värdet är för. Här har vi till exempel ett enkelt @value som vi har nämnt, men det jag gör är att ge en bredare förklaring av dess roll."
                         ],
                         {
                             "edit": [
@@ -5778,7 +5778,7 @@
                         [
                             "Reaction",
                             "kind",
-                            "$~Jag kan ändra det! Vi behöver en @Time-ström, men vi måste också ändra karaktärerna. Men vad ska nästa värde vara?"
+                            "$~Jag kan ändra det! Vi behöver en @Time-@stream, men vi måste också ändra karaktärerna. Men vad ska nästa @value vara?"
                         ],
                         { "edit": "#EvaluateDance9" },
                         null,
@@ -5790,7 +5790,7 @@
                         [
                             "StructureDefinition",
                             "sad",
-                            "$~Jag vet inte hur man gör en funktion..."
+                            "$~Jag vet inte @how gör en funktion..."
                         ],
                         null,
                         ["Evaluate", "sad", "$~…"],
@@ -5942,7 +5942,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Det gjorde vi... men vi hade inte kunnat göra det utan vår nya regissörsvän. De bröt vår tystnad; de påminde oss om varför vi är uttryck, tillsammans."
+                            "$~Det gjorde vi... men vi hade inte kunnat göra det utan vår nya regissörsvän. De bröt vår tystnad; de påminde oss om varför vi är @expression, tillsammans."
                         ],
                         null,
                         { "fit": "#Symbol ?" },
