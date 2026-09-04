@@ -20,6 +20,7 @@ import checkDocContent from '@util/verify-locales/checkDocContent';
 import checkBasisNames from '@util/verify-locales/checkBasisNames';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
+import repairGlossaryWords from '@util/verify-locales/checkGlossaryWords';
 import checkExampleNames from '@util/verify-locales/checkExampleNames';
 import checkPointedNames from '@util/verify-locales/checkPointedNames';
 import checkTypedInputNames from '@util/verify-locales/checkTypedInputNames';
@@ -208,6 +209,13 @@ export async function verifyLocale(
     // Validate the per-locale word list: key shape, no collision with template
     // input names, and no term-in-term references.
     checkTerms(log, revisedText);
+
+    // Glossary words first, so the forms validator below sees the repaired word
+    // rather than one about to change. A word carrying a gloss, vowel points, or
+    // a reference can never match this locale's prose or be written as a
+    // reference at all.
+    if (locale !== 'en-US')
+        revisedText = repairGlossaryWords(log, revisedText, fix);
 
     // Validate the per-locale glossary forms: no collisions with words, ids, or
     // concept names, and nothing unreferenceable.

@@ -43,6 +43,10 @@ import {
 import { buildHowToBundle } from '@util/verify-locales/buildHowTos';
 import { verifyExamples } from '@util/verify-locales/verifyExamples';
 import {
+    checkGlossaryWordUsage,
+    collectLocaleText,
+} from '@util/verify-locales/checkGlossaryWords';
+import {
     linkGlossaryInLocale,
     linkGlossaryInTutorial,
 } from '@util/verify-locales/glossaryLinks';
@@ -64,6 +68,7 @@ import {
     describeUsage,
     UsageLineMarker,
 } from '@util/verify-locales/Translator';
+import type Tutorial from '../../tutorial/Tutorial';
 import { TutorialModes, type TutorialMode } from '../../tutorial/TutorialMode';
 import fs from 'fs';
 import path from 'path';
@@ -253,6 +258,10 @@ async function handleLocale(
         );
     }
 
+    // Each mode's tutorial, kept so the glossary-usage check below can look for a
+    // term's word in the lessons as well as the locale file.
+    const localeTutorials: Tutorial[] = [];
+
     // Verify (and, for translate-enabled modes, optionally translate) each tutorial mode's file.
     for (const mode of TutorialModes) {
         const modeLog = localeLog.scope(`${mode} tutorial`);
@@ -395,8 +404,26 @@ async function handleLocale(
                     JSON.stringify(linkedTutorial, null, 4),
                 );
             }
+
+            if (linkedTutorial) localeTutorials.push(linkedTutorial);
         }
     }
+
+    // A glossary word this locale's own text never uses is a definition no reader
+    // can reach, since a `@term` only explains a word where the word is written.
+    // Here rather than in `verifyLocale`, which has only the locale file: a term
+    // is used in the lessons as much as in the documentation.
+    if (locale !== SourceLocale)
+        checkGlossaryWordUsage(
+            localeLog.scope('Glossary'),
+            DefaultLocale,
+            linkedLocale,
+            collectLocaleText(linkedLocale, localeTutorials),
+            collectLocaleText(
+                DefaultLocale,
+                TutorialModes.map((mode) => getDefaultTutorial(mode)),
+            ),
+        );
 
     // Verify and optionally translate how-to content (translate only if `howto`
     // is in scope, narrowed to any +howto:<id> targets).
