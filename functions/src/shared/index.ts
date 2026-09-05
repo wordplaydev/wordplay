@@ -551,3 +551,12 @@ export type SwitchToPasswordOutput = {
         | 'already-password'
         | 'failed';
 };
+
+// FUNCTION changeUsername
+/** Change the signed-in creator's username. The old name stays reserved to them
+ *  as an alias, so it keeps resolving and nobody else can take it. */
+export type ChangeUsernameInputs = { username: string };
+export type ChangeUsernameOutput = {
+    changed?: true;
+    error?: 'unauthenticated' | 'invalid' | 'taken' | 'failed';
+};

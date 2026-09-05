@@ -508,11 +508,19 @@ test('resolving a color needs no basis', () => {
  * is its own chunk, and a static import would put both it and reCAPTCHA's
  * script into what every first-time visitor downloads. `staticImportsOf` is what
  * would catch that, and the two budgets with no slack move by a hundredth.
+ *
+ * Character name aliases are **+0 files** and a few hundred bytes: an optional
+ * field on the character schema and a second query in `getByName` that runs
+ * only when the first misses. A creator can rename themselves now, which moves
+ * their characters with them — but `@oldname/Character` is a language token
+ * that may sit in anyone's project, so the old name has to keep resolving, and
+ * a lookup that falls back is far cheaper than rewriting other people's source.
+ * One budget had no slack left.
  */
 test.each([
     ['src/routes/+layout.svelte', 502, 3.7],
     ['src/components/app/Page.svelte', 525, 3.95],
-    ['src/routes/[[locale]]/+page.svelte', 540, 4.03],
+    ['src/routes/[[locale]]/+page.svelte', 540, 4.04],
     ['src/routes/[[locale]]/galleries/+page.svelte', 544, 4.05],
     ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.07],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {

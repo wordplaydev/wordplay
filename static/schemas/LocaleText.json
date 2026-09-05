@@ -23654,6 +23654,45 @@
                                             },
                                             "required": ["reveal"],
                                             "type": "object"
+                                        },
+                                        "username": {
+                                            "additionalProperties": false,
+                                            "description": "Choosing or changing the name other people see (#628)",
+                                            "properties": {
+                                                "change": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Explains what a username is for, and offers to change it"
+                                                },
+                                                "changed": {
+                                                    "description": "[plain] Confirms the new username took effect",
+                                                    "type": "string"
+                                                },
+                                                "claimed": {
+                                                    "description": "[plain] Confirms a first username was recorded",
+                                                    "type": "string"
+                                                },
+                                                "field": {
+                                                    "$ref": "#/definitions/FieldText",
+                                                    "description": "The username someone wants"
+                                                },
+                                                "missing": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Shown when this account has no username at all: what that costs, and an invitation to pick one"
+                                                },
+                                                "save": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Save the chosen username"
+                                                }
+                                            },
+                                            "required": [
+                                                "change",
+                                                "missing",
+                                                "changed",
+                                                "claimed",
+                                                "field",
+                                                "save"
+                                            ],
+                                            "type": "object"
                                         }
                                     },
                                     "required": [
@@ -23663,6 +23702,7 @@
                                         "anonymous",
                                         "field",
                                         "feedback",
+                                        "username",
                                         "signin",
                                         "error",
                                         "button",

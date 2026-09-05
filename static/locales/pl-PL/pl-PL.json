@@ -9398,12 +9398,26 @@
                 },
                 "signin": {
                     "usesPassword": "$~Logujesz się przy pomocy nazwy użytkownika i hasła. Jeśli nie chcesz pamiętać hasła, możesz przełączyć się na logowanie linkiem, który wyślemy ci mailem — twoja nazwa użytkownika zostanie taka sama.",
-                    "usesEmail": "$~Logujesz się linkiem, który wysyłamy ci mailem. Jeśli nie chcesz czekać na maila, możesz przełączyć się na nazwę użytkownika i hasło — twoja nazwa użytkownika zostanie taka sama.",
+                    "usesEmail": "$~Logujesz się za pomocą swojego adresu e-mail. Jeśli wolisz zamiast tego mieć nazwę użytkownika i hasło, możesz to zmienić — twoja nazwa użytkownika pozostanie taka sama.",
                     "notYet": "$~Logujesz się przy pomocy nazwy użytkownika i hasła. Tam, gdzie mieszkasz, nie masz jeszcze wystarczającego wieku, by używać tu adresu e-mail — od $date będziesz mógł przełączyć się na logowanie linkiem wysyłanym mailem.",
                     "switched": "$~Gotowe. Następnym razem zaloguj się swoją nazwą użytkownika i nowym hasłem.",
                     "toPassword": {
                         "label": "$~Użyj hasła zamiast tego",
                         "tip": "$~Przełącz się na logowanie nazwą użytkownika i hasłem"
+                    }
+                },
+                "username": {
+                    "change": "$~Twoja nazwa użytkownika pokazuje cię innym osobom i zaczyna nazwę każdej postaci, którą tworzysz. Możesz ją zmienić w dowolnym momencie. Twoja stara nazwa nadal działa, więc wszystko, co do niej odsyła, nadal znajdzie twoje postacie.",
+                    "missing": "$~Nie masz jeszcze nazwy użytkownika, więc inni widzą cię jako *—* i nie możesz tworzyć postaci. Wybierz jedną, a zostanie ustalona na stałe.",
+                    "changed": "$~Gotowe. To teraz twoja nazwa.",
+                    "claimed": "$~Gotowe. To twoja nazwa.",
+                    "field": {
+                        "description": "$~Nazwa użytkownika, jaką chcesz",
+                        "placeholder": "$~nazwa użytkownika"
+                    },
+                    "save": {
+                        "label": "$~Zapisz",
+                        "tip": "$~Używaj tej nazwy użytkownika od teraz"
                     }
                 }
             },

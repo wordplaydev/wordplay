@@ -591,26 +591,39 @@ export class CharactersDatabase {
         try {
             let match: Character | null = null;
 
-            // Check the database by name.
-            const onlineMatchByName = await this.db.read(
+            // Check the database by name. The visibility disjunction is the
+            // same for both attempts, so it's built once.
+            const visible = or(
+                where('public', '==', true),
+                where('owner', '==', user.uid),
+                where('collaborators', 'array-contains', user.uid),
+            );
+            let onlineMatchByName = await this.db.read(
                 getDocs(
                     query(
                         collection(firestore, CharactersCollection),
-                        and(
-                            where('name', '==', name),
-                            or(
-                                where('public', '==', true),
-                                where('owner', '==', user.uid),
-                                where(
-                                    'collaborators',
-                                    'array-contains',
-                                    user.uid,
-                                ),
-                            ),
-                        ),
+                        and(where('name', '==', name), visible),
                     ),
                 ),
             );
+            // Nothing under that name? Try the names it used to have. A
+            // creator can rename themselves, which moves their characters with
+            // them — but `@oldname/Character` is a language token that may sit
+            // in anyone's project, and rewriting other people's source to chase
+            // a rename would be far worse than one extra query on a miss. Only
+            // on a miss, and `byName` keeps repeat lookups off it entirely.
+            if (onlineMatchByName.empty)
+                onlineMatchByName = await this.db.read(
+                    getDocs(
+                        query(
+                            collection(firestore, CharactersCollection),
+                            and(
+                                where('aliases', 'array-contains', name),
+                                visible,
+                            ),
+                        ),
+                    ),
+                );
             onlineMatchByName.forEach((doc) => {
                 if (doc.exists()) {
                     const character = doc.data();

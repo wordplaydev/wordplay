@@ -9133,12 +9133,26 @@
                 "subtitle": "$~Enregistrez, collaborez et partagez",
                 "signin": {
                     "usesPassword": "$~Tu te connectes avec un nom d'utilisateur et un mot de passe. Si tu préfères ne pas avoir de mot de passe à retenir, tu peux choisir de te connecter avec un lien qu'on t'envoie par courriel — ton nom d'utilisateur reste le même.",
-                    "usesEmail": "$~Tu te connectes avec un lien qu'on t'envoie par courriel. Si tu préfères ne pas attendre le courriel, tu peux passer à un nom d'utilisateur et un mot de passe — ton nom d'utilisateur reste le même.",
+                    "usesEmail": "$~Tu te connectes avec ton adresse e-mail. Si tu préfères avoir un nom d'utilisateur et un mot de passe à la place, tu peux changer — ton nom d'utilisateur reste le même.",
                     "notYet": "$~Tu te connectes avec un nom d'utilisateur et un mot de passe. Là où tu habites, tu n'as pas encore l'âge requis pour utiliser une adresse courriel ici — à partir du $date, tu pourras passer à une connexion avec un lien envoyé par courriel.",
                     "switched": "$~C'est fait. La prochaine fois, connecte-toi avec ton nom d'utilisateur et ton nouveau mot de passe.",
                     "toPassword": {
                         "label": "$~Utiliser un mot de passe à la place",
                         "tip": "$~Passer à une connexion avec ton nom d'utilisateur et un mot de passe"
+                    }
+                },
+                "username": {
+                    "change": "$~Ton nom d'utilisateur, c'est comment les autres te voient, et il commence le nom de chaque personnage que tu crées. Tu peux le changer quand tu veux. Ton ancien nom continue de fonctionner, donc tout ce qui pointe déjà vers tes personnages les retrouve quand même.",
+                    "missing": "$~Tu n'as pas encore de nom d'utilisateur, donc les autres te voient comme *—* et tu ne peux pas créer de personnages. Choisis-en un, et il sera fixé.",
+                    "changed": "$~Terminé. C'est ton nom maintenant.",
+                    "claimed": "$~Terminé. C'est ton nom.",
+                    "field": {
+                        "description": "$~Le nom d'utilisateur que tu veux",
+                        "placeholder": "$~nom d'utilisateur"
+                    },
+                    "save": {
+                        "label": "$~Enregistrer",
+                        "tip": "$~Utiliser ce nom d'utilisateur à partir de maintenant"
                     }
                 }
             },

@@ -10,6 +10,8 @@ import { defineSecret } from 'firebase-functions/params';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import type {
     AnalyzeLocalizationInputs,
+    ChangeUsernameInputs,
+    ChangeUsernameOutput,
     ClaimUsernameInputs,
     ClaimUsernameOutput,
     FindCreatorInputs,
@@ -31,6 +33,7 @@ import type {
     ReportInputs,
 } from 'shared-types';
 
+import changeUsernameHandler from './changeUsername.js';
 import chatDeletedHandler from './chatDeleted.js';
 import claimUsernameHandler from './claimUsernameCallable.js';
 import findCreatorHandler from './findCreator.js';
@@ -139,6 +142,15 @@ export const switchToPassword = onCall<
     SwitchToPasswordInputs,
     Promise<SwitchToPasswordOutput>
 >({ ...cors, ...appcheck }, switchToPasswordHandler);
+
+/** Change the signed-in creator's username. The old name stays reserved to them
+ *  as an alias — it keeps resolving, their old login keeps working, and nobody
+ *  else can ever take it, since re-issuing would re-point live references at a
+ *  stranger. */
+export const changeUsername = onCall<
+    ChangeUsernameInputs,
+    Promise<ChangeUsernameOutput>
+>({ ...cors, ...appcheck }, changeUsernameHandler);
 
 /** Resolve an address or username to a uid (#628). The only place an address
  *  may be looked up, which is what lets getCreators stop returning them. */

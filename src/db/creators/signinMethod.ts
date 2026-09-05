@@ -1,5 +1,7 @@
 import { getFunctionsInstance } from '@db/firebase';
 import type {
+    ChangeUsernameInputs,
+    ChangeUsernameOutput,
     ClaimUsernameInputs,
     ClaimUsernameOutput,
     SwitchToPasswordInputs,
@@ -62,6 +64,36 @@ export async function switchToPassword(
         const { data } = await switchIt({ password });
         if (data.switched === true) return 'switched';
         return data.error === 'no-username' ? 'no-username' : 'failed';
+    } catch (error) {
+        console.error(error);
+        return 'failed';
+    }
+}
+
+/**
+ * Change the signed-in creator's username.
+ *
+ * Distinct from `claimUsername` above, which records a name for the first time.
+ * A change moves the creator's characters with them and keeps the old name
+ * reserved to them as an alias, so `@oldname/Character` keeps resolving in
+ * anyone's project and their old login keeps working.
+ */
+export async function changeUsername(
+    username: string,
+): Promise<'changed' | 'taken' | 'invalid' | 'failed'> {
+    const functions = await getFunctionsInstance();
+    if (functions === undefined) return 'failed';
+    const { httpsCallable } = await import('firebase/functions');
+    const change = httpsCallable<ChangeUsernameInputs, ChangeUsernameOutput>(
+        functions,
+        'changeUsername',
+    );
+    try {
+        const { data } = await change({ username });
+        if (data.changed === true) return 'changed';
+        return data.error === 'taken' || data.error === 'invalid'
+            ? data.error
+            : 'failed';
     } catch (error) {
         console.error(error);
         return 'failed';

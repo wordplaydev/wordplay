@@ -9370,12 +9370,26 @@
                 },
                 "signin": {
                     "usesPassword": "$~Du loggar in med ett användarnamn och ett lösenord. Om du hellre slipper komma ihåg ett lösenord kan du byta till att logga in med en länk vi mejlar dig — ditt användarnamn är detsamma som förut.",
-                    "usesEmail": "$~Du loggar in med en länk vi mejlar dig. Om du hellre inte vill vänta på ett mejl kan du byta till ett användarnamn och ett lösenord — ditt användarnamn är detsamma som förut.",
+                    "usesEmail": "$~Du loggar in med din e-postadress. Om du hellre vill ha ett användarnamn och ett lösenord istället kan du byta — ditt användarnamn förblir detsamma.",
                     "notYet": "$~Du loggar in med ett användarnamn och ett lösenord. Där du bor är du inte gammal nog ännu för att använda en e-postadress här — från $date kan du byta till att logga in med en mejlad länk istället.",
                     "switched": "$~Klart. Nästa gång loggar du in med ditt användarnamn och ditt nya lösenord.",
                     "toPassword": {
                         "label": "$~Använd ett lösenord istället",
                         "tip": "$~Byt till att logga in med ditt användarnamn och ett lösenord"
+                    }
+                },
+                "username": {
+                    "change": "$~Ditt användarnamn är hur andra ser dig, och det inleder namnet på varje karaktär du skapar. Du kan ändra det när du vill. Ditt gamla namn fortsätter att fungera, så allt som redan pekar på dina karaktärer hittar dem ändå.",
+                    "missing": "$~Du har inget användarnamn än, så andra ser dig som *—* och du kan inte skapa karaktärer. Välj ett, och det blir fast.",
+                    "changed": "$~Klart. Det är ditt namn nu.",
+                    "claimed": "$~Klart. Det är ditt namn.",
+                    "field": {
+                        "description": "$~Användarnamnet du vill ha",
+                        "placeholder": "$~användarnamn"
+                    },
+                    "save": {
+                        "label": "$~Spara",
+                        "tip": "$~Använd det här användarnamnet från och med nu"
                     }
                 }
             },

@@ -6,6 +6,7 @@
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
+    import { getUsername } from '@db/creators/handle.svelte';
     import { DB, locales } from '@db/Database';
     import { ensureAppCheck, ensureAuth } from '@db/firebase';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -93,9 +94,15 @@
 
     function readyToDeleteAccount(email: string, pass: string) {
         const finalEmail = usesUsername ? Creator.usernameEmail(email) : email;
+        // Either name identifies them. A creator who renamed still signs in
+        // with the address their original name made, so asking them to confirm
+        // with a name they no longer see anywhere would be a trap.
+        const matches =
+            finalEmail === user.email ||
+            (usesUsername && email === getUsername(user));
         return (
             validEmail(finalEmail) &&
-            finalEmail === user.email &&
+            matches &&
             // A link account has no password to require.
             (!usesUsername || isValidPassword(pass))
         );

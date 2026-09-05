@@ -47,6 +47,15 @@ export type Reservation = {
      *  re-issued: `@username/Character` is a language token, and reissuing would
      *  silently re-point live references at a different person. */
     retiredAt?: number;
+    /**
+     * The folded name that replaced this one, when its holder renamed.
+     *
+     * The reservation keeps pointing at the same creator, so this is an *alias*
+     * rather than a tombstone: their old name still resolves to them, their old
+     * login still works, and nobody else can take it. `retiredAt` is the other
+     * shape — same null-uid document, but nobody to resolve to.
+     */
+    supersededBy?: string;
 };
 
 export type ClaimResult =

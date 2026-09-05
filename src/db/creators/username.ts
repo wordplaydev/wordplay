@@ -79,6 +79,18 @@ export function isValidUsername(text: string): boolean {
 }
 
 /**
+ * The nearest claimable spelling of a name, or something still unclaimable when
+ * there isn't one.
+ *
+ * Keeps only what a name may contain, because the reserved characters *are* the
+ * problem. Mirrors functions/src/username.ts, which is what the repair script
+ * and the server use; usernameSync.test.ts compares the two.
+ */
+export function repairUsername(name: string): string {
+    return [...name].filter((c) => /[\p{L}\p{M}\p{N}]/u.test(c)).join('');
+}
+
+/**
  * Whether a username could belong to an account that already exists. Signing in
  * and adding a collaborator must keep accepting names the old rule allowed —
  * `_`, `-`, and `.` all passed it — or tightening the claim rule would lock

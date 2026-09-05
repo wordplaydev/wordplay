@@ -9380,12 +9380,26 @@
                 },
                 "signin": {
                     "usesPassword": "$~Kullanıcı adı ve şifre ile giriş yapıyorsun. Ezberlemen gereken bir şifre istemiyorsan, sana e-posta ile göndereceğimiz bir bağlantıyla giriş yapmaya geçebilirsin — kullanıcı adın aynı kalır.",
-                    "usesEmail": "$~Sana e-posta ile göndereceğimiz bir bağlantıyla giriş yapıyorsun. E-posta beklemek istemiyorsan, kullanıcı adı ve şifreyle giriş yapmaya geçebilirsin — kullanıcı adın aynı kalır.",
+                    "usesEmail": "$~Giriş yapmak için e-posta adresini kullanırsın. Bunun yerine bir kullanıcı adı ve şifre kullanmak istersen, değiştirebilirsin — kullanıcı adın aynı kalır.",
                     "notYet": "$~Kullanıcı adı ve şifre ile giriş yapıyorsun. Yaşadığın yerde, burada bir e-posta adresi kullanmak için henüz yeterli yaşta değilsin — $date tarihinden itibaren e-posta ile gönderilen bir bağlantıyla giriş yapmaya geçebileceksin.",
                     "switched": "$~Tamam. Bir sonraki sefer, kullanıcı adınla ve yeni şifrenle giriş yap.",
                     "toPassword": {
                         "label": "$~Bunun yerine şifre kullan",
                         "tip": "$~Kullanıcı adı ve şifreyle giriş yapmaya geç"
+                    }
+                },
+                "username": {
+                    "change": "$~Kullanıcı adın, diğer insanların seni nasıl gördüğüdür ve oluşturduğun her karakterin isminin başında yer alır. İstediğin zaman değiştirebilirsin. Eski isim çalışmaya devam eder, bu yüzden ona işaret eden her şey karakterlerini bulmaya devam eder.",
+                    "missing": "$~Henüz bir kullanıcı adın yok, bu yüzden diğer insanlar seni *—* olarak görüyor ve karakter oluşturamıyorsun. Bir tane seç, bu artık değişmeyecek.",
+                    "changed": "$~Tamamlandı. Artık ismin bu.",
+                    "claimed": "$~Tamamlandı. İşte ismin.",
+                    "field": {
+                        "description": "$~İstediğin kullanıcı adı",
+                        "placeholder": "$~kullanıcı adı"
+                    },
+                    "save": {
+                        "label": "$~Kaydet",
+                        "tip": "$~Bu kullanıcı adını bundan sonra kullan"
                     }
                 }
             },
