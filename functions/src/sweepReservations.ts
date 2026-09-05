@@ -1,4 +1,3 @@
-import { PromisePool } from '@supercharge/promise-pool';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import {
@@ -73,6 +72,10 @@ export default async function sweepReservations(): Promise<SweepReport> {
     const report: SweepReport = { released: 0, retired: 0, kept: 0 };
     const now = Date.now();
 
+    // Imported here so the policy above can be tested without it: the root
+    // `npm ci` does not install functions/node_modules, and a top-level import
+    // fails every unit run in CI.
+    const { PromisePool } = await import('@supercharge/promise-pool');
     await PromisePool.for(reservations.docs)
         .withConcurrency(3)
         .process(async (doc) => {

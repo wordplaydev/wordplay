@@ -1,4 +1,3 @@
-import { Resend } from 'resend';
 import { canonicalOrigin } from './getPagePreview.js';
 
 /**
@@ -178,6 +177,12 @@ export async function sendSigninEmail(
     }
 
     try {
+        // Loaded here rather than at module scope so this module can be
+        // imported — and its copy and rendering tested — without the mail SDK
+        // present. The root `npm ci` does not install functions/node_modules,
+        // so a top-level import fails every unit run in CI. It also keeps the
+        // SDK out of the emulator path above, which never sends.
+        const { Resend } = await import('resend');
         await new Resend(apiKey).emails.send({
             from: From,
             replyTo: ReplyTo,
