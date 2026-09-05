@@ -17,7 +17,10 @@
                 "node_modules",
                 ".git",
                 "firebase-debug.log",
-                "firebase-debug.*.log"
+                "firebase-debug.*.log",
+                "**/*.test.ts",
+                "lib/**/*.test.js",
+                "lib/**/*.test.js.map"
             ],
             "predeploy": [
                 "npm ci --prefix \"$RESOURCE_DIR\"",

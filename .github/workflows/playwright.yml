@@ -78,7 +78,7 @@ jobs:
                   key: ${{ runner.os }}-firebase-emulators-${{ hashFiles('package-lock.json') }}
                   restore-keys: ${{ runner.os }}-firebase-emulators-
             - name: Build project
-              run: npm run build:ci
+              run: npm run build
             - name: Run end-to-end tests with emulator
               run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} --shard=${{ matrix.shard }}/3 --workers=${{ inputs.workers }} --reporter=list" --project=demo-wordplay --log-verbosity QUIET
             - uses: actions/upload-artifact@v6

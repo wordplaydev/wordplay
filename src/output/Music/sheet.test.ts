@@ -1025,39 +1025,56 @@ test('forgetting the inset shifts every beat by the same amount', () => {
     expect(wrong - 3).toBeGreaterThan(0.85);
 });
 
-test('a window costs the same however long the track behind it is', () => {
-    // `marksOf` used to ask `noteOnset` for each note's onset, and `noteOnset`
-    // sums from the top of the track — so drawing eight beats of a staff was
-    // quadratic in the whole track. An imported song is thousands of notes, and
-    // this runs on every edit and every scroll.
-    const long = (count: number) =>
-        music([
-            track(
-                Array.from({ length: count }, (_, i) => ({
-                    degrees: [1 + (i % 7)],
-                    beats: 1,
-                })),
-            ),
-        ]);
-
-    const cost = (count: number) => {
-        const data = long(count);
-        const started = performance.now();
-        for (let run = 0; run < 20; run++) marksOf([data], 0, 8);
-        return performance.now() - started;
+test('a note far past the window is read once, not once per note', () => {
+    // `marksOf` used to walk the whole track and ask `noteOnset` for each note's
+    // onset, and `noteOnset` sums from the top — so drawing eight beats of a
+    // staff was quadratic in the whole track. An imported song is thousands of
+    // notes, and this runs on every edit and every scroll.
+    //
+    // Counted rather than timed. The clock this replaced measured the machine as
+    // much as the code: it asserted a flat 10ms budget, and a busy run drifted
+    // past it while the code stayed perfectly linear. Counting is exact, needs
+    // no JIT warm-up, and says which property is broken when it fails.
+    const count = (notes: number, watch: number, toBeat: number) => {
+        const data = Array.from({ length: notes }, (_, i) => ({
+            degrees: [1 + (i % 7)],
+            beats: 1,
+            volume: 1,
+        }));
+        let total = 0;
+        let watched = 0;
+        const counted = new Proxy(data, {
+            get(target, key, receiver) {
+                if (typeof key === 'string' && /^\d+$/.test(key)) {
+                    total++;
+                    if (key === String(watch)) watched++;
+                }
+                return Reflect.get(target, key, receiver);
+            },
+        });
+        marksOf([music([{ ...track([]), notes: counted }])], 0, toBeat);
+        return { total, watched };
     };
 
-    // Warm the JIT so the first call's compilation isn't the measurement.
-    cost(500);
+    // The early exit. A note 5,000 into an 8,000-note track is nowhere near an
+    // eight-beat window at the start of it, and `trackLength` totals every note,
+    // so it is read exactly once. A second read means the window walked the
+    // whole track to draw eight beats of it.
+    const far = count(8000, 5000, 8).watched;
+    expect(far, `a note 5,000 in was read ${far} times to draw beats 0-8`).toBe(
+        1,
+    );
 
-    const small = cost(1000);
-    const large = cost(8000);
-    // Eight times the notes for the same eight beats. Linear-with-an-early-exit
-    // is flat; quadratic is ~64x. Ten is far outside the noise either way.
+    // And the carried onset. Eight times the notes costs eight times the reads —
+    // one pass to total the track, then the window — where asking `noteOnset`
+    // per note was ~64x. Ten is far outside either, and being a count rather
+    // than a duration it is the same number on every machine.
+    const small = count(1000, 0, 8).total;
+    const large = count(8000, 0, 8).total;
     expect(
         large,
-        `8000 notes took ${large.toFixed(1)}ms against ${small.toFixed(1)}ms for 1000`,
-    ).toBeLessThan(Math.max(small, 1) * 10);
+        `8000 notes cost ${large} reads against ${small} for 1000`,
+    ).toBeLessThan(small * 10);
 });
 
 test('a window near the end of a long track still draws it', () => {

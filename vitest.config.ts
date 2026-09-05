@@ -3,7 +3,16 @@ import IsolatedTests from './src/util/isolatedTests.ts';
 import viteConfig from './vite.config.js';
 
 // Rules tests need the Firestore emulator; run them via `npm run test:rules`.
-const Exclude = [...configDefaults.exclude, 'tests/end2end/*', 'tests/rules/*'];
+// `functions/lib` is tsc output, so without it every functions test also runs
+// from a compiled copy that tsc never prunes — passing against code that no
+// longer exists. Vitest's own defaults are only node_modules and .git, so build
+// output is not otherwise excluded.
+const Exclude = [
+    ...configDefaults.exclude,
+    'tests/end2end/*',
+    'tests/rules/*',
+    'functions/lib/**',
+];
 
 // Populate the conflict-resolution registry before any test runs.
 // The registration file imports node classes whose own imports

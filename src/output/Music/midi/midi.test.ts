@@ -557,8 +557,7 @@ test('editing the program an import writes does not re-analyze the notes', () =>
     // The regression this exists for: every analysis cache lives on the Project
     // instance and an edit makes a new Project, so re-deriving every source on
     // each keystroke made editing a two-line program that borrows a song take
-    // about a second. Measured at ~60x apart; a fifth is a wide margin that
-    // still fails outright if a cache stops being carried.
+    // about a second.
     const events = Array.from({ length: 150 }, (_, i) => ({
         at: i,
         pitch: 60 + (i % 12),
@@ -568,33 +567,34 @@ test('editing the program an import writes does not re-analyze the notes', () =>
         name: 'test',
     });
     const main = new Source('start', result.main);
-    const project = Project.make(
-        null,
-        'midi',
-        main,
-        [new Source(result.sourceName, result.tracks)],
-        DefaultLocale,
-    );
+    const notes = new Source(result.sourceName, result.tracks);
+    const project = Project.make(null, 'midi', main, [notes], DefaultLocale);
 
     // What loading the project costs, once.
-    const opened = performance.now();
     project.analyze();
     project.getLocalesUsed();
-    const cold = performance.now() - opened;
 
     // What one edit to the program costs, every time.
     const edited = main.withCode(result.main + '\n1 + 1');
-    const started = performance.now();
     const revised = project.withSource(main, edited);
     revised.analyze();
     project.getNewConflicts(main, edited);
     revised.getLocalesUsed();
-    const warm = performance.now() - started;
 
-    expect(
-        warm,
-        `editing the program cost ${warm.toFixed(1)}ms against ${cold.toFixed(1)}ms to open the project`,
-    ).toBeLessThan(cold / 5);
+    // Asserted by identity rather than by stopwatch, which measured the machine
+    // as much as the cache. The notes source did not move, so the revision
+    // carries its analysis instead of re-deriving thousands of nodes.
+    // Project.caches.test.ts holds the same property over a synthetic source;
+    // what this adds is the two-source shape a real import actually writes.
+    expect(revised.sourceAnalysis.get(notes)).toBe(
+        project.sourceAnalysis.get(notes),
+    );
+    expect(revised.sourceLocales.get(notes)).toBe(
+        project.sourceLocales.get(notes),
+    );
+    expect(revised.getContext(notes).types).toBe(
+        project.getContext(notes).types,
+    );
 });
 
 test('an import is a small program and a source full of notes', () => {
