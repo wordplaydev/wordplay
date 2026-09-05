@@ -682,6 +682,8 @@ export class HowToDatabase {
         // firestore): now remove locally.
         this.howtos.delete(howToId);
         this.saves.forget(howToId);
+        // Confirmed above, so the arrayRemove has landed.
+        this.db.Galleries.mirrorHowToMembership(gallery, howToId, false);
         if (this.IndexedDBSupported) void this.db.localDB.deleteHowTo(howToId);
         return true;
     }
@@ -790,7 +792,20 @@ export class HowToDatabase {
             // connection (a Firestore write promise resolves only on server
             // ack, never while offline). Matches projects/characters, whose
             // editors never block on the cloud write.
-            void this.trackSave(newHowTo.id, howTo.getTitle(), batch.commit());
+            void this.trackSave(
+                newHowTo.id,
+                howTo.getTitle(),
+                batch.commit(),
+            ).then((saved) => {
+                // Once it lands, so the drafts list doesn't wait on a snapshot
+                // for a membership we already wrote.
+                if (saved)
+                    this.db.Galleries.mirrorHowToMembership(
+                        gallery,
+                        newHowTo.id,
+                        true,
+                    );
+            });
         } catch (error) {
             console.error(error);
             return undefined;

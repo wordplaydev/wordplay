@@ -36,6 +36,7 @@
     import HowToConfiguration from './HowToConfiguration.svelte';
     import HowToForm from './HowToForm.svelte';
     import HowToPreview from './HowToPreview.svelte';
+    import resolveGallery from './resolveGallery';
 
     // The current gallery being viewed. Starts at null, to represent loading state.
     let gallery = $state<Gallery | null | undefined>(null);
@@ -45,6 +46,10 @@
 
     // The component views
     let howToComponents = $state<HowToPreview[]>([]);
+
+    // Which resolution is current: an earlier lookup that resolves after a later
+    // one must not overwrite it. A plain let, so writing it can't re-run the effect.
+    let resolution = 0;
 
     // When the page changes, get the gallery store corresponding to the requested ID.
     $effect(() => {
@@ -58,30 +63,19 @@
         // query. Read `hydrated` so this effect re-runs once the cache loads, and
         // `authAttempted` so it re-runs once Firebase Auth resolves: the gallery
         // database is constructed before auth, so the maps are empty until the
-        // user is known.
-        const hydrated = Galleries.hydrated;
-        const authResolved = $authAttempted;
-
-        // check if the user has permission to read the gallery. if not, don't try to get it.
-        if (
+        // user is known. Reading both maps here is also what re-runs this when a
+        // snapshot finally lands.
+        const ready = Galleries.hydrated && $authAttempted;
+        const cached =
             Galleries.accessibleGalleries.has(galleryID) ||
-            Galleries.expandedScopeGalleries.has(galleryID)
-        ) {
-            Galleries.get(galleryID).then((gal) => {
-                // Found a store? Subscribe to it, updating the gallery when it changes.
-                if (gal) gallery = gal;
-                // Not found? No gallery.
-                else gallery = undefined;
-            });
-        } else if (!authResolved || !hydrated) {
-            // Auth hasn't resolved yet, or the local cache hasn't hydrated —
-            // stay in the loading state rather than flashing "this how-to space
-            // doesn't exist" before we know who the user is and what they can
-            // access. This resolves offline (hydration doesn't need a network).
-            gallery = null;
-        } else {
-            gallery = undefined;
-        }
+            Galleries.expandedScopeGalleries.has(galleryID);
+
+        const generation = ++resolution;
+        resolveGallery(galleryID, cached, ready, (id) =>
+            Galleries.find(id),
+        ).then((resolved) => {
+            if (generation === resolution) gallery = resolved;
+        });
     });
 
     let galleryName: string = $derived(
