@@ -10083,7 +10083,26 @@
                     "*Wordplay* aspiră să ajute la schimbarea acestui lucru. Este o platformă de programare concepută pentru a fi globală, suportând /toate/ limbile lumii, dar și /despre/ limbile lumii. O platformă pe care oricine poate crea, indiferent de abilitățile pe care le are, pentru a partaja conținut interactiv pe care oricine îl poate experimenta. Pentru tinerii și tinerii adulți care doresc să se exprime prin cuvinte interactive, emoji-uri și tipografie, în mod jucăuș și artistic. Nu cu scopul de a obține putere pentru ei înșiși, ci de a crea o lume computațională care recunoaște puterea incredibilă și necesitatea frumoaselor noastre diferențe.",
                     "Suntem o comunitate de designeri, educatori și dezvoltatori care încearcă să aducă această viziune la viață. Suntem oameni de culoare, suntem trans, suntem queer, suntem persoane cu dizabilități, suntem imigranți, suntem refugiați. Ne concentrăm pe...<University of Washington@https://washington.edu><Information School@https://ischool.uw.edu/> în Seattle, Washington, SUA, un loc care aspiră să primească pe toată lumea și să anuleze ravagiile colonialismului, care continuă și astăzi, legate de discriminarea persoanelor cu dizabilități. Crearea acestui limbaj de programare și a acestei platforme este o mică parte a acestei misiuni, oferind o privire asupra unui viitor al informaticii în care /toată lumea/ își are locul.",
                     "Ne-ar plăcea să ne ajutați. Învață<how to contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ,<donate@://donate> sau urmăriți-ne<progress@https://github.com/amyjko/wordplay/milestones> Scrieți organizatorului comunității noastre<Amy@https://amyjko.phd> dacă aveți întrebări."
-                ]
+                ],
+                "districts": {
+                    "header": "$~Pentru școli și inspectorate",
+                    "content": [
+                        "$~Te gândești dacă *Wordplay* este potrivit pentru școala sau inspectoratul tău? Iată ce putem și ce nu putem promite.",
+                        "Nu suntem o companie. Suntem un proiect de cercetare bazat pe comunitate, găzduit de o universitate non-profit, și nu avem venituri. Asta înseamnă că există acorduri pe care nu le putem semna, oricât de mult am vrea să ajutăm. Nu putem promite să plătim cheltuielile legale ale unui inspectorat dacă este dat în judecată. Nu putem promite să rezolvăm o problemă într-un termen fix. Semnarea unei promisiuni pe care nu o putem respecta nu ar ajuta pe nimeni, cel mai puțin pe tine.",
+                        "Iată ce putem promite. Menținem platforma la standardul de accesibilitate /WCAG 2.2 Nivel AA/, o verificăm automat la fiecare modificare, și rezolvăm ce găsim cât de repede poate o comunitate de voluntari. Adunăm cât mai puține informații despre persoanele care o folosesc, și le folosim doar pentru a face platforma să funcționeze. Pagina noastră <rights//rights> spune exact ce păstrăm, iar <source@https://github.com/wordplaydev/wordplay> a noastră este publică, așa că poți verifica totul singur.",
+                        "Această platformă se schimbă mereu, la fel și regulile pe care trebuie să le respecți. Dacă ai nevoie de ceva ce încă nu oferim, scrie-ne la hi@wordplay.dev și spune-ne despre asta. Persoanele care întrețin platforma vor citi mesajul tău și îți vom răspunde."
+                    ],
+                    "link": "$~Scrie-ne despre o cerință",
+                    "subject": "$~Întrebare din partea unei școli despre Wordplay",
+                    "body": [
+                        "$~Numele școlii sau al inspectoratului:",
+                        "$~Numele tău:",
+                        "$~Rolul tău:",
+                        "$~Există o cerință sau o reglementare pe care trebuie să o îndeplinim și încă nu o facem?",
+                        "$~Există una pe care nu o putem îndeplini așa cum suntem acum?",
+                        "$~Mai este ceva ce vrei să știm?"
+                    ]
+                }
             },
             "updates": {
                 "header": "$~Actualizări",

@@ -9864,7 +9864,26 @@
                     "*Wordplay* mong muốn giúp thay đổi điều này. Đây là một nền tảng lập trình được thiết kế để mang tính toàn cầu, hỗ trợ /tất cả/ các ngôn ngữ trên thế giới, và cũng /nói về/ các ngôn ngữ trên thế giới. Một nền tảng mà mọi người đều có thể sáng tạo, với bất kỳ khả năng nào mình có, để chia sẻ nội dung tương tác mà bất kỳ ai cũng có thể trải nghiệm. Dành cho thanh thiếu niên và người trẻ muốn thể hiện bản thân qua từ ngữ tương tác, biểu tượng cảm xúc và kiểu chữ, một cách vui tươi và nghệ thuật. Không phải với mục tiêu giành lấy quyền lực cho riêng mình, mà để tạo ra một thế giới máy tính công nhận sức mạnh phi thường và sự cần thiết của những khác biệt tươi đẹp của chúng ta.",
                     "Chúng tôi là một cộng đồng gồm các nhà thiết kế, nhà giáo dục và nhà phát triển đang cố gắng biến tầm nhìn này thành hiện thực. Chúng tôi là người da màu, chúng tôi là người chuyển giới, chúng tôi là người queer, chúng tôi là người khuyết tật, chúng tôi là người nhập cư, chúng tôi là người tị nạn. Chúng tôi tập trung tại <Trường Thông tin@https://ischool.uw.edu/> thuộc <Đại học Washington@https://washington.edu> ở Seattle, Washington, Mỹ, một nơi mong muốn chào đón mọi người và xóa bỏ những tàn phá phân biệt khả năng và phân biệt chủng tộc của chủ nghĩa thực dân vẫn còn tiếp diễn đến ngày nay. Tạo ra ngôn ngữ lập trình và nền tảng này là một phần nhỏ trong sứ mệnh đó, mang đến một cái nhìn thoáng qua về tương lai của máy tính, nơi /mọi người/ đều thuộc về.",
                     "Chúng tôi rất mong nhận được sự giúp đỡ của bạn. Hãy tìm hiểu <cách đóng góp@https://github.com/wordplaydev/wordplay/wiki/contribute>, <quyên góp@://donate>, hoặc theo dõi <tiến trình@https://github.com/amyjko/wordplay/milestones> của chúng tôi. Hãy viết thư cho người tổ chức cộng đồng của chúng tôi là <Amy@https://amyjko.phd> nếu bạn có câu hỏi."
-                ]
+                ],
+                "districts": {
+                    "header": "$~Dành cho trường học và phòng giáo dục",
+                    "content": [
+                        "$~Bạn đang cân nhắc xem *Wordplay* có phù hợp để dùng trong trường học hay phòng giáo dục của bạn không? Đây là những gì chúng tôi có thể và không thể hứa.",
+                        "Chúng tôi không phải là một công ty. Chúng tôi là một dự án nghiên cứu cộng đồng, đặt tại một trường đại học phi lợi nhuận, và chúng tôi không có doanh thu. Điều đó có nghĩa là có những thỏa thuận chúng tôi không thể ký, dù rất muốn giúp đỡ. Chúng tôi không thể hứa trả phí pháp lý cho một phòng giáo dục nếu bị kiện. Chúng tôi không thể hứa sửa một vấn đề theo một lịch trình cố định. Ký một lời hứa mà chúng tôi không thể giữ sẽ chẳng giúp ích được ai, kể cả bạn.",
+                        "Đây là những gì chúng tôi có thể hứa. Chúng tôi giữ nền tảng này theo tiêu chuẩn khả năng tiếp cận /WCAG 2.2 mức AA/, chúng tôi kiểm tra tự động sau mỗi thay đổi, và chúng tôi sửa những gì tìm thấy nhanh nhất có thể với một cộng đồng tình nguyện. Chúng tôi thu thập càng ít thông tin về người dùng càng tốt, và chỉ dùng thông tin đó để vận hành nền tảng. Trang <rights//rights> của chúng tôi ghi rõ những gì chúng tôi lưu trữ, và <source@https://github.com/wordplaydev/wordplay> của chúng tôi là công khai, để bạn có thể tự kiểm tra tất cả những điều này.",
+                        "Nền tảng này luôn thay đổi, và các quy định bạn phải tuân theo cũng vậy. Nếu có điều gì bạn cần mà chúng tôi chưa làm được, hãy viết cho chúng tôi tại hi@wordplay.dev và cho chúng tôi biết. Những người quản lý sẽ đọc, và chúng tôi sẽ hồi âm."
+                    ],
+                    "link": "$~Viết cho chúng tôi về một yêu cầu",
+                    "subject": "$~Câu hỏi từ trường học về Wordplay",
+                    "body": [
+                        "$~Tên trường hoặc phòng giáo dục:",
+                        "$~Tên của bạn:",
+                        "$~Vai trò của bạn:",
+                        "$~Có yêu cầu hay quy định nào chúng tôi cần đáp ứng mà chưa làm được không?",
+                        "$~Có yêu cầu nào chúng tôi không thể đáp ứng với tình trạng hiện tại không?",
+                        "$~Bạn có muốn cho chúng tôi biết thêm điều gì khác không?"
+                    ]
+                }
             },
             "updates": {
                 "header": "$~Cập nhật",

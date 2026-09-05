@@ -9301,7 +9301,26 @@
                     "*Wordplay* pragnie pomóc to zmienić. To platforma do programowania stworzona, aby być globalna, wspierająca /wszystkie/ języki świata, ale też /dotycząca/ języków świata. Platforma, na której każdy może tworzyć, z jakimikolwiek umiejętnościami, aby dzielić się interaktywnymi treściami, których każdy może doświadczyć. Dla młodzieży i młodych dorosłych, którzy chcą wyrazić siebie przez interaktywne słowa, emoji i typografię, z zabawą i sztuką. Nie po to, by zdobyć władzę dla siebie, ale by stworzyć obliczeniowy świat, który dostrzega niezwykłą siłę i konieczność naszych pięknych różnic.",
                     "Jesteśmy społecznością projektantów, nauczycieli i programistów, którzy próbują ożywić tę wizję. Jesteśmy osobami o innym kolorze skóry, jesteśmy osobami transpłciowymi, jesteśmy queer, jesteśmy osobami z niepełnosprawnością, jesteśmy imigrantami, jesteśmy uchodźcami. Nasze centrum mieści się w <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> w Seattle, w stanie Waszyngton, w USA, w miejscu, które pragnie powitać każdego i cofnąć krzywdy kolonializmu wobec osób z niepełnosprawnością i mniejszości rasowych, które trwają do dziś. Tworzenie tego języka programowania i platformy to mała część tej misji, dająca przebłysk przyszłości informatyki, w której /każdy/ ma swoje miejsce.",
                     "Będziemy wdzięczni za twoją pomoc. Dowiedz się, <jak wnieść wkład@https://github.com/wordplaydev/wordplay/wiki/contribute>, <przekaż darowiznę@://donate> lub śledź nasze <postępy@https://github.com/amyjko/wordplay/milestones>. Napisz do naszej organizatorki społeczności <Amy@https://amyjko.phd>, jeśli masz pytania."
-                ]
+                ],
+                "districts": {
+                    "header": "$~Dla szkół i placówek",
+                    "content": [
+                        "$~Zastanawiasz się, czy *Wordplay* można używać w twojej szkole lub placówce? Oto, co możemy obiecać, a czego nie.",
+                        "Nie jesteśmy firmą. Jesteśmy projektem badawczym prowadzonym przez społeczność, działającym przy uniwersytecie non-profit, i nie mamy żadnych przychodów. To znaczy, że są umowy, których nie możemy podpisać, choć bardzo chcemy pomóc. Nie możemy obiecać, że zapłacimy koszty prawne placówki, jeśli zostanie pozwana. Nie możemy obiecać, że naprawimy problem w ustalonym czasie. Podpisanie obietnicy, której nie możemy dotrzymać, nie pomogłoby nikomu, a tobie najmniej.",
+                        "Oto, co możemy obiecać. Utrzymujemy platformę zgodną ze standardem dostępności /WCAG 2.2 poziom AA/, sprawdzamy to automatycznie przy każdej zmianie i naprawiamy znalezione błędy tak szybko, jak potrafi społeczność wolontariuszy. Zbieramy jak najmniej informacji o osobach, które korzystają z platformy, i używamy ich tylko do jej działania. Nasza strona <rights//rights> mówi dokładnie, co przechowujemy, a nasz <source@https://github.com/wordplaydev/wordplay> jest publiczny, więc możesz to wszystko sam sprawdzić.",
+                        "Ta platforma wciąż się zmienia, tak samo jak zasady, których musisz przestrzegać. Jeśli potrzebujesz czegoś, czego jeszcze nie robimy, napisz do nas na hi@wordplay.dev i opowiedz nam o tym. Osoby, które się tym zajmują, przeczytają twoją wiadomość i odpiszą."
+                    ],
+                    "link": "$~Napisz do nas w sprawie wymogu",
+                    "subject": "$~Zapytanie szkolne Wordplay",
+                    "body": [
+                        "$~Nazwa szkoły lub placówki:",
+                        "$~Twoje imię i nazwisko:",
+                        "$~Twoja rola:",
+                        "$~Czy jest jakiś wymóg lub przepis, który musimy spełnić, a jeszcze go nie spełniamy?",
+                        "$~Czy jest taki, którego nie możemy spełnić w obecnej formie?",
+                        "$~Czy jest coś jeszcze, o czym chciałbyś nam powiedzieć?"
+                    ]
+                }
             },
             "login": {
                 "header": "$~Login",

@@ -516,13 +516,22 @@ test('resolving a color needs no basis', () => {
  * that may sit in anyone's project, so the old name has to keep resolving, and
  * a lookup that falls back is far cheaper than rewriting other people's source.
  * One budget had no slack left.
+ *
+ * The section addressed to schools and districts (#697) is **+0 files** and
+ * about two kilobytes: what we can and can't promise a district, and the
+ * subject and prompts of the inquiry email the page composes, all in
+ * `en-US.json`, which every page carries because every page resolves a locale.
+ * The prefilled message has to be locale strings rather than markup — the
+ * tokenizer's mailto rule stops at the address, so a query string would lex as
+ * words — which is why the copy lands here rather than in a route's own module.
+ * The two budgets with no slack left move by a hundredth.
  */
 test.each([
-    ['src/routes/+layout.svelte', 502, 3.7],
+    ['src/routes/+layout.svelte', 502, 3.71],
     ['src/components/app/Page.svelte', 525, 3.95],
     ['src/routes/[[locale]]/+page.svelte', 540, 4.04],
     ['src/routes/[[locale]]/galleries/+page.svelte', 544, 4.05],
-    ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.07],
+    ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.08],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

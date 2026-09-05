@@ -9029,7 +9029,26 @@
                     "*Wordplay* aspira a ayudar a cambiar esto. Es una plataforma de programación diseñada para ser global, que admite /todos/ los idiomas del mundo, pero que también trata /sobre/ los idiomas del mundo. Una plataforma en la que todas pueden crear, con las habilidades que tengan, para compartir contenido interactivo que cualquiera puede experimentar. Para jóvenes y jóvenes adultos que quieren expresarse con palabras, emojis y tipografía interactivos, de forma juguetona y artística. No con la meta de conseguir poder para sí, sino de crear un mundo computacional que reconozca la fuerza increíble y la necesidad de nuestras hermosas diferencias.",
                     "Somos una comunidad de diseñadoras, educadoras y desarrolladoras que intenta dar vida a esta visión. Somos personas de color, somos trans, somos queer, tenemos discapacidad, somos migrantes, somos refugiadas. Nuestro centro está en la <Escuela de Información@https://ischool.uw.edu/> de la <Universidad de Washington@https://washington.edu> en Seattle, Washington, Estados Unidos, un lugar que aspira a dar la bienvenida a todas y a deshacer los estragos capacitistas y racistas del colonialismo que continúan hoy. Hacer este lenguaje de programación y esta plataforma es una pequeña parte de esa misión, que ofrece un vistazo a un futuro de la computación en el que /todas/ pertenecemos.",
                     "Nos encantaría contar con tu ayuda. Aprende <cómo contribuir@https://github.com/wordplaydev/wordplay/wiki/contribute>, <dona@://donate> o sigue nuestro <avance@https://github.com/amyjko/wordplay/milestones>. Escribe a nuestra organizadora comunitaria <Amy@https://amyjko.phd> si tienes preguntas."
-                ]
+                ],
+                "districts": {
+                    "header": "$~Para escuelas y distritos escolares",
+                    "content": [
+                        "$~¿Estás decidiendo si *Wordplay* se puede usar en tu escuela o distrito escolar? Esto es lo que sí podemos prometer, y lo que no.",
+                        "No somos una empresa. Somos un proyecto de investigación comunitario que vive en una universidad sin fines de lucro, y no tenemos ingresos. Eso quiere decir que hay acuerdos que no podemos firmar, aunque queramos ayudar. No podemos prometer pagar los gastos legales de un distrito escolar si lo demandan. No podemos prometer arreglar un problema en una fecha exacta. Firmar una promesa que no podemos cumplir no ayudaría a nadie, y mucho menos a ti.",
+                        "Esto sí lo podemos prometer. Mantenemos la plataforma dentro del nivel de accesibilidad /WCAG 2.2 Nivel AA/, la revisamos de forma automática con cada cambio, y arreglamos lo que encontramos tan rápido como puede hacerlo una comunidad de voluntarias. Reunimos la menor cantidad posible de información sobre las personas que la usan, y solo la usamos para que la plataforma funcione. Nuestra página de <rights//rights> dice exactamente qué guardamos, y nuestro <source@https://github.com/wordplaydev/wordplay> es público, así que puedes revisar todo esto tú misma.",
+                        "Esta plataforma siempre está cambiando, y también las reglas que hay que seguir. Si necesitas algo que todavía no hacemos, escríbenos a hi@wordplay.dev y cuéntanos. Quienes mantienen el proyecto lo van a leer, y te vamos a responder."
+                    ],
+                    "link": "$~Escríbenos sobre un requisito",
+                    "subject": "$~Consulta escolar de Wordplay",
+                    "body": [
+                        "$~Nombre de la escuela o del distrito escolar:",
+                        "$~Tu nombre:",
+                        "$~Tu rol:",
+                        "$~¿Hay algún requisito o regla que debamos cumplir y que todavía no cumplimos?",
+                        "$~¿Hay alguno que no podamos cumplir tal como estamos?",
+                        "$~¿Hay algo más que quieras contarnos?"
+                    ]
+                }
             },
             "login": {
                 "header": "Iniciar sesión",

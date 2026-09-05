@@ -9960,7 +9960,26 @@
                     "*Wordplay* aspira a ajudar a mudar isso. É uma plataforma de programação concebida para ser global, suportando /todos/ os idiomas do mundo, mas sendo também /sobre/ os idiomas do mundo. Uma plataforma na qual todos podem criar, com quaisquer competências que possuam, para partilhar conteúdo interativo que qualquer pessoa possa experimentar. Para jovens e jovens adultos que se querem expressar através de palavras interativas, emojis e tipografia, de forma lúdica e artística. Não com o objetivo de obter poder para si próprios, mas para criar um mundo computacional que reconheça a incrível força e a necessidade das nossas belas diferenças.",
                     "Somos uma comunidade de designers, educadores e developers que procura dar vida a esta visão. Somos pessoas de cor, trans, queer, com deficiência, imigrantes e refugiados. A nossa sede é na <Universidade de Washington@https://washington.edu> <Escola de Informação@https://ischool.uw.edu/> em Seattle, Washington, EUA, um local que aspira a acolher todos e a desfazer os estragos capacitistas e racistas do colonialismo que persistem até hoje. Criar esta linguagem de programação e plataforma é uma pequena parte desta missão, oferecendo um vislumbre de um futuro da computação onde /todos/ são bem-vindos.",
                     "Adoraríamos contar com a sua ajuda. Saiba como contribuir, faça um donativo ou acompanhe o nosso progresso. Se tiver alguma dúvida, contacte a nossa organizadora da comunidade, Amy, através do e-mail Amyjko@https://amyjko.phd."
-                ]
+                ],
+                "districts": {
+                    "header": "$~Para escolas e agrupamentos",
+                    "content": [
+                        "$~Está a decidir se pode usar o *Wordplay* na sua escola ou no seu agrupamento? Eis o que podemos e não podemos prometer.",
+                        "Não somos uma empresa. Somos um projeto de investigação comunitário, sediado numa universidade sem fins lucrativos, e não temos qualquer receita. Isso significa que há acordos que não podemos assinar, por mais que queiramos ajudar. Não podemos prometer pagar as custas legais de um agrupamento se este for processado. Não podemos prometer resolver um problema num prazo fixo. Assinar uma promessa que não podemos cumprir não ajudaria ninguém, muito menos a si.",
+                        "Eis o que podemos prometer. Mantemos a plataforma de acordo com as regras de acessibilidade /WCAG 2.2 Nível AA/, verificamo-la automaticamente a cada alteração, e corrigimos o que encontramos tão depressa quanto uma comunidade de voluntários consegue. Recolhemos o mínimo de informação possível sobre as pessoas que a usam, e usamo-la apenas para manter a plataforma a funcionar. A nossa página de <rights//rights> diz exatamente o que guardamos, e o nosso <source@https://github.com/wordplaydev/wordplay> é público, para que possa verificar tudo isto por si próprio(a).",
+                        "Esta plataforma está sempre a mudar, tal como as regras que tem de seguir. Se houver algo de que precise e que ainda não fazemos, escreva-nos para hi@wordplay.dev e conte-nos. Os responsáveis vão ler a sua mensagem, e nós responderemos."
+                    ],
+                    "link": "$~Escreva-nos sobre um requisito",
+                    "subject": "$~Pedido de informação de escola sobre o Wordplay",
+                    "body": [
+                        "$~Nome da escola ou do agrupamento:",
+                        "$~O seu nome:",
+                        "$~A sua função:",
+                        "$~Há algum requisito ou regulamento que precisemos de cumprir e que ainda não cumprimos?",
+                        "$~Há algum que não conseguimos cumprir tal como estamos?",
+                        "$~Há mais alguma coisa que gostaria que soubéssemos?"
+                    ]
+                }
             },
             "updates": {
                 "header": "Atualizações",

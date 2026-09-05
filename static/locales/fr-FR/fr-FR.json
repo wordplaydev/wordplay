@@ -9036,7 +9036,26 @@
                     "*Wordplay* espère aider à changer cela. C'est une plateforme de programmation conçue pour être mondiale, qui soutient /toutes/ les langues du monde, mais aussi qui parle /des/ langues du monde. Une plateforme sur laquelle tout le monde peut créer, avec les capacités qu'il possède, pour partager du contenu interactif que chacun peut vivre. Pour les jeunes et les jeunes adultes qui veulent s'exprimer à travers des mots interactifs, des emojis et de la typographie, avec jeu et avec art. Non pas dans le but d'obtenir du pouvoir pour eux-mêmes, mais pour créer un monde informatique qui reconnaît la force incroyable et le besoin de nos belles différences.",
                     "Nous sommes une communauté de designers, d'enseignants et de développeurs qui essaient de donner vie à cette vision. Nous sommes des personnes de couleur, nous sommes trans, nous sommes queers, nous sommes handicapés, nous sommes immigrants, nous sommes réfugiés. Nous sommes basés à la <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> à Seattle, dans l'État de Washington, aux États-Unis, un lieu qui aspire à accueillir tout le monde et à défaire les ravages capacitistes et racistes du colonialisme qui continuent aujourd'hui. Créer ce langage de programmation et cette plateforme est une petite partie de cette mission, offrant un aperçu d'un futur de l'informatique où /chacun/ a sa place.",
                     "Nous aimerions ton aide. Apprends <comment contribuer@https://github.com/wordplaydev/wordplay/wiki/contribute>, <fais un don@://donate>, ou suis nos <progrès@https://github.com/amyjko/wordplay/milestones>. Écris à notre organisatrice de communauté <Amy@https://amyjko.phd> si tu as des questions."
-                ]
+                ],
+                "districts": {
+                    "header": "$~Pour les écoles et les académies",
+                    "content": [
+                        "$~Vous vous demandez si *Wordplay* peut être utilisé dans votre école ou votre académie ? Voici ce que nous pouvons promettre, et ce que nous ne pouvons pas promettre.",
+                        "Nous ne sommes pas une entreprise. Nous sommes un projet de recherche communautaire hébergé par une université à but non lucratif, et nous n'avons aucun revenu. Cela veut dire qu'il y a des accords que nous ne pouvons pas signer, même si nous aimerions beaucoup vous aider. Nous ne pouvons pas promettre de payer les frais juridiques d'une académie si elle est poursuivie en justice. Nous ne pouvons pas promettre de résoudre un problème selon un calendrier fixe. Signer une promesse que nous ne pouvons pas tenir n'aiderait personne, et surtout pas vous.",
+                        "Voici ce que nous pouvons promettre. Nous respectons les règles d'accessibilité /WCAG 2.2 niveau AA/ pour la plateforme, nous les vérifions automatiquement à chaque changement, et nous corrigeons ce que nous trouvons aussi vite que le permet une communauté de bénévoles. Nous recueillons le moins d'informations possible sur les personnes qui l'utilisent, et nous ne les utilisons que pour faire fonctionner la plateforme. Notre page <rights//rights> explique exactement ce que nous conservons, et notre <source@https://github.com/wordplaydev/wordplay> est publique, donc vous pouvez vérifier tout cela vous-même.",
+                        "Cette plateforme change tout le temps, et les règles que vous devez suivre changent aussi. S'il y a quelque chose dont vous avez besoin et que nous ne faisons pas encore, écrivez-nous à hi@wordplay.dev et parlez-nous-en. Les responsables du projet la liront, et nous vous répondrons."
+                    ],
+                    "link": "$~Écrivez-nous à propos d'une exigence",
+                    "subject": "$~Demande d'école pour Wordplay",
+                    "body": [
+                        "$~Nom de l'école ou de l'académie :",
+                        "$~Votre nom :",
+                        "$~Votre rôle :",
+                        "$~Y a-t-il une exigence ou une règle que nous devons respecter et que nous ne respectons pas encore ?",
+                        "$~Y en a-t-il une que nous ne pouvons pas respecter telle que nous sommes ?",
+                        "$~Y a-t-il autre chose que vous aimeriez nous dire ?"
+                    ]
+                }
             },
             "login": {
                 "header": "$~Se connecter",

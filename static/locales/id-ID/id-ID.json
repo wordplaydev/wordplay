@@ -10087,7 +10087,26 @@
                     "*Wordplay* bercita-cita untuk membantu mengubah hal ini. Ini adalah platform pemrograman yang dirancang untuk bersifat global, mendukung /semua/ bahasa di dunia, tetapi juga /berkaitan dengan/ bahasa-bahasa di dunia. Sebuah platform di mana setiap orang dapat berkreasi, dengan kemampuan apa pun yang mereka miliki, untuk berbagi konten interaktif yang dapat dinikmati siapa pun. Untuk kaum muda dan dewasa muda yang ingin mengekspresikan diri melalui kata-kata interaktif, emoji, dan tipografi, dengan cara yang menyenangkan dan artistik. Bukan dengan tujuan untuk mendapatkan kekuasaan bagi diri mereka sendiri, tetapi untuk menciptakan dunia komputasi yang mengakui kekuatan dan kebutuhan luar biasa dari perbedaan kita yang indah.",
                     "Kami adalah komunitas desainer, pendidik, dan pengembang yang berupaya mewujudkan visi ini. Kami adalah orang-orang dari berbagai ras, transgender, queer, penyandang disabilitas, imigran, dan pengungsi. Kami berpusat pada...<University of Washington@https://washington.edu><Information School@https://ischool.uw.edu/> Di Seattle, Washington, AS, sebuah tempat yang bercita-cita untuk menyambut semua orang dan menghapus dampak buruk diskriminasi terhadap penyandang disabilitas dan rasisme akibat kolonialisme yang masih berlanjut hingga saat ini. Membuat bahasa pemrograman dan platform ini adalah bagian kecil dari misi tersebut, menawarkan sekilas gambaran masa depan komputasi di mana /semua orang/ diterima.",
                     "Kami sangat mengharapkan bantuan Anda. Pelajari<how to contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ,<donate@://donate> atau lacak kami<progress@https://github.com/amyjko/wordplay/milestones> Tulis surat kepada koordinator komunitas kami.<Amy@https://amyjko.phd> Jika Anda memiliki pertanyaan."
-                ]
+                ],
+                "districts": {
+                    "header": "$~Untuk sekolah dan distrik",
+                    "content": [
+                        "$~Apakah Anda sedang memutuskan apakah *Wordplay* boleh dipakai di sekolah atau distrik Anda? Ini yang bisa dan tidak bisa kami janjikan.",
+                        "Kami bukan perusahaan. Kami adalah proyek penelitian berbasis komunitas yang bernaung di universitas nirlaba, dan kami tidak punya pendapatan. Artinya, ada perjanjian yang tidak bisa kami tanda tangani, walau kami sangat ingin membantu. Kami tidak bisa berjanji membayar biaya hukum sebuah distrik jika digugat. Kami tidak bisa berjanji memperbaiki masalah dalam jadwal tertentu. Menandatangani janji yang tidak bisa kami tepati tidak akan membantu siapa pun, apalagi Anda.",
+                        "Ini yang bisa kami janjikan. Kami menjaga platform ini sesuai standar aksesibilitas /WCAG 2.2 Level AA/, kami memeriksanya secara otomatis setiap ada perubahan, dan kami memperbaiki apa yang kami temukan secepat yang bisa dilakukan komunitas sukarelawan. Kami mengumpulkan data orang yang memakainya sesedikit mungkin, dan kami hanya memakainya untuk menjalankan platform ini. Halaman <rights//rights> kami menjelaskan tepat apa yang kami simpan, dan <source@https://github.com/wordplaydev/wordplay> kami bersifat terbuka, jadi Anda bisa memeriksa semua ini sendiri.",
+                        "Platform ini selalu berubah, begitu juga aturan yang harus Anda ikuti. Jika ada hal yang Anda butuhkan tapi belum kami sediakan, tulis surat kepada kami di hi@wordplay.dev dan ceritakan hal itu. Para pengelola akan membacanya, dan kami akan membalas surat Anda."
+                    ],
+                    "link": "$~Tulis surat kepada kami tentang suatu persyaratan",
+                    "subject": "$~Pertanyaan sekolah tentang Wordplay",
+                    "body": [
+                        "$~Nama sekolah atau distrik:",
+                        "$~Nama Anda:",
+                        "$~Peran Anda:",
+                        "$~Apakah ada persyaratan atau aturan yang harus kami penuhi tapi belum kami penuhi?",
+                        "$~Apakah ada satu yang tidak bisa kami penuhi seperti keadaan kami sekarang?",
+                        "$~Ada hal lain yang ingin Anda sampaikan kepada kami?"
+                    ]
+                }
             },
             "updates": {
                 "header": "$~Pembaruan",

@@ -9273,7 +9273,26 @@
                     "*Wordplay* vill hjälpa till att ändra på detta. Det är en programmeringsplattform som är gjord för att vara global och stödja /alla/ världens språk, men också handla /om/ världens språk. En plattform där alla kan skapa, med de förmågor de har, och dela interaktivt innehåll som vem som helst kan uppleva. För ungdomar och unga vuxna som vill uttrycka sig genom interaktiva ord, emojis och typografi, lekfullt och konstnärligt. Inte med målet att skaffa makt åt sig själva, utan att skapa en datorvärld som erkänner den otroliga styrkan och nödvändigheten i våra vackra olikheter.",
                     "Vi är en gemenskap av formgivare, lärare och utvecklare som försöker förverkliga denna vision. Vi är rasifierade, vi är trans, vi är queera, vi är funktionshindrade, vi är invandrare, vi är flyktingar. Vi har vår bas vid <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> i Seattle, Washington, USA, en plats som vill välkomna alla och göra upp med de funkofobiska och rasistiska skador från kolonialismen som fortsätter än idag. Att göra detta programmeringsspråk och denna plattform är en liten del av det uppdraget, och ger en glimt av en framtid för datorer där /alla/ hör hemma.",
                     "Vi skulle gärna vilja ha din hjälp. Lär dig <hur man bidrar@https://github.com/wordplaydev/wordplay/wiki/contribute>, <donera@://donate>, eller följ våra <framsteg@https://github.com/amyjko/wordplay/milestones>. Skriv till vår gemenskapsorganisatör <Amy@https://amyjko.phd> om du har frågor."
-                ]
+                ],
+                "districts": {
+                    "header": "$~För skolor och kommuner",
+                    "content": [
+                        "$~Funderar du på om *Wordplay* går bra att använda i din skola eller kommun? Här är vad vi kan och inte kan lova.",
+                        "Vi är inget företag. Vi är ett samhällsbaserat forskningsprojekt som hör hemma på ett icke-vinstdrivande universitet, och vi har inga intäkter. Det betyder att det finns avtal vi inte kan skriva under, hur mycket vi än vill hjälpa till. Vi kan inte lova att betala en kommuns rättegångskostnader om den blir stämd. Vi kan inte lova att lösa ett problem inom en bestämd tid. Att skriva under ett löfte vi inte kan hålla skulle inte hjälpa någon, allra minst dig.",
+                        "Här är vad vi kan lova. Vi håller plattformen enligt tillgänglighetskraven i /WCAG 2.2 nivå AA/, vi kontrollerar det automatiskt vid varje ändring, och vi rättar det vi hittar så snabbt en frivillig gemenskap kan. Vi samlar in så lite som möjligt om de som använder plattformen, och vi använder det bara för att driva plattformen. Vår sida <rights//rights> visar exakt vad vi lagrar, och vår <source@https://github.com/wordplaydev/wordplay> är öppen för alla, så du kan kontrollera allt detta själv.",
+                        "Denna plattform ändras hela tiden, och det gör även reglerna du måste följa. Om det finns något du behöver som vi ännu inte erbjuder, skriv till oss på hi@wordplay.dev och berätta om det. De som underhåller plattformen läser det, och vi skriver tillbaka."
+                    ],
+                    "link": "$~Skriv till oss om ett krav",
+                    "subject": "$~Wordplay skolförfrågan",
+                    "body": [
+                        "$~Skolans eller kommunens namn:",
+                        "$~Ditt namn:",
+                        "$~Din roll:",
+                        "$~Finns det ett krav eller en regel vi behöver uppfylla som vi inte redan gör?",
+                        "$~Finns det något vi inte kan uppfylla som vi är nu?",
+                        "$~Är det något annat du vill att vi ska veta?"
+                    ]
+                }
             },
             "login": {
                 "header": "$~Inloggning",

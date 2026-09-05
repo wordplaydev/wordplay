@@ -9283,7 +9283,26 @@
                     "*Wordplay* bunu değiştirmeye yardım etmeyi amaçlıyor. Bu, küresel olmak için tasarlanmış bir programlama platformu; dünyanın /tüm/ dillerini destekliyor, ama aynı zamanda dünyanın dilleri /hakkında/ da. Herkesin, sahip olduğu yeteneklerle üretebileceği ve herkesin deneyimleyebileceği etkileşimli içerikleri paylaşabileceği bir platform. Kendini etkileşimli kelimeler, emojiler ve tipografi aracılığıyla oyuncu ve sanatlı bir şekilde ifade etmek isteyen gençler ve genç yetişkinler için. Kendileri için güç elde etme amacıyla değil, güzel farklılıklarımızın inanılmaz gücünü ve gerekliliğini tanıyan bir hesaplama dünyası yaratmak için.",
                     "Biz bu vizyonu hayata geçirmeye çalışan bir tasarımcılar, eğitimciler ve geliştiriciler topluluğuyuz. Biz renkli insanlarız, trans'iz, queer'iz, engelliyiz, göçmeniz, mülteciyiz. Merkezimiz ABD'nin Washington eyaletindeki Seattle'da bulunan <Washington Üniversitesi@https://washington.edu> <Bilgi Okulu@https://ischool.uw.edu/>; herkesi kucaklamayı ve bugün de süren sömürgeciliğin engelli ve ırkçı yıkımlarını geri döndürmeyi amaçlayan bir yer. Bu programlama dilini ve platformunu yapmak, bu görevin küçük bir parçası; /herkesin/ ait olduğu bir hesaplama geleceğinin bir görüntüsünü sunuyor.",
                     "Yardımını çok isteriz. <Nasıl katkı sağlayacağını@https://github.com/wordplaydev/wordplay/wiki/contribute> öğren, <bağış yap@://donate> ya da <ilerlememizi@https://github.com/amyjko/wordplay/milestones> takip et. Sorun varsa topluluk düzenleyicimiz <Amy@https://amyjko.phd>'ye yaz."
-                ]
+                ],
+                "districts": {
+                    "header": "$~Okullar ve bölgeler için",
+                    "content": [
+                        "$~*Wordplay*'in okulunuzda veya bölgenizde kullanılabilir olup olmadığına mı karar veriyorsunuz? İşte neyi söz verebileceğimiz ve neyi veremeyeceğimiz.",
+                        "Biz bir şirket değiliz. Kâr amacı gütmeyen bir üniversitede yürütülen, topluluk temelli bir araştırma projesiyiz ve hiçbir gelirimiz yok. Bu, yardım etmeyi ne kadar çok istesek de, imzalayamayacağımız bazı anlaşmalar olduğu anlamına gelir. Bir bölge dava edilirse hukuki masraflarını ödeyeceğimize söz veremeyiz. Bir sorunu belirli bir takvimde çözeceğimize söz veremeyiz. Tutamayacağımız bir sözü imzalamak kimseye yardımcı olmaz, en başta size.",
+                        "İşte size verebileceğimiz söz. Platformu /WCAG 2.2 Seviye AA/ erişilebilirlik standardına uygun tutuyoruz, her değişiklikte bunu otomatik olarak kontrol ediyoruz ve bulduğumuz sorunları bir gönüllü topluluğun yapabileceği en hızlı şekilde düzeltiyoruz. Platformu kullanan insanlar hakkında olabildiğince az bilgi topluyoruz ve bu bilgiyi yalnızca platformu çalıştırmak için kullanıyoruz. <rights//rights> sayfamız tam olarak neyi sakladığımızı anlatır ve <source@https://github.com/wordplaydev/wordplay> herkese açıktır, böylece tüm bunları kendiniz kontrol edebilirsiniz.",
+                        "Bu platform sürekli değişiyor, uymanız gereken kurallar da öyle. İhtiyacınız olan ama henüz sunmadığımız bir şey varsa, bize hi@wordplay.dev adresinden yazın ve bize anlatın. Yürütücüler bunu okuyacak ve size geri yazacağız."
+                    ],
+                    "link": "$~Bize bir gereklilik hakkında yazın",
+                    "subject": "$~Wordplay okul başvurusu",
+                    "body": [
+                        "$~Okul veya bölge adı:",
+                        "$~Adınız:",
+                        "$~Göreviniz:",
+                        "$~Henüz karşılamadığımız bir gereklilik veya yönetmelik var mı?",
+                        "$~Şu anki halimizle karşılayamayacağımız bir tane var mı?",
+                        "$~Bilmemizi istediğiniz başka bir şey var mı?"
+                    ]
+                }
             },
             "login": {
                 "header": "$~Giriş yapmak",

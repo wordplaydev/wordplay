@@ -10,6 +10,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 🔑 You can now make an account that signs in with a link we email you, so there's no password to forget. We ask your birthday and where you live to know if you're old enough, and we don't keep either one. (#628)
 - 🔑 You can now switch how you sign in. Go to your profile to swap a password for emailed links, or emailed links for a password. Your username stays the same either way. (#628)
+- 🏫 We added a section to the [About](https://wordplay.dev/about) page for schools and districts. It says what we can and can't promise about privacy and accessibility, and has a link that starts an email to us if your school needs something we don't do yet. (#697)
 
 ### Changed
 

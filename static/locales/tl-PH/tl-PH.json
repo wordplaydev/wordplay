@@ -9968,7 +9968,26 @@
                     "Hangad ng *Wordplay* na makatulong sa pagbabago nito. Ito ay isang plataporma ng programming na idinisenyo upang maging pandaigdigan, sumusuporta sa /lahat/ ng mga wika sa mundo, ngunit maging /tungkol/ din sa mga wika sa mundo. Isang plataporma kung saan ang lahat ay maaaring lumikha, gamit ang anumang kakayahan nila, upang magbahagi ng interactive na nilalaman na maaaring maranasan ng sinuman. Para sa mga kabataan at young adult na gustong ipahayag ang kanilang sarili sa pamamagitan ng mga interactive na salita, emoji, at tipograpiya, nang mapaglaro at may sining. Hindi sa layuning makakuha ng kapangyarihan para sa kanilang sarili, kundi upang lumikha ng isang mundo ng computational na kumikilala sa hindi kapani-paniwalang lakas at pangangailangan ng ating magagandang pagkakaiba.",
                     "Kami ay isang komunidad ng mga taga-disenyo, tagapagturo, at developer na nagsisikap na isakatuparan ang pananaw na ito. Kami ay mga taong may kulay, kami ay trans, kami ay queer, kami ay may kapansanan, kami ay mga imigrante, kami ay mga refugee. Nakasentro kami sa <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> sa Seattle, Washington, USA, isang lugar na naghahangad na tanggapin ang lahat at alisin ang mga ableist at rasistang pananakit ng kolonyalismo na nagpapatuloy ngayon. Ang paggawa ng programming language at platform na ito ay isang maliit na bahagi ng misyong iyon, na nag-aalok ng isang sulyap sa isang kinabukasan ng computing kung saan nabibilang ang /lahat/.",
                     "Gusto naming humingi ng tulong. Alamin kung <paano mag-contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>, <donate@://donate>, o subaybayan ang aming <progress@https://github.com/amyjko/wordplay/milestones>. Sumulat sa aming community organizer na <Amy@https://amyjko.phd> kung mayroon kang mga katanungan."
-                ]
+                ],
+                "districts": {
+                    "header": "$~Para sa mga paaralan at distrito",
+                    "content": [
+                        "$~Nagdedesisyon ka ba kung sang-ayon gamitin ang *Wordplay* sa iyong paaralan o distrito? Narito ang aming maipapangako at hindi maipapangako.",
+                        "Hindi kami isang kompanya. Isa kaming pananaliksik na nakabatay sa komunidad, na nakatalaga sa isang unibersidad na hindi pangkalakal, at wala kaming kita. Ibig sabihin nito, may mga kasunduang hindi namin mapipirmahan, gaano man kami gustong tumulong. Hindi namin mapapangako na babayaran namin ang legal na gastos ng isang distrito kung ito ay idemanda. Hindi rin namin mapapangako na aayusin namin ang isang problema sa isang takdang iskedyul. Ang pagpirma sa isang pangakong hindi namin matutupad ay hindi makakatulong kaninuman, lalo na sa iyo.",
+                        "Ito naman ang aming maipapangako. Sinusunod namin ang pamantayan ng /WCAG 2.2 Level AA/ para sa akses, sinusuri namin ito nang awtomatiko sa bawat pagbabago, at inaayos namin ang aming natutuklasan sa pinakamabilis na paraang kaya ng isang komunidad ng boluntaryo. Kinukolekta namin ang kaunti lamang na impormasyon tungkol sa mga gumagamit nito, at ginagamit lamang namin ito para patakbuhin ang plataporma. Sinasabi nang eksakto ng aming pahinang <rights//rights> kung ano ang aming iniimbak, at bukas sa publiko ang aming <source@https://github.com/wordplaydev/wordplay>, kaya't masusuri mo ito mismo.",
+                        "Patuloy na nagbabago ang platapormang ito, at gayundin ang mga tuntuning kailangan mong sundin. Kung may kailangan ka na wala pa kami, sumulat sa amin sa hi@wordplay.dev at sabihin sa amin ang tungkol dito. Babasahin ito ng mga tagapangasiwa, at susulatan ka namin pabalik."
+                    ],
+                    "link": "$~Sumulat sa amin tungkol sa isang kinakailangan",
+                    "subject": "$~Katanungan ng paaralan tungkol sa Wordplay",
+                    "body": [
+                        "$~Pangalan ng paaralan o distrito:",
+                        "$~Iyong pangalan:",
+                        "$~Iyong tungkulin:",
+                        "$~May kinakailangan ba o regulasyong dapat naming sundin na hindi pa namin nasusunod?",
+                        "$~May isa ba na hindi namin kayang sundin sa kasalukuyan naming kalagayan?",
+                        "$~May iba ka pa bang gustong ipaalam sa amin?"
+                    ]
+                }
             },
             "updates": {
                 "header": "$~Mga Update",

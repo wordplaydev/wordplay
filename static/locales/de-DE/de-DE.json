@@ -9025,7 +9025,26 @@
                     "*Wordplay* möchte helfen, das zu ändern. Es ist eine Programmierplattform, die global sein soll und /alle/ Sprachen der Welt unterstützt, die aber auch /von/ den Sprachen der Welt handelt. Eine Plattform, auf der alle etwas erschaffen können, mit welchen Fähigkeiten sie auch haben, um interaktive Inhalte zu teilen, die jeder erleben kann. Für Kinder und junge Erwachsene, die sich durch interaktive Wörter, Emojis und Schriftgestaltung ausdrücken wollen, verspielt und kunstvoll. Nicht mit dem Ziel, Macht für sich selbst zu bekommen, sondern um eine Welt des Rechnens zu erschaffen, die die unglaubliche Stärke und die Notwendigkeit unserer schönen Unterschiede anerkennt.",
                     "Wir sind eine Gemeinschaft von Gestaltern, Lehrenden und Entwicklern, die diese Vision Wirklichkeit werden lassen wollen. Wir sind People of Color, wir sind trans, wir sind queer, wir haben Behinderungen, wir sind Einwanderer, wir sind Geflüchtete. Wir haben unseren Sitz an der <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> in Seattle, Washington, USA, einem Ort, der alle willkommen heißen möchte und die Zerstörungen durch Kolonialismus, die Menschen mit Behinderung ausgrenzen und rassistisch sind und bis heute andauern, rückgängig machen will. Diese Programmiersprache und Plattform zu machen ist ein kleiner Teil dieser Aufgabe. Sie zeigt einen Blick in eine Zukunft des Rechnens, in der /alle/ dazugehören.",
                     "Wir würden uns über deine Hilfe freuen. Lerne, <wie man mithelfen kann@https://github.com/wordplaydev/wordplay/wiki/contribute>, <spende@://donate> oder verfolge unseren <Fortschritt@https://github.com/amyjko/wordplay/milestones>. Schreibe unserer Gemeinschaftsorganisatorin <Amy@https://amyjko.phd>, wenn du Fragen hast."
-                ]
+                ],
+                "districts": {
+                    "header": "$~Für Schulen und Schulbezirke",
+                    "content": [
+                        "$~Überlegst du, ob *Wordplay* für deine Schule oder deinen Schulbezirk geeignet ist? Hier erfährst du, was wir versprechen können und was nicht.",
+                        "Wir sind keine Firma. Wir sind ein gemeinschaftliches Forschungsprojekt an einer gemeinnützigen Universität und haben keine Einnahmen. Das heißt, es gibt Vereinbarungen, die wir nicht unterschreiben können, so gerne wir auch helfen würden. Wir können nicht versprechen, die Anwaltskosten eines Schulbezirks zu zahlen, falls er verklagt wird. Wir können nicht versprechen, ein Problem zu einem festen Termin zu lösen. Ein Versprechen zu unterschreiben, das wir nicht halten können, würde niemandem helfen, dir am wenigsten.",
+                        "Hier ist, was wir versprechen können. Wir halten die Plattform an die Barrierefreiheit nach /WCAG 2.2 Stufe AA/, prüfen das automatisch bei jeder Änderung und beheben Probleme so schnell, wie es eine Gemeinschaft von Freiwilligen kann. Wir sammeln so wenig Daten wie möglich über die Menschen, die die Plattform nutzen, und verwenden diese Daten nur, um die Plattform zu betreiben. Auf unserer <rights//rights>-Seite steht genau, was wir speichern, und unser <source@https://github.com/wordplaydev/wordplay> ist öffentlich einsehbar, damit du das alles selbst prüfen kannst.",
+                        "Diese Plattform verändert sich ständig, und genauso ändern sich die Regeln, die du einhalten musst. Wenn du etwas brauchst, das wir noch nicht bieten, schreib uns an hi@wordplay.dev und erzähl uns davon. Die Betreuerinnen und Betreuer lesen deine Nachricht, und wir schreiben dir zurück."
+                    ],
+                    "link": "$~Schreib uns wegen einer Anforderung",
+                    "subject": "$~Anfrage einer Schule zu Wordplay",
+                    "body": [
+                        "$~Name der Schule oder des Schulbezirks:",
+                        "$~Dein Name:",
+                        "$~Deine Rolle:",
+                        "$~Gibt es eine Anforderung oder Vorschrift, die wir erfüllen müssen, es aber noch nicht tun?",
+                        "$~Gibt es eine, die wir so, wie wir jetzt sind, nicht erfüllen können?",
+                        "$~Gibt es sonst noch etwas, das wir wissen sollten?"
+                    ]
+                }
             },
             "login": {
                 "header": "Anmeldung",
