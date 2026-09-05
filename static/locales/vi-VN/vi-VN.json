@@ -9977,12 +9977,26 @@
                 },
                 "signin": {
                     "usesPassword": "$~Bạn đăng nhập bằng tên đăng nhập và mật khẩu. Nếu bạn không muốn nhớ mật khẩu, bạn có thể chuyển sang đăng nhập bằng một đường liên kết chúng tôi gửi qua email — tên đăng nhập của bạn vẫn giữ nguyên.",
-                    "usesEmail": "$~Bạn đăng nhập bằng một đường liên kết chúng tôi gửi qua email. Nếu bạn không muốn chờ email, bạn có thể chuyển sang dùng tên đăng nhập và mật khẩu — tên đăng nhập của bạn vẫn giữ nguyên.",
+                    "usesEmail": "$~Bạn đăng nhập bằng địa chỉ email. Nếu muốn dùng tên đăng nhập và mật khẩu thay vì email, bạn có thể đổi cách này — tên đăng nhập của bạn vẫn giữ nguyên.",
                     "notYet": "$~Bạn đăng nhập bằng tên đăng nhập và mật khẩu. Ở nơi bạn sống, bạn chưa đủ tuổi để dùng địa chỉ email ở đây — từ $date bạn sẽ có thể chuyển sang đăng nhập bằng một đường liên kết gửi qua email.",
                     "switched": "$~Xong rồi. Lần sau, hãy đăng nhập bằng tên đăng nhập và mật khẩu mới của bạn.",
                     "toPassword": {
                         "label": "$~Dùng mật khẩu thay thế",
                         "tip": "$~Chuyển sang đăng nhập bằng tên đăng nhập và mật khẩu"
+                    }
+                },
+                "username": {
+                    "change": "$~Tên đăng nhập là cách người khác nhìn thấy bạn, và nó cũng là phần đầu tên của mọi nhân vật bạn tạo ra. Bạn có thể đổi tên đăng nhập bất cứ lúc nào. Tên cũ vẫn hoạt động bình thường, nên bất cứ thứ gì từng trỏ đến nhân vật của bạn vẫn tìm thấy chúng.",
+                    "missing": "$~Bạn chưa có tên đăng nhập, nên người khác sẽ thấy bạn là *—* và bạn chưa thể tạo nhân vật. Hãy chọn một tên, và tên đó sẽ cố định.",
+                    "changed": "$~Xong. Đó là tên của bạn bây giờ.",
+                    "claimed": "$~Xong. Đó là tên của bạn.",
+                    "field": {
+                        "description": "$~Tên đăng nhập bạn muốn dùng",
+                        "placeholder": "$~tên đăng nhập"
+                    },
+                    "save": {
+                        "label": "$~Lưu",
+                        "tip": "$~Dùng tên đăng nhập này từ bây giờ"
                     }
                 }
             },

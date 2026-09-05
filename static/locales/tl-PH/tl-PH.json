@@ -10081,12 +10081,26 @@
                 },
                 "signin": {
                     "usesPassword": "$~Mag-sign in ka gamit ang isang username at isang password. Kung ayaw mong tandaan pa ang password, puwede kang lumipat sa pag-sign in gamit ang isang link na ipapadala namin sa email mo — mananatiling pareho ang username mo.",
-                    "usesEmail": "$~Mag-sign in ka gamit ang isang link na ipapadala namin sa email mo. Kung ayaw mong maghintay pa ng email, puwede kang lumipat sa isang username at password — mananatiling pareho ang username mo.",
+                    "usesEmail": "$~Nag-sign in ka gamit ang iyong email address. Kung mas gusto mo ang username at password sa halip, puwede kang lumipat — mananatiling pareho ang iyong username.",
                     "notYet": "$~Mag-sign in ka gamit ang isang username at isang password. Sa lugar mo, hindi ka pa sapat ang gulang para gumamit ng email address dito — mula $date, puwede ka nang lumipat sa pag-sign in gamit ang link na ipapadala sa email.",
                     "switched": "$~Tapos na. Sa susunod, mag-sign in ka gamit ang username mo at ang bago mong password.",
                     "toPassword": {
                         "label": "$~Gumamit na lang ng password",
                         "tip": "$~Lumipat sa pag-sign in gamit ang username at password mo"
+                    }
+                },
+                "username": {
+                    "change": "$~Ang iyong username ang paraan ng ibang tao para makita ka, at ito ang simula ng pangalan ng bawat karakter na gagawin mo. Puwede mo itong baguhin anumang oras. Gumagana pa rin ang iyong lumang pangalan, kaya kahit ano na tumutukoy na sa iyong mga karakter ay mahahanap pa rin sila.",
+                    "missing": "$~Wala ka pang username, kaya nakikita ka ng iba bilang *—* at hindi ka makakagawa ng mga karakter. Pumili ng isa at hindi na ito babaguhin.",
+                    "changed": "$~Tapos na. Iyan na ang iyong pangalan ngayon.",
+                    "claimed": "$~Tapos na. Iyan ang iyong pangalan.",
+                    "field": {
+                        "description": "$~Ang username na gusto mo",
+                        "placeholder": "$~username"
+                    },
+                    "save": {
+                        "label": "$~I-save",
+                        "tip": "$~Gamitin ang username na ito mula ngayon"
                     }
                 }
             },

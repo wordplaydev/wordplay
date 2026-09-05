@@ -10196,12 +10196,26 @@
                 },
                 "signin": {
                     "usesPassword": "$~Te conectezi cu un nume de utilizator și o parolă. Dacă preferi să nu ții minte o parolă, poți trece la conectarea printr-un link pe care ți-l trimitem prin email — numele tău de utilizator rămâne același.",
-                    "usesEmail": "$~Te conectezi printr-un link pe care ți-l trimitem prin email. Dacă preferi să nu aștepți emailul, poți trece la un nume de utilizator și o parolă — numele tău de utilizator rămâne același.",
+                    "usesEmail": "$~Te conectezi cu adresa ta de email. Dacă preferi să folosești un nume de utilizator și o parolă în loc, poți schimba — numele tău de utilizator rămâne același.",
                     "notYet": "$~Te conectezi cu un nume de utilizator și o parolă. Acolo unde locuiești, încă nu ai vârsta necesară pentru a folosi o adresă de email aici — de la $date vei putea trece la conectarea printr-un link trimis pe email.",
                     "switched": "$~Gata. Data viitoare, conectează-te cu numele tău de utilizator și noua ta parolă.",
                     "toPassword": {
                         "label": "$~Folosește o parolă în schimb",
                         "tip": "$~Treci la conectarea cu numele tău de utilizator și o parolă"
+                    }
+                },
+                "username": {
+                    "change": "$~Numele tău de utilizator este felul în care ceilalți te văd, și începe numele fiecărui personaj pe care îl creezi. Îl poți schimba oricând vrei. Numele tău vechi continuă să funcționeze, așa că orice lucru care indica spre personajele tale tot le găsește.",
+                    "missing": "$~Încă nu ai un nume de utilizator, așa că ceilalți te văd ca *—* și nu poți crea personaje. Alege unul și acesta rămâne fix.",
+                    "changed": "$~Gata. Acesta este numele tău acum.",
+                    "claimed": "$~Gata. Acesta este numele tău.",
+                    "field": {
+                        "description": "$~Numele de utilizator pe care îl vrei",
+                        "placeholder": "$~nume de utilizator"
+                    },
+                    "save": {
+                        "label": "$~Salvează",
+                        "tip": "$~Folosește acest nume de utilizator de acum înainte"
                     }
                 }
             },

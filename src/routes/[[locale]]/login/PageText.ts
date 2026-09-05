@@ -68,6 +68,21 @@ type PageText = {
         /** [formatted] Email or username must match to delete account */
         match: FormattedText;
     };
+    /** Choosing or changing the name other people see (#628) */
+    username: {
+        /** [formatted] Explains what a username is for, and offers to change it */
+        change: FormattedText;
+        /** [formatted] Shown when this account has no username at all: what that costs, and an invitation to pick one */
+        missing: FormattedText;
+        /** [plain] Confirms the new username took effect */
+        changed: string;
+        /** [plain] Confirms a first username was recorded */
+        claimed: string;
+        /** The username someone wants */
+        field: FieldText;
+        /** Save the chosen username */
+        save: ButtonText;
+    };
     /** How someone signs in, and moving between the two ways (#628) */
     signin: {
         /** [formatted] Explains that this account signs in with a username and password, and offers an email address instead. Shown only when this creator is old enough to hold one — see notYet for the other case. */

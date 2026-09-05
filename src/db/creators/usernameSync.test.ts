@@ -53,6 +53,16 @@ test('both copies accept and refuse exactly the same names', () => {
         );
 });
 
+test('both copies repair a name the same way', () => {
+    // The client suggests a repair as you type; the script applies one in bulk.
+    // If they disagreed, the form would offer a name the repair would not
+    // produce, or refuse one it would.
+    for (const name of Corpus)
+        expect(server.repairUsername(name), name).toBe(
+            client.repairUsername(name),
+        );
+});
+
 test('both copies fold to the same key', () => {
     // The fold decides uniqueness. If the two disagreed, a name could be
     // reserved under one key and looked up under another, and two accounts

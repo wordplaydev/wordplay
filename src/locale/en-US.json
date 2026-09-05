@@ -10224,9 +10224,23 @@
                     "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email or username to confirm that this is what you want.",
                     "name": "Pick an emoji or custom character to represent yourself to others."
                 },
+                "username": {
+                    "change": "Your username is how other people see you, and it begins the name of every character you make. You can change it whenever you like. Your old name keeps working, so anything already pointing at your characters still finds them.",
+                    "missing": "You don't have a username yet, so other people see you as *—* and you can't make characters. Pick one and that's fixed.",
+                    "changed": "Done. That’s your name now.",
+                    "claimed": "Done. That’s your name.",
+                    "field": {
+                        "description": "The username you want",
+                        "placeholder": "username"
+                    },
+                    "save": {
+                        "label": "Save",
+                        "tip": "Use this username from now on"
+                    }
+                },
                 "signin": {
                     "usesPassword": "You sign in with a username and a password. If you'd rather not have a password to remember, you can switch to signing in with a link we email you — your username stays the same.",
-                    "usesEmail": "You sign in with a link we email you. If you'd rather not wait for email, you can switch to a username and a password — your username stays the same.",
+                    "usesEmail": "You sign in with your email address. If you’d rather have a username and a password instead, you can switch — your username stays the same.",
                     "notYet": "You sign in with a username and a password. Where you live, you’re not old enough yet to use an email address here — from $date you’ll be able to switch to signing in with an emailed link instead.",
                     "switched": "Done. Next time, sign in with your username and your new password.",
                     "toPassword": {

@@ -183,6 +183,12 @@ export const CharacterSchema = z.object({
     updated: z.number(),
     // owner username/Wordplay name (e.g., "hello/FunnyAnimal")
     name: z.string(),
+    // Full names this character used to have, kept when its owner renames.
+    // A `@username/Character` reference is a language token and may sit in
+    // anyone's project, so the old name has to keep resolving — and rewriting
+    // other people's source to chase a rename would be far worse than a lookup
+    // that falls back. Optional so no stored character needs upgrading.
+    aliases: z.array(z.string()).exactOptional(),
     // A list of tagged names in Wordplay syntax
     description: z.string(),
     // In rendering order, back to front. One union, not a copy of the one

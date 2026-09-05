@@ -9126,12 +9126,26 @@
                 "subtitle": "$~Guardar, colaborar y compartir",
                 "signin": {
                     "usesPassword": "$~Inicias sesión con un nombre de usuaria y una contraseña. Si prefieres no tener que recordar una contraseña, puedes cambiar a iniciar sesión con un enlace que te enviamos por correo electrónico — tu nombre de usuaria sigue siendo el mismo.",
-                    "usesEmail": "$~Inicias sesión con un enlace que te enviamos por correo electrónico. Si prefieres no esperar el correo, puedes cambiar a un nombre de usuaria y una contraseña — tu nombre de usuaria sigue siendo el mismo.",
+                    "usesEmail": "$~Entras con tu correo electrónico. Si prefieres tener un nombre de usuario y una contraseña en su lugar, puedes cambiar — tu nombre de usuario se queda igual.",
                     "notYet": "$~Inicias sesión con un nombre de usuaria y una contraseña. En el lugar donde vives, todavía no tienes edad suficiente para usar un correo electrónico aquí — a partir del $date podrás cambiar a iniciar sesión con un enlace enviado por correo en su lugar.",
                     "switched": "$~Listo. La próxima vez, inicia sesión con tu nombre de usuaria y tu nueva contraseña.",
                     "toPassword": {
                         "label": "$~usar una contraseña en su lugar",
                         "tip": "$~cambiar a iniciar sesión con tu nombre de usuaria y una contraseña"
+                    }
+                },
+                "username": {
+                    "change": "$~Tu nombre de usuario es cómo te ve la demás gente, y con él comienza el nombre de cada personaje que creas. Puedes cambiarlo cuando quieras. Tu nombre anterior sigue funcionando, así que cualquier cosa que ya apunte a tus personajes los sigue encontrando.",
+                    "missing": "$~Todavía no tienes un nombre de usuario, así que la demás gente te ve como *—* y no puedes crear personajes. Elige uno y eso queda fijo.",
+                    "changed": "$~Listo. Ese es tu nombre ahora.",
+                    "claimed": "$~Listo. Ese es tu nombre.",
+                    "field": {
+                        "description": "$~El nombre de usuario que quieres",
+                        "placeholder": "$~nombre de usuario"
+                    },
+                    "save": {
+                        "label": "$~guardar",
+                        "tip": "$~usar este nombre de usuario de ahora en adelante"
                     }
                 }
             },

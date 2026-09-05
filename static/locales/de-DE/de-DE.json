@@ -9122,12 +9122,26 @@
                 "subtitle": "$~Speichern, zusammenarbeiten und teilen",
                 "signin": {
                     "usesPassword": "$~Du meldest dich mit einem Benutzernamen und einem Passwort an. Wenn du dir kein Passwort merken möchtest, kannst du auch mit einem Link anmelden, den wir dir per E-Mail schicken — dein Benutzername bleibt dabei gleich.",
-                    "usesEmail": "$~Du meldest dich mit einem Link an, den wir dir per E-Mail schicken. Wenn du nicht auf eine E-Mail warten möchtest, kannst du zu einem Benutzernamen und einem Passwort wechseln — dein Benutzername bleibt dabei gleich.",
+                    "usesEmail": "$~Du meldest dich mit deiner E-Mail-Adresse an. Wenn du lieber einen Benutzernamen und ein Passwort verwenden möchtest, kannst du wechseln — dein Benutzername bleibt dabei gleich.",
                     "notYet": "$~Du meldest dich mit einem Benutzernamen und einem Passwort an. Dort, wo du wohnst, bist du noch nicht alt genug, um hier eine E-Mail-Adresse zu nutzen — ab dem $date kannst du stattdessen mit einem zugeschickten Link anmelden.",
                     "switched": "$~Fertig. Melde dich beim nächsten Mal mit deinem Benutzernamen und deinem neuen Passwort an.",
                     "toPassword": {
                         "label": "$~Stattdessen ein Passwort verwenden",
                         "tip": "$~Zur Anmeldung mit Benutzername und Passwort wechseln"
+                    }
+                },
+                "username": {
+                    "change": "$~Dein Benutzername zeigt anderen Menschen, wer du bist. Er steht am Anfang des Namens jeder Figur, die du erstellst. Du kannst ihn jederzeit ändern. Dein alter Name funktioniert weiterhin, also findet alles, was schon auf deine Figuren verweist, sie trotzdem noch.",
+                    "missing": "$~Du hast noch keinen Benutzernamen. Deshalb sehen dich andere Menschen als *—* und du kannst keine Figuren erstellen. Wähle einen Namen — danach steht er fest.",
+                    "changed": "$~Fertig. Das ist jetzt dein Name.",
+                    "claimed": "$~Fertig. Das ist dein Name.",
+                    "field": {
+                        "description": "$~Der gewünschte Benutzername",
+                        "placeholder": "$~Benutzername"
+                    },
+                    "save": {
+                        "label": "$~Speichern",
+                        "tip": "$~Diesen Benutzernamen ab jetzt verwenden"
                     }
                 }
             },

@@ -10073,12 +10073,26 @@
                 },
                 "signin": {
                     "usesPassword": "$~Inicia sessão com um nome de utilizador e uma palavra-passe. Se preferir não ter de se lembrar de uma palavra-passe, pode mudar para iniciar sessão com uma ligação que lhe enviamos por email — o seu nome de utilizador mantém-se igual.",
-                    "usesEmail": "$~Inicia sessão com uma ligação que lhe enviamos por email. Se preferir não esperar pelo email, pode mudar para um nome de utilizador e uma palavra-passe — o seu nome de utilizador mantém-se igual.",
+                    "usesEmail": "$~Inicia sessão com o seu endereço de email. Se preferir ter um nome de utilizador e uma palavra-passe, pode mudar — o seu nome de utilizador mantém-se igual.",
                     "notYet": "$~Inicia sessão com um nome de utilizador e uma palavra-passe. No lugar onde vive, ainda não tem idade suficiente para usar um endereço de email aqui — a partir de $date poderá mudar para iniciar sessão com uma ligação enviada por email.",
                     "switched": "$~Concluído. Da próxima vez, inicie sessão com o seu nome de utilizador e a sua nova palavra-passe.",
                     "toPassword": {
                         "label": "$~usar uma palavra-passe em vez disso",
                         "tip": "$~mudar para iniciar sessão com o seu nome de utilizador e uma palavra-passe"
+                    }
+                },
+                "username": {
+                    "change": "$~O seu nome de utilizador é como as outras pessoas o(a) veem, e é com ele que começa o nome de cada personagem que cria. Pode alterá-lo quando quiser. O seu nome antigo continua a funcionar, por isso tudo o que já apontava para as suas personagens continua a encontrá-las.",
+                    "missing": "$~Ainda não tem um nome de utilizador, por isso as outras pessoas veem-no(a) como *—* e não pode criar personagens. Escolha um e isso fica definido.",
+                    "changed": "$~Feito. Esse é agora o seu nome.",
+                    "claimed": "$~Feito. Esse é o seu nome.",
+                    "field": {
+                        "description": "$~O nome de utilizador que deseja",
+                        "placeholder": "$~nome de utilizador"
+                    },
+                    "save": {
+                        "label": "$~guardar",
+                        "tip": "$~usar este nome de utilizador a partir de agora"
                     }
                 }
             },

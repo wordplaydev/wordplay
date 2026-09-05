@@ -10,12 +10,14 @@
     import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
+    import { getUsername } from '@db/creators/handle.svelte';
     import { DB } from '@db/Database';
     import { localeGoto } from '@util/localeGoto';
     import { updateProfile, type User } from 'firebase/auth';
     import ChangeEmail from './ChangeEmail.svelte';
     import ChangePassword from './ChangePassword.svelte';
     import SigninMethod from './SigninMethod.svelte';
+    import Username from './Username.svelte';
     import DeleteAccount from './DeleteAccount.svelte';
 
     interface Props {
@@ -24,7 +26,10 @@
 
     let { user }: Props = $props();
 
-    let creator = $derived(Creator.from(user));
+    // Pass the handle: Creator.from otherwise derives the name from the auth
+    // address, which a rename deliberately leaves alone — so the header would
+    // keep showing the old name while everyone else saw the new one.
+    let creator = $derived(Creator.from(user, getUsername(user)));
 
     // Items (across every domain) with edits not yet saved online. Logout wipes
     // the local cache, so it discards them; warn when there are any, but never
@@ -104,6 +109,9 @@
             <ChangeEmail {user} />
         </Action>
     {/if}
+    <Action>
+        <Username {user} />
+    </Action>
     <Action>
         <SigninMethod {user} />
     </Action>

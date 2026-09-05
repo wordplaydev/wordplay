@@ -10200,12 +10200,26 @@
                 },
                 "signin": {
                     "usesPassword": "$~Kamu masuk dengan nama pengguna dan kata sandi. Kalau kamu tidak mau repot mengingat kata sandi, kamu bisa beralih untuk masuk dengan tautan yang kami kirim lewat email — nama penggunamu tetap sama.",
-                    "usesEmail": "$~Kamu masuk dengan tautan yang kami kirim lewat email. Kalau kamu tidak mau menunggu email, kamu bisa beralih ke nama pengguna dan kata sandi — nama penggunamu tetap sama.",
+                    "usesEmail": "$~Kamu masuk dengan alamat emailmu. Jika kamu lebih suka pakai nama pengguna dan kata sandi, kamu bisa beralih — nama penggunamu tetap sama.",
                     "notYet": "$~Kamu masuk dengan nama pengguna dan kata sandi. Di tempat tinggalmu, kamu belum cukup umur untuk memakai alamat email di sini — mulai $date kamu bisa beralih untuk masuk dengan tautan lewat email.",
                     "switched": "$~Selesai. Lain kali, masuklah dengan nama penggunamu dan kata sandi barumu.",
                     "toPassword": {
                         "label": "$~Pakai kata sandi saja",
                         "tip": "$~Beralih ke cara masuk dengan nama pengguna dan kata sandi"
+                    }
+                },
+                "username": {
+                    "change": "$~Nama penggunamu adalah cara orang lain melihatmu, dan itu menjadi awal dari nama setiap karakter yang kamu buat. Kamu bisa mengubahnya kapan saja. Nama lamamu tetap bekerja, jadi apa pun yang sudah menunjuk ke karaktermu masih bisa menemukannya.",
+                    "missing": "$~Kamu belum punya nama pengguna, jadi orang lain melihatmu sebagai *—* dan kamu belum bisa membuat karakter. Pilih satu nama, dan itu akan tetap.",
+                    "changed": "$~Selesai. Itu namamu sekarang.",
+                    "claimed": "$~Selesai. Itu namamu.",
+                    "field": {
+                        "description": "$~Nama pengguna yang kamu inginkan",
+                        "placeholder": "$~nama pengguna"
+                    },
+                    "save": {
+                        "label": "$~Simpan",
+                        "tip": "$~Gunakan nama pengguna ini mulai sekarang"
                     }
                 }
             },
