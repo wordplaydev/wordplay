@@ -39,7 +39,14 @@ describe('font artifacts are in sync with the manifest + font files', () => {
         expect(problems).toEqual([]);
     });
 
-    test('metrics.generated.ts matches what the font files measure', async () => {
-        expect(await checkMetrics(FaceMetrics)).toEqual([]);
-    });
+    // Explicit timeout because this one re-measures every font file rather than
+    // comparing hashes: ~0.6s on a dev machine, but CI runs it alongside three
+    // other workers and it reached 5.7s, tripping the 5s default.
+    test(
+        'metrics.generated.ts matches what the font files measure',
+        { timeout: 30_000 },
+        async () => {
+            expect(await checkMetrics(FaceMetrics)).toEqual([]);
+        },
+    );
 });

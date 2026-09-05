@@ -85,20 +85,27 @@ test.describe('how-to editor form', () => {
         await createViaForm(page, galleryId, 'A Draggable Draft', true);
 
         await page.goto(`/en-US/gallery/${galleryId}/howto`);
-        // Attached, not visible: canvas tiles are virtualized to the camera's
-        // viewport, and a computed style reads fine off an unrendered tile.
+        // Canvas tiles are virtualized to the camera's viewport, so a tile can
+        // mount and unmount as the camera and the canvas size settle — and
+        // getComputedStyle on a node that unmounted between resolving the
+        // locator and reading it answers '' for every property. Poll rather
+        // than read once, so the assertion is about the rendered tile.
         const title = page.locator('.howto .markup').first();
         await title.waitFor({ state: 'attached' });
-        // WebKit exposes only the prefixed property on the computed style.
-        expect(
-            await title.evaluate((e) => {
-                const style = getComputedStyle(e);
-                return (
-                    style.userSelect ||
-                    style.getPropertyValue('-webkit-user-select')
-                );
-            }),
-        ).toBe('none');
+        await expect
+            .poll(async () =>
+                title
+                    // WebKit exposes only the prefixed property.
+                    .evaluate((e) => {
+                        const style = getComputedStyle(e);
+                        return (
+                            style.userSelect ||
+                            style.getPropertyValue('-webkit-user-select')
+                        );
+                    })
+                    .catch(() => undefined),
+            )
+            .toBe('none');
     });
 
     test('editing a draft autosaves the new title to the cloud', async ({

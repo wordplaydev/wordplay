@@ -43,6 +43,14 @@ const localized = readdirSync(dir, { withFileTypes: true })
  *  data-dump example costs seconds to analyze and covers nothing new. */
 const MaxTestableLength = 50_000;
 
+/**
+ * Enough for `FrenchNumbers.wp`, the slowest example here: it spends about 2s
+ * per locale on a dev machine, and CI runs several times slower under the
+ * suite's four workers — 8.1s when it first tripped the 5s default. The rest
+ * of the examples finish in well under 300ms.
+ */
+const SlowestExample = 30_000;
+
 const localeTexts = new Map<string, LocaleText>();
 function localeText(code: string): LocaleText {
     let text = localeTexts.get(code);
@@ -126,6 +134,7 @@ test.each(localized)(
             `Conflicts beyond the master's own in this locale: ${conflicts.join(', ')}`,
         ).toBeLessThanOrEqual(baseline);
     },
+    SlowestExample,
 );
 
 /**
