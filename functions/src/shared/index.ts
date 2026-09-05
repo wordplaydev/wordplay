@@ -1,7 +1,3 @@
-// FUNCTION emailExists
-export type EmailExistsInputs = string[];
-export type EmailExistsOutput = Record<string, boolean> | undefined;
-
 // FUNCTION getLLMTranslations
 /** Translate a project's strings with an LLM (Claude). The client's
  *  translateProjectContent handles the AST (names, docs, text) and sends the

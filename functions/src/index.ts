@@ -24,8 +24,6 @@ import type {
     UsernameAvailableOutput,
     CreateClassInputs,
     CreateClassOutput,
-    EmailExistsInputs,
-    EmailExistsOutput,
     GetLLMTranslationsInputs,
     ModerateGalleryInputs,
     ModerateInputs,
@@ -34,7 +32,6 @@ import type {
 } from 'shared-types';
 
 import chatDeletedHandler from './chatDeleted.js';
-import emailExistsHandler from './emailExists.js';
 import claimUsernameHandler from './claimUsernameCallable.js';
 import findCreatorHandler from './findCreator.js';
 import joinAccountHandler from './joinAccount.js';
@@ -95,12 +92,6 @@ const resendKey = defineSecret('RESEND_API_KEY');
 const throttlePepper = defineSecret('THROTTLE_PEPPER');
 
 export const getCreators = onCall<UserIdentifier[]>(cors, getCreatorsHandler);
-
-/** Given a list of email addresses, return a map email => boolean indicating whether a corresponding account exists. Kept one release past the client that used it, since a long-open tab holds a stale bundle; deleted in the follow-up to #628. */
-export const emailExists = onCall<
-    EmailExistsInputs,
-    Promise<EmailExistsOutput>
->(cors, emailExistsHandler);
 
 /**
  * Create an account (#628). Enforced because minting accounts is what makes the
