@@ -5,7 +5,6 @@ import { usernameFromEmail } from './username.js';
 
 export type UserMatch = {
     uid: string;
-    email: string | null;
     name: string | null;
     /**
      * The creator's username (#628): their handle when they have one, and
@@ -15,11 +14,10 @@ export type UserMatch = {
      * Null only for an email account made before handles, which cannot happen
      * — email sign-up did not exist — so in practice this is always a name.
      *
-     * `email` is still returned alongside it for one release. Nothing reads it:
-     * removing it is the point of #628, since this callable is unauthenticated
-     * and an address it returns is public. But deploy.yml ships functions and
-     * hosting together with no ordering guarantee, so the field has to outlive
-     * the client that read it by exactly one release.
+     * There is deliberately no `email` field. This callable is unauthenticated,
+     * because a gallery page has to name a project's owner to a visitor who
+     * isn't signed in — so anything it returns is public. It used to return
+     * addresses, and Creator.getUsername rendered them verbatim.
      */
     username: string | null;
 };
@@ -31,7 +29,13 @@ const GET_USERS_LIMIT = 100;
 export default async function getCreators(
     request: CallableRequest<UserIdentifier[]>,
 ): Promise<UserMatch[]> {
-    const identifiers = request.data;
+    // Uids only. Looking someone up by address goes through findCreator, which
+    // requires a signed-in caller and answers a uid alone — so an address can
+    // still find someone, but can never be used to read one back.
+    const identifiers = request.data.filter(
+        (id): id is { uid: string } =>
+            typeof id === 'object' && id !== null && 'uid' in id,
+    );
     const chunks: UserIdentifier[][] = [];
     for (let i = 0; i < identifiers.length; i += GET_USERS_LIMIT)
         chunks.push(identifiers.slice(i, i + GET_USERS_LIMIT));
@@ -48,7 +52,6 @@ export default async function getCreators(
     const matches: UserMatch[] = [];
     for (const user of users)
         matches.push({
-            email: user.email ?? null,
             uid: user.uid,
             name: user.displayName ?? null,
             username:

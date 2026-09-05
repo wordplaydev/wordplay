@@ -16,7 +16,7 @@ import { UsernameEmailDomain } from './username.js';
  * always tried to maintain that (it reveals the paste field either way), but it
  * was doing so with a matched pair of branches around an `emailExists` call
  * that any caller could make directly. Deciding here makes it true by
- * construction, and lets emailExists be deleted.
+ * construction, which is what let emailExists be deleted.
  */
 
 /** A floor on how long the call takes, so the found and not-found paths can't
