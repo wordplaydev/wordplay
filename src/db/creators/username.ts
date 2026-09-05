@@ -28,7 +28,6 @@ export const UsernameMaxLength = 30;
 export const ReservedLetters = 'ƒø';
 
 const Charset = /^[\p{L}\p{M}\p{N}]+$/u;
-const StartsWithLetter = /^\p{L}/u;
 const LatinRun = /^[\p{Script=Latin}\p{Nd}\p{Script=Inherited}]+$/u;
 const AnyLatin = /\p{Script=Latin}/u;
 
@@ -54,6 +53,14 @@ export function foldUsername(text: string): string {
  *
  * Not applied to names that already exist — see isPlausibleUsername.
  */
+/**
+ * Note there is deliberately no "must start with a letter" rule. There was one,
+ * on the grounds that a digit-leading name reads as a number — but the grammar
+ * accepts one (`ReferenceNameRegExPattern`'s Latin branch includes `\p{Nd}`),
+ * and three accounts already had such a name, one of them owning three
+ * characters that resolve today. An aesthetic rule stricter than the grammar is
+ * not worth breaking working references over.
+ */
 export function isValidUsername(text: string): boolean {
     const points = [...text];
     if (points.length < UsernameLength || points.length > UsernameMaxLength)
@@ -65,9 +72,6 @@ export function isValidUsername(text: string): boolean {
     if (text.normalize('NFKC') !== text) return false;
     if (!Charset.test(text)) return false;
     if (points.some((c) => ReservedLetters.includes(c))) return false;
-    // A leading digit or combining mark is a poor handle and reads as a number
-    // in some contexts.
-    if (!StartsWithLetter.test(text)) return false;
     // One script run, because ReferenceNameRegExPattern is `(?:Latin+|NonLatin+)`
     // — a mixed name like `aliceπ` lexes as `alice` and the rest is lost, so the
     // character reference would silently point somewhere else.

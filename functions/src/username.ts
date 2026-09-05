@@ -21,7 +21,6 @@ export const UsernameMaxLength = 30;
 export const ReservedLetters = 'ƒø';
 
 const Charset = /^[\p{L}\p{M}\p{N}]+$/u;
-const StartsWithLetter = /^\p{L}/u;
 const LatinRun = /^[\p{Script=Latin}\p{Nd}\p{Script=Inherited}]+$/u;
 const AnyLatin = /\p{Script=Latin}/u;
 
@@ -34,6 +33,14 @@ export function foldUsername(text: string): string {
 
 /** Whether a username may be claimed. See the client copy for why each rule is
  *  here; the two must stay identical. */
+/**
+ * Note there is deliberately no "must start with a letter" rule. There was one,
+ * on the grounds that a digit-leading name reads as a number — but the grammar
+ * accepts one (`ReferenceNameRegExPattern`'s Latin branch includes `\p{Nd}`),
+ * and three accounts already had such a name, one of them owning three
+ * characters that resolve today. An aesthetic rule stricter than the grammar is
+ * not worth breaking working references over.
+ */
 export function isValidUsername(text: string): boolean {
     const points = [...text];
     if (points.length < UsernameLength || points.length > UsernameMaxLength)
@@ -41,8 +48,22 @@ export function isValidUsername(text: string): boolean {
     if (text.normalize('NFKC') !== text) return false;
     if (!Charset.test(text)) return false;
     if (points.some((c) => ReservedLetters.includes(c))) return false;
-    if (!StartsWithLetter.test(text)) return false;
     return LatinRun.test(text) || !AnyLatin.test(text);
+}
+
+/**
+ * The nearest claimable spelling of a name, or something still unclaimable when
+ * there isn't one.
+ *
+ * Keeps only what a name may contain, because the reserved characters *are* the
+ * problem: `_`, `.`, `-`, `$`, and `&` are all Wordplay operators, so a name
+ * holding one cannot be half of a `@username/Character` reference. Stripping
+ * them is the entire repair, and anything more would be inventing a name the
+ * creator did not choose — which is why the caller checks the result rather
+ * than trusting it.
+ */
+export function repairUsername(name: string): string {
+    return [...name].filter((c) => /[\p{L}\p{M}\p{N}]/u.test(c)).join('');
 }
 
 /** The domain appended to a username to make an address Firebase Auth accepts,

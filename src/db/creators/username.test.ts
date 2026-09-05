@@ -47,6 +47,14 @@ describe('claiming', () => {
         'こんにちは',
         'مرحبابك',
         'மனிதன்',
+        // A digit may lead. There was a rule against it, on the grounds that
+        // such a name reads as a number — but the grammar accepts one, and
+        // three real accounts had one, so the rule only broke working
+        // references. See the round-trip test below, which is the real
+        // constraint.
+        '2alice',
+        '103111',
+        '76hjpace',
     ])('%s may be claimed', (name) => {
         expect(isValidUsername(name)).toBe(true);
     });
@@ -59,7 +67,6 @@ describe('claiming', () => {
         ['a-bcde', 'hyphen is an operator'],
         ['a.bcde', 'period is the property symbol'],
         ['alice@example.com', 'an email is not a username'],
-        ['2alice', 'starts with a digit'],
         ['øalice', 'ø is none'],
         ['ƒunction', 'ƒ is function'],
         ['aliceπ', 'mixes Latin and Greek'],
@@ -82,6 +89,9 @@ describe('claiming', () => {
             'こんにちは',
             'مرحبابك',
             'மனிதன்',
+            '2alice',
+            '103111',
+            '76hjpace',
             'a'.repeat(UsernameMaxLength),
         ];
         for (const name of names) {
@@ -116,7 +126,7 @@ test('no letter outside the reserved list is rejected by the tokenizer', () => {
 });
 
 describe('signing in', () => {
-    test.each(['a_bcde', 'a-bcde', 'a.bcde', '2alice', 'øalice'])(
+    test.each(['a_bcde', 'a-bcde', 'a.bcde', 'øalice'])(
         '%s stays usable, because an account may already have it',
         (name) => {
             // Tightening the claim rule must never lock an existing creator out
