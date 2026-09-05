@@ -2558,7 +2558,8 @@
         // wrong character. Effects flush on microtasks, which CAN run in that
         // window. The input event clears the flag and syncs.
         if (input === null || composing || skipNextInput) return;
-        const text = current.source.getCode().toString();
+        const code = current.source.getCode();
+        const text = code.toString();
         if (input.value !== text) input.value = text;
         // Map the caret to a field selection: a position collapses, a range
         // selects, and a node selection selects its whole token span — which for
@@ -2574,8 +2575,13 @@
                         current.getTextPosition(false) ?? 0,
                     ]);
         // A range's anchor can follow its focus; the field needs them ordered.
-        const low = Math.min(start, end);
-        const high = Math.max(start, end);
+        // A caret position counts graphemes and a field's selection counts UTF-16
+        // code units, so an unconverted offset lands inside a surrogate pair after
+        // any emoji (#1329). Converting through the same UnicodeString the value
+        // came from is what makes the two agree: it is already normalized, so its
+        // code unit offsets index `text` exactly.
+        const low = code.getCodeUnitPosition(Math.min(start, end));
+        const high = code.getCodeUnitPosition(Math.max(start, end));
         // iOS draws a focused field's selection as native UI — a grey band and
         // round drag handles — painted above the page, which `opacity: 0` doesn't
         // suppress. The mirror lays the source out as plain wrapped text, so that

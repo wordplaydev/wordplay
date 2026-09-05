@@ -130,6 +130,9 @@ const SelectionPreviewLength = 60;
 
 export default class Caret {
     readonly source: Source;
+    /** A text position here counts *graphemes*, matching `Source.tokenPositions`,
+     *  never UTF-16 code units — anything handing one to a DOM API has to convert
+     *  (see `UnicodeString.getCodeUnitPosition`). */
     readonly position: CaretPosition;
     /** The remembered horizontal pixel position ("goal column") for visual
      *  vertical movement, so moving through a short line and back to a longer one

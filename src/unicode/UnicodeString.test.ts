@@ -60,3 +60,47 @@ test('getGraphemes agrees at the ASCII boundary', () => {
         expect(new UnicodeString(text).getGraphemes()).toEqual(segmented(text));
     }
 });
+
+// Caret and token positions count graphemes; a DOM text field's selection counts
+// UTF-16 code units, and the editor's screen-reader mirror crosses that boundary
+// (#1329). Check every boundary against the Segmenter rather than hand-written
+// numbers, so a prefix of the string is exactly what the offset cuts.
+test.each([
+    ['empty', ''],
+    ['plain ascii', 'hello world'],
+    ['mixed ascii and emoji', 'say \u{1F44D} now'],
+    ['the issue\u2019s repro', '\u{1F508}: 1'],
+    [
+        'emoji',
+        '\u{1F337}\u{1F381}\u{1F4A9}\u{1F61C}\u{1F44D}\u{1F3F3}\uFE0F\u200D\u{1F308}',
+    ],
+    ['skin tone', '\u{1F44D}\u{1F3FD}'],
+    ['keycap', '1\uFE0F\u20E3'],
+    ['combining mark', 'e\u0301'],
+    ['hebrew with niqqud', '\u05D1\u05BC\u05D5\u05BC\u05E2\u05B8\u05D4'],
+    ['devanagari cluster', '\u0915\u094D\u0937\u093F'],
+])('getCodeUnitPosition cuts at a grapheme boundary: %s', (_name, text) => {
+    const string = new UnicodeString(text);
+    const graphemes = segmented(text);
+    for (let index = 0; index <= graphemes.length; index++)
+        expect(
+            string.toString().slice(0, string.getCodeUnitPosition(index)),
+        ).toBe(graphemes.slice(0, index).join(''));
+    // The ends specifically: nothing before the first boundary, everything before
+    // the last one.
+    expect(string.getCodeUnitPosition(0)).toBe(0);
+    expect(string.getCodeUnitPosition(string.getLength())).toBe(
+        string.toString().length,
+    );
+});
+
+// A caller needs a number for setSelectionRange, so an out-of-range position
+// clamps rather than returning undefined.
+test('getCodeUnitPosition clamps out of range positions', () => {
+    const string = new UnicodeString('\u{1F600}a');
+    expect(string.getCodeUnitPosition(-1)).toBe(0);
+    expect(string.getCodeUnitPosition(-100)).toBe(0);
+    expect(string.getCodeUnitPosition(2)).toBe(3);
+    expect(string.getCodeUnitPosition(3)).toBe(3);
+    expect(string.getCodeUnitPosition(100)).toBe(3);
+});

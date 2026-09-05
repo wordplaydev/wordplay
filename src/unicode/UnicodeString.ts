@@ -105,6 +105,22 @@ export default class UnicodeString {
         return this.getGraphemes().length;
     }
 
+    /**
+     * The UTF-16 code unit offset of the given grapheme boundary, clamped to the
+     * string. Grapheme offsets are what the language counts — caret and token
+     * positions — while a DOM text field's selection counts code units, so
+     * anything crossing that boundary has to convert or it lands mid-character
+     * (#1329).
+     */
+    getCodeUnitPosition(position: number) {
+        const segments = this.getGraphemes();
+        const end = Math.max(0, Math.min(position, segments.length));
+        let offset = 0;
+        for (let index = 0; index < end; index++)
+            offset += segments[index].length;
+        return offset;
+    }
+
     getLines() {
         return this.text.split('\n').map((t) => new UnicodeString(t));
     }

@@ -163,6 +163,24 @@ test.describe('editor echo mirrors the source into the textarea', () => {
         await expect.poll(async () => (await mirror(page)).value).toBe('1\n2');
     });
 
+    test('a selection after an emoji counts code units, not graphemes', async ({
+        page,
+    }) => {
+        await emptyEditor(page);
+        // A caret position counts graphemes and the field's selection counts UTF-16
+        // code units, so before #1329 the collapsed caret landed inside the
+        // surrogate pair and the platform echoed half a character.
+        await page.keyboard.type('\u{1F600}1');
+        await expect
+            .poll(async () => await mirror(page))
+            .toEqual({ value: '\u{1F600}1', start: 3, end: 3 });
+        // The node selection spans the whole token, so its end converts too.
+        await page.keyboard.press('ArrowLeft');
+        await expect
+            .poll(async () => await mirror(page))
+            .toEqual({ value: '\u{1F600}1', start: 0, end: 3 });
+    });
+
     test('Shift+Enter still inserts a line through the input path', async ({
         page,
     }) => {
