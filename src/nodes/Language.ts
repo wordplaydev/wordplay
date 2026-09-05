@@ -24,7 +24,7 @@ import {
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { RegionCode } from '@locale/Regions';
+import { isRegionCode, type RegionCode } from '@locale/Regions';
 import { SupportedLocales } from '@locale/SupportedLocales';
 import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
@@ -40,10 +40,10 @@ import Token from '@nodes/Token';
 const SupportedLanguageCodes = Array.from(
     new Set(SupportedLocales.map((locale) => locale.split('-')[0])),
 );
-const SupportedRegionCodes = Array.from(
+const SupportedRegionCodes: RegionCode[] = Array.from(
     new Set(
         SupportedLocales.map((locale) => locale.split('-')[1]).filter(
-            (region): region is string => region !== undefined,
+            isRegionCode,
         ),
     ),
 );
@@ -256,11 +256,11 @@ export default class Language extends Node {
      *  what makes `/en-` offer `US GB CA AU …` instead of every region some
      *  shipped locale happens to name (which is where `/en-BR` came from).
      *  Falls back to the shipped regions for a language that lists none. */
-    getLikelyRegions(): string[] {
+    getLikelyRegions(): RegionCode[] {
         const language = this.getLanguageCode();
         const regions = language ? Languages[language]?.regions : undefined;
         return regions !== undefined && regions.length > 0
-            ? regions.map((region) => String(region))
+            ? regions
             : SupportedRegionCodes;
     }
 
@@ -423,7 +423,12 @@ export default class Language extends Node {
                 ? this.getLanguageCodes()
                 : this.getRegionCodes(),
         );
-        const likely = part === 'region' ? this.getLikelyRegions() : [];
+        // A set, like `taken` above, because the completions being sorted are
+        // language or region codes depending on `part`, and this is only a
+        // membership test.
+        const likely = new Set<string>(
+            part === 'region' ? this.getLikelyRegions() : [],
+        );
         const completions = (
             part === 'language'
                 ? completeLanguageTag(prefix)
@@ -434,8 +439,7 @@ export default class Language extends Node {
             // with `US` rather than every region whose code starts with U.
             .sort(
                 (a, b) =>
-                    Number(likely.includes(b.code)) -
-                    Number(likely.includes(a.code)),
+                    Number(likely.has(b.code)) - Number(likely.has(a.code)),
             )
             .map(({ text }) => this.withTagPart(part, index, text));
 

@@ -13,7 +13,10 @@ const NOW = on('2026-09-04');
 describe('the table', () => {
     test('every region code is a real ISO 3166 code', () => {
         // A typo'd code is silent: it never matches, so that country quietly
-        // gets the default instead of its own law.
+        // gets the default instead of its own law. The client copy is keyed by
+        // `RegionCode` and a typo there is now a compile error (#1335); this is
+        // the only guard the server copy can have, since `functions/` compiles
+        // with `rootDir: "src"` and cannot import `Regions`.
         for (const code of Object.keys(AgesOfConsent))
             expect(Regions, code).toHaveProperty(code);
     });

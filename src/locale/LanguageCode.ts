@@ -2245,6 +2245,12 @@ export const Languages = {
 type LanguageCode = keyof typeof Languages;
 export { type LanguageCode as default };
 
+/** `in` neither narrows a string to a code nor excludes inherited keys — it
+ *  answers true for `constructor`. `Object.hasOwn` is the honest test. */
+export function isLanguageCode(text: string): text is LanguageCode {
+    return Object.hasOwn(Languages, text);
+}
+
 /**
  * The Unicode CLDR emoji-annotation locale codes to try for a given language and
  * region, most-specific first (the emoji generator uses the first that exists,
@@ -2268,9 +2274,8 @@ export function getCLDRCandidates(
     return [...new Set(candidates.filter((c): c is string => c !== undefined))];
 }
 
-export const PossibleLanguages: LanguageCode[] = Object.keys(
-    Languages,
-) as LanguageCode[];
+export const PossibleLanguages: LanguageCode[] =
+    Object.keys(Languages).filter(isLanguageCode);
 
 export const TranslatableLocales: Locale[] = (
     Object.entries(Languages) as [LanguageCode, LanguageMetadata][]

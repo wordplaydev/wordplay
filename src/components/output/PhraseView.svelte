@@ -131,7 +131,9 @@
     );
     let effectRegion = $derived(
         textLanguage?.getLanguageCode() !== undefined
-            ? textLanguage?.getRegionText()
+            ? // Resolved rather than raw: a tag may spell its region by name
+              // (`/es-México`), and only the code names a CLDR data directory.
+              textLanguage?.getRegionCodes().at(0)
             : $locales.getPreferredLocales()[0]?.regions[0],
     );
 

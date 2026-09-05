@@ -2,7 +2,7 @@
     import type LanguageCode from '@locale/LanguageCode';
     import { Languages } from '@locale/LanguageCode';
     import type { Locale } from '@locale/Locale';
-    import { Regions } from '@locale/Regions';
+    import { RegionCodes, Regions, type RegionCode } from '@locale/Regions';
     import { foldTagName, getRegionName } from '@locale/tagNames';
 
     /** Filter a list of locale-bearing items by a query that matches an item's
@@ -118,16 +118,14 @@
      *  languages are — the region's own name, then the English one — so a
      *  reader sees "México (Mexico)" rather than a bare code. */
     export function allRegionOptions(): CodeOption[] {
-        return (allRegions ??= Object.entries(Regions)
-            .map(([code, meta]) => ({
-                value: code,
-                label: regionLabel(code, meta.en),
-            }))
-            .sort((a, b) => a.label.localeCompare(b.label)));
+        return (allRegions ??= RegionCodes.map((code) => ({
+            value: code,
+            label: regionLabel(code, Regions[code].en),
+        })).sort((a, b) => a.label.localeCompare(b.label)));
     }
 
     /** "México (Mexico)", or just "Mexico" where the two are the same word. */
-    function regionLabel(code: string, en: string): string {
+    function regionLabel(code: RegionCode, en: string): string {
         const name = getRegionName(code);
         return name === en ? en : `${name} (${en})`;
     }
@@ -166,26 +164,25 @@
     ): CodeOption[] {
         const q = fold(query.trim(), languages);
         if (q.length === 0) return allRegionOptions();
-        return Object.entries(Regions)
-            .flatMap(([code, meta]) => {
-                const order = rank(
-                    q,
-                    code,
-                    meta.en,
-                    getRegionName(code),
-                    languages,
-                );
-                return order === undefined
-                    ? []
-                    : [
-                          {
-                              value: code,
-                              label: regionLabel(code, meta.en),
-                              rank: order,
-                              reach: -1,
-                          },
-                      ];
-            })
+        return RegionCodes.flatMap((code) => {
+            const order = rank(
+                q,
+                code,
+                Regions[code].en,
+                getRegionName(code),
+                languages,
+            );
+            return order === undefined
+                ? []
+                : [
+                      {
+                          value: code,
+                          label: regionLabel(code, Regions[code].en),
+                          rank: order,
+                          reach: -1,
+                      },
+                  ];
+        })
             .sort(byRankThenReach)
             .map(({ value, label }) => ({ value, label }));
     }

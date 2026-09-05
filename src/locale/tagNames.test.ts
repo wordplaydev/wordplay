@@ -1,6 +1,6 @@
 import { Languages } from '@locale/LanguageCode';
 import { RegionNames } from '@locale/regionNames.generated';
-import { Regions } from '@locale/Regions';
+import { isRegionCode, RegionCodes, Regions } from '@locale/Regions';
 import {
     completeLanguageTag,
     completeRegionTag,
@@ -121,6 +121,24 @@ describe('resolving a region', () => {
     test.each(['Merica', 'Atlantis', ''])('-%s names nothing', (text) => {
         expect(resolveRegionCode(text)).toBeUndefined();
     });
+
+    // Kosovo has no official ISO 3166-1 code; XK is the user-assigned one CLDR
+    // and BCP 47 use, and three of our languages name it as a region.
+    test('Kosovo is nameable, though its code is user-assigned', () => {
+        expect(resolveRegionCode('XK')).toBe('XK');
+        expect(resolveRegionCode('Kosovo')).toBe('XK');
+        expect(getRegionName('XK')).toBe('Kosov\u00eb');
+    });
+
+    // `in` answers true for inherited keys, so these used to resolve to
+    // themselves and `getRegionName('constructor')` returned "Object".
+    test.each(['constructor', 'toString', '__proto__', 'valueOf'])(
+        '%s is a property of Object, not a code',
+        (text) => {
+            expect(resolveRegionCode(text)).toBeUndefined();
+            expect(resolveLanguageCode(text)).toBeUndefined();
+        },
+    );
 });
 
 describe('the name indexes stay unambiguous', () => {
@@ -153,10 +171,10 @@ describe('the name indexes stay unambiguous', () => {
     test('no folded region name names two regions', () => {
         const index = getRegionNameIndex();
         const claimed = new Map<string, string>();
-        for (const code of Object.keys(Regions)) {
+        for (const code of RegionCodes) {
             const data = RegionNames[code];
             const names = [
-                Regions[code]?.en,
+                Regions[code].en,
                 data?.name,
                 data?.en,
                 ...(data?.alt ?? []),
@@ -167,7 +185,7 @@ describe('the name indexes stay unambiguous', () => {
                     if (key.length === 0) continue;
                     if (
                         key.toUpperCase() !== code &&
-                        key.toUpperCase() in Regions
+                        isRegionCode(key.toUpperCase())
                     )
                         continue;
                     const prior = claimed.get(key);
@@ -201,7 +219,7 @@ describe('the name indexes stay unambiguous', () => {
     });
 
     test('every region is reachable by its own name', () => {
-        for (const code of Object.keys(Regions))
+        for (const code of RegionCodes)
             expect(
                 resolveRegionCode(getRegionName(code)),
                 `${code} is unreachable by its own name`,

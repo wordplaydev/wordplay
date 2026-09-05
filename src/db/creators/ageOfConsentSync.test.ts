@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { Regions } from '@locale/Regions';
+import { RegionCodes } from '@locale/Regions';
 import * as server from '../../../functions/src/ageOfConsent';
 import * as client from './ageOfConsent';
 
@@ -14,7 +14,7 @@ import * as client from './ageOfConsent';
  */
 
 test('both copies give the same age for every region', () => {
-    for (const region of Object.keys(Regions))
+    for (const region of RegionCodes)
         expect(client.ageOfConsent(region), region).toBe(
             server.ageOfConsent(region),
         );
@@ -22,7 +22,7 @@ test('both copies give the same age for every region', () => {
 
 test('both copies agree on the default', () => {
     expect(client.DefaultAgeOfConsent).toBe(server.DefaultAgeOfConsent);
-    expect(client.ageOfConsent('ZZ')).toBe(server.ageOfConsent('ZZ'));
+    expect(client.ageOfConsent(undefined)).toBe(server.ageOfConsent('ZZ'));
 });
 
 test('the two tables list exactly the same regions', () => {

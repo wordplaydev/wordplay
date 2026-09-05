@@ -1,5 +1,5 @@
 import { RegionNames, RegionNamesCLDR } from '@locale/regionNames.generated';
-import { Regions } from '@locale/Regions';
+import { Regions, type RegionCode } from '@locale/Regions';
 import { CLDR_VERSION } from '@util/verify-locales/cldr';
 import { rankRegionLanguages } from '@util/verify-locales/generateRegionNames';
 import { describe, expect, test } from 'vitest';
@@ -33,7 +33,7 @@ describe('the committed region names', () => {
         }
     });
 
-    test.each([
+    test.each<[RegionCode, string, string]>([
         // Ranking by population share alone picks English for these three,
         // because CLDR's shares count second-language speakers. Official
         // languages come first, which is what makes them right.

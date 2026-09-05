@@ -10,6 +10,7 @@
     import PlainTextView from '@components/output/PlainTextView.svelte';
     import { locales } from '@db/Database';
     import type LanguageCode from '@locale/LanguageCode';
+    import type { RegionCode } from '@locale/Regions';
     import type Markup from '@nodes/Markup';
     import { getTransitionIndex } from '@output/animation/getTextTransition';
     import {
@@ -39,7 +40,7 @@
         /** The language whose characters the random effect cycles. */
         language: LanguageCode;
         /** The region that language is written in, when known. */
-        region: string | undefined;
+        region: RegionCode | undefined;
         /** Whether the stage is adapting output to a dark canvas. */
         adapting: boolean;
     }

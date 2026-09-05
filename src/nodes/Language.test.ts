@@ -38,6 +38,9 @@ test.each([
     // Regions went unvalidated until they could be named; now a region that
     // names nothing is a conflict rather than silently meaning nothing.
     ['a/es-México: 5', 'a/es-Merica: 5', Language, UnknownRegion],
+    // Kosovo's XK is user-assigned rather than ISO 3166, and three languages
+    // name it as a region they're spoken in, so it has to resolve (#1335).
+    ['a/sq-XK: 5', 'a/sq-Kosova: 5', Language, UnknownRegion],
 ])('%s => no conflict, %s => conflict', (good, bad, node, conflict) => {
     testConflict(good, bad, node, conflict);
 });

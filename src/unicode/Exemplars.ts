@@ -1,4 +1,5 @@
 import type LanguageCode from '@locale/LanguageCode';
+import type { RegionCode } from '@locale/Regions';
 import { getCLDRCandidates } from '@locale/LanguageCode';
 
 /**
@@ -49,7 +50,7 @@ export function getExemplars(): Promise<Map<string, string[]>> {
 export function resolveExemplars(
     all: Map<string, string[]>,
     language: LanguageCode,
-    region: string | undefined,
+    region: RegionCode | undefined,
 ): string[] | undefined {
     for (const candidate of getCLDRCandidates(language, region)) {
         const entry = all.get(candidate);
@@ -64,7 +65,7 @@ export function resolveExemplars(
  */
 export async function getLanguageExemplars(
     language: LanguageCode,
-    region: string | undefined,
+    region: RegionCode | undefined,
 ): Promise<string[] | undefined> {
     return resolveExemplars(await getExemplars(), language, region);
 }

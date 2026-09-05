@@ -1,4 +1,13 @@
-export const Regions: Record<string, { en: string }> = {
+/**
+ * The ISO 3166 region codes a locale tag may name, each with its English name.
+ *
+ * Closed with `satisfies` rather than annotated `Record<string, …>`, which is
+ * what makes `RegionCode` a real union rather than an alias for `string`: an
+ * annotation erases the keys, and a typo'd code is silent — it never matches,
+ * so whatever it keyed quietly falls back to a default (#1335). `Languages` and
+ * `Scripts` are closed the same way.
+ */
+export const Regions = {
     AF: { en: 'Afghanistan' },
     AX: { en: '\u00c5land Islands' },
     AL: { en: 'Albania' },
@@ -118,6 +127,10 @@ export const Regions: Record<string, { en: string }> = {
     KI: { en: 'Kiribati' },
     KP: { en: "Korea, Democratic People's Republic of" },
     KR: { en: 'South Korea' },
+    // Not an official ISO 3166-1 assignment: XK is the user-assigned code
+    // CLDR and BCP 47 use for Kosovo, and the code three of our languages
+    // already name as a region they're spoken in.
+    XK: { en: 'Kosovo' },
     KW: { en: 'Kuwait' },
     KG: { en: 'Kyrgyzstan' },
     LA: { en: "Lao People's Democratic Republic" },
@@ -248,6 +261,16 @@ export const Regions: Record<string, { en: string }> = {
     YE: { en: 'Yemen' },
     ZM: { en: 'Zambia' },
     ZW: { en: 'Zimbabwe' },
-};
+} satisfies Record<string, { en: string }>;
 
 export type RegionCode = keyof typeof Regions;
+
+/** `in` neither narrows a string to a code nor excludes inherited keys — it
+ *  answers true for `constructor`. `Object.hasOwn` is the honest test. */
+export function isRegionCode(text: string): text is RegionCode {
+    return Object.hasOwn(Regions, text);
+}
+
+/** Every region code, typed: `Object.keys` widens to `string[]`. */
+export const RegionCodes: RegionCode[] =
+    Object.keys(Regions).filter(isRegionCode);

@@ -9,7 +9,6 @@ import {
     isRevised,
     toLocaleString,
 } from '@locale/LocaleText';
-import type { RegionCode } from '@locale/Regions';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { KeywordIds } from '@parser/Keywords';
 import ReservedSymbols from '@parser/ReservedSymbols';
@@ -151,7 +150,7 @@ const localeFilter = (path: LocalePath): boolean =>
 
 const FocalLanguage = FocalLocale ? getLocaleLanguage(FocalLocale) : null;
 const FocalRegion = FocalLocale
-    ? (getLocaleRegions(FocalLocale)[0] as RegionCode)
+    ? (getLocaleRegions(FocalLocale).at(0) ?? null)
     : null;
 
 if (FocalLanguage === undefined)
@@ -867,7 +866,7 @@ if (FocalLocale && FocalRegion && !fs.existsSync(getLocalePath(FocalLocale))) {
     newLocaleLog.good('No locale found, creating one based on English.');
     let localeText = createUnwrittenLocale();
     localeText.language = FocalLanguage as LanguageCode;
-    localeText.regions = [FocalRegion] as RegionCode[];
+    localeText.regions = [FocalRegion];
     localeText['$schema'] = '../../schemas/LocaleText.json';
 
     await handleLocale(

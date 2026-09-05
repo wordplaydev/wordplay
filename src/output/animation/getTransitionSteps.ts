@@ -1,4 +1,5 @@
 import type LanguageCode from '@locale/LanguageCode';
+import type { RegionCode } from '@locale/Regions';
 import Markup from '@nodes/Markup';
 import TextValue from '@values/TextValue';
 import { getRandomTransition } from '@output/animation/getRandomTransition';
@@ -43,7 +44,7 @@ export type TransitionContext = {
     language: LanguageCode | undefined;
     /** The region of the language, for region-specific character sets (e.g.
      *  Chinese in TW). */
-    region: string | undefined;
+    region: RegionCode | undefined;
 };
 
 /**

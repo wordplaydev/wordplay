@@ -1,4 +1,5 @@
 import type LanguageCode from '@locale/LanguageCode';
+import type { RegionCode } from '@locale/Regions';
 import { getLanguageExemplars } from '@unicode/Exemplars';
 import { getCodepoints } from '@unicode/Unicode';
 
@@ -126,7 +127,7 @@ export async function getRandomPool(
     start: string,
     end: string,
     language: LanguageCode | undefined,
-    region: string | undefined,
+    region: RegionCode | undefined,
 ): Promise<readonly string[] | undefined> {
     const [scriptData, languagePool] = await Promise.all([
         getScriptData(),

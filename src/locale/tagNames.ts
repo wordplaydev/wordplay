@@ -13,9 +13,18 @@
  * and a Turkish-locale machine folds `I` differently.
  */
 import type LanguageCode from '@locale/LanguageCode';
-import { Languages } from '@locale/LanguageCode';
+import {
+    isLanguageCode,
+    Languages,
+    PossibleLanguages,
+} from '@locale/LanguageCode';
 import { RegionNames } from '@locale/regionNames.generated';
-import { Regions, type RegionCode } from '@locale/Regions';
+import {
+    isRegionCode,
+    RegionCodes,
+    Regions,
+    type RegionCode,
+} from '@locale/Regions';
 import { NameRegExPattern } from '@parser/Tokenizer';
 
 /**
@@ -63,12 +72,6 @@ function index<Code extends string>(
         if (!map.has(key) && !claimedByACode(key)) map.set(key, code);
 }
 
-/** Narrowing helper: `in` alone doesn't tell TypeScript the string is a code.
- *  The same predicate shape Language.getLanguageCodes has always used. */
-function isLanguageCode(text: string): text is LanguageCode {
-    return text in Languages;
-}
-
 let languageNames: Map<string, LanguageCode> | undefined = undefined;
 let regionNames: Map<string, RegionCode> | undefined = undefined;
 
@@ -76,13 +79,15 @@ let regionNames: Map<string, RegionCode> | undefined = undefined;
 export function getLanguageNameIndex(): ReadonlyMap<string, LanguageCode> {
     if (languageNames !== undefined) return languageNames;
     const map = new Map<string, LanguageCode>();
-    for (const [code, metadata] of Object.entries(Languages))
+    for (const code of PossibleLanguages) {
+        const metadata = Languages[code];
         index(
             map,
             code,
             aliasesOf(metadata.name, metadata.en),
-            (key) => key !== code && key in Languages,
+            (key) => key !== code && isLanguageCode(key),
         );
+    }
     languageNames = map;
     return map;
 }
@@ -91,18 +96,19 @@ export function getLanguageNameIndex(): ReadonlyMap<string, LanguageCode> {
 export function getRegionNameIndex(): ReadonlyMap<string, RegionCode> {
     if (regionNames !== undefined) return regionNames;
     const map = new Map<string, RegionCode>();
-    for (const code of Object.keys(Regions)) {
+    for (const code of RegionCodes) {
         const names = RegionNames[code];
         index(
             map,
             code,
             aliasesOf(
-                Regions[code]?.en,
-                names?.name,
-                names?.en,
-                ...(names?.alt ?? []),
+                Regions[code].en,
+                names.name,
+                names.en,
+                ...(names.alt ?? []),
             ),
-            (key) => key.toUpperCase() !== code && key.toUpperCase() in Regions,
+            (key) =>
+                key.toUpperCase() !== code && isRegionCode(key.toUpperCase()),
         );
     }
     regionNames = map;
@@ -124,9 +130,9 @@ export function resolveLanguageCode(text: string): LanguageCode | undefined {
  *  Region codes are upper case, and BCP-47 treats them case-insensitively, so
  *  `/en-us` resolves too. */
 export function resolveRegionCode(text: string): RegionCode | undefined {
-    if (text in Regions) return text;
+    if (isRegionCode(text)) return text;
     const upper = text.toUpperCase();
-    if (upper in Regions) return upper;
+    if (isRegionCode(upper)) return upper;
     const key = foldTagName(text);
     return key.length === 0 ? undefined : getRegionNameIndex().get(key);
 }
@@ -134,7 +140,7 @@ export function resolveRegionCode(text: string): RegionCode | undefined {
 /** A region's name in its own language, e.g. `MX` → "México". Falls back to the
  *  English name for the two regions CLDR names in no local language. */
 export function getRegionName(code: RegionCode): string {
-    return RegionNames[code]?.name ?? Regions[code]?.en ?? String(code);
+    return RegionNames[code].name;
 }
 
 /** A completion for a partly-typed tag: the spelling to write, and what it
@@ -254,15 +260,15 @@ export function completeLanguageTag(
     prefix: string,
     limit: number = MaxTagCompletions,
 ): TagCompletion<LanguageCode>[] {
-    const entries: TagEntry<LanguageCode>[] = [];
-    for (const [code, metadata] of Object.entries(Languages))
-        if (isLanguageCode(code))
-            entries.push({
-                code,
-                name: metadata.name,
-                en: metadata.en,
-                reach: metadata.speakers ?? -1,
-            });
+    const entries: TagEntry<LanguageCode>[] = PossibleLanguages.map((code) => {
+        const metadata = Languages[code];
+        return {
+            code,
+            name: metadata.name,
+            en: metadata.en,
+            reach: metadata.speakers ?? -1,
+        };
+    });
     return rankTagMatches(prefix, entries, resolveLanguageCode, limit);
 }
 
@@ -273,10 +279,10 @@ export function completeRegionTag(
 ): TagCompletion<RegionCode>[] {
     return rankTagMatches(
         prefix,
-        Object.keys(Regions).map((code) => ({
+        RegionCodes.map((code) => ({
             code,
-            name: RegionNames[code]?.name,
-            en: RegionNames[code]?.en ?? Regions[code]?.en ?? code,
+            name: RegionNames[code].name,
+            en: RegionNames[code].en,
             reach: -1,
         })),
         resolveRegionCode,

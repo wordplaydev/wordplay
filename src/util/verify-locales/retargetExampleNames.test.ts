@@ -2,6 +2,7 @@ import Project from '@db/projects/Project';
 import { localizeKeyName } from '@input/Key/Key';
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
+import type { RegionCode } from '@locale/Regions';
 import Source from '@nodes/Source';
 import { getLocalePath } from '@util/verify-locales/LocaleSchema';
 import LocalePath from '@util/verify-locales/LocalePath';
@@ -54,7 +55,7 @@ function declared(path: LocalePath, text: LocaleText = Greek): string {
 
 function withNames(
     text: LocaleText,
-    region: string,
+    region: RegionCode,
     path: LocalePath,
     names: string[],
 ): LocaleText {

@@ -20,7 +20,7 @@
 //
 // Run with `npm run regions`. The artifact is src/locale/regionNames.generated.ts.
 import path from 'path';
-import { Regions } from '@locale/Regions';
+import { RegionCodes, Regions } from '@locale/Regions';
 import {
     CLDR_VERSION,
     at,
@@ -112,7 +112,7 @@ export async function generateRegionNames(): Promise<void> {
         throw new Error('No English territories in CLDR; refusing to write.');
 
     const entries: string[] = [];
-    for (const code of Object.keys(Regions).sort()) {
+    for (const code of RegionCodes.toSorted()) {
         const ranked = rankRegionLanguages(
             at(info[code], 'languagePopulation'),
         );

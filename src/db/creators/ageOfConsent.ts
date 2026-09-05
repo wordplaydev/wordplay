@@ -20,12 +20,10 @@ export const DefaultAgeOfConsent = 13;
 /**
  * Only the regions that differ from the default.
  *
- * Keyed by RegionCode to say what these strings are, though that type is
- * currently only documentation: Regions is annotated `Record<string, …>`, so
- * `keyof typeof Regions` widens to `string` and a typo'd code would compile (#1335).
- * ageOfConsent.test.ts is the real guard — it asserts every key here is a key
- * of Regions, which matters because a typo is silent: the row never matches and
- * that country quietly falls back to the default.
+ * A typo here is now a compile error, since `RegionCode` is a real union (#1335)
+ * — which matters because a typo is otherwise silent: the row never matches and
+ * that country quietly falls back to the default. The server copy still needs
+ * ageOfConsent.test.ts for that, because `functions/` cannot import `Regions`.
  */
 export const AgesOfConsent: Partial<Record<RegionCode, number>> = {
     AT: 14,
@@ -55,7 +53,8 @@ export const AgesOfConsent: Partial<Record<RegionCode, number>> = {
     KR: 14,
 };
 
-/** The age of consent where someone lives, defaulting where we have no row. */
-export function ageOfConsent(region: string): number {
-    return AgesOfConsent[region] ?? DefaultAgeOfConsent;
+/** The age of consent where someone lives, defaulting where we have no row —
+ *  including for a reader who has named no region yet. */
+export function ageOfConsent(region: RegionCode | undefined): number {
+    return (region ? AgesOfConsent[region] : undefined) ?? DefaultAgeOfConsent;
 }

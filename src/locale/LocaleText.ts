@@ -8,7 +8,7 @@ import type BasisTexts from '@locale/BasisTexts';
 import type { GalleryTexts } from '@locale/GalleryTexts';
 import type InputTexts from '@locale/InputTexts';
 import type LanguageCode from '@locale/LanguageCode';
-import { Languages } from '@locale/LanguageCode';
+import { isLanguageCode, Languages } from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type { ModerationTexts } from '@locale/ModerationTexts';
 import type NodeTexts from '@locale/NodeTexts';
@@ -16,7 +16,7 @@ import type MusicSafetyTexts from '@locale/MusicSafetyTexts';
 import type { PhotosensitivityTexts } from '@locale/PhotosensitivityTexts';
 import type { KeywordId } from '@parser/Keywords';
 import type OutputTexts from '@locale/OutputTexts';
-import { Regions, type RegionCode } from '@locale/Regions';
+import { isRegionCode, type RegionCode } from '@locale/Regions';
 import { getRegionName } from '@locale/tagNames';
 import { DraftLocales } from '@locale/SupportedLocales';
 import type GlossaryTexts from '@locale/GlossaryTexts';
@@ -178,7 +178,7 @@ function splitLocaleString(locale: string): {
 export function getLocaleLanguage(locale: string): LanguageCode | undefined {
     const { languages } = splitLocaleString(locale);
     const [code] = languages.split('_');
-    return code in Languages ? (code as LanguageCode) : undefined;
+    return isLanguageCode(code) ? code : undefined;
 }
 
 /** All language codes in a locale string or Locale. For `es_en-MX` (string)
@@ -188,9 +188,7 @@ export function getLocaleLanguages(locale: string | Locale): LanguageCode[] {
     if (typeof locale !== 'string')
         return locale.multilingual ?? [locale.language];
     const { languages } = splitLocaleString(locale);
-    return languages
-        .split('_')
-        .filter((code): code is LanguageCode => code in Languages);
+    return languages.split('_').filter(isLanguageCode);
 }
 
 export function getLocaleLanguageName(
@@ -230,7 +228,7 @@ export function getLocaleRegions(locale: string | Locale): RegionCode[] {
     if (typeof locale === 'string') {
         const parts = locale.split('-');
         parts.shift();
-        return parts.filter((part) => part in Regions) as RegionCode[];
+        return parts.filter(isRegionCode);
     } else return locale.regions;
 }
 

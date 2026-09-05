@@ -22,7 +22,12 @@
     } from '@locale/birthdayFields';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { getLocaleRegions } from '@locale/LocaleText';
-    import { Regions } from '@locale/Regions';
+    import {
+        isRegionCode,
+        RegionCodes,
+        Regions,
+        type RegionCode,
+    } from '@locale/Regions';
     import { RegionNames } from '@locale/regionNames.generated';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { localeGoto } from '@util/localeGoto';
@@ -54,8 +59,8 @@
      * and the answer is not kept anyway. Undefined when the locale carries no
      * region (a bare `en`), so nothing is assumed on their behalf.
      */
-    let region = $state<string | undefined>(
-        getLocaleRegions($locales.getLocale()).find((code) => code in Regions),
+    let region = $state<RegionCode | undefined>(
+        getLocaleRegions($locales.getLocale()).at(0),
     );
     let year = $state('');
     let month = $state('');
@@ -92,13 +97,11 @@
             value: undefined,
             label: (l) => l.ui.page.join.field.region.placeholder,
         },
-        ...Object.keys(Regions)
-            .map((code) => ({
-                value: code,
-                label: RegionNames[code]?.name ?? Regions[code].en,
-                tip: Regions[code].en,
-            }))
-            .sort((a, b) => a.label.localeCompare(b.label)),
+        ...RegionCodes.map((code) => ({
+            value: code,
+            label: RegionNames[code].name,
+            tip: Regions[code].en,
+        })).sort((a, b) => a.label.localeCompare(b.label)),
     ]);
 
     /**
@@ -149,7 +152,7 @@
     );
 
     /** How old someone must be, where they say they live. */
-    const consent = $derived(ageOfConsent(region ?? ''));
+    const consent = $derived(ageOfConsent(region));
 
     /** Whether they may choose an email address. Re-derived on the server too:
      *  a form is only a suggestion to anyone willing to skip it. */
@@ -226,7 +229,11 @@
                 value={region}
                 label={(l) => l.ui.page.join.field.region.description}
                 options={regionOptions}
-                change={(value) => (region = value)}
+                change={(value) =>
+                    (region =
+                        value !== undefined && isRegionCode(value)
+                            ? value
+                            : undefined)}
             />
         </p>
         <p class="center">

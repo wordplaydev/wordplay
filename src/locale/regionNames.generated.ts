@@ -426,6 +426,7 @@ export const RegionNames: Record<RegionCode, RegionNameData> = {
     VU: { name: 'Vanuatu', language: 'en', en: 'Vanuatu' },
     WF: { name: 'Wallis-et-Futuna', language: 'fr', en: 'Wallis & Futuna' },
     WS: { name: 'Samoa', language: 'en', en: 'Samoa' },
+    XK: { name: 'Kosovë', language: 'sq', en: 'Kosovo' },
     YE: { name: 'اليمن', language: 'ar', en: 'Yemen' },
     YT: { name: 'Mayotte', language: 'fr', en: 'Mayotte' },
     ZA: { name: 'South Africa', language: 'en', en: 'South Africa' },
