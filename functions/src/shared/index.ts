@@ -467,3 +467,91 @@ export type ModerateOutput = {
     /** Who was responsible, as the server computed it. */
     responsibility: Responsibility;
 };
+
+// FUNCTION joinAccount
+/** Create an account (#628). Exactly one of `password` and `email` is given: a
+ *  password makes a username account whose auth email is synthesized, an email
+ *  makes a link-only account. `region` and `birthdate` are used to derive when
+ *  the creator may hold an email address and are then discarded — neither is
+ *  ever stored, and neither may be logged. */
+export type JoinAccountInputs = {
+    /** The username being claimed, as typed. */
+    username: string;
+    /** ISO 3166 alpha-2 code. Discarded after deriving eligibility. */
+    region: string;
+    /** ISO 8601 date, YYYY-MM-DD. Discarded after deriving eligibility. */
+    birthdate: string;
+    password?: string;
+    email?: string;
+    /** BCP-47 code choosing the sign-in email's language. A code only — never
+     *  copy, or the callable becomes a phishing relay. */
+    locale?: string;
+};
+export type JoinAccountError =
+    | 'username-taken'
+    | 'username-invalid'
+    | 'password-invalid'
+    | 'email-invalid'
+    | 'birthdate-invalid'
+    | 'not-eligible'
+    | 'throttled'
+    | 'failed';
+export type JoinAccountOutput = {
+    /** The password path only: hand to signInWithCustomToken. */
+    token?: string;
+    /** The email path only. Always true when a link was requested, whether or
+     *  not the address already had an account — this endpoint never says which. */
+    sent?: boolean;
+    error?: JoinAccountError;
+};
+
+// FUNCTION sendSigninLink
+/** Email a sign-in link to an existing account (#628). */
+export type SendSigninLinkInputs = { email: string; locale?: string };
+/** Deliberately the same answer whether or not an account exists. */
+export type SendSigninLinkOutput = {
+    sent?: true;
+    error?: 'throttled' | 'failed';
+};
+
+// FUNCTION usernameAvailable
+/** Whether each name could be claimed. An invalid or retired name is false. */
+export type UsernameAvailableInputs = { usernames: string[] };
+export type UsernameAvailableOutput = Record<string, boolean>;
+
+// FUNCTION claimUsername
+/** Record a username for the signed-in creator, so they keep it across a change
+ *  of sign-in method. Must run *before* an account's auth email moves off the
+ *  synthesized one, since that is what the username would otherwise be derived
+ *  from. */
+export type ClaimUsernameInputs = { username: string };
+export type ClaimUsernameOutput = {
+    claimed?: true;
+    error?: 'taken' | 'invalid' | 'held' | 'unauthenticated' | 'failed';
+};
+
+// FUNCTION findCreator
+/** Resolve an email address or username to a uid, for adding a collaborator.
+ *  The only place an address may be looked up; answers a uid and nothing else. */
+export type FindCreatorInputs = { emailOrUsername: string };
+export type FindCreatorOutput = { uid: string | null };
+
+// FUNCTION switchToPassword
+/** Move an account from signing in with an emailed link to signing in with a
+ *  username and password (#628). Server-side because the destination address is
+ *  the synthesized `@u.wordplay.dev` one, which no verification mail could ever
+ *  reach — and which needs no verification, since it is derived from a username
+ *  this creator already holds a reservation for. The opposite direction stays on
+ *  the client, where verifyBeforeUpdateEmail proves the new address is theirs. */
+export type SwitchToPasswordInputs = { password: string };
+export type SwitchToPasswordOutput = {
+    switched?: true;
+    /** `no-username` means the creator has no handle yet, so there is no name
+     *  to build an address from — the client must claim one first. */
+    error?:
+        | 'unauthenticated'
+        | 'no-username'
+        | 'password-invalid'
+        | 'already-password'
+        | 'failed';
+};

@@ -72,7 +72,7 @@
         type Point,
     } from '@db/characters/Character';
     import { MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '@db/limits';
-    import { Creator } from '@db/creators/CreatorDatabase';
+    import { getUsername } from '@db/creators/handle.svelte';
     import { DB, CharactersDB, disconnected, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
@@ -652,6 +652,16 @@
         },
     );
 
+    /**
+     * The signed-in creator's username, which a character's name embeds.
+     *
+     * Not derived from their address. An email account's address contains no
+     * username, and `alice@example.com/Cat` is not a name that would lex as a
+     * `@username/Character` reference at all — it would silently produce a
+     * character nobody could refer to.
+     */
+    let username = $derived(getUsername($user ?? null));
+
     /** The persisted character */
     let persisted = $state<Character | 'loading' | 'failed' | 'unknown'>(
         'loading',
@@ -674,12 +684,12 @@
     /** Always have an up to date character to render and save */
     let editedCharacter: Character | null = $derived(
         !isAuthenticated($user) ||
-            $user.email === null ||
+            username === undefined ||
             typeof persisted === 'string'
             ? null
             : {
                   ...persisted,
-                  name: `${Creator.getUsername($user.email)}/${name}`,
+                  name: `${username}/${name}`,
                   description,
                   shapes,
                   collaborators: collaborators,
@@ -3583,7 +3593,7 @@
 {#snippet metaPhrase()}
     <RootView
         node={toProgram(
-            `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${Creator.getUsername($user?.email ?? '')}/${name}\`)`,
+            `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${username ?? ''}/${name}\`)`,
         )}
         blocks={false}
     />

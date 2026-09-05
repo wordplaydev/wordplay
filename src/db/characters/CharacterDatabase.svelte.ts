@@ -9,7 +9,6 @@ import {
     type SaveCounts,
     type SaveError,
 } from '@db/Database';
-import { Creator } from '@db/creators/CreatorDatabase';
 import { Domain } from '@db/Domains';
 import { firestore } from '@db/firebase';
 import isQuotaError from '@db/isQuotaError';
@@ -376,7 +375,8 @@ export class CharactersDatabase {
 
         // Re-base the name onto the current user's username (the source may be
         // owned by someone else), keeping just the bare name after the prefix.
-        const username = Creator.getUsername(user.email ?? '');
+        const username = this.db.getUsername();
+        if (username === undefined) return undefined;
         const slash = character.name.indexOf('/');
         const base =
             slash >= 0 ? character.name.slice(slash + 1) : character.name;

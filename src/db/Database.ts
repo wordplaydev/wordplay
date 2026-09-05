@@ -1,4 +1,4 @@
-import { ensureAuth, firestore } from '@db/firebase';
+import { ensureAppCheck, ensureAuth, firestore } from '@db/firebase';
 import { FirebaseError } from 'firebase/app';
 import concretize from '@locale/concretize';
 import { type LocaleTextAccessor } from '@locale/Locales';
@@ -41,6 +41,7 @@ import { ProjectSchema } from '@db/projects/ProjectSchemas';
 import { WordplayDexie } from '@db/WordplayDexie';
 import SettingsDatabase from '@db/settings/SettingsDatabase';
 import retryableLoad from '@util/retryableLoad';
+import { getUsername, syncHandle } from '@db/creators/handle.svelte';
 import { syncStrikes } from '@db/creators/strikes.svelte';
 import { syncNotices } from '@db/moderation/notices.svelte';
 
@@ -302,6 +303,15 @@ export class Database {
 
     getUserID() {
         return this.user ? this.user.uid : null;
+    }
+
+    /** The signed-in creator's username: their handle when they have one, and
+     *  otherwise the local part of their synthesized address. Anything that
+     *  writes a name into a project — a character's `username/Name` — must use
+     *  this rather than deriving from the email, or an email account produces a
+     *  name that isn't even lexable. */
+    getUsername(): string | undefined {
+        return getUsername(this.user);
     }
 
     getUserEmail() {
@@ -1008,6 +1018,7 @@ export class Database {
         // gates the public-sharing control and raises a notification, and both
         // must be about whoever is signed in now.
         syncStrikes(user);
+        syncHandle(user);
 
         // The creator's inbox (#938). Watched the same way and for the same
         // reason: a decision about something they made, or something they
@@ -1205,6 +1216,7 @@ export class Database {
                 deleteDoc(doc(firestore, CreatorCollection, user.uid)),
             );
             creatorDocDeleted = true;
+            await ensureAppCheck();
             const { deleteUser } = await import('firebase/auth');
             await this.write(deleteUser(user));
         } catch (err) {

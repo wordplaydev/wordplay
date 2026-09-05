@@ -10,6 +10,18 @@ import { defineSecret } from 'firebase-functions/params';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import type {
     AnalyzeLocalizationInputs,
+    ClaimUsernameInputs,
+    ClaimUsernameOutput,
+    FindCreatorInputs,
+    FindCreatorOutput,
+    JoinAccountInputs,
+    JoinAccountOutput,
+    SendSigninLinkInputs,
+    SendSigninLinkOutput,
+    SwitchToPasswordInputs,
+    SwitchToPasswordOutput,
+    UsernameAvailableInputs,
+    UsernameAvailableOutput,
     CreateClassInputs,
     CreateClassOutput,
     EmailExistsInputs,
@@ -22,13 +34,19 @@ import type {
 } from 'shared-types';
 
 import chatDeletedHandler from './chatDeleted.js';
+import emailExistsHandler from './emailExists.js';
+import claimUsernameHandler from './claimUsernameCallable.js';
+import findCreatorHandler from './findCreator.js';
+import joinAccountHandler from './joinAccount.js';
+import sendSigninLinkHandler from './sendSigninLink.js';
+import switchToPasswordHandler from './switchToPassword.js';
+import usernameAvailableHandler from './usernameAvailable.js';
 import compactProjectUpdatesHandler from './compactProjectUpdates.js';
 import createClassHandler from './createClass.js';
 import moderateGalleryHandler from './moderateGallery.js';
 import moderateHandler from './moderate.js';
 import moderateProjectHandler from './moderateProject.js';
 import reportHandler from './report.js';
-import emailExistsHandler from './emailExists.js';
 import galleryEditedHandler from './galleryEdited.js';
 import getCreatorsHandler from './getCreators.js';
 import getLLMTranslationsHandler from './getLLMTranslations.js';
@@ -39,6 +57,8 @@ import getWebpageHandler from './getWebpage.js';
 import postFeedbackHandler from './postFeedback.js';
 import purgeArchivedProjectsHandler from './purgeArchivedProjects.js';
 import refreshContributorsHandler from './refreshContributors.js';
+import sweepReservationsHandler from './sweepReservations.js';
+import reviewAgesOfConsentHandler from './reviewAgesOfConsent.js';
 import tidyStaleAssignmentsHandler, {
     tidyStaleAssignmentsRequest,
 } from './tidyStaleAssignments.js';
@@ -59,13 +79,82 @@ const cors = {
     ],
 };
 
+/**
+ * App Check enforcement, off under the emulator (#1299).
+ *
+ * The suite has no App Check service, so an enforced callable would reject
+ * every e2e and emulator request. The functions manifest is discovered during
+ * the deploy build, where FUNCTIONS_EMULATOR is unset, so what actually deploys
+ * is always enforced — the same shape as postFeedback's emulator skip.
+ */
+const appcheck = { enforceAppCheck: process.env.FUNCTIONS_EMULATOR !== 'true' };
+
+/** The Resend key and the salt for the sign-in throttle's hashes (#628). Set
+ *  with `firebase functions:secrets:set`, per project. */
+const resendKey = defineSecret('RESEND_API_KEY');
+const throttlePepper = defineSecret('THROTTLE_PEPPER');
+
 export const getCreators = onCall<UserIdentifier[]>(cors, getCreatorsHandler);
 
-/** Given a list of email addresses, return a map email => boolean indicating whether a corresponding account exists. Malformed emails resolve to false; the list is chunked into batches of 100 internally, so any number of emails is accepted. */
+/** Given a list of email addresses, return a map email => boolean indicating whether a corresponding account exists. Kept one release past the client that used it, since a long-open tab holds a stale bundle; deleted in the follow-up to #628. */
 export const emailExists = onCall<
     EmailExistsInputs,
     Promise<EmailExistsOutput>
 >(cors, emailExistsHandler);
+
+/**
+ * Create an account (#628). Enforced because minting accounts is what makes the
+ * per-creator translation budget worth defeating (#1299), and because this is
+ * the only place that can guarantee every account has a username.
+ */
+export const joinAccount = onCall<
+    JoinAccountInputs,
+    Promise<JoinAccountOutput>
+>(
+    { ...cors, ...appcheck, secrets: [resendKey, throttlePepper] },
+    joinAccountHandler,
+);
+
+/** Email a sign-in link (#628). Enforced and rate limited: it sends mail to an
+ *  address the caller chooses, which is a spam cannon if left open. */
+export const sendSigninLink = onCall<
+    SendSigninLinkInputs,
+    Promise<SendSigninLinkOutput>
+>(
+    { ...cors, ...appcheck, secrets: [resendKey, throttlePepper] },
+    sendSigninLinkHandler,
+);
+
+/** Whether usernames could be claimed (#628). Unauthenticated by necessity —
+ *  you ask before you have an account — so enforcement is what keeps it from
+ *  being a bulk oracle. */
+export const usernameAvailable = onCall<
+    UsernameAvailableInputs,
+    Promise<UsernameAvailableOutput>
+>({ ...cors, ...appcheck }, usernameAvailableHandler);
+
+/** Record the signed-in creator's username (#628), before a change of sign-in
+ *  method takes away the synthesized address it would otherwise be derived
+ *  from. */
+export const claimUsername = onCall<
+    ClaimUsernameInputs,
+    Promise<ClaimUsernameOutput>
+>({ ...cors, ...appcheck }, claimUsernameHandler);
+
+/** Move an account from an emailed link to a username and password (#628). The
+ *  opposite direction stays on the client, where verifyBeforeUpdateEmail proves
+ *  the creator owns the address they are moving to. */
+export const switchToPassword = onCall<
+    SwitchToPasswordInputs,
+    Promise<SwitchToPasswordOutput>
+>({ ...cors, ...appcheck }, switchToPasswordHandler);
+
+/** Resolve an address or username to a uid (#628). The only place an address
+ *  may be looked up, which is what lets getCreators stop returning them. */
+export const findCreator = onCall<
+    FindCreatorInputs,
+    Promise<FindCreatorOutput>
+>({ ...cors, ...appcheck }, findCreatorHandler);
 
 /** The Anthropic API key, for the Claude-backed project translation. Set with
  *  `firebase functions:secrets:set ANTHROPIC_API_KEY` (and, for the emulator,
@@ -91,6 +180,7 @@ const anthropicKey = defineSecret('ANTHROPIC_API_KEY');
 export const getLLMTranslations = onCall<GetLLMTranslationsInputs>(
     {
         ...cors,
+        ...appcheck,
         secrets: [anthropicKey],
         timeoutSeconds: 300,
         maxInstances: 10,
@@ -104,7 +194,7 @@ export const getLLMTranslations = onCall<GetLLMTranslationsInputs>(
  * same core also runs inside submitLocalization for PR review.
  */
 export const analyzeLocalization = onCall<AnalyzeLocalizationInputs>(
-    { ...cors, secrets: [anthropicKey] },
+    { ...cors, ...appcheck, secrets: [anthropicKey] },
     analyzeLocalizationHandler,
 );
 
@@ -187,6 +277,38 @@ export const tidyStaleAssignments = onSchedule(
         memory: '512MiB',
     },
     tidyStaleAssignmentsHandler,
+);
+
+/**
+ * Every day, tidy username reservations whose accounts are gone and holds that
+ * were never completed (#628). A hold that outlives its account creation would
+ * otherwise make that name unclaimable by anyone, forever.
+ */
+export const sweepReservations = onSchedule(
+    { schedule: 'every day 01:00', timeZone: 'UTC' },
+    async () => {
+        await sweepReservationsHandler();
+    },
+);
+
+/**
+ * Every 1 January, open an issue asking someone to re-read the age-of-consent
+ * table (#628), listing the rows nobody has checked in a year and the ones whose
+ * reading is contested. The table decides who may sign in with an email address
+ * rather than a password, and it is law, which moves — Australia raised its
+ * threshold and Brazil's Digital ECA landed while #628 was open. A stale row is
+ * silent, so the reminder has to reach a person rather than a log.
+ *
+ * Deliberately not a test that fails on a date: that would go red for whichever
+ * contributor pulls next, about something they didn't touch and can't fix.
+ */
+export const reviewAgesOfConsent = onSchedule(
+    {
+        schedule: '0 9 1 1 *',
+        timeZone: 'America/Los_Angeles',
+        timeoutSeconds: 120,
+    },
+    reviewAgesOfConsentHandler,
 );
 
 /**

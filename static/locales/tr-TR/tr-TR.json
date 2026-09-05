@@ -9377,6 +9377,16 @@
                         "on": "$~Şifreyi göster",
                         "off": "$~Şifreyi gizle"
                     }
+                },
+                "signin": {
+                    "usesPassword": "$~Kullanıcı adı ve şifre ile giriş yapıyorsun. Ezberlemen gereken bir şifre istemiyorsan, sana e-posta ile göndereceğimiz bir bağlantıyla giriş yapmaya geçebilirsin — kullanıcı adın aynı kalır.",
+                    "usesEmail": "$~Sana e-posta ile göndereceğimiz bir bağlantıyla giriş yapıyorsun. E-posta beklemek istemiyorsan, kullanıcı adı ve şifreyle giriş yapmaya geçebilirsin — kullanıcı adın aynı kalır.",
+                    "notYet": "$~Kullanıcı adı ve şifre ile giriş yapıyorsun. Yaşadığın yerde, burada bir e-posta adresi kullanmak için henüz yeterli yaşta değilsin — $date tarihinden itibaren e-posta ile gönderilen bir bağlantıyla giriş yapmaya geçebileceksin.",
+                    "switched": "$~Tamam. Bir sonraki sefer, kullanıcı adınla ve yeni şifrenle giriş yap.",
+                    "toPassword": {
+                        "label": "$~Bunun yerine şifre kullan",
+                        "tip": "$~Kullanıcı adı ve şifreyle giriş yapmaya geç"
+                    }
                 }
             },
             "join": {
@@ -9384,7 +9394,60 @@
                 "prompt": {
                     "create": "$~Projelerinizi kaydetmek, başkalarıyla işbirliği yapmak ve çalışmalarınızı paylaşmak için bir hesap oluşturun.",
                     "username": "$~Kullanıcı isimleri en az /5 karakter/ olmalı, bir e-posta olamaz ve ismini ya da seni tanımlayan başka bilgileri içermemeli.",
-                    "password": "$~Şifreler en az /6 karakter/ olmalıdır. İki kez yazın ve şifre yöneticisi gibi güvenli bir yere yazın. Hesabınızı kaybederseniz *kurtarmanın bir yolu yoktur* çünkü iletişim bilgilerini toplamıyoruz."
+                    "password": "$~Şifreler en az /6 karakter/ olmalıdır. İki kez yazın ve şifre yöneticisi gibi güvenli bir yere yazın. Hesabınızı kaybederseniz *kurtarmanın bir yolu yoktur* çünkü iletişim bilgilerini toplamıyoruz.",
+                    "region": "$~Yaşadığın yeri soruyoruz ki genç insanların hesaplarıyla ilgili oradaki kurallara uyabilelim. Cevabını saklamıyoruz.",
+                    "birthday": "$~Doğum gününü de aynı sebeple soruyoruz. Onu da saklamıyoruz — sadece e-posta adresi kullanmak için yeterli yaşta olup olmadığını ve ne zaman olacağını biliyoruz.",
+                    "choose": "$~Giriş yapmanın iki yolu var. Sana uyanı seç.",
+                    "withPassword": "$~*Kullanıcı adı ve şifre.* Senin hakkında hiçbir şey bilmeyeceğiz — ama *şifreni unutursan hesabını geri alman mümkün olmaz*, çünkü sana ulaşmamızın bir yolu olmaz.",
+                    "withEmail": "$~*Bir e-posta adresi.* Her giriş yaptığında sana bir bağlantı gönderiyoruz, böylece unutulacak bir şifre olmuyor. Adresini sadece bu bağlantıları göndermek için saklıyoruz.",
+                    "tooYoung": "$~Yaşadığın yerde, burada bir e-posta adresi kullanmak için $#age[$age yaşında|$age yaşında] olman gerekiyor. O zamana kadar, kullanıcı adı ve şifre kullanacaksın — sonra değiştirebilirsin.",
+                    "sent": "$~Bu adres giriş yapmak için kullanılabiliyorsa, bir bağlantı yolda. E-postanı kontrol et."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Yaşadığın ülke veya bölge",
+                        "placeholder": "$~ülke"
+                    },
+                    "year": {
+                        "description": "$~Doğduğun yıl",
+                        "placeholder": "$~yıl"
+                    },
+                    "month": {
+                        "description": "$~Doğduğun ay",
+                        "placeholder": "$~ay"
+                    },
+                    "day": {
+                        "description": "$~Doğduğun gün",
+                        "placeholder": "$~gün"
+                    },
+                    "email": {
+                        "description": "$~Giriş yapmak istediğin e-posta adresi",
+                        "placeholder": "$~e-posta"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~ileri",
+                        "tip": "$~Bir sonraki adıma geç"
+                    },
+                    "back": {
+                        "label": "$~geri",
+                        "tip": "$~Önceki adıma dön"
+                    },
+                    "usePassword": {
+                        "label": "$~Bir şifre kullan",
+                        "tip": "$~Bir kullanıcı adı ve şifreyle hesap oluştur"
+                    },
+                    "useEmail": {
+                        "label": "$~Bir e-posta adresi kullan",
+                        "tip": "$~E-postayla gönderilen bir bağlantıyla giriş yaptığın bir hesap oluştur"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Bu gerçek bir tarih değil. Günü ve ayı kontrol et.",
+                    "taken": "$~Az önce birisi bu kullanıcı adını aldı. Başka bir tane dene.",
+                    "throttled": "$~Bu çok fazla giriş bağlantısı. Biraz bekleyip tekrar dene.",
+                    "failed": "$~Hesabı oluşturamadık. Biraz sonra tekrar dene."
                 }
             },
             "rights": {
@@ -10617,6 +10680,15 @@
             "progress": "$~$#total[$total cümleden|$total cümleden] $done tanesi çevrildi",
             "finished": "$~Projen artık $language konuşuyor.",
             "finishedPartial": "$~Projen artık $language konuşuyor, ama $#kept[$kept cümle|$kept cümle] özgün sözcüklerini korudu."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Wordplay giriş bağlantın",
+                "heading": "$~Wordplay'e giriş yap",
+                "body": "$~Giriş yapmak için aşağıdaki düğmeyi seç. Bağlantı yalnızca bir kez ve kısa bir süre için çalışır.",
+                "button": "$~Giriş yap",
+                "disclaimer": "$~Eğer giriş yapmak istemediysen bu e-postayı görmezden gelebilirsin — bu bağlantı olmadan kimse hesabına giremez."
+            }
         }
     },
     "moderation": {

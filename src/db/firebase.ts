@@ -6,6 +6,7 @@ import {
     PUBLIC_FIREBASE_MEASUREMENT_ID,
     PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
     PUBLIC_FIREBASE_PROJECT_ID,
+    PUBLIC_RECAPTCHA_SITE_KEY,
 } from '$env/static/public';
 // Type-only: the analytics, auth, and functions SDKs are all loaded lazily off
 // the critical path (see initAnalytics / ensureAuth / getFunctionsInstance
@@ -22,6 +23,7 @@ import {
     initializeFirestore,
     type Firestore,
 } from 'firebase/firestore';
+import type { AppCheck } from 'firebase/app-check';
 import type { Functions } from 'firebase/functions';
 
 /** The initialized app + whether we're pointing at emulators. Set at module
@@ -34,12 +36,14 @@ let auth: Auth | undefined = undefined;
 let firestore: Firestore | undefined = undefined;
 let functions: Functions | undefined = undefined;
 let analytics: Analytics | undefined = undefined;
+let appCheck: AppCheck | undefined = undefined;
 
 // Memoized in-flight loads so concurrent callers share one SDK download/init.
 // lazyWithRetry clears the memo on rejection: a failed chunk fetch must not
 // wedge auth/functions for the life of the tab (see lazyWithRetry).
 let authLoader: (() => Promise<Auth | undefined>) | undefined;
 let functionsLoader: (() => Promise<Functions | undefined>) | undefined;
+let appCheckLoader: (() => Promise<AppCheck | undefined>) | undefined;
 
 /** Load the analytics SDK on demand, deny tracking consent, then initialize it.
  *  Kept out of module-eval so neither the SDK bytes nor getAnalytics's work sit
@@ -53,6 +57,62 @@ async function initAnalytics(app: FirebaseApp) {
         personalization_storage: 'denied',
     });
     analytics = getAnalytics(app);
+}
+
+/**
+ * Lazily attest that this is a real Wordplay client (#1299).
+ *
+ * App Check exchanges a reCAPTCHA assessment for a token that Firebase SDKs
+ * attach to their requests, so a scripted caller holding the same public config
+ * can't reach the endpoints that cost money — or mint accounts to multiply the
+ * per-creator translation budget, which is what made the account itself worth
+ * forging.
+ *
+ * **Deliberately not called at module eval, and not from ensureAuth.** An
+ * assessment is created every time a browser refreshes its App Check token, and
+ * `ensureAuth` runs on every page load for every visitor — including someone who
+ * only opened a shared project link and never signs in. Calling it there would
+ * make the bill scale with visitors rather than with actions. It is called from
+ * `loadFunctions`, so every callable carries a token, and explicitly from the
+ * handlers that write to Firebase Auth (see appCheckConvention.test.ts).
+ *
+ * `isTokenAutoRefreshEnabled` is off for the same reason: with it on, the SDK
+ * refreshes at roughly half the token's lifetime whether or not the page does
+ * anything, which at the default one-hour TTL is about two assessments per
+ * browser-hour. Off, a token is minted when something actually needs one and
+ * then reused until it expires. The TTL itself is a console setting, and is 7
+ * days.
+ *
+ * Skipped when emulating: there is no App Check service behind the emulator, and
+ * the debug provider still registers a token with Google's servers, which would
+ * hang a CI runner with no outbound network and take out every e2e spec at once.
+ * Skipped too when no site key is configured, which is how `.env.template` and
+ * `.env.demo-wordplay` ship.
+ */
+export function ensureAppCheck(): Promise<AppCheck | undefined> {
+    if (appCheck !== undefined) return Promise.resolve(appCheck);
+    const initialized = app;
+    if (initialized === undefined) return Promise.resolve(undefined);
+    if (emulating || PUBLIC_RECAPTCHA_SITE_KEY === '')
+        return Promise.resolve(undefined);
+    if (appCheckLoader === undefined)
+        appCheckLoader = lazyWithRetry(() => loadAppCheck(initialized));
+    return appCheckLoader();
+}
+
+async function loadAppCheck(app: FirebaseApp): Promise<AppCheck | undefined> {
+    // A dynamic import on purpose: firebase.ts is reachable from the layout, so
+    // a static import would put the App Check SDK — and reCAPTCHA's own script —
+    // into what every page downloads. importGraph.test.ts counts value imports
+    // and would fail.
+    const { initializeAppCheck, ReCaptchaEnterpriseProvider } =
+        await import('firebase/app-check');
+    const instance = initializeAppCheck(app, {
+        provider: new ReCaptchaEnterpriseProvider(PUBLIC_RECAPTCHA_SITE_KEY),
+        isTokenAutoRefreshEnabled: false,
+    });
+    appCheck = instance;
+    return instance;
 }
 
 /** Lazily load firebase/auth and initialize Auth. Auth is never needed to
@@ -121,6 +181,9 @@ export function getFunctionsInstance(): Promise<Functions | undefined> {
 }
 
 async function loadFunctions(app: FirebaseApp): Promise<Functions | undefined> {
+    // Before the Functions SDK exists, so the first callable already carries a
+    // token rather than being the one request that goes without.
+    await ensureAppCheck();
     const { getFunctions, connectFunctionsEmulator } =
         await import('firebase/functions');
     const instance = getFunctions(app);

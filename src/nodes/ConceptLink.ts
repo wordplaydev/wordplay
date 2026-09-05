@@ -314,7 +314,7 @@ export default class ConceptLink extends Content {
         // or a surrogate) is unparseable, so `isValid` reports a conflict.
         // The reserved namespaces `u`, `ui`, `how`, and `tour` can never collide
         // with a creator's username, since usernames require at least 5
-        // characters (see isValidUsername).
+        // characters (see username.ts).
         if (concept.toLowerCase() === 'u') {
             if (property === undefined) return undefined;
             const codepoint = getCodepointFromString(property);

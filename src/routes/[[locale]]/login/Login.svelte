@@ -6,21 +6,21 @@
     import TextField from '@components/widgets/TextField.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import isValidEmail from '@db/creators/isValidEmail';
-    import isValidUsername from '@db/creators/isValidUsername';
-    import { analytics, ensureAuth, getFunctionsInstance } from '@db/firebase';
+    import { isPlausibleUsername } from '@db/creators/username';
+    import { analytics, ensureAppCheck, ensureAuth } from '@db/firebase';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { logEvent } from 'firebase/analytics';
     import { FirebaseError } from 'firebase/app';
     import {
         type Auth,
         isSignInWithEmailLink,
-        sendSignInLinkToEmail,
         signInWithEmailAndPassword,
         signInWithEmailLink,
     } from 'firebase/auth';
+    import { sendSigninLink } from '@db/creators/signin';
+    import { locales } from '@db/Database';
     import { onMount } from 'svelte';
     import Header from '@components/app/Header.svelte';
-    import { emailAccountExists } from '@db/creators/accountExists';
     import getAuthErrorDescription from './getAuthErrorDescription';
     import isValidPassword from './IsValidPassword';
     import LoginForm from './LoginForm.svelte';
@@ -64,6 +64,7 @@
     async function usernameSignin() {
         if (auth === undefined) return;
         if (!loginFormComplete()) return;
+        await ensureAppCheck();
 
         // Create an email from the username
         const wordplayEmail = isValidEmail(username)
@@ -86,47 +87,45 @@
     function loginFormComplete() {
         return (
             isValidPassword(password) &&
-            (isValidUsername(username) || isValidEmail(username))
+            (isPlausibleUsername(username) || isValidEmail(username))
         );
     }
 
+    /**
+     * Ask the server to email a sign-in link.
+     *
+     * There is no longer an "does this account exist" check here: the callable
+     * decides internally and answers identically either way, so this page
+     * cannot confirm whether an address is registered even to someone reading
+     * the network tab. It used to keep that property with a matched pair of
+     * branches around an `emailExists` call that anyone could make directly.
+     */
     async function emailSignin() {
-        const functions = await getFunctionsInstance();
-        if (auth && functions && isValidEmail(email)) {
-            loading = true;
-
-            // Get missing info.
-            const exists = await emailAccountExists(email);
-
-            try {
-                /** If the account doesn't exist, do nothing */
-                if (exists) {
-                    /** If this is already a link, finish the login with the email they entered. */
-                    if (isSignInWithEmailLink(auth, window.location.href))
-                        finishEmailLogin();
-                    else {
-                        // Ask Firebase to send an email.
-                        await sendSignInLinkToEmail(auth, email, {
-                            url: `${location.origin}/login`,
-                            handleCodeInApp: true,
-                        });
-                        // Remember the email in local storage so we don't have to ask for it again
-                        // after returning to the link above.
-                        window.localStorage.setItem('email', email);
-                        emailFeedback = (l) => l.ui.page.login.prompt.sent;
-                        linkSent = true;
-                    }
-                } else {
-                    emailFeedback = (l) => l.ui.page.login.prompt.sent;
-                    // Reveal the paste field even when no account matched, so
-                    // this page never confirms whether an email has an account.
-                    linkSent = true;
-                }
-            } catch (err) {
-                emailFeedback = getAuthErrorDescription(err);
-            } finally {
-                loading = false;
+        if (auth === undefined || !isValidEmail(email)) return;
+        loading = true;
+        try {
+            // If we arrived here on a link, finish rather than sending another.
+            if (isSignInWithEmailLink(auth, window.location.href)) {
+                finishEmailLogin();
+                return;
             }
+            const result = await sendSigninLink(
+                email,
+                $locales.getLocaleString(),
+            );
+            if (result === 'throttled') {
+                emailFeedback = (l) => l.ui.page.login.error.tooMany;
+                return;
+            }
+            // Remember the email so we don't have to ask for it again after
+            // returning to the link above.
+            window.localStorage.setItem('email', email);
+            emailFeedback = (l) => l.ui.page.login.prompt.sent;
+            linkSent = true;
+        } catch (err) {
+            emailFeedback = getAuthErrorDescription(err);
+        } finally {
+            loading = false;
         }
     }
 
@@ -135,6 +134,10 @@
     function finishEmailLogin(
         url: string = window.location.href,
     ): string | undefined {
+        // Reached on load when the page *is* the emailed link, not only from a
+        // form submit, so it attests on its own rather than relying on a
+        // handler above having done it.
+        void ensureAppCheck();
         if (auth) {
             try {
                 // If this is on the same device and browser, then the email should be in local storage.
@@ -191,7 +194,7 @@
             bind:text={username}
             editable={!loading}
             validator={(text) =>
-                !(isValidUsername(text) || isValidEmail(text))
+                !(isPlausibleUsername(text) || isValidEmail(text))
                     ? (l) => l.ui.page.login.error.invalidUsername
                     : true}
         />
@@ -215,7 +218,7 @@
                 submit
                 tip={(l) => l.ui.page.login.button.login}
                 active={isValidPassword(password) &&
-                    (isValidUsername(username) || isValidEmail(username))}
+                    (isPlausibleUsername(username) || isValidEmail(username))}
                 action={usernameSignin}
                 testid="login-button">&gt;</Button
             >

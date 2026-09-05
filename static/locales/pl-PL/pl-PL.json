@@ -9395,6 +9395,16 @@
                         "on": "$~Pokaż hasło",
                         "off": "$~Ukryj hasło"
                     }
+                },
+                "signin": {
+                    "usesPassword": "$~Logujesz się przy pomocy nazwy użytkownika i hasła. Jeśli nie chcesz pamiętać hasła, możesz przełączyć się na logowanie linkiem, który wyślemy ci mailem — twoja nazwa użytkownika zostanie taka sama.",
+                    "usesEmail": "$~Logujesz się linkiem, który wysyłamy ci mailem. Jeśli nie chcesz czekać na maila, możesz przełączyć się na nazwę użytkownika i hasło — twoja nazwa użytkownika zostanie taka sama.",
+                    "notYet": "$~Logujesz się przy pomocy nazwy użytkownika i hasła. Tam, gdzie mieszkasz, nie masz jeszcze wystarczającego wieku, by używać tu adresu e-mail — od $date będziesz mógł przełączyć się na logowanie linkiem wysyłanym mailem.",
+                    "switched": "$~Gotowe. Następnym razem zaloguj się swoją nazwą użytkownika i nowym hasłem.",
+                    "toPassword": {
+                        "label": "$~Użyj hasła zamiast tego",
+                        "tip": "$~Przełącz się na logowanie nazwą użytkownika i hasłem"
+                    }
                 }
             },
             "join": {
@@ -9402,7 +9412,60 @@
                 "prompt": {
                     "create": "$~Utwórz konto, aby zapisywać swoje projekty, współpracować z innymi i udostępniać swoją pracę.",
                     "username": "$~Nazwy użytkownika muszą mieć co najmniej /5 znaków/, nie mogą być e-mailem i nie powinny zawierać twojego imienia ani innych informacji identyfikujących cię.",
-                    "password": "$~Hasła muszą mieć co najmniej /6 znaków/. Wpisz je dwa razy i zapisz w bezpiecznym miejscu, np. w menedżerze haseł. *Nie ma możliwości odzyskania konta*, jeśli je zgubisz, ponieważ nie zbieramy informacji kontaktowych."
+                    "password": "$~Hasła muszą mieć co najmniej /6 znaków/. Wpisz je dwa razy i zapisz w bezpiecznym miejscu, np. w menedżerze haseł. *Nie ma możliwości odzyskania konta*, jeśli je zgubisz, ponieważ nie zbieramy informacji kontaktowych.",
+                    "region": "$~Pytamy, gdzie mieszkasz, żeby przestrzegać obowiązujących tam zasad dotyczących kont młodych osób. Nie zachowujemy twojej odpowiedzi.",
+                    "birthday": "$~Pytamy o twoje urodziny z tego samego powodu. Też ich nie zachowujemy — jedynie informację, czy masz wystarczający wiek, by używać adresu e-mail, i kiedy go osiągniesz.",
+                    "choose": "$~Są dwa sposoby logowania. Wybierz ten, który ci pasuje.",
+                    "withPassword": "$~*Nazwa użytkownika i hasło.* Nie będziemy wiedzieć o tobie nic — ale *nie ma sposobu na odzyskanie konta, jeśli zapomnisz hasła*, bo nie mielibyśmy jak się z tobą skontaktować.",
+                    "withEmail": "$~*Adres e-mail.* Za każdym razem, gdy się logujesz, wysyłamy ci link mailem, więc nie ma hasła do zapomnienia. Zachowujemy twój adres tylko po to, by wysyłać te linki.",
+                    "tooYoung": "$~Tam, gdzie mieszkasz, musisz mieć co najmniej $#age[$age rok|$age lata|$age lat|$age roku], żeby móc tu używać adresu e-mail. Do tego czasu zostają nazwa użytkownika i hasło — a później możesz się przełączyć.",
+                    "sent": "$~Jeśli tym adresem można się zalogować, link jest już w drodze. Sprawdź swoją pocztę."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Kraj lub region, w którym mieszkasz",
+                        "placeholder": "$~kraj"
+                    },
+                    "year": {
+                        "description": "$~Rok, w którym się urodziłeś",
+                        "placeholder": "$~rok"
+                    },
+                    "month": {
+                        "description": "$~Miesiąc, w którym się urodziłeś",
+                        "placeholder": "$~miesiąc"
+                    },
+                    "day": {
+                        "description": "$~Dzień, w którym się urodziłeś",
+                        "placeholder": "$~dzień"
+                    },
+                    "email": {
+                        "description": "$~Adres e-mail, którym chcesz się logować",
+                        "placeholder": "$~e-mail"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~dalej",
+                        "tip": "$~Przejdź do następnego kroku"
+                    },
+                    "back": {
+                        "label": "$~wstecz",
+                        "tip": "$~Wróć do poprzedniego kroku"
+                    },
+                    "usePassword": {
+                        "label": "$~Użyj hasła",
+                        "tip": "$~Załóż konto z nazwą użytkownika i hasłem"
+                    },
+                    "useEmail": {
+                        "label": "$~Użyj adresu e-mail",
+                        "tip": "$~Załóż konto, do którego logujesz się linkiem wysłanym e-mailem"
+                    }
+                },
+                "error": {
+                    "birthday": "$~To nie jest prawdziwa data. Sprawdź dzień i miesiąc.",
+                    "taken": "$~Ktoś przed chwilą zajął tę nazwę użytkownika. Wybierz inną.",
+                    "throttled": "$~To bardzo dużo linków do logowania. Poczekaj chwilę i spróbuj ponownie.",
+                    "failed": "$~Nie udało się założyć konta. Spróbuj ponownie za chwilę."
                 }
             },
             "rights": {
@@ -10638,6 +10701,15 @@
             "progress": "$~Przetłumaczono $done z $#total[$total zwrotu|$total zwrotów|$total zwrotów|$total zwrotu]",
             "finished": "$~Twój projekt mówi teraz po $language.",
             "finishedPartial": "$~Twój projekt mówi teraz po $language, ale $#kept[$kept zwrot zachował|$kept zwroty zachowały|$kept zwrotów zachowało|$kept zwrotu zachowało] oryginalne słowa."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Twój link do logowania w Wordplay",
+                "heading": "$~Zaloguj się do Wordplay",
+                "body": "$~Wybierz przycisk poniżej, aby się zalogować. Link działa tylko raz i tylko przez krótki czas.",
+                "button": "$~Zaloguj się",
+                "disclaimer": "$~Jeśli nie prosiłeś o zalogowanie, możesz zignorować tę wiadomość — nikt nie dostanie się na twoje konto bez tego linku."
+            }
         }
     },
     "moderation": {

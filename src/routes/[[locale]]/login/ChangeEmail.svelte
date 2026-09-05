@@ -8,6 +8,7 @@
     import type { User } from 'firebase/auth';
     import { verifyBeforeUpdateEmail } from 'firebase/auth';
     import Feedback from '@components/app/Notice.svelte';
+    import { ensureAppCheck } from '@db/firebase';
     import getLoginErrorDescription from './getAuthErrorDescription';
 
     interface Props {
@@ -25,6 +26,7 @@
         // Give some feedback when loading.
         changeSubmitted = true;
         try {
+            await ensureAppCheck();
             await verifyBeforeUpdateEmail(user, newEmail);
             changeFeedback = (l) => l.ui.page.login.prompt.confirm;
         } catch (error) {

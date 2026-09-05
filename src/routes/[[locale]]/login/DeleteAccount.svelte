@@ -7,14 +7,11 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { DB, locales } from '@db/Database';
-    import { ensureAuth } from '@db/firebase';
+    import { ensureAppCheck, ensureAuth } from '@db/firebase';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { signInWithEmailAndPassword, type User } from 'firebase/auth';
     import TextField from '@components/widgets/TextField.svelte';
-    import {
-        default as isValidEmail,
-        default as validEmail,
-    } from '@db/creators/isValidEmail';
+    import validEmail from '@db/creators/isValidEmail';
     import isValidPassword from './IsValidPassword';
 
     interface Props {
@@ -22,8 +19,6 @@
     }
 
     let { user }: Props = $props();
-
-    let creator = $derived(Creator.from(user));
 
     let deleteRequested = $state(false);
 
@@ -50,35 +45,59 @@
     let deleteFeedback: LocaleTextAccessor | undefined = $state(undefined);
 
     async function deleteAccount() {
+        await ensureAppCheck();
         const auth = await ensureAuth();
         if (auth === undefined) return;
 
         deleteSubmitted = true;
 
-        const email = isValidEmail(confirmEmail)
-            ? confirmEmail
-            : Creator.usernameEmail(confirmEmail);
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            // Re-authenticate before deleting, but only where there is a
+            // password to re-authenticate with. An account that signs in with
+            // an emailed link has none — which made this whole flow unreachable
+            // for exactly the accounts #628 creates. There, typing the address
+            // back is the confirmation, and Firebase's own recent-login
+            // requirement is what actually guards the delete: it refuses a
+            // stale session, and we say so rather than failing silently.
+            if (usesUsername) {
+                await signInWithEmailAndPassword(
+                    auth,
+                    Creator.usernameEmail(confirmEmail),
+                    password,
+                );
+            }
             deleteResult = await DB.deleteAccount();
             // On anything but a clean delete, DB.deleteAccount has already
             // raised the top banner; drop back to the form so the user can
             // retry. On success the auth state change navigates away.
             if (deleteResult !== 'deleted') deleteSubmitted = false;
         } catch (error) {
-            deleteFeedback = (l) => l.ui.page.login.error.wrongPassword;
+            // A link account with a session older than Firebase's window gets
+            // told to sign in again, rather than "wrong password" — which it
+            // has never had.
+            deleteFeedback =
+                !usesUsername &&
+                error instanceof Error &&
+                error.message.includes('requires-recent-login')
+                    ? (l) => l.ui.page.login.error.expired
+                    : (l) => l.ui.page.login.error.wrongPassword;
             deleteSubmitted = false;
         }
     }
 
+    /** Whether this account signs in with a username and password, rather than
+     *  an emailed link. Read off the auth email rather than providerData,
+     *  because Firebase gives an email-link account the `password` provider id
+     *  too — the synthesized address is the only thing that tells them apart. */
+    const usesUsername = $derived(Creator.isUsername(user.email ?? ''));
+
     function readyToDeleteAccount(email: string, pass: string) {
-        const finalEmail = creator.isUsername()
-            ? Creator.usernameEmail(email)
-            : email;
+        const finalEmail = usesUsername ? Creator.usernameEmail(email) : email;
         return (
             validEmail(finalEmail) &&
             finalEmail === user.email &&
-            isValidPassword(pass)
+            // A link account has no password to require.
+            (!usesUsername || isValidPassword(pass))
         );
     }
 </script>
@@ -107,28 +126,35 @@
         >
             <TextField
                 id="delete-account-username"
-                description={creator.isUsername()
+                description={usesUsername
                     ? (l) => l.ui.page.login.field.username.description
                     : (l) => l.ui.page.login.field.email.description}
-                placeholder={creator.isUsername()
+                placeholder={usesUsername
                     ? (l) => l.ui.page.login.field.username.placeholder
                     : (l) => l.ui.page.login.field.email.placeholder}
-                kind={creator.isUsername() ? undefined : 'email'}
+                kind={usesUsername ? undefined : 'email'}
                 bind:text={confirmEmail}
                 editable={!deleteSubmitted}
             />
-            <TextField
-                kind="password"
-                id="delete-account-password"
-                description={(l) => l.ui.page.login.field.password.description}
-                placeholder={(l) => l.ui.page.login.field.password.placeholder}
-                bind:text={password}
-                editable={!deleteSubmitted}
-                validator={(pass) =>
-                    isValidPassword(pass)
-                        ? true
-                        : (l) => l.ui.page.login.error.invalidPassword}
-            />
+            <!-- Only where there is one. An account that signs in with an
+                 emailed link has no password, and asking for one made this
+                 form impossible to complete. -->
+            {#if usesUsername}
+                <TextField
+                    kind="password"
+                    id="delete-account-password"
+                    description={(l) =>
+                        l.ui.page.login.field.password.description}
+                    placeholder={(l) =>
+                        l.ui.page.login.field.password.placeholder}
+                    bind:text={password}
+                    editable={!deleteSubmitted}
+                    validator={(pass) =>
+                        isValidPassword(pass)
+                            ? true
+                            : (l) => l.ui.page.login.error.invalidPassword}
+                />
+            {/if}
             <Button
                 background
                 submit

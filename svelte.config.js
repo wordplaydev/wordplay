@@ -51,6 +51,17 @@ const config = {
                     'https://apis.google.com',
                     'https://*.googleapis.com',
                     'https://*.firebaseapp.com',
+                    // reCAPTCHA Enterprise, which App Check's provider loads
+                    // (#1299). Two hosts: the loader at
+                    // www.google.com/recaptcha/enterprise.js and the payload it
+                    // pulls from www.gstatic.com. The fonts.gstatic.com entry
+                    // above does NOT cover the second — a source expression is
+                    // host-exact, and these are different hosts. Without both,
+                    // App Check fails to initialize and every enforced callable
+                    // starts answering `unauthenticated`, with nothing in the
+                    // UI to say why.
+                    'https://www.google.com',
+                    'https://www.gstatic.com',
                 ],
             },
         },

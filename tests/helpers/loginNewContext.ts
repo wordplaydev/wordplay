@@ -1,6 +1,7 @@
 import type { Browser, BrowserContext, Page } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
+import { joinViaUI } from './joinViaUI';
 /** The Auth emulator's admin REST surface, which `owner` is the documented
  *  bearer token for. Used instead of `firebase-admin/auth`: that entry point is
  *  CJS and reaches `require('jose')`, which is ESM-only, and under Playwright's
@@ -132,12 +133,7 @@ export async function loginNewContext(
         .catch(() => false);
 
     if (!loggedIn) {
-        await page.goto('/en-US/join');
-        await page.getByTestId('username-field').fill(username);
-        await page.getByTestId('password-field').fill(password);
-        await page.getByTestId('password-repeat-field').fill(password);
-        await page.getByTestId('join-button').click();
-        await page.waitForURL(/\/profile$/, { waitUntil: 'domcontentloaded' });
+        await joinViaUI(page, username, password);
     }
 
     // Persist auth so a retry in the same CI run can skip the UI flow.

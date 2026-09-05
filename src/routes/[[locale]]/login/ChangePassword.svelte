@@ -13,6 +13,7 @@
         updatePassword,
         type User,
     } from 'firebase/auth';
+    import { ensureAppCheck } from '@db/firebase';
     import getLoginErrorDescription from './getAuthErrorDescription';
     import isValidPassword from './IsValidPassword';
 
@@ -35,6 +36,7 @@
 
         try {
             // First, make sure the password is current.
+            await ensureAppCheck();
             await signInWithEmailAndPassword(auth, user.email, currentpassword);
 
             // Then, if the new password and confirmed password match, update the password.

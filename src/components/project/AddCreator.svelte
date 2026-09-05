@@ -9,10 +9,9 @@
     import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { Creator } from '@db/creators/CreatorDatabase';
     import { DB } from '@db/Database';
     import validEmail from '@db/creators/isValidEmail';
-    import isValidUsername from '@db/creators/isValidUsername';
+    import { isPlausibleUsername } from '@db/creators/username';
     import type LocaleText from '@locale/LocaleText';
     import type { Snippet } from 'svelte';
 
@@ -48,11 +47,17 @@
         // anything — and in a table that message is a block hanging below the
         // last row, where a capped region clips it.
         if (emailOrUsername.trim() === '') return true;
-        if (!validEmail(emailOrUsername) && !isValidUsername(emailOrUsername)) {
+        if (
+            !validEmail(emailOrUsername) &&
+            !isPlausibleUsername(emailOrUsername)
+        ) {
             return (l: LocaleText) => l.ui.page.login.error.invalidUsername;
         }
         // Don't add self
-        if (emailOrUsername === Creator.getUsername(DB.getUserEmail() ?? ''))
+        if (
+            emailOrUsername === DB.getUsername() ||
+            emailOrUsername === DB.getUserEmail()
+        )
             return (l: LocaleText) => l.ui.dialog.share.error.self;
         // "We don't know this creator" is a reason what you typed can't be
         // used, exactly like the two rules above, and belongs where they are

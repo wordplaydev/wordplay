@@ -142,7 +142,7 @@ test('a curator opens a student project with live access and no permission error
     // backfill them — racing that test's assertions.
     const student = await loginNewContext(
         browser,
-        'curatorlive-student-live',
+        'curatorliveStudentLive',
         'password',
     );
     try {
@@ -202,7 +202,7 @@ test('a curator session does not mass-rewrite older-schema student projects it h
     // legitimately backfill them, defeating the assertion.
     const student = await loginNewContext(
         browser,
-        'curatorlive-student-schema',
+        'curatorliveStudentSchema',
         'password',
     );
     await student.context.close();

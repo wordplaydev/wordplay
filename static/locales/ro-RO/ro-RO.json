@@ -10193,6 +10193,16 @@
                         "on": "$~Afișează parola",
                         "off": "$~Ascunde parola"
                     }
+                },
+                "signin": {
+                    "usesPassword": "$~Te conectezi cu un nume de utilizator și o parolă. Dacă preferi să nu ții minte o parolă, poți trece la conectarea printr-un link pe care ți-l trimitem prin email — numele tău de utilizator rămâne același.",
+                    "usesEmail": "$~Te conectezi printr-un link pe care ți-l trimitem prin email. Dacă preferi să nu aștepți emailul, poți trece la un nume de utilizator și o parolă — numele tău de utilizator rămâne același.",
+                    "notYet": "$~Te conectezi cu un nume de utilizator și o parolă. Acolo unde locuiești, încă nu ai vârsta necesară pentru a folosi o adresă de email aici — de la $date vei putea trece la conectarea printr-un link trimis pe email.",
+                    "switched": "$~Gata. Data viitoare, conectează-te cu numele tău de utilizator și noua ta parolă.",
+                    "toPassword": {
+                        "label": "$~Folosește o parolă în schimb",
+                        "tip": "$~Treci la conectarea cu numele tău de utilizator și o parolă"
+                    }
                 }
             },
             "join": {
@@ -10200,7 +10210,60 @@
                 "prompt": {
                     "create": "$~Creează un cont pentru a salva proiectele, a colabora cu alții și a-ți partaja munca.",
                     "username": "$~Numele de utilizator trebuie să aibă cel puțin /5 caractere/, nu poate fi o adresă de e-mail și nu trebuie să conțină numele dvs. sau alte informații de identificare.",
-                    "password": "$~Parolele trebuie să aibă cel puțin /6 caractere/. Tastați-le de două ori și notați-le într-un loc sigur, cum ar fi un manager de parole. *Nu există nicio modalitate de a vă recupera contul* dacă îl pierdeți, deoarece nu colectăm informații de contact."
+                    "password": "$~Parolele trebuie să aibă cel puțin /6 caractere/. Tastați-le de două ori și notați-le într-un loc sigur, cum ar fi un manager de parole. *Nu există nicio modalitate de a vă recupera contul* dacă îl pierdeți, deoarece nu colectăm informații de contact.",
+                    "region": "$~Te întrebăm unde locuiești ca să respectăm regulile de acolo pentru conturile tinerilor. Nu păstrăm răspunsul tău.",
+                    "birthday": "$~Îți întrebăm ziua de naștere din același motiv. Nici pe aceasta nu o păstrăm — doar dacă ai vârsta necesară pentru a folosi o adresă de email și când vei avea.",
+                    "choose": "$~Există două moduri de a te conecta. Alege-l pe cel care ți se potrivește.",
+                    "withPassword": "$~*Un nume de utilizator și o parolă.* Nu vom ști nimic despre tine — dar *nu există nicio cale de a-ți recupera contul dacă uiți parola*, pentru că nu am avea cum să te contactăm.",
+                    "withEmail": "$~*O adresă de email.* Îți trimitem un link prin email de fiecare dată când te conectezi, așa că nu ai nicio parolă de uitat. Păstrăm adresa ta doar ca să trimitem acele linkuri.",
+                    "tooYoung": "$~Acolo unde locuiești, trebuie să ai $#age[$#age an|$age ani|$age de ani] pentru a folosi o adresă de email aici. Până atunci, rămâi cu un nume de utilizator și o parolă — poți schimba mai târziu.",
+                    "sent": "$~Dacă acea adresă poate fi folosită pentru conectare, un link este pe drum. Verifică-ți emailul."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Țara sau regiunea în care locuiești",
+                        "placeholder": "$~țară"
+                    },
+                    "year": {
+                        "description": "$~Anul în care te-ai născut",
+                        "placeholder": "$~an"
+                    },
+                    "month": {
+                        "description": "$~Luna în care te-ai născut",
+                        "placeholder": "$~lună"
+                    },
+                    "day": {
+                        "description": "$~Ziua în care te-ai născut",
+                        "placeholder": "$~zi"
+                    },
+                    "email": {
+                        "description": "$~Adresa de email cu care vrei să te conectezi",
+                        "placeholder": "$~email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~următorul",
+                        "tip": "$~Treci la pasul următor"
+                    },
+                    "back": {
+                        "label": "$~înapoi",
+                        "tip": "$~Mergi înapoi la pasul anterior"
+                    },
+                    "usePassword": {
+                        "label": "$~Folosește o parolă",
+                        "tip": "$~Creează un cont cu un nume de utilizator și o parolă"
+                    },
+                    "useEmail": {
+                        "label": "$~Folosește o adresă de email",
+                        "tip": "$~Creează un cont în care intri printr-o legătură trimisă pe email"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Aceasta nu este o dată reală. Verifică ziua și luna.",
+                    "taken": "$~Cineva a luat acest nume de utilizator chiar acum. Încearcă altul.",
+                    "throttled": "$~Sunt prea multe legături de intrare cerute. Așteaptă puțin și încearcă din nou.",
+                    "failed": "$~Nu am putut crea contul. Încearcă din nou peste puțin timp."
                 }
             },
             "rights": {
@@ -10625,6 +10688,15 @@
             "progress": "$~S-au tradus $done din $#total[$#total frază|$total fraze|$total de fraze]",
             "finished": "$~Proiectul tău vorbește acum $language.",
             "finishedPartial": "$~Proiectul tău vorbește acum $language, dar $#kept[$#kept frază a păstrat|$kept fraze au păstrat|$kept de fraze au păstrat] cuvintele originale."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Legătura ta de intrare în Wordplay",
+                "heading": "$~Intră în Wordplay",
+                "body": "$~Apasă butonul de mai jos ca să intri. Legătura funcționează o singură dată și doar pentru puțin timp.",
+                "button": "$~Intră",
+                "disclaimer": "$~Dacă nu ai cerut să intri, poți ignora acest email — nimeni nu poate intra în contul tău fără această legătură."
+            }
         }
     },
     "moderation": {

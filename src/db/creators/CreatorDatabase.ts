@@ -2,12 +2,25 @@ import type { UserIdentifier } from 'firebase-admin/auth';
 import type { User } from 'firebase/auth';
 import type { Database } from '@db/Database';
 import { getFunctionsInstance } from '@db/firebase';
-import isValidEmail from '@db/creators/isValidEmail';
+import type { FindCreatorInputs, FindCreatorOutput } from 'shared-types';
 
 export const CreatorCollection = 'creators';
 
-/** The type for the record returned by our cloud functions */
-type CreatorSchema = { uid: string; name: string | null; email: string | null };
+/**
+ * The type for the record returned by our cloud functions.
+ *
+ * Deliberately carries no email address (#628). It used to, and
+ * `getUsername(false)` returned it verbatim — so an account with a real address
+ * had it rendered on the nav chip, every project tile, chat, carets, and every
+ * roster. `getCreators` still *sends* one for a release, because deploy.yml
+ * ships functions and hosting together with no ordering guarantee; nothing
+ * here reads it.
+ */
+type CreatorSchema = {
+    uid: string;
+    name: string | null;
+    username: string | null;
+};
 
 /** Tracks metadata about creators, which is primarily stored in Firebase Auth, but also Firestore, where non-auth data about users lives. */
 export class Creator {
@@ -18,11 +31,15 @@ export class Creator {
         this.data = data;
     }
 
-    static from(user: User) {
+    /** The signed-in creator. `username` comes from their handle when they have
+     *  one, and otherwise from their synthesized address — which is where a
+     *  username lived before handles existed, and is why no account has to be
+     *  migrated. */
+    static from(user: User, username?: string) {
         return new Creator({
             uid: user.uid,
             name: user.displayName,
-            email: user.email,
+            username: username ?? Creator.getUsername(user.email ?? '') ?? null,
         });
     }
 
@@ -34,38 +51,25 @@ export class Creator {
         return email.endsWith(Creator.CreatorUsernameEmailDomain);
     }
 
-    static getUsername(email: string) {
+    /** The username inside a synthesized address, or undefined when the address
+     *  is a real one. Undefined rather than the address itself: returning the
+     *  address is exactly the bug #628 fixes. */
+    static getUsername(email: string): string | undefined {
         return Creator.isUsername(email)
             ? email.replace(Creator.CreatorUsernameEmailDomain, '')
-            : email;
+            : undefined;
     }
 
     getName() {
         return this.data.name;
     }
 
-    getEmail() {
-        return this.data.email;
-    }
-
-    isUsername() {
-        return (
-            this.data.email &&
-            this.data.email.endsWith(Creator.CreatorUsernameEmailDomain)
-        );
-    }
-
+    /** What every surface shows. Never an email address: a creator who signs in
+     *  with one is still shown their username, like everybody else. */
     getUsername(anonymous: boolean) {
-        return this.data.email === null
-            ? '—'
-            : anonymous
-              ? `${this.data.email.split('@')[0].substring(0, 4)}...`
-              : this.isUsername()
-                ? this.data.email.replace(
-                      Creator.CreatorUsernameEmailDomain,
-                      '',
-                  )
-                : this.data.email;
+        const username = this.data.username;
+        if (username === null) return '—';
+        return anonymous ? `${[...username].slice(0, 4).join('')}…` : username;
     }
 
     getUID() {
@@ -77,8 +81,12 @@ export default class CreatorDatabase {
     /** The main database that manages this gallery database */
     readonly database: Database;
 
-    /** Resolved creators, keyed by the field we looked them up by. */
-    private creatorsByEmail = new Map<string, Creator>();
+    /** Resolved creators, keyed by uid.
+     *
+     *  There used to be a second cache keyed by email, for looking someone up
+     *  by address. That direction now goes through the `findCreator` callable,
+     *  which answers a uid and nothing else — so an address can still be used
+     *  to *find* someone, but can never be read back out. */
     private creatorsByUID = new Map<string, Creator>();
 
     /** Lookups that came back empty — remembered so we don't keep
@@ -86,15 +94,13 @@ export default class CreatorDatabase {
      *  of a stale miss (a user who signed up after we looked them up)
      *  is much smaller than the cost of N callable invocations per
      *  page render for the same nonexistent name. */
-    private unknownEmails = new Set<string>();
     private unknownUIDs = new Set<string>();
 
-    /** In-flight callable promises, keyed by ID. When several
+    /** In-flight callable promises, keyed by uid. When several
      *  components render in the same tick — e.g. a grid of
      *  ProjectPreviews each calling getCreator(ownerUid) — they share
      *  one round-trip instead of each firing their own. Cleared once
      *  the request resolves. */
-    private pendingByEmail = new Map<string, Promise<void>>();
     private pendingByUID = new Map<string, Promise<void>>();
 
     constructor(database: Database) {
@@ -105,22 +111,15 @@ export default class CreatorDatabase {
         return Creator.usernameEmail(username);
     }
 
-    async getCreators(
-        ids: string[],
-        detail: 'email' | 'uid',
-    ): Promise<Creator[]> {
-        const email = detail === 'email';
-        const cache = email ? this.creatorsByEmail : this.creatorsByUID;
-        const unknown = email ? this.unknownEmails : this.unknownUIDs;
-        const pending = email ? this.pendingByEmail : this.pendingByUID;
-
+    async getCreators(uids: string[]): Promise<Creator[]> {
         // Classify every id: already cached / known to not exist /
         // currently being fetched by a sibling call / genuinely new.
         const waits: Promise<void>[] = [];
         const missing: string[] = [];
-        for (const id of ids) {
-            if (cache.has(id) || unknown.has(id)) continue;
-            const inFlight = pending.get(id);
+        for (const id of uids) {
+            if (this.creatorsByUID.has(id) || this.unknownUIDs.has(id))
+                continue;
+            const inFlight = this.pendingByUID.get(id);
             if (inFlight) waits.push(inFlight);
             else missing.push(id);
         }
@@ -136,28 +135,30 @@ export default class CreatorDatabase {
                 UserIdentifier[],
                 CreatorSchema[]
             >(functions, 'getCreators');
-            const request = getCreatorsFn(
-                missing.map((id) => (email ? { email: id } : { uid: id })),
-            )
+            const request = getCreatorsFn(missing.map((uid) => ({ uid })))
                 .then((res) => {
                     const schemas = res.data as CreatorSchema[];
                     const found = new Set<string>();
                     for (const schema of schemas) {
-                        const creator = new Creator(schema);
-                        if (schema.email)
-                            this.creatorsByEmail.set(schema.email, creator);
-                        this.creatorsByUID.set(schema.uid, creator);
-                        found.add(email ? (schema.email ?? '') : schema.uid);
+                        this.creatorsByUID.set(
+                            schema.uid,
+                            new Creator({
+                                uid: schema.uid,
+                                name: schema.name,
+                                username: schema.username ?? null,
+                            }),
+                        );
+                        found.add(schema.uid);
                     }
                     // Mark anything we asked about and didn't get
                     // back as known-unknown so we don't ask again.
                     for (const id of missing)
-                        if (!found.has(id)) unknown.add(id);
+                        if (!found.has(id)) this.unknownUIDs.add(id);
                 })
                 .finally(() => {
-                    for (const id of missing) pending.delete(id);
+                    for (const id of missing) this.pendingByUID.delete(id);
                 });
-            for (const id of missing) pending.set(id, request);
+            for (const id of missing) this.pendingByUID.set(id, request);
             waits.push(request);
         }
 
@@ -168,8 +169,8 @@ export default class CreatorDatabase {
         // resolved during our wait — whether from our own request or
         // a sibling's — is now in there.
         const out: Creator[] = [];
-        for (const id of ids) {
-            const creator = cache.get(id);
+        for (const id of uids) {
+            const creator = this.creatorsByUID.get(id);
             if (creator) out.push(creator);
         }
         return out;
@@ -179,7 +180,7 @@ export default class CreatorDatabase {
         uids: string[],
     ): Promise<Record<string, Creator | null>> {
         // First get any missing creators.
-        await this.getCreators(uids, 'uid');
+        await this.getCreators(uids);
 
         // Then construct a mapping
         const map: Record<string, Creator | null> = {};
@@ -187,20 +188,34 @@ export default class CreatorDatabase {
         return map;
     }
 
+    /**
+     * Resolve an email address or a username to a uid, for adding someone to a
+     * gallery, a class, or a project.
+     *
+     * Goes through the `findCreator` callable rather than looking the address
+     * up here, because that callable requires a signed-in caller and returns a
+     * uid alone. Looking someone up by address stays possible; reading an
+     * address back does not.
+     */
     async getUID(emailOrUsername: string): Promise<string | null> {
-        // Append the username domain if it's not an email
-        if (!isValidEmail(emailOrUsername))
-            emailOrUsername =
-                emailOrUsername + Creator.CreatorUsernameEmailDomain;
-        // First get any missing creators.
-        await this.getCreators([emailOrUsername], 'email');
-
-        // Then return what we've got.
-        return this.creatorsByEmail.get(emailOrUsername)?.getUID() ?? null;
+        const functions = await getFunctionsInstance();
+        if (functions === undefined) return null;
+        const { httpsCallable } = await import('firebase/functions');
+        const find = httpsCallable<FindCreatorInputs, FindCreatorOutput>(
+            functions,
+            'findCreator',
+        );
+        try {
+            const { data } = await find({ emailOrUsername });
+            return data.uid;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     }
 
     async getCreator(uid: string): Promise<Creator | null> {
-        await this.getCreators([uid], 'uid');
+        await this.getCreators([uid]);
         return this.creatorsByUID.get(uid) ?? null;
     }
 }

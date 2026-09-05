@@ -1,6 +1,7 @@
 import { test as baseTest } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
+import { joinViaUI } from '../tests/helpers/joinViaUI';
 
 export * from '@playwright/test';
 
@@ -59,17 +60,7 @@ export const test = baseTest.extend<
 
             if (!loggedIn) {
                 // User doesn't exist yet — create the account.
-                await page.goto('/en-US/join');
-                await page.getByTestId('username-field').fill(account.username);
-                await page.getByTestId('password-field').fill(account.password);
-                await page
-                    .getByTestId('password-repeat-field')
-                    .fill(account.password);
-                await page.getByTestId('join-button').click();
-
-                await page.waitForURL(/\/profile$/, {
-                    waitUntil: 'domcontentloaded',
-                });
+                await joinViaUI(page, account.username, account.password);
             }
 
             // Ask Playwright to save the indexedDB data stored by Firebase.

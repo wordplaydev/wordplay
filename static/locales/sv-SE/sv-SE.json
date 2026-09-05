@@ -9367,6 +9367,16 @@
                         "on": "$~Visa lösenord",
                         "off": "$~Dölj lösenord"
                     }
+                },
+                "signin": {
+                    "usesPassword": "$~Du loggar in med ett användarnamn och ett lösenord. Om du hellre slipper komma ihåg ett lösenord kan du byta till att logga in med en länk vi mejlar dig — ditt användarnamn är detsamma som förut.",
+                    "usesEmail": "$~Du loggar in med en länk vi mejlar dig. Om du hellre inte vill vänta på ett mejl kan du byta till ett användarnamn och ett lösenord — ditt användarnamn är detsamma som förut.",
+                    "notYet": "$~Du loggar in med ett användarnamn och ett lösenord. Där du bor är du inte gammal nog ännu för att använda en e-postadress här — från $date kan du byta till att logga in med en mejlad länk istället.",
+                    "switched": "$~Klart. Nästa gång loggar du in med ditt användarnamn och ditt nya lösenord.",
+                    "toPassword": {
+                        "label": "$~Använd ett lösenord istället",
+                        "tip": "$~Byt till att logga in med ditt användarnamn och ett lösenord"
+                    }
                 }
             },
             "join": {
@@ -9374,7 +9384,60 @@
                 "prompt": {
                     "create": "$~Skapa ett konto för att spara dina projekt, samarbeta med andra och dela ditt arbete.",
                     "username": "$~Användarnamn måste vara minst /5 tecken/, får inte vara en e-postadress och bör inte innehålla ditt namn eller annan information som avslöjar vem du är.",
-                    "password": "$~Lösenord måste vara minst /6 tecken/. Skriv det två gånger och skriv ner det på ett säkert ställe, som en lösenordshanterare. *Det finns inget sätt att återställa ditt konto* om du förlorar det, eftersom vi inte samlar in kontaktinformation."
+                    "password": "$~Lösenord måste vara minst /6 tecken/. Skriv det två gånger och skriv ner det på ett säkert ställe, som en lösenordshanterare. *Det finns inget sätt att återställa ditt konto* om du förlorar det, eftersom vi inte samlar in kontaktinformation.",
+                    "region": "$~Vi frågar var du bor så att vi kan följa reglerna där för unga personers konton. Vi sparar inte ditt svar.",
+                    "birthday": "$~Vi frågar om din födelsedag av samma skäl. Vi sparar inte den heller — bara om du är gammal nog att använda en e-postadress, och när du kommer att bli det.",
+                    "choose": "$~Det finns två sätt att logga in på. Välj det som passar dig.",
+                    "withPassword": "$~*Ett användarnamn och ett lösenord.* Vi kommer inte att veta något om dig — men *det finns inget sätt att få tillbaka ditt konto om du glömmer ditt lösenord*, eftersom vi inte har något sätt att nå dig.",
+                    "withEmail": "$~*En e-postadress.* Vi mejlar dig en länk varje gång du loggar in, så det finns inget lösenord att glömma. Vi sparar din adress bara för att skicka de länkarna.",
+                    "tooYoung": "$~Där du bor måste du vara $#age[$age år|$age år] gammal för att använda en e-postadress här. Tills dess blir det ett användarnamn och ett lösenord — och du kan byta senare.",
+                    "sent": "$~Om den adressen kan användas för att logga in är en länk på väg. Kolla din e-post."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Landet eller området du bor i",
+                        "placeholder": "$~land"
+                    },
+                    "year": {
+                        "description": "$~Året du föddes",
+                        "placeholder": "$~år"
+                    },
+                    "month": {
+                        "description": "$~Månaden du föddes",
+                        "placeholder": "$~månad"
+                    },
+                    "day": {
+                        "description": "$~Dagen du föddes",
+                        "placeholder": "$~dag"
+                    },
+                    "email": {
+                        "description": "$~E-postadressen du vill logga in med",
+                        "placeholder": "$~e-post"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~nästa",
+                        "tip": "$~Gå vidare till nästa steg"
+                    },
+                    "back": {
+                        "label": "$~tillbaka",
+                        "tip": "$~Gå tillbaka till föregående steg"
+                    },
+                    "usePassword": {
+                        "label": "$~Använd ett lösenord",
+                        "tip": "$~Skapa ett konto med användarnamn och lösenord"
+                    },
+                    "useEmail": {
+                        "label": "$~Använd en e-postadress",
+                        "tip": "$~Skapa ett konto du loggar in på med en länk via e-post"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Det där är inget riktigt datum. Kontrollera dag och månad.",
+                    "taken": "$~Någon tog just det användarnamnet. Prova ett annat.",
+                    "throttled": "$~Det är väldigt många inloggningslänkar. Vänta lite och försök igen.",
+                    "failed": "$~Vi kunde inte skapa kontot. Försök igen om en liten stund."
                 }
             },
             "rights": {
@@ -10604,6 +10667,15 @@
             "progress": "$~Översatt $done av $#total[$total fras|$total fraser]",
             "finished": "$~Ditt projekt talar nu $language.",
             "finishedPartial": "$~Ditt projekt talar nu $language, men $#kept[$kept fras|$kept fraser] behöll de ursprungliga orden."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Din inloggningslänk till Wordplay",
+                "heading": "$~Logga in på Wordplay",
+                "body": "$~Välj knappen nedan för att logga in. Länken fungerar bara en gång, och bara en kort stund.",
+                "button": "$~Logga in",
+                "disclaimer": "$~Om du inte bad om att logga in kan du strunta i det här e-postmeddelandet — ingen kan komma in på ditt konto utan den här länken."
+            }
         }
     },
     "moderation": {

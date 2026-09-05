@@ -482,13 +482,39 @@ test('resolving a color needs no basis', () => {
  * A glossary term is the cheapest place to put learner vocabulary for exactly
  * this reason: it is data in a file already on every graph, not a module. Only
  * `+layout.svelte` had no room left for it, so only its byte budget moves.
+ *
+ * The creator's username store (#628) is **+0 files** and about 3KB. Every
+ * account now has a username kept in a server-written `handles/{uid}` document
+ * rather than derived from a synthesized email address, and the nav chip renders
+ * the signed-in creator's — so the store sits on the session path, beside the
+ * strikes and notices stores it is modelled on. It imports only what
+ * `Database.ts` already reached, and the file count does not move at all,
+ * because it displaced the two modules it replaced (`accountExists.ts`, whose
+ * bulk email-existence oracle is deleted, and `isValidUsername.ts`). Three
+ * budgets had no slack left, so only those three move.
+ *
+ * The join flow's own strings (#628) are the other half of the same change and
+ * the familiar kind: asking where someone lives and when they were born, and
+ * offering a choice between a password and an emailed link, needs about thirty
+ * strings in `en-US.json`, which every page carries because every page resolves
+ * a locale. **+0 files** again — the country list and the date patterns the
+ * birthday fields are ordered by were both already on every graph, for language
+ * tags and for `Moment`. The remaining two budgets move by a hundredth.
+ *
+ * App Check (#1299) is **+0 files** and under a kilobyte: the attestation
+ * accessor and its explanation in `firebase.ts`, plus the strings for switching
+ * how you sign in. The App Check SDK itself is emphatically *not* in these
+ * numbers and must never be — it is loaded through a dynamic `import()`, which
+ * is its own chunk, and a static import would put both it and reCAPTCHA's
+ * script into what every first-time visitor downloads. `staticImportsOf` is what
+ * would catch that, and the two budgets with no slack move by a hundredth.
  */
 test.each([
-    ['src/routes/+layout.svelte', 502, 3.69],
-    ['src/components/app/Page.svelte', 525, 3.93],
-    ['src/routes/[[locale]]/+page.svelte', 540, 4.02],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 544, 4.03],
-    ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.06],
+    ['src/routes/+layout.svelte', 502, 3.7],
+    ['src/components/app/Page.svelte', 525, 3.95],
+    ['src/routes/[[locale]]/+page.svelte', 540, 4.03],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 544, 4.05],
+    ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.07],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

@@ -18791,6 +18791,47 @@
                             ],
                             "type": "object"
                         },
+                        "email": {
+                            "additionalProperties": false,
+                            "description": "The sign-in link email (#628). Read by the sendSigninLink cloud function out of this locale's deployed JSON, so a creator gets the mail in their own language. Plain text only: it is assembled into HTML server-side, and markup would arrive as literal characters.",
+                            "properties": {
+                                "signin": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "body": {
+                                            "description": "[plain] The sentence explaining what the link does",
+                                            "type": "string"
+                                        },
+                                        "button": {
+                                            "description": "[plain] The label on the button that signs the reader in",
+                                            "type": "string"
+                                        },
+                                        "disclaimer": {
+                                            "description": "[plain] Reassurance for someone who didn't ask to sign in",
+                                            "type": "string"
+                                        },
+                                        "heading": {
+                                            "description": "[plain] The heading inside the sign-in link email",
+                                            "type": "string"
+                                        },
+                                        "subject": {
+                                            "description": "[plain] The subject line of the sign-in link email",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "subject",
+                                        "heading",
+                                        "body",
+                                        "button",
+                                        "disclaimer"
+                                    ],
+                                    "type": "object"
+                                }
+                            },
+                            "required": ["signin"],
+                            "type": "object"
+                        },
                         "emoji": {
                             "additionalProperties": false,
                             "description": "Emoji related text",
@@ -22261,6 +22302,95 @@
                                     "additionalProperties": false,
                                     "description": "Account creation page text",
                                     "properties": {
+                                        "button": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "back": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Go back to the previous step of joining"
+                                                },
+                                                "next": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Continue to the next step of joining"
+                                                },
+                                                "useEmail": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Choose to sign in with an emailed link"
+                                                },
+                                                "usePassword": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Choose to sign in with a password"
+                                                }
+                                            },
+                                            "required": [
+                                                "next",
+                                                "back",
+                                                "usePassword",
+                                                "useEmail"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "birthday": {
+                                                    "description": "[plain] The birthday given isn't a real date",
+                                                    "type": "string"
+                                                },
+                                                "failed": {
+                                                    "description": "[plain] The account couldn't be created",
+                                                    "type": "string"
+                                                },
+                                                "taken": {
+                                                    "description": "[plain] Someone else claimed this username while it was being typed",
+                                                    "type": "string"
+                                                },
+                                                "throttled": {
+                                                    "description": "[plain] Too many sign-in links have been requested; wait and try again",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "birthday",
+                                                "taken",
+                                                "throttled",
+                                                "failed"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "field": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "day": {
+                                                    "$ref": "#/definitions/FieldText",
+                                                    "description": "The day someone was born"
+                                                },
+                                                "email": {
+                                                    "$ref": "#/definitions/FieldText",
+                                                    "description": "The email address to sign in with"
+                                                },
+                                                "month": {
+                                                    "$ref": "#/definitions/FieldText",
+                                                    "description": "The month someone was born"
+                                                },
+                                                "region": {
+                                                    "$ref": "#/definitions/FieldText",
+                                                    "description": "The country someone lives in"
+                                                },
+                                                "year": {
+                                                    "$ref": "#/definitions/FieldText",
+                                                    "description": "The year someone was born"
+                                                }
+                                            },
+                                            "required": [
+                                                "region",
+                                                "year",
+                                                "month",
+                                                "day",
+                                                "email"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "header": {
                                             "description": "[plain] The account creation header",
                                             "type": "string"
@@ -22269,6 +22399,14 @@
                                             "additionalProperties": false,
                                             "description": "Requests for information on the account creation page",
                                             "properties": {
+                                                "birthday": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Why we ask for a birthday, and that we keep only whether they're old enough"
+                                                },
+                                                "choose": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Offers the choice between a password and an emailed sign-in link"
+                                                },
                                                 "create": {
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Prompt to create an account"
@@ -22277,20 +22415,53 @@
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Password rules and warnings"
                                                 },
+                                                "region": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Why we ask where someone lives, and that we don't keep the answer"
+                                                },
+                                                "sent": {
+                                                    "description": "[plain] Confirms a sign-in link was sent, without saying whether the address already had an account",
+                                                    "type": "string"
+                                                },
+                                                "tooYoung": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22%23age%22%5D%3E",
+                                                    "description": "[formatted] Explains that an email account isn't available at this age where they live. $#age is the age of consent there."
+                                                },
                                                 "username": {
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Username rules"
+                                                },
+                                                "withEmail": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Explains what an email account means: no password to forget, and we keep the address"
+                                                },
+                                                "withPassword": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Explains what a password account means: no email, and no way to recover it"
                                                 }
                                             },
                                             "required": [
                                                 "create",
                                                 "username",
-                                                "password"
+                                                "password",
+                                                "region",
+                                                "birthday",
+                                                "choose",
+                                                "withPassword",
+                                                "withEmail",
+                                                "tooYoung",
+                                                "sent"
                                             ],
                                             "type": "object"
                                         }
                                     },
-                                    "required": ["header", "prompt"],
+                                    "required": [
+                                        "header",
+                                        "prompt",
+                                        "field",
+                                        "button",
+                                        "error"
+                                    ],
                                     "type": "object"
                                 },
                                 "landing": {
@@ -23435,6 +23606,40 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "signin": {
+                                            "additionalProperties": false,
+                                            "description": "How someone signs in, and moving between the two ways (#628)",
+                                            "properties": {
+                                                "notYet": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22date%22%5D%3E",
+                                                    "description": "[formatted] Stands in for usesPassword when this creator isn't old enough for an email address yet. Says the whole thing on its own, rather than following an offer that doesn't apply to them. $date is the day they become eligible, written in this locale's own way."
+                                                },
+                                                "switched": {
+                                                    "description": "[plain] Confirms the account now signs in with a username and password",
+                                                    "type": "string"
+                                                },
+                                                "toPassword": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Switch to signing in with a username and password"
+                                                },
+                                                "usesEmail": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Explains that this account signs in with an emailed link, and offers a password instead"
+                                                },
+                                                "usesPassword": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Explains that this account signs in with a username and password, and offers an email address instead. Shown only when this creator is old enough to hold one — see notYet for the other case."
+                                                }
+                                            },
+                                            "required": [
+                                                "usesPassword",
+                                                "usesEmail",
+                                                "notYet",
+                                                "switched",
+                                                "toPassword"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "subtitle": {
                                             "description": "[plain] Subtitle for the header link on the landing page",
                                             "type": "string"
@@ -23458,6 +23663,7 @@
                                         "anonymous",
                                         "field",
                                         "feedback",
+                                        "signin",
                                         "error",
                                         "button",
                                         "toggle"
@@ -27214,6 +27420,7 @@
                         }
                     },
                     "required": [
+                        "email",
                         "font",
                         "phrases",
                         "widget",
@@ -27929,6 +28136,9 @@
             "description": "The font face names supported. To add one, carefully add metadata to Faces and files to /static/fonts/.",
             "type": ["string"]
         },
+        "Template<[\"#age\"]>": {
+            "type": "string"
+        },
         "Template<[\"#count\",\"#remaining\",\"banning\"]>": {
             "type": "string"
         },
@@ -28056,6 +28266,9 @@
             "type": "string"
         },
         "Template<[\"count\"]>": {
+            "type": "string"
+        },
+        "Template<[\"date\"]>": {
             "type": "string"
         },
         "Template<[\"degree\",\"beat\",\"#count\"]>": {

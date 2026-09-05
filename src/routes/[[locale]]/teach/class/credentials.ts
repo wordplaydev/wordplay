@@ -1,9 +1,5 @@
-import {
-    usernameAccountExists,
-    usernamesExist,
-} from '@db/creators/accountExists';
-import { Creator } from '@db/creators/CreatorDatabase';
-import { UsernameLength } from '@db/creators/isValidUsername';
+import { usernameAvailable, usernamesAvailable } from '@db/creators/usernames';
+import { UsernameLength } from '@db/creators/username';
 import NumberGenerator from '@util/random/NumberGenerator';
 
 export type Credentials = { username: string; password: string };
@@ -77,30 +73,27 @@ export async function createCredentials(
         credentials.push({ username, password });
     }
 
-    // Now that we have some proposed usernames and passwords, we need to make sure they are unique in Firebase Auth.
-    // We do this in bulk to avoid hitting the server too much.
-    const existsByEmail = await usernamesExist(
+    // Now that we have some proposed usernames and passwords, make sure each is
+    // actually claimable. Asked in bulk to avoid hitting the server too much,
+    // and about usernames rather than addresses — a reserved name is taken even
+    // when no account holds it yet, which a lookup by address cannot see.
+    const availability = await usernamesAvailable(
         credentials.map((c) => c.username),
     );
-    if (existsByEmail === undefined) return undefined;
-    // If the username already exists, we need to generate a new one.
-    for (const [email, exists] of Object.entries(existsByEmail)) {
-        if (exists) {
-            // Get the username back from the email.
-            const username = Creator.getUsername(email);
-            let revisedUsername = username;
-            // Keep adding a number to the end until we find a unique username.
-            // Check the revised candidate, not the original `username` — the
-            // original is known to exist, so testing it would loop forever.
-            let usernameCount = 0;
-            while (await usernameAccountExists(revisedUsername)) {
-                usernameCount++;
-                revisedUsername = username + usernameCount;
-            }
-            // Update the usernmame.
-            const index = credentials.findIndex((c) => c.username === username);
-            if (index >= 0) credentials[index].username = revisedUsername;
+    if (availability === undefined) return undefined;
+    for (const [username, available] of Object.entries(availability)) {
+        if (available) continue;
+        let revisedUsername = username;
+        // Keep adding a number to the end until we find a free username.
+        // Check the revised candidate, not the original — the original is
+        // known to be taken, so testing it would loop forever.
+        let usernameCount = 0;
+        while ((await usernameAvailable(revisedUsername)) !== true) {
+            usernameCount++;
+            revisedUsername = username + usernameCount;
         }
+        const index = credentials.findIndex((c) => c.username === username);
+        if (index >= 0) credentials[index].username = revisedUsername;
     }
 
     return credentials;

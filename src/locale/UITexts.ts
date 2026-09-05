@@ -96,6 +96,24 @@ export type FieldText = {
 };
 
 type UITexts = {
+    /** The sign-in link email (#628). Read by the sendSigninLink cloud function
+     *  out of this locale's deployed JSON, so a creator gets the mail in their
+     *  own language. Plain text only: it is assembled into HTML server-side, and
+     *  markup would arrive as literal characters. */
+    email: {
+        signin: {
+            /** [plain] The subject line of the sign-in link email */
+            subject: string;
+            /** [plain] The heading inside the sign-in link email */
+            heading: string;
+            /** [plain] The sentence explaining what the link does */
+            body: string;
+            /** [plain] The label on the button that signs the reader in */
+            button: string;
+            /** [plain] Reassurance for someone who didn't ask to sign in */
+            disclaimer: string;
+        };
+    };
     font: {
         /** [plain] The application font to use throughout the application. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         app: SupportedFace;
