@@ -6,6 +6,8 @@ type BatchOp = {
     data?: unknown;
 };
 let lastBatchOps: BatchOp[] = [];
+/** What `batch.commit()` returns; a test can hold it unresolved. */
+let commitResult: Promise<void> = Promise.resolve();
 
 vi.mock('firebase/firestore', () => ({
     and: vi.fn(),
@@ -35,7 +37,9 @@ vi.mock('firebase/firestore', () => ({
             delete: vi.fn((ref: unknown) => {
                 ops.push({ kind: 'delete', ref });
             }),
-            commit: vi.fn(async () => {}),
+            // Resolves immediately by default; a test that needs to hold the
+            // write in flight (an offline create) replaces `commitResult`.
+            commit: vi.fn(() => commitResult),
         };
     }),
     onSnapshot: vi.fn(() => () => {}),
@@ -123,12 +127,14 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
     beforeEach(() => {
         vi.clearAllMocks();
         lastBatchOps = [];
+        commitResult = Promise.resolve();
 
         mockDatabase = {
             getUser: vi.fn(() => ({ uid: 'user-1' })),
             track: vi.fn(<T>(p: Promise<T>) => p),
             write: vi.fn(<T>(p: Promise<T>) => p),
             reportBanner: vi.fn(),
+            Galleries: { mirrorHowToMembership: vi.fn() },
         };
 
         db = new HowToDatabase(mockDatabase);
@@ -174,6 +180,78 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
             expect(elements).toHaveLength(1);
             expect(typeof elements[0]).toBe('string');
         });
+
+        // The gallery half of the batch is a cloud-only arrayUnion, so the
+        // membership reaches this client only through the galleries listener —
+        // which skips a gallery with an unsaved local edit. Without the local
+        // mirror the drafts list can sit empty until some later write to the
+        // gallery happens to arrive.
+        it('mirrors the new membership once the write lands', async () => {
+            const gallery = makeGallery('g1');
+
+            await db.addHowTo(
+                gallery,
+                false,
+                0,
+                0,
+                [],
+                'title',
+                [],
+                [''],
+                ['en-US'],
+                {},
+                false,
+                false,
+                false,
+            );
+
+            const galleryUpdate = lastBatchOps.find((o) => o.kind === 'update');
+            const { elements } = (galleryUpdate!.data as { howTos: unknown })
+                .howTos as { elements: string[] };
+            await vi.waitFor(() =>
+                expect(
+                    mockDatabase.Galleries.mirrorHowToMembership,
+                ).toHaveBeenCalledWith(gallery, elements[0], true),
+            );
+        });
+
+        // Offline, the commit doesn't resolve until reconnect. Mirroring before
+        // it lands would leave the gallery listing a how-to whose document
+        // isn't there — and `flushUnsaved` would replay the gallery that way.
+        it('does not mirror while the write is still in flight', async () => {
+            const gallery = makeGallery('g1');
+            let land: (() => void) | undefined;
+            commitResult = new Promise<void>((resolve) => {
+                land = resolve;
+            });
+
+            await db.addHowTo(
+                gallery,
+                false,
+                0,
+                0,
+                [],
+                'title',
+                [],
+                [''],
+                ['en-US'],
+                {},
+                false,
+                false,
+                false,
+            );
+
+            expect(
+                mockDatabase.Galleries.mirrorHowToMembership,
+            ).not.toHaveBeenCalled();
+
+            land?.();
+            await vi.waitFor(() =>
+                expect(
+                    mockDatabase.Galleries.mirrorHowToMembership,
+                ).toHaveBeenCalled(),
+            );
+        });
     });
 
     describe('deleteHowTo', () => {
@@ -208,6 +286,9 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
 
             expect(db['howtos'].has('ht-1')).toBe(false);
             expect(mockDatabase.reportBanner).not.toHaveBeenCalled();
+            expect(
+                mockDatabase.Galleries.mirrorHowToMembership,
+            ).toHaveBeenCalledWith(gallery, 'ht-1', false);
         });
 
         it('keeps the how-to locally and reports a banner when the cloud delete fails', async () => {
@@ -222,6 +303,11 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
 
             expect(db['howtos'].has('ht-1')).toBe(true);
             expect(mockDatabase.reportBanner).toHaveBeenCalledTimes(1);
+            // A refused delete leaves the membership alone too, or the how-to
+            // would vanish from the gallery while still in the cloud.
+            expect(
+                mockDatabase.Galleries.mirrorHowToMembership,
+            ).not.toHaveBeenCalled();
         });
     });
 

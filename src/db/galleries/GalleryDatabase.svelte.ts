@@ -609,6 +609,28 @@ export default class GalleryDatabase {
         }
     }
 
+    /** Reflect a how-to's addition or removal in the local copy of its gallery,
+     *  once the write it mirrors has landed. The gallery half of the batch is an
+     *  arrayUnion/arrayRemove, so it otherwise reaches this client only through
+     *  the listener — which skips a gallery with an unsaved local edit, leaving
+     *  the drafts list waiting on a snapshot that may never come. Never mirror
+     *  before the ack: offline that would advertise a how-to with no document. */
+    mirrorHowToMembership(gallery: Gallery, howToID: string, added: boolean) {
+        const id = gallery.getID();
+        const revised = added
+            ? gallery.withHowTo(howToID)
+            : gallery.withoutHowTo(howToID);
+        // Wherever we hold it, including the by-ID cache a direct read fills.
+        if (this.accessibleGalleries.has(id))
+            this.accessibleGalleries.set(id, revised);
+        else if (this.expandedScopeGalleries.has(id))
+            this.expandedScopeGalleries.set(id, revised);
+        else if (this.publicGalleries.has(id))
+            this.publicGalleries.set(id, revised);
+        else return; // Hold no copy? Nothing to keep in sync.
+        void this.cacheGalleriesLocally([revised]);
+    }
+
     async delete(gallery: Gallery) {
         if (firestore === undefined) return undefined;
         const user = this.database.getUser();

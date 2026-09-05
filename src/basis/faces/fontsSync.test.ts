@@ -21,32 +21,33 @@ import { FallbackFaces } from './faces.fallback.generated';
 
 const lock = readLock();
 
-describe('font artifacts are in sync with the manifest + font files', () => {
-    test('every font file matches its lockfile hash', () => {
-        expect(checkHashes(lock)).toEqual([]);
-    });
+// Every check here reads or measures each of the font files, so all of them are
+// I/O-bound in a way the 5s default doesn't survive on a loaded machine: the
+// metrics check reached 5.7s in CI and hashing every file blew it under a
+// parallel local run, though both are well under a second idle.
+describe(
+    'font artifacts are in sync with the manifest + font files',
+    { timeout: 30_000 },
+    () => {
+        test('every font file matches its lockfile hash', () => {
+            expect(checkHashes(lock)).toEqual([]);
+        });
 
-    test('the committed CSS ranges match the lockfile', async () => {
-        expect(await checkCssConsistency(lock)).toEqual([]);
-    });
+        test('the committed CSS ranges match the lockfile', async () => {
+            expect(await checkCssConsistency(lock)).toEqual([]);
+        });
 
-    test('faces.generated.ts matches the manifest + lockfile', async () => {
-        const problems = await checkRegistryConsistency(
-            lock,
-            { Faces, FallbackFaces },
-            await emojiRanges(),
-        );
-        expect(problems).toEqual([]);
-    });
+        test('faces.generated.ts matches the manifest + lockfile', async () => {
+            const problems = await checkRegistryConsistency(
+                lock,
+                { Faces, FallbackFaces },
+                await emojiRanges(),
+            );
+            expect(problems).toEqual([]);
+        });
 
-    // Explicit timeout because this one re-measures every font file rather than
-    // comparing hashes: ~0.6s on a dev machine, but CI runs it alongside three
-    // other workers and it reached 5.7s, tripping the 5s default.
-    test(
-        'metrics.generated.ts matches what the font files measure',
-        { timeout: 30_000 },
-        async () => {
+        test('metrics.generated.ts matches what the font files measure', async () => {
             expect(await checkMetrics(FaceMetrics)).toEqual([]);
-        },
-    );
-});
+        });
+    },
+);
