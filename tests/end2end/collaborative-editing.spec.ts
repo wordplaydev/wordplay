@@ -147,8 +147,8 @@ test('two browser contexts, two users — edits propagate both ways', async ({
     // is fine because the project ID is fresh per run and the assertions
     // only check that fresh content propagates.
     const workerIndex = test.info().parallelIndex;
-    const usernameA = `collab-a-${workerIndex}`;
-    const usernameB = `collab-b-${workerIndex}`;
+    const usernameA = `collabA${workerIndex}`;
+    const usernameB = `collabB${workerIndex}`;
     const password = 'password';
 
     const sessionA = await loginNewContext(browser, usernameA, password);

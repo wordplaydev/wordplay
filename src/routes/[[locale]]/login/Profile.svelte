@@ -15,6 +15,7 @@
     import { updateProfile, type User } from 'firebase/auth';
     import ChangeEmail from './ChangeEmail.svelte';
     import ChangePassword from './ChangePassword.svelte';
+    import SigninMethod from './SigninMethod.svelte';
     import DeleteAccount from './DeleteAccount.svelte';
 
     interface Props {
@@ -91,15 +92,21 @@
             testid="logout"
         />
     </Action>
-    {#if !creator.isUsername()}
-        <Action>
-            <ChangeEmail {user} />
-        </Action>
-    {:else}
+    <!-- What this account uses today, and how to change it. Both are shown,
+         because they are different questions: one changes a credential, the
+         other changes which credential you have. -->
+    {#if Creator.isUsername(user.email ?? '')}
         <Action>
             <ChangePassword {user} />
         </Action>
+    {:else}
+        <Action>
+            <ChangeEmail {user} />
+        </Action>
     {/if}
+    <Action>
+        <SigninMethod {user} />
+    </Action>
     <Action><DeleteAccount {user} /></Action>
 </div>
 

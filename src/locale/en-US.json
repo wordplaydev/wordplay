@@ -7014,6 +7014,15 @@
         }
     },
     "ui": {
+        "email": {
+            "signin": {
+                "subject": "Your Wordplay sign-in link",
+                "heading": "Sign in to Wordplay",
+                "body": "Select the button below to sign in. The link works once, and only for a little while.",
+                "button": "Sign in",
+                "disclaimer": "If you didn't ask to sign in, you can ignore this email — nobody can get into your account without this link."
+            }
+        },
         "font": {
             "app": "Noto Sans",
             "code": "Noto Sans Mono",
@@ -10215,6 +10224,16 @@
                     "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email or username to confirm that this is what you want.",
                     "name": "Pick an emoji or custom character to represent yourself to others."
                 },
+                "signin": {
+                    "usesPassword": "You sign in with a username and a password. If you'd rather not have a password to remember, you can switch to signing in with a link we email you — your username stays the same.",
+                    "usesEmail": "You sign in with a link we email you. If you'd rather not wait for email, you can switch to a username and a password — your username stays the same.",
+                    "notYet": "You sign in with a username and a password. Where you live, you’re not old enough yet to use an email address here — from $date you’ll be able to switch to signing in with an emailed link instead.",
+                    "switched": "Done. Next time, sign in with your username and your new password.",
+                    "toPassword": {
+                        "label": "Use a password instead",
+                        "tip": "Switch to signing in with your username and a password"
+                    }
+                },
                 "error": {
                     "expired": "This link expired.",
                     "invalid": "This link isn't valid.",
@@ -10291,7 +10310,60 @@
                 "prompt": {
                     "create": "Create an account to save your projects, collaborate with others, and share your work.",
                     "username": "Usernames must be at least /5 characters/, can't be an email, and shouldn't contain your name or other identifying information.",
-                    "password": "Passwords must be at least /6 characters/. Type it twice and write it down somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
+                    "password": "Passwords must be at least /6 characters/. Type it twice and write it down somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information.",
+                    "region": "We ask where you live so we can follow the rules there about young people's accounts. We don't keep your answer.",
+                    "birthday": "We ask your birthday for the same reason. We don't keep it either — only whether you're old enough to use an email address, and when you will be.",
+                    "choose": "There are two ways to sign in. Pick whichever suits you.",
+                    "withPassword": "*A username and a password.* We won't know anything about you — but *there is no way to get your account back if you forget your password*, since we'd have no way to reach you.",
+                    "withEmail": "*An email address.* We email you a link each time you sign in, so there's no password to forget. We keep your address only to send those links.",
+                    "tooYoung": "Where you live, you need to be $#age[$age year|$age years] old to use an email address here. Until then, a username and password it is — and you can switch later.",
+                    "sent": "If that address can be used to sign in, a link is on its way. Check your email."
+                },
+                "field": {
+                    "region": {
+                        "description": "The country or region you live in",
+                        "placeholder": "country"
+                    },
+                    "year": {
+                        "description": "The year you were born",
+                        "placeholder": "year"
+                    },
+                    "month": {
+                        "description": "The month you were born",
+                        "placeholder": "month"
+                    },
+                    "day": {
+                        "description": "The day you were born",
+                        "placeholder": "day"
+                    },
+                    "email": {
+                        "description": "The email address you want to sign in with",
+                        "placeholder": "email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "next",
+                        "tip": "Go on to the next step"
+                    },
+                    "back": {
+                        "label": "back",
+                        "tip": "Go back to the previous step"
+                    },
+                    "usePassword": {
+                        "label": "Use a password",
+                        "tip": "Make an account with a username and a password"
+                    },
+                    "useEmail": {
+                        "label": "Use an email address",
+                        "tip": "Make an account you sign into with an emailed link"
+                    }
+                },
+                "error": {
+                    "birthday": "That isn't a real date. Check the day and month.",
+                    "taken": "Someone claimed that username just now. Try another one.",
+                    "throttled": "That's a lot of sign-in links. Wait a little and try again.",
+                    "failed": "We couldn't make the account. Try again in a moment."
                 }
             },
             "rights": {

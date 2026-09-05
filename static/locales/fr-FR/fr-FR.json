@@ -9130,14 +9130,77 @@
                         "off": "$~Masquer le mot de passe"
                     }
                 },
-                "subtitle": "$~Enregistrez, collaborez et partagez"
+                "subtitle": "$~Enregistrez, collaborez et partagez",
+                "signin": {
+                    "usesPassword": "$~Tu te connectes avec un nom d'utilisateur et un mot de passe. Si tu préfères ne pas avoir de mot de passe à retenir, tu peux choisir de te connecter avec un lien qu'on t'envoie par courriel — ton nom d'utilisateur reste le même.",
+                    "usesEmail": "$~Tu te connectes avec un lien qu'on t'envoie par courriel. Si tu préfères ne pas attendre le courriel, tu peux passer à un nom d'utilisateur et un mot de passe — ton nom d'utilisateur reste le même.",
+                    "notYet": "$~Tu te connectes avec un nom d'utilisateur et un mot de passe. Là où tu habites, tu n'as pas encore l'âge requis pour utiliser une adresse courriel ici — à partir du $date, tu pourras passer à une connexion avec un lien envoyé par courriel.",
+                    "switched": "$~C'est fait. La prochaine fois, connecte-toi avec ton nom d'utilisateur et ton nouveau mot de passe.",
+                    "toPassword": {
+                        "label": "$~Utiliser un mot de passe à la place",
+                        "tip": "$~Passer à une connexion avec ton nom d'utilisateur et un mot de passe"
+                    }
+                }
             },
             "join": {
                 "header": "$~Rejoindre",
                 "prompt": {
                     "create": "$~Créez un compte pour enregistrer vos projets, collaborer avec d'autres et partager votre travail.",
                     "username": "$~Les noms d'utilisateur doivent avoir au moins /5 caractères/, ne peuvent pas être un e-mail, et ne devraient pas contenir ton nom ou d'autres informations qui t'identifient.",
-                    "password": "$~Les mots de passe doivent comporter au moins /6 caractères/. Tapez-les deux fois et notez-les dans un endroit sûr, comme un gestionnaire de mots de passe. *Il n'y a aucun moyen de récupérer votre compte* si vous le perdez, car nous ne collectons pas d'informations de contact."
+                    "password": "$~Les mots de passe doivent comporter au moins /6 caractères/. Tapez-les deux fois et notez-les dans un endroit sûr, comme un gestionnaire de mots de passe. *Il n'y a aucun moyen de récupérer votre compte* si vous le perdez, car nous ne collectons pas d'informations de contact.",
+                    "region": "$~On te demande où tu habites pour suivre les règles de ton pays sur les comptes des jeunes. On ne garde pas ta réponse.",
+                    "birthday": "$~On te demande ta date de naissance pour la même raison. On ne la garde pas non plus — seulement si tu as l'âge requis pour utiliser une adresse courriel, et quand tu l'auras.",
+                    "choose": "$~Il y a deux façons de se connecter. Choisis celle qui te convient.",
+                    "withPassword": "$~*Un nom d'utilisateur et un mot de passe.* On ne saura rien sur toi — mais *il n'y a aucun moyen de récupérer ton compte si tu oublies ton mot de passe*, puisqu'on n'aurait aucun moyen de te contacter.",
+                    "withEmail": "$~*Une adresse courriel.* On t'envoie un lien par courriel à chaque connexion, donc il n'y a pas de mot de passe à oublier. On garde ton adresse seulement pour envoyer ces liens.",
+                    "tooYoung": "$~Là où tu habites, tu dois avoir au moins $#age[$#age an|$age ans|$age ans] pour utiliser une adresse courriel ici. En attendant, ce sera un nom d'utilisateur et un mot de passe — tu pourras changer plus tard.",
+                    "sent": "$~Si cette adresse peut servir à se connecter, un lien est en route. Vérifie ton courriel."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Le pays ou la région où tu habites",
+                        "placeholder": "$~pays"
+                    },
+                    "year": {
+                        "description": "$~L'année de ta naissance",
+                        "placeholder": "$~année"
+                    },
+                    "month": {
+                        "description": "$~Le mois de ta naissance",
+                        "placeholder": "$~mois"
+                    },
+                    "day": {
+                        "description": "$~Le jour de ta naissance",
+                        "placeholder": "$~jour"
+                    },
+                    "email": {
+                        "description": "$~L'adresse courriel avec laquelle tu veux te connecter",
+                        "placeholder": "$~courriel"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~suivant",
+                        "tip": "$~Passer à l'étape suivante"
+                    },
+                    "back": {
+                        "label": "$~retour",
+                        "tip": "$~Retourner à l'étape précédente"
+                    },
+                    "usePassword": {
+                        "label": "$~Utiliser un mot de passe",
+                        "tip": "$~Créer un compte avec un nom d'utilisateur et un mot de passe"
+                    },
+                    "useEmail": {
+                        "label": "$~Utiliser une adresse courriel",
+                        "tip": "$~Créer un compte auquel on se connecte avec un lien envoyé par courriel"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Ce n'est pas une vraie date. Vérifie le jour et le mois.",
+                    "taken": "$~Quelqu'un vient de prendre ce nom d'utilisateur à l'instant. Essaie-en un autre.",
+                    "throttled": "$~C'est beaucoup trop de liens de connexion. Attends un peu et réessaie.",
+                    "failed": "$~Nous n'avons pas pu créer le compte. Réessaie dans un instant."
                 }
             },
             "rights": {
@@ -10633,6 +10696,15 @@
             "progress": "$~Traduit $done sur $#total[$#total phrase|$total phrases|$total phrases]",
             "finished": "$~Ton projet parle maintenant $language.",
             "finishedPartial": "$~Ton projet parle maintenant $language, mais $#kept[$#kept phrase a gardé|$kept phrases ont gardé|$kept phrases ont gardé] les mots d’origine."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Ton lien de connexion à Wordplay",
+                "heading": "$~Se connecter à Wordplay",
+                "body": "$~Sélectionne le bouton ci-dessous pour te connecter. Le lien fonctionne une seule fois, et seulement pendant un court moment.",
+                "button": "$~Se connecter",
+                "disclaimer": "$~Si tu n'as pas demandé à te connecter, tu peux ignorer ce courriel — personne ne peut accéder à ton compte sans ce lien."
+            }
         }
     },
     "moderation": {

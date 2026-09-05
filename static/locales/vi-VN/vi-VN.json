@@ -9974,6 +9974,16 @@
                         "on": "$~Hiển thị mật khẩu",
                         "off": "$~Ẩn mật khẩu"
                     }
+                },
+                "signin": {
+                    "usesPassword": "$~Bạn đăng nhập bằng tên đăng nhập và mật khẩu. Nếu bạn không muốn nhớ mật khẩu, bạn có thể chuyển sang đăng nhập bằng một đường liên kết chúng tôi gửi qua email — tên đăng nhập của bạn vẫn giữ nguyên.",
+                    "usesEmail": "$~Bạn đăng nhập bằng một đường liên kết chúng tôi gửi qua email. Nếu bạn không muốn chờ email, bạn có thể chuyển sang dùng tên đăng nhập và mật khẩu — tên đăng nhập của bạn vẫn giữ nguyên.",
+                    "notYet": "$~Bạn đăng nhập bằng tên đăng nhập và mật khẩu. Ở nơi bạn sống, bạn chưa đủ tuổi để dùng địa chỉ email ở đây — từ $date bạn sẽ có thể chuyển sang đăng nhập bằng một đường liên kết gửi qua email.",
+                    "switched": "$~Xong rồi. Lần sau, hãy đăng nhập bằng tên đăng nhập và mật khẩu mới của bạn.",
+                    "toPassword": {
+                        "label": "$~Dùng mật khẩu thay thế",
+                        "tip": "$~Chuyển sang đăng nhập bằng tên đăng nhập và mật khẩu"
+                    }
                 }
             },
             "join": {
@@ -9981,7 +9991,60 @@
                 "prompt": {
                     "create": "$~Hãy tạo tài khoản để lưu dự án của bạn, cộng tác với người khác và chia sẻ công việc của bạn.",
                     "username": "$~Tên người dùng phải có ít nhất 5 ký tự, không được là địa chỉ email và không được chứa tên của bạn hoặc thông tin nhận dạng khác.",
-                    "password": "$~Mật khẩu phải có ít nhất 6 ký tự. Hãy nhập mật khẩu hai lần và ghi lại ở một nơi an toàn, chẳng hạn như trình quản lý mật khẩu. *Không có cách nào để khôi phục tài khoản của bạn* nếu bạn bị mất, vì chúng tôi không thu thập thông tin liên hệ."
+                    "password": "$~Mật khẩu phải có ít nhất 6 ký tự. Hãy nhập mật khẩu hai lần và ghi lại ở một nơi an toàn, chẳng hạn như trình quản lý mật khẩu. *Không có cách nào để khôi phục tài khoản của bạn* nếu bạn bị mất, vì chúng tôi không thu thập thông tin liên hệ.",
+                    "region": "$~Chúng tôi hỏi nơi bạn sống để có thể tuân theo các quy định ở đó về tài khoản của người trẻ tuổi. Chúng tôi không lưu lại câu trả lời của bạn.",
+                    "birthday": "$~Chúng tôi hỏi ngày sinh của bạn cũng vì lý do đó. Chúng tôi cũng không lưu lại ngày sinh — chỉ lưu việc bạn đã đủ tuổi dùng địa chỉ email hay chưa, và khi nào bạn sẽ đủ tuổi.",
+                    "choose": "$~Có hai cách để đăng nhập. Hãy chọn cách phù hợp với bạn.",
+                    "withPassword": "$~*Tên đăng nhập và mật khẩu.* Chúng tôi sẽ không biết gì về bạn — nhưng *không có cách nào lấy lại tài khoản nếu bạn quên mật khẩu*, vì chúng tôi không có cách nào liên lạc với bạn.",
+                    "withEmail": "$~*Địa chỉ email.* Chúng tôi gửi cho bạn một đường liên kết mỗi lần bạn đăng nhập, vì vậy sẽ không có mật khẩu nào để quên. Chúng tôi chỉ lưu địa chỉ của bạn để gửi những đường liên kết đó.",
+                    "tooYoung": "$~Ở nơi bạn sống, bạn cần đủ $#age[$age tuổi] để dùng địa chỉ email ở đây. Trước khi đủ tuổi, bạn sẽ dùng tên đăng nhập và mật khẩu — và bạn có thể chuyển đổi sau.",
+                    "sent": "$~Nếu địa chỉ đó có thể dùng để đăng nhập, một đường liên kết đang được gửi tới. Hãy kiểm tra email của bạn."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Quốc gia hoặc vùng đất nơi bạn sống",
+                        "placeholder": "$~quốc gia"
+                    },
+                    "year": {
+                        "description": "$~Năm bạn sinh",
+                        "placeholder": "$~năm"
+                    },
+                    "month": {
+                        "description": "$~Tháng bạn sinh",
+                        "placeholder": "$~tháng"
+                    },
+                    "day": {
+                        "description": "$~Ngày bạn sinh",
+                        "placeholder": "$~ngày"
+                    },
+                    "email": {
+                        "description": "$~Địa chỉ email bạn muốn dùng để đăng nhập",
+                        "placeholder": "$~email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~tiếp theo",
+                        "tip": "$~Chuyển sang bước tiếp theo"
+                    },
+                    "back": {
+                        "label": "$~quay lại",
+                        "tip": "$~Quay lại bước trước"
+                    },
+                    "usePassword": {
+                        "label": "$~Dùng mật khẩu",
+                        "tip": "$~Tạo tài khoản bằng tên đăng nhập và mật khẩu"
+                    },
+                    "useEmail": {
+                        "label": "$~Dùng địa chỉ email",
+                        "tip": "$~Tạo tài khoản mà bạn đăng nhập bằng một liên kết gửi qua email"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Đó không phải là ngày có thật. Hãy kiểm tra lại ngày và tháng.",
+                    "taken": "$~Vừa có người khác dùng tên đăng nhập đó rồi. Hãy thử một tên khác.",
+                    "throttled": "$~Có quá nhiều liên kết đăng nhập được gửi rồi. Hãy đợi một chút rồi thử lại.",
+                    "failed": "$~Chúng tôi không thể tạo tài khoản. Hãy thử lại sau một lát."
                 }
             },
             "rights": {
@@ -10624,6 +10687,15 @@
             "progress": "$~Đã dịch $done trên $#total[$total cụm từ]",
             "finished": "$~Giờ đây dự án của bạn nói $language.",
             "finishedPartial": "$~Giờ đây dự án của bạn nói $language, nhưng $#kept[$kept cụm từ] vẫn giữ nguyên từ gốc."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Liên kết đăng nhập Wordplay của bạn",
+                "heading": "$~Đăng nhập vào Wordplay",
+                "body": "$~Chọn nút bên dưới để đăng nhập. Liên kết này chỉ dùng được một lần, và chỉ trong một thời gian ngắn.",
+                "button": "$~Đăng nhập",
+                "disclaimer": "$~Nếu bạn không yêu cầu đăng nhập, bạn có thể bỏ qua email này — không ai có thể vào tài khoản của bạn nếu không có liên kết này."
+            }
         }
     },
     "moderation": {

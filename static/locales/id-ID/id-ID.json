@@ -10197,6 +10197,16 @@
                         "on": "$~Tampilkan kata sandi",
                         "off": "$~Sembunyikan kata sandi"
                     }
+                },
+                "signin": {
+                    "usesPassword": "$~Kamu masuk dengan nama pengguna dan kata sandi. Kalau kamu tidak mau repot mengingat kata sandi, kamu bisa beralih untuk masuk dengan tautan yang kami kirim lewat email — nama penggunamu tetap sama.",
+                    "usesEmail": "$~Kamu masuk dengan tautan yang kami kirim lewat email. Kalau kamu tidak mau menunggu email, kamu bisa beralih ke nama pengguna dan kata sandi — nama penggunamu tetap sama.",
+                    "notYet": "$~Kamu masuk dengan nama pengguna dan kata sandi. Di tempat tinggalmu, kamu belum cukup umur untuk memakai alamat email di sini — mulai $date kamu bisa beralih untuk masuk dengan tautan lewat email.",
+                    "switched": "$~Selesai. Lain kali, masuklah dengan nama penggunamu dan kata sandi barumu.",
+                    "toPassword": {
+                        "label": "$~Pakai kata sandi saja",
+                        "tip": "$~Beralih ke cara masuk dengan nama pengguna dan kata sandi"
+                    }
                 }
             },
             "join": {
@@ -10204,7 +10214,60 @@
                 "prompt": {
                     "create": "$~Buat akun untuk menyimpan proyek Anda, berkolaborasi dengan orang lain, dan berbagi karya Anda.",
                     "username": "$~Nama pengguna harus minimal /5 karakter/, tidak boleh berupa alamat email, dan tidak boleh mengandung nama Anda atau informasi identitas lainnya.",
-                    "password": "$~Kata sandi harus minimal 6 karakter. Ketik dua kali dan catat di tempat yang aman, seperti pengelola kata sandi. *Tidak ada cara untuk memulihkan akun Anda* jika Anda kehilangan akun tersebut, karena kami tidak mengumpulkan informasi kontak."
+                    "password": "$~Kata sandi harus minimal 6 karakter. Ketik dua kali dan catat di tempat yang aman, seperti pengelola kata sandi. *Tidak ada cara untuk memulihkan akun Anda* jika Anda kehilangan akun tersebut, karena kami tidak mengumpulkan informasi kontak.",
+                    "region": "$~Kami menanyakan tempat tinggalmu supaya kami bisa mengikuti aturan di sana tentang akun anak-anak. Kami tidak menyimpan jawabanmu.",
+                    "birthday": "$~Kami menanyakan tanggal lahirmu karena alasan yang sama. Kami juga tidak menyimpannya — kami hanya menyimpan apakah kamu sudah cukup umur untuk memakai alamat email, dan kapan kamu akan cukup umur.",
+                    "choose": "$~Ada dua cara untuk masuk. Pilih yang paling cocok untukmu.",
+                    "withPassword": "$~*Nama pengguna dan kata sandi.* Kami tidak akan tahu apa pun tentangmu — tetapi *tidak ada cara untuk mendapatkan kembali akunmu kalau kamu lupa kata sandimu*, karena kami tidak punya cara untuk menghubungimu.",
+                    "withEmail": "$~*Alamat email.* Kami mengirimkan tautan lewat email setiap kali kamu masuk, jadi tidak ada kata sandi yang perlu diingat. Kami hanya menyimpan alamatmu untuk mengirim tautan itu.",
+                    "tooYoung": "$~Di tempat tinggalmu, kamu harus berusia $#age[$age tahun] untuk memakai alamat email di sini. Sampai saat itu, kamu memakai nama pengguna dan kata sandi — dan kamu bisa beralih nanti.",
+                    "sent": "$~Kalau alamat itu bisa dipakai untuk masuk, sebuah tautan sedang dikirim. Periksa emailmu."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Negara atau wilayah tempat tinggalmu",
+                        "placeholder": "$~negara"
+                    },
+                    "year": {
+                        "description": "$~Tahun kelahiranmu",
+                        "placeholder": "$~tahun"
+                    },
+                    "month": {
+                        "description": "$~Bulan kelahiranmu",
+                        "placeholder": "$~bulan"
+                    },
+                    "day": {
+                        "description": "$~Tanggal kelahiranmu",
+                        "placeholder": "$~tanggal"
+                    },
+                    "email": {
+                        "description": "$~Alamat email yang ingin kamu pakai untuk masuk",
+                        "placeholder": "$~email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~berikutnya",
+                        "tip": "$~Lanjut ke langkah berikutnya"
+                    },
+                    "back": {
+                        "label": "$~kembali",
+                        "tip": "$~Kembali ke langkah sebelumnya"
+                    },
+                    "usePassword": {
+                        "label": "$~Pakai kata sandi",
+                        "tip": "$~Buat akun dengan nama pengguna dan kata sandi"
+                    },
+                    "useEmail": {
+                        "label": "$~Pakai alamat email",
+                        "tip": "$~Buat akun yang kamu masuki dengan tautan lewat email"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Itu bukan tanggal yang benar. Periksa lagi hari dan bulannya.",
+                    "taken": "$~Ada orang lain yang baru saja memakai nama pengguna itu. Coba nama lain.",
+                    "throttled": "$~Sudah terlalu banyak tautan masuk yang diminta. Tunggu sebentar, lalu coba lagi.",
+                    "failed": "$~Kami tidak bisa membuat akunnya. Coba lagi sebentar lagi."
                 }
             },
             "rights": {
@@ -10629,6 +10692,15 @@
             "progress": "$~Sudah menerjemahkan $done dari $#total[$total frasa]",
             "finished": "$~Proyek kamu sekarang berbahasa $language.",
             "finishedPartial": "$~Proyek kamu sekarang berbahasa $language, tetapi $#kept[$kept frasa] tetap menggunakan kata-kata asli."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Tautan masuk Wordplay kamu",
+                "heading": "$~Masuk ke Wordplay",
+                "body": "$~Pilih tombol di bawah ini untuk masuk. Tautan ini hanya bisa dipakai sekali, dan hanya berlaku sebentar.",
+                "button": "$~Masuk",
+                "disclaimer": "$~Jika kamu tidak meminta untuk masuk, kamu boleh mengabaikan email ini — tidak ada yang bisa masuk ke akunmu tanpa tautan ini."
+            }
         }
     },
     "moderation": {

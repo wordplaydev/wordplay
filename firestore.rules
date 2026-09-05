@@ -239,6 +239,54 @@ service cloud.firestore {
              .hasOnly(['readAt', 'dismissed']);
       allow delete: if false;
     }
+    // A creator's username (#628). Server-written and self-readable, the same
+    // shape as usage/{uid} and strikes/{uid}, and written only by the
+    // joinAccount and claimUsername callables through the Admin SDK.
+    //
+    // Not client-writable, because a username is not a display preference: it is
+    // what a `@username/Character` reference resolves against, and what every
+    // creator chip, roster, and class list shows. A creator who could write this
+    // could take a name someone else's projects already point at.
+    //
+    // Deliberately not a field on creators/{uid}: that document is
+    // client-writable and Database.uploadSettings() overwrites it wholesale on
+    // every settings change, so a username there would be both forgeable and
+    // clobbered.
+    //
+    // Self-readable so the profile and the nav chip can render your own name
+    // without a round trip. Everyone else's arrives through the getCreators
+    // callable, which reads this with the Admin SDK and — unlike today — never
+    // returns an email address.
+    match /handles/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+    // The uniqueness index for usernames (#628), keyed by the case- and
+    // width-folded name so `Alice` and `alice` cannot both exist. Firestore has
+    // no unique-column constraint, so the only way to make "check, then claim"
+    // atomic is a document named after the thing being claimed: a transaction's
+    // create either wins or fails, which is what decides a race between two
+    // people submitting the same name in the same second.
+    //
+    // Unreadable, not merely unwritable. A readable name-keyed index is a bulk
+    // enumeration of every account on the platform — the same mistake the
+    // emailExists callable makes today. Availability is answered one name at a
+    // time by the usernameAvailable callable, which is App Check enforced and
+    // rate limited.
+    match /usernames/{folded} {
+      allow read, write: if false;
+    }
+    // Rate limits on emailed sign-in links (#628), keyed by a salted hash of the
+    // address or the caller's IP and never by the value itself. This collection
+    // exists so our own mail sender cannot be aimed at someone as a spam cannon;
+    // it must not become a list of everyone who has ever asked for a link.
+    //
+    // Unreadable for the reason usernames/{folded} is: a client that could read
+    // it could ask "has this address requested a link", which is precisely the
+    // question the login page refuses to answer by always giving the same reply.
+    match /signinThrottle/{key} {
+      allow read, write: if false;
+    }
     // Requests that someone review a piece of content (#938, generalizing
     // #193). A separate collection because the person reporting can't write the
     // project document — the project rules admit only its owner, collaborators,

@@ -23,6 +23,7 @@
         "firebase-functions": "^7",
         "nodemailer": "^9",
         "prettier": "^3",
+        "resend": "^6.26.0",
         "shared-types": "file:./src/shared",
         "yjs": "^13"
     },

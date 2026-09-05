@@ -10078,6 +10078,16 @@
                         "on": "$~Ipakita ang password",
                         "off": "$~Itago ang password"
                     }
+                },
+                "signin": {
+                    "usesPassword": "$~Mag-sign in ka gamit ang isang username at isang password. Kung ayaw mong tandaan pa ang password, puwede kang lumipat sa pag-sign in gamit ang isang link na ipapadala namin sa email mo — mananatiling pareho ang username mo.",
+                    "usesEmail": "$~Mag-sign in ka gamit ang isang link na ipapadala namin sa email mo. Kung ayaw mong maghintay pa ng email, puwede kang lumipat sa isang username at password — mananatiling pareho ang username mo.",
+                    "notYet": "$~Mag-sign in ka gamit ang isang username at isang password. Sa lugar mo, hindi ka pa sapat ang gulang para gumamit ng email address dito — mula $date, puwede ka nang lumipat sa pag-sign in gamit ang link na ipapadala sa email.",
+                    "switched": "$~Tapos na. Sa susunod, mag-sign in ka gamit ang username mo at ang bago mong password.",
+                    "toPassword": {
+                        "label": "$~Gumamit na lang ng password",
+                        "tip": "$~Lumipat sa pag-sign in gamit ang username at password mo"
+                    }
                 }
             },
             "join": {
@@ -10085,7 +10095,60 @@
                 "prompt": {
                     "create": "$~Gumawa ng account para i-save ang iyong mga proyekto, makipagtulungan sa iba, at ibahagi ang iyong trabaho.",
                     "username": "$~Ang mga username ay dapat na hindi bababa sa /5 karakter/, hindi maaaring email, at hindi dapat maglaman ng iyong pangalan o iba pang impormasyong nagpapakilala sa iyo.",
-                    "password": "$~Ang mga password ay dapat na hindi bababa sa /6 na karakter/. I-type ito nang dalawang beses at isulat sa isang ligtas na lugar, tulad ng isang password manager. *Walang paraan para mabawi ang iyong account* kung mawala mo ito, dahil hindi kami nangongolekta ng impormasyon sa pakikipag-ugnayan."
+                    "password": "$~Ang mga password ay dapat na hindi bababa sa /6 na karakter/. I-type ito nang dalawang beses at isulat sa isang ligtas na lugar, tulad ng isang password manager. *Walang paraan para mabawi ang iyong account* kung mawala mo ito, dahil hindi kami nangongolekta ng impormasyon sa pakikipag-ugnayan.",
+                    "region": "$~Tinatanong namin kung saan ka nakatira para masunod namin ang mga tuntunin doon tungkol sa mga account ng mga bata. Hindi namin itinatago ang sagot mo.",
+                    "birthday": "$~Tinatanong din namin ang kaarawan mo sa dahilang ito. Hindi rin namin ito itinatago — tinitingnan lamang namin kung sapat na ang gulang mo para gumamit ng email address, at kung kailan ka magiging sapat ang gulang.",
+                    "choose": "$~May dalawang paraan para mag-sign in. Piliin mo ang mas gusto mo.",
+                    "withPassword": "$~*Isang username at isang password.* Wala kaming malalaman tungkol sa iyo — pero *walang paraan para mabawi ang account mo kung makalimutan mo ang password mo*, dahil wala kaming paraan para makontak ka.",
+                    "withEmail": "$~*Isang email address.* Nagpapadala kami sa iyo ng link tuwing mag-sign in ka, kaya walang password na kailangang tandaan. Itinatago namin ang email address mo para lamang ipadala ang mga link na iyon.",
+                    "tooYoung": "$~Sa lugar mo, kailangan mong maging $#age[$age taong gulang|$age taong gulang] para makagamit ng email address dito. Hanggang doon, username at password muna ang gagamitin mo — at puwede ka pang lumipat sa ibang pagkakataon.",
+                    "sent": "$~Kung puwedeng gamitin ang address na iyon para mag-sign in, papunta na ang isang link. Tingnan mo ang email mo."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Ang bansa o rehiyon na tinitirhan mo",
+                        "placeholder": "$~bansa"
+                    },
+                    "year": {
+                        "description": "$~Ang taon ng iyong kapanganakan",
+                        "placeholder": "$~taon"
+                    },
+                    "month": {
+                        "description": "$~Ang buwan ng iyong kapanganakan",
+                        "placeholder": "$~buwan"
+                    },
+                    "day": {
+                        "description": "$~Ang araw ng iyong kapanganakan",
+                        "placeholder": "$~araw"
+                    },
+                    "email": {
+                        "description": "$~Ang email address na gusto mong gamitin sa pag-sign in",
+                        "placeholder": "$~email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~susunod",
+                        "tip": "$~Magpatuloy sa susunod na hakbang"
+                    },
+                    "back": {
+                        "label": "$~bumalik",
+                        "tip": "$~Bumalik sa nakaraang hakbang"
+                    },
+                    "usePassword": {
+                        "label": "$~Gumamit ng password",
+                        "tip": "$~Gumawa ng account na may username at password"
+                    },
+                    "useEmail": {
+                        "label": "$~Gumamit ng email address",
+                        "tip": "$~Gumawa ng account na papasukan mo gamit ang link na ipinadala sa email"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Hindi iyan totoong petsa. Suriin ang araw at buwan.",
+                    "taken": "$~May kumuha na ng username na iyan ngayon lang. Sumubok ng iba.",
+                    "throttled": "$~Sobrang dami na ng mga link para sa pagpasok. Maghintay muna at subukan ulit.",
+                    "failed": "$~Hindi namin nagawa ang account. Subukan ulit mamaya."
                 }
             },
             "rights": {
@@ -10629,6 +10692,15 @@
             "progress": "$~Naisalin na ang $done sa $#total[$total parirala|$total na parirala]",
             "finished": "$~Ang iyong proyekto ay nagsasalita na ngayon ng $language.",
             "finishedPartial": "$~Ang iyong proyekto ay nagsasalita na ngayon ng $language, pero ang $#kept[$kept parirala|$kept na parirala] ay nanatili sa orihinal na mga salita."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Ang link mo para pumasok sa Wordplay",
+                "heading": "$~Pumasok sa Wordplay",
+                "body": "$~Piliin ang buton sa ibaba para pumasok. Minsan lang gumagana ang link, at panandalian lang.",
+                "button": "$~Pumasok",
+                "disclaimer": "$~Kung hindi ikaw ang humiling na pumasok, huwag na lang pansinin ang email na ito — walang makakapasok sa account mo kung wala ang link na ito."
+            }
         }
     },
     "moderation": {

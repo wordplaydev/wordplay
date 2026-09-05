@@ -9123,14 +9123,77 @@
                         "off": "Ocultar contraseña"
                     }
                 },
-                "subtitle": "$~Guardar, colaborar y compartir"
+                "subtitle": "$~Guardar, colaborar y compartir",
+                "signin": {
+                    "usesPassword": "$~Inicias sesión con un nombre de usuaria y una contraseña. Si prefieres no tener que recordar una contraseña, puedes cambiar a iniciar sesión con un enlace que te enviamos por correo electrónico — tu nombre de usuaria sigue siendo el mismo.",
+                    "usesEmail": "$~Inicias sesión con un enlace que te enviamos por correo electrónico. Si prefieres no esperar el correo, puedes cambiar a un nombre de usuaria y una contraseña — tu nombre de usuaria sigue siendo el mismo.",
+                    "notYet": "$~Inicias sesión con un nombre de usuaria y una contraseña. En el lugar donde vives, todavía no tienes edad suficiente para usar un correo electrónico aquí — a partir del $date podrás cambiar a iniciar sesión con un enlace enviado por correo en su lugar.",
+                    "switched": "$~Listo. La próxima vez, inicia sesión con tu nombre de usuaria y tu nueva contraseña.",
+                    "toPassword": {
+                        "label": "$~usar una contraseña en su lugar",
+                        "tip": "$~cambiar a iniciar sesión con tu nombre de usuaria y una contraseña"
+                    }
+                }
             },
             "join": {
                 "header": "Unirse",
                 "prompt": {
                     "create": "$~Crea una cuenta para guardar tus proyectos, colaborar con otras personas y compartir tu trabajo.",
                     "username": "$~Los nombres de usuario deben tener al menos /5 caracteres/, no pueden ser un correo electrónico y no deben incluir tu nombre ni otra información que te identifique.",
-                    "password": "$~Las contraseñas deben tener al menos /6 caracteres/. Escríbela dos veces y anótala en un lugar seguro, como un gestor de contraseñas. *No hay forma de recuperar tu cuenta* si la pierdes, ya que no recopilamos información de contacto."
+                    "password": "$~Las contraseñas deben tener al menos /6 caracteres/. Escríbela dos veces y anótala en un lugar seguro, como un gestor de contraseñas. *No hay forma de recuperar tu cuenta* si la pierdes, ya que no recopilamos información de contacto.",
+                    "region": "$~Preguntamos dónde vives para poder seguir las reglas de ese lugar sobre las cuentas de las personas jóvenes. No guardamos tu respuesta.",
+                    "birthday": "$~Preguntamos tu cumpleaños por la misma razón. Tampoco lo guardamos — solo guardamos si tienes edad suficiente para usar un correo electrónico, y cuándo la tendrás.",
+                    "choose": "$~Hay dos formas de iniciar sesión. Elige la que más te convenga.",
+                    "withPassword": "$~*Un nombre de usuaria y una contraseña.* No sabremos nada sobre ti — pero *no hay forma de recuperar tu cuenta si olvidas tu contraseña*, porque no tendríamos forma de contactarte.",
+                    "withEmail": "$~*Un correo electrónico.* Te enviamos un enlace cada vez que inicias sesión, así que no hay contraseña que olvidar. Guardamos tu correo solo para enviar esos enlaces.",
+                    "tooYoung": "$~En el lugar donde vives, necesitas tener $#age[$#age año|$age millones de años|$age años] para usar un correo electrónico aquí. Mientras tanto, usarás un nombre de usuaria y una contraseña — y podrás cambiar más adelante.",
+                    "sent": "$~Si ese correo se puede usar para iniciar sesión, un enlace ya va en camino. Revisa tu correo electrónico."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~el país o región donde vives",
+                        "placeholder": "$~país"
+                    },
+                    "year": {
+                        "description": "$~el año en que naciste",
+                        "placeholder": "$~año"
+                    },
+                    "month": {
+                        "description": "$~el mes en que naciste",
+                        "placeholder": "$~mes"
+                    },
+                    "day": {
+                        "description": "$~el día en que naciste",
+                        "placeholder": "$~día"
+                    },
+                    "email": {
+                        "description": "$~el correo electrónico con el que quieres iniciar sesión",
+                        "placeholder": "$~correo electrónico"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~siguiente",
+                        "tip": "$~continuar al siguiente paso"
+                    },
+                    "back": {
+                        "label": "$~atrás",
+                        "tip": "$~regresar al paso anterior"
+                    },
+                    "usePassword": {
+                        "label": "$~usar una contraseña",
+                        "tip": "$~crear una cuenta con un nombre de usuaria y una contraseña"
+                    },
+                    "useEmail": {
+                        "label": "$~usar un correo electrónico",
+                        "tip": "$~crear una cuenta con la que entras usando un enlace enviado por correo electrónico"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Esa no es una fecha real. Revisa el día y el mes.",
+                    "taken": "$~Alguien tomó ese nombre de usuaria hace un momento. Intenta con otro.",
+                    "throttled": "$~Son demasiados enlaces de inicio de sesión. Espera un poco e intenta de nuevo.",
+                    "failed": "$~No pudimos crear la cuenta. Intenta de nuevo en un momento."
                 }
             },
             "rights": {
@@ -10626,6 +10689,15 @@
             "progress": "$~Traducidas $done de $#total[$#total frase|$total frases|$total frases]",
             "finished": "$~Tu proyecto ahora habla $language.",
             "finishedPartial": "$~Tu proyecto ahora habla $language, pero $#kept[$#kept frase mantuvo|$kept frases mantuvieron|$kept frases mantuvieron] las palabras originales."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Tu enlace de inicio de sesión de Wordplay",
+                "heading": "$~Entrar a Wordplay",
+                "body": "$~Selecciona el botón de abajo para entrar. El enlace funciona una sola vez, y solo por un rato.",
+                "button": "$~Entrar",
+                "disclaimer": "$~Si no pediste entrar, puedes ignorar este correo electrónico — nadie puede entrar a tu cuenta sin este enlace."
+            }
         }
     },
     "moderation": {

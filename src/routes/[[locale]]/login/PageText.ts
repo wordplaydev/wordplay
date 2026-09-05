@@ -1,4 +1,4 @@
-import type { FormattedText } from '@locale/LocaleText';
+import type { FormattedText, Template } from '@locale/LocaleText';
 import type { ButtonText, FieldText, ToggleText } from '@locale/UITexts';
 
 type PageText = {
@@ -67,6 +67,19 @@ type PageText = {
         updatedPassword: string;
         /** [formatted] Email or username must match to delete account */
         match: FormattedText;
+    };
+    /** How someone signs in, and moving between the two ways (#628) */
+    signin: {
+        /** [formatted] Explains that this account signs in with a username and password, and offers an email address instead. Shown only when this creator is old enough to hold one — see notYet for the other case. */
+        usesPassword: FormattedText;
+        /** [formatted] Explains that this account signs in with an emailed link, and offers a password instead */
+        usesEmail: FormattedText;
+        /** [formatted] Stands in for usesPassword when this creator isn't old enough for an email address yet. Says the whole thing on its own, rather than following an offer that doesn't apply to them. $date is the day they become eligible, written in this locale's own way. */
+        notYet: Template<['date']>;
+        /** [plain] Confirms the account now signs in with a username and password */
+        switched: string;
+        /** Switch to signing in with a username and password */
+        toPassword: ButtonText;
     };
     error: {
         /** [plain] Shown when the login link expired */

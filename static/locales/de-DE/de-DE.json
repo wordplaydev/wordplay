@@ -9119,14 +9119,77 @@
                         "off": "$~Passwort verbergen"
                     }
                 },
-                "subtitle": "$~Speichern, zusammenarbeiten und teilen"
+                "subtitle": "$~Speichern, zusammenarbeiten und teilen",
+                "signin": {
+                    "usesPassword": "$~Du meldest dich mit einem Benutzernamen und einem Passwort an. Wenn du dir kein Passwort merken möchtest, kannst du auch mit einem Link anmelden, den wir dir per E-Mail schicken — dein Benutzername bleibt dabei gleich.",
+                    "usesEmail": "$~Du meldest dich mit einem Link an, den wir dir per E-Mail schicken. Wenn du nicht auf eine E-Mail warten möchtest, kannst du zu einem Benutzernamen und einem Passwort wechseln — dein Benutzername bleibt dabei gleich.",
+                    "notYet": "$~Du meldest dich mit einem Benutzernamen und einem Passwort an. Dort, wo du wohnst, bist du noch nicht alt genug, um hier eine E-Mail-Adresse zu nutzen — ab dem $date kannst du stattdessen mit einem zugeschickten Link anmelden.",
+                    "switched": "$~Fertig. Melde dich beim nächsten Mal mit deinem Benutzernamen und deinem neuen Passwort an.",
+                    "toPassword": {
+                        "label": "$~Stattdessen ein Passwort verwenden",
+                        "tip": "$~Zur Anmeldung mit Benutzername und Passwort wechseln"
+                    }
+                }
             },
             "join": {
                 "header": "$~Verbinden",
                 "prompt": {
                     "create": "$~Erstellen Sie ein Konto, um Ihre Projekte zu speichern, mit anderen zusammenzuarbeiten und Ihre Arbeit zu teilen.",
                     "username": "$~Benutzernamen müssen mindestens /5 Zeichen/ lang sein. Sie dürfen keine E-Mail-Adresse sein. Sie sollten auch nicht deinen Namen oder andere persönliche Angaben enthalten.",
-                    "password": "$~Passwörter müssen mindestens /6 Zeichen/ lang sein. Geben Sie es zweimal ein und notieren Sie es an einem sicheren Ort, z. B. in einem Passwortmanager. *Es gibt keine Möglichkeit, Ihr Konto wiederherzustellen*, wenn Sie es verlieren, da wir keine Kontaktinformationen erfassen."
+                    "password": "$~Passwörter müssen mindestens /6 Zeichen/ lang sein. Geben Sie es zweimal ein und notieren Sie es an einem sicheren Ort, z. B. in einem Passwortmanager. *Es gibt keine Möglichkeit, Ihr Konto wiederherzustellen*, wenn Sie es verlieren, da wir keine Kontaktinformationen erfassen.",
+                    "region": "$~Wir fragen, wo du wohnst, damit wir die dortigen Regeln für Konten junger Menschen einhalten können. Wir speichern deine Antwort nicht.",
+                    "birthday": "$~Aus demselben Grund fragen wir nach deinem Geburtstag. Auch den speichern wir nicht — nur, ob du alt genug bist, um eine E-Mail-Adresse zu nutzen, und ab wann das der Fall sein wird.",
+                    "choose": "$~Es gibt zwei Wege, dich anzumelden. Wähle den, der für dich passt.",
+                    "withPassword": "$~*Ein Benutzername und ein Passwort.* Wir erfahren nichts über dich — aber *es gibt keine Möglichkeit, dein Konto zurückzubekommen, wenn du dein Passwort vergisst*, da wir dich sonst nicht erreichen könnten.",
+                    "withEmail": "$~*Eine E-Mail-Adresse.* Wir schicken dir bei jeder Anmeldung einen Link per E-Mail, sodass es kein Passwort zu vergessen gibt. Wir speichern deine Adresse nur, um dir diese Links zu schicken.",
+                    "tooYoung": "$~Dort, wo du wohnst, musst du mindestens $#age[$age Jahr|$age Jahre] alt sein, um hier eine E-Mail-Adresse zu nutzen. Bis dahin geht es mit Benutzername und Passwort — und du kannst später wechseln.",
+                    "sent": "$~Wenn diese Adresse zum Anmelden genutzt werden kann, ist ein Link schon unterwegs. Schau in deinem E-Mail-Postfach nach."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Das Land oder die Region, in der du wohnst",
+                        "placeholder": "$~Land"
+                    },
+                    "year": {
+                        "description": "$~Das Jahr, in dem du geboren wurdest",
+                        "placeholder": "$~Jahr"
+                    },
+                    "month": {
+                        "description": "$~Der Monat, in dem du geboren wurdest",
+                        "placeholder": "$~Monat"
+                    },
+                    "day": {
+                        "description": "$~Der Tag, an dem du geboren wurdest",
+                        "placeholder": "$~Tag"
+                    },
+                    "email": {
+                        "description": "$~Die E-Mail-Adresse, mit der du dich anmelden möchtest",
+                        "placeholder": "$~E-Mail"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~weiter",
+                        "tip": "$~Weiter zum nächsten Schritt"
+                    },
+                    "back": {
+                        "label": "$~zurück",
+                        "tip": "$~Zurück zum vorherigen Schritt"
+                    },
+                    "usePassword": {
+                        "label": "$~Ein Passwort verwenden",
+                        "tip": "$~Ein Konto mit einem Benutzernamen und einem Passwort anlegen"
+                    },
+                    "useEmail": {
+                        "label": "$~Eine E-Mail-Adresse verwenden",
+                        "tip": "$~Ein Konto anlegen, bei dem du dich mit einem Link per E-Mail anmeldest"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Das ist kein echtes Datum. Prüfe den Tag und den Monat.",
+                    "taken": "$~Diesen Benutzernamen hat gerade jemand anderes genommen. Versuch es mit einem anderen.",
+                    "throttled": "$~Das sind schon sehr viele Anmelde-Links. Warte kurz und versuch es dann noch einmal.",
+                    "failed": "$~Wir konnten das Konto nicht anlegen. Versuch es gleich noch einmal."
                 }
             },
             "rights": {
@@ -10626,6 +10689,15 @@
             "progress": "$~$done von $#total[$total Phrase|$total Phrasen] übersetzt",
             "finished": "$~Dein Projekt spricht jetzt $language.",
             "finishedPartial": "$~Dein Projekt spricht jetzt $language, aber $#kept[$kept Phrase|$kept Phrasen] blieb bei den ursprünglichen Wörtern|$#kept[$kept Phrase|$kept Phrasen] blieben bei den ursprünglichen Wörtern"
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Dein Anmelde-Link für Wordplay",
+                "heading": "$~Bei Wordplay anmelden",
+                "body": "$~Wähle den Knopf unten, um dich anzumelden. Der Link funktioniert nur einmal und nur für kurze Zeit.",
+                "button": "$~Anmelden",
+                "disclaimer": "$~Wenn du dich nicht anmelden wolltest, kannst du diese E-Mail ignorieren – ohne diesen Link kann niemand in dein Konto gelangen."
+            }
         }
     },
     "moderation": {

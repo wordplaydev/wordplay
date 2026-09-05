@@ -7,6 +7,11 @@
         "outDir": "lib",
         "sourceMap": true,
         "strict": true,
+        // Resend ships type declarations that reference React, for its
+        // react-email integration we don't use. The root tsconfig already skips
+        // lib checking for the same class of reason; our own code is still
+        // fully checked.
+        "skipLibCheck": true,
         "target": "es2017",
         "lib": ["ES2022", "DOM", "DOM.Iterable"],
         "rootDir": "src"

@@ -19,9 +19,9 @@
     import LabeledTextbox from '@components/widgets/LabeledTextbox.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { usernameAccountExists } from '@db/creators/accountExists';
+    import { usernameAvailable } from '@db/creators/usernames';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import { UsernameLength } from '@db/creators/isValidUsername';
+    import { UsernameLength } from '@db/creators/username';
     import { getFunctionsInstance } from '@db/firebase';
     import { PREVIOUS_SYMBOL } from '@parser/Symbols';
     import { httpsCallable } from 'firebase/functions';
@@ -437,11 +437,15 @@
                                                 editable={!submitting &&
                                                     !download}
                                                 dwelled={async (username) => {
-                                                    // After done editing, check if the username is taken.
+                                                    // After done editing, check whether the name can still
+                                                    // be claimed. Only a definite "no" marks it taken: an
+                                                    // undefined answer means we couldn't ask, and blocking
+                                                    // submission on an unreachable server would strand a
+                                                    // teacher mid-roster.
                                                     if (
-                                                        await usernameAccountExists(
+                                                        (await usernameAvailable(
                                                             username,
-                                                        )
+                                                        )) === false
                                                     )
                                                         usernamesTaken.push(
                                                             username,

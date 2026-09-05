@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { expectNoAxeViolations } from '../helpers/checkAccessibility';
 
 /**
@@ -108,6 +108,81 @@ for (const scheme of ['light', 'dark'] as const) {
                 'aria-selected',
                 'true',
             );
+            await expectNoAxeViolations(page);
+        });
+    });
+}
+
+/**
+ * The join flow's later steps, which the route scan above can't reach: `/join`
+ * renders only the first of four, and each of the rest is a surface of its own
+ * (#628). The country picker is 250 options long, the birthday is three fields
+ * whose *order* comes from the reader's locale, and the credentials step
+ * changes shape depending on which way to sign in was chosen.
+ *
+ * Each step is scanned exactly once. The two credential forms are different
+ * markup and only one is ever on screen, so the second test walks the same
+ * steps without re-scanning them — scanning immediately before clicking a
+ * button left it perpetually "not stable" for Playwright, and scanning the same
+ * three steps twice bought nothing anyway.
+ */
+for (const scheme of ['light', 'dark'] as const) {
+    test.describe(`join flow (${scheme})`, () => {
+        test.use({ colorScheme: scheme });
+
+        /** Walk to the choice step. `US` keeps the age of consent at 13, and the
+         *  birthday is an adult's, so both ways of signing in are offered. */
+        async function reachChoice(page: Page) {
+            await page.goto('/en-US/join');
+            await expect(page.locator('#region-field')).toBeVisible({
+                timeout: 15000,
+            });
+            await page.selectOption('#region-field', 'US');
+            await page.getByTestId('join-next').click();
+            await expect(page.locator('#birth-year-field')).toBeVisible();
+            await page.locator('#birth-year-field').fill('1990');
+            await page.selectOption('#birth-month-field', '1');
+            await page.locator('#birth-day-field').fill('1');
+            await page.getByTestId('join-next').click();
+            // Move the pointer off the button that is about to appear. The
+            // choice step puts "use a password" almost exactly where the
+            // previous step's "next" was, so the mouse lands on it mid-render
+            // and Button's hover transform keeps it from ever settling.
+            await page.mouse.move(0, 0);
+            await expect(page.getByTestId('join-use-password')).toBeVisible();
+        }
+
+        test('the steps and the email form have no WCAG 2.2 AA violations', async ({
+            page,
+        }) => {
+            await page.goto('/en-US/join');
+            await expect(page.locator('#region-field')).toBeVisible({
+                timeout: 15000,
+            });
+            await expectNoAxeViolations(page);
+            await page.selectOption('#region-field', 'US');
+            await page.getByTestId('join-next').click();
+
+            await expect(page.locator('#birth-year-field')).toBeVisible();
+            await expectNoAxeViolations(page);
+            await page.locator('#birth-year-field').fill('1990');
+            await page.selectOption('#birth-month-field', '1');
+            await page.locator('#birth-day-field').fill('1');
+            await page.getByTestId('join-next').click();
+
+            await expect(page.getByTestId('join-use-email')).toBeVisible();
+            await expectNoAxeViolations(page);
+            await page.getByTestId('join-use-email').click();
+            await expect(page.locator('#join-email-field')).toBeVisible();
+            await expectNoAxeViolations(page);
+        });
+
+        test('the password form has no WCAG 2.2 AA violations', async ({
+            page,
+        }) => {
+            await reachChoice(page);
+            await page.getByTestId('join-use-password').click();
+            await expect(page.locator('#password-field')).toBeVisible();
             await expectNoAxeViolations(page);
         });
     });

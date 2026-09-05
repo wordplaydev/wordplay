@@ -10070,6 +10070,16 @@
                         "on": "Mostrar palavra-passe",
                         "off": "Ocultar palavra-passe"
                     }
+                },
+                "signin": {
+                    "usesPassword": "$~Inicia sessão com um nome de utilizador e uma palavra-passe. Se preferir não ter de se lembrar de uma palavra-passe, pode mudar para iniciar sessão com uma ligação que lhe enviamos por email — o seu nome de utilizador mantém-se igual.",
+                    "usesEmail": "$~Inicia sessão com uma ligação que lhe enviamos por email. Se preferir não esperar pelo email, pode mudar para um nome de utilizador e uma palavra-passe — o seu nome de utilizador mantém-se igual.",
+                    "notYet": "$~Inicia sessão com um nome de utilizador e uma palavra-passe. No lugar onde vive, ainda não tem idade suficiente para usar um endereço de email aqui — a partir de $date poderá mudar para iniciar sessão com uma ligação enviada por email.",
+                    "switched": "$~Concluído. Da próxima vez, inicie sessão com o seu nome de utilizador e a sua nova palavra-passe.",
+                    "toPassword": {
+                        "label": "$~usar uma palavra-passe em vez disso",
+                        "tip": "$~mudar para iniciar sessão com o seu nome de utilizador e uma palavra-passe"
+                    }
                 }
             },
             "join": {
@@ -10077,7 +10087,60 @@
                 "prompt": {
                     "create": "Crie uma conta para guardar os seus projetos, colaborar com outras pessoas e partilhar o seu trabalho.",
                     "username": "Os nomes de utilizador devem ter pelo menos 5 caracteres, não podem ser um endereço de e-mail e não devem conter o seu nome ou outras informações de identificação.",
-                    "password": "As palavras-passe devem ter no mínimo 6 caracteres. Introduza-a duas vezes e anote-a num local seguro, como um gestor de palavras-passe. *Não há forma de recuperar a sua conta* caso a perca, pois não recolhemos informações de contacto."
+                    "password": "As palavras-passe devem ter no mínimo 6 caracteres. Introduza-a duas vezes e anote-a num local seguro, como um gestor de palavras-passe. *Não há forma de recuperar a sua conta* caso a perca, pois não recolhemos informações de contacto.",
+                    "region": "$~Perguntamos onde vive para seguirmos as regras aplicáveis aí às contas de jovens. Não guardamos a sua resposta.",
+                    "birthday": "$~Perguntamos a sua data de nascimento pela mesma razão. Também não a guardamos — apenas se tem idade suficiente para usar um endereço de email, e quando terá.",
+                    "choose": "$~Há duas formas de iniciar sessão. Escolha a que lhe for mais adequada.",
+                    "withPassword": "$~*Um nome de utilizador e uma palavra-passe.* Não saberemos nada sobre si — mas *não há forma de recuperar a sua conta se se esquecer da palavra-passe*, pois não teríamos forma de o(a) contactar.",
+                    "withEmail": "$~*Um endereço de email.* Enviamos-lhe uma ligação por email sempre que inicia sessão, por isso não há palavra-passe para esquecer. Guardamos o seu endereço apenas para enviar essas ligações.",
+                    "tooYoung": "$~No lugar onde vive, precisa de ter $#age[$#age ano|$age milhões de anos|$age anos] de idade para usar um endereço de email aqui. Até lá, será com nome de utilizador e palavra-passe — e pode mudar mais tarde.",
+                    "sent": "$~Se esse endereço puder ser usado para iniciar sessão, uma ligação está a caminho. Verifique o seu email."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~O país ou região onde vive",
+                        "placeholder": "$~país"
+                    },
+                    "year": {
+                        "description": "$~O ano em que nasceu",
+                        "placeholder": "$~ano"
+                    },
+                    "month": {
+                        "description": "$~O mês em que nasceu",
+                        "placeholder": "$~mês"
+                    },
+                    "day": {
+                        "description": "$~O dia em que nasceu",
+                        "placeholder": "$~dia"
+                    },
+                    "email": {
+                        "description": "$~O endereço de email com o qual quer iniciar sessão",
+                        "placeholder": "$~email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~seguinte",
+                        "tip": "$~avançar para o passo seguinte"
+                    },
+                    "back": {
+                        "label": "$~voltar",
+                        "tip": "$~Voltar ao passo anterior"
+                    },
+                    "usePassword": {
+                        "label": "$~Usar uma palavra-passe",
+                        "tip": "$~Criar uma conta com um nome de utilizador e uma palavra-passe"
+                    },
+                    "useEmail": {
+                        "label": "$~Usar um endereço de email",
+                        "tip": "$~Criar uma conta em que inicia sessão com uma ligação enviada por email"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Essa não é uma data real. Verifique o dia e o mês.",
+                    "taken": "$~Alguém acabou de reclamar esse nome de utilizador. Tente outro.",
+                    "throttled": "$~São demasiadas ligações de início de sessão. Aguarde um pouco e tente novamente.",
+                    "failed": "$~Não foi possível criar a conta. Tente novamente daqui a pouco."
                 }
             },
             "rights": {
@@ -10618,6 +10681,15 @@
             "progress": "$~Traduzidas $done de $#total[$#total frase|$total milhões de frases|$total frases]",
             "finished": "$~O seu projeto agora fala $language.",
             "finishedPartial": "$~O seu projeto agora fala $language, mas $#kept[$#kept frase manteve|$kept milhões de frases mantiveram|$kept frases mantiveram] as palavras originais."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~A sua ligação de início de sessão do Wordplay",
+                "heading": "$~Iniciar sessão no Wordplay",
+                "body": "$~Selecione o botão abaixo para iniciar sessão. A ligação funciona uma vez, e só por pouco tempo.",
+                "button": "$~Iniciar sessão",
+                "disclaimer": "$~Se não pediu para iniciar sessão, pode ignorar este email — ninguém consegue entrar na sua conta sem esta ligação."
+            }
         }
     },
     "moderation": {

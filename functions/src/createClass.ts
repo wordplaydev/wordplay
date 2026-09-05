@@ -2,6 +2,12 @@ import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import type { CallableRequest } from 'firebase-functions/v2/https';
 import type { CreateClassInputs, CreateClassOutput } from 'shared-types';
+import {
+    assignUsername,
+    releaseReservation,
+    reserveUsername,
+} from './handles.js';
+import { usernameFromEmail } from './username.js';
 
 export default async function createClass(
     request: CallableRequest<CreateClassInputs>,
@@ -13,6 +19,19 @@ export default async function createClass(
     // Make sure there aren't too many students.
     if (students.length > 50)
         return { classid: undefined, error: { kind: 'limit', info: '' } };
+
+    // This endpoint creates up to 50 accounts per call and, until now, checked
+    // nothing about who was calling it: any signed-in caller could pass any
+    // existing teacher's uid. That is account minting with a bulk discount,
+    // which is exactly what #1299 is about.
+    if (request.auth?.uid !== teacher || request.auth.token['teacher'] !== true)
+        return {
+            classid: undefined,
+            error: {
+                kind: 'generic',
+                info: 'Only a teacher may create a class, and only their own',
+            },
+        };
 
     // Ensure the teacher is a valid user ID.
     try {
@@ -99,6 +118,32 @@ export default async function createClass(
         };
     }
 
+    // Hold every name before creating anything (#628). Without reservations a
+    // class username and a join-page username occupy two disjoint namespaces
+    // that both render through Creator.getUsername, so two accounts could end
+    // up showing the same name and owning characters called `alice/Cat`.
+    const held: string[] = [];
+    const release = async () => {
+        for (const name of held) await releaseReservation(name);
+    };
+    for (const student of students) {
+        const name = usernameFromEmail(student.username) ?? student.username;
+        const result = await reserveUsername(name).catch(
+            () => 'failed' as const,
+        );
+        if (result !== 'reserved') {
+            await release();
+            return {
+                classid: undefined,
+                error: {
+                    kind: 'account',
+                    info: `The username ${name} is not available`,
+                },
+            };
+        }
+        held.push(name);
+    }
+
     // Okay, we're ready to create the user accounts!
     const users: { uid: string; username: string; meta: string[] }[] = [];
     for (const student of students) {
@@ -107,12 +152,17 @@ export default async function createClass(
                 email: student.username,
                 password: student.password,
             });
+            await assignUsername(
+                user.uid,
+                usernameFromEmail(student.username) ?? student.username,
+            );
             users.push({
                 uid: user.uid,
                 username: student.username,
                 meta: student.meta,
             });
         } catch (error) {
+            await release();
             return {
                 classid: undefined,
                 error: {
