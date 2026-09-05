@@ -77,6 +77,12 @@ jobs:
                   # the cached emulator jars instead of reusing stale ones.
                   key: ${{ runner.os }}-firebase-emulators-${{ hashFiles('package-lock.json') }}
                   restore-keys: ${{ runner.os }}-firebase-emulators-
+            # `npm ci` at the root does not reach functions/ — there are no npm
+            # workspaces — and `npm run build` ends with `cd functions && tsc`,
+            # which needs functions/node_modules. This mirrors what
+            # firebase.json's predeploy already does before deploying them.
+            - name: Install functions dependencies
+              run: npm ci --prefix functions
             - name: Build project
               run: npm run build
             - name: Run end-to-end tests with emulator
