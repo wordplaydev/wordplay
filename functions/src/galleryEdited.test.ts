@@ -58,6 +58,7 @@ describe('galleryContentChanged', () => {
         name: { 'en-US': 'Games' },
         description: { 'en-US': 'Fun' },
         projects: ['a', 'b'],
+        characters: ['c1'],
     };
 
     it('sees a rename', () => {
@@ -153,5 +154,54 @@ describe('curatorsChanged', () => {
     it('treats a missing list as empty rather than throwing', () => {
         expect(curatorsChanged({}, { curators: ['a'] })).toBe(true);
         expect(curatorsChanged({ curators: ['a'] }, {})).toBe(true);
+    });
+});
+
+/**
+ * Characters are gallery content too (#822), so a change to them re-opens an
+ * approval the same way a change to projects does — approval was of what the
+ * gallery was.
+ */
+describe('galleryContentChanged with characters', () => {
+    const base = {
+        name: { 'en-US': 'Games' },
+        description: { 'en-US': 'Fun' },
+        projects: ['a'],
+        characters: ['c1'],
+    };
+
+    it('sees a character added', () => {
+        expect(
+            galleryContentChanged(base, {
+                ...base,
+                characters: ['c1', 'c2'],
+            }),
+        ).toBe(true);
+    });
+
+    it('sees a character removed', () => {
+        expect(galleryContentChanged(base, { ...base, characters: [] })).toBe(
+            true,
+        );
+    });
+
+    it('ignores a reordering, since membership is a set', () => {
+        expect(
+            galleryContentChanged(
+                { ...base, characters: ['c1', 'c2'] },
+                { ...base, characters: ['c2', 'c1'] },
+            ),
+        ).toBe(false);
+    });
+
+    it('treats a gallery stored before #822 as having no characters', () => {
+        // The field is absent on every gallery until its first upgrade write,
+        // and reading it as a change would re-queue every approved gallery.
+        const legacy = { ...base };
+        delete (legacy as { characters?: string[] }).characters;
+        expect(galleryContentChanged(legacy, { ...legacy })).toBe(false);
+        expect(
+            galleryContentChanged(legacy, { ...legacy, characters: [] }),
+        ).toBe(false);
     });
 });

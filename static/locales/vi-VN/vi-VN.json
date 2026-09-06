@@ -7400,6 +7400,14 @@
                 "delete": {
                     "header": "$~Xóa bỏ",
                     "explanation": "$~Việc xóa thư viện này sẽ không xóa các dự án bên trong. Nó chỉ xóa các bài hướng dẫn. Thư viện sẽ bị xóa vĩnh viễn."
+                },
+                "characters": {
+                    "header": "$~Ký tự",
+                    "explanation": "$~Các ký tự được chia sẻ ở đây. Bất kỳ ai trong phòng trưng bày này đều có thể dùng một ký tự cho dự án của mình, hoặc tạo phiên bản riêng của nó để thay đổi."
+                },
+                "projects": {
+                    "header": "$~Dự án",
+                    "explanation": "$~Các dự án được chia sẻ ở đây. Bất kỳ ai trong phòng trưng bày này đều có thể mở một dự án, và tạo phiên bản riêng của nó để thay đổi."
                 }
             },
             "confirm": {
@@ -7410,6 +7418,10 @@
                 "remove": {
                     "description": "$~xóa dự án khỏi thư viện",
                     "prompt": "$~di dời"
+                },
+                "removecharacter": {
+                    "description": "$~xóa ký tự khỏi phòng trưng bày",
+                    "prompt": "$~xóa"
                 }
             },
             "error": {
@@ -7426,7 +7438,28 @@
                     "placeholder": "$~Hãy mô tả phòng trưng bày của bạn. Chủ đề, mục tiêu hoặc đối tượng khách hàng của phòng trưng bày là gì?"
                 }
             },
-            "projects": "$~$#count[$count dự án]"
+            "projects": "$~$#count[$count dự án]",
+            "characters": "$~$#count[$count ký tự]",
+            "button": {
+                "editcharacter": "$~Sửa ký tự này",
+                "copyreference": "$~Sao chép một tham chiếu đến ký tự này, để dán vào một dự án",
+                "copied": "$~Đã sao chép!"
+            },
+            "tab": {
+                "label": "$~cài đặt phòng trưng bày",
+                "labels": [
+                    "$~Người tạo",
+                    "$~Người quản lý",
+                    "$~Chế độ hiển thị",
+                    "$~Xóa"
+                ],
+                "tips": [
+                    "$~chọn ai có thể thêm tác phẩm vào phòng trưng bày này",
+                    "$~chọn ai có thể quản lý phòng trưng bày này",
+                    "$~chọn ai có thể xem phòng trưng bày này",
+                    "$~xóa phòng trưng bày này"
+                ]
+            }
         },
         "gallerymoderation": {
             "header": "$~Kiểm duyệt thư viện ảnh",
@@ -9658,7 +9691,7 @@
                 "share": {
                     "dialog": {
                         "header": "$~Chia sẻ",
-                        "explanation": "$~Thêm cộng tác viên để hạn chế người có thể xem nhân vật này."
+                        "explanation": "$~Chọn ai có thể xem ký tự này, ai có thể giúp tạo ra nó, và nó thuộc phòng trưng bày nào."
                     },
                     "button": {
                         "label": "$~chia sẻ",
@@ -9676,7 +9709,24 @@
                             "$~Chỉ bạn và những người cộng tác mới có thể nhìn thấy nhân vật này."
                         ]
                     },
-                    "collaborators": "$~cộng tác viên"
+                    "collaborators": "$~cộng tác viên",
+                    "gallery": "$~Phòng trưng bày",
+                    "galleryexplanation": "$~Đặt ký tự này vào một trong các phòng trưng bày của bạn để mọi người trong đó có thể xem nó, dùng nó trong dự án của họ, và tạo phiên bản riêng của nó. Nó vẫn thuộc về bạn; chỉ mình bạn mới có thể thay đổi nó.",
+                    "collaboratorsexplanation": "$~Những người cộng tác có thể xem ký tự này và cùng bạn thay đổi nó, ngay cả khi nó ở chế độ riêng tư.",
+                    "publicexplanation": "$~Công khai nghĩa là bất kỳ ai cũng có thể xem ký tự này và dùng nó trong dự án của họ. Riêng tư nghĩa là chỉ mình bạn, những người cộng tác của bạn, và bất kỳ ai trong phòng trưng bày mà bạn đã đặt nó vào mới có thể xem.",
+                    "tab": {
+                        "label": "$~cài đặt chia sẻ",
+                        "labels": [
+                            "$~Công khai",
+                            "$~Người cộng tác",
+                            "$~Phòng trưng bày"
+                        ],
+                        "tips": [
+                            "$~chọn ai có thể xem nhân vật này",
+                            "$~chọn ai có thể cùng bạn thay đổi nhân vật này",
+                            "$~chọn một phòng trưng bày để đưa nhân vật này vào"
+                        ]
+                    }
                 },
                 "field": {
                     "name": {
@@ -10914,8 +10964,8 @@
         },
         "responsibility": {
             "none": "$~Không ai xem xét những gì bạn chia sẻ ở đây cả. Nó chỉ hiển thị với bạn và những người bạn chọn.",
-            "curators": "$~Người quản lý của <$name@://galleries> xem xét những gì được chia sẻ ở đây, kể cả nội dung trò chuyện.",
-            "both": "$~Người quản lý của <$name@://galleries> xem xét những gì được chia sẻ ở đây, và người kiểm duyệt của Wordplay cũng vậy, vì ai cũng có thể xem được.",
+            "curators": "$~Người quản lý phòng trưng bày này kiểm duyệt những gì được chia sẻ ở đây, kể cả phần trò chuyện.",
+            "both": "$~Người quản lý phòng trưng bày này kiểm duyệt những gì được chia sẻ ở đây, và người kiểm duyệt của Wordplay cũng vậy, vì ai cũng có thể xem được nó.",
             "platform": "$~<Người kiểm duyệt@://rights> của Wordplay xem xét điều này, vì ai cũng có thể xem được."
         }
     },

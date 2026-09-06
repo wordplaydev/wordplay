@@ -20,7 +20,12 @@
     import Labeled from '@components/widgets/Labeled.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { Creators, locales } from '@db/Database';
+    import { CharactersDB, Creators, locales } from '@db/Database';
+    import {
+        bareCharacterName,
+        characterToSVG,
+        type Character,
+    } from '@db/characters/Character';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { firestore } from '@db/firebase';
     import moderate from '@db/moderation/moderate';
@@ -105,10 +110,14 @@
             reports = found.docs
                 .map((doc) => doc.data())
                 .filter((data): data is SerializedReport => data.v === 2)
-                // Whole projects and galleries have their own queues; this one
-                // is for what someone said.
+                // Whole projects and galleries have their own queues; this
+                // one is for what someone said — and, since #822, for what
+                // someone drew, which is the same size of thing.
                 .filter(
-                    (data) => data.kind === 'chat' || data.kind === 'howto',
+                    (data) =>
+                        data.kind === 'chat' ||
+                        data.kind === 'howto' ||
+                        data.kind === 'character',
                 );
         } catch {
             failed = true;
@@ -130,6 +139,31 @@
         Creators.getCreatorsByUIDs([author]).then((found) => {
             authors = { ...authors, [author]: found[author] ?? null };
         });
+    });
+
+    /** The drawing being decided about, when the subject is a character.
+     *  Fetched rather than captured on the report: a report holds a title, and
+     *  a decision about a picture has to be made by looking at the picture.
+     *  The rules let a moderator read it (see the `mod` clause on
+     *  /characters), and a curator reaches it through their own gallery. */
+    let reportedCharacter = $state<Character | null>(null);
+    $effect(() => {
+        const report = current;
+        if (report === undefined || report.kind !== 'character') {
+            reportedCharacter = null;
+            return;
+        }
+        let cancelled = false;
+        CharactersDB.getByID(report.subject)
+            .then((found) => {
+                if (!cancelled) reportedCharacter = found ?? null;
+            })
+            .catch(() => {
+                if (!cancelled) reportedCharacter = null;
+            });
+        return () => {
+            cancelled = true;
+        };
     });
 
     async function decide(remove: boolean) {
@@ -186,9 +220,30 @@
                         ? !(current.author in authors)
                         : false}
                 />
-                <!-- The reported words, read from the report rather than the
-                     chat: they were moved there so that hiding them was real. -->
-                <em>{current.text ?? ''}</em>
+                {#if current.kind === 'character'}
+                    <!-- A drawing has to be looked at, so the queue shows the
+                         character itself. Inert: deciding is the only thing to
+                         do with it here. A report carries no picture, so this
+                         is fetched; while it hasn't arrived, say so rather
+                         than showing an empty box that reads as a decision
+                         about nothing. -->
+                    {#if reportedCharacter}
+                        <div
+                            class="character"
+                            role="img"
+                            aria-label={bareCharacterName(reportedCharacter)}
+                        >
+                            {@html characterToSVG(reportedCharacter, 128)}
+                        </div>
+                        <em>{reportedCharacter.name}</em>
+                    {:else}
+                        <Spinning />
+                    {/if}
+                {:else}
+                    <!-- The reported words, read from the report rather than the
+                         chat: they were moved there so that hiding them was real. -->
+                    <em>{current.text ?? ''}</em>
+                {/if}
             </Labeled>
 
             <Labeled label={(l) => l.ui.gallerymoderation.labels.reason}>
@@ -225,9 +280,11 @@
                     label={(l) => l.ui.gallerymoderation.view.label}
                     action={() =>
                         localeGoto(
-                            current.gallery === null
-                                ? `/project/${current.subject}`
-                                : `/gallery/${current.gallery}/howto?id=${current.subject}`,
+                            current.kind === 'character'
+                                ? `/character/${current.subject}`
+                                : current.gallery === null
+                                  ? `/project/${current.subject}`
+                                  : `/gallery/${current.gallery}/howto?id=${current.subject}`,
                         )}
                 />
                 <Button
@@ -273,6 +330,13 @@
         flex-direction: row;
         gap: var(--wordplay-spacing);
         align-items: baseline;
+    }
+
+    .character {
+        display: block;
+        width: 128px;
+        height: 128px;
+        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
     }
 
     .remaining {

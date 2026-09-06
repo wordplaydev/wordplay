@@ -18,6 +18,10 @@ const MAX_WORDS = 400;
  *  this is indexed by its earliest projects; see MAX_WORDS. */
 const MAX_INDEXED_PROJECTS = 200;
 
+/** The same cap for the characters shared in a gallery (#822). Separate from
+ *  the project cap so a gallery full of drawings still indexes its projects. */
+const MAX_INDEXED_CHARACTERS = 200;
+
 /**
  * Fold text into the word list `Gallery.words` holds. Deliberately simple —
  * lowercase, split on anything that isn't a letter or digit — because the
@@ -67,7 +71,12 @@ export function galleryContentChanged(
         JSON.stringify(before.description) !==
             JSON.stringify(after.description) ||
         JSON.stringify([...((before.projects as string[]) ?? [])].sort()) !==
-            JSON.stringify([...((after.projects as string[]) ?? [])].sort())
+            JSON.stringify([...((after.projects as string[]) ?? [])].sort()) ||
+        // Characters are gallery content too (#822), so adding one to an
+        // approved public gallery puts it back in the queue — approval was of
+        // what the gallery was.
+        JSON.stringify([...((before.characters as string[]) ?? [])].sort()) !==
+            JSON.stringify([...((after.characters as string[]) ?? [])].sort())
     );
 }
 
@@ -239,10 +248,33 @@ export default async function galleryEdited(
                               (name): name is string =>
                                   typeof name === 'string',
                           );
+            // A character's stored name is `username/Name`; foldWords splits
+            // on the slash, so both halves are searchable — which is what
+            // someone looking for a classmate's drawing would type.
+            const characterIDs: string[] = (after.characters ?? []).slice(
+                0,
+                MAX_INDEXED_CHARACTERS,
+            );
+            const characterNames =
+                characterIDs.length === 0
+                    ? []
+                    : (
+                          await db.getAll(
+                              ...characterIDs.map((id) =>
+                                  db.collection('characters').doc(id),
+                              ),
+                          )
+                      )
+                          .map((doc) => doc.get('name'))
+                          .filter(
+                              (name): name is string =>
+                                  typeof name === 'string',
+                          );
             const words = foldWords([
                 ...Object.values<string>(after.name ?? {}),
                 ...Object.values<string>(after.description ?? {}),
                 ...projectNames,
+                ...characterNames,
             ]);
             if (!sameWords(words, after.words ?? [])) self.words = words;
         }

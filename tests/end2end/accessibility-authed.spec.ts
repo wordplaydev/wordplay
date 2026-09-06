@@ -1,8 +1,11 @@
 import { expect, test } from '@playwright/test';
 import { expectNoAxeViolations } from '../helpers/checkAccessibility';
 import { createTestCharacter } from '../helpers/createCharacter';
+import { createTestGallery } from '../helpers/createGallery';
 import { editTrianglePoints } from '../helpers/drawCharacterPath';
+import { waitForDocumentUpdate } from '../helpers/firestore';
 import { loginNewContext } from '../helpers/loginNewContext';
+import { uniqueCharacterName } from '../helpers/uniqueCharacterName';
 
 /**
  * The axe gate for authenticated and content-heavy views: the projects list,
@@ -232,6 +235,82 @@ for (const scheme of ['light', 'dark'] as const) {
                     page.locator('#languages-tabs-panel'),
                 ).toBeVisible();
                 await expectNoAxeViolations(page);
+            } finally {
+                await context.close();
+            }
+        });
+
+        /**
+         * A gallery holding characters (#822). The route scan can't reach this
+         * — it needs a seeded gallery id and a character shared into it — and
+         * the section is a grid of inert tiles carrying several controls each,
+         * which is the shape most likely to lose an accessible name.
+         */
+        test(`a gallery's characters have no WCAG 2.2 AA violations`, async ({
+            browser,
+        }) => {
+            const { context, page } = await loginNewContext(
+                browser,
+                'creator',
+                'password',
+                { colorScheme: scheme },
+            );
+            try {
+                const galleryId = await createTestGallery(page, 'A11y Gallery');
+                const characterId = await createTestCharacter(page);
+                // Unique per run as well as per scheme: both schemes sign in
+                // as the same creator, and a creator's character names have to
+                // be unique — a colliding one is deliberately not saved, which
+                // would leave this tile unnamed and the assertion below
+                // hunting for a name that was never stored.
+                const characterName = uniqueCharacterName('Axe');
+                const nameField = page.locator('#character-name');
+                await nameField.waitFor({ timeout: LOAD_TIMEOUT });
+                await nameField.fill(characterName);
+                await nameField.press('Tab');
+                // The editor debounces its save, so wait for the name to
+                // actually land — otherwise the tile renders as unnamed and
+                // the assertion below is looking for the wrong thing.
+                await waitForDocumentUpdate(
+                    page,
+                    'characters',
+                    characterId,
+                    (data) =>
+                        typeof data?.name === 'string' &&
+                        data.name.endsWith(`/${characterName}`),
+                );
+
+                await page.goto(
+                    `/en-US/character/${characterId}?dialog=character-share`,
+                );
+                await page.getByRole('tab', { name: 'Gallery' }).click();
+                await page
+                    .locator(
+                        `#character-gallery-chooser option[value="${galleryId}"]`,
+                    )
+                    .waitFor({ state: 'attached', timeout: LOAD_TIMEOUT });
+                await page
+                    .locator('#character-gallery-chooser')
+                    .selectOption(galleryId);
+
+                await page.goto(`/en-US/gallery/${galleryId}`);
+                await expect(
+                    page.getByRole('img', { name: characterName }),
+                ).toBeVisible({ timeout: LOAD_TIMEOUT });
+                // The breadcrumb row is excluded, not fixed: its links are
+                // 18px tall against WCAG 2.2's 24px target size, which is a
+                // pre-existing failure of the shared Breadcrumbs component on
+                // every page whose header row carries no taller control beside
+                // it. This route is simply the first scanned that is shaped
+                // that way — the character editor passes with the same
+                // component because its controls make the row 24px. Fixing it
+                // changes the vertical rhythm of every breadcrumbed page,
+                // which is a design decision of its own rather than part of
+                // #822. Everything else on the page, including the new
+                // character grid, is held to the full standard.
+                await expectNoAxeViolations(page, {
+                    exclude: ['.breadcrumbs'],
+                });
             } finally {
                 await context.close();
             }

@@ -22,6 +22,7 @@
     import Dialog from '@components/widgets/Dialog.svelte';
     import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
+    import Tabbed from '@components/widgets/Tabbed.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Slider from '@components/widgets/Slider.svelte';
@@ -73,7 +74,13 @@
     } from '@db/characters/Character';
     import { MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '@db/limits';
     import { getUsername } from '@db/creators/handle.svelte';
-    import { DB, CharactersDB, disconnected, locales } from '@db/Database';
+    import {
+        DB,
+        CharactersDB,
+        disconnected,
+        Galleries,
+        locales,
+    } from '@db/Database';
     import type Project from '@db/projects/Project';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import ImageImporter from './ImageImporter.svelte';
@@ -673,13 +680,41 @@
     /** Whether the project is public */
     let isPublic: boolean = $state(false);
 
-    let nameAvailable = $derived.by(() => {
-        const c = CharactersDB.getEditableCharacterWithName(name);
-        return (
-            c === undefined ||
-            (editedCharacter !== null && c.id === editedCharacter.id)
-        );
-    });
+    /** The gallery this character is shared in, if any (#822). */
+    let gallery: string | null = $state(null);
+
+    /** Which of the share dialog's tabs is showing; see `share.tab`. */
+    let shareTab = $state(0);
+
+    const CharacterNameRegEx = new RegExp(`^${NameRegExPattern}$`, 'u');
+
+    function isValidName(name: string) {
+        return CharacterNameRegEx.test(name) &&
+            ConceptLink.parse(name) instanceof CharacterName
+            ? true
+            : (l: LocaleText) => l.ui.page.character.feedback.name;
+    }
+
+    let nameAvailable = $derived(
+        username === undefined ||
+            typeof persisted === 'string' ||
+            CharactersDB.getOwnedCharacterWithName(
+                `${username}/${name}`,
+                persisted.id,
+            ) === undefined,
+    );
+
+    /**
+     * Whether the typed name is one we can actually store: a legal Wordplay
+     * name, and not one of the creator's other characters'.
+     *
+     * A name that isn't holds back ONLY the name (see editedCharacter), never
+     * the drawing. Gating the whole save on it — which the stale comment on
+     * `savable` below promised and the code never did — would mean a creator
+     * who typed a colliding name silently lost every stroke they drew
+     * afterwards while the editor showed them a notice about the name.
+     */
+    let nameUsable = $derived(isValidName(name) === true && nameAvailable);
 
     /** Always have an up to date character to render and save */
     let editedCharacter: Character | null = $derived(
@@ -689,11 +724,18 @@
             ? null
             : {
                   ...persisted,
-                  name: `${username}/${name}`,
+                  name: nameUsable ? `${username}/${name}` : persisted.name,
                   description,
                   shapes,
                   collaborators: collaborators,
                   public: isPublic,
+                  // Membership is chosen through the share dialog, which calls
+                  // the gallery database directly; it's held here as well so a
+                  // later shape edit doesn't save a snapshot taken before that
+                  // and silently drop it. Always written, never spread
+                  // conditionally: an omitted key would leave whatever
+                  // `persisted` still carried, undoing a removal.
+                  gallery,
               },
     );
 
@@ -754,7 +796,8 @@
     let failedProjects = $state<Project[]>([]);
     let showError = $state(false);
 
-    /** Don't save if the name is not available */
+    /** Whether we can save at all. An unusable NAME doesn't stop a save — it
+     *  just isn't part of what's saved; see nameUsable. */
     let savable = $derived(isAuthenticated($user) && $user.email !== null);
 
     let saving: number | undefined = undefined;
@@ -822,6 +865,7 @@
                     shapes = loadedCharacter.shapes;
                     isPublic = loadedCharacter.public;
                     collaborators = loadedCharacter.collaborators;
+                    gallery = loadedCharacter.gallery ?? null;
 
                     // Only when this is a different character. This effect
                     // re-runs on any URL change, and Dialog persists its open
@@ -904,15 +948,6 @@
                 );
         });
     });
-
-    const CharacterNameRegEx = new RegExp(`^${NameRegExPattern}$`, 'u');
-
-    function isValidName(name: string) {
-        return CharacterNameRegEx.test(name) &&
-            ConceptLink.parse(name) instanceof CharacterName
-            ? true
-            : (l: LocaleText) => l.ui.page.character.feedback.name;
-    }
 
     function isValidDescription(description: string) {
         return description.length > 0
@@ -3619,29 +3654,98 @@
         button={{
             background: true,
             tip: (l) => l.ui.page.character.share.button.tip,
-            icon: isPublic ? GLOBE1_SYMBOL : '🤫',
-            label: isPublic
-                ? (l) => l.ui.page.character.share.public.labels[0]
-                : (l) => l.ui.page.character.share.public.labels[1],
+            // The same glyph and word the project's share dialog uses. It used
+            // to show the visibility instead, which stopped describing the
+            // dialog once it held collaborators and a gallery too.
+            icon: '↗',
+            label: (l) => l.ui.page.character.share.button.label,
         }}
     >
-        <Mode
-            modes={(l) => l.ui.page.character.share.public}
-            choice={isPublic ? 0 : 1}
-            select={(mode) => (isPublic = mode === 0)}
-            icons={[GLOBE1_SYMBOL, '🤫']}
-        />
-        <Labeled label={(l) => l.ui.page.character.share.collaborators}>
-            <CreatorList
-                uids={collaborators}
-                editable
-                anonymize={false}
-                add={(userID) => (collaborators = [...collaborators, userID])}
-                remove={(userID) =>
-                    (collaborators = collaborators.filter((c) => c !== userID))}
-                removable={() => true}
-            />
-        </Labeled>
+        <!-- Three separate decisions — who may see it, who may change it,
+             and where it's shown — so they're three tabs rather than one
+             stack, the way a project's sharing settings are. -->
+        <Tabbed
+            id="character-share-tabs"
+            tabs={(l) => l.ui.page.character.share.tab}
+            choice={shareTab}
+            select={(choice) => (shareTab = choice)}
+        >
+            {#snippet children()}
+                {#if shareTab === 0}
+                    <!-- No headers in any panel: the tab already names it. -->
+                    <MarkupHTMLView
+                        markup={(l) =>
+                            l.ui.page.character.share.publicexplanation}
+                    />
+                    <Mode
+                        modes={(l) => l.ui.page.character.share.public}
+                        choice={isPublic ? 0 : 1}
+                        select={(mode) => (isPublic = mode === 0)}
+                        icons={[GLOBE1_SYMBOL, '🤫']}
+                    />
+                {:else if shareTab === 1}
+                    <MarkupHTMLView
+                        markup={(l) =>
+                            l.ui.page.character.share.collaboratorsexplanation}
+                    />
+                    <Labeled
+                        label={(l) => l.ui.page.character.share.collaborators}
+                    >
+                        <CreatorList
+                            uids={collaborators}
+                            editable
+                            anonymize={false}
+                            add={(userID) =>
+                                (collaborators = [...collaborators, userID])}
+                            remove={(userID) =>
+                                (collaborators = collaborators.filter(
+                                    (c) => c !== userID,
+                                ))}
+                            removable={() => true}
+                        />
+                    </Labeled>
+                {:else}
+                    <!-- Sharing a character in a gallery (#822), the same
+                         chooser a project's share dialog offers. It sets the
+                         local state AND calls the gallery database: the
+                         database writes both documents in one batch, and the
+                         state keeps a later shape edit from saving a snapshot
+                         taken before this and dropping the membership. -->
+                    <MarkupHTMLView
+                        markup={(l) =>
+                            l.ui.page.character.share.galleryexplanation}
+                    />
+                    <Options
+                        id="character-gallery-chooser"
+                        label={(l) => l.ui.page.character.share.gallery}
+                        value={gallery ?? undefined}
+                        options={[
+                            { value: undefined, label: '—' },
+                            ...Array.from(
+                                Galleries.accessibleGalleries.values(),
+                            ).map((g) => ({
+                                value: g.getID(),
+                                label: g.getName($locales),
+                            })),
+                        ]}
+                        change={(galleryID) => {
+                            if (editedCharacter === null) return;
+                            const character = $state.snapshot(
+                                editedCharacter,
+                            ) as Character;
+                            if (galleryID) {
+                                gallery = galleryID;
+                                Galleries.addCharacter(character, galleryID);
+                            } else {
+                                const was = gallery;
+                                gallery = null;
+                                Galleries.removeCharacter(character, was);
+                            }
+                        }}
+                    />
+                {/if}
+            {/snippet}
+        </Tabbed>
     </Dialog>
 {/snippet}
 

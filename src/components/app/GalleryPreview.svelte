@@ -28,6 +28,10 @@
 
     // The template chooses its own plural form from this count; see plurals.ts.
     let countInputs = $derived({ count: gallery.getProjects().length });
+    // Characters are counted separately and shown only when there are any, so
+    // an ordinary project gallery's card reads exactly as it did (#822).
+    let characterCount = $derived(gallery.getCharacters().length);
+    let characterCountInputs = $derived({ count: characterCount });
 
     // Rotate through the gallery's projects every 4 seconds. The rotation
     // is a feature, not a workaround — it gives the card visual rhythm and
@@ -118,7 +122,15 @@
                     inline
                     markup={[(l) => l.ui.gallery.projects, countInputs]}
                 /></sup
-            ></Subheader
+            >{#if characterCount > 0}<sup class="count"
+                    ><MarkupHTMLView
+                        inline
+                        markup={[
+                            (l) => l.ui.gallery.characters,
+                            characterCountInputs,
+                        ]}
+                    /></sup
+                >{/if}</Subheader
         >
         <MarkupHTMLView
             markup={description.length > 0
@@ -147,6 +159,9 @@
     .count {
         color: var(--wordplay-foreground);
         white-space: nowrap;
+        /* Own margin rather than markup whitespace, since a card can carry two
+           counts and the space between them must survive formatting. */
+        margin-inline-start: var(--wordplay-spacing);
         font-size: var(--wordplay-small-font-size);
     }
 

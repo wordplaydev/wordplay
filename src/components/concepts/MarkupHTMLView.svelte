@@ -743,6 +743,16 @@
         margin-block-end: 0;
     }
 
+    /* The same rule as the one above, for the same reason: whatever contains
+       this markup already spaces itself from what follows, so a trailing
+       margin here is a second gap. A list that ended a block sat 1em further
+       from the paragraph after it than from the one before it — visible
+       wherever prose introduces a bulleted list, like the rules in the share
+       dialog. */
+    ul:last-child {
+        margin-block-end: 0;
+    }
+
     .markup-localizing {
         display: block;
     }

@@ -38,6 +38,19 @@ const Projects = {
     OtherGallery: 'rulestest-project-other-gallery',
 };
 
+const Characters = {
+    /** Owned, private, one collaborator, in no gallery. */
+    Private: 'rulestest-character-private',
+    /** Private, in the Unrestricted gallery. */
+    InGallery: 'rulestest-character-in-gallery',
+    /** Private, in the Public gallery. */
+    InPublicGallery: 'rulestest-character-in-public-gallery',
+    /** Public, in no gallery. */
+    Public: 'rulestest-character-public',
+    /** Private, with no `gallery` key at all — the shape stored before #822. */
+    Legacy: 'rulestest-character-legacy',
+};
+
 const Users = {
     Owner: 'rulestest-owner',
     Collaborator: 'rulestest-collaborator',
@@ -68,6 +81,10 @@ function projectDoc(uid: string | null, project: string) {
 
 function subDoc(uid: string | null, project: string, sub: string, id: string) {
     return as(uid).doc(`projects/${project}/${sub}/${id}`);
+}
+
+function characterDoc(uid: string | null, character: string) {
+    return as(uid).doc(`characters/${character}`);
 }
 
 beforeAll(async () => {
@@ -135,6 +152,33 @@ beforeAll(async () => {
             gallery: Galleries.Other,
             restrictedGallery: false,
         });
+        // Characters (#822). The Legacy one deliberately has no `gallery`
+        // key, so the read rule's `in` guard is exercised.
+        const owned = { owner: Users.Owner, collaborators: [] as string[] };
+        await db.doc(`characters/${Characters.Private}`).set({
+            ...owned,
+            collaborators: [Users.Collaborator],
+            public: false,
+            gallery: null,
+        });
+        await db.doc(`characters/${Characters.InGallery}`).set({
+            ...owned,
+            public: false,
+            gallery: Galleries.Unrestricted,
+        });
+        await db.doc(`characters/${Characters.InPublicGallery}`).set({
+            ...owned,
+            public: false,
+            gallery: Galleries.Public,
+        });
+        await db.doc(`characters/${Characters.Public}`).set({
+            ...owned,
+            public: true,
+            gallery: null,
+        });
+        await db
+            .doc(`characters/${Characters.Legacy}`)
+            .set({ ...owned, public: false });
         for (const project of Object.values(Projects)) {
             await db
                 .doc(`projects/${project}/updates/update1`)
@@ -590,5 +634,101 @@ describe('presence writes: editors only, and only as themselves', () => {
                 'curator-client',
             ).delete(),
         );
+    });
+});
+
+/**
+ * Characters in galleries (#822). A gallery is the middle ground a character
+ * never had: not public to everyone, not limited to named collaborators, but
+ * visible to a class. These pin that the gallery grants read and nothing more —
+ * in particular that it grants no write, because a character is remixed rather
+ * than edited by the people it's shared with.
+ */
+describe('character read', () => {
+    it('a public character is readable by everyone, including signed-out', async () => {
+        for (const uid of [...Object.values(Users), null])
+            await assertSucceeds(characterDoc(uid, Characters.Public).get());
+    });
+
+    it('a private character is readable only by its owner, collaborators, and moderators', async () => {
+        for (const uid of [Users.Owner, Users.Collaborator, Users.Mod])
+            await assertSucceeds(characterDoc(uid, Characters.Private).get());
+        for (const uid of [
+            Users.Curator,
+            Users.Classmate,
+            Users.Stranger,
+            null,
+        ])
+            await assertFails(characterDoc(uid, Characters.Private).get());
+    });
+
+    it('a character in a gallery is readable by that gallery’s curators and creators', async () => {
+        for (const uid of [
+            Users.Owner,
+            Users.Curator,
+            Users.Classmate,
+            Users.Mod,
+        ])
+            await assertSucceeds(characterDoc(uid, Characters.InGallery).get());
+    });
+
+    it('a character in a private gallery stays hidden from everyone else', async () => {
+        for (const uid of [Users.Stranger, Users.OtherCurator, null])
+            await assertFails(characterDoc(uid, Characters.InGallery).get());
+    });
+
+    it('a character in a public gallery is readable by anyone, including signed-out', async () => {
+        for (const uid of [Users.Stranger, Users.OtherCurator, null])
+            await assertSucceeds(
+                characterDoc(uid, Characters.InPublicGallery).get(),
+            );
+    });
+
+    it('a character stored before #822 still reads correctly', async () => {
+        // No `gallery` key at all. An unguarded field access would be a CEL
+        // evaluation error, which fails closed — so the owner's read passing
+        // is what proves the guard, not the stranger's failing.
+        await assertSucceeds(
+            characterDoc(Users.Owner, Characters.Legacy).get(),
+        );
+        await assertFails(
+            characterDoc(Users.Stranger, Characters.Legacy).get(),
+        );
+    });
+});
+
+describe('character write', () => {
+    it('the owner and collaborators may update', async () => {
+        for (const uid of [Users.Owner, Users.Collaborator])
+            await assertSucceeds(
+                characterDoc(uid, Characters.Private).update({ updated: 1 }),
+            );
+    });
+
+    it('a gallery curator may not edit a character shared in their gallery', async () => {
+        // Sharing a drawing is not handing it over. A curator's remedy is to
+        // remove it from the gallery, which is a write to the gallery doc.
+        await assertFails(
+            characterDoc(Users.Curator, Characters.InGallery).update({
+                updated: 1,
+            }),
+        );
+        await assertFails(
+            characterDoc(Users.Classmate, Characters.InGallery).update({
+                updated: 1,
+            }),
+        );
+    });
+
+    it('a signed-out visitor may not update or delete', async () => {
+        await assertFails(
+            characterDoc(null, Characters.Public).update({ updated: 1 }),
+        );
+        await assertFails(characterDoc(null, Characters.Public).delete());
+    });
+
+    it('only the owner may delete', async () => {
+        for (const uid of [Users.Collaborator, Users.Curator, Users.Stranger])
+            await assertFails(characterDoc(uid, Characters.Private).delete());
     });
 });

@@ -7397,6 +7397,14 @@
                 "delete": {
                     "header": "$~Silmek",
                     "explanation": "$~Bu galeriyi silmek projelerini silmez. Nasıl kılavuzlarını siler. Galeri kalıcı olarak silinir."
+                },
+                "characters": {
+                    "header": "$~Karakterler",
+                    "explanation": "$~Burada paylaşılan karakterler. Bu galerideki herkes bir karakteri kendi projesinde kullanabilir ya da değiştirmek için kendi sürümünü yapabilir."
+                },
+                "projects": {
+                    "header": "$~Projeler",
+                    "explanation": "$~Burada paylaşılan projeler. Bu galerideki herkes bir projeyi açabilir ve değiştirmek için kendi sürümünü yapabilir."
                 }
             },
             "confirm": {
@@ -7407,6 +7415,10 @@
                 "remove": {
                     "description": "$~projeyi galeriden kaldır",
                     "prompt": "$~kaldırmak"
+                },
+                "removecharacter": {
+                    "description": "$~karakteri galeriden kaldır",
+                    "prompt": "$~kaldır"
                 }
             },
             "error": {
@@ -7423,7 +7435,28 @@
                     "placeholder": "$~Galerinizi tanımlayın. Teması, hedefleri veya topluluğu nedir?"
                 }
             },
-            "projects": "$~$#count[$count proje|$count proje]"
+            "projects": "$~$#count[$count proje|$count proje]",
+            "characters": "$~$#count[$count karakter|$count karakter]",
+            "button": {
+                "editcharacter": "$~Bu karakteri düzenle",
+                "copyreference": "$~Bir projeye yapıştırmak için bu karaktere bir başvuru kopyala",
+                "copied": "$~Kopyalandı!"
+            },
+            "tab": {
+                "label": "$~galeri ayarları",
+                "labels": [
+                    "$~Oluşturanlar",
+                    "$~Küratörler",
+                    "$~Görünürlük",
+                    "$~Sil"
+                ],
+                "tips": [
+                    "$~bu galeriye kimlerin çalışma ekleyebileceğini seç",
+                    "$~bu galeriyi kimlerin yönetebileceğini seç",
+                    "$~bu galeriyi kimlerin görebileceğini seç",
+                    "$~bu galeriyi sil"
+                ]
+            }
         },
         "source": {
             "label": "$~kaynak",
@@ -9941,7 +9974,7 @@
                 "share": {
                     "dialog": {
                         "header": "$~Paylaşmak",
-                        "explanation": "$~Bu karakteri kimlerin görüntüleyebileceğini sınırlamak için işbirlikçiler ekleyin."
+                        "explanation": "$~Bu karakteri kimlerin görebileceğini, kimlerin yapımına yardım edebileceğini ve hangi galeriye ait olduğunu seç."
                     },
                     "button": {
                         "label": "$~paylaşmak",
@@ -9959,7 +9992,24 @@
                             "$~Bu karakteri yalnızca siz ve işbirlikçileriniz görebilir."
                         ]
                     },
-                    "collaborators": "$~işbirlikçiler"
+                    "collaborators": "$~işbirlikçiler",
+                    "gallery": "$~Galeri",
+                    "galleryexplanation": "$~Bu karakteri galerilerinden birine koy, böylece içindeki herkes onu görebilir, kendi projelerinde kullanabilir ve kendi sürümünü yapabilir. Karakter senin kalır; sadece sen onu değiştirebilirsin.",
+                    "collaboratorsexplanation": "$~Ortak çalışanlar bu karakteri görebilir ve gizli olsa bile seninle birlikte değiştirebilir.",
+                    "publicexplanation": "$~Herkese açık, bu karakteri herkesin görebileceği ve kendi projelerinde kullanabileceği anlamına gelir. Gizli, bu karakteri yalnızca senin, ortak çalışanlarının ve onu koyduğun bir galerideki herkesin görebileceği anlamına gelir.",
+                    "tab": {
+                        "label": "$~paylaşım ayarları",
+                        "labels": [
+                            "$~Herkese Açık",
+                            "$~Katkıda Bulunanlar",
+                            "$~Galeri"
+                        ],
+                        "tips": [
+                            "$~bu karakteri kimlerin görebileceğini seç",
+                            "$~bu karakteri seninle birlikte kimlerin değiştirebileceğini seç",
+                            "$~bu karakterin gösterileceği bir galeri seç"
+                        ]
+                    }
                 },
                 "image": {
                     "instructions": "$~Kareyi taşımak için sürükleyin, ya da görselin ne kadarının saklanacağını değiştirmek için *boyut* kaydırıcısını kullanın. Klavye ile taşımaya başlamak için *enter* tuşuna basın, sonra *ok* tuşlarını kullanın, bitirdiğinizde tekrar *enter* tuşuna basın.",
@@ -10907,8 +10957,8 @@
         },
         "responsibility": {
             "none": "$~Burada paylaştığın şeyi kimse incelemez. Sadece sen ve seçtiğin kişiler görebilir.",
-            "curators": "$~<$name@://galleries> küratörleri, burada paylaşılanları, sohbeti de dahil olmak üzere, incelerler.",
-            "both": "$~<$name@://galleries> küratörleri burada paylaşılanları inceler, Wordplay'in denetçileri de inceler, çünkü herkes bunu görebilir.",
+            "curators": "$~Bu galerinin küratörleri burada paylaşılanları, sohbet dahil, inceler.",
+            "both": "$~Bu galerinin küratörleri burada paylaşılanları inceler, ve Wordplay'in denetçileri de inceler, çünkü bunu herkes görebilir.",
             "platform": "$~Wordplay'in <denetçileri@://rights> bunu inceler, çünkü herkes görebilir."
         }
     },

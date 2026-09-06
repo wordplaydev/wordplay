@@ -8,7 +8,7 @@ import {
 } from '@db/projects/Moderation';
 import z from 'zod';
 
-export const GallerySchemaLatestVersion = 3;
+export const GallerySchemaLatestVersion = 4;
 
 /** The schema for a gallery */
 const SerializedGalleryV1 = z.object({
@@ -85,9 +85,23 @@ const SerializedGalleryV3 = SerializedGalleryV2.omit({ v: true }).extend({
     flags: ModerationStateSchema,
 });
 
+/**
+ * v4 adds characters (#822). A gallery is where a class shares its work, and a
+ * drawing is work as much as a project is; a second kind of gallery just for
+ * characters would be a second set of permissions to learn and to keep from
+ * drifting. Membership is mirrored on the character's own `gallery` field,
+ * which is the source of truth — this array is the index the gallery page and
+ * the search words are built from.
+ */
+const SerializedGalleryV4 = SerializedGalleryV3.omit({ v: true }).extend({
+    v: z.literal(4),
+    /** Character IDs in the gallery. */
+    characters: z.array(z.string()),
+});
+
 /** The latest version of a gallery */
-export const GallerySchema = SerializedGalleryV3;
-export type SerializedGallery = z.infer<typeof SerializedGalleryV3>;
+export const GallerySchema = SerializedGalleryV4;
+export type SerializedGallery = z.infer<typeof SerializedGalleryV4>;
 
 /** How a gallery stands with the moderators. */
 export type GalleryModeration = SerializedGallery['moderation'];
@@ -95,6 +109,7 @@ export type GalleryModeration = SerializedGallery['moderation'];
 type SerializedGalleryUnknownVersion =
     | z.infer<typeof SerializedGalleryV1>
     | z.infer<typeof SerializedGalleryV2>
+    | z.infer<typeof SerializedGalleryV3>
     | SerializedGallery;
 
 export function upgradeGallery(
@@ -125,6 +140,8 @@ export function upgradeGallery(
                 moderatedAt: null,
                 flags: unknownFlags(),
             });
+        case 3:
+            return upgradeGallery({ ...gallery, v: 4, characters: [] });
         case GallerySchemaLatestVersion:
             return gallery;
         default:
@@ -174,6 +191,7 @@ export default class Gallery {
             path?: string | null;
             words?: string[];
             projects?: string[];
+            characters?: string[];
             public?: boolean;
             featured?: boolean;
             howTos?: string[];
@@ -196,6 +214,7 @@ export default class Gallery {
             description,
             words: opts.words ?? [],
             projects: opts.projects ?? [],
+            characters: opts.characters ?? [],
             curators,
             creators,
             public: opts.public ?? false,
@@ -352,6 +371,28 @@ export default class Gallery {
     withProjects(projectIDs: string[]) {
         const newData = { ...this.data };
         newData.projects = projectIDs.slice();
+        return new Gallery(newData);
+    }
+
+    getCharacters(): string[] {
+        return this.data.characters;
+    }
+
+    hasCharacter(characterID: string) {
+        return this.data.characters.includes(characterID);
+    }
+
+    withCharacter(characterID: string) {
+        const newData = { ...this.data };
+        newData.characters = [...new Set([...newData.characters, characterID])];
+        return new Gallery(newData);
+    }
+
+    withoutCharacter(characterID: string) {
+        const newData = { ...this.data };
+        newData.characters = [
+            ...newData.characters.filter((id) => id !== characterID),
+        ];
         return new Gallery(newData);
     }
 

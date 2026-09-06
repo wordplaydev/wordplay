@@ -49,7 +49,7 @@ export const WrittenNoticeKinds = [
 ] as const;
 
 const NoticeSubjectSchema = z.object({
-    kind: z.enum(['project', 'gallery', 'chat', 'howto']),
+    kind: z.enum(['project', 'gallery', 'chat', 'howto', 'character']),
     id: z.string(),
     gallery: z.string().nullable(),
     message: z.string().exactOptional(),

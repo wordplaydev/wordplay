@@ -17,11 +17,9 @@
     interface Props {
         /** What is being shared, in the terms responsibility depends on. */
         visibility: Visibility;
-        /** The gallery's name, when there is one to name. */
-        gallery?: string;
     }
 
-    let { visibility, gallery = '' }: Props = $props();
+    let { visibility }: Props = $props();
 
     const responsibility = $derived(getResponsibility(visibility));
 </script>
@@ -29,16 +27,9 @@
 {#if responsibility.kind === 'none'}
     <MarkupHTMLView markup={(l) => l.moderation.responsibility.none} />
 {:else if responsibility.kind === 'curators'}
-    <MarkupHTMLView
-        markup={[
-            (l) => l.moderation.responsibility.curators,
-            { name: gallery },
-        ]}
-    />
+    <MarkupHTMLView markup={(l) => l.moderation.responsibility.curators} />
 {:else if responsibility.kind === 'both'}
-    <MarkupHTMLView
-        markup={[(l) => l.moderation.responsibility.both, { name: gallery }]}
-    />
+    <MarkupHTMLView markup={(l) => l.moderation.responsibility.both} />
 {:else}
     <MarkupHTMLView markup={(l) => l.moderation.responsibility.platform} />
 {/if}

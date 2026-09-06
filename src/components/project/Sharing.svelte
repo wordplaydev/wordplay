@@ -93,7 +93,6 @@
                     flags={project.getFlags()}
                     checkStanding
                     visibility={projectVisibility(project, gallery)}
-                    galleryName={gallery ? gallery.getName($locales) : ''}
                 />
                 <!-- Research consent lives with public/private because it's a
                      second, narrower permission about the same project, not a

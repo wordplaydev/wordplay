@@ -10,9 +10,13 @@
          *  read-only the moment auth lands and silently drops the creator's
          *  first keystrokes. */
         ready?: boolean;
+        /** Sit on a header's line rather than on one of its own: no wrapping
+         *  paragraph, and a small backgrounded button instead of a large bare
+         *  one. Mirrors NewCharacterButton's prop of the same name. */
+        inline?: boolean;
     }
 
-    let { add, ready = true }: Props = $props();
+    let { add, ready = true, inline = false }: Props = $props();
 
     let creating = $state(false);
 
@@ -57,14 +61,21 @@
 <!-- The button is always present, so the control doesn't appear out of nowhere
      once auth lands. It's inactive until `ready` instead: creating a project
      before we know the signer-in is the hazard, not showing the button. -->
-<p class="add">
+{#snippet button()}
     <Button
         tip={(l) => l.ui.page.projects.button.newproject}
         action={newProject}
         testid="addproject"
-        large
+        background={inline}
+        large={!inline}
         icon="+"
         active={ready && !creating}
         spinIcon={creating}
-    ></Button></p
->
+    ></Button>
+{/snippet}
+
+{#if inline}
+    {@render button()}
+{:else}
+    <p class="add">{@render button()}</p>
+{/if}

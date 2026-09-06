@@ -2,7 +2,11 @@
 // CACHE
 ////////////////////////////////
 
-import { CharacterSchema, type Character } from '@db/characters/Character';
+import {
+    bareCharacterName,
+    CharacterSchema,
+    type Character,
+} from '@db/characters/Character';
 import {
     SaveStatus,
     type Database,
@@ -21,6 +25,7 @@ import { REMIX_SYMBOL } from '@parser/Symbols';
 import deferToIdle from '@util/deferToIdle';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';
+import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
 import {
     and,
     collection,
@@ -33,7 +38,9 @@ import {
     query,
     setDoc,
     where,
+    type DocumentData,
     type Firestore,
+    type QuerySnapshot,
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
@@ -58,8 +65,22 @@ export class CharactersDatabase {
         new SvelteMap(),
     );
 
-    /** The realtime listener unsubscriber */
-    private unsubscribe: Unsubscribe | undefined = undefined;
+    /** The realtime listener unsubscribers: one for the characters the user
+     *  owns or collaborates on, plus one per gallery chunk (#822). */
+    private unsubscribes: Unsubscribe[] = [];
+
+    /** The character IDs each listener currently matches, keyed by listener,
+     *  for the cross-listener deletion sweep. A character leaving one query
+     *  (say, taken out of a gallery) is not gone — another listener may still
+     *  hold it — so removal is decided against the union, never per snapshot. */
+    private listenerCharacterIDs: Map<string, Set<string>> = new Map();
+
+    /** How many listeners must report before the sweep can conclude anything. */
+    private expectedCharacterListeners = 0;
+
+    /** The set of gallery IDs the chunk listeners are built from, so a gallery
+     *  change that doesn't alter the set doesn't churn every query. */
+    private watchedGalleryKey: string | undefined = undefined;
 
     /** Cancels a pending idle-deferred `listen()` (see `listen`/`ignore`). */
     private listenDefer: (() => void) | undefined = undefined;
@@ -225,10 +246,11 @@ export class CharactersDatabase {
             this.listenDefer();
             this.listenDefer = undefined;
         }
-        if (this.unsubscribe) {
-            this.unsubscribe();
-            this.unsubscribe = undefined;
-        }
+        for (const unsubscribe of this.unsubscribes) unsubscribe();
+        this.unsubscribes = [];
+        this.listenerCharacterIDs.clear();
+        this.expectedCharacterListeners = 0;
+        this.watchedGalleryKey = undefined;
     }
 
     listen(firestore: Firestore, user: User) {
@@ -246,77 +268,167 @@ export class CharactersDatabase {
 
     private startListening(firestore: Firestore, user: User) {
         this.db.markSyncing(Domain.Characters);
-        this.unsubscribe = onSnapshot(
-            query(
-                collection(firestore, CharactersCollection),
-                or(
-                    where('owner', '==', user.uid),
-                    where('collaborators', 'array-contains', user.uid),
-                ),
-            ),
-            async (snapshot) => {
-                // First, go through the entire set, gathering the latest versions and remembering what project IDs we know
-                // so we can delete ones that are gone from the server.
-                const synced: Character[] = [];
-                snapshot.forEach((doc) => {
-                    const character = doc.data();
 
-                    // Try to parse the chat and save on success.
-                    try {
-                        const parsed = CharacterSchema.parse(character);
-
-                        // Skip characters with unsaved local edits not yet
-                        // pushed: our local copy is authoritative until
-                        // flushUnsaved replays it, so don't let an older cloud
-                        // version overwrite it in memory or the cache.
-                        if (this.unsavedIDs.has(parsed.id)) return;
-
-                        synced.push(parsed);
-
-                        // If the character's update time is greater than the cached one, or there is no cached one, update.
-                        // Update the chat in the local cache, but do not persist; we just got it from the DB.
-                        const cached = this.byID.get(parsed.id);
-                        if (
-                            cached === undefined ||
-                            cached === null ||
-                            parsed.updated > cached.updated
-                        ) {
-                            this.updateCharacter(parsed, false);
-                        }
-                    } catch (error) {
-                        // If the chat doesn't succeed, then we don't save it.
-                        console.error(error);
-                    }
-                });
-
-                // Mirror the cloud truth into the local cache for next cold start.
-                this.cacheCharactersLocally(synced);
-
-                // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
-                snapshot.docChanges().forEach((change) => {
-                    // Removed? Delete the local cache of the project.
-                    // Stop litening to the project's changes.
-                    if (change.type === 'removed') {
-                        const data = change.doc.data();
-                        this.deleteCharacterLocally(data as Character);
-                    }
-                });
-
-                this.db.markSynced(Domain.Characters, this.byID.size);
-            },
-            (error) => {
-                // Always terminal so the save-status button stops spinning and
-                // the dialog shows "failed" (incl. permission/index errors);
-                // only connectivity errors flip the offline/unreachable state.
-                this.db.markSyncFailed(Domain.Characters);
-                if (this.db.isConnectivityError(error))
-                    this.db.markFirebaseFailed();
-                if (error instanceof FirebaseError) {
-                    console.error(error.code);
-                    console.error(error.message);
-                }
-            },
+        // The galleries the user belongs to, chunked. The read rule get()s
+        // each matched character's gallery, and Firestore denies a whole query
+        // that needs more distinct document accesses than its budget allows —
+        // so the gallery filter is spread across several listeners rather than
+        // one. See src/db/firestoreLimits.ts and the same split in
+        // ProjectsDatabase.syncUser.
+        const galleryIDs = Array.from(
+            this.db.Galleries.accessibleGalleries.keys(),
         );
+        this.watchedGalleryKey = [...galleryIDs].sort().join(',');
+        const chunks: string[][] = [];
+        for (let i = 0; i < galleryIDs.length; i += GALLERY_CHUNK_SIZE)
+            chunks.push(galleryIDs.slice(i, i + GALLERY_CHUNK_SIZE));
+
+        this.listenerCharacterIDs.clear();
+        this.expectedCharacterListeners = 1 + chunks.length;
+
+        const onError = (error: unknown) => {
+            // Always terminal so the save-status button stops spinning and
+            // the dialog shows "failed" (incl. permission/index errors);
+            // only connectivity errors flip the offline/unreachable state.
+            this.db.markSyncFailed(Domain.Characters);
+            if (this.db.isConnectivityError(error))
+                this.db.markFirebaseFailed();
+            if (error instanceof FirebaseError) {
+                console.error(error.code);
+                console.error(error.message);
+            }
+        };
+
+        // The characters the user owns or collaborates on.
+        this.unsubscribes.push(
+            onSnapshot(
+                query(
+                    collection(firestore, CharactersCollection),
+                    or(
+                        where('owner', '==', user.uid),
+                        where('collaborators', 'array-contains', user.uid),
+                    ),
+                ),
+                (snapshot) => this.handleSnapshot('base', user, snapshot),
+                onError,
+            ),
+        );
+
+        // The characters their gallery-mates have shared (#822). Streaming
+        // these is what makes a `@username/Character` reference to a
+        // classmate's drawing resolve from the cache like any other.
+        chunks.forEach((chunk, index) => {
+            this.unsubscribes.push(
+                onSnapshot(
+                    query(
+                        collection(firestore, CharactersCollection),
+                        where('gallery', 'in', chunk),
+                    ),
+                    (snapshot) =>
+                        this.handleSnapshot(`gallery:${index}`, user, snapshot),
+                    onError,
+                ),
+            );
+        });
+    }
+
+    /** Re-subscribe when the set of galleries the user belongs to changes,
+     *  since the chunk listeners' filter is built from it. A no-op when the
+     *  set is the same, so gallery edits don't churn every query. */
+    galleriesChanged() {
+        if (firestore === undefined) return;
+        const user = this.db.getUser();
+        if (user === null) return;
+        const key = Array.from(this.db.Galleries.accessibleGalleries.keys())
+            .sort()
+            .join(',');
+        if (key === this.watchedGalleryKey) return;
+        this.listen(firestore, user);
+    }
+
+    private handleSnapshot(
+        key: string,
+        user: User,
+        snapshot: QuerySnapshot<DocumentData>,
+    ) {
+        // Record the full set this listener matches, for the sweep below.
+        const seen = new Set<string>();
+
+        const synced: Character[] = [];
+        snapshot.forEach((doc) => {
+            const character = doc.data();
+
+            // Try to parse the character and save on success.
+            try {
+                const parsed = CharacterSchema.parse(character);
+                seen.add(parsed.id);
+
+                // Skip characters with unsaved local edits not yet
+                // pushed: our local copy is authoritative until
+                // flushUnsaved replays it, so don't let an older cloud
+                // version overwrite it in memory or the cache.
+                if (this.unsavedIDs.has(parsed.id)) return;
+
+                synced.push(parsed);
+
+                // If the character's update time is greater than the cached one, or there is no cached one, update.
+                // Update the character in the local cache, but do not persist; we just got it from the DB.
+                const cached = this.byID.get(parsed.id);
+                if (
+                    cached === undefined ||
+                    cached === null ||
+                    parsed.updated > cached.updated
+                ) {
+                    this.updateCharacter(parsed, false);
+                }
+            } catch (error) {
+                // If it doesn't parse, then we don't save it.
+                console.error(error);
+            }
+        });
+
+        this.listenerCharacterIDs.set(key, seen);
+
+        // Mirror the cloud truth into the local cache for next cold start.
+        this.cacheCharactersLocally(synced);
+
+        // Cross-listener cleanup. A character that leaves one query has not
+        // necessarily been deleted — taking your own character out of a
+        // gallery drops it from that chunk listener while the base listener
+        // still holds it — so a removal only counts when NO listener matches
+        // it any more, and only once every listener has reported. Anything
+        // with unsaved local edits is left alone: its local copy is the only
+        // one that has them.
+        if (
+            this.listenerCharacterIDs.size === this.expectedCharacterListeners
+        ) {
+            const union = new Set<string>();
+            for (const ids of this.listenerCharacterIDs.values())
+                for (const id of ids) union.add(id);
+
+            for (const character of Array.from(this.byID.values())) {
+                if (character === null) continue;
+                // Only characters these listeners are supposed to match are
+                // sweepable. A public character of someone else's, pulled in
+                // by getByName to render a reference, is in no query and must
+                // survive.
+                const watched =
+                    character.owner === user.uid ||
+                    character.collaborators.includes(user.uid) ||
+                    (character.gallery != null &&
+                        this.db.Galleries.accessibleGalleries.has(
+                            character.gallery,
+                        ));
+                if (
+                    watched &&
+                    !union.has(character.id) &&
+                    !this.unsavedIDs.has(character.id)
+                )
+                    this.deleteCharacterLocally(character);
+            }
+        }
+
+        this.db.markSynced(Domain.Characters, this.byID.size);
     }
 
     /** Create a character */
@@ -377,21 +489,25 @@ export class CharactersDatabase {
         // owned by someone else), keeping just the bare name after the prefix.
         const username = this.db.getUsername();
         if (username === undefined) return undefined;
-        const slash = character.name.indexOf('/');
-        const base =
-            slash >= 0 ? character.name.slice(slash + 1) : character.name;
+        const base = bareCharacterName(character);
 
         // Mark it as a duplicate with the remix symbol — the same glyph a
         // remixed project's name gets — adding more until the bare name is
         // unused among the user's characters. Not the copy symbol: that means
         // "put this on the clipboard" everywhere else.
         let name = base + REMIX_SYMBOL;
-        while (this.getEditableCharacterWithName(name) !== undefined)
+        while (
+            this.getOwnedCharacterWithName(`${username}/${name}`) !== undefined
+        )
             name += REMIX_SYMBOL;
 
         return this.createCharacter({
             ...character,
             collaborators: [],
+            // A remix is yours and starts out shared with nobody, exactly as a
+            // remixed project leaves its gallery behind (#822). Sharing it
+            // back is a separate, deliberate act.
+            gallery: null,
             name: `${username}/${name}`,
         });
     }
@@ -537,8 +653,13 @@ export class CharactersDatabase {
         if (localMatchByID !== undefined) return localMatchByID;
 
         // We have to check, but don't have database access? Undefined.
-        const user = this.db.getUser();
-        if (firestore === undefined || user === null) return undefined;
+        // Deliberately not gated on being signed in (#742): the security
+        // rules have always allowed anyone to read a public character, and
+        // bailing here meant no character at all resolved for a signed-out
+        // visitor — so a public project using one showed an empty box, and a
+        // public gallery's characters would be blank for exactly the audience
+        // `public` is for.
+        if (firestore === undefined) return undefined;
 
         try {
             let match: Character | null = null;
@@ -585,19 +706,26 @@ export class CharactersDatabase {
         if (localMatchByName !== undefined) return localMatchByName;
 
         // We have to check, but don't have database access? Undefined.
+        // Signed out is fine; see getByID (#742).
+        if (firestore === undefined) return undefined;
         const user = this.db.getUser();
-        if (firestore === undefined || user === null) return undefined;
 
         try {
             let match: Character | null = null;
 
             // Check the database by name. The visibility disjunction is the
-            // same for both attempts, so it's built once.
-            const visible = or(
-                where('public', '==', true),
-                where('owner', '==', user.uid),
-                where('collaborators', 'array-contains', user.uid),
-            );
+            // same for both attempts, so it's built once. Signed out, it
+            // narrows to public alone: an `array-contains` against an
+            // undefined uid isn't a query Firestore will accept, and a
+            // signed-out visitor can read nothing else anyway.
+            const visible =
+                user === null
+                    ? where('public', '==', true)
+                    : or(
+                          where('public', '==', true),
+                          where('owner', '==', user.uid),
+                          where('collaborators', 'array-contains', user.uid),
+                      );
             let onlineMatchByName = await this.db.read(
                 getDocs(
                     query(
@@ -699,11 +827,50 @@ export class CharactersDatabase {
             );
     }
 
-    /** Check if any owned characters have the given name */
-    getEditableCharacterWithName(name: string): Character | undefined {
-        return this.getEditableCharacters().find(
-            (c) => c.name.split('/')[1] === name,
-        );
+    /**
+     * The character the current user owns under the given full
+     * `username/Name`, if any, ignoring the one being edited.
+     *
+     * Owner-scoped and matched on the FULL name, because the full name is what
+     * `byName` and the `where('name','==',…)` lookup are keyed on — two
+     * creators naming a character `Dog` collide with nothing, while one
+     * creator doing so makes `@them/Dog` resolve to whichever document the
+     * query happens to land on last.
+     *
+     * This replaces a check that compared BARE names across every character
+     * the user could *edit*, which includes ones they merely collaborate on:
+     * collaborating on `bob/Dog` wrongly reported `Dog` as taken.
+     */
+    getOwnedCharacterWithName(
+        fullName: string,
+        exceptID?: string,
+    ): Character | undefined {
+        const uid = this.db.getUser()?.uid;
+        if (uid === undefined) return undefined;
+        return Array.from(this.byID.values())
+            .filter((character) => character !== null)
+            .find(
+                (character) =>
+                    character.owner === uid &&
+                    character.name === fullName &&
+                    character.id !== exceptID,
+            );
+    }
+
+    /** The cached characters shared in the given gallery (#822), sorted by
+     *  their bare name the way a gallery's projects are sorted by theirs.
+     *  Reads only the cache: the chunk listeners keep it current for a member,
+     *  and the gallery page fetches by ID for anyone else. */
+    getGalleryCharacters(galleryID: string, languages: string[]): Character[] {
+        return Array.from(this.byID.values())
+            .filter((character) => character !== null)
+            .filter((character) => character.gallery === galleryID)
+            .sort((a, b) =>
+                bareCharacterName(a).localeCompare(
+                    bareCharacterName(b),
+                    languages,
+                ),
+            );
     }
 
     /** Get all characters accessible by the user */

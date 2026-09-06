@@ -33,6 +33,11 @@ export default function noticeLink(notice: SerializedNotice): string {
             return gallery === null
                 ? `/project/${id}`
                 : `/gallery/${gallery}/howto?id=${id}`;
+        case 'character':
+            // The editor, which is the only page that shows one character.
+            // Its owner lands in it able to edit; anyone else — a moderator
+            // reading a decision — sees it read-only.
+            return `/character/${id}`;
     }
 }
 

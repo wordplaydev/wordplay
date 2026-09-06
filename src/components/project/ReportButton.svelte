@@ -1,20 +1,28 @@
-<!-- Report a public project for a moderator to review (#193). -->
+<!-- Ask whoever is responsible to review something (#193, generalized by
+     #938's subject kinds and used for characters by #822). Responsibility
+     follows the subject's visibility, so this button is the same button
+     wherever it appears; only what it names changes. -->
 <script lang="ts">
     import { getAnnouncer } from '@components/project/Contexts';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import { DB, locales } from '@db/Database';
     import sendReport from '@db/moderation/report';
-    import type Project from '@db/projects/Project';
+    import type { ReportSubjectKind } from 'shared-types';
 
     interface Props {
-        project: Project;
+        /** What sort of thing is being reported. */
+        kind: ReportSubjectKind;
+        /** Its document id. */
+        subject: string;
+        /** What to call it when announcing that the report was sent. */
+        name: string;
     }
 
     // No uid: the callable takes the reporter from the caller's own auth token,
     // which is the only account it will accept — an anonymous report is
     // unaccountable and un-rate-limitable. A uid passed in here would look
     // authoritative and never be read.
-    let { project }: Props = $props();
+    let { kind, subject, name }: Props = $props();
 
     const announce = getAnnouncer();
 
@@ -27,22 +35,25 @@
     async function report() {
         if (sent) return;
         try {
-            await sendReport({ kind: 'project', subject: project.getID() });
+            await sendReport({ kind, subject });
         } catch (error) {
             DB.reportBanner((l) => l.ui.banner.saveFailed, error);
             return;
         }
         sent = true;
-        // Names the project, so reporting two different things in a session
+        // Names the thing, so reporting two different things in a session
         // doesn't produce the same sentence twice — an unchanged live region
-        // stays silent.
+        // stays silent. The template's input is still called `project`: the
+        // sentence it builds ("a moderator has been asked to look at X") is
+        // already neutral, and renaming an internal input across thirty
+        // locales would re-queue every one of them for translation.
         if (announce && $announce)
             $announce(
                 'notification',
                 $locales.getLanguages()[0],
                 $locales
                     .concretize((l) => l.moderation.report.announce, {
-                        project: project.getName(),
+                        project: name,
                     })
                     .toText(),
             );
@@ -58,5 +69,5 @@
     action={report}
     background
     icon="⚑"
-    testid="report-project"
+    testid="report-{kind}"
 ></ConfirmButton>

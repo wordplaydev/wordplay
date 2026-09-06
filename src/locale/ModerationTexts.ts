@@ -73,10 +73,10 @@ export type ModerationTexts = {
     responsibility: {
         /** [formatted] Nothing here is shared widely enough for anyone to review it. */
         none: FormattedText;
-        /** [formatted] A gallery's curators review it. $name is the gallery. */
-        curators: Template<['name']>;
-        /** [formatted] Its gallery's curators and Wordplay's moderators both do. $name is the gallery. */
-        both: Template<['name']>;
+        /** [formatted] A gallery's curators review it. */
+        curators: FormattedText;
+        /** [formatted] Its gallery's curators and Wordplay's moderators both do. */
+        both: FormattedText;
         /** [formatted] Wordplay's moderators review it, because anyone can see it. */
         platform: FormattedText;
     };

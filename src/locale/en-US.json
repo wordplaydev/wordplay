@@ -7418,6 +7418,7 @@
             "untitled": "Untitled",
             "undescribed": "No description",
             "projects": "$#count[$count project|$count projects]",
+            "characters": "$#count[$count character|$count characters]",
             "subheader": {
                 "classes": {
                     "header": "Classes",
@@ -7434,10 +7435,33 @@
                     "header": "Creators",
                     "explanation": "Creators can view all projects in the gallery and add new projects."
                 },
+                "projects": {
+                    "header": "Projects",
+                    "explanation": "Projects shared here. Anyone in this gallery can open one, and make their own version of it to change."
+                },
+                "characters": {
+                    "header": "Characters",
+                    "explanation": "Characters shared here. Anyone in this gallery can use one in their own project, or make their own version of it to change."
+                },
                 "delete": {
                     "header": "Delete",
                     "explanation": "Deleting this gallery will not delete its projects. It will delete its how-tos. The gallery will be deleted forever."
                 }
+            },
+            "tab": {
+                "label": "gallery settings",
+                "labels": ["Creators", "Curators", "Visibility", "Delete"],
+                "tips": [
+                    "choose who can add work to this gallery",
+                    "choose who can manage this gallery",
+                    "choose who can see this gallery",
+                    "delete this gallery"
+                ]
+            },
+            "button": {
+                "editcharacter": "Edit this character",
+                "copyreference": "Copy a reference to this character, to paste into a project",
+                "copied": "Copied!"
             },
             "confirm": {
                 "delete": {
@@ -7446,6 +7470,10 @@
                 },
                 "remove": {
                     "description": "remove project from gallery",
+                    "prompt": "remove"
+                },
+                "removecharacter": {
+                    "description": "remove character from gallery",
                     "prompt": "remove"
                 }
             },
@@ -9977,7 +10005,7 @@
                 "share": {
                     "dialog": {
                         "header": "Share",
-                        "explanation": "Add collaborators to restrict who can view this character."
+                        "explanation": "Choose who can see this character, who can help make it, and which gallery it belongs to."
                     },
                     "button": {
                         "label": "share",
@@ -9995,7 +10023,20 @@
                             "only you and collaborators can see this character"
                         ]
                     },
-                    "collaborators": "collaborators"
+                    "collaborators": "collaborators",
+                    "gallery": "Gallery",
+                    "galleryexplanation": "Put this character in one of your galleries and everyone in it can see it, use it in their projects, and make their own version of it. It stays yours; only you can change it.",
+                    "collaboratorsexplanation": "Collaborators can see this character and change it with you, even when it is private.",
+                    "publicexplanation": "Public means anyone can see this character and use it in their projects. Private means only you, your collaborators, and anyone in a gallery you've put it in.",
+                    "tab": {
+                        "label": "sharing settings",
+                        "labels": ["Public", "Collaborators", "Gallery"],
+                        "tips": [
+                            "choose who can see this character",
+                            "choose who can change this character with you",
+                            "choose a gallery to show this character in"
+                        ]
+                    }
                 },
                 "field": {
                     "name": {
@@ -10925,8 +10966,8 @@
         },
         "responsibility": {
             "none": "Nobody reviews what you share here. It's only visible to you and the people you choose.",
-            "curators": "The curators of <$name@://galleries> review what's shared here, including its chat.",
-            "both": "The curators of <$name@://galleries> review what's shared here, and so do Wordplay's moderators, because anyone can see it.",
+            "curators": "The curators of this gallery review what's shared here, including its chat.",
+            "both": "The curators of this gallery review what's shared here, and so do Wordplay's moderators, because anyone can see it.",
             "platform": "Wordplay's <moderators@://rights> review this, because anyone can see it."
         }
     },

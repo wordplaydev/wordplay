@@ -103,3 +103,49 @@ describe('CharacterSchema optionality is exact', () => {
         if (shape.type === 'rect') expect(shape.fill).toBeNull();
     });
 });
+
+/**
+ * Gallery membership (#822) is optional for the same reason `aliases` is:
+ * characters carry no schema version, so a stored character has to keep
+ * parsing without one. That makes it exactly the shape this file guards.
+ */
+describe('gallery membership is exactly optional', () => {
+    function character(extra: Record<string, unknown>) {
+        return {
+            id: '3f7a1c9e-2b4d-4e8a-9c1f-6d5b0a2e7c31',
+            owner: 'u1',
+            public: false,
+            collaborators: [],
+            updated: 0,
+            name: 'someone/Thing',
+            description: '',
+            shapes: [],
+            ...extra,
+        };
+    }
+
+    test('a character stored before #822 parses and omits the key', () => {
+        const parsed = CharacterSchema.parse(character({}));
+        expect('gallery' in parsed).toBe(false);
+    });
+
+    test('a character in a gallery parses', () => {
+        expect(
+            CharacterSchema.parse(character({ gallery: 'g1' })).gallery,
+        ).toBe('g1');
+    });
+
+    test('a character taken out of a gallery parses as null', () => {
+        // Removal writes null rather than deleting the key, so the field is
+        // nullable as well as optional.
+        expect(
+            CharacterSchema.parse(character({ gallery: null })).gallery,
+        ).toBe(null);
+    });
+
+    test('an explicit undefined gallery is rejected', () => {
+        expect(() =>
+            CharacterSchema.parse(character({ gallery: undefined })),
+        ).toThrow();
+    });
+});

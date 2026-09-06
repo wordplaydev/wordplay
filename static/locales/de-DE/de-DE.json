@@ -7382,6 +7382,14 @@
                 "classes": {
                     "header": "$~Klassen",
                     "explanation": "$~Mit dieser Galerie verbundene Klassen."
+                },
+                "characters": {
+                    "header": "$~Zeichen",
+                    "explanation": "$~Hier geteilte Zeichen. Jeder in dieser Galerie kann eines in seinem eigenen Projekt verwenden oder eine eigene Version davon erstellen, um sie zu verändern."
+                },
+                "projects": {
+                    "header": "$~Projekte",
+                    "explanation": "$~Hier geteilte Projekte. Jeder in dieser Galerie kann eines öffnen und eine eigene Version davon erstellen, um sie zu verändern."
                 }
             },
             "confirm": {
@@ -7391,6 +7399,10 @@
                 },
                 "remove": {
                     "description": "$~Projekt aus der Galerie entfernen",
+                    "prompt": "$~entfernen"
+                },
+                "removecharacter": {
+                    "description": "$~Zeichen aus Galerie entfernen",
                     "prompt": "$~entfernen"
                 }
             },
@@ -7408,7 +7420,28 @@
                     "placeholder": "$~Beschreiben Sie Ihre Galerie. Was ist ihr Thema, ihre Ziele oder ihre Community?"
                 }
             },
-            "projects": "$~$#count[$count Projekt|$count Projekte]"
+            "projects": "$~$#count[$count Projekt|$count Projekte]",
+            "characters": "$~$#count[$count Zeichen|$count Zeichen]",
+            "button": {
+                "editcharacter": "$~Dieses Zeichen bearbeiten",
+                "copyreference": "$~Einen Verweis auf dieses Zeichen kopieren, um ihn in ein Projekt einzufügen",
+                "copied": "$~Kopiert!"
+            },
+            "tab": {
+                "label": "$~Galerie-Einstellungen",
+                "labels": [
+                    "$~Ersteller",
+                    "$~Kuratoren",
+                    "$~Sichtbarkeit",
+                    "$~Löschen"
+                ],
+                "tips": [
+                    "$~Wähle aus, wer Arbeiten zu dieser Galerie hinzufügen darf",
+                    "$~Wähle aus, wer diese Galerie verwalten darf",
+                    "$~Wähle aus, wer diese Galerie sehen darf",
+                    "$~Diese Galerie löschen"
+                ]
+            }
         },
         "source": {
             "label": "$~Quelle",
@@ -9797,7 +9830,7 @@
                 "share": {
                     "dialog": {
                         "header": "$~Aktie",
-                        "explanation": "$~Fügen Sie Mitarbeiter hinzu, um einzuschränken, wer diesen Charakter sehen kann."
+                        "explanation": "$~Wähle aus, wer dieses Zeichen sehen darf, wer helfen darf, es zu erstellen, und zu welcher Galerie es gehört."
                     },
                     "button": {
                         "label": "$~Aktie",
@@ -9815,7 +9848,24 @@
                             "$~Nur Sie und Ihre Mitarbeiter können diese Figur sehen."
                         ]
                     },
-                    "collaborators": "$~Mitarbeiter"
+                    "collaborators": "$~Mitarbeiter",
+                    "gallery": "$~Galerie",
+                    "galleryexplanation": "$~Lege dieses Zeichen in eine deiner Galerien. Dann kann jeder darin es sehen, in seinen Projekten verwenden und eine eigene Version davon erstellen. Es bleibt dein Eigentum; nur du kannst es verändern.",
+                    "collaboratorsexplanation": "$~Mitwirkende können dieses Zeichen sehen und zusammen mit dir verändern, auch wenn es privat ist.",
+                    "publicexplanation": "$~Öffentlich bedeutet, dass jeder dieses Zeichen sehen und in seinen Projekten verwenden kann. Privat bedeutet, dass nur du, deine Mitwirkenden und alle in einer Galerie, in die du es gelegt hast, es sehen können.",
+                    "tab": {
+                        "label": "$~Freigabe-Einstellungen",
+                        "labels": [
+                            "$~Öffentlich",
+                            "$~Mitwirkende",
+                            "$~Galerie"
+                        ],
+                        "tips": [
+                            "$~wähle aus, wer dieses Zeichen sehen kann",
+                            "$~wähle aus, wer dieses Zeichen mit dir zusammen ändern kann",
+                            "$~wähle eine Galerie, in der dieses Zeichen gezeigt wird"
+                        ]
+                    }
                 },
                 "image": {
                     "instructions": "$~Ziehe das Quadrat, um es zu bewegen, oder benutze den *Größe*-Schieberegler, um zu ändern, wie viel vom Bild behalten wird. Mit der Tastatur drückst du *Enter*, um das Bewegen zu starten, benutzt dann die *Pfeiltasten* und drückst am Ende noch einmal *Enter*.",
@@ -10916,8 +10966,8 @@
         },
         "responsibility": {
             "none": "$~Niemand prüft, was du hier teilst. Es ist nur für dich und die Personen sichtbar, die du auswählst.",
-            "curators": "$~Die Kuratorinnen und Kuratoren von <$name@://galleries> prüfen, was hier geteilt wird, einschließlich des Chats.",
-            "both": "$~Die Kuratorinnen und Kuratoren von <$name@://galleries> prüfen, was hier geteilt wird, und die Moderatorinnen und Moderatoren von Wordplay ebenfalls, weil es jede und jeder sehen kann.",
+            "curators": "$~Die Kuratoren dieser Galerie prüfen, was hier geteilt wird, auch den Chat.",
+            "both": "$~Die Kuratoren dieser Galerie prüfen, was hier geteilt wird, und das tun auch die Moderatoren von Wordplay, denn jeder kann es sehen.",
             "platform": "$~Die <moderators@://rights> von Wordplay prüfen das, weil es jede und jeder sehen kann."
         }
     },

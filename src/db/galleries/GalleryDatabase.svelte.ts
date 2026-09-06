@@ -30,6 +30,7 @@ import isQuotaError from '@db/isQuotaError';
 import SaveTracker from '@db/SaveTracker.svelte';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import type Project from '@db/projects/Project';
+import type { Character } from '@db/characters/Character';
 
 import {
     ClassesCollection,
@@ -376,6 +377,9 @@ export default class GalleryDatabase {
                 if (watchedKey !== this.watchedGalleryKey) {
                     this.watchedGalleryKey = watchedKey;
                     this.database.MaybeProjects?.syncUser(false);
+                    // Characters are filtered by gallery too (#822), so their
+                    // chunk listeners depend on the same set.
+                    this.database.Characters.galleriesChanged();
                 }
 
                 // Mark the database loaded.
@@ -436,6 +440,7 @@ export default class GalleryDatabase {
             description,
             words: [],
             projects: [],
+            characters: [],
             curators: curators ?? [user.uid],
             creators: creators ?? [],
             public: false,
@@ -650,6 +655,19 @@ export default class GalleryDatabase {
                 await this.database.loadProjects()
             ).get(projectID);
             if (project) await this.removeProjectFromGallery(project);
+        }
+
+        // Clear the gallery from every character in it. A character outlives
+        // its gallery exactly as a project does — only its membership goes.
+        // Character-side only, since the gallery doc is about to be deleted.
+        for (const characterID of gallery.getCharacters()) {
+            const character =
+                await this.database.Characters.getByID(characterID);
+            if (character)
+                await this.database.Characters.updateCharacter(
+                    { ...character, gallery: null, updated: Date.now() },
+                    true,
+                );
         }
 
         // Delete all how-tos in the gallery.
@@ -882,6 +900,133 @@ export default class GalleryDatabase {
         }
     }
 
+    /**
+     * Put the given character in the given gallery, moving it out of whichever
+     * one it was in (#822).
+     *
+     * Structurally the same as addProject, and for the same reasons: the
+     * character document's `gallery` field is the source of truth for
+     * membership and the gallery's `characters` array is the index built from
+     * it, so both are written in one batch, with arrayUnion/arrayRemove so two
+     * students sharing at once accumulate rather than clobber.
+     */
+    async addCharacter(character: Character, galleryID: string) {
+        if (firestore === undefined) return;
+
+        // Find the gallery.
+        const gallery = await this.get(galleryID);
+        if (gallery === undefined) return;
+
+        const characterID = character.id;
+        const oldGalleryID = character.gallery ?? null;
+        if (oldGalleryID === galleryID) return;
+
+        // Update the in-memory character first, without persisting: the
+        // character database's own debounced save would otherwise race the
+        // batch below and write a copy without the new gallery.
+        const updated: Character = {
+            ...character,
+            gallery: galleryID,
+            updated: Date.now(),
+        };
+        await this.database.Characters.updateCharacter(updated, false);
+
+        // If a concurrent share ran between that edit and now, the in-memory
+        // copy reflects the newer intent; let it win rather than overwriting
+        // it. This is what collapses the Options widget's double fire
+        // (onpointerdown and onchange both call this) and click-and-correct
+        // sequences within one event-loop turn.
+        const current = this.database.Characters.byID.get(characterID);
+        if (current == null || (current.gallery ?? null) !== galleryID) return;
+
+        const batch = writeBatch(firestore);
+        batch.set(doc(firestore, Domain.Characters, characterID), current);
+        batch.update(doc(firestore, GalleriesCollection, galleryID), {
+            characters: arrayUnion(characterID),
+        });
+        if (oldGalleryID !== null)
+            batch.update(doc(firestore, GalleriesCollection, oldGalleryID), {
+                characters: arrayRemove(characterID),
+            });
+
+        this.applyLocalCharacterMembership(
+            characterID,
+            galleryID,
+            oldGalleryID,
+        );
+
+        const galleryName = this.accessibleGalleries
+            .get(galleryID)
+            ?.getName(this.database.Locales.getLocaleSet());
+        void this.trackSave(galleryID, galleryName, batch.commit());
+    }
+
+    /** Take the given character out of the gallery it's in. */
+    async removeCharacter(character: Character, galleryID: string | null) {
+        if (firestore === undefined) return;
+
+        const characterID = character.id;
+        const targetGalleryID = galleryID ?? character.gallery ?? null;
+
+        const updated: Character = {
+            ...character,
+            gallery: null,
+            updated: Date.now(),
+        };
+        await this.database.Characters.updateCharacter(updated, false);
+
+        // Same race-collapsing check as addCharacter.
+        const current = this.database.Characters.byID.get(characterID);
+        if (current == null || (current.gallery ?? null) !== null) return;
+
+        const batch = writeBatch(firestore);
+        batch.set(doc(firestore, Domain.Characters, characterID), current);
+        if (targetGalleryID !== null)
+            batch.update(doc(firestore, GalleriesCollection, targetGalleryID), {
+                characters: arrayRemove(characterID),
+            });
+
+        if (targetGalleryID === null) {
+            void this.database.track(batch.commit());
+            return;
+        }
+
+        this.applyLocalCharacterMembership(characterID, null, targetGalleryID);
+        const galleryName = this.accessibleGalleries
+            .get(targetGalleryID)
+            ?.getName(this.database.Locales.getLocaleSet());
+        void this.trackSave(targetGalleryID, galleryName, batch.commit());
+    }
+
+    /**
+     * Reflect a character's gallery-membership change in the local
+     * accessibleGalleries cache, so the UI updates without waiting for the
+     * realtime listener to round-trip. The project version also notifies
+     * per-project listeners; nothing listens per character.
+     */
+    private applyLocalCharacterMembership(
+        characterID: string,
+        addedTo: string | null,
+        removedFrom: string | null,
+    ) {
+        if (addedTo !== null) {
+            const cached = this.accessibleGalleries.get(addedTo);
+            if (cached)
+                this.accessibleGalleries.set(
+                    addedTo,
+                    cached.withCharacter(characterID),
+                );
+        }
+        if (removedFrom !== null && removedFrom !== addedTo) {
+            const cached = this.accessibleGalleries.get(removedFrom);
+            if (cached)
+                this.accessibleGalleries.set(
+                    removedFrom,
+                    cached.withoutCharacter(characterID),
+                );
+        }
+    }
+
     // Remove the given creator from the gallery, and all of their projects.
     async removeCreator(gallery: Gallery, uid: string) {
         await this.removeCreatorOrCurator(gallery, uid, 'creators');
@@ -926,9 +1071,28 @@ export default class GalleryDatabase {
             }
         }
 
+        // The same for their characters (#822): what a departing member shared
+        // leaves with them, whichever kind of work it is.
+        const charactersToRemove: string[] = [];
+        for (const characterID of gallery.getCharacters()) {
+            try {
+                const character =
+                    await this.database.Characters.getByID(characterID);
+                if (character != null && character.owner === uid)
+                    charactersToRemove.push(characterID);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
         const batch = writeBatch(firestore);
         for (const projectID of projectsToRemove) {
             batch.update(doc(firestore, Domain.Projects, projectID), {
+                gallery: null,
+            });
+        }
+        for (const characterID of charactersToRemove) {
+            batch.update(doc(firestore, Domain.Characters, characterID), {
                 gallery: null,
             });
         }
@@ -937,6 +1101,9 @@ export default class GalleryDatabase {
         };
         if (projectsToRemove.length > 0) {
             galleryUpdate.projects = arrayRemove(...projectsToRemove);
+        }
+        if (charactersToRemove.length > 0) {
+            galleryUpdate.characters = arrayRemove(...charactersToRemove);
         }
         batch.update(
             doc(firestore, GalleriesCollection, gallery.getID()),
@@ -955,6 +1122,8 @@ export default class GalleryDatabase {
                     : cached.withoutCurator(uid);
             for (const projectID of projectsToRemove)
                 updated = updated.withoutProject(projectID);
+            for (const characterID of charactersToRemove)
+                updated = updated.withoutCharacter(characterID);
             this.accessibleGalleries.set(gallery.getID(), updated);
         }
     }

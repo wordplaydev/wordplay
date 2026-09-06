@@ -13,11 +13,15 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🏫 We added a section to the [About](https://wordplay.dev/about) page for schools and districts. It says what we can and can't promise about privacy and accessibility, and has a link that starts an email to us if your school needs something we don't do yet. (#697)
 - 🔢 You can now write a range of numbers, like `1‥10`. It holds every number from one end to the other, so you can ask whether a number is inside it with `∋`, turn it into a list, or use it in a `???` to catch a whole span of numbers at once. (#398)
 - ✍️ Type two dots to get the range symbol `‥`, and a third to turn it into the stream symbol `…`. So `1..10` gives you a range and `1...10` still gives you a reaction. You can also pick `‥` from the symbols under the editor. (#398)
+- 🤝 You can now share your [characters](https://wordplay.dev/characters) in a gallery. Everyone in the gallery can see them, make their own version to change, or copy a character's name to use it in their own project. (#822)
+- 🔒 You can now ask for a character shared in a gallery to be looked at. The gallery's curators review what's in their gallery, and Wordplay's moderators review anything everyone can see. (#1236)
 
 ### Changed
 
 - 🔒 Everyone now has a username, even people who sign in with an email address. Wordplay never shows anyone's email address to anybody else. (#628)
 - 🔒 We now check that requests come from the real Wordplay before we answer them, so nobody can make thousands of accounts to use up our translating. You won't see anything — there are no puzzles to solve. (#1299)
+- 🎨 We tidied up a gallery's page. Projects and characters each have their own heading with a button to add one, and the settings for who can join, who can see it, and deleting it now sit together in tabs at the bottom. (#822)
+- 🎨 A character's share button now says "share", like a project's does, and opens tabs for who can see it, who can help make it, and which gallery it's in. (#822)
 
 ### Fixed
 
@@ -25,6 +29,11 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🚦 If you write `1…10` when you meant a range, Wordplay now offers to swap the three dots for two. It only offers this when both sides are numbers, so it stays quiet on a reaction you're still writing. (#398)
 - 🚦 We fixed asking whether a value is one exact number or word. Asking if `5` is a `5` used to say no, and so did every check against a list of choices like `1|2|3`.
 - 🐛 We fixed Wordplay freezing when you turned an endless number into a list. Asking `∞` for a list now gives you an empty one instead of locking up.
+- ✍️ If you name a character something you already used, Wordplay now keeps its old name instead of letting two of your characters share one. It kept saying it wouldn't save the name and then saved it anyway. Your drawing still saves while you work.
+- 🐛 Custom characters now show up when you're not signed in, so a public project that uses one looks right to everyone. (#742)
+- 🐛 We fixed a sentence in the sharing box that stopped halfway and said only "The curators of". It now says who reviews what you share, and sits after the rules instead of splitting them in two.
+- 🎨 We fixed the space around a list of rules in the sharing box, which used to leave more room after the list than before it.
+- 🐛 A gallery's page now says the gallery's name in your browser tab.
 
 ## 0.34.1 - 2026-09-02
 

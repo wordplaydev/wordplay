@@ -7402,6 +7402,14 @@
                 "delete": {
                     "header": "$~Burahin",
                     "explanation": "$~Ang pagbura sa gallery na ito ay hindi magbubura sa mga proyekto nito. Buburahin nito ang mga how-to nito. Ang gallery ay permanenteng mabubura."
+                },
+                "characters": {
+                    "header": "$~Mga Karakter",
+                    "explanation": "$~Mga karakter na ibinahagi dito. Kahit sino sa gallery na ito ay maaaring gumamit ng isa sa kanilang sariling proyekto, o gumawa ng sarili nilang bersyon nito para baguhin."
+                },
+                "projects": {
+                    "header": "$~Mga Proyekto",
+                    "explanation": "$~Mga proyekto na ibinahagi dito. Kahit sino sa gallery na ito ay maaaring magbukas ng isa, at gumawa ng sarili nilang bersyon nito para baguhin."
                 }
             },
             "confirm": {
@@ -7412,6 +7420,10 @@
                 "remove": {
                     "description": "$~alisin ang proyekto mula sa gallery",
                     "prompt": "$~tanggalin"
+                },
+                "removecharacter": {
+                    "description": "$~alisin ang karakter mula sa gallery",
+                    "prompt": "$~alisin"
                 }
             },
             "error": {
@@ -7428,7 +7440,28 @@
                     "placeholder": "$~Ilarawan ang iyong gallery. Ano ang tema, mga layunin, o komunidad nito?"
                 }
             },
-            "projects": "$~$#count[$count proyekto|$count na proyekto]"
+            "projects": "$~$#count[$count proyekto|$count na proyekto]",
+            "characters": "$~$#count[$count karakter|$count na karakter]",
+            "button": {
+                "editcharacter": "$~I-edit ang karakter na ito",
+                "copyreference": "$~Kopyahin ang isang sanggunian sa karakter na ito, para i-paste sa isang proyekto",
+                "copied": "$~Nakopya na!"
+            },
+            "tab": {
+                "label": "$~mga setting ng gallery",
+                "labels": [
+                    "$~Mga Gumawa",
+                    "$~Mga Tagapangasiwa",
+                    "$~Kakikitaan",
+                    "$~Burahin"
+                ],
+                "tips": [
+                    "$~piliin kung sino ang maaaring magdagdag ng gawa sa gallery na ito",
+                    "$~piliin kung sino ang maaaring mamahala sa gallery na ito",
+                    "$~piliin kung sino ang maaaring makakita sa gallery na ito",
+                    "$~burahin ang gallery na ito"
+                ]
+            }
         },
         "gallerymoderation": {
             "header": "$~Pagmo-moderate ng Gallery",
@@ -9762,7 +9795,7 @@
                 "share": {
                     "dialog": {
                         "header": "$~Ibahagi",
-                        "explanation": "$~Magdagdag ng mga kolaborator upang paghigpitan kung sino ang maaaring tumingin sa karakter na ito."
+                        "explanation": "$~Piliin kung sino ang maaaring makakita sa karakter na ito, kung sino ang maaaring tumulong gumawa nito, at kung aling gallery ito kabilang."
                     },
                     "button": {
                         "label": "$~ibahagi",
@@ -9780,7 +9813,20 @@
                             "$~ikaw lang at ang mga collaborator ang makakakita sa karakter na ito"
                         ]
                     },
-                    "collaborators": "$~mga kolaborator"
+                    "collaborators": "$~mga kolaborator",
+                    "gallery": "$~Gallery",
+                    "galleryexplanation": "$~Ilagay ang karakter na ito sa isa sa iyong mga gallery at makikita ito ng lahat ng nasa loob nito, magagamit nila ito sa kanilang mga proyekto, at makakagawa sila ng sarili nilang bersyon nito. Mananatili itong sa iyo; ikaw lamang ang maaaring magbago nito.",
+                    "collaboratorsexplanation": "$~Makikita ng mga katuwang ang karakter na ito at maaari nilang baguhin ito kasama mo, kahit pribado ito.",
+                    "publicexplanation": "$~Ang Pampubliko ay nangangahulugang kahit sino ay maaaring makakita sa karakter na ito at gamitin ito sa kanilang mga proyekto. Ang Pribado ay nangangahulugang ikaw lamang, ang iyong mga katuwang, at kahit sino sa isang gallery na inilagay mo rito.",
+                    "tab": {
+                        "label": "$~mga setting ng pagbabahagi",
+                        "labels": ["$~Publiko", "$~Mga Katuwang", "$~Gallery"],
+                        "tips": [
+                            "$~piliin kung sino ang makakakita sa karakter na ito",
+                            "$~piliin kung sino ang maaaring makibahagi sa pagbabago ng karakter na ito kasama mo",
+                            "$~pumili ng isang galeriya kung saan ipapakita ang karakter na ito"
+                        ]
+                    }
                 },
                 "field": {
                     "name": {
@@ -10919,8 +10965,8 @@
         },
         "responsibility": {
             "none": "$~Walang sumusuri sa ibinabahagi mo dito. Ikaw at ang mga taong pinili mo lang ang makakakita nito.",
-            "curators": "$~Sinusuri ng mga curator ng <$name@://galleries> ang ibinabahagi dito, kasama ang chat nito.",
-            "both": "$~Sinusuri ng mga curator ng <$name@://galleries> ang ibinabahagi dito, at sinusuri rin ito ng mga moderator ng Wordplay, dahil kahit sino ay makakakita nito.",
+            "curators": "$~Sinusuri ng mga tagapangasiwa ng galeriyang ito ang mga ibinabahagi rito, kasama na ang chat nito.",
+            "both": "$~Sinusuri ng mga tagapangasiwa ng galeriyang ito ang mga ibinabahagi rito, at gayundin ang mga tagapagpatupad ng Wordplay, dahil makikita ito ng kahit sino.",
             "platform": "$~Sinusuri ito ng mga <moderators@://rights> ng Wordplay, dahil kahit sino ay makakakita nito."
         }
     },

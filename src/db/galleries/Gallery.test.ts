@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import {
+import { unknownFlags } from '@db/projects/Moderation';
+import Gallery, {
     GallerySchema,
     GallerySchemaLatestVersion,
     deserializeGallery,
@@ -9,10 +10,10 @@ import {
 /**
  * Upgrade-on-load coverage for galleries. Old gallery docs in Firestore are
  * upgraded when read (deserializeGallery → upgradeGallery), so a regression in
- * the upgrade chain silently corrupts every pre-v3 gallery on load. These tests
- * pin the v1 → v2 (how-to space) and v2 → v3 (curated public listing, #1311)
- * migrations the way Project.persistence pins the project chain and
- * HowToDatabase pins upgradeHowTo.
+ * the upgrade chain silently corrupts every pre-v4 gallery on load. These tests
+ * pin the v1 → v2 (how-to space), v2 → v3 (curated public listing, #1311) and
+ * v3 → v4 (characters, #822) migrations the way Project.persistence pins the
+ * project chain and HowToDatabase pins upgradeHowTo.
  */
 
 /** A minimal v1 gallery doc — the shape that predates the how-to space. */
@@ -124,12 +125,28 @@ describe('upgradeGallery to v3 (curated public listing)', () => {
         );
     });
 
-    it('carries a v1 doc all the way to v3', () => {
+    it('carries a v1 doc all the way to the latest version', () => {
         // makeV1 is public, so it lands in the queue like a v2 one.
         const upgraded = upgradeGallery(makeV1());
         expect(upgraded.v).toBe(GallerySchemaLatestVersion);
         expect(upgraded.moderation).toBe('pending');
+        expect(upgraded.characters).toEqual([]);
         expect(GallerySchema.safeParse(upgraded).success).toBe(true);
+    });
+
+    it('gives a v3 doc an empty character list (#822)', () => {
+        const upgraded = upgradeGallery({
+            ...makeV2(false),
+            v: 3 as const,
+            moderation: 'unrequested' as const,
+            moderatedAt: null,
+            flags: unknownFlags(),
+        });
+        expect(upgraded.v).toBe(GallerySchemaLatestVersion);
+        expect(upgraded.characters).toEqual([]);
+        // The upgrade adds a field and disturbs nothing else.
+        expect(upgraded.projects).toEqual(['p1', 'p2']);
+        expect(upgraded.moderation).toBe('unrequested');
     });
 
     it('only lists a gallery that is both public and approved', () => {
@@ -150,5 +167,33 @@ describe('upgradeGallery to v3 (curated public listing)', () => {
         expect(approved.asPublic(false).isListed()).toBe(false);
         // And approval is what the request is for: pending is not listed.
         expect(deserializeGallery(makeV2(true)).isListed()).toBe(false);
+    });
+});
+
+describe('character membership (#822)', () => {
+    const gallery = Gallery.make('g1', {}, {}, ['u-curator'], ['u-creator']);
+
+    it('starts with no characters', () => {
+        expect(gallery.getCharacters()).toEqual([]);
+        expect(gallery.hasCharacter('c1')).toBe(false);
+    });
+
+    it('adds and removes a character without disturbing projects', () => {
+        const withOne = gallery.withCharacter('c1');
+        expect(withOne.getCharacters()).toEqual(['c1']);
+        expect(withOne.hasCharacter('c1')).toBe(true);
+        expect(withOne.getProjects()).toEqual([]);
+        expect(withOne.withoutCharacter('c1').getCharacters()).toEqual([]);
+    });
+
+    it('never lists a character twice', () => {
+        expect(
+            gallery.withCharacter('c1').withCharacter('c1').getCharacters(),
+        ).toEqual(['c1']);
+    });
+
+    it('leaves the original alone, like every other with* helper', () => {
+        gallery.withCharacter('c1');
+        expect(gallery.getCharacters()).toEqual([]);
     });
 });

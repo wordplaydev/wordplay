@@ -179,6 +179,12 @@ export const CharacterSchema = z.object({
     public: z.boolean(),
     // The list of uids who can see this character, if not public.
     collaborators: z.array(z.string()),
+    // The gallery this character is shared in, if any (#822). Optional so no
+    // stored character needs upgrading — the same reason `aliases` is, since
+    // characters carry no schema version. A character is in at most one
+    // gallery, exactly like a project: security rules have no loop, so
+    // membership in several could not be checked with a get() per gallery.
+    gallery: z.string().nullable().exactOptional(),
     // The Unix time of when this was last updated, for simple distributed conflict resolution.
     updated: z.number(),
     // owner username/Wordplay name (e.g., "hello/FunnyAnimal")
@@ -197,6 +203,16 @@ export const CharacterSchema = z.object({
     shapes: z.array(CharacterShapeSchema),
 });
 export type Character = z.infer<typeof CharacterSchema>;
+
+/**
+ * The name a creator types, without the `username/` prefix the stored name
+ * carries. One place, because the split was repeated at every surface that
+ * shows a character and each had to remember that an unnamed character's
+ * `name` may be empty.
+ */
+export function bareCharacterName(character: Character): string {
+    return character.name.split('/').at(-1) ?? '';
+}
 
 /** The width and height of the grid */
 export const CharacterSize = 32;

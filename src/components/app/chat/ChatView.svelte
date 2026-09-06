@@ -1216,7 +1216,6 @@
             <ReportMessage
                 report={() => reportMessage(chat, msg)}
                 {visibility}
-                gallery={gallery ? gallery.getName($locales) : ''}
             />
         {:else if isModerator && state === 'pending'}
             <Button

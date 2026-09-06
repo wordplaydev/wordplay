@@ -7400,6 +7400,14 @@
                 "delete": {
                     "header": "Apagar",
                     "explanation": "Apagar esta galeria não apagará os seus projetos. Excluirá apenas os tutoriais. A galeria será eliminada permanentemente."
+                },
+                "characters": {
+                    "header": "$~Personagens",
+                    "explanation": "$~Personagens partilhadas aqui. Qualquer pessoa nesta galeria pode usar uma no seu próprio projeto, ou criar a sua própria versão para alterar."
+                },
+                "projects": {
+                    "header": "$~Projetos",
+                    "explanation": "$~Projetos partilhados aqui. Qualquer pessoa nesta galeria pode abrir um, e criar a sua própria versão para alterar."
                 }
             },
             "confirm": {
@@ -7410,6 +7418,10 @@
                 "remove": {
                     "description": "remover projeto da galeria",
                     "prompt": "remover"
+                },
+                "removecharacter": {
+                    "description": "$~remover personagem da galeria",
+                    "prompt": "$~remover"
                 }
             },
             "error": {
@@ -7426,7 +7438,28 @@
                     "placeholder": "Descreva a sua galeria. Qual é o seu tema, objetivos ou comunidade?"
                 }
             },
-            "projects": "$~$#count[$#count projeto|$count projetos|$count projetos]"
+            "projects": "$~$#count[$#count projeto|$count projetos|$count projetos]",
+            "characters": "$~$#count[$#count personagem|$count personagens|$count personagens]",
+            "button": {
+                "editcharacter": "$~editar esta personagem",
+                "copyreference": "$~copiar uma referência a esta personagem, para colar num projeto",
+                "copied": "$~Copiado!"
+            },
+            "tab": {
+                "label": "$~definições da galeria",
+                "labels": [
+                    "$~Criadores",
+                    "$~Curadores(as)",
+                    "$~Visibilidade",
+                    "$~Eliminar"
+                ],
+                "tips": [
+                    "$~escolher quem pode adicionar trabalho a esta galeria",
+                    "$~escolher quem pode gerir esta galeria",
+                    "$~escolher quem pode ver esta galeria",
+                    "$~eliminar esta galeria"
+                ]
+            }
         },
         "gallerymoderation": {
             "header": "$~Moderação de Galeria",
@@ -9754,7 +9787,7 @@
                 "share": {
                     "dialog": {
                         "header": "Partilhar",
-                        "explanation": "Adicione colaboradores para restringir quem pode visualizar este personagem."
+                        "explanation": "$~Escolha quem pode ver esta personagem, quem pode ajudar a criá-la, e a que galeria pertence."
                     },
                     "button": {
                         "label": "partilhar",
@@ -9772,7 +9805,20 @@
                             "Só você e os seus colaboradores podem ver este personagem."
                         ]
                     },
-                    "collaborators": "colaboradores"
+                    "collaborators": "colaboradores",
+                    "gallery": "$~Galeria",
+                    "galleryexplanation": "$~Coloque esta personagem numa das suas galerias e todos os que estiverem nela podem vê-la, usá-la nos seus projetos, e criar a sua própria versão dela. Continua a ser sua; só o(a) senhor(a) pode alterá-la.",
+                    "collaboratorsexplanation": "$~Os(as) colaboradores(as) podem ver esta personagem e alterá-la consigo, mesmo quando é privada.",
+                    "publicexplanation": "$~Público significa que qualquer pessoa pode ver esta personagem e usá-la nos seus projetos. Privado significa que só o(a) senhor(a), os(as) seus(suas) colaboradores(as), e qualquer pessoa numa galeria onde a colocou pode vê-la.",
+                    "tab": {
+                        "label": "$~definições de partilha",
+                        "labels": ["$~Público", "$~Colaboradores", "$~Galeria"],
+                        "tips": [
+                            "$~escolha quem pode ver esta personagem",
+                            "$~escolha quem pode alterar esta personagem consigo",
+                            "$~escolha uma galeria onde mostrar esta personagem"
+                        ]
+                    }
                 },
                 "field": {
                     "name": {
@@ -10908,8 +10954,8 @@
         },
         "responsibility": {
             "none": "$~Ninguém analisa o que partilha aqui. Só é visível para si e para as pessoas que escolher.",
-            "curators": "$~Os curadores de <$name@://galleries> analisam o que é partilhado aqui, incluindo as suas conversas.",
-            "both": "$~Os curadores de <$name@://galleries> analisam o que é partilhado aqui, e os moderadores do Wordplay também, porque qualquer pessoa o pode ver.",
+            "curators": "$~Os curadores desta galeria revêm o que é partilhado aqui, incluindo a conversa.",
+            "both": "$~Os curadores desta galeria revêm o que é partilhado aqui, tal como os moderadores do Wordplay, porque qualquer pessoa o pode ver.",
             "platform": "$~Os <moderadores@://rights> do Wordplay analisam isto, porque qualquer pessoa o pode ver."
         }
     },

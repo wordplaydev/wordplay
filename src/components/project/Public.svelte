@@ -34,8 +34,6 @@
          *  creator deciding whether to make something public should learn who
          *  can review it before they do, not after someone reports it. */
         visibility?: Visibility | undefined;
-        /** The gallery's name, when the answer names one. */
-        galleryName?: string;
     }
 
     let {
@@ -45,7 +43,6 @@
         header = true,
         checkStanding = false,
         visibility = undefined,
-        galleryName = '',
     }: Props = $props();
 
     // A creator's own standing, which decides whether the control below is
@@ -62,15 +59,19 @@
     markup={(l) => l.ui.dialog.share.subheader.public.explanation}
 />
 
-{#if visibility}
-    <ResponsibilityNotice {visibility} gallery={galleryName} />
-{/if}
-
 <MarkupHTMLView
     markup={Object.values($locales.getTextStructure((l) => l.moderation.flags))
         .map((promise) => `• ${withoutAnnotations(promise)}`)
         .join('\n\n')}
 />
+
+<!-- After the rules, not before them: the explanation above ends "your project
+     does not:" and the list below is what completes that sentence, so anything
+     in between splits a sentence from its own bullets. Who reviews this
+     belongs with what happens next, which follows. -->
+{#if visibility}
+    <ResponsibilityNotice {visibility} />
+{/if}
 {#if flags === undefined || Object.values(flags).every((state) => state === null)}
     <MarkupHTMLView markup={(l) => l.ui.page.rights.consequences} />
 {:else if flags !== undefined}

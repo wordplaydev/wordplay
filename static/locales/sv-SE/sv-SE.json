@@ -7390,6 +7390,14 @@
                 "delete": {
                     "header": "$~Radera",
                     "explanation": "$~Att radera detta galleri raderar inte dess projekt. Det raderar dess hur man-guider. Galleriet raderas för alltid."
+                },
+                "characters": {
+                    "header": "$~Tecken",
+                    "explanation": "$~Tecken som delas här. Vem som helst i det här galleriet kan använda ett i sitt eget projekt, eller göra sin egen version av det och ändra den."
+                },
+                "projects": {
+                    "header": "$~Projekt",
+                    "explanation": "$~Projekt som delas här. Vem som helst i det här galleriet kan öppna ett, och göra sin egen version av det och ändra den."
                 }
             },
             "confirm": {
@@ -7399,6 +7407,10 @@
                 },
                 "remove": {
                     "description": "$~ta bort projekt från galleriet",
+                    "prompt": "$~ta bort"
+                },
+                "removecharacter": {
+                    "description": "$~ta bort tecken från galleriet",
                     "prompt": "$~ta bort"
                 }
             },
@@ -7416,7 +7428,28 @@
                     "placeholder": "$~Beskriv ditt galleri. Vad är dess tema, mål eller gemenskap?"
                 }
             },
-            "projects": "$~$#count[$count projekt|$count projekt]"
+            "projects": "$~$#count[$count projekt|$count projekt]",
+            "characters": "$~$#count[$count tecken|$count tecken]",
+            "button": {
+                "editcharacter": "$~Redigera det här tecknet",
+                "copyreference": "$~Kopiera en referens till det här tecknet, för att klistra in i ett projekt",
+                "copied": "$~Kopierat!"
+            },
+            "tab": {
+                "label": "$~galleriinställningar",
+                "labels": [
+                    "$~Skapare",
+                    "$~Kuratorer",
+                    "$~Synlighet",
+                    "$~Radera"
+                ],
+                "tips": [
+                    "$~välj vem som får lägga till arbete i det här galleriet",
+                    "$~välj vem som får hantera det här galleriet",
+                    "$~välj vem som får se det här galleriet",
+                    "$~radera det här galleriet"
+                ]
+            }
         },
         "source": {
             "label": "$~källa",
@@ -9931,7 +9964,7 @@
                 "share": {
                     "dialog": {
                         "header": "$~Dela",
-                        "explanation": "$~Lägg till medarbetare för att begränsa vem som kan se den här karaktären."
+                        "explanation": "$~Välj vem som får se det här tecknet, vem som får hjälpa till att skapa det, och vilket galleri det tillhör."
                     },
                     "button": {
                         "label": "$~dela",
@@ -9949,7 +9982,20 @@
                             "$~bara du och dina medarbetare kan se den här karaktären"
                         ]
                     },
-                    "collaborators": "$~kollaboratörer"
+                    "collaborators": "$~kollaboratörer",
+                    "gallery": "$~Galleri",
+                    "galleryexplanation": "$~Lägg det här tecknet i ett av dina gallerier så kan alla där se det, använda det i sina projekt, och göra sin egen version av det. Det förblir ditt; bara du kan ändra det.",
+                    "collaboratorsexplanation": "$~Medarbetare kan se det här tecknet och ändra det tillsammans med dig, även när det är privat.",
+                    "publicexplanation": "$~Offentligt betyder att vem som helst kan se det här tecknet och använda det i sina projekt. Privat betyder att bara du, dina medarbetare, och alla i ett galleri du har lagt det i kan se det.",
+                    "tab": {
+                        "label": "$~delningsinställningar",
+                        "labels": ["$~Offentlig", "$~Medarbetare", "$~Galleri"],
+                        "tips": [
+                            "$~välj vem som kan se detta tecken",
+                            "$~välj vem som kan ändra detta tecken tillsammans med dig",
+                            "$~välj ett galleri att visa detta tecken i"
+                        ]
+                    }
                 },
                 "image": {
                     "instructions": "$~Dra i rutan för att flytta den, eller använd *storlek*-skjutreglaget för att ändra hur mycket av bilden som ska behållas. Med tangentbordet: tryck på *enter* för att börja flytta, använd sedan *piltangenterna*, och tryck på *enter* igen när du är klar.",
@@ -10894,8 +10940,8 @@
         },
         "responsibility": {
             "none": "$~Ingen granskar det du delar här. Det syns bara för dig och de personer du väljer.",
-            "curators": "$~Kuratorerna för <$name@://galleries> granskar det som delas här, inklusive chatten.",
-            "both": "$~Kuratorerna för <$name@://galleries> granskar det som delas här, och det gör även Wordplays moderatorer, eftersom vem som helst kan se det.",
+            "curators": "$~De som är ansvariga för detta galleri granskar det som delas här, inklusive chatten.",
+            "both": "$~De som är ansvariga för detta galleri granskar det som delas här, och det gör även Wordplays moderatorer, eftersom vem som helst kan se det.",
             "platform": "$~Wordplays <moderators@://rights> granskar detta, eftersom vem som helst kan se det."
         }
     },

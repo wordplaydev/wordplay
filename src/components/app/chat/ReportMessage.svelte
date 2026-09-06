@@ -17,11 +17,9 @@
          *  before anyone sends it — "sent to the gallery curators" was true
          *  only for a gallery chat, and said nothing about which gallery. */
         visibility?: Visibility | undefined;
-        /** The gallery's name, when the answer names one. */
-        gallery?: string;
     }
 
-    let { report, visibility = undefined, gallery = '' }: Props = $props();
+    let { report, visibility = undefined }: Props = $props();
 
     let show = $state(false);
 </script>
@@ -36,7 +34,7 @@
     }}
 >
     {#if visibility}
-        <ResponsibilityNotice {visibility} {gallery} />
+        <ResponsibilityNotice {visibility} />
     {/if}
     <Button
         background

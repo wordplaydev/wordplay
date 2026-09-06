@@ -542,13 +542,27 @@ test('resolving a color needs no basis', () => {
  * shape as the Pattern sublanguage before it, and it is a genuine addition rather
  * than a leak — there is no lazier place to put a type the parser can emit. The
  * bytes follow the files, plus the en-US strings the new type documents.
+ *
+ * Characters in galleries (#822) are **+0 files** on all five and about twelve
+ * kilobytes: a field on the character schema, a gallery schema version, the
+ * membership writers on `GalleryDatabase`, and the chunked gallery listeners on
+ * `CharactersDatabase`, plus the en-US strings for the two new sections and
+ * the tabs their settings are grouped into, which every page carries because
+ * every page resolves a locale. Every one of those modules was already on every graph —
+ * `Database` constructs both facades eagerly — so nothing new is reached and
+ * the file counts do not move at all. That is the distinction this test exists
+ * to draw: bytes added to a module already present are a feature's honest
+ * weight, where a file count that moves is a leak. `Character.ts` deliberately
+ * still imports only the standalone color modules, so putting gallery
+ * membership on a character pulls no part of the language runtime onto a page
+ * that merely lists tiles.
  */
 test.each([
-    ['src/routes/+layout.svelte', 505, 3.73],
-    ['src/components/app/Page.svelte', 528, 3.97],
-    ['src/routes/[[locale]]/+page.svelte', 543, 4.06],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 547, 4.07],
-    ['src/routes/[[locale]]/projects/+page.svelte', 554, 4.1],
+    ['src/routes/+layout.svelte', 505, 3.75],
+    ['src/components/app/Page.svelte', 528, 3.99],
+    ['src/routes/[[locale]]/+page.svelte', 543, 4.08],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 547, 4.09],
+    ['src/routes/[[locale]]/projects/+page.svelte', 554, 4.12],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

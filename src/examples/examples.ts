@@ -230,6 +230,7 @@ function createGallery(
         ),
         words: [],
         projects: projects.map((name) => ExamplePrefix + name),
+        characters: [],
         curators: [],
         creators: [],
         public: true,

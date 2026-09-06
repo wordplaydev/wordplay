@@ -82,34 +82,15 @@ vi.mock('@db/projects/ProjectsDatabase.svelte', () => ({
 import GalleryDatabase from './GalleryDatabase.svelte';
 import type { SerializedGallery } from './Gallery';
 import { getDoc } from 'firebase/firestore';
-import { unknownFlags } from '@db/projects/Moderation';
 
 function makeGallery(
     id: string,
     overrides: Partial<SerializedGallery> = {},
 ): Gallery {
+    // Built through the factory rather than as a literal, so a schema bump
+    // doesn't leave this fixture behind — which is exactly what it exists for.
     return new Gallery({
-        v: 3,
-        id,
-        path: null,
-        name: {},
-        description: {},
-        words: [],
-        projects: [],
-        curators: [],
-        creators: [],
-        public: false,
-        featured: false,
-        howTos: [],
-        howToExpandedVisibility: false,
-        howToExpandedGalleries: [],
-        howToViewers: {},
-        howToViewersFlat: [],
-        howToGuidingQuestions: [],
-        howToReactions: {},
-        moderation: 'unrequested',
-        moderatedAt: null,
-        flags: unknownFlags(),
+        ...Gallery.make(id, {}, {}, [], []).getData(),
         ...overrides,
     });
 }
@@ -174,6 +155,20 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
                 saveSoon: vi.fn(),
                 syncUser: vi.fn(),
             },
+            // Characters are held in memory rather than lazily loaded, so
+            // the fake mirrors that: updateCharacter writes into byID, which
+            // is what the membership writers read back.
+            Characters: {
+                byID: new Map<string, unknown>(),
+                updateCharacter: vi.fn(async (character: { id: string }) => {
+                    mockDatabase.Characters.byID.set(character.id, character);
+                    return undefined;
+                }),
+                getByID: vi.fn(
+                    async (id: string) =>
+                        mockDatabase.Characters.byID.get(id) ?? null,
+                ),
+            },
             loadProjects: vi.fn(async () => mockDatabase.projectsFake),
             get MaybeProjects() {
                 return mockDatabase.projectsFake;
@@ -181,6 +176,128 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
         };
 
         db = new GalleryDatabase(mockDatabase);
+    });
+
+    describe('addCharacter / removeCharacter (#822)', () => {
+        function makeStubCharacter(id: string, gallery: string | null) {
+            return {
+                id,
+                owner: 'u1',
+                public: false,
+                collaborators: [],
+                updated: 0,
+                name: 'someone/Thing',
+                description: '',
+                shapes: [],
+                ...(gallery === null ? {} : { gallery }),
+            };
+        }
+
+        it('writes the character doc, arrayUnions on the new gallery, and arrayRemoves from the old, in one batch', async () => {
+            db.accessibleGalleries.set('g-new', makeGallery('g-new'));
+            db.accessibleGalleries.set('g-old', makeGallery('g-old'));
+
+            await db.addCharacter(
+                makeStubCharacter('c1', 'g-old') as never,
+                'g-new',
+            );
+
+            // 1 character set + 1 new-gallery update + 1 old-gallery update
+            expect(lastBatchOps).toHaveLength(3);
+
+            const characterSet = lastBatchOps.find((o) => o.kind === 'set');
+            expect(characterSet!.ref).toMatchObject({
+                _ref: { collection: 'characters', id: 'c1' },
+            });
+            // The document written carries the new membership, not the old.
+            expect(characterSet!.data).toMatchObject({ gallery: 'g-new' });
+
+            const added = lastBatchOps.find(
+                (o) => (o.ref as { _ref: { id: string } })._ref.id === 'g-new',
+            );
+            expect(added!.data).toEqual({
+                characters: { _op: 'arrayUnion', elements: ['c1'] },
+            });
+
+            const removed = lastBatchOps.find(
+                (o) => (o.ref as { _ref: { id: string } })._ref.id === 'g-old',
+            );
+            expect(removed!.data).toEqual({
+                characters: { _op: 'arrayRemove', elements: ['c1'] },
+            });
+        });
+
+        it('touches only the new gallery when the character was in none', async () => {
+            db.accessibleGalleries.set('g-new', makeGallery('g-new'));
+            await db.addCharacter(
+                makeStubCharacter('c1', null) as never,
+                'g-new',
+            );
+            expect(lastBatchOps).toHaveLength(2);
+        });
+
+        it('mirrors membership into the local gallery cache right away', async () => {
+            db.accessibleGalleries.set('g-new', makeGallery('g-new'));
+            await db.addCharacter(
+                makeStubCharacter('c1', null) as never,
+                'g-new',
+            );
+            expect(
+                db.accessibleGalleries.get('g-new')!.getCharacters(),
+            ).toEqual(['c1']);
+        });
+
+        it('does nothing when the character is already in that gallery', async () => {
+            db.accessibleGalleries.set('g-new', makeGallery('g-new'));
+            await db.addCharacter(
+                makeStubCharacter('c1', 'g-new') as never,
+                'g-new',
+            );
+            expect(lastBatchOps).toHaveLength(0);
+        });
+
+        it('yields to a concurrent share rather than overwriting it', async () => {
+            // The Options widget fires twice per choice, so a second call can
+            // land between the in-memory edit and the batch. The later intent
+            // must win; this one bails.
+            db.accessibleGalleries.set('g-new', makeGallery('g-new'));
+            mockDatabase.Characters.updateCharacter.mockImplementationOnce(
+                async () => {
+                    mockDatabase.Characters.byID.set(
+                        'c1',
+                        makeStubCharacter('c1', 'g-other'),
+                    );
+                },
+            );
+            await db.addCharacter(
+                makeStubCharacter('c1', null) as never,
+                'g-new',
+            );
+            expect(lastBatchOps).toHaveLength(0);
+        });
+
+        it('clears the character and arrayRemoves it on removal', async () => {
+            db.accessibleGalleries.set(
+                'g-old',
+                makeGallery('g-old', { characters: ['c1'] }),
+            );
+
+            await db.removeCharacter(
+                makeStubCharacter('c1', 'g-old') as never,
+                null,
+            );
+
+            expect(lastBatchOps).toHaveLength(2);
+            const characterSet = lastBatchOps.find((o) => o.kind === 'set');
+            expect(characterSet!.data).toMatchObject({ gallery: null });
+            const removed = lastBatchOps.find((o) => o.kind === 'update');
+            expect(removed!.data).toEqual({
+                characters: { _op: 'arrayRemove', elements: ['c1'] },
+            });
+            expect(
+                db.accessibleGalleries.get('g-old')!.getCharacters(),
+            ).toEqual([]);
+        });
     });
 
     describe('addProject', () => {

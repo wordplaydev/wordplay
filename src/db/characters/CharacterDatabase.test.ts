@@ -326,3 +326,139 @@ describe('CharactersDatabase', () => {
         });
     });
 });
+
+/**
+ * Owner-scoped, full-name character naming (the duplicate-name fix).
+ *
+ * Uniqueness that matters is a creator's own full `username/Name`, because
+ * that is what `byName` and the `where('name','==',…)` lookup are keyed on.
+ * The check this replaced compared bare names across every character the user
+ * could *edit*, which includes ones they merely collaborate on.
+ */
+describe('getOwnedCharacterWithName', () => {
+    let db: any;
+    let user: { uid: string };
+
+    function character(overrides: Partial<Character>): Character {
+        return {
+            id: 'c1',
+            owner: 'user',
+            public: false,
+            collaborators: [],
+            updated: 0,
+            name: 'me/Dog',
+            description: '',
+            shapes: [],
+            ...overrides,
+        } as Character;
+    }
+
+    beforeEach(() => {
+        user = { uid: 'user' };
+        db = new CharactersDatabase({
+            getUser: vi.fn(() => user),
+            setStatus: vi.fn(),
+            reportBanner: vi.fn(),
+            track: vi.fn((write: unknown) => write),
+            loadProjects: vi.fn(async () => ({
+                allEditableProjects: [],
+                reviseProject: vi.fn(),
+            })),
+        } as never);
+    });
+
+    it('finds another character of the creator’s own with the same full name', () => {
+        db.byID.set('c1', character({ id: 'c1' }));
+        expect(db.getOwnedCharacterWithName('me/Dog')?.id).toBe('c1');
+    });
+
+    it('ignores the character being edited, so renaming to your own name is fine', () => {
+        db.byID.set('c1', character({ id: 'c1' }));
+        expect(db.getOwnedCharacterWithName('me/Dog', 'c1')).toBeUndefined();
+    });
+
+    it('ignores a collaborated character that merely shares a bare name', () => {
+        // The bug this replaced: collaborating on `bob/Dog` reported `Dog` as
+        // taken, though `me/Dog` collides with nothing.
+        db.byID.set(
+            'c2',
+            character({
+                id: 'c2',
+                owner: 'bob',
+                collaborators: ['user'],
+                name: 'bob/Dog',
+            }),
+        );
+        expect(db.getOwnedCharacterWithName('me/Dog')).toBeUndefined();
+    });
+
+    it('ignores someone else’s character with the identical bare name', () => {
+        db.byID.set(
+            'c3',
+            character({ id: 'c3', owner: 'someone', name: 'someone/Dog' }),
+        );
+        expect(db.getOwnedCharacterWithName('me/Dog')).toBeUndefined();
+    });
+
+    it('finds nothing when signed out', () => {
+        db.byID.set('c1', character({ id: 'c1' }));
+        db = new CharactersDatabase({
+            getUser: vi.fn(() => null),
+            setStatus: vi.fn(),
+            reportBanner: vi.fn(),
+            track: vi.fn((write: unknown) => write),
+            loadProjects: vi.fn(async () => ({ allEditableProjects: [] })),
+        } as never);
+        expect(db.getOwnedCharacterWithName('me/Dog')).toBeUndefined();
+    });
+});
+
+/** Gallery membership (#822). */
+describe('getGalleryCharacters', () => {
+    let db: any;
+
+    function character(id: string, name: string, gallery: string | null) {
+        return {
+            id,
+            owner: 'user',
+            public: false,
+            collaborators: [],
+            updated: 0,
+            name,
+            description: '',
+            shapes: [],
+            ...(gallery === null ? {} : { gallery }),
+        };
+    }
+
+    beforeEach(() => {
+        db = new CharactersDatabase({
+            getUser: vi.fn(() => ({ uid: 'user' })),
+            setStatus: vi.fn(),
+            reportBanner: vi.fn(),
+            track: vi.fn((write: unknown) => write),
+            loadProjects: vi.fn(async () => ({ allEditableProjects: [] })),
+        } as never);
+    });
+
+    it('returns only the characters in that gallery, sorted by bare name', () => {
+        db.byID.set('c1', character('c1', 'me/Zebra', 'g1'));
+        db.byID.set('c2', character('c2', 'me/Apple', 'g1'));
+        db.byID.set('c3', character('c3', 'me/Mango', 'g2'));
+        db.byID.set('c4', character('c4', 'me/Nothing', null));
+
+        expect(
+            db.getGalleryCharacters('g1', ['en']).map((c: Character) => c.id),
+        ).toEqual(['c2', 'c1']);
+    });
+
+    it('sorts by the bare name, not the username-qualified one', () => {
+        // Sorting the full names would order by owner, which would cluster a
+        // gallery by student rather than alphabetically.
+        db.byID.set('c1', character('c1', 'zoe/Apple', 'g1'));
+        db.byID.set('c2', character('c2', 'adam/Zebra', 'g1'));
+        expect(
+            db.getGalleryCharacters('g1', ['en']).map((c: Character) => c.id),
+        ).toEqual(['c1', 'c2']);
+    });
+});

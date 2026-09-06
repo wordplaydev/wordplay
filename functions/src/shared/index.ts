@@ -199,7 +199,8 @@ export type ModerateGalleryOutput = {
 
 // RESPONSIBILITY (#938)
 /** The kinds of thing a report can be about. */
-export type ReportSubjectKind = 'project' | 'gallery' | 'chat' | 'howto';
+export type ReportSubjectKind =
+    'project' | 'gallery' | 'chat' | 'howto' | 'character';
 
 /**
  * A moderatable thing's visibility, in the only terms responsibility depends

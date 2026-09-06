@@ -1,3 +1,4 @@
+import type { Character } from '@db/characters/Character';
 import type Gallery from '@db/galleries/Gallery';
 import type HowTo from '@db/howtos/HowToDatabase.svelte';
 import type Project from '@db/projects/Project';
@@ -35,6 +36,21 @@ export function galleryVisibility(gallery: Gallery): Visibility {
         galleryMembers: [...gallery.getCurators(), ...gallery.getCreators()],
         // A gallery is curated rather than authored.
         owner: null,
+    };
+}
+
+export function characterVisibility(
+    character: Character,
+    gallery: Gallery | undefined,
+): Visibility {
+    return {
+        public: character.public,
+        gallery: character.gallery ?? null,
+        galleryPublic: gallery?.isPublic() ?? false,
+        galleryMembers: gallery
+            ? [...gallery.getCurators(), ...gallery.getCreators()]
+            : [],
+        owner: character.owner,
     };
 }
 

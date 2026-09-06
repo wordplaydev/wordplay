@@ -7411,6 +7411,14 @@
                 "delete": {
                     "header": "$~Usuwać",
                     "explanation": "$~Usunięcie tej galerii nie usunie jej projektów. Usunie jej przewodniki jak. Galeria zostanie usunięta na zawsze."
+                },
+                "characters": {
+                    "header": "$~Postacie",
+                    "explanation": "$~Postacie udostępnione tutaj. Każdy w tej galerii może użyć jednej z nich we własnym projekcie albo stworzyć własną wersję do zmiany."
+                },
+                "projects": {
+                    "header": "$~Projekty",
+                    "explanation": "$~Projekty udostępnione tutaj. Każdy w tej galerii może otworzyć projekt i stworzyć własną wersję do zmiany."
                 }
             },
             "confirm": {
@@ -7421,6 +7429,10 @@
                 "remove": {
                     "description": "$~usuń projekt z galerii",
                     "prompt": "$~usunąć"
+                },
+                "removecharacter": {
+                    "description": "$~usuń postać z galerii",
+                    "prompt": "$~usuń"
                 }
             },
             "error": {
@@ -7437,7 +7449,23 @@
                     "placeholder": "$~Opisz swoją galerię. Jaki jest jej temat, cele lub społeczność?"
                 }
             },
-            "projects": "$~$#count[$count projekt|$count projekty|$count projektów|$count projektu]"
+            "projects": "$~$#count[$count projekt|$count projekty|$count projektów|$count projektu]",
+            "characters": "$~$#count[$count postać|$count postacie|$count postaci|$count postaci]",
+            "button": {
+                "editcharacter": "$~Edytuj tę postać",
+                "copyreference": "$~Skopiuj odwołanie do tej postaci, aby wkleić je w projekcie",
+                "copied": "$~Skopiowano!"
+            },
+            "tab": {
+                "label": "$~ustawienia galerii",
+                "labels": ["$~Twórcy", "$~Kuratorzy", "$~Widoczność", "$~Usuń"],
+                "tips": [
+                    "$~wybierz, kto może dodawać prace do tej galerii",
+                    "$~wybierz, kto może zarządzać tą galerią",
+                    "$~wybierz, kto może widzieć tę galerię",
+                    "$~usuń tę galerię"
+                ]
+            }
         },
         "source": {
             "label": "$~źródło",
@@ -9959,7 +9987,7 @@
                 "share": {
                     "dialog": {
                         "header": "$~Udział",
-                        "explanation": "$~Dodaj współpracowników, aby ograniczyć liczbę osób, które mogą wyświetlać tę postać."
+                        "explanation": "$~Wybierz, kto może widzieć tę postać, kto może pomóc ją tworzyć i do której galerii należy."
                     },
                     "button": {
                         "label": "$~udział",
@@ -9977,7 +10005,20 @@
                             "$~tylko ty i współpracownicy możecie zobaczyć tę postać"
                         ]
                     },
-                    "collaborators": "$~współpracownicy"
+                    "collaborators": "$~współpracownicy",
+                    "gallery": "$~Galeria",
+                    "galleryexplanation": "$~Umieść tę postać w jednej ze swoich galerii, a każdy w niej będzie mógł ją zobaczyć, użyć jej w swoich projektach i stworzyć własną wersję. Postać nadal należy do ciebie — tylko ty możesz ją zmieniać.",
+                    "collaboratorsexplanation": "$~Współpracownicy mogą widzieć tę postać i zmieniać ją razem z tobą, nawet gdy jest prywatna.",
+                    "publicexplanation": "$~Publiczna oznacza, że każdy może widzieć tę postać i używać jej w swoich projektach. Prywatna oznacza, że widzisz ją tylko ty, twoi współpracownicy oraz osoby w galerii, do której ją dodałeś.",
+                    "tab": {
+                        "label": "$~ustawienia udostępniania",
+                        "labels": ["$~Publiczny", "$~Współtwórcy", "$~Galeria"],
+                        "tips": [
+                            "$~wybierz, kto może zobaczyć tę postać",
+                            "$~wybierz, kto może zmieniać tę postać razem z tobą",
+                            "$~wybierz galerię, w której pokażesz tę postać"
+                        ]
+                    }
                 },
                 "image": {
                     "instructions": "$~Przeciągnij kwadrat, aby go przesunąć, albo użyj suwaka *rozmiar*, aby zmienić, ile obrazu zachować. Za pomocą klawiatury naciśnij *enter*, aby zacząć przesuwanie, potem użyj klawiszy *strzałek*, a na koniec naciśnij *enter* ponownie.",
@@ -10928,8 +10969,8 @@
         },
         "responsibility": {
             "none": "$~Nikt nie sprawdza tego, co tu udostępniasz. Widzisz to tylko ty i osoby, które wybierzesz.",
-            "curators": "$~Kuratorzy <$name@://galleries> sprawdzają to, co jest tu udostępniane, w tym rozmowy na czacie.",
-            "both": "$~Kuratorzy <$name@://galleries> sprawdzają to, co jest tu udostępniane, podobnie jak moderatorzy Wordplay, ponieważ każdy może to zobaczyć.",
+            "curators": "$~Kuratorzy tej galerii sprawdzają wszystko, co się tu udostępnia, w tym rozmowy na czacie.",
+            "both": "$~Kuratorzy tej galerii sprawdzają wszystko, co się tu udostępnia, a moderatorzy Wordplay też, ponieważ każdy może to zobaczyć.",
             "platform": "$~<Moderatorzy@://rights> Wordplay sprawdzają to, ponieważ każdy może to zobaczyć."
         }
     },

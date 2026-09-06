@@ -48,6 +48,16 @@ type PageText = {
         public: ModeText<string[]>;
         /** [plain] Label for the character's collaborators list */
         collaborators: string;
+        /** [formatted] What adding collaborators to a character does */
+        collaboratorsexplanation: FormattedText;
+        /** [plain] Label for the chooser that puts this character in a gallery */
+        gallery: string;
+        /** [formatted] What putting a character in a gallery means */
+        galleryexplanation: FormattedText;
+        /** [formatted] What making a character public or private does */
+        publicexplanation: FormattedText;
+        /** The tabs the sharing settings are grouped into */
+        tab: ModeText<[string, string, string]>;
     };
     field: {
         name: FieldText;

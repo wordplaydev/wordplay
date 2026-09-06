@@ -3096,7 +3096,11 @@
                                      own creators have the share dialog, and
                                      nobody can report what isn't public. -->
                                 {#if tile.kind === TileKind.Output && reportable && isAuthenticated($user)}
-                                    <ReportButton {project} />
+                                    <ReportButton
+                                        kind="project"
+                                        subject={project.getID()}
+                                        name={project.getName()}
+                                    />
                                 {/if}
                             {/snippet}
 

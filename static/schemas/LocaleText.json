@@ -19301,6 +19301,34 @@
                             "additionalProperties": false,
                             "description": "Gallery page labels",
                             "properties": {
+                                "button": {
+                                    "additionalProperties": false,
+                                    "description": "Buttons on the characters in a gallery",
+                                    "properties": {
+                                        "copied": {
+                                            "description": "[plain] Shown in place of the copy tooltip just after a reference is copied",
+                                            "type": "string"
+                                        },
+                                        "copyreference": {
+                                            "description": "[plain] Tooltip for the button that copies a reference to a character, to paste into a project",
+                                            "type": "string"
+                                        },
+                                        "editcharacter": {
+                                            "description": "[plain] Tooltip for the button that opens a character you can edit",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "editcharacter",
+                                        "copyreference",
+                                        "copied"
+                                    ],
+                                    "type": "object"
+                                },
+                                "characters": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                    "description": "[plain] The count of characters in a gallery, shown on gallery preview cards. A count, so it chooses a plural form."
+                                },
                                 "confirm": {
                                     "additionalProperties": false,
                                     "description": "Confirm buttons on the gallery page",
@@ -19312,9 +19340,17 @@
                                         "remove": {
                                             "$ref": "#/definitions/ConfirmText",
                                             "description": "The confirm button that removes a project from a gallery"
+                                        },
+                                        "removecharacter": {
+                                            "$ref": "#/definitions/ConfirmText",
+                                            "description": "The confirm button that removes a character from a gallery"
                                         }
                                     },
-                                    "required": ["delete", "remove"],
+                                    "required": [
+                                        "delete",
+                                        "remove",
+                                        "removecharacter"
+                                    ],
                                     "type": "object"
                                 },
                                 "error": {
@@ -19353,6 +19389,10 @@
                                     "additionalProperties": false,
                                     "description": "Headers on the page",
                                     "properties": {
+                                        "characters": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "The characters shared in the gallery"
+                                        },
                                         "classes": {
                                             "$ref": "#/definitions/HeaderAndExplanationText",
                                             "description": "Associtaed classes header"
@@ -19368,15 +19408,25 @@
                                         "delete": {
                                             "$ref": "#/definitions/HeaderAndExplanationText",
                                             "description": "Delete header"
+                                        },
+                                        "projects": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "The projects shared in the gallery"
                                         }
                                     },
                                     "required": [
                                         "classes",
                                         "curators",
                                         "creators",
+                                        "projects",
+                                        "characters",
                                         "delete"
                                     ],
                                     "type": "object"
+                                },
+                                "tab": {
+                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                                    "description": "The tabs the gallery's settings are grouped into"
                                 },
                                 "undescribed": {
                                     "description": "[plain] What to say if the description is empty",
@@ -19391,7 +19441,10 @@
                                 "untitled",
                                 "undescribed",
                                 "projects",
+                                "characters",
                                 "subheader",
+                                "tab",
+                                "button",
                                 "confirm",
                                 "error",
                                 "field"
@@ -21760,14 +21813,34 @@
                                                     "description": "[plain] Label for the character's collaborators list",
                                                     "type": "string"
                                                 },
+                                                "collaboratorsexplanation": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] What adding collaborators to a character does"
+                                                },
                                                 "delete": {
                                                     "$ref": "#/definitions/ButtonText"
                                                 },
                                                 "dialog": {
                                                     "$ref": "#/definitions/HeaderAndExplanationText"
                                                 },
+                                                "gallery": {
+                                                    "description": "[plain] Label for the chooser that puts this character in a gallery",
+                                                    "type": "string"
+                                                },
+                                                "galleryexplanation": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] What putting a character in a gallery means"
+                                                },
                                                 "public": {
                                                     "$ref": "#/definitions/ModeText%3Cstring%5B%5D%3E"
+                                                },
+                                                "publicexplanation": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] What making a character public or private does"
+                                                },
+                                                "tab": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                                                    "description": "The tabs the sharing settings are grouped into"
                                                 }
                                             },
                                             "required": [
@@ -21775,7 +21848,12 @@
                                                 "button",
                                                 "delete",
                                                 "public",
-                                                "collaborators"
+                                                "collaborators",
+                                                "collaboratorsexplanation",
+                                                "gallery",
+                                                "galleryexplanation",
+                                                "publicexplanation",
+                                                "tab"
                                             ],
                                             "type": "object"
                                         }
@@ -28120,12 +28198,12 @@
                     "description": "Who reviews a piece of content, said wherever a creator can see it (#938). One sentence per level of the responsibility ladder, all derived from the same rule the server enforces — a surface that said something else would be promising a reviewer nobody assigned.",
                     "properties": {
                         "both": {
-                            "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
-                            "description": "[formatted] Its gallery's curators and Wordplay's moderators both do. $name is the gallery."
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Its gallery's curators and Wordplay's moderators both do."
                         },
                         "curators": {
-                            "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
-                            "description": "[formatted] A gallery's curators review it. $name is the gallery."
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] A gallery's curators review it."
                         },
                         "none": {
                             "$ref": "#/definitions/FormattedText",

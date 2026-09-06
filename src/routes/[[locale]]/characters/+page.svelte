@@ -1,6 +1,6 @@
 <script lang="ts">
     import { browser } from '$app/environment';
-    import Link from '@components/app/Link.svelte';
+    import CharacterPreview from '@components/app/CharacterPreview.svelte';
     import Notice from '@components/app/Notice.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -10,7 +10,7 @@
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Title from '@components/widgets/Title.svelte';
-    import { characterToSVG, type Character } from '@db/characters/Character';
+    import { type Character } from '@db/characters/Character';
     import { CharactersDB, disconnected } from '@db/Database';
     import { firestore } from '@db/firebase';
     import { CANCEL_SYMBOL, REMIX_SYMBOL } from '@parser/Symbols';
@@ -41,24 +41,8 @@
 </svelte:head>
 
 {#snippet preview(character: Character)}
-    {@const name = character.name.split('/').at(-1) ?? ''}
-    {@const hasName = character.name.length > 0 && name.length > 0}
-    <div class="preview">
-        <!-- One link for both the image and the name: the name is the link's
-             accessible text (the SVG is a decorative duplicate, hence
-             aria-hidden), with a localized fallback label when unnamed. -->
-        <Link
-            to="/character/{character.id}"
-            ariaLabel={hasName
-                ? undefined
-                : (l) => l.ui.page.characters.unnamed}
-        >
-            <div class="character" aria-hidden="true">
-                {@html characterToSVG(character, 128)}
-            </div>
-            <div class="name">{hasName ? name : '—'}</div>
-        </Link>
-        <div class="tools">
+    <CharacterPreview {character} link="/character/{character.id}">
+        {#snippet controls()}
             <Button
                 tip={(l) => l.ui.page.characters.button.copy}
                 icon={REMIX_SYMBOL}
@@ -77,34 +61,8 @@
                     await CharactersDB.deleteCharacter(character.id);
                 }}
             ></ConfirmButton>
-        </div>
-    </div>
-    <style>
-        .preview {
-            display: flex;
-            flex-direction: column;
-            align-items: start;
-            gap: var(--wordplay-spacing);
-        }
-
-        .character {
-            /* Block (not inline-block) so the preview box doesn't sit on the
-               link's text baseline — inline-block left ~5px of descender space
-               below the 64px box from the line-height strut. */
-            display: block;
-            width: 128px;
-            height: 128px;
-            border: var(--wordplay-border-color) solid
-                var(--wordplay-border-width);
-        }
-
-        .tools {
-            display: flex;
-            flex-direction: row;
-            align-items: start;
-            gap: var(--wordplay-spacing);
-        }
-    </style>
+        {/snippet}
+    </CharacterPreview>
 {/snippet}
 
 <Writing>

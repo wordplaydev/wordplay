@@ -7406,6 +7406,14 @@
                 "delete": {
                     "header": "$~Menghapus",
                     "explanation": "$~Menghapus galeri ini tidak akan menghapus proyek-proyeknya. Yang akan terhapus adalah tutorial-tutorialnya. Galeri ini akan dihapus selamanya."
+                },
+                "characters": {
+                    "header": "$~Karakter",
+                    "explanation": "$~Karakter yang dibagikan di sini. Siapa pun di galeri ini bisa memakai salah satunya untuk proyek mereka sendiri, atau membuat versi mereka sendiri untuk diubah."
+                },
+                "projects": {
+                    "header": "$~Proyek",
+                    "explanation": "$~Proyek yang dibagikan di sini. Siapa pun di galeri ini bisa membuka salah satunya, dan membuat versi mereka sendiri untuk diubah."
                 }
             },
             "confirm": {
@@ -7416,6 +7424,10 @@
                 "remove": {
                     "description": "$~hapus proyek dari galeri",
                     "prompt": "$~menghapus"
+                },
+                "removecharacter": {
+                    "description": "$~hapus karakter dari galeri",
+                    "prompt": "$~hapus"
                 }
             },
             "error": {
@@ -7432,7 +7444,28 @@
                     "placeholder": "$~Jelaskan galeri Anda. Apa tema, tujuan, atau komunitasnya?"
                 }
             },
-            "projects": "$~$#count[$count proyek]"
+            "projects": "$~$#count[$count proyek]",
+            "characters": "$~$#count[$count karakter]",
+            "button": {
+                "editcharacter": "$~Ubah karakter ini",
+                "copyreference": "$~Salin rujukan ke karakter ini, untuk ditempel ke dalam proyek",
+                "copied": "$~Tersalin!"
+            },
+            "tab": {
+                "label": "$~pengaturan galeri",
+                "labels": [
+                    "$~Pembuat",
+                    "$~Pengelola",
+                    "$~Keterlihatan",
+                    "$~Hapus"
+                ],
+                "tips": [
+                    "$~pilih siapa yang boleh menambahkan karya ke galeri ini",
+                    "$~pilih siapa yang boleh mengelola galeri ini",
+                    "$~pilih siapa yang boleh melihat galeri ini",
+                    "$~hapus galeri ini"
+                ]
+            }
         },
         "gallerymoderation": {
             "header": "$~Moderasi Galeri",
@@ -9881,7 +9914,7 @@
                 "share": {
                     "dialog": {
                         "header": "$~Membagikan",
-                        "explanation": "$~Tambahkan kolaborator untuk membatasi siapa yang dapat melihat karakter ini."
+                        "explanation": "$~Pilih siapa yang boleh melihat karakter ini, siapa yang boleh membantu membuatnya, dan galeri mana tempatnya berada."
                     },
                     "button": {
                         "label": "$~membagikan",
@@ -9899,7 +9932,20 @@
                             "$~Hanya Anda dan kolaborator yang dapat melihat karakter ini."
                         ]
                     },
-                    "collaborators": "$~kolaborator"
+                    "collaborators": "$~kolaborator",
+                    "gallery": "$~Galeri",
+                    "galleryexplanation": "$~Masukkan karakter ini ke salah satu galerimu, maka semua orang di dalamnya bisa melihatnya, memakainya di proyek mereka, dan membuat versi mereka sendiri. Karakter ini tetap milikmu; hanya kamu yang bisa mengubahnya.",
+                    "collaboratorsexplanation": "$~Kolaborator bisa melihat karakter ini dan mengubahnya bersamamu, bahkan saat statusnya pribadi.",
+                    "publicexplanation": "$~Publik berarti siapa pun bisa melihat karakter ini dan memakainya di proyek mereka. Pribadi berarti hanya kamu, para kolaboratormu, dan siapa pun di galeri tempat kamu memasukkannya yang bisa melihatnya.",
+                    "tab": {
+                        "label": "$~pengaturan berbagi",
+                        "labels": ["$~Publik", "$~Kolaborator", "$~Galeri"],
+                        "tips": [
+                            "$~pilih siapa yang bisa melihat karakter ini",
+                            "$~pilih siapa yang bisa mengubah karakter ini bersamamu",
+                            "$~pilih galeri untuk menampilkan karakter ini"
+                        ]
+                    }
                 },
                 "field": {
                     "name": {
@@ -10919,8 +10965,8 @@
         },
         "responsibility": {
             "none": "$~Tidak ada yang memeriksa apa yang kamu bagikan di sini. Ini hanya bisa dilihat olehmu dan orang-orang yang kamu pilih.",
-            "curators": "$~Kurator dari <$name@://galleries> memeriksa apa yang dibagikan di sini, termasuk obrolannya.",
-            "both": "$~Kurator dari <$name@://galleries> memeriksa apa yang dibagikan di sini, begitu juga moderator Wordplay, karena siapa saja bisa melihatnya.",
+            "curators": "$~Kurator galeri ini memeriksa apa yang dibagikan di sini, termasuk obrolannya.",
+            "both": "$~Kurator galeri ini memeriksa apa yang dibagikan di sini, begitu juga moderator Wordplay, karena semua orang bisa melihatnya.",
             "platform": "$~<moderators@://rights> Wordplay memeriksa ini, karena siapa saja bisa melihatnya."
         }
     },

@@ -1,5 +1,9 @@
 import { getAuth } from 'firebase-admin/auth';
-import { getFirestore, type Firestore } from 'firebase-admin/firestore';
+import {
+    FieldValue,
+    getFirestore,
+    type Firestore,
+} from 'firebase-admin/firestore';
 import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
 import type {
     ModerateInputs,
@@ -18,6 +22,7 @@ const ProjectsCollection = 'projects';
 const GalleriesCollection = 'galleries';
 const HowTosCollection = 'howtos';
 const ChatsCollection = 'chats';
+const CharactersCollection = 'characters';
 const ReportsCollection = 'reports';
 const StrikesCollection = 'strikes';
 
@@ -280,7 +285,27 @@ async function applyRemedy(
                 flags,
                 ...(violation ? { public: false } : {}),
             });
-    else if (kind === 'howto' && violation)
+    else if (kind === 'character' && violation) {
+        // Un-publishing alone would be theatre here (#1236). A character is
+        // most often reported inside a class gallery, where it was never
+        // public — so `public: false` would change nothing anyone could see,
+        // and the drawing would stay in front of the class a curator just
+        // decided about. Taking it out of the gallery is the remedy that
+        // matches what was decided; the character itself is left with its
+        // owner, who can fix it and share it again.
+        const character = await db
+            .collection(CharactersCollection)
+            .doc(subject)
+            .get();
+        const gallery: unknown = character.get('gallery');
+        const batch = db.batch();
+        batch.update(character.ref, { public: false, gallery: null });
+        if (typeof gallery === 'string' && gallery.length > 0)
+            batch.update(db.collection(GalleriesCollection).doc(gallery), {
+                characters: FieldValue.arrayRemove(subject),
+            });
+        await batch.commit();
+    } else if (kind === 'howto' && violation)
         await db
             .collection(HowTosCollection)
             .doc(subject)

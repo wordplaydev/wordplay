@@ -7405,6 +7405,14 @@
                 "delete": {
                     "header": "$~Şterge",
                     "explanation": "$~Ștergerea acestei galerii nu va șterge proiectele acesteia. Se vor șterge instrucțiunile sale. Galeria va fi ștearsă definitiv."
+                },
+                "characters": {
+                    "header": "$~Caractere",
+                    "explanation": "$~Caractere partajate aici. Oricine din această galerie poate folosi unul în propriul proiect, sau poate face propria versiune a lui, pe care să o schimbe."
+                },
+                "projects": {
+                    "header": "$~Proiecte",
+                    "explanation": "$~Proiecte partajate aici. Oricine din această galerie poate deschide unul, și poate face propria versiune a lui, pe care să o schimbe."
                 }
             },
             "confirm": {
@@ -7415,6 +7423,10 @@
                 "remove": {
                     "description": "$~eliminați proiectul din galerie",
                     "prompt": "$~elimina"
+                },
+                "removecharacter": {
+                    "description": "$~scoate caracterul din galerie",
+                    "prompt": "$~scoate"
                 }
             },
             "error": {
@@ -7431,7 +7443,28 @@
                     "placeholder": "$~Descrie galeria ta. Care este tema, obiectivele sau comunitatea sa?"
                 }
             },
-            "projects": "$~$#count[$#count proiect|$count proiecte|$count de proiecte]"
+            "projects": "$~$#count[$#count proiect|$count proiecte|$count de proiecte]",
+            "characters": "$~$#count[$#count caracter|$count caractere|$count de caractere]",
+            "button": {
+                "editcharacter": "$~Editează acest caracter",
+                "copyreference": "$~Copiază o referință către acest caracter, ca s-o lipești într-un proiect",
+                "copied": "$~Copiat!"
+            },
+            "tab": {
+                "label": "$~setări galerie",
+                "labels": [
+                    "$~Creatori",
+                    "$~Curatori",
+                    "$~Vizibilitate",
+                    "$~Șterge"
+                ],
+                "tips": [
+                    "$~alege cine poate adăuga lucrări în această galerie",
+                    "$~alege cine poate administra această galerie",
+                    "$~alege cine poate vedea această galerie",
+                    "$~șterge această galerie"
+                ]
+            }
         },
         "gallerymoderation": {
             "header": "$~Moderare galerie",
@@ -9877,7 +9910,7 @@
                 "share": {
                     "dialog": {
                         "header": "$~Distribuie",
-                        "explanation": "$~Adaugă colaboratori pentru a restricționa cine poate vedea acest personaj."
+                        "explanation": "$~Alege cine poate vedea acest caracter, cine poate ajuta să-l creeze, și cărei galerii îi aparține."
                     },
                     "button": {
                         "label": "$~a împărtăși",
@@ -9895,7 +9928,20 @@
                             "$~doar tu și colaboratorii puteți vedea acest personaj"
                         ]
                     },
-                    "collaborators": "$~colaboratori"
+                    "collaborators": "$~colaboratori",
+                    "gallery": "$~Galerie",
+                    "galleryexplanation": "$~Pune acest caracter într-una din galeriile tale și oricine este în ea îl poate vedea, îl poate folosi în proiectele sale, și îi poate face propria versiune. Rămâne al tău; doar tu îl poți schimba.",
+                    "collaboratorsexplanation": "$~Colaboratorii pot vedea acest caracter și îl pot schimba împreună cu tine, chiar și atunci când este privat.",
+                    "publicexplanation": "$~Public înseamnă că oricine poate vedea acest caracter și îl poate folosi în proiectele sale. Privat înseamnă că doar tu, colaboratorii tăi, și oricine dintr-o galerie în care l-ai pus îl pot vedea.",
+                    "tab": {
+                        "label": "$~setări de partajare",
+                        "labels": ["$~Public", "$~Colaboratori", "$~Galerie"],
+                        "tips": [
+                            "$~alege cine poate vedea acest caracter",
+                            "$~alege cine poate schimba acest caracter împreună cu tine",
+                            "$~alege o galerie în care să arăți acest caracter"
+                        ]
+                    }
                 },
                 "field": {
                     "name": {
@@ -10915,8 +10961,8 @@
         },
         "responsibility": {
             "none": "$~Nimeni nu analizează ce trimiți aici. Este vizibil doar pentru tine și persoanele pe care le alegi.",
-            "curators": "$~Curatorii de la <$name@://galleries> analizează ce este trimis aici, inclusiv discuțiile.",
-            "both": "$~Curatorii de la <$name@://galleries> analizează ce este trimis aici, la fel și moderatorii Wordplay, pentru că oricine poate vedea asta.",
+            "curators": "$~Curatorii acestei galerii verifică ce se împărtășește aici, inclusiv discuțiile.",
+            "both": "$~Curatorii acestei galerii verifică ce se împărtășește aici, iar moderatorii Wordplay fac la fel, pentru că oricine poate vedea asta.",
             "platform": "$~<Moderatorii@://rights> Wordplay analizează acest lucru, pentru că oricine îl poate vedea."
         }
     },

@@ -134,6 +134,7 @@ const ids: [ReportSubjectKind, string, string | undefined, string][] = [
     ['project', 'p1', undefined, 'project:p1'],
     ['gallery', 'g1', undefined, 'gallery:g1'],
     ['howto', 'h1', undefined, 'howto:h1'],
+    ['character', 'ch1', undefined, 'character:ch1'],
     // Both ids, because a message id is unique within its chat and nothing
     // makes it unique across chats.
     ['chat', 'c1', 'm1', 'chat:c1:m1'],
