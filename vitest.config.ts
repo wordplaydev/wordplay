@@ -1,5 +1,6 @@
 import { configDefaults, defineConfig, mergeConfig } from 'vitest/config';
 import IsolatedTests from './src/util/isolatedTests.ts';
+import SweepTests from './src/util/sweepTests.ts';
 import viteConfig from './vite.config.js';
 
 // Rules tests need the Firestore emulator; run them via `npm run test:rules`.
@@ -38,7 +39,7 @@ export default mergeConfig(
                     extends: true,
                     test: {
                         name: 'fast',
-                        exclude: [...Exclude, ...IsolatedTests],
+                        exclude: [...Exclude, ...IsolatedTests, ...SweepTests],
                         setupFiles: SetupFiles,
                         pool: Pool,
                         isolate: false,
@@ -53,6 +54,29 @@ export default mergeConfig(
                         setupFiles: SetupFiles,
                         pool: Pool,
                         isolate: true,
+                    },
+                },
+                {
+                    // Corpus verification: five files re-deriving static/examples
+                    // and static/locales, which were 172 of the suite's 318
+                    // CPU-seconds and one of which was the entire wall clock —
+                    // running from t=2.4s to t=76.7s while every other file
+                    // finished by t=55.8s. Nothing here can be broken by an
+                    // ordinary source edit, so it is out of `npm run test:run`
+                    // and gated instead on the commits that touch the data: the
+                    // pre-commit hook, and its own CI job. See
+                    // src/util/sweepTests.ts for the criterion and for the slow
+                    // files deliberately left out. Unisolated for the same reason
+                    // `fast` is: none of these mock, and they all want one Basis
+                    // cache rather than 31 rebuilt per file.
+                    extends: true,
+                    test: {
+                        name: 'sweep',
+                        include: SweepTests,
+                        exclude: Exclude,
+                        setupFiles: SetupFiles,
+                        pool: Pool,
+                        isolate: false,
                     },
                 },
             ],

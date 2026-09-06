@@ -92,7 +92,15 @@ export async function updateProjectSource(
  *                  writes are debounced and emulator round-trip latency varies,
  *                  so anything tighter is the leading source of test flake)
  * @param interval - Polling interval in milliseconds (default: 100)
- * @returns The document data when the condition is met, or after the check has timed out
+ * Throws if the condition is never met. It used to *return* on timeout, which
+ * is the shape that turns a lost write into a mystery: the caller carried on
+ * against unsynced data and failed somewhere later — a `selectOption` on an
+ * option the picker never got, a navigation to a page with nothing on it —
+ * burning the whole 60s test budget to report a symptom several steps from the
+ * cause. Both of the suite's standing flakes were that. Failing here costs the
+ * same 15s and names the document.
+ *
+ * @returns The document data, once the condition holds.
  */
 export async function waitForDocumentUpdate(
     page: Page,
@@ -110,12 +118,18 @@ export async function waitForDocumentUpdate(
     while (Date.now() - startTime < timeout) {
         documentData = await getTestDocument(collectionName, documentId);
         if (documentData && predicate(documentData)) {
-            break;
+            return documentData;
         }
         await page.waitForTimeout(interval);
     }
 
-    return documentData;
+    throw new Error(
+        `${collectionName}/${documentId} never satisfied the predicate within ${timeout}ms. Last read: ${
+            documentData === undefined
+                ? 'the document does not exist'
+                : JSON.stringify(documentData).slice(0, 400)
+        }`,
+    );
 }
 
 /**

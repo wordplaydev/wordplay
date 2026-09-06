@@ -5,19 +5,27 @@
 # scripts/setup-git-config.ts (run from postinstall).
 npx lint-staged || exit 1
 
-# static/locales carries two generated artifacts — names.json and each locale's
-# how-to bundle — that go stale when a locale file or how-to source changes.
-# Only `npm run locales` notices, and the CI job that runs it does no build, so
-# before this the first sign of a missed regeneration was a red deploy. Run the
-# same drift checks (~8s) whenever a source they are built from is staged.
+# The corpus sweeps (src/util/sweepTests.ts) are out of `npm run test:run`,
+# because their cost scales with static/examples and static/locales rather than
+# with the code — 172 of the unit suite's 318 CPU-seconds. That is only safe if
+# staging the corpus runs them. The generated locale artifacts (names.json, each
+# locale's how-to bundle) and the localized examples all go stale silently: only
+# `npm run locales` notices, and the CI job that runs it does no build, so before
+# this the first sign of a missed regeneration was a red deploy.
 #
 # Runs after lint-staged so it reads the formatted, re-staged content. The match
-# is deliberately broad: a needless run costs seconds, a missed one costs a
-# blocked deploy. Regenerate with `npm run locales-fix`; bypass with --no-verify.
-if git diff --cached --name-only |
-	grep -qE '^(static/locales/|src/locale/en-US\.json$)'; then
-	echo "Locale sources staged; checking generated locale artifacts..."
-	npx vitest run src/util/verify-locales/localeArtifactsSync.test.ts || exit 1
+# is deliberately broad and includes the sweeps' own source modules, since a
+# change to retargetExampleNames.ts or examples.ts changes every answer they give:
+# a needless run costs seconds, a missed one costs a blocked deploy.
+# WORDPLAY_SWEEP_CHANGED restricts the two localized-example sweeps to the locales
+# this working tree actually touched — the same predicate `npm run locales` uses —
+# so a one-locale commit pays a few seconds rather than a minute. CI never sets it
+# and always runs every locale. Repair with `npm run locales-fix`; bypass with
+# --no-verify or WORDPLAY_SKIP_SWEEP=1.
+if [ -z "$WORDPLAY_SKIP_SWEEP" ] && git diff --cached --name-only |
+	grep -qE '^(static/examples/|static/locales/|src/locale/en-US\.json$|src/util/verify-locales/|src/examples/)'; then
+	echo "Corpus staged; running the sweep for what changed..."
+	WORDPLAY_SWEEP_CHANGED=1 npm run test:sweep || exit 1
 fi
 
 # An in-place edit to an en-US string leaves every translation describing older

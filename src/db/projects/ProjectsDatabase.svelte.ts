@@ -57,11 +57,11 @@ import {
     getDocs,
     limit,
     onSnapshot,
-    or,
     orderBy,
     query,
     setDoc,
     where,
+    type QueryFieldFilterConstraint,
     writeBatch,
     type DocumentData,
     type QuerySnapshot,
@@ -69,6 +69,34 @@ import {
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { ExamplePrefix, getExample } from '../../examples/examples';
+
+/**
+ * The ways a project reaches its user directly, one listener each.
+ *
+ * Firestore allows a single `array-contains` per query — inside an `or()` too —
+ * so these cannot be one disjunction. Keep them separate when adding a new way
+ * to share a project, and bump nothing else: `expectedProjectListeners` counts
+ * this list and the deletion sweep unions by `key`.
+ */
+const BaseClauses: {
+    key: string;
+    constraint: (user: User) => QueryFieldFilterConstraint;
+}[] = [
+    { key: 'base', constraint: (user) => where('owner', '==', user.uid) },
+    {
+        key: 'base-collaborator',
+        constraint: (user) =>
+            where('collaborators', 'array-contains', user.uid),
+    },
+    {
+        key: 'base-commenter',
+        constraint: (user) => where('commenters', 'array-contains', user.uid),
+    },
+    {
+        key: 'base-viewer',
+        constraint: (user) => where('viewers', 'array-contains', user.uid),
+    },
+];
 
 /** The name of the projects collection in Firebase */
 export const ProjectsCollection = Domain.Projects;
@@ -589,8 +617,9 @@ export default class ProjectsDatabase {
         };
         const curatorChunks = chunk(curatorGalleryIDs);
         const creatorChunks = chunk(creatorGalleryIDs);
+        // Four base listeners, not one: see the `BaseClauses` comment below.
         this.expectedProjectListeners =
-            1 + curatorChunks.length + creatorChunks.length;
+            BaseClauses.length + curatorChunks.length + creatorChunks.length;
 
         // `includeMetadataChanges: true` lets us observe Firestore's connection
         // state passively via snapshot.metadata.fromCache.
@@ -606,24 +635,30 @@ export default class ProjectsDatabase {
                 (l) => l.ui.project.save.projectsNotLoadingOnline,
             );
 
-        // Base listener: projects owned by or shared with the user.
-        this.projectsQueryUnsubscribes.push(
-            onSnapshot(
-                query(
-                    collection(fs, ProjectsCollection),
-                    or(
-                        where('owner', '==', user.uid),
-                        where('collaborators', 'array-contains', user.uid),
-                        where('commenters', 'array-contains', user.uid),
-                        where('viewers', 'array-contains', user.uid),
-                    ),
+        // Base listeners: projects owned by or shared with the user — one per
+        // way of being shared with, because Firestore permits exactly one
+        // `array-contains` per query, including inside a disjunction. As a
+        // single `or()` carrying three of them this was rejected outright with
+        // "Only a single array-contains clause is allowed in a query", so the
+        // user's own projects listener never delivered a snapshot. It went
+        // unnoticed because projects still appear — from the Dexie cache and
+        // from explicit reads — so what was lost was every *live* update, which
+        // reads as flaky sync rather than as a broken query. The gallery-chunk
+        // listeners below were always fine; they carry one clause each.
+        //
+        // The deletion sweep already unions each listener's matched IDs by key
+        // (see handleProjectsSnapshot), so four keys need no other change.
+        BaseClauses.forEach(({ key, constraint }) => {
+            this.projectsQueryUnsubscribes.push(
+                onSnapshot(
+                    query(collection(fs, ProjectsCollection), constraint(user)),
+                    options,
+                    (snapshot) =>
+                        this.handleProjectsSnapshot(key, user, snapshot),
+                    onError,
                 ),
-                options,
-                (snapshot) =>
-                    this.handleProjectsSnapshot('base', user, snapshot),
-                onError,
-            ),
-        );
+            );
+        });
 
         // Curator galleries: every project (curators may read restricted ones).
         curatorChunks.forEach((galleryIDs, index) => {

@@ -112,3 +112,72 @@ export function localeExamplesMayHaveChanged(
     }
     return false;
 }
+
+/**
+ * Whether a sweep may skip a locale this working tree hasn't touched.
+ *
+ * The corpus sweeps are out of `npm run test:run` (see src/util/sweepTests.ts),
+ * which is only safe because the pre-commit hook runs them when you stage their
+ * corpus — and a ~55s hook is one people turn off. So the hook sets
+ * `WORDPLAY_SWEEP_CHANGED=1` and asks the same question `verifyExamples` already
+ * asks: did *this change* reach this locale? A one-locale commit then pays a few
+ * seconds instead of a minute.
+ *
+ * CI never sets it, deliberately. `localizedExamples.test.ts` analyzes as well as
+ * retargets, so a parser or conflict change can break it while touching no corpus
+ * file at all; the `sweep` job has to run every locale for that to be caught. The
+ * hook's path is data-only by construction, which is what makes skipping safe
+ * there and nowhere else.
+ */
+export function sweepSkipsLocale(locale: string): boolean {
+    return narrowingToChanged() && !localeExamplesMayHaveChanged(locale);
+}
+
+/** Whether the sweeps have been asked to narrow. Only the pre-commit hook asks. */
+function narrowingToChanged(): boolean {
+    return process.env.WORDPLAY_SWEEP_CHANGED === '1';
+}
+
+/**
+ * Whether anything a locale's *text* sweeps read has changed since the base:
+ * that locale's own directory (its locale file, both tutorials, its how-tos) or
+ * the en-US source they are all compared against.
+ *
+ * Wider than `localeExamplesMayHaveChanged`, which asks only about `.wp` files
+ * and names. `exampleNamesSync` walks tutorials and how-tos too, and
+ * `Showcase.locales` reads the landing tour out of the locale file, so both need
+ * this question rather than that one.
+ */
+export function localeTextMayHaveChanged(
+    locale: string,
+    cwd?: string,
+): boolean {
+    const paths = changed(cwd);
+    // No answer from git means no skipping: verify everything.
+    if (paths === undefined) return true;
+    for (const file of paths)
+        if (
+            file === DefaultLocaleFile ||
+            file.startsWith(`static/locales/${locale}/`) ||
+            file.startsWith('static/locales/en-US/')
+        )
+            return true;
+    return false;
+}
+
+/** The `localeTextMayHaveChanged` counterpart of `sweepSkipsLocale`. */
+export function sweepSkipsLocaleText(locale: string): boolean {
+    return narrowingToChanged() && !localeTextMayHaveChanged(locale);
+}
+
+/**
+ * Whether a whole-corpus sweep can be skipped: one that rebuilds an artifact from
+ * *every* locale at once, like `names.json`, and so can't be narrowed to one.
+ * Either some locale changed and it all runs, or none did and none of it needs to.
+ */
+export function sweepSkipsAllLocaleText(locales: string[]): boolean {
+    return (
+        narrowingToChanged() &&
+        !locales.some((locale) => localeTextMayHaveChanged(locale))
+    );
+}

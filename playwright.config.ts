@@ -26,27 +26,54 @@ export default defineConfig({
      * Run spec files in parallel on CI. Two workers roughly halves wall-clock
      * here: the long files (collaborative-editing, offline-replay, seeded-load,
      * howto-form) distribute across workers. Kept at 2 to limit contention on
-     * the single Firebase emulator each worker shares. Locally, let Playwright
-     * pick based on CPU count.
+     * the single Firebase emulator each worker shares — and playwright.yml
+     * passes `--workers` on the command line anyway, so this value only ever
+     * decides a local run. It used to say 2 there too, which capped a
+     * many-core machine at two browsers and made the full suite a coffee break.
+     *
+     * The shared resource is the single-process Firestore emulator, not the
+     * cores, which is why this is a measured number rather than a fraction of
+     * `os.cpus().length`. Measured on a 15-core machine over the eleven
+     * cloud-assertion tests that contend hardest (gallery-sharing,
+     * gallery-characters, howto-form): 2 workers failed 2, **4 failed 1**, and 7
+     * failed 4. Past four, the Firestore round-trips these specs wait on start
+     * timing each other out inside the 60s budget — the same contention the
+     * WebKit project below already documents — and with `retries: 0` locally
+     * that reads as a real failure rather than as load. So four, not "half the
+     * cores": the machine has headroom the emulator does not.
+     * PLAYWRIGHT_WORKERS overrides it either way — drop to 1 when a run looks
+     * flaky rather than editing this, and raise it only with a measurement.
      */
-    workers: 2,
+    workers: process.env.PLAYWRIGHT_WORKERS
+        ? Number(process.env.PLAYWRIGHT_WORKERS)
+        : process.env.CI
+          ? 2
+          : 4,
     /* Retry once on CI, never locally */
     retries: process.env.CI ? 1 : 0,
-    /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+    /* Reporter to use. See https://playwright.dev/docs/test-reporters
+     * The HTML report is written but never opened. `open: 'always'` launched a
+     * browser window after every local run, green ones included, which is a
+     * modal interruption in exchange for a report nobody asked for;
+     * `npx playwright show-report` opens it on demand. CI overrides all of this
+     * with `--reporter=list`. (`printSteps` is typed boolean and was being
+     * handed `string | undefined`; it only compiled because the reporter
+     * options tuple is loosely typed.) */
     reporter: [
-        [
-            'html',
-            {
-                open: process.env.CI ? 'never' : 'always', // if on CI then "never" otherwise "always" show
-            },
-        ],
-        [
-            'list',
-            {
-                printSteps: process.env.CI, // if on CI, print the steps
-            },
-        ],
+        ['html', { open: 'never' }],
+        ['list', { printSteps: !!process.env.CI }],
     ],
+    /* Assertion budget. Playwright's 5s default is what drove the ~135 scattered
+     * per-call `{ timeout: 15000 }` options in these specs, each one a place
+     * someone noticed the app was slower than 5s there. A 10s global costs a
+     * passing run nothing — an assertion polls until it passes — and only
+     * lengthens a genuine failure, which retries once on CI. Prefer this over
+     * adding another per-call option. */
+    expect: { timeout: 10_000 },
+    /* Name the specs that dominate a run. Playwright's default threshold is five
+     * minutes, so it never fired and the shard imbalance stayed invisible; 20s is
+     * about four ordinary tests, which is what a spec has to be worth. */
+    reportSlowTests: { max: 15, threshold: 20_000 },
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */

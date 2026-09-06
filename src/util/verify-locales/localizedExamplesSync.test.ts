@@ -4,6 +4,7 @@ import {
     retargetSerializedExample,
     type SerializedExampleSource,
 } from '@util/verify-locales/retargetExampleNames';
+import { sweepSkipsLocale } from '@util/verify-locales/exampleFreshness';
 import {
     ExamplesRoot,
     localizedExamplesPath,
@@ -14,14 +15,19 @@ import { expect, test } from 'vitest';
 import { parseSerializedProject } from '../../examples/examples';
 
 /**
+ * @sweep static/examples All 2,250 localized `.wp` files retargeted against their
+ * masters, one test per locale. ~49s, and no source edit changes the answer.
+ * Runs in the `sweep` project (see src/util/sweepTests.ts), not in
+ * `npm run test:run`.
+ *
  * Drift detection for the localized gallery examples (#1310), the same
  * contract exampleNamesSync.test.ts makes for `\…\` examples in locale files:
  * a localized `.wp` spells names declared in its locale file, so
  * re-translating a name strands it, and a master edited after localization
  * leaves the translation describing a different program. `npm run locales-fix`
  * repairs the first deterministically and `npm run locales-translate <locale>
- * +example` re-buys the second; this is what makes either fail `npm test`
- * rather than wait for someone to run them.
+ * +example` re-buys the second; this is what makes either fail the `sweep`
+ * project rather than wait for someone to run them.
  *
  * Read-only: every check asks what the repair *would* write, writing nothing.
  */
@@ -67,6 +73,8 @@ test.each(ExampleLocales)(
         const stale: string[] = [];
         const divergent: string[] = [];
         const orphaned: string[] = [];
+        // Under the pre-commit hook only; CI runs every locale. See sweepSkipsLocale.
+        if (sweepSkipsLocale(code)) return;
         const locale: LocaleText | undefined = read(getLocalePath(code));
         if (locale === undefined) return;
         const dir = localizedExamplesPath(code);

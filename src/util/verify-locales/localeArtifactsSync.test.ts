@@ -5,11 +5,17 @@ import generateManifests from '@util/verify-locales/generateManifests';
 import generateNameIndex from '@util/verify-locales/generateNameIndex';
 import { getLocalePath } from '@util/verify-locales/LocaleSchema';
 import { collectingLog } from '@util/verify-locales/Log';
+import { sweepSkipsAllLocaleText } from '@util/verify-locales/exampleFreshness';
 import fs from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';
 
 /**
+ * @sweep static/locales Regenerates every locale's name index, how-to bundle,
+ * choose-prompts and web manifest in memory and compares — a basis per locale is
+ * the slow part. ~12s, and only a locale edit changes the answer. Runs in the
+ * `sweep` project (see src/util/sweepTests.ts), not in `npm run test:run`.
+ *
  * Drift detection for the locale artifacts that are generated rather than
  * written, sharing its checks with the `npm run locales` CLI the way
  * fontsSync.test.ts shares scripts/fonts/verify.ts.
@@ -34,9 +40,16 @@ const Locales = fs
  *  is no cheaper way to know the index is current. */
 const BuildTimeout = 60_000;
 
+/* These artifacts are each rebuilt from EVERY locale at once — names.json is one
+   file naming them all — so unlike the other sweeps there is no per-locale
+   narrowing to do. Either some locale changed and the whole rebuild runs, or none
+   did and none of it needs to. Under the pre-commit hook only; CI runs it whole. */
+const Skip = sweepSkipsAllLocaleText(Locales);
+
 test(
     'static/locales/names.json matches the names the locales bind',
     async () => {
+        if (Skip) return;
         const { log, lines } = collectingLog();
         // JSON.parse gives `any`, so this needs no assertion; getLocalePath is
         // what knows en-US lives in src/locale rather than static/locales.
@@ -61,6 +74,7 @@ test(
 test(
     'every locale’s how-to bundle matches its how/*.txt sources',
     async () => {
+        if (Skip) return;
         const { log, lines } = collectingLog();
 
         // No locale text, so this asks only whether the bundle is current;
@@ -78,6 +92,7 @@ test(
 );
 
 test('src/locale/choosePrompts.generated.ts matches the locales’ phrases', async () => {
+    if (Skip) return;
     const { log, lines } = collectingLog();
     const locales: LocaleText[] = Locales.map((locale) =>
         JSON.parse(fs.readFileSync(getLocalePath(locale), 'utf8')),
@@ -93,6 +108,7 @@ test('src/locale/choosePrompts.generated.ts matches the locales’ phrases', asy
 });
 
 test('static/manifests matches the locales’ names and directions', async () => {
+    if (Skip) return;
     const { log, lines } = collectingLog();
     const locales: LocaleText[] = Locales.map((locale) =>
         JSON.parse(fs.readFileSync(getLocalePath(locale), 'utf8')),

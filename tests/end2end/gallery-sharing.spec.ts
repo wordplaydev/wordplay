@@ -29,9 +29,19 @@ async function openShareDialog(
             .locator('[data-uiid="shareDialog"]')
             .getByRole('button', { name: 'show project sharing options' })
             .click();
-        await picker.waitFor();
+        await picker.waitFor({ timeout: 20000 });
     }
 }
+
+/** How long to wait for a gallery to reach the picker.
+ *
+ *  The picker is fed by the user's galleries listener, which until recently was
+ *  one query carrying three `array-contains` clauses and so was rejected by
+ *  Firestore outright — see `GalleryDatabase.startSync`. Galleries still
+ *  appeared, from the cache, so what was missing was exactly this: a gallery
+ *  created moments ago reaching a dropdown. Bounding the wait is what decides
+ *  whether the residual failures cost 20 seconds or the full 60s budget. */
+const PickerTimeout = 20000;
 
 async function shareProjectToGallery(
     page: import('@playwright/test').Page,
@@ -40,7 +50,9 @@ async function shareProjectToGallery(
 ) {
     await openShareDialog(page, projectId);
     // The Sharing component's gallery picker has id="gallerychooser".
-    await page.locator('#gallerychooser').selectOption(galleryId);
+    await page
+        .locator('#gallerychooser')
+        .selectOption(galleryId, { timeout: PickerTimeout });
 }
 
 async function unshareProject(
@@ -49,7 +61,9 @@ async function unshareProject(
 ) {
     await openShareDialog(page, projectId);
     // The "—" entry has an empty/undefined value.
-    await page.locator('#gallerychooser').selectOption({ index: 0 });
+    await page
+        .locator('#gallerychooser')
+        .selectOption({ index: 0 }, { timeout: PickerTimeout });
 }
 
 test('sharing a project to a gallery writes to both project.gallery and gallery.projects', async ({

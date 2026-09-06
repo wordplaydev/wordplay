@@ -1,7 +1,8 @@
-import { readdirSync, readFileSync, statSync } from 'fs';
-import { join, relative, resolve, sep } from 'path';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 import { expect, test } from 'vitest';
 import { MockingTests } from './isolatedTests';
+import testFilesUnder, { RepoRoot, repoRelative } from './testFiles';
 
 /**
  * Guard for the two-project split in vitest.config.ts: the `mocked` project is exactly the files
@@ -12,21 +13,10 @@ import { MockingTests } from './isolatedTests';
 /** Skipped because this file names the call in its own message, and so always matches itself. */
 const Self = 'src/util/testIsolationConvention.test.ts';
 
-function testFilesUnder(directory: string): string[] {
-    const found: string[] = [];
-    for (const entry of readdirSync(directory)) {
-        const path = join(directory, entry);
-        if (statSync(path).isDirectory()) found.push(...testFilesUnder(path));
-        else if (entry.endsWith('.test.ts')) found.push(path);
-    }
-    return found;
-}
-
 test('the isolated project is exactly the test files that mock modules', () => {
-    const root = resolve(__dirname, '../..');
-    const mocking = testFilesUnder(resolve(root, 'src'))
+    const mocking = testFilesUnder(resolve(RepoRoot, 'src'))
         .filter((path) => readFileSync(path, 'utf-8').includes('vi.mock('))
-        .map((path) => relative(root, path).split(sep).join('/'))
+        .map(repoRelative)
         .filter((path) => path !== Self)
         .sort();
     expect(

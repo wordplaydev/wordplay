@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { expectNoAxeViolations } from '../helpers/checkAccessibility';
+import { expectNoAxeViolationsInBothSchemes } from '../helpers/checkAccessibility';
 
 /**
  * Where a lesson would have described the interface, it hands the learner to
@@ -88,19 +88,13 @@ test('a learner can always get past the gate without taking the tour', async ({
  * and traps focus, so it is worth checking in both schemes rather than assuming
  * the tile's ⓘ button was ever scanned.
  */
-for (const scheme of ['light', 'dark'] as const) {
-    test.describe(`the gate and the tour it opens (${scheme})`, () => {
-        test.use({ colorScheme: scheme });
+test.describe('the gate and the tour it opens', () => {
+    test('have no WCAG 2.2 AA violations', async ({ page }) => {
+        await openLesson(page, Orientation);
+        await expectNoAxeViolationsInBothSchemes(page);
 
-        test('have no WCAG 2.2 AA violations', async ({ page }) => {
-            await openLesson(page, Orientation);
-            await expectNoAxeViolations(page);
-
-            await page.locator('[data-uiid="tourLink"]').click();
-            await expect(
-                page.getByRole('dialog', { name: 'tour' }),
-            ).toBeVisible();
-            await expectNoAxeViolations(page);
-        });
+        await page.locator('[data-uiid="tourLink"]').click();
+        await expect(page.getByRole('dialog', { name: 'tour' })).toBeVisible();
+        await expectNoAxeViolationsInBothSchemes(page);
     });
-}
+});

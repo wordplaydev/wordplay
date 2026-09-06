@@ -26,5 +26,21 @@ export default async function globalSetup() {
         force: true,
     });
 
+    // `npm run end2end:reuse` runs against a long-lived emulator (`npm run emu`)
+    // that is already seeded, so re-running the 998-line seed on every iteration
+    // is pure latency. The `.auth` wipe above still happens, because it is cheap
+    // and because reusing an emulator is exactly when a stale token is plausible.
+    //
+    // This is an iteration tool and nothing more: emulator state accumulates
+    // across runs, and accumulated state makes both suites flaky in ways that
+    // look like real failures. A clean `npm run end2end` is what a change has to
+    // pass before it is done.
+    if (process.env.WORDPLAY_E2E_REUSE === '1') {
+        console.log(
+            '[setup] WORDPLAY_E2E_REUSE=1; reusing the seeded emulator.',
+        );
+        return;
+    }
+
     execSync('npx tsx scripts/seed.ts', { stdio: 'inherit' });
 }

@@ -754,6 +754,15 @@ export class CharactersDatabase {
                           where('owner', '==', user.uid),
                           where('collaborators', 'array-contains', user.uid),
                       );
+            /** The same disjunction minus its `array-contains`, for the alias
+             *  query below, which spends the query's one such clause itself. */
+            const aliasVisible =
+                user === null
+                    ? where('public', '==', true)
+                    : or(
+                          where('public', '==', true),
+                          where('owner', '==', user.uid),
+                      );
             let onlineMatchByName = await this.db.read(
                 getDocs(
                     query(
@@ -775,7 +784,19 @@ export class CharactersDatabase {
                             collection(firestore, CharactersCollection),
                             and(
                                 where('aliases', 'array-contains', name),
-                                visible,
+                                // Deliberately NOT `visible`: that disjunction
+                                // carries `collaborators array-contains`, and
+                                // Firestore allows exactly one `array-contains`
+                                // per query, so pairing it with the alias clause
+                                // made this query rejected outright rather than
+                                // empty — every `@oldname/Character` lookup
+                                // failed with "Only a single array-contains
+                                // clause is allowed in a query". A character the
+                                // user owns or collaborates on is already in the
+                                // local store from the base listener in
+                                // `startSync`, so what this fallback has to reach
+                                // over the network is the public ones.
+                                aliasVisible,
                             ),
                         ),
                     ),

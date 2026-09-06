@@ -83,6 +83,17 @@ test.describe('how-to editor form', () => {
         // Post rather than save-as-draft: a draft renders in the drafts list,
         // and only a published how-to renders as a `.howto` tile on the canvas.
         await createViaForm(page, galleryId, 'A Draggable Draft', true);
+        // Posting is a write, and the reload below reads it back. Without this
+        // the navigation raced the batch that adds the how-to to the gallery, so
+        // the canvas came up empty and the wait for a tile below burned the
+        // whole test budget — the other standing flake in this suite.
+        await waitForDocumentUpdate(
+            page,
+            'galleries',
+            galleryId,
+            (gallery) =>
+                Array.isArray(gallery?.howTos) && gallery.howTos.length === 1,
+        );
 
         await page.goto(`/en-US/gallery/${galleryId}/howto`);
         // Canvas tiles are virtualized to the camera's viewport, so a tile can
@@ -91,7 +102,17 @@ test.describe('how-to editor form', () => {
         // locator and reading it answers '' for every property. Poll rather
         // than read once, so the assertion is about the rendered tile.
         const title = page.locator('.howto .markup').first();
-        await title.waitFor({ state: 'attached' });
+        // Bounded rather than left to inherit the 90s describe timeout. Most of
+        // what made this spec flaky was three queries that Firestore rejected
+        // outright for carrying two `array-contains` clauses (see
+        // GalleryDatabase/ProjectsDatabase `startSync` and
+        // CharacterDatabase.getByName) — with those listeners dead the client
+        // only ever saw cached data, so a freshly posted how-to reached this page
+        // when the cache happened to have it. Fixing them removed most of the
+        // failures but not all, and the residue is worth a fresh look rather than
+        // a longer wait; what this timeout decides is whether a bad run costs 20
+        // seconds or 90.
+        await title.waitFor({ state: 'attached', timeout: 20000 });
         await expect
             .poll(async () =>
                 title
