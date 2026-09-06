@@ -576,12 +576,20 @@ test('resolving a color needs no basis', () => {
  * anything — live updates arrived only from the local cache, which is why it
  * read as flaky sync rather than as a broken query. Each is now one listener per
  * clause, unioned. The three page budgets with no slack move by a hundredth.
+ *
+ * Not sending the server's own fields on a gallery update is **+0 files** and
+ * about a kilobyte, again mostly the comment. `firestore.rules` allows an update
+ * only if `moderation`, `moderatedAt`, `flags` and `words` are absent or
+ * unchanged, and the `galleryEdited` trigger rebuilds `words` on every change,
+ * so writing the whole document was denied whenever the trigger had moved on —
+ * silently, and in a way that wedged the gallery's listener for the rest of the
+ * session. Two more budgets had no slack.
  */
 test.each([
     ['src/routes/+layout.svelte', 506, 3.76],
-    ['src/components/app/Page.svelte', 529, 4.0],
+    ['src/components/app/Page.svelte', 529, 4.01],
     ['src/routes/[[locale]]/+page.svelte', 544, 4.09],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 548, 4.1],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 548, 4.11],
     ['src/routes/[[locale]]/projects/+page.svelte', 555, 4.13],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
