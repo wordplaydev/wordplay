@@ -1435,7 +1435,7 @@
                     "name": "$~缺少下一个值",
                     "explanation": "$~我知道什么时候改变，但不知道要改变成什么，你能加一个下一个值吗？",
                     "resolution": "$~添加一个下一个值",
-                    "rangeResolution": "$?Make a @Range with \\‥\\ instead"
+                    "rangeResolution": "$~用 @Range 做一个 \\‥\\ 吧"
                 }
             },
             "label": {
