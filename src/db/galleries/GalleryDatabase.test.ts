@@ -178,6 +178,46 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
         db = new GalleryDatabase(mockDatabase);
     });
 
+    describe('server-owned fields', () => {
+        /**
+         * `firestore.rules` allows a gallery update only if `moderation`,
+         * `moderatedAt`, `flags` and `words` are absent from the write or equal
+         * to what is stored — and `words` is rebuilt by the `galleryEdited`
+         * trigger on every change. A client that writes the whole document
+         * therefore ships a stale `words` and is denied, silently: the gallery
+         * stays in `unsavedIDs`, `seedDirty` restores that on reload, and the
+         * listener's skip-dirty guard then refuses every server snapshot for it
+         * — including ones carrying a how-to just added to that gallery.
+         */
+        it('omits them when updating, and merges so the stored values survive', async () => {
+            await db.edit(makeGallery('g-update'));
+
+            expect(vi.mocked(setDoc)).toHaveBeenCalledTimes(1);
+            const [, data, options] = vi.mocked(setDoc).mock.calls[0];
+            for (const field of ['moderation', 'moderatedAt', 'flags', 'words'])
+                expect(
+                    data,
+                    `an update must not carry the server-owned "${field}"`,
+                ).not.toHaveProperty(field);
+            // Without merge, omitting them would delete them from the document.
+            expect(options).toEqual({ merge: true });
+            // Everything the client does own still goes.
+            expect(data).toHaveProperty('id', 'g-update');
+            expect(data).toHaveProperty('curators');
+        });
+
+        it('writes the whole document when creating', async () => {
+            // `allow create` has no unchanged-fields test, and a gallery has to
+            // be born with the fields its own schema requires — `words` among
+            // them — or the next client to read it cannot parse it.
+            await db.edit(makeGallery('g-create'), true);
+
+            const [, data, options] = vi.mocked(setDoc).mock.calls[0];
+            expect(data).toHaveProperty('words');
+            expect(options).toBeUndefined();
+        });
+    });
+
     describe('concurrent edits of one gallery', () => {
         /**
          * `edit` writes the whole document, so two writes in flight at once are

@@ -522,7 +522,7 @@ export default class GalleryDatabase {
         };
 
         // Save the gallery online, and then locally. Return when it's created.
-        await this.edit(new Gallery(gallery));
+        await this.edit(new Gallery(gallery), true);
 
         // Update the class to reference the newly created gallery.
         if (classid) {
@@ -617,16 +617,53 @@ export default class GalleryDatabase {
                       name: gallery.getName(
                           this.database.Locales.getLocaleSet(),
                       ),
-                      write: setDoc(
-                          doc(db, GalleriesCollection, id),
-                          gallery.data,
-                      ),
+                      // Replays are updates, and must omit the server's own
+                      // fields for the reason ServerOwnedFields gives — a replay
+                      // that re-sends a stale `words` is denied again, which is
+                      // exactly how a gallery got stuck unsaved forever.
+                      write: (() => {
+                          const data: Record<string, unknown> = {
+                              ...gallery.data,
+                          };
+                          for (const field of GalleryDatabase.ServerOwnedFields)
+                              delete data[field];
+                          return setDoc(
+                              doc(db, GalleriesCollection, id),
+                              data,
+                              { merge: true },
+                          );
+                      })(),
                   }
                 : undefined;
         });
     }
 
-    async edit(gallery: Gallery) {
+    /**
+     * The gallery fields the server owns, which a client write must never carry.
+     *
+     * `firestore.rules`' `galleryServerFieldsUnchanged()` allows an update only
+     * if each of these is either absent from the write or identical to what is
+     * already stored — and `words` is rebuilt by the `galleryEdited` trigger
+     * every time a gallery changes. So a client that writes the whole document
+     * ships whatever `words` it last saw, and the moment the trigger has moved
+     * on, the write is denied.
+     *
+     * That denial is not loud: `trackSave` records the failure and leaves the
+     * gallery in `unsavedIDs`, `seedDirty` restores that flag on every reload,
+     * and the listener's skip-dirty guard then refuses every server snapshot for
+     * that gallery for the rest of the session — including the ones carrying a
+     * how-to that was just added to it. `flushUnsaved` meanwhile retries the same
+     * denied write forever. The gallery is stuck: permanently "unsaved" on that
+     * device, never updated, and invisible to anything reading it live.
+     */
+    private static readonly ServerOwnedFields = [
+        'moderation',
+        'moderatedAt',
+        'flags',
+        'words',
+    ] as const;
+
+    async edit(gallery: Gallery, creating = false) {
         if (firestore === undefined) return undefined;
 
         // Refuse a write that would exceed Firestore's 1 MiB document limit,
@@ -652,7 +689,20 @@ export default class GalleryDatabase {
         const db = firestore;
         const queued = (this.writing.get(id) ?? Promise.resolve())
             .catch(() => undefined)
-            .then(() => setDoc(doc(db, GalleriesCollection, id), gallery.data));
+            .then(() => {
+                const reference = doc(db, GalleriesCollection, id);
+                // Creating writes the whole document, so a new gallery is born
+                // complete — `allow create` has no unchanged-fields test to
+                // trip. Updating omits the server's fields and merges, which is
+                // what the rule asks for: absent from the write, so the
+                // comparison is trivially satisfied, and preserved on the
+                // document because merge only replaces the keys it is given.
+                if (creating) return setDoc(reference, gallery.data);
+                const data: Record<string, unknown> = { ...gallery.data };
+                for (const field of GalleryDatabase.ServerOwnedFields)
+                    delete data[field];
+                return setDoc(reference, data, { merge: true });
+            });
         this.writing.set(id, queued);
         try {
             await this.trackSave(
