@@ -33,7 +33,7 @@ ballonY: (ballonDeBasket.lieu ?? Lieu()).et
 tentative: (nombreDeClics ÷ 2).tourdHorizon()
 
 ¶inBin est vrai chaque fois que le ballon se trouve à l'intérieur du panier. La réaction du score ne se déclenche que lorsque inBin passe à vrai ET que la tentative actuelle dépasse le score, donc toute deuxième entrée pendant le même tir — rebonds à l'intérieur du panier, ou le panier qui glisse à nouveau sur le ballon — n'a aucun effet jusqu'à ce que le tir suivant fasse avancer le compteur de tentatives¶
-dansLePanier: (ballonX < (placeDuPanierX + 0.9m)) & (ballonX > (placeDuPanierX - 0.9m)) & (ballonY < 2.9m) & (ballonY > 0.3m)
+dansLePanier: (((placeDuPanierX - 0.9m)‥(placeDuPanierX + 0.9m)) ∋ ballonX) & ((0.3m‥2.9m) ∋ ballonY)
 score: 0 … dansLePanier & (tentative > score) … 1 + score
 
 starDuBasket: Groupe(

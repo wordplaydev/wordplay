@@ -20,7 +20,7 @@ t
 
 ¶رازها عددهای ۱ تا ۹ هستند که به‌ترتیب تصادفی چیده شده‌اند¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-رازها: [1 2 3 4 5 6 7 8 9].برهم‌زده()
+رازها: [:1‥9].برهم‌زده()
 
 ¶آخرین کلیدی که زده شده چیست؟¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

@@ -72,7 +72,7 @@ stenblockform: [block(0 0 0 '🪨') block(0 1 0 '🪨')]
 ¶En ny struktur att matcha: två torn, vardera ett till tre block höga, i ett slumpmässigt par av de mellersta kolumnerna, på fältets bakre rad. De mellersta kolumnerna är precis de som resurser aldrig skapas i, så ett torn kan aldrig hamna inuti ett träd. Varje kolumn är solid ända från marken, eftersom staplandet alltid läggs ovanpå kolumnens topp — det finns inget sätt att skapa ett svävande block, så det finns inget sätt att be om ett. Sex block är taket, vilket är vad ett fält med tre stenblock ger i tegel, så även en struktur helt av tegel går att bygga.¶
 ƒ skapamål() (
 		djup2: maxZ
-		par2: [-1 0 1].blandade().efterföljande(1 2)
+		par2: [:-1‥1].blandade().efterföljande(1 2)
 		par2.kombinerad(
 			[]
 			ƒ(struktur•[block] cx2•#)
@@ -91,7 +91,7 @@ stenblockform: [block(0 0 0 '🪨') block(0 1 0 '🪨')]
 	)
 
 ¶Om en cell finns på fältet över huvud taget.¶
-ƒ inomGränser(cx3•# cz2•#) (cx3 ≥ minX) & (cx3 ≤ maxX) & (cz2 ≥ minZ) & (cz2 ≤ maxZ)
+ƒ inomGränser(cx3•# cz2•#) ((minX‥maxX) ∋ cx3) & ((minZ‥maxZ) ∋ cz2)
 
 ¶Hur hög en kolumn är. Varje kolumn är solid ända från marken — så växer former, staplandet lägger till på toppen, och hamrandet tar bort från toppen — så genom att bara räkna kolumnens block får man både dess höjd och den första lediga cellen ovanför.¶
 ƒ kolumnHöjd(block3•[block] cx4•# cz3•#) block3.filtrera(
@@ -339,7 +339,7 @@ down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
 rutaStorlek: 0.8m
 
-markRader: [0 1 2 3 4].filtrera(
+markRader: [:0‥4].filtrera(
 		ƒ(rad•#) rad ≥ (spel11.z4 - ritaBakom)
 	).översätta(
 		ƒ(rad2•#)

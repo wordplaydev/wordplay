@@ -525,13 +525,30 @@ test('resolving a color needs no basis', () => {
  * tokenizer's mailto rule stops at the address, so a query string would lex as
  * words — which is why the copy lands here rather than in a route's own module.
  * The two budgets with no slack left move by a hundredth.
+ *
+ * Literal types checking values rather than types (#398's prerequisite) is **+0
+ * files**: `NumberType` already imported `NumberValue` and `TextType` already
+ * reached `TextValue` through `TextLiteral`, so the new `acceptsValue` overrides
+ * added no edge to any graph. What moves is a few hundred bytes of method and
+ * explanation in `NumberType`, `TextType`, and `UnionType`, which every page
+ * carries because every page parses.
+ *
+ * Number ranges (#398) are **+3 files** on all five, which is the honest cost of
+ * a new basis value type and the reason the file counts move here at all: a range
+ * is a `Type` (`RangeType`), a `Value` (`RangeValue`), and a unit deriver shared
+ * with numbers (`DerivedUnit`), and every page reaches all three because every
+ * page parses and every parse can produce one. The basis itself (`RangeBasis`)
+ * arrives through `Basis`, which every page already reached. This is the same
+ * shape as the Pattern sublanguage before it, and it is a genuine addition rather
+ * than a leak — there is no lazier place to put a type the parser can emit. The
+ * bytes follow the files, plus the en-US strings the new type documents.
  */
 test.each([
-    ['src/routes/+layout.svelte', 502, 3.71],
-    ['src/components/app/Page.svelte', 525, 3.95],
-    ['src/routes/[[locale]]/+page.svelte', 540, 4.04],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 544, 4.05],
-    ['src/routes/[[locale]]/projects/+page.svelte', 551, 4.08],
+    ['src/routes/+layout.svelte', 505, 3.73],
+    ['src/components/app/Page.svelte', 528, 3.97],
+    ['src/routes/[[locale]]/+page.svelte', 543, 4.06],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 547, 4.07],
+    ['src/routes/[[locale]]/projects/+page.svelte', 554, 4.1],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

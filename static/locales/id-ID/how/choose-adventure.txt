@@ -21,7 +21,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶ Nilai ini mewakili keputusan saat ini dalam daftar di atas.Saat tombol ditekan, kita melakukan salah satu hal berikut.Jika hanya ada satu pilihan untuk keputusan ini, maka kita ubah keputusan yang ada saat ini.terhadap keputusan target opsi tersebut, terlepas dari tombol apa pun yang ditekan.Jika tombol yang ditekan berada di antara 1 dan jumlah opsi, maka kita akan menuju ke keputusan target opsi tersebut.Jika tidak, kita akan tetap mempertahankan keputusan yang ada. ¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶ Ini hanya menampilkan opsi sebagai tumpukan frasa. Anda dapat mengubahnya untuk menambahkan instruksi, animasi, dan hal-hal menarik lainnya! ¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

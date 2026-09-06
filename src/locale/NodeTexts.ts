@@ -1035,6 +1035,9 @@ type NodeTexts = {
             ExpectedNextValue: ConflictText & {
                 /** [formatted] Action description for the repair this conflict offers */
                 resolution: Template<[]>;
+                /** [formatted] Action description for the repair offered when the reaction
+                 *  looks like a range typed with three dots instead of two */
+                rangeResolution: Template<[]>;
             };
         }>;
     /**
@@ -1315,6 +1318,11 @@ type NodeTexts = {
      * Description inputs: $1 = the unit or undefined
      */
     NumberType: DescriptiveNodeText<['unit']>;
+    /**
+     * A range type, e.g., `‥m`
+     * Description inputs: $1 = the unit or undefined
+     */
+    RangeType: DescriptiveNodeText<['unit']>;
     /**
      * A named type, e.g., `Kitty`
      * Description inputs: $1 = the type name

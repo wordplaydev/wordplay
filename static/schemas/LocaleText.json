@@ -1200,7 +1200,7 @@
             "required": ["doc", "inputs", "names"],
             "type": "object"
         },
-        "FunctionText<alias-1184849637-145-178-1184849637-0-36003>": {
+        "FunctionText<alias-1184849637-145-178-1184849637-0-36779>": {
             "additionalProperties": false,
             "properties": {
                 "doc": {
@@ -1387,7 +1387,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "not": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
@@ -1470,11 +1470,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lowercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
@@ -1490,7 +1490,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "uppercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -1712,7 +1712,7 @@
                                             "type": "object"
                                         },
                                         "first": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "has": {
@@ -1724,11 +1724,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "last": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
@@ -1736,7 +1736,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "random": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "replace": {
@@ -1744,7 +1744,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansAll": {
@@ -1752,15 +1752,15 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansFirst": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansLast": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "shuffled": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sorted": {
@@ -2024,7 +2024,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -2285,19 +2285,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arccos": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arcsin": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arctan": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "cos": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "divide": {
@@ -2309,7 +2309,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "exp": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "greaterOrEqual": {
@@ -2349,10 +2349,14 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "positive": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "power": {
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "range": {
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
@@ -2365,19 +2369,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "round": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "roundDown": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "roundUp": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sin": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "subtract": {
@@ -2385,7 +2389,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "tan": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -2405,6 +2409,7 @@
                                         "greaterThan",
                                         "lessOrEqual",
                                         "greaterOrEqual",
+                                        "range",
                                         "equal",
                                         "notequal",
                                         "cos",
@@ -3069,6 +3074,59 @@
                             ],
                             "type": "object"
                         },
+                        "Range": {
+                            "additionalProperties": false,
+                            "description": "A range of numbers, e.g., `1‥10`",
+                            "properties": {
+                                "conversion": {
+                                    "additionalProperties": false,
+                                    "description": "Conversions in the type",
+                                    "properties": {
+                                        "list": {
+                                            "$ref": "#/definitions/DocText",
+                                            "description": "[formatted] Range to a list of the numbers in it"
+                                        }
+                                    },
+                                    "required": ["list"],
+                                    "type": "object"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation to explain what the type is for and how it's used."
+                                },
+                                "function": {
+                                    "additionalProperties": false,
+                                    "description": "Functions in the type",
+                                    "properties": {
+                                        "equals": {
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "has": {
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "notequals": {
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
+                                            "description": "[formatted] See `en-US.json` for documentation"
+                                        }
+                                    },
+                                    "required": ["equals", "notequals", "has"],
+                                    "type": "object"
+                                },
+                                "name": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] The name to use to describe the type of value."
+                                }
+                            },
+                            "required": [
+                                "conversion",
+                                "doc",
+                                "function",
+                                "name"
+                            ],
+                            "type": "object"
+                        },
                         "Set": {
                             "additionalProperties": false,
                             "description": "A set value, `{1 2 3}`",
@@ -3160,7 +3218,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -3403,11 +3461,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lowercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "matches": {
@@ -3427,7 +3485,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "search": {
@@ -3447,11 +3505,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "trim": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "uppercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36003%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -3497,6 +3555,7 @@
                         "Text",
                         "Formatted",
                         "Number",
+                        "Range",
                         "List",
                         "Set",
                         "Map",
@@ -10741,6 +10800,10 @@
                             ],
                             "type": "object"
                         },
+                        "RangeType": {
+                            "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22unit%22%5D%3E",
+                            "description": "A range type, e.g., `‥m` Description inputs: $1 = the unit or undefined"
+                        },
                         "Reaction": {
                             "additionalProperties": false,
                             "description": "Generating a stream of values from other streams, e.g., `a: 1 … ∆ Time() … a + 1` Finish inputs: $1 = resulting value",
@@ -10785,6 +10848,10 @@
                                                     "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
                                                     "type": "string"
                                                 },
+                                                "rangeResolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] Action description for the repair offered when the reaction looks like a range typed with three dots instead of two"
+                                                },
                                                 "resolution": {
                                                     "$ref": "#/definitions/Template%3C%5B%5D%3E",
                                                     "description": "[formatted] Action description for the repair this conflict offers"
@@ -10793,6 +10860,7 @@
                                             "required": [
                                                 "explanation",
                                                 "name",
+                                                "rangeResolution",
                                                 "resolution"
                                             ],
                                             "type": "object"
@@ -13118,6 +13186,7 @@
                         "ListType",
                         "MapType",
                         "NumberType",
+                        "RangeType",
                         "NameType",
                         "NeverType",
                         "NoneType",
@@ -16304,6 +16373,9 @@
                         "Product": {
                             "type": "string"
                         },
+                        "Range": {
+                            "type": "string"
+                        },
                         "Region": {
                             "type": "string"
                         },
@@ -16450,6 +16522,7 @@
                         "Exponent",
                         "Product",
                         "Percent",
+                        "Range",
                         "Stream",
                         "Change",
                         "Initial",
@@ -26355,6 +26428,10 @@
                                             "description": "[plain] Insert ÷ symbol",
                                             "type": "string"
                                         },
+                                        "insertRange": {
+                                            "description": "[plain] Description for the range insertion command",
+                                            "type": "string"
+                                        },
                                         "insertSearch": {
                                             "description": "[plain] Insert ⌕ pattern search symbol",
                                             "type": "string"
@@ -26540,6 +26617,7 @@
                                         "insertType",
                                         "insertDocs",
                                         "insertStream",
+                                        "insertRange",
                                         "insertChange",
                                         "insertPrevious",
                                         "insertConvert",

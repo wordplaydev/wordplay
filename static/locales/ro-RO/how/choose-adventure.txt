@@ -21,7 +21,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶ Această valoare reprezintă decizia curentă din lista de mai sus.Când apăsăm tasta, facem una dintre următoarele acțiuni.Dacă există o singură opțiune pentru această decizie, atunci schimbăm decizia curentă.la decizia țintă a opțiunii, indiferent de tasta apăsată.Dacă tasta apăsată se află între 1 și numărul de opțiuni, atunci trecem la decizia țintă a acelei opțiuni.Altfel, păstrăm decizia actuală neschimbată. ¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶ Aceasta afișează opțiunile doar ca o stivă de fraze. Puteți modifica acest lucru pentru a adăuga instrucțiuni, animații și alte elemente picante! ¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

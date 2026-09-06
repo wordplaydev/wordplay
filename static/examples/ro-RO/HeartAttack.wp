@@ -75,8 +75,8 @@ oameni: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '
 ƒ rătăcește(zombi6•zombi viteză2•#m) (
 		noux: zombi6.x2 + (zombi6.direcțiaX · viteză2)
 		nouz: zombi6.z2 + (zombi6.direcțiaZ · viteză2)
-		săritx: (noux > limitaDreaptă) | (noux < limitaStângă)
-		săritz: (nouz > adâncimeaDeHoinărealăÎndepărtată) | (nouz < adâncimeaDeHoinărealăApropiată)
+		săritx: ~((limitaStângă‥limitaDreaptă) ∋ noux)
+		săritz: ~((adâncimeaDeHoinărealăApropiată‥adâncimeaDeHoinărealăÎndepărtată) ∋ nouz)
 		zombi(
 			(săritx ? zombi6.x2 noux)
 			(săritz ? zombi6.z2 nouz)

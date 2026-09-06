@@ -61,12 +61,14 @@ const Sym = {
     Update: '⎡:',
     Delete: '⎡-',
     Union: '|',
-    // These three are also operators (kept first in their token's type list), but
+    // These four are also operators (kept first in their token's type list), but
     // carry a second candidate type so unit/type parsing can match them by Sym
     // rather than by operator text, the same way `|` is also Sym.Union.
     Exponent: '^',
     Product: '·',
     Percent: '%',
+    /** The range operator (`1‥10`), and the range type (`‥`, `‥m`). */
+    Range: '‥',
     Stream: '…',
     Change: '∆',
     Initial: '◆',

@@ -20,7 +20,7 @@ t
 
 ¶비밀은 1부터 9까지의 숫자를 무작위 순서로 늘어놓은 것입니다¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-비밀: [1 2 3 4 5 6 7 8 9].섞인()
+비밀: [:1‥9].섞인()
 
 ¶가장 최근에 누른 키는 무엇일까요?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

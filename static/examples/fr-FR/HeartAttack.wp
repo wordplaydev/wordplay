@@ -75,8 +75,8 @@ gens: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 ƒ errer(zombie4•zombie vitesse2•#m) (
 		nouveauX: zombie4.x2 + (zombie4.directionX · vitesse2)
 		nouveauZ: zombie4.z2 + (zombie4.directionZ · vitesse2)
-		rebondX: (nouveauX > limiteDroite) | (nouveauX < limiteGauche)
-		rebondZ: (nouveauZ > profondeurErranceLointaine) | (nouveauZ < profondeurErranceProche)
+		rebondX: ~((limiteGauche‥limiteDroite) ∋ nouveauX)
+		rebondZ: ~((profondeurErranceProche‥profondeurErranceLointaine) ∋ nouveauZ)
 		zombie(
 			(rebondX ? zombie4.x2 nouveauX)
 			(rebondZ ? zombie4.z2 nouveauZ)

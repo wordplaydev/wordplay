@@ -21,7 +21,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶Bu değer yukarıdaki listedeki mevcut kararı temsil eder.Tuşa basıldığında aşağıdakilerden birini yaparız.Bu karar için yalnızca bir seçenek varsa, o zaman mevcut kararı değiştiririzHangi tuşa basıldığına bakılmaksızın opsiyonun hedef kararına.Eğer basılan tuş 1 ile seçenek sayısı arasında ise o seçeneğin hedef kararına geçiyoruz.Aksi takdirde mevcut kararı aynı şekilde sürdürürüz.¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶Bu, seçenekleri yalnızca bir ifade yığını olarak gösterir. Talimatlar, animasyonlar ve diğer baharatlı şeyler eklemek için bunu değiştirebilirsiniz!¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

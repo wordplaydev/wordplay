@@ -72,7 +72,7 @@ formaDoRochedo: [bloco(0 0 0 '🪨') bloco(0 1 0 '🪨')]
 ¶Uma nova estrutura a igualar: duas torres, cada uma com uma a três blocos de altura, num par aleatório das colunas do meio, na fila de trás do campo. Essas colunas do meio são exatamente aquelas onde os recursos nunca aparecem, por isso uma torre nunca pode cair dentro de uma árvore. Todas as colunas são sólidas desde o chão, porque empilhar cai sempre no topo de uma coluna — não há forma de criar um bloco flutuante, logo não há forma de o pedir. Seis blocos é o limite máximo, que é o que um campo de três pedregulhos produz em tijolo, por isso até uma estrutura totalmente em tijolo pode ser construída.¶
 ƒ gerarObjetivo() (
 		profundidade2: maxZ
-		par: [-1 0 1].embaralhado().subsequência(1 2)
+		par: [:-1‥1].embaralhado().subsequência(1 2)
 		par.combinado(
 			[]
 			ƒ(estrutura•[bloco] cx2•#)
@@ -91,7 +91,7 @@ formaDoRochedo: [bloco(0 0 0 '🪨') bloco(0 1 0 '🪨')]
 	)
 
 ¶Se uma célula está sequer no campo.¶
-ƒ dentroDosLimites(cx3•# cz2•#) (cx3 ≥ minX) & (cx3 ≤ maxX) & (cz2 ≥ minZ) & (cz2 ≤ maxZ)
+ƒ dentroDosLimites(cx3•# cz2•#) ((minX‥maxX) ∋ cx3) & ((minZ‥maxZ) ∋ cz2)
 
 ¶A altura de uma coluna. Todas as colunas são sólidas desde o chão — as formas crescem assim, empilhar acrescenta ao topo e martelar retira do topo — por isso basta contar os blocos de uma coluna para saber a sua altura e a primeira célula livre acima dela.¶
 ƒ alturaColuna(blocos2•[bloco] cx4•# cz3•#) blocos2.filtro(
@@ -336,7 +336,7 @@ down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
 tamanhoDoBloco: 0.8m
 
-linhasDoSolo: [0 1 2 3 4].filtro(
+linhasDoSolo: [:0‥4].filtro(
 		ƒ(linha•#) linha ≥ (jogo11.z4 - desenharAtrás)
 	).traduzir(
 		ƒ(linha2•#)

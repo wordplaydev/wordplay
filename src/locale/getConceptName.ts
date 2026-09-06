@@ -21,6 +21,7 @@ const CONCEPT_NAME = {
     none: (l: LocaleText) => l.basis.None.name,
     text: (l: LocaleText) => l.basis.Text.name,
     number: (l: LocaleText) => l.basis.Number.name,
+    range: (l: LocaleText) => l.basis.Range.name,
     list: (l: LocaleText) => l.basis.List.name,
     set: (l: LocaleText) => l.basis.Set.name,
     map: (l: LocaleText) => l.basis.Map.name,

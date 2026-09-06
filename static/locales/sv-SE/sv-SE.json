@@ -295,7 +295,8 @@
         "Product": "$~produkt",
         "Percent": "$~procent",
         "Defect": "$~exempel med förväntat fel",
-        "NotANumber": "$~inte ett tal"
+        "NotANumber": "$~inte ett tal",
+        "Range": "$~intervall"
     },
     "node": {
         "Dimension": {
@@ -1434,7 +1435,8 @@
                 "ExpectedNextValue": {
                     "name": "$~nästa värde saknas",
                     "explanation": "$~Jag vet när jag ska ändras, men inte vad jag ska ändras till. Kan du lägga till ett nästa värde?",
-                    "resolution": "$~Lägg till ett nästa värde"
+                    "resolution": "$~Lägg till ett nästa värde",
+                    "rangeResolution": "$~Skapa ett @Range med \\‥\\ i stället"
                 }
             },
             "label": {
@@ -2408,6 +2410,15 @@
                 "\\siffror: ⣿ >0 #⣿\n'Jag har 3 katter och 12 fiskar' ⌕ siffror\\",
                 "När det är sparat, använd mig var som helst där ett mönster passar, som \\text ⌕ digits\\🪲 eller \\text ≈ digits\\🪲."
             ]
+        },
+        "RangeType": {
+            "name": "$~intervall",
+            "description": "$~intervalltyp$unit[ i $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Jag berättar för @Bind att ett namn håller ett @Range — två @Number-gränser, och varje tal mellan dem.",
+                "\\spann•‥: 1 ‥ 10\\🪲"
+            ]
         }
     },
     "basis": {
@@ -3127,6 +3138,22 @@
                         {
                             "doc": "$~Logaritmens bas. Utelämna den för den naturliga logaritmen (bas _e_).",
                             "names": "$~bas"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Ett @Range från mig till det givna @Number, båda inräknade. Sprid ut det till en lista med @Spread, @query om det håller ett tal, eller använd det som en @Match-nyckel:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Jag räknar nedåt när mitt slut är lägre än min start:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~till"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number som mitt intervall slutar vid. Det måste ha samma enhet som jag.",
+                            "names": "$~tal"
                         }
                     ]
                 }
@@ -4221,6 +4248,70 @@
                 "number": [
                     "$~Omvandlar mina ord till en @Number, och om de inte är ett tal, ett värde som inte är ett tal, vilket visas som \\!#\\:",
                     "\\`hej` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Jag är ett intervall av tal! Jag har en start och ett slut, och jag räknar in båda, och varje tal där emellan. Du skapar mig med \\‥\\ mellan två tal:",
+                "\\1‥10\\",
+                "@query mig om jag håller ett tal:",
+                "\\(1‥10) ∋ 7\\",
+                "Sprid ut mig till en lista för att få varje tal jag håller:",
+                "\\[:1‥10]\\",
+                "Använd mig som en @Match-nyckel så matchar jag varje tal jag håller:",
+                "\\7 ???\n\t1 ‥ 9: 'liten'\n\t'stor'\\",
+                "Min start och mitt slut måste ha samma enhet, precis som @Number-jämförelser kräver."
+            ],
+            "name": ["$~Intervall"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ om det givna @Range har samma start och slut som jag:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range att jämföra mig med.",
+                            "names": "$~intervall"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ om det givna @Range har en annan start eller ett annat slut än jag:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range att jämföra mig med.",
+                            "names": "$~intervall"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ om det givna @Number ligger mellan min start och mitt slut, eller är ett av dem:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Det spelar ingen roll åt vilket håll jag skrevs:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~har"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number att leta efter i mig.",
+                            "names": "$~tal"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Jag gör om ett intervall till en lista med varje tal i det, genom att räkna med ett i taget. Till exempel:",
+                    "\\(1‥5)→[]\\"
                 ]
             }
         }
@@ -7482,7 +7573,8 @@
                 "insertDottedEighthNote": "$~Infoga en punkterad åttondelsnot, tre fjärdedels taktslag lång",
                 "insertSixteenthNote": "$~Infoga en sextondelsnot, en fjärdedels taktslag lång",
                 "insertDottedSixteenthNote": "$~Infoga en punkterad sextondelsnot, tre åttondels taktslag lång",
-                "selectedNodes": "$~$#count[$count nod vald|$count noder valda], $first till $last"
+                "selectedNodes": "$~$#count[$count nod vald|$count noder valda], $first till $last",
+                "insertRange": "$~infoga intervallsymbol"
             },
             "options": {
                 "locale": {

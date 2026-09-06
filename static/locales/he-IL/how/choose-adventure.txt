@@ -22,7 +22,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶ערך זה מייצג את ההחלטה הנוכחית ברשימה לעיל.כאשר נלחץ על המקש, אנו מבצעים אחת מהפעולות הבאות.אם יש רק אפשרות אחת להחלטה זו, אז נשנה את ההחלטה הנוכחיתלהחלטת היעד של האופציה, לא משנה איזה מקש נלחץ.אם המקש הנלחץ הוא בין 1 למספר האפשרויות, אז נעבור להחלטת היעד של אותה אפשרות.אחרת, אנחנו פשוט משאירים את ההחלטה הנוכחית כשהיא.¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶זה פשוט מציג את האפשרויות כערימה של ביטויים. ניתן לשנות זאת כדי להוסיף הוראות, אנימציות ותוספות חריפות אחרות!¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

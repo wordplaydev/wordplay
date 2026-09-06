@@ -47,7 +47,7 @@ Ang mga ito ang pinakamaikling nota sa piyesa, at ang isang bahagi kung saan nap
 		tahanan: Random(1 8)
 		(64 → []).isalin(
 			ƒ(i2•#)
-				((i2 < 17) | (i2 > 32)) ? ø
+				~((17‥32) ∋ i2) ? ø
 					maaari((((tahanan + (i2 - 17)) - 1) % 8) + 1)
 		)
 	)
@@ -57,7 +57,7 @@ Ang mga ito ang pinakamaikling nota sa piyesa, at ang isang bahagi kung saan nap
 		selula2: [boses2() boses2() boses2()]
 		(48 → []).isalin(
 			ƒ(i3•#)
-				((i3 < 25) | (i3 > 36)) ? ø
+				~((25‥36) ∋ i3) ? ø
 					selula2[(((i3 - 25) % 3) + 1)]
 		)
 	)

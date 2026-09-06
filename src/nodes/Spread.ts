@@ -16,12 +16,14 @@ import type Context from '@nodes/Context';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import ListType from '@nodes/ListType';
+import RangeType from '@nodes/RangeType';
+import UnionType from '@nodes/UnionType';
 import type { Grammar, Replacement } from '@nodes/Node';
 import Node, { node, optional } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 
-/** Inside a list literal, flattens values of a list value into a new list */
+/** Inside a list literal, flattens values of a list value — or the numbers of a range — into a new list */
 export default class Spread extends Node {
     readonly dots: Token;
     readonly list: Expression | undefined;
@@ -40,8 +42,10 @@ export default class Spread extends Node {
     }
 
     static getPossibleReplacements({ node, context }: ReplaceContext) {
-        return node instanceof Expression &&
-            node.getType(context).accepts(ListType.make(), context)
+        if (!(node instanceof Expression)) return [];
+        const type = node.getType(context);
+        return type.accepts(ListType.make(), context) ||
+            type instanceof RangeType
             ? [Spread.make(node)]
             : [];
     }
@@ -64,7 +68,11 @@ export default class Spread extends Node {
             {
                 name: 'list',
                 kind: optional(node(Expression)),
-                getType: () => ListType.make(new AnyType()),
+                getType: () =>
+                    UnionType.make(
+                        ListType.make(new AnyType()),
+                        RangeType.make(),
+                    ),
                 label: () => (l) => getConceptName(l, 'list'),
             },
         ];
@@ -88,9 +96,11 @@ export default class Spread extends Node {
     computeConflicts(context: Context): Conflict[] {
         if (this.list) {
             const type = this.list.getType(context);
+            // A range spreads to the numbers it holds, so it's as spreadable as a list.
             if (
                 !context.isUnknownDownstream(this.list) &&
-                !(type instanceof ListType)
+                !(type instanceof ListType) &&
+                !(type instanceof RangeType)
             )
                 return [
                     new IncompatibleType(

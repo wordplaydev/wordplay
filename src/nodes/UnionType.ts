@@ -5,6 +5,7 @@ import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Context from '@nodes/Context';
+import type Value from '@values/Value';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Definition from '@nodes/Definition';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
@@ -114,6 +115,17 @@ export default class UnionType extends Type {
 
         // A union type accepts a type if it's right or left accepts the type.
         return this.getTypeSet(context).containsAll(types, context);
+    }
+
+    /**
+     * Ask each arm about the value rather than about its type, so a union of literals
+     * (`1|5`) accepts the value it names. Comparing types would consult the value's
+     * generalized type and reject every literal arm — see NumberType.acceptsValue.
+     */
+    acceptsValue(value: Value, context: Context): boolean {
+        return this.getTypeSet(context)
+            .list()
+            .some((type) => type.acceptsValue(value, context));
     }
 
     /** Override the default and return all types in this union. */

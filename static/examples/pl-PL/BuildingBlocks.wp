@@ -72,7 +72,7 @@ kształtGłazu: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
 ¶Nowa struktura do dopasowania: dwie wieże, każda o wysokości od jednego do trzechbloków, w losowej parze środkowych kolumn, w ostatnim rzędzie pola. Te środkowekolumny to właśnie te, w których nigdy nie powstają surowce, więc wieża nigdynie może wylądować wewnątrz drzewa. Każda kolumna jest lita od samego dołu,bo układanie zawsze opada na szczyt kolumny — nie da się zrobić unoszącego siębloku, więc nie da się o taki poprosić. Sześć bloków to maksimum, tyle właśniedaje pole z trzech głazów w cegle, więc nawet struktura z samej cegłi da sięzbudować.¶
 ƒ utwórzCel() (
 		głębokość2: maxZ
-		para2: [-1 0 1].przetasowany().podsekwencja(1 2)
+		para2: [:-1‥1].przetasowany().podsekwencja(1 2)
 		para2.łączny(
 			[]
 			ƒ(struktura•[blok] cx2•#)
@@ -91,7 +91,7 @@ kształtGłazu: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
 	)
 
 ¶Czy dana komórka znajduje się w ogóle na polu.¶
-ƒ wGranicach(cx3•# cz2•#) (cx3 ≥ minX) & (cx3 ≤ maxX) & (cz2 ≥ minZ) & (cz2 ≤ maxZ)
+ƒ wGranicach(cx3•# cz2•#) ((minX‥maxX) ∋ cx3) & ((minZ‥maxZ) ∋ cz2)
 
 ¶Jak wysoka jest kolumna. Każda kolumna jest lita od samego dołu — kształty rosnąw ten sposób, układanie dodaje na szczyt, a uderzanie młotem zdejmuje ze szczytu— więc samo zliczenie bloków w kolumnie daje jednocześnie jej wysokość i pierwsząwolną komórkę nad nią.¶
 ƒ wysokośćKolumny(bloki2•[blok] cx4•# cz3•#) bloki2.filtr(
@@ -345,7 +345,7 @@ down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
 rozmiarKafelka: 0.8m
 
-rzędyZiemi: [0 1 2 3 4].filtr(
+rzędyZiemi: [:0‥4].filtr(
 		ƒ(rząd•#) rząd ≥ (gra11.z4 - rysujZTyłu)
 	).tłumaczyć(
 		ƒ(rząd2•#)

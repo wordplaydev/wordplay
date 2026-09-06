@@ -20,7 +20,7 @@ números2,numeros/fr: [
 
 ¶Los secretos son los números del 1 al 9 en orden aleatorio¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-secretos: [1 2 3 4 5 6 7 8 9].mezclado()
+secretos: [:1‥9].mezclado()
 
 ¶¿Cuál fue la última tecla presionada?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

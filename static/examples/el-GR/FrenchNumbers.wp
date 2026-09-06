@@ -20,7 +20,7 @@ t
 
 ¶Τα μυστικά είναι οι αριθμοί από το 1 έως το 9 σε τυχαία σειρά¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-μυστικά: [1 2 3 4 5 6 7 8 9].ανακατεμένο()
+μυστικά: [:1‥9].ανακατεμένο()
 
 ¶Ποιο ήταν το τελευταίο πλήκτρο που πατήθηκε;¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

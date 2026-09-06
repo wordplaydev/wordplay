@@ -22,7 +22,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶ఈ విలువ పై జాబితాలోని ప్రస్తుత నిర్ణయాన్ని సూచిస్తుంది.కీని నొక్కినప్పుడు, మనం ఈ క్రింది వాటిలో ఒకదాన్ని చేస్తాము.ఈ నిర్ణయానికి ఒకే ఒక ఎంపిక ఉంటే, మేము ప్రస్తుత నిర్ణయాన్ని మారుస్తాము.ఏ కీ నొక్కినా ఆప్షన్ యొక్క లక్ష్య నిర్ణయానికి.నొక్కిన కీ 1 మరియు ఎంపికల సంఖ్య మధ్య ఉంటే, మనం ఆ ఎంపిక యొక్క లక్ష్య నిర్ణయానికి వెళ్తాము.లేకపోతే, మేము ప్రస్తుత నిర్ణయాన్నే అలాగే ఉంచుతాము.¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶ఇది ఎంపికలను పదబంధాల స్టాక్‌గా చూపిస్తుంది. మీరు సూచనలు, యానిమేషన్‌లు మరియు ఇతర ఘాటులను జోడించడానికి దీన్ని మార్చవచ్చు!¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

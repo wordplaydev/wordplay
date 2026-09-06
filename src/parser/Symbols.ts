@@ -71,6 +71,10 @@ export const MEASUREMENT_SYMBOL = '#';
 /** The not-a-number literal. Written `!#` rather than a word so it reads
  *  the same in every language, like `∞` and `π`. */
 export const NOT_A_NUMBER_SYMBOL = '!#';
+/** The range operator and range type (`1‥10`, `r•‥m`). A two-dot leader rather than
+ *  an ellipsis, which already means stream, reaction, and variable inputs. Typed as two
+ *  periods, which the editor escalates to `‥` and then to `…` on a third. */
+export const RANGE_SYMBOL = '‥';
 /** Marks a template mention as a count (`$#name`), so a branch on it selects a
  *  plural form. Same character as the number type, for the same reason. */
 export const COUNT_SYMBOL = MEASUREMENT_SYMBOL;

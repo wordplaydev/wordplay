@@ -79,6 +79,7 @@ import {
     THIS_SYMBOL,
     QUESTION_SYMBOL,
     QUESTION_SYMBOL_FULL,
+    RANGE_SYMBOL,
     REMAINDER_SYMBOL,
     SELECT_SYMBOL,
     SET_CLOSE_SYMBOL,
@@ -108,7 +109,7 @@ import TokenList from '@parser/TokenList';
 import { toTokens } from '@parser/toTokens';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
-const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}${PRODUCT_SYMBOL}${DOT_SYMBOL}÷%<≤=≠≥>&|~?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F\\u2315`;
+const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}${PRODUCT_SYMBOL}${DOT_SYMBOL}÷%<≤=≠≥>&|~?\\u2025\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F\\u2315`;
 
 export const OperatorRegEx = new RegExp(`^[${OPERATORS}]`, 'u');
 // The dots are escaped: an unescaped `.` would let the pattern greedily swallow a space
@@ -548,12 +549,13 @@ const CodeTokenPatterns: TokenPattern[] = [
     // - Supplementary operators: U+2A00–U+2AFF
     // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
     // - Basic latin operators: +-×·÷%^<≤=≠≥>&|
-    // These three are operators (so they keep Sym.Operator first), but also carry a
+    // These four are operators (so they keep Sym.Operator first), but also carry a
     // second candidate type so unit/type parsing can match them by Sym rather than
     // by operator text. They must precede the generic operator rule to win.
     { pattern: EXPONENT_SYMBOL, types: [Sym.Operator, Sym.Exponent] },
     { pattern: DOT_SYMBOL, types: [Sym.Operator, Sym.Product] },
     { pattern: REMAINDER_SYMBOL, types: [Sym.Operator, Sym.Percent] },
+    { pattern: RANGE_SYMBOL, types: [Sym.Operator, Sym.Range] },
     { pattern: OperatorRegEx, types: [Sym.Operator] },
     { pattern: FORMATTED_TYPE_SYMBOL, types: [Sym.FormattedType] },
     { pattern: '`...`', types: [Sym.FormattedType] },

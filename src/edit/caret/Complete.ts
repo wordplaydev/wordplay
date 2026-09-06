@@ -59,6 +59,7 @@ import {
     SUM_SYMBOL,
     TAG_OPEN_SYMBOL,
     TYPE_SYMBOL,
+    RANGE_SYMBOL,
 } from '@parser/Symbols';
 import {
     DelimiterCloseByOpen,
@@ -97,6 +98,14 @@ type Trigger = {
      * would have typed later anyway (closing delimiters), which typing can then type over.
      */
     blocksOnly: boolean;
+    /**
+     * Whether this trigger merely substitutes the glyph the typed characters spell, rather than
+     * completing a structure. A substitution is exempt from the parse-no-worse check below: the
+     * characters it replaces are precisely what the creator doesn't want, so comparing against
+     * them asks the wrong question. Typing `..` to get `‥` must behave like inserting `‥` from
+     * the glyph inserter, and a half-typed operator is momentarily unparsable either way.
+     */
+    substitution?: boolean;
 };
 
 /** A list of autocompletions by symbol triggers, and the order in which to consider them. */
@@ -112,7 +121,12 @@ const AutocompleteTriggers: Trigger[] = [
         revise: completeDelimiter,
         blocksOnly: false,
     },
-    { symbol: '.', revise: completeStream, blocksOnly: false },
+    {
+        symbol: '.',
+        revise: completeStream,
+        blocksOnly: false,
+        substitution: true,
+    },
     {
         symbol: (text) => tokens(text)[0]?.isSymbol(Sym.Operator),
         revise: completeOperatorEvaluate,
@@ -170,10 +184,14 @@ export function completeInsertion(
                 if (result !== undefined && !source.isEqualTo(result[0])) {
                     // A completion must never parse worse than what typing the text alone would
                     // produce; if it does, skip it so a later trigger or the plain insertion runs.
-                    rawUnparsables ??= countUnparsables(
-                        source.withGraphemesAt(text, position),
-                    );
-                    if (countUnparsables(result[0]) > rawUnparsables) continue;
+                    // A substitution is exempt — see Trigger.substitution.
+                    if (!trigger.substitution) {
+                        rawUnparsables ??= countUnparsables(
+                            source.withGraphemesAt(text, position),
+                        );
+                        if (countUnparsables(result[0]) > rawUnparsables)
+                            continue;
+                    }
                     return result;
                 }
             } catch (_) {}
@@ -429,24 +447,41 @@ function completeDelimiter({
     return undefined;
 }
 
+/**
+ * Dots escalate: a second dot becomes the range symbol, and a third turns that into the
+ * stream symbol. Neither glyph is on a keyboard, so this is the only way to type either,
+ * and they have to share the key because `‥` is a prefix of `…` as typed. Escalating rather
+ * than choosing means `1..10` is a range and `1...10` is still a reaction, and the third dot
+ * finds `‥` where it used to find two dots.
+ */
 function completeStream({
     caret,
     source,
     position,
 }: InsertInfo): Revision | undefined {
-    // Dots in a text literal or markup words are prose, not a stream symbol being typed.
+    // Dots in a text literal or markup words are prose, not a symbol being typed.
     if (caret.isInsideWords()) return undefined;
-    // If the two preceding characters are dots and this is a dot, delete the last two dots then insert the stream symbol.
-    if (
-        source.getGraphemeAt(position - 1) === '.' &&
-        source.getGraphemeAt(position - 2) === '.'
-    ) {
-        const newSource = source
-            .withoutGraphemeAt(position - 2)
-            ?.withoutGraphemeAt(position - 2)
-            ?.withGraphemesAt(STREAM_SYMBOL, position - 2);
-        if (newSource) return [newSource, position - 1];
-    }
+
+    const replace = (from: number, count: number, symbol: string) => {
+        let revised: Source | undefined = source;
+        for (let i = 0; i < count; i++)
+            revised = revised?.withoutGraphemeAt(from);
+        revised = revised?.withGraphemesAt(symbol, from);
+        return revised ? ([revised, from + 1] satisfies Revision) : undefined;
+    };
+
+    const prior = source.getGraphemeAt(position - 1);
+
+    // A third dot: the range this typed dot lands on becomes a stream.
+    if (prior === RANGE_SYMBOL) return replace(position - 1, 1, STREAM_SYMBOL);
+
+    // Two literal dots already in the source (pasted, never typed) plus this one.
+    if (prior === '.' && source.getGraphemeAt(position - 2) === '.')
+        return replace(position - 2, 2, STREAM_SYMBOL);
+
+    // A second dot: the two of them become a range.
+    if (prior === '.') return replace(position - 1, 1, RANGE_SYMBOL);
+
     return undefined;
 }
 

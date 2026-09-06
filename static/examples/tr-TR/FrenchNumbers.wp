@@ -20,7 +20,7 @@ sayılar2,numeros/fr: [
 
 ¶Gizli sayılar, 1'den 9'a kadar rastgele sırayla dizilmiş sayılardır¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-gizliSayılar: [1 2 3 4 5 6 7 8 9].karıştırılmış()
+gizliSayılar: [:1‥9].karıştırılmış()
 
 ¶En son hangi tuşa basıldı?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

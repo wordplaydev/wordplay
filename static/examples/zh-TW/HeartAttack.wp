@@ -68,8 +68,8 @@ roamDepthFar: 24m
 ƒ 漫遊(殭屍4•殭屍 速度2•#m) (
 		新X: 殭屍4.x2 + (殭屍4.方向X · 速度2)
 		新Z: 殭屍4.z2 + (殭屍4.方向Z · 速度2)
-		反彈X: (新X > 右邊界) | (新X < 左邊界)
-		反彈Z: (新Z > roamDepthFar) | (新Z < roamDepthNear)
+		反彈X: ~((左邊界‥右邊界) ∋ 新X)
+		反彈Z: ~((roamDepthNear‥roamDepthFar) ∋ 新Z)
 		殭屍(
 			(反彈X ? 殭屍4.x2 新X)
 			(反彈Z ? 殭屍4.z2 新Z)

@@ -33,7 +33,7 @@ bollY: (basket.plats ?? Plats()).y
 försök: (klickantal ÷ 2).roundUp()
 
 ¶inBin är sant när bollen befinner sig inuti korgen. Poängreaktionen utlöses bara när inBin övergår till sant OCH det nuvarande försöket ligger före poängen, så att en andra träff under samma skott — studsar inuti korgen, eller att korgen glider tillbaka över bollen — inte gör något förrän nästa skott ökar försöksräknaren¶
-iKorgen: (bollX < (korgXPlacering + 0.9m)) & (bollX > (korgXPlacering - 0.9m)) & (bollY < 2.9m) & (bollY > 0.3m)
+iKorgen: (((korgXPlacering - 0.9m)‥(korgXPlacering + 0.9m)) ∋ bollX) & ((0.3m‥2.9m) ∋ bollY)
 poäng: 0 … iKorgen & (försök > poäng) … 1 + poäng
 
 basketstjärna: Grupp(

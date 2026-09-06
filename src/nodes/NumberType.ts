@@ -2,6 +2,7 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MEASUREMENT_SYMBOL as NUMBER_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
+import type Value from '@values/Value';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
@@ -11,18 +12,14 @@ import type Context from '@nodes/Context';
 import Evaluate from '@nodes/Evaluate';
 import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
 import NumberLiteral from '@nodes/NumberLiteral';
-import PropertyReference from '@nodes/PropertyReference';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type TypeSet from '@nodes/TypeSet';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import Unit from '@nodes/Unit';
+import resolveDerivedUnit, { type UnitDeriver } from '@nodes/DerivedUnit';
 
-export type UnitDeriver = (
-    left: Unit,
-    right: Unit | undefined,
-    constant: number | undefined,
-) => Unit;
+export type { UnitDeriver };
 
 export default class NumberType extends BasisType {
     readonly number: Token;
@@ -153,6 +150,22 @@ export default class NumberType extends BasisType {
         return true;
     }
 
+    /**
+     * A value's own type is never a literal — `NumberValue.getType()` reports `#unit` — so
+     * comparing types would make a literal type reject every value, including the one it names.
+     * Compare the value itself, as ListType does for the same reason. Numbers compare by value
+     * rather than token text, so `1•一` and `5•5.0` are true; acceptsAll keeps the stricter text
+     * comparison, where the question is whether two annotations mean the same thing.
+     */
+    acceptsValue(value: Value, context: Context): boolean {
+        if (!this.isLiteral()) return super.acceptsValue(value, context);
+        return new NumberValue(
+            this.getLiteral(),
+            this.number,
+            this.concreteUnit(context),
+        ).isEqualTo(value);
+    }
+
     isLiteral() {
         return this.number.isSymbol(Sym.Number);
     }
@@ -173,51 +186,12 @@ export default class NumberType extends BasisType {
         // If the unit is derived, then there must be an operation for it. If we can't derive
         // a unit, fall back to "any unit" so we stay lenient (the prior behavior skipped the
         // unit check entirely for unresolved derived units).
-        if (this.op === undefined) {
-            return Unit.Any;
-        }
+        if (this.op === undefined) return Unit.Any;
 
-        // What is the type of the left?
-        const leftType =
-            this.op instanceof BinaryEvaluate
-                ? this.op.left.getType(context)
-                : this.op instanceof UnaryEvaluate
-                  ? this.op.input.getType(context)
-                  : this.op.fun instanceof PropertyReference
-                    ? this.op.fun.structure.getType(context)
-                    : undefined;
-        const rightType =
-            this.op instanceof BinaryEvaluate
-                ? this.op.right.getType(context)
-                : this.op instanceof Evaluate && this.op.inputs.length > 0
-                  ? this.op.inputs[0].getType(context)
-                  : undefined;
-
-        // If either type isn't a number type — which shouldn't be possible for binary operations or evaluates — then we stay lenient with an "any unit".
-        if (!(leftType instanceof NumberType)) return Unit.Any;
-        if (
-            !(this.op instanceof UnaryEvaluate) &&
-            !(rightType instanceof NumberType)
-        )
-            return Unit.Any;
-
-        // Get the constant from the right if available.
-        const constant =
-            this.op instanceof BinaryEvaluate &&
-            this.op.right instanceof NumberLiteral
-                ? new NumberValue(
-                      this.op.right,
-                      this.op.right.number,
-                  ).toNumber()
-                : undefined;
-
-        // Recursively concretize the left and right units and pass them to the derive the concrete unit.
-        return this.unit(
-            leftType.concreteUnit(context),
-            rightType instanceof NumberType
-                ? rightType.concreteUnit(context)
+        return resolveDerivedUnit(this.op, context, this.unit, (op) =>
+            op instanceof BinaryEvaluate && op.right instanceof NumberLiteral
+                ? new NumberValue(op.right, op.right.number).toNumber()
                 : undefined,
-            constant,
         );
     }
 

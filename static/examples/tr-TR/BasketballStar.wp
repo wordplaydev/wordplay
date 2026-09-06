@@ -34,7 +34,7 @@ topY: (basketbol.yer ?? Yer()).ve
 deneme: (tıklamaSayısı ÷ 2).hesabıyuvarlamak()
 
 ¶inBin, top sepetin içindeyken her zaman doğrudur. Skor tepkisi yalnızca inBin doğruya döndüğünde VE şu anki deneme skordan ilerideyken tetiklenir. Böylece aynı atış sırasında ikinci bir giriş — sepetin içinde sekmeler ya da sepetin topun üzerine geri kayması — bir sonraki atış deneme sayacını artırana kadar hiçbir etki yaratmaz¶
-sepetteMi: (topX < (sepetXKonumu + 0.9m)) & (topX > (sepetXKonumu - 0.9m)) & (topY < 2.9m) & (topY > 0.3m)
+sepetteMi: (((sepetXKonumu - 0.9m)‥(sepetXKonumu + 0.9m)) ∋ topX) & ((0.3m‥2.9m) ∋ topY)
 skor: 0 … sepetteMi & (deneme > skor) … 1 + skor
 
 basketbolYıldızı: Grup(

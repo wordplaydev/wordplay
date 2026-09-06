@@ -72,7 +72,7 @@ hugisNgMalakingBato: [bloke(0 0 0 '🪨') bloke(0 1 0 '🪨')]
 ¶Isang bagong estruktura na dapat itugma: dalawang tore, bawat isa'y isa hanggang tatlong bloke ang taas, sa isang random na pares ng mga haligi sa gitna, sa likurang hanay ng larangan. Ang mga haligi sa gitnang iyon ang eksaktong hindi tinutubuan ng mga resource, kaya't hindi kailanman mapapatong ang tore sa loob ng isang puno. Solido ang bawat haligi mula sa ibaba, dahil ang pagpatong ay laging bumabagsak sa ibabaw ng isang haligi — walang paraang makagawa ng lutang na bloke, kaya't walang paraang hilingin iyon. Anim na bloke ang pinakamataas, na siya namang ibinubunga ng tatlong bato kung laryo ang materyales, kaya kahit isang estruktura na buong laryo ay magagawa.¶
 ƒ tunguhinNgPaglitaw() (
 		lalim2: maximumZ
-		pares2: [-1 0 1].hinalo().kasunod(1 2)
+		pares2: [:-1‥1].hinalo().kasunod(1 2)
 		pares2.pinagsama(
 			[]
 			ƒ(istruktura•[bloke] cx2•#)
@@ -91,7 +91,7 @@ hugisNgMalakingBato: [bloke(0 0 0 '🪨') bloke(0 1 0 '🪨')]
 	)
 
 ¶Kung nasa larangan man o wala ang isang selula.¶
-ƒ nasaHangganan(cx3•# cz2•#) (cx3 ≥ minimumX) & (cx3 ≤ maximumX) & (cz2 ≥ minimumZ) & (cz2 ≤ maximumZ)
+ƒ nasaHangganan(cx3•# cz2•#) ((minimumX‥maximumX) ∋ cx3) & ((minimumZ‥maximumZ) ∋ cz2)
 
 ¶Kung gaano kataas ang isang haligi. Solido ang bawat haligi mula sa ibaba — ganito lumalaki ang mga hugis, dinadagdagan ito sa ibabaw kapag nagpatong, at binabawasan mula sa ibabaw kapag nagmartilyo — kaya ang pagbibilang lamang ng mga bloke sa isang haligi ay nagbibigay parehong ng taas nito at ng unang bakanteng selula sa ibabaw nito.¶
 ƒ taasNgHaligi(blocks2•[bloke] cx4•# cz3•#) blocks2.pansala(
@@ -335,7 +335,7 @@ down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
 lakiNgTile: 0.8m
 
-mgaHanayNgLupa: [0 1 2 3 4].pansala(
+mgaHanayNgLupa: [:0‥4].pansala(
 		ƒ(hanay•#) hanay ≥ (laro11.z4 - iguhitSaLikod)
 	).isalin(
 		ƒ(hanay2•#)

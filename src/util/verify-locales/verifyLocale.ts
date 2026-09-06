@@ -1144,7 +1144,7 @@ export function addMissingKeys(
         // Key not in the the target? Add it.
         if (typeof target === 'object' && !(key in target)) {
             log.bad(`Adding missing key ${key}`);
-            target[key] = placehold(sourceValue);
+            target[key] = placehold(sourceValue, [...segments, key]);
         }
         // Otherwise, traverse.
         else {
@@ -1242,15 +1242,30 @@ export function addMissingKeys(
     }
 }
 
-/** Take an object and replace of all of it's string or string[] values with unwritten strings. */
-function placehold(value: unknown): unknown {
+/**
+ * Take an object and replace all of its string or string[] values with unwritten strings.
+ *
+ * An emotion is kept as-is rather than placeheld: it is an identifier from a closed set, not
+ * prose, so a `$?` there is not an untranslated string but an invalid one, and the locale
+ * stops matching the schema. Adding a new node used to break every locale this way, since
+ * every node's text carries an emotion.
+ */
+function placehold(
+    value: unknown,
+    segments: (string | number)[] = [],
+): unknown {
+    if (isEmotionPath(segments)) return value;
     if (typeof value === 'string') return Unwritten;
     else if (Array.isArray(value) && value.every((s) => typeof s === 'string'))
         return [Unwritten];
-    else if (Array.isArray(value)) return value.map(placehold);
+    else if (Array.isArray(value))
+        return value.map((item, index) =>
+            placehold(item, [...segments, index]),
+        );
     else if (typeof value === 'object' && value !== null) {
         const copy = { ...value } as Record<string, unknown>;
-        for (const key of Object.keys(copy)) copy[key] = placehold(copy[key]);
+        for (const key of Object.keys(copy))
+            copy[key] = placehold(copy[key], [...segments, key]);
         return copy;
     }
     return value;

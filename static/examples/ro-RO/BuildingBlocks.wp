@@ -72,7 +72,7 @@ formăBolovan: [bloc(0 0 0 '🪨') bloc(0 1 0 '🪨')]
 ¶O structură nouă de potrivit: două turnuri, fiecare între unul și trei blocuri înălțime, într-o pereche aleatorie dintre coloanele din mijloc, pe rândul din spate al terenului. Aceste coloane din mijloc sunt exact cele în care resursele nu apar niciodată, așa că un turn nu poate ateriza niciodată în interiorul unui copac. Fiecare coloană este solidă de la sol în sus, pentru că stivuirea se face mereu deasupra vârfului unei coloane — nu există nicio cale de a crea un bloc plutitor, deci nici de a cere unul. Șase blocuri este limita maximă, exact cât produce un teren cu trei bolovani în cărămidă, așa că până și o structură complet din cărămidă poate fi construită.¶
 ƒ generareObiectiv() (
 		adâncime2: zMaxim
-		pereche2: [-1 0 1].amestecat().subsecvență(1 2)
+		pereche2: [:-1‥1].amestecat().subsecvență(1 2)
 		pereche2.combinate(
 			[]
 			ƒ(structură•[bloc] cx2•#)
@@ -91,7 +91,7 @@ formăBolovan: [bloc(0 0 0 '🪨') bloc(0 1 0 '🪨')]
 	)
 
 ¶Dacă o celulă se află pe teren sau nu.¶
-ƒ înLimite(cx3•# cz2•#) (cx3 ≥ xMinim) & (cx3 ≤ xMaxim) & (cz2 ≥ zMinim) & (cz2 ≤ zMaxim)
+ƒ înLimite(cx3•# cz2•#) ((xMinim‥xMaxim) ∋ cx3) & ((zMinim‥zMaxim) ∋ cz2)
 
 ¶Cât de înaltă este o coloană. Fiecare coloană este solidă de la sol în sus — așa cresc formele, stivuirea adaugă în vârf, iar lovitura cu ciocanul ia din vârf — așa că simpla numărare a blocurilor unei coloane dă atât înălțimea ei, cât și prima celulă liberă de deasupra.¶
 ƒ înălțimeColoană(blocuri2•[bloc] cx4•# cz3•#) blocuri2.filtra(
@@ -343,7 +343,7 @@ down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
 dimensiuneBloc: 0.8m
 
-rânduriDeSol: [0 1 2 3 4].filtra(
+rânduriDeSol: [:0‥4].filtra(
 		ƒ(rând•#) rând ≥ (joc11.z4 - deseneazăÎnSpate)
 	).traduce(
 		ƒ(rând2•#)

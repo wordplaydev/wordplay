@@ -4,7 +4,9 @@ import type Expression from '@nodes/Expression';
 import type Value from '@values/Value';
 import Step from '@runtime/Step';
 
-/** Jumps if the two values on the top of the stack are unequal, popping the first value only. Used in Match. */
+/** Jumps unless the key on the top of the stack admits the subject beneath it, popping the key
+ * only. Used in Match. Admission is equality for every value but a range, which admits any
+ * number it holds — see Value.matches. */
 export default class JumpIfUnequal extends Step {
     readonly steps: number;
 
@@ -19,9 +21,11 @@ export default class JumpIfUnequal extends Step {
     }
 
     evaluate(evaluator: Evaluator): Value | undefined {
-        const value2 = evaluator.popValue(this.node);
-        const value1 = evaluator.peekValue();
-        if (value1 && value2 && value1.isEqualTo(value2)) return undefined;
+        // The key was just evaluated, so it's on top; the subject is beneath it, peeked
+        // rather than popped so later cases can compare against it too.
+        const key = evaluator.popValue(this.node);
+        const subject = evaluator.peekValue();
+        if (subject && key && key.matches(subject)) return undefined;
         else evaluator.jump(this.steps);
         return undefined;
     }

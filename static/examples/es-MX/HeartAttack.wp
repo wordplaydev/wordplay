@@ -75,8 +75,8 @@ gente: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 ƒ vagar2(zombi4•zombi velocidad2•#m) (
 		xNueva: zombi4.x2 + (zombi4.direcciónX · velocidad2)
 		zNueva: zombi4.z2 + (zombi4.direcciónZ · velocidad2)
-		xDeRebote: (xNueva > límiteDerecho) | (xNueva < límiteIzquierdo)
-		zDeRebote: (zNueva > profundidadDeVagarLejana) | (zNueva < profundidadDeVagarCercana)
+		xDeRebote: ~((límiteIzquierdo‥límiteDerecho) ∋ xNueva)
+		zDeRebote: ~((profundidadDeVagarCercana‥profundidadDeVagarLejana) ∋ zNueva)
 		zombi(
 			(xDeRebote ? zombi4.x2 xNueva)
 			(zDeRebote ? zombi4.z2 zNueva)

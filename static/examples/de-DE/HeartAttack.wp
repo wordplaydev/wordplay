@@ -75,8 +75,8 @@ menschen: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 ƒ umherstreifen(zombie4•zombie geschwindigkeit•#m) (
 		neuesX: zombie4.x2 + (zombie4.richtungX · geschwindigkeit)
 		neuesZ: zombie4.z2 + (zombie4.richtungZ · geschwindigkeit)
-		sprungX: (neuesX > rechtesLimit) | (neuesX < linkesLimit)
-		sprungZ: (neuesZ > wandertiefeFern) | (neuesZ < wandertiefeNah)
+		sprungX: ~((linkesLimit‥rechtesLimit) ∋ neuesX)
+		sprungZ: ~((wandertiefeNah‥wandertiefeFern) ∋ neuesZ)
 		zombie(
 			(sprungX ? zombie4.x2 neuesX)
 			(sprungZ ? zombie4.z2 neuesZ)

@@ -72,7 +72,7 @@ formeRocher: [bloc(0 0 0 '🪨') bloc(0 1 0 '🪨')]
 ¶Une nouvelle structure à reproduire : deux tours, chacune de un à trois blocs de haut, placées au hasard dans une paire de colonnes du milieu, sur la rangée arrière du terrain. Ces colonnes du milieu sont justement celles où les ressources n'apparaissent jamais, donc une tour ne peut jamais tomber à l'intérieur d'un arbre. Chaque colonne est pleine depuis le sol, car empiler pose toujours un bloc en haut d'une colonne — il est impossible de créer un bloc flottant, donc il est impossible d'en demander un. Six blocs est le maximum, ce qu'un terrain avec trois rochers donne en briques, donc même une structure entièrement en briques peut être construite.¶
 ƒ faireApparaîtreBut() (
 		profondeur2: zMax
-		paire2: [-1 0 1].mélangé().sousséquence(1 2)
+		paire2: [:-1‥1].mélangé().sousséquence(1 2)
 		paire2.combiné(
 			[]
 			ƒ(structure•[bloc] cx2•#)
@@ -91,7 +91,7 @@ formeRocher: [bloc(0 0 0 '🪨') bloc(0 1 0 '🪨')]
 	)
 
 ¶Si une cellule fait partie du terrain ou non.¶
-ƒ dansLesLimites(cx3•# cz2•#) (cx3 ≥ xMin) & (cx3 ≤ xMax) & (cz2 ≥ zMin) & (cz2 ≤ zMax)
+ƒ dansLesLimites(cx3•# cz2•#) ((xMin‥xMax) ∋ cx3) & ((zMin‥zMax) ∋ cz2)
 
 ¶La hauteur d'une colonne. Chaque colonne est pleine depuis le sol — les formes poussent ainsi, empiler ajoute en haut, et le marteau retire par le haut — donc simplement compter les blocs d'une colonne donne à la fois sa hauteur et la première cellule libre au-dessus.¶
 ƒ hauteurDeColonne(blocs2•[bloc] cx4•# cz3•#) blocs2.filtre(
@@ -349,7 +349,7 @@ down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
 tailleDeLaTuile: 0.8m
 
-rangéesDeSol: [0 1 2 3 4].filtre(
+rangéesDeSol: [:0‥4].filtre(
 		ƒ(rangée•#) rangée ≥ (jeu11.z4 - dessinerDerrière)
 	).traduire(
 		ƒ(rangée2•#)

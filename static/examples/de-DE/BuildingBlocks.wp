@@ -72,7 +72,7 @@ felsblockForm: [block(0 0 0 '🪨') block(0 1 0 '🪨')]
 ¶Eine neue Struktur zum Nachbauen: zwei Türme, jeder ein bis drei Blöcke hoch, in einem zufälligen Paar der mittleren Spalten, in der hinteren Reihe des Feldes. Genau in diesen mittleren Spalten erscheinen niemals Rohstoffe, sodass ein Turm nie in einem Baum landen kann. Jede Spalte ist von unten bis oben massiv, weil beim Stapeln immer oben auf eine Spalte gelegt wird — ein schwebender Block kann nicht entstehen, also kann auch keiner angefragt werden. Sechs Blöcke sind die Obergrenze, das liefert ein Feld mit drei Felsbrocken an Stein, also lässt sich sogar eine reine Steinstruktur bauen.¶
 ƒ zielErzeugen() (
 		tiefe: maxZ
-		paar: [-1 0 1].gemischt().Folge(1 2)
+		paar: [:-1‥1].gemischt().Folge(1 2)
 		paar.kombinieren(
 			[]
 			ƒ(struktur•[block] cx2•#)
@@ -91,7 +91,7 @@ felsblockForm: [block(0 0 0 '🪨') block(0 1 0 '🪨')]
 	)
 
 ¶Ob eine Zelle überhaupt auf dem Feld liegt.¶
-ƒ inGrenzen(cx3•# cz2•#) (cx3 ≥ minX) & (cx3 ≤ maxX) & (cz2 ≥ minZ) & (cz2 ≤ maxZ)
+ƒ inGrenzen(cx3•# cz2•#) ((minX‥maxX) ∋ cx3) & ((minZ‥maxZ) ∋ cz2)
 
 ¶Wie hoch eine Spalte ist. Jede Spalte ist von unten bis oben massiv — so wachsen Formen, Stapeln fügt oben hinzu, und Hämmern nimmt von oben weg — deshalb ergibt einfaches Zählen der Blöcke einer Spalte sowohl ihre Höhe als auch die erste freie Zelle darüber.¶
 ƒ spalteHöhe(blöcke2•[block] cx4•# cz3•#) blöcke2.Filter(
@@ -347,7 +347,7 @@ down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
 kachelgröße: 0.8m
 
-bodenreihen: [0 1 2 3 4].Filter(
+bodenreihen: [:0‥4].Filter(
 		ƒ(reihe•#) reihe ≥ (spiel11.z4 - hintenZeichnen)
 	).übersetzen(
 		ƒ(reihe2•#)

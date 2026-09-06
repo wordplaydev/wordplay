@@ -10,7 +10,7 @@ Nếu chúng ta bắt đầu với con số\10\và chuyển đổi nó bằng\�
 
 Để mỗi bản sao có chút khác biệt, hãy sử dụng số mà lệnh translate cung cấp cho chúng ta:
 
-\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' kíchcỡ: n × 0.5m)))\
+\Group(Row('|' 0.2m) [:1‥8].translate(ƒ(n) Phrase('⭐' kíchcỡ: n × 0.5m)))\
 
 Mỗi ngôi sao đều lớn hơn ngôi sao trước đó, bởi vì\n\đi từ\1\ ĐẾN \8\.
 

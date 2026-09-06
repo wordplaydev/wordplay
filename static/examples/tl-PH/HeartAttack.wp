@@ -75,8 +75,8 @@ mgaTao: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '
 ƒ gala(zombi3•zombie bilis2•#m) (
 		bagoX: zombi3.x2 + (zombi3.direksyonX · bilis2)
 		bagoZ: zombi3.z2 + (zombi3.direksyonZ · bilis2)
-		bawiX: (bagoX > limitasyonSaKanan) | (bagoX < limitasyonSaKaliwa)
-		bawiZ: (bagoZ > malayongLalimNgPaggala) | (bagoZ < malapitNaLalimNgPaggala)
+		bawiX: ~((limitasyonSaKaliwa‥limitasyonSaKanan) ∋ bagoX)
+		bawiZ: ~((malapitNaLalimNgPaggala‥malayongLalimNgPaggala) ∋ bagoZ)
 		zombie(
 			(bawiX ? zombi3.x2 bagoX)
 			(bawiZ ? zombi3.z2 bagoZ)

@@ -18,7 +18,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶ಈ ಮೌಲ್ಯವು ಮೇಲಿನ ಪಟ್ಟಿಯಲ್ಲಿರುವ ಪ್ರಸ್ತುತ ನಿರ್ಧಾರವನ್ನು ಪ್ರತಿನಿಧಿಸುತ್ತದೆ.ಕೀಲಿಯನ್ನು ಒತ್ತಿದಾಗ, ನಾವು ಈ ಕೆಳಗಿನವುಗಳಲ್ಲಿ ಒಂದನ್ನು ಮಾಡುತ್ತೇವೆ.ಈ ನಿರ್ಧಾರಕ್ಕೆ ಒಂದೇ ಒಂದು ಆಯ್ಕೆ ಇದ್ದರೆ, ನಾವು ಪ್ರಸ್ತುತ ನಿರ್ಧಾರವನ್ನು ಬದಲಾಯಿಸುತ್ತೇವೆ.ಯಾವುದೇ ಕೀಲಿಯನ್ನು ಒತ್ತಿದರೂ ಆಯ್ಕೆಯ ಗುರಿ ನಿರ್ಧಾರಕ್ಕೆ.ಒತ್ತಿದ ಕೀಲಿಯು 1 ಮತ್ತು ಆಯ್ಕೆಗಳ ಸಂಖ್ಯೆಯ ನಡುವೆ ಇದ್ದರೆ, ನಾವು ಆ ಆಯ್ಕೆಯ ಗುರಿ ನಿರ್ಧಾರಕ್ಕೆ ಹೋಗುತ್ತೇವೆ.ಇಲ್ಲದಿದ್ದರೆ, ನಾವು ಪ್ರಸ್ತುತ ನಿರ್ಧಾರವನ್ನು ಹಾಗೆಯೇ ಇಡುತ್ತೇವೆ.¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶ಇದು ಆಯ್ಕೆಗಳನ್ನು ಪದಗುಚ್ಛಗಳ ರಾಶಿಯಾಗಿ ತೋರಿಸುತ್ತದೆ. ಸೂಚನೆಗಳು, ಅನಿಮೇಷನ್‌ಗಳು ಮತ್ತು ಇತರ ಖಾರಗಳನ್ನು ಸೇರಿಸಲು ನೀವು ಇದನ್ನು ಬದಲಾಯಿಸಬಹುದು!¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

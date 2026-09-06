@@ -75,8 +75,8 @@ personer: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 ƒ vandra(zombie4•zombie hastighet2•#m) (
 		nyX: zombie4.x2 + (zombie4.riktningx · hastighet2)
 		nyZ: zombie4.z2 + (zombie4.riktningz · hastighet2)
-		studsaX: (nyX > högergräns) | (nyX < vänstergräns)
-		studsaZ: (nyZ > strövdjuplångt) | (nyZ < strövdjupnära)
+		studsaX: ~((vänstergräns‥högergräns) ∋ nyX)
+		studsaZ: ~((strövdjupnära‥strövdjuplångt) ∋ nyZ)
 		zombie(
 			(studsaX ? zombie4.x2 nyX)
 			(studsaZ ? zombie4.z2 nyZ)

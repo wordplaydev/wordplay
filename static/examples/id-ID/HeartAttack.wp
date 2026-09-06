@@ -75,8 +75,8 @@ orang: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 ƒ berkeliaran(zombie6•zombie kecepatan2•#m) (
 		xBaru: zombie6.x2 + (zombie6.arahX · kecepatan2)
 		zBaru: zombie6.z2 + (zombie6.arahZ · kecepatan2)
-		xMemantul: (xBaru > batasKanan) | (xBaru < batasKiri)
-		zMemantul: (zBaru > kedalamanJelajahJauh) | (zBaru < kedalamanJelajahDekat)
+		xMemantul: ~((batasKiri‥batasKanan) ∋ xBaru)
+		zMemantul: ~((kedalamanJelajahDekat‥kedalamanJelajahJauh) ∋ zBaru)
 		zombie(
 			(xMemantul ? zombie6.x2 xBaru)
 			(zMemantul ? zombie6.z2 zBaru)

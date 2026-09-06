@@ -11,6 +11,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔑 You can now make an account that signs in with a link we email you, so there's no password to forget. We ask your birthday and where you live to know if you're old enough, and we don't keep either one. (#628)
 - 🔑 You can now switch how you sign in. Go to your profile to swap a password for emailed links, or emailed links for a password. Your username stays the same either way. (#628)
 - 🏫 We added a section to the [About](https://wordplay.dev/about) page for schools and districts. It says what we can and can't promise about privacy and accessibility, and has a link that starts an email to us if your school needs something we don't do yet. (#697)
+- 🔢 You can now write a range of numbers, like `1‥10`. It holds every number from one end to the other, so you can ask whether a number is inside it with `∋`, turn it into a list, or use it in a `???` to catch a whole span of numbers at once. (#398)
+- ✍️ Type two dots to get the range symbol `‥`, and a third to turn it into the stream symbol `…`. So `1..10` gives you a range and `1...10` still gives you a reaction. You can also pick `‥` from the symbols under the editor. (#398)
 
 ### Changed
 
@@ -20,6 +22,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🗣️ We fixed screen readers reading the wrong letter after an emoji in your code. Wordplay counts an emoji as one character but a text box counts it as two, so the reader could land in the middle of one. (#1329)
+- 🚦 If you write `1…10` when you meant a range, Wordplay now offers to swap the three dots for two. It only offers this when both sides are numbers, so it stays quiet on a reaction you're still writing. (#398)
+- 🚦 We fixed asking whether a value is one exact number or word. Asking if `5` is a `5` used to say no, and so did every check against a list of choices like `1|2|3`.
+- 🐛 We fixed Wordplay freezing when you turned an endless number into a list. Asking `∞` for a list now gives you an empty one instead of locking up.
 
 ## 0.34.1 - 2026-09-02
 

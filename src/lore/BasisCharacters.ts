@@ -29,6 +29,7 @@ import {
     NONE_SYMBOL,
     OR_SYMBOL,
     PATTERN_DELIMITER_SYMBOL,
+    RANGE_SYMBOL,
     PLACEHOLDER_SYMBOL,
     PREVIOUS_SYMBOL,
     THIS_SYMBOL,
@@ -95,6 +96,7 @@ const CharactersSet = {
     Map: { symbols: SET_OPEN_SYMBOL + BIND_SYMBOL + SET_CLOSE_SYMBOL },
     MapLiteral: { symbols: SET_OPEN_SYMBOL + BIND_SYMBOL + SET_CLOSE_SYMBOL },
     Number: { symbols: MEASUREMENT_SYMBOL },
+    Range: { symbols: RANGE_SYMBOL },
     List: { symbols: LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL },
     ListAccess: {
         symbols: PLACEHOLDER_SYMBOL + LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL,

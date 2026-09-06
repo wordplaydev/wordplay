@@ -47,7 +47,7 @@ Ce sont les notes les plus courtes du morceau, et le seul endroit où le chat es
 		retour: Aléatoire(1 8)
 		(64 → []).traduire(
 			ƒ(i2•#)
-				((i2 < 17) | (i2 > 32)) ? ø
+				~((17‥32) ∋ i2) ? ø
 					maybe((((retour + (i2 - 17)) - 1) % 8) + 1)
 		)
 	)
@@ -57,7 +57,7 @@ Ce sont les notes les plus courtes du morceau, et le seul endroit où le chat es
 		cellule2: [voix2() voix2() voix2()]
 		(48 → []).traduire(
 			ƒ(i3•#)
-				((i3 < 25) | (i3 > 36)) ? ø
+				~((25‥36) ∋ i3) ? ø
 					cellule2[(((i3 - 25) % 3) + 1)]
 		)
 	)

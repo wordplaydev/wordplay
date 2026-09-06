@@ -20,7 +20,7 @@ mgaNumero,numeros/fr: [
 
 ¶Ang mga sikreto ay ang mga numero 1 hanggang 9 sa di-inaasahang pagkakasunod-sunod¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-mgaSikreto: [1 2 3 4 5 6 7 8 9].hinalo()
+mgaSikreto: [:1‥9].hinalo()
 
 ¶Ano ang pinakahuling key na pinindot?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

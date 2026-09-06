@@ -86,8 +86,8 @@ by staying put and flipping the direction it was heading.¶
 ƒ roam(zombie•Zombie speed•#m) (
 	newX: zombie.x + (zombie.directionX · speed)
 	newZ: zombie.z + (zombie.directionZ · speed)
-	bounceX: (newX > rightLimit) | (newX < leftLimit)
-	bounceZ: (newZ > roamDepthFar) | (newZ < roamDepthNear)
+	bounceX: ~((leftLimit‥rightLimit) ∋ newX)
+	bounceZ: ~((roamDepthNear‥roamDepthFar) ∋ newZ)
 	Zombie((bounceX ? zombie.x newX) (bounceZ ? zombie.z newZ) (bounceX ? (zombie.directionX · -1) zombie.directionX) (bounceZ ? (zombie.directionZ · -1) zombie.directionZ) zombie.alive zombie.face)
 )
 

@@ -17,7 +17,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶該值代表上述列表中的當前決策。當按下該鍵時，我們會執行以下操作之一。如果這個決定只有一個選擇，那麼我們改變目前的決定無論按下什麼鍵，都會做出選項的目標決定。如果按下的鍵介於 1 和選項數量之間，那麼我們將轉到該選項的目標決策。否則，我們就維持目前的決定。¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶這只是將選項顯示為一堆短語。您可以更改它以添加說明、動畫和其他趣味內容！¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

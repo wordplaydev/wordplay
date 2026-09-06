@@ -38,6 +38,7 @@ import bootstrapList from '@basis/ListBasis';
 import bootstrapMap from '@basis/MapBasis';
 import bootstrapNone from '@basis/NoneBasis';
 import bootstrapNumber from '@basis/NumberBasis';
+import bootstrapRange from '@basis/RangeBasis';
 import bootstrapSet from '@basis/SetBasis';
 import bootstrapStructure from '@basis/StructureBasis';
 import bootstrapTable from '@basis/TableBasis';
@@ -86,6 +87,7 @@ export class Basis {
         this.addStructure('formatted', bootstrapFormatted(locales));
         this.addStructure('list', bootstrapList(locales));
         this.addStructure('measurement', bootstrapNumber(locales));
+        this.addStructure('range', bootstrapRange(locales));
         this.addStructure('set', bootstrapSet(locales));
         this.addStructure('map', bootstrapMap(locales));
         this.addStructure('table', bootstrapTable(locales));

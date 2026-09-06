@@ -17,7 +17,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶この値は、上記のリストの現在の決定を表します。キーが押されると、次のいずれかを実行します。この決定に選択肢が1つしかない場合は、現在の決定を変更しますどのキーを押しても、オプションのターゲット決定に影響はありません。押されたキーが 1 からオプションの数までの範囲内にある場合、そのオプションのターゲット決定に進みます。それ以外の場合は、現在の決定をそのまま維持します。¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶選択肢はフレーズの羅列として表示されるだけです。これを変更して、説明やアニメーションなど、様々な機能を追加できます。¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

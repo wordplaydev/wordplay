@@ -10,6 +10,7 @@ import FunctionType from '@nodes/FunctionType';
 import NameType from '@nodes/NameType';
 import FormattedType from '@nodes/FormattedType';
 import NumberType from '@nodes/NumberType';
+import RangeType from '@nodes/RangeType';
 import TextType from '@nodes/TextType';
 import PropertyReference from '@nodes/PropertyReference';
 import StreamDefinition from '@nodes/StreamDefinition';
@@ -67,8 +68,11 @@ export default function getConcreteExpectedType(
     if (type instanceof NameType && type.isTypeVariable(context))
         return getConcreteTypeVariable(type, definition, evaluation, context);
 
-    // If the type itself is number with a derived unit, concretize it.
-    if (type instanceof NumberType && type.hasDerivedUnit())
+    // If the type itself is a number or range with a derived unit, concretize it.
+    if (
+        (type instanceof NumberType || type instanceof RangeType) &&
+        type.hasDerivedUnit()
+    )
         return getConcreteNumberInput(type, evaluation, context);
 
     // If the type itself is text or formatted with a derived locale, concretize it.
@@ -98,11 +102,15 @@ export function concretizeType(
     let moreAbstractTypes = true;
     do {
         const abstractTypes: (
-            NameType | NumberType | TextType | FormattedType
+            NameType | NumberType | RangeType | TextType | FormattedType
         )[] = type.nodes(
-            (n): n is NameType | NumberType | TextType | FormattedType =>
+            (
+                n,
+            ): n is
+                NameType | NumberType | RangeType | TextType | FormattedType =>
                 (n instanceof NameType && n.isTypeVariable(context)) ||
-                (n instanceof NumberType && n.hasDerivedUnit()) ||
+                ((n instanceof NumberType || n instanceof RangeType) &&
+                    n.hasDerivedUnit()) ||
                 ((n instanceof TextType || n instanceof FormattedType) &&
                     n.hasDerivedLanguage()),
         );
@@ -151,11 +159,11 @@ export function concretizeType(
  * @param evaluation The evaluation processing the given input type
  * @param context The context in which we're evaluating.
  */
-function getConcreteNumberInput(
-    type: NumberType,
+function getConcreteNumberInput<Type extends NumberType | RangeType>(
+    type: Type,
     evaluation: EvaluationType,
     context: Context,
-) {
+): NumberType | RangeType {
     // If the type is abstract, concretize it. Otherwise, just return the existing concrete type.
     return type.unit instanceof Function
         ? // Annotate the type with the evaluate so it can resolve its abstract unit.

@@ -20,7 +20,7 @@ zahlen,numeros/fr: [
 
 ¶Die Geheimnisse sind die Zahlen 1 bis 9 in zufälliger Reihenfolge¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-geheimnisse: [1 2 3 4 5 6 7 8 9].gemischt()
+geheimnisse: [:1‥9].gemischt()
 
 ¶Welche Taste wurde zuletzt gedrückt?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

@@ -15,6 +15,14 @@ test.each([
     ['1,0', '1,0|'],
     ['0.5', '0.5|'],
     ['.5', '.5|'],
+    // The range operator is a two-dot leader, so it terminates names and numbers on both
+    // sides and never swallows a decimal. Three dots still lex as the stream symbol.
+    ['1‥10', '1|‥|10|'],
+    ['a‥b', 'a|‥|b|'],
+    ['0.5‥3', '0.5|‥|3|'],
+    ['-1‥1', '-1|‥|1|'],
+    ['1‥∞', '1|‥|∞|'],
+    ['1...10', '1|...|10|'],
     ['0∞π!#', '0|∞|π|!#|'],
     ['🌏🌍🌎', '🌏|🌍|🌎|'],
     [

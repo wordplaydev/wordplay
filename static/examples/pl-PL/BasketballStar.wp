@@ -34,7 +34,7 @@ piłkaY: (koszykówka.miejsce ?? Miejsce()).y
 próba: (licznikKliknięć ÷ 2).łapanka()
 
 ¶inBin jest prawdziwe, gdy piłka znajduje się wewnątrz koszyka. Reakcja zmiany wyniku włącza się tylko, gdy inBin zmienia się na prawdziwe ORAZ obecna próba jest większa niż wynik. Dzięki temu każde kolejne wejście podczas tego samego rzutu — odbicia wewnątrz koszyka albo kosz wracający nad piłkę — nic nie zmienia, aż kolejny rzut zwiększy licznik prób¶
-wKoszu: (piłkaX < (pozycjaKoszykaX + 0.9m)) & (piłkaX > (pozycjaKoszykaX - 0.9m)) & (piłkaY < 2.9m) & (piłkaY > 0.3m)
+wKoszu: (((pozycjaKoszykaX - 0.9m)‥(pozycjaKoszykaX + 0.9m)) ∋ piłkaX) & ((0.3m‥2.9m) ∋ piłkaY)
 wynik: 0 … wKoszu & (próba > wynik) … 1 + wynik
 
 gwiazdaKoszykówki: Grupa(

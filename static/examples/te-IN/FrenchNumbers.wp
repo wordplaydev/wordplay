@@ -20,7 +20,7 @@ t
 
 ¶రహస్యాలు అంటే 1 నుండి 9 వరకు సంఖ్యలు, యాదృచ్ఛిక క్రమంలో¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-రహస్యాలు: [1 2 3 4 5 6 7 8 9].షఫుల్చేయబడింది()
+రహస్యాలు: [:1‥9].షఫుల్చేయబడింది()
 
 ¶చివరిగా నొక్కిన కీ ఏది?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

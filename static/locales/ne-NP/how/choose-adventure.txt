@@ -21,7 +21,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶ यो value ले माथिको सूचीमा हालको निर्णयलाई प्रतिनिधित्व गर्छ।जब key थिचिन्छ, हामी निम्न मध्ये एउटा गर्छौं।यदि यो निर्णयको लागि एउटा मात्र छनोट छ भने, हामी हालको निर्णय परिवर्तन गर्छौंकुन key थिचिए पनि त्यो विकल्पको लक्ष्य निर्णयमा।यदि थिचिएको key 1 र विकल्पहरूको संख्याको बीचमा छ भने, हामी त्यो विकल्पको लक्ष्य निर्णयमा जान्छौं।नत्र, हामी हालको निर्णय उस्तै राख्छौं। ¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶ यसले विकल्पहरूलाई वाक्यांशहरूको थाकको रूपमा मात्र देखाउँछ। तपाईं यसलाई परिवर्तन गरेर निर्देशनहरू, एनिमेसनहरू, र अन्य रमाइला कुराहरू थप्न सक्नुहुन्छ! ¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

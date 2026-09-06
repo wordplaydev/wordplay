@@ -73,7 +73,7 @@ a fast scat syllable sounds like anyway.¶
 	home: Random(1 8)
 	(64 → []).translate(
 		ƒ(i•#)
-			((i < 17) | (i > 32)) ? ø
+			~((17‥32) ∋ i) ? ø
 			maybe((((home + (i - 17)) - 1) % 8) + 1)
 	)
 )
@@ -85,7 +85,7 @@ loud what a triplet is.¶
 	cell: [voice() voice() voice()]
 	(48 → []).translate(
 		ƒ(i•#)
-			((i < 25) | (i > 36)) ? ø
+			~((25‥36) ∋ i) ? ø
 			cell[(((i - 25) % 3) + 1)]
 	)
 )

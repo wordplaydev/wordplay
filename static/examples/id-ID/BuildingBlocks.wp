@@ -72,7 +72,7 @@ bentukBatuBesar: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
 ¶Struktur baru untuk dicocokkan: dua menara, masing-masing tinggi satu sampai tiga blok, berada di sepasang kolom tengah secara acak, di baris belakang lapangan. Kolom-kolom tengah itu justru kolom yang tidak pernah ditumbuhi sumber daya, jadi menara tidak akan pernah muncul di dalam pohon. Setiap kolom padat mulai dari dasar, karena tumpukan selalu jatuh di atas puncak kolom — tidak mungkin membuat blok melayang, jadi tidak mungkin pula memintanya. Enam blok adalah batas atas, yaitu jumlah yang dihasilkan tiga batu besar dalam bentuk bata, jadi bahkan struktur yang seluruhnya dari bata pun bisa dibangun.¶
 ƒ munculkanTujuan() (
 		kedalaman2: zMaks
-		pasangan2: [-1 0 1].diacak().suburutan(1 2)
+		pasangan2: [:-1‥1].diacak().suburutan(1 2)
 		pasangan2.gabungan(
 			[]
 			ƒ(struktur•[blok] cx2•#)
@@ -91,7 +91,7 @@ bentukBatuBesar: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
 	)
 
 ¶Apakah sebuah sel benar-benar ada di lapangan.¶
-ƒ diDalamBatas(cx3•# cz2•#) (cx3 ≥ xMin) & (cx3 ≤ xMaks) & (cz2 ≥ zMin) & (cz2 ≤ zMaks)
+ƒ diDalamBatas(cx3•# cz2•#) ((xMin‥xMaks) ∋ cx3) & ((zMin‥zMaks) ∋ cz2)
 
 ¶Seberapa tinggi sebuah kolom. Setiap kolom padat mulai dari dasar — bentuk memang tumbuh seperti itu, tumpukan menambah dari atas, dan memalu mengambil dari atas — jadi cukup dengan menghitung blok dalam sebuah kolom, kamu bisa tahu tingginya sekaligus sel kosong pertama di atasnya.¶
 ƒ tinggiKolom(blok3•[blok] cx4•# cz3•#) blok3.menyaring(
@@ -368,7 +368,7 @@ down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
 ukuranUbin: 0.8m
 
-barisTanah: [0 1 2 3 4].menyaring(
+barisTanah: [:0‥4].menyaring(
 		ƒ(baris2•#) baris2 ≥ (permainan11.z4 - gambarBelakang)
 	).menerjemahkan(
 		ƒ(baris3•#)

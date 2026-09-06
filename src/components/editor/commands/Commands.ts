@@ -69,6 +69,7 @@ import {
     DEBUG_SYMBOL,
     PERFORM_SYMBOL,
     PLAY_SYMBOL,
+    RANGE_SYMBOL,
 } from '@parser/Symbols';
 
 import { moveVisualVertical } from '@components/editor/caret/CaretView.svelte';
@@ -1895,6 +1896,21 @@ const Commands: Command[] = [
         alt: true,
         key: 'Period',
         execute: (context) => handleInsert(context, '≥'),
+    },
+    {
+        symbol: RANGE_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertRange,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        alt: false,
+        shift: false,
+        control: false,
+        // No keystroke of its own: two dots type it, and this is how it's found.
+        // No `where`, so it's offered in code only — a range means nothing inside a
+        // pattern, where the tokenizer doesn't lex `‥` as an operator at all.
+        execute: (context) => handleInsert(context, RANGE_SYMBOL),
     },
     {
         symbol: STREAM_SYMBOL,

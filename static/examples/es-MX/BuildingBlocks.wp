@@ -75,7 +75,7 @@ formaDeRoca: [bloque(0 0 0 '🪨') bloque(0 1 0 '🪨')]
 ¶Una estructura nueva por igualar: dos torres, cada una de una a tres bloques de alto, en un par al azar de las columnas del centro, en la fila trasera del campo. Esas columnas del centro son justo donde nunca aparecen los recursos, así que una torre nunca puede caer dentro de un árbol. Cada columna es sólida desde el suelo hacia arriba, porque apilar siempre deja caer sobre la parte de arriba de una columna — no hay forma de crear un bloque flotante, así que no hay forma de pedir uno. Seis bloques es el límite, que es lo que produce un campo de tres rocas en ladrillo, así que hasta una estructura toda de ladrillo se puede construir.¶
 ƒ generarMeta() (
 		profundidad2: zMáximo
-		par: [-1 0 1].mezclado().subsecuencia(1 2)
+		par: [:-1‥1].mezclado().subsecuencia(1 2)
 		par.combinar(
 			[]
 			ƒ(estructura•[bloque] cx2•#)
@@ -94,7 +94,7 @@ formaDeRoca: [bloque(0 0 0 '🪨') bloque(0 1 0 '🪨')]
 	)
 
 ¶Si una celda está o no en el campo.¶
-ƒ enLímites(cx3•# cz2•#) (cx3 ≥ xMínimo) & (cx3 ≤ xMáximo) & (cz2 ≥ zMínimo) & (cz2 ≤ zMáximo)
+ƒ enLímites(cx3•# cz2•#) ((xMínimo‥xMáximo) ∋ cx3) & ((zMínimo‥zMáximo) ∋ cz2)
 
 ¶Qué tan alta es una columna. Cada columna es sólida desde el suelo hacia arriba — así crecen las formas, apilar agrega arriba y martillar quita de arriba — así que con solo contar los bloques de una columna se obtiene tanto su altura como la primera celda libre encima.¶
 ƒ alturaDeColumna(bloques2•[bloque] cx4•# cz3•#) bloques2.filtro(
@@ -366,7 +366,7 @@ down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
 tamañoDeTeja: 0.8m
 
-filasDeSuelo: [0 1 2 3 4].filtro(
+filasDeSuelo: [:0‥4].filtro(
 		ƒ(fila2•#) fila2 ≥ (juego11.z4 - dibujarDetrás)
 	).traducir(
 		ƒ(fila3•#)

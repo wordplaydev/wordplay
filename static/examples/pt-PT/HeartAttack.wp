@@ -77,8 +77,8 @@ pessoas: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' 
 ƒ vaguear(zombie4•zombie velocidade2•#m) (
 		novoX: zombie4.x2 + (zombie4.direçãoX · velocidade2)
 		novoZ: zombie4.z2 + (zombie4.direçãoZ · velocidade2)
-		ressaltoX: (novoX > limiteDireito) | (novoX < limiteEsquerdo)
-		ressaltoZ: (novoZ > profundidadeDeDeambulaçãoDistante) | (novoZ < profundidadeDeDeambulaçãoPróxima)
+		ressaltoX: ~((limiteEsquerdo‥limiteDireito) ∋ novoX)
+		ressaltoZ: ~((profundidadeDeDeambulaçãoPróxima‥profundidadeDeDeambulaçãoDistante) ∋ novoZ)
 		zombie(
 			(ressaltoX ? zombie4.x2 novoX)
 			(ressaltoZ ? zombie4.z2 novoZ)

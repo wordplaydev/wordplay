@@ -33,7 +33,7 @@ balónY: (basquetbol.lugar ?? Lugar()).y
 intento: (conteoDeClics ÷ 2).rondearArriba()
 
 ¶inBin es verdadero cuando el balón está dentro de la canasta. La reacción del puntaje solo ocurre cuando inBin cambia a verdadero Y el intento actual va adelante del puntaje, así que cualquier segunda entrada durante el mismo tiro —rebotes dentro de la canasta, o la canasta deslizándose de vuelta sobre el balón— no hace nada hasta que el siguiente tiro aumente el contador de intentos¶
-enLaCanasta: (balónX < (lugarXDeLaCanasta + 0.9m)) & (balónX > (lugarXDeLaCanasta - 0.9m)) & (balónY < 2.9m) & (balónY > 0.3m)
+enLaCanasta: (((lugarXDeLaCanasta - 0.9m)‥(lugarXDeLaCanasta + 0.9m)) ∋ balónX) & ((0.3m‥2.9m) ∋ balónY)
 puntaje: 0 … enLaCanasta & (intento > puntaje) … 1 + puntaje
 
 estrellaDelBasquetbol: Grupo(
