@@ -9,7 +9,6 @@ import {
     getDoc,
     getDocs,
     onSnapshot,
-    or,
     query,
     setDoc,
     where,
@@ -113,6 +112,18 @@ export default class GalleryDatabase {
             this.database.reportBanner((l) => l.ui.banner.storageFull),
     });
 
+    /** The cloud write in flight for each gallery, so two edits of one gallery
+     *  are applied in order rather than racing.
+     *
+     *  Every write here is a whole-document `setDoc`, so concurrent writes are
+     *  last-one-to-arrive-wins over the entire gallery — and creating a gallery
+     *  is itself an edit. A curator who renamed a gallery in the moments after
+     *  creating it therefore lost the name: the rename was built from correct
+     *  data and written correctly, and then the create's own `setDoc`, still in
+     *  flight, landed on top of it and restored "Untitled". Nothing reported a
+     *  failure, because neither write failed. */
+    private readonly writing = new Map<string, Promise<unknown>>();
+
     /** IDs of the user's galleries whose latest edit hasn't been confirmed
      *  saved in the cloud (write pending or failed). */
     get unsavedIDs() {
@@ -131,7 +142,17 @@ export default class GalleryDatabase {
     }
 
     /** The unsubscribe function for the real time query for galleries this user has access to. */
-    private galleriesQueryUnsubscribe: Unsubscribe | undefined;
+    /** The user's galleries listeners — one per `array-contains` clause; see
+     *  `startSync`. */
+    private galleriesQueryUnsubscribes: Unsubscribe[] = [];
+
+    /** The gallery IDs each of those listeners currently matches, so a document
+     *  leaving one is only evicted when no other listener still has it. A user
+     *  who is both a curator and a creator of a gallery appears in two of them,
+     *  and being dropped as a creator must not remove a gallery they still
+     *  curate. `CharactersDatabase` decides removal against the same union, for
+     *  the same reason. */
+    private readonly galleryQueryIDs = new Map<string, Set<string>>();
 
     /** A sorted, comma-joined key of the accessible-gallery IDs the projects
      *  query was last subscribed for. We only re-subscribe the projects query
@@ -292,108 +313,145 @@ export default class GalleryDatabase {
         // projects query for the new user/access.
         this.watchedGalleryKey = undefined;
 
-        this.galleriesQueryUnsubscribe = onSnapshot(
-            // Listen for any changes to galleries for which this user is a curator or creator.
-            // also listen to any changes to galleries where the user is a viewer of its how-tos
-            query(
-                collection(firestore, GalleriesCollection),
-                or(
-                    where('curators', 'array-contains', user.uid),
-                    where('creators', 'array-contains', user.uid),
-                    and(
-                        where('howToExpandedVisibility', '==', true),
-                        where('howToViewersFlat', 'array-contains', user.uid),
-                    ),
+        // Three listeners rather than one `or(...)`, because Firestore permits
+        // exactly one `array-contains` per query — including inside a
+        // disjunction. These three clauses were a single `or()` carrying three
+        // of them, so the query was rejected outright with "Only a single
+        // array-contains clause is allowed in a query" and this listener never
+        // delivered a snapshot at all. Nothing surfaced: galleries still
+        // appeared, because they come from the local cache and from explicit
+        // `find()` reads, so what was actually lost was every *live* update —
+        // a gallery just created not reaching the share picker, a how-to space
+        // rendering empty, membership changes never arriving. It read as flaky
+        // sync, and it is the standing flake in the e2e suite's gallery specs.
+        // Each wrapped in `and()` even where it is one clause, so all three are
+        // the same composite-constraint type and `query()` takes them uniformly.
+        const clauses = [
+            ['curators', and(where('curators', 'array-contains', user.uid))],
+            ['creators', and(where('creators', 'array-contains', user.uid))],
+            [
+                'howToViewers',
+                and(
+                    where('howToExpandedVisibility', '==', true),
+                    where('howToViewersFlat', 'array-contains', user.uid),
                 ),
-            ),
-            async (snapshot) => {
-                // Go through all of the galleries and update them.
-                const synced: Gallery[] = [];
-                snapshot.forEach((galleryDoc) => {
-                    // Wrap it in a gallery. Defend against a malformed or
-                    // unknown-version doc: skip it rather than letting one bad
-                    // gallery throw and abort the whole snapshot.
-                    let gallery: Gallery;
-                    try {
-                        gallery = deserializeGallery(galleryDoc.data());
-                    } catch (error) {
-                        console.error(error);
-                        return;
-                    }
+            ],
+        ] as const;
 
-                    // Skip galleries with unsaved local edits not yet pushed:
-                    // our local copy is authoritative until flushUnsaved replays
-                    // it, so don't let an older cloud version overwrite it in
-                    // memory or the cache.
-                    if (this.unsavedIDs.has(gallery.getID())) return;
+        // Captured because the guard above doesn't narrow inside the callback.
+        const db = firestore;
+        this.galleriesQueryUnsubscribes = clauses.map(([key, clause]) =>
+            onSnapshot(
+                query(collection(db, GalleriesCollection), clause),
+                async (snapshot) => {
+                    this.galleryQueryIDs.set(
+                        key,
+                        new Set(snapshot.docs.map((each) => each.id)),
+                    );
+                    // Go through all of the galleries and update them.
+                    const synced: Gallery[] = [];
+                    snapshot.forEach((galleryDoc) => {
+                        // Wrap it in a gallery. Defend against a malformed or
+                        // unknown-version doc: skip it rather than letting one bad
+                        // gallery throw and abort the whole snapshot.
+                        let gallery: Gallery;
+                        try {
+                            gallery = deserializeGallery(galleryDoc.data());
+                        } catch (error) {
+                            console.error(error);
+                            return;
+                        }
 
-                    synced.push(gallery);
+                        // Skip galleries with unsaved local edits not yet pushed:
+                        // our local copy is authoritative until flushUnsaved replays
+                        // it, so don't let an older cloud version overwrite it in
+                        // memory or the cache.
+                        if (this.unsavedIDs.has(gallery.getID())) return;
 
-                    if (
-                        gallery.getCreators().includes(user.uid) ||
-                        gallery.getCurators().includes(user.uid)
-                    ) {
-                        // Get the store for the gallery, or make one if we don't have one yet, and update the map.
-                        // Also check the public galleries, in case we loaded it there first, so we reuse the same store.
-                        this.accessibleGalleries.set(gallery.getID(), gallery);
+                        synced.push(gallery);
 
-                        // Notify the project's database that gallery permissions changed, requring a reload of the any projects in the gallery to see new permissions.
-                        this.database.MaybeProjects?.refreshGallery(gallery);
-                    } else {
-                        // user is only a how-to viewer, which means they have expanded scope access only
-                        this.expandedScopeGalleries.set(
-                            gallery.getID(),
-                            gallery,
-                        );
-                    }
-                });
-
-                // Mirror the cloud truth into the local cache for next cold start.
-                this.cacheGalleriesLocally(synced);
-
-                // Remove the galleries that were removed from this query.
-                snapshot.docChanges().forEach((change) => {
-                    // Removed? Delete the local cache of the project.
-                    // gallery is either in accessibleGalleries or expandedScopeGalleries
-                    if (change.type === 'removed') {
-                        this.accessibleGalleries.delete(change.doc.id);
-                        this.expandedScopeGalleries.delete(change.doc.id);
-                        if (this.IndexedDBSupported)
-                            void this.database.localDB.deleteGallery(
-                                change.doc.id,
+                        if (
+                            gallery.getCreators().includes(user.uid) ||
+                            gallery.getCurators().includes(user.uid)
+                        ) {
+                            // Get the store for the gallery, or make one if we don't have one yet, and update the map.
+                            // Also check the public galleries, in case we loaded it there first, so we reuse the same store.
+                            this.accessibleGalleries.set(
+                                gallery.getID(),
+                                gallery,
                             );
+
+                            // Notify the project's database that gallery permissions changed, requring a reload of the any projects in the gallery to see new permissions.
+                            this.database.MaybeProjects?.refreshGallery(
+                                gallery,
+                            );
+                        } else {
+                            // user is only a how-to viewer, which means they have expanded scope access only
+                            this.expandedScopeGalleries.set(
+                                gallery.getID(),
+                                gallery,
+                            );
+                        }
+                    });
+
+                    // Mirror the cloud truth into the local cache for next cold start.
+                    this.cacheGalleriesLocally(synced);
+
+                    // Remove the galleries that were removed from this query.
+                    snapshot.docChanges().forEach((change) => {
+                        // Removed? Delete the local cache of the gallery — but only
+                        // if no other listener still matches it. See galleryQueryIDs.
+                        if (change.type === 'removed') {
+                            if (this.matchedByAnyGalleryQuery(change.doc.id))
+                                return;
+                            this.accessibleGalleries.delete(change.doc.id);
+                            this.expandedScopeGalleries.delete(change.doc.id);
+                            if (this.IndexedDBSupported)
+                                void this.database.localDB.deleteGallery(
+                                    change.doc.id,
+                                );
+                        }
+                    });
+
+                    // Re-subscribe the projects query only when the SET of accessible
+                    // galleries changed — its `gallery in [...]` filter depends on
+                    // that set. Re-subscribing on every gallery content/metadata
+                    // change churned the whole projects query for nothing; project
+                    // updates *within* already-watched galleries keep streaming on
+                    // the live listeners regardless.
+                    const watchedKey = Array.from(
+                        this.accessibleGalleries.keys(),
+                    )
+                        .sort()
+                        .join(',');
+                    if (watchedKey !== this.watchedGalleryKey) {
+                        this.watchedGalleryKey = watchedKey;
+                        this.database.MaybeProjects?.syncUser(false);
+                        // Characters are filtered by gallery too (#822), so their
+                        // chunk listeners depend on the same set.
+                        this.database.Characters.galleriesChanged();
                     }
-                });
 
-                // Re-subscribe the projects query only when the SET of accessible
-                // galleries changed — its `gallery in [...]` filter depends on
-                // that set. Re-subscribing on every gallery content/metadata
-                // change churned the whole projects query for nothing; project
-                // updates *within* already-watched galleries keep streaming on
-                // the live listeners regardless.
-                const watchedKey = Array.from(this.accessibleGalleries.keys())
-                    .sort()
-                    .join(',');
-                if (watchedKey !== this.watchedGalleryKey) {
-                    this.watchedGalleryKey = watchedKey;
-                    this.database.MaybeProjects?.syncUser(false);
-                    // Characters are filtered by gallery too (#822), so their
-                    // chunk listeners depend on the same set.
-                    this.database.Characters.galleriesChanged();
-                }
-
-                // Mark the database loaded.
-                this.status = 'loaded';
-                this.database.markSynced(
-                    'galleries',
-                    this.accessibleGalleries.size,
-                );
-            },
-            (error) => {
-                this.status = 'noaccess';
-                this.database.reportListenerError(Domain.Galleries, error);
-            },
+                    // Mark the database loaded.
+                    this.status = 'loaded';
+                    this.database.markSynced(
+                        'galleries',
+                        this.accessibleGalleries.size,
+                    );
+                },
+                (error) => {
+                    this.status = 'noaccess';
+                    this.database.reportListenerError(Domain.Galleries, error);
+                },
+            ),
         );
+    }
+
+    /** Whether any of the user's galleries listeners still matches this ID. */
+    private matchedByAnyGalleryQuery(id: string): boolean {
+        for (const ids of this.galleryQueryIDs.values())
+            if (ids.has(id)) return true;
+        return false;
     }
 
     getStatus() {
@@ -583,14 +641,29 @@ export default class GalleryDatabase {
         // feeds the projects `where('gallery', 'in', ...)` query, whose security
         // rule does `get(/galleries/<id>)` — referencing a not-yet-written
         // gallery makes the rule error and fails the whole projects query.
-        await this.trackSave(
-            gallery.getID(),
-            gallery.getName(this.database.Locales.getLocaleSet()),
-            setDoc(
-                doc(firestore, GalleriesCollection, gallery.getID()),
-                gallery.data,
-            ),
-        );
+        // Queue behind any write already in flight for this gallery rather than
+        // issuing a second one alongside it — see `writing`. The `setDoc` is
+        // built inside the `then` so it isn't sent until its turn, and a failed
+        // earlier write is swallowed here so it can't block this one (its own
+        // caller has already been told, through trackSave).
+        const id = gallery.getID();
+        // Captured because the guard above doesn't narrow inside the callback,
+        // the same reason `flushUnsaved` takes its own `db`.
+        const db = firestore;
+        const queued = (this.writing.get(id) ?? Promise.resolve())
+            .catch(() => undefined)
+            .then(() => setDoc(doc(db, GalleriesCollection, id), gallery.data));
+        this.writing.set(id, queued);
+        try {
+            await this.trackSave(
+                id,
+                gallery.getName(this.database.Locales.getLocaleSet()),
+                queued,
+            );
+        } finally {
+            // Only clear it if nothing else has queued behind us in the interim.
+            if (this.writing.get(id) === queued) this.writing.delete(id);
+        }
 
         // Now add/update it in the accessible map (a user can only edit
         // galleries they curate/create, so it belongs there). We do this
@@ -1130,6 +1203,9 @@ export default class GalleryDatabase {
 
     clean() {
         // Stop listening if we're unmounting.
-        if (this.galleriesQueryUnsubscribe) this.galleriesQueryUnsubscribe();
+        for (const unsubscribe of this.galleriesQueryUnsubscribes)
+            unsubscribe();
+        this.galleriesQueryUnsubscribes = [];
+        this.galleryQueryIDs.clear();
     }
 }

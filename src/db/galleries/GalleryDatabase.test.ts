@@ -81,7 +81,7 @@ vi.mock('@db/projects/ProjectsDatabase.svelte', () => ({
 
 import GalleryDatabase from './GalleryDatabase.svelte';
 import type { SerializedGallery } from './Gallery';
-import { getDoc } from 'firebase/firestore';
+import { getDoc, setDoc } from 'firebase/firestore';
 
 function makeGallery(
     id: string,
@@ -176,6 +176,76 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
         };
 
         db = new GalleryDatabase(mockDatabase);
+    });
+
+    describe('concurrent edits of one gallery', () => {
+        /**
+         * `edit` writes the whole document, so two writes in flight at once are
+         * last-to-arrive-wins over everything — and creating a gallery is itself
+         * an edit. A curator who renamed a gallery in the moments after creating
+         * it lost the name: the rename was correct and was written correctly, and
+         * then the create's own still-in-flight write landed on top and restored
+         * "Untitled", with neither write reporting a failure.
+         */
+        it('applies them in order rather than letting the later one land first', async () => {
+            const started: string[] = [];
+            const finished: string[] = [];
+            let releaseFirst: (() => void) | undefined;
+
+            vi.mocked(setDoc).mockImplementation((async (
+                _reference: unknown,
+                data: { name?: Record<string, string> },
+            ) => {
+                const name = data.name?.['en-US'] ?? '?';
+                started.push(name);
+                // Hold the first write open so the second would overlap it if
+                // anything still issued the two concurrently.
+                if (started.length === 1)
+                    await new Promise<void>((resolve) => {
+                        releaseFirst = resolve;
+                    });
+                finished.push(name);
+            }) as unknown as typeof setDoc);
+
+            const created = makeGallery('g-race', {
+                name: { 'en-US': 'Untitled' },
+            });
+            const renamed = makeGallery('g-race', {
+                name: { 'en-US': 'Chosen Name' },
+            });
+
+            const first = db.edit(created);
+            // The rename is issued while the create is still in the air.
+            const second = db.edit(renamed);
+            await Promise.resolve();
+            await Promise.resolve();
+
+            // The queue is the whole point: the second write must not have been
+            // sent yet, or Firestore decides the order and the name is a coin flip.
+            expect(started).toEqual(['Untitled']);
+
+            releaseFirst?.();
+            await Promise.all([first, second]);
+
+            expect(started).toEqual(['Untitled', 'Chosen Name']);
+            expect(finished).toEqual(['Untitled', 'Chosen Name']);
+        });
+
+        it('lets a later edit through when an earlier one fails', async () => {
+            // A failed write is reported by trackSave; it must not wedge the
+            // queue and silently drop everything that follows.
+            vi.mocked(setDoc)
+                .mockRejectedValueOnce(new Error('offline'))
+                .mockResolvedValueOnce(undefined as never);
+
+            const first = db.edit(makeGallery('g-fail')).catch(() => undefined);
+            const second = db.edit(
+                makeGallery('g-fail', { name: { 'en-US': 'After' } }),
+            );
+            await Promise.all([first, second]);
+
+            expect(vi.mocked(setDoc)).toHaveBeenCalledTimes(2);
+        });
     });
 
     describe('addCharacter / removeCharacter (#822)', () => {
