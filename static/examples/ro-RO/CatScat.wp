@@ -47,7 +47,7 @@ Acestea sunt cele mai scurte note din piesă și singurul loc unde pisica este �
 		acasă: Aleatoriu(1 8)
 		(64 → []).traduce(
 			ƒ(i2•#)
-				((i2 < 17) | (i2 > 32)) ? ø
+				~((17‥32) ∋ i2) ? ø
 					poate((((acasă + (i2 - 17)) - 1) % 8) + 1)
 		)
 	)
@@ -57,7 +57,7 @@ Acestea sunt cele mai scurte note din piesă și singurul loc unde pisica este �
 		celulă2: [voce2() voce2() voce2()]
 		(48 → []).traduce(
 			ƒ(i3•#)
-				((i3 < 25) | (i3 > 36)) ? ø
+				~((25‥36) ∋ i3) ? ø
 					celulă2[(((i3 - 25) % 3) + 1)]
 		)
 	)

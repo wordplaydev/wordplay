@@ -295,7 +295,8 @@
         "Product": "$~ürün",
         "Percent": "$~yüzde",
         "Defect": "$~beklenen kusurlu örnek",
-        "NotANumber": "$~sayı değil"
+        "NotANumber": "$~sayı değil",
+        "Range": "$~aralık"
     },
     "node": {
         "Dimension": {
@@ -1434,7 +1435,8 @@
                 "ExpectedNextValue": {
                     "name": "$~eksik sonraki değer",
                     "explanation": "$~Ne zaman değişeceğimi biliyorum ama neye değişeceğimi bilmiyorum, bir sonraki değer ekleyebilir misin?",
-                    "resolution": "$~Bir sonraki değer ekle"
+                    "resolution": "$~Bir sonraki değer ekle",
+                    "rangeResolution": "$~Şununla bir @Range oluştur: \\‥\\ yerine"
                 }
             },
             "label": {
@@ -2408,6 +2410,15 @@
                 "\\rakamlar: ⣿ >0 #⣿\n'3 kedim ve 12 balığım var' ⌕ rakamlar\\",
                 "Saklandıktan sonra, beni bir kalıbın uyduğu her yerde kullan, örneğin \\text ⌕ digits\\🪲 veya \\text ≈ digits\\🪲."
             ]
+        },
+        "RangeType": {
+            "name": "$~aralık",
+            "description": "$~aralık tip$unit[ in $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~@Bind'a bir ismin bir @Range tuttuğunu söylerim — iki @Number sınırı ve aralarındaki her sayıyı.",
+                "\\aralık2•‥: 1 ‥ 10\\🪲"
+            ]
         }
     },
     "basis": {
@@ -3130,6 +3141,22 @@
                         {
                             "doc": "$~Logaritmanın tabanı. Doğal logaritma (taban _e_) için boş bırak.",
                             "names": "$~taban"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Benden verilen @Number'e kadar, ikisi de dahil olmak üzere bir @Range. Onu @Spread ile bir listeye yay, bir sayı tutup tutmadığını sor, ya da onu bir @Match anahtarı olarak kullan:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Sonum başlangıcımdan küçükse geriye doğru sayarım:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~kadar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Aralığımın bittiği @Number. Benimkiyle aynı birime sahip olmalı.",
+                            "names": "$~sayı"
                         }
                     ]
                 }
@@ -4224,6 +4251,70 @@
                 "number": [
                     "$~Kelimelerimi bir @Number'e çevirir, eğer bunlar bir sayı değilse, sayı olmayan bir değer verir, bu da şöyle görünür: \\!#\\:",
                     "\\`selam` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Ben bir sayı aralığıyım! Bir başlangıcım ve bir sonum var, ikisini de ve aralarındaki her sayıyı da içeririm. Beni \\‥\\ ile iki sayı arasında oluşturursun:",
+                "\\1‥10\\",
+                "Bana bir sayı tutup tutmadığımı sor:",
+                "\\(1‥10) ∋ 7\\",
+                "Beni bir listeye yayarak tuttuğum her sayıyı elde et:",
+                "\\[:1‥10]\\",
+                "Beni bir @Match anahtarı olarak kullan, tuttuğum her sayıyla eşleşirim:",
+                "\\7 ???\n\t1 ‥ 9: 'küçük'\n\t'büyük'\\",
+                "Başlangıcım ve sonum, tıpkı @Number karşılaştırmalarında olduğu gibi, aynı birime sahip olmalı."
+            ],
+            "name": ["$~Aralık"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ eğer verilen @Range benimle aynı başlangıç ve sona sahipse:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~Beninle karşılaştırılacak @Range.",
+                            "names": "$~aralık"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ eğer verilen @Range'ın başlangıcı veya sonu benimkinden farklıysa:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beninle karşılaştırılacak @Range.",
+                            "names": "$~aralık"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ eğer verilen @Number başlangıcım ile sonum arasındaysa, ya da onlardan biriyse:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Hangi yönde yazıldığımın önemi yok:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~içerir"],
+                    "inputs": [
+                        {
+                            "doc": "$~İçimde aranacak @Number.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Bir aralığı, içindeki her sayının birer birer sayıldığı bir listeye çeviririm. Örneğin:",
+                    "\\(1‥5)→[]\\"
                 ]
             }
         }
@@ -7489,7 +7580,8 @@
                 "insertDottedEighthNote": "$~Dörtte bir vuruş uzunluğunda bir on altılık nota ekle",
                 "insertSixteenthNote": "$~Sekizde üç vuruş uzunluğunda noktalı bir on altılık nota ekle",
                 "insertDottedSixteenthNote": "$~müzik ve ses yap",
-                "selectedNodes": "$~$#count[$count düğüm seçildi|$count düğüm seçildi], $first ile $last arası"
+                "selectedNodes": "$~$#count[$count düğüm seçildi|$count düğüm seçildi], $first ile $last arası",
+                "insertRange": "$~aralık simgesi ekle"
             },
             "options": {
                 "locale": {

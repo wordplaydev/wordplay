@@ -75,8 +75,8 @@ insanlar: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 ƒ dolaş(zombi4•zombi hız2•#m) (
 		yeniX: zombi4.x2 + (zombi4.yönX · hız2)
 		yeniZ: zombi4.z2 + (zombi4.yönZ · hız2)
-		sıçramaX: (yeniX > sağSınır) | (yeniX < solSınır)
-		sıçramaZ: (yeniZ > dolaşmaDerinliğiUzak) | (yeniZ < dolaşmaDerinliğiYakın)
+		sıçramaX: ~((solSınır‥sağSınır) ∋ yeniX)
+		sıçramaZ: ~((dolaşmaDerinliğiYakın‥dolaşmaDerinliğiUzak) ∋ yeniZ)
 		zombi(
 			(sıçramaX ? zombi4.x2 yeniX)
 			(sıçramaZ ? zombi4.z2 yeniZ)

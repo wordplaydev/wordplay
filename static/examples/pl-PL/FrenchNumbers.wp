@@ -20,7 +20,7 @@ liczby,numeros/fr: [
 
 ¶Sekrety to liczby od 1 do 9 w losowej kolejności¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-sekrety: [1 2 3 4 5 6 7 8 9].przetasowany()
+sekrety: [:1‥9].przetasowany()
 
 ¶Jaki klawisz został naciśnięty jako ostatni?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

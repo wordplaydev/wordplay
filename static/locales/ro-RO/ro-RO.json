@@ -295,7 +295,8 @@
         "Product": "$~produs",
         "Percent": "$~la sută",
         "Defect": "$~exemplu cu defect așteptat",
-        "NotANumber": "$~nu este un număr"
+        "NotANumber": "$~nu este un număr",
+        "Range": "$~interval"
     },
     "node": {
         "Dimension": {
@@ -1439,7 +1440,8 @@
                 "ExpectedNextValue": {
                     "name": "$~valoare următoare lipsă",
                     "explanation": "$~Știu când să mă schimb, dar nu știu în ce. Poți adăuga o valoare următoare?",
-                    "resolution": "$~Adaugă o valoare următoare"
+                    "resolution": "$~Adaugă o valoare următoare",
+                    "rangeResolution": "$~Fă un @Range cu \\‥\\ în schimb"
                 }
             }
         },
@@ -2408,6 +2410,15 @@
                 "\\cifre: ⣿ >0 #⣿\n'Am 3 pisici și 12 pești' ⌕ cifre\\",
                 "Odată stocat, folosește-mă oriunde se potrivește un tipar, ca \\text ⌕ digits\\🪲 sau \\text ≈ digits\\🪲."
             ]
+        },
+        "RangeType": {
+            "name": "$~interval",
+            "description": "$~tip interval$unit[ în $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Îi spun lui @Bind că un nume ține un @Range — două limite @Number, și fiecare număr dintre ele.",
+                "\\întindere•‥: 1 ‥ 10\\🪲"
+            ]
         }
     },
     "basis": {
@@ -3130,6 +3141,22 @@
                         {
                             "doc": "$~Baza logaritmului. Las-o afară pentru logaritmul natural (baza _e_).",
                             "names": "$~bază"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Un @Range de la mine până la @Number dat, incluzându-le pe amândouă. Împrăștie-l într-o listă cu @Spread, întreabă dacă ține un număr, sau folosește-l ca o cheie de @Match:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Număr descrescător când sfârșitul meu e sub începutul meu:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~la"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number la care se termină intervalul meu. Trebuie să aibă aceeași unitate ca a mea.",
+                            "names": "$~număr"
                         }
                     ]
                 }
@@ -4224,6 +4251,70 @@
                 "number": [
                     "$~Transformă cuvintele mele într-un @Number, iar dacă nu sunt un număr, o valoare care nu este număr, care apare ca \\!#\\:",
                     "\\`salut` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Sunt un interval de numere! Am un început și un sfârșit, și le includ pe amândouă, plus fiecare număr dintre ele. Mă creezi cu \\‥\\ între două numere:",
+                "\\1‥10\\",
+                "Întreabă-mă dacă țin un număr:",
+                "\\(1‥10) ∋ 7\\",
+                "Împrăștie-mă într-o listă ca să obții fiecare număr pe care îl țin:",
+                "\\[:1‥10]\\",
+                "Folosește-mă ca o cheie de @Match și potrivesc orice număr pe care îl țin:",
+                "\\7 ???\n\t1 ‥ 9: 'mic'\n\t'mare'\\",
+                "Începutul și sfârșitul meu trebuie să aibă aceeași unitate, la fel cum se întâmplă la comparațiile de @Number."
+            ],
+            "name": ["$~Interval"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ dacă @Range dat are același început și sfârșit ca mine:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range cu care să mă compare.",
+                            "names": "$~interval"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ dacă @Range dat are un început sau sfârșit diferit de al meu:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range cu care să mă compare.",
+                            "names": "$~interval"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ dacă @Number dat este între începutul și sfârșitul meu, sau este unul dintre ele:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Nu contează în ce sens am fost scris:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~are"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number de căutat în mine.",
+                            "names": "$~număr"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Transform un interval într-o listă cu fiecare număr din el, numărând din unu în unu. De exemplu:",
+                    "\\(1‥5)→[]\\"
                 ]
             }
         }
@@ -7743,7 +7834,8 @@
                 "insertDottedEighthNote": "$~Introdu o optime de notă cu punct, lungă de trei sferturi de bătaie",
                 "insertSixteenthNote": "$~Introdu o șaisprezecime de notă, lungă de un sfert de bătaie",
                 "insertDottedSixteenthNote": "$~Introdu o șaisprezecime de notă cu punct, lungă de trei optimi de bătaie",
-                "selectedNodes": "$~$#count[$#count nod selectat|$count noduri selectate|$count de noduri selectate] de la $first până la $last"
+                "selectedNodes": "$~$#count[$#count nod selectat|$count noduri selectate|$count de noduri selectate] de la $first până la $last",
+                "insertRange": "$~inserează simbolul de interval"
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",

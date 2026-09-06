@@ -20,7 +20,7 @@ t
 
 ¶这些秘密数字是 1 到 9，顺序随机打乱¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-秘密数字: [1 2 3 4 5 6 7 8 9].洗牌()
+秘密数字: [:1‥9].洗牌()
 
 ¶最近按下的是哪个键？¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

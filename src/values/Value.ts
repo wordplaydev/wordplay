@@ -45,6 +45,16 @@ export default abstract class Value {
 
     abstract isEqualTo(value: Value): boolean;
 
+    /**
+     * Whether this value, used as a match key, admits the given subject. Equality for
+     * everything except a range, which admits any number it contains — the one non-equality
+     * key in the language. Match compiles to this rather than to isEqualTo so a range key
+     * works without changing what any other key means.
+     */
+    matches(subject: Value): boolean {
+        return this.isEqualTo(subject);
+    }
+
     abstract getDescription(): LocaleTextAccessor;
 
     /** Used to get a shorthand textual representation of the value, for previews and other summaries. */

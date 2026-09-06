@@ -9,6 +9,7 @@ import MapType from '@nodes/MapType';
 import NameType from '@nodes/NameType';
 import NoneType from '@nodes/NoneType';
 import NumberType from '@nodes/NumberType';
+import RangeType from '@nodes/RangeType';
 import SetType from '@nodes/SetType';
 import StreamType from '@nodes/StreamType';
 import { Sym } from '@nodes/Sym';
@@ -38,29 +39,31 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
             : tokens.nextIs(Sym.Percent) ||
                 tokens.nextIsOneOf(Sym.Number, Sym.NumberType)
               ? parseNumberType(tokens)
-              : tokens.nextIs(Sym.Text)
-                ? parseTextType(tokens)
-                : tokens.nextIs(Sym.None)
-                  ? parseNoneType(tokens)
-                  : tokens.nextIs(Sym.ListOpen)
-                    ? parseListType(tokens)
-                    : tokens.nextIs(Sym.SetOpen)
-                      ? parseSetOrMapType(tokens)
-                      : tokens.nextIs(Sym.TableOpen)
-                        ? parseTableType(tokens)
-                        : tokens.nextIs(Sym.PatternDelimiter)
-                          ? new PatternType(
-                                tokens.read(Sym.PatternDelimiter),
-                                tokens.read(Sym.PatternDelimiter),
-                            )
-                          : tokens.nextIs(Sym.Function)
-                            ? parseFunctionType(tokens)
-                            : tokens.nextIs(Sym.Stream)
-                              ? parseStreamType(tokens)
-                              : // We use the doc symbol because it looks like an empty formatted
-                                tokens.nextIs(Sym.FormattedType)
-                                ? parseFormattedType(tokens)
-                                : new UnparsableType(tokens.readLine());
+              : tokens.nextIs(Sym.Range)
+                ? parseRangeType(tokens)
+                : tokens.nextIs(Sym.Text)
+                  ? parseTextType(tokens)
+                  : tokens.nextIs(Sym.None)
+                    ? parseNoneType(tokens)
+                    : tokens.nextIs(Sym.ListOpen)
+                      ? parseListType(tokens)
+                      : tokens.nextIs(Sym.SetOpen)
+                        ? parseSetOrMapType(tokens)
+                        : tokens.nextIs(Sym.TableOpen)
+                          ? parseTableType(tokens)
+                          : tokens.nextIs(Sym.PatternDelimiter)
+                            ? new PatternType(
+                                  tokens.read(Sym.PatternDelimiter),
+                                  tokens.read(Sym.PatternDelimiter),
+                              )
+                            : tokens.nextIs(Sym.Function)
+                              ? parseFunctionType(tokens)
+                              : tokens.nextIs(Sym.Stream)
+                                ? parseStreamType(tokens)
+                                : // We use the doc symbol because it looks like an empty formatted
+                                  tokens.nextIs(Sym.FormattedType)
+                                  ? parseFormattedType(tokens)
+                                  : new UnparsableType(tokens.readLine());
 
     tokens.whileDo(
         () => tokens.nextIs(Sym.Union) && tokens.nextLacksPrecedingSpace(),
@@ -130,6 +133,23 @@ function parseNumberType(tokens: Tokens): NumberType {
     return new NumberType(number, unit, undefined, none);
 }
 
+/** A range type mirrors a number type's unit syntax: `‥` any unit, `‥!` none, `‥m` meters. */
+function parseRangeType(tokens: Tokens): RangeType {
+    const range = tokens.read(Sym.Range);
+    // A `!` immediately after marks an explicit "no unit" type (`‥!`).
+    const none =
+        tokens.nextIs(Sym.Literal) && tokens.nextLacksPrecedingSpace()
+            ? tokens.read(Sym.Literal)
+            : undefined;
+    const unit =
+        none === undefined &&
+        tokens.nextIsOneOf(Sym.Conditional, Sym.Name, Sym.Language) &&
+        tokens.nextLacksPrecedingSpace()
+            ? parseUnit(tokens)
+            : undefined;
+    return new RangeType(range, unit, undefined, none);
+}
+
 function parseNoneType(tokens: Tokens): NoneType {
     const none = tokens.read(Sym.None);
     return new NoneType(none);
@@ -151,6 +171,7 @@ export function nextIsType(tokens: Tokens): boolean {
             Sym.Percent,
             Sym.Number,
             Sym.NumberType,
+            Sym.Range,
             Sym.Text,
             Sym.None,
             Sym.ListOpen,

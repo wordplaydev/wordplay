@@ -288,6 +288,7 @@
         "Exponent": "exponent",
         "Product": "product",
         "Percent": "percent",
+        "Range": "range",
         "Stream": "next",
         "Change": "change",
         "Initial": "first evaluation",
@@ -1818,7 +1819,8 @@
                 "ExpectedNextValue": {
                     "name": "missing next value",
                     "explanation": "I know when to change, but not what to change to, can you add a next value?",
-                    "resolution": "Add a next value"
+                    "resolution": "Add a next value",
+                    "rangeResolution": "Make a @Range with \\‥\\ instead"
                 }
             }
         },
@@ -2268,6 +2270,15 @@
             "doc": [
                 "I tell @Bind that a name holds a @Number. You know what @Bind should be? A @Number — because numbers are the best.",
                 "\\count•#: 17\\🪲"
+            ]
+        },
+        "RangeType": {
+            "name": "range",
+            "description": "range type$unit[ in $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "I tell @Bind that a name holds a @Range — two @Number bounds, and every number between them.",
+                "\\span•‥: 1‥10\\🪲"
             ]
         },
         "NameType": {
@@ -3165,6 +3176,22 @@
                         }
                     ]
                 },
+                "range": {
+                    "doc": [
+                        "A @Range from me to the given @Number, including both. Spread it into a list with @Spread, ask whether it holds a number, or use it as a @Match key:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "I count down when my end is below my start:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["‥", "to"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number my range ends at. It must have the same unit I do.",
+                            "names": "number"
+                        }
+                    ]
+                },
                 "equal": {
                     "doc": [
                         "\\⊤\\ if I'm equal to the given @Number:",
@@ -3431,6 +3458,70 @@
                 "data": "Data",
                 "brightness": "Brightness",
                 "other": "Other"
+            }
+        },
+        "Range": {
+            "doc": [
+                "I'm a range of numbers! I have a start and an end, and I include both of them, and every number in between. You make me with \\‥\\ between two numbers:",
+                "\\1‥10\\",
+                "Ask me whether I hold a number:",
+                "\\(1‥10) ∋ 7\\",
+                "Spread me into a list to get every number I hold:",
+                "\\[:1‥10]\\",
+                "Use me as a @Match key and I match any number I hold:",
+                "\\7 ??? 1‥9: 'small' 'big'\\",
+                "My start and end must have the same unit, just like @Number comparisons do."
+            ],
+            "name": ["‥", "Range"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "\\⊤\\ if the given @Range has the same start and end as me:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["="],
+                    "inputs": [
+                        {
+                            "doc": "The @Range to compare me to.",
+                            "names": "range"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "\\⊤\\ if the given @Range has a different start or end than me:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["≠"],
+                    "inputs": [
+                        {
+                            "doc": "The @Range to compare me to.",
+                            "names": "range"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "\\⊤\\ if the given @Number is between my start and end, or is one of them:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "It doesn't matter which way around I was written:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["∋", "has"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number to look for in me.",
+                            "names": "number"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "I convert a range to a list of every number in it, counting by one. For example:",
+                    "\\(1‥5)→[]\\"
+                ]
             }
         },
         "List": {
@@ -7741,6 +7832,7 @@
                 "insertType": "insert type symbol",
                 "insertDocs": "insert explanation symbol",
                 "insertStream": "insert stream symbol",
+                "insertRange": "insert range symbol",
                 "insertChange": "insert change symbol",
                 "insertConvert": "insert convert symbol",
                 "insertTranslate": "insert translate symbol",

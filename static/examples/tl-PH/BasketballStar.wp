@@ -33,7 +33,7 @@ bolaY: (basketbol.lugar ?? Lugar()).taon
 pagtatangka: (bilangNgClick ÷ 2).roundUp()
 
 ¶Totoo ang inBin kapag nasa loob ng basket ang bola. Tatakbo lang ang reaksyon ng iskor kapag naging totoo ang inBin AT mas malaki ang kasalukuyang pagtatangka kaysa sa iskor, kaya ang anumang pangalawang pagpasok sa parehong shot — mga talbog sa loob ng basket, o pagbalik ng basket sa ibabaw ng bola — ay hindi gagawa ng anuman hanggang sa susunod na shot na magpapataas sa bilang ng pagtatangka¶
-nasaBasket: (bolaX < (lugarNgBasketX + 0.9m)) & (bolaX > (lugarNgBasketX - 0.9m)) & (bolaY < 2.9m) & (bolaY > 0.3m)
+nasaBasket: (((lugarNgBasketX - 0.9m)‥(lugarNgBasketX + 0.9m)) ∋ bolaX) & ((0.3m‥2.9m) ∋ bolaY)
 iskor: 0 … nasaBasket & (pagtatangka > iskor) … 1 + iskor
 
 bituinNgBasketbol: Grupo(

@@ -33,7 +33,7 @@ bóngY: (bóngRổ.vịTrí ?? VịTrí()).y
 lầnThử: (sốLầnNhấp ÷ 2).tổnghợp()
 
 ¶inBin là đúng bất cứ khi nào quả bóng nằm bên trong giỏ. Phản ứng tính điểm chỉ xảy ra khi inBin chuyển sang đúng VÀ lần thử hiện tại vượt qua điểm số, vì vậy bất kỳ lần vào giỏ thứ hai nào trong cùng một lần ném — như bóng nảy bên trong giỏ, hoặc giỏ trượt ngược lại qua bóng — sẽ không có tác dụng gì cho đến khi lần ném tiếp theo làm tăng bộ đếm lần thử¶
-trongGiỏ: (bóngX < (vịTríXCủaGiỏ + 0.9m)) & (bóngX > (vịTríXCủaGiỏ - 0.9m)) & (bóngY < 2.9m) & (bóngY > 0.3m)
+trongGiỏ: (((vịTríXCủaGiỏ - 0.9m)‥(vịTríXCủaGiỏ + 0.9m)) ∋ bóngX) & ((0.3m‥2.9m) ∋ bóngY)
 điểmSố: 0 … trongGiỏ & (lầnThử > điểmSố) … 1 + điểmSố
 
 ngôiSaoBóngRổ: Nhóm(

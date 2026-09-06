@@ -295,7 +295,8 @@
         "Product": "$~Produkt",
         "Percent": "$~Prozent",
         "Defect": "$~Beispiel mit erwartetem Fehler",
-        "NotANumber": "$~keine Zahl"
+        "NotANumber": "$~keine Zahl",
+        "Range": "$~Bereich"
     },
     "node": {
         "Dimension": {
@@ -1422,7 +1423,8 @@
                 "ExpectedNextValue": {
                     "name": "$~fehlender nächster Wert",
                     "explanation": "$~Ich weiß, wann ich wechseln soll, aber nicht, wozu. Kannst du einen nächsten Wert hinzufügen?",
-                    "resolution": "$~Füge einen nächsten Wert hinzu"
+                    "resolution": "$~Füge einen nächsten Wert hinzu",
+                    "rangeResolution": "$~Erstelle einen @Range mit \\‥\\ stattdessen"
                 }
             },
             "label": {
@@ -2408,6 +2410,15 @@
                 "\\ziffern: ⣿ >0 #⣿\n'Ich habe 3 Katzen und 12 Fische' ⌕ ziffern\\",
                 "Einmal gespeichert, nutze mich überall, wo ein Muster passt, wie \\text ⌕ digits\\🪲 oder \\text ≈ digits\\🪲."
             ]
+        },
+        "RangeType": {
+            "name": "$~Bereich",
+            "description": "$~Bereichstyp$unit[ in $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Ich sage @Bind, dass ein Name einen @Range enthält — zwei @Number Grenzen und jede Zahl dazwischen.",
+                "\\spanne•‥: 1 ‥ 10\\🪲"
+            ]
         }
     },
     "basis": {
@@ -3133,6 +3144,22 @@
                         {
                             "doc": "$~Die Basis des Logarithmus. Lass sie weg für den natürlichen Logarithmus (Basis _e_).",
                             "names": "$~Basis"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Ein @Range von mir bis zum angegebenen @Number, beide eingeschlossen. Verteile ihn mit @Spread in eine Liste, frage, ob er eine Zahl enthält, oder nutze ihn als @Match-Schlüssel:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Ich zähle rückwärts, wenn mein Ende unter meinem Anfang liegt:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~bis"],
+                    "inputs": [
+                        {
+                            "doc": "$~Der @Number, bei dem mein Bereich endet. Er muss dieselbe Einheit haben wie ich.",
+                            "names": "$~Zahl"
                         }
                     ]
                 }
@@ -4226,6 +4253,70 @@
                 "number": [
                     "$~Wandelt meine Wörter in eine @Number um. Sind sie keine Zahl, entsteht ein Keine-Zahl-Wert, der angezeigt wird als \\!#\\:",
                     "\\`hi` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Ich bin ein Bereich von Zahlen! Ich habe einen Anfang und ein Ende, und ich schließe beide ein, und jede Zahl dazwischen. Du erstellst mich mit \\‥\\ zwischen zwei Zahlen:",
+                "\\1‥10\\",
+                "Frage mich, ob ich eine Zahl enthalte:",
+                "\\(1‥10) ∋ 7\\",
+                "Verteile mich in eine Liste, um jede Zahl zu bekommen, die ich enthalte:",
+                "\\[:1‥10]\\",
+                "Nutze mich als @Match-Schlüssel, und ich passe zu jeder Zahl, die ich enthalte:",
+                "\\7 ???\n\t1 ‥ 9: 'klein'\n\t'groß'\\",
+                "Mein Anfang und mein Ende müssen dieselbe Einheit haben, genau wie bei @Number-Vergleichen."
+            ],
+            "name": ["$~Bereich"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ wenn der angegebene @Range denselben Anfang und dasselbe Ende hat wie ich:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~Der @Range, mit dem ich verglichen werden soll.",
+                            "names": "$~bereich"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ wenn der angegebene @Range einen anderen Anfang oder ein anderes Ende hat als ich:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~Der @Range, mit dem ich verglichen werden soll.",
+                            "names": "$~bereich"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ wenn der angegebene @Number zwischen meinem Anfang und Ende liegt oder einer von beiden ist:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Es spielt keine Rolle, in welcher Reihenfolge ich geschrieben wurde:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~hat"],
+                    "inputs": [
+                        {
+                            "doc": "$~Der @Number, nach dem in mir gesucht werden soll.",
+                            "names": "$~Zahl"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Ich wandle einen Bereich in eine Liste aller Zahlen darin um, indem ich in Einserschritten zähle. Zum Beispiel:",
+                    "\\(1‥5)→[]\\"
                 ]
             }
         }
@@ -7474,7 +7565,8 @@
                 "insertDottedEighthNote": "$~Füge eine punktierte Achtelnote ein, drei Viertel eines Schlags lang",
                 "insertSixteenthNote": "$~Füge eine Sechzehntelnote ein, ein Viertel eines Schlags lang",
                 "insertDottedSixteenthNote": "$~Füge eine punktierte Sechzehntelnote ein, drei Achtel eines Schlags lang",
-                "selectedNodes": "$~$#count[$count Knoten ausgewählt|$count Knoten ausgewählt], $first bis $last"
+                "selectedNodes": "$~$#count[$count Knoten ausgewählt|$count Knoten ausgewählt], $first bis $last",
+                "insertRange": "$~Bereichssymbol einfügen"
             },
             "options": {
                 "locale": {

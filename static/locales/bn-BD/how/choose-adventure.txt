@@ -21,7 +21,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶ এই মানটি উপরের তালিকায় থাকা বর্তমান সিদ্ধান্তকে নির্দেশ করে।যখন কী-টি চাপ দেওয়া হয়, তখন আমরা নিম্নলিখিত কাজগুলোর মধ্যে একটি করে থাকি।এই সিদ্ধান্তের জন্য যদি কেবল একটিই বিকল্প থাকে, তাহলে আমরা বর্তমান সিদ্ধান্তটি পরিবর্তন করি।যে কী-ই চাপা হোক না কেন, অপশনটির লক্ষ্য নির্ধারণে।যদি চাপ দেওয়া কী-টি ১ এবং অপশনের সংখ্যার মধ্যে থাকে, তাহলে আমরা সেই অপশনটির চূড়ান্ত সিদ্ধান্তে চলে যাই।অন্যথায়, আমরা বর্তমান সিদ্ধান্তটিই অপরিবর্তিত রাখব। ¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶ এটি কেবল কয়েকটি বাক্যাংশের সমষ্টি হিসাবে বিকল্পগুলি দেখায়। আপনি এটি পরিবর্তন করে নির্দেশাবলী, অ্যানিমেশন এবং অন্যান্য আকর্ষণীয় বিষয় যোগ করতে পারেন! ¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

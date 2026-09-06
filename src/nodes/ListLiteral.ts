@@ -7,6 +7,7 @@ import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import ListValue from '@values/ListValue';
+import RangeValue from '@values/RangeValue';
 import type Value from '@values/Value';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import { Purpose } from '@concepts/Purpose';
@@ -23,6 +24,7 @@ import ListCloseToken from '@nodes/ListCloseToken';
 import ListOpenToken from '@nodes/ListOpenToken';
 import ListType from '@nodes/ListType';
 import { list, node, type Grammar, type Replacement } from '@nodes/Node';
+import RangeType from '@nodes/RangeType';
 import Spread from '@nodes/Spread';
 import { Sym } from '@nodes/Sym';
 import type Token from '@nodes/Token';
@@ -152,6 +154,9 @@ export default class ListLiteral extends CompositeLiteral {
             .map((e) => {
                 if (e instanceof Spread) {
                     const type = e.list?.getType(context);
+                    // A spread range contributes the numbers between its bounds.
+                    if (type instanceof RangeType)
+                        return type.getElementType(context);
                     return type instanceof ListType
                         ? type.getItemType(context)
                         : undefined;
@@ -249,7 +254,14 @@ export default class ListLiteral extends CompositeLiteral {
             } while (item instanceof Spread && item.list === undefined);
             // Was this a spread value? Add all of its items to this list.
             if (item instanceof Spread) {
-                if (value instanceof ListValue) {
+                // A range spreads to the numbers it holds. Enumerating can fail (an
+                // unbounded end), and that exception is the list's value, not an item.
+                if (value instanceof RangeValue) {
+                    const list = value.toList(this, evaluator);
+                    if (!(list instanceof ListValue)) return list;
+                    for (let j = list.values.length - 1; j >= 0; j--)
+                        values.unshift(list.values[j]);
+                } else if (value instanceof ListValue) {
                     // Add them in reverse order so they end up in the correct order.
                     for (let j = value.values.length - 1; j >= 0; j--)
                         values.unshift(value.values[j]);

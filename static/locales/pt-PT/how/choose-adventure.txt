@@ -21,7 +21,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶Este valor representa a decisão atual na lista acima.Ao premir a tecla, realizamos uma das seguintes ações.Se existir apenas uma opção para essa decisão, então alteramos a decisão atual.para a decisão alvo da opção, independentemente da tecla premida.Se a tecla premida estiver entre 1 e o número de opções, então passamos para a decisão alvo dessa opção.Caso contrário, manteremos a decisão atual.¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶Isto apenas apresenta as opções como uma lista de frases. Pode alterar isto para adicionar instruções, animações e outros elementos interessantes!¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

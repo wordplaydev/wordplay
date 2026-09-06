@@ -20,7 +20,7 @@ t
 
 ¶மறைவெண்கள் என்பது 1 முதல் 9 வரையிலான எண்கள், சீரற்ற வரிசையில்¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-மறைவெண்கள்: [1 2 3 4 5 6 7 8 9].கலக்கினார்()
+மறைவெண்கள்: [:1‥9].கலக்கினார்()
 
 ¶கடைசியாக அழுத்திய விசை என்ன?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

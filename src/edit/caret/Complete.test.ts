@@ -120,6 +120,23 @@ describe('text mode types exactly what was typed, except delimiter closes', () =
         expect(insert("'wait..'", 7, '.')).toBe("'wait...'");
         expect(insert('¶hm..¶1', 5, '.')).toBe('¶hm...¶1');
     });
+
+    test('dots escalate: a second makes a range, a third makes a stream', () => {
+        // Typing the second dot of `1..10`.
+        expect(insert('1.', 2, '.')).toBe('1‥');
+        // Typing the third, which lands on the range the second one made.
+        expect(insert('1‥', 2, '.')).toBe('1…');
+        // A range between names, the same way.
+        expect(insert('a.', 2, '.')).toBe('a‥');
+        // The first dot is left alone, so a decimal and an access still work.
+        expect(insert('1', 1, '.')).toBe('1.');
+        expect(insert('x', 1, '.')).toBe('x.');
+        // A decimal's dot isn't consecutive, so nothing escalates.
+        expect(insert('1.5', 3, '.')).toBe('1.5.');
+        // Prose is prose in both text and markup, at either rung.
+        expect(insert("'wait.'", 6, '.')).toBe("'wait..'");
+        expect(insert('¶hm.¶1', 4, '.')).toBe('¶hm..¶1');
+    });
 });
 
 describe('completeOperatorEvaluate skips characters with non-operator meanings', () => {

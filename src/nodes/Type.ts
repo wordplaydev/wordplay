@@ -5,6 +5,7 @@ import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Expression from '@nodes/Expression';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Language from '@nodes/Language';
+import type Unit from '@nodes/Unit';
 import Node from '@nodes/Node';
 import TypeSet from '@nodes/TypeSet';
 import type Value from '@values/Value';
@@ -78,6 +79,13 @@ export default abstract class Type extends Node {
     /** The concrete locale of this type, if it carries one (text and formatted
      *  text). Returns undefined for all other types. Used by language derivers. */
     concreteLanguage(_: Context): Language | undefined {
+        return undefined;
+    }
+
+    /** The concrete unit of this type, if it carries one (numbers and ranges).
+     *  Returns undefined for all other types. Used by unit derivers, which stay
+     *  lenient when an operand has no unit to speak of. */
+    concreteUnit(_: Context): Unit | undefined {
         return undefined;
     }
 

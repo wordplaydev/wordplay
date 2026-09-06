@@ -20,7 +20,7 @@ t
 
 ¶祕密是 1 到 9 的數字，順序隨機排列¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-祕密: [1 2 3 4 5 6 7 8 9].已洗牌()
+祕密: [:1‥9].已洗牌()
 
 ¶最近按下的鍵是什麼？¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

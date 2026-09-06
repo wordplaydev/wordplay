@@ -47,7 +47,7 @@ To najkrótsze nuty w utworze i jedyne miejsce, w którym kot zostaje przycięty
 		dom: Losowy(1 8)
 		(64 → []).tłumaczyć(
 			ƒ(i3•#)
-				((i3 < 17) | (i3 > 32)) ? ø
+				~((17‥32) ∋ i3) ? ø
 					może((((dom + (i3 - 17)) - 1) % 8) + 1)
 		)
 	)
@@ -57,7 +57,7 @@ To najkrótsze nuty w utworze i jedyne miejsce, w którym kot zostaje przycięty
 		komórka2: [głos2() głos2() głos2()]
 		(48 → []).tłumaczyć(
 			ƒ(i4•#)
-				((i4 < 25) | (i4 > 36)) ? ø
+				~((25‥36) ∋ i4) ? ø
 					komórka2[(((i4 - 25) % 3) + 1)]
 		)
 	)

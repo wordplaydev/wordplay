@@ -7,6 +7,7 @@ import FunctionDefinition from '@nodes/FunctionDefinition';
 import NoneLiteral from '@nodes/NoneLiteral';
 import NoneType from '@nodes/NoneType';
 import NumberType from '@nodes/NumberType';
+import RangeType from '@nodes/RangeType';
 import StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import UnionType from '@nodes/UnionType';
@@ -16,6 +17,7 @@ import BoolValue from '@values/BoolValue';
 import ListValue from '@values/ListValue';
 import NoneValue from '@values/NoneValue';
 import NumberValue from '@values/NumberValue';
+import RangeValue from '@values/RangeValue';
 import TextValue from '@values/TextValue';
 import TypeException from '@values/TypeException';
 import type Value from '@values/Value';
@@ -409,6 +411,15 @@ export default function bootstrapNumber(locales: Locales) {
                     false,
                 ),
                 createBinaryOp(
+                    (locale) => locale.basis.Number.function.range,
+                    NumberType.make((unit) => unit),
+                    // The range carries its bounds' unit, which createBinaryOp's equal-unit
+                    // requirement guarantees the two of them share.
+                    RangeType.make((unit) => unit),
+                    (requestor, left, right) =>
+                        new RangeValue(requestor, left, right),
+                ),
+                createBinaryOp(
                     (locale) => locale.basis.Number.function.lessThan,
                     NumberType.make((unit) => unit),
                     BooleanType.make(),
@@ -558,7 +569,10 @@ export default function bootstrapNumber(locales: Locales) {
                     (requestor: Expression, val: NumberValue) => {
                         const list = [];
                         const max = val.toNumber();
-                        if (max < 0) return new ListValue(requestor, []);
+                        // An unbounded or not-a-number count has no list to make, and
+                        // counting to it never finishes — `∞ → []` used to hang here.
+                        if (!Number.isFinite(max) || max < 0)
+                            return new ListValue(requestor, []);
                         for (let i = 1; i <= max; i++)
                             list.push(new NumberValue(requestor, i));
                         return new ListValue(requestor, list);

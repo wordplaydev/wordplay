@@ -436,6 +436,10 @@
                     "type": "string"
                 },
                 {
+                    "const": "RangeType",
+                    "type": "string"
+                },
+                {
                     "const": "NameType",
                     "type": "string"
                 },
@@ -785,6 +789,10 @@
                 },
                 {
                     "const": "Number",
+                    "type": "string"
+                },
+                {
+                    "const": "Range",
                     "type": "string"
                 },
                 {

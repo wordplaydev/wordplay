@@ -21,7 +21,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶Cette valeur représente la décision actuelle dans la liste ci-dessus.Lorsque la touche est enfoncée, nous effectuons l’une des actions suivantes.S'il n'y a qu'un seul choix pour cette décision, alors nous modifions la décision actuelleà la décision cible de l'option, quelle que soit la touche enfoncée.Si la touche enfoncée est comprise entre 1 et le nombre d'options, alors nous passons à la décision cible de cette option.Sinon, nous maintenons simplement la décision actuelle telle quelle.¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶Ceci affiche simplement les options sous forme de phrases. Vous pouvez modifier ce paramètre pour ajouter des instructions, des animations et d'autres éléments intéressants !¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

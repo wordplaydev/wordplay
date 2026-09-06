@@ -176,6 +176,8 @@ type BasisTexts = {
             /** [formatted] See `en-US.json` for documentation  */
             greaterOrEqual: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
+            range: FunctionText<[NameAndDoc]>;
+            /** [formatted] See `en-US.json` for documentation  */
             equal: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
             notequal: FunctionText<[NameAndDoc]>;
@@ -499,6 +501,23 @@ type BasisTexts = {
             brightness: string;
             /** [plain] The heading for the group of units that measure other */
             other: string;
+        };
+    };
+    /** A range of numbers, e.g., `1‥10` */
+    Range: BasisNameAndDoc & {
+        /** Functions in the type */
+        function: {
+            /** [formatted] See `en-US.json` for documentation  */
+            equals: FunctionText<[NameAndDoc]>;
+            /** [formatted] See `en-US.json` for documentation  */
+            notequals: FunctionText<[NameAndDoc]>;
+            /** [formatted] See `en-US.json` for documentation  */
+            has: FunctionText<[NameAndDoc]>;
+        };
+        /** Conversions in the type */
+        conversion: {
+            /** [formatted] Range to a list of the numbers in it */
+            list: DocText;
         };
     };
     /** A list value, e.g., `[1 2 3]` */

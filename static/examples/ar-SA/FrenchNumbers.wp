@@ -20,7 +20,7 @@ t
 
 ¶الأسرار هي الأرقام من 1 إلى 9 بترتيب عشوائي¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-أسرار: [1 2 3 4 5 6 7 8 9].مخلوطة()
+أسرار: [:1‥9].مخلوطة()
 
 ¶ما هو آخر مفتاح تم الضغط عليه؟¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

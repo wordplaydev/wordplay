@@ -20,7 +20,7 @@ t
 
 ¶গোপন সংখ্যাগুলো হলো ১ থেকে ৯ পর্যন্ত সংখ্যা, এলোমেলো ক্রমে¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-গোপনসংখ্যা: [1 2 3 4 5 6 7 8 9].এলোমেলোকরা()
+গোপনসংখ্যা: [:1‥9].এলোমেলোকরা()
 
 ¶সবশেষে চাপা চাবিটি কী?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

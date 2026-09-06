@@ -295,7 +295,8 @@
         "Product": "$~produk",
         "Percent": "$~persen",
         "Defect": "$~contoh dengan cacat yang diharapkan",
-        "NotANumber": "$~bukan angka"
+        "NotANumber": "$~bukan angka",
+        "Range": "$~rentang"
     },
     "node": {
         "Dimension": {
@@ -1439,7 +1440,8 @@
                 "ExpectedNextValue": {
                     "name": "$~nilai berikutnya hilang",
                     "explanation": "$~Saya tahu kapan harus berubah, tetapi tidak tahu berubah menjadi apa, bisakah kamu menambahkan nilai berikutnya?",
-                    "resolution": "$~Tambahkan nilai berikutnya"
+                    "resolution": "$~Tambahkan nilai berikutnya",
+                    "rangeResolution": "$~Buat @Range dengan \\‥\\ sebagai gantinya"
                 }
             }
         },
@@ -2408,6 +2410,15 @@
                 "\\angka: ⣿ >0 #⣿\n'Saya punya 3 kucing dan 12 ikan' ⌕ angka\\",
                 "Setelah disimpan, gunakan saya di mana pun sebuah pola cocok, seperti \\text ⌕ digits\\🪲 atau \\text ≈ digits\\🪲."
             ]
+        },
+        "RangeType": {
+            "name": "$~rentang",
+            "description": "$~jenis rentang$unit[ dalam $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Aku memberi tahu @Bind bahwa sebuah nama menyimpan @Range — dua batas @Number, dan setiap angka di antara keduanya.",
+                "\\rentang•‥: 1 ‥ 10\\🪲"
+            ]
         }
     },
     "basis": {
@@ -3130,6 +3141,22 @@
                         {
                             "doc": "$~Basis dari logaritma. Biarkan kosong untuk logaritma natural (basis _e_).",
                             "names": "$~basis"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Sebuah @Range dari aku sampai @Number yang diberikan, termasuk keduanya. Sebarkan aku menjadi sebuah daftar dengan @Spread, tanyakan apakah aku menyimpan sebuah angka, atau gunakan aku sebagai kunci @Match:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Aku menghitung mundur kalau akhirku lebih kecil dari awalku:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~ke"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number tempat rentangku berakhir. Ini harus punya satuan yang sama denganku.",
+                            "names": "$~angka"
                         }
                     ]
                 }
@@ -4224,6 +4251,70 @@
                 "number": [
                     "$~Mengubah kata-kataku menjadi @Number, dan jika bukan angka, menjadi nilai bukan-angka, yang muncul sebagai \\!#\\:",
                     "\\`hai` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Aku adalah rentang angka! Aku punya awal dan akhir, dan aku mencakup keduanya, serta setiap angka di antaranya. Kamu membuatku dengan \\‥\\ di antara dua angka:",
+                "\\1‥10\\",
+                "Tanyakan padaku apakah aku menyimpan sebuah angka:",
+                "\\(1‥10) ∋ 7\\",
+                "Sebarkan aku menjadi sebuah daftar untuk mendapatkan setiap angka yang aku simpan:",
+                "\\[:1‥10]\\",
+                "Gunakan aku sebagai kunci @Match dan aku akan cocok dengan angka mana pun yang aku simpan:",
+                "\\7 ???\n\t1 ‥ 9: 'kecil'\n\t'besar'\\",
+                "Awal dan akhirku harus punya satuan yang sama, sama seperti perbandingan @Number."
+            ],
+            "name": ["$~Rentang"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ jika @Range yang diberikan punya awal dan akhir yang sama denganku:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range untuk dibandingkan denganku.",
+                            "names": "$~rentang"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ jika @Range yang diberikan punya awal atau akhir yang berbeda dariku:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range untuk dibandingkan denganku.",
+                            "names": "$~rentang"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ jika @Number yang diberikan berada di antara awal dan akhirku, atau merupakan salah satunya:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Tidak masalah bagaimana urutan penulisanku:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~punya"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number yang dicari di dalam diriku.",
+                            "names": "$~angka"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Aku mengubah sebuah rentang menjadi daftar setiap angka di dalamnya, dihitung satu per satu. Sebagai contoh:",
+                    "\\(1‥5)→[]\\"
                 ]
             }
         }
@@ -7744,7 +7835,8 @@
                 "insertDottedEighthNote": "$~Sisipkan not seperdelapan bertitik, sepanjang tiga perempat ketukan",
                 "insertSixteenthNote": "$~Sisipkan not seperenam belas, sepanjang seperempat ketukan",
                 "insertDottedSixteenthNote": "$~Sisipkan not seperenam belas bertitik, sepanjang tiga perdelapan ketukan",
-                "selectedNodes": "$~$#count[$count node dipilih]|, $first sampai $last"
+                "selectedNodes": "$~$#count[$count node dipilih]|, $first sampai $last",
+                "insertRange": "$~sisipkan simbol rentang"
             },
             "error": {
                 "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",

@@ -295,7 +295,8 @@
         "Product": "$~produto",
         "Percent": "$~por cento",
         "Defect": "$~exemplo com defeito esperado",
-        "NotANumber": "$~não é um número"
+        "NotANumber": "$~não é um número",
+        "Range": "$~intervalo"
     },
     "node": {
         "Dimension": {
@@ -1438,7 +1439,8 @@
                 "ExpectedNextValue": {
                     "name": "$~falta o próximo valor",
                     "explanation": "$~Sei quando mudar, mas não sei para o quê. Podes adicionar um próximo valor?",
-                    "resolution": "$~Adiciona um próximo valor"
+                    "resolution": "$~Adiciona um próximo valor",
+                    "rangeResolution": "$~Fazer um @Range com \\‥\\ em vez disso"
                 }
             },
             "description": "$~reação a $condition"
@@ -2408,6 +2410,15 @@
                 "\\dígitos: ⣿ >0 #⣿\n'Tenho 3 gatos e 12 peixes' ⌕ dígitos\\",
                 "Depois de guardado, usa-me em qualquer lugar onde um padrão sirva, como \\text ⌕ digits\\🪲 ou \\text ≈ digits\\🪲."
             ]
+        },
+        "RangeType": {
+            "name": "$~intervalo",
+            "description": "$~intervalo tipo$unit[ em $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Digo a @Bind que um nome guarda um @Range — dois limites @Number, e todos os números entre eles.",
+                "\\vão•‥: 1 ‥ 10\\🪲"
+            ]
         }
     },
     "basis": {
@@ -3130,6 +3141,22 @@
                         {
                             "doc": "$~A base do logaritmo. Deixa em branco para o logaritmo natural (base _e_).",
                             "names": "$~base"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Um @Range de mim até ao @Number dado, incluindo ambos. Espalhe-o numa lista com @Spread, pergunte se guarda um número, ou use-o @how chave de @Match:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Conto para trás quando o meu fim é menor do que o meu início:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~até"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Number onde o meu intervalo termina. Tem de ter a mesma unidade que eu.",
+                            "names": "$~número"
                         }
                     ]
                 }
@@ -4223,6 +4250,70 @@
                 "number": [
                     "$~Converte as minhas palavras num @Number, e se não forem um número, num valor que não é um número, que aparece como \\!#\\:",
                     "\\`olá` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Sou um intervalo de números! Tenho um início e um fim, e incluo ambos, e todos os números entre eles. Cria-me com \\‥\\ entre dois números:",
+                "\\1‥10\\",
+                "Pergunte-me se guardo um número:",
+                "\\(1‥10) ∋ 7\\",
+                "Espalhe-me numa lista para obter todos os números que guardo:",
+                "\\[:1‥10]\\",
+                "Use-me @how chave de @Match e faço corresponder qualquer número que guarde:",
+                "\\7 ???\n\t1 ‥ 9: 'pequeno'\n\t'grande'\\",
+                "O meu início e fim têm de ter a mesma unidade, tal como acontece nas comparações de @Number."
+            ],
+            "name": ["$~Intervalo"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ se o @Range dado tiver o mesmo início e fim que eu:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Range com que me comparar.",
+                            "names": "$~intervalo"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ se o @Range dado tiver um início ou fim diferente do meu:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Range com que me comparar.",
+                            "names": "$~intervalo"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ se o @Number dado estiver entre o meu início e fim, ou for um deles:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Não importa em que ordem fui escrito:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~tem"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Number a procurar em mim.",
+                            "names": "$~número"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Converto um intervalo numa lista de todos os números nele contidos, contando de um em um. Por exemplo:",
+                    "\\(1‥5)→[]\\"
                 ]
             }
         }
@@ -7736,7 +7827,8 @@
                 "insertDottedEighthNote": "$~Inserir uma colcheia pontuada, com três quartos de tempo de duração",
                 "insertSixteenthNote": "$~Inserir uma semicolcheia, com um quarto de tempo de duração",
                 "insertDottedSixteenthNote": "$~Inserir uma semicolcheia pontuada, com três oitavos de tempo de duração",
-                "selectedNodes": "$~$#count[$#count nó selecionado|$count nós selecionados|$count nós selecionados] selecionados, de $first a $last"
+                "selectedNodes": "$~$#count[$#count nó selecionado|$count nós selecionados|$count nós selecionados] selecionados, de $first a $last",
+                "insertRange": "$~inserir símbolo de intervalo"
             },
             "error": {
                 "invalidName": "Este deve ser um nome válido para um jogo de palavras.",

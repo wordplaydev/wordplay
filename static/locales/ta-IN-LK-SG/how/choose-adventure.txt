@@ -21,7 +21,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶இந்த மதிப்பு மேலே உள்ள பட்டியலில் உள்ள தற்போதைய முடிவைக் குறிக்கிறது.விசையை அழுத்தும்போது, பின்வருவனவற்றில் ஒன்றைச் செய்கிறோம்.இந்த முடிவுக்கு ஒரே ஒரு தேர்வு இருந்தால், தற்போதைய முடிவை மாற்றுவோம்.எந்த விசையை அழுத்தினாலும் விருப்பத்தின் இலக்கு முடிவுக்கு.அழுத்தப்பட்ட விசை 1 க்கும் விருப்பங்களின் எண்ணிக்கைக்கும் இடையில் இருந்தால், நாம் அந்த விருப்பத்தின் இலக்கு முடிவுக்குச் செல்கிறோம்.இல்லையெனில், தற்போதைய முடிவை அப்படியே வைத்திருப்போம்.¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶இது விருப்பங்களை சொற்றொடர்களின் அடுக்காகக் காட்டுகிறது. வழிமுறைகள், அனிமேஷன்கள் மற்றும் பிற காரமானவற்றைச் சேர்க்க இதை மாற்றலாம்!¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

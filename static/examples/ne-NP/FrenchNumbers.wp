@@ -20,7 +20,7 @@ t
 
 ¶गोप्य कुराहरू भनेको १ देखि ९ सम्मका अङ्कहरू क्रमरहित गरी राखिएका हुन्¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-गोप्यकुराहरू: [1 2 3 4 5 6 7 8 9].फिटिएको()
+गोप्यकुराहरू: [:1‥9].फिटिएको()
 
 ¶अन्तिम पटक कुन कुञ्जी थिचिएको थियो?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

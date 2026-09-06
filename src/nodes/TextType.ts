@@ -6,6 +6,8 @@ import { Emotion } from '../lore/Emotion';
 import BasisType from '@nodes/BasisType';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import type Context from '@nodes/Context';
+import TextValue from '@values/TextValue';
+import type Value from '@values/Value';
 import {
     concreteLanguageOf,
     type LanguageDeriver,
@@ -160,6 +162,17 @@ export default class TextType extends BasisType {
 
     generalize(): Type {
         return TextType.make(undefined, this.language);
+    }
+
+    /**
+     * A value's own type is never a literal — `TextValue.getType()` drops the text — so comparing
+     * types would make a literal type reject every value, including the one it names. Compare the
+     * value itself, as ListType does for the same reason. Text alone decides it, matching
+     * acceptsAll's rule that two literals with the same text agree whatever their languages say.
+     */
+    acceptsValue(value: Value, context: Context): boolean {
+        if (this.text === undefined) return super.acceptsValue(value, context);
+        return value instanceof TextValue && value.text === this.text.getText();
     }
 
     isLiteral() {

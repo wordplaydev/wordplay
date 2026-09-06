@@ -20,7 +20,7 @@ t
 
 ¶シークレットは、1から9までの数字をランダムな順番にしたものです¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-シークレット: [1 2 3 4 5 6 7 8 9].シャッフル済み()
+シークレット: [:1‥9].シャッフル済み()
 
 ¶最後に押されたキーは何ですか？¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

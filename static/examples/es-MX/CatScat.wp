@@ -47,7 +47,7 @@ Estas son las notas más cortas de la pieza, y el único lugar donde al gatolo c
 		hogar: Azar(1 8)
 		(64 → []).traducir(
 			ƒ(i2•#)
-				((i2 < 17) | (i2 > 32)) ? ø
+				~((17‥32) ∋ i2) ? ø
 					talVez((((hogar + (i2 - 17)) - 1) % 8) + 1)
 		)
 	)
@@ -57,7 +57,7 @@ Estas son las notas más cortas de la pieza, y el único lugar donde al gatolo c
 		celda2: [voz2() voz2() voz2()]
 		(48 → []).traducir(
 			ƒ(i3•#)
-				((i3 < 25) | (i3 > 36)) ? ø
+				~((25‥36) ∋ i3) ? ø
 					celda2[(((i3 - 25) % 3) + 1)]
 		)
 	)

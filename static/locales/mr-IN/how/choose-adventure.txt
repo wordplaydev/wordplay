@@ -19,8 +19,8 @@ decisions: [
 key: Key()
 choice: key → #
 ¶हे मूल्य वरील यादीतील सध्याच्या निर्णयाचे प्रतिनिधित्व करते. जेव्हा एखादी कळ दाबली जाते, तेव्हा आपण खालीलपैकी एक गोष्ट करतो. जर या निर्णयासाठी फक्त एकच पर्याय असेल, तर आपण कोणतीही कळ दाबली तरी सध्याचा निर्णय त्या पर्यायाच्या लक्ष्य निर्णयाकडे बदलतो. जर दाबलेली कळ १ आणि पर्यायांच्या संख्येच्या दरम्यान असेल, तर आपण त्या पर्यायाच्या लक्ष्य निर्णयाकडे जातो. अन्यथा, आपण सध्याचा निर्णय तसाच ठेवतो.¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length(
-							))) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length(
+							)) ∋ choice) ? decisions[current].options[choice].decision current
 ¶हे फक्त वाक्यांशांच्या ढिगाऱ्याच्या रूपात पर्याय दाखवते. तुम्ही सूचना, अॅनिमेशन आणि इतर मजेदार गोष्टी जोडण्यासाठी हे बदलू शकता!¶Stage(
 	[
 		Group(

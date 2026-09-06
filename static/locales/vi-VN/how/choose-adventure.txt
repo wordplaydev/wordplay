@@ -22,7 +22,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶Giá trị này thể hiện quyết định hiện tại trong danh sách trên.Khi nhấn phím, chúng ta thực hiện một trong những thao tác sau.Nếu chỉ có một lựa chọn duy nhất cho quyết định này, thì chúng ta sẽ thay đổi quyết định hiện tại.quyết định mục tiêu của quyền chọn sẽ được giữ nguyên bất kể phím nào được nhấn.Nếu phím được nhấn nằm trong khoảng từ 1 đến số lượng tùy chọn, thì chúng ta sẽ chuyển đến quyết định mục tiêu của tùy chọn đó.Nếu không, chúng ta cứ giữ nguyên quyết định hiện tại.¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶Đây chỉ đơn giản là hiển thị các tùy chọn dưới dạng một chồng các cụm từ. Bạn có thể thay đổi điều này để thêm hướng dẫn, hình ảnh động và những yếu tố thú vị khác!¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

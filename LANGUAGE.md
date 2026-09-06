@@ -209,13 +209,14 @@ Some are associated with particular types of expressions:
 
 Some are operators, including arithetmic, inequalities, logical, and unicode math, supplemental, and arrows:
 
-> operator → `+` | `-` | `×` | `·` | `÷` | `%` | `^` | `<` | `≤` | `=` | `≠` | `≥` | `>` | `~` | `&` | `|` | `/[\u2200-\u22FF\u2A00-\u2AFF\u2190-\u21FF\u27F0-\u27FF\u2900-\\u297F]/`
+> operator → `+` | `-` | `×` | `·` | `÷` | `%` | `^` | `<` | `≤` | `=` | `≠` | `≥` | `>` | `~` | `&` | `|` | `‥` | `/[\u2200-\u22FF\u2A00-\u2AFF\u2190-\u21FF\u27F0-\u27FF\u2900-\\u297F]/`
 
-Four of these operators are **dual-type** tokens: in addition to `operator`, `|` is also `or`, `·` is also `product`, `^` is also `exponent`, and `%` is also `percent`. Each is lexed carrying both candidate types, and the parser picks by position — the second type only where the grammar expects it (`|` in a union type; `·`/`^` in a unit; `%` as a unitless ratio number type), and a plain `operator` everywhere else (e.g. arithmetic, where `%` is the remainder operator).
+Five of these operators are **dual-type** tokens: in addition to `operator`, `|` is also `or`, `·` is also `product`, `^` is also `exponent`, `%` is also `percent`, and `‥` is also `range`. Each is lexed carrying both candidate types, and the parser picks by position — the second type only where the grammar expects it (`|` in a union type; `·`/`^` in a unit; `%` as a unitless ratio number type; `‥` as a range type), and a plain `operator` everywhere else (e.g. arithmetic, where `%` is the remainder operator).
 
 Some are associated with type declarations:
 
 > numbertype → `#`  
+> rangetype → `‥`  
 > or → `|`  
 > percent → `%`  
 > markuptype → `\…\`, `\...\`  
@@ -402,6 +403,49 @@ Number literals evaluate to a number value that stores an immutable [decimal.js]
 Numbers are only equal to other numbers that have identical decimal values and equivalent units. Units are only equivalent when the set of dimensions specified on each unit are equivalent and the power of each dimension specified is equivalent.
 
 Two not-a-numbers with the same unit are equal, so `!# = !#` is `⊤` and a creator can ask whether a computation came back not-a-number. (IEEE-754 makes NaN unequal to itself so hardware can flag a bad operation without trapping; Wordplay's `=` asks whether two values are the same thing, and it has `ø` and exceptions for signalling.) Units still count, so `!#m = !#s` is `⊥`, just as `1m = 1` is. Because `≤` and `≥` mean "less/greater than **or equal**", `!# ≤ !#` and `!# ≥ !#` are `⊤`, while the strict `<` and `>` are `⊥` — ordering something that isn't a number has no answer. `min` and `max` still propagate not-a-number, and sorting a list by a not-a-number key puts those items last.
+
+### Range
+
+> RANGE → EXPRESSION `‥` EXPRESSION
+
+A range is a pair of number bounds, and it includes both of them:
+
+```
+1‥10
+0‥100
+1m‥3m
+```
+
+Its two bounds must have the same unit, exactly as the inequality comparisons require, so `1‥10m` is a type error. The range carries that unit, so `1m‥3m` is a range of meters.
+
+`‥` is written with two dots. Typing a second `.` produces it, and typing a third turns it into the stream symbol `…`, so `1..10` is a range and `1...10` is a [reaction](#reaction).
+
+Ranges answer whether they hold a number, in either direction — which bound was written first doesn't change what lies between them:
+
+```
+(1‥10) ∋ 7
+(10‥1) ∋ 7
+```
+
+They convert to a list of the numbers they hold, counting by one from the start toward the end, and they can be [spread](#list) into a list literal:
+
+```
+(1‥5) → []
+[:1‥5]
+[:5‥1]
+```
+
+The last of these is `[5 4 3 2 1]`, because a range whose end is below its start counts down. A range with an unbounded end (`1‥∞`) has no list to make, and converting one is an exception rather than a computation that never finishes.
+
+A range is also a [match](#match) key, where it matches any number it holds.
+
+#### _evaluation_
+
+Ranges evaluate their two bounds, in reading order, and construct a range value from them.
+
+#### _equality_
+
+Two ranges are equal when their starts are equal and their ends are equal. A range is never equal to a number, including when it holds exactly one.
 
 ### Text
 
@@ -594,6 +638,14 @@ Lists can be constructed from other lists with `:` preceding a list value:
 ```
 
 This evaluates to `[1 2 3 4 5 6]`
+
+A spread also accepts a [range](#range), which flattens to the numbers it holds:
+
+```
+[:1‥5]
+```
+
+This evaluates to `[1 2 3 4 5]`.
 
 Getting values out of lists is just a matter of indexing them. Lists are index from `1` to their length. So this list access produces `5`:
 
@@ -948,6 +1000,18 @@ sound ???
 ```
 
 If `sound` equals `'meow'`, this evaluates to `'cat'`; if `'woof'`, `'dog'`; otherwise `'unknown'`.
+
+A key is usually compared for equality, but a [range](#range) key matches any number it holds. Because the first matching key wins, overlapping ends need no special syntax:
+
+```
+score ???
+    0‥59: 'try again'
+    60‥79: 'passing'
+    80‥100: 'great'
+    'off the scale'
+```
+
+A range key's bounds must have the same unit as the value being matched, so `5 ??? 1s‥10s: …` is a type error just as `5 ??? 'two': …` is.
 
 A match **narrows** the value it matches on, the same way a conditional narrows what its condition checks (see [Conditional](#conditional)). Inside a key's value expression, the matched value is known to be that key; inside a later key's, it's known not to be any earlier one; and in the default expression, it's known to be none of them. Only keys whose value can be named — a number, none, or single-translation text literal, or a name bound to one — take part; a computed key rules nothing out, so the default keeps every type it might still have.
 
@@ -1457,9 +1521,10 @@ Documented expressions simply evaluate to their expression's value.
 
 ## Types
 
-> TYPE → `_` ｜ BOOLEANTYPE ｜ NUMBERTYPE ｜ TEXTTYPE ｜ NONETYPE ｜ LISTTYPE ｜ SETTYPE ｜ MAPTYPE ｜ TABLETYPE ｜ NAMETYPE ｜ FUNCTIONTYPE ｜ STREAMTYPE ｜ FORMATTEDTYPE ｜ CONVERSIONTYPE ｜ UNION  
+> TYPE → `_` ｜ BOOLEANTYPE ｜ NUMBERTYPE ｜ RANGETYPE ｜ TEXTTYPE ｜ NONETYPE ｜ LISTTYPE ｜ SETTYPE ｜ MAPTYPE ｜ TABLETYPE ｜ NAMETYPE ｜ FUNCTIONTYPE ｜ STREAMTYPE ｜ FORMATTEDTYPE ｜ CONVERSIONTYPE ｜ UNION  
 > BOOLEANTYPE → `?`  
 > NUMBERTYPE → （`#` （`!` ｜ UNIT）？） ｜ numeral  
+> RANGETYPE → `‥` （`!` ｜ UNIT）？  
 > TEXTTYPE → （textopen textclose LANGUAGE？） ｜ TEXT  
 > NONETYPE → `ø`  
 > LISTTYPE → `[` TYPE＊ `]`  
@@ -1478,6 +1543,8 @@ The final part of the language is type declarations. These mostly mirror the syn
 bool•?
 num•#m
 num•1
+range•‥
+range•‥m
 text•''
 text•'hello'
 none•ø
@@ -1517,6 +1584,7 @@ Type compatibility is defined as follows:
 
 - Boolean types are only compatible with other boolean types
 - Number types are compatible if they are a concrete number and the other number type is the same concrete number, or they have equivalent units
+- Range types are compatible if they have equivalent units, following the same three unit cases numbers do: `‥` accepts any unit, `‥!` only unitless, and `‥unit` only that unit
 - Text types are compatible if they are concrete text and the other text type is the same text and language, or they are both generic text with the same language
 - List types are only compatible if their element types are compatible. A list type with no element type accepts any list. A list type with a type per position additionally requires a matching length, and accepts another such type only if every position accepts the corresponding one. When only one of the two types says what's at each position, only their element types are compared, since the order of the other list can't be known until it's evaluated — an `is` expression checks the items of the value itself, so `['hi' 1]•[# '']` is `⊥`.
 - Set types are only compatible if their element types are compatible

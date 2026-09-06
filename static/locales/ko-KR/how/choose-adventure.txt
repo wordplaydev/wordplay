@@ -21,7 +21,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶이 값은 위 목록의 현재 결정을 나타냅니다.키가 눌리면 다음 중 하나가 수행됩니다.이 결정에 대한 선택이 하나뿐이라면 현재 결정을 변경합니다.어떤 키를 눌렀는지와 관계없이 옵션의 목표 결정에 영향을 미칩니다.눌린 키가 1과 옵션 수 사이에 있으면 해당 옵션의 목표 결정으로 이동합니다.그렇지 않으면 우리는 현재의 결정을 그대로 유지합니다.¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶이 옵션은 문구를 쌓아 놓은 형태로 표시됩니다. 이 옵션을 변경하여 설명, 애니메이션 등 다양한 효과를 추가할 수 있습니다!¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

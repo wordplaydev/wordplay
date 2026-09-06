@@ -34,7 +34,7 @@ mingeY: (mingeDeBaschet.loc ?? Loc()).y
 încercare: (numărulDeClicuri ÷ 2).ridica()
 
 ¶inBin este adevărat atunci când mingea se află înăuntrul coșului. Reacția de marcare a scorului se declanșează doar când inBin trece la adevărat ȘI încercarea curentă este mai mare decât scorul, astfel încât o a doua intrare în timpul aceleiași aruncări — o ricoșare în interiorul coșului, sau coșul care se mișcă înapoi peste minge — nu are niciun efect până când următoarea aruncare nu mărește numărul de încercări¶
-înCoș: (mingeX < (pozițiaXACoșului + 0.9m)) & (mingeX > (pozițiaXACoșului - 0.9m)) & (mingeY < 2.9m) & (mingeY > 0.3m)
+înCoș: (((pozițiaXACoșului - 0.9m)‥(pozițiaXACoșului + 0.9m)) ∋ mingeX) & ((0.3m‥2.9m) ∋ mingeY)
 scor: 0 … înCoș & (încercare > scor) … 1 + scor
 
 vedetaBaschetului: Grup(

@@ -295,7 +295,8 @@
         "Product": "$~produit",
         "Percent": "$~pour cent",
         "Defect": "$~exemple avec un défaut attendu",
-        "NotANumber": "$~pas un nombre"
+        "NotANumber": "$~pas un nombre",
+        "Range": "$~plage"
     },
     "node": {
         "Dimension": {
@@ -1434,7 +1435,8 @@
                 "ExpectedNextValue": {
                     "name": "$~valeur suivante manquante",
                     "explanation": "$~Je sais quand changer, mais pas vers quoi changer. Peux-tu ajouter une valeur suivante ?",
-                    "resolution": "$~Ajoute une valeur suivante"
+                    "resolution": "$~Ajoute une valeur suivante",
+                    "rangeResolution": "$~Fabrique un(e) @Range avec \\‥\\ à la place"
                 }
             },
             "label": {
@@ -2408,6 +2410,15 @@
                 "\\chiffres: ⣿ >0 #⣿\n\"J'ai 3 chats et 12 poissons\" ⌕ chiffres\\",
                 "Une fois rangé, utilise-moi partout où un motif convient, comme \\text ⌕ digits\\🪲 ou \\text ≈ digits\\🪲."
             ]
+        },
+        "RangeType": {
+            "name": "$~plage",
+            "description": "$~plage type$unit[ en $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Je dis à @Bind qu'un nom contient un(e) @Range — deux limites @Number, et chaque nombre entre elles.",
+                "\\envergure•‥: 1 ‥ 10\\🪲"
+            ]
         }
     },
     "basis": {
@@ -3130,6 +3141,22 @@
                         {
                             "doc": "$~La base du logarithme. Laisse-la vide pour le logarithme naturel (base _e_).",
                             "names": "$~base"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Un(e) @Range qui va de moi jusqu'au @Number donné, en incluant les deux bouts. Déploie-le en une liste avec @Spread, demande s'il contient un nombre, ou utilise-le comme clé de @Match :",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Je compte à rebours quand ma fin est plus petite que mon début :",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~à"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le/la @Number où se termine ma plage. Elle doit avoir la même unité que moi.",
+                            "names": "$~nombre"
                         }
                     ]
                 }
@@ -4223,6 +4250,70 @@
                 "number": [
                     "$~Convertit mes mots en @Number, et si ce ne sont pas des nombres, une valeur qui n'est pas un nombre, qui apparaît comme \\!#\\ :",
                     "\\`salut` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Je suis une plage de nombres ! J'ai un début et une fin, et je les inclus tous les deux, ainsi que chaque nombre entre eux. Tu me crées avec \\‥\\ entre deux nombres :",
+                "\\1‥10\\",
+                "Demande-moi si je contiens un nombre :",
+                "\\(1‥10) ∋ 7\\",
+                "Déploie-moi en une liste pour obtenir chaque nombre que je contiens :",
+                "\\[:1‥10]\\",
+                "Utilise-moi comme clé de @Match et je fais correspondre tout nombre que je contiens :",
+                "\\7 ???\n\t1 ‥ 9: 'petit'\n\t'grand'\\",
+                "Mon début et ma fin doivent avoir la même unité, tout comme les comparaisons de @Number."
+            ],
+            "name": ["$~Plage"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ si le/la @Range donné(e) a le même début et la même fin que moi :",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~Le/la @Range auquel me comparer.",
+                            "names": "$~plage"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ si le/la @Range donné(e) a un début ou une fin différent(e) de moi :",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le/la @Range auquel me comparer.",
+                            "names": "$~plage"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ si le/la @Number donné(e) est compris(e) entre mon début et ma fin, ou est l'un des deux :",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Peu importe dans quel sens j'ai été écrit(e) :",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~contient"],
+                    "inputs": [
+                        {
+                            "doc": "$~Le/la @Number à chercher en moi.",
+                            "names": "$~nombre"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Je convertis une plage en une liste de chaque nombre qu'elle contient, en comptant de un en un. Par exemple :",
+                    "\\(1‥5)→[]\\"
                 ]
             }
         }
@@ -7482,7 +7573,8 @@
                 "insertDottedEighthNote": "$~Insérer une croche pointée, longue de trois quarts de temps",
                 "insertSixteenthNote": "$~Insérer une double croche, longue d'un quart de temps",
                 "insertDottedSixteenthNote": "$~Insérer une double croche pointée, longue de trois huitièmes de temps",
-                "selectedNodes": "$~$#count[$#count nœud sélectionné|$count nœuds sélectionnés|$count nœuds sélectionnés], de $first à $last"
+                "selectedNodes": "$~$#count[$#count nœud sélectionné|$count nœuds sélectionnés|$count nœuds sélectionnés], de $first à $last",
+                "insertRange": "$~insérer le symbole de plage"
             },
             "options": {
                 "locale": {

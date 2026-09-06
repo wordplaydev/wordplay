@@ -75,8 +75,8 @@ người: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 ƒ langThang(thâyMa6•thâyMa tốcĐộ•#m) (
 		xMới: thâyMa6.x2 + (thâyMa6.hướngX · tốcĐộ)
 		zMới: thâyMa6.z2 + (thâyMa6.hướngZ · tốcĐộ)
-		nảyX: (xMới > giớiHạnPhải) | (xMới < giớiHạnTrái)
-		nảyZ: (zMới > độSâuLangThangXa) | (zMới < độSâuLangThangGần)
+		nảyX: ~((giớiHạnTrái‥giớiHạnPhải) ∋ xMới)
+		nảyZ: ~((độSâuLangThangGần‥độSâuLangThangXa) ∋ zMới)
 		thâyMa(
 			(nảyX ? thâyMa6.x2 xMới)
 			(nảyZ ? thâyMa6.z2 zMới)

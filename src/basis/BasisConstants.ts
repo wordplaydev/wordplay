@@ -7,6 +7,7 @@ export type BasisTypeName =
     | 'exception'
     | 'boolean'
     | 'measurement'
+    | 'range'
     | 'unit'
     | 'text'
     | 'list'

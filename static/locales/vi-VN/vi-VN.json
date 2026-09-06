@@ -295,7 +295,8 @@
         "Product": "$~sản phẩm",
         "Percent": "$~phần trăm",
         "Defect": "$~ví dụ có lỗi được mong đợi",
-        "NotANumber": "$~không phải là số"
+        "NotANumber": "$~không phải là số",
+        "Range": "$~khoảng"
     },
     "node": {
         "Dimension": {
@@ -1439,7 +1440,8 @@
                 "ExpectedNextValue": {
                     "name": "$~thiếu giá trị tiếp theo",
                     "explanation": "$~Mình biết khi nào cần thay đổi, nhưng không biết thay đổi thành cái gì, bạn có thể thêm một giá trị tiếp theo không?",
-                    "resolution": "$~Thêm một giá trị tiếp theo"
+                    "resolution": "$~Thêm một giá trị tiếp theo",
+                    "rangeResolution": "$~Tạo một @Range với \\‥\\ thay vào đó"
                 }
             }
         },
@@ -2408,6 +2410,15 @@
                 "\\chữSố: ⣿ >0 #⣿\n'Tôi có 3 con mèo và 12 con cá' ⌕ chữSố\\",
                 "Khi đã lưu, hãy dùng tôi ở bất cứ nơi nào một mẫu phù hợp, như \\text ⌕ digits\\🪲 hoặc \\text ≈ digits\\🪲."
             ]
+        },
+        "RangeType": {
+            "name": "$~khoảng",
+            "description": "$~kiểu khoảng$unit[ trong $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Tôi cho @Bind biết rằng một tên chứa một @Range — hai giới hạn @Number, và mọi số nằm giữa chúng.",
+                "\\khoảng•‥: 1 ‥ 10\\🪲"
+            ]
         }
     },
     "basis": {
@@ -3130,6 +3141,22 @@
                         {
                             "doc": "$~Cơ số của logarit. Bỏ trống nếu muốn logarit tự nhiên (cơ số _e_).",
                             "names": "$~cơSố"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Một @Range từ tôi đến @Number đã cho, gồm cả hai đầu. Hãy trải nó thành một danh sách bằng @Spread, hỏi xem nó có chứa một số hay không, hoặc dùng nó làm chìa khóa @Match:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Tôi đếm lùi khi điểm cuối của tôi nhỏ hơn điểm đầu:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~đến"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number mà khoảng của tôi kết thúc ở đó. Nó phải có cùng đơn vị với tôi.",
+                            "names": "$~số"
                         }
                     ]
                 }
@@ -4223,6 +4250,70 @@
                 "number": [
                     "$~Chuyển các từ của tôi thành @Number, và nếu chúng không phải là một số, thì thành một giá trị không phải là số, hiển thị là \\!#\\:",
                     "\\`chào` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Tôi là một khoảng số! Tôi có điểm đầu và điểm cuối, tôi gồm cả hai điểm đó, và mọi số nằm giữa chúng. Bạn tạo ra tôi bằng \\‥\\ giữa hai số:",
+                "\\1‥10\\",
+                "Hãy hỏi tôi xem tôi có chứa một số hay không:",
+                "\\(1‥10) ∋ 7\\",
+                "Hãy trải tôi thành một danh sách để lấy mọi số mà tôi chứa:",
+                "\\[:1‥10]\\",
+                "Dùng tôi làm chìa khóa @Match và tôi sẽ khớp với bất kỳ số nào tôi chứa:",
+                "\\7 ???\n\t1 ‥ 9: 'nhỏ'\n\t'lớn'\\",
+                "Điểm đầu và điểm cuối của tôi phải có cùng đơn vị, giống như các phép so sánh @Number vậy."
+            ],
+            "name": ["$~Khoảng"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ nếu @Range đã cho có cùng điểm đầu và điểm cuối với tôi:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range để so sánh với tôi.",
+                            "names": "$~khoảng"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ nếu @Range đã cho có điểm đầu hoặc điểm cuối khác với tôi:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range để so sánh với tôi.",
+                            "names": "$~khoảng"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ nếu @Number đã cho nằm giữa điểm đầu và điểm cuối của tôi, hoặc trùng với một trong hai điểm đó:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Không quan trọng tôi được viết theo chiều nào:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~có"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number cần tìm trong tôi.",
+                            "names": "$~số"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Tôi chuyển một khoảng thành một danh sách gồm mọi số trong đó, đếm từng số một. Ví dụ:",
+                    "\\(1‥5)→[]\\"
                 ]
             }
         }
@@ -7737,7 +7828,8 @@
                 "insertDottedEighthNote": "$~Chèn một nốt móc đơn có chấm, dài ba phần tư phách",
                 "insertSixteenthNote": "$~Chèn một nốt móc kép, dài một phần tư phách",
                 "insertDottedSixteenthNote": "$~Chèn một nốt móc kép có chấm, dài ba phần tám phách",
-                "selectedNodes": "$~Đã chọn $#count[$count nút] nút, từ $first đến $last"
+                "selectedNodes": "$~Đã chọn $#count[$count nút] nút, từ $first đến $last",
+                "insertRange": "$~chèn ký hiệu khoảng"
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",

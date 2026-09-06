@@ -47,7 +47,7 @@ Inilah nada-nada terpendek dalam karya ini, dan satu-satunya bagian di mana suar
 		rumah: Acak(1 8)
 		(64 → []).menerjemahkan(
 			ƒ(i2•#)
-				((i2 < 17) | (i2 > 32)) ? ø
+				~((17‥32) ∋ i2) ? ø
 					mungkin((((rumah + (i2 - 17)) - 1) % 8) + 1)
 		)
 	)
@@ -57,7 +57,7 @@ Inilah nada-nada terpendek dalam karya ini, dan satu-satunya bagian di mana suar
 		sel2: [suara2() suara2() suara2()]
 		(48 → []).menerjemahkan(
 			ƒ(i3•#)
-				((i3 < 25) | (i3 > 36)) ? ø
+				~((25‥36) ∋ i3) ? ø
 					sel2[(((i3 - 25) % 3) + 1)]
 		)
 	)

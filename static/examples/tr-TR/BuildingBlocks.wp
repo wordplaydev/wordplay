@@ -72,7 +72,7 @@ kayaŞekli: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
 ¶Eşleştirilecek yeni bir yapı: her biri bir ile üç blok yüksekliğinde iki kule, ortadaki sütunlardan rastgele bir çiftinde, alanın arka sırasında yer alır. O orta sütunlar tam olarak kaynakların hiç oluşmadığı sütunlardır, bu yüzden bir kule asla bir ağacın içine düşemez. Her sütun yerden itibaren doludur, çünkü yığma her zaman bir sütunun tepesine düşer — havada duran bir blok oluşturmanın bir yolu yoktur, dolayısıyla böyle bir şey istemenin de bir yolu yoktur. Altı blok üst sınırdır; bu da üç kaya bloğundan oluşan bir alanın tuğlada verdiği miktardır, böylece tamamen tuğladan oluşan bir yapı bile inşa edilebilir.¶
 ƒ hedefOluştur() (
 		derinlik2: maksZ
-		çift2: [-1 0 1].karıştırılmış().altdizi(1 2)
+		çift2: [:-1‥1].karıştırılmış().altdizi(1 2)
 		çift2.birleştirilmiş(
 			[]
 			ƒ(yapı•[blok] kx2•#)
@@ -91,7 +91,7 @@ kayaŞekli: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
 	)
 
 ¶Bir hücrenin alanda olup olmadığı.¶
-ƒ sınırlarIçinde(kx3•# kz2•#) (kx3 ≥ minX) & (kx3 ≤ maksX) & (kz2 ≥ minZ) & (kz2 ≤ maksZ)
+ƒ sınırlarIçinde(kx3•# kz2•#) ((minX‥maksX) ∋ kx3) & ((minZ‥maksZ) ∋ kz2)
 
 ¶Bir sütunun ne kadar yüksek olduğu. Her sütun yerden itibaren doludur — şekiller böyle büyür, yığma tepeye eklenir, çekiçleme tepeden alır — bu yüzden bir sütunun bloklarını saymak hem yüksekliğini hem de üzerindeki ilk boş hücreyi verir.¶
 ƒ kolonYüksekliği(bloklar2•[blok] kx4•# kz3•#) bloklar2.filtre(
@@ -347,7 +347,7 @@ down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
 karoBoyutu: 0.8m
 
-zeminSıraları: [0 1 2 3 4].filtre(
+zeminSıraları: [:0‥4].filtre(
 		ƒ(sıra•#) sıra ≥ (oyun11.z4 - arkayaÇiz)
 	).tercümeetmek(
 		ƒ(sıra2•#)

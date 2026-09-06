@@ -21,8 +21,8 @@ decisions: [
 key: Key()
 choice: key → #
 ¶ این ارزش، تصمیم فعلی را در فهرست بالا نشان می‌دهد.وقتی کلید فشرده می‌شود، یکی از این کارها را انجام می‌دهیم.اگر برای این تصمیم فقط یک گزینه وجود داشته باشد، تصمیم فعلی را عوض می‌کنیمبه تصمیم هدفِ آن گزینه، مهم نیست کدام کلید فشرده شده باشد.اگر کلید فشرده‌شده بین ۱ و شمار گزینه‌ها باشد، به تصمیم هدفِ همان گزینه می‌رویم.در غیر این صورت، تصمیم فعلی را همان‌طور که هست نگه می‌داریم. ¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length(
-							))) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length(
+							)) ∋ choice) ? decisions[current].options[choice].decision current
 ¶ این فقط گزینه‌ها را به‌صورت یک دسته از عبارت‌ها نشان می‌دهد. می‌توانی این را تغییر بدهی تا دستورها، پویانمایی‌ها، و چیزهای جالب دیگر اضافه کنی! ¶Stage(
 	[
 		Group(

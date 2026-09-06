@@ -21,7 +21,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶ਇਹ ਮੁੱਲ ਉੱਪਰ ਦਿੱਤੀ ਸੂਚੀ ਵਿੱਚ ਮੌਜੂਦਾ ਫੈਸਲੇ ਨੂੰ ਦਰਸਾਉਂਦਾ ਹੈ।ਜਦੋਂ ਕੁੰਜੀ ਦਬਾਈ ਜਾਂਦੀ ਹੈ, ਅਸੀਂ ਹੇਠ ਲਿਖਿਆਂ ਵਿੱਚੋਂ ਇੱਕ ਕਰਦੇ ਹਾਂ।ਜੇਕਰ ਇਸ ਫੈਸਲੇ ਲਈ ਸਿਰਫ਼ ਇੱਕ ਹੀ ਵਿਕਲਪ ਹੈ, ਤਾਂ ਅਸੀਂ ਮੌਜੂਦਾ ਫੈਸਲੇ ਨੂੰ ਬਦਲਦੇ ਹਾਂ।ਵਿਕਲਪ ਦੇ ਟਾਰਗੇਟ ਫੈਸਲੇ ਲਈ, ਭਾਵੇਂ ਕੋਈ ਵੀ ਕੁੰਜੀ ਦਬਾਈ ਗਈ ਹੋਵੇ।ਜੇਕਰ ਦਬਾਈ ਗਈ ਕੁੰਜੀ 1 ਅਤੇ ਵਿਕਲਪਾਂ ਦੀ ਗਿਣਤੀ ਦੇ ਵਿਚਕਾਰ ਹੈ, ਤਾਂ ਅਸੀਂ ਉਸ ਵਿਕਲਪ ਦੇ ਨਿਸ਼ਾਨਾ ਫੈਸਲੇ 'ਤੇ ਜਾਂਦੇ ਹਾਂ।ਨਹੀਂ ਤਾਂ, ਅਸੀਂ ਮੌਜੂਦਾ ਫੈਸਲੇ ਨੂੰ ਉਹੀ ਰੱਖਦੇ ਹਾਂ।¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶ਇਹ ਸਿਰਫ਼ ਵਾਕਾਂਸ਼ਾਂ ਦੇ ਢੇਰ ਦੇ ਰੂਪ ਵਿੱਚ ਵਿਕਲਪਾਂ ਨੂੰ ਦਰਸਾਉਂਦਾ ਹੈ। ਤੁਸੀਂ ਇਸਨੂੰ ਨਿਰਦੇਸ਼, ਐਨੀਮੇਸ਼ਨ, ਅਤੇ ਹੋਰ ਮਸਾਲੇਦਾਰਤਾ ਜੋੜਨ ਲਈ ਬਦਲ ਸਕਦੇ ਹੋ!¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

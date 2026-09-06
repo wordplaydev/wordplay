@@ -20,7 +20,7 @@ t
 
 ¶ગુપ્ત આંકડા 1 થી 9 સુધીની સંખ્યાઓ છે, જે અવ્યવસ્થિત ક્રમમાં છે¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-ગુપ્તઆંકડા: [1 2 3 4 5 6 7 8 9].શફલ્ડ()
+ગુપ્તઆંકડા: [:1‥9].શફલ્ડ()
 
 ¶સૌથી છેલ્લે કઈ ચાવી દબાવવામાં આવી?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

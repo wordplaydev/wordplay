@@ -34,7 +34,7 @@ bolaY: (bolaBasket.tempat ?? Tempat()).y
 percobaan: (hitunganKlik ÷ 2).Ringkasan()
 
 ¶inBin bernilai benar setiap kali bola berada di dalam keranjang. Reaksi skor hanya terjadi saat inBin berubah menjadi benar DAN percobaan saat ini lebih besar dari skor, jadi masuk kedua kalinya dalam lemparan yang sama — misalnya bola memantul di dalam keranjang, atau keranjang bergeser kembali menutupi bola — tidak akan dihitung sampai lemparan berikutnya menambah hitungan percobaan¶
-diDalamKeranjang: (bolaX < (posisiXKeranjang + 0.9m)) & (bolaX > (posisiXKeranjang - 0.9m)) & (bolaY < 2.9m) & (bolaY > 0.3m)
+diDalamKeranjang: (((posisiXKeranjang - 0.9m)‥(posisiXKeranjang + 0.9m)) ∋ bolaX) & ((0.3m‥2.9m) ∋ bolaY)
 skor: 0 … diDalamKeranjang & (percobaan > skor) … 1 + skor
 
 bintangBolaBasket: Kelompok(

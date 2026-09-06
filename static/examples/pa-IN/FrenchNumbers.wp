@@ -20,7 +20,7 @@ t
 
 ¶ਭੇਤ 1 ਤੋਂ 9 ਤੱਕ ਦੇ ਨੰਬਰ ਹਨ, ਜੋ ਬੇਤਰਤੀਬੇ ਕ੍ਰਮ ਵਿੱਚ ਹਨ¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-ਭੇਤ: [1 2 3 4 5 6 7 8 9].ਬਦਲਿਆ()
+ਭੇਤ: [:1‥9].ਬਦਲਿਆ()
 
 ¶ਆਖ਼ਰੀ ਵਾਰ ਕਿਹੜੀ ਕੁੰਜੀ ਦੱਬੀ ਗਈ ਸੀ?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

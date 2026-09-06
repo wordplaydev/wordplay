@@ -114,14 +114,14 @@ ask for one. Six blocks is the ceiling, which is what a field of three boulders
 yields in brick, so even an all-brick structure is buildable.¶
 ƒ spawnGoal() (
 	depth: maxZ
-	pair: [-1 0 1].shuffled().subsequence(1 2)
+	pair: [:-1‥1].shuffled().subsequence(1 2)
 	pair.combine([] ƒ(structure•[Block] cx•#)
 		structure.append((Random(1 2) → []).translate(ƒ(level•#)
 			Block(cx (level - 1) depth ['🪵' '🧱'].random()))))
 )
 
 ¶Whether a cell is on the field at all.¶
-ƒ inBounds(cx•# cz•#) (cx ≥ minX) & (cx ≤ maxX) & (cz ≥ minZ) & (cz ≤ maxZ)
+ƒ inBounds(cx•# cz•#) ((minX‥maxX) ∋ cx) & ((minZ‥maxZ) ∋ cz)
 
 ¶How tall a column is. Every column is solid from the ground up — shapes grow
 that way, stacking adds to the top, and hammering takes from the top — so simply
@@ -302,7 +302,7 @@ down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
 tileSize: 0.8m
 
-groundRows: [0 1 2 3 4].filter(ƒ(row•#) row ≥ (game.z - drawBehind)).translate(ƒ(row•#)
+groundRows: [:0‥4].filter(ƒ(row•#) row ≥ (game.z - drawBehind)).translate(ƒ(row•#)
 	Phrase("🟩🟩🟩🟩🟩🟩🟩🟩🟩" tileSize duration: 0s name: "g\row\"
 		place: Place(atX(minX) atY(-1) atZ(row))))
 

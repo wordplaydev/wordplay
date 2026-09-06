@@ -21,7 +21,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶Dieser Wert stellt die aktuelle Entscheidung in der obigen Liste dar.Wenn die Taste gedrückt wird, führen wir eine der folgenden Aktionen aus.Wenn es für diese Entscheidung nur eine Möglichkeit gibt, ändern wir die aktuelle Entscheidungzur Zielentscheidung der Option, unabhängig davon, welche Taste gedrückt wurde.Wenn die gedrückte Taste zwischen 1 und der Anzahl der Optionen liegt, gehen wir zur Zielentscheidung dieser Option.Ansonsten behalten wir die aktuelle Entscheidung einfach bei.¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶Hier werden die Optionen als Satzstapel angezeigt. Sie können dies ändern, um Anweisungen, Animationen und andere interessante Elemente hinzuzufügen!¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

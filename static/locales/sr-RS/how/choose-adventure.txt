@@ -21,7 +21,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶Ова вредност представља тренутну одлуку на горњој листи.Када се притисне тастер, радимо једно од следећег.Ако постоји само један избор за ову одлуку, онда мењамо тренутну одлукудо циљне одлуке опције без обзира на то који је тастер притиснут.Ако је притиснути тастер између 1 и броја опција, онда прелазимо на циљну одлуку те опције.У супротном, само задржавамо тренутну одлуку исту.¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶Ово само приказује опције као низ фраза. Можете ово променити да бисте додали упутства, анимације и друге занимљивости!¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

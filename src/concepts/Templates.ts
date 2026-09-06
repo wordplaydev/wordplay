@@ -20,6 +20,7 @@ import NoneLiteral from '@nodes/NoneLiteral';
 import NoneType from '@nodes/NoneType';
 import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
+import RangeType from '@nodes/RangeType';
 import Otherwise from '@nodes/Otherwise';
 import Reaction from '@nodes/Reaction';
 import SetLiteral from '@nodes/SetLiteral';
@@ -269,6 +270,7 @@ const Templates: Node[] = [
     BooleanType.make(),
     NoneType.make(),
     NumberType.make(),
+    RangeType.make(),
     ListType.make(),
     SetType.make(),
     MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),

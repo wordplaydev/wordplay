@@ -47,7 +47,7 @@ São as notas mais curtas da peça, e o único ponto onde o gato fica cortado: d
 		casa: Aleatório(1 8)
 		(64 → []).traduzir(
 			ƒ(i2•#)
-				((i2 < 17) | (i2 > 32)) ? ø
+				~((17‥32) ∋ i2) ? ø
 					talvez((((casa + (i2 - 17)) - 1) % 8) + 1)
 		)
 	)
@@ -57,7 +57,7 @@ São as notas mais curtas da peça, e o único ponto onde o gato fica cortado: d
 		cela: [voz2() voz2() voz2()]
 		(48 → []).traduzir(
 			ƒ(i3•#)
-				((i3 < 25) | (i3 > 36)) ? ø
+				~((25‥36) ∋ i3) ? ø
 					cela[(((i3 - 25) % 3) + 1)]
 		)
 	)

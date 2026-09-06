@@ -295,7 +295,8 @@
         "Product": "$~produkt",
         "Percent": "$~procent",
         "Defect": "$~przykład z oczekiwaną usterką",
-        "NotANumber": "$~to nie jest liczba"
+        "NotANumber": "$~to nie jest liczba",
+        "Range": "$~zakres"
     },
     "node": {
         "Dimension": {
@@ -1434,7 +1435,8 @@
                 "ExpectedNextValue": {
                     "name": "$~brakująca następna wartość",
                     "explanation": "$~Wiem, kiedy się zmienić, ale nie wiem, na co. Czy możesz dodać następną wartość?",
-                    "resolution": "$~Dodaj następną wartość"
+                    "resolution": "$~Dodaj następną wartość",
+                    "rangeResolution": "$~Zrób @Range za pomocą \\‥\\ zamiast"
                 }
             },
             "label": {
@@ -2408,6 +2410,15 @@
                 "\\cyfry: ⣿ >0 #⣿\n'Mam 3 koty i 12 ryb' ⌕ cyfry\\",
                 "Gdy już mnie zapiszesz, użyj mnie wszędzie, gdzie pasuje wzorzec, jak \\text ⌕ digits\\🪲 lub \\text ≈ digits\\🪲."
             ]
+        },
+        "RangeType": {
+            "name": "$~zakres",
+            "description": "$~zakres typ$unit[ w $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Mówię @Bind, że nazwa zawiera @Range — dwie granice @Number i każdą liczbę pomiędzy nimi.",
+                "\\zakres•‥: 1 ‥ 10\\🪲"
+            ]
         }
     },
     "basis": {
@@ -3130,6 +3141,22 @@
                         {
                             "doc": "$~Podstawa logarytmu. Pomiń ją, aby otrzymać logarytm naturalny (o podstawie _e_).",
                             "names": "$~podstawa"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~@Range ode mnie do podanego @Number, włącznie z obiema granicami. Rozłóż go na listę za pomocą @Spread, zapytaj, czy zawiera liczbę, albo użyj go jako klucza @Match:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Liczę w dół, gdy mój koniec jest mniejszy niż mój początek:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~do"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number, na której kończy się mój zakres. Musi mieć taką samą jednostkę @how ja.",
+                            "names": "$~liczba"
                         }
                     ]
                 }
@@ -4224,6 +4251,70 @@
                 "number": [
                     "$~Zamienia moje słowa na @Number, a jeśli nie są liczbą, na wartość „nie liczba”, która wyświetla się jako \\!#\\:",
                     "\\`cześć` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Jestem zakresem liczb! Mam początek i koniec, i zawieram oba, oraz każdą liczbę pomiędzy nimi. Tworzysz mnie za pomocą \\‥\\ pomiędzy dwiema liczbami:",
+                "\\1‥10\\",
+                "Zapytaj mnie, czy zawieram liczbę:",
+                "\\(1‥10) ∋ 7\\",
+                "Rozłóż mnie na listę, aby uzyskać każdą liczbę, którą zawieram:",
+                "\\[:1‥10]\\",
+                "Użyj mnie jako klucza @Match, a dopasuję każdą liczbę, którą zawieram:",
+                "\\7 ???\n\t1 ‥ 9: 'mały'\n\t'duży'\\",
+                "Mój początek i koniec muszą mieć tę samą jednostkę, tak samo @how w porównaniach @Number."
+            ],
+            "name": ["$~Zakres"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ jeśli podany @Range ma taki sam początek i koniec @how ja:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range do porównania ze mną.",
+                            "names": "$~zakres"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ jeśli podany @Range ma inny początek lub koniec niż ja:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range do porównania ze mną.",
+                            "names": "$~zakres"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ jeśli podany @Number mieści się między moim początkiem a końcem, albo jest jednym z nich:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Nie ma znaczenia, w którą stronę zostałem zapisany:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~ma"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number, którego mam we mnie szukać.",
+                            "names": "$~liczba"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Zamieniam zakres na listę każdej liczby w nim, licząc co jeden. Na przykład:",
+                    "\\(1‥5)→[]\\"
                 ]
             }
         }
@@ -7503,7 +7594,8 @@
                 "insertDottedEighthNote": "$~Wstaw ósemkę z kropką, długą na trzy czwarte uderzenia",
                 "insertSixteenthNote": "$~Wstaw szesnastkę, długą na jedną czwartą uderzenia",
                 "insertDottedSixteenthNote": "$~Wstaw szesnastkę z kropką, długą na trzy ósme uderzenia",
-                "selectedNodes": "$~$#count[$count węzeł zaznaczony|$count węzły zaznaczone|$count węzłów zaznaczonych|$count węzła zaznaczone], od $first do $last"
+                "selectedNodes": "$~$#count[$count węzeł zaznaczony|$count węzły zaznaczone|$count węzłów zaznaczonych|$count węzła zaznaczone], od $first do $last",
+                "insertRange": "$~wstaw symbol zakresu"
             },
             "options": {
                 "locale": {

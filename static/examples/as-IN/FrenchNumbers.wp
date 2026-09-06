@@ -20,7 +20,7 @@ t
 
 ¶গুপ্ত সংখ্যাসমূহ হ'ল ১ ৰ পৰা ৯ লৈকে, যাদৃচ্ছিকভাৱে সজাই দিয়া¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-গুপ্তসংখ্যা: [1 2 3 4 5 6 7 8 9].শ্বাফেলকৰিলে()
+গুপ্তসংখ্যা: [:1‥9].শ্বাফেলকৰিলে()
 
 ¶সৰ্বশেষ টিপা চাবিটো কি আছিল?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

@@ -33,7 +33,7 @@ ballY: (basketball.Ort ?? Ort()).j
 versuch: (klickanzahl ÷ 2).aufrunden()
 
 ¶inBin ist wahr, sobald sich der Ball im Inneren des Korbs befindet. Die Punkte-Reaktion löst nur aus, wenn inBin zu wahr wechselt UND der aktuelle Versuch weiter ist als der Punktestand. So bewirkt ein zweites Eintreten während desselben Wurfs — etwa ein Abprall im Korb oder der zurückgleitende Korb über dem Ball — nichts, bis der nächste Wurf den Versuchszähler erhöht¶
-imKorb: (ballX < (korbXPosition + 0.9m)) & (ballX > (korbXPosition - 0.9m)) & (ballY < 2.9m) & (ballY > 0.3m)
+imKorb: (((korbXPosition - 0.9m)‥(korbXPosition + 0.9m)) ∋ ballX) & ((0.3m‥2.9m) ∋ ballY)
 punktestand: 0 … imKorb & (versuch > punktestand) … 1 + punktestand
 
 basketballStar: Gruppe(

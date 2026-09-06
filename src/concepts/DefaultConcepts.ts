@@ -1,3 +1,4 @@
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import BooleanType from '@nodes/BooleanType';
 import type Context from '@nodes/Context';
@@ -10,6 +11,8 @@ import NoneLiteral from '@nodes/NoneLiteral';
 import NoneType from '@nodes/NoneType';
 import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
+import RangeType from '@nodes/RangeType';
+import Reference from '@nodes/Reference';
 import SetLiteral from '@nodes/SetLiteral';
 import SetType from '@nodes/SetType';
 import StructureDefinition from '@nodes/StructureDefinition';
@@ -18,6 +21,7 @@ import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import type { Basis } from '@basis/Basis';
+import { RANGE_SYMBOL } from '@parser/Symbols';
 import type Locales from '@locale/Locales';
 import TableLiteral from '@nodes/TableLiteral';
 import TableType from '@nodes/TableType';
@@ -62,6 +66,21 @@ export function getBasisConcepts(
                 NumberLiteral.make(0),
                 NumberLiteral.make('π'),
                 NumberLiteral.make('∞'),
+            ],
+            locales,
+            context,
+        ),
+        new StructureConcept(
+            Purpose.Numbers,
+            basis.getSimpleDefinition('range'),
+            basis.getSimpleDefinition('range'),
+            RangeType.make(),
+            [
+                new BinaryEvaluate(
+                    NumberLiteral.make(1),
+                    Reference.make(RANGE_SYMBOL),
+                    NumberLiteral.make(10),
+                ),
             ],
             locales,
             context,

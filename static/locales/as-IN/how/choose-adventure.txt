@@ -22,7 +22,7 @@ decisions: [
 key: Key()
 choice: key → #
 ¶ এই মানটোৱে ওপৰৰ তালিকাত বৰ্তমানৰ সিদ্ধান্তক প্ৰতিনিধিত্ব কৰে।কি'টো টিপিলে আমি তলত দিয়া কামবোৰৰ এটা কৰিম।যদি এই সিদ্ধান্তৰ বাবে এটাই পছন্দ আছে, তেন্তে আমি বৰ্তমানৰ সিদ্ধান্তটো সলনি কৰি দিওঁযি কি' টিপিলেও বিকল্পৰ লক্ষ্য সিদ্ধান্তলৈ।যদি টিপোৱা কি'টো ১ আৰু বিকল্পৰ সংখ্যাৰ মাজত থাকে, তেন্তে আমি সেই বিকল্পৰ লক্ষ্য সিদ্ধান্তলৈ যাওঁ।নহ’লে আমি কেৱল বৰ্তমানৰ সিদ্ধান্তটো একেই ৰাখোঁ। ¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((1‥decisions[current].options.length()) ∋ choice) ? decisions[current].options[choice].decision current
 ¶ ই কেৱল বিকল্পসমূহক বাক্যাংশৰ ষ্টেক হিচাপে দেখুৱায়। আপুনি এইটো সলনি কৰিব পাৰে নিৰ্দেশনা, এনিমেচন, আৰু অন্যান্য টেঙা যোগ কৰিবলৈ! ¶Stage([
 		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
 	])\

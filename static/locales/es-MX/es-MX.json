@@ -295,7 +295,8 @@
         "Product": "$~producto",
         "Percent": "$~porcentaje",
         "Defect": "$~ejemplo con defecto esperado",
-        "NotANumber": "$~no es un número"
+        "NotANumber": "$~no es un número",
+        "Range": "$~rango"
     },
     "node": {
         "Dimension": {
@@ -1406,7 +1407,8 @@
                 "ExpectedNextValue": {
                     "name": "$~falta el siguiente valor",
                     "explanation": "$~sé cuándo cambiar, pero no a qué cambiar, ¿puedes agregar un siguiente valor?",
-                    "resolution": "$~agregar un siguiente valor"
+                    "resolution": "$~agregar un siguiente valor",
+                    "rangeResolution": "$~crea un @Range con \\‥\\ en su lugar"
                 }
             },
             "label": {
@@ -2408,6 +2410,15 @@
                 "\\dígitos: ⣿ >0 #⣿\n'tengo 3 gatos y 12 peces' ⌕ dígitos\\",
                 "Una vez guardado, úsame en cualquier lugar donde quepa un patrón, como \\text ⌕ digits\\🪲 o \\text ≈ digits\\🪲."
             ]
+        },
+        "RangeType": {
+            "name": "$~rango",
+            "description": "$~tipo rango$unit[ en $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~le digo a @Bind que un nombre guarda un @Range — dos límites @Number, y cada número entre ellos.",
+                "\\tramo•‥: 1 ‥ 10\\🪲"
+            ]
         }
     },
     "basis": {
@@ -3130,6 +3141,22 @@
                         {
                             "doc": "$~La base del logaritmo. Déjala vacía para el logaritmo natural (base _e_).",
                             "names": "$~base"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~un @Range desde mí hasta el @Number dado, incluyendo ambos. espárcelo en una lista con @Spread, @query si contiene un número, o úsalo como clave de @Match:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "cuento hacia abajo cuando mi final es menor que mi inicio:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~a"],
+                    "inputs": [
+                        {
+                            "doc": "$~el @Number donde termina mi rango. debe tener la misma unidad que yo.",
+                            "names": "$~número"
                         }
                     ]
                 }
@@ -4223,6 +4250,70 @@
                 "number": [
                     "$~Convierte mis palabras en un @Number, y si no son un número, un valor que no es número, el cual aparece como \\!#\\:",
                     "\\`hola` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~¡soy un rango de números! tengo un inicio y un final, y los incluyo a ambos, y cada número entre ellos. me creas con \\‥\\ entre dos números:",
+                "\\1‥10\\",
+                "pregúntame si contengo un número:",
+                "\\(1‥10) ∋ 7\\",
+                "espárceme en una lista para obtener cada número que contengo:",
+                "\\[:1‥10]\\",
+                "úsame como clave de @Match y hago coincidir cualquier número que contenga:",
+                "\\7 ???\n\t1 ‥ 9: 'pequeño'\n\t'grande'\\",
+                "mi inicio y mi final deben tener la misma unidad, tal como lo requieren las comparaciones de @Number."
+            ],
+            "name": ["$~Rango"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ si el @Range dado tiene el mismo inicio y final que yo:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~el @Range con el que se me compara.",
+                            "names": "$~rango"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ si el @Range dado tiene un inicio o final distinto al mío:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~el @Range con el que se me compara.",
+                            "names": "$~rango"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ si el @Number dado está entre mi inicio y mi final, o es uno de ellos:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "no importa en qué orden me escribieron:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~tiene"],
+                    "inputs": [
+                        {
+                            "doc": "$~el @Number que se busca en mí.",
+                            "names": "$~número"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~convierto un rango en una lista de cada número que contiene, contando de uno en uno. por ejemplo:",
+                    "\\(1‥5)→[]\\"
                 ]
             }
         }
@@ -7475,7 +7566,8 @@
                 "insertDottedEighthNote": "$~insertar una corchea con puntillo, de tres cuartos de tiempo",
                 "insertSixteenthNote": "$~insertar una semicorchea, de un cuarto de tiempo",
                 "insertDottedSixteenthNote": "$~insertar una semicorchea con puntillo, de tres octavos de tiempo",
-                "selectedNodes": "$~$#count[$#count nodo seleccionado|$count nodos seleccionados|$count nodos seleccionados], de $first a $last"
+                "selectedNodes": "$~$#count[$#count nodo seleccionado|$count nodos seleccionados|$count nodos seleccionados], de $first a $last",
+                "insertRange": "$~insertar símbolo de rango"
             },
             "options": {
                 "locale": {

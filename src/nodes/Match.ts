@@ -28,6 +28,7 @@ import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 import { getEqualityTypes, narrowToEqual } from '@nodes/typeGuards';
+import RangeType from '@nodes/RangeType';
 import UnionType from '@nodes/UnionType';
 
 /**
@@ -157,10 +158,17 @@ export default class Match extends Expression {
 
         for (const corresponding of this.cases) {
             const givenType = corresponding.key.getType(context);
+            // A range key matches the numbers it holds rather than equalling the subject,
+            // so it's compatible when the subject is one of those numbers — which is also
+            // what makes a unit mismatch (`5 ??? 1s‥10s`) a conflict.
+            const keyType =
+                givenType instanceof RangeType
+                    ? givenType.getElementType(context)
+                    : givenType;
             if (
                 !valueIsCorrupt &&
                 !context.isUnknownDownstream(corresponding.key) &&
-                !valueType.accepts(givenType, context)
+                !valueType.accepts(keyType, context)
             )
                 conflicts.push(
                     new IncompatibleType(

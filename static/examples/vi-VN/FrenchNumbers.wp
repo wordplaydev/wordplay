@@ -20,7 +20,7 @@ số2,numeros/fr: [
 
 ¶Các số bí mật là các số từ 1 đến 9 theo thứ tự ngẫu nhiên¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-bíMật: [1 2 3 4 5 6 7 8 9].xáotrộn()
+bíMật: [:1‥9].xáotrộn()
 
 ¶Phím vừa được nhấn gần đây nhất là gì?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr

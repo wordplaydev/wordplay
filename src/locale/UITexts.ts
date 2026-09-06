@@ -704,6 +704,8 @@ type UITexts = {
             insertDocs: string;
             /** [plain] Insert … symbol */
             insertStream: string;
+            /** [plain] Description for the range insertion command */
+            insertRange: string;
             /** [plain] Insert ∆ symbol */
             insertChange: string;
             /** [plain] Insert ← symbol */
