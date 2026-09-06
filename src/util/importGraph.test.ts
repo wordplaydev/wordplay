@@ -556,13 +556,24 @@ test('resolving a color needs no basis', () => {
  * still imports only the standalone color modules, so putting gallery
  * membership on a character pulls no part of the language runtime onto a page
  * that merely lists tiles.
+ *
+ * Hardening that feature's cross-listener sweep is **+1 file** on all five, and
+ * it is the honest kind: `isSweepable` decides whether a locally-cached thing
+ * a listener stopped matching may be deleted, and `CharactersDatabase` now
+ * needs that answer as much as `ProjectsDatabase` does. It was reachable only
+ * through the projects database, which is loaded on demand, so importing it
+ * into a facade `Database` constructs eagerly puts it on every graph. The
+ * alternative was restating the rule in a second place — and the rule is
+ * "when may we throw away the only copy of someone's work", which is exactly
+ * the kind that must not be written twice and drift. The module imports
+ * nothing and is forty lines, so the bytes barely move.
  */
 test.each([
-    ['src/routes/+layout.svelte', 505, 3.75],
-    ['src/components/app/Page.svelte', 528, 3.99],
-    ['src/routes/[[locale]]/+page.svelte', 543, 4.08],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 547, 4.09],
-    ['src/routes/[[locale]]/projects/+page.svelte', 554, 4.12],
+    ['src/routes/+layout.svelte', 506, 3.75],
+    ['src/components/app/Page.svelte', 529, 4.0],
+    ['src/routes/[[locale]]/+page.svelte', 544, 4.08],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 548, 4.1],
+    ['src/routes/[[locale]]/projects/+page.svelte', 555, 4.12],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

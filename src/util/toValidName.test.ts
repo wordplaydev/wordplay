@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import toValidName from './toValidName';
+import toValidName from '@util/toValidName';
 
 test('folds underscores into camelCase', () => {
     expect(toValidName('mi_nombre')).toBe('miNombre');

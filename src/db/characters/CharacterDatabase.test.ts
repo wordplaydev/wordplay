@@ -462,3 +462,108 @@ describe('getGalleryCharacters', () => {
         ).toEqual(['c1', 'c2']);
     });
 });
+
+/**
+ * The cross-listener sweep.
+ *
+ * A character that leaves one listener's query hasn't necessarily been deleted
+ * — taking your own character out of a gallery drops it from that chunk's
+ * listener while the base listener still holds it — so removal is decided
+ * against the union of every listener. The trap is the other direction: a
+ * character the cloud has never shown us is absent from every listener too,
+ * and sweeping it throws away the only copy.
+ *
+ * That is not hypothetical. It shipped: a character created moments earlier
+ * was swept out of `byID` in the window between its write being acknowledged
+ * and the next snapshot carrying it, which made `updateCharacter`'s
+ * `if (existingCharacter)` false and silently skipped the rename-rewrite that
+ * updates `@username/Name` references across the creator's projects. The
+ * character was renamed; every project pointing at it was left behind.
+ */
+describe('the sweep only deletes what the cloud has actually shown us', () => {
+    let db: any;
+    const user = { uid: 'user' };
+
+    // Real uuids: CharacterSchema requires one, and a snapshot whose doc
+    // fails to parse is skipped, which would make these tests pass for the
+    // wrong reason.
+    const ID = '3f7a1c9e-2b4d-4e8a-9c1f-6d5b0a2e7c31';
+
+    function character(id: string, name: string) {
+        return {
+            id,
+            owner: 'user',
+            public: false,
+            collaborators: [] as string[],
+            updated: 1,
+            name,
+            description: '',
+            shapes: [],
+        };
+    }
+
+    /** A QuerySnapshot with just the parts handleSnapshot reads. */
+    function snapshot(characters: unknown[], fromCache = false) {
+        return {
+            metadata: { fromCache },
+            forEach(visit: (doc: { data: () => unknown }) => void) {
+                for (const c of characters) visit({ data: () => c });
+            },
+        };
+    }
+
+    beforeEach(() => {
+        db = new CharactersDatabase({
+            getUser: vi.fn(() => user),
+            setStatus: vi.fn(),
+            reportBanner: vi.fn(),
+            track: vi.fn((write: unknown) => write),
+            markSynced: vi.fn(),
+            Galleries: { accessibleGalleries: new Map() },
+            loadProjects: vi.fn(async () => ({
+                allEditableProjects: [],
+                reviseProject: vi.fn(),
+            })),
+        } as never);
+        // One listener (no galleries), so a single snapshot completes the set.
+        db.expectedCharacterListeners = 1;
+    });
+
+    it('keeps a character the cloud has never carried', () => {
+        // Exactly the just-created case: in memory, write acknowledged, but no
+        // snapshot has included it yet.
+        db.byID.set(ID, character(ID, 'me/New'));
+        db.handleSnapshot('base', user, snapshot([]));
+        expect(db.byID.has(ID)).toBe(true);
+    });
+
+    it('sweeps a character the cloud carried and then stopped carrying', () => {
+        const c = character(ID, 'me/Gone');
+        db.handleSnapshot('base', user, snapshot([c]));
+        expect(db.byID.has(ID)).toBe(true);
+        db.handleSnapshot('base', user, snapshot([]));
+        expect(db.byID.has(ID)).toBe(false);
+    });
+
+    it('never sweeps on a snapshot served from the cache', () => {
+        // A cached snapshot can predate a write that already landed, so its
+        // absences are not evidence of anything.
+        const c = character(ID, 'me/Cached');
+        db.handleSnapshot('base', user, snapshot([c]));
+        db.handleSnapshot('base', user, snapshot([], true));
+        expect(db.byID.has(ID)).toBe(true);
+    });
+
+    it('waits for every listener before concluding anything', () => {
+        const c = character(ID, 'me/Two');
+        db.handleSnapshot('base', user, snapshot([c]));
+        // Two listeners now, and only one has reported since.
+        db.expectedCharacterListeners = 2;
+        db.listenerCharacterIDs.clear();
+        db.handleSnapshot('base', user, snapshot([]));
+        expect(db.byID.has(ID)).toBe(true);
+        // The second reports, also without it: now it's gone from all of them.
+        db.handleSnapshot('gallery:0', user, snapshot([]));
+        expect(db.byID.has(ID)).toBe(false);
+    });
+});

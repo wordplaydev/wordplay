@@ -62,7 +62,7 @@ import { getPluralCategories, getPluralCount } from '@locale/plurals';
 import getTranslator from '@util/verify-locales/getTranslator';
 import { TranslationFailedAdvice } from '@util/verify-locales/getTranslator';
 import type Translator from '@util/verify-locales/Translator';
-import toValidName from '@util/verify-locales/toValidName';
+import toValidName from '@util/toValidName';
 
 /** Create a copy of the default tutorial with all dialog marked unwritten */
 export function createUnwrittenLocale(): LocaleText {

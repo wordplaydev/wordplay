@@ -152,6 +152,20 @@ describe('ConceptLink glossary forms', () => {
         expect(ConceptLink.parse('parameters/x')).toBeInstanceOf(CharacterName);
     });
 
+    test('a glossary word is a fine name for a character', () => {
+        // Bare, these are glossary references — `new` is the `entered` term's
+        // word, and `value`, `type` and `stream` are terms of their own.
+        expect(ConceptLink.parse('new')).toBeInstanceOf(GlossaryName);
+        // Qualified by a username they are characters, because the glossary
+        // branch only applies with no separator. The character editor validates
+        // this full form for exactly that reason: checking the bare name told
+        // creators that `New`, `Value` and `Type` were invalid character names.
+        for (const word of ['New', 'Value', 'Type', 'Stream'])
+            expect(ConceptLink.parse(`someone/${word}`)).toBeInstanceOf(
+                CharacterName,
+            );
+    });
+
     test('a form validates, in its own locale and through the en-US fallback', () => {
         expect(link('@parameters').isValid(DefaultLocale)).toBe(true);
         // A locale with its own forms validates those, and still validates the

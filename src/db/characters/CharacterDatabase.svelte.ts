@@ -26,6 +26,10 @@ import deferToIdle from '@util/deferToIdle';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';
 import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
+// Under projects/ because that is where the sweep was first needed, but the
+// rule it encodes is about any locally-cached thing a listener can stop
+// matching, and it imports nothing.
+import isSweepable from '@db/projects/isSweepable';
 import {
     and,
     collection,
@@ -77,6 +81,13 @@ export class CharactersDatabase {
 
     /** How many listeners must report before the sweep can conclude anything. */
     private expectedCharacterListeners = 0;
+
+    /** Characters a cloud snapshot has shown us at least once — the character
+     *  analogue of a project's `isPersisted`. A character that has never been
+     *  in the cloud has no server-side copy to have been deleted, so its
+     *  absence from every listener says nothing about it, and sweeping it
+     *  would take the only copy. See {@link isSweepable}. */
+    private seenInCloud: Set<string> = new Set();
 
     /** The set of gallery IDs the chunk listeners are built from, so a gallery
      *  change that doesn't alter the set doesn't churn every query. */
@@ -227,6 +238,7 @@ export class CharactersDatabase {
         this.byID.clear();
         this.byName.clear();
         this.unsaved.clear();
+        this.seenInCloud.clear();
         await this.saves.clearTracking();
         if (this.IndexedDBSupported)
             await this.db.localDB.deleteAllCharacters();
@@ -362,6 +374,9 @@ export class CharactersDatabase {
             try {
                 const parsed = CharacterSchema.parse(character);
                 seen.add(parsed.id);
+                // Before the skip below: this records that the cloud has this
+                // character, which is true whether or not we take its copy.
+                this.seenInCloud.add(parsed.id);
 
                 // Skip characters with unsaved local edits not yet
                 // pushed: our local copy is authoritative until
@@ -396,10 +411,14 @@ export class CharactersDatabase {
         // necessarily been deleted — taking your own character out of a
         // gallery drops it from that chunk listener while the base listener
         // still holds it — so a removal only counts when NO listener matches
-        // it any more, and only once every listener has reported. Anything
-        // with unsaved local edits is left alone: its local copy is the only
-        // one that has them.
+        // it any more, and only once every listener has reported.
+        //
+        // Only against server-fresh data, for the reason handleProjectsSnapshot
+        // gives: a cache-sourced snapshot can predate a write that has already
+        // landed, and concluding "deleted" from it would be concluding it from
+        // a stale list.
         if (
+            !snapshot.metadata.fromCache &&
             this.listenerCharacterIDs.size === this.expectedCharacterListeners
         ) {
             const union = new Set<string>();
@@ -419,10 +438,19 @@ export class CharactersDatabase {
                         this.db.Galleries.accessibleGalleries.has(
                             character.gallery,
                         ));
+                // The same rule projects use, from the same module rather
+                // than restated here: a wrong keep costs a stale row that a
+                // later snapshot sweeps, a wrong delete costs the only copy.
+                // `editing` is false because characters have no coediting
+                // session — that guard is the project's alone.
                 if (
                     watched &&
-                    !union.has(character.id) &&
-                    !this.unsavedIDs.has(character.id)
+                    isSweepable({
+                        persisted: this.seenInCloud.has(character.id),
+                        matched: union.has(character.id),
+                        unsaved: this.unsavedIDs.has(character.id),
+                        editing: false,
+                    })
                 )
                     this.deleteCharacterLocally(character);
             }
@@ -807,6 +835,10 @@ export class CharactersDatabase {
     deleteCharacterLocally(character: Character) {
         this.byName.delete(character.name);
         this.byID.delete(character.id);
+        // Never leave a stale "was in the cloud" bit behind: a character
+        // deleted and then recreated under the same id would inherit it and
+        // become sweepable before its own first snapshot.
+        this.seenInCloud.delete(character.id);
         this.unsaved.delete(character.id);
         // Drops the unsaved/error state AND the durable dirty row, so a
         // character deleted while dirty can't re-seed unsavedIDs on reload.

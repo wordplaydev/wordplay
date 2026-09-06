@@ -7,7 +7,7 @@ import { isNameTextPath } from '@util/verify-locales/classifyLocalePath';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import type Log from '@util/verify-locales/Log';
 import { leadingAnnotations } from '@util/verify-locales/protect';
-import toValidName from '@util/verify-locales/toValidName';
+import toValidName from '@util/toValidName';
 
 /** A valid Wordplay identifier: a single name or operator token (plus End). */
 function isValidName(text: string): boolean {

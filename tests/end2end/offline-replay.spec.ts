@@ -116,9 +116,11 @@ test.describe('offline edits replay after reload + reconnect', () => {
 
         await cutFirestore(page);
 
+        // Spaces on purpose: the editor folds them into one word, since a
+        // character's name is an identifier.
         const typed = 'Offline Hero';
         await page.locator('#character-name').fill(typed);
-        const expectedName = `${loggedInUsername}/${typed}`;
+        const expectedName = `${loggedInUsername}/OfflineHero`;
 
         // Confirm the offline edit is durably tracked as unsaved (markClean
         // hasn't run because the write can't reach the cloud).

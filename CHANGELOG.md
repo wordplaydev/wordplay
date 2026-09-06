@@ -30,6 +30,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🚦 We fixed asking whether a value is one exact number or word. Asking if `5` is a `5` used to say no, and so did every check against a list of choices like `1|2|3`.
 - 🐛 We fixed Wordplay freezing when you turned an endless number into a list. Asking `∞` for a list now gives you an empty one instead of locking up.
 - ✍️ If you name a character something you already used, Wordplay now keeps its old name instead of letting two of your characters share one. It kept saying it wouldn't save the name and then saved it anyway. Your drawing still saves while you work.
+- ✍️ A character's name can't have spaces in it, because you use the name in your code. If you type one, Wordplay now joins the words for you — "My Cool Character" becomes "MyCoolCharacter" — instead of refusing the name.
 - 🐛 Custom characters now show up when you're not signed in, so a public project that uses one looks right to everyone. (#742)
 - 🐛 We fixed a sentence in the sharing box that stopped halfway and said only "The curators of". It now says who reviews what you share, and sits after the rules instead of splitting them in two.
 - 🎨 We fixed the space around a list of rules in the sharing box, which used to leave more room after the list than before it.

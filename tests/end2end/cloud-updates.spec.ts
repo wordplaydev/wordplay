@@ -41,12 +41,14 @@ test('editing a custom character saves it to the cloud', async ({
     // Create test character - the page will be redirected to the new character page
     const characterId = await createTestCharacter(page);
 
-    // Make an edit to the character
+    // Make an edit to the character. Typed with spaces on purpose: a
+    // character's name is an identifier, so the editor folds separators into
+    // one word rather than refusing what someone naturally types.
     const characterNameInput = 'My Cool Character';
     await page.locator('#character-name').fill(characterNameInput);
 
     // Wait for the character to be updated in Firestore
-    const expectedFullName = `${loggedInUsername}/${characterNameInput}`;
+    const expectedFullName = `${loggedInUsername}/MyCoolCharacter`;
     const updatedCharacterData = await waitForDocumentUpdate(
         page,
         'characters',

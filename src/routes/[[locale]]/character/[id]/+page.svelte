@@ -74,6 +74,7 @@
     } from '@db/characters/Character';
     import { MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '@db/limits';
     import { getUsername } from '@db/creators/handle.svelte';
+    import toValidName from '@util/toValidName';
     import {
         DB,
         CharactersDB,
@@ -688,33 +689,66 @@
 
     const CharacterNameRegEx = new RegExp(`^${NameRegExPattern}$`, 'u');
 
+    /**
+     * Whether this is a name a character can have: a single Wordplay name
+     * token, and one that classifies as a character in the reference a program
+     * will actually write.
+     *
+     * That reference is `@username/Name`, and the full form is what has to be
+     * parsed. Parsing the BARE name sends it down ConceptLink's glossary
+     * branch, which applies only when there is no separator — so `New`,
+     * `Value`, `Type`, `Stream` and forty other ordinary words were reported
+     * invalid, though `@someone/New` resolves to a character perfectly well.
+     * Harmless while nothing enforced the check; now that a name that fails it
+     * isn't saved, it would have refused some of the most likely names anyone
+     * would pick.
+     */
     function isValidName(name: string) {
         return CharacterNameRegEx.test(name) &&
-            ConceptLink.parse(name) instanceof CharacterName
+            (username === undefined ||
+                ConceptLink.parse(`${username}/${name}`) instanceof
+                    CharacterName)
             ? true
             : (l: LocaleText) => l.ui.page.character.feedback.name;
     }
+
+    /**
+     * The typed name folded into one word: `My Cool Character` becomes
+     * `MyCoolCharacter`.
+     *
+     * A character's name is an identifier — `@username/Name` is a token the
+     * tokenizer lexes — so a space makes it unusable. Refusing it outright is
+     * the wrong answer to what a kid actually types; folding keeps the name
+     * they meant. The same fold locale names get (`toValidName`), which is why
+     * it now lives outside the locale tooling.
+     */
+    let foldedName = $derived(toValidName(name));
 
     let nameAvailable = $derived(
         username === undefined ||
             typeof persisted === 'string' ||
             CharactersDB.getOwnedCharacterWithName(
-                `${username}/${name}`,
+                `${username}/${foldedName}`,
                 persisted.id,
             ) === undefined,
     );
 
     /**
-     * Whether the typed name is one we can actually store: a legal Wordplay
+     * Whether the folded name is one we can actually store: a legal Wordplay
      * name, and not one of the creator's other characters'.
      *
-     * A name that isn't holds back ONLY the name (see editedCharacter), never
-     * the drawing. Gating the whole save on it — which the stale comment on
-     * `savable` below promised and the code never did — would mean a creator
-     * who typed a colliding name silently lost every stroke they drew
-     * afterwards while the editor showed them a notice about the name.
+     * Folding rescues separators and nothing else, so this still refuses what
+     * it can't fix — `Cool!`, a reserved concept id, a name another of your
+     * characters holds. When it does, it holds back ONLY the name (see
+     * editedCharacter), never the drawing. Gating the whole save on it — which
+     * the stale comment on `savable` below promised and the code never did —
+     * would mean a creator who typed a colliding name silently lost every
+     * stroke they drew afterwards while the editor showed them a notice about
+     * the name.
      */
-    let nameUsable = $derived(isValidName(name) === true && nameAvailable);
+    let nameUsable = $derived(
+        isValidName(foldedName) === true && nameAvailable,
+    );
 
     /** Always have an up to date character to render and save */
     let editedCharacter: Character | null = $derived(
@@ -724,7 +758,9 @@
             ? null
             : {
                   ...persisted,
-                  name: nameUsable ? `${username}/${name}` : persisted.name,
+                  name: nameUsable
+                      ? `${username}/${foldedName}`
+                      : persisted.name,
                   description,
                   shapes,
                   collaborators: collaborators,
@@ -3618,7 +3654,8 @@
             bind:text={name}
             placeholder={(l) => l.ui.page.character.field.name.placeholder}
             description={(l) => l.ui.page.character.field.name.description}
-            validator={isValidName}
+            validator={(text) => isValidName(toValidName(text))}
+            done={(text) => (name = toValidName(text))}
             max="8em"
             maxlength={MAX_NAME_LENGTH}
         ></TextField>
