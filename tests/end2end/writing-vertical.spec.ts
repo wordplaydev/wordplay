@@ -195,13 +195,24 @@ test.describe('vertical writing', () => {
             return box!;
         };
 
-        // Anchor away from the edges, wherever the click left the caret: Right
-        // is the previous line, so three presses reach the start of the first
-        // one, and two Downs then move along it far enough to move back.
-        for (let press = 0; press < 3; press++)
-            await page.keyboard.press('ArrowRight');
-        for (let press = 0; press < 2; press++)
-            await page.keyboard.press('ArrowDown');
+        // Anchor inside the middle line's word, and check that's where we
+        // landed rather than assuming it. Both ends of a token are unusable
+        // anchors: an inline move that starts at a token boundary returns a node
+        // selection, whose spot is drawn a full column away, and a caret at a
+        // line's end wraps to the next line — each is a change of column, which
+        // is the opposite of what an inline move is supposed to look like here.
+        // The middle line also has a neighbour on both sides, so every one of
+        // the four moves below is defined.
+        const word = 'ふるいけや';
+        await page
+            .getByTestId('editor')
+            .first()
+            .locator('.token-view', { hasText: word })
+            .first()
+            .click();
+        const anchored = (await mirror(page)).start;
+        expect(anchored).toBeGreaterThan(Program.indexOf(word));
+        expect(anchored).toBeLessThan(Program.indexOf(word) + word.length);
         const start = await at();
 
         /** Which way a move mostly went. Compared rather than measured against a
@@ -212,16 +223,26 @@ test.describe('vertical writing', () => {
                 ? 'between lines'
                 : 'along the text';
 
-        // Up moves along the line: writing vertically, the text runs down the
-        // screen, so the caret travels in y and stays in its column.
+        // Up and down move along the line: writing vertically, the text runs
+        // down the screen, so the caret travels in y and stays in its column.
         await page.keyboard.press('ArrowUp');
         const afterUp = await at();
         expect(moved(start, afterUp)).toBe('along the text');
 
-        // Left is the next line, and lines progress right to left, so this is
-        // the move that changes columns.
+        await page.keyboard.press('ArrowDown');
+        const afterDown = await at();
+        expect(moved(afterUp, afterDown)).toBe('along the text');
+
+        // Left is the next line and Right the previous one, since lines progress
+        // right to left. These are the moves that read the rendered rows through
+        // the editor's own writing mode, so they are also what says the row
+        // model isn't being built in the interface's basis.
         await page.keyboard.press('ArrowLeft');
-        expect(moved(afterUp, await at())).toBe('between lines');
+        const afterLeft = await at();
+        expect(moved(afterDown, afterLeft)).toBe('between lines');
+
+        await page.keyboard.press('ArrowRight');
+        expect(moved(afterLeft, await at())).toBe('between lines');
     });
 
     test('a reader only ever gets the direction their script is set in', async ({
@@ -352,9 +373,16 @@ test.describe('pages that are not prose', () => {
         page,
     }) => {
         await withLayout(page, 'vertical-rl');
-        await page.goto(`/${Vertical}/galleries`);
+        // Ask for a tab rather than taking the default: with none chosen the
+        // page holds its panel behind a placeholder until auth has reported in
+        // and the gallery cache has hydrated, and `.writing` exists well before
+        // that — so measuring on its arrival measured a spinner. `?tab=` is read
+        // synchronously at init, and the examples are built in rather than
+        // fetched, so the grid is there on the first render.
+        await page.goto(`/${Vertical}/galleries?tab=examples`);
         const surface = page.locator('.writing').first();
         await surface.waitFor({ timeout: 20000 });
+        await surface.locator('.previews').first().waitFor({ timeout: 20000 });
         const listing = await surface.evaluate((el) => {
             const grid = el.querySelector('.previews');
             return {

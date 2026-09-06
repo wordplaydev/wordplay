@@ -1239,11 +1239,22 @@ const MovePriorLine: Command = {
     // soft-wrapped rows). When the rendered rows can't say where to go — the end
     // of a program, a row outside a virtualized window, a caret not yet laid out
     // — step by source line instead, so the key never silently does nothing.
-    execute: ({ caret, blocks, view, getTokenViews, locales, database }) => {
+    // The projection comes from the *editor's* layout, never the interface's
+    // (`Settings.getWritingMode()`): the rows being clustered are this code's,
+    // and reading them in the reader's basis clusters vertical text across its
+    // columns instead of along one. Same rule as the key remap above.
+    execute: ({
+        caret,
+        blocks,
+        view,
+        getTokenViews,
+        locales,
+        writingLayout,
+    }) => {
         if (caret === undefined || !view || !getTokenViews) return false;
         const axes = editorAxes(
             view,
-            database.Settings.getWritingMode(),
+            writingLayout ?? 'horizontal-tb',
             locales.getDirection(),
         );
         const visual = blocks
@@ -1268,7 +1279,14 @@ const ExpandPriorLine: Command = {
     // node the caret is in — expandNode extends from there. Otherwise expand by
     // one visual row up, falling back to a source-line step when the
     // rendered rows can't say where to go.
-    execute: ({ caret, blocks, view, getTokenViews, locales, database }) => {
+    execute: ({
+        caret,
+        blocks,
+        view,
+        getTokenViews,
+        locales,
+        writingLayout,
+    }) => {
         if (caret === undefined) return false;
         if (caret.position instanceof Node) return caret.expandNode(-1);
         if (blocks) return caret.selectTokenNode();
@@ -1280,7 +1298,7 @@ const ExpandPriorLine: Command = {
             getTokenViews,
             editorAxes(
                 view,
-                database.Settings.getWritingMode(),
+                writingLayout ?? 'horizontal-tb',
                 locales.getDirection(),
             ),
         );
@@ -1303,11 +1321,18 @@ const MoveNextLine: Command = {
     // soft-wrapped rows). When the rendered rows can't say where to go — the end
     // of a program, a row outside a virtualized window, a caret not yet laid out
     // — step by source line instead, so the key never silently does nothing.
-    execute: ({ caret, blocks, view, getTokenViews, locales, database }) => {
+    execute: ({
+        caret,
+        blocks,
+        view,
+        getTokenViews,
+        locales,
+        writingLayout,
+    }) => {
         if (caret === undefined || !view || !getTokenViews) return false;
         const axes = editorAxes(
             view,
-            database.Settings.getWritingMode(),
+            writingLayout ?? 'horizontal-tb',
             locales.getDirection(),
         );
         const visual = blocks
@@ -1332,7 +1357,14 @@ const ExpandNextLine: Command = {
     // node the caret is in — expandNode extends from there. Otherwise expand by
     // one visual row down, falling back to a source-line step when the
     // rendered rows can't say where to go.
-    execute: ({ caret, blocks, view, getTokenViews, locales, database }) => {
+    execute: ({
+        caret,
+        blocks,
+        view,
+        getTokenViews,
+        locales,
+        writingLayout,
+    }) => {
         if (caret === undefined) return false;
         if (caret.position instanceof Node) return caret.expandNode(1);
         if (blocks) return caret.selectTokenNode();
@@ -1344,7 +1376,7 @@ const ExpandNextLine: Command = {
             getTokenViews,
             editorAxes(
                 view,
-                database.Settings.getWritingMode(),
+                writingLayout ?? 'horizontal-tb',
                 locales.getDirection(),
             ),
         );
