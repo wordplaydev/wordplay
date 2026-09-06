@@ -5,7 +5,7 @@ on:
 permissions:
     contents: read
 
-# Split into four independent jobs that run concurrently. This work used to run
+# Split into six independent jobs that run concurrently. This work used to run
 # as sequential steps in one job; as parallel jobs the wall-clock collapses
 # to the longest single job instead of their sum. Each job repeats the
 # checkout/setup-node/npm-ci preamble (cheap with the npm cache).
@@ -22,6 +22,27 @@ jobs:
               name: Install dependencies
             - run: npm run test:run
               name: Run vitest
+
+    # The corpus sweeps (src/util/sweepTests.ts): five files re-deriving
+    # static/examples and static/locales, which were 172 of the vitest job's 318
+    # CPU-seconds and have nothing to do with the code most commits change. As a
+    # sibling job they cost wall clock only when they are the longest one, and the
+    # playwright gate is longer. WORDPLAY_SWEEP_CHANGED is deliberately unset here:
+    # the pre-commit hook narrows to the locales a commit touched, but a parser or
+    # conflict change can break a sweep while touching no corpus file, so CI runs
+    # every locale.
+    sweep:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
+              with:
+                  node-version-file: '.nvmrc'
+                  cache: 'npm'
+            - run: npm ci
+              name: Install dependencies
+            - run: npm run test:sweep
+              name: Run the corpus sweeps
 
     svelte-check:
         runs-on: ubuntu-latest

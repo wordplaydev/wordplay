@@ -12,18 +12,25 @@ import {
     retargetExamplesInDocument,
     retargetTutorialExamples,
 } from '@util/verify-locales/retargetExampleNames';
+import { sweepSkipsLocaleText } from '@util/verify-locales/exampleFreshness';
 import fs from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';
 
 /**
+ * @sweep static/locales Every `\…\` example in all 30 locales, both tutorial
+ * modes, and each locale's 36 how-tos. ~53s, and the slowest file in the sweep —
+ * its four tests are independent checks over different corpora, so splitting them
+ * into four files is where the next wall-clock win is. Runs in the `sweep`
+ * project (see src/util/sweepTests.ts), not in `npm run test:run`.
+ *
  * Drift detection for the names inside localized `\…\` examples.
  *
  * An example spells names declared at *other* locale paths, so re-translating one of those
  * names silently strands every example that used it — which shipped as `UnknownInput` in
  * nine locales (#1323) and, more quietly, as ~150 inputs per locale still spelled in
  * English. `npm run locales-fix` re-derives them; this is what makes a stranded example fail
- * `npm test` rather than wait for someone to run the fixer.
+ * the `sweep` project rather than wait for someone to run the fixer.
  *
  * Read-only: every check asks what the repair *would* write and compares, writing nothing.
  */
@@ -54,6 +61,8 @@ test(
         if (English === undefined) return;
         const stale: string[] = [];
         for (const code of Locales) {
+            // Under the pre-commit hook only; CI runs every locale. See sweepSkipsLocaleText.
+            if (sweepSkipsLocaleText(code)) continue;
             const locale: LocaleText | undefined = read(getLocalePath(code));
             if (locale === undefined) continue;
             for (const pair of getCheckableLocalePairs(locale)) {
@@ -88,6 +97,8 @@ test(
     () => {
         const stale: string[] = [];
         for (const code of Locales) {
+            // Under the pre-commit hook only; CI runs every locale. See sweepSkipsLocaleText.
+            if (sweepSkipsLocaleText(code)) continue;
             const locale: LocaleText | undefined = read(getLocalePath(code));
             if (locale === undefined) continue;
             for (const mode of TutorialModes) {
@@ -122,6 +133,8 @@ test(
             .filter((name) => name.endsWith('.txt'));
         const stale: string[] = [];
         for (const code of Locales) {
+            // Under the pre-commit hook only; CI runs every locale. See sweepSkipsLocaleText.
+            if (sweepSkipsLocaleText(code)) continue;
             const locale: LocaleText | undefined = read(getLocalePath(code));
             if (locale === undefined) continue;
             for (const filename of filenames) {
@@ -171,6 +184,8 @@ test(
             .filter((name) => name.endsWith('.txt'));
         const divergent: string[] = [];
         for (const code of Locales) {
+            // Under the pre-commit hook only; CI runs every locale. See sweepSkipsLocaleText.
+            if (sweepSkipsLocaleText(code)) continue;
             const locale: LocaleText | undefined = read(getLocalePath(code));
             if (locale === undefined) continue;
 

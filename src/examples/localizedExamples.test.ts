@@ -4,10 +4,21 @@ import Source from '@nodes/Source';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { expect, test } from 'vitest';
+import { sweepSkipsLocale } from '@util/verify-locales/exampleFreshness';
 import { parseSerializedProject } from './examples';
 import { serializeExample } from './serializeExample';
 
 /**
+ * @sweep static/examples All 2,250 localized `.wp` files — 30 locale directories
+ * of 75 — parsed, round-tripped and analyzed. ~35s, and the answer changes only
+ * when the corpus or a translation does. Runs in the `sweep` project (see
+ * src/util/sweepTests.ts), not in `npm run test:run`.
+ *
+ * Deliberately not sharded across files, though it is the largest single test
+ * file in the repo: vitest parallelizes by file, but the sweep's floor is
+ * exampleNamesSync.test.ts at ~53s, so splitting this one changes the sweep's
+ * wall clock by nothing. Split that one first.
+ *
  * Every localized gallery example (#1310) must parse, round-trip through the
  * serializer, and analyze without conflicts against its own locale's basis —
  * the same contract examples.test.ts makes for the en-US masters. The project
@@ -75,6 +86,8 @@ test('the localized example sweep found the opted-in locales', () => {
 test.each(localized)(
     '$locale/$file parses, round-trips, and analyzes cleanly',
     ({ locale, file, path: filePath }) => {
+        // Under the pre-commit hook only; CI runs every locale. See sweepSkipsLocale.
+        if (sweepSkipsLocale(locale)) return;
         const text = readFileSync(filePath, 'utf8');
         const id = `example-${file.replace('.wp', '')}`;
         const parsed = parseSerializedProject(text, id, [locale]);
@@ -107,6 +120,15 @@ test.each(localized)(
         ).flatMap(([node, list]) =>
             list.map(() => node.toWordplay().slice(0, 60)),
         );
+
+        // Nothing to compare against, so don't go and build the comparison.
+        // `baseline` below is a count and therefore never negative, which makes
+        // the assertion `0 <= baseline` — true before the master is even read.
+        // Analyzing the master costs about what analyzing the localized file
+        // just did (a localized file is a preserveTagged rewrite of its master
+        // and node-isomorphic to it outside markup), and essentially every case
+        // here is clean, so this is roughly half the sweep.
+        if (conflicts.length === 0) return;
 
         // Compared against the master analyzed in the SAME locale, which is
         // the contract the pipeline actually enforces (`validate`). A couple
