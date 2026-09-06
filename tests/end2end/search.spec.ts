@@ -1,160 +1,31 @@
 import { expect, test } from '@playwright/test';
 
-test.describe('Project Search Feature', () => {
-    test.beforeEach(async ({ page }) => {
-        // Navigate to projects page
-        await page.goto('/en-US/projects');
-    });
-
-    test('should display search bar', async ({ page }) => {
-        // Check if search input is visible
-        const searchInput = page.getByTestId('project-search');
-        await expect(searchInput).toBeVisible();
-    });
-
-    /*
-
-    test('should filter projects in real-time', async ({ page }) => {
-        const searchInput = page.getByTestId('project-search');
-
-        // Type a search term
-        await searchInput.fill('test');
-
-        // Wait for search to complete
-        await page.waitForTimeout(500);
-
-        // Check that filtered results are shown
-        const projectCards = page.locator('.project');
-        await expect(projectCards).toHaveCount(1);
-    });
-
-    test('should show no results message for non-matching search', async ({
+/**
+ * The projects page's search field. One navigation, since both claims are about
+ * the same page in the same state.
+ *
+ * This file used to carry nine more tests inside a block comment — filtering,
+ * clearing, no-results — commented out rather than deleted, along with nine
+ * `waitForTimeout(500)`s. They were not covering anything while commented, and
+ * they made the file look like it cost more than it did. If that filtering
+ * behavior is worth covering, it is worth covering here as real tests.
+ */
+test.describe('project search', () => {
+    test('shows a search field, and survives special characters', async ({
         page,
     }) => {
-        const searchInput = page.getByTestId('project-search');
-
-        // Type a search term that shouldn't match anything
-        await searchInput.fill('nonexistentproject123');
-
-        // Wait for search to complete
-        await page.waitForTimeout(500);
-
-        // Check that no results message is shown
-        const noResultsMessage = page.locator('.no-results-message');
-        await expect(noResultsMessage).toBeVisible();
-        await expect(noResultsMessage).toContainText('No projects found for');
-    });
-
-    test('should highlight matching text', async ({ page }) => {
-        const searchInput = page.getByTestId('project-search');
-
-        // Type a search term that should match project names
-        await searchInput.fill('test');
-
-        // Wait for search to complete
-        await page.waitForTimeout(500);
-
-        // Check that highlighted text is present
-        const highlightedText = page.locator('.search-highlight');
-        await expect(highlightedText).toBeVisible();
-    });
-
-    test('should handle fuzzy search with typos', async ({ page }) => {
-        const searchInput = page.getByTestId('project-search');
-
-        // Type a search term with a typo
-        await searchInput.fill('projct');
-
-        // Wait for search to complete
-        await page.waitForTimeout(500);
-
-        // Should still find projects with "project" in the name
-        const projectCards = page.locator('.project');
-        await expect(projectCards).toHaveCount(1);
-    });
-
-    test('should find archived projects in search results', async ({
-        page,
-    }) => {
-        const searchInput = page.getByTestId('project-search');
-
-        // Type a search term that should match archived projects
-        await searchInput.fill('archived');
-
-        // Wait for search to complete
-        await page.waitForTimeout(500);
-
-        // Should find archived projects
-        const projectCards = page.locator('.project');
-        await expect(projectCards).toHaveCount(1);
-
-        // Check that archived projects section is visible
-        const archivedSection = page.locator('text=Archived');
-        await expect(archivedSection).toBeVisible();
-    });
-
-    test('should clear search when input is cleared', async ({ page }) => {
-        const searchInput = page.getByTestId('project-search');
-
-        // Type a search term
-        await searchInput.fill('test');
-        await page.waitForTimeout(500);
-
-        // Clear the search
-        await searchInput.clear();
-        await page.waitForTimeout(500);
-
-        // Should show all projects again
-        const projectCards = page.locator('.project');
-        await expect(projectCards).toHaveCount(1);
-
-        // No results message should not be visible
-        const noResultsMessage = page.locator('.no-results-message');
-        await expect(noResultsMessage).not.toBeVisible();
-    });
-
-    test('should maintain search state during navigation', async ({ page }) => {
-        const searchInput = page.getByTestId('project-search');
-
-        // Type a search term
-        await searchInput.fill('test');
-        await page.waitForTimeout(500);
-
-        // Navigate away and back
-        await page.goto('/en-US/');
         await page.goto('/en-US/projects');
+        const search = page.getByTestId('project-search');
+        await expect(search).toBeVisible();
 
-        // Search term should be preserved
-        await expect(searchInput).toHaveValue('test');
-    });
-
-    test('should handle very long search terms', async ({ page }) => {
-        const searchInput = page.getByTestId('project-search');
-
-        // Type a very long search term
-        const longSearchTerm = 'a'.repeat(1000);
-        await searchInput.fill(longSearchTerm);
-        await page.waitForTimeout(500);
-
-        // Should not crash and should show no results
-        const noResultsMessage = page.locator('.no-results-message');
-        await expect(noResultsMessage).toBeVisible();
-    });
-
-    */
-
-    test('should handle special characters in search', async ({ page }) => {
-        const searchInput = page.getByTestId('project-search');
-
-        // Test with special characters
-        const specialSearches = ['test@', 'test#', 'test$', 'test%', 'test&'];
-
-        for (const searchTerm of specialSearches) {
-            await searchInput.fill(searchTerm);
-            await page.waitForTimeout(500);
-
-            // Should not crash and should handle gracefully
-            await expect(page).not.toHaveURL(/error/);
+        // Characters that could reach a regex, a URL, or a selector. The claim
+        // is that the field takes them and the page stays put — asserted on the
+        // field's own value rather than by sleeping, which is what the previous
+        // version did five times over for an assertion that could never fail.
+        for (const term of ['test@', 'test#', 'test$', 'test%', 'test&']) {
+            await search.fill(term);
+            await expect(search).toHaveValue(term);
+            await expect(page).toHaveURL(/\/projects$/);
         }
     });
 });

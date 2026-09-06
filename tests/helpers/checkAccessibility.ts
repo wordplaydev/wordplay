@@ -84,3 +84,52 @@ export async function expectNoAxeViolations(
         )}`,
     ).toEqual([]);
 }
+
+/**
+ * Put the page in a color scheme, and prove it landed, so one navigation can be
+ * scanned in both.
+ *
+ * The palette is pure CSS — `:root { color-scheme: light dark }` with every token
+ * a `light-dark()` pair (src/app.html) — and the app only forces a keyword when
+ * the `dark` setting is non-null, which defaults to null and which no e2e test
+ * sets. So `emulateMedia` re-resolves every color with no reload, and a reload is
+ * the 3-4s of navigation and hydration that made scanning each surface twice the
+ * most expensive thing in the suite.
+ *
+ * Measured before relying on it: over all 13 public routes and over the project
+ * editor with a running stage, a page flipped this way produced axe results
+ * identical to a fresh navigation already in that scheme. The poll below is what
+ * keeps that true — `body`'s background is `--wordplay-background` →
+ * `--color-white` → `light-dark(#ffffff, #000000)`, the cheapest used value that
+ * proves the flip reached paint rather than merely being requested.
+ */
+export async function useColorScheme(
+    page: Page,
+    scheme: 'light' | 'dark',
+): Promise<void> {
+    await page.emulateMedia({ colorScheme: scheme });
+    await expect
+        .poll(() =>
+            page.evaluate(
+                () => getComputedStyle(document.body).backgroundColor,
+            ),
+        )
+        .toBe(scheme === 'dark' ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)');
+}
+
+/**
+ * Scan the page as it stands, once per color scheme, on one navigation.
+ *
+ * Every axe rule whose result can differ by scheme is a color rule, and both
+ * schemes are scanned against the fully rendered page, so this checks what two
+ * navigations checked. Prefer it to two `test.use({ colorScheme })` describes.
+ */
+export async function expectNoAxeViolationsInBothSchemes(
+    page: Page,
+    options?: Parameters<typeof expectNoAxeViolations>[1],
+): Promise<void> {
+    for (const scheme of ['light', 'dark'] as const) {
+        await useColorScheme(page, scheme);
+        await expectNoAxeViolations(page, options);
+    }
+}

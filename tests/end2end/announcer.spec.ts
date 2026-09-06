@@ -288,7 +288,11 @@ test('a program whose output changes announces a distinct text each time', async
     const readings: string[] = [];
     for (const key of ['a', 'b', 'c']) {
         await page.keyboard.press(key);
-        await page.waitForTimeout(1200);
+        // Poll rather than sleep. How long the paced region takes to present the
+        // next message is the Announcer's business, not a number for this test to
+        // guess at; what this test is about is that each message differs from the
+        // last, which the sequence assertion below still says.
+        await expect.poll(read).toBe(`Output ${key}`);
         readings.push(await read());
     }
     expect(readings).toEqual(['Output a', 'Output b', 'Output c']);
@@ -302,11 +306,9 @@ test('a value summarized the same way announces what changed inside it', async (
     const read = await playing(page, '•P(k•"")\nP(Key())');
     expect(await read()).toBe('Output P');
     await page.keyboard.press('a');
-    await page.waitForTimeout(1200);
-    expect(await read()).toBe('k a');
+    await expect.poll(read).toBe('k a');
     await page.keyboard.press('b');
-    await page.waitForTimeout(1200);
-    expect(await read()).toBe('k b');
+    await expect.poll(read).toBe('k b');
 });
 
 test('a program whose output never changes falls silent after describing itself', async ({
