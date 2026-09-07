@@ -7280,7 +7280,8 @@
                     "projectContainsPII": "$~Những dự án này có vẻ chứa thông tin cá nhân, vì vậy chúng tôi không lưu chúng trực tuyến. Hãy mở từng dự án để kiểm tra xem thông tin nào có vẻ là thông tin cá nhân.",
                     "localProjectStorageFailed": "$~Thiết bị này đã hết dung lượng lưu trữ, và các dự án này chưa được lưu lên đám mây, vì vậy chúng đang gặp rủi ro.<Sign in@/login> , giúp lưu trữ chúng trực tuyến thay vì chỉ trên thiết bị này.",
                     "projectTooLarge": "$~Những dự án này quá lớn để lưu trực tuyến. Chúng vẫn an toàn trên thiết bị này. Hãy thử làm cho chúng nhỏ hơn.",
-                    "noCloudTarget": "$~Những dự án này chỉ có trên thiết bị này, vì @wordplay không có nơi để lưu chúng trực tuyến. <Đăng nhậplogin> để lưu chúng."
+                    "noCloudTarget": "$~Những dự án này chỉ có trên thiết bị này, vì @wordplay không có nơi để lưu chúng trực tuyến. <Đăng nhậplogin> để lưu chúng.",
+                    "cloudWriteRefused": "$~Đám mây không chấp nhận những thay đổi này, nên chúng tôi dùng bản đang có trên mạng thay thế. Nếu bạn nghĩ mình phải được phép thay đổi những thứ này, hãy hỏi người đã chia sẻ chúng với bạn."
                 },
                 "projectsNotSavingOnline": "$~Một số dự án chỉ có trên thiết bị này, chưa được lưu trực tuyến."
             },

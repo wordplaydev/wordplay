@@ -1,4 +1,5 @@
 import ConceptLink from '@nodes/ConceptLink';
+import { FirebaseError } from 'firebase/app';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Character } from '@db/characters/Character';
 import { CharactersDatabase } from '@db/characters/CharacterDatabase.svelte';
@@ -11,6 +12,7 @@ vi.mock('../Database', () => ({
         IndexedDBWriteFailed: 'indexed-db-write-failed',
         IndexedDBUnsupported: 'indexed-db-unsupported',
         FirestoreBatchFailed: 'firestore-batch-failed',
+        CloudWriteRefused: 'cloud-write-refused',
         ProjectContainsPII: 'project-contains-pii',
     },
     SaveStatus: {
@@ -171,6 +173,79 @@ describe('CharactersDatabase', () => {
             await charactersDb.trackSave('c1', 'user/A', Promise.resolve());
             expect(charactersDb.saveErrors).toHaveLength(0);
             expect(charactersDb.unsavedIDs.has('c1')).toBe(false);
+        });
+
+        /**
+         * The wedge (#1350): while a character counts as locally authoritative
+         * the listener refuses every server snapshot for it, `seedDirty`
+         * restores that across reloads, and the replay pushes the same refused
+         * write forever. A refusal retrying cannot fix has to end that, or
+         * "unsaved" stops meaning "newer than the cloud" and starts meaning
+         * "permanently blind to the cloud".
+         */
+        describe('a refused write stops blinding the listener', () => {
+            /** Drive the private snapshot handler with one server document.
+             *  `fromCache` skips the cross-listener sweep, which is a different
+             *  mechanism and needs every listener to have reported. */
+            function deliver(character: Character) {
+                mockDatabase.markSynced = vi.fn();
+                charactersDb.handleSnapshot('base', mockUser, {
+                    metadata: { fromCache: true },
+                    forEach: (visit: (doc: { data: () => unknown }) => void) =>
+                        visit({ data: () => character }),
+                });
+            }
+
+            // A real UUID: CharacterSchema requires one, and a snapshot that
+            // fails to parse is skipped before the guard is ever consulted —
+            // which would make both of these pass for the wrong reason.
+            const ID = '00000000-0000-4000-8000-000000000001';
+            const stored = (): Character => ({ ...make(), id: ID });
+
+            beforeEach(() => {
+                charactersDb.byID.set(ID, stored());
+            });
+
+            it('keeps the local copy while the write may still succeed', async () => {
+                await charactersDb.trackSave(
+                    ID,
+                    'user/A',
+                    Promise.reject(new Error('offline')),
+                );
+
+                deliver({
+                    ...stored(),
+                    updated: 99,
+                    description: 'from cloud',
+                });
+
+                expect(charactersDb.byID.get(ID).description).toBe('');
+            });
+
+            it('takes the cloud copy once the write has been refused', async () => {
+                await charactersDb.trackSave(
+                    ID,
+                    'user/A',
+                    Promise.reject(
+                        new FirebaseError(
+                            'permission-denied',
+                            'Missing permissions',
+                        ),
+                    ),
+                );
+                expect(charactersDb.unsavedIDs.has(ID)).toBe(true);
+                expect(charactersDb.isLocallyAuthoritative(ID)).toBe(false);
+
+                deliver({
+                    ...stored(),
+                    updated: 99,
+                    description: 'from cloud',
+                });
+
+                expect(charactersDb.byID.get(ID).description).toBe(
+                    'from cloud',
+                );
+            });
         });
 
         it('counts device / cloud / unsaved', () => {

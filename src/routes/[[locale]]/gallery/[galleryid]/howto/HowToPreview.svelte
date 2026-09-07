@@ -11,6 +11,7 @@
     import { pickPreviewExample } from '@concepts/pickPreviewExample';
     import { DB, HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import { HowToFields } from '@db/rulesFields';
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
     import Project from '@db/projects/Project';
     import type { SerializedPreviewContent } from '@db/projects/ProjectSchemas';
@@ -406,7 +407,7 @@
 
         howTo = howTo.withFields({ xcoord, ycoord });
 
-        HowTos.updateHowTo(howTo, true);
+        HowTos.updateHowTo(howTo, true, HowToFields.Placement);
     }
 
     // collision detection

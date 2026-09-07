@@ -120,6 +120,28 @@ async function loadAppCheck(app: FirebaseApp): Promise<AppCheck | undefined> {
  *  the eager chunk and loads on first use — the first is DB.login() from the
  *  layout's onMount. Memoized; also wires the emulator + dev auto-login (moved
  *  here from module-eval so they still run, but only once auth actually loads). */
+/**
+ * Force-refresh the signed-in creator's Firebase Auth ID token, if there is one.
+ *
+ * A `permission-denied` is most often a stale token rather than a real change of
+ * permission — the common case being a long session where the event loop was
+ * starved enough to skip the 55-minute refresh — so a write worth believing
+ * refused is one that was refused again after this. `ProjectsDatabase.persist`
+ * and the CRDT provider both reached the same conclusion and do it inline;
+ * `SaveTracker` uses this.
+ *
+ * Best-effort and never throws: with no Firebase app, no signed-in creator, or a
+ * refresh that itself fails, the caller simply retries with the token it has.
+ */
+export async function refreshAuthToken(): Promise<void> {
+    try {
+        const auth = await ensureAuth();
+        await auth?.currentUser?.getIdToken(true);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export function ensureAuth(): Promise<Auth | undefined> {
     if (auth !== undefined) return Promise.resolve(auth);
     const initialized = app;

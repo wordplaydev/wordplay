@@ -1,0 +1,52 @@
+/**
+ * The field lists `firestore.rules` names, mirrored so a client can send exactly
+ * what a rule admits. A refusal is decided on *values*, not on which keys a
+ * write mentions, which is why sending a whole document fails only once some
+ * field the client doesn't own has fallen behind the server's copy — and why
+ * the fix is to send less rather than to send fresher.
+ *
+ * A leaf module so `rulesFieldsSync.test.ts` can compare these against the rules
+ * without standing up Firebase.
+ */
+
+/**
+ * The chat fields a participant may change (#1349). The chat update rule is an
+ * allowlist, so a write carrying anything else is refused outright — and a whole
+ * document carries `moderation`, which the report and moderate callables rewrite
+ * out from under every participant, and `v`, which a pre-v3 document has not
+ * reached. The refusal is silent: the message is not sent, and keeps not being
+ * sent.
+ */
+export const ChatWritableFields = [
+    'messages',
+    'unread',
+    'participants',
+] as const;
+
+/**
+ * The gallery fields the server owns, which a client write must never carry
+ * (#1348). `galleryServerFieldsUnchanged()` requires each to be absent or
+ * identical to what is stored, and the `galleryEdited` trigger rebuilds `words`
+ * on every change — so a whole-document write is denied the moment the trigger
+ * has moved on.
+ */
+export const GalleryServerOwnedFields = [
+    'moderation',
+    'moderatedAt',
+    'flags',
+    'words',
+] as const;
+
+/**
+ * The field sets the how-to update rule admits on their own. Owners,
+ * collaborators and curators may write anything; everyone else gets these two
+ * openings, so a change of just those has to be *sent* as just those —
+ * `withFields` bumping `v` is enough to be refused. This refusal lands on
+ * readers, whose replay writes the how-to's gallery too, which they may not do.
+ */
+export const HowToFields = {
+    Social: ['social'],
+    Placement: ['xcoord', 'ycoord'],
+} as const;
+
+export type HowToFieldSet = (typeof HowToFields)[keyof typeof HowToFields];

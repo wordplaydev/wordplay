@@ -64,6 +64,8 @@
         'project-too-large': (l) =>
             l.ui.project.save.failureReason.projectTooLarge,
         'no-cloud-target': (l) => l.ui.project.save.failureReason.noCloudTarget,
+        'cloud-write-refused': (l) =>
+            l.ui.project.save.failureReason.cloudWriteRefused,
     };
 
     /** Per-domain save counts (saved on this device, in the cloud, unsaved). */

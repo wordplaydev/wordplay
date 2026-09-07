@@ -66,6 +66,8 @@ import HowTo, {
     upgradeHowTo,
 } from './HowToDatabase.svelte';
 import Gallery from '@db/galleries/Gallery';
+import { HowToFields } from '@db/rulesFields';
+import { updateDoc } from 'firebase/firestore';
 
 const baseSocial = {
     v: 1 as const,
@@ -358,6 +360,49 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
                 characterName: null,
             });
             expect(updateDoc).not.toHaveBeenCalled();
+        });
+    });
+
+    /**
+     * The how-to update rule lets an owner, collaborator or curator write
+     * anything, and gives everyone else two narrow openings —
+     * `hasOnly(["social"])` and `hasOnly(["xcoord","ycoord"])`. A viewer
+     * registering that they saw a how-to therefore has to send just `social`:
+     * a whole-document write is refused the moment any other field has drifted
+     * from the server's copy, and `withFields` bumping `v` is enough on its own.
+     */
+    describe('narrow updates', () => {
+        it('sends only social when asked for the social opening', async () => {
+            await db.updateHowTo(
+                new HowTo(makeHowToDoc()),
+                true,
+                HowToFields.Social,
+            );
+
+            expect(vi.mocked(updateDoc)).toHaveBeenCalledTimes(1);
+            const [, data] = vi.mocked(updateDoc).mock.calls[0];
+            expect(Object.keys(data)).toEqual(['social']);
+        });
+
+        it('sends only the coordinates when asked for the placement opening', async () => {
+            await db.updateHowTo(
+                new HowTo(makeHowToDoc()),
+                true,
+                HowToFields.Placement,
+            );
+
+            const [, data] = vi.mocked(updateDoc).mock.calls[0];
+            expect(Object.keys(data).toSorted()).toEqual(['xcoord', 'ycoord']);
+        });
+
+        it('still writes the whole document for an ordinary edit', async () => {
+            // An author editing content lands in the rule's unconstrained
+            // branch, so narrowing there would only lose fields.
+            await db.updateHowTo(new HowTo(makeHowToDoc()), true);
+
+            const [, data] = vi.mocked(updateDoc).mock.calls[0];
+            expect(data).toHaveProperty('title');
+            expect(data).toHaveProperty('social');
         });
     });
 });

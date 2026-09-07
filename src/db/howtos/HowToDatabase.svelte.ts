@@ -8,7 +8,8 @@ import type Gallery from '@db/galleries/Gallery';
 
 import isQuotaError from '@db/isQuotaError';
 import { PreviewContentSchema } from '@db/projects/ProjectSchemas';
-import SaveTracker from '@db/SaveTracker.svelte';
+import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
+import { type HowToFieldSet } from '@db/rulesFields';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import { SupportedLocales } from '@locale/SupportedLocales';
 import deferToIdle from '@util/deferToIdle';
@@ -460,6 +461,7 @@ export class HowToDatabase {
      *  rows), shared with the other domain facades. See {@link SaveTracker}. */
     private readonly saves = new SaveTracker({
         domain: Domain.HowTos,
+        rePush: (id) => this.rePush(id),
         localDB: () => this.db.localDB,
         track: (write) => this.db.track(write),
         deviceCount: () => this.allEditableHowTos.length,
@@ -473,6 +475,12 @@ export class HowToDatabase {
      *  saved in the cloud (write pending or failed). */
     get unsavedIDs() {
         return this.saves.unsavedIDs;
+    }
+
+    /** Whether this device's copy should still win over the cloud's; see
+     *  {@link SaveTracker.isLocallyAuthoritative}. */
+    isLocallyAuthoritative(id: string): boolean {
+        return this.saves.isLocallyAuthoritative(id);
     }
 
     /** Save failures for the save-status dialog. */
@@ -507,23 +515,26 @@ export class HowToDatabase {
      *  edits made offline before a reload). Called once the user is known
      *  (startSync) and on reconnect. A no-op when nothing is unsaved. */
     async flushUnsaved() {
-        if (firestore === undefined) return;
+        await this.saves.flushUnsaved();
+    }
+
+    /** Build a fresh cloud write for one how-to; see {@link SaveTrackerHost}.
+     *  Replay as a create-or-overwrite, mirroring addHowTo: the original write
+     *  may never have reached the server (its doc is `not-found`), so updateDoc
+     *  would fail forever. set() creates-or-overwrites, and the idempotent
+     *  arrayUnion re-links it to its gallery's `howTos` (a no-op when it's
+     *  already linked, as on a plain edit replay). */
+    private rePush(id: string): RePush {
+        if (firestore === undefined) return undefined;
         const db = firestore;
-        await this.saves.flushUnsaved((id) => {
-            const howTo = this.howtos.get(id);
-            if (howTo === undefined) return undefined;
-            // Replay as a create-or-overwrite, mirroring addHowTo: the original
-            // write may never have reached the server (its doc is `not-found`),
-            // so updateDoc would fail forever. set() creates-or-overwrites, and
-            // the idempotent arrayUnion re-links it to its gallery's `howTos`
-            // (a no-op when it's already linked, as on a plain edit replay).
-            const batch = writeBatch(db);
-            batch.set(doc(db, HowTosCollection, id), howTo.getData());
-            batch.update(doc(db, Domain.Galleries, howTo.getHowToGalleryId()), {
-                howTos: arrayUnion(id),
-            });
-            return { name: howTo.getTitle(), write: batch.commit() };
+        const howTo = this.howtos.get(id);
+        if (howTo === undefined) return undefined;
+        const batch = writeBatch(db);
+        batch.set(doc(db, HowTosCollection, id), howTo.getData());
+        batch.update(doc(db, Domain.Galleries, howTo.getHowToGalleryId()), {
+            howTos: arrayUnion(id),
         });
+        return { name: howTo.getTitle(), write: batch.commit() };
     }
 
     /** Populate `howtos` from the shared local cache, ONCE. Unlike the other
@@ -597,7 +608,7 @@ export class HowToDatabase {
         if (this.IndexedDBSupported) await this.db.localDB.deleteAllHowTos();
     }
 
-    async updateHowTo(howTo: HowTo, persist: boolean) {
+    async updateHowTo(howTo: HowTo, persist: boolean, fields?: HowToFieldSet) {
         const howToID = howTo.getHowToId();
 
         // if published as a result of this update, then set publishedAt time
@@ -625,12 +636,17 @@ export class HowToDatabase {
                 return;
             }
             this.cacheHowTosLocally([howTo]);
+            const data = howTo.getData();
             await this.trackSave(
                 howToID,
                 howTo.getTitle(),
                 updateDoc(
                     doc(firestore, HowTosCollection, howToID),
-                    howTo.getData(),
+                    fields === undefined
+                        ? data
+                        : Object.fromEntries(
+                              fields.map((field) => [field, data[field]]),
+                          ),
                 ),
             );
         }
@@ -955,8 +971,10 @@ export class HowToDatabase {
             // Keep it in `seen` (so GC doesn't prune our own how-to), but skip
             // applying/caching it while it has unsaved local edits not yet
             // pushed — our local copy is authoritative until flushUnsaved
-            // replays it.
-            if (this.unsavedIDs.has(doc.id)) return;
+            // replays it. Not once the write has been refused permanently,
+            // though — there is then nothing to replay, and holding authority
+            // would blind the how-to to every later snapshot.
+            if (this.isLocallyAuthoritative(doc.id)) return;
             try {
                 const upgraded: HowToDocument = upgradeHowTo(
                     howto as HowToUnknownVersion,

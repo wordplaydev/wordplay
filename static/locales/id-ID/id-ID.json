@@ -7287,7 +7287,8 @@
                     "projectContainsPII": "$~Proyek-proyek ini tampaknya berisi informasi pribadi, jadi kami tidak menyimpannya secara online. Buka setiap proyek untuk memeriksa apa yang tampak bersifat pribadi.",
                     "localProjectStorageFailed": "$~Perangkat ini kehabisan ruang penyimpanan, dan proyek-proyek ini belum ada di cloud, jadi berisiko.<Sign in@/login> yang menyimpannya secara online, bukan hanya di perangkat ini.",
                     "projectTooLarge": "$~Proyek-proyek ini terlalu besar untuk disimpan secara daring. Proyek-proyek ini tetap aman di perangkat ini. Cobalah membuatnya lebih kecil.",
-                    "noCloudTarget": "$~Proyek-proyek ini hanya ada di perangkat ini, karena @wordplay tidak punya tempat untuk menyimpannya secara daring. <Masuklogin> untuk menyimpannya."
+                    "noCloudTarget": "$~Proyek-proyek ini hanya ada di perangkat ini, karena @wordplay tidak punya tempat untuk menyimpannya secara daring. <Masuklogin> untuk menyimpannya.",
+                    "cloudWriteRefused": "$~Awan tidak menerima perubahan ini, jadi kami memakai salinan yang ada di internet. Jika kamu rasa seharusnya bisa mengubah ini, tanyakan pada orang yang membagikannya kepadamu."
                 },
                 "projectsNotSavingOnline": "$~Beberapa proyek hanya ada di perangkat ini, belum ada secara daring."
             },

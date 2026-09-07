@@ -17,7 +17,7 @@ import { Domain } from '@db/Domains';
 import { firestore } from '@db/firebase';
 import isQuotaError from '@db/isQuotaError';
 import type Project from '@db/projects/Project';
-import SaveTracker from '@db/SaveTracker.svelte';
+import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
 import type Node from '@nodes/Node';
@@ -114,6 +114,7 @@ export class CharactersDatabase {
      *  rows), shared with the other domain facades. See {@link SaveTracker}. */
     private readonly saves = new SaveTracker({
         domain: Domain.Characters,
+        rePush: (id) => this.rePush(id),
         localDB: () => this.db.localDB,
         track: (write) => this.db.track(write),
         deviceCount: () => this.getEditableCharacters().length,
@@ -127,6 +128,12 @@ export class CharactersDatabase {
      *  confirmed saved in the cloud (write pending or failed). */
     get unsavedIDs() {
         return this.saves.unsavedIDs;
+    }
+
+    /** Whether this device's copy should still win over the cloud's; see
+     *  {@link SaveTracker.isLocallyAuthoritative}. */
+    isLocallyAuthoritative(id: string): boolean {
+        return this.saves.isLocallyAuthoritative(id);
     }
 
     /** Save failures for the save-status dialog. */
@@ -162,20 +169,20 @@ export class CharactersDatabase {
      *  (e.g. edits made offline before a reload). Called once the user is known
      *  (startSync) and on reconnect. A no-op when nothing is unsaved. */
     async flushUnsaved() {
-        if (firestore === undefined) return;
-        const db = firestore;
-        await this.saves.flushUnsaved((id) => {
-            const character = this.byID.get(id);
-            return character
-                ? {
-                      name: character.name,
-                      write: setDoc(
-                          doc(db, CharactersCollection, id),
-                          character,
-                      ),
-                  }
-                : undefined;
-        });
+        await this.saves.flushUnsaved();
+    }
+
+    /** Build a fresh cloud write for one character; see {@link SaveTrackerHost}.
+     *  A create-or-overwrite, since the original write may never have reached
+     *  the server. */
+    private rePush(id: string): RePush {
+        if (firestore === undefined) return undefined;
+        const character = this.byID.get(id);
+        if (character === undefined || character === null) return undefined;
+        return {
+            name: character.name,
+            write: setDoc(doc(firestore, CharactersCollection, id), character),
+        };
     }
 
     /** Populate the in-memory indexes from the shared local cache, then keep
@@ -381,8 +388,11 @@ export class CharactersDatabase {
                 // Skip characters with unsaved local edits not yet
                 // pushed: our local copy is authoritative until
                 // flushUnsaved replays it, so don't let an older cloud
-                // version overwrite it in memory or the cache.
-                if (this.unsavedIDs.has(parsed.id)) return;
+                // version overwrite it in memory or the cache. Not once the
+                // write has been refused permanently, though — there is then
+                // nothing to replay, and holding authority would blind the
+                // character to every later snapshot.
+                if (this.isLocallyAuthoritative(parsed.id)) return;
 
                 synced.push(parsed);
 

@@ -7,6 +7,7 @@
     import type GalleryHowConcept from '@concepts/GalleryHowConcept';
     import { HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import { HowToFields } from '@db/rulesFields';
     import { onMount } from 'svelte';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import HowToPrompt from '../../routes/[[locale]]/gallery/[galleryid]/howto/HowToPrompt.svelte';
@@ -39,6 +40,9 @@
                 },
             }),
             true,
+            // A viewer reaches the document only through the rule's
+            // `hasOnly(["social"])` opening; see HowToFields.
+            HowToFields.Social,
         );
     });
 </script>

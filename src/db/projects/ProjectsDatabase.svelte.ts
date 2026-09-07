@@ -1198,7 +1198,12 @@ export default class ProjectsDatabase {
                                 this.getHistory(projectID)
                                     ?.getCurrent()
                                     .getName() ?? projectID,
-                            reason: SaveFailureReason.FirestoreBatchFailed,
+                            // The provider only reports this after its own
+                            // token-refresh retry was refused too, so the
+                            // usual "still safe on this device" is not what
+                            // happened: live edits have stopped reaching the
+                            // cloud entirely.
+                            reason: SaveFailureReason.CloudWriteRefused,
                             detail: 'permission-denied',
                         },
                     ]),

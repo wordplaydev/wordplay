@@ -5,6 +5,7 @@
     import { HowTos } from '@db/Database';
     import { Projects } from '@db/projects/Projects';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import { HowToFields } from '@db/rulesFields';
     import type Project from '@db/projects/Project';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import HowToPrompt from './HowToPrompt.svelte';
@@ -87,7 +88,7 @@
                 },
             });
 
-            HowTos.updateHowTo(howTo, true);
+            HowTos.updateHowTo(howTo, true, HowToFields.Social);
         }
 
         usedByProjectToAdd = undefined;
@@ -108,7 +109,7 @@
             },
         });
 
-        HowTos.updateHowTo(howTo, true);
+        HowTos.updateHowTo(howTo, true, HowToFields.Social);
     }
 </script>
 

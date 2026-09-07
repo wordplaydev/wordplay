@@ -424,6 +424,9 @@ type UITexts = {
                 indexedDBUnsupported: FormattedText;
                 /** [formatted] Sending projects to the cloud failed */
                 firestoreBatchFailed: FormattedText;
+                /** [formatted] The cloud refused the change and retrying can't
+                 *  help, so the copy that's online replaced the local one */
+                cloudWriteRefused: FormattedText;
                 /** [formatted] Project contained personal info so wasn't sent online */
                 projectContainsPII: FormattedText;
                 /** [formatted] Project is too big for the cloud to accept */

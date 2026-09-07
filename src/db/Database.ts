@@ -88,6 +88,12 @@ export const SaveFailureReason = {
      *  Firestore at all. Reported so the status can't read "saved" while work
      *  sits on this device only. */
     NoCloudTarget: 'no-cloud-target',
+    /** The cloud refused the write in a way retrying cannot fix (see
+     *  {@link isPermanentSaveError}). Distinct from FirestoreBatchFailed
+     *  because it is no longer true that the work is "still safe on this
+     *  device": the item stops counting as locally authoritative, so the
+     *  cloud's copy replaces it and the local edit is lost. */
+    CloudWriteRefused: 'cloud-write-refused',
 } as const;
 export type SaveFailureReason =
     (typeof SaveFailureReason)[keyof typeof SaveFailureReason];

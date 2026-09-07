@@ -584,13 +584,26 @@ test('resolving a color needs no basis', () => {
  * so writing the whole document was denied whenever the trigger had moved on —
  * silently, and in a way that wedged the gallery's listener for the rest of the
  * session. Two more budgets had no slack.
+ *
+ * Refusing to retry a write the rules will never accept (#1349, #1350) is
+ * **+1 file**, and it is the move this rule allows: `rulesFields.ts` is one leaf
+ * module that imports nothing, holding the three field lists `firestore.rules`
+ * states so a client can send exactly what a rule admits. It is a file rather
+ * than a constant on each facade precisely so `rulesFieldsSync.test.ts` can
+ * compare it against the rules without standing up Firebase — which is the
+ * whole point, since nothing else holds the two in step and every drift between
+ * them is a silently dropped write. Nothing else costs a file: the classifier
+ * lives beside `firebaseErrorDetail`, which reads the same errors, and the token
+ * refresh beside `ensureAuth`. Every byte budget moves by a hundredth, and the
+ * landing page's by two: that is the module, the new save-failure message, and
+ * its translation into every locale.
  */
 test.each([
-    ['src/routes/+layout.svelte', 506, 3.76],
-    ['src/components/app/Page.svelte', 529, 4.01],
-    ['src/routes/[[locale]]/+page.svelte', 544, 4.09],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 548, 4.11],
-    ['src/routes/[[locale]]/projects/+page.svelte', 555, 4.13],
+    ['src/routes/+layout.svelte', 507, 3.77],
+    ['src/components/app/Page.svelte', 530, 4.02],
+    ['src/routes/[[locale]]/+page.svelte', 545, 4.11],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 549, 4.12],
+    ['src/routes/[[locale]]/projects/+page.svelte', 556, 4.14],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

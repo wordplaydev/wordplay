@@ -7274,7 +7274,8 @@
                     "projectContainsPII": "$~Bu projelerde kişisel bilgiler bulunuyor gibi göründüğü için bunları çevrimiçi olarak kaydetmedik. Kişisel bilgi içerip içermediğini kontrol etmek için her birini açın.",
                     "localProjectStorageFailed": "$~Bu cihazda kaydedilecek yer kalmadı ve bu projeler henüz bulutta değil, bu yüzden risk altındalar.<Sign in@/login> Bu sayede veriler yalnızca bu cihazda değil, çevrimiçi olarak da kaydedilir.",
                     "projectTooLarge": "$~Bu projeler çevrimiçi kaydedilemeyecek kadar büyük. Yine de bu cihazda güvende. Onları daha küçük yapmayı deneyin.",
-                    "noCloudTarget": "$~Bu projeler yalnızca bu cihazda, çünkü @wordplay onları çevrimiçi kaydedecek bir yer bulamadı. Kaydetmek için <giriş yapınlogin>."
+                    "noCloudTarget": "$~Bu projeler yalnızca bu cihazda, çünkü @wordplay onları çevrimiçi kaydedecek bir yer bulamadı. Kaydetmek için <giriş yapınlogin>.",
+                    "cloudWriteRefused": "$~Bulut bu değişiklikleri kabul etmedi. Bu yüzden çevrimiçi olan kopyayı kullandık. Bunları değiştirebilmen gerektiğini düşünüyorsan, bunları seninle paylaşan kişiye sor."
                 },
                 "projectsNotSavingOnline": "$~Bazı projeler yalnızca bu cihazda, henüz çevrimiçi değil."
             },

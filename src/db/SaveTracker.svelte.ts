@@ -6,11 +6,25 @@ import {
     type SaveError,
 } from '@db/Database';
 import type { WordplayDexie } from '@db/WordplayDexie';
-import firebaseErrorDetail from '@db/firebaseErrorDetail';
+import { refreshAuthToken } from '@db/firebase';
+import firebaseErrorDetail, {
+    isPermanentSaveError,
+} from '@db/firebaseErrorDetail';
 import isQuotaError from '@db/isQuotaError';
 
+/** The slice of the local cache a tracker touches: the durable dirty table.
+ *  Named rather than taking the whole `WordplayDexie` so what the tracker needs
+ *  is visible, and so a test can supply it without standing up a database. */
+export type DirtyCache = Pick<
+    WordplayDexie,
+    'markDirty' | 'markClean' | 'getDirty' | 'clearDirty'
+>;
+
 /** Build the standard {@link SaveError} for a failed Firestore write. The one
- *  place the shape of a cloud-write failure is defined for the per-item domains. */
+ *  place the shape of a cloud-write failure is defined for the per-item domains.
+ *  A refusal retrying cannot fix gets its own reason, because the usual message
+ *  promises the work is still safe on this device — which stops being true the
+ *  moment the item gives up its local authority and takes the cloud's copy. */
 export function firestoreSaveError(
     id: string,
     name: string | undefined,
@@ -19,7 +33,9 @@ export function firestoreSaveError(
     return {
         id,
         name,
-        reason: SaveFailureReason.FirestoreBatchFailed,
+        reason: isPermanentSaveError(error)
+            ? SaveFailureReason.CloudWriteRefused
+            : SaveFailureReason.FirestoreBatchFailed,
         detail: firebaseErrorDetail(error),
     };
 }
@@ -35,8 +51,15 @@ export type RePush = { write: Promise<unknown>; name?: string } | undefined;
  *  count and hydration status are reactive. */
 export type SaveTrackerHost = {
     domain: SyncDomain;
-    /** The shared local cache (read lazily; may be swapped in tests). */
-    localDB: () => WordplayDexie;
+    /** Build a fresh cloud write for one item, or `undefined` when the item is
+     *  gone. Used both to replay unsaved edits ({@link SaveTracker.flushUnsaved})
+     *  and to re-issue a write once after refreshing a stale ID token — which is
+     *  why it must *build* the write rather than hand over one already in
+     *  flight, since a rejected promise cannot be awaited again. */
+    rePush: (id: string) => RePush;
+    /** The shared local cache's dirty table (read lazily; may be swapped in
+     *  tests). */
+    localDB: () => DirtyCache;
     /** Wrap a cloud write for the global save-status store. */
     track: (write: Promise<unknown>) => Promise<unknown>;
     /** How many of the user's items are saved on this device (reactive). */
@@ -69,9 +92,20 @@ export default class SaveTracker {
     private readonly host: SaveTrackerHost;
 
     /** Items whose latest edit hasn't been confirmed saved in the cloud
-     *  (write pending or failed). Readable by the facade (e.g. listener
-     *  skip-dirty guards); mutated only through this class's methods. */
+     *  (write pending or failed). Readable by the facade — but a listener's
+     *  skip-dirty guard wants {@link isLocallyAuthoritative}, not this: an item
+     *  whose write was permanently refused is still unsaved and must still be
+     *  kept in the local cache, while the cloud's copy of it is now the better
+     *  one. Mutated only through this class's methods. */
     readonly unsavedIDs = new SvelteSet<string>();
+
+    /** Items whose last cloud write was refused in a way retrying cannot fix
+     *  (see {@link isPermanentSaveError}). They stay in `unsavedIDs` — they
+     *  genuinely are unsaved — but they stop being locally *authoritative*, so
+     *  the listener may take the server's copy again and `flushUnsaved` stops
+     *  replaying a write that can only be refused again. Cleared when a later
+     *  write for that id is attempted. */
+    private readonly rejectedIDs = new SvelteSet<string>();
 
     /** Cloud-save failures keyed by item id, surfaced in the save-status dialog.
      *  Cleared when a later write for that id succeeds. */
@@ -92,6 +126,17 @@ export default class SaveTracker {
 
     constructor(host: SaveTrackerHost) {
         this.host = host;
+    }
+
+    /** Whether this device's copy of an item should still win over the cloud's —
+     *  the question every facade's listener skip-dirty guard is really asking.
+     *  An unsaved edit is newer than the cloud's copy and must not be
+     *  overwritten, until the write that would have saved it is refused
+     *  permanently: at that point there is nothing left to replay, and holding
+     *  authority would only mean refusing every server snapshot for the rest of
+     *  the session. */
+    isLocallyAuthoritative(id: string): boolean {
+        return this.unsavedIDs.has(id) && !this.rejectedIDs.has(id);
     }
 
     /** Wrap a cloud write so the save-status UI reflects it: mark the item
@@ -115,28 +160,87 @@ export default class SaveTracker {
             }
         }
         this.saveErrorMap.delete(id);
+        // A new write re-arms everything: whatever refused the last one may not
+        // refuse this one, so the item is authoritative again while it's in
+        // flight.
+        this.rejectedIDs.delete(id);
         try {
             await this.host.track(write);
-            this.unsavedIDs.delete(id);
-            if (this.host.supported())
-                void this.host.localDB().markClean(this.host.domain, id);
-            return true;
+            return this.confirmSaved(id);
         } catch (error) {
-            this.saveErrorMap.set(id, firestoreSaveError(id, name, error));
+            const refusal = isPermanentSaveError(error)
+                ? await this.replayAfterRefresh(id, error)
+                : error;
+            if (refusal === undefined) return this.confirmSaved(id);
+            this.saveErrorMap.set(id, firestoreSaveError(id, name, refusal));
+            if (isPermanentSaveError(refusal)) this.reject(id);
             return false;
         }
     }
 
+    /**
+     * Re-issue an item's write once with a freshly refreshed ID token, because a
+     * `permission-denied` is far more often a stale token than a real change of
+     * permission — the conclusion `ProjectsDatabase.persist` and the CRDT
+     * provider both reached, and the reason a first refusal is not believed here
+     * either. Believing it would discard a perfectly writable edit and hand the
+     * cloud's copy back in its place.
+     *
+     * Returns `undefined` when the replay succeeded, or the error to report.
+     * With nothing to replay — an item the facade can no longer build a write
+     * for — the original refusal stands, since a rules refusal of a create is
+     * refused identically on a second attempt.
+     */
+    private async replayAfterRefresh(
+        id: string,
+        refusal: unknown,
+    ): Promise<unknown> {
+        try {
+            await refreshAuthToken();
+            const retry = this.host.rePush(id);
+            if (retry === undefined) return refusal;
+            await this.host.track(retry.write);
+            return undefined;
+        } catch (again) {
+            return again;
+        }
+    }
+
+    /** Record that an item's write landed. */
+    private confirmSaved(id: string): true {
+        this.unsavedIDs.delete(id);
+        if (this.host.supported())
+            void this.host.localDB().markClean(this.host.domain, id);
+        return true;
+    }
+
+    /** Give up on an item's write: it was refused with a fresh token, so
+     *  retrying only produces the same refusal. The item stays *unsaved* — it
+     *  is — but stops being locally authoritative, so the listener may take the
+     *  server's copy again. The durable dirty row goes too: there is nothing to
+     *  replay, and `seedDirty` would otherwise restore the flag on the next
+     *  reload and re-wedge the document all over again. */
+    private reject(id: string) {
+        this.rejectedIDs.add(id);
+        if (this.host.supported())
+            void this.host.localDB().markClean(this.host.domain, id);
+    }
+
     /** Re-attempt the cloud write for every unsaved item (e.g. edits made
-     *  offline before a reload). `rePush(id)` returns the write to retry, or
-     *  `undefined` when the item is gone — in which case the stale dirty flag is
-     *  healed so it stops counting as unsaved forever. Healing is gated on
-     *  hydration so we never clobber a flag for an item the cache hasn't loaded
-     *  yet. Called once the user is known (startSync) and on reconnect; a no-op
-     *  when nothing is unsaved. */
-    async flushUnsaved(rePush: (id: string) => RePush): Promise<void> {
+     *  offline before a reload). The host's `rePush(id)` returns the write to
+     *  retry, or `undefined` when the item is gone — in which case the stale
+     *  dirty flag is healed so it stops counting as unsaved forever. Healing is
+     *  gated on hydration so we never clobber a flag for an item the cache
+     *  hasn't loaded yet. Called once the user is known (startSync) and on
+     *  reconnect; a no-op when nothing is unsaved. */
+    async flushUnsaved(): Promise<void> {
         for (const id of Array.from(this.unsavedIDs)) {
-            const push = rePush(id);
+            // A refused write is not retried: it was already re-issued once with
+            // a fresh token and refused again, so it can only be refused again,
+            // and the item has given up its local authority — the cloud's copy
+            // is what we hold now.
+            if (this.rejectedIDs.has(id)) continue;
+            const push = this.host.rePush(id);
             if (push) void this.trackSave(id, push.name, push.write);
             else if (this.host.isHydrated()) this.forget(id);
         }
@@ -147,6 +251,7 @@ export default class SaveTracker {
      *  row whose item is gone, or it re-seeds `unsavedIDs` on every reload. */
     forget(id: string) {
         this.unsavedIDs.delete(id);
+        this.rejectedIDs.delete(id);
         this.saveErrorMap.delete(id);
         if (this.host.supported())
             void this.host.localDB().markClean(this.host.domain, id);
@@ -165,6 +270,7 @@ export default class SaveTracker {
      *  switch / logout). */
     async clearTracking(): Promise<void> {
         this.unsavedIDs.clear();
+        this.rejectedIDs.clear();
         this.saveErrorMap.clear();
         if (this.host.supported())
             await this.host.localDB().clearDirty(this.host.domain);

@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type {
     SerializedChat,
@@ -15,6 +16,12 @@ let transactionReadSnap: { exists: () => boolean; data: () => unknown } = {
     exists: () => false,
     data: () => ({}),
 };
+/** What `getDoc` answers, swapped per test the way `transactionReadSnap` is:
+ *  the replay reads a chat to tell "never created" from "not allowed", and a
+ *  read that throws has to mean "don't know". A module-level variable rather
+ *  than `mockResolvedValueOnce`, because a `DocumentSnapshot`'s `exists` is a
+ *  type predicate that a plain stub can't satisfy. */
+let chatDocRead: { exists: () => boolean } | Error = { exists: () => false };
 
 vi.mock('firebase/firestore', () => ({
     arrayUnion: vi.fn((...elements: unknown[]) => ({
@@ -81,7 +88,10 @@ vi.mock('firebase/firestore', () => ({
     onSnapshot: vi.fn(() => () => {}),
     query: vi.fn((c: unknown) => c),
     where: vi.fn(),
-    getDoc: vi.fn(async () => ({ exists: () => false })),
+    getDoc: vi.fn(async () => {
+        if (chatDocRead instanceof Error) throw chatDocRead;
+        return chatDocRead;
+    }),
 }));
 
 vi.mock('@db/firebase', () => ({
@@ -94,6 +104,12 @@ vi.mock('@db/moderation/moderate', () => ({ default: vi.fn() }));
 vi.mock('@db/Database', () => ({
     HowTos: {},
     Projects: {},
+    // SaveTracker reads these when a write fails; without them a failing write
+    // throws inside the failure path instead of being recorded.
+    SaveFailureReason: {
+        FirestoreBatchFailed: 'firestore-batch-failed',
+        CloudWriteRefused: 'cloud-write-refused',
+    },
 }));
 
 import sendModerate from '@db/moderation/moderate';
@@ -135,6 +151,7 @@ describe('ChatDatabase granular message operations', () => {
         vi.clearAllMocks();
         lastTransactionOps = [];
         transactionReadSnap = { exists: () => false, data: () => ({}) };
+        chatDocRead = { exists: () => false };
 
         mockDatabase = {
             getUser: vi.fn(() => ({ uid: 'user-1' })),
@@ -697,6 +714,102 @@ describe('ChatDatabase granular message operations', () => {
                 _ref: { collection: 'chats/project-1/translations', id: 'es' },
             });
             expect(data).toEqual({ m1: { _op: 'deleteField' } });
+        });
+    });
+
+    /**
+     * The chat update rule is an allowlist — `hasOnly(['messages','unread',
+     * 'participants'])` — so a whole-document write is refused the moment any
+     * other field has fallen behind the server's copy, which `moderation` does
+     * every time a message is reported or decided. The refusal is silent, and
+     * the replay used to push the same refused document forever (#1349).
+     */
+    describe('writes only the fields the rule admits', () => {
+        /** Leave a conversation unsaved without latching it: an ordinary
+         *  failure is retryable, so it stays queued for the replay. */
+        async function leaveUnsaved(chat: Chat) {
+            vi.mocked(updateDoc).mockRejectedValueOnce(new Error('offline'));
+            await db.updateChat(chat, true);
+            vi.clearAllMocks();
+        }
+
+        it('persists only messages, unread and participants', async () => {
+            await db.updateChat(makeChat({ language: 'en-US' }), true);
+
+            expect(vi.mocked(updateDoc)).toHaveBeenCalledTimes(1);
+            const [, data] = vi.mocked(updateDoc).mock.calls[0];
+            expect(Object.keys(data).toSorted()).toEqual([
+                'messages',
+                'participants',
+                'unread',
+            ]);
+        });
+
+        it('replays only those fields too', async () => {
+            await leaveUnsaved(makeChat({ language: 'en-US' }));
+
+            await db.flushUnsaved();
+
+            expect(vi.mocked(updateDoc)).toHaveBeenCalledTimes(1);
+            const [, data] = vi.mocked(updateDoc).mock.calls[0];
+            for (const field of ['moderation', 'v', 'type', 'language'])
+                expect(
+                    data,
+                    `a replay must not carry "${field}"`,
+                ).not.toHaveProperty(field);
+            expect(data).toHaveProperty('messages');
+            expect(vi.mocked(setDoc)).not.toHaveBeenCalled();
+        });
+
+        it('falls back to the whole document when there is none to update', async () => {
+            // A chat created offline may never have reached the server at all —
+            // Firestore keeps an in-memory cache only, so this replay is the
+            // durability. The refusal says `permission-denied`, not
+            // `not-found`, because the rule's own `resource.data != null` test
+            // fails first, so only the read can tell "never created" from "not
+            // allowed".
+            await leaveUnsaved(makeChat());
+            vi.mocked(updateDoc).mockRejectedValueOnce(
+                new FirebaseError('permission-denied', 'Missing permissions'),
+            );
+            chatDocRead = { exists: () => false };
+
+            await db.flushUnsaved();
+
+            expect(vi.mocked(setDoc)).toHaveBeenCalledTimes(1);
+            const [, data, options] = vi.mocked(setDoc).mock.calls[0];
+            // Born complete, or the next reader can't parse it: the listener
+            // uses the raw document rather than what ChatSchema.parse returns,
+            // so zod's `moderation` default never lands.
+            expect(data).toHaveProperty('moderation');
+            expect(data).toHaveProperty('v', 3);
+            expect(options).toBeUndefined();
+        });
+
+        it('does not create one that is merely refused', async () => {
+            await leaveUnsaved(makeChat());
+            vi.mocked(updateDoc).mockRejectedValueOnce(
+                new FirebaseError('permission-denied', 'Missing permissions'),
+            );
+            chatDocRead = { exists: () => true };
+
+            await db.flushUnsaved();
+
+            expect(vi.mocked(setDoc)).not.toHaveBeenCalled();
+        });
+
+        it('does not create one it could not check for', async () => {
+            // Not knowing must never create: a chat conjured out of a failed
+            // read would overwrite whatever is actually stored.
+            await leaveUnsaved(makeChat());
+            vi.mocked(updateDoc).mockRejectedValueOnce(
+                new FirebaseError('permission-denied', 'Missing permissions'),
+            );
+            chatDocRead = new FirebaseError('unavailable', 'Offline');
+
+            await db.flushUnsaved();
+
+            expect(vi.mocked(setDoc)).not.toHaveBeenCalled();
         });
     });
 });

@@ -26,7 +26,8 @@ import { firestore } from '@db/firebase';
 import { unknownFlags } from '@db/projects/Moderation';
 import { Domain } from '@db/Domains';
 import isQuotaError from '@db/isQuotaError';
-import SaveTracker from '@db/SaveTracker.svelte';
+import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
+import { GalleryServerOwnedFields } from '@db/rulesFields';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import type Project from '@db/projects/Project';
 import type { Character } from '@db/characters/Character';
@@ -103,6 +104,7 @@ export default class GalleryDatabase {
      *  rows), shared with the other domain facades. See {@link SaveTracker}. */
     private readonly saves = new SaveTracker({
         domain: Domain.Galleries,
+        rePush: (id) => this.rePush(id),
         localDB: () => this.database.localDB,
         track: (write) => this.database.track(write),
         deviceCount: () => this.accessibleGalleries.size,
@@ -128,6 +130,12 @@ export default class GalleryDatabase {
      *  saved in the cloud (write pending or failed). */
     get unsavedIDs() {
         return this.saves.unsavedIDs;
+    }
+
+    /** Whether this device's copy should still win over the cloud's; see
+     *  {@link SaveTracker.isLocallyAuthoritative}. */
+    isLocallyAuthoritative(id: string): boolean {
+        return this.saves.isLocallyAuthoritative(id);
     }
 
     /** Save failures for the save-status dialog. */
@@ -365,8 +373,12 @@ export default class GalleryDatabase {
                         // Skip galleries with unsaved local edits not yet pushed:
                         // our local copy is authoritative until flushUnsaved replays
                         // it, so don't let an older cloud version overwrite it in
-                        // memory or the cache.
-                        if (this.unsavedIDs.has(gallery.getID())) return;
+                        // memory or the cache. Not once the write has been refused
+                        // permanently, though — there is then nothing to replay, and
+                        // holding authority would blind the gallery to every later
+                        // snapshot.
+                        if (this.isLocallyAuthoritative(gallery.getID()))
+                            return;
 
                         synced.push(gallery);
 
@@ -608,60 +620,36 @@ export default class GalleryDatabase {
      *  edits made offline before a reload). Called once the user is known
      *  (startSync) and on reconnect. A no-op when nothing is unsaved. */
     async flushUnsaved() {
-        if (firestore === undefined) return;
-        const db = firestore;
-        await this.saves.flushUnsaved((id) => {
-            const gallery = this.accessibleGalleries.get(id);
-            return gallery
-                ? {
-                      name: gallery.getName(
-                          this.database.Locales.getLocaleSet(),
-                      ),
-                      // Replays are updates, and must omit the server's own
-                      // fields for the reason ServerOwnedFields gives — a replay
-                      // that re-sends a stale `words` is denied again, which is
-                      // exactly how a gallery got stuck unsaved forever.
-                      write: (() => {
-                          const data: Record<string, unknown> = {
-                              ...gallery.data,
-                          };
-                          for (const field of GalleryDatabase.ServerOwnedFields)
-                              delete data[field];
-                          return setDoc(
-                              doc(db, GalleriesCollection, id),
-                              data,
-                              { merge: true },
-                          );
-                      })(),
-                  }
-                : undefined;
-        });
+        await this.saves.flushUnsaved();
     }
 
     /**
-     * The gallery fields the server owns, which a client write must never carry.
+     * Build a fresh cloud write for one gallery; see {@link SaveTrackerHost}.
+     * Replays are updates, and must omit the server's own fields for the reason
+     * {@link GalleryServerOwnedFields} gives — a replay that re-sends a stale
+     * `words` is denied again, which is exactly how a gallery got stuck unsaved
+     * forever.
      *
-     * `firestore.rules`' `galleryServerFieldsUnchanged()` allows an update only
-     * if each of these is either absent from the write or identical to what is
-     * already stored — and `words` is rebuilt by the `galleryEdited` trigger
-     * every time a gallery changes. So a client that writes the whole document
-     * ships whatever `words` it last saw, and the moment the trigger has moved
-     * on, the write is denied.
-     *
-     * That denial is not loud: `trackSave` records the failure and leaves the
-     * gallery in `unsavedIDs`, `seedDirty` restores that flag on every reload,
-     * and the listener's skip-dirty guard then refuses every server snapshot for
-     * that gallery for the rest of the session — including the ones carrying a
-     * how-to that was just added to it. `flushUnsaved` meanwhile retries the same
-     * denied write forever. The gallery is stuck: permanently "unsaved" on that
-     * device, never updated, and invisible to anything reading it live.
+     * Which is why it matters that `edit` adds a gallery to
+     * `accessibleGalleries` only *after* awaiting its write: this returns
+     * nothing for a gallery still being created, so a refused create is never
+     * retried as a merge-update, which would create one missing the very fields
+     * its own schema requires.
      */
-    private static readonly ServerOwnedFields = [
-        'moderation',
-        'moderatedAt',
-        'flags',
-        'words',
-    ] as const;
+    private rePush(id: string): RePush {
+        if (firestore === undefined) return undefined;
+        const db = firestore;
+        const gallery = this.accessibleGalleries.get(id);
+        if (gallery === undefined) return undefined;
+        const data: Record<string, unknown> = { ...gallery.data };
+        for (const field of GalleryServerOwnedFields) delete data[field];
+        return {
+            name: gallery.getName(this.database.Locales.getLocaleSet()),
+            write: setDoc(doc(db, GalleriesCollection, id), data, {
+                merge: true,
+            }),
+        };
+    }
 
     async edit(gallery: Gallery, creating = false) {
         if (firestore === undefined) return undefined;
@@ -699,7 +687,7 @@ export default class GalleryDatabase {
                 // document because merge only replaces the keys it is given.
                 if (creating) return setDoc(reference, gallery.data);
                 const data: Record<string, unknown> = { ...gallery.data };
-                for (const field of GalleryDatabase.ServerOwnedFields)
+                for (const field of GalleryServerOwnedFields)
                     delete data[field];
                 return setDoc(reference, data, { merge: true });
             });

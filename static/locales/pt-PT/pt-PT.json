@@ -7280,7 +7280,8 @@
                     "projectContainsPII": "Estes projetos parecem conter informações pessoais, por isso não os guardamos online. Abra cada um para verificar o que parece ser informação pessoal.",
                     "localProjectStorageFailed": "Este dispositivo ficou sem espaço para guardar, e estes projetos ainda não estão na cloud, pelo que estão em risco.<Sign in@/login> , que as guarda online em vez de apenas neste dispositivo.",
                     "projectTooLarge": "$~Estes projetos são grandes demais para guardar online. Continuam seguros neste dispositivo. Tenta torná-los mais pequenos.",
-                    "noCloudTarget": "$~Estes projetos estão apenas neste dispositivo, porque o @wordplay não tinha onde os guardar online. <Inicia sessãologin> para os guardar."
+                    "noCloudTarget": "$~Estes projetos estão apenas neste dispositivo, porque o @wordplay não tinha onde os guardar online. <Inicia sessãologin> para os guardar.",
+                    "cloudWriteRefused": "$~A nuvem não aceitou estas alterações, por isso foi usada a cópia que está em linha. Se acha que devia poder alterá-las, pergunte a quem as partilhou consigo."
                 },
                 "projectsNotSavingOnline": "$~Alguns projetos estão apenas neste dispositivo, ainda não estão online."
             },

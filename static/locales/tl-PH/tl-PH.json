@@ -7282,7 +7282,8 @@
                     "projectContainsPII": "$~Mukhang may personal na impormasyon ang mga proyektong ito, kaya hindi namin na-save online. Buksan ang bawat isa para tingnan kung ano ang mukhang personal.",
                     "localProjectStorageFailed": "$~Naubusan na ng espasyo para i-save ang device na ito, at wala pa sa cloud ang mga proyektong ito, kaya nasa panganib ang mga ito.<Sign in@/login> , na nagse-save sa mga ito online sa halip na sa device na ito lang.",
                     "projectTooLarge": "$~Napakalaki ng mga proyektong ito para i-save online. Ligtas pa rin sila sa device na ito. Subukan mong gawing mas maliit ang mga ito.",
-                    "noCloudTarget": "$~Ang mga proyektong ito ay nasa device na ito lamang, dahil walang lugar ang @wordplay para i-save ang mga ito online. <Mag-sign inlogin> para i-save ang mga ito."
+                    "noCloudTarget": "$~Ang mga proyektong ito ay nasa device na ito lamang, dahil walang lugar ang @wordplay para i-save ang mga ito online. <Mag-sign inlogin> para i-save ang mga ito.",
+                    "cloudWriteRefused": "$~Hindi tinanggap ng cloud ang mga pagbabagong ito, kaya ginamit na lang namin ang kopyang online. Kung sa tingin mo ay dapat mong magawang baguhin ito, tanungin mo ang taong nagbahagi nito sa iyo."
                 },
                 "projectsNotSavingOnline": "$~Ang ilang proyekto ay nasa device na ito lamang, hindi pa online."
             },

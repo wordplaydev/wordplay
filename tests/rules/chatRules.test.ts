@@ -220,6 +220,106 @@ describe('chats: participants take part, the project owner disposes', () => {
         );
     });
 
+    /**
+     * #1349: what the client actually sent, and why it stopped working the
+     * moment a moderator touched the conversation. The refusal is decided on
+     * *values*, not on which keys a write mentions — for an update,
+     * `request.resource.data` is the document as it would be afterward — so a
+     * whole-document write is fine until the client's copy of a field it
+     * doesn't own falls behind, and then it is refused every time.
+     */
+    describe('a whole-document write', () => {
+        /** What the server does when a message is reported or decided:
+         *  `report.ts` writes `pending`, `moderate.ts` writes the decision. */
+        async function serverDecides() {
+            await env.withSecurityRulesDisabled(async (context) => {
+                await context
+                    .firestore()
+                    .doc(`chats/${Chat}`)
+                    .update({ moderation: { m1: 'removed' } });
+            });
+        }
+
+        const stale = {
+            v: 3,
+            project: Chat,
+            type: 'project',
+            participants,
+            messages: [
+                { id: 'm1', time: 1, creator: Users.Owner, text: 'hi' },
+                { id: 'm2', time: 2, creator: Users.Collaborator, text: 'yo' },
+            ],
+            // What this client last saw, before the decision above.
+            moderation: {},
+            unread: [],
+        };
+
+        it('succeeds while nothing the client does not own has drifted', async () => {
+            // Which is why the bug was intermittent, and why it was invisible
+            // in a suite where nobody had ever moderated anything.
+            await assertSucceeds(
+                as(Users.Collaborator).doc(`chats/${Chat}`).set(stale),
+            );
+        });
+
+        it('is refused once a moderator has touched the conversation', async () => {
+            await serverDecides();
+            await assertFails(
+                as(Users.Collaborator).doc(`chats/${Chat}`).set(stale),
+            );
+        });
+
+        it('but the narrow write the client now sends succeeds', async () => {
+            await serverDecides();
+            await assertSucceeds(
+                as(Users.Collaborator).doc(`chats/${Chat}`).update({
+                    messages: stale.messages,
+                    unread: stale.unread,
+                    participants: stale.participants,
+                }),
+            );
+        });
+
+        it('and the narrow write reaches a document still at an older version', async () => {
+            // A pre-v3 chat is readable through upgradeChat but never bumped by
+            // the server, so a full write's `v` 2 → 3 is itself an affected key
+            // — which used to make every participant's replay impossible.
+            await env.withSecurityRulesDisabled(async (context) => {
+                await context
+                    .firestore()
+                    .doc(`chats/${Orphan}`)
+                    .set({
+                        v: 2,
+                        project: Orphan,
+                        type: 'project',
+                        participants,
+                        messages: [
+                            {
+                                id: 'm1',
+                                time: 1,
+                                creator: Users.Owner,
+                                text: 'hi',
+                            },
+                        ],
+                        unread: [],
+                    });
+            });
+
+            await assertSucceeds(
+                as(Users.Collaborator).doc(`chats/${Orphan}`).update({
+                    messages: stale.messages,
+                    unread: stale.unread,
+                    participants: stale.participants,
+                }),
+            );
+            await assertFails(
+                as(Users.Collaborator)
+                    .doc(`chats/${Orphan}`)
+                    .set({ ...stale, project: Orphan }),
+            );
+        });
+    });
+
     it('nor drop messages to erase the record', async () => {
         await assertFails(
             as(Users.Collaborator)

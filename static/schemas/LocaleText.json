@@ -25835,6 +25835,10 @@
                                             "additionalProperties": false,
                                             "description": "Per-reason explanations shown in the save-failure dialog, grouped above the list of affected project names.",
                                             "properties": {
+                                                "cloudWriteRefused": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] The cloud refused the change and retrying can't help, so the copy that's online replaced the local one"
+                                                },
                                                 "firestoreBatchFailed": {
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Sending projects to the cloud failed"
@@ -25869,6 +25873,7 @@
                                                 "localProjectStorageFailed",
                                                 "indexedDBUnsupported",
                                                 "firestoreBatchFailed",
+                                                "cloudWriteRefused",
                                                 "projectContainsPII",
                                                 "projectTooLarge",
                                                 "noCloudTarget"

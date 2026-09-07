@@ -6,11 +6,12 @@ import {
     type SaveError,
 } from '@db/Database';
 import { Domain } from '@db/Domains';
-import SaveTracker from '@db/SaveTracker.svelte';
+import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import HowTo from '@db/howtos/HowToDatabase.svelte';
 import isQuotaError from '@db/isQuotaError';
+import { ChatWritableFields, HowToFields } from '@db/rulesFields';
 import type Project from '@db/projects/Project';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import deferToIdle from '@util/deferToIdle';
@@ -619,6 +620,7 @@ export class ChatDatabase {
      *  rows), shared with the other domain facades. See {@link SaveTracker}. */
     private readonly saves = new SaveTracker({
         domain: Domain.Chats,
+        rePush: (id) => this.rePush(id),
         localDB: () => this.db.localDB,
         track: (write) => this.db.track(write),
         deviceCount: () => this.chats.size,
@@ -736,12 +738,17 @@ export class ChatDatabase {
     }
 
     /**
-     * Update the chat's state locally and optionally write the entire document
-     * remotely. Full-doc writes are vulnerable to lost updates when multiple
-     * participants act concurrently — prefer the granular methods below
-     * (addMessage, markChatRead, reportMessage, moderateMessage, deleteMessage,
+     * Update the chat's state locally and optionally write it remotely. The
+     * remote write is vulnerable to lost updates when multiple participants act
+     * concurrently — prefer the granular methods below (addMessage,
+     * markChatRead, reportMessage, moderateMessage, deleteMessage,
      * setChatParticipants) for any operation that races with other writers.
-     * Persisting here is reserved for hydration and bootstrap paths.
+     * Persisting here is reserved for hydration and bootstrap paths, and
+     * nothing currently passes `persist`.
+     *
+     * It sends only {@link ChatWritableFields}, not the whole document: the
+     * rule is an allowlist, so a whole-document write is refused the moment any
+     * field the client doesn't own has fallen behind the server's copy.
      */
     async updateChat(chat: Chat, persist: boolean) {
         const projectID = chat.getProjectID();
@@ -773,10 +780,22 @@ export class ChatDatabase {
                 projectID,
                 updateDoc(
                     doc(firestore, ChatsCollection, chat.getProjectID()),
-                    chat.getData(),
+                    ChatDatabase.writableChatFields(chat),
                 ),
             );
         }
+    }
+
+    /** Just the fields {@link ChatWritableFields} names, for an update.
+     *  Not for a create: a chat has to be born with `v`, `project`, `type` and
+     *  `moderation`, or the next client to read it cannot parse it — and the
+     *  listener uses the raw document rather than what `ChatSchema.parse`
+     *  returns, so zod's `moderation` default never lands. */
+    private static writableChatFields(chat: Chat): Record<string, unknown> {
+        const data: SerializedChat = chat.getData();
+        return Object.fromEntries(
+            ChatWritableFields.map((field) => [field, data[field]]),
+        );
     }
 
     /** Wrap a cloud write so the save-status dialog reflects it; see
@@ -790,24 +809,55 @@ export class ChatDatabase {
      *  (e.g. a message sent offline before a reload). Called once the user is
      *  known (startSync) and on reconnect. No-op when nothing is unsaved. */
     async flushUnsaved() {
-        if (firestore === undefined) return;
-        const db = firestore;
-        await this.saves.flushUnsaved((id) => {
-            const chat = this.chats.get(id);
-            // setDoc (not updateDoc): a chat created offline may never have
-            // reached the server, so updateDoc would fail forever with
-            // not-found. getData() is the full SerializedChat and `this.chats`
-            // already holds the locally-merged messages, so this pushes the same
-            // merged view updateDoc would — just create-capable.
-            return chat
-                ? {
-                      write: setDoc(
-                          doc(db, ChatsCollection, id),
-                          chat.getData(),
-                      ),
-                  }
-                : undefined;
-        });
+        await this.saves.flushUnsaved();
+    }
+
+    /**
+     * Build a fresh cloud write for one conversation; see {@link SaveTrackerHost}.
+     *
+     * An update carries only what the rule admits (see {@link ChatWritableFields});
+     * `this.chats` already holds the locally-merged messages, so this pushes the
+     * same merged view a whole-document write would, minus the fields that would
+     * get it refused.
+     *
+     * A chat created offline may never have reached the server at all, though —
+     * Firestore keeps an in-memory cache only, so a queued write doesn't survive
+     * a reload and this replay is its durability — and an update needs a
+     * document to update. That case is **not** distinguishable from the error
+     * code: the rule's own `resource.data != null` test fails before anything
+     * else, so updating a chat that isn't there is refused as
+     * `permission-denied` rather than `not-found`. Only a read can tell the two
+     * apart, so on a refusal this asks, and creates only when the document
+     * genuinely isn't there — with the whole document, since a chat has to be
+     * born complete enough for the next reader to parse. A read that itself
+     * fails means we don't know, and not knowing must never create.
+     *
+     * The replayed `messages` array is a whole-array replace, so a client that
+     * was offline while a moderator hid a message can put its text back. That
+     * predates this replay and is not expressible as a rule (see the `it.skip`
+     * in chatRules.test.ts); the fix is appending only local-only messages, or
+     * messages as a subcollection.
+     */
+    private rePush(id: string): RePush {
+        if (firestore === undefined) return undefined;
+        const chat = this.chats.get(id);
+        if (chat === undefined) return undefined;
+        const reference = doc(firestore, ChatsCollection, id);
+        return {
+            write: updateDoc(
+                reference,
+                ChatDatabase.writableChatFields(chat),
+            ).catch(async (error: unknown) => {
+                let exists = true;
+                try {
+                    exists = (await getDoc(reference)).exists();
+                } catch {
+                    // Couldn't ask, so assume it's there and report the refusal.
+                }
+                if (exists) throw error;
+                return setDoc(reference, chat.getData());
+            }),
+        };
     }
 
     /**
@@ -1260,6 +1310,7 @@ export class ChatDatabase {
                     social: { ...howTo.getSocial(), chat: newChat.project },
                 }),
                 true,
+                HowToFields.Social,
             ),
         );
     }

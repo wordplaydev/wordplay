@@ -12,6 +12,7 @@
  * that actually mock ever disagree, in either direction.
  */
 export const MockingTests = [
+    'src/db/SaveTracker.test.ts',
     'src/db/characters/CharacterDatabase.test.ts',
     'src/db/chats/ChatDatabase.test.ts',
     'src/db/feedback/FeedbackDatabase.test.ts',
