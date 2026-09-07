@@ -11,6 +11,8 @@
     import { pickPreviewExample } from '@concepts/pickPreviewExample';
     import { DB, HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import type Gallery from '@db/galleries/Gallery';
+    import { canMoveHowTo } from '@db/howtos/howToAccess';
     import { HowToFields } from '@db/rulesFields';
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
     import Project from '@db/projects/Project';
@@ -37,7 +39,7 @@
         canvasHeight: number;
         whichMoving: string | undefined;
         notPermittedAreas: SvelteMap<string, [number, number, number, number]>;
-        galleryCuratorCollaborators: string[];
+        gallery: Gallery | undefined;
         whichDialogOpen: string | undefined;
     }
 
@@ -49,7 +51,7 @@
         canvasHeight,
         whichMoving = $bindable(),
         notPermittedAreas = $bindable(),
-        galleryCuratorCollaborators,
+        gallery,
         whichDialogOpen = $bindable(),
     }: Props = $props();
 
@@ -148,16 +150,16 @@
 
     // code that enables drag and drop functionality
 
-    // don't allow the user to move the how-to if they don't have write permission to the db
-    // currently, only the creator, collaborators of the how-to + the curators, collaborators of the gallery can write
-    let allWriters: string[] = $derived([
-        ...howTo.getCollaborators(),
-        howTo.getCreator(),
-        ...galleryCuratorCollaborators,
-    ]);
+    // Arranging the shared space is open to everyone the gallery belongs to, but
+    // not to an expanded-access viewer, who is a guest here — and never on a
+    // draft, which nobody outside it can see to arrange.
     let user = getUser();
     let canEdit: boolean = $derived(
-        isAuthenticated($user) && allWriters.includes($user.uid),
+        canMoveHowTo(
+            howTo,
+            gallery,
+            isAuthenticated($user) ? $user.uid : undefined,
+        ),
     );
 
     /** Anchor recorded at drag start: the viewport-space cursor position

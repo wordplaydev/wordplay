@@ -96,12 +96,6 @@ const HowToSchemaV1 = z.object({
     creator: z.string(),
     /** The list of users who can collaborate with the creator on a how-to */
     collaborators: z.array(z.string()),
-    /** The list of users who can view a how-to and interact with its social features
-     * Organized as a map from gallery ID to list of user IDs, where the gallery ID is the gallery that grants the viewer access since it is a gallery by the same curator
-     */
-    viewers: z.record(z.string(), z.array(z.string())),
-    /** Flat version of viewers, calculated in a firestore function, for firestore rule queries */
-    viewersFlat: z.array(z.string()),
     /** True if the user restricts access to the how-to to only those who have direct access to the gallery
      * I.e., overwrites the gallery curator "expanding" how-to viewing permissions
      */
@@ -124,6 +118,19 @@ const HowToSchemaV2 = HowToSchemaV1.extend({
 const HowToPreviewSchema = PreviewContentSchema;
 export type HowToPreview = z.infer<typeof HowToPreviewSchema>;
 
+/**
+ * `viewers`/`viewersFlat` are gone: they claimed to be maintained by a cloud
+ * function and nothing anywhere ever wrote them, so the rule and the query that
+ * read them matched nobody and expanded access did not work (#907). Who may view
+ * a how-to through expanded scope is a grant on the *gallery*, and is read from
+ * there now.
+ *
+ * No version bump is needed to drop them, and none of the three versions
+ * declares them any more. `HowToSchema.parse` runs in zod's default strip mode
+ * and its result is discarded — `new HowTo()` takes the pre-parse object — so a
+ * stored document still carrying the fields validates, and nothing re-persists a
+ * stripped value.
+ */
 const HowToSchemaV3 = HowToSchemaV2.extend({
     v: z.literal(3),
     /** Cached preview computed by the author's browser on save, so readers skip evaluation */
@@ -322,14 +329,6 @@ export default class HowTo {
         );
     }
 
-    getViewers() {
-        return this.data.viewersFlat;
-    }
-
-    hasViewer(userId: string) {
-        return this.data.viewersFlat.includes(userId);
-    }
-
     getLocales(): string[] {
         return this.data.locales;
     }
@@ -415,6 +414,14 @@ export default class HowTo {
 
 export const HowTosCollection = Domain.HowTos;
 
+/** Gallery IDs split into `where('galleryId','in',...)`-sized batches. */
+function chunkGalleries(ids: string[]): string[][] {
+    const chunks: string[][] = [];
+    for (let i = 0; i < ids.length; i += GALLERY_CHUNK_SIZE)
+        chunks.push(ids.slice(i, i + GALLERY_CHUNK_SIZE));
+    return chunks;
+}
+
 export class HowToDatabase {
     private readonly db: Database;
 
@@ -447,6 +454,15 @@ export class HowToDatabase {
      *  Key is the listener identity ("own", "scope", or `gallery:<chunkIndex>`).
      *  Used to garbage-collect cache entries that no listener sees anymore. */
     private listenerDocIds: Map<string, Set<string>> = new Map();
+
+    /** The gallery IDs the current listeners were built from, sorted and joined,
+     *  so a gallery edit that changes no membership re-subscribes nothing. */
+    private watchedGalleryKey: string | undefined = undefined;
+
+    /** How many listeners must have reported before the cache GC may run. Without
+     *  it, a re-subscribe empties `listenerDocIds` while the cache is still full,
+     *  and whichever listener answers first evicts everything the others hold. */
+    private expectedHowToListeners = 0;
 
     /** Dedup set so a how-to surfaced by multiple listeners only notifies once. */
 
@@ -770,8 +786,6 @@ export class HowToDatabase {
             text: text,
             creator: user as string,
             collaborators: collaborators,
-            viewers: {} as Record<string, string[]>,
-            viewersFlat: [] as string[],
             scopeOverwrite: overwriteAccessScope,
             locales: locales,
             isPublic: isPublic,
@@ -876,6 +890,8 @@ export class HowToDatabase {
         this.unsubscribes.forEach((u) => u());
         this.unsubscribes = [];
         this.listenerDocIds.clear();
+        this.watchedGalleryKey = undefined;
+        this.expectedHowToListeners = 0;
     }
 
     listen(firestore: Firestore, userId: string) {
@@ -893,6 +909,7 @@ export class HowToDatabase {
 
     private startListening(firestore: Firestore, userId: string) {
         this.db.markSyncing(Domain.HowTos);
+        this.watchedGalleryKey = this.galleryKey();
 
         // Notifications only fire for how-tos published after this point in time.
 
@@ -925,9 +942,9 @@ export class HowToDatabase {
         const editorGalleryIds = Array.from(
             this.db.Galleries.accessibleGalleries.keys(),
         );
-        for (let i = 0; i < editorGalleryIds.length; i += GALLERY_CHUNK_SIZE) {
-            const chunk = editorGalleryIds.slice(i, i + GALLERY_CHUNK_SIZE);
-            const key = `gallery:${i / GALLERY_CHUNK_SIZE}`;
+        const editorChunks = chunkGalleries(editorGalleryIds);
+        for (const [index, chunk] of editorChunks.entries()) {
+            const key = `gallery:${index}`;
             const galleryQuery = query(
                 collection(firestore, HowTosCollection),
                 where('galleryId', 'in', chunk),
@@ -942,22 +959,70 @@ export class HowToDatabase {
             );
         }
 
-        // Listener 3: published how-tos visible via expanded scope.
-        const scopeQuery = query(
-            collection(firestore, HowTosCollection),
-            and(
-                where('published', '==', true),
-                where('scopeOverwrite', '==', false),
-                where('viewersFlat', 'array-contains', userId),
-            ),
+        // Listener 3: published how-tos visible via expanded scope — the galleries
+        // a curator has opened to members of their other galleries. Selected by
+        // gallery, exactly like Listener 2, because expanded access is a grant on
+        // the gallery: it used to select on a `viewersFlat` field of the how-to
+        // that nothing ever wrote, so it matched nothing and the whole feature was
+        // dead (#907).
+        //
+        // `scopeOverwrite == false` is load-bearing for the same reason
+        // `published == true` is above — the rule's viewer branch requires it, and
+        // Firestore rejects the entire query if any matched doc would be denied.
+        const scopeChunks = chunkGalleries(
+            Array.from(this.db.Galleries.expandedScopeGalleries.keys()),
         );
-        this.unsubscribes.push(
-            onSnapshot(
-                scopeQuery,
-                (snapshot) => this.handleSnapshot('scope', snapshot),
-                (error) => this.logFirebaseError(error),
-            ),
-        );
+        for (const [index, chunk] of scopeChunks.entries()) {
+            const key = `scope:${index}`;
+            const scopeQuery = query(
+                collection(firestore, HowTosCollection),
+                and(
+                    where('galleryId', 'in', chunk),
+                    where('published', '==', true),
+                    where('scopeOverwrite', '==', false),
+                ),
+            );
+            this.unsubscribes.push(
+                onSnapshot(
+                    scopeQuery,
+                    (snapshot) => this.handleSnapshot(key, snapshot),
+                    (error) => this.logFirebaseError(error),
+                ),
+            );
+        }
+
+        this.expectedHowToListeners =
+            1 + editorChunks.length + scopeChunks.length;
+    }
+
+    /**
+     * Re-subscribe when the set of galleries the user can reach changes, since
+     * both chunked listeners' filters are built from it. A no-op when the set is
+     * the same, so a gallery edit — a rename, a project added — churns nothing.
+     *
+     * This is not only for mid-session changes. `expandedScopeGalleries` is
+     * filled by one of three gallery listeners, and `domainSettled` resolves on
+     * the first of them to report, so on a cold load the set can still be empty
+     * when the how-tos first subscribe. A warm load fills it from IndexedDB
+     * first, which is why that gap shows up for a new account and not on a
+     * machine that has run the app before.
+     */
+    galleriesChanged() {
+        if (firestore === undefined) return;
+        const user = this.db.getUser();
+        if (!user) return;
+        if (this.galleryKey() === this.watchedGalleryKey) return;
+        this.listen(firestore, user.uid);
+    }
+
+    /** Every gallery whose how-tos this user may see, as a stable string. */
+    private galleryKey() {
+        return [
+            ...this.db.Galleries.accessibleGalleries.keys(),
+            ...this.db.Galleries.expandedScopeGalleries.keys(),
+        ]
+            .sort()
+            .join(',');
     }
 
     private handleSnapshot(key: string, snapshot: QuerySnapshot<DocumentData>) {
@@ -997,18 +1062,28 @@ export class HowToDatabase {
         snapshot.docChanges().forEach((change) => {});
 
         // (c) Cache GC: a doc should remain cached iff at least one listener still sees it.
-        //     Safe on initial load — listeners that haven't fired yet have no entry in
-        //     listenerDocIds, so the union only includes IDs we've actually loaded.
-        const union = new Set<string>();
-        for (const ids of this.listenerDocIds.values())
-            for (const id of ids) union.add(id);
+        //     Only once every listener has reported, and only against server-fresh
+        //     data. The old "listeners that haven't fired have no entry" reasoning
+        //     held only on a cold start, when the cache is empty too; on a
+        //     re-subscribe — which `galleriesChanged` now makes routine — the cache
+        //     is full while `listenerDocIds` is empty, so whichever listener answers
+        //     first would evict everything the others hold and the canvas would
+        //     blank and refill on every membership change.
+        if (
+            !snapshot.metadata.fromCache &&
+            this.listenerDocIds.size === this.expectedHowToListeners
+        ) {
+            const union = new Set<string>();
+            for (const ids of this.listenerDocIds.values())
+                for (const id of ids) union.add(id);
 
-        for (const cachedId of this.howtos.keys()) {
-            // Keep how-tos with unsaved local edits even if no listener sees
-            // them (they aren't on the server yet) — pruning them would drop the
-            // only copy and leave nothing for flushUnsaved to replay.
-            if (!union.has(cachedId) && !this.unsavedIDs.has(cachedId))
-                this.howtos.delete(cachedId);
+            for (const cachedId of this.howtos.keys()) {
+                // Keep how-tos with unsaved local edits even if no listener sees
+                // them (they aren't on the server yet) — pruning them would drop the
+                // only copy and leave nothing for flushUnsaved to replay.
+                if (!union.has(cachedId) && !this.unsavedIDs.has(cachedId))
+                    this.howtos.delete(cachedId);
+            }
         }
 
         this.db.markSynced(Domain.HowTos, this.howtos.size);
