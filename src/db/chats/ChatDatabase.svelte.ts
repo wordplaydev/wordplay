@@ -1157,7 +1157,9 @@ export class ChatDatabase {
         this.saves.forget(projectID);
     }
 
-    async deleteChat(projectID: string) {
+    /** Whether the chat is gone, so a caller deleting its subject can stop
+     *  rather than stranding the conversation it could no longer reach. */
+    async deleteChat(projectID: string): Promise<boolean> {
         // Confirm-then-remove: delete the cloud doc FIRST and only forget local
         // state (memory + durable dirty row) once it lands. Forgetting first —
         // as this used to — meant a failed/offline delete cleared the dirty row
@@ -1170,7 +1172,7 @@ export class ChatDatabase {
                 );
             } catch (err) {
                 this.db.reportBanner((l) => l.ui.banner.deleteFailed, err);
-                return;
+                return false;
             }
         }
         // Nothing to do about the translations subcollection here. Firestore
@@ -1180,6 +1182,7 @@ export class ChatDatabase {
         // silently leak from every other way a chat dies (a project deleted, an
         // account closed), so the `chatDeleted` trigger owns it instead.
         this.forgetChat(projectID);
+        return true;
     }
 
     syncUser() {

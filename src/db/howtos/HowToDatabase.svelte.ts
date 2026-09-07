@@ -691,6 +691,17 @@ export class HowToDatabase {
      *  failed/offline delete left a stranded cloud copy with the dirty row
      *  already cleared, so nothing could retry it. write() fails fast. */
     async deleteHowTo(howToId: string, gallery: Gallery): Promise<boolean> {
+        // The conversation about it goes first, and awaited, for the reason the
+        // project delete path gives: the chat rules read the how-to to check
+        // that whoever is deleting may, so deleting the how-to first leaves
+        // nothing to check against and strands the chat — and with it the
+        // `translations` subcollection only the `chatDeleted` trigger collects
+        // (#1353). Stop if it fails rather than deleting the how-to anyway,
+        // which is the state that has no way back.
+        if (this.howtos.get(howToId)?.getChatId() != null) {
+            if (!(await this.db.Chats.deleteChat(howToId))) return false;
+        }
+
         if (firestore) {
             try {
                 // Atomic batch: delete the how-to doc AND remove its ID from
