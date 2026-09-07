@@ -37,6 +37,12 @@ const PUBLIC_ROUTES = [
     // Signed out is also the dimmed state of the cloud badge marking a synced
     // setting, so this covers that color in both schemes.
     '/?dialog=settings',
+    // A public gallery's how-to space, which a signed-out visitor can open
+    // (#1351) and which no scan reached until #1354 — an infinite pan canvas of
+    // virtualized tiles, and none of it had ever had an axe pass. Signed out is
+    // also the state with no social pane, so this covers the canvas and its
+    // tiles without the affordances only a member gets.
+    '/gallery/seed-public-gallery-00/howto',
 ];
 
 test.describe('public pages', () => {

@@ -19,6 +19,7 @@ export const MockingTests = [
     'src/db/galleries/GalleryDatabase.test.ts',
     'src/db/getFirebaseTranslator.test.ts',
     'src/db/howtos/HowToDatabase.test.ts',
+    'src/db/howtos/howToAccess.test.ts',
     'src/db/projects/PresenceTracker.test.ts',
     'src/db/projects/YjsFirestoreProvider.test.ts',
     'src/db/teachers/TeacherDatabase.test.ts',

@@ -259,6 +259,10 @@ export default class GalleryDatabase {
                 this.accessibleGalleries.delete(id);
             }
         }
+        // The cold-start path fills these maps too, and the how-to listeners are
+        // built from both of them. Gated inside, so a hydration that changes no
+        // membership re-subscribes nothing.
+        this.database.HowTos.galleriesChanged();
     }
 
     /** Mirror authoritative galleries into the local cache for cold-start
@@ -444,6 +448,16 @@ export default class GalleryDatabase {
                         this.database.Characters.galleriesChanged();
                     }
 
+                    // How-tos are filtered by gallery too, and unlike projects and
+                    // characters they also follow `expandedScopeGalleries` — a
+                    // viewer's read access is a grant on the gallery (#907). That
+                    // set is deliberately outside the guard above: widening
+                    // `watchedKey` to cover it would churn every project and
+                    // character listener whenever a curator changes who a gallery
+                    // is open to. `galleriesChanged` keeps its own gate over both
+                    // maps, so this is a no-op unless the set it watches moved.
+                    this.database.HowTos.galleriesChanged();
+
                     // Mark the database loaded.
                     this.status = 'loaded';
                     this.database.markSynced(
@@ -514,7 +528,6 @@ export default class GalleryDatabase {
             curators: curators ?? [user.uid],
             creators: creators ?? [],
             public: false,
-            featured: false,
             // Private, so nothing has been asked of the moderators yet; the
             // galleryEdited trigger moves this to 'pending' if it goes public.
             moderation: 'unrequested',

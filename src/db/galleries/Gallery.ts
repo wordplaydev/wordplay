@@ -40,7 +40,6 @@ const SerializedGalleryV1 = z.object({
     /** If true, gallery can be viewed by anyone and appears in search results. */
     public: z.boolean(),
     /** If true, gallery is prioritized in search results */
-    featured: z.boolean(),
 });
 
 /** v2 adds configurations for the how-to space */
@@ -193,7 +192,6 @@ export default class Gallery {
             projects?: string[];
             characters?: string[];
             public?: boolean;
-            featured?: boolean;
             howTos?: string[];
             howToExpandedVisibility?: boolean;
             howToExpandedGalleries?: string[];
@@ -218,7 +216,6 @@ export default class Gallery {
             curators,
             creators,
             public: opts.public ?? false,
-            featured: opts.featured ?? false,
             howTos: opts.howTos ?? [],
             howToExpandedVisibility: opts.howToExpandedVisibility ?? false,
             howToExpandedGalleries: opts.howToExpandedGalleries ?? [],
@@ -428,16 +425,22 @@ export default class Gallery {
         return this.data.howToExpandedVisibility;
     }
 
-    withExpandedGallery(galleryID: string, viewers: string[]): Gallery {
+    /**
+     * Naming a gallery to draw how-to viewers from. Only the list is written:
+     * who that actually reaches is derived by the `galleryEdited` trigger and
+     * refused to clients by the rules, because a client that could write it
+     * could hand this gallery to anyone at all (#1352).
+     *
+     * That also makes these two safe to call. They used to write
+     * `howToViewers`, which the shallow copy above shares with the receiver —
+     * so setting a key on it rewrote the Gallery being copied *from*, and the
+     * instance still held in `accessibleGalleries` changed underfoot.
+     */
+    withExpandedGallery(galleryID: string): Gallery {
         const newData = { ...this.data };
         newData.howToExpandedGalleries = [
-            ...newData.howToExpandedGalleries,
-            galleryID,
+            ...new Set([...newData.howToExpandedGalleries, galleryID]),
         ];
-        newData.howToViewers[galleryID] = viewers;
-        newData.howToViewersFlat = Array.from(
-            new Set([...newData.howToViewersFlat, ...viewers]),
-        );
         return new Gallery(newData);
     }
 
@@ -446,10 +449,6 @@ export default class Gallery {
         newData.howToExpandedGalleries = [
             ...newData.howToExpandedGalleries.filter((id) => id !== galleryID),
         ];
-        delete newData.howToViewers[galleryID];
-        newData.howToViewersFlat = Array.from(
-            new Set([...Object.values(newData.howToViewers).flat()]),
-        );
         return new Gallery(newData);
     }
 

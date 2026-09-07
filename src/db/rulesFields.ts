@@ -29,12 +29,22 @@ export const ChatWritableFields = [
  * identical to what is stored, and the `galleryEdited` trigger rebuilds `words`
  * on every change — so a whole-document write is denied the moment the trigger
  * has moved on.
+ *
+ * `galleryServerFieldsInitial()` states the same list on a create, where there
+ * is nothing stored to compare against: every guard here was walkable around by
+ * putting the value in the new document instead (#1352).
+ *
+ * The two how-to fields are derived, not decided: a curator asks by setting
+ * `howToExpandedVisibility` and `howToExpandedGalleries`, which stay theirs, and
+ * the trigger answers with the viewer lists.
  */
 export const GalleryServerOwnedFields = [
     'moderation',
     'moderatedAt',
     'flags',
     'words',
+    'howToViewers',
+    'howToViewersFlat',
 ] as const;
 
 /**

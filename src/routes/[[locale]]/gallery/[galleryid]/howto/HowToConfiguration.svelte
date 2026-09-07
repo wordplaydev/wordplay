@@ -65,19 +65,6 @@
         }
     }
 
-    function addExpansionToGallery(toModify: Gallery, toAdd: string): Gallery {
-        let toAddGalleryObject: Gallery | undefined =
-            Galleries.accessibleGalleries.get(toAdd);
-        let toAddGalleryViewers: string[] = toAddGalleryObject
-            ? [
-                  ...toAddGalleryObject.getCurators(),
-                  ...toAddGalleryObject.getCreators(),
-              ]
-            : [];
-
-        return toModify.withExpandedGallery(toAdd, toAddGalleryViewers);
-    }
-
     async function submitChanges() {
         show = false;
 
@@ -100,8 +87,12 @@
             howToReactions: reactionsObject,
         });
 
+        // Only the list of galleries: who it reaches is the server's to work
+        // out (#1352). This used to look each gallery up in the local cache and
+        // send its members, which silently sent nobody when the cache had no
+        // entry — and let anyone who could edit a gallery name any uid at all.
         galleryAddQueue.forEach((galleryId) => {
-            gallery = addExpansionToGallery(gallery, galleryId);
+            gallery = gallery.withExpandedGallery(galleryId);
         });
 
         galleryRemoveQueue.forEach((galleryId) => {

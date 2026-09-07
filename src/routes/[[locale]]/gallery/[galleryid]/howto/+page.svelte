@@ -4,6 +4,7 @@
     import Notice from '@components/app/Notice.svelte';
     import Page from '@components/app/Page.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -26,6 +27,10 @@
         Locales,
         locales,
     } from '@db/Database';
+    import {
+        canConfigureHowToSpace,
+        canCreateHowTo,
+    } from '@db/howtos/howToAccess';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import Project from '@db/projects/Project';
@@ -117,17 +122,18 @@
     // the component-creation cost is paid off-screen, not on first visibility.
     let PRELOAD_MARGIN = $derived(Math.max(canvasWidth, canvasHeight) / 2);
 
-    // determine if the user can add a new how-to
+    // Whether this creator may post a how-to here, which also gates the drafts
+    // sidebar; and whether they may set the space's guiding questions and
+    // reactions, which is the curator's alone.
     let canUserEdit = $derived(
-        gallery
-            ? isAuthenticated($user) &&
-                  (gallery.hasCurator($user.uid) ||
-                      gallery.hasCreator($user.uid))
-            : false,
+        canCreateHowTo(gallery, isAuthenticated($user) ? $user.uid : undefined),
     );
 
     let isUserCurator = $derived(
-        gallery && $user && gallery.hasCurator($user.uid),
+        canConfigureHowToSpace(
+            gallery,
+            isAuthenticated($user) ? $user.uid : undefined,
+        ),
     );
 
     let usersBookmarks: HowTo[] = $derived(
@@ -396,6 +402,16 @@
     });
 </script>
 
+<!-- Outside the branches below, so the page is titled while it is still
+     loading and when the gallery turns out to be unreachable. axe's
+     document-title rule fails a page that has none, and this route had none in
+     any state (#1354) — it is also the one route a signed-out visitor can reach
+     that no scan covered. Named for the section plus this gallery, the way the
+     gallery page titles itself. -->
+<svelte:head>
+    <Title text={(l) => l.ui.howto.galleryView.header} subtitle={galleryName} />
+</svelte:head>
+
 {#if gallery === null || (gallery === undefined && urlID !== null && urlLoaded === null)}
     <Loading />
 {:else if gallery === undefined && (galleryID === undefined || urlID === null || urlLoaded === false)}
@@ -566,11 +582,7 @@
                                     {canvasHeight}
                                     bind:whichMoving
                                     bind:notPermittedAreas
-                                    galleryCuratorCollaborators={gallery
-                                        ? gallery
-                                              .getCurators()
-                                              .concat(gallery.getCreators())
-                                        : []}
+                                    {gallery}
                                     bind:whichDialogOpen
                                 />
                             {/if}

@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '../../playwright/fixtures';
+import { enUS, text } from '../helpers/localize';
 import { createTestGallery } from '../helpers/createGallery';
 import { waitForDocumentUpdate, getTestDocument } from '../helpers/firestore';
 import {
@@ -27,15 +28,23 @@ async function createViaForm(
     post = false,
 ): Promise<void> {
     await page.goto(`/en-US/gallery/${galleryId}/howto`);
-    await page.getByRole('button', { name: 'Create a new how-to' }).click();
+    await page
+        .getByRole('button', {
+            name: text(enUS.ui.howto.editor.newForm.header),
+        })
+        .click();
     const titleField = page.locator('#howto-title');
     await titleField.waitFor();
     await titleField.fill(title);
     await page
         .getByRole('button', {
-            name: post
-                ? 'post your how-to to the space'
-                : 'save your how-to as a draft',
+            // From the locale rather than typed in English, so a reword moves
+            // the test with the app instead of breaking it.
+            name: text(
+                post
+                    ? enUS.ui.howto.editor.post.tip
+                    : enUS.ui.howto.editor.save.tip,
+            ),
         })
         .click();
 }
@@ -150,8 +159,12 @@ test.describe('how-to editor form', () => {
         // Reopen the draft, switch to edit mode, and change the title. Each
         // how-to form keeps its own #howto-title in the DOM (the closed "+"
         // form's too), so scope to the visible one — the open draft dialog.
-        await page.getByRole('button', { name: 'view your draft' }).click();
-        await page.getByRole('button', { name: 'edit this how-to' }).click();
+        await page
+            .getByRole('button', { name: text(enUS.ui.howto.drafts.tooltip) })
+            .click();
+        await page
+            .getByRole('button', { name: text(enUS.ui.howto.viewer.edit.tip) })
+            .click();
         const titleField = page.locator('#howto-title:visible');
         await titleField.waitFor();
         await titleField.fill('After Edit');
@@ -182,12 +195,16 @@ test.describe('how-to editor form', () => {
         await page.goto(`/en-US/gallery/${galleryId}/howto`);
         await cutFirestore(page);
 
-        await page.getByRole('button', { name: 'Create a new how-to' }).click();
+        await page
+            .getByRole('button', {
+                name: text(enUS.ui.howto.editor.newForm.header),
+            })
+            .click();
         const titleField = page.locator('#howto-title');
         await titleField.waitFor();
         await titleField.fill('Offline Draft');
         await page
-            .getByRole('button', { name: 'save your how-to as a draft' })
+            .getByRole('button', { name: text(enUS.ui.howto.editor.save.tip) })
             .click();
 
         // Wait until the new how-to's dirty row is durable (its id is generated

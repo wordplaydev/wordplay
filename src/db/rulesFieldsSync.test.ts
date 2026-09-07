@@ -70,4 +70,26 @@ describe('the client writes exactly what firestore.rules admits', () => {
             [...GalleryServerOwnedFields].toSorted(),
         );
     });
+
+    test('and a gallery create carries each of them at its initial value', () => {
+        // The create guard names the same fields but compares against literals
+        // rather than against `resource.data`, so it reads differently and the
+        // test above cannot see it. Without this, the two guards could drift and
+        // a field would be owned on update and free on create — which is exactly
+        // the state #1352 found.
+        const block_ = block('galleries');
+        const guard = block_.slice(
+            block_.indexOf('function galleryServerFieldsInitial'),
+        );
+        const fields = new Set(
+            Array.from(
+                guard
+                    .slice(0, guard.indexOf('}'))
+                    .matchAll(/request\.resource\.data\.(\w+)/g),
+            ).map((match) => match[1]),
+        );
+        expect(Array.from(fields).toSorted()).toEqual(
+            [...GalleryServerOwnedFields].toSorted(),
+        );
+    });
 });

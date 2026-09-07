@@ -145,9 +145,9 @@
      * rather than a page at a time, because the search below runs over it in the
      * browser — paging would mean search only found what had already been
      * scrolled to. Curation (#1311) is what makes that affordable. Past this cap
-     * the featured-then-id ordering is no longer the equal visibility the
-     * shuffle gives; `Gallery.words` plus an array-contains-any query is the
-     * scaling path when it matters.
+     * the id ordering is no longer the equal visibility the shuffle gives;
+     * `Gallery.words` plus an array-contains-any query is the scaling path when
+     * it matters.
      */
     const PublicGalleryLimit = 200;
 
@@ -173,7 +173,6 @@
             // Being public is the curator's request; being approved is what
             // lists it (#1311).
             where('moderation', '==', 'approved'),
-            orderBy('featured', 'desc'),
             orderBy('id'),
             limit(PublicGalleryLimit),
         );

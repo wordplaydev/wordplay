@@ -256,7 +256,9 @@ async function seedClassAndGallery(): Promise<void> {
     const students = SEEDED_USERS.filter((u) =>
         u.username.startsWith('student'),
     );
+    const creator = SEEDED_USERS.find((u) => u.username === 'creator');
     if (!teacher) throw new Error('Teacher user missing from SEEDED_USERS');
+    if (!creator) throw new Error('Creator user missing from SEEDED_USERS');
 
     const classDoc = {
         id: SEEDED_CLASS_ID,
@@ -280,7 +282,10 @@ async function seedClassAndGallery(): Promise<void> {
         { 'en-US': 'Demo Class Gallery' },
         { 'en-US': 'Seeded gallery for the demo class.' },
         [teacher.uid],
-        students.map((s) => s.uid),
+        // `creator` alongside the students so this gallery can be the source the
+        // expanded-scope fixture below draws on: expanded access reaches only a
+        // gallery by the same curator, and the teacher curates both.
+        [...students.map((s) => s.uid), creator.uid],
     ).data;
 
     // setDoc overwrites whatever's there — fine for seeding because we want a
@@ -432,6 +437,51 @@ const HOWTO_REACTIONS: Record<string, string> = {
     '❓': 'have a question',
 };
 
+/** The published how-to in the first public gallery, which needs no account. */
+const PUBLIC_HOWTO_ID = 'seed-public-howto-00';
+
+/** A published how-to in the shape the schema expects, for the seeds that only
+ *  need one. Multi-locale text is one string with `¶text¶/locale` markers. */
+function makeSeededHowTo(opts: {
+    id: string;
+    galleryId: string;
+    creator: string;
+    title: string;
+    text: string;
+}) {
+    return {
+        v: 2,
+        id: opts.id,
+        galleryId: opts.galleryId,
+        published: true,
+        publishedAt: Date.now(),
+        xcoord: 0,
+        ycoord: 0,
+        title: `¶${opts.title}¶/en-US`,
+        guidingQuestions: HOWTO_GUIDING_QUESTIONS,
+        text: [`¶${opts.text}¶/en-US`],
+        creator: opts.creator,
+        collaborators: [],
+        scopeOverwrite: false,
+        locales: ['en-US'],
+        isPublic: false,
+        social: {
+            v: 1,
+            notifySubscribers: true,
+            reactionOptions: HOWTO_REACTIONS,
+            reactions: Object.fromEntries(
+                Object.keys(HOWTO_REACTIONS).map((e) => [e, []]),
+            ),
+            usedByProjects: [],
+            chat: null,
+            bookmarkers: [],
+            submittedToGuide: false,
+            seenByUsers: [],
+            viewCount: 0,
+        },
+    };
+}
+
 /**
  * Seed a class + gallery + many how-tos all owned by `creator`. The class
  * lists `creator` as the sole teacher; the gallery has `creator` as both
@@ -524,8 +574,6 @@ async function seedCreatorHowTos(): Promise<void> {
             ),
             creator: creator.uid,
             collaborators: [],
-            viewers: {},
-            viewersFlat: [],
             scopeOverwrite: false,
             locales: ['en-US'],
             isPublic: false,
@@ -569,6 +617,22 @@ async function seedPublicProjectsAndGalleries(): Promise<void> {
         // them get a project, leaving the rest empty on purpose.
         const seed = SEED_PROJECTS[i];
         const gallery = makePublicGallery(i, creator.uid, seed?.id);
+        // The first public gallery gets a published how-to, so there is a
+        // public how-to space for a signed-out visitor to open.
+        if (i === 0) {
+            const howToId = PUBLIC_HOWTO_ID;
+            gallery.howTos = [howToId];
+            batch.set(
+                firestore.collection('howtos').doc(howToId),
+                makeSeededHowTo({
+                    id: howToId,
+                    galleryId: gallery.id,
+                    creator: creator.uid,
+                    title: 'A how-to anyone can read',
+                    text: 'Seeded in a public gallery, so it needs no account.',
+                }),
+            );
+        }
         batch.set(firestore.collection('galleries').doc(gallery.id), gallery);
         if (seed !== undefined) {
             const project = makePublicProject(seed, i, creator.uid, gallery.id);
@@ -827,8 +891,6 @@ async function seedOtherUserHowTos(): Promise<void> {
             ],
             creator: authors[i].uid,
             collaborators: [],
-            viewers: {},
-            viewersFlat: [],
             scopeOverwrite: false,
             locales: ['en-US'],
             isPublic: false,
@@ -870,6 +932,17 @@ async function seedExpandedScopeGallery(): Promise<void> {
     if (!teacher || !creator) throw new Error('teacher/creator missing');
     const now = Date.now();
     const howToId = 'seed-expanded-howto-00';
+    // What `deriveHowToViewers` will produce for the class gallery: its curators
+    // and creators, deduped and sorted.
+    const classGalleryMembers = [
+        ...new Set([
+            teacher.uid,
+            ...SEEDED_USERS.filter((u) => u.username.startsWith('student')).map(
+                (u) => u.uid,
+            ),
+            creator.uid,
+        ]),
+    ].sort();
 
     const galleryDoc = Gallery.make(
         SEEDED_EXPANDED_GALLERY_ID,
@@ -883,8 +956,18 @@ async function seedExpandedScopeGallery(): Promise<void> {
         {
             howTos: [howToId],
             howToExpandedVisibility: true,
-            howToViewers: { [SEEDED_EXPANDED_GALLERY_ID]: [creator.uid] },
-            howToViewersFlat: [creator.uid],
+            // Drawn from the demo class gallery, which the same teacher curates
+            // — expanded access reaches only a gallery by the same curator, and
+            // `galleryEdited` strips a source that isn't one (#1352). Pointing
+            // this at `creator`'s own workshop described a state the trigger
+            // would undo the moment it ran.
+            //
+            // Seeded already derived, in the shape the trigger produces (deduped
+            // and sorted), so the fixture is correct before the trigger has
+            // fired as well as after.
+            howToExpandedGalleries: [SEEDED_CLASS_GALLERY_ID],
+            howToViewers: { [SEEDED_CLASS_GALLERY_ID]: classGalleryMembers },
+            howToViewersFlat: classGalleryMembers,
         },
     ).data;
     await firestore
@@ -908,8 +991,6 @@ async function seedExpandedScopeGallery(): Promise<void> {
             text: ['¶Visible to creator via expanded scope.¶/en-US'],
             creator: teacher.uid,
             collaborators: [],
-            viewers: {},
-            viewersFlat: [],
             scopeOverwrite: false,
             locales: ['en-US'],
             isPublic: false,

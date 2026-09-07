@@ -137,6 +137,7 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
             write: vi.fn(<T>(p: Promise<T>) => p),
             reportBanner: vi.fn(),
             Galleries: { mirrorHowToMembership: vi.fn() },
+            Chats: { deleteChat: vi.fn(async () => true) },
         };
 
         db = new HowToDatabase(mockDatabase);
@@ -278,6 +279,55 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
             expect(galleryUpdate!.data).toMatchObject({
                 howTos: { _op: 'arrayRemove', elements: ['ht-1'] },
             });
+        });
+
+        it('deletes the conversation about it first, and only when there is one', async () => {
+            // Before the how-to, because the chat rules read the how-to to
+            // decide who may delete its chat — deleting the how-to first strands
+            // the conversation for good (#1353).
+            const gallery = makeGallery('g1', ['ht-1']);
+            db['howtos'].set(
+                'ht-1',
+                new HowTo(
+                    makeHowToDoc({
+                        id: 'ht-1',
+                        social: { ...baseSocial, chat: 'ht-1' },
+                    }),
+                ),
+            );
+
+            await db.deleteHowTo('ht-1', gallery);
+
+            expect(mockDatabase.Chats.deleteChat).toHaveBeenCalledWith('ht-1');
+        });
+
+        it('does not ask to delete a conversation that was never started', async () => {
+            const gallery = makeGallery('g1', ['ht-1']);
+            db['howtos'].set('ht-1', new HowTo(makeHowToDoc({ id: 'ht-1' })));
+
+            await db.deleteHowTo('ht-1', gallery);
+
+            expect(mockDatabase.Chats.deleteChat).not.toHaveBeenCalled();
+        });
+
+        it('keeps the how-to when its conversation could not be deleted', async () => {
+            // The alternative is the one state with no way back: the how-to gone
+            // and the chat left behind, which no client can then reach.
+            mockDatabase.Chats.deleteChat = vi.fn(async () => false);
+            const gallery = makeGallery('g1', ['ht-1']);
+            db['howtos'].set(
+                'ht-1',
+                new HowTo(
+                    makeHowToDoc({
+                        id: 'ht-1',
+                        social: { ...baseSocial, chat: 'ht-1' },
+                    }),
+                ),
+            );
+
+            expect(await db.deleteHowTo('ht-1', gallery)).toBe(false);
+            expect(lastBatchOps).toHaveLength(0);
+            expect(db['howtos'].has('ht-1')).toBe(true);
         });
 
         it('removes the how-to from the local cache only after the cloud delete succeeds', async () => {

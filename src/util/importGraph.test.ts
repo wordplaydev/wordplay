@@ -598,38 +598,44 @@ test('resolving a color needs no basis', () => {
  * landing page's by two: that is the module, the new save-failure message, and
  * its translation into every locale.
  *
- * The markup editor's strings (#1307) are **+0 files** and about 800 bytes in
- * `en-US.json`: the thirty-three names and spoken confirmations its commands
- * need, in a file every page carries because every page resolves a locale. The
- * editor itself is deliberately NOT on any of these graphs — `FormattedEditor`
- * imports it dynamically, precisely because `MarkupHTMLView` reaches every page
- * and a static import would drag the caret model, the parser, and the evaluator
- * onto all five. That is what the runtime-reachability test below checks, and it
- * stays green. `projects` is the one entry with no slack left, so only its byte
- * budget moves.
+ * Stating who may read and write a how-to once (#907) is **+1 file**, and the
+ * same move for the same reason. `howToAccess.ts` is a leaf that imports only
+ * types, holding the predicates the interface gates on so they can be checked
+ * against `firestore.rules` — by the same table the emulator tests use — without
+ * standing up Firebase. It reaches these entries through `ChatDatabase`, which
+ * needs it to decide a how-to chat's participants: expanded-access viewers are
+ * part of that conversation, and reading them from the wrong document is what
+ * made the whole feature inert. A file rather than four `$derived` expressions
+ * in Svelte components, because a component's gate cannot be tested at all and
+ * dies with the next redesign. Every byte budget moves by a hundredth, which is
+ * the module itself — it is mostly comment, and pulls in nothing that was not
+ * already here.
  *
- * Turning the markup editor on at its six call sites (#1307) is **+0 files** and
- * about 1KB: the `rich` flag and the caret-insertion affordance `FormattedEditor`
- * exposes so `TemplateInputsPanel` can stop splicing at a field's
- * `selectionStart`. The editor itself and its command list are still off every
- * one of these graphs — both are behind the dynamic import, and the toolbar is
- * rendered from inside the editor for that reason rather than beside it — so the
- * runtime-reachability test below stays green. `+layout` is the one entry with no
- * slack left, so only its byte budget moves.
+ * Making the server own a gallery's derived viewer lists (#1352) is **+0 files**
+ * and moves one budget by two ten-thousandths: `Gallery.withExpandedGallery`
+ * gets shorter and its comment gets longer, which is the trade this rule exists
+ * to make visible rather than to prevent.
  *
- * Making the soft-wrap context a store (#1307's second fix) is **+0 files** and a
- * few hundred bytes in `Contexts.ts` and `RootView.svelte`, both of which every
- * page already carries. Held as a plain boolean the context froze at whatever the
- * setting was when the view mounted, so turning wrapping on changed the CSS and
- * left every space non-breaking. `galleries` is the entry with no slack left for
- * it, so only its byte budget moves.
+ * The markup editor (#1307) is **+0 files** and a few kilobytes spread across
+ * every budget: the thirty-five names and spoken confirmations its commands need
+ * in `en-US.json`, the `rich` flag and caret-insertion affordance on
+ * `FormattedEditor`, and the soft-wrap and prose plumbing in `Contexts.ts` and
+ * `RootView.svelte` — all in files every page already carries, because every page
+ * resolves a locale and renders markup. The editor itself is deliberately NOT on
+ * any of these graphs: `FormattedEditor` imports it dynamically, and the toolbar
+ * is rendered from inside the editor rather than beside it, precisely because
+ * `MarkupHTMLView` reaches every page and a static import would drag the caret
+ * model, the parser, and the evaluator onto all five. That is what the
+ * runtime-reachability test below checks, and it stays green. Four of the five
+ * byte budgets move by a hundredth; the landing page's does not, since it renders
+ * no markup editor and pays only for the locale strings.
  */
 test.each([
-    ['src/routes/+layout.svelte', 507, 3.78],
-    ['src/components/app/Page.svelte', 530, 4.02],
-    ['src/routes/[[locale]]/+page.svelte', 545, 4.11],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 549, 4.13],
-    ['src/routes/[[locale]]/projects/+page.svelte', 556, 4.15],
+    ['src/routes/+layout.svelte', 508, 3.79],
+    ['src/components/app/Page.svelte', 531, 4.04],
+    ['src/routes/[[locale]]/+page.svelte', 546, 4.12],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 550, 4.14],
+    ['src/routes/[[locale]]/projects/+page.svelte', 557, 4.16],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(
