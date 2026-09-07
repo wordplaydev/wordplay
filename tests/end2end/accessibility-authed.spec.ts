@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { expectNoAxeViolationsInBothSchemes } from '../helpers/checkAccessibility';
+import { enUS, text } from '../helpers/localize';
 import { createTestCharacter } from '../helpers/createCharacter';
 import { createTestGallery } from '../helpers/createGallery';
 import { editTrianglePoints } from '../helpers/drawCharacterPath';
@@ -374,6 +375,72 @@ test.describe('authed views', () => {
             await createTestCharacter(page);
             await editTrianglePoints(page);
             await expectNoAxeViolationsInBothSchemes(page);
+        } finally {
+            await context.close();
+        }
+    });
+
+    test(`a how-to space and an open how-to have no WCAG 2.2 AA violations`, async ({
+        browser,
+    }) => {
+        // Two surfaces on one sign-in, for the reason this file's header gives:
+        // restoring Firebase Auth's IndexedDB into a fresh context is the
+        // expensive part, and these differ only by a navigation.
+        //
+        // Neither had ever been scanned (#1354). The seeded workshop gallery is
+        // used rather than a fresh one so both are deterministic: `creator`
+        // curates it, so the create control, the drafts sidebar and the
+        // configuration dialog are all in the tree, and it holds both published
+        // how-tos and drafts.
+        const { context, page } = await loginNewContext(
+            browser,
+            'creator',
+            'password',
+        );
+        try {
+            await page.goto('/en-US/gallery/seeded-howto-gallery-id/howto');
+            // Attached rather than visible: canvas tiles are virtualized to the
+            // camera's viewport, so presence is what says the space has loaded.
+            await expect(
+                page.getByText('Use color to set mood').first(),
+            ).toBeAttached({ timeout: LOAD_TIMEOUT });
+            await expectNoAxeViolationsInBothSchemes(page, { verbose: true });
+
+            // An open how-to, which is where the editor, the collaborators
+            // panel and the whole social pane live. Both parameters are needed
+            // and do different things: `id` pans the camera to the how-to, which
+            // is what mounts its tile — they are virtualized to the viewport,
+            // and Dialog only reacts to the URL while it is mounted — and
+            // `dialog` is Dialog's own reopen-from-a-link mechanism.
+            // `seed-howto-01` is published and is the one the seed gives a
+            // conversation, so the chat is in the tree too.
+            await page.goto(
+                '/en-US/gallery/seeded-howto-gallery-id/howto?id=seed-howto-01&dialog=howto:seed-howto-01',
+            );
+            const howTo = page.locator('dialog[open]').first();
+            await expect(howTo).toBeVisible({ timeout: LOAD_TIMEOUT });
+            // That it is *this* how-to's dialog, and that the social pane is in
+            // it: a whole-page scan of a dialog that opened empty, or of some
+            // other dialog, would pass while checking nothing this test is for.
+            // Buttons here take their accessible name from `tip`, not the
+            // visible `label`, which is what the editor's own spec matches on.
+            await expect(
+                howTo.getByText('Use color to set mood').first(),
+            ).toBeVisible();
+            await expect(
+                howTo
+                    .getByRole('button', {
+                        name: text(enUS.ui.howto.bookmarks.canBookmark.tip),
+                    })
+                    .or(
+                        howTo.getByRole('button', {
+                            name: text(
+                                enUS.ui.howto.bookmarks.alreadyBookmarked.tip,
+                            ),
+                        }),
+                    ),
+            ).toBeVisible();
+            await expectNoAxeViolationsInBothSchemes(page, { verbose: true });
         } finally {
             await context.close();
         }
