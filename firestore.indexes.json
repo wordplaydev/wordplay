@@ -181,8 +181,8 @@
                     "order": "ASCENDING"
                 },
                 {
-                    "fieldPath": "viewersFlat",
-                    "arrayConfig": "CONTAINS"
+                    "fieldPath": "galleryId",
+                    "order": "ASCENDING"
                 }
             ]
         },
