@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { enUS, text } from '../helpers/localize';
 import { loginNewContext } from '../helpers/loginNewContext';
 
 /**
@@ -106,4 +107,64 @@ test('teacher sees how-tos authored by other users in the class gallery', async 
     } finally {
         await context.close();
     }
+});
+
+test('an expanded-scope viewer reads the space but cannot add to it', async ({
+    browser,
+}) => {
+    // `creator` curates nothing in this gallery — `teacher` does — and reaches it
+    // only through `howToViewersFlat`. That grant is a field on the *gallery*, and
+    // the rules used to look for it on the how-to, where nothing ever wrote it, so
+    // this whole path was dead and the fixture it needs had sat unread since #882
+    // (#907). Read-only is the other half of the claim: a guest takes part in a
+    // how-to but does not post to someone else's space.
+    const { context, page } = await loginNewContext(
+        browser,
+        'creator',
+        'password',
+    );
+    try {
+        await page.goto(
+            '/en-US/gallery/seeded-expanded-scope-gallery-id/howto',
+        );
+        // Attached rather than visible: canvas tiles are virtualized to the
+        // camera's viewport, so presence is the "it synced" signal.
+        await expect(
+            page.getByText('Expanded-scope how-to').first(),
+        ).toBeAttached({ timeout: NO_BANNER_TIMEOUT });
+        // Names read from the locale rather than typed in English, so a reword
+        // moves the test with the app.
+        await expect(
+            page.getByRole('button', {
+                name: text(enUS.ui.howto.editor.newForm.header),
+            }),
+        ).toHaveCount(0);
+        await expect(
+            page.getByText(text(enUS.ui.howto.drafts.header)),
+        ).toHaveCount(0);
+    } finally {
+        await context.close();
+    }
+});
+
+test('a signed-out visitor reads a public space and cannot take part', async ({
+    page,
+}) => {
+    // No fixture login at all: the public branch of the read rule is the one path
+    // that must work with no account. The social pane is the other half — #907's
+    // "the entire social pane should be removed" for a passer-by.
+    await page.goto('/en-US/gallery/seed-public-gallery-00/howto');
+    await expect(
+        page.getByText('A how-to anyone can read').first(),
+    ).toBeAttached({ timeout: NO_BANNER_TIMEOUT });
+    await expect(
+        page.getByRole('button', {
+            name: text(enUS.ui.howto.bookmarks.canBookmark.label),
+        }),
+    ).toHaveCount(0);
+    await expect(
+        page.getByRole('button', {
+            name: text(enUS.ui.howto.editor.newForm.header),
+        }),
+    ).toHaveCount(0);
 });

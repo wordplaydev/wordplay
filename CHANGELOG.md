@@ -35,6 +35,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐛 We fixed a sentence in the sharing box that stopped halfway and said only "The curators of". It now says who reviews what you share, and sits after the rules instead of splitting them in two.
 - 🎨 We fixed the space around a list of rules in the sharing box, which used to leave more room after the list than before it.
 - 🐛 A gallery's page now says the gallery's name in your browser tab.
+- 🤝 When a curator opens a gallery's how-tos to people in their other galleries, those people can now read them, react to them, and join the chat. Before, the setting looked like it worked but showed them nothing. (#907)
+- 🔒 A how-to you're still writing now stays yours until you post it. Anyone could read your unfinished how-tos in a gallery everyone can see, and people in the gallery could move them around and react to them. (#907)
+- 💾 Bookmarks and reactions on a how-to now save when you were invited to a gallery's how-tos, or you make things in that gallery. They looked like they worked and then quietly didn't. (#907)
+- 🔒 We fixed a hole that let anyone with an account change any how-to, even ones in galleries they had nothing to do with. (#907)
 
 ## 0.34.1 - 2026-09-02
 

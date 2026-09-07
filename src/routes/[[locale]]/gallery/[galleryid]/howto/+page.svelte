@@ -26,6 +26,10 @@
         Locales,
         locales,
     } from '@db/Database';
+    import {
+        canConfigureHowToSpace,
+        canCreateHowTo,
+    } from '@db/howtos/howToAccess';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import Project from '@db/projects/Project';
@@ -117,17 +121,18 @@
     // the component-creation cost is paid off-screen, not on first visibility.
     let PRELOAD_MARGIN = $derived(Math.max(canvasWidth, canvasHeight) / 2);
 
-    // determine if the user can add a new how-to
+    // Whether this creator may post a how-to here, which also gates the drafts
+    // sidebar; and whether they may set the space's guiding questions and
+    // reactions, which is the curator's alone.
     let canUserEdit = $derived(
-        gallery
-            ? isAuthenticated($user) &&
-                  (gallery.hasCurator($user.uid) ||
-                      gallery.hasCreator($user.uid))
-            : false,
+        canCreateHowTo(gallery, isAuthenticated($user) ? $user.uid : undefined),
     );
 
     let isUserCurator = $derived(
-        gallery && $user && gallery.hasCurator($user.uid),
+        canConfigureHowToSpace(
+            gallery,
+            isAuthenticated($user) ? $user.uid : undefined,
+        ),
     );
 
     let usersBookmarks: HowTo[] = $derived(
@@ -566,11 +571,7 @@
                                     {canvasHeight}
                                     bind:whichMoving
                                     bind:notPermittedAreas
-                                    galleryCuratorCollaborators={gallery
-                                        ? gallery
-                                              .getCurators()
-                                              .concat(gallery.getCreators())
-                                        : []}
+                                    {gallery}
                                     bind:whichDialogOpen
                                 />
                             {/if}

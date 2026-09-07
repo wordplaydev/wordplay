@@ -29,7 +29,13 @@
         Locales,
         locales,
     } from '@db/Database';
+    import {
+        canDeleteHowTo,
+        canEditHowTo,
+        canInteractSocially,
+    } from '@db/howtos/howToAccess';
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
+    import { HowToFields } from '@db/rulesFields';
     import Project from '@db/projects/Project';
     import Source from '@nodes/Source';
     import { toMarkup } from '@parser/toMarkup';
@@ -554,7 +560,11 @@
             social: { bookmarkers: newBookmarkers },
         });
 
-        await HowTos.updateHowTo(howTo, true);
+        // Only `social`: an expanded-access viewer and a gallery creator hold
+        // that opening and no other, and a whole-document write is refused
+        // outright — silently, leaving the how-to permanently unsaved on that
+        // device (#1348-#1350, same class).
+        await HowTos.updateHowTo(howTo, true, HowToFields.Social);
     }
 
     function addRemoveReaction(reactionLabel: string) {
@@ -581,15 +591,13 @@
 
         howTo = howTo.withFields({ social: { reactions: newReactions } });
 
-        HowTos.updateHowTo(howTo, true);
+        HowTos.updateHowTo(howTo, true, HowToFields.Social);
     }
 
+    /** Who may take part in this how-to's social pane, and so who may be added
+     *  as a collaborator on it. */
     function isCreatorCollaboratorViewer(uid: string) {
-        return (
-            howTo?.hasViewer(uid) ||
-            gallery?.hasCurator(uid) ||
-            gallery?.hasCreator(uid)
-        );
+        return howTo !== undefined && canInteractSocially(howTo, gallery, uid);
     }
 
     function updateCollaborators(toChangeID: string, add: boolean) {
@@ -922,7 +930,7 @@
             <HowToUsedBy bind:howTo compact />
         </div>
         <div class="toolbar">
-            {#if howTo.isCreatorCollaborator($user.uid) || gallery?.hasCurator($user.uid)}
+            {#if canEditHowTo(howTo, gallery, $user.uid) || canDeleteHowTo(howTo, gallery, $user.uid)}
                 <Button
                     tip={(l) => l.ui.howto.viewer.edit.tip}
                     label={(l) => l.ui.howto.viewer.edit.label}

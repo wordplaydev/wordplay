@@ -133,16 +133,23 @@ export default async function describeSubject(
             owner,
         },
         author: owner,
-        // Every list is checked with Array.isArray first: a how-to's `viewers`
-        // is a map of gallery id to uids, not an array, so a bare `.includes`
-        // would throw on exactly the kind we most need to read.
+        // Every list is checked with Array.isArray first, since these come
+        // straight off a stored document.
+        //
+        // A how-to's expanded-access viewers are read from the *gallery*. They
+        // used to be read from `viewersFlat` on the how-to, which nothing
+        // anywhere ever wrote — so a viewer was invisible here too, and a report
+        // about a how-to they could see routed as though they could not (#907).
         visibleTo: (who) =>
             isPublic ||
             who === owner ||
             listed(thing.collaborators, who) ||
             listed(thing.commenters, who) ||
-            listed(thing.viewers, who) ||
-            listed(thing.viewersFlat, who) ||
+            (kind === 'howto' &&
+                thing.published === true &&
+                thing.scopeOverwrite !== true &&
+                gallery?.howToExpandedVisibility === true &&
+                listed(gallery?.howToViewersFlat, who)) ||
             members.includes(who),
         title:
             typeof thing.title === 'string' ? thing.title : (thing.name ?? ''),

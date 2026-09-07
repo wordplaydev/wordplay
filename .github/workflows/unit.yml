@@ -5,7 +5,7 @@ on:
 permissions:
     contents: read
 
-# Split into six independent jobs that run concurrently. This work used to run
+# Split into seven independent jobs that run concurrently. This work used to run
 # as sequential steps in one job; as parallel jobs the wall-clock collapses
 # to the longest single job instead of their sum. Each job repeats the
 # checkout/setup-node/npm-ci preamble (cheap with the npm cache).
@@ -43,6 +43,39 @@ jobs:
               name: Install dependencies
             - run: npm run test:sweep
               name: Run the corpus sweeps
+
+    # The Firestore security rules (tests/rules/**), which decide who may read and
+    # write every collection and had run in no workflow at all until #907 — they
+    # were a script someone had to remember. Its own job rather than a step in
+    # `vitest` because it needs a JVM and the Firestore emulator, and as a
+    # sibling it costs no wall clock: it finishes well inside the playwright gate.
+    rules:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
+              with:
+                  node-version-file: '.nvmrc'
+                  cache: 'npm'
+            - run: npm ci
+              name: Install dependencies
+            - name: Set up JDK 21 # Firebase emulator requires >=21
+              uses: actions/setup-java@v5
+              with:
+                  java-version: '21'
+                  distribution: 'temurin'
+            - name: Cache Firebase emulators
+              uses: actions/cache@v5
+              with:
+                  path: ~/.cache/firebase/emulators
+                  # Lockfile hash included so a firebase-tools bump invalidates
+                  # the cached jars instead of reusing stale ones.
+                  key: ${{ runner.os }}-firebase-emulators-${{ hashFiles('package-lock.json') }}
+                  restore-keys: ${{ runner.os }}-firebase-emulators-
+            # Only the Firestore emulator: these tests evaluate firestore.rules
+            # over its REST API and need nothing else the suite starts.
+            - run: npm run test:rules
+              name: Run the security rules tests
 
     svelte-check:
         runs-on: ubuntu-latest

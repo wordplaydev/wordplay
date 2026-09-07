@@ -9,6 +9,7 @@ import { Domain } from '@db/Domains';
 import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
+import { expandedViewersOf } from '@db/howtos/howToAccess';
 import HowTo from '@db/howtos/HowToDatabase.svelte';
 import isQuotaError from '@db/isQuotaError';
 import { ChatWritableFields, HowToFields } from '@db/rulesFields';
@@ -1292,7 +1293,7 @@ export class ChatDatabase {
             participants: Array.from(
                 new Set([
                     ...howTo.getCollaborators(),
-                    ...howTo.getViewers(),
+                    ...expandedViewersOf(howTo, gallery),
                     howTo.getCreator(),
                     ...(gallery ? gallery.getCurators() : []),
                     ...(gallery ? gallery.getCreators() : []),
@@ -1409,7 +1410,7 @@ export class ChatDatabase {
         const intendedChatParticipants = [
             ...new Set([
                 ...howTo.getCollaborators(),
-                ...howTo.getViewers(),
+                ...expandedViewersOf(howTo, gallery),
                 howTo.getCreator(),
                 ...(gallery ? gallery.getCurators() : []),
                 ...(gallery ? gallery.getCreators() : []),

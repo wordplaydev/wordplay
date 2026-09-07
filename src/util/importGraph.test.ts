@@ -597,13 +597,26 @@ test('resolving a color needs no basis', () => {
  * refresh beside `ensureAuth`. Every byte budget moves by a hundredth, and the
  * landing page's by two: that is the module, the new save-failure message, and
  * its translation into every locale.
+ *
+ * Stating who may read and write a how-to once (#907) is **+1 file**, and the
+ * same move for the same reason. `howToAccess.ts` is a leaf that imports only
+ * types, holding the predicates the interface gates on so they can be checked
+ * against `firestore.rules` — by the same table the emulator tests use — without
+ * standing up Firebase. It reaches these entries through `ChatDatabase`, which
+ * needs it to decide a how-to chat's participants: expanded-access viewers are
+ * part of that conversation, and reading them from the wrong document is what
+ * made the whole feature inert. A file rather than four `$derived` expressions
+ * in Svelte components, because a component's gate cannot be tested at all and
+ * dies with the next redesign. Every byte budget moves by a hundredth, which is
+ * the module itself — it is mostly comment, and pulls in nothing that was not
+ * already here.
  */
 test.each([
-    ['src/routes/+layout.svelte', 507, 3.77],
-    ['src/components/app/Page.svelte', 530, 4.02],
-    ['src/routes/[[locale]]/+page.svelte', 545, 4.11],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 549, 4.12],
-    ['src/routes/[[locale]]/projects/+page.svelte', 556, 4.14],
+    ['src/routes/+layout.svelte', 508, 3.78],
+    ['src/components/app/Page.svelte', 531, 4.03],
+    ['src/routes/[[locale]]/+page.svelte', 546, 4.11],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 550, 4.13],
+    ['src/routes/[[locale]]/projects/+page.svelte', 557, 4.15],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(
