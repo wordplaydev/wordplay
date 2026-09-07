@@ -655,9 +655,36 @@
             return;
         }
 
-        // Take the last grapheme: a dead-key sequence arrives as the whole
-        // composed result, not just the new character.
         const graphemes = new UnicodeString(data).getGraphemes();
+
+        // More than one grapheme is a BULK edit — autocorrect replacing a word,
+        // a platform autofill, an assistive tool writing a phrase — and the
+        // browser has already applied it to the field. Adopt what the field
+        // holds rather than replaying a guess at it. Taking the last grapheme
+        // (the rule below) discarded everything before it: filling the field
+        // with `who is $name?` left just `?`.
+        if (graphemes.length > 1) {
+            const value = view.value;
+            const at = view.selectionStart ?? value.length;
+            const revised = markupToSource(value);
+            // The field counts UTF-16 code units and a caret counts graphemes,
+            // and the `¶` wrapper adds one — the same conversion `syncMirror`
+            // makes in the other direction (#1329).
+            apply(
+                clampToMarkup(
+                    new Caret(
+                        revised,
+                        new UnicodeString(value).getGraphemePosition(at) + 1,
+                        undefined,
+                        undefined,
+                    ),
+                ),
+            );
+            return;
+        }
+
+        // One grapheme: a dead-key sequence arrives as the whole composed result,
+        // not just the new character, so this takes the last of it.
         const char = graphemes[graphemes.length - 1] ?? data;
         const result = caret.insert(char, false, project, true);
         if (Array.isArray(result)) apply(result[1], true);
