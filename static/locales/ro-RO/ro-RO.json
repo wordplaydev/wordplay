@@ -554,7 +554,7 @@
                 "codepoint": "$~caracterul Unicode $concept",
                 "ui": "$~o legătură către elementul de interfață $concept",
                 "how": "$~un link către instrucțiunile de la $concept",
-                "character": "$~$concept",
+                "character": "$~caracterul personalizat $concept",
                 "tour": "$~o legătură către un tur al conceptului $concept"
             }
         },

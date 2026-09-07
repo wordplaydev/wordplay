@@ -55,6 +55,16 @@ export function withoutCountMarker(name: string): string {
 }
 
 /**
+ * The template with every `$name` mention removed, so what is left is the words
+ * the string says in its own right. Shares `MENTION_RE` with
+ * `getTemplateReferences` so "what counts as a mention" is decided once; an
+ * escaped `$$name` is a literal and survives.
+ */
+export function withoutMentions(template: string): string {
+    return template.replace(MENTION_RE, ' ');
+}
+
+/**
  * Term-reference regex: like `MENTION_RE` but the name may be Unicode letters
  * and numbers. Word-list terms are expanded at the string level, *before* the
  * (ASCII) tokenizer runs, so their keys aren't bound by the tokenizer's ASCII

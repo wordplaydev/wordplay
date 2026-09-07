@@ -12,4 +12,5 @@ export {
     getTemplateReferences,
     resolveTerms,
     withoutCountMarker,
+    withoutMentions,
 } from '@locale/templateInputs';

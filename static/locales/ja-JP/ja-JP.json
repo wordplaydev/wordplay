@@ -555,7 +555,7 @@
                 "ui": "$~$concept のインターフェース要素へのリンク",
                 "how": "$~$concept のやり方ガイドへのリンク",
                 "character": "$~カスタム文字 $concept",
-                "tour": "$~$concept"
+                "tour": "$~$concept のツアーへのリンク"
             }
         },
         "Words": {
@@ -600,7 +600,7 @@
         },
         "Branch": {
             "name": "$~分岐",
-            "description": "$~$condition",
+            "description": "$~$condition に応じたマークアップの選択",
             "emotion": "serious",
             "doc": [
                 "$~わたしは、説明の入力の値が定義されているか、または真かどうかによって、2つの説明の部分のどちらかを選ぶ方法です。",
@@ -1251,7 +1251,7 @@
                 "\\答え•#|'': 1\n答え ???\n\t1: 答え + 1\n\t'一つではない'\\",
                 "私は、@Numberである場合、@Noneである場合、翻訳が一つだけの@Text、その他の単純な場合を除外できる。でも、何かを評価する場合は何も除外しないので、私の既定では@valueがまだなり得るものすべてを残しておく。"
             ],
-            "start": "$~$value…",
+            "start": "$~$value が何か見てみましょう…",
             "case": "$~この条件を調べよう",
             "finish": "$~よし、最終的な値ができた！",
             "label": {
@@ -1455,7 +1455,7 @@
                 "もし@name、どうすればよいかわかりません。",
                 "\\parrot: 'polly'\nperry\\🪲"
             ],
-            "start": "$~$name？",
+            "start": "$~$name はどんな値を持っていますか？",
             "conflict": {
                 "UnknownName": {
                     "conflict": {
@@ -7359,7 +7359,7 @@
             },
             "link": {
                 "remixOf": "$~これのもとになったプロジェクトへ移動する",
-                "backTo": "$~$place"
+                "backTo": "$~$place に戻る"
             },
             "scratch": "$~これはある例の一時的なコピーです。残しておきたいときはリミックスしてください。",
             "untitled": "$~名前のないプロジェクト"
@@ -7369,7 +7369,7 @@
                 "now": "$~今",
                 "history": "$~バージョン",
                 "restore": "$~これはこのプロジェクトの前のバージョンです。",
-                "ago": "$~$amount $unit"
+                "ago": "$~$amount $unit 前"
             },
             "button": {
                 "clear": "$~履歴を削除",
@@ -7647,12 +7647,12 @@
                 "dismiss": "$~このお知らせを閉じる"
             },
             "fold": {
-                "collapse": "$~$name",
-                "expand": "$~$name",
+                "collapse": "$~$nameを折りたたむ",
+                "expand": "$~$nameを展開する",
                 "all": "$~すべて折りたたむ",
                 "none": "$~すべて展開する",
-                "collapsed": "$~$name",
-                "expanded": "$~$name"
+                "collapsed": "$~$nameを折りたたみました",
+                "expanded": "$~$nameを展開しました"
             }
         },
         "annotations": {
@@ -7703,8 +7703,8 @@
                 "submit": "$~このチャットメッセージを送信する",
                 "zoomIn": "$~ステージを拡大する",
                 "zoomOut": "$~ステージを縮小する",
-                "rotate": "$~$name",
-                "resize": "$~$name",
+                "rotate": "$~$name を回転する",
+                "resize": "$~$name の大きさを変える",
                 "resetZoom": "$~移動とズームをリセットする",
                 "perform": "$~上演：プログラムを最初から実行して、画面をステージでいっぱいにする",
                 "resetZoomAt": "$~パンとズームをリセットしました。今はプロジェクトの表示の$percent"
@@ -7730,8 +7730,8 @@
                 "retry": "$~もう一度試す"
             },
             "multiselect": "$~タブキーと、altキーや矢印キーを使って出力の間を移動します。スペースを押すと、選択中の出力を選択に追加したり外したりできます。エンターを押すと、その出力だけを選んでパレットを開きます。エスケープを押すと選択を消します。controlまたはコマンドとAを押すと、すべての出力を選びます。",
-            "selected": "$~$name、$count",
-            "deselected": "$~$name、$count",
+            "selected": "$~$name を選択、$count 個選択中",
+            "deselected": "$~$name の選択を解除、$count 個選択中",
             "allSelected": "$~すべての出力を選択しました、$count",
             "cleared": "$~選択を消しました",
             "moved": "$~$name が $direction に $place まで移動した",
@@ -7833,7 +7833,7 @@
                 "withOutput": "$~$anchor$target$targetAnchor",
                 "withGrid": "$~グリッド上の$anchor",
                 "aligned": "$~$constraints$place",
-                "none": "$~$direction"
+                "none": "$~$direction に揃えるものがありません"
             },
             "removed": "$~$#count[出力を$#count個削除しました]",
             "notRemovable": "$~単独では削除できないもの",
@@ -7842,8 +7842,8 @@
             "point": {
                 "label": "$~$#count個中$number番目の点、$placeにある",
                 "moved": "$~点$number$place",
-                "added": "$~点$number",
-                "removed": "$~点$number",
+                "added": "$~点 $number を追加しました",
+                "removed": "$~点 $number を削除しました",
                 "last": "$~道には少なくとも2つの点が必要だよ"
             }
         },
@@ -8696,14 +8696,14 @@
                 "add": "$~リストの最後にある*+*を押して、人を追加してください。その人の*メールアドレス*か*ユーザー名*を入力して、できることを選ぶと、リストに加わります。"
             },
             "announce": {
-                "transferred": "$~$name$project",
+                "transferred": "$~$name が $project の所有者になりました",
                 "privilege": "$~$name は今から $privilege できます",
                 "removed": "$~$name はもうこのプロジェクトにアクセスできません",
                 "thread": "$~$#count[$nameのメッセージへのスレッド、$count件の返信]",
                 "reacted": "$~$#count[このメッセージへの$emoji、$count人]",
                 "unreacted": "$~$#count[$emojiを取り消しました、$count人が取り消しました]",
-                "attached": "$~$location。",
-                "found": "$~$name$opening"
+                "attached": "$~$location について話しています。",
+                "found": "$~$name が $opening と言いました"
             },
             "translate": {
                 "label": "$~翻訳先の言語",
@@ -8744,7 +8744,7 @@
                 "label": "$~リアクションを選ぶ",
                 "full": "$~このメッセージにはこれ以上リアクションを付けられません。",
                 "close": "$~リアクションを閉じる",
-                "pick": "$~$emoji",
+                "pick": "$~$emoji でリアクションする",
                 "give": "$~$#count[自分の$emojiを追加する — $count人が付けています]",
                 "take": "$~$#count[自分の$emojiを取り消す — $count人が付けています]"
             },
@@ -9339,16 +9339,16 @@
                         }
                     },
                     "announce": {
-                        "destination": "$~$project$folder",
-                        "moved": "$~$project$folder",
-                        "movedOut": "$~$project",
+                        "destination": "$~$project を $folder に移動する",
+                        "moved": "$~$project は $folder に移動しました",
+                        "movedOut": "$~$project はフォルダーの外に移動しました",
                         "expanded": "$~$folderを開きました。$#count[プロジェクトが$count件]",
                         "collapsed": "$~$folderを閉じました。$#count[プロジェクトが$count件]",
                         "selected": "$~$folderを選びました。$#count[プロジェクトが$count件]",
-                        "created": "$~$folder",
+                        "created": "$~$folder を作成しました",
                         "deleted": "$~$folderを削除しました。$#count[プロジェクトを$count件アーカイブしました]",
                         "renamed": "$~フォルダーの名前を$folder",
-                        "projectSelected": "$~$project",
+                        "projectSelected": "$~$project を選びました",
                         "cleared": "$~何も選んでいません"
                     },
                     "instructions": {
@@ -10985,8 +10985,8 @@
                 "tip": "$~このギャラリーの決定は他のモデレーターに任せる"
             },
             "notification": {
-                "approved": "$~$name。",
-                "denied": "$~$name。"
+                "approved": "$~$name は公開ギャラリーに載りました。",
+                "denied": "$~$name は公開ギャラリーに載りませんでした。"
             }
         },
         "responsibility": {

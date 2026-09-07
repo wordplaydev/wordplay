@@ -33,6 +33,8 @@ import checkStringArrays from '@util/verify-locales/checkStringArrays';
 import checkTerms from '@util/verify-locales/checkTerms';
 import checkExampleDocs from '@util/verify-locales/checkExampleDocs';
 import checkUntranslated from '@util/verify-locales/checkUntranslated';
+import checkReducedTemplates from '@util/verify-locales/checkReducedTemplates';
+import checkOppositeStrings from '@util/verify-locales/checkOppositeStrings';
 import classifyLocalePath, {
     classifyPair,
     isEmotionPath,
@@ -196,6 +198,20 @@ export async function verifyLocale(
     // this marks is honored by the same run.
     if (locale !== 'en-US')
         revisedText = checkUntranslated(log, DefaultLocale, revisedText, fix);
+
+    // Translations that dropped the words around their input, and pairs of opposites that ended
+    // up saying the same thing. After checkAnnotations, which is what guarantees a single
+    // leading write-status for both to read, and before the translation pass below, so the `$!`
+    // these mark is honored by the same run.
+    if (locale !== 'en-US') {
+        revisedText = checkReducedTemplates(
+            log,
+            DefaultLocale,
+            revisedText,
+            fix,
+        );
+        revisedText = checkOppositeStrings(log, revisedText, fix);
+    }
 
     // The same question of an example's own documentation, which is localized
     // by translateProjectContent rather than by the markup splitter and so is
