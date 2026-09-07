@@ -610,11 +610,16 @@ test('resolving a color needs no basis', () => {
  * dies with the next redesign. Every byte budget moves by a hundredth, which is
  * the module itself — it is mostly comment, and pulls in nothing that was not
  * already here.
+ *
+ * Making the server own a gallery's derived viewer lists (#1352) is **+0 files**
+ * and moves one budget by two ten-thousandths: `Gallery.withExpandedGallery`
+ * gets shorter and its comment gets longer, which is the trade this rule exists
+ * to make visible rather than to prevent.
  */
 test.each([
     ['src/routes/+layout.svelte', 508, 3.78],
     ['src/components/app/Page.svelte', 531, 4.03],
-    ['src/routes/[[locale]]/+page.svelte', 546, 4.11],
+    ['src/routes/[[locale]]/+page.svelte', 546, 4.12],
     ['src/routes/[[locale]]/galleries/+page.svelte', 550, 4.13],
     ['src/routes/[[locale]]/projects/+page.svelte', 557, 4.15],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {

@@ -5,7 +5,7 @@ import {
     type RulesTestEnvironment,
 } from '@firebase/rules-unit-testing';
 import { readFileSync } from 'fs';
-import { afterAll, beforeAll, describe, it } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest';
 
 /**
  * Security-rules tests for #193: reporting public content, the moderation
@@ -473,6 +473,127 @@ describe("galleries: the moderation decision is not the curator's to write", () 
     it('but a stranger still cannot', async () => {
         await assertFails(
             as(Users.Stranger).doc(`galleries/${Galleries.Pending}`).get(),
+        );
+    });
+});
+
+/**
+ * The same fields, on the way in. `galleryServerFieldsUnchanged()` was reached
+ * only from `allow update`, so every guard above could be walked around by
+ * putting the value in the document at creation instead — and `/galleries`
+ * lists by a plain `public == true && moderation == 'approved'` query, so an
+ * already-approved gallery went straight into the public listing with no
+ * moderator ever seeing it (#1352).
+ */
+describe('galleries: a decision cannot be smuggled in at creation', () => {
+    /** What the client actually sends: private, unrequested, nothing derived. */
+    function fresh(overrides: Record<string, unknown> = {}) {
+        return {
+            v: 4,
+            id: 'rulestest-mod-created',
+            path: null,
+            name: { 'en-US': 'New' },
+            description: { 'en-US': '' },
+            words: [],
+            projects: [],
+            characters: [],
+            curators: [Users.Owner],
+            creators: [],
+            public: false,
+            featured: false,
+            moderation: 'unrequested',
+            moderatedAt: null,
+            flags: {
+                dehumanization: null,
+                violence: null,
+                disclosure: null,
+                misinformation: null,
+            },
+            howTos: [],
+            howToExpandedVisibility: false,
+            howToExpandedGalleries: [],
+            howToViewers: {},
+            howToViewersFlat: [],
+            howToGuidingQuestions: [],
+            howToReactions: {},
+            ...overrides,
+        };
+    }
+
+    const created = 'galleries/rulestest-mod-created';
+
+    beforeEach(async () => {
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context.firestore().doc(created).delete();
+        });
+    });
+
+    it('a creator can make an ordinary gallery', async () => {
+        await assertSucceeds(as(Users.Owner).doc(created).set(fresh()));
+    });
+
+    it('but not one that arrives already approved', async () => {
+        await assertFails(
+            as(Users.Owner)
+                .doc(created)
+                .set(fresh({ moderation: 'approved', public: true })),
+        );
+    });
+
+    it('nor one that arrives with findings already cleared', async () => {
+        await assertFails(
+            as(Users.Owner)
+                .doc(created)
+                .set(
+                    fresh({
+                        flags: {
+                            dehumanization: false,
+                            violence: false,
+                            disclosure: false,
+                            misinformation: false,
+                        },
+                    }),
+                ),
+        );
+    });
+
+    it('nor one that arrives with a stuffed search index', async () => {
+        await assertFails(
+            as(Users.Owner)
+                .doc(created)
+                .set(fresh({ words: ['free', 'money'] })),
+        );
+    });
+
+    it('nor one that arrives already granting how-to access', async () => {
+        // The #1352 case: `howToViewersFlat` is what the gallery read rule's
+        // expanded-access branch matches on, so a populated one at creation
+        // hands the gallery to anyone named in it.
+        await assertFails(
+            as(Users.Owner)
+                .doc(created)
+                .set(
+                    fresh({
+                        howToExpandedVisibility: true,
+                        howToViewers: { elsewhere: [Users.Stranger] },
+                        howToViewersFlat: [Users.Stranger],
+                    }),
+                ),
+        );
+    });
+
+    it('asking is still theirs to do: expanded visibility alone is fine', async () => {
+        // The switch and the list of galleries are the curator's request. Only
+        // the derived viewer lists are the server's answer.
+        await assertSucceeds(
+            as(Users.Owner)
+                .doc(created)
+                .set(
+                    fresh({
+                        howToExpandedVisibility: true,
+                        howToExpandedGalleries: ['elsewhere'],
+                    }),
+                ),
         );
     });
 });

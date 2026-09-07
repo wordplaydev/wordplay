@@ -324,18 +324,40 @@ service cloud.firestore {
           || !('public' in request.resource.data)
           || request.resource.data.public != true;
       }
-      // A gallery's moderation state (#1311) is written by the moderateGallery
-      // function and the galleryEdited trigger, both of which use the Admin SDK
-      // and so bypass these rules. No client may write it: a curator who could
-      // approve their own gallery is the whole thing this curation prevents.
-      // `public` stays theirs to set — it's the request, not the decision.
+      // A gallery's moderation state (#1311) and its expanded how-to viewer
+      // lists (#1352) are written by the moderateGallery callable and the
+      // galleryEdited trigger, both of which use the Admin SDK and so bypass
+      // these rules. No client may write any of them: a curator who could
+      // approve their own gallery is the whole thing this curation prevents,
+      // and one who could write `howToViewersFlat` could hand the gallery — and
+      // its published how-tos — to anyone they named.
+      //
+      // `public`, `howToExpandedVisibility` and `howToExpandedGalleries` stay
+      // theirs to set. Those are the request; these are the decision.
       function galleryServerFieldsUnchanged() {
         return (!("moderation" in request.resource.data) || request.resource.data.moderation == resource.data.moderation)
           && (!("moderatedAt" in request.resource.data) || request.resource.data.moderatedAt == resource.data.moderatedAt)
           && (!("flags" in request.resource.data) || request.resource.data.flags == resource.data.flags)
-          && (!("words" in request.resource.data) || request.resource.data.words == resource.data.words);
+          && (!("words" in request.resource.data) || request.resource.data.words == resource.data.words)
+          && (!("howToViewers" in request.resource.data) || request.resource.data.howToViewers == resource.data.howToViewers)
+          && (!("howToViewersFlat" in request.resource.data) || request.resource.data.howToViewersFlat == resource.data.howToViewersFlat);
       }
-      allow create: if request.auth != null && galleryMayBePublic();
+      // The same fields on the way in. The guard above compares against what is
+      // stored, which does not exist on a create — so every rule it states could
+      // be walked around by putting the value in the new document instead, and
+      // the public listing is a plain `public == true && moderation ==
+      // 'approved'` query, so an already-approved gallery went straight into it
+      // with no moderator ever seeing it (#1352). A new gallery must therefore
+      // arrive at the initial values `GalleryDatabase.create` actually sends.
+      function galleryServerFieldsInitial() {
+        return request.resource.data.moderation == 'unrequested'
+          && request.resource.data.moderatedAt == null
+          && request.resource.data.flags.values().hasOnly([null])
+          && request.resource.data.words.size() == 0
+          && request.resource.data.howToViewers.size() == 0
+          && request.resource.data.howToViewersFlat.size() == 0;
+      }
+      allow create: if request.auth != null && galleryMayBePublic() && galleryServerFieldsInitial();
       // Public galleries can be read, as can private ones if the creator is a curator, creator, or a how to viewer.
       // Moderators can read any of them, since a gallery awaiting a decision is
       // by definition not yet public — the same access the mod claim already

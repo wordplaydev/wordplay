@@ -241,6 +241,55 @@ describe('expanded access is a grant on the gallery, and it can be withdrawn', (
     });
 });
 
+/**
+ * Who may *make* the grant, as opposed to who it reaches. The switch and the
+ * list of source galleries are the curator's request; the viewer lists derived
+ * from them are the server's answer, written only by the `galleryEdited`
+ * trigger. They were client-writable, so anyone who could edit the gallery
+ * could hand it — and, since #1351, its published how-tos — to any uid they
+ * named (#1352).
+ */
+describe('expanded access is asked for by the curator and answered by the server', () => {
+    beforeEach(() => reset(Scenarios[4]));
+
+    it('a curator may ask, by naming a gallery and turning the switch on', async () => {
+        await assertSucceeds(
+            as('curator')
+                .doc(`galleries/${Gallery}`)
+                .update({
+                    howToExpandedVisibility: true,
+                    howToExpandedGalleries: ['rulestest-howto-source-gallery'],
+                }),
+        );
+    });
+
+    it('but may not write the viewer list the answer consists of', async () => {
+        await assertFails(
+            as('curator')
+                .doc(`galleries/${Gallery}`)
+                .update({ howToViewersFlat: [Users.stranger] }),
+        );
+    });
+
+    it('nor the map it is flattened from', async () => {
+        await assertFails(
+            as('curator')
+                .doc(`galleries/${Gallery}`)
+                .update({ howToViewers: { elsewhere: [Users.stranger] } }),
+        );
+    });
+
+    it('and neither may a gallery creator, who can edit everything else', async () => {
+        // A creator is barred from `public`, `curators` and `creators`, and from
+        // nothing else — so in a class gallery this was any student.
+        await assertFails(
+            as('galleryCreator')
+                .doc(`galleries/${Gallery}`)
+                .update({ howToViewersFlat: [Users.stranger] }),
+        );
+    });
+});
+
 describe('a how-to cannot be captured by renaming its gallery', () => {
     // The escalation this closes: creating a gallery makes you its curator and
     // the gallery create rule is only `request.auth != null`, so authorizing an

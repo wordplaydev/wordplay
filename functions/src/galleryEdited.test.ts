@@ -1,8 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
     curatorsChanged,
+    deriveHowToViewers,
+    flattenHowToViewers,
     galleryContentChanged,
+    howToViewersChanged,
     nextModeration,
+    sharesCurator,
+    type HowToSource,
 } from './galleryEdited.js';
 
 /**
@@ -203,5 +208,131 @@ describe('galleryContentChanged with characters', () => {
         expect(
             galleryContentChanged(legacy, { ...legacy, characters: [] }),
         ).toBe(false);
+    });
+});
+
+/**
+ * Who may view a gallery's how-tos through expanded access. This used to be
+ * computed on the client and written straight to the document, so anyone who
+ * could edit a gallery could grant its how-tos to anyone they named (#1352).
+ * The derivation is the server's now, and these are its rules.
+ */
+describe('deriveHowToViewers', () => {
+    const Curator = 'curator';
+    const Other = 'other-curator';
+    const sources = new Map<string, HowToSource>([
+        ['shared', { curators: [Curator], creators: ['student-a'] }],
+        ['theirs', { curators: [Other], creators: ['student-b'] }],
+        ['both', { curators: [Curator, Other], creators: ['student-a'] }],
+    ]);
+
+    it('draws viewers from a gallery the same curator curates', () => {
+        expect(deriveHowToViewers(['shared'], sources, [Curator])).toEqual({
+            howToViewers: { shared: [Curator, 'student-a'] },
+            howToViewersFlat: [Curator, 'student-a'],
+        });
+    });
+
+    it('draws nothing from a gallery they have nothing to do with', () => {
+        // The disclosure this closes: `howToViewersFlat` is readable by everyone
+        // who can read the gallery, so copying a stranger's members into it
+        // publishes their membership.
+        expect(deriveHowToViewers(['theirs'], sources, [Curator])).toEqual({
+            howToViewers: {},
+            howToViewersFlat: [],
+        });
+    });
+
+    it('one curator in common is enough', () => {
+        expect(deriveHowToViewers(['both'], sources, [Curator])).toEqual({
+            howToViewers: { both: [Curator, Other, 'student-a'] },
+            howToViewersFlat: [Curator, Other, 'student-a'],
+        });
+    });
+
+    it('skips a gallery that is no longer there', () => {
+        expect(deriveHowToViewers(['gone'], sources, [Curator])).toEqual({
+            howToViewers: {},
+            howToViewersFlat: [],
+        });
+    });
+
+    it('lists someone reachable through two galleries once', () => {
+        const { howToViewersFlat } = deriveHowToViewers(
+            ['shared', 'both'],
+            sources,
+            [Curator],
+        );
+        expect(howToViewersFlat).toEqual([Curator, Other, 'student-a']);
+    });
+
+    it('gives nothing when no gallery is named', () => {
+        expect(deriveHowToViewers([], sources, [Curator])).toEqual({
+            howToViewers: {},
+            howToViewersFlat: [],
+        });
+    });
+
+    it('is deterministic, so the trigger stops rather than looping', () => {
+        // The handler diffs this against what is stored and writes only on a
+        // difference; its own write comes back through the same trigger. An
+        // answer that varied by input order — which the flat list did, before it
+        // was sorted — would be a document that rewrites itself forever.
+        const once = deriveHowToViewers(['shared', 'both'], sources, [Curator]);
+        const again = deriveHowToViewers(['both', 'shared'], sources, [
+            Curator,
+        ]);
+        expect(JSON.stringify(again)).toEqual(JSON.stringify(once));
+    });
+});
+
+describe('howToViewersChanged', () => {
+    const derived = {
+        howToViewers: { a: ['x', 'y'] },
+        howToViewersFlat: ['x', 'y'],
+    };
+
+    it('is false against a gallery that already stores the answer', () => {
+        expect(howToViewersChanged({ ...derived }, derived)).toBe(false);
+    });
+
+    it('ignores the order the map happens to be stored in', () => {
+        const stored = {
+            howToViewers: { b: ['z'], a: ['x', 'y'] },
+            howToViewersFlat: ['x', 'y', 'z'],
+        };
+        expect(
+            howToViewersChanged(stored, {
+                howToViewers: { a: ['x', 'y'], b: ['z'] },
+                howToViewersFlat: ['x', 'y', 'z'],
+            }),
+        ).toBe(false);
+    });
+
+    it('sees a viewer gained or lost', () => {
+        expect(
+            howToViewersChanged(
+                { howToViewers: { a: ['x'] }, howToViewersFlat: ['x'] },
+                derived,
+            ),
+        ).toBe(true);
+    });
+
+    it('treats a gallery stored before these fields existed as changed', () => {
+        expect(howToViewersChanged({}, derived)).toBe(true);
+    });
+});
+
+describe('sharesCurator and flattenHowToViewers', () => {
+    it('shares nothing with an empty list', () => {
+        expect(sharesCurator([], ['a'])).toBe(false);
+        expect(sharesCurator(['a'], [])).toBe(false);
+    });
+
+    it('flattens, dedupes and sorts', () => {
+        expect(flattenHowToViewers({ b: ['z', 'x'], a: ['x'] })).toEqual([
+            'x',
+            'z',
+        ]);
     });
 });

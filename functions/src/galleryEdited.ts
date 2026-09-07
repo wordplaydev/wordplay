@@ -44,6 +44,89 @@ function sameWords(a: string[], b: string[]): boolean {
     return a.length === b.length && a.every((word, index) => word === b[index]);
 }
 
+/** The membership of a gallery a viewer list can be drawn from. */
+export type HowToSource = { curators: string[]; creators: string[] };
+
+/** The pair a gallery stores: who may view its how-tos, and by way of what. */
+export type HowToViewers = {
+    howToViewers: Record<string, string[]>;
+    howToViewersFlat: string[];
+};
+
+/**
+ * Expanded how-to access reaches "a gallery by the same curator", and this is
+ * what makes that true rather than merely documented. Without it a curator
+ * could list any gallery id at all and the trigger would copy that gallery's
+ * member ids into a field readable by everyone who can read theirs — which,
+ * for a public gallery, discloses a private one's membership (#1352).
+ *
+ * Sharing one curator is the strongest test available here: a trigger has no
+ * actor, so "the person who added it curates both" is not a question it can ask.
+ */
+export function sharesCurator(a: string[], b: string[]): boolean {
+    return a.some((uid) => b.includes(uid));
+}
+
+/**
+ * The flat list the security rules and the client's `array-contains` query
+ * match on. Deduplicated because one person can reach a gallery through two
+ * others, and **sorted** because this value is diffed against what is stored to
+ * decide whether to write — and an unstable order there is a trigger that
+ * rewrites its own document forever.
+ */
+export function flattenHowToViewers(
+    viewers: Record<string, string[]>,
+): string[] {
+    return [...new Set(Object.values(viewers).flat())].sort();
+}
+
+/**
+ * Who may view a gallery's how-tos, derived from the galleries it draws on.
+ * A source contributes nothing if it has gone, or if it shares no curator with
+ * the gallery drawing on it. Total and deterministic: the same inputs give a
+ * byte-identical answer, which is what lets the caller diff before writing.
+ */
+export function deriveHowToViewers(
+    expandedGalleryIds: string[],
+    sources: Map<string, HowToSource>,
+    targetCurators: string[],
+): HowToViewers {
+    const howToViewers: Record<string, string[]> = {};
+    for (const id of [...expandedGalleryIds].sort()) {
+        const source = sources.get(id);
+        if (source === undefined) continue;
+        if (!sharesCurator(source.curators, targetCurators)) continue;
+        howToViewers[id] = [
+            ...new Set([...source.curators, ...source.creators]),
+        ].sort();
+    }
+    return {
+        howToViewers,
+        howToViewersFlat: flattenHowToViewers(howToViewers),
+    };
+}
+
+/** Whether a derived pair differs from what the gallery already stores. */
+export function howToViewersChanged(
+    stored: Record<string, unknown>,
+    derived: HowToViewers,
+): boolean {
+    const canonical = (viewers: Record<string, string[]>) =>
+        JSON.stringify(
+            Object.keys(viewers)
+                .sort()
+                .map((key) => [key, viewers[key]]),
+        );
+    return (
+        canonical((stored.howToViewers as Record<string, string[]>) ?? {}) !==
+            canonical(derived.howToViewers) ||
+        !sameWords(
+            (stored.howToViewersFlat as string[]) ?? [],
+            derived.howToViewersFlat,
+        )
+    );
+}
+
 /**
  * Whether a curator changed anything a decision was about. Deliberately blind
  * to the fields this function itself writes: its own write comes back through
@@ -155,18 +238,17 @@ export default async function galleryEdited(
                 otherGallery.howToExpandedGalleries.filter(
                     (id: string) => id !== before.id,
                 );
-            const howToViewers: Record<string, string[]> =
-                otherGallery.howToViewers;
+            const howToViewers: Record<string, string[]> = {
+                ...otherGallery.howToViewers,
+            };
             delete howToViewers[before.id];
-            const howToViewersFlat: string[] =
-                Object.values(howToViewers).flat();
 
             updates.push({
                 ref: galleryStore.doc(expandedGallery.id),
                 data: {
                     howToExpandedGalleries: howToExpandedGalleries,
                     howToViewers: howToViewers,
-                    howToViewersFlat: howToViewersFlat,
+                    howToViewersFlat: flattenHowToViewers(howToViewers),
                 },
             });
         });
@@ -189,18 +271,29 @@ export default async function galleryEdited(
 
         galleriesToUpdate.forEach((expandedGallery) => {
             const otherGallery = expandedGallery.data();
+            // Patching one entry rather than re-deriving the whole map, which
+            // would mean reading every gallery this one draws on. The full
+            // recompute happens on that gallery's own next write; this is here
+            // so revoking access is prompt rather than eventual.
+            //
+            // The same-curator check has to be made here too: without it this
+            // is a back door into exactly what deriveHowToViewers refuses.
             const howToViewers: Record<string, string[]> = {
                 ...otherGallery.howToViewers,
-                [after.id]: [...after.curators, ...after.creators],
             };
-            const howToViewersFlat: string[] =
-                Object.values(howToViewers).flat();
+            if (
+                sharesCurator(after.curators ?? [], otherGallery.curators ?? [])
+            )
+                howToViewers[after.id] = [
+                    ...new Set([...after.curators, ...after.creators]),
+                ].sort();
+            else delete howToViewers[after.id];
 
             updates.push({
                 ref: galleryStore.doc(expandedGallery.id),
                 data: {
                     howToViewers: howToViewers,
-                    howToViewersFlat: howToViewersFlat,
+                    howToViewersFlat: flattenHowToViewers(howToViewers),
                 },
             });
         });
@@ -211,6 +304,54 @@ export default async function galleryEdited(
     // by the security rules, and both are written here in one update.
     if (after) {
         const self: Record<string, unknown> = {};
+
+        // Who may view this gallery's how-tos, derived from the galleries it
+        // draws on. The client used to compute this and write it itself, which
+        // meant anyone who could edit a gallery could grant its how-tos to
+        // anyone they named (#1352) — so it is derived here and refused there.
+        //
+        // Recomputed on every write rather than only when the list changes: it
+        // costs nothing for the galleries that draw on none, and it means one
+        // still carrying a value a client wrote heals on its next write instead
+        // of needing a migration. Merged into `self` rather than pushed as its
+        // own update, and written only when it differs from what is stored —
+        // this document's write comes back through this same trigger, and an
+        // unconditional write here would never stop.
+        const expandedGalleryIds: string[] = after.howToExpandedGalleries ?? [];
+        if (expandedGalleryIds.length > 0) {
+            const sourceDocs = await db.getAll(
+                ...expandedGalleryIds.map((id) => galleryStore.doc(id)),
+            );
+            const sources = new Map<string, HowToSource>();
+            for (const source of sourceDocs) {
+                const data = source.data();
+                if (data === undefined) continue;
+                sources.set(source.id, {
+                    curators: data.curators ?? [],
+                    creators: data.creators ?? [],
+                });
+            }
+            const derived = deriveHowToViewers(
+                expandedGalleryIds,
+                sources,
+                after.curators ?? [],
+            );
+            if (howToViewersChanged(after, derived)) {
+                self.howToViewers = derived.howToViewers;
+                self.howToViewersFlat = derived.howToViewersFlat;
+            }
+        } else if (
+            howToViewersChanged(after, {
+                howToViewers: {},
+                howToViewersFlat: [],
+            })
+        ) {
+            // Drawing on nothing means granting nothing — including to a
+            // gallery whose list was emptied, or one whose values a client wrote
+            // before this was the server's to decide.
+            self.howToViewers = {};
+            self.howToViewersFlat = [];
+        }
 
         const contentChanged = galleryContentChanged(before, after);
         const moderation: string = after.moderation ?? 'unrequested';
