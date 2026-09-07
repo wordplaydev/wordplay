@@ -500,7 +500,6 @@ describe('galleries: a decision cannot be smuggled in at creation', () => {
             curators: [Users.Owner],
             creators: [],
             public: false,
-            featured: false,
             moderation: 'unrequested',
             moderatedAt: null,
             flags: {

@@ -40,7 +40,6 @@ const SerializedGalleryV1 = z.object({
     /** If true, gallery can be viewed by anyone and appears in search results. */
     public: z.boolean(),
     /** If true, gallery is prioritized in search results */
-    featured: z.boolean(),
 });
 
 /** v2 adds configurations for the how-to space */
@@ -193,7 +192,6 @@ export default class Gallery {
             projects?: string[];
             characters?: string[];
             public?: boolean;
-            featured?: boolean;
             howTos?: string[];
             howToExpandedVisibility?: boolean;
             howToExpandedGalleries?: string[];
@@ -218,7 +216,6 @@ export default class Gallery {
             curators,
             creators,
             public: opts.public ?? false,
-            featured: opts.featured ?? false,
             howTos: opts.howTos ?? [],
             howToExpandedVisibility: opts.howToExpandedVisibility ?? false,
             howToExpandedGalleries: opts.howToExpandedGalleries ?? [],

@@ -87,7 +87,6 @@ async function reset(scenario: Scenario) {
             projects: [],
             characters: [],
             public: scenario.gallery.public,
-            featured: false,
             moderation: {},
             howTos: [HowTo],
             howToExpandedVisibility: scenario.gallery.expandedVisibility,

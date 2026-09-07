@@ -29,7 +29,6 @@ function makeV1() {
         curators: ['u-curator'],
         creators: ['u-creator'],
         public: true,
-        featured: false,
     };
 }
 
@@ -56,7 +55,6 @@ describe('upgradeGallery (upgrade-on-load)', () => {
         expect(upgraded.curators).toEqual(['u-curator']);
         expect(upgraded.creators).toEqual(['u-creator']);
         expect(upgraded.public).toBe(true);
-        expect(upgraded.featured).toBe(false);
     });
 
     it('upgraded doc parses against the latest schema', () => {

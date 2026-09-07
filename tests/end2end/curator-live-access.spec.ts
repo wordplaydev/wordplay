@@ -55,7 +55,6 @@ async function seedCuratedStudentProject(
             curators: [curatorUid],
             creators: [ownerUid],
             public: false,
-            featured: false,
             howTos: [],
             howToExpandedVisibility: false,
             howToExpandedGalleries: [],
