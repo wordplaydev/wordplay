@@ -4,6 +4,7 @@
     import Notice from '@components/app/Notice.svelte';
     import Page from '@components/app/Page.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -400,6 +401,16 @@
         indexContext.index = placeholderIndex;
     });
 </script>
+
+<!-- Outside the branches below, so the page is titled while it is still
+     loading and when the gallery turns out to be unreachable. axe's
+     document-title rule fails a page that has none, and this route had none in
+     any state (#1354) — it is also the one route a signed-out visitor can reach
+     that no scan covered. Named for the section plus this gallery, the way the
+     gallery page titles itself. -->
+<svelte:head>
+    <Title text={(l) => l.ui.howto.galleryView.header} subtitle={galleryName} />
+</svelte:head>
 
 {#if gallery === null || (gallery === undefined && urlID !== null && urlLoaded === null)}
     <Loading />
