@@ -22,6 +22,10 @@
          *  conflicts — and they are dead weight in a chat message, which can
          *  contain an example but almost never does. */
         examples?: boolean;
+        /** Use the rich markup editor instead of the plain textarea. Opt-in while
+         *  the two coexist, so every existing call site keeps today's behavior
+         *  until it is migrated deliberately. */
+        rich?: boolean;
     }
 
     let {
@@ -31,7 +35,58 @@
         view = $bindable(undefined),
         text = $bindable(''),
         examples = true,
+        rich = false,
     }: Props = $props();
+
+    /**
+     * The rich editor is loaded on demand, never statically. FormattedEditor is
+     * reached from MarkupHTMLView, which every page renders, so a static import
+     * would put the caret model, the parser, and the evaluator on the import
+     * graph of every route — exactly what importGraph.test.ts budgets against.
+     */
+    let MarkupEditor = $state<
+        | typeof import('@components/editor/markup/MarkupEditor.svelte').default
+        | undefined
+    >(undefined);
+    $effect(() => {
+        if (rich && MarkupEditor === undefined)
+            import('@components/editor/markup/MarkupEditor.svelte').then(
+                (module) => (MarkupEditor = module.default),
+            );
+    });
+
+    /** The rich editor instance, for the affordances it owns rather than exposes. */
+    let markupEditor = $state<
+        | {
+              insert: (insertion: string) => void;
+              focus: (message: string) => void;
+          }
+        | undefined
+    >(undefined);
+
+    /**
+     * Insert text at the editor's caret. The rich editor owns its caret model, so
+     * it does the insertion itself; the plain textarea is spliced at its own
+     * selection, which is what callers used to do directly.
+     */
+    export function insert(insertion: string) {
+        if (markupEditor !== undefined) {
+            markupEditor.insert(insertion);
+            return;
+        }
+        if (view === undefined) {
+            text = text + insertion;
+            return;
+        }
+        const start = view.selectionStart ?? text.length;
+        const end = view.selectionEnd ?? text.length;
+        text = text.slice(0, start) + insertion + text.slice(end);
+        const at = start + insertion.length;
+        setTimeout(() => {
+            view?.focus();
+            view?.setSelectionRange(at, at);
+        }, 0);
+    }
 
     let preview = $state(false);
     let cursorPosition = $state(0);
@@ -292,150 +347,169 @@
 </script>
 
 <div class="formatted-editor">
-    <div class="toolbar">
-        <Switch
-            on={preview}
-            offLabel="✏️"
-            onLabel="👁️"
-            offTip={(l) => l.ui.widget.formatted.edit}
-            onTip={(l) => l.ui.widget.formatted.preview}
-            toggle={(on: boolean) => (preview = on)}
-            shortcut={toShortcut({
-                control: true,
-                alt: undefined,
-                shift: undefined,
-                key: 'Enter',
-            })}
-        />
-        <Button
-            tip={(l) => l.token.Italic}
-            shortcut={toShortcut({
-                control: true,
-                alt: undefined,
-                shift: undefined,
-                key: 'i',
-            })}
-            action={() => format('/')}
-            ><em style="font-family: 'Noto Sans'">I</em></Button
-        >
-        <Button
-            tip={(l) => l.token.Bold}
-            shortcut={toShortcut({
-                control: true,
-                alt: undefined,
-                shift: undefined,
-                key: 'b',
-            })}
-            action={() => format('*')}
-            ><strong style="font-family: 'Noto Sans'">B</strong></Button
-        >
-        <Button
-            tip={(l) => l.token.Extra}
-            shortcut={toShortcut({
-                control: true,
-                alt: undefined,
-                shift: undefined,
-                key: 'e',
-            })}
-            action={() => format('^')}
-            ><strong style="font-family: 'Noto Sans'; font-weight: 900"
-                >B</strong
-            ></Button
-        >
-        <Button
-            tip={(l) => l.token.Underline}
-            shortcut={toShortcut({
-                control: true,
-                alt: undefined,
-                shift: undefined,
-                key: 'u',
-            })}
-            action={() => format('_')}
-            ><u style="font-family: 'Noto Sans'">U</u></Button
-        >
-        <Button
-            tip={(l) => l.token.Code}
-            shortcut={toShortcut({
-                control: true,
-                alt: undefined,
-                shift: undefined,
-                key: '\\',
-            })}
-            action={() => format('\\')}><code>\\</code></Button
-        >
-        {#if examples}
-            <Button
-                tip={(l) => l.ui.widget.formatted.highlight}
+    {#if !rich}
+        <div class="toolbar">
+            <Switch
+                on={preview}
+                offLabel="✏️"
+                onLabel="👁️"
+                offTip={(l) => l.ui.widget.formatted.edit}
+                onTip={(l) => l.ui.widget.formatted.preview}
+                toggle={(on: boolean) => (preview = on)}
                 shortcut={toShortcut({
                     control: true,
                     alt: undefined,
-                    shift: true,
-                    key: '8',
+                    shift: undefined,
+                    key: 'Enter',
                 })}
-                action={formatHighlight}
-                active={!preview && cursorInExample}><Emoji text="⭐" /></Button
+            />
+            <Button
+                tip={(l) => l.token.Italic}
+                shortcut={toShortcut({
+                    control: true,
+                    alt: undefined,
+                    shift: undefined,
+                    key: 'i',
+                })}
+                action={() => format('/')}
+                ><em style="font-family: 'Noto Sans'">I</em></Button
             >
             <Button
-                tip={(l) => l.ui.widget.formatted.defect}
+                tip={(l) => l.token.Bold}
                 shortcut={toShortcut({
                     control: true,
                     alt: undefined,
-                    shift: true,
+                    shift: undefined,
+                    key: 'b',
+                })}
+                action={() => format('*')}
+                ><strong style="font-family: 'Noto Sans'">B</strong></Button
+            >
+            <Button
+                tip={(l) => l.token.Extra}
+                shortcut={toShortcut({
+                    control: true,
+                    alt: undefined,
+                    shift: undefined,
+                    key: 'e',
+                })}
+                action={() => format('^')}
+                ><strong style="font-family: 'Noto Sans'; font-weight: 900"
+                    >B</strong
+                ></Button
+            >
+            <Button
+                tip={(l) => l.token.Underline}
+                shortcut={toShortcut({
+                    control: true,
+                    alt: undefined,
+                    shift: undefined,
+                    key: 'u',
+                })}
+                action={() => format('_')}
+                ><u style="font-family: 'Noto Sans'">U</u></Button
+            >
+            <Button
+                tip={(l) => l.token.Code}
+                shortcut={toShortcut({
+                    control: true,
+                    alt: undefined,
+                    shift: undefined,
+                    key: '\\',
+                })}
+                action={() => format('\\')}><code>\\</code></Button
+            >
+            {#if examples}
+                <Button
+                    tip={(l) => l.ui.widget.formatted.highlight}
+                    shortcut={toShortcut({
+                        control: true,
+                        alt: undefined,
+                        shift: true,
+                        key: '8',
+                    })}
+                    action={formatHighlight}
+                    active={!preview && cursorInExample}
+                    ><Emoji text="⭐" /></Button
+                >
+                <Button
+                    tip={(l) => l.ui.widget.formatted.defect}
+                    shortcut={toShortcut({
+                        control: true,
+                        alt: undefined,
+                        shift: true,
+                        key: '7',
+                    })}
+                    action={formatDefect}
+                    active={!preview && cursorInExample}
+                    ><Emoji text="🪲" /></Button
+                >
+            {/if}
+            <Button
+                tip={(l) => l.ui.source.cursor.insertDocs}
+                shortcut={toShortcut({
+                    control: undefined,
+                    alt: true,
+                    shift: undefined,
                     key: '7',
                 })}
-                action={formatDefect}
-                active={!preview && cursorInExample}><Emoji text="🪲" /></Button
+                action={() => format('¶')}
+                active={!preview &&
+                    exampleRange !== null &&
+                    cursorPosition <= exampleRange.close}>¶</Button
             >
-        {/if}
-        <Button
-            tip={(l) => l.ui.source.cursor.insertDocs}
-            shortcut={toShortcut({
-                control: undefined,
-                alt: true,
-                shift: undefined,
-                key: '7',
-            })}
-            action={() => format('¶')}
-            active={!preview &&
-                exampleRange !== null &&
-                cursorPosition <= exampleRange.close}>¶</Button
-        >
-        {#if examples}
+            {#if examples}
+                <Button
+                    tip={(l) => l.ui.widget.formatted.attention}
+                    shortcut={toShortcut({
+                        control: true,
+                        alt: undefined,
+                        shift: true,
+                        key: '.',
+                    })}
+                    action={formatAttention}
+                    active={!preview && cursorInDocInExample}
+                    ><Emoji text="👀" /></Button
+                >
+            {/if}
             <Button
-                tip={(l) => l.ui.widget.formatted.attention}
+                tip={(l) => l.token.Link}
                 shortcut={toShortcut({
                     control: true,
                     alt: undefined,
-                    shift: true,
-                    key: '.',
+                    shift: undefined,
+                    key: 'k',
                 })}
-                action={formatAttention}
-                active={!preview && cursorInDocInExample}
-                ><Emoji text="👀" /></Button
+                action={() => format('@')}><Emoji text="🔗" /></Button
             >
-        {/if}
-        <Button
-            tip={(l) => l.token.Link}
-            shortcut={toShortcut({
-                control: true,
-                alt: undefined,
-                shift: undefined,
-                key: 'k',
-            })}
-            action={() => format('@')}><Emoji text="🔗" /></Button
-        >
-        <Button
-            tip={(l) => l.ui.widget.formatted.bullet}
-            shortcut={toShortcut({
-                control: true,
-                alt: undefined,
-                shift: undefined,
-                key: '8',
-            })}
-            action={formatBullet}>{BULLET_SYMBOL}</Button
-        >
-    </div>
-    {#if preview}
+            <Button
+                tip={(l) => l.ui.widget.formatted.bullet}
+                shortcut={toShortcut({
+                    control: true,
+                    alt: undefined,
+                    shift: undefined,
+                    key: '8',
+                })}
+                action={formatBullet}>{BULLET_SYMBOL}</Button
+            >
+        </div>
+    {/if}
+    {#if rich && MarkupEditor}
+        <!-- Prose and source are two renderings of one model, so the switch is a
+             view toggle rather than a swap between an editor and a preview.
+             The rich editor brings its own toolbar, whose buttons dispatch the
+             same Commands its keyboard does. -->
+        <MarkupEditor
+            {id}
+            {description}
+            {placeholder}
+            bind:this={markupEditor}
+            bind:text
+            bind:view
+            prose={!preview}
+            onToggleMode={() => (preview = !preview)}
+        />
+    {:else if preview}
         <div class="preview">
             <MarkupHTMLView markup={text} />
         </div>

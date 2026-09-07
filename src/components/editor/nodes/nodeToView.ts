@@ -9,7 +9,10 @@ import BooleanLiteralView from '@components/editor/nodes/BooleanLiteralView.svel
 import BooleanTypeView from '@components/editor/nodes/BooleanTypeView.svelte';
 import BorrowView from '@components/editor/nodes/BorrowView.svelte';
 import ChangedView from '@components/editor/nodes/ChangedView.svelte';
+import BranchView from '@components/editor/nodes/BranchView.svelte';
 import ConceptLinkView from '@components/editor/nodes/ConceptLinkView.svelte';
+import ExternalExampleView from '@components/editor/nodes/ExternalExampleView.svelte';
+import MentionView from '@components/editor/nodes/MentionView.svelte';
 import ConditionalView from '@components/editor/nodes/ConditionalView.svelte';
 import ConversionDefinitionView from '@components/editor/nodes/ConversionDefinitionView.svelte';
 import ConversionTypeView from '@components/editor/nodes/ConversionTypeView.svelte';
@@ -127,7 +130,9 @@ import Doc from '@nodes/Doc';
 import Docs from '@nodes/Docs';
 import DocumentedExpression from '@nodes/DocumentedExpression';
 import Evaluate from '@nodes/Evaluate';
+import Branch from '@nodes/Branch';
 import Example from '@nodes/Example';
+import ExternalExample from '@nodes/ExternalExample';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import FormattedTranslation from '@nodes/FormattedTranslation';
@@ -168,6 +173,7 @@ import ListType from '@nodes/ListType';
 import MapLiteral from '@nodes/MapLiteral';
 import MapType from '@nodes/MapType';
 import Markup from '@nodes/Markup';
+import Mention from '@nodes/Mention';
 import Match from '@nodes/Match';
 import Name from '@nodes/Name';
 import NameType from '@nodes/NameType';
@@ -281,6 +287,24 @@ map(WebLink, WebLinkView, {
     size: 'normal',
 });
 map(ConceptLink, ConceptLinkView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+// A `$name` mention and its `[…|…]` branch are markup a translator edits, so they
+// need views like any other segment; without them both fell through to
+// UnknownNodeView, which renders the descriptor on an error background.
+map(ExternalExample, ExternalExampleView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Mention, MentionView, {
+    kind: 'plain',
+    direction: 'inline',
+    size: 'normal',
+});
+map(Branch, BranchView, {
     kind: 'plain',
     direction: 'inline',
     size: 'normal',

@@ -94,6 +94,36 @@ test.each([
     );
 });
 
+// The inverse direction: reading a caret back OUT of a DOM text field, which
+// reports its selection in code units. Every boundary must round-trip, or a
+// bulk edit adopted from the field would land the caret inside a character.
+test.each([
+    ['plain ascii', 'hello world'],
+    ['mixed ascii and emoji', 'say \u{1F44D} now'],
+    ['skin tone', '\u{1F44D}\u{1F3FD}'],
+    ['keycap', '1\uFE0F\u20E3'],
+    ['combining mark', 'e\u0301'],
+    ['devanagari cluster', '\u0915\u094D\u0937\u093F'],
+])('getGraphemePosition inverts getCodeUnitPosition: %s', (_name, text) => {
+    const string = new UnicodeString(text);
+    for (let index = 0; index <= string.getLength(); index++)
+        expect(
+            string.getGraphemePosition(string.getCodeUnitPosition(index)),
+        ).toBe(index);
+});
+
+test('getGraphemePosition never lands inside a character', () => {
+    // Mid-character offsets round to the boundary at or after them, so a field
+    // that reports a position inside a surrogate pair still gives a whole caret.
+    const string = new UnicodeString('\u{1F600}a');
+    expect(string.getGraphemePosition(0)).toBe(0);
+    expect(string.getGraphemePosition(1)).toBe(1);
+    expect(string.getGraphemePosition(2)).toBe(1);
+    expect(string.getGraphemePosition(3)).toBe(2);
+    // Past the end clamps to the end rather than running off it.
+    expect(string.getGraphemePosition(99)).toBe(2);
+});
+
 // A caller needs a number for setSelectionRange, so an out-of-range position
 // clamps rather than returning undefined.
 test('getCodeUnitPosition clamps out of range positions', () => {

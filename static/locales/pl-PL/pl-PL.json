@@ -10877,6 +10877,51 @@
                 "button": "$~Zaloguj się",
                 "disclaimer": "$~Jeśli nie prosiłeś o zalogowanie, możesz zignorować tę wiadomość — nikt nie dostanie się na twoje konto bez tego linku."
             }
+        },
+        "markup": {
+            "description": "$~napisz sformatowany tekst",
+            "placeholder": "$~napisz coś",
+            "mode": {
+                "prose": "$~pokaż, jak to będzie wyglądać",
+                "source": "$~pokaż znaki formatowania"
+            },
+            "command": {
+                "italic": "$~kursywa",
+                "bold": "$~pogrubienie",
+                "extra": "$~bardzo grube",
+                "underline": "$~podkreślenie",
+                "light": "$~cienkie",
+                "example": "$~przykład kodu",
+                "link": "$~link internetowy",
+                "concept": "$~link do pojęcia",
+                "bullet": "$~punktor",
+                "highlight": "$~podświetl ten przykład",
+                "defect": "$~ten przykład powinien zawierać błędy",
+                "mode": "$~przełącz między tekstem a znakami formatowania",
+                "docs": "$~wyjaśnienie w przykładzie",
+                "attention": "$~zwróć uwagę na tę linię",
+                "undo": "$~cofnij",
+                "redo": "$~ponów"
+            },
+            "feedback": {
+                "formatOn": "$~$format włączony",
+                "formatOff": "$~$format wyłączony",
+                "example": "$~utworzono przykład kodu",
+                "link": "$~utworzono link internetowy",
+                "concept": "$~połączono z $name",
+                "bulletOn": "$~utworzono punktor",
+                "bulletOff": "$~usunięto punktor",
+                "highlightOn": "$~ten przykład będzie podświetlony",
+                "highlightOff": "$~ten przykład nie będzie podświetlony",
+                "defectOn": "$~ten przykład powinien zawierać błędy",
+                "defectOff": "$~ten przykład nie powinien mieć błędów",
+                "notInExample": "$~najpierw umieść kursor w przykładzie kodu",
+                "mode": "$~$mode",
+                "docs": "$~dodano wyjaśnienie",
+                "attention": "$~zwrócenie uwagi na tę linię",
+                "undid": "$~cofnięto to",
+                "redid": "$~ponowiono to"
+            }
         }
     },
     "moderation": {

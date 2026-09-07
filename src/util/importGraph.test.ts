@@ -615,13 +615,27 @@ test('resolving a color needs no basis', () => {
  * and moves one budget by two ten-thousandths: `Gallery.withExpandedGallery`
  * gets shorter and its comment gets longer, which is the trade this rule exists
  * to make visible rather than to prevent.
+ *
+ * The markup editor (#1307) is **+0 files** and a few kilobytes spread across
+ * every budget: the thirty-five names and spoken confirmations its commands need
+ * in `en-US.json`, the `rich` flag and caret-insertion affordance on
+ * `FormattedEditor`, and the soft-wrap and prose plumbing in `Contexts.ts` and
+ * `RootView.svelte` — all in files every page already carries, because every page
+ * resolves a locale and renders markup. The editor itself is deliberately NOT on
+ * any of these graphs: `FormattedEditor` imports it dynamically, and the toolbar
+ * is rendered from inside the editor rather than beside it, precisely because
+ * `MarkupHTMLView` reaches every page and a static import would drag the caret
+ * model, the parser, and the evaluator onto all five. That is what the
+ * runtime-reachability test below checks, and it stays green. Four of the five
+ * byte budgets move by a hundredth; the landing page's does not, since it renders
+ * no markup editor and pays only for the locale strings.
  */
 test.each([
-    ['src/routes/+layout.svelte', 508, 3.78],
-    ['src/components/app/Page.svelte', 531, 4.03],
+    ['src/routes/+layout.svelte', 508, 3.79],
+    ['src/components/app/Page.svelte', 531, 4.04],
     ['src/routes/[[locale]]/+page.svelte', 546, 4.12],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 550, 4.13],
-    ['src/routes/[[locale]]/projects/+page.svelte', 557, 4.15],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 550, 4.14],
+    ['src/routes/[[locale]]/projects/+page.svelte', 557, 4.16],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

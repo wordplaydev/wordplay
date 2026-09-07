@@ -8,7 +8,7 @@ Pertama, mulailah dengan membuat karakter di <Karakter@://characters> halaman. A
 
 Nama pengguna dan nama karakter tersebut tidak ada, jadi akan ditampilkan sebagai persegi panjang kosong.Pastikan Anda menggunakan nama pengguna dan nama karakter Anda yang sebenarnya.
 
-Perhatikan bagaimana teks tersebut menggunakan tanda backtick (`) alih-alih tanda kutip? Itu penting. Itu menunjukkan bahwa Anda menggunakan mode teks kaya, dan itu diperlukan untuk merujuk ke karakter khusus.
+Perhatikan bagaimana teks tersebut menggunakan tanda backtick (``) alih-alih tanda kutip? Itu penting. Itu menunjukkan bahwa Anda menggunakan mode teks kaya, dan itu diperlukan untuk merujuk ke karakter khusus.
 
 Anda dapat mempelajari lebih lanjut tentang pemformatan teks dari  @Phrase .
 

@@ -10877,6 +10877,51 @@
                 "button": "$~Se connecter",
                 "disclaimer": "$~Si tu n'as pas demandé à te connecter, tu peux ignorer ce courriel — personne ne peut accéder à ton compte sans ce lien."
             }
+        },
+        "markup": {
+            "description": "$~écrire un texte mis en forme",
+            "placeholder": "$~écrire quelque chose",
+            "mode": {
+                "prose": "$~montrer à quoi ça ressemblera",
+                "source": "$~montrer les marques de mise en forme"
+            },
+            "command": {
+                "italic": "$~italique",
+                "bold": "$~gras",
+                "extra": "$~très gras",
+                "underline": "$~souligné",
+                "light": "$~léger",
+                "example": "$~exemple de code",
+                "link": "$~lien web",
+                "concept": "$~lien vers un concept",
+                "bullet": "$~puce",
+                "highlight": "$~mettre cet exemple en valeur",
+                "defect": "$~cet exemple est censé contenir des erreurs",
+                "mode": "$~basculer entre le texte et les marques de mise en forme",
+                "docs": "$~explication à l'intérieur de l'exemple",
+                "attention": "$~attirer l'attention sur cette ligne",
+                "undo": "$~annuler",
+                "redo": "$~rétablir"
+            },
+            "feedback": {
+                "formatOn": "$~$format activé",
+                "formatOff": "$~$format désactivé",
+                "example": "$~a créé un exemple de code",
+                "link": "$~a créé un lien web",
+                "concept": "$~a créé un lien vers $name",
+                "bulletOn": "$~a créé une puce",
+                "bulletOff": "$~a supprimé la puce",
+                "highlightOn": "$~cet exemple sera mis en évidence",
+                "highlightOff": "$~cet exemple ne sera pas mis en évidence",
+                "defectOn": "$~cet exemple est censé contenir des erreurs",
+                "defectOff": "$~cet exemple ne devrait pas avoir d'erreurs",
+                "notInExample": "$~place d'abord ton curseur dans un exemple de code",
+                "mode": "$~$mode",
+                "docs": "$~a ajouté une explication",
+                "attention": "$~attire l'attention sur cette ligne",
+                "undid": "$~a annulé cela",
+                "redid": "$~a rétabli cela"
+            }
         }
     },
     "moderation": {

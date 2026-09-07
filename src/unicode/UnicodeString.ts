@@ -121,6 +121,19 @@ export default class UnicodeString {
         return offset;
     }
 
+    /** The grapheme position a UTF-16 code-unit offset falls in — the inverse of
+     *  {@link getCodeUnitPosition}, for reading a position back out of a DOM text
+     *  field, which counts code units where a caret counts graphemes. */
+    getGraphemePosition(codeUnit: number) {
+        const segments = this.getGraphemes();
+        let offset = 0;
+        for (let index = 0; index < segments.length; index++) {
+            if (offset >= codeUnit) return index;
+            offset += segments[index].length;
+        }
+        return segments.length;
+    }
+
     getLines() {
         return this.text.split('\n').map((t) => new UnicodeString(t));
     }

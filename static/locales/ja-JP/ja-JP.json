@@ -10853,6 +10853,51 @@
                 "button": "$~サインイン",
                 "disclaimer": "$~サインインを頼んでいない場合は、このメールを無視してかまいません。このリンクがなければ、誰もあなたのアカウントに入ることはできません。"
             }
+        },
+        "markup": {
+            "description": "$~書式付きのテキストを書く",
+            "placeholder": "$~何か書く",
+            "mode": {
+                "prose": "$~見た目を表示する",
+                "source": "$~書式記号を表示する"
+            },
+            "command": {
+                "italic": "$~斜体",
+                "bold": "$~太字",
+                "extra": "$~極太字",
+                "underline": "$~下線",
+                "light": "$~細字",
+                "example": "$~コード例",
+                "link": "$~ウェブリンク",
+                "concept": "$~概念へのリンク",
+                "bullet": "$~箇条書き",
+                "highlight": "$~この例を目立たせる",
+                "defect": "$~この例にはわざとエラーが含まれています",
+                "mode": "$~文章と書式記号を切り替える",
+                "docs": "$~例の中の説明",
+                "attention": "$~この行に注目させる",
+                "undo": "$~元に戻す",
+                "redo": "$~やり直す"
+            },
+            "feedback": {
+                "formatOn": "$~$formatオン",
+                "formatOff": "$~$formatオフ",
+                "example": "$~コード例を作った",
+                "link": "$~ウェブリンクを作った",
+                "concept": "$~$nameにリンクした",
+                "bulletOn": "$~箇条書きを作った",
+                "bulletOff": "$~箇条書きを削除した",
+                "highlightOn": "$~この例はハイライトされます",
+                "highlightOff": "$~この例はハイライトされません",
+                "defectOn": "$~この例にはわざとエラーが含まれています",
+                "defectOff": "$~この例にはエラーがないはずです",
+                "notInExample": "$~まずコード例の中にカーソルを置いてください",
+                "mode": "$~$mode",
+                "docs": "$~説明を追加した",
+                "attention": "$~この行に注目させる",
+                "undid": "$~元に戻した",
+                "redid": "$~やり直した"
+            }
         }
     },
     "moderation": {

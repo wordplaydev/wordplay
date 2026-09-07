@@ -177,7 +177,7 @@ export type Command = {
 };
 
 /** Different responses that commands can produce. */
-type CommandResult =
+export type CommandResult =
     // An edit to a source file
     | Edit
     // An edit to a whole project
@@ -248,6 +248,16 @@ export type CommandContext = {
     /** Begin (or, from play mode, end) a performance: restart the program,
      * enter play mode, and fullscreen the stage, when in a ProjectView */
     performProject?: (() => void) | undefined;
+    /** Switch the focused markup editor between prose and source rendering. */
+    toggleMarkupMode?: (() => void) | undefined;
+    /** Open the focused markup editor's concept picker. */
+    pickConcept?: (() => void) | undefined;
+    /** Step the focused markup editor's own undo history. It keeps its own
+     *  because `Projects.getHistory` is keyed on a saved project and a markup
+     *  editor's is a scratch. */
+    undoMarkup?: ((direction: -1 | 1) => boolean) | undefined;
+    canUndoMarkup?: (() => boolean) | undefined;
+    canRedoMarkup?: (() => boolean) | undefined;
 };
 
 /** Step-level movement enters the debugger from any mode: landing on an
@@ -316,6 +326,13 @@ export type Category = (typeof Category)[keyof typeof Category];
 export function handleKeyCommand(
     event: KeyboardEvent,
     context: CommandContext,
+    /** The commands to match against. Defaults to the code editor's set; the
+     *  markup editor passes its own, so prose gets formatting shortcuts and none
+     *  of the code-shaped ones (stepping the evaluator, incrementing a literal).
+     *  A parameter rather than a second dispatcher so the matching rules — the
+     *  tri-state modifiers, the arrow remapping, the `active` contract — have one
+     *  implementation. */
+    commands: Command[] = Commands,
 ): [Command | undefined, CommandResult, boolean] {
     // Map meta key to control on Mac OS/iOS.
     const control = event.metaKey || event.ctrlKey;
@@ -349,7 +366,7 @@ export function handleKeyCommand(
     let matchedShortcut = false;
 
     // Loop through the commands and see if there's a match to this event.
-    for (const command of Commands) {
+    for (const command of commands) {
         // Does this command's shortcut pattern match the event?
         if (
             (command.control === undefined || command.control === control) &&

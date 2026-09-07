@@ -10873,6 +10873,51 @@
                 "button": "$~Pumasok",
                 "disclaimer": "$~Kung hindi ikaw ang humiling na pumasok, huwag na lang pansinin ang email na ito — walang makakapasok sa account mo kung wala ang link na ito."
             }
+        },
+        "markup": {
+            "description": "$~magsulat ng may-format na teksto",
+            "placeholder": "$~magsulat ng kahit ano",
+            "mode": {
+                "prose": "$~ipakita kung ano ang itsura nito",
+                "source": "$~ipakita ang mga marka ng pag-format"
+            },
+            "command": {
+                "italic": "$~italiko",
+                "bold": "$~bold",
+                "extra": "$~sobrang bold",
+                "underline": "$~guhitan sa ilalim",
+                "light": "$~manipis",
+                "example": "$~halimbawang kodigo",
+                "link": "$~link sa web",
+                "concept": "$~link sa isang konsepto",
+                "bullet": "$~bullet",
+                "highlight": "$~i-highlight ang halimbawang ito",
+                "defect": "$~ang halimbawang ito ay dapat may mga error",
+                "mode": "$~lumipat sa pagitan ng prosa at mga marka ng pag-format",
+                "docs": "$~paliwanag sa loob ng halimbawa",
+                "attention": "$~bigyang-pansin ang linyang ito",
+                "undo": "$~bawiin",
+                "redo": "$~gawing muli"
+            },
+            "feedback": {
+                "formatOn": "$~buhay ang $format",
+                "formatOff": "$~patay ang $format",
+                "example": "$~gumawa ng halimbawang kodigo",
+                "link": "$~gumawa ng link sa web",
+                "concept": "$~nag-link sa $name",
+                "bulletOn": "$~gumawa ng bullet",
+                "bulletOff": "$~inalis ang bullet",
+                "highlightOn": "$~ang halimbawang ito ay ma-hi-highlight",
+                "highlightOff": "$~ang halimbawang ito ay hindi ma-hi-highlight",
+                "defectOn": "$~ang halimbawang ito ay dapat may mga error",
+                "defectOff": "$~hindi dapat magkaroon ng mga error ang halimbawang ito",
+                "notInExample": "$~ilagay muna ang iyong cursor sa isang halimbawang kodigo",
+                "mode": "$~$mode",
+                "docs": "$~nagdagdag ng paliwanag",
+                "attention": "$~nagbibigay-pansin sa linyang ito",
+                "undid": "$~binawi iyon",
+                "redid": "$~inulit iyon"
+            }
         }
     },
     "moderation": {

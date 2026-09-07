@@ -183,6 +183,7 @@
             l.ui.howto.configuration.guidingQuestions.subheader.explanation}
     />
     <FormattedEditor
+        rich
         id="guidingquestions"
         description={(l) =>
             l.ui.howto.configuration.guidingQuestions.descriptor}

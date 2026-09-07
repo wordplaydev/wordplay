@@ -10,6 +10,25 @@
         /** Show inline stepping values even when not editable (e.g. read-only
          *  code examples in docs). Defaults to editable's behavior when absent. */
         values?: boolean;
+        /**
+         * Whether markup is rendered as prose — delimiters hidden unless the
+         * caret is in the run they wrap, references drawn as chips — rather than
+         * as its source. Only the markup views consult it. Absent everywhere but
+         * the markup editor, so code is unaffected.
+         */
+        prose?: boolean;
+        /**
+         * Whether a line may break, which decides whether a space renders as an
+         * ordinary space or a non-breaking one.
+         *
+         * Carried on `Format` rather than in a context, because every token
+         * already depends on `format` and nothing else here is read per token.
+         * As a context it had to be a store — soft wrap is a setting toggled
+         * while the editor is open, and a plain value froze at mount — and a
+         * store meant one subscription per token: measured at +0.26ms per
+         * keystroke over 306 tokens, about 5% of the editor's typing cost.
+         */
+        wrapping?: boolean;
     };
 </script>
 
@@ -34,7 +53,6 @@
         getLineMarkers,
         getReferencedMessages,
         getSpaces,
-        getWrapping,
         getSteppedEvaluation,
     } from '@components/project/Contexts';
     import ValueView from '@components/values/ValueView.svelte';
@@ -279,16 +297,15 @@
     let gutter = $derived(markerColumn || $showLines === true);
     /** A wrapping view keeps ordinary spaces, which a line can break at; an
      *  editable one keeps them non-breaking so a line holds its shape while it
-     *  is edited. See `setWrapping`. The indicator wins either way: asking to
+     *  is edited. See `Format.wrapping`. The indicator wins either way: asking to
      *  see the spaces is asking to see them. */
-    const wrapping = getWrapping();
     function renderSpace(text: string, indicator: boolean): string[] {
         return (
             indicator
                 ? text
                       .replaceAll(' ', EXPLICIT_SPACE_TEXT)
                       .replaceAll('\t', EXPLICIT_TAB_TEXT)
-                : wrapping === true
+                : format.wrapping === true
                   ? text.replaceAll('\t', '  ')
                   : text.replaceAll(' ', SPACE_TEXT).replaceAll('\t', TAB_TEXT)
         ).split('\n');
@@ -386,6 +403,7 @@
             space={tokenPrefersPrecedingSpace ? ' ' : space}
             invisible={tokenPrefersPrecedingSpace ||
                 !(root?.root instanceof Source)}
+            wrapping={format.wrapping === true}
         />
     {/if}
 {/snippet}

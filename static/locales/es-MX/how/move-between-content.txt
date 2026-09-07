@@ -30,15 +30,15 @@ Las comprobaciones adicionales \?\ son las que evitan que el número pase de los
 Sin ellas podrías salirte del final y no habría ninguna diapositiva que mostrar.
 Si prefieres regresar de la última diapositiva a la primera, también puedes hacer eso.
 
-¶Nota: las teclas de flecha se llaman \'FlechaIzquierda'\, \'FlechaDerecha'\, \'FlechaArriba'\ y \'FlechaAbajo'\.
-También puedes escribir simplemente \'Izquierda'\ y \'Derecha'\, y los nombres de las teclas funcionan en tu propio idioma.¶
+Nota: las teclas de flecha se llaman \'FlechaIzquierda'\, \'FlechaDerecha'\, \'FlechaArriba'\ y \'FlechaAbajo'\.
+También puedes escribir simplemente \'Izquierda'\ y \'Derecha'\, y los nombres de las teclas funcionan en tu propio idioma.
 
 Fíjate en que \index\ es solo un número, así que esto sirve para /cualquier/ tipo de contenido, no solo texto.
 Cambia la @List por una lista de @Group o de escenas enteras y el resto del patrón no cambia en nada:
 
 \
 slides: [
-	Phrase('una historia en tres partes' size: 3m)
+	Phrase('una historia en tres partes' tamaño: 3m)
 	Group(Stack() [Phrase('🐈') Phrase('aparece un gato')])
 	Phrase('el fin 🎉')
 ]
@@ -53,7 +53,7 @@ index•#: 1 … ∆ key …
 slides[index]
 \
 
-¶Nota: mira este patrón en un proyecto completo en la galería: <presentación de diapositivas@https://wordplay.dev/project/example-SlideShow?play>¶
+Nota: mira este patrón en un proyecto completo en la galería: <presentación de diapositivas@https://wordplay.dev/project/example-SlideShow?play>
 
 Si solo necesitas avanzar y nunca retroceder, un @Scene puede ser más simple.
 

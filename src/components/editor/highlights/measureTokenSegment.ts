@@ -1,3 +1,5 @@
+import type { Axes, LogicalPoint } from '@components/editor/util/axes';
+
 // Grapheme segmentation for locating an offset inside a token view's rendered
 // text. Boundaries are locale-independent, so one shared instance suffices.
 const Segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
@@ -73,6 +75,209 @@ export function measureTokenSegment(
 
     const rect = range.getBoundingClientRect();
     return [rect.width, rect.height];
+}
+
+/**
+ * The client rect of the collapsed caret position `tokenOffset` graphemes into a
+ * token view, or undefined when there is nothing to measure.
+ *
+ * {@link measureTokenSegment} answers "how wide is the text before the caret",
+ * which locates the caret only while the token occupies one line: both the
+ * segment's box and the token view's own box are unions of the token's line
+ * fragments, so the moment a token soft-wraps, the width is the widest line and
+ * the origin is the leftmost edge — neither says anything about where the caret
+ * sits. A collapsed range is the direct question and has no such ambiguity.
+ *
+ * This matters for code today only for a long wrapped text literal, but markup
+ * makes it structural: a whole paragraph of prose is a single `Sym.Words` token.
+ */
+export function locateCaretRect(
+    tokenView: Element,
+    tokenOffset: number,
+): DOMRect | undefined {
+    const nodes = getTextNodes(tokenView);
+    if (nodes.length === 0) return undefined;
+
+    const found = locateGraphemeOffset(
+        nodes.map((node) => node.textContent ?? ''),
+        tokenOffset,
+    );
+    if (found === undefined) return undefined;
+
+    const range = document.createRange();
+    range.setStart(nodes[found.index], found.codeUnit);
+    range.collapse(true);
+
+    // At a soft-wrap boundary a collapsed range reports two rects — the end of
+    // one line and the start of the next — because the position is expressible
+    // either way. Take the last, which is the start of the next line: a caret
+    // position is an index, and the character at that index is what follows the
+    // caret, so the caret belongs on the line that character is on. Away from a
+    // boundary there is exactly one rect and the choice is moot. Fall back to the
+    // bounding box for an engine that reports none.
+    const rects = range.getClientRects();
+    const rect =
+        rects.length > 0
+            ? rects[rects.length - 1]
+            : range.getBoundingClientRect();
+    // A detached or display:none view measures as nothing; say so rather than
+    // reporting the origin, which would put the caret in the corner of the page.
+    return rect.width === 0 && rect.height === 0 && rect.x === 0 && rect.y === 0
+        ? undefined
+        : rect;
+}
+
+/**
+ * One client rect per **visual line** the graphemes `[from, to)` occupy.
+ *
+ * A token's own box, and any range's bounding box, is the *union* of the lines
+ * the token covers, so anything drawn from it is as tall as the whole token. In
+ * code that is invisible — tokens are short and `NodeView` emits a `<wbr>`
+ * between them — but a paragraph of prose is a single `Sym.Words` token, so a
+ * one-word selection outlined the entire paragraph. `getClientRects` answers the
+ * question the union box cannot: it returns one rect per line fragment, and
+ * exactly one for a token that doesn't wrap, so nothing changes for code.
+ */
+export function segmentLineRects(
+    tokenView: Element,
+    from: number,
+    to: number,
+): DOMRect[] {
+    const nodes = getTextNodes(tokenView);
+    if (nodes.length === 0) return [];
+    const texts = nodes.map((node) => node.textContent ?? '');
+
+    const start = locateGraphemeOffset(texts, Math.min(from, to));
+    const end = locateGraphemeOffset(texts, Math.max(from, to));
+    if (start === undefined || end === undefined) return [];
+
+    const range = document.createRange();
+    range.setStart(nodes[start.index], start.codeUnit);
+    range.setEnd(nodes[end.index], end.codeUnit);
+
+    // A zero-area rect is a detached or `display: none` view reporting the page
+    // origin; drawing there would put the highlight in the corner of the window.
+    return Array.from(range.getClientRects()).filter(
+        (rect) => rect.width !== 0 || rect.height !== 0,
+    );
+}
+
+/**
+ * The grapheme offset into a token view nearest a point, or undefined when there
+ * is nothing to measure.
+ *
+ * The pointer code used to interpolate — `textLength × (extent / totalExtent)` —
+ * which is exact for monospace on one line and wrong everywhere else. Prose is
+ * set in a proportional face, so glyph widths differ; and a wrap breaks the
+ * linear map even in monospace, because each line fragment holds a different
+ * number of characters per pixel. Asking the browser where each offset actually
+ * is has none of those assumptions, and a binary search over collapsed ranges
+ * costs O(log n) measurements rather than one arithmetic guess.
+ *
+ * The search is over the *block* axis first and the inline axis second, so a
+ * click on the third line of a wrapped token resolves to that line rather than
+ * to the same fraction along the first.
+ */
+export function graphemeOffsetAt(
+    tokenView: Element,
+    length: number,
+    at: LogicalPoint,
+    axes: Axes,
+): number | undefined {
+    if (length <= 0) return 0;
+
+    // Walk the view's text nodes and segment them ONCE, rather than per probe.
+    // `locateCaretRect` does both on every call, and the search makes a dozen of
+    // them; measured over vertical caret motion, hoisting this is most of the
+    // difference between the search and the arithmetic it replaced.
+    const nodes = getTextNodes(tokenView);
+    if (nodes.length === 0) return undefined;
+    const table = graphemeTable(nodes.map((node) => node.textContent ?? ''));
+
+    const range = document.createRange();
+    // Where an offset sits, in logical coordinates. Undefined offsets sort last
+    // so an unmeasurable position can never win the comparison below.
+    const locate = (offset: number) => {
+        const found = table[Math.min(Math.max(0, offset), table.length - 1)];
+        if (found === undefined) return undefined;
+        range.setStart(nodes[found.index], found.codeUnit);
+        range.collapse(true);
+        const rects = range.getClientRects();
+        const rect =
+            rects.length > 0
+                ? rects[rects.length - 1]
+                : range.getBoundingClientRect();
+        return rect.width === 0 &&
+            rect.height === 0 &&
+            rect.x === 0 &&
+            rect.y === 0
+            ? undefined
+            : axes.rect(rect);
+    };
+
+    // Compare by line first: an offset on the clicked line always beats one on
+    // another line, however close that other one is along the text.
+    const distance = (offset: number): [number, number] | undefined => {
+        const box = locate(offset);
+        if (box === undefined) return undefined;
+        const block =
+            at.block < box.blockStart
+                ? box.blockStart - at.block
+                : at.block > box.blockEnd
+                  ? at.block - box.blockEnd
+                  : 0;
+        return [block, Math.abs(at.inline - box.inlineStart)];
+    };
+
+    const closer = (a: [number, number], b: [number, number]) =>
+        a[0] !== b[0] ? a[0] < b[0] : a[1] < b[1];
+
+    let best: number | undefined = undefined;
+    let bestDistance: [number, number] | undefined = undefined;
+    const consider = (offset: number) => {
+        const d = distance(offset);
+        if (d === undefined) return;
+        if (bestDistance === undefined || closer(d, bestDistance)) {
+            best = offset;
+            bestDistance = d;
+        }
+    };
+
+    // Narrow to a neighbourhood, then check every offset in it. The search keeps
+    // the best seen rather than trusting the final bracket, because the compare
+    // is two-dimensional and so not strictly monotone across a wrap boundary.
+    let low = 0;
+    let high = length;
+    consider(low);
+    consider(high);
+    while (high - low > 2) {
+        const middle = Math.floor((low + high) / 2);
+        consider(middle);
+        const box = locate(middle);
+        if (box === undefined) break;
+        const after =
+            at.block > box.blockEnd ||
+            (at.block >= box.blockStart && at.inline > box.inlineStart);
+        if (after) low = middle;
+        else high = middle;
+    }
+    for (let offset = low; offset <= high; offset++) consider(offset);
+
+    return best;
+}
+
+/** Every grapheme boundary in a token view's text, as (node, UTF-16 offset)
+ *  pairs, plus the end. Built once so a search over offsets does not re-segment
+ *  the text on every probe — the same mapping {@link locateGraphemeOffset}
+ *  computes for one offset at a time. */
+function graphemeTable(texts: string[]): { index: number; codeUnit: number }[] {
+    const table: { index: number; codeUnit: number }[] = [];
+    for (const [index, text] of texts.entries())
+        for (const { index: at } of Segmenter.segment(text))
+            table.push({ index, codeUnit: at });
+    const last = texts.length - 1;
+    if (last >= 0) table.push({ index: last, codeUnit: texts[last].length });
+    return table;
 }
 
 /** The token view's own text nodes in document order, skipping the label spans

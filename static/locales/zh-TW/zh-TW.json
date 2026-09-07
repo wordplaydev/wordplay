@@ -10816,6 +10816,51 @@
                 "button": "$~登入",
                 "disclaimer": "$~如果你沒有要求登入，可以不用理會這封信，沒有這個連結，沒有人能進入你的帳號。"
             }
+        },
+        "markup": {
+            "description": "$~寫格式化文字",
+            "placeholder": "$~寫點東西",
+            "mode": {
+                "prose": "$~顯示看起來會是什麼樣子",
+                "source": "$~顯示格式標記"
+            },
+            "command": {
+                "italic": "$~斜體",
+                "bold": "$~粗體",
+                "extra": "$~特粗體",
+                "underline": "$~底線",
+                "light": "$~細體",
+                "example": "$~程式碼範例",
+                "link": "$~網頁連結",
+                "concept": "$~連結到一個概念",
+                "bullet": "$~項目符號",
+                "highlight": "$~標示這個範例",
+                "defect": "$~這個範例應該要有錯誤",
+                "mode": "$~切換文字與格式標記",
+                "docs": "$~範例裡的說明",
+                "attention": "$~讓這一行更醒目",
+                "undo": "$~復原",
+                "redo": "$~取消復原"
+            },
+            "feedback": {
+                "formatOn": "$~$format 開啟",
+                "formatOff": "$~$format 關閉",
+                "example": "$~做了一個程式碼範例",
+                "link": "$~做了一個網頁連結",
+                "concept": "$~連結到 $name",
+                "bulletOn": "$~新增了項目符號",
+                "bulletOff": "$~移除了項目符號",
+                "highlightOn": "$~這個範例會被標示出來",
+                "highlightOff": "$~這個範例不會被標示出來",
+                "defectOn": "$~這個範例應該要有錯誤",
+                "defectOff": "$~這個範例應該不會有錯誤",
+                "notInExample": "$~先把遊標放進一段程式碼範例裡",
+                "mode": "$~$mode",
+                "docs": "$~新增了說明",
+                "attention": "$~讓大家注意這一行",
+                "undid": "$~復原了那個動作",
+                "redid": "$~重做了那個動作"
+            }
         }
     },
     "moderation": {

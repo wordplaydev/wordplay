@@ -1549,6 +1549,7 @@
                         : (l) => l.ui.collaborate.thread.placeholder}
                     description={(l) =>
                         l.ui.collaborate.field.message.description}
+                    rich
                     bind:view={newMessageView}
                     bind:text={newMessage}
                 />

@@ -27,7 +27,6 @@
         setRoot,
         setShowLines,
         setSpaces,
-        setWrapping,
     } from '@components/project/Contexts';
 
     interface Props {
@@ -54,7 +53,7 @@
         /** Whether to show line numbers */
         lines?: boolean;
         /** Whether lines may wrap. Only for inert views: the editor needs a
-         *  line to keep its shape while it's edited. See setWrapping. */
+         *  line to keep its shape while it's edited. See Format.wrapping. */
         wrap?: boolean;
         /** Whether any particular nodes should be rendered as removed */
         removed?: Node[];
@@ -70,6 +69,16 @@
          * while the editor element itself still reported vertical.
          */
         layout?: WritingLayout | undefined;
+        /**
+         * Extra nodes to render hidden, joined with the ones this view hides on
+         * its own (non-preferred locale tags). The markup editor passes its
+         * delimiter tokens here so prose mode reuses the mechanism that already
+         * collapses a token to zero size while leaving it in the DOM for the
+         * caret to land on.
+         */
+        alsoHidden?: Node[];
+        /** Render markup as prose rather than as its source. See Format.prose. */
+        prose?: boolean;
     }
 
     let {
@@ -88,12 +97,9 @@
         removed = [],
         elided = [],
         layout = undefined,
+        alsoHidden = [],
+        prose = false,
     }: Props = $props();
-
-    // Deliberately the initial value: a view doesn't change whether it wraps
-    // partway through its life, and the contexts around it are set once too.
-    // svelte-ignore state_referenced_locally
-    setWrapping(wrap);
 
     /** Get the root, or make one if it's not a source. */
     let root = $derived(node instanceof Source ? node.root : new Root(node));
@@ -194,6 +200,7 @@
               elide: boolean;
               inline: boolean;
               taggedAtCaret: TaggedNode | undefined;
+              alsoHidden: Node[];
           }
         | undefined;
 
@@ -213,7 +220,9 @@
             prevHiddenKey.localize === $localize &&
             prevHiddenKey.elide === elide &&
             prevHiddenKey.inline === inline &&
-            prevHiddenKey.taggedAtCaret === taggedAtCaret
+            prevHiddenKey.taggedAtCaret === taggedAtCaret &&
+            prevHiddenKey.alsoHidden.length === alsoHidden.length &&
+            prevHiddenKey.alsoHidden.every((n, i) => n === alsoHidden[i])
         )
             return;
 
@@ -223,6 +232,7 @@
             elide,
             inline,
             taggedAtCaret,
+            alsoHidden,
         };
 
         const newHidden = new Set<Node>();
@@ -327,6 +337,11 @@
                 .slice(5))
                 newHidden.add(token);
 
+        // Nodes the caller hides — the markup editor's delimiters in prose mode.
+        // Joined here rather than in a second store so TokenView keeps one source
+        // of truth for whether a token is rendered.
+        for (const extra of alsoHidden) newHidden.add(extra);
+
         // Update hidden nodes.
         hidden.set(newHidden);
     });
@@ -395,9 +410,18 @@
         class:inert
         class:elide
         class:wrap
+        class:prose
         ><NodeView
             {node}
-            format={{ block: blocks, spaces, root, editable, values }}
+            format={{
+                block: blocks,
+                spaces,
+                root,
+                editable,
+                values,
+                prose,
+                wrapping: wrap,
+            }}
         /></span
     >
 {:else}
@@ -408,9 +432,18 @@
         class:inert
         class:elide
         class:wrap
+        class:prose
         ><NodeView
             {node}
-            format={{ block: blocks, spaces, root, editable, values }}
+            format={{
+                block: blocks,
+                spaces,
+                root,
+                editable,
+                values,
+                prose,
+                wrapping: wrap,
+            }}
         /></code
     >
 {/if}
@@ -429,6 +462,14 @@
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
+    }
+
+    /* Markup being edited as the prose it is, rather than as source. Only the
+       markup editor sets this, so code is untouched. The font has to be reset
+       here *and* on the token (TokenView re-asserts the code font per token), or
+       prose renders monospace whatever this says. */
+    .root.prose {
+        font-family: var(--wordplay-app-font);
     }
 
     :global(.dragging) .root {

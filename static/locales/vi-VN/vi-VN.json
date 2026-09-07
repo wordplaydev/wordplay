@@ -10872,6 +10872,51 @@
                 "button": "$~Đăng nhập",
                 "disclaimer": "$~Nếu bạn không yêu cầu đăng nhập, bạn có thể bỏ qua email này — không ai có thể vào tài khoản của bạn nếu không có liên kết này."
             }
+        },
+        "markup": {
+            "description": "$~viết văn bản đã định dạng",
+            "placeholder": "$~viết gì đó",
+            "mode": {
+                "prose": "$~xem trước hình thức hiển thị",
+                "source": "$~hiện ký hiệu định dạng"
+            },
+            "command": {
+                "italic": "$~in nghiêng",
+                "bold": "$~in đậm",
+                "extra": "$~in đậm hơn",
+                "underline": "$~gạch chân",
+                "light": "$~nhạt",
+                "example": "$~ví dụ mã số",
+                "link": "$~liên kết web",
+                "concept": "$~liên kết đến một khái niệm",
+                "bullet": "$~dấu đầu dòng",
+                "highlight": "$~đánh dấu ví dụ này",
+                "defect": "$~ví dụ này cố tình có lỗi",
+                "mode": "$~chuyển đổi giữa văn xuôi và ký hiệu định dạng",
+                "docs": "$~giải thích bên trong ví dụ",
+                "attention": "$~thu hút chú ý vào dòng này",
+                "undo": "$~hoàn tác",
+                "redo": "$~làm lại"
+            },
+            "feedback": {
+                "formatOn": "$~bật $format",
+                "formatOff": "$~tắt $format",
+                "example": "$~đã tạo một ví dụ mã số",
+                "link": "$~đã tạo một liên kết web",
+                "concept": "$~đã liên kết đến $name",
+                "bulletOn": "$~đã tạo một dấu đầu dòng",
+                "bulletOff": "$~đã xóa dấu đầu dòng",
+                "highlightOn": "$~ví dụ này sẽ được tô sáng",
+                "highlightOff": "$~ví dụ này sẽ không được tô sáng",
+                "defectOn": "$~ví dụ này cố tình có lỗi",
+                "defectOff": "$~ví dụ này không được có lỗi",
+                "notInExample": "$~hãy đặt con trỏ vào một ví dụ mã số trước đã",
+                "mode": "$~$mode",
+                "docs": "$~đã thêm một lời giải thích",
+                "attention": "$~đang thu hút sự chú ý vào dòng này",
+                "undid": "$~đã hoàn tác điều đó",
+                "redid": "$~đã làm lại điều đó"
+            }
         }
     },
     "moderation": {

@@ -34,8 +34,21 @@
          * `$name` at the caret. When undefined (e.g. FormattedEditor in
          * preview mode), the panel hides entirely — chips don't help when
          * there's no editor to insert into.
+         *
+         * Only for a plain field. A rich markup editor passes `insert` instead:
+         * its field is a *mirror* of a `¶…¶`-wrapped source, so its
+         * `selectionStart` is an offset into different text, in different units
+         * (UTF-16 rather than graphemes), and splicing at it would land in the
+         * wrong place after any emoji.
          */
         view: HTMLInputElement | HTMLTextAreaElement | undefined;
+        /**
+         * Insert at the editor's own caret, for an editor that owns its caret
+         * model rather than exposing a field position. Takes precedence over
+         * `view`, and makes the panel available (it is the affordance `view`
+         * would otherwise be needed for).
+         */
+        insert?: ((insertion: string) => void) | undefined;
         /** Called after a chip insert so the caller can sync any reactive state. */
         oninsert?: (newText: string) => void;
         /** Compact mode: chip row only, no header or notice. Used by the
@@ -43,7 +56,14 @@
         compact?: boolean;
     }
 
-    let { path, text, view, oninsert, compact = false }: Props = $props();
+    let {
+        path,
+        text,
+        view,
+        insert = undefined,
+        oninsert,
+        compact = false,
+    }: Props = $props();
 
     /** The declared input names for this field, or `undefined` if not templated. */
     const declared = $derived(
@@ -107,31 +127,38 @@
      *  inserts the whole branch, with one empty slot per plural form — the
      *  shape is the part a translator can't be expected to know. */
     function insertAt(name: string) {
-        const insert = isCount(name)
+        const insertion = isCount(name)
             ? `$#${withoutCountMarker(name)}[${categories.map(() => '').join('|')}]`
             : `$${name}`;
+        // An editor that owns its caret does the insertion itself; there is no
+        // field offset to splice at.
+        if (insert !== undefined) {
+            insert(insertion);
+            return;
+        }
+        const insert_ = insertion;
         if (view) {
             const start = view.selectionStart ?? text.length;
             const end = view.selectionEnd ?? text.length;
-            const next = text.slice(0, start) + insert + text.slice(end);
+            const next = text.slice(0, start) + insert_ + text.slice(end);
             oninsert?.(next);
             // After Svelte re-renders the text, restore caret to just after
             // the inserted token so successive inserts stack naturally.
             queueMicrotask(() => {
                 if (view) {
-                    const caret = start + insert.length;
+                    const caret = start + insert_.length;
                     view.focus();
                     view.setSelectionRange(caret, caret);
                 }
             });
         } else {
-            oninsert?.(text + insert);
+            oninsert?.(text + insert_);
         }
     }
 </script>
 
-{#if declared !== undefined && declared.length > 0 && check !== undefined && (view !== undefined || compact)}
-    {@const interactive = view !== undefined}
+{#if declared !== undefined && declared.length > 0 && check !== undefined && (view !== undefined || insert !== undefined || compact)}
+    {@const interactive = view !== undefined || insert !== undefined}
     <div class="template-inputs" class:compact>
         {#if !compact}
             <h3>

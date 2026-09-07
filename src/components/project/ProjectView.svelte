@@ -3957,9 +3957,10 @@
         flex-direction: column;
         /* `min-width: fit-content` widens to the code only when it actually
            overflows (no-wrap mode) so the editor can scroll horizontally; in
-           soft-wrap mode fit-content collapses to the viewport so the editor
-           wraps instead of growing unbounded. `min-height: 100%` keeps short
-           code filling the viewport so clicks below it still land in the editor. */
+           soft-wrap mode the code's own min-content collapses, so fit-content
+           follows it down and the editor wraps instead of growing unbounded.
+           `min-height: 100%` keeps short code filling the viewport so clicks
+           below it still land in the editor. */
         width: 100%;
         min-width: fit-content;
         min-height: 100%;

@@ -330,7 +330,11 @@
         type Row,
         type RowMember,
     } from '@components/editor/caret/rowModel';
-    import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
+    import {
+        locateCaretRect,
+        measureTokenSegment,
+        segmentLineRects,
+    } from '@components/editor/highlights/measureTokenSegment';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import {
         breakElementPosition,
@@ -384,6 +388,15 @@
         zoom: number;
         /** True if the caret was just placed by a pointer event; suppresses auto-scroll */
         placedByPointer: boolean;
+        /** Whether to offer the autocomplete menu's trigger beside the caret.
+         *  The markup editor has no menu, where the trigger would be dead UI and
+         *  a `role="button"` inside its `role="application"`. */
+        menu?: boolean;
+        /** The markup editor's mode. It is not a setting the caret reads — it is
+         *  a REFLOW signal: switching between prose and the formatting marks
+         *  shows or hides every delimiter, so all the geometry moves and the
+         *  caret's measured position has to be taken again. */
+        prose?: boolean;
     }
 
     let {
@@ -398,6 +411,8 @@
         writingLayout,
         zoom,
         placedByPointer,
+        menu = true,
+        prose = undefined,
     }: Props = $props();
 
     /** The calculated padding of the editor. Determined from the DOM. */
@@ -492,12 +507,15 @@
               zoom: number;
               folded: Set<Node> | undefined;
               evaluation: unknown;
+              prose: boolean | undefined;
           }
         | undefined = undefined;
     $effect(() => {
         caret;
         blocks;
         zoom;
+        // Showing or hiding every delimiter moves everything under the caret.
+        prose;
         // Recompute after the virtualization window scrolls (an off-window caret's
         // token has no element until its statement renders).
         windowRevision;
@@ -524,6 +542,7 @@
             prevLayout.blocks !== blocks ||
             prevLayout.zoom !== zoom ||
             prevLayout.folded !== $folded ||
+            prevLayout.prose !== prose ||
             prevLayout.evaluation !== evaluationSignal;
         prevLayout = {
             source: caret.source,
@@ -531,6 +550,7 @@
             zoom,
             folded: $folded,
             evaluation: evaluationSignal,
+            prose,
         };
 
         // Snapshot the pointer gate now, at the moment the caret changed. The
@@ -786,16 +806,84 @@
     /** The caret's extent across the lines, and the pitch from one line to the
      *  next — both on the block axis, so "height" here is a width when writing
      *  vertically. */
+    /**
+     * Where the caret sits at the start or end of a token's TEXT, measured with a
+     * collapsed range rather than taken from the token's box.
+     *
+     * A token's box is the union of every line it covers, so its `inlineEnd` is
+     * the widest line's far edge and its extent is every line at once. In code a
+     * token is one line and the two agree; in prose a `Sym.Words` token is a
+     * paragraph, so a caret placed this way landed at the right edge of the first
+     * line and was as tall as the whole passage. Falls back to the box when there
+     * is nothing measurable, which is what this always did.
+     */
+    function edgeOfToken(
+        view: Element,
+        token: Token,
+        end: boolean,
+        axes: Axes,
+    ) {
+        // A range over the whole text, whose per-line rects give the first and
+        // last line rather than the union of both. A COLLAPSED range at the very
+        // end of a text node reports no rects at all in Chromium, which is what
+        // left the end-of-document caret on the union box; a non-collapsed range
+        // always reports one rect per line.
+        const lines = segmentLineRects(view, 0, token.getTextLength());
+        const line = end ? lines[lines.length - 1] : lines[0];
+        if (line !== undefined) {
+            const box = axes.rect(line);
+            const extent = box.blockEnd - box.blockStart;
+            if (extent > 0)
+                return {
+                    inline: end ? box.inlineEnd : box.inlineStart,
+                    block: box.blockStart,
+                    extent,
+                    blockEnd: box.blockEnd,
+                };
+        }
+        const bounds = axes.rect(view.getBoundingClientRect());
+        return {
+            inline: end ? bounds.inlineEnd : bounds.inlineStart,
+            block: bounds.blockStart,
+            extent: bounds.blockEnd - bounds.blockStart,
+            blockEnd: bounds.blockEnd,
+        };
+    }
+
+    /** The caret and line height at the caret. */
     function computeCaretAndLineHeight(
         currentToken: Token,
         currentTokenRect: DOMRect,
         axes: Axes,
+        /** The view and offset the caret is at, so one line can be measured
+         *  rather than the token's union of all of them. */
+        currentTokenView: Element | null,
+        currentTokenOffset: number,
     ): [number, number] {
         const blockExtent = (rect: DOMRect) => {
             const logical = axes.rect(rect);
             return logical.blockEnd - logical.blockStart;
         };
-        let caretHeight = blockExtent(currentTokenRect);
+
+        // The extent of the ONE line the caret is on. A token's own box is the
+        // union of every line it covers, which is a single line in code and a
+        // whole paragraph in prose, where a `Sym.Words` token is a paragraph —
+        // so taking the caret's height from it made the caret paragraph-tall at
+        // the start of every paragraph.
+        const lineExtent =
+            currentTokenView === null
+                ? undefined
+                : (() => {
+                      const rect = locateCaretRect(
+                          currentTokenView,
+                          Math.max(0, currentTokenOffset),
+                      );
+                      if (rect === undefined) return undefined;
+                      const extent = blockExtent(rect);
+                      return extent > 0 ? extent : undefined;
+                  })();
+
+        let caretHeight = lineExtent ?? blockExtent(currentTokenRect);
 
         // If the caret extent is invisible, try to find a token before and use its.
         if (caretHeight === 0) {
@@ -862,7 +950,13 @@
                     axes.rect(firstTokenBound).blockStart) /
                 lineBreakCount;
         } else {
-            lineHeight = blockExtent(currentTokenRect);
+            // The `<br>` probe above never matches in text mode — `NodeView`
+            // renders the break inside the *sibling* `.space` span, not inside
+            // the token view — so this fallback is the path text mode always
+            // takes. The measured line is right; the token's union box is a
+            // whole paragraph in prose, and it is cached, so the first token
+            // measured would poison every later caret.
+            lineHeight = lineExtent ?? blockExtent(currentTokenRect);
         }
 
         cachedLineHeight = {
@@ -1036,6 +1130,32 @@
             );
         };
 
+        /** Where the caret goes when nothing rendered can anchor it: an empty
+         *  document has no tokens at all, so every branch below gives up and the
+         *  caret is simply absent — which made a blank markup editor look
+         *  broken and unfocusable, with no way to see that typing would land. */
+        const atContentStart = (): CaretPlacement | undefined => {
+            if (viewport === null) return undefined;
+            // ONLY when there is nothing rendered at all. A token that is merely
+            // scrolled out of the window also has no view, and the windowing code
+            // depends on that returning no placement so it can scroll the caret
+            // in — drawing it at the top-left instead would both misplace it and
+            // suppress the scroll.
+            if (getTokenViews().length > 0) return undefined;
+            const box = project(viewport.getBoundingClientRect());
+            if (box === undefined) return undefined;
+            const padding = editorPadding ?? 0;
+            const line =
+                parseFloat(getComputedStyle(viewport).lineHeight) ||
+                across(box);
+            return {
+                inline: box.inlineStart + padding,
+                block: box.blockStart + padding,
+                extent: line,
+                blockEnd: box.blockStart + padding + line,
+            };
+        };
+
         // If the caret is a node, find the bottom left token view.
         if (caret.position instanceof Node) {
             const nodeView = getNodeView(caret.position);
@@ -1185,17 +1305,13 @@
                     const lastTokenView = visibleLast
                         ? getNodeView(visibleLast)
                         : null;
-                    if (lastTokenView !== null) {
-                        const bounds = axes.rect(
-                            lastTokenView.getBoundingClientRect(),
+                    if (lastTokenView !== null && visibleLast !== undefined)
+                        return edgeOfToken(
+                            lastTokenView,
+                            visibleLast,
+                            true,
+                            axes,
                         );
-                        return {
-                            inline: bounds.inlineEnd,
-                            block: bounds.blockStart,
-                            extent: across(bounds),
-                            blockEnd: bounds.blockEnd,
-                        };
-                    }
                 }
             }
             const blockView = getNodeView(block);
@@ -1210,8 +1326,9 @@
             }
         }
 
-        // No token? No caret.
-        if (token === undefined) return;
+        // No token at all — an empty document. Anchor to the content's start
+        // rather than hiding the caret.
+        if (token === undefined) return atContentStart();
 
         // No index to render? No caret.
         if (tokenOffset === undefined) return;
@@ -1230,21 +1347,20 @@
             const renderToken = prior ?? nearestVisibleToken(token, 1);
             const renderView =
                 renderToken !== undefined ? getNodeView(renderToken) : null;
-            if (renderView === null) return;
-            const rect = axes.rect(renderView.getBoundingClientRect());
+            if (renderView === null || renderToken === undefined)
+                return atContentStart();
             // Prior token → caret at its trailing edge (just before `…`); forward
             // fallback → leading edge, as before.
-            const atEnd = prior !== undefined;
-            return {
-                inline: atEnd ? rect.inlineEnd : rect.inlineStart,
-                block: rect.blockStart,
-                extent: across(rect),
-                blockEnd: rect.blockEnd,
-            };
+            return edgeOfToken(
+                renderView,
+                renderToken,
+                prior !== undefined,
+                axes,
+            );
         }
 
         const tokenView = getNodeView(token);
-        if (tokenView === null) return;
+        if (tokenView === null) return atContentStart();
 
         // Figure out where the token view is, so we can properly offset the caret position in the editor.
         const tokenViewRect = tokenView.getBoundingClientRect();
@@ -1256,10 +1372,36 @@
             token,
             tokenViewRect,
             axes,
+            tokenView,
+            tokenOffset,
         );
 
         // Is the caret in the text, and not the space? We need to measure it's location in the text.
         if (tokenOffset > 0) {
+            // Ask for the caret position directly. A token that soft-wraps has a
+            // union box for both its own rect and the measured segment, so the
+            // arithmetic below silently puts the caret on the first line at the
+            // widest line's width. A collapsed range has no such ambiguity, and
+            // it carries the correct line as well as the correct offset.
+            const caretRect = locateCaretRect(tokenView, tokenOffset);
+            if (caretRect !== undefined) {
+                const box = axes.rect(caretRect);
+                // The collapsed range's own extent is the line box at that
+                // position, so it is also the caret's height. Taking it from the
+                // token's box instead makes the caret as tall as every line the
+                // token covers — which in prose, where a paragraph is often a
+                // single token, is the whole paragraph.
+                const extent = box.blockEnd - box.blockStart;
+                return {
+                    inline: box.inlineStart,
+                    block: box.blockStart,
+                    extent: extent > 0 ? extent : caretHeight,
+                    blockEnd:
+                        box.blockStart +
+                        (extent > 0 ? extent : across(tokenBox)),
+                };
+            }
+
             const [widthAtCaret, heightAtCaret] = measureTokenSegment(
                 tokenView,
                 tokenOffset,
@@ -1345,10 +1487,21 @@
             const priorTokenBox = project(
                 priorTokenView?.getBoundingClientRect(),
             );
+            // Where the prior token's LAST LINE ends, not the far edge of its
+            // union box. A caret in the space after a wrapped token — which is
+            // every caret at the end of a paragraph, since the `\n` between
+            // paragraphs is space rather than token text — was placed at the
+            // widest line's right edge on the last line's row: past the last
+            // character, and often past the end of the text entirely.
+            const priorTokenEnd =
+                priorTokenView !== null && priorToken !== undefined
+                    ? edgeOfToken(priorTokenView, priorToken, true, axes)
+                    : undefined;
             const priorTokenInlineEnd =
-                priorTokenBox === undefined
+                priorTokenEnd?.inline ??
+                (priorTokenBox === undefined
                     ? editorInlineStart
-                    : priorTokenBox.inlineEnd;
+                    : priorTokenBox.inlineEnd);
 
             // 1) Trailing space (the caret is before the first newline)
             if (spaceBefore.indexOfCharacter('\n') < 0) {
@@ -1370,7 +1523,9 @@
                     // beforeSpaceTop is display:none (so its rect is ~0, which
                     // would pin the caret to the viewport top).
                     let priorTokenTop: number;
-                    if (priorTokenBox !== undefined)
+                    if (priorTokenEnd !== undefined)
+                        priorTokenTop = priorTokenEnd.block;
+                    else if (priorTokenBox !== undefined)
                         priorTokenTop = priorTokenBox.blockStart;
                     else if (explicitSpace.indexOfCharacter('\n') >= 0) {
                         const spaceRect = project(
@@ -1581,7 +1736,7 @@
                 ? `${location.extent}px`
                 : CaretThickness
             : null}
-    ></span>{#if !blocks}<div class="trigger"
+    ></span>{#if !blocks && menu}<div class="trigger"
             ><MenuTrigger anchor={caret.position} /></div
         >{/if}</span
 >

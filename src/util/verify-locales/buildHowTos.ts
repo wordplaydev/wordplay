@@ -5,6 +5,8 @@ import getDocExamples, {
     type DocExample,
 } from '@util/verify-locales/docExamples';
 import Log from '@util/verify-locales/Log';
+import { toMarkup } from '@parser/toMarkup';
+import { withoutColorSelector } from '@unicode/emoji';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import fs from 'fs';
 import path from 'path';
@@ -62,6 +64,22 @@ function checkHowToBody(
     // being mistaken for an inline quotation and skipped. A failure there is a
     // pipeline defect rather than a mistake anyone made in this file, so it
     // warns instead of failing.
+    // A how-to must parse *wholly* as markup. An unclosed container delimiter —
+    // a `¶`, a lone `` ` ``, or an unbalanced `\` — escapes the wrapper
+    // `toMarkup` puts around the body, and everything after it parses as code
+    // instead of prose. Nothing rendered it, nothing reported it, and the
+    // translator never saw it either: en-US's `move-between-content` used `¶…¶`
+    // for an aside, and 28 of its 30 translations were made from the truncated
+    // half, averaging 55% of the English. That is why this is fatal rather than
+    // a warning — the cost is paid twice, in what readers see and in what
+    // translators are given.
+    const [parsed, spaces] = toMarkup(withoutColorSelector(body));
+    const covered = parsed.toWordplay(spaces);
+    if (covered !== withoutColorSelector(body))
+        log.bad(
+            `How-to '${id}' for ${locale} stops being markup after ${covered.length} of ${body.length} characters, so the rest never renders. Something opens a container that never closes — a \`¶\` used as an aside (write it as an ordinary paragraph), a lone backtick (double it: \`\`\`\`), or an odd number of \`\\\`.`,
+        );
+
     const examples = getDocExamples(body);
     const sameShape = authoredBlocks?.length === examples.length;
     const flattened = (example: DocExample, index: number) =>

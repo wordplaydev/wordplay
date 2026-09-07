@@ -14,6 +14,7 @@ import Docs from '@nodes/Docs';
 import Expression, { type GuardContext } from '@nodes/Expression';
 import Node, { node, type Grammar, type Replacement } from '@nodes/Node';
 import SimpleExpression from '@nodes/SimpleExpression';
+import { ATTENTION_SYMBOL } from '@parser/Symbols';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
@@ -132,7 +133,9 @@ export default class DocumentedExpression extends SimpleExpression {
                         n instanceof Token && n.isSymbol(Sym.Words),
                 )
                 .some(
-                    (t) => !insideExamples.has(t) && t.getText().includes('👀'),
+                    (t) =>
+                        !insideExamples.has(t) &&
+                        t.getText().includes(ATTENTION_SYMBOL),
                 );
         });
     }

@@ -10844,6 +10844,51 @@
                 "button": "$~로그인",
                 "disclaimer": "$~로그인을 요청한 적이 없다면 이 이메일을 무시해도 됩니다. 이 링크 없이는 아무도 당신의 계정에 들어갈 수 없습니다."
             }
+        },
+        "markup": {
+            "description": "$~서식 있는 글 쓰기",
+            "placeholder": "$~무언가 쓰기",
+            "mode": {
+                "prose": "$~어떻게 보일지 보여주기",
+                "source": "$~서식 기호 보여주기"
+            },
+            "command": {
+                "italic": "$~기울임",
+                "bold": "$~굵게",
+                "extra": "$~매우 굵게",
+                "underline": "$~밑줄",
+                "light": "$~가늘게",
+                "example": "$~암호 예시",
+                "link": "$~웹 링크",
+                "concept": "$~개념으로 가는 링크",
+                "bullet": "$~글머리 기호",
+                "highlight": "$~이 예시 강조하기",
+                "defect": "$~이 예시는 원래 오류가 있어야 합니다",
+                "mode": "$~일반 글과 서식 기호 사이 전환하기",
+                "docs": "$~예시 안의 설명",
+                "attention": "$~이 줄에 주목하게 만들기",
+                "undo": "$~되돌리기",
+                "redo": "$~다시 실행"
+            },
+            "feedback": {
+                "formatOn": "$~$format 켜짐",
+                "formatOff": "$~$format 꺼짐",
+                "example": "$~암호 예시를 만들었어요",
+                "link": "$~웹 링크를 만들었어요",
+                "concept": "$~$name (으)로 연결됨",
+                "bulletOn": "$~글머리 기호를 만들었어",
+                "bulletOff": "$~글머리 기호를 없앴어",
+                "highlightOn": "$~이 예시는 강조 표시될 거야",
+                "highlightOff": "$~이 예시는 강조 표시되지 않을 거야",
+                "defectOn": "$~이 예시는 원래 오류가 있어야 합니다",
+                "defectOff": "$~이 예시에는 오류가 없어야 해",
+                "notInExample": "$~먼저 코드 예시 안에 커서를 놓아 봐",
+                "mode": "$~$mode",
+                "docs": "$~설명을 추가했어",
+                "attention": "$~이 줄을 강조하고 있어",
+                "undid": "$~그걸 되돌렸어",
+                "redid": "$~그걸 다시 실행했어"
+            }
         }
     },
     "moderation": {

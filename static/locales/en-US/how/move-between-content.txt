@@ -30,8 +30,8 @@ The extra \?\ checks are what keep the number from going past the ends of the li
 Without them you could walk off the end and there would be no slide to show.
 If you'd rather wrap around from the last slide back to the first, you can do that instead.
 
-¶Note: the arrow keys are named \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, and \'ArrowDown'\.
-You can also just write \'Left'\ and \'Right'\, and key names work in your own language too.¶
+Note: the arrow keys are named \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, and \'ArrowDown'\.
+You can also just write \'Left'\ and \'Right'\, and key names work in your own language too.
 
 Notice that \index\ is only a number, so this works for /any/ kind of content, not just text.
 Swap the @List for a list of @Group or whole scenes and the rest of the pattern doesn't change at all:
@@ -53,7 +53,7 @@ index•#: 1 … ∆ key …
 slides[index]
 \
 
-¶Note: see this pattern in a whole project in the gallery: <slide show@https://wordplay.dev/project/example-SlideShow?play>¶
+Note: see this pattern in a whole project in the gallery: <slide show@https://wordplay.dev/project/example-SlideShow?play>
 
 If you only ever need to go forward, and never back, a @Scene can be simpler.
 

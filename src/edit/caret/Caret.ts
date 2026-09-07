@@ -23,7 +23,7 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Unit from '@nodes/Unit';
 import Spaces from '@parser/Spaces';
-import { ELISION_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
+import { CODE_SYMBOL, ELISION_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
 import {
     DelimiterCloseByOpen,
     DelimiterOpenByClose,
@@ -522,16 +522,19 @@ export default class Caret {
                 this.position === node ||
                 this.source.root.hasAncestor(this.position, node)
             );
-        if (this.isPosition()) {
-            const start = this.source.getNodeFirstPosition(node);
-            const end = this.source.getNodeLastPosition(node);
-            return (
-                start !== undefined &&
-                end !== undefined &&
-                start <= this.position &&
-                (includeEnd ? this.position <= end : this.position < end)
-            );
-        } else return false;
+        const start = this.source.getNodeFirstPosition(node);
+        const end = this.source.getNodeLastPosition(node);
+        if (start === undefined || end === undefined) return false;
+        const within = (at: number) =>
+            start <= at && (includeEnd ? at <= end : at < end);
+        if (this.isPosition()) return within(this.position);
+        // A range is in a node when the node contains both of its ends. Returning
+        // false for every range meant that selecting text collapsed every
+        // reveal-at-caret at once — the `*…*` just inserted around a selection
+        // re-hid itself, and a web link snapped back to a non-editable anchor.
+        if (Array.isArray(this.position))
+            return within(this.position[0]) && within(this.position[1]);
+        return false;
     }
 
     /** Get the code position corresponding to the beginning of the given row.  */
@@ -1923,6 +1926,24 @@ export default class Caret {
                     ancestor instanceof Translation,
             );
         return container instanceof Markup;
+    }
+
+    /**
+     * True if the caret sits between the two halves of a doubled code delimiter
+     * (`\\`) in markup. That position is prose by tokenization — doubling escapes a
+     * markup symbol, so `\\` lexes as words — but it is code by intent: anything
+     * inserted there splits the pair into an example's delimiters. It is also the
+     * transient state the completer itself creates when a `\\` is typed. Without
+     * this, typing `\\~⊥\\` yields `\\~⊥~\\`, because the `~` pairs as markup
+     * formatting a keystroke before the position becomes code.
+     */
+    isBetweenCodeDelimiters(): boolean {
+        if (!this.isPosition()) return false;
+        const token = this.tokenExcludingSpace;
+        if (token === undefined || !token.isSymbol(Sym.Words)) return false;
+        if (token.getText() !== CODE_SYMBOL + CODE_SYMBOL) return false;
+        const start = this.source.getTokenTextPosition(token);
+        return start !== undefined && this.position === start + 1;
     }
 
     isPlaceholderNode() {
