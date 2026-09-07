@@ -10805,6 +10805,51 @@
                 "button": "$~登录",
                 "disclaimer": "$~如果你没有申请登录，可以忽略这封邮件——没有这个链接，谁都进不了你的账号。"
             }
+        },
+        "markup": {
+            "description": "$~编写带格式的文本",
+            "placeholder": "$~写点什么",
+            "mode": {
+                "prose": "$~显示它看起来会是什么样",
+                "source": "$~显示格式标记"
+            },
+            "command": {
+                "italic": "$~斜体",
+                "bold": "$~粗体",
+                "extra": "$~特粗体",
+                "underline": "$~下划线",
+                "light": "$~细体",
+                "example": "$~代码示例",
+                "link": "$~网页链接",
+                "concept": "$~链接到一个概念",
+                "bullet": "$~项目符号",
+                "highlight": "$~高亮这个示例",
+                "defect": "$~这个示例应该包含错误",
+                "mode": "$~在正文和格式标记之间切换",
+                "docs": "$~示例里的说明文字",
+                "attention": "$~让这一行更醒目",
+                "undo": "$~撤销",
+                "redo": "$~重做"
+            },
+            "feedback": {
+                "formatOn": "$~$format 打开",
+                "formatOff": "$~$format 关闭",
+                "example": "$~做了一个代码示例",
+                "link": "$~做了一个网页链接",
+                "concept": "$~链接到了 $name",
+                "bulletOn": "$~添加了一个项目符号",
+                "bulletOff": "$~删除了项目符号",
+                "highlightOn": "$~这个示例将会高亮显示",
+                "highlightOff": "$~这个示例不会高亮显示",
+                "defectOn": "$~这个示例应该包含错误",
+                "defectOff": "$~这个示例本不该有错误",
+                "notInExample": "$~先把光标放到一个代码示例里吧",
+                "mode": "$~$mode",
+                "docs": "$~添加了一段说明",
+                "attention": "$~把注意力吸引到这一行上",
+                "undid": "$~撤销了那个操作",
+                "redid": "$~重做了那个操作"
+            }
         }
     },
     "moderation": {

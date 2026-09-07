@@ -48,6 +48,10 @@
         OutlinePadding,
         type Rect,
     } from '@components/editor/highlights/outline';
+    import {
+        caretFieldSelection,
+        shouldEchoNatively,
+    } from '@components/editor/input/mirrorSelection';
     import isComposingKeyDown from '@components/editor/isComposingKeyDown';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import getMenuNoteMarkup from '@components/editor/menu/menuNote';
@@ -2558,30 +2562,11 @@
         // wrong character. Effects flush on microtasks, which CAN run in that
         // window. The input event clears the flag and syncs.
         if (input === null || composing || skipNextInput) return;
-        const code = current.source.getCode();
-        const text = code.toString();
+        // The value and the grapheme→UTF-16 selection mapping are shared with the
+        // markup editor's mirror; see caretFieldSelection for why the conversion
+        // is load-bearing (#1329).
+        const { text, low, high } = caretFieldSelection(current);
         if (input.value !== text) input.value = text;
-        // Map the caret to a field selection: a position collapses, a range
-        // selects, and a node selection selects its whole token span — which for
-        // a run of nodes is the text between its ends, since a run is contiguous.
-        const position = current.position;
-        const [start, end] =
-            typeof position === 'number'
-                ? [position, position]
-                : Array.isArray(position)
-                  ? position
-                  : (current.getSelectionSpan() ?? [
-                        current.getTextPosition(true) ?? 0,
-                        current.getTextPosition(false) ?? 0,
-                    ]);
-        // A range's anchor can follow its focus; the field needs them ordered.
-        // A caret position counts graphemes and a field's selection counts UTF-16
-        // code units, so an unconverted offset lands inside a surrogate pair after
-        // any emoji (#1329). Converting through the same UnicodeString the value
-        // came from is what makes the two agree: it is already normalized, so its
-        // code unit offsets index `text` exactly.
-        const low = code.getCodeUnitPosition(Math.min(start, end));
-        const high = code.getCodeUnitPosition(Math.max(start, end));
         // iOS draws a focused field's selection as native UI — a grey band and
         // round drag handles — painted above the page, which `opacity: 0` doesn't
         // suppress. The mirror lays the source out as plain wrapped text, so that
@@ -2895,15 +2880,10 @@
         // newline, and single-character Backspace/Delete at a plain position.
         // Node and range operations keep preventDefault: the command does more
         // than the naive field edit, and their feedback is already paced.
-        const chord = event.ctrlKey || event.metaKey || event.altKey;
-        skipNextInput =
-            !chord &&
-            (event.key.length === 1 ||
-                ((event.key === 'Enter' ||
-                    event.key === 'Backspace' ||
-                    event.key === 'Delete') &&
-                    !event.shiftKey &&
-                    typeof $caret.position === 'number'));
+        skipNextInput = shouldEchoNatively(
+            event,
+            typeof $caret.position === 'number',
+        );
 
         const [command, result] = handleKeyCommand(event, {
             caret: $caret,
@@ -3025,6 +3005,9 @@
         // Return undefined and let the event bubble.
     }
 
+    /** KEEP IN SYNC with MarkupEditor.svelte's composition handlers, which run the
+     *  same lifecycle over prose; see the note there for what is shared instead
+     *  and why the rest isn't. `ime-composition.spec.ts` covers both. */
     function handleCompositionStart() {
         composing = true;
 
@@ -4194,6 +4177,7 @@
             lines={$showLines}
             inline={false}
             layout={writingLayout}
+            wrap={$wrap && !$blocks}
         />
         {#snippet failed(error, reset)}
             <!-- Usually visible for a single tick before the automatic retry, but a

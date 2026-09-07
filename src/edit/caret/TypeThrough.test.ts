@@ -88,6 +88,12 @@ const Corpus: [string, string][] = [
     ['doc with example', '¶\\1 + 1\\¶1'],
     ['doc with link', '¶<wordplay@https://wordplay.dev>¶1'],
     ['doc with text literal in example', "¶\\'hi'\\¶1"],
+    // A formatting symbol typed as the FIRST character of a new example is the
+    // one position where markup and code disagree: the completer's `\\` pair
+    // lexes as escaped-backslash words, so the symbol used to pair as markup
+    // formatting a keystroke before the position became code.
+    ['doc with example starting with unary not', '¶\\~⊥\\¶1'],
+    ['doc with example starting with a name', '¶\\_a: 1\\¶1'],
     ['formatted', '`hello`'],
     ['formatted with italic', '`a /b/ c`'],
     ['pattern', "⣿'a'⣿"],

@@ -10862,6 +10862,51 @@
                 "button": "$~Iniciar sessão",
                 "disclaimer": "$~Se não pediu para iniciar sessão, pode ignorar este email — ninguém consegue entrar na sua conta sem esta ligação."
             }
+        },
+        "markup": {
+            "description": "$~escrever texto formatado",
+            "placeholder": "$~escrever algo",
+            "mode": {
+                "prose": "$~mostrar como vai ficar",
+                "source": "$~mostrar as marcas de formatação"
+            },
+            "command": {
+                "italic": "$~itálico",
+                "bold": "$~negrito",
+                "extra": "$~negrito extra",
+                "underline": "$~sublinhado",
+                "light": "$~leve",
+                "example": "$~exemplo de código",
+                "link": "$~ligação web",
+                "concept": "$~ligação a um conceito",
+                "bullet": "$~marca de lista",
+                "highlight": "$~realçar este exemplo",
+                "defect": "$~este exemplo devia ter erros",
+                "mode": "$~alternar entre texto corrido e marcas de formatação",
+                "docs": "$~explicação dentro do exemplo",
+                "attention": "$~chamar a atenção para esta linha",
+                "undo": "$~desfazer",
+                "redo": "$~refazer"
+            },
+            "feedback": {
+                "formatOn": "$~$format ativado",
+                "formatOff": "$~$format desativado",
+                "example": "$~criou um exemplo de código",
+                "link": "$~criou uma ligação web",
+                "concept": "$~ligado(a) a $name",
+                "bulletOn": "$~criou uma marca de lista",
+                "bulletOff": "$~removeu a marca de lista",
+                "highlightOn": "$~este exemplo vai ficar realçado",
+                "highlightOff": "$~este exemplo não vai ficar realçado",
+                "defectOn": "$~este exemplo devia ter erros",
+                "defectOff": "$~este exemplo não deveria ter erros",
+                "notInExample": "$~coloque primeiro o cursor num exemplo de código",
+                "mode": "$~$mode",
+                "docs": "$~adicionou uma explicação",
+                "attention": "$~a chamar a atenção para esta linha",
+                "undid": "$~desfez isso",
+                "redid": "$~refez isso"
+            }
         }
     },
     "moderation": {

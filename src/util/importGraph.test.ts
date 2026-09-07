@@ -597,13 +597,39 @@ test('resolving a color needs no basis', () => {
  * refresh beside `ensureAuth`. Every byte budget moves by a hundredth, and the
  * landing page's by two: that is the module, the new save-failure message, and
  * its translation into every locale.
+ *
+ * The markup editor's strings (#1307) are **+0 files** and about 800 bytes in
+ * `en-US.json`: the thirty-three names and spoken confirmations its commands
+ * need, in a file every page carries because every page resolves a locale. The
+ * editor itself is deliberately NOT on any of these graphs — `FormattedEditor`
+ * imports it dynamically, precisely because `MarkupHTMLView` reaches every page
+ * and a static import would drag the caret model, the parser, and the evaluator
+ * onto all five. That is what the runtime-reachability test below checks, and it
+ * stays green. `projects` is the one entry with no slack left, so only its byte
+ * budget moves.
+ *
+ * Turning the markup editor on at its six call sites (#1307) is **+0 files** and
+ * about 1KB: the `rich` flag and the caret-insertion affordance `FormattedEditor`
+ * exposes so `TemplateInputsPanel` can stop splicing at a field's
+ * `selectionStart`. The editor itself and its command list are still off every
+ * one of these graphs — both are behind the dynamic import, and the toolbar is
+ * rendered from inside the editor for that reason rather than beside it — so the
+ * runtime-reachability test below stays green. `+layout` is the one entry with no
+ * slack left, so only its byte budget moves.
+ *
+ * Making the soft-wrap context a store (#1307's second fix) is **+0 files** and a
+ * few hundred bytes in `Contexts.ts` and `RootView.svelte`, both of which every
+ * page already carries. Held as a plain boolean the context froze at whatever the
+ * setting was when the view mounted, so turning wrapping on changed the CSS and
+ * left every space non-breaking. `galleries` is the entry with no slack left for
+ * it, so only its byte budget moves.
  */
 test.each([
-    ['src/routes/+layout.svelte', 507, 3.77],
+    ['src/routes/+layout.svelte', 507, 3.78],
     ['src/components/app/Page.svelte', 530, 4.02],
     ['src/routes/[[locale]]/+page.svelte', 545, 4.11],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 549, 4.12],
-    ['src/routes/[[locale]]/projects/+page.svelte', 556, 4.14],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 549, 4.13],
+    ['src/routes/[[locale]]/projects/+page.svelte', 556, 4.15],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

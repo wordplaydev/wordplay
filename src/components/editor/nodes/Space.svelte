@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { getWrapping } from '@components/project/Contexts';
     import { spaceIndicator } from '@db/Database';
     import type Token from '@nodes/Token';
     import { EXPLICIT_SPACE_TEXT, SPACE_TEXT } from '@parser/Spaces';
@@ -16,14 +15,15 @@
         space: string;
         /** Whether the space should be rendered invisibly. Overrides the space indicator setting if true. */
         invisible: boolean;
+        /** Whether a line may break here; see Format.wrapping. */
+        wrapping?: boolean;
     }
 
-    let { token, space, invisible = false }: Props = $props();
+    let { token, space, invisible = false, wrapping = false }: Props = $props();
 
     /** A wrapping view wants ordinary spaces, which a line can break at; see
-     *  setWrapping. The space indicator still wins where it's on, since that is
+     *  Format.wrapping. The space indicator still wins where it's on, since that is
      *  a deliberate request to see where the spaces are. */
-    const wrapping = getWrapping();
 </script>
 
 <!-- Keyed on the space to work around a Svelte defect that doesn't correctly

@@ -10865,6 +10865,51 @@
                 "button": "$~Giriş yap",
                 "disclaimer": "$~Eğer giriş yapmak istemediysen bu e-postayı görmezden gelebilirsin — bu bağlantı olmadan kimse hesabına giremez."
             }
+        },
+        "markup": {
+            "description": "$~biçimli metin yaz",
+            "placeholder": "$~bir şeyler yaz",
+            "mode": {
+                "prose": "$~nasıl görüneceğini göster",
+                "source": "$~biçimlendirme işaretlerini göster"
+            },
+            "command": {
+                "italic": "$~eğik",
+                "bold": "$~kalın",
+                "extra": "$~ekstra kalın",
+                "underline": "$~altı çizili",
+                "light": "$~ince",
+                "example": "$~kod örneği",
+                "link": "$~web bağlantısı",
+                "concept": "$~bir kavrama bağlantı",
+                "bullet": "$~madde işareti",
+                "highlight": "$~bu örneği vurgula",
+                "defect": "$~bu örnekte hata olması bekleniyor",
+                "mode": "$~düz metin ile biçimlendirme işaretleri arasında geçiş yap",
+                "docs": "$~örnek içindeki açıklama",
+                "attention": "$~bu satıra dikkat çek",
+                "undo": "$~geri al",
+                "redo": "$~yinele"
+            },
+            "feedback": {
+                "formatOn": "$~$format açık",
+                "formatOff": "$~$format kapalı",
+                "example": "$~bir kod örneği oluşturdu",
+                "link": "$~bir web bağlantısı oluşturdu",
+                "concept": "$~$name ile bağlantı kuruldu",
+                "bulletOn": "$~bir madde işareti oluşturdu",
+                "bulletOff": "$~madde işaretini kaldırdı",
+                "highlightOn": "$~bu örnek vurgulanacak",
+                "highlightOff": "$~bu örnek vurgulanmayacak",
+                "defectOn": "$~bu örnekte hata olması bekleniyor",
+                "defectOff": "$~bu örnekte hata olmaması gerekiyor",
+                "notInExample": "$~önce imlecini bir kod örneğine koy",
+                "mode": "$~$mode",
+                "docs": "$~bir açıklama ekledi",
+                "attention": "$~bu satıra dikkat çekiyor",
+                "undid": "$~bunu geri aldı",
+                "redid": "$~bunu yeniden yaptı"
+            }
         }
     },
     "moderation": {

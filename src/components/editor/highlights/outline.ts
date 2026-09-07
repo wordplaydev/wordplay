@@ -1,6 +1,9 @@
 import { TAB_WIDTH } from '@parser/Spaces';
 import type { WritingLayout } from '@locale/Scripts';
-import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
+import {
+    measureTokenSegment,
+    segmentLineRects,
+} from '@components/editor/highlights/measureTokenSegment';
 
 export type Rect = {
     l: number;
@@ -92,8 +95,11 @@ function bottommost(rects: Rect[], at?: number) {
 }
 
 function getEditorOffset(el: HTMLElement) {
-    // Account for the editor's viewport
-    const editorViewport = el.closest('.editor');
+    // Account for the editor's viewport. `.markup-editor` counts too: an outline
+    // is absolutely positioned inside whichever editor hosts it, so without its
+    // origin the coordinates stay in the viewport's frame and the highlight is
+    // drawn wherever that happens to land on the page.
+    const editorViewport = el.closest('.editor, .markup-editor');
 
     let _x = 0;
     let _y = 0;
@@ -172,7 +178,7 @@ function getSpaceTextRects(
     offset: { left: number; top: number },
 ): Rect[] {
     const id = tokenView.dataset.id;
-    const editor = tokenView.closest('.editor');
+    const editor = tokenView.closest('.editor, .markup-editor');
     if (id === undefined || !(editor instanceof HTMLElement)) return [];
     const space = editor.querySelector(`.space[data-id="${id}"]`);
     if (!(space instanceof HTMLElement)) return [];
@@ -245,6 +251,48 @@ export function getTokenRects(
                     rects.push(...getSpaceTextRects(view, offset));
                 // Add rects for token (vertically tight to the glyphs for tokens)
                 const tokenRect = getTokenContentRect(offset, view, blocks);
+
+                if (clip && !blocks) {
+                    // Ask the browser for one rect per VISUAL LINE of the
+                    // clipped run. Every branch below clips `l`/`r`/`w` only and
+                    // leaves `t`/`b` at the token's box, which is the union of
+                    // every line the token covers — invisible in code, where a
+                    // token is short, and structural in prose, where a paragraph
+                    // is one `Sym.Words` token and so a one-word selection was
+                    // outlined as tall as the paragraph. `rectsToRows` and
+                    // `getOutlineOfRows` then trace the staircase unchanged.
+                    const lineView = view.matches('.token-view')
+                        ? view
+                        : view.querySelector('.token-view');
+                    const lines =
+                        lineView === null
+                            ? []
+                            : segmentLineRects(
+                                  lineView,
+                                  tokenViews[0] === view ? clip.start : 0,
+                                  tokenViews.at(-1) === view
+                                      ? clip.end
+                                      : Number.MAX_SAFE_INTEGER,
+                              );
+                    if (lines.length > 0) {
+                        for (const line of lines) {
+                            const l = line.left - offset.left;
+                            const t = line.top - offset.top;
+                            rects.push({
+                                l,
+                                t,
+                                r: l + line.width,
+                                b: t + line.height,
+                                w: line.width,
+                                h: line.height,
+                            });
+                        }
+                        continue;
+                    }
+                    // Nothing measurable (an empty token, or a test environment
+                    // whose ranges report no rects): fall through to the
+                    // width-based clip below, which is exact on one line.
+                }
 
                 if (clip) {
                     const { start, end } = clip;
@@ -708,7 +756,7 @@ export function getSpaceRects(
     lineClips: Map<number, SpaceLineClip>,
 ): Rect[] {
     const id = tokenView.dataset.id;
-    const editorEl = tokenView.closest('.editor');
+    const editorEl = tokenView.closest('.editor, .markup-editor');
     if (!id || !(editorEl instanceof HTMLElement)) return [];
 
     const spaceEl = editorEl.querySelector(`.space[data-id="${id}"]`);

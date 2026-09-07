@@ -2,7 +2,7 @@ import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
 
 /**
- * Text-input coverage for the code editor, centered on #1054 (CJK/IME entry)
+ * Text-input coverage for BOTH editors, centered on #1054 (CJK/IME entry)
  * but also guarding the input paths the fix touches: plain typing, single-
  * composition IMEs (Japanese/Chinese), and recovery from a dropped
  * `compositionend` (the Windows emoji picker).
@@ -17,6 +17,13 @@ import { createTestProject } from '../helpers/createProject';
  * To confirm the Korean case is a real guard, revert the
  * `if (isComposingKeyDown(event)) return;` line in Editor.svelte.handleKeyDown
  * and rebuild: the assertion fails (the editor is left empty).
+ *
+ * The markup editor (#1307) runs the same input layer over prose, via the shared
+ * `textInputHandlers`. It gets the same cases, because the failure these guard
+ * against is invisible to every other test: a composition that silently drops
+ * syllables still renders, still saves, and only a CJK creator ever sees it. The
+ * two suites are what keep the shared layer honest for both callers — before
+ * this, the markup editor's copy of these handlers had no coverage at all.
  */
 
 const KOREAN_WORD = '안녕하세요';
@@ -42,11 +49,15 @@ async function composeOnce(
     page: import('@playwright/test').Page,
     key: string,
     composed: string,
+    /** Which editor's mirror to compose into. Defaults to the first on the page,
+     *  which is the code editor's; the markup editor tests pass their own, since
+     *  the project view has both mounted at once. */
+    host = '',
 ) {
     await page.evaluate(
-        ({ key, composed }) => {
+        ({ key, composed, host }) => {
             const ta = document.querySelector<HTMLTextAreaElement>(
-                'textarea.keyboard-input',
+                `${host} textarea.keyboard-input`.trim(),
             );
             if (ta === null) throw new Error('keyboard-input textarea missing');
             ta.focus();
@@ -96,7 +107,7 @@ async function composeOnce(
                 }),
             );
         },
-        { key, composed },
+        { key, composed, host },
     );
     // Yield so Svelte flushes between compositions, matching the real
     // one-macrotask-per-commit cadence.
@@ -203,4 +214,82 @@ test('Stuck composition (emoji picker) recovers on next keystroke', async ({
     await page.waitForTimeout(100);
 
     await expect(editor).toContainText(EMOJI, { timeout: 10_000 });
+});
+
+/**
+ * The markup editor, warmed the same way. It hosts the chat composer, which is
+ * the cheapest authed surface that mounts one — and `composeOnce` needs no
+ * change, because both editors mirror through `textarea.keyboard-input`.
+ */
+async function openWarmMarkupEditor(page: import('@playwright/test').Page) {
+    await createTestProject(page);
+    await page.getByTestId('collaborate-toggle').click();
+    const composer = page.locator('#new-message');
+    await composer.waitFor();
+    await composer.click();
+    await page.locator('.markup-editor textarea.keyboard-input').focus();
+    const markup = page.locator('.markup-editor').first();
+    await expect(markup).toBeVisible();
+    // Same priming as the code editor: the first synthetic composition is
+    // degenerate and dropped.
+    await composeOnce(page, 'ㄱ', '가', '.markup-editor');
+    await page.keyboard.press('ControlOrMeta+a');
+    await page.keyboard.press('Backspace');
+    await page.waitForTimeout(200);
+    return markup;
+}
+
+test('markup editor: Latin typing inserts characters', async ({ page }) => {
+    const markup = await openWarmMarkupEditor(page);
+    await page.keyboard.type('hello');
+    await expect(markup).toContainText('hello', { timeout: 10_000 });
+});
+
+test('markup editor: Korean IME composition accumulates syllables (#1054)', async ({
+    page,
+}) => {
+    const markup = await openWarmMarkupEditor(page);
+    for (const { key, composed } of KOREAN_SYLLABLES)
+        await composeOnce(page, key, composed, '.markup-editor');
+    await expect(markup).toContainText(KOREAN_WORD, { timeout: 10_000 });
+});
+
+test('markup editor: Japanese IME single-composition commit', async ({
+    page,
+}) => {
+    const markup = await openWarmMarkupEditor(page);
+    await composeOnce(page, 'n', JAPANESE_WORD, '.markup-editor');
+    await expect(markup).toContainText(JAPANESE_WORD, { timeout: 10_000 });
+});
+
+test('markup editor: stuck composition recovers on the next keystroke', async ({
+    page,
+}) => {
+    const markup = await openWarmMarkupEditor(page);
+    await page.evaluate((emoji) => {
+        const ta = document.querySelector<HTMLTextAreaElement>(
+            '.markup-editor textarea.keyboard-input',
+        );
+        if (ta === null) throw new Error('keyboard-input textarea missing');
+        ta.focus();
+        ta.dispatchEvent(
+            new CompositionEvent('compositionstart', {
+                bubbles: true,
+                data: '',
+            }),
+        );
+        ta.value = emoji;
+        const down = new KeyboardEvent('keydown', {
+            key: 'ArrowLeft',
+            bubbles: true,
+            cancelable: true,
+        });
+        Object.defineProperty(down, 'keyCode', {
+            value: 37,
+            configurable: true,
+        });
+        ta.dispatchEvent(down);
+    }, EMOJI);
+    await page.waitForTimeout(100);
+    await expect(markup).toContainText(EMOJI, { timeout: 10_000 });
 });

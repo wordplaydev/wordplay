@@ -616,7 +616,36 @@ export default class Source extends Expression {
             this.tokens[differingIndex],
             newTokens[differingIndex],
         );
-        return new Source(this.names, [newProgram, newSpaces], this.keywords);
+        const fast = new Source(
+            this.names,
+            [newProgram, newSpaces],
+            this.keywords,
+        );
+
+        // Verify the replacement actually landed, and fall through to the full
+        // reparse when it didn't.
+        //
+        // This is not hypothetical: typing a URL into a markup web link
+        // (`<docs@h>` → `<docs@ht>`, a single `Sym.Concept` token changing text)
+        // came back with the tree unchanged, and since `Source.code` is
+        // regenerated from the AST, the character typed simply never appeared —
+        // every letter after the first was silently swallowed. It reproduces only
+        // in the browser, not under vitest with the same sequence of edits, and
+        // the token list and the program's leaves are the same instances in the
+        // same order when it happens, so the reason `replace` finds nothing is
+        // still unexplained.
+        //
+        // Guarding is right regardless of the reason: the slow path is always
+        // correct, this check is O(1) (`fast.tokens` is already the new program's
+        // leaves), and it can only cost the fast path's savings on an edit the
+        // fast path got wrong.
+        if (
+            fast.tokens[differingIndex]?.getText() !==
+            newTokens[differingIndex].getText()
+        )
+            return undefined;
+
+        return fast;
     }
 
     withCode(code: string) {

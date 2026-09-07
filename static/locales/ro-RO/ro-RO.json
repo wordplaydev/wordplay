@@ -10869,6 +10869,51 @@
                 "button": "$~Intră",
                 "disclaimer": "$~Dacă nu ai cerut să intri, poți ignora acest email — nimeni nu poate intra în contul tău fără această legătură."
             }
+        },
+        "markup": {
+            "description": "$~scrie text formatat",
+            "placeholder": "$~scrie ceva",
+            "mode": {
+                "prose": "$~arată cum va arăta",
+                "source": "$~arată semnele de formatare"
+            },
+            "command": {
+                "italic": "$~cursiv",
+                "bold": "$~aldin",
+                "extra": "$~extra aldin",
+                "underline": "$~subliniat",
+                "light": "$~subțire",
+                "example": "$~exemplu de cod",
+                "link": "$~legătură web",
+                "concept": "$~legătură către un concept",
+                "bullet": "$~marcator",
+                "highlight": "$~evidențiază acest exemplu",
+                "defect": "$~acest exemplu ar trebui să conțină erori",
+                "mode": "$~comută între text obișnuit și semne de formatare",
+                "docs": "$~explicație în interiorul exemplului",
+                "attention": "$~atrage atenția asupra acestei linii",
+                "undo": "$~anulează",
+                "redo": "$~refă"
+            },
+            "feedback": {
+                "formatOn": "$~$format activat",
+                "formatOff": "$~$format dezactivat",
+                "example": "$~a creat un exemplu de cod",
+                "link": "$~a creat o legătură web",
+                "concept": "$~legat la $name",
+                "bulletOn": "$~a creat un marcator",
+                "bulletOff": "$~a eliminat marcatorul",
+                "highlightOn": "$~acest exemplu va fi evidențiat",
+                "highlightOff": "$~acest exemplu nu va fi evidențiat",
+                "defectOn": "$~acest exemplu ar trebui să conțină erori",
+                "defectOff": "$~acest exemplu nu ar trebui să aibă erori",
+                "notInExample": "$~pune mai întâi cursorul într-un exemplu de cod",
+                "mode": "$~$mode",
+                "docs": "$~a adăugat o explicație",
+                "attention": "$~atrage atenția asupra acestei linii",
+                "undid": "$~a anulat acțiunea",
+                "redid": "$~a refăcut acțiunea"
+            }
         }
     },
     "moderation": {

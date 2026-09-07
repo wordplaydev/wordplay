@@ -11,7 +11,6 @@
         getLocalize,
         getProject,
         getRoot,
-        getWrapping,
     } from '@components/project/Contexts';
     import { locales, words } from '@db/Database';
     import { getOperatorKeyword, getRenderableKeyword } from '@parser/Keywords';
@@ -226,16 +225,27 @@
                 : node.getText()),
     );
 
-    // A bare URL in markup renders as a link when the caret is outside it,
-    // mirroring WebLinkView. URLs inside a WebLink are left to WebLinkView.
-    let linkedURL = $derived(
+    /** A URL token that reads as a link: a bare URL or email in markup. Not every
+     *  one is — a scheme we don't allow isn't a link at all — and a URL inside a
+     *  `WebLink` is left to `WebLinkView`. */
+    let isURL = $derived(
         node.isSymbol(Sym.URL) &&
-            !($caret?.isIn(node, true) ?? false) &&
             !(root?.getParent(node) instanceof WebLink) &&
-            // Not every URL token is a link we'll follow: a bare email needs
-            // its scheme added, and a scheme we don't allow isn't a link at all.
             linkHref(node.getText()) !== undefined,
     );
+
+    // A bare URL renders as a real anchor when the caret is outside it, mirroring
+    // WebLinkView — EXCEPT in a prose editor, where it never does. An anchor
+    // stops the `pointerdown` that would place the caret, so an email address was
+    // a hole in the text that could not be clicked into or edited, and it is a Tab
+    // stop inside `role="application"`. It keeps its link appearance through
+    // `linkText` below rather than through being an anchor.
+    let proseEditor = $derived(format.prose !== undefined && format.editable);
+    let linkedURL = $derived(
+        isURL && !proseEditor && !($caret?.isIn(node, true) ?? false),
+    );
+    /** Styled as a link without being one. */
+    let linkText = $derived(isURL && proseEditor);
 
     /**
      * Prepare the text for rendering: spaces become non-breaking, and emoji get
@@ -244,11 +254,10 @@
      * A wrapping view keeps ordinary spaces, because a non-breaking one offers
      * the line nowhere to break — which is what left a paragraph of
      * documentation running off the side of a narrow read-only view instead of
-     * wrapping. See `setWrapping`; it is off unless a view asks.
+     * wrapping. See `Format.wrapping`; it is off unless a view asks.
      */
-    const wrapping = getWrapping();
     const spaced = $derived(
-        wrapping === true ? text : text.replaceAll(' ', '\xa0'),
+        format.wrapping === true ? text : text.replaceAll(' ', '\xa0'),
     );
     // withDefaultColorEmoji, not withColorEmoji: the latter strips first, which
     // would erase a creator's explicit U+FE0E and force their monochrome emoji
@@ -352,6 +361,8 @@
             ' ',
         )} token-category-{category} {bracketDepthClass}"
         class:hide
+        class:prose={format.prose === true}
+        class:link={linkText}
         class:active
         class:editable
         class:placeholder={placeholder !== undefined}
@@ -378,6 +389,43 @@
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
+    }
+
+    /**
+     * Prose: a token of markup being edited as the prose it is, rather than as
+     * source. Set by the markup editor and absent everywhere else, so code is
+     * untouched. An `\…\` example's program is rendered with `prose: false` (see
+     * ExampleView), so code inside prose keeps the code font and its syntax
+     * colours — which is what the read-only view shows too.
+     *
+     * `display: inline` is the load-bearing one. The markup tokenizer emits one
+     * `Sym.Words` token per run between delimiters, so a paragraph is often a
+     * single token; as an `inline-block` it is an atomic inline that cannot be
+     * split across lines, so it moves to the next line whole rather than
+     * continuing after a preceding bold run. Neither rule that depends on
+     * inline-block applies here: `.removed::after` needs a positioned box, which
+     * `.token-view.removed` still sets, and `.blocks` is a different mode.
+     */
+    .token-view.prose {
+        font-family: var(--wordplay-app-font);
+    }
+
+    /* Prose is prose, not a literal: `Sym.Words` maps to the `literal` category,
+       so without this every word of a paragraph is painted as a code literal —
+       the blue that made the editor look nothing like the rendered markup. The
+       selector is specific enough to beat the per-category rules below. */
+    /* A bare URL or email in a prose editor still READS as a link, even though it
+       is deliberately not an anchor there. Specificity has to beat the prose
+       neutralization below, which is an attribute selector. */
+    .token-view.prose.link,
+    .token-view.prose.link[class*='token-category-'] {
+        color: var(--wordplay-link-color);
+        text-decoration: underline;
+    }
+
+    .token-view.prose[class*='token-category-'] {
+        color: var(--wordplay-foreground);
+        font-size: inherit;
     }
 
     /* The merged text-mode token owns these (they used to live on NodeView's

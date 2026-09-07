@@ -20392,6 +20392,224 @@
                             ],
                             "type": "object"
                         },
+                        "markup": {
+                            "additionalProperties": false,
+                            "description": "The markup editor: the rich editor for Wordplay markup, used wherever formatted text is authored (how-tos, localization, chat). It renders the same markup two ways — prose, where the delimiters are hidden until the caret enters the run they wrap, and source, where they are shown and syntax-highlighted like code.",
+                            "properties": {
+                                "command": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attention": {
+                                            "description": "[plain] The button and shortcut that marks a line of code to draw attention to",
+                                            "type": "string"
+                                        },
+                                        "bold": {
+                                            "description": "[plain] The button and shortcut that makes text bold",
+                                            "type": "string"
+                                        },
+                                        "bullet": {
+                                            "description": "[plain] The button and shortcut that makes a line a bullet",
+                                            "type": "string"
+                                        },
+                                        "concept": {
+                                            "description": "[plain] The button and shortcut that inserts a link to a concept",
+                                            "type": "string"
+                                        },
+                                        "defect": {
+                                            "description": "[plain] The button and shortcut that marks an example as expected to have errors",
+                                            "type": "string"
+                                        },
+                                        "docs": {
+                                            "description": "[plain] The button and shortcut that adds an explanation inside a code example",
+                                            "type": "string"
+                                        },
+                                        "example": {
+                                            "description": "[plain] The button and shortcut that makes text a code example",
+                                            "type": "string"
+                                        },
+                                        "extra": {
+                                            "description": "[plain] The button and shortcut that makes text extra bold",
+                                            "type": "string"
+                                        },
+                                        "highlight": {
+                                            "description": "[plain] The button and shortcut that marks an example to be highlighted",
+                                            "type": "string"
+                                        },
+                                        "italic": {
+                                            "description": "[plain] The button and shortcut that makes text italic",
+                                            "type": "string"
+                                        },
+                                        "light": {
+                                            "description": "[plain] The button and shortcut that makes text light",
+                                            "type": "string"
+                                        },
+                                        "link": {
+                                            "description": "[plain] The button and shortcut that makes text a web link",
+                                            "type": "string"
+                                        },
+                                        "mode": {
+                                            "description": "[plain] The button and shortcut that switches between prose and source",
+                                            "type": "string"
+                                        },
+                                        "redo": {
+                                            "description": "[plain] The button and shortcut that redoes an undone change",
+                                            "type": "string"
+                                        },
+                                        "underline": {
+                                            "description": "[plain] The button and shortcut that underlines text",
+                                            "type": "string"
+                                        },
+                                        "undo": {
+                                            "description": "[plain] The button and shortcut that undoes the last change",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "italic",
+                                        "bold",
+                                        "extra",
+                                        "underline",
+                                        "light",
+                                        "example",
+                                        "link",
+                                        "concept",
+                                        "bullet",
+                                        "highlight",
+                                        "defect",
+                                        "docs",
+                                        "attention",
+                                        "undo",
+                                        "redo",
+                                        "mode"
+                                    ],
+                                    "type": "object"
+                                },
+                                "description": {
+                                    "description": "[plain] ARIA label and tooltip for the markup editing area",
+                                    "type": "string"
+                                },
+                                "feedback": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "attention": {
+                                            "description": "[plain] Confirms a line was marked to draw attention to",
+                                            "type": "string"
+                                        },
+                                        "bulletOff": {
+                                            "description": "[plain] Confirms a bullet was removed from the line",
+                                            "type": "string"
+                                        },
+                                        "bulletOn": {
+                                            "description": "[plain] Confirms a bullet was added to the line",
+                                            "type": "string"
+                                        },
+                                        "concept": {
+                                            "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                            "description": "[plain] Confirms a concept link was added, naming the concept"
+                                        },
+                                        "defectOff": {
+                                            "description": "[plain] Confirms an example is no longer marked as expected to have errors",
+                                            "type": "string"
+                                        },
+                                        "defectOn": {
+                                            "description": "[plain] Confirms an example was marked as expected to have errors",
+                                            "type": "string"
+                                        },
+                                        "docs": {
+                                            "description": "[plain] Confirms an explanation was added inside a code example",
+                                            "type": "string"
+                                        },
+                                        "example": {
+                                            "description": "[plain] Confirms a code example was added",
+                                            "type": "string"
+                                        },
+                                        "formatOff": {
+                                            "$ref": "#/definitions/Template%3C%5B%22format%22%5D%3E",
+                                            "description": "[plain] Confirms formatting was removed, naming which, e.g. \"bold off\""
+                                        },
+                                        "formatOn": {
+                                            "$ref": "#/definitions/Template%3C%5B%22format%22%5D%3E",
+                                            "description": "[plain] Confirms formatting was added, naming which, e.g. \"bold on\""
+                                        },
+                                        "highlightOff": {
+                                            "description": "[plain] Confirms an example is no longer marked to be highlighted",
+                                            "type": "string"
+                                        },
+                                        "highlightOn": {
+                                            "description": "[plain] Confirms an example was marked to be highlighted",
+                                            "type": "string"
+                                        },
+                                        "link": {
+                                            "description": "[plain] Confirms a web link was added",
+                                            "type": "string"
+                                        },
+                                        "mode": {
+                                            "$ref": "#/definitions/Template%3C%5B%22mode%22%5D%3E",
+                                            "description": "[plain] Confirms the editor switched mode, naming the mode entered"
+                                        },
+                                        "notInExample": {
+                                            "description": "[plain] Announced when a command needs the caret inside a code example and it isn't",
+                                            "type": "string"
+                                        },
+                                        "redid": {
+                                            "description": "[plain] Confirms an undone change was restored",
+                                            "type": "string"
+                                        },
+                                        "undid": {
+                                            "description": "[plain] Confirms the last change was undone",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "formatOn",
+                                        "formatOff",
+                                        "example",
+                                        "link",
+                                        "concept",
+                                        "bulletOn",
+                                        "bulletOff",
+                                        "highlightOn",
+                                        "highlightOff",
+                                        "defectOn",
+                                        "defectOff",
+                                        "docs",
+                                        "attention",
+                                        "undid",
+                                        "redid",
+                                        "notInExample",
+                                        "mode"
+                                    ],
+                                    "type": "object"
+                                },
+                                "mode": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "prose": {
+                                            "description": "[plain] The mode that renders markup as it will appear",
+                                            "type": "string"
+                                        },
+                                        "source": {
+                                            "description": "[plain] The mode that shows the markup delimiters",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["prose", "source"],
+                                    "type": "object"
+                                },
+                                "placeholder": {
+                                    "description": "[plain] Shown when the markup editor is empty",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "description",
+                                "placeholder",
+                                "mode",
+                                "command",
+                                "feedback"
+                            ],
+                            "type": "object"
+                        },
                         "output": {
                             "additionalProperties": false,
                             "properties": {
@@ -27677,6 +27895,7 @@
                         "howto",
                         "translation",
                         "source",
+                        "markup",
                         "feedback",
                         "annotations",
                         "wellspring",
@@ -28820,6 +29039,9 @@
             "type": "string"
         },
         "Template<[\"form\",\"impression\",\"mechanics\"]>": {
+            "type": "string"
+        },
+        "Template<[\"format\"]>": {
             "type": "string"
         },
         "Template<[\"forms\"]>": {

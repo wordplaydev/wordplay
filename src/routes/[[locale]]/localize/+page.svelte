@@ -475,6 +475,12 @@
      *  template-inputs panel reads whichever is currently rendered. */
     let textInputView = $state<HTMLInputElement | undefined>(undefined);
     let textAreaView = $state<HTMLTextAreaElement | undefined>(undefined);
+    /** The rich markup editor, which owns its caret: `$name` chips insert through
+     *  it rather than by splicing at the mirror field's selection, whose offsets
+     *  index the `¶…¶`-wrapped source in code units. */
+    let formattedEditor = $state<
+        { insert: (insertion: string) => void } | undefined
+    >(undefined);
 
     // Drop the selection if filter changes push it out of the visible list, so
     // the editor doesn't keep targeting an orphaned entry the contributor can't
@@ -1135,6 +1141,8 @@
                                             placeholder={(l) =>
                                                 l.ui.localize.field.formatted
                                                     .placeholder}
+                                            rich
+                                            bind:this={formattedEditor}
                                             bind:text={editedText}
                                             bind:view={textAreaView}
                                         />
@@ -1171,7 +1179,15 @@
                                     <TemplateInputsPanel
                                         path={selectedPath}
                                         text={editedText}
-                                        view={editorView}
+                                        view={editorType === 'formatted'
+                                            ? undefined
+                                            : editorView}
+                                        insert={editorType === 'formatted'
+                                            ? (insertion) =>
+                                                  formattedEditor?.insert(
+                                                      insertion,
+                                                  )
+                                            : undefined}
                                         oninsert={(next) => {
                                             editedText = next;
                                         }}

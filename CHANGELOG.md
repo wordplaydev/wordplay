@@ -14,6 +14,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔢 You can now write a range of numbers, like `1‥10`. It holds every number from one end to the other, so you can ask whether a number is inside it with `∋`, turn it into a list, or use it in a `???` to catch a whole span of numbers at once. (#398)
 - ✍️ Type two dots to get the range symbol `‥`, and a third to turn it into the stream symbol `…`. So `1..10` gives you a range and `1...10` still gives you a reaction. You can also pick `‥` from the symbols under the editor. (#398)
 - 🤝 You can now share your [characters](https://wordplay.dev/characters) in a gallery. Everyone in the gallery can see them, make their own version to change, or copy a character's name to use it in their own project. (#822)
+- ✍️ Wherever you write formatted text — a chat message, a how-to, a translation — the editor now shows it the way it will look. Bold words look bold and links look like links, instead of showing the symbols that make them. Press the 👁 button to see the symbols whenever you want them. (#1307)
+- ✍️ Formatted text now behaves the way writing should. Click to put the cursor where you clicked, double-click to pick a word, triple-click to pick a paragraph, and hold Option or Alt with an arrow key to jump word by word. Pressing Enter after a bullet starts the next one. (#1307)
 - 🔒 You can now ask for a character shared in a gallery to be looked at. The gallery's curators review what's in their gallery, and Wordplay's moderators review anything everyone can see. (#1236)
 
 ### Changed
@@ -21,10 +23,14 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔒 Everyone now has a username, even people who sign in with an email address. Wordplay never shows anyone's email address to anybody else. (#628)
 - 🔒 We now check that requests come from the real Wordplay before we answer them, so nobody can make thousands of accounts to use up our translating. You won't see anything — there are no puzzles to solve. (#1299)
 - 🎨 We tidied up a gallery's page. Projects and characters each have their own heading with a button to add one, and the settings for who can join, who can see it, and deleting it now sit together in tabs at the bottom. (#822)
+- 📝 We grouped the buttons above the formatted text editor: undo and redo first, then bold, italic and the rest, then the ones for code examples. The example buttons only appear when your cursor is inside an example. (#1307)
 - 🎨 A character's share button now says "share", like a project's does, and opens tabs for who can see it, who can help make it, and which gallery it's in. (#822)
 
 ### Fixed
 
+- ✍️ Turning on wrapping in the editor now really wraps long lines. It used to change how the editor looked but leave every space unbreakable, so a long line still ran off the side.
+- 📖 We fixed a how-to in the [Guide](https://wordplay.dev/guide) that stopped halfway through. A note in the middle of it used a symbol that ends the text early, so the rest never showed.
+- 🐛 Tooltips now leave a space before the keyboard shortcut, so a button reads "bold (⌘B)" instead of "bold(⌘B)".
 - 🗣️ We fixed screen readers reading the wrong letter after an emoji in your code. Wordplay counts an emoji as one character but a text box counts it as two, so the reader could land in the middle of one. (#1329)
 - 🚦 If you write `1…10` when you meant a range, Wordplay now offers to swap the three dots for two. It only offers this when both sides are numbers, so it stays quiet on a reaction you're still writing. (#398)
 - 🚦 We fixed asking whether a value is one exact number or word. Asking if `5` is a `5` used to say no, and so did every check against a list of choices like `1|2|3`.

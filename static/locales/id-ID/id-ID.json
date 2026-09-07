@@ -10873,6 +10873,51 @@
                 "button": "$~Masuk",
                 "disclaimer": "$~Jika kamu tidak meminta untuk masuk, kamu boleh mengabaikan email ini — tidak ada yang bisa masuk ke akunmu tanpa tautan ini."
             }
+        },
+        "markup": {
+            "description": "$~tulis teks berformat",
+            "placeholder": "$~tulis sesuatu",
+            "mode": {
+                "prose": "$~tampilkan bagaimana tampilannya nanti",
+                "source": "$~tampilkan tanda format"
+            },
+            "command": {
+                "italic": "$~miring",
+                "bold": "$~tebal",
+                "extra": "$~tebal ekstra",
+                "underline": "$~garis bawah",
+                "light": "$~tipis",
+                "example": "$~contoh kode",
+                "link": "$~tautan web",
+                "concept": "$~tautan ke konsep",
+                "bullet": "$~poin",
+                "highlight": "$~sorot contoh ini",
+                "defect": "$~contoh ini memang seharusnya punya kesalahan",
+                "mode": "$~beralih antara teks biasa dan tanda format",
+                "docs": "$~penjelasan di dalam contoh",
+                "attention": "$~tarik perhatian ke baris ini",
+                "undo": "$~urungkan",
+                "redo": "$~ulangi"
+            },
+            "feedback": {
+                "formatOn": "$~$format aktif",
+                "formatOff": "$~$format nonaktif",
+                "example": "$~membuat contoh kode",
+                "link": "$~membuat tautan web",
+                "concept": "$~tertaut ke $name",
+                "bulletOn": "$~membuat poin",
+                "bulletOff": "$~menghapus poin",
+                "highlightOn": "$~contoh ini akan disorot",
+                "highlightOff": "$~contoh ini tidak akan disorot",
+                "defectOn": "$~contoh ini memang seharusnya punya kesalahan",
+                "defectOff": "$~contoh ini seharusnya tidak punya kesalahan",
+                "notInExample": "$~letakkan kursor pada contoh kode dulu",
+                "mode": "$~$mode",
+                "docs": "$~menambahkan penjelasan",
+                "attention": "$~menarik perhatian ke baris ini",
+                "undid": "$~membatalkan itu",
+                "redid": "$~mengulangi itu"
+            }
         }
     },
     "moderation": {

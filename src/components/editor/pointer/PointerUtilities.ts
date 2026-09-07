@@ -18,6 +18,10 @@ import {
     type Row,
     type RowMember,
 } from '@components/editor/caret/rowModel';
+import {
+    graphemeOffsetAt,
+    locateCaretRect,
+} from '@components/editor/highlights/measureTokenSegment';
 import type { Axes, LogicalRect, RectLike } from '@components/editor/util/axes';
 
 /**
@@ -492,6 +496,16 @@ function rowRectOfIndex(
     if (token === undefined) return undefined;
     const view = editor.querySelector(`.token-view[data-id="${token.id}"]`);
     if (!(view instanceof HTMLElement)) return undefined;
+    // The row of the position, not of the token: a token's box is the union of
+    // every line it covers, which is a whole paragraph when the token is a
+    // `Sym.Words` run, so a range's vertical move would step from the paragraph's
+    // band rather than from the line the moving end is actually on.
+    const start = caret.source.getTokenTextPosition(token);
+    const at =
+        start === undefined
+            ? undefined
+            : locateCaretRect(view, Math.max(0, index - start));
+    if (at !== undefined && isRendered(at)) return at;
     const rect = view.getBoundingClientRect();
     return isRendered(rect) ? rect : undefined;
 }
@@ -821,13 +835,26 @@ export function getTokenPosition(
     const lastIndex = caret.source.getTokenLastPosition(token);
     if (startIndex === undefined || lastIndex === undefined) return undefined;
 
-    // A soft-wrapped token occupies several boxes, so its union box says nothing
-    // about where in the text a point on the second line falls — every row of it
-    // would resolve to the same offset, which is why arrowing down inside a long
-    // text literal used to land back where it started. Measure within the
-    // fragment the point is actually on, counting the width of the ones before
-    // it. With one fragment this is exactly the whole-box calculation.
+    // Ask the browser where each offset actually is, rather than interpolating
+    // along the token's extent. Interpolation is exact only for monospace on one
+    // line: prose is set in a proportional face, and a soft wrap breaks the
+    // linear map even in monospace, because each line fragment holds a different
+    // number of characters per pixel. A binary search over collapsed ranges
+    // costs O(log n) measurements and is exact for any font, wrapping or
+    // writing mode.
     const at = axes.point(point.clientX, point.clientY);
+    const measured = graphemeOffsetAt(
+        tokenViewEl,
+        token.getTextLength(),
+        at,
+        axes,
+    );
+    if (measured !== undefined)
+        return Math.max(startIndex, Math.min(lastIndex, startIndex + measured));
+
+    // Nothing measurable — an empty token, or an environment whose ranges report
+    // no rects. Fall back to the fragment the point is on and interpolate within
+    // it, which is what this did before and is right on a single line.
     const rects = elementRowRects(tokenViewEl).map((rect) => axes.rect(rect));
     const extentOf = (rect: LogicalRect) => rect.inlineEnd - rect.inlineStart;
     const totalExtent = rects.reduce((sum, rect) => sum + extentOf(rect), 0);

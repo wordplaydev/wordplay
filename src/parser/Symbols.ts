@@ -232,6 +232,8 @@ export const LOCALE_SYMBOL = withMonoEmoji(GLOBE1_SYMBOL);
 
 export const IDEA_SYMBOL = '💡';
 export const DEFECT_SYMBOL = '🪲';
+/** Marks a line inside an example's explanation as the one to draw attention to. */
+export const ATTENTION_SYMBOL = '👀';
 
 export const SEARCH_SYMBOL = '🔍';
 

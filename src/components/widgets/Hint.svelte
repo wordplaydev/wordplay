@@ -179,13 +179,14 @@
                 >{#if entry.markup}<MarkupHTMLView
                         markup={entry.markup}
                         inline
-                    />{:else}{entry.text}{/if}{#if i === 0 && tip.getShortcut()}
-                    <!-- A breakable space before the shortcut, which wraps as
-                         one unit (see .hint-shortcut): glued with a no-break
-                         space, a label + shortcut wider than the hint's
-                         max-width overflowed the box, eating the right
-                         padding. -->
-                    <span class="hint-shortcut">({tip.getShortcut()})</span
+                    />{:else}{entry.text}{/if}{#if i === 0 && tip.getShortcut()}<!-- An EXPLICIT
+                    breakable space before the shortcut, which wraps as one unit
+                    (see .hint-shortcut). Glued with a no-break space, a label +
+                    shortcut wider than the hint's max-width overflowed the box
+                    and ate the right padding — but written as indentation
+                    instead, it is markup whitespace and Svelte collapses it, so
+                    every tooltip in the app read "bold(⌘B)". -->{' '}<span
+                        class="hint-shortcut">({tip.getShortcut()})</span
                     >{/if}</span
             >{/each}</div
     >

@@ -52,7 +52,7 @@
         "id": "layering-images",
         "title": "将图像层叠在一起",
         "category": "stories",
-        "body": "有时候，我们会想通过叠加图像来构建有趣的场景或富有创意的形状。\n\n例如，你可以在 @Stage 上为项目使用多个图层，自由地堆叠和排列图像。\n\n看！这是我只用基本形状制作的一只小乌龟！\n试着修改每个形状对应的数字吧。你可以移动它们、调整大小，甚至进行旋转。\n多多尝试，看看你能创造出什么样的作品！\n\n¶提示：可以去看看图库中的另一个示例项目\n<example@https://wordplay.dev/project/example-Layers?play>，\n了解更多关于图像分层的用法。¶\n\nStage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) rotation: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)\n\t] place: Place(0m 10m -30m))\\\n\n你可以用图层制作出一些很酷的东西！快来试试吧！",
+        "body": "有时候，我们会想通过叠加图像来构建有趣的场景或富有创意的形状。\n\n例如，你可以在 @Stage 上为项目使用多个图层，自由地堆叠和排列图像。\n\n看！这是我只用基本形状制作的一只小乌龟！\n试着修改每个形状对应的数字吧。你可以移动它们、调整大小，甚至进行旋转。\n多多尝试，看看你能创造出什么样的作品！\n\n\\\n¶提示：可以去看看图库中的另一个示例项目\n<example@https://wordplay.dev/project/example-Layers?play>，\n了解更多关于图像分层的用法。¶\n\nStage([\n\t\tShape(Circle(3m 0m 1m 0m))\n\t\tShape(Polygon(2m 3 0m -12m 0m) 旋转: -30°)\n\t\tShape(Polygon(7m 6 0m -6m 0m))\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) 旋转: 25°)\n\t\tShape(Rectangle(-11m -9m 11m -12m 10m) 旋转: -25°)\n\t] 位置: Place(0m 10m -30m))\\\n\n你可以用图层制作出一些很酷的东西！快来试试吧！",
         "related": ["custom-characters"]
     },
     {

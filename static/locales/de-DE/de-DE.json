@@ -10874,6 +10874,51 @@
                 "button": "$~Anmelden",
                 "disclaimer": "$~Wenn du dich nicht anmelden wolltest, kannst du diese E-Mail ignorieren – ohne diesen Link kann niemand in dein Konto gelangen."
             }
+        },
+        "markup": {
+            "description": "$~formatierten Text schreiben",
+            "placeholder": "$~etwas schreiben",
+            "mode": {
+                "prose": "$~zeigen, wie es aussehen wird",
+                "source": "$~die Formatierungszeichen anzeigen"
+            },
+            "command": {
+                "italic": "$~kursiv",
+                "bold": "$~fett",
+                "extra": "$~extra fett",
+                "underline": "$~unterstrichen",
+                "light": "$~dünn",
+                "example": "$~Code-Beispiel",
+                "link": "$~Web-Link",
+                "concept": "$~Link zu einem Begriff",
+                "bullet": "$~Aufzählungspunkt",
+                "highlight": "$~dieses Beispiel hervorheben",
+                "defect": "$~dieses Beispiel soll Fehler enthalten",
+                "mode": "$~zwischen Text und Formatierungszeichen wechseln",
+                "docs": "$~Erklärung innerhalb des Beispiels",
+                "attention": "$~die Aufmerksamkeit auf diese Zeile lenken",
+                "undo": "$~rückgängig machen",
+                "redo": "$~wiederholen"
+            },
+            "feedback": {
+                "formatOn": "$~$format an",
+                "formatOff": "$~$format aus",
+                "example": "$~hat ein Code-Beispiel erstellt",
+                "link": "$~hat einen Web-Link erstellt",
+                "concept": "$~mit $name verknüpft",
+                "bulletOn": "$~hat einen Aufzählungspunkt erstellt",
+                "bulletOff": "$~hat den Aufzählungspunkt entfernt",
+                "highlightOn": "$~dieses Beispiel wird hervorgehoben",
+                "highlightOff": "$~dieses Beispiel wird nicht hervorgehoben",
+                "defectOn": "$~dieses Beispiel soll Fehler enthalten",
+                "defectOff": "$~dieses Beispiel soll keine Fehler haben",
+                "notInExample": "$~setze deinen Cursor zuerst in ein Code-Beispiel",
+                "mode": "$~$mode",
+                "docs": "$~hat eine Erklärung hinzugefügt",
+                "attention": "$~lenkt die Aufmerksamkeit auf diese Zeile",
+                "undid": "$~hat das rückgängig gemacht",
+                "redid": "$~hat das wiederhergestellt"
+            }
         }
     },
     "moderation": {

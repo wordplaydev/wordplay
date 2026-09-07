@@ -10848,6 +10848,51 @@
                 "button": "$~Logga in",
                 "disclaimer": "$~Om du inte bad om att logga in kan du strunta i det här e-postmeddelandet — ingen kan komma in på ditt konto utan den här länken."
             }
+        },
+        "markup": {
+            "description": "$~skriv formaterad text",
+            "placeholder": "$~skriv något",
+            "mode": {
+                "prose": "$~visa hur det kommer att se ut",
+                "source": "$~visa formateringsmärkena"
+            },
+            "command": {
+                "italic": "$~kursiv",
+                "bold": "$~fet",
+                "extra": "$~extra fet",
+                "underline": "$~understruken",
+                "light": "$~tunn",
+                "example": "$~kodexempel",
+                "link": "$~webblänk",
+                "concept": "$~länk till ett begrepp",
+                "bullet": "$~punkt",
+                "highlight": "$~markera det här exemplet",
+                "defect": "$~det här exemplet ska innehålla fel",
+                "mode": "$~växla mellan löptext och formateringsmärken",
+                "docs": "$~förklaring inuti exemplet",
+                "attention": "$~dra uppmärksamhet till den här raden",
+                "undo": "$~ångra",
+                "redo": "$~gör om"
+            },
+            "feedback": {
+                "formatOn": "$~$format på",
+                "formatOff": "$~$format av",
+                "example": "$~skapade ett kodexempel",
+                "link": "$~skapade en webblänk",
+                "concept": "$~länkade till $name",
+                "bulletOn": "$~gjorde en punktlista",
+                "bulletOff": "$~tog bort punktlistan",
+                "highlightOn": "$~detta exempel kommer att markeras",
+                "highlightOff": "$~detta exempel kommer inte att markeras",
+                "defectOn": "$~det här exemplet ska innehålla fel",
+                "defectOff": "$~detta exempel ska inte ha några fel",
+                "notInExample": "$~placera markören i ett kodexempel först",
+                "mode": "$~$mode",
+                "docs": "$~la till en förklaring",
+                "attention": "$~riktar uppmärksamheten mot denna rad",
+                "undid": "$~ångrade det",
+                "redid": "$~gjorde om det"
+            }
         }
     },
     "moderation": {

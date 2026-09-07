@@ -864,6 +864,95 @@ type UITexts = {
         };
     };
     /**
+     * The markup editor: the rich editor for Wordplay markup, used wherever
+     * formatted text is authored (how-tos, localization, chat). It renders the
+     * same markup two ways — prose, where the delimiters are hidden until the
+     * caret enters the run they wrap, and source, where they are shown and
+     * syntax-highlighted like code.
+     */
+    markup: {
+        /** [plain] ARIA label and tooltip for the markup editing area */
+        description: string;
+        /** [plain] Shown when the markup editor is empty */
+        placeholder: string;
+        mode: {
+            /** [plain] The mode that renders markup as it will appear */
+            prose: string;
+            /** [plain] The mode that shows the markup delimiters */
+            source: string;
+        };
+        command: {
+            /** [plain] The button and shortcut that makes text italic */
+            italic: string;
+            /** [plain] The button and shortcut that makes text bold */
+            bold: string;
+            /** [plain] The button and shortcut that makes text extra bold */
+            extra: string;
+            /** [plain] The button and shortcut that underlines text */
+            underline: string;
+            /** [plain] The button and shortcut that makes text light */
+            light: string;
+            /** [plain] The button and shortcut that makes text a code example */
+            example: string;
+            /** [plain] The button and shortcut that makes text a web link */
+            link: string;
+            /** [plain] The button and shortcut that inserts a link to a concept */
+            concept: string;
+            /** [plain] The button and shortcut that makes a line a bullet */
+            bullet: string;
+            /** [plain] The button and shortcut that marks an example to be highlighted */
+            highlight: string;
+            /** [plain] The button and shortcut that marks an example as expected to have errors */
+            defect: string;
+            /** [plain] The button and shortcut that adds an explanation inside a code example */
+            docs: string;
+            /** [plain] The button and shortcut that marks a line of code to draw attention to */
+            attention: string;
+            /** [plain] The button and shortcut that undoes the last change */
+            undo: string;
+            /** [plain] The button and shortcut that redoes an undone change */
+            redo: string;
+            /** [plain] The button and shortcut that switches between prose and source */
+            mode: string;
+        };
+        feedback: {
+            /** [plain] Confirms formatting was added, naming which, e.g. "bold on" */
+            formatOn: Template<['format']>;
+            /** [plain] Confirms formatting was removed, naming which, e.g. "bold off" */
+            formatOff: Template<['format']>;
+            /** [plain] Confirms a code example was added */
+            example: string;
+            /** [plain] Confirms a web link was added */
+            link: string;
+            /** [plain] Confirms a concept link was added, naming the concept */
+            concept: Template<['name']>;
+            /** [plain] Confirms a bullet was added to the line */
+            bulletOn: string;
+            /** [plain] Confirms a bullet was removed from the line */
+            bulletOff: string;
+            /** [plain] Confirms an example was marked to be highlighted */
+            highlightOn: string;
+            /** [plain] Confirms an example is no longer marked to be highlighted */
+            highlightOff: string;
+            /** [plain] Confirms an example was marked as expected to have errors */
+            defectOn: string;
+            /** [plain] Confirms an example is no longer marked as expected to have errors */
+            defectOff: string;
+            /** [plain] Confirms an explanation was added inside a code example */
+            docs: string;
+            /** [plain] Confirms a line was marked to draw attention to */
+            attention: string;
+            /** [plain] Confirms the last change was undone */
+            undid: string;
+            /** [plain] Confirms an undone change was restored */
+            redid: string;
+            /** [plain] Announced when a command needs the caret inside a code example and it isn't */
+            notInExample: string;
+            /** [plain] Confirms the editor switched mode, naming the mode entered */
+            mode: Template<['mode']>;
+        };
+    };
+    /**
      * Spoken confirmations that a command did something, for commands whose
      * effect a screen reader wouldn't otherwise convey (see `Command.feedback`
      * in Commands.ts, and CLAUDE.md's Screen-reader announcements section).

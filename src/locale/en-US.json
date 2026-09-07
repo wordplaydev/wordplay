@@ -7942,6 +7942,51 @@
                 "shortcuts": "The /shortcuts/ button opens a list of *keyboard shortcuts* you can use to edit more quickly."
             }
         },
+        "markup": {
+            "description": "write formatted text",
+            "placeholder": "write something",
+            "mode": {
+                "prose": "show how it will look",
+                "source": "show the formatting marks"
+            },
+            "command": {
+                "italic": "italic",
+                "bold": "bold",
+                "extra": "extra bold",
+                "underline": "underline",
+                "light": "light",
+                "example": "code example",
+                "link": "web link",
+                "concept": "link to a concept",
+                "bullet": "bullet",
+                "highlight": "highlight this example",
+                "defect": "this example is supposed to have errors",
+                "docs": "explanation inside the example",
+                "attention": "draw attention to this line",
+                "undo": "undo",
+                "redo": "redo",
+                "mode": "switch between prose and formatting marks"
+            },
+            "feedback": {
+                "formatOn": "$format on",
+                "formatOff": "$format off",
+                "example": "made a code example",
+                "link": "made a web link",
+                "concept": "linked to $name",
+                "bulletOn": "made a bullet",
+                "bulletOff": "removed the bullet",
+                "highlightOn": "this example will be highlighted",
+                "highlightOff": "this example will not be highlighted",
+                "defectOn": "this example is supposed to have errors",
+                "defectOff": "this example is not supposed to have errors",
+                "docs": "added an explanation",
+                "attention": "drawing attention to this line",
+                "undid": "undid that",
+                "redid": "redid that",
+                "notInExample": "put your cursor in a code example first",
+                "mode": "$mode"
+            }
+        },
         "feedback": {
             "copied": "copied $text",
             "cut": "cut $text",

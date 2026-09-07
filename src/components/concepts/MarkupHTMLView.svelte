@@ -482,6 +482,7 @@
     >
         {#if editing}
             <FormattedEditor
+                rich
                 id={fieldId}
                 description={(l) => l.ui.localize.field.plain.description}
                 placeholder={(l) => l.ui.localize.field.plain.placeholder}
