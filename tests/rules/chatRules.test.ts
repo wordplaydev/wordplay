@@ -21,12 +21,18 @@ const Users = {
     Collaborator: 'rulestest-chat-collaborator',
     Stranger: 'rulestest-chat-stranger',
     Mod: 'rulestest-chat-mod',
+    /** Curates the gallery the how-to below is in. */
+    Curator: 'rulestest-chat-curator',
 };
 
 /** A chat's document id is its project's id, which is what the rule relies on. */
 const Chat = 'rulestest-chat-project';
-/** A chat whose project doesn't exist, standing in for a how-to's chat. */
+/** A chat whose subject doesn't exist at all. */
 const Orphan = 'rulestest-chat-orphan';
+/** A how-to's chat: same shape, but its id names a how-to (#1353). */
+const HowToChat = 'rulestest-chat-howto';
+/** The gallery that how-to is in. */
+const HowToGallery = 'rulestest-chat-howto-gallery';
 /** A cache whose conversation has been deleted, which is what the client can
  *  never clean up and the `chatDeleted` trigger exists for. */
 const Gone = 'rulestest-chat-gone';
@@ -72,6 +78,31 @@ beforeEach(async () => {
                 moderation: {},
                 unread: [],
             });
+        // A how-to, its gallery, and the conversation about it. The chat's id is
+        // the how-to's, which is what made it unreachable by the project-shaped
+        // rule (#1353).
+        await db.doc(`galleries/${HowToGallery}`).set({
+            curators: [Users.Curator],
+            creators: [Users.Collaborator],
+            public: false,
+        });
+        await db.doc(`howtos/${HowToChat}`).set({
+            galleryId: HowToGallery,
+            creator: Users.Owner,
+            collaborators: [Users.Collaborator],
+            published: true,
+            scopeOverwrite: false,
+            isPublic: false,
+        });
+        await db.doc(`chats/${HowToChat}`).set({
+            v: 3,
+            project: HowToChat,
+            type: 'howto',
+            participants,
+            messages: [{ id: 'm1', time: 1, creator: Users.Owner, text: 'hi' }],
+            moderation: {},
+            unread: [],
+        });
         // A cached translation for each, plus one whose conversation is gone.
         for (const id of [Chat, Orphan, Gone])
             await db.doc(`chats/${id}/translations/es-MX`).set({ m1: 'hola' });
@@ -365,13 +396,62 @@ describe('chats: participants take part, the project owner disposes', () => {
         );
     });
 
-    it('a chat whose project is gone cannot be deleted by anyone', async () => {
+    it('a chat whose subject is gone cannot be deleted by anyone', async () => {
         // get() answers null for a missing document, so the rule denies rather
-        // than erroring. This is also today's behavior for a how-to's chat,
-        // whose id names a how-to and never a project.
+        // than erroring. Deleting the subject first is what keeps this from
+        // being reachable — which is why both delete paths do it in that order.
         await assertFails(as(Users.Owner).doc(`chats/${Orphan}`).delete());
         await assertFails(
             as(Users.Collaborator).doc(`chats/${Orphan}`).delete(),
+        );
+    });
+
+    it("a how-to's creator can delete the conversation about it", async () => {
+        // The whole of #1353: this used to be denied for everyone, because the
+        // rule read the chat's id as a project's and found nothing.
+        await assertSucceeds(
+            as(Users.Owner).doc(`chats/${HowToChat}`).delete(),
+        );
+    });
+
+    it('so can a curator of the gallery it is in, who can delete the how-to', async () => {
+        await assertSucceeds(
+            as(Users.Curator).doc(`chats/${HowToChat}`).delete(),
+        );
+    });
+
+    it('a collaborator on the how-to cannot, as on a project', async () => {
+        // A collaborator may rewrite a how-to and not destroy it, and that holds
+        // for the conversation about it — the same asymmetry the how-to delete
+        // rule states.
+        await assertFails(
+            as(Users.Collaborator).doc(`chats/${HowToChat}`).delete(),
+        );
+    });
+
+    it('nor a stranger, nor a moderator', async () => {
+        // A moderator takes a how-to down by unpublishing it, which is what
+        // `moderate.ts` does; a conversation is not public content.
+        await assertFails(
+            as(Users.Stranger).doc(`chats/${HowToChat}`).delete(),
+        );
+        await assertFails(
+            as(Users.Mod, { mod: true }).doc(`chats/${HowToChat}`).delete(),
+        );
+    });
+
+    it("a how-to's chat is not deletable by its project's owner", async () => {
+        // The branch is on the chat's own `type`, so a how-to's chat is never
+        // answered by the project question — there is no project with this id to
+        // own, and inventing one must not open it.
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context
+                .firestore()
+                .doc(`projects/${HowToChat}`)
+                .set({ owner: Users.Stranger, collaborators: [] });
+        });
+        await assertFails(
+            as(Users.Stranger).doc(`chats/${HowToChat}`).delete(),
         );
     });
 });

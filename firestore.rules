@@ -407,6 +407,30 @@ service cloud.firestore {
           && "owner" in project.data
           && project.data.owner == request.auth.uid;
       }
+      // A how-to's chat has the same shape — its id is its how-to's id — but the
+      // id named a project here, so the get() found nothing and no uid could
+      // ever delete one. Deleting the how-to did not take it either, so the
+      // conversation and the `translations` subcollection the `chatDeleted`
+      // trigger exists to collect were both stranded for good (#1353).
+      //
+      // Who may delete it is who may delete the how-to: its creator, or a
+      // curator of the gallery it is in — the same pair `match /howtos` states.
+      // A collaborator may rewrite a how-to and not destroy it, and that holds
+      // for the conversation about it too.
+      function mayDeleteHowTosChat() {
+        let howTo = get(/databases/$(database)/documents/howtos/$(chat)).data;
+        return howTo != null
+          && (
+            ("creator" in howTo && howTo.creator == request.auth.uid)
+            || ("galleryId" in howTo && curatesGallery(howTo.galleryId))
+          );
+      }
+      function curatesGallery(galleryID) {
+        let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
+        return gallery != null
+          && "curators" in gallery
+          && request.auth.uid in gallery.curators;
+      }
       // Anyone logged in can create chats
       allow create: if request.auth != null;
       allow read: if request.auth != null && (resource == null || (resource.data != null && request.auth.uid in resource.data.participants));
@@ -435,7 +459,20 @@ service cloud.firestore {
         && request.resource.data.diff(resource.data).affectedKeys()
              .hasOnly(['messages', 'unread', 'participants'])
         && request.resource.data.messages.size() >= resource.data.messages.size();
-      allow delete: if request.auth != null && ownsChatsProject();
+      // Which subject to ask about is the chat's own `type`. A pre-v2 document
+      // has none and is a project's, and a document that is already gone has no
+      // type to read — deleting a project whose chat never existed goes through
+      // this path, so it has to stay allowed rather than start reporting a
+      // failure.
+      allow delete: if request.auth != null && (
+        (
+          (resource == null || !("type" in resource.data) || resource.data.type == 'project')
+          && ownsChatsProject()
+        ) || (
+          resource != null && "type" in resource.data && resource.data.type == 'howto'
+          && mayDeleteHowTosChat()
+        )
+      );
 
       // Cached machine translations of this conversation, one document per
       // target language holding {messageID: translated text} (#1214).
