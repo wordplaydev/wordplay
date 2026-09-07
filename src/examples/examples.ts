@@ -234,7 +234,6 @@ function createGallery(
         curators: [],
         creators: [],
         public: true,
-        featured: true,
         // The developers' own galleries, so already curated. `words` stays
         // empty on purpose: their projects are searched in full rather than
         // through the prefilter it exists for.

@@ -29,7 +29,6 @@ function makeV1() {
         curators: ['u-curator'],
         creators: ['u-creator'],
         public: true,
-        featured: false,
     };
 }
 
@@ -56,7 +55,6 @@ describe('upgradeGallery (upgrade-on-load)', () => {
         expect(upgraded.curators).toEqual(['u-curator']);
         expect(upgraded.creators).toEqual(['u-creator']);
         expect(upgraded.public).toBe(true);
-        expect(upgraded.featured).toBe(false);
     });
 
     it('upgraded doc parses against the latest schema', () => {
@@ -195,5 +193,57 @@ describe('character membership (#822)', () => {
     it('leaves the original alone, like every other with* helper', () => {
         gallery.withCharacter('c1');
         expect(gallery.getCharacters()).toEqual([]);
+    });
+});
+
+/**
+ * Naming a gallery to draw how-to viewers from writes the *list* and nothing
+ * else. The viewer map and its flattening are the `galleryEdited` trigger's,
+ * and the rules refuse them to clients (#1352).
+ */
+describe('expanded how-to access (#1352)', () => {
+    function gallery() {
+        return Gallery.make(
+            'g',
+            { 'en-US': 'G' },
+            { 'en-US': '' },
+            ['curator'],
+            [],
+            {
+                howToExpandedGalleries: ['first'],
+                howToViewers: { first: ['someone'] },
+                howToViewersFlat: ['someone'],
+            },
+        );
+    }
+
+    it('naming a gallery adds it to the list alone', () => {
+        const next = gallery().withExpandedGallery('second');
+        expect(next.getHowToExpandedGalleries()).toEqual(['first', 'second']);
+        expect(next.getHowToViewers()).toEqual(['someone']);
+    });
+
+    it('naming the same gallery twice lists it once', () => {
+        expect(
+            gallery().withExpandedGallery('first').getHowToExpandedGalleries(),
+        ).toEqual(['first']);
+    });
+
+    it('dropping a gallery removes it from the list alone', () => {
+        const next = gallery().withoutExpandedGallery('first');
+        expect(next.getHowToExpandedGalleries()).toEqual([]);
+        // Still stored: the trigger clears it, and until it does the gallery
+        // reports what the server last said rather than a guess.
+        expect(next.getHowToViewers()).toEqual(['someone']);
+    });
+
+    it('leaves the gallery it was called on alone', () => {
+        // The builders shallow-copy, so `howToViewers` is shared with the
+        // receiver — writing through it used to rewrite the original in place.
+        const original = gallery();
+        original.withExpandedGallery('second');
+        original.withoutExpandedGallery('first');
+        expect(original.getHowToExpandedGalleries()).toEqual(['first']);
+        expect(original.getHowToViewers()).toEqual(['someone']);
     });
 });

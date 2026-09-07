@@ -13,10 +13,6 @@
                     "order": "ASCENDING"
                 },
                 {
-                    "fieldPath": "featured",
-                    "order": "DESCENDING"
-                },
-                {
                     "fieldPath": "id",
                     "order": "ASCENDING"
                 }

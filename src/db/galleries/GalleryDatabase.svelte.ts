@@ -528,7 +528,6 @@ export default class GalleryDatabase {
             curators: curators ?? [user.uid],
             creators: creators ?? [],
             public: false,
-            featured: false,
             // Private, so nothing has been asked of the moderators yet; the
             // galleryEdited trigger moves this to 'pending' if it goes public.
             moderation: 'unrequested',
