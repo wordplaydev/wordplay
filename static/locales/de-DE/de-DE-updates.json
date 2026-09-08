@@ -943,6 +943,11 @@
         "eea43688319b5": "$~Wir haben eigene Zeichen aus der Emoji-Auswahl im Zeicheneditor entfernt (<910@https://github.com/wordplaydev/wordplay/issues/910>).",
         "eec2b56f05544": "$~Wir haben das Flackern der Tooltipps am Fensterrand behoben (<895@https://github.com/wordplaydev/wordplay/issues/895>).",
         "efb149acb1fbf": "$~Wir haben die Hover-Rückmeldung bei bearbeitbarem Text im Code-Editor verbessert (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
-        "e40c803e33442": "$~Wir haben das Verhalten beim Größenändern von Kacheln in der Anleitung korrigiert (<912@https://github.com/wordplaydev/wordplay/issues/912>)."
+        "e40c803e33442": "$~Wir haben das Verhalten beim Größenändern von Kacheln in der Anleitung korrigiert (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
+        "ec36c97de7b55": "$~Du kannst deinen Code jetzt in zwei Ansichten nebeneinander zeigen, jede in ihrer eigenen Sprache. So kannst du auf etwas in einer Ansicht zeigen und es in der anderen finden. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "eb71d7c31c9ab": "$~Ein Name oder Symbol, das der Editor anders anzeigt als du es geschrieben hast, steht jetzt in einem kleinen Kasten. So siehst du, dass es sich zurückändert, sobald dein Cursor hineinspringt. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e60ce8f188ad3": "$~Wenn du deinen Code in einer Sprache anzeigst, ändern sich eingebaute Namen wie @Phrase jetzt auch in diese Sprache, selbst wenn du sie nicht zu deinem Projekt hinzugefügt hast. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e62959bf8e73e": "$~Du kannst jetzt eine E-Mail-Adresse in einer Dokumentation oder einem Wie-man schreiben. Sie wird dann zu einem Link, der eine Nachricht öffnet.",
+        "e730993ac0281": "$~Du schreibst ein Unicode-Zeichen jetzt über seine Nummer als \\@U/1F600\\, statt der älteren Form ohne das U."
     }
 }

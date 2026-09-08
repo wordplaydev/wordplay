@@ -7497,7 +7497,9 @@
                 "zoomIn": "$~コードを大きくする",
                 "zoomOut": "$~コードを小さくする",
                 "replace": "$~一致するものをすべて置き換える",
-                "selectOutputError": "$~この出力をステージに表示します。このソースの評価はエラーで終わりました"
+                "selectOutputError": "$~この出力をステージに表示します。このソースの評価はエラーで終わりました",
+                "addView": "$~このコードを2番目のビューに表示する",
+                "closeView": "$~このビューを閉じる"
             },
             "field": {
                 "name": {
@@ -7620,7 +7622,8 @@
             "options": {
                 "locale": {
                     "tip": "$~ソースの優先言語",
-                    "all": "$~$#count[$count 言語]"
+                    "all": "$~$#count[$count 言語]",
+                    "viewing": "$~$language"
                 }
             },
             "error": {
@@ -7653,6 +7656,10 @@
                 "none": "$~すべて展開する",
                 "collapsed": "$~$nameを折りたたみました",
                 "expanded": "$~$nameを展開しました"
+            },
+            "view": {
+                "added": "$~$name の2つ目のビューを追加した",
+                "closed": "$~$name の2つ目のビューを閉じた"
             }
         },
         "annotations": {

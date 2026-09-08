@@ -7743,7 +7743,8 @@
             "options": {
                 "locale": {
                     "tip": "$~limba preferată pentru sursă",
-                    "all": "$~$#count[$#count limbă|$count limbi|$count de limbi]"
+                    "all": "$~$#count[$#count limbă|$count limbi|$count de limbi]",
+                    "viewing": "$~în $language"
                 }
             },
             "button": {
@@ -7751,7 +7752,9 @@
                 "zoomIn": "$~Măriți codul",
                 "zoomOut": "$~Faceți codul mai mic",
                 "replace": "$~înlocuiește toate chibriturile",
-                "selectOutputError": "$~arată această ieșire pe scenă; evaluarea acestei surse s-a încheiat cu o eroare"
+                "selectOutputError": "$~arată această ieșire pe scenă; evaluarea acestei surse s-a încheiat cu o eroare",
+                "addView": "$~arată acest cod într-o a doua fereastră",
+                "closeView": "$~închide această fereastră"
             },
             "field": {
                 "name": {
@@ -7900,6 +7903,10 @@
                 "none": "$~desfășura totul",
                 "collapsed": "$~$name restrâns",
                 "expanded": "$~$name extins"
+            },
+            "view": {
+                "added": "$~a adăugat o a doua fereastră pentru $name",
+                "closed": "$~a închis a doua fereastră pentru $name"
             }
         },
         "annotations": {

@@ -591,6 +591,17 @@ type UITexts = {
             zoomOut: string;
             /** [plain] The button that replaces all search matches with the replacement text */
             replace: string;
+            /** [plain] The button that shows this code in a second view, so it can be read in two languages, or at two places, at once */
+            addView: string;
+            /** [plain] The button that closes one of the two views of this code */
+            closeView: string;
+        };
+        /** Screen-reader announcements for showing this code in two views at once */
+        view: {
+            /** [plain] Announced when a second view of the code named $name is added */
+            added: Template<['name']>;
+            /** [plain] Announced when one of the two views of the code named $name is closed */
+            closed: Template<['name']>;
         };
         menu: {
             /** [plain] How to describe the autocomplete menu */
@@ -617,6 +628,8 @@ type UITexts = {
                 tip: string;
                 /** [plain] The "no filter" option in the editor locale chooser, showing how many languages are currently visible in the editor. $count is the number of languages. */
                 all: Template<['#count']>;
+                /** [plain] Added to a view's description to say which language it shows. $language is that language's name in its own language. */
+                viewing: Template<['language']>;
             };
         };
         /** Prefixes shown before a conflict explanation when an edit is rejected in blocks mode. */

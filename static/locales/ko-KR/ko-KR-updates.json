@@ -942,6 +942,11 @@
         "eea43688319b5": "$~문자 편집기의 이모지 선택기에서 사용자 지정 문자를 제거했습니다 (<910@https://github.com/wordplaydev/wordplay/issues/910>).",
         "eec2b56f05544": "$~창 가장자리의 도구설명이 깜빡이지 않도록 고쳤습니다 (<895@https://github.com/wordplaydev/wordplay/issues/895>).",
         "efb149acb1fbf": "$~코드 편집기에서 편집 가능한 텍스트 위에 마우스를 올렸을 때의 반응을 개선했습니다 (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
-        "e40c803e33442": "$~튜토리얼의 타일 크기 조정 동작을 바로잡았습니다 (<912@https://github.com/wordplaydev/wordplay/issues/912>)."
+        "e40c803e33442": "$~튜토리얼의 타일 크기 조정 동작을 바로잡았습니다 (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
+        "ec36c97de7b55": "$~이제 암호를 두 가지 언어로 나란히 볼 수 있어요. 한쪽에서 무언가를 가리키면 다른 쪽에서도 같은 부분을 찾을 수 있어요. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "eb71d7c31c9ab": "$~편집기가 여러분이 입력한 것과 다르게 보여주는 이름이나 기호는 이제 작은 상자 안에 표시돼요. 그래서 커서를 그 안으로 옮기면 원래대로 바뀐다는 것을 알 수 있어요. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e60ce8f188ad3": "$~암호를 어떤 언어로 보여줄 때, @Phrase 같은 내장 이름도 이제 그 언어로 바뀌어요. 여러분이 프로젝트에 그 언어를 추가하지 않았어도 그래요. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e62959bf8e73e": "$~이제 안내서나 어떻게에 이메일 주소를 쓰면, 그 주소가 메시지를 여는 링크가 됩니다.",
+        "e730993ac0281": "$~이제 유니코드 문자를 번호로 쓸 때는 이렇게 씁니다: \\@U/1F600\\, U가 없는 예전 방식 대신입니다."
     }
 }

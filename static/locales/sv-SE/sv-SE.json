@@ -7490,7 +7490,9 @@
                 "zoomIn": "$~Gör koden större",
                 "zoomOut": "$~Gör koden mindre",
                 "replace": "$~ersätt alla träffar",
-                "selectOutputError": "$~visa detta utdata på scenen; utvärderingen av denna källa slutade med ett fel"
+                "selectOutputError": "$~visa detta utdata på scenen; utvärderingen av denna källa slutade med ett fel",
+                "addView": "$~visa denna kod i en andra vy",
+                "closeView": "$~stäng denna vy"
             },
             "field": {
                 "name": {
@@ -7613,7 +7615,8 @@
             "options": {
                 "locale": {
                     "tip": "$~föredraget språk för källan",
-                    "all": "$~$#count[$count språk|$count språk]"
+                    "all": "$~$#count[$count språk|$count språk]",
+                    "viewing": "$~på $language"
                 }
             },
             "error": {
@@ -7646,6 +7649,10 @@
                 "none": "$~utveckla allt",
                 "collapsed": "$~$name hopfälld",
                 "expanded": "$~$name expanderad"
+            },
+            "view": {
+                "added": "$~lade till en andra vy av $name",
+                "closed": "$~stängde den andra vyn av $name"
             }
         },
         "annotations": {

@@ -943,6 +943,11 @@
         "eea43688319b5": "$~Karakter düzenleyicideki emoji seçicisinden özel karakterleri kaldırdık (<910@https://github.com/wordplaydev/wordplay/issues/910>).",
         "eec2b56f05544": "$~Pencerenin kenarındaki ipuçlarının titremesini durdurduk (<895@https://github.com/wordplaydev/wordplay/issues/895>).",
         "efb149acb1fbf": "$~Kod düzenleyicisindeki düzenlenebilir metin üzerindeki fare geri bildirimini iyileştirdik (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
-        "e40c803e33442": "$~Öğreticideki döşeme yeniden boyutlandırma davranışını düzelttik (<912@https://github.com/wordplaydev/wordplay/issues/912>)."
+        "e40c803e33442": "$~Öğreticideki döşeme yeniden boyutlandırma davranışını düzelttik (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
+        "ec36c97de7b55": "$~Artık kodunu yan yana iki görünümde gösterebilirsin, her biri kendi dilinde. Böylece birinde bir şeyi işaret edip diğerinde bulabilirsin. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "eb71d7c31c9ab": "$~Düzenleyicinin yazdığından farklı gösterdiği bir isim veya sembol artık küçük bir kutu içinde durur. Böylece imlecin oraya gelince eski haline döneceğini anlarsın. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e60ce8f188ad3": "$~Kodunu bir dilde gösterdiğinde, @Phrase gibi yerleşik isimler de artık o dile çevrilir. Bunu projene eklemesen bile olur. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e62959bf8e73e": "$~Artık bir dokümanda ya da bir nasıl rehberinde bir e-posta adresi yazabilirsin ve bu adres bir mesaj açan bir bağlantı olur.",
+        "e730993ac0281": "$~Artık bir Unicode karakterini numarasıyla şöyle yazıyorsun: \\@U/1F600\\, U harfi olmayan eski biçim yerine."
     }
 }

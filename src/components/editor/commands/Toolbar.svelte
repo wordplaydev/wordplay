@@ -2,6 +2,7 @@
     import type { Command } from '@components/editor/commands/Commands';
     import EditorLocaleChooser from '@components/project/EditorLocaleChooser.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
+    import Button from '@components/widgets/Button.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import { blocks, Settings, sourceWriting, wrap } from '@db/Database';
@@ -12,6 +13,7 @@
     import type Locale from '@locale/Locale';
     import {
         BLOCK_EDITING_SYMBOL,
+        CANCEL_SYMBOL,
         LOCALE_SYMBOL,
         TEXT_EDITING_SYMBOL,
     } from '@parser/Symbols';
@@ -28,6 +30,14 @@
         localesUsed: Locale[];
         editorLocales: Record<string, Locale | null>;
         onChangeLocale: (locale: Locale | null) => void;
+        /** Whether this source may be shown in a second view here. False in the
+         *  one- and two-tile arrangements, which choose what to show by
+         *  recency, so a second view would displace the first. */
+        canSplit: boolean;
+        /** Whether this source already has a second view, which decides whether
+         *  the control adds one or closes one. */
+        hasView: boolean;
+        onToggleView: () => void;
     }
 
     let {
@@ -40,6 +50,9 @@
         localesUsed,
         editorLocales,
         onChangeLocale,
+        canSplit,
+        hasView,
+        onToggleView,
     }: Props = $props();
 
     // Flat list of important commands shown in order: navigate, then modify
@@ -57,6 +70,11 @@
     );
 
     const hasLocale = $derived(localesUsed.length > 0);
+
+    /** The chooser and the split control share one overflow unit, so the control
+     *  that makes a second view can never drift away from the chooser that gives
+     *  each view its language. The slot exists if either belongs in it. */
+    const hasLocaleSlot = $derived(hasLocale || canSplit);
 
     /** The layouts this source's own glyphs allow. Offered rather than imposed:
      *  the code decides what is possible and the creator decides what to see. */
@@ -88,10 +106,10 @@
 
     // Item layout (each index = one overflow unit):
     //   0           : mode toggle
-    //   1           : locale chooser (only when hasLocale)
+    //   1           : locale chooser + split control (only when hasLocaleSlot)
     //   1+|2+ ..    : individual command buttons
     //   trailing    : the display toggles that apply (see `trailing`)
-    const localeOffset = $derived(hasLocale ? 1 : 0);
+    const localeOffset = $derived(hasLocaleSlot ? 1 : 0);
     // The soft-wrap toggle is a final item, shown only in text mode (blocks mode
     // manages its own layout and is out of scope for wrapping).
     const showWrap = $derived(!$blocks);
@@ -118,14 +136,31 @@
                 modeLabels={false}
             />
         </span>
-    {:else if hasLocale && i === 1}
+    {:else if hasLocaleSlot && i === 1}
         <span class="locale" data-uiid="editorToolbar">
-            {LOCALE_SYMBOL}
-            <EditorLocaleChooser
-                locale={editorLocales[sourceID]}
-                options={localesUsed}
-                change={(locale) => onChangeLocale(locale)}
-            />
+            {#if hasLocale}
+                {LOCALE_SYMBOL}
+                <EditorLocaleChooser
+                    id="code-locale-{sourceID}"
+                    locale={editorLocales[sourceID]}
+                    options={localesUsed}
+                    change={(locale) => onChangeLocale(locale)}
+                />
+            {/if}
+            <!-- Adding and closing a view are the same control in the same
+                 place, beside the chooser that gives each view its language. -->
+            {#if canSplit}
+                <Button
+                    uiid={hasView ? 'closeSourceView' : 'addSourceView'}
+                    background={false}
+                    tip={(l) =>
+                        hasView
+                            ? l.ui.source.button.closeView
+                            : l.ui.source.button.addView}
+                    action={onToggleView}
+                    icon={hasView ? CANCEL_SYMBOL : '+'}
+                ></Button>
+            {/if}
         </span>
     {:else if i >= trailingStart && trailing[i - trailingStart] === 'wrap'}
         <span data-uiid="wrapToggle">

@@ -5,6 +5,9 @@ import Arrangement from '@db/settings/Arrangement';
 import StagePlacement, {
     StagePlacementOrder,
 } from '@db/settings/StagePlacement';
+import Project from '@db/projects/Project';
+import Source from '@nodes/Source';
+import DefaultLocale from '@locale/DefaultLocale';
 import { describe, expect, test } from 'vitest';
 
 const Position = { left: 0, top: 0, width: 100, height: 100 };
@@ -394,5 +397,261 @@ describe('stage placement', () => {
             width: 0.7 * Width,
             height: Height,
         });
+    });
+});
+
+describe('source views', () => {
+    const Width = 1000;
+    const Height = 800;
+    const collaborate = tile(TileKind.Collaborate, TileKind.Collaborate);
+    const viewID = Layout.getSourceViewID(0, 1);
+    const view = tile(viewID, TileKind.Source);
+
+    function boundsOf(layout: Layout, id: string) {
+        const bounds = layout.getTileWithID(id)?.bounds;
+        if (bounds === undefined) throw new Error(`No bounds for ${id}.`);
+        return bounds;
+    }
+
+    describe('ids', () => {
+        test('view 0 is the source tile itself', () => {
+            expect(Layout.getSourceViewID(0, 0)).toBe(Layout.getSourceID(0));
+            expect(Layout.getSourceViewID(3, 0)).toBe(Layout.getSourceID(3));
+        });
+
+        test('a view id names its view', () => {
+            expect(Layout.getSourceViewID(0, 1)).toBe('source0.1');
+            expect(Layout.getSourceViewID(10, 2)).toBe('source10.2');
+        });
+
+        test('only a view id is a view id', () => {
+            expect(Layout.isSourceViewID('source0.1')).toBe(true);
+            expect(Layout.isSourceViewID('source0')).toBe(false);
+            expect(Layout.isSourceViewID(TileKind.Output)).toBe(false);
+            expect(Layout.isSourceViewID('source0.1.2')).toBe(false);
+        });
+
+        test('the source index parses out of both forms', () => {
+            expect(Layout.getSourceIndexFromID('source0')).toBe(0);
+            expect(Layout.getSourceIndexFromID('source10')).toBe(10);
+            expect(Layout.getSourceIndexFromID('source10.1')).toBe(10);
+        });
+
+        test('a non-source id has no source index', () => {
+            expect(
+                Layout.getSourceIndexFromID(TileKind.Output),
+            ).toBeUndefined();
+            expect(
+                Layout.getSourceIndexFromID(TileKind.Documentation),
+            ).toBeUndefined();
+            expect(Layout.getSourceIndexFromID('source')).toBeUndefined();
+            expect(Layout.getSourceIndexFromID('source0.1.2')).toBeUndefined();
+        });
+    });
+
+    /* The claim the whole approach rests on: a layout group is addressed by tile
+       KIND and a `split: true` group divides its own band among its tiles, so a
+       second source tile takes half the source band and moves nothing else. If
+       this regresses, an extra view tile is no longer a free way to split. */
+    describe('a view only subdivides the source band', () => {
+        for (const arrangement of [
+            Arrangement.Horizontal,
+            Arrangement.Vertical,
+        ] as const) {
+            test(`${arrangement} leaves every other tile where it was`, () => {
+                const without = layoutOf(
+                    source,
+                    output,
+                    docs,
+                    palette,
+                    collaborate,
+                ).resized(arrangement, StagePlacement.TopRight, Width, Height);
+                const with_ = layoutOf(
+                    source,
+                    view,
+                    output,
+                    docs,
+                    palette,
+                    collaborate,
+                ).resized(arrangement, StagePlacement.TopRight, Width, Height);
+
+                for (const kind of [
+                    TileKind.Output,
+                    TileKind.Documentation,
+                    TileKind.Palette,
+                    TileKind.Collaborate,
+                ]) {
+                    expect(boundsOf(with_, kind)).toEqual(
+                        boundsOf(without, kind),
+                    );
+                }
+            });
+
+            test(`${arrangement} halves the source band between the two views`, () => {
+                const band = boundsOf(
+                    layoutOf(
+                        source,
+                        output,
+                        docs,
+                        palette,
+                        collaborate,
+                    ).resized(
+                        arrangement,
+                        StagePlacement.TopRight,
+                        Width,
+                        Height,
+                    ),
+                    Layout.getSourceID(0),
+                );
+                const laid = layoutOf(
+                    source,
+                    view,
+                    output,
+                    docs,
+                    palette,
+                    collaborate,
+                ).resized(arrangement, StagePlacement.TopRight, Width, Height);
+                const first = boundsOf(laid, Layout.getSourceID(0));
+                const second = boundsOf(laid, viewID);
+
+                // The two views together cover exactly the band one view had,
+                // split on the axis the source group splits on.
+                if (arrangement === Arrangement.Horizontal) {
+                    expect(first.width).toBe(band.width / 2);
+                    expect(second.width).toBe(band.width / 2);
+                    expect(first.left).toBe(band.left);
+                    expect(second.left).toBe(band.left + band.width / 2);
+                    expect(first.height).toBe(band.height);
+                } else {
+                    expect(first.height).toBe(band.height / 2);
+                    expect(second.height).toBe(band.height / 2);
+                    expect(first.top).toBe(band.top);
+                    expect(second.top).toBe(band.top + band.height / 2);
+                    expect(first.width).toBe(band.width);
+                }
+            });
+        }
+    });
+
+    describe('withTileAfter', () => {
+        test('places the view directly after its source', () => {
+            expect(
+                layoutOf(source, output, docs)
+                    .withTileAfter(Layout.getSourceID(0), view)
+                    .tiles.map((t) => t.id),
+            ).toEqual([
+                Layout.getSourceID(0),
+                viewID,
+                TileKind.Output,
+                TileKind.Documentation,
+            ]);
+        });
+
+        test('appends when there is no such tile', () => {
+            expect(
+                layoutOf(output, docs)
+                    .withTileAfter(Layout.getSourceID(0), view)
+                    .tiles.map((t) => t.id),
+            ).toEqual([TileKind.Output, TileKind.Documentation, viewID]);
+        });
+    });
+
+    describe('withoutSourceViews', () => {
+        test('drops view tiles and keeps the rest', () => {
+            expect(
+                layoutOf(source, view, output)
+                    .withoutSourceViews()
+                    .tiles.map((t) => t.id),
+            ).toEqual([Layout.getSourceID(0), TileKind.Output]);
+        });
+
+        test('is the same layout when there are no views', () => {
+            const layout = layoutOf(source, output);
+            expect(layout.withoutSourceViews()).toBe(layout);
+        });
+
+        test('clears a fullscreen naming a view, and keeps one that does not', () => {
+            expect(
+                layoutOf(source, view, output)
+                    .withFullscreen(viewID)
+                    .withoutSourceViews().fullscreenID,
+            ).toBeUndefined();
+            expect(
+                layoutOf(source, view, output)
+                    .withFullscreen(TileKind.Output)
+                    .withoutSourceViews().fullscreenID,
+            ).toBe(TileKind.Output);
+        });
+    });
+
+    /* The two-tile arrangement picks by recency, so a view merely inserted after
+       its source displaces the source itself — you would split a file and stop
+       seeing the thing you split. */
+    test('an unraised view displaces its own source in the two-tile arrangement', () => {
+        expect(
+            layoutOf(source, view, output)
+                .getVisibleTiles(Arrangement.Split)
+                .map((t) => t.id),
+        ).toEqual([viewID, TileKind.Output]);
+    });
+
+    /* Which is why splitting raises both, source first, making them exactly the
+       pair that arrangement shows and in the order the other arrangements use.
+       This is the claim offering the split on a small window rests on. */
+    test('both views raised last are the two the arrangement shows', () => {
+        expect(
+            layoutOf(output, source, view)
+                .getVisibleTiles(Arrangement.Split)
+                .map((t) => t.id),
+        ).toEqual([Layout.getSourceID(0), viewID]);
+    });
+
+    /* One tile can never show two views, which is the one arrangement the
+       control stays hidden in. */
+    test('the one-tile arrangement shows only one of them', () => {
+        expect(
+            layoutOf(output, source, view)
+                .getVisibleTiles(Arrangement.Single)
+                .map((t) => t.id),
+        ).toEqual([viewID]);
+    });
+});
+
+describe('Tile.getSource', () => {
+    const main = new Source('main', '1');
+    const other = new Source('other', '2');
+    const project = Project.make(null, 'test', main, [other], DefaultLocale);
+
+    test('a source tile resolves its own source', () => {
+        expect(
+            tile(Layout.getSourceID(0), TileKind.Source).getSource(project),
+        ).toBe(main);
+        expect(
+            tile(Layout.getSourceID(1), TileKind.Source).getSource(project),
+        ).toBe(other);
+    });
+
+    /* A view that resolved to nothing would be silently deleted on every
+       syncTiles pass, since it drops any source tile with no source. */
+    test('a view tile resolves the same source as its primary', () => {
+        expect(
+            tile(Layout.getSourceViewID(0, 1), TileKind.Source).getSource(
+                project,
+            ),
+        ).toBe(main);
+        expect(
+            tile(Layout.getSourceViewID(1, 1), TileKind.Source).getSource(
+                project,
+            ),
+        ).toBe(other);
+    });
+
+    test('a tile naming no source resolves nothing', () => {
+        expect(
+            tile(TileKind.Output, TileKind.Output).getSource(project),
+        ).toBeUndefined();
+        expect(
+            tile(Layout.getSourceID(9), TileKind.Source).getSource(project),
+        ).toBeUndefined();
     });
 });

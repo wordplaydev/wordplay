@@ -7719,7 +7719,8 @@
             "options": {
                 "locale": {
                     "tip": "$~שפה מועדפת למקור",
-                    "all": "$~$#count[שפה אחת|$count שפות|$count שפות]"
+                    "all": "$~$#count[שפה אחת|$count שפות|$count שפות]",
+                    "viewing": "$~ב־$language"
                 }
             },
             "button": {
@@ -7727,7 +7728,9 @@
                 "zoomIn": "$~הגדל את הקוד",
                 "zoomOut": "$~הקטן את הקוד",
                 "replace": "$~החלף את כל ההתאמות",
-                "selectOutputError": "$~הצג פלט זה על הבמה; הערכת קוד המקור הזה הסתיימה בשגיאה"
+                "selectOutputError": "$~הצג פלט זה על הבמה; הערכת קוד המקור הזה הסתיימה בשגיאה",
+                "addView": "$~הצג קוד זה בתצוגה שנייה",
+                "closeView": "$~סגור תצוגה זו"
             },
             "field": {
                 "name": {
@@ -7877,6 +7880,10 @@
                 "none": "$~לפתוח את הכל",
                 "collapsed": "$~$name מכווץ",
                 "expanded": "$~$name הורחב"
+            },
+            "view": {
+                "added": "$~נוספה תצוגה שנייה של $name",
+                "closed": "$~התצוגה השנייה של $name נסגרה"
             }
         },
         "annotations": {

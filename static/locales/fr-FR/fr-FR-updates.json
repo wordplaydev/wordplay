@@ -942,6 +942,11 @@
         "eea43688319b5": "$~Nous avons retiré les caractères personnalisés du sélecteur d'émojis dans l'éditeur de caractères (<910@https://github.com/wordplaydev/wordplay/issues/910>).",
         "eec2b56f05544": "$~Nous avons empêché les info-bulles au bord de la fenêtre de clignoter (<895@https://github.com/wordplaydev/wordplay/issues/895>).",
         "efb149acb1fbf": "$~Nous avons amélioré la réaction au survol du texte modifiable dans l'éditeur de code (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
-        "e40c803e33442": "$~Nous avons corrigé le comportement de redimensionnement des tuiles dans le tutoriel (<912@https://github.com/wordplaydev/wordplay/issues/912>)."
+        "e40c803e33442": "$~Nous avons corrigé le comportement de redimensionnement des tuiles dans le tutoriel (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
+        "ec36c97de7b55": "$~Vous pouvez maintenant afficher votre code dans deux vues côte à côte, chacune dans sa propre langue, pour pouvoir montrer quelque chose dans l'une et le retrouver dans l'autre. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "eb71d7c31c9ab": "$~Un nom ou un symbole que l'éditeur affiche différemment de ce que vous avez tapé se trouve maintenant dans une petite boîte, pour que vous sachiez qu'il redeviendra comme avant quand votre curseur y entrera. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e60ce8f188ad3": "$~Quand vous affichez votre code dans une langue, les noms intégrés comme @Phrase changent maintenant aussi dans cette langue, même si vous ne l'avez pas ajoutée à votre projet. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e62959bf8e73e": "$~Tu peux maintenant écrire une adresse courriel dans une documentation ou un comment faire, et elle devient un lien qui ouvre un message.",
+        "e730993ac0281": "$~Tu écris maintenant un caractère Unicode par son numéro comme \\@U/1F600\\, au lieu de l'ancienne forme sans le U."
     }
 }

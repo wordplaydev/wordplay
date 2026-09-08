@@ -161,6 +161,12 @@
     import { getEditsAt } from '@edit/menu/PossibleEdits';
     import type Revision from '@edit/revision/Revision';
     import type Locale from '@locale/Locale';
+    import { localeToString } from '@locale/Locale';
+    import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
+    import { getLanguageLocalDescription } from '@locale/LocaleText';
+    import Locales from '@locale/Locales';
+    import DefaultLocale from '@locale/DefaultLocale';
+    import concretize from '@locale/concretize';
     import { type LocaleTextAccessor } from '@locale/Locales';
     import Block from '@nodes/Block';
     import Evaluate from '@nodes/Evaluate';
@@ -212,6 +218,12 @@
         searchable?: boolean;
         /** The locale to use for rending code */
         locale: Locale | null;
+        /** Whether this editor publishes the local caret to collaborators.
+         *  PresenceTracker holds one caret per user, keyed by source index, so
+         *  when a source is shown in two views exactly one may publish — the
+         *  source's own tile, decided by id rather than by focus so it can't
+         *  flicker as focus moves or fall silent when neither view has it. */
+        publishPresence?: boolean;
         /** The bindable menu the ProjectView displaying this editor should show. */
         menu?: Menu | undefined;
         /** The bindable conflicts to show based caret and mouse position. */
@@ -224,8 +236,11 @@
          *  this one expanded, it's the only way to reach this source's output
          *  without reopening another editor (#1302). */
         multipleSources?: boolean;
-        /** A function for updating conflicts of interest */
-        updateConflicts?: (source: Source, conflicts: Conflict[]) => void;
+        /** A function for updating conflicts of interest. Undefined on a source's
+         *  extra view: the map it writes is keyed by Source, so only the tile
+         *  whose caret the annotations sidebar reads should report. */
+        updateConflicts?:
+            ((source: Source, conflicts: Conflict[]) => void) | undefined;
         /** Controller for this editor's footer notifications (large deletions, drag feedback, etc.) */
         notify?: EditorNotifier;
         /** Bindable snapshot of the current caret, for parents that need to observe it */
@@ -245,6 +260,7 @@
         dragSource = false,
         searchable = false,
         locale,
+        publishPresence = true,
         menu = $bindable(undefined),
         conflictsOfInterest = $bindable([]),
         setOutputPreview,
@@ -476,6 +492,55 @@
         caret.set($caret.withPosition(position));
     }
 
+    /**
+     * The chosen language's own strings, loaded on demand.
+     *
+     * A basis carries names only for the locales its project declares, so a
+     * program that merely tags a language it doesn't declare has no basis name
+     * in it: every creator-written name localizes and `Phrase` stays `Phrase`.
+     * `Token.localized` reaches the counterpart definition through these, and
+     * needs a whole `Locales` to do it. Undefined until it arrives, which just
+     * means the project's own basis answers, as it always did.
+     */
+    let localeTexts = $state<Locales | undefined>(undefined);
+    $effect(() => {
+        const chosen = locale;
+        if (chosen === null) {
+            localeTexts = undefined;
+            return;
+        }
+        const supported = getBestSupportedLocales([localeToString(chosen)])[0];
+        if (supported === undefined) {
+            localeTexts = undefined;
+            return;
+        }
+        let stale = false;
+        DB.Locales.loadLocale(supported, false).then((text) => {
+            if (!stale)
+                localeTexts =
+                    text === undefined
+                        ? undefined
+                        : new Locales(concretize, [text], DefaultLocale);
+        });
+        return () => {
+            stale = true;
+        };
+    });
+
+    /* Which language this editor renders, appended to its label. A source can be
+       shown in two views at once, and without this both carry the identical
+       name — so they are distinguishable to a screen reader exactly when they
+       show different languages, which is the point of showing two. */
+    const viewingLabel = $derived(
+        locale === null
+            ? ''
+            : ` ${$locales
+                  .concretize((l) => l.ui.source.options.locale.viewing, {
+                      language: getLanguageLocalDescription(locale),
+                  })
+                  .toText()}`,
+    );
+
     // Share the caret store with children.
     setCaret(caret);
 
@@ -590,6 +655,9 @@
         const yText = crdt.getYText(sourceIndex);
         const encoded = encodeRemoteCaret(yText, source, c.position, c.anchor);
         localCaretEncoded = encoded;
+        // The encoding above is kept in both views — it re-anchors *our own*
+        // caret when a peer edits — but only the publishing view tells peers.
+        if (!publishPresence) return;
         const tracker = Projects.getPresenceTracker(project.getID());
         if (tracker !== undefined) tracker.updateCaret(sourceIndex, encoded);
     });
@@ -1077,6 +1145,16 @@
     );
 
     onDestroy(() => clearTimeout(tabNoticeTimeout));
+
+    /* Leave the editors store when this editor goes away. Without this a closed
+       view — or a deleted source — leaves an EditorState behind holding a stale
+       project and caret, live closures over a destroyed component, and possibly
+       `focused: true`, which is what `focusedEditorState` reads. */
+    onDestroy(() => {
+        if (editors === undefined) return;
+        const current = get(editors);
+        if (current.delete(sourceID)) editors.set(current);
+    });
 
     /** Called when the program evaluates another step. */
     async function evalUpdate() {
@@ -4052,7 +4130,7 @@
     style:--zoom={`${zoom}pt`}
     aria-label={`${$locales.getPrimaryPlainText((l) => l.ui.source.label)} ${$locales.getName(
         source.names,
-    )}${
+    )}${viewingLabel}${
         !editable
             ? ` ${$locales.getPrimaryPlainText((l) => l.ui.source.cursor.ignored.readOnly)}`
             : ''
@@ -4170,6 +4248,7 @@
             node={source}
             spaces={source.spaces}
             {locale}
+            {localeTexts}
             caret={$caret}
             {editable}
             {values}

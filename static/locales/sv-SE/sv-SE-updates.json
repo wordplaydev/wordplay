@@ -943,6 +943,11 @@
         "eea43688319b5": "$~Vi tog bort anpassade tecken från emoji-väljaren i teckenredigeraren (<910@https://github.com/wordplaydev/wordplay/issues/910>).",
         "eec2b56f05544": "$~Vi fick verktygstipsen vid fönstrets kant att sluta flimra (<895@https://github.com/wordplaydev/wordplay/issues/895>).",
         "efb149acb1fbf": "$~Vi förbättrade svaret vid hovring över redigerbar text i koderedigeraren (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
-        "e40c803e33442": "$~Vi rättade till beteendet vid storleksändring av rutor i handledningen (<912@https://github.com/wordplaydev/wordplay/issues/912>)."
+        "e40c803e33442": "$~Vi rättade till beteendet vid storleksändring av rutor i handledningen (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
+        "ec36c97de7b55": "$~Nu kan du visa din kod i två vyer sida vid sida, var och en på sitt eget språk, så att du kan peka på något i den ena och hitta det i den andra. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "eb71d7c31c9ab": "$~Ett namn eller en symbol som redigeraren visar annorlunda än det du skrev finns nu i en liten ruta, så att du kan se att det ändras tillbaka när markören flyttas dit. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e60ce8f188ad3": "$~När du visar din kod på ett språk ändras nu inbyggda namn som @Phrase också till det språket, även om du inte har lagt till det i ditt projekt. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e62959bf8e73e": "$~Nu kan du skriva en e-postadress i ett dokument eller en hur man-guide, och den blir en länk som öppnar ett meddelande.",
+        "e730993ac0281": "$~Nu skriver du ett Unicode-tecken med dess nummer som \\@U/1F600\\, istället för det äldre sättet utan U."
     }
 }

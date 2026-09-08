@@ -48,10 +48,11 @@ export default class Tile {
         }`;
     }
 
+    /** The source this tile shows, which for an additional view is the same
+     *  source its primary tile shows. */
     getSource(project: Project) {
-        return project
-            .getSources()
-            .find((_, index) => Layout.getSourceID(index) === this.id);
+        const index = Layout.getSourceIndexFromID(this.id);
+        return index === undefined ? undefined : project.getSources()[index];
     }
 
     isCollapsed() {

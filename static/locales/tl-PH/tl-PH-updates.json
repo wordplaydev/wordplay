@@ -942,6 +942,12 @@
         "eea43688319b5": "$~Inalis namin ang mga custom na karakter mula sa emoji picker sa patnugutan ng karakter (<910@https://github.com/wordplaydev/wordplay/issues/910>).",
         "eec2b56f05544": "$~Pinatigil namin ang pagkurap-kurap ng mga tooltip sa gilid ng window (<895@https://github.com/wordplaydev/wordplay/issues/895>).",
         "efb149acb1fbf": "$~Pinabuti namin ang feedback sa pag-hover sa nae-edit na teksto sa patnugutan ng kodigo (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
-        "e40c803e33442": "$~Itinama namin ang paraan ng pagbabago ng laki ng tile sa tutoryal (<912@https://github.com/wordplaydev/wordplay/issues/912>)."
+        "e40c803e33442": "$~Itinama namin ang paraan ng pagbabago ng laki ng tile sa tutoryal (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
+        "ec36c97de7b55": "$~Puwede mo na ngayong ipakita ang iyong kodigo sa dalawang tanawin nang magkatabi, bawat isa sa sarili nitong wika, para maituro mo ang isang bagay sa isa at mahanap ito sa kabila. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "eb71d7c31c9ab": "$~Ang isang pangalan o simbolo na ipinapakita ng patnugutan nang iba sa iyong itinype ay nasa loob na ngayon ng maliit na kahon, para malaman mong babalik ito sa dati kapag pumasok ang iyong cursor. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e60ce8f188ad3": "$~Kapag ipinakita mo ang iyong kodigo sa isang wika, ang mga built-in na pangalan tulad ng @Phrase ay magbabago rin ngayon sa wikang iyon, kahit hindi mo pa ito idinagdag sa iyong proyekto. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e253c8e03b28e": "$~Ang mga nota ay puwede na ngayong maging mga numerong nasa gitna: \\1.5\\ ay tumutugtog ng dalawang nota sa magkabilang panig, ang mas malapit ay mas malakas. Itakda ang @Track na \\mash\\ sa \\⊥\\ upang marinig ang isang notang bahagyang lihis sa tono.",
+        "e62959bf8e73e": "$~Ngayon, puwede ka nang magsulat ng email address sa isang dokumento o kung paano gawin, at magiging link ito na nagbubukas ng isang mensahe.",
+        "e730993ac0281": "$~Ngayon, isinusulat mo ang isang Unicode character sa pamamagitan ng kaniyang numero bilang \\@U/1F600\\, sa halip na ang mas lumang anyo na walang U."
     }
 }

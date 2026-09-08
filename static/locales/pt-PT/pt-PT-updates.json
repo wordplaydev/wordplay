@@ -943,6 +943,11 @@
         "eea43688319b5": "$~Removemos caracteres personalizados do seletor de emojis no editor de caracteres (<910@https://github.com/wordplaydev/wordplay/issues/910>).",
         "eec2b56f05544": "$~Fizemos com que as dicas junto à margem da janela deixassem de tremeluzir (<895@https://github.com/wordplaydev/wordplay/issues/895>).",
         "efb149acb1fbf": "$~Melhorámos a resposta visual ao passar o cursor sobre texto editável no editor de código (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
-        "e40c803e33442": "$~Corrigimos o comportamento de redimensionamento dos mosaicos no tutorial (<912@https://github.com/wordplaydev/wordplay/issues/912>)."
+        "e40c803e33442": "$~Corrigimos o comportamento de redimensionamento dos mosaicos no tutorial (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
+        "ec36c97de7b55": "$~Agora pode mostrar o seu código em duas vistas lado a lado, cada uma no seu próprio idioma, para que possa apontar para algo numa e encontrá-lo na outra. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "eb71d7c31c9ab": "$~Um nome ou símbolo que o editor mostra de forma diferente do que escreveu fica agora dentro de uma pequena caixa, para que saiba que voltará ao normal quando o cursor entrar. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e60ce8f188ad3": "$~Quando mostra o seu código num idioma, os nomes incorporados como @Phrase passam agora a mudar também para esse idioma, mesmo que não o tenha adicionado ao seu projeto. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e62959bf8e73e": "$~Agora pode escrever um endereço de email num documento ou num como, e este passa a ser uma ligação que abre uma mensagem.",
+        "e730993ac0281": "$~Agora escreve-se um carácter Unicode pelo seu número como \\@U/1F600\\, em vez da forma mais antiga sem o U."
     }
 }

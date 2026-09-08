@@ -7736,7 +7736,8 @@
             "options": {
                 "locale": {
                     "tip": "idioma preferido para a fonte",
-                    "all": "$~$#count[$#count idioma|$count idiomas|$count idiomas]"
+                    "all": "$~$#count[$#count idioma|$count idiomas|$count idiomas]",
+                    "viewing": "$~em $language"
                 }
             },
             "button": {
@@ -7744,7 +7745,9 @@
                 "zoomIn": "Aumente o tamanho do código.",
                 "zoomOut": "Reduza o tamanho do código.",
                 "replace": "substituir todas as correspondências",
-                "selectOutputError": "$~mostrar este resultado no palco; a avaliação desta fonte terminou com um erro"
+                "selectOutputError": "$~mostrar este resultado no palco; a avaliação desta fonte terminou com um erro",
+                "addView": "$~mostrar este código numa segunda vista",
+                "closeView": "$~fechar esta vista"
             },
             "field": {
                 "name": {
@@ -7893,6 +7896,10 @@
                 "none": "$~revelar tudo",
                 "collapsed": "$~$name colapsou",
                 "expanded": "$~$name expandido"
+            },
+            "view": {
+                "added": "$~adicionou uma segunda vista de $name",
+                "closed": "$~fechou a segunda vista de $name"
             }
         },
         "annotations": {

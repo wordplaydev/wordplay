@@ -7457,7 +7457,9 @@
                 "zoomIn": "$~把程式碼變大",
                 "zoomOut": "$~把程式碼變小",
                 "replace": "$~取代全部符合項目",
-                "selectOutputError": "$~在舞台上顯示這個輸出；這個來源的計算以錯誤結束"
+                "selectOutputError": "$~在舞台上顯示這個輸出；這個來源的計算以錯誤結束",
+                "addView": "$~在第二個視窗顯示這段程式碼",
+                "closeView": "$~關閉這個視窗"
             },
             "field": {
                 "name": {
@@ -7580,7 +7582,8 @@
             "options": {
                 "locale": {
                     "tip": "$~來源的偏好語言",
-                    "all": "$~$#count[$count 種語言]"
+                    "all": "$~$#count[$count 種語言]",
+                    "viewing": "$~用 $language"
                 }
             },
             "error": {
@@ -7613,6 +7616,10 @@
                 "none": "$~全部展開",
                 "collapsed": "$~$name 已收合",
                 "expanded": "$~$name 已展開"
+            },
+            "view": {
+                "added": "$~新增了 $name 的第二個視窗",
+                "closed": "$~關閉了 $name 的第二個視窗"
             }
         },
         "annotations": {

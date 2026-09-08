@@ -941,6 +941,12 @@
         "eea43688319b5": "$~我們從字元編輯器的表情符號選取器中，移除了自訂字元（<910@https://github.com/wordplaydev/wordplay/issues/910>）。",
         "eec2b56f05544": "$~我們讓視窗邊緣的提示文字不再閃爍了（<895@https://github.com/wordplaydev/wordplay/issues/895>）。",
         "efb149acb1fbf": "$~我們改善了程式碼編輯器中，可編輯文字的滑鼠懸停回饋效果（<901@https://github.com/wordplaydev/wordplay/issues/901>）。",
-        "e40c803e33442": "$~我們修正了教學中方塊調整大小的行為（<912@https://github.com/wordplaydev/wordplay/issues/912>）。"
+        "e40c803e33442": "$~我們修正了教學中方塊調整大小的行為（<912@https://github.com/wordplaydev/wordplay/issues/912>）。",
+        "ec36c97de7b55": "$~你現在可以並排顯示兩種畫面，各自使用不同語言，這樣你就能在其中一個指出某個東西，並在另一個裡找到它。（<534@https://github.com/wordplaydev/wordplay/issues/534>）",
+        "eb71d7c31c9ab": "$~當編輯器（Editor）把你輸入的姓名或符號顯示成不同樣子時，現在會用一個小方框框起來，讓你知道遊標移進去後它會變回原本的樣子。（<534@https://github.com/wordplaydev/wordplay/issues/534>）",
+        "e60ce8f188ad3": "$~當你用某種語言顯示程式碼時，像 @Phrase 這類內建姓名現在也會變成那種語言，就算你還沒把它加進工程（Project）裡也一樣。（<534@https://github.com/wordplaydev/wordplay/issues/534>）",
+        "ee044b13ccb3a": "$~@Output 現在可以像磁鐵一樣吸引其他 @Output，透過 \\pull\\，或用負值把它推開；看看<作品集@https://wordplay.dev/galleries>裡新增的 Orbits 範例吧。（<20@https://github.com/wordplaydev/wordplay/issues/20>）",
+        "e62959bf8e73e": "$~你現在可以在說明文件或操作指南裡直接寫電子郵件地址，它會自動變成一個可以開啟郵件的連結。",
+        "e730993ac0281": "$~你現在可以用這種方式，依編號寫出 Unicode 字元：\\@U/1F600\\，取代舊式沒有 U 的寫法。"
     }
 }

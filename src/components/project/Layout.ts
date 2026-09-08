@@ -365,6 +365,34 @@ export default class Layout {
         return `source${index}`;
     }
 
+    /**
+     * The id of an additional *view* of a source: a second tile showing the
+     * same file, so it can be read in two languages (or at two scroll
+     * positions) at once. View 0 is the source's own tile, so its id is
+     * unchanged and every persisted layout keeps meaning what it meant.
+     */
+    static getSourceViewID(index: number, view: number) {
+        return view === 0
+            ? Layout.getSourceID(index)
+            : `source${index}.${view}`;
+    }
+
+    /** Whether this id names an additional view rather than a source's own tile. */
+    static isSourceViewID(id: string) {
+        return /^source\d+\.\d+$/.test(id);
+    }
+
+    /**
+     * The source index a tile id refers to, or undefined if it names no source.
+     * Parsed explicitly rather than with `parseInt`, which happens to stop at
+     * the `.` and so would appear to work — an accident nothing in the code
+     * declares, and one a later id scheme would silently break.
+     */
+    static getSourceIndexFromID(id: string): number | undefined {
+        const match = /^source(\d+)(?:\.\d+)?$/.exec(id);
+        return match === null ? undefined : Number.parseInt(match[1], 10);
+    }
+
     getSource(index: number) {
         return this.getTileWithID(Layout.getSourceID(index));
     }
@@ -437,6 +465,38 @@ export default class Layout {
                   ...this.tiles.filter((t) => t.id !== tile.id),
                   tile,
               ]);
+    }
+
+    /**
+     * This layout with the given tile inserted directly after the tile with the
+     * given id, or appended if there is none. Order matters because `onAxes`
+     * divides a split group's band among its tiles in array order, so a
+     * source's extra view has to sit beside the source it views.
+     */
+    withTileAfter(afterID: string, tile: Tile) {
+        const index = this.tiles.findIndex((t) => t.id === afterID);
+        const tiles = [...this.tiles];
+        tiles.splice(index < 0 ? tiles.length : index + 1, 0, tile);
+        return this.withTiles(tiles);
+    }
+
+    /**
+     * This layout without any additional source views, which are per-session
+     * and never persisted. Returns `this` when there are none, so the equality
+     * check that guards persistence sees an unchanged layout in the common case.
+     */
+    withoutSourceViews(): Layout {
+        if (!this.tiles.some((tile) => Layout.isSourceViewID(tile.id)))
+            return this;
+        return new Layout(
+            this.projectID,
+            this.tiles.filter((tile) => !Layout.isSourceViewID(tile.id)),
+            this.fullscreenID !== undefined &&
+                Layout.isSourceViewID(this.fullscreenID)
+                ? undefined
+                : this.fullscreenID,
+            this.splits,
+        );
     }
 
     withTileBounds(tile: Tile, bounds: Bounds) {

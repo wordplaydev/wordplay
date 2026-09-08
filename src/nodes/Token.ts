@@ -351,6 +351,10 @@ export default class Token extends Node {
         locale: Locale,
         root: Root,
         context: Context,
+        /** The chosen locale's own strings, when loaded. Only needed for a
+         *  locale the project doesn't declare, whose names are in no basis the
+         *  project holds. */
+        localeTexts?: Locales | undefined,
     ) {
         // Get this token's text
         let text = this.getText();
@@ -410,7 +414,25 @@ export default class Token extends Node {
             if (parent) {
                 def = parent.getCorrespondingDefinition(context);
                 if (def) {
-                    text = def.names.getPreferredNameString(locale, symbolic);
+                    // A basis carries names only for the locales its project
+                    // declares, so a program that merely tags a language it
+                    // doesn't declare has no basis name in it — and
+                    // getPreferredNameString would silently answer English,
+                    // leaving a half-translated view. Ask whether this locale
+                    // has a name at all, and if not, read the same definition
+                    // out of a basis built for it. Never "any name in that
+                    // language": that is what once rendered Phrase() as 💬().
+                    const names =
+                        def.names.getNameInLanguage(
+                            locale.language,
+                            symbolic ? undefined : false,
+                        ) === undefined && localeTexts !== undefined
+                            ? (context
+                                  .getBasis()
+                                  .getLocalizedNames(def, localeTexts) ??
+                              def.names)
+                            : def.names;
+                    text = names.getPreferredNameString(locale, symbolic);
                 }
             }
         }

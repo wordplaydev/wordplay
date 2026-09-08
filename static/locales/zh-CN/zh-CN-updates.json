@@ -943,6 +943,11 @@
         "eea43688319b5": "$~我们从字符编辑器的表情选择器里移除了自定义字符（<910@https://github.com/wordplaydev/wordplay/issues/910>）。",
         "eec2b56f05544": "$~我们让窗口边缘的提示不再闪烁了（<895@https://github.com/wordplaydev/wordplay/issues/895>）。",
         "efb149acb1fbf": "$~我们改进了代码编辑器里可编辑文本的悬停反馈（<901@https://github.com/wordplaydev/wordplay/issues/901>）。",
-        "e40c803e33442": "$~我们更正了教程里瓷砖调整大小的行为（<912@https://github.com/wordplaydev/wordplay/issues/912>）。"
+        "e40c803e33442": "$~我们更正了教程里瓷砖调整大小的行为（<912@https://github.com/wordplaydev/wordplay/issues/912>）。",
+        "ec36c97de7b55": "$~你现在可以把代码用两种语言并排显示，各占一栏，这样你就能在一边指出某处，然后在另一边找到它。（<534@https://github.com/wordplaydev/wordplay/issues/534>）",
+        "eb71d7c31c9ab": "$~如果编辑器把你输入的名字或符号显示成了别的样子，现在它会放进一个小方框里，让你知道光标移进去之后它会变回原样。（<534@https://github.com/wordplaydev/wordplay/issues/534>）",
+        "e60ce8f188ad3": "$~当你用某种语言显示代码时，像 @Phrase 这样的内置名字现在也会变成那种语言，就算你还没有把它加进你的项目里。（<534@https://github.com/wordplaydev/wordplay/issues/534>）",
+        "e62959bf8e73e": "$~现在你可以在文档或如何指南里写一个电子邮件地址，它会自动变成一个可以打开邮件的链接。",
+        "e730993ac0281": "$~现在你要用编号来写一个 Unicode 字符，写法是 \\@U/1F600\\，而不是以前那种没有 U 的旧写法。"
     }
 }
