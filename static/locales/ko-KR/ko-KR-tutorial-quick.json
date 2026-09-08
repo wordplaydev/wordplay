@@ -181,7 +181,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~모든 프로그래밍 언어에는 함수가 있습니다. 함수는 입력을 받아 그것을 바탕으로 출력을 만드는, 다시 쓸 수 있는 코드 @blocks 선언하게 해줍니다. 얼마든지 복잡할 수 있어요:",
+                            "$~모든 프로그래밍 언어에는 함수가 있습니다. 함수는 입력을 받아 그것을 바탕으로 출력을 만드는, 다시 쓸 수 있는 @code @blocks 선언하게 해줍니다. 얼마든지 복잡할 수 있어요:",
                             "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
                             "$~Wordplay도 함수 정의를 지원하지만, ƒ 기호를 씁니다. 모든 @wordplay 프로그램과 마찬가지로, 함수는 @value 평가되어야 합니다."
                         ]
