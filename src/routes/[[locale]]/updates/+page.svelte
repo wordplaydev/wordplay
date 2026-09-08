@@ -9,83 +9,119 @@
     } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { Settings } from '@db/Database';
+    import Title from '@components/widgets/Title.svelte';
+    import { locales, Settings } from '@db/Database';
+    import loadUpdates from '@db/locales/loadUpdates';
+    import versioned from '@db/locales/versioned';
+    import localeToBCP47 from '@locale/localeToBCP47';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import {
+        updateTextPath,
+        UpdateSectionKinds,
+        type UpdateSectionKind,
+        type UpdatesBundle,
+        type UpdateText,
+    } from '@locale/UpdatesBundle';
     import { writable } from 'svelte/store';
-    import updates from './updates.json';
+    import date from './date.json';
 
-    // Get the dated updates in reverse chronological order.
-    const datedUpdates = updates
-        .filter((update) => update.date !== null)
-        .map((update) => ({
-            ...update,
-            // Add a time zone to ensure consistent sorting regardless of the user's locale.
-            date: update.date + 'T00:00:00',
-        }))
-        .toSorted((a, b) => {
-            return new Date(b.date).getTime() - new Date(a.date).getTime();
-        });
+    /** The release structure and its English markup, built from CHANGELOG.md by
+     *  `npm run updates`. Fetched rather than imported: a static import put the
+     *  whole changelog into all 32 prerendered copies of this page — 450KB each,
+     *  the same English every time — which is 14MB of HTML to say one thing. */
+    let bundle = $state<UpdatesBundle | undefined>(undefined);
 
-    let collapsed = $state<boolean[]>(
-        datedUpdates.map((_, index) => index > 1),
-    );
+    /** This locale's translations, keyed by entry id. Empty until they load, and
+     *  empty for en-US, so an entry falls back to its English markup. */
+    let translations = $state<Record<string, string>>({});
+
+    /** Explicit accessors rather than one indexed by kind: a locale accessor is
+     *  reflected by recording the property path it walks, and naming each key
+     *  outright keeps that reflection exact. */
+    const CategoryLabels: Record<UpdateSectionKind, LocaleTextAccessor> = {
+        added: (l) => l.ui.page.updates.categories.added,
+        changed: (l) => l.ui.page.updates.categories.changed,
+        fixed: (l) => l.ui.page.updates.categories.fixed,
+        removed: (l) => l.ui.page.updates.categories.removed,
+    };
 
     let path = writable<ConceptPath>([]);
     setConceptPath(path);
 
-    Settings.setUpdatesLastChecked(datedUpdates[0].date.split('T')[0]);
+    // The landing page's "new updates" badge compares against this. It comes
+    // from date.json rather than the bundle so it stays synchronous.
+    if (date.date !== null) Settings.setUpdatesLastChecked(date.date);
 
-    /** Convert a CHANGELOG bullet's text into Wordplay markup.
-     *
-     *  Markdown-style substitutions (`**`, `_`, `[…](…)`, `#N`) must NOT
-     *  rewrite content inside backticks — `en_us` should round-trip
-     *  unchanged. Pull every backtick span out into a placeholder first,
-     *  apply the prose transforms, then restore each span as a Wordplay
-     *  Example (`\…\`). */
-    function toMarkup(text: string): string {
-        const PLACEHOLDER = '';
-        const spans: string[] = [];
-        let body = text.replaceAll(/`(.+?)`/g, (_, code) => {
-            spans.push(code);
-            return `${PLACEHOLDER}${spans.length - 1}${PLACEHOLDER}`;
+    $effect(() => {
+        fetch(versioned('/updates.json'))
+            .then(async (response) =>
+                response.ok
+                    ? ((await response.json()) as UpdatesBundle)
+                    : undefined,
+            )
+            .then((loaded) => {
+                if (loaded !== undefined) bundle = loaded;
+            })
+            .catch(() => undefined);
+    });
+
+    $effect(() => {
+        loadUpdates($locales.getLocaleString()).then((loaded) => {
+            translations = loaded;
         });
-        body = body
-            // Escape literals of any markup symbol that we'll later
-            // *introduce* via a substitution below, so a stray copy in the
-            // source can't accidentally trigger that markup. Wordplay markup
-            // escapes specials by doubling them — see
-            // `unescapeMarkupSymbols`. Order matters: do these *before* the
-            // substitutions that emit those symbols.
-            //
-            // `\` — guards against a runaway Example when placeholders are
-            //   restored as `\…\`.
-            // `/` — `_` → `/` italics conversion runs below; without
-            //   escaping, a literal `/` (e.g., in paths or ratios) becomes
-            //   an italic marker.
-            .replaceAll('\\', '\\\\')
-            .replaceAll('/', '//')
-            .replaceAll('**', '*')
-            .replaceAll('_', '/')
-            .replaceAll(/\[([^\]]+)\]\(([^)]+)\)/g, '<$1@$2>')
-            .replaceAll(
-                /#([0-9]+)/g,
-                '<$1@https://github.com/wordplaydev/wordplay/issues/$1>',
+    });
+
+    // Get the dated updates in reverse chronological order. A dateless heading
+    // is a legacy `## 0.16.38`, which has no day to file it under.
+    const releases = $derived(
+        (bundle?.updates ?? [])
+            .filter((update) => update.date !== null)
+            .toSorted(
+                (a, b) =>
+                    // Add a time zone so sorting doesn't depend on the reader's.
+                    new Date(`${b.date}T00:00:00`).getTime() -
+                    new Date(`${a.date}T00:00:00`).getTime(),
+            ),
+    );
+
+    /** Collapse state by version, so it survives the list arriving. Everything
+     *  but the two most recent releases starts collapsed. */
+    let toggled = $state<Record<string, boolean>>({});
+    const isCollapsed = (version: string, index: number) =>
+        toggled[version] ?? index > 1;
+
+    /** Format the date in the language the reader chose, not the one their
+     *  browser is set to. `localeToString` is Wordplay's own name for a locale
+     *  and is not a BCP 47 tag, so `ta-IN-LK-SG` would throw. */
+    const dateFormat = $derived.by(() => {
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        };
+        try {
+            return new Intl.DateTimeFormat(
+                localeToBCP47($locales.getLocale()),
+                options,
             );
-        return body.replaceAll(
-            new RegExp(`${PLACEHOLDER}(\\d+)${PLACEHOLDER}`, 'g'),
-            (_, idx) => `\\${spans[Number(idx)]}\\`,
-        );
-    }
+        } catch (_) {
+            return new Intl.DateTimeFormat(undefined, options);
+        }
+    });
+
+    /** This locale's text for an entry, or the English it was translated from. */
+    const textOf = (text: UpdateText) => translations[text.id] ?? text.markup;
 </script>
 
-{#snippet note(entry: { text: string; emoji: string | null })}
-    <!-- Convert markdown into Wordplay markup -->
-    <li class:marked={entry.emoji !== null}>
-        {#if entry.emoji}
-            <span class="marker emoji" aria-hidden="true">{entry.emoji}</span>
-        {/if}
-        <MarkupHTMLView markup={toMarkup(entry.text)} />
-    </li>
+{#snippet prose(text: UpdateText)}
+    <MarkupHTMLView
+        markup={textOf(text)}
+        overrideKey={updateTextPath(text.id)}
+        sourceText={textOf(text)}
+    />
 {/snippet}
+
+<Title text={(l) => l.ui.page.updates.header} />
 
 <Writing reading>
     <PageHeader
@@ -93,96 +129,52 @@
         description={(l) => l.ui.page.updates.content}
     />
 
-    {#each datedUpdates as update, index}
+    {#each releases as update, index (update.version)}
         <div class="section">
             <Subheader>
-                {new Date(update.date).toLocaleDateString(undefined, {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                })}
+                {dateFormat.format(new Date(`${update.date}T00:00:00`))}
                 <Button
                     background
-                    tip={collapsed[index]
+                    tip={isCollapsed(update.version, index)
                         ? (l) => l.ui.page.updates.tips.expand
                         : (l) => l.ui.page.updates.tips.collapse}
-                    action={() => (collapsed[index] = !collapsed[index])}
-                    >{#if collapsed[index]}+{:else}–{/if}</Button
+                    action={() =>
+                        (toggled[update.version] = !isCollapsed(
+                            update.version,
+                            index,
+                        ))}
+                    >{#if isCollapsed(update.version, index)}+{:else}–{/if}</Button
                 ></Subheader
             >
 
-            {#if !collapsed[index]}
-                {#if update.summary}
-                    <MarkupHTMLView markup={toMarkup(update.summary)} />
-                {/if}
-                {#if update.changes.added.length > 0}
-                    <h3 class="added"
-                        ><LocalizedText
-                            path={(l) => l.ui.page.updates.categories.added}
-                        ></LocalizedText></h3
-                    >
-                    <ul>
-                        {#each update.changes.added as item}
-                            {@render note(item)}
-                        {/each}
-                    </ul>
-                    {#if update.summaries?.added}
-                        <MarkupHTMLView
-                            markup={toMarkup(update.summaries.added)}
-                        />
+            {#if !isCollapsed(update.version, index)}
+                {#if update.summary}{@render prose(update.summary)}{/if}
+                {#each UpdateSectionKinds as kind (kind)}
+                    {#if update.changes[kind].length > 0}
+                        <h3 class={kind}
+                            ><LocalizedText path={CategoryLabels[kind]}
+                            ></LocalizedText></h3
+                        >
+                        <ul>
+                            {#each update.changes[kind] as item (item.id)}
+                                <!-- The emoji is a category marker rather than
+                                     content, so it is never translated and never
+                                     read aloud. -->
+                                <li class:marked={item.emoji !== null}>
+                                    {#if item.emoji}<span
+                                            class="marker emoji"
+                                            aria-hidden="true"
+                                            >{item.emoji}</span
+                                        >{/if}
+                                    {@render prose(item)}
+                                </li>
+                            {/each}
+                        </ul>
+                        {#if update.summaries[kind]}
+                            {@render prose(update.summaries[kind])}
+                        {/if}
                     {/if}
-                {/if}
-                {#if update.changes.changed.length > 0}
-                    <h3 class="changed"
-                        ><LocalizedText
-                            path={(l) => l.ui.page.updates.categories.changed}
-                        ></LocalizedText></h3
-                    >
-                    <ul>
-                        {#each update.changes.changed as item}
-                            {@render note(item)}
-                        {/each}
-                    </ul>
-                    {#if update.summaries?.changed}
-                        <MarkupHTMLView
-                            markup={toMarkup(update.summaries.changed)}
-                        />
-                    {/if}
-                {/if}
-                {#if update.changes.fixed.length > 0}
-                    <h3 class="fixed"
-                        ><LocalizedText
-                            path={(l) => l.ui.page.updates.categories.fixed}
-                        ></LocalizedText></h3
-                    >
-                    <ul>
-                        {#each update.changes.fixed as item}
-                            {@render note(item)}
-                        {/each}
-                    </ul>
-                    {#if update.summaries?.fixed}
-                        <MarkupHTMLView
-                            markup={toMarkup(update.summaries.fixed)}
-                        />
-                    {/if}
-                {/if}
-                {#if update.changes.removed.length > 0}
-                    <h3 class="removed"
-                        ><LocalizedText
-                            path={(l) => l.ui.page.updates.categories.removed}
-                        ></LocalizedText></h3
-                    >
-                    <ul>
-                        {#each update.changes.removed as item}
-                            {@render note(item)}
-                        {/each}
-                    </ul>
-                    {#if update.summaries?.removed}
-                        <MarkupHTMLView
-                            markup={toMarkup(update.summaries.removed)}
-                        />
-                    {/if}
-                {/if}
+                {/each}
             {/if}
         </div>
     {/each}
@@ -201,15 +193,22 @@
         font-weight: bold;
     }
 
+    /* These pills carry white text (--wordplay-background), so their fills have
+       to clear 4.5:1 against it in both schemes — which is what the AA `-text`
+       variants are for, the way --wordplay-error already uses --color-orange-text
+       as a background. The brand hues they replace are for backgrounds and
+       borders that need 3:1 or nothing: --wordplay-focus-color measured 4.00
+       light / 4.34 dark and --wordplay-warning 3.01 light. Pink and error pass
+       as they are (4.54 / 7.19 and 5.30 / 6.85) and keep their semantic vars. */
     h3.added {
-        background: var(--wordplay-focus-color);
+        background: var(--color-blue-text);
     }
 
     h3.changed {
         background: var(--wordplay-evaluation-color);
     }
     h3.removed {
-        background: var(--wordplay-warning);
+        background: var(--color-gold-text);
     }
     h3.fixed {
         background: var(--wordplay-error);

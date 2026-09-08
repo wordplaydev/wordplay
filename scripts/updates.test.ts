@@ -1,5 +1,13 @@
 import { describe, expect, test } from 'vitest';
-import { parseChangelog, parseEntry } from './updates';
+import { bundleTexts } from '@locale/UpdatesBundle';
+import {
+    BundleFormat,
+    parseChangelog,
+    parseEntry,
+    toBundle,
+    toMarkup,
+    textId,
+} from './updates';
 
 describe('parseEntry', () => {
     test('extracts simple emoji prefix', () => {
@@ -160,5 +168,98 @@ describe('parseChangelog', () => {
         const [update] = parseChangelog(md);
         expect(update.summaries.added).toBe('Belongs to Added.');
         expect(update.summaries.fixed).toBe('');
+    });
+});
+
+describe('toMarkup', () => {
+    test('converts emphasis and issue references', () => {
+        expect(toMarkup('We made it **bold** and _slanted_. (#398)')).toBe(
+            'We made it *bold* and /slanted/. (<398@https://github.com/wordplaydev/wordplay/issues/398>)',
+        );
+    });
+
+    test('leaves a code span untouched and wraps it as an example', () => {
+        // `en_us` must round-trip: the prose transforms would turn its `_` into
+        // an italic marker.
+        expect(toMarkup('Set the locale to `en_us` today.')).toBe(
+            'Set the locale to \\en_us\\ today.',
+        );
+    });
+
+    test('escapes a slash in prose but not in a link target', () => {
+        // Escaping `/` before the link substitution shipped every Markdown link
+        // as `https:////wordplay.dev//about`.
+        expect(
+            toMarkup(
+                'Read a/b on the [About](https://wordplay.dev/about) page.',
+            ),
+        ).toBe('Read a//b on the <About@https://wordplay.dev/about> page.');
+    });
+
+    test('does not turn a URL fragment into an issue link', () => {
+        expect(toMarkup('See [notes](https://x.dev/p#12).')).toBe(
+            'See <notes@https://x.dev/p#12>.',
+        );
+    });
+});
+
+describe('textId', () => {
+    test('is stable for the same text and different for different text', () => {
+        expect(textId('We fixed a bug.')).toBe(textId('We fixed a bug.'));
+        expect(textId('We fixed a bug.')).not.toBe(textId('We fixed a typo.'));
+    });
+
+    test('never begins with a digit', () => {
+        // `parseOverrideKey` reads a trailing all-digit segment of an override
+        // key as an array index, so an all-digit id would be discarded silently.
+        for (const text of ['a', 'b', 'c', 'We added a thing.', '🌐 x'])
+            expect(textId(text)).toMatch(/^e[0-9a-f]{12}$/);
+    });
+});
+
+describe('toBundle', () => {
+    const md = [
+        '## 0.18.1 - 2026-05-23',
+        '',
+        'This week we focused on the editor.',
+        '',
+        '### Added',
+        '',
+        '- 🔠 We added a `Phrase`. (#12)',
+        '',
+        '### Fixed',
+        '',
+        '- 🐛 We fixed a bug.',
+    ].join('\n');
+
+    test('carries the format version and one id per text', () => {
+        const bundle = toBundle(parseChangelog(md));
+        expect(bundle.format).toBe(BundleFormat);
+        const [update] = bundle.updates;
+        expect(update.summary?.id).toBe(
+            textId('This week we focused on the editor.'),
+        );
+        expect(update.changes.added[0].id).toBe(
+            textId('We added a `Phrase`. (#12)'),
+        );
+    });
+
+    test('keeps the emoji structural and converts the text to markup', () => {
+        const [update] = toBundle(parseChangelog(md)).updates;
+        expect(update.changes.added[0].emoji).toBe('🔠');
+        expect(update.changes.added[0].markup).toContain('\\Phrase\\');
+    });
+
+    test('represents an absent summary as null', () => {
+        const [update] = toBundle(parseChangelog(md)).updates;
+        expect(update.summaries.added).toBe(null);
+        expect(update.summaries.fixed).toBe(null);
+    });
+
+    test('bundleTexts collects every translatable id exactly once', () => {
+        const bundle = toBundle(parseChangelog(md));
+        const texts = bundleTexts(bundle);
+        expect(texts.size).toBe(3); // summary + two bullets
+        expect(texts.get(textId('We fixed a bug.'))).toBe('We fixed a bug.');
     });
 });

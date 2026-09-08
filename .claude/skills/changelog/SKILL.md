@@ -9,7 +9,9 @@ Draft a CHANGELOG entry for the current change in this repo.
 
 **Every bullet in every section gets an emoji prefix.** Visual consistency across Added/Changed/Fixed/Removed is the whole point. Skip the screenshot route entirely — production URL links (below) are easier to maintain and give readers a one-click path to see the change in action.
 
-The line must start with **a single representative emoji + space** — the parser in [scripts/updates.js](../../../scripts/updates.js) reads this prefix and the in-app updates page renders it as an inset marker beside the text.
+The line must start with **a single representative emoji + space** — the parser in [scripts/updates.ts](../../../scripts/updates.ts) reads this prefix and the in-app updates page renders it as an inset marker beside the text.
+
+**Every entry is machine translated into 29 languages.** That is what makes the two rules below — one sentence, and only what a creator can see — worth following rather than merely tidy. An entry is bought once and never re-bought, so the cost of a run is the cost of what is new in it.
 
 ## When to invoke
 
@@ -39,7 +41,9 @@ Group related diffs into **one** bullet per user-visible behavior — not one bu
 | Reworked behavior or visual change to an existing feature | Changed |
 | Bug fix to existing behavior                        | Fixed      |
 | Feature/UI/file removed                             | Removed    |
-| Test-only, comment-only, dependency bumps, doc cleanups | **skip — no entry** |
+| Anything a creator can't see (below)               | **skip — no entry** |
+
+**The test for the last row is "could a teacher or a student notice this without reading the code?"** If no, there is no entry. That excludes test-only and comment-only changes, dependency bumps, doc cleanups, refactors, internal architecture, build and CI work, performance work with no perceptible difference, and accessibility plumbing that changes no behavior. Write about the change a reader experiences, not the work that produced it — "we rewrote how the editor tracks the cursor" is the work; "the cursor no longer jumps to the wrong line" is the change.
 
 When uncertain, ask the user.
 
@@ -77,7 +81,7 @@ Deviate when something else fits better. The emoji prefix must be a single exten
 The sentence after the emoji is read by teachers and youth (per the file's preamble):
 
 1. **Reading level: 6th grade.** Short words, concrete verbs, no jargon. Wordplay identifiers like `@Phrase`, `Bind`, `@Hand` stay as-is because they're language constructs — but don't surround them with engineering vocabulary ("subsystem", "memoization", "race condition", "regression").
-2. **Length: 1–2 sentences max.** If you need more, the change is probably two bullets, not one.
+2. **Length: one sentence.** Add a second only when the first would be untrue or unusable without it, and say so when you show the user the draft. Most bullets that want two sentences are either two bullets or one sentence carrying an explanation the reader didn't ask for. This is a real budget rather than a style preference: the sentence is translated into 29 languages, so every clause is paid for 29 times, and entries currently average 1.68 sentences.
 3. **Voice: first person plural** ("We added…", "We made…", "We fixed…"). Match the existing style.
 4. **Cite the source.** If a GitHub issue or PR motivated the change, append `(#1234)` at the end of the sentence — the page renders these as clickable GitHub links. To find one: check recent commit messages (`git log --oneline -20`) for `(#N)` references, or `gh pr list --state merged --search '<keyword>'` for recent PRs. Cite at most two numbers per bullet. Skip the citation only if no related issue/PR exists.
 
@@ -134,7 +138,12 @@ At most one link per bullet — multiple links inside a single sentence read as 
 npm run updates
 ```
 
-This rewrites `src/routes/[[locale]]/updates/updates.json` from the changelog. The Svelte page picks the new entry up automatically.
+This rewrites `static/updates.json` from the changelog: the release structure, each entry's text converted to Wordplay markup, and a stable id per entry. The page fetches it, so the new entry appears on reload.
+
+The id is a hash of the entry's Markdown, and each locale's translations are keyed by it (`static/locales/<code>/<code>-updates.json`). Two consequences worth knowing:
+
+- A new entry is untranslated until the next `npm run locales-translate` run, and falls back to English until then. That is expected; nothing needs doing.
+- **Editing a published entry buys 29 new translations**, because the edit changes its id and the old translation becomes an orphan. Fix a wrong or broken entry freely — that is what the budget is for — but don't reword one for style alone.
 
 ### 8. Verify
 
@@ -142,13 +151,15 @@ Per [CLAUDE.md](../../../CLAUDE.md) guidance:
 
 ```bash
 npm run check:now
-npm test
+npm run test:run
 ```
+
+(`npm test` is vitest in watch mode and never exits — see CLAUDE.md rule 5.)
 
 Both must pass. Show the user:
 
 - The new bullet text (rendered, including any link target).
-- Files modified (CHANGELOG.md and updates.json).
+- Files modified (CHANGELOG.md; `static/updates.json` is generated and gitignored).
 
 **Do not commit.** Leave the working tree dirty for the user to review.
 

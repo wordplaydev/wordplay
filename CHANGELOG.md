@@ -8,199 +8,204 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
-- 🔑 You can now make an account that signs in with a link we email you, so there's no password to forget. We ask your birthday and where you live to know if you're old enough, and we don't keep either one. (#628)
-- 🔑 You can now switch how you sign in. Go to your profile to swap a password for emailed links, or emailed links for a password. Your username stays the same either way. (#628)
-- 🏫 We added a section to the [About](https://wordplay.dev/about) page for schools and districts. It says what we can and can't promise about privacy and accessibility, and has a link that starts an email to us if your school needs something we don't do yet. (#697)
-- 🔢 You can now write a range of numbers, like `1‥10`. It holds every number from one end to the other, so you can ask whether a number is inside it with `∋`, turn it into a list, or use it in a `???` to catch a whole span of numbers at once. (#398)
+- 🔑 You can now make an account that signs in with a link we email you, so there's no password to forget. We ask your birthday and where you live to check your age, and we don't keep either one. (#628)
+- 🔑 You can now switch how you sign in from your profile, swapping a password for emailed links or the other way; your username stays the same. (#628)
+- 🏫 We added a section to the [About](https://wordplay.dev/about) page for schools, saying what we promise about privacy and accessibility, with a link to email us. (#697)
+- 🔢 You can now write a range of numbers like `1‥10`; check if a number is inside with `∋`, turn it into a list, or use it in a `???`. (#398)
 - ✍️ Type two dots to get the range symbol `‥`, and a third to turn it into the stream symbol `…`. So `1..10` gives you a range and `1...10` still gives you a reaction. You can also pick `‥` from the symbols under the editor. (#398)
-- 🤝 You can now share your [characters](https://wordplay.dev/characters) in a gallery. Everyone in the gallery can see them, make their own version to change, or copy a character's name to use it in their own project. (#822)
-- ✍️ Wherever you write formatted text — a chat message, a how-to, a translation — the editor now shows it the way it will look. Bold words look bold and links look like links, instead of showing the symbols that make them. Press the 👁 button to see the symbols whenever you want them. (#1307)
-- ✍️ Formatted text now behaves the way writing should. Click to put the cursor where you clicked, double-click to pick a word, triple-click to pick a paragraph, and hold Option or Alt with an arrow key to jump word by word. Pressing Enter after a bullet starts the next one. (#1307)
-- 🔒 You can now ask for a character shared in a gallery to be looked at. The gallery's curators review what's in their gallery, and Wordplay's moderators review anything everyone can see. (#1236)
+- 🤝 You can now share your [characters](https://wordplay.dev/characters) in a gallery, where everyone can see them, make their own version, or copy a name to use. (#822)
+- ✍️ Wherever you write formatted text, the editor now shows it the way it will look; press the 👁 button to see the symbols. (#1307)
+- ✍️ Click to place the cursor, double-click for a word, triple-click for a paragraph, and hold Option or Alt with an arrow to jump word by word. Pressing Enter after a bullet starts the next one. (#1307)
+- 🔒 You can now ask for a character shared in a gallery to be reviewed by the gallery's curators and Wordplay's moderators. (#1236)
+- 🌐 The [Updates](https://wordplay.dev/updates) page is now in your own language, with anything not translated yet still in English. (#1164)
 
 ### Changed
 
-- 🔒 Everyone now has a username, even people who sign in with an email address. Wordplay never shows anyone's email address to anybody else. (#628)
-- 🔒 We now check that requests come from the real Wordplay before we answer them, so nobody can make thousands of accounts to use up our translating. You won't see anything — there are no puzzles to solve. (#1299)
-- 🎨 We tidied up a gallery's page. Projects and characters each have their own heading with a button to add one, and the settings for who can join, who can see it, and deleting it now sit together in tabs at the bottom. (#822)
-- 📝 We grouped the buttons above the formatted text editor: undo and redo first, then bold, italic and the rest, then the ones for code examples. The example buttons only appear when your cursor is inside an example. (#1307)
+- 🔒 Everyone now has a username, even people who sign in with email, and Wordplay never shows anyone's email address to anybody else. (#628)
+- 🔒 We now check that requests come from the real Wordplay, so nobody can make thousands of accounts; you won't see anything or solve any puzzles. (#1299)
+- 🎨 We tidied a gallery's page: projects and characters each have a heading with an add button, and the join, view, and delete settings now sit in tabs at the bottom. (#822)
+- 📝 We grouped the buttons above the formatted text editor into undo/redo, bold and italic, and code examples. The example buttons only appear when your cursor is inside an example. (#1307)
 - 🎨 A character's share button now says "share", like a project's does, and opens tabs for who can see it, who can help make it, and which gallery it's in. (#822)
 
 ### Fixed
 
-- ✍️ Turning on wrapping in the editor now really wraps long lines. It used to change how the editor looked but leave every space unbreakable, so a long line still ran off the side.
-- 📖 We fixed a how-to in the [Guide](https://wordplay.dev/guide) that stopped halfway through. A note in the middle of it used a symbol that ends the text early, so the rest never showed.
+- ✍️ Turning on wrapping in the editor now really wraps long lines instead of letting them run off the side.
+- 📖 We fixed a how-to in the [Guide](https://wordplay.dev/guide) that stopped halfway through, so the rest now shows.
 - 🐛 Tooltips now leave a space before the keyboard shortcut, so a button reads "bold (⌘B)" instead of "bold(⌘B)".
-- 🗣️ We fixed screen readers reading the wrong letter after an emoji in your code. Wordplay counts an emoji as one character but a text box counts it as two, so the reader could land in the middle of one. (#1329)
-- 🚦 If you write `1…10` when you meant a range, Wordplay now offers to swap the three dots for two. It only offers this when both sides are numbers, so it stays quiet on a reaction you're still writing. (#398)
-- 🚦 We fixed asking whether a value is one exact number or word. Asking if `5` is a `5` used to say no, and so did every check against a list of choices like `1|2|3`.
-- 🐛 We fixed Wordplay freezing when you turned an endless number into a list. Asking `∞` for a list now gives you an empty one instead of locking up.
-- ✍️ If you name a character something you already used, Wordplay now keeps its old name instead of letting two of your characters share one. It kept saying it wouldn't save the name and then saved it anyway. Your drawing still saves while you work.
-- ✍️ A character's name can't have spaces in it, because you use the name in your code. If you type one, Wordplay now joins the words for you — "My Cool Character" becomes "MyCoolCharacter" — instead of refusing the name.
+- 🗣️ We fixed screen readers reading the wrong letter after an emoji in your code. (#1329)
+- 🚦 If you write `1…10` when you meant a range, Wordplay now offers to swap the three dots for two, but only when both sides are numbers. (#398)
+- 🚦 We fixed asking whether a value is one exact number or word, like whether `5` is a `5` or matches a list of choices like `1|2|3`.
+- 🐛 We fixed Wordplay freezing when you turned an endless number into a list; asking `∞` for a list now gives you an empty one.
+- ✍️ If you name a character something you already used, Wordplay keeps the old name so two characters cannot share one, and your drawing still saves while you work.
+- ✍️ If you type spaces in a character's name, Wordplay now joins the words — "My Cool Character" becomes "MyCoolCharacter".
 - 🐛 Custom characters now show up when you're not signed in, so a public project that uses one looks right to everyone. (#742)
-- 🐛 We fixed a sentence in the sharing box that stopped halfway and said only "The curators of". It now says who reviews what you share, and sits after the rules instead of splitting them in two.
+- 🐛 We fixed a cut-off sentence in the sharing box so it now says who reviews what you share, after the rules.
 - 🎨 We fixed the space around a list of rules in the sharing box, which used to leave more room after the list than before it.
 - 🐛 A gallery's page now says the gallery's name in your browser tab.
-- 🤝 When a curator opens a gallery's how-tos to people in their other galleries, those people can now read them, react to them, and join the chat. Before, the setting looked like it worked but showed them nothing. (#907)
-- 🔒 A how-to you're still writing now stays yours until you post it. Anyone could read your unfinished how-tos in a gallery everyone can see, and people in the gallery could move them around and react to them. (#907)
-- 💾 Bookmarks and reactions on a how-to now save when you were invited to a gallery's how-tos, or you make things in that gallery. They looked like they worked and then quietly didn't. (#907)
+- 🤝 When a curator opens a gallery's how-tos to people in their other galleries, those people can now read, react, and chat. (#907)
+- 🔒 A how-to you're still writing now stays yours until you post it, so others can't read, move, or react to it. (#907)
+- 💾 Bookmarks and reactions on a how-to now save when you're invited to a gallery's how-tos or make things there. (#907)
 - 🔒 We fixed a hole that let anyone with an account change any how-to, even ones in galleries they had nothing to do with. (#907)
+- 🐛 We fixed every link in our update notes, which all pointed at a broken address.
+- 🎨 The Added and Removed labels on the Updates page are now darker, so the white text on them is easier to read.
+- 🗣️ The Updates page now says its name in your browser tab and to screen readers.
+- 📖 We fixed an old update note that stopped halfway through, because a symbol in it ended the text early.
 
 ## 0.34.1 - 2026-09-02
 
 ### Added
 
 - 🌐 If you read a language written down the page — like Chinese, Japanese, Korean, or Mongolian — you can now set Wordplay to read that way too. The lessons and each thing the guide explains run top to bottom. Buttons, menus, and lists stay as they were. (#1203)
-- 🌐 Code written entirely in a language that goes down the page can now be shown that way, with a button above the editor. It only appears when your code is actually written that way, and only offers the direction that language uses — so a program written in English stays as it is. (#1203)
-- 🧩 You can now choose more than one piece of code at a time. Hold shift and press an arrow to reach the next piece beside it, then delete, cut, copy, or put them all in one list or group together. (#177)
-- 🖱️ You can drag everything you've chosen at once. Press anywhere inside your choice and drag, and all of it moves together and stays chosen where it lands. (#177)
+- 🌐 Code written entirely in a language that goes down the page can now show that way with a button above the editor; it only appears for such code. (#1203)
+- 🧩 You can now choose more than one piece of code at once: hold shift and press an arrow, then delete, cut, copy, or group them. (#177)
+- 🖱️ You can now drag everything you've chosen at once: press inside your choice and drag, and it all moves together. (#177)
 - 📖 We added _stream_ to the glossary, so the word can tell you what it means wherever Wordplay uses it. (#960)
 
 ### Changed
 
-- 🌐 The writing layout setting now only appears if you've chosen a language that is actually written down the page, and only offers the direction that language really uses. It never helped anyone reading English, and picking it just turned the words sideways. (#220, #1203)
-- 🎨 What your program shows on stage now follows the language of the project, not the settings of whoever is looking at it. So a project you share looks the way you made it for everyone. (#1203)
-- ✍️ How your code is laid out now follows the code itself, not the language you read the app in. Before, choosing to read Wordplay top to bottom turned everyone's code sideways, even code written in English. (#1203)
+- 🌐 The writing layout setting now only appears for languages truly written down the page, and only offers the direction that language uses. (#220, #1203)
+- 🎨 What your program shows on stage now follows the project's language, not the viewer's settings, so a shared project looks the same for everyone. (#1203)
+- ✍️ How your code is laid out now follows the code itself, not the language you read the app in. (#1203)
 - ✍️ Pressing up on the first line now moves the cursor to the very start of your program, and down on the last line moves it to the very end.
 - 🧩 In blocks mode, holding shift and pressing up or down now chooses the code your cursor is in. Before, it scrolled the page and said the key did nothing.
-- 📖 Words like _value_, _expression_, and _stream_ now tell you what they mean the first time each [lesson](https://wordplay.dev/learn) or help page uses them, instead of many pages later or never at all. Point at the word, tab to it, or tap it. (#960)
+- 📖 Words like _value_, _expression_, and _stream_ now tell you what they mean the first time each [lesson](https://wordplay.dev/learn) or help page uses them. (#960)
 
 ### Fixed
 
-- ✍️ We fixed pressing up or down doing nothing. In blocks mode the cursor at the end of a program couldn't move up at all; now every press either moves it or says why it can't.
-- ✍️ Pressing up or down inside a long, wrapped line left the cursor where it was. It now moves a row, like it should.
+- ✍️ We fixed up and down doing nothing: in blocks mode a cursor at the end of a program can now move, or say why it can't.
+- ✍️ Pressing up or down inside a long, wrapped line now moves the cursor a row, as it should.
 - 🐛 Pressing Escape to choose the code around your cursor sometimes chose the piece before it instead of the one you were in.
-- 🐛 Speech bubbles didn't flip around for right to left languages like Arabic and Hebrew. Now they do. (#1203)
+- 🐛 Speech bubbles now flip around for right to left languages like Arabic and Hebrew. (#1203)
 
 ## 0.34.0 - 2026-09-01
 
 ### Added
 
-- 💬 You can now reply to one message instead of to the whole conversation. Replies gather into a thread on the message they answer, and the count turns gold when some of them are new to you. (#821)
-- 👍 You can now react to a message with an emoji. Eight common ones are a single press away, and you can search for any other emoji you like. (#821)
+- 💬 You can now reply to one message; replies gather into a thread, and the count turns gold when some are new to you. (#821)
+- 👍 You can now react to a message with an emoji: eight common ones are one press away, and you can search for any other. (#821)
 - 📎 You can now say which code you're talking about. Put your cursor in the code, press the 📎 beside the message box, and your message carries that line. You can send just the link, with no words at all. (#820)
-- 👥 Code somebody has talked about gets a 👥 in the margin beside it. Press it to read what was said. The link follows your program too: add lines above it and it still points at the same code, and if that code goes away the link says so instead of pointing somewhere wrong. (#820)
+- 👥 Code somebody talked about gets a 👥 in the margin; press it to read what was said, and the link follows your program. (#820)
 - 📐 You can now pick which corner of the screen the stage sits in: top left, top right, bottom left, or bottom right. The guide, palette, and collaborate tiles move to match, and your code stays in the middle. (#925)
-- 🌐 We translated the built-in [gallery](https://wordplay.dev/galleries) examples into other languages, starting with Spanish and Chinese. An example now opens in the languages you've chosen, and when you choose several, it carries them all at once. (#1310)
+- 🌐 We translated the built-in [gallery](https://wordplay.dev/galleries) examples into Spanish and Chinese, and each opens in the languages you've chosen. (#1310)
 
 ### Changed
 
-- 🤝 The collaborate tile's list of people now fills the width of the tile, and the box for adding someone waits behind a **+** until you ask for it, so the list takes less room. The list no longer slides when you start writing a message; it just changes.
-- ✍️ The message box no longer offers the three buttons for marking up an example (⭐, 🪲, 👀). Those are for writing documentation, not for talking to your collaborators.
-- 🧱 The stage now sits in the same corner whatever the shape of your window. Before, a tall window put it on one side and a wide window on the other. (#925)
-- 🧹 The layout button at the bottom of a project now shows one icon instead of two, to make room. When your layout is automatic, its tip still says which layout it picked.
+- 🤝 The collaborate tile's list of people now fills the tile, and the box for adding someone waits behind a **+** until you ask for it.
+- ✍️ The message box no longer offers the three markup buttons (⭐, 🪲, 👀), since those are for writing documentation.
+- 🧱 The stage now sits in the same corner whatever the shape of your window. (#925)
+- 🧹 The layout button at the bottom of a project now shows one icon instead of two, and its tip still says which layout it picked.
 
 ### Fixed
 
-- 🐛 A button you'd moved to with the keyboard was dimmed along with the rest of the tile's header, which made the focus outline hard to see. A header you're working in is no longer dimmed.
-- 🐛 The settings no longer slide sideways on a narrow window. Rows of buttons now wrap onto a second line instead of running off the edge.
-- 🎨 One of the layout buttons in the settings showed a colored icon while the rest were black and white. They all match now.
+- 🐛 A header you're working in is no longer dimmed, so the focus outline is easy to see.
+- 🐛 The settings no longer slide sideways on a narrow window; rows of buttons now wrap onto a second line.
+- 🎨 The layout buttons in the settings are all black and white now, so they match.
 - 🐛 We fixed a bug where a project written in Serbian compared things the wrong way around: Wordplay had the symbol for "is not equal" written as "is equal", so programs quietly did the opposite of what they said. (#1310)
 - 🌐 We fixed bugs that could break a program rewritten in another language: a word the program checks for stays as it is everywhere it appears, symbols like ~ stay symbols, a name never turns into a word the language already uses for something else, and an input keeps working when its name matches one of those words. (#1310)
 - 🤝 We fixed a bug where remixing a project named in several languages garbled its name.
-- 🐛 The label naming the code you've chosen sat on top of that code and ate your presses, so you couldn't press or drag the very thing it named. Presses now pass through it. (#177)
+- 🐛 Presses now pass through the label naming the code you've chosen, so you can press or drag the code it names. (#177)
 
 ## 0.33.1 - 2026-08-30
 
 ### Added
 
-- 🧭 The [tutorial](https://wordplay.dev/learn) now shows you the interface instead of just talking about it: when a lesson is about the editor, stage, palette, guide, or timeline, it offers a tour that points at each control right where it sits, and waits for you to take it. You can always skip a tour, and one you've taken already won't ask again. (#984)
+- 🧭 The [tutorial](https://wordplay.dev/learn) now offers a tour that points at each control for the editor, stage, palette, guide, or timeline. You can skip a tour, and one you've taken won't ask again. (#984)
 
 ### Changed
 
-- 📝 We rewrote the lessons that talk about parts of the screen. They now say what the editor and the stage _are_ before using those words, and they explain an exception in plainer language. (#984)
+- 📝 We rewrote the lessons about parts of the screen to say what the editor and stage _are_ and explain an exception more plainly. (#984)
 - 📖 We added _editor_ and _stage_ to the glossary, so a mention of either word anywhere in Wordplay can tell you what it means. (#984)
 
 ### Fixed
 
-- 🐛 The tutorial pointed at two buttons that don't exist anymore — one for seeing a project's code, and one in the editor's own tour. Both now point at controls that are really there. (#984)
-- 🚦 When your cursor is inside a placeholder, we no longer say it's "of type any". That never told you anything. (#984)
+- 🐛 The tutorial's two pointers to buttons that no longer exist now point at controls that are really there. (#984)
+- 🚦 When your cursor is inside a placeholder, we no longer say it's "of type any". (#984)
 
 ## 0.33.0 - 2026-08-29
 
 ### Added
 
 - 🌐 We added support for Persian (`fa-AF`)! (#1229).
-- 🔔 You now hear what happens after something is reported. If someone reports something you made, we tell you, and we tell you what was decided and which rules it broke. If you were the one who reported it, we tell you what happened too. We never say who reported something. (#938)
+- 🔔 You now hear what happens after something is reported: we tell you the decision and which rules it broke, and we never say who reported it. (#938)
 - 🤝 Every place where you share something now tells you who can review it — including when the answer is nobody. (#938)
-- ⚑ You can now report a project in a private gallery to that gallery's curators. Before, you could only report things that anyone could see. (#938)
-- 💬 When someone reviews a message, they can now say which rules it broke and write a note to the person who sent it. Both come to you with the decision. (#938)
+- ⚑ You can now report a project in a private gallery to that gallery's curators. (#938)
+- 💬 When someone reviews a message, they can now say which rules it broke and write a note that comes to you with the decision. (#938)
 
 ### Changed
 
-- 🔔 Your notifications now last. They stay after you reload the page, they follow you to your other devices, and once you clear one it stays cleared. (#938)
-- 🤝 Who reviews what you share now follows who can see it. Nobody reviews a project you keep to yourself. A gallery's curators review what's in their gallery, including its chats. We review anything anyone can see. The [rights page](https://wordplay.dev/rights) explains all of it. (#938)
-- 🔒 A reported message is now really hidden while someone looks at it. Before, it was only hidden on screen, and the words were still there for anyone who looked closely. (#938)
-- 🚩 Reporting a message hides it once. If it's kept and someone reports it again, it stays visible the second time, so reporting can't be used to keep someone quiet. (#938)
-- 🤝 Reported messages now wait on the moderation page along with everything else to review, instead of on their own page. Your notifications will take you there. (#938)
-- 🤝 The collaborate tile now lists everyone who can reach your project in one table, with a menu beside each person for what they can do: collaborate, comment, view, or take over as owner. Each person has just one, so picking a new one moves them instead of adding them to a second list.
-- 💬 A chat now starts by talking. The message box is there as soon as you open the tile, and sending your first message makes the chat, instead of making you press "start a chat" first.
+- 🔔 Your notifications now last: they stay after you reload, follow you to other devices, and stay cleared once you clear them. (#938)
+- 🤝 Who reviews what you share now follows who can see it, and the [rights page](https://wordplay.dev/rights) explains all of it. (#938)
+- 🔒 We now fully hide a reported message while someone reviews it, instead of just hiding it on screen. (#938)
+- 🚩 Reporting a message hides it only once, so no one can report it again and again to keep someone quiet. (#938)
+- 🤝 Reported messages now wait on the moderation page with everything else to review, and your notifications take you there. (#938)
+- 🤝 The collaborate tile now lists everyone who can reach your project in one table, with a menu to set each person to collaborate, comment, view, or take over as owner.
+- 💬 A chat now starts by talking: the message box is ready when you open the tile, and sending your first message makes the chat.
 - ✍️ While you write a message, the list of people shrinks to a row of everyone who can read what you say, so the conversation gets the whole tile.
-- 🌐 The "translate messages into" and "I'm writing in" menus now sit together on one line above the message box, since they are two halves of the same question. We took away the search beside each one, because the menus already list every language Wordplay speaks.
-- 🤝 Every place Wordplay lists people — a gallery's curators, a class's students, a character's collaborators — now uses that same table, so adding and removing someone works the same way everywhere. When there's room it puts two or more people on a row instead of one, which makes those lists much shorter.
+- 🌐 The "translate messages into" and "I'm writing in" menus now sit together on one line above the message box, without the search beside each one.
+- 🤝 Every place Wordplay lists people now uses the same table, so adding and removing works the same everywhere, and it puts two or more people on a row to shorten long lists.
 
 ### Fixed
 
 - 🔒 Your notifications no longer stay after you sign out. On a shared computer, the next person could see warnings meant for you. (#938)
 - 🔔 Turning off how-to notifications no longer clears all your other notifications too. (#938)
-- 🔔 You now hear about messages that came in while you were away. Before, we only told you about ones that arrived while the page was open. (#938)
+- 🔔 You now hear about messages that arrived while you were away, not just ones that came in while the page was open. (#938)
 - 🔔 Several reported messages in one project now show as several notifications instead of one that never went away. (#938)
 - 🐛 The report flag on a chat message no longer opens the report box for every message at once. (#938)
 - 🐛 Reporting the same thing twice no longer makes two reports. (#938)
-- 🔒 Only the person who owns a project can delete its chat now. Before, anyone in the chat could delete the whole conversation. (#938)
-- 🐛 The same person could end up in two of your project's lists at once and show up twice in the collaborate tile. Now everyone has one privilege, and an old project fixes itself the first time you change anything.
-- 🐛 When you typed a name we couldn't use, the message saying why could get cut off, or hidden behind a button. It now floats above everything, right under the box you typed in.
-- 🗣️ Screen readers now hear why a name was rejected in the boxes that hold several lines of writing. The message was on screen, but nothing tied it to the box, so it was never read out.
+- 🔒 Only the person who owns a project can delete its chat now, instead of anyone in the chat. (#938)
+- 🐛 Everyone now has one privilege, so a person no longer shows up twice in the collaborate tile, and an old project fixes itself the first time you change anything.
+- 🐛 When you type a name we can't use, the message saying why now floats above everything, right under the box, instead of being cut off or hidden behind a button.
+- 🗣️ Screen readers now read out why a name was rejected in boxes that hold several lines of writing.
 
 ## 0.32.1 - 2026-08-28
 
 ### Added
 
-- 🔍 You can now search the [galleries](https://wordplay.dev/galleries). Type a word and you'll see galleries whose name or description matches it, example projects, and projects from galleries people have shared. (#299)
-- 🤝 Getting your gallery onto the galleries page is now a request: a moderator reads it first and decides whether to list it. Your gallery page tells you whether it's waiting, listed, or turned down, and you get a notice when that changes. (#1311)
+- 🔍 You can now search the [galleries](https://wordplay.dev/galleries): type a word to see matching galleries, example projects, and projects from shared galleries. (#299)
+- 🤝 Listing your gallery is now a request a moderator reviews; your gallery page shows whether it's waiting, listed, or turned down, and you get a notice when that changes. (#1311)
 - 📚 Six examples that weren't in any gallery are now in one, so you can find them: Adobo Recipe, Color Show, Laughing, Layouts, Mumble, and Wild Transforms.
-- 🌐 We made it possible to add the other spellings of a glossary word — the plurals and endings each language needs — so a link like `@parameters` holds the whole word instead of stopping partway. If you help translate Wordplay, there's a new Glossary tab where you add and remove them. (#1244)
+- 🌐 You can now add the other spellings of a glossary word so a link like `@parameters` holds the whole word, and translators get a new Glossary tab to add and remove them. (#1244)
 - 📖 We made it easier to fix a glossary word or what it means: you can now change it right where you see it in the [Guide](https://wordplay.dev/guide), instead of finding it in a long list of text. (#1244)
 - 🌐 If you help translate Wordplay, you can now fix the notes the editor shows about problems in your code — both the short name of the problem and the sentence explaining it — right where you read them, instead of finding them in a long list. The parts the sentence fills in for itself, like the name of the thing that's wrong, stay put while you edit, and the note reads normally again once you save. (#1275)
 - 📖 In the same way, you can now fix what the editor says a piece of code is, and the help text for anything built in, wherever those show up. (#1275)
 
 ### Changed
 
-- 📖 How-tos shared in a gallery now live in the [Guide](https://wordplay.dev/guide) with all the other how-tos, grouped under the gallery that shared them. They used to sit on the galleries page, which is for galleries. (#1277)
-- 🤝 The galleries page now shows public galleries in a different order each visit, so every one gets a turn near the top. It also says so when none have been listed yet, instead of showing an empty space. (#1311)
+- 📖 How-tos shared in a gallery now live in the [Guide](https://wordplay.dev/guide) with the others, grouped under the gallery that shared them. (#1277)
+- 🤝 The galleries page now shows public galleries in a new order each visit, and says so when none are listed yet. (#1311)
 
 ### Fixed
 
-- 🌐 In localization mode, some text showed an edit button that quietly threw your change away when you saved it, and a few would have saved it to the wrong place, replacing a whole group of text with one sentence. A button now appears only where there's really something to change. (#1275)
-- 🌙 In dark mode, the highlighted word in a search result was too pale to read on its yellow background. It's dark now, like every other yellow highlight in Wordplay.
-- 🌐 The Python, JavaScript, and Java samples in the [tutorial](https://wordplay.dev/learn) had been translated along with the words around them, which broke the code in all 29 languages. Code reads the same for everyone, so we put it back the way it's written.
+- 🌐 In localization mode, an edit button now appears only where there is really something to change. (#1275)
+- 🌙 In dark mode, the highlighted word in a search result is now dark enough to read on its yellow background.
+- 🌐 We put the Python, JavaScript, and Java samples in the [tutorial](https://wordplay.dev/learn) back to how they are written, in every language.
 - 📖 About 50 tutorial lines told you to try something without showing it — a sentence about using `+` with no `+` in it. We put the missing examples back in Portuguese, Spanish, Hindi, and Chinese.
-- 📖 In the Spanish and Chinese tutorials, some characters said the same line twice. We kept the better wording and dropped the repeat.
+- 📖 In the Spanish and Chinese tutorials, we removed lines that some characters said twice.
 - 🌐 The examples that teach language tags had lost their tags in every language, showing `'hello'` where they meant `'hello'/en`. They teach what they're for again, and text that is meant to stay in another language is no longer translated away.
-- 📖 Three how-tos — drawing the music, keeping track of a game, and the video grid — were missing examples we had added to the English ones. They're up to date in every language now.
+- 📖 The how-tos for drawing music, tracking a game, and the video grid are now up to date in every language.
 - 🌐 We fixed names that had been translated into the wrong word, so you can type what the [Guide](https://wordplay.dev/guide) shows. In eleven languages the word for the kind of thing a list holds had become the word for being kind, in Polish a `Set` was the verb for arranging things, and five Hebrew names carried marks nobody types. (#1324)
 
 ## 0.32.0 - 2026-08-26
 
 ### Added
 
-- 🗨️ Give a @Phrase a `bubble` and it says something in a speech bubble that points right at it, so letters can talk to each other. Put words in it, or a @Say so it's spoken out loud as well as shown, or a @Bubble to pick a color or make it a thought instead. (#75)
-- 🗨️ A bubble finds its own place: above whoever is speaking, or off to one side if something is already there. Your stage makes room for it too, so what someone says is never off screen. (#75)
+- 🗨️ Give a @Phrase a `bubble` and it speaks in a speech bubble pointing at it; add words, a @Say to speak aloud, or a @Bubble to pick a color or make it a thought. (#75)
+- 🗨️ A bubble finds its own place above or beside whoever is speaking, and your stage makes room so it is never off screen. (#75)
 - 🗨️ We added a new example called Dialog to the [galleries](https://wordplay.dev/galleries), where two letters talk about how strange it is that letters talk. (#75)
 - 📐 A @Row can now line its content up on the baseline, the line that letters sit on, so a short `a` and a tall `b` read as one line instead of two. Choose `_` for the row's alignment.
-- 🔠 Every font now says what it looks like, so you can pick one without seeing it. The font chooser reads "Creepster, a textured face, strong and old-fashioned" instead of just the name, and a phrase tells you what face it's wearing. There are 12 words for the shape of the letters and 13 for how a font feels, and they're translated into every language Wordplay speaks. (#298)
-- 📐 Things on your stage now line up with each other when you move them. Drag one near another and it snaps to its left or right edge, its middle, or the line its letters sit on, and a line shows you what it lined up with. Turn the grid on and it snaps to the grid too. Hold Alt or Option while you drag to place it anywhere you want. (#117)
-- 📐 You can line things up with the keyboard too. Arrow keys move whatever you picked, and holding shift while you press an arrow jumps it straight to the next thing it can line up with that way. Wordplay says where it landed and what it lined up with, so you can lay out a stage without seeing it. (#117)
-- 🧱 The palette now has a row of + buttons across the top for adding things to your stage: a phrase, a rectangle, a circle, a many-sided shape, a line, music, or speech. It stays put while you scroll, and it's there whether or not you've picked something. Before, a character offered to add one thing at a time and stopped offering once you had one, so a second phrase meant writing it yourself.
-- 🧱 A new thing lands below whatever is already on your stage instead of on top of it, and Wordplay picks it for you so you can start changing it right away. If you picked something first, the new thing goes in beside it.
+- 🔠 Every font now describes how it looks, with 12 words for letter shape and 13 for feel, translated into every language Wordplay speaks. (#298)
+- 📐 Drag a thing near another and it snaps to its edges, middle, or baseline, with a line showing the match; it snaps to the grid when on, and Alt or Option lets you place it anywhere. (#117)
+- 📐 Arrow keys move whatever you picked, and holding shift jumps it to the next thing it can line up with, with Wordplay saying where it landed. (#117)
+- 🧱 The palette now has a row of + buttons at the top to add a phrase, rectangle, circle, many-sided shape, line, music, or speech to your stage.
+- 🧱 A new thing lands below what's on your stage and Wordplay picks it so you can change it right away; if you picked something first, it goes beside it.
 - 🔳 Pick two or more things on your stage and press 🔳 to collect them into a @Group. When it can't, the button says why. (#119)
-- 🔣 You can now make a circle or a many-sided shape, not just a rectangle. Each has its own button, and each shape now has a symbol you can type: `▭`, `●`, and `⬢`.
-- ✏️ You can now draw on your stage. Press the pencil in the palette, then drag to sweep out a line, or click once for each place you want it to bend. Arrow keys move a dot around and Enter drops a point, so you can draw without a mouse, and Escape finishes. Wordplay tidies the line up when you let go, so a wobbly drag doesn't leave hundreds of points in your code. (#167)
-- ✏️ The pencil turns itself off once you've drawn a line, so you won't start another one by accident when you meant to pick the line you already have. If your program is empty, pressing it gives you a @Stage to draw on. (#167)
+- 🔣 You can now make a circle or a many-sided shape, not just a rectangle, and type each shape as `▭`, `●`, or `⬢`.
+- ✏️ You can now draw on your stage: press the pencil, then drag for a line or click for each bend, use arrow keys and Enter to draw without a mouse, and Escape to finish. (#167)
+- ✏️ The pencil turns off once you've drawn a line so you won't start another by accident; if your program is empty, it gives you a @Stage to draw on. (#167)
 - 📐 A new shape, @Path, draws a line through a list of places, and you can type it as `╱`. Ask for `closed` to join the last place back to the first, `smooth` to curve through your places instead of turning at them, and `thickness` to say how thick to draw it. It takes a plain list of places, so anything that makes places can draw one — including @Contour, which traces the outline of letters. (#167)
-- 📐 Pick a line you drew and every place on it gets a handle. Drag one to bend the line, or use the arrow keys. Enter adds a place halfway along, and Delete takes one away. (#167)
-- 🧲 A @Path on your @Stage stops things by its real shape, so you can draw a hill or a valley and watch things roll into it. Circles and many-sided shapes already stopped things by their own shape; lines do now too. (#167)
-- 🔠 Give a shape `glyphs` and Wordplay writes that text along its edge, over and over until it fills. Words can run around a circle or a hexagon, and a line can be drawn out of letters instead of ink. (#167)
+- 📐 Pick a line you drew and drag its handles or use arrow keys to bend it, press Enter to add a place halfway, and Delete to remove one. (#167)
+- 🧲 A @Path on your @Stage now stops things by its real shape, so you can draw a hill or valley and watch things roll into it. (#167)
+- 🔠 Give a shape `glyphs` and Wordplay writes that text along its edge over and over, so words can run around a circle or a line can be drawn out of letters. (#167)
 - 🎨 Shapes now have `filled` and `stroked`, so you can have just an outline, or neither — which is how you make a wall that stops things without being seen.
 - 🌐 You can now write a language tag with the language's name, not just its code: `'hola'/Español`, `'hola'/Spanish`, and `'hola'/es` all mean the same thing, and so do `/es-México` and `/es-MX`. Capitals and accents don't matter, so `/espanol` works too. (#1220)
 - 🚦 Wordplay now tells you when it doesn't know the region in a language tag, the way it already did for the language. Before, a misspelled one like `/en-Merica` quietly meant nothing. (#1220)
@@ -210,72 +215,72 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 🗨️ Three examples now use speech bubbles instead of words placed by hand: the map that tells you about a place when you bump into it, the face that says your mood, and the story Pears. (#75)
 - 📐 When your program shows more than one thing, they now go exactly where you put them. Wordplay used to quietly gather them into a @Group and stack them, which threw away the up-and-down part of every place you wrote and moved the side-to-side part too. Things with no place of their own now sit on top of each other in the middle, so give them a place — or write a @Group yourself if stacking is what you wanted.
-- 🌐 The [language chooser](https://wordplay.dev/) now writes each region in its own language, so you'll see "México" and "日本" instead of "Mexico" and "Japan". You can still search for either one. (#1220)
-- 💡 When you pick a language tag from the menu, it now says which language the tag is for, so `/es` reads as "español" and `/es-MX` as "español (México)". Before, every choice showed the same sentence. (#1220)
-- 🌐 After you type a language, we now offer the places where people speak it — `/en` offers `-US`, `-GB`, and `-CA` — instead of every place Wordplay happens to know. Adding a second language is still there, just further down the list. (#1220)
+- 🌐 The [language chooser](https://wordplay.dev/) now writes each region in its own language, so you'll see "México" and "日本"; you can still search for either name. (#1220)
+- 💡 When you pick a language tag from the menu, it now names the language, so `/es` reads as "español" and `/es-MX` as "español (México)". (#1220)
+- 🌐 After you type a language, we now offer the places where people speak it — `/en` offers `-US`, `-GB`, and `-CA`. Adding a second language is still there, lower down. (#1220)
 
 ### Fixed
 
-- 🔠 The font chooser used to read a font's markers out loud as "no tilde asterisk caret slash", and read the writing a font supports in that writing's own letters, so an English voice said "Ελληνικά" letter by letter. Now it says "no light, bold, extra, italic" and "Greek", while still showing the symbols and the letters on screen. (#298)
-- 🖱️ Sometimes you'd click something on your stage and nothing would happen — it got a blue outline but no handles, and the arrow keys wouldn't move it. That could last until you changed your code again. Now a click always finds what you clicked on.
-- 🔍 Your stage used to zoom in and out while you dragged something across it, which made things hard to place. Now it holds still while you move and fits your work again once you let go. If it ends up further out than you want, restart your program and it will frame everything fresh.
-- 🗣️ Screen readers used to read the name of a group or a shape as its symbol, saying "white square button" where they meant "group". Now they say the word.
-- 🐛 When a language tag named the same region twice, letting Wordplay fix it also deleted the other regions you had listed. Now it only removes the repeat. (#1220)
-- 💡 The menu wouldn't help you write a language tag at all. Typing `'hi'/` offered no languages, `'hi'/en` offered no regions, and `'hi'/en-U` wouldn't finish into `/en-US`. Now each of them offers what comes next. (#1220)
+- 🔠 The font chooser now reads markers as "no light, bold, extra, italic" and reads supported writing as "Greek", while still showing the symbols and letters. (#298)
+- 🖱️ We fixed clicks on your stage that used to select nothing, giving a blue outline but no handles and no arrow-key movement.
+- 🔍 Your stage now holds still while you drag something and fits your work again when you let go; restart your program to frame everything fresh.
+- 🗣️ Screen readers now say "group" or the shape's word instead of reading its symbol, like "white square button".
+- 🐛 When a language tag names the same region twice, fixing it now removes only the repeat, not your other regions. (#1220)
+- 💡 The menu now helps you write a language tag: `'hi'/` offers languages, `'hi'/en` offers regions, and `'hi'/en-U` finishes into `/en-US`. (#1220)
 - ✍️ Adding something to your program used to pull your project's description up onto the first line of your code.
-- 🎨 Picking a @Say used to show an empty palette. Now you can edit what it says there, like anything else.
-- 🐛 A small shape was drawn lower than the box that picks it, so its outline, its turn and resize handles, and the shape itself all sat in different places. They line up now.
-- 🎨 Using a circle or a many-sided shape as your stage's `frame` cut out the wrong part of the stage. The piece that showed and the edge drawn around it were nowhere near each other.
+- 🎨 Picking a @Say now lets you edit what it says in the palette, like anything else.
+- 🐛 A small shape's outline, its turn and resize handles, and the shape itself now line up instead of sitting in different places.
+- 🎨 We fixed a circle or many-sided shape used as your stage's `frame` cutting out the wrong part of the stage.
 
 ## 0.31.0 - 2026-08-25
 
 ### Added
 
-- 🔊 Turn on evaluation cues in settings and Wordplay makes a short sound each time your program runs again, with a different sound for each kind of input. The tour of the time slider explains them. (#537)
-- 🧲 Turn on collision cues and you can hear things bump into each other on your stage. A harder hit is louder, and several things landing at once sound like several things.
-- 🎞️ Turn on animation cues and you can hear what an animation is doing: turning changes the pitch, moving side to side moves the sound side to side, and fading out makes it quieter. An animation that repeats plays the same little tune every time around.
-- 🔊 A `@Pose` can now carry a `@Music`, which plays the moment that pose happens. Give the pose you enter with a little sound and it plays as your phrase arrives; put one on a pose inside a `@Sequence` and it plays when the animation reaches it. Before this, making a sound land with an animation meant building something in between for both of them to watch. (#22)
+- 🔊 Turn on evaluation cues in settings and Wordplay makes a short sound each time your program runs, with a different sound per input. The time slider tour explains them. (#537)
+- 🧲 Turn on collision cues and you can hear things bump on your stage: a harder hit is louder, and several things landing at once sound like several things.
+- 🎞️ Turn on animation cues and you can hear an animation: turning changes pitch, moving shifts the sound side to side, and fading out grows quieter. A repeating animation plays the same tune each time.
+- 🔊 A `@Pose` can now carry a `@Music` that plays the moment that pose happens, whether you enter with it or reach it inside a `@Sequence`. (#22)
 
 ### Changed
 
-- 🧭 On a small screen, switching between your code, your stage, and your other windows used to take four taps through the ☰ menu. Now they have their own row right above the project name, so it's one tap, and tapping the window you're already looking at keeps it instead of hiding it.
-- 🔤 `sorted` can now use a word to sort by, not just a number, so you can sort a list of things by one of their names, like sorting people by their last name. Emoji now sort by what they are, so hearts sit next to hearts. (#1322)
+- 🧭 On a small screen, your code, stage, and other windows now have their own row above the project name, so switching is one tap, and tapping the window you're viewing keeps it.
+- 🔤 `sorted` can now sort by a word, not just a number, so you can sort things by a name; emoji now sort by what they are, so hearts sit together. (#1322)
 
 ### Fixed
 
-- 🎨 A button that's turned on now looks pushed in: it sinks down and darkens. It used to move up instead, and in dark mode it looked lit up rather than pressed, with some buttons losing their picture entirely.
-- 🔤 Sorting words used to put every word starting with a capital letter before every word starting with a small letter, so a word like "amy" ended up far away from "Amy". Now words sort in alphabetical order, the way a dictionary does, independent of case. (#1322)
-- 🐛 We fixed a crash that could happen when you added a new input like `Speech()` above one you already had. Wordplay was replaying your earlier key presses and clicks into the wrong input.
+- 🎨 A button that's turned on now looks pushed in: it sinks down and darkens, instead of moving up or looking lit in dark mode.
+- 🔤 Words now sort in alphabetical order like a dictionary, so "amy" sits near "Amy" no matter the case. (#1322)
+- 🐛 We fixed a crash that could happen when you added a new input like `Speech()` above one you already had.
 
 ## 0.30.1 - 2026-08-24
 
 ### Added
 
-- 🔣 You can now choose whether an emoji you add is in color or black and white. Pick which one in the emoji chooser, and Wordplay keeps your choice when it shows the emoji and when you copy it.
-- 📋 You can now select the text your program shows and copy it somewhere else. This works while a project is playing, and on anything your program shows that isn't a stage.
-- 🔊 The notes your music is playing now light up in your code as you hear and see them. In a melody written as a list of numbers, each number glows when its turn comes.
-- 💡 The menu you get while writing code can now build much more of the language. You can take an item out of a list or a map, change a number's kind with `→`, ask a question with `???`, look back at a stream with `←`, change one part of a structure, and update a table.
-- 🔢 You can now write numbers in Roman, Han, Thai, Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu numerals, and in base 2 and base 16. Pick a digit to start, then add more digits before, inside, or after it to build up a bigger number. There's no keyboard for these, so the menu is the only easy way to write them.
-- 🌙 Your projects can now go dark along with the rest of Wordplay, so a bright stage isn't a bright white square at night. Every color keeps its own hue and stays as far from the others as you made it, projects that are already dark are left alone, and you can turn this off in settings to always see the colors you wrote. (#65)
+- 🔣 You can now choose whether an emoji you add is in color or black and white, and Wordplay keeps your choice.
+- 📋 You can now select and copy the text your program shows, even while it plays, on anything that isn't a stage.
+- 🔊 The notes your music plays now light up in your code, so each number in a melody glows when its turn comes.
+- 💡 The code menu can now build much more: take an item from a list or map, change a number's kind with `→`, ask with `???`, look back at a stream with `←`, change part of a structure, and update a table.
+- 🔢 You can now write numbers in Roman, Han, Thai, Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu numerals, and in base 2 and base 16. Pick a digit, then add more before, inside, or after it to build a bigger number.
+- 🌙 Your projects can now go dark with the rest of Wordplay, keeping each color's hue and spacing; already-dark projects stay as they are, and you can turn this off in settings. (#65)
 
 ### Changed
 
-- 📋 Selecting all text on a page used to sweep up buttons, tab names, and footer links along with the words you actually wanted. Now only real text can be chosen: paragraphs, headers, what your program shows, the help and guide writing, page titles, names, and anything you can type into.
-- 💡 The menu now groups units by what they measure, so finding `km` means opening Length instead of scrolling past all 126 units. The plain number choices come first now, instead of last.
+- 📋 Selecting all text now picks only real text, not buttons, tab names, or footer links.
+- 💡 The menu now groups units by what they measure, so `km` is under Length, and plain number choices come first.
 
 ### Fixed
 
-- 💡 Ready-made things like `Sequence.sway()` and `Color.random()` never showed up when you typed a dot after their name. Now they do.
-- 💡 The menu used to offer code that couldn't work. After a dot it forgot the name you picked, so `a.` offered `a()` instead of `a.📏()`, and after a `+` it offered things that only work on the number before it.
-- 🧩 Choosing your whole program gave you an empty menu. It now offers to add something to your program.
+- 💡 Ready-made things like `Sequence.sway()` and `Color.random()` now show up when you type a dot after their name.
+- 💡 We fixed the menu offering code that couldn't work, like `a()` after `a.` instead of `a.📏()`, and after a `+` it offered things that only work on the number before it.
+- 🧩 Choosing your whole program now offers to add something, instead of showing an empty menu.
 - 💡 Typing a letter in the menu skipped the very first choice, so that one could never be picked that way.
-- 🔍 We fixed the search box in the emoji and symbol chooser. It used to lose your place after the first letter, so everything you typed after that went nowhere.
-- ✍️ We fixed how chosen code looks when it has an emoji in it. Choosing one emoji, or a stretch that starts or ends with one, used to show no highlight at all.
-- 📖 A word in our explanations pointed at a page that didn't exist, so it showed an empty box instead of a link. Markup and type variable now have their own pages in the [Guide](https://wordplay.dev/guide), and the markup page shows an example you can try.
-- 🌐 In several languages the word markup was translated as the money kind, like a price markup or a page margin, instead of text with bold words and links. It now means formatted text in every language.
+- 🔍 We fixed the search box in the emoji and symbol chooser, which used to lose your place after the first letter.
+- ✍️ We fixed how chosen code with an emoji looks, so it now shows a highlight instead of none.
+- 📖 Markup and type variable now have their own pages in the [Guide](https://wordplay.dev/guide), and the markup page shows an example you can try.
+- 🌐 The word markup now means formatted text with bold words and links in every language, not the money kind.
 - ✍️ We fixed an extra space that crept in before a linked word in code, so `a @Phrase` no longer looks like `a  @Phrase`.
-- 🎞️ We fixed which code lights up while something on stage is moving. A ready-made motion like `Sequence.sway()` used to light up nothing at all, and a motion that never really moves used to light up as if it did. (#543)
-- 🎨 A project that paints itself a dark background used to draw its outlines and edges in colors picked for a light page, which made them hard to see. They now match the background you chose.
+- 🎞️ We fixed which code lights up while something on stage moves, including ready-made motions like `Sequence.sway()`. (#543)
+- 🎨 A project with a dark background now draws its outlines and edges in colors that match, so they are easier to see.
 
 ## 0.30.0 - 2026-08-22
 
@@ -284,167 +289,167 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔠 Text can now take a piece of itself with `subsequence`, find where another text first shows up with `index`, swap every copy of one text for another with `replace`, drop the blank space at its ends with `trim`, and turn itself backwards with `reverse`.
 - 🔣 Formatted text can now become a list of its symbols, or a number, the same way plain text can. (#1190)
 - 🔢 You can now write `!#`, the not-a-number value, in your own code. Wordplay always knew how to make one — turning text like `'hi'` into a number gives you one — but writing it yourself was marked as a mistake.
-- 🎭 Our [home page](https://wordplay.dev/) now has a stage. Press show me and nine tiny programs play right there, each with its code beside it and a note in the code saying what it does. (#921)
-- 🧲 @Output can now pull other @Output toward it. Give a @Phrase @Matter with a `pull` and it works like a planet or a magnet, tugging anything that moves with @Motion. A negative pull pushes away instead. We added a new example called Orbits to the [galleries](https://wordplay.dev/galleries), with three planets circling a star. (#20)
-- 💨 The @Stage now has `air`, which says how quickly moving @Output slows down. Normal air is 1, and 0 is outer space, where things keep going forever. (#20)
-- ✍️ You can now fix a path after you draw it. Pick one in the [character](https://wordplay.dev/characters) editor and press enter, and each point becomes a handle you can tab to, move with the arrow keys, add to with enter, and take away with delete. (#667)
-- 📐 A path's straight lines can now bend. Choose a point, press curve, and a handle appears that bends the line coming into it; press delete on that handle to make it straight again. (#774)
-- 🗣️ The character editor was nearly silent to a screen reader. It now says what happened when you move a shape, draw or erase a pixel, finish a shape, delete, undo, copy, paste, reorder, flip, or change a point. (#666)
-- 🔣 You can now add a letter, symbol, or emoji to a [character](https://wordplay.dev/characters). Add it as pixels you can recolor one square at a time, or as an outline you can resize and turn without it going blurry. (#924)
-- 🖼️ You can now add an image to a character. Pick the square of it you want to keep and we shrink it to fit the grid. Your picture never leaves your device. (#739)
+- 🎭 Our [home page](https://wordplay.dev/) now has a stage where nine tiny programs play, each with its code beside it. (#921)
+- 🧲 @Output can now pull other @Output like a magnet with `pull`, or push away with a negative value; see the new Orbits example in the [galleries](https://wordplay.dev/galleries). (#20)
+- 💨 The @Stage now has `air`, which sets how quickly moving @Output slows down: 1 is normal and 0 is outer space. (#20)
+- ✍️ You can now fix a path after you draw it: pick one in the [character](https://wordplay.dev/characters) editor, press enter, and move, add, or delete its points. (#667)
+- 📐 A path's straight lines can now bend: choose a point, press curve to add a handle, and press delete on it to make the line straight again. (#774)
+- 🗣️ The character editor now tells a screen reader what happened when you move, draw, erase, finish, delete, undo, copy, paste, reorder, flip, or change a point. (#666)
+- 🔣 You can now add a letter, symbol, or emoji to a [character](https://wordplay.dev/characters) as pixels you recolor, or as an outline you resize and turn. (#924)
+- 🖼️ You can now add an image to a character; pick the square you want and we shrink it to fit the grid, and it never leaves your device. (#739)
 - 🖌️ The pixel brush and the eraser now have a size, so you can cover more than one square at a time instead of erasing square by square. (#898)
-- 📏 Numbers can now change between more than 200 units with `→`. Temperature, volume, angles, area, speed, pressure, energy, power, electricity, how often something repeats, brightness, and computer storage all work now, on top of the time, length, and weight units we already had. (#363)
-- 📐 An angle can now become radians, like `45° → #rad`. `sin`, `cos`, and `tan` all count in radians, so this is how you take the sine of a turn or of a color's hue. (#363)
-- 🥤 Cooking and liquid measures work too, but you have to say whose: a US gallon and a British one are different sizes, so it's `usgal` or `ukgal`, never a plain `gal`. `tsp`, `tbsp`, and `cup` also work. (#363)
-- 🔢 `⊤` and `⊥` can now become numbers with `→ #`, giving 1 and 0. That makes counting how many things are true much easier. (#363)
-- 🗂️ You can now put your projects in folders on your [projects page](https://wordplay.dev/projects). Make a folder, then drag a project onto it, or choose a project and move it with the up and down arrow keys. Deleting a folder puts everything inside it in your archive, so nothing is lost. (#831)
-- 👑 You can give project ownership to someone you're working with. Open the people you share it with and press the crown next to their name; you stay on as a collaborator and can keep editing. (#189)
-- ⚑ You can now report a public project that breaks the sharing rules, using the flag in the corner of the stage. A moderator looks at it, and only moderators can see what was reported. (#193)
-- 🔒 If we find public content of yours that breaks the rules, you now get a warning in your notifications saying which warning it is. After three, you can still make and share projects with people you choose, but you can no longer make anything public. The [rights page](https://wordplay.dev/rights) explains all of it, including how to ask for public sharing back. (#193)
-- 🔬 Each project now has a Research setting in its sharing options, off unless you turn it on. It lets us show that project as an example when we write and talk about Wordplay, without your name or anything else that says it's yours. (#922)
-- 📖 Every example in the [Guide](https://wordplay.dev/guide) now has a Test it button. It opens a copy of the example in a new window that you can change and play with, kept on your device and out of your project list, with a link back to what you were reading. (#1044)
+- 📏 Numbers can now change between more than 200 units with `→`, including temperature, volume, angles, area, speed, pressure, energy, power, electricity, frequency, brightness, and storage. (#363)
+- 📐 An angle can now become radians, like `45° → #rad`, and `sin`, `cos`, and `tan` all count in radians. (#363)
+- 🥤 Cooking and liquid measures work too, but you must say whose: `usgal` or `ukgal`, never a plain `gal`; `tsp`, `tbsp`, and `cup` also work. (#363)
+- 🔢 `⊤` and `⊥` can now become numbers with `→ #`, giving 1 and 0, making it easier to count how many things are true. (#363)
+- 🗂️ You can now put projects in folders on your [projects page](https://wordplay.dev/projects) by dragging or using the arrow keys. Deleting a folder archives everything inside, so nothing is lost. (#831)
+- 👑 You can give project ownership to a collaborator by pressing the crown next to their name; you stay on and can keep editing. (#189)
+- ⚑ You can now report a public project that breaks the rules using the flag on the stage; only moderators can see what was reported. (#193)
+- 🔒 If your public content breaks the rules, you now get a warning in your notifications. After three, you can share with chosen people but no longer make anything public; the [rights page](https://wordplay.dev/rights) explains it. (#193)
+- 🔬 Each project now has a Research setting, off unless you turn it on, that lets us show it as an example without your name or anything that says it's yours. (#922)
+- 📖 Every example in the [Guide](https://wordplay.dev/guide) now has a Test it button that opens an editable copy in a new window, kept on your device with a link back. (#1044)
 - 📧 You can now write an email address in a doc or a how-to and it becomes a link that opens a message. Before, the `@` in an address was read as the start of a `@link` and the address disappeared.
-- 💾 Some of your settings stay on the device you set them on, and some follow your account. There was no way to tell which was which, so the ones that follow your account now have a small cloud beside them that says "Saved across devices". Signed out, the cloud is grey and tells you what signing in would do. (#231)
+- 💾 Settings that follow your account now show a cloud that says "Saved across devices"; signed out, the cloud is grey and tells you what signing in would do. (#231)
 
 ### Changed
 
 - 🔣 Counting the symbols in text now counts what you see. A family emoji like 👨‍👩‍👧 is drawn from several pieces, and `length` used to call it five symbols instead of one.
 - 🧹 The list functions `without` and `withoutAll` did exactly the same thing under two names, and `without` said it removed only the first copy when it never did. They're one function now, all four names still work, and it removes every copy.
-- 🔢 Two not-a-number values are now equal, so `!# = !#` is true. Asking whether a number came out of text you couldn't read is the whole reason to compare one, and it could never be true before.
-- 📐 On a phone, the character editor was three thin columns and none of them were usable. It's now one column: the character, then the commands you can use, then the colors.
-- 🔣 Making a copy of a character now uses the same symbol as remixing a project, `⧉`. The book symbol means copy to the clipboard everywhere else, and one symbol shouldn't mean two things.
-- 🎨 The saved message at the bottom of the page now shows a cloud instead of a globe. A globe can mean anything on the internet, and we use the cloud everywhere else for work kept in your account. (#231)
-- 💡 Auto-complete now says what each unit means. Picking `km` shows "kilometers" instead of the one note every unit used to share, and if you chose more than one language, you'll see the name in each of them. (#890)
+- 🔢 Two not-a-number values are now equal, so `!# = !#` is true.
+- 📐 On a phone, the character editor is now one column: the character, then the commands you can use, then the colors.
+- 🔣 Making a copy of a character now uses the same symbol as remixing a project, `⧉`.
+- 🎨 The saved message at the bottom of the page now shows a cloud instead of a globe. (#231)
+- 💡 Auto-complete now says what each unit means, so picking `km` shows "kilometers" in each language you chose. (#890)
 - 🛠️ We updated internal tooling.
 
 ### Fixed
 
-- 🌐 We fixed the explanations of built-in things, like `#km → #m`, always showing in the language a project was written in instead of the language you chose. Open an English project with French picked and the explanations are now French too.
-- 🔗 A project with no name left the browser tab titled "Wordplay - ", which told you nothing when you had two open. It now says the project is untitled.
-- 🖱️ Two links on a project in your list sat too close together to tap reliably. They're now big enough to hit.
-- 🧲 Writing a strange number like `!#` or `∞` for the @Stage's `gravity` used to freeze everything on the stage that moves. Wordplay now uses ordinary gravity instead. (#1305)
+- 🌐 Explanations of built-in things, like `#km → #m`, now show in the language you chose, not the one a project was written in.
+- 🔗 A project with no name now says it is untitled in the browser tab instead of showing "Wordplay - ".
+- 🖱️ Two links on a project in your list are now big enough to tap reliably.
+- 🧲 Writing a strange number like `!#` or `∞` for the @Stage's `gravity` now uses ordinary gravity instead of freezing things. (#1305)
 - 🧲 A @Phrase with @Matter crashed the program the first time it changed size, if it was the only thing physics was moving — like a score that counts up. (#1315)
-- 🐛 Formatted text with a language on it never matched the same formatted text without one, so `` `hi` `` and `` `hi`/en `` looked like different things. Plain text was fixed for this before; now formatted text is too.
-- 💾 Four settings — font face, line numbers, wrap lines, and space markers — were meant to follow your account, but they were never really saved there, so they stayed on one device. They now travel with you. (#231)
+- 🐛 Formatted text with a language now matches the same text without one, so `` `hi` `` and `` `hi`/en `` are the same.
+- 💾 Four settings — font face, line numbers, wrap lines, and space markers — now follow your account instead of staying on one device. (#231)
 - 🐛 Reversing a list changed the list you started with, instead of leaving it alone and handing you a new one.
-- 🐛 Sorting a list could jumble items that had nothing wrong with them, if any one item's sorting number wasn't a number. Those items go last now, and everything else keeps its order.
+- 🐛 Sorting a list now sends items with a non-number sorting value to the end, and everything else keeps its order.
 - 📖 Writing `!#` in a help page quietly erased the rest of the sentence, so we couldn't explain the value at all.
-- 🎭 The button that puts a file's output on the stage disappeared when you closed the other files, so you had to open one of them again just to get the button back. It now shows up whenever your project has more than one file. (#1302)
-- 🔊 The bars that show what music is playing were squashed to a few pixels on any small stage, so it looked like only the instrument was moving. They fill the space they're given now. (#1314)
-- 🗣️ Screen readers said nothing at all about shapes on the stage. They now read a shape's description, the way they already read a phrase's. (#1314)
+- 🎭 The button that puts a file's output on the stage now shows up whenever your project has more than one file. (#1302)
+- 🔊 The bars that show what music is playing now fill the space they're given on a small stage. (#1314)
+- 🗣️ Screen readers now read a shape's description on the stage, the way they already read a phrase's. (#1314)
 - 🖱️ Pressing space while a program was playing scrolled the page instead of going to the program, so a program that listens for keys could be scrolled out from under you. (#1314)
 - 🧩 With blocks turned on, code written inside a sentence — like the `1m` in a help page — became a big box that broke the line around it. Code inside a sentence now stays text, in the [Guide](https://wordplay.dev/guide) and everywhere else. (#1314)
-- 📖 A link to another part of the language, like `@Time`, showed up as plain text when it appeared in a program's documentation. It's a link now, the same as it is in a help page. (#1314)
-- 🐛 Undo in the character editor went back two changes at a time, and the newest thing you made could never be brought back. One undo now takes back exactly one change, and a rectangle you finish with the space bar is remembered too. (#1306)
-- 🔄 Flipping only ever moved paths, and no flip could be undone. It now mirrors everything you've picked — rectangles, ellipses, and pixels too — and undo takes it back. (#1306)
-- 🎨 Button labels were hard to read while you pointed at them in dark mode, because they stayed white on a gold background. They're dark now, everywhere in Wordplay. (#1318)
-- 👆 The color swatches were too small to tap. They're big enough to hit now, and wrap onto more rows instead of getting thinner. (#1318)
-- ⌨️ The character editor's instructions showed jumbled text where the keys to press should have been, and shortcuts elsewhere were spaced unevenly. Both now show the right keys for your own computer. (#1318)
-- 🖱️ Drawing or erasing with a quick drag left a dotted line instead of a solid one. Both fill in the gaps now. (#898)
+- 📖 A link like `@Time` in a program's documentation is now a real link, the same as in a help page. (#1314)
+- 🐛 One undo in the character editor now takes back one change, and a rectangle you finish with the space bar is remembered too. (#1306)
+- 🔄 Flipping now mirrors everything you picked — rectangles, ellipses, and pixels — and undo takes it back. (#1306)
+- 🎨 Button labels you point at in dark mode are now dark and easy to read everywhere in Wordplay. (#1318)
+- 👆 The color swatches are now big enough to tap, and wrap onto more rows instead of getting thinner. (#1318)
+- ⌨️ The character editor and other shortcuts now show the right keys for your own computer. (#1318)
+- 🖱️ Drawing or erasing with a quick drag now makes a solid line and fills in the gaps. (#898)
 - 🐛 Opening a dialog in the character editor threw away your undo history, so you couldn't take back anything you did before it. (#1318)
 - 🔣 An emoji added as pixels came out a square too fat, with a faint edge around it. (#739)
-- 🐛 A year was 364 days. `1yr → #day` now gives 365.25 days, the way a year actually works. (#363)
-- 🐛 Changing grams into ounces or pounds was a little bit off, because the number we multiplied by had been rounded. `1kg → #oz` said 35.274 ounces; it now gives the exact answer. (#363)
-- 📐 `sin`, `cos`, and `tan` kept the unit of the number you gave them, so the sine of `45m` came back in meters. They give a plain number now, because a sine compares two lengths and so has no unit of its own. (#363)
+- 🐛 `1yr → #day` now gives 365.25 days, the way a year actually works. (#363)
+- 🐛 `1kg → #oz` now gives the exact answer instead of a rounded 35.274 ounces. (#363)
+- 📐 `sin`, `cos`, and `tan` now give a plain number with no unit, so the sine of `45m` no longer comes back in meters. (#363)
 
 ## 0.29.3 - 2026-08-19
 
 ### Added
 
-- 🌐 When you translate a project, Wordplay now shows how far it's got instead of just spinning, and counts the phrases as they're done. Big projects used to look stuck, and sometimes gave up partway through. (#1276)
-- 🌐 When you translate a project, you now choose what that means: add the new language to what you wrote, or rewrite your project in it. Adding is the default, and it leaves your code exactly as you typed it. (#1276)
-- 🔒 Translating now has a daily limit, shown as a small bar with how much you have left today and when it fills back up. Machine translation costs real money, and this keeps anyone from running up the bill. (#1073)
-- 🔍 The stage now shows how far you've zoomed, as a small bar that fills up and down with a line across the middle for the project's own view. Press it to go back to that view. (#1175)
+- 🌐 When you translate a project, Wordplay now shows how far it's got and counts the phrases as they're done. (#1276)
+- 🌐 When you translate a project, you now choose to add the new language or rewrite your project in it; adding is the default and keeps your code. (#1276)
+- 🔒 Translating now has a daily limit, shown as a small bar with how much you have left today and when it fills back up. (#1073)
+- 🔍 The stage now shows a small zoom bar with a line for the project's own view; press it to go back to that view. (#1175)
 - 🧭 If you zoom or pan until nothing is left on the stage, Wordplay now tells you so and gives you a button to bring everything back. (#1175)
 - 🗣️ Screen readers now say the zoom level as you change it, and say when the stage has nothing left on it. (#1175)
-- 🔠 Text and formatted text can now be made all uppercase or all lowercase. Use `lowercase` on two words to compare them without caring whether either starts with a capital letter. (#1301)
+- 🔠 You can now make text all uppercase or lowercase, and use `lowercase` on two words to compare them regardless of capitals. (#1301)
 - 🌐 Changing text to uppercase or lowercase follows the rules of the language you tagged it with, so Turkish text changes its dotted and dotless `i` the Turkish way. (#1301)
 
 ### Changed
 
-- 🧭 The links along the bottom of every page are easier to notice and easier to press. The words are underlined so they look like links, and each one has a bigger area you can tap. (#836)
+- 🧭 The links along the bottom of every page are now underlined and have a bigger area you can tap. (#836)
 - 🧭 The link for the part of the site you're on now looks like a tab joined to the page above it, and it keeps showing when you open something inside that part, so you can always tell where you are. (#836)
-- 🔑 You now need an account to translate a project. That's how everyone gets their own fair share of translating each day. (#1073)
-- 🌐 The languages button now says "translate" when your project is written in just one language, instead of telling you it has one. Once it has more, it counts them again. (#1276)
+- 🔑 You now need an account to translate a project, so everyone gets a fair share each day. (#1073)
+- 🌐 The languages button now says "translate" when your project uses one language, and counts them once it has more. (#1276)
 - 🎨 The translate button now stands out as soon as you pick a language to translate into, so it's easier to find. (#1276)
-- 🖱️ Zooming the stage now moves by the same amount every time, so one zoom out is undone by exactly one zoom in. Before, a single flick of the scroll wheel could take hundreds of clicks to undo. (#1175)
-- 🔍 How close you can zoom in now depends on what's on the stage, instead of one fixed limit. On most projects you can get much closer, and things placed near you no longer disappear when you zoom all the way in. (#1175)
+- 🖱️ Zooming the stage now moves the same amount every time, so one zoom out is undone by exactly one zoom in. (#1175)
+- 🔍 How close you can zoom in now depends on what's on the stage, so on most projects you can get much closer without things vanishing. (#1175)
 - ⚡ Checking your program for mistakes is faster, especially in long programs and while you're partway through typing something. (#808)
 
 ### Fixed
 
-- 💾 The bottom of the page grew taller for a moment while your work was saving, which nudged everything above it. It stays the same size now.
+- 💾 The bottom of the page no longer grows taller while your work saves, so nothing above it moves.
 - 🧲 @Collision only worked if you gave both things @Matter, and nothing told you so. Now naming two things is all it takes for them to notice each other. @Matter is for how heavy, bouncy, and slippery something is, and for letting a @Motion push it around. (#548)
-- 🖱️ The Wordplay logo at the bottom of the page showed nothing when you pointed at it or moved to it with the keyboard, so there was no sign it was a link. Now it does. (#836)
+- 🖱️ The Wordplay logo at the bottom of the page now shows a sign that it is a link when you point at it or move to it with the keyboard. (#836)
 - 🌐 In 29 languages, the tutorial pointed at code examples that weren't there — a lesson would say to use `+` but never show it. We put the missing examples back, and Wordplay now checks for this so it can't happen again. (#928)
-- 🌐 We redid the whole Arabic tutorial with our current translator. Most of it was still from an old one that dropped examples and left lessons hard to follow. (#928)
-- 🌐 Translating a project replaced your words instead of adding to them. A name you wrote with no language on it, like `speed`, was thrown away to make room for the new one, and the rest of your code was rewritten in the new language whether you wanted that or not. (#1276)
-- 🌐 Sentences with an apostrophe in them, which is most French and Italian writing, quietly didn't translate at all. Your writing stayed in the language you started in with no explanation. (#1276)
+- 🌐 We redid the whole Arabic tutorial with our current translator, so lessons are easier to follow. (#928)
+- 🌐 Translating a project now adds to your words instead of replacing them, and keeps names you wrote with no language, like `speed`. (#1276)
+- 🌐 Sentences with an apostrophe, common in French and Italian, now translate instead of staying in the language you started in. (#1276)
 - 🐛 Translating sometimes swapped a name for a picture, like turning `Phrase` into 💬, because it grabbed whichever name came first instead of a word. (#1276)
 - 🐛 Rewriting a project in a new language only changed part of it: names like `size:` and `duration:` stayed in the old language, so the code ended up in neither one. (#1276)
-- 🐛 Translating a project could break it. Words your program compares against, like the key name `'ArrowLeft'`, and pictures like `'🫀'`, were being translated too, so the program stopped working. They now stay exactly as you wrote them. (#1276)
-- 🚦 When you translated a project, the names of your own structures weren't changed everywhere they were used, so your program filled up with errors. They're all changed now, and if translating would still cause errors, we leave your program alone and say so instead. (#1276)
+- 🐛 Translating no longer changes words your program compares against, like `'ArrowLeft'`, or pictures like `'🫀'`; they stay as you wrote them. (#1276)
+- 🚦 When you translate, the names of your own structures now change everywhere; if translating would still cause errors, we leave your program alone and say so. (#1276)
 - 🐛 A pattern that ignores capital letters for two languages at once, like `Aa/es_en`, stopped your program instead of matching. (#1301)
-- 🌐 Patterns that ignore capital letters could give different answers on different computers, because they used whatever language the computer was set to. They now work the same way everywhere, and only follow a language's own rules when you name one. (#1301)
+- 🌐 Patterns that ignore capital letters now work the same on every computer, and only follow a language's own rules when you name one. (#1301)
 - 🐛 In the [Guide](https://wordplay.dev/guide), the page for joining two texts together didn't finish loading, so you couldn't read how it works. (#1301)
-- 🌐 A translated name could turn out to be a word your language already uses for something built in, which broke the program. We now pick a different name. (#1276)
-- 🐛 Once translating failed, the message about it stayed on screen forever, even after translating worked again. It goes away now. (#1276)
-- 🖱️ On mice that scroll line by line, the scroll wheel didn't zoom the stage at all. It works now. (#1175)
-- 🖱️ After scrolling past the closest the stage can go, scrolling back out did nothing for a moment. It now zooms out right away. (#1175)
+- 🌐 When a translated name would clash with a built-in word, we now pick a different name so the program still works. (#1276)
+- 🐛 A message about failed translating now goes away once translating works again. (#1276)
+- 🖱️ The scroll wheel now zooms the stage on mice that scroll line by line. (#1175)
+- 🖱️ After scrolling as close as the stage can go, scrolling back out now zooms out right away. (#1175)
 - 🎨 The controls above the stage no longer jump in and out of the extra controls menu while you zoom. (#1175)
-- 🚦 When you made the same mistake in more than one place — like spelling a name wrong ten times — we only marked one or two of them. We now mark every one. (#808)
-- 🚦 A reaction that watches a stream handed to it by a function was told it had nothing to react to. That wrong warning is gone. (#808)
-- 🐛 When one source shared a function and another source called it, reactions inside that function stopped reacting. They keep working now. (#808)
+- 🚦 When you make the same mistake in more than one place, like spelling a name wrong ten times, we now mark every one. (#808)
+- 🚦 We removed a wrong warning that told a reaction it had nothing to react to when it watched a stream from a function. (#808)
+- 🐛 Reactions inside a function shared by one source and called by another now keep working. (#808)
 - 🐛 Writing the word `true` instead of the symbol `⊤` was quietly treated as false. Words like `true` now mean what they say, and `and` and `or` written as words now behave exactly like `&` and `|`. (#1296)
-- 🌐 In a brand new project, or right after adding or removing a language, keyword words like `verdadero` weren't recognized until you reloaded the page. They now work the moment you type them. (#1296)
-- 🐛 Writing the word for `~` in front of a value, like `not ⊤` or `no ⊤` in Spanish, did nothing. It now negates, exactly like the symbol. (#1298)
-- 🌐 In nine languages, the words for `and`, `or`, and `not` didn't match the names of the functions they stand for, so writing them could fail. They now work in every language, and our checks keep it that way. (#1298)
+- 🌐 Keyword words like `verdadero` now work the moment you type them in a new project or after adding or removing a language. (#1296)
+- 🐛 Writing the word for `~` before a value, like `not ⊤` or `no ⊤` in Spanish, now negates, exactly like the symbol. (#1298)
+- 🌐 The words for `and`, `or`, and `not` now work in every language, and our checks keep it that way. (#1298)
 
 ## 0.29.2 - 2026-08-16
 
 ### Added
 
-- 🌐 If you've never chosen a language, Wordplay now asks which one you'd like when you first visit. It asks in all 30 languages it speaks, so you can find yours even if you don't read English. (#1256)
-- 🌐 You can now read a chat in your own language. Pick a language at the top of the chat and everyone else's messages show up translated underneath what they wrote. You can also say what language you're writing in. Some browsers can do the translating right on your computer, and when yours can, nothing gets sent to us. (#1214, #771)
-- 🔠 We added a new example called Chamber to the [galleries](https://wordplay.dev/galleries). A hundred letters from four writing systems bounce around a sealed box, and you can turn gravity off or shake them all up again.
+- 🌐 If you've never chosen a language, Wordplay now asks which one you'd like on your first visit, in all 30 languages it speaks. (#1256)
+- 🌐 You can now read a chat in your own language: pick a language and see everyone's messages translated. You can also say what language you're writing in. (#1214, #771)
+- 🔠 We added a new example called Chamber to the [galleries](https://wordplay.dev/galleries), where a hundred letters bounce in a box you can shake or set gravity-free.
 - 🔗 When you share a link to a public project or gallery, it now shows its name and description in chat apps and on social media. We also added a site map so search engines can find public projects and [galleries](https://wordplay.dev/galleries). (#1133)
-- 🔊 We added a harmonica, and like most of our instruments it's a real recording rather than a synthesizer. Ask for it with `Instrument.harmonica` or `🔈.🌬️`.
-- 📱 If you install Wordplay on an iPhone or iPad, it keeps its own projects, separate from the ones in your web browser. When you open the installed app and don't see your projects, Wordplay now explains where they are. (#564)
-- 🔑 If your sign in link opens in your web browser instead of the Wordplay you installed, you can now paste the link into Wordplay to finish signing in. This also helps when you read your email on a different device. (#564)
-- 🌐 Wordplay now checks that every translation still matches the English it was written from. When the English changes and the other languages fall behind, we find out that day instead of months later. (#1144)
+- 🔊 We added a harmonica, a real recording you can ask for with `Instrument.harmonica` or `🔈.🌬️`.
+- 📱 On iPhone or iPad, the installed Wordplay keeps its own projects, and now explains where they are when you don't see them. (#564)
+- 🔑 If your sign in link opens in a browser instead of the installed Wordplay, you can now paste the link into Wordplay to finish signing in. (#564)
+- 🌐 Wordplay now checks that every translation still matches its English, so we find out the same day when they fall behind. (#1144)
 
 ### Changed
 
 - 🌐 The [language chooser](https://wordplay.dev/) now spreads languages across the window instead of stacking them in one tall list, so you can see them all at once. (#1256)
-- 🔍 Asking for a language we don't have yet is easier. Type a language or a country and the menus fill themselves in. (#1256)
+- 🔍 Asking for a language we don't have yet is easier: type a language or country and the menus fill themselves in. (#1256)
 - ⚡ We made programs with lots of moving output run three to five times more smoothly.
 - 🔊 A song you bring in from a MIDI file now plays its harmonica and accordion parts on the harmonica, instead of turning them into a synthesizer.
-- 🧲 We updated the physics engine. Things now rest on the ground instead of sinking into it, bouncy things settle instead of jittering forever, and output stops getting flung off the stage when it piles up.
-- 🧲 @Collision now reports far fewer bumps while something is settling — a handful instead of hundreds. A project that counts bumps will count differently than it used to.
+- 🧲 We updated the physics engine: things rest on the ground, bouncy things settle, and output no longer gets flung off the stage when it piles up.
+- 🧲 @Collision now reports far fewer bumps while something is settling, so a project that counts bumps will count differently than before.
 - 📹 The new Video example in the [galleries](https://wordplay.dev/galleries) paints your camera three ways — colored letters, ASCII shading, or colored squares.
 - 🛠️ We upgraded internal tooling for stability.
-- 🌐 Each language can now write down its own rules for how it should be written (e.g,. how to address the reader, which words to prefer, how to punctuate), and the helper that drafts new translations now follows them. (#939)
-- 🎨 The message that shows up when we release a new version now looks like the other messages at the top of the page. It's grey instead of orange, since a new version isn't a problem, and its button and link sit at the end of the strip instead of floating in the middle.
+- 🌐 Each language can now write down its own writing rules, and the helper that drafts new translations follows them. (#939)
+- 🎨 The new-version message is now grey like other messages at the top, and its button and link sit at the end of the strip.
 - 🌐 When you install Wordplay as an app, it now shows up with its name and description in your language, and reads right to left in languages that do. (#564)
 
 ### Fixed
 
 - 🌐 When you ask for a language someone already asked for, we now send you to that conversation instead of starting a new one. (#1256)
 - 🐛 The “other languages” button on the front page no longer opens two language windows on top of each other. (#1256)
-- 🤝 We fixed errors that filled a teacher's browser when they opened a student's project. Teachers now see students' edits live as they type, and students can see their teacher's cursor when they visit.
+- 🤝 Teachers now see students' edits live and students see their teacher's cursor, without the errors that used to fill the browser.
 - 💾 For teachers with many galleries, the save light no longer flips between "Saved" and "Unsaved", the connection warning no longer comes and goes, and the [Teach](https://wordplay.dev/teach) page no longer goes blank.
-- 🔑 If the sign in page failed to load, it used to stay broken until you restarted your browser. Now it shows when it's loading, says when it can't connect, and works again when you reload.
-- ⌨️ When you press play while your code is still on screen, the keys you type now reach your project. Before, they could quietly change your code and drop you back into edit mode. (#1285)
-- 🚦 When you give a check a name and use it later, Wordplay now remembers what the check proved. Naming a check that a value isn't `ø` no longer shows an error that writing the same check out didn't. (#1285)
-- 🌐 Lots of text in other languages still described how Wordplay used to work, because the English was rewritten after it was translated and nobody noticed. We found more than 8,000 of these across all 29 languages and had them translated again. (#1144)
-- 🌐 About a hundred pieces of text were marked in a way that made our translation helper skip them every time, so they never got fixed no matter how often we asked. They're unstuck now. (#1144)
-- 📐 Output that shows up a moment after your project starts now gets centered and sized to fit the stage. Before, it could start off to one side, slide into place, or stay too big until you resized the window or started over.
-- 🚦 Doing math with the hue of a color from the @Camera no longer stops your program with "incompatible values". Camera colors now carry the ° that hue is measured in.
-- 🗣️ Screen readers can now read what a project puts in front of the stage, like a score or a row of buttons. That whole layer used to be skipped, so anything a project put there was silent and buttons there couldn't be reached.
-- 🌐 We fixed many wrong and confusing words in Spanish. @Stage and @Beat have better names, tutorial titles that meant nothing now make sense, and questions and exclamations open with ¿ and ¡ the way Spanish is written. (#939)
-- ⌨️ When you move around with the Tab key, the outline showing where you are is blue, and it used to disappear against orange and gold backgrounds that are just as bright. It now gets a second outline in a color that stands out, so you can always tell where you've landed.
+- 🔑 The sign in page now shows when it's loading, says when it can't connect, and works again when you reload.
+- ⌨️ When you press play while your code is on screen, the keys you type now reach your project instead of changing your code. (#1285)
+- 🚦 When you name a check and use it later, Wordplay now remembers what it proved, so naming a check that a value isn't `ø` no longer shows an error. (#1285)
+- 🌐 We found and re-translated more than 8,000 pieces of text across all 29 languages that still described how Wordplay used to work. (#1144)
+- 🌐 About a hundred pieces of text that our translation helper kept skipping are now unstuck and can be fixed. (#1144)
+- 📐 Output that appears just after your project starts now gets centered and sized to fit the stage right away.
+- 🚦 Doing math with the hue of a color from the @Camera no longer stops your program with "incompatible values".
+- 🗣️ Screen readers can now read and reach what a project puts in front of the stage, like a score or a row of buttons.
+- 🌐 We fixed many wrong Spanish words: @Stage, @Beat, and tutorial titles read better, and questions and exclamations open with ¿ and ¡. (#939)
+- ⌨️ The blue outline showing where the Tab key lands now gets a second outline so it stands out on bright backgrounds.
 - 🔗 When you share a link to the new Virtual Piano example, it now shows its name and description the way our other examples do. (#1288)
-- 📖 We fixed the Spanish how-to guides. In half of them the spaces had gone missing, running words together and breaking the example code so it wouldn't run. (#939)
+- 📖 We fixed the Spanish how-to guides, where missing spaces ran words together and broke the example code. (#939)
 
 ## 0.29.1 - 2026-08-13
 
@@ -453,56 +458,56 @@ This week we launched a new logo, improved the edit, debug, and play modes for m
 ### Added
 
 - 🔣 The [Design](https://wordplay.dev/design) page now shows the new logo speaking fifteen writing systems, and lets you download it. (#414)
-- 📱 On phones and tablets, a project that listens for certain keys now shows those keys as buttons on the stage, instead of opening the keyboard that covers your work. Wordplay reads your project to find which keys it uses, so arrow keys come out as an arrow pad you can steer with and letters come out as a row.
-- 🚦 A list type can now say what goes in each place: `[# '']` means a list of exactly two things, a @Number and then some @Text. Wordplay checks that a list is that long and in that order, and it knows that the first thing in it is a number and the second is text.
-- 💬 When a project speaks with @Say, the words now appear on the stage as a caption, white on black, so viewers who can't hear can read what was said. It fades a few seconds after the speaking ends, replacing the little icon that used to stay on the stage even after @Say went quiet.
-- 🔠 You can choose how big captions are in settings, from three-quarters size to three times as big. The choice is saved on your device, since text size is about the screen you're using.
-- ▶️ We added a perform button above the stage — a play triangle wrapped in full screen corners. It starts your program from the top, plays it, and fills the screen with the stage, and pressing it again starts the show over. Switching back to edit closes the full screen stage and brings your windows back just as you left them.
+- 📱 On phones and tablets, a project that listens for keys now shows them as buttons on the stage instead of opening the keyboard, with arrow keys as a pad and letters as a row.
+- 🚦 A list type can now say what goes in each place: `[# '']` means a two-item list with a @Number then some @Text, and Wordplay checks the length and order.
+- 💬 When a project speaks with @Say, the words now appear on the stage as a white-on-black caption and fade a few seconds after the speaking ends.
+- 🔠 You can choose caption size in settings, from three-quarters to three times as big, and your choice is saved on your device.
+- ▶️ We added a perform button above the stage that runs your program full screen from the top, and pressing it again restarts the show.
 
 ### Changed
 
-- 💬 We gave Wordplay a new logo: a speech bubble that can say anything. On the [home page](https://wordplay.dev/) it speaks the letter of each language as the language chooser names it; while things load it holds a circle, a triangle, and a square that take turns hopping, like a crowd doing the wave; and it holds still if you turn animation off. (#414)
-- ⚙️ We better organized the settings dialog, since it was getting log. It should be easier to find the setting you're looking for.
-- 🖱️ The slider that moves through your program now gets a whole row to itself. While editing, it appears once your program has reacted to input and snaps between those moments; in debug mode it stops at every step, with the precise step buttons above it.
-- 🐛 The pause mode is now called debug, keeping its two-bar pause icon, and the mode buttons above the stage go edit, debug, play. In debug, the value of each part of your program shows next to its code in the editor and next to its control in the palette.
-- ⌨️ Ctrl-Enter switches between edit and play, and ctrl-alt-5, 6, and 7 jump straight to a mode. Ctrl-alt-Enter resets your program, in any mode.
-- 📐 Switching modes no longer moves your windows around. You can keep the editor open while your project plays — the code wears a colored border so you know it's running — and leaving full screen gives you back exactly the windows you had.
+- 💬 We gave Wordplay a new logo: a speech bubble that speaks each language's letter on the [home page](https://wordplay.dev/), hops shapes while loading, and holds still if you turn animation off. (#414)
+- ⚙️ We better organized the settings dialog so it should be easier to find the setting you want.
+- 🖱️ The slider that moves through your program now gets its own row; while editing it snaps between input moments, and in debug it stops at every step.
+- 🐛 The pause mode is now called debug, and the mode buttons go edit, debug, play; in debug, each part's value shows next to its code and control.
+- ⌨️ Ctrl-Enter switches between edit and play, ctrl-alt-5, 6, and 7 jump to a mode, and ctrl-alt-Enter resets your program.
+- 📐 Switching modes no longer moves your windows; you can keep the editor open while your project plays, and leaving full screen restores your windows.
 - ▶️ Pressing play now always continues from wherever your program is, even after you edit — speech, music, and animations pick up where they left off instead of starting over. The perform and reset buttons are how you start from the beginning.
 - ⏩ If you dragged back into your program's past, pressing play first fast-forwards through what already happened, so you can see how the present came to be, and then keeps going live.
-- 📱 On small screens that show one tile at a time, switching modes now brings the right tile forward: play shows the stage, and edit and debug show your code. Entering a mode also expands its tile if you had collapsed it.
+- 📱 On small screens, switching modes brings the right tile forward: play shows the stage, edit and debug show your code.
 - ⏯️ When the stage tile is hidden — like on a phone showing one tile at a time — debug mode floats the step buttons and timeline over your code, so you can still step through your program.
-- 👆 Tooltips no longer pop up and stay stuck on the screen when you tap on a touch screen. They appear on hover and on keyboard focus, where they can also go away.
-- 🚦 A program with an error no longer jumps into debug mode when you press play. Only a new error that happens while playing does; one you can already see while editing stays where you can fix it.
+- 👆 Tooltips no longer stay stuck when you tap on a touch screen; they appear on hover and keyboard focus, where they can also go away.
+- 🚦 A program with an error no longer jumps into debug mode when you press play; only a new error while playing does.
 - 🎨 The palette now stays on screen in every mode, with controls you can read but not change outside edit mode.
 - 🎼 Captions and the touch keys now sit above the sheet music and the orchestra instead of covering them.
 
 ### Fixed
 
 - 🐛 When you add something that listens for input — like a @Chat box — its controls now appear as soon as you finish typing, instead of waiting for the program's next change.
-- 🐛 Refreshing the page while playing next to the editor no longer jumps back to full screen. The page comes back just as you left it.
+- 🐛 Refreshing the page while playing next to the editor no longer jumps back to full screen; it comes back as you left it.
 - 🎨 A text box that isn't taking input right now, like the stage's chat box outside play mode, is dimmed with a dotted underline instead of looking just like an active one.
-- 🔊 Restarting a project now speaks its @Say again and replays one-time music and entrance animations. Before, restarting stayed silent unless the words had changed.
-- 🧲 Pausing no longer stops falling things cold. When you press play again, a moving object keeps the speed it had instead of starting its fall from rest.
-- 🌐 If you picked a favorite voice for speech, words in other languages no longer come out garbled. Your voice is used only for the language it speaks.
+- 🔊 Restarting a project now speaks its @Say again and replays one-time music and entrance animations.
+- 🧲 When you pause and play again, a moving object keeps its speed instead of starting its fall from rest.
+- 🌐 If you picked a favorite voice, words in other languages no longer come out garbled; your voice is used only for its language.
 - 🔊 Long speech no longer cuts off after about fifteen seconds in Chrome.
-- 🔊 On iPhones and iPads, music stayed silent even after you tapped "Tap for sound". It now plays, even with the ringer switch set to silent, and it comes back after a phone call cuts it off.
-- 🎤 On Android phones, a project that listens to sound kept asking to use the microphone over and over, even after you said yes. Now it asks once.
-- 🖱️ Pages no longer scroll past their end. The bottom bar used to slide away and leave an empty screen if you kept scrolling on a long page like [Design](https://wordplay.dev/design).
-- 📱 On iPhones and iPads, scrolling fast could leave the page blank until you reloaded, and the code could jump back down to your cursor while you were trying to scroll up. The page itself no longer scrolls, so Safari stops resizing everything while you swipe.
-- ⌨️ Page Up, Page Down, Home, End, and the space bar scroll the page again, and they move it the same distance a browser does, smoothly, no matter what you clicked on last. If you asked for less motion, they jump instead.
-- 🔠 On iPhones and iPads, the words in a doc sometimes came out a different size than the code around them. They now match, and they grow and shrink with the rest of your code when you zoom.
-- 💡 You can now scroll the list of code suggestions with your finger. Picking one happens when you lift your finger, so sliding through the list no longer chooses something by accident.
+- 🔊 On iPhones and iPads, music now plays after you tap "Tap for sound", even on silent, and comes back after a phone call.
+- 🎤 On Android phones, a project that listens to sound now asks to use the microphone once instead of over and over.
+- 🖱️ Pages no longer scroll past their end, so the bottom bar stays put on a long page like [Design](https://wordplay.dev/design).
+- 📱 On iPhones and iPads, fast scrolling no longer leaves the page blank or jumps the code down to your cursor.
+- ⌨️ Page Up, Page Down, Home, End, and the space bar scroll the page again, smoothly and by a browser's distance.
+- 🔠 On iPhones and iPads, doc words now match the size of the code around them and grow and shrink with it when you zoom.
+- 💡 You can now scroll the code suggestions with your finger, and picking one happens when you lift your finger.
 - 💡 The list of suggestions no longer opens past the edge of your project, where you couldn't see it at all.
 - 🎨 Tapping in the editor no longer paints a grey box behind what you tapped.
-- 📐 The buttons for edit, debug, and play are now reachable when a window is full screen. Before, going full screen on your code left no way back to play.
-- 🖱️ On iPhones and iPads, menus that let you choose one thing, like the layout chooser, showed a long run-on line cut off in the middle. They now show a short label.
+- 📐 The edit, debug, and play buttons are now reachable when a window is full screen.
+- 🖱️ On iPhones and iPads, choosers like the layout chooser now show a short label instead of a cut-off run-on line.
 - 🖱️ Tapping the ☰ button above your code no longer opens the first thing inside it right away, and the menu no longer covers the button you just tapped.
-- 📱 On a phone, the box that explains your code took almost the whole screen. It now takes at most half, leaving room for the code itself.
+- 📱 On a phone, the box that explains your code now takes at most half the screen, leaving room for the code.
 - 📱 The project name at the bottom of the screen no longer takes a fifth of a phone's width.
-- ⌨️ Home and End now jump the cursor to the start and end of the line in every text box in Wordplay. On a Mac, browsers treat those two keys as scroll keys, so our boxes now handle them; Command-Left and Command-Right still work too.
-- 🖱️ Holding Page Down or Page Up now keeps turning pages smoothly. Before, holding one barely moved and stopped after about a page.
-- 📱 You can now scroll your code with your finger in text mode. To pick out a stretch of code, hold your finger still for a moment and then drag — before, the smallest swipe selected text instead of scrolling.
-- 🎨 The gold shape around selected code is now one clean outline per line, instead of growing little hooks, notches, and stray marks off the side. Blank lines you select show a small block, so you can see they're part of your selection.
+- ⌨️ Home and End now jump the cursor to the start and end of the line in every text box; Command-Left and Command-Right still work too.
+- 🖱️ Holding Page Down or Page Up now keeps turning pages smoothly instead of barely moving.
+- 📱 You can now scroll your code with your finger in text mode; to select code, hold your finger still, then drag.
+- 🎨 Selected code now shows one clean outline per line instead of stray hooks and marks; blank lines show a small block.
 - 📱 On iPhones and iPads, selecting code no longer leaves a grey smear and two round handles over your work.
 
 ## 0.29.0 - 2026-08-08
@@ -511,75 +516,75 @@ Lots of music and animation polish this week!
 
 ### Added
 
-- 🎞️ We added ten more ready-made animations: `swing`, `blink`, `nod`, `dim`, `float`, `drift`, `orbit`, `glow`, `slidein`, and `slideout`. That makes thirty-five in all.
+- 🎞️ We added ten more ready-made animations: `swing`, `blink`, `nod`, `dim`, `float`, `drift`, `orbit`, `glow`, `slidein`, and `slideout`, for thirty-five in all.
 - 🚦 When you use a name Wordplay doesn't know, we now look for it inside things like @Sequence, @Color, and @Instrument, and offer to fix it for you — `sway` becomes `Sequence.sway`, `red` becomes `Color.red`, and `piano` becomes `Instrument.piano`.
-- 🎵 Notes can now be numbers in between: `1.5` plays both the notes on either side of it, the closer one louder, like mashing two piano keys — and on a drum kit, both sounds at once. Set a @Track's `mash` to `⊥` to hear one note bent off pitch instead.
-- 🎼 We added a music editor to the palette. Put your cursor on a song and you get a staff you can read, where you can click to add a note, drag one to move it, or change it with the arrow keys. (#390)
+- 🎵 Notes can now be numbers in between: `1.5` plays both notes on either side, the closer one louder. Set a @Track's `mash` to `⊥` to hear one note bent off pitch instead.
+- 🎼 We added a music editor to the palette: put your cursor on a song and click to add a note, drag to move it, or use the arrow keys. (#390)
 - 🎶 The editor changes one @Track at a time, with buttons for moving between tracks, adding and removing them, turning a note into a chord, and choosing how long a note lasts. (#390)
-- 🎼 The staff shows every @Track at once, not just the one you're changing. The others sit behind it in grey so you can line a drum beat up against a tune, and they all go dark when you play the whole song. (#390)
+- 🎼 The staff shows every @Track at once, with the others in grey behind, and they all go dark when you play the whole song. (#390)
 - 🔁 A @Track that loops shows its repeats on the staff in grey, so you can see it come back around — and see that stop when you turn `loop` off. (#390)
 - 🔊 You can hear a song while you write it, either the whole thing or one track on its own, and a line shows where the music has reached. (#390)
-- 🎹 You can now bring in a MIDI file and Wordplay writes it out as @Track's of notes. It also tells you what it had to change on the way in, like a drum sound our kit doesn't have. (#390)
-- 🎤 You can now hum or sing a tune and have Wordplay write down the notes. They appear while you sing, and we work out the key and the speed from what we hear. (#390)
-- 🔊 We added a singing voice to the instruments. Give a @Track some `words` and `Instrument.voice` sings them, one syllable per note. Nobody recorded it — its mouth stays the same size however high or low it sings, which no real throat can do, so it sounds like a machine doing an impression of a person, and like neither a man nor a woman. (#390)
-- 🔣 We added a button under the editor that shows every sound the voice can make. Each one comes with a word that has that sound in it and a button to hear it, and pressing the letter types it into your code. (#390)
+- 🎹 You can now bring in a MIDI file and Wordplay writes it as @Track's of notes, telling you what it had to change. (#390)
+- 🎤 You can now hum or sing a tune and Wordplay writes the notes as you sing, working out the key and speed. (#390)
+- 🔊 We added a singing voice: give a @Track some `words` and `Instrument.voice` sings them, one syllable per note. (#390)
+- 🔣 We added a button under the editor showing every sound the voice can make, each with an example word, a button to hear it, and a letter to type it. (#390)
 - 🎼 @Beat now tells you which words are being sung on each beat, so you can put them on stage while the music plays. (#390)
 - 📖 We added a how-to that teaches you how to spell words for the voice to sing, in the [Guide](https://wordplay.dev/guide). (#390)
 - 🔊 Every act and lesson in [Learn](https://wordplay.dev/learn) now plays a short tune while its title is on screen, picked to match whoever the lesson is about. @Stage gets the lowest and loudest one, @Block's starts on a rest the way @Block starts every line with "…", and @None gets no tune at all. (#390)
-- 🎼 We added a lesson about @Music to Learn. It starts with one voice and eight numbers, then changes the instrument, then the speed, then stacks up six voices at once, with words being sung and dots that move on every beat. (#390)
-- 🎶 The dance at the end of Learn now has a band playing. The cast used to move to a clock; now they move to the beat of the music, and you still light them up by making noise. (#390)
-- 🤖 We added Chatterbox, a little robot you can talk to, inspired by Eliza, the very first chatbot from 1966. It shows how to keep a chat log, spot patterns in what you type, and echo your words back with the pronouns flipped — find it with the other example projects in [galleries](https://wordplay.dev/galleries). (#380)
+- 🎼 We added a lesson about @Music to Learn that starts with one voice, then changes the instrument and speed, then stacks up six voices with sung words and beating dots. (#390)
+- 🎶 The dance at the end of Learn now moves to the beat of a band, and you still light up the cast by making noise. (#390)
+- 🤖 We added Chatterbox, a little robot you can talk to, inspired by the 1966 chatbot Eliza; find it in [galleries](https://wordplay.dev/galleries). (#380)
 - 🎨 The [Design](https://wordplay.dev/design) page now explains our color rules — like never using color as the only clue — and its color table shows how strongly each color stands out against the background. (#1183)
 
 ### Changed
 
-- 🎞️ The ready-made animations now belong to @Sequence, so you write `Sequence.sway()` where you used to write `Sequence(sway())`, and each one makes a whole animation by itself. You can still set how long it takes, how it eases, how many times it repeats, and what to call it, the same way as before. If you have a project that uses the old names, Wordplay will offer to fix it for you.
+- 🎞️ The ready-made animations now belong to @Sequence, so you write `Sequence.sway()` instead of `Sequence(sway())`; Wordplay will offer to fix old names for you.
 - 📖 Every ready-made animation now says what its motion looks like and when to reach for it, and comes with an example you can run in the [Guide](https://wordplay.dev/guide).
-- 🎨 The stage stays clean while you work: the outlines around your output only show up when the palette is open. Double-click anything on the stage to open the palette and pick it, and the things you haven't picked now have a dashed outline, so the one you did pick stands out.
-- ⚡ We made editing much faster, especially in big projects. Wordplay was redoing a pile of work on every key you pressed, including for parts of your project you weren't touching at all. (#1265)
-- 🖱️ In step mode, the slider that moves through your program now gets a whole row to itself, instead of being squeezed into a small box next to the buttons. You can also drag the line itself to move through time.
-- ✍️ Tidying your code now breaks up long lines. A @Phrase with lots of inputs, or a long list, set, or map, gets one thing on each line instead of running off the side of the screen.
+- 🎨 The outlines around your output only show when the palette is open; double-click anything on the stage to pick it, and unpicked things now get a dashed outline.
+- ⚡ We made editing much faster, especially in big projects. (#1265)
+- 🖱️ In step mode, the slider now gets its own row instead of a small box, and you can drag the line to move through time.
+- ✍️ Tidying your code now breaks up long lines, putting one thing per line for a @Phrase with many inputs or a long list, set, or map.
 - ⌨️ The edit, play, and pause buttons are now in that order, and their keyboard shortcuts changed. Ctrl-Enter now switches straight between edit and play without stopping at pause on the way, and ctrl-alt-P pauses.
 - 🏷️ The buttons along the bottom that show and hide parts of your project now say what they open, like "show source main" or "hide palette", instead of just "show" and "hide".
 - ⚡ Tidying a big project is now about three times faster.
-- ✍️ When you type in text mode, Wordplay no longer fills in bits of code with blanks that your next keystroke would wipe out. Typing `(` after a name now just adds the closing `)`, instead of a set of inputs you never asked for.
+- ✍️ When you type in text mode, typing `(` after a name now just adds the closing `)` instead of extra inputs you never asked for.
 - 🧩 Blocks editing still fills in those blanks for you, since code there has to stay whole.
-- 🧩 Blocks editing no longer stops you when an edit would make a mistake like a wrong type or a name it doesn't know. The edit lands and the mistake shows up in red for you to fix, the same as typing. Only edits that would truly break the code's structure are still stopped.
+- 🧩 Blocks editing now lets an edit with a wrong type or unknown name land and show in red to fix, but still stops edits that break the code's structure.
 - 🧩 More kinds of code can now be built in blocks editing: table rows, type variables like `⸨T⸩`, sharing with `↑`, borrowing with `↓`, notes on a conversion, a language tag on a name, and bold or italic writing in docs.
-- 🖱️ When you drop a piece of code somewhere it can't go, Wordplay now always tells you why, even if you let go quickly. And a drop lands on the spot that makes the most sense, not just the thing right under your pointer.
-- 🚦 Errors and warnings now differ in more than color: errors get solid lines, warnings get dotted ones, and the conflict list says "error" or "warning" in words. Before, the two were shades of orange and gold that can look the same to many people. (#1183)
+- 🖱️ When you drop code where it can't go, we now always tell you why, and the drop lands on the spot that makes the most sense.
+- 🚦 Errors now get solid lines and warnings get dotted ones, and the conflict list says "error" or "warning" in words. (#1183)
 - 🎨 We made keyboard focus easier to see everywhere: the focus blue is a little darker so it stands out, and controls that used to only change color when focused — like the stage's rotate and resize handles — now show a ring too. (#1183)
 - 🎨 More places now show their state with a shape or a word instead of color alone: a source with an error wears a ⚠️, the languages you picked for translation get a ✓, and search matches in the guide are highlighted instead of just recolored. (#1183)
 
 ### Fixed
 
 - 🎮 We fixed the Where's Waldough game: the 🔁 button now shuffles everyone to new hiding spots, and finding Waldough only scores one point per round. (#1095)
-- ✍️ Moving your cursor onto code that makes output no longer takes your typing away from the editor. Before, your next arrow key moved the output instead of the cursor.
-- 🐛 Removing a `↓` borrow from a program used to leave the code mangled instead of removing it. Same for adding one.
+- ✍️ Moving your cursor onto code that makes output no longer takes your typing away from the editor.
+- 🐛 We fixed adding or removing a `↓` borrow, which used to leave the code mangled.
 - 💡 Some menu suggestions used to save different code than they showed — like putting `1 + _` inside a function's inputs, where it reads as separate inputs. Wordplay now checks every suggestion and only offers ones that mean what they say.
-- 📝 We fixed typing over a closing mark Wordplay had already added for you. Typing a `”`, `¶`, `/`, or `⎦` that was already there sometimes added a second one.
+- 📝 We fixed typing a `”`, `¶`, `/`, or `⎦` that Wordplay had already added, which sometimes added a second one.
 - 📝 A `\` typed inside writing now adds its closing `\` too, so the marks in the code you put between them stay where you put them.
-- 🌙 We fixed links in documentation that you couldn't see in dark mode. They were the same color as what was behind them, so they looked like blank gaps. (#1216)
-- 🎼 The sheet music now keeps up when you change a @Track's instrument. Before it kept drawing the instrument you switched away from, or stacked every one you had tried on top of the others.
-- 🌐 We fixed how-to's never getting translated. Once a how-to had been copied into a language in English, we treated it as already done and skipped it forever.
-- 🐛 A function marked with ↑, so it belongs to a structure instead of to one of its things, can now use names from outside that structure. Before it could only see the structure's own parts, and using anything else stopped your project when it ran.
-- 🌐 We fixed two words that meant two different things at once: gray and brown were both "खैरो" in Nepali, and two of the fade-out animations shared one name in Swedish. We now check for this everywhere a name lives inside something else, so it can't happen again.
-- 🔊 A note that wasn't a whole number, like `1.5`, used to stop a song from playing at all. Now it plays.
-- 🔊 The little speaker in the corner of the stage no longer spins forever. It now goes away once a song's sounds have finished downloading, instead of waiting until you press play.
-- ✍️ We fixed typing into a @Phrase on the stage. Letters came out backwards and quote marks piled up after every key you pressed; now it works like a normal text box, and Escape or Enter gets you back out.
-- 📝 You can now type an apostrophe in your text, like in `don't`, without breaking your project. Wordplay picks a different pair of quote marks to hold the text when it needs to.
-- 📐 An empty @Phrase used to leave the stage blank, with nothing to click on and no way back in. Now it shows an empty box where the text will go, in the same spot the words would sit.
-- 💡 Typing `[` or `{` when a piece of your code is picked now puts your cursor between the two brackets, ready for you to type. Before it picked the whole new list or set, so the next thing you typed replaced it.
-- 💡 Typing `{` right after a list now makes a set. Before, almost any bracket or quote mark typed after a list turned into a way of pulling one thing out of the list instead.
-- 🐛 Long files no longer go blank as you scroll. If your code held a folded list, like a song with lots of notes, the rest of your code could disappear and never come back.
+- 🌙 We fixed documentation links you couldn't see in dark mode because they matched the background. (#1216)
+- 🎼 The sheet music now keeps up when you change a @Track's instrument, instead of drawing an old one or stacking them.
+- 🌐 We fixed how-to's never getting translated after an English copy was added to a language.
+- 🐛 A function marked with ↑ can now use names from outside its structure, which used to stop your project when it ran.
+- 🌐 We fixed two words that meant two things at once: gray and brown shared "खैरो" in Nepali, and two fade-out animations shared a name in Swedish.
+- 🔊 A note that isn't a whole number, like `1.5`, no longer stops a song from playing.
+- 🔊 The little speaker in the corner now goes away once a song's sounds finish downloading, instead of spinning until you press play.
+- ✍️ We fixed typing into a @Phrase on the stage, which now works like a normal text box; Escape or Enter gets you back out.
+- 📝 You can now type an apostrophe in your text, like in `don't`, without breaking your project.
+- 📐 An empty @Phrase now shows an empty box where the text will go, instead of leaving the stage blank with no way back in.
+- 💡 Typing `[` or `{` when code is picked now puts your cursor between the two brackets, instead of picking the whole new list or set.
+- 💡 Typing `{` right after a list now makes a set.
+- 🐛 Long files no longer go blank as you scroll.
 - ✍️ Tidying no longer pulls your first line of code up onto the end of your notes.
-- 🏷️ A button's tip now changes as soon as you press it. If you kept your mouse still, it kept offering the thing you had just done, like saying "show" on something already showing.
-- 🧱 A song and a @Phrase in the same program used to leave a tall empty box around your words and push them off center. @Music and @Say now take up no room on the stage, since you hear them instead of seeing them.
-- 📐 The warning about flashing or moving pictures used to get cut off in the small examples in the [Guide](https://wordplay.dev/guide), hiding the start button. Now the words shrink and scroll, and the button stays at the bottom where you can always reach it.
-- ⚡ Learn got slower the longer you used it, and could freeze the tab. Every act left its title card running in the background forever, and each step you took rebuilt the whole lesson twice, even when the code hadn't changed.
+- 🏷️ A button's tip now changes as soon as you press it.
+- 🧱 @Music and @Say now take up no room on the stage, so your words stay centered.
+- 📐 In the [Guide](https://wordplay.dev/guide) examples, the warning now shrinks and scrolls, so the start button always stays reachable.
+- ⚡ Learn no longer gets slower or freezes the longer you use it.
 - 🚦 We fixed the example in the how-to about drawing music. It looked fine, but stopped as soon as a note played, because the height of each dot was measured in `semitones` and the rest of the math wasn't. (#390)
-- 🌐 Twenty-eight languages were missing the Patterns lesson, and some were missing pieces of other lessons too. Wordplay now checks that every language has the same lessons as English and adds what's missing, ready to be translated.
-- 🧱 Anything you make next to a @Stage now goes onto it. Before, only the stage happened, so a song beside it never played and a @Phrase beside it never showed up. (#390)
+- 🌐 Every language now has the same lessons as English, with missing ones added, ready to be translated.
+- 🧱 Anything you make next to a @Stage now goes onto it, so a song plays and a @Phrase shows up. (#390)
 - 🐛 A program that uses `???` to pick between choices no longer mixes up what it makes. Every `???` left something behind that pushed everything else out of place, so a program that ended with more than one thing could show the wrong one.
 
 ## 0.28.0 - 2026-08-02
@@ -602,15 +607,15 @@ This weekend we added music to Wordplay! Thank you to Sahar Abid, Seyeon Park, C
 ### Changed
 
 - 🌐 We updated the [home page](https://wordplay.dev/) to say that faces and hands can be input, and that speech and music can be output, and rewrote the Audio/Video gallery's description now that music has a gallery of its own.
-- 🎨 When you pick something on stage, it and its code now get the same glowing border, with the light moving around the edges. Before, the stage drew a dotted line and the code drew an underline in a different color, so it was hard to tell they meant the same thing.
+- 🎨 When you pick something on stage, it and its code now share the same glowing border with light moving around the edges.
 
 ### Fixed
 
-- 🖱️ Clicking something on stage no longer moves it by accident. A click had to be perfectly still, so the tiniest wobble counted as a drag and changed where your output sat.
-- ✍️ Picking something on stage now stops being picked when you move your cursor out of it in the code. It also stops when you close the palette, instead of leaving a glow around code with nothing to explain it.
-- 📖 Examples in the [Guide](https://wordplay.dev/guide) now open ready to read, instead of stopped part way through running and showing half-finished values. They also play their music when you press play.
+- 🖱️ Clicking something on stage no longer moves it by accident.
+- ✍️ Picking something on stage stops when you move your cursor out of its code, and also stops when you close the palette.
+- 📖 Examples in the [Guide](https://wordplay.dev/guide) now open ready to read, and play their music when you press play.
 - 🔣 A name made only of symbols, like @Note's `♪`, now shows its written name with the symbol beside it, the way every other name does.
-- 📖 We fixed how-to's in the [Guide](https://wordplay.dev/guide) whose examples didn't work: a few had code with mistakes in it, and translated ones had words run together so links to other pages broke. We now check every how-to example, so a broken one can't slip in again.
+- 📖 We fixed how-to examples in the [Guide](https://wordplay.dev/guide) that didn't work, and now check every one so it can't happen again.
 
 ## 0.27.0 - 2026-08-01
 
@@ -618,8 +623,8 @@ This week we worked on screen reader accessibility!
 
 ### Added
 
-- 🗣️ Screen readers now say what changed in your project's output, instead of naming it once and going quiet. When a project keeps making the same kind of output, we name the part that changed and its new value, like "eyesOpen true," and we round numbers so changes too small to matter stay quiet.
-- ⌨️ Every keyboard shortcut in the editor now says something out loud. Before, some of them did their work in silence, which sounds the same as nothing happening at all.
+- 🗣️ Screen readers now say what changed in your output, naming the part and its new value like "eyesOpen true," and round tiny numbers.
+- ⌨️ Every keyboard shortcut in the editor now says something out loud.
 - 🖱️ Clicking in your code now says where the cursor landed, so you hear the same thing whether you move with the arrow keys or with the mouse.
 - ⌨️ The editor now echoes your typing to screen readers the way an ordinary text box does — every letter and deletion, right away, with no alert sound. (#1248)
 - 📖 The little label that follows your cursor, and the speech bubble beside the editor, now show the same short explanation the autocomplete menu shows: the first sentence of that code's documentation, links included.
@@ -627,106 +632,106 @@ This week we worked on screen reader accessibility!
 
 ### Changed
 
-- 🗣️ Everything Wordplay says out loud now comes from one place and takes turns. Answers to a key you pressed — the letter you typed, where the cursor is, an edit we couldn't make — speak right away, and news like a finished download waits its turn, so two messages can't talk over each other.
-- 🌐 When you pick more than one language, spoken labels now use only your first one. Before, a screen reader read every language you picked, one after another, on every single button.
+- 🗣️ Answers to a key you pressed now speak right away, and news like a finished download waits its turn, so messages can't talk over each other.
+- 🌐 When you pick more than one language, spoken labels now use only your first one.
 - ✍️ When you help translate a sentence that counts things, we now give you a slot for each way your language counts, show a number that goes with each one, and show what your words will say for each. (#1250)
 - 🗣️ We rewrote how every kind of code describes itself, in one consistent style: values say what they are, like "5 meters" or "true," and expressions say what they do, like "evaluate Phrase" or "conditional on true".
 - 🔣 Screen readers no longer speak an emoji when code also has a written name — a function named both 💬 and Phrase now says "Phrase." Emoji are only spoken when they're the only name something has.
-- 🗣️ Names written as one word, like `eyesOpen`, are now read as separate words — "eyes open" — so they're possible to follow out loud. The code is unchanged; only the description is.
-- 🗣️ Code that holds other code now describes what's inside it, not just what kind of thing it is. A test used to be described as "conditional on boolean type," which is true of every test ever written; now it says "conditional on operation greater than on n and 3". (#555)
-- 📖 The parts of an explanation now say what they hold, instead of every one of them sounding alike. An explanation says its language and how many words it has, a paragraph and its words say their text, and an example says its code. (#1252)
+- 🗣️ Names written as one word, like `eyesOpen`, are now read as separate words, "eyes open," so they're easier to follow out loud.
+- 🗣️ Code that holds other code now describes what's inside it, like "conditional on operation greater than on n and 3". (#555)
+- 📖 The parts of an explanation now say what they hold: language and word count, text, and code. (#1252)
 - 🔍 The parts of a pattern now say what they hold too: a capture says its name, an exact text says its characters, and a range says its two ends. (#1252)
-- 🔊 Keys you press while a project is playing no longer interrupt the description of what the project did in response, and no longer come with an alert sound. You already know which key you pressed; what the program did is the part worth hearing.
-- 💡 Typing an operator like `~` or `-` where a piece of code is missing now adds a blank for what it needs and puts your cursor on it, so `~` becomes `~_` waiting to be filled in. It works everywhere code is expected — an empty program, inside `(` or `[`, or after another operator like `⊤ &`.
-- 🚦 A reaction you haven't finished writing now says which part it's waiting for — "missing condition" or "missing next value" — instead of "unreadable code". It also runs: it just stays at its starting value until you finish it, so the rest of your project keeps working while you type.
+- 🔊 Keys you press while a project plays no longer interrupt the description of the response, and no longer make an alert sound.
+- 💡 Typing an operator like `~` or `-` where code is missing now adds a blank and puts your cursor on it, so `~` becomes `~_`. It works everywhere code is expected, like an empty program, inside `(` or `[`, or after `⊤ &`.
+- 🚦 An unfinished reaction now says which part it's waiting for, like "missing condition," instead of "unreadable code." It also runs, staying at its starting value until you finish it.
 
 ### Fixed
 
 - ✍️ We fixed projects freezing when you changed their code while they were playing.
-- 🎨 We made text that was too faint to read easier to see — links, error messages, and greyed-out words are darker in light mode and brighter in dark mode. We also added a test so a new color can't slip below what's comfortable to read. (#1183)
-- ✍️ We fixed the editor saying nothing when you delete. Each press of delete now speaks the character it removed, and bigger deletions say everything that disappeared.
+- 🎨 We made faint text easier to read — links, error messages, and greyed-out words are darker in light mode and brighter in dark mode. (#1183)
+- ✍️ We fixed the editor being silent when you delete — each delete now speaks the character it removed, and bigger deletions say everything that vanished.
 - 🐛 We fixed the editor saying "Unparsable template" out loud when your cursor reached the end of a line.
 - 🐛 We fixed screen readers saying a meaningless number when your cursor landed on a `$name` inside an explanation. Now they say the name. (#1252)
-- 🌐 We fixed counting words when there's only one of something: a list with one thing in it now says "list of 1 value" instead of "list of 1 values". Every language gets this, not just English — some need more than two ways to count, like Polish with four and Arabic with six. (#1250)
-- 🌐 We fixed 545 broken links in the explanations across all 30 languages, which showed an empty box instead of the word they point to. Most broke because a link ran into the words right after it, in languages that don't put a space there. (#1245)
-- 🌐 We fixed text in 26 languages showing bits of code, like `[$1|and]`, in place of a word. An automatic translation had moved a space, which broke the choice between words.
-- 🪟 We fixed boxes that open over the page sending you back to the top when you closed them with the keyboard. Now you land back on the button you opened them with.
+- 🌐 We fixed counting words for single items: a list with one thing now says "list of 1 value", and every language gets the right count. (#1250)
+- 🌐 We fixed 545 broken links in the explanations across all 30 languages that showed an empty box instead of the word they point to. (#1245)
+- 🌐 We fixed text in 26 languages showing bits of code, like `[$1|and]`, in place of a word.
+- 🪟 We fixed boxes sending you to the top of the page when you closed them with the keyboard — now you land back on the button you opened them with.
 - 📄 We gave every page a title, so browser tabs and screen readers can tell you which page you're on.
 - 🗣️ We fixed screen readers saying what's on stage twice — once as "output phrase hi" and then again as "new phrase hi." Now you hear it once, in the stage's own words.
-- 🤫 We fixed the stage describing itself out loud while you edit, and while a lesson reads its words. It now waits until you press play, so it can't talk over your typing.
-- 🧱 We fixed shapes and groups on stage not being named out loud — you'd hear the word "new" and nothing after it. They're now described just like phrases are.
-- 🐛 We fixed the screen reader's selection outline being far bigger than the program when selecting code. It now draws close to the code you selected.
+- 🤫 We fixed the stage describing itself out loud while you edit; it now waits until you press play, so it can't talk over your typing.
+- 🧱 We fixed shapes and groups on stage not being named out loud — they're now described just like phrases are.
+- 🐛 We fixed the screen reader's selection outline being far bigger than the code you selected; it now draws close to it.
 - 🐛 We fixed expressions like `-1` describing themselves to screen readers as a broken template instead of what they are.
-- 🌐 We fixed text that hasn't been translated yet showing a "to be determined" message in other languages. It now falls back to English until a translation is written.
+- 🌐 We fixed untranslated text showing a "to be determined" message in other languages; it now falls back to English until a translation is written.
 - 🗣️ We fixed a project that changes a lot at once — a whole grid repainting — reading out every single change. It now says how many changed, where, and one example, like "12 outputs changed in my grid, like 5." (#555)
 - 🗣️ We fixed descriptions ignoring the description you write yourself on a @Phrase, @Group, or @Stage. Yours is now the one that gets read.
 - 🐛 We fixed some descriptions having a doubled space in them, like "number type in m".
 - 🌐 We fixed unit names always being described in English, no matter which language you use.
-- ✍️ We fixed the editor getting stuck on an orange "oops, there was an error" box when you typed `~` at the end of your code. Typing it there built a piece of code that could never work, and drawing that broke the editor.
+- ✍️ We fixed the editor getting stuck on an orange error box when you typed `~` at the end of your code.
 - 🐛 If the editor ever can't draw your code, the box that appears now says what went wrong and gives you a button to try again, instead of leaving you with no way out.
-- 🎨 We fixed the mark that shows where code is missing. It was a small orange box that sat on top of the code next to it; it's now an underline in the gap, level with the underlines on the rest of your code.
+- 🎨 We fixed the mark that shows where code is missing — it's now an underline in the gap, level with the underlines on the rest of your code.
 
 ## 0.26.3 - 2026-07-25
 
 ### Added
 
-- 📦 We added `@Objects`, a new input that uses your camera to spot everyday things — like a cup, a book, or a phone — and names what it sees in your language. It can find about 80 kinds of things at once, telling you how sure it is and where each one is on the screen.
+- 📦 We added `@Objects`, a new input that uses your camera to spot everyday things and name what it sees in your language, telling you how sure it is and where each one is.
 - 🔍 We added [Show and Tell](https://wordplay.dev/project/example-ShowAndTell?mode=play), a new example in the Games gallery: it asks you to find three things and hold each up to your camera — the last one needs two people — and celebrates with a burst of confetti when you win.
-- ⏸️ We added a pause symbol that shows over your project's output whenever it's not playing, so it's clear why things like a clock or animation have stopped. It rests in the corner out of the way, grows with the size of the output, and picks black or white to stay easy to see against your background.
+- ⏸️ We added a pause symbol that shows over your project's output whenever it's not playing, so it's clear why a clock or animation has stopped.
 - 🌐 We added a term list for people translating Wordplay. You can give a word a short key and reuse it everywhere by typing that key after a $, so the same word stays the same across all the text and you can change it in just one place. Keys can be in any language. (#1226)
-- 🤝 We added remixing. When you make your own copy of a project, we remember where it came from and show a link back to it, so the person who made the original still gets credit. The sharing box tells you what a project was remixed from, and shows any remixes of yours that people have shared. (#788)
-- 🔣 The character picker can now find your [custom characters](https://wordplay.dev/characters). Type part of a character's name or what it's about, and it appears with the matching emoji and symbols. (#669)
+- 🤝 We added remixing: when you copy a project, we show a link back to the original and credit its maker, and the sharing box shows what yours was remixed from and any remixes people shared. (#788)
+- 🔣 The character picker can now find your [custom characters](https://wordplay.dev/characters) — type part of a name or topic to see matching emoji and symbols. (#669)
 
 ### Changed
 
-- ⏳ When a project uses the camera to track hands, faces, or things, we now show how far along its model download is and wait to start until it's ready. The download begins while you're deciding whether to share your camera, so there's less waiting.
-- 🗂️ Places that switch between different kinds of content now use tabs — the [Guide](https://wordplay.dev/guide), the page for translating Wordplay, the feedback form, and the character picker. The tab you pick joins the content below it, so it's clear which one you're reading.
-- 🖼️ We split [Galleries](https://wordplay.dev/galleries) into tabs — yours, examples, how-tos, and public — instead of one long page. Each tab has its own web address, so you can share a link that opens the one you mean.
-- 🧭 On [Learn](https://wordplay.dev/learn), we moved the lesson picker, search, and the chooser for the language you already know below the quick and complete tabs. Each of them is about the tutorial you're reading, so they belong with it instead of with the page.
-- ✍️ We renamed the "duplicate" button to "remix," and gave it a new symbol. Copying a project so you can change it isn't really making a duplicate. (#788)
-- 🗂️ The sharing box now uses tabs — Gallery, Public, Preview, Privacy, and Remixes — instead of one long page. It holds still while you move between them, so the tabs don't slide away as you click.
-- 📜 We explained on the [Rights](https://wordplay.dev/rights) page that projects you make public are shared under a Creative Commons license. Anyone can remix them, as long as they credit whoever made the original and share their remix the same way. (#788)
-- 🔎 When you search in the character picker, a magnifying glass tab now appears and stays picked. Choosing a different tab clears the search.
+- ⏳ Projects that track hands, faces, or things now show the model download progress and start once it's ready.
+- 🗂️ The [Guide](https://wordplay.dev/guide), translation page, feedback form, and character picker now use tabs, and the tab you pick joins the content below.
+- 🖼️ We split [Galleries](https://wordplay.dev/galleries) into tabs — yours, examples, how-tos, and public — and each tab has its own web address to share.
+- 🧭 On [Learn](https://wordplay.dev/learn), we moved the lesson picker, search, and known-language chooser below the quick and complete tabs.
+- ✍️ We renamed the "duplicate" button to "remix" and gave it a new symbol. (#788)
+- 🗂️ The sharing box now uses tabs — Gallery, Public, Preview, Privacy, and Remixes — and holds still as you move between them.
+- 📜 On the [Rights](https://wordplay.dev/rights) page, we explained that public projects use a Creative Commons license, so others can remix them with credit and share alike. (#788)
+- 🔎 When you search in the character picker, a magnifying glass tab appears and stays picked; choosing another tab clears the search.
 
 ### Fixed
 
-- ⚠️ We fixed a problem when typing quickly could cause the editor to crash. We also added a safety net so a hiccup in one spot can't take down the whole editor. If something does go wrong, it now quietly fixes itself the moment you keep editing.
-- 🐛 We fixed a link to a missing example project loading a page full of jumbled text. Now it simply tells you the project doesn't exist.
+- ⚠️ We fixed a crash when typing quickly, and the editor now quietly fixes itself the moment you keep editing.
+- 🐛 We fixed a link to a missing example showing jumbled text; now it tells you the project doesn't exist.
 - 🔗 We fixed some text that showed "@wordplay" as plain words instead of a link you can click, like on the [donate page](https://wordplay.dev/donate).
-- 🎨 We fixed links that were nearly invisible because they were the same color as their yellow background, like the help link that shows when you pick something in the editor. Now they're white with an orange underline, so they're easy to read.
-- 🔊 We fixed a project that talks out loud with `Say` speaking when the page first loaded, even though the project was paused. Now it stays quiet until you press play.
-- ⌨️ We fixed groups of choice buttons, like the dark and light mode picker in settings, needing a separate tab press for every button. Now you tab once to reach the group, then use the arrow keys to move through it.
-- 🗣️ We fixed choice buttons telling screen readers their tooltip instead of the words you can see. Now they say their label, which also makes them easier to pick with voice control.
-- 📏 We fixed drop-down menus cutting off their words while leaving empty space beside them. They now fill the whole width they take up.
+- 🎨 We fixed links hidden on a yellow background, like the help link in the editor; they're now white with an orange underline.
+- 🔊 We fixed a `Say` project speaking when the page first loaded while paused; now it stays quiet until you press play.
+- ⌨️ We fixed choice button groups, like the dark and light mode picker; now you tab once to the group, then use arrow keys.
+- 🗣️ We fixed choice buttons reading their tooltip to screen readers; now they say their label, which also helps voice control.
+- 📏 We fixed drop-down menus cutting off their words; they now fill the whole width they take up.
 - 📚 We fixed the lesson picker on [Learn](https://wordplay.dev/learn) looking empty at the start of an act. It now shows the lesson you're on.
-- 💾 We fixed projects that couldn't be saved online piling up and never getting sent, while the save button still said they were saved. Now they're sent in smaller groups, one project that won't save can't hold back all the others, and the button tells you when something still needs saving and why.
-- 🛟 We fixed Wordplay sometimes deleting a project from your device when your changes hadn't reached the cloud yet, or while you still had it open. Now it only removes a project from your device once your work is safely saved.
-- 🎨 We fixed [custom characters](https://wordplay.dev/characters) with nothing drawn in them being invisible in the character picker. They now show as a dashed box, so you can tell they're there and still empty.
-- 🔣 We fixed the character next to your name turning into plain text, like `@you/Star`, when the custom character it points to was deleted. Now it shows an empty box, the same as a missing character in a project.
-- 🧲 We fixed `@Motion` ignoring the speed you gave it the first time a project uses physics. A group of things set to fly off at different speeds would drop together in a clump instead of spreading apart. (#1231)
+- 💾 We fixed unsaved projects piling up unsent while the button said they were saved; now they send in groups and the button warns you when something still needs saving.
+- 🛟 We fixed Wordplay deleting a project from your device before your changes reached the cloud; now it only removes a project once your work is saved.
+- 🎨 We fixed empty [custom characters](https://wordplay.dev/characters) being invisible in the picker; they now show as a dashed box.
+- 🔣 We fixed the character next to your name turning into text like `@you/Star` when it was deleted; now it shows an empty box.
+- 🧲 We fixed `@Motion` ignoring the speed you set the first time a project uses physics, so things now spread apart instead of dropping in a clump. (#1231)
 - ▶️ We fixed projects freezing when you switched to pause, which goes back to the start, and then switched to play. The output went blank and never moved again. Now it plays.
 
 ## 0.26.2 - 2026-07-18
 
 ### Added
 
-- ⚠️ We now warn you before a project plays if it might flash or move fast in ways that could be uncomfortable or even cause seizures for some people. This shows only for projects you're viewing, not ones you're editing, and you click Start to play them (#716, #1043).
-- 👁️ We added sensor preview panels to monitor your camera and microphone in real-time, showing hand and face landmarks as dots, volume levels, and pitch detection as a moving line. This can help when you're debugging things involving the camera and microphone.
+- ⚠️ We now warn you before a project plays if it might flash or move fast, and you click Start to play it. This shows only for projects you're viewing, not ones you're editing. (#716, #1043)
+- 👁️ We added preview panels to watch your camera and microphone live, showing hand and face dots, volume, and pitch as a moving line.
 - 📌 We added an `overlay` to `@Stage` for a heads-up display — a list of content pinned flat to the screen that stays put no matter where the camera looks, so a score or label can hold a fixed spot.
 - 👁️ We added a view button next to projects you can't edit, like those in someone else's gallery, so you can open their code and see how they work.
-- 🐤 We added [Humming Bird](https://wordplay.dev/project/example-HummingBird?mode=play), a new example in the Games gallery to celebrate our new physics engine. Flap a little bird through gaps between stacks of emojis by clicking, pressing keys, or humming — the bird floats up to match the pitch of your hum!
+- 🐤 We added [Humming Bird](https://wordplay.dev/project/example-HummingBird?mode=play) to the Games gallery: flap a bird through gaps by clicking, pressing keys, or humming.
 - 🧟 We added [Heart Attack](https://wordplay.dev/project/example-HeartAttack?mode=play), a new example in the Games gallery: look out through the camera at a field of zombies, strafe left and right, and throw hearts to turn them all back into happy people before they reach you.
 - 📊 We added [Code Gap](https://wordplay.dev/project/example-CodeGap?mode=play), a data visualization of data about gender differences in computer science degrees.
-- 🔨 We added [Building Blocks](https://wordplay.dev/project/example-BuildingBlocks?mode=play), a new example in the Games gallery: chop trees and boulders into wood and brick, then stack the pieces to match a faded outline. You can only reach one block above your feet, so hop or build a step to get at anything higher.
+- 🔨 We added [Building Blocks](https://wordplay.dev/project/example-BuildingBlocks?mode=play) to the Games gallery: chop trees and rocks into wood and brick, then stack them to match an outline. You can only reach one block above your feet, so hop or build a step to go higher.
 - 📽️ We added [Slide Show](https://wordplay.dev/project/example-SlideShow?mode=play), an example that shows how to make a series of slides navigable with the keyboard.
-- 📖 We added a how-to in the [Guide](https://wordplay.dev/guide) that shows how to move between content with the arrow keys, using a list of things to show, `@Key`, and a number that remembers where you are. Before, the Guide explained how to react to letter keys, but not arrow keys (#756).
-- ◫ We added a quick way to change the project layout in the project footer. Faster than going to settings! It also explains what layout is active.
+- 📖 We added a how-to in the [Guide](https://wordplay.dev/guide) that shows how to move between content with the arrow keys, using a list, `@Key`, and a number. (#756)
+- ◫ We added a quick way in the project footer to change the project layout, which also shows the active layout.
 
 ### Changed
 
 - 🌐 We improved the Japanese, Marathi, and Bengali translations, making them more consistent with the platform and it's terminology.
-- 🎛️ We changed how projects run with a new three-mode switcher above the stage: ✏️ edit freezes the stage while you change your code, ⏸️ step lets you move through your program's evaluation with a timeline, and ▶️ play fills the screen and runs your project live. If your program has an error while playing, it now switches to step mode so you can see what went wrong (#859, #864).
-- 🧲 We replaced the physics engine that powers `@Motion` and `@Collision` with a faster one, so projects with lots of moving and colliding things run more smoothly, especially on slower computers. Falling, bouncing, and rolling should feel mostly the same as before, though projects that use these might need a bit of tuning.
+- 🎛️ We added a three-mode switcher above the stage: ✏️ edit freezes the stage, ⏸️ step moves through your program on a timeline, and ▶️ play runs it full screen. If your program hits an error while playing, it now switches to step mode so you can see what went wrong. (#859, #864)
+- 🧲 We replaced the physics engine behind `@Motion` and `@Collision` with a faster one, so projects with lots of moving and colliding things run more smoothly. Falling, bouncing, and rolling feel about the same, though some projects may need a bit of tuning.
 - 🎞️ When a project moves the `@Stage` camera, the view now glides smoothly to its new spot instead of jumping — and everything on stage, even things that are swaying or bouncing, glides along with it.
 - 🧶 We changed the Pounce example so the ball bounces away from wherever it lands on the kitty, instead of always flying the way the kitty faces.
 - 🔍 Search in the [Guide](https://wordplay.dev/guide) now also looks inside example code and glossary definitions, so you can find a concept by the code in its examples or a term by the words in its meaning.
@@ -739,25 +744,25 @@ This week we worked on screen reader accessibility!
 
 - 🐛 We fixed a bug where checking a named stream for changes with `∆` (or its history with `←`) could suddenly stop a program with an error after another input changed — which made projects quietly stop responding to clicks and choices.
 - 🐛 We fixed a bug where a value that changes with an input showed the wrong thing once you used it together with another name in the same `@Phrase` — a slide counter like `1 of 10` would stick at `10 of 10` — and could stop the stage from showing anything at all.
-- 🔣 We fixed how we read number characters in Chinese, Japanese, and Korean, so everyday words that start with one — like 四角形, which means rectangle — now work as names. Before, we read the 四 as the number 4 and split the word in two.
+- 🔣 We fixed reading number characters in Chinese, Japanese, and Korean, so words that start with one — like 四角形, meaning rectangle — now work as names.
 - 🌐 We fixed a bug where switching between two versions of the same language — like Chinese (Simplified) and Chinese (Traditional) — could show you the other one's names for things.
-- 🚦 We fixed `find` and `until` on lists: giving them a function to check each item always showed an error, even when the function was right. They now take a check just like `filter` does.
-- 📐 We fixed `@Stack` so content with a small `padding` lines up in a row. Before, anything that landed close to the bottom piled into the same spot.
-- 🎞️ We fixed zooming on the stage: after you zoom in yourself, switching back to "fit zoom to content" now lets a project move its own `@Stage` camera again. Before, it stayed stuck on your last zoom.
+- 🚦 We fixed `find` and `until` on lists so a function that checks each item now works, just like `filter`.
+- 📐 We fixed `@Stack` so content with a small `padding` now lines up in a row instead of piling into one spot.
+- 🎞️ We fixed zooming on the stage: after you zoom in, switching back to "fit zoom to content" now lets a project move its own `@Stage` camera again.
 
 ## 0.26.1 - 2026-07-09
 
 ### Added
 
-- 🙂 We added a `@Face` stream that watches your face with the camera. It tells you where your face is, whether your eyes and mouth are open, and if you're smiling, frowning, or raising your eyebrows — plus which way your head is turned. There's a new Face example in the [Galleries](https://wordplay.dev/galleries) to try.
+- 🙂 We added a `@Face` stream that watches your face and tells you where it is, whether your eyes and mouth are open, if you're smiling, frowning, or raising your eyebrows, and which way your head is turned. There's a new Face example in the [Galleries](https://wordplay.dev/galleries) to try.
 - 🎞️ We added a `changing` input to `@Phrase` that chooses how its text changes: `'edit'` erases and retypes it, `'rewrite'` replaces one letter at a time in a random order, and `'random'` spins each letter like a slot machine until it lands on the new text, using only letters that match your text's language and case (#74).
 - 📛 Projects can have multilingual names now.
 - 🥾 You can now step through example programs to see how they evaluate.
 
 ### Changed
 
-- 🔣 We changed how you write a Unicode character by its number in text and documentation: it's now `@U/1F600` instead of `@1F600`. That way, a name made of letters and numbers always links to the thing it names.
-- 🎞️ Text in a `@Phrase` now changes instantly unless you choose a `changing` effect. It used to always type itself out when it had a duration.
+- 🔣 You now write a Unicode character by number as `@U/1F600` instead of `@1F600`.
+- 🎞️ Text in a `@Phrase` now changes instantly unless you choose a `changing` effect.
 - ⚡ We made the code editor much faster on long programs.
 - ✍️ We fixed a freeze when you started to drag code in a long program.
 - 📋 We trimmed clipboard contents to avoid them from getting too big.
@@ -776,24 +781,24 @@ This week we worked on screen reader accessibility!
 
 ### Added
 
-- 🔣 We added fonts for more than 150 writing systems, from Arabic and Cherokee to Egyptian hieroglyphs. Wordplay downloads each one only when text on your screen needs it, so letters from any language now appear instead of empty boxes.
-- 🔠 When you add a character in the editor, you can now search for letters, symbols, and Chinese characters by name or meaning — type "water" to find 水, or "summation" to find ∑ — and point at any character to see its name. Emoji show up first in the results.
-- 🕰️ We added `@Moment`, a value for dates and times, and `@Now`, a stream that ticks the current date and time. A Moment turns into text in your language, calendar, and time zone — so `Phrase(Now() → '')` is a live clock that changes language when your locale does (#1197).
-- 🌐 Moments work with 16 calendars — like Hebrew, Japanese, Chinese, and Islamic calendars — and any time zone in the world. Dates look the same on every computer, because Wordplay formats them itself instead of asking the browser (#1197).
+- 🔣 We added fonts for over 150 writing systems, so letters from any language now appear instead of empty boxes.
+- 🔠 You can now search characters by name or meaning — type "water" to find 水 — and point at any character to see its name.
+- 🕰️ We added `@Moment` for dates and times and `@Now`, a stream of the current time. So `Phrase(Now() → '')` is a live clock in your language (#1197).
+- 🌐 Moments work with 16 calendars and any time zone, and dates look the same on every computer (#1197).
 - 🔗 Web addresses you write in documentation are now clickable links, and they stay intact instead of losing one of their slashes.
 
 ### Changed
 
 - ⚡ We made Wordplay start faster, especially the first time you open a project.
-- 🔒 When a project is read only, we replaced the lock icon with a checkerboard pattern, so you can tell it's read only without hiding anything. Screen readers now say when a project is read only, too.
+- 🔒 A read-only project now shows a checkerboard pattern instead of a lock icon, and screen readers say when a project is read only.
 - 🚦 You can now see errors and hints in a read-only project. You still can't change the code, so we hide the fix buttons.
 
 ### Fixed
 
-- 🔣 We stopped Wordplay from downloading fonts it didn't need. Invisible marks next to emoji were quietly pulling in big fonts — like Chinese and math fonts — that nothing on your screen used.
+- 🔣 We stopped Wordplay from downloading big fonts it didn't need.
 - 🔠 The character picker no longer shows empty boxes for characters that none of our fonts can draw — it only offers ones you can actually see.
-- 🖱️ Links in documentation now open when you click them in the editor. To edit a link instead, move into it with the arrow keys or click right next to it.
-- ✍️ We stopped adding an extra `/`, `_`, or `*` when you type one inside plain text. Wordplay now only completes these marks in documentation, where they format words.
+- 🖱️ Links in documentation now open when you click them; to edit one, move into it with the arrow keys or click right next to it.
+- ✍️ We stopped adding an extra `/`, `_`, or `*` when you type one in plain text; these now only complete in documentation.
 - 📖 Symbols like `[`, `|`, `>`, and `@` in documentation are now just text unless they mean something there. Before, writing `[like this]` in docs could make your whole program unreadable to Wordplay.
 
 ## 0.25.1 - 2026-06-30
@@ -801,11 +806,11 @@ This week we worked on screen reader accessibility!
 ### Added
 
 - 🪲 When you write documentation with example code, you can now mark an example as one that's _meant_ to have a mistake, so Wordplay won't flag it as an error — handy for showing what a mistake looks like.
-- 🌐 Numbers now appear in your language's own digits and number style. When a number becomes text or is shown as a value, we use the right digits (like १,२३४), grouping, and decimal mark for your language — and you can ask for a specific one with a tag like `5 → ''/hi-IN` (#1196).
+- 🌐 Numbers now appear in your language's own digits and style, and you can ask for a specific one with a tag like `5 → ''/hi-IN` (#1196).
 
 ### Fixed
 
-- 🌐 We fixed many example programs in the docs and tutorial that broke when translated into other languages — pieces of them were getting lost or jumbled, so they didn't show up right. Now they translate cleanly and appear the way they should.
+- 🌐 We fixed many example programs in the docs and tutorial that broke when translated, so they now appear the way they should.
 
 ## 0.25.0 - 2026-06-27
 
@@ -814,14 +819,14 @@ This week we worked on screen reader accessibility!
 - 🌐 When you pick more than one language for Wordplay, we now show the interface in all of them at once. Your first language appears full size, and each other language follows it a little smaller and lighter — in labels, tooltips, the [Guide](https://wordplay.dev/guide), the tutorial, and even error messages.
 - 🌐 We added a writing layout setting, so your program's output can read top to bottom (vertical) instead of left to right. It follows your language automatically, or you can pick one (#220).
 - 📖 When you look at a concept in the [Guide](https://wordplay.dev/guide), we now show a link to the lesson that teaches it and a list of how-to's that use it, so it's easier to learn more (#769).
-- 📖 We added a glossary to the [Guide](https://wordplay.dev/guide) that explains the key words and ideas used across Wordplay. You can search it, or hover any term in the docs to see what it means (#780).
+- 📖 We added a glossary to the [Guide](https://wordplay.dev/guide); search it, or hover any term in the docs to see what it means (#780).
 - 📕 Added the first sentence of project documentation to the project previews (#897).
 - 📝 When you help translate Wordplay, we now point out text that may be hard to read and suggest when a key word should link to the glossary, so translations stay clear and easy to read (#460).
 
 ### Changed
 
-- 🌐 We made Wordplay work much better for right-to-left languages like Arabic and Hebrew. Menus, buttons, text, and the things your programs show on stage now flow from right to left to match how you read.
-- 🌐 We now use Claude to translate Wordplay into other languages. The wording is clearer, key words stay consistent, and the small example programs in the docs get translated too, not just the words around them.
+- 🌐 We made Wordplay work much better for right-to-left languages like Arabic and Hebrew, so menus, text, and output flow from right to left.
+- 🌐 We now use Claude to translate Wordplay, so the wording is clearer, key words stay consistent, and example programs get translated too.
 - 🌐 We made translating your own project into another language better: names, text, and documentation now translate together, with clearer wording.
 
 ### Fixed
@@ -842,7 +847,7 @@ This abbreviated week we fleshed out the multilingual and text processing part o
 - 🌏 We added several operations to formatted text to mirror text operations (#1190).
 - 🌐 All locale information on plain and formatted text is now reflected in program output, so all text-to-speech functionality is properly localized and language writing directions are respected.
 - 🌐 Autocomplete menus now suggest extra languages and regions, in case you want bilingual, trilingual, or radically multlingual text! (#884).
-- 💡 We added short notes under each suggestion in the autocomplete menu and under code in the [Guide](https://wordplay.dev/guide), so you can see what a concept does without clicking through. We also rewrote many of the built-in explanations so each one starts by saying what it does (#1036).
+- 💡 We added short notes under each autocomplete suggestion and under code in the [Guide](https://wordplay.dev/guide), so you can see what a concept does without clicking through (#1036).
 
 ### Fixed
 
@@ -855,7 +860,7 @@ This week we improved the editor, fixed a few bugs, and added a new shorter tuto
 ### Added
 
 - › You can now "fold" multi-line blocks of code to make it easier to navigate larger programs (#806, #883).
-- ❓ We added a new quick tutorial for creators who know another common programming language and want a quick way to understand how Wordplay compares. We're starting in English for now until we get feedback on it, then we'll work on translations later (#1034).
+- ❓ We added a quick tutorial for creators who know another programming language and want to see how Wordplay compares (#1034).
 
 ### Changed
 
@@ -866,8 +871,8 @@ This week we improved the editor, fixed a few bugs, and added a new shorter tuto
 
 - ¶ We fixed many inconsistencies with the editor cursor in blocks and text mode.
 - 💨 We made the editor's drop down menus faster to display, especially big ones and especially in blocks mode.
-- 🐜 Debug timeline dragging was broken. It's fixed now!
-- 🔦 The little output chooser that appears when there are more than two source files was overlapping notifications. We moved it to avoid overlap.
+- 🐜 We fixed debug timeline dragging.
+- 🔦 We moved the output chooser that appears with more than two source files so it no longer overlaps notifications.
 - 🚨 We made tutorial highlights more reliable (#902).
 - 🔢 We fixed a problem with unit types that let some type conflicts slip through.
 
@@ -878,7 +883,7 @@ This week we made improvements to the output palette, output editing on stage, a
 ### Added
 
 - 🖱️ There's a new block-based editing palette sidebar for quicker dragging and dropping.
-- 🖱️ Block-based editing with drag and copy and paste is now much more consistent. And when something can't be dragged or paste, we explain why in a new editor footer message.
+- 🖱️ Block-based editing with drag, copy, and paste is now more consistent, and when something can't be dragged or pasted, we explain why in the editor footer.
 - 📋 There's now a visual clipboard to show what's copied (#10).
 - 💡 When you write formatted text, auto-complete now suggests your [custom characters](https://wordplay.dev/characters), so you can drop them into your words without typing their names — even to fill an empty spot. (#664)
 - 🖼️ We now render custom characters in a regular @TextLiteral, in addition to a @FormattedLiteral.
@@ -893,12 +898,12 @@ This week we made improvements to the output palette, output editing on stage, a
 ### Changed
 
 - ✏️ We made the editor's double click selection behavior make more sense.
-- 🌈 We added alternating colors and different sizes to parentheses and brackets so they're easier to match in text mode (#1170). We also made the screen reader descriptions easier to understand.
+- 🌈 We added alternating colors and sizes to parentheses and brackets so they're easier to match in text mode, and made screen reader descriptions clearer (#1170).
 
 ### Fixed
 
 - 요 We fixed Korean text entry (#1054).
-- 🚦 When nothing is selected, the palette's buttons for adding output now only make changes that fit — like wrapping a @Phrase in a @Group, or a @Form in a @Shape — instead of odd ones like putting a @Shape inside a @Phrase. When your program is empty, we offer to add a @Phrase to get you started.
+- 🚦 When nothing is selected, the palette's add buttons now only make changes that fit, like wrapping a @Phrase in a @Group. When your program is empty, we offer to add a @Phrase to start.
 - ⌨️ Multiple selections on stage only worked by pointer; now keyboards are supported too (#118).
 
 ## 0.21.0 - 2026-06-01
@@ -921,7 +926,7 @@ This week we made saving much more fast and reliable.
 ### Fixed
 
 - 🖱️ We fixed pop-up tips in scrolled dialogs. (#1177)
-- 🔄 We made loading and saving much less intensive for slow internet connections and people with lots of projects, galleries, and chats. Saving should be much more reliable overall now, especially if you temporarily lose your internet connection (#812).
+- 🔄 Saving is now faster and more reliable, especially on slow connections, with many projects, or if you briefly lose your internet (#812).
 
 ## 0.20.0 - 2026-05-30
 
@@ -929,26 +934,26 @@ This week focused on improving many aspects of the Guide, including speed, usabi
 
 ### Added
 
-- 🔣 We added @Contour, a new built-in input stream that traces the outline of letters in a font as a list of @Place values, so you can dot, trace, or animate the shape of any glyph. You can read about it in the [Guide](https://wordplay.dev/guide?concept=Contour). (#1167)
-- 🔁 There's a new feature in the programming language called @Translate! It lets you convert the items in a list, set, map, or table into a new list, set, map, or table. Put a collection on the left, the new `↦` arrow in the middle, and what each item should become on the right, using `⬚` to mean the current item. So `[1 2 3] ↦ ⬚ + 1` makes `[2 3 4]`.
+- 🔣 We added @Contour, a new input stream that traces letter outlines as a list of @Place values so you can dot, trace, or animate any glyph (#1167). Read about it in the [Guide](https://wordplay.dev/guide?concept=Contour).
+- 🔁 We added @Translate, which converts items in a list, set, map, or table using the new `↦` arrow and `⬚` for the current item, so `[1 2 3] ↦ ⬚ + 1` makes `[2 3 4]`.
 - 🔗 We made the guide remember the query and sections you were viewing, in case you need to refresh the page or share a link.
 - 🎨 @Color has a function called @Color.random, which lets you pick a random basic color, a random color of a particular lightness and chrome, or a random color between two colors.
-- 🎨 @Color now also has @Color.lighter and @Color.darker, which give you a brighter or dimmer version of a color. They change the lightness by 5%, or by any percent you give them, like `Color.blue.lighter(20%)`.
+- 🎨 @Color now has @Color.lighter and @Color.darker, which brighten or dim a color by 5% or any percent you give, like `Color.blue.lighter(20%)`.
 - 🔎 We added a search and replace feature to the code editor.
-- 🖱️ Now you can click click click in the editor to expand the selection. (Just like pressing escape, escape, escape does).
+- 🖱️ You can now click, click, click in the editor to expand the selection, just like pressing escape, escape, escape.
 - 🔙 We added navigation breadcrumbs to the top of pages, for easier navigation back (#790).
 
 ### Changed
 
 - 🔲 We changed the symbol for "this" — the unnamed value inside conversions, reactions, structures, and the new `↦` map — from `.` to `⬚` (a little dotted square). Now you can reach its parts cleanly, like `⬚.x`, instead of the confusing `..x`.
 - ⚡️ We made search faster and more forgiving across the platform, including in the guide, tutorial, projects, glyph chooser, and localization mode.
-- ▶️ We made how-to previews more useful, showing behavior instead of code. Click into the how-to to see and copy code (#1039).
+- ▶️ How-to previews now show behavior instead of code; click into the how-to to see and copy code (#1039).
 - 📚 We redesigned navigation in the guide to make it more like a web browser, with a home and back button, a browsing history, and links that become inactive.
 - ➕ We made it easier to expand and collapse really big values.
 - ⌨️ When pressing up on the first line or down on the last line, you go the beginning and end of the source.
-- 🚦 When you divide `÷` or take a remainder `%` by a number that might be zero, Wordplay now warns you and offers to fix it with `??` so you can pick a backup value. Before, dividing by zero could quietly give a broken number or stop your program with a confusing message.
-- 🎨 The color picker now has an eyedropper button you can use to grab any color from your screen. It works everywhere you choose a color, not just when drawing characters. (#1156)
-- 💾 Wordplay now keeps a copy of your projects, galleries, characters, and how-tos on your device, so they show up right away and keep working even when you're offline. Losing your connection no longer grays out the page; it just shows in the save status.
+- 🚦 When you divide `÷` or take a remainder `%` by a number that might be zero, we now warn you and offer to fix it with `??`.
+- 🎨 The color picker now has an eyedropper button to grab any color from your screen, everywhere you choose a color (#1156).
+- 💾 We now keep a copy of your projects, galleries, characters, and how-tos on your device, so they work even when you're offline.
 
 ### Fixed
 
@@ -956,11 +961,11 @@ This week focused on improving many aspects of the Guide, including speed, usabi
 - 🔗 Some concept links in the guide weren't working, but they are now!
 - 🎨 The color picker's color band is now keyboard accessible for our friends that keyboards and screen readers.
 - ✏️ We made it so that your text cursor positions are saved and restored correctly.
-- 📡 When Wordplay can't reach the database, it now shows a clear message instead of freezing, and a shaky connection no longer logs you out or erases your saved work. The message also hints that a VPN, browser add-on, or network filter might be blocking it.
+- 📡 When Wordplay can't reach the database, it now shows a clear message instead of freezing, and won't log you out or erase your saved work.
 - 📖 We fixed the how-to space so it shows a loading spinner while it connects, instead of wrongly saying the space doesn't exist. (#1171)
 - 📷 Small how-to and [Guide](https://wordplay.dev/guide) previews no longer turn on your camera or microphone; they only start when you press play.
 - 🤝 We fixed a bug that stopped teachers who are in lots of [galleries](https://wordplay.dev/galleries) from seeing their projects.
-- 📋 When you copy and paste your own code, we now keep it just as it is. Before, lines of text could get turned into a table by mistake.
+- 📋 When you copy and paste your own code, we now keep it just as it is, instead of turning lines into a table by mistake.
 
 ## 0.19.2 - 2026-05-27
 
@@ -970,14 +975,14 @@ This week focused on improving many aspects of the Guide, including speed, usabi
 
 ### Changed
 
-- ⚡ How-to preview glyphs now appear right away for everyone in a gallery. Before, each browser had to figure out the preview on its own — now it's saved when the author saves a how-to, so everyone else sees it instantly.
-- 📐 We made the toolbars across the app hide extra buttons in a popup menu (☰) when the screen is too narrow, so everything stays reachable on small phones. The page footer's links also shrink to just their emoji icons when there isn't room for the text.
+- ⚡ How-to preview glyphs now appear right away for everyone in a gallery, saved when the author saves a how-to.
+- 📐 On narrow screens, toolbars now hide extra buttons in a popup menu (☰), and the footer's links shrink to just their emoji icons.
 
 ### Fixed
 
 - 🤝 We fixed the send button in the collaboration chat so it stays visible and works on narrow screens. (#1157)
 - 🤝 We fixed a bug where new chat messages didn't appear until you switched browser tabs and came back. (#1158)
-- 🐛 We fixed a bug where a "can't connect to the database" message would flash briefly during class when lots of students were editing at the same time. It was a false alarm — now it only appears if there are two connection failures in a row.
+- 🐛 We fixed a bug where a "can't connect to the database" message flashed briefly during class; it now shows only after two failures in a row.
 
 ## 0.19.1 - 2026-05-26
 
@@ -985,12 +990,12 @@ This week we fixed several bugs that classrooms were running into.
 
 ### Fixed
 
-- 📖 We fixed a bug where text typed in a how-to could disappear before it was saved. How-tos now save automatically as you write, so your work is safe even if you click outside the editor or get interrupted.
-- 📖 New how-tos now land close to the others on the canvas instead of getting dropped far away or piled on top of each other, and you can finally drag apart how-tos that ended up stacked. Moving a how-to also pans automatically.
+- 📖 How-tos now save automatically as you write, so text you type no longer disappears before it's saved.
+- 📖 New how-tos now land close to the others instead of far away or piled up, and you can drag apart how-tos that ended up stacked.
 - ⚡ How-to preview glyphs no longer get stuck on a spinning placeholder when other people in the same gallery are editing.
-- 🐛 We fixed a bug where projects could crash and freeze the page if a stream kept setting itself off in a loop. The runtime now stops the loop in time so the page keeps working.
-- 💾 We fixed a bug where saving could silently fail after a long class period. Saves and live coediting now refresh your sign-in on their own and try once more, so an expired login doesn't cost you your work.
-- 📛 We now limit project names to 64 characters and character names to 32 characters. Go wild within limits!
+- 🐛 We fixed a bug where projects could crash and freeze the page if a stream kept setting itself off in a loop.
+- 💾 Saves and live coediting now refresh your sign-in and try again, so an expired login no longer costs you your work.
+- 📛 We now limit project names to 64 characters and character names to 32 characters.
 
 ## 0.19.0 - 2026-05-23
 
@@ -998,14 +1003,14 @@ This week we focused on multilingual coding features, improved conflict resoluti
 
 ### Added
 
-- 🤝 You can now edit a project together with up to four people at the same time. Edits, undo/redo, and other people's carets and selections all sync between collaborators as you type (#135).
+- 🤝 You can now edit a project together with up to four people at once, syncing edits, undo/redo, carets, and selections as you type (#135).
 - 🌐 You can now do math with Han numerals for Chinese, Japanese, and Korean (#2), Thai (#6), and Indic numerals for Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu (#5, #7).
 - 🌐 We added Bengali (#142), Indonesian (#148), and Romanian (#433)!
 - 🌐 The emoji/glyph chooser now lets you filter by language scripts (#322).
 - 🌐 We made text, names, and docs multilingual: tag them like `'hola kitty'/es_en` to mark them as a mix of languages (Spanglish, Franglais, and more), and then you can filter code and output by matching languages (#430).
-- 🌐 The @Key stream now shows and accepts key names in your language. French programs can write `Key('Espace')` and English programs can write `Key('Space')`, and autocomplete suggests the named keys in your locale (#11).
-- 🌐 The @Color structure now has shortcuts for those eleven common colors, with names in your language. Write `Color.red` in English, `couleur.rouge` in French, or `色.赤` in Japanese instead of mixing the color yourself (#109).
-- 🌐 You can now give a project a name in many languages, like `"hi"/en"hola"/es`. The name shown matches your language, and search finds the project no matter which language you type in (#456).
+- 🌐 The @Key stream now shows and accepts key names in your language, like `Key('Espace')` or `Key('Space')`, and autocomplete suggests them (#11).
+- 🌐 The @Color structure now has shortcuts for eleven common colors in your language, like `Color.red`, `couleur.rouge`, or `色.赤` (#109).
+- 🌐 You can now name a project in many languages, like `"hi"/en"hola"/es`; the shown name matches your language, and search finds it in any language (#456).
 - 🔠 We added font face previews to drop downs in the palette and settings!
 - 🎤 We now ask for permission to cameras, microphones, and other inputs and show an exception if declined (#789).
 - 📖 Added 11 new built-in how-to's to the [Guide](https://wordplay.dev/guide) on layout, the @Pointer stream, @Structure, picking from a list with @Random, conditional rendering, and physics with @Motion and @Matter.
@@ -1028,14 +1033,14 @@ This week we focused on multilingual coding features, improved conflict resoluti
 - 📖 Example code in how-tos and docs now shows every translation, not just the one matching your language.
 - 🚦 When your code has a syntax error, the suggested fixes are now much smarter, better accounting for context (#885).
 - 🚦 When your code has a type error, the suggested fixes are now much smarter too, with options like converting values, wrapping in a list, adding a missing input, or filling in a default (#1025).
-- 🚦 When your code has a problem, we now show fewer follow-up conflicts that distract from the root cause. For example, if a name like `foo` is undefined, we won't also complain everywhere else `foo` is used (#1146).
-- ⚡ The little glyphs on [galleries](https://wordplay.dev/galleries) and your [projects](https://wordplay.dev/projects) page now load right away instead of one per second. We also let you pick your own glyph for a project in the share dialog (#435).
+- 🚦 We now show fewer follow-up conflicts; if a name like `foo` is undefined, we won't also complain everywhere `foo` is used (#1146).
+- ⚡ Glyphs on [galleries](https://wordplay.dev/galleries) and your [projects](https://wordplay.dev/projects) page now load right away, and you can pick your own glyph in the share dialog (#435).
 - 💾 When projects don't save, the error message now lists which projects failed, why each one failed, and the technical error code to help with bug reports.
 
 ### Fixed
 
 - 🌐 We fixed several localization problems in machine translated locales (#122).
-- 🤝 When many people were sharing to a gallery at once, it could lead to some shares failing. That shouldn't happen anymore. We made similar changes to updates to chats, feedback, how tos, teacher classes.
+- 🤝 Sharing to a gallery no longer fails when many people share at once; we also fixed this for chats, feedback, how tos, and teacher classes.
 - 🚦 We fixed problems with how text types with multiple options are shown as conflicts, especially with output animation styles (#541).
 - 🔠 We fixed a few font face weight availability problems (#1026).
 - 🚦 Now when a @Match or @Conditional references a stream in its case, then, or else, the the stream starts even when it's not referenced in the condition (#679).
@@ -1057,9 +1062,9 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Added
 
-- 👋 There's a new @Hand input! It uses the camera to check the location of your hand, which fingers are up, how many fingers are up, whether your hand is open or closed, and whether your palm is showing. What a handy input!
+- 👋 There's a new @Hand input that uses the camera to check your hand's location, which fingers are up, and whether your hand is open or your palm shows.
 - 🤝 Added the ability to control which other galleries gallery how-tos are shared with.
-- 🌐 We added a new in-app localization mode! Anyone can suggest revisions to any supported language within the app. Changes are stored locally until you submit them; a GitHub pull request is created and reviewed by maintainers before they become live (#437).
+- 🌐 You can now suggest revisions to any supported language right in the app; we save them locally, then send them as a pull request for review (#437).
 
 ### Changed
 
@@ -1080,11 +1085,11 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Added
 
-- 🧭 There's a new "tour" help feature for each tile in the project view, explaining its purpose and core features. Try them out and let us know if we should expand the explanations! (#687).
+- 🧭 Each tile in the project view now has a "tour" help feature explaining its purpose and core features (#687).
 - 🔍 Emoji searching now supports many more keywords (#1090), but also translations all of those keywords, so that works in all supported locales (#639).
-- 🧩 Blocks have a new visual style for blocks editing mode, for improved readability. It also accounts for whether an editor is read only, hiding editing controls for more compactness.
+- 🧩 Blocks have a new, more readable style in blocks editing mode, and hide editing controls when an editor is read only.
 - 💡 Menu suggestions in the editor are now much more helpful for locales (#1099), text and formatted literals (#635), and unit suggestions.
-- 👀 How-to authors can now highlight expressions by adding 👀 inside some code's preceding explanatio, e.g., \¶👀¶"I'm highlighted!" This is helpful for how-to authors who want to emphasize some code.
+- 👀 How-to authors can now highlight code by adding 👀 in its explanation, for example `¶👀¶"I'm highlighted!"`.
 - 📏 Block spacing can now be controlled.
 - 🌐 We added a machine translated Tagalog locale (#1089).
 - 🗂️ The guide in the project view now shows _all_ how-tos a creator has access to, can filter between just all and gallery-specific how-tos (#1087).
@@ -1125,10 +1130,10 @@ This week we focused on new and improved inputs and a new in-app localization mo
 ### Changed
 
 - 📝 We changed the example code viewer to be a full fledged read-only editor so that you can select, copy, and drag parts of the example and also see conflicts, highlights, and explanations of the current cursor position.
-- 💬 We added descriptions to the editor's cursor selection and the conflict pane to help explain what the selected code does. It should be a useful shorthand, supplementing the full documentation.
+- 💬 We added descriptions to the editor's cursor selection and the conflict pane to help explain what the selected code does.
 - 🔑 We added a default user of `creator/password` for developers who are testing on their computers.
 - 🛠️ We upgraded internal tooling for stability.
-- 🌐 We updated the URLs of the application always include the currently selected language(s). This makes the current language setting more reliable on page refresh and link sharing (#809).
+- 🌐 The app's URLs now always include your selected language(s), so your language setting stays reliable when you refresh or share links (#809).
 - ⚡ We made it faster to load the home page.
 - ⚡ We made the editor a bit faster to use; it was getting sluggish.
 
@@ -1155,7 +1160,7 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Changed
 
-- ⏯️ When the project is played, we close the palette, and when the palette is opened, we pause the project. That makes it clearer how to edit.
+- ⏯️ We now close the palette when the project plays, and pause the project when you open the palette.
 - ✍️ We improved the rendering and behavior of text selections in text editing mode.
 - 👁️ We clarified the differences between the full screen buttons and the eye button (#1058).
 - 🛠️ We upgraded internal tooling for stability.
@@ -1176,7 +1181,7 @@ This week we focused on new and improved inputs and a new in-app localization mo
 - 🧩 When switching from blocks to text mode with a text range selected, the range is now set to just the first position, since selections aren't allowed in blocks mode.
 - 💡 We fixed the width of submenus in the editor's autocomplete menus.
 - ⏳ We fixed the project loading feedback; it was showing an error during loading instead of loading feedback.
-- 📝 Bullets in markup with only one line separating them weren't working. Now they do!
+- 📝 We fixed bullets in markup separated by only one line so they now work.
 - 🧹 We removed a period floating around the error.
 - 💥 We fixed a case where creators who give multiple phrases the same name crashed the page.
 - 🔣 We ensured character names are valid with no spaces (#1080).
@@ -1185,11 +1190,11 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Added
 
-- We added a Portugese (Portugal) machine translation! Time to get to work to make it good.
+- We added a Portuguese (Portugal) machine translation.
 - We added a <design system@://design> page so that anyone working on design or development for the platform have an easier guide on what colors, fonts, spacing, and components to use (#935).
 - We made the user interface components more consistent, usable, and visible.
 - We added a more salient button design, but we're not using it anywhere yet.
-- We made more progress on the in-app localization editing feature! It's not quite ready to release yet, but it's getting closer.
+- We made more progress on the in-app localization editing feature, though it's not quite ready to release yet.
 
 ### Changed
 
@@ -1217,7 +1222,7 @@ This week we focused on new and improved inputs and a new in-app localization mo
 - We fixed the highlight of the emoji chooser in the editor (#1037).
 - We fixed a problem where code examples on Windows weren't being copied to the clipboard with the ctrl-C shortcut (#1038).
 - We fixed many little issues with palette sliders, including incorrect tooltips and a lack of visible change on stage when changing size (#1032).
-- Sometimes links in the guide had identical labels and subabels. Now they don't!
+- We fixed links in the guide that had identical labels and sublabels.
 - We made speech bubble animations respect the aniamtion off setting (#1040).
 - Some links concepts in the guide were not working, and were ambiguous, so we fixed the links and made them less ambiguous (#1035).
 - We fixed a problem where autocompleting a conversion expression would sometimes wrap the wrong code.
@@ -1230,13 +1235,13 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Fixed
 
-- Links in the guide were broken for names that were machine translated. Now they work! (#1027).
+- We fixed broken guide links for machine-translated names (#1027).
 - We fixed the text color in drop down items (#1031).
 
 ### Changed
 
 - We upgraded internal tooling for stability.
-- We prepared many things to enable localization contributions directly on the website. It's not ready yet, but it's getting close! (#437).
+- We're getting close to letting you contribute localizations directly on the website (#437).
 - We redesigned buttons with backgrounds to make them pop a bit more.
 
 ## 0.17.3 - 2026-03-28
@@ -1256,7 +1261,7 @@ This week we focused on new and improved inputs and a new in-app localization mo
 - We now only show conflicts related to the current source in the conflict list.
 - We no longer auto-complete pasted text.
 - We fixed the ability to wrap a selected node by typing an open parenthesis, list, or set.
-- Did you know you can paste CSV data from the clipboard and Wordplay will convert it to a table value? We made this work better with CSV files with underscores in headers.
+- You can paste CSV data from the clipboard and Wordplay turns it into a table, even with underscores in headers.
 - We fixed rendering of skin tone modified emojis in the code editor.
 - We fixed a problem where clicking to place the cursor in the editor would sometimes select a range.
 - We now render line breaks in blocks mode, when appropriate (e.g.,), and place the cursor in more reasonable places (#927).
@@ -1269,7 +1274,7 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 - We upgraded internal tooling for stability.
 - We stopped annoyingly autocompleting + and - expressions, as those might be positive or negative numbers you're trying to type.
-- We now ignore space insertions when a placeholder is selected. That makes autocomplete less annyoying if you're used to typing a space, but also prevents accidental erasure of a placeholder with a space.
+- We now ignore added spaces when a placeholder is selected, so you won't erase it by accident.
 - We changed all simplified Chinese pronouns to be it (它) instead (#377).
 
 ## 0.17.2 - 2026-03-21
@@ -1281,7 +1286,7 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Fixed
 
-- We improved the usability and reliabilty of stage panning and output dragging on stage. Now you can more easily drag the stage to pan, use a mouse scroll wheel to zoom in and out, and use they keyboard to pan.
+- You can now drag the stage to pan, scroll to zoom, and use the keyboard to pan.
 - Our spinning loading feedback stopped spinning. It's spinning again!
 - We improved the consistency of names and symbols in concept links in the tutorial (#986).
 
@@ -1298,7 +1303,7 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Added
 
-- We (finally) added emoji and symbol categories. As part of this, included all possible emoji variations and the new 17.0 emojis just released this year (#110).
+- We added emoji and symbol categories, with all emoji variations and the new 17.0 emojis (#110).
 - We added dates to the feedback, so we can see how long ago feedback was reported.
 - We added a "select all of color" tool in the character editor (#994).
 - We added a color picker in the character editor (only supported in Chrome, Edge, and Opera).
@@ -1321,7 +1326,7 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Added
 
-- We added a new @Speech stream, which works in most browsers. If you allow the site to use your microphone, you can make projects that respond to speech! (#394).
+- We added a new @Speech stream, so if you allow your microphone, projects can respond to speech (#394).
 - We added a machine translation of a Hebrew locale (#411).
 - We added a machine translation of a Vietnamese locale (#985).
 - We made autocompletion of conversions smarter and less buggy.
@@ -1332,15 +1337,15 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Fixed
 
-- Sometimes emojis have extra hidden symbols after them. We ignore them now so that emojis in code don't break things. (#970).
-- We weren't properly handling commas after text and formatted literals. Now we do!
-- Dropdowns weren't working in Safari. Now they do! (#978).
+- We now ignore extra hidden symbols after emojis, so emojis in code don't break things (#970).
+- We now handle commas after text and formatted literals correctly.
+- Dropdowns now work in Safari (#978).
 - The @Pointer stream stopped working, but we fixed it.
 - When undoing an edit, the caret was sometimes restored incorrectly, making it impossible to move it.
-- Sometimes edits would result in the editor crashing. We prevented those from happening.
-- The feedback on sequence editor percentages was wrong. It's fixed now.
+- We fixed edits that could crash the editor.
+- We fixed the wrong feedback on sequence editor percentages.
 - When tooltips are near the top or left of the screen, we avoid covering the control they're describing.
-- Project chat wasn't visible on small screens. We gave it a minimum height.
+- We gave project chat a minimum height so it shows on small screens.
 
 ### Changed
 
@@ -1353,15 +1358,15 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Added
 
-- **Times symbol**. Up to this point, Wordplay only used \·\ as a multiplication symbol. Now you can use \×\ too! That's now the new default, but both are still supported.
-- **Better block conflict highlights**. Conflicts on a block are drawn much more clearly now!
+- You can now use \×\ as a multiplication symbol, and it's the new default, though \·\ still works.
+- We now draw conflicts on a block much more clearly.
 
 ### Fixed
 
 - We now dismiss hints on mobile if the page is tapped.
 - Initial loads on mobile devices are now less janky.
-- Pasting code in text mode didn't always work. Now it does!
-- We restored showing the full name in the guide, rather than the symbolic name. Oops!
+- Pasting code in text mode now works.
+- The guide again shows the full name instead of the symbolic name.
 
 ### Changed
 
@@ -1377,7 +1382,7 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Added
 
-- **How to translation**. We added the ability to create machine translations of how to's in a gallery.
+- You can now create machine translations of how-to's in a gallery.
 
 ### Fixed
 
@@ -1394,7 +1399,7 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Added
 
-- **How to permissions**. How to authors can make their how to's visible to broader audiences.
+- How-to authors can now make their how-to's visible to broader audiences.
 - **Chinese translations of how to examples**. Thank you to our localizers for their translations!
 
 ### Changed
@@ -1404,23 +1409,23 @@ This week we focused on new and improved inputs and a new in-app localization mo
 
 ### Fixed
 
-- The emojis weren't appearing in the timeline. We fixed it so that they would appear again.
-- Project tiles were collapsing on page reload. We stopped that from happening!
+- Emojis now appear in the timeline again.
+- Project tiles no longer collapse when you reload the page.
 - Added a missing background to the clear all notifications button.
 
 ## 0.16.41 - 2026-02-07
 
 ### Added
 
-- **Updates highlight**. We now highlight the updates link on the landing page when there are new updates.
-- **Gallery chat moderation**. Creators in a gallery can report problematic chats to curators of a gallery, and curators can moderate those messages.
+- We now highlight the updates link on the landing page when there are new updates.
+- Creators in a gallery can report problematic chats to curators, who can moderate those messages.
 - **Organized the galleries page**. All galleries — yours, examples, and public galleries — now appear on the galleries page (#594, #799).
 
 ### Changed
 
 - We made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.
 - We upgraded minor versions of internal tooling for stability.
-- Markup can now handle multiple translations. The current primary language will be rendered.
+- Markup can now show multiple translations, using your current main language.
 - We hid a drop down menu for text type words, since those have to be typed, and so the menu would be empty.
 - We added insertion points in blocks mode for optionally empty fields of a block.
 - We added a cleaner visual design for type blocks.
@@ -1438,7 +1443,7 @@ This week we focused on new and improved inputs and a new in-app localization mo
 - **New locales**. We added machine translated drafts of _Arabic, Greek, Kannada, Telegu, and Assamese_ locales! We're sure there are many improvements to make, since AI is far from perfect, so reach out if you'd like to help improve them.
 - **Names in the guide**. We added all of the names of functions, structures, and streams to the guide, to make it easier to know the many multilingual names by which they can be referred (#934).
 - **Better drop downs**. We added fancy new drop down menus, to make it easier to select. _This only works in Chrome, but it should release in Safari soon._ (#729).
-- **A new updates page**! We created this updates page so you know what's changed recently. We don't translate it to all of our supported languages yet, but maybe your browser will help with that? (#351)
+- **A new updates page**! We made this page so you can see what changed recently; it isn't translated to all languages yet, but your browser may help (#351).
 
 ### Changed
 

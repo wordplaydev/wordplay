@@ -3,7 +3,13 @@ import { buildHowToBundle } from '@util/verify-locales/buildHowTos';
 import generateChoosePrompts from '@util/verify-locales/generateChoosePrompts';
 import generateManifests from '@util/verify-locales/generateManifests';
 import generateNameIndex from '@util/verify-locales/generateNameIndex';
+import { allBundleIds } from '@locale/UpdatesBundle';
 import { getLocalePath } from '@util/verify-locales/LocaleSchema';
+import {
+    readStructuralBundle,
+    readTranslations,
+    updatesFilePath,
+} from '@util/verify-locales/verifyChangelog';
 import { collectingLog } from '@util/verify-locales/Log';
 import { sweepSkipsAllLocaleText } from '@util/verify-locales/exampleFreshness';
 import fs from 'fs';
@@ -121,4 +127,41 @@ test('static/manifests matches the locales’ names and directions', async () =>
         drifted,
         'run `npm run locales-fix` and commit static/manifests',
     ).toBe(false);
+});
+
+test("every locale's changelog translations are readable and current", () => {
+    // A bundle that fails to parse, or that is at an older format, makes
+    // `readTranslations` return nothing — and the page then renders that whole
+    // locale's updates in English with no error anywhere. Silent, and expensive
+    // to rediscover, since the fix is to re-buy the translations.
+    const bundle = readStructuralBundle();
+    expect(
+        bundle,
+        'static/updates.json is missing. Run "npm run updates".',
+    ).toBeDefined();
+    const live = allBundleIds(bundle!);
+
+    for (const locale of Locales) {
+        const file = updatesFilePath(locale);
+        if (!fs.existsSync(file)) continue;
+
+        const raw = JSON.parse(fs.readFileSync(file, 'utf-8')) as {
+            format?: number;
+            entries?: Record<string, string>;
+        };
+        expect(
+            Object.keys(readTranslations(locale)).length,
+            `${file} parsed as empty — it is at format ${String(raw.format)}, which the app no longer reads, so ${locale} would silently render in English.`,
+        ).toBe(Object.keys(raw.entries ?? {}).length);
+
+        // An entry edited after release gets a new id, orphaning the old one.
+        // Harmless to render but pure weight, and a sign the bundle drifted.
+        const orphans = Object.keys(raw.entries ?? {}).filter(
+            (id) => !live.has(id),
+        );
+        expect(
+            orphans,
+            `${file} has translations for entries that no longer exist. Run "npm run locales-fix" to drop them.`,
+        ).toEqual([]);
+    }
 });
