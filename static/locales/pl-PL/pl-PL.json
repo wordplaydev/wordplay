@@ -7506,7 +7506,9 @@
                 "zoomIn": "$~Powiększ kod",
                 "zoomOut": "$~Zmniejsz kod",
                 "replace": "$~zamień wszystkie mecze",
-                "selectOutputError": "$~pokaż to wyjście na scenie; wykonanie tego źródła zakończyło się błędem"
+                "selectOutputError": "$~pokaż to wyjście na scenie; wykonanie tego źródła zakończyło się błędem",
+                "addView": "$~pokaż ten kod w drugim widoku",
+                "closeView": "$~zamknij ten widok"
             },
             "field": {
                 "name": {
@@ -7629,7 +7631,8 @@
             "options": {
                 "locale": {
                     "tip": "$~preferowany język dla źródła",
-                    "all": "$~$#count[$count język|$count języki|$count języków|$count języka]"
+                    "all": "$~$#count[$count język|$count języki|$count języków|$count języka]",
+                    "viewing": "$~w języku $language"
                 }
             },
             "error": {
@@ -7662,6 +7665,10 @@
                 "none": "$~rozwiń wszystko",
                 "collapsed": "$~$name zostało zwinięte",
                 "expanded": "$~$name rozszerzono"
+            },
+            "view": {
+                "added": "$~dodano drugi widok $name",
+                "closed": "$~zamknięto drugi widok $name"
             }
         },
         "annotations": {

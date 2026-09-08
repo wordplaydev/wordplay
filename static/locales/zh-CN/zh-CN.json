@@ -7456,7 +7456,9 @@
                 "zoomIn": "$~把代码放大",
                 "zoomOut": "$~把代码缩小",
                 "replace": "$~替换所有匹配项",
-                "selectOutputError": "$~在舞台上显示这个输出；这个源文件的求值以错误结束"
+                "selectOutputError": "$~在舞台上显示这个输出；这个源文件的求值以错误结束",
+                "addView": "$~在第二个视图中显示这段代码",
+                "closeView": "$~关闭这个视图"
             },
             "field": {
                 "name": {
@@ -7579,7 +7581,8 @@
             "options": {
                 "locale": {
                     "tip": "$~源文件的首选语言",
-                    "all": "$~$#count[$count 种语言]"
+                    "all": "$~$#count[$count 种语言]",
+                    "viewing": "$~用 $language"
                 }
             },
             "error": {
@@ -7612,6 +7615,10 @@
                 "none": "$~全部展开",
                 "collapsed": "$~$name 已折叠",
                 "expanded": "$~$name 已展开"
+            },
+            "view": {
+                "added": "$~为 $name 添加了第二个视图",
+                "closed": "$~关闭了 $name 的第二个视图"
             }
         },
         "annotations": {

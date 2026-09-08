@@ -53,6 +53,10 @@
         focuscontent?: boolean;
         editable: boolean;
         animated: boolean;
+        /** Whether this tile can be collapsed. False for a tile nothing can
+         *  restore — a source's extra view has no toggle in the project footer,
+         *  so collapsing it would put it out of reach. */
+        collapsible?: boolean;
         title: Snippet;
         content: Snippet;
         /** Optional content rendered immediately after the tile's
@@ -105,6 +109,7 @@
         focuscontent = false,
         editable,
         animated,
+        collapsible = true,
         title,
         help,
         extra,
@@ -426,7 +431,7 @@
                 {/if}
                 <div class="tile-controls">
                     {@render controls?.()}
-                    {#if !layout.isFullscreen()}
+                    {#if collapsible && !layout.isFullscreen()}
                         <Button
                             background={false}
                             tip={(l) => l.ui.tile.button.collapse}

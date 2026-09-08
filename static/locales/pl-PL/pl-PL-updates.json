@@ -941,6 +941,12 @@
         "eea43688319b5": "$~Usunęliśmy niestandardowe znaki z wybieraka emoji w edytorze znaków (<910@https://github.com/wordplaydev/wordplay/issues/910>).",
         "eec2b56f05544": "$~Sprawiliśmy, że podpowiedzi przy krawędzi okna przestały migotać (<895@https://github.com/wordplaydev/wordplay/issues/895>).",
         "efb149acb1fbf": "$~Poprawiliśmy reakcję na najechanie kursorem na edytowalny tekst w edytorze kodu (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
-        "e40c803e33442": "$~Poprawiliśmy sposób zmiany rozmiaru kafelków w samouczku (<912@https://github.com/wordplaydev/wordplay/issues/912>)."
+        "e40c803e33442": "$~Poprawiliśmy sposób zmiany rozmiaru kafelków w samouczku (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
+        "e253c8e03b28e": "$~Nuty mogą teraz być liczbami pomiędzy: \\1.5\\ gra obie nuty po każdej stronie, tę bliższą głośniej. Ustaw @Track \\mash\\ na \\⊥\\ aby zamiast tego usłyszeć jedną nutę zagraną z odchyleniem wysokości.",
+        "ec36c97de7b55": "$~Możesz teraz pokazać swój kod w dwóch widokach obok siebie, każdy w innym języku, żeby móc wskazać coś w jednym i znaleźć to w drugim. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "eb71d7c31c9ab": "$~Nazwa lub symbol, który edytor pokazuje inaczej niż to, co wpisałeś, znajduje się teraz w małym polu, żebyś wiedział, że zmieni się z powrotem, gdy przesuniesz tam kursor. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e60ce8f188ad3": "$~Gdy pokazujesz swój kod w danym języku, wbudowane nazwy, takie jak @Phrase, teraz też zmieniają się na ten język, nawet jeśli nie dodałeś go do swojego projektu. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e62959bf8e73e": "$~Teraz możesz napisać adres e-mail w dokumencie lub w jak, a on stanie się linkiem, który otwiera wiadomość.",
+        "e730993ac0281": "$~Teraz zapisujesz znak Unicode za pomocą jego numeru jako \\@U/1F600\\, zamiast starszej formy bez U."
     }
 }

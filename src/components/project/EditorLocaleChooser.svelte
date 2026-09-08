@@ -7,10 +7,14 @@
     import { getLanguageLocalDescription } from '@locale/LocaleText';
 
     let {
+        id,
         locale,
         options,
         change,
     }: {
+        /** Unique per chooser: a project can show several editors at once, and
+         *  duplicate ids on focusable elements are an accessibility violation. */
+        id: string;
         locale: Locale | null;
         options: Locale[];
         change: (locale: Locale | null) => void;
@@ -29,7 +33,7 @@
 </script>
 
 <Options
-    id="code-locale"
+    {id}
     value={locale ? localeToString(locale) : undefined}
     label={(l) => l.ui.source.options.locale.tip}
     width="auto"

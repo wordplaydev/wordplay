@@ -3,6 +3,7 @@
     import type Caret from '@edit/caret/Caret';
     import type { WritingLayout } from '@locale/Scripts';
     import type Locale from '@locale/Locale';
+    import type Locales from '@locale/Locales';
     import Docs from '@nodes/Docs';
     import type { LanguageTagged } from '@nodes/LanguageTagged';
     import Name from '@nodes/Name';
@@ -24,6 +25,7 @@
         setHidden,
         setLineMarkers,
         setLocalize,
+        setLocalizeTexts,
         setRoot,
         setShowLines,
         setSpaces,
@@ -43,6 +45,10 @@
         elide?: boolean;
         /** If true, hides names and docs not in a selected locale */
         locale?: Locale | null | 'symbolic';
+        /** The chosen locale's own strings, when loaded. Only the editor passes
+         *  this; it is what lets a name be shown in a language the project
+         *  doesn't declare. See Contexts.getLocalizeTexts. */
+        localeTexts?: Locales | undefined;
         /** The current caret, if there is one. */
         caret?: Caret | undefined;
         /** Whether this view is editable. Affects appearance. */
@@ -89,6 +95,7 @@
         inline = false,
         elide = false,
         locale = null,
+        localeTexts = undefined,
         caret = undefined,
         editable = false,
         values = false,
@@ -154,6 +161,13 @@
     setLocalize(localize);
     $effect(() => {
         localize.set(possiblySymbolicToLocale(locale));
+    });
+
+    // svelte-ignore state_referenced_locally
+    let localizeTexts = writable<Locales | undefined>(localeTexts);
+    setLocalizeTexts(localizeTexts);
+    $effect(() => {
+        localizeTexts.set(localeTexts);
     });
 
     // svelte-ignore state_referenced_locally

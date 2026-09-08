@@ -7469,7 +7469,9 @@
                 "zoomIn": "$~코드 크기를 늘리세요",
                 "zoomOut": "$~코드 크기를 줄이세요",
                 "replace": "$~모든 일치 항목을 바꿉니다",
-                "selectOutputError": "$~이 출력을 무대에 보여줍니다. 이 소스의 평가가 오류로 끝났습니다"
+                "selectOutputError": "$~이 출력을 무대에 보여줍니다. 이 소스의 평가가 오류로 끝났습니다",
+                "addView": "$~이 암호를 두 번째 보기로 보여주기",
+                "closeView": "$~이 보기 닫기"
             },
             "field": {
                 "name": {
@@ -7592,7 +7594,8 @@
             "options": {
                 "locale": {
                     "tip": "$~소스에 대한 기본 언어",
-                    "all": "$~$#count[언어 $count개]"
+                    "all": "$~$#count[언어 $count개]",
+                    "viewing": "$~$language 로"
                 }
             },
             "error": {
@@ -7625,6 +7628,10 @@
                 "none": "$~모두 펼쳐보세요",
                 "collapsed": "$~$name 접혔습니다",
                 "expanded": "$~$name 확장됨"
+            },
+            "view": {
+                "added": "$~$name 의 두 번째 보기가 추가됨",
+                "closed": "$~$name 의 두 번째 보기가 닫힘"
             }
         },
         "annotations": {

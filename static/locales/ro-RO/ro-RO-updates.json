@@ -943,6 +943,11 @@
         "eea43688319b5": "$~Am eliminat caracterele personalizate din selectorul de emoji din editorul de caractere (<910@https://github.com/wordplaydev/wordplay/issues/910>).",
         "eec2b56f05544": "$~Am făcut ca sugestiile de la marginea ferestrei să nu mai pâlpâie (<895@https://github.com/wordplaydev/wordplay/issues/895>).",
         "efb149acb1fbf": "$~Am îmbunătățit reacția la atingerea cu cursorul a textului editabil în editorul de cod (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
-        "e40c803e33442": "$~Am corectat comportamentul de redimensionare a plăcilor în instrucțiuni (<912@https://github.com/wordplaydev/wordplay/issues/912>)."
+        "e40c803e33442": "$~Am corectat comportamentul de redimensionare a plăcilor în instrucțiuni (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
+        "ec36c97de7b55": "$~Acum poți arăta codul tău în două vizualizări, una lângă alta, fiecare în limba ei, ca să poți arăta ceva într-una și să-l găsești în cealaltă. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "eb71d7c31c9ab": "$~Un nume sau simbol pe care editorul îl arată diferit față de ce ai scris tu stă acum într-o cutie mică, ca să știi că va reveni la forma inițială când muți cursorul înăuntru. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e60ce8f188ad3": "$~Când arăți codul tău într-o limbă, numele predefinite precum @Phrase se schimbă acum și ele în acea limbă, chiar dacă nu ai adăugat-o în proiectul tău. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e62959bf8e73e": "$~Acum poți scrie o adresă de e-mail într-un ghid sau în niște instrucțiuni și ea devine un link care deschide un mesaj.",
+        "e730993ac0281": "$~Acum scrii un caracter Unicode după numărul lui ca \\@U/1F600\\, în loc de forma mai veche, fără U."
     }
 }

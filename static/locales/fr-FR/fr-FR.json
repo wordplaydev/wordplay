@@ -7490,7 +7490,9 @@
                 "zoomIn": "$~Agrandir le code",
                 "zoomOut": "$~Réduisez la taille du code.",
                 "replace": "$~remplacer toutes les correspondances",
-                "selectOutputError": "$~montrer cette sortie sur la scène ; l'évaluation de cette source s'est terminée par une erreur"
+                "selectOutputError": "$~montrer cette sortie sur la scène ; l'évaluation de cette source s'est terminée par une erreur",
+                "addView": "$~afficher ce code dans une deuxième vue",
+                "closeView": "$~fermer cette vue"
             },
             "field": {
                 "name": {
@@ -7613,7 +7615,8 @@
             "options": {
                 "locale": {
                     "tip": "$~langue préférée pour la source",
-                    "all": "$~$#count[$#count langue|$count langues|$count langues]"
+                    "all": "$~$#count[$#count langue|$count langues|$count langues]",
+                    "viewing": "$~en $language"
                 }
             },
             "error": {
@@ -7646,6 +7649,10 @@
                 "none": "$~dévoiler tout",
                 "collapsed": "$~$name s'est effondré",
                 "expanded": "$~$name développé"
+            },
+            "view": {
+                "added": "$~a ajouté une deuxième vue de $name",
+                "closed": "$~a fermé la deuxième vue de $name"
             }
         },
         "annotations": {

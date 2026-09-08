@@ -941,6 +941,12 @@
         "eea43688319b5": "$~Chúng tôi đã loại bỏ các ký tự tùy chỉnh khỏi bộ chọn biểu tượng cảm xúc trong trình soạn thảo ký tự (<910@https://github.com/wordplaydev/wordplay/issues/910>).",
         "eec2b56f05544": "$~Chúng tôi đã làm cho các chú thích ở cạnh cửa sổ không còn nhấp nháy nữa (<895@https://github.com/wordplaydev/wordplay/issues/895>).",
         "efb149acb1fbf": "$~Chúng tôi đã cải thiện phản hồi khi di chuột qua văn bản có thể chỉnh sửa trong trình soạn thảo mã số (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
-        "e40c803e33442": "$~Chúng tôi đã sửa hành vi thay đổi kích thước ô trong bài học (<912@https://github.com/wordplaydev/wordplay/issues/912>)."
+        "e40c803e33442": "$~Chúng tôi đã sửa hành vi thay đổi kích thước ô trong bài học (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
+        "ec36c97de7b55": "$~Giờ đây bạn có thể xem mã của mình ở hai khung song song, mỗi khung một ngôn ngữ, để bạn có thể chỉ vào một chỗ ở khung này và tìm ra chỗ tương ứng ở khung kia. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "eb71d7c31c9ab": "$~Một tên hoặc ký hiệu mà trình soạn thảo hiển thị khác với những gì bạn đã gõ giờ nằm trong một ô nhỏ, để bạn biết nó sẽ trở lại như cũ khi con trỏ của bạn di chuyển vào đó. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e60ce8f188ad3": "$~Khi bạn hiển thị mã của mình bằng một ngôn ngữ, các tên có sẵn như @Phrase giờ cũng chuyển sang ngôn ngữ đó, ngay cả khi bạn chưa thêm nó vào dự án của mình. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e253c8e03b28e": "$~Nốt nhạc bây giờ có thể là các số ở giữa: \\1.5\\ chơi cả hai nốt ở mỗi bên, nốt gần hơn thì to hơn. Đặt @Track của một \\mash\\ thành \\⊥\\ để nghe một nốt bị uốn lệch cao độ thay vì vậy.",
+        "e62959bf8e73e": "$~Giờ đây, bạn có thể viết một địa chỉ email trong tài liệu hoặc một làm cách nào để, và nó sẽ trở thành một liên kết mở ra một tin nhắn.",
+        "e730993ac0281": "$~Giờ đây, bạn viết một ký tự Unicode bằng số của nó dưới dạng \\@U/1F600\\, thay vì kiểu cũ không có chữ U."
     }
 }

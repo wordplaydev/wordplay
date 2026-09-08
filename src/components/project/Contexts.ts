@@ -11,6 +11,7 @@ import type Caret from '@edit/caret/Caret';
 import type { CaretPosition } from '@edit/caret/Caret';
 import type { AssignmentPoint, InsertionPoint } from '@edit/drag/Drag';
 import type Locale from '@locale/Locale';
+import type Locales from '@locale/Locales';
 import type { LocaleTextAccessor, LocaleTextsAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
 import type { FieldPosition } from '@nodes/Node';
@@ -496,6 +497,17 @@ export const [getEffectiveFolded, setEffectiveFolded] =
 /** Whether to localize the code */
 export const [getLocalize, setLocalize] =
     createOptionalContext<Writable<Locale | null>>();
+
+/**
+ * The chosen localization language's own strings, when they have been loaded.
+ *
+ * Only needed for a language the project doesn't declare, whose names are in no
+ * basis the project holds; `Token.localized` uses it to reach the counterpart
+ * definition. Undefined means "the project's own basis answers", which is the
+ * common case and what always happened before.
+ */
+export const [getLocalizeTexts, setLocalizeTexts] =
+    createOptionalContext<Writable<Locales | undefined>>();
 
 /** Whether to render line numbers */
 export const [getShowLines, setShowLines] = createContext<Writable<boolean>>();

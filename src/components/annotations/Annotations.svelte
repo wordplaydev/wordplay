@@ -299,7 +299,7 @@
             const value = evaluator.getCurrentValue();
             if (value) {
                 nodeView = document.querySelector(
-                    `.value[data-id="${value.id}"]`,
+                    `${tileSelector()} .value[data-id="${value.id}"]`,
                 );
             }
         }
@@ -307,9 +307,17 @@
         return [node, nodeView];
     }
 
+    /* Scoped to this sidebar's own tile: a source can be shown in two views at
+       once, and both render the same node ids, so an unscoped lookup would
+       first-match whichever tile happens to come earlier in the DOM — and tile
+       order changes on every collapse, expand, and drag. */
+    function tileSelector() {
+        return `.tile[data-id="${sourceID}"]`;
+    }
+
     function getNodeView(node: Node) {
         return document.querySelector(
-            `.editor .node-view[data-id="${node.id}"]`,
+            `${tileSelector()} .editor .node-view[data-id="${node.id}"]`,
         );
     }
     // The `caret` prop is wired to EditorState.displayedCaret in ProjectView,

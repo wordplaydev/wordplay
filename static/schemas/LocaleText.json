@@ -26401,6 +26401,14 @@
                                 "button": {
                                     "additionalProperties": false,
                                     "properties": {
+                                        "addView": {
+                                            "description": "[plain] The button that adds a second view of this code, so it can be read in two languages side by side",
+                                            "type": "string"
+                                        },
+                                        "closeView": {
+                                            "description": "[plain] The button that closes one of the two views of this code",
+                                            "type": "string"
+                                        },
                                         "replace": {
                                             "description": "[plain] The button that replaces all search matches with the replacement text",
                                             "type": "string"
@@ -26427,7 +26435,9 @@
                                         "selectOutputError",
                                         "zoomIn",
                                         "zoomOut",
-                                        "replace"
+                                        "replace",
+                                        "addView",
+                                        "closeView"
                                     ],
                                     "type": "object"
                                 },
@@ -27125,9 +27135,17 @@
                                                 "tip": {
                                                     "description": "[plain] Tooltip for the per-source locale chooser",
                                                     "type": "string"
+                                                },
+                                                "viewing": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22language%22%5D%3E",
+                                                    "description": "[plain] Added to a view's description to say which language it shows. $language is that language's name in its own language."
                                                 }
                                             },
-                                            "required": ["tip", "all"],
+                                            "required": [
+                                                "tip",
+                                                "all",
+                                                "viewing"
+                                            ],
                                             "type": "object"
                                         }
                                     },
@@ -27204,6 +27222,22 @@
                                         "shortcuts"
                                     ],
                                     "type": "object"
+                                },
+                                "view": {
+                                    "additionalProperties": false,
+                                    "description": "Screen-reader announcements for showing this code in two views at once",
+                                    "properties": {
+                                        "added": {
+                                            "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                            "description": "[plain] Announced when a second view of the code named $name is added"
+                                        },
+                                        "closed": {
+                                            "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                            "description": "[plain] Announced when one of the two views of the code named $name is closed"
+                                        }
+                                    },
+                                    "required": ["added", "closed"],
+                                    "type": "object"
                                 }
                             },
                             "required": [
@@ -27214,6 +27248,7 @@
                                 "toggle",
                                 "fold",
                                 "button",
+                                "view",
                                 "menu",
                                 "field",
                                 "options",

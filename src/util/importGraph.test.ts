@@ -629,13 +629,24 @@ test('resolving a color needs no basis', () => {
  * runtime-reachability test below checks, and it stays green. Four of the five
  * byte budgets move by a hundredth; the landing page's does not, since it renders
  * no markup editor and pays only for the locale strings.
+ *
+ * Showing one source in two views (#534) is **+0 files** and moves two byte
+ * budgets by a hundredth each. The view is a second tile rather than a pane, so
+ * the whole feature is a handful of id helpers on `Layout` and `Tile` — modules
+ * every page already carries, because the layout model is reached from the
+ * project tile that renders a preview — plus five locale strings. Rendering a
+ * name in the reader's chosen language adds a counterpart lookup to `Basis` and
+ * a few lines to `Token.localized`, which is why the second increment lands on
+ * the pages that carry the language runtime rather than on the landing page.
+ * Nothing new joins any graph: the editor, the toolbar, and the annotations
+ * sidebar were already off these and stay off them.
  */
 test.each([
     ['src/routes/+layout.svelte', 508, 3.79],
     ['src/components/app/Page.svelte', 531, 4.04],
-    ['src/routes/[[locale]]/+page.svelte', 546, 4.12],
+    ['src/routes/[[locale]]/+page.svelte', 546, 4.13],
     ['src/routes/[[locale]]/galleries/+page.svelte', 550, 4.14],
-    ['src/routes/[[locale]]/projects/+page.svelte', 557, 4.16],
+    ['src/routes/[[locale]]/projects/+page.svelte', 557, 4.17],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

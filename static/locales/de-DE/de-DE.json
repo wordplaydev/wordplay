@@ -7482,7 +7482,9 @@
                 "zoomIn": "$~Vergrößern Sie den Code",
                 "zoomOut": "$~Verkleinern Sie den Code",
                 "replace": "$~Alle Übereinstimmungen ersetzen",
-                "selectOutputError": "$~zeige diese Ausgabe auf der Bühne; die Auswertung dieser Quelle endete mit einem Fehler"
+                "selectOutputError": "$~zeige diese Ausgabe auf der Bühne; die Auswertung dieser Quelle endete mit einem Fehler",
+                "addView": "$~diesen Code in einer zweiten Ansicht zeigen",
+                "closeView": "$~diese Ansicht schließen"
             },
             "field": {
                 "name": {
@@ -7605,7 +7607,8 @@
             "options": {
                 "locale": {
                     "tip": "$~bevorzugte Sprache für die Quelle",
-                    "all": "$~$#count[$count Sprache|$count Sprachen]"
+                    "all": "$~$#count[$count Sprache|$count Sprachen]",
+                    "viewing": "$~auf $language"
                 }
             },
             "error": {
@@ -7638,6 +7641,10 @@
                 "none": "$~Alles ausklappen",
                 "collapsed": "$~$name ausgeblendet",
                 "expanded": "$~$name erweitert"
+            },
+            "view": {
+                "added": "$~eine zweite Ansicht von $name hinzugefügt",
+                "closed": "$~die zweite Ansicht von $name geschlossen"
             }
         },
         "annotations": {

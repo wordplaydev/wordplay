@@ -9,6 +9,7 @@
         getCaretTokenSummary,
         getHidden,
         getLocalize,
+        getLocalizeTexts,
         getProject,
         getRoot,
     } from '@components/project/Contexts';
@@ -77,6 +78,7 @@
     let root = $derived(rootContext?.root);
 
     let localize = getLocalize();
+    let localizeTexts = getLocalizeTexts();
     let hidden = getHidden();
 
     let hide = $derived(node ? $hidden?.has(node) : false);
@@ -221,9 +223,37 @@
                       $localize,
                       root,
                       context,
+                      $localizeTexts,
                   )
                 : node.getText()),
     );
+
+    /**
+     * Whether this token renders as something other than its source text — a
+     * keyword shown as a word or glyph, or a name shown in another language.
+     *
+     * The measurement layer indexes rendered text with *source* grapheme
+     * offsets, so a token whose two texts differ in length has no interior
+     * position either side can agree on. Marked on the element rather than
+     * re-derived there, because only this component knows which substitution
+     * ran; compared before the NBSP and emoji transforms below, which preserve
+     * length and so are not substitutions. See measureTokenSegment.isSynthetic.
+     */
+    let synthetic = $derived(text !== node.getText());
+
+    /**
+     * Whether to draw this token as a chip: a proxy standing in for different
+     * source text, which is otherwise indistinguishable from code the creator
+     * wrote — and which changes under the caret with nothing to explain why.
+     *
+     * Every substitution qualifies except a text literal's quote delimiters,
+     * which `Token.localized` swaps for the locale's preferred pair. Those are
+     * single-character `Sym.Text` tokens, so the exclusion catches exactly the
+     * quote marks: boxing every quote in a program would be noise, and a quote
+     * does not revert at the caret the way a name does, so a chip would be
+     * promising something untrue.
+     */
+    let proxy = $derived(synthetic && !node.isSymbol(Sym.Text));
 
     /** A URL token that reads as a link: a bare URL or email in markup. Not every
      *  one is — a scheme we don't allow isn't a link at all — and a URL inside a
@@ -327,6 +357,7 @@
         class:added
         class:bracket={isBracket}
         data-id={node.id}
+        data-synthetic={synthetic ? '' : null}
     >
         {#if editable && $project && node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
                 {node}
@@ -368,10 +399,11 @@
         class:placeholder={placeholder !== undefined}
         class:added
         class:bracket={isBracket}
-        class:synthesized={keywordWord !== undefined}
+        class:synthesized={proxy}
         class:removed
         class:highlighted={highlight !== undefined}
         data-id={node.id}
+        data-synthetic={synthetic ? '' : null}
         data-uiid={node.getDescriptor()}
         id={`node-${node.id}`}
         aria-label={description}
@@ -479,13 +511,15 @@
         opacity: 0.25;
     }
 
-    /* In words mode, a built-in keyword rendered as a word (text mode) is shown as a subtle chip.
-       The chip discloses that the word is a synthesized rendering — the stored source is the symbol —
-       and, because symbols carry no required surrounding space, it also keeps adjacent words from
-       running together (e.g. count•# would otherwise read as "counttypenumber"). Horizontal padding
-       plus a thin margin give each word a visible boundary without injecting whitespace into the
-       text flow; the small margin avoids doubling space when a skinned keyword already had one.
-       Blocks mode is excluded — it already separates tokens with a flex gap. */
+    /* A token standing in for different source text (text mode) is shown as a subtle chip: a
+       keyword rendered as its word or its symbol, or a name rendered in another language. The chip
+       discloses that what you are reading is a rendering — the stored source says something else —
+       which is also what explains why the token changes when the caret enters it. For a keyword
+       word it does a second job: symbols carry no required surrounding space, so it keeps adjacent
+       words from running together (e.g. count•# would otherwise read as "counttypenumber").
+       Horizontal padding plus a thin margin give each a visible boundary without injecting
+       whitespace into the text flow; the small margin avoids doubling space when a skinned keyword
+       already had one. Blocks mode is excluded — it already separates tokens with a flex gap. */
     .token-view.text.synthesized {
         background: var(--wordplay-alternating-color);
         border-radius: var(--wordplay-border-radius);

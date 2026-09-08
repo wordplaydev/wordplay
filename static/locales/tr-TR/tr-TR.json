@@ -7497,7 +7497,9 @@
                 "zoomIn": "$~Kodu daha büyük yapın",
                 "zoomOut": "$~Kodu küçültün",
                 "replace": "$~tüm eşleşmeleri değiştir",
-                "selectOutputError": "$~bu çıktıyı sahnede göster; bu kaynağın değerlendirmesi bir hatayla bitti"
+                "selectOutputError": "$~bu çıktıyı sahnede göster; bu kaynağın değerlendirmesi bir hatayla bitti",
+                "addView": "$~bu kodu ikinci bir görünümde göster",
+                "closeView": "$~bu görünümü kapat"
             },
             "field": {
                 "name": {
@@ -7620,7 +7622,8 @@
             "options": {
                 "locale": {
                     "tip": "$~kaynak için tercih edilen dil",
-                    "all": "$~$#count[$count dil|$count dil]"
+                    "all": "$~$#count[$count dil|$count dil]",
+                    "viewing": "$~$language dilinde"
                 }
             },
             "error": {
@@ -7653,6 +7656,10 @@
                 "none": "$~tümünü aç",
                 "collapsed": "$~$name çöktü",
                 "expanded": "$~$name genişletildi"
+            },
+            "view": {
+                "added": "$~$name için ikinci bir görünüm eklendi",
+                "closed": "$~$name için ikinci görünüm kapatıldı"
             }
         },
         "annotations": {

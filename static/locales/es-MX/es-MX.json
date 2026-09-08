@@ -7483,7 +7483,9 @@
                 "zoomIn": "$~agrandar el código",
                 "zoomOut": "$~achicar el código",
                 "replace": "$~reemplazar todas las coincidencias",
-                "selectOutputError": "$~mostrar esta salida en el escenario; la evaluación de esta fuente terminó con un error"
+                "selectOutputError": "$~mostrar esta salida en el escenario; la evaluación de esta fuente terminó con un error",
+                "addView": "$~mostrar este código en una segunda vista",
+                "closeView": "$~cerrar esta vista"
             },
             "field": {
                 "name": {
@@ -7606,7 +7608,8 @@
             "options": {
                 "locale": {
                     "tip": "$~idioma preferido para la fuente",
-                    "all": "$~$#count[$#count idioma|$count idiomas|$count idiomas]"
+                    "all": "$~$#count[$#count idioma|$count idiomas|$count idiomas]",
+                    "viewing": "$~en $language"
                 }
             },
             "error": {
@@ -7639,6 +7642,10 @@
                 "none": "$~desplegar todo",
                 "collapsed": "$~$name contraído",
                 "expanded": "$~$name expandido"
+            },
+            "view": {
+                "added": "$~agregó una segunda vista de $name",
+                "closed": "$~cerró la segunda vista de $name"
             }
         },
         "annotations": {

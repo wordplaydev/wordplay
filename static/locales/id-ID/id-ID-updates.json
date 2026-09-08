@@ -943,6 +943,11 @@
         "eea43688319b5": "$~Kami menghapus karakter khusus dari pemilih emoji di penyunting karakter (<910@https://github.com/wordplaydev/wordplay/issues/910>).",
         "eec2b56f05544": "$~Kami membuat petunjuk di tepi jendela berhenti berkedip-kedip (<895@https://github.com/wordplaydev/wordplay/issues/895>).",
         "efb149acb1fbf": "$~Kami meningkatkan umpan balik saat kursor berada di atas teks yang dapat disunting di penyunting kode (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
-        "e40c803e33442": "$~Kami memperbaiki perilaku pengubahan ukuran ubin dalam panduan (<912@https://github.com/wordplaydev/wordplay/issues/912>)."
+        "e40c803e33442": "$~Kami memperbaiki perilaku pengubahan ukuran ubin dalam panduan (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
+        "ec36c97de7b55": "$~Sekarang kamu bisa menampilkan kodemu dalam dua tampilan berdampingan, masing-masing dalam bahasanya sendiri, jadi kamu bisa menunjuk sesuatu di satu tampilan dan menemukannya di tampilan lain. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "eb71d7c31c9ab": "$~Nama atau simbol yang ditampilkan editor secara berbeda dari yang kamu ketik sekarang muncul dalam kotak kecil, jadi kamu tahu itu akan kembali seperti semula saat kursormu masuk ke sana. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e60ce8f188ad3": "$~Saat kamu menampilkan kodemu dalam suatu bahasa, nama bawaan seperti @Phrase sekarang juga berubah ke bahasa itu, bahkan jika kamu belum menambahkannya ke proyekmu. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e62959bf8e73e": "$~Sekarang kamu bisa menulis alamat email di dalam dokumen atau cara, dan itu akan menjadi tautan yang membuka pesan.",
+        "e730993ac0281": "$~Sekarang kamu menulis karakter Unicode dengan angkanya sebagai \\@U/1F600\\, bukan bentuk lama tanpa huruf U."
     }
 }

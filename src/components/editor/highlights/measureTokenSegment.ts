@@ -50,11 +50,37 @@ export function locateGraphemeOffset(
  * The width and height of the token view's text from its start up to the given
  * grapheme offset, or undefined when the view has no text to measure.
  */
+
+/**
+ * Whether a token view renders text other than its source text — a keyword shown
+ * as a word, or a name shown in another language (`TokenView`'s `data-synthetic`).
+ *
+ * Everything in this module takes a *source* grapheme offset and indexes
+ * *rendered* text with it, which is exact only while the two are the same
+ * string. They are not for a substituted token, and `locateGraphemeOffset`
+ * fails by clamping rather than erroring, so a caret lands on the wrong glyph
+ * and a selection is misclipped with nothing to notice. There is no honest
+ * mapping between `Phrase` and `Frase`, so a substituted token has no interior
+ * positions at all: every offset resolves to one of its two edges. Clicking one
+ * therefore puts the caret at its edge, which reverts it to the real name — the
+ * `isInCaret` guard in `Token.localized` — and makes editing coherent.
+ */
+function isSynthetic(tokenView: Element) {
+    return tokenView.hasAttribute('data-synthetic');
+}
+
+/** An offset into a synthetic token, collapsed to the near or far edge. Past the
+ *  end clamps in `locateGraphemeOffset`, so Infinity is "the end of the text". */
+function atomicOffset(tokenView: Element, offset: number) {
+    return isSynthetic(tokenView) ? (offset <= 0 ? 0 : Infinity) : offset;
+}
+
 export function measureTokenSegment(
     tokenView: Element,
     tokenOffset: number,
     blocks: boolean,
 ) {
+    tokenOffset = atomicOffset(tokenView, tokenOffset);
     const nodes = getTextNodes(tokenView);
     if (nodes.length === 0) {
         console.error('Unable to find text node to measure segment.');
@@ -95,6 +121,7 @@ export function locateCaretRect(
     tokenView: Element,
     tokenOffset: number,
 ): DOMRect | undefined {
+    tokenOffset = atomicOffset(tokenView, tokenOffset);
     const nodes = getTextNodes(tokenView);
     if (nodes.length === 0) return undefined;
 
@@ -143,6 +170,12 @@ export function segmentLineRects(
     from: number,
     to: number,
 ): DOMRect[] {
+    // A substituted token is outlined whole or not at all: it has no interior
+    // boundary a source offset could name.
+    if (isSynthetic(tokenView) && from !== to) {
+        from = 0;
+        to = Infinity;
+    }
     const nodes = getTextNodes(tokenView);
     if (nodes.length === 0) return [];
     const texts = nodes.map((node) => node.textContent ?? '');
@@ -185,6 +218,13 @@ export function graphemeOffsetAt(
     axes: Axes,
 ): number | undefined {
     if (length <= 0) return 0;
+
+    // A substituted token has no interior positions, so a click resolves to
+    // whichever of its edges is nearer along the text.
+    if (isSynthetic(tokenView)) {
+        const box = axes.rect(tokenView.getBoundingClientRect());
+        return at.inline < (box.inlineStart + box.inlineEnd) / 2 ? 0 : length;
+    }
 
     // Walk the view's text nodes and segment them ONCE, rather than per probe.
     // `locateCaretRect` does both on every call, and the search makes a dozen of

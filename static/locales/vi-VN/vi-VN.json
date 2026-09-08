@@ -7737,7 +7737,8 @@
             "options": {
                 "locale": {
                     "tip": "$~ngôn ngữ ưu tiên cho nguồn",
-                    "all": "$~$#count[$count ngôn ngữ]"
+                    "all": "$~$#count[$count ngôn ngữ]",
+                    "viewing": "$~bằng $language"
                 }
             },
             "button": {
@@ -7745,7 +7746,9 @@
                 "zoomIn": "$~Làm cho mã lớn hơn",
                 "zoomOut": "$~Thu nhỏ mã nguồn",
                 "replace": "$~thay thế tất cả các kết quả khớp",
-                "selectOutputError": "$~hiển thị kết quả này trên sân khấu; việc chạy nguồn này đã kết thúc bằng một lỗi"
+                "selectOutputError": "$~hiển thị kết quả này trên sân khấu; việc chạy nguồn này đã kết thúc bằng một lỗi",
+                "addView": "$~hiển thị mã số này trong khung xem thứ hai",
+                "closeView": "$~đóng khung xem này"
             },
             "field": {
                 "name": {
@@ -7895,6 +7898,10 @@
                 "none": "$~mở ra tất cả",
                 "collapsed": "$~$name đã bị thu gọn",
                 "expanded": "$~$name đã mở rộng"
+            },
+            "view": {
+                "added": "$~đã thêm khung xem thứ hai của $name",
+                "closed": "$~đã đóng khung xem thứ hai của $name"
             }
         },
         "annotations": {

@@ -942,6 +942,12 @@
         "eea43688319b5": "$~Quitamos los caracteres personalizados del selector de emoji en el editor de caracteres (<910@https://github.com/wordplaydev/wordplay/issues/910>).",
         "eec2b56f05544": "$~Hicimos que los textos de ayuda en el borde de la ventana dejaran de parpadear (<895@https://github.com/wordplaydev/wordplay/issues/895>).",
         "efb149acb1fbf": "$~Mejoramos la retroalimentación al pasar el cursor sobre el texto editable en el editor de código (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
-        "e40c803e33442": "$~Corregimos el comportamiento al cambiar el tamaño de las tejas en el tutorial (<912@https://github.com/wordplaydev/wordplay/issues/912>)."
+        "e40c803e33442": "$~Corregimos el comportamiento al cambiar el tamaño de las tejas en el tutorial (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
+        "e253c8e03b28e": "$~Las notas ahora pueden ser números intermedios: \\1.5\\ toca las dos notas de cada lado, y la más cercana suena más fuerte. Cambia el valor de @Track \\mash\\ a \\⊥\\ para escuchar una sola nota con el tono desviado en su lugar.",
+        "ec36c97de7b55": "$~Ahora puedes mostrar tu código en dos vistas, una junto a la otra, cada una en su propio idioma, para que señales algo en una y lo encuentres en la otra. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "eb71d7c31c9ab": "$~Un nombre o símbolo que el editor muestra de forma distinta a como lo escribiste ahora aparece en un pequeño recuadro, para que sepas que volverá a su forma original cuando muevas el cursor ahí. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e60ce8f188ad3": "$~Cuando muestras tu código en un idioma, los nombres integrados como @Phrase ahora también cambian a ese idioma, aunque no lo hayas agregado a tu proyecto. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
+        "e62959bf8e73e": "$~Ahora puedes escribir un correo electrónico en un documento o una guía práctica, y se convierte en un enlace que abre un mensaje.",
+        "e730993ac0281": "$~Ahora escribes un carácter Unicode con su número como \\@U/1F600\\, en lugar de la forma antigua sin la U."
     }
 }

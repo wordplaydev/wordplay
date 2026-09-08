@@ -7744,7 +7744,8 @@
             "options": {
                 "locale": {
                     "tip": "$~bahasa yang disukai untuk sumber",
-                    "all": "$~$#count[$count bahasa]"
+                    "all": "$~$#count[$count bahasa]",
+                    "viewing": "$~dalam $language"
                 }
             },
             "button": {
@@ -7752,7 +7753,9 @@
                 "zoomIn": "$~Perbesar kodenya",
                 "zoomOut": "$~Perkecil ukuran kode.",
                 "replace": "$~ganti semua kecocokan",
-                "selectOutputError": "$~tampilkan output ini di panggung; evaluasi sumber ini berakhir dengan kesalahan"
+                "selectOutputError": "$~tampilkan output ini di panggung; evaluasi sumber ini berakhir dengan kesalahan",
+                "addView": "$~tampilkan kode ini di tampilan kedua",
+                "closeView": "$~tutup tampilan ini"
             },
             "field": {
                 "name": {
@@ -7901,6 +7904,10 @@
                 "none": "$~buka semuanya",
                 "collapsed": "$~$name menyusut",
                 "expanded": "$~$name diperluas"
+            },
+            "view": {
+                "added": "$~menambahkan tampilan kedua dari $name",
+                "closed": "$~menutup tampilan kedua dari $name"
             }
         },
         "annotations": {

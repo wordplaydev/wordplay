@@ -4,6 +4,17 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.35.1 - 2026-09-08
+
+### Added
+
+- 🌐 You can now show your code in two views side by side, each in its own language, so you can point at something in one and find it in the other. (#534)
+
+### Changed
+
+- 🎨 A name or symbol the editor is showing differently from what you typed now sits in a small box, so you can tell it will change back when your cursor moves in. (#534)
+- 🌐 When you show your code in a language, built-in names like @Phrase now change to that language too, even if you haven't added it to your project. (#534)
+
 ## 0.35.0 - 2026-09-05
 
 ### Added
@@ -308,7 +319,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔒 If your public content breaks the rules, you now get a warning in your notifications. After three, you can share with chosen people but no longer make anything public; the [rights page](https://wordplay.dev/rights) explains it. (#193)
 - 🔬 Each project now has a Research setting, off unless you turn it on, that lets us show it as an example without your name or anything that says it's yours. (#922)
 - 📖 Every example in the [Guide](https://wordplay.dev/guide) now has a Test it button that opens an editable copy in a new window, kept on your device with a link back. (#1044)
-- 📧 You can now write an email address in a doc or a how-to and it becomes a link that opens a message. Before, the `@` in an address was read as the start of a `@link` and the address disappeared.
+- 📧 You can now write an email address in a doc or a how-to and it becomes a link that opens a message.
 - 💾 Settings that follow your account now show a cloud that says "Saved across devices"; signed out, the cloud is grey and tells you what signing in would do. (#231)
 
 ### Changed
@@ -761,7 +772,7 @@ This week we worked on screen reader accessibility!
 
 ### Changed
 
-- 🔣 You now write a Unicode character by number as `@U/1F600` instead of `@1F600`.
+- 🔣 You now write a Unicode character by its number as `@U/1F600`, instead of the older form without the U.
 - 🎞️ Text in a `@Phrase` now changes instantly unless you choose a `changing` effect.
 - ⚡ We made the code editor much faster on long programs.
 - ✍️ We fixed a freeze when you started to drag code in a long program.

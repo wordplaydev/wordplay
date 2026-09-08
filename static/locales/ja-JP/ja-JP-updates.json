@@ -942,6 +942,12 @@
         "eea43688319b5": "$~文字エディターの絵文字選択メニューから、カスタム文字を削除しました（<910@https://github.com/wordplaydev/wordplay/issues/910>）。",
         "eec2b56f05544": "$~ウィンドウの端にあるツールチップがちらつく問題を直しました（<895@https://github.com/wordplaydev/wordplay/issues/895>）。",
         "efb149acb1fbf": "$~コードエディターで編集できるテキストにカーソルを合わせたときの反応を改善しました（<901@https://github.com/wordplaydev/wordplay/issues/901>）。",
-        "e40c803e33442": "$~チュートリアル内でのタイルの大きさ変更の動きを修正しました（<912@https://github.com/wordplaydev/wordplay/issues/912>）。"
+        "e40c803e33442": "$~チュートリアル内でのタイルの大きさ変更の動きを修正しました（<912@https://github.com/wordplaydev/wordplay/issues/912>）。",
+        "ec96e627d2d35": "$~独自の文字を使ったPhraseも、ドラッグしたり、回転させたり、大きさを変えたりできるようにしました。",
+        "ec36c97de7b55": "$~コードを2つの表示で並べて見られるようになりました。それぞれ別の言語で表示されるので、片方で何かを指すと、もう片方でも同じ場所を見つけられます。（<534@https://github.com/wordplaydev/wordplay/issues/534>）",
+        "eb71d7c31c9ab": "$~入力したものと違う表示になっている名前や記号は、小さな箱の中に入るようになりました。これでカーソルが入ってきたときに元の表示に戻ることが分かります。（<534@https://github.com/wordplaydev/wordplay/issues/534>）",
+        "e60ce8f188ad3": "$~コードをある言語で表示すると、@Phraseのような組み込みの名前も、プロジェクトに追加していなくても、その言語に変わるようになりました。（<534@https://github.com/wordplaydev/wordplay/issues/534>）",
+        "e62959bf8e73e": "$~これで、ドキュメントややり方ガイドの中にメールアドレスを書くと、メッセージを開くリンクになります。",
+        "e730993ac0281": "$~これで、Unicode文字はその番号を使って\\@U/1F600\\のように書きます。Uをつけない古い書き方はもう使いません。"
     }
 }

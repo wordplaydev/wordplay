@@ -3,6 +3,7 @@ import Block from '@nodes/Block';
 import type Context from '@nodes/Context';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import Docs from '@nodes/Docs';
+import Names from '@nodes/Names';
 import type Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
@@ -125,14 +126,50 @@ export class Basis {
      *
      * A project's basis is built from the *project's* declared locales, not the reader's,
      * so a reader who chose another language finds no doc in it to select and reads
-     * English. The same definition in a basis built for the reader has one. Names
-     * deliberately stay on the project's basis: they are code, and bringing the reader's
-     * into scope would change which identifiers a program resolves.
+     * English. The same definition in a basis built for the reader has one. Names stay on
+     * the project's basis for *resolution*: they are code, and bringing the reader's into
+     * scope would change which identifiers a program resolves. Rendering a name in
+     * another language changes no scope, and is `getLocalizedNames` below.
      *
      * Undefined when the reader's locales are already the basis's — the common case, which
      * stays free — or when the two bases don't line up.
      */
     getLocalizedDocs(definition: Node, locales: Locales): Docs | undefined {
+        const counterpart = this.getCounterpart(definition, locales);
+        return counterpart !== undefined &&
+            'docs' in counterpart &&
+            counterpart.docs instanceof Docs
+            ? counterpart.docs
+            : undefined;
+    }
+
+    /**
+     * The names of one of this basis's definitions, in the given locales — for *display*
+     * only, and only when this basis has no name in them.
+     *
+     * A project's basis carries names for the locales the project declares, so a program
+     * that merely tags a language it doesn't declare has no basis name in it at all:
+     * every creator-written name localizes and `Phrase` stays `Phrase`, which reads as a
+     * half-translated program. The counterpart definition in a basis built for that
+     * locale has the name. This never reaches resolution — see `getLocalizedDocs` above.
+     *
+     * Undefined when the locales are already this basis's — the common case, which stays
+     * free — or when the two bases don't line up.
+     */
+    getLocalizedNames(definition: Node, locales: Locales): Names | undefined {
+        const counterpart = this.getCounterpart(definition, locales);
+        return counterpart !== undefined &&
+            'names' in counterpart &&
+            counterpart.names instanceof Names
+            ? counterpart.names
+            : undefined;
+    }
+
+    /** The same definition in a basis built for the given locales, if the two line up. */
+    private getCounterpart(
+        definition: Node,
+        locales: Locales,
+    ): Node | undefined {
         const key = Basis.localeKey(locales);
         if (key === Basis.localeKey(this.locales)) return undefined;
 
@@ -144,12 +181,7 @@ export class Basis {
             this.counterparts.set(key, map);
         }
 
-        const counterpart = map?.get(definition);
-        return counterpart !== undefined &&
-            'docs' in counterpart &&
-            counterpart.docs instanceof Docs
-            ? counterpart.docs
-            : undefined;
+        return map?.get(definition);
     }
 
     getRoots() {

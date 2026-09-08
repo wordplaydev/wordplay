@@ -221,7 +221,9 @@
     import ProjectFooter from '@components/project/ProjectFooter.svelte';
     import RootView from '@components/project/RootView.svelte';
     import SelectedOutput from '@components/project/SelectedOutput.svelte';
+    import chooseSplitLocales from '@components/project/splitLocales';
     import Tile, { TileMode } from '@components/project/Tile';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { TileKind } from '@components/project/TileKind';
     import TileView, {
         type ResizeDirection,
@@ -1216,10 +1218,16 @@
             });
     });
 
-    /** Persist the layout when it changes */
+    /** Persist the layout when it changes. Extra source views are per-session,
+     *  so they're stripped here rather than in `toObject` — `setProjectLayout`
+     *  skips the write when the layout equals the stored one, and stripping on
+     *  only one side of that comparison would make it never equal. */
     $effect(() => {
         if (persistLayout) {
-            Settings.setProjectLayout(project.getID(), layout);
+            Settings.setProjectLayout(
+                project.getID(),
+                layout.withoutSourceViews(),
+            );
         }
     });
 
@@ -2063,6 +2071,12 @@
 
     let currentArrangement = $state<ArrangementType>($arrangement);
 
+    /** Whether a source can be shown in a second view. Only the one-tile
+     *  arrangement can't: it shows a single tile, so a second view could never
+     *  sit beside the first. The two-tile arrangement can, because a split
+     *  raises both views to be the pair it shows — see addSourceView. */
+    const splittable = $derived(currentArrangement !== Arrangement.Single);
+
     /** When dragged is set, update the layout if necessary to support dragging to the last editor. */
     $effect(() => {
         // Get the current layout (without making a dependnecy, since we assign below).
@@ -2375,7 +2389,9 @@
     function scrollToTileView(id: string) {
         if (canvas === undefined) return;
 
-        const view = document.querySelector(`.tile[data-id=${id}]`);
+        // Quoted: a source view's id contains a dot, which is not a valid
+        // unquoted attribute value and would make querySelector throw.
+        const view = document.querySelector(`.tile[data-id="${id}"]`);
         if (view) {
             const canvasRect = canvas.getBoundingClientRect();
             const tileRect = view.getBoundingClientRect();
@@ -2415,7 +2431,7 @@
     }
 
     function getSourceIndexByID(id: string) {
-        return parseInt(id.replace('source', ''));
+        return Layout.getSourceIndexFromID(id) ?? -1;
     }
 
     function getSourceByTileID(id: string): Source | undefined {
@@ -2513,10 +2529,18 @@
         const source = menu.getSource();
         const anchor = menu.getAnchor();
 
-        // Find the editor
-        const editor = document.querySelector(
-            `.editor[data-id="${source.id}"]`,
-        );
+        // Find the editor. Scoped to the focused view's tile first, because a
+        // source can be shown in two views at once and both carry the same
+        // `data-id` — an unscoped lookup would anchor the menu in whichever
+        // tile is earlier in the DOM rather than the one being typed in.
+        const focusedTile = focusedEditorState?.sourceID;
+        const editor =
+            (focusedTile === undefined
+                ? null
+                : document.querySelector(
+                      `.tile[data-id="${focusedTile}"] .editor[data-id="${source.id}"]`,
+                  )) ??
+            document.querySelector(`.editor[data-id="${source.id}"]`);
         if (editor === null) return undefined;
 
         // The menu's containing block and clipping box is this view's own
@@ -2605,6 +2629,126 @@
             tile.mode === TileMode.Expanded && !tile.isInvisible()
                 ? TileMode.Collapsed
                 : TileMode.Expanded,
+        );
+    }
+
+    /** The extra view of the source shown in the given tile, if it has one. */
+    function getSourceViewOf(tileID: string) {
+        const index = Layout.getSourceIndexFromID(tileID);
+        return index === undefined
+            ? undefined
+            : layout.getTileWithID(Layout.getSourceViewID(index, 1));
+    }
+
+    /**
+     * Show this source in a second view, so it can be read in two languages —
+     * or at two scroll positions — at once. A real tile, because the source
+     * group's layout band is already divided among the source tiles in it, so
+     * this splits that band and moves nothing else.
+     */
+    async function addSourceView(tileID: string) {
+        const index = Layout.getSourceIndexFromID(tileID);
+        const primary = layout.getTileWithID(tileID);
+        if (index === undefined || primary === undefined) return;
+
+        const viewID = Layout.getSourceViewID(index, 1);
+        if (layout.getTileWithID(viewID) !== undefined) return;
+
+        // Give the two views different languages, so the split says something
+        // the moment it opens rather than showing one language twice — and so
+        // the localized-name rendering, which only runs when a language is
+        // chosen, is on from the start.
+        const { primary: primaryLocale, view: viewLocale } = chooseSplitLocales(
+            localesUsed,
+            editorLocales[tileID] ?? null,
+            $locales.getLocales(),
+        );
+        editorLocales[tileID] = primaryLocale;
+        editorLocales[viewID] = viewLocale;
+
+        const view = new Tile(
+            viewID,
+            TileKind.Source,
+            TileMode.Expanded,
+            undefined,
+            primary.position,
+        );
+
+        // Inserted after its source, which is what puts it to the right of (or
+        // below) the source in the arrangements that lay tiles out on axes.
+        let split = layout.withTileAfter(tileID, view);
+
+        // The two-tile arrangement shows the last two expanded tiles, so raise
+        // both views to be that pair — otherwise the new view would displace
+        // the very thing it was split from. Source first, so the pair reads in
+        // the order the other arrangements put them in. This is the same raise
+        // that expanding or focusing a tile already performs.
+        if (currentArrangement === Arrangement.Split) {
+            const raised = split.getTileWithID(tileID);
+            const raisedView = split.getTileWithID(viewID);
+            if (raised !== undefined && raisedView !== undefined)
+                split = split.withTileLast(raised).withTileLast(raisedView);
+        }
+
+        layout = split.resized(
+            $arrangement,
+            $stagePlacement,
+            canvasWidth,
+            canvasHeight,
+        );
+
+        announceSourceView((l) => l.ui.source.view.added, index);
+
+        // Every tile remounts when the id list changes, which drops focus.
+        await tick();
+        focusTile(viewID);
+    }
+
+    /** Close one of a source's two views, from either of them. */
+    async function closeSourceView(tileID: string) {
+        const index = Layout.getSourceIndexFromID(tileID);
+        if (index === undefined) return;
+
+        const primaryID = Layout.getSourceID(index);
+        const viewID = Layout.getSourceViewID(index, 1);
+        const view = layout.getTileWithID(viewID);
+        if (view === undefined) return;
+
+        // Closing the primary keeps the language you were reading, by moving
+        // the surviving view's choice onto the tile that remains.
+        if (tileID === primaryID)
+            editorLocales[primaryID] = editorLocales[viewID] ?? null;
+        delete editorLocales[viewID];
+
+        layout = layout
+            .withTiles(layout.tiles.filter((tile) => tile.id !== viewID))
+            .resized($arrangement, $stagePlacement, canvasWidth, canvasHeight);
+        if (layout.fullscreenID === viewID) layout = layout.withoutFullscreen();
+
+        announceSourceView((l) => l.ui.source.view.closed, index);
+
+        await tick();
+        focusTile(primaryID);
+    }
+
+    /** Both messages name the source, so two in a row are never the same words
+     *  — an announcement that repeats itself is heard once and then sounds broken. */
+    function announceSourceView(message: LocaleTextAccessor, index: number) {
+        const source = sources[index];
+        if (
+            source === undefined ||
+            announce === undefined ||
+            $announce === undefined
+        )
+            return;
+        $announce(
+            'command',
+            $locales.getLanguages()[0],
+            $locales
+                .concretize(message, {
+                    name: source.getPreferredName($locales.getLocales()),
+                })
+                .toText(),
         );
     }
 
@@ -3069,6 +3213,7 @@
                                 : null}
                             dragging={draggedTile?.id === tile.id}
                             animated={!adjusting}
+                            collapsible={!Layout.isSourceViewID(tile.id)}
                             fullscreenID={layout.fullscreenID}
                             focuscontent={tile.kind === TileKind.Source ||
                                 tile.kind === TileKind.Output}
@@ -3170,8 +3315,11 @@
                                 {/if}
                                 {#if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
-                                    <!-- Can't delete main. -->
-                                    {#if source && editable && source !== project.getMain()}
+                                    <!-- Can't delete main, and never from an
+                                         extra view: this is also a ✕, and one
+                                         tile must not offer two of them meaning
+                                         "close this view" and "delete this file". -->
+                                    {#if source && editable && source !== project.getMain() && !Layout.isSourceViewID(tile.id)}
                                         <ConfirmButton
                                             tip={(l) =>
                                                 l.ui.source.confirm.delete
@@ -3414,6 +3562,14 @@
                                         onChangeLocale={(locale) => {
                                             editorLocales[tile.id] = locale;
                                         }}
+                                        canSplit={splittable}
+                                        hasView={getSourceViewOf(tile.id) !==
+                                            undefined}
+                                        onToggleView={() =>
+                                            getSourceViewOf(tile.id) ===
+                                            undefined
+                                                ? addSourceView(tile.id)
+                                                : closeSourceView(tile.id)}
                                     />
                                 {/if}
                             {/snippet}
@@ -3476,6 +3632,9 @@
                                                 locale={editorLocales[
                                                     tile.id
                                                 ] ?? null}
+                                                publishPresence={!Layout.isSourceViewID(
+                                                    tile.id,
+                                                )}
                                                 editable={editableNow}
                                                 requestEditable={editableAndCurrent
                                                     ? () => {
@@ -3495,18 +3654,26 @@
                                                         tile.id,
                                                     ) === project.getMain()}
                                                 bind:menu
-                                                updateConflicts={(
-                                                    source,
-                                                    conflicts,
-                                                ) => {
-                                                    conflictsOfInterest =
-                                                        new Map(
-                                                            conflictsOfInterest.set(
-                                                                source,
-                                                                conflicts,
-                                                            ),
-                                                        );
-                                                }}
+                                                updateConflicts={Layout.isSourceViewID(
+                                                    tile.id,
+                                                )
+                                                    ? undefined
+                                                    : (source, conflicts) => {
+                                                          // Only the source's own
+                                                          // tile reports, since
+                                                          // this map is keyed by
+                                                          // Source and the one
+                                                          // annotations sidebar
+                                                          // reads its caret from
+                                                          // that same editor.
+                                                          conflictsOfInterest =
+                                                              new Map(
+                                                                  conflictsOfInterest.set(
+                                                                      source,
+                                                                      conflicts,
+                                                                  ),
+                                                              );
+                                                      }}
                                                 setOutputPreview={() =>
                                                     (selectedSourceIndex =
                                                         getSourceIndexByID(
@@ -3669,7 +3836,11 @@
                                 {/if}
                             {/snippet}
                             {#snippet margin()}
-                                {#if tile.kind === TileKind.Source}
+                                <!-- One sidebar per source, on its own tile: two
+                                     would list identical conflicts, and the
+                                     conflicts come from the primary's editor, so
+                                     its caret is the one they agree with. -->
+                                {#if tile.kind === TileKind.Source && !Layout.isSourceViewID(tile.id)}
                                     {@const source = getSourceByTileID(tile.id)}
                                     {#if source}
                                         <Annotations

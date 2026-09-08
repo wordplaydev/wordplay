@@ -7740,7 +7740,8 @@
             "options": {
                 "locale": {
                     "tip": "$~mas gustong wika para sa pinagmulan",
-                    "all": "$~$#count[$count wika|$count na wika]"
+                    "all": "$~$#count[$count wika|$count na wika]",
+                    "viewing": "$~sa wika ng $language"
                 }
             },
             "button": {
@@ -7748,7 +7749,9 @@
                 "zoomIn": "$~Gawing mas malaki ang code",
                 "zoomOut": "$~Gawing mas maliit ang code",
                 "replace": "$~palitan ang lahat ng tugma",
-                "selectOutputError": "$~ipakita ang output na ito sa entablado; ang pagtatasa ng pinagmulang ito ay nagtapos sa isang error"
+                "selectOutputError": "$~ipakita ang output na ito sa entablado; ang pagtatasa ng pinagmulang ito ay nagtapos sa isang error",
+                "addView": "$~ipakita ang kodigong ito sa pangalawang tanawin",
+                "closeView": "$~isara ang tanawing ito"
             },
             "field": {
                 "name": {
@@ -7897,6 +7900,10 @@
                 "none": "$~ibuka ang lahat",
                 "collapsed": "$~Naka-collapse $name",
                 "expanded": "$~Pinalawak $name"
+            },
+            "view": {
+                "added": "$~nagdagdag ng pangalawang tanawin ng $name",
+                "closed": "$~isinara ang pangalawang tanawin ng $name"
             }
         },
         "annotations": {

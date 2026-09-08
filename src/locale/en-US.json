@@ -7791,7 +7791,8 @@
             "options": {
                 "locale": {
                     "tip": "preferred language for source",
-                    "all": "$#count[$count language|$count languages]"
+                    "all": "$#count[$count language|$count languages]",
+                    "viewing": "in $language"
                 }
             },
             "feedback": {
@@ -7809,7 +7810,9 @@
                 "selectOutputError": "show this output on stage; this source's evaluation ended in an error",
                 "zoomIn": "Make the code larger",
                 "zoomOut": "Make the code smaller",
-                "replace": "replace all matches"
+                "replace": "replace all matches",
+                "addView": "show this code in a second view",
+                "closeView": "close this view"
             },
             "field": {
                 "name": {
@@ -7818,6 +7821,10 @@
                 },
                 "search": "text",
                 "replace": "replace"
+            },
+            "view": {
+                "added": "added a second view of $name",
+                "closed": "closed the second view of $name"
             },
             "menu": {
                 "label": "autocomplete menu",
