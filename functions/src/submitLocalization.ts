@@ -43,6 +43,7 @@ const REPO_OWNER = 'wordplaydev';
 const REPO_NAME = 'wordplay';
 const GITHUB_BASE = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`;
 const TUTORIAL_KEY_PREFIX = 'tutorial';
+const UPDATES_KEY_PREFIX = 'updates';
 
 const cors = {
     cors: [
@@ -85,6 +86,14 @@ function localeFilePath(locale: string): string {
 /** Tutorial files all live under static/locales, including en-US. */
 function tutorialFilePath(locale: string): string {
     return `static/locales/${locale}/${locale}-tutorial.json`;
+}
+
+/** A locale's changelog translations, keyed by the entry ids in
+ *  `static/updates.json`. There is no en-US counterpart: the English lives in
+ *  that structural bundle, which is generated from CHANGELOG.md at build time
+ *  and not committed, so an updates row has no "Original English" to quote. */
+function updatesFilePath(locale: string): string {
+    return `static/locales/${locale}/${locale}-updates.json`;
 }
 
 // ---------------------------------------------------------------------------
@@ -393,12 +402,15 @@ export const submitLocalizationBundle = onCall<
             'GITHUB_TOKEN is not configured on the server.',
         );
 
-    // Split edits into locale vs tutorial groups by key prefix.
+    // Split edits into locale, tutorial, and updates groups by key prefix.
     const localeEdits: { key: string; value: string | string[] }[] = [];
     const tutorialEdits: { key: string; value: string | string[] }[] = [];
+    const updatesEdits: { key: string; value: string | string[] }[] = [];
     for (const [key, value] of entries) {
         if (key.startsWith(`${TUTORIAL_KEY_PREFIX}.`))
             tutorialEdits.push({ key, value });
+        else if (key.startsWith(`${UPDATES_KEY_PREFIX}.`))
+            updatesEdits.push({ key, value });
         else localeEdits.push({ key, value });
     }
 
@@ -407,6 +419,7 @@ export const submitLocalizationBundle = onCall<
     const [
         targetLocaleFile,
         targetTutorialFile,
+        targetUpdatesFile,
         sourceLocaleFile,
         sourceTutorialFile,
     ] = await Promise.all([
@@ -415,6 +428,9 @@ export const submitLocalizationBundle = onCall<
             : Promise.resolve(undefined),
         tutorialEdits.length > 0
             ? fetchJsonFile(token, tutorialFilePath(locale))
+            : Promise.resolve(undefined),
+        updatesEdits.length > 0
+            ? fetchJsonFile(token, updatesFilePath(locale))
             : Promise.resolve(undefined),
         fetchJsonFile(token, localeFilePath('en-US')),
         tutorialEdits.length > 0
@@ -431,6 +447,14 @@ export const submitLocalizationBundle = onCall<
         throw new HttpsError(
             'not-found',
             `Tutorial file not found for ${locale}.`,
+        );
+    // A locale with no changelog translations yet has no file to edit, and
+    // creating one here would put a single hand-written entry in a bundle the
+    // translator otherwise owns.
+    if (updatesEdits.length > 0 && !targetUpdatesFile)
+        throw new HttpsError(
+            'not-found',
+            `No changelog translations for ${locale} to revise yet.`,
         );
     if (!sourceLocaleFile)
         throw new HttpsError('internal', 'en-US source locale file not found.');
@@ -464,6 +488,19 @@ export const submitLocalizationBundle = onCall<
                 sourceEnglish: before,
                 edited: Array.isArray(value) ? listDisplay(value) : value,
                 ownList,
+            });
+        }
+        for (const { key, value } of updatesEdits) {
+            const updatesPath = key.slice(UPDATES_KEY_PREFIX.length + 1);
+            const { path, index } = parseOverrideKey(updatesPath);
+            setAtPath(targetUpdatesFile!.json, path, index, value);
+            summaryRows.push({
+                key,
+                // No English to show: see `updatesFilePath`. The back-translation
+                // below is what a reviewer reads this row against.
+                sourceEnglish: '',
+                edited: Array.isArray(value) ? listDisplay(value) : value,
+                ownList: false,
             });
         }
         for (const { key, value } of tutorialEdits) {
@@ -566,6 +603,12 @@ export const submitLocalizationBundle = onCall<
             path: tutorialFilePath(locale),
             content: await formatJson(targetTutorialFile.json),
             existingSha: targetTutorialFile.sha,
+        });
+    if (targetUpdatesFile)
+        files.push({
+            path: updatesFilePath(locale),
+            content: await formatJson(targetUpdatesFile.json),
+            existingSha: targetUpdatesFile.sha,
         });
 
     // When running in the Functions emulator, do everything up to (but not

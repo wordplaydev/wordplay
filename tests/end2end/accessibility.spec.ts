@@ -43,7 +43,24 @@ const PUBLIC_ROUTES = [
     // also the state with no social pane, so this covers the canvas and its
     // tiles without the affordances only a member gets.
     '/gallery/seed-public-gallery-00/howto',
+    // The release notes, which had never been scanned. Its content is markup
+    // rendered from a fetched bundle rather than the locale tree — emoji
+    // markers, section labels, and web links — so it is a different shape from
+    // every other static page here.
+    '/updates',
 ];
+
+/**
+ * Routes whose content arrives after hydration, and the selector that says it
+ * has. Without this the shared heading marker is satisfied by the page header
+ * and axe scans a page with none of its content on it — a pass that means
+ * nothing. Only routes that fetch their own content need an entry.
+ */
+const ContentMarkers: Record<string, string> = {
+    // The updates page fetches static/updates.json rather than importing it,
+    // so its section headings are the first sign the releases have rendered.
+    '/updates': 'h3',
+};
 
 test.describe('public pages', () => {
     for (const route of PUBLIC_ROUTES) {
@@ -54,6 +71,11 @@ test.describe('public pages', () => {
             await expect(page.getByRole('heading').first()).toBeVisible({
                 timeout: 15000,
             });
+            const marker = ContentMarkers[route];
+            if (marker !== undefined)
+                await expect(page.locator(marker).first()).toBeVisible({
+                    timeout: 15000,
+                });
             await expectNoAxeViolationsInBothSchemes(page);
         });
     }

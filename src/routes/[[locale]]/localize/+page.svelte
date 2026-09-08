@@ -57,6 +57,7 @@
     import { httpsCallable } from 'firebase/functions';
     import { onMount, tick } from 'svelte';
     import { Emotion } from '../../../lore/Emotion';
+    import { isUpdatesKey } from '@locale/UpdatesBundle';
     import { isTutorialKey } from '../../../tutorial/TutorialPath';
     import { localizeFields } from './localizeSearch';
     import parseOverrideKey from './overrideKey';
@@ -765,14 +766,15 @@
         return resolveLocaleString($locales.getLocale(), path, index);
     }
 
-    /** Edits visible in the submit-section bundle viewer. Tutorial-keyed edits
-     *  are filtered out: their source text lives in the tutorial JSON (not the
-     *  LocaleText tree) and the "jump back to edit" affordance can't route into
-     *  the workspace. Those edits remain in storage and continue to be editable
-     *  inline on /learn; they'll get their own submission path later. */
+    /** Edits visible in the submit-section bundle viewer. Tutorial- and
+     *  changelog-keyed edits are filtered out: their source text lives in the
+     *  tutorial JSON and the updates bundle (not the LocaleText tree) and the
+     *  "jump back to edit" affordance can't route into the workspace. Those
+     *  edits remain in storage and continue to be editable inline on /learn and
+     *  /updates; they'll get their own submission path later. */
     const bundleItems = $derived.by(() =>
         [...activeLocaleEdits.entries()]
-            .filter(([key]) => !isTutorialKey(key))
+            .filter(([key]) => !isTutorialKey(key) && !isUpdatesKey(key))
             .sort(([a], [b]) => a.localeCompare(b))
             .map(([key, value]) => ({
                 key,

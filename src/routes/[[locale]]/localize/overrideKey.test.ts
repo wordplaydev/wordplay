@@ -16,6 +16,14 @@ const cases: [string, string, number | undefined][] = [
     // A top-level field serializes with a leading dot, and keeps it.
     ['.guidance', '.guidance', undefined],
     ['terms.program', 'terms.program', undefined],
+    // A changelog entry's key. The id is hex with a leading letter precisely so
+    // this never resolves as `entries[…]` — an all-digit tail is read as an
+    // array index, and the edit would be written into a string.
+    [
+        'updates.entries.e5b0f8fa8a89d',
+        'updates.entries.e5b0f8fa8a89d',
+        undefined,
+    ],
 ];
 
 test('the workspace and the submit function parse a key the same way', () => {
@@ -25,4 +33,14 @@ test('the workspace and the submit function parse a key the same way', () => {
         expect(parseOverrideKey(key)).toEqual({ path, index });
         expect(parseOnServer(key)).toEqual({ path, index });
     }
+});
+
+test('a changelog id is never parsed as an array index', () => {
+    // `textId` prefixes every id with `e`, so this holds by construction; the
+    // test is here because the consequence of losing that is silent — the edit
+    // is applied to `entries` as if it were a list and the entry is lost.
+    for (const id of ['e0000000000000', 'e1234567890ab'])
+        expect(parseOverrideKey(`updates.entries.${id}`).index).toBeUndefined();
+    // What it would do without the prefix, for contrast.
+    expect(parseOverrideKey('updates.entries.1234').index).toBe(1234);
 });

@@ -22,10 +22,11 @@ import {
     ConceptPattern,
     hasUnclosedText,
     mismatchedConceptLinks,
+    mismatchedWebLinks,
     mismatchedPluralBranch,
     mismatchedDelimiter,
     hasResidualLinkMask,
-    protectConceptLinks,
+    protectLinks,
     repairMentionsPositional,
     restoreConceptLinks,
     restoreReferences,
@@ -256,7 +257,8 @@ export function describeClaudeError(error: unknown): string {
  * whose text carries its own `\code\` came back with the code translated and
  * the backslashes gone, which fails `mismatchedDelimiter` and costs the entire
  * example. Only markup segments are sent; code is passed through untouched and
- * `@Concept` links are masked across the round trip.
+ * both kinds of link — `@Concept` references and `<label@url>` targets — are
+ * masked across the round trip.
  *
  * An element whose translation failed is returned unchanged, so a partial
  * failure costs a name or a sentence rather than a valid program.
@@ -271,7 +273,7 @@ export async function translateProtectedMarkup(
     for (const segments of segmented)
         for (const segment of segments)
             if (segment.kind === 'markup' && segment.text.trim().length > 0) {
-                const { masked, links } = protectConceptLinks(segment.text);
+                const { masked, links } = protectLinks(segment.text);
                 units.push(masked);
                 unitLinks.push(links);
             }
@@ -298,6 +300,10 @@ export async function translateProtectedMarkup(
                 // the caller discards the whole thing; dropping just this unit
                 // costs one sentence instead.
                 if (mismatchedDelimiter(segment.text, restored))
+                    return segment.text;
+                // Same trade for a link the model lost or rewrote: a dead URL
+                // in an example is worse than one untranslated sentence.
+                if (mismatchedWebLinks(segment.text, restored))
                     return segment.text;
                 return restored;
             })
@@ -353,6 +359,8 @@ Rules:
 - Translate the natural-language text only. Preserve Wordplay markup exactly:
   - Keep every @Concept reference verbatim (e.g. @Phrase, @FunctionDefinition) — never translate, transliterate, or alter them.
   - Keep every $name reference verbatim (e.g. $value, $type) — never translate, transliterate, or alter them.
+  - Keep every ⟦0⟧, ⟦1⟧ … placeholder verbatim and in place. Each stands for something that must not change, such as a web address.
+  - A web link is written <words@⟦0⟧>. The words before the @ are ordinary text: translate them like any other prose, and leave the placeholder alone. Only translate a link's words when they describe where it goes ("the About page", "our source code") — keep a person's name, an organization, or a product name as it is.
   - Do not add or remove formatting symbols (*, _, \`, backslashes).
 ${getPluralRulesForPrompt(targetLocale)}
 - A blank line separates paragraphs. Keep the text organized into paragraphs — you may merge or re-break them where natural for the target language — but never insert a blank line anywhere except between paragraphs.
@@ -798,12 +806,13 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         }
 
         const prepared = this.prepareExample(code);
-        if (prepared === undefined) {
-            log.warning(
-                'Could not read the example out of its delimiters; keeping the original.',
-            );
-            return code;
-        }
+        // Silent, not a warning: the only reasons `prepareExample` declines are
+        // an empty example and one with no letters in it, and neither is a
+        // failure to read the delimiters — there is simply nothing in the code
+        // a translator could change. Symbol-only examples are ordinary (`\∋\`,
+        // `\???\`, `\1‥10\`), and the changelog is full of them, so warning
+        // here reported a dozen problems per release that were not problems.
+        if (prepared === undefined) return code;
         const { inner, terminated } = prepared;
 
         try {
@@ -967,10 +976,11 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         allSegments.forEach((segments, stringIndex) =>
             segments.forEach((seg, segmentIndex) => {
                 if (seg.kind === 'markup' && seg.text.trim().length > 0) {
-                    // Mask `@Concept` links before the model ever sees them.
-                    // The system prompt asks for them verbatim and is ignored;
-                    // this is the same move `splitMarkupAndCode` makes for code.
-                    const { masked, links } = protectConceptLinks(seg.text);
+                    // Mask both kinds of link before the model ever sees
+                    // them. The system prompt asks for them verbatim and is
+                    // ignored; this is the same move `splitMarkupAndCode` makes
+                    // for code.
+                    const { masked, links } = protectLinks(seg.text);
                     units.push(masked);
                     unitLinks.push(links);
                     unitLocations.push({
@@ -1201,6 +1211,15 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                     `A translation altered the concept link ${link} (${occurrences(source)} in the source, ${occurrences(repaired)} in the translation); marking it unwritten (${targetLocale}).`,
                 );
             }
+            // The same guarantee for the other kind of link. Nothing checked
+            // this before: `ConceptRegExPattern` refuses an `@` before a
+            // scheme, so a `<label@url>` target reached the model unprotected
+            // and a rewritten URL shipped as a dead link.
+            const url = mismatchedWebLinks(source, repaired);
+            if (url !== undefined)
+                return complain(
+                    `A translation altered the link target ${url}; marking it unwritten (${targetLocale}).`,
+                );
             // A placeholder that outlived restoration means the restore
             // silently failed, and `mismatchedConceptLinks` can't always
             // see it: when the source carries no links of its own, source
@@ -1303,7 +1322,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                                     seg.kind === 'markup' &&
                                     seg.text.trim().length > 0,
                             )
-                            .map((seg) => protectConceptLinks(seg.text).masked),
+                            .map((seg) => protectLinks(seg.text).masked),
                         system,
                         sourceLocale,
                         targetLocale,

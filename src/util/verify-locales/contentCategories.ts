@@ -1,7 +1,7 @@
-// Content-category targeting for translate/override runs. A run does seven
+// Content-category targeting for translate/override runs. A run does eight
 // kinds of work per locale (locale strings, complete tutorial, quick tutorial,
-// how-tos, gallery examples, emoji, date/time data); these flags scope which
-// run.
+// how-tos, gallery examples, changelog entries, emoji, date/time data); these
+// flags scope which run.
 //
 //   (no flags)        do everything (default)
 //   -<category> …     exclude whole categories; do everything else
@@ -9,9 +9,9 @@
 //   +<category>:<spec> include only specific sub-content (repeat to add more)
 //
 // Specifiers (include only): locale:<path-prefix>, tutorial:<act>[/<scene>],
-// quick:<act>[/<scene>] (1-based), howto:<id>, example:<Name>. Mixing +/-, a
-// specifier on a - flag or on emoji/datetimes, an unknown category, or a
-// malformed specifier are errors.
+// quick:<act>[/<scene>] (1-based), howto:<id>, example:<Name>,
+// changelog:<version>. Mixing +/-, a specifier on a - flag or on
+// emoji/datetimes, an unknown category, or a malformed specifier are errors.
 
 export const CONTENT_CATEGORIES = [
     'locale',
@@ -19,6 +19,7 @@ export const CONTENT_CATEGORIES = [
     'quick',
     'howto',
     'example',
+    'changelog',
     'emoji',
     'datetimes',
 ] as const;
@@ -40,6 +41,8 @@ export type Selection = {
     howtoIds(): string[];
     /** Example names to narrow `example` to (empty = whole category). */
     exampleIds(): string[];
+    /** Release versions to narrow `changelog` to (empty = whole category). */
+    changelogVersions(): string[];
     /** Whether the category was named with a `+` flag, as opposed to merely
      *  riding along with a no-flag or exclude run. Gallery examples are opt-in
      *  per locale, and an explicit `+example` is what opts a locale in. */
@@ -147,6 +150,7 @@ export function parseCategorySelection(args: string[]): Selection | string {
         quickTargets: () => targetsOf('quick'),
         howtoIds: () => specifiersOf('howto'),
         exampleIds: () => specifiersOf('example'),
+        changelogVersions: () => specifiersOf('changelog'),
     };
 }
 

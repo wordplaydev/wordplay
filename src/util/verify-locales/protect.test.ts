@@ -6,6 +6,8 @@ import {
     leadingAnnotations,
     mismatchedConceptLinks,
     mismatchedPluralBranch,
+    mismatchedWebLinks,
+    protectLinks,
     restoreConceptLinks,
     restoreReferences,
     splitDocParagraphs,
@@ -250,4 +252,81 @@ test('mismatchedPluralBranch catches a branch with the wrong number of arms', ()
 
 test('mismatchedPluralBranch ignores strings with no branch to lose', () => {
     expect(mismatchedPluralBranch('at $x $y', 'en $x $y', 6)).toBeUndefined();
+});
+
+/** Mask, hand the masked text to `translate`, and restore — the shape every
+ *  caller uses. */
+function through(text: string, translate: (masked: string) => string): string {
+    const { masked, links } = protectLinks(text);
+    return restoreConceptLinks(translate(masked), links);
+}
+
+test('protectLinks hides a web link target but leaves its label to translate', () => {
+    const source = 'Read the <About@https://wordplay.dev/about> page.';
+    const { masked } = protectLinks(source);
+    expect(masked).toBe('Read the <About@\u27E60\u27E7> page.');
+    // The label is still prose the model can rewrite.
+    expect(
+        through(source, (m) =>
+            m.replace('Read the', 'Lee la').replace('About', 'Acerca de'),
+        ),
+    ).toBe('Lee la <Acerca de@https://wordplay.dev/about> page.');
+});
+
+test('protectLinks masks an issue link whole, number and all', () => {
+    // The label is the issue number, so there is nothing in it to translate —
+    // and a model that transliterates a masked digit will transliterate a bare
+    // one too.
+    const source =
+        'We fixed it. (<398@https://github.com/wordplaydev/wordplay/issues/398>)';
+    const { masked, links } = protectLinks(source);
+    expect(masked).toBe('We fixed it. (\u27E60\u27E7)');
+    expect(links[0]).toContain('issues/398');
+});
+
+test('protectLinks keeps a mailto target whole', () => {
+    // `ConceptPattern` has no email-boundary rule, so masking the target first
+    // is what keeps it from eating the `@x.dev` out of the middle of the URL.
+    const source = '<Email us@mailto:hi@x.dev>';
+    const { masked, links } = protectLinks(source);
+    expect(links).toEqual(['mailto:hi@x.dev']);
+    expect(through(source, () => masked)).toBe(source);
+});
+
+test('protectLinks does not mask a placeholder as a concept link', () => {
+    // A Wordplay name may be almost any character, so `@\u27E60\u27E7` lexes as one.
+    const source = 'See <About@https://wordplay.dev/about> and @Phrase.';
+    const { masked, links } = protectLinks(source);
+    expect(links).toEqual(['https://wordplay.dev/about', '@Phrase']);
+    expect(through(source, () => masked)).toBe(source);
+});
+
+test('mismatchedWebLinks catches a dropped or rewritten target', () => {
+    const source = 'Read the <About@https://wordplay.dev/about> page.';
+    expect(
+        mismatchedWebLinks(
+            source,
+            'Lee la <Acerca de@https://wordplay.dev/about> página.',
+        ),
+    ).toBeUndefined();
+    expect(mismatchedWebLinks(source, 'Lee la página.')).toBe(
+        'https://wordplay.dev/about',
+    );
+    // A translated URL is a broken link, not a stylistic choice.
+    expect(
+        mismatchedWebLinks(
+            source,
+            'Lee la <Acerca de@https://wordplay.dev/acerca> página.',
+        ),
+    ).toBe('https://wordplay.dev/about');
+});
+
+test('mismatchedWebLinks compares multisets, so a repeat must stay repeated', () => {
+    const source = '<a@https://x.dev/1> and <b@https://x.dev/1>';
+    expect(mismatchedWebLinks(source, '<a@https://x.dev/1>')).toBe(
+        'https://x.dev/1',
+    );
+    expect(
+        mismatchedWebLinks(source, '<c@https://x.dev/1> y <d@https://x.dev/1>'),
+    ).toBeUndefined();
 });

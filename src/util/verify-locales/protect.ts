@@ -523,6 +523,110 @@ export function mismatchedConceptLinks(
 }
 
 /**
+ * A web link in Wordplay markup: `<label@url>`.
+ *
+ * The label is split at the **first** `@`, not the last: `<Email us@mailto:hi@x.dev>`
+ * is a real shape (see the bare-email rule in the markup tokenizer), and a
+ * greedy label would take `mailto:hi` with it and leave `x.dev` as the target.
+ */
+const WebLinkPattern = /<([^<>@]*)@([^<>\s]+)>/gu;
+
+/** Wordplay's own issue links, which `scripts/updates.ts` generates from a
+ *  `(#1234)` citation. Both halves are the issue number. */
+const IssueLinkPattern =
+    /^https:\/\/github\.com\/wordplaydev\/wordplay\/issues\/\d+$/;
+
+/** A target that is nothing but a placeholder, i.e. one an earlier pass already
+ *  masked. Masking it again would bury the placeholder inside another. */
+const MaskedTarget = new RegExp(`^(?:${LinkMaskPattern.source})$`, 'u');
+
+/**
+ * Mask what a translator must not touch inside a web link, appending to the
+ * same placeholder list `protectConceptLinks` fills so one restore pass puts
+ * everything back.
+ *
+ * `ConceptRegExPattern` deliberately refuses an `@` followed by `http://`,
+ * `https://`, or `mailto:`, so a web link's target was the one construct
+ * reaching the model unprotected — and nothing checked it came back. A URL is
+ * not prose in any language, and a model rewriting a sentence into another
+ * script will happily rewrite one.
+ *
+ * The **label** stays visible, because it is prose: "About" should become
+ * "Acerca de". The exception is an issue link, which is masked whole — its
+ * label is the issue number, so there is nothing in it to translate, and a
+ * model that transliterates a masked digit into Kannada numerals (see
+ * `LinkMaskPattern`) will do the same to a bare one.
+ */
+function maskLinkTargets(text: string, links: string[]): string {
+    return text.replace(
+        WebLinkPattern,
+        (whole, label: string, url: string): string => {
+            if (MaskedTarget.test(url)) return whole;
+            if (IssueLinkPattern.test(url) && /^\d+$/.test(label)) {
+                links.push(whole);
+                return `${LinkMaskOpen}${links.length - 1}${LinkMaskClose}`;
+            }
+            links.push(url);
+            return `<${label}@${LinkMaskOpen}${links.length - 1}${LinkMaskClose}>`;
+        },
+    );
+}
+
+/**
+ * Protect both kinds of link a markup string can carry: `@Concept` references
+ * and `<label@url>` web links. Restored by `restoreConceptLinks`, which sees one
+ * placeholder list and doesn't care which kind filled each slot.
+ */
+export function protectLinks(text: string): {
+    masked: string;
+    links: string[];
+} {
+    const links: string[] = [];
+    // Targets first. `ConceptPattern` is the raw pattern, without the
+    // email-boundary rule the tokenizer applies, so it masks the `@x.dev` out of
+    // the middle of `<Email us@mailto:hi@x.dev>` — masking the whole target
+    // first puts that `@` out of its reach.
+    let masked = maskLinkTargets(text, links);
+    masked = masked.replace(ConceptPattern, (link) => {
+        // A Wordplay name may be almost any non-reserved character, so a masked
+        // target lexes as one and `@⟦0⟧` looks exactly like a concept link. A
+        // real reference never contains the mask delimiter.
+        if (link.includes(LinkMaskOpen)) return link;
+        links.push(link);
+        return `${LinkMaskOpen}${links.length - 1}${LinkMaskClose}`;
+    });
+    // Again, for a link whose *label* held a concept reference: its `@` kept the
+    // link from matching the first time, and masking the reference removed it.
+    return { masked: maskLinkTargets(masked, links), links };
+}
+
+/**
+ * The first web link target whose presence differs between source and
+ * translation, or undefined when they carry the same ones.
+ *
+ * The counterpart to `mismatchedConceptLinks` for the other kind of link, and
+ * needed for the same reason: a translation that dropped a link, invented one,
+ * or rewrote a URL is broken output rather than a stylistic choice. Targets are
+ * compared and labels are not, since translating the label is the whole point.
+ */
+export function mismatchedWebLinks(
+    source: string,
+    translation: string,
+): string | undefined {
+    const tally = (text: string) => {
+        const counts = new Map<string, number>();
+        for (const [, , url] of text.matchAll(WebLinkPattern))
+            counts.set(url, (counts.get(url) ?? 0) + 1);
+        return counts;
+    };
+    const before = tally(source);
+    const after = tally(translation);
+    for (const [url, count] of before) if (after.get(url) !== count) return url;
+    for (const [url] of after) if (!before.has(url)) return url;
+    return undefined;
+}
+
+/**
  * Take a string with zero or more concept links, find the corresponding ones in the after string,
  * and replace them with the original links.
  */

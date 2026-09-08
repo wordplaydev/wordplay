@@ -40,6 +40,7 @@ import {
     syncTutorialStructure,
 } from '@util/verify-locales/syncTutorialStructure';
 import { buildHowToBundle } from '@util/verify-locales/buildHowTos';
+import { verifyChangelog } from '@util/verify-locales/verifyChangelog';
 import { verifyExamples } from '@util/verify-locales/verifyExamples';
 import {
     checkGlossaryWordUsage,
@@ -468,6 +469,25 @@ async function handleLocale(
         linkedLocale,
         FixRequested || TranslationRequested,
         selection.isExplicitlyIncluded('example'),
+    );
+
+    // Verify and optionally translate the changelog entries the updates page
+    // renders (#1164). Translations are keyed by a hash of each entry's English,
+    // so a run pays only for entries it has never seen — which is what makes a
+    // page that grows by a few bullets a day affordable to keep in 29 languages.
+    await verifyChangelog(
+        localeLog.scope('Updates'),
+        locale,
+        localeText.language,
+        localeText.regions,
+        TranslationRequested && selection.isIncluded('changelog'),
+        OverrideMachineTranslations,
+        selection.changelogVersions(),
+        translator,
+        // The revised locale, for the same reason how-tos take it: the system
+        // prompt carries this locale's own conventions and glossary.
+        linkedLocale,
+        FixRequested || TranslationRequested,
     );
 
     // Generate this locale's emoji translations as part of a translate/override

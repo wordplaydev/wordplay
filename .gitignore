@@ -20,7 +20,9 @@ firestore-debug.log
 CLAUDE.md
 functions/.env.local
 static/wasm
-src/routes/\[\[locale\]\]/updates/updates.json
+# Structural updates bundle, built from CHANGELOG.md by `npm run updates`.
+# The per-locale translations of its entries are committed; this is not.
+static/updates.json
 src/routes/\[\[locale\]\]/updates/date.json
 
 # Generated font artifacts (built by `npm run fonts-build` in postinstall/build
@@ -37,3 +39,4 @@ __pycache__/
 # be read and edited alongside the code. It's a separate repository, committed
 # and pushed on its own.
 wiki/
+.changelog-condense/
