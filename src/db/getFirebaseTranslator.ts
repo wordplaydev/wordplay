@@ -46,7 +46,19 @@ export default function getFirebaseTranslator(
     functions: Functions,
     options?: { progress?: (progress: TranslationProgress) => void },
 ): RawTranslator {
+    // Progress accumulates across every call this instance makes, because one
+    // instance is one translation run: a project written in several languages
+    // makes one call per source language, and each reporting only its own
+    // totals would make the bar jump backwards and re-say what it just said —
+    // which the announcer's queued lane drops as a duplicate. With a single
+    // call these are byte-for-byte the per-call numbers they replace.
+    let runTotal = 0;
+    let runDone = 0;
+    let runKept = 0;
+
     return async (texts, from, to, context) => {
+        runTotal += texts.length;
+
         const { httpsCallable } = await import('firebase/functions');
         const call = httpsCallable<
             GetLLMTranslationsInputs,
@@ -61,7 +73,6 @@ export default function getFirebaseTranslator(
 
         const results: (string | undefined)[] = [];
         let succeeded = false;
-        let done = 0;
         let refusal: TranslationRefusal | undefined = undefined;
 
         for (const chunk of chunks) {
@@ -82,21 +93,25 @@ export default function getFirebaseTranslator(
                 refusal = noteTranslationRefusal(error);
             }
 
-            if (translations === null)
+            if (translations === null) {
                 results.push(...chunk.map(() => undefined));
-            else {
+                runKept += chunk.length;
+            } else {
                 const chunkTranslations = translations;
                 succeeded = true;
                 results.push(
                     ...chunk.map((_, index) => chunkTranslations[index]),
                 );
+                runKept += chunk.filter(
+                    (_, index) => chunkTranslations[index] === undefined,
+                ).length;
             }
 
-            done += chunk.length;
+            runDone += chunk.length;
             options?.progress?.({
-                done,
-                total: texts.length,
-                kept: results.filter((result) => result === undefined).length,
+                done: runDone,
+                total: runTotal,
+                kept: runKept,
             });
 
             // Being out of budget or signed out won't resolve itself between

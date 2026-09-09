@@ -948,6 +948,8 @@
         "eb71d7c31c9ab": "$~Düzenleyicinin yazdığından farklı gösterdiği bir isim veya sembol artık küçük bir kutu içinde durur. Böylece imlecin oraya gelince eski haline döneceğini anlarsın. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e60ce8f188ad3": "$~Kodunu bir dilde gösterdiğinde, @Phrase gibi yerleşik isimler de artık o dile çevrilir. Bunu projene eklemesen bile olur. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e62959bf8e73e": "$~Artık bir dokümanda ya da bir nasıl rehberinde bir e-posta adresi yazabilirsin ve bu adres bir mesaj açan bir bağlantı olur.",
-        "e730993ac0281": "$~Artık bir Unicode karakterini numarasıyla şöyle yazıyorsun: \\@U/1F600\\, U harfi olmayan eski biçim yerine."
+        "e730993ac0281": "$~Artık bir Unicode karakterini numarasıyla şöyle yazıyorsun: \\@U/1F600\\, U harfi olmayan eski biçim yerine.",
+        "ec1e67db8a983": "$~Çeviri yaparken seçtiğin dil, artık yalnızca dilini belirtmediğin yazılar için geçerlidir. Çünkü zaten bir dil işaretlediğin her şey, hangi dilde olduğunu kendisi söyler. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e7600746959d1": "$~Bir projeyi çevirmek artık projenin tamamını çevirir. Buna başka bir dille işaretlediğin isimler ve yazılar da dahildir. Eskiden bunlar, hiçbir uyarı verilmeden atlanıyordu. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
     }
 }

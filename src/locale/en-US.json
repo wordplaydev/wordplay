@@ -7285,7 +7285,7 @@
                     "tip": "translate this project into a new language, making it multilingual",
                     "label": "translate"
                 },
-                "primary": "translate text in this language",
+                "primary": "the language of writing that isn't marked with a language",
                 "destination": "translate to this language",
                 "languages": "show the languages this project is written in",
                 "addLanguage": "write this project in this language too",
@@ -7353,6 +7353,7 @@
                         "A project's languages decide which names and words its code can use. If your project is written in Spanish, it needs Spanish here, or names like \\Frase\\ won't mean anything.",
                         "Everyone who opens your project loads these languages, and the first one decides how your output is laid out. English names always work, in every project."
                     ],
+                    "source": "Text and names marked with a language, like \\'hola'/es\\, translate from that language. Choose the language of everything that isn't marked.",
                     "unused": "not used",
                     "unloaded": "couldn't load",
                     "checking": "Looking for languages your code uses…",

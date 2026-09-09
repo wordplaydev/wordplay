@@ -7248,7 +7248,7 @@
                     "tip": "$~przetłumacz ten projekt na nowy język, czyniąc go wielojęzycznym",
                     "label": "$~tłumaczyć"
                 },
-                "primary": "$~przetłumacz tekst w tym języku",
+                "primary": "$~język tekstu, który nie jest oznaczony jako żaden konkretny język",
                 "savedLocally": "$~projekty są zapisywane lokalnie, ale nie online",
                 "savedOnline": "$~projekty są zapisywane online",
                 "destination": "$~przetłumacz na ten język",
@@ -7329,7 +7329,8 @@
                             "$~dodaj nowy język do swojego projektu, zachowując wszystko, co napisałeś",
                             "$~przepisz swój projekt w nowym języku, zastępując to, co napisałeś"
                         ]
-                    }
+                    },
+                    "source": "$~Tekst i nazwy oznaczone językiem, na przykład \\'hola'/es\\, są tłumaczone z tego języka. Wybierz język dla wszystkiego, co nie jest oznaczone."
                 }
             },
             "subheader": {

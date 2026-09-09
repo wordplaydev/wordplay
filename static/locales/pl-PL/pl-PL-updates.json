@@ -947,6 +947,8 @@
         "eb71d7c31c9ab": "$~Nazwa lub symbol, który edytor pokazuje inaczej niż to, co wpisałeś, znajduje się teraz w małym polu, żebyś wiedział, że zmieni się z powrotem, gdy przesuniesz tam kursor. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e60ce8f188ad3": "$~Gdy pokazujesz swój kod w danym języku, wbudowane nazwy, takie jak @Phrase, teraz też zmieniają się na ten język, nawet jeśli nie dodałeś go do swojego projektu. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e62959bf8e73e": "$~Teraz możesz napisać adres e-mail w dokumencie lub w jak, a on stanie się linkiem, który otwiera wiadomość.",
-        "e730993ac0281": "$~Teraz zapisujesz znak Unicode za pomocą jego numeru jako \\@U/1F600\\, zamiast starszej formy bez U."
+        "e730993ac0281": "$~Teraz zapisujesz znak Unicode za pomocą jego numeru jako \\@U/1F600\\, zamiast starszej formy bez U.",
+        "ec1e67db8a983": "$~Gdy tłumaczysz, wybrany przez ciebie język dotyczy teraz tylko tekstu, którego nie oznaczyłeś jako napisany w innym języku, bo to, co już oznaczyłeś, mówi samo za siebie, w jakim jest języku. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e7600746959d1": "$~Tłumaczenie projektu tłumaczy teraz całość, razem z nazwami i tekstem oznaczonym innym językiem, który wcześniej był pomijany bez ostrzeżenia. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
     }
 }

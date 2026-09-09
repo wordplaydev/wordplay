@@ -7242,7 +7242,7 @@
                     "tip": "Edite os idiomas deste projeto e traduza-o para outros idiomas.",
                     "label": "traduzir"
                 },
-                "primary": "$~Traduzir texto neste idioma",
+                "primary": "$~o idioma da escrita que não está marcada com um idioma",
                 "destination": "$~traduzir para este idioma",
                 "remix": {
                     "tip": "$~faz a tua própria cópia deste projeto para o mudar",
@@ -7321,7 +7321,8 @@
                             "$~adiciona o novo idioma ao seu projeto, mantendo tudo o que escreveu",
                             "$~reescreve o seu projeto no novo idioma, substituindo o que escreveu"
                         ]
-                    }
+                    },
+                    "source": "$~O texto e os nomes marcados com um idioma, como \\'hola'/es\\, traduzem a partir desse idioma. Escolha o idioma de tudo o que não está marcado."
                 }
             },
             "subheader": {

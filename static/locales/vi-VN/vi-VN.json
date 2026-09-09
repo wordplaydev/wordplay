@@ -7242,7 +7242,7 @@
                     "tip": "$~dịch dự án này sang một ngôn ngữ mới, làm cho nó đa ngôn ngữ",
                     "label": "$~dịch"
                 },
-                "primary": "$~dịch văn bản sang ngôn ngữ này",
+                "primary": "$~ngôn ngữ của văn bản không được đánh dấu ngôn ngữ",
                 "destination": "$~dịch sang ngôn ngữ này",
                 "remix": {
                     "tip": "$~tạo bản sao của riêng bạn từ dự án này để thay đổi",
@@ -7321,7 +7321,8 @@
                             "$~thêm ngôn ngữ mới vào dự án của bạn, giữ nguyên mọi thứ bạn đã viết",
                             "$~viết lại dự án của bạn bằng ngôn ngữ mới, thay thế những gì bạn đã viết"
                         ]
-                    }
+                    },
+                    "source": "$~Văn bản và tên được đánh dấu bằng một ngôn ngữ, như \\'hola'/es\\, được dịch từ ngôn ngữ đó. Hãy chọn ngôn ngữ cho mọi thứ không được đánh dấu."
                 }
             },
             "subheader": {

@@ -948,6 +948,8 @@
         "eb71d7c31c9ab": "$~Un nume sau simbol pe care editorul îl arată diferit față de ce ai scris tu stă acum într-o cutie mică, ca să știi că va reveni la forma inițială când muți cursorul înăuntru. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e60ce8f188ad3": "$~Când arăți codul tău într-o limbă, numele predefinite precum @Phrase se schimbă acum și ele în acea limbă, chiar dacă nu ai adăugat-o în proiectul tău. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e62959bf8e73e": "$~Acum poți scrie o adresă de e-mail într-un ghid sau în niște instrucțiuni și ea devine un link care deschide un mesaj.",
-        "e730993ac0281": "$~Acum scrii un caracter Unicode după numărul lui ca \\@U/1F600\\, în loc de forma mai veche, fără U."
+        "e730993ac0281": "$~Acum scrii un caracter Unicode după numărul lui ca \\@U/1F600\\, în loc de forma mai veche, fără U.",
+        "ec1e67db8a983": "$~Când traduci, limba pe care o alegi este acum doar pentru textul pe care nu l-ai marcat cu o limbă, deoarece orice ai marcat deja spune în ce limbă este scris. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e7600746959d1": "$~Traducerea unui proiect acum traduce tot, inclusiv nume și text marcate cu altă limbă, lucruri care înainte erau sărite fără nicio explicație. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
     }
 }

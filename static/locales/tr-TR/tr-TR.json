@@ -7234,7 +7234,7 @@
                     "tip": "$~bu projeyi yeni bir dile çevir ve çok dilli yap",
                     "label": "$~tercüme etmek"
                 },
-                "primary": "$~Bu dildeki metni çevir",
+                "primary": "$~herhangi bir dille işaretlenmemiş yazının dili",
                 "savedLocally": "$~projeler yerel olarak kaydedilir, ancak çevrimiçi olarak kaydedilmez",
                 "savedOnline": "$~projeler çevrimiçi olarak kaydedilir",
                 "destination": "$~Bu dile çevir",
@@ -7315,7 +7315,8 @@
                             "$~yeni dili projene ekle, yazdığın her şeyi koru",
                             "$~projeni yeni dilde yeniden yaz, yazdıklarının yerine geçsin"
                         ]
-                    }
+                    },
+                    "source": "$~Bir dille işaretlenmiş metinler ve isimler, örneğin \\'hola'/es\\, o dilden çevrilir. İşaretlenmemiş her şeyin dilini seç."
                 }
             },
             "subheader": {

@@ -731,6 +731,19 @@ export default class Language extends Node {
         return this.getLocaleIDs()[0];
     }
 
+    /** The single Locale this tag names, multilingual when the tag is. What a
+     *  caller needs when the tag itself is the source of a translation: a
+     *  `/es_en` option is written in both languages, so reducing it to its
+     *  primary would drop the English half (#653). */
+    getTagLocale(): Locale | undefined {
+        const languages = this.getLanguageCodes();
+        if (languages.length === 0) return undefined;
+        const regions = this.getRegionCodes();
+        return languages.length > 1
+            ? { language: languages[0], regions, multilingual: languages }
+            : { language: languages[0], regions };
+    }
+
     /** Two tags are equal when they mean the same thing, so `/es` equals
      *  `/Español`. Unrecognized codes compare as written, so `/aaa` still
      *  differs from `/bbb`. */

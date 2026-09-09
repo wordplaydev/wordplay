@@ -7244,7 +7244,7 @@
                     "tip": "$~isalin ang proyektong ito sa bagong wika, para maging maraming wika",
                     "label": "$~isalin"
                 },
-                "primary": "$~isalin ang teksto sa wikang ito",
+                "primary": "$~ang wika ng kasulatan na hindi minarkahan ng isang wika",
                 "destination": "$~isalin sa wikang ito",
                 "remix": {
                     "tip": "$~gumawa ng sarili mong kopya ng proyektong ito para baguhin",
@@ -7323,7 +7323,8 @@
                             "$~idagdag ang bagong wika sa iyong proyekto, habang nananatili ang lahat ng isinulat mo",
                             "$~isulat muli ang iyong proyekto sa bagong wika, na papalitan ang isinulat mo"
                         ]
-                    }
+                    },
+                    "source": "$~Ang teksto at mga pangalan na minarkahan ng isang wika, tulad ng \\'hola'/es\\, ay isinasalin mula sa wikang iyon. Piliin ang wika ng lahat ng bagay na hindi minarkahan."
                 }
             },
             "subheader": {

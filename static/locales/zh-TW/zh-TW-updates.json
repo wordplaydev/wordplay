@@ -947,6 +947,8 @@
         "e60ce8f188ad3": "$~當你用某種語言顯示程式碼時，像 @Phrase 這類內建姓名現在也會變成那種語言，就算你還沒把它加進工程（Project）裡也一樣。（<534@https://github.com/wordplaydev/wordplay/issues/534>）",
         "ee044b13ccb3a": "$~@Output 現在可以像磁鐵一樣吸引其他 @Output，透過 \\pull\\，或用負值把它推開；看看<作品集@https://wordplay.dev/galleries>裡新增的 Orbits 範例吧。（<20@https://github.com/wordplaydev/wordplay/issues/20>）",
         "e62959bf8e73e": "$~你現在可以在說明文件或操作指南裡直接寫電子郵件地址，它會自動變成一個可以開啟郵件的連結。",
-        "e730993ac0281": "$~你現在可以用這種方式，依編號寫出 Unicode 字元：\\@U/1F600\\，取代舊式沒有 U 的寫法。"
+        "e730993ac0281": "$~你現在可以用這種方式，依編號寫出 Unicode 字元：\\@U/1F600\\，取代舊式沒有 U 的寫法。",
+        "ec1e67db8a983": "$~翻譯時，你選的語言現在只用於還沒標記語言的文字，因為已經標記過的文字，本來就已經說明了自己的語言。（<653@https://github.com/wordplaydev/wordplay/issues/653>）",
+        "e7600746959d1": "$~現在翻譯工程時，會翻譯全部內容，包含你用其他語言標記的姓名與文字，以前這些會被悄悄跳過，不會另外說明。（<653@https://github.com/wordplaydev/wordplay/issues/653>）"
     }
 }

@@ -20,6 +20,8 @@ import translateProjectContent, {
 export default async function translateProject(
     functions: Functions,
     project: Project,
+    /** The language of content carrying no language tag. Tagged text and names
+     *  translate from their own tag, so this is only the fallback (#653). */
     sourceLocale: Locale,
     targetLocale: Locale,
     /** When true, rewrite the project in the target language instead of adding

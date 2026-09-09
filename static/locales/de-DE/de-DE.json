@@ -7232,7 +7232,7 @@
                     "tip": "$~dieses Projekt in eine neue Sprache übersetzen und es mehrsprachig machen",
                     "label": "$~übersetzen"
                 },
-                "primary": "$~Text in dieser Sprache übersetzen",
+                "primary": "$~die Sprache von Text, der nicht mit einer Sprache markiert ist",
                 "share": {
                     "tip": "$~Optionen zur Projektfreigabe anzeigen",
                     "label": "$~Aktie"
@@ -7317,7 +7317,8 @@
                             "$~die neue Sprache zu deinem Projekt hinzufügen, ohne etwas von dem zu verlieren, was du geschrieben hast",
                             "$~dein Projekt in der neuen Sprache neu schreiben und dabei das Geschriebene ersetzen"
                         ]
-                    }
+                    },
+                    "source": "$~Text und Namen, die mit einer Sprache markiert sind, wie \\'hola'/es\\, werden aus dieser Sprache übersetzt. Wähle die Sprache für alles, was nicht markiert ist."
                 }
             },
             "subheader": {

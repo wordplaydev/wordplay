@@ -120,14 +120,17 @@
         ),
     );
 
-    let sourceLocale = $state<Locale | undefined>(undefined);
+    /** The language of writing that carries no language tag. Tagged text and
+     *  names translate from their own tag, so this is the only source the
+     *  creator has to answer for (#653). */
+    let untaggedLocale = $state<Locale | undefined>(undefined);
     let targetLocale = $state<Locale | undefined>(undefined);
 
-    /** Default the translation source to the project's first language, following it as it changes. */
+    /** Default the untagged language to the project's first language, following it as it changes. */
     $effect(() => {
         const first = usage.declared[0];
-        if (sourceLocale === undefined && first !== undefined)
-            sourceLocale = stringToLocale(first);
+        if (untaggedLocale === undefined && first !== undefined)
+            untaggedLocale = stringToLocale(first);
     });
 
     let destinationLocales = $derived(
@@ -220,7 +223,7 @@
     /** Translate the project into another language */
     async function translate() {
         const functions = await getFunctionsInstance();
-        if (functions === undefined || !sourceLocale || !targetLocale) return;
+        if (functions === undefined || !untaggedLocale || !targetLocale) return;
 
         const target = targetLocale;
 
@@ -233,7 +236,7 @@
         const revisedProject = await translateProject(
             functions,
             project,
-            sourceLocale,
+            untaggedLocale,
             target,
             mode === RewriteMode,
             (strings) => announcePlan(strings),
@@ -508,13 +511,14 @@
         <MarkupHTMLView markup={(l) => l.ui.translation.signIn} />
     {:else}
         <Subheader text={(l) => l.ui.project.subheader.source} />
+        <MarkupHTMLView markup={(l) => l.ui.project.dialog.languages.source} />
         <div class="options">
             {#each usage.declared as code}
                 {@const locale = stringToLocale(code)}
                 {@const isSelected =
                     locale !== undefined &&
-                    sourceLocale !== undefined &&
-                    localesAreEqual(locale, sourceLocale)}
+                    untaggedLocale !== undefined &&
+                    localesAreEqual(locale, untaggedLocale)}
                 <div
                     class="option"
                     class:selected={isSelected}
@@ -525,7 +529,7 @@
                         >{/if}
                     <Button
                         action={() => {
-                            sourceLocale = stringToLocale(code);
+                            untaggedLocale = stringToLocale(code);
                         }}
                         active={!translating && !isSelected}
                         tip={(l) => l.ui.project.button.primary}
@@ -565,7 +569,7 @@
              button says so by becoming salient rather than merely enabled. -->
             <Button
                 background={targetLocale !== undefined &&
-                sourceLocale !== undefined &&
+                untaggedLocale !== undefined &&
                 !translating &&
                 !spent
                     ? 'salient'
@@ -575,7 +579,7 @@
                     translate();
                 }}
                 active={targetLocale !== undefined &&
-                    sourceLocale !== undefined &&
+                    untaggedLocale !== undefined &&
                     !translating &&
                     !spent}
                 tip={(l) => l.ui.project.button.translate.tip}
@@ -673,9 +677,7 @@
                         }}
                         active={!translating &&
                             (targetLocale === undefined ||
-                                !localesAreEqual(targetLocale, locale)) &&
-                            (sourceLocale === undefined ||
-                                !localesAreEqual(sourceLocale, locale))}
+                                !localesAreEqual(targetLocale, locale))}
                         tip={(l) => l.ui.project.button.destination}
                         background
                         ><LocaleName

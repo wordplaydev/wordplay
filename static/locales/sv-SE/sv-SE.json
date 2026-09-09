@@ -7227,7 +7227,7 @@
                     "tip": "$~översätt detta projekt till ett nytt språk och gör det flerspråkigt",
                     "label": "$~översätta"
                 },
-                "primary": "$~översätt text på det här språket",
+                "primary": "$~det språk som skriven text har om texten inte är märkt med ett språk",
                 "savedLocally": "$~projekt sparas lokalt, men inte online",
                 "savedOnline": "$~projekten sparas online",
                 "destination": "$~översätt till detta språk",
@@ -7308,7 +7308,8 @@
                             "$~lägg till det nya språket i ditt projekt, och behåll allt du skrev",
                             "$~skriv om ditt projekt på det nya språket, och ersätt det du skrev"
                         ]
-                    }
+                    },
+                    "source": "$~Text och namn som är märkta med ett språk, som \\'hola'/es\\, översätts från det språket. Välj språket för allt som inte är märkt."
                 }
             },
             "subheader": {

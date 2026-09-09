@@ -948,6 +948,8 @@
         "eb71d7c31c9ab": "$~Nama atau simbol yang ditampilkan editor secara berbeda dari yang kamu ketik sekarang muncul dalam kotak kecil, jadi kamu tahu itu akan kembali seperti semula saat kursormu masuk ke sana. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e60ce8f188ad3": "$~Saat kamu menampilkan kodemu dalam suatu bahasa, nama bawaan seperti @Phrase sekarang juga berubah ke bahasa itu, bahkan jika kamu belum menambahkannya ke proyekmu. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e62959bf8e73e": "$~Sekarang kamu bisa menulis alamat email di dalam dokumen atau cara, dan itu akan menjadi tautan yang membuka pesan.",
-        "e730993ac0281": "$~Sekarang kamu menulis karakter Unicode dengan angkanya sebagai \\@U/1F600\\, bukan bentuk lama tanpa huruf U."
+        "e730993ac0281": "$~Sekarang kamu menulis karakter Unicode dengan angkanya sebagai \\@U/1F600\\, bukan bentuk lama tanpa huruf U.",
+        "ec1e67db8a983": "$~Saat kamu menerjemahkan, bahasa yang kamu pilih sekarang hanya berlaku untuk tulisan yang belum kamu tandai dengan bahasa tertentu, karena tulisan yang sudah kamu tandai sudah menyatakan bahasanya sendiri. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e7600746959d1": "$~Menerjemahkan sebuah proyek sekarang menerjemahkan semuanya, termasuk nama dan teks yang kamu tandai dengan bahasa lain, yang sebelumnya dilewati begitu saja tanpa pemberitahuan. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
     }
 }

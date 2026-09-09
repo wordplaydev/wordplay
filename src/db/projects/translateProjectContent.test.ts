@@ -1,5 +1,5 @@
 import DefaultLocale from '@locale/DefaultLocale';
-import { stringToLocale } from '@locale/Locale';
+import { localeToString, stringToLocale } from '@locale/Locale';
 import Source from '@nodes/Source';
 import { expect, test } from 'vitest';
 import Project from '@db/projects/Project';
@@ -471,4 +471,288 @@ test('a unary operator keeps its symbol rather than a word that glues onto its o
     expect(result).not.toBeNull();
     const out = result?.getSources()[0].code.toString() ?? '';
     expect(out).toContain('~celdaOcupada');
+});
+
+// --- Several source languages in one project (#653) ---
+
+/** What one call to the translator was asked for. */
+type Ask = { texts: string[]; from: string };
+
+/** A translator that records every call, so a test can assert not just what
+ *  came back but what language each batch was said to be written in. */
+function spy(
+    dictionary: Record<string, string>,
+    options?: { failFrom?: string },
+): { translate: RawTranslator; asks: Ask[] } {
+    const asks: Ask[] = [];
+    return {
+        asks,
+        translate: async (texts, from) => {
+            asks.push({ texts: [...texts], from: localeToString(from) });
+            if (options?.failFrom === localeToString(from)) return null;
+            return texts.map((text) => dictionary[text] ?? text);
+        },
+    };
+}
+
+test('a name tagged in another language is translated, from that language', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    // Before, `mot/fr` matched neither "tagged en" nor "untagged", so the bind
+    // was skipped entirely and nothing was sent at all.
+    const source = new Source('start', 'mot/fr: 1\nmot');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const backend = spy({ mot: 'palabra' });
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        backend.translate,
+        undefined,
+        false,
+    );
+
+    expect(backend.asks).toHaveLength(1);
+    expect(backend.asks[0]).toEqual({ texts: ['mot'], from: 'fr' });
+    expect(result?.getSources()[0].code.toString()).toContain('palabra');
+});
+
+test('rewriting collapses a name tagged in another language too', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const source = new Source('start', 'mot/fr: 1\nmot');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const backend = spy({ mot: 'palabra' });
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        backend.translate,
+        undefined,
+        true,
+    );
+
+    const out = result?.getSources()[0].code.toString() ?? '';
+    expect(out).toContain('palabra');
+    expect(out).not.toContain('mot');
+});
+
+test('a literal with no option in the chosen language is sent as its own language', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    // Before, this fell through to `getOptions()[0]` and was sent labeled `en`.
+    const source = new Source('start', `'bonjour'/fr`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const backend = spy({ bonjour: 'hola' });
+
+    await translateProjectContent(
+        project,
+        en,
+        es,
+        backend.translate,
+        undefined,
+        false,
+    );
+
+    expect(backend.asks).toHaveLength(1);
+    expect(backend.asks[0].from).toBe('fr');
+});
+
+test('a project written in two languages makes one call per language', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const source = new Source('start', `cat: 'hello'\nchien: 'bonjour'/fr`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const backend = spy({
+        cat: 'gato',
+        hello: 'hola',
+        chien: 'perro',
+        bonjour: 'hola',
+    });
+
+    await translateProjectContent(
+        project,
+        en,
+        es,
+        backend.translate,
+        undefined,
+        false,
+    );
+
+    const byLanguage = new Map(
+        backend.asks.map((ask) => [ask.from, ask.texts]),
+    );
+    expect(backend.asks).toHaveLength(2);
+    // Each batch carries only its own language's strings — `chien` is an
+    // untagged name, so it belongs to the untagged group, not the French one.
+    expect(byLanguage.get('en-US')?.sort()).toEqual(['cat', 'chien', 'hello']);
+    expect(byLanguage.get('fr')).toEqual(['bonjour']);
+});
+
+test('the same words in two languages get two translations, not one', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    // `no` means different things in English and French, so keying translations
+    // by text alone would give both whichever answer arrived last.
+    const source = new Source('start', `a: 'no'\nb: 'no'/fr`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const asked: string[] = [];
+    const translate: RawTranslator = async (texts, from) => {
+        asked.push(localeToString(from));
+        return texts.map((text) =>
+            text === 'no'
+                ? localeToString(from) === 'fr'
+                    ? 'nofrances'
+                    : 'noingles'
+                : text,
+        );
+    };
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        translate,
+        undefined,
+        true,
+    );
+
+    const out = result?.getSources()[0].code.toString() ?? '';
+    expect(asked.sort()).toEqual(['en-US', 'fr']);
+    expect(out).toContain('noingles');
+    expect(out).toContain('nofrances');
+});
+
+test('tagged content still translates when the target is the untagged language', async () => {
+    if (es === undefined) throw new Error('bad locale');
+
+    // The single source/target comparison this replaces stopped the whole run.
+    // Now only the Spanish group is skipped; the French one still goes.
+    const source = new Source('start', `a: 'hola'\nb: 'bonjour'/fr`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const backend = spy({ bonjour: 'hola', b: 'be' });
+
+    await translateProjectContent(
+        project,
+        es,
+        es,
+        backend.translate,
+        undefined,
+        false,
+    );
+
+    expect(backend.asks).toHaveLength(1);
+    expect(backend.asks[0].from).toBe('fr');
+});
+
+test('plan fires once with the total across every language', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const source = new Source('start', `cat: 'hello'\nchien: 'bonjour'/fr`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const backend = spy({});
+    const planned: number[] = [];
+
+    await translateProjectContent(
+        project,
+        en,
+        es,
+        backend.translate,
+        undefined,
+        false,
+        { plan: (strings) => planned.push(strings) },
+    );
+
+    const sent = backend.asks.reduce(
+        (total, ask) => total + ask.texts.length,
+        0,
+    );
+    expect(planned).toHaveLength(1);
+    expect(planned[0]).toBe(sent);
+});
+
+test('one failed language keeps the other language’s translations', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const source = new Source('start', `cat: 'hello'\nchien: 'bonjour'/fr`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const backend = spy(
+        { cat: 'gato', hello: 'hola', bonjour: 'buenos' },
+        { failFrom: 'fr' },
+    );
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        backend.translate,
+        undefined,
+        true,
+    );
+
+    const out = result?.getSources()[0].code.toString() ?? '';
+    expect(result).not.toBeNull();
+    expect(out).toContain('gato');
+    // The French batch failed, so its words stand rather than being lost.
+    expect(out).toContain('bonjour');
+});
+
+test('every language failing is a failed translation', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    // The locale CLI's gather pass depends on this exactly: its translator
+    // records what it is asked for and returns null for every batch.
+    const source = new Source('start', `cat: 'hello'\nchien: 'bonjour'/fr`);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const gathered: string[] = [];
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        async (texts) => {
+            gathered.push(...texts);
+            return null;
+        },
+        undefined,
+        true,
+    );
+
+    expect(result).toBeNull();
+    // Every batch was issued before any was awaited, so the gather pass sees
+    // all of the project's strings and not just the first language's.
+    expect(gathered).toContain('bonjour');
+    expect(gathered).toContain('cat');
+});
+
+test('preserveTagged still makes exactly one call, in the chosen language', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    // A tag means content that must ship verbatim (#1310), so a project full of
+    // tagged options is still one group sourced from the caller's language.
+    const source = new Source(
+        'start',
+        `cat: 'hello'\nb: 'bonjour'/fr'hola'/es`,
+    );
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const backend = spy({ cat: 'gato', hello: 'hola' });
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        backend.translate,
+        undefined,
+        true,
+        { preserveTagged: true },
+    );
+
+    expect(backend.asks).toHaveLength(1);
+    expect(backend.asks[0].from).toBe('en-US');
+    // The tagged options are untouched.
+    const out = result?.getSources()[0].code.toString() ?? '';
+    expect(out).toContain('bonjour');
+    expect(out).toContain('hola');
 });

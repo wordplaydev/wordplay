@@ -115,3 +115,42 @@ test('progress counts up to the total', async () => {
     expect(updates.map((u) => u.done)).toEqual([25, 50, 60]);
     expect(updates.every((u) => u.total === 60)).toBe(true);
 });
+
+test('progress accumulates across a run, so two languages never restart the count', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const fr = stringToLocale('fr-FR');
+    if (fr === undefined) throw new Error('bad locale');
+
+    // One instance is one translation run. A project written in two languages
+    // makes one call per language, and each reporting only its own totals would
+    // walk the count backwards — and re-say what it just said, which the
+    // announcer's queued lane drops as a duplicate, leaving the run silent.
+    const updates: { done: number; total: number }[] = [];
+    const translate = getFirebaseTranslator(functions, {
+        progress: ({ done, total }) => updates.push({ done, total }),
+    });
+
+    await Promise.all([
+        translate(['one', 'two', 'three'], en, es),
+        translate(['un', 'deux'], fr, es),
+    ]);
+
+    expect(updates.length).toBe(2);
+    // Both calls are issued before either reports, so the total is the run's.
+    expect(updates.every((update) => update.total === 5)).toBe(true);
+    expect(updates[0].done).toBeLessThan(updates[1].done);
+    expect(updates[updates.length - 1].done).toBe(5);
+});
+
+test('kept counts every string that came back without a translation', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    responses = ['null'];
+    const kept: number[] = [];
+    const translate = getFirebaseTranslator(functions, {
+        progress: (progress) => kept.push(progress.kept),
+    });
+
+    await translate(['one', 'two'], en, es);
+
+    expect(kept).toEqual([2]);
+});

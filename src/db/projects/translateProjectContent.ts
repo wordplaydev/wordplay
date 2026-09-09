@@ -1,4 +1,5 @@
 import type Locale from '@locale/Locale';
+import { localeToString, stringToLocale } from '@locale/Locale';
 import type LanguageCode from '@locale/LanguageCode';
 import type LocaleText from '@locale/LocaleText';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
@@ -35,6 +36,10 @@ import {
 import { canonicalizeKeyName, localizeKeyName } from '@input/Key/Key';
 import { WellKnownKeys } from '@input/Key/KeyboardKeys';
 import { translationProblem } from '@db/projects/translationGuards';
+import {
+    chooseNameSource,
+    chooseTextSource,
+} from '@db/projects/translationSources';
 
 // Re-exported so existing importers of this path keep working; the type now
 // lives with the reusable markup-translation helpers.
@@ -271,6 +276,9 @@ function withAddedName(
  */
 export default async function translateProjectContent(
     project: Project,
+    /** The language of content carrying no language tag, and the preferred
+     *  source among tagged options. A unit tagged in some other language is
+     *  translated from that tag rather than from this (#653). */
     sourceLocale: Locale,
     targetLocale: Locale,
     translateTexts: RawTranslator,
@@ -315,6 +323,13 @@ export default async function translateProjectContent(
 ): Promise<Project | null> {
     const targetLanguage = targetLocale.language;
     const preserveTagged = options?.preserveTagged === true;
+    // The languages the project declares, in its own priority order — how a
+    // tagged option's source is resolved when nothing is written in the
+    // caller's chosen language.
+    const declared = project
+        .getLocaleCodes()
+        .map((code) => stringToLocale(code))
+        .filter((locale): locale is Locale => locale !== undefined);
 
     try {
         options?.phase?.('analyzing');
@@ -330,10 +345,16 @@ export default async function translateProjectContent(
                 .nodes()
                 .filter((node): node is Names => node instanceof Names)
                 .forEach((names) => {
-                    const targetName = names
-                        .getNameInLanguage(targetLanguage, undefined)
-                        ?.getName();
-                    if (targetName) existingNames.add(targetName);
+                    // Membership, not the tag's primary code: a name tagged
+                    // `/en_es` IS a name in English, so a translation landing
+                    // on it would duplicate a name inside its own bind. This
+                    // is a reservation set, so over-reserving costs at most a
+                    // numeric suffix.
+                    for (const name of names.names)
+                        if (name.getLanguages().includes(targetLanguage)) {
+                            const targetName = name.getName();
+                            if (targetName) existingNames.add(targetName);
+                        }
                     // Preserved tagged names in ANY language stay in the
                     // program, so a translation that lands on one of them is a
                     // duplicate name inside its own bind — which `validate`
@@ -362,18 +383,20 @@ export default async function translateProjectContent(
                 [],
             )
             .map((names) => {
-                // Is there a name in the source language or a name with no
-                // language? Use that as the source name. Under `preserveTagged`
-                // a source-language tag marks content, so only an untagged name
-                // is translatable.
-                const nameToTranslate = names.names.find((name) =>
-                    preserveTagged
-                        ? !name.hasLanguage()
-                        : name.isLanguage(sourceLocale.language) ||
-                          !name.hasLanguage(),
+                // Which name carries the words to translate, and what language
+                // those words are in. A name tagged in some other language used
+                // to match nothing here and was skipped entirely; it now
+                // translates, sourced from its own tag (#653). See
+                // [translationSources](src/db/projects/translationSources.ts).
+                const source = chooseNameSource(
+                    names.names,
+                    sourceLocale,
+                    declared,
+                    preserveTagged,
                 );
 
-                if (nameToTranslate === undefined) return undefined;
+                if (source === undefined) return undefined;
+                const nameToTranslate = source.option;
 
                 // Get the name already in the target language, if there is one. Prefer full names, not symbolic names.
                 const targetName = names
@@ -397,6 +420,7 @@ export default async function translateProjectContent(
 
                 return {
                     names,
+                    from: source.from,
                     // The original text to translate, or undefined if there is
                     // no text to translate. A name with no letter in any script
                     // (an emoji or operator name like 🔈 or ≠) isn't
@@ -418,7 +442,8 @@ export default async function translateProjectContent(
                     text,
                 ): text is {
                     names: Names;
-                    original: string;
+                    from: Locale;
+                    original: string | undefined;
                     translation: string | undefined;
                 } => text !== undefined,
             );
@@ -454,19 +479,24 @@ export default async function translateProjectContent(
                 shouldTranslateText(markup, project, comparedValues),
             )
             .map((markups) => {
-                // Under `preserveTagged`, a tagged option is content and only
-                // the untagged option is the translatable text; without the
-                // flag, the source-language option (or the first) is.
-                const docToTranslate = preserveTagged
-                    ? markups
-                          .getOptions()
-                          .find((option) => option.getLanguage() === undefined)
-                    : (markups.getLanguage(sourceLocale.language) ??
-                      markups.getOptions()[0]);
+                // Which option carries the words to translate, and what
+                // language those words are in. The blind `getOptions()[0]`
+                // fallback this replaces sent whatever was written first
+                // *labeled as the source language* (#653). See
+                // [translationSources](src/db/projects/translationSources.ts).
+                const source = chooseTextSource(
+                    markups.getOptions(),
+                    markups.getLanguage(sourceLocale.language),
+                    sourceLocale,
+                    declared,
+                    preserveTagged,
+                );
+                const docToTranslate = source?.option;
                 const existingTranslation = markups.getLanguage(targetLanguage);
 
                 return {
                     names: markups,
+                    from: source?.from ?? sourceLocale,
                     original:
                         docToTranslate === undefined
                             ? undefined
@@ -553,22 +583,67 @@ export default async function translateProjectContent(
                     }
         }
 
-        // Get the original text with no translation to send to the translator.
-        const originalTexts = [...bindsToTranslate, ...textToTranslate]
-            .filter((bind) => bind.translation === undefined)
-            .map((bind) => bind.original)
-            .filter((text): text is string => text !== undefined);
+        // Bucket every string still needing a translation by the language it
+        // is actually written in, deduplicating within a bucket to minimize
+        // cost. A project written in several languages makes several buckets
+        // and one batched call each, which is the whole of #653: one `from` for
+        // the entire project meant a name tagged in another language was
+        // skipped and a literal with no source-language option was sent
+        // mislabeled. `translateMarkupTexts` groups the same way for chat, but
+        // over items carrying many units rather than over plain strings, so the
+        // two loops stay separate rather than sharing a shape that fits
+        // neither.
+        const groups = new Map<
+            string,
+            { from: Locale; originals: string[]; seen: Set<string> }
+        >();
+        for (const record of [...bindsToTranslate, ...textToTranslate]) {
+            const { from, original } = record;
+            if (record.translation !== undefined || original === undefined)
+                continue;
+            // A bucket written only in the target language has nothing to do —
+            // the generalization of the single source/target comparison this
+            // replaces. A multilingual `es_en` source translated to `en` is not
+            // such a bucket: its Spanish half still needs translating.
+            const languages = from.multilingual ?? [from.language];
+            if (languages.every((language) => language === targetLanguage))
+                continue;
 
-        // Build a map from each unique original text to its translation, so lookups don't depend on positional indexes (which break when originalTexts has duplicates).
-        let translationByOriginal: Map<string, string> | null = null;
-        // If there are more than one and the source and target are different, get some translations.
-        if (
-            originalTexts.length > 0 &&
-            sourceLocale.language !== targetLanguage
-        ) {
-            // Remove duplicates from the original texts to minimize cost.
-            const uniqueOriginals = Array.from(new Set(originalTexts));
+            const key = localeToString(from);
+            let group = groups.get(key);
+            if (group === undefined) {
+                group = { from, originals: [], seen: new Set() };
+                groups.set(key, group);
+            }
+            if (!group.seen.has(original)) {
+                group.seen.add(original);
+                group.originals.push(original);
+            }
+        }
 
+        // Translations by source locale and then by original text. Nested
+        // because the same words in two languages are two different strings to
+        // translate: `'no'/en` and `'no'/es` must not share an answer.
+        let translationsBySource: Map<string, Map<string, string>> | null =
+            null;
+
+        /** The translation of one record's original text, if there is one. */
+        function translationFor(
+            from: Locale,
+            original: string | undefined,
+        ): string | undefined {
+            return translationsBySource === null || original === undefined
+                ? undefined
+                : translationsBySource.get(localeToString(from))?.get(original);
+        }
+
+        const groupList = Array.from(groups.values());
+        const totalStrings = groupList.reduce(
+            (total, group) => total + group.originals.length,
+            0,
+        );
+
+        if (totalStrings > 0) {
             // Sample the project's names and docs as domain context for the
             // backend (bounded to keep the request small).
             const context = {
@@ -582,26 +657,47 @@ export default async function translateProjectContent(
                     .slice(0, 5),
             };
 
-            options?.plan?.(uniqueOriginals.length);
+            options?.plan?.(totalStrings);
 
-            const translations = await translateTexts(
-                uniqueOriginals,
-                sourceLocale,
-                targetLocale,
-                context,
+            // Every bucket is issued before any is awaited, which the locale
+            // CLI's gather pass depends on: its translator records what it is
+            // asked for and returns null, so a loop that stopped at the first
+            // null would collect only the first bucket's strings and the apply
+            // pass would then ask the pool for strings it has never seen.
+            const results = await Promise.all(
+                groupList.map((group) =>
+                    translateTexts(
+                        group.originals,
+                        group.from,
+                        targetLocale,
+                        context,
+                    ),
+                ),
             );
 
-            // If we didn't get any translations, return nothing as an indicator of failure.
-            if (translations === null) {
+            // Nothing came back at all, so this is a failure rather than a
+            // partial translation. One failed bucket among several is survivable
+            // — its strings simply keep their own words, the same guarantee a
+            // failed chunk already makes.
+            if (results.every((result) => result === null)) {
                 options?.report?.('the translation backend returned nothing');
                 return null;
             }
 
-            translationByOriginal = new Map();
-            uniqueOriginals.forEach((original, index) => {
-                const translated = translations[index];
-                if (typeof translated === 'string')
-                    translationByOriginal!.set(original, translated);
+            translationsBySource = new Map();
+            groupList.forEach((group, index) => {
+                const translations = results[index];
+                if (translations === null) return;
+                const byOriginal = new Map<string, string>();
+                group.originals.forEach((original, at) => {
+                    const translated = translations[at];
+                    if (typeof translated === 'string')
+                        byOriginal.set(original, translated);
+                });
+                translationsBySource?.set(
+                    localeToString(group.from),
+                    byOriginal,
+                );
             });
         }
 
@@ -648,12 +744,11 @@ export default async function translateProjectContent(
             // If we already have a translation, use it.
             let translation = bindToTranslate.translation;
             // If we don't, and there was an original text, and we have some translations, then use the translation.
-            if (
-                translation === undefined &&
-                original !== undefined &&
-                translationByOriginal
-            ) {
-                const translated = translationByOriginal.get(original);
+            if (translation === undefined && original !== undefined) {
+                const translated = translationFor(
+                    bindToTranslate.from,
+                    original,
+                );
                 if (translated === undefined) continue;
                 // Convert the translated text into camel case, to conform to
                 // Wordplay's naming rules. Split on spaces AND underscores (a
@@ -807,13 +902,14 @@ export default async function translateProjectContent(
                                 : target,
                         ];
 
-                    // Nothing was translated at all — source and target are the
-                    // same language, or every string already had its
-                    // target-language version and was handled just above.
-                    if (translationByOriginal === null) return [target, target];
-
+                    // Nothing translated for this one — its bucket was written
+                    // in the target language already, its bucket failed, or
+                    // there was no text to send.
                     if (original === undefined) return [target, target];
-                    const translated = translationByOriginal.get(original);
+                    const translated = translationFor(
+                        textToTranslate.from,
+                        original,
+                    );
                     if (translated === undefined) return [target, target];
 
                     // A translation that unbalances a delimiter or leaves a text

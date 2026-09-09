@@ -7249,7 +7249,7 @@
                     "tip": "$~terjemahkan proyek ini ke bahasa baru, sehingga menjadi multibahasa",
                     "label": "$~menerjemahkan"
                 },
-                "primary": "$~Terjemahkan teks ini ke dalam bahasa ini",
+                "primary": "$~bahasa tulisan yang tidak ditandai dengan suatu bahasa",
                 "destination": "$~terjemahkan ke bahasa ini",
                 "remix": {
                     "tip": "$~buat salinanmu sendiri dari proyek ini untuk mengubahnya",
@@ -7328,7 +7328,8 @@
                             "$~menambahkan bahasa baru ke proyekmu, sambil menyimpan semua yang sudah kamu tulis",
                             "$~menulis ulang proyekmu dalam bahasa baru, menggantikan apa yang sudah kamu tulis"
                         ]
-                    }
+                    },
+                    "source": "$~Teks dan nama yang ditandai dengan suatu bahasa, seperti \\'hola'/es\\, diterjemahkan dari bahasa itu. Pilih bahasa untuk semua yang tidak ditandai."
                 }
             },
             "subheader": {

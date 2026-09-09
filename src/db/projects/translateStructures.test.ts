@@ -483,3 +483,42 @@ test('retargeting never captures a reference with an enclosing name', async () =
     // which would have resolved to the bind itself.
     expect(conflicts(result as Project)).toBeLessThanOrEqual(before);
 });
+
+test('rewriting a project written in several languages collapses all of it', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    // Content in a third language used to be invisible: `chien` matched neither
+    // "tagged en" nor "untagged", so it kept its French name while everything
+    // English around it became Spanish — a rewrite that left the project still
+    // written in two languages (#653).
+    const source = new Source(
+        'start',
+        `cat: 'hello'\nchien/fr: 'bonjour'/fr\ncat + chien`,
+    );
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+
+    const revised = await translateProjectContent(
+        project,
+        en,
+        es,
+        // A space, not a hyphen: a name is camelCased from what comes back, and
+        // a hyphen isn't a valid identifier character, so the name would be
+        // refused and the source kept.
+        async (texts, from) => texts.map((text) => `${text} ${from.language}`),
+        undefined,
+        true,
+    );
+
+    expect(revised).not.toBeNull();
+    if (revised === null) return;
+    const out = revised.getSources()[0]?.toWordplay() ?? '';
+
+    // Every unit is translated, each from the language it was written in...
+    expect(out).toContain('catEn');
+    expect(out).toContain('chienFr');
+    expect(out).toContain('hello en');
+    expect(out).toContain('bonjour fr');
+    // ...and nothing keeps a tag, which is what rewriting means.
+    expect(out).not.toContain('/fr');
+    expect(conflicts(revised)).toBe(0);
+});

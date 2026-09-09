@@ -14,6 +14,11 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 🎨 A name or symbol the editor is showing differently from what you typed now sits in a small box, so you can tell it will change back when your cursor moves in. (#534)
 - 🌐 When you show your code in a language, built-in names like @Phrase now change to that language too, even if you haven't added it to your project. (#534)
+- 🌐 When you translate, the language you pick is now only for writing you didn't mark with a language, since anything you marked already says what language it's in. (#653)
+
+### Fixed
+
+- 🌐 Translating a project now translates all of it, including names and text you marked with another language, which used to be skipped without saying so. (#653)
 
 ## 0.35.0 - 2026-09-05
 

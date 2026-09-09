@@ -948,6 +948,8 @@
         "e60ce8f188ad3": "$~Kapag ipinakita mo ang iyong kodigo sa isang wika, ang mga built-in na pangalan tulad ng @Phrase ay magbabago rin ngayon sa wikang iyon, kahit hindi mo pa ito idinagdag sa iyong proyekto. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e253c8e03b28e": "$~Ang mga nota ay puwede na ngayong maging mga numerong nasa gitna: \\1.5\\ ay tumutugtog ng dalawang nota sa magkabilang panig, ang mas malapit ay mas malakas. Itakda ang @Track na \\mash\\ sa \\⊥\\ upang marinig ang isang notang bahagyang lihis sa tono.",
         "e62959bf8e73e": "$~Ngayon, puwede ka nang magsulat ng email address sa isang dokumento o kung paano gawin, at magiging link ito na nagbubukas ng isang mensahe.",
-        "e730993ac0281": "$~Ngayon, isinusulat mo ang isang Unicode character sa pamamagitan ng kaniyang numero bilang \\@U/1F600\\, sa halip na ang mas lumang anyo na walang U."
+        "e730993ac0281": "$~Ngayon, isinusulat mo ang isang Unicode character sa pamamagitan ng kaniyang numero bilang \\@U/1F600\\, sa halip na ang mas lumang anyo na walang U.",
+        "ec1e67db8a983": "$~Kapag nagsasalin ka, ang wikang pinili mo ay para na lang sa mga sinulat na hindi mo minarkahan ng wika, dahil ang mga minarkahan mo na ay may sarili nang sinasabing wika. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e7600746959d1": "$~Ang pagsasalin ng isang proyekto ay nagsasalin na ngayon nang buo, kasama ang mga pangalan at teksto na minarkahan mo ng ibang wika, na dati'y nililiwan nang hindi sinasabi. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
     }
 }

@@ -7233,7 +7233,7 @@
                     "tip": "$~traducir este proyecto a un nuevo idioma, haciéndolo multilingüe",
                     "label": "$~traducir"
                 },
-                "primary": "$~traducir el texto a este idioma",
+                "primary": "$~el idioma de la escritura que no está marcada con un idioma",
                 "share": {
                     "tip": "$~mostrar opciones para compartir el proyecto",
                     "label": "$~compartir"
@@ -7318,7 +7318,8 @@
                             "$~agrega el nuevo idioma a tu proyecto, conservando todo lo que escribiste",
                             "$~reescribe tu proyecto en el nuevo idioma, reemplazando lo que escribiste"
                         ]
-                    }
+                    },
+                    "source": "$~El texto y los nombres marcados con un idioma, como \\'hola'/es\\, se traducen desde ese idioma. Elige el idioma de todo lo que no está marcado."
                 }
             },
             "subheader": {

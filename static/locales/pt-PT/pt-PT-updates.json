@@ -948,6 +948,8 @@
         "eb71d7c31c9ab": "$~Um nome ou símbolo que o editor mostra de forma diferente do que escreveu fica agora dentro de uma pequena caixa, para que saiba que voltará ao normal quando o cursor entrar. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e60ce8f188ad3": "$~Quando mostra o seu código num idioma, os nomes incorporados como @Phrase passam agora a mudar também para esse idioma, mesmo que não o tenha adicionado ao seu projeto. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e62959bf8e73e": "$~Agora pode escrever um endereço de email num documento ou num como, e este passa a ser uma ligação que abre uma mensagem.",
-        "e730993ac0281": "$~Agora escreve-se um carácter Unicode pelo seu número como \\@U/1F600\\, em vez da forma mais antiga sem o U."
+        "e730993ac0281": "$~Agora escreve-se um carácter Unicode pelo seu número como \\@U/1F600\\, em vez da forma mais antiga sem o U.",
+        "ec1e67db8a983": "$~Quando traduz, o idioma escolhido passa a ser usado apenas para o texto que não marcou com um idioma, já que tudo o que já marcou indica o idioma em que está escrito. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e7600746959d1": "$~Traduzir um projeto passa a traduzir tudo, incluindo nomes e texto marcados com outro idioma, que antes eram ignorados sem aviso. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
     }
 }

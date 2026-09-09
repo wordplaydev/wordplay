@@ -7248,7 +7248,7 @@
                     "tip": "$~tradu acest proiect într-o limbă nouă, făcându-l multilingv",
                     "label": "$~traduce"
                 },
-                "primary": "$~traduce text în această limbă",
+                "primary": "$~limba textului care nu este marcat cu o limbă",
                 "destination": "$~traduce în această limbă",
                 "remix": {
                     "tip": "$~fă-ți propria copie a acestui proiect pentru a-l schimba",
@@ -7327,7 +7327,8 @@
                             "$~adaugă limba nouă la proiectul tău, păstrând tot ce ai scris",
                             "$~rescrie proiectul tău în limba nouă, înlocuind ce ai scris"
                         ]
-                    }
+                    },
+                    "source": "$~Textele și numele marcate cu o limbă, cum ar fi \\'hola'/es\\, se traduc din acea limbă. Alege limba pentru tot ce nu este marcat."
                 }
             },
             "subheader": {

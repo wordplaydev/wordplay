@@ -948,6 +948,8 @@
         "eb71d7c31c9ab": "$~Ett namn eller en symbol som redigeraren visar annorlunda än det du skrev finns nu i en liten ruta, så att du kan se att det ändras tillbaka när markören flyttas dit. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e60ce8f188ad3": "$~När du visar din kod på ett språk ändras nu inbyggda namn som @Phrase också till det språket, även om du inte har lagt till det i ditt projekt. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e62959bf8e73e": "$~Nu kan du skriva en e-postadress i ett dokument eller en hur man-guide, och den blir en länk som öppnar ett meddelande.",
-        "e730993ac0281": "$~Nu skriver du ett Unicode-tecken med dess nummer som \\@U/1F600\\, istället för det äldre sättet utan U."
+        "e730993ac0281": "$~Nu skriver du ett Unicode-tecken med dess nummer som \\@U/1F600\\, istället för det äldre sättet utan U.",
+        "ec1e67db8a983": "$~När du översätter gäller det språk du väljer bara för sådant du inte redan har märkt med ett språk, eftersom allt du redan märkt visar vilket språk det är på. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e7600746959d1": "$~Att översätta ett projekt översätter nu allt, även namn och text som du märkt med ett annat språk, vilket tidigare hoppades över utan att det syntes. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
     }
 }

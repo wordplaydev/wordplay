@@ -947,6 +947,8 @@
         "e60ce8f188ad3": "$~Khi bạn hiển thị mã của mình bằng một ngôn ngữ, các tên có sẵn như @Phrase giờ cũng chuyển sang ngôn ngữ đó, ngay cả khi bạn chưa thêm nó vào dự án của mình. (<534@https://github.com/wordplaydev/wordplay/issues/534>)",
         "e253c8e03b28e": "$~Nốt nhạc bây giờ có thể là các số ở giữa: \\1.5\\ chơi cả hai nốt ở mỗi bên, nốt gần hơn thì to hơn. Đặt @Track của một \\mash\\ thành \\⊥\\ để nghe một nốt bị uốn lệch cao độ thay vì vậy.",
         "e62959bf8e73e": "$~Giờ đây, bạn có thể viết một địa chỉ email trong tài liệu hoặc một làm cách nào để, và nó sẽ trở thành một liên kết mở ra một tin nhắn.",
-        "e730993ac0281": "$~Giờ đây, bạn viết một ký tự Unicode bằng số của nó dưới dạng \\@U/1F600\\, thay vì kiểu cũ không có chữ U."
+        "e730993ac0281": "$~Giờ đây, bạn viết một ký tự Unicode bằng số của nó dưới dạng \\@U/1F600\\, thay vì kiểu cũ không có chữ U.",
+        "ec1e67db8a983": "$~Khi bạn dịch, ngôn ngữ bạn chọn giờ chỉ áp dụng cho phần chữ bạn chưa đánh dấu ngôn ngữ, vì phần nào đã được đánh dấu rồi thì đã nói rõ là ngôn ngữ gì. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e7600746959d1": "$~Giờ đây, dịch một dự án sẽ dịch toàn bộ dự án, kể cả tên và chữ bạn đã đánh dấu bằng ngôn ngữ khác, những phần trước đây bị bỏ qua mà không báo cho bạn biết. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
     }
 }

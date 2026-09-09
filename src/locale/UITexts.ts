@@ -375,7 +375,7 @@ type UITexts = {
             unsaved: string;
             /** Show translation button */
             translate: ButtonText;
-            /** [plain] The tooltip for the source language button in the translate dialog */
+            /** [plain] The tooltip for the untagged-language button in the translate dialog */
             primary: string;
             /** [plain] The tooltip for the destination language button in the translate dialog */
             destination: string;
@@ -449,6 +449,8 @@ type UITexts = {
                 mode: ModeText<[string, string]>;
                 /** [formatted] Explains what a project's languages decide, above the list of them */
                 meaning: FormattedText | FormattedText[];
+                /** [formatted] Explains that text marked with a language translates from that language, so the chosen one only covers text that isn't marked */
+                source: FormattedText;
                 /** [plain] Marks a language nothing in the project's code uses */
                 unused: string;
                 /** [plain] Marks a language whose words couldn't be loaded, so its names don't work right now */

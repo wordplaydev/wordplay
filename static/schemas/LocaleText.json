@@ -25753,7 +25753,7 @@
                                             "type": "string"
                                         },
                                         "primary": {
-                                            "description": "[plain] The tooltip for the source language button in the translate dialog",
+                                            "description": "[plain] The tooltip for the untagged-language button in the translate dialog",
                                             "type": "string"
                                         },
                                         "remix": {
@@ -25906,6 +25906,10 @@
                                                     "$ref": "#/definitions/FieldText",
                                                     "description": "The field that filters languages by name or region"
                                                 },
+                                                "source": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Explains that text marked with a language translates from that language, so the chosen one only covers text that isn't marked"
+                                                },
                                                 "tab": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                                                     "description": "The tabs that switch between the languages the project is written in and translating it"
@@ -25929,6 +25933,7 @@
                                                 "mode",
                                                 "prompt",
                                                 "search",
+                                                "source",
                                                 "tab",
                                                 "unloaded",
                                                 "unused"
@@ -26402,7 +26407,7 @@
                                     "additionalProperties": false,
                                     "properties": {
                                         "addView": {
-                                            "description": "[plain] The button that adds a second view of this code, so it can be read in two languages side by side",
+                                            "description": "[plain] The button that shows this code in a second view, so it can be read in two languages, or at two places, at once",
                                             "type": "string"
                                         },
                                         "closeView": {
