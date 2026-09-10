@@ -56,7 +56,7 @@ Sânkhấu(
 						Its name is add, so selecting it updates the action choice.¶/en
 						Cụmtừ(
 							'Thêm Giờ Học +1'
-							cóthểlựachọn: ⊤
+							cóthểlựachọn
 							tên: 'thêm'
 							màusắc: Màusắc(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ Sânkhấu(
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						Cụmtừ(
 							'Đặt lại'
-							cóthểlựachọn: ⊤
+							cóthểlựachọn
 							tên: 'reset'
 							màusắc: Màusắc(69% 47 271°)
 						)

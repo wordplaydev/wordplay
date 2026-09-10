@@ -85,12 +85,12 @@ pasăre: Fraza(
 		loc: locPasăre
 		materie: Materie(1kg 0.4 0)
 		odihnă:
-		(joc2.fază = 3) ? Poză(rotaţie: 180° flipx: ⊤)
+		(joc2.fază = 3) ? Poză(rotaţie: 180° flipx)
 			Secvenţă(
 				{
-					0%: Poză(flipx: ⊤ rotaţie: -12°)
-					50%: Poză(flipx: ⊤ rotaţie: 12°)
-					100%: Poză(flipx: ⊤ rotaţie: -12°)
+					0%: Poză(flipx rotaţie: -12°)
+					50%: Poză(flipx rotaţie: 12°)
+					100%: Poză(flipx rotaţie: -12°)
 				}
 				0.35s
 			)
@@ -213,7 +213,7 @@ butonFredonare: Fraza(
 		'🎤'
 		0.8m
 		nume: 'hum'
-		selectabil: ⊤
+		selectabil
 		loc: Loc(-4.2m 4.7m)
 		odihnă: (mod = 'hum') ? Poză() Poză(opacitate: 40%)
 	)
@@ -221,7 +221,7 @@ butonApăsare: Fraza(
 		'⌨'
 		0.8m
 		nume: 'tap'
-		selectabil: ⊤
+		selectabil
 		loc: Loc(-3m 4.7m)
 		odihnă: (mod = 'tap') ? Poză() Poză(opacitate: 40%)
 	)

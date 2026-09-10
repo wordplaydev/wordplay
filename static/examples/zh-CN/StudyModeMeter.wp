@@ -56,14 +56,14 @@ The Stack places the title, explanation, number display, message, and selectable
 						Its name is add, so selecting it updates the action choice.¶/en
 						短语(
 							'增加学习时长 +1'
-							可选择的: ⊤
+							可选择的
 							名字: '增加'
 							颜色: 颜色(80% 45 0°)
 						)
 
 						¶This selectable Phrase lets the user reset the tracker.
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
-						短语('重置' 可选择的: ⊤ 名字: 'reset' 颜色: 颜色(69% 47 271°))
+						短语('重置' 可选择的 名字: 'reset' 颜色: 颜色(69% 47 271°))
 					]
 				)
 			]

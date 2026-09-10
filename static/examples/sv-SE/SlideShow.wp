@@ -92,7 +92,7 @@ Grupp(
 	[
 		Scen(
 			visningar
-			pausa: ⊤
+			pausa
 			steg: ∆ nyckel2 ? ((nyckel2 = 'Pil vänster') ? -1 (nyckel2 = 'Pil Höger') ? 1 ø) ø
 		)
 		Fras(

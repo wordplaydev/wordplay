@@ -38,7 +38,7 @@ Scène(
 	[
 		Phrase(
 			"🐭"
-			sélectionnable: ⊤
+			sélectionnable
 			lieu: placer
 			aurepos: attrapé ? Pose(rotation: 180° musique: bond) Pose(
 				)

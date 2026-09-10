@@ -58,7 +58,7 @@ Scene([
 		Phrase('um')
 		Phrase('dois')
 		Phrase('três')
-	] pausar: ⊤ passo: ∆ key ? ((key = 'Seta para a esquerda') ? -1 (key = 'Seta para a direita') ? 1 ø) ø)
+	] pausar passo: ∆ key ? ((key = 'Seta para a esquerda') ? -1 (key = 'Seta para a direita') ? 1 ø) ø)
 \
 
 @Scene/step move-se por um número de @Phrase — \1\ para a frente, \-1\ para trás — e para nos extremos por si.

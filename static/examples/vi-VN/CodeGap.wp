@@ -107,21 +107,21 @@ thẻ: Nhóm(
 		[
 			Cụmtừ(
 				'▸ Theo thời gian'
-				cóthểlựachọn: ⊤
+				cóthểlựachọn
 				tên: 'time'
 				kíchcỡ: 0.35m
 				màusắc: Màusắc(60% 50 20°)
 			)
 			Cụmtừ(
 				'▸ Theo ngành'
-				cóthểlựachọn: ⊤
+				cóthểlựachọn
 				tên: 'fields'
 				kíchcỡ: 0.35m
 				màusắc: Màusắc(60% 50 140°)
 			)
 			Cụmtừ(
 				'▸ Số lượng so với tỉ lệ'
-				cóthểlựachọn: ⊤
+				cóthểlựachọn
 				tên: 'số lượng'
 				kíchcỡ: 0.35m
 				màusắc: Màusắc(60% 50 280°)

@@ -6,7 +6,7 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 मुझे छुओ' चुननेयोग्य: ⊤ नाम: 'छूना')
+		Phrase('👆 मुझे छुओ' चुननेयोग्य नाम: 'छूना')
 		Music(Track(tapped ? [1 5 8] [] वाद्य: Instrument.bell लूप: ⊥) दोबाराचलाएँ: tapped)
 	])\
 

@@ -48,7 +48,7 @@ chuyển: Cụmtừ(
 		rơi ? '⬇ lực hấp dẫn' '🌌 trôi nổi'
 		0.7m
 		tên: 'gravity'
-		cóthểlựachọn: ⊤
+		cóthểlựachọn
 		vịTrí: VịTrí(-13m 1m)
 	)
 
@@ -56,7 +56,7 @@ máyLắc: Cụmtừ(
 		'🎲 lắc'
 		0.7m
 		tên: 'shake'
-		cóthểlựachọn: ⊤
+		cóthểlựachọn
 		vịTrí: VịTrí(-13m -1m)
 	)
 

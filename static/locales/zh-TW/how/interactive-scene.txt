@@ -58,7 +58,7 @@ Scene([
 		Phrase('一')
 		Phrase('二')
 		Phrase('三')
-	] 暫停: ⊤ 步驟: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+	] 暫停 步驟: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 
 @Scene/step 依 @Phrase —— \1\ 向前移動， \-1\ 往回走──而且會在兩端自動停下來。

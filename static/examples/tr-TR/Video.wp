@@ -64,7 +64,7 @@ resim: renkler.birleştirilmiş(
 		kimlik2
 		0.5m
 		isim: kimlik2
-		seçilebilir: ⊤
+		seçilebilir
 		dinlenme: (stil2 = kimlik2) ? Poz() Poz(opaklık: 40%)
 	)
 

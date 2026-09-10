@@ -113,21 +113,21 @@ tab: Kelompok(
 		[
 			Frasa(
 				'▸ Sepanjang waktu'
-				dapatdipilih: ⊤
+				dapatdipilih
 				nama: 'time'
 				ukuran: 0.35m
 				warna: Warna(60% 50 20°)
 			)
 			Frasa(
 				'▸ Berdasarkan bidang'
-				dapatdipilih: ⊤
+				dapatdipilih
 				nama: 'fields'
 				ukuran: 0.35m
 				warna: Warna(60% 50 140°)
 			)
 			Frasa(
 				'▸ Jumlah vs proporsi'
-				dapatdipilih: ⊤
+				dapatdipilih
 				nama: 'jumlah'
 				ukuran: 0.35m
 				warna: Warna(60% 50 280°)

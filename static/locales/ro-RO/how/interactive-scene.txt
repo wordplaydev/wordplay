@@ -58,7 +58,7 @@ Scene([
 		Phrase('unu')
 		Phrase('doi')
 		Phrase('trei')
-	] pauză: ⊤ pas: ∆ key ? ((key = 'SăgeatăStânga') ? -1 (key = 'SăgeatăDreapta') ? 1 ø) ø)
+	] pauză pas: ∆ key ? ((key = 'SăgeatăStânga') ? -1 (key = 'SăgeatăDreapta') ? 1 ø) ø)
 \
 
 @Scene/step se mișcă cu un număr de @Phrase — \1\ înainte, \-1\ înapoi — și se oprește la capete pentru tine.

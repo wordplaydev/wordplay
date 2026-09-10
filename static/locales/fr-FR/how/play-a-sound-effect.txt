@@ -6,7 +6,7 @@ Deux choses en font un effet sonore plutôt qu'une chanson. \boucle: ⊥\ dit au
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 tape-moi' sélectionnable: ⊤ nom: 'tape')
+		Phrase('👆 tape-moi' sélectionnable nom: 'tape')
 		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell boucle: ⊥) rejouer: tapped)
 	])\
 

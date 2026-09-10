@@ -36,7 +36,7 @@ risingAction2: [
 		Phrase(`On it tangled dozens of bright yellow 沙梨` place: Place(-9m 1m) wrap: 10m)
 		Phrase(`"Mom, we don't want any pears."` size: .75m place: Place(-4m 0m))
 		Phrase(`/I wanted a pear./` size: 2m place: Place(-8m -3m))
-		Phrase("🍐" size: 2m place: Place(-1m -7m) name: 'pear' selectable: ⊤)
+		Phrase("🍐" size: 2m place: Place(-1m -7m) name: 'pear' selectable)
 	]
 
 ¶We determine places in advance so we can make them fall from the same spot.¶
@@ -47,7 +47,7 @@ climax: [
 		Phrase(`And carefully cut six` place: Place(-9m 2m))
 		Phrase(`Dropping them into her basket below` place: Place(-9m 0m))
 		Phrase("🧺" size: 4m place: Place(-2m -12m))
-		Phrase("🌳" name: "tree" size: 5m place: Place(-3m -7m) selectable: ⊤)
+		Phrase("🌳" name: "tree" size: 5m place: Place(-3m -7m) selectable)
 		:places.translate(
 			ƒ(place index)
 				Phrase(

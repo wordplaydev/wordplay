@@ -62,7 +62,7 @@ Scene([
 		Phrase('una historia en tres partes' tamaño: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('aparece un gato')])
 		Phrase('el final 🎉')
-	] pausar: ⊤ paso: ∆ key ? ((key = 'FlechaIzquierda') ? -1 (key = 'FlechaDerecha') ? 1 ø) ø)
+	] pausar paso: ∆ key ? ((key = 'FlechaIzquierda') ? -1 (key = 'FlechaDerecha') ? 1 ø) ø)
 \
 
  Aquí no hay \?\ que escribir, porque una @Scene se detiene sola en sus propios extremos, y nada tiene que recordar qué pieza se muestra.

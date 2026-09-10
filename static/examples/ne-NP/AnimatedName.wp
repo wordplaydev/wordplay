@@ -55,9 +55,9 @@ Change the locale on stage to see each one!¶/en
 					रूप: 'Aclonica'
 					विश्राममा: शृङ्खला(
 						{
-							0%: Pose(रङ: रङ(0.5 100 180°) flipx: ⊤)
+							0%: Pose(रङ: रङ(0.5 100 180°) flipx)
 							50%: Pose(रङ: रङ(27% 112 267°))
-							75%: Pose(रङ: रङ(0.5 100 180°) flipx: ⊤)
+							75%: Pose(रङ: रङ(0.5 100 180°) flipx)
 						}
 						अवधि: 2s
 					)
@@ -145,9 +145,9 @@ Change the locale on stage to see each one!¶/en
 					रूप: 'Aclonica'
 					विश्राममा: शृङ्खला(
 						{
-							0%: Pose(रङ: रङ(0.5 100 180°) flipx: ⊤)
+							0%: Pose(रङ: रङ(0.5 100 180°) flipx)
 							50%: Pose(रङ: रङ(27% 112 267°))
-							75%: Pose(रङ: रङ(0.5 100 180°) flipx: ⊤)
+							75%: Pose(रङ: रङ(0.5 100 180°) flipx)
 						}
 						अवधि: 2s
 					)

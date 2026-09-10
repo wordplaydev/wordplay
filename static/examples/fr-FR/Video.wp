@@ -64,7 +64,7 @@ image: couleurs.combiné(
 		id2
 		0.5m
 		nom: id2
-		sélectionnable: ⊤
+		sélectionnable
 		aurepos: (style2 = id2) ? Pose() Pose(opacité: 40%)
 	)
 

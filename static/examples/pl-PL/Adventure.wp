@@ -133,13 +133,13 @@ pokoje•[pokój2]: [
 			'rzeka'
 			'Przejście kończy się przy kracie nad płynącą wodą. Pręty są stare, a nóż jest cierpliwy. Wypływasz razem z rzeką, a dom zostaje daleko za tobą, jeszcze przed świtem.'
 			koniec2: 'Odpływasz z rzeką.'
-			wygrał: ⊤
+			wygrał
 		)
 		pokój2(
 			'stok wzgórza'
 			'Klawisz się obraca, łańcuch osypuje się w trawę, a brama otwiera się bez żadnego dźwięku, który ktoś mógłby usłyszeć. Dolina jest szara od poranka, a droga należy do ciebie.'
 			koniec2: 'Wychodzisz przez bramę.'
-			wygrał: ⊤
+			wygrał
 		)
 	]
 

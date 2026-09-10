@@ -58,7 +58,7 @@ Scene([
 		Phrase('এক')
 		Phrase('দুই')
 		Phrase('তিন')
-	] থামাও: ⊤ ধাপ: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+	] থামাও ধাপ: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 
 @Scene/step একটি সংখ্যক @Phrase দ্বারা সরে যায় — \1\ সামনে, \-1\ ফিরে — এবং শেষ প্রান্তে গিয়ে নিজে নিজে থেমে যায়।

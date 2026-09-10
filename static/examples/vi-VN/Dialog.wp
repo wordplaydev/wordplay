@@ -27,7 +27,7 @@ kịchBản: [
 		dòng(
 			'b'
 			'Một bong bóng lời nói quanh một chữ cái là hình vẽ của chữ cái, hay là chữ cái của một hình vẽ?'
-			suyNghĩ: ⊤
+			suyNghĩ
 		)
 		dòng('a' 'Bạn đang xoáy vòng rồi.')
 		dòng(

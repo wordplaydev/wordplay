@@ -38,7 +38,7 @@ Escenario(
 	[
 		Frase(
 			"🐭"
-			seleccionable: ⊤
+			seleccionable
 			lugar: lugar2
 			inmóvil: atrapado ? Pose(
 					rotación: 180°

@@ -58,7 +58,7 @@ Scene([
 		Phrase('one')
 		Phrase('two')
 		Phrase('three')
-	] pause: ⊤ step: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+	] pause step: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 
 @Scene/step moves by a number of @Phrase — \1\ forward, \-1\ back — and stops at the ends for you.

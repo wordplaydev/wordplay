@@ -113,21 +113,21 @@ sekmeler: Grup(
 		[
 			İfadeetmek(
 				'▸ Zamana göre'
-				seçilebilir: ⊤
+				seçilebilir
 				isim: 'time'
 				boyut: 0.35m
 				renk: Renk(60% 50 20°)
 			)
 			İfadeetmek(
 				'▸ Alana göre'
-				seçilebilir: ⊤
+				seçilebilir
 				isim: 'fields'
 				boyut: 0.35m
 				renk: Renk(60% 50 140°)
 			)
 			İfadeetmek(
 				'▸ Sayı mı oran mı'
-				seçilebilir: ⊤
+				seçilebilir
 				isim: 'sayılar'
 				boyut: 0.35m
 				renk: Renk(60% 50 280°)

@@ -49,7 +49,7 @@ schalter: Satzglied(
 		fallen ? '⬇ Schwerkraft' '🌌 schwebend'
 		0.7m
 		Name: 'gravity'
-		wählbar: ⊤
+		wählbar
 		Ort: Ort(-13m 1m)
 	)
 
@@ -57,7 +57,7 @@ schüttler: Satzglied(
 		'🎲 schütteln'
 		0.7m
 		Name: 'shake'
-		wählbar: ⊤
+		wählbar
 		Ort: Ort(-13m -1m)
 	)
 

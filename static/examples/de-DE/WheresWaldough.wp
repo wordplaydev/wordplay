@@ -40,7 +40,7 @@ Bühne(
 	[
 		Satzglied(
 			"🔁"
-			wählbar: ⊤
+			wählbar
 			Ort: Ort(4m -0.5m)
 			Ruhen: gefangen ? Pose(Drehung: 180°) Pose()
 			Dauer: 0.5s

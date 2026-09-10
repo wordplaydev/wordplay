@@ -58,7 +58,7 @@ Scene([
 		Phrase('satu')
 		Phrase('dua')
 		Phrase('tiga')
-	] jeda: ⊤ langkah: ∆ key ? ((key = 'Panah Kiri') ? -1 (key = 'Panah Kanan') ? 1 ø) ø)
+	] jeda langkah: ∆ key ? ((key = 'Panah Kiri') ? -1 (key = 'Panah Kanan') ? 1 ø) ø)
 \
 
 @Scene/step bergerak sejumlah @Phrase — \1\ maju, \-1\ mundur — dan berhenti di ujung untuk kamu.

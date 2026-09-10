@@ -2,6 +2,7 @@
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import type { Format } from '@components/editor/nodes/NodeView.svelte';
     import BooleanTokenEditor from '@components/editor/tokens/BooleanTokenEditor.svelte';
+    import InputShorthandEditor from '@components/editor/tokens/InputShorthandEditor.svelte';
     import { getTokenCategory } from '@components/editor/tokens/TokenCategories';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import {
@@ -23,6 +24,7 @@
     import Evaluate from '@nodes/Evaluate';
     import Input from '@nodes/Input';
     import Language from '@nodes/Language';
+    import getInputShorthand from '@nodes/inputShorthand';
     import Reference from '@nodes/Reference';
     import Source from '@nodes/Source';
     import { Sym } from '@nodes/Sym';
@@ -91,6 +93,24 @@
               ? $project.getNodeContext(root.root)
               : undefined,
     );
+
+    // A bare boolean name standing in for ⊤ gets a checkbox, like the ⊤ it replaces. Gated on
+    // the token being a name inside a Reference so the vast majority of tokens pay one cached
+    // parent lookup and stop; only the implicit form qualifies, since a name that passes an
+    // in-scope boolean through is an ordinary reference, not a flag.
+    let shorthand = $derived.by(() => {
+        if (!format.block || !editable || context === undefined)
+            return undefined;
+        if (!node.isSymbol(Sym.Name)) return undefined;
+        const parent = root?.getParent(node);
+        if (!(parent instanceof Reference)) return undefined;
+        const found = getInputShorthand(parent, context);
+        if (found === undefined || !found.implicit) return undefined;
+        const evaluate = root?.getParent(parent);
+        return evaluate instanceof Evaluate
+            ? { evaluate, bind: found.bind }
+            : undefined;
+    });
 
     // See if this is a placeholder that should be rendered differently.
     let placeholder = $derived(
@@ -362,6 +382,12 @@
         {#if editable && $project && node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
                 {node}
                 project={$project}
+            />{:else if $project && shorthand}<InputShorthandEditor
+                {node}
+                evaluate={shorthand.evaluate}
+                bind={shorthand.bind}
+                project={$project}
+                {content}
             />{:else}{@render content()}{/if}
     </div>{#if format.editable && parent instanceof Reference && !(grandparent instanceof Evaluate && grandparent.fun === parent)}<MenuTrigger
             anchor={parent}

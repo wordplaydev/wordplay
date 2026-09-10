@@ -133,13 +133,13 @@ mgaSilid•[silid2]: [
 			'ilog'
 			'Nagtapos ang daanan sa isang rehas na nasa ibabaw ng umaagos na tubig. Luma na ang mga bakal na rehas, at matiyaga ang kutsilyo. Lumabas ka kasama ang ilog, at malayo na ang bahay sa likuran mo bago pa man kumulay-abo ang langit.'
 			pagtatapos: 'Lumabas kasama ang ilog.'
-			nanalo: ⊤
+			nanalo
 		)
 		silid2(
 			'gilid ng burol'
 			"Umikot ang susi, dumausdaus ang kadena patungo sa damo, at kumaskas nang tahimik ang tarangkahan, kaya't walang sinuman ang makaririnig nito. Kulay-abo ang lambak sa umaga, at sa iyo na ang daan."
 			pagtatapos: 'Lumabas sa tarangkahan.'
-			nanalo: ⊤
+			nanalo
 		)
 	]
 

@@ -92,7 +92,7 @@ Kelompok(
 	[
 		Pemandangan(
 			dilihat
-			jeda: ⊤
+			jeda
 			langkah: ∆ kunci2 ? ((kunci2 = 'Panah Kiri') ? -1 (kunci2 = 'Panah Kanan') ? 1 ø) ø
 		)
 		Frasa(

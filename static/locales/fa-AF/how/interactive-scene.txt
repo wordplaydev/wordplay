@@ -58,7 +58,7 @@ Scene([
 		Phrase('یک')
 		Phrase('دو')
 		Phrase('سه')
-	] توقف: ⊤ گام: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+	] توقف گام: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 
 @Scene/step به‌اندازهٔ چند @Phrase — \1\ به جلو، \-1\ برگرد — و در انتها برایت متوقف می‌شود.

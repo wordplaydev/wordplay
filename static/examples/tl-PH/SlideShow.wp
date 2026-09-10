@@ -92,7 +92,7 @@ Grupo(
 	[
 		Eksena(
 			panonood
-			iPause: ⊤
+			iPause
 			hakbang: ∆ susi2 ? ((susi2 = 'Palaso Kaliwa') ? -1 (susi2 = 'PalasoKanan') ? 1 ø) ø
 		)
 		Parirala(

@@ -2,7 +2,7 @@ Show selectable choices
 
 Sometimes you want to show a bunch of choices on screen, and do something with what the audience chooses. To do this, we need two things:
 
-• One or more @Phrase that are marked selectable and have a unique name (e.g., \Phrase('option 1' selectable: ⊤ name: 'one')\)
+• One or more @Phrase that are marked selectable and have a unique name (e.g., \Phrase('option 1' selectable name: 'one')\)
 • A @Choice, which changes to the @Phrase name most recently chosen.
 
 For example, here we show three choices, each with a unique name.
@@ -12,9 +12,9 @@ option: Choice()
 
 Group(
 	Stack() [
-		Phrase('option 1' selectable: ⊤ name: 'one')
-		Phrase('option 2' selectable: ⊤ name: 'two')
-		Phrase('option 3' selectable: ⊤ name: 'three')
+		Phrase('option 1' selectable name: 'one')
+		Phrase('option 2' selectable name: 'two')
+		Phrase('option 3' selectable name: 'three')
 		Phrase(option)
 	]
 )

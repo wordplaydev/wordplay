@@ -15,7 +15,7 @@ kaleciErişim: 4.5m
 kaleciHız: 0.55m
 
 tık: Zaman(50ms)
-bas: Anahtar(aşağı: ⊤)
+bas: Anahtar(aşağı)
 bırak: Anahtar(aşağı: ⊥)
 
 ¶Eldivenin hangi yöne gittiği. Basılan bir ok tuşu eldiveni harekete geçirir, aynı tuşu bırakmak ise onu durdurur. Böylece eldiven, tuşu bastığın sürece kayar. Bu genişlikteki bir ağız boyunca, her basışta bir adım atmak asla zamanında oraya varmazdı.¶

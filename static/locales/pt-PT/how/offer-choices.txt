@@ -2,7 +2,7 @@ Mostrar opções selecionáveis
 
 Por vezes, quer mostrar várias opções no ecrã e fazer algo com a escolha do público. Para isso, precisamos de duas coisas:
 
-• Um ou mais @Phrase que estão marcados como selecionáveis e têm um nome único (por exemplo, \Phrase('opção 1' selecionável: ⊤ nome: 'um')\)
+• Um ou mais @Phrase que estão marcados como selecionáveis e têm um nome único (por exemplo, \Phrase('opção 1' selecionável nome: 'um')\)
 • Uma @Choice, que muda para o nome @Phrase escolhido mais recentemente.
 
 Por exemplo, aqui mostramos três opções, cada uma com um nome único.
@@ -12,9 +12,9 @@ option: Choice()
 
 Group(
 	Stack() [
-		Phrase('opção 1' selecionável: ⊤ nome: 'um')
-		Phrase('opção 2' selecionável: ⊤ nome: 'dois')
-		Phrase('opção 3' selecionável: ⊤ nome: 'três')
+		Phrase('opção 1' selecionável nome: 'um')
+		Phrase('opção 2' selecionável nome: 'dois')
+		Phrase('opção 3' selecionável nome: 'três')
 		Phrase(option)
 	]
 )

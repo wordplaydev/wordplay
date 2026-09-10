@@ -117,21 +117,21 @@ separadores: Grupo(
 		[
 			Frase(
 				'▸ Ao longo do tempo'
-				selecionável: ⊤
+				selecionável
 				nome: 'time'
 				tamanho: 0.35m
 				cor: Cor(60% 50 20°)
 			)
 			Frase(
 				'▸ Por área'
-				selecionável: ⊤
+				selecionável
 				nome: 'fields'
 				tamanho: 0.35m
 				cor: Cor(60% 50 140°)
 			)
 			Frase(
 				'▸ Contagem vs proporção'
-				selecionável: ⊤
+				selecionável
 				nome: 'contagens'
 				tamanho: 0.35m
 				cor: Cor(60% 50 280°)

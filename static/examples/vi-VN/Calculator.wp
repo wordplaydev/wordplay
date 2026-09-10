@@ -26,16 +26,16 @@ toánTử: ø … opicked … ((lựaChọn ÷ '')[-1])
 numbers1: Nhóm(
 		Lưới(2 5)
 		[
-			Cụmtừ("0⃣" cóthểlựachọn: ⊤ tên: 'num1_0')
-			Cụmtừ("1⃣" cóthểlựachọn: ⊤ tên: 'num1_1')
-			Cụmtừ("2⃣" cóthểlựachọn: ⊤ tên: 'num1_2')
-			Cụmtừ("3⃣" cóthểlựachọn: ⊤ tên: 'num1_3')
-			Cụmtừ("4⃣" cóthểlựachọn: ⊤ tên: 'num1_4')
-			Cụmtừ("5⃣" cóthểlựachọn: ⊤ tên: 'num1_5')
-			Cụmtừ("6⃣" cóthểlựachọn: ⊤ tên: 'num1_6')
-			Cụmtừ("7⃣" cóthểlựachọn: ⊤ tên: 'num1_7')
-			Cụmtừ("8⃣" cóthểlựachọn: ⊤ tên: 'num1_8')
-			Cụmtừ("9⃣" cóthểlựachọn: ⊤ tên: 'num1_9')
+			Cụmtừ("0⃣" cóthểlựachọn tên: 'num1_0')
+			Cụmtừ("1⃣" cóthểlựachọn tên: 'num1_1')
+			Cụmtừ("2⃣" cóthểlựachọn tên: 'num1_2')
+			Cụmtừ("3⃣" cóthểlựachọn tên: 'num1_3')
+			Cụmtừ("4⃣" cóthểlựachọn tên: 'num1_4')
+			Cụmtừ("5⃣" cóthểlựachọn tên: 'num1_5')
+			Cụmtừ("6⃣" cóthểlựachọn tên: 'num1_6')
+			Cụmtừ("7⃣" cóthểlựachọn tên: 'num1_7')
+			Cụmtừ("8⃣" cóthểlựachọn tên: 'num1_8')
+			Cụmtừ("9⃣" cóthểlựachọn tên: 'num1_9')
 		]
 	)
 
@@ -43,16 +43,16 @@ numbers1: Nhóm(
 numbers2: Nhóm(
 		Lưới(2 5)
 		[
-			Cụmtừ("0⃣" cóthểlựachọn: ⊤ tên: 'num2_0')
-			Cụmtừ("1⃣" cóthểlựachọn: ⊤ tên: 'num2_1')
-			Cụmtừ("2⃣" cóthểlựachọn: ⊤ tên: 'num2_2')
-			Cụmtừ("3⃣" cóthểlựachọn: ⊤ tên: 'num2_3')
-			Cụmtừ("4⃣" cóthểlựachọn: ⊤ tên: 'num2_4')
-			Cụmtừ("5⃣" cóthểlựachọn: ⊤ tên: 'num2_5')
-			Cụmtừ("6⃣" cóthểlựachọn: ⊤ tên: 'num2_6')
-			Cụmtừ("7⃣" cóthểlựachọn: ⊤ tên: 'num2_7')
-			Cụmtừ("8⃣" cóthểlựachọn: ⊤ tên: 'num2_8')
-			Cụmtừ("9⃣" cóthểlựachọn: ⊤ tên: 'num2_9')
+			Cụmtừ("0⃣" cóthểlựachọn tên: 'num2_0')
+			Cụmtừ("1⃣" cóthểlựachọn tên: 'num2_1')
+			Cụmtừ("2⃣" cóthểlựachọn tên: 'num2_2')
+			Cụmtừ("3⃣" cóthểlựachọn tên: 'num2_3')
+			Cụmtừ("4⃣" cóthểlựachọn tên: 'num2_4')
+			Cụmtừ("5⃣" cóthểlựachọn tên: 'num2_5')
+			Cụmtừ("6⃣" cóthểlựachọn tên: 'num2_6')
+			Cụmtừ("7⃣" cóthểlựachọn tên: 'num2_7')
+			Cụmtừ("8⃣" cóthểlựachọn tên: 'num2_8')
+			Cụmtừ("9⃣" cóthểlựachọn tên: 'num2_9')
 		]
 	)
 
@@ -60,10 +60,10 @@ numbers2: Nhóm(
 operators: Nhóm(
 		Lưới(2 2)
 		[
-			Cụmtừ("➕" cóthểlựachọn: ⊤ tên: 'op_a')
-			Cụmtừ("➖" cóthểlựachọn: ⊤ tên: 'op_s')
-			Cụmtừ("✖" cóthểlựachọn: ⊤ tên: 'op_m')
-			Cụmtừ("➗" cóthểlựachọn: ⊤ tên: 'op_d')
+			Cụmtừ("➕" cóthểlựachọn tên: 'op_a')
+			Cụmtừ("➖" cóthểlựachọn tên: 'op_s')
+			Cụmtừ("✖" cóthểlựachọn tên: 'op_m')
+			Cụmtừ("➗" cóthểlựachọn tên: 'op_d')
 		]
 	)
 

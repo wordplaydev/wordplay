@@ -2,7 +2,7 @@ Auswählbare Optionen anzeigen
 
 Manchmal möchte man eine Reihe von Auswahlmöglichkeiten auf dem Bildschirm zeigen und mit den Entscheidungen des Publikums etwas anfangen. Dafür benötigen wir zwei Dinge:
 
-• Eine oder mehrere @Phrase , die als auswählbar markiert sind und einen eindeutigen Namen haben (z. B. \Phrase('Option 1' wählbar: ⊤ Name: 'eins')\)
+• Eine oder mehrere @Phrase , die als auswählbar markiert sind und einen eindeutigen Namen haben (z. B. \Phrase('Option 1' wählbar Name: 'eins')\)
 • Eine @Choice, der sich zum @Phrase -Namen ändert, der zuletzt gewählt wurde.
 
 Hier zeigen wir beispielsweise drei Auswahlmöglichkeiten, jede mit einem eindeutigen Namen.
@@ -12,9 +12,9 @@ option: Choice()
 
 Group(
 	Stack() [
-		Phrase('Option 1' wählbar: ⊤ Name: 'eins')
-		Phrase('Option 2' wählbar: ⊤ Name: 'zwei')
-		Phrase('Option 3' wählbar: ⊤ Name: 'drei')
+		Phrase('Option 1' wählbar Name: 'eins')
+		Phrase('Option 2' wählbar Name: 'zwei')
+		Phrase('Option 3' wählbar Name: 'drei')
 		Phrase(option)
 	]
 )

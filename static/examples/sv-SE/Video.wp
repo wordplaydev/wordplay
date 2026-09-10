@@ -63,7 +63,7 @@ bild: färger.kombinerad(
 		id2
 		0.5m
 		namn: id2
-		valbara: ⊤
+		valbara
 		vilande: (stil2 = id2) ? Pose() Pose(opacitet: 40%)
 	)
 

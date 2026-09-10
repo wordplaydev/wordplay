@@ -94,12 +94,12 @@ burung: Frasa(
 		tempat: tempatBurung
 		urusan: Urusan(1kg 0.4 0)
 		beristirahat:
-		(permainan2.fase = 3) ? Pose(rotasi: 180° flipx: ⊤)
+		(permainan2.fase = 3) ? Pose(rotasi: 180° flipx)
 			Urutan(
 				{
-					0%: Pose(flipx: ⊤ rotasi: -12°)
-					50%: Pose(flipx: ⊤ rotasi: 12°)
-					100%: Pose(flipx: ⊤ rotasi: -12°)
+					0%: Pose(flipx rotasi: -12°)
+					50%: Pose(flipx rotasi: 12°)
+					100%: Pose(flipx rotasi: -12°)
 				}
 				0.35s
 			)
@@ -222,7 +222,7 @@ tombolDengung: Frasa(
 		'🎤'
 		0.8m
 		nama: 'hum'
-		dapatdipilih: ⊤
+		dapatdipilih
 		tempat: Tempat(-4.2m 4.7m)
 		beristirahat: (mode = 'hum') ? Pose() Pose(
 				kegelapan: 40%
@@ -232,7 +232,7 @@ tombolKetuk: Frasa(
 		'⌨'
 		0.8m
 		nama: 'tap'
-		dapatdipilih: ⊤
+		dapatdipilih
 		tempat: Tempat(-3m 4.7m)
 		beristirahat: (mode = 'tap') ? Pose() Pose(
 				kegelapan: 40%

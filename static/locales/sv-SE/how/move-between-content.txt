@@ -62,7 +62,7 @@ Scene([
 		Phrase('en berättelse i tre delar' storlek: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('en katt dyker upp')])
 		Phrase('slutet 🎉')
-	] pausa: ⊤ steg: ∆ key ? ((key = 'Pil vänster') ? -1 (key = 'Pil Höger') ? 1 ø) ø)
+	] pausa steg: ∆ key ? ((key = 'Pil vänster') ? -1 (key = 'Pil Höger') ? 1 ø) ø)
 \
 
  Det finns inga \?\ -kontroller att koda här, eftersom en @Scene stannar vid sina egna ändar åt dig, och inget behöver komma ihåg vilken bit som visas.

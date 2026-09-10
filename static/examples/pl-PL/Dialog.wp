@@ -27,7 +27,7 @@ skrypt: [
 		linia(
 			'b'
 			'Czy dymek wokół litery to obraz litery, czy litera obrazu?'
-			myślenie: ⊤
+			myślenie
 		)
 		linia('a' 'Kręcisz się w kółko.')
 		linia(

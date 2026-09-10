@@ -58,7 +58,7 @@ Scene([
 		Phrase(' ile ')
 		Phrase('bir')
 		Phrase('iki')
-	] duraklat: ⊤ adım: ∆ key ? ((key = 'üç') ? -1 (key = 'Sol Ok') ? 1 ø) ø)
+	] duraklat adım: ∆ key ? ((key = 'üç') ? -1 (key = 'Sol Ok') ? 1 ø) ø)
 \
 
 @Scene/step Sağ Ok @Phrase birkaç \1\ kadar hareket eder — \-1\ geri — ve uçlara geldiğinde senin için durur.

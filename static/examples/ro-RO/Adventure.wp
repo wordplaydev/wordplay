@@ -127,13 +127,13 @@ camere•[cameră2]: [
 			'râu'
 			'Coridorul se termină la un grătar peste apă în mișcare. Barele sunt vechi, iar cuțitul are răbdare. Ieși împreună cu râul, și casa rămâne mult în urmă înainte ca cerul să se facă gri.'
 			final: 'Afară cu râul.'
-			aCâștigat: ⊤
+			aCâștigat
 		)
 		cameră2(
 			'coasta dealului'
 			'Cheia se învârte, lanțul se scurge în iarbă, iar poarta se deschide fără niciun sunet pe care cineva să-l audă. Valea este cenușie de dimineață, iar drumul este al tău.'
 			final: 'Afară prin poartă.'
-			aCâștigat: ⊤
+			aCâștigat
 		)
 	]
 

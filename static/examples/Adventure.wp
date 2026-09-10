@@ -128,13 +128,13 @@ rooms•[Room]: [
 		'river'
 		"The passage ends at a grate over moving water. The bars are old and the knife is patient. You go out with the river, and the house is a long way behind you before the sky is even grey."
 		ending: 'Out with the river.'
-		won: ⊤
+		won
 	)
 	Room(
 		'hillside'
 		"The key turns, the chain pours off into the grass, and the gate swings without a sound that anyone will hear. The valley is grey with morning, and the road is yours."
 		ending: 'Out through the gate.'
-		won: ⊤
+		won
 	)
 ]
 

@@ -88,11 +88,11 @@ bird: Phrase(
 	place: birdPlace
 	matter: Matter(1kg 0.4 0)
 	resting:
-		(game.phase = 3) ? Pose(rotation: 180° flipx: ⊤)
+		(game.phase = 3) ? Pose(rotation: 180° flipx)
 			Sequence({
-				0%: Pose(flipx: ⊤ rotation: -12°)
-				50%: Pose(flipx: ⊤ rotation: 12°)
-				100%: Pose(flipx: ⊤ rotation: -12°)
+				0%: Pose(flipx rotation: -12°)
+				50%: Pose(flipx rotation: 12°)
+				100%: Pose(flipx rotation: -12°)
 			} 0.35s)
 )
 
@@ -166,9 +166,9 @@ overlays:
 		[]
 
 ¶The mode switcher: the chosen way to play is bright, the other is dim.¶
-humButton: Phrase('🎤' 0.8m name: 'hum' selectable: ⊤ place: Place(-4.2m 4.7m)
+humButton: Phrase('🎤' 0.8m name: 'hum' selectable place: Place(-4.2m 4.7m)
 	resting: (mode = 'hum') ? Pose() Pose(opacity: 40%))
-tapButton: Phrase('⌨️' 0.8m name: 'tap' selectable: ⊤ place: Place(-3m 4.7m)
+tapButton: Phrase('⌨️' 0.8m name: 'tap' selectable place: Place(-3m 4.7m)
 	resting: (mode = 'tap') ? Pose() Pose(opacity: 40%))
 
 instructions1: Phrase("Pick ⌨️ to flap with clicks and keys, or 🎤 to hum your bird's height!" 0.45m place: Place(-6.9m -4.7m))

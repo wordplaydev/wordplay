@@ -82,12 +82,12 @@ ibon: Parirala(
 		lugar: lugarNgIbon
 		materya: Materya(1kg 0.4 0)
 		nagpapahinga:
-		(laro2.yugto = 3) ? Pose(pagikot: 180° flipx: ⊤)
+		(laro2.yugto = 3) ? Pose(pagikot: 180° flipx)
 			Pagkakasunodsunod(
 				{
-					0%: Pose(flipx: ⊤ pagikot: -12°)
-					50%: Pose(flipx: ⊤ pagikot: 12°)
-					100%: Pose(flipx: ⊤ pagikot: -12°)
+					0%: Pose(flipx pagikot: -12°)
+					50%: Pose(flipx pagikot: 12°)
+					100%: Pose(flipx pagikot: -12°)
 				}
 				0.35s
 			)
@@ -198,7 +198,7 @@ humâButones: Parirala(
 		'🎤'
 		0.8m
 		pangalan: 'hum'
-		mapipili: ⊤
+		mapipili
 		lugar: Lugar(-4.2m 4.7m)
 		nagpapahinga: (mode = 'hum') ? Pose() Pose(
 				kalabuan: 40%
@@ -208,7 +208,7 @@ tapikButones: Parirala(
 		'⌨'
 		0.8m
 		pangalan: 'tap'
-		mapipili: ⊤
+		mapipili
 		lugar: Lugar(-3m 4.7m)
 		nagpapahinga: (mode = 'tap') ? Pose() Pose(
 				kalabuan: 40%

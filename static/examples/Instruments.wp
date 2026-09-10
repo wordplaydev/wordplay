@@ -68,7 +68,7 @@ current one is drawn brighter so you can see where you are.¶
 			Phrase(voice.label 0.5m)
 		]
 		name: voice.label
-		selectable: ⊤
+		selectable
 		color: (voice.label = current.label)
 			? Color(95% 60 voice.hue)
 			Color(60% 8 voice.hue)

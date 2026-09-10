@@ -1,4 +1,5 @@
 import Bind from '@nodes/Bind';
+import BooleanLiteral from '@nodes/BooleanLiteral';
 import Expression from '@nodes/Expression';
 import Input from '@nodes/Input';
 import Literal from '@nodes/Literal';
@@ -145,6 +146,22 @@ export default class OutputExpression {
 
         // Doesn't exist? Bail.
         if (binding === undefined) return undefined;
+
+        // An implicit-⊤ shorthand IS the value ⊤; there is no expression in the source to read
+        // or edit. Report a literal the palette's controls can read, and leave `resolved`
+        // undefined so an edit routes through `withBindAs`, which knows how to replace a
+        // shorthand by name rather than in place.
+        if (binding.shorthand?.implicit && binding.given instanceof Reference) {
+            const value = BooleanLiteral.make(true);
+            return {
+                evaluate: this.node,
+                bind: binding.expected,
+                given: true,
+                expression: value,
+                value: value.getValue(),
+                resolved: undefined,
+            };
+        }
 
         // If the binding is mapped to a default value, get its value if a literal or its expression if not
         const input =

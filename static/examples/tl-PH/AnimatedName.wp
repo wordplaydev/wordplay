@@ -55,11 +55,11 @@ Change the locale on stage to see each one!¶/en
 					mukha: 'Aclonica'
 					nagpapahinga: Pagkakasunodsunod(
 						{
-							0%: Pose(kulay: Kulay(0.5 100 180°) flipx: ⊤)
+							0%: Pose(kulay: Kulay(0.5 100 180°) flipx)
 							50%: Pose(kulay: Kulay(27% 112 267°))
 							75%: Pose(
 								kulay: Kulay(0.5 100 180°)
-								flipx: ⊤
+								flipx
 							)
 						}
 						tagal: 2s
@@ -148,11 +148,11 @@ Change the locale on stage to see each one!¶/en
 					mukha: 'Aclonica'
 					nagpapahinga: Pagkakasunodsunod(
 						{
-							0%: Pose(kulay: Kulay(0.5 100 180°) flipx: ⊤)
+							0%: Pose(kulay: Kulay(0.5 100 180°) flipx)
 							50%: Pose(kulay: Kulay(27% 112 267°))
 							75%: Pose(
 								kulay: Kulay(0.5 100 180°)
-								flipx: ⊤
+								flipx
 							)
 						}
 						tagal: 2s

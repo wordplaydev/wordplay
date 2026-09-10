@@ -6,7 +6,7 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 انقرني' قابلللتحديد: ⊤ اسم: 'انقر')
+		Phrase('👆 انقرني' قابلللتحديد اسم: 'انقر')
 		Music(Track(tapped ? [1 5 8] [] آلة: Instrument.bell حلقة: ⊥) إعادةالتشغيل: tapped)
 	])\
 

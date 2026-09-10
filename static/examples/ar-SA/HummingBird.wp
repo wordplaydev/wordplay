@@ -85,12 +85,12 @@
 		مكان: مكانالطائر
 		مادة: مادة(1kg 0.4 0)
 		resting:
-		(لعبة2.مرحلة = 3) ? Pose(rotation: 180° flipx: ⊤)
+		(لعبة2.مرحلة = 3) ? Pose(rotation: 180° flipx)
 			تسلسل(
 				{
-					0%: Pose(flipx: ⊤ rotation: -12°)
-					50%: Pose(flipx: ⊤ rotation: 12°)
-					100%: Pose(flipx: ⊤ rotation: -12°)
+					0%: Pose(flipx rotation: -12°)
+					50%: Pose(flipx rotation: 12°)
+					100%: Pose(flipx rotation: -12°)
 				}
 				0.35s
 			)
@@ -197,7 +197,7 @@
 		'🎤'
 		0.8m
 		اسم: 'hum'
-		قابلللتحديد: ⊤
+		قابلللتحديد
 		مكان: مكان(-4.2m 4.7m)
 		resting: (وضع = 'hum') ? Pose() Pose(opacity: 40%)
 	)
@@ -205,7 +205,7 @@
 		'⌨'
 		0.8m
 		اسم: 'tap'
-		قابلللتحديد: ⊤
+		قابلللتحديد
 		مكان: مكان(-3m 4.7m)
 		resting: (وضع = 'tap') ? Pose() Pose(opacity: 40%)
 	)

@@ -57,12 +57,12 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Pose(
 								color: Color(0.5 100 180°)
-								voltearx: ⊤
+								voltearx
 							)
 							50%: Pose(color: Color(27% 112 267°))
 							75%: Pose(
 								color: Color(0.5 100 180°)
-								voltearx: ⊤
+								voltearx
 							)
 						}
 						duración: 2s
@@ -153,12 +153,12 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Pose(
 								color: Color(0.5 100 180°)
-								voltearx: ⊤
+								voltearx
 							)
 							50%: Pose(color: Color(27% 112 267°))
 							75%: Pose(
 								color: Color(0.5 100 180°)
-								voltearx: ⊤
+								voltearx
 							)
 						}
 						duración: 2s

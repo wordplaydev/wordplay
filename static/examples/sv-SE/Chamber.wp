@@ -51,7 +51,7 @@ omkopplare: Fras(
 		fallande ? '⬇ tyngdkraft' '🌌 flytande'
 		0.7m
 		namn: 'gravity'
-		valbara: ⊤
+		valbara
 		plats: Plats(-13m 1m)
 	)
 
@@ -59,7 +59,7 @@ skakare: Fras(
 		'🎲 skaka'
 		0.7m
 		namn: 'shake'
-		valbara: ⊤
+		valbara
 		plats: Plats(-13m -1m)
 	)
 

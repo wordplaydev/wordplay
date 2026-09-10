@@ -27,7 +27,7 @@ skript: [
 		rad(
 			'b'
 			'Är en pratbubbla runt en bokstav en bild av en bokstav, eller en bokstav i en bild?'
-			tänker: ⊤
+			tänker
 		)
 		rad('en' 'Du snurrar iväg i tankarna.')
 		rad(

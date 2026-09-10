@@ -58,7 +58,7 @@ Scene([
 		Phrase('một')
 		Phrase('hai')
 		Phrase('ba')
-	] tạmDừng: ⊤ bước: ∆ key ? ((key = 'Mũi tên trái') ? -1 (key = 'Mũi tên phải') ? 1 ø) ø)
+	] tạmDừng bước: ∆ key ? ((key = 'Mũi tên trái') ? -1 (key = 'Mũi tên phải') ? 1 ø) ø)
 \
 
 @Scene/step di chuyển theo một số @Phrase — \1\ về phía trước, \-1\ quay lại — và tự dừng ở hai đầu cho bạn.

@@ -66,7 +66,7 @@ yükselenOlay2: [
 			boyut: 2m
 			yer: Yer(-1m -7m)
 			isim: 'pear'
-			seçilebilir: ⊤
+			seçilebilir
 		)
 	]
 
@@ -91,7 +91,7 @@ dorukNokta: [
 			isim: "tree"
 			boyut: 5m
 			yer: Yer(-3m -7m)
-			seçilebilir: ⊤
+			seçilebilir
 		)
 		:yerler.tercümeetmek(
 			ƒ(yerleştir dizin2)

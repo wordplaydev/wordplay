@@ -59,7 +59,7 @@ letra: 'la li lu le lo li la'
 			Frase(voz4.etiqueta 0.5m)
 		]
 		nome: voz4.etiqueta
-		selecionável: ⊤
+		selecionável
 		cor: (voz4.etiqueta = atual.etiqueta)
 		? Cor(95% 60 voz4.tonalidade)
 			Cor(60% 8 voz4.tonalidade)

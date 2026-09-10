@@ -62,7 +62,7 @@ Scene([
 		Phrase('一个分三部分的故事' 尺寸: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('一只猫出现了')])
 		Phrase('结束了🎉')
-	] 暂停: ⊤ 步进: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+	] 暂停 步进: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 
  这里不需要写任何 \?\ 检查，因为 @Scene 会自动在两端停住，不需要记住当前显示的是哪一个。

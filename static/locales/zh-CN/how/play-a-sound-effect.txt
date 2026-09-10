@@ -6,7 +6,7 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 点我' 可选择的: ⊤ 名字: '点击')
+		Phrase('👆 点我' 可选择的 名字: '点击')
 		Music(Track(tapped ? [1 5 8] [] 乐器: Instrument.bell 循环: ⊥) 重播: tapped)
 	])\
 

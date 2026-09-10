@@ -69,7 +69,7 @@ lirik: 'la li lu le lo li la'
 			Frasa(suara5.label 0.5m)
 		]
 		nama: suara5.label
-		dapatdipilih: ⊤
+		dapatdipilih
 		warna: (suara5.label = saatIni.label)
 		? Warna(95% 60 suara5.corakWarna)
 			Warna(60% 8 suara5.corakWarna)

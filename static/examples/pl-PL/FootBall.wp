@@ -15,7 +15,7 @@ bramkarzZasięg: 4.5m
 bramkarzSzybkość: 0.55m
 
 tyknięcie: Czas(50ms)
-naciśnij: Klawisz(wdół: ⊤)
+naciśnij: Klawisz(wdół)
 puść: Klawisz(wdół: ⊥)
 
 ¶Kierunek, w którym porusza się rękawica. Naciśnięcie strzałki uruchamia ruch, a puszczenie tej samej strzałki go zatrzymuje, więc rękawica przesuwa się tak długo, jak trzymasz klawisz. Przy tak szerokiej bramce krok po każdym naciśnięciu nigdy nie zdążyłby na czas.¶

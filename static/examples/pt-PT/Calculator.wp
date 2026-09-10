@@ -26,16 +26,16 @@ operator: ø … opicked … ((choice ÷ '')[-1])
 numbers1: Grupo(
 		Rede(2 5)
 		[
-			Frase("0⃣" selecionável: ⊤ nome: 'num1_0')
-			Frase("1⃣" selecionável: ⊤ nome: 'num1_1')
-			Frase("2⃣" selecionável: ⊤ nome: 'num1_2')
-			Frase("3⃣" selecionável: ⊤ nome: 'num1_3')
-			Frase("4⃣" selecionável: ⊤ nome: 'num1_4')
-			Frase("5⃣" selecionável: ⊤ nome: 'num1_5')
-			Frase("6⃣" selecionável: ⊤ nome: 'num1_6')
-			Frase("7⃣" selecionável: ⊤ nome: 'num1_7')
-			Frase("8⃣" selecionável: ⊤ nome: 'num1_8')
-			Frase("9⃣" selecionável: ⊤ nome: 'num1_9')
+			Frase("0⃣" selecionável nome: 'num1_0')
+			Frase("1⃣" selecionável nome: 'num1_1')
+			Frase("2⃣" selecionável nome: 'num1_2')
+			Frase("3⃣" selecionável nome: 'num1_3')
+			Frase("4⃣" selecionável nome: 'num1_4')
+			Frase("5⃣" selecionável nome: 'num1_5')
+			Frase("6⃣" selecionável nome: 'num1_6')
+			Frase("7⃣" selecionável nome: 'num1_7')
+			Frase("8⃣" selecionável nome: 'num1_8')
+			Frase("9⃣" selecionável nome: 'num1_9')
 		]
 	)
 
@@ -43,16 +43,16 @@ numbers1: Grupo(
 numbers2: Grupo(
 		Rede(2 5)
 		[
-			Frase("0⃣" selecionável: ⊤ nome: 'num2_0')
-			Frase("1⃣" selecionável: ⊤ nome: 'num2_1')
-			Frase("2⃣" selecionável: ⊤ nome: 'num2_2')
-			Frase("3⃣" selecionável: ⊤ nome: 'num2_3')
-			Frase("4⃣" selecionável: ⊤ nome: 'num2_4')
-			Frase("5⃣" selecionável: ⊤ nome: 'num2_5')
-			Frase("6⃣" selecionável: ⊤ nome: 'num2_6')
-			Frase("7⃣" selecionável: ⊤ nome: 'num2_7')
-			Frase("8⃣" selecionável: ⊤ nome: 'num2_8')
-			Frase("9⃣" selecionável: ⊤ nome: 'num2_9')
+			Frase("0⃣" selecionável nome: 'num2_0')
+			Frase("1⃣" selecionável nome: 'num2_1')
+			Frase("2⃣" selecionável nome: 'num2_2')
+			Frase("3⃣" selecionável nome: 'num2_3')
+			Frase("4⃣" selecionável nome: 'num2_4')
+			Frase("5⃣" selecionável nome: 'num2_5')
+			Frase("6⃣" selecionável nome: 'num2_6')
+			Frase("7⃣" selecionável nome: 'num2_7')
+			Frase("8⃣" selecionável nome: 'num2_8')
+			Frase("9⃣" selecionável nome: 'num2_9')
 		]
 	)
 
@@ -60,10 +60,10 @@ numbers2: Grupo(
 operators: Grupo(
 		Rede(2 2)
 		[
-			Frase("➕" selecionável: ⊤ nome: 'op_a')
-			Frase("➖" selecionável: ⊤ nome: 'op_s')
-			Frase("✖" selecionável: ⊤ nome: 'op_m')
-			Frase("➗" selecionável: ⊤ nome: 'op_d')
+			Frase("➕" selecionável nome: 'op_a')
+			Frase("➖" selecionável nome: 'op_s')
+			Frase("✖" selecionável nome: 'op_m')
+			Frase("➗" selecionável nome: 'op_d')
 		]
 	)
 

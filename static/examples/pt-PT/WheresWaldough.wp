@@ -40,7 +40,7 @@ Fase(
 	[
 		Frase(
 			"🔁"
-			selecionável: ⊤
+			selecionável
 			local: Local(4m -0.5m)
 			descansar: apanhado ? Pose(rotação: 180°) Pose()
 			duração: 0.5s

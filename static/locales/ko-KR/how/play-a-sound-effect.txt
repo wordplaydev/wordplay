@@ -6,7 +6,7 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 나를 눌러요' 선택가능: ⊤ 이름: '누르기')
+		Phrase('👆 나를 눌러요' 선택가능 이름: '누르기')
 		Music(Track(tapped ? [1 5 8] [] 악기: Instrument.bell 반복: ⊥) 다시재생: tapped)
 	])\
 

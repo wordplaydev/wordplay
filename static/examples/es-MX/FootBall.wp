@@ -15,7 +15,7 @@ alcancePortera: 4.5m
 velocidadPortera: 0.55m
 
 tic: Tiempo(50ms)
-presionar: Tecla(abajo: ⊤)
+presionar: Tecla(abajo)
 soltar: Tecla(abajo: ⊥)
 
 ¶Hacia dónde se mueve el guante. Al presionar una flecha, el guante empieza a moverse, y al soltar esa misma flecha se detiene. Así, el guante se desliza mientras mantengas la tecla presionada. En una boca de portería tan ancha, moverse un paso por cada pulsación nunca llegaría a tiempo.¶

@@ -6,7 +6,7 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 মোক টিপক' নিৰ্বাচনযোগ্য: ⊤ নাম: 'টিপক')
+		Phrase('👆 মোক টিপক' নিৰ্বাচনযোগ্য নাম: 'টিপক')
 		Music(Track(tapped ? [1 5 8] [] বাদ্যযন্ত্ৰ: Instrument.bell লুপ: ⊥) পুনৰচলাওক: tapped)
 	])\
 

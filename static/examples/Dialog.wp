@@ -12,7 +12,7 @@ script: [
 	Line('a' "No, I mean us. Not the words we make. Us.")
 	Line('b' "…Oh.")
 	Line('a' "I am a shape that means a sound. Right now I am making the sound by being the shape.")
-	Line('b' "Is a speech bubble around a letter a picture of a letter, or a letter of a picture?" thinking: ⊤)
+	Line('b' "Is a speech bubble around a letter a picture of a letter, or a letter of a picture?" thinking)
 	Line('a' "You are spiraling.")
 	Line('b' "I am a b. Spiraling is literally my silhouette.")
 	Line('a' "Anyway. This is normal here.")

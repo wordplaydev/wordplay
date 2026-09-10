@@ -56,7 +56,7 @@ Fase(
 						Its name is add, so selecting it updates the action choice.¶/en
 						Frase(
 							'Adicionar Hora de Estudo +1'
-							selecionável: ⊤
+							selecionável
 							nome: 'adicionar'
 							cor: Cor(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ Fase(
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						Frase(
 							'Repor'
-							selecionável: ⊤
+							selecionável
 							nome: 'reset'
 							cor: Cor(69% 47 271°)
 						)

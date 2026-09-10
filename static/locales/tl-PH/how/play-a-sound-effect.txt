@@ -6,7 +6,7 @@ Dalawang bagay ang gumagawa nitong "sound effect" sa halip na kanta. \loop: ⊥\
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 pindutin mo ako' mapipili: ⊤ pangalan: 'pindutin')
+		Phrase('👆 pindutin mo ako' mapipili pangalan: 'pindutin')
 		Music(Track(tapped ? [1 5 8] [] instrumento: Instrument.bell loop: ⊥) iReplay: tapped)
 	])\
 

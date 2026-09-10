@@ -38,9 +38,9 @@ Change the locale on stage to see each one!¶/en
 							100%: 🤪(rotation: 359°)
 						} ⏳: 1s) ⏳: 1s)
 				Phrase('d'/en face: 'Aclonica' resting: 💃({
-							0%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
+							0%: 🤪(color: 🌈(0.5 100 180°) flipx)
 							50%: 🤪(color: 🌈(27% 112 267°))
-							75%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
+							75%: 🤪(color: 🌈(0.5 100 180°) flipx)
 						} ⏳: 2s) style: 'straight' ⏳: 5s color: 🌈(0.5 100 180°))
 				Phrase('♪' resting: 💃({
 							0%: 🤪(offset: ⚽(📍(0m 0.5m 0m 📐: 0°) 💨(0m/s 0m/s 0°/s)))
@@ -83,9 +83,9 @@ Change the locale on stage to see each one!¶/en
 							100%: 🤪()
 						} ⏳: 2s) ⏳: 5s color: 🌈(74% 100 292°))
 				Phrase('ती'/hi face: 'Aclonica' resting: 💃({
-							0%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
+							0%: 🤪(color: 🌈(0.5 100 180°) flipx)
 							50%: 🤪(color: 🌈(27% 112 267°))
-							75%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
+							75%: 🤪(color: 🌈(0.5 100 180°) flipx)
 						} ⏳: 2s) style: 'straight' ⏳: 5s color: 🌈(0.5 100 180°))
 			])
 	)

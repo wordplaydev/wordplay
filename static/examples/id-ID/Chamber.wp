@@ -48,7 +48,7 @@ tombol: Frasa(
 		jatuh ? '⬇ gravitasi' '🌌 melayang'
 		0.7m
 		nama: 'gravity'
-		dapatdipilih: ⊤
+		dapatdipilih
 		tempat: Tempat(-13m 1m)
 	)
 
@@ -56,7 +56,7 @@ pengguncang: Frasa(
 		'🎲 goyang'
 		0.7m
 		nama: 'shake'
-		dapatdipilih: ⊤
+		dapatdipilih
 		tempat: Tempat(-13m -1m)
 	)
 

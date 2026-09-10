@@ -30,7 +30,7 @@ Sahne(
 	[
 		İfadeetmek(
 			"🐭"
-			seçilebilir: ⊤
+			seçilebilir
 			yer: yerleştir
 			dinlenme: yakalandı ? Poz(
 					rotasyon: 180°

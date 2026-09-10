@@ -69,7 +69,7 @@ paroles: 'la li lu le lo li la'
 			Phrase(voix5.étiquette 0.5m)
 		]
 		nom: voix5.étiquette
-		sélectionnable: ⊤
+		sélectionnable
 		couleur: (voix5.étiquette = actuel.étiquette)
 		? Couleur(95% 60 voix5.teinte2)
 			Couleur(60% 8 voix5.teinte2)

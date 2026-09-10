@@ -26,16 +26,16 @@ operator: ø … opicked … ((choice ÷ '')[-1])
 numbers1: Grup(
 		Grilă(2 5)
 		[
-			Fraza("0⃣" selectabil: ⊤ nume: 'num1_0')
-			Fraza("1⃣" selectabil: ⊤ nume: 'num1_1')
-			Fraza("2⃣" selectabil: ⊤ nume: 'num1_2')
-			Fraza("3⃣" selectabil: ⊤ nume: 'num1_3')
-			Fraza("4⃣" selectabil: ⊤ nume: 'num1_4')
-			Fraza("5⃣" selectabil: ⊤ nume: 'num1_5')
-			Fraza("6⃣" selectabil: ⊤ nume: 'num1_6')
-			Fraza("7⃣" selectabil: ⊤ nume: 'num1_7')
-			Fraza("8⃣" selectabil: ⊤ nume: 'num1_8')
-			Fraza("9⃣" selectabil: ⊤ nume: 'num1_9')
+			Fraza("0⃣" selectabil nume: 'num1_0')
+			Fraza("1⃣" selectabil nume: 'num1_1')
+			Fraza("2⃣" selectabil nume: 'num1_2')
+			Fraza("3⃣" selectabil nume: 'num1_3')
+			Fraza("4⃣" selectabil nume: 'num1_4')
+			Fraza("5⃣" selectabil nume: 'num1_5')
+			Fraza("6⃣" selectabil nume: 'num1_6')
+			Fraza("7⃣" selectabil nume: 'num1_7')
+			Fraza("8⃣" selectabil nume: 'num1_8')
+			Fraza("9⃣" selectabil nume: 'num1_9')
 		]
 	)
 
@@ -43,16 +43,16 @@ numbers1: Grup(
 numbers2: Grup(
 		Grilă(2 5)
 		[
-			Fraza("0⃣" selectabil: ⊤ nume: 'num2_0')
-			Fraza("1⃣" selectabil: ⊤ nume: 'num2_1')
-			Fraza("2⃣" selectabil: ⊤ nume: 'num2_2')
-			Fraza("3⃣" selectabil: ⊤ nume: 'num2_3')
-			Fraza("4⃣" selectabil: ⊤ nume: 'num2_4')
-			Fraza("5⃣" selectabil: ⊤ nume: 'num2_5')
-			Fraza("6⃣" selectabil: ⊤ nume: 'num2_6')
-			Fraza("7⃣" selectabil: ⊤ nume: 'num2_7')
-			Fraza("8⃣" selectabil: ⊤ nume: 'num2_8')
-			Fraza("9⃣" selectabil: ⊤ nume: 'num2_9')
+			Fraza("0⃣" selectabil nume: 'num2_0')
+			Fraza("1⃣" selectabil nume: 'num2_1')
+			Fraza("2⃣" selectabil nume: 'num2_2')
+			Fraza("3⃣" selectabil nume: 'num2_3')
+			Fraza("4⃣" selectabil nume: 'num2_4')
+			Fraza("5⃣" selectabil nume: 'num2_5')
+			Fraza("6⃣" selectabil nume: 'num2_6')
+			Fraza("7⃣" selectabil nume: 'num2_7')
+			Fraza("8⃣" selectabil nume: 'num2_8')
+			Fraza("9⃣" selectabil nume: 'num2_9')
 		]
 	)
 
@@ -60,10 +60,10 @@ numbers2: Grup(
 operators: Grup(
 		Grilă(2 2)
 		[
-			Fraza("➕" selectabil: ⊤ nume: 'op_a')
-			Fraza("➖" selectabil: ⊤ nume: 'op_s')
-			Fraza("✖" selectabil: ⊤ nume: 'op_m')
-			Fraza("➗" selectabil: ⊤ nume: 'op_d')
+			Fraza("➕" selectabil nume: 'op_a')
+			Fraza("➖" selectabil nume: 'op_s')
+			Fraza("✖" selectabil nume: 'op_m')
+			Fraza("➗" selectabil nume: 'op_d')
 		]
 	)
 

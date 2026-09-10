@@ -58,7 +58,7 @@ Scene([
 		Phrase('एक')
 		Phrase('दो')
 		Phrase('तीन')
-	] रोकें: ⊤ कदम: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+	] रोकें कदम: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 
 @Scene/step कुछ @Phrase — \1\ जितनी संख्या से आगे, \-1\ पीछे — और यह अंत में खुद रुक जाता है।

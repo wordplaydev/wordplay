@@ -2,7 +2,7 @@ Ipakita ang mga pagpipiliang maaaring piliin
 
 Minsan gusto mong magpakita ng maraming pagpipilian sa screen, at gumawa ng isang bagay gamit ang pinipili ng mga manonood. Para magawa ito, kailangan natin ng dalawang bagay:
 
-• Isa o higit pang @Phrase na minarkahang mapipili at may kakaibang pangalan (hal., \Phrase('opsyon 1' mapipili: ⊤ pangalan: 'isa')\)
+• Isa o higit pang @Phrase na minarkahang mapipili at may kakaibang pangalan (hal., \Phrase('opsyon 1' mapipili pangalan: 'isa')\)
 • Isang @Choice, na nagbabago tungo sa pinakahuling napiling @Phrase na pangalan.
 
 Halimbawa, ipinapakita namin dito ang tatlong pagpipilian, bawat isa ay may natatanging pangalan.
@@ -12,9 +12,9 @@ option: Choice()
 
 Group(
 	Stack() [
-		Phrase('opsyon 1' mapipili: ⊤ pangalan: 'isa')
-		Phrase('opsyon 2' mapipili: ⊤ pangalan: 'dalawa')
-		Phrase('opsyon 3' mapipili: ⊤ pangalan: 'tatlo')
+		Phrase('opsyon 1' mapipili pangalan: 'isa')
+		Phrase('opsyon 2' mapipili pangalan: 'dalawa')
+		Phrase('opsyon 3' mapipili pangalan: 'tatlo')
 		Phrase(option)
 	]
 )

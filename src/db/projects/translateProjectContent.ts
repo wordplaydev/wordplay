@@ -16,6 +16,7 @@ import Name from '@nodes/Name';
 import Names from '@nodes/Names';
 import NameType from '@nodes/NameType';
 import type WordplayNode from '@nodes/Node';
+import { getImplicitInputBind } from '@nodes/inputShorthand';
 import Reference from '@nodes/Reference';
 import Sym from '@nodes/Sym';
 import type Definition from '@nodes/Definition';
@@ -1124,6 +1125,67 @@ export default async function translateProjectContent(
                                     input.separator,
                                 ),
                             ];
+                        }),
+                );
+
+                // A boolean input shorthand is an input's name too — `Phrase('hi'
+                // selectable)` — but written as a bare Reference, so the pass above
+                // doesn't reach it and the pass below skips it, since a shorthand
+                // resolves to nothing lexically. Same rule, same reason: leaving it
+                // spelled in English would strand the input the moment the locale
+                // renames it. Re-walked from the freshly revised project, because the
+                // pass above rebuilt the ancestors of everything it touched.
+                newProject = newProject.withRevisedNodes(
+                    newProject
+                        .getSources()
+                        .reduce(
+                            (
+                                shorthands: {
+                                    reference: Reference;
+                                    source: Source;
+                                }[],
+                                source,
+                            ) => [
+                                ...shorthands,
+                                ...source
+                                    .nodes()
+                                    .filter(
+                                        (node): node is Reference =>
+                                            node instanceof Reference &&
+                                            getImplicitInputBind(
+                                                node,
+                                                newProject.getContext(source),
+                                            ) !== undefined,
+                                    )
+                                    .map((reference) => ({
+                                        reference,
+                                        source,
+                                    })),
+                            ],
+                            [],
+                        )
+                        .map(({ reference, source }) => {
+                            const bind = getImplicitInputBind(
+                                reference,
+                                newProject.getContext(source),
+                            );
+                            if (bind === undefined)
+                                return [reference, reference];
+                            if (
+                                spellsPreservedName(
+                                    bind,
+                                    reference.getName(),
+                                    newProject.getSourceOf(bind) !== undefined,
+                                )
+                            )
+                                return [reference, reference];
+                            const translation = targetName(bind, false);
+                            if (
+                                translation === undefined ||
+                                reference.getName() === translation
+                            )
+                                return [reference, reference];
+                            return [reference, Reference.make(translation)];
                         }),
                 );
 

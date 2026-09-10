@@ -79,12 +79,21 @@ import TypeInputs from '@nodes/TypeInputs';
 import type TypeSet from '@nodes/TypeSet';
 import TypeVariable from '@nodes/TypeVariable';
 import UnionType from '@nodes/UnionType';
+import getInputShorthand from '@nodes/inputShorthand';
+import Push from '@runtime/Push';
+import BoolValue from '@values/BoolValue';
 import { getEvaluationInputConflicts } from '@nodes/util';
 import { isTailCall } from '@nodes/tailCall';
 
 type Mapping = {
     expected: Bind;
     given: undefined | Expression | Expression[] | Input;
+    /**
+     * Set when `given` is a bare Reference filling `expected` by name rather than by position.
+     * `implicit` means it names nothing in scope and so stands in for ⊤. Cached here because
+     * `getInputMapping` has already computed it, so the two can never disagree.
+     */
+    shorthand?: { implicit: boolean };
 };
 
 type InputMapping = { inputs: Mapping[]; extra: (Expression | Input)[] };
@@ -441,8 +450,32 @@ export default class Evaluate extends Expression {
         // Prepare a list of mappings.
         const mappings: InputMapping = { inputs: [], extra: [] };
 
+        // A bare boolean name binds by name, not by position, so claim those first and take
+        // them out of the stream below — otherwise the positional branch, or a variable length
+        // input's sweep, would consume them before their own bind is ever reached.
+        const shorthands = new Map<Bind, Mapping>();
+        for (const given of this.inputs) {
+            if (!(given instanceof Reference)) continue;
+            const shorthand = getInputShorthand(given, context, this);
+            // Can't collide: the predicate declines a second shorthand for the same bind.
+            if (shorthand === undefined) continue;
+            shorthands.set(shorthand.bind, {
+                expected: shorthand.bind,
+                given,
+                shorthand: { implicit: shorthand.implicit },
+            });
+            givenInputs.splice(givenInputs.indexOf(given), 1);
+        }
+
         // Loop through each of the expected types and see if the given types match.
         for (const expectedInput of expectedInputs) {
+            // Already claimed by a bare boolean name?
+            const claimed = shorthands.get(expectedInput);
+            if (claimed) {
+                mappings.inputs.push(claimed);
+                continue;
+            }
+
             // Prepare a mapping.
             const mapping: Mapping = {
                 expected: expectedInput,
@@ -518,6 +551,22 @@ export default class Evaluate extends Expression {
     ): Evaluate {
         const mapping = this.getMappingFor(bind, context);
         if (mapping === undefined) return this;
+
+        // A bare boolean name fills its bind by NAME, not by position, so replacing it in
+        // place with a value would hand that value to whatever input its position reaches
+        // instead — `Phrase('hi' selectable)` would become `Phrase('hi' ⊥)`, i.e. a size.
+        // A new value therefore becomes a named input, and unsetting removes the name so the
+        // bind falls back to its default.
+        if (
+            mapping.shorthand !== undefined &&
+            mapping.given instanceof Reference
+        )
+            return this.replace(
+                mapping.given,
+                expression === undefined
+                    ? undefined
+                    : Input.make(bind.getNames()[0], expression),
+            );
 
         // If it's already bound, replace the binding.
         if (mapping.given instanceof Input) {
@@ -1010,6 +1059,11 @@ export default class Evaluate extends Expression {
                 }
                 // Otherwise, check its type, and either halt or evaluate.
                 else {
+                    // A bare boolean name that names nothing in scope stands in for ⊤: there
+                    // is no expression to evaluate, so push the value the name implies.
+                    if (input.shorthand?.implicit && given instanceof Reference)
+                        return [new Push(given, new BoolValue(given, true))];
+
                     const expectedType = expected.getType(context);
                     const acceptable =
                         expectedType

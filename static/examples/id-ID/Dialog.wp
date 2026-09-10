@@ -27,7 +27,7 @@ skrip: [
 		baris2(
 			'b'
 			'Apakah gelembung bicara di sekitar sebuah huruf itu gambar dari sebuah huruf, atau huruf dari sebuah gambar?'
-			berpikir: ⊤
+			berpikir
 		)
 		baris2('a' 'Kamu jadi berputar-putar.')
 		baris2(

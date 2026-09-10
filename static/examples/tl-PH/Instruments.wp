@@ -69,7 +69,7 @@ liriko: 'la li lu le lo li la'
 			Parirala(boses3.tatak 0.5m)
 		]
 		pangalan: boses3.tatak
-		mapipili: ⊤
+		mapipili
 		kulay: (boses3.tatak = kasalukuyan.tatak)
 		? Kulay(95% 60 boses3.hue)
 			Kulay(60% 8 boses3.hue)

@@ -63,7 +63,7 @@ acțiuneCrescătoare2: [
 			dimensiune: 2m
 			loc: Loc(-1m -7m)
 			nume: 'pear'
-			selectabil: ⊤
+			selectabil
 		)
 	]
 
@@ -85,7 +85,7 @@ punctCulminant: [
 			nume: "tree"
 			dimensiune: 5m
 			loc: Loc(-3m -7m)
-			selectabil: ⊤
+			selectabil
 		)
 		:locuri.traduce(
 			ƒ(loc2 index2)

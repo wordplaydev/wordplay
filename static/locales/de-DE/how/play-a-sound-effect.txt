@@ -6,7 +6,7 @@ Zwei Dinge machen daraus einen Klangeffekt statt ein Lied. \schleife: ⊥\ sagt 
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 tippe mich an' wählbar: ⊤ Name: 'tippen')
+		Phrase('👆 tippe mich an' wählbar Name: 'tippen')
 		Music(Track(tapped ? [1 5 8] [] Instrument: Instrument.bell Schleife: ⊥) Wiederholen: tapped)
 	])\
 

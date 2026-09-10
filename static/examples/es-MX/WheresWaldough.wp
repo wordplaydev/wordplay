@@ -40,7 +40,7 @@ Escenario(
 	[
 		Frase(
 			"🔁"
-			seleccionable: ⊤
+			seleccionable
 			lugar: Lugar(4m -0.5m)
 			inmóvil: atrapado ? Pose(rotación: 180°) Pose()
 			duración: 0.5s

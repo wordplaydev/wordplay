@@ -48,7 +48,7 @@ interruptor: Frase(
 		cayendo ? '⬇ gravedad' '🌌 flotando'
 		0.7m
 		nombre: 'gravity'
-		seleccionable: ⊤
+		seleccionable
 		lugar: Lugar(-13m 1m)
 	)
 
@@ -56,7 +56,7 @@ agitador: Frase(
 		'🎲 sacudir'
 		0.7m
 		nombre: 'shake'
-		seleccionable: ⊤
+		seleccionable
 		lugar: Lugar(-13m -1m)
 	)
 

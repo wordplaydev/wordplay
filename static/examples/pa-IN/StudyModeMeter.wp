@@ -56,7 +56,7 @@ The Stack places the title, explanation, number display, message, and selectable
 						Its name is add, so selecting it updates the action choice.¶/en
 						ਵਾਕੰਸ਼(
 							'ਪੜ੍ਹਾਈ ਦਾ ਘੰਟਾ ਜੋੜੋ +1'
-							ਚੋਣਯੋਗ: ⊤
+							ਚੋਣਯੋਗ
 							ਨਾਮ: 'ਜੋੜੋ'
 							ਰੰਗ: ਰੰਗ(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ The Stack places the title, explanation, number display, message, and selectable
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						ਵਾਕੰਸ਼(
 							'ਦੁਬਾਰਾ ਸ਼ੁਰੂ ਕਰੋ'
-							ਚੋਣਯੋਗ: ⊤
+							ਚੋਣਯੋਗ
 							ਨਾਮ: 'reset'
 							ਰੰਗ: ਰੰਗ(69% 47 271°)
 						)

@@ -109,9 +109,9 @@ current: 'time' … ∆ choice … choice
 
 tabs: Group(
 	➡('|' padding: 0.6m) [
-		Phrase('▸ Over time' selectable: ⊤ name: 'time' size: 0.35m color: 🌈(60% 50 20°))
-		Phrase('▸ By field' selectable: ⊤ name: 'fields' size: 0.35m color: 🌈(60% 50 140°))
-		Phrase('▸ Count vs share' selectable: ⊤ name: 'counts' size: 0.35m color: 🌈(60% 50 280°))
+		Phrase('▸ Over time' selectable name: 'time' size: 0.35m color: 🌈(60% 50 20°))
+		Phrase('▸ By field' selectable name: 'fields' size: 0.35m color: 🌈(60% 50 140°))
+		Phrase('▸ Count vs share' selectable name: 'counts' size: 0.35m color: 🌈(60% 50 280°))
 	]
 )
 

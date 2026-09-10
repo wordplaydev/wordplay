@@ -64,7 +64,7 @@ imagine: culori.combinate(
 		id2
 		0.5m
 		nume: id2
-		selectabil: ⊤
+		selectabil
 		odihnă: (stil2 = id2) ? Poză() Poză(opacitate: 40%)
 	)
 

@@ -55,7 +55,7 @@ text2: 'la li lu le lo li la'
 			Fras(röst4.etikett 0.5m)
 		]
 		namn: röst4.etikett
-		valbara: ⊤
+		valbara
 		färg: (röst4.etikett = nuvarande.etikett)
 		? Färg(95% 60 röst4.nyans2)
 			Färg(60% 8 röst4.nyans2)

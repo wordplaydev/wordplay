@@ -62,7 +62,7 @@ Scene([
 		Phrase('một câu chuyện gồm ba phần' kíchcỡ: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('một con mèo xuất hiện')])
 		Phrase('kết thúc 🎉')
-	] tạmDừng: ⊤ bước: ∆ key ? ((key = 'Mũi tên trái') ? -1 (key = 'Mũi tên phải') ? 1 ø) ø)
+	] tạmDừng bước: ∆ key ? ((key = 'Mũi tên trái') ? -1 (key = 'Mũi tên phải') ? 1 ø) ø)
 \
 
  Không có \?\ kiểm tra nào cần viết ở đây, vì một @Scene tự dừng lại ở hai đầu của nó, và không có gì cần phải nhớ mảnh nào đang hiển thị.

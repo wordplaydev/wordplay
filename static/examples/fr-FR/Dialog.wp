@@ -27,7 +27,7 @@ script: [
 		ligne(
 			'b'
 			"Une bulle de parole autour d'une lettre, c'est le dessin d'une lettre, ou une lettre d'un dessin ?"
-			pensée: ⊤
+			pensée
 		)
 		ligne('un' 'Tu pars en spirale.')
 		ligne(

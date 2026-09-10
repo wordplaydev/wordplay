@@ -113,21 +113,21 @@ onglets: Groupe(
 		[
 			Phrase(
 				'▸ Dans le temps'
-				sélectionnable: ⊤
+				sélectionnable
 				nom: 'time'
 				taille: 0.35m
 				couleur: Couleur(60% 50 20°)
 			)
 			Phrase(
 				'▸ Par domaine'
-				sélectionnable: ⊤
+				sélectionnable
 				nom: 'fields'
 				taille: 0.35m
 				couleur: Couleur(60% 50 140°)
 			)
 			Phrase(
 				'▸ Nombre contre part'
-				sélectionnable: ⊤
+				sélectionnable
 				nom: 'nombres'
 				taille: 0.35m
 				couleur: Couleur(60% 50 280°)

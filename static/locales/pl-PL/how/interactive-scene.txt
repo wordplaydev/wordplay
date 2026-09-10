@@ -58,7 +58,7 @@ Scene([
 		Phrase('jeden')
 		Phrase('dwa')
 		Phrase('trzy')
-	] pauza: ⊤ krok: ∆ key ? ((key = 'Strzałka w lewo') ? -1 (key = 'Strzałka w prawo') ? 1 ø) ø)
+	] pauza krok: ∆ key ? ((key = 'Strzałka w lewo') ? -1 (key = 'Strzałka w prawo') ? 1 ø) ø)
 \
 
 @Scene/step przesuwa się o pewną liczbę @Phrase — \1\ do przodu, \-1\ wstecz — i zatrzymuje się na końcach za ciebie.

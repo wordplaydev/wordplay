@@ -26,16 +26,16 @@ operador: ø … oelegido … ((opción ÷ '')[-1])
 numeros1: Grupo(
 		Cuadrícula(2 5)
 		[
-			Frase("0⃣" seleccionable: ⊤ nombre: 'num1_0')
-			Frase("1⃣" seleccionable: ⊤ nombre: 'num1_1')
-			Frase("2⃣" seleccionable: ⊤ nombre: 'num1_2')
-			Frase("3⃣" seleccionable: ⊤ nombre: 'num1_3')
-			Frase("4⃣" seleccionable: ⊤ nombre: 'num1_4')
-			Frase("5⃣" seleccionable: ⊤ nombre: 'num1_5')
-			Frase("6⃣" seleccionable: ⊤ nombre: 'num1_6')
-			Frase("7⃣" seleccionable: ⊤ nombre: 'num1_7')
-			Frase("8⃣" seleccionable: ⊤ nombre: 'num1_8')
-			Frase("9⃣" seleccionable: ⊤ nombre: 'num1_9')
+			Frase("0⃣" seleccionable nombre: 'num1_0')
+			Frase("1⃣" seleccionable nombre: 'num1_1')
+			Frase("2⃣" seleccionable nombre: 'num1_2')
+			Frase("3⃣" seleccionable nombre: 'num1_3')
+			Frase("4⃣" seleccionable nombre: 'num1_4')
+			Frase("5⃣" seleccionable nombre: 'num1_5')
+			Frase("6⃣" seleccionable nombre: 'num1_6')
+			Frase("7⃣" seleccionable nombre: 'num1_7')
+			Frase("8⃣" seleccionable nombre: 'num1_8')
+			Frase("9⃣" seleccionable nombre: 'num1_9')
 		]
 	)
 
@@ -43,16 +43,16 @@ numeros1: Grupo(
 numeros2: Grupo(
 		Cuadrícula(2 5)
 		[
-			Frase("0⃣" seleccionable: ⊤ nombre: 'num2_0')
-			Frase("1⃣" seleccionable: ⊤ nombre: 'num2_1')
-			Frase("2⃣" seleccionable: ⊤ nombre: 'num2_2')
-			Frase("3⃣" seleccionable: ⊤ nombre: 'num2_3')
-			Frase("4⃣" seleccionable: ⊤ nombre: 'num2_4')
-			Frase("5⃣" seleccionable: ⊤ nombre: 'num2_5')
-			Frase("6⃣" seleccionable: ⊤ nombre: 'num2_6')
-			Frase("7⃣" seleccionable: ⊤ nombre: 'num2_7')
-			Frase("8⃣" seleccionable: ⊤ nombre: 'num2_8')
-			Frase("9⃣" seleccionable: ⊤ nombre: 'num2_9')
+			Frase("0⃣" seleccionable nombre: 'num2_0')
+			Frase("1⃣" seleccionable nombre: 'num2_1')
+			Frase("2⃣" seleccionable nombre: 'num2_2')
+			Frase("3⃣" seleccionable nombre: 'num2_3')
+			Frase("4⃣" seleccionable nombre: 'num2_4')
+			Frase("5⃣" seleccionable nombre: 'num2_5')
+			Frase("6⃣" seleccionable nombre: 'num2_6')
+			Frase("7⃣" seleccionable nombre: 'num2_7')
+			Frase("8⃣" seleccionable nombre: 'num2_8')
+			Frase("9⃣" seleccionable nombre: 'num2_9')
 		]
 	)
 
@@ -60,10 +60,10 @@ numeros2: Grupo(
 operadores: Grupo(
 		Cuadrícula(2 2)
 		[
-			Frase("➕" seleccionable: ⊤ nombre: 'op_a')
-			Frase("➖" seleccionable: ⊤ nombre: 'op_s')
-			Frase("✖" seleccionable: ⊤ nombre: 'op_m')
-			Frase("➗" seleccionable: ⊤ nombre: 'op_d')
+			Frase("➕" seleccionable nombre: 'op_a')
+			Frase("➖" seleccionable nombre: 'op_s')
+			Frase("✖" seleccionable nombre: 'op_m')
+			Frase("➗" seleccionable nombre: 'op_d')
 		]
 	)
 

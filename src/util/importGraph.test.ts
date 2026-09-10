@@ -654,12 +654,16 @@ test('resolving a color needs no basis', () => {
  * of these graphs already carried via `parseLocaleDoc` — so this is under a
  * kilobyte, and only `projects` had no room left in its hundredth.
  */
+// These are ceilings, not measurements: raise one only for code that genuinely belongs on the
+// page's graph, never to quiet a leak. The last raise was +2 files for the boolean input
+// shorthand (`nodes/inputShorthand.ts` and `runtime/Push.ts`), which sit beside `Evaluate` and
+// `Reference` — already on every one of these graphs — rather than opening a new door.
 test.each([
-    ['src/routes/+layout.svelte', 508, 3.8],
-    ['src/components/app/Page.svelte', 531, 4.05],
-    ['src/routes/[[locale]]/+page.svelte', 546, 4.14],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 550, 4.15],
-    ['src/routes/[[locale]]/projects/+page.svelte', 557, 4.18],
+    ['src/routes/+layout.svelte', 510, 3.82],
+    ['src/components/app/Page.svelte', 533, 4.07],
+    ['src/routes/[[locale]]/+page.svelte', 548, 4.15],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 552, 4.17],
+    ['src/routes/[[locale]]/projects/+page.svelte', 559, 4.19],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

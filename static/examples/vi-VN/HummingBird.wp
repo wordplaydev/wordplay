@@ -94,12 +94,12 @@ chim: Cụmtừ(
 		vịTrí: vịTríChim
 		vấnđề: Vấnđề(1kg 0.4 0)
 		nghỉngơi:
-		(tròChơi2.giaiĐoạn = 3) ? Tưthế(xoay: 180° lậtngược: ⊤)
+		(tròChơi2.giaiĐoạn = 3) ? Tưthế(xoay: 180° lậtngược)
 			Sựliêntiếp(
 				{
-					0%: Tưthế(lậtngược: ⊤ xoay: -12°)
-					50%: Tưthế(lậtngược: ⊤ xoay: 12°)
-					100%: Tưthế(lậtngược: ⊤ xoay: -12°)
+					0%: Tưthế(lậtngược xoay: -12°)
+					50%: Tưthế(lậtngược xoay: 12°)
+					100%: Tưthế(lậtngược xoay: -12°)
 				}
 				0.35s
 			)
@@ -222,7 +222,7 @@ nútNgânNga: Cụmtừ(
 		'🎤'
 		0.8m
 		tên: 'hum'
-		cóthểlựachọn: ⊤
+		cóthểlựachọn
 		vịTrí: VịTrí(-4.2m 4.7m)
 		nghỉngơi: (chếĐộ = 'hum') ? Tưthế() Tưthế(độmờđục: 40%)
 	)
@@ -230,7 +230,7 @@ nútChạm: Cụmtừ(
 		'⌨'
 		0.8m
 		tên: 'tap'
-		cóthểlựachọn: ⊤
+		cóthểlựachọn
 		vịTrí: VịTrí(-3m 4.7m)
 		nghỉngơi: (chếĐộ = 'tap') ? Tưthế() Tưthế(độmờđục: 40%)
 	)

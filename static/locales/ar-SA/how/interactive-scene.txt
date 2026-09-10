@@ -58,7 +58,7 @@ Scene([
 		Phrase('واحد')
 		Phrase('اثنان')
 		Phrase('ثلاثة')
-	] إيقافمؤقت: ⊤ خطوة: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+	] إيقافمؤقت خطوة: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 
 @Scene/step يتحرك بعدد من @Phrase — \1\ للأمام، \-1\ للخلف — وتتوقف عند الأطراف من أجلك.

@@ -58,7 +58,7 @@ Scene([
 		Phrase('一')
 		Phrase('二')
 		Phrase('三')
-	] 暂停: ⊤ 步进: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+	] 暂停 步进: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 
 @Scene/step 按一定数量的 @Phrase —— \1\ 向前， \-1\ 退回来——遇到两端会自动停下哦。

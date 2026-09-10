@@ -6,7 +6,7 @@ Cevap doğru olduğunda bir zil sesi, bir şey yere düştüğünde bir gümbür
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 bana dokun' seçilebilir: ⊤ isim: 'dokun')
+		Phrase('👆 bana dokun' seçilebilir isim: 'dokun')
 		Music(Track(tapped ? [1 5 8] [] çalgı: Instrument.bell döngü: ⊥) tekrarOynat: tapped)
 	])\
 

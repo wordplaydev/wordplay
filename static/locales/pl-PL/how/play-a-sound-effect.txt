@@ -6,7 +6,7 @@ Dwie rzeczy sprawiają, że to efekt dźwiękowy, a nie piosenka. \pętla: ⊥\ 
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 dotknij mnie' wybieralny: ⊤ nazwa: 'dotknij')
+		Phrase('👆 dotknij mnie' wybieralny nazwa: 'dotknij')
 		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell pętla: ⊥) powtórka: tapped)
 	])\
 

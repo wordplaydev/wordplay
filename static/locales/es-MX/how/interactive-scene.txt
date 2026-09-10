@@ -58,7 +58,7 @@ Scene([
 		Phrase('uno')
 		Phrase('dos')
 		Phrase('tres')
-	] pausar: ⊤ paso: ∆ key ? ((key = 'FlechaIzquierda') ? -1 (key = 'FlechaDerecha') ? 1 ø) ø)
+	] pausar paso: ∆ key ? ((key = 'FlechaIzquierda') ? -1 (key = 'FlechaDerecha') ? 1 ø) ø)
 \
 
 @Scene/step se mueve un número de @Phrase — \1\ hacia adelante, \-1\ hacia atrás — y se detiene en los extremos por ti.

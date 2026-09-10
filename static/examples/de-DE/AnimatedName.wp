@@ -55,11 +55,11 @@ Change the locale on stage to see each one!¶/en
 					gesicht: 'Aclonica'
 					Ruhen: Reihenfolge(
 						{
-							0%: Pose(Farbe: Farbe(0.5 100 180°) flipx: ⊤)
+							0%: Pose(Farbe: Farbe(0.5 100 180°) flipx)
 							50%: Pose(Farbe: Farbe(27% 112 267°))
 							75%: Pose(
 								Farbe: Farbe(0.5 100 180°)
-								flipx: ⊤
+								flipx
 							)
 						}
 						Dauer: 2s
@@ -148,11 +148,11 @@ Change the locale on stage to see each one!¶/en
 					gesicht: 'Aclonica'
 					Ruhen: Reihenfolge(
 						{
-							0%: Pose(Farbe: Farbe(0.5 100 180°) flipx: ⊤)
+							0%: Pose(Farbe: Farbe(0.5 100 180°) flipx)
 							50%: Pose(Farbe: Farbe(27% 112 267°))
 							75%: Pose(
 								Farbe: Farbe(0.5 100 180°)
-								flipx: ⊤
+								flipx
 							)
 						}
 						Dauer: 2s

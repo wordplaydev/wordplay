@@ -181,19 +181,23 @@ export async function verifyHowTo(
 export const HowToCoverageIsFatal = true;
 
 /**
- * The one file whose English has a prose run this language does not.
+ * Files whose English has a prose run the target language has no counterpart
+ * for, as `<locale>/<id>`. **Currently empty**, and every locale covers en-US.
  *
- * en-US's `show-when` ends `Press \a\ a few times and watch the egg hatch`, whose
- * first run is the bare verb "Press ". Nepali puts the verb last, so that run has
- * no counterpart at that position and translates to nothing — the translation is
- * complete and correct, and the coverage rule, which counts prose runs, is what
- * cannot express it. The same legitimate collapse `checkReducedTemplates` allows
- * for a pro-drop language dropping a function word.
+ * Kept because the case is linguistic rather than historical, so it will recur:
+ * a run can be a bare function word that another language puts elsewhere or
+ * drops, which is complete and correct and which a rule counting prose runs
+ * cannot express — the collapse `checkReducedTemplates` allows for a pro-drop
+ * language. The one entry this held was ne-NP's `show-when`, whose English ends
+ * on the bare verb "Press "; a later re-translation happened to give Nepali a
+ * run there too, so it was the model's choice rather than the language's, and
+ * the entry went stale.
  *
- * Exempted by name rather than by turning the gate off, so the other 1,109 files
- * are held to it — the shape `exampleNamesSync.test.ts` used for its own backlog.
+ * Exempting by name rather than turning the gate off is what keeps every other
+ * file held to it, and `howToStructureSync.test.ts` fails on an entry that no
+ * longer names a file that is really behind, so this shrinks on its own.
  */
-export const CoverageExemptions = ['ne-NP/show-when'];
+export const CoverageExemptions: string[] = [];
 
 /**
  * The how-tos whose translation covers less than its en-US source does, by id.

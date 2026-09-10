@@ -72,7 +72,7 @@ actionMontante2: [
 			taille: 2m
 			lieu: Lieu(-1m -7m)
 			nom: 'pear'
-			sélectionnable: ⊤
+			sélectionnable
 		)
 	]
 
@@ -100,7 +100,7 @@ pointCulminant: [
 			nom: "tree"
 			taille: 5m
 			lieu: Lieu(-3m -7m)
-			sélectionnable: ⊤
+			sélectionnable
 		)
 		:lieux.traduire(
 			ƒ(placer indice2)

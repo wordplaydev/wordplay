@@ -113,21 +113,21 @@ reiter: Gruppe(
 		[
 			Satzglied(
 				'▸ Im Zeitverlauf'
-				wählbar: ⊤
+				wählbar
 				Name: 'time'
 				Größe: 0.35m
 				Farbe: Farbe(60% 50 20°)
 			)
 			Satzglied(
 				'▸ Nach Fach'
-				wählbar: ⊤
+				wählbar
 				Name: 'fields'
 				Größe: 0.35m
 				Farbe: Farbe(60% 50 140°)
 			)
 			Satzglied(
 				'▸ Anzahl vs. Anteil'
-				wählbar: ⊤
+				wählbar
 				Name: 'Anzahlen'
 				Größe: 0.35m
 				Farbe: Farbe(60% 50 280°)

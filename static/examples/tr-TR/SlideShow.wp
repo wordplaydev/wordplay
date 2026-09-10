@@ -92,7 +92,7 @@ Grup(
 	[
 		Gösteri(
 			görüntülenme
-			duraklat: ⊤
+			duraklat
 			adım: ∆ anahtar2 ? ((anahtar2 = 'Sol Ok') ? -1 (anahtar2 = 'Sağ Ok') ? 1 ø) ø
 		)
 		İfadeetmek(

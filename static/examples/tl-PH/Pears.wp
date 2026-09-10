@@ -78,7 +78,7 @@ pataasNaAksyon2: [
 			laki: 2m
 			lugar: Lugar(-1m -7m)
 			pangalan: 'pear'
-			mapipili: ⊤
+			mapipili
 		)
 	]
 
@@ -103,7 +103,7 @@ kasukdulan: [
 			pangalan: "tree"
 			laki: 5m
 			lugar: Lugar(-3m -7m)
-			mapipili: ⊤
+			mapipili
 		)
 		:mgaLugar.isalin(
 			ƒ(ilagay indeks2)

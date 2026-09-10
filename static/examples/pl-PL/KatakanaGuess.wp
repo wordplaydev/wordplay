@@ -32,7 +32,7 @@ Scena(
 					Siatka(10 5 1m 1m 1m)
 					ひらがな.tłumaczyć(
 						ƒ(シンボル/ja•'' 指数/ja,index/en)
-							Wyrażenie(シンボル nazwa: 指数 → '' wybieralny: ⊤)
+							Wyrażenie(シンボル nazwa: 指数 → '' wybieralny)
 					)
 				)
 				Wyrażenie(

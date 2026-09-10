@@ -34,7 +34,7 @@ Etapă(
 	[
 		Fraza(
 			"🐭"
-			selectabil: ⊤
+			selectabil
 			loc: loc2
 			odihnă: prins ? Poză(rotaţie: 180° muzică: săritură) Poză(
 				)

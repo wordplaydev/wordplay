@@ -56,7 +56,7 @@ Etapp(
 						Its name is add, so selecting it updates the action choice.¶/en
 						Fras(
 							'Lägg till studietimme +1'
-							valbara: ⊤
+							valbara
 							namn: 'lägg till'
 							färg: Färg(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ Etapp(
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						Fras(
 							'Återställ'
-							valbara: ⊤
+							valbara
 							namn: 'reset'
 							färg: Färg(69% 47 271°)
 						)

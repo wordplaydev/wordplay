@@ -92,7 +92,7 @@ Grupo(
 	[
 		Cena(
 			visualizações
-			pausar: ⊤
+			pausar
 			passo: ∆ chave2 ? ((chave2 = 'Seta para a esquerda') ? -1 (chave2 = 'Seta para a direita') ? 1 ø) ø
 		)
 		Frase(

@@ -69,7 +69,7 @@ stigandeHandling2: [
 			storlek: 2m
 			plats: Plats(-1m -7m)
 			namn: 'pear'
-			valbara: ⊤
+			valbara
 		)
 	]
 
@@ -94,7 +94,7 @@ höjdpunkt: [
 			namn: "tree"
 			storlek: 5m
 			plats: Plats(-3m -7m)
-			valbara: ⊤
+			valbara
 		)
 		:platser.översätta(
 			ƒ(plats2 index2)

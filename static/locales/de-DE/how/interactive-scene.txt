@@ -58,7 +58,7 @@ Scene([
 		Phrase('eins')
 		Phrase('zwei')
 		Phrase('drei')
-	] anhalten: ⊤ Schritt: ∆ key ? ((key = 'Pfeil nach links') ? -1 (key = 'Pfeil nach rechts') ? 1 ø) ø)
+	] anhalten Schritt: ∆ key ? ((key = 'Pfeil nach links') ? -1 (key = 'Pfeil nach rechts') ? 1 ø) ø)
 \
 
 @Scene/step bewegt sich um eine Anzahl @Phrase — \1\ vorwärts, \-1\ zurück – und hält von selbst an den Enden an.

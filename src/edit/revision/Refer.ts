@@ -11,17 +11,26 @@ export default class Refer {
     readonly operator: boolean;
     /** True if this is a unary operator and should be distinguished from uses of the same function as a binary operator */
     readonly unary: boolean;
+    /**
+     * Distinguishes two suggestions that offer the same definition in different forms — a
+     * boolean input given as `name: ⊥` and as the bare-name shorthand `name`. Without it
+     * `equals` reads them as the same edit and `removeDuplicates` drops one, arbitrarily,
+     * with no error to say it happened.
+     */
+    readonly variant: string | undefined;
 
     constructor(
         creator: (name: string) => Node,
         definition: Definition,
         operator: boolean = false,
         unary: boolean = false,
+        variant?: string,
     ) {
         this.creator = creator;
         this.definition = definition;
         this.operator = operator;
         this.unary = unary;
+        this.variant = variant;
     }
 
     getNode(locales: Locales) {
@@ -41,7 +50,9 @@ export default class Refer {
 
     equals(refer: Refer) {
         return (
-            refer.definition === this.definition && this.unary === refer.unary
+            refer.definition === this.definition &&
+            this.unary === refer.unary &&
+            this.variant === refer.variant
         );
     }
 

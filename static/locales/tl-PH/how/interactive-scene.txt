@@ -58,7 +58,7 @@ Scene([
 		Phrase('isa')
 		Phrase('dalawa')
 		Phrase('tatlo')
-	] iPause: ⊤ hakbang: ∆ key ? ((key = 'Palaso Kaliwa') ? -1 (key = 'PalasoKanan') ? 1 ø) ø)
+	] iPause hakbang: ∆ key ? ((key = 'Palaso Kaliwa') ? -1 (key = 'PalasoKanan') ? 1 ø) ø)
 \
 
 @Scene/step gumagalaw ng ilang @Phrase — \1\ pasulong, \-1\ pabalik — at humihinto sa mga dulo para sa iyo.

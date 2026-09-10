@@ -30,7 +30,7 @@ Bühne(
 	[
 		Satzglied(
 			"🐭"
-			wählbar: ⊤
+			wählbar
 			Ort: platzieren
 			Ruhen: gefangen ? Pose(
 					Drehung: 180°

@@ -40,7 +40,7 @@ Etapă(
 	[
 		Fraza(
 			"🔁"
-			selectabil: ⊤
+			selectabil
 			loc: Loc(4m -0.5m)
 			odihnă: prins ? Poză(rotaţie: 180°) Poză()
 			durată: 0.5s

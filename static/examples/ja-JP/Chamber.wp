@@ -49,7 +49,7 @@ physics engine leaves them alone.¶
 		落下 ? '⬇ 重力' '🌌 浮かぶ'
 		0.7m
 		名前: 'gravity'
-		選択可能: ⊤
+		選択可能
 		位置: 位置(-13m 1m)
 	)
 
@@ -57,7 +57,7 @@ physics engine leaves them alone.¶
 		'🎲 揺れる'
 		0.7m
 		名前: 'shake'
-		選択可能: ⊤
+		選択可能
 		位置: 位置(-13m -1m)
 	)
 

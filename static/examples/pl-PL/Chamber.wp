@@ -48,7 +48,7 @@ przełącznik: Wyrażenie(
 		spadanie ? '⬇ grawitacja' '🌌 unoszenie się'
 		0.7m
 		nazwa: 'gravity'
-		wybieralny: ⊤
+		wybieralny
 		miejsce: Miejsce(-13m 1m)
 	)
 
@@ -56,7 +56,7 @@ potrząsacz: Wyrażenie(
 		'🎲 potrząsanie'
 		0.7m
 		nazwa: 'shake'
-		wybieralny: ⊤
+		wybieralny
 		miejsce: Miejsce(-13m -1m)
 	)
 

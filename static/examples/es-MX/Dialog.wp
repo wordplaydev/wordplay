@@ -27,7 +27,7 @@ guion: [
 		línea(
 			'b'
 			'¿Una burbuja de diálogo alrededor de una letra es un dibujo de una letra, o una letra de un dibujo?'
-			pensando: ⊤
+			pensando
 		)
 		línea('a' 'Estás dando vueltas.')
 		línea(

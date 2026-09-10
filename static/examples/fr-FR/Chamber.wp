@@ -48,7 +48,7 @@ interrupteur: Phrase(
 		chute ? '⬇ gravité' '🌌 flottant'
 		0.7m
 		nom: 'gravity'
-		sélectionnable: ⊤
+		sélectionnable
 		lieu: Lieu(-13m 1m)
 	)
 
@@ -56,7 +56,7 @@ secoueur: Phrase(
 		'🎲 secouer'
 		0.7m
 		nom: 'shake'
-		sélectionnable: ⊤
+		sélectionnable
 		lieu: Lieu(-13m -1m)
 	)
 

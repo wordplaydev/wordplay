@@ -367,6 +367,30 @@ test.each([
         Assign,
         'ø',
     ],
+    [
+        'suggest a boolean input as its bare name',
+        "Phrase('hi' **)",
+        undefined,
+        Append,
+        'selectable',
+    ],
+    [
+        // The explicit form must survive beside the shorthand. Both Refers carry the same
+        // Bind, so without Refer's `variant` they compare equal and removeDuplicates drops
+        // one — silently, and whichever came first.
+        'still suggest the explicit form of a boolean input',
+        "Phrase('hi' **)",
+        undefined,
+        Append,
+        'selectable: ⊤',
+    ],
+    [
+        'complete a partly typed boolean input name as a shorthand',
+        "Phrase('hi' sel**)",
+        undefined,
+        Replace,
+        'selectable',
+    ],
     ['suggest unit', '1**', undefined, Assign, 'ms'],
     [
         'suggest additional denominator',
