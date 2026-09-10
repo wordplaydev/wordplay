@@ -1,15 +1,22 @@
 Pokaż niestandardową postać
 
-Emoji, litery i symbole są świetne! Ale czasami chcesz stworzyć własne postacie.Jak możesz stworzyć i zaprezentować swoje własne?
+Emotikony, litery i symbole są świetne! Ale czasem chcesz stworzyć własne znaki.
+Jak możesz stworzyć własny znak i go pokazać?
 
-Najpierw zacznij od stworzenia postaci na<Pismo@://characters>strona.Możesz używać pikseli, prostokątów, okręgów i ścieżek.Nadaj mu nazwę, opisz go, a następnie możesz użyć swojej nazwy użytkownika i nazwy postaci w następujący sposób:
+Najpierw stwórz znak na stronie < Znaki @://characters> . 
+Możesz używać pikseli, prostokątów, kół i ścieżek. 
+Nadaj mu nazwę, opisz go, a potem możesz użyć swojej nazwy użytkownika i nazwy znaku w ten sposób:
 
-\Phrase(`Spójrz na moją wyobraźnię @username/charactername !`)\
+\
+Phrase(`Spójrz na moją wyobraźnię @username/charactername !`)
+\
 
-Taka nazwa użytkownika i nazwa postaci nie istnieją, więc zostaną wyświetlone jako pusty prostokąt.Pamiętaj, aby użyć swojej prawdziwej nazwy użytkownika i nazwy postaci
+ Taka nazwa użytkownika i nazwa znaku nie istnieją, więc pokaże się pusty prostokąt.
+Pamiętaj, aby użyć swojej prawdziwej nazwy użytkownika i nazwy znaku
 
-Widzisz, jak tekst używa odwrotnego apostrofu zamiast symbolu cudzysłowu? To ważne.Oznacza to, że używasz trybu tekstu sformatowanego, a jest to wymagane w celu odwołania się do niestandardowego znaku.
+Widzisz, że w tekście użyto grawisu zamiast cudzysłowu? To ważne. 
+To pokazuje, że używasz trybu tekstu z formatowaniem, a to jest potrzebne, aby odwołać się do własnego znaku.
 
-Więcej informacji na temat formatowania tekstu można znaleźć w @Phrase .
+Więcej informacji na temat formatowania tekstu można znaleźć w @Phrase.
 
 animate-phrase

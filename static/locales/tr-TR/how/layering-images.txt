@@ -4,16 +4,27 @@ Bazen eğlenceli sahneler veya yaratıcı şekiller oluşturmak için görseller
 
 Örneğin, projenizde birden fazla katman kullanabilirsiniz @Stage Resimleri istediğiniz gibi istifleyip düzenleyebilirsiniz.
 
-Bakın! İşte sadece şekilleri kullanarak yaptığım bir kaplumbağa!Her şeklin sayılarını değiştirmeyi deneyin. Bunları taşıyabilir, yeniden boyutlandırabilir ve hatta döndürebilirsiniz.Oynayın ve neler yaratabileceğinizi görün!
+Bak! Bunu sadece şekiller kullanarak yaptığım bir kaplumbağa!
+Her şekil için sayıları değiştirmeyi dene. Onları taşıyabilir, boyutlarını değiştirebilir, hatta döndürebilirsin.
+Biraz oyna ve neler yapabileceğini gör!
 
-\¶Not: Başka bir proje için galeriye göz atın<örnek@https://wordplay.dev/project/example-Layers?play>Katmanlı görüntülerin.¶Stage([
+\
+¶Not: Başka bir proje için galeriye göz atın<örnek@https://wordplay.dev/project/example-Layers?play>Katmanlı görüntülerin.¶
+
+
+Stage(
+	[
 		Shape(Circle(3m 0m 1m 0m))
 		Shape(Polygon(2m 3 0m -12m 0m) rotasyon: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
 		Shape(Rectangle(-11m -9m 11m -12m 10m) rotasyon: 25°)
 		Shape(Rectangle(-11m -9m 11m -12m 10m) rotasyon: -25°)
-	] yer: Place(0m 10m -30m))\
 
-Katmanlarla gerçekten harika şeyler yapabilirsiniz! Deneyin!
+	]
+	yer: Place(0m 10m -30m)
+)
+\
+
+ Katmanlarla gerçekten harika şeyler yapabilirsiniz! Deneyin!
 
 custom-characters

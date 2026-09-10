@@ -1,60 +1,75 @@
 Mit den Pfeiltasten zwischen Inhalten wechseln
 
-Manchmal soll das Publikum sich Inhalt Stück für Stück ansehen, wie bei einer Diashow, vorwärts /und/ zurück mit den Pfeiltasten.
+Manchmal soll das Publikum sich Inhalt Stück für Stück ansehen, wie bei einer Diashow, vorwärts / und / zurück mit den Pfeiltasten.
 
 Jede Version dieses Musters besteht aus den gleichen drei Teilen:
 
-• Eine  @List  des Inhalts, den du zeigen willst• Eine  @Key  Datenstrom, der sich jedes Mal ändert, wenn eine Taste gedrückt wird• Eine  @Reaction  der sich merkt, bei welchem Inhalt du gerade bist
+• Eine @List des Inhalts, den du zeigen möchtest
+• Eine @Key Datenstrom, der sich jedes Mal ändert, wenn eine Taste gedrückt wird
+• Eine @Reaction die sich merkt, bei welchem Inhalt du gerade bist
 
 Hier ist die kleinste Version davon. Klicke zuerst auf die Bühne, damit sie zuhört, dann drücke die linke und rechte Pfeiltaste:
 
-\slides: ['erstes' 'zweites' 'drittes']
+\
+slides: ['erstes' 'zweites' 'drittes']
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'Pfeil nach rechts') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'Pfeil nach links') ? ((index > 1) ? index - 1 index) index
-Phrase(slides[index])\
 
-Der  @Reaction  ist der Kern davon. Es beginnt bei \1\, und jedes Mal, wenn sich der  @Key  ändert, entscheidet es, welche Zahl als nächstes kommt.Wurde die rechte Pfeiltaste gedrückt, zählt es eins dazu; wurde die linke Pfeiltaste gedrückt, zieht es eins ab; sonst bleibt die Zahl gleich.
+index•#: 1 … ∆ key …
+	(key = 'Pfeil nach rechts') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'Pfeil nach links') ? ((index > 1) ? index - 1 index)
+			index
 
-Die zusätzlichen \?\-Prüfungen sorgen dafür, dass die Zahl nicht über die Enden der Liste hinausgeht.Ohne sie könntest du über das Ende hinauslaufen, und es gäbe keine Folie mehr zum Zeigen.Wenn du lieber von der letzten Folie zur ersten zurückspringen willst, kannst du das stattdessen tun.
+Phrase(slides[index])
+\
 
-Hinweis: Die Pfeiltasten heißen \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\ und \'ArrowDown'\.Du kannst auch einfach \'Left'\ und \'Right'\ schreiben, und Tastennamen funktionieren auch in deiner eigenen Sprache.
+ Das @Reaction ist das Herzstück davon. Es beginnt bei \1\, und jedes Mal, wenn sich @Key ändert, entscheidet es, welche neue Zahl es sein soll.
+Wenn der rechte Pfeil gedrückt wurde, zählt es eins dazu; wenn der linke Pfeil gedrückt wurde, zieht es eins ab; sonst bleibt es gleich.
 
-Beachte, dass \index\ nur eine Zahl ist, also funktioniert das für /jede/ Art von Inhalt, nicht nur Text.Tausche das  @List  gegen eine Liste von  @Group  oder ganze Szenen aus, und der Rest des Musters ändert sich überhaupt nicht:
+Die zusätzlichen \?\ -Prüfungen sorgen dafür, dass die Zahl nicht über die Enden der Liste hinausgeht.
+Ohne sie könntest du über das Ende hinauslaufen, und es gäbe keine Folie zum Zeigen.
+Wenn du lieber von der letzten Folie wieder zur ersten zurückspringen möchtest, kannst du das stattdessen tun.
 
-\slides: [
-		Phrase('eine Geschichte in drei Teilen' Größe: 3m)
-		Group(
-			Stack()
-			[Phrase('🐈') Phrase('eine Katze erscheint')]
-		)
-		Phrase('das Ende 🎉')
-	]
+Hinweis: Die Pfeiltasten heißen \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, und \'ArrowDown'\ kombinieren.
+Du kannst auch einfach \'Left'\ und \'Right'\ schreiben, und Tastennamen funktionieren auch in deiner eigenen Sprache.
+
+Beachte, dass \index\ nur eine Zahl ist, also funktioniert das für / jede / Art von Inhalt, nicht nur Text.
+Tausche die @List gegen eine Liste von @Group oder ganzen Szenen aus, und der Rest des Musters ändert sich überhaupt nicht:
+
+\
+slides: [
+	Phrase('eine Geschichte in drei Teilen' Größe: 3m)
+	Group(Stack() [Phrase('🐈') Phrase('eine Katze erscheint')])
+	Phrase('das Ende 🎉')
+]
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'Pfeil nach rechts') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'Pfeil nach links') ? ((index > 1) ? index - 1 index) index
-slides[index]\
 
-Ein  @Scene  kann das auch, und mit weniger Zählen.Gib ihm  @Scene/pause , damit es sich nie von selbst bewegt, und  @Scene/step , um es um ein Stück in beide Richtungen zu bewegen:
+index•#: 1 … ∆ key …
+	(key = 'Pfeil nach rechts') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'Pfeil nach links') ? ((index > 1) ? index - 1 index)
+			index
 
-\key: Key()
-Scene(
-	[
+slides[index]
+\
+
+ Eine @Scene kann das auch, und mit weniger Zählen.
+Gib ihm @Scene/pause damit es sich nie von selbst bewegt, und @Scene/step um es Stück für Stück in beide Richtungen zu bewegen:
+
+\
+key: Key()
+Scene([
 		Phrase('eine Geschichte in drei Teilen' Größe: 3m)
-		Group(
-			Stack()
-			[Phrase('🐈') Phrase('eine Katze erscheint')]
-		)
+		Group(Stack() [Phrase('🐈') Phrase('eine Katze erscheint')])
 		Phrase('das Ende 🎉')
-	]
-	anhalten: ⊤
-	Schritt: ∆ key ? ((key = 'Pfeil nach links') ? -1 (key = 'Pfeil nach rechts') ? 1 ø) ø
-)\
+	] anhalten: ⊤ Schritt: ∆ key ? ((key = 'Pfeil nach links') ? -1 (key = 'Pfeil nach rechts') ? 1 ø) ø)
+\
 
-Hier gibt es keine \?\ zu schreibenden Prüfungen, weil ein  @Scene  hört von selbst an ihren eigenen Enden auf, und niemand muss sich merken, welches Stück gerade gezeigt wird.Frage  @Spotlight , wenn du sagen willst: /3 von 10/ auf der Bühne.
+ Es gibt keine \?\ Prüfungen, die man hier schreiben muss, denn ein @Scene hält von selbst an seinen eigenen Enden an, und niemand muss sich merken, welches Stück gerade gezeigt wird.
+Frage @Spotlight wenn du sagen möchtest / 3 von 10 / auf der Bühne.
 
-Hinweis: Sieh dir das in einem ganzen Projekt in der Galerie an: <Diashow@https://wordplay.dev/project/example-SlideShow?play>
+Hinweis: Sieh dir das in einem ganzen Projekt in der Galerie an: < Diashow @https://wordplay.dev/project/example-SlideShow?play>
 
-Der  @Reaction  oben ist immer noch der richtige Weg dafür, wenn das, wodurch du dich bewegst, keine Ausgabe ist – zum Beispiel eine Liste von Wörtern, Farben, Zahlen oder etwas anderem, aus dem du das Stück baust.
+ Der @Reaction oben ist immer noch der richtige Weg dafür, wenn das, wodurch du dich bewegst, keine Ausgabe ist – zum Beispiel eine Liste von Wörtern, Farben, Zahlen oder etwas anderem, aus dem du das Stück baust.
 
 interactive-scene, choose-adventure, offer-choices, repeat-a-round

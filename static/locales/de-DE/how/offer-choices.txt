@@ -2,31 +2,53 @@ Auswählbare Optionen anzeigen
 
 Manchmal möchte man eine Reihe von Auswahlmöglichkeiten auf dem Bildschirm zeigen und mit den Entscheidungen des Publikums etwas anfangen. Dafür benötigen wir zwei Dinge:
 
-• Eine oder mehrere @Phrase die als auswählbar gekennzeichnet sind und einen eindeutigen Namen haben (z. B.\Phrase('Option 1' wählbar: ⊤ Name: 'eins')\)• A  @Choice , das sich in das @Phrase zuletzt gewählter Name.
+• Eine oder mehrere @Phrase , die als auswählbar markiert sind und einen eindeutigen Namen haben (z. B. \Phrase('Option 1' wählbar: ⊤ Name: 'eins')\)
+• Eine @Choice, der sich zum @Phrase -Namen ändert, der zuletzt gewählt wurde.
 
 Hier zeigen wir beispielsweise drei Auswahlmöglichkeiten, jede mit einem eindeutigen Namen.
 
-\option: Choice()
-Group(Stack() [
+\
+option: Choice()
+
+Group(
+	Stack() [
 		Phrase('Option 1' wählbar: ⊤ Name: 'eins')
 		Phrase('Option 2' wählbar: ⊤ Name: 'zwei')
 		Phrase('Option 3' wählbar: ⊤ Name: 'drei')
 		Phrase(option)
-	])\
+	]
+)
+\
 
-Jedes Mal, wenn einer ausgewählt wird, zuletzt @Phrase zeigt den ausgewählten Namen an.
+ Jedes Mal, wenn einer ausgewählt wird, zuletzt @Phrase zeigt den ausgewählten Namen an.
 
 Sie können dieses Muster verwenden, um auf eine Auswahl zu reagieren. Beispielsweise könnten wir das obige Projekt so ändern, dass basierend auf der Auswahl ein geheimes Emoji angezeigt wird:
 
-\option: Choice()
-option = '' ? Group(Stack() [
-			Phrase('Option 1' selectable: ⊤ name: 'eins')
-			Phrase('Option 2' selectable: ⊤ name: 'zwei')
-			Phrase('Option 3' selectable: ⊤ name: 'drei')
-		]) Phrase({'eins': '😡' 'zwei': '🏀' 'drei': '❤️'}{option} ?? '?')\
+\
+option: Choice()
 
-Der  @Choice beginnt als leeres @Text , und wenn das Projekt startet, prüfen wir dies und zeigen die drei Auswahlmöglichkeiten an.Sobald eine Wahl getroffen ist, wird sie zu einer der drei @Phrase Namen.
+option = '' ?
+	Group(
+		Stack() [
+			Phrase('Option 1' wählbar: ⊤ Name: 'eins')
+			Phrase('Option 2' wählbar: ⊤ Name: 'zwei')
+			Phrase('Option 3' wählbar: ⊤ Name: 'drei')
+		]
+	)
+	Phrase(
+		{
+			'eins': '😡'
+			'zwei': '🏀'
+			'drei': '❤'
+		}{option} ?? '?'
+	)
+\
 
-Um ein Emoji basierend auf der Auswahl anzuzeigen, können wir ein @Map um den Namen in ein geheimes Emoji umzuwandeln.Wenn wir einen Wert von einem @Map , wenn es keine Übereinstimmung gibt, wird es ausgewertet als\ø\, also verwenden wir die\??\standardmäßig\'?'\wenn die Option nicht in der Karte enthalten ist.In diesem Fall kann das nie passieren, aber wir sind nicht schlau genug, um das zu wissen!
+ Das @Choice beginnt als leeres @Text, und deshalb prüfen wir das, wenn das Projekt startet, und zeigen die drei Möglichkeiten.
+Sobald eine Wahl getroffen ist, wird sie einer der drei @Phrase -Namen.
+
+Um ein Emoji passend zur Wahl zu zeigen, können wir ein @Map verwenden, um den Namen in ein geheimes Emoji umzuwandeln.
+Wenn wir einen Wert aus einer @Map bekommen und es keine Übereinstimmung gibt, ergibt das \ø\, deshalb verwenden wir das \??\ , um standardmäßig \'?'\ zu nehmen, wenn die Option nicht in der Map vorkommt. 
+In diesem Fall kann das nie passieren, aber wir sind nicht schlau genug, das zu wissen!
 
 move-phrase

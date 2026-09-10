@@ -1,54 +1,75 @@
 Mută-te între conținuturi cu tastele săgeți
 
-Uneori vrei ca publicul să treacă prin conținut bucată cu bucată, ca o prezentare de imagini, mergând înainte /și/ înapoi cu tastele săgeți.
+Uneori vrei ca publicul să treacă prin conținut bucată cu bucată, ca o prezentare de imagini, mergând înainte / și / înapoi cu tastele săgeți.
 
 Fiecare variantă a acestui tipar este alcătuită din aceleași trei părți:
 
-• O  @List  a conținutului pe care vrei să-l arăți• O  @Key  un flux, care se schimbă de fiecare dată când e apăsată o tastă• O  @Reaction  care ține minte pe ce bucată de conținut ești acum
+• Un @List al conținutului pe care vrei să-l afișezi
+• Un @Key flux, care se schimbă de fiecare dată când e apăsată o tastă
+• Un @Reaction care ține minte pe ce bucată de conținut te afli acum
 
 Iată cea mai simplă variantă. Apasă mai întâi pe scenă ca să te asculte, apoi apasă tastele săgeată stânga și dreapta:
 
-\slides: ['primul' 'al doilea' 'al treilea']
+\
+slides: ['primul' 'al doilea' 'al treilea']
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'SăgeatăDreapta') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'SăgeatăStânga') ? ((index > 1) ? index - 1 index) index
-Phrase(slides[index])\
 
-Cel  @Reaction  este inima acestui exemplu. Începe la \1\, și de fiecare dată când  @Key  se schimbă, decide care ar trebui să fie noul număr.Dacă a fost apăsată săgeata dreapta, adaugă unu; dacă a fost apăsată săgeata stânga, scade unu; altfel rămâne la fel.
+index•#: 1 … ∆ key …
+	(key = 'SăgeatăDreapta') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'SăgeatăStânga') ? ((index > 1) ? index - 1 index)
+			index
 
-Verificările suplimentare cu \?\ sunt cele care împiedică numărul să treacă dincolo de capetele listei.Fără ele ai putea ieși dincolo de capăt și nu ar mai fi niciun diapozitiv de arătat.Dacă preferi să treci de la ultimul diapozitiv înapoi la primul, poți face asta în schimb.
+Phrase(slides[index])
+\
 
-Notă: tastele săgeți se numesc \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, și \'ArrowDown'\.Poți și doar să scrii \'Left'\ și \'Right'\, iar numele tastelor funcționează și în limba ta.
+ Elementul @Reaction este inima acestuia. Începe la \1\, și de fiecare dată când @Key se schimbă, decide care ar trebui să fie noul număr.
+Dacă a fost apăsată săgeata dreapta, adaugă unu; dacă a fost apăsată săgeata stânga, scade unu; altfel rămâne la fel.
 
-Observă că \index\ este doar un număr, deci acest lucru funcționează pentru /orice/ tip de conținut, nu doar text.Înlocuiește  @List  cu o listă de  @Group  sau scene întregi, iar restul modelului nu se schimbă deloc:
+Verificările suplimentare de \?\ sunt cele care împiedică numărul să depășească marginile listei.
+Fără ele, ai putea trece dincolo de capăt și nu ar mai exista niciun diapozitiv de afișat.
+Dacă preferi ca de la ultimul diapozitiv să revii la primul, poți face și asta.
 
-\slides: [
+Notă: tastele săgeți sunt numite \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, iar \'ArrowDown'\.
+Poți de asemenea să scrii doar \'Left'\ și \'Right'\, iar numele tastelor funcționează și în limba ta.
+
+Observă că \index\ este doar un număr, deci asta funcționează pentru / orice / fel de conținut, nu doar text.
+Înlocuiește @List cu o listă de @Group sau scene întregi, iar restul modelului nu se schimbă deloc:
+
+\
+slides: [
+	Phrase('o poveste în trei părți' dimensiune: 3m)
+	Group(Stack() [Phrase('🐈') Phrase('apare o pisică')])
+	Phrase('sfârșit 🎉')
+]
+
+key: Key()
+
+index•#: 1 … ∆ key …
+	(key = 'SăgeatăDreapta') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'SăgeatăStânga') ? ((index > 1) ? index - 1 index)
+			index
+
+slides[index]
+\
+
+ Un @Scene poate face și asta, și cu mai puțină numărare.
+Dă-i @Scene/pause ca să nu se miște niciodată singură, și @Scene/step ca să o muți cu o bucată în orice direcție:
+
+\
+key: Key()
+Scene([
 		Phrase('o poveste în trei părți' dimensiune: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('apare o pisică')])
 		Phrase('sfârșit 🎉')
-	]
-key: Key()
-index•#: 1 … ∆ key … (key = 'SăgeatăDreapta') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'SăgeatăStânga') ? ((index > 1) ? index - 1 index) index
-slides[index]\
+	] pauză: ⊤ pas: ∆ key ? ((key = 'SăgeatăStânga') ? -1 (key = 'SăgeatăDreapta') ? 1 ø) ø)
+\
 
-Un  @Scene  poate face și el asta, și cu mai puțină numărătoare.Dă-i  @Scene/pause  ca să nu se miște niciodată singur, și  @Scene/step  ca să-l muți cu o bucată în orice direcție:
+ Nu există \?\ verificări de scris aici, pentru că un @Scene se oprește singur la capetele lui, și nimic nu trebuie să țină minte ce bucată este afișată.
+Întreabă @Spotlight dacă vrei să spui / 3 din 10 / pe scenă.
 
-\key: Key()
-Scene(
-	[
-		Phrase('o poveste în trei părți' dimensiune: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('apare o pisică')])
-		Phrase('sfârșit 🎉')
-	]
-	pauză: ⊤
-	pas: ∆ key ? ((key = 'SăgeatăStânga') ? -1 (key = 'SăgeatăDreapta') ? 1 ø) ø
-)\
+Notă: vezi asta într-un proiect întreg în galerie: < prezentare de imagini @https://wordplay.dev/project/example-SlideShow?play>
 
-Nu există \?\ verificări de scris aici, pentru că un  @Scene  se oprește singur la capete, și nimic nu trebuie să țină minte care bucată se arată.Întreabă  @Spotlight  dacă vrei să spui /3 din 10/ pe scenă.
-
-Notă: vezi asta într-un proiect întreg în galerie: <prezentare de imagini@https://wordplay.dev/project/example-SlideShow?play>
-
-Cel  @Reaction  de mai sus rămâne modul potrivit de a face asta atunci când ceea ce parcurgi nu este ieșire — o listă de cuvinte, culori sau numere, sau orice altceva din care construiești bucata.
+ Cel @Reaction de mai sus rămâne modul potrivit de a face asta atunci când ceea ce parcurgi nu este ieșire — o listă de cuvinte, culori sau numere, sau orice altceva din care construiești bucata.
 
 interactive-scene, choose-adventure, offer-choices, repeat-a-round

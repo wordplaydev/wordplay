@@ -1,27 +1,21 @@
 Repetir un movimiento
 
-¡A veces queremos que un personaje se mueva de la misma forma varias veces! Escribir las mismas líneas una y otra vez puede volverse cansado.
+¡A veces queremos hacer que un personaje se mueva de la misma manera varias veces! 
+Escribir las mismas líneas una y otra vez puede volverse tedioso.
 
-En vez de eso, podemos usar  @Sequence  con  @Phrase  para hacer que algo se repita varias veces. En concreto,podemos usar la cuenta en  @Sequence  y elegir cuántas veces ocurre un conjunto de poses. Por ejemplo, aquí hay una pelota de básquetbol que rebota hacia arriba y hacia abajo dos veces. 
+En su lugar, podemos usar @Sequence con @Phrase para hacer que algo se repita varias veces. Específicamente,
+podemos usar el conteo en @Sequence y elegir cuántas veces ocurre un conjunto de poses. Por ejemplo, 
+aquí hay una pelota de basquetbol rebotando hacia arriba y hacia abajo dos veces. 
 
 \
-Stage(
-	[
-		Phrase(
-			'🏀'
-			entrando: Sequence(
-				{
-					0%: Pose(desplazamiento: Place(y: 0.25m))
-					25%: Pose(desplazamiento: Place(y: 0m))
-					50%: Pose(desplazamiento: Place(y: -0.25m))
-					75%: Pose(desplazamiento: Place(y: 0m))
-					100%: Pose(desplazamiento: Place(y: 0.25m))
-				}
-				cuenta: 2x
-				duración: 2s
-			)
-		)
-	]
-)\
+Stage([
+	Phrase('🏀' entrando: Sequence({
+				0%: Pose(desplazamiento: Place(y: 0.25m))
+				25%: Pose(desplazamiento: Place(y: 0m))
+				50%: Pose(desplazamiento: Place(y: -0.25m))
+				75%: Pose(desplazamiento: Place(y: 0m))
+				100%: Pose(desplazamiento: Place(y: 0.25m))} cuenta:2x duración:2s))
+])
+\
 
 animate-phrase, shake-phrase

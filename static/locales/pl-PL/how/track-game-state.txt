@@ -1,41 +1,38 @@
 Śledź stan gry
 
-Większość gier śledzi wiele rzeczy w miarę jej przebiegu: punkty, pozycje graczy i inne szczegóły są ważne.Za każdym razem, gdy pojawia się jakieś wejście, ten stan się zmienia, a my chcemy pokazać nowe wyjście w odpowiedzi.
+Większość gier śledzi wiele rzeczy w miarę rozgrywki: punkty, pozycje graczy i inne szczegóły są ważne.
+Za każdym razem, gdy pojawia się jakieś wejście, ten stan się zmienia, a wtedy chcemy pokazać nowe wyjście, w odpowiedzi.
 
 Ogólny wzorzec dla każdej gry robi trzy rzeczy:
 
-• Zdefiniuj strukturę danych stanu gry, aby przechować cały stan gry• Zdefiniuj reakcję, która tworzy nowy stan gry na podstawie poprzedniego stanu gry, kiedy tylko pojawi się nowe wejście• Stwórz  @Stage  z  @Group  i  @Phrase  aby pokazać stan gry
+• Zdefiniuj strukturę danych stanu gry, aby przechowywać cały stan gry
+• Zdefiniuj reakcję, która tworzy nowy stan gry na podstawie poprzedniego stanu gry, gdy tylko pojawi się nowe wejście
+• Stwórz @Stage razem z @Group i @Phrase , aby pokazać stan gry
 
 Na przykład wyobraźmy sobie prostą grę, w której wpisujesz tajne słowa w polu tekstowym i zdobywasz punkt za każdym razem, gdy zgadniesz tajne słowo:
 
-\•Game(secrets•[''] points•#)
-state: Game(['kot' 'pies'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+\
+•Game(secrets•[''] points•#)
+
+state: Game(['kot' 'pies'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+
 Stage(
-	state.points = state.secrets.length() ? [
-			Phrase("wygrałeś!")
-		] [
-			Group(
-				Stack()
-				[
-					Phrase("zgadnij moje tajne słowa")
-					Phrase(
-						`\state.secrets.length() - state.points\ więcej tajemnic`
-					)
-				]
-			)
-		]
-)\
+    state.points = state.secrets.length() ? 
+        [ Phrase("wygrałeś!")]
+        [ Group(Stack() [ Phrase("zgadnij moje tajne słowa") Phrase(`\state.secrets.length() - state.points\ więcej tajemnic`)])]
+)
+\
 
-Rozłóżmy to na części.
+ Rozłóżmy to na części.
 
-• Pierwsza linia, \•gra(sekrety•[''] punkty2•#)\ mówi, /Stwórz strukturę danych o nazwie \Game\, która przechowuje listę tajnych słów i punktów/. \[
-	''
-]\ oznacza /listę dowolnej liczby słów/. Jeśli zamiast tego chcesz listę o dokładnej długości, możesz nazwać typ dla każdego miejsca na niej: \[
-	#'']\ to lista dwóch rzeczy: liczby, a potem słowa.• Druga linia mówi /Stan gry zaczyna się od listy sekretów i zera punktów. Za każdym razem, gdy \Pogawędzić\ się zmienia, jeśli wpisane słowo znajduje się na liście sekretów, tworzony jest nowy stan gry z liczbą punktów zwiększoną o jeden/.• Za każdym razem, gdy program się przelicza (gdy \Pogawędzić\ się zmienia), pokazywana jest scena. Jeśli liczba punktów jest równa liczbie sekretów, pokazywana jest scena zwycięstwa. Jeśli nie, pokazywany jest komunikat oraz liczba pozostałych sekretów.
+• Pierwsza linia, \•gra(sekrety•[''] punkty2•#)\ mówi, / Stwórz strukturę danych o nazwie \Game\ , która przechowuje listę sekretów i punktów /. \['']\ oznacza / listę dowolnej liczby słów /. Gdybyś chciał zamiast tego listę o dokładnej długości, możesz nazwać typ dla każdego miejsca na liście: \[# '']\ to lista dwóch rzeczy: liczby, a potem słowa.
+• Druga linia mówi / Stan gry zaczyna się od listy sekretów i zera punktów. Za każdym razem, gdy \Pogawędzić\ się zmienia, jeśli wpisane słowo znajduje się na liście sekretów, wtedy tworzony jest nowy stan gry z liczbą punktów zwiększoną o jeden /.
+• Za każdym razem, gdy program się przelicza (gdy \Pogawędzić\ się zmienia), pokazywana jest scena. Jeśli liczba punktów jest równa liczbie sekretów, pokazywana jest scena wygranej. Jeśli nie, pokazywany jest komunikat oraz liczba pozostałych sekretów.
 
 Ten przykład ma pewne problemy:
 
-• Jeśli gracz odgadnie sekretne słowo wiele razy, dostaje więcej punktów! Nasz stan gry musiałby też zapamiętywać, co zostało odgadnięte, żeby każde słowo liczyło się tylko raz.• Jeśli gracz wpisze wiele słów naraz, czy powinny się one liczyć?
+• Jeśli gracz odgadnie tajne słowo kilka razy, dostaje więcej punktów! Nasz stan gry może też potrzebować zapamiętywać, co zostało odgadnięte, aby każde słowo liczyło się tylko dwa razy.
+• Jeśli gracz wpisze kilka słów naraz, czy powinno się to liczyć?
 
 Bardziej rozbudowane stany gry i sposoby ich aktualizacji pomogłyby nam poradzić sobie z takimi przypadkami.
 

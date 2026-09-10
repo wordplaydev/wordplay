@@ -1,29 +1,24 @@
 Gumawa ng video mula sa kamera
 
-Ang  @Camera  na stream ay isang magandang paraan para makakuha ng grid ng mga kulay mula sa mundo. Paano kung gusto nating makita ang mga kulay na iyon, at muling gawin ang larawang nakikita ng  @Camera ?
+Ang @Camera agos ay isang mahusay na paraan para makakuha ng isang grid ng mga kulay mula sa mundo. 
+Paano kung gusto nating makita ang mga kulay na iyon, at muling gawin ang larawang nakikita ng @Camera ?
 
-Puwede nating gamitin ang  @Grid  na layout para sa isang  @Group , at  @List/combine  na function para gawing listahan ng  @Phrase  ang mga kulay na ibibigay natin sa  @Grid .
+Puwede nating gamitin ang @Grid na layout para sa isang @Group, at @List/combine na function para gawing listahan ng @Phrase ang mga kulay na ibibigay natin sa @Grid.
 
-\width: 24
+\
+width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage(
-	[
-		Group(
-			Grid(height width 0m)
-			colors.combine(
-				[]
-				ƒ(phrases row) [
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
 						:phrases
 						:row ↦ Phrase("⬤" kulay: ⬚ tagal: 0s)
-					]
-			)
-		)
-	]
-)\
+					]))
+	])
+\
 
-Ang halimbawang ito ay gumagawa ng listahan ng mga parirala, na ginagawang bilog ang bawat kulay gamit ang tiyak na kulay nito.
+ Ang halimbawang ito ay gumagawa ng listahan ng mga parirala, na ginagawang bilog ang bawat kulay gamit ang tiyak na kulay nito.
 
-Mag-ingat sa  @Camera  na mga stream: marami silang input na nililikha! Kailangan mong panatilihing maliit ang lapad at taas ng larawan.
+Mag-ingat sa @Camera na mga stream: marami silang input na nililikha! Kailangan mong panatilihing maliit ang lapad at taas ng larawan.
 
 interactive-scene

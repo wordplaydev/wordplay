@@ -20,6 +20,7 @@
  */
 import { HowToIDs } from '@concepts/HowTo';
 import {
+    CoverageExemptions,
     HowToCoverageIsFatal,
     howTosBehindEnglish,
 } from '@util/verify-locales/verifyHowTo';
@@ -50,6 +51,7 @@ test.skipIf(!HowToCoverageIsFatal).each(Locales)(
                 EnglishDir,
                 path.join(LocalesDir, locale, 'how'),
                 Filenames,
+                locale,
             ),
         ).toEqual([]);
     },
@@ -57,20 +59,20 @@ test.skipIf(!HowToCoverageIsFatal).each(Locales)(
 );
 
 /**
- * What the gate above would say today, so the backlog is a number in the suite
- * rather than a claim in a comment — and so this file still exercises the
- * pairing over the whole corpus while the flag is off.
+ * Every exemption names a file that is really behind, so the list shrinks as they
+ * are repaired instead of outliving them — the failure mode a hand-maintained
+ * allowlist otherwise has.
  */
-test('the how-to coverage backlog is measured, not assumed', () => {
-    const behind = Locales.flatMap((locale) =>
-        howTosBehindEnglish(
-            EnglishDir,
-            path.join(LocalesDir, locale, 'how'),
-            Filenames,
-        ).map((id) => `${locale}/${id}`),
-    );
-    // Every locale is behind on most how-tos, because until now a translation
-    // could never gain a paragraph. One translation run clears this.
-    if (HowToCoverageIsFatal) expect(behind).toEqual([]);
-    else expect(behind.length).toBeGreaterThan(0);
+test('no exemption outlives the defect it was written for', () => {
+    const stale = CoverageExemptions.filter((entry) => {
+        const [locale, id] = entry.split('/');
+        return (
+            howTosBehindEnglish(
+                EnglishDir,
+                path.join(LocalesDir, locale, 'how'),
+                [`${id}.txt`],
+            ).length === 0
+        );
+    });
+    expect(stale).toEqual([]);
 }, 60_000);

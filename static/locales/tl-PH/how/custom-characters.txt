@@ -1,15 +1,22 @@
 Magpakita ng pasadyang karakter
 
-Maganda ang mga emoji, letra, at simbolo! Pero minsan gusto mo ring gumawa ng sarili mong mga karakter.Paano ka makakalikha at makakapagpakita ng sarili mo?
+Magaganda ang mga emoji, titik, at simbolo! Pero minsan, gusto mong gumawa ng sarili mong mga karakter.
+Paano ka makakagawa at makakapagpakita ng sarili mong mga karakter?
 
-Una, simulan sa pamamagitan ng paglikha ng isang karakter sa<Mga Karakter@://characters>pahina.Maaari kang gumamit ng mga pixel, parihaba, bilog, at mga path.Bigyan ito ng pangalan, ilarawan ito, at pagkatapos ay maaari mong gamitin ang iyong username at ang pangalan ng karakter tulad nito:
+Una, magsimula sa paggawa ng karakter sa pahinang < Mga Karakter @://characters> . 
+Puwede kang gumamit ng pixel, parihaba, bilog, at path. 
+Bigyan ito ng pangalan, ilarawan ito, at pagkatapos ay maaari mong gamitin ang iyong pangalan bilang user at ang pangalan ng karakter na ganito:
 
-\Phrase(`Tingnan mo ang aking pagnanasa @username/charactername !`)\
+\
+Phrase(`Tingnan mo ang aking pagnanasa @username/charactername !`)
+\
 
-Hindi umiiral ang username at pangalan ng karakter na iyan, kaya ipapakita ito bilang isang walang laman na parihaba.Siguraduhing gamitin ang iyong aktwal na username at character name
+ Wala pang ganitong pangalan ng user at pangalan ng karakter, kaya magpapakita ito bilang isang walang laman na parihaba.
+Siguraduhing gamitin ang tunay mong pangalan bilang user at ang tunay na pangalan ng karakter
 
-Nakikita mo ba kung paano ginagamit ng teksto ang backtick sa halip na simbolo ng panipi? Mahalaga iyon.Ibig sabihin niyan ay gumagamit ka ng rich text mode, at kinakailangan iyon para tumukoy sa isang custom na karakter.
+Napansin mo bang gumamit ang teksto ng backtick sa halip na simbolo ng panipi? Mahalaga iyon. 
+Sinasabi nito sa atin na ginagamit mo ang rich text mode, at kailangan ito upang mag-refer sa isang custom na karakter.
 
-Maaari kang matuto nang higit pa tungkol sa pag-format ng teksto mula sa @Phrase .
+Maaari kang matuto nang higit pa tungkol sa pag-format ng teksto mula sa @Phrase.
 
 animate-phrase

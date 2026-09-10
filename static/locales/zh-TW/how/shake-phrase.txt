@@ -1,23 +1,29 @@
 讓角色搖晃
 
-有時讓角色看起來在顫抖是有幫助的。我們可以透過幾種方法來實現這一點。
+有時候，讓一個角色看起來在發抖，會很有幫助。
+有幾種方法可以做到這件事。
 
-我們可以使用 @Phrase/offset  和 @Random  和 @Time 來實現這一點。
+我們可以使用 @Phrase/offset 和 @Random 和 @Time 來實現這一點。
 
-\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('你好' 抵銷: Place(offset 0m))\
+\
+offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('你好' 抵銷: Place(offset 0m))
+\
 
-這將建立一個名為\offset\每當時鐘滴答作響時，它就會變成一個新的隨機值。然後，它使用該偏移量來顯示 @Phrase 抵銷該金額。
+ 這會建立一個叫做 \offset\ 的值，它會在每次時鐘跳動時，變成一個新的隨機值。
+接著，它會用這個偏移量，來顯示 @Phrase 偏移那個量之後的樣子。
 
 如果我們想更精確地控制震動，我們可以使用 @Sequence 製作重複的隨機搖動動畫。
 
-\Phrase('你好' 休息: Sequence({
+\
+Phrase('你好' 休息: Sequence({
 			0%: Pose(偏移: Place(Random(-.2m .2m)))
 			15%: Pose(偏移: Place(Random(-.2m .2m)))
 			60%: Pose(偏移: Place(Random(-.2m .2m)))
 			75%: Pose(偏移: Place(Random(-.2m .2m)))
-		} 0.1s))\
+		} 0.1s))
+\
 
-此範例僅選擇一次隨機值，但將它們變成重複序列。
+ 此範例僅選擇一次隨機值，但將它們變成重複序列。
 
 move-phrase

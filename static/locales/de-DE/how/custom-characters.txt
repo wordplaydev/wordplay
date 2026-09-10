@@ -1,15 +1,22 @@
 Zeigen Sie einen benutzerdefinierten Charakter
 
-Emojis, Buchstaben und Symbole sind toll! Aber manchmal möchte man seine eigenen Charaktere erstellen.Wie können Sie Ihre eigenen erstellen und zeigen?
+Emojis, Buchstaben und Symbole sind toll! Aber manchmal möchtest du eigene Zeichen erstellen.
+Wie kannst du eigene Zeichen erstellen und anzeigen?
 
-Erstellen Sie zunächst einen Charakter auf dem<Charaktere@://characters> Seite. Sie können Pixel, Rechtecke, Kreise und Pfade verwenden.Geben Sie ihm einen Namen, beschreiben Sie es und verwenden Sie dann Ihren Benutzernamen und den Charakternamen wie folgt:
+Erstelle zuerst ein Zeichen auf der Seite < Zeichen @://characters> . 
+Du kannst Pixel, Rechtecke, Kreise und Pfade verwenden. 
+Gib ihm einen Namen, beschreibe es, und dann kannst du deinen Benutzernamen und den Zeichennamen so verwenden:
 
-\Phrase(`Schau dir meine Fantasie an @username/charactername !`)\
+\
+Phrase(`Schau dir meine Fantasie an @username/charactername !`)
+\
 
-Dieser Benutzername und Charaktername existieren nicht und werden daher als leeres Rechteck angezeigt.Stellen Sie sicher, dass Sie Ihren tatsächlichen Benutzernamen und Charakternamen verwenden
+ Diesen Benutzernamen und Zeichennamen gibt es nicht, deshalb wird ein leeres Rechteck angezeigt.
+Achte darauf, deinen echten Benutzernamen und Zeichennamen zu verwenden
 
-Sehen Sie, dass im Text anstelle eines Anführungszeichens das Backtick verwendet wird? Das ist wichtig.Das sagt uns, dass Sie den Rich-Text-Modus verwenden, und dieser ist erforderlich, um auf ein benutzerdefiniertes Zeichen zu verweisen.
+Siehst du, dass der Text ein Backtick statt eines Anführungszeichens verwendet? Das ist wichtig. 
+Das zeigt uns, dass du den formatierten Textmodus verwendest, und das ist nötig, um auf ein eigenes Zeichen zu verweisen.
 
-Weitere Informationen zur Textformatierung finden Sie unter @Phrase .
+Weitere Informationen zur Textformatierung finden Sie unter @Phrase.
 
 animate-phrase

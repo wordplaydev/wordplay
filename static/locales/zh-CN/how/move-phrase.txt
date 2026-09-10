@@ -11,17 +11,23 @@ Stage(
 )
 \
 
-使用键盘箭头或点击 @Stage 将更新 @Placement ，让 @Phrase 朝那个方向前进。
+ 使用键盘箭头或点击 @Stage 将更新 @Placement，让 @Phrase 朝那个方向前进。
 
-你知道吗，其实 @Placement 可以用在任何需要 @Place 的地方。
-比如说，@Stage 也有一个 @Place，用来决定它的相机朝向哪里。
-我们来试试看：给一个 @Stage 的 @Place 设置一个 @Placement，然后看看会发生什么。
+不过，你知道吗， @Placement 可以用在 / 任何 / 能接受 @Place 的地方哦。 
+比如说，一个 @Stage 就有一个 @Place ，它决定了摄像机对着哪个方向。
+我们来试着设一个 @Placement 用于一个 @Stage 的位置，看看会发生什么吧。
 
-\Stage([
-		Phrase('🐈' 位置: Place(-2m 2m))
-		Phrase('🐈' 位置: Place(2m -2m))
-		Phrase('🐈' 位置: Place(-1m 3m))
-	] 位置: Placement(Place(0m 0m -10m)))\
+\
+Stage(
+  [
+	Phrase('🐈' 位置: Place(-2m 2m))
+	Phrase('🐈' 位置: Place(2m -2m))
+	Phrase('🐈' 位置: Place(-1m 3m))
+  ]
+  位置: Placement(Place(0m 0m -10m))
+)
+\
 
-这会让相机移动！（注意：我们把 @Placement 的 \z\ 值从 \10m\ 开始，这样相机会往后退一些，离所有东西更远。）
+ 这会让相机移动！（注意：我们把 @Placement 的 \z\ 值从 \10m\ 开始，这样相机会往后退一些，离所有东西更远。）
+
 animated-scene

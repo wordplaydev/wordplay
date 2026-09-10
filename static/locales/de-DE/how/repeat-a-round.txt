@@ -1,47 +1,42 @@
 Wiederhole eine Runde eines Spiels
 
-Viele Spiele bestehen aus denselben wenigen Momenten, die sich immer wiederholen: sagen, was zu tun ist, auf eine Antwort warten, zeigen, wie es gelaufen ist, und dann von vorn beginnen.Eine  @Scene  kann diese ganze Runde sein, und  @Scene/loop  bringt sie wieder an den Anfang zurück.
+Viele Spiele bestehen aus denselben wenigen Momenten, die sich immer wiederholen: sagen, was zu tun ist, auf eine Antwort warten, zeigen, wie es lief, und dann von vorn beginnen.
+Eine @Scene kann diese ganze Runde sein, und @Scene/loop bringt sie zurück zum Anfang.
 
-Die Momente sind die Dinge in der Liste, und ein  @Boolean  zwischen ihnen ist die Stelle, an der die  @Scene  auf die spielende Person wartet.
+Die Momente sind die Dinge in der Liste, und ein @Boolean zwischen ihnen ist die Stelle, an der die @Scene auf die spielende Person wartet.
 
-\guess: Chat()
+\
+guess: Chat()
 right: guess = 'Katze'
-Scene(
-	[
+Scene([
+	Phrase('Errate das Tier!' Dauer: 2s)
+	∆ guess
+	Phrase(right ? 'Ja!' 'Nein!' Dauer: 2s)
+] Schleife: ~right)
+\
+
+ Das \∆ guess\ ist das Warten: Es ist nur in dem Moment wahr, in dem eine neue Vermutung eintrifft, also bleibt @Scene dort stehen, bis jemand etwas eintippt.
+Und \schleife: ~right\ ist das Wiederholen: @Scene kommt immer wieder zurück, bis sie es richtig machen, und hält dann beim letzten @Phrase kombinieren.
+
+Hinweis: @Scene/loop wird jedes Mal gelesen, wenn sich dein Programm ändert. So kannst du eine Schleife nicht nur beginnen, sondern auch beenden, was \~right\ gerade getan hat.
+
+Um zu wissen, wo die Runde steht, frage @Spotlight kombinieren.
+Es sagt dir, welche @Phrase gerade angezeigt wird, wie viele es gibt, wie oft @Scene schon durchlaufen wurde und ob es gerade auf jemanden wartet.
+
+\
+guess: Chat()
+at: Spotlight()
+Stage([
+	Scene([
 		Phrase('Errate das Tier!' Dauer: 2s)
 		∆ guess
-		Phrase(right ? 'Ja!' 'Nein!' Dauer: 2s)
-	]
-	Schleife: ~right
-)\
+		Phrase('Nein!' Dauer: 2s)
+	] Schleife: ⊤)
+	Phrase(at.waiting ? 'eine Vermutung eintippen' `Runde \at.lap + 1\` Größe: 0.4m Ort: Place(0m -2m))
+])
+\
 
-Der \∆ guess\ ist das Warten: Er ist nur in dem Moment wahr, in dem eine neue Vermutung eintrifft, sodass die  @Scene  dort verharrt, bis jemand etwas eintippt.Und \schleife: ~right\ ist das Wiederholen: Die  @Scene  kommt immer wieder zurück, bis die Antwort stimmt, und hält dann beim letzten  @Phrase  prüfen.
-
-Hinweis:  @Scene/loop  wird jedes Mal gelesen, wenn sich dein Programm ändert. So kannst du eine Schleife nicht nur beginnen, sondern auch beenden, was \~right\ gerade getan hat.
-
-Um zu wissen, wo die Runde gerade steht, frage  @Spotlight  prüfen.Es sagt dir, welche  @Phrase  gerade angezeigt wird, wie viele es gibt, wie oft die  @Scene  schon durchlaufen wurde, und ob sie gerade auf jemanden wartet.
-
-\guess: Chat()
-at: Spotlight()
-Stage(
-	[
-		Scene(
-			[
-				Phrase('Errate das Tier!' Dauer: 2s)
-				∆ guess
-				Phrase('Nein!' Dauer: 2s)
-			]
-			Schleife: ⊤
-		)
-		Phrase(
-			at.waiting ? 'eine Vermutung eintippen' `Runde \at.lap + 1\`
-			Größe: 0.4m
-			Ort: Place(0m -2m)
-		)
-	]
-)\
-
-@Scene/replay  ist eine Möglichkeit, die Runde jederzeit neu zu starten, egal wie weit sie schon war.Gib ihm etwas, das nur für einen Moment wahr ist, wie \∆ Taste(
-)\ prüfen.
+@Scene/replay ist eine Möglichkeit, die Runde jederzeit neu zu starten, egal wie weit sie schon gekommen war.
+Gib ihm etwas, das nur für einen Moment wahr ist, wie \∆ Taste()\ kombinieren.
 
 interactive-scene, animated-scene, track-game-state

@@ -1,47 +1,42 @@
 Lặp lại một vòng chơi
 
-Nhiều trò chơi chỉ lặp đi lặp lại vài khoảnh khắc giống nhau: nói phải làm gì, chờ câu trả lời, cho xem kết quả, rồi bắt đầu lại.Một  @Scene  có thể là cả một vòng chơi đó, và  @Scene/loop  là thứ đưa nó quay lại từ đầu.
+Rất nhiều trò chơi lặp lại cùng vài khoảnh khắc: nói cần làm gì, chờ câu trả lời, cho xem kết quả, rồi bắt đầu lại.
+Một @Scene có thể là cả vòng đó, và @Scene/loop là thứ đưa nó quay lại từ đầu.
 
-Các khoảnh khắc là những thứ trong danh sách, và một  @Boolean  giữa chúng là nơi  @Scene  chờ người chơi.
+Các khoảnh khắc là những thứ trong danh sách, và một @Boolean giữa chúng là nơi @Scene chờ người chơi.
 
-\guess: Chat()
+\
+guess: Chat()
 right: guess = 'mèo'
-Scene(
-	[
+Scene([
+	Phrase('Đoán con vật!' khoảngthờigian: 2s)
+	∆ guess
+	Phrase(right ? 'Đúng rồi!' 'Sai rồi!' khoảngthờigian: 2s)
+] vòngLặp: ~right)
+\
+
+ Cái \∆ guess\ là lúc chờ đợi: nó chỉ đúng vào khoảnh khắc có một lượt đoán mới đến, nên @Scene giữ nguyên ở đó cho đến khi ai đó gõ điều gì đó.
+Và \vòngLặp2: ~right\ là sự lặp lại: @Scene cứ quay vòng lại cho đến khi họ đoán đúng, rồi dừng lại ở @Phrase.
+
+Lưu ý: @Scene/loop được đọc mỗi khi chương trình của bạn thay đổi, vì vậy bạn có thể kết thúc một vòng lặp cũng như bắt đầu một vòng lặp, và đó chính là điều \~right\ vừa làm.
+
+Để biết vòng chơi đang ở đâu, hãy hỏi @Spotlight.
+Nó cho bạn biết @Phrase nào đang hiển thị, có bao nhiêu cái, @Scene đã quay vòng bao nhiêu lần, và liệu nó có đang chờ ai đó ngay lúc này hay không.
+
+\
+guess: Chat()
+at: Spotlight()
+Stage([
+	Scene([
 		Phrase('Đoán con vật!' khoảngthờigian: 2s)
 		∆ guess
-		Phrase(right ? 'Đúng rồi!' 'Sai rồi!' khoảngthờigian: 2s)
-	]
-	vòngLặp: ~right
-)\
+		Phrase('Sai rồi!' khoảngthờigian: 2s)
+	] vòngLặp: ⊤)
+	Phrase(at.waiting ? 'gõ một dự đoán' `vòng \at.lap + 1\` kíchcỡ: 0.4m vịTrí: Place(0m -2m))
+])
+\
 
-Cái \∆ guess\ chính là sự chờ đợi: nó chỉ đúng vào lúc có một dự đoán mới xuất hiện, nên  @Scene  giữ nguyên tại đó cho đến khi ai đó gõ một điều gì đó.Và \vòngLặp2: ~right\ chính là sự lặp lại:  @Scene  cứ quay lại nhiều lần cho đến khi họ đoán đúng, rồi dừng ở  @Phrase .
-
-Lưu ý:  @Scene/loop  được đọc mỗi khi chương trình của bạn thay đổi, vì vậy bạn có thể kết thúc một vòng lặp cũng như bắt đầu một vòng lặp, và đó chính là điều \~right\ vừa làm.
-
-Để biết vòng chơi đang ở đâu, hãy hỏi  @Spotlight .Nó cho bạn biết  @Phrase  nào đang hiển thị, có bao nhiêu cái,  @Scene  đã quay lại bao nhiêu lần, và liệu nó có đang chờ ai đó ngay lúc này hay không.
-
-\guess: Chat()
-at: Spotlight()
-Stage(
-	[
-		Scene(
-			[
-				Phrase('Đoán con vật!' khoảngthờigian: 2s)
-				∆ guess
-				Phrase('Sai rồi!' khoảngthờigian: 2s)
-			]
-			vòngLặp: ⊤
-		)
-		Phrase(
-			at.waiting ? 'gõ một dự đoán' `vòng \at.lap + 1\`
-			kíchcỡ: 0.4m
-			vịTrí: Place(0m -2m)
-		)
-	]
-)\
-
-@Scene/replay  là một cách để bắt đầu lại vòng chơi bất cứ khi nào bạn muốn, dù nó đang ở đâu.Cho nó một điều gì đó chỉ đúng trong một khoảnh khắc, ví dụ như \∆ Cáinút(
-)\.
+@Scene/replay là một cách để bắt đầu lại vòng chơi bất cứ khi nào bạn muốn, dù nó đã đi đến đâu.
+Hãy đưa cho nó một thứ chỉ đúng trong một khoảnh khắc, như \∆ Cáinút()\.
 
 interactive-scene, animated-scene, track-game-state

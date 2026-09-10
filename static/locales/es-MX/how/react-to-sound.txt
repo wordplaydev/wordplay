@@ -1,17 +1,22 @@
 Haz que los personajes crezcan con el sonido.
 
-¿Sabías que tu proyecto puede escucharte? @Volume   stream usa tu micrófono para darnos un número de\0\(silencioso) a\1\ (alto).
+¿Sabías que tu proyecto puede escucharte? @Volume stream usa tu micrófono para darnos un número de \0\ (silencioso) a \1\ (alto).
 
-Podemos usar ese número para controlar cualquier cosa: el tamaño de una @Phrase , su rotación, su color.
+Podemos usar ese número para controlar cualquier cosa: el tamaño de una @Phrase, su rotación, su color.
 
-\Phrase('📣' tamaño: (Volume() × 5m) + 1m)\
+\
+Phrase('📣' tamaño: (Volume() × 5m) + 1m)
+\
 
-Cuando hay silencio, el megáfono es\1m\alto. Cuando gritas, puede crecer hasta\6m\ alto.
+ Cuando hay silencio, el megáfono es \1m\ alto. Cuando gritas, puede crecer hasta \6m\ alto.
 
 ¿Quieres un sol que gire más rápido cuanto más fuerte grites?
 
-\Phrase('🌞' rotación: Volume() × 360°)\
+\
+Phrase('🌞' rotación: Volume() × 360°)
+\
 
-Prueba a aplaudir o tararear y observa qué sucede.(Es posible que su ordenador le pida permiso para usar el micrófono la primera vez).
+ Intenta aplaudir o tararear una canción y observa qué pasa.
+(Es posible que tu computadora te pida permiso para usar el micrófono la primera vez.)
 
 count-with-time, follow-the-pointer

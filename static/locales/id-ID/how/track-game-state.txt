@@ -1,43 +1,38 @@
 Melacak keadaan permainan
 
-Kebanyakan permainan melacak banyak hal saat permainan berjalan: poin, posisi pemain, dan detail lain semuanya penting.Setiap kali ada input, keadaan itu berubah, lalu kita ingin menampilkan output baru sebagai jawabannya.
+Sebagian besar permainan melacak banyak hal saat permainan berjalan: poin, posisi pemain, dan detail lainnya semuanya penting.
+Setiap kali ada masukan, keadaan itu berubah, lalu kita ingin menampilkan keluaran baru, sebagai tanggapan.
 
 Ada pola umum untuk semua permainan yang melakukan tiga hal:
 
-• Membuat struktur data keadaan permainan, untuk menyimpan semua keadaan permainan• Membuat reaksi yang menghasilkan keadaan permainan baru berdasarkan keadaan permainan sebelumnya, setiap kali ada input baru• Membuat  @Stage  dengan  @Group  dan  @Phrase  untuk menampilkan keadaan permainan
+• Buat struktur data keadaan permainan, untuk menyimpan semua keadaan permainan
+• Buat reaksi yang membuat keadaan permainan baru berdasarkan keadaan permainan sebelumnya setiap kali ada masukan baru
+• Buat @Stage dengan @Group dan @Phrase untuk menampilkan keadaan permainan
 
 Sebagai contoh, mari bayangkan permainan sederhana yang meminta pemain mengetik kata rahasia ke dalam kotak teks, dan mendapat satu poin setiap kali berhasil menebak kata rahasia:
 
-\•Game(secrets•[''] points•#)
-state: Game(['kucing' 'anjing'] 0) … state.secrets.has(
-		Chat()
-	) … state.points:state.points + 1
+\
+•Game(secrets•[''] points•#)
+
+state: Game(['kucing' 'anjing'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+
 Stage(
-	state.points = state.secrets.length() ? [
-			Phrase("kamu menang!")
-		] [
-			Group(
-				Stack()
-				[
-					Phrase("tebak kata rahasiaku")
-					Phrase(
-						`\state.secrets.length() - state.points\ rahasia lagi`
-					)
-				]
-			)
-		]
-)\
+    state.points = state.secrets.length() ? 
+        [ Phrase("kamu menang!")]
+        [ Group(Stack() [ Phrase("tebak kata rahasiaku") Phrase(`\state.secrets.length() - state.points\ rahasia lagi`)])]
+)
+\
 
-Mari kita bahas ini satu per satu.
+ Mari kita bahas ini satu per satu.
 
-• Baris pertama, \•permainan(rahasia•[''] poin•#)\ berarti, /Membuat struktur data bernama \Game\ yang menyimpan daftar kata rahasia dan poin/. Bagian \[
-	''
-]\ berarti /daftar berisi sejumlah kata apa pun/. Jika kamu ingin daftar dengan panjang yang pasti, kamu bisa menuliskan jenis untuk setiap tempat di dalamnya: \[
-	#'']\ adalah daftar dua hal, sebuah angka lalu sebuah kata.• Baris kedua mengatakan /Keadaan permainan dimulai dengan daftar rahasia dan nol poin. Setiap kali \Mengobrol\ berubah, jika kata yang dimasukkan ada dalam daftar rahasia, buat keadaan permainan baru dengan poin bertambah satu/.• Setiap kali program dinilai ulang (saat \Mengobrol\ berubah), tampilkan sebuah panggung. Jika jumlah poin sama dengan jumlah rahasia, tampilkan panggung kemenangan. Jika tidak, tampilkan sebuah pesan dan jumlah rahasia yang tersisa.
+• Baris pertama, \•permainan(rahasia•[''] poin•#)\ mengatakan, / Buat struktur data bernama \Game\ yang menyimpan daftar rahasia dan poin /. \['']\ berarti / daftar kata dengan jumlah berapa pun /. Jika kamu ingin daftar dengan panjang yang pasti, kamu bisa menamai jenis untuk setiap tempat di dalamnya: \[# '']\ adalah daftar dua hal, sebuah angka lalu sebuah kata.
+• Baris kedua mengatakan / Keadaan permainan dimulai dengan daftar rahasia dan nol poin. Setiap kali \Mengobrol\ berubah, jika kata yang dimasukkan ada dalam daftar rahasia, maka buat keadaan permainan baru dengan poin bertambah satu /.
+• Setiap kali program dievaluasi ulang (saat \Mengobrol\ berubah), tampilkan panggung. Jika jumlah poin sama dengan jumlah rahasia, tampilkan panggung kemenangan. Jika tidak, tampilkan permintaan dan jumlah rahasia yang tersisa.
 
 Contoh ini memiliki beberapa masalah:
 
-• Jika pemain menebak kata rahasia yang sama berkali-kali, ia mendapat lebih banyak poin! Keadaan permainan kita mungkin perlu mengingat kata apa saja yang sudah ditebak, agar setiap kata hanya dihitung dua kali.• Jika pemain memasukkan banyak kata sekaligus, apakah itu harus dihitung?
+• Jika mereka menebak kata rahasia beberapa kali, mereka mendapat lebih banyak poin! Keadaan permainan kita mungkin perlu juga mengingat apa yang sudah ditebak, agar setiap kata hanya dihitung dua kali.
+• Jika pemain memasukkan beberapa kata, apakah itu dihitung?
 
 Keadaan permainan dan pembaruan permainan yang lebih canggih akan membantu kita menangani kasus-kasus ini.
 

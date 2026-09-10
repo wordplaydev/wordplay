@@ -1,29 +1,24 @@
 從相機建立一段影片
 
-這個  @Camera  串流是取得世界顏色格線的好方法。如果我們想看看這些顏色，重現  @Camera  看到的畫面呢？
+這個 @Camera 串流是取得來自世界的顏色網格的好方法。 
+如果我們想看到這些顏色，重現 @Camera 看到的畫面呢？
 
-我們可以用  @Grid  版面配置來排出一個  @Group ，再用  @List/combine  函式把顏色轉換成一份  @Phrase  清單， @Grid  就是我們要交給它的東西。
+我們可以用 @Grid 版面配置來排出一個 @Group，再用 @List/combine 函式把顏色轉換成一份 @Phrase 清單， @Grid 就是我們要交給它的東西。
 
-\width: 24
+\
+width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage(
-	[
-		Group(
-			Grid(height width 0m)
-			colors.combine(
-				[]
-				ƒ(phrases row) [
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
 						:phrases
 						:row ↦ Phrase("⬤" 色彩: ⬚ 持續時間: 0s)
-					]
-			)
-		)
-	]
-)\
+					]))
+	])
+\
 
-這個範例會建立一份詞句清單，把每個顏色轉換成該顏色的一個圓形。
+ 這個範例會建立一份詞句清單，把每個顏色轉換成該顏色的一個圓形。
 
-使用  @Camera  串流時要小心：它們會產生大量輸入！你會想要把圖片的寬度和高度設小一點。
+使用 @Camera 串流時要小心：它們會產生大量輸入！你會想要把圖片的寬度和高度設小一點。
 
 interactive-scene

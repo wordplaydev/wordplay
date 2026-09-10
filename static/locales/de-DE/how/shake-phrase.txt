@@ -1,23 +1,29 @@
 Bringen Sie einen Charakter zum Zittern
 
-Manchmal ist es hilfreich, wenn eine Figur aussieht, als würde sie zittern.Es gibt einige Möglichkeiten, wie wir das erreichen können.
+Manchmal ist es hilfreich, wenn eine Figur so aussieht, als würde sie zittern.
+Es gibt ein paar Wege, das zu erreichen.
 
-Wir können @Phrase/offset  mit  @Random  Und  @Time um das zu ermöglichen.
+Wir können @Phrase/offset mit @Random Und @Time um das zu ermöglichen.
 
-\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('Hi' Versatz: Place(offset 0m))\
+\
+offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('Hi' Versatz: Place(offset 0m))
+\
 
-Dadurch entsteht ein Wert namens\offset\der sich bei jedem Tick der Uhr in einen neuen Zufallswert ändert.Dann wird dieser Offset verwendet, um die @Phrase um diesen Betrag ausgeglichen.
+ Das erzeugt einen Wert namens \offset\ , der sich bei jedem Tick der Uhr zu einem neuen zufälligen Wert ändert.
+Dann nutzt es diesen Versatz, um @Phrase um diesen Betrag verschoben zu zeigen.
 
 Wenn wir das Schütteln genauer steuern wollten, könnten wir ein @Sequence um eine zufällige, sich wiederholende Schüttelanimation zu erstellen.
 
-\Phrase('Hi' Ruhen: Sequence({
+\
+Phrase('Hi' Ruhen: Sequence({
 			0%: Pose(Versatz: Place(Random(-.2m .2m)))
 			15%: Pose(Versatz: Place(Random(-.2m .2m)))
 			60%: Pose(Versatz: Place(Random(-.2m .2m)))
 			75%: Pose(Versatz: Place(Random(-.2m .2m)))
-		} 0.1s))\
+		} 0.1s))
+\
 
-In diesem Beispiel werden nur einmal zufällige Werte ausgewählt, diese dann aber in eine sich wiederholende Sequenz umgewandelt.
+ In diesem Beispiel werden nur einmal zufällige Werte ausgewählt, diese dann aber in eine sich wiederholende Sequenz umgewandelt.
 
 move-phrase

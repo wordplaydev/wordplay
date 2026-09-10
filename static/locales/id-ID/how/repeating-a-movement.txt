@@ -1,17 +1,21 @@
 Mengulangi suatu gerakan
 
-Terkadang kita ingin membuat karakter bergerak dengan cara yang sama beberapa kali! Mengetik baris yang sama berulang kali bisa menjadi membosankan.
+Kadang kita ingin membuat sebuah karakter bergerak dengan cara yang sama beberapa kali! 
+Mengetik baris yang sama berulang-ulang bisa membosankan.
 
-Sebagai gantinya, kita bisa menggunakan  @Sequence  dengan  @Phrase  untuk membuat sesuatu berulang beberapa kali! Secara spesifik,kita bisa menggunakan hitungan di  @Sequence  dan pilih berapa kali serangkaian pose tersebut diulang. Misalnya, Ini dia bola basket yang memantul naik turun dua kali. 
+Sebagai gantinya, kita bisa menggunakan @Sequence dengan @Phrase untuk membuat sesuatu berulang beberapa kali! Secara khusus,
+kita bisa menggunakan hitungan di @Sequence dan memilih berapa kali sekumpulan pose terjadi. Contohnya, 
+ini bola basket yang memantul naik turun dua kali. 
 
-\Stage([
-		Phrase('🏀' memasuki: Sequence({
-					0%: Pose(mengimbangi: Place(y: 0.25m))
-					25%: Pose(mengimbangi: Place(y: 0m))
-					50%: Pose(mengimbangi: Place(y: -0.25m))
-					75%: Pose(mengimbangi: Place(y: 0m))
-					100%: Pose(mengimbangi: Place(y: 0.25m))
-				} menghitung: 2x lamanya: 2s))
-	])\
+\
+Stage([
+	Phrase('🏀' memasuki: Sequence({
+				0%: Pose(mengimbangi: Place(y: 0.25m))
+				25%: Pose(mengimbangi: Place(y: 0m))
+				50%: Pose(mengimbangi: Place(y: -0.25m))
+				75%: Pose(mengimbangi: Place(y: 0m))
+				100%: Pose(mengimbangi: Place(y: 0.25m))} menghitung:2x lamanya:2s))
+])
+\
 
 animate-phrase, shake-phrase

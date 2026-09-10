@@ -2,31 +2,53 @@ Afișați opțiunile selectabile
 
 Uneori vrei să arăți o grămadă de opțiuni pe ecran și să faci ceva cu ceea ce alege publicul. Pentru a face acest lucru, avem nevoie de două lucruri:
 
-• Unul sau mai multe  @Phrase  care sunt marcate ca selectabile și au un nume unic (de exemplu, \Phrase('opțiunea 1' selectabil: ⊤ nume: 'unul')\)• A  @Choice , care se schimbă în  @Phrase  numele ales cel mai recent.
+• Unul sau mai multe @Phrase care sunt marcate ca selectabile și au un nume unic (de exemplu, \Phrase('opțiunea 1' selectabil: ⊤ nume: 'unul')\)
+• Un @Choice, care se schimbă în numele @Phrase ales cel mai recent.
 
 De exemplu, aici afișăm trei opțiuni, fiecare cu un nume unic.
 
-\option: Choice()
-Group(Stack() [
+\
+option: Choice()
+
+Group(
+	Stack() [
 		Phrase('opțiunea 1' selectabil: ⊤ nume: 'unul')
 		Phrase('opțiunea 2' selectabil: ⊤ nume: 'două')
 		Phrase('opțiunea 3' selectabil: ⊤ nume: 'trei')
 		Phrase(option)
-	])\
+	]
+)
+\
 
-De fiecare dată când cineva este ales, ultimul  @Phrase  afișează numele selectat.
+ De fiecare dată când cineva este ales, ultimul @Phrase afișează numele selectat.
 
 Poți folosi acest model pentru a face lucruri ca răspuns la o alegere. De exemplu, am putea modifica proiectul de mai sus pentru a afișa un emoji secret bazat pe alegere:
 
-\option: Choice()
-option = '' ? Group(Stack() [
+\
+option: Choice()
+
+option = '' ?
+	Group(
+		Stack() [
 			Phrase('opțiunea 1' selectabil: ⊤ nume: 'unul')
 			Phrase('opțiunea 2' selectabil: ⊤ nume: 'două')
 			Phrase('opțiunea 3' selectabil: ⊤ nume: 'trei')
-		]) Phrase({'unul': '😡' 'două': '🏀' 'trei': '❤'}{option} ?? '?')\
+		]
+	)
+	Phrase(
+		{
+			'unul': '😡'
+			'două': '🏀'
+			'trei': '❤'
+		}{option} ?? '?'
+	)
+\
 
-Cel/Cea/Cei/Cele  @Choice  începe ca un gol  @Text ...și astfel, când începe proiectul, verificăm acest lucru și arătăm cele trei opțiuni.Odată ce o alegere este făcută, aceasta devine una dintre cele trei  @Phrase  nume.
+ Elementul @Choice începe ca un @Text gol, așa că atunci când proiectul începe, verificăm acest lucru și arătăm cele trei opțiuni.
+Odată ce se face o alegere, aceasta devine unul dintre cele trei nume @Phrase .
 
-Pentru a afișa un emoji pe baza alegerii, putem folosi un  @Map  pentru a converti numele într-un emoji secret.Când obținem o valoare dintr-un  @Map , dacă nu există nicio potrivire, se evaluează ca \ø\, deci folosim \??\ implicit la \'?'\ dacă opțiunea nu este pe hartă. În acest caz, asta nu se poate întâmpla niciodată, dar nu suntem suficient de deștepți ca să știm asta!
+Pentru a arăta un emoji pe baza alegerii, putem folosi o @Map pentru a transforma numele într-un emoji secret.
+Când obținem o valoare dintr-o @Map, dacă nu există nicio potrivire, rezultatul este \ø\, așa că folosim \??\ pentru a avea implicit \'?'\ dacă opțiunea nu se află în hartă. 
+În acest caz, asta nu se poate întâmpla niciodată, dar noi nu suntem suficient de deștepți ca să știm asta!
 
 move-phrase

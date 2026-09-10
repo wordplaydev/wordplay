@@ -1,17 +1,28 @@
 Mettre le texte côte à côte
 
-Parfois, nous voulons que les textes soient alignés les uns à côté des autres.Nous pouvons le faire avec un @Row , qui organise tout dans un @Group de gauche à droite.
+Parfois, on veut placer du texte les uns à côté des autres, en une ligne bien rangée.
+On peut faire ça avec une @Row, qui range tout en une @Group de gauche à droite.
 
-\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+\
+Group(Row() [
+    Phrase('🍎')
+    Phrase('🍌')
+    Phrase('🍇')
+])
+\
 
-UN  @Row Il est également possible d'aligner les caractères par leurs bords supérieur, médian ou inférieur, et d'ajouter un espace entre eux.Voici le même fruit, mais aligné en bas avec un peu d'espace :
+ Une @Row peut aussi aligner les caractères par leur bord du haut, du milieu ou du bas, et ajouter de l'espace entre eux.
+Voici les mêmes fruits, mais alignés en bas, avec un petit espace pour respirer :
 
-\Group(Row('>' 0.5m) [
-		Phrase('🍎' taille: 2m)
-		Phrase('🍌' taille: 1m)
-		Phrase('🍇' taille: 3m)
-	])\
+\
+Group(Row('>' 0.5m) [
+    Phrase('🍎' taille: 2m)
+    Phrase('🍌' taille: 1m)
+    Phrase('🍇' taille: 3m)
+])
+\
 
-Le \'>'\raconte @Row aligner le tout le long de son bord inférieur. Essayez\'<'\pour le haut ou\'|'\pour le milieu.Le \0.5m\est l'espace entre chaque caractère.
+ Le \'>'\ dit à la @Row d'aligner tout le long de son bord du bas. Essaie \'<'\ pour le haut, ou \'|'\ pour le milieu.
+Le \0.5m\ est l'espace entre chaque caractère.
 
 stack-up-and-down, make-a-grid

@@ -1,29 +1,24 @@
 Erstelle ein Video von der Kamera
 
-Der  @Camera  Datenstrom ist ein guter Weg, um ein Raster von Farben aus der Welt zu bekommen. Was, wenn wir diese Farben sehen wollen und das Bild neu erstellen, das die  @Camera  sieht?
+Das @Camera -Datenstrom ist eine gute Möglichkeit, ein Raster aus Farben aus der Welt zu bekommen. 
+Was, wenn wir diese Farben sehen wollen und das Bild neu erstellen, das die @Camera sieht?
 
-Wir können das  @Grid  Layout für eine  @Group  nutzen, und die  @List/combine  Funktion, um die Farben in eine Liste von  @Phrase  umzuwandeln, die wir dem  @Grid  geben.
+Wir können das @Grid Layout für eine @Group nutzen, und die @List/combine Funktion, um die Farben in eine Liste von @Phrase umzuwandeln, die wir dem @Grid geben.
 
-\width: 24
+\
+width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage(
-	[
-		Group(
-			Grid(height width 0m)
-			colors.combine(
-				[]
-				ƒ(phrases row) [
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
 						:phrases
 						:row ↦ Phrase("⬤" Farbe: ⬚ Dauer: 0s)
-					]
-			)
-		)
-	]
-)\
+					]))
+	])
+\
 
-Dieses Beispiel baut eine Liste von Phrasen und wandelt jede Farbe in einen Kreis mit genau dieser Farbe um.
+ Dieses Beispiel baut eine Liste von Phrasen und wandelt jede Farbe in einen Kreis mit genau dieser Farbe um.
 
-Sei vorsichtig mit  @Camera  Datenströmen: Sie erzeugen sehr viel Eingabe! Du solltest die Breite und Höhe des Bildes klein halten.
+Sei vorsichtig mit @Camera Datenströmen: Sie erzeugen sehr viel Eingabe! Du solltest die Breite und Höhe des Bildes klein halten.
 
 interactive-scene

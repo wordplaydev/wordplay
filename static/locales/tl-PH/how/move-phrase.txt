@@ -2,20 +2,32 @@ Gawing magagalaw ang isang karakter
 
 Minsan, nakakatulong ang paggawa ng @Phrase maaaring igalaw gamit ang keyboard, mouse, o daliri.
 
-Gawin mo ito, maaari tayong magsama-sama @Phrase kasama @Placement :
+Gawin mo ito, maaari tayong magsama-sama @Phrase kasama @Placement:
 
-\Stage([Phrase('ilipat ako' lugar: Placement())] lugar: Place(0m 0m -10m))\
+\
+Stage(
+	[Phrase('ilipat ako' lugar: Placement())]
+	lugar: Place(0m 0m -10m)
+)
+\
 
-Gamit ang mga arrow sa keyboard o pag-click sa @Stage ia-update ang @Placement , na nagiging sanhi ng @Phrase upang lumipat sa direksyong iyon.
+ Gamit ang mga arrow sa keyboard o pag-click sa @Stage ia-update ang @Placement, na nagiging sanhi ng @Phrase upang lumipat sa direksyong iyon.
 
-Alam mo ba, gayunpaman, na @Placement maaaring gamitin kasama ng/kahit ano/na kumukuha ng isang @Place ?Halimbawa, isang @Stage ay may @Place na siyang nagtatakda kung saan nakaturo ang kamera nito.Subukan nating magtakda ng @Placement para sa isang @Stage lugar ni, at tingnan kung ano ang mangyayari.
+Alam mo ba, kahit papaano, na @Placement ay pwedeng gamitin kasama ang / kahit ano / na tumatanggap ng @Place? 
+Halimbawa, ang isang @Stage ay may @Place na nagsasabi kung saan nakaturo ang kamera nito.
+Subukan nating baguhin ang lugar ng isang @Placement para sa isang @Stage, at tingnan natin kung ano ang mangyayari.
 
-\Stage([
-		Phrase('🐈' lugar: Place(-2m 2m))
-		Phrase('🐈' lugar: Place(2m -2m))
-		Phrase('🐈' lugar: Place(-1m 3m))
-	] lugar: Placement(Place(0m 0m -10m)))\
+\
+Stage(
+  [
+	Phrase('🐈' lugar: Place(-2m 2m))
+	Phrase('🐈' lugar: Place(2m -2m))
+	Phrase('🐈' lugar: Place(-1m 3m))
+  ]
+  lugar: Placement(Place(0m 0m -10m))
+)
+\
 
-Iyan ang nagpapagalaw sa kamera! (Paalala: sisimulan natin ang @Placement na may isang\z\halaga ng\10m\para ang kamera ay nakatalikod mula sa lahat ng bagay.)
+ Iyan ang nagpapagalaw sa kamera! (Paalala: sisimulan natin ang @Placement na may isang \z\ halaga ng \10m\ para ang kamera ay nakatalikod mula sa lahat ng bagay.)
 
 animated-scene

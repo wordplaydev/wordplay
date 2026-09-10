@@ -1,17 +1,21 @@
 Upprepa en rörelse
 
-Ibland vill vi få en karaktär att röra sig på samma sätt flera gånger!Att skriva samma rader om och om igen blev tröttsamt.
+Ibland vill vi få en figur att röra sig på samma sätt flera gånger! 
+Att skriva samma rader om och om igen blir tröttsamt.
 
-Istället kan vi använda @Sequence med @Phrase att få något att upprepas flera gånger! Mer specifikt,vi kan använda räkningen i @Sequence och välj hur många gånger en uppsättning poser inträffar. Till exempel,Här är en basketboll som studsar upp och ner två gånger.
+Istället kan vi använda @Sequence med @Phrase för att få något att upprepas flera gånger! Mer bestämt,
+kan vi använda antalet i @Sequence och välja hur många gånger en uppsättning poser sker. Till exempel, 
+här studsar en basketboll upp och ner två gånger. 
 
-\Stage([
-		Phrase('🏀' gårin: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} räkna: 2x varaktighet: 2s))
-	])\
+\
+Stage([
+	Phrase('🏀' gårin: Sequence({
+				0%: Pose(offset: Place(y: 0.25m))
+				25%: Pose(offset: Place(y: 0m))
+				50%: Pose(offset: Place(y: -0.25m))
+				75%: Pose(offset: Place(y: 0m))
+				100%: Pose(offset: Place(y: 0.25m))} räkna:2x varaktighet:2s))
+])
+\
 
 animate-phrase, shake-phrase

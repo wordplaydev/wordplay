@@ -1,24 +1,33 @@
 Faça um personagem cair e saltar.
 
-E se quisermos que uma personagem caia, ricocheteie no chão ou seja empurrada como se fosse algo real?É isso que @Motion  e  @Matter são para — juntos simulam a física para um @Phrase . 
+E se quisermos que uma personagem caia, ressalte no chão ou seja empurrada como uma coisa real?
+É para isso que servem @Motion e @Matter — juntos simulam física para um @Phrase.
 
-@Motion controles/onde/uma personagem se desenvolve ao longo do tempo. Nós usamo-lo como o\place\para um @Phrase , começando a uma altura elevada para que possa cair.Também precisamos de algo em que cair, ou a nossa personagem ficará a cair para sempre! @Shape com uma ampla @Rectangle Faz um piso bonito:
+@Motion controla / onde / está uma personagem ao longo do tempo. Usamo-lo como o \place\ para um @Phrase, colocando-o bem no alto para poder cair.
+Também precisamos de algo para cair em cima, senão a nossa personagem cai para sempre! Uma @Shape com uma @Rectangle larga faz um bom chão:
 
-\Stage([
-		Phrase('🍎' local: Motion(Place(0m 5m)) matéria: Matter())
-		Shape(Rectangle(-10m 0m 10m -5m))
-	])\
+\
+Stage([
+    Phrase('🍎' local: Motion(Place(0m 5m)) matéria: Matter())
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
 
-A maçã parte de uma altura de cinco metros e cai devido à gravidade.Quando atinge o solo, salta um pouco, porque @Phrase possui um embutido @Matter Isto controla o quão pesado e elástico é.
+ A maçã começa a cinco metros de altura e cai por ação da gravidade.
+Quando bate no chão, ressalta um pouco, porque @Phrase tem uma @Matter incorporada que controla o quão pesado e saltitante é.
 
-Para mudar como/saltitante/ou como/pesado/Um personagem é, dê-lhe o seu toque pessoal. @Matter . @Matter É necessário ter massa, elasticidade e atrito:
+Para mudar como / saltitante / ou como / pesado / Um personagem é, dê-lhe o seu toque pessoal. @Matter.
+@Matter É necessário ter massa, elasticidade e atrito:
 
-\Stage([
-		Phrase('⚽' local: Motion(Place(-2m 5m)) matéria: Matter(1kg 0.9 0.2))
-		Phrase('🪨' local: Motion(Place(2m 5m)) matéria: Matter(5kg 0.1 0.8))
-		Shape(Rectangle(-10m 0m 10m -5m))
-	])\
+\
+Stage([
+    Phrase('⚽' local: Motion(Place(-2m 5m)) matéria: Matter(1kg 0.9 0.2))
+    Phrase('🪨' local: Motion(Place(2m 5m)) matéria: Matter(5kg 0.1 0.8))
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
 
-A bola é leve e elástica, por isso volta a subir.A pedra é pesada e não é elástica, por isso simplesmente bate com um baque seco.
+ A bola é leve e saltitante, por isso volta a subir.
+A pedra é pesada e não é saltitante, por isso só faz um som surdo.
 
 follow-the-pointer, move-phrase

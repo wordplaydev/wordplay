@@ -1,21 +1,28 @@
 Stivuiți caracterele de sus în jos
 
-Dacă un  @Row  este pentru alăturat, apoi un  @Stack  este de sus în jos. @Stack  plasează fiecare personaj sub cel dinainte, ca un turn.
+Dacă un @Row este pentru alăturat, apoi un @Stack este de sus în jos.
+@Stack plasează fiecare personaj sub cel dinainte, ca un turn.
 
-\Group(Stack() [
-		Phrase('unul')
-		Phrase('două')
-		Phrase('trei')
-	])\
+\
+Group(Stack() [
+    Phrase('unul')
+    Phrase('două')
+    Phrase('trei')
+])
+\
 
-Ca un  @Row , o  @Stack  poate avea și o aliniere și o umplutură.Încearcă să aliniezi totul de-a lungul părții stângi:
+ La fel ca un @Row, un @Stack poate avea și el o aliniere și un spațiu interior.
+Încearcă să aliniezi totul de-a lungul marginii din stânga:
 
-\Group(Stack('<' 0.25m) [
-		Phrase('🐣 mic')
-		Phrase('🐥 mediu')
-		Phrase('🐔 mare')
-	])\
+\
+Group(Stack('<' 0.25m) [
+    Phrase('🐣 mic')
+    Phrase('🐥 mediu')
+    Phrase('🐔 mare')
+])
+\
 
-Cel/Cea/Cei/Cele \'<'\ mijloace /aliniază totul de-a lungul marginii din stânga/.De asemenea, puteți încerca \'|'\ pentru centru sau \'>'\ pentru marginea dreaptă.
+ Elementul \'<'\ înseamnă / aliniază totul de-a lungul marginii din stânga /.
+Poți încerca și \'|'\ pentru centru sau \'>'\ pentru marginea din dreapta.
 
 arrange-in-a-row, make-a-grid

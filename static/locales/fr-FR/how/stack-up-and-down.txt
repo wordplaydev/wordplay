@@ -1,21 +1,28 @@
 Empilez les caractères de haut en bas
 
-Si un @Row est pour côte à côte, puis un @Stack est pour aller de haut en bas. @Stack place chaque caractère en dessous de celui qui le précède, comme une tour.
+Si un @Row est pour côte à côte, puis un @Stack est pour aller de haut en bas.
+@Stack place chaque caractère en dessous de celui qui le précède, comme une tour.
 
-\Group(Stack() [
-		Phrase('un')
-		Phrase('deux')
-		Phrase('trois')
-	])\
+\
+Group(Stack() [
+    Phrase('un')
+    Phrase('deux')
+    Phrase('trois')
+])
+\
 
-Comme un @Row , un  @Stack peut également comporter un alignement et un rembourrage.Essayez d'aligner tout le long du côté gauche :
+ Comme une @Row, une @Stack peut aussi avoir un alignement et un espacement.
+Essaie d'aligner tout le long du côté gauche :
 
-\Group(Stack('<' 0.25m) [
-		Phrase('🐣 petit')
-		Phrase('🐥 moyen')
-		Phrase('🐔 grand')
-	])\
+\
+Group(Stack('<' 0.25m) [
+    Phrase('🐣 petit')
+    Phrase('🐥 moyen')
+    Phrase('🐔 grand')
+])
+\
 
-Le \'<'\ moyens /Alignez tout le long du bord gauche./.Vous pouvez aussi essayer\'|'\pour le centre ou\'>'\pour le bord droit.
+ Le \'<'\ signifie / aligner tout le long du bord gauche /.
+Tu peux aussi essayer \'|'\ pour le centre ou \'>'\ pour le bord droit.
 
 arrange-in-a-row, make-a-grid

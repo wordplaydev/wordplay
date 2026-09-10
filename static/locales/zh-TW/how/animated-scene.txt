@@ -1,51 +1,52 @@
 創作一系列有動畫的場景
 
-有時候我們想說故事、呈現歌詞，或是讓詩變成動畫。要做到這件事，我們可以一起使用  @Scene  和  @Phrase ，來呈現一連串的內容。
+有時候，我們想說故事、呈現歌詞，或是把詩變成動畫。
+要做到這件事，我們可以一起使用 @Scene 和 @Phrase ，來呈現一連串的畫面。
 
-舉例來說，想像我們想把短短的兒歌〈傑克要敏捷〉做成動畫。我們可以做一個  @Scene ，讓每一行都是一個  @Phrase ，並且設定每一行的  @Phrase/duration ，這樣  @Scene  就會在每個句子唸完後前進。
+舉例來說，想像我們想把短短的童謠《傑克要敏捷》（Jack be Nimble）變成動畫。
+我們可以做出一個 @Scene ，讓每一行歌詞都是一個 @Phrase，只要設定每一行的 @Phrase/duration ，這個 @Scene 就會在每一句唸完後往前推進。
 
-\Scene(
-	[
-		Phrase('傑克要敏捷' 持續時間: 1s)
-		Phrase('傑克要迅速' 持續時間: 1s)
-		Phrase('傑克跳過蠟燭台' 持續時間: 1s)
-	]
-)\
+\
+Scene([
+  Phrase('傑克要敏捷' 持續時間: 1s)
+  Phrase('傑克要迅速' 持續時間: 1s)
+  Phrase('傑克跳過蠟燭台' 持續時間: 1s)
+])
+\
 
-@Scene  也會等  @Sequence  完成才動作。我們讓蠟燭那一行跳起來吧！
+@Scene 也會等 @Sequence 完成才動作。我們讓蠟燭那一行跳起來吧！
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('傑克要敏捷' 持續時間: 1s)
 		Phrase('傑克要迅速' 持續時間: 1s)
 		Phrase('傑克跳過蠟燭台' 進入: Sequence.bounce(長度: 1s))
-	]
-)\
+	])
+\
 
-@Scene  也可以放進一個文字的  @Group ，它會等裡面所有內容的動畫都播完。
+@Scene 也可以放進一個文字的 @Group ，它會等裡面所有內容的動畫都播完。
 
-\Scene(
-	[
-		Group(
-			Stack()
-			[Phrase('傑克要敏捷') Phrase('傑克要迅速')]
-			持續時間: 2s
-		)
+\
+Scene([
+		Group(Stack() [
+      Phrase('傑克要敏捷')
+		  Phrase('傑克要迅速')
+    ] 持續時間: 2s)
 		Phrase('傑克跳過蠟燭台' 進入: Sequence.bounce(長度: 1s))
-	]
-)\
+	])
+\
 
-有時候一首兒歌應該要一直唸下去。 @Scene/loop  會讓  @Scene  在最後一個唸完之後，回到它的第一個  @Phrase ，這樣它就會一直重複自己，說了一遍又一遍。
+ 有時候一首兒歌應該要一直唸下去。 @Scene/loop 會讓 @Scene 在最後一個唸完之後，回到它的第一個 @Phrase ，這樣它就會一直重複自己，說了一遍又一遍。
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('傑克要敏捷' 持續時間: 1s)
 		Phrase('傑克要迅速' 持續時間: 1s)
 		Phrase('傑克跳過蠟燭台' 持續時間: 1s)
-	]
-	迴圈: ⊤
-)\
+	] 迴圈: ⊤)
+\
 
-注意：只有當清單裡有東西真的等待過， @Scene  才會回到開頭。一個每個  @Phrase 有一個 @Phrase/duration 的\0s\會以電腦所能負荷的最快速度轉動，所以最後改成到終點就停下來。
+ 注意：只有當清單裡真的有東西等待過， @Scene 才會重新繞回來。
+如果清單裡的每個 @Phrase 都有一個 @Phrase/duration 的 \0s\ ，那它就會用電腦能跑的最快速度不停轉圈，所以最後會改成在結尾停下來。
 
 interactive-scene, repeat-a-round

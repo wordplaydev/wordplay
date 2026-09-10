@@ -1,17 +1,22 @@
 Điều khiển nhân vật di chuyển theo ngón tay của bạn
 
-Bạn muốn một nhân vật đuổi theo chuột hoặc ngón tay của bạn? @Stage ?Chúng ta có thể làm điều đó với @Pointer đầu vào. 
+Bạn muốn một nhân vật đuổi theo chuột hoặc ngón tay của bạn trên @Stage?
+Chúng ta có thể làm điều đó với đầu vào @Pointer .
 
-@Pointer mang đến cho chúng ta một sự đổi mới @Place mỗi khi con trỏ di chuyển.Nếu chúng ta sử dụng điều đó @Place với tư cách là một @Phrase của\place\Nhân vật sẽ di chuyển đến bất cứ nơi nào chúng ta chỉ định.
+@Pointer cho chúng ta một @Place mới mỗi khi con trỏ di chuyển.
+Nếu chúng ta dùng @Place đó làm @Phrase của một \place\, nhân vật sẽ đi tới bất cứ nơi nào ta chỉ tới.
 
-\Stage([Phrase('🐈' vịTrí: Pointer())] vịTrí: Place(0m 0m -10m))\
+\
+Stage([Phrase('🐈' vịTrí: Pointer())] vịTrí: Place(0m 0m -10m))
+\
 
-Vậy thôi! Di chuyển chuột hoặc kéo ngón tay, và xem con mèo đi theo.
+ Vậy thôi! Di chuyển chuột hoặc kéo ngón tay, và xem con mèo đi theo.
 
-Bạn có thể làm được nhiều việc thú vị hơn bằng cách lấy ra...\x\ Và \y\từ @Place .Đây là một con vịt luôn lơ lửng cách con trỏ một mét:
+Bạn có thể làm những điều thú vị hơn bằng cách lấy ra \x\ và \y\ từ @Place.
+Đây là một chú vịt luôn nổi lơ lửng cách con trỏ một mét:
 
-\Stage([
-		Phrase('🦆' vịTrí: Place(Pointer().x Pointer().y + 1m))
-	] vịTrí: Place(0m 0m -10m))\
+\
+Stage([Phrase('🦆' vịTrí: Place(Pointer().x Pointer().y + 1m))] vịTrí: Place(0m 0m -10m))
+\
 
 move-phrase, count-with-time

@@ -15,6 +15,7 @@ import path from 'path';
 import type Log from '@util/verify-locales/Log';
 import getTranslator from '@util/verify-locales/getTranslator';
 import writeFormatted from '@util/verify-locales/writeFormatted';
+import analyzeCode from '@util/verify-locales/analyzeCode';
 import { retargetExamplesIn } from '@util/verify-locales/retargetExampleNames';
 import {
     examplesIn,
@@ -106,6 +107,7 @@ export async function verifyHowTo(
             englishHowToDir,
             targetHowToDir,
             englishFiles,
+            locale,
         );
         if (behind.length > 0)
             log[HowToCoverageIsFatal ? 'bad' : 'warning'](
@@ -171,19 +173,27 @@ export async function verifyHowTo(
 /**
  * Whether a how-to that says less than its English source fails the build.
  *
- * **False while the backlog stands.** The pipeline defect that caused it is
- * fixed here — English is the skeleton now, and a re-translation buys the units
- * a translation is missing rather than reproducing its shape (#1365) — but the
- * corpus is still the output of the old one: every locale is behind on most of
- * the 37 how-tos, because for years nothing could add to a translation. Clearing
- * it is a single translation run over the how-tos, which pairing keeps to the
- * unpaired units, and this flips the day that lands.
- *
- * The same treatment `TypedInputNamesAreFatal` and `GlossaryWordsAreFatal` get,
- * and for the same reason: a true finding, reported every run, that no code
- * change can repair.
+ * True: the backlog this was written for is gone. Every locale used to be behind
+ * on most of the 37 how-tos, because until English became the skeleton nothing
+ * could add a paragraph to a translation (#1365); one run over the how-tos
+ * cleared 29 of the 30, buying only the unpaired units.
  */
-export const HowToCoverageIsFatal = false;
+export const HowToCoverageIsFatal = true;
+
+/**
+ * The one file whose English has a prose run this language does not.
+ *
+ * en-US's `show-when` ends `Press \a\ a few times and watch the egg hatch`, whose
+ * first run is the bare verb "Press ". Nepali puts the verb last, so that run has
+ * no counterpart at that position and translates to nothing — the translation is
+ * complete and correct, and the coverage rule, which counts prose runs, is what
+ * cannot express it. The same legitimate collapse `checkReducedTemplates` allows
+ * for a pro-drop language dropping a function word.
+ *
+ * Exempted by name rather than by turning the gate off, so the other 1,109 files
+ * are held to it — the shape `exampleNamesSync.test.ts` used for its own backlog.
+ */
+export const CoverageExemptions = ['ne-NP/show-when'];
 
 /**
  * The how-tos whose translation covers less than its en-US source does, by id.
@@ -196,10 +206,17 @@ export function howTosBehindEnglish(
     englishDir: string,
     targetDir: string,
     filenames: string[],
+    /** The locale being checked, so its exemptions can be honoured. */
+    locale?: string,
 ): string[] {
     const behind: string[] = [];
     for (const filename of filenames) {
         const id = filename.replace('.txt', '');
+        if (
+            locale !== undefined &&
+            CoverageExemptions.includes(`${locale}/${id}`)
+        )
+            continue;
         const targetPath = path.join(targetDir, filename);
         if (!fs.existsSync(targetPath)) continue;
         let english, target;
@@ -547,6 +564,19 @@ async function translateHowToFile(
             );
             continue;
         }
+        if (
+            localeText !== undefined &&
+            localizationAddsConflicts(
+                example.toWordplay(english.spaces),
+                replacement.toWordplay(spaces),
+                localeText,
+            )
+        ) {
+            log.warning(
+                `Kept the original code for one example in ${filename}: the localized version doesn't analyze.`,
+            );
+            continue;
+        }
         spaces = spaces.withReplacement(example, replacement);
         // Lay the localization out the way English lays this example out. Their
         // token sequences agree — `localizedExampleIsSound` just said so — and
@@ -572,6 +602,40 @@ async function translateHowToFile(
 
     log.good(`Translated ${filename}`);
     return true;
+}
+
+/** The program inside a `\…\` example, for analysis. */
+function codeOf(example: string): string {
+    return example.replace(/^\\/, '').replace(/\\$/, '');
+}
+
+/**
+ * Whether localizing this example broke it.
+ *
+ * `localizedExampleIsSound` compares token *kinds*, which a half-localized
+ * example passes: a name is a name whichever language it is in. ne-NP's
+ * `move-between-content` came back with the first half renamed and the rest
+ * still English — declaring `कुञ्जी3: कुञ्जी()` and then reading `key` — which is a
+ * token-for-token match and an `UnknownName` in a how-to's runnable preview.
+ *
+ * Both sides are analyzed in the **target** locale, so the comparison is like
+ * for like: en-US names resolve everywhere, since every basis appends the en-US
+ * fallback. Comparing counts rather than requiring zero is what lets a 🪲 example,
+ * whose defect is the lesson, keep its localization.
+ *
+ * The same rule `retargetExampleNames` applies to a splice it is considering,
+ * and for the same reason: a rewrite that analyzes worse than what it replaces
+ * is not an improvement.
+ */
+function localizationAddsConflicts(
+    english: string,
+    localized: string,
+    locale: LocaleText,
+): boolean {
+    const before = analyzeCode(codeOf(english), locale);
+    const after = analyzeCode(codeOf(localized), locale);
+    if (after.error !== undefined) return before.error === undefined;
+    return after.conflicts.length > before.conflicts.length;
 }
 
 /**
@@ -610,7 +674,20 @@ export function padLike(
 ): string {
     // An all-whitespace source has no inside to pad around; leave it be.
     if (source.trim().length === 0) return source;
-    const text = translation.trim();
+    // A zero-width SPACE is a translator's invisible artifact that the markup
+    // tokenizer doesn't keep, so a body carrying one stops being markup partway
+    // and the rest never renders — ten of them failed every id-ID how-to. Only
+    // U+200B: the zero-width non-joiner beside it is orthography, and Persian,
+    // Telugu and Kannada write it 1,054 times across these files.
+    // A `Words` token cannot contain a newline — the tokenizer ends one there —
+    // so a translation that came back with an internal line break silently
+    // becomes two runs when the file is read again, and the document no longer
+    // has the shape it was written with. Where the source's line breaks go is
+    // decided by `Spaces`, not by anything inside a run.
+    const text = translation
+        .replaceAll('​', '')
+        .replace(/\s*\n\s*/g, ' ')
+        .trim();
     let lead = /^\s*/.exec(source)?.[0] ?? '';
     let trail = /\s*$/.exec(source)?.[0] ?? '';
     if (lead === '' && abuts(previous) && /^[\p{L}\p{N}]/u.test(text))

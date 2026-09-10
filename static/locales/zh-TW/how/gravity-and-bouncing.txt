@@ -1,24 +1,33 @@
 讓角色跌倒彈跳
 
-如果我們想讓角色像真人一樣跌倒、從地板上彈起來或被推來推去，該怎麼辦？就是這樣 @Motion  和 @Matter 是用來－它們共同模擬物理現象 @Phrase 。 
+如果我們想讓一個角色往下掉、撞到地板反彈，或像真實東西一樣被推來推去，該怎麼辦呢？
+這時候就要用 @Motion 和 @Matter 了——它們一起模擬 @Phrase 結合起來，做出一個計數器。
 
-@Motion 控制/在哪裡/角色會隨著時間的推移而改變。我們用它來…\place\為 @Phrase 把它放在高處，讓它掉下來。我們也需要一些東西來支撐我們，否則我們的角色就會一直墜落！ @Shape 寬 @Rectangle 鋪上一層漂亮的地板：
+@Motion 控制 / 位置 / 隨時間變化的角色。我們把它當作 \place\ 的 @Phrase，讓它從高處開始，這樣才能往下掉。
+我們還需要有個東西讓角色掉落其上，不然角色就會一直往下掉，掉不停！用一個寬寬的 @Shape 配上 @Rectangle ，就能做出一塊不錯的地板：
 
-\Stage([
-		Phrase('🍎' 位置: Motion(Place(0m 5m)) 物質: Matter())
-		Shape(Rectangle(-10m 0m 10m -5m))
-	])\
+\
+Stage([
+    Phrase('🍎' 位置: Motion(Place(0m 5m)) 物質: Matter())
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
 
-蘋果從五公尺高處開始下落，並受到重力作用而落下。它落地時會稍微彈一下，因為 @Phrase 內建 @Matter 這控制著它的重量和彈性。
+ 這顆蘋果從五公尺高的地方開始，受到重力影響往下掉。
+當它撞到地板時，會稍微彈一下，因為 @Phrase 內建了一個 @Matter ，用來控制它有多重、彈性有多好。
 
-改變方式/有彈性的/或如何/重的/角色就是，賦予它你自己的個性。 @Matter 。 @Matter 它需要質量、彈性和摩擦力：
+改變方式 / 有彈性的 / 或如何 / 重的 / 角色就是，賦予它你自己的個性。 @Matter。
+@Matter 它需要質量、彈性和摩擦力：
 
-\Stage([
-		Phrase('⚽' 位置: Motion(Place(-2m 5m)) 物質: Matter(1kg 0.9 0.2))
-		Phrase('🪨' 位置: Motion(Place(2m 5m)) 物質: Matter(5kg 0.1 0.8))
-		Shape(Rectangle(-10m 0m 10m -5m))
-	])\
+\
+Stage([
+    Phrase('⚽' 位置: Motion(Place(-2m 5m)) 物質: Matter(1kg 0.9 0.2))
+    Phrase('🪨' 位置: Motion(Place(2m 5m)) 物質: Matter(5kg 0.1 0.8))
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
 
-這個球很輕，彈性很好，所以會彈回來。這塊石頭很重，沒有彈性，所以只會發出砰砰的響聲。
+ 這顆球又輕又有彈性，所以會彈回上面。
+這顆石頭又重又沒有彈性，所以只會「砰」的一聲落地。
 
 follow-the-pointer, move-phrase

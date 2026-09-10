@@ -1,23 +1,29 @@
 Làm cho nhân vật run rẩy
 
-Đôi khi, việc cho nhân vật trông như đang run rẩy sẽ rất hữu ích.Có một vài cách để chúng ta có thể thực hiện điều đó.
+Đôi khi, sẽ hữu ích nếu một nhân vật trông như đang run rẩy.
+Có vài cách để làm được điều đó.
 
-Chúng ta có thể sử dụng @Phrase/offset  với  @Random  Và  @Time để biến điều đó thành hiện thực.
+Chúng ta có thể sử dụng @Phrase/offset với @Random Và @Time để biến điều đó thành hiện thực.
 
-\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('CHÀO' bùlại: Place(offset 0m))\
+\
+offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('CHÀO' bùlại: Place(offset 0m))
+\
 
-Điều này tạo ra một giá trị được gọi là\offset\Giá trị đó sẽ thay đổi thành một giá trị ngẫu nhiên mới mỗi khi đồng hồ tích tắc.Sau đó, nó sử dụng độ lệch đó để hiển thị @Phrase được bù trừ bằng số tiền đó.
+ Đoạn này tạo ra một giá trị tên là \offset\ thay đổi thành một giá trị ngẫu nhiên mới mỗi khi đồng hồ tích tắc.
+Sau đó, nó dùng độ lệch đó để hiển thị @Phrase bị lệch đi một khoảng như vậy.
 
 Nếu muốn kiểm soát độ rung lắc chính xác hơn, chúng ta có thể sử dụng... @Sequence Tạo hiệu ứng rung lắc ngẫu nhiên lặp đi lặp lại.
 
-\Phrase('CHÀO' nghỉngơi: Sequence({
+\
+Phrase('CHÀO' nghỉngơi: Sequence({
 			0%: Pose(bùlại: Place(Random(-.2m .2m)))
 			15%: Pose(bùlại: Place(Random(-.2m .2m)))
 			60%: Pose(bùlại: Place(Random(-.2m .2m)))
 			75%: Pose(bùlại: Place(Random(-.2m .2m)))
-		} 0.1s))\
+		} 0.1s))
+\
 
-Ví dụ này chỉ chọn ngẫu nhiên các giá trị một lần, nhưng biến chúng thành một chuỗi lặp lại.
+ Ví dụ này chỉ chọn ngẫu nhiên các giá trị một lần, nhưng biến chúng thành một chuỗi lặp lại.
 
 move-phrase

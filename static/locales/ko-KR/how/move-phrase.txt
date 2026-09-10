@@ -1,21 +1,33 @@
 캐릭터를 움직일 수 있게 만들기
 
-때로는 ~을 만드는 것이 도움이 됩니다. @Phrase 키보드, 마우스 또는 손가락으로 움직일 수 있습니다.
+가끔은 @Phrase 을(를) 키보드나 마우스, 손가락으로 움직일 수 있게 만들면 도움이 됩니다.
 
-이렇게 하면 결합할 수 있습니다 @Phrase  와 함께  @Placement :
+이렇게 하면 결합할 수 있습니다 @Phrase 와 함께 @Placement:
 
-\Stage([Phrase('나를 움직여' 위치: Placement())] 위치: Place(0m 0m -10m))\
+\
+Stage(
+	[Phrase('나를 움직여' 위치: Placement())]
+	위치: Place(0m 0m -10m)
+)
+\
 
-키보드 화살표를 사용하거나 @Stage 업데이트할 것입니다 @Placement , 원인이 됨 @Phrase 그 방향으로 이동하다.
+ 키보드 화살표를 사용하거나 @Stage 업데이트할 것입니다 @Placement, 원인이 됨 @Phrase 그 방향으로 이동하다.
 
-하지만 당신은 알고 있었나요? @Placement 와 함께 사용할 수 있습니다/아무것/그것이 걸립니다 @Place ?예를 들어 @Stage 가지고있다 @Place 이는 카메라가 향하는 방향을 결정합니다.설정을 시도해 보자 @Placement ~을 위해 @Stage 의 자리에 가서 무슨 일이 일어나는지 지켜보세요.
+그런데, @Placement 은(는) / 무엇이든 / 을(를) 받는 @Place 에 쓸 수 있다는 사실, 알고 있었나요? 
+예를 들어 @Stage 에는 @Place 이(가) 있어서, 이것이 카메라가 향하는 곳을 정합니다.
+이제 @Placement 의 @Stage 의 장소를 설정해 보고, 무슨 일이 일어나는지 살펴보자.
 
-\Stage([
-		Phrase('🐈' 위치: Place(-2m 2m))
-		Phrase('🐈' 위치: Place(2m -2m))
-		Phrase('🐈' 위치: Place(-1m 3m))
-	] 위치: Placement(Place(0m 0m -10m)))\
+\
+Stage(
+  [
+	Phrase('🐈' 위치: Place(-2m 2m))
+	Phrase('🐈' 위치: Place(2m -2m))
+	Phrase('🐈' 위치: Place(-1m 3m))
+  ]
+  위치: Placement(Place(0m 0m -10m))
+)
+\
 
-그러면 카메라가 움직입니다! (참고: 시작합니다. @Placement 와 함께\z\의 가치\10m\그래서 카메라는 모든 것에서 뒤로 물러나 있습니다.)
+ 그러면 카메라가 움직입니다! (참고: 시작합니다. @Placement 와 함께 \z\ 의 가치 \10m\ 그래서 카메라는 모든 것에서 뒤로 물러나 있습니다.)
 
 animated-scene

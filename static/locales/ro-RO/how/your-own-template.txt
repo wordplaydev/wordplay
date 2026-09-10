@@ -1,18 +1,25 @@
 Creează-ți propriul șablon de personaj
 
-Uneori vrei o mulțime de personaje care arată aproape la fel, dar cu mici diferențe.În loc să scriu același lucru  @Phrase  iar și iar, vă puteți crea propriul șablon cu un  @Structure .
+Uneori vrei multe caractere care arată aproape la fel, dar cu mici diferențe.
+În loc să scrii de fiecare dată același @Phrase din nou, poți crea propriul tău șablon cu un @Structure.
 
-O  @Structure  e ca o rețetă cu spații libere de completat.Iată un șablon de balon care are o culoare și o etichetă și știe cum să se afișeze singur:
+Un @Structure este ca o rețetă cu spații goale de completat.
+Iată un șablon de balon care primește o culoare și o etichetă, și știe cum să se arate:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈 \label\` culoare: color dimensiune: 2m)
+\
+•Balloon(color•Color label•'') (
+    ƒ show() Phrase(`🎈 \label\` culoare: color dimensiune: 2m)
 )
-Group(Row() [
-		Balloon(Color(80% 50 240°) 'Cer').show()
-		Balloon(Color(60% 80 0°) 'Trandafir').show()
-		Balloon(Color(90% 80 90°) 'Însorit').show()
-	])\
 
-Cel/Cea/Cei/Cele \•Balloon(...)\ partea definește șablonul și \ƒ show()\ o parte spune /cum să desenezi unul/.Apoi facem trei baloane cu culori și etichete diferite și le cerem fiecăruia să \show\ însăși.
+Group(Row() [
+    Balloon(Color(80% 50 240°) 'Cer').show()
+    Balloon(Color(60% 80 0°) 'Trandafir').show()
+    Balloon(Color(90% 80 90°) 'Însorit').show()
+])
+\
+
+ Elementul \•Balloon(...)\ partea definește șablonul, iar \ƒ arată()\ partea spune / cum să desenezi unul /.
+Apoi facem trei baloane cu culori și etichete diferite și îi cerem fiecăruia să se \show\ pe sine.
 
 Șabloanele sunt excelente atunci când vrei să-ți păstrezi codul ordonat și caracterele consecvente.
 

@@ -1,17 +1,22 @@
 Faites suivre votre doigt à un personnage.
 
-Vous voulez un personnage qui poursuit votre souris ou votre doigt sur le @Stage ?Nous pouvons le faire avec le @Pointer  saisir. 
+Tu veux un personnage qui suit ta souris ou ton doigt sur la @Stage?
+On peut faire ça avec l'entrée @Pointer .
 
-@Pointer nous donne un nouveau @Place à chaque fois que le pointeur se déplace.Si nous utilisons cela @Place comme un @Phrase 's\place\Le personnage ira là où nous le désignerons.
+@Pointer nous donne une nouvelle @Place à chaque fois que le pointeur bouge.
+Si on utilise cette @Place comme @Phrase de \place\, le personnage ira où on pointe.
 
-\Stage([Phrase('🐈' lieu: Pointer())] lieu: Place(0m 0m -10m))\
+\
+Stage([Phrase('🐈' lieu: Pointer())] lieu: Place(0m 0m -10m))
+\
 
-Et voilà ! Déplacez votre souris ou faites glisser votre doigt, et regardez le chat vous suivre.
+ Et voilà ! Déplacez votre souris ou faites glisser votre doigt, et regardez le chat vous suivre.
 
-Vous pouvez faire des choses plus intéressantes en sortant le\x\ et \y\de la @Place .Voici un canard qui flotte toujours à un mètre au-dessus du pointeur :
+Tu peux faire des choses plus intéressantes en extrayant les \x\ et \y\ de @Place.
+Voici un canard qui flotte toujours à un mètre au-dessus du pointeur :
 
-\Stage([
-		Phrase('🦆' lieu: Place(Pointer().x Pointer().y + 1m))
-	] lieu: Place(0m 0m -10m))\
+\
+Stage([Phrase('🦆' lieu: Place(Pointer().x Pointer().y + 1m))] lieu: Place(0m 0m -10m))
+\
 
 move-phrase, count-with-time

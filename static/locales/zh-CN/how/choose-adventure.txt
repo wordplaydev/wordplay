@@ -1,33 +1,39 @@
 进行文字冒险
 
-一种有趣的游戏是/选择你自己的冒险/游戏，玩家需要做出一系列选择，并尝试找到通往幸福结局的方法。
+一种有趣的游戏是 / 选择你自己的冒险 / 游戏，玩家需要做出一系列选择，并尝试找到通往幸福结局的方法。 
 
-我们可以使用 @Structure ， @Key ， @Reaction ， 和  @List 共同做出一系列决定，每个决定都有一组选项，如下所示：
+我们可以使用 @Structure， @Key， @Reaction， 和 @List 共同做出一系列决定，每个决定都有一组选项，如下所示：
 
-\¶这就形成了一个数据结构，用于存储选择以及它将导航到哪个决策。
-¶•Option(text•'' decision•#)
+\
+¶ This makes a data structure that stores a choice and which decision it will navigate to ¶
+•Option(text•'' decision•#)
 
-¶这个数据结构存储了一个列表的选项¶
+¶ This data structure stores a list of choices ¶
 •Decision(options: [Option])
 
-¶这就是游戏内容！更改选项中的文本，营造氛围，并做出艰难的选择。
-添加选项来创造错综复杂的选择。¶
+¶ This is the game content! Change the text in the Options to create atmosphere and tough choices.
+Add options to create a web of tricky choices. ¶
 decisions: [
-		Decision([Option('开始' 2)])
-		Decision([Option('左边' 3) Option('直的' 4) Option('正确的' 4)])
-		Decision([Option('赢' 1)])
-		Decision([Option('失去' 1)])
+		Decision([Option('start' 2)])
+		Decision([
+				Option('left' 3)
+				Option('straight' 4)
+				Option('right' 4)
+			])
+		Decision([Option('win' 1)])
+		Decision([Option('lose' 1)])
 	]
 
-¶如果按键是数字，则将其转换为数字¶
+¶ Convert the key to a number, if it is one ¶
 key: Key()
 choice: key → #
 
-¶这个值代表上方列表中的当前选中的决定。
-当按下该键时，我们会执行以下操作之一。
-如果这个决策只有一个可选项，则无论按下哪个按键，都会将当前决策切换到该选项所指向的目标决策。
-如果按下的按键在 1 到选项数量之间，就会跳转到对应选项的目标决策。
-不然，我们就维持当前的决策。¶
+¶ This value represents the current decision in the list above.
+When the key is pressed, we do one of the following.
+If there's only one choice for this decision, then we change the current decision
+to the option's target decision no matter what key was pressed.
+If the key pressed is between 1 and the number of options, then we go to that option's target decision.
+Otherwise, we just keep the current decision the same. ¶
 current•#: 1 …
 	∆ key …
 		decisions[current].options.length() = 1 ?
@@ -36,7 +42,7 @@ current•#: 1 …
 				decisions[current].options[choice].decision
 				current
 
-¶这只是将选项显示为一堆短语。你可以更改它以添加说明、动画和其他趣味内容！¶
+¶ This just shows the options as a stack of phrases. You can change this to add instructions, animations, and other spiciness! ¶
 Stage([
 		Group(
 			Stack()
@@ -46,7 +52,6 @@ Stage([
 
 \
 
-这个模式看起来很复杂，但它本质上只是展示当前的选项，并在按键变化时跳转到你选择的决策。
-游戏设计的关键，其实就在于不断变化页面顶部的内容！
+ 这个模式看起来挺复杂，但它其实只做了一件事：展示当前的一组选项，每次按键变化时，就跳到玩家选中的那个选项的判断结果。设计游戏嘛，关键就是不断改变最上面的内容！
 
 offer-choices

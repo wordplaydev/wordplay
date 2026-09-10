@@ -1,29 +1,24 @@
 Skapa en video från kameran
 
-Strömmen  @Camera  är ett bra sätt att få ett rutnät med färger från världen.Tänk om vi vill se dessa färger och skapa om bilden som  @Camera  ser?
+Den @Camera ström är ett bra sätt att få ett rutnät med färger från världen. 
+Tänk om vi vill se de färgerna, och skapa om bilden som @Camera ser?
 
-Vi kan använda  @Grid  layouten för en  @Group , och funktionen  @List/combine  för att omvandla färgerna till en lista med  @Phrase  som vi ger till  @Grid .
+Vi kan använda @Grid layouten för en @Group, och funktionen @List/combine för att omvandla färgerna till en lista med @Phrase som vi ger till @Grid.
 
-\width: 24
+\
+width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage(
-	[
-		Group(
-			Grid(height width 0m)
-			colors.combine(
-				[]
-				ƒ(phrases row) [
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
 						:phrases
 						:row ↦ Phrase("⬤" färg: ⬚ varaktighet: 0s)
-					]
-			)
-		)
-	]
-)\
+					]))
+	])
+\
 
-Det här exemplet bygger en lista med fraser och gör om varje färg till en cirkel med just den färgen.
+ Det här exemplet bygger en lista med fraser och gör om varje färg till en cirkel med just den färgen.
 
-Var försiktig med  @Camera -strömmar: de skapar mycket indata! Du bör hålla bildens bredd och höjd liten.
+Var försiktig med @Camera -strömmar: de skapar mycket indata! Du bör hålla bildens bredd och höjd liten.
 
 interactive-scene

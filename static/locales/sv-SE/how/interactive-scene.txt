@@ -2,70 +2,66 @@ Skapa en interaktiv serie av scener
 
 Ibland vill vi berätta historier som väntar på att den som tittar gör något innan det fortsätter till nästa innehåll.
 
-För att göra detta kan vi använda en  @Scene , men lägga in  @Boolean  värden mellan innehållet vi vill visa. Här är till exempel ett klick som går vidare till varje nytt innehåll, med hjälp av en  @Button :
+För att göra detta kan vi använda en @Scene, men lägga in @Boolean värden mellan innehållet vi vill visa. Här är till exempel ett klick som går vidare till varje nytt innehåll, med hjälp av en @Button:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('klicka på mig')
 		Button()
 		Phrase('klicka på mig igen' varaktighet: 1s)
 		Button()
-		Phrase(
-			'nej, allvarligt, klicka på mig så hårt du kan!!'
-			varaktighet: 1s
-		)
+		Phrase('nej, allvarligt, klicka på mig så hårt du kan!!' varaktighet: 1s)
 		Button()
 		Phrase('har du klickat på mig än?' varaktighet: 1s)
-	]
-)\
+	])
+\
 
- @Scene  visar den första  @Phrase , väntar sedan på att  @Button  ska bli sant, och när det är det går den vidare till nästa  @Phrase .
+ Den @Scene visar den första @Phrase, väntar sedan tills @Button är sant, och när det är sant går den vidare till nästa @Phrase.
 
-Du kan använda vad du vill för att gå vidare, så länge det antingen är sant eller falskt. Vi skulle till exempel kunna använda vår röst! Om vi skriker tillräckligt högt går scenen vidare:
+Du kan använda vad du vill för att gå vidare, så länge det är antingen sant eller falskt. 
+Vi kan till exempel använda vår röst! 
+Om vi ropar högt nog går scenen vidare:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('är det någon där?')
 		Volume() > .5
-		Phrase(
-			"jag hör dig inte, kan du säga det igen?"
-			varaktighet: 1s
-		)
+		Phrase("jag hör dig inte, kan du säga det igen?" varaktighet: 1s)
 		Volume() > .7
 		Phrase('högre tack...' varaktighet: 1s)
 		Volume() > .9
 		Phrase('åh, hej!' varaktighet: 1s)
-	]
-)\
+	])
+\
 
-När varje  @Phrase  ska vänta på samma sak, säger  @Scene/until  det en gång istället för att skriva det mellan varje. Detta gör samma sak som exemplet ovan:
+ När varje @Phrase ska vänta på samma sak, säger @Scene/until det en gång istället för att skriva det mellan varje. Detta gör samma sak som exemplet ovan:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('klicka på mig')
 		Phrase('klicka på mig igen' varaktighet: 1s)
-		Phrase(
-			'nej, allvarligt, klicka på mig så hårt du kan!!'
-			varaktighet: 1s
-		)
+		Phrase('nej, allvarligt, klicka på mig så hårt du kan!!' varaktighet: 1s)
 		Phrase('har du klickat på mig än?' varaktighet: 1s)
-	]
-	tills: Button()
-)\
+	] tills: Button())
+\
 
-Skriv en  @Boolean  i listan när väntetiderna är /olika/, som i skrik-exemplet, och använd  @Scene/until  när de alla är likadana.Du kan använda båda: en  @Boolean  i listan är en egen väntetid, utöver den som  @Scene/until  ber om.
+ Skriv en @Boolean i listan när väntetiderna är / olika /, som i exemplet med ropandet, och använd @Scene/until när de alla är lika.
+Du kan använda båda: en @Boolean i listan är en egen väntan, utöver den som @Scene/until ber om.
 
-Obs:  @Scene/until  väntar /efter/ varje  @Phrase  har fått sin  @Phrase/duration , inte istället för den.
+Obs: @Scene/until väntar / efter / varje @Phrase har fått sin @Phrase/duration, inte istället för den.
 
-Om du hellre vill att  @Scene  aldrig rörde sig av sig själv, och bara gick dit du skickade den, använd  @Scene/pause  med  @Scene/step :
+Om du hellre vill att @Scene aldrig rörde sig av sig själv, och bara gick dit du skickade den, använd @Scene/pause med @Scene/step:
 
-\key: Key()
-Scene(
-	[Phrase('ett') Phrase('två') Phrase('tre')]
-	pausa: ⊤
-	steg: ∆ key ? ((key = 'Pil vänster') ? -1 (key = 'Pil Höger') ? 1 ø) ø
-)\
+\
+key: Key()
+Scene([
+		Phrase('ett')
+		Phrase('två')
+		Phrase('tre')
+	] pausa: ⊤ steg: ∆ key ? ((key = 'Pil vänster') ? -1 (key = 'Pil Höger') ? 1 ø) ø)
+\
 
-@Scene/step  flyttar sig med ett antal  @Phrase  — \1\ framåt, \-1\ tillbaka — och stannar vid ändarna åt dig. @Scene/go  är samma idé, men uttryckt som en plats istället för ett avstånd: numret på den  @Phrase  du vill ha, räknat från 1, eller den  @Phrase/name  du gav den.
+@Scene/step flyttar sig med ett antal @Phrase — \1\ framåt, \-1\ tillbaka — och stannar vid ändarna åt dig.
+@Scene/go är samma idé, men uttryckt som en plats istället för ett avstånd: numret på den @Phrase du vill ha, räknat från 1, eller den @Phrase/name du gav den.
 
 animated-scene, repeat-a-round, move-between-content

@@ -1,18 +1,25 @@
 Utwórz własny szablon postaci
 
-Czasami chcesz mieć wiele postaci, które wyglądają prawie tak samo, ale różnią się nieznacznie.Zamiast pisać to samo @Phrase możesz wielokrotnie tworzyć własny szablon za pomocą @Structure .
+Czasem chcesz mieć wiele znaków, które wyglądają prawie tak samo, ale z małymi różnicami.
+Zamiast pisać ten sam @Phrase w kółko, możesz stworzyć własny szablon za pomocą @Structure.
 
-A  @Structure jest jak przepis z lukami, które trzeba wypełnić.Oto szablon balonu, który przyjmuje kolor i etykietę oraz potrafi się wyświetlać:
+A @Structure jest jak przepis z pustymi miejscami do wypełnienia.
+Oto szablon balonika, który przyjmuje kolor i etykietę, i wie, jak się pokazać:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` kolor: color rozmiar: 2m)
+\
+•Balloon(color•Color label•'') (
+    ƒ show() Phrase(`🎈\label\` kolor: color rozmiar: 2m)
 )
-Group(Row() [
-		Balloon(Color(80% 50 240°) 'Niebo').show()
-		Balloon(Color(60% 80 0°) 'Róża').show()
-		Balloon(Color(90% 80 90°) 'Słoneczny').show()
-	])\
 
-Ten\•Balloon(...)\część definiuje szablon i\ƒ show()\część mówi/jak narysować jeden/.Następnie robimy trzy balony w różnych kolorach i z różnymi etykietami i prosimy każdego z nich, aby:\show\samego siebie.
+Group(Row() [
+    Balloon(Color(80% 50 240°) 'Niebo').show()
+    Balloon(Color(60% 80 0°) 'Róża').show()
+    Balloon(Color(90% 80 90°) 'Słoneczny').show()
+])
+\
+
+ Właściwość \•Balloon(...)\ część określa szablon, a część \ƒ show()\ mówi, / jak narysować jeden /.
+Potem tworzymy trzy baloniki o różnych kolorach i etykietach, i prosimy każdy z nich, aby \show\ sam siebie.
 
 Szablony są świetnym rozwiązaniem, gdy chcesz zachować porządek w kodzie i spójność znaków.
 

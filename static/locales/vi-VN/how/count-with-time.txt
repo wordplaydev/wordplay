@@ -1,17 +1,26 @@
 Đếm ngược thời gian trôi qua
 
-Nhiều dự án cần một thứ gì đó phát triển theo thời gian — bộ đếm thời gian, điểm số, bộ đếm ngược.Chúng ta có thể tạo ra một bộ đếm bằng cách kết hợp các yếu tố sau: @Time   stream với một @Reaction .
+Nhiều dự án cần một thứ gì đó lớn dần theo thời gian — một đồng hồ đếm giờ, một điểm số, một bộ đếm ngược.
+Ta có thể tạo một bộ đếm bằng cách kết hợp luồng @Time với một @Reaction.
 
-MỘT  @Reaction Nó gồm ba phần: giá trị ban đầu, một yếu tố cần theo dõi, và giá trị mới khi yếu tố đó thay đổi.Chúng ta bắt đầu từ đây.\0\, đồng hồ  @Time và cộng thêm một mỗi khi đồng hồ tích tắc:
+Một @Reaction có ba phần: một giá trị bắt đầu, một thứ để theo dõi, và một giá trị mới khi thứ đó thay đổi.
+Ở đây, ta bắt đầu từ \0\, theo dõi @Time, và cộng thêm một mỗi khi đồng hồ tích tắc:
 
-\count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
+\
+count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')
+\
 
-Mỗi giây, @Time đám cháy, @Reaction thông báo kèm theo\∆ Time(1000ms)\, Và \count\trở thành\count + 1\.Cái\→ ''\Cuối cùng, nó chuyển đổi số thành văn bản. @Phrase có thể chứng minh điều đó.
+ Mỗi giây, @Time phát tín hiệu, @Reaction nhận biết bằng \∆ Time(1000ms)\, và \count\ trở thành \count + 1\.
+Cái \→ ''\ ở cuối chuyển số thành văn bản để @Phrase có thể hiển thị nó.
 
 Bạn có thể sử dụng bất kỳ đầu vào nào bạn muốn, không chỉ là thời gian. Bộ đếm này đếm số lần nhấn nút Button():
 
-\count: 0 … ∆ Button() … count + 1 Phrase(count → '')\
+\
+count: 0 … ∆ Button() … count + 1
+Phrase(count → '')
+\
 
-Mỗi lần @Button Luồng dữ liệu thay đổi khi bạn nhấp chuột hoặc chạm vào, số lượng sẽ tăng lên một.
+ Mỗi lần @Button Luồng dữ liệu thay đổi khi bạn nhấp chuột hoặc chạm vào, số lượng sẽ tăng lên một.
 
 track-points, pick-from-a-list

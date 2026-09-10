@@ -1,17 +1,28 @@
 Lägg text sida vid sida
 
-Ibland vill vi att text ska stå bredvid varandra i en snygg rad.Det kan vi göra med en @Row , som ordnar allting i en @Group från vänster till höger.
+Ibland vill vi att text ska stå bredvid varandra i en prydlig rad.
+Vi kan göra det med en @Row, som ordnar allt i en @Group från vänster till höger.
 
-\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+\
+Group(Row() [
+    Phrase('🍎')
+    Phrase('🍌')
+    Phrase('🍇')
+])
+\
 
-En @Row kan också rada upp tecken längs deras övre, mitten- eller nedre kanter, och lägga till mellanrum mellan dem.Här är samma frukt, men bottenjusterad med lite andrum:
+ En @Row kan också rada upp tecken efter deras övre, mittersta eller nedre kant, och lägga till avstånd mellan dem.
+Här är samma frukt, men nu justerad mot botten med lite andrum:
 
-\Group(Row('>' 0.5m) [
-		Phrase('🍎' storlek: 2m)
-		Phrase('🍌' storlek: 1m)
-		Phrase('🍇' storlek: 3m)
-	])\
+\
+Group(Row('>' 0.5m) [
+    Phrase('🍎' storlek: 2m)
+    Phrase('🍌' storlek: 1m)
+    Phrase('🍇' storlek: 3m)
+])
+\
 
-Den\'>'\berättar för @Row att rikta in allt längs dess nedre kant. Försök\'<'\för toppen eller\'|'\för mitten.Den\0.5m\är mellanrummet mellan varje tecken.
+ Den \'>'\ talar om för @Row att rada upp allt längs dess nedre kant. Prova \'<'\ för toppen eller \'|'\ för mitten.
+Den \0.5m\ är avståndet mellan varje tecken.
 
 stack-up-and-down, make-a-grid

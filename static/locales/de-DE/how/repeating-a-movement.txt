@@ -1,17 +1,21 @@
 Wiederholen einer Bewegung
 
-Manchmal möchten wir, dass sich eine Figur mehrere Male auf die gleiche Weise bewegt!Das wiederholte Eintippen derselben Zeilen wurde mühsam.
+Manchmal möchten wir, dass sich eine Figur mehrmals auf die gleiche Weise bewegt! 
+Die gleichen Zeilen immer wieder zu tippen wird schnell mühsam.
 
-Stattdessen können wir verwenden @Sequence  mit  @Phrase etwas mehrmals wiederholen! Genauer gesagt,wir können die Zählung in @Sequence und wählen Sie, wie oft eine Pose ausgeführt wird. Zum Beispiel:hier ist ein Basketball, der zweimal auf und ab springt.
+Stattdessen können wir @Sequence mit @Phrase benutzen, damit sich etwas mehrmals wiederholt! Genauer gesagt,
+können wir die Zählung in @Sequence benutzen und wählen, wie oft eine Reihe von Posen passiert. Zum Beispiel 
+hier springt ein Basketball zweimal auf und ab. 
 
-\Stage([
-		Phrase('🏀' Eingabe: Sequence({
-					0%: Pose(Versatz: Place(j: 0.25m))
-					25%: Pose(Versatz: Place(j: 0m))
-					50%: Pose(Versatz: Place(j: -0.25m))
-					75%: Pose(Versatz: Place(j: 0m))
-					100%: Pose(Versatz: Place(j: 0.25m))
-				} zählen: 2x Dauer: 2s))
-	])\
+\
+Stage([
+	Phrase('🏀' Eingabe: Sequence({
+				0%: Pose(Versatz: Place(j: 0.25m))
+				25%: Pose(Versatz: Place(j: 0m))
+				50%: Pose(Versatz: Place(j: -0.25m))
+				75%: Pose(Versatz: Place(j: 0m))
+				100%: Pose(Versatz: Place(j: 0.25m))} zählen:2x Dauer:2s))
+])
+\
 
 animate-phrase, shake-phrase

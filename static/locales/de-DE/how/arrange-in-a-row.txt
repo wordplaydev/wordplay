@@ -1,17 +1,28 @@
 Text nebeneinander schreiben
 
-Manchmal möchten wir, dass Texte ordentlich nebeneinander in einer Zeile stehen.Das können wir mit einem @Row , das alles in einem @Group von links nach rechts.
+Manchmal wollen wir, dass Text ordentlich in einer Reihe nebeneinander steht.
+Das können wir mit einer @Row machen, die alles in einer @Group von links nach rechts anordnet.
 
-\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+\
+Group(Row() [
+    Phrase('🍎')
+    Phrase('🍌')
+    Phrase('🍇')
+])
+\
 
-A  @Row Man kann die Zeichen auch an ihrer oberen, mittleren oder unteren Kante ausrichten und dazwischen einen Abstand einfügen.Hier ist dieselbe Frucht, aber unten bündig ausgerichtet und mit etwas mehr Luftraum:
+ Eine @Row kann Zeichen auch an ihrer oberen, mittleren oder unteren Kante ausrichten und Abstand zwischen ihnen einfügen.
+Hier ist dieselbe Frucht, aber unten ausgerichtet und mit etwas Platz dazwischen:
 
-\Group(Row('>' 0.5m) [
-		Phrase('🍎' Größe: 2m)
-		Phrase('🍌' Größe: 1m)
-		Phrase('🍇' Größe: 3m)
-	])\
+\
+Group(Row('>' 0.5m) [
+    Phrase('🍎' Größe: 2m)
+    Phrase('🍌' Größe: 1m)
+    Phrase('🍇' Größe: 3m)
+])
+\
 
-Der \'>'\erzählt @Row Richten Sie alles an der Unterkante aus. Versuchen Sie es.\'<'\für oben oder\'|'\für die Mitte.Der \0.5m\ist der Abstand zwischen den einzelnen Zeichen.
+ Das \'>'\ sagt der @Row , alles an ihrer unteren Kante auszurichten. Probiere \'<'\ für oben oder \'|'\ für die Mitte.
+Das \0.5m\ ist der Abstand zwischen jedem Zeichen.
 
 stack-up-and-down, make-a-grid

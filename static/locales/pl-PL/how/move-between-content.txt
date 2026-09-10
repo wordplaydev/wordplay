@@ -1,54 +1,75 @@
 Poruszaj się między treściami klawiszami strzałek
 
-Czasem chcesz, aby odbiorca przechodził przez treść po kolei, jak w pokazie slajdów, do przodu /i/ do tyłu za pomocą klawiszy strzałek.
+Czasem chcesz, aby odbiorca przechodził przez treść po kolei, jak w pokazie slajdów, do przodu / i / do tyłu za pomocą klawiszy strzałek.
 
 Każda wersja tego wzorca składa się z tych samych trzech części:
 
-•  @List  treści, którą chcesz pokazać•  @Key  strumień, który zmienia się za każdym razem, gdy naciśnięty zostanie klawisz•  @Reaction  który pamięta, na której treści jesteś teraz
+• @List treści, którą chcesz pokazać
+• @Key strumień, który zmienia się za każdym razem, gdy naciśniesz klawisz
+• @Reaction który pamięta, przy którym elemencie treści teraz jesteś
 
 Oto najmniejsza wersja tego wzorca. Kliknij najpierw scenę, aby zaczęła nasłuchiwać, a potem naciśnij lewy i prawy klawisz strzałki:
 
-\slides: ['pierwszy' 'drugi' 'trzeci']
+\
+slides: ['pierwszy' 'drugi' 'trzeci']
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'Strzałka w prawo') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'Strzałka w lewo') ? ((index > 1) ? index - 1 index) index
-Phrase(slides[index])\
 
-Ten  @Reaction  to serce tego wzorca. Zaczyna się od \1\, a za każdym razem, gdy  @Key  się zmienia, decyduje, jaka powinna być nowa liczba.Jeśli naciśnięto prawą strzałkę, dodaje jeden; jeśli naciśnięto lewą strzałkę, odejmuje jeden; w przeciwnym razie liczba pozostaje bez zmian.
+index•#: 1 … ∆ key …
+	(key = 'Strzałka w prawo') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'Strzałka w lewo') ? ((index > 1) ? index - 1 index)
+			index
 
-Dodatkowe sprawdzenia \?\ pilnują, aby liczba nie wyszła poza końce listy.Bez nich mógłbyś wyjść poza koniec listy i nie byłoby żadnego slajdu do pokazania.Jeśli wolisz, aby po ostatnim slajdzie wracać do pierwszego, możesz to zrobić zamiast tego.
+Phrase(slides[index])
+\
 
-Uwaga: klawisze strzałek nazywają się \'ArrowLeft'\ oraz \'ArrowRight'\ oraz \'ArrowUp'\ i \'ArrowDown'\.Możesz też po prostu napisać \'Left'\ i \'Right'\, a nazwy klawiszy działają też w twoim własnym języku.
+ Właściwość @Reaction jest sercem tego wszystkiego. Zaczyna się od \1\, i za każdym razem, gdy @Key się zmienia, decyduje, jaka ma być nowa liczba.
+Jeśli naciśnięto strzałkę w prawo, dodaje jeden; jeśli naciśnięto strzałkę w lewo, odejmuje jeden; w przeciwnym razie liczba pozostaje bez zmian.
 
-Zauważ, że \index\ to tylko liczba, więc działa to dla /każdego/ rodzaju treści, nie tylko tekstu.Zamień  @List  na listę  @Group  albo całych scen, a reszta wzoru wcale się nie zmienia:
+Dodatkowe sprawdzenia \?\ sprawiają, że liczba nie wychodzi poza końce listy.
+Bez nich można by wyjść poza koniec listy i nie byłoby żadnego slajdu do pokazania.
+Jeśli wolisz, żeby po ostatnim slajdzie znów pojawił się pierwszy, możesz to zrobić zamiast tego.
 
-\slides: [
+Uwaga: klawisze strzałek nazywają się \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, a \'ArrowDown'\.
+Możesz też po prostu napisać \'Left'\ i \'Right'\, nazwy klawiszy działają też w twoim własnym języku.
+
+Zauważ, że \index\ to tylko liczba, więc działa to dla / dowolnego / rodzaju treści, nie tylko tekstu.
+Zamień @List na listę @Group albo całych scen, a reszta wzorca w ogóle się nie zmienia:
+
+\
+slides: [
+	Phrase('historia w trzech częściach' rozmiar: 3m)
+	Group(Stack() [Phrase('🐈') Phrase('pojawia się kot')])
+	Phrase('koniec 🎉')
+]
+
+key: Key()
+
+index•#: 1 … ∆ key …
+	(key = 'Strzałka w prawo') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'Strzałka w lewo') ? ((index > 1) ? index - 1 index)
+			index
+
+slides[index]
+\
+
+ A @Scene też potrafi to zrobić, i to z mniejszą ilością liczenia.
+Podaj mu @Scene/pause więc nigdy nie porusza się samo, i @Scene/step żeby przesunąć to o jeden element w jedną lub drugą stronę:
+
+\
+key: Key()
+Scene([
 		Phrase('historia w trzech częściach' rozmiar: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('pojawia się kot')])
 		Phrase('koniec 🎉')
-	]
-key: Key()
-index•#: 1 … ∆ key … (key = 'Strzałka w prawo') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'Strzałka w lewo') ? ((index > 1) ? index - 1 index) index
-slides[index]\
+	] pauza: ⊤ krok: ∆ key ? ((key = 'Strzałka w lewo') ? -1 (key = 'Strzałka w prawo') ? 1 ø) ø)
+\
 
-A  @Scene  też potrafi to zrobić, i to z mniejszym liczeniem.Daj mu  @Scene/pause , żeby nigdy nie ruszał się sam, oraz  @Scene/step , żeby przesunąć go o jeden kawałek w jedną lub drugą stronę:
+ Nie trzeba tu pisać żadnych \?\ sprawdzeń, ponieważ @Scene zatrzymuje się na swoich własnych końcach za ciebie, i nic nie musi pamiętać, który element jest pokazywany.
+Zapytaj @Spotlight jeśli chcesz powiedzieć / 3 z 10 / na scenie.
 
-\key: Key()
-Scene(
-	[
-		Phrase('historia w trzech częściach' rozmiar: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('pojawia się kot')])
-		Phrase('koniec 🎉')
-	]
-	pauza: ⊤
-	krok: ∆ key ? ((key = 'Strzałka w lewo') ? -1 (key = 'Strzałka w prawo') ? 1 ø) ø
-)\
+Uwaga: zobacz to w całym projekcie w galerii: < pokaz slajdów @https://wordplay.dev/project/example-SlideShow?play>
 
-Nie trzeba tu pisać żadnych sprawdzeń \?\, bo  @Scene  zatrzymuje się sama na swoich końcach, a nic nie musi pamiętać, który element jest teraz pokazany.Zapytaj  @Spotlight  jeśli chcesz powiedzieć /3 z 10/ na scenie.
-
-Uwaga: zobacz to w całym projekcie w galerii: <pokaz slajdów@https://wordplay.dev/project/example-SlideShow?play>
-
-Ten  @Reaction  powyżej to nadal dobry sposób, gdy to, po czym się poruszasz, nie jest wynikiem — lista słów, kolorów, liczb albo czegokolwiek innego, z czego budujesz swój element.
+ Ten @Reaction powyżej to nadal dobry sposób, gdy to, po czym się poruszasz, nie jest wynikiem — lista słów, kolorów, liczb albo czegokolwiek innego, z czego budujesz swój element.
 
 interactive-scene, choose-adventure, offer-choices, repeat-a-round

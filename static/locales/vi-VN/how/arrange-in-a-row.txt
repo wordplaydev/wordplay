@@ -1,17 +1,28 @@
 Đặt văn bản cạnh nhau
 
-Đôi khi chúng ta muốn văn bản được sắp xếp gọn gàng thành một dòng.Chúng ta có thể làm điều đó với một @Row , sắp xếp mọi thứ theo một cách nhất định. @Group Từ trái sang phải.
+Đôi khi ta muốn các đoạn chữ nằm cạnh nhau thành một hàng gọn gàng.
+Ta có thể làm điều đó với một @Row, nó sắp xếp mọi thứ theo một @Group từ trái sang phải.
 
-\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+\
+Group(Row() [
+    Phrase('🍎')
+    Phrase('🍌')
+    Phrase('🍇')
+])
+\
 
-MỘT  @Row Bạn cũng có thể sắp xếp các ký tự theo cạnh trên, giữa hoặc dưới, và thêm khoảng cách giữa chúng.Đây là cùng một loại trái cây, nhưng được đặt thẳng đứng ở phía dưới, chừa ra một chút khoảng trống:
+ Một @Row cũng có thể xếp các ký tự thẳng hàng theo mép trên, mép giữa, hoặc mép dưới, và thêm khoảng cách giữa chúng.
+Đây là cùng loại trái cây đó, nhưng được canh theo mép dưới với một chút khoảng cách:
 
-\Group(Row('>' 0.5m) [
-		Phrase('🍎' kíchcỡ: 2m)
-		Phrase('🍌' kíchcỡ: 1m)
-		Phrase('🍇' kíchcỡ: 3m)
-	])\
+\
+Group(Row('>' 0.5m) [
+    Phrase('🍎' kíchcỡ: 2m)
+    Phrase('🍌' kíchcỡ: 1m)
+    Phrase('🍇' kíchcỡ: 3m)
+])
+\
 
-Cái\'>'\kể cho @Row Sắp xếp mọi thứ thẳng hàng dọc theo cạnh dưới. Hãy thử\'<'\cho hàng đầu hoặc\'|'\cho phần giữa.Cái\0.5m\là khoảng cách giữa mỗi ký tự.
+ Cái \'>'\ báo cho @Row xếp mọi thứ thẳng hàng theo mép dưới của nó. Hãy thử \'<'\ để canh theo mép trên hoặc \'|'\ để canh theo mép giữa.
+Cái \0.5m\ là khoảng cách giữa mỗi ký tự.
 
 stack-up-and-down, make-a-grid

@@ -1,26 +1,28 @@
 Pon texto lado a lado
 
-A veces queremos que el texto quede junto en una línea ordenada. Podemos hacer eso con un  @Row , que acomoda todo en un  @Group  de izquierda a derecha.
+A veces queremos que el texto quede en una fila ordenada, uno junto al otro.
+Podemos hacer eso con una @Row, que acomoda todo en una @Group de izquierda a derecha.
 
 \
-Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+Group(Row() [
+    Phrase('🍎')
+    Phrase('🍌')
+    Phrase('🍇')
+])
+\
 
-Un  @Row  también puede alinear los caracteres por su borde superior, medio o inferior, y agregar espacio entre ellos. Aquí está la misma fruta, pero alineada abajo con un poco de espacio:
+ Una @Row también puede alinear caracteres por su borde superior, medio o inferior, y agregar espacio entre ellos.
+Aquí está la misma fruta, pero alineada abajo y con un poco más de espacio:
 
 \
-Group(
-	Row('>' 0.5m)
-	[
-		Phrase('🍎' tamaño: 2m)
-		Phrase('🍌' tamaño: 1m)
-		Phrase('🍇' tamaño: 3m)
-	]
-)\
+Group(Row('>' 0.5m) [
+    Phrase('🍎' tamaño: 2m)
+    Phrase('🍌' tamaño: 1m)
+    Phrase('🍇' tamaño: 3m)
+])
+\
 
-El \
-'>'\ le dice al  @Row  que alinee todo por su borde inferior. Prueba \
-'<'\ para arriba o \
-'|'\ para el medio. El \
-0.5m\ es el espacio entre cada carácter.
+ El \'>'\ le dice al @Row que alinee todo por su borde inferior. Prueba \'<'\ para arriba o \'|'\ para el medio.
+El \0.5m\ es el espacio entre cada carácter.
 
 stack-up-and-down, make-a-grid

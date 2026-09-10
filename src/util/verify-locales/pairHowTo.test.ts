@@ -51,6 +51,31 @@ describe('paragraphSignature', () => {
     });
 });
 
+/**
+ * An example can contain another: a block program that writes a formatted
+ * literal holds an `Example` inside an `Example`. Returning both localizes the
+ * same code twice, and replacing the outer one rebuilds the tree the inner one
+ * lived in — so the inner replacement lands on a node that is no longer in the
+ * document, taking the paragraph break before it along.
+ */
+describe('nested examples', () => {
+    const nested = 'Here is one:\n\n\\Phrase(`a \\name\\`)\\';
+
+    it('counts only the outermost example', () => {
+        expect(examplesIn(markup(nested))).toHaveLength(1);
+    });
+
+    it('keeps the outer example first, so its paragraph space is the one carried', () => {
+        const [outer] = examplesIn(markup(nested));
+        expect(outer.toWordplay()).toContain('Phrase');
+    });
+
+    it('does not count a nested example twice in a signature', () => {
+        const signature = paragraphSignature(markup(nested).paragraphs[1]);
+        expect(signature.split('X')).toHaveLength(2);
+    });
+});
+
 describe('pairing an English how-to with an existing translation', () => {
     it('reuses every prose run of a translation that still matches', () => {
         const german = [

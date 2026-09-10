@@ -1,54 +1,75 @@
 用方向鍵在內容間移動
 
-有時候你會希望觀眾一次看一段內容，就像投影片一樣，用方向鍵往前/和/往後切換。
+有時候你會希望觀眾一次看一段內容，就像投影片一樣，用方向鍵往前 / 和 / 往後切換。
 
 這種模式的每個版本，都是由相同的三個部分組成：
 
-• 一份 @List 你想要顯示的內容清單• 一份 @Key 串流（Stream），每次按下按鍵時都會改變• 一份 @Reaction 記住你現在看到哪一段內容的東西
+• 一個 @List 內容，是你想顯示的東西
+• 一個 @Key 串流，每次按下按鍵時都會改變
+• 一個 @Reaction 用來記住你現在停在哪一份內容上
 
 這是最簡單的版本。先點一下舞台讓它開始監聽，再按左、右方向鍵試試看：
 
-\slides: ['第一' '第二' '第三']
+\
+slides: ['第一' '第二' '第三']
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
-Phrase(slides[index])\
 
-這個  @Reaction 是整個程式的核心。它從\1\開始，每次 @Key 改變時，都會決定新的數字應該是多少。如果按下右方向鍵，就加一；如果按下左方向鍵，就減一；否則就維持不變。
+index•#: 1 … ∆ key …
+	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
+			index
 
-多加的\?\判斷，是用來避免數字超出清單的頭尾。如果沒有這些判斷，你就可能走出清單之外，變成沒有投影片可以顯示。如果你希望從最後一張投影片自動繞回第一張，也可以這樣做。
+Phrase(slides[index])
+\
 
-注意：方向鍵的名稱是\'ArrowLeft'\、\'ArrowRight'\、\'ArrowUp'\，還有\'ArrowDown'\。你也可以直接寫\'Left'\ 和 \'Right'\，鍵盤按鍵的名稱也可以用你自己的語言喔。
+ 這個 @Reaction 是整個運作的核心。它從 \1\ 開始，每次 @Key 改變時，它就會決定新的數字該是多少。
+如果按下的是右方向鍵，就加一；如果按下的是左方向鍵，就減一；否則就維持不變。
 
-注意，\index\ 只是一個數字，所以這個方法適用於/任何/種類的內容，不只是文字。把  @List  換成一份  @Group  清單，或整個場景的清單，其他的模式完全不用改變：
+額外的 \?\ 檢查是用來防止數字超出清單的兩端。
+沒有這些檢查，你可能會走到清單之外，變成沒有投影片可以顯示。
+如果你想要從最後一張投影片繞回第一張，也可以這樣做。
 
-\slides: [
+注意：方向鍵的名稱是 \'ArrowLeft'\、 \'ArrowRight'\、 \'ArrowUp'\ 察覺到了，然後 \'ArrowDown'\ 結合起來，做出一個計數器。
+你也可以直接寫 \'Left'\ 和 \'Right'\，按鍵名稱也支援用你自己的語言表示。
+
+注意 \index\ 只是一個數字，所以這個方法適用於 / 任何 / 種內容，不只是文字。
+把 @List 換成一份 @Group 清單，或整個場景的清單，其餘的模式完全不用改變：
+
+\
+slides: [
+	Phrase('一個分成三段的故事' 尺寸: 3m)
+	Group(Stack() [Phrase('🐈') Phrase('一隻貓出現了')])
+	Phrase('結束了 🎉')
+]
+
+key: Key()
+
+index•#: 1 … ∆ key …
+	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
+			index
+
+slides[index]
+\
+
+ 一個 @Scene 也能做到這件事，而且不用數那麼多次。
+給它 @Scene/pause 所以它永遠不會自己移動，而 @Scene/step 用來將它往任一方向移動一格：
+
+\
+key: Key()
+Scene([
 		Phrase('一個分成三段的故事' 尺寸: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('一隻貓出現了')])
 		Phrase('結束了 🎉')
-	]
-key: Key()
-index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
-slides[index]\
+	] 暫停: ⊤ 步驟: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+\
 
-一個  @Scene  也能做到這件事，而且不用數那麼多次。給它  @Scene/pause ，讓它自己不會亂動，再給它  @Scene/step ，讓它往任一方向移動一格：
+ 這裡不需要寫任何 \?\ 檢查，因為 @Scene 會自己在兩端停下，不需要記住目前顯示的是哪一個。
+問問 @Spotlight 如果你想說 / 第 3 個，共 10 個 / 在舞台上。
 
-\key: Key()
-Scene(
-	[
-		Phrase('一個分成三段的故事' 尺寸: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('一隻貓出現了')])
-		Phrase('結束了 🎉')
-	]
-	暫停: ⊤
-	步驟: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø
-)\
+注意：可以在作品集裡看到完整工程： < 投影片放映 @https://wordplay.dev/project/example-SlideShow?play>
 
-這裡不需要寫任何 \?\ 檢查，因為  @Scene  會自己在兩端停下來，不用記住現在顯示的是哪一個。詢問  @Spotlight 如果你想在舞台上顯示/「10 分之 3」/這樣的內容。
-
-注意：可以在作品集裡看到完整工程：<投影片放映@https://wordplay.dev/project/example-SlideShow?play>
-
-這個  @Reaction 在上面示範的方法，仍然是處理「不是輸出內容」時該用的方式——像是文字、顏色或數字的清單，或任何你用來組成作品的其他素材。
+ 這個 @Reaction 在上面示範的方法，仍然是處理「不是輸出內容」時該用的方式——像是文字、顏色或數字的清單，或任何你用來組成作品的其他素材。
 
 interactive-scene, choose-adventure, offer-choices, repeat-a-round

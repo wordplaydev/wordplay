@@ -266,6 +266,25 @@ describe('re-padding a translated prose run', () => {
         );
     });
 
+    /**
+     * A zero-width space is a translator artifact the markup tokenizer drops, so
+     * a body carrying one stops being markup partway through. The zero-width
+     * non-joiner beside it is orthography and must survive.
+     */
+    it('drops a zero-width space but keeps a zero-width non-joiner', () => {
+        expect(padLike('a ', 'ein\u200b')).toBe('ein ');
+        expect(padLike('a ', 'mi\u200cravad')).toBe('mi\u200cravad ');
+    });
+
+    /**
+     * A prose run is one token and a token ends at a newline, so a translation
+     * carrying one would be read back as two runs and the file would no longer
+     * have the structure it was written with.
+     */
+    it('collapses a line break inside a translation', () => {
+        expect(padLike('a ', 'więc\nzatrzymuje')).toBe('więc zatrzymuje ');
+    });
+
     it('leaves an all-whitespace run alone', () => {
         expect(padLike(' ', 'anything')).toBe(' ');
     });

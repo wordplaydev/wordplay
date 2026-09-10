@@ -1,29 +1,24 @@
 Tạo một video từ máy quay
 
-Luồng  @Camera  là một cách tuyệt vời để lấy một lưới màu sắc từ thế giới thực. Nếu chúng ta muốn nhìn thấy những màu sắc đó, tái tạo lại hình ảnh mà  @Camera  nhìn thấy thì sao?
+Cái @Camera luồng là một cách tuyệt vời để lấy một lưới màu từ thế giới. 
+Nếu chúng ta muốn nhìn thấy những màu đó, tạo lại hình ảnh mà @Camera nhìn thấy thì sao?
 
-Chúng ta có thể dùng cách sắp xếp  @Grid  cho một  @Group , và hàm  @List/combine  để đổi các màu sắc thành một danh sách các  @Phrase  mà chúng ta đưa cho  @Grid .
+Chúng ta có thể dùng cách sắp xếp @Grid cho một @Group, và hàm @List/combine để đổi các màu sắc thành một danh sách các @Phrase mà chúng ta đưa cho @Grid.
 
-\width: 24
+\
+width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage(
-	[
-		Group(
-			Grid(height width 0m)
-			colors.combine(
-				[]
-				ƒ(phrases row) [
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
 						:phrases
 						:row ↦ Phrase("⬤" màusắc: ⬚ khoảngthờigian: 0s)
-					]
-			)
-		)
-	]
-)\
+					]))
+	])
+\
 
-Ví dụ này tạo ra một danh sách các cụm từ, đổi mỗi màu sắc thành một hình tròn có màu sắc đó.
+ Ví dụ này tạo ra một danh sách các cụm từ, đổi mỗi màu sắc thành một hình tròn có màu sắc đó.
 
-Hãy cẩn thận với luồng  @Camera : chúng tạo ra rất nhiều dữ liệu đầu vào! Bạn nên giữ chiều rộng và chiều cao của hình ảnh nhỏ thôi.
+Hãy cẩn thận với luồng @Camera : chúng tạo ra rất nhiều dữ liệu đầu vào! Bạn nên giữ chiều rộng và chiều cao của hình ảnh nhỏ thôi.
 
 interactive-scene

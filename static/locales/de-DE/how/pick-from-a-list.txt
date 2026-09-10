@@ -2,16 +2,23 @@ Wähle zufällig etwas aus einer Liste aus
 
 Möchten Sie, dass Ihr Projekt Sie bei jeder Ausführung überrascht? Erstellen Sie eine Liste mit Optionen und wählen Sie eine davon aus. @Random Die 
 
-@Random kann uns eine Zufallszahl liefern, und eine Liste kann anhand der Zahl nachgeschlagen werden mit\[n]\DieKombiniere sie, um ein zufälliges Emoji auszuwählen:
+@Random kann uns eine Zufallszahl geben, und eine Liste kann mit einer Zahl abgefragt werden mit \[n]\ kombinieren.
+Setze sie zusammen, um ein zufälliges Emoji auszuwählen:
 
-\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩'] Phrase(emojis.random())\
+\
+emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())
+\
 
-Sie können auch verwenden @Random mit zwei Zahlen, die eine ganze Zahl zwischen ihnen auswählt.Zum Beispiel, um einen auszuwählen/neu/Jede Sekunde ein zufälliges Emoji, dazu etwas mischen @Time und ein @Reaction :
+ Du kannst auch @Random mit zwei Zahlen benutzen. Das wählt eine ganze Zahl zwischen ihnen aus.
+Um zum Beispiel jede Sekunde ein / neues / zufälliges Emoji auszuwählen, mische @Time und ein @Reaction zu verwandeln:
 
-\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+\
+emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
 pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
-Phrase(pick)\
+Phrase(pick)
+\
 
-Jeder Tick von @Time , Die  @Reaction wählt eine neue Überraschung.
+ Jeder Tick von @Time, Die @Reaction wählt eine neue Überraschung.
 
 shake-phrase, count-with-time

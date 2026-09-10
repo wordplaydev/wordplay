@@ -1,54 +1,75 @@
 Ok tuşlarıyla içerikler arasında geçiş yapın
 
-Bazen izleyicinin içeriği bir slayt gösterisi gibi tek tek adım adım incelemesini istersin. Ok tuşlarıyla ileri /ve/ geri gidebilir.
+Bazen izleyicinin içeriği bir slayt gösterisi gibi tek tek adım adım incelemesini istersin. Ok tuşlarıyla ileri / ve / geri gidebilir.
 
 Bu örüntünün her sürümü aynı üç parçadan oluşur:
 
-• Göstermek istediğin içeriğin bir  @List • Göstermek istediğin içeriğin bir  @Key  bir tuşa her basıldığında değişen bir akış• Göstermek istediğin içeriğin bir  @Reaction  şu anda hangi içerik parçasında olduğunu hatırlayan bir şey
+• Göstermek istediğin içeriğin bir @List 
+• Göstermek istediğin içeriğin bir @Key akışı; bir tuşa her basıldığında değişir
+• Göstermek istediğin içeriğin bir @Reaction şu anda hangi içerik parçasında olduğunu hatırlayan
 
 İşte bunun en küçük hali. Önce dinlemeye başlaması için sahneye tıkla, sonra sol ve sağ ok tuşlarına bas:
 
-\slides: ['birinci' 'ikinci' 'üçüncü']
+\
+slides: ['birinci' 'ikinci' 'üçüncü']
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'Sol Ok') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'üç') ? ((index > 1) ? index - 1 index) index
-Phrase(slides[index])\
 
-Bu  @Reaction  bunun kalbi. \1\ ile başlar ve  @Key  her değiştiğinde yeni sayının ne olması gerektiğine karar verir.Sağ ok tuşuna basıldıysa bir arttırır; sol ok tuşuna basıldıysa bir azaltır; aksi halde aynı kalır.
+index•#: 1 … ∆ key …
+	(key = 'Sol Ok') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'üç') ? ((index > 1) ? index - 1 index)
+			index
 
-Fazladan \?\ kontrolleri, sayının listenin uçlarını aşmasını engeller.Bu kontroller olmadan listenin sonundan öteye geçebilirsin ve gösterilecek bir slayt kalmaz.Son slayttan tekrar ilk slayta dönmesini istersen, bunu da yapabilirsin.
+Phrase(slides[index])
+\
 
-Not: ok tuşlarının isimleri \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\ ve \'ArrowDown'\ geçer.Ayrıca sadece şunu da yazabilirsin: \'Left'\ ve \'Right'\ ve tuş isimleri kendi dilinde de çalışır.
+ Bu @Reaction bunun kalbidir. \1\ ile başlar ve @Key her değiştiğinde yeni sayının ne olması gerektiğine karar verir.
+Sağ ok tuşuna basıldıysa bir ekler; sol ok tuşuna basıldıysa bir çıkarır; başka bir şey olmadıysa aynı kalır.
 
-Dikkat et, \index\ sadece bir sayı, bu yüzden bu /her/ tür içerik için çalışır, sadece metin için değil.Şunu değiştir:  @List  bir  @Group  listesiyle ya da bütün sahnelerle değiştir, geri kalan örüntü hiç değişmez:
+Fazladan \?\ kontrolleri, sayının listenin uçlarını aşmasını engelleyen şeydir.
+Bunlar olmasaydı listenin sonundan öteye geçebilir ve gösterilecek hiçbir slayt kalmazdı.
+Son slayttan tekrar ilk slayta dönmeyi tercih edersen, bunu da yapabilirsin.
 
-\slides: [
+Not: ok tuşlarının isimleri şöyledir: \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\ ile fark eder ve \'ArrowDown'\ ile birleştirebiliriz.
+Ayrıca sadece şunu da yazabilirsin: \'Left'\ ile \'Right'\, tuş isimleri kendi dilinde de çalışır.
+
+Dikkat et, \index\ sadece bir sayıdır, bu yüzden bu yöntem / her / tür içerik için çalışır, sadece metin için değil.
+yerine bir @List listesi koy @Group ya da tam sahneler koy, kalıbın geri kalanı hiç değişmez:
+
+\
+slides: [
+	Phrase('üç bölümlük bir hikaye' boyut: 3m)
+	Group(Stack() [Phrase('🐈') Phrase('bir kedi belirir')])
+	Phrase('son 🎉')
+]
+
+key: Key()
+
+index•#: 1 … ∆ key …
+	(key = 'Sol Ok') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'üç') ? ((index > 1) ? index - 1 index)
+			index
+
+slides[index]
+\
+
+ Bir @Scene bunu da yapabilir, hem de daha az sayarak.
+Ona @Scene/pause böylece kendi kendine asla hareket etmez, ve @Scene/step bir yöne veya diğerine bir parça hareket ettirmek için:
+
+\
+key: Key()
+Scene([
 		Phrase('üç bölümlük bir hikaye' boyut: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('bir kedi belirir')])
 		Phrase('son 🎉')
-	]
-key: Key()
-index•#: 1 … ∆ key … (key = 'Sol Ok') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'üç') ? ((index > 1) ? index - 1 index) index
-slides[index]\
+	] duraklat: ⊤ adım: ∆ key ? ((key = 'üç') ? -1 (key = 'Sol Ok') ? 1 ø) ø)
+\
 
-Bir  @Scene  bunu da yapabilir, hem de daha az sayarak.Ona  @Scene/pause  ver, böylece kendi kendine hiç hareket etmez, ve  @Scene/step  ver, böylece onu bir birim ileri ya da geri hareket ettirebilirsin:
+ Burada yazılacak \?\ kontrolü yok, çünkü bir @Scene kendi uçlarında senin için durur, ve hiçbir şeyin hangi parçanın gösterildiğini hatırlaması gerekmez.
+Sor @Spotlight eğer şunu söylemek istiyorsan / 10'da 3 / sahnede.
 
-\key: Key()
-Scene(
-	[
-		Phrase('üç bölümlük bir hikaye' boyut: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('bir kedi belirir')])
-		Phrase('son 🎉')
-	]
-	duraklat: ⊤
-	adım: ∆ key ? ((key = 'üç') ? -1 (key = 'Sol Ok') ? 1 ø) ø
-)\
+Not: bunu galerideki tam bir projede gör: < slayt gösterisi @https://wordplay.dev/project/example-SlideShow?play>
 
-Burada yazılacak \?\ kontrolü yok, çünkü bir  @Scene  kendi uçlarında kendiliğinden durur ve hangi parçanın gösterildiğini hiçbir şeyin hatırlaması gerekmez.Şunu sor:  @Spotlight  eğer şunu söylemek istiyorsan /10'da 3/ sahnede.
-
-Not: bunu galerideki tam bir projede gör: <slayt gösterisi@https://wordplay.dev/project/example-SlideShow?play>
-
-Bu  @Reaction  yukarıdaki yöntem, adım adım ilerlediğin şey çıktı değilse hâlâ bunu yapmanın yoludur — bir kelime listesi, renkler, sayılar ya da parçayı oluşturduğun başka herhangi bir şey.
+ Bu @Reaction yukarıdaki yöntem, adım adım ilerlediğin şey çıktı değilse hâlâ bunu yapmanın yoludur — bir kelime listesi, renkler, sayılar ya da parçayı oluşturduğun başka herhangi bir şey.
 
 interactive-scene, choose-adventure, offer-choices, repeat-a-round

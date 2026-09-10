@@ -1,63 +1,52 @@
 Creează o serie animată de scene
 
-Uneori vrem să spunem povești, să arătăm versuri de cântece sau să animăm poezii.Pentru asta, putem folosi  @Scene  și  @Phrase  împreună, ca să arătăm o succesiune.
+Uneori vrem să spunem povești, să arătăm versuri de cântece sau să animăm o poezie.
+Pentru asta, putem folosi @Scene și @Phrase împreună, ca să arătăm o succesiune.
 
-De exemplu, imaginează-ți că vrem să animăm poezioara scurtă pentru copii "Jack be Nimble".Am putea face un  @Scene  care are fiecare vers ca o  @Phrase , și, stabilind  @Phrase/duration  fiecărui vers,  @Scene  ar avansa atunci când fiecare frază s-a terminat.
+De exemplu, să ne imaginăm că am vrea să animăm o poezioară scurtă pentru copii.
+Am putea face un @Scene care are fiecare vers ca un @Phrase, și, punând @Phrase/duration fiecărui vers, @Scene ar trece mai departe când fiecare parte se termină.
 
-\Scene(
-	[
+\
+Scene([
+  Phrase('Jack e sprinten' durată: 1s)
+  Phrase('Jack e iute' durată: 1s)
+  Phrase('Jack sare peste sfeșnicul cu lumânare' durată: 1s)
+])
+\
+
+@Scene va aștepta să se termine și un @Sequence . Hai să facem ca versul cu lumânarea să sară!
+
+\
+Scene([
 		Phrase('Jack e sprinten' durată: 1s)
 		Phrase('Jack e iute' durată: 1s)
-		Phrase(
-			'Jack sare peste sfeșnicul cu lumânare'
-			durată: 1s
-		)
-	]
-)\
+		Phrase('Jack sare peste sfeșnicul cu lumânare' intrând: Sequence.bounce(durată: 1s))
+	])
+\
 
-@Scene  va aștepta să se termine și un  @Sequence . Hai să facem ca versul cu lumânarea să sară!
+@Scene poate primi și o @Group de text și va aștepta ca tot conținutul ei să termine animația.
 
-\Scene(
-	[
+\
+Scene([
+		Group(Stack() [
+      Phrase('Jack e sprinten')
+		  Phrase('Jack e iute')
+    ] durată: 2s)
+		Phrase('Jack sare peste sfeșnicul cu lumânare' intrând: Sequence.bounce(durată: 1s))
+	])
+\
+
+ Uneori o poezie ar trebui să continue la nesfârșit. @Scene/loop aduce @Scene înapoi la prima sa @Phrase odată ce ultima s-a terminat, așa că se repetă la nesfârșit.
+
+\
+Scene([
 		Phrase('Jack e sprinten' durată: 1s)
 		Phrase('Jack e iute' durată: 1s)
-		Phrase(
-			'Jack sare peste sfeșnicul cu lumânare'
-			intrând: Sequence.bounce(durată: 1s)
-		)
-	]
-)\
+		Phrase('Jack sare peste sfeșnicul cu lumânare' durată: 1s)
+	] buclă: ⊤)
+\
 
-@Scene  poate primi și o  @Group  de text și va aștepta ca tot conținutul ei să termine animația.
-
-\Scene(
-	[
-		Group(
-			Stack()
-			[Phrase('Jack e sprinten') Phrase('Jack e iute')]
-			durată: 2s
-		)
-		Phrase(
-			'Jack sare peste sfeșnicul cu lumânare'
-			intrând: Sequence.bounce(durată: 1s)
-		)
-	]
-)\
-
-Uneori o poezie ar trebui să continue la nesfârșit.  @Scene/loop  aduce  @Scene  înapoi la prima sa  @Phrase  odată ce ultima s-a terminat, așa că se repetă la nesfârșit.
-
-\Scene(
-	[
-		Phrase('Jack e sprinten' durată: 1s)
-		Phrase('Jack e iute' durată: 1s)
-		Phrase(
-			'Jack sare peste sfeșnicul cu lumânare'
-			durată: 1s
-		)
-	]
-	buclă: ⊤
-)\
-
-Notă: un  @Scene  revine la început doar dacă ceva din listă a așteptat cu adevărat.O listă în care fiecare  @Phrase  a avut un  @Phrase/duration  de \0s\ s-ar învârti cât de repede ar putea calculatorul, așa că se oprește la sfârșit în schimb.
+ Notă: un @Scene se întoarce la început doar dacă ceva din listă a așteptat cu adevărat.
+O listă în care fiecare @Phrase avea un @Phrase/duration de \0s\ ar trece cât de repede poate calculatorul, așa că se oprește la final, în loc să se repete.
 
 interactive-scene, repeat-a-round

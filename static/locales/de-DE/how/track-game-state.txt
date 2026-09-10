@@ -1,41 +1,38 @@
 Behalte den Spielzustand im Blick
 
-Die meisten Spiele behalten viele Dinge im Blick, während sie laufen: Punkte, Spielerpositionen und andere Details sind wichtig.Jedes Mal, wenn es eine Eingabe gibt, ändert sich der Zustand. Danach wollen wir eine neue Ausgabe zeigen, als Antwort darauf.
+Die meisten Spiele merken sich viele Dinge, während das Spiel läuft: Punkte, die Position der Spieler und andere Details sind alle wichtig.
+Jedes Mal, wenn eine Eingabe kommt, ändert sich der Zustand. Dann wollen wir als Antwort eine neue Ausgabe anzeigen.
 
 Ein allgemeines Muster für jedes Spiel macht drei Dinge:
 
-• Lege eine Datenstruktur für den Spielzustand fest, um den ganzen Spielzustand zu speichern• Lege eine Reaktion fest, die aus dem alten Spielzustand einen neuen macht, sobald es eine neue Eingabe gibt• Erstelle eine  @Stage  mit  @Group  und  @Phrase , um den Spielzustand zu zeigen
+• Lege eine Datenstruktur für den Spielzustand an, um den ganzen Spielzustand zu speichern
+• Lege eine Reaktion an, die aus dem vorherigen Spielzustand einen neuen Spielzustand macht, sobald es eine neue Eingabe gibt
+• Erstelle ein @Stage mit @Group und @Phrase , um den Spielzustand anzuzeigen
 
 Stellen wir uns zum Beispiel ein einfaches Spiel vor: Man tippt geheime Wörter in ein Textfeld und bekommt jedes Mal einen Punkt, wenn man ein geheimes Wort errät.
 
-\•Game(secrets•[''] points•#)
-state: Game(['Katze' 'Hund'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+\
+•Game(secrets•[''] points•#)
+
+state: Game(['Katze' 'Hund'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+
 Stage(
-	state.points = state.secrets.length() ? [
-			Phrase("du hast gewonnen!")
-		] [
-			Group(
-				Stack()
-				[
-					Phrase("errate meine geheimen Wörter")
-					Phrase(
-						`\state.secrets.length() - state.points\ weitere Geheimnisse`
-					)
-				]
-			)
-		]
-)\
+    state.points = state.secrets.length() ? 
+        [ Phrase("du hast gewonnen!")]
+        [ Group(Stack() [ Phrase("errate meine geheimen Wörter") Phrase(`\state.secrets.length() - state.points\ weitere Geheimnisse`)])]
+)
+\
 
-Schauen wir uns das genauer an.
+ Schauen wir uns das genauer an.
 
-• Die erste Zeile, \•spiel(geheimnisse•[''] punkte•#)\ sagt: /Erstelle eine Datenstruktur namens \Game\, die eine Liste von Geheimnissen und Punkten speichert/. Das \[
-	''
-]\ bedeutet /eine Liste mit einer beliebigen Anzahl von Wörtern/. Wenn du stattdessen eine Liste mit einer genauen Länge willst, kannst du für jeden Platz darin einen Typ angeben: \[
-	#'']\ ist eine Liste aus zwei Dingen: einer Zahl und einem Wort.• Die zweite Zeile sagt /Der Spielzustand beginnt mit einer Liste von Geheimnissen und null Punkten. Jedes Mal, wenn sich der \Plaudern\ ändert, wird geprüft: Wenn das eingegebene Wort in der Liste der Geheimnisse steht, wird ein neuer Spielzustand mit einem Punkt mehr erzeugt/.• Jedes Mal, wenn das Programm neu ausgewertet wird (wenn sich der \Plaudern\ ändert), wird eine Bühne gezeigt. Wenn die Anzahl der Punkte gleich der Anzahl der Geheimnisse ist, wird eine Gewinn-Bühne gezeigt. Wenn nicht, werden eine Aufforderung und die Anzahl der verbleibenden Geheimnisse gezeigt.
+• Die erste Zeile, \•spiel(geheimnisse•[''] punkte•#)\ bedeutet: / Lege eine Datenstruktur namens \Game\ an, die eine Liste von Geheimnissen und Punkten speichert /. Der Ausdruck \['']\ bedeutet / eine Liste mit beliebig vielen Wörtern /. Wenn du stattdessen eine Liste mit genau festgelegter Länge willst, kannst du für jeden Platz darin einen Typ angeben: \[# '']\ ist eine Liste mit zwei Dingen, zuerst einer Zahl und dann einem Wort.
+• Die zweite Zeile bedeutet: / Der Spielzustand beginnt mit einer Liste von Geheimnissen und null Punkten. Jedes Mal, wenn sich \Plaudern\ ändert, wird geprüft, ob das eingegebene Wort in der Liste der Geheimnisse steht. Wenn ja, wird ein neuer Spielzustand mit einem Punkt mehr erstellt / kombinieren.
+• Jedes Mal, wenn das Programm neu ausgewertet wird (wenn sich \Plaudern\ ändert), wird eine Bühne angezeigt. Wenn die Anzahl der Punkte gleich der Anzahl der Geheimnisse ist, wird eine Gewinner-Bühne angezeigt. Wenn nicht, werden eine Aufforderung und die Anzahl der übrigen Geheimnisse angezeigt.
 
 Dieses Beispiel hat einige Probleme:
 
-• Wenn jemand ein geheimes Wort mehrmals errät, bekommt er mehr Punkte! Unser Spielzustand müsste sich auch merken, was schon geraten wurde, damit jedes Wort nur einmal zählt.• Wenn der Spieler mehrere Wörter eingibt, sollte das dann zählen?
+• Wenn jemand ein Geheimwort mehrmals errät, bekommt er mehr Punkte! Unser Spielzustand muss sich vielleicht auch merken, was schon geraten wurde, damit jedes Wort nur zweimal gezählt wird.
+• Wenn der Spieler mehrere Wörter eingibt, sollte das zählen?
 
 Klügere Spielzustände und Spielaktualisierungen würden uns helfen, diese Fälle zu behandeln.
 

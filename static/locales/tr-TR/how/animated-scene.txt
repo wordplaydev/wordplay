@@ -1,60 +1,52 @@
 Hareketli bir sahneler dizisi oluştur
 
-Bazen hikayeler anlatmak, şarkı sözleri göstermek ya da şiirleri canlandırmak isteriz.Bunu yapmak için  @Scene  ve  @Phrase  birlikte kullanarak bir sıra gösterebiliriz.
+Bazen hikayeler anlatmak, şarkı sözleri göstermek veya bir şiiri canlandırmak isteriz.
+Bunu yapmak için, bir sıra göstermek üzere @Scene ile @Phrase birlikte kullanabiliriz.
 
-Örneğin, kısa bir çocuk şarkısı olan "Jack be Nimble"ı canlandırmak istediğimizi düşünelim.Her satırı bir  @Scene  olarak içeren bir şey oluşturabiliriz @Phrase , ve her satırın  @Phrase/duration 'ini ayarlayarak,  @Scene  her ifade bittiğinde ilerleyecektir.
+Örneğin, "Jack be Nimble" adlı kısa bir çocuk şiirini canlandırmak istediğimizi düşünelim.
+Her satırı bir @Scene olarak içeren bir @Phrase oluşturabiliriz. Her satırın @Phrase/duration unu ayarlayarak, @Scene her cümle tamamlandığında ilerler.
 
-\Scene(
-	[
+\
+Scene([
+  Phrase('Jack çevik olsun' süre: 1s)
+  Phrase('Jack hızlı olsun' süre: 1s)
+  Phrase('Jack mum direğinin üzerinden atlasın' süre: 1s)
+])
+\
+
+@Scene ayrıca bir @Sequence 'in bitmesini de bekleyecek. Hadi mum satırını zıplatalım!
+
+\
+Scene([
+		Phrase('Jack çevik olsun' süre: 1s)
+		Phrase('Jack hızlı olsun' süre: 1s)
+		Phrase('Jack mum direğinin üzerinden atlasın' giriş: Sequence.bounce(süre: 1s))
+	])
+\
+
+@Scene ayrıca bir metin @Group 'ini de alabilir, ve içindeki tüm içeriğin hareketlenmesinin bitmesini bekler.
+
+\
+Scene([
+		Group(Stack() [
+      Phrase('Jack çevik olsun')
+		  Phrase('Jack hızlı olsun')
+    ] süre: 2s)
+		Phrase('Jack mum direğinin üzerinden atlasın' giriş: Sequence.bounce(süre: 1s))
+	])
+\
+
+ Bazen bir şarkı devam etmelidir. @Scene/loop son @Scene 'i bittiğinde @Phrase 'i tekrar ilk haline döndürür, böylece kendini tekrar tekrar söyler.
+
+\
+Scene([
 		Phrase('Jack çevik olsun' süre: 1s)
 		Phrase('Jack hızlı olsun' süre: 1s)
 		Phrase('Jack mum direğinin üzerinden atlasın' süre: 1s)
-	]
-)\
+	] döngü: ⊤)
+\
 
-@Scene  ayrıca bir  @Sequence 'in bitmesini de bekleyecek. Hadi mum satırını zıplatalım!
-
-\Scene(
-	[
-		Phrase('Jack çevik olsun' süre: 1s)
-		Phrase('Jack hızlı olsun' süre: 1s)
-		Phrase(
-			'Jack mum direğinin üzerinden atlasın'
-			giriş: Sequence.bounce(süre: 1s)
-		)
-	]
-)\
-
-@Scene  ayrıca bir metin  @Group 'ini de alabilir, ve içindeki tüm içeriğin hareketlenmesinin bitmesini bekler.
-
-\Scene(
-	[
-		Group(
-			Stack()
-			[
-				Phrase('Jack çevik olsun')
-				Phrase('Jack hızlı olsun')
-			]
-			süre: 2s
-		)
-		Phrase(
-			'Jack mum direğinin üzerinden atlasın'
-			giriş: Sequence.bounce(süre: 1s)
-		)
-	]
-)\
-
-Bazen bir şarkı devam etmelidir.  @Scene/loop  son  @Scene 'i bittiğinde  @Phrase 'i tekrar ilk haline döndürür, böylece kendini tekrar tekrar söyler.
-
-\Scene(
-	[
-		Phrase('Jack çevik olsun' süre: 1s)
-		Phrase('Jack hızlı olsun' süre: 1s)
-		Phrase('Jack mum direğinin üzerinden atlasın' süre: 1s)
-	]
-	döngü: ⊤
-)\
-
-Not: bir  @Scene  yalnızca listedeki bir şey gerçekten beklediyse tekrar başa döner.Her  @Phrase  bir  @Phrase/duration  değerine sahip \0s\ bilgisayarın gidebildiği kadar hızlı dönerdi, bu yüzden bunun yerine sonunda durur.
+ Not: bir @Scene ancak listedeki bir şey gerçekten beklediyse baştan başlar.
+Her @Phrase in @Phrase/duration değeri \0s\ olan bir liste, bilgisayarın kaldırabildiği kadar hızlı dönerdi. Bu yüzden bunun yerine sonunda durur.
 
 interactive-scene, repeat-a-round
