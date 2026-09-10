@@ -4537,23 +4537,79 @@
         },
         "Scene": {
             "doc": [
-                "$~Nó hiển thị một @List gồm @Phrase hoặc @Group từng cái một, dừng lại ở cái cuối cùng.",
+                "$~Nó hiển thị một @List gồm @Phrase, @Group hoặc @Shape từng cái một, dừng lại ở cái cuối cùng.",
                 "/Boop boop boop/",
-                "Để điều khiển thời gian, bạn có thể đặt @Phrase.duration trên mỗi đầu ra, và nó sẽ hiển thị cái đó trong khoảng thời gian đó trước khi chuyển sang cái tiếp theo, và dùng bất kỳ chuyển cảnh @Phrase.entering hoặc @Phrase.exiting nào mà bạn đã đặt. Nếu bạn đặt chúng thành một @Sequence, nó sẽ dùng thời lượng của sequence đó.",
-                "Tất cả những điều đó cho phép bạn làm những thứ như @Scene nhỏ này, hiển thị ba cụm từ này theo trình tự:",
-                "\\🎬([\n\t\tCụmtừ('Xin chào' khoảngthờigian: 1s)\n\t\tCụmtừ('Bạn khỏe không?' khoảngthờigian: 2s xoay: 5° vào: 🤪(xoay: 0°))\n\t\tCụmtừ('Mình khỏe')\n\t])\\",
-                "Thấy đầu ra đầu tiên được hiển thị trong một giây, rồi cái tiếp theo trong hai giây, nhưng có chuyển động xoay năm độ, rồi nó hiển thị cái cuối cùng chứ?",
-                "Bạn có thể tạo ra những trình tự đầu ra và chuyển động rất công phu với @Scene, và thậm chí làm cho các phần của chúng động hoặc tương tác, như với bất kỳ @Phrase hoặc @Group nào khác.",
-                "Nếu bạn có đầu ra động được lồng vào nhau (một @Group có @Phrase động bên trong), @Scene sẽ chờ cho tất cả nội dung động trong @Group hoàn thành.",
-                "À, và một bí mật nhỏ cuối cùng! Bạn thậm chí có thể đặt @Boolean vào danh sách, và nếu chúng là \\⊥\\, @Scene sẽ tạm dừng và chờ cho nó trở thành đúng.",
-                "Ví dụ, nếu bạn muốn tạo một trình tự @Phrase và chỉ tiến tới khi @Button thay đổi, bạn có thể làm thế này:",
-                "\\nhấp: ∆ 🖱()\n🎬([\n\t\tCụmtừ('Xin chào')\n\t\tnhấp\n\t\tCụmtừ('Bạn khỏe không?' khoảngthờigian: 0.25s xoay: 5° vào: 🤪(xoay: 0°))\n\t\tnhấp\n\t\tCụmtừ('Mình khỏe')\n\t])\\",
-                "Thấy nó tạm dừng sau mỗi @Phrase, và chờ @Button thay đổi trước khi tiến tới chứ?"
+                "Để điều khiển thời gian, bạn có thể đặt @Phrase.duration trên mỗi đầu ra, và nó sẽ hiển thị đầu ra đó trong khoảng thời gian ấy trước khi chuyển sang cái tiếp theo, dùng bất kỳ hiệu ứng chuyển cảnh @Phrase.entering hoặc @Phrase.exiting nào bạn đã đặt. Nếu bạn đặt chúng thành một @Sequence, nó sẽ dùng thời lượng của cái đó.",
+                "Tất cả những điều đó cho phép bạn làm những thứ như @Scene nhỏ này, hiển thị ba cụm từ theo thứ tự:",
+                "\\Bốicảnh(\n\t[\n\t\tCụmtừ('Xin chào' khoảngthờigian: 1s)\n\t\tCụmtừ(\n\t\t\t'Bạn khỏe không?'\n\t\t\tkhoảngthờigian: 2s\n\t\t\txoay: 5°\n\t\t\tvào: Tưthế(xoay: 0°)\n\t\t)\n\t\tCụmtừ('Tôi khỏe')\n\t]\n)\\",
+                "Bạn có thấy đầu ra đầu tiên hiện ra trong một giây, rồi cái tiếp theo trong hai giây, nhưng lại có hiệu ứng xoay năm độ, và sau đó nó hiện cái cuối cùng không?",
+                "Bạn có thể tạo ra những chuỗi đầu ra và hoạt ảnh rất công phu với @Scene, và thậm chí làm cho một phần trong đó trở nên năng động hoặc tương tác, giống như với bất kỳ @Phrase hay @Group nào khác.",
+                "Nếu bạn có một đầu ra hoạt ảnh được lồng bên trong (một @Group có @Phrase hoạt ảnh bên trong), @Scene sẽ đợi tất cả nội dung hoạt ảnh trong @Group hoàn tất.",
+                "À, và còn một bí mật nhỏ cuối cùng nữa! Bạn thậm chí có thể đặt @Boolean vào trong danh sách, và nếu chúng là \\⊥\\, @Scene sẽ tạm dừng và chờ cho đến khi nó trở thành đúng.",
+                "Ví dụ, nếu bạn muốn tạo một chuỗi @Phrase và chỉ tiến tới khi @Button thay đổi, bạn có thể làm như sau:",
+                "\\nhấpChuột: ∆ Cáinút()\nBốicảnh(\n\t[\n\t\tCụmtừ('Xin chào')\n\t\tnhấpChuột\n\t\tCụmtừ(\n\t\t\t'Bạn khỏe không?'\n\t\t\tkhoảngthờigian: 0.25s\n\t\t\txoay: 5°\n\t\t\tvào: Tưthế(xoay: 0°)\n\t\t)\n\t\tnhấpChuột\n\t\tCụmtừ('Tôi khỏe')\n\t]\n)\\",
+                "Bạn có thấy nó tạm dừng sau mỗi @Phrase, và chờ @Button thay đổi trước khi tiến tới không?",
+                "Mặc định thì tôi dừng ở đầu ra cuối cùng của mình. Cho tôi @Scene/loop và tôi sẽ quay lại đầu ra đầu tiên, đó là điều mà một trò chơi hỏi thêm câu hỏi sau mỗi vòng muốn có.",
+                "Tôi kiểm tra @Scene/loop mỗi khi chương trình của bạn thay đổi, vì vậy một vòng lặp có thể kết thúc cũng như bắt đầu. Ở đây tôi cứ hỏi mãi cho đến khi họ trả lời đúng, rồi mới dừng lại:",
+                "\\đoán: Tròchuyện()\nđúng2: đoán = 'cat'\nBốicảnh(\n\t[\n\t\tCụmtừ('Đoán con vật!' khoảngthờigian: 2s)\n\t\t∆ đoán\n\t\tCụmtừ(\n\t\t\tđúng2 ? 'Đúng rồi!' 'Sai rồi!'\n\t\t\tkhoảngthờigian: 2s\n\t\t)\n\t]\n\tvòngLặp: ~đúng2\n)\\",
+                "@Scene/replay khiến tôi bắt đầu lại từ đầu, @Scene/pause giữ tôi ở nguyên chỗ tôi đang ở, và @Scene/go gửi tôi thẳng đến một trong các đầu ra của tôi. Đặt @Scene/pause thành \\⊤\\ và tôi sẽ không bao giờ tự di chuyển, vì vậy @Scene/go trở thành thứ duy nhất khiến tôi tiến tới — đó là cách bạn tạo một buổi trình chiếu vừa đi tới /vừa/ đi lui.",
+                "Và nếu bạn muốn biết tôi đang ở đâu, để hiển thị /3 trên 10/ hoặc phát nhạc khác nhau ở các phần khác nhau của một câu chuyện, đó chính là mục đích của @Spotlight."
             ],
             "names": ["$~Bốicảnh"],
             "outputs": {
                 "names": "$~đầura",
                 "doc": "$~Danh sách các kết quả cần hiển thị theo trình tự."
+            },
+            "loop": {
+                "names": "$~vòngLặp",
+                "doc": "$~Liệu tôi có quay lại đầu ra đầu tiên của mình sau khi đầu ra cuối cùng kết thúc hay không. Tôi dừng ở cái cuối cùng trừ khi đây là \\⊤\\. Tôi kiểm tra điều này ở mỗi lần đánh giá, vì vậy bạn có thể kết thúc một vòng lặp cũng như bắt đầu nó."
+            },
+            "replay": {
+                "names": "$~phátLại",
+                "doc": [
+                    "$~Khi điều này là \\⊤\\ trong một lần đánh giá, tôi bắt đầu lại từ đầu ra đầu tiên của mình, dù trước đó tôi đã đi đến đâu, và @Slate/lap của tôi quay về 0.",
+                    "Hãy đưa cho tôi một @condition /tức thời/, chỉ đúng vào lần đánh giá do sự kiện đó gây ra, chẳng hạn như \\∆ Cáinút()\\. Một điều kiện kéo dài như \\score > 10\\🪲 vẫn duy trì đúng khi đã trở thành đúng, vậy nên nó sẽ khiến tôi khởi động lại ở mọi lần đánh giá kể từ đó."
+                ]
+            },
+            "pause": {
+                "names": "$~tạmDừng",
+                "doc": [
+                    "$~Trong khi điều này là \\⊤\\ tôi giữ nguyên, và khi nó quay lại thành \\⊥\\ tôi tiếp tục. Một đầu ra mà tôi đang đếm ngược giữ nguyên thời gian còn lại của nó, vì vậy tạm dừng giữa chừng một @Phrase dài không khiến nó bắt đầu lại từ đầu.",
+                    "Không giống @Scene/replay, tôi muốn một @condition /kéo dài/, một điều kiện vẫn đúng miễn là bạn muốn tôi chờ. Cứ để tôi tạm dừng mãi mãi và tôi sẽ không bao giờ tự di chuyển, đó chính xác là điều một buổi trình chiếu muốn: khi đó @Scene/go là thứ duy nhất khiến tôi tiến tới."
+                ]
+            },
+            "go": {
+                "names": "$~đi",
+                "doc": [
+                    "$~Đi đến đâu tiếp theo. Cho tôi một số và tôi sẽ hiển thị đầu ra đó, đếm từ 1; cho tôi một tên và tôi sẽ hiển thị bất kỳ đầu ra nào bạn đã đặt @Phrase/name đó cho.",
+                    "Tôi chỉ đếm các đầu ra, không bao giờ đếm @Boolean ở giữa, vậy nên gửi tôi đến số 2 nghĩa là @Phrase thứ hai của tôi, dù có bao nhiêu điều kiện cản đường đi nữa.",
+                    "Giống như @Scene/replay, điều này cần một @condition /tức thời/ — một thứ chỉ là \\ø\\ ngoại trừ ở lần đánh giá mà bạn muốn tôi di chuyển. Một con số giữ nguyên mãi sẽ ghim tôi lại đó vĩnh viễn.",
+                    "Gửi tôi qua khỏi một trong hai đầu và tôi dừng lại ở đó, trừ khi @Scene/loop là \\⊤\\, trong trường hợp đó tôi sẽ quay vòng lại. Điều đó có nghĩa là bạn không bao giờ phải kiểm tra. Ở đây các phím mũi tên cho phép đi cả hai chiều trong một buổi trình chiếu:",
+                    "Nếu bạn muốn nói /tiến một bước/ thay vì /số ba/, đó chính là @Scene/step.",
+                    "\\trangChiếu: [Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\nchìaKhóa2: Chìakhóa()\ntại: Spotlight()\nBốicảnh(\n\ttrangChiếu\n\ttạmDừng: ⊤\n\tđi: ∆ chìaKhóa2 ? ((chìaKhóa2 = 'Mũi tên trái') ? tại.index - 1 (chìaKhóa2 = 'Mũi tên phải') ? tại.index + 1 ø) ø\n)\\"
+                ]
+            },
+            "name": {
+                "names": "$~tên",
+                "doc": "$~Tên của tôi. @Spotlight dùng nó để phân biệt tôi với bất kỳ @Scene nào khác đang chạy cùng lúc; nếu chỉ có một cảnh, bạn có thể để nguyên không cần đặt."
+            },
+            "until": {
+                "names": "$~choĐếnKhi",
+                "doc": [
+                    "$~Một @condition để chờ sau mỗi đầu ra của tôi, một khi nó đã có đủ @Phrase/duration hoặc đã hoạt ảnh xong.",
+                    "Điều này cũng giống như viết @Boolean đó giữa mỗi đầu ra trong danh sách của tôi, đây là cách bạn làm để khiến một trong các đầu ra của tôi chờ đợi. Cách này nói điều đó một lần thay vì lặp lại:",
+                    "\\Bốicảnh(\n\t[Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\n\tchoĐếnKhi: ∆ Cáinút()\n)\\",
+                    "Một @Boolean được viết trong danh sách vẫn hoạt động, và hai lần chờ này tách biệt nhau, nên em có thể giữ lâu hơn ở một chỗ nào đó."
+                ]
+            },
+            "step": {
+                "names": "$~bước",
+                "doc": [
+                    "$~Số lượng đầu ra cần di chuyển, tính từ vị trí hiện tại của tôi: \\1\\ là tiến một bước và \\-1\\ là lùi một bước. Đây là @Scene/go được nói dưới dạng khoảng cách thay vì vị trí.",
+                    "Giống như @Scene/go, tôi dừng lại ở hai đầu của mình trừ khi @Scene/loop là \\⊤\\, để em không bao giờ phải kiểm tra, và tôi muốn một @condition /tạm thời/ — thứ gì đó vẫn là \\ø\\ ngoại trừ ở lần đánh giá mà em muốn tôi di chuyển.",
+                    "\\trangChiếu: [Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\nchìaKhóa2: Chìakhóa()\nBốicảnh(\n\ttrangChiếu\n\ttạmDừng: ⊤\n\tbước: ∆ chìaKhóa2 ? ((chìaKhóa2 = 'Mũi tên trái') ? -1 (chìaKhóa2 = 'Mũi tên phải') ? 1 ø) ø\n)\\",
+                    "Không có gì ở đây cần biết @Phrase nào đang hiển thị, đó là điểm khác biệt so với @Scene/go. Hãy hỏi @Spotlight nếu em muốn nói điều đó trên sân khấu."
+                ]
             }
         },
         "Motion": {
@@ -5162,6 +5218,43 @@
                 "doc": "$~Âm tiết mà phần này đang hát ở nhịp này, hoặc \\ø\\ khi nó không hát gì cả — một quãng nghỉ, hoặc một bản nhạc không có @Track/words.",
                 "names": "$~từNgữ"
             }
+        },
+        "Spotlight": {
+            "doc": [
+                "$~Tôi cho biết một @Scene đang ở đâu ngay lúc này: nó đang hiển thị đầu ra nào, nó có bao nhiêu đầu ra, và nó có đang chờ ai đó hay không.",
+                "Một @Scene hiển thị các thứ; tôi là cách phần còn lại của một chương trình biết được nó đang hiển thị gì. Đó là điều cho phép em đặt một bộ đếm bên dưới một buổi trình chiếu ảnh, phát nhạc khác nhau ở các phần khác nhau của một câu chuyện, hoặc chỉ hiển thị gợi ý /nhấn phím bất kỳ/ trong khi cảnh thực sự đang chờ.",
+                "\\trangChiếu: [Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\ntại: Spotlight()\nSânkhấu(\n\t[\n\t\tBốicảnh(trangChiếu vòngLặp: ⊤)\n\t\tCụmtừ(\n\t\t\t`\\tại.index\\ của \\tại.total\\`\n\t\t\tkíchcỡ: 0.3m\n\t\t\tvịTrí: VịTrí(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Tôi luôn có một @Slate, ngay cả trước khi có bất cứ điều gì xảy ra, nên em không bao giờ phải kiểm tra tôi để tìm \\ø\\."
+            ],
+            "names": "$~ĐènSânKhấu",
+            "name": {
+                "names": "$~tên",
+                "doc": "$~@Scene/name của cảnh cần theo sau. Để nó là \\ø\\ và tôi sẽ theo mọi cảnh."
+            }
+        },
+        "Slate": {
+            "doc": "$~Một @Scene đang ở đâu: nó đang hiển thị gì, nó đã đi được bao xa, và nó có đang chờ hay không.",
+            "names": "$~BảngĐen",
+            "scene": {
+                "names": "$~cảnh",
+                "doc": "$~@Scene/name của cảnh mà tôi đến từ đó, hoặc \\''\\ nếu nó không có cảnh nào."
+            },
+            "index": {
+                "names": "$~chỉMục",
+                "doc": "$~@Scene đang hiển thị đầu ra nào, đếm từ 1. Tôi chỉ đếm các đầu ra, không bao giờ đếm @Boolean ở giữa."
+            },
+            "total": {
+                "names": "$~tổng",
+                "doc": "$~@Scene có bao nhiêu đầu ra, không tính @Boolean ở giữa."
+            },
+            "lap": {
+                "names": "$~vòng",
+                "doc": "$~@Scene đã quay trở lại đầu ra đầu tiên của nó bao nhiêu lần. Nó là 0 vào lần đi qua đầu tiên."
+            },
+            "waiting": {
+                "names": "$~đangChờ",
+                "doc": "$~@Scene có đang dừng hay không: đang chờ @Boolean trở thành đúng, hoặc bị @Scene/pause giữ lại. Đây là điều mà một gợi ý /nhấn phím bất kỳ/ nên theo dõi."
+            }
         }
     },
     "output": {
@@ -5174,11 +5267,11 @@
         },
         "Group": {
             "doc": [
-                "$~Tôi sắp xếp @Phrase và @Group cùng nhau trên @Stage bằng một @Arrangement . Ồ xin chào, bạn khỏe không? Tôi luôn ổn khi có người khác ở bên cạnh, vì vậy thật tuyệt khi được ở cùng bạn!",
-                "Để thực hiện, tôi cần bạn cung cấp cho tôi một @Arrangement và sau đó là một @List gồm @Output cần sắp xếp.",
-                "Ví dụ, ở đây tôi có một bố cục @Stack và một vài @Phrase để xếp chồng theo chiều dọc:",
-                "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
-                "Cách tôi sắp xếp mọi thứ cụ thể phụ thuộc vào @Arrangement mà bạn cung cấp cho tôi."
+                "$~Tôi sắp xếp @Phrase, @Shape và @Group cùng nhau trên @Stage với một @Arrangement. Ồ xin chào, bạn khỏe không? Tôi luôn ổn khi có người khác ở bên, nên thật tuyệt khi được ở cùng bạn!",
+                "Để hoạt động, tôi cần bạn cho tôi một @Arrangement, và sau đó một @List gồm @Output để sắp xếp.",
+                "Ví dụ, đây là tôi với một cách sắp xếp @Stack và vài @Phrase để xếp chồng theo chiều dọc:",
+                "\\Nhóm(Ngănxếp() [Cụmtừ('thứ nhất') Cụmtừ('thứ hai')])\\",
+                "Cách tôi sắp xếp mọi thứ chính xác như thế nào phụ thuộc vào @Arrangement mà bạn đưa cho tôi."
             ],
             "names": ["$~Nhóm"],
             "layout": {
@@ -5418,11 +5511,11 @@
             }
         },
         "Arrangement": {
-            "doc": "$~Tôi là nguồn cảm hứng cho nhiều kiểu sắp xếp khác trong Verse, bao gồm @Row, @Stack, @Grid, và @Free. Tôi làm việc chặt chẽ với @Group để",
+            "doc": "$~Tôi là nguồn cảm hứng cho nhiều loại cách sắp xếp khác trong Verse, bao gồm @Row, @Stack, @Grid, và @Free. Tôi làm việc chặt chẽ với @Group để quyết định mỗi @Output đi đâu: tôi di chuyển từng cái đến nơi tôi nói, giữ nguyên kích thước và hình dạng của nó. @Free là người trong chúng tôi không quyết định gì cả, nên ở đó mỗi @Output ngồi ở @Place riêng của nó. Nếu bạn muốn đẩy nhẹ một thứ gì đó khỏi nơi tôi đặt nó, hãy cho nó một @Phrase/offset thay vì một @Place.",
             "names": ["$~Sắpxếp"]
         },
         "Row": {
-            "doc": "$~Tôi là @Row, một @Arrangement nằm ngang gồm các @Output, với khoảng đệm tùy chọn ở giữa. Bạn đã gặp người anh em song sinh của tôi, @Stack chưa?",
+            "doc": "$~Tôi là @Row, một @Arrangement theo chiều ngang của @Output, có đệm tùy chọn ở giữa. Bạn đã gặp anh em sinh đôi của tôi, @Stack chưa? Tôi quyết định mỗi cái đi xa bao nhiêu, và đầu vào đầu tiên của tôi cho biết cách xếp hàng chúng theo chiều dọc xuyên qua tôi. Cho một trong chúng một @Place và nó sẽ ngồi ở vị trí y đó thay vào đó — nhưng một @Shape không có @Place riêng của nó, nên tôi xếp nó thẳng hàng với mọi thứ khác.",
             "names": ["$~Hàngngang"],
             "description": "$~hàng gồm $#count[$count cụm từ hoặc nhóm]",
             "alignment": {
@@ -5435,7 +5528,7 @@
             }
         },
         "Stack": {
-            "doc": "$~Tôi là @Stack, một @Arrangement thẳng đứng của @Output, với khoảng đệm tùy chọn ở giữa. Bạn đã gặp người anh em song sinh của tôi, @Row chưa?",
+            "doc": "$~Tôi là @Stack, một @Arrangement theo chiều dọc của @Output, có đệm tùy chọn ở giữa. Bạn đã gặp anh em sinh đôi của tôi, @Row chưa? Tôi quyết định mỗi cái đi xuống bao xa, và đầu vào đầu tiên của tôi cho biết cách xếp hàng chúng theo chiều ngang qua tôi. Cho một trong chúng một @Place và nó sẽ ngồi ở vị trí x đó thay vào đó — nhưng một @Shape không có @Place riêng của nó, nên tôi xếp nó thẳng hàng với mọi thứ khác.",
             "names": ["$~Ngănxếp"],
             "description": "$~chồng gồm $#count[$count cụm từ hoặc nhóm]",
             "alignment": {
@@ -5448,7 +5541,7 @@
             }
         },
         "Grid": {
-            "doc": "$~Tôi là lưới của @Output. Hãy cho tôi số hàng và số @column và tôi sẽ tạo một cách sắp xếp gọn gàng với khoảng đệm và kích thước @cell tùy chọn.",
+            "doc": "$~Tôi là lưới của @Output. Hãy cho tôi số hàng và số @column, tôi sẽ tạo một cách sắp xếp gọn gàng với đệm tùy chọn và kích thước @cell. Tôi quyết định cả hai hướng, nên một @Place sẽ không di chuyển bất cứ thứ gì sang ngang hoặc lên xuống — dù @value z của nó vẫn cho biết nó gần đến mức nào.",
             "names": ["$~Lưới"],
             "description": "$~$rows hàng $columns cột lưới",
             "rows": {

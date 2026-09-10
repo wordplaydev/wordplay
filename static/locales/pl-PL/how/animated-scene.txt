@@ -1,31 +1,63 @@
-Utwórz animowaną serię scen
+Stwórz animowaną serię scen
 
-Czasami chcemy opowiedzieć historie, pokazać teksty piosenek lub ożywić poezję.Aby to zrobić, możemy użyć @Scene  I  @Phrase razem, aby pokazać sekwencję.
+Czasem chcemy opowiadać historie, pokazywać teksty piosenek albo animować wiersze.Możemy do tego użyć  @Scene  i  @Phrase  razem, żeby pokazać kolejność.
 
-Na przykład wyobraźmy sobie, że chcielibyśmy stworzyć animację krótkiej rymowanki dla dzieci „Jack be Nimble”.Moglibyśmy zrobić @Scene w którym każda linia jest @Phrase i ustawiając @Phrase/duration każdej linii, @Scene będzie się przesuwać, gdy każda fraza zostanie ukończona.
+Wyobraźmy sobie na przykład, że chcemy animować krótką rymowankę dla dzieci, „Jack be Nimble”.Możemy stworzyć  @Scene , w której każda linijka to  @Phrase , a ustawiając  @Phrase/duration  każdej linijki,  @Scene  przechodziłby dalej, gdy każda fraza się skończy.
 
-\Scene([
-		Phrase('Jack, bądź zwinny' czastrwania: 1s)
-		Phrase('Jack, bądź szybki' czastrwania: 1s)
-		Phrase('Jack przeskakuje świeczkę' czastrwania: 1s)
-	])\
+\Scene(
+	[
+		Phrase('Jack be nimble' czastrwania: 1s)
+		Phrase('Jack be quick' czastrwania: 1s)
+		Phrase(
+			'Jack jump over the candle stick'
+			czastrwania: 1s
+		)
+	]
+)\
 
-@Scene będzie czekać na @Sequence też do zrobienia. Zróbmy skok linii świec!
+@Scene  poczeka też na  @Sequence , aż się skończy. Sprawmy, żeby linijka o świecy podskoczyła!
 
-\Scene([
-		Phrase('Jack, bądź zwinny' czastrwania: 1s)
-		Phrase('Jack, bądź szybki' czastrwania: 1s)
-		Phrase('Jack przeskakuje świeczkę' wstępowanie: Sequence.bounce(czastrwania: 1s))
-	])\
+\Scene(
+	[
+		Phrase('Jack be nimble' czastrwania: 1s)
+		Phrase('Jack be quick' czastrwania: 1s)
+		Phrase(
+			'Jack jump over the candle stick'
+			wstępowanie: Sequence.bounce(czastrwania: 1s)
+		)
+	]
+)\
 
-@Scene może również wziąć @Group również tekstu i będzie czekać, aż cała jego zawartość zakończy animację.
+@Scene  może też przyjąć  @Group  tekstu i poczeka, aż cała jego zawartość skończy animację.
 
-\Scene([
-		Group(Stack() [
-				Phrase('Jack, bądź zwinny')
-				Phrase('Jack, bądź szybki')
-			] czastrwania: 2s)
-		Phrase('Jack przeskakuje świeczkę' wstępowanie: Sequence.bounce(czastrwania: 1s))
-	])\
+\Scene(
+	[
+		Group(
+			Stack()
+			[Phrase('Jack be nimble') Phrase('Jack be quick')]
+			czastrwania: 2s
+		)
+		Phrase(
+			'Jack jump over the candle stick'
+			wstępowanie: Sequence.bounce(czastrwania: 1s)
+		)
+	]
+)\
 
-interactive-scene
+Czasem rymowanka powinna trwać dalej.  @Scene/loop  sprawia, że  @Scene  wraca do swojego pierwszego  @Phrase , gdy skończy się ostatni, więc mówi samą siebie w kółko.
+
+\Scene(
+	[
+		Phrase('Jack be nimble' czastrwania: 1s)
+		Phrase('Jack be quick' czastrwania: 1s)
+		Phrase(
+			'Jack jump over the candle stick'
+			czastrwania: 1s
+		)
+	]
+	pętla: ⊤
+)\
+
+Uwaga:  @Scene  wraca tylko wtedy, gdy coś na liście naprawdę czekało.Lista, w której każda  @Phrase  miał(a)  @Phrase/duration  o wartości \0s\ kręciłoby się tak szybko, jak tylko komputer by potrafił, więc zamiast tego zatrzymuje się na końcu.
+
+interactive-scene, repeat-a-round

@@ -949,6 +949,12 @@
         "e62959bf8e73e": "$~Tu peux maintenant écrire une adresse courriel dans une documentation ou un comment faire, et elle devient un lien qui ouvre un message.",
         "e730993ac0281": "$~Tu écris maintenant un caractère Unicode par son numéro comme \\@U/1F600\\, au lieu de l'ancienne forme sans le U.",
         "ec1e67db8a983": "$~Quand tu traduis, la langue que tu choisis sert seulement pour les textes que tu n'as pas marqués avec une langue, car tout ce que tu as déjà marqué dit déjà dans quelle langue c'est écrit. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
-        "e7600746959d1": "$~Traduire un projet traduit maintenant tout son contenu, y compris les noms et les textes marqués avec une autre langue, qui étaient avant ignorés sans le dire. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
+        "e7600746959d1": "$~Traduire un projet traduit maintenant tout son contenu, y compris les noms et les textes marqués avec une autre langue, qui étaient avant ignorés sans le dire. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e73aff6688055": "$~Un @Scene peut maintenant se répéter, recommencer, rester immobile, t'attendre après chaque partie, et avancer ou sauter vers n'importe quelle partie de lui-même. Tu peux ainsi créer un jeu qui recommence après chaque tour, ou un diaporama que tu fais avancer en cliquant. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e876dc2ed0b0f": "$~Un @Group peut maintenant contenir un @Shape, ce qui te permet d'empiler un cercle avec ton texte, ou de mettre un @Scene dans une mise en page. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e723fd65c8efc": "$~Un @Shape s'aligne maintenant avec le @Stack, le @Row ou le @Grid qui le contient, au lieu de rester où ses propres coins se trouvaient. De plus, tout ce qui est à l'intérieur d'un @Grid peut maintenant être plus proche ou plus éloigné. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e8ad9864d7217": "$~Nous avons ajouté un comment faire au <Guide@https://wordplay.dev/guide> pour répéter un tour de jeu. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e0bce9fefa9f6": "$~Nous avons ajouté @Spotlight, qui indique quelle partie d'un @Scene s'affiche, combien de parties il y a, combien de fois cela est revenu, et si quelqu'un attend. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e253c8e03b28e": "$~Les notes peuvent maintenant être des nombres intermédiaires : \\1.5\\ joue les deux notes de chaque côté, la plus proche plus fort. Réglez le @Track d'un \\mash\\ à \\⊥\\ pour entendre une seule note désaccordée à la place."
     }
 }

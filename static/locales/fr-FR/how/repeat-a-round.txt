@@ -1,0 +1,47 @@
+Répéter une manche d'un jeu
+
+Beaucoup de jeux répètent toujours les mêmes moments : dire quoi faire, attendre une réponse, montrer ce qui s'est passé, puis recommencer.Un  @Scene  peut être cette manche entière, et  @Scene/loop  est ce qui la ramène au début.
+
+Les moments sont les éléments de la liste, et un  @Boolean  entre eux est l'endroit où le  @Scene  attend le joueur.
+
+\guess: Chat()
+right: guess = 'chat'
+Scene(
+	[
+		Phrase(«Devine l'animal !» durée: 2s)
+		∆ guess
+		Phrase(right ? 'Oui !' 'Non !' durée: 2s)
+	]
+	boucle: ~right
+)\
+
+Le \∆ guess\ est l'attente : il est vrai seulement au moment où une nouvelle réponse arrive, donc le  @Scene  reste là jusqu'à ce que quelqu'un tape quelque chose.Et \boucle: ~right\ est la répétition : le  @Scene  continue de revenir jusqu'à ce que la bonne réponse arrive, puis s'arrête sur le dernier  @Phrase .
+
+Remarque :  @Scene/loop  est lu chaque fois que ton programme change, donc tu peux aussi bien terminer une boucle que la commencer, ce que \~right\ vient justement de faire.
+
+Pour savoir où en est la manche, demande  @Spotlight .Cela te dit quel  @Phrase  est affiché, combien il y en a, combien de fois le  @Scene  est revenu, et s'il attend quelqu'un en ce moment.
+
+\guess: Chat()
+at: Spotlight()
+Stage(
+	[
+		Scene(
+			[
+				Phrase(«Devine l'animal !» durée: 2s)
+				∆ guess
+				Phrase('Non !' durée: 2s)
+			]
+			boucle: ⊤
+		)
+		Phrase(
+			at.waiting ? 'taper une réponse' `manche \at.lap + 1\`
+			taille: 0.4m
+			lieu: Place(0m -2m)
+		)
+	]
+)\
+
+@Scene/replay  est un moyen de recommencer la manche quand tu veux, peu importe où elle en était.Donne-lui quelque chose qui n'est vrai que pour un instant, comme \∆ Bouton(
+)\.
+
+interactive-scene, animated-scene, track-game-state

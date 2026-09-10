@@ -1,0 +1,42 @@
+Repeat a round of a game
+
+Lots of games are the same few moments over and over: say what to do, wait for an answer, show how it went, then start again.
+A @Scene can be that whole round, and @Scene/loop is what brings it back to the beginning.
+
+The moments are the things in the list, and a @Boolean between them is where the @Scene waits for the player.
+
+\
+guess: Chat()
+right: guess = 'cat'
+Scene([
+	Phrase('Guess the animal!' duration: 2s)
+	∆ guess
+	Phrase(right ? 'Yes!' 'Nope!' duration: 2s)
+] loop: ~right)
+\
+
+The \∆ guess\ is the waiting: it is true only on the moment a new guess arrives, so the @Scene holds there until someone types something.
+And \loop: ~right\ is the repeating: the @Scene keeps coming back around until they get it right, and then stops on the last @Phrase.
+
+Note: @Scene/loop is read every time your program changes, so you can end a loop as well as start one, which is what \~right\ just did.
+
+To know where the round is, ask @Spotlight.
+It tells you which @Phrase is showing, how many there are, how many times the @Scene has come around, and whether it is waiting for someone right now.
+
+\
+guess: Chat()
+at: Spotlight()
+Stage([
+	Scene([
+		Phrase('Guess the animal!' duration: 2s)
+		∆ guess
+		Phrase('Nope!' duration: 2s)
+	] loop: ⊤)
+	Phrase(at.waiting ? 'type a guess' `round \at.lap + 1\` size: 0.4m place: Place(0m -2m))
+])
+\
+
+@Scene/replay is a way to start the round over whenever you like, wherever it had got to.
+Give it something that is true only for a moment, like \∆ Button()\.
+
+interactive-scene, animated-scene, track-game-state

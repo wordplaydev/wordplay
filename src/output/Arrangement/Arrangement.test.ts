@@ -11,6 +11,7 @@ import { toRow } from '@output/Arrangement/Row';
 import { toGrid } from '@output/Arrangement/Grid';
 import Shape, { toShape } from '@output/Output/Shape/Shape';
 import Music, { toMusic } from '@output/Music/Music';
+import Group from '@output/Output/Group';
 import { toStack } from '@output/Arrangement/Stack';
 import type Arrangement from '@output/Arrangement/Arrangement';
 import { NameGenerator, DefaultSize, toStage } from '@output/Output/Stage';
@@ -202,6 +203,70 @@ test('a Grid mirrors its columns under RTL', () => {
 });
 
 /**
+ * Who decides where a child sits.
+ *
+ * An arrangement places its children, translating each one's geometry to where
+ * it says. A place the creator *wrote* overrides that on the axis an
+ * arrangement merely aligns — a Stack's x, a Row's y — but a `Shape` has no
+ * `place` input at all, so the place it carries restates its form and is not a
+ * request. Before this, a shape's form coordinates silently beat the alignment
+ * the creator asked for, because a guard removed in Feb 2023 met a constructor
+ * added seven months later.
+ */
+
+test('a Stack centres a shape rather than reading its form as a position', () => {
+    const stack = arrangementFrom("Stack('|')", toStack);
+    // 2m wide against a 4m-wide sibling, and anchored at its own x = 1.
+    const { places } = stack.getLayout(
+        [rect('1m 1m 3m 0m'), rect('0m 1m 4m 0m')],
+        contextFor('ltr'),
+    );
+    // Centred in the 4m stack, not pinned to the form's left edge at 1m.
+    expect(places[0][1].x).toBeCloseTo(1, 5);
+    expect(places[1][1].x).toBeCloseTo(0, 5);
+});
+
+test('a Stack still yields the cross axis to a place the creator wrote', () => {
+    // A Group carries the place here because a Phrase cannot be laid out without
+    // a DOM and a Shape has no place to write; `heard()` gives it no footprint,
+    // so the stack is 0 wide and centring would put both children at x = 0.
+    const stage = stageFrom(`Stage([
+        Group(Stack('|') [
+            Group(Free() [${heard()}] place: Place(2m 0m))
+            Group(Free() [${heard()}])
+        ])
+    ])`);
+    const group = stage.content[0];
+    if (!(group instanceof Group)) throw new Error('expected a Group');
+    const { places } = group.layout.getLayout(group.content, contextFor('ltr'));
+    expect(places[0][1].x).toBe(2);
+    expect(places[1][1].x).toBe(0);
+});
+
+test('a Row aligns a shape rather than reading its form as a position', () => {
+    const row = arrangementFrom("Row('|')", toRow);
+    // A 1m-tall shape anchored at y = 2, beside a 3m-tall one.
+    const { places } = row.getLayout(
+        [rect('0m 3m 1m 2m'), rect('0m 3m 1m 0m')],
+        contextFor('ltr'),
+    );
+    // Centred down the 3m row, not left at the form's own y of 2.
+    expect(places[0][1].y).toBeCloseTo(1, 5);
+});
+
+test('a Free group places every kind where it says, not just a phrase', () => {
+    const stage = stageFrom(`Stage([
+        Group(Free() [
+            Group(Free() [${heard()}] place: Place(3m 4m))
+        ])
+    ])`);
+    const outer = stage.content[0];
+    if (!(outer instanceof Group)) throw new Error('expected a Group');
+    const { places } = outer.layout.getLayout(outer.content, contextFor('ltr'));
+    expect([places[0][1].x, places[0][1].y]).toEqual([3, 4]);
+});
+
+/**
  * The camera's zoom-in bound follows the nearest thing on stage, so every container reports
  * the nearest z beneath it. z is absolute rather than relative to a parent's place
  * (`Place.offset` deliberately leaves it alone), so this is a plain minimum with no
@@ -250,15 +315,19 @@ test('a stage reaches through an arrangement to a nested z', () => {
 });
 
 test('nearest reports the z an arrangement actually lays out at', () => {
-    // Free honours only a Phrase's place, and Grid hardcodes its cells to the stage plane,
-    // so a Group nested in either is *drawn* at z = 0 whatever place it was given. Reporting
-    // its authored z instead would bound the camera against a depth nothing occupies.
-    for (const arrangement of ['Free()', 'Grid(1 1)']) {
+    // No arrangement arranges depth, so every one of them lays a child out at
+    // the z it was given, and `nearest` bounds the camera against a depth
+    // something really occupies. Free used to honour only a Phrase's place and
+    // Grid used to hardcode its cells to the stage plane, so both drew a nested
+    // Group at 0 whatever place it had.
+    for (const arrangement of ['Free()', 'Grid(1 1)', 'Row()', 'Stack()']) {
         const stage = stageFrom(`Stage([
             Group(${arrangement} [
                 Group(${arrangement} [${heard()}] place: Place(z: -4m))
             ])
         ])`);
-        expect(stage.getLayout(contextFor('ltr')).nearest).toBe(0);
+        expect(stage.getLayout(contextFor('ltr')).nearest, arrangement).toBe(
+            -4,
+        );
     }
 });

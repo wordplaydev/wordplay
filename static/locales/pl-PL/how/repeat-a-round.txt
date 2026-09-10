@@ -1,0 +1,47 @@
+Powtórz rundę gry
+
+Wiele gier to te same kilka chwil powtarzane w kółko: powiedz, co zrobić, czekaj na odpowiedź, pokaż, jak poszło, a potem zacznij od nowa.@  @Scene  może być całą taką rundą, a  @Scene/loop  sprawia, że wracamy na początek.
+
+Chwile to elementy listy, a  @Boolean  między nimi to miejsce, w którym  @Scene  czeka na gracza.
+
+\guess: Chat()
+right: guess = 'kot'
+Scene(
+	[
+		Phrase('Zgadnij zwierzę!' czastrwania: 2s)
+		∆ guess
+		Phrase(right ? 'Tak!' 'Nie!' czastrwania: 2s)
+	]
+	pętla: ~right
+)\
+
+@ \∆ guess\ to właśnie czekanie: jest prawdziwe tylko w chwili, gdy pojawia się nowa odpowiedź, więc  @Scene  zatrzymuje się tam, aż ktoś coś wpisze.A \pętla2: ~right\ to powtarzanie:  @Scene  wraca do początku, aż ktoś odpowie dobrze, a potem zatrzymuje się na ostatnim  @Phrase .
+
+Uwaga:  @Scene/loop  jest sprawdzane każdy raz, gdy twój program się zmienia, więc możesz nim zarówno zakończyć pętlę, jak i zacząć nową — właśnie to zrobił \~right\.
+
+Aby dowiedzieć się, w którym miejscu jest runda, zapytaj  @Spotlight .To mówi ci, który  @Phrase  jest teraz pokazywany, ile ich jest, ile razy  @Scene  wrócił do początku i czy właśnie teraz czeka na kogoś.
+
+\guess: Chat()
+at: Spotlight()
+Stage(
+	[
+		Scene(
+			[
+				Phrase('Zgadnij zwierzę!' czastrwania: 2s)
+				∆ guess
+				Phrase('Nie!' czastrwania: 2s)
+			]
+			pętla: ⊤
+		)
+		Phrase(
+			at.waiting ? 'wpisz odpowiedź' `runda \at.lap + 1\`
+			rozmiar: 0.4m
+			miejsce: Place(0m -2m)
+		)
+	]
+)\
+
+@Scene/replay  to sposób, aby zacząć rundę od nowa, kiedy tylko chcesz, niezależnie od tego, do którego miejsca dotarła.Podaj coś, co jest prawdziwe tylko przez chwilę, na przykład \∆ Przycisk(
+)\.
+
+interactive-scene, animated-scene, track-game-state

@@ -187,6 +187,17 @@ export default abstract class Output extends Valued {
     }
 
     /**
+     * The place the creator asked for, if they asked for one.
+     *
+     * An arrangement places its children, so it yields only to a place that was
+     * written; `Free` and the `Stage`, which arrange nothing, honour any place.
+     * The two differ only for a `Shape`, whose place restates its form.
+     */
+    getAuthoredPlace(): Place | undefined {
+        return this.place;
+    }
+
+    /**
      * By default, a group's name for the purpose of animations is the ID of the node that created it.
      * */
     getName(): string {

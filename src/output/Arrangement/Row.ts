@@ -136,9 +136,11 @@ export class Row extends Arrangement {
                     this.value,
                     // Current x position
                     childX,
-                    // If a y is specified, use it.
-                    child.output.place && child.output.place.y !== undefined
-                        ? child.output.place.y
+                    // A row aligns its children down itself; a place the creator
+                    // wrote overrides that, but one derived from a shape's form
+                    // is not a request and doesn't.
+                    child.output.getAuthoredPlace() !== undefined
+                        ? (child.output.getAuthoredPlace()?.y ?? 0)
                         : // Lining up baselines: raise this child by however much
                           // shallower its baseline is than the row's deepest.
                           // Anything with no baseline — a shape, a group, a
@@ -154,7 +156,8 @@ export class Row extends Arrangement {
                               ? 0
                               : // If alignment is bottom
                                 height - child.height,
-                    // If the phrase a place, use it's z, otherwise default to the 0 plane.
+                    // Depth is never arranged, so any child's z stands, whether
+                    // it was written or comes from a shape's form.
                     child.output.place && child.output.place.z !== undefined
                         ? child.output.place.z
                         : 0,

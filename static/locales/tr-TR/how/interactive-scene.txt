@@ -1,31 +1,71 @@
-Etkileşimli bir sahne dizisi yaratın
+Etkileşimli bir sahne dizisi oluştur
 
-Bazen izleyicinin bir sonraki içeriğe geçmeden önce bir şeyler yapmasını bekleyen hikayeler anlatmak isteriz.
+Bazen, izleyicinin bir şey yapmasını bekleyip sonra sıradaki içeriğe geçen hikayeler anlatmak isteriz.
 
-Bunu yapmak için şunu kullanabiliriz: @Scene , ama koy @Boolean göstermek istediğimiz içerik arasındaki değerler. Örneğin, burada bir tıklama, bir sonraki içeriğe ilerlemenizi sağlar, bir @Button :
+Bunu yapmak için bir  @Scene  kullanabiliriz, ama  @Boolean  değerlerini göstermek istediğimiz içeriklerin arasına koyarız. Örneğin, her tıklamada sıradaki içeriğe geçilen bir örnek, bir  @Button  kullanılarak:
 
-\Scene([
+\Scene(
+	[
 		Phrase('bana tıkla')
 		Button()
-		Phrase('beni tekrar tıkla' süre: 1s)
+		Phrase('yine tıkla bana' süre: 1s)
 		Button()
-		Phrase('hayır gerçekten, bana olabildiğince sert tıkla!!' süre: 1s)
+		Phrase(
+			'hayır cidden, elinden geldiğince sert tıkla!!'
+			süre: 1s
+		)
 		Button()
-		Phrase('beni tıkladın mı?' süre: 1s)
-	])\
+		Phrase('beni tıkladın mı hâlâ?' süre: 1s)
+	]
+)\
 
-The @Scene ilkini gösterir @Phrase , sonra bekler @Button doğruysa ve doğruysa, bir sonraki aşamaya geçer @Phrase .
+Bu  @Scene  ilk  @Phrase  gösterir, sonra  @Button  doğru olmasını bekler, ve doğru olunca sıradaki  @Phrase  geçer.
 
-İlerlemek için istediğiniz her şeyi kullanabilirsiniz, yeter ki doğru ya da yanlış olsun.Mesela sesimizi kullanabiliriz!Yeterince yüksek sesle bağırırsak sahne ilerleyecek:
+İlerlemek için istediğin her şeyi kullanabilirsin, yeter ki doğru ya da yanlış olsun. Örneğin, sesimizi kullanabiliriz! Yeterince yüksek sesle bağırırsak, sahne ilerler:
 
-\Scene([
-		Phrase('orada kimse var mı?')
+\Scene(
+	[
+		Phrase('orada biri var mı?')
 		Volume() > .5
-		Phrase("Duyamadım, tekrar söyler misin?" süre: 1s)
+		Phrase(
+			"seni duyamıyorum, tekrar söyler misin?"
+			süre: 1s
+		)
 		Volume() > .7
 		Phrase('daha yüksek sesle lütfen...' süre: 1s)
 		Volume() > .9
-		Phrase('aa merhaba!' süre: 1s)
-	])\
+		Phrase('a, merhaba!' süre: 1s)
+	]
+)\
 
-animated-scene
+Her  @Phrase  aynı şeyi beklemesi gerektiğinde,  @Scene/until  bunu her birinin arasına yazmak yerine bir kere söyler. Bu, yukarıdaki ilk örnekle aynı şeyi yapar:
+
+\Scene(
+	[
+		Phrase('bana tıkla')
+		Phrase('yine tıkla bana' süre: 1s)
+		Phrase(
+			'hayır cidden, elinden geldiğince sert tıkla!!'
+			süre: 1s
+		)
+		Phrase('beni tıkladın mı hâlâ?' süre: 1s)
+	]
+	kadar: Button()
+)\
+
+Bekleme süreleri  @Boolean  listede bir tane yaz, bekleme süreleri /farklıysa/, bağırma örneğindeki gibi, ve hepsi aynıysa  @Scene/until  kullan.İkisini birden de kullanabilirsin: listedeki bir  @Boolean ,  @Scene/until  tarafından istenen beklemenin üzerine eklenen, kendi başına bir bekleme demektir.
+
+Not:  @Scene/until  her /sonra/  @Phrase  kendi  @Phrase/duration  tamamlandıktan 
+
+bekler, onun yerine değil. @Scene Eğer  @Scene/pause  hiç kendiliğinden hareket etmesin, yalnızca senin gönderdiğin yere gitsin istiyorsan,  @Scene/step  kullanılarak:
+
+\key: Key()
+Scene(
+	[Phrase(' ile ') Phrase('bir') Phrase('iki')]
+	duraklat: ⊤
+	adım: ∆ key ? ((key = 'üç') ? -1 (key = 'Sol Ok') ? 1 ø) ø
+)\
+
+@Scene/step Sağ Ok @Phrase  birkaç \1\ kadar hareket eder — \-1\ geri — ve uçlara geldiğinde senin için durur. @Scene/go  ile aynı fikirdir, ama uzaklık yerine bir yer olarak söylenir: istediğin  @Phrase 'ün sayısı, 1'den başlayarak sayılır, ya da verdiğin  @Phrase/name .
+
+animated-scene, repeat-a-round, move-between-content

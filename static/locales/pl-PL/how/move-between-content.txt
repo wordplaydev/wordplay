@@ -1,20 +1,54 @@
-Poruszaj się między treścią za pomocą strzałek
+Poruszaj się między treściami klawiszami strzałek
 
-Czasem chcesz, aby odbiorcy przechodzili przez treść po jednym kawałku, jak w pokazie slajdów, idąc do przodu /oraz/ wstecz za pomocą strzałek.
+Czasem chcesz, aby odbiorca przechodził przez treść po kolei, jak w pokazie slajdów, do przodu /i/ do tyłu za pomocą klawiszy strzałek.
 
-Każda wersja tego wzoru składa się z tych samych trzech części:
+Każda wersja tego wzorca składa się z tych samych trzech części:
 
-•  @List  treści, którą chcesz pokazać• Strumień  @Key , który zmienia się za każdym razem, gdy naciśniesz klawisz•  @Reaction , który pamięta, na którym kawałku treści teraz jesteś
+•  @List  treści, którą chcesz pokazać•  @Key  strumień, który zmienia się za każdym razem, gdy naciśnięty zostanie klawisz•  @Reaction  który pamięta, na której treści jesteś teraz
 
-Oto najmniejsza wersja tego. Najpierw kliknij scenę, aby nasłuchiwała, a potem naciśnij lewą i prawą strzałkę:
+Oto najmniejsza wersja tego wzorca. Kliknij najpierw scenę, aby zaczęła nasłuchiwać, a potem naciśnij lewy i prawy klawisz strzałki:
 
 \slides: ['pierwszy' 'drugi' 'trzeci']
 key: Key()
-index•#: 1 … ∆ key … (key = 'Strzałka w prawo') ? ((index < slides.length()) ? index + 1 index) (key = 'Strzałka w lewo') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'Strzałka w prawo') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'Strzałka w lewo') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
- @Reaction  to jego serce. Zaczyna się od \1\, a za każdym razem, gdy  @Key  się zmienia, decyduje, jaka powinna być nowa liczba.Jeśli naciśnięto prawą strzałkę, dodaje jeden; jeśli naciśnięto lewą strzałkę, odejmuje jeden; w przeciwnym razie zostaje taka sama.
+Ten  @Reaction  to serce tego wzorca. Zaczyna się od \1\, a za każdym razem, gdy  @Key  się zmienia, decyduje, jaka powinna być nowa liczba.Jeśli naciśnięto prawą strzałkę, dodaje jeden; jeśli naciśnięto lewą strzałkę, odejmuje jeden; w przeciwnym razie liczba pozostaje bez zmian.
 
-Dodatkowe sprawdzenia \?\ powstrzymują liczbę od wyjścia poza końce listy.Bez nich mógłbyś wyjść poza koniec i nie byłoby żadnego slajdu do pokazania.Jeśli wolisz, aby z ostatniego slajdu wracało z powrotem do pierwszego, możesz zrobić to zamiast tego.
+Dodatkowe sprawdzenia \?\ pilnują, aby liczba nie wyszła poza końce listy.Bez nich mógłbyś wyjść poza koniec listy i nie byłoby żadnego slajdu do pokazania.Jeśli wolisz, aby po ostatnim slajdzie wracać do pierwszego, możesz to zrobić zamiast tego.
 
-interactive-scene, choose-adventure, offer-choices
+Uwaga: klawisze strzałek nazywają się \'ArrowLeft'\ oraz \'ArrowRight'\ oraz \'ArrowUp'\ i \'ArrowDown'\.Możesz też po prostu napisać \'Left'\ i \'Right'\, a nazwy klawiszy działają też w twoim własnym języku.
+
+Zauważ, że \index\ to tylko liczba, więc działa to dla /każdego/ rodzaju treści, nie tylko tekstu.Zamień  @List  na listę  @Group  albo całych scen, a reszta wzoru wcale się nie zmienia:
+
+\slides: [
+		Phrase('historia w trzech częściach' rozmiar: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('pojawia się kot')])
+		Phrase('koniec 🎉')
+	]
+key: Key()
+index•#: 1 … ∆ key … (key = 'Strzałka w prawo') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'Strzałka w lewo') ? ((index > 1) ? index - 1 index) index
+slides[index]\
+
+A  @Scene  też potrafi to zrobić, i to z mniejszym liczeniem.Daj mu  @Scene/pause , żeby nigdy nie ruszał się sam, oraz  @Scene/step , żeby przesunąć go o jeden kawałek w jedną lub drugą stronę:
+
+\key: Key()
+Scene(
+	[
+		Phrase('historia w trzech częściach' rozmiar: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('pojawia się kot')])
+		Phrase('koniec 🎉')
+	]
+	pauza: ⊤
+	krok: ∆ key ? ((key = 'Strzałka w lewo') ? -1 (key = 'Strzałka w prawo') ? 1 ø) ø
+)\
+
+Nie trzeba tu pisać żadnych sprawdzeń \?\, bo  @Scene  zatrzymuje się sama na swoich końcach, a nic nie musi pamiętać, który element jest teraz pokazany.Zapytaj  @Spotlight  jeśli chcesz powiedzieć /3 z 10/ na scenie.
+
+Uwaga: zobacz to w całym projekcie w galerii: <pokaz slajdów@https://wordplay.dev/project/example-SlideShow?play>
+
+Ten  @Reaction  powyżej to nadal dobry sposób, gdy to, po czym się poruszasz, nie jest wynikiem — lista słów, kolorów, liczb albo czegokolwiek innego, z czego budujesz swój element.
+
+interactive-scene, choose-adventure, offer-choices, repeat-a-round

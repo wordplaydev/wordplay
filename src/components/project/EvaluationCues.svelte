@@ -42,12 +42,14 @@
      *
      *  Collisions are the exception: the contact itself is already cued, and the
      *  reaction is only its consequence, so cueing both would sound one bounce
-     *  twice. */
+     *  twice. A spotlight is the same shape of exception: a Scene pushes its own value
+     *  and every Slate that reports it in one reaction, and the cut is the
+     *  event, so `scene` sounds it and `spotlight` stays quiet. */
     function eventsOf(reaction: StreamChange): CueEvent[] {
         const kinds = reaction.changes
             .filter((change) => change.stream !== undefined)
             .map((change) => change.stream.kind)
-            .filter((kind) => kind !== 'collision');
+            .filter((kind) => kind !== 'collision' && kind !== 'spotlight');
         return reaction.changes.length === 0 ? ['start'] : [...new Set(kinds)];
     }
 

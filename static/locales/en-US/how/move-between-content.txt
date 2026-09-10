@@ -53,8 +53,23 @@ index•#: 1 … ∆ key …
 slides[index]
 \
 
-Note: see this pattern in a whole project in the gallery: <slide show@https://wordplay.dev/project/example-SlideShow?play>
+A @Scene can do this too, and with less counting.
+Give it @Scene/pause so it never moves on its own, and @Scene/step to move it one piece either way:
 
-If you only ever need to go forward, and never back, a @Scene can be simpler.
+\
+key: Key()
+Scene([
+		Phrase('a story in three parts' size: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('a cat appears')])
+		Phrase('the end 🎉')
+	] pause: ⊤ step: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+\
 
-interactive-scene, choose-adventure, offer-choices
+There are no \?\ checks to write here, because a @Scene stops at its own ends for you, and nothing has to remember which piece is showing.
+Ask @Spotlight if you want to say /3 of 10/ on stage.
+
+Note: see this in a whole project in the gallery: <slide show@https://wordplay.dev/project/example-SlideShow?play>
+
+The @Reaction above is still the way to do this when what you're stepping through isn't output — a list of words, colors, or numbers, or anything else you build the piece from.
+
+interactive-scene, choose-adventure, offer-choices, repeat-a-round

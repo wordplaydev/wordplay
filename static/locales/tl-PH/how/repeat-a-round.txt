@@ -1,0 +1,47 @@
+Ulitin ang isang round ng laro
+
+Maraming laro ang paulit-ulit na ginagawa ang parehong ilang bahagi: sabihin kung ano ang gagawin, hintayin ang sagot, ipakita kung ano ang nangyari, tapos magsimula ulit.Ang isang  @Scene  ay maaaring ang buong round na iyon, at ang  @Scene/loop  ang siyang nagbabalik nito sa simula.
+
+Ang mga bahaging iyon ang mga bagay sa listahan, at ang isang  @Boolean  sa pagitan nila ang kung saan naghihintay ang  @Scene  sa manlalaro.
+
+\guess: Chat()
+right: guess = 'pusa'
+Scene(
+	[
+		Phrase('Hulaan ang hayop!' tagal: 2s)
+		∆ guess
+		Phrase(right ? 'Oo!' 'Hindi!' tagal: 2s)
+	]
+	loop: ~right
+)\
+
+Ang \∆ guess\ ang paghihintay: totoo lang ito sa sandaling may bagong hulang dumating, kaya doon nananatili ang  @Scene  hanggang may magtype ng kahit ano.At ang \loop2: ~right\ ang pag-uulit: paulit-ulit na babalik ang  @Scene  hanggang matama nila ito, at saka titigil sa huling  @Phrase .
+
+Tandaan:  @Scene/loop  ay binabasa tuwing nagbabago ang iyong programa, kaya maaari mong tapusin ang isang loop gaya rin ng pagsisimula nito, na siyang ginawa lang ng \~right\.
+
+Para malaman kung nasaan na ang round, tanungin ang  @Spotlight .Sinasabi nito sa iyo kung aling  @Phrase  ang ipinapakita, ilan ang mga ito, ilang beses nang bumalik ang  @Scene , at kung naghihintay ba ito ng sinuman sa ngayon.
+
+\guess: Chat()
+at: Spotlight()
+Stage(
+	[
+		Scene(
+			[
+				Phrase('Hulaan ang hayop!' tagal: 2s)
+				∆ guess
+				Phrase('Hindi!' tagal: 2s)
+			]
+			loop: ⊤
+		)
+		Phrase(
+			at.waiting ? 'mag-type ng hula' `round \at.lap + 1\`
+			laki: 0.4m
+			lugar: Place(0m -2m)
+		)
+	]
+)\
+
+@Scene/replay  ay isang paraan para simulan muli ang round anumang oras na gusto mo, kahit saan man ito huminto.Bigyan ito ng isang bagay na totoo lamang sa isang sandali, tulad ng \∆ Butones(
+)\.
+
+interactive-scene, animated-scene, track-game-state

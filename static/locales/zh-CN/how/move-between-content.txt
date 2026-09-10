@@ -1,20 +1,54 @@
-用方向键在内容之间移动
+用方向键在内容间移动
 
-有时你想让观众一次看一部分内容，就像放幻灯片一样，用方向键向前/和/向后翻页。
+有时候，你想让观众一次翻一页内容，像放幻灯片一样，用方向键向前/和/向后翻。
 
-这个模式的每个版本都由相同的三部分组成：
+这种模式的每个版本都由相同的三部分组成：
 
-• 一个 @List ，装着你想展示的内容• 一个 @Key 数据流，每次按下按键时它都会改变• 一个 @Reaction ，记住你现在看的是哪一部分内容
+• 一份 @List 你想展示的内容• 一份 @Key 流，每次按键都会变化• 一份 @Reaction 记住你现在看到哪一页内容
 
-这是它最简单的版本。先点一下舞台，让它开始接收按键，然后按左方向键和右方向键：
+下面是它最简单的版本。先点一下舞台，让它能“听到”按键，然后按左右方向键试试吧：
 
 \slides: ['第一' '第二' '第三']
 key: Key()
-index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
-这个 @Reaction 是核心。它从\1\开始，每当 @Key 改变时，它就决定新的数字应该是多少。如果按了右方向键，就加一；如果按了左方向键，就减一；否则保持不变。
+这个  @Reaction 是这一切的核心。它一开始是\1\，每次 @Key 变化时，它都会决定新的数字应该是多少。如果按了右箭头，就加一；如果按了左箭头，就减一；否则数字保持不变。
 
-额外的\?\检查，是为了让数字不会超出列表的两端。没有它们，你可能会走到列表的尽头之外，那时就没有幻灯片可以展示了。如果你更想从最后一张幻灯片绕回到第一张，你也可以那样做。
+额外的\?\检查是用来防止数字跑到列表两端之外的。没有这些检查，你可能会走出列表的末尾，那样就没有幻灯片可以显示啦。如果你希望从最后一页直接绕回第一页，也可以这样做哦。
 
-interactive-scene, choose-adventure, offer-choices
+注意：方向键的名字分别是\'ArrowLeft'\、\'ArrowRight'\、\'ArrowUp'\，和\'ArrowDown'\。你也可以直接写\'Left'\ 和 \'Right'\，键名也可以用你自己的语言来写。
+
+注意，\index\ 只是一个数字，所以这适用于/任何/种类的内容，不只是文本。把  @List  换成一份  @Group  的列表，或者换成整个场景，其余的模式完全不用变：
+
+\slides: [
+		Phrase('一个分三部分的故事' 尺寸: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('一只猫出现了')])
+		Phrase('结束了🎉')
+	]
+key: Key()
+index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+slides[index]\
+
+一个  @Scene  也能做到这一点，而且要数的东西更少。给它  @Scene/pause ，这样它就不会自己动，再给它  @Scene/step ，让它往任意一边移动一格：
+
+\key: Key()
+Scene(
+	[
+		Phrase('一个分三部分的故事' 尺寸: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('一只猫出现了')])
+		Phrase('结束了🎉')
+	]
+	暂停: ⊤
+	步进: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø
+)\
+
+这里不需要写任何 \?\ 检查，因为  @Scene  会自动在自己的两端停下来，也不用记住当前显示的是哪一个。问问  @Spotlight 如果你想在舞台上显示/“10 个里的第 3 个”/。
+
+注：可以在作品库里看到一个完整的项目：<幻灯片@https://wordplay.dev/project/example-SlideShow?play>
+
+这个  @Reaction 仍然是一种做法，适用于你要一步步处理的东西不是输出的情况——比如一份文字、颜色或数字的列表，或者任何你用来搭建作品的材料。
+
+interactive-scene, choose-adventure, offer-choices, repeat-a-round

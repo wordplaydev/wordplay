@@ -1,0 +1,47 @@
+Repetir uma ronda de um jogo
+
+Muitos jogos são os mesmos momentos repetidos vezes sem conta: dizer o que fazer, esperar por uma resposta, mostrar como correu, e depois recomeçar.Um  @Scene  pode ser essa ronda inteira, e  @Scene/loop  é o que a traz de volta ao início.
+
+Os momentos são os elementos da lista, e um  @Boolean  entre eles é onde o  @Scene  espera pelo jogador.
+
+\guess: Chat()
+right: guess = 'gato'
+Scene(
+	[
+		Phrase('Adivinhe o animal!' duração: 2s)
+		∆ guess
+		Phrase(right ? 'Sim!' 'Não!' duração: 2s)
+	]
+	ciclo: ~right
+)\
+
+O \∆ guess\ é a espera: só é verdadeiro no momento em que chega uma nova tentativa, por isso o  @Scene  fica ali até alguém escrever alguma coisa.E \ciclo2: ~right\ é a repetição: o  @Scene  continua a voltar até acertarem, e depois para no último  @Phrase .
+
+Nota:  @Scene/loop  é lido sempre que o seu programa muda, por isso pode terminar um ciclo tal como pode começar um, que foi o que \~right\ acabou de fazer.
+
+Para saber em que ponto vai a ronda, pergunte a  @Spotlight .Diz-lhe qual  @Phrase  está a mostrar, quantos há, quantas vezes o  @Scene  já deu a volta, e se está à espera de alguém neste momento.
+
+\guess: Chat()
+at: Spotlight()
+Stage(
+	[
+		Scene(
+			[
+				Phrase('Adivinhe o animal!' duração: 2s)
+				∆ guess
+				Phrase('Não!' duração: 2s)
+			]
+			ciclo: ⊤
+		)
+		Phrase(
+			at.waiting ? 'escrever uma tentativa' `ronda \at.lap + 1\`
+			tamanho: 0.4m
+			local: Place(0m -2m)
+		)
+	]
+)\
+
+@Scene/replay  é uma forma de recomeçar a ronda sempre que quiser, seja qual for o ponto a que tinha chegado.Dê-lhe algo que seja verdadeiro apenas por um momento, como \∆ Botão(
+)\.
+
+interactive-scene, animated-scene, track-game-state

@@ -950,6 +950,11 @@
         "e62959bf8e73e": "$~Nu kan du skriva en e-postadress i ett dokument eller en hur man-guide, och den blir en länk som öppnar ett meddelande.",
         "e730993ac0281": "$~Nu skriver du ett Unicode-tecken med dess nummer som \\@U/1F600\\, istället för det äldre sättet utan U.",
         "ec1e67db8a983": "$~När du översätter gäller det språk du väljer bara för sådant du inte redan har märkt med ett språk, eftersom allt du redan märkt visar vilket språk det är på. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
-        "e7600746959d1": "$~Att översätta ett projekt översätter nu allt, även namn och text som du märkt med ett annat språk, vilket tidigare hoppades över utan att det syntes. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
+        "e7600746959d1": "$~Att översätta ett projekt översätter nu allt, även namn och text som du märkt med ett annat språk, vilket tidigare hoppades över utan att det syntes. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e73aff6688055": "$~En @Scene kan nu upprepas, börja om, stå stilla, vänta på dig efter varje del, och gå eller hoppa till vilken del som helst av sig själv. Så kan du göra ett spel som frågar igen efter varje omgång, eller en bildvisning du klickar dig igenom. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e876dc2ed0b0f": "$~En @Group kan nu innehålla en @Shape, så du kan stapla en cirkel med dina ord, eller lägga en @Scene inuti en layout. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e723fd65c8efc": "$~En @Shape ställer sig nu i linje med @Stack, @Row eller @Grid som den ligger i, istället för att ligga där dess egna hörn råkade vara. Allt inuti en @Grid kan nu vara närmare eller längre bort. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e8ad9864d7217": "$~Vi la till en hur man-guide i <Handledningen@https://wordplay.dev/guide> för att upprepa en omgång i ett spel. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e0bce9fefa9f6": "$~Vi lade till @Spotlight, som visar vilken del av en @Scene som visas, hur många delar det finns, hur många gånger den har varit runt, och om den väntar på någon. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
     }
 }

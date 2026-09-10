@@ -949,6 +949,12 @@
         "e62959bf8e73e": "$~Teraz możesz napisać adres e-mail w dokumencie lub w jak, a on stanie się linkiem, który otwiera wiadomość.",
         "e730993ac0281": "$~Teraz zapisujesz znak Unicode za pomocą jego numeru jako \\@U/1F600\\, zamiast starszej formy bez U.",
         "ec1e67db8a983": "$~Gdy tłumaczysz, wybrany przez ciebie język dotyczy teraz tylko tekstu, którego nie oznaczyłeś jako napisany w innym języku, bo to, co już oznaczyłeś, mówi samo za siebie, w jakim jest języku. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
-        "e7600746959d1": "$~Tłumaczenie projektu tłumaczy teraz całość, razem z nazwami i tekstem oznaczonym innym językiem, który wcześniej był pomijany bez ostrzeżenia. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
+        "e7600746959d1": "$~Tłumaczenie projektu tłumaczy teraz całość, razem z nazwami i tekstem oznaczonym innym językiem, który wcześniej był pomijany bez ostrzeżenia. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e73aff6688055": "$~@Scene może teraz się powtarzać, zaczynać od nowa, zatrzymywać się w miejscu, czekać na ciebie po każdej części oraz przechodzić lub skakać do dowolnej swojej części. Dzięki temu możesz zrobić grę, która pyta ponownie po każdej rundzie, albo pokaz slajdów, przez który klikasz. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e876dc2ed0b0f": "$~@Group może teraz zawierać @Shape, więc możesz ułożyć koło razem ze swoimi słowami albo umieścić @Scene wewnątrz układu. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e723fd65c8efc": "$~@Shape ustawia się teraz zgodnie z @Stack, @Row lub @Grid, w którym się znajduje, zamiast leżeć tam, gdzie akurat wypadły jego własne rogi. Wszystko wewnątrz @Grid może teraz być bliżej lub dalej. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e8ad9864d7217": "$~Dodaliśmy do <przewodnika@https://wordplay.dev/guide> poradnik „jak” powtarzać rundę gry. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "ec96e627d2d35": "$~Sprawiliśmy, że Frazy z własnymi znakami też można teraz przeciągać, obracać i skalować.",
+        "e0bce9fefa9f6": "$~Dodaliśmy @Spotlight, które mówi, która część @Scene jest teraz pokazywana, ile jest wszystkich części, ile razy wróciło do początku i czy czeka na kogoś. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
     }
 }

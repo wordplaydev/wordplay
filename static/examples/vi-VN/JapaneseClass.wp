@@ -1,9 +1,9 @@
 O
-Lớp tiếng Nhật
+Lớp học tiếng Nhật
 === start
-¶Một câu chuyện theo từng cảnh về ngày đầu tiên học tiếng Nhật.¶
+¶Một câu chuyện theo từng cảnh về ngày đầu tiên của lớp học tiếng Nhật.¶
 
-¶Đây là danh sách các cảnh sẽ hiển thị¶
+¶Đây là danh sách các cảnh cần hiển thị¶
 câu2: [
 		`On my first day of high school, I started *Japanese* class.`/en
 		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
@@ -17,21 +17,24 @@ câu2: [
 		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
 	]
 
-¶Đây là danh sách các câu chỉ được chuyển tiếp bằng cách nói.¶
-nóiCácCâu: [5 7 9]
+¶Đây là danh sách các câu chỉ nên được tiến tới bằng cách nói.¶
+nóiCâu: [5 7 9]
 
-¶Câu hiện tại bắt đầu từ 1, và tăng lên nếu âm lượng micro vượt quá 0,8 đối với câu cần nói, hoặc khi có nút hay phím được nhấn đối với các câu khác.¶
-câuHiệnTại•#: 1 …
-	nóiCácCâu.có(câuHiệnTại) ?
+¶Nơi câu chuyện đang diễn ra. @Scene giữ vị trí đó, nên không có gì ở đây cần phải đếm.¶
+tại: Spotlight()
+
+¶Chuyển tiếp khi micrô vượt quá 0,6 ở một câu cần nói, và khi một nút bấm hoặc một phím báo hiệu như vậy ở bất kỳ trường hợp nào khác.¶
+tiếnTới: nóiCâu.có(tại.index) ?
 		Âmlượng() > .6
 		∆ Cáinút() | ∆ Chìakhóa()
-		…
-		(câuHiệnTại <
-				câu2.chiềudài()) ?
-			câuHiệnTại + 1
-			câuHiệnTại
 
+¶@Scene chờ /advance/ sau mỗi câu, và dừng lại ở câu cuối cùng.¶
 Sânkhấu(
-	[Cụmtừ(câu2[câuHiệnTại] bọc: 10m)]
+	[
+		Bốicảnh(
+			câu2.dịch(ƒ(câu3) Cụmtừ(câu3 bọc: 10m))
+			choĐếnKhi: tiếnTới
+		)
+	]
 	khuônmặt: 'Sue Ellen Francisco'
 )

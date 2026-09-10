@@ -36,4 +36,17 @@ Scene([
 	])
 \
 
-interactive-scene
+Sometimes a rhyme should keep going. @Scene/loop brings the @Scene back around to its first @Phrase once the last one is done, so it says itself again and again.
+
+\
+Scene([
+		Phrase('Jack be nimble' duration: 1s)
+		Phrase('Jack be quick' duration: 1s)
+		Phrase('Jack jump over the candle stick' duration: 1s)
+	] loop: ⊤)
+\
+
+Note: a @Scene only comes back around if something in the list actually waited.
+A list where every @Phrase had a @Phrase/duration of \0s\ would go round as fast as the computer could manage, so it stops at the end instead.
+
+interactive-scene, repeat-a-round

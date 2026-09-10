@@ -83,12 +83,13 @@ function blockOf(project: Project): Block {
  * Where a new output of the given kind should go, given what's selected.
  *
  * Beside the selection when it can be: adding into the group you were just
- * editing is what makes composing a layout feel direct. But a container's
- * content type is a real constraint — `Group.content` is
- * `[Phrase|Group|Say|Music|ø]` and excludes Shape — so a form button with a
- * phrase selected inside a Group falls through to the stage rather than
- * producing a type error. Adding is always legal *somewhere*, so no add button
- * is ever inactive for want of a home.
+ * editing is what makes composing a layout feel direct. A container's content
+ * type is still what decides — anything the toolbar makes goes into a @Stage or
+ * a @Group, and nothing else is a container — and adding is always legal
+ * *somewhere*, so no add button is ever inactive for want of a home. A @Group
+ * used to refuse a @Shape, which sent a form button to the stage instead; that
+ * was an omission rather than a rule (see ARCHITECTURE.md), and forms now land
+ * beside the selection like everything else.
  */
 export function insertionPoint(
     project: Project,
@@ -137,6 +138,22 @@ function listHolding(
     return { kind: 'list', list, index: index + 1, container };
 }
 
+/** Whether the given container decides where its children go, rather than
+ *  letting each one's place say. A @Stage and a @Free group arrange nothing. */
+function arranges(project: Project, container: Evaluate | undefined): boolean {
+    if (container === undefined) return false;
+    const context = project.getNodeContext(container);
+    if (!container.is(project.shares.output.Group, context)) return false;
+    const layout = container.getInput(
+        project.shares.output.Group.inputs[0],
+        context,
+    );
+    return !(
+        layout instanceof Evaluate &&
+        layout.is(project.shares.output.Free, context)
+    );
+}
+
 /** Whether the given container's content list will accept this kind. */
 function listAccepts(
     project: Project,
@@ -145,10 +162,12 @@ function listAccepts(
 ): boolean {
     const output = project.shares.output;
     const context = project.getNodeContext(container);
-    // A Stage takes everything the toolbar can make.
-    if (container.is(output.Stage, context)) return true;
-    // A Group's content excludes Shape, so the three form kinds can't go there.
-    if (container.is(output.Group, context)) return !isFormKind(kind);
+    // A Stage and a Group both take everything the toolbar can make.
+    if (
+        container.is(output.Stage, context) ||
+        container.is(output.Group, context)
+    )
+        return true;
     return false;
 }
 
@@ -494,8 +513,13 @@ export function insertOutput(
         point.kind === 'list'
             ? point.container
             : (getStage(project) ?? undefined);
+    // A place only means something where a place positions: on the stage, or in
+    // a @Free group. Writing one into a Stack, Row or Grid used to pin the new
+    // output to its leftmost sibling's x and silently defeat the arrangement's
+    // own alignment — the palette manufacturing the very mis-centring that
+    // `getAuthoredPlace` exists to stop.
     const place =
-        scene === undefined
+        scene === undefined || arranges(project, container)
             ? undefined
             : placeBelow(contentBoxes(scene, container));
     const node = makeOutput(project, locales, kind, place);
@@ -748,6 +772,7 @@ export function groupProblem(
             !node.isOneOf(
                 context,
                 output.Phrase,
+                output.Shape,
                 output.Group,
                 output.Say,
                 output.Music,

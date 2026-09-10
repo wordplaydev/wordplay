@@ -1,20 +1,54 @@
 Mover entre conteúdos com as teclas de setas
 
-Às vezes queres que a audiência avance pelo conteúdo peça a peça, como uma apresentação de diapositivos, indo para a frente /e/ para trás com as teclas de setas.
+Às vezes quer que o público avance pelo conteúdo peça a peça, como numa apresentação de diapositivos, indo para a frente /e/ para trás com as teclas de setas.
 
-Todas as versões deste padrão são feitas das mesmas três partes:
+Cada versão deste padrão é feita das mesmas três partes:
 
-• Uma  @List  do conteúdo que queres mostrar• Um fluxo  @Key , que muda sempre que uma tecla é premida• Um  @Reaction  que lembra em que peça de conteúdo estás agora
+• Uma  @List  do conteúdo que quer mostrar• Uma  @Key  fluxo, que muda sempre que uma tecla é pressionada• Uma  @Reaction  que se lembra de qual peça de conteúdo está agora a mostrar
 
-Aqui está a versão mais pequena. Clica primeiro no palco para que fique à escuta e depois prime as teclas de seta para a esquerda e para a direita:
+Aqui está a versão mais pequena disto. Clique primeiro no palco para que fique a ouvir, e depois pressione as teclas de seta esquerda e direita:
 
 \slides: ['primeiro' 'segundo' 'terceiro']
 key: Key()
-index•#: 1 … ∆ key … (key = 'SetaDireita') ? ((index < slides.length()) ? index + 1 index) (key = 'SetaEsquerda') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'Seta para a direita') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'Seta para a esquerda') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
-O  @Reaction  é o coração disto. Começa em \1\ e, sempre que o  @Key  muda, decide qual deve ser o novo número.Se a seta para a direita for premida, soma um; se a seta para a esquerda for premida, subtrai um; caso contrário, fica igual.
+O  @Reaction  é o coração disto. Começa em \1\, e sempre que o  @Key  muda, decide qual deve ser o novo número.Se a seta direita foi pressionada, soma um; se a seta esquerda foi pressionada, subtrai um; caso contrário, mantém-se igual.
 
-As verificações extra de \?\ são o que impede o número de passar para além dos extremos da lista.Sem elas, poderias sair para fora do fim e não haveria nenhum diapositivo para mostrar.Se preferires dar a volta do último diapositivo de volta ao primeiro, podes fazer isso em vez disso.
+As verificações extra de \?\ são o que impede o número de ultrapassar os limites da lista.Sem elas, poderia sair do fim e não haveria nenhum diapositivo para mostrar.Se preferir voltar do último diapositivo para o primeiro, também pode fazer isso.
 
-interactive-scene, choose-adventure, offer-choices
+Nota: as teclas de setas chamam-se \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, e \'ArrowDown'\.Também pode simplesmente escrever \'Left'\ e \'Right'\, e os nomes das teclas também funcionam no seu próprio idioma.
+
+Repare que \index\ é apenas um número, por isso isto funciona para /qualquer/ tipo de conteúdo, não apenas texto.Troque o  @List  por uma lista de  @Group  ou cenas inteiras e o resto do padrão não muda nada:
+
+\slides: [
+		Phrase('uma história em três partes' tamanho: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('aparece um gato')])
+		Phrase('o fim 🎉')
+	]
+key: Key()
+index•#: 1 … ∆ key … (key = 'Seta para a direita') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'Seta para a esquerda') ? ((index > 1) ? index - 1 index) index
+slides[index]\
+
+Um  @Scene  também pode fazer isto, e com menos contagem.Dê-lhe  @Scene/pause  para que nunca se mova sozinho, e  @Scene/step  para o mover uma peça em qualquer direção:
+
+\key: Key()
+Scene(
+	[
+		Phrase('uma história em três partes' tamanho: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('aparece um gato')])
+		Phrase('o fim 🎉')
+	]
+	pausar: ⊤
+	passo: ∆ key ? ((key = 'Seta para a esquerda') ? -1 (key = 'Seta para a direita') ? 1 ø) ø
+)\
+
+Não há aqui nenhuma verificação de \?\ a escrever, porque um  @Scene  para sozinho nos seus limites, sem que nada tenha de se lembrar de qual peça está a ser mostrada.Pergunte  @Spotlight  se quiser dizer /3 de 10/ no palco.
+
+Nota: veja isto num projeto completo na galeria: <apresentação de diapositivos@https://wordplay.dev/project/example-SlideShow?play>
+
+O  @Reaction  acima continua a ser a forma de fazer isto quando aquilo por onde está a percorrer não é saída — uma lista de palavras, cores, números, ou qualquer outra coisa a partir da qual constrói a peça.
+
+interactive-scene, choose-adventure, offer-choices, repeat-a-round

@@ -950,6 +950,11 @@
         "e62959bf8e73e": "$~Artık bir dokümanda ya da bir nasıl rehberinde bir e-posta adresi yazabilirsin ve bu adres bir mesaj açan bir bağlantı olur.",
         "e730993ac0281": "$~Artık bir Unicode karakterini numarasıyla şöyle yazıyorsun: \\@U/1F600\\, U harfi olmayan eski biçim yerine.",
         "ec1e67db8a983": "$~Çeviri yaparken seçtiğin dil, artık yalnızca dilini belirtmediğin yazılar için geçerlidir. Çünkü zaten bir dil işaretlediğin her şey, hangi dilde olduğunu kendisi söyler. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
-        "e7600746959d1": "$~Bir projeyi çevirmek artık projenin tamamını çevirir. Buna başka bir dille işaretlediğin isimler ve yazılar da dahildir. Eskiden bunlar, hiçbir uyarı verilmeden atlanıyordu. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
+        "e7600746959d1": "$~Bir projeyi çevirmek artık projenin tamamını çevirir. Buna başka bir dille işaretlediğin isimler ve yazılar da dahildir. Eskiden bunlar, hiçbir uyarı verilmeden atlanıyordu. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e73aff6688055": "$~Bir @Scene artık tekrar edebilir, baştan başlayabilir, olduğu yerde durabilir, her bölümden sonra seni bekleyebilir ve kendi içindeki herhangi bir bölüme adım atabilir ya da atlayabilir. Böylece her turdan sonra tekrar soran bir oyun ya da tıklayarak ilerlediğin bir slayt gösterisi yapabilirsin. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e876dc2ed0b0f": "$~Bir @Group artık bir @Shape tutabilir. Böylece bir daireyi sözlerinle üst üste koyabilir ya da bir @Scene'ü bir düzenin içine yerleştirebilirsin. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e723fd65c8efc": "$~Bir @Shape artık kendi köşelerinin rastgele durduğu yerde oturmak yerine, içinde bulunduğu @Stack, @Row ya da @Grid ile hizalanıyor. Ayrıca bir @Grid içindeki her şey artık daha yakın ya da daha uzak olabilir. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e8ad9864d7217": "$~Bir oyunun turunu tekrar etmek için <Rehber@https://wordplay.dev/guide>'e bir nasıl rehberi ekledik. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e0bce9fefa9f6": "$~@Spotlight eklendi. Bu, bir @Scene'nin hangi bölümünün gösterildiğini, kaç bölüm olduğunu, kaç kez tekrar edildiğini ve birini bekleyip beklemediğini söyler. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
     }
 }

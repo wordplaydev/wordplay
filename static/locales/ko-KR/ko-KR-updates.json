@@ -949,6 +949,12 @@
         "e62959bf8e73e": "$~이제 안내서나 어떻게에 이메일 주소를 쓰면, 그 주소가 메시지를 여는 링크가 됩니다.",
         "e730993ac0281": "$~이제 유니코드 문자를 번호로 쓸 때는 이렇게 씁니다: \\@U/1F600\\, U가 없는 예전 방식 대신입니다.",
         "ec1e67db8a983": "$~이제 번역할 때 고른 언어는 언어를 표시하지 않은 글에만 적용됩니다. 이미 언어가 표시된 글은 그 언어를 그대로 유지합니다. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
-        "e7600746959d1": "$~이제 프로젝트를 번역하면 다른 언어로 표시해 둔 이름과 글도 모두 함께 번역됩니다. 예전에는 이런 부분을 말없이 그냥 건너뛰었습니다. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
+        "e7600746959d1": "$~이제 프로젝트를 번역하면 다른 언어로 표시해 둔 이름과 글도 모두 함께 번역됩니다. 예전에는 이런 부분을 말없이 그냥 건너뛰었습니다. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e73aff6688055": "$~이제 @Scene은 반복하거나, 처음부터 다시 시작하거나, 멈춰 있거나, 매 부분이 끝난 뒤 여러분을 기다리거나, 자기 자신의 어느 부분으로든 건너뛸 수 있습니다. 그래서 매 판이 끝난 뒤 다시 물어보는 게임이나, 클릭해서 넘기는 슬라이드 쇼도 만들 수 있습니다. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e876dc2ed0b0f": "$~이제 @Group은 @Shape을 담을 수 있습니다. 그래서 원 위에 글자를 쌓아 올리거나, 레이아웃 안에 @Scene을 넣을 수 있습니다. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e723fd65c8efc": "$~이제 @Shape은 자기 모서리가 어디 있든 상관없이, 그것이 들어 있는 @Stack, @Row, 또는 @Grid에 맞춰 정렬됩니다. 그리고 @Grid 안에 있는 것은 이제 더 가깝거나 더 멀리 있을 수 있습니다. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e8ad9864d7217": "$~게임의 한 판을 반복하는 방법을 담은 어떻게 항목을 <안내서@https://wordplay.dev/guide>에 추가했습니다. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "ec96e627d2d35": "$~사용자 정의 캐릭터가 있는 Phrase도 끌기, 회전, 크기 조절이 되도록 만들었습니다.",
+        "e0bce9fefa9f6": "$~@Spotlight을 추가했습니다. 이것은 @Scene의 어느 부분이 보이고 있는지, 부분이 몇 개인지, 몇 번 돌았는지, 누군가를 기다리고 있는지를 알려줍니다. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
     }
 }

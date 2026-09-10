@@ -1,100 +1,104 @@
 🎬
-Trình Chiếu
+Trình chiếu
 === start
-¶Một chuỗi slide kể về cách Wordplay ra đời; nhấn → và ← để di chuyển qua các slide.¶
+¶Một buổi trình chiếu kể về sự ra đời của Wordplay; nhấn → và ← để xem tiếp.¶
 
-¶Một slide trong chuỗi: một nhân vật, một tiêu đề, và những dòng chữ bên dưới.¶
-•slide(biểuTượngCảmXúc•'' tiêuĐề•'' phầnThân•''|`…`)
+¶Một trang trong buổi trình chiếu: một nhân vật, một tiêu đề, và những dòng chữ bên dưới.¶
+•trangChiếu(biểuTượngCảmXúc•'' tiêuĐề•'' nộiDung•''|`…`)
 
-¶Câu chuyện. Hãy thêm, xóa, hoặc thay đổi các slide này để kể câu chuyện của riêng bạn.¶
-cácSlide: [
-		slide(
+¶Câu chuyện. Thêm, xóa, hoặc thay đổi các trang chiếu này để kể câu chuyện của riêng bạn.¶
+trangChiếu2: [
+		trangChiếu(
 			'🎭'
 			'Wordplay'
-			'Câu chuyện về cách ngôn ngữ này ra đời. Nhấn → để đi tới, và ← để đi lại.'
+			'Câu chuyện về sự ra đời của ngôn ngữ này. Nhấn → để đi tiếp, và ← để quay lại.'
 		)
-		slide(
+		trangChiếu(
 			'✒'
-			'Một tình yêu với chữ cái'
-			'Ngày xưa, Amy đã yêu thích typography: hình dáng của các chữ cái, và nhịp điệu của các từ trên một trang giấy.'
+			'Tình yêu chữ viết'
+			'Ngày xưa, Amy đã yêu thích ngành in chữ: hình dáng của các chữ cái, và nhịp điệu của những từ ngữ trên trang giấy.'
 		)
-		slide(
+		trangChiếu(
 			'💻'
-			'Một tình yêu với mã số'
-			'Cô cũng yêu thích việc viết mã số, và cách vài từ có thể làm mọi thứ chuyển động.'
+			'Tình yêu lập trình'
+			'Cô cũng yêu thích lập trình, và cách chỉ vài từ có thể khiến mọi thứ chuyển động.'
 		)
-		slide(
+		trangChiếu(
 			'🧭'
-			'Hai tình yêu, tách rời'
-			'Nhưng typography và việc viết mã số sống trong hai thế giới khác nhau, và ít công cụ nào mời gọi ai đó yêu cả hai cùng một lúc.'
+			'Hai tình yêu, tách biệt'
+			'Nhưng ngành in chữ và lập trình sống ở hai thế giới khác nhau, và ít có công cụ nào mời gọi ai đó yêu cả hai cùng lúc.'
 		)
-		slide(
+		trangChiếu(
 			'😄'
-			'Một người trẻ'
-			'Nhiều năm sau, cô gặp một người trẻ yêu thích các biểu tượng cảm xúc, và muốn làm chúng nhảy múa.'
+			'Một người trẻ tuổi'
+			'Nhiều năm sau, cô gặp một người trẻ tuổi yêu thích biểu tượng cảm xúc, và muốn khiến chúng nhảy múa.'
 		)
-		slide(
+		trangChiếu(
 			'💡'
 			'Một ý tưởng'
-			'Điều gì sẽ xảy ra nếu một ngôn ngữ lập trình giúp việc làm các biểu tượng cảm xúc nhảy múa trở nên dễ dàng?'
+			'Nếu có một ngôn ngữ lập trình giúp việc làm cho biểu tượng cảm xúc nhảy múa trở nên dễ dàng thì sao?'
 		)
-		slide(
+		trangChiếu(
 			'🌱'
-			'Wordplay bắt đầu'
-			'Vì vậy cô bắt đầu xây dựng một ngôn ngữ, nơi viết mã số nghĩa là di chuyển các từ và ký tự trên sân khấu.'
+			'Wordplay ra đời'
+			'Thế là cô bắt đầu xây dựng một ngôn ngữ như vậy, nơi viết mã số nghĩa là di chuyển các từ và ký tự quanh một sân khấu.'
 		)
-		slide(
+		trangChiếu(
 			'🧑‍🏫'
 			'Cùng nhau thiết kế'
-			'Cô đã thiết kế nó cùng với nhiều bạn trẻ và giáo viên, những người đã nói ra điều họ muốn tạo ra, và điều gì cản đường họ.'
+			'Cô đã thiết kế nó cùng với nhiều bạn trẻ và thầy cô, những người đã nói ra điều họ muốn tạo ra, và những gì cản trở họ.'
 		)
-		slide(
+		trangChiếu(
 			'🌏'
-			'Luôn thay đổi'
-			'Nó vẫn tiếp tục phát triển từ đó đến nay, để nhiều người hơn có thể tạo ra nhiều hơn những gì họ tưởng tượng.'
+			'Luôn phát triển'
+			'Nó vẫn không ngừng lớn lên từ đó đến nay, để nhiều người hơn có thể tạo ra nhiều điều họ tưởng tượng hơn.'
 		)
-		slide(
+		trangChiếu(
 			'✨'
 			'Đến lượt bạn'
-			`Bạn mơ ước làm được điều gì mà hiện chưa thể làm? Hãy nói cho chúng tôi biết tại <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+			`Bạn mơ ước tạo ra điều gì mà hiện chưa thể làm được? Hãy cho chúng tôi biết tại <GitHub@https://github.com/wordplaydev/wordplay/issues>`
 		)
 	]
 
-tổngSố: cácSlide.chiềudài()
-
 chìaKhóa2: Chìakhóa()
 
-¶Slide mà chúng ta đang xem. Phải để đi tới, trái để đi lại,và cả hai đều dừng ở hai đầu thay vì quay vòng lại.¶
-chỉMục2•#: 1 … ∆ chìaKhóa2 …
-		(chìaKhóa2 = 'Mũi tên phải') ? ((chỉMục2 < tổngSố) ? chỉMục2 + 1 chỉMục2)
-			(chìaKhóa2 = 'Mũi tên trái') ? ((chỉMục2 > 1) ? chỉMục2 - 1 chỉMục2)
-				chỉMục2
+¶Nơi buổi trình diễn diễn ra. @Scene giữ vị trí, nên ở đây không cần đếm gì cả.¶
+tại: Spotlight()
 
-slide2: cácSlide[chỉMục2]
+¶Mỗi trang trình chiếu được vẽ ra. Điều này không phụ thuộc vào bất cứ thứ gì thay đổi, nên nó chỉ được dựng một lần chứ không phải mỗi lần nhấn phím — đó là lý do vì sao bộ đếm bên dưới không nằm ở đây.¶
+lượtXem: trangChiếu2.dịch(
+		ƒ(trangChiếu3•trangChiếu) Nhóm(
+				Ngănxếp('|' 0.4m)
+				[
+					Cụmtừ(trangChiếu3.biểuTượngCảmXúc kíchcỡ: 2m)
+					Cụmtừ(
+						`*\trangChiếu3.tiêuĐề\*`
+						kíchcỡ: 1.2m
+						sựcănchỉnh: '|'
+					)
+					Cụmtừ(
+						trangChiếu3.nộiDung
+						kíchcỡ: 0.5m
+						bọc: 12m
+						sựcănchỉnh: '|'
+					)
+				]
+			)
+	)
 
-Sânkhấu(
+¶Buổi trình diễn không tự chuyển sang trang khác; các phím mũi tên giúp chuyển từng trang một theo hai hướng. Nó dừng lại ở mỗi đầu cho chúng ta, nên không cần kiểm tra gì thêm.¶
+Nhóm(
+	Ngănxếp('|' 0.4m)
 	[
-		Nhóm(
-			Ngănxếp('|' 0.4m)
-			[
-				Cụmtừ(slide2.biểuTượngCảmXúc kíchcỡ: 2m)
-				Cụmtừ(
-					`*\slide2.tiêuĐề\*`
-					kíchcỡ: 1.2m
-					sựcănchỉnh: '|'
-				)
-				Cụmtừ(
-					slide2.phầnThân
-					kíchcỡ: 0.5m
-					bọc: 12m
-					sựcănchỉnh: '|'
-				)
-				Cụmtừ(
-					`\chỉMục2\ trong \tổngSố\`
-					kíchcỡ: 0.25m
-					sựcănchỉnh: '|'
-				)
-			]
+		Bốicảnh(
+			lượtXem
+			tạmDừng: ⊤
+			bước: ∆ chìaKhóa2 ? ((chìaKhóa2 = 'Mũi tên trái') ? -1 (chìaKhóa2 = 'Mũi tên phải') ? 1 ø) ø
+		)
+		Cụmtừ(
+			`\tại.index\ của \tại.total\`
+			kíchcỡ: 0.25m
+			sựcănchỉnh: '|'
 		)
 	]
 )

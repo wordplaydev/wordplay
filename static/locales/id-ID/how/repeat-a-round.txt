@@ -1,0 +1,47 @@
+Ulangi satu putaran permainan
+
+Banyak permainan hanyalah beberapa momen yang sama, terjadi berulang-ulang: katakan apa yang harus dilakukan, tunggu jawaban, tunjukkan hasilnya, lalu mulai lagi.Sebuah  @Scene  bisa menjadi seluruh putaran itu, dan  @Scene/loop  adalah yang membawanya kembali ke awal.
+
+Momen-momen itu adalah hal-hal dalam daftar, dan  @Boolean  di antaranya adalah tempat  @Scene  menunggu pemain.
+
+\guess: Chat()
+right: guess = 'kucing'
+Scene(
+	[
+		Phrase('Tebak hewannya!' lamanya: 2s)
+		∆ guess
+		Phrase(right ? 'Ya!' 'Bukan!' lamanya: 2s)
+	]
+	perulangan: ~right
+)\
+
+Yang \∆ guess\ adalah masa menunggu: ini benar hanya pada saat tebakan baru datang, jadi  @Scene  berhenti di situ sampai seseorang mengetikkan sesuatu.Dan \perulangan2: ~right\ adalah pengulangannya:  @Scene  terus berputar kembali sampai mereka menjawab dengan benar, lalu berhenti pada  @Phrase .
+
+ terakhir @Scene/loop Catatan: \~right\ dibaca setiap kali programmu berubah, jadi kamu bisa mengakhiri perulangan sekaligus memulainya, dan itulah yang baru saja dilakukan
+
+ . @Spotlight .Untuk mengetahui posisi putaran, tanyakan  @Phrase Ini memberitahumu  @Scene  mana yang sedang ditampilkan, berapa banyak jumlahnya, berapa kali 
+
+\guess: Chat()
+at: Spotlight()
+Stage(
+	[
+		Scene(
+			[
+				Phrase('Tebak hewannya!' lamanya: 2s)
+				∆ guess
+				Phrase('Bukan!' lamanya: 2s)
+			]
+			perulangan: ⊤
+		)
+		Phrase(
+			at.waiting ? ' sudah berputar kembali, dan apakah sekarang sedang menunggu seseorang.' `ketik sebuah tebakan\at.lap + 1\`
+			ukuran: 0.4m
+			tempat: Place(0m -2m)
+		)
+	]
+)\
+
+@Scene/replay putaran Berikan sesuatu yang hanya benar untuk sesaat, seperti \∆ Tombol(
+)\.
+
+interactive-scene, animated-scene, track-game-state

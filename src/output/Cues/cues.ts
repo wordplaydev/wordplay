@@ -316,6 +316,21 @@ export const Cues: Record<CueEvent, CueSpec> = {
         floorMs: 0,
         haptic: 12,
     },
+    // A spotlight reports the cut that a `scene` already sounded, and a Scene
+    // pushes both in one reaction, so `eventsOf` drops this kind for the reason
+    // it drops `collision`: sounding both would make one cut heard twice. The
+    // spec is here because `Cues` is total over `StreamKind`, and it is what it
+    // would sound like were it ever reached on its own.
+    spotlight: {
+        source: 'tone',
+        hz: 337,
+        bend: 1.19,
+        ms: 45,
+        pulses: 1,
+        gain: 0.1,
+        floorMs: 0,
+        haptic: 8,
+    },
 
     // Clocks tick forever, so theirs are the quietest cues and the most
     // heavily capped: enough to know the program is alive, not enough to sit on.

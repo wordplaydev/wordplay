@@ -4535,23 +4535,79 @@
         },
         "Scene": {
             "doc": [
-                "$~Den visar en @List med @Phrase eller @Group en i taget, och stannar vid den sista.",
-                "/Bopp boop boop/",
-                "För att kontrollera timingen kan du antingen ställa in @Phrase.duration på varje utgång, så visas den så länge innan den går vidare till nästa, och använda de @Phrase.entering eller @Phrase.exiting övergångar du eventuellt har ställt in. Om du ställer in dem till en @Sequence kommer den att använda dess varaktighet.",
-                "Allt detta låter dig göra saker som den här lilla @Scene , som visar dessa tre fraser i följd:",
-                "\\Scene([\n\tPhrase('Hello' varaktighet: 1s)\n\tPhrase('How are you?' varaktighet: 2s rotation: 5° gårin: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
-                "Ser du hur den första utgången visas i en sekund, sedan nästa i två sekunder, men animerad till en femgraders rotation, och sedan visar den den sista?",
-                "Du kan skapa mycket avancerade sekvenser av utdata och animationer med @Scene , och till och med göra delar av dem dynamiska eller interaktiva, precis som med vilken annan @Phrase eller @Group som helst.",
-                "Om du har animerad utdata som är kapslad (en @Group med animerad @Phrase inuti), kommer @Scene att vänta tills allt animerat innehåll i @Group är klart.",
-                "Och en sista liten hemlighet! Du kan till och med lägga till @Boolean i listan, och om de är \\⊥\\ kommer @Scene att pausa och vänta på att det ska bli sant.",
-                "Om du till exempel vill skapa en sekvens av @Phrase och bara gå vidare när @Button ändras, kan du göra så här:",
-                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' varaktighet: 0.25s rotation: 5° gårin: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
-                "Ser du hur den pausar efter varje @Phrase och väntar på att @Button ska ändras innan den går vidare?"
+                "$~Den visar en @List av @Phrase, @Group eller @Shape en i taget, och stannar på den sista.",
+                "/Puff puff puff/",
+                "För att styra tidsschemat kan du antingen ange @Phrase.duration på varje utdata, och den visas så länge innan den går vidare till nästa, och använder de @Phrase.entering eller @Phrase.exiting övergångar du har ställt in. Om du ställer in dem till en @Sequence används dess varaktighet.",
+                "Allt detta gör att du kan göra saker som denna lilla @Scene, som visar dessa tre fraser i följd:",
+                "\\Scen(\n\t[\n\t\tFras('Hej' varaktighet: 1s)\n\t\tFras(\n\t\t\t'Hur mår du?'\n\t\t\tvaraktighet: 2s\n\t\t\trotation: 5°\n\t\t\tgårin: Pose(rotation: 0°)\n\t\t)\n\t\tFras('Jag mår bra')\n\t]\n)\\",
+                "Ser du hur den första utdatan visas i en sekund, sedan nästa i två sekunder, men animerad till en fem graders rotation, och sedan visas den sista?",
+                "Du kan göra mycket utarbetade sekvenser av utdata och animationer med @Scene, och till och med göra delar av dem dynamiska eller interaktiva, precis som med vilket annat @Phrase eller @Group som helst.",
+                "Om du har animerad utdata som är nästlad (en @Group med animerad @Phrase inuti), väntar @Scene tills allt animerat innehåll i @Group är klart.",
+                "Åh, och en sista liten hemlighet! Du kan till och med sätta @Boolean i listan, och om de är \\⊥\\, pausar @Scene och väntar på att det ska bli sant.",
+                "Om du till exempel vill göra en sekvens av @Phrase och bara gå vidare när @Button ändras, kan du göra så här:",
+                "\\klicka: ∆ Knapp()\nScen(\n\t[\n\t\tFras('Hej')\n\t\tklicka\n\t\tFras(\n\t\t\t'Hur mår du?'\n\t\t\tvaraktighet: 0.25s\n\t\t\trotation: 5°\n\t\t\tgårin: Pose(rotation: 0°)\n\t\t)\n\t\tklicka\n\t\tFras('Jag mår bra')\n\t]\n)\\",
+                "Ser du hur den pausar efter varje @Phrase, och väntar på att @Button ska ändras innan den går vidare?",
+                "Som standard stannar jag på min sista utdata. Ge mig @Scene/loop så börjar jag om från min första igen, vilket är vad ett spel som ställer en ny @query efter varje runda vill ha.",
+                "Jag kontrollerar @Scene/loop varje gång ditt program ändras, så en loop kan avslutas precis som den kan börja. Här fortsätter jag att fråga tills de svarar rätt, och stannar sedan:",
+                "\\gissa: Chatta()\nrätt2: gissa = 'cat'\nScen(\n\t[\n\t\tFras('Gissa djuret!' varaktighet: 2s)\n\t\t∆ gissa\n\t\tFras(rätt2 ? 'Ja!' 'Nej!' varaktighet: 2s)\n\t]\n\tupprepa: ~rätt2\n)\\",
+                "@Scene/replay startar om mig, @Scene/pause håller mig där jag är, och @Scene/go skickar mig direkt till en av mina utdata. Ställ in @Scene/pause till \\⊤\\ och jag flyttar mig aldrig av mig själv, så @Scene/go blir det enda som för mig framåt — så gör man ett bildspel som går både framåt /och/ bakåt.",
+                "Och om du vill veta var jag är, för att visa /3 av 10/ eller spela olika musik i olika delar av en berättelse, är det vad @Spotlight är till för."
             ],
             "names": ["$~Scen"],
             "outputs": {
                 "names": "$~utgångar",
                 "doc": "$~Listan över utgångar som ska visas i följd."
+            },
+            "loop": {
+                "names": "$~upprepa",
+                "doc": "$~Om jag kommer tillbaka till min första utdata när min sista är klar. Jag stannar på den sista om inte detta är \\⊤\\. Jag kontrollerar det vid varje utvärdering, så du kan avsluta en loop precis som du kan starta en."
+            },
+            "replay": {
+                "names": "$~spelaUppIgen",
+                "doc": [
+                    "$~När detta är \\⊤\\ vid en utvärdering börjar jag om från min första utdata, oavsett var jag hade kommit, och min @Slate/lap går tillbaka till 0.",
+                    "Ge mig ett /tillfälligt/ @condition, ett som bara är sant vid den utvärdering som händelsen orsakade, som \\∆ Knapp()\\. Ett bestående villkor som \\score > 10\\🪲 förblir sant när det väl blivit sant, så det skulle starta om mig vid varje utvärdering från och med då."
+                ]
+            },
+            "pause": {
+                "names": "$~pausa",
+                "doc": [
+                    "$~Medan detta är \\⊤\\ håller jag stilla, och när det går tillbaka till \\⊥\\ fortsätter jag. En utdata jag räknade ner på behåller den tid den hade kvar, så en paus mitt i en lång @Phrase startar den inte om.",
+                    "Till skillnad från @Scene/replay vill jag ha ett /bestående/ @condition, ett som förblir sant så länge du vill att jag ska vänta. Lämna mig pausad för gott, så flyttar jag mig aldrig av mig själv, vilket är precis vad ett bildspel vill: då är @Scene/go det enda som för mig framåt."
+                ]
+            },
+            "go": {
+                "names": "$~kör",
+                "doc": [
+                    "$~Vart jag ska gå härnäst. Ge mig ett nummer så visar jag den utdatan, räknat från 1; ge mig ett namn så visar jag den utdata du gav det @Phrase/name.",
+                    "Jag räknar bara utdata, aldrig de @Boolean som ligger emellan, så att skicka mig till 2 betyder min andra @Phrase, oavsett hur många villkor som står i vägen.",
+                    "Liksom @Scene/replay vill den här ha ett /tillfälligt/ @condition — något som är \\ø\\ utom vid den utvärdering du vill att jag ska flytta mig. Ett nummer som ligger kvar skulle fästa mig där för alltid.",
+                    "Skicka mig förbi någon av ändarna så stannar jag där, om inte @Scene/loop är \\⊤\\, i så fall kommer jag runt igen. Det betyder att du aldrig behöver kontrollera det. Här går piltangenterna igenom ett bildspel åt båda hållen:",
+                    "Om du hellre vill säga /ett steg framåt/ än /nummer tre/, är det @Scene/step.",
+                    "\\bilder: [Fras('ett') Fras('två') Fras('tre')]\nnyckel2: Nyckel()\nvid: Spotlight()\nScen(\n\tbilder\n\tpausa: ⊤\n\tkör: ∆ nyckel2 ? ((nyckel2 = 'Pil vänster') ? vid.index - 1 (nyckel2 = 'Pil Höger') ? vid.index + 1 ø) ø\n)\\"
+                ]
+            },
+            "name": {
+                "names": "$~namn",
+                "doc": "$~Mitt namn. @Spotlight använder det för att skilja mig från andra @Scene som spelas samtidigt; med bara en scen kan du lämna det som det är."
+            },
+            "until": {
+                "names": "$~tills",
+                "doc": [
+                    "$~En @condition att vänta på efter var och en av mina utdata, när den har haft sin @Phrase/duration eller slutat animera.",
+                    "Det är samma sak som att skriva den @Boolean mellan varje utdata i min lista, vilket är vad du skulle göra för att få en av mina utdata att vänta. Detta säger det en gång istället:",
+                    "\\Scen([Fras('ett') Fras('två') Fras('tre')] tills: ∆ Knapp())\\",
+                    "En @Boolean som skrivs i listan fungerar fortfarande, och de två är separata väntetider, så du kan vänta längre på ett visst ställe."
+                ]
+            },
+            "step": {
+                "names": "$~steg",
+                "doc": [
+                    "$~Hur många utdata som ska flyttas, räknat från där jag är: \\1\\ är ett steg framåt och \\-1\\ är ett steg bakåt. Detta är @Scene/go sagt som ett avstånd istället för en plats.",
+                    "Som @Scene/go stannar jag vid mina ändar om inte @Scene/loop är \\⊤\\, så du behöver aldrig kontrollera det, och jag vill ha en /tillfällig/ @condition — något som är \\ø\\ utom vid den beräkning du vill att jag ska flytta.",
+                    "\\bilder: [Fras('ett') Fras('två') Fras('tre')]\nnyckel2: Nyckel()\nScen(\n\tbilder\n\tpausa: ⊤\n\tsteg: ∆ nyckel2 ? ((nyckel2 = 'Pil vänster') ? -1 (nyckel2 = 'Pil Höger') ? 1 ø) ø\n)\\",
+                    "Inget här behöver veta vilken @Phrase som visas, vilket är skillnaden från @Scene/go. @query @Spotlight om du vill visa det på scenen."
+                ]
             }
         },
         "Motion": {
@@ -5152,6 +5208,43 @@
                 "doc": "$~Den stavelse som den här delen sjunger på det här taktslaget, eller \\ø\\ när den inte sjunger något — en paus, eller ett spår utan @Track/words.",
                 "names": "$~ord"
             }
+        },
+        "Spotlight": {
+            "doc": [
+                "$~Jag säger var en @Scene befinner sig just nu: vilket utdata den visar, hur många den har, och om den väntar på någon.",
+                "En @Scene visar saker; jag är det sätt resten av programmet får veta vad den visar. Det är det som låter dig lägga en räknare under ett bildspel, spela olika musik i olika delar av en berättelse, eller visa ett /tryck på valfri tangent/-tips bara medan scenen verkligen väntar.",
+                "\\bilder: [Fras('ett') Fras('två') Fras('tre')]\nvid: Spotlight()\nEtapp(\n\t[\n\t\tScen(bilder upprepa: ⊤)\n\t\tFras(\n\t\t\t`\\vid.index\\ av \\vid.total\\`\n\t\t\tstorlek: 0.3m\n\t\t\tplats: Plats(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Jag har alltid en @Slate, även innan något har hänt, så du behöver aldrig kontrollera mig för \\ø\\."
+            ],
+            "names": "$~Strålkastare",
+            "name": {
+                "names": "$~namn",
+                "doc": "$~@Scene/name för scenen som kommer efter. Lämna den \\ø\\ så följer jag varje scen."
+            }
+        },
+        "Slate": {
+            "doc": "$~Var en @Scene befinner sig: vad den visar, hur långt den har kommit, och om den väntar.",
+            "names": "$~Tavla",
+            "scene": {
+                "names": "$~scen",
+                "doc": "$~@Scene/name för scenen jag kom ifrån, eller \\''\\ om den inte har någon."
+            },
+            "index": {
+                "names": "$~index",
+                "doc": "$~Vilket utdata @Scene visar, räknat från 1. Jag räknar bara utdata, aldrig @Boolean emellan."
+            },
+            "total": {
+                "names": "$~totalt",
+                "doc": "$~Hur många utdata @Scene har, utan att räkna @Boolean emellan."
+            },
+            "lap": {
+                "names": "$~varv",
+                "doc": "$~Hur många gånger @Scene har kommit tillbaka till sitt första utdata. Det är 0 första gången runt."
+            },
+            "waiting": {
+                "names": "$~väntar",
+                "doc": "$~Om @Scene är stoppad: väntar på att ett @Boolean ska bli sant, eller hålls av @Scene/pause. Det är detta ett /tryck på valfri tangent/-tips bör bevaka."
+            }
         }
     },
     "output": {
@@ -5164,11 +5257,11 @@
         },
         "Group": {
             "doc": [
-                "$~Jag arrangerar @Phrase och @Group tillsammans på @Stage med ett @Arrangement . Åh hej, hur mår du? Jag mår alltid bra när andra är i närheten, så det är kul att vara med dig!",
-                "För att det ska fungera behöver du ge mig ett @Arrangement och sedan en @List med @Output att arrangera.",
-                "Till exempel, här är jag med ett @Stack -arrangemang och några @Phrase att stapla vertikalt:",
-                "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
-                "Hur exakt jag ordnar saker beror på det @Arrangement du ger mig."
+                "$~Jag ordnar @Phrase, @Shape och @Group tillsammans på @Stage med en @Arrangement. Åh hej, hur mår du? Jag mår alltid bra när andra är i närheten, så det är härligt att vara med dig!",
+                "För att fungera behöver jag att du ger mig en @Arrangement, och sedan en @List av @Output att ordna.",
+                "Här är jag till exempel med en @Stack-ordning och några @Phrase att stapla lodrätt:",
+                "\\Grupp(Stack() [Fras('första') Fras('andra')])\\",
+                "Exakt hur jag ordnar saker beror på @Arrangement du ger mig."
             ],
             "names": ["$~Grupp"],
             "layout": {
@@ -5408,11 +5501,11 @@
             }
         },
         "Arrangement": {
-            "doc": "$~Jag är en inspiration till många andra sorters ordningar i Verse, som @Row, @Stack, @Grid och @Free. Jag jobbar nära med @Group för att",
+            "doc": "$~Jag är en inspiration för de många andra sorters ordningar i Verse, inklusive @Row, @Stack, @Grid och @Free. Jag samarbetar nära med @Group för att bestämma var varje @Output ska ligga: jag flyttar var och en dit jag säger, och behåller dess storlek och form. @Free är den av oss som inte bestämmer något, så där sitter varje @Output på sin egen @Place. Om du vill knuffa något lite från där jag placerade det, ge det en @Phrase/offset istället för en @Place.",
             "names": ["$~Arrangemang"]
         },
         "Row": {
-            "doc": "$~Jag är @Row, en vågrät @Arrangement av @Output, med valfritt mellanrum emellan. Har du träffat min tvilling, @Stack?",
+            "doc": "$~Jag är @Row, en vågrät @Arrangement av @Output, med valfri mellanrumsutfyllnad emellan. Har du träffat min tvilling, @Stack? Jag bestämmer hur långt fram varje sak går, och min första inmatning säger hur de ska radas upp nedåt genom mig. Ge en av dem en @Place så placeras den vid det y-läget istället — men en @Shape har ingen egen @Place, så jag radar upp den med allt annat.",
             "names": ["$~Rad"],
             "description": "$~rad med $#count[$count fras eller grupp|$count fraser och grupper]",
             "alignment": {
@@ -5425,7 +5518,7 @@
             }
         },
         "Stack": {
-            "doc": "$~Jag är @Stack, en lodrät @Arrangement av @Output, med valfritt mellanrum emellan. Har du träffat min tvilling, @Row?",
+            "doc": "$~Jag är @Stack, en lodrät @Arrangement av @Output, med valfri mellanrumsutfyllnad emellan. Har du träffat min tvilling, @Row? Jag bestämmer hur långt ner varje sak går, och min första inmatning säger hur de ska radas upp tvärs genom mig. Ge en av dem en @Place så placeras den vid det x-läget istället — men en @Shape har ingen egen @Place, så jag radar upp den med allt annat.",
             "names": ["$~⬇", "$~Stack"],
             "description": "$~stapel med $#count[$count fras eller grupp|$count fraser och grupper]",
             "alignment": {
@@ -5438,7 +5531,7 @@
             }
         },
         "Grid": {
-            "doc": "$~Jag är ett rutnät av @Output. Ge mig ett antal rader och @column så gör jag en snygg ordning med valfri utfyllnad och @cell-storlekar.",
+            "doc": "$~Jag är ett rutnät av @Output. Ge mig ett rad- och @column-antal så gör jag en snygg ordning med valfri mellanrumsutfyllnad och @cell-storlekar. Jag bestämmer båda riktningarna, så en @Place flyttar inget varken i sidled eller upp och ner — men dess z säger fortfarande hur nära den är.",
             "names": ["$~Rutnät"],
             "description": "$~$rows rad $columns kolumnrutnät",
             "rows": {

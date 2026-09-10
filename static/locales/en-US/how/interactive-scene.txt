@@ -34,4 +34,34 @@ Scene([
 	])
 \
 
-animated-scene
+When every @Phrase should wait for the same thing, @Scene/until says it once instead of writing it between each one. This does what the first example above does:
+
+\
+Scene([
+		Phrase('click me')
+		Phrase('click me again' duration: 1s)
+		Phrase('no really, click me as hard as you can!!' duration: 1s)
+		Phrase('have you clicked me yet?' duration: 1s)
+	] until: Button())
+\
+
+Write a @Boolean in the list when the waits are /different/, as in the yelling example, and use @Scene/until when they're all the same.
+You can use both: a @Boolean in the list is a wait of its own, on top of the one @Scene/until asks for.
+
+Note: @Scene/until waits /after/ each @Phrase has had its @Phrase/duration, not instead of it.
+
+If you'd rather the @Scene never moved on its own, and went only where you sent it, use @Scene/pause with @Scene/step:
+
+\
+key: Key()
+Scene([
+		Phrase('one')
+		Phrase('two')
+		Phrase('three')
+	] pause: ⊤ step: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+\
+
+@Scene/step moves by a number of @Phrase — \1\ forward, \-1\ back — and stops at the ends for you.
+@Scene/go is the same idea said as a place instead of a distance: the number of the @Phrase you want, counting from 1, or the @Phrase/name you gave it.
+
+animated-scene, repeat-a-round, move-between-content

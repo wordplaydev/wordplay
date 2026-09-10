@@ -950,6 +950,11 @@
         "e62959bf8e73e": "$~Du kannst jetzt eine E-Mail-Adresse in einer Dokumentation oder einem Wie-man schreiben. Sie wird dann zu einem Link, der eine Nachricht öffnet.",
         "e730993ac0281": "$~Du schreibst ein Unicode-Zeichen jetzt über seine Nummer als \\@U/1F600\\, statt der älteren Form ohne das U.",
         "ec1e67db8a983": "$~Wenn du übersetzt, gilt die gewählte Sprache jetzt nur noch für Texte, die du nicht mit einer Sprache markiert hast. Denn bei bereits markiertem Text steht schon fest, in welcher Sprache er geschrieben ist. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
-        "e7600746959d1": "$~Beim Übersetzen eines Projekts wird jetzt alles übersetzt, auch Namen und Texte, die du mit einer anderen Sprache markiert hast. Früher wurden diese ohne Hinweis übersprungen. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
+        "e7600746959d1": "$~Beim Übersetzen eines Projekts wird jetzt alles übersetzt, auch Namen und Texte, die du mit einer anderen Sprache markiert hast. Früher wurden diese ohne Hinweis übersprungen. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e73aff6688055": "$~Ein @Scene kann jetzt wiederholen, von vorn beginnen, stillhalten, nach jedem Teil auf dich warten und zu jedem Teil von sich selbst springen oder wechseln. So kannst du ein Spiel bauen, das nach jeder Runde neu fragt, oder eine Diashow, durch die du klickst. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e876dc2ed0b0f": "$~Ein @Group kann jetzt einen @Shape enthalten. So kannst du einen Kreis mit deinen Worten stapeln oder einen @Scene in ein Layout einfügen. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e723fd65c8efc": "$~Ein @Shape richtet sich jetzt nach dem @Stack, @Row oder @Grid aus, in dem es sich befindet, statt einfach dort zu sitzen, wo seine eigenen Ecken zufällig liegen. Außerdem kann alles innerhalb eines @Grid jetzt näher oder weiter entfernt sein. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e8ad9864d7217": "$~Wir haben dem <Leitfaden@https://wordplay.dev/guide> eine Anleitung hinzugefügt, wie man eine Runde eines Spiels wiederholt. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e0bce9fefa9f6": "$~Wir haben @Spotlight hinzugefügt. Es zeigt dir, welcher Teil eines @Scene gerade angezeigt wird, wie viele Teile es gibt, wie oft es schon durchgelaufen ist, und ob es auf jemanden wartet. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
     }
 }

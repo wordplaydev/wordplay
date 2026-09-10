@@ -1,7 +1,7 @@
 O
 Cours de japonais
 === start
-¶Une histoire scène par scène sur un premier jour de cours de japonais.¶
+¶Une histoire, scène par scène, sur un premier jour de cours de japonais.¶
 
 ¶Voici la liste des scènes à montrer¶
 phrases2: [
@@ -17,21 +17,26 @@ phrases2: [
 		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
 	]
 
-¶Voici la liste des phrases qui ne doivent avancer que si on les prononce à voix haute.¶
-prononcerLesPhrases: [5 7 9]
+¶Voici la liste des phrases qui ne doivent avancer qu'en parlant.¶
+direDesPhrases: [5 7 9]
 
-¶La phrase actuelle commence à 1, et avance si le volume du micro dépasse 0,8 pour une phrase à prononcer, ou si on appuie sur un bouton ou une touche pour les autres phrases.¶
-phraseActuelle•#: 1 …
-	prononcerLesPhrases.a(phraseActuelle) ?
+¶L'endroit où se trouve l'histoire. Le @Scene garde la place, donc rien ici n'a besoin de compter.¶
+à2: Spotlight()
+
+¶On avance quand le micro dépasse ,6 sur une phrase à dire, et quand un bouton ou une touche le dit pour les autres.¶
+avancer: direDesPhrases.a(à2.index) ?
 		Volume() > .6
 		∆ Bouton() | ∆ Clé()
-		…
-		(phraseActuelle <
-				phrases2.longueur()) ?
-			phraseActuelle + 1
-			phraseActuelle
 
+¶Le @Scene attend /advance/ après chaque phrase, et s'arrête à la dernière.¶
 Scène(
-	[Phrase(phrases2[phraseActuelle] envelopper: 10m)]
+	[
+		Diaporama(
+			phrases2.traduire(
+				ƒ(phrase3) Phrase(phrase3 envelopper: 10m)
+			)
+			jusque: avancer
+		)
+	]
 	affronter: 'Sue Ellen Francisco'
 )

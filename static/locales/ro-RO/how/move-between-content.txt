@@ -1,20 +1,54 @@
-Treci de la un conținut la altul cu tastele săgeți
+Mută-te între conținuturi cu tastele săgeți
 
-Uneori vrei ca publicul să parcurgă conținutul câte o bucată pe rând, ca o prezentare cu diapozitive, mergând înainte /și/ înapoi cu tastele săgeți.
+Uneori vrei ca publicul să treacă prin conținut bucată cu bucată, ca o prezentare de imagini, mergând înainte /și/ înapoi cu tastele săgeți.
 
-Fiecare variantă a acestui tipar este făcută din aceleași trei părți:
+Fiecare variantă a acestui tipar este alcătuită din aceleași trei părți:
 
-• Un  @List  al conținutului pe care vrei să îl arăți• Un flux  @Key , care se schimbă de fiecare dată când apeși o tastă• Un  @Reaction  care ține minte pe ce bucată de conținut te afli acum
+• O  @List  a conținutului pe care vrei să-l arăți• O  @Key  un flux, care se schimbă de fiecare dată când e apăsată o tastă• O  @Reaction  care ține minte pe ce bucată de conținut ești acum
 
-Iată cea mai mică variantă a lui. Apasă mai întâi pe scenă ca să asculte, apoi apasă tastele săgeată stânga și dreapta:
+Iată cea mai simplă variantă. Apasă mai întâi pe scenă ca să te asculte, apoi apasă tastele săgeată stânga și dreapta:
 
 \slides: ['primul' 'al doilea' 'al treilea']
 key: Key()
-index•#: 1 … ∆ key … (key = 'SăgeatăDreapta') ? ((index < slides.length()) ? index + 1 index) (key = 'SăgeatăStânga') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'SăgeatăDreapta') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'SăgeatăStânga') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
-Acest  @Reaction  este inima lui. Începe de la \1\, și de fiecare dată când se schimbă  @Key , decide care ar trebui să fie noul număr.Dacă a fost apăsată săgeata dreapta, adaugă unu; dacă a fost apăsată săgeata stânga, scade unu; altfel rămâne la fel.
+Cel  @Reaction  este inima acestui exemplu. Începe la \1\, și de fiecare dată când  @Key  se schimbă, decide care ar trebui să fie noul număr.Dacă a fost apăsată săgeata dreapta, adaugă unu; dacă a fost apăsată săgeata stânga, scade unu; altfel rămâne la fel.
 
-Verificările \?\ suplimentare sunt cele care împiedică numărul să treacă de capetele listei.Fără ele ai putea trece de capăt și nu ar mai fi niciun diapozitiv de arătat.Dacă preferi să treci de la ultimul diapozitiv înapoi la primul, poți face și asta în schimb.
+Verificările suplimentare cu \?\ sunt cele care împiedică numărul să treacă dincolo de capetele listei.Fără ele ai putea ieși dincolo de capăt și nu ar mai fi niciun diapozitiv de arătat.Dacă preferi să treci de la ultimul diapozitiv înapoi la primul, poți face asta în schimb.
 
-interactive-scene, choose-adventure, offer-choices
+Notă: tastele săgeți se numesc \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, și \'ArrowDown'\.Poți și doar să scrii \'Left'\ și \'Right'\, iar numele tastelor funcționează și în limba ta.
+
+Observă că \index\ este doar un număr, deci acest lucru funcționează pentru /orice/ tip de conținut, nu doar text.Înlocuiește  @List  cu o listă de  @Group  sau scene întregi, iar restul modelului nu se schimbă deloc:
+
+\slides: [
+		Phrase('o poveste în trei părți' dimensiune: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('apare o pisică')])
+		Phrase('sfârșit 🎉')
+	]
+key: Key()
+index•#: 1 … ∆ key … (key = 'SăgeatăDreapta') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'SăgeatăStânga') ? ((index > 1) ? index - 1 index) index
+slides[index]\
+
+Un  @Scene  poate face și el asta, și cu mai puțină numărătoare.Dă-i  @Scene/pause  ca să nu se miște niciodată singur, și  @Scene/step  ca să-l muți cu o bucată în orice direcție:
+
+\key: Key()
+Scene(
+	[
+		Phrase('o poveste în trei părți' dimensiune: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('apare o pisică')])
+		Phrase('sfârșit 🎉')
+	]
+	pauză: ⊤
+	pas: ∆ key ? ((key = 'SăgeatăStânga') ? -1 (key = 'SăgeatăDreapta') ? 1 ø) ø
+)\
+
+Nu există \?\ verificări de scris aici, pentru că un  @Scene  se oprește singur la capete, și nimic nu trebuie să țină minte care bucată se arată.Întreabă  @Spotlight  dacă vrei să spui /3 din 10/ pe scenă.
+
+Notă: vezi asta într-un proiect întreg în galerie: <prezentare de imagini@https://wordplay.dev/project/example-SlideShow?play>
+
+Cel  @Reaction  de mai sus rămâne modul potrivit de a face asta atunci când ceea ce parcurgi nu este ieșire — o listă de cuvinte, culori sau numere, sau orice altceva din care construiești bucata.
+
+interactive-scene, choose-adventure, offer-choices, repeat-a-round

@@ -1,31 +1,57 @@
-Buatlah serangkaian adegan animasi.
+Membuat rangkaian animasi adegan
 
-Terkadang kita ingin bercerita, menampilkan lirik, atau menghidupkan puisi.Untuk melakukan itu, kita bisa menggunakan  @Scene  Dan  @Phrase  bersama-sama, untuk menunjukkan sebuah urutan.
+Kadang kita ingin bercerita, menampilkan lirik lagu, atau membuat animasi puisi.Untuk melakukan itu, kita bisa memakai  @Scene  dan  @Phrase  bersama-sama, untuk menampilkan urutan.
 
-Sebagai contoh, bayangkan kita ingin membuat animasi dari lagu anak-anak pendek, "Jack be Nimble".Kita bisa membuat  @Scene  yang setiap barisnya adalah  @Phrase , dan dengan menetapkan  @Phrase/duration  dari setiap baris,  @Scene  akan berlanjut ketika setiap frasa selesai.
+Misalnya, bayangkan kita ingin membuat animasi lagu anak-anak pendek, "Jack be Nimble".Kita bisa membuat  @Scene  yang punya setiap baris sebagai  @Phrase , dan dengan mengatur  @Phrase/duration  pada setiap baris,  @Scene  akan maju setelah setiap kalimat selesai.
 
-\Scene([
-		Phrase('Jack lincah' lamanya: 1s)
-		Phrase('Jack, cepatlah!' lamanya: 1s)
-		Phrase('Jack melompati tempat lilin' lamanya: 1s)
-	])\
+\Scene(
+	[
+		Phrase('Jack be nimble' lamanya: 1s)
+		Phrase('Jack be quick' lamanya: 1s)
+		Phrase('Jack jump over the candle stick' lamanya: 1s)
+	]
+)\
 
-@Scene  akan menunggu  @Sequence  Itu juga harus dilakukan. Mari kita buat garis candlestick melonjak!
+@Scene  akan menunggu  @Sequence  selesai juga. Ayo buat baris lilin melompat!
 
-\Scene([
-		Phrase('Jack lincah' lamanya: 1s)
-		Phrase('Jack, cepatlah!' lamanya: 1s)
-		Phrase('Jack melompati tempat lilin' memasuki: Sequence.bounce(lamanya: 1s))
-	])\
+\Scene(
+	[
+		Phrase('Jack be nimble' lamanya: 1s)
+		Phrase('Jack be quick' lamanya: 1s)
+		Phrase(
+			'Jack jump over the candle stick'
+			memasuki: Sequence.bounce(lamanya: 1s)
+		)
+	]
+)\
 
-@Scene  juga bisa mengambil  @Group  termasuk teks juga, dan akan menunggu hingga seluruh kontennya selesai dianimasikan.
+@Scene  juga bisa memakai  @Group  teks juga, dan ia akan menunggu semua isinya selesai beranimasi.
 
-\Scene([
-		Group(Stack() [
-				Phrase('Jack lincah')
-				Phrase('Jack, cepatlah!')
-			] lamanya: 2s)
-		Phrase('Jack melompati tempat lilin' memasuki: Sequence.bounce(lamanya: 1s))
-	])\
+\Scene(
+	[
+		Group(
+			Stack()
+			[Phrase('Jack be nimble') Phrase('Jack be quick')]
+			lamanya: 2s
+		)
+		Phrase(
+			'Jack jump over the candle stick'
+			memasuki: Sequence.bounce(lamanya: 1s)
+		)
+	]
+)\
 
-interactive-scene
+Kadang sebuah lagu harus terus berlanjut.  @Scene/loop  membawa  @Scene  kembali ke  @Phrase  pertamanya setelah yang terakhir selesai, jadi ia mengucapkan dirinya lagi dan lagi.
+
+\Scene(
+	[
+		Phrase('Jack be nimble' lamanya: 1s)
+		Phrase('Jack be quick' lamanya: 1s)
+		Phrase('Jack jump over the candle stick' lamanya: 1s)
+	]
+	perulangan: ⊤
+)\
+
+Catatan:  @Scene  hanya kembali berputar jika ada sesuatu dalam daftar yang benar-benar menunggu.Sebuah daftar di mana setiap  @Phrase  memiliki  @Phrase/duration  sebesar \0s\ akan berputar secepat yang komputer bisa lakukan, jadi ia berhenti di akhir sebagai gantinya.
+
+interactive-scene, repeat-a-round

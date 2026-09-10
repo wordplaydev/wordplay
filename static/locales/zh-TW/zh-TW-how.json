@@ -29,24 +29,36 @@
     },
     {
         "id": "animated-scene",
-        "title": "創建一系列動畫場景",
+        "title": "創作一系列有動畫的場景",
         "category": "stories",
-        "body": "有時我們想講述故事、展示歌詞或使詩歌生動。為此，我們可以使用 @Scene  和 @Phrase 一起來展現一個序列。\n\n例如，假設我們想要將短小的童謠「Jack be Nimble」製作成動畫。我們可以做一個 @Scene 每一行都是 @Phrase ，並透過設定 @Phrase/duration 每行， @Scene 每完成一個短語就會前進。\n\n\\Scene([\n\t\tPhrase('傑克很敏捷' 持續時間: 1s)\n\t\tPhrase('傑克快點' 持續時間: 1s)\n\t\tPhrase('傑克跳過蠟燭桿' 持續時間: 1s)\n\t])\\\n\n@Scene 將等待 @Sequence 也要做。讓我們讓蠟燭線跳起來！\n\n\\Scene([\n\t\tPhrase('傑克很敏捷' 持續時間: 1s)\n\t\tPhrase('傑克快點' 持續時間: 1s)\n\t\tPhrase('傑克跳過蠟燭桿' 進入: Sequence.bounce(長度: 1s))\n\t])\\\n\n@Scene 還可以 @Group 文字也是如此，它將等待所有內容完成動畫。\n\n\\Scene([\n\t\tGroup(Stack() [Phrase('傑克很敏捷') Phrase('傑克快點')] 持續時間: 2s)\n\t\tPhrase('傑克跳過蠟燭桿' 進入: Sequence.bounce(長度: 1s))\n\t])\\",
-        "related": ["interactive-scene"]
+        "body": "有時候我們想說故事、呈現歌詞，或是讓詩變成動畫。要做到這件事，我們可以一起使用  @Scene  和  @Phrase ，來呈現一連串的內容。\n\n舉例來說，想像我們想把短短的兒歌〈傑克要敏捷〉做成動畫。我們可以做一個  @Scene ，讓每一行都是一個  @Phrase ，並且設定每一行的  @Phrase/duration ，這樣  @Scene  就會在每個句子唸完後前進。\n\n\\Scene(\n\t[\n\t\tPhrase('傑克要敏捷' 持續時間: 1s)\n\t\tPhrase('傑克要迅速' 持續時間: 1s)\n\t\tPhrase('傑克跳過蠟燭台' 持續時間: 1s)\n\t]\n)\\\n\n@Scene  也會等  @Sequence  完成才動作。我們讓蠟燭那一行跳起來吧！\n\n\\Scene(\n\t[\n\t\tPhrase('傑克要敏捷' 持續時間: 1s)\n\t\tPhrase('傑克要迅速' 持續時間: 1s)\n\t\tPhrase('傑克跳過蠟燭台' 進入: Sequence.bounce(長度: 1s))\n\t]\n)\\\n\n@Scene  也可以放進一個文字的  @Group ，它會等裡面所有內容的動畫都播完。\n\n\\Scene(\n\t[\n\t\tGroup(\n\t\t\tStack()\n\t\t\t[Phrase('傑克要敏捷') Phrase('傑克要迅速')]\n\t\t\t持續時間: 2s\n\t\t)\n\t\tPhrase('傑克跳過蠟燭台' 進入: Sequence.bounce(長度: 1s))\n\t]\n)\\\n\n有時候一首兒歌應該要一直唸下去。 @Scene/loop  會讓  @Scene  在最後一個唸完之後，回到它的第一個  @Phrase ，這樣它就會一直重複自己，說了一遍又一遍。\n\n\\Scene(\n\t[\n\t\tPhrase('傑克要敏捷' 持續時間: 1s)\n\t\tPhrase('傑克要迅速' 持續時間: 1s)\n\t\tPhrase('傑克跳過蠟燭台' 持續時間: 1s)\n\t]\n\t迴圈: ⊤\n)\\\n\n注意：只有當清單裡有東西真的等待過， @Scene  才會回到開頭。一個每個  @Phrase 有一個 @Phrase/duration 的\\0s\\會以電腦所能負荷的最快速度轉動，所以最後改成到終點就停下來。",
+        "related": ["interactive-scene", "repeat-a-round"]
     },
     {
         "id": "interactive-scene",
-        "title": "建立一系列互動式場景",
+        "title": "打造一連串互動的場景",
         "category": "stories",
-        "body": "有時我們想講述一些故事，等待觀眾採取一些行動，然後再進入下一個內容。\n\n為此，我們可以使用 @Scene ，但把 @Boolean 我們要顯示的內容之間的值。例如，點擊後會前進到下一個內容，使用 @Button ：\n\n\\Scene([\n\t\tPhrase('點擊我')\n\t\tButton()\n\t\tPhrase('再次點擊我' 持續時間: 1s)\n\t\tButton()\n\t\tPhrase('不，真的，用盡全力點擊我！ ！' 持續時間: 1s)\n\t\tButton()\n\t\tPhrase('你點擊我了嗎？' 持續時間: 1s)\n\t])\\\n\n這 @Scene 顯示第一個 @Phrase ，然後等待 @Button 是真的，一旦是真的，它就會進入下一個 @Phrase 。\n\n您可以使用任何您想要推進的事情，只要它是真或假。例如，我們可以使用我們的聲音！如果我們喊得夠大聲，場景就會推進：\n\n\\Scene([\n\t\tPhrase('有人在嗎？')\n\t\tVolume() > .5\n\t\tPhrase(\"我聽不見，再說一次？\" 持續時間: 1s)\n\t\tVolume() > .7\n\t\tPhrase('請大聲點...' 持續時間: 1s)\n\t\tVolume() > .9\n\t\tPhrase('噢，嗨！' 持續時間: 1s)\n\t])\\",
-        "related": ["animated-scene"]
+        "body": "有時候，我們想說的故事，需要等看的人做了某件事，才會進到下一段內容。\n\n要做到這件事，我們可以用一個  @Scene ，但要在中間放上  @Boolean  的值，放在我們想呈現的內容之間。舉例來說，這裡每點一下，就會前進到下一段內容，用的是  @Button ：\n\n\\Scene(\n\t[\n\t\tPhrase('點我一下')\n\t\tButton()\n\t\tPhrase('再點我一下' 持續時間: 1s)\n\t\tButton()\n\t\tPhrase('真的啦，用力點我下去！！' 持續時間: 1s)\n\t\tButton()\n\t\tPhrase('你點過我了嗎？' 持續時間: 1s)\n\t]\n)\\\n\n這個  @Scene  會先顯示第一個  @Phrase ，然後等待這個  @Button  變成真，一旦成真，就會前進到下一個  @Phrase 。\n\n你可以用任何東西來決定要不要前進，只要它的結果是真或假就行。舉例來說，我們可以用自己的聲音！只要我們喊得夠大聲，場景就會前進：\n\n\\Scene(\n\t[\n\t\tPhrase('有人在嗎？')\n\t\tVolume() > .5\n\t\tPhrase(\"我聽不到你，可以再說一次嗎？\" 持續時間: 1s)\n\t\tVolume() > .7\n\t\tPhrase('請再大聲一點……' 持續時間: 1s)\n\t\tVolume() > .9\n\t\tPhrase('喔，嗨！' 持續時間: 1s)\n\t]\n)\\\n\n當每個  @Phrase  都要等待同一件事時， @Scene/until  只要寫一次就好，不用在每一個之間都寫一遍。這樣做出來的效果，跟上面第一個範例一樣：\n\n\\Scene(\n\t[\n\t\tPhrase('點我一下')\n\t\tPhrase('再點我一下' 持續時間: 1s)\n\t\tPhrase('真的啦，用力點我下去！！' 持續時間: 1s)\n\t\tPhrase('你點過我了嗎？' 持續時間: 1s)\n\t]\n\t直到: Button()\n)\\\n\n在清單中寫入一個  @Boolean ，如果等待的時間/不一樣/，就像喊叫的範例那樣；如果每次等待的時間都一樣，就用  @Scene/until 。你也可以兩個都用：清單裡的  @Boolean  是它自己額外的等待時間，會加在  @Scene/until  要求的等待時間之上。\n\n注意： @Scene/until  是在/之後/等待， @Phrase  完成它的  @Phrase/duration  之後才等待，不是用來取代它的。\n\n如果你希望  @Scene  從來不會自己移動，只往你指定的方向移動，就用  @Scene/pause  搭配  @Scene/step ：\n\n\\key: Key()\nScene(\n\t[Phrase('一') Phrase('二') Phrase('三')]\n\t暫停: ⊤\n\t步驟: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø\n)\\\n\n@Scene/step  依  @Phrase ——\\1\\ 向前移動，\\-1\\往回走──而且會在兩端自動停下來。 @Scene/go 表達的是同一個概念，只是用位置而不是距離來說：也就是你要的 @Phrase 的編號，從 1 開始算，或是你給它的 @Phrase/name 。",
+        "related": ["animated-scene", "repeat-a-round", "move-between-content"]
     },
     {
         "id": "move-between-content",
-        "title": "用方向鍵在內容之間移動",
+        "title": "用方向鍵在內容間移動",
         "category": "stories",
-        "body": "有時候你會希望觀眾一次看一個內容，像投影片一樣，可以往前/和/用方向鍵往回。\n\n這個模式的每一種版本都由同樣的三個部分組成：\n\n• 一個你想顯示的內容的 @List • 一個 @Key 串流，每次按下按鍵時它就會改變• 一個 @Reaction ，它會記住你現在在哪一段內容\n\n這是它最小的版本。先點一下舞台，讓它開始聆聽，然後按左右方向鍵：\n\n\\slides: ['第一' '第二' '第三']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\n這個 @Reaction 是它的核心。它從\\1\\開始，每次 @Key 改變時，它就決定新的數字應該是多少。如果按了右方向鍵，它就加一；如果按了左方向鍵，它就減一；否則就維持不變。\n\n多出來的\\?\\檢查，是用來防止數字超過清單的兩端。沒有這些檢查，你可能會走出清單的盡頭，那樣就沒有投影片可以顯示了。如果你想從最後一張投影片繞回到第一張，你也可以改成這樣做。",
-        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+        "body": "有時候你會希望觀眾一次看一段內容，就像投影片一樣，用方向鍵往前/和/往後切換。\n\n這種模式的每個版本，都是由相同的三個部分組成：\n\n• 一份 @List 你想要顯示的內容清單• 一份 @Key 串流（Stream），每次按下按鍵時都會改變• 一份 @Reaction 記住你現在看到哪一段內容的東西\n\n這是最簡單的版本。先點一下舞台讓它開始監聽，再按左、右方向鍵試試看：\n\n\\slides: ['第一' '第二' '第三']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length(\n\t\t\t\t\t\t)) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\n這個  @Reaction 是整個程式的核心。它從\\1\\開始，每次 @Key 改變時，都會決定新的數字應該是多少。如果按下右方向鍵，就加一；如果按下左方向鍵，就減一；否則就維持不變。\n\n多加的\\?\\判斷，是用來避免數字超出清單的頭尾。如果沒有這些判斷，你就可能走出清單之外，變成沒有投影片可以顯示。如果你希望從最後一張投影片自動繞回第一張，也可以這樣做。\n\n注意：方向鍵的名稱是\\'ArrowLeft'\\、\\'ArrowRight'\\、\\'ArrowUp'\\，還有\\'ArrowDown'\\。你也可以直接寫\\'Left'\\ 和 \\'Right'\\，鍵盤按鍵的名稱也可以用你自己的語言喔。\n\n注意，\\index\\ 只是一個數字，所以這個方法適用於/任何/種類的內容，不只是文字。把  @List  換成一份  @Group  清單，或整個場景的清單，其他的模式完全不用改變：\n\n\\slides: [\n\t\tPhrase('一個分成三段的故事' 尺寸: 3m)\n\t\tGroup(Stack() [Phrase('🐈') Phrase('一隻貓出現了')])\n\t\tPhrase('結束了 🎉')\n\t]\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length(\n\t\t\t\t\t\t)) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nslides[index]\\\n\n一個  @Scene  也能做到這件事，而且不用數那麼多次。給它  @Scene/pause ，讓它自己不會亂動，再給它  @Scene/step ，讓它往任一方向移動一格：\n\n\\key: Key()\nScene(\n\t[\n\t\tPhrase('一個分成三段的故事' 尺寸: 3m)\n\t\tGroup(Stack() [Phrase('🐈') Phrase('一隻貓出現了')])\n\t\tPhrase('結束了 🎉')\n\t]\n\t暫停: ⊤\n\t步驟: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø\n)\\\n\n這裡不需要寫任何 \\?\\ 檢查，因為  @Scene  會自己在兩端停下來，不用記住現在顯示的是哪一個。詢問  @Spotlight 如果你想在舞台上顯示/「10 分之 3」/這樣的內容。\n\n注意：可以在作品集裡看到完整工程：<投影片放映@https://wordplay.dev/project/example-SlideShow?play>\n\n這個  @Reaction 在上面示範的方法，仍然是處理「不是輸出內容」時該用的方式——像是文字、顏色或數字的清單，或任何你用來組成作品的其他素材。",
+        "related": [
+            "interactive-scene",
+            "choose-adventure",
+            "offer-choices",
+            "repeat-a-round"
+        ]
+    },
+    {
+        "id": "repeat-a-round",
+        "title": "重複遊戲的一個回合",
+        "category": "stories",
+        "body": "很多遊戲都是同樣幾個時刻不斷重複：說出要做什麼、等待回答、顯示結果如何，然後重新開始。一個  @Scene  可以是整個回合，而  @Scene/loop  就是讓它回到開頭的東西。\n\n這些時刻就是清單裡的元素，而它們之間的  @Boolean  就是  @Scene  等待玩家的地方。\n\n\\guess: Chat()\nright: guess = '貓咪'\nScene(\n\t[\n\t\tPhrase('猜猜這是什麼動物！' 持續時間: 2s)\n\t\t∆ guess\n\t\tPhrase(right ? '對了！' '不對！' 持續時間: 2s)\n\t]\n\t迴圈: ~right\n)\\\n\n這個 \\∆ guess\\ 就是等待：只有在新的猜測出現那一刻才是真的，所以  @Scene  會一直停在那裡，直到有人輸入了什麼。而 \\迴圈2: ~right\\ 就是重複：這個  @Scene  會一直重新來過，直到他們猜對為止，然後停在最後一個  @Phrase 。\n\n注意：  @Scene/loop  在你的程式每次改變時都會被讀取，所以你可以用它來結束一個迴圈，也可以用它來開始一個迴圈，這正是 \\~right\\ 剛剛做的事。\n\n想知道回合進行到哪裡了，就問問  @Spotlight 。它會告訴你目前顯示的是哪一個  @Phrase ，總共有多少個，這個  @Scene  已經重複了幾次，還有現在是不是正在等待某個人。\n\n\\guess: Chat()\nat: Spotlight()\nStage(\n\t[\n\t\tScene(\n\t\t\t[\n\t\t\t\tPhrase('猜猜這是什麼動物！' 持續時間: 2s)\n\t\t\t\t∆ guess\n\t\t\t\tPhrase('不對！' 持續時間: 2s)\n\t\t\t]\n\t\t\t迴圈: ⊤\n\t\t)\n\t\tPhrase(\n\t\t\tat.waiting ? '輸入一個猜測' `回合 \\at.lap + 1\\`\n\t\t\t尺寸: 0.4m\n\t\t\t位置: Place(0m -2m)\n\t\t)\n\t]\n)\\\n\n@Scene/replay  是一種方法，讓你隨時都能重新開始這個回合，不管它原本進行到哪裡了。給它一個只在某個瞬間才成立的條件，像是 \\∆ 按鈕(\n)\\。",
+        "related": ["interactive-scene", "animated-scene", "track-game-state"]
     },
     {
         "id": "layering-images",

@@ -44,28 +44,6 @@ const Locales = fs
  *  know an example still names what its locale declares. */
 const Timeout = 240_000;
 
-/**
- * A known backlog: how-tos whose translations are *incomplete*, not drifted.
- *
- * en-US's `move-between-content` used `¶…¶` for an aside, which closed the
- * wrapper `toMarkup` puts around a body and left the remaining half parsed as
- * code. Nothing rendered that half and nothing reported it — and the translator
- * was handed the truncated version too, so 28 of the 30 translations stop where
- * the aside began, averaging 55% of the English. Removing the `¶` (see
- * `checkHowToBody`, which now fails on it) is what makes those examples visible
- * again, and so what makes this test see three more examples in en-US than in
- * each translation.
- *
- * They cannot be repaired here: the missing text has to be translated, which is
- * `+howto:move-between-content` on a `translate.yml` run. Exempted rather than
- * left failing for the reason `TypedInputNamesAreFatal` is false — a true finding
- * a machine must not repair — and this list should be empty once that run lands.
- */
-const TruncatedTranslations = ['/move-between-content.txt: '];
-function isTruncatedTranslation(entry: string): boolean {
-    return TruncatedTranslations.some((known) => entry.includes(known));
-}
-
 function read<T>(file: string): T | undefined {
     try {
         return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -262,7 +240,7 @@ test(
             }
         }
         expect(
-            divergent.filter((entry) => !isTruncatedTranslation(entry)),
+            divergent,
             'These examples no longer have the same shape as en-US, so their names cannot be retargeted. Compare each against its en-US source and repair it by hand.',
         ).toEqual([]);
     },

@@ -950,6 +950,11 @@
         "e62959bf8e73e": "$~Agora pode escrever um endereço de email num documento ou num como, e este passa a ser uma ligação que abre uma mensagem.",
         "e730993ac0281": "$~Agora escreve-se um carácter Unicode pelo seu número como \\@U/1F600\\, em vez da forma mais antiga sem o U.",
         "ec1e67db8a983": "$~Quando traduz, o idioma escolhido passa a ser usado apenas para o texto que não marcou com um idioma, já que tudo o que já marcou indica o idioma em que está escrito. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
-        "e7600746959d1": "$~Traduzir um projeto passa a traduzir tudo, incluindo nomes e texto marcados com outro idioma, que antes eram ignorados sem aviso. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
+        "e7600746959d1": "$~Traduzir um projeto passa a traduzir tudo, incluindo nomes e texto marcados com outro idioma, que antes eram ignorados sem aviso. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e73aff6688055": "$~Um @Scene pode agora repetir, recomeçar, ficar parado, esperar pelo utilizador depois de cada parte, e avançar ou saltar para qualquer parte de si mesmo. Assim, pode criar um jogo que pergunta novamente depois de cada ronda, ou uma apresentação de diapositivos que se avança com um clique. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e876dc2ed0b0f": "$~Um @Group pode agora conter um @Shape, para que possa sobrepor um círculo com o seu texto, ou colocar um @Scene dentro de uma disposição. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e723fd65c8efc": "$~Um @Shape alinha-se agora com o @Stack, @Row, ou @Grid em que se encontra, em vez de ficar onde os seus próprios cantos calhavam estar, e qualquer coisa dentro de um @Grid pode agora estar mais perto ou mais longe. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e8ad9864d7217": "$~Adicionámos um como ao <Guia@https://wordplay.dev/guide> para repetir uma ronda de um jogo. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e0bce9fefa9f6": "$~Adicionámos @Spotlight, que indica qual a parte de @Scene que está a ser mostrada, quantas partes existem, quantas vezes já deu a volta e se está à espera de alguém. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
     }
 }

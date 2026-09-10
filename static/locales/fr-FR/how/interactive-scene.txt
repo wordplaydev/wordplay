@@ -1,35 +1,77 @@
-Créez une série de scènes interactives
+Créer une série de scènes interactives
 
-Parfois, nous voulons raconter des histoires qui attendent que le spectateur fasse quelque chose avant de passer au contenu suivant.
+Parfois, nous voulons raconter des histoires qui attendent que la personne qui regarde fasse quelque chose avant de passer au contenu suivant.
 
-Pour ce faire, nous pouvons utiliser un @Scene , mais mettre @Boolean valeurs entre les contenus que nous souhaitons afficher. Par exemple, un clic permet d'accéder au contenu suivant, en utilisant un @Button :
+Pour faire cela, nous pouvons utiliser un  @Scene , mais en mettant des valeurs  @Boolean  entre le contenu que nous voulons montrer. Par exemple, voici un clic qui fera avancer vers chaque contenu suivant, en utilisant un  @Button  :
 
-\
-Scene([
-		Phrase('click me')
+\Scene(
+	[
+		Phrase('clique sur moi')
 		Button()
-		Phrase('click me again' durée: 1s)
+		Phrase('clique sur moi encore' durée: 1s)
 		Button()
-		Phrase('no really, click me as hard as you can!!' durée: 1s)
+		Phrase(
+			'non vraiment, clique sur moi aussi fort que tu peux !!'
+			durée: 1s
+		)
 		Button()
-		Phrase('have you clicked me yet?' durée: 1s)
-	])
-\
+		Phrase(
+			'est-ce que tu as déjà cliqué sur moi ?'
+			durée: 1s
+		)
+	]
+)\
 
-Le  @Scene montre le premier @Phrase , puis attend le @Button être vrai, et une fois que c'est le cas, on passe au suivant @Phrase .
+Le  @Scene  montre le premier  @Phrase , puis attend que le  @Button  soit vrai, et une fois que c'est le cas, il avance vers le  @Phrase  suivant.
 
-Vous pouvez utiliser tout ce que vous voulez pour avancer, à condition que ce soit vrai ou faux.Par exemple, nous pourrions utiliser notre voix !Si nous crions assez fort, la scène avancera :
+Tu peux utiliser n'importe quoi pour avancer, du moment que c'est soit vrai, soit faux. Par exemple, nous pourrions utiliser notre voix ! Si nous crions assez fort, la scène avance :
 
-\
-Scene([
-		Phrase('is anyone there?')
+\Scene(
+	[
+		Phrase(«est-ce qu'il y a quelqu'un ?»)
 		Volume() > .5
-		Phrase("I can't hear you, say again?" durée: 1s)
+		Phrase(
+			"je ne t'entends pas, tu peux répéter ?"
+			durée: 1s
+		)
 		Volume() > .7
-		Phrase('louder please...' durée: 1s)
+		Phrase(«plus fort s'il te plaît...» durée: 1s)
 		Volume() > .9
-		Phrase('oh, hi!' durée: 1s)
-	])
-\
+		Phrase('oh, salut !' durée: 1s)
+	]
+)\
 
-animated-scene
+Quand chaque  @Phrase  doit attendre la même chose,  @Scene/until  le dit une seule fois au lieu de l'écrire entre chacun. Cela fait la même chose que le premier exemple ci-dessus :
+
+\Scene(
+	[
+		Phrase('clique sur moi')
+		Phrase('clique sur moi encore' durée: 1s)
+		Phrase(
+			'non vraiment, clique sur moi aussi fort que tu peux !!'
+			durée: 1s
+		)
+		Phrase(
+			'est-ce que tu as déjà cliqué sur moi ?'
+			durée: 1s
+		)
+	]
+	jusque: Button()
+)\
+
+Écris un  @Boolean  dans la liste quand les attentes sont /différentes/, comme dans l'exemple des cris, et utilise  @Scene/until  quand elles sont toutes les mêmes.Tu peux utiliser les deux : un  @Boolean  dans la liste est une attente en plus, en plus de celle que  @Scene/until  demande.
+
+Remarque :  @Scene/until  attend /après/ que chaque  @Phrase  ait eu son  @Phrase/duration , et non à sa place.
+
+Si tu préfères que la  @Scene  ne bouge jamais toute seule, et qu'elle aille seulement là où tu l'envoies, utilise  @Scene/pause  avec  @Scene/step  :
+
+\key: Key()
+Scene(
+	[Phrase('un') Phrase('deux') Phrase('trois')]
+	pause: ⊤
+	étape: ∆ key ? ((key = 'Flèche gauche') ? -1 (key = 'Flèche droite') ? 1 ø) ø
+)\
+
+@Scene/step  se déplace d'un certain nombre de  @Phrase  — \1\ vers l'avant, \-1\ en arrière — et s'arrête aux extrémités pour toi. @Scene/go  est la même idée, exprimée comme une place plutôt qu'une distance : le nombre du  @Phrase  que tu veux, en comptant à partir de 1, ou le  @Phrase/name  que tu lui as donné.
+
+animated-scene, repeat-a-round, move-between-content

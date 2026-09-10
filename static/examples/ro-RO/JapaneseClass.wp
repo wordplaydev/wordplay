@@ -1,7 +1,7 @@
 O
-Clasă de japoneză
+Clasă de limba japoneză
 === start
-¶O poveste, scenă cu scenă, despre prima zi la ora de japoneză.¶
+¶O poveste, scenă cu scenă, despre prima zi de curs de japoneză.¶
 
 ¶Aceasta este lista scenelor de arătat¶
 propoziții: [
@@ -20,18 +20,23 @@ propoziții: [
 ¶Aceasta este lista propozițiilor care trebuie avansate doar prin vorbire.¶
 rosteștePropoziții: [5 7 9]
 
-¶Propoziția curentă începe de la 1 și crește dacă volumul microfonului trece de 0,8 pentru o propoziție vorbită, sau dacă se apasă un buton ori o tastă pentru celelalte propoziții.¶
-propozițiaCurentă•#: 1 …
-	rosteștePropoziții.are(propozițiaCurentă) ?
+¶Locul unde se află povestea. @Scene ține locul, așa că nimic aici nu trebuie numărat.¶
+la2: Spotlight()
+
+¶Treci mai departe când microfonul depășește 0,6 la o propoziție vorbită, și când un buton sau o tastă spune asta la orice altă propoziție.¶
+avansează: rosteștePropoziții.are(la2.index) ?
 		Volum() > .6
 		∆ Buton() | ∆ Cheie()
-		…
-		(propozițiaCurentă <
-				propoziții.lungime()) ?
-			propozițiaCurentă + 1
-			propozițiaCurentă
 
+¶@Scene așteaptă /advance/ după fiecare propoziție și se oprește la ultima.¶
 Etapă(
-	[Fraza(propoziții[propozițiaCurentă] înfășura: 10m)]
+	[
+		Scenă(
+			propoziții.traduce(
+				ƒ(propoziție) Fraza(propoziție înfășura: 10m)
+			)
+			pânăLa: avansează
+		)
+	]
 	faţă: 'Sue Ellen Francisco'
 )

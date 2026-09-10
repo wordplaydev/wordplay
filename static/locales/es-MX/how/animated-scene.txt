@@ -1,47 +1,57 @@
-Crea una serie animada de escenas
+Crear una serie animada de escenas
 
-A veces queremos contar historias, mostrar letras de canciones o animar poesía. Para hacerlo, podemos usar  @Scene  y  @Phrase  juntos, para mostrar una secuencia.
+A veces queremos contar historias, mostrar letras de canciones o animar poesía.Para hacer eso, podemos usar  @Scene  y  @Phrase  juntos, para mostrar una secuencia.
 
-Por ejemplo, imagina que queremos animar la rima infantil corta "Jack be Nimble".Podríamos hacer un  @Scene  que tenga cada verso como un  @Phrase , y al ajustar el  @Phrase/duration  de cada verso, el  @Scene  avanzaría cuando cada frase termine.
+Por ejemplo, imaginemos que queremos animar la corta rima infantil "Jack be Nimble".Podríamos hacer un  @Scene  que tenga cada línea como una  @Phrase , y al configurar el  @Phrase/duration  de cada línea, el  @Scene  avanzaría cuando cada frase termine.
 
-\
-Scene(
+\Scene(
 	[
-		Phrase('Jack sé ágil' duración: 1s)
-		Phrase('Jack sé rápido' duración: 1s)
-		Phrase('Jack salta sobre la vela' duración: 1s)
+		Phrase('Jack be nimble' duración: 1s)
+		Phrase('Jack be quick' duración: 1s)
+		Phrase('Jack jump over the candle stick' duración: 1s)
 	]
 )\
 
-@Scene  también esperará a que un  @Sequence  termine. ¡Hagamos que el verso de la vela salte!
+@Scene  esperará también a que un  @Sequence  termine. ¡Hagamos que la línea de la vela salte!
 
-\
-Scene(
+\Scene(
 	[
-		Phrase('Jack sé ágil' duración: 1s)
-		Phrase('Jack sé rápido' duración: 1s)
+		Phrase('Jack be nimble' duración: 1s)
+		Phrase('Jack be quick' duración: 1s)
 		Phrase(
-			'Jack salta sobre la vela'
+			'Jack jump over the candle stick'
 			entrando: Sequence.bounce(duración: 1s)
 		)
 	]
 )\
 
-@Scene  también puede recibir un  @Group  de texto, y esperará a que todo su contenido termine de animarse.
+@Scene  también puede recibir una  @Group  de texto, y esperará a que todo su contenido termine de animarse.
 
-\
-Scene(
+\Scene(
 	[
 		Group(
 			Stack()
-			[Phrase('Jack sé ágil') Phrase('Jack sé rápido')]
+			[Phrase('Jack be nimble') Phrase('Jack be quick')]
 			duración: 2s
 		)
 		Phrase(
-			'Jack salta sobre la vela'
+			'Jack jump over the candle stick'
 			entrando: Sequence.bounce(duración: 1s)
 		)
 	]
 )\
 
-interactive-scene
+A veces una rima debe seguir.  @Scene/loop  trae de vuelta el  @Scene  a su primer  @Phrase  una vez que el último termina, así que se dice a sí mismo una y otra vez.
+
+\Scene(
+	[
+		Phrase('Jack be nimble' duración: 1s)
+		Phrase('Jack be quick' duración: 1s)
+		Phrase('Jack jump over the candle stick' duración: 1s)
+	]
+	bucle: ⊤
+)\
+
+Nota: un  @Scene  solo vuelve al principio si algo en la lista realmente esperó.Una lista donde cada  @Phrase  tenía un  @Phrase/duration  de \0s\ daría vueltas tan rápido como la computadora pudiera, así que se detiene al final en su lugar.
+
+interactive-scene, repeat-a-round

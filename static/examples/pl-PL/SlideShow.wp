@@ -4,97 +4,101 @@ Pokaz slajdów
 ¶Pokaz slajdów opowiadający, jak powstał Wordplay; naciśnij → i ←, aby go przeglądać.¶
 
 ¶Jeden slajd pokazu: postać, tytuł i słowa pod nim.¶
-•slajd(emotikona•'' tytuł•'' treść2•''|`…`)
+•slajd(emoji•'' tytuł•'' treść2•''|`…`)
 
-¶Historia. Dodaj, usuń lub zmień te slajdy, aby opowiedzieć własną.¶
+¶Historia. Dodaj, usuń lub zmień te slajdy, aby opowiedzieć swoją własną.¶
 slajdy: [
 		slajd(
 			'🎭'
 			'Wordplay'
-			'Historia powstania tego języka. Naciśnij →, aby iść dalej, i ←, aby wrócić.'
+			'Historia o tym, jak powstał ten język. Naciśnij →, aby iść do przodu, i ←, aby wrócić.'
 		)
 		slajd(
 			'✒'
 			'Miłość do liter'
-			'Dawno temu Amy zakochała się w typografii: w kształtach liter i w rytmie słów na stronie.'
+			'Dawno temu Amy zakochała się w typografii: w kształtach liter i rytmie słów na stronie.'
 		)
 		slajd(
 			'💻'
 			'Miłość do kodu'
-			'Zakochała się też w programowaniu i w tym, jak kilka słów mogło sprawić, że coś się poruszało.'
+			'Zakochała się też w programowaniu i w tym, jak kilka słów może sprawić, że coś się porusza.'
 		)
 		slajd(
 			'🧭'
 			'Dwie miłości, osobno'
-			'Ale typografia i programowanie żyły w różnych światach, a mało które narzędzie zapraszało do pokochania obu naraz.'
+			'Ale typografia i programowanie żyły w różnych światach, a mało które narzędzia zapraszały do pokochania obu naraz.'
 		)
 		slajd(
 			'😄'
 			'Młoda osoba'
-			'Wiele lat później poznała młodą osobę, która kochała emotikony i chciała sprawić, by tańczyły.'
+			'Wiele lat później poznała młodą osobę, która kochała emoji i chciała sprawić, by tańczyły.'
 		)
 		slajd(
 			'💡'
 			'Pomysł'
-			'A gdyby jakiś język programowania ułatwiał sprawianie, by emotikony tańczyły?'
+			'A gdyby język programowania ułatwiał sprawianie, że emoji tańczą?'
 		)
 		slajd(
 			'🌱'
 			'Powstaje Wordplay'
-			'Zaczęła więc budować taki język, w którym pisanie kodu oznacza przesuwanie słów i znaków po scenie.'
+			'Więc zaczęła go budować - język, w którym pisanie kodu oznacza poruszanie słowami i znakami po scenie.'
 		)
 		slajd(
 			'🧑‍🏫'
-			'Zaprojektowane wspólnie'
-			'Zaprojektowała go razem z wieloma młodymi ludźmi i nauczycielami, którzy mówili, co chcą tworzyć i co im w tym przeszkadza.'
+			'Zaprojektowany wspólnie'
+			'Zaprojektowała go razem z wieloma młodymi ludźmi i nauczycielami, którzy mówili, co chcą stworzyć i co im to utrudniało.'
 		)
 		slajd(
 			'🌏'
-			'Wciąż się rozwija'
-			'Od tamtej pory nieustannie się rozwija, aby coraz więcej osób mogło tworzyć coraz więcej z tego, co sobie wyobrażają.'
+			'Zawsze się rozwija'
+			'Od tamtej pory ciągle rośnie, aby coraz więcej osób mogło tworzyć to, co sobie wymarzą.'
 		)
 		slajd(
 			'✨'
 			'Twoja kolej'
-			`O czym marzysz, że da się to zrobić, choć jeszcze nie jest to możliwe? Napisz nam na <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+			`O czym marzysz, że chciałbyś stworzyć, a co jeszcze nie jest możliwe? Napisz do nas na <GitHub@https://github.com/wordplaydev/wordplay/issues>`
 		)
 	]
 
-suma2: slajdy.długość()
-
 klawisz2: Klawisz()
 
-¶Slajd, który teraz pokazujemy. Strzałka w prawo przesuwa do przodu, strzałka w lewo przesuwa do tyłu, a na końcach się zatrzymuje, nie zawija się od nowa.¶
-indeks2•#: 1 … ∆ klawisz2 …
-		(klawisz2 = 'Strzałka w prawo') ? ((indeks2 < suma2) ? indeks2 + 1 indeks2)
-			(klawisz2 = 'Strzałka w lewo') ? ((indeks2 > 1) ? indeks2 - 1 indeks2)
-				indeks2
+¶Tu odbywa się pokaz. @Scene pilnuje miejsca, więc nic tu nie musi liczyć.¶
+w: Spotlight()
 
-slajd2: slajdy[indeks2]
+¶Każdy slajd jest narysowany. Nie zależy to od niczego, co się zmienia, więc powstaje tylko raz — a nie przy każdym naciśnięciu klawisza. Dlatego licznik poniżej nie znajduje się tutaj.¶
+wyświetlenia: slajdy.tłumaczyć(
+		ƒ(slajd2•slajd) Grupa(
+				Stos('|' 0.4m)
+				[
+					Wyrażenie(slajd2.emoji rozmiar: 2m)
+					Wyrażenie(
+						`*\slajd2.tytuł\*`
+						rozmiar: 1.2m
+						wyrównanie: '|'
+					)
+					Wyrażenie(
+						slajd2.treść2
+						rozmiar: 0.5m
+						zawinąć: 12m
+						wyrównanie: '|'
+					)
+				]
+			)
+	)
 
-Scena(
+¶Pokaz nigdy nie przechodzi dalej sam z siebie — strzałki przesuwają go o jeden slajd w jedną lub drugą stronę. Zatrzymuje się na obu końcach za nas, więc nie trzeba niczego sprawdzać.¶
+Grupa(
+	Stos('|' 0.4m)
 	[
-		Grupa(
-			Stos('|' 0.4m)
-			[
-				Wyrażenie(slajd2.emotikona rozmiar: 2m)
-				Wyrażenie(
-					`*\slajd2.tytuł\*`
-					rozmiar: 1.2m
-					wyrównanie: '|'
-				)
-				Wyrażenie(
-					slajd2.treść2
-					rozmiar: 0.5m
-					zawinąć: 12m
-					wyrównanie: '|'
-				)
-				Wyrażenie(
-					`\indeks2\ z \suma2\`
-					rozmiar: 0.25m
-					wyrównanie: '|'
-				)
-			]
+		Pokaz(
+			wyświetlenia
+			pauza: ⊤
+			krok: ∆ klawisz2 ? ((klawisz2 = 'Strzałka w lewo') ? -1 (klawisz2 = 'Strzałka w prawo') ? 1 ø) ø
+		)
+		Wyrażenie(
+			`\w.index\ z \w.total\`
+			rozmiar: 0.25m
+			wyrównanie: '|'
 		)
 	]
 )

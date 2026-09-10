@@ -4578,23 +4578,79 @@
         },
         "Scene": {
             "doc": [
-                "$~Ipinapakita nito ang isang @List ng @Phrase o @Group nang paisa-isa, na humihinto sa huli.",
-                "/Uy uy uy uy/",
-                "Para makontrol ang timing, maaari mong itakda ang @Phrase.duration sa bawat output, at ipapakita nito ito nang ganoon katagal bago lumipat sa susunod, at gamitin ang anumang mga transition na @Phrase.entering o @Phrase.exiting na maaaring naitakda mo. Kung itatakda mo ang mga ito sa isang @Sequence , gagamitin nito ang duration nito.",
-                "Ang lahat ng iyan ay nagbibigay-daan sa iyo na gawin ang mga bagay tulad ng maliit na @Scene na ito, na nagpapakita ng tatlong pariralang ito nang magkakasunod:",
-                "\\Scene([\n\tPhrase('Hello' tagal: 1s)\n\tPhrase('How are you?' tagal: 2s pagikot: 5° pagpasok: Pose(pagikot: 0°))\n\tPhrase('I am fine')\n])\\",
-                "Nakikita mo ba kung paano ipinapakita ang unang output sa loob ng isang segundo, pagkatapos ay ang susunod sa loob ng dalawang segundo, ngunit ina-animate sa limang digri na pag-ikot, at pagkatapos ay ipinapakita nito ang huli?",
-                "Maaari kang gumawa ng napakadetalyadong mga pagkakasunod-sunod ng output at mga animation gamit ang @Scene , at gawing dynamic o interactive ang mga bahagi ng mga ito, tulad ng anumang iba pang @Phrase o @Group .",
-                "Kung mayroon kang animated output na naka-nested (isang @Group na may animated @Phrase sa loob), hihintayin @Scene na matapos ang lahat ng animated na nilalaman sa @Group .",
-                "Ah, at isa pang maliit na sikreto! Maaari mo ring ilagay @Boolean sa listahan, at kung ang mga ito ay \\⊥\\ , ang @Scene ay magpo-pause at maghihintay na maging totoo ito.",
-                "Halimbawa, kung gusto mong gumawa ng sequence ng @Phrase at mag-advance lang kapag nagbago @Button , magagawa mo ito:",
-                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' tagal: 0.25s pagikot: 5° pagpasok: Pose(pagikot: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
-                "Tingnan mo kung paano ito humihinto pagkatapos ng bawat @Phrase , at naghihintay na magbago @Button bago sumulong?"
+                "$~Nagpapakita ito ng @List ng @Phrase, @Group o @Shape isa-isa, hanggang huminto sa huli.",
+                "/Boop boop boop/",
+                "Upang kontrolin ang timing, maaari mong itakda ang @Phrase.duration sa bawat output, at ipapakita ito nang gayon katagal bago lumipat sa susunod, gamit ang anumang @Phrase.entering o @Phrase.exiting na transisyon na itinakda mo. Kung itatakda mo ang mga ito sa isang @Sequence, gagamitin nito ang tagal nito.",
+                "Sa lahat ng iyan, magagawa mo ang gaya ng maliit na @Scene na ito, na nagpapakita ng tatlong pariralang ito nang sunud-sunod:",
+                "\\Eksena(\n\t[\n\t\tParirala('Kumusta' tagal: 1s)\n\t\tParirala(\n\t\t\t'Kumusta ka?'\n\t\t\ttagal: 2s\n\t\t\tpagikot: 5°\n\t\t\tpagpasok: Pose(pagikot: 0°)\n\t\t)\n\t\tParirala('Mabuti ako')\n\t]\n)\\",
+                "Napansin mo ba na ipinapakita ang unang output sa loob ng isang segundo, pagkatapos ang susunod sa loob ng dalawang segundo, ngunit may animasyon patungo sa limang degree na pag-ikot, at pagkatapos ay ipinapakita ang huli?",
+                "Maaari kang gumawa ng napakadetalyadong sunud-sunod na output at animasyon gamit ang @Scene, at maaari mo pa itong gawing dynamic o interactive ang mga bahagi nito, tulad ng anumang iba pang @Phrase o @Group.",
+                "Kung may animated na output ka na naka-loob (isang @Group na may animated na @Phrase sa loob), maghihintay ang @Scene hanggang matapos ang lahat ng animated na nilalaman sa @Group.",
+                "Ay, at isa pang maliit na sikreto! Maaari mo ring ilagay ang @Boolean sa listahan, at kung ang mga ito ay \\⊥\\, huminto muna at maghihintay ang @Scene hanggang maging totoo ito.",
+                "Halimbawa, kung gusto mong gumawa ng sunud-sunod na @Phrase at umusad lamang kapag nagbago ang @Button, maaari mong gawin ito:",
+                "\\click: ∆ Butones()\nEksena(\n\t[\n\t\tParirala('Kumusta')\n\t\tclick\n\t\tParirala(\n\t\t\t'Kumusta ka?'\n\t\t\ttagal: 0.25s\n\t\t\tpagikot: 5°\n\t\t\tpagpasok: Pose(pagikot: 0°)\n\t\t)\n\t\tclick\n\t\tParirala('Mabuti ako')\n\t]\n)\\",
+                "Napansin mo ba na humihinto ito pagkatapos ng bawat @Phrase, at naghihintay para magbago ang @Button bago umusad?",
+                "Bilang default, huminto ako sa huli kong output. Bigyan mo ako ng @Scene/loop at babalik ako sa una kong output, na siyang gusto ng isang larong nagtatanong muli pagkatapos ng bawat round.",
+                "Sinusuri ko ang @Scene/loop sa tuwing nagbabago ang iyong programa, kaya maaaring magtapos ang isang loop tulad ng pagsisimula nito. Dito, patuloy akong nagtatanong hanggang tama ang sagot nila, at saka lang huminto:",
+                "\\hulaan: Makipagchat()\ntama: hulaan = 'cat'\nEksena(\n\t[\n\t\tParirala('Hulaan ang hayop!' tagal: 2s)\n\t\t∆ hulaan\n\t\tParirala(tama ? 'Oo!' 'Hindi!' tagal: 2s)\n\t]\n\tloop: ~tama\n)\\",
+                "Sinisimulan ako ulit ng @Scene/replay, pinapanatili ako ng @Scene/pause sa kinaroroonan ko, at direktang ipinapadala ako ng @Scene/go sa isa sa mga output ko. Itakda ang @Scene/pause sa \\⊤\\ at hindi na ako kailanman gagalaw mag-isa, kaya ang @Scene/go na lamang ang siyang makakagawa sa aking umusad — ganito mo ginagawa ang isang slide show na maaaring pumunta pasulong /at/ paatras.",
+                "At kung gusto mong malaman kung nasaan ako, para ipakita ang /3 ng 10/ o magpatugtog ng ibang musika sa ibang bahagi ng kuwento, iyan ang gamit ng @Spotlight."
             ],
             "names": ["$~Eksena"],
             "outputs": {
                 "names": "$~mgaoutput",
                 "doc": "$~Ang listahan ng mga output na ipapakita nang sunod-sunod."
+            },
+            "loop": {
+                "names": "$~loop",
+                "doc": "$~Kung babalik ba ako sa una kong output kapag natapos na ang huli ko. Humihinto ako sa huli maliban kung ito ay \\⊤\\. Sinusuri ko ito sa bawat ebalwasyon, kaya maaari kang magtapos ng loop tulad ng pagsisimula nito."
+            },
+            "replay": {
+                "names": "$~ulitin",
+                "doc": [
+                    "$~Kapag ito ay \\⊤\\ sa isang ebalwasyon, magsisimula ako ulit mula sa una kong output, kahit saan man ako nakarating, at babalik sa 0 ang aking @Slate/lap.",
+                    "Bigyan mo ako ng /panandaliang/ @condition, isang totoo lamang sa ebalwasyon na dulot ng pangyayari, tulad ng \\∆ Butones()\\. Ang isang kondisyong tumatagal tulad ng \\score > 10\\🪲 ay nananatiling totoo kapag naging totoo na ito, kaya isisimula nito ako ulit sa bawat ebalwasyon mula noon."
+                ]
+            },
+            "pause": {
+                "names": "$~iPause",
+                "doc": [
+                    "$~Habang ito ay \\⊤\\ nananatili akong tahimik, at kapag bumalik ito sa \\⊥\\ magpapatuloy ako. Ang isang output na binibilang ko pababa ay pananatilihin ang natitira nitong oras, kaya ang paghinto sa gitna ng mahabang @Phrase ay hindi ito sisimulan ulit mula sa simula.",
+                    "Hindi tulad ng @Scene/replay, gusto ko ng /tumatagal/ na @condition, isang nananatiling totoo hanggang sa gusto mong maghintay ako. Iwanan mo akong nakapause nang tuluyan at hindi na ako kailanman gagalaw mag-isa, na siyang eksaktong gusto ng isang slide show: pagkatapos, ang @Scene/go na lamang ang makakagawa sa aking umusad."
+                ]
+            },
+            "go": {
+                "names": "$~umandar",
+                "doc": [
+                    "$~Kung saan pupunta pagkatapos. Bigyan mo ako ng numero at ipapakita ko ang output na iyon, magbibilang mula sa 1; bigyan mo ako ng pangalan at ipapakita ko kung aling output ang binigyan mo ng @Phrase/name na iyon.",
+                    "Output lamang ang binibilang ko, hindi kailanman ang @Boolean sa pagitan, kaya ang pagpapadala sa akin sa 2 ay nangangahulugang ang aking ikalawang @Phrase, kahit gaano karaming kondisyon ang nakaharang.",
+                    "Tulad ng @Scene/replay, gusto nito ng /panandaliang/ @condition — isang bagay na \\ø\\ maliban sa ebalwasyon kung saan mo ako gustong ilipat. Ang numero na nananatili sa isang lugar ay magpapako sa akin doon magpakailanman.",
+                    "Ipadala mo ako lampas sa alinmang dulo at hihinto ako doon, maliban kung @Scene/loop ay \\⊤\\, kung saan babalik ako sa umpisa. Nangangahulugan iyon na hindi mo na kailangang mag-check. Dito, ang mga arrow key ay naglalakad sa slide show sa magkabilang direksyon:",
+                    "Kung mas gusto mong sabihing /isa pasulong/ kaysa /numero tatlo/, iyon ay @Scene/step.",
+                    "\\mgaSlide: [\n\t\tParirala('isa')\n\t\tParirala('dalawa')\n\t\tParirala('tatlo')\n\t]\nsusi2: Susi()\nsa: Spotlight()\nEksena(\n\tmgaSlide\n\tiPause: ⊤\n\tumandar: ∆ susi2 ? ((susi2 = 'Palaso Kaliwa') ? sa.index - 1 (susi2 = 'PalasoKanan') ? sa.index + 1 ø) ø\n)\\"
+                ]
+            },
+            "name": {
+                "names": "$~pangalan",
+                "doc": "$~Ang pangalan ko. Ginagamit ito ng @Spotlight upang ihiwalay ako sa anumang ibang @Scene na tumatakbo nang sabay; kung iisang eksena lamang, maaari mo na lamang itong hayaan nang hindi ginagalaw."
+            },
+            "until": {
+                "names": "$~hanggang",
+                "doc": [
+                    "$~Isang @condition na hihintayin pagkatapos ng bawat isa sa mga output ko, kapag natapos na ang @Phrase/duration nito o natapos na ang animasyon nito.",
+                    "Kapareho ito ng pagsulat ng @Boolean na iyon sa pagitan ng bawat output sa aking listahan, na siyang gagawin mo upang maghintay ang isa sa aking mga output. Dito, isang beses lamang isinusulat ito:",
+                    "\\Eksena(\n\t[Parirala('isa') Parirala('dalawa') Parirala('tatlo')]\n\thanggang: ∆ Butones()\n)\\",
+                    "Gumagana pa rin ang isang @Boolean na nakasulat sa listahan, at magkaiba ang dalawang paghihintay, kaya puwede kang tumagal nang mas matagal sa isang partikular na lugar."
+                ]
+            },
+            "step": {
+                "names": "$~hakbang",
+                "doc": [
+                    "$~Ilang output ang ililipat, bibilangin mula sa kung nasaan ako: \\1\\ ay pasulong ng isa at \\-1\\ ay pabalik ng isa. Ito ay @Scene/go na sinasabi bilang isang distansya sa halip na isang lugar.",
+                    "Tulad ng @Scene/go, huminto ako sa aking mga dulo maliban kung ang @Scene/loop ay \\⊤\\, kaya hindi mo na kailangang suriin, at gusto ko ng /panandaliang/ @condition — isang bagay na \\ø\\ maliban sa ebalwasyon kung saan mo ako gustong ilipat.",
+                    "\\mgaSlide: [\n\t\tParirala('isa')\n\t\tParirala('dalawa')\n\t\tParirala('tatlo')\n\t]\nsusi2: Susi()\nEksena(\n\tmgaSlide\n\tiPause: ⊤\n\thakbang: ∆ susi2 ? ((susi2 = 'Palaso Kaliwa') ? -1 (susi2 = 'PalasoKanan') ? 1 ø) ø\n)\\",
+                    "Walang dito ang kailangang malaman kung aling @Phrase ang ipinapakita, ito ang pagkakaiba mula sa @Scene/go. Tanungin ang @Spotlight kung gusto mong sabihin ito sa entablado."
+                ]
             }
         },
         "Motion": {
@@ -5164,6 +5220,43 @@
                 "doc": "$~Ang pantig na inaawit ng bahaging ito sa beat na ito, o \\ø\\ kapag wala itong inaawit — isang pahinga, o isang track na walang @Track/words.",
                 "names": "$~mgaSalita"
             }
+        },
+        "Spotlight": {
+            "doc": [
+                "$~Sinasabi ko kung nasaan ang isang @Scene ngayon: kung aling output ang ipinapakita nito, ilan ang mayroon ito, at kung naghihintay ba ito ng isang tao.",
+                "Nagpapakita ng mga bagay ang isang @Scene; ako ang paraan kung paano nalalaman ng iba pang bahagi ng isang programa kung ano ang ipinapakita nito. Iyon ang nagpapahintulot sa iyong maglagay ng counter sa ilalim ng isang slide show, magpatugtog ng iba't ibang musika sa iba't ibang bahagi ng isang kuwento, o magpakita ng /press any key/ na paalala lamang habang talagang naghihintay ang eksena.",
+                "\\mgaSlide: [\n\t\tParirala('isa')\n\t\tParirala('dalawa')\n\t\tParirala('tatlo')\n\t]\nsa: Spotlight()\nEntablado(\n\t[\n\t\tEksena(mgaSlide loop: ⊤)\n\t\tParirala(\n\t\t\t`\\sa.index\\ ng \\sa.total\\`\n\t\t\tlaki: 0.3m\n\t\t\tlugar: Lugar(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Lagi akong may @Slate, kahit bago pa may nangyari, kaya hindi mo na kailangang suriin ako para sa \\ø\\."
+            ],
+            "names": "$~IlawNaPantutok",
+            "name": {
+                "names": "$~pangalan",
+                "doc": "$~Ang @Scene/name ng susunod na eksena. Iwanan itong \\ø\\ at susundan ko ang bawat eksena."
+            }
+        },
+        "Slate": {
+            "doc": "$~Kung nasaan ang isang @Scene: kung ano ang ipinapakita nito, gaano na ito kalayo, at kung naghihintay ba ito.",
+            "names": "$~Pisara",
+            "scene": {
+                "names": "$~tagpo",
+                "doc": "$~Ang @Scene/name ng eksenang pinanggalingan ko, o \\''\\ kung wala itong ganoon."
+            },
+            "index": {
+                "names": "$~indeks",
+                "doc": "$~Kung aling output ang ipinapakita ng @Scene, bilang mula sa 1. Binibilang ko lamang ang mga output, hindi kailanman ang @Boolean sa pagitan."
+            },
+            "total": {
+                "names": "$~kabuuan",
+                "doc": "$~Ilang output ang mayroon ang @Scene, hindi kasama ang @Boolean sa pagitan."
+            },
+            "lap": {
+                "names": "$~ikot",
+                "doc": "$~Ilang beses nang bumalik ang @Scene sa unang output nito. Ito ay 0 sa unang pagkakataon."
+            },
+            "waiting": {
+                "names": "$~naghihintay",
+                "doc": "$~Kung ang @Scene ay tumigil: naghihintay para maging totoo ang isang @Boolean, o pinipigilan ng @Scene/pause. Ito ang dapat panoorin ng isang /press any key/ na paalala."
+            }
         }
     },
     "output": {
@@ -5176,11 +5269,11 @@
         },
         "Group": {
             "doc": [
-                "$~Inaayos ko @Phrase at @Group nang magkasama sa @Stage gamit ang isang @Arrangement . Kumusta ka? Palagi akong maayos kapag may kasama, kaya ang saya kong makasama ka!",
-                "Para gumana, kailangan mo akong bigyan ng @Arrangement , at pagkatapos ay isang @List of @Output para ayusin.",
-                "Halimbawa, narito ako kasama ang isang @Stack arrangement at ilang @Phrase para i-stack nang patayo:",
-                "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
-                "Kung paano ko eksaktong inaayos ang mga bagay-bagay ay nakadepende sa @Arrangement na ibibigay mo sa akin."
+                "$~Inaayos ko ang @Phrase, @Shape at @Group nang magkasama sa @Stage gamit ang @Arrangement. Oh kumusta, kamusta ka? Palagi akong okey kapag may kasama, kaya masaya akong kasama kita!",
+                "Upang gumana, kailangan kong bigyan mo ako ng isang @Arrangement, at pagkatapos ay isang @List ng @Output na aayusin.",
+                "Halimbawa, narito ako na may @Stack na ayos at ilang @Phrase na itatambak nang patayo:",
+                "\\Grupo(\n\tPatongpatong()\n\t[Parirala('una') Parirala('pangalawa')]\n)\\",
+                "Ang eksaktong paraan ng pag-aayos ko ay nakadepende sa @Arrangement na ibinibigay mo sa akin."
             ],
             "names": ["$~Grupo"],
             "layout": {
@@ -5420,11 +5513,11 @@
             }
         },
         "Arrangement": {
-            "doc": "$~Isa akong inspirasyon sa maraming iba pang uri ng pagkakaayos sa Talata, kabilang ang @Row, @Stack, @Grid, at @Free. Malapit akong nakikipagtulungan sa @Group para",
+            "doc": "$~Ako ang inspirasyon ng maraming ibang uri ng ayos sa Verse, kabilang ang @Row, @Stack, @Grid, at @Free. Malapit akong nakikipagtulungan sa @Group upang magpasya kung saan pupunta ang bawat @Output: inililipat ko ang bawat isa sa kung saan ko sinasabi, na pinapanatili ang laki at hugis nito. Ang @Free ang isa sa amin na walang pinagpapasyahan, kaya doon ang bawat @Output ay nakaupo sa sarili nitong @Place. Kung gusto mong bahagyang itulak ang isang bagay mula sa kinalagyan ko dito, bigyan ito ng @Phrase/offset sa halip na @Place.",
             "names": ["$~Kaayusan"]
         },
         "Row": {
-            "doc": "$~Ako si @Row, isang pahalang na @Arrangement ng @Output, na may opsyonal na padding sa pagitan. Nakilala mo na ba ang kakambal ko, si @Stack?",
+            "doc": "$~Ako si @Row, isang pahalang na @Arrangement ng @Output, na may opsyonal na puwang sa pagitan. Nakilala mo na ba ang kambal kong si @Stack? Ako ang nagpapasya kung gaano kalayo ang bawat isa, at ang una kong input ay nagsasabi kung paano sila ihahanay pababa sa akin. Bigyan ang isa sa kanila ng @Place at doon ito uupo sa halip — pero ang isang @Shape ay walang sariling @Place, kaya inihahanay ko ito kasama ng lahat.",
             "names": ["$~Hilera"],
             "description": "$~hilera ng $#count[$count parirala o grupo|$count na parirala at grupo]",
             "alignment": {
@@ -5437,7 +5530,7 @@
             }
         },
         "Stack": {
-            "doc": "$~Ako si @Stack, isang patayong @Arrangement ng @Output, na may opsyonal na padding sa pagitan. Nakilala mo na ba ang kakambal ko, si @Row?",
+            "doc": "$~Ako si @Stack, isang patayong @Arrangement ng @Output, na may opsyonal na puwang sa pagitan. Nakilala mo na ba ang kambal kong si @Row? Ako ang nagpapasya kung gaano kababa ang bawat isa, at ang una kong input ay nagsasabi kung paano sila ihahanay pahalang sa akin. Bigyan ang isa sa kanila ng @Place at doon ito uupo sa halip — pero ang isang @Shape ay walang sariling @Place, kaya inihahanay ko ito kasama ng lahat.",
             "names": ["$~Patongpatong"],
             "description": "$~salansan ng $#count[$count parirala o grupo|$count na parirala at grupo]",
             "alignment": {
@@ -5450,7 +5543,7 @@
             }
         },
         "Grid": {
-            "doc": "$~Ako ay grid ng @Output. Bigyan mo ako ng bilang ng row at @column at gagawa ako ng maayos na pagkakaayos na may opsyonal na padding at @cell na laki.",
+            "doc": "$~Ako ay isang grid ng @Output. Bigyan mo ako ng bilang ng hanay at @column at gagawa ako ng maayos na ayos na may opsyonal na puwang at mga sukat na @cell. Ako ang nagpapasya sa parehong direksyon, kaya ang isang @Place ay hindi maglilipat ng anuman pakiliwa't kanan o pataas at pababa — bagaman ang z nito ay sinasabi pa rin kung gaano ito kalapit.",
             "names": ["$~▦", "$~Grid"],
             "description": "$~$rows hilera $columns grid ng hanay",
             "rows": {

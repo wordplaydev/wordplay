@@ -1,37 +1,57 @@
-יצירת סדרת אנימציה של סצנות
+יצירת סדרה מונפשת של סצנות
 
-לפעמים אנחנו רוצים לספר סיפורים, להראות מילים או להנפיש שירה.לשם כך, נוכל להשתמש @Scene ו @Phrase יחד, כדי להראות רצף.
+לפעמים אנחנו רוצים לספר סיפורים, להציג מילות שיר, או להנפיש שירה.כדי לעשות את זה, אפשר להשתמש ב- @Scene  וב- @Phrase  יחד, כדי להציג רצף.
 
-לדוגמה, דמיינו שאנחנו רוצים להנפיש את שיר הילדים הקצר "ג'ק בי נימבלי".אנחנו יכולים לעשות @Scene שיש בו כל שורה כ- @Phrase , ועל ידי הגדרת ה- @Phrase/duration של כל שורה, ה @Scene יתקדם כאשר כל משפט יושלם.
+לדוגמה, נדמיין שרצינו להנפיש את שיר הילדים הקצר, "ג'ק היה זריז".נוכל ליצור  @Scene  שבו כל שורה היא  @Phrase , ועל ידי קביעת ה- @Phrase/duration  של כל שורה, ה- @Scene  יתקדם כשכל משפט מסתיים.
 
-\
-Scene([
-  Phrase('Jack be nimble' משך: 1s)
-  Phrase('Jack be quick' משך: 1s)
-  Phrase('Jack jump over the candle stick' משך: 1s)
-])
-\
+\Scene(
+	[
+		Phrase("ג'ק היה זריז" משך: 1s)
+		Phrase("ג'ק היה מהיר" משך: 1s)
+		Phrase("ג'ק קפץ מעל מקל הנר" משך: 1s)
+	]
+)\
 
-@Scene יחכה ל- @Sequence גם לעשות. בואו נקפוץ בשורת הנרות!
+@Scene  יחכה גם ל- @Sequence  שיסתיים. בואו נגרום לשורת הנר לקפוץ!
 
-\
-Scene([
-		Phrase('Jack be nimble' משך: 1s)
-		Phrase('Jack be quick' משך: 1s)
-		Phrase('Jack jump over the candle stick' כניסה: Sequence.bounce(משך: 1s))
-	])
-\
+\Scene(
+	[
+		Phrase("ג'ק היה זריז" משך: 1s)
+		Phrase("ג'ק היה מהיר" משך: 1s)
+		Phrase(
+			"ג'ק קפץ מעל מקל הנר"
+			כניסה: Sequence.bounce(משך: 1s)
+		)
+	]
+)\
 
-@Scene יכול גם לקחת א @Group גם של טקסט, והוא ימתין שכל התוכן שלו יסיים את האנימציה.
+@Scene  יכול גם לקבל  @Group  של טקסט, והוא יחכה שכל התוכן שלו יסיים את ההנפשה.
 
-\
-Scene([
-		Group(Stack() [
-      Phrase('Jack be nimble')
-		  Phrase('Jack be quick')
-    ] משך: 2s)
-		Phrase('Jack jump over the candle stick' כניסה: Sequence.bounce(משך: 1s))
-	])
-\
+\Scene(
+	[
+		Group(
+			Stack()
+			[Phrase("ג'ק היה זריז") Phrase("ג'ק היה מהיר")]
+			משך: 2s
+		)
+		Phrase(
+			"ג'ק קפץ מעל מקל הנר"
+			כניסה: Sequence.bounce(משך: 1s)
+		)
+	]
+)\
 
-interactive-scene
+לפעמים שיר צריך להמשיך בלי סוף.  @Scene/loop  מחזיר את ה- @Scene  בחזרה אל ה- @Phrase  הראשון שלו ברגע שהאחרון מסתיים, כך שהוא אומר את עצמו שוב ושוב.
+
+\Scene(
+	[
+		Phrase("ג'ק היה זריז" משך: 1s)
+		Phrase("ג'ק היה מהיר" משך: 1s)
+		Phrase("ג'ק קפץ מעל מקל הנר" משך: 1s)
+	]
+	לולאה: ⊤
+)\
+
+שימו לב:  @Scene  חוזר לתחילתו רק אם משהו ברשימה באמת חיכה.רשימה שבה כל  @Phrase  הייתה בעלת  @Phrase/duration  של \0s\ הייתה מסתובבת מהר ככל שהמחשב יכול, ולכן היא נעצרת בסוף במקום זאת.
+
+interactive-scene, repeat-a-round

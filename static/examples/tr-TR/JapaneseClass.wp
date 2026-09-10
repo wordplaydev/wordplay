@@ -1,9 +1,9 @@
 O
 Japonca dersi
 === start
-¶Bir Japonca dersinin ilk gününü sahne sahne anlatan bir hikaye.¶
+¶Japonca dersinin ilk gününü sahne sahne anlatan bir hikaye.¶
 
-¶Bunlar gösterilecek sahnelerin listesidir¶
+¶Bunlar, gösterilecek sahnelerin listesidir¶
 cümleler: [
 		`On my first day of high school, I started *Japanese* class.`/en
 		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
@@ -17,21 +17,26 @@ cümleler: [
 		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
 	]
 
-¶Bunlar, yalnızca konuşularak ilerletilmesi gereken cümlelerin listesidir.¶
-cümleleriSeslendir: [5 7 9]
+¶Bunlar, yalnızca konuşarak ilerletilmesi gereken cümlelerin listesidir.¶
+cümleleriKonuş: [5 7 9]
 
-¶Şimdiki cümle 1'den başlar. Konuşma gerektiren bir cümlede mikrofon sesi .8 değerinin üstüne çıkarsa, ya da diğer cümlelerde bir düğmeye veya tuşa basılırsa bir artar.¶
-şimdikiCümle•#: 1 …
-	cümleleriSeslendir.sahipolmak(şimdikiCümle) ?
+¶Hikayenin nerede olduğu. @Scene yeri tutar, bu yüzden burada sayı tutmaya gerek kalmaz.¶
+içinde: Spotlight()
+
+¶Konuşulan bir cümlede mikrofon .6'nın üstüne çıkınca, diğer her cümlede de bir düğme ya da tuş söylediğinde ilerle.¶
+ilerle: cümleleriKonuş.sahipolmak(içinde.index) ?
 		Hacim() > .6
 		∆ Düğme() | ∆ Anahtar()
-		…
-		(şimdikiCümle <
-				cümleler.uzunluk()) ?
-			şimdikiCümle + 1
-			şimdikiCümle
 
+¶@Scene her cümleden sonra /advance/ komutunu bekler ve son cümlede durur.¶
 Sahne(
-	[İfadeetmek(cümleler[şimdikiCümle] dürüm: 10m)]
+	[
+		Gösteri(
+			cümleler.tercümeetmek(
+				ƒ(cümle) İfadeetmek(cümle dürüm: 10m)
+			)
+			kadar: ilerle
+		)
+	]
 	yüz: 'Sue Ellen Francisco'
 )

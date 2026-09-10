@@ -20,21 +20,17 @@ sentences: [
 ¶These are the list of sentences that should only be advanced by speaking.¶
 speakSentences: [5 7 9]
 
-¶The current sentence starts at 1, 
-and increments if the mic volume goes above .8 
-for a speaking sentence, or a button or key is 
-pressed for other sentences.¶
-currentSentence•#: 1 …
-	speakSentences.has(currentSentence) ?
-		Volume() > .6
-		∆ Button() | ∆ Key()
-		…
-		(currentSentence <
-				sentences.length()) ?
-			currentSentence + 1
-			currentSentence
+¶Where the story is. The @Scene keeps the place, so nothing here has to count.¶
+at: Spotlight()
 
+¶Move on when the mic goes above .6 on a speaking sentence, 
+and when a button or a key says so on any other.¶
+advance: speakSentences.has(at.index) ?
+	Volume() > .6
+	∆ Button() | ∆ Key()
+
+¶The @Scene waits for /advance/ after each sentence, and stops on the last.¶
 Stage(
-	[Phrase(sentences[currentSentence] ↵: 10m)]
+	[Scene(sentences.translate(ƒ(sentence) Phrase(sentence ↵: 10m)) until: advance)]
 	face: 'Sue Ellen Francisco'
 )

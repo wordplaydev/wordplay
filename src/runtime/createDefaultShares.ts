@@ -1,3 +1,4 @@
+import { createSlateType } from '@input/Scene/Slate';
 import { createSceneDefinition } from '@input/Scene/Scene';
 import { createAuraType } from '@output/Aura/Aura';
 import { createBubbleType } from '@output/Bubble/Bubble';
@@ -13,6 +14,7 @@ import { createChatDefinition } from '@input/Chat/Chat';
 import { createChoiceDefinition } from '@input/Choice/Choice';
 import { createCollisionDefinition } from '@input/Collision/Collision';
 import { createContourDefinition } from '@input/Contour/Contour';
+import { createSpotlightDefinition } from '@input/Spotlight/Spotlight';
 import { createFaceDefinition } from '@input/Face/Face';
 import { createKeyDefinition } from '@input/Key/Key';
 import createTimeZoneAnalyzer from '@input/Moment/analyzeMomentTimeZone';
@@ -78,6 +80,7 @@ export default function createDefaultShares(locales: Locales) {
     const ShapeType = createShapeType(locales);
     const PartType = createPartType(locales);
     const DownbeatType = createDownbeatType(locales);
+    const SlateType = createSlateType(locales);
 
     const HandType = createHandType(locales);
     const ThingType = createThingType(locales);
@@ -161,6 +164,8 @@ export default function createDefaultShares(locales: Locales) {
         Collision: createCollisionDefinition(locales, ReboundType),
         Beat: createBeatDefinition(locales, DownbeatType),
         Scene: createSceneDefinition(locales, PhraseType, GroupType, ShapeType),
+        Spotlight: createSpotlightDefinition(locales, SlateType),
+        Slate: SlateType,
         Reaction: createReactionDefinition(locales),
     };
 

@@ -640,12 +640,19 @@ test('resolving a color needs no basis', () => {
  * the pages that carry the language runtime rather than on the landing page.
  * Nothing new joins any graph: the editor, the toolbar, and the annotations
  * sidebar were already off these and stay off them.
+ *
+ * Extending `Scene` (#547) is **+0 files** on every graph and moves four of the
+ * five byte budgets by a hundredth. The `Spotlight` stream and the `Slate` it carries
+ * are reached only through `createDefaultShares`, which no page's static graph
+ * touches; what every page does carry is `en-US.json`, and the transport's five
+ * new binds, `Spotlight`, and `Slate`'s five fields are about four kilobytes of
+ * documentation in it. The `projects` budget already had room for them.
  */
 test.each([
-    ['src/routes/+layout.svelte', 508, 3.79],
-    ['src/components/app/Page.svelte', 531, 4.04],
-    ['src/routes/[[locale]]/+page.svelte', 546, 4.13],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 550, 4.14],
+    ['src/routes/+layout.svelte', 508, 3.8],
+    ['src/components/app/Page.svelte', 531, 4.05],
+    ['src/routes/[[locale]]/+page.svelte', 546, 4.14],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 550, 4.15],
     ['src/routes/[[locale]]/projects/+page.svelte', 557, 4.17],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);

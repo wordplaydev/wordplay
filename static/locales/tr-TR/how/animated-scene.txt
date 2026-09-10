@@ -1,31 +1,60 @@
-Animasyonlu sahneler dizisi oluşturun
+Hareketli bir sahneler dizisi oluştur
 
-Bazen hikayeler anlatmak, şarkı sözleri göstermek veya şiiri canlandırmak isteriz.Bunu yapmak için şunu kullanabiliriz: @Scene  Ve  @Phrase birlikte, bir sırayı göstermek için.
+Bazen hikayeler anlatmak, şarkı sözleri göstermek ya da şiirleri canlandırmak isteriz.Bunu yapmak için  @Scene  ve  @Phrase  birlikte kullanarak bir sıra gösterebiliriz.
 
-Örneğin, "Jack be Nimble" adlı kısa çocuk şarkısını canlandırmak istediğimizi varsayalım.Bir tane yapabiliriz @Scene her satırı bir @Phrase ve ayarlayarak @Phrase/duration her satırın @Scene her cümle bittiğinde ilerleyecekti.
+Örneğin, kısa bir çocuk şarkısı olan "Jack be Nimble"ı canlandırmak istediğimizi düşünelim.Her satırı bir  @Scene  olarak içeren bir şey oluşturabiliriz @Phrase , ve her satırın  @Phrase/duration 'ini ayarlayarak,  @Scene  her ifade bittiğinde ilerleyecektir.
 
-\Scene([
-		Phrase('Jack çevik ol' süre: 1s)
-		Phrase('Jack çabuk ol' süre: 1s)
-		Phrase('Jack mum çubuğunun üzerinden atladı' süre: 1s)
-	])\
+\Scene(
+	[
+		Phrase('Jack çevik olsun' süre: 1s)
+		Phrase('Jack hızlı olsun' süre: 1s)
+		Phrase('Jack mum direğinin üzerinden atlasın' süre: 1s)
+	]
+)\
 
-@Scene bekleyeceğim @Sequence yapılacak da. Mum çizgisini zıplatalım!
+@Scene  ayrıca bir  @Sequence 'in bitmesini de bekleyecek. Hadi mum satırını zıplatalım!
 
-\Scene([
-		Phrase('Jack çevik ol' süre: 1s)
-		Phrase('Jack çabuk ol' süre: 1s)
-		Phrase('Jack mum çubuğunun üzerinden atladı' giriş: Sequence.bounce(süre: 1s))
-	])\
+\Scene(
+	[
+		Phrase('Jack çevik olsun' süre: 1s)
+		Phrase('Jack hızlı olsun' süre: 1s)
+		Phrase(
+			'Jack mum direğinin üzerinden atlasın'
+			giriş: Sequence.bounce(süre: 1s)
+		)
+	]
+)\
 
-@Scene ayrıca alabilir @Group metnin de animasyonu tamamlanacak ve tüm içeriğin animasyonunun bitmesini bekleyecektir.
+@Scene  ayrıca bir metin  @Group 'ini de alabilir, ve içindeki tüm içeriğin hareketlenmesinin bitmesini bekler.
 
-\Scene([
-		Group(Stack() [
-				Phrase('Jack çevik ol')
-				Phrase('Jack çabuk ol')
-			] süre: 2s)
-		Phrase('Jack mum çubuğunun üzerinden atladı' giriş: Sequence.bounce(süre: 1s))
-	])\
+\Scene(
+	[
+		Group(
+			Stack()
+			[
+				Phrase('Jack çevik olsun')
+				Phrase('Jack hızlı olsun')
+			]
+			süre: 2s
+		)
+		Phrase(
+			'Jack mum direğinin üzerinden atlasın'
+			giriş: Sequence.bounce(süre: 1s)
+		)
+	]
+)\
 
-interactive-scene
+Bazen bir şarkı devam etmelidir.  @Scene/loop  son  @Scene 'i bittiğinde  @Phrase 'i tekrar ilk haline döndürür, böylece kendini tekrar tekrar söyler.
+
+\Scene(
+	[
+		Phrase('Jack çevik olsun' süre: 1s)
+		Phrase('Jack hızlı olsun' süre: 1s)
+		Phrase('Jack mum direğinin üzerinden atlasın' süre: 1s)
+	]
+	döngü: ⊤
+)\
+
+Not: bir  @Scene  yalnızca listedeki bir şey gerçekten beklediyse tekrar başa döner.Her  @Phrase  bir  @Phrase/duration  değerine sahip \0s\ bilgisayarın gidebildiği kadar hızlı dönerdi, bu yüzden bunun yerine sonunda durur.
+
+interactive-scene, repeat-a-round

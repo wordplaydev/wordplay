@@ -1,31 +1,71 @@
-Erstellen Sie eine interaktive Szenenserie
+Erstelle eine interaktive Abfolge von Szenen
 
-Manchmal möchten wir Geschichten erzählen, bei denen der Zuschauer etwas tun muss, bevor er zum nächsten Inhalt übergeht.
+Manchmal wollen wir Geschichten erzählen, die warten, bis der Betrachter etwas tut, bevor es mit dem nächsten Inhalt weitergeht.
 
-Dazu können wir eine @Scene , aber setzen @Boolean Werte zwischen den Inhalten, die wir anzeigen möchten. Hier ist beispielsweise ein Klick, der zum nächsten Inhalt führt, mit einem @Button :
+Dafür können wir einen  @Scene  benutzen, aber  @Boolean -Werte zwischen die Inhalte setzen, die wir zeigen wollen. Zum Beispiel: Hier führt ein Klick zum jeweils nächsten Inhalt, mit Hilfe eines  @Button :
 
-\Scene([
-		Phrase('Klick mich')
+\Scene(
+	[
+		Phrase('klick mich')
 		Button()
 		Phrase('klick mich nochmal' Dauer: 1s)
 		Button()
-		Phrase('nein, wirklich, klick mich so fest du kannst!!' Dauer: 1s)
+		Phrase(
+			'nein wirklich, klick mich so fest du kannst!!'
+			Dauer: 1s
+		)
 		Button()
-		Phrase('hast du schon auf mich geklickt?' Dauer: 1s)
-	])\
+		Phrase('hast du mich schon geklickt?' Dauer: 1s)
+	]
+)\
 
-Der  @Scene zeigt die erste @Phrase und wartet dann auf die @Button wahr zu sein, und wenn es wahr ist, geht es weiter zum nächsten @Phrase .
+Der  @Scene  zeigt zuerst den ersten  @Phrase , wartet dann, bis die  @Button  wahr ist, und sobald das der Fall ist, geht es weiter zum nächsten  @Phrase .
 
-Sie können alles verwenden, was Sie voranbringen möchten, solange es entweder wahr oder falsch ist.Wir könnten zum Beispiel unsere Stimme nutzen!Wenn wir laut genug schreien, schreitet die Szene voran:
+Du kannst alles benutzen, um weiterzugehen, solange es entweder wahr oder falsch ist. Zum Beispiel könnten wir unsere Stimme benutzen! Wenn wir laut genug rufen, geht die Szene weiter:
 
-\Scene([
+\Scene(
+	[
 		Phrase('ist da jemand?')
 		Volume() > .5
-		Phrase("Ich kann Sie nicht hören. Wie bitte?" Dauer: 1s)
+		Phrase(
+			"ich kann dich nicht hören, sag das nochmal?"
+			Dauer: 1s
+		)
 		Volume() > .7
-		Phrase('lauter bitte...' Dauer: 1s)
+		Phrase('bitte lauter...' Dauer: 1s)
 		Volume() > .9
 		Phrase('oh, hallo!' Dauer: 1s)
-	])\
+	]
+)\
 
-animated-scene
+Wenn jeder  @Phrase  auf dasselbe warten soll, sagt  @Scene/until  es einmal, statt es zwischen jeden einzelnen zu schreiben. Das macht dasselbe wie das erste Beispiel oben:
+
+\Scene(
+	[
+		Phrase('klick mich')
+		Phrase('klick mich nochmal' Dauer: 1s)
+		Phrase(
+			'nein wirklich, klick mich so fest du kannst!!'
+			Dauer: 1s
+		)
+		Phrase('hast du mich schon geklickt?' Dauer: 1s)
+	]
+	bis: Button()
+)\
+
+Schreibe ein  @Boolean  in die Liste, wenn die Wartezeiten /unterschiedlich/ sind, wie im Beispiel mit dem Rufen, und benutze  @Scene/until  wenn sie alle gleich sind.Du kannst beides benutzen: Ein  @Boolean  in der Liste ist eine eigene Wartezeit, zusätzlich zu der, die  @Scene/until  verlangt.
+
+Hinweis:  @Scene/until  wartet /nachdem/ jedes  @Phrase  seine  @Phrase/duration  gehabt hat, nicht anstelle davon.
+
+Wenn du lieber möchtest, dass sich  @Scene  nie von selbst bewegt und nur dorthin geht, wohin du es schickst, benutze  @Scene/pause  mit  @Scene/step :
+
+\key: Key()
+Scene(
+	[Phrase('eins') Phrase('zwei') Phrase('drei')]
+	anhalten: ⊤
+	Schritt: ∆ key ? ((key = 'Pfeil nach links') ? -1 (key = 'Pfeil nach rechts') ? 1 ø) ø
+)\
+
+@Scene/step  bewegt sich um eine Anzahl  @Phrase  — \1\ vorwärts, \-1\ zurück – und hält von selbst an den Enden an. @Scene/go  ist dieselbe Idee, aber als Ort statt als Entfernung: die Nummer des  @Phrase , den du willst, gezählt ab 1, oder den  @Phrase/name , den du ihm gegeben hast.
+
+animated-scene, repeat-a-round, move-between-content
