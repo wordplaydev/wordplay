@@ -1,60 +1,75 @@
 Lumipat sa nilalaman gamit ang mga arrow key
 
-Minsan gusto mong tumingin ang manonood sa nilalaman nang isa-isa, tulad ng isang slide show, na pasulong /at/ paurong gamit ang mga arrow key.
+Minsan gusto mong tumingin ang manonood sa nilalaman nang isa-isa, tulad ng isang slide show, na pasulong / at / paurong gamit ang mga arrow key.
 
 Ang bawat bersyon ng pattern na ito ay binubuo ng parehong tatlong bahagi:
 
-• Isang  @List  ng nilalaman na gusto mong ipakita• Isang  @Key  na agos, na nagbabago tuwing may pinindot na susi• Isang  @Reaction  na nagtatanda kung aling bahagi ng nilalaman ang kasalukuyan mong nakikita
+• Isang @List ng nilalaman na gusto mong ipakita
+• Isang @Key na agos, na nagbabago tuwing pipindutin ang isang susi
+• Isang @Reaction na nagtatanda kung aling bahagi ng nilalaman ang kasalukuyan mong tinitingnan
 
 Narito ang pinakamaliit na bersyon nito. I-click muna ang entablado para makinig ito, pagkatapos ay pindutin ang kaliwa at kanang arrow key:
 
-\slides: ['una' 'pangalawa' 'pangatlo']
+\
+slides: ['una' 'pangalawa' 'pangatlo']
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'PalasoKanan') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'Palaso Kaliwa') ? ((index > 1) ? index - 1 index) index
-Phrase(slides[index])\
 
-Ipinapakita ng  @Reaction  ang puso nito. Nagsisimula ito sa \1\, at tuwing nagbabago ang  @Key , napagdedesisyunan nito kung ano dapat ang bagong numero.Kung ang kanang arrow ang napindot, magdaragdag ito ng isa; kung ang kaliwang arrow ang napindot, magbabawas ito ng isa; kung wala, mananatili itong pareho.
+index•#: 1 … ∆ key …
+	(key = 'PalasoKanan') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'Palaso Kaliwa') ? ((index > 1) ? index - 1 index)
+			index
 
-Ang mga karagdagang \?\ na pagsusuri ang siyang pumipigil sa numero na lumagpas sa mga dulo ng listahan.Kung wala ang mga ito, maaari kang makalampas sa dulo at wala nang slide na maipapakita.Kung mas gusto mong bumalik mula sa huling slide papunta sa una, maaari mo ring gawin iyon.
+Phrase(slides[index])
+\
 
-Tandaan: ang mga arrow key ay pinangalanang \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, at \'ArrowDown'\.Puwede mo ring isulat na lang na \'Left'\ at \'Right'\, at gumagana rin ang mga pangalan ng susi sa sarili mong wika.
+ Ang @Reaction ang puso nito. Nagsisimula ito sa \1\, at tuwing nagbabago ang @Key , ito ang nagpapasya kung ano ang dapat na bagong numero.
+Kapag pinindot ang right arrow, nagdaragdag ito ng isa; kapag pinindot ang left arrow, nagbabawas ito ng isa; kung hindi, nananatili itong pareho.
 
-Pansinin na ang \index\ ay isang numero lang, kaya gumagana ito para sa /anumang/ uri ng laman, hindi lang teksto.Palitan ang  @List  ng isang listahan ng  @Group  o buong eksena, at hindi magbabago kahit kaunti ang natitirang pattern:
+Ang dagdag na \?\ pagsusuri ay ang pumipigil sa numero na lampasan ang mga dulo ng listahan.
+Kung wala ito, maaari kang lumagpas sa dulo at wala nang islide na maipapakita.
+Kung mas gusto mong bumalik mula sa huling islide patungo sa una, maaari mo ring gawin iyon.
 
-\slides: [
-		Phrase('isang kuwento sa tatlong bahagi' laki: 3m)
-		Group(
-			Stack()
-			[Phrase('🐈') Phrase('lumilitaw ang isang pusa')]
-		)
-		Phrase('ang wakas 🎉')
-	]
+Tandaan: ang mga arrow key ay pinangalanang \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, at ang \'ArrowDown'\.
+Maaari mo ring isulat lamang ang \'Left'\ at \'Right'\, at gumagana rin ang mga pangalan ng susi sa iyong sariling wika.
+
+Pansinin na \index\ ay numero lamang, kaya gumagana ito para sa / kahit anong / uri ng nilalaman, hindi lang teksto.
+Palitan ang @List ng listahan ng @Group o mga buong eksena, at hindi na magbabago pa ang natitirang bahagi ng pattern:
+
+\
+slides: [
+	Phrase('isang kuwento sa tatlong bahagi' laki: 3m)
+	Group(Stack() [Phrase('🐈') Phrase('lumilitaw ang isang pusa')])
+	Phrase('ang wakas 🎉')
+]
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'PalasoKanan') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'Palaso Kaliwa') ? ((index > 1) ? index - 1 index) index
-slides[index]\
 
-Isang  @Scene  ang puwedeng gumawa nito rin, at mas kaunti ang pagbibilang.Bigyan ito ng  @Scene/pause  para hindi ito kailanman gumalaw nang mag-isa, at  @Scene/step  para ilipat ito ng isang piraso sa alinmang direksyon:
+index•#: 1 … ∆ key …
+	(key = 'PalasoKanan') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'Palaso Kaliwa') ? ((index > 1) ? index - 1 index)
+			index
 
-\key: Key()
-Scene(
-	[
+slides[index]
+\
+
+ Ang isang @Scene ay kaya rin gawin ito, at may mas kaunting pagbibilang.
+Bigyan ito ng @Scene/pause kaya hindi ito gumagalaw nang mag-isa, at @Scene/step para ilipat ito ng isang piraso sa alinmang direksyon:
+
+\
+key: Key()
+Scene([
 		Phrase('isang kuwento sa tatlong bahagi' laki: 3m)
-		Group(
-			Stack()
-			[Phrase('🐈') Phrase('lumilitaw ang isang pusa')]
-		)
+		Group(Stack() [Phrase('🐈') Phrase('lumilitaw ang isang pusa')])
 		Phrase('ang wakas 🎉')
-	]
-	iPause: ⊤
-	hakbang: ∆ key ? ((key = 'Palaso Kaliwa') ? -1 (key = 'PalasoKanan') ? 1 ø) ø
-)\
+	] iPause: ⊤ hakbang: ∆ key ? ((key = 'Palaso Kaliwa') ? -1 (key = 'PalasoKanan') ? 1 ø) ø)
+\
 
-Walang \?\ na kailangang isulat dito, dahil ang isang  @Scene  ay tumitigil sa sarili nitong dulo para sa iyo, at walang kailangang tandaan kung aling piraso ang ipinapakita.Tanungin ang  @Spotlight  kung gusto mong sabihin ang /3 ng 10/ sa entablado.
+ Walang \?\ na kailangang isulat dito, dahil ang @Scene ay humihinto sa kani-kaniyang mga dulo para sa iyo, kaya walang kailangang tandaan kung aling piraso ang ipinapakita.
+Itanong @Spotlight kung gusto mong sabihin / 3 sa 10 / sa entablado.
 
-Tandaan: tingnan ito sa isang buong proyekto sa gallery: <slide show@https://wordplay.dev/project/example-SlideShow?play>
+Tandaan: tingnan ito sa isang buong proyekto sa gallery: < slide show @https://wordplay.dev/project/example-SlideShow?play>
 
-Ipinapakita ng  @Reaction  sa itaas ay pa rin ang paraan para gawin ito kapag ang dinaraanan mo ay hindi output — isang listahan ng mga salita, kulay, o numero, o kahit ano pang bagay na ginamit mo para gawin ang piraso.
+ Ipinapakita ng @Reaction sa itaas ay pa rin ang paraan para gawin ito kapag ang dinaraanan mo ay hindi output — isang listahan ng mga salita, kulay, o numero, o kahit ano pang bagay na ginamit mo para gawin ang piraso.
 
 interactive-scene, choose-adventure, offer-choices, repeat-a-round

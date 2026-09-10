@@ -4,16 +4,27 @@
 
 例如，您可以在您的專案上使用多個層 @Stage 按照您喜歡的方式堆疊和排列圖像。
 
-看！這是我用形狀製作的烏龜！嘗試更改每個形狀的數字。你可以移動它們、調整它們的大小，甚至旋轉它們。玩一玩，看看你能創造什麼！
+你看！這是我只用形狀做出來的烏龜喔！
+試著改改看每個形狀的數字吧。你可以移動它們、調整大小，甚至旋轉它們呢。
+動手玩玩看，看看你能做出什麼吧！
 
-\¶注意：請查看圖庫以了解另一個項目<例子@https://wordplay.dev/project/example-Layers?play>分層影像。¶Stage([
+\
+¶注意：請查看圖庫以了解另一個項目<例子@https://wordplay.dev/project/example-Layers?play>分層影像。¶
+
+
+Stage(
+	[
 		Shape(Circle(3m 0m 1m 0m))
 		Shape(Polygon(2m 3 0m -12m 0m) 自轉: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
 		Shape(Rectangle(-11m -9m 11m -12m 10m) 自轉: 25°)
 		Shape(Rectangle(-11m -9m 11m -12m 10m) 自轉: -25°)
-	] 位置: Place(0m 10m -30m))\
 
-你可以用圖層製作出一些很酷的東西！快來試試吧！
+	]
+	位置: Place(0m 10m -30m)
+)
+\
+
+ 你可以用圖層製作出一些很酷的東西！快來試試吧！
 
 custom-characters

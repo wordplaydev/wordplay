@@ -1,17 +1,24 @@
 从列表中随机选择一件物品
 
-想让你的项目每次运行都给你带来惊喜吗？列出一些选项，然后从中选择一个。 @Random 。 
+想让你的项目每次运行都给你带来惊喜吗？列出一些选项，然后从中选择一个。 @Random。
 
-@Random 可以生成一个随机数，然后可以通过该随机数查找列表。\[n]\。将它们组合起来，即可随机抽取一个表情符号：
+@Random 可以给我们一个随机数，而列表可以用数字来查找，用的是 \[n]\ 结合起来，做一个计数器。
+把它们放在一起，就能随机选一个表情符号：
 
-\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩'] Phrase(emojis.random())\
+\
+emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())
+\
 
-你也可以使用 @Random 用两个数字，从中选出一个介于两者之间的整数。例如，要选择一个/新的/每秒随机发送表情符号，混合在一起 @Time 和 @Reaction ：
+ 你也可以用 @Random 加两个数字，它会在这两个数字之间选一个整数。
+举个例子，如果要每秒选一个 / 进入 / 的随机表情符号，可以混入 @Time 和一个 @Reaction：
 
-\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+\
+emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
 pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
-Phrase(pick)\
+Phrase(pick)
+\
 
-每一次滴答 @Time ， 这  @Reaction 挑选出一个新的惊喜。
+ 每一次滴答 @Time， 这 @Reaction 挑选出一个新的惊喜。
 
 shake-phrase, count-with-time

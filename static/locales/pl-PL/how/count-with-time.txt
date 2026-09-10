@@ -1,17 +1,26 @@
 Licz, póki czas mija
 
-Wiele projektów wymaga czegoś, co rozwija się z czasem — timera, wyniku, odliczania.Możemy zbudować licznik, łącząc @Time   stream z @Reaction .
+Wiele projektów potrzebuje czegoś, co rośnie z czasem — stopera, wyniku, odliczania.
+Możemy zbudować licznik, łącząc strumień @Time ze @Reaction.
 
-A  @Reaction ma trzy części: wartość początkową, element, który należy obserwować, oraz nową wartość, gdy ten element się zmienia.Tutaj zaczynamy od\0\, oglądać  @Time i dodawaj jeden za każdym razem, gdy zegar tyka:
+A @Reaction ma trzy części: wartość początkową, rzecz do obserwowania i nową wartość, gdy ta rzecz się zmieni.
+Tutaj zaczynamy od \0\, obserwujemy @Time i dodajemy jeden za każdym razem, gdy zegar tyka:
 
-\count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
+\
+count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')
+\
 
-Każda sekunda, @Time pożary, @Reaction zawiadomienia z\∆ Time(1000ms)\, I \count\staje się\count + 1\.Ten\→ ''\na końcu zamienia liczbę na tekst, więc @Phrase można to pokazać.
+ Co sekundę @Time się uruchamia, @Reaction to zauważa dzięki \∆ Time(1000ms)\, a \count\ staje się \count + 1\.
+Właściwość \→ ''\ na końcu zamienia liczbę na tekst, aby @Phrase mogło ją pokazać.
 
 Możesz użyć dowolnego parametru, nie tylko czasu. Ten licznik zlicza liczbę naciśnięć przycisku Button():
 
-\count: 0 … ∆ Button() … count + 1 Phrase(count → '')\
+\
+count: 0 … ∆ Button() … count + 1
+Phrase(count → '')
+\
 
-Za każdym razem, gdy @Button strumień zmienia się po kliknięciu lub dotknięciu, liczba zwiększa się o jeden.
+ Za każdym razem, gdy @Button strumień zmienia się po kliknięciu lub dotknięciu, liczba zwiększa się o jeden.
 
 track-points, pick-from-a-list

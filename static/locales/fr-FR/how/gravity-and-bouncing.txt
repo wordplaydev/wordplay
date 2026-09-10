@@ -1,24 +1,33 @@
 Faites tomber un personnage et rebondir
 
-Et si on voulait qu'un personnage tombe, rebondisse sur le sol ou soit bousculé comme un objet réel ?C'est ce que @Motion  et  @Matter sont pour — ensemble, ils simulent la physique pour un @Phrase . 
+Et si on voulait qu’un personnage tombe, rebondisse sur le sol, ou soit poussé comme une vraie chose ?
+C’est à cela que servent @Motion et @Matter — ensemble, ils simulent la physique pour un @Phrase.
 
-@Motion contrôles/où/un personnage évolue avec le temps. Nous l'utilisons comme le\place\pour un @Phrase , en le faisant démarrer haut pour qu'il puisse tomber.Il nous faut aussi quelque chose sur quoi retomber, sinon notre personnage ne cessera de chuter indéfiniment ! @Shape avec une large @Rectangle fait un joli sol :
+@Motion contrôle / où / se trouve un personnage au fil du temps. On l'utilise comme \place\ pour un @Phrase, en le plaçant tout en haut pour qu'il puisse tomber.
+On a aussi besoin de quelque chose sur quoi tomber, sinon notre personnage tombera pour toujours ! Un @Shape avec une large @Rectangle fait un joli sol :
 
-\Stage([
-		Phrase('🍎' lieu: Motion(Place(0m 5m)) matière: Matter())
-		Shape(Rectangle(-10m 0m 10m -5m))
-	])\
+\
+Stage([
+    Phrase('🍎' lieu: Motion(Place(0m 5m)) matière: Matter())
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
 
-La pomme décolle à cinq mètres de hauteur et retombe sous l'effet de la gravité.Lorsqu'il touche le sol, il rebondit un peu, car @Phrase possède un @Matter qui détermine son poids et son rebond.
+ La pomme démarre à cinq mètres de haut et tombe sous l'effet de la gravité.
+Quand elle touche le sol, elle rebondit un peu, car @Phrase a une @Matter intégrée qui contrôle son poids et son rebond.
 
-Pour changer la façon/rebondissant/ou comment/lourd/Un personnage, c'est… donnez-lui votre propre style. @Matter . @Matter nécessite une masse, un rebond et une friction :
+Pour changer la façon / rebondissant / ou comment / lourd / Un personnage, c'est… donnez-lui votre propre style. @Matter.
+@Matter nécessite une masse, un rebond et une friction :
 
-\Stage([
-		Phrase('⚽' lieu: Motion(Place(-2m 5m)) matière: Matter(1kg 0.9 0.2))
-		Phrase('🪨' lieu: Motion(Place(2m 5m)) matière: Matter(5kg 0.1 0.8))
-		Shape(Rectangle(-10m 0m 10m -5m))
-	])\
+\
+Stage([
+    Phrase('⚽' lieu: Motion(Place(-2m 5m)) matière: Matter(1kg 0.9 0.2))
+    Phrase('🪨' lieu: Motion(Place(2m 5m)) matière: Matter(5kg 0.1 0.8))
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
 
-La balle est légère et rebondissante, elle reprend donc sa forme initiale.La pierre est lourde et ne rebondit pas, elle fait donc un bruit sourd.
+ La balle est légère et rebondissante, donc elle remonte d'un bond.
+Le rocher est lourd et pas rebondissant, donc il fait juste un bruit sourd.
 
 follow-the-pointer, move-phrase

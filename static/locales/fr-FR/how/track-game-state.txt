@@ -1,41 +1,38 @@
 Suivre l'état du jeu
 
-La plupart des jeux suivent plusieurs choses au fil de la partie : les points, les positions des joueurs et d'autres détails sont tous importants.Chaque fois qu'il y a une entrée, cet état change, et on veut alors afficher une nouvelle sortie, en réponse.
+La plupart des jeux suivent plusieurs choses pendant qu'une partie avance : les points, la position des joueurs, et d'autres détails, tout ça compte.
+Chaque fois qu'il y a une entrée, cet état change, et alors on veut montrer une nouvelle sortie, en réponse.
 
 Un schéma général pour n'importe quel jeu fait trois choses :
 
-• Définir une structure de données d'état du jeu, pour stocker tout l'état du jeu• Définir une réaction qui crée un nouvel état du jeu à partir de l'état précédent, chaque fois qu'il y a une nouvelle entrée• Faire un  @Stage  avec  @Group  et  @Phrase  pour montrer l'état du jeu
+• Définis une structure de données pour l'état du jeu, afin de stocker tout l'état du jeu
+• Définis une réaction qui crée un nouvel état du jeu à partir de l'état précédent, chaque fois qu'il y a une nouvelle entrée
+• Fais un @Stage avec @Group et @Phrase pour montrer l'état du jeu
 
 Par exemple, imaginons un jeu simple où l'on tape des mots secrets dans une zone de texte, et où l'on gagne un point à chaque fois qu'un mot secret est deviné :
 
-\•Game(secrets•[''] points•#)
-state: Game(['chat' 'chien'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+\
+•Game(secrets•[''] points•#)
+
+state: Game(['chat' 'chien'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+
 Stage(
-	state.points = state.secrets.length() ? [
-			Phrase("tu as gagné !")
-		] [
-			Group(
-				Stack()
-				[
-					Phrase("devine mes mots secrets")
-					Phrase(
-						`\state.secrets.length() - state.points\ encore des secrets`
-					)
-				]
-			)
-		]
-)\
+    state.points = state.secrets.length() ? 
+        [ Phrase("tu as gagné !")]
+        [ Group(Stack() [ Phrase("devine mes mots secrets") Phrase(`\state.secrets.length() - state.points\ encore des secrets`)])]
+)
+\
 
-Décomposons cela.
+ Décomposons cela.
 
-• La première ligne, \•jeu(secrets•[''] points2•#)\ dit, /Fais une structure de données appelée \Game\ qui stocke une liste de secrets et de points/. Le \[
-	''
-]\ veut dire /une liste d'un nombre quelconque de mots/. Si tu voulais plutôt une liste d'une longueur exacte, tu peux nommer un type pour chaque place dans la liste : \[
-	#'']\ est une liste de deux choses, un nombre puis un mot.• La deuxième ligne dit /L'état du jeu commence avec une liste de secrets et zéro point. Chaque fois que \Chat\ change, si le mot saisi est dans la liste des secrets, on crée un nouvel état du jeu avec les points augmentés de un/.• Chaque fois que le programme se réévalue (quand \Chat\ change), on affiche une scène. Si le nombre de points est égal au nombre de secrets, on affiche une scène de victoire. Sinon, on affiche une invite et le nombre de secrets restants.
+• La première ligne, \•jeu(secrets•[''] points2•#)\ dit, / Crée une structure de données appelée \Game\ qui stocke une liste de secrets et de points /. Le \['']\ signifie / une liste d'un nombre quelconque de mots /. Si tu voulais plutôt une liste d'une longueur exacte, tu peux nommer un taper pour chaque place de la liste : \[# '']\ est une liste de deux choses, un nombre puis un mot.
+• La deuxième ligne dit / L'état du jeu commence avec une liste de secrets et zéro point. Chaque fois que le \Chat\ change, si le mot entré est dans la liste des secrets, alors crée un nouvel état du jeu avec les points augmentés de un /.
+• Chaque fois que le programme se réévalue (quand le \Chat\ change), montre une scène. Si le nombre de points est égal au nombre de secrets, montre une scène de victoire. Sinon, montre une invite et le nombre de secrets restants.
 
 Cet exemple a quelques problèmes :
 
-• Si le joueur devine un mot secret plusieurs fois, il gagne plus de points ! Notre état du jeu devrait peut-être aussi se souvenir de ce qui a déjà été deviné, pour que chaque mot ne soit compté que deux fois.• Si le joueur saisit plusieurs mots, est-ce que ça devrait compter ?
+• S'ils devinent un mot secret plusieurs fois, ils obtiennent plus de points ! Notre état du jeu doit peut-être aussi se souvenir de ce qui a été deviné, pour que chaque mot ne soit compté que deux fois.
+• Si le joueur entre plusieurs mots, est-ce que ça doit compter ?
 
 Des états du jeu et des mises à jour du jeu plus sophistiqués nous aideraient à gérer ces cas.
 

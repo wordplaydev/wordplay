@@ -1,17 +1,28 @@
 Ilagay ang teksto nang magkatabi
 
-Minsan gusto natin na ang teksto ay magkatabi sa isang maayos na linya.Magagawa natin iyan gamit ang isang @Row , na nag-aayos ng lahat ng bagay sa isang @Group mula kaliwa pakanan.
+Minsan gusto nating magkatabi ang teksto sa isang maayos na linya.
+Magagawa natin iyon gamit ang @Row, na naghahanay ng lahat sa isang @Group mula kaliwa pakanan.
 
-\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+\
+Group(Row() [
+    Phrase('🍎')
+    Phrase('🍌')
+    Phrase('🍇')
+])
+\
 
-Isang @Row maaari ring ihanay ang mga karakter sa pamamagitan ng kanilang mga gilid sa itaas, gitna, o ibaba, at magdagdag ng espasyo sa pagitan ng mga ito.Narito ang parehong prutas, ngunit nakahanay sa ilalim na may kaunting espasyo para makahinga:
+ Ang isang @Row ay maaari ring maghanay ng mga karakter ayon sa kanilang itaas, gitna, o ibabang gilid, at magdagdag ng puwang sa pagitan nila.
+Narito ang parehong prutas, pero nakahanay sa ibaba na may kaunting puwang:
 
-\Group(Row('>' 0.5m) [
-		Phrase('🍎' laki: 2m)
-		Phrase('🍌' laki: 1m)
-		Phrase('🍇' laki: 3m)
-	])\
+\
+Group(Row('>' 0.5m) [
+    Phrase('🍎' laki: 2m)
+    Phrase('🍌' laki: 1m)
+    Phrase('🍇' laki: 3m)
+])
+\
 
-Ang\'>'\nagsasabi sa @Row para ihanay ang lahat sa ilalim na gilid nito. Subukan\'<'\para sa itaas o\'|'\para sa gitna.Ang\0.5m\ay ang espasyo sa pagitan ng bawat karakter.
+ Ang \'>'\ ay nagsasabi sa @Row na ihanay ang lahat sa kahabaan ng kanyang ibabang gilid. Subukan ang \'<'\ para sa itaas o \'|'\ para sa gitna.
+Ang \0.5m\ ang puwang sa pagitan ng bawat karakter.
 
 stack-up-and-down, make-a-grid

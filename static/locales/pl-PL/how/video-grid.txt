@@ -1,29 +1,24 @@
 Utwórz wideo z kamery
 
-Strumień  @Camera  to świetny sposób, by pobrać siatkę kolorów ze świata. Co jeśli chcemy zobaczyć te kolory, odtwarzając obraz, który widzi  @Camera ?
+Właściwość @Camera strumień to świetny sposób, by pobrać siatkę kolorów ze świata. 
+A co, jeśli chcemy zobaczyć te kolory i odtworzyć obraz, który widzi @Camera ?
 
-Możemy użyć układu  @Grid  dla  @Group , oraz funkcji  @List/combine , aby zamienić kolory na listę  @Phrase , którą przekazujemy do  @Grid .
+Możemy użyć układu @Grid dla @Group, oraz funkcji @List/combine , aby zamienić kolory na listę @Phrase , którą przekazujemy do @Grid.
 
-\width: 24
+\
+width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage(
-	[
-		Group(
-			Grid(height width 0m)
-			colors.combine(
-				[]
-				ƒ(phrases row) [
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
 						:phrases
 						:row ↦ Phrase("⬤" kolor: ⬚ czastrwania: 0s)
-					]
-			)
-		)
-	]
-)\
+					]))
+	])
+\
 
-Ten przykład tworzy listę fraz, zamieniając każdy kolor na kółko o tym konkretnym kolorze.
+ Ten przykład tworzy listę fraz, zamieniając każdy kolor na kółko o tym konkretnym kolorze.
 
-Uważaj ze strumieniami  @Camera : dają dużo danych wejściowych! Warto zachować małą szerokość i wysokość obrazu.
+Uważaj ze strumieniami @Camera : dają dużo danych wejściowych! Warto zachować małą szerokość i wysokość obrazu.
 
 interactive-scene

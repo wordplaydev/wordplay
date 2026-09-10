@@ -1,24 +1,33 @@
 Få en karaktär att falla och studsa
 
-Tänk om vi vill att en karaktär ska falla ner, studsa från golvet eller bli knuffad runt som en riktig varelse?Det är vad @Motion och @Matter är för — tillsammans simulerar de fysik för en @Phrase . 
+Tänk om vi vill att en figur ska falla ner, studsa mot golvet eller bli knuffad omkring som något verkligt?
+Det är vad @Motion och @Matter är till för — tillsammans simulerar de fysik för en @Phrase.
 
-@Motion kontroller/där/en karaktär är över tid. Vi använder den som\place\för en @Phrase , startar den högt så att den kan falla.Vi behöver också något att falla på, annars kommer vår karaktär bara att fortsätta falla för alltid! @Shape med ett brett @Rectangle blir ett fint golv:
+@Motion styr / var / en figur befinner sig över tid. Vi använder det som \place\ för en @Phrase, genom att starta den högt uppe så att den kan falla.
+Vi behöver också något att falla ner på, annars fortsätter vår figur bara att falla för evigt! En @Shape med en bred @Rectangle fungerar bra som golv:
 
-\Stage([
-		Phrase('🍎' plats: Motion(Place(0m 5m)) materia: Matter())
-		Shape(Rectangle(-10m 0m 10m -5m))
-	])\
+\
+Stage([
+    Phrase('🍎' plats: Motion(Place(0m 5m)) materia: Matter())
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
 
-Äpplet börjar fem meter upp och faller under gravitationen.När den träffar golvet studsar den lite, pga. @Phrase har en inbyggd @Matter som styr hur tung och studsande den är.
+ Äpplet startar fem meter upp och faller på grund av tyngdkraften.
+När det träffar golvet studsar det lite, eftersom @Phrase har en inbyggd @Matter som styr hur tungt och studsigt det är.
 
-Att ändra hur/studsande/eller hur/tung/en karaktär är, ge den din egen @Matter . @Matter tar en massa, en studsighet och en friktion:
+Att ändra hur / studsande / eller hur / tung / en karaktär är, ge den din egen @Matter.
+@Matter tar en massa, en studsighet och en friktion:
 
-\Stage([
-		Phrase('⚽' plats: Motion(Place(-2m 5m)) materia: Matter(1kg 0.9 0.2))
-		Phrase('🪨' plats: Motion(Place(2m 5m)) materia: Matter(5kg 0.1 0.8))
-		Shape(Rectangle(-10m 0m 10m -5m))
-	])\
+\
+Stage([
+    Phrase('⚽' plats: Motion(Place(-2m 5m)) materia: Matter(1kg 0.9 0.2))
+    Phrase('🪨' plats: Motion(Place(2m 5m)) materia: Matter(5kg 0.1 0.8))
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
 
-Bollen är lätt och studsande, så den fjädrar upp igen.Stenen är tung och inte studsande, så den bara dunsar.
+ Bollen är lätt och studsig, så den fjädrar tillbaka upp.
+Stenen är tung och inte studsig, så den bara dunsar.
 
 follow-the-pointer, move-phrase

@@ -1,18 +1,25 @@
 Crea tu propia plantilla de personaje
 
-A veces uno quiere muchos personajes que se parezcan mucho, pero con pequeñas diferencias. En lugar de escribir lo mismo @Phrase Una y otra vez, puedes crear tu propia plantilla con una @Structure .
+A veces quieres muchos caracteres que se ven casi igual, pero con pequeñas diferencias.
+En vez de escribir la misma @Phrase una y otra vez, puedes crear tu propia plantilla con un @Structure.
 
-A  @Structure Es como una receta con espacios en blanco para rellenar. Aquí tienes una plantilla de globo que toma un color y una etiqueta, y sabe cómo mostrarse:
+Una @Structure es como una receta con espacios en blanco para llenar.
+Aquí hay una plantilla de globo que toma un color y una etiqueta, y sabe cómo mostrarse a sí misma:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color tamaño: 2m)
+\
+•Balloon(color•Color label•'') (
+    ƒ show() Phrase(`🎈\label\` color: color tamaño: 2m)
 )
-Group(Row() [
-		Balloon(Color(80% 50 240°) 'Cielo').show()
-		Balloon(Color(60% 80 0°) 'Rosa').show()
-		Balloon(Color(90% 80 90°) 'Soleado').show()
-	])\
 
-El \•Balloon(...)\La parte define la plantilla y la\ƒ show()\parte dice/cómo dibujar uno/.Luego hacemos tres globos con diferentes colores y etiquetas, y le pedimos a cada uno que\show\ella misma.
+Group(Row() [
+    Balloon(Color(80% 50 240°) 'Cielo').show()
+    Balloon(Color(60% 80 0°) 'Rosa').show()
+    Balloon(Color(90% 80 90°) 'Soleado').show()
+])
+\
+
+ El \•Balloon(...)\ parte define la plantilla, y la \ƒ show()\ parte dice / cómo dibujar uno /.
+Luego creamos tres globos con colores y etiquetas diferentes, y le pedimos a cada uno que se \show\ a sí mismo.
 
 Las plantillas son estupendas cuando quieres mantener tu código ordenado y tus caracteres uniformes.
 

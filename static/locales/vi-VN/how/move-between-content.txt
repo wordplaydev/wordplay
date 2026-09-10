@@ -1,60 +1,75 @@
 Di chuyển giữa các nội dung bằng phím mũi tên
 
-Đôi khi bạn muốn người xem đi qua từng phần nội dung một, giống như một buổi trình chiếu, tiến lên /và/ lùi lại bằng phím mũi tên.
+Đôi khi bạn muốn người xem đi qua từng phần nội dung một, giống như một buổi trình chiếu, tiến lên / và / lùi lại bằng phím mũi tên.
 
 Mỗi phiên bản của kiểu mẫu này đều gồm ba phần giống nhau:
 
-• Một  @List  chứa nội dung bạn muốn hiển thị• Một  @Key  luồng, thay đổi mỗi khi có phím được nhấn• Một  @Reaction  ghi nhớ bạn đang xem phần nội dung nào
+• Một @List của nội dung bạn muốn hiển thị
+• Một @Key luồng, thay đổi mỗi khi có một phím được nhấn
+• Một @Reaction ghi nhớ bạn đang ở phần nội dung nào
 
 Đây là phiên bản nhỏ nhất của nó. Hãy nhấp vào sân khấu trước để nó bắt đầu lắng nghe, rồi nhấn phím mũi tên trái và phải:
 
-\slides: ['đầu tiên' 'thứ hai' 'thứ ba']
+\
+slides: ['đầu tiên' 'thứ hai' 'thứ ba']
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'Mũi tên phải') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'Mũi tên trái') ? ((index > 1) ? index - 1 index) index
-Phrase(slides[index])\
 
-Cái  @Reaction  là phần cốt lõi của nó. Nó bắt đầu ở \1\, và mỗi khi  @Key  thay đổi, nó sẽ quyết định số mới sẽ là gì.Nếu phím mũi tên phải được nhấn, nó cộng thêm một; nếu phím mũi tên trái được nhấn, nó trừ đi một; nếu không, nó giữ nguyên.
+index•#: 1 … ∆ key …
+	(key = 'Mũi tên phải') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'Mũi tên trái') ? ((index > 1) ? index - 1 index)
+			index
 
-Các phép kiểm tra \?\ thêm vào chính là thứ giữ cho số không vượt quá hai đầu của danh sách.Nếu không có chúng, bạn có thể đi ra ngoài giới hạn và sẽ không còn nội dung nào để hiển thị.Nếu bạn muốn quay vòng từ nội dung cuối cùng trở lại nội dung đầu tiên, bạn cũng có thể làm như vậy.
+Phrase(slides[index])
+\
 
-Lưu ý: các phím mũi tên được đặt tên là \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, và \'ArrowDown'\ tiếp theo.Bạn cũng có thể chỉ cần viết \'Left'\ và \'Right'\, và tên phím cũng hoạt động bằng ngôn ngữ của riêng bạn.
+ Cái @Reaction là phần cốt lõi của nó. Nó bắt đầu từ \1\, và mỗi khi @Key thay đổi, nó quyết định số mới sẽ là gì.
+Nếu phím mũi tên phải được nhấn, nó cộng thêm một; nếu phím mũi tên trái được nhấn, nó trừ đi một; nếu không thì số vẫn giữ nguyên.
 
-Hãy để ý rằng \index\ chỉ là một số, nên cách này dùng được cho /bất kỳ/ loại nội dung nào, không chỉ văn bản.Đổi  @List  thành một danh sách  @Group  hoặc cả những cảnh, thì phần còn lại của mẫu vẫn không thay đổi chút nào:
+Những kiểm tra \?\ bổ sung giúp số không vượt quá hai đầu của danh sách.
+Nếu không có chúng, bạn có thể đi quá cuối danh sách và sẽ không còn slide nào để hiển thị.
+Nếu bạn muốn quay vòng từ slide cuối cùng trở về slide đầu tiên, bạn có thể làm như vậy thay vì thế.
 
-\slides: [
-		Phrase('một câu chuyện gồm ba phần' kíchcỡ: 3m)
-		Group(
-			Stack()
-			[Phrase('🐈') Phrase('một con mèo xuất hiện')]
-		)
-		Phrase('kết thúc 🎉')
-	]
+Lưu ý: các phím mũi tên được đặt tên là \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, và \'ArrowDown'\.
+Bạn cũng có thể chỉ cần viết \'Left'\ và \'Right'\, và tên phím cũng hoạt động bằng ngôn ngữ của riêng bạn.
+
+Hãy chú ý rằng \index\ chỉ là một con số, vì vậy điều này hoạt động với / bất kỳ / loại nội dung nào, không chỉ văn bản.
+Hãy thay @List bằng một danh sách gồm @Group hoặc cả cảnh, phần còn lại của khuôn mẫu vẫn không thay đổi chút nào:
+
+\
+slides: [
+	Phrase('một câu chuyện gồm ba phần' kíchcỡ: 3m)
+	Group(Stack() [Phrase('🐈') Phrase('một con mèo xuất hiện')])
+	Phrase('kết thúc 🎉')
+]
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'Mũi tên phải') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'Mũi tên trái') ? ((index > 1) ? index - 1 index) index
-slides[index]\
 
-Một  @Scene  cũng có thể làm được điều này, mà lại đếm ít hơn.Cho nó  @Scene/pause  để nó không bao giờ tự di chuyển, và  @Scene/step  để di chuyển nó một ô theo hướng nào đó:
+index•#: 1 … ∆ key …
+	(key = 'Mũi tên phải') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'Mũi tên trái') ? ((index > 1) ? index - 1 index)
+			index
 
-\key: Key()
-Scene(
-	[
+slides[index]
+\
+
+ Một @Scene cũng có thể làm điều này, và cần đếm ít hơn.
+Hãy cho nó @Scene/pause nên nó không bao giờ tự di chuyển, và @Scene/step để di chuyển nó một bước theo mỗi hướng:
+
+\
+key: Key()
+Scene([
 		Phrase('một câu chuyện gồm ba phần' kíchcỡ: 3m)
-		Group(
-			Stack()
-			[Phrase('🐈') Phrase('một con mèo xuất hiện')]
-		)
+		Group(Stack() [Phrase('🐈') Phrase('một con mèo xuất hiện')])
 		Phrase('kết thúc 🎉')
-	]
-	tạmDừng: ⊤
-	bước: ∆ key ? ((key = 'Mũi tên trái') ? -1 (key = 'Mũi tên phải') ? 1 ø) ø
-)\
+	] tạmDừng: ⊤ bước: ∆ key ? ((key = 'Mũi tên trái') ? -1 (key = 'Mũi tên phải') ? 1 ø) ø)
+\
 
-Ở đây không cần viết kiểm tra \?\ nào cả, vì một  @Scene  tự dừng ở hai đầu của nó, và không có gì cần phải nhớ mảnh nào đang hiển thị.Hỏi  @Spotlight  nếu bạn muốn nói /3 trên 10/ trên sân khấu.
+ Không có \?\ kiểm tra nào cần viết ở đây, vì một @Scene tự dừng lại ở hai đầu của nó, và không có gì cần phải nhớ mảnh nào đang hiển thị.
+Hỏi @Spotlight nếu bạn muốn nói / 3 trên 10 / trên sân khấu.
 
-Lưu ý: xem cái này trong một dự án đầy đủ tại phòng trưng bày: <trình chiếu@https://wordplay.dev/project/example-SlideShow?play>
+Lưu ý: xem cái này trong một dự án đầy đủ tại phòng trưng bày: < trình chiếu @https://wordplay.dev/project/example-SlideShow?play>
 
-Cái  @Reaction  ở trên vẫn là cách làm việc này khi thứ bạn đang lần lượt duyệt qua không phải là kết quả đầu ra — một danh sách các từ, màu sắc, số, hoặc bất cứ thứ gì khác mà bạn dùng để tạo nên mảnh đó.
+ Cái @Reaction ở trên vẫn là cách làm việc này khi thứ bạn đang lần lượt duyệt qua không phải là kết quả đầu ra — một danh sách các từ, màu sắc, số, hoặc bất cứ thứ gì khác mà bạn dùng để tạo nên mảnh đó.
 
 interactive-scene, choose-adventure, offer-choices, repeat-a-round

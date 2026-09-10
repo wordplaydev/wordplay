@@ -1,18 +1,25 @@
 製作自己的角色模板
 
-有時你需要很多看起來幾乎一樣，但又略有不同的角色。而不是寫出同樣的東西 @Phrase 你可以重複使用以下方式創建自己的模板： @Structure 。
+有時候你會想要很多長得幾乎一樣，只有一點點不同的字元。
+與其一次又一次寫出同樣的 @Phrase ，不如用一個 @Structure 結合起來，做出一個計數器。
 
-A @Structure 就像一份需要填寫空白的食譜。這是一個氣球模板，它接受顏色和標籤，並能自動顯示自身：
+一個 @Structure 就像一份留有空格、等你填寫的食譜。
+這裡有一個氣球樣板（Template），它會接收一個顏色和一個標籤，並且知道怎麼顯示自己：
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` 色彩: color 尺寸: 2m)
+\
+•Balloon(color•Color label•'') (
+    ƒ show() Phrase(`🎈\label\` 色彩: color 尺寸: 2m)
 )
-Group(Row() [
-		Balloon(Color(80% 50 240°) '天空').show()
-		Balloon(Color(60% 80 0°) '玫瑰').show()
-		Balloon(Color(90% 80 90°) '陽光明媚').show()
-	])\
 
-這\•Balloon(...)\這部分定義了模板，以及\ƒ show()\部分內容/如何畫一個/。然後我們製作了三個不同顏色和標籤的氣球，並要求每個人…\show\自身。
+Group(Row() [
+    Balloon(Color(80% 50 240°) '天空').show()
+    Balloon(Color(60% 80 0°) '玫瑰').show()
+    Balloon(Color(90% 80 90°) '陽光明媚').show()
+])
+\
+
+ 這個 \•Balloon(...)\ 的部分定義了樣板，而 \ƒ show()\ 的部分說明 / 要怎麼畫一個 / 結合起來，做出一個計數器。
+接著我們做出三個顏色和標籤都不同的氣球，並請每一個氣球都 \show\ 自己。
 
 當你想保持程式碼整潔和字元一致時，模板非常有用。
 

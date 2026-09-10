@@ -1,24 +1,33 @@
 Pabagsakin at patalbugin ang isang karakter
 
-Paano kung gusto nating matumba ang isang karakter, tumalbog sa sahig, o maitulak na parang totoong bagay?Iyon ang @Motion at @Matter ay para sa — magkasama nilang ginagaya ang pisika para sa isang @Phrase . 
+Paano kung gusto nating bumagsak ang isang karakter, tumalbog sa sahig, o maitulak-tulak na parang tunay na bagay?
+Iyan ang dahilan ng @Motion at @Matter — magkasama nilang ginagaya ang pisika para sa isang @Phrase.
 
-@Motion mga kontrol/saan/ang isang karakter ay nasa paglipas ng panahon. Ginagamit natin ito bilang\place\para sa isang @Phrase , sinimulan itong itaas nang mataas para ito ay mahulog.Kailangan din natin ng madadapaan, kung hindi ay patuloy lang na mahuhulog ang ating karakter! @Shape na may malawak @Rectangle nakakagawa ng magandang sahig:
+@Motion ang kumokontrol / kung saan / ang isang karakter sa paglipas ng panahon. Ginagamit natin ito bilang \place\ para sa isang @Phrase, sinisimulan ito sa mataas na lugar para makahulog ito.
+Kailangan din natin ng mahuhulugan, kundi patuloy na mahuhulog ang ating karakter magpakailanman! Isang @Shape na may malawak na @Rectangle ay gumagawa ng magandang sahig:
 
-\Stage([
-		Phrase('🍎' lugar: Motion(Place(0m 5m)) materya: Matter())
-		Shape(Rectangle(-10m 0m 10m -5m))
-	])\
+\
+Stage([
+    Phrase('🍎' lugar: Motion(Place(0m 5m)) materya: Matter())
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
 
-Ang mansanas ay nagsisimula sa taas na limang metro at nahuhulog sa ilalim ng grabidad.Kapag tumama ito sa sahig, medyo tumatalbog ito, dahil @Phrase may built-in na @Matter na kumokontrol kung gaano ito kabigat at katalbog.
+ Nagsisimula ang mansanas sa limang metro ang taas at nahuhulog dahil sa grabidad.
+Kapag tumama ito sa sahig, bahagya itong tumatalbog, dahil @Phrase ay may built-in na @Matter na kumokontrol kung gaano kabigat at katalbog ito.
 
-Para baguhin kung paano/mabounce/o paano/mabigat/ang isang karakter ay, bigyan ito ng sarili mo @Matter . @Matter tumatagal ng isang masa, isang bounciness, at isang friction:
+Para baguhin kung paano / mabounce / o paano / mabigat / ang isang karakter ay, bigyan ito ng sarili mo @Matter.
+@Matter tumatagal ng isang masa, isang bounciness, at isang friction:
 
-\Stage([
-		Phrase('⚽' lugar: Motion(Place(-2m 5m)) materya: Matter(1kg 0.9 0.2))
-		Phrase('🪨' lugar: Motion(Place(2m 5m)) materya: Matter(5kg 0.1 0.8))
-		Shape(Rectangle(-10m 0m 10m -5m))
-	])\
+\
+Stage([
+    Phrase('⚽' lugar: Motion(Place(-2m 5m)) materya: Matter(1kg 0.9 0.2))
+    Phrase('🪨' lugar: Motion(Place(2m 5m)) materya: Matter(5kg 0.1 0.8))
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
 
-Magaan at tumalbog ang bola, kaya't tumatalbog itong muli.Mabigat ang bato at hindi tumatalbog, kaya't kusang lumalagutok ito.
+ Magaan at matalbog ang bola, kaya bumabalik ito pataas.
+Mabigat at hindi matalbog ang bato, kaya tunog lang ang tama nito sa lupa.
 
 follow-the-pointer, move-phrase

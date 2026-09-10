@@ -2,70 +2,66 @@ Membuat rangkaian adegan interaktif
 
 Kadang kita ingin bercerita dengan cara menunggu penonton melakukan sesuatu sebelum lanjut ke isi berikutnya.
 
-Untuk melakukan ini, kita bisa memakai  @Scene , tapi meletakkan  @Boolean  nilai di antara isi yang ingin kita tampilkan. Sebagai contoh, berikut ini sebuah klik akan lanjut ke isi berikutnya, memakai sebuah  @Button :
+Untuk melakukan ini, kita bisa memakai @Scene, tapi meletakkan @Boolean nilai di antara isi yang ingin kita tampilkan. Sebagai contoh, berikut ini sebuah klik akan lanjut ke isi berikutnya, memakai sebuah @Button:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('klik aku')
 		Button()
 		Phrase('klik aku lagi' lamanya: 1s)
 		Button()
-		Phrase(
-			'beneran, klik aku sekeras mungkin!!'
-			lamanya: 1s
-		)
+		Phrase('beneran, klik aku sekeras mungkin!!' lamanya: 1s)
 		Button()
 		Phrase('apa kamu sudah mengklik aku?' lamanya: 1s)
-	]
-)\
+	])
+\
 
-Yang  @Scene  yang pertama, lalu menunggu  @Phrase  hingga  @Button  menjadi benar, dan begitu itu terjadi, lanjut ke  @Phrase  berikutnya.
+ Yang @Scene yang pertama, lalu menunggu @Phrase hingga @Button menjadi benar, dan begitu itu terjadi, lanjut ke @Phrase berikutnya.
 
-Kamu bisa memakai apa saja untuk melanjutkan, asalkan nilainya benar atau salah. Sebagai contoh, kita bisa memakai suara kita! Jika kita berteriak cukup keras, adegan akan lanjut:
+Kamu bisa memakai apa saja untuk melanjutkan, asalkan itu benar atau salah. 
+Misalnya, kita bisa memakai suara kita! 
+Jika kita berteriak cukup keras, adegan akan melanjut:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('apakah ada orang di sana?')
 		Volume() > .5
-		Phrase(
-			"aku tidak bisa mendengarmu, coba ulangi?"
-			lamanya: 1s
-		)
+		Phrase("aku tidak bisa mendengarmu, coba ulangi?" lamanya: 1s)
 		Volume() > .7
 		Phrase('lebih keras dong...' lamanya: 1s)
 		Volume() > .9
 		Phrase('oh, hai!' lamanya: 1s)
-	]
-)\
+	])
+\
 
-Ketika setiap  @Phrase  harus menunggu hal yang sama,  @Scene/until  cukup menuliskannya sekali, bukan di antara setiap bagian. Ini melakukan hal yang sama seperti contoh pertama di atas:
+ Ketika setiap @Phrase harus menunggu hal yang sama, @Scene/until cukup menuliskannya sekali, bukan di antara setiap bagian. Ini melakukan hal yang sama seperti contoh pertama di atas:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('klik aku')
 		Phrase('klik aku lagi' lamanya: 1s)
-		Phrase(
-			'beneran, klik aku sekeras mungkin!!'
-			lamanya: 1s
-		)
+		Phrase('beneran, klik aku sekeras mungkin!!' lamanya: 1s)
 		Phrase('apa kamu sudah mengklik aku?' lamanya: 1s)
-	]
-	sampai: Button()
-)\
+	] sampai: Button())
+\
 
-Tulis  @Boolean  di dalam daftar saat jeda waktunya /berbeda/, seperti pada contoh berteriak, dan gunakan  @Scene/until  saat semuanya sama.Kamu bisa memakai keduanya: sebuah  @Boolean  di dalam daftar adalah jeda waktu tersendiri, di atas jeda waktu yang  @Scene/until  minta.
+ Tulis sebuah @Boolean dalam daftar saat waktu tunggunya / berbeda-beda /, seperti pada contoh teriakan, dan pakai @Scene/until saat semuanya sama.
+Kamu bisa memakai keduanya: sebuah @Boolean dalam daftar adalah waktu tunggu tersendiri, di atas waktu tunggu yang diminta @Scene/until .
 
-Catatan:  @Scene/until  menunggu /setelah/ setiap  @Phrase  selesai dengan  @Phrase/duration -nya, bukan sebagai gantinya.
+Catatan: @Scene/until menunggu / setelah / setiap @Phrase selesai dengan @Phrase/duration-nya, bukan sebagai gantinya.
 
-Jika kamu lebih suka  @Scene  tidak pernah bergerak sendiri, dan hanya pergi ke tempat yang kamu tentukan, gunakan  @Scene/pause  dengan  @Scene/step :
+Jika kamu lebih suka @Scene tidak pernah bergerak sendiri, dan hanya pergi ke tempat yang kamu tentukan, gunakan @Scene/pause dengan @Scene/step:
 
-\key: Key()
-Scene(
-	[Phrase('satu') Phrase('dua') Phrase('tiga')]
-	jeda: ⊤
-	langkah: ∆ key ? ((key = 'Panah Kiri') ? -1 (key = 'Panah Kanan') ? 1 ø) ø
-)\
+\
+key: Key()
+Scene([
+		Phrase('satu')
+		Phrase('dua')
+		Phrase('tiga')
+	] jeda: ⊤ langkah: ∆ key ? ((key = 'Panah Kiri') ? -1 (key = 'Panah Kanan') ? 1 ø) ø)
+\
 
-@Scene/step  bergerak sejumlah  @Phrase  — \1\ maju, \-1\ mundur — dan berhenti di ujung untuk kamu. @Scene/go  adalah ide yang sama, tapi disebut sebagai tempat, bukan jarak: nomor dari  @Phrase  yang kamu inginkan, dihitung mulai dari 1, atau  @Phrase/name  yang kamu berikan.
+@Scene/step bergerak sejumlah @Phrase — \1\ maju, \-1\ mundur — dan berhenti di ujung untuk kamu.
+@Scene/go adalah ide yang sama, tapi disebut sebagai tempat, bukan jarak: nomor dari @Phrase yang kamu inginkan, dihitung mulai dari 1, atau @Phrase/name yang kamu berikan.
 
 animated-scene, repeat-a-round, move-between-content

@@ -1,17 +1,21 @@
 Bir hareketi tekrarlamak
 
-Bazen bir karakterin aynı şekilde birkaç kez hareket etmesini isteriz!Aynı satırları tekrar tekrar yazmak sıkıcı olmaya başladı.
+Bazen bir karakterin aynı hareketi birkaç kez yapmasını isteriz! 
+Aynı satırları defalarca yazmak sıkıcı olabilir.
 
-Bunun yerine şunu kullanabiliriz: @Sequence  ile  @Phrase bir şeyi birden fazla kez tekrar ettirmek! Özellikle,sayımı kullanabiliriz @Sequence ve bir poz setinin kaç kez gerçekleşeceğini seçin. Örneğin,İşte iki kez yukarı aşağı zıplayan bir basketbol topu.
+Bunun yerine, @Sequence ile @Phrase kullanarak bir şeyi birden çok kez tekrarlatabiliriz! Özellikle,
+sayıyı şurada kullanabiliriz: @Sequence ve bir poz kümesinin kaç kez gerçekleşeceğini seçebiliriz. Örneğin, 
+işte iki kez yukarı aşağı zıplayan bir basketbol topu. 
 
-\Stage([
-		Phrase('🏀' giriş: Sequence({
-					0%: Pose(telafietmek: Place(ve: 0.25m))
-					25%: Pose(telafietmek: Place(ve: 0m))
-					50%: Pose(telafietmek: Place(ve: -0.25m))
-					75%: Pose(telafietmek: Place(ve: 0m))
-					100%: Pose(telafietmek: Place(ve: 0.25m))
-				} saymak: 2x süre: 2s))
-	])\
+\
+Stage([
+	Phrase('🏀' giriş: Sequence({
+				0%: Pose(telafietmek: Place(ve: 0.25m))
+				25%: Pose(telafietmek: Place(ve: 0m))
+				50%: Pose(telafietmek: Place(ve: -0.25m))
+				75%: Pose(telafietmek: Place(ve: 0m))
+				100%: Pose(telafietmek: Place(ve: 0.25m))} saymak:2x süre:2s))
+])
+\
 
 animate-phrase, shake-phrase

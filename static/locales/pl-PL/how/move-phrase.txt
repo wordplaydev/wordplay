@@ -2,20 +2,32 @@ Uczyń postać ruchomą
 
 Czasami pomocne jest zrobienie @Phrase można przesuwać za pomocą klawiatury, myszy lub palca.
 
-Zrób to, możemy połączyć @Phrase  z  @Placement :
+Zrób to, możemy połączyć @Phrase z @Placement:
 
-\Stage([Phrase('przenieś mnie' miejsce: Placement())] miejsce: Place(0m 0m -10m))\
+\
+Stage(
+	[Phrase('przenieś mnie' miejsce: Placement())]
+	miejsce: Place(0m 0m -10m)
+)
+\
 
-Za pomocą strzałek klawiatury lub klikając na @Stage zaktualizuje @Placement , powodując @Phrase aby podążać w tym kierunku.
+ Za pomocą strzałek klawiatury lub klikając na @Stage zaktualizuje @Placement, powodując @Phrase aby podążać w tym kierunku.
 
-Czy jednak wiedziałeś, że @Placement można używać z/wszystko/to zajmuje @Place ?Na przykład @Stage ma @Place który określa, w którym kierunku skierowana jest kamera.Spróbujmy ustawić @Placement dla @Stage 's miejsce i zobacz co się stanie.
+Czy wiesz jednak, że @Placement można używać z / czymkolwiek / , co przyjmuje @Place? 
+Na przykład @Stage ma @Place , która określa, gdzie skierowana jest jej kamera.
+Spróbujmy ustawić miejsce dla @Placement dla @Stage i zobaczmy, co się stanie.
 
-\Stage([
-		Phrase('🐈' miejsce: Place(-2m 2m))
-		Phrase('🐈' miejsce: Place(2m -2m))
-		Phrase('🐈' miejsce: Place(-1m 3m))
-	] miejsce: Placement(Place(0m 0m -10m)))\
+\
+Stage(
+  [
+	Phrase('🐈' miejsce: Place(-2m 2m))
+	Phrase('🐈' miejsce: Place(2m -2m))
+	Phrase('🐈' miejsce: Place(-1m 3m))
+  ]
+  miejsce: Placement(Place(0m 0m -10m))
+)
+\
 
-To sprawia, że kamera się porusza! (Uwaga: zaczynamy @Placement z\z\wartość\10m\(tak, aby kamera była odsunięta od wszystkiego.)
+ To sprawia, że kamera się porusza! (Uwaga: zaczynamy @Placement z \z\ wartość \10m\ (tak, aby kamera była odsunięta od wszystkiego.)
 
 animated-scene

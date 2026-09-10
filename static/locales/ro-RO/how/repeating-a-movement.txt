@@ -1,17 +1,21 @@
 Repetarea unei mișcări
 
-Uneori vrem să facem un personaj să se miște în același fel de mai multe ori! A scrie aceleași rânduri iar și iar a devenit plictisitor.
+Uneori vrem ca un personaj să se miște la fel de mai multe ori! 
+Să scrii aceleași linii de cod iar și iar devine plictisitor.
 
-În schimb, putem folosi  @Sequence  cu  @Phrase  a face ceva să se repete de mai multe ori! Mai exact,putem folosi numărătoarea în  @Sequence  și alegeți de câte ori se repetă un set de poziții. De exemplu, Iată o minge de baschet care sare în sus și în jos de două ori. 
+În loc de asta, putem folosi @Sequence cu @Phrase pentru a face ceva să se repete de mai multe ori! Mai exact,
+putem folosi numărul din @Sequence și alege de câte ori se întâmplă un set de poziții. De exemplu, 
+iată o minge de baschet care sare în sus și în jos de două ori. 
 
-\Stage([
-		Phrase('🏀' intrând: Sequence({
-					0%: Pose(compensare: Place(y: 0.25m))
-					25%: Pose(compensare: Place(y: 0m))
-					50%: Pose(compensare: Place(y: -0.25m))
-					75%: Pose(compensare: Place(y: 0m))
-					100%: Pose(compensare: Place(y: 0.25m))
-				} conta: 2x durată: 2s))
-	])\
+\
+Stage([
+	Phrase('🏀' intrând: Sequence({
+				0%: Pose(compensare: Place(y: 0.25m))
+				25%: Pose(compensare: Place(y: 0m))
+				50%: Pose(compensare: Place(y: -0.25m))
+				75%: Pose(compensare: Place(y: 0m))
+				100%: Pose(compensare: Place(y: 0.25m))} conta:2x durată:2s))
+])
+\
 
 animate-phrase, shake-phrase

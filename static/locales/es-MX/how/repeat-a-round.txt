@@ -1,47 +1,42 @@
 Repite una ronda de un juego
 
-Muchos juegos son los mismos momentos una y otra vez: decir qué hacer, esperar una respuesta, mostrar cómo salió y comenzar de nuevo.Un  @Scene  puede ser esa ronda completa, y  @Scene/loop  es lo que la regresa al comienzo.
+Muchos juegos repiten los mismos momentos una y otra vez: decir qué hacer, esperar una respuesta, mostrar cómo salió, y comenzar de nuevo.
+Una @Scene puede ser esa vuelta completa, y @Scene/loop es lo que la regresa al comienzo.
 
-Los momentos son las cosas en la lista, y un  @Boolean  entre ellos es donde el  @Scene  espera al jugador.
+Los momentos son las cosas en la lista, y un @Boolean entre ellos es donde el @Scene espera al jugador.
 
-\guess: Chat()
+\
+guess: Chat()
 right: guess = 'gato'
-Scene(
-	[
+Scene([
+	Phrase('¡Adivina el animal!' duración: 2s)
+	∆ guess
+	Phrase(right ? '¡Sí!' '¡No!' duración: 2s)
+] bucle: ~right)
+\
+
+ El \∆ guess\ es la espera: solo es verdadera en el momento en que llega un intento nuevo, así que @Scene se queda ahí hasta que alguien escribe algo.
+Y \bucle2: ~right\ es la repetición: @Scene sigue dando vueltas hasta que aciertan, y entonces se detiene en el último @Phrase.
+
+Nota: @Scene/loop se lee cada vez que tu programa cambia, así que puedes terminar un bucle además de comenzarlo, que es justo lo que hizo \~right\ .
+
+Para saber en qué punto va la vuelta, pregúntale a @Spotlight.
+Te dice cuál @Phrase se está mostrando, cuántas hay, cuántas veces ha dado la vuelta @Scene , y si en este momento está esperando a alguien.
+
+\
+guess: Chat()
+at: Spotlight()
+Stage([
+	Scene([
 		Phrase('¡Adivina el animal!' duración: 2s)
 		∆ guess
-		Phrase(right ? '¡Sí!' '¡No!' duración: 2s)
-	]
-	bucle: ~right
-)\
+		Phrase('¡No!' duración: 2s)
+	] bucle: ⊤)
+	Phrase(at.waiting ? 'escribe un intento' `ronda \at.lap + 1\` tamaño: 0.4m lugar: Place(0m -2m))
+])
+\
 
-El \∆ guess\ es la espera: es verdadero solo en el momento en que llega un nuevo intento, así que el  @Scene  se queda ahí hasta que alguien escribe algo.Y \bucle2: ~right\ es la repetición: el  @Scene  sigue regresando hasta que aciertan, y luego se detiene en el último  @Phrase .
-
-Nota:  @Scene/loop  se lee cada vez que tu programa cambia, así que puedes terminar un bucle además de comenzarlo, que es justo lo que hizo \~right\.
-
-Para saber en qué parte va la ronda, pregúntale a  @Spotlight .Te dice cuál  @Phrase  se está mostrando, cuántas hay, cuántas veces ha regresado el  @Scene , y si está esperando a alguien en este momento.
-
-\guess: Chat()
-at: Spotlight()
-Stage(
-	[
-		Scene(
-			[
-				Phrase('¡Adivina el animal!' duración: 2s)
-				∆ guess
-				Phrase('¡No!' duración: 2s)
-			]
-			bucle: ⊤
-		)
-		Phrase(
-			at.waiting ? 'escribe un intento' `ronda \at.lap + 1\`
-			tamaño: 0.4m
-			lugar: Place(0m -2m)
-		)
-	]
-)\
-
-@Scene/replay  es una forma de reiniciar la ronda cuando quieras, sin importar en qué punto iba.Dale algo que sea verdadero solo por un momento, como \∆ Botón(
-)\.
+@Scene/replay es una manera de reiniciar la vuelta cuando quieras, sin importar en qué punto iba.
+Dale algo que solo sea verdadero por un momento, como \∆ Botón()\.
 
 interactive-scene, animated-scene, track-game-state

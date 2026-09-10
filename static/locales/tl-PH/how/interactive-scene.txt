@@ -2,10 +2,10 @@ Gumawa ng isang serye ng mga tagpo na may pakikilahok
 
 Minsan, gusto nating magkuwento na naghihintay sa manonood na gumawa ng isang bagay bago magpatuloy sa susunod na nilalaman.
 
-Para gawin ito, maaari tayong gumamit ng  @Scene , pero ilagay ang  @Boolean  na mga halaga sa pagitan ng nilalamang gusto nating ipakita. Halimbawa, narito ang isang click na magpapatuloy sa bawat susunod na nilalaman, gamit ang  @Button :
+Para gawin ito, maaari tayong gumamit ng @Scene, pero ilagay ang @Boolean na mga halaga sa pagitan ng nilalamang gusto nating ipakita. Halimbawa, narito ang isang click na magpapatuloy sa bawat susunod na nilalaman, gamit ang @Button:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('i-click ako')
 		Button()
 		Phrase('i-click ako ulit' tagal: 1s)
@@ -13,15 +13,17 @@ Para gawin ito, maaari tayong gumamit ng  @Scene , pero ilagay ang  @Boolean  na
 		Phrase('seryoso, i-click ako nang lubusan!!' tagal: 1s)
 		Button()
 		Phrase('na-click mo na ba ako?' tagal: 1s)
-	]
-)\
+	])
+\
 
-Ipinapakita ng  @Scene  ang unang  @Phrase , pagkatapos ay naghihintay para sa  @Button  na maging totoo, at kapag totoo na ito, magpapatuloy ito sa susunod na  @Phrase .
+ Ipinapakita ng @Scene ang unang @Phrase, pagkatapos ay naghihintay para sa @Button na maging totoo, at kapag totoo na ito, magpapatuloy ito sa susunod na @Phrase.
 
-Maaari kang gumamit ng kahit anong gusto mo para magpatuloy, basta't ito ay totoo o hindi totoo. Halimbawa, maaari nating gamitin ang ating boses! Kung sisigaw tayo nang sapat na lakas, magpapatuloy ang tagpo:
+Puwede kang gumamit ng kahit ano para magpatuloy, basta't ito ay totoo o hindi totoo. 
+Halimbawa, puwede nating gamitin ang ating boses! 
+Kung sisigaw tayo nang malakas, magpapatuloy ang eksena:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('may tao ba diyan?')
 		Volume() > .5
 		Phrase("hindi kita marinig, ulitin mo?" tagal: 1s)
@@ -29,34 +31,37 @@ Maaari kang gumamit ng kahit anong gusto mo para magpatuloy, basta't ito ay toto
 		Phrase('lakasan pa please...' tagal: 1s)
 		Volume() > .9
 		Phrase('ay, hi!' tagal: 1s)
-	]
-)\
+	])
+\
 
-Kapag ang bawat  @Phrase  ay dapat maghintay para sa parehong bagay,  @Scene/until  ay isinasabi ito nang minsan sa halip na isulat ito sa pagitan ng bawat isa. Ginagawa nito ang parehong bagay tulad ng unang halimbawa sa itaas:
+ Kapag ang bawat @Phrase ay dapat maghintay para sa parehong bagay, @Scene/until ay isinasabi ito nang minsan sa halip na isulat ito sa pagitan ng bawat isa. Ginagawa nito ang parehong bagay tulad ng unang halimbawa sa itaas:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('i-click ako')
 		Phrase('i-click ako ulit' tagal: 1s)
 		Phrase('seryoso, i-click ako nang lubusan!!' tagal: 1s)
 		Phrase('na-click mo na ba ako?' tagal: 1s)
-	]
-	hanggang: Button()
-)\
+	] hanggang: Button())
+\
 
-Sumulat ng  @Boolean  sa listahan kapag ang mga paghintay ay /iba-iba/, tulad ng sa halimbawa ng pagsigaw, at gamitin ang  @Scene/until  kapag pareho silang lahat.Puwede mong gamitin pareho: ang  @Boolean  sa listahan ay hiwalay na paghintay, dagdag pa sa hinihinging paghintay ni  @Scene/until .
+ Sumulat ng @Boolean sa listahan kapag ang mga paghihintay ay / magkaiba /, tulad ng sa halimbawang pagsigaw, at gamitin ang @Scene/until kapag pareho silang lahat.
+Puwede mong gamitin ang dalawa: ang isang @Boolean sa listahan ay sarili nitong paghihintay, dagdag pa sa @Scene/until na hinihiling.
 
-Tandaan: naghihintay ang  @Scene/until  /pagkatapos/ na may sariling  @Phrase  ang bawat  @Phrase/duration , hindi kapalit nito.
+Tandaan: naghihintay ang @Scene/until  / pagkatapos / na may sariling @Phrase ang bawat @Phrase/duration, hindi kapalit nito.
 
-Kung gusto mong hindi kailanman kusang gumalaw ang  @Scene , at pumunta lang kung saan mo ito ipinadala, gamitin ang  @Scene/pause  na may  @Scene/step :
+Kung gusto mong hindi kailanman kusang gumalaw ang @Scene , at pumunta lang kung saan mo ito ipinadala, gamitin ang @Scene/pause na may @Scene/step:
 
-\key: Key()
-Scene(
-	[Phrase('isa') Phrase('dalawa') Phrase('tatlo')]
-	iPause: ⊤
-	hakbang: ∆ key ? ((key = 'Palaso Kaliwa') ? -1 (key = 'PalasoKanan') ? 1 ø) ø
-)\
+\
+key: Key()
+Scene([
+		Phrase('isa')
+		Phrase('dalawa')
+		Phrase('tatlo')
+	] iPause: ⊤ hakbang: ∆ key ? ((key = 'Palaso Kaliwa') ? -1 (key = 'PalasoKanan') ? 1 ø) ø)
+\
 
-@Scene/step  gumagalaw ng ilang  @Phrase  — \1\ pasulong, \-1\ pabalik — at humihinto sa mga dulo para sa iyo. @Scene/go  ay ang parehong ideya, sinabi bilang isang lugar sa halip na isang distansya: ang numero ng  @Phrase  na gusto mo, na binibilang mula sa 1, o ang  @Phrase/name  na ibinigay mo dito.
+@Scene/step gumagalaw ng ilang @Phrase — \1\ pasulong, \-1\ pabalik — at humihinto sa mga dulo para sa iyo.
+@Scene/go ay ang parehong ideya, sinabi bilang isang lugar sa halip na isang distansya: ang numero ng @Phrase na gusto mo, na binibilang mula sa 1, o ang @Phrase/name na ibinigay mo dito.
 
 animated-scene, repeat-a-round, move-between-content

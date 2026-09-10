@@ -1,57 +1,52 @@
 Skapa en animerad serie av scener
 
-Ibland vill vi berätta historier, visa sångtexter, eller animera poesi.För att göra det kan vi använda  @Scene  och  @Phrase  tillsammans, för att visa en sekvens.
+Ibland vill vi berätta sagor, visa sångtexter eller animera dikter.
+För att göra det kan vi använda @Scene och @Phrase tillsammans, för att visa en sekvens.
 
-Föreställ dig till exempel att vi vill animera den korta barnrimsvisan "Jack be Nimble".Vi skulle kunna göra en  @Scene  som har varje rad som en  @Phrase , och genom att ställa in  @Phrase/duration  för varje rad skulle  @Scene  gå vidare när varje fras är klar.
+Föreställ dig till exempel att vi ville animera den korta barnrimen "Jack be Nimble".
+Vi skulle kunna göra en @Scene som har varje rad som en @Phrase, och genom att ställa in @Phrase/duration för varje rad skulle @Scene gå vidare när varje fras är klar.
 
-\Scene(
-	[
+\
+Scene([
+  Phrase('Jack var vig' varaktighet: 1s)
+  Phrase('Jack var snabb' varaktighet: 1s)
+  Phrase('Jack hoppade över ljusstaken' varaktighet: 1s)
+])
+\
+
+@Scene kommer också att vänta på att en @Sequence blir klar. Låt oss få ljusraden att hoppa!
+
+\
+Scene([
+		Phrase('Jack var vig' varaktighet: 1s)
+		Phrase('Jack var snabb' varaktighet: 1s)
+		Phrase('Jack hoppade över ljusstaken' gårin: Sequence.bounce(varaktighet: 1s))
+	])
+\
+
+@Scene kan också ta en @Group med text, och den kommer att vänta tills allt innehåll är klart med sin animering.
+
+\
+Scene([
+		Group(Stack() [
+      Phrase('Jack var vig')
+		  Phrase('Jack var snabb')
+    ] varaktighet: 2s)
+		Phrase('Jack hoppade över ljusstaken' gårin: Sequence.bounce(varaktighet: 1s))
+	])
+\
+
+ Ibland ska ett rim fortsätta. @Scene/loop tar @Scene tillbaka till sin första @Phrase när den sista är klar, så att den säger sig själv om och om igen.
+
+\
+Scene([
 		Phrase('Jack var vig' varaktighet: 1s)
 		Phrase('Jack var snabb' varaktighet: 1s)
 		Phrase('Jack hoppade över ljusstaken' varaktighet: 1s)
-	]
-)\
+	] upprepa: ⊤)
+\
 
-@Scene  kommer också att vänta på att en  @Sequence  blir klar. Låt oss få ljusraden att hoppa!
-
-\Scene(
-	[
-		Phrase('Jack var vig' varaktighet: 1s)
-		Phrase('Jack var snabb' varaktighet: 1s)
-		Phrase(
-			'Jack hoppade över ljusstaken'
-			gårin: Sequence.bounce(varaktighet: 1s)
-		)
-	]
-)\
-
-@Scene  kan också ta en  @Group  med text, och den kommer att vänta tills allt innehåll är klart med sin animering.
-
-\Scene(
-	[
-		Group(
-			Stack()
-			[Phrase('Jack var vig') Phrase('Jack var snabb')]
-			varaktighet: 2s
-		)
-		Phrase(
-			'Jack hoppade över ljusstaken'
-			gårin: Sequence.bounce(varaktighet: 1s)
-		)
-	]
-)\
-
-Ibland ska ett rim fortsätta.  @Scene/loop  tar  @Scene  tillbaka till sin första  @Phrase  när den sista är klar, så att den säger sig själv om och om igen.
-
-\Scene(
-	[
-		Phrase('Jack var vig' varaktighet: 1s)
-		Phrase('Jack var snabb' varaktighet: 1s)
-		Phrase('Jack hoppade över ljusstaken' varaktighet: 1s)
-	]
-	upprepa: ⊤
-)\
-
-Obs: en  @Scene  kommer bara tillbaka om något i listan faktiskt väntade.En lista där varje  @Phrase  hade en  @Phrase/duration  av \0s\ skulle snurra så snabbt datorn kunde klara, så den stannar i slutet i stället.
+ Obs: en @Scene kommer bara tillbaka igen om något i listan faktiskt väntade.
+En lista där varje @Phrase hade en @Phrase/duration på \0s\ skulle gå runt så snabbt som datorn kunde klara, så den stannar vid slutet istället.
 
 interactive-scene, repeat-a-round

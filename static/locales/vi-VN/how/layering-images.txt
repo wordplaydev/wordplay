@@ -4,17 +4,27 @@ Xếp chồng các hình ảnh lên nhau
 
 Ví dụ, bạn có thể sử dụng nhiều lớp cho dự án của mình. @Stage Bạn có thể xếp chồng và sắp xếp hình ảnh theo bất kỳ cách nào bạn muốn.
 
-Nhìn này! Đây là con rùa mình làm chỉ bằng các hình khối!Hãy thử thay đổi các con số cho từng hình dạng. Bạn có thể di chuyển, thay đổi kích thước và thậm chí xoay chúng.Hãy thỏa sức sáng tạo và xem bạn có thể tạo ra những gì!
+Nhìn xem! Đây là một con rùa mình làm chỉ bằng các hình khối!
+Hãy thử đổi các số của mỗi hình. Bạn có thể di chuyển, đổi kích cỡ, và cả xoay chúng.
+Cứ thử nghịch xem bạn tạo ra được gì!
 
-\¶Lưu ý: Hãy xem thư viện ảnh để xem thêm dự án khác.<ví dụ@https://wordplay.dev/project/example-Layers?play>về việc xếp lớp các hình ảnh.¶
-Stage([
+\
+¶Lưu ý: Hãy xem thư viện ảnh để xem thêm dự án khác.<ví dụ@https://wordplay.dev/project/example-Layers?play>về việc xếp lớp các hình ảnh.¶
+
+
+Stage(
+	[
 		Shape(Circle(3m 0m 1m 0m))
 		Shape(Polygon(2m 3 0m -12m 0m) xoay: -30°)
 		Shape(Polygon(7m 6 0m -6m 0m))
 		Shape(Rectangle(-11m -9m 11m -12m 10m) xoay: 25°)
 		Shape(Rectangle(-11m -9m 11m -12m 10m) xoay: -25°)
-	] vịTrí: Place(0m 10m -30m))\
 
-Bạn có thể tạo ra những thứ thực sự tuyệt vời bằng cách sử dụng các lớp! Hãy thử xem!
+	]
+	vịTrí: Place(0m 10m -30m)
+)
+\
+
+ Bạn có thể tạo ra những thứ thực sự tuyệt vời bằng cách sử dụng các lớp! Hãy thử xem!
 
 custom-characters

@@ -1,17 +1,28 @@
 Umieść tekst obok siebie
 
-Czasami chcemy, aby tekst znajdował się obok siebie w schludnym rzędzie.Możemy to zrobić za pomocą @Row , który wszystko układa w @Group od lewej do prawej.
+Czasem chcemy, żeby tekst układał się obok siebie w równej linii.
+Możemy to zrobić za pomocą @Row, który układa wszystko w @Group od lewej do prawej.
 
-\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+\
+Group(Row() [
+    Phrase('🍎')
+    Phrase('🍌')
+    Phrase('🍇')
+])
+\
 
-A  @Row Można również ustawiać znaki wzdłuż górnej, środkowej lub dolnej krawędzi i dodawać przestrzeń między nimi.Oto ten sam owoc, ale wyrównany do dołu, z odrobiną miejsca na oddech:
+ A @Row może też ustawiać znaki równo według górnej, środkowej lub dolnej krawędzi, a także dodawać między nimi odstępy.
+Oto te same owoce, ale wyrównane do dołu, z odrobiną przestrzeni:
 
-\Group(Row('>' 0.5m) [
-		Phrase('🍎' rozmiar: 2m)
-		Phrase('🍌' rozmiar: 1m)
-		Phrase('🍇' rozmiar: 3m)
-	])\
+\
+Group(Row('>' 0.5m) [
+    Phrase('🍎' rozmiar: 2m)
+    Phrase('🍌' rozmiar: 1m)
+    Phrase('🍇' rozmiar: 3m)
+])
+\
 
-Ten\'>'\mówi @Row wyrównać wszystko wzdłuż dolnej krawędzi. Spróbuj\'<'\na górę lub\'|'\dla środka.Ten\0.5m\jest odstępem pomiędzy poszczególnymi znakami.
+ Właściwość \'>'\ mówi @Row , żeby ustawić wszystko równo wzdłuż dolnej krawędzi. Spróbuj \'<'\ dla góry albo \'|'\ dla środka.
+Właściwość \0.5m\ to odstęp między każdym znakiem.
 
 stack-up-and-down, make-a-grid

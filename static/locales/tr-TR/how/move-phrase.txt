@@ -2,22 +2,32 @@ Bir karakteri hareket ettirilebilir hale getirin
 
 Bazen bir tane yapmak faydalıdır @Phrase klavye, fare veya parmakla hareket ettirilebilir.
 
-Bunu yapın, birleştirebiliriz @Phrase  ile  @Placement :
+Bunu yapın, birleştirebiliriz @Phrase ile @Placement:
 
-\Stage([
-		Phrase('beni hareket ettir' yer: Placement())
-	] yer: Place(0m 0m -10m))\
+\
+Stage(
+	[Phrase('beni hareket ettir' yer: Placement())]
+	yer: Place(0m 0m -10m)
+)
+\
 
-Klavye oklarını kullanarak veya @Stage güncellenecek @Placement , neden olan @Phrase o yöne doğru hareket etmek.
+ Klavye oklarını kullanarak veya @Stage güncellenecek @Placement, neden olan @Phrase o yöne doğru hareket etmek.
 
-Peki, biliyor muydunuz ki? @Placement ile birlikte kullanılabilir/herhangi bir şey/bu bir şey alır @Place ?Örneğin bir @Stage bir tane var @Place kamerasının nereye baktığını belirler.Bir ayar yapmayı deneyelim @Placement bir için @Stage 'nin yerini bul ve neler olacağını gör.
+Ama şunu biliyor muydun, @Placement şununla kullanılabilir: / her şey / bir @Place alan. 
+Örneğin bir @Stage şuna sahiptir: @Place kameranın nereyi gösterdiğini belirler.
+Hadi bir @Placement için @Stage'in yerini ayarlayıp ne olduğunu görelim.
 
-\Stage([
-		Phrase('🐈' yer: Place(-2m 2m))
-		Phrase('🐈' yer: Place(2m -2m))
-		Phrase('🐈' yer: Place(-1m 3m))
-	] yer: Placement(Place(0m 0m -10m)))\
+\
+Stage(
+  [
+	Phrase('🐈' yer: Place(-2m 2m))
+	Phrase('🐈' yer: Place(2m -2m))
+	Phrase('🐈' yer: Place(-1m 3m))
+  ]
+  yer: Placement(Place(0m 0m -10m))
+)
+\
 
-Bu kameranın hareket etmesini sağlar! (Not: @Placement bir ile\z\değeri\10m\(böylece kamera her şeyden uzaklaşmış olur.)
+ Bu kameranın hareket etmesini sağlar! (Not: @Placement bir ile \z\ değeri \10m\ (böylece kamera her şeyden uzaklaşmış olur.)
 
 animated-scene

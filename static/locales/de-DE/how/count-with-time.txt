@@ -1,17 +1,26 @@
 Zähle mit, während die Zeit vergeht.
 
-Viele Projekte benötigen etwas, das mit der Zeit wächst – einen Timer, eine Punktzahl, einen Countdown.Wir können einen Zähler bauen, indem wir die folgenden kombinieren: @Time   stream mit einem @Reaction Die
+Viele Projekte brauchen etwas, das mit der Zeit wächst — einen Timer, einen Punktestand, einen Countdown.
+Wir können einen Zähler bauen, indem wir den @Time -Datenstrom mit einem @Reaction kombinieren.
 
-A  @Reaction Besteht aus drei Teilen: einem Ausgangswert, einem zu beobachtenden Faktor und einem neuen Wert, wenn sich dieser Faktor ändert.Hier beginnen wir bei\0\, betrachten  @Time und füge jedes Mal eins hinzu, wenn die Uhr tickt:
+Eine @Reaction hat drei Teile: einen Startwert, etwas zum Beobachten, und einen neuen Wert, wenn sich dieses Etwas ändert.
+Hier starten wir bei \0\, beobachten @Time, und zählen jedes Mal eins dazu, wenn die Uhr tickt:
 
-\count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
+\
+count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')
+\
 
-Jede Sekunde @Time Brände, die @Reaction Hinweise mit\∆ Time(1000ms)\, Und \count\wird\count + 1\DieDer \→ ''\Am Ende wird die Zahl in Text umgewandelt, sodass @Phrase kann es zeigen.
+ Jede Sekunde löst @Time aus, der @Reaction bemerkt es mit \∆ Time(1000ms)\, und \count\ wird zu \count + 1\ kombinieren.
+Das \→ ''\ wandelt am Ende die Zahl in Text um, damit @Phrase sie anzeigen kann.
 
 Sie können beliebige Eingaben verwenden, nicht nur die Zeit. Dieser Zähler zählt die Anzahl der Tastendrücke der Schaltfläche (Button()):
 
-\count: 0 … ∆ Button() … count + 1 Phrase(count → '')\
+\
+count: 0 … ∆ Button() … count + 1
+Phrase(count → '')
+\
 
-Jedes Mal @Button Bei einem Klick oder Tippen ändert sich der Stream; die Anzahl erhöht sich um eins.
+ Jedes Mal @Button Bei einem Klick oder Tippen ändert sich der Stream; die Anzahl erhöht sich um eins.
 
 track-points, pick-from-a-list

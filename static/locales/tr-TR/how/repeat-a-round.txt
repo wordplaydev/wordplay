@@ -1,47 +1,42 @@
 Bir oyun turunu tekrarla
 
-Birçok oyun, aynı birkaç anın tekrar tekrar yaşanmasından oluşur: ne yapılacağını söyle, bir cevap bekle, nasıl gittiğini göster, sonra baştan başla.Bir  @Scene , o turun tamamı olabilir, ve  @Scene/loop  onu başa döndüren şeydir.
+Birçok oyun, hep aynı birkaç anı tekrarlar: ne yapılacağını söyle, bir yanıt bekle, nasıl gittiğini göster, sonra yeniden başla.
+Bir @Scene bu turun tamamı olabilir, @Scene/loop ise onu başa döndüren şeydir.
 
-Anlar, listedeki öğelerdir ve aralarındaki bir  @Boolean ,  @Scene 'nin oyuncuyu beklediği yerdir.
+Anlar, listedeki öğelerdir ve aralarındaki bir @Boolean , @Scene 'nin oyuncuyu beklediği yerdir.
 
-\guess: Chat()
+\
+guess: Chat()
 right: guess = 'kedi'
-Scene(
-	[
+Scene([
+	Phrase('Hayvanı tahmin et!' süre: 2s)
+	∆ guess
+	Phrase(right ? 'Evet!' 'Yanlış!' süre: 2s)
+] döngü: ~right)
+\
+
+ Bu \∆ guess\ bekleme anıdır: yalnızca yeni bir tahmin geldiği anda doğrudur, bu yüzden @Scene birisi bir şey yazana kadar orada bekler.
+Ve \döngü2: ~right\ tekrarlanan kısımdır: @Scene doğru cevabı bulana kadar tekrar tekrar döner, sonra son @Phrase ile birleştirebiliriz.
+
+Not: @Scene/loop programın her değiştiğinde okunur, bu yüzden bir döngüyü hem başlatabilir hem de bitirebilirsin; \~right\ tam olarak bunu yaptı.
+
+Turun neresinde olduğunu bilmek için @Spotlight ile birleştirebiliriz.
+Sana hangi @Phrase gösterildiğini, kaç tane olduğunu, @Scene kaç kez döndüğünü ve şu anda birini bekleyip beklemediğini söyler.
+
+\
+guess: Chat()
+at: Spotlight()
+Stage([
+	Scene([
 		Phrase('Hayvanı tahmin et!' süre: 2s)
 		∆ guess
-		Phrase(right ? 'Evet!' 'Yanlış!' süre: 2s)
-	]
-	döngü: ~right
-)\
+		Phrase('Yanlış!' süre: 2s)
+	] döngü: ⊤)
+	Phrase(at.waiting ? 'bir tahmin yaz' `tur \at.lap + 1\` boyut: 0.4m yer: Place(0m -2m))
+])
+\
 
-Bu \∆ guess\ beklemedir: yalnızca yeni bir tahmin geldiği anda doğru olur, bu yüzden  @Scene  biri bir şey yazana kadar orada bekler.Ve \döngü2: ~right\ tekrarlamadır:  @Scene  doğru cevabı bulana kadar tekrar tekrar döner, sonra son  @Phrase  için kontrol etmek zorunda kalmazsın.
-
-Not:  @Scene/loop  programın her değiştiğinde okunur, bu yüzden bir döngüyü hem başlatabilir hem de bitirebilirsin; \~right\ tam olarak bunu yaptı.
-
-Turun nerede olduğunu bilmek için  @Spotlight  için kontrol etmek zorunda kalmazsın.'a sor. @Phrase Sana hangi  @Scene  gösterildiğini, kaç tane olduğunu, 
-
-\guess: Chat()
-at: Spotlight()
-Stage(
-	[
-		Scene(
-			[
-				Phrase('Hayvanı tahmin et!' süre: 2s)
-				∆ guess
-				Phrase('Yanlış!' süre: 2s)
-			]
-			döngü: ⊤
-		)
-		Phrase(
-			at.waiting ? 'bir tahmin yaz' `tur \at.lap + 1\`
-			boyut: 0.4m
-			yer: Place(0m -2m)
-		)
-	]
-)\
-
-@Scene/replay  kaç kez döndüğünü ve şu anda birini bekleyip beklemediğini söyler.Ona sadece bir an için doğru olan bir şey ver, mesela \∆ Düğme(
-)\ için kontrol etmek zorunda kalmazsın.
+@Scene/replay turu, kaldığı yerden istediğin zaman baştan başlatmanın bir yoludur.
+Ona yalnızca bir an için doğru olan bir şey ver, örneğin \∆ Düğme()\ ile birleştirebiliriz.
 
 interactive-scene, animated-scene, track-game-state

@@ -1,17 +1,22 @@
 Pasundan ng isang karakter ang iyong daliri
 
-Gusto mo ba ng karakter na hahabol sa iyong mouse o daliri sa paligid ng @Stage ?Magagawa natin iyan gamit ang @Pointer input. 
+Gusto mo bang magkaroon ng tauhan na humahabol sa iyong mouse o daliri sa buong @Stage?
+Magagawa natin iyan gamit ang @Pointer na input.
 
-@Pointer nagbibigay sa atin ng sariwa @Place sa tuwing gumagalaw ang pointer.Kung gagamitin natin iyan @Place bilang isang @Phrase ng\place\, pupunta ang karakter saanman natin ituro.
+@Pointer ay nagbibigay sa atin ng bagong @Place tuwing gumagalaw ang pointer.
+Kung gagamitin natin ang @Place bilang @Phrase ng \place\, pupunta ang tauhan kung saan man natin ituturo.
 
-\Stage([Phrase('🐈' lugar: Pointer())] lugar: Place(0m 0m -10m))\
+\
+Stage([Phrase('🐈' lugar: Pointer())] lugar: Place(0m 0m -10m))
+\
 
-Ayan na! Igalaw ang iyong mouse o i-drag ang iyong daliri, at panoorin ang pusang sumusunod.
+ Ayan na! Igalaw ang iyong mouse o i-drag ang iyong daliri, at panoorin ang pusang sumusunod.
 
-Mas marami kang magagawang kawili-wiling bagay sa pamamagitan ng paghila palabas ng\x\at\y\mula sa @Place .Narito ang isang pato na laging lumulutang nang isang metro sa itaas ng pointer:
+Mas kawili-wiling bagay ang magagawa mo kapag kinuha mo ang \x\ at \y\ mula sa @Place.
+Narito ang isang pato na palaging lumulutang nang isang metro sa itaas ng pointer:
 
-\Stage([
-		Phrase('🦆' lugar: Place(Pointer().x Pointer().y + 1m))
-	] lugar: Place(0m 0m -10m))\
+\
+Stage([Phrase('🦆' lugar: Place(Pointer().x Pointer().y + 1m))] lugar: Place(0m 0m -10m))
+\
 
 move-phrase, count-with-time

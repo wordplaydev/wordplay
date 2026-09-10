@@ -1,17 +1,22 @@
 Haz que un personaje siga tu dedo
 
-¿Quieres un personaje que persiga tu ratón o tu dedo por todo el mapa? @Stage ¿Podemos hacerlo con el @Pointer  aporte. 
+¿Quieres un personaje que persiga tu mouse o tu dedo por el @Stage?
+Podemos lograrlo con la entrada @Pointer .
 
-@Pointer nos da una nueva perspectiva @Place cada vez que se mueve el puntero. Si usamos eso @Place como un @Phrase 's \place\El personaje irá adondequiera que señalemos.
+@Pointer nos da un nuevo @Place cada vez que el puntero se mueve.
+Si usamos ese @Place como @Phrase de un \place\, el personaje irá a donde señalemos.
 
-\Stage([Phrase('🐈' lugar: Pointer())] lugar: Place(0m 0m -10m))\
+\
+Stage([Phrase('🐈' lugar: Pointer())] lugar: Place(0m 0m -10m))
+\
 
 ¡Eso es todo! Mueve el ratón o arrastra el dedo y observa cómo el gato te sigue.
 
-Puedes hacer cosas más interesantes sacando el\x\ y \y\del @Place .Aquí hay un pato que siempre flota un metro por encima del puntero:
+Puedes hacer cosas más interesantes si sacas \x\ y \y\ del @Place.
+Aquí hay un pato que siempre flota a un metro sobre el puntero:
 
-\Stage([
-		Phrase('🦆' lugar: Place(Pointer().x Pointer().y + 1m))
-	] lugar: Place(0m 0m -10m))\
+\
+Stage([Phrase('🦆' lugar: Place(Pointer().x Pointer().y + 1m))] lugar: Place(0m 0m -10m))
+\
 
 move-phrase, count-with-time

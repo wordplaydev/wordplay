@@ -1,29 +1,24 @@
 Creează un video din cameră
 
-Fluxul  @Camera  este un mod excelent de a obține o grilă de culori din lume. Dar dacă vrem să vedem acele culori, recreând imaginea pe care o vede  @Camera ?
+Elementul @Camera fluxul este o modalitate excelentă de a obține o grilă de culori din lume. 
+Dar dacă vrem să vedem acele culori, recreând imaginea pe care @Camera o vede?
 
-Putem folosi aranjamentul  @Grid  pentru un  @Group , și funcția  @List/combine  pentru a transforma culorile într-o listă de  @Phrase  pe care o dăm lui  @Grid .
+Putem folosi aranjamentul @Grid pentru un @Group, și funcția @List/combine pentru a transforma culorile într-o listă de @Phrase pe care o dăm lui @Grid.
 
-\width: 24
+\
+width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage(
-	[
-		Group(
-			Grid(height width 0m)
-			colors.combine(
-				[]
-				ƒ(phrases row) [
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
 						:phrases
 						:row ↦ Phrase("⬤" culoare: ⬚ durată: 0s)
-					]
-			)
-		)
-	]
-)\
+					]))
+	])
+\
 
-Acest exemplu construiește o listă de fraze, transformând fiecare culoare într-un cerc cu acea culoare.
+ Acest exemplu construiește o listă de fraze, transformând fiecare culoare într-un cerc cu acea culoare.
 
-Ai grijă cu fluxurile  @Camera : ele produc foarte multe date de intrare! Va trebui să păstrezi lățimea și înălțimea imaginii mici.
+Ai grijă cu fluxurile @Camera : ele produc foarte multe date de intrare! Va trebui să păstrezi lățimea și înălțimea imaginii mici.
 
 interactive-scene

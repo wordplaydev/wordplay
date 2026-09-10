@@ -1,60 +1,75 @@
 Flytta mellan innehåll med piltangenter
 
-Ibland vill du att publiken ska gå igenom innehåll en bit i taget, som ett bildspel, framåt /och/ bakåt med piltangenterna.
+Ibland vill du att publiken ska gå igenom innehåll en bit i taget, som ett bildspel, framåt / och / bakåt med piltangenterna.
 
 Varje version av detta mönster består av samma tre delar:
 
-• En  @List  med innehållet du vill visa• En  @Key -ström, som ändras varje gång en tangent trycks ned• En  @Reaction  som kommer ihåg vilken del av innehållet du är på nu
+• En @List av innehållet du vill visa
+• En @Key ström, som ändras varje gång en tangent trycks ner
+• En @Reaction som kommer ihåg vilket innehåll du är på nu
 
 Här är den minsta versionen av det. Klicka på scenen först så att den lyssnar, tryck sedan på vänster och höger piltangent:
 
-\slides: ['första' 'andra' 'tredje']
+\
+slides: ['första' 'andra' 'tredje']
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'Pil Höger') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'Pil vänster') ? ((index > 1) ? index - 1 index) index
-Phrase(slides[index])\
 
- @Reaction  är hjärtat i det hela. Den börjar på \1\, och varje gång  @Key  ändras, bestämmer den vad det nya numret ska bli.Om höger piltangent trycktes ned lägger den till ett; om vänster piltangent trycktes ned drar den bort ett; annars förblir den oförändrad.
+index•#: 1 … ∆ key …
+	(key = 'Pil Höger') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'Pil vänster') ? ((index > 1) ? index - 1 index)
+			index
 
-De extra \?\-kontrollerna är det som hindrar numret från att gå förbi listans ändar.Utan dem skulle du kunna gå förbi slutet, och det skulle inte finnas någon bild att visa.Om du hellre vill att det ska gå runt från den sista bilden tillbaka till den första, kan du göra det istället.
+Phrase(slides[index])
+\
 
-Obs: piltangenterna heter \'ArrowLeft'\ och \'ArrowRight'\ och \'ArrowUp'\, och \'ArrowDown'\.Du kan också bara skriva \'Left'\ och \'Right'\, och namn på tangenter fungerar också på ditt eget språk.
+ Den @Reaction är kärnan i det. Den börjar på \1\, och varje gång @Key ändras, bestämmer den vad det nya talet ska bli.
+Om högerpilen trycktes ner, lägger den till ett. Om vänsterpilen trycktes ner, drar den bort ett. Annars förblir talet detsamma.
 
-Lägg märke till att \index\ bara är ett tal, så det fungerar för /vilken/ typ av innehåll som helst, inte bara text.Byt ut  @List  mot en lista med  @Group  eller hela scener, och resten av mönstret ändras inte alls:
+De extra \?\ -kontrollerna är det som hindrar talet från att gå förbi listans ändar.
+Utan dem skulle du kunna gå förbi slutet, och det skulle inte finnas någon bild att visa.
+Om du hellre vill hoppa från den sista bilden tillbaka till den första, kan du göra det istället.
 
-\slides: [
-		Phrase('en berättelse i tre delar' storlek: 3m)
-		Group(
-			Stack()
-			[Phrase('🐈') Phrase('en katt dyker upp')]
-		)
-		Phrase('slutet 🎉')
-	]
+Obs: piltangenterna heter \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, och \'ArrowDown'\.
+Du kan också bara skriva \'Left'\ och \'Right'\, och tangentnamn fungerar också på ditt eget språk.
+
+Lägg märke till att \index\ bara är ett tal, så detta fungerar för / vilken / typ av innehåll som helst, inte bara text.
+Byt ut @List mot en lista med @Group eller hela scener, och resten av mönstret ändras inte alls:
+
+\
+slides: [
+	Phrase('en berättelse i tre delar' storlek: 3m)
+	Group(Stack() [Phrase('🐈') Phrase('en katt dyker upp')])
+	Phrase('slutet 🎉')
+]
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'Pil Höger') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'Pil vänster') ? ((index > 1) ? index - 1 index) index
-slides[index]\
 
-En  @Scene  kan göra detta också, och med mindre räknande.Ge den  @Scene/pause  så att den aldrig rör sig av sig själv, och  @Scene/step  för att flytta den ett steg åt endera hållet:
+index•#: 1 … ∆ key …
+	(key = 'Pil Höger') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'Pil vänster') ? ((index > 1) ? index - 1 index)
+			index
 
-\key: Key()
-Scene(
-	[
+slides[index]
+\
+
+ En @Scene kan göra detta också, och med mindre räknande.
+Ge den @Scene/pause så den aldrig rör sig av sig själv, och @Scene/step för att flytta den ett steg åt endera hållet:
+
+\
+key: Key()
+Scene([
 		Phrase('en berättelse i tre delar' storlek: 3m)
-		Group(
-			Stack()
-			[Phrase('🐈') Phrase('en katt dyker upp')]
-		)
+		Group(Stack() [Phrase('🐈') Phrase('en katt dyker upp')])
 		Phrase('slutet 🎉')
-	]
-	pausa: ⊤
-	steg: ∆ key ? ((key = 'Pil vänster') ? -1 (key = 'Pil Höger') ? 1 ø) ø
-)\
+	] pausa: ⊤ steg: ∆ key ? ((key = 'Pil vänster') ? -1 (key = 'Pil Höger') ? 1 ø) ø)
+\
 
-Det finns inga \?\ kontroller att skriva här, eftersom en  @Scene  stannar vid sina egna ändar åt dig, och inget behöver komma ihåg vilken del som visas.Fråga  @Spotlight  om du vill säga /3 av 10/ på scenen.
+ Det finns inga \?\ -kontroller att koda här, eftersom en @Scene stannar vid sina egna ändar åt dig, och inget behöver komma ihåg vilken bit som visas.
+Fråga @Spotlight om du vill säga / 3 av 10 / på scenen.
 
-Obs: se detta i ett helt projekt i galleriet: <bildspel@https://wordplay.dev/project/example-SlideShow?play>
+Obs: se detta i ett helt projekt i galleriet: < bildspel @https://wordplay.dev/project/example-SlideShow?play>
 
- @Reaction  ovan är fortfarande sättet att göra detta när det du stegar igenom inte är utdata — en lista med ord, färger eller tal, eller något annat du bygger delen av.
+ Den @Reaction ovan är fortfarande sättet att göra detta på när det du stegar igenom inte är utdata — en lista med ord, färger eller tal, eller något annat du bygger biten av.
 
 interactive-scene, choose-adventure, offer-choices, repeat-a-round

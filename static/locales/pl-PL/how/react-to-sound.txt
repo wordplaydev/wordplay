@@ -1,17 +1,22 @@
 Spraw, aby postacie rosły wraz z dźwiękiem
 
-Czy wiesz, że Twój projekt może Cię słuchać? @Volume   stream używa twojego mikrofonu, aby podać nam numer od\0\(cicho) do\1\ (głośny).
+Czy wiesz, że Twój projekt może Cię słuchać? @Volume stream używa twojego mikrofonu, aby podać nam numer od \0\ (cicho) do \1\ (głośny).
 
-Możemy użyć tej liczby do kontrolowania czegokolwiek — rozmiaru @Phrase , jego obrót, jego kolor.
+Możemy użyć tej liczby do kontrolowania czegokolwiek — rozmiaru @Phrase, jego obrót, jego kolor.
 
-\Phrase('📣' rozmiar: (Volume() × 5m) + 1m)\
+\
+Phrase('📣' rozmiar: (Volume() × 5m) + 1m)
+\
 
-Kiedy jest cicho, megafon jest\1m\wysoki. Kiedy krzyczysz, może urosnąć do\6m\ wysoki.
+ Kiedy jest cicho, megafon jest \1m\ wysoki. Kiedy krzyczysz, może urosnąć do \6m\ wysoki.
 
 Chcesz, żeby słońce obracało się szybciej, im głośniej mówisz?
 
-\Phrase('🌞' obrót: Volume() × 360°)\
+\
+Phrase('🌞' obrót: Volume() × 360°)
+\
 
-Spróbuj klaskać lub nucić i zobacz, co się stanie.(Za pierwszym razem komputer może poprosić o pozwolenie na użycie mikrofonu.)
+ Spróbuj klaskać albo nucić i zobacz, co się stanie.
+(Twój komputer może zapytać o zgodę na użycie mikrofonu za pierwszym razem.)
 
 count-with-time, follow-the-pointer

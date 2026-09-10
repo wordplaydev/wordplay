@@ -1,17 +1,21 @@
 تكرار الحركة
 
-أحيانًا نرغب في جعل الشخصية تتحرك بنفس الطريقة عدة مرات!أصبح تكرار كتابة نفس الأسطر مراراً وتكراراً أمراً مملاً.
+أحيانًا نريد أن نجعل شخصية تتحرك بنفس الطريقة عدة مرات! 
+كتابة نفس الأسطر مرارًا وتكرارًا يصبح أمرًا مملًا.
 
-بدلاً من ذلك، يمكننا استخدام @Sequence  مع  @Phrase لجعل شيء ما يتكرر عدة مرات! تحديداً،يمكننا استخدام العدد في @Sequence وحدد عدد مرات تكرار مجموعة من الوضعيات. على سبيل المثال،هذه كرة سلة ترتد لأعلى ولأسفل مرتين.
+بدلًا من ذلك، يمكننا استخدام @Sequence مع @Phrase لجعل شيء ما يتكرر عدة مرات! وبالتحديد،
+يمكننا استخدام العدد في @Sequence واختيار عدد مرات تكرار مجموعة من الوضعيات. على سبيل المثال، 
+إليك كرة سلة ترتدّ صعودًا ونزولًا مرتين. 
 
-\Stage([
-		Phrase('🏀' entering: Sequence({
-					0%: Pose(offset: Place(y: 0.25m))
-					25%: Pose(offset: Place(y: 0m))
-					50%: Pose(offset: Place(y: -0.25m))
-					75%: Pose(offset: Place(y: 0m))
-					100%: Pose(offset: Place(y: 0.25m))
-				} count: 2x duration: 2s))
-	])\
+\
+Stage([
+	Phrase('🏀' entering: Sequence({
+				0%: Pose(offset: Place(y: 0.25m))
+				25%: Pose(offset: Place(y: 0m))
+				50%: Pose(offset: Place(y: -0.25m))
+				75%: Pose(offset: Place(y: 0m))
+				100%: Pose(offset: Place(y: 0.25m))} count:2x duration:2s))
+])
+\
 
 animate-phrase, shake-phrase

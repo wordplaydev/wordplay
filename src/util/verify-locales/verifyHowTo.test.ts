@@ -4,6 +4,7 @@ import analyzeCode from '@util/verify-locales/analyzeCode';
 import DefaultLocale from '@locale/DefaultLocale';
 import {
     bundleEntryToHowTo,
+    howToToString,
     parseHowTo,
     type HowToBundleEntry,
 } from '@concepts/HowTo';
@@ -12,11 +13,16 @@ import { isMachineTranslated, isUnwritten } from '@locale/LocaleText';
 import {
     howToNeedsTranslation,
     localizedExampleIsSound,
+    padLike,
 } from '@util/verify-locales/verifyHowTo';
 import Example from '@nodes/Example';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
 import parseDoc from '@parser/parseDoc';
 import { DOCS_SYMBOL } from '@parser/Symbols';
+import { toMarkup } from '@parser/toMarkup';
 import { toTokens } from '@parser/toTokens';
+import { withoutColorSelector } from '@unicode/emoji';
 import fs from 'fs';
 import path from 'path';
 import { describe, expect, it } from 'vitest';
@@ -173,6 +179,114 @@ describe('how-to example checking', () => {
             }
         }
         expect(broken).toEqual([]);
+    });
+});
+
+/**
+ * The regression test the pipeline never had.
+ *
+ * Rewriting a how-to means parsing it and serializing it back, and that round
+ * trip used to destroy the file: `parseHowTo` built its markup with
+ * `parseLocaleDoc`, which reports no spacing, and `howToToString` then asked
+ * `getPreferredSpaces` to invent some from an empty map. `Paragraph.segments`
+ * declares none, so every segment in a paragraph was joined with nothing — 36
+ * of the 37 en-US how-tos came back damaged, sentences run together and every
+ * block example flattened onto one line. That is what every translation in
+ * every locale was built from (#1364).
+ */
+describe('the how-to round trip', () => {
+    const dir = path.join('static', 'locales', 'en-US', 'how');
+
+    it.each(
+        HowToIDs.filter((id) => fs.existsSync(path.join(dir, `${id}.txt`))),
+    )('%s survives parsing and serializing unchanged', (id) => {
+        const original = fs
+            .readFileSync(path.join(dir, `${id}.txt`), 'utf8')
+            .trim();
+        const { how, spaces } = parseHowTo(id, original);
+        expect(how).not.toBeNull();
+        if (how === null) return;
+        // The tokenizer strips the emoji color selector from all source, so
+        // that normalization is the one difference a round trip may make.
+        expect(howToToString(how, spaces ?? undefined).trim()).toBe(
+            withoutColorSelector(original).trim(),
+        );
+    });
+
+    it('keeps a line break inside a paragraph when both its prose runs are replaced', () => {
+        const body = 'First line here.\nSecond line here.';
+        const [markup, original] = toMarkup(body);
+        let spaces = original;
+        let replaced = markup;
+        for (const leaf of markup.leaves()) {
+            if (!leaf.isSymbol(Sym.Words)) continue;
+            const token = new Token(`translated ${leaf.getText()}`, Sym.Words);
+            spaces = spaces.withReplacement(leaf, token);
+            replaced = replaced.replace(leaf, token);
+        }
+        // Without carrying the spaces over this reads "…here.translated…".
+        expect(replaced.toWordplay(spaces)).toContain('\n');
+    });
+});
+
+describe('re-padding a translated prose run', () => {
+    it('gives back the spaces the source token carried', () => {
+        expect(padLike('a ', 'ein')).toBe('ein ');
+        expect(padLike(' has a ', 'hat ein')).toBe(' hat ein ');
+        expect(padLike('with ', 'mit')).toBe('mit ');
+    });
+
+    it('does not double-space a translation that kept its own', () => {
+        expect(padLike(' has a ', ' hat ein ')).toBe(' hat ein ');
+    });
+
+    it('pads next to code and italic spans, not only names', () => {
+        // `a \z\ value of \10m\ so` — the runs around a \code\ span each carry an
+        // edge space, and the old name-only rule left them glued.
+        expect(padLike('a ', 'ein')).toBe('ein ');
+        expect(padLike(' value of ', ' Wert von ')).toBe(' Wert von ');
+    });
+
+    /**
+     * English writes `@Row, which arranges…` and German writes `@Row machen,
+     * die…`: the run after a link begins with punctuation in one language and a
+     * word in the other, so copying English's spacing alone glues them.
+     */
+    it('adds a word boundary a reordered translation needs', () => {
+        const link = new Token('@Row', Sym.Concept);
+        expect(padLike(', which arranges ', 'machen, die ', link)).toBe(
+            ' machen, die ',
+        );
+        // …but not when the translation keeps English's punctuation.
+        expect(padLike(', which arranges ', ', die ', link)).toBe(', die ');
+        // …and not when the neighbour is ordinary prose.
+        const prose = new Token('words', Sym.Words);
+        expect(padLike(', which arranges ', 'machen, die ', prose)).toBe(
+            'machen, die ',
+        );
+    });
+
+    /**
+     * A zero-width space is a translator artifact the markup tokenizer drops, so
+     * a body carrying one stops being markup partway through. The zero-width
+     * non-joiner beside it is orthography and must survive.
+     */
+    it('drops a zero-width space but keeps a zero-width non-joiner', () => {
+        expect(padLike('a ', 'ein\u200b')).toBe('ein ');
+        expect(padLike('a ', 'mi\u200cravad')).toBe('mi\u200cravad ');
+    });
+
+    /**
+     * A prose run is one token and a token ends at a newline, so a translation
+     * carrying one would be read back as two runs and the file would no longer
+     * have the structure it was written with.
+     */
+    it('collapses a line break inside a translation', () => {
+        expect(padLike('a ', 'więc\nzatrzymuje')).toBe('więc zatrzymuje ');
+    });
+
+    it('leaves an all-whitespace run alone', () => {
+        expect(padLike(' ', 'anything')).toBe(' ');
     });
 });
 

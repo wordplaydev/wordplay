@@ -1,23 +1,29 @@
 Buat karakter goyangan
 
-Terkadang, akan lebih baik jika karakter tersebut terlihat seperti sedang gemetar.Ada beberapa cara yang bisa kita lakukan untuk mewujudkannya.
+Kadang-kadang, akan membantu jika sebuah karakter terlihat seperti sedang gemetar.
+Ada beberapa cara untuk membuat hal itu terjadi.
 
-Kita bisa menggunakan  @Phrase/offset  dengan  @Random  Dan  @Time  untuk mewujudkan hal itu.
+Kita bisa menggunakan @Phrase/offset dengan @Random Dan @Time untuk mewujudkan hal itu.
 
-\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('Hai' mengimbangi: Place(offset 0m))\
+\
+offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('Hai' mengimbangi: Place(offset 0m))
+\
 
-Ini menciptakan nilai yang disebut \offset\ yang berubah menjadi nilai acak baru setiap kali jam berdetik.Kemudian, ia menggunakan offset tersebut untuk menampilkan  @Phrase  dikurangi dengan jumlah tersebut.
+ Ini membuat sebuah nilai bernama \offset\ yang berubah menjadi nilai acak baru setiap kali jam berdetak.
+Lalu, ini memakai pergeseran itu untuk menampilkan @Phrase yang bergeser sejumlah itu.
 
-Jika kita ingin mengontrol getaran dengan lebih tepat, kita bisa menggunakan sebuah  @Sequence  untuk membuat animasi goyang acak yang berulang.
+Jika kita ingin mengontrol getaran dengan lebih tepat, kita bisa menggunakan sebuah @Sequence untuk membuat animasi goyang acak yang berulang.
 
-\Phrase('Hai' beristirahat: Sequence({
+\
+Phrase('Hai' beristirahat: Sequence({
 			0%: Pose(mengimbangi: Place(Random(-.2m .2m)))
 			15%: Pose(mengimbangi: Place(Random(-.2m .2m)))
 			60%: Pose(mengimbangi: Place(Random(-.2m .2m)))
 			75%: Pose(mengimbangi: Place(Random(-.2m .2m)))
-		} 0.1s))\
+		} 0.1s))
+\
 
-Contoh ini hanya memilih nilai acak sekali, tetapi mengubahnya menjadi urutan yang berulang.
+ Contoh ini hanya memilih nilai acak sekali, tetapi mengubahnya menjadi urutan yang berulang.
 
 move-phrase

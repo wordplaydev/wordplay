@@ -1,17 +1,23 @@
 Bir karakterin birçok kopyasını oluşturun.
 
-Peki ya on tane kedi ya da yüz tane yıldız çizmek istesek ama hepsini tek tek yazmak istemesek?Listeden bize fotokopi çekmelerini isteyebiliriz. @List/translate .
+Ya on tane kedi ya da yüz tane yıldız istersek, ama hepsini tek tek yazmak istemezsek ne yaparız?
+Bir listeden bizim için kopyalar yapmasını isteyebiliriz: @List/translate ile birleştirebiliriz.
 
-Sayıyla başlarsak\10\ve bunu ile dönüştürün\→ []\Bu sayede 1'den 10'a kadar on sayıdan oluşan bir liste elde ederiz.Sonra biz kullanıyoruz @List/translate her sayıyı bir şeye dönüştürmek @Phrase :
+Eğer \10\ sayısıyla başlar ve onu \→ []\ ile dönüştürürsek, 1'den 10'a kadar on sayıdan oluşan bir liste elde ederiz.
+Sonra @List/translate kullanarak her sayıyı bir @Phrase haline getiririz:
 
-\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\
+\
+Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))
+\
 
 @List/translate Bu küçük fonksiyonu her öğe için bir kez çağırır ve sonuçları yeni bir listeye toplar.
 
 Her kopyanın biraz farklı olmasını sağlamak için, çeviri işleminin bize verdiği sayıyı kullanın:
 
-\Group(Row('|' 0.2m) [:1‥8].translate(ƒ(n) Phrase('⭐' boyut: n × 0.5m)))\
+\
+Group(Row('|' 0.2m) [:1‥8].translate(ƒ(n) Phrase('⭐' boyut: n × 0.5m)))
+\
 
-Her yıldız bir öncekinden daha büyük, çünkü\n\şuradan gider\1\ ile \8\.
+ Her yıldız bir öncekinden daha büyük, çünkü \n\ şuradan gider \1\ ile \8\.
 
 make-a-grid, arrange-in-a-row

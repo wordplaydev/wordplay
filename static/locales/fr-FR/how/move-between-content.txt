@@ -1,54 +1,75 @@
 Se déplacer dans le contenu avec les touches fléchées
 
-Parfois, on veut que le public avance dans le contenu un morceau à la fois, comme un diaporama, en allant /et/ en arrière avec les touches fléchées.
+Parfois, on veut que le public avance dans le contenu un morceau à la fois, comme un diaporama, en allant / et / en arrière avec les touches fléchées.
 
 Chaque version de ce modèle est faite des trois mêmes parties :
 
-• Une  @List  du contenu que l'on veut montrer• Une  @Key  flux, qui change à chaque fois qu'on appuie sur une touche• Une  @Reaction  qui garde en mémoire quel morceau de contenu on regarde maintenant
+• Une @List du contenu que tu veux montrer
+• Une @Key flux, qui change chaque fois qu'une touche est pressée
+• Une @Reaction qui se souvient du morceau de contenu où tu es maintenant
 
 Voici la plus petite version possible. Cliquez d'abord sur la scène pour qu'elle écoute, puis appuyez sur les touches fléchées gauche et droite :
 
-\slides: ['premier' 'deuxième' 'troisième']
+\
+slides: ['premier' 'deuxième' 'troisième']
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'Flèche droite') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'Flèche gauche') ? ((index > 1) ? index - 1 index) index
-Phrase(slides[index])\
 
-Le  @Reaction  est le cœur du système. Il commence à \1\, et à chaque fois que le  @Key  change, il décide quel doit être le nouveau nombre.Si la flèche droite a été pressée, il ajoute un ; si la flèche gauche a été pressée, il soustrait un ; sinon, le nombre reste le même.
+index•#: 1 … ∆ key …
+	(key = 'Flèche droite') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'Flèche gauche') ? ((index > 1) ? index - 1 index)
+			index
 
-Les vérifications \?\ supplémentaires empêchent le nombre de dépasser les extrémités de la liste.Sans elles, on pourrait sortir de la liste et il n'y aurait plus aucune diapositive à montrer.Si vous préférez revenir de la dernière diapositive à la première, vous pouvez faire cela à la place.
+Phrase(slides[index])
+\
 
-Remarque : les touches fléchées se nomment \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, et \'ArrowDown'\ suivant.Tu peux aussi simplement écrire \'Left'\ et \'Right'\, et les noms de touches marchent aussi dans ta propre langue.
+ Le @Reaction en est le cœur. Il commence à \1\, et chaque fois que le @Key change, il décide quel doit être le nouveau nombre.
+Si la flèche droite a été pressée, il ajoute un ; si la flèche gauche a été pressée, il soustrait un ; sinon, il reste le même.
 
-Remarque que \index\ n'est qu'un nombre, donc cela marche pour /n'importe quel/ type de contenu, pas seulement du texte.Remplace  @List  par une liste de  @Group  ou de scènes entières, et le reste du modèle ne change pas du tout :
+Les vérifications \?\ supplémentaires servent à empêcher le nombre de dépasser les bords de la liste.
+Sans elles, tu pourrais sortir de la fin et il n'y aurait plus de diapositive à montrer.
+Si tu préfères revenir de la dernière diapositive à la première, tu peux faire ça à la place.
 
-\slides: [
+Remarque : les touches fléchées se nomment \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, et \'ArrowDown'\.
+Tu peux aussi simplement écrire \'Left'\ et \'Right'\, et les noms de touches fonctionnent aussi dans ta propre langue.
+
+Remarque que \index\ n'est qu'un nombre, donc cela fonctionne pour / n'importe quel / type de contenu, pas seulement du texte.
+Remplace le @List par une liste de @Group ou de scènes entières, et le reste du schéma ne change pas du tout :
+
+\
+slides: [
+	Phrase('une histoire en trois parties' taille: 3m)
+	Group(Stack() [Phrase('🐈') Phrase('un chat apparaît')])
+	Phrase('fin 🎉')
+]
+
+key: Key()
+
+index•#: 1 … ∆ key …
+	(key = 'Flèche droite') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'Flèche gauche') ? ((index > 1) ? index - 1 index)
+			index
+
+slides[index]
+\
+
+ Une @Scene peut faire ça aussi, et avec moins de calculs.
+Donne-lui @Scene/pause pour qu’il ne bouge jamais tout seul, et @Scene/step pour le déplacer d’un cran dans un sens ou dans l’autre :
+
+\
+key: Key()
+Scene([
 		Phrase('une histoire en trois parties' taille: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('un chat apparaît')])
 		Phrase('fin 🎉')
-	]
-key: Key()
-index•#: 1 … ∆ key … (key = 'Flèche droite') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'Flèche gauche') ? ((index > 1) ? index - 1 index) index
-slides[index]\
+	] pause: ⊤ étape: ∆ key ? ((key = 'Flèche gauche') ? -1 (key = 'Flèche droite') ? 1 ø) ø)
+\
 
-Un  @Scene  peut faire ça aussi, et avec moins de comptage.Donne-lui  @Scene/pause  pour qu'il ne bouge jamais tout seul, et  @Scene/step  pour le déplacer d'un cran dans un sens ou dans l'autre :
+ Il n’y a pas de \?\ vérifications à écrire ici, car un @Scene s’arrête tout seul à ses propres bouts, et rien n’a besoin de se rappeler quelle pièce est affichée.
+Demande @Spotlight si tu veux dire / 3 sur 10 / sur scène.
 
-\key: Key()
-Scene(
-	[
-		Phrase('une histoire en trois parties' taille: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('un chat apparaît')])
-		Phrase('fin 🎉')
-	]
-	pause: ⊤
-	étape: ∆ key ? ((key = 'Flèche gauche') ? -1 (key = 'Flèche droite') ? 1 ø) ø
-)\
+Remarque : vois ceci dans un projet complet dans la galerie : < diaporama @https://wordplay.dev/project/example-SlideShow?play>
 
-Il n'y a pas de \?\ vérifications à écrire ici, car un  @Scene  s'arrête à ses propres extrémités pour toi, et rien n'a besoin de se rappeler quel élément est affiché.Demande à  @Spotlight  si tu veux afficher /3 sur 10/ sur la scène.
-
-Remarque : vois ceci dans un projet complet dans la galerie : <diaporama@https://wordplay.dev/project/example-SlideShow?play>
-
-Le  @Reaction  ci-dessus reste la façon de faire quand ce que tu parcours n'est pas un affichage — une liste de mots, de couleurs, de nombres, ou tout autre élément avec lequel tu construis la pièce.
+ Le @Reaction ci-dessus reste la façon de faire quand ce que tu parcours n'est pas un affichage — une liste de mots, de couleurs, de nombres, ou tout autre élément avec lequel tu construis la pièce.
 
 interactive-scene, choose-adventure, offer-choices, repeat-a-round

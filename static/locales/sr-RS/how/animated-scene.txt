@@ -1,57 +1,52 @@
 Направи анимирани низ сцена
 
-Понекад желимо да испричамо причу, прикажемо стихове песме или анимирамо поезију.Да бисмо то урадили, можемо да користимо  @Scene  и  @Phrase  заједно, да прикажемо низ.
+Понекад желимо да причамо приче, приказујемо стихове песама, или анимирамо поезију.
+Да бисмо то урадили, можемо да користимо @Scene и @Phrase заједно, да бисмо приказали низ.
 
-На пример, замислимо да желимо да анимирамо кратку дечју песмицу, „Jack be Nimble”.Могли бисмо да направимо  @Scene  где је сваки стих као  @Phrase , и подешавањем  @Phrase/duration  сваког стиха,  @Scene  би напредовао када се свака фраза заврши.
+На пример, замислимо да желимо да анимирамо кратку дечију песмицу, „Jack be Nimble”.
+Могли бисмо да направимо @Scene у којем свака линија представља @Phrase, и подешавањем @Phrase/duration сваке линије, @Scene би напредовао када се свака фраза заврши.
 
-\Scene(
-	[
+\
+Scene([
+  Phrase('Jack be nimble' трајање: 1s)
+  Phrase('Jack be quick' трајање: 1s)
+  Phrase('Jack jump over the candle stick' трајање: 1s)
+])
+\
+
+@Scene ће такође сачекати да се @Sequence заврши. Хајде да учинимо да стих о свећи скочи!
+
+\
+Scene([
+		Phrase('Jack be nimble' трајање: 1s)
+		Phrase('Jack be quick' трајање: 1s)
+		Phrase('Jack jump over the candle stick' улазећи: Sequence.bounce(трајање: 1s))
+	])
+\
+
+@Scene такође може да прими @Group текста, и сачекаће да се заврши анимација целог садржаја.
+
+\
+Scene([
+		Group(Stack() [
+      Phrase('Jack be nimble')
+		  Phrase('Jack be quick')
+    ] трајање: 2s)
+		Phrase('Jack jump over the candle stick' улазећи: Sequence.bounce(трајање: 1s))
+	])
+\
+
+ Понекад песмица треба да се наставља. @Scene/loop враћа @Scene назад на њен први @Phrase када се последњи заврши, тако да се понавља изнова и изнова.
+
+\
+Scene([
 		Phrase('Jack be nimble' трајање: 1s)
 		Phrase('Jack be quick' трајање: 1s)
 		Phrase('Jack jump over the candle stick' трајање: 1s)
-	]
-)\
+	] петља: ⊤)
+\
 
-@Scene  ће такође сачекати да се  @Sequence  заврши. Хајде да учинимо да стих о свећи скочи!
-
-\Scene(
-	[
-		Phrase('Jack be nimble' трајање: 1s)
-		Phrase('Jack be quick' трајање: 1s)
-		Phrase(
-			'Jack jump over the candle stick'
-			улазећи: Sequence.bounce(трајање: 1s)
-		)
-	]
-)\
-
-@Scene  такође може да прими  @Group  текста, и сачекаће да се заврши анимација целог садржаја.
-
-\Scene(
-	[
-		Group(
-			Stack()
-			[Phrase('Jack be nimble') Phrase('Jack be quick')]
-			трајање: 2s
-		)
-		Phrase(
-			'Jack jump over the candle stick'
-			улазећи: Sequence.bounce(трајање: 1s)
-		)
-	]
-)\
-
-Понекад песмица треба да се наставља.  @Scene/loop  враћа  @Scene  назад на њен први  @Phrase  када се последњи заврши, тако да се понавља изнова и изнова.
-
-\Scene(
-	[
-		Phrase('Jack be nimble' трајање: 1s)
-		Phrase('Jack be quick' трајање: 1s)
-		Phrase('Jack jump over the candle stick' трајање: 1s)
-	]
-	петља: ⊤
-)\
-
-Напомена:  @Scene  се враћа назад само ако је нешто у листи заиста чекало.Листа у којој сваки  @Phrase  је имало  @Phrase/duration  од \0s\ би се вртело онолико брзо колико рачунар може, зато се на крају зауставља.
+ Напомена: @Scene се враћа на почетак само ако је нешто на листи заиста чекало.
+Листа у којој сваки @Phrase има @Phrase/duration од \0s\ ишла би у круг онолико брзо колико рачунар може, па се зато на крају зауставља.
 
 interactive-scene, repeat-a-round

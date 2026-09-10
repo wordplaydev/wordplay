@@ -1,17 +1,26 @@
 Comptez les secondes au fur et à mesure que le temps passe.
 
-De nombreux projets nécessitent un élément qui évolue avec le temps : un minuteur, un score, un compte à rebours.Nous pouvons construire un compteur en combinant les @Time   stream avec un @Reaction .
+Beaucoup de projets ont besoin de quelque chose qui grandit avec le temps — une minuterie, un score, un compte à rebours.
+On peut construire un compteur en combinant le flux @Time avec un @Reaction.
 
-UN  @Reaction Elle comporte trois parties : une valeur initiale, un élément à surveiller et une nouvelle valeur lorsque cet élément change.Ici, nous commençons par\0\, montre  @Time et en ajouter un à chaque tic-tac de l'horloge :
+Une @Reaction a trois parties : une valeur de départ, une chose à surveiller, et une nouvelle valeur quand cette chose change.
+Ici, on commence à \0\, on surveille @Time, et on ajoute un à chaque battement de l'horloge :
 
-\count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
+\
+count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')
+\
 
-Chaque seconde, @Time incendies, les @Reaction avis avec\∆ Time(1000ms)\, et \count\devient\count + 1\.Le \→ ''\à la fin, convertit le nombre en texte. @Phrase peut le montrer.
+ Chaque seconde, @Time se déclenche, le @Reaction le remarque avec \∆ Time(1000ms)\, et \count\ devient \count + 1\.
+Le \→ ''\ à la fin transforme le nombre en texte pour que @Phrase puisse l'afficher.
 
 Vous pouvez utiliser n'importe quelle entrée, pas seulement le temps. Ce compteur compte le nombre d'appuis sur le bouton Button().
 
-\count: 0 … ∆ Button() … count + 1 Phrase(count → '')\
+\
+count: 0 … ∆ Button() … count + 1
+Phrase(count → '')
+\
 
-À chaque fois, @Button Lorsqu'un flux change en cliquant ou en appuyant dessus, le compteur augmente de un.
+ À chaque fois, @Button Lorsqu'un flux change en cliquant ou en appuyant dessus, le compteur augmente de un.
 
 track-points, pick-from-a-list

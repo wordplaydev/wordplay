@@ -1,54 +1,75 @@
 muévete entre contenido con las teclas de flecha
 
-a veces quieres que el público avance por el contenido de una parte a la vez, como una presentación de diapositivas, yendo hacia adelante /y/ hacia atrás con las teclas de flecha.
+a veces quieres que el público avance por el contenido de una parte a la vez, como una presentación de diapositivas, yendo hacia adelante / y / hacia atrás con las teclas de flecha.
 
 cada versión de este patrón está hecha de las mismas tres partes:
 
-• Una  @List  del contenido que quieres mostrar• Una  @Key  flujo, que cambia cada vez que se presiona una tecla• Una  @Reaction  que recuerda en qué parte del contenido estás ahora
+• Una @List del contenido que quieres mostrar
+• Una @Key flujo, que cambia cada vez que se presiona una tecla
+• Una @Reaction que recuerda en qué pieza de contenido estás ahora
 
 aquí está la versión más pequeña de esto. Haz clic en el escenario primero para que esté escuchando, luego presiona las teclas de flecha izquierda y derecha:
 
-\slides: ['primero' 'segundo' 'tercero']
+\
+slides: ['primero' 'segundo' 'tercero']
+
 key: Key()
-index•#: 1 … ∆ key … (key = 'FlechaDerecha') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'FlechaIzquierda') ? ((index > 1) ? index - 1 index) index
-Phrase(slides[index])\
 
-El  @Reaction  es el centro de todo. Comienza en \1\, y cada vez que el  @Key  cambia, decide cuál debe ser el nuevo número.si se presionó la flecha derecha, suma uno; si se presionó la flecha izquierda, resta uno; si no, se queda igual.
+index•#: 1 … ∆ key …
+	(key = 'FlechaDerecha') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'FlechaIzquierda') ? ((index > 1) ? index - 1 index)
+			index
 
-las comprobaciones extra de \?\ son las que evitan que el número pase de los límites de la lista.sin ellas, podrías salirte del final y no habría ninguna diapositiva que mostrar.si prefieres regresar de la última diapositiva a la primera, puedes hacer eso en su lugar.
+Phrase(slides[index])
+\
 
-nota: las teclas de flecha se llaman \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, y \'ArrowDown'\.También puedes simplemente escribir \'Left'\ y \'Right'\, y los nombres de las teclas también funcionan en tu propio idioma.
+ El @Reaction es el corazón de todo esto. Comienza en \1\, y cada vez que @Key cambia, decide cuál debe ser el nuevo número.
+Si se presionó la flecha derecha, suma uno; si se presionó la flecha izquierda, resta uno; si no, se queda igual.
 
-Fíjate que \index\ es solo un número, así que esto funciona para /cualquier/ tipo de contenido, no solo texto.Cambia  @List  por una lista de  @Group  o escenas completas, y el resto del patrón no cambia en absoluto:
+Las comprobaciones extra de \?\ son las que evitan que el número se pase de los extremos de la lista.
+Sin ellas, podrías salirte del final y no habría diapositiva que mostrar.
+Si prefieres pasar de la última diapositiva de vuelta a la primera, también puedes hacerlo así.
 
-\slides: [
+Nota: las teclas de flecha se llaman \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, y \'ArrowDown'\.
+También puedes simplemente escribir \'Left'\ y \'Right'\, y los nombres de las teclas también funcionan en tu propio idioma.
+
+Fíjate en que \index\ es solo un número, así que esto funciona para / cualquier / tipo de contenido, no solo texto.
+Cambia la @List por una lista de @Group o escenas completas, y el resto del patrón no cambia para nada:
+
+\
+slides: [
+	Phrase('una historia en tres partes' tamaño: 3m)
+	Group(Stack() [Phrase('🐈') Phrase('aparece un gato')])
+	Phrase('el final 🎉')
+]
+
+key: Key()
+
+index•#: 1 … ∆ key …
+	(key = 'FlechaDerecha') ? ((index < slides.length()) ? index + 1 index)
+		(key = 'FlechaIzquierda') ? ((index > 1) ? index - 1 index)
+			index
+
+slides[index]
+\
+
+ Una @Scene también puede hacer esto, y con menos conteo.
+Dale @Scene/pause para que nunca se mueva sola, y @Scene/step para moverla una pieza hacia un lado u otro:
+
+\
+key: Key()
+Scene([
 		Phrase('una historia en tres partes' tamaño: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('aparece un gato')])
 		Phrase('el final 🎉')
-	]
-key: Key()
-index•#: 1 … ∆ key … (key = 'FlechaDerecha') ? ((index < slides.length(
-						)) ? index + 1 index) (key = 'FlechaIzquierda') ? ((index > 1) ? index - 1 index) index
-slides[index]\
+	] pausar: ⊤ paso: ∆ key ? ((key = 'FlechaIzquierda') ? -1 (key = 'FlechaDerecha') ? 1 ø) ø)
+\
 
-Un  @Scene  también puede hacer esto, y con menos conteo.Dale  @Scene/pause  para que nunca se mueva por sí solo, y  @Scene/step  para moverlo una pieza hacia un lado u otro:
+ Aquí no hay \?\ que escribir, porque una @Scene se detiene sola en sus propios extremos, y nada tiene que recordar qué pieza se muestra.
+Pregúntale a @Spotlight si quieres decir / 3 de 10 / en el escenario.
 
-\key: Key()
-Scene(
-	[
-		Phrase('una historia en tres partes' tamaño: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('aparece un gato')])
-		Phrase('el final 🎉')
-	]
-	pausar: ⊤
-	paso: ∆ key ? ((key = 'FlechaIzquierda') ? -1 (key = 'FlechaDerecha') ? 1 ø) ø
-)\
+Nota: mira esto en un proyecto completo en la galería: < proyección de diapositivas @https://wordplay.dev/project/example-SlideShow?play>
 
-Aquí no hay \?\ comprobaciones que escribir, porque un  @Scene  se detiene en sus propios extremos por ti, y nada tiene que recordar cuál pieza se muestra.Pregúntale a  @Spotlight  si quieres decir /3 de 10/ en el escenario.
-
-Nota: mira esto en un proyecto completo en la galería: <proyección de diapositivas@https://wordplay.dev/project/example-SlideShow?play>
-
-El  @Reaction  de arriba sigue siendo la forma de hacer esto cuando lo que recorres no es una salida — una lista de palabras, colores o números, o cualquier otra cosa con la que construyes la pieza.
+ El @Reaction de arriba sigue siendo la forma de hacer esto cuando lo que recorres no es una salida — una lista de palabras, colores o números, o cualquier otra cosa con la que construyes la pieza.
 
 interactive-scene, choose-adventure, offer-choices, repeat-a-round

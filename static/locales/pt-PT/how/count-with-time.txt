@@ -1,17 +1,26 @@
 Faça a contagem decrescente enquanto o tempo passa.
 
-Muitos projetos precisam de algo que cresça com o tempo — um cronómetro, uma pontuação, uma contagem decrescente.Podemos construir um contador combinando os @Time   stream com um @Reaction .
+Muitos projetos precisam de algo que cresce ao longo do tempo — um temporizador, uma pontuação, uma contagem decrescente.
+Podemos construir um contador combinando o fluxo @Time com uma @Reaction.
 
-UM  @Reaction Tem três partes: um valor inicial, algo a ser observado e um novo valor quando esse algo muda.Aqui, começamos por\0\, relógio  @Time E adicione um de cada vez que o relógio marcar um segundo:
+Uma @Reaction tem três partes: um valor inicial, algo a observar, e um novo valor quando essa coisa muda.
+Aqui, começamos em \0\, observamos @Time, e somamos um sempre que o relógio marca:
 
-\count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
+\
+count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')
+\
 
-A cada segundo, @Time incêndios, o @Reaction avisos com\∆ Time(1000ms)\, e \count\torna-se\count + 1\.O \→ ''\No final, converte o número em texto. @Phrase pode mostrar isso.
+ A cada segundo, @Time dispara, o @Reaction repara com \∆ Time(1000ms)\, e \count\ passa a ser \count + 1\.
+O \→ ''\ no final converte o número em texto para que @Phrase o possa mostrar.
 
 Pode usar qualquer entrada que desejar, não apenas o tempo. Este contador contabiliza o número de vezes que o botão Button() é premido:
 
-\count: 0 … ∆ Button() … count + 1 Phrase(count → '')\
+\
+count: 0 … ∆ Button() … count + 1
+Phrase(count → '')
+\
 
-Cada vez que o @Button A cada clique ou toque no ecrã, a contagem aumenta em um.
+ Cada vez que o @Button A cada clique ou toque no ecrã, a contagem aumenta em um.
 
 track-points, pick-from-a-list

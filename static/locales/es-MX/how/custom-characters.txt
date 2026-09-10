@@ -1,16 +1,22 @@
 Mostrar un carácter propio
 
-¡Los emojis, las letras y los símbolos son geniales! Pero a veces quieres crear tus propios caracteres. ¿Cómo puedes crear y mostrar los tuyos?
+¡Los emojis, las letras y los símbolos son geniales! Pero a veces quieres crear tus propios caracteres.
+¿Cómo puedes crear y mostrar los tuyos?
 
-Primero, empieza por crear un carácter en la página <Caracteres@://characters>. Puedes usar píxeles, rectángulos, círculos y trazos. Dale un nombre, descríbelo, y luego puedes usar tu nombre de usuario y el nombre del carácter así:
+Primero, comienza creando un carácter en la página < Caracteres @://characters> . 
+Puedes usar píxeles, rectángulos, círculos y trayectorias. 
+Dale un nombre, descríbelo, y luego puedes usar tu nombre de usuaria y el nombre del carácter así:
 
 \
-Phrase(`Mira mi elegante  @username/charactername !`)\
+Phrase(`Mira mi elegante  @username/charactername !`)
+\
 
-Ese nombre de usuario y nombre de carácter no existen, así que se mostrará como un rectángulo vacío. Asegúrate de usar tu nombre de usuario y nombre de carácter reales
+ Ese nombre de usuaria y ese nombre de carácter no existen, así que se mostrará como un rectángulo vacío.
+Asegúrate de usar tu nombre de usuaria y tu nombre de carácter reales
 
-¿Ves cómo el texto usa el acento grave en lugar del símbolo de comillas? Eso es importante. Eso nos dice que estás usando el modo de texto enriquecido, y eso es necesario para referirte a un carácter propio.
+¿Ves cómo el texto usa el acento grave en lugar de un símbolo de comilla? Eso es importante. 
+Eso nos indica que estás usando el modo de texto con formato, y eso es necesario para referirte a un carácter personalizado.
 
-Puedes aprender más sobre cómo dar formato al texto en  @Phrase .
+Puedes aprender más sobre cómo dar formato al texto en @Phrase.
 
 animate-phrase

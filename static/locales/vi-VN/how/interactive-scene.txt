@@ -2,70 +2,66 @@ Tạo một chuỗi cảnh tương tác
 
 Đôi khi ta muốn kể những câu chuyện chờ người xem làm điều gì đó trước khi chuyển sang nội dung tiếp theo.
 
-Để làm điều này, ta có thể dùng một  @Scene , nhưng đặt các giá trị  @Boolean  giữa những nội dung ta muốn hiển thị. Ví dụ, đây là một cú nhấp chuột sẽ chuyển sang mỗi nội dung tiếp theo, dùng một  @Button :
+Để làm điều này, ta có thể dùng một @Scene, nhưng đặt các giá trị @Boolean giữa những nội dung ta muốn hiển thị. Ví dụ, đây là một cú nhấp chuột sẽ chuyển sang mỗi nội dung tiếp theo, dùng một @Button:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('nhấp vào tôi đi')
 		Button()
 		Phrase('nhấp vào tôi lần nữa' khoảngthờigian: 1s)
 		Button()
-		Phrase(
-			'thật đấy, hãy nhấp vào tôi thật mạnh vào!!'
-			khoảngthờigian: 1s
-		)
+		Phrase('thật đấy, hãy nhấp vào tôi thật mạnh vào!!' khoảngthờigian: 1s)
 		Button()
 		Phrase('bạn đã nhấp vào tôi chưa?' khoảngthờigian: 1s)
-	]
-)\
+	])
+\
 
-Cái  @Scene  hiển thị  @Phrase  đầu tiên, sau đó chờ  @Button  trở thành đúng, và khi điều đó xảy ra, nó chuyển sang  @Phrase  tiếp theo.
+ Cái @Scene hiển thị @Phrase đầu tiên, sau đó chờ @Button trở thành đúng, và khi điều đó xảy ra, nó chuyển sang @Phrase tiếp theo.
 
-Bạn có thể dùng bất cứ thứ gì bạn muốn để chuyển tiếp, miễn là nó có giá trị đúng hoặc sai. Ví dụ, ta có thể dùng giọng nói của mình! Nếu ta hét đủ to, cảnh sẽ chuyển tiếp:
+Em có thể dùng bất cứ thứ gì để tiến tới, miễn là nó đúng hoặc sai. 
+Ví dụ, chúng ta có thể dùng giọng nói của mình! 
+Nếu chúng ta hét đủ to, cảnh sẽ tiến tới:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('có ai ở đó không?')
 		Volume() > .5
-		Phrase(
-			"tôi không nghe thấy bạn, nói lại xem?"
-			khoảngthờigian: 1s
-		)
+		Phrase("tôi không nghe thấy bạn, nói lại xem?" khoảngthờigian: 1s)
 		Volume() > .7
 		Phrase('to hơn nữa đi...' khoảngthờigian: 1s)
 		Volume() > .9
 		Phrase('ồ, xin chào!' khoảngthờigian: 1s)
-	]
-)\
+	])
+\
 
-Khi mọi  @Phrase  đều nên chờ cùng một thứ,  @Scene/until  chỉ nói điều đó một lần thay vì viết nó giữa mỗi cái. Cách này làm điều giống ví dụ đầu tiên ở trên:
+ Khi mọi @Phrase đều nên chờ cùng một thứ, @Scene/until chỉ nói điều đó một lần thay vì viết nó giữa mỗi cái. Cách này làm điều giống ví dụ đầu tiên ở trên:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('nhấp vào tôi đi')
 		Phrase('nhấp vào tôi lần nữa' khoảngthờigian: 1s)
-		Phrase(
-			'thật đấy, hãy nhấp vào tôi thật mạnh vào!!'
-			khoảngthờigian: 1s
-		)
+		Phrase('thật đấy, hãy nhấp vào tôi thật mạnh vào!!' khoảngthờigian: 1s)
 		Phrase('bạn đã nhấp vào tôi chưa?' khoảngthờigian: 1s)
-	]
-	choĐếnKhi: Button()
-)\
+	] choĐếnKhi: Button())
+\
 
-Viết một  @Boolean  trong danh sách khi các khoảng chờ /khác nhau/, như trong ví dụ hét lên, và dùng  @Scene/until  khi chúng đều giống nhau.Bạn có thể dùng cả hai: một  @Boolean  trong danh sách là một khoảng chờ riêng, cộng thêm vào khoảng chờ mà  @Scene/until  yêu cầu.
+ Viết một @Boolean trong danh sách khi các lần chờ / khác nhau /, như trong ví dụ hét to, và dùng @Scene/until khi chúng đều giống nhau.
+Em có thể dùng cả hai: một @Boolean trong danh sách là một lần chờ riêng, cộng thêm lần chờ mà @Scene/until yêu cầu.
 
-Lưu ý:  @Scene/until  chờ /sau khi/ mỗi  @Phrase  đã có  @Phrase/duration  của nó, chứ không phải thay cho nó.
+Lưu ý: @Scene/until chờ / sau khi / mỗi @Phrase đã có @Phrase/duration của nó, chứ không phải thay cho nó.
 
-Nếu bạn muốn  @Scene  không bao giờ tự di chuyển, và chỉ đi đến nơi bạn gửi nó đến, hãy dùng  @Scene/pause  với  @Scene/step :
+Nếu bạn muốn @Scene không bao giờ tự di chuyển, và chỉ đi đến nơi bạn gửi nó đến, hãy dùng @Scene/pause với @Scene/step:
 
-\key: Key()
-Scene(
-	[Phrase('một') Phrase('hai') Phrase('ba')]
-	tạmDừng: ⊤
-	bước: ∆ key ? ((key = 'Mũi tên trái') ? -1 (key = 'Mũi tên phải') ? 1 ø) ø
-)\
+\
+key: Key()
+Scene([
+		Phrase('một')
+		Phrase('hai')
+		Phrase('ba')
+	] tạmDừng: ⊤ bước: ∆ key ? ((key = 'Mũi tên trái') ? -1 (key = 'Mũi tên phải') ? 1 ø) ø)
+\
 
-@Scene/step  di chuyển theo một số  @Phrase  — \1\ về phía trước, \-1\ quay lại — và tự dừng ở hai đầu cho bạn. @Scene/go  cũng là ý tưởng đó, nhưng nói theo vị trí thay vì khoảng cách: số thứ tự của  @Phrase  bạn muốn, đếm từ 1, hoặc  @Phrase/name  bạn đã đưa cho nó.
+@Scene/step di chuyển theo một số @Phrase — \1\ về phía trước, \-1\ quay lại — và tự dừng ở hai đầu cho bạn.
+@Scene/go cũng là ý tưởng đó, nhưng nói theo vị trí thay vì khoảng cách: số thứ tự của @Phrase bạn muốn, đếm từ 1, hoặc @Phrase/name bạn đã đưa cho nó.
 
 animated-scene, repeat-a-round, move-between-content

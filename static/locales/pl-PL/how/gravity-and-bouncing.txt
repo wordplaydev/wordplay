@@ -1,24 +1,33 @@
 Spraw, aby postać upadła i odbiła się
 
-A co jeśli chcemy, aby postać upadła, odbiła się od podłogi lub była popychana jak prawdziwy przedmiot?To jest to @Motion  I  @Matter są dla — razem symulują fizykę dla @Phrase . 
+Co, jeśli chcemy, aby postać spadała, odbijała się od podłogi albo była popychana jak prawdziwa rzecz?
+Właśnie do tego służą @Motion i @Matter — razem symulują fizykę dla @Phrase.
 
-@Motion sterowanie/Gdzie/postać jest w czasie. Używamy jej jako\place\dla @Phrase , uruchamiając go wysoko, aby mógł spaść.Potrzebujemy też czegoś, na co możemy spaść, bo inaczej nasza postać będzie spadać w nieskończoność! @Shape z szerokim @Rectangle tworzy ładną podłogę:
+@Motion kontroluje / gdzie / znajduje się postać w danym czasie. Używamy tego jako \place\ dla @Phrase, zaczynając wysoko, aby mogła spadać.
+Potrzebujemy też czegoś, na co postać spadnie, inaczej nasza postać będzie spadać w nieskończoność! @Shape z szeroką @Rectangle tworzy fajną podłogę:
 
-\Stage([
-		Phrase('🍎' miejsce: Motion(Place(0m 5m)) materiał: Matter())
-		Shape(Rectangle(-10m 0m 10m -5m))
-	])\
+\
+Stage([
+    Phrase('🍎' miejsce: Motion(Place(0m 5m)) materiał: Matter())
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
 
-Jabłko startuje z wysokości pięciu metrów i spada pod wpływem grawitacji.Kiedy uderza o podłogę, lekko się odbija, ponieważ @Phrase ma wbudowany @Matter który kontroluje jak ciężki i sprężysty jest.
+ Jabłko zaczyna pięć metrów nad ziemią i spada pod wpływem grawitacji.
+Gdy uderza o podłogę, odbija się trochę, ponieważ @Phrase ma wbudowaną @Matter , która kontroluje, jak ciężkie i sprężyste jest.
 
-Aby zmienić sposób/sprężysty/lub jak/ciężki/postać jest, daj jej swoją własną @Matter . @Matter wymaga masy, sprężystości i tarcia:
+Aby zmienić sposób / sprężysty / lub jak / ciężki / postać jest, daj jej swoją własną @Matter.
+@Matter wymaga masy, sprężystości i tarcia:
 
-\Stage([
-		Phrase('⚽' miejsce: Motion(Place(-2m 5m)) materiał: Matter(1kg 0.9 0.2))
-		Phrase('🪨' miejsce: Motion(Place(2m 5m)) materiał: Matter(5kg 0.1 0.8))
-		Shape(Rectangle(-10m 0m 10m -5m))
-	])\
+\
+Stage([
+    Phrase('⚽' miejsce: Motion(Place(-2m 5m)) materiał: Matter(1kg 0.9 0.2))
+    Phrase('🪨' miejsce: Motion(Place(2m 5m)) materiał: Matter(5kg 0.1 0.8))
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
 
-Piłka jest lekka i sprężysta, dzięki czemu powraca do pierwotnego kształtu.Kamień jest ciężki i nie sprężysty, więc po prostu dudni.
+ Piłka jest lekka i sprężysta, więc odbija się z powrotem do góry.
+Kamień jest ciężki i niesprężysty, więc po prostu z hukiem opada.
 
 follow-the-pointer, move-phrase

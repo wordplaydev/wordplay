@@ -1,57 +1,52 @@
 Gumawa ng animadong serye ng mga eksena
 
-Minsan gusto nating magkuwento, magpakita ng liriko, o mag-animate ng tula.Para gawin iyon, magagamit natin ang  @Scene  at  @Phrase  nang magkasama, para magpakita ng pagkakasunod-sunod.
+Minsan gusto nating magkuwento, magpakita ng mga liriko, o buhayin ang isang tula.
+Para gawin iyon, maaari nating gamitin ang @Scene at @Phrase nang magkasama, para magpakita ng isang sunud-sunod na pangyayari.
 
-Halimbawa, isipin nating gusto nating i-animate ang maikling awiting pambata na "Jack be Nimble".Puwede tayong gumawa ng  @Scene  na may bawat linya bilang isang  @Phrase , at sa pamamagitan ng pagtakda ng  @Phrase/duration  ng bawat linya, ang  @Scene  ay sasabay sa susunod kapag tapos na ang bawat parirala.
+Halimbawa, isipin nating gusto nating buhayin ang maikling awiting pambata na "Jack be Nimble".
+Maaari tayong gumawa ng @Scene na may bawat linya bilang isang @Phrase, at sa pamamagitan ng pagtakda ng @Phrase/duration ng bawat linya, ang @Scene ay sasagad kapag tapos na ang bawat parirala.
 
-\Scene(
-	[
+\
+Scene([
+  Phrase('Jack be nimble' tagal: 1s)
+  Phrase('Jack be quick' tagal: 1s)
+  Phrase('Jack jump over the candle stick' tagal: 1s)
+])
+\
+
+@Scene ay maghihintay rin para matapos ang isang @Sequence . Gawin nating tumatalon ang linya ng kandila!
+
+\
+Scene([
+		Phrase('Jack be nimble' tagal: 1s)
+		Phrase('Jack be quick' tagal: 1s)
+		Phrase('Jack jump over the candle stick' pagpasok: Sequence.bounce(tagal: 1s))
+	])
+\
+
+@Scene ay puwede ring kumuha ng @Group ng teksto, at maghihintay ito hanggang matapos ang buong animation ng lahat ng nilalaman nito.
+
+\
+Scene([
+		Group(Stack() [
+      Phrase('Jack be nimble')
+		  Phrase('Jack be quick')
+    ] tagal: 2s)
+		Phrase('Jack jump over the candle stick' pagpasok: Sequence.bounce(tagal: 1s))
+	])
+\
+
+ Minsan dapat magpatuloy ang isang tula. @Scene/loop ay nagpapabalik sa @Scene pabalik sa unang @Phrase nito kapag tapos na ang huli, kaya ito ay paulit-ulit na sinasabi ang sarili nito.
+
+\
+Scene([
 		Phrase('Jack be nimble' tagal: 1s)
 		Phrase('Jack be quick' tagal: 1s)
 		Phrase('Jack jump over the candle stick' tagal: 1s)
-	]
-)\
+	] loop: ⊤)
+\
 
-@Scene  ay maghihintay rin para matapos ang isang  @Sequence . Gawin nating tumatalon ang linya ng kandila!
-
-\Scene(
-	[
-		Phrase('Jack be nimble' tagal: 1s)
-		Phrase('Jack be quick' tagal: 1s)
-		Phrase(
-			'Jack jump over the candle stick'
-			pagpasok: Sequence.bounce(tagal: 1s)
-		)
-	]
-)\
-
-@Scene  ay puwede ring kumuha ng  @Group  ng teksto, at maghihintay ito hanggang matapos ang buong animation ng lahat ng nilalaman nito.
-
-\Scene(
-	[
-		Group(
-			Stack()
-			[Phrase('Jack be nimble') Phrase('Jack be quick')]
-			tagal: 2s
-		)
-		Phrase(
-			'Jack jump over the candle stick'
-			pagpasok: Sequence.bounce(tagal: 1s)
-		)
-	]
-)\
-
-Minsan dapat magpatuloy ang isang tula.  @Scene/loop  ay nagpapabalik sa  @Scene  pabalik sa unang  @Phrase  nito kapag tapos na ang huli, kaya ito ay paulit-ulit na sinasabi ang sarili nito.
-
-\Scene(
-	[
-		Phrase('Jack be nimble' tagal: 1s)
-		Phrase('Jack be quick' tagal: 1s)
-		Phrase('Jack jump over the candle stick' tagal: 1s)
-	]
-	loop: ⊤
-)\
-
-Paalala: ang isang  @Scene  ay babalik lamang kung may talagang naghintay sa listahan.Isang listahan kung saan bawat  @Phrase  ay may  @Phrase/duration  na \0s\ ay iikot nang kasingbilis ng kaya ng kompyuter, kaya sa halip ay huminto ito sa dulo.
+ Tandaan: ang isang @Scene ay babalik lang mula sa umpisa kung talagang naghintay ang isang bagay sa listahan.
+Ang isang listahan kung saan ang bawat @Phrase ay may @Phrase/duration na \0s\ ay tatakbo nang kasingbilis ng kaya ng kompyuter, kaya't tumitigil ito sa dulo sa halip.
 
 interactive-scene, repeat-a-round

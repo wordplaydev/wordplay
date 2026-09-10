@@ -2,70 +2,66 @@ Twórz interaktywną serię scen
 
 Czasem chcemy opowiadać historie, które czekają, aż widz coś zrobi, zanim pokażą kolejną treść.
 
-Aby to zrobić, możemy użyć  @Scene , ale umieścić  @Boolean  wartości między treściami, które chcemy pokazać. Na przykład, tutaj kliknięcie przenosi do każdej kolejnej treści, używając  @Button :
+Aby to zrobić, możemy użyć @Scene, ale umieścić @Boolean wartości między treściami, które chcemy pokazać. Na przykład, tutaj kliknięcie przenosi do każdej kolejnej treści, używając @Button:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('kliknij mnie')
 		Button()
 		Phrase('kliknij mnie jeszcze raz' czastrwania: 1s)
 		Button()
-		Phrase(
-			'naprawdę, kliknij mnie tak mocno, jak potrafisz!!'
-			czastrwania: 1s
-		)
+		Phrase('naprawdę, kliknij mnie tak mocno, jak potrafisz!!' czastrwania: 1s)
 		Button()
 		Phrase('kliknąłeś mnie już?' czastrwania: 1s)
-	]
-)\
+	])
+\
 
-Ten  @Scene  pokazuje pierwszą  @Phrase , potem czeka, aż  @Button  stanie się prawdziwy, a gdy tak się dzieje, przechodzi do kolejnej  @Phrase .
+ Ten @Scene pokazuje pierwszą @Phrase, potem czeka, aż @Button stanie się prawdziwy, a gdy tak się dzieje, przechodzi do kolejnej @Phrase.
 
-Możesz użyć czegokolwiek chcesz, aby przejść dalej, o ile jest to prawda albo fałsz. Na przykład, moglibyśmy użyć naszego głosu! Jeśli krzykniemy wystarczająco głośno, scena przejdzie dalej:
+Możesz użyć czegokolwiek chcesz, by przejść dalej, o ile jest to prawda albo fałsz. 
+Na przykład możemy użyć naszego głosu! 
+Jeśli krzykniemy wystarczająco głośno, scena przejdzie dalej:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('czy jest tam ktoś?')
 		Volume() > .5
-		Phrase(
-			"nie słyszę cię, powtórz proszę?"
-			czastrwania: 1s
-		)
+		Phrase("nie słyszę cię, powtórz proszę?" czastrwania: 1s)
 		Volume() > .7
 		Phrase('głośniej proszę...' czastrwania: 1s)
 		Volume() > .9
 		Phrase('o, cześć!' czastrwania: 1s)
-	]
-)\
+	])
+\
 
-Kiedy każda  @Phrase  powinna czekać na to samo,  @Scene/until  mówi to raz, zamiast pisać to między każdą z nich. To robi to samo, co pierwszy przykład powyżej:
+ Kiedy każda @Phrase powinna czekać na to samo, @Scene/until mówi to raz, zamiast pisać to między każdą z nich. To robi to samo, co pierwszy przykład powyżej:
 
-\Scene(
-	[
+\
+Scene([
 		Phrase('kliknij mnie')
 		Phrase('kliknij mnie jeszcze raz' czastrwania: 1s)
-		Phrase(
-			'naprawdę, kliknij mnie tak mocno, jak potrafisz!!'
-			czastrwania: 1s
-		)
+		Phrase('naprawdę, kliknij mnie tak mocno, jak potrafisz!!' czastrwania: 1s)
 		Phrase('kliknąłeś mnie już?' czastrwania: 1s)
-	]
-	ażDo: Button()
-)\
+	] ażDo: Button())
+\
 
-Zapisz  @Boolean  na liście, gdy czasy oczekiwania są /różne/, tak jak w przykładzie z krzykiem, i użyj  @Scene/until , gdy są wszystkie takie same.Możesz użyć obu naraz:  @Boolean  na liście to osobny czas oczekiwania, dodany do tego, o który prosi  @Scene/until .
+ Napisz @Boolean na liście, gdy czasy oczekiwania są / różne /, tak jak w przykładzie z krzykiem, i użyj @Scene/until , gdy wszystkie są takie same.
+Możesz użyć obu naraz: @Boolean na liście to osobne oczekiwanie, dodane do tego, o które prosi @Scene/until .
 
-Uwaga:  @Scene/until  czeka /po/ tym, jak każde  @Phrase  dostanie swoje  @Phrase/duration , a nie zamiast tego.
+Uwaga: @Scene/until czeka / po / tym, jak każde @Phrase dostanie swoje @Phrase/duration, a nie zamiast tego.
 
-Jeśli wolisz, żeby  @Scene  nigdy nie poruszało się samo, a jedynie tam, gdzie je wyślesz, użyj  @Scene/pause  z  @Scene/step :
+Jeśli wolisz, żeby @Scene nigdy nie poruszało się samo, a jedynie tam, gdzie je wyślesz, użyj @Scene/pause z @Scene/step:
 
-\key: Key()
-Scene(
-	[Phrase('jeden') Phrase('dwa') Phrase('trzy')]
-	pauza: ⊤
-	krok: ∆ key ? ((key = 'Strzałka w lewo') ? -1 (key = 'Strzałka w prawo') ? 1 ø) ø
-)\
+\
+key: Key()
+Scene([
+		Phrase('jeden')
+		Phrase('dwa')
+		Phrase('trzy')
+	] pauza: ⊤ krok: ∆ key ? ((key = 'Strzałka w lewo') ? -1 (key = 'Strzałka w prawo') ? 1 ø) ø)
+\
 
-@Scene/step  przesuwa się o pewną liczbę  @Phrase  — \1\ do przodu, \-1\ wstecz — i zatrzymuje się na końcach za ciebie. @Scene/go  to ten sam pomysł wyrażony jako miejsce zamiast odległości: numer  @Phrase , który chcesz, licząc od 1, albo  @Phrase/name , które mu podałeś.
+@Scene/step przesuwa się o pewną liczbę @Phrase — \1\ do przodu, \-1\ wstecz — i zatrzymuje się na końcach za ciebie.
+@Scene/go to ten sam pomysł wyrażony jako miejsce zamiast odległości: numer @Phrase , który chcesz, licząc od 1, albo @Phrase/name , które mu podałeś.
 
 animated-scene, repeat-a-round, move-between-content

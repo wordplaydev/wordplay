@@ -1,18 +1,25 @@
 Gumawa ng sarili mong template ng karakter
 
-Minsan gusto mo ng maraming karakter na halos magkapareho ang hitsura, ngunit may kaunting pagkakaiba.Sa halip na magsulat ng pareho @Phrase paulit-ulit, maaari kang gumawa ng sarili mong template gamit ang isang @Structure .
+Minsan gusto mo ng maraming karakter na halos magkatulad, pero may maliliit na pagkakaiba.
+Sa halip na isulat nang paulit-ulit ang parehong @Phrase , puwede kang gumawa ng sarili mong templeyt gamit ang @Structure.
 
-Isang @Structure parang isang recipe na may mga patlang na kailangang punan.Narito ang isang template ng lobo na may kulay at label, at alam kung paano ipapakita ang sarili nito:
+Ang isang @Structure ay parang resipe na may mga blangko na pupunan.
+Narito ang templeyt ng lobo na tumatanggap ng kulay at label, at alam kung paano ipakita ang sarili nito:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` kulay: color laki: 2m)
+\
+•Balloon(color•Color label•'') (
+    ƒ show() Phrase(`🎈\label\` kulay: color laki: 2m)
 )
-Group(Row() [
-		Balloon(Color(80% 50 240°) 'Langit').show()
-		Balloon(Color(60% 80 0°) 'Rosas').show()
-		Balloon(Color(90% 80 90°) 'Maaraw').show()
-	])\
 
-Ang\•Balloon(...)\bahagi ang tumutukoy sa template, at ang\ƒ show()\sabi ng bahagi/paano gumuhit ng isa/.Pagkatapos ay gagawa tayo ng tatlong lobo na may iba't ibang kulay at label, at hihilingin sa bawat isa na\show\mismo.
+Group(Row() [
+    Balloon(Color(80% 50 240°) 'Langit').show()
+    Balloon(Color(60% 80 0°) 'Rosas').show()
+    Balloon(Color(90% 80 90°) 'Maaraw').show()
+])
+\
+
+ Ang \•Balloon(...)\ na bahagi ang tumutukoy sa templeyt, at ang \ƒ show()\ na bahagi ang nagsasabi kung / paano gumuhit ng isa /.
+Pagkatapos, gumagawa tayo ng tatlong lobo na may iba't ibang kulay at label, at hinihiling sa bawat isa na \show\ ang sarili nito.
 
 Mahusay ang mga template kapag gusto mong panatilihing maayos ang iyong code at pare-pareho ang iyong mga karakter.
 

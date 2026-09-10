@@ -1,47 +1,42 @@
 Upprepa en omgång i ett spel
 
-Många spel är samma få ögonblick om och om igen: säg vad som ska göras, vänta på ett svar, visa hur det gick, och börja sedan om.En  @Scene  kan vara hela den omgången, och  @Scene/loop  är det som tar den tillbaka till början.
+Många spel är samma få ögonblick om och om igen: säg vad som ska göras, vänta på ett svar, visa hur det gick, och börja sedan om.
+En @Scene kan vara hela den omgången, och @Scene/loop är det som för den tillbaka till början.
 
-Ögonblicken är sakerna i listan, och en  @Boolean  mellan dem är där  @Scene  väntar på spelaren.
+Ögonblicken är sakerna i listan, och en @Boolean mellan dem är där @Scene väntar på spelaren.
 
-\guess: Chat()
+\
+guess: Chat()
 right: guess = 'katt'
-Scene(
-	[
+Scene([
+	Phrase('Gissa djuret!' varaktighet: 2s)
+	∆ guess
+	Phrase(right ? 'Ja!' 'Nej!' varaktighet: 2s)
+] upprepa: ~right)
+\
+
+ Den \∆ guess\ är väntan: den är sann bara i det ögonblick en ny gissning kommer, så @Scene stannar där tills någon skriver något.
+Och \loop2: ~right\ är upprepningen: @Scene kommer tillbaka om och om igen tills de gissar rätt, och stannar sedan på den sista @Phrase.
+
+Obs: @Scene/loop läses varje gång ditt program ändras, så du kan avsluta en loop precis lika gärna som att starta en, vilket är vad \~right\ just gjorde.
+
+För att veta var omgången är, fråga @Spotlight.
+Den talar om vilken @Phrase som visas, hur många det finns, hur många gånger @Scene har kommit runt igen, och om den väntar på någon just nu.
+
+\
+guess: Chat()
+at: Spotlight()
+Stage([
+	Scene([
 		Phrase('Gissa djuret!' varaktighet: 2s)
 		∆ guess
-		Phrase(right ? 'Ja!' 'Nej!' varaktighet: 2s)
-	]
-	upprepa: ~right
-)\
+		Phrase('Nej!' varaktighet: 2s)
+	] upprepa: ⊤)
+	Phrase(at.waiting ? 'skriv en gissning' `omgång \at.lap + 1\` storlek: 0.4m plats: Place(0m -2m))
+])
+\
 
-Den \∆ guess\ är väntan: den är sann bara i det ögonblick en ny gissning kommer in, så  @Scene  stannar där tills någon skriver något.Och \loop2: ~right\ är upprepningen:  @Scene  fortsätter att komma tillbaka tills de gissar rätt, och stannar sedan på den sista  @Phrase .
-
-Obs:  @Scene/loop  läses varje gång ditt program ändras, så du kan avsluta en loop precis lika gärna som att starta en, vilket är vad \~right\ just gjorde.
-
-För att veta var omgången är, fråga  @Spotlight .Den berättar vilken  @Phrase  som visas, hur många det finns, hur många gånger  @Scene  har kommit runt, och om den väntar på någon just nu.
-
-\guess: Chat()
-at: Spotlight()
-Stage(
-	[
-		Scene(
-			[
-				Phrase('Gissa djuret!' varaktighet: 2s)
-				∆ guess
-				Phrase('Nej!' varaktighet: 2s)
-			]
-			upprepa: ⊤
-		)
-		Phrase(
-			at.waiting ? 'skriv en gissning' `omgång \at.lap + 1\`
-			storlek: 0.4m
-			plats: Place(0m -2m)
-		)
-	]
-)\
-
-@Scene/replay  är ett sätt att börja om omgången när du vill, oavsett var den hade kommit.Ge den något som bara är sant för ett ögonblick, till exempel \∆ Knapp(
-)\.
+@Scene/replay är ett sätt att börja om omgången när du vill, oavsett var den kommit.
+Ge den något som är sant bara för ett ögonblick, som \∆ Knapp()\.
 
 interactive-scene, animated-scene, track-game-state

@@ -1,18 +1,25 @@
 Erstelle deine eigene Charaktervorlage
 
-Manchmal wünscht man sich viele Charaktere, die fast gleich aussehen, sich aber in kleinen Details unterscheiden.Anstatt dasselbe zu schreiben @Phrase Immer wieder können Sie mit einem Ihre eigene Vorlage erstellen. @Structure Die
+Manchmal möchtest du viele Zeichen, die fast gleich aussehen, aber kleine Unterschiede haben.
+Anstatt den gleichen @Phrase immer wieder zu schreiben, kannst du deine eigene Vorlage mit einer @Structure kombinieren.
 
-A  @Structure ist wie ein Rezept mit Lücken zum Ausfüllen.Hier ist eine Ballonvorlage, die eine Farbe und eine Beschriftung benötigt und weiß, wie sie sich selbst anzeigt:
+Eine @Structure ist wie ein Rezept mit Lücken zum Ausfüllen.
+Hier ist eine Luftballon-Vorlage, die eine Farbe und ein Etikett nimmt und weiß, wie sie sich selbst zeigt:
 
-\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` Farbe: color Größe: 2m)
+\
+•Balloon(color•Color label•'') (
+    ƒ show() Phrase(`🎈\label\` Farbe: color Größe: 2m)
 )
-Group(Row() [
-		Balloon(Color(80% 50 240°) 'Himmel').show()
-		Balloon(Color(60% 80 0°) 'Rose').show()
-		Balloon(Color(90% 80 90°) 'Sonnig').show()
-	])\
 
-Der \•Balloon(...)\Teil definiert die Vorlage und die\ƒ show()\Teilweise heißt es/wie man einen zeichnet/DieDann basteln wir drei Ballons mit unterschiedlichen Farben und Beschriftungen und bitten jeden Einzelnen,\show\sich selbst.
+Group(Row() [
+    Balloon(Color(80% 50 240°) 'Himmel').show()
+    Balloon(Color(60% 80 0°) 'Rose').show()
+    Balloon(Color(90% 80 90°) 'Sonnig').show()
+])
+\
+
+ Das \•Balloon(...)\ Teil legt die Vorlage fest, und der \ƒ show()\ Teil sagt / wie man einen zeichnet / kombinieren.
+Dann machen wir drei Luftballons mit verschiedenen Farben und Etiketten und bitten jeden, \show\ sich selbst zu zeigen.
 
 Vorlagen sind ideal, wenn man seinen Code übersichtlich und seine Zeichen einheitlich halten möchte.
 

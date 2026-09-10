@@ -1,17 +1,21 @@
 重複動作
 
-有時我們想讓一個角色以相同的方式移動幾次！一遍又一遍地輸入相同的行變得很乏味。
+有時候我們會想讓一個角色，用同樣的方式移動好幾次！ 
+一直重複打同樣的幾行，會變得很煩喔。
 
-相反，我們可以使用 @Sequence  和 @Phrase 讓某件事重複多次！具體來說，我們可以使用計數 @Sequence 並選出一組姿勢出現的次數。例如，這是一個籃球上下彈跳兩次。
+這時候，我們可以用 @Sequence 搭配 @Phrase ，讓某件事重複發生好幾次！具體來說，
+我們可以用 @Sequence 裡的計數，選擇一組姿勢要出現幾次。舉例來說， 
+這是一顆籃球上下彈跳兩次的樣子。 
 
-\Stage([
-		Phrase('🏀' 進入: Sequence({
-					0%: Pose(偏移: Place(y: 0.25m))
-					25%: Pose(偏移: Place(y: 0m))
-					50%: Pose(偏移: Place(y: -0.25m))
-					75%: Pose(偏移: Place(y: 0m))
-					100%: Pose(偏移: Place(y: 0.25m))
-				} 計數: 2x 長度: 2s))
-	])\
+\
+Stage([
+	Phrase('🏀' 進入: Sequence({
+				0%: Pose(偏移: Place(y: 0.25m))
+				25%: Pose(偏移: Place(y: 0m))
+				50%: Pose(偏移: Place(y: -0.25m))
+				75%: Pose(偏移: Place(y: 0m))
+				100%: Pose(偏移: Place(y: 0.25m))} 計數:2x 長度:2s))
+])
+\
 
 animate-phrase, shake-phrase

@@ -1,43 +1,38 @@
 Ține evidența stării jocului
 
-Majoritatea jocurilor țin evidența mai multor lucruri pe măsură ce jocul avansează: punctele, pozițiile jucătorilor și alte detalii sunt toate importante.De fiecare dată când există o intrare, starea se schimbă, iar apoi vrem să afișăm o ieșire nouă, ca răspuns.
+Majoritatea jocurilor urmăresc mai multe lucruri pe măsură ce jocul avansează: punctele, pozițiile jucătorilor și alte detalii sunt toate importante.
+De fiecare dată când apare o intrare nouă, acea stare se schimbă, iar apoi vrem să afișăm o ieșire nouă, ca răspuns.
 
 Un tipar general pentru orice joc face trei lucruri:
 
-• Definește o structură de date pentru starea jocului, pentru a păstra toată starea jocului• Definește o reacție care creează o nouă stare a jocului pe baza stării anterioare, de fiecare dată când apare o intrare nouă• Creează un  @Stage  cu  @Group  și  @Phrase  pentru a arăta starea jocului
+• Definește o structură de date pentru starea jocului, ca să stochezi toată starea jocului
+• Definește o reacție care creează o stare de joc nouă pe baza stării anterioare de fiecare dată când apare o intrare nouă
+• Creează un @Stage cu @Group și @Phrase pentru a arăta starea jocului
 
 De exemplu, să ne imaginăm un joc simplu în care scrii cuvinte secrete într-o casetă de text și primești un punct de fiecare dată când ghicești un cuvânt secret:
 
-\•Game(secrets•[''] points•#)
-state: Game(['pisică' 'câine'] 0) … state.secrets.has(
-		Chat()
-	) … state.points:state.points + 1
+\
+•Game(secrets•[''] points•#)
+
+state: Game(['pisică' 'câine'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+
 Stage(
-	state.points = state.secrets.length() ? [
-			Phrase("ai câștigat!")
-		] [
-			Group(
-				Stack()
-				[
-					Phrase("ghicește cuvintele mele secrete")
-					Phrase(
-						`\state.secrets.length() - state.points\ mai multe secrete`
-					)
-				]
-			)
-		]
-)\
+    state.points = state.secrets.length() ? 
+        [ Phrase("ai câștigat!")]
+        [ Group(Stack() [ Phrase("ghicește cuvintele mele secrete") Phrase(`\state.secrets.length() - state.points\ mai multe secrete`)])]
+)
+\
 
-Să analizăm asta pas cu pas.
+ Să analizăm asta pas cu pas.
 
-• Prima linie, \•joc(secrete•[''] puncte2•#)\ spune, /Creează o structură de date numită \Game\ care păstrează o listă de secrete și puncte/. \[
-	''
-]\ înseamnă /o listă cu orice număr de cuvinte/. Dacă vrei în schimb o listă cu o lungime exactă, poți da un nume pentru tipul fiecărui loc din ea: \[
-	#'']\ este o listă cu două lucruri, un număr și apoi un cuvânt.• A doua linie spune /Starea jocului începe cu o listă de secrete și zero puncte. De fiecare dată când \Chat\ se schimbă, dacă cuvântul scris se află în lista de secrete, se creează o nouă stare a jocului cu punctele crescute cu unu/.• De fiecare dată când programul se recalculează (când \Chat\ se schimbă), se arată o scenă. Dacă numărul de puncte este egal cu numărul de secrete, se arată o scenă de câștig. Dacă nu, se arată un mesaj și numărul de secrete rămase.
+• Prima linie, \•joc(secrete•[''] puncte2•#)\ spune, / Creează o structură de date numită \Game\ care stochează o listă de secrete și puncte /. \['']\ înseamnă / o listă cu orice număr de cuvinte /. Dacă vrei în schimb o listă cu o lungime exactă, poți denumi un tip pentru fiecare loc din ea: \[# '']\ este o listă cu două lucruri, un număr apoi un cuvânt.
+• A doua linie spune / Starea jocului începe cu o listă de secrete și zero puncte. De fiecare dată când \Chat\ se schimbă, dacă cuvântul introdus se află în lista de secrete, atunci creează o stare de joc nouă cu punctele mărite cu unu /.
+• De fiecare dată când programul se reevaluează (când \Chat\ se schimbă), arată o scenă. Dacă numărul de puncte este egal cu numărul de secrete, arată o scenă de câștig. Dacă nu, arată un mesaj și numărul de secrete rămase.
 
 Acest exemplu are câteva probleme:
 
-• Dacă ghicesc un cuvânt secret de mai multe ori, primesc mai multe puncte! Starea jocului noastre ar trebui să țină minte și ce cuvinte au fost ghicite, ca fiecare cuvânt să fie numărat cel mult de două ori.• Dacă jucătorul scrie mai multe cuvinte, ar trebui să conteze?
+• Dacă ghicesc un cuvânt secret de mai multe ori, primesc mai multe puncte! Starea jocului noastre ar putea trebui să țină minte și ce a fost ghicit, ca fiecare cuvânt să fie numărat doar de două ori.
+• Dacă jucătorul introduce mai multe cuvinte, ar trebui să conteze?
 
 Stări ale jocului și actualizări ale jocului mai bine gândite ne-ar ajuta să tratăm aceste cazuri.
 

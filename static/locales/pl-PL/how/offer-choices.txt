@@ -2,31 +2,53 @@ Pokaż możliwe do wyboru opcje
 
 Czasami chcesz pokazać na ekranie wiele wyborów i zrobić coś z tym, co wybierze publiczność. Aby to zrobić, potrzebujemy dwóch rzeczy:
 
-• Jeden lub więcej @Phrase które są oznaczone jako wybieralne i mają unikalną nazwę (np.\Phrase('opcja 1' wybieralny: ⊤ nazwa: 'jeden')\)• A  @Choice , który zmienia się na @Phrase nazwa ostatnio wybrana.
+• Jedno lub więcej @Phrase , które są oznaczone jako wybieralne i mają unikalną nazwę (np. \Phrase('opcja 1' wybieralny: ⊤ nazwa: 'jeden')\)
+• @Choice, która zmienia się na nazwę @Phrase ostatnio wybraną.
 
 Na przykład tutaj pokazujemy trzy opcje, każda z nich ma unikalną nazwę.
 
-\option: Choice()
-Group(Stack() [
+\
+option: Choice()
+
+Group(
+	Stack() [
 		Phrase('opcja 1' wybieralny: ⊤ nazwa: 'jeden')
 		Phrase('opcja 2' wybieralny: ⊤ nazwa: 'dwa')
 		Phrase('opcja 3' wybieralny: ⊤ nazwa: 'trzy')
 		Phrase(option)
-	])\
+	]
+)
+\
 
-Za każdym razem, gdy ktoś jest wybierany, ostatni @Phrase pokazuje wybraną nazwę.
+ Za każdym razem, gdy ktoś jest wybierany, ostatni @Phrase pokazuje wybraną nazwę.
 
 Możesz użyć tego wzorca, aby wykonać czynności w odpowiedzi na wybór. Na przykład moglibyśmy zmienić projekt powyżej, aby pokazać sekretny emoji na podstawie wyboru:
 
-\option: Choice()
-option = '' ? Group(Stack() [
-			Phrase('opcja 1' selectable: ⊤ name: 'jeden')
-			Phrase('opcja 2' selectable: ⊤ name: 'dwa')
-			Phrase('opcja 3' selectable: ⊤ name: 'trzy')
-		]) Phrase({'jeden': '😡' 'dwa': '🏀' 'trzy': '❤️'}{option} ?? '?')\
+\
+option: Choice()
 
-Ten @Choice zaczyna się jako pusty @Text , więc gdy projekt się rozpoczyna, sprawdzamy to i pokazujemy trzy opcje.Gdy już dokona się wyboru, staje się on jedną z trzech opcji @Phrase imiona.
+option = '' ?
+	Group(
+		Stack() [
+			Phrase('opcja 1' wybieralny: ⊤ nazwa: 'jeden')
+			Phrase('opcja 2' wybieralny: ⊤ nazwa: 'dwa')
+			Phrase('opcja 3' wybieralny: ⊤ nazwa: 'trzy')
+		]
+	)
+	Phrase(
+		{
+			'jeden': '😡'
+			'dwa': '🏀'
+			'trzy': '❤'
+		}{option} ?? '?'
+	)
+\
 
-Aby wyświetlić emoji na podstawie dokonanego wyboru, możemy użyć @Map aby zamienić nazwę na sekretne emoji.Kiedy otrzymujemy wartość z @Map , jeśli nie ma dopasowania, ocenia się jako\ø\, więc używamy\??\domyślnie\'?'\jeśli opcja nie jest widoczna na mapie.W tym przypadku to nigdy nie nastąpi, ale nie jesteśmy na tyle mądrzy, żeby to wiedzieć!
+ Właściwość @Choice zaczyna jako pusty @Text, więc gdy projekt się uruchamia, sprawdzamy to i pokazujemy trzy możliwości.
+Gdy wybór zostanie dokonany, staje się on jedną z trzech @Phrase nazw.
+
+Aby pokazać emoji na podstawie wyboru, możemy użyć @Map , aby zamienić nazwę na sekretne emoji.
+Gdy pobieramy wartość z @Map, jeśli nie ma dopasowania, wynikiem jest \ø\, więc używamy \??\ , aby domyślnie ustawić \'?'\ , jeśli opcji nie ma w mapie. 
+W tym przypadku to nigdy się nie zdarzy, ale nie jesteśmy wystarczająco mądrzy, by to wiedzieć!
 
 move-phrase

@@ -2,45 +2,53 @@ Mostrar opciones que se pueden elegir
 
 A veces quieres mostrar varias opciones en la pantalla y hacer algo con lo que el público elige. Para esto, necesitamos dos cosas:
 
-• Uno o más  @Phrase  que estén marcados como elegibles y tengan un nombre único (por ejemplo, \
-Phrase('opción 1' seleccionable: ⊤ nombre: 'uno')\)• Un  @Choice , que cambia al  @Phrase  cuyo nombre se eligió más recientemente.
+• Una o más @Phrase que estén marcadas como seleccionables y tengan un nombre único (por ejemplo, \Phrase('opción 1' seleccionable: ⊤ nombre: 'uno')\)
+• Una @Choice, que cambia al nombre de @Phrase elegido más recientemente.
 
 Por ejemplo, aquí mostramos tres opciones, cada una con un nombre único.
 
 \
 option: Choice()
+
 Group(
-	Stack()
-	[
+	Stack() [
 		Phrase('opción 1' seleccionable: ⊤ nombre: 'uno')
 		Phrase('opción 2' seleccionable: ⊤ nombre: 'dos')
 		Phrase('opción 3' seleccionable: ⊤ nombre: 'tres')
 		Phrase(option)
 	]
-)\
+)
+\
 
-Cada vez que se elige una, el último  @Phrase  muestra el nombre elegido.
+ Cada vez que se elige una, el último @Phrase muestra el nombre elegido.
 
 Puedes usar este patrón para hacer cosas en respuesta a una elección. Por ejemplo, podríamos cambiar el proyecto de arriba para mostrar un emoji secreto según la elección:
 
 \
 option: Choice()
-option = '' ? Group(
-		Stack()
-		[
+
+option = '' ?
+	Group(
+		Stack() [
 			Phrase('opción 1' seleccionable: ⊤ nombre: 'uno')
 			Phrase('opción 2' seleccionable: ⊤ nombre: 'dos')
 			Phrase('opción 3' seleccionable: ⊤ nombre: 'tres')
 		]
-	) Phrase(
-		{'uno': '😡' 'dos': '🏀' 'tres': '❤'}{option} ?? '?'
-	)\
+	)
+	Phrase(
+		{
+			'uno': '😡'
+			'dos': '🏀'
+			'tres': '❤'
+		}{option} ?? '?'
+	)
+\
 
-El  @Choice  empieza como un  @Text  vacío. Por eso, cuando el proyecto empieza, revisamos eso y mostramos las tres opciones. Cuando se elige una opción, se convierte en uno de los tres  @Phrase  nombres.
+ El @Choice comienza como un @Text vacío, y por eso, cuando el proyecto comienza, revisamos eso y mostramos las tres opciones.
+Una vez que se hace una elección, se convierte en uno de los tres nombres de @Phrase .
 
-Para mostrar un emoji según la opción, podemos usar un  @Map  para convertir el nombre en un emoji secreto. Cuando obtenemos un valor de un  @Map , si no hay coincidencia, da como resultado \
-ø\, así que usamos el \
-??\ para que dé por defecto \
-'?'\ si la opción no está en el mapa. En este caso, eso nunca puede pasar, ¡pero no somos lo bastante listos para saberlo!
+Para mostrar un emoji según la elección, podemos usar un @Map para convertir el nombre en un emoji secreto.
+Cuando obtenemos un valor de un @Map, si no hay coincidencia, se evalúa como \ø\, así que usamos \??\ para que use \'?'\ como valor predeterminado si la opción no está en el mapa. 
+En este caso, eso nunca puede pasar, ¡pero no somos lo bastante listos como para saberlo!
 
 move-phrase

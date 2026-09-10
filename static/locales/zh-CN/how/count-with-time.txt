@@ -1,17 +1,26 @@
 时间流逝，数着日子。
 
-许多项目需要一些随着时间推移而增长的东西——计时器、分数、倒计时。我们可以通过组合以下方式构建一个计数器： @Time   stream  与一个  @Reaction 。
+很多项目都需要一个会随时间增长的东西——比如计时器、分数，或者倒计时。
+我们可以把 @Time 流和一个 @Reaction 结合起来，做一个计数器。
 
-A @Reaction 它由三部分组成：初始值、观察对象以及该对象发生变化时的新值。这里，我们从……开始\0\， 手表  @Time 并且每过一秒就加一：
+一个 @Reaction 有三个部分：一个初始值、一个要观察的东西，还有那个东西变化时的新值。
+这里，我们从 \0\ 开始，观察 @Time，每次时钟滴答一下就加一：
 
-\count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
+\
+count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')
+\
 
-每秒钟， @Time 火灾， @Reaction 通知\∆ Time(1000ms)\， 和 \count\变成\count + 1\。这 \→ ''\最后将数字转换为文本，因此 @Phrase 可以展示出来。
+ 每一秒， @Time 就会触发， @Reaction 会用 \∆ Time(1000ms)\ 注意到，然后 \count\ 就变成了 \count + 1\ 结合起来，做一个计数器。
+这个 \→ ''\ 结尾的这一步会把数字转换成文本，这样 @Phrase 就能显示它了。
 
 你可以使用任何你想要的输入，不只是时间。这个计数器会统计 Button() 函数的按下次数：
 
-\count: 0 … ∆ Button() … count + 1 Phrase(count → '')\
+\
+count: 0 … ∆ Button() … count + 1
+Phrase(count → '')
+\
 
-每次 @Button 点击或轻触即可切换流，计数加一。
+ 每次 @Button 点击或轻触即可切换流，计数加一。
 
 track-points, pick-from-a-list

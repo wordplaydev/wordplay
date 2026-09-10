@@ -1,17 +1,21 @@
 重复动作
 
-有时我们想让一个角色以相同的方式移动几次！一遍又一遍地输入相同的指令变得很乏味。
+有时候我们想让一个角色重复做同样的动作好多次呢！ 
+每次都把同样的几行代码重新打一遍，会变得很麻烦。
 
-这时，我们可以使用 @Sequence  和  @Phrase 让某件事重复多次！具体来说，我们可以使用 @Sequence 的计数并选择一组姿势出现的次数。例如，这是一个篮球上下弹跳两次。
+这时候，我们可以用 @Sequence 配合 @Phrase 让某个动作重复好多次！具体来说，
+我们可以在 @Sequence 里用这个计数，来选择一组姿势要重复多少次。比如说， 
+这里有一个篮球上下弹跳了两次哦。 
 
-\Stage([
-		Phrase('🏀' 进入: Sequence({
-					0%: Pose(偏移: Place(y: 0.25m))
-					25%: Pose(偏移: Place(y: 0m))
-					50%: Pose(偏移: Place(y: -0.25m))
-					75%: Pose(偏移: Place(y: 0m))
-					100%: Pose(偏移: Place(y: 0.25m))
-				} 计数: 2x 时长: 2s))
-	])\
+\
+Stage([
+	Phrase('🏀' 进入: Sequence({
+				0%: Pose(偏移: Place(y: 0.25m))
+				25%: Pose(偏移: Place(y: 0m))
+				50%: Pose(偏移: Place(y: -0.25m))
+				75%: Pose(偏移: Place(y: 0m))
+				100%: Pose(偏移: Place(y: 0.25m))} 计数:2x 时长:2s))
+])
+\
 
 animate-phrase, shake-phrase
