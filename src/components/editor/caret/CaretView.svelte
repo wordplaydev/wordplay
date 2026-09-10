@@ -877,6 +877,7 @@
                       const rect = locateCaretRect(
                           currentTokenView,
                           Math.max(0, currentTokenOffset),
+                          axes,
                       );
                       if (rect === undefined) return undefined;
                       const extent = blockExtent(rect);
@@ -1383,7 +1384,7 @@
             // arithmetic below silently puts the caret on the first line at the
             // widest line's width. A collapsed range has no such ambiguity, and
             // it carries the correct line as well as the correct offset.
-            const caretRect = locateCaretRect(tokenView, tokenOffset);
+            const caretRect = locateCaretRect(tokenView, tokenOffset, axes);
             if (caretRect !== undefined) {
                 const box = axes.rect(caretRect);
                 // The collapsed range's own extent is the line box at that

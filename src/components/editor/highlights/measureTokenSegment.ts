@@ -1,4 +1,8 @@
-import type { Axes, LogicalPoint } from '@components/editor/util/axes';
+import type {
+    Axes,
+    LogicalPoint,
+    LogicalRect,
+} from '@components/editor/util/axes';
 
 // Grapheme segmentation for locating an offset inside a token view's rendered
 // text. Boundaries are locale-independent, so one shared instance suffices.
@@ -103,6 +107,69 @@ export function measureTokenSegment(
     return [rect.width, rect.height];
 }
 
+/** Whether a measured rect says nothing about where anything is: a detached or
+ *  `display: none` view unions to the page origin, and Chromium reports no rects
+ *  at all for a collapsed range at the very end of a text node. */
+function isUnmeasurable(rect: DOMRect) {
+    return (
+        rect.width === 0 && rect.height === 0 && rect.x === 0 && rect.y === 0
+    );
+}
+
+/**
+ * Where the caret at a grapheme boundary sits when a collapsed range can't say:
+ * the trailing edge of everything before it.
+ *
+ * Chromium reports no rects at all for a COLLAPSED range at the very end of a
+ * text node, which is exactly a token's last position — so without this the end
+ * of a token is unmeasurable, and anything searching over offsets settles one
+ * grapheme short of it. A non-collapsed range always reports one rect per line.
+ * `CaretView`'s `edgeOfToken` works around the same thing for the caret alone.
+ *
+ * Measuring from the start of the text rather than from the preceding grapheme
+ * also answers for a substituted token, whose offset is `Infinity`.
+ *
+ * Filtering and collapsing in *logical* space is what makes this right in every
+ * writing mode: the inline axis increases in reading order, so the trailing
+ * edge is `inlineEnd` whichever way the text runs.
+ */
+function trailingEdgeRect(
+    nodes: Text[],
+    to: { index: number; codeUnit: number },
+    axes: Axes,
+    range: Range,
+): LogicalRect | undefined {
+    // Start before end: the range is reused, and setting an end that precedes
+    // the current start would silently collapse it.
+    range.setStart(nodes[0], 0);
+    range.setEnd(nodes[to.index], to.codeUnit);
+    // A line fragment with no extent along the text — a trailing empty text
+    // node, or an offset of zero — says nothing about where the caret is.
+    const boxes = Array.from(range.getClientRects())
+        .map((rect) => axes.rect(rect))
+        .filter((box) => box.inlineEnd > box.inlineStart);
+    const box = boxes[boxes.length - 1];
+    return box === undefined
+        ? undefined
+        : { ...box, inlineStart: box.inlineEnd };
+}
+
+/** A logical rect back in viewport coordinates, so a caller that projects with
+ *  its own `axes` sees exactly what was measured. */
+function clientRectOf(box: LogicalRect, axes: Axes): DOMRect {
+    const start = axes.client({
+        inline: box.inlineStart,
+        block: box.blockStart,
+    });
+    const end = axes.client({ inline: box.inlineEnd, block: box.blockEnd });
+    return new DOMRect(
+        Math.min(start.clientX, end.clientX),
+        Math.min(start.clientY, end.clientY),
+        Math.abs(end.clientX - start.clientX),
+        Math.abs(end.clientY - start.clientY),
+    );
+}
+
 /**
  * The client rect of the collapsed caret position `tokenOffset` graphemes into a
  * token view, or undefined when there is nothing to measure.
@@ -120,6 +187,7 @@ export function measureTokenSegment(
 export function locateCaretRect(
     tokenView: Element,
     tokenOffset: number,
+    axes: Axes,
 ): DOMRect | undefined {
     tokenOffset = atomicOffset(tokenView, tokenOffset);
     const nodes = getTextNodes(tokenView);
@@ -147,11 +215,14 @@ export function locateCaretRect(
         rects.length > 0
             ? rects[rects.length - 1]
             : range.getBoundingClientRect();
-    // A detached or display:none view measures as nothing; say so rather than
-    // reporting the origin, which would put the caret in the corner of the page.
-    return rect.width === 0 && rect.height === 0 && rect.x === 0 && rect.y === 0
-        ? undefined
-        : rect;
+    if (!isUnmeasurable(rect)) return rect;
+
+    // Either the token's last position, which a collapsed range can't measure,
+    // or a detached or display:none view, which measures as nothing at all —
+    // say so rather than reporting the origin, which would put the caret in the
+    // corner of the page.
+    const edge = trailingEdgeRect(nodes, found, axes, range);
+    return edge === undefined ? undefined : clientRectOf(edge, axes);
 }
 
 /**
@@ -247,11 +318,12 @@ export function graphemeOffsetAt(
             rects.length > 0
                 ? rects[rects.length - 1]
                 : range.getBoundingClientRect();
-        return rect.width === 0 &&
-            rect.height === 0 &&
-            rect.x === 0 &&
-            rect.y === 0
-            ? undefined
+        // A token's last position measures as nothing in Chromium, and without
+        // the fallback the search below can never reach it: it settles one
+        // grapheme short, so a click past the end of a line lands one character
+        // before it.
+        return isUnmeasurable(rect)
+            ? trailingEdgeRect(nodes, found, axes, range)
             : axes.rect(rect);
     };
 

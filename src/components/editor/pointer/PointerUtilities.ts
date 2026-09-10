@@ -491,6 +491,7 @@ function rowRectOfIndex(
     editor: HTMLElement,
     caret: Caret,
     index: number,
+    axes: Axes,
 ): DOMRect | undefined {
     const token = caret.source.getTokenAt(index);
     if (token === undefined) return undefined;
@@ -504,7 +505,7 @@ function rowRectOfIndex(
     const at =
         start === undefined
             ? undefined
-            : locateCaretRect(view, Math.max(0, index - start));
+            : locateCaretRect(view, Math.max(0, index - start), axes);
     if (at !== undefined && isRendered(at)) return at;
     const rect = view.getBoundingClientRect();
     return isRendered(rect) ? rect : undefined;
@@ -700,11 +701,14 @@ function activeEndIndex(caret: Caret): number | undefined {
 export function caretOriginRect(
     editor: HTMLElement,
     caret: Caret,
+    axes: Axes,
 ): DOMRect | undefined {
     const bar = caretBarRect(editor);
     if (bar !== undefined) return bar;
     const end = activeEndIndex(caret);
-    return end === undefined ? undefined : rowRectOfIndex(editor, caret, end);
+    return end === undefined
+        ? undefined
+        : rowRectOfIndex(editor, caret, end, axes);
 }
 
 /** Move the text caret one visual row up (-1) or down (1), keeping its
@@ -731,7 +735,7 @@ export function moveCaretVisualVertical(
     const box =
         node !== undefined
             ? nodeViewRect(editor, node)
-            : caretOriginRect(editor, caret);
+            : caretOriginRect(editor, caret, axes);
     if (box === undefined) return undefined;
     const origin = axes.rect(box);
 
@@ -785,7 +789,7 @@ export function expandCaretVisualVertical(
     // The moving end's row: its caret bar when collapsed (a bar is rendered), or
     // the token at the moving end when it's already a range (no bar is rendered).
     const bar = caretBarRect(editor);
-    const box = bar ?? rowRectOfIndex(editor, caret, movingEnd);
+    const box = bar ?? rowRectOfIndex(editor, caret, movingEnd, axes);
     if (box === undefined) return undefined;
     const from = axes.rect(box);
 
