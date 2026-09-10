@@ -5,7 +5,6 @@ import type Locales from '@locale/Locales';
 import Arrangement from '@output/Arrangement/Arrangement';
 import type Color from '@output/Color/Color';
 import type Output from '@output/Output/Output';
-import Phrase from '@output/Output/Phrase';
 import Place from '@output/Place/Place';
 import type RenderContext from '@output/RenderContext';
 
@@ -32,10 +31,11 @@ export class Free extends Arrangement {
         for (const child of children) {
             if (child) {
                 const layout = child.getLayout(context);
-                const place =
-                    child instanceof Phrase && child.place
-                        ? child.place
-                        : new Place(this.value, 0, 0, 0);
+                // Free arranges nothing, so any child sits where it says —
+                // including a shape, whose form's coordinates are its position.
+                // It honoured only a phrase for years, which its own doc never
+                // claimed and which left every other kind stacked at the origin.
+                const place = child.place ?? new Place(this.value, 0, 0, 0);
 
                 places.push([child, place]);
 

@@ -1,20 +1,60 @@
-Lumipat sa pagitan ng nilalaman gamit ang mga arrow key
+Lumipat sa nilalaman gamit ang mga arrow key
 
-Minsan gusto mong hayaang isa-isang tingnan ng manonood ang nilalaman, parang slide show, na sumusulong /at/ bumabalik gamit ang mga arrow key.
+Minsan gusto mong tumingin ang manonood sa nilalaman nang isa-isa, tulad ng isang slide show, na pasulong /at/ paurong gamit ang mga arrow key.
 
 Ang bawat bersyon ng pattern na ito ay binubuo ng parehong tatlong bahagi:
 
-• Isang  @List  ng nilalaman na gusto mong ipakita• Isang  @Key  stream, na nagbabago sa tuwing may pinindot na key• Isang  @Reaction  na naaalala kung aling bahagi ng nilalaman ka na ngayon
+• Isang  @List  ng nilalaman na gusto mong ipakita• Isang  @Key  na agos, na nagbabago tuwing may pinindot na susi• Isang  @Reaction  na nagtatanda kung aling bahagi ng nilalaman ang kasalukuyan mong nakikita
 
-Narito ang pinakamaliit na bersyon nito. I-click muna ang stage para nakikinig ito, tapos pindutin ang kaliwa at kanang arrow key:
+Narito ang pinakamaliit na bersyon nito. I-click muna ang entablado para makinig ito, pagkatapos ay pindutin ang kaliwa at kanang arrow key:
 
 \slides: ['una' 'pangalawa' 'pangatlo']
 key: Key()
-index•#: 1 … ∆ key … (key = 'PalasoKanan') ? ((index < slides.length()) ? index + 1 index) (key = 'Palaso Kaliwa') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'PalasoKanan') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'Palaso Kaliwa') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
-Ang  @Reaction  ang puso nito. Nagsisimula ito sa \1\, at sa tuwing magbabago ang  @Key , magpapasya ito kung ano ang dapat na bagong numero.Kung pinindot ang kanang arrow, magdadagdag ito ng isa; kung pinindot ang kaliwang arrow, magbabawas ito ng isa; kung hindi, mananatili itong pareho.
+Ipinapakita ng  @Reaction  ang puso nito. Nagsisimula ito sa \1\, at tuwing nagbabago ang  @Key , napagdedesisyunan nito kung ano dapat ang bagong numero.Kung ang kanang arrow ang napindot, magdaragdag ito ng isa; kung ang kaliwang arrow ang napindot, magbabawas ito ng isa; kung wala, mananatili itong pareho.
 
-Ang karagdagang mga pagsusuri ng \?\ ang pumipigil sa numero na lumampas sa mga dulo ng listahan.Kung wala ang mga ito, maaari kang lumagpas sa dulo at walang slide na maipapakita.Kung mas gusto mong bumalik mula sa huling slide papunta sa una, magagawa mo rin iyon.
+Ang mga karagdagang \?\ na pagsusuri ang siyang pumipigil sa numero na lumagpas sa mga dulo ng listahan.Kung wala ang mga ito, maaari kang makalampas sa dulo at wala nang slide na maipapakita.Kung mas gusto mong bumalik mula sa huling slide papunta sa una, maaari mo ring gawin iyon.
 
-interactive-scene, choose-adventure, offer-choices
+Tandaan: ang mga arrow key ay pinangalanang \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, at \'ArrowDown'\.Puwede mo ring isulat na lang na \'Left'\ at \'Right'\, at gumagana rin ang mga pangalan ng susi sa sarili mong wika.
+
+Pansinin na ang \index\ ay isang numero lang, kaya gumagana ito para sa /anumang/ uri ng laman, hindi lang teksto.Palitan ang  @List  ng isang listahan ng  @Group  o buong eksena, at hindi magbabago kahit kaunti ang natitirang pattern:
+
+\slides: [
+		Phrase('isang kuwento sa tatlong bahagi' laki: 3m)
+		Group(
+			Stack()
+			[Phrase('🐈') Phrase('lumilitaw ang isang pusa')]
+		)
+		Phrase('ang wakas 🎉')
+	]
+key: Key()
+index•#: 1 … ∆ key … (key = 'PalasoKanan') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'Palaso Kaliwa') ? ((index > 1) ? index - 1 index) index
+slides[index]\
+
+Isang  @Scene  ang puwedeng gumawa nito rin, at mas kaunti ang pagbibilang.Bigyan ito ng  @Scene/pause  para hindi ito kailanman gumalaw nang mag-isa, at  @Scene/step  para ilipat ito ng isang piraso sa alinmang direksyon:
+
+\key: Key()
+Scene(
+	[
+		Phrase('isang kuwento sa tatlong bahagi' laki: 3m)
+		Group(
+			Stack()
+			[Phrase('🐈') Phrase('lumilitaw ang isang pusa')]
+		)
+		Phrase('ang wakas 🎉')
+	]
+	iPause: ⊤
+	hakbang: ∆ key ? ((key = 'Palaso Kaliwa') ? -1 (key = 'PalasoKanan') ? 1 ø) ø
+)\
+
+Walang \?\ na kailangang isulat dito, dahil ang isang  @Scene  ay tumitigil sa sarili nitong dulo para sa iyo, at walang kailangang tandaan kung aling piraso ang ipinapakita.Tanungin ang  @Spotlight  kung gusto mong sabihin ang /3 ng 10/ sa entablado.
+
+Tandaan: tingnan ito sa isang buong proyekto sa gallery: <slide show@https://wordplay.dev/project/example-SlideShow?play>
+
+Ipinapakita ng  @Reaction  sa itaas ay pa rin ang paraan para gawin ito kapag ang dinaraanan mo ay hindi output — isang listahan ng mga salita, kulay, o numero, o kahit ano pang bagay na ginamit mo para gawin ang piraso.
+
+interactive-scene, choose-adventure, offer-choices, repeat-a-round

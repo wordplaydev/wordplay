@@ -35,6 +35,7 @@ export const HowToMetadata = {
     'animated-scene': { category: 'stories' },
     'interactive-scene': { category: 'stories' },
     'move-between-content': { category: 'stories' },
+    'repeat-a-round': { category: 'stories' },
     'layering-images': { category: 'stories' },
     'shake-phrase': { category: 'randomization' },
     'video-grid': { category: 'video' },

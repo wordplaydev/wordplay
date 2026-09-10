@@ -144,6 +144,16 @@ export default class Shape extends Output {
         return [];
     }
 
+    /**
+     * None: a shape has no `place` input, so the one it carries is built from
+     * its form. That gives it a size and a natural position, not a request — so
+     * an arrangement places it, translating its geometry rather than reading
+     * the form's coordinates as an instruction about where to sit.
+     */
+    getAuthoredPlace() {
+        return undefined;
+    }
+
     getLayout() {
         const left = this.form.getLeft();
         const top = this.form.getTop();

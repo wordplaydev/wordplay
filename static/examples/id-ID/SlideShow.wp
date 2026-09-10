@@ -1,22 +1,22 @@
 🎬
 Tayangan Slide
 === start
-¶Sebuah tayangan slide yang menceritakan bagaimana Wordplay tercipta; tekan → dan ← untuk melihatnya.¶
+¶Sebuah tayangan slide yang menceritakan bagaimana Wordplay tercipta; tekan → dan ← untuk berpindah antar slide.¶
 
 ¶Satu slide dari tayangan ini: sebuah karakter, sebuah judul, dan kata-kata di bawahnya.¶
-•slide(emoji•'' judul•'' isiUtama•''|`…`)
+•slide(emoji•'' judul•'' isi2•''|`…`)
 
-¶Ceritanya. Tambah, hapus, atau ubah slide ini untuk menceritakan kisahmu sendiri.¶
+¶Ceritanya. Tambah, hapus, atau ubah slide ini untuk menceritakan ceritamu sendiri.¶
 slide2: [
 		slide(
 			'🎭'
 			'Wordplay'
-			'Cerita tentang bagaimana bahasa ini tercipta. Tekan → untuk maju, dan ← untuk mundur.'
+			'Kisah tentang bagaimana bahasa ini tercipta. Tekan → untuk maju, dan ← untuk mundur.'
 		)
 		slide(
 			'✒'
 			'Cinta pada huruf'
-			'Dahulu kala, Amy jatuh cinta pada tipografi: bentuk huruf, dan irama kata-kata di sebuah halaman.'
+			'Dahulu kala, Amy jatuh cinta pada tipografi: bentuk huruf, dan irama kata-kata di atas halaman.'
 		)
 		slide(
 			'💻'
@@ -35,13 +35,13 @@ slide2: [
 		)
 		slide(
 			'💡'
-			'Sebuah ide'
-			'Bagaimana jika sebuah bahasa pemrograman membuat mudah membuat emoji menari?'
+			'Sebuah gagasan'
+			'Bagaimana jika sebuah bahasa pemrograman memudahkan orang membuat emoji menari?'
 		)
 		slide(
 			'🌱'
-			'Wordplay dimulai'
-			'Maka ia mulai membangunnya, tempat menulis kode berarti menggerakkan kata dan karakter di sebuah panggung.'
+			'Wordplay pun dimulai'
+			'Maka ia mulai membangunnya, tempat menulis kode berarti menggerakkan kata-kata dan karakter di atas panggung.'
 		)
 		slide(
 			'🧑‍🏫'
@@ -51,50 +51,54 @@ slide2: [
 		slide(
 			'🌏'
 			'Selalu berkembang'
-			'Bahasa ini terus tumbuh sejak saat itu, agar lebih banyak orang bisa membuat lebih banyak hal yang mereka bayangkan.'
+			'Sejak itu, Wordplay terus berkembang, agar lebih banyak orang bisa membuat lebih banyak hal yang mereka bayangkan.'
 		)
 		slide(
 			'✨'
 			'Giliranmu'
-			`Apa yang kamu impikan untuk dibuat, yang belum bisa dilakukan sekarang? Beri tahu kami di <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+			`Apa yang kamu impikan untuk dibuat, tetapi belum bisa dilakukan? Beri tahu kami di <GitHub@https://github.com/wordplaydev/wordplay/issues>`
 		)
 	]
 
-total: slide2.panjang()
-
 kunci2: Kunci()
 
-¶Slide yang sedang kami tampilkan. Kanan bergerak maju, kiri bergerak mundur, dan keduanya berhenti di ujung, tidak berputar kembali ke awal.¶
-indeks2•#: 1 … ∆ kunci2 …
-		(kunci2 = 'Panah Kanan') ? ((indeks2 < total) ? indeks2 + 1 indeks2)
-			(kunci2 = 'Panah Kiri') ? ((indeks2 > 1) ? indeks2 - 1 indeks2)
-				indeks2
+¶Tempat pertunjukan berada. @Scene menyimpan tempatnya, jadi tidak ada yang perlu dihitung di sini.¶
+di: Spotlight()
 
-slide3: slide2[indeks2]
+¶Setiap slide, digambar. Ini tidak bergantung pada apa pun yang berubah, jadi ini dibuat sekali saja, bukan setiap kali tombol ditekan — itulah sebabnya penghitung di bawah tidak ada di sini.¶
+dilihat: slide2.menerjemahkan(
+		ƒ(slide3•slide) Kelompok(
+				Tumpukan('|' 0.4m)
+				[
+					Frasa(slide3.emoji ukuran: 2m)
+					Frasa(
+						`*\slide3.judul\*`
+						ukuran: 1.2m
+						penyelarasan: '|'
+					)
+					Frasa(
+						slide3.isi2
+						ukuran: 0.5m
+						membungkus: 12m
+						penyelarasan: '|'
+					)
+				]
+			)
+	)
 
-Panggung(
+¶Pertunjukan tidak pernah berjalan sendiri; tombol panah menggerakkannya satu slide ke arah mana pun. Pertunjukan berhenti di setiap ujung untuk kita, jadi tidak ada yang perlu diperiksa.¶
+Kelompok(
+	Tumpukan('|' 0.4m)
 	[
-		Kelompok(
-			Tumpukan('|' 0.4m)
-			[
-				Frasa(slide3.emoji ukuran: 2m)
-				Frasa(
-					`*\slide3.judul\*`
-					ukuran: 1.2m
-					penyelarasan: '|'
-				)
-				Frasa(
-					slide3.isiUtama
-					ukuran: 0.5m
-					membungkus: 12m
-					penyelarasan: '|'
-				)
-				Frasa(
-					`\indeks2\ dari \total\`
-					ukuran: 0.25m
-					penyelarasan: '|'
-				)
-			]
+		Pemandangan(
+			dilihat
+			jeda: ⊤
+			langkah: ∆ kunci2 ? ((kunci2 = 'Panah Kiri') ? -1 (kunci2 = 'Panah Kanan') ? 1 ø) ø
+		)
+		Frasa(
+			`\di.index\ dari \di.total\`
+			ukuran: 0.25m
+			penyelarasan: '|'
 		)
 	]
 )

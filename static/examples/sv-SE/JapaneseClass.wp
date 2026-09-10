@@ -1,7 +1,7 @@
 O
-Japanska klassen
+Japanska
 === start
-¶En berättelse, scen för scen, om första dagen på en japanska-lektion.¶
+¶En berättelse, scen för scen, om första dagen på en japansk-lektion.¶
 
 ¶Detta är listan över scener som ska visas¶
 meningar: [
@@ -17,21 +17,24 @@ meningar: [
 		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
 	]
 
-¶Detta är listan över meningar som bara ska gå vidare genom att man pratar.¶
+¶Detta är listan över meningar som bara ska gå vidare genom att man säger dem.¶
 sägMeningar: [5 7 9]
 
-¶Den nuvarande meningen börjar på 1, och ökar om mikrofonens volym går över 0,8 för en talad mening, eller om en knapp eller tangent trycks ner för andra meningar.¶
-aktuellMening•#: 1 …
-	sägMeningar.har(aktuellMening) ?
+¶Var berättelsen befinner sig. @Scene håller reda på platsen, så inget här behöver räknas.¶
+vid: Spotlight()
+
+¶Gå vidare när mikrofonen går över .6 på en talad mening, och när en knapp eller en tangent säger till på alla andra.¶
+gåVidare: sägMeningar.har(vid.index) ?
 		Volym() > .6
 		∆ Knapp() | ∆ Nyckel()
-		…
-		(aktuellMening <
-				meningar.längd()) ?
-			aktuellMening + 1
-			aktuellMening
 
+¶@Scene väntar på /advance/ efter varje mening, och stannar på den sista.¶
 Etapp(
-	[Fras(meningar[aktuellMening] sjal: 10m)]
+	[
+		Scen(
+			meningar.översätta(ƒ(mening) Fras(mening sjal: 10m))
+			tills: gåVidare
+		)
+	]
 	ansikte: 'Sue Ellen Francisco'
 )

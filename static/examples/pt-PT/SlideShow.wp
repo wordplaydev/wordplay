@@ -1,37 +1,37 @@
 🎬
 Apresentação de Diapositivos
 === start
-¶Uma apresentação de diapositivos que conta como o Wordplay surgiu; prima → e ← para avançar e recuar.¶
+¶Uma apresentação de diapositivos que conta como surgiu o Wordplay; prima → e ← para avançar.¶
 
-¶Um diapositivo da apresentação: uma personagem, um título e as palavras abaixo dele.¶
+¶Um diapositivo da apresentação: uma personagem, um título e as palavras por baixo.¶
 •diapositivo(emoji•'' título•'' corpo•''|`…`)
 
-¶A história. Adicione, remova ou altere estes diapositivos para contar a sua própria história.¶
+¶A história. Adicione, remova ou altere estes diapositivos para contar a sua própria.¶
 diapositivos: [
 		diapositivo(
 			'🎭'
 			'Wordplay'
-			'A história de como este idioma surgiu. Prima → para avançar, e ← para recuar.'
+			'A história de como este idioma surgiu. Prima → para avançar, e ← para voltar atrás.'
 		)
 		diapositivo(
 			'✒'
 			'Um amor pelas letras'
-			'Há muito tempo, a Amy apaixonou-se pela tipografia: as formas das letras e o ritmo das palavras numa página.'
+			'Há muito tempo, Amy apaixonou-se pela tipografia: as formas das letras e o ritmo das palavras numa página.'
 		)
 		diapositivo(
 			'💻'
 			'Um amor pelo código'
-			'Ela também se apaixonou pela programação, e pela forma como algumas palavras conseguiam fazer as coisas moverem-se.'
+			'Apaixonou-se também pela programação, e pela forma como algumas palavras podiam fazer as coisas mexerem-se.'
 		)
 		diapositivo(
 			'🧭'
 			'Dois amores, separados'
-			'Mas a tipografia e a programação viviam em mundos diferentes, e poucas ferramentas convidavam alguém a amar ambas ao mesmo tempo.'
+			'Mas a tipografia e a programação viviam em mundos diferentes, e poucas ferramentas convidavam alguém a amar os dois ao mesmo tempo.'
 		)
 		diapositivo(
 			'😄'
-			'Uma pessoa jovem'
-			'Anos mais tarde, ela conheceu uma pessoa jovem que adorava emojis, e queria fazê-los dançar.'
+			'Um jovem'
+			'Anos mais tarde, ela conheceu um jovem que adorava emojis, e queria fazê-los dançar.'
 		)
 		diapositivo(
 			'💡'
@@ -41,60 +41,64 @@ diapositivos: [
 		diapositivo(
 			'🌱'
 			'O Wordplay começa'
-			'Então ela começou a construir um, no qual escrever código significa mover palavras e caracteres num palco.'
+			'Então ela começou a construir um, em que escrever código significa mover palavras e caracteres num palco.'
 		)
 		diapositivo(
 			'🧑‍🏫'
-			'Criado em conjunto'
-			'Ela criou-o com muitos jovens e professor(a)es, que diziam o que queriam fazer, e o que os impedia.'
+			'Concebido em conjunto'
+			'Ela concebeu-o com muitos jovens e professores(as), que disseram o que queriam criar, e o que lhes dificultava o caminho.'
 		)
 		diapositivo(
 			'🌏'
-			'Sempre a evoluir'
-			'Desde então, tem continuado a crescer, para que mais pessoas possam criar mais do que imaginam.'
+			'Está sempre a evoluir'
+			'Desde então, não parou de crescer, para que mais pessoas possam fazer mais do que imaginam.'
 		)
 		diapositivo(
 			'✨'
-			'É a sua vez'
+			'A sua vez'
 			`O que sonha fazer que ainda não é possível? Diga-nos em <GitHub@https://github.com/wordplaydev/wordplay/issues>`
 		)
 	]
 
-total: diapositivos.comprimento()
-
 chave2: Chave()
 
-¶O diapositivo que estamos a mostrar agora. Direita avança, esquerda recua, e ambos param nos extremos em vez de voltar ao início.¶
-índice2•#: 1 … ∆ chave2 …
-		(chave2 = 'Seta para a direita') ? ((índice2 < total) ? índice2 + 1 índice2)
-			(chave2 = 'Seta para a esquerda') ? ((índice2 > 1) ? índice2 - 1 índice2)
-				índice2
+¶Onde está a apresentação. O @Scene guarda o lugar, por isso não há nada aqui que precise de ser contado.¶
+em: Spotlight()
 
-diapositivo2: diapositivos[índice2]
+¶Cada diapositivo, desenhado. Isto não depende de nada que mude, por isso é construído uma vez — e não a cada tecla premida — e é por isso que o contador abaixo não está aqui.¶
+visualizações: diapositivos.traduzir(
+		ƒ(diapositivo2•diapositivo) Grupo(
+				Monte('|' 0.4m)
+				[
+					Frase(diapositivo2.emoji tamanho: 2m)
+					Frase(
+						`*\diapositivo2.título\*`
+						tamanho: 1.2m
+						alinhamento: '|'
+					)
+					Frase(
+						diapositivo2.corpo
+						tamanho: 0.5m
+						envolver: 12m
+						alinhamento: '|'
+					)
+				]
+			)
+	)
 
-Fase(
+¶A apresentação nunca avança sozinha; as teclas de seta fazem-na avançar ou recuar um diapositivo de cada vez. Ela para em cada extremo por nós, por isso não há nada a verificar.¶
+Grupo(
+	Monte('|' 0.4m)
 	[
-		Grupo(
-			Monte('|' 0.4m)
-			[
-				Frase(diapositivo2.emoji tamanho: 2m)
-				Frase(
-					`*\diapositivo2.título\*`
-					tamanho: 1.2m
-					alinhamento: '|'
-				)
-				Frase(
-					diapositivo2.corpo
-					tamanho: 0.5m
-					envolver: 12m
-					alinhamento: '|'
-				)
-				Frase(
-					`\índice2\ de \total\`
-					tamanho: 0.25m
-					alinhamento: '|'
-				)
-			]
+		Cena(
+			visualizações
+			pausar: ⊤
+			passo: ∆ chave2 ? ((chave2 = 'Seta para a esquerda') ? -1 (chave2 = 'Seta para a direita') ? 1 ø) ø
+		)
+		Frase(
+			`\em.index\ de \em.total\`
+			tamanho: 0.25m
+			alinhamento: '|'
 		)
 	]
 )

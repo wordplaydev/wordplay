@@ -949,6 +949,12 @@
         "e62959bf8e73e": "$~你現在可以在說明文件或操作指南裡直接寫電子郵件地址，它會自動變成一個可以開啟郵件的連結。",
         "e730993ac0281": "$~你現在可以用這種方式，依編號寫出 Unicode 字元：\\@U/1F600\\，取代舊式沒有 U 的寫法。",
         "ec1e67db8a983": "$~翻譯時，你選的語言現在只用於還沒標記語言的文字，因為已經標記過的文字，本來就已經說明了自己的語言。（<653@https://github.com/wordplaydev/wordplay/issues/653>）",
-        "e7600746959d1": "$~現在翻譯工程時，會翻譯全部內容，包含你用其他語言標記的姓名與文字，以前這些會被悄悄跳過，不會另外說明。（<653@https://github.com/wordplaydev/wordplay/issues/653>）"
+        "e7600746959d1": "$~現在翻譯工程時，會翻譯全部內容，包含你用其他語言標記的姓名與文字，以前這些會被悄悄跳過，不會另外說明。（<653@https://github.com/wordplaydev/wordplay/issues/653>）",
+        "e73aff6688055": "$~@Scene現在可以重複、重新開始、停在原地不動、在每個部分結束後等你，還可以跳到自己的任何一個部分，這樣你就能做出每輪結束都會再問一次的遊戲，或是可以一格一格點過去的投影片。（<547@https://github.com/wordplaydev/wordplay/issues/547>）",
+        "e876dc2ed0b0f": "$~@Group現在可以裝著一個 @Shape，這樣你就能把一個圓形疊在你的文字上，或是把 @Scene 放進版面配置裡。（<547@https://github.com/wordplaydev/wordplay/issues/547>）",
+        "e723fd65c8efc": "$~@Shape現在會對齊它所在的 @Stack、@Row 或 @Grid，而不是隨便待在自己角落原本的位置，而且 @Grid 裡面的東西現在也可以離得更近或更遠。（<547@https://github.com/wordplaydev/wordplay/issues/547>）",
+        "e8ad9864d7217": "$~我們在<指南@https://wordplay.dev/guide>裡新增了一篇操作指南，教你怎麼重複玩一輪遊戲。（<547@https://github.com/wordplaydev/wordplay/issues/547>）",
+        "ec96e627d2d35": "$~我們讓帶有自訂字元的「詞語」（Phrase）也能拖曳、旋轉和縮放了。",
+        "e0bce9fefa9f6": "$~我們新增了 @Spotlight，它會告訴你 @Scene 目前顯示到哪個部分、總共有幾個部分、已經繞了幾圈，還有是不是正在等待某個人。（<547@https://github.com/wordplaydev/wordplay/issues/547>）"
     }
 }

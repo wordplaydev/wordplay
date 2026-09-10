@@ -950,6 +950,11 @@
         "e62959bf8e73e": "$~Ahora puedes escribir un correo electrónico en un documento o una guía práctica, y se convierte en un enlace que abre un mensaje.",
         "e730993ac0281": "$~Ahora escribes un carácter Unicode con su número como \\@U/1F600\\, en lugar de la forma antigua sin la U.",
         "ec1e67db8a983": "$~Cuando traduces, el idioma que eliges ahora solo aplica para lo que escribiste sin marcar un idioma, ya que lo que ya marcaste indica en qué idioma está. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
-        "e7600746959d1": "$~Traducir un proyecto ahora traduce todo, incluyendo nombres y textos que marcaste con otro idioma, los cuales antes se saltaban sin avisar. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
+        "e7600746959d1": "$~Traducir un proyecto ahora traduce todo, incluyendo nombres y textos que marcaste con otro idioma, los cuales antes se saltaban sin avisar. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e73aff6688055": "$~Un @Scene ahora puede repetirse, comenzar de nuevo, quedarse quieto, esperarte después de cada parte, y avanzar o saltar a cualquier parte de sí mismo, para que puedas hacer un juego que pregunte de nuevo después de cada ronda, o una presentación de diapositivas que puedas recorrer con clics. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e876dc2ed0b0f": "$~Un @Group ahora puede contener un @Shape, para que puedas apilar un círculo con tus palabras, o poner un @Scene dentro de un diseño. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e723fd65c8efc": "$~Un @Shape ahora se alinea con el @Stack, @Row o @Grid en el que está, en lugar de quedarse donde sea que estuvieran sus propias esquinas, y todo lo que esté dentro de un @Grid ahora puede estar más cerca o más lejos. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e8ad9864d7217": "$~Agregamos una guía práctica a la <Guía@https://wordplay.dev/guide> para repetir una ronda de un juego. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e0bce9fefa9f6": "$~Agregamos @Spotlight, que te dice qué parte de @Scene se está mostrando, cuántas partes hay, cuántas veces ha dado la vuelta y si está esperando a alguien. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
     }
 }

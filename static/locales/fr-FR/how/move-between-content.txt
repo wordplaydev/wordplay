@@ -1,20 +1,54 @@
 Se déplacer dans le contenu avec les touches fléchées
 
-Parfois, tu veux que le public passe le contenu un morceau à la fois, comme un diaporama, en avançant /et/ en reculant avec les touches fléchées.
+Parfois, on veut que le public avance dans le contenu un morceau à la fois, comme un diaporama, en allant /et/ en arrière avec les touches fléchées.
 
 Chaque version de ce modèle est faite des trois mêmes parties :
 
-• Un  @List  du contenu que tu veux montrer• Un flux  @Key , qui change chaque fois qu'on appuie sur une touche• Une  @Reaction  qui se souvient du morceau de contenu où tu es en ce moment
+• Une  @List  du contenu que l'on veut montrer• Une  @Key  flux, qui change à chaque fois qu'on appuie sur une touche• Une  @Reaction  qui garde en mémoire quel morceau de contenu on regarde maintenant
 
-Voici la plus petite version. Clique d'abord sur la scène pour qu'elle écoute, puis appuie sur les touches fléchées gauche et droite :
+Voici la plus petite version possible. Cliquez d'abord sur la scène pour qu'elle écoute, puis appuyez sur les touches fléchées gauche et droite :
 
 \slides: ['premier' 'deuxième' 'troisième']
 key: Key()
-index•#: 1 … ∆ key … (key = 'Flèche droite') ? ((index < slides.length()) ? index + 1 index) (key = 'Flèche gauche') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'Flèche droite') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'Flèche gauche') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
-La  @Reaction  en est le cœur. Elle commence à \1\, et chaque fois que le  @Key  change, elle décide quel doit être le nouveau nombre.Si on a appuyé sur la flèche droite, elle ajoute un ; si on a appuyé sur la flèche gauche, elle enlève un ; sinon elle reste pareille.
+Le  @Reaction  est le cœur du système. Il commence à \1\, et à chaque fois que le  @Key  change, il décide quel doit être le nouveau nombre.Si la flèche droite a été pressée, il ajoute un ; si la flèche gauche a été pressée, il soustrait un ; sinon, le nombre reste le même.
 
-Les vérifications \?\ en plus empêchent le nombre de dépasser les bouts de la liste.Sans elles, tu pourrais sortir du bout et il n'y aurait aucune diapositive à montrer.Si tu préfères revenir de la dernière diapositive à la première, tu peux le faire à la place.
+Les vérifications \?\ supplémentaires empêchent le nombre de dépasser les extrémités de la liste.Sans elles, on pourrait sortir de la liste et il n'y aurait plus aucune diapositive à montrer.Si vous préférez revenir de la dernière diapositive à la première, vous pouvez faire cela à la place.
 
-interactive-scene, choose-adventure, offer-choices
+Remarque : les touches fléchées se nomment \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, et \'ArrowDown'\ suivant.Tu peux aussi simplement écrire \'Left'\ et \'Right'\, et les noms de touches marchent aussi dans ta propre langue.
+
+Remarque que \index\ n'est qu'un nombre, donc cela marche pour /n'importe quel/ type de contenu, pas seulement du texte.Remplace  @List  par une liste de  @Group  ou de scènes entières, et le reste du modèle ne change pas du tout :
+
+\slides: [
+		Phrase('une histoire en trois parties' taille: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('un chat apparaît')])
+		Phrase('fin 🎉')
+	]
+key: Key()
+index•#: 1 … ∆ key … (key = 'Flèche droite') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'Flèche gauche') ? ((index > 1) ? index - 1 index) index
+slides[index]\
+
+Un  @Scene  peut faire ça aussi, et avec moins de comptage.Donne-lui  @Scene/pause  pour qu'il ne bouge jamais tout seul, et  @Scene/step  pour le déplacer d'un cran dans un sens ou dans l'autre :
+
+\key: Key()
+Scene(
+	[
+		Phrase('une histoire en trois parties' taille: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('un chat apparaît')])
+		Phrase('fin 🎉')
+	]
+	pause: ⊤
+	étape: ∆ key ? ((key = 'Flèche gauche') ? -1 (key = 'Flèche droite') ? 1 ø) ø
+)\
+
+Il n'y a pas de \?\ vérifications à écrire ici, car un  @Scene  s'arrête à ses propres extrémités pour toi, et rien n'a besoin de se rappeler quel élément est affiché.Demande à  @Spotlight  si tu veux afficher /3 sur 10/ sur la scène.
+
+Remarque : vois ceci dans un projet complet dans la galerie : <diaporama@https://wordplay.dev/project/example-SlideShow?play>
+
+Le  @Reaction  ci-dessus reste la façon de faire quand ce que tu parcours n'est pas un affichage — une liste de mots, de couleurs, de nombres, ou tout autre élément avec lequel tu construis la pièce.
+
+interactive-scene, choose-adventure, offer-choices, repeat-a-round

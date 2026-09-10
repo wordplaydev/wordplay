@@ -1,20 +1,60 @@
 Berpindah antar konten dengan tombol panah
 
-Kadang kamu ingin penonton melihat konten satu per satu, seperti tayangan slide, maju /dan/ mundur dengan tombol panah.
+Kadang kamu ingin audiens melihat konten satu per satu, seperti tayangan slide, maju /dan/ mundur dengan tombol panah.
 
 Setiap versi pola ini terdiri dari tiga bagian yang sama:
 
-• Sebuah  @List  dari konten yang ingin kamu tampilkan• Sebuah aliran  @Key , yang berubah setiap kali sebuah tombol ditekan• Sebuah  @Reaction  yang mengingat konten mana yang sedang kamu lihat sekarang
+• Sebuah  @List  berisi konten yang ingin kamu tampilkan• Sebuah  @Key  aliran, yang berubah setiap kali tombol ditekan• Sebuah  @Reaction  yang mengingat konten mana yang sedang kamu lihat sekarang
 
-Ini versi terkecilnya. Klik panggung terlebih dahulu agar ia mendengarkan, lalu tekan tombol panah kiri dan kanan:
+Ini versi paling sederhana. Klik panggung dulu agar ia mendengarkan, lalu tekan tombol panah kiri dan kanan:
 
 \slides: ['pertama' 'kedua' 'ketiga']
 key: Key()
-index•#: 1 … ∆ key … (key = 'Panah Kanan') ? ((index < slides.length()) ? index + 1 index) (key = 'Panah Kiri') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'Panah Kanan') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'Panah Kiri') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
-Bagian  @Reaction  adalah intinya. Ia mulai dari \1\, dan setiap kali  @Key  berubah, ia memutuskan angka baru yang seharusnya.Jika panah kanan ditekan, ia menambah satu; jika panah kiri ditekan, ia mengurangi satu; jika tidak, ia tetap sama.
+Itu  @Reaction  adalah bagian intinya. Ia mulai dari \1\, dan setiap kali  @Key  berubah, ia menentukan angka baru yang seharusnya.Jika tombol panah kanan ditekan, ia menambah satu; jika tombol panah kiri ditekan, ia mengurangi satu; jika tidak, angkanya tetap sama.
 
-Pemeriksaan \?\ tambahan itulah yang menjaga agar angka tidak melewati ujung daftar.Tanpa itu, kamu bisa keluar dari ujung dan tidak ada slide yang bisa ditampilkan.Jika kamu lebih suka melingkar kembali dari slide terakhir ke slide pertama, kamu bisa melakukannya sebagai gantinya.
+Pemeriksaan \?\ tambahan inilah yang mencegah angka melewati batas awal atau akhir daftar.Tanpa itu, kamu bisa melewati batas akhir dan tidak ada slide yang bisa ditampilkan.Jika kamu lebih suka kembali berputar dari slide terakhir ke yang pertama, kamu bisa melakukan itu sebagai gantinya.
 
-interactive-scene, choose-adventure, offer-choices
+Catatan: tombol panah diberi nama \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, dan \'ArrowDown'\ berikutnya.Kamu juga bisa cukup menulis \'Left'\ dan \'Right'\, dan nama tombol juga berfungsi dalam bahasamu sendiri.
+
+Perhatikan bahwa \index\ hanya sebuah angka, jadi ini berfungsi untuk /jenis/ konten apa pun, bukan hanya teks.Ganti  @List  dengan daftar  @Group  atau seluruh adegan, dan sisa pola sama sekali tidak berubah:
+
+\slides: [
+		Phrase('sebuah cerita dalam tiga bagian' ukuran: 3m)
+		Group(
+			Stack()
+			[Phrase('🐈') Phrase('seekor kucing muncul')]
+		)
+		Phrase('selesai 🎉')
+	]
+key: Key()
+index•#: 1 … ∆ key … (key = 'Panah Kanan') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'Panah Kiri') ? ((index > 1) ? index - 1 index) index
+slides[index]\
+
+Sebuah  @Scene  juga bisa melakukan ini, dan dengan lebih sedikit menghitung.Beri ia  @Scene/pause  agar ia tidak pernah bergerak sendiri, dan  @Scene/step  untuk menggerakkannya satu langkah ke arah mana pun:
+
+\key: Key()
+Scene(
+	[
+		Phrase('sebuah cerita dalam tiga bagian' ukuran: 3m)
+		Group(
+			Stack()
+			[Phrase('🐈') Phrase('seekor kucing muncul')]
+		)
+		Phrase('selesai 🎉')
+	]
+	jeda: ⊤
+	langkah: ∆ key ? ((key = 'Panah Kiri') ? -1 (key = 'Panah Kanan') ? 1 ø) ø
+)\
+
+Tidak ada pemeriksaan \?\ yang perlu ditulis di sini, karena  @Scene  berhenti sendiri di setiap ujungnya, dan tidak ada yang perlu mengingat bagian mana yang sedang ditampilkan.Tanyakan  @Spotlight  jika kamu ingin menampilkan tulisan /3 dari 10/ di panggung.
+
+Catatan: lihat ini dalam sebuah proyek lengkap di galeri: <tayangan slide@https://wordplay.dev/project/example-SlideShow?play>
+
+Itu  @Reaction  di atas masih menjadi cara yang tepat untuk melakukan ini ketika yang kamu telusuri bukan output — misalnya daftar kata, warna, angka, atau apa pun yang kamu gunakan untuk membuat bagian itu.
+
+interactive-scene, choose-adventure, offer-choices, repeat-a-round

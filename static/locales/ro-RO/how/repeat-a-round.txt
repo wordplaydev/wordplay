@@ -1,0 +1,47 @@
+Repetă o rundă a unui joc
+
+Multe jocuri sunt aceleași câteva momente repetate iar și iar: spui ce trebuie făcut, aștepți un răspuns, arăți cum a mers, apoi începi din nou.O  @Scene  poate fi toată acea rundă, iar  @Scene/loop  este ceea ce o aduce înapoi la început.
+
+Momentele sunt lucrurile din listă, iar o  @Boolean  între ele este locul unde  @Scene  așteaptă jucătorul.
+
+\guess: Chat()
+right: guess = 'pisică'
+Scene(
+	[
+		Phrase('Ghicește animalul!' durată: 2s)
+		∆ guess
+		Phrase(right ? 'Da!' 'Nu!' durată: 2s)
+	]
+	buclă: ~right
+)\
+
+Cel/cea \∆ guess\ este așteptarea: e adevărat/ă doar în momentul în care sosește o ghicire nouă, așa că  @Scene  rămâne acolo până când cineva scrie ceva.Iar \buclă2: ~right\ este repetarea:  @Scene  continuă să revină până când reușesc, apoi se oprește la ultimul(a)  @Phrase .
+
+Notă:  @Scene/loop  este citit(ă) de fiecare dată când programul tău se schimbă, deci poți încheia o buclă la fel cum poți începe una, ceea ce a făcut chiar \~right\.
+
+Ca să afli unde a ajuns runda, întreabă  @Spotlight .Îți spune ce  @Phrase  se arată, câte sunt, de câte ori  @Scene  a revenit, și dacă așteaptă pe cineva chiar acum.
+
+\guess: Chat()
+at: Spotlight()
+Stage(
+	[
+		Scene(
+			[
+				Phrase('Ghicește animalul!' durată: 2s)
+				∆ guess
+				Phrase('Nu!' durată: 2s)
+			]
+			buclă: ⊤
+		)
+		Phrase(
+			at.waiting ? 'scrie o ghicire' `rundă \at.lap + 1\`
+			dimensiune: 0.4m
+			loc: Place(0m -2m)
+		)
+	]
+)\
+
+@Scene/replay  este un mod de a reîncepe runda oricând dorești, indiferent unde ajunsese.Dă-i ceva ce este adevărat doar pentru o clipă, cum ar fi \∆ Buton(
+)\.
+
+interactive-scene, animated-scene, track-game-state

@@ -4593,23 +4593,79 @@
         },
         "Scene": {
             "doc": [
-                "$~Ini menampilkan @List dari @Phrase atau @Group satu per satu, berhenti pada yang terakhir.",
+                "$~Ini menampilkan @List dari @Phrase, @Group atau @Shape satu per satu, berhenti pada yang terakhir.",
                 "/Boop boop boop/",
-                "Untuk mengontrol pengaturan waktu, Anda dapat mengatur @Phrase.duration pada setiap output, dan output tersebut akan ditampilkan selama durasi tersebut sebelum beralih ke output berikutnya, dan menggunakan transisi @Phrase.entering atau @Phrase.exiting apa pun yang mungkin telah Anda atur. Jika Anda mengaturnya ke @Sequence , maka akan menggunakan durasinya.",
-                "Semua itu memungkinkan Anda melakukan hal-hal seperti @Scene kecil ini, yang menunjukkan tiga frasa ini secara berurutan:",
-                "\\Scene([\n\tPhrase('Hello' lamanya: 1s)\n\tPhrase('How are you?' lamanya: 2s rotasi: 5° memasuki: Pose(rotasi: 0°))\n\tPhrase('I am fine')\n])\\",
-                "Perhatikan bagaimana output pertama ditampilkan selama satu detik, kemudian output berikutnya selama dua detik, tetapi dianimasikan dengan rotasi lima derajat, dan kemudian menampilkan output terakhir?",
-                "Anda dapat membuat rangkaian output dan animasi yang sangat rumit dengan @Scene , dan bahkan membuat sebagian darinya dinamis atau interaktif, seperti halnya dengan @Phrase atau @Group lainnya.",
-                "Jika Anda memiliki output animasi yang bersarang (sebuah @Group dengan @Phrase animasi di dalamnya), @Scene akan menunggu hingga semua konten animasi di dalam @Group selesai.",
-                "Oh, dan satu rahasia kecil terakhir! Anda bahkan dapat menambahkan @Boolean ke dalam daftar, dan jika nilainya \\⊥\\ , @Scene akan berhenti sejenak dan menunggu hingga nilainya menjadi benar.",
-                "Sebagai contoh, jika Anda ingin membuat urutan @Phrase dan hanya melanjutkan ketika @Button berubah, Anda dapat melakukannya seperti ini:",
-                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' lamanya: 0.25s rotasi: 5° memasuki: Pose(rotasi: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
-                "Perhatikan bagaimana @code tersebut berhenti sejenak setelah setiap @Phrase , dan menunggu @Button berubah sebelum melanjutkan?"
+                "Untuk mengatur waktu, kamu bisa mengatur @Phrase.duration pada tiap output, dan ini akan ditampilkan selama itu sebelum lanjut ke yang berikutnya, memakai transisi @Phrase.entering atau @Phrase.exiting apa pun yang sudah kamu atur. Jika kamu mengaturnya ke @Sequence, ini akan memakai durasinya.",
+                "Semua itu membuatmu bisa melakukan hal seperti @Scene kecil ini, yang menampilkan tiga frasa ini secara berurutan:",
+                "\\Pemandangan(\n\t[\n\t\tFrasa('Halo' lamanya: 1s)\n\t\tFrasa(\n\t\t\t'Apa kabar?'\n\t\t\tlamanya: 2s\n\t\t\trotasi: 5°\n\t\t\tmemasuki: Pose(rotasi: 0°)\n\t\t)\n\t\tFrasa('Saya baik-baik saja')\n\t]\n)\\",
+                "Lihat bagaimana output pertama ditampilkan selama satu detik, lalu yang berikutnya selama dua detik, tapi dianimasikan berputar lima derajat, dan kemudian menampilkan yang terakhir?",
+                "Kamu bisa membuat urutan output dan animasi yang sangat rumit dengan @Scene, bahkan membuat sebagian darinya dinamis atau interaktif, seperti @Phrase atau @Group lainnya.",
+                "Jika kamu punya output beranimasi yang bersarang (@Group dengan @Phrase beranimasi di dalamnya), @Scene akan menunggu semua konten beranimasi di @Group selesai.",
+                "Oh, dan satu rahasia kecil terakhir! Kamu bahkan bisa menaruh @Boolean di dalam daftar, dan jika mereka \\⊥\\, @Scene akan berhenti sejenak dan menunggu sampai menjadi benar.",
+                "Misalnya, jika kamu ingin membuat urutan @Phrase dan hanya lanjut saat @Button berubah, kamu bisa melakukan ini:",
+                "\\klik: ∆ Tombol()\nPemandangan(\n\t[\n\t\tFrasa('Halo')\n\t\tklik\n\t\tFrasa(\n\t\t\t'Apa kabar?'\n\t\t\tlamanya: 0.25s\n\t\t\trotasi: 5°\n\t\t\tmemasuki: Pose(rotasi: 0°)\n\t\t)\n\t\tklik\n\t\tFrasa('Saya baik-baik saja')\n\t]\n)\\",
+                "Lihat bagaimana ini berhenti sejenak setelah setiap @Phrase, dan menunggu @Button berubah sebelum lanjut?",
+                "Secara bawaan, saya berhenti pada output terakhir saya. Beri saya @Scene/loop dan saya kembali ke output pertama saya lagi, yang cocok untuk permainan yang menanyakan @query lain setiap ronde.",
+                "Saya memeriksa @Scene/loop setiap kali programmu berubah, jadi sebuah perulangan bisa berakhir sekaligus dimulai. Di sini saya terus bertanya sampai mereka menjawab dengan benar, lalu berhenti:",
+                "\\tebak: Mengobrol()\nbenar2: tebak = 'cat'\nPemandangan(\n\t[\n\t\tFrasa('Tebak hewannya!' lamanya: 2s)\n\t\t∆ tebak\n\t\tFrasa(benar2 ? 'Ya!' 'Bukan!' lamanya: 2s)\n\t]\n\tperulangan: ~benar2\n)\\",
+                "@Scene/replay membuat saya mulai dari awal lagi, @Scene/pause membuat saya diam di tempat, dan @Scene/go mengirim saya langsung ke salah satu output saya. Atur @Scene/pause ke \\⊤\\ dan saya tidak akan pernah bergerak sendiri, sehingga @Scene/go menjadi satu-satunya hal yang membuat saya lanjut — begitulah @how membuat tayangan slide yang bisa maju /dan/ mundur.",
+                "Dan jika kamu ingin tahu di posisi mana saya berada, untuk menampilkan /3 dari 10/ atau memutar musik berbeda di bagian cerita yang berbeda, itulah gunanya @Spotlight."
             ],
             "names": ["$~Pemandangan"],
             "outputs": {
                 "names": "$~keluaran",
                 "doc": "$~Daftar output yang akan ditampilkan secara berurutan."
+            },
+            "loop": {
+                "names": "$~perulangan",
+                "doc": "$~Apakah saya kembali ke output pertama saya setelah output terakhir selesai. Saya berhenti pada yang terakhir kecuali ini \\⊤\\. Saya memeriksanya pada setiap evaluasi, jadi kamu bisa mengakhiri sebuah perulangan sekaligus memulainya."
+            },
+            "replay": {
+                "names": "$~putarUlang",
+                "doc": [
+                    "$~Ketika ini \\⊤\\ pada suatu evaluasi, saya mulai lagi dari output pertama saya, apa pun posisi saya sebelumnya, dan @Slate/lap saya kembali ke 0.",
+                    "Berikan saya @condition yang /sesaat/, yang benar hanya pada evaluasi saat kejadian itu terjadi, seperti \\∆ Tombol()\\. Sebuah kondisi yang bertahan seperti \\score > 10\\🪲 tetap benar begitu menjadi benar, sehingga akan membuat saya mulai ulang pada setiap evaluasi sejak saat itu."
+                ]
+            },
+            "pause": {
+                "names": "$~jeda",
+                "doc": [
+                    "$~Selama ini \\⊤\\ saya diam di tempat, dan ketika kembali ke \\⊥\\ saya lanjut lagi. Output yang sedang saya hitung mundur tetap menyimpan sisa waktunya, jadi berhenti sejenak di tengah @Phrase yang panjang tidak membuatnya mulai dari awal lagi.",
+                    "Berbeda dari @Scene/replay, saya menginginkan @condition yang /bertahan/, yang tetap benar selama kamu ingin saya menunggu. Biarkan saya berhenti sejenak selamanya dan saya tidak akan pernah bergerak sendiri, yang justru cocok untuk tayangan slide: maka @Scene/go menjadi satu-satunya hal yang membuat saya lanjut."
+                ]
+            },
+            "go": {
+                "names": "$~mulai",
+                "doc": [
+                    "$~Ke mana harus pergi selanjutnya. Beri saya sebuah angka dan saya akan menampilkan output itu, dihitung mulai dari 1; beri saya sebuah nama dan saya akan menampilkan output mana pun yang kamu beri @Phrase/name itu.",
+                    "Saya hanya menghitung output, tidak pernah menghitung @Boolean di antaranya, jadi mengirim saya ke 2 berarti @Phrase kedua saya, berapa pun banyaknya kondisi yang menghalangi.",
+                    "Seperti @Scene/replay, ini menginginkan @condition yang /sesaat/ — sesuatu yang \\ø\\ kecuali pada evaluasi saat kamu ingin saya bergerak. Sebuah angka yang tetap sama akan membuat saya terjebak di situ selamanya.",
+                    "Kirim saya melewati salah satu ujung dan saya akan berhenti di situ, kecuali @Scene/loop adalah \\⊤\\, yang membuat saya berputar kembali ke awal. Artinya kamu tidak perlu memeriksanya. Di sini tombol panah membuat tayangan slide bisa berjalan dua arah:",
+                    "Jika kamu lebih suka mengatakan /maju satu/ daripada /nomor tiga/, itulah gunanya @Scene/step.",
+                    "\\slide: [Frasa('satu') Frasa('dua') Frasa('tiga')]\nkunci2: Kunci()\ndi: Spotlight()\nPemandangan(\n\tslide\n\tjeda: ⊤\n\tmulai: ∆ kunci2 ? ((kunci2 = 'Panah Kiri') ? di.index - 1 (kunci2 = 'Panah Kanan') ? di.index + 1 ø) ø\n)\\"
+                ]
+            },
+            "name": {
+                "names": "$~nama",
+                "doc": "$~Nama saya. @Spotlight memakainya untuk membedakan saya dari @Scene lain yang sedang berjalan pada saat yang sama; jika hanya ada satu adegan, kamu bisa membiarkannya seperti itu."
+            },
+            "until": {
+                "names": "$~sampai",
+                "doc": [
+                    "$~Sebuah @condition untuk ditunggu setelah setiap output saya, setelah @Phrase/duration-nya selesai atau animasinya berakhir.",
+                    "Ini sama saja dengan menuliskan @Boolean itu di antara setiap output dalam daftar saya, yang harus kamu lakukan untuk membuat salah satu output saya menunggu. Ini menyatakannya sekali saja:",
+                    "\\Pemandangan(\n\t[Frasa('satu') Frasa('dua') Frasa('tiga')]\n\tsampai: ∆ Tombol()\n)\\",
+                    "@Boolean yang ditulis dalam daftar tetap berfungsi, dan keduanya adalah waktu tunggu yang terpisah, jadi kamu bisa menahan lebih lama di satu tempat tertentu."
+                ]
+            },
+            "step": {
+                "names": "$~langkah",
+                "doc": [
+                    "$~Berapa banyak output yang harus dipindahkan, dihitung dari tempatku sekarang: \\1\\ adalah maju satu dan \\-1\\ adalah mundur satu. Ini adalah @Scene/go yang dinyatakan sebagai jarak, bukan sebagai tempat.",
+                    "Seperti @Scene/go, aku berhenti di ujungku kecuali @Scene/loop adalah \\⊤\\, jadi kamu tidak perlu memeriksanya, dan aku ingin @condition yang /sesaat/ — sesuatu yang \\ø\\ kecuali pada evaluasi saat kamu ingin aku bergerak.",
+                    "\\slide: [Frasa('satu') Frasa('dua') Frasa('tiga')]\nkunci2: Kunci()\nPemandangan(\n\tslide\n\tjeda: ⊤\n\tlangkah: ∆ kunci2 ? ((kunci2 = 'Panah Kiri') ? -1 (kunci2 = 'Panah Kanan') ? 1 ø) ø\n)\\",
+                    "Tidak ada yang di sini perlu tahu @Phrase mana yang sedang ditampilkan, dan itulah bedanya dengan @Scene/go. Tanyakan @Spotlight jika kamu ingin menyatakannya di panggung."
+                ]
             }
         },
         "Motion": {
@@ -5168,6 +5224,43 @@
                 "doc": "$~Suku kata yang dinyanyikan bagian ini pada ketukan ini, atau \\ø\\ ketika tidak ada yang dinyanyikan — jeda, atau trek tanpa @Track/words.",
                 "names": "$~kataKata"
             }
+        },
+        "Spotlight": {
+            "doc": [
+                "$~Aku menyatakan di mana @Scene berada sekarang: output mana yang sedang ditampilkannya, berapa banyak yang dimilikinya, dan apakah ia sedang menunggu seseorang.",
+                "@Scene menampilkan hal-hal; akulah @how program lainnya mengetahui apa yang sedang ditampilkannya. Itulah yang memungkinkanmu meletakkan penghitung di bawah tayangan slide, memutar musik berbeda di bagian-bagian cerita yang berbeda, atau menampilkan petunjuk /tekan tombol apa saja/ hanya saat adegan benar-benar sedang menunggu.",
+                "\\slide: [Frasa('satu') Frasa('dua') Frasa('tiga')]\ndi: Spotlight()\nPanggung(\n\t[\n\t\tPemandangan(slide perulangan: ⊤)\n\t\tFrasa(\n\t\t\t`\\di.index\\ dari \\di.total\\`\n\t\t\tukuran: 0.3m\n\t\t\ttempat: Tempat(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Aku selalu memiliki @Slate, bahkan sebelum apa pun terjadi, jadi kamu tidak pernah perlu memeriksaku untuk \\ø\\."
+            ],
+            "names": "$~Sorotan",
+            "name": {
+                "names": "$~nama",
+                "doc": "$~@Scene/name dari adegan yang akan mengikuti. Biarkan \\ø\\ dan aku akan mengikuti setiap adegan."
+            }
+        },
+        "Slate": {
+            "doc": "$~Di mana @Scene berada: apa yang sedang ditampilkannya, seberapa jauh ia berjalan, dan apakah ia sedang menunggu.",
+            "names": "$~Papan",
+            "scene": {
+                "names": "$~adegan",
+                "doc": "$~@Scene/name dari adegan asalku, atau \\''\\ jika tidak memilikinya."
+            },
+            "index": {
+                "names": "$~indeks",
+                "doc": "$~Output mana yang sedang ditampilkan oleh @Scene, dihitung mulai dari 1. Aku hanya menghitung output, tidak pernah @Boolean di antaranya."
+            },
+            "total": {
+                "names": "$~total",
+                "doc": "$~Berapa banyak output yang dimiliki @Scene, tanpa menghitung @Boolean di antaranya."
+            },
+            "lap": {
+                "names": "$~putaran",
+                "doc": "$~Berapa kali @Scene telah kembali ke output pertamanya. Nilainya 0 pada putaran pertama."
+            },
+            "waiting": {
+                "names": "$~menunggu",
+                "doc": "$~Apakah @Scene sedang berhenti: menunggu @Boolean menjadi benar, atau ditahan oleh @Scene/pause. Inilah yang seharusnya diperiksa oleh petunjuk /tekan tombol apa saja/."
+            }
         }
     },
     "output": {
@@ -5180,11 +5273,11 @@
         },
         "Group": {
             "doc": [
-                "$~Saya mengatur @Phrase dan @Group bersama-sama di @Stage dengan sebuah @Arrangement . Oh halo, apa kabar? Saya selalu baik-baik saja ketika ada orang lain di sekitar, jadi senang sekali bisa bersama Anda!",
-                "Agar dapat berfungsi, saya memerlukan Anda untuk memberikan @Arrangement , dan kemudian @List dari @Output untuk diatur.",
-                "Sebagai contoh, berikut ini adalah susunan @Stack dan beberapa @Phrase untuk ditumpuk secara vertikal:",
-                "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
-                "Bagaimana tepatnya saya mengatur semuanya bergantung pada @Arrangement yang Anda berikan kepada saya."
+                "$~Aku menyusun @Phrase, @Shape dan @Group bersama di @Stage dengan @Arrangement. Oh halo, apa kabar? Aku selalu senang saat ada orang lain di sekitar, jadi senang sekali bisa bersamamu!",
+                "Agar bisa bekerja, aku perlu kamu memberiku @Arrangement, lalu @List dari @Output untuk disusun.",
+                "Sebagai contoh, di sini aku dengan susunan @Stack dan beberapa @Phrase untuk ditumpuk secara vertikal:",
+                "\\Kelompok(Tumpukan() [Frasa('pertama') Frasa('kedua')])\\",
+                "Bagaimana tepatnya aku menyusun sesuatu bergantung pada @Arrangement yang kamu berikan padaku."
             ],
             "names": ["$~Kelompok"],
             "layout": {
@@ -5424,11 +5517,11 @@
             }
         },
         "Arrangement": {
-            "doc": "$~Saya adalah inspirasi bagi berbagai macam susunan lain di Verse, termasuk @Row, @Stack, @Grid, dan @Free. Saya bekerja sama erat dengan @Group untuk",
+            "doc": "$~Aku adalah inspirasi bagi banyak jenis susunan lain di Verse, termasuk @Row, @Stack, @Grid, dan @Free. Aku bekerja sama erat dengan @Group untuk menentukan ke mana setiap @Output pergi: aku memindahkan masing-masing ke tempat yang kutentukan, sambil menjaga ukuran dan bentuknya. @Free adalah salah satu dari kami yang tidak menentukan apa pun, jadi di situ setiap @Output tetap berada di @Place miliknya sendiri. Jika kamu ingin menggeser sesuatu sedikit dari tempat yang kutentukan, berikan padanya @Phrase/offset, bukan @Place.",
             "names": ["$~Pengaturan"]
         },
         "Row": {
-            "doc": "$~Saya adalah @Row, sebuah @Arrangement horizontal dari @Output, dengan padding opsional di antaranya. Sudahkah Anda bertemu kembaran saya, @Stack?",
+            "doc": "$~Aku adalah @Row, sebuah @Arrangement horizontal dari @Output, dengan jarak antar bagian yang bisa diatur. Sudahkah kamu bertemu kembaranku, @Stack? Aku menentukan seberapa jauh masing-masing berjalan, dan input pertamaku menyatakan @how menyusunnya sepanjang aku. Berikan salah satunya @Place dan ia akan berada di posisi y itu — tetapi @Shape tidak memiliki @Place sendiri, jadi aku menyusunnya sejajar dengan yang lainnya.",
             "names": ["$~Baris"],
             "description": "$~baris dengan $#count[$count frasa atau grup]",
             "alignment": {
@@ -5441,7 +5534,7 @@
             }
         },
         "Stack": {
-            "doc": "$~Saya adalah @Stack, sebuah @Arrangement vertikal dari @Output, dengan padding opsional di antaranya. Sudahkah Anda bertemu kembaran saya, @Row?",
+            "doc": "$~Aku adalah @Stack, sebuah @Arrangement vertikal dari @Output, dengan jarak antar bagian yang bisa diatur. Sudahkah kamu bertemu kembaranku, @Row? Aku menentukan seberapa jauh ke bawah masing-masing berjalan, dan input pertamaku menyatakan @how menyusunnya melintang. Berikan salah satunya @Place dan ia akan berada di posisi x itu — tetapi @Shape tidak memiliki @Place sendiri, jadi aku menyusunnya sejajar dengan yang lainnya.",
             "names": ["$~Tumpukan"],
             "description": "$~tumpukan dengan $#count[$count frasa atau grup]",
             "alignment": {
@@ -5454,7 +5547,7 @@
             }
         },
         "Grid": {
-            "doc": "$~Aku adalah kisi dari @Output. Berikan aku jumlah baris dan @column dan aku akan membuat susunan yang rapi dengan lapisan pilihan dan ukuran @cell.",
+            "doc": "$~Aku adalah kisi dari @Output. Berikan aku jumlah baris dan @column, maka aku akan membuat susunan yang rapi dengan jarak antar bagian yang bisa diatur dan ukuran @cell. Aku menentukan kedua arah, jadi @Place tidak akan memindahkan apa pun ke samping atau ke atas dan bawah — meskipun z-nya tetap menyatakan seberapa dekat itu.",
             "names": ["$~Jaringan"],
             "description": "$~$rows baris $columns kolom kisi",
             "rows": {

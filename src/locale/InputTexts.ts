@@ -167,6 +167,38 @@ type InputTexts = {
     Scene: NameAndDoc & {
         /** A list of outputs to show in sequence */
         outputs: NameAndDoc;
+        /** Whether to wrap around to the first output after the last one finishes */
+        loop: NameAndDoc;
+        /** A condition to wait for after every output, as if written between each */
+        until: NameAndDoc;
+        /** A momentary condition that starts the scene over from its first output */
+        replay: NameAndDoc;
+        /** A lasting condition that holds the scene on whatever it is showing */
+        pause: NameAndDoc;
+        /** A momentary index or output name to show next, skipping ahead or back */
+        go: NameAndDoc;
+        /** A momentary number of outputs to move by, forward or back */
+        step: NameAndDoc;
+        /** The scene's name, which is what a spotlight stream filters on */
+        name: NameAndDoc;
+    };
+    /** A stream of positions in a scene. */
+    Spotlight: NameAndDoc & {
+        /** The name of the scene to follow; ø hears every scene. */
+        name: NameAndDoc;
+    };
+    /** The values that come out of a spotlight stream. */
+    Slate: NameAndDoc & {
+        /** The name of the scene this slate came from. */
+        scene: NameAndDoc;
+        /** Which output the scene is showing, counting from 1, conditions skipped. */
+        index: NameAndDoc;
+        /** How many outputs the scene has, not counting conditions. */
+        total: NameAndDoc;
+        /** How many times the scene has come back around, starting at 0. */
+        lap: NameAndDoc;
+        /** Whether the scene is waiting on a condition or being held by a pause. */
+        waiting: NameAndDoc;
     };
     /** A stream of phrases in places and rotations simulating physics */
     Motion: NameAndDoc & {

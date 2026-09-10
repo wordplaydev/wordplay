@@ -5426,6 +5426,18 @@
                                     "$ref": "#/definitions/DocText",
                                     "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                                 },
+                                "go": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "A momentary index or output name to show next, skipping ahead or back"
+                                },
+                                "loop": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether to wrap around to the first output after the last one finishes"
+                                },
+                                "name": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The scene's name, which is what a cue stream filters on"
+                                },
                                 "names": {
                                     "$ref": "#/definitions/NameText",
                                     "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
@@ -5433,9 +5445,80 @@
                                 "outputs": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "A list of outputs to show in sequence"
+                                },
+                                "pause": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "A lasting condition that holds the scene on whatever it is showing"
+                                },
+                                "replay": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "A momentary condition that starts the scene over from its first output"
+                                },
+                                "step": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "A momentary number of outputs to move by, forward or back"
+                                },
+                                "until": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "A condition to wait for after every output, as if written between each"
                                 }
                             },
-                            "required": ["doc", "names", "outputs"],
+                            "required": [
+                                "doc",
+                                "go",
+                                "loop",
+                                "name",
+                                "names",
+                                "outputs",
+                                "pause",
+                                "replay",
+                                "step",
+                                "until"
+                            ],
+                            "type": "object"
+                        },
+                        "Slate": {
+                            "additionalProperties": false,
+                            "description": "The values that come out of a spotlight stream.",
+                            "properties": {
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "index": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Which output the scene is showing, counting from 1, conditions skipped."
+                                },
+                                "lap": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How many times the scene has come back around, starting at 0."
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "scene": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The name of the scene this slate came from."
+                                },
+                                "total": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How many outputs the scene has, not counting conditions."
+                                },
+                                "waiting": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether the scene is waiting on a condition or being held by a pause."
+                                }
+                            },
+                            "required": [
+                                "doc",
+                                "index",
+                                "lap",
+                                "names",
+                                "scene",
+                                "total",
+                                "waiting"
+                            ],
                             "type": "object"
                         },
                         "Speech": {
@@ -5515,6 +5598,26 @@
                                 "names",
                                 "reset"
                             ],
+                            "type": "object"
+                        },
+                        "Spotlight": {
+                            "additionalProperties": false,
+                            "description": "A stream of positions in a scene.",
+                            "properties": {
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "name": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The name of the scene to follow; ø hears every scene."
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                }
+                            },
+                            "required": ["doc", "name", "names"],
                             "type": "object"
                         },
                         "Time": {
@@ -5653,6 +5756,8 @@
                         "Face",
                         "Objects",
                         "Scene",
+                        "Spotlight",
+                        "Slate",
                         "Motion",
                         "Placement",
                         "Chat",

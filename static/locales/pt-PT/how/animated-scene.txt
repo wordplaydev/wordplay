@@ -1,31 +1,57 @@
-Crie uma série de cenas animadas.
+Criar uma série animada de cenas
 
-Por vezes queremos contar histórias, mostrar letras de canções ou animar poesia.Para isso, podemos utilizar @Scene  e  @Phrase juntos, para mostrar uma sequência.
+Às vezes queremos contar histórias, mostrar letras de músicas ou animar poesia.Para isso, podemos usar  @Scene  e  @Phrase  juntos, para mostrar uma sequência.
 
-Por exemplo, imagine que queríamos animar a pequena canção infantil "Jack be Nimble".Poderíamos fazer um @Scene que tem cada linha como um @Phrase e definindo o @Phrase/duration de cada linha, o @Scene avançaria quando cada frase estivesse concluída.
+Por exemplo, imagine que queríamos animar a curta lengalenga "Jack be Nimble".Podíamos fazer um  @Scene  que tem cada linha como uma  @Phrase , e ao definir o  @Phrase/duration  de cada linha, o  @Scene  avançaria quando cada frase estivesse concluída.
 
-\Scene([
-		Phrase('Jack seja ágil' duração: 1s)
-		Phrase('Jack, seja rápido.' duração: 1s)
-		Phrase('O Jack saltou por cima do castiçal.' duração: 1s)
-	])\
+\Scene(
+	[
+		Phrase('Jack be nimble' duração: 1s)
+		Phrase('Jack be quick' duração: 1s)
+		Phrase('Jack jump over the candle stick' duração: 1s)
+	]
+)\
 
-@Scene aguardarei por um @Sequence Ainda falta fazer isso. Vamos fazer subir a linha da vela!
+@Scene  também vai esperar que um  @Sequence  fique concluído. Vamos fazer a linha da vela saltar!
 
-\Scene([
-		Phrase('Jack seja ágil' duração: 1s)
-		Phrase('Jack, seja rápido.' duração: 1s)
-		Phrase('O Jack saltou por cima do castiçal.' entrando: Sequence.bounce(duração: 1s))
-	])\
+\Scene(
+	[
+		Phrase('Jack be nimble' duração: 1s)
+		Phrase('Jack be quick' duração: 1s)
+		Phrase(
+			'Jack jump over the candle stick'
+			entrando: Sequence.bounce(duração: 1s)
+		)
+	]
+)\
 
-@Scene também pode fazer um @Group também de texto, e aguardará até que todo o seu conteúdo termine a animação.
+@Scene  também pode receber uma  @Group  de texto, e vai esperar que todo o seu conteúdo termine a animação.
 
-\Scene([
-		Group(Stack() [
-				Phrase('Jack seja ágil')
-				Phrase('Jack, seja rápido.')
-			] duração: 2s)
-		Phrase('O Jack saltou por cima do castiçal.' entrando: Sequence.bounce(duração: 1s))
-	])\
+\Scene(
+	[
+		Group(
+			Stack()
+			[Phrase('Jack be nimble') Phrase('Jack be quick')]
+			duração: 2s
+		)
+		Phrase(
+			'Jack jump over the candle stick'
+			entrando: Sequence.bounce(duração: 1s)
+		)
+	]
+)\
 
-interactive-scene
+Às vezes uma lengalenga deve continuar sem parar.  @Scene/loop  traz o  @Scene  de volta ao seu primeiro  @Phrase  assim que o último terminar, para que se repita vezes sem conta.
+
+\Scene(
+	[
+		Phrase('Jack be nimble' duração: 1s)
+		Phrase('Jack be quick' duração: 1s)
+		Phrase('Jack jump over the candle stick' duração: 1s)
+	]
+	ciclo: ⊤
+)\
+
+Nota: um  @Scene  só volta ao início se algo na lista tiver realmente esperado.Uma lista onde cada  @Phrase  tinha um(a)  @Phrase/duration  de \0s\ andaria à volta o mais depressa possível para o computador, por isso para no fim em vez disso.
+
+interactive-scene, repeat-a-round

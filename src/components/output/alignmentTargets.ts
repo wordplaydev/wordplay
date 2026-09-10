@@ -10,6 +10,7 @@ import Group from '@output/Output/Group';
 import type Node from '@nodes/Node';
 import type Output from '@output/Output/Output';
 import Phrase from '@output/Output/Phrase';
+import Shape from '@output/Output/Shape/Shape';
 import type { OutputInfo, OutputInfoSet } from '@output/animation/Animator';
 import type { Box } from './snap';
 
@@ -67,18 +68,23 @@ export function frameOffset(scene: OutputInfoSet, parents: Output[]) {
 /**
  * Which axes of a child's place its parent will actually use. A `Row` computes
  * its children's x and a `Stack` their y, so snapping there would promise an
- * alignment the next layout throws away — and announcing it would be a lie. A
- * `Free` group honours a place only for phrases (see `Free.getLayout`).
+ * alignment the next layout throws away — and announcing it would be a lie.
+ *
+ * The cross axis is free only for output that can carry a place the creator
+ * wrote. A `Shape` has no `place` input, so the place it carries restates its
+ * form and an arrangement overrides it (see `Output.getAuthoredPlace`) — which
+ * leaves it nowhere to be moved to inside one. A `Free` group arranges nothing,
+ * so there every kind is free.
  */
 export function freeAxes(parent: Output | undefined, moved: Output) {
     if (!(parent instanceof Group)) return { freeX: true, freeY: true };
     const arrangement = parent.layout;
-    if (arrangement instanceof Row) return { freeX: false, freeY: true };
-    if (arrangement instanceof Stack) return { freeX: true, freeY: false };
-    if (arrangement instanceof Free)
-        return moved instanceof Phrase
-            ? { freeX: true, freeY: true }
-            : { freeX: false, freeY: false };
+    if (arrangement instanceof Free) return { freeX: true, freeY: true };
+    // Whether writing a place would move it at all, not whether it has one: a
+    // drag on an unplaced phrase is how a place gets written in the first place.
+    const placeable = !(moved instanceof Shape);
+    if (arrangement instanceof Row) return { freeX: false, freeY: placeable };
+    if (arrangement instanceof Stack) return { freeX: placeable, freeY: false };
     // A Grid computes both.
     return { freeX: false, freeY: false };
 }

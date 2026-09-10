@@ -1,100 +1,104 @@
 🎬
 Slide Show
 === start
-¶Isang palabas ng mga islayd na nagkukwento kung paano nagsimula ang Wordplay; pindutin ang → at ← para dumaan dito.¶
+¶Isang slideshow na nagsasabi kung paano nagsimula ang Wordplay; pindutin ang → at ← para dumaan dito.¶
 
-¶Isang islayd ng palabas: isang tauhan, isang pamagat, at mga salita sa ibaba nito.¶
-•islayd(emoji•'' pamagat•'' katawan•''|`…`)
+¶Isang slide ng palabas: isang tauhan, isang pamagat, at ang mga salita sa ibaba nito.¶
+•slide(emoji•'' pamagat•'' katawan•''|`…`)
 
-¶Ang kwento. Magdagdag, magtanggal, o magbago ng mga islayd na ito para ikwento ang sarili mong kwento.¶
-mgaIslayd: [
-		islayd(
+¶Ang kuwento. Magdagdag, magtanggal, o magpalit ng mga slide na ito para sabihin ang sarili mong kuwento.¶
+mgaSlide: [
+		slide(
 			'🎭'
 			'Wordplay'
-			'Ang kwento kung paano nagsimula ang wikang ito. Pindutin ang → para pumunta sa susunod, at ← para bumalik.'
+			'Ang kuwento kung paano nagsimula ang wikang ito. Pindutin ang → para sumulong, at ang ← para bumalik.'
 		)
-		islayd(
+		slide(
 			'✒'
-			'Isang pagmamahal sa mga letra'
-			'Noong unang panahon, umibig si Amy sa tipograpiya: ang hugis ng mga letra, at ang ritmo ng mga salita sa isang pahina.'
+			'Isang pagmamahal sa mga titik'
+			'Noong unang panahon, naibigan ni Amy ang typography: ang mga hugis ng mga titik, at ang indayog ng mga salita sa isang pahina.'
 		)
-		islayd(
+		slide(
 			'💻'
 			'Isang pagmamahal sa kodigo'
-			'Umibig din siya sa pagpo-programa, at sa kung paano magagawa ng ilang salita lamang na magpagalaw ng mga bagay.'
+			'Naibigan din niya ang pagprograma, at kung paano makapagpakilos ang ilang salita lamang sa mga bagay.'
 		)
-		islayd(
+		slide(
 			'🧭'
-			'Dalawang pag-ibig, magkalayo'
-			'Pero magkaiba ang mundo ng tipograpiya at ng pagpo-programa, at kakaunti ang mga kagamitan na nag-aanyaya sa isang tao na mahalin ang dalawa nang sabay.'
+			'Dalawang pagmamahal, hiwalay'
+			"Ngunit iba't ibang mundo ang tinitirhan ng typography at pagprograma, at kakaunti ang mga kasangkapang nag-aanyaya sa kanino man na mahalin ang dalawa nang sabay."
 		)
-		islayd(
+		slide(
 			'😄'
-			'Isang bata'
-			'Pagkalipas ng maraming taon, nakilala niya ang isang bata na mahilig sa mga emoji, at gustong pasayawin ang mga ito.'
+			'Isang batang tao'
+			'Pagkalipas ng mga taon, nakilala niya ang isang batang taong mahilig sa mga emoji, at gustong pasayawin ang mga ito.'
 		)
-		islayd(
+		slide(
 			'💡'
 			'Isang ideya'
-			'Paano kung may wikang pamprograma na magpapadali sa pagpapasayaw ng mga emoji?'
+			'Paano kung may isang wika sa pagprograma na magpapadali sa pagpapasayaw ng mga emoji?'
 		)
-		islayd(
+		slide(
 			'🌱'
-			'Nagsimula ang Wordplay'
-			'Kaya nagsimula siyang gumawa ng isa, kung saan ang pagsulat ng kodigo ay ang paggalaw ng mga salita at karakter sa entablado.'
+			'Nagsisimula ang Wordplay'
+			'Kaya nagsimula siyang lumikha ng isa, kung saan ang pagsulat ng kodigo ay nangangahulugang paglipat-lipat ng mga salita at karakter sa entablado.'
 		)
-		islayd(
+		slide(
 			'🧑‍🏫'
-			'Ginawa nang sama-sama'
-			'Dinisenyo niya ito kasama ang maraming kabataan at guro, na nagsabi kung ano ang gusto nilang gawin, at kung ano ang humahadlang sa kanila.'
+			'Dinisenyo nang sama-sama'
+			'Dinisenyo niya ito kasama ang maraming kabataan at guro, na nagsabi kung ano ang gusto nilang likhain, at kung ano ang mga hadlang sa kanila.'
 		)
-		islayd(
+		slide(
 			'🌏'
-			'Patuloy na umuunlad'
-			'Patuloy itong lumalago mula noon, para mas maraming tao ang makagawa ng mas marami sa kanilang inaasam.'
+			'Palaging umuunlad'
+			'Patuloy itong lumalaki mula noon, para mas maraming tao ang makagawa ng mas marami sa kanilang guniguni.'
 		)
-		islayd(
+		slide(
 			'✨'
 			'Ikaw naman'
-			`Ano ang pinangarap mong gawin na hindi pa posible ngayon? Sabihin mo sa amin sa <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+			`Ano ang gusto mong gawin na hindi pa posible? Sabihin sa amin sa <GitHub@https://github.com/wordplaydev/wordplay/issues>`
 		)
 	]
 
-kabuuan2: mgaIslayd.haba()
-
 susi2: Susi()
 
-¶Ang slide na ipinapakita namin ngayon. Ang kanan ay pumapasulong, ang kaliwa ay pumapaurong, at pareho silang huminto sa mga dulo sa halip na bumalik sa simula.¶
-indeks2•#: 1 … ∆ susi2 …
-		(susi2 = 'PalasoKanan') ? ((indeks2 < kabuuan2) ? indeks2 + 1 indeks2)
-			(susi2 = 'Palaso Kaliwa') ? ((indeks2 > 1) ? indeks2 - 1 indeks2)
-				indeks2
+¶Kung nasaan ang palabas. Ang @Scene ang nagbabantay sa lugar, kaya walang kailangang bilangin dito.¶
+sa: Spotlight()
 
-islayd2: mgaIslayd[indeks2]
+¶Bawat slide, iginuhit na. Hindi ito umaasa sa anumang nagbabago, kaya ito'y ginawa nang isang beses lamang — hindi bawat pindot ng susi — kaya't wala rito ang bilang sa ibaba.¶
+panonood: mgaSlide.isalin(
+		ƒ(slide2•slide) Grupo(
+				Patongpatong('|' 0.4m)
+				[
+					Parirala(slide2.emoji laki: 2m)
+					Parirala(
+						`*\slide2.pamagat\*`
+						laki: 1.2m
+						pagkakahanay: '|'
+					)
+					Parirala(
+						slide2.katawan
+						laki: 0.5m
+						pambalot: 12m
+						pagkakahanay: '|'
+					)
+				]
+			)
+	)
 
-Entablado(
+¶Hindi kusang umuusad ang palabas; ang mga pindutang palaso ang siyang gumagalaw nito isang slide sa isang direksyon. Tumitigil ito sa bawat dulo para sa atin, kaya't wala nang kailangang suriin.¶
+Grupo(
+	Patongpatong('|' 0.4m)
 	[
-		Grupo(
-			Patongpatong('|' 0.4m)
-			[
-				Parirala(islayd2.emoji laki: 2m)
-				Parirala(
-					`*\islayd2.pamagat\*`
-					laki: 1.2m
-					pagkakahanay: '|'
-				)
-				Parirala(
-					islayd2.katawan
-					laki: 0.5m
-					pambalot: 12m
-					pagkakahanay: '|'
-				)
-				Parirala(
-					`\indeks2\ ng \kabuuan2\`
-					laki: 0.25m
-					pagkakahanay: '|'
-				)
-			]
+		Eksena(
+			panonood
+			iPause: ⊤
+			hakbang: ∆ susi2 ? ((susi2 = 'Palaso Kaliwa') ? -1 (susi2 = 'PalasoKanan') ? 1 ø) ø
+		)
+		Parirala(
+			`\sa.index\ ng \sa.total\`
+			laki: 0.25m
+			pagkakahanay: '|'
 		)
 	]
 )

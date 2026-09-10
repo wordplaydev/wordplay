@@ -950,6 +950,11 @@
         "e62959bf8e73e": "$~Sekarang kamu bisa menulis alamat email di dalam dokumen atau cara, dan itu akan menjadi tautan yang membuka pesan.",
         "e730993ac0281": "$~Sekarang kamu menulis karakter Unicode dengan angkanya sebagai \\@U/1F600\\, bukan bentuk lama tanpa huruf U.",
         "ec1e67db8a983": "$~Saat kamu menerjemahkan, bahasa yang kamu pilih sekarang hanya berlaku untuk tulisan yang belum kamu tandai dengan bahasa tertentu, karena tulisan yang sudah kamu tandai sudah menyatakan bahasanya sendiri. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
-        "e7600746959d1": "$~Menerjemahkan sebuah proyek sekarang menerjemahkan semuanya, termasuk nama dan teks yang kamu tandai dengan bahasa lain, yang sebelumnya dilewati begitu saja tanpa pemberitahuan. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
+        "e7600746959d1": "$~Menerjemahkan sebuah proyek sekarang menerjemahkan semuanya, termasuk nama dan teks yang kamu tandai dengan bahasa lain, yang sebelumnya dilewati begitu saja tanpa pemberitahuan. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e73aff6688055": "$~@Scene sekarang bisa berulang, mulai lagi, diam sebentar, menunggumu setelah setiap bagian, dan melangkah atau melompat ke bagian mana pun dari dirinya sendiri, jadi kamu bisa membuat permainan yang bertanya lagi setelah setiap ronde atau tayangan gambar yang bisa kamu klik satu per satu. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e876dc2ed0b0f": "$~@Group sekarang bisa memuat @Shape, jadi kamu bisa menumpuk lingkaran dengan kata-katamu, atau menaruh @Scene di dalam sebuah tata letak. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e723fd65c8efc": "$~@Shape sekarang sejajar dengan @Stack, @Row, atau @Grid tempatnya berada, bukan berada di mana pun sudut-sudutnya kebetulan ada, dan apa pun di dalam @Grid sekarang bisa lebih dekat atau lebih jauh. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e8ad9864d7217": "$~Kami menambahkan cara baru ke <Panduan@https://wordplay.dev/guide> untuk mengulang satu ronde permainan. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e0bce9fefa9f6": "$~Kami menambahkan @Spotlight, yang memberi tahu kamu bagian mana dari @Scene yang sedang ditampilkan, ada berapa banyak bagian, sudah berapa kali berputar, dan apakah sedang menunggu seseorang. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
     }
 }

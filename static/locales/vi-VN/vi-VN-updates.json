@@ -949,6 +949,12 @@
         "e62959bf8e73e": "$~Giờ đây, bạn có thể viết một địa chỉ email trong tài liệu hoặc một làm cách nào để, và nó sẽ trở thành một liên kết mở ra một tin nhắn.",
         "e730993ac0281": "$~Giờ đây, bạn viết một ký tự Unicode bằng số của nó dưới dạng \\@U/1F600\\, thay vì kiểu cũ không có chữ U.",
         "ec1e67db8a983": "$~Khi bạn dịch, ngôn ngữ bạn chọn giờ chỉ áp dụng cho phần chữ bạn chưa đánh dấu ngôn ngữ, vì phần nào đã được đánh dấu rồi thì đã nói rõ là ngôn ngữ gì. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
-        "e7600746959d1": "$~Giờ đây, dịch một dự án sẽ dịch toàn bộ dự án, kể cả tên và chữ bạn đã đánh dấu bằng ngôn ngữ khác, những phần trước đây bị bỏ qua mà không báo cho bạn biết. (<653@https://github.com/wordplaydev/wordplay/issues/653>)"
+        "e7600746959d1": "$~Giờ đây, dịch một dự án sẽ dịch toàn bộ dự án, kể cả tên và chữ bạn đã đánh dấu bằng ngôn ngữ khác, những phần trước đây bị bỏ qua mà không báo cho bạn biết. (<653@https://github.com/wordplaydev/wordplay/issues/653>)",
+        "e73aff6688055": "$~Giờ đây @Scene có thể lặp lại, bắt đầu lại, đứng yên, chờ bạn sau mỗi phần, và bước hoặc nhảy tới bất kỳ phần nào của chính nó, nhờ vậy bạn có thể tạo một trò chơi hỏi lại sau mỗi vòng, hoặc một buổi trình chiếu mà bạn bấm để xem tiếp. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e876dc2ed0b0f": "$~Giờ đây @Group có thể chứa một @Shape, nhờ vậy bạn có thể xếp một hình tròn cùng với chữ của bạn, hoặc đặt một @Scene vào trong một bố cục. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e723fd65c8efc": "$~Giờ đây @Shape được sắp thẳng hàng với @Stack, @Row, hoặc @Grid mà nó nằm trong, thay vì nằm bất kỳ nơi nào mà các góc của nó tình cờ ở đó, và bất cứ thứ gì bên trong @Grid giờ đây có thể ở gần hơn hoặc xa hơn. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e8ad9864d7217": "$~Chúng tôi đã thêm một mục làm cách nào để vào <Sổ tay hướng dẫn@https://wordplay.dev/guide> để lặp lại một vòng của trò chơi. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "ec96e627d2d35": "$~Chúng tôi đã làm cho các Phrase có ký tự tùy chỉnh cũng có thể được kéo, xoay và thu phóng.",
+        "e0bce9fefa9f6": "$~Chúng tôi đã thêm @Spotlight, cho bạn biết phần nào của một @Scene đang hiển thị, có bao nhiêu phần, đã lặp lại bao nhiêu lần, và liệu nó có đang chờ ai đó hay không. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
     }
 }

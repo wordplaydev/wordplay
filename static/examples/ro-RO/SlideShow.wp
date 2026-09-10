@@ -1,17 +1,17 @@
 🎬
-Prezentare de diapozitive
+Prezentare
 === start
-¶O prezentare care povestește cum a apărut Wordplay; apasă → și ← pentru a parcurge diapozitivele.¶
+¶O prezentare care povestește cum a apărut Wordplay; apasă → și ← ca să treci prin ea.¶
 
-¶Un diapozitiv din prezentare: un personaj, un titlu și cuvintele de sub el.¶
-•diapozitiv(emoji•'' titlu•'' corp•''|`…`)
+¶Un diapozitiv din prezentare: un personaj, un titlu și cuvintele de dedesubt.¶
+•diapozitiv(emoji•'' titlu•'' conținut•''|`…`)
 
 ¶Povestea. Adaugă, șterge sau schimbă aceste diapozitive ca să spui propria ta poveste.¶
 diapozitive: [
 		diapozitiv(
 			'🎭'
 			'Wordplay'
-			'Povestea despre cum a apărut această limbă. Apasă → pentru a merge înainte și ← pentru a merge înapoi.'
+			'Povestea despre cum a apărut această limbă. Apasă → ca să mergi înainte și ← ca să te întorci.'
 		)
 		diapozitiv(
 			'✒'
@@ -26,75 +26,79 @@ diapozitive: [
 		diapozitiv(
 			'🧭'
 			'Două dragoste, despărțite'
-			'Dar tipografia și programarea trăiau în lumi diferite, iar puține unelte invitau pe cineva să le iubească pe amândouă odată.'
+			'Dar tipografia și programarea trăiau în lumi diferite, și puține unelte îi invitau pe oameni să le iubească pe amândouă în același timp.'
 		)
 		diapozitiv(
 			'😄'
 			'Un tânăr'
-			'Ani mai târziu, ea a cunoscut un tânăr care iubea emoticoanele și voia să le facă să danseze.'
+			'Ani mai târziu, ea a cunoscut un tânăr care iubea emoji-urile și voia să le facă să danseze.'
 		)
 		diapozitiv(
 			'💡'
 			'O idee'
-			'Dacă o limbă de programare ar face ușor să faci emoticoanele să danseze?'
+			'Ce-ar fi dacă o limbă de programare ar face ușor să faci emoji-urile să danseze?'
 		)
 		diapozitiv(
 			'🌱'
 			'Wordplay începe'
-			'Așa că a început să construiască una, în care a scrie cod înseamnă a mișca cuvinte și caractere pe o scenă.'
+			'Așa că a început să construiască una, în care a scrie cod înseamnă să muți cuvinte și caractere pe o scenă.'
 		)
 		diapozitiv(
 			'🧑‍🏫'
 			'Creat împreună'
-			'A creat-o împreună cu mulți tineri și profesori, care au spus ce voiau să facă și ce le stătea în cale.'
+			'Ea a creat-o împreună cu mulți tineri și profesori, care i-au spus ce voiau să facă și ce le stătea în cale.'
 		)
 		diapozitiv(
 			'🌏'
-			'Mereu în schimbare'
-			'A continuat să crească de atunci, ca tot mai mulți oameni să poată face tot mai mult din ceea ce își imaginează.'
+			'Mereu în evoluție'
+			'De atunci, a continuat să crească, astfel încât tot mai multe persoane pot crea tot mai mult din ceea ce își imaginează.'
 		)
 		diapozitiv(
 			'✨'
 			'Rândul tău'
-			`Ce visezi să creezi, dar nu este încă posibil? Spune-ne la <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+			`Ce visezi să creezi care încă nu este posibil? Spune-ne la <GitHub@https://github.com/wordplaydev/wordplay/issues>`
 		)
 	]
 
-total: diapozitive.lungime()
-
 cheie2: Cheie()
 
-¶Diapozitivul pe care îl arătăm acum. Dreapta merge înainte, stânga merge înapoi, iar amândouă se opresc la capete, fără să se întoarcă de la început.¶
-index2•#: 1 … ∆ cheie2 …
-		(cheie2 = 'SăgeatăDreapta') ? ((index2 < total) ? index2 + 1 index2)
-			(cheie2 = 'SăgeatăStânga') ? ((index2 > 1) ? index2 - 1 index2)
-				index2
+¶Locul unde se desfășoară spectacolul. @Scene păstrează locul, așa că nimic de aici nu trebuie numărat.¶
+la2: Spotlight()
 
-diapozitiv2: diapozitive[index2]
+¶Fiecare diapozitiv, desenat. Acesta nu depinde de nimic care se schimbă, așa că este construit o singură dată, nu la fiecare apăsare de tastă — de aceea contorul de mai jos nu apare aici.¶
+vizualizări: diapozitive.traduce(
+		ƒ(diapozitiv2•diapozitiv) Grup(
+				Stivă('|' 0.4m)
+				[
+					Fraza(diapozitiv2.emoji dimensiune: 2m)
+					Fraza(
+						`*\diapozitiv2.titlu\*`
+						dimensiune: 1.2m
+						aliniere: '|'
+					)
+					Fraza(
+						diapozitiv2.conținut
+						dimensiune: 0.5m
+						înfășura: 12m
+						aliniere: '|'
+					)
+				]
+			)
+	)
 
-Etapă(
+¶Spectacolul nu avansează niciodată singur; tastele săgeți îl mișcă un diapozitiv într-o direcție sau alta. Se oprește la fiecare capăt pentru noi, așa că nu este nimic de verificat.¶
+Grup(
+	Stivă('|' 0.4m)
 	[
-		Grup(
-			Stivă('|' 0.4m)
-			[
-				Fraza(diapozitiv2.emoji dimensiune: 2m)
-				Fraza(
-					`*\diapozitiv2.titlu\*`
-					dimensiune: 1.2m
-					aliniere: '|'
-				)
-				Fraza(
-					diapozitiv2.corp
-					dimensiune: 0.5m
-					înfășura: 12m
-					aliniere: '|'
-				)
-				Fraza(
-					`\index2\ din \total\`
-					dimensiune: 0.25m
-					aliniere: '|'
-				)
-			]
+		Scenă(
+			vizualizări
+			pauză: ⊤
+			pas: ∆ cheie2 ? ((cheie2 = 'SăgeatăStânga') ? -1 (cheie2 = 'SăgeatăDreapta') ? 1 ø) ø
+		)
+		Fraza(
+			`\la2.index\ din \la2.total\`
+			dimensiune: 0.25m
+			aliniere: '|'
 		)
 	]
 )

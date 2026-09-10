@@ -1,31 +1,63 @@
-Tạo một loạt các cảnh hoạt hình
+Tạo một chuỗi cảnh động
 
-Đôi khi chúng ta muốn kể chuyện, thể hiện lời bài hát hoặc minh họa thơ ca.Để làm được điều đó, chúng ta có thể sử dụng @Scene  Và  @Phrase Cùng nhau, để thể hiện một chuỗi.
+Đôi khi chúng ta muốn kể chuyện, hiển thị lời bài hát, hoặc làm cho một bài thơ chuyển động.Để làm điều đó, ta có thể dùng  @Scene  và  @Phrase  cùng nhau, để hiển thị một chuỗi.
 
-Ví dụ, hãy tưởng tượng chúng ta muốn làm hoạt hình cho bài đồng dao ngắn "Jack be Nimble".Chúng ta có thể tạo ra một @Scene trong đó mỗi dòng là một @Phrase và bằng cách thiết lập @Phrase/duration của mỗi dòng, @Scene sẽ chuyển sang bước tiếp theo khi mỗi cụm từ được hoàn thành.
+Ví dụ, hãy tưởng tượng ta muốn làm cho bài đồng dao ngắn "Jack be Nimble" chuyển động.Ta có thể tạo một  @Scene  có mỗi dòng là một  @Phrase , và bằng cách đặt  @Phrase/duration  của mỗi dòng,  @Scene  sẽ chuyển tiếp khi mỗi câu kết thúc.
 
-\Scene([
-		Phrase('Jack nhanh nhẹn' khoảngthờigian: 1s)
-		Phrase('Jack nhanh lên' khoảngthờigian: 1s)
-		Phrase('Jack nhảy qua cây nến.' khoảngthờigian: 1s)
-	])\
+\Scene(
+	[
+		Phrase('Jack be nimble' khoảngthờigian: 1s)
+		Phrase('Jack be quick' khoảngthờigian: 1s)
+		Phrase(
+			'Jack jump over the candle stick'
+			khoảngthờigian: 1s
+		)
+	]
+)\
 
-@Scene sẽ đợi một @Sequence Việc đó cũng cần phải làm. Hãy làm cho đường nến nhảy vọt lên nào!
+@Scene  cũng sẽ chờ cho một  @Sequence  hoàn thành. Hãy làm cho dòng về ngọn nến nhảy lên!
 
-\Scene([
-		Phrase('Jack nhanh nhẹn' khoảngthờigian: 1s)
-		Phrase('Jack nhanh lên' khoảngthờigian: 1s)
-		Phrase('Jack nhảy qua cây nến.' vào: Sequence.bounce(khoảngthờigian: 1s))
-	])\
+\Scene(
+	[
+		Phrase('Jack be nimble' khoảngthờigian: 1s)
+		Phrase('Jack be quick' khoảngthờigian: 1s)
+		Phrase(
+			'Jack jump over the candle stick'
+			vào: Sequence.bounce(khoảngthờigian: 1s)
+		)
+	]
+)\
 
-@Scene cũng có thể lấy @Group Văn bản cũng vậy, và nó sẽ đợi cho đến khi toàn bộ nội dung hoàn tất quá trình hoạt động.
+@Scene  cũng có thể nhận một  @Group  chữ, và nó sẽ chờ cho toàn bộ nội dung của nó hoàn thành hoạt cảnh.
 
-\Scene([
-		Group(Stack() [
-				Phrase('Jack nhanh nhẹn')
-				Phrase('Jack nhanh lên')
-			] khoảngthờigian: 2s)
-		Phrase('Jack nhảy qua cây nến.' vào: Sequence.bounce(khoảngthờigian: 1s))
-	])\
+\Scene(
+	[
+		Group(
+			Stack()
+			[Phrase('Jack be nimble') Phrase('Jack be quick')]
+			khoảngthờigian: 2s
+		)
+		Phrase(
+			'Jack jump over the candle stick'
+			vào: Sequence.bounce(khoảngthờigian: 1s)
+		)
+	]
+)\
 
-interactive-scene
+Đôi khi một bài vè nên cứ tiếp tục mãi.  @Scene/loop  đưa  @Scene  quay trở lại  @Phrase  đầu tiên của nó ngay khi cái cuối cùng hoàn thành, để nó tự lặp lại mãi mãi.
+
+\Scene(
+	[
+		Phrase('Jack be nimble' khoảngthờigian: 1s)
+		Phrase('Jack be quick' khoảngthờigian: 1s)
+		Phrase(
+			'Jack jump over the candle stick'
+			khoảngthờigian: 1s
+		)
+	]
+	vòngLặp: ⊤
+)\
+
+Lưu ý: một  @Scene  chỉ quay trở lại nếu có thứ gì đó trong danh sách thực sự đã chờ.Một danh sách mà mỗi  @Phrase  có một  @Phrase/duration  của \0s\ sẽ chạy vòng nhanh hết mức máy tính có thể làm, nên nó dừng lại ở cuối thay vì tiếp tục.
+
+interactive-scene, repeat-a-round

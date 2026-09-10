@@ -1,0 +1,47 @@
+重复游戏的一轮
+
+很多游戏都是同样的几个时刻不断重复：说该做什么，等待回答，展示结果，然后重新开始。一个  @Scene  可以是那整整一轮，而  @Scene/loop  就是让它回到开头的东西。
+
+这些时刻就是列表中的项目，而它们之间的  @Boolean  就是  @Scene  等待玩家的地方。
+
+\guess: Chat()
+right: guess = '猫'
+Scene(
+	[
+		Phrase('猜猜是什么动物！' 持续时间: 2s)
+		∆ guess
+		Phrase(right ? '对啦！' '不对哦！' 持续时间: 2s)
+	]
+	循环: ~right
+)\
+
+这个 \∆ guess\ 就是等待：只有新的猜测到来的那一刻它才为真，所以  @Scene  会一直停在那里，直到有人输入点什么。而 \循环2: ~right\ 就是重复：这个  @Scene  会不断循环，直到他们猜对为止，然后停在最后一个  @Phrase 。
+
+注意： @Scene/loop  会在你的程序每次变化时被读取，所以你既可以用它开始一个循环，也可以用它结束一个循环，这正是 \~right\ 刚才做的事。
+
+要知道这一轮进行到哪里了，可以问问  @Spotlight 。它会告诉你正在显示哪个  @Phrase ，一共有多少个，这个  @Scene  已经循环了多少次，还有它现在是不是正在等待某人。
+
+\guess: Chat()
+at: Spotlight()
+Stage(
+	[
+		Scene(
+			[
+				Phrase('猜猜是什么动物！' 持续时间: 2s)
+				∆ guess
+				Phrase('不对哦！' 持续时间: 2s)
+			]
+			循环: ⊤
+		)
+		Phrase(
+			at.waiting ? '输入一个猜测' `轮 \at.lap + 1\`
+			尺寸: 0.4m
+			位置: Place(0m -2m)
+		)
+	]
+)\
+
+@Scene/replay  是一种随时把这一轮重新开始的方法，不管它之前进行到哪儿了。给它一个只在某一刻成立的条件，比如 \∆ 按钮(
+)\。
+
+interactive-scene, animated-scene, track-game-state

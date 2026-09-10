@@ -170,11 +170,11 @@ export class Grid extends Arrangement {
                         this.value,
                         rtl ? reflectX(cellX, cell.output.width, width) : cellX,
                         cellTop + (rowHeight - cell.output.height) / 2,
-                        0,
+                        // A grid decides where a cell sits, but no arrangement
+                        // arranges depth, so a child's own z stands.
+                        cell.output.output.place?.z ?? 0,
                     );
                     places.push([cell.output.output, place]);
-                    // A grid cell is always on the stage plane (the z above is hardcoded),
-                    // but something nested inside it may not be.
                     if (place.z < nearest) nearest = place.z;
                     if (cell.output.nearest < nearest)
                         nearest = cell.output.nearest;

@@ -1,31 +1,57 @@
-Gumawa ng isang animated na serye ng mga eksena
+Gumawa ng animadong serye ng mga eksena
 
-Minsan gusto nating magkwento, magpakita ng mga liriko, o magbigay-buhay ng mga tula.Para magawa iyan, maaari nating gamitin ang @Scene at @Phrase magkasama, upang ipakita ang isang pagkakasunod-sunod.
+Minsan gusto nating magkuwento, magpakita ng liriko, o mag-animate ng tula.Para gawin iyon, magagamit natin ang  @Scene  at  @Phrase  nang magkasama, para magpakita ng pagkakasunod-sunod.
 
-Halimbawa, isipin na gusto nating bigyang-buhay ang maikling tula para sa mga bata na pinamagatang "Jack be Nimble".Maaari tayong gumawa ng @Scene na ang bawat linya ay @Phrase , at sa pamamagitan ng pagtatakda ng @Phrase/duration ng bawat linya, ang @Scene ay susulong kapag natapos ang bawat parirala.
+Halimbawa, isipin nating gusto nating i-animate ang maikling awiting pambata na "Jack be Nimble".Puwede tayong gumawa ng  @Scene  na may bawat linya bilang isang  @Phrase , at sa pamamagitan ng pagtakda ng  @Phrase/duration  ng bawat linya, ang  @Scene  ay sasabay sa susunod kapag tapos na ang bawat parirala.
 
-\Scene([
-		Phrase('Maging maliksi si Jack' tagal: 1s)
-		Phrase('Bilisan mo Jack' tagal: 1s)
-		Phrase('Tumalon si Jack sa ibabaw ng kandila' tagal: 1s)
-	])\
+\Scene(
+	[
+		Phrase('Jack be nimble' tagal: 1s)
+		Phrase('Jack be quick' tagal: 1s)
+		Phrase('Jack jump over the candle stick' tagal: 1s)
+	]
+)\
 
-@Scene maghihintay para sa isang @Sequence para matapos na rin. Tara, patalbugin natin ang linya ng kandila!
+@Scene  ay maghihintay rin para matapos ang isang  @Sequence . Gawin nating tumatalon ang linya ng kandila!
 
-\Scene([
-		Phrase('Maging maliksi si Jack' tagal: 1s)
-		Phrase('Bilisan mo Jack' tagal: 1s)
-		Phrase('Tumalon si Jack sa ibabaw ng kandila' pagpasok: Sequence.bounce(tagal: 1s))
-	])\
+\Scene(
+	[
+		Phrase('Jack be nimble' tagal: 1s)
+		Phrase('Jack be quick' tagal: 1s)
+		Phrase(
+			'Jack jump over the candle stick'
+			pagpasok: Sequence.bounce(tagal: 1s)
+		)
+	]
+)\
 
-@Scene maaari ring kumuha ng @Group ng teksto rin, at hihintayin nitong matapos ang lahat ng nilalaman nito sa animation.
+@Scene  ay puwede ring kumuha ng  @Group  ng teksto, at maghihintay ito hanggang matapos ang buong animation ng lahat ng nilalaman nito.
 
-\Scene([
-		Group(Stack() [
-				Phrase('Maging maliksi si Jack')
-				Phrase('Bilisan mo Jack')
-			] tagal: 2s)
-		Phrase('Tumalon si Jack sa ibabaw ng kandila' pagpasok: Sequence.bounce(tagal: 1s))
-	])\
+\Scene(
+	[
+		Group(
+			Stack()
+			[Phrase('Jack be nimble') Phrase('Jack be quick')]
+			tagal: 2s
+		)
+		Phrase(
+			'Jack jump over the candle stick'
+			pagpasok: Sequence.bounce(tagal: 1s)
+		)
+	]
+)\
 
-interactive-scene
+Minsan dapat magpatuloy ang isang tula.  @Scene/loop  ay nagpapabalik sa  @Scene  pabalik sa unang  @Phrase  nito kapag tapos na ang huli, kaya ito ay paulit-ulit na sinasabi ang sarili nito.
+
+\Scene(
+	[
+		Phrase('Jack be nimble' tagal: 1s)
+		Phrase('Jack be quick' tagal: 1s)
+		Phrase('Jack jump over the candle stick' tagal: 1s)
+	]
+	loop: ⊤
+)\
+
+Paalala: ang isang  @Scene  ay babalik lamang kung may talagang naghintay sa listahan.Isang listahan kung saan bawat  @Phrase  ay may  @Phrase/duration  na \0s\ ay iikot nang kasingbilis ng kaya ng kompyuter, kaya sa halip ay huminto ito sa dulo.
+
+interactive-scene, repeat-a-round

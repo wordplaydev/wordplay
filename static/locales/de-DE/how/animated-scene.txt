@@ -1,31 +1,57 @@
-Erstellen Sie eine animierte Reihe von Szenen
+Erstelle eine animierte Szenenfolge
 
-Manchmal möchten wir Geschichten erzählen, Liedtexte zeigen oder Gedichte animieren.Dazu können wir verwenden @Scene  Und  @Phrase zusammen, um eine Sequenz anzuzeigen.
+Manchmal wollen wir Geschichten erzählen, Liedtexte zeigen oder Gedichte animieren.Dazu können wir  @Scene  und  @Phrase  zusammen benutzen, um eine Abfolge zu zeigen.
 
-Stellen Sie sich beispielsweise vor, wir wollten den kurzen Kinderreim „Jack be Nimble“ animieren.Wir könnten eine @Scene das jede Zeile als @Phrase und durch Festlegen der @Phrase/duration jeder Zeile, die @Scene würde weitergehen, wenn jede Phrase fertig ist.
+Stell dir zum Beispiel vor, wir wollen den kurzen Kinderreim „Jack be Nimble“ animieren.Wir könnten eine  @Scene  erstellen, die jede Zeile als  @Phrase  enthält, und indem wir die  @Phrase/duration  jeder Zeile festlegen, würde die  @Scene  weiterspringen, sobald jeder Satz fertig ist.
 
-\Scene([
+\Scene(
+	[
 		Phrase('Jack sei flink' Dauer: 1s)
-		Phrase('Jack, sei schnell' Dauer: 1s)
-		Phrase('Jack springt über den Kerzenständer' Dauer: 1s)
-	])\
+		Phrase('Jack sei schnell' Dauer: 1s)
+		Phrase('Jack spring über den Kerzenstock' Dauer: 1s)
+	]
+)\
 
-@Scene werde warten auf eine @Sequence muss auch gemacht werden. Lasst uns die Kerzenlinie springen lassen!
+@Scene  wartet auch darauf, dass eine  @Sequence  fertig ist. Lass uns die Kerzenzeile springen lassen!
 
-\Scene([
+\Scene(
+	[
 		Phrase('Jack sei flink' Dauer: 1s)
-		Phrase('Jack, sei schnell' Dauer: 1s)
-		Phrase('Jack springt über den Kerzenständer' Eingabe: Sequence.bounce(Dauer: 1s))
-	])\
+		Phrase('Jack sei schnell' Dauer: 1s)
+		Phrase(
+			'Jack spring über den Kerzenstock'
+			Eingabe: Sequence.bounce(Dauer: 1s)
+		)
+	]
+)\
 
-@Scene kann auch eine @Group von Text und wartet, bis der gesamte Inhalt fertig animiert ist.
+@Scene  kann auch eine  @Group  aus Text annehmen, und sie wartet dann, bis der ganze Inhalt mit der Animation fertig ist.
 
-\Scene([
-		Group(Stack() [
-				Phrase('Jack sei flink')
-				Phrase('Jack, sei schnell')
-			] Dauer: 2s)
-		Phrase('Jack springt über den Kerzenständer' Eingabe: Sequence.bounce(Dauer: 1s))
-	])\
+\Scene(
+	[
+		Group(
+			Stack()
+			[Phrase('Jack sei flink') Phrase('Jack sei schnell')]
+			Dauer: 2s
+		)
+		Phrase(
+			'Jack spring über den Kerzenstock'
+			Eingabe: Sequence.bounce(Dauer: 1s)
+		)
+	]
+)\
 
-interactive-scene
+Manchmal soll ein Reim weitergehen.  @Scene/loop  bringt die  @Scene  wieder zurück zu ihrer ersten  @Phrase , sobald die letzte fertig ist, sodass sie sich immer wieder selbst wiederholt.
+
+\Scene(
+	[
+		Phrase('Jack sei flink' Dauer: 1s)
+		Phrase('Jack sei schnell' Dauer: 1s)
+		Phrase('Jack spring über den Kerzenstock' Dauer: 1s)
+	]
+	Schleife: ⊤
+)\
+
+Hinweis: Eine  @Scene  kommt nur dann zurück, wenn in der Liste tatsächlich etwas gewartet hat.Eine Liste, in der jedes  @Phrase  hatte  @Phrase/duration  von \0s\ würde so schnell drehen, wie der Computer es schafft, deshalb hält sie am Ende an.
+
+interactive-scene, repeat-a-round

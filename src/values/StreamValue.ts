@@ -47,6 +47,7 @@ export type StreamKind =
     | 'reaction'
     | 'scene'
     | 'speech'
+    | 'spotlight'
     | 'time'
     | 'volume'
     | 'webpage';

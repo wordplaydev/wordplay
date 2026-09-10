@@ -20,27 +20,23 @@ slides: [
 	Slide('✨' 'Your turn' `What do you dream of making that is not possible yet? Tell us at <GitHub@https://github.com/wordplaydev/wordplay/issues>`)
 ]
 
-total: slides.length()
-
 key: Key()
 
-¶The slide we're showing now. Right moves forward, left moves back,
-and both stop at the ends instead of wrapping around.¶
-index•#: 1 … ∆ key …
-	(key = 'ArrowRight') ? ((index < total) ? index + 1 index)
-		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
-			index
+¶Where the show is. The @Scene keeps the place, so nothing here has to count.¶
+at: Spotlight()
 
-slide: slides[index]
+¶Each slide, drawn. This depends on nothing that changes, so it is built once
+rather than on every key press — which is why the counter below isn't in here.¶
+views: slides.translate(ƒ(slide•Slide) Group(Stack('|' 0.4m) [
+		Phrase(slide.emoji size: 2m)
+		Phrase(`*\slide.title\*` size: 1.2m alignment: '|')
+		Phrase(slide.body size: 0.5m wrap: 12m alignment: '|')
+	]))
 
-Stage([
-		Group(
-			Stack('|' 0.4m)
-			[
-				Phrase(slide.emoji size: 2m)
-				Phrase(`*\slide.title\*` size: 1.2m alignment: '|')
-				Phrase(slide.body size: 0.5m wrap: 12m alignment: '|')
-				Phrase(`\index\ of \total\` size: 0.25m alignment: '|')
-			]
-		)
+¶The show never moves on its own; the arrow keys step it one slide either way.
+It stops at each end for us, so there is nothing to check.¶
+Group(Stack('|' 0.4m) [
+		Scene(views pause: ⊤
+			step: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+		Phrase(`\at.index\ of \at.total\` size: 0.25m alignment: '|')
 	])

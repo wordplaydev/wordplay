@@ -1,7 +1,7 @@
 O
 Aula de japonês
 === start
-¶Uma história cena a cena sobre um primeiro dia de aulas de japonês.¶
+¶Uma história cena a cena sobre o primeiro dia de aulas de japonês.¶
 
 ¶Esta é a lista de cenas a mostrar¶
 frases: [
@@ -17,21 +17,24 @@ frases: [
 		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
 	]
 
-¶Esta é a lista de frases que só devem avançar ao serem ditas em voz alta.¶
-dizerFrases: [5 7 9]
+¶Esta é a lista de frases que só devem avançar ao serem faladas.¶
+falarFrases: [5 7 9]
 
-¶A frase atual começa em 1, e avança se o volume do microfone ultrapassar 0,8 numa frase falada, ou se um botão ou tecla for premido nas outras frases.¶
-fraseAtual•#: 1 …
-	dizerFrases.tem(fraseAtual) ?
+¶Onde a história está. O @Scene guarda o lugar, por isso nada aqui precisa de ser contado.¶
+em: Spotlight()
+
+¶Avança quando o microfone passa de .6 numa frase falada, e quando um botão ou uma tecla o indicar em qualquer outra.¶
+avançar: falarFrases.tem(em.index) ?
 		Volume() > .6
 		∆ Botão() | ∆ Chave()
-		…
-		(fraseAtual <
-				frases.comprimento()) ?
-			fraseAtual + 1
-			fraseAtual
 
+¶O @Scene espera por /avançar/ depois de cada frase, e para na última.¶
 Fase(
-	[Frase(frases[fraseAtual] envolver: 10m)]
+	[
+		Cena(
+			frases.traduzir(ƒ(frase2) Frase(frase2 envolver: 10m))
+			até: avançar
+		)
+	]
 	fonte: 'Sue Ellen Francisco'
 )

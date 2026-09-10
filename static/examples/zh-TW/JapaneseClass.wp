@@ -3,7 +3,7 @@ O
 === start
 ¶一個關於日文課第一天的分場故事。¶
 
-¶這些是要顯示的場景清單¶
+¶這是要顯示的場景清單¶
 句子: [
 		`On my first day of high school, I started *Japanese* class.`/en
 		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
@@ -17,21 +17,19 @@ O
 		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
 	]
 
-¶這是一份句子清單，只能靠朗讀來推進。¶
-朗讀句子: [5 7 9]
+¶這是只能靠說話來前進的句子清單。¶
+念出句子: [5 7 9]
 
-¶目前的句子從 1 開始，如果是要朗讀的句子，麥克風音量超過 .8 就會往前推進；如果是其他句子，按下按鈕或按鍵就會往前推進。¶
-目前句子•#: 1 …
-	朗讀句子.包含(目前句子) ?
+¶故事目前的位置。@Scene 會記住位置，所以這裡不用計數。¶
+在: Spotlight()
+
+¶念句子時，麥克風音量超過 .6 就前進；其他情況下，按按鈕或按鍵就前進。¶
+前進: 念出句子.包含(在.index) ?
 		音量() > .6
 		∆ 按鈕() | ∆ 鑰匙()
-		…
-		(目前句子 <
-				句子.長度()) ?
-			目前句子 + 1
-			目前句子
 
+¶@Scene 每念完一句都會等待 /advance/，念到最後一句就停止。¶
 舞台(
-	[短語(句子[目前句子] 包裹: 10m)]
+	[場景(句子.翻譯(ƒ(句子2) 短語(句子2 包裹: 10m)) 直到: 前進)]
 	字体: 'Sue Ellen Francisco'
 )

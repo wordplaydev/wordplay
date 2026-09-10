@@ -4,6 +4,16 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.36.0 - 2026-09-09
+
+### Added
+
+- 🎬 A @Scene can now repeat, start over, hold still, wait for you after every part, and step or jump to any part of itself, so you can make a game that asks again after every round or a slide show you click through. (#547)
+- 🎬 We added @Spotlight, which tells you which part of a @Scene is showing, how many parts there are, how many times it has come around, and whether it is waiting for someone. (#547)
+- 🧱 A @Group can now hold a @Shape, so you can stack a circle with your words, or put a @Scene inside a layout. (#547)
+- 📐 A @Shape now lines up with the @Stack, @Row, or @Grid it's in, instead of sitting wherever its own corners happened to be, and anything inside a @Grid can now be nearer or farther away. (#547)
+- 📖 We added a how-to to the [Guide](https://wordplay.dev/guide) for repeating a round of a game. (#547)
+
 ## 0.35.1 - 2026-09-08
 
 ### Added

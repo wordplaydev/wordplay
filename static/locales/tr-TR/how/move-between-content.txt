@@ -1,20 +1,54 @@
-Ok tuşlarıyla içerik arasında gezinme
+Ok tuşlarıyla içerikler arasında geçiş yapın
 
-Bazen izleyicinin içeriği bir slayt gösterisi gibi tek tek görmesini istersin. Ok tuşlarıyla ileri /ve/ geri gidebilir.
+Bazen izleyicinin içeriği bir slayt gösterisi gibi tek tek adım adım incelemesini istersin. Ok tuşlarıyla ileri /ve/ geri gidebilir.
 
-Bu kalıbın her sürümü aynı üç parçadan oluşur:
+Bu örüntünün her sürümü aynı üç parçadan oluşur:
 
-• Göstermek istediğin içeriğin bir  @List  hali• Bir tuşa her basıldığında değişen bir  @Key  akışı• Şu anda hangi içerik parçasında olduğunu hatırlayan bir  @Reaction  
+• Göstermek istediğin içeriğin bir  @List • Göstermek istediğin içeriğin bir  @Key  bir tuşa her basıldığında değişen bir akış• Göstermek istediğin içeriğin bir  @Reaction  şu anda hangi içerik parçasında olduğunu hatırlayan bir şey
 
-İşte bunun en küçük hali. Önce sahneye tıkla ki dinlesin, sonra sol ve sağ ok tuşlarına bas:
+İşte bunun en küçük hali. Önce dinlemeye başlaması için sahneye tıkla, sonra sol ve sağ ok tuşlarına bas:
 
 \slides: ['birinci' 'ikinci' 'üçüncü']
 key: Key()
-index•#: 1 … ∆ key … (key = 'Sağ Ok') ? ((index < slides.length()) ? index + 1 index) (key = 'Sol Ok') ? ((index > 1) ? index - 1 index) index
+index•#: 1 … ∆ key … (key = 'Sol Ok') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'üç') ? ((index > 1) ? index - 1 index) index
 Phrase(slides[index])\
 
-En önemli parça  @Reaction  burasıdır. Şurada başlar: \1\, ve her seferinde  @Key  değiştiğinde, yeni sayının ne olması gerektiğine karar verir.Sağ oka basıldıysa bir ekler; sol oka basıldıysa bir çıkarır; başka bir durumda aynı kalır.
+Bu  @Reaction  bunun kalbi. \1\ ile başlar ve  @Key  her değiştiğinde yeni sayının ne olması gerektiğine karar verir.Sağ ok tuşuna basıldıysa bir arttırır; sol ok tuşuna basıldıysa bir azaltır; aksi halde aynı kalır.
 
-Fazladan olan \?\ kontrolleri, sayının listenin uçlarını aşmasını önler.Onlar olmadan uçtan çıkabilirsin ve gösterilecek bir slayt kalmaz.Son slayttan tekrar ilkine dönmeyi istersen, bunun yerine bunu da yapabilirsin.
+Fazladan \?\ kontrolleri, sayının listenin uçlarını aşmasını engeller.Bu kontroller olmadan listenin sonundan öteye geçebilirsin ve gösterilecek bir slayt kalmaz.Son slayttan tekrar ilk slayta dönmesini istersen, bunu da yapabilirsin.
 
-interactive-scene, choose-adventure, offer-choices
+Not: ok tuşlarının isimleri \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\ ve \'ArrowDown'\ geçer.Ayrıca sadece şunu da yazabilirsin: \'Left'\ ve \'Right'\ ve tuş isimleri kendi dilinde de çalışır.
+
+Dikkat et, \index\ sadece bir sayı, bu yüzden bu /her/ tür içerik için çalışır, sadece metin için değil.Şunu değiştir:  @List  bir  @Group  listesiyle ya da bütün sahnelerle değiştir, geri kalan örüntü hiç değişmez:
+
+\slides: [
+		Phrase('üç bölümlük bir hikaye' boyut: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('bir kedi belirir')])
+		Phrase('son 🎉')
+	]
+key: Key()
+index•#: 1 … ∆ key … (key = 'Sol Ok') ? ((index < slides.length(
+						)) ? index + 1 index) (key = 'üç') ? ((index > 1) ? index - 1 index) index
+slides[index]\
+
+Bir  @Scene  bunu da yapabilir, hem de daha az sayarak.Ona  @Scene/pause  ver, böylece kendi kendine hiç hareket etmez, ve  @Scene/step  ver, böylece onu bir birim ileri ya da geri hareket ettirebilirsin:
+
+\key: Key()
+Scene(
+	[
+		Phrase('üç bölümlük bir hikaye' boyut: 3m)
+		Group(Stack() [Phrase('🐈') Phrase('bir kedi belirir')])
+		Phrase('son 🎉')
+	]
+	duraklat: ⊤
+	adım: ∆ key ? ((key = 'üç') ? -1 (key = 'Sol Ok') ? 1 ø) ø
+)\
+
+Burada yazılacak \?\ kontrolü yok, çünkü bir  @Scene  kendi uçlarında kendiliğinden durur ve hangi parçanın gösterildiğini hiçbir şeyin hatırlaması gerekmez.Şunu sor:  @Spotlight  eğer şunu söylemek istiyorsan /10'da 3/ sahnede.
+
+Not: bunu galerideki tam bir projede gör: <slayt gösterisi@https://wordplay.dev/project/example-SlideShow?play>
+
+Bu  @Reaction  yukarıdaki yöntem, adım adım ilerlediğin şey çıktı değilse hâlâ bunu yapmanın yoludur — bir kelime listesi, renkler, sayılar ya da parçayı oluşturduğun başka herhangi bir şey.
+
+interactive-scene, choose-adventure, offer-choices, repeat-a-round

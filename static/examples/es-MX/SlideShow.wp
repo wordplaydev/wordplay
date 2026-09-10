@@ -1,7 +1,7 @@
 🎬
 Presentación de diapositivas
 === start
-¶Una presentación que cuenta cómo nació Wordplay; presiona → y ← para avanzar por ella.¶
+¶Una presentación que cuenta cómo nació Wordplay; presiona → y ← para avanzar y retroceder.¶
 
 ¶Una diapositiva de la presentación: un personaje, un título y las palabras debajo de él.¶
 •diapositiva(emoji•'' título•'' cuerpo•''|`…`)
@@ -11,17 +11,17 @@ diapositivas: [
 		diapositiva(
 			'🎭'
 			'Wordplay'
-			'La historia de cómo nació este lenguaje. Presiona → para avanzar, y ← para retroceder.'
+			'La historia de cómo nació este lenguaje. Presiona → para avanzar y ← para retroceder.'
 		)
 		diapositiva(
 			'✒'
 			'Un amor por las letras'
-			'Hace mucho tiempo, Amy se enamoró de la tipografía: las formas de las letras y el ritmo de las palabras en una página.'
+			'Hace mucho tiempo, Amy se enamoró de la tipografía: la forma de las letras y el ritmo de las palabras en una página.'
 		)
 		diapositiva(
 			'💻'
 			'Un amor por el código'
-			'También se enamoró de la programación, y de cómo unas pocas palabras podían hacer que las cosas se movieran.'
+			'También se enamoró de la programación, y de cómo unas cuantas palabras podían hacer que las cosas se movieran.'
 		)
 		diapositiva(
 			'🧭'
@@ -31,7 +31,7 @@ diapositivas: [
 		diapositiva(
 			'😄'
 			'Una persona joven'
-			'Años después, conoció a una persona joven que amaba los emojis, y quería hacerlos bailar.'
+			'Años después, conoció a una persona joven a quien le encantaban los emojis y quería hacerlos bailar.'
 		)
 		diapositiva(
 			'💡'
@@ -46,12 +46,12 @@ diapositivas: [
 		diapositiva(
 			'🧑‍🏫'
 			'Diseñado en conjunto'
-			'Lo diseñó junto con muchas personas jóvenes y maestras, quienes dijeron qué querían crear y qué se les dificultaba.'
+			'Lo diseñó junto con muchos jóvenes y maestras, quienes dijeron qué querían crear y qué se los impedía.'
 		)
 		diapositiva(
 			'🌏'
 			'Siempre en evolución'
-			'Desde entonces no ha dejado de crecer, para que más personas puedan crear más de lo que imaginan.'
+			'Ha seguido creciendo desde entonces, para que más personas puedan crear más de lo que imaginan.'
 		)
 		diapositiva(
 			'✨'
@@ -60,41 +60,45 @@ diapositivas: [
 		)
 	]
 
-total: diapositivas.longitud()
+clave2: Tecla()
 
-tecla2: Tecla()
+¶Donde está la actuación. El @Scene guarda el lugar, así que nada aquí tiene que contar.¶
+en: Spotlight()
 
-¶La diapositiva que mostramos ahora. Derecha avanza, izquierda regresa, y ambas se detienen en los extremos en lugar de dar la vuelta.¶
-índice2•#: 1 … ∆ tecla2 …
-		(tecla2 = 'FlechaDerecha') ? ((índice2 < total) ? índice2 + 1 índice2)
-			(tecla2 = 'FlechaIzquierda') ? ((índice2 > 1) ? índice2 - 1 índice2)
-				índice2
+¶Cada diapositiva, dibujada. Esto no depende de nada que cambie, así que se construye una sola vez en lugar de con cada tecla presionada, por eso el contador de abajo no está aquí.¶
+vistas: diapositivas.traducir(
+		ƒ(diapositiva2•diapositiva) Grupo(
+				Pila('|' 0.4m)
+				[
+					Frase(diapositiva2.emoji tamaño: 2m)
+					Frase(
+						`*\diapositiva2.título\*`
+						tamaño: 1.2m
+						alineación: '|'
+					)
+					Frase(
+						diapositiva2.cuerpo
+						tamaño: 0.5m
+						envolver: 12m
+						alineación: '|'
+					)
+				]
+			)
+	)
 
-diapositiva2: diapositivas[índice2]
-
-Escenario(
+¶La actuación nunca avanza sola; las teclas de flecha la mueven una diapositiva en cualquier dirección. Se detiene en cada extremo por nosotros, así que no hay nada que revisar.¶
+Grupo(
+	Pila('|' 0.4m)
 	[
-		Grupo(
-			Pila('|' 0.4m)
-			[
-				Frase(diapositiva2.emoji tamaño: 2m)
-				Frase(
-					`*\diapositiva2.título\*`
-					tamaño: 1.2m
-					alineación: '|'
-				)
-				Frase(
-					diapositiva2.cuerpo
-					tamaño: 0.5m
-					envolver: 12m
-					alineación: '|'
-				)
-				Frase(
-					`\índice2\ de \total\`
-					tamaño: 0.25m
-					alineación: '|'
-				)
-			]
+		Escena(
+			vistas
+			pausar: ⊤
+			paso: ∆ clave2 ? ((clave2 = 'FlechaIzquierda') ? -1 (clave2 = 'FlechaDerecha') ? 1 ø) ø
+		)
+		Frase(
+			`\en.index\ de \en.total\`
+			tamaño: 0.25m
+			alineación: '|'
 		)
 	]
 )

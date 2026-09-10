@@ -4,7 +4,7 @@ Bildspel
 ¶Ett bildspel som berättar hur Wordplay blev till. Tryck på → och ← för att bläddra.¶
 
 ¶En bild i bildspelet: en figur, en titel och orden under den.¶
-•bild(emoji•'' titel•'' innehåll2•''|`…`)
+•bild(emoji•'' titel•'' text2•''|`…`)
 
 ¶Berättelsen. Lägg till, ta bort eller ändra dessa bilder för att berätta din egen.¶
 bilder: [
@@ -16,85 +16,89 @@ bilder: [
 		bild(
 			'✒'
 			'En kärlek till bokstäver'
-			'För länge sedan blev Amy kär i typografi: formen på bokstäver och rytmen i ord på en sida.'
+			'För länge sedan blev Amy förälskad i typografi: formerna på bokstäver och rytmen i ord på en sida.'
 		)
 		bild(
 			'💻'
-			'En kärlek till kod'
-			'Hon blev kär i programmering också, och i hur några ord kunde få saker att röra sig.'
+			'En kärlek till att koda'
+			'Hon blev förälskad i att koda också, och i hur några få ord kunde få saker att röra sig.'
 		)
 		bild(
 			'🧭'
-			'Två kärlekar, isär'
-			'Men typografi och programmering fanns i olika världar, och få verktyg lät någon älska båda samtidigt.'
+			'Två kärlekar, skilda åt'
+			'Men typografi och att koda levde i olika världar, och få verktyg bjöd in någon att älska båda på samma gång.'
 		)
 		bild(
 			'😄'
 			'En ung person'
-			'År senare träffade hon en ung person som älskade emojier, och ville få dem att dansa.'
+			'År senare träffade hon en ung person som älskade emojier och ville få dem att dansa.'
 		)
 		bild(
 			'💡'
 			'En idé'
-			'Tänk om ett programmeringsspråk gjorde det lätt att få emojier att dansa?'
+			'Tänk om ett programmeringsspråk kunde göra det enkelt att få emojier att dansa?'
 		)
 		bild(
 			'🌱'
-			'Wordplay börjar'
+			'Wordplay tar form'
 			'Så hon började bygga ett, där att koda betyder att flytta ord och tecken runt på en scen.'
 		)
 		bild(
 			'🧑‍🏫'
 			'Skapat tillsammans'
-			'Hon skapade det tillsammans med många unga och lärare, som berättade vad de ville göra, och vad som stod i vägen.'
+			'Hon skapade det tillsammans med många unga och lärare, som berättade vad de ville göra och vad som stod i vägen för dem.'
 		)
 		bild(
 			'🌏'
 			'Alltid under utveckling'
-			'Det har fortsatt växa sedan dess, så att fler människor kan skapa mer av det de föreställer sig.'
+			'Den har fortsatt att växa sedan dess, så att fler människor kan skapa mer av det de föreställer sig.'
 		)
 		bild(
 			'✨'
 			'Din tur'
-			`Vad drömmer du om att göra som inte går ännu? Berätta för oss på <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+			`Vad drömmer du om att skapa som ännu inte är möjligt? Berätta för oss på <GitHub@https://github.com/wordplaydev/wordplay/issues>`
 		)
 	]
 
-totalt: bilder.längd()
-
 nyckel2: Nyckel()
 
-¶Bilden vi visar just nu. Höger flyttar framåt, vänster flyttar bakåt, och båda stannar vid ändarna i stället för att börja om.¶
-index2•#: 1 … ∆ nyckel2 …
-		(nyckel2 = 'Pil Höger') ? ((index2 < totalt) ? index2 + 1 index2)
-			(nyckel2 = 'Pil vänster') ? ((index2 > 1) ? index2 - 1 index2)
-				index2
+¶Där föreställningen är. @Scene håller platsen, så inget här behöver räknas.¶
+vid: Spotlight()
 
-bild2: bilder[index2]
+¶Varje bild är ritad. Detta beror inte på något som ändras, så det byggs en gång — inte vid varje tangenttryckning — vilket är varför räknaren nedan inte finns med här.¶
+visningar: bilder.översätta(
+		ƒ(bild2•bild) Grupp(
+				Stack('|' 0.4m)
+				[
+					Fras(bild2.emoji storlek: 2m)
+					Fras(
+						`*\bild2.titel\*`
+						storlek: 1.2m
+						inriktning: '|'
+					)
+					Fras(
+						bild2.text2
+						storlek: 0.5m
+						sjal: 12m
+						inriktning: '|'
+					)
+				]
+			)
+	)
 
-Etapp(
+¶Föreställningen går aldrig vidare av sig själv; piltangenterna flyttar den en bild åt gången. Den stannar vid varje ände åt oss, så det finns inget att kontrollera.¶
+Grupp(
+	Stack('|' 0.4m)
 	[
-		Grupp(
-			Stack('|' 0.4m)
-			[
-				Fras(bild2.emoji storlek: 2m)
-				Fras(
-					`*\bild2.titel\*`
-					storlek: 1.2m
-					inriktning: '|'
-				)
-				Fras(
-					bild2.innehåll2
-					storlek: 0.5m
-					sjal: 12m
-					inriktning: '|'
-				)
-				Fras(
-					`\index2\ av \totalt\`
-					storlek: 0.25m
-					inriktning: '|'
-				)
-			]
+		Scen(
+			visningar
+			pausa: ⊤
+			steg: ∆ nyckel2 ? ((nyckel2 = 'Pil vänster') ? -1 (nyckel2 = 'Pil Höger') ? 1 ø) ø
+		)
+		Fras(
+			`\vid.index\ av \vid.total\`
+			storlek: 0.25m
+			inriktning: '|'
 		)
 	]
 )

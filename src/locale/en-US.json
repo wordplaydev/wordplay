@@ -4864,7 +4864,7 @@
         },
         "Scene": {
             "doc": [
-                "It shows a @List of @Phrase or @Group one at a time, stopping on the last.",
+                "It shows a @List of @Phrase, @Group or @Shape one at a time, stopping on the last.",
                 "/Boop boop boop/",
                 "To control timing, you can either set the @Phrase.duration on each output, and it will show it for that long before moving on to the next one, and use whatever @Phrase.entering or @Phrase.exiting transitions you might have set. If you set them to a @Sequence, it will use the its duration.",
                 "All of that lets you do things like this little @Scene, which shows these three phrases in sequence:",
@@ -4875,12 +4875,105 @@
                 "Oh, and one last little secret! You can even put @Boolean in the list, and if they are \\⊥\\, the @Scene will pause and wait for it to become true.",
                 "For example, if you wanted to make a sequence of @Phrase and only advance when @Button changes, you could do this:",
                 "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
-                "See how it pauses after each @Phrase, and waits for @Button to change before advancing?"
+                "See how it pauses after each @Phrase, and waits for @Button to change before advancing?",
+                "By default I stop on my last output. Give me @Scene/loop and I come around to my first one again, which is what a game that asks another question after each round wants.",
+                "I check @Scene/loop every time your program changes, so a loop can end as well as begin. Here I keep asking until they get it right, and then stop:",
+                "\\guess: Chat()\nright: guess = 'cat'\nScene([\n\tPhrase('Guess the animal!' duration: 2s)\n\t∆ guess\n\tPhrase(right ? 'Yes!' 'Nope!' duration: 2s)\n] loop: ~right)\\",
+                "@Scene/replay starts me over, @Scene/pause holds me where I am, and @Scene/go sends me straight to one of my outputs. Set @Scene/pause to \\⊤\\ and I never move on my own, so @Scene/go becomes the only thing that advances me — that is how you make a slide show that goes forward /and/ back.",
+                "And if you want to know where I am, to show /3 of 10/ or play different music in different parts of a story, that is what @Spotlight is for."
             ],
             "names": ["🎬", "Scene"],
             "outputs": {
                 "names": "outputs",
                 "doc": "The list of outputs to show in sequence."
+            },
+            "loop": {
+                "names": "loop",
+                "doc": "Whether I come back around to my first output once my last one is done. I stop on the last unless this is \\⊤\\. I check it on every evaluation, so you can end a loop as well as start one."
+            },
+            "until": {
+                "names": "until",
+                "doc": [
+                    "A @condition to wait for after each of my outputs, once it has had its @Phrase/duration or finished animating.",
+                    "It is the same as writing that @Boolean between every output in my list, which is what you would do to make one of my outputs wait. This says it once instead:",
+                    "\\Scene([Phrase('one') Phrase('two') Phrase('three')] until: ∆ Button())\\",
+                    "A @Boolean written in the list still works, and the two are separate waits, so you can hold longer in one particular place."
+                ]
+            },
+            "replay": {
+                "names": "replay",
+                "doc": [
+                    "When this is \\⊤\\ on an evaluation, I start over from my first output, wherever I had got to, and my @Slate/lap goes back to 0.",
+                    "Hand me a /momentary/ @condition, one that is true only on the evaluation the event caused, like \\∆ Button()\\. A lasting condition such as \\score > 10\\🪲 stays true once it becomes true, so it would restart me on every evaluation from then on."
+                ]
+            },
+            "pause": {
+                "names": "pause",
+                "doc": [
+                    "While this is \\⊤\\ I hold still, and when it goes back to \\⊥\\ I carry on. An output I was counting down keeps whatever time it had left, so pausing in the middle of a long @Phrase does not start it over.",
+                    "Unlike @Scene/replay I want a /lasting/ @condition, one that stays true for as long as you want me to wait. Leave me paused for good and I never move on my own, which is exactly what a slide show wants: then @Scene/go is the only thing that advances me."
+                ]
+            },
+            "go": {
+                "names": "go",
+                "doc": [
+                    "Where to go next. Give me a number and I show that output, counting from 1; give me a name and I show whichever output you gave that @Phrase/name to.",
+                    "I count outputs only, never the @Boolean in between, so sending me to 2 means my second @Phrase, however many conditions stand in the way.",
+                    "Like @Scene/replay, this wants a /momentary/ @condition — something that is \\ø\\ except on the evaluation you want me to move. A number that stays put would pin me there forever.",
+                    "Send me past either end and I stop there, unless @Scene/loop is \\⊤\\, in which case I come around. That means you never have to check. Here the arrow keys walk a slide show both ways:",
+                    "If you would rather say /one forward/ than /number three/, that is @Scene/step.",
+                    "\\slides: [Phrase('one') Phrase('two') Phrase('three')]\nkey: Key()\nat: Spotlight()\nScene(slides pause: ⊤\n\tgo: ∆ key ? ((key = 'ArrowLeft') ? at.index - 1 (key = 'ArrowRight') ? at.index + 1 ø) ø)\\"
+                ]
+            },
+            "step": {
+                "names": "step",
+                "doc": [
+                    "How many outputs to move, counting from where I am: \\1\\ is forward one and \\-1\\ is back one. This is @Scene/go said as a distance rather than a place.",
+                    "Like @Scene/go, I stop at my ends unless @Scene/loop is \\⊤\\, so you never have to check, and I want a /momentary/ @condition — something that is \\ø\\ except on the evaluation you want me to move.",
+                    "\\slides: [Phrase('one') Phrase('two') Phrase('three')]\nkey: Key()\nScene(slides pause: ⊤\n\tstep: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)\\",
+                    "Nothing here has to know which @Phrase is showing, which is the difference from @Scene/go. Ask @Spotlight if you want to say so on stage."
+                ]
+            },
+            "name": {
+                "names": "name",
+                "doc": "My name. @Spotlight uses it to tell me apart from any other @Scene playing at the same time; with only one scene you can leave it alone."
+            }
+        },
+        "Spotlight": {
+            "doc": [
+                "I say where a @Scene is right now: which output it is showing, how many it has, and whether it is waiting for someone.",
+                "A @Scene shows things; I am how the rest of a program finds out what it is showing. That is what lets you put a counter under a slide show, play different music in different parts of a story, or show a /press any key/ hint only while the scene is really waiting.",
+                "\\slides: [Phrase('one') Phrase('two') Phrase('three')]\nat: Spotlight()\nStage([\n\tScene(slides loop: ⊤)\n\tPhrase(`\\at.index\\ of \\at.total\\` size: 0.3m place: Place(0m -2m))\n])\\",
+                "I always have a @Slate, even before anything has happened, so you never have to check me for \\ø\\."
+            ],
+            "names": "Spotlight",
+            "name": {
+                "names": "name",
+                "doc": "The @Scene/name of the scene to follow. Leave it \\ø\\ and I follow every scene."
+            }
+        },
+        "Slate": {
+            "doc": "Where a @Scene is: what it is showing, how far along it is, and whether it is waiting.",
+            "names": "Slate",
+            "scene": {
+                "names": "scene",
+                "doc": "The @Scene/name of the scene I came from, or \\''\\ if it has none."
+            },
+            "index": {
+                "names": "index",
+                "doc": "Which output the @Scene is showing, counting from 1. I count outputs only, never the @Boolean in between."
+            },
+            "total": {
+                "names": "total",
+                "doc": "How many outputs the @Scene has, not counting the @Boolean in between."
+            },
+            "lap": {
+                "names": "lap",
+                "doc": "How many times the @Scene has come back around to its first output. It is 0 the first time through."
+            },
+            "waiting": {
+                "names": "waiting",
+                "doc": "Whether the @Scene is stopped: waiting for a @Boolean to become true, or held by @Scene/pause. This is what a /press any key/ hint should watch."
             }
         },
         "Motion": {
@@ -5201,7 +5294,7 @@
         },
         "Group": {
             "doc": [
-                "I arrange @Phrase and @Group together on @Stage with an @Arrangement. Oh hello, how are you? I'm always fine when others are around, so it's great to be with you!",
+                "I arrange @Phrase, @Shape and @Group together on @Stage with an @Arrangement. Oh hello, how are you? I'm always fine when others are around, so it's great to be with you!",
                 "To work, I need you to give me an @Arrangement, and then a @List of @Output to arrange.",
                 "For example, here I am with a @Stack arrangement and a few @Phrase to stack vertically:",
                 "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
@@ -5445,11 +5538,11 @@
             "defaultDescription": "$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]"
         },
         "Arrangement": {
-            "doc": "I am an inspiration to the many other kinds of arrangement in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
+            "doc": "I am an inspiration to the many other kinds of arrangement in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to decide where each @Output goes: I move each one to where I say, keeping its size and its shape. @Free is the one of us that decides nothing, so there each @Output sits at its own @Place. If you want to nudge something a little from where I put it, give it a @Phrase/offset rather than a @Place.",
             "names": ["⠿", "Arrangement"]
         },
         "Row": {
-            "doc": "I am @Row, a horizontal @Arrangement of @Output, with optional padding in between. Have you met my twin, @Stack?",
+            "doc": "I am @Row, a horizontal @Arrangement of @Output, with optional padding in between. Have you met my twin, @Stack? I decide how far along each one goes, and my first input says how to line them up down me. Give one of them a @Place and it will sit at that y instead — but a @Shape has no @Place of its own, so I line it up with everything else.",
             "names": ["➡", "Row"],
             "description": "row of $#count[$count phrase or group|$count phrases and groups]",
             "alignment": {
@@ -5462,7 +5555,7 @@
             }
         },
         "Stack": {
-            "doc": "I am @Stack, a vertical @Arrangement of @Output, with optional padding in between. Have you met my twin, @Row? ",
+            "doc": "I am @Stack, a vertical @Arrangement of @Output, with optional padding in between. Have you met my twin, @Row? I decide how far down each one goes, and my first input says how to line them up across me. Give one of them a @Place and it will sit at that x instead — but a @Shape has no @Place of its own, so I line it up with everything else.",
             "names": ["⬇", "Stack"],
             "description": "stack of $#count[$count phrase or group|$count phrases and groups]",
             "alignment": {
@@ -5475,7 +5568,7 @@
             }
         },
         "Grid": {
-            "doc": "I am grid of @Output. Give me a row and @column count and I'll make a tidy arrangement with optional padding and @cell sizes.",
+            "doc": "I am grid of @Output. Give me a row and @column count and I'll make a tidy arrangement with optional padding and @cell sizes. I decide both directions, so a @Place won't move anything sideways or up and down — though its z still says how near it is.",
             "names": ["▦", "Grid"],
             "description": "$rows row $columns column grid",
             "rows": {

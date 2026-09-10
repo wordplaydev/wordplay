@@ -106,14 +106,12 @@ test('with a selection, content goes into its container just after it', () => {
     ).toBe(true);
 });
 
-test('a Shape never lands in a Group, whose content type excludes it', () => {
-    // Group.content is [Phrase|Group|Say|Music|ø]. Falling through to the block
-    // is what keeps the form buttons from ever being inactive: adding is always
-    // legal somewhere.
+test('a Shape lands in a Group beside the selection, like anything else', () => {
+    // Group.content admits Shape, so a form button no longer has to fall
+    // through to the block to find a home.
     const project = make(`Group(Row() [Phrase('a')])`);
     const phrases = ofType(project, 'Phrase');
-    expect(insertionPoint(project, [phrases[0]], 'circle').kind).toBe('block');
-    // But a phrase does go in.
+    expect(insertionPoint(project, [phrases[0]], 'circle').kind).toBe('list');
     expect(insertionPoint(project, [phrases[0]], 'phrase').kind).toBe('list');
 });
 
@@ -285,6 +283,38 @@ test('a new shape lands below what the stage already holds', () => {
     expect(anchor).toEqual({ x: -2, y: 1 - InsertGap });
 });
 
+test('a new child of an arrangement gets no place, so it stays aligned', () => {
+    // Writing one used to pin the new phrase to its leftmost sibling's x, which
+    // silently defeated the stack's own centring — the palette manufacturing the
+    // mis-centring `getAuthoredPlace` exists to stop. Shapes rather than phrases
+    // because `sceneOf` lays the stage out, and a phrase needs a DOM to measure.
+    const project = make(`Group(Stack('|') [Shape(Rectangle(-2m 3m 2m 1m))])`);
+    const shapes = ofType(project, 'Shape');
+    const inside = insertOutput(
+        project,
+        DefaultLocales,
+        'phrase',
+        [shapes[0]],
+        sceneOf(project),
+    );
+    if (inside === undefined) throw new Error('expected an insertion');
+    expect(inside.node.toWordplay()).not.toContain('📍');
+});
+
+test('a new child of a Free group still gets a place, since a place is how it sits', () => {
+    const project = make(`Group(Free() [Shape(Rectangle(-2m 3m 2m 1m))])`);
+    const shapes = ofType(project, 'Shape');
+    const inside = insertOutput(
+        project,
+        DefaultLocales,
+        'phrase',
+        [shapes[0]],
+        sceneOf(project),
+    );
+    if (inside === undefined) throw new Error('expected an insertion');
+    expect(inside.node.toWordplay()).toContain('📍');
+});
+
 test('a new phrase gets a place only when there is something to clear', () => {
     const empty = add(make(''), 'phrase');
     expect(empty.node.toWordplay()).not.toContain('📍');
@@ -314,7 +344,7 @@ Phrase('b')`);
     expect(groupProblem(project, phrases)).toBe('scattered');
 });
 
-test('a Shape cannot be grouped, since Group content excludes it', () => {
+test('a Shape can be grouped with a Phrase, since Group content admits it', () => {
     const project = make(`Phrase('a')
 Shape(Circle(1m))`);
     const context = project.getContext(project.getMain());
@@ -323,7 +353,7 @@ Shape(Circle(1m))`);
             e.is(project.shares.output.Phrase, context) ||
             e.is(project.shares.output.Shape, context),
     );
-    expect(groupProblem(project, selected)).toBe('kind');
+    expect(groupProblem(project, selected)).toBeUndefined();
 });
 
 test('one output can be grouped on its own', () => {

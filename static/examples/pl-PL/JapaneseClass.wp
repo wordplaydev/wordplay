@@ -1,5 +1,5 @@
 O
-Klasa japońska
+Lekcja japońskiego
 === start
 ¶Historia opowiedziana scena po scenie o pierwszym dniu lekcji japońskiego.¶
 
@@ -17,21 +17,26 @@ zdania: [
 		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
 	]
 
-¶To jest lista zdań, które można przechodzić dalej tylko poprzez mówienie.¶
+¶To jest lista zdań, które można przesunąć dalej tylko przez mówienie.¶
 mówZdania: [5 7 9]
 
-¶Bieżące zdanie zaczyna się od 1 i zwiększa się, gdy głośność mikrofonu przekroczy 0,8 w przypadku zdania mówionego, albo gdy zostanie naciśnięty przycisk lub klawisz w przypadku innych zdań.¶
-bieżąceZdanie•#: 1 …
-	mówZdania.ma(bieżąceZdanie) ?
+¶Miejsce, w którym jest historia. @Scene pamięta to miejsce, więc nic tu nie trzeba liczyć.¶
+w: Spotlight()
+
+¶Przejdź dalej, gdy mikrofon pokaże wartość powyżej 0,6 przy zdaniu do mówienia, a przy innych - gdy powie tak przycisk albo klawisz.¶
+dalej: mówZdania.ma(w.index) ?
 		Tom() > .6
 		∆ Przycisk() | ∆ Klawisz()
-		…
-		(bieżąceZdanie <
-				zdania.długość()) ?
-			bieżąceZdanie + 1
-			bieżąceZdanie
 
+¶@Scene czeka na /advance/ po każdym zdaniu i zatrzymuje się na ostatnim.¶
 Scena(
-	[Wyrażenie(zdania[bieżąceZdanie] zawinąć: 10m)]
+	[
+		Pokaz(
+			zdania.tłumaczyć(
+				ƒ(zdanie2) Wyrażenie(zdanie2 zawinąć: 10m)
+			)
+			ażDo: dalej
+		)
+	]
 	twarz: 'Sue Ellen Francisco'
 )

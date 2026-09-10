@@ -4538,23 +4538,79 @@
         },
         "Scene": {
             "doc": [
-                "$~@Phrase veya @Group oluşan bir @List sırayla gösterir ve sonuncusunda durur.",
-                "/Boop boop boop/",
-                "Zamanlamayı kontrol etmek için, her çıktıya @Phrase.duration özelliğini atayabilirsiniz; bu sayede bir sonraki çıktıya geçmeden önce o @expression belirtilen süre boyunca gösterilecek ve ayarladığınız @Phrase.entering veya @Phrase.exiting geçiş efektleri kullanılacaktır. Eğer bunları bir @Sequence olarak ayarlarsanız, o dizinin süresini kullanacaktır.",
-                "Tüm bunlar, bu üç ifadeyi sırayla gösteren şu küçük @Scene gibi şeyler yapmanıza olanak tanır:",
-                "\\Scene([\n\tPhrase('Hello' süre: 1s)\n\tPhrase('How are you?' süre: 2s rotasyon: 5° giriş: Pose(rotasyon: 0°))\n\tPhrase('I am fine')\n])\\",
-                "İlk çıktının bir saniye boyunca gösterildiğini, ardından ikincisinin iki saniye boyunca ancak beş derecelik bir dönüşle animasyonlu olarak gösterildiğini ve son olarak da sonuncusunun gösterildiğini görüyor musunuz?",
-                "@Scene ile çok ayrıntılı çıktı ve animasyon dizileri oluşturabilir, hatta diğer @Phrase veya @Group olduğu gibi bunların bazı kısımlarını dinamik veya etkileşimli hale getirebilirsiniz.",
-                "Eğer iç içe geçmiş animasyonlu bir çıktınız varsa (örneğin, içinde animasyonlu bir @Phrase bulunan bir @Group ), @Scene , @Group içindeki tüm animasyonlu içeriğin bitmesini bekleyecektir.",
-                "Ve son bir küçük sır daha! Listeye @Boolean bile ekleyebilirsiniz ve eğer bunlar \\⊥\\ ise, @Scene duraklayacak ve doğru olana kadar bekleyecektir.",
-                "Örneğin, @Phrase oluşan bir dizi oluşturmak ve yalnızca @Button değiştiğinde ilerlemek istiyorsanız, bunu şu şekilde yapabilirsiniz:",
-                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' süre: 0.25s rotasyon: 5° giriş: Pose(rotasyon: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
-                "Her @Phrase sonra @how durakladığını ve ilerlemeden önce @Button değişmesini beklediğini görüyor musunuz?"
+                "$~@List tane @Phrase, @Group veya @Shape'ü sırayla, birer birer gösterir ve sonuncusunda durur.",
+                "/Bip bip bip/",
+                "Zamanlamayı kontrol etmek için her çıktıya @Phrase.duration ayarlayabilirsin. Böylece sonrakine geçmeden önce o kadar süre gösterilir ve varsa ayarladığın @Phrase.entering veya @Phrase.exiting geçişlerini kullanır. Eğer bunları bir @Sequence'e ayarlarsan, onun süresini kullanır.",
+                "Tüm bunlar, şu üç ifadeyi sırayla gösteren şu küçük @Scene gibi şeyler yapmanı sağlar:",
+                "\\Gösteri(\n\t[\n\t\tİfadeetmek('Merhaba' süre: 1s)\n\t\tİfadeetmek(\n\t\t\t'Nasılsın?'\n\t\t\tsüre: 2s\n\t\t\trotasyon: 5°\n\t\t\tgiriş: Poz(rotasyon: 0°)\n\t\t)\n\t\tİfadeetmek('İyiyim')\n\t]\n)\\",
+                "İlk çıktının bir saniye, sonrakinin iki saniye gösterildiğini fakat beş derecelik bir dönüşle canlandırıldığını, ardından da sonuncusunun gösterildiğini gördün mü?",
+                "@Scene ile çok ayrıntılı çıktı ve animasyon dizileri oluşturabilir, hatta bunların bir kısmını başka bir @Phrase veya @Group'de olduğu gibi dinamik ya da etkileşimli hale getirebilirsin.",
+                "Eğer iç içe geçmiş animasyonlu bir çıktın varsa (içinde animasyonlu @Phrase bulunan bir @Group), @Scene, @Group içindeki tüm animasyonlu içeriğin bitmesini bekler.",
+                "Ah, ve son küçük bir sır daha! Listeye @Boolean de koyabilirsin, eğer bunlar \\⊥\\ ise, @Scene duraklar ve doğru olmasını bekler.",
+                "Örneğin, bir dizi @Phrase oluşturmak istesen ve yalnızca @Button değiştiğinde ilerlesen, şunu yapabilirsin:",
+                "\\tıkla: ∆ Düğme()\nGösteri(\n\t[\n\t\tİfadeetmek('Merhaba')\n\t\ttıkla\n\t\tİfadeetmek(\n\t\t\t'Nasılsın?'\n\t\t\tsüre: 0.25s\n\t\t\trotasyon: 5°\n\t\t\tgiriş: Poz(rotasyon: 0°)\n\t\t)\n\t\ttıkla\n\t\tİfadeetmek('İyiyim')\n\t]\n)\\",
+                "Her @Phrase'dan sonra durakladığını ve ilerlemeden önce @Button'in değişmesini beklediğini gördün mü?",
+                "Varsayılan olarak son çıktımda dururum. Bana @Scene/loop ver, o zaman tekrar ilk çıktıma dönerim; bu, her turdan sonra başka bir soru soran bir oyunun isteyeceği şeydir.",
+                "Programın her değiştiğinde @Scene/loop'ü kontrol ederim, böylece bir döngü hem başlayabilir hem de bitebilir. İşte burada, doğru cevabı bulana kadar sormaya devam ederim, sonra dururum:",
+                "\\tahminEt: Sohbet()\ndoğru2: tahminEt = 'cat'\nGösteri(\n\t[\n\t\tİfadeetmek('Hayvanı tahmin et!' süre: 2s)\n\t\t∆ tahminEt\n\t\tİfadeetmek(doğru2 ? 'Evet!' 'Yanlış!' süre: 2s)\n\t]\n\tdöngü: ~doğru2\n)\\",
+                "@Scene/replay beni baştan başlatır, @Scene/pause beni olduğum yerde tutar ve @Scene/go beni doğrudan çıktılarımdan birine gönderir. @Scene/pause'ü şuna ayarla: \\⊤\\ o zaman kendiliğimden asla ilerlemem, böylece @Scene/go beni ilerleten tek şey olur — hem ileri /hem de/ geri giden bir slayt gösterisi böyle yapılır.",
+                "Ve eğer /10'da 3/ göstermek ya da bir hikayenin farklı bölümlerinde farklı müzik çalmak için nerede olduğumu bilmek istersen, işte @Spotlight bunun içindir."
             ],
             "names": ["Gösteri"],
             "outputs": {
                 "names": "$~çıktılar",
                 "doc": "$~Sırayla gösterilecek çıktıların listesi."
+            },
+            "loop": {
+                "names": "$~döngü",
+                "doc": "$~Son çıktım bittiğinde tekrar ilk çıktıma dönüp dönmeyeceğim. Bu \\⊤\\ olmadıkça son çıktımda dururum. Her değerlendirmede bunu kontrol ederim, böylece bir döngüyü hem bitirebilir hem de başlatabilirsin."
+            },
+            "replay": {
+                "names": "$~yenidenOynat",
+                "doc": [
+                    "$~Bu bir değerlendirmede \\⊤\\ olduğunda, nerede kalmış olursam olayım ilk çıktımdan yeniden başlarım ve @Slate/lap'ım tekrar 0'a döner.",
+                    "Bana /anlık/ bir @condition ver, yani yalnızca olayın gerçekleştiği değerlendirmede doğru olan bir koşul, şunun gibi: \\∆ Düğme()\\. Kalıcı bir koşul, örneğin \\score > 10\\🪲, bir kez doğru olduğunda doğru kalır, bu yüzden o andan itibaren her değerlendirmede beni yeniden başlatır."
+                ]
+            },
+            "pause": {
+                "names": "$~duraklat",
+                "doc": [
+                    "$~Bu şu haldeyken \\⊤\\ olduğu sürece kımıldamadan dururum ve tekrar \\⊥\\ durumuna döndüğünde devam ederim. Geri saymakta olduğum bir çıktı, kalan süresini korur, yani uzun bir @Phrase'ın ortasında duraklamak onu baştan başlatmaz.",
+                    "@Scene/replay'den farklı olarak, beni beklemeni istediğin sürece doğru kalan /kalıcı/ bir @condition isterim. Beni sonsuza kadar duraklatılmış bırakırsan, kendiliğimden asla ilerlemem; bu tam olarak bir slayt gösterisinin istediği şeydir: o zaman beni ilerleten tek şey @Scene/go olur."
+                ]
+            },
+            "go": {
+                "names": "$~git",
+                "doc": [
+                    "$~Sonra nereye gideceğim. Bana bir sayı ver, o çıktıyı gösteririm, 1'den başlayarak sayarım; bana bir isim ver, o @Phrase/name'ı verdiğin çıktıyı gösteririm.",
+                    "Sadece çıktıları sayarım, arada kalan @Boolean'i asla saymam. Yani beni 2'ye göndermek, önümde kaç koşul olursa olsun, ikinci @Phrase'ımı göstereceğim anlamına gelir.",
+                    "@Scene/replay gibi, bu da /anlık/ bir @condition ister — yani şu olan bir şey: \\ø\\, tabii benim ilerlemeni istediğin değerlendirme dışında. Sabit kalan bir sayı beni orada sonsuza kadar sabitler.",
+                    "Beni herhangi bir uçtan öteye gönderirsen orada dururum, tabii @Scene/loop \\⊤\\ değilse; bu durumda tekrar başa dönerim. Bu, hiçbir zaman kontrol etmen gerekmediği anlamına gelir. İşte burada ok tuşları bir slayt gösterisinde her iki yönde de gezinir:",
+                    "/üçüncü sayı/ yerine /bir ileri/ demeyi tercih edersen, işte bu @Scene/step'dır.",
+                    "\\slaytlar: [\n\t\tİfadeetmek('bir')\n\t\tİfadeetmek('iki')\n\t\tİfadeetmek('üç')\n\t]\nanahtar2: Anahtar()\niçinde: Spotlight()\nGösteri(\n\tslaytlar\n\tduraklat: ⊤\n\tgit: ∆ anahtar2 ? ((anahtar2 = 'Sol Ok') ? içinde.index - 1 (anahtar2 = 'Sağ Ok') ? içinde.index + 1 ø) ø\n)\\"
+                ]
+            },
+            "name": {
+                "names": "$~isim",
+                "doc": "$~Benim ismim. @Spotlight, aynı anda oynayan başka bir @Scene'den beni ayırt etmek için bunu kullanır; tek bir sahnen varsa, bunu olduğu gibi bırakabilirsin."
+            },
+            "until": {
+                "names": "$~kadar",
+                "doc": [
+                    "$~Her çıktımdan sonra, @Phrase/duration'i tamamlandığında ya da animasyonu bittiğinde beklenecek bir @condition.",
+                    "Bu, listemdeki her çıktının arasına o @Boolean'i yazmakla aynı şeydir; bu da çıktılarımdan birinin beklemesini sağlamak için yapacağın şeydir. Bu ise onu bir kez söyler:",
+                    "\\Gösteri(\n\t[İfadeetmek('bir') İfadeetmek('iki') İfadeetmek('üç')]\n\tkadar: ∆ Düğme()\n)\\",
+                    "Listeye yazılan bir @Boolean yine de çalışır ve ikisi ayrı bekleme olur. Böylece belirli bir yerde daha uzun bekleyebilirsin."
+                ]
+            },
+            "step": {
+                "names": "$~adım",
+                "doc": [
+                    "$~Bulunduğum yerden sayarak, kaç çıktının hareket edeceği: \\1\\ bir ileri, \\-1\\ bir geridir. Bu, @Scene/go'in bir yer olarak değil, bir uzaklık olarak söylenmiş hâlidir.",
+                    "@Scene/go gibi ben de uçlarımda dururum, tabi @Scene/loop şu değilse: \\⊤\\, bu yüzden hiç kontrol etmek zorunda kalmazsın. Ben senin beni hareket ettirmek istediğin değerlendirme dışında hep aynı kalan, /anlık/ bir @condition isterim — yani \\ø\\ olan bir şey.",
+                    "\\slaytlar: [\n\t\tİfadeetmek('bir')\n\t\tİfadeetmek('iki')\n\t\tİfadeetmek('üç')\n\t]\nanahtar2: Anahtar()\nGösteri(\n\tslaytlar\n\tduraklat: ⊤\n\tadım: ∆ anahtar2 ? ((anahtar2 = 'Sol Ok') ? -1 (anahtar2 = 'Sağ Ok') ? 1 ø) ø\n)\\",
+                    "Burada hiçbir şeyin hangi @Phrase'in gösterildiğini bilmesi gerekmez; işte @Scene/go'den farkı budur. Bunu sahnede söylemek istersen @Spotlight'e sor."
+                ]
             }
         },
         "Motion": {
@@ -5159,6 +5215,43 @@
                 "doc": "$~Bu parçanın bu vuruşta söylediği hece, ya da \\ø\\ hiçbir şey söylemediği zaman — bir es, ya da @Track/words olmayan bir iz.",
                 "names": "$~kelimeler"
             }
+        },
+        "Spotlight": {
+            "doc": [
+                "$~Bir @Scene'in şu an ne durumda olduğunu söylerim: hangi çıktıyı gösterdiğini, kaç tane çıktısı olduğunu ve birini bekleyip beklemediğini.",
+                "Bir @Scene şeyler gösterir; ben ise programın geri kalanının onun ne gösterdiğini öğrenme yoluyum. Bu sayede bir slayt gösterisinin altına sayaç koyabilir, bir hikâyenin farklı bölümlerinde farklı müzik çalabilir ya da sahne gerçekten beklerken /herhangi bir tuşa bas/ ipucunu yalnızca o sırada gösterebilirsin.",
+                "\\slaytlar: [\n\t\tİfadeetmek('bir')\n\t\tİfadeetmek('iki')\n\t\tİfadeetmek('üç')\n\t]\niçinde: Spotlight()\nSahne(\n\t[\n\t\tGösteri(slaytlar döngü: ⊤)\n\t\tİfadeetmek(\n\t\t\t`\\içinde.index\\ / \\içinde.total\\`\n\t\t\tboyut: 0.3m\n\t\t\tyer: Yer(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Her zaman bir @Slate'im vardır, henüz hiçbir şey olmadan bile. Bu yüzden beni hiç \\ø\\ için kontrol etmek zorunda kalmazsın."
+            ],
+            "names": "$~Işık",
+            "name": {
+                "names": "$~isim",
+                "doc": "$~Takip edilecek sahnenin @Scene/name'i. Bunu \\ø\\ olarak bırakırsan, her sahneyi takip ederim."
+            }
+        },
+        "Slate": {
+            "doc": "$~Bir @Scene'in nerede olduğu: ne gösterdiği, ne kadar ilerlediği ve bekleyip beklemediği.",
+            "names": "$~Levha",
+            "scene": {
+                "names": "$~sahne",
+                "doc": "$~Geldiğim sahnenin @Scene/name'i, ya da hiç sahnesi yoksa \\''\\."
+            },
+            "index": {
+                "names": "$~dizin",
+                "doc": "$~@Scene'in hangi çıktıyı gösterdiği, 1'den başlayarak sayılır. Yalnızca çıktıları sayarım, aradaki @Boolean'leri hiç saymam."
+            },
+            "total": {
+                "names": "$~toplam",
+                "doc": "$~@Scene'in kaç çıktısı olduğu, aradaki @Boolean'ler sayılmadan."
+            },
+            "lap": {
+                "names": "$~tur",
+                "doc": "$~@Scene'in ilk çıktısına kaç kez geri döndüğü. İlk geçişte bu @value 0'dır."
+            },
+            "waiting": {
+                "names": "$~bekliyor",
+                "doc": "$~@Scene'in durup durmadığı: bir @Boolean'in doğru olmasını bekliyor mu, yoksa @Scene/pause tarafından tutuluyor mu. Bir /herhangi bir tuşa bas/ ipucunun izlemesi gereken şey budur."
+            }
         }
     },
     "output": {
@@ -5171,11 +5264,11 @@
         },
         "Group": {
             "doc": [
-                "$~@Phrase ve @Group @Stage Stage'de bir @Arrangement ile bir araya getiriyorum. Merhaba, nasılsınız? Başkaları yanımda olduğunda her zaman iyiyim, bu yüzden sizinle birlikte olmak harika!",
-                "Çalışması için bana bir @Arrangement ve ardından düzenlenecek bir @Output @List vermeniz gerekiyor.",
-                "Örneğin, burada @Stack düzenlemesi ve dikey olarak üst üste yığılacak birkaç @Phrase ile birlikteyim:",
-                "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
-                "İşleri tam olarak @how düzenleyeceğim, bana verdiğiniz @Arrangement Arrangement'a bağlıdır."
+                "$~@Phrase, @Shape ve @Group'yi @Stage üzerinde @Arrangement ile birlikte düzenlerim. Merhaba, nasılsın? Başkaları yanımdayken hep iyi olurum, o yüzden seninle olmak harika!",
+                "Çalışabilmem için bana bir @Arrangement ve düzenlemek için @Output'den oluşan bir @List vermen gerekir.",
+                "Örneğin, işte bir @Stack düzeniyle ve dikey olarak istiflenecek birkaç @Phrase ile buradayım:",
+                "\\Grup(Yığın() [İfadeetmek('birinci') İfadeetmek('ikinci')])\\",
+                "Şeyleri tam olarak @how düzenlediğim, bana verdiğin @Arrangement'e bağlıdır."
             ],
             "names": ["$~Grup"],
             "layout": {
@@ -5415,11 +5508,11 @@
             }
         },
         "Arrangement": {
-            "doc": "$~Verse'teki diğer birçok düzenleme türüne ilham veriyorum, bunlar arasında @Row, @Stack, @Grid ve @Free var. Şunu yapmak için @Group ile yakın çalışırım:",
+            "doc": "$~Ben, @Row, @Stack, @Grid ve @Free dahil olmak üzere Verse'deki birçok başka düzenleme türüne ilham veririm. Her bir @Output'in nereye gideceğine karar vermek için @Group ile yakın çalışırım: her birini boyutunu ve şeklini koruyarak söylediğim yere taşırım. @Free, aramızda hiçbir şeye karar vermeyen olandır; bu yüzden orada her @Output kendi @Place'inde oturur. Koyduğum yerden bir şeyi biraz kaydırmak istersen, ona bir @Place yerine bir @Phrase/offset ver.",
             "names": ["$~Ayarlama"]
         },
         "Row": {
-            "doc": "$~Ben @Row, aralarında isteğe bağlı boşluk olan yatay bir @Output @Arrangement'siyim. İkizim @Stack ile tanıştın mı?",
+            "doc": "$~Ben @Row'im, @Output'nin yatay bir @Arrangement'i, aralarında isteğe bağlı boşluk bırakabilirim. İkizim @Stack ile tanıştın mı? Her birinin ne kadar ilerlediğine ben karar veririm ve ilk girdim onları benim boyumca @how hizalayacağımı söyler. Birine bir @Place verirsen, onun yerine o y konumunda oturur — ama bir @Shape'in kendine ait bir @Place'ı yoktur, bu yüzden onu diğer her şeyle birlikte hizalarım.",
             "names": ["$~Sıra"],
             "description": "$~$#count[$count ifade veya gruplu|$count ifade ve gruplu] satır",
             "alignment": {
@@ -5432,7 +5525,7 @@
             }
         },
         "Stack": {
-            "doc": "$~Ben @Stack, aralarında isteğe bağlı boşluk olan dikey bir @Output @Arrangement'siyim. İkizim @Row ile tanıştın mı?",
+            "doc": "$~Ben @Stack'im, @Output'nin dikey bir @Arrangement'i, aralarında isteğe bağlı boşluk bırakabilirim. İkizim @Row ile tanıştın mı? Her birinin ne kadar aşağı ineceğine ben karar veririm ve ilk girdim onları benim enimce @how hizalayacağımı söyler. Birine bir @Place verirsen, onun yerine o x konumunda oturur — ama bir @Shape'in kendine ait bir @Place'ı yoktur, bu yüzden onu diğer her şeyle birlikte hizalarım.",
             "names": ["$~Yığın"],
             "description": "$~$#count[$count ifade veya gruplu|$count ifade ve gruplu] yığın",
             "alignment": {
@@ -5445,7 +5538,7 @@
             }
         },
         "Grid": {
-            "doc": "$~Ben @Output ızgarasıyım. Bana bir satır ve @column sayısı ver, ben de isteğe bağlı dolgu ve @cell boyutlarıyla düzenli bir yerleşim yapayım.",
+            "doc": "$~Ben @Output'in ızgarasıyım. Bana bir satır ve @column sayısı ver, isteğe bağlı boşluklarla ve @cell boyutlarıyla düzenli bir düzen oluştururum. İki yönü de ben belirlerim, bu yüzden bir @Place hiçbir şeyi yana ya da yukarı aşağı hareket ettirmez — ama z değeri yine de ne kadar yakın olduğunu söyler.",
             "names": ["$~Izgara"],
             "description": "$~$rows satır $columns sütun ızgarası",
             "rows": {

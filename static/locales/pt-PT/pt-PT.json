@@ -4572,23 +4572,79 @@
         },
         "Scene": {
             "doc": [
-                "$~Apresenta uma @List de @Phrase ou @Group , um de cada vez, parando no último.",
-                "/Boop boop boop/",
-                "Para controlar o tempo, pode definir a duração de cada frase com a anotação @Phrase.duration , e será apresentada durante esse período antes de passar para a seguinte. Além disso, pode utilizar as transições @Phrase.entering ou @Phrase.exiting que tiver configurado. Se as definir numa sequência com a anotação @Sequence , a duração será definida de acordo com a sequência definida.",
-                "Tudo isto permite fazer coisas @how esta pequena @Scene , que mostra estas três frases em sequência:",
-                "\\Scene([\n\tPhrase('Hello' duração: 1s)\n\tPhrase('How are you?' duração: 2s rotação: 5° entrando: Pose(rotação: 0°))\n\tPhrase('I am fine')\n])\\",
-                "Vê como a primeira imagem é apresentada durante um segundo, a seguinte durante dois segundos, mas animada com uma rotação de cinco graus, e depois a última é apresentada?",
-                "Pode criar sequências de saída e animações muito elaboradas com @Scene e até tornar partes das mesmas dinâmicas ou interativas, como acontece com qualquer outro @Phrase ou @Group .",
-                "Se tiver uma saída animada aninhada (um @Group com @Phrase animado no interior), @Scene aguardará até que todo o conteúdo animado no @Group termine.",
-                "Ah, e mais um pequeno segredo! Pode até colocar @Boolean na lista, e se forem \\⊥\\ , a @Scene irá fazer uma pausa e esperar até que se tornem verdadeiros.",
-                "Por exemplo, se quisesse criar uma sequência de @Phrase e avançar apenas quando @Button mudasse, poderia fazê-lo assim:",
-                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duração: 0.25s rotação: 5° entrando: Pose(rotação: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
-                "Vê como ele faz uma pausa após cada @Phrase e espera que @Button mude antes de prosseguir?"
+                "$~Mostra um @List de @Phrase, @Group ou @Shape de cada vez, parando no último.",
+                "/Bip bip bip/",
+                "Para controlar o tempo, pode definir a @Phrase.duration em cada resultado, e ele será mostrado durante esse tempo antes de passar ao seguinte, usando as transições de @Phrase.entering ou @Phrase.exiting que tiver definido. Se as definir para uma @Sequence, será usada a duração dessa.",
+                "Tudo isto permite fazer coisas @how este pequeno @Scene, que mostra estas três frases em sequência:",
+                "\\Cena(\n\t[\n\t\tFrase('Olá' duração: 1s)\n\t\tFrase(\n\t\t\t'Como está?'\n\t\t\tduração: 2s\n\t\t\trotação: 5°\n\t\t\tentrando: Pose(rotação: 0°)\n\t\t)\n\t\tFrase('Estou bem')\n\t]\n)\\",
+                "Repare como o primeiro resultado é mostrado durante um segundo, depois o seguinte durante dois segundos, mas animado com uma rotação de cinco graus, e por fim mostra o último?",
+                "Pode criar sequências muito elaboradas de resultados e animações com @Scene, e até tornar partes delas dinâmicas ou interativas, como em qualquer outra @Phrase ou @Group.",
+                "Se tiver um resultado animado que esteja aninhado (uma @Group com @Phrase animadas lá dentro), @Scene vai esperar que todo o conteúdo animado dentro da @Group termine.",
+                "Ah, e mais um pequeno segredo! Pode até colocar @Boolean na lista, e se forem\\⊥\\, a @Scene vai pausar e esperar que se torne verdadeira.",
+                "Por exemplo, se quisesse fazer uma sequência de @Phrase e só avançar quando @Button mudasse, podia fazer isto:",
+                "\\clicar: ∆ Botão()\nCena(\n\t[\n\t\tFrase('Olá')\n\t\tclicar\n\t\tFrase(\n\t\t\t'Como está?'\n\t\t\tduração: 0.25s\n\t\t\trotação: 5°\n\t\t\tentrando: Pose(rotação: 0°)\n\t\t)\n\t\tclicar\n\t\tFrase('Estou bem')\n\t]\n)\\",
+                "Repare como pausa depois de cada @Phrase, e espera que @Button mude antes de avançar?",
+                "Por predefinição, paro no meu último resultado. Dê-me @Scene/loop e volto ao primeiro outra vez, o que é o que um jogo que faz outra pergunta depois de cada ronda quer.",
+                "Verifico @Scene/loop sempre que o seu programa muda, para que um ciclo possa terminar tal como pode começar. Aqui continuo a perguntar até acertarem, e depois paro:",
+                "\\adivinhar: Conversa()\ncorreto: adivinhar = 'cat'\nCena(\n\t[\n\t\tFrase('Adivinhe o animal!' duração: 2s)\n\t\t∆ adivinhar\n\t\tFrase(correto ? 'Sim!' 'Não!' duração: 2s)\n\t]\n\tciclo: ~correto\n)\\",
+                "@Scene/replay recomeça-me do início, @Scene/pause mantém-me onde estou, e @Scene/go envia-me diretamente para um dos meus resultados. Defina @Scene/pause para \\⊤\\ e nunca avanço sozinho(a), por isso @Scene/go torna-se a única coisa que me faz avançar — é assim que se faz uma apresentação de diapositivos que avança /e/ recua.",
+                "E se quiser saber onde estou, para mostrar /3 de 10/ ou tocar músicas diferentes em partes diferentes de uma história, é para isso que serve @Spotlight."
             ],
             "names": ["Cena"],
             "outputs": {
                 "names": "saídas",
                 "doc": "A lista de resultados a apresentar em sequência."
+            },
+            "loop": {
+                "names": "$~ciclo",
+                "doc": "$~Se eu volto ao meu primeiro resultado depois de terminar o último. Paro no último a não ser que isto seja \\⊤\\. Eu verifico isto em cada avaliação, para que possa terminar um ciclo tal @how pode começá-lo."
+            },
+            "replay": {
+                "names": "$~repetir",
+                "doc": [
+                    "$~Quando isto é \\⊤\\ numa avaliação, recomeço do meu primeiro resultado, seja onde for que tivesse chegado, e o meu @Slate/lap volta a 0.",
+                    "Dê-me uma @condition /momentânea/, uma que só seja verdadeira na avaliação em que o evento aconteceu, @how \\∆ Botão()\\. Uma condição duradoura como \\score > 10\\🪲 mantém-se verdadeira depois de se tornar verdadeira, por isso recomeçava-me em todas as avaliações a partir daí."
+                ]
+            },
+            "pause": {
+                "names": "$~pausar",
+                "doc": [
+                    "$~Enquanto isto for \\⊤\\ fico parado(a), e quando volta a \\⊥\\ continuo. Um resultado que estava a fazer contagem decrescente mantém o tempo que lhe restava, por isso pausar a meio de um(a) @Phrase longo(a) não o faz recomeçar do início.",
+                    "Ao contrário de @Scene/replay, quero uma @condition /duradoura/, uma que se mantenha verdadeira durante todo o tempo que quiser que eu espere. Deixe-me pausado(a) para sempre e nunca avanço sozinho(a), o que é exatamente o que uma apresentação de diapositivos quer: então @Scene/go é a única coisa que me faz avançar."
+                ]
+            },
+            "go": {
+                "names": "$~avançar",
+                "doc": [
+                    "$~Para onde ir a seguir. Dê-me um número e mostro esse resultado, contando a partir de 1; dê-me um nome e mostro qualquer que seja o resultado a que deu essa @Phrase/name.",
+                    "Só conto resultados, nunca os @Boolean pelo meio, por isso enviar-me para 2 significa o meu segundo @Phrase, sejam quantas forem as condições no caminho.",
+                    "Tal @how @Scene/replay, isto quer uma @condition /momentânea/ — algo que seja \\ø\\ exceto na avaliação em que quer que eu avance. Um número que se mantivesse fixo prender-me-ia ali para sempre.",
+                    "Envie-me para além de qualquer um dos extremos e paro ali, a não ser que @Scene/loop seja \\⊤\\, caso em que dou a volta. Isso significa que nunca tem de verificar. Aqui as teclas de setas percorrem uma apresentação de diapositivos nos dois sentidos:",
+                    "Se preferir dizer /um à frente/ em vez de /número três/, é para isso que serve @Scene/step.",
+                    "\\diapositivos: [Frase('um') Frase('dois') Frase('três')]\nchave2: Chave()\nem: Spotlight()\nCena(\n\tdiapositivos\n\tpausar: ⊤\n\tavançar: ∆ chave2 ? ((chave2 = 'Seta para a esquerda') ? em.index - 1 (chave2 = 'Seta para a direita') ? em.index + 1 ø) ø\n)\\"
+                ]
+            },
+            "name": {
+                "names": "$~nome",
+                "doc": "$~O meu nome. @Spotlight usa-o para me distinguir de qualquer outra @Scene a decorrer ao mesmo tempo; com apenas uma cena, pode deixá-lo @how está."
+            },
+            "until": {
+                "names": "$~até",
+                "doc": [
+                    "$~Um(a) @condition para esperar depois de cada um dos meus resultados, assim que tiver tido a sua @Phrase/duration ou tiver terminado de animar.",
+                    "É o mesmo que escrever essa @Boolean entre cada resultado na minha lista, que é o que faria para que um dos meus resultados esperasse. Isto diz isso uma vez em vez disso:",
+                    "\\Cena(\n\t[Frase('um') Frase('dois') Frase('três')]\n\taté: ∆ Botão()\n)\\",
+                    "Um @Boolean escrito na lista continua a funcionar, e os dois são esperas separadas, para poder demorar mais tempo num sítio específico."
+                ]
+            },
+            "step": {
+                "names": "$~passo",
+                "doc": [
+                    "$~Quantas saídas mover, a contar a partir de onde estou: \\1\\ é avançar uma e \\-1\\ é recuar uma. Isto é @Scene/go dito @how uma distância e não como um lugar.",
+                    "Tal como @Scene/go, paro nas minhas pontas a não ser que @Scene/loop seja \\⊤\\, por isso nunca tem de verificar, e quero um @condition /momentâneo/ — algo que seja \\ø\\ exceto na avaliação em que quer que eu me mova.",
+                    "\\diapositivos: [Frase('um') Frase('dois') Frase('três')]\nchave2: Chave()\nCena(\n\tdiapositivos\n\tpausar: ⊤\n\tpasso: ∆ chave2 ? ((chave2 = 'Seta para a esquerda') ? -1 (chave2 = 'Seta para a direita') ? 1 ø) ø\n)\\",
+                    "Nada aqui tem de saber qual @Phrase está a mostrar, e é essa a diferença em relação a @Scene/go. Pergunte a @Spotlight se quiser dizê-lo no palco."
+                ]
             }
         },
         "Motion": {
@@ -5162,6 +5218,43 @@
                 "doc": "$~A sílaba que esta parte está a cantar nesta batida, ou \\ø\\ quando não está a cantar nenhuma — uma pausa, ou uma faixa sem @Track/words.",
                 "names": "$~palavras"
             }
+        },
+        "Spotlight": {
+            "doc": [
+                "$~Eu digo onde está um @Scene neste momento: qual resultado está a mostrar, quantos tem, e se está à espera de alguém.",
+                "Um @Scene mostra coisas; eu sou a forma @how o resto de um programa descobre o que está a ser mostrado. É isso que permite colocar um contador debaixo de uma apresentação de diapositivos, tocar músicas diferentes em partes diferentes de uma história, ou mostrar uma dica de /prima qualquer tecla/ apenas enquanto a cena está mesmo à espera.",
+                "\\diapositivos: [Frase('um') Frase('dois') Frase('três')]\nem: Spotlight()\nFase(\n\t[\n\t\tCena(diapositivos ciclo: ⊤)\n\t\tFrase(\n\t\t\t`\\em.index\\ de \\em.total\\`\n\t\t\ttamanho: 0.3m\n\t\t\tlocal: Local(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Eu tenho sempre um @Slate, mesmo antes de acontecer alguma coisa, para nunca precisar de me verificar quanto a \\ø\\."
+            ],
+            "names": "$~Destaque",
+            "name": {
+                "names": "$~nome",
+                "doc": "$~O @Scene/name da cena a seguir. Deixe-o \\ø\\ e eu sigo todas as cenas."
+            }
+        },
+        "Slate": {
+            "doc": "$~Onde está um @Scene: o que está a mostrar, até onde chegou, e se está à espera.",
+            "names": "$~Ardósia",
+            "scene": {
+                "names": "$~cena",
+                "doc": "$~O @Scene/name da cena de onde vim, ou \\''\\ se não tiver nenhuma."
+            },
+            "index": {
+                "names": "$~índice",
+                "doc": "$~Qual resultado o @Scene está a mostrar, contando a partir de 1. Eu conto apenas resultados, nunca os @Boolean intermédios."
+            },
+            "total": {
+                "names": "$~total",
+                "doc": "$~Quantos resultados o @Scene tem, sem contar os @Boolean intermédios."
+            },
+            "lap": {
+                "names": "$~volta",
+                "doc": "$~Quantas vezes o @Scene voltou ao seu primeiro resultado. É 0 na primeira vez."
+            },
+            "waiting": {
+                "names": "$~aAguardar",
+                "doc": "$~Se o @Scene está parado: à espera que um @Boolean se torne verdadeiro, ou retido por @Scene/pause. É isto que uma dica de /prima qualquer tecla/ deve observar."
+            }
         }
     },
     "output": {
@@ -5174,11 +5267,11 @@
         },
         "Group": {
             "doc": [
-                "$~Organizo @Phrase e @Group juntos no @Stage com um @Arrangement . Ah, olá, tudo bem? Sinto-me sempre bem quando estou com outras pessoas, por isso é ótimo estar contigo!",
-                "Para funcionar, preciso que me forneça um @Arrangement e, em seguida, uma @List de @Output para organizar.",
-                "Por exemplo, aqui estou eu com um arranjo @Stack e alguns @Phrase para empilhar verticalmente:",
-                "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
-                "A forma exata @how organizo as coisas depende do @Arrangement que me fornece."
+                "$~Eu organizo @Phrase, @Shape e @Group juntos em @Stage com um @Arrangement. Olá, @how está? Estou sempre bem quando há outros por perto, por isso é ótimo estar consigo!",
+                "Para funcionar, preciso que me dê um @Arrangement, e depois um @List de @Output para organizar.",
+                "Por exemplo, aqui estou eu com uma disposição @Stack e alguns @Phrase para empilhar na vertical:",
+                "\\Grupo(Monte() [Frase('primeiro') Frase('segundo')])\\",
+                "A forma exata como organizo as coisas depende do @Arrangement que me der."
             ],
             "names": ["Grupo"],
             "layout": {
@@ -5418,11 +5511,11 @@
             }
         },
         "Arrangement": {
-            "doc": "Sou uma inspiração para muitos outros tipos de arranjos no Verso, incluindo @Row, @Stack, @Grid e @Free. Trabalho em estreita colaboração com o @Group para",
+            "doc": "$~Sou uma inspiração para os muitos outros tipos de disposição no Verse, incluindo @Row, @Stack, @Grid e @Free. Trabalho de perto com @Group para decidir onde vai cada @Output: movo cada um para onde eu digo, mantendo o seu tamanho e a sua forma. @Free é aquele de nós que não decide nada, por isso aí cada @Output fica na sua própria @Place. Se quiser afastar um pouco alguma coisa do lugar onde a coloquei, dê-lhe um @Phrase/offset em vez de um @Place.",
             "names": ["Acordo"]
         },
         "Row": {
-            "doc": "Eu sou o @Row, um @Arrangement horizontal do @Output, com espaçamento opcional entre eles. Já conheceu o meu gémeo, @Stack?",
+            "doc": "$~Eu sou @Row, uma @Arrangement horizontal de @Output, com espaçamento opcional entre elas. Já conheceu o meu gémeo, @Stack? Eu decido até onde cada um vai, e o meu primeiro input diz @how os alinhar ao longo de mim. Dê a um deles um @Place e ele ficará nesse y em vez disso — mas um @Shape não tem @Place próprio, por isso alinho-o com tudo o resto.",
             "names": ["Linha"],
             "description": "$~linha de $#count[$#count frase ou grupo|$count frases e grupos|$count frases e grupos]",
             "alignment": {
@@ -5435,7 +5528,7 @@
             }
         },
         "Stack": {
-            "doc": "Eu sou o @Stack, um @Arrangement vertical do @Output, com espaçamento opcional entre eles. Já conheceste o meu gémeo, @Row?",
+            "doc": "$~Eu sou @Stack, uma @Arrangement vertical de @Output, com espaçamento opcional entre elas. Já conheceu o meu gémeo, @Row? Eu decido até onde cada um desce, e o meu primeiro input diz @how os alinhar ao longo de mim. Dê a um deles um @Place e ele ficará nesse x em vez disso — mas um @Shape não tem @Place próprio, por isso alinho-o com tudo o resto.",
             "names": ["Monte"],
             "description": "$~pilha de $#count[$#count frase ou grupo|$count frases e grupos|$count frases e grupos]",
             "alignment": {
@@ -5448,7 +5541,7 @@
             }
         },
         "Grid": {
-            "doc": "$~Sou uma grelha de @Output. Dê-me uma contagem de linhas e de @column e farei um arranjo organizado com preenchimento opcional e tamanhos de @cell.",
+            "doc": "$~Eu sou uma grelha de @Output. Dê-me uma contagem de linhas e @column e eu faço uma disposição organizada com espaçamento opcional e tamanhos @cell. Eu decido ambas as direções, por isso um @Place não vai mover nada para os lados nem para cima e para baixo — embora o seu z continue a dizer o quão perto está.",
             "names": ["Rede"],
             "description": "Grelha de $rows linhas e $columns colunas",
             "rows": {

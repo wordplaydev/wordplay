@@ -1,9 +1,9 @@
 O
-Klase ng Hapon
+Klase sa wikang Hapon
 === start
-¶Isang kuwentong bawat eksena tungkol sa unang araw ng klase sa Nihonggo.¶
+¶Isang kuwento tungkol sa unang araw ng klase sa Hapon, eksena-eksena.¶
 
-¶Ito ang listahan ng mga eksena na ipapakita¶
+¶Ito ang listahan ng mga eksenang ipapakita¶
 mgaPangungusap: [
 		`On my first day of high school, I started *Japanese* class.`/en
 		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
@@ -18,24 +18,24 @@ mgaPangungusap: [
 	]
 
 ¶Ito ang listahan ng mga pangungusap na dapat lang isulong sa pamamagitan ng pagsasalita.¶
-magsalitaNgMgaPangungusap: [5 7 9]
+sabihinAngMgaPangungusap: [5 7 9]
 
-¶Ang kasalukuyang pangungusap ay nagsisimula sa 1, at dumadagdag kapag lumagpas sa .8 ang lakas ng tinig ng mikropono para sa isang pangungusap na sasalitain, o kapag pinindot ang isang buton o susi para sa ibang mga pangungusap.¶
-kasalukuyangPangungusap•#: 1 …
-	magsalitaNgMgaPangungusap.aymay(kasalukuyangPangungusap) ?
+¶Kung nasaan ang kuwento. Ang @Scene ang nagtatabi ng lugar, kaya walang kailangang bilangin dito.¶
+sa: Spotlight()
+
+¶Sumulong kapag ang mikropono ay lumagpas sa .6 sa isang pangungusap na sinasalita, at kapag ang isang buton o susi ay nagsabi nito sa iba pang pangungusap.¶
+sumulong: sabihinAngMgaPangungusap.aymay(sa.index) ?
 		Dami() > .6
 		∆ Butones() | ∆ Susi()
-		…
-		(kasalukuyangPangungusap <
-				mgaPangungusap.haba()) ?
-			kasalukuyangPangungusap + 1
-			kasalukuyangPangungusap
 
+¶Ang @Scene ay naghihintay ng /advance/ pagkatapos ng bawat pangungusap, at humihinto sa huli.¶
 Entablado(
 	[
-		Parirala(
-			mgaPangungusap[kasalukuyangPangungusap]
-			pambalot: 10m
+		Eksena(
+			mgaPangungusap.isalin(
+				ƒ(pangungusap) Parirala(pangungusap pambalot: 10m)
+			)
+			hanggang: sumulong
 		)
 	]
 	mukha: 'Sue Ellen Francisco'

@@ -1,7 +1,7 @@
 O
-Kelas Bahasa Jepang
+Kelas bahasa Jepang
 === start
-¶Sebuah cerita per adegan tentang hari pertama kelas bahasa Jepang.¶
+¶Sebuah cerita adegan demi adegan tentang hari pertama kelas bahasa Jepang.¶
 
 ¶Ini adalah daftar adegan yang akan ditampilkan¶
 kalimat: [
@@ -17,21 +17,26 @@ kalimat: [
 		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
 	]
 
-¶Ini adalah daftar kalimat yang hanya boleh dilanjutkan dengan berbicara.¶
+¶Ini adalah daftar kalimat yang hanya bisa dilanjutkan dengan berbicara.¶
 ucapkanKalimat: [5 7 9]
 
-¶Kalimat saat ini dimulai dari 1, dan bertambah jika volume mikrofon naik di atas 0,8 untuk kalimat yang harus diucapkan, atau jika tombol atau tuts ditekan untuk kalimat lainnya.¶
-kalimatSaatIni•#: 1 …
-	ucapkanKalimat.memiliki(kalimatSaatIni) ?
+¶Di mana cerita ini berada. @Scene menyimpan posisinya, jadi tidak ada yang perlu dihitung di sini.¶
+di: Spotlight()
+
+¶Lanjut ketika mikrofon naik di atas .6 pada kalimat yang diucapkan, dan ketika tombol atau tuts mengatakan begitu pada kalimat lainnya.¶
+lanjut: ucapkanKalimat.memiliki(di.index) ?
 		Volume() > .6
 		∆ Tombol() | ∆ Kunci()
-		…
-		(kalimatSaatIni <
-				kalimat.panjang()) ?
-			kalimatSaatIni + 1
-			kalimatSaatIni
 
+¶@Scene menunggu /advance/ setelah setiap kalimat, dan berhenti pada kalimat terakhir.¶
 Panggung(
-	[Frasa(kalimat[kalimatSaatIni] membungkus: 10m)]
+	[
+		Pemandangan(
+			kalimat.menerjemahkan(
+				ƒ(kalimat2) Frasa(kalimat2 membungkus: 10m)
+			)
+			sampai: lanjut
+		)
+	]
 	menghadapi: 'Sue Ellen Francisco'
 )

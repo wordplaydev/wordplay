@@ -444,8 +444,12 @@ test('a translated name never lands on a keyword word', async () => {
     expect(result).not.toBeNull();
     const out = result?.getSources()[0].code.toString() ?? '';
     // Disambiguated rather than refused, and the conditional still reads the
-    // bind rather than a boolean literal.
-    expect(out).toContain('doğru2');
+    // bind rather than a boolean literal. Which suffix it lands on is not the
+    // claim and is not stable: `existingNames` reserves every name in the
+    // target locale's basis, so any doc example that already took `doğru2`
+    // pushes this to `doğru3`. What must hold is that it isn't the bare word.
+    expect(out).toMatch(/\bdoğru\d+\b/);
+    expect(out).not.toMatch(/\bdoğru\s*:/);
     expect(conflicts(result as Project)).toBe(0);
 });
 

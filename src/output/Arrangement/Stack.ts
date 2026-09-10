@@ -102,9 +102,11 @@ export class Stack extends Arrangement {
                 // Subtract the child's height to y to get it to its baseline.
                 const place = new Place(
                     this.value,
-                    // Place the x in the center of the stack, or if it has a place, use that
-                    child.output.place && child.output.place.x !== undefined
-                        ? child.output.place.x
+                    // A stack aligns its children across itself; a place the
+                    // creator wrote overrides that, but one derived from a
+                    // shape's form is not a request and doesn't.
+                    child.output.getAuthoredPlace() !== undefined
+                        ? (child.output.getAuthoredPlace()?.x ?? 0)
                         : align === '|'
                           ? width.sub(child.width).div(2).toNumber()
                           : align === '<'
@@ -119,7 +121,8 @@ export class Stack extends Arrangement {
                     // small paddings would stack the last children on top of
                     // each other.)
                     y.toDecimalPlaces(6).toNumber(),
-                    // If the phrase has a place, use it's z, otherwise default to the 0 plane.
+                    // Depth is never arranged, so any child's z stands, whether
+                    // it was written or comes from a shape's form.
                     child.output.place && child.output.place.z !== undefined
                         ? child.output.place.z
                         : 0,
