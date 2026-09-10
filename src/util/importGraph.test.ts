@@ -647,13 +647,19 @@ test('resolving a color needs no basis', () => {
  * touches; what every page does carry is `en-US.json`, and the transport's five
  * new binds, `Spotlight`, and `Slate`'s five fields are about four kilobytes of
  * documentation in it. The `projects` budget already had room for them.
+ *
+ * Parsing a how-to with its spacing intact (#1364) adds `toMarkup` to whatever
+ * reaches `HowTo.ts`, which the projects page does through `LocalesDatabase`. It
+ * is a 27-line wrapper over `parseMarkup` and `toTokens`, both of which every one
+ * of these graphs already carried via `parseLocaleDoc` — so this is under a
+ * kilobyte, and only `projects` had no room left in its hundredth.
  */
 test.each([
     ['src/routes/+layout.svelte', 508, 3.8],
     ['src/components/app/Page.svelte', 531, 4.05],
     ['src/routes/[[locale]]/+page.svelte', 546, 4.14],
     ['src/routes/[[locale]]/galleries/+page.svelte', 550, 4.15],
-    ['src/routes/[[locale]]/projects/+page.svelte', 557, 4.17],
+    ['src/routes/[[locale]]/projects/+page.svelte', 557, 4.18],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

@@ -16,6 +16,13 @@ import type Log from '@util/verify-locales/Log';
 import getTranslator from '@util/verify-locales/getTranslator';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import { retargetExamplesIn } from '@util/verify-locales/retargetExampleNames';
+import {
+    examplesIn,
+    howToCoverage,
+    pairHowToUnits,
+    proseRunsIn,
+    spacingLike,
+} from '@util/verify-locales/pairHowTo';
 
 /**
  * Verify and optionally translate how-to content for a locale
@@ -95,6 +102,15 @@ export async function verifyHowTo(
         if (missingFiles.length > 0) {
             log.bad(`Missing ${missingFiles.length} files`);
         }
+        const behind = howTosBehindEnglish(
+            englishHowToDir,
+            targetHowToDir,
+            englishFiles,
+        );
+        if (behind.length > 0)
+            log[HowToCoverageIsFatal ? 'bad' : 'warning'](
+                `${behind.length} how-to(s) are missing content their en-US source has, so readers of this language can't see it: ${behind.join(', ')}. Re-translate with "+howto:<id>".`,
+            );
         return;
     }
 
@@ -150,6 +166,61 @@ export async function verifyHowTo(
     } else {
         log.good(`No files needed translation`);
     }
+}
+
+/**
+ * Whether a how-to that says less than its English source fails the build.
+ *
+ * **False while the backlog stands.** The pipeline defect that caused it is
+ * fixed here — English is the skeleton now, and a re-translation buys the units
+ * a translation is missing rather than reproducing its shape (#1365) — but the
+ * corpus is still the output of the old one: every locale is behind on most of
+ * the 37 how-tos, because for years nothing could add to a translation. Clearing
+ * it is a single translation run over the how-tos, which pairing keeps to the
+ * unpaired units, and this flips the day that lands.
+ *
+ * The same treatment `TypedInputNamesAreFatal` and `GlossaryWordsAreFatal` get,
+ * and for the same reason: a true finding, reported every run, that no code
+ * change can repair.
+ */
+export const HowToCoverageIsFatal = false;
+
+/**
+ * The how-tos whose translation covers less than its en-US source does, by id.
+ *
+ * Shared by the verifier and the sweep, so `npm run locales` and the corpus test
+ * answer the same question. A file that won't parse is left to the checks that
+ * own parsing rather than counted as behind.
+ */
+export function howTosBehindEnglish(
+    englishDir: string,
+    targetDir: string,
+    filenames: string[],
+): string[] {
+    const behind: string[] = [];
+    for (const filename of filenames) {
+        const id = filename.replace('.txt', '');
+        const targetPath = path.join(targetDir, filename);
+        if (!fs.existsSync(targetPath)) continue;
+        let english, target;
+        try {
+            english = parseHowTo(
+                id,
+                fs.readFileSync(path.join(englishDir, filename), 'utf8'),
+            );
+            target = parseHowTo(id, fs.readFileSync(targetPath, 'utf8'));
+        } catch {
+            continue;
+        }
+        if (english.how === null || target.how === null) continue;
+        const coverage = howToCoverage(english.how.content, target.how.content);
+        if (
+            coverage.prose < coverage.proseTotal ||
+            coverage.examples < coverage.examplesTotal
+        )
+            behind.push(id);
+    }
+    return behind;
 }
 
 /**
@@ -318,46 +389,70 @@ async function translateHowToFile(
         isNewFile = true;
     }
 
-    if (
-        !howToNeedsTranslation(
-            englishContent,
-            targetLines,
-            isNewFile,
-            override,
-            named,
-        )
-    )
+    // Whether something forces the whole file to be bought again, independent of
+    // what it already contains.
+    const forced = howToNeedsTranslation(
+        englishContent,
+        targetLines,
+        isNewFile,
+        override,
+        named,
+    );
+
+    // Parse ENGLISH for structure. The output is built from this tree, so a
+    // paragraph the translation is missing can actually appear in it — parsing the
+    // target here instead is what made `+howto:` unable to grow a file (#1365).
+    const id = filename.replace('.txt', '');
+    const english = parseHowTo(id, englishContent);
+    if (english.how === null || english.spaces === null) {
+        log.bad(
+            `Couldn't parse the English how-to ${filename}: ${english.error}`,
+        );
         return false;
+    }
 
-    // Parse the target text as a how to.
-    const parsedHowTo = parseHowTo(filename.replace('.txt', ''), targetLines);
-
-    // Find all of the words in the content.
-    if (parsedHowTo.how === null) return false;
+    // Parse the target for translations worth keeping.
+    const parsedTarget = isNewFile ? null : parseHowTo(id, targetLines);
+    const existing = parsedTarget?.how ?? null;
 
     // Prose runs to translate, and embedded \code\ examples to localize (so a
     // how-to reads natively like the tutorial — not English code in localized
     // prose). These are disjoint: code tokens are never Sym.Words.
-    const phrases = parsedHowTo.how.content
-        .nodes()
-        .filter(
-            (node): node is Token =>
-                node instanceof Token && node.isSymbol(Sym.Words),
-        );
-    const examples = parsedHowTo.how.content
-        .nodes()
-        .filter((node): node is Example => node instanceof Example);
+    const phrases = proseRunsIn(english.how.content);
+    const examples = examplesIn(english.how.content);
 
     if (phrases.length === 0 && examples.length === 0) return false;
 
-    // Translate the title + prose, and localize each example by passing its full
-    // \code\ source — the translator localizes the embedded program's names/text.
+    // Redo the whole file when there is nothing to keep, or when something forced
+    // it — `+howto:<id>` under `override` has always meant "buy this one again".
+    // Otherwise keep every paragraph the translation still has and buy only what
+    // English has beyond it, which is the repair `+howto:` could never make.
+    const redo = existing === null || forced;
+    const reuse = redo
+        ? {
+              words: new Map<Token, string>(),
+              examples: new Map<Example, Example>(),
+          }
+        : pairHowToUnits(english.how.content, existing.content);
+
+    const phrasesToBuy = phrases.filter((phrase) => !reuse.words.has(phrase));
+    const examplesToBuy = examples.filter(
+        (example) => !reuse.examples.has(example),
+    );
+    const buyTitle = redo;
+
+    // Nothing English has is missing here, so there is nothing to pay for. The
+    // file may still be rewritten below by the caller's other passes; this one
+    // is done.
+    if (!buyTitle && phrasesToBuy.length === 0 && examplesToBuy.length === 0)
+        return false;
+
     const translations = await translator.translate(
         log,
         [
-            parsedHowTo.how.title,
-            ...phrases.map((phrase) => phrase.getText()),
-            ...examples.map((example) => example.toWordplay()),
+            ...(buyTitle ? [english.how.title] : []),
+            ...phrasesToBuy.map((phrase) => phrase.getText()),
+            ...examplesToBuy.map((example) => example.toWordplay()),
         ],
         sourceLocale,
         targetLocale,
@@ -368,73 +463,158 @@ async function translateHowToFile(
         throw new Error('Translation service returned no results');
     }
 
-    const expected = 1 + phrases.length + examples.length;
+    const expected =
+        (buyTitle ? 1 : 0) + phrasesToBuy.length + examplesToBuy.length;
     if (translations.length !== expected) {
         throw new Error(
             `Translation count mismatch: expected ${expected}, got ${translations.length}`,
         );
     }
 
-    // Apply translations to the title (keep the original if it couldn't translate).
-    parsedHowTo.how.title = translations[0] ?? parsedHowTo.how.title;
+    const boughtPhrase = new Map<Token, string | null>();
+    phrasesToBuy.forEach((phrase, index) =>
+        boughtPhrase.set(phrase, translations[(buyTitle ? 1 : 0) + index]),
+    );
+    const boughtExample = new Map<Example, string | null>();
+    examplesToBuy.forEach((example, index) =>
+        boughtExample.set(
+            example,
+            translations[(buyTitle ? 1 : 0) + phrasesToBuy.length + index],
+        ),
+    );
 
-    let markup = parsedHowTo.how.content;
-    // Replace each prose run with its translation (null → keep the original).
-    for (let i = 0; i < phrases.length; i++) {
-        const translation = translations[1 + i];
-        if (translation === null) continue;
-        const tokens = markup.leaves();
-        const tokenBefore = tokens[tokens.indexOf(phrases[i]) - 1];
-        const tokenAfter = tokens[tokens.indexOf(phrases[i]) + 1];
-        const nameBefore =
-            tokenBefore !== undefined &&
-            (tokenBefore.isSymbol(Sym.Name) ||
-                tokenBefore.isSymbol(Sym.Concept));
-        const nameAfter =
-            tokenAfter !== undefined &&
-            (tokenAfter.isSymbol(Sym.Name) || tokenAfter.isSymbol(Sym.Concept));
-        markup = markup.replace(
-            phrases[i],
-            new Token(
-                (nameBefore ? ' ' : '') + translation + (nameAfter ? ' ' : ''),
-                Sym.Words,
+    // The title: whatever we just bought, else what the translation already had.
+    english.how.title = buyTitle
+        ? (translations[0] ?? english.how.title)
+        : (existing?.title ?? english.how.title);
+
+    let markup = english.how.content;
+    // English's spacing is the file's shape. A node kept from the translation
+    // brings its own along, since `Spaces` is keyed by token identity and English
+    // has no entry for a token it never parsed — without this a reused example
+    // serializes with nothing between its tokens.
+    let spaces =
+        parsedTarget?.spaces == null
+            ? english.spaces
+            : english.spaces.withSpaces(parsedTarget.spaces);
+
+    // Replace each prose run with its translation, keeping English where there is
+    // none — the how-to counterpart of `keepOrPlacehold`'s rule that a failure
+    // must not throw away what was already there.
+    // Neighbours come from the original English tree, read once: every
+    // replacement rebuilds the spine, so looking them up as we go finds nothing.
+    const leaves = english.how.content.leaves();
+    const positions = new Map(leaves.map((leaf, index) => [leaf, index]));
+
+    for (const phrase of phrases) {
+        const translation = reuse.words.get(phrase) ?? boughtPhrase.get(phrase);
+        if (translation === undefined || translation === null) continue;
+        const at = positions.get(phrase) ?? -1;
+        const replacement = new Token(
+            padLike(
+                phrase.getText(),
+                translation,
+                at > 0 ? leaves[at - 1] : undefined,
+                at >= 0 ? leaves[at + 1] : undefined,
             ),
+            Sym.Words,
         );
+        spaces = spaces.withReplacement(phrase, replacement);
+        markup = markup.replace(phrase, replacement);
     }
-    // Replace each example with its localized \code\ (null → keep original code).
-    for (let i = 0; i < examples.length; i++) {
-        const localized = translations[1 + phrases.length + i];
-        if (localized === null) continue;
-        const newExample = parseDoc(
-            toTokens(DOCS_SYMBOL + localized + DOCS_SYMBOL),
-        )
-            .nodes()
-            .find((node): node is Example => node instanceof Example);
+
+    // Replace each example with its localized \code\.
+    for (const example of examples) {
+        const kept = reuse.examples.get(example);
+        const localized = boughtExample.get(example);
+        let replacement: Example | undefined = kept;
+        if (replacement === undefined) {
+            if (localized === undefined || localized === null) continue;
+            const tokens = toTokens(DOCS_SYMBOL + localized + DOCS_SYMBOL);
+            replacement = parseDoc(tokens)
+                .nodes()
+                .find((node): node is Example => node instanceof Example);
+            // Its own spacing, or the program serializes onto a single line.
+            spaces = spaces.withSpaces(tokens.getSpaces());
+        }
         // Keep the English code rather than write something broken: a
         // structurally different example is a translation failure, not a
         // localization, and prose that survived is still worth writing.
-        if (newExample === undefined) continue;
-        if (!localizedExampleIsSound(examples[i], newExample)) {
+        if (replacement === undefined) continue;
+        if (!localizedExampleIsSound(example, replacement)) {
             log.warning(
                 `Kept the original code for one example in ${filename}: the localized version had a different structure.`,
             );
             continue;
         }
-        markup = markup.replace(examples[i], newExample);
+        spaces = spaces.withReplacement(example, replacement);
+        // Lay the localization out the way English lays this example out. Their
+        // token sequences agree — `localizedExampleIsSound` just said so — and
+        // English's is the only copy the old serializer never flattened.
+        spaces = spacingLike(example, replacement, english.spaces, spaces);
+        markup = markup.replace(example, replacement);
     }
 
     // Update the content.
-    parsedHowTo.how.content = markup;
+    english.how.content = markup;
 
     // Write the translated file. (How-to `.txt` is a custom format Prettier has
     // no parser for, so writeFormatted writes it raw — but routes through the same
     // write-if-changed path as every other locale write.)
     try {
-        await writeFormatted(targetFilePath, howToToString(parsedHowTo.how));
+        await writeFormatted(
+            targetFilePath,
+            howToToString(english.how, spaces),
+        );
     } catch (error) {
         throw new Error(`Failed to write translated file: ${error}`);
     }
 
     log.good(`Translated ${filename}`);
     return true;
+}
+
+/**
+ * Whether a translation could glue a word onto this neighbour. Prose can't (the
+ * translator sees both runs and spaces them), and neither can nothing at all —
+ * an edge of a paragraph needs no boundary.
+ */
+function abuts(token: Token | undefined): boolean {
+    return token !== undefined && !token.isSymbol(Sym.Words);
+}
+
+/**
+ * Give a translation the whitespace its source token carried at each edge, and a
+ * word boundary where the translation needs one that English did not.
+ *
+ * Two different losses meet here. A markup `Words` token holds its own intra-line
+ * spaces — `"a "` before a `\code\` span, `" has a "` between two links — and a
+ * translator returns the words without them, so a paragraph came back as
+ * `med/något/som tar en`. Copying the source's edges fixes that.
+ *
+ * But copying alone is not enough, because word order moves. English writes
+ * `@Row, which arranges…`, where the run after the link begins with a comma and
+ * wants no space; German writes `@Row machen, die…`, where it begins with a word
+ * and must have one. So a space is added when English had none, the neighbour is
+ * not prose, and the translation would otherwise run a word straight into it.
+ * That is what the `nameBefore`/`nameAfter` rule was reaching for — but it added
+ * a space unconditionally, so it double-spaced every link whose translation kept
+ * its own, and it looked its neighbours up in a tree that had already been
+ * rewritten, so it was wrong for every run after the first.
+ */
+export function padLike(
+    source: string,
+    translation: string,
+    previous?: Token,
+    next?: Token,
+): string {
+    // An all-whitespace source has no inside to pad around; leave it be.
+    if (source.trim().length === 0) return source;
+    const text = translation.trim();
+    let lead = /^\s*/.exec(source)?.[0] ?? '';
+    let trail = /\s*$/.exec(source)?.[0] ?? '';
+    if (lead === '' && abuts(previous) && /^[\p{L}\p{N}]/u.test(text))
+        lead = ' ';
+    if (trail === '' && abuts(next) && /[\p{L}\p{N}]$/u.test(text)) trail = ' ';
+    return lead + text + trail;
 }

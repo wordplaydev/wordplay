@@ -4,6 +4,8 @@
 import { parseLocaleDoc } from '@locale/LocaleText';
 import type Markup from '@nodes/Markup';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import type Spaces from '@parser/Spaces';
+import { toMarkup } from '@parser/toMarkup';
 
 // How to category IDs. (The text to describe them live in locale definitions.
 // The order of these categories is the order they appear in the interface.
@@ -130,11 +132,23 @@ export function bundleEntryToHowTo(entry: HowToBundleEntry): HowTo {
 export function parseHowTo(
     id: string,
     text: string,
-): { how: HowTo | null; body: string | null; error: string | null } {
+): {
+    how: HowTo | null;
+    body: string | null;
+    error: string | null;
+    /**
+     * The body's own spacing, for a caller that rewrites the file. A markup `Words`
+     * token stops at every newline, so a paragraph's soft line breaks live here
+     * rather than in any token's text — pass this to `howToToString` or they are
+     * gone, and the file's sentences run together (#1364).
+     */
+    spaces: Spaces | null;
+} {
     if (!HowToIDs.includes(id as HowToID)) {
         return {
             how: null,
             body: null,
+            spaces: null,
             error: `how to '${id}' is not a valid how to ID. Make sure it's defined in HowTo.ts`,
         };
     }
@@ -146,6 +160,7 @@ export function parseHowTo(
         return {
             how: null,
             body: null,
+            spaces: null,
             error:
                 'Only found ' +
                 lines.length +
@@ -155,7 +170,12 @@ export function parseHowTo(
     // First line is the title.
     const title = lines.shift();
     if (title === undefined)
-        return { how: null, body: null, error: "Couldn't find a title." };
+        return {
+            how: null,
+            body: null,
+            spaces: null,
+            error: "Couldn't find a title.",
+        };
 
     // Last line are the related how to IDs.
     const related =
@@ -169,6 +189,7 @@ export function parseHowTo(
             return {
                 how: null,
                 body: null,
+                spaces: null,
                 error: `Related how to '${rel}' is not in the list of how to IDs. Make sure it's defined in HowTo.ts.`,
             };
         }
@@ -177,11 +198,15 @@ export function parseHowTo(
     // The raw markup between the title and related lines. Returned so callers (e.g. the
     // bundle generator) can persist the body without re-implementing this split.
     const body = lines.join('\n').trim();
-    const content = parseLocaleDoc(body).markup;
+    // `toMarkup` rather than `parseLocaleDoc`, which discards the spacing: it returns the
+    // tokenizer's own `Spaces`, which is the only record of where this body's lines break.
+    // It is already the pair `checkHowToBody` uses for its coverage assertion.
+    const [content, spaces] = toMarkup(body);
 
     // Parse the text into the how to data structure
     return {
         body,
+        spaces,
         how: {
             id: howToID,
             title,
@@ -193,11 +218,20 @@ export function parseHowTo(
     };
 }
 
-export function howToToString(howTo: HowTo): string {
+/**
+ * Serialize a how-to back to its file form.
+ *
+ * Pass the `spaces` `parseHowTo` returned whenever the file is being rewritten.
+ * Without them `getPreferredSpaces` starts from an empty map, and since
+ * `Paragraph.segments` declares no spacing, every segment in a paragraph is joined
+ * with nothing — which is what ran translated sentences together and flattened every
+ * block example onto one line (#1364).
+ */
+export function howToToString(howTo: HowTo, spaces?: Spaces): string {
     return (
         howTo.title +
         '\n\n' +
-        howTo.content.toWordplay(getPreferredSpaces(howTo.content)) +
+        howTo.content.toWordplay(spaces ?? getPreferredSpaces(howTo.content)) +
         '\n\n' +
         howTo.related.join(', ')
     );
