@@ -3,12 +3,17 @@ import { grantClipboard } from '../helpers/clipboard';
 import { createTestProject } from '../helpers/createProject';
 
 /**
- * Vertical caret movement must never silently do nothing. The rendered row
- * model is built from the DOM and only knows what it drew, so wherever it
- * disagrees with the caret's own position universe — the end of a program that
- * ends in a delimiter, a row outside a virtualized window, an unmeasurable
- * caret — a source-line step takes over. These cover what the unit tests can't:
- * the unit suite has no DOM, so every rectangle there is zero.
+ * Caret geometry the unit suite cannot see: it has no DOM, so every rectangle
+ * there is zero.
+ *
+ * Vertical movement must never silently do nothing. The rendered row model is
+ * built from the DOM and only knows what it drew, so wherever it disagrees with
+ * the caret's own position universe — the end of a program that ends in a
+ * delimiter, a row outside a virtualized window, an unmeasurable caret — a
+ * source-line step takes over.
+ *
+ * Pointer placement measures the same rectangles, and the last test covers the
+ * one position the browser refuses to measure directly.
  */
 
 /** The focused editor's hidden mirror field, which follows the caret. */
@@ -42,6 +47,16 @@ async function withCode(page: import('@playwright/test').Page, code: string) {
             message: 'source did not load into the editor',
         })
         .toBe(code);
+}
+
+/** A locator's box, failing with what was being measured rather than a null. */
+async function boxOf(
+    locator: import('@playwright/test').Locator,
+    what: string,
+) {
+    const box = await locator.boundingBox();
+    if (box === null) throw new Error(`${what} has no box to measure`);
+    return box;
 }
 
 async function useBlocksMode(page: import('@playwright/test').Page) {
@@ -126,4 +141,56 @@ test('a move with nowhere left to go says so', async ({ page }) => {
     await expect(page.locator('.announcements.immediate')).toContainText(
         "Can't move any further",
     );
+});
+
+test("a click lands on a token's last position", async ({ page }) => {
+    // The end of a token is the one caret position a COLLAPSED Range can't
+    // measure in Chromium, so the search over offsets used to settle one
+    // grapheme short of it — a click past the end of a line landed before the
+    // line's last character, and so did a click on a token's last glyph.
+    const code = 'abcde: 100\nxy: 1 + 2';
+    await withCode(page, code);
+
+    const editor = await boxOf(
+        page.getByTestId('editor').first(),
+        'the editor',
+    );
+    const rightOf = (box: { x: number; width: number }) =>
+        Math.min(box.x + box.width + 40, editor.x + editor.width - 8);
+    const middleOf = (box: { y: number; height: number }) =>
+        box.y + box.height / 2;
+    const tokenBox = (text: string) =>
+        boxOf(
+            page.locator('.token-view').filter({ hasText: text }).last(),
+            `the ${text} token`,
+        );
+
+    // Well past the end of the first line, in the empty space beside it.
+    const hundred = await tokenBox('100');
+    await page.mouse.click(rightOf(hundred), middleOf(hundred));
+    await expect
+        .poll(async () => (await mirror(page)).start, {
+            message: 'a click right of a line did not land at the line end',
+        })
+        .toBe(code.indexOf('\n'));
+
+    // Inside a token, against its far edge: the same defect, and the one that
+    // needs no geometry about empty space to reproduce.
+    const name = await tokenBox('abcde');
+    await page.mouse.click(name.x + name.width - 2, middleOf(name));
+    await expect
+        .poll(async () => (await mirror(page)).start, {
+            message: "a click on a token's last glyph did not land after it",
+        })
+        .toBe('abcde'.length);
+
+    // A line ending in a single-character token, where landing short puts the
+    // caret before the only character there is.
+    const two = await tokenBox('2');
+    await page.mouse.click(rightOf(two), middleOf(two));
+    await expect
+        .poll(async () => (await mirror(page)).start, {
+            message: 'a click right of the last line did not land at its end',
+        })
+        .toBe(code.length);
 });
