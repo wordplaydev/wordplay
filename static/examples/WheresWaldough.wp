@@ -15,7 +15,7 @@ spots: newSpots() … ∆ (name) … (name = 'ResetButton') ? newSpots() spots
 Stage([
 		💬(
 			"🔁"
-			selectable: ⊤
+			selectable
 			place: Place(4m -0.5m)
 			resting: caught ? Pose( rotation: 180°) Pose()
 			duration: 0.5s

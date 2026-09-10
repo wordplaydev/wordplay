@@ -10,8 +10,8 @@ Stage(
 		Group(
 			Row()
 			[
-				Phrase('🎹' قابلانتخاب: ⊤ نام: 'پیانو')
-				Phrase('🎻' قابلانتخاب: ⊤ نام: 'ویولن')
+				Phrase('🎹' قابلانتخاب نام: 'پیانو')
+				Phrase('🎻' قابلانتخاب نام: 'ویولن')
 			]
 		)
 		Music(
@@ -44,7 +44,7 @@ Stage(
 				:voices.translate(
 					ƒ(voice•Voice) Phrase(
 							voice.icon
-							قابلانتخاب: ⊤
+							قابلانتخاب
 							نام: voice.icon
 						)
 				)

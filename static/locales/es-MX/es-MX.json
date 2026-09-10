@@ -924,15 +924,16 @@
             "description": "$~evaluar $name[$name|function]$first[ $first|]",
             "emotion": "shy",
             "doc": [
-                "$~Yo evalúo a mi queridísima @FunctionDefinition, le doy entradas y sigo sus pasos. ¡Hola! Así:",
-                "\\ƒ saludo(mensaje•'')\n\tsaludo('gatito')\\🪲",
+                "$~Yo evalúo a mi querida @FunctionDefinition, dándole entradas y siguiendo sus pasos. ¡Hola! Así:",
+                "\\ƒ saludo(mensaje•'')\n\tsaludo('gatita')\\🪲",
                 "Las funciones pueden venir de cualquier lugar. Por ejemplo, @Text tiene funciones. Así:",
-                "\\'gatito'.longitud()\\",
-                "Si una función tiene un nombre de un solo símbolo, puedes escribirme como un @BinaryEvaluate.",
-                "\\'gatito' ⊆ 'gatita'\\",
+                "\\'gatita'.longitud()\\",
+                "Si una función tiene un nombre de un solo símbolo, puedes escribirme como @BinaryEvaluate.",
+                "\\'gatita' ⊆ 'itina'\\",
                 "Eso hace lo mismo que esto:",
-                "\\'gatito'.tiene('itty')\\",
-                "Claro, no soy nada sin @FunctionDefinition. Todo lo que hago es darles entradas y luego seguir sus pasos."
+                "\\'gatita'.tiene('itina')\\",
+                "Claro que no soy nada sin @FunctionDefinition. Todo lo que hago es darles entradas y luego seguir sus pasos.",
+                "En realidad, sí tengo algunas habilidades propias. Por ejemplo, si una entrada para una @FunctionDefinition es una @Boolean, puedes escribir su nombre solo para activarla, en vez de darle un @value."
             ],
             "start": "$~Primero evaluemos las entradas",
             "evaluate": "vamos a evaluar la función ahora",

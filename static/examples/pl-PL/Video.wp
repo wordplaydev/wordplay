@@ -64,7 +64,7 @@ obraz: kolory.łączny(
 		id2
 		0.5m
 		nazwa: id2
-		wybieralny: ⊤
+		wybieralny
 		spoczynkowy: (styl2 = id2) ? Poza() Poza(
 				nieprzezroczystość: 40%
 			)

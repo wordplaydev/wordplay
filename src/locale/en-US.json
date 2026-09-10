@@ -1037,7 +1037,8 @@
                 "\\'kitty' ⊆ 'itty'\\",
                 "That does the same thing as this:",
                 "\\'kitty'.⊆('itty')\\",
-                "Of course, I'm nothing without @FunctionDefinition. All I do is give inputs to them and then follow their steps."
+                "Of course, I'm nothing without @FunctionDefinition. All I do is give inputs to them and then follow their steps.",
+                "Actually, I do have some skills of my own. For example, if an input for a @FunctionDefinition is a @Boolean, you can write its name by itself to turn it on, instead of giving it a @value."
             ],
             "start": "Let's evaluate the inputs first",
             "evaluate": "let's evaluate the function now",

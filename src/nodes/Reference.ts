@@ -16,6 +16,7 @@ import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Evaluate from '@nodes/Evaluate';
 import Bind from '@nodes/Bind';
 import Borrow from '@nodes/Borrow';
 import type Context from '@nodes/Context';
@@ -57,6 +58,11 @@ import {
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import UnionType from '@nodes/UnionType';
 import UnknownType from '@nodes/UnknownType';
+import BooleanType from '@nodes/BooleanType';
+import {
+    getImplicitInputBind,
+    getShorthandCandidates,
+} from '@nodes/inputShorthand';
 import UnknownNameType from '@nodes/UnknownNameType';
 
 /**
@@ -138,6 +144,18 @@ export default class Reference extends SimpleExpression {
             return undefined;
         })();
 
+        // A bare name among an Evaluate's inputs may be a boolean input shorthand, so the
+        // function's own boolean inputs are candidates here even though they are not in scope.
+        // Membership in `inputs` rather than mere parenthood keeps this off `Evaluate.fun`.
+        // Appended to the scope pool, never substituted for it: a local of a similar name must
+        // still complete in the same slot.
+        const shorthandBinds: Bind[] =
+            refParent instanceof Evaluate &&
+            reference instanceof Reference &&
+            refParent.inputs.includes(reference)
+                ? getShorthandCandidates(refParent, reference, context)
+                : [];
+
         // If the anchor is being replaced but isn't a reference, suggest nothing.
         // Otherwise, suggest references in the anchor node's scope that complete the prefix.
         return (
@@ -155,6 +173,7 @@ export default class Reference extends SimpleExpression {
                           .getSupplements()
                           .filter((s) => s !== context.source)
                     : []),
+                ...shorthandBinds,
             ]
                 // If there's a prefix we're completing, include
                 .filter(
@@ -177,9 +196,14 @@ export default class Reference extends SimpleExpression {
                     if (
                         // A source?
                         definition instanceof Source ||
-                        // Bind of acceptible type? Make a reference.
+                        // Bind of acceptible type? Make a reference. A shorthand candidate
+                        // skips the type test: the expected type here comes from Evaluate's
+                        // positional `inputs.getType` hook, which describes whatever input the
+                        // slot's *position* reaches (`size•#` for `Phrase('hi' sel`) and so
+                        // says nothing about the input the name would actually fill.
                         (definition instanceof Bind &&
-                            (type === undefined ||
+                            (shorthandBinds.includes(definition) ||
+                                type === undefined ||
                                 type.accepts(
                                     definition
                                         .getType(context)
@@ -337,7 +361,11 @@ export default class Reference extends SimpleExpression {
     }
 
     getCorrespondingDefinition(context: Context): Definition | undefined {
-        return this.resolve(context);
+        // An implicit input shorthand names the input it fills. Saying so is what re-renders
+        // the name in the reader's language, since `Token.getLocalizedText` localizes a name
+        // token through its parent's corresponding definition — the same path a named
+        // `Input`'s name token already takes.
+        return this.resolve(context) ?? getImplicitInputBind(this, context);
     }
 
     computeConflicts(context: Context): Conflict[] {
@@ -347,6 +375,12 @@ export default class Reference extends SimpleExpression {
 
         // Is this name undefined in scope?
         if (bindOrTypeVar === undefined) {
+            // An input shorthand names an input of the function being evaluated rather than
+            // anything in scope, so there is nothing unknown about it. Returning early also
+            // skips the cycle check below, which is right: the input's bind lives in another
+            // tree, so it can never be an ancestor of this reference.
+            if (getImplicitInputBind(this, context) !== undefined) return [];
+
             const scope = this.getScope(context);
             // Suppress when the scope is itself an UnknownType — the root-cause
             // conflict lives on whatever made the scope corrupt. Without this,
@@ -388,6 +422,14 @@ export default class Reference extends SimpleExpression {
         return conflicts;
     }
 
+    /**
+     * Lexical resolution only, and deliberately so: an input shorthand is *not* resolved here.
+     * `getInputShorthand` calls this to decide whether a bare name means the value in scope or
+     * an implicit ⊤, so a shorthand-aware `resolve` would recurse — and everything that follows
+     * a definition's *value* (`resolveToLeaf`, `getDependencies`, `evaluateTypeGuards`) would
+     * then read the input's *default*, which is the very thing a shorthand overrides. The
+     * places that do want the input ask for it explicitly.
+     */
     resolve(context?: Context): Definition | undefined {
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
         return (
@@ -410,8 +452,16 @@ export default class Reference extends SimpleExpression {
         // The type is the type of the bind.
         const definition = this.resolve(context);
 
-        // If we couldn't find a definition or the definition is a type variable, return unknown.
-        if (definition === undefined || definition instanceof TypeVariable)
+        // A bare name filling a boolean input is ⊤, whatever the input declares: `flipx•?|ø`
+        // given as `flipx` is a Boolean, not a `?|ø`.
+        if (definition === undefined) {
+            if (getImplicitInputBind(this, context) !== undefined)
+                return BooleanType.make();
+            return new UnknownNameType(this, this.name, undefined);
+        }
+
+        // If the definition is a type variable, return unknown.
+        if (definition instanceof TypeVariable)
             return new UnknownNameType(this, this.name, undefined);
 
         const type = definition.getType(context);

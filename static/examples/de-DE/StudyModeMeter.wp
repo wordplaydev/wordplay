@@ -56,7 +56,7 @@ Bühne(
 						Its name is add, so selecting it updates the action choice.¶/en
 						Satzglied(
 							'Lernstunde hinzufügen +1'
-							wählbar: ⊤
+							wählbar
 							Name: 'hinzufügen'
 							Farbe: Farbe(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ Bühne(
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						Satzglied(
 							'Zurücksetzen'
-							wählbar: ⊤
+							wählbar
 							Name: 'reset'
 							Farbe: Farbe(69% 47 271°)
 						)

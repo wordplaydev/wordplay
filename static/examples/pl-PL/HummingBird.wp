@@ -82,12 +82,12 @@ ptak: Wyrażenie(
 		miejsce: miejscePtaka
 		materiał: Materiał(1kg 0.4 0)
 		spoczynkowy:
-		(gra2.faza = 3) ? Poza(obrót: 180° flipx: ⊤)
+		(gra2.faza = 3) ? Poza(obrót: 180° flipx)
 			Sekwencja(
 				{
-					0%: Poza(flipx: ⊤ obrót: -12°)
-					50%: Poza(flipx: ⊤ obrót: 12°)
-					100%: Poza(flipx: ⊤ obrót: -12°)
+					0%: Poza(flipx obrót: -12°)
+					50%: Poza(flipx obrót: 12°)
+					100%: Poza(flipx obrót: -12°)
 				}
 				0.35s
 			)
@@ -200,7 +200,7 @@ przyciskNucenia: Wyrażenie(
 		'🎤'
 		0.8m
 		nazwa: 'hum'
-		wybieralny: ⊤
+		wybieralny
 		miejsce: Miejsce(-4.2m 4.7m)
 		spoczynkowy: (tryb = 'hum') ? Poza() Poza(
 				nieprzezroczystość: 40%
@@ -210,7 +210,7 @@ przyciskStukania: Wyrażenie(
 		'⌨'
 		0.8m
 		nazwa: 'tap'
-		wybieralny: ⊤
+		wybieralny
 		miejsce: Miejsce(-3m 4.7m)
 		spoczynkowy: (tryb = 'tap') ? Poza() Poza(
 				nieprzezroczystość: 40%

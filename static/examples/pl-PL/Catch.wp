@@ -34,7 +34,7 @@ Scena(
 	[
 		Wyrażenie(
 			"🐭"
-			wybieralny: ⊤
+			wybieralny
 			miejsce: miejsce2
 			spoczynkowy: złapany ? Poza(
 					obrót: 180°

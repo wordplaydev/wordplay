@@ -64,7 +64,7 @@ bild: farben.kombinieren(
 		id2
 		0.5m
 		Name: id2
-		wählbar: ⊤
+		wählbar
 		Ruhen: (stil = id2) ? Pose() Pose(Opazität: 40%)
 	)
 

@@ -92,7 +92,7 @@ Grupa(
 	[
 		Pokaz(
 			wyświetlenia
-			pauza: ⊤
+			pauza
 			krok: ∆ klawisz2 ? ((klawisz2 = 'Strzałka w lewo') ? -1 (klawisz2 = 'Strzałka w prawo') ? 1 ø) ø
 		)
 		Wyrażenie(

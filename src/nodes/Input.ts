@@ -10,6 +10,9 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Characters from '../lore/BasisCharacters';
 import type Bind from '@nodes/Bind';
+import BooleanLiteral from '@nodes/BooleanLiteral';
+import { isBooleanish } from '@nodes/inputShorthand';
+import Reference from '@nodes/Reference';
 import BindToken from '@nodes/BindToken';
 import type Context from '@nodes/Context';
 import Evaluate from '@nodes/Evaluate';
@@ -22,6 +25,11 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
+
+/** Whether a bind's own default is already ⊤, which is what makes a shorthand for it pointless. */
+function defaultsToTrue(bind: Bind): boolean {
+    return bind.value instanceof BooleanLiteral && bind.value.bool();
+}
 
 export default class Input extends Node {
     readonly name: Token;
@@ -124,13 +132,14 @@ export default class Input extends Node {
         // If the parent is an evaluate, offer inputs.
         if (parent instanceof Evaluate) {
             const mapping = parent.getInputMapping(context);
-            return mapping?.inputs
-                .filter(
+            const unfilled =
+                mapping?.inputs.filter(
                     (input) =>
                         input.given === undefined ||
                         input.expected.isVariableLength(),
-                )
-                .map(
+                ) ?? [];
+            return [
+                ...unfilled.map(
                     (input, index, inputs) =>
                         new Refer((name) => {
                             const value =
@@ -144,7 +153,32 @@ export default class Input extends Node {
                                 ? value
                                 : Input.make(name, value);
                         }, input.expected),
-                );
+                ),
+                // A boolean input can be given as its bare name alone — `Phrase('hi'
+                // selectable)`. Not offered for one that already defaults to ⊤, where the
+                // shorthand would change nothing and, unlike an explicit `filled: ⊤`, shows
+                // nothing on screen to say so.
+                ...unfilled
+                    .filter(
+                        (input) =>
+                            !input.expected.isVariableLength() &&
+                            isBooleanish(
+                                input.expected.getType(context),
+                                context,
+                            ) &&
+                            !defaultsToTrue(input.expected),
+                    )
+                    .map(
+                        (input) =>
+                            new Refer(
+                                (name) => Reference.make(name),
+                                input.expected,
+                                false,
+                                false,
+                                'shorthand',
+                            ),
+                    ),
+            ];
         } else return [];
     }
 

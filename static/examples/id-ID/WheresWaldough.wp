@@ -40,7 +40,7 @@ Panggung(
 	[
 		Frasa(
 			"🔁"
-			dapatdipilih: ⊤
+			dapatdipilih
 			tempat: Tempat(4m -0.5m)
 			beristirahat: tertangkap ? Pose(rotasi: 180°) Pose()
 			lamanya: 0.5s

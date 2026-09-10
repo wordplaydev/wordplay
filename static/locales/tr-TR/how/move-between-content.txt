@@ -62,7 +62,7 @@ Scene([
 		Phrase('üç bölümlük bir hikaye' boyut: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('bir kedi belirir')])
 		Phrase('son 🎉')
-	] duraklat: ⊤ adım: ∆ key ? ((key = 'üç') ? -1 (key = 'Sol Ok') ? 1 ø) ø)
+	] duraklat adım: ∆ key ? ((key = 'üç') ? -1 (key = 'Sol Ok') ? 1 ø) ø)
 \
 
  Burada yazılacak \?\ kontrolü yok, çünkü bir @Scene kendi uçlarında senin için durur, ve hiçbir şeyin hangi parçanın gösterildiğini hatırlaması gerekmez.

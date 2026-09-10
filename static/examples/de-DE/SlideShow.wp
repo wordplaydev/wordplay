@@ -92,7 +92,7 @@ Gruppe(
 	[
 		Szene(
 			ansichten
-			anhalten: ⊤
+			anhalten
 			Schritt: ∆ schlüssel2 ? ((schlüssel2 = 'Pfeil nach links') ? -1 (schlüssel2 = 'Pfeil nach rechts') ? 1 ø) ø
 		)
 		Satzglied(

@@ -38,7 +38,7 @@ Fase(
 	[
 		Frase(
 			"🐭"
-			selecionável: ⊤
+			selecionável
 			local: colocar
 			descansar: apanhado ? Pose(
 					rotação: 180°

@@ -9,7 +9,7 @@ bucle: ⊥\ le dice al  @Track  que reproduzca sus notas una vez en lugar de par
 tapped: ∆ Button()
 Stage(
 	[
-		Phrase('👆 tócame' seleccionable: ⊤ nombre: 'toca')
+		Phrase('👆 tócame' seleccionable nombre: 'toca')
 		Music(
 			Track(
 				tapped ? [1 5 8] []

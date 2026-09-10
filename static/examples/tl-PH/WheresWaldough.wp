@@ -40,7 +40,7 @@ Entablado(
 	[
 		Parirala(
 			"🔁"
-			mapipili: ⊤
+			mapipili
 			lugar: Lugar(4m -0.5m)
 			nagpapahinga: nahuli ? Pose(pagikot: 180°) Pose()
 			tagal: 0.5s

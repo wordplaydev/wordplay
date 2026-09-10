@@ -40,7 +40,7 @@ Scena(
 	[
 		Wyrażenie(
 			"🔁"
-			wybieralny: ⊤
+			wybieralny
 			miejsce: Miejsce(4m -0.5m)
 			spoczynkowy: złapany ? Poza(obrót: 180°) Poza()
 			czastrwania: 0.5s

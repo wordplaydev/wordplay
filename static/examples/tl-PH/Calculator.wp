@@ -26,16 +26,16 @@ operator: ø … onapili … ((pagpili ÷ '')[-1])
 numero1: Grupo(
 		Grid(2 5)
 		[
-			Parirala("0⃣" mapipili: ⊤ pangalan: 'num1_0')
-			Parirala("1⃣" mapipili: ⊤ pangalan: 'num1_1')
-			Parirala("2⃣" mapipili: ⊤ pangalan: 'num1_2')
-			Parirala("3⃣" mapipili: ⊤ pangalan: 'num1_3')
-			Parirala("4⃣" mapipili: ⊤ pangalan: 'num1_4')
-			Parirala("5⃣" mapipili: ⊤ pangalan: 'num1_5')
-			Parirala("6⃣" mapipili: ⊤ pangalan: 'num1_6')
-			Parirala("7⃣" mapipili: ⊤ pangalan: 'num1_7')
-			Parirala("8⃣" mapipili: ⊤ pangalan: 'num1_8')
-			Parirala("9⃣" mapipili: ⊤ pangalan: 'num1_9')
+			Parirala("0⃣" mapipili pangalan: 'num1_0')
+			Parirala("1⃣" mapipili pangalan: 'num1_1')
+			Parirala("2⃣" mapipili pangalan: 'num1_2')
+			Parirala("3⃣" mapipili pangalan: 'num1_3')
+			Parirala("4⃣" mapipili pangalan: 'num1_4')
+			Parirala("5⃣" mapipili pangalan: 'num1_5')
+			Parirala("6⃣" mapipili pangalan: 'num1_6')
+			Parirala("7⃣" mapipili pangalan: 'num1_7')
+			Parirala("8⃣" mapipili pangalan: 'num1_8')
+			Parirala("9⃣" mapipili pangalan: 'num1_9')
 		]
 	)
 
@@ -43,16 +43,16 @@ numero1: Grupo(
 numero2: Grupo(
 		Grid(2 5)
 		[
-			Parirala("0⃣" mapipili: ⊤ pangalan: 'num2_0')
-			Parirala("1⃣" mapipili: ⊤ pangalan: 'num2_1')
-			Parirala("2⃣" mapipili: ⊤ pangalan: 'num2_2')
-			Parirala("3⃣" mapipili: ⊤ pangalan: 'num2_3')
-			Parirala("4⃣" mapipili: ⊤ pangalan: 'num2_4')
-			Parirala("5⃣" mapipili: ⊤ pangalan: 'num2_5')
-			Parirala("6⃣" mapipili: ⊤ pangalan: 'num2_6')
-			Parirala("7⃣" mapipili: ⊤ pangalan: 'num2_7')
-			Parirala("8⃣" mapipili: ⊤ pangalan: 'num2_8')
-			Parirala("9⃣" mapipili: ⊤ pangalan: 'num2_9')
+			Parirala("0⃣" mapipili pangalan: 'num2_0')
+			Parirala("1⃣" mapipili pangalan: 'num2_1')
+			Parirala("2⃣" mapipili pangalan: 'num2_2')
+			Parirala("3⃣" mapipili pangalan: 'num2_3')
+			Parirala("4⃣" mapipili pangalan: 'num2_4')
+			Parirala("5⃣" mapipili pangalan: 'num2_5')
+			Parirala("6⃣" mapipili pangalan: 'num2_6')
+			Parirala("7⃣" mapipili pangalan: 'num2_7')
+			Parirala("8⃣" mapipili pangalan: 'num2_8')
+			Parirala("9⃣" mapipili pangalan: 'num2_9')
 		]
 	)
 
@@ -60,10 +60,10 @@ numero2: Grupo(
 mgaoperator: Grupo(
 		Grid(2 2)
 		[
-			Parirala("➕" mapipili: ⊤ pangalan: 'op_a')
-			Parirala("➖" mapipili: ⊤ pangalan: 'op_s')
-			Parirala("✖" mapipili: ⊤ pangalan: 'op_m')
-			Parirala("➗" mapipili: ⊤ pangalan: 'op_d')
+			Parirala("➕" mapipili pangalan: 'op_a')
+			Parirala("➖" mapipili pangalan: 'op_s')
+			Parirala("✖" mapipili pangalan: 'op_m')
+			Parirala("➗" mapipili pangalan: 'op_d')
 		]
 	)
 

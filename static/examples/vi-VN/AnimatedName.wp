@@ -57,12 +57,12 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Tưthế(
 								màusắc: Màusắc(0.5 100 180°)
-								lậtngược: ⊤
+								lậtngược
 							)
 							50%: Tưthế(màusắc: Màusắc(27% 112 267°))
 							75%: Tưthế(
 								màusắc: Màusắc(0.5 100 180°)
-								lậtngược: ⊤
+								lậtngược
 							)
 						}
 						khoảngthờigian: 2s
@@ -153,12 +153,12 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Tưthế(
 								màusắc: Màusắc(0.5 100 180°)
-								lậtngược: ⊤
+								lậtngược
 							)
 							50%: Tưthế(màusắc: Màusắc(27% 112 267°))
 							75%: Tưthế(
 								màusắc: Màusắc(0.5 100 180°)
-								lậtngược: ⊤
+								lậtngược
 							)
 						}
 						khoảngthờigian: 2s

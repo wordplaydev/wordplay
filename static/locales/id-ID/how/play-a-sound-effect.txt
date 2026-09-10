@@ -6,7 +6,7 @@ Dua hal membuatnya menjadi efek suara, bukan lagu. \pengulangan: ⊥\ memberi ta
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 sentuh aku' dapatdipilih: ⊤ nama: 'sentuh')
+		Phrase('👆 sentuh aku' dapatdipilih nama: 'sentuh')
 		Music(Track(tapped ? [1 5 8] [] alatMusik: Instrument.bell perulangan: ⊥) putarUlang: tapped)
 	])\
 

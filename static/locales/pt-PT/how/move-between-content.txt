@@ -62,7 +62,7 @@ Scene([
 		Phrase('uma história em três partes' tamanho: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('aparece um gato')])
 		Phrase('o fim 🎉')
-	] pausar: ⊤ passo: ∆ key ? ((key = 'Seta para a esquerda') ? -1 (key = 'Seta para a direita') ? 1 ø) ø)
+	] pausar passo: ∆ key ? ((key = 'Seta para a esquerda') ? -1 (key = 'Seta para a direita') ? 1 ø) ø)
 \
 
  Não há aqui nenhuma \?\ verificação para escrever, porque um @Scene para sozinho nos seus próprios limites, e nada precisa de se lembrar de qual peça está a ser mostrada.

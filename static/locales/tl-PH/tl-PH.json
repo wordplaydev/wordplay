@@ -957,15 +957,16 @@
                 "inputs": "$~input"
             },
             "doc": [
-                "$~Sinusuri ko ang aking pinakamamahal @FunctionDefinition , binibigyan ito ng mga input at sinusunod ang mga hakbang nito. Hi! Ganito ang gusto ko:",
-                "\\ƒ greeting(message•'')\ngreeting('kitty')\\🪲",
-                "Ang mga function ay maaaring magmula kahit saan. Halimbawa, @Text ay may mga function. Tulad nito:",
-                "\\'kitty'.length()\\",
-                "Kung ang isang function ay may iisang pangalan ng simbolo, maaari mo akong isulat bilang isang @BinaryEvaluate .",
-                "\\'kitty' ⊆ 'itty'\\",
-                "Ganito rin ang ginagawa nito:",
-                "\\'kitty'.⊆('itty')\\",
-                "Siyempre, wala akong kwenta kung wala @FunctionDefinition . Ang ginagawa ko lang ay magbigay ng mga input sa kanila at pagkatapos ay sundin ang kanilang mga hakbang."
+                "$~Sinusuri ko ang aking pinakamamahal na @FunctionDefinition, binibigyan ito ng mga input at sinusunod ang mga hakbang nito. Kumusta! Ganito:",
+                "\\ƒ pagbati(mensahe•'')\n\tpagbati('kuting')\\🪲",
+                "Ang mga FunctionDefinition ay maaaring manggaling kahit saan. Halimbawa, ang @Text ay may mga FunctionDefinition. Ganito:",
+                "\\'kuting'.haba()\\",
+                "Kung ang isang FunctionDefinition ay may pangalang binubuo ng iisang simbolo, maaari mo akong isulat bilang @BinaryEvaluate.",
+                "\\'kuting' ⊆ 'iti'\\",
+                "Ganoon din ang mangyayari kung gagawin ito:",
+                "\\'kuting'.aymay('iti')\\",
+                "Siyempre, wala akong kabuluhan kung wala ang @FunctionDefinition. Ang tanging ginagawa ko ay bigyan sila ng mga input at pagkatapos ay sundin ang kanilang mga hakbang.",
+                "Sa totoo lang, may sarili akong kakayahan. Halimbawa, kung ang isang input para sa @FunctionDefinition ay isang @Boolean, maaari mong isulat ang pangalan nito nang mag-isa para paganahin ito, sa halip na bigyan ito ng @value."
             ],
             "start": "$~Suriin muna natin ang mga input",
             "evaluate": "$~Suriin natin ang tungkulin ngayon",

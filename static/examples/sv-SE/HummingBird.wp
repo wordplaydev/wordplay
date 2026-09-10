@@ -82,12 +82,12 @@ fågel: Fras(
 		plats: fågelPlats
 		materia: Materia(1kg 0.4 0)
 		vilande:
-		(spel2.fas = 3) ? Pose(rotation: 180° flipx: ⊤)
+		(spel2.fas = 3) ? Pose(rotation: 180° flipx)
 			Sekvens(
 				{
-					0%: Pose(flipx: ⊤ rotation: -12°)
-					50%: Pose(flipx: ⊤ rotation: 12°)
-					100%: Pose(flipx: ⊤ rotation: -12°)
+					0%: Pose(flipx rotation: -12°)
+					50%: Pose(flipx rotation: 12°)
+					100%: Pose(flipx rotation: -12°)
 				}
 				0.35s
 			)
@@ -210,7 +210,7 @@ humButton: Fras(
 		'🎤'
 		0.8m
 		namn: 'hum'
-		valbara: ⊤
+		valbara
 		plats: Plats(-4.2m 4.7m)
 		vilande: (läge = 'hum') ? Pose() Pose(opacitet: 40%)
 	)
@@ -218,7 +218,7 @@ tapButton: Fras(
 		'⌨'
 		0.8m
 		namn: 'tap'
-		valbara: ⊤
+		valbara
 		plats: Plats(-3m 4.7m)
 		vilande: (läge = 'tap') ? Pose() Pose(opacitet: 40%)
 	)

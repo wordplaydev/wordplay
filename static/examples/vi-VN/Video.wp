@@ -63,7 +63,7 @@ hìnhẢnh: màuSắc2.kếthợp(
 		mãSốNhậnDạng
 		0.5m
 		tên: mãSốNhậnDạng
-		cóthểlựachọn: ⊤
+		cóthểlựachọn
 		nghỉngơi: (kiểuDáng = mãSốNhậnDạng) ? Tưthế() Tưthế(
 				độmờđục: 40%
 			)

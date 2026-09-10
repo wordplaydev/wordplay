@@ -48,11 +48,11 @@ switch: Phrase(
 	falling ? "⬇️ gravity" "🌌 floating"
 	0.7m
 	name: 'gravity'
-	selectable: ⊤
+	selectable
 	place: Place(-13m 1m)
 )
 
-shaker: Phrase("🎲 shake" 0.7m name: 'shake' selectable: ⊤ place: Place(-13m -1m))
+shaker: Phrase("🎲 shake" 0.7m name: 'shake' selectable place: Place(-13m -1m))
 
 Stage(
 	[

@@ -57,12 +57,12 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Poz(
 								renk: Renk(0.5 100 180°)
-								tersçevir: ⊤
+								tersçevir
 							)
 							50%: Poz(renk: Renk(27% 112 267°))
 							75%: Poz(
 								renk: Renk(0.5 100 180°)
-								tersçevir: ⊤
+								tersçevir
 							)
 						}
 						süre: 2s
@@ -153,12 +153,12 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Poz(
 								renk: Renk(0.5 100 180°)
-								tersçevir: ⊤
+								tersçevir
 							)
 							50%: Poz(renk: Renk(27% 112 267°))
 							75%: Poz(
 								renk: Renk(0.5 100 180°)
-								tersçevir: ⊤
+								tersçevir
 							)
 						}
 						süre: 2s

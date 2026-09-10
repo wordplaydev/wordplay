@@ -24,7 +24,7 @@ scenariu: [
 		rând(
 			'b'
 			'Un balon de vorbire în jurul unei litere este o imagine a unei litere, sau o literă a unei imagini?'
-			gândește: ⊤
+			gândește
 		)
 		rând('un' 'Te învârți în cerc.')
 		rând(

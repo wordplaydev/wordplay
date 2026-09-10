@@ -115,21 +115,21 @@ pestañas: Grupo(
 		[
 			Frase(
 				'▸ A través del tiempo'
-				seleccionable: ⊤
+				seleccionable
 				nombre: 'time'
 				tamaño: 0.35m
 				color: Color(60% 50 20°)
 			)
 			Frase(
 				'▸ Por campo'
-				seleccionable: ⊤
+				seleccionable
 				nombre: 'fields'
 				tamaño: 0.35m
 				color: Color(60% 50 140°)
 			)
 			Frase(
 				'▸ Cantidad contra proporción'
-				seleccionable: ⊤
+				seleccionable
 				nombre: 'cantidades'
 				tamaño: 0.35m
 				color: Color(60% 50 280°)

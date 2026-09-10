@@ -2,7 +2,7 @@ Seçilebilir seçenekleri göster
 
 Bazen ekranda bir sürü seçenek göstermek ve izleyicinin seçtikleriyle bir şeyler yapmak istersiniz. Bunu yapmak için iki şeye ihtiyacımız var:
 
-• Seçilebilir olarak işaretlenmiş ve benzersiz bir ismi olan bir veya daha fazla @Phrase (örneğin, \Phrase('Seçenek 1' seçilebilir: ⊤ isim: 'bir')\)
+• Seçilebilir olarak işaretlenmiş ve benzersiz bir ismi olan bir veya daha fazla @Phrase (örneğin, \Phrase('Seçenek 1' seçilebilir isim: 'bir')\)
 • Göstermek istediğin içeriğin bir @Choice, en son seçilen @Phrase ismine dönüşür.
 
 Örneğin, burada her biri benzersiz bir isme sahip üç seçenek gösteriyoruz.
@@ -12,9 +12,9 @@ option: Choice()
 
 Group(
 	Stack() [
-		Phrase('Seçenek 1' seçilebilir: ⊤ isim: 'bir')
-		Phrase('Seçenek 2' seçilebilir: ⊤ isim: 'iki')
-		Phrase('Seçenek 3' seçilebilir: ⊤ isim: 'üç')
+		Phrase('Seçenek 1' seçilebilir isim: 'bir')
+		Phrase('Seçenek 2' seçilebilir isim: 'iki')
+		Phrase('Seçenek 3' seçilebilir isim: 'üç')
 		Phrase(option)
 	]
 )

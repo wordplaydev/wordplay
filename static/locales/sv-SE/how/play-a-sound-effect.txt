@@ -6,7 +6,7 @@ Två saker gör det till en ljudeffekt istället för en sång. \loop: ⊥\ säg
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 tryck på mig' valbara: ⊤ namn: 'tryck')
+		Phrase('👆 tryck på mig' valbara namn: 'tryck')
 		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) spelaom: tapped)
 	])\
 

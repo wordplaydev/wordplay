@@ -8,7 +8,7 @@ Two things make it a sound effect rather than a song. \loop: ⊥\ tells the @Tra
 tapped: ∆ Button()
 
 Stage([
-	Phrase('👆 tap me' selectable: ⊤ name: 'tap')
+	Phrase('👆 tap me' selectable name: 'tap')
 	Music(
 		Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥)
 		replay: tapped

@@ -72,7 +72,7 @@ steigendeHandlung2: [
 			Größe: 2m
 			Ort: Ort(-1m -7m)
 			Name: 'pear'
-			wählbar: ⊤
+			wählbar
 		)
 	]
 
@@ -100,7 +100,7 @@ höhepunkt: [
 			Name: "tree"
 			Größe: 5m
 			Ort: Ort(-3m -7m)
-			wählbar: ⊤
+			wählbar
 		)
 		:orte.übersetzen(
 			ƒ(platzieren index2)

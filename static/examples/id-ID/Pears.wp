@@ -75,7 +75,7 @@ aksiMeningkat2: [
 			ukuran: 2m
 			tempat: Tempat(-1m -7m)
 			nama: 'pear'
-			dapatdipilih: ⊤
+			dapatdipilih
 		)
 	]
 
@@ -100,7 +100,7 @@ puncak: [
 			nama: "tree"
 			ukuran: 5m
 			tempat: Tempat(-3m -7m)
-			dapatdipilih: ⊤
+			dapatdipilih
 		)
 		:tempat2.menerjemahkan(
 			ƒ(tempat3 indeks2)

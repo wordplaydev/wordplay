@@ -56,7 +56,7 @@ Scène(
 						Its name is add, so selecting it updates the action choice.¶/en
 						Phrase(
 							"Ajouter une heure d'étude +1"
-							sélectionnable: ⊤
+							sélectionnable
 							nom: 'ajouter'
 							couleur: Couleur(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ Scène(
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						Phrase(
 							'Réinitialiser'
-							sélectionnable: ⊤
+							sélectionnable
 							nom: 'reset'
 							couleur: Couleur(69% 47 271°)
 						)

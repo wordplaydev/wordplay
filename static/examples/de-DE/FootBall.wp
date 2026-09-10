@@ -15,7 +15,7 @@ torwartReichweite: 4.5m
 torwartGeschwindigkeit: 0.55m
 
 takt2: Zeit(50ms)
-drücken: Schlüssel(runter: ⊤)
+drücken: Schlüssel(runter)
 loslassen: Schlüssel(runter: ⊥)
 
 ¶In welche Richtung sich der Handschuh bewegt. Ein gedrückter Pfeil setzt ihn in Bewegung, und das Loslassen desselben Pfeils stoppt ihn. So gleitet der Handschuh, solange du die Taste hältst. Bei einem so breiten Tor würde ein Schritt pro Tastendruck nie rechtzeitig ankommen.¶

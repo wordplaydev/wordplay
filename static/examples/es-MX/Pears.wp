@@ -69,7 +69,7 @@ acciónAscendente2: [
 			tamaño: 2m
 			lugar: Lugar(-1m -7m)
 			nombre: 'pear'
-			seleccionable: ⊤
+			seleccionable
 		)
 	]
 
@@ -91,7 +91,7 @@ clímax: [
 			nombre: "tree"
 			tamaño: 5m
 			lugar: Lugar(-3m -7m)
-			seleccionable: ⊤
+			seleccionable
 		)
 		:lugares.traducir(
 			ƒ(lugar2 índice2)

@@ -108,21 +108,21 @@ flikar: Grupp(
 		[
 			Fras(
 				'▸ Över tid'
-				valbara: ⊤
+				valbara
 				namn: 'time'
 				storlek: 0.35m
 				färg: Färg(60% 50 20°)
 			)
 			Fras(
 				'▸ Efter ämne'
-				valbara: ⊤
+				valbara
 				namn: 'fields'
 				storlek: 0.35m
 				färg: Färg(60% 50 140°)
 			)
 			Fras(
 				'▸ Antal jämfört med andel'
-				valbara: ⊤
+				valbara
 				namn: 'antal'
 				storlek: 0.35m
 				färg: Färg(60% 50 280°)

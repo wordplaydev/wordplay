@@ -957,15 +957,16 @@
                 "inputs": "entrada"
             },
             "doc": [
-                "$~Avalio a minha querida @FunctionDefinition , fornecendo entradas e seguindo os seus passos. Olá! Assim:",
-                "\\ƒ greeting(message•'')\ngreeting('kitty')\\🪲",
-                "As funções podem vir de qualquer lado. Por exemplo, @Text possui funções. Assim:",
-                "\\'kitty'.length()\\",
-                "Se uma função tiver um único nome de símbolo, pode escrever-me @how um @BinaryEvaluate .",
-                "\\'kitty' ⊆ 'itty'\\",
-                "Isto faz a mesma coisa que isto:",
-                "\\'kitty'.⊆('itty')\\",
-                "É claro que não sou nada sem @FunctionDefinition . Tudo o que faço é fornecer os parâmetros e seguir os passos indicados."
+                "$~Eu avalio a minha querida @FunctionDefinition, dando-lhe entradas e seguindo os seus passos. Olá! Assim:",
+                "\\ƒ saudação(mensagem•'')\n\tsaudação('gatinho')\\🪲",
+                "As funções podem vir de qualquer lado. Por exemplo, @Text tem funções. Assim:",
+                "\\'gatinho'.comprimento()\\",
+                "Se uma função tiver um nome de símbolo único, pode escrever-me @how um @BinaryEvaluate.",
+                "\\'gatinho' ⊆ 'inho'\\",
+                "Isso faz a mesma coisa que isto:",
+                "\\'gatinho'.tem('inho')\\",
+                "Claro que eu não sou nada sem @FunctionDefinition. Tudo o que faço é dar-lhes entradas e depois seguir os seus passos.",
+                "Na verdade, tenho algumas capacidades próprias. Por exemplo, se uma entrada para um(a) @FunctionDefinition for um(a) @Boolean, pode escrever o seu nome sozinho para o ativar, em vez de lhe dar um(a) @value."
             ],
             "start": "Vamos avaliar primeiro as entradas.",
             "evaluate": "Vamos avaliar a função agora.",

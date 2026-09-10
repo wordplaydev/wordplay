@@ -48,7 +48,7 @@ comutator: Fraza(
 		cădere ? '⬇ gravitație' '🌌 plutind'
 		0.7m
 		nume: 'gravity'
-		selectabil: ⊤
+		selectabil
 		loc: Loc(-13m 1m)
 	)
 
@@ -56,7 +56,7 @@ agitator: Fraza(
 		'🎲 scuturare'
 		0.7m
 		nume: 'shake'
-		selectabil: ⊤
+		selectabil
 		loc: Loc(-13m -1m)
 	)
 

@@ -62,7 +62,7 @@ vers: 'la li lu le lo li la'
 			Fraza(voce4.etichetă 0.5m)
 		]
 		nume: voce4.etichetă
-		selectabil: ⊤
+		selectabil
 		culoare: (voce4.etichetă = curent.etichetă)
 		? Culoare(95% 60 voce4.nuanță)
 			Culoare(60% 8 voce4.nuanță)

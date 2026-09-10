@@ -59,7 +59,7 @@ lờiCa: 'la li lu le lo li la'
 			Cụmtừ(giọng4.nhãn 0.5m)
 		]
 		tên: giọng4.nhãn
-		cóthểlựachọn: ⊤
+		cóthểlựachọn
 		màusắc: (giọng4.nhãn = hiệnTại.nhãn)
 		? Màusắc(95% 60 giọng4.sắcĐộ)
 			Màusắc(60% 8 giọng4.sắcĐộ)

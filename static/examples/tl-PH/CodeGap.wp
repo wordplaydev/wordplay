@@ -113,21 +113,21 @@ mgaTab: Grupo(
 		[
 			Parirala(
 				'▸ Sa paglipas ng panahon'
-				mapipili: ⊤
+				mapipili
 				pangalan: 'time'
 				laki: 0.35m
 				kulay: Kulay(60% 50 20°)
 			)
 			Parirala(
 				'▸ Ayon sa larangan'
-				mapipili: ⊤
+				mapipili
 				pangalan: 'fields'
 				laki: 0.35m
 				kulay: Kulay(60% 50 140°)
 			)
 			Parirala(
 				'▸ Bilang laban sa bahagi'
-				mapipili: ⊤
+				mapipili
 				pangalan: 'mga bilang'
 				laki: 0.35m
 				kulay: Kulay(60% 50 280°)

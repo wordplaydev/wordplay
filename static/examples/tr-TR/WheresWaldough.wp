@@ -40,7 +40,7 @@ Sahne(
 	[
 		İfadeetmek(
 			"🔁"
-			seçilebilir: ⊤
+			seçilebilir
 			yer: Yer(4m -0.5m)
 			dinlenme: yakalandı ? Poz(rotasyon: 180°) Poz()
 			süre: 0.5s

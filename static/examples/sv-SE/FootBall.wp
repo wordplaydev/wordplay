@@ -15,7 +15,7 @@ målvaktRäckvidd: 4.5m
 målvaktHastighet: 0.55m
 
 tick: Tid(50ms)
-tryck: Nyckel(ner: ⊤)
+tryck: Nyckel(ner)
 släpp: Nyckel(ner: ⊥)
 
 ¶Vilket håll handsken rör sig åt. En pil som trycks ned sätter den i rörelse, ochatt släppa samma pil stoppar den, så handsken glider så länge du håller nertangenten. Över en så bred målgap skulle ett steg per tryck aldrig hinna frami tid.¶

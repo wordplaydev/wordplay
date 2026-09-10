@@ -26,16 +26,16 @@ operator: ø … opicked … ((pilihan ÷ '')[-1])
 numbers1: Kelompok(
 		Jaringan(2 5)
 		[
-			Frasa("0⃣" dapatdipilih: ⊤ nama: 'num1_0')
-			Frasa("1⃣" dapatdipilih: ⊤ nama: 'num1_1')
-			Frasa("2⃣" dapatdipilih: ⊤ nama: 'num1_2')
-			Frasa("3⃣" dapatdipilih: ⊤ nama: 'num1_3')
-			Frasa("4⃣" dapatdipilih: ⊤ nama: 'num1_4')
-			Frasa("5⃣" dapatdipilih: ⊤ nama: 'num1_5')
-			Frasa("6⃣" dapatdipilih: ⊤ nama: 'num1_6')
-			Frasa("7⃣" dapatdipilih: ⊤ nama: 'num1_7')
-			Frasa("8⃣" dapatdipilih: ⊤ nama: 'num1_8')
-			Frasa("9⃣" dapatdipilih: ⊤ nama: 'num1_9')
+			Frasa("0⃣" dapatdipilih nama: 'num1_0')
+			Frasa("1⃣" dapatdipilih nama: 'num1_1')
+			Frasa("2⃣" dapatdipilih nama: 'num1_2')
+			Frasa("3⃣" dapatdipilih nama: 'num1_3')
+			Frasa("4⃣" dapatdipilih nama: 'num1_4')
+			Frasa("5⃣" dapatdipilih nama: 'num1_5')
+			Frasa("6⃣" dapatdipilih nama: 'num1_6')
+			Frasa("7⃣" dapatdipilih nama: 'num1_7')
+			Frasa("8⃣" dapatdipilih nama: 'num1_8')
+			Frasa("9⃣" dapatdipilih nama: 'num1_9')
 		]
 	)
 
@@ -43,16 +43,16 @@ numbers1: Kelompok(
 numbers2: Kelompok(
 		Jaringan(2 5)
 		[
-			Frasa("0⃣" dapatdipilih: ⊤ nama: 'num2_0')
-			Frasa("1⃣" dapatdipilih: ⊤ nama: 'num2_1')
-			Frasa("2⃣" dapatdipilih: ⊤ nama: 'num2_2')
-			Frasa("3⃣" dapatdipilih: ⊤ nama: 'num2_3')
-			Frasa("4⃣" dapatdipilih: ⊤ nama: 'num2_4')
-			Frasa("5⃣" dapatdipilih: ⊤ nama: 'num2_5')
-			Frasa("6⃣" dapatdipilih: ⊤ nama: 'num2_6')
-			Frasa("7⃣" dapatdipilih: ⊤ nama: 'num2_7')
-			Frasa("8⃣" dapatdipilih: ⊤ nama: 'num2_8')
-			Frasa("9⃣" dapatdipilih: ⊤ nama: 'num2_9')
+			Frasa("0⃣" dapatdipilih nama: 'num2_0')
+			Frasa("1⃣" dapatdipilih nama: 'num2_1')
+			Frasa("2⃣" dapatdipilih nama: 'num2_2')
+			Frasa("3⃣" dapatdipilih nama: 'num2_3')
+			Frasa("4⃣" dapatdipilih nama: 'num2_4')
+			Frasa("5⃣" dapatdipilih nama: 'num2_5')
+			Frasa("6⃣" dapatdipilih nama: 'num2_6')
+			Frasa("7⃣" dapatdipilih nama: 'num2_7')
+			Frasa("8⃣" dapatdipilih nama: 'num2_8')
+			Frasa("9⃣" dapatdipilih nama: 'num2_9')
 		]
 	)
 
@@ -60,10 +60,10 @@ numbers2: Kelompok(
 operators: Kelompok(
 		Jaringan(2 2)
 		[
-			Frasa("➕" dapatdipilih: ⊤ nama: 'op_a')
-			Frasa("➖" dapatdipilih: ⊤ nama: 'op_s')
-			Frasa("✖" dapatdipilih: ⊤ nama: 'op_m')
-			Frasa("➗" dapatdipilih: ⊤ nama: 'op_d')
+			Frasa("➕" dapatdipilih nama: 'op_a')
+			Frasa("➖" dapatdipilih nama: 'op_s')
+			Frasa("✖" dapatdipilih nama: 'op_m')
+			Frasa("➗" dapatdipilih nama: 'op_d')
 		]
 	)
 

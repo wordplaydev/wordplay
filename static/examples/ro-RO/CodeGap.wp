@@ -113,21 +113,21 @@ file: Grup(
 		[
 			Fraza(
 				'▸ De-a lungul timpului'
-				selectabil: ⊤
+				selectabil
 				nume: 'time'
 				dimensiune: 0.35m
 				culoare: Culoare(60% 50 20°)
 			)
 			Fraza(
 				'▸ După domeniu'
-				selectabil: ⊤
+				selectabil
 				nume: 'fields'
 				dimensiune: 0.35m
 				culoare: Culoare(60% 50 140°)
 			)
 			Fraza(
 				'▸ Număr vs procent'
-				selectabil: ⊤
+				selectabil
 				nume: 'numere'
 				dimensiune: 0.35m
 				culoare: Culoare(60% 50 280°)

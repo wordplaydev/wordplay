@@ -15,7 +15,7 @@ penjagaJangkauan: 4.5m
 penjagaKecepatan: 0.55m
 
 detak2: Waktu(50ms)
-tekan: Kunci(turun: ⊤)
+tekan: Kunci(turun)
 lepas: Kunci(turun: ⊥)
 
 ¶Ke arah mana sarung tangan bergerak. Menekan sebuah tombol panah membuatnya bergerak, dan melepas tombol panah yang sama menghentikannya, jadi sarung tangan bergeser selama kamu menahan tombol itu. Melintasi mulut gawang yang selebar ini, satu langkah setiap tekanan tidak akan pernah sampai tepat waktu.¶

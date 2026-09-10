@@ -58,7 +58,7 @@ Scene([
 		Phrase('एक')
 		Phrase('दोन')
 		Phrase('तीन')
-	] थांबवा: ⊤ पायरी: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+	] थांबवा पायरी: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 
 @Scene/step ठराविक @Phrase — \1\ पुढे, \-1\ मागे — आणि टोकांशी आपोआप थांबतो.

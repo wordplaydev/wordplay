@@ -133,13 +133,13 @@ ruangan4•[ruangan2]: [
 			'sungai'
 			'Lorong itu berakhir di sebuah kisi-kisi di atas air yang mengalir. Batang-batangnya sudah tua dan pisau itu sabar. Kamu keluar bersama sungai, dan rumah itu sudah jauh tertinggal di belakangmu sebelum langit pun menjadi kelabu.'
 			akhir2: 'Keluar bersama sungai.'
-			menang: ⊤
+			menang
 		)
 		ruangan2(
 			'lereng bukit'
 			'Kunci berputar, rantai jatuh berderai ke rumput, dan gerbang berputar tanpa suara yang bisa didengar siapa pun. Lembah kelabu oleh pagi, dan jalan itu milikmu.'
 			akhir2: 'Keluar lewat gerbang.'
-			menang: ⊤
+			menang
 		)
 	]
 

@@ -130,13 +130,13 @@ cuartos•[cuarto2]: [
 			'río'
 			'El pasillo termina en una reja sobre agua en movimiento. Los barrotes son viejos y el cuchillo es paciente. Sales con el río, y la casa queda lejos detrás de ti antes de que el cielo siquiera se ponga gris.'
 			final2: 'Fuera con el río.'
-			ganó: ⊤
+			ganó
 		)
 		cuarto2(
 			'ladera'
 			'La llave gira, la cadena cae sobre el pasto, y el portón se abre sin un sonido que nadie escuche. El valle está gris de mañana, y el camino es tuyo.'
 			final2: 'Fuera por el portón.'
-			ganó: ⊤
+			ganó
 		)
 	]
 

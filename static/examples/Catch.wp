@@ -23,7 +23,7 @@ place:  Place(0m 0m 0m) … ∆ Time(1000ms) … caught ? Place(0m 0m) Place(Ran
 Stage([
 		💬(
 			"🐭" 
-			selectable: ⊤
+			selectable
 			place: place
 			resting: caught ? Pose(rotation: 180° music: pounce) Pose()
 			moving:caught ? Pose() Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180° music: scurry) 100%:Pose(rotation: 360°)})

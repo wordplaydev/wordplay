@@ -15,7 +15,7 @@ jumătatePortar: 0.62m
 vitezăPortar: 0.55m
 
 tic: Timp(50ms)
-apasă: Cheie(jos: ⊤)
+apasă: Cheie(jos)
 eliberează: Cheie(jos: ⊥)
 
 ¶Direcția în care se mișcă mănușa. O săgeată apăsată o pune în mișcare, iareliberarea aceleiași săgeți o oprește, deci mănușa alunecă atât timp cât ții apăsatătasta. Pe o gură de poartă atât de lată, un pas la fiecare apăsare nu ar ajunge niciodată la timp.¶

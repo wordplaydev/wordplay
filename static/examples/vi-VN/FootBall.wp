@@ -15,7 +15,7 @@ thủMônTầmVới: 4.5m
 thủMônTốcĐộ: 0.55m
 
 nhịp2: Thờigian(50ms)
-nhấn: Chìakhóa(xuống: ⊤)
+nhấn: Chìakhóa(xuống)
 thả: Chìakhóa(xuống: ⊥)
 
 ¶Chiều mà chiếc găng tay đang di chuyển. Nhấn một mũi tên sẽ làm nó bắt đầu di chuyển vàthả cùng mũi tên đó sẽ làm nó dừng lại, vậy nên chiếc găng tay trượt trong suốt thời gian bạn giữphím đó. Với một khung thành rộng như vậy, mỗi lần nhấn chỉ dịch một bước sẽ không bao giờ tới kịp.¶

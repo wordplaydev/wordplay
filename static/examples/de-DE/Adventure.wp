@@ -139,13 +139,13 @@ räume•[raum2]: [
 			'Fluss'
 			'Der Gang endet an einem Gitter über fließendem Wasser. Die Stäbe sind alt, und das Messer hat Geduld. Du entkommst mit dem Fluss, und das Haus liegt weit hinter dir, noch bevor der Himmel grau wird.'
 			ende: 'Hinaus mit dem Fluss.'
-			gewonnen: ⊤
+			gewonnen
 		)
 		raum2(
 			'Hügel'
 			'Der Schlüssel dreht sich, die Kette fällt ins Gras, und das Tor schwingt auf, ohne dass es jemand hört. Das Tal liegt grau im Morgenlicht, und die Straße gehört dir.'
 			ende: 'Hinaus durch das Tor.'
-			gewonnen: ⊤
+			gewonnen
 		)
 	]
 

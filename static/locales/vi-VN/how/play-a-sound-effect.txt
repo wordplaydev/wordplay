@@ -6,7 +6,7 @@ Hai điều làm cho nó thành hiệu ứng âm thanh chứ không phải một
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 chạm vào tôi' cóthểlựachọn: ⊤ tên: 'chạm')
+		Phrase('👆 chạm vào tôi' cóthểlựachọn tên: 'chạm')
 		Music(Track(tapped ? [1 5 8] [] nhạcCụ: Instrument.bell vòngLặp: ⊥) phátLại: tapped)
 	])\
 

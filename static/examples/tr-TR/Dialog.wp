@@ -21,7 +21,7 @@ yazı: [
 		satır(
 			'b'
 			'Bir harfin etrafındaki konuşma balonu, harfin resmi mi, yoksa bir resmin harfi mi?'
-			düşünme: ⊤
+			düşünme
 		)
 		satır('bir' 'Sarmal sarmal dönüyorsun.')
 		satır(

@@ -517,8 +517,13 @@ function unwrap(
         if (given === undefined || Array.isArray(given)) continue;
         const value = given instanceof Input ? given.value : given;
         if (value === call) continue;
+        // A bare boolean shorthand already carries its own name, and the ⊤ it stands for is
+        // not written anywhere: wrapping it would produce `selectable: selectable`, a name
+        // that resolves to nothing. Carry it across as it was written.
         carried.push(
-            Input.make(wordName(input.expected, locales), value.clone()),
+            input.shorthand !== undefined
+                ? value.clone()
+                : Input.make(wordName(input.expected, locales), value.clone()),
         );
     }
     return [

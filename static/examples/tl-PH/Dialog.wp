@@ -27,7 +27,7 @@ kodigo: [
 		linya(
 			'b'
 			'Ang bula ng pananalita sa paligid ng isang letra ba ay larawan ng isang letra, o letra ng isang larawan?'
-			thinking: ⊤
+			thinking
 		)
 		linya(
 			'isang'

@@ -32,7 +32,7 @@ Etapă(
 					Grilă(10 5 1m 1m 1m)
 					ひらがな.traduce(
 						ƒ(シンボル/ja•'' 指数/ja,index/en)
-							Fraza(シンボル nume: 指数 → '' selectabil: ⊤)
+							Fraza(シンボル nume: 指数 → '' selectabil)
 					)
 				)
 				Fraza(

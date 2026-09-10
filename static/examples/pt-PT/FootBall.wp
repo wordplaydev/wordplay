@@ -15,7 +15,7 @@ keeperReach: 4.5m
 keeperSpeed: 0.55m
 
 tique: Tempo(50ms)
-premir: Chave(parabaixo: ⊤)
+premir: Chave(parabaixo)
 soltar: Chave(parabaixo: ⊥)
 
 ¶A direção em que a luva se move. Premir uma seta faz a luva começar a mover-se, e largar essa mesma seta faz com que pare. Assim, a luva desliza enquanto mantiver a tecla premida. Numa baliza tão larga, um passo por cada pressão nunca chegaria a tempo.¶

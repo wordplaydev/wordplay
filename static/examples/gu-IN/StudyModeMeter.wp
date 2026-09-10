@@ -56,7 +56,7 @@ The Stack places the title, explanation, number display, message, and selectable
 						Its name is add, so selecting it updates the action choice.¶/en
 						વાક્ય(
 							'અભ્યાસ કલાક ઉમેરો +1'
-							પસંદકરીશકાયતેવું: ⊤
+							પસંદકરીશકાયતેવું
 							નામ: 'ઉમેરો'
 							રંગ: રંગ(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ The Stack places the title, explanation, number display, message, and selectable
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						વાક્ય(
 							'રીસેટ'
-							પસંદકરીશકાયતેવું: ⊤
+							પસંદકરીશકાયતેવું
 							નામ: 'reset'
 							રંગ: રંગ(69% 47 271°)
 						)

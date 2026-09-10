@@ -92,7 +92,7 @@ Grupo(
 	[
 		Escena(
 			vistas
-			pausar: ⊤
+			pausar
 			paso: ∆ clave2 ? ((clave2 = 'FlechaIzquierda') ? -1 (clave2 = 'FlechaDerecha') ? 1 ø) ø
 		)
 		Frase(

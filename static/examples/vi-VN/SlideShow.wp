@@ -92,7 +92,7 @@ Nhóm(
 	[
 		Bốicảnh(
 			lượtXem
-			tạmDừng: ⊤
+			tạmDừng
 			bước: ∆ chìaKhóa2 ? ((chìaKhóa2 = 'Mũi tên trái') ? -1 (chìaKhóa2 = 'Mũi tên phải') ? 1 ø) ø
 		)
 		Cụmtừ(

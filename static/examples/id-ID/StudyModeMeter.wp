@@ -56,7 +56,7 @@ Panggung(
 						Its name is add, so selecting it updates the action choice.¶/en
 						Frasa(
 							'Tambah Jam Belajar +1'
-							dapatdipilih: ⊤
+							dapatdipilih
 							nama: 'tambah'
 							warna: Warna(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ Panggung(
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						Frasa(
 							'Atur Ulang'
-							dapatdipilih: ⊤
+							dapatdipilih
 							nama: 'reset'
 							warna: Warna(69% 47 271°)
 						)

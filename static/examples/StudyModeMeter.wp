@@ -51,11 +51,11 @@ Stage([
 				Group(➡(padding: 3m) [
 						¶This selectable Phrase lets the user add one study hour.
 						Its name is add, so selecting it updates the action choice.¶/en
-						Phrase('Add Study Hour +1' selectable: ⊤ name: 'add' color: 🌈(80% 45 0°))
+						Phrase('Add Study Hour +1' selectable name: 'add' color: 🌈(80% 45 0°))
 
 						¶This selectable Phrase lets the user reset the tracker.
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
-						Phrase('Reset' selectable: ⊤ name: 'reset' color: 🌈(69% 47 271°))
+						Phrase('Reset' selectable name: 'reset' color: 🌈(69% 47 271°))
 					]
 				)
 			]

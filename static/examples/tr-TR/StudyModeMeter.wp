@@ -56,7 +56,7 @@ Sahne(
 						Its name is add, so selecting it updates the action choice.¶/en
 						İfadeetmek(
 							'Çalışma Saati Ekle +1'
-							seçilebilir: ⊤
+							seçilebilir
 							isim: 'ekle'
 							renk: Renk(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ Sahne(
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						İfadeetmek(
 							'Sıfırla'
-							seçilebilir: ⊤
+							seçilebilir
 							isim: 'reset'
 							renk: Renk(69% 47 271°)
 						)

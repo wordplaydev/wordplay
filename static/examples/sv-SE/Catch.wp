@@ -30,7 +30,7 @@ Etapp(
 	[
 		Fras(
 			"🐭"
-			valbara: ⊤
+			valbara
 			plats: plats2
 			vilande: fångad ? Pose(
 					rotation: 180°

@@ -55,11 +55,11 @@ Change the locale on stage to see each one!¶/en
 					fonte: 'Aclonica'
 					descansar: Sequência(
 						{
-							0%: Pose(cor: Cor(0.5 100 180°) invertirx: ⊤)
+							0%: Pose(cor: Cor(0.5 100 180°) invertirx)
 							50%: Pose(cor: Cor(27% 112 267°))
 							75%: Pose(
 								cor: Cor(0.5 100 180°)
-								invertirx: ⊤
+								invertirx
 							)
 						}
 						duração: 2s
@@ -148,11 +148,11 @@ Change the locale on stage to see each one!¶/en
 					fonte: 'Aclonica'
 					descansar: Sequência(
 						{
-							0%: Pose(cor: Cor(0.5 100 180°) invertirx: ⊤)
+							0%: Pose(cor: Cor(0.5 100 180°) invertirx)
 							50%: Pose(cor: Cor(27% 112 267°))
 							75%: Pose(
 								cor: Cor(0.5 100 180°)
-								invertirx: ⊤
+								invertirx
 							)
 						}
 						duração: 2s

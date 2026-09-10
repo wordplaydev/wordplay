@@ -62,7 +62,7 @@ Scene([
 		Phrase('sebuah cerita dalam tiga bagian' ukuran: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('seekor kucing muncul')])
 		Phrase('selesai 🎉')
-	] jeda: ⊤ langkah: ∆ key ? ((key = 'Panah Kiri') ? -1 (key = 'Panah Kanan') ? 1 ø) ø)
+	] jeda langkah: ∆ key ? ((key = 'Panah Kiri') ? -1 (key = 'Panah Kanan') ? 1 ø) ø)
 \
 
  Tidak ada \?\ yang perlu ditulis di sini, karena sebuah @Scene berhenti di ujungnya sendiri untuk kamu, dan tidak ada yang perlu mengingat bagian mana yang sedang ditampilkan.

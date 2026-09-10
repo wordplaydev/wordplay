@@ -57,12 +57,12 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Poză(
 								culoare: Culoare(0.5 100 180°)
-								flipx: ⊤
+								flipx
 							)
 							50%: Poză(culoare: Culoare(27% 112 267°))
 							75%: Poză(
 								culoare: Culoare(0.5 100 180°)
-								flipx: ⊤
+								flipx
 							)
 						}
 						durată: 2s
@@ -153,12 +153,12 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Poză(
 								culoare: Culoare(0.5 100 180°)
-								flipx: ⊤
+								flipx
 							)
 							50%: Poză(culoare: Culoare(27% 112 267°))
 							75%: Poză(
 								culoare: Culoare(0.5 100 180°)
-								flipx: ⊤
+								flipx
 							)
 						}
 						durată: 2s

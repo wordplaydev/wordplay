@@ -56,7 +56,7 @@ Scena(
 						Its name is add, so selecting it updates the action choice.¶/en
 						Wyrażenie(
 							'Dodaj godzinę nauki +1'
-							wybieralny: ⊤
+							wybieralny
 							nazwa: 'dodaj'
 							kolor: Kolor(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ Scena(
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						Wyrażenie(
 							'Resetuj'
-							wybieralny: ⊤
+							wybieralny
 							nazwa: 'reset'
 							kolor: Kolor(69% 47 271°)
 						)

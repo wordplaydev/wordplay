@@ -27,7 +27,7 @@ skript: [
 		zeile(
 			'b'
 			'Ist eine Sprechblase um einen Buchstaben ein Bild eines Buchstabens, oder ein Buchstabe eines Bildes?'
-			denken: ⊤
+			denken
 		)
 		zeile('ein' 'Du drehst dich im Kreis.')
 		zeile(

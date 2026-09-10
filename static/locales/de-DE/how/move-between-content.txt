@@ -62,7 +62,7 @@ Scene([
 		Phrase('eine Geschichte in drei Teilen' Größe: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('eine Katze erscheint')])
 		Phrase('das Ende 🎉')
-	] anhalten: ⊤ Schritt: ∆ key ? ((key = 'Pfeil nach links') ? -1 (key = 'Pfeil nach rechts') ? 1 ø) ø)
+	] anhalten Schritt: ∆ key ? ((key = 'Pfeil nach links') ? -1 (key = 'Pfeil nach rechts') ? 1 ø) ø)
 \
 
  Es gibt keine \?\ Prüfungen, die man hier schreiben muss, denn ein @Scene hält von selbst an seinen eigenen Enden an, und niemand muss sich merken, welches Stück gerade gezeigt wird.

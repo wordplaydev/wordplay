@@ -92,7 +92,7 @@ Groupe(
 	[
 		Diaporama(
 			vues
-			pause: ⊤
+			pause
 			étape: ∆ clé2 ? ((clé2 = 'Flèche gauche') ? -1 (clé2 = 'Flèche droite') ? 1 ø) ø
 		)
 		Phrase(

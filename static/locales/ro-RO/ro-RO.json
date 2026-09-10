@@ -957,15 +957,16 @@
                 "inputs": "$~intrare"
             },
             "doc": [
-                "$~Îmi evaluez draga @FunctionDefinition , dându-i date de intrare și urmând pașii. Salut! Iată cum arată:",
-                "\\ƒ greeting(message•'')\ngreeting('kitty')\\🪲",
-                "Funcțiile pot proveni de oriunde. De exemplu, @Text are funcții. Astfel:",
-                "\\'kitty'.length()\\",
-                "Dacă o funcție are un singur nume de simbol, mă puteți scrie ca @BinaryEvaluate .",
-                "\\'kitty' ⊆ 'itty'\\",
-                "Asta face același lucru ca și asta:",
-                "\\'kitty'.⊆('itty')\\",
-                "Desigur, nu sunt nimic fără @FunctionDefinition . Tot ce fac este să le dau date și apoi să urmez pașii lor."
+                "$~Evaluez cea mai dragă @FunctionDefinition a mea, dându-i intrări și urmându-i pașii. Salut! Uite așa:",
+                "\\ƒ salut(mesaj•'')\n\tsalut('pisicuță')\\🪲",
+                "Funcțiile pot veni de oriunde. De exemplu, @Text are funcții. Uite așa:",
+                "\\'pisicuță'.lungime()\\",
+                "Dacă o funcție are un nume format dintr-un singur simbol, mă poți scrie ca un @BinaryEvaluate.",
+                "\\'pisicuță' ⊆ 'pisic'\\",
+                "Asta face același lucru ca aici:",
+                "\\'pisicuță'.are('pisic')\\",
+                "Bineînțeles, nu sunt nimic fără @FunctionDefinition. Tot ce fac este să le dau intrări și apoi să le urmez pașii.",
+                "De fapt, am și eu câteva abilități proprii. De exemplu, dacă o intrare pentru o @FunctionDefinition este o @Boolean, poți scrie numele ei singur ca s-o activezi, în loc să-i dai o @value."
             ],
             "start": "$~Să evaluăm mai întâi intrările",
             "evaluate": "$~Să evaluăm funcția acum",

@@ -957,15 +957,16 @@
                 "inputs": "$~masukan"
             },
             "doc": [
-                "$~Saya mengevaluasi @FunctionDefinition kesayangan saya, memberinya input dan mengikuti langkah-langkahnya. Hai! Seperti ini:",
-                "\\ƒ greeting(message•'')\ngreeting('kitty')\\🪲",
-                "Fungsi bisa berasal dari mana saja. Misalnya, @Text memiliki fungsi. Seperti ini:",
-                "\\'kitty'.length()\\",
-                "Jika sebuah fungsi memiliki nama simbol tunggal, Anda dapat menuliskannya sebagai @BinaryEvaluate .",
-                "\\'kitty' ⊆ 'itty'\\",
-                "Itu fungsinya sama dengan ini:",
-                "\\'kitty'.⊆('itty')\\",
-                "Tentu saja, saya bukan apa-apa tanpa @FunctionDefinition . Yang saya lakukan hanyalah memberikan masukan kepada mereka dan kemudian mengikuti langkah-langkah mereka."
+                "$~Aku mengevaluasi @FunctionDefinition kesayanganku, memberinya masukan dan mengikuti langkah-langkahnya. Hai! Seperti ini:",
+                "\\ƒ salam(pesan•'')\n\tsalam('kucing kecil')\\🪲",
+                "Fungsi bisa berasal dari mana saja. Misalnya, @Text punya fungsi. Seperti ini:",
+                "\\'kucing kecil'.panjang()\\",
+                "Jika sebuah fungsi punya nama berupa satu simbol saja, kamu bisa menuliskanku sebagai @BinaryEvaluate.",
+                "\\'kucing kecil' ⊆ 'kecil'\\",
+                "Itu melakukan hal yang sama seperti ini:",
+                "\\'kucing kecil'.memiliki('kecil')\\",
+                "Tentu saja, aku bukan apa-apa tanpa @FunctionDefinition. Yang kulakukan hanyalah memberi masukan kepada mereka lalu mengikuti langkah-langkah mereka.",
+                "Sebenarnya, aku juga punya beberapa kemampuan sendiri. Misalnya, jika masukan untuk @FunctionDefinition adalah @Boolean, kamu bisa menuliskan namanya saja untuk menyalakannya, tanpa perlu memberinya @value."
             ],
             "start": "$~Mari kita evaluasi inputnya terlebih dahulu.",
             "evaluate": "$~Mari kita evaluasi fungsinya sekarang.",

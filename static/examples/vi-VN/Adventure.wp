@@ -123,13 +123,13 @@ phòng4•[phòng2]: [
 			'dòng sông'
 			'Lối đi kết thúc ở một tấm chắn sắt phía trên dòng nước đang chảy. Những thanh sắt đã cũ, và con dao thì kiên nhẫn. Bạn thoát ra cùng dòng sông, và ngôi nhà đã ở xa phía sau bạn từ trước khi bầu trời kịp ửng xám.'
 			kếtThúc2: 'Ra đi cùng dòng sông.'
-			thắng: ⊤
+			thắng
 		)
 		phòng2(
 			'sườn đồi'
 			'Chiếc chìa khóa xoay, sợi xích đổ xuống bãi cỏ, và cánh cổng mở ra không một tiếng động nào ai nghe thấy. Thung lũng xám màu buổi sáng, và con đường là của bạn.'
 			kếtThúc2: 'Ra ngoài qua cổng.'
-			thắng: ⊤
+			thắng
 		)
 	]
 

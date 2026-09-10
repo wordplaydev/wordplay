@@ -88,12 +88,12 @@ oiseau: Phrase(
 		lieu: placeDeLʼoiseau
 		matière: Matière(1kg 0.4 0)
 		aurepos:
-		(jeu2.phase = 3) ? Pose(rotation: 180° flipx: ⊤)
+		(jeu2.phase = 3) ? Pose(rotation: 180° flipx)
 			Séquence(
 				{
-					0%: Pose(flipx: ⊤ rotation: -12°)
-					50%: Pose(flipx: ⊤ rotation: 12°)
-					100%: Pose(flipx: ⊤ rotation: -12°)
+					0%: Pose(flipx rotation: -12°)
+					50%: Pose(flipx rotation: 12°)
+					100%: Pose(flipx rotation: -12°)
 				}
 				0.35s
 			)
@@ -232,7 +232,7 @@ boutonFredonner: Phrase(
 		'🎤'
 		0.8m
 		nom: 'hum'
-		sélectionnable: ⊤
+		sélectionnable
 		lieu: Lieu(-4.2m 4.7m)
 		aurepos: (mode = 'hum') ? Pose() Pose(opacité: 40%)
 	)
@@ -240,7 +240,7 @@ boutonToucher: Phrase(
 		'⌨'
 		0.8m
 		nom: 'tap'
-		sélectionnable: ⊤
+		sélectionnable
 		lieu: Lieu(-3m 4.7m)
 		aurepos: (mode = 'tap') ? Pose() Pose(opacité: 40%)
 	)

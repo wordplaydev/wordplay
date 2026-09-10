@@ -74,7 +74,7 @@ liedtext: 'la li lu le lo li la'
 			Satzglied(stimme3.beschriftung 0.5m)
 		]
 		Name: stimme3.beschriftung
-		wählbar: ⊤
+		wählbar
 		Farbe: (stimme3.beschriftung = aktuell.beschriftung)
 		? Farbe(95% 60 stimme3.farbton)
 			Farbe(60% 8 stimme3.farbton)

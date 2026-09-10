@@ -44,6 +44,7 @@ import Names from '@nodes/Names';
 import TextLiteral from '@nodes/TextLiteral';
 import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
+import { getImplicitInputBind } from '@nodes/inputShorthand';
 import Reference from '@nodes/Reference';
 import Source from '@nodes/Source';
 import { Sym } from '@nodes/Sym';
@@ -347,7 +348,17 @@ function collectSourceRenames(
     for (let index = 0; index < enNodes.length; index++) {
         const enNode = enNodes[index];
         const loNode = loNodes[index];
-        if (!(enNode instanceof Input) || !(loNode instanceof Input)) continue;
+        // A named input, or a boolean shorthand — a bare name that fills an input the same way
+        // and so is determined by the same bind. The shorthand belongs here rather than in the
+        // reference loop below because an input's name is fully determined by its bind, which
+        // is what makes the non-symbolic rule right for it; and it can't be handled there at
+        // all, since a shorthand resolves to nothing lexically.
+        const isInputPair = enNode instanceof Input && loNode instanceof Input;
+        const isShorthandPair =
+            enNode instanceof Reference &&
+            loNode instanceof Reference &&
+            getImplicitInputBind(enNode, enContext) !== undefined;
+        if (!isInputPair && !isShorthandPair) continue;
 
         const enEvaluate = enSource.root.getParent(enNode);
         if (!(enEvaluate instanceof Evaluate)) continue;

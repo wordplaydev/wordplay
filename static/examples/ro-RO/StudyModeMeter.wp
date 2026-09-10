@@ -56,7 +56,7 @@ Etapă(
 						Its name is add, so selecting it updates the action choice.¶/en
 						Fraza(
 							'Adaugă o oră de studiu +1'
-							selectabil: ⊤
+							selectabil
 							nume: 'adaugă'
 							culoare: Culoare(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ Etapă(
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						Fraza(
 							'Resetează'
-							selectabil: ⊤
+							selectabil
 							nume: 'reset'
 							culoare: Culoare(69% 47 271°)
 						)

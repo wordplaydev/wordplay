@@ -6,7 +6,7 @@ Două lucruri îl fac să fie un efect sonor, nu un cântec. \buclă: ⊥\ îi s
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 atinge-mă' selectabil: ⊤ nume: 'atingere')
+		Phrase('👆 atinge-mă' selectabil nume: 'atingere')
 		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell buclă: ⊥) reluare: tapped)
 	])\
 

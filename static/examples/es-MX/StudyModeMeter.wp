@@ -56,7 +56,7 @@ Escenario(
 						Its name is add, so selecting it updates the action choice.¶/en
 						Frase(
 							'Agregar hora de estudio +1'
-							seleccionable: ⊤
+							seleccionable
 							nombre: 'agregar'
 							color: Color(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ Escenario(
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						Frase(
 							'Reiniciar'
-							seleccionable: ⊤
+							seleccionable
 							nombre: 'reset'
 							color: Color(69% 47 271°)
 						)

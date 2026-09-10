@@ -26,16 +26,16 @@ operator: ø … ovald … ((val ÷ '')[-1])
 tal1: Grupp(
 		Rutnät(2 5)
 		[
-			Fras("0⃣" valbara: ⊤ namn: 'num1_0')
-			Fras("1⃣" valbara: ⊤ namn: 'num1_1')
-			Fras("2⃣" valbara: ⊤ namn: 'num1_2')
-			Fras("3⃣" valbara: ⊤ namn: 'num1_3')
-			Fras("4⃣" valbara: ⊤ namn: 'num1_4')
-			Fras("5⃣" valbara: ⊤ namn: 'num1_5')
-			Fras("6⃣" valbara: ⊤ namn: 'num1_6')
-			Fras("7⃣" valbara: ⊤ namn: 'num1_7')
-			Fras("8⃣" valbara: ⊤ namn: 'num1_8')
-			Fras("9⃣" valbara: ⊤ namn: 'num1_9')
+			Fras("0⃣" valbara namn: 'num1_0')
+			Fras("1⃣" valbara namn: 'num1_1')
+			Fras("2⃣" valbara namn: 'num1_2')
+			Fras("3⃣" valbara namn: 'num1_3')
+			Fras("4⃣" valbara namn: 'num1_4')
+			Fras("5⃣" valbara namn: 'num1_5')
+			Fras("6⃣" valbara namn: 'num1_6')
+			Fras("7⃣" valbara namn: 'num1_7')
+			Fras("8⃣" valbara namn: 'num1_8')
+			Fras("9⃣" valbara namn: 'num1_9')
 		]
 	)
 
@@ -43,16 +43,16 @@ tal1: Grupp(
 tal2: Grupp(
 		Rutnät(2 5)
 		[
-			Fras("0⃣" valbara: ⊤ namn: 'num2_0')
-			Fras("1⃣" valbara: ⊤ namn: 'num2_1')
-			Fras("2⃣" valbara: ⊤ namn: 'num2_2')
-			Fras("3⃣" valbara: ⊤ namn: 'num2_3')
-			Fras("4⃣" valbara: ⊤ namn: 'num2_4')
-			Fras("5⃣" valbara: ⊤ namn: 'num2_5')
-			Fras("6⃣" valbara: ⊤ namn: 'num2_6')
-			Fras("7⃣" valbara: ⊤ namn: 'num2_7')
-			Fras("8⃣" valbara: ⊤ namn: 'num2_8')
-			Fras("9⃣" valbara: ⊤ namn: 'num2_9')
+			Fras("0⃣" valbara namn: 'num2_0')
+			Fras("1⃣" valbara namn: 'num2_1')
+			Fras("2⃣" valbara namn: 'num2_2')
+			Fras("3⃣" valbara namn: 'num2_3')
+			Fras("4⃣" valbara namn: 'num2_4')
+			Fras("5⃣" valbara namn: 'num2_5')
+			Fras("6⃣" valbara namn: 'num2_6')
+			Fras("7⃣" valbara namn: 'num2_7')
+			Fras("8⃣" valbara namn: 'num2_8')
+			Fras("9⃣" valbara namn: 'num2_9')
 		]
 	)
 
@@ -60,10 +60,10 @@ tal2: Grupp(
 operatorer: Grupp(
 		Rutnät(2 2)
 		[
-			Fras("➕" valbara: ⊤ namn: 'op_a')
-			Fras("➖" valbara: ⊤ namn: 'op_s')
-			Fras("✖" valbara: ⊤ namn: 'op_m')
-			Fras("➗" valbara: ⊤ namn: 'op_d')
+			Fras("➕" valbara namn: 'op_a')
+			Fras("➖" valbara namn: 'op_s')
+			Fras("✖" valbara namn: 'op_m')
+			Fras("➗" valbara namn: 'op_d')
 		]
 	)
 

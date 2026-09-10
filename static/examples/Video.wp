@@ -69,7 +69,7 @@ when the button is clicked or chosen with the keyboard.¶
 		id
 		0.5m
 		name: id
-		selectable: ⊤
+		selectable
 		resting: (style = id) ? Pose() Pose(opacity: 40%)
 	)
 

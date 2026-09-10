@@ -25,7 +25,7 @@ keeperReach: 4.5m
 keeperSpeed: 0.55m
 
 tick: Time(50ms)
-press: Key(down: ⊤)
+press: Key(down)
 release: Key(down: ⊥)
 
 ¶Which way the glove is travelling. An arrow pressed sets it going and letting

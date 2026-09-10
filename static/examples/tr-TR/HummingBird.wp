@@ -79,12 +79,12 @@ kuş: İfadeetmek(
 		yer: kuşYeri
 		konu: Konu(1kg 0.4 0)
 		dinlenme:
-		(oyun2.evre = 3) ? Poz(rotasyon: 180° tersçevir: ⊤)
+		(oyun2.evre = 3) ? Poz(rotasyon: 180° tersçevir)
 			Sekans(
 				{
-					0%: Poz(tersçevir: ⊤ rotasyon: -12°)
-					50%: Poz(tersçevir: ⊤ rotasyon: 12°)
-					100%: Poz(tersçevir: ⊤ rotasyon: -12°)
+					0%: Poz(tersçevir rotasyon: -12°)
+					50%: Poz(tersçevir rotasyon: 12°)
+					100%: Poz(tersçevir rotasyon: -12°)
 				}
 				0.35s
 			)
@@ -207,7 +207,7 @@ mırıldanmaDüğmesi: İfadeetmek(
 		'🎤'
 		0.8m
 		isim: 'hum'
-		seçilebilir: ⊤
+		seçilebilir
 		yer: Yer(-4.2m 4.7m)
 		dinlenme: (mod = 'hum') ? Poz() Poz(opaklık: 40%)
 	)
@@ -215,7 +215,7 @@ dokunmaDüğmesi: İfadeetmek(
 		'⌨'
 		0.8m
 		isim: 'tap'
-		seçilebilir: ⊤
+		seçilebilir
 		yer: Yer(-3m 4.7m)
 		dinlenme: (mod = 'tap') ? Poz() Poz(opaklık: 40%)
 	)

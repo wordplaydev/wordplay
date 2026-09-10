@@ -62,7 +62,7 @@ Scene([
 		Phrase('isang kuwento sa tatlong bahagi' laki: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('lumilitaw ang isang pusa')])
 		Phrase('ang wakas 🎉')
-	] iPause: ⊤ hakbang: ∆ key ? ((key = 'Palaso Kaliwa') ? -1 (key = 'PalasoKanan') ? 1 ø) ø)
+	] iPause hakbang: ∆ key ? ((key = 'Palaso Kaliwa') ? -1 (key = 'PalasoKanan') ? 1 ø) ø)
 \
 
  Walang \?\ na kailangang isulat dito, dahil ang @Scene ay humihinto sa kani-kaniyang mga dulo para sa iyo, kaya walang kailangang tandaan kung aling piraso ang ipinapakita.

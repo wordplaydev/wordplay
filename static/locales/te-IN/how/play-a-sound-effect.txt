@@ -6,7 +6,7 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 నన్ను తట్టు' ఎంచుకోదగినది: ⊤ పేరు: 'తట్టు')
+		Phrase('👆 నన్ను తట్టు' ఎంచుకోదగినది పేరు: 'తట్టు')
 		Music(Track(tapped ? [1 5 8] [] వాయిద్యం: Instrument.bell లూప్: ⊥) మళ్ళీప్లే: tapped)
 	])\
 

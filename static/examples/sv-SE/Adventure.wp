@@ -123,13 +123,13 @@ rum4•[rum2]: [
 			'flod'
 			'Gången slutar vid ett galler över strömmande vatten. Stängerna är gamla och kniven är tålmodig. Du tar dig ut med floden, och huset ligger långt bakom dig innan himlen ens blir grå.'
 			slut2: 'Ut med floden.'
-			vann: ⊤
+			vann
 		)
 		rum2(
 			'sluttning'
 			'Nyckeln vrids om, kedjan rasar ner i gräset, och grinden svänger utan ett ljud som någon hör. Dalen är grå av morgon, och vägen är din.'
 			slut2: 'Ut genom grinden.'
-			vann: ⊤
+			vann
 		)
 	]
 

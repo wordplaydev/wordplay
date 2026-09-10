@@ -115,21 +115,21 @@ zakładki: Grupa(
 		[
 			Wyrażenie(
 				'▸ W czasie'
-				wybieralny: ⊤
+				wybieralny
 				nazwa: 'time'
 				rozmiar: 0.35m
 				kolor: Kolor(60% 50 20°)
 			)
 			Wyrażenie(
 				'▸ Według dziedziny'
-				wybieralny: ⊤
+				wybieralny
 				nazwa: 'fields'
 				rozmiar: 0.35m
 				kolor: Kolor(60% 50 140°)
 			)
 			Wyrażenie(
 				'▸ Liczba a udział'
-				wybieralny: ⊤
+				wybieralny
 				nazwa: 'liczby'
 				rozmiar: 0.35m
 				kolor: Kolor(60% 50 280°)

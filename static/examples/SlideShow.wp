@@ -36,7 +36,7 @@ views: slides.translate(ƒ(slide•Slide) Group(Stack('|' 0.4m) [
 ¶The show never moves on its own; the arrow keys step it one slide either way.
 It stops at each end for us, so there is nothing to check.¶
 Group(Stack('|' 0.4m) [
-		Scene(views pause: ⊤
+		Scene(views pause
 			step: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 		Phrase(`\at.index\ of \at.total\` size: 0.25m alignment: '|')
 	])

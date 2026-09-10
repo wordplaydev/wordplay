@@ -56,7 +56,7 @@ The Stack places the title, explanation, number display, message, and selectable
 						Its name is add, so selecting it updates the action choice.¶/en
 						Фраза(
 							'Додај сат учења +1'
-							избор: ⊤
+							избор
 							име: 'додај'
 							боја: Боја(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ The Stack places the title, explanation, number display, message, and selectable
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						Фраза(
 							'Ресетуј'
-							избор: ⊤
+							избор
 							име: 'reset'
 							боја: Боја(69% 47 271°)
 						)

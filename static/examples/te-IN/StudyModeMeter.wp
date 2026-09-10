@@ -56,7 +56,7 @@ The Stack places the title, explanation, number display, message, and selectable
 						Its name is add, so selecting it updates the action choice.¶/en
 						పదబంధం(
 							'చదువు గంట జోడించు +1'
-							ఎంచుకోదగినది: ⊤
+							ఎంచుకోదగినది
 							పేరు: 'జోడించు'
 							రంగు: రంగు(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ The Stack places the title, explanation, number display, message, and selectable
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						పదబంధం(
 							'మళ్ళీ మొదలు'
-							ఎంచుకోదగినది: ⊤
+							ఎంచుకోదగినది
 							పేరు: 'reset'
 							రంగు: రంగు(69% 47 271°)
 						)

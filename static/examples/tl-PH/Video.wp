@@ -64,7 +64,7 @@ larawan: mgaKulay.pinagsama(
 		id2
 		0.5m
 		pangalan: id2
-		mapipili: ⊤
+		mapipili
 		nagpapahinga: (estilo2 = id2) ? Pose() Pose(
 				kalabuan: 40%
 			)

@@ -2,7 +2,7 @@ Hiển thị các lựa chọn có thể chọn
 
 Đôi khi bạn muốn hiển thị nhiều lựa chọn trên màn hình và xử lý kết quả dựa trên lựa chọn của khán giả. Để làm được điều này, chúng ta cần hai thứ:
 
-• Một hoặc nhiều @Phrase được đánh dấu là có thể chọn và có tên riêng biệt (ví dụ: \Phrase('lựa chọn 1' cóthểlựachọn: ⊤ tên: 'một')\)
+• Một hoặc nhiều @Phrase được đánh dấu là có thể chọn và có tên riêng biệt (ví dụ: \Phrase('lựa chọn 1' cóthểlựachọn tên: 'một')\)
 • Một @Choice, thay đổi thành tên @Phrase được chọn gần đây nhất.
 
 Ví dụ, ở đây chúng tôi trình bày ba lựa chọn, mỗi lựa chọn có một tên riêng biệt.
@@ -12,9 +12,9 @@ option: Choice()
 
 Group(
 	Stack() [
-		Phrase('lựa chọn 1' cóthểlựachọn: ⊤ tên: 'một')
-		Phrase('lựa chọn 2' cóthểlựachọn: ⊤ tên: 'hai')
-		Phrase('lựa chọn 3' cóthểlựachọn: ⊤ tên: 'ba')
+		Phrase('lựa chọn 1' cóthểlựachọn tên: 'một')
+		Phrase('lựa chọn 2' cóthểlựachọn tên: 'hai')
+		Phrase('lựa chọn 3' cóthểlựachọn tên: 'ba')
 		Phrase(option)
 	]
 )

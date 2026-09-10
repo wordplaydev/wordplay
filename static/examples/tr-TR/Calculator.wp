@@ -26,16 +26,16 @@ işleç: ø … isecildi … ((seçim ÷ '')[-1])
 sayilar1: Grup(
 		Izgara(2 5)
 		[
-			İfadeetmek("0⃣" seçilebilir: ⊤ isim: 'sayi1_0')
-			İfadeetmek("1⃣" seçilebilir: ⊤ isim: 'sayi1_1')
-			İfadeetmek("2⃣" seçilebilir: ⊤ isim: 'num1_2')
-			İfadeetmek("3⃣" seçilebilir: ⊤ isim: 'num1_3')
-			İfadeetmek("4⃣" seçilebilir: ⊤ isim: 'num1_4')
-			İfadeetmek("5⃣" seçilebilir: ⊤ isim: 'num1_5')
-			İfadeetmek("6⃣" seçilebilir: ⊤ isim: 'num1_6')
-			İfadeetmek("7⃣" seçilebilir: ⊤ isim: 'num1_7')
-			İfadeetmek("8⃣" seçilebilir: ⊤ isim: 'num1_8')
-			İfadeetmek("9⃣" seçilebilir: ⊤ isim: 'num1_9')
+			İfadeetmek("0⃣" seçilebilir isim: 'sayi1_0')
+			İfadeetmek("1⃣" seçilebilir isim: 'sayi1_1')
+			İfadeetmek("2⃣" seçilebilir isim: 'num1_2')
+			İfadeetmek("3⃣" seçilebilir isim: 'num1_3')
+			İfadeetmek("4⃣" seçilebilir isim: 'num1_4')
+			İfadeetmek("5⃣" seçilebilir isim: 'num1_5')
+			İfadeetmek("6⃣" seçilebilir isim: 'num1_6')
+			İfadeetmek("7⃣" seçilebilir isim: 'num1_7')
+			İfadeetmek("8⃣" seçilebilir isim: 'num1_8')
+			İfadeetmek("9⃣" seçilebilir isim: 'num1_9')
 		]
 	)
 
@@ -43,16 +43,16 @@ sayilar1: Grup(
 sayilar2: Grup(
 		Izgara(2 5)
 		[
-			İfadeetmek("0⃣" seçilebilir: ⊤ isim: 'num2_0')
-			İfadeetmek("1⃣" seçilebilir: ⊤ isim: 'num2_1')
-			İfadeetmek("2⃣" seçilebilir: ⊤ isim: 'num2_2')
-			İfadeetmek("3⃣" seçilebilir: ⊤ isim: 'num2_3')
-			İfadeetmek("4⃣" seçilebilir: ⊤ isim: 'num2_4')
-			İfadeetmek("5⃣" seçilebilir: ⊤ isim: 'num2_5')
-			İfadeetmek("6⃣" seçilebilir: ⊤ isim: 'num2_6')
-			İfadeetmek("7⃣" seçilebilir: ⊤ isim: 'num2_7')
-			İfadeetmek("8⃣" seçilebilir: ⊤ isim: 'num2_8')
-			İfadeetmek("9⃣" seçilebilir: ⊤ isim: 'num2_9')
+			İfadeetmek("0⃣" seçilebilir isim: 'num2_0')
+			İfadeetmek("1⃣" seçilebilir isim: 'num2_1')
+			İfadeetmek("2⃣" seçilebilir isim: 'num2_2')
+			İfadeetmek("3⃣" seçilebilir isim: 'num2_3')
+			İfadeetmek("4⃣" seçilebilir isim: 'num2_4')
+			İfadeetmek("5⃣" seçilebilir isim: 'num2_5')
+			İfadeetmek("6⃣" seçilebilir isim: 'num2_6')
+			İfadeetmek("7⃣" seçilebilir isim: 'num2_7')
+			İfadeetmek("8⃣" seçilebilir isim: 'num2_8')
+			İfadeetmek("9⃣" seçilebilir isim: 'num2_9')
 		]
 	)
 
@@ -60,10 +60,10 @@ sayilar2: Grup(
 işleçler: Grup(
 		Izgara(2 2)
 		[
-			İfadeetmek("➕" seçilebilir: ⊤ isim: 'op_a')
-			İfadeetmek("➖" seçilebilir: ⊤ isim: 'op_s')
-			İfadeetmek("✖" seçilebilir: ⊤ isim: 'op_m')
-			İfadeetmek("➗" seçilebilir: ⊤ isim: 'op_d')
+			İfadeetmek("➕" seçilebilir isim: 'op_a')
+			İfadeetmek("➖" seçilebilir isim: 'op_s')
+			İfadeetmek("✖" seçilebilir isim: 'op_m')
+			İfadeetmek("➗" seçilebilir isim: 'op_d')
 		]
 	)
 

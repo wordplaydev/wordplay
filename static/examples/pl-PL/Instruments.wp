@@ -74,7 +74,7 @@ tekstPiosenki: 'la li lu le lo li la'
 			Wyrażenie(głos4.etykieta 0.5m)
 		]
 		nazwa: głos4.etykieta
-		wybieralny: ⊤
+		wybieralny
 		kolor: (głos4.etykieta = obecny.etykieta)
 		? Kolor(95% 60 głos4.odcień2)
 			Kolor(60% 8 głos4.odcień2)

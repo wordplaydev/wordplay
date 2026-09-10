@@ -56,7 +56,7 @@ Stage(
 						Its name is add, so selecting it updates the action choice.¶/en
 						वाक्यांश(
 							'अध्ययन घण्टा थप +1'
-							छनोटगर्नमिल्ने: ⊤
+							छनोटगर्नमिल्ने
 							नाम: 'थप्नुहोस्'
 							रङ: रङ(80% 45 0°)
 						)
@@ -65,7 +65,7 @@ Stage(
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
 						वाक्यांश(
 							'फेरि सुरु गर्नुहोस्'
-							छनोटगर्नमिल्ने: ⊤
+							छनोटगर्नमिल्ने
 							नाम: 'reset'
 							रङ: रङ(69% 47 271°)
 						)

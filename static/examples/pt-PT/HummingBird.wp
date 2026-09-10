@@ -88,12 +88,12 @@ pássaro: Frase(
 		local: posiçãoDoPássaro
 		matéria: Matéria(1kg 0.4 0)
 		descansar:
-		(jogo2.fase = 3) ? Pose(rotação: 180° invertirx: ⊤)
+		(jogo2.fase = 3) ? Pose(rotação: 180° invertirx)
 			Sequência(
 				{
-					0%: Pose(invertirx: ⊤ rotação: -12°)
-					50%: Pose(invertirx: ⊤ rotação: 12°)
-					100%: Pose(invertirx: ⊤ rotação: -12°)
+					0%: Pose(invertirx rotação: -12°)
+					50%: Pose(invertirx rotação: 12°)
+					100%: Pose(invertirx rotação: -12°)
 				}
 				0.35s
 			)
@@ -236,7 +236,7 @@ botãoZumbido: Frase(
 		'🎤'
 		0.8m
 		nome: 'hum'
-		selecionável: ⊤
+		selecionável
 		local: Local(-4.2m 4.7m)
 		descansar: (modo = 'hum') ? Pose() Pose(opacidade: 40%)
 	)
@@ -244,7 +244,7 @@ botãoToque: Frase(
 		'⌨'
 		0.8m
 		nome: 'tap'
-		selecionável: ⊤
+		selecionável
 		local: Local(-3m 4.7m)
 		descansar: (modo = 'tap') ? Pose() Pose(opacidade: 40%)
 	)

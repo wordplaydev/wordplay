@@ -27,7 +27,7 @@ guião: [
 		linha(
 			'b'
 			'Um balão de fala à volta de uma letra é a imagem de uma letra, ou uma letra de uma imagem?'
-			aPensar: ⊤
+			aPensar
 		)
 		linha('um' 'Estás a andar em espiral.')
 		linha(

@@ -92,7 +92,7 @@ Grup(
 	[
 		Scenă(
 			vizualizări
-			pauză: ⊤
+			pauză
 			pas: ∆ cheie2 ? ((cheie2 = 'SăgeatăStânga') ? -1 (cheie2 = 'SăgeatăDreapta') ? 1 ø) ø
 		)
 		Fraza(

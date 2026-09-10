@@ -6,7 +6,7 @@
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 πάτησέ με' επιλέξιμος: ⊤ όνομα: 'πάτημα')
+		Phrase('👆 πάτησέ με' επιλέξιμος όνομα: 'πάτημα')
 		Music(Track(tapped ? [1 5 8] [] όργανο: Instrument.bell βρόχος: ⊥) επανάληψη: tapped)
 	])\
 

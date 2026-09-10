@@ -34,7 +34,7 @@ Panggung(
 	[
 		Frasa(
 			"🐭"
-			dapatdipilih: ⊤
+			dapatdipilih
 			tempat: tempat2
 			beristirahat: tertangkap ? Pose(
 					rotasi: 180°

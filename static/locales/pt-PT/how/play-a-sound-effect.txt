@@ -6,7 +6,7 @@ Duas coisas fazem disto um efeito sonoro em vez de uma música. \ciclo: ⊥\ diz
 
 \tapped: ∆ Button()
 Stage([
-		Phrase('👆 toca-me' selecionável: ⊤ nome: 'toque')
+		Phrase('👆 toca-me' selecionável nome: 'toque')
 		Music(Track(tapped ? [1 5 8] [] instrumento: Instrument.bell ciclo: ⊥) repetir: tapped)
 	])\
 

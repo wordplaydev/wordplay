@@ -32,7 +32,7 @@ Etapp(
 					Rutnät(10 5 1m 1m 1m)
 					ひらがな.översätta(
 						ƒ(シンボル/ja•'' 指数/ja,index/en)
-							Fras(シンボル namn: 指数 → '' valbara: ⊤)
+							Fras(シンボル namn: 指数 → '' valbara)
 					)
 				)
 				Fras(`*\配置.score\* points!``*\配置.score\* 正解です！`/ja)

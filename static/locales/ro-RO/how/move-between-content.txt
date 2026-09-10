@@ -62,7 +62,7 @@ Scene([
 		Phrase('o poveste în trei părți' dimensiune: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('apare o pisică')])
 		Phrase('sfârșit 🎉')
-	] pauză: ⊤ pas: ∆ key ? ((key = 'SăgeatăStânga') ? -1 (key = 'SăgeatăDreapta') ? 1 ø) ø)
+	] pauză pas: ∆ key ? ((key = 'SăgeatăStânga') ? -1 (key = 'SăgeatăDreapta') ? 1 ø) ø)
 \
 
  Nu există \?\ verificări de scris aici, pentru că un @Scene se oprește singur la capetele lui, și nimic nu trebuie să țină minte ce bucată este afișată.

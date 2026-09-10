@@ -133,13 +133,13 @@ pièces•[pièce2]: [
 			'rivière'
 			"Le passage se termine par une grille au-dessus d'une eau qui coule. Les barreaux sont vieux et le couteau est patient. Tu sors avec la rivière, et la maison est déjà loin derrière toi avant même que le ciel ne devienne gris."
 			fin2: 'Sorti avec la rivière.'
-			gagné: ⊤
+			gagné
 		)
 		pièce2(
 			'colline'
 			"La clé tourne, la chaîne tombe dans l'herbe, et le portail s'ouvre sans un bruit que personne n'entendra. La vallée est grise sous le matin, et la route est à toi."
 			fin2: 'Sorti par le portail.'
-			gagné: ⊤
+			gagné
 		)
 	]
 

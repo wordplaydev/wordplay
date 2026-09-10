@@ -48,7 +48,7 @@ anahtar2: İfadeetmek(
 		düşme ? '⬇ yer çekimi' '🌌 süzülme'
 		0.7m
 		isim: 'gravity'
-		seçilebilir: ⊤
+		seçilebilir
 		yer: Yer(-13m 1m)
 	)
 
@@ -56,7 +56,7 @@ sallayıcı: İfadeetmek(
 		'🎲 sallanma'
 		0.7m
 		isim: 'shake'
-		seçilebilir: ⊤
+		seçilebilir
 		yer: Yer(-13m -1m)
 	)
 

@@ -85,12 +85,12 @@ pájaro: Frase(
 		lugar: lugarDelPájaro
 		materia: Materia(1kg 0.4 0)
 		inmóvil:
-		(juego2.fase = 3) ? Pose(rotación: 180° voltearx: ⊤)
+		(juego2.fase = 3) ? Pose(rotación: 180° voltearx)
 			Secuencia(
 				{
-					0%: Pose(voltearx: ⊤ rotación: -12°)
-					50%: Pose(voltearx: ⊤ rotación: 12°)
-					100%: Pose(voltearx: ⊤ rotación: -12°)
+					0%: Pose(voltearx rotación: -12°)
+					50%: Pose(voltearx rotación: 12°)
+					100%: Pose(voltearx rotación: -12°)
 				}
 				0.35s
 			)
@@ -217,7 +217,7 @@ botónDeTarareo: Frase(
 		'🎤'
 		0.8m
 		nombre: 'hum'
-		seleccionable: ⊤
+		seleccionable
 		lugar: Lugar(-4.2m 4.7m)
 		inmóvil: (modo = 'hum') ? Pose() Pose(opacidad: 40%)
 	)
@@ -225,7 +225,7 @@ botónDeToque: Frase(
 		'⌨'
 		0.8m
 		nombre: 'tap'
-		seleccionable: ⊤
+		seleccionable
 		lugar: Lugar(-3m 4.7m)
 		inmóvil: (modo = 'tap') ? Pose() Pose(opacidad: 40%)
 	)

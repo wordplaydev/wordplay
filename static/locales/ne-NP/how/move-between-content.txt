@@ -62,7 +62,7 @@ Scene([
 		Phrase('a story in three parts' आकार: 3m)
 		Group(Stack() [Phrase('🐈') Phrase('a cat appears')])
 		Phrase('the end 🎉')
-	] रोक्नुहोस्: ⊤ पाइला: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
+	] रोक्नुहोस् पाइला: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 
  यहाँ लेख्नुपर्ने कुनै \?\ जाँच छैनन्, किनभने एउटा @Scene आफैं आफ्नो सिमानामा रोकिन्छ, र कुन टुक्रा देखाइँदै छ भनेर कसैले सम्झिरहनु पर्दैन।

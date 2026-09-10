@@ -55,11 +55,11 @@ Change the locale on stage to see each one!¶/en
 					twarz: 'Aclonica'
 					spoczynkowy: Sekwencja(
 						{
-							0%: Poza(kolor: Kolor(0.5 100 180°) flipx: ⊤)
+							0%: Poza(kolor: Kolor(0.5 100 180°) flipx)
 							50%: Poza(kolor: Kolor(27% 112 267°))
 							75%: Poza(
 								kolor: Kolor(0.5 100 180°)
-								flipx: ⊤
+								flipx
 							)
 						}
 						czastrwania: 2s
@@ -148,11 +148,11 @@ Change the locale on stage to see each one!¶/en
 					twarz: 'Aclonica'
 					spoczynkowy: Sekwencja(
 						{
-							0%: Poza(kolor: Kolor(0.5 100 180°) flipx: ⊤)
+							0%: Poza(kolor: Kolor(0.5 100 180°) flipx)
 							50%: Poza(kolor: Kolor(27% 112 267°))
 							75%: Poza(
 								kolor: Kolor(0.5 100 180°)
-								flipx: ⊤
+								flipx
 							)
 						}
 						czastrwania: 2s

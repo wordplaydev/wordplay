@@ -848,6 +848,24 @@ Inputs must conform to the types defined in a function's definition. (We'll talk
 
 Inputs may be given positionally or by name (`name: value`). A named input whose value is missing — because the tokens after its `:` begin another named input or close the evaluation — parses with an empty unparsable value rather than consuming what follows, so the inputs after an in-progress input remain intact (and editing tools can offer values for it).
 
+A **boolean input may be given as its bare name**. Writing the name of an input whose type is `?` (or a union of `?` and `ø`) fills that input, so these two are the same:
+
+```
+Phrase('hi' selectable)
+Phrase('hi' selectable: ⊤)
+```
+
+The name decides _which_ input is filled; what is in scope decides only the _value_. If the name means nothing where it is written, it stands for `⊤`. If it names a boolean value in scope, that value is passed through, so `selectable` says what `selectable: selectable` would:
+
+```
+selectable•?: ⊥
+Phrase('hi' selectable)   … the phrase is not selectable
+```
+
+If the name means something that is _not_ a boolean, it is not a shorthand at all and keeps its ordinary positional meaning, which is what keeps this from changing any program written before it existed. An explicit `name: value` always wins over a bare name for the same input, and among two bare names for one input the first wins; a later one is an ordinary positional input. A variable-length input is never given this way.
+
+This is resolved when inputs are matched to a function's binds, not by the parser, so the grammar above is unchanged: a bare name is simply an `EXPRESSION` in the input list.
+
 ### _conflicts_
 
 - The function expression given is not a function type

@@ -88,12 +88,12 @@ vogel: Satzglied(
 		Ort: vogelPlatz
 		Gegenstand: Gegenstand(1kg 0.4 0)
 		Ruhen:
-		(spiel2.phase = 3) ? Pose(Drehung: 180° flipx: ⊤)
+		(spiel2.phase = 3) ? Pose(Drehung: 180° flipx)
 			Reihenfolge(
 				{
-					0%: Pose(flipx: ⊤ Drehung: -12°)
-					50%: Pose(flipx: ⊤ Drehung: 12°)
-					100%: Pose(flipx: ⊤ Drehung: -12°)
+					0%: Pose(flipx Drehung: -12°)
+					50%: Pose(flipx Drehung: 12°)
+					100%: Pose(flipx Drehung: -12°)
 				}
 				0.35s
 			)
@@ -236,7 +236,7 @@ humButton: Satzglied(
 		'🎤'
 		0.8m
 		Name: 'hum'
-		wählbar: ⊤
+		wählbar
 		Ort: Ort(-4.2m 4.7m)
 		Ruhen: (modus = 'hum') ? Pose() Pose(Opazität: 40%)
 	)
@@ -244,7 +244,7 @@ tapButton: Satzglied(
 		'⌨'
 		0.8m
 		Name: 'tap'
-		wählbar: ⊤
+		wählbar
 		Ort: Ort(-3m 4.7m)
 		Ruhen: (modus = 'tap') ? Pose() Pose(Opazität: 40%)
 	)

@@ -957,15 +957,16 @@
                 "inputs": "$~đầu vào"
             },
             "doc": [
-                "$~Tôi đánh giá @FunctionDefinition thân yêu của mình, cung cấp dữ liệu đầu vào và theo dõi các bước hoạt động của nó. Chào! Giống như thế này:",
-                "\\ƒ greeting(message•'')\ngreeting('kitty')\\🪲",
-                "Các hàm có thể đến từ bất kỳ đâu. Ví dụ, @Text có các hàm. Như thế này:",
-                "\\'kitty'.length()\\",
-                "Nếu một hàm chỉ có một tên ký hiệu duy nhất, bạn có thể viết cho tôi dưới dạng @BinaryEvaluate .",
-                "\\'kitty' ⊆ 'itty'\\",
-                "Điều đó có tác dụng tương tự như thế này:",
-                "\\'kitty'.⊆('itty')\\",
-                "Dĩ nhiên, tôi chẳng là gì nếu không có @FunctionDefinition . Tất cả những gì tôi làm là cung cấp dữ liệu đầu vào cho chúng và sau đó làm theo các bước của chúng."
+                "$~Tôi ước lượng @FunctionDefinition thân yêu của tôi, cho nó các đầu vào và làm theo các bước của nó. Xin chào! Như thế này:",
+                "\\ƒ lờiChào(lờiNhắn•'')\n\tlờiChào('mèo con')\\🪲",
+                "Các hàm có thể đến từ bất cứ đâu. Ví dụ, @Text có các hàm. Như thế này:",
+                "\\'mèo con'.chiềudài()\\",
+                "Nếu một hàm có tên chỉ là một ký hiệu, bạn có thể viết tôi thành một @BinaryEvaluate.",
+                "\\'mèo con' ⊆ 'con nhỏ'\\",
+                "Điều đó làm cùng một việc như thế này:",
+                "\\'mèo con'.có('con nhỏ')\\",
+                "Dĩ nhiên, tôi chẳng là gì nếu không có @FunctionDefinition. Tất cả những gì tôi làm là cho chúng các đầu vào rồi làm theo các bước của chúng.",
+                "Thật ra, tôi cũng có vài kỹ năng riêng. Ví dụ, nếu một đầu vào cho một @FunctionDefinition là một @Boolean, bạn có thể viết tên của nó một mình để bật nó lên, thay vì cho nó một @value."
             ],
             "start": "$~Trước tiên, hãy đánh giá các dữ liệu đầu vào.",
             "evaluate": "$~Bây giờ chúng ta hãy đánh giá hàm số này.",

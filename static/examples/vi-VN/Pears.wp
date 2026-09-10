@@ -69,7 +69,7 @@ caoTràoDângLên2: [
 			kíchcỡ: 2m
 			vịTrí: VịTrí(-1m -7m)
 			tên: 'pear'
-			cóthểlựachọn: ⊤
+			cóthểlựachọn
 		)
 	]
 
@@ -91,7 +91,7 @@ caoTràoDângLên2: [
 			tên: "tree"
 			kíchcỡ: 5m
 			vịTrí: VịTrí(-3m -7m)
-			cóthểlựachọn: ⊤
+			cóthểlựachọn
 		)
 		:địaĐiểm.dịch(
 			ƒ(đặt chỉMục2)

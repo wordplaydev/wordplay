@@ -130,13 +130,13 @@ divisões•[divisão2]: [
 			'rio'
 			'A passagem termina numa grelha sobre água corrente. As barras são velhas e a faca é paciente. Sai com o rio, e a casa fica longe para trás antes de o céu sequer clarear.'
 			final: 'Sai com o rio.'
-			ganhou: ⊤
+			ganhou
 		)
 		divisão2(
 			'encosta'
 			'A chave gira, a corrente cai na erva, e o portão abre-se sem um som que alguém ouça. O vale está cinzento de manhã, e a estrada é sua.'
 			final: 'Sai pelo portão.'
-			ganhou: ⊤
+			ganhou
 		)
 	]
 

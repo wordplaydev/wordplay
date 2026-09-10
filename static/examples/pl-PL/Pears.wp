@@ -78,7 +78,7 @@ rozwinięcieAkcji2: [
 			rozmiar: 2m
 			miejsce: Miejsce(-1m -7m)
 			nazwa: 'pear'
-			wybieralny: ⊤
+			wybieralny
 		)
 	]
 
@@ -103,7 +103,7 @@ punktKulminacyjny: [
 			nazwa: "tree"
 			rozmiar: 5m
 			miejsce: Miejsce(-3m -7m)
-			wybieralny: ⊤
+			wybieralny
 		)
 		:miejsca.tłumaczyć(
 			ƒ(miejsce2 indeks2)

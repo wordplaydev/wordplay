@@ -64,7 +64,7 @@ imagen: colores2.combinar(
 		id2
 		0.5m
 		nombre: id2
-		seleccionable: ⊤
+		seleccionable
 		inmóvil: (estilo2 = id2) ? Pose() Pose(opacidad: 40%)
 	)
 
