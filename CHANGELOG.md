@@ -18,6 +18,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🎨 A heading inside a tabbed panel, like the ones in Settings, now sits closer to the part it names instead of drifting up toward the section above it.
+- 📖 A public gallery's how-tos now show up when you're not signed in. (#1375)
 
 ## 0.36.0 - 2026-09-09
 
