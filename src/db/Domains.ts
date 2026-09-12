@@ -1,5 +1,5 @@
 /**
- * The five cloud-sync domains. Each name does triple duty and the three uses
+ * The cloud-sync domains. Each name does triple duty and the three uses
  * MUST stay in lockstep:
  *  - the Firestore collection name (e.g. `doc(firestore, Domain.HowTos, id)`),
  *  - the key in the in-memory sync-status map (see `SyncDomainState`), and
@@ -19,6 +19,14 @@ export const Domain = {
     Characters: 'characters',
     HowTos: 'howtos',
     Chats: 'chats',
+    /**
+     * A creator's published kits (#8) — the small mutable registry documents.
+     *
+     * The *versions* are deliberately not a domain: a published version is immutable, so
+     * it is never dirty, never replayed, and never listened to. It is cached in
+     * IndexedDB forever and read straight through.
+     */
+    Kits: 'kits',
 } as const;
 
 /** The cloud-sync domains, in initial-load priority order. */
@@ -28,6 +36,7 @@ export const SyncDomains = [
     Domain.Characters,
     Domain.HowTos,
     Domain.Chats,
+    Domain.Kits,
 ] as const;
 
 export type SyncDomain = (typeof SyncDomains)[number];

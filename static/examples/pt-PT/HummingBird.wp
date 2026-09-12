@@ -53,14 +53,10 @@ tom2: Tom()
 aCantarolar: (modo = 'hum') & (tom2 > 50hz)
 
 ƒ tomParaAltura(hz•#hz)
-	(hz < 80hz) ? -4m
-		(hz > 400hz) ? 5m
-			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
 
 ¶Aproxima-se da altura zumbida pouco a pouco, para que o pássaro deslize em vez de tremer a cada oscilação do tom.¶
-tomY•#m: 1m … ∆ tom2 … aCantarolar ? (0.8 × tomY) + (0.2 × tomParaAltura(
-							tom2
-						)) tomY
+tomY•#m: 1m … ∆ tom2 … aCantarolar ? tomY.toward(tomParaAltura(tom2) 20%) tomY
 
 ¶O pássaro flutua durante a contagem decrescente, bate as asas para subir ou flutua no tom zumbido enquanto joga, e cai sob a gravidade depois de um choque.¶
 posiçãoDoPássaro: Movimento(

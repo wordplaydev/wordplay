@@ -87,7 +87,7 @@ theme: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 with nothing left. The secret is empty before the first round, so the division
 is guarded rather than left to divide by zero.¶
 maxGuesses: state.secret.📏() × 3
-pressure: (maxGuesses = 0) ? 0 (((1 - (state.guessesRemaining ÷ maxGuesses)).max(0)).min(1))
+pressure: (maxGuesses = 0) ? 0 ((1 - (state.guessesRemaining ÷ maxGuesses)).limit(0 1))
 
 ¶Pensive at 54 beats a minute, urgent at 120, and every guess moves it a little.
 Changing the tempo splices in at the next beat instead of starting over, so the

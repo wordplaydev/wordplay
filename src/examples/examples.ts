@@ -118,10 +118,15 @@ export function parseSerializedProject(
         stamps: { lamport: 0, fields: {} },
         crdt: null,
         remixOf: null,
+        // An example is a file, not a cloud document; it borrows no kits.
+        dependencies: [],
         // An example is nobody's project to organize or consent for; it is
         // read-only and never persisted (see ProjectsDatabase.get).
         folder: null,
         researchConsent: false,
+        // Nor is it anyone's to publish as a kit.
+        kit: null,
+        kitSource: 0,
     };
 }
 

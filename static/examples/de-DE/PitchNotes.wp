@@ -22,10 +22,7 @@ noteVon: ƒ(hz•#hz) hz > 0hz ? noten[(((((12 × (hz ÷ 440hz).log(
 							)) % 12) + 12) % 12) + 1] '·'
 weich: ƒ(signal•…#hz) (
 			gehört: (←← 8 signal).ohne(0hz)
-			(gehört.kombinieren(
-					0hz
-					ƒ(gesamt•#hz v•#hz) gesamt + v
-				) ÷ gehört.Länge()) ?? 0hz
+			gehört.average() ?? 0hz
 		)
 tonhöhe: Tonhöhe()
 Bühne(

@@ -2,6 +2,7 @@
 RainingLetters
 === start/en
 ¶Ten program tworzy zbiór spadających liter, które opadają na ziemię zgodnie z zasadami fizyki. Kiedy dotkną ziemi, mogą znów zacząć spadać.Zawsze spada ta sama liczba liter, ale pokazujemy inną ich liczbęw zależności od wzmocnienia mikrofonu.¶
+↓ @wordplay/alphabets 1
 
 ¶Maksymalna liczba liter¶
 liczba2: 100
@@ -19,7 +20,7 @@ tyknięcie: Czas()
 ¶Utwórz listę losowych liter w losowych pozycjach¶
 litery•[litera]: liczba2 → [#].tłumaczyć(
 		ƒ(_) litera(
-				'abcdefghijklmnopqrstuvwxyz' → [''].losowy()
+				latin.losowy()
 				Losowy(-rozmiar2 rozmiar2)
 				Losowy(0m rozmiar2 + 2m)
 				Losowy(360)

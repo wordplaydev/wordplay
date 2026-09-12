@@ -296,7 +296,8 @@
         "Percent": "$~la sută",
         "Defect": "$~exemplu cu defect așteptat",
         "NotANumber": "$~nu este un număr",
-        "Range": "$~interval"
+        "Range": "$~interval",
+        "External": "$~kit"
     },
     "node": {
         "Dimension": {
@@ -800,6 +801,31 @@
                     "name": "$~împrumut care se referă la sine",
                     "explanation": "$~aceasta depinde de $borrow , care depinde și de această @Source , deci programul nu poate fi evaluat.",
                     "resolution": "$~Eliminați această împrumut pentru a rupe ciclul"
+                },
+                "MissingKitVersion": {
+                    "name": "$~versiune lipsă",
+                    "explanation": "$~un kit păstrează fiecare versiune pe care a avut-o vreodată, așa că trebuie să știu ce versiune din $kit vrei",
+                    "resolution": "$~Elimină acest împrumut"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~două versiuni ale aceluiași kit",
+                    "explanation": "$~pot folosi doar o versiune a unui kit odată, iar acest @Source cere două versiuni din $kit",
+                    "resolution": "$~Elimină acest împrumut"
+                },
+                "UnknownKit": {
+                    "name": "$~kit necunoscut",
+                    "explanation": "$~nu găsesc $kit",
+                    "resolution": "$~Elimină acest împrumut"
+                },
+                "UnavailableKit": {
+                    "name": "$~kit indisponibil",
+                    "explanation": "$~$kit există, dar nu este partajat cu tine",
+                    "resolution": "$~Elimină acest împrumut"
+                },
+                "KitCannotBorrow": {
+                    "name": "$~kitul nu poate împrumuta",
+                    "explanation": "$~acest cod sursă este publicat ca un kit, iar un kit este singurul fișier pe care îl primesc cititorii — copiază ce împrumuți în acest cod sursă în loc să faci altceva",
+                    "resolution": "$~Elimină împrumutul"
                 }
             },
             "exception": {
@@ -1367,6 +1393,23 @@
                 "PermissionException": {
                     "description": "$~acces refuzat",
                     "explanation": "$~Am nevoie de $permission tău pentru a rula, dar nu am permisiunea. Apasă pe Reîncercare pentru a încerca din nou. Dacă acest lucru nu ajută, permite $permission pentru acest site în setările browserului tău."
+                }
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~partajare fără documentare",
+                    "explanation": "$~aceasta este publicată, deci cineva care nu a scris-o o va citi — scrie un /doc/ deasupra ei, spunând la ce folosește",
+                    "resolution": "$~Documenteaz-o deasupra, sau oprește publicarea acestei surse"
+                },
+                "UnexampledShare": {
+                    "name": "$~niciun exemplu",
+                    "explanation": "$~aceasta primește intrări, deci o descriere nu este suficientă — pune un exemplu în documentarea ei, arătând un mod de a o folosi",
+                    "resolution": "$~Adaugă un exemplu în documentarea ei, sau oprește publicarea acestei surse"
+                },
+                "UnexampledKit": {
+                    "name": "$~niciun exemplu",
+                    "explanation": "$~nimic din această sursă nu are un exemplu, deci nu este nimic de arătat celor care caută kituri — adaugă unul în documentarea acestei surse",
+                    "resolution": "$~Adaugă un exemplu în documentarea acestei surse, sau oprește publicarea acestei surse"
                 }
             }
         },
@@ -3160,6 +3203,65 @@
                             "names": "$~număr"
                         }
                     ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Păstrează-mă între un număr mic și unul mare: dacă sunt sub cel mic, acela este rezultatul, iar dacă sunt peste cel mare, primești acela în loc.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~limită",
+                    "inputs": [
+                        {
+                            "doc": "$~Cel mai mic număr pe care am voie să îl am.",
+                            "names": "$~jos"
+                        },
+                        {
+                            "doc": "$~Cel mai mare număr pe care am voie să îl am.",
+                            "names": "$~sus"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Mută-te o parte din drum de la mine către alt număr. La 0% mă primești pe mine, la 100% primești celălalt număr, iar la jumătatea drumului primești numărul din mijloc.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~spre",
+                    "inputs": [
+                        {
+                            "doc": "$~Numărul către care să te muți.",
+                            "names": "$~altul"
+                        },
+                        {
+                            "doc": "$~Cât de departe să mergi, unde 100% înseamnă că ai ajuns.",
+                            "names": "$~cantitate"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Găsește unde mă aflu între o pereche de numere, apoi întoarce numărul aflat în același loc între altă pereche. Util pentru a transforma ceva măsurat în ceva ce poți arăta.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~reajustare",
+                    "inputs": [
+                        {
+                            "doc": "$~Capătul mic al intervalului în care mă aflu.",
+                            "names": "$~delaJos"
+                        },
+                        {
+                            "doc": "$~Capătul mare al intervalului în care mă aflu.",
+                            "names": "$~delaSus"
+                        },
+                        {
+                            "doc": "$~Capătul mic al intervalului pe care îl vrei.",
+                            "names": "$~laJos"
+                        },
+                        {
+                            "doc": "$~Capătul mare al intervalului pe care îl vrei.",
+                            "names": "$~laSus"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -3731,6 +3833,22 @@
                             "names": "$~valoare"
                         }
                     ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Adună toate numerele mele. Dacă sunt goală, rezultatul este 0, iar dacă numerele mele nu sunt toate măsurate în aceeași unitate, îți voi spune asta în loc să ghicesc.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~sumă",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Adună toate numerele mele și împarte la câte sunt. Dacă sunt goală, nu este nimic de mediat, așa că primești @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~medie",
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -4416,9 +4534,9 @@
                 "Alt": ["$~Alt", "$~Opţiune"],
                 "Meta": ["$~Meta", "$~Comanda", "$~Ferestre"],
                 "AltGraph": ["$~AltGraph"],
-                "CapsLock": ["$~Majuscule", "$~Majuscule"],
+                "CapsLock": ["$~Majuscule"],
                 "NumLock": ["$~NumLock", "$~Num Lock"],
-                "ScrollLock": ["$~Blocare derulare", "$~Blocare derulare"],
+                "ScrollLock": ["$~Blocare derulare"],
                 "Enter": ["$~Introduceți", "$~Reveni"],
                 "Tab": ["$~Tab"],
                 " ": ["$~Spaţiu", "$~Bara de spațiu", "$~"],
@@ -4429,7 +4547,7 @@
                 "Home": ["$~Acasă"],
                 "End": ["$~Sfârşit"],
                 "PageUp": ["$~PageUp", "$~Pagină sus"],
-                "PageDown": ["$~Pagină în jos", "$~Pagină în jos"],
+                "PageDown": ["$~Pagină în jos"],
                 "Backspace": ["$~Backspace"],
                 "Delete": ["$~Şterge", "$~Șterge"],
                 "Insert": ["$~Introduce", "$~Intrare"],
@@ -5027,16 +5145,16 @@
             ],
             "categories": {
                 "person": ["$~persoană", "$~oameni", "$~om", "$~cineva"],
-                "bicycle": ["$~bicicletă", "$~bicicletă"],
+                "bicycle": ["$~bicicletă"],
                 "car": ["$~mașină", "$~automobil"],
                 "motorcycle": ["$~motocicletă", "$~motoretă"],
-                "airplane": ["$~avion", "$~avion", "$~aeronavă"],
+                "airplane": ["$~avion", "$~aeronavă"],
                 "bus": ["$~autobuz"],
                 "train": ["$~tren"],
-                "truck": ["$~camion", "$~camion"],
+                "truck": ["$~camion"],
                 "boat": ["$~barcă", "$~navă"],
-                "traffic light": ["$~semafor", "$~semafor"],
-                "fire hydrant": ["$~hidrant", "$~hidrant"],
+                "traffic light": ["$~semafor"],
+                "fire hydrant": ["$~hidrant"],
                 "stop sign": ["$~semn de stop"],
                 "parking meter": ["$~parcometru"],
                 "bench": ["$~bancă"],
@@ -5053,7 +5171,7 @@
                 "backpack": ["$~ghiozdan", "$~rucsac"],
                 "umbrella": ["$~umbrelă"],
                 "handbag": ["$~geantă", "$~poșetă"],
-                "tie": ["$~cravată", "$~cravată"],
+                "tie": ["$~cravată"],
                 "suitcase": ["$~valiză", "$~bagaj"],
                 "frisbee": ["$~frisbee"],
                 "skis": ["$~schiuri", "$~schi"],
@@ -5064,14 +5182,10 @@
                 "baseball glove": ["$~mănușă de baseball", "$~mănușă"],
                 "skateboard": ["$~skateboard"],
                 "surfboard": ["$~placă de surf"],
-                "tennis racket": [
-                    "$~rachetă de tenis",
-                    "$~rachetă",
-                    "$~rachetă"
-                ],
+                "tennis racket": ["$~rachetă de tenis", "$~rachetă"],
                 "bottle": ["$~sticlă"],
                 "wine glass": ["$~pahar de vin"],
-                "cup": ["$~cană", "$~cană"],
+                "cup": ["$~cană"],
                 "fork": ["$~furculiță"],
                 "knife": ["$~cuțit"],
                 "spoon": ["$~lingură"],
@@ -5084,10 +5198,10 @@
                 "carrot": ["$~morcov"],
                 "hot dog": ["$~hot dog"],
                 "pizza": ["$~pizza"],
-                "donut": ["$~gogoașă", "$~gogoașă"],
+                "donut": ["$~gogoașă"],
                 "cake": ["$~tort"],
                 "chair": ["$~scaun"],
-                "couch": ["$~canapea", "$~canapea"],
+                "couch": ["$~canapea"],
                 "potted plant": [
                     "$~plantă în ghiveci",
                     "$~plantă de casă",
@@ -5096,27 +5210,23 @@
                 "bed": ["$~pat"],
                 "dining table": ["$~masă", "$~masă de mâncat"],
                 "toilet": ["$~toaletă"],
-                "tv": ["$~televizor", "$~televizor", "$~televizor"],
+                "tv": ["$~televizor"],
                 "laptop": ["$~laptop", "$~calculator"],
                 "mouse": ["$~mouse"],
-                "remote": ["$~telecomandă", "$~telecomandă"],
+                "remote": ["$~telecomandă"],
                 "keyboard": ["$~tastatură"],
-                "cell phone": [
-                    "$~telefon",
-                    "$~telefon mobil",
-                    "$~telefon mobil"
-                ],
+                "cell phone": ["$~telefon", "$~telefon mobil"],
                 "microwave": ["$~cuptor cu microunde"],
                 "oven": ["$~cuptor"],
                 "toaster": ["$~prăjitor de pâine"],
                 "sink": ["$~chiuvetă"],
-                "refrigerator": ["$~frigider", "$~frigider"],
+                "refrigerator": ["$~frigider"],
                 "book": ["$~carte"],
                 "clock": ["$~ceas"],
                 "vase": ["$~vază"],
                 "scissors": ["$~foarfece"],
                 "teddy bear": ["$~ursuleț de pluș", "$~jucărie de pluș"],
-                "hair drier": ["$~uscător de păr", "$~uscător de păr"],
+                "hair drier": ["$~uscător de păr"],
                 "toothbrush": ["$~periuță de dinți"]
             }
         },
@@ -7563,31 +7673,32 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Moderare galerie",
+            "header": "$~Rapoarte",
             "description": "$~Ce ți-au cerut oamenii să verifici, cel mai vechi primul. O decizie arată ce reguli s-au încălcat, iar cel care a creat lucrul este anunțat ce ai decis.",
             "labels": {
-                "message": "$~mesaj",
-                "action": "$~acțiuni ale moderatorului",
-                "reason": "$~ce reguli a încălcat"
+                "action": "$~Ce trebuie făcut",
+                "reason": "$~Ce reguli a încălcat",
+                "subject": "$~Ce a fost raportat"
             },
             "view": {
-                "label": "$~vizualizare chat",
-                "tip": "$~vezi mesajul în chat"
+                "label": "$~vezi-l",
+                "tip": "$~deschide ce a fost raportat"
             },
             "remove": {
                 "label": "$~elimina",
-                "tip": "$~acest mesaj încalcă regulile"
+                "tip": "$~asta încalcă regulile"
             },
             "keep": {
                 "label": "$~păstra",
-                "tip": "$~Acest mesaj nu încalcă regulile"
+                "tip": "$~asta nu încalcă regulile"
             },
-            "empty": "$~Niciun mesaj nu necesită moderare",
-            "error": "$~Trebuie să fii autentificat pentru a modera galerii",
+            "empty": "$~Nimic nu așteaptă o decizie.",
+            "error": "$~Trebuie să fii conectat pentru a analiza rapoartele.",
             "note": {
-                "description": "$~ce să-i spui persoanei care a scris mesajul",
+                "description": "$~Ce să-i spui celui care l-a făcut",
                 "placeholder": "$~spune-le ceva (opțional)"
-            }
+            },
+            "remaining": "$~$#count[$#count raport în așteptare|$count rapoarte în așteptare|$count de rapoarte în așteptare]"
         },
         "howto": {
             "galleryView": {
@@ -8019,7 +8130,7 @@
                 "highlightMajor": "$~arată codul acestei erori în editor",
                 "highlightMinor": "$~arată codul acestei avertizări în editor",
                 "highlightStep": "$~arată codul acestui pas de evaluare în editor",
-                "elsewhere": "$~Deschide locul unde se poate rezolva aceasta"
+                "elsewhere": "$~deschide unde poate fi reparat acest lucru"
             },
             "severity": {
                 "major": "$~eroare",
@@ -8229,6 +8340,26 @@
             "overflowed": "$~Acest control este ascuns în meniul evidențiat; deschide-l pentru a găsi controlul."
         },
         "docs": {
+            "kits": {
+                "header": "$~Kituri",
+                "prompt": "$~Un kit este cod pe care cineva l-a publicat pentru ca alți oameni să construiască cu el. Copiază linia pentru unul, lipește-o la începutul programului tău, și tot ce împarte devine al tău, de folosit.",
+                "empty": "$~Nimeni nu a publicat încă un kit. Al tău ar putea fi primul — împarte ceva cu ↑, apoi publică-l din setările de partajare ale proiectului tău.",
+                "shares": "$~împarte $names",
+                "missing": "$~Nu există niciun kit cu acel nume. Poate a fost redenumit sau nu a fost niciodată publicat.",
+                "missingVersion": "$~Acea versiune nu este aici. Încearcă alta mai jos.",
+                "nothing": "$~acest kit nu împarte nimic",
+                "versions": "$~Fiecare versiune a acestui kit",
+                "version": {
+                    "tip": "$~vezi această versiune a kitului"
+                },
+                "open": "$~citește documentarea acestui kit",
+                "none": "$~Nimic de aici nu se potrivește cu asta.",
+                "kinds": {
+                    "label": "$~ce împart kiturile",
+                    "all": "$~orice"
+                },
+                "yours": "$~Kiturile tale care nu sunt listate"
+            },
             "label": "$~ghid",
             "link": "$~afișează „ $name ” în documentație",
             "nodoc": "$~Cine sunt eu? Ce sunt eu? Care este scopul meu?",
@@ -8293,9 +8424,15 @@
             "mode": {
                 "browse": {
                     "label": "$~secțiune",
-                    "labels": ["$~cod", "$~instrucțiuni", "$~glosar"],
+                    "labels": [
+                        "$~cod",
+                        "$~kituri",
+                        "$~instrucțiuni",
+                        "$~glosar"
+                    ],
                     "tips": [
                         "$~concepte ale limbajului de programare",
+                        "$~cod pe care alți oameni l-au publicat pentru ca tu să construiești cu el",
                         "$~tipare reutilizabile pentru a face proiecte",
                         "$~definiții ale termenilor cheie"
                     ]
@@ -8304,6 +8441,7 @@
                     "label": "$~cod",
                     "labels": [
                         "$~proiect",
+                        "$~kit",
                         "$~ieșire",
                         "$~intrare",
                         "$~decide",
@@ -8321,6 +8459,7 @@
                     ],
                     "tips": [
                         "$~concepte la nivel de proiect",
+                        "$~ce pun la dispoziție kiturile pe care le împrumută acest proiect",
                         "$~fraze, grupuri, etape, machete și multe altele",
                         "$~timp, butoane, taste, scene și multe altele",
                         "$~alege valori pe baza altor valori",
@@ -8423,6 +8562,10 @@
                 "Patterns": {
                     "header": "$~Modele",
                     "explanation": "$~Descrieți forma textului cu un model, delimitat de \\⣿\\ , apoi testați dacă textul se potrivește formei ( \\≈\\ ) sau găsiți fiecare loc în care apare ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Kituri",
+                    "explanation": "$~Lucruri pe care kiturile împrumutate de acest proiect le-au partajat cu el."
                 }
             },
             "how": {
@@ -8495,6 +8638,9 @@
                     "research": {
                         "header": "$~Cercetare",
                         "explanation": "$~Uneori scriem și vorbim despre Wordplay — în lucrări de cercetare, în prezentări și în ceea ce arătăm profesorilor și familiilor. Dacă activezi această opțiune, putem arăta acest proiect ca exemplu, fără numele tău, numele tău de utilizator sau orice altceva care arată că acest cont îți aparține.\n\nPoți dezactiva asta oricând. Dezactivarea înseamnă că nu mai folosim proiectul tău în lucruri noi, dar nu poate anula ceva ce am publicat sau prezentat deja."
+                    },
+                    "kit": {
+                        "explanation": "$~Un kit este o sursă pe care ai publicat-o pentru ca alte persoane să construiască pornind de la ea. Orice marchezi cu ↑ devine parte din el."
                     }
                 },
                 "field": {
@@ -8545,7 +8691,8 @@
                     }
                 },
                 "options": {
-                    "gallery": "$~selector de galerie"
+                    "gallery": "$~selector de galerie",
+                    "source": "$~sursă de publicat"
                 },
                 "remix": {
                     "source": "$~Acest proiect este un remix al:",
@@ -8560,18 +8707,71 @@
                         "$~Public",
                         "$~Previzualizare",
                         "$~Confidențialitate",
-                        "$~Remixuri"
+                        "$~Remixuri",
+                        "$~Kit"
                     ],
                     "tips": [
                         "$~alege o galerie în care să apară acest proiect",
                         "$~alege cine poate vedea acest proiect",
                         "$~alege simbolul care reprezintă acest proiect în liste",
                         "$~verifică informațiile personale găsite în acest proiect",
-                        "$~vezi din ce a fost remixat acest proiect și ce l-a remixat"
+                        "$~vezi din ce a fost remixat acest proiect și ce l-a remixat",
+                        "$~publică o parte din acest proiect pentru ca alte persoane să o folosească"
                     ]
                 },
                 "pii": {
                     "none": "$~Nu s-au găsit informații personale."
+                },
+                "kit": {
+                    "nothing": "$~Nimic nu este partajat încă aici. Pune ↑ înaintea unui nume, unei funcții sau unei structuri pentru a o partaja, cum ar fi \\↑ sunset/en: 🔴\\, și poate deveni un kit.",
+                    "unpublished": "$~Nu ai publicat încă acest lucru.",
+                    "name": {
+                        "placeholder": "$~nume",
+                        "description": "$~cum să numim acest kit"
+                    },
+                    "publish": {
+                        "label": "$~publică",
+                        "tip": "$~publică o versiune nouă a acestui kit"
+                    },
+                    "version": "$~versiunea $version",
+                    "problem": {
+                        "exports": "$~nimic nu este partajat încă aici",
+                        "invalid": "$~acela nu este un nume pe care îl pot citi"
+                    },
+                    "undescribed": "$~această sursă nu are încă documentare",
+                    "discovery": "$~Moderatorii pot retrage din listă o versiune publicată. Tot ce a fost împrumutat de alții funcționează în continuare, chiar dacă nu mai este listat.",
+                    "moderation": {
+                        "unrequested": "$~nu s-a cerut listarea",
+                        "pending": "$~așteaptă ca un moderator să îl revizuiască",
+                        "approved": "$~revizuit și listat",
+                        "denied": "$~un moderator a cerut modificări"
+                    },
+                    "derived": "$~Descrierea kitului tău și termenii de căutare sunt preluați din prima propoziție a documentării acestei surse.",
+                    "heading": {
+                        "name": "$~Nume",
+                        "exports": "$~Ce partajează acest kit",
+                        "versions": "$~Versiuni",
+                        "listing": "$~Cine îl poate găsi"
+                    },
+                    "listing": {
+                        "label": "$~listare",
+                        "labels": ["$~nelistat", "$~listat"],
+                        "tips": [
+                            "$~nimeni nu poate găsi acest kit în ghid, iar tot ce îl folosește deja continuă să funcționeze",
+                            "$~oricine poate găsi acest kit în ghid, odată ce un moderator l-a verificat"
+                        ]
+                    },
+                    "remedy": "$~Schimbă sursa și publică o versiune nouă, iar un moderator o va verifica din nou.",
+                    "unreviewed": "$~Nimeni nu verifică un kit nelistat. Oricine primește linia de împrumut îl poate citi în continuare.",
+                    "permanent": "$~Publicarea unei versiuni este permanentă: programele altor persoane o folosesc după număr, așa că retragerea ei le-ar strica.",
+                    "confirm": "$~Publică-l",
+                    "withdraw": {
+                        "label": "$~retrage",
+                        "tip": "$~retrage această versiune, ceea ce este posibil doar cât timp kitul este nelistat"
+                    },
+                    "withdrawable": "$~Acest kit nu a fost niciodată listat, deci nimeni nu l-a putut găsi încă — poți retrage în continuare cea mai nouă versiune.",
+                    "unpublishable": "$~Acest kit nu poate fi publicat încă:",
+                    "failed": "$~Nu am putut publica setul tău. Verifică dacă ești conectat la internet și încearcă din nou."
                 }
             },
             "settings": {
@@ -9305,7 +9505,8 @@
                 "galleries": "$~Galerii",
                 "characters": "$~Personaje",
                 "howtos": "$~Ghiduri",
-                "chats": "$~Chat-uri"
+                "chats": "$~Chat-uri",
+                "kits": "$~Kituri"
             },
             "status": {
                 "header": "$~Salvați starea",
@@ -11055,11 +11256,13 @@
             "property": "$~Dacă proiectul are această proprietate"
         },
         "error": {
-            "notmod": "$~Nu ai nimic de analizat aici. Moderatorii Wordplay analizează conținutul public, iar curatorii unei galerii analizează ce se află în galeria lor. Dacă ai primit recent drepturi de moderator, s-ar putea să trebuiască să te autentifici din nou."
+            "notmod": "$~Nu ai nimic de analizat aici. Moderatorii Wordplay analizează conținutul public, iar curatorii unei galerii analizează ce se află în galeria lor. Dacă ai primit recent drepturi de moderator, s-ar putea să trebuiască să te autentifici din nou.",
+            "unreachable": "$~Nu am putut citi această coadă, așa că nu știu dacă ceva așteaptă. Încearcă din nou peste puțin timp.",
+            "unreadable": "$~Unele lucruri de aici așteaptă, dar nu am putut să le citesc, așa că nu sunt afișate."
         },
         "report": {
-            "button": "$~Alertează un moderator",
-            "confirm": "$~Alertează un moderator",
+            "button": "$~cere unui moderator să verifice asta",
+            "confirm": "$~Raportează-l",
             "sent": "$~un moderator a fost rugat să verifice acest lucru",
             "announce": "$~un moderator a fost rugat să verifice $project",
             "flagged": "$~Cineva a raportat acest proiect, deci este primul la rând."
@@ -11077,10 +11280,11 @@
         },
         "queue": {
             "label": "$~ce să verifici",
-            "labels": ["$~proiecte", "$~galerii", "$~mesaje"],
+            "labels": ["$~proiecte", "$~galerii", "$~kituri", "$~mesaje"],
             "tips": [
-                "$~verifică proiectele pe care oamenii le-au făcut publice",
+                "$~verifică proiecte pe care oamenii le-au făcut publice",
                 "$~verifică galeriile care cer să fie listate public",
+                "$~verifică kituri care cer să fie listate în ghid",
                 "$~verifică mesajele pe care oamenii le-au semnalat în galeriile pe care le administrezi"
             ]
         },
@@ -11112,6 +11316,30 @@
             "curators": "$~Curatorii acestei galerii verifică ce se împărtășește aici, inclusiv discuțiile.",
             "both": "$~Curatorii acestei galerii verifică ce se împărtășește aici, iar moderatorii Wordplay fac la fel, pentru că oricine poate vedea asta.",
             "platform": "$~<Moderatorii@://rights> Wordplay analizează acest lucru, pentru că oricine îl poate vedea."
+        },
+        "kit": {
+            "header": "$~Kituri",
+            "explain": "$~Acest kit cere să fie listat în ghid. Citește ce conține și decide dacă alți oameni ar trebui să îl găsească.",
+            "done": "$~Niciun kit nu așteaptă o decizie. Mulțumim!",
+            "approve": {
+                "label": "$~listează-l",
+                "tip": "$~listează acest kit în ghid"
+            },
+            "deny": {
+                "label": "$~nu-l lista",
+                "tip": "$~păstrează acest kit în afara ghidului"
+            },
+            "skip": {
+                "label": "$~omite",
+                "tip": "$~lasă acest set pentru ca un alt moderator să decidă"
+            },
+            "pending": "$~Un moderator citește kitul tău pentru a decide dacă poate fi listat în ghid. Este marcat ca listat, dar nimeni nu îl va găsi acolo până nu se întâmplă asta.",
+            "approved": "$~Kitul tău este listat în <ghid@://guide?section=kits>! Poate fi scos de pe listă oricând, din orice motiv.",
+            "denied": "$~Un moderator a decis să nu listeze kitul tău în ghid. Poți publica o versiune nouă și poți cere din nou.",
+            "notification": {
+                "approved": "$~$name este acum listat în ghid.",
+                "denied": "$~$name nu a fost listat în ghid."
+            }
         }
     },
     "gallery": {

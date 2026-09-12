@@ -114,6 +114,10 @@ const SymScopes: Map<SymType, string> = new Map([
     // Sharing (orange).
     [Sym.Borrow, 'keyword.control.import.wordplay'],
     [Sym.Share, 'keyword.control.export.wordplay'],
+    // A kit reference is the object of the `↓` in front of it, so the two read as one
+    // import gesture rather than as a keyword and a name. In the `keyword.control` family
+    // so it agrees with the Share token category `scopeCategory` derives.
+    [Sym.External, 'keyword.control.import.kit.wordplay'],
 
     // Evaluation markers (blue).
     [Sym.Function, 'storage.type.function.wordplay'],

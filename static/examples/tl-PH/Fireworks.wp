@@ -8,6 +8,7 @@ Walang naka-guhit dito ayon sa relo. Ibinibigay ng @Beat ang isang @Downbeat tuw
 Binibigyan ng pangalan ang bawat pagsabog gamit ang numero ng bit, kaya ang mga pagsabog ng bawat bit ay bagong output: itinatanghal nila ang kanilang pasok na anyo sa pagpasok, at ang kanilang labas na anyo kapag pinapalitan sila ng susunod na bit. Ang pagputok at ang pagbagsak ang dalawang anyong iyon.
 
 Ang tugtugin ay ang /The Star-Spangled Banner/ — ang himig ni John Stafford Smith mula noong mga 1773, matagal nang nasa pampublikong pag-aari — mula simula hanggang huli, na nagtatapos sa huling linya. Bawat tono ay may sariling haba na naka-lagay bilang halaga ng nota sa numero — \8𝅘𝅥𝅮\ ay isang ikawalo, \13𝅗𝅥\ ay isang kalahati, \13𝅗𝅥𝅭\ ay isang tuldok na kalahati — kaya ang mga pickup, ang mga tuldok na pigura, at ang mahahabang hawak na tono ay tunay na tagal, hindi lang pantay-pantay na bilang ng bit. Ang isang payak na numero ay isang bit. Kailangan pa rin ng @Note ang mga pahinga, dahil\ø\ ay hindi isang numero kaya hindi ito makakadala ng halaga. Nasa chromatic scale ito upang maisulat ang pinataas na ikaapat: bawat hakbang ay isang semitone.¶
+↓ @wordplay/instruments 1
 
 tibok2: Kumpas()
 bilang2: tibok2.bilangin
@@ -19,13 +20,7 @@ pagputok•[Bahagi]: tibok2.mgaBahagi.pansala(
 
 ¶Bawat instrumento ay sumasabog bilang sarili nito, at iyan mismo ang layunin: makikita mo kung alin ang katatapos lang tumugtog.¶
 ƒ mukha2(p2•Bahagi)•''
-	(p2.instrumento.id = 'trumpet') ? '🎺'
-		(p2.instrumento.id = 'flute') ? '🪈'
-			(p2.instrumento.id = 'bell') ? '🔔'
-				(p2.instrumento.id = 'piano') ? '🎹'
-					(p2.instrumento.id = 'violin') ? '🎻'
-						(p2.instrumento.id = 'drums') ? '🥁'
-							'🎵'
+	iconFor(p2.instrumento)
 
 ¶Bawat instrumento ay may sariling landas, na kumakalat sa buong langit. Ang paggamit ng instrumento sa halip na ang posisyon nito sa listahan ay nagpapanatili sa landas na hindi gumagalaw kahit tumigil ang ibang instrumento.¶
 ƒ linya(p3•Bahagi)•#

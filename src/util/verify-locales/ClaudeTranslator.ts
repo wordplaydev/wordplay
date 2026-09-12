@@ -951,7 +951,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         sourceLocale: string,
         targetLocale: string,
         targetText?: LocaleText,
-        options?: { names?: boolean; glossary?: boolean },
+        options?: { names?: boolean; glossary?: boolean; examples?: boolean },
     ): Promise<(string | null)[] | undefined> {
         // Everything this call reports — chunk progress, refusals, the final
         // count — belongs to one translation, so group it under the pair being
@@ -1029,15 +1029,18 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         // tutorial or a how-to. Failures fall back to verbatim.
         const targetLocaleText =
             targetText ?? this.loadLocaleText(log, targetLocale);
-        const uniqueCodes = [
-            ...new Set(
-                allSegments.flatMap((segments) =>
-                    segments
-                        .filter((seg) => seg.kind === 'code')
-                        .map((seg) => seg.text),
-                ),
-            ),
-        ];
+        const uniqueCodes =
+            options?.examples === false
+                ? []
+                : [
+                      ...new Set(
+                          allSegments.flatMap((segments) =>
+                              segments
+                                  .filter((seg) => seg.kind === 'code')
+                                  .map((seg) => seg.text),
+                          ),
+                      ),
+                  ];
         const exampleKey = (code: string) =>
             `${sourceLocale}→${targetLocale}\n${code}`;
         const pending = uniqueCodes.filter(

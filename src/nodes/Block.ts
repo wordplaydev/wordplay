@@ -326,8 +326,17 @@ export default class Block extends Expression {
         node: Node,
         context: Context,
     ): number | undefined {
+        // The root that actually holds the node, not the one the context was made for.
+        // A borrowed kit's definitions live in another source (#8) — they are in
+        // `project.roots` but not in `getSources()` — so asking the *borrower's* root
+        // whether a node inside the kit sits under one of the kit's own statements always
+        // answered no, and this block exposed nothing. The symptom was remote: an export
+        // whose type is inferred through a private helper bound and printed correctly,
+        // then failed to resolve any method on it, with no conflict reported anywhere.
+        // Same guard `typeGuards.ts` already applies for the same reason.
+        const root = context.getRoot(node) ?? context.source.root;
         const containingStatement = this.statements.find(
-            (s) => node === s || context.source.root.hasAncestor(node, s),
+            (s) => node === s || root.hasAncestor(node, s),
         );
         if (containingStatement === undefined) return;
         const index = this.statements.indexOf(containingStatement);

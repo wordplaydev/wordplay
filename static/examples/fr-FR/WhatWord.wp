@@ -130,11 +130,7 @@ thème: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶La part de ton argent de poche déjà dépensée, de 0 quand tout reste possible à 1 quand il ne reste plus rien. Le secret est vide avant le premier tour, alors la division est protégée plutôt que laissée à diviser par zéro.¶
 nombreMaxDʼessais: state.secret.longueur() × 3
-pression: (nombreMaxDʼessais = 0) ? 0 (((1 - (state.guessesRemaining ÷ nombreMaxDʼessais)).max(
-					0
-				)).min(
-				1
-			))
+pression: (nombreMaxDʼessais = 0) ? 0 ((1 - (state.guessesRemaining ÷ nombreMaxDʼessais)).limit(0 1))
 
 ¶Pensif à 54 temps par minute, pressant à 120, et chaque essai le fait bouger un peu. Le changement de tempo s'insère au temps suivant au lieu de tout recommencer, alors la boucle garde sa place et se penche simplement en avant — le tambour discret est là pour rendre ce mouvement audible, car un changement de tempo sous des notes longues et tenues est difficile à sentir.¶
 musiqueDʼénigme: Musique(

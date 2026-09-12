@@ -60,13 +60,11 @@ pitch: Pitch()
 humming: (mode = 'hum') & (pitch > 50hz)
 
 ƒ pitchToHeight(hz•#hz)
-	(hz < 80hz) ? -4m
-		(hz > 400hz) ? 5m
-			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
 
 ¶Ease toward the hummed height a bit at a time, so the bird glides
 instead of jittering with every wobble in the pitch.¶
-pitchY•#m: 1m … ∆ pitch … humming ? (0.8 × pitchY) + (0.2 × pitchToHeight(pitch)) pitchY
+pitchY•#m: 1m … ∆ pitch … humming ? pitchY.toward(pitchToHeight(pitch) 20%) pitchY
 
 ¶The bird hovers during the countdown, flaps upward or floats at the
 hummed pitch while playing, and tumbles under gravity after a crash.¶

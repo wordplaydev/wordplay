@@ -955,6 +955,13 @@
         "e876dc2ed0b0f": "$~@Group sekarang bisa memuat @Shape, jadi kamu bisa menumpuk lingkaran dengan kata-katamu, atau menaruh @Scene di dalam sebuah tata letak. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e723fd65c8efc": "$~@Shape sekarang sejajar dengan @Stack, @Row, atau @Grid tempatnya berada, bukan berada di mana pun sudut-sudutnya kebetulan ada, dan apa pun di dalam @Grid sekarang bisa lebih dekat atau lebih jauh. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e8ad9864d7217": "$~Kami menambahkan cara baru ke <Panduan@https://wordplay.dev/guide> untuk mengulang satu ronde permainan. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
-        "e0bce9fefa9f6": "$~Kami menambahkan @Spotlight, yang memberi tahu kamu bagian mana dari @Scene yang sedang ditampilkan, ada berapa banyak bagian, sudah berapa kali berputar, dan apakah sedang menunggu seseorang. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
+        "e0bce9fefa9f6": "$~Kami menambahkan @Spotlight, yang memberi tahu kamu bagian mana dari @Scene yang sedang ditampilkan, ada berapa banyak bagian, sudah berapa kali berputar, dan apakah sedang menunggu seseorang. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e615935a2e384": "$~Sekarang kamu bisa mencari dan menemukan kit yang diterbitkan di <Panduan@https://wordplay.dev/guide>, lalu menambahkannya ke programmu dengan meminjamnya memakai ↓. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ed328cd23ff5e": "$~Kami menambahkan kit, yang memungkinkan kamu membagikan kode yang ingin kamu bagikan dengan orang lain. Tambahkan ↑ di depan nilai atau fungsi, lalu terbitkan. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ee176f1308f17": "$~Wordplay kini hadir dengan tiga kit yang bisa kamu pinjam — alfabet, instrumen, dan lagu — jadi kamu tidak perlu mengetik huruf, tampilan instrumen, atau lagu sendiri. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ede02f98adf41": "$~Tiga kit yang disertakan dalam Wordplay ditulis dalam setiap bahasa yang kami dukung, jadi nama dan tulisannya terbaca dalam bahasamu. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "e75fc15b8d057": "$~Angka kini bisa melakukan tiga hal yang dulu harus kamu tulis sendiri: \\limit\\ menjaga sebuah angka tetap berada di antara batas bawah dan batas atas, \\toward\\ menggeser sebuah angka sebagian jalan menuju angka lain, dan \\rescale\\ mengubah angka dalam satu rentang menjadi angka yang setara dalam rentang lain.",
+        "e49e28ab01607": "$~Sebuah daftar angka kini bisa memberitahumu \\sum\\ dan \\average\\nya, jadi kamu tidak perlu menjumlahkannya sendiri.",
+        "e7cae93034509": "$~Sebuah judul di dalam panel bertab, seperti yang ada di Pengaturan, sekarang letaknya lebih dekat dengan bagian yang dijelaskannya, bukan malah bergeser ke atas mendekati bagian sebelumnya."
     }
 }

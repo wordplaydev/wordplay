@@ -238,6 +238,44 @@ export const NameRegExPattern = `${NameCharacterRegExPattern}+`;
 const NameRegEx = new RegExp(`^${NameRegExPattern}`, 'u');
 
 /**
+ * A reference's name segment doesn't mix Latin and non-Latin script, so the name
+ * ends where the script changes. Without this, the name is a greedy run of
+ * anything that isn't whitespace or an operator, and a reference immediately
+ * followed by attached native-script text takes that text into its name —
+ * `@Doc의` (Korean particle), `@language।` (Devanagari danda),
+ * `@wordplayプログラムを作るすべてのファイル` (a whole phrase) — none of which
+ * resolve, so each renders as a broken character glyph (#1245). Splitting at the
+ * boundary gives what the writer meant: the link, then the text.
+ *
+ * The split is by script, not by ASCII: a Latin run includes its diacritics, so
+ * a Spanish glossary form (`@parámetros`) is one name. A name written entirely
+ * in another script is likewise one name, so a locale's own native-script form
+ * (`@프로그램`) resolves — both are the #1241 behavior this must not break. An
+ * all-Latin typo (`@Phrasee`) also stays one name, so it remains visibly broken
+ * rather than silently resolving to a prefix. (`$` mentions solve the same
+ * problem by being ASCII-only, which a reference can't be, since references may
+ * be translated.)
+ *
+ * Only script-neutral marks (`Inherited`, e.g. a combining acute) extend a Latin
+ * run — a mark that belongs to another script does not, or a Devanagari vowel
+ * sign would glue onto the reference before it (`@codeा`) and break it again.
+ * Invisible format characters are excluded from a Latin run for the same reason
+ * (a zero-width non-joiner is `Inherited`, and Indic text uses one right after a
+ * reference), but allowed in a non-Latin run, where scripts like Persian use one
+ * inside a word.
+ */
+const LatinNameCharacter = `(?:(?=[\\p{Script=Latin}\\p{Nd}\\p{Script=Inherited}])(?!\\p{Cf})${NameCharacterRegExPattern})`;
+const NonLatinNameCharacter = `(?:(?![\\p{Script=Latin}])${NameCharacterRegExPattern})`;
+export const ReferenceNameRegExPattern = `(?:${LatinNameCharacter}+|${NonLatinNameCharacter}+)`;
+
+/** A kit reference in code: `@username/kitname` (#8). Deliberately narrower than
+ *  {@link ConceptRegExPattern}, which also accepts a `.` separator and a missing second
+ *  segment: a kit is always owner-scoped, so the `/` is required. That is also what keeps
+ *  `hi@wordplay.dev` out of it. `@` is otherwise unclaimed in code — it lexes as Unknown —
+ *  so adding this rule cannot change the meaning of any program that tokenizes today. */
+export const KitRegExPattern = `${LINK_SYMBOL}(?!(https?)?://|mailto:)${ReferenceNameRegExPattern}/${ReferenceNameRegExPattern}`;
+
+/**
  * Names inside a pattern literal (captures, backrefs, property values) must
  * also stop at the pattern delimiters and atom glyphs, which are not reserved
  * in normal code. So this excludes those in addition to the usual reserved
@@ -372,6 +410,10 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: FUNCTION_SYMBOL, types: [Sym.Function] },
     { pattern: BORROW_SYMBOL, types: [Sym.Borrow] },
     { pattern: SHARE_SYMBOL, types: [Sym.Share] },
+    // Before the name rule below, or `@` lexes as Unknown and the name after it as a
+    // separate token. Only ever meaningful after a `↓`, but tokenizing is context-free,
+    // so a stray one elsewhere is a name the parser rejects rather than a lexing error.
+    { pattern: new RegExp(`^${KitRegExPattern}`, 'u'), types: [Sym.External] },
     { pattern: CONVERT_SYMBOL, types: [Sym.Convert] },
     { pattern: CONVERT_SYMBOL2, types: [Sym.Convert] },
     { pattern: CONVERT_SYMBOL3, types: [Sym.Convert] },
@@ -752,36 +794,6 @@ export const LiteralMultiCharTokens: ReadonlyArray<{
  * 4) a Unicode codepoint (e.g., @U/1F600)
  * 5) the globally unique name of a creator-defined character
  */
-/**
- * A reference's name segment doesn't mix Latin and non-Latin script, so the name
- * ends where the script changes. Without this, the name is a greedy run of
- * anything that isn't whitespace or an operator, and a reference immediately
- * followed by attached native-script text takes that text into its name —
- * `@Doc의` (Korean particle), `@language।` (Devanagari danda),
- * `@wordplayプログラムを作るすべてのファイル` (a whole phrase) — none of which
- * resolve, so each renders as a broken character glyph (#1245). Splitting at the
- * boundary gives what the writer meant: the link, then the text.
- *
- * The split is by script, not by ASCII: a Latin run includes its diacritics, so
- * a Spanish glossary form (`@parámetros`) is one name. A name written entirely
- * in another script is likewise one name, so a locale's own native-script form
- * (`@프로그램`) resolves — both are the #1241 behavior this must not break. An
- * all-Latin typo (`@Phrasee`) also stays one name, so it remains visibly broken
- * rather than silently resolving to a prefix. (`$` mentions solve the same
- * problem by being ASCII-only, which a reference can't be, since references may
- * be translated.)
- *
- * Only script-neutral marks (`Inherited`, e.g. a combining acute) extend a Latin
- * run — a mark that belongs to another script does not, or a Devanagari vowel
- * sign would glue onto the reference before it (`@codeा`) and break it again.
- * Invisible format characters are excluded from a Latin run for the same reason
- * (a zero-width non-joiner is `Inherited`, and Indic text uses one right after a
- * reference), but allowed in a non-Latin run, where scripts like Persian use one
- * inside a word.
- */
-const LatinNameCharacter = `(?:(?=[\\p{Script=Latin}\\p{Nd}\\p{Script=Inherited}])(?!\\p{Cf})${NameCharacterRegExPattern})`;
-const NonLatinNameCharacter = `(?:(?![\\p{Script=Latin}])${NameCharacterRegExPattern})`;
-export const ReferenceNameRegExPattern = `(?:${LatinNameCharacter}+|${NonLatinNameCharacter}+)`;
 
 // A concept link is `@` followed by a name with an optional second segment.
 // The separator between the two segments is `.` for a concept and its

@@ -1,9 +1,43 @@
 import type Concept from '@concepts/Concept';
 import type { PurposeType } from '@concepts/Purpose';
+import {
+    BORROW_SYMBOL,
+    DOCUMENTATION_SYMBOL,
+    IDEA_SYMBOL,
+} from '@parser/Symbols';
 
-/** The guide's top-level sections: language/code concepts, how-to guides, and
- *  the glossary of key terms. */
-export type GuideMode = 'language' | 'howto' | 'glossary';
+/**
+ * The guide's top-level sections, in tab order: an escalation in the scope of help, from
+ * the constructs themselves through other people's code and recipes to the vocabulary all
+ * three use.
+ *
+ * **Positional** — `ui.docs.mode.browse` and the tab icons are indexed by these, so a
+ * section added in the middle silently relabels every one after it, and `locales-fix`
+ * cannot insert into a positional tuple. Here rather than in `Documentation.svelte` so
+ * `tourSteps.ts` and `placeLabel.ts` can read it without importing a component.
+ */
+export const Modes = ['language', 'kits', 'howto', 'glossary'] as const;
+
+export type GuideMode = (typeof Modes)[number];
+
+/**
+ * The section the guide opens on.
+ *
+ * Code, because the order above makes it the least specific kind of help and so the right
+ * place to land. It used to be `$blocks ? 'language' : 'howto'`, which was left behind when
+ * the effect that *pinned* the guide to `language` in blocks mode was removed — the guide
+ * was the drag palette then, and the Wellspring is now.
+ */
+export const DefaultMode: GuideMode = 'language';
+
+/** One glyph per section, in `Modes`' order — the third positional list, kept here with
+ *  the other two so they can only be wrong together. */
+export const ModeIcons: readonly string[] = [
+    DOCUMENTATION_SYMBOL,
+    BORROW_SYMBOL,
+    IDEA_SYMBOL,
+    '📖',
+];
 
 /**
  * One location in the guide's navigation history:

@@ -53,14 +53,10 @@ flutură: (mod = 'tap') & (∆ Buton() | ∆ Cheie())
 fredonat: (mod = 'hum') & (înălțimeSunet > 50hz)
 
 ƒ înălțimeSunetSpreÎnălțime(hz•#hz)
-	(hz < 80hz) ? -4m
-		(hz > 400hz) ? 5m
-			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
 
 ¶Pasărea se apropie treptat de înălțimea fredonată, puțin câte puțin, ca să plutească lin în loc să tresară la fiecare mică variație a tonului.¶
-înălțimeSunetY•#m: 1m … ∆ înălțimeSunet … fredonat ? (0.8 × înălțimeSunetY) + (0.2 × înălțimeSunetSpreÎnălțime(
-							înălțimeSunet
-						)) înălțimeSunetY
+înălțimeSunetY•#m: 1m … ∆ înălțimeSunet … fredonat ? înălțimeSunetY.toward(înălțimeSunetSpreÎnălțime(înălțimeSunet) 20%) înălțimeSunetY
 
 ¶Pasărea plutește pe loc în timpul numărătorii inverse, bate din aripi în sus sau plutește la tonul fredonat cât timp joci, și se rostogolește sub greutatea gravitației după o coliziune.¶
 locPasăre: Mişcare(

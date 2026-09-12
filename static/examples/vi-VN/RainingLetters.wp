@@ -2,6 +2,7 @@
 RainingLetters
 === start/en
 ¶Chương trình này có một nhóm chữ cái rơi xuống đất theo quy luật vật lý. Khi chạm đất, chúng lại sẵn sàng rơi tiếp. Số chữ cái rơi luôn giữ nguyên, nhưng số chữ cái hiện rõ thì thay đổi tùy theo biên độ của micro.¶
+↓ @wordplay/alphabets 1
 
 ¶Số lượng chữ cái tối đa¶
 đếm2: 100
@@ -19,7 +20,7 @@ nhịp2: Thờigian()
 ¶Khởi tạo một danh sách các chữ cái ngẫu nhiên ở những vị trí ngẫu nhiên¶
 chữCái3•[chữCái]: đếm2 → [#].dịch(
 		ƒ(_) chữCái(
-				'abcdefghijklmnopqrstuvwxyz' → [''].ngẫunhiên()
+				latin.ngẫunhiên()
 				Ngẫunhiên(-kíchThước2 kíchThước2)
 				Ngẫunhiên(0m kíchThước2 + 2m)
 				Ngẫunhiên(360)

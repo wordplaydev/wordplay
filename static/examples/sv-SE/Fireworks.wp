@@ -8,6 +8,7 @@ Inget här ritas efter en klocka. @Beat lämnar över en @Downbeat när varje sl
 Varje utbrott namnges med slagnumret, så varje slags utbrott är nyautdata: de spelar sin startpose på väg in och sin slutpose när nästa slagtar över. Smällen och fallet är dessa två poser.
 
 Melodin är /The Star-Spangled Banner/ — John Stafford Smiths melodi frånungefär 1773, som länge varit fri att använda — hela vägen igenom, och slutarpå den sista raden. Varje ton bär sin egen längd som ett notvärde skrivet påtalet — \8𝅘𝅥𝅮\ är en åttondel, \13𝅗𝅥\ en halvnot, \13𝅗𝅥𝅭\ en punkterad halvnot — så upptaktstoner,punkterade figurer och långa hållna toner blir verkliga tidslängder istället för ett rutnät av lika slag. Ett vanligt tal är ett slag. Pausermåste ändå ha en @Note, eftersom \ø\ inte är ett tal och därför inte kan bära ett värde. Det ärskrivet i den kromatiska skalan, så att den höjda kvarten kan skrivas alls:varje steg är en halvton.¶
+↓ @wordplay/instruments 1
 
 slag2: Takt()
 antal2: slag2.räkna
@@ -17,13 +18,7 @@ avfyrar•[Del]: slag2.delar.filtrera(ƒ(p•Del) p.klingande)
 
 ¶Varje instrument smäller som sig självt, och det är hela poängen: du kanse vilket som just spelade.¶
 ƒ ansikte2(p2•Del)•''
-	(p2.instrument.id = 'trumpet') ? '🎺'
-		(p2.instrument.id = 'flute') ? '🪈'
-			(p2.instrument.id = 'bell') ? '🔔'
-				(p2.instrument.id = 'piano') ? '🎹'
-					(p2.instrument.id = 'violin') ? '🎻'
-						(p2.instrument.id = 'drums') ? '🥁'
-							'🎵'
+	iconFor(p2.instrument)
 
 ¶Varje instrument har sin egen bana, spridd över hela himlen. Att användainstrumentet i stället för dess plats i listan gör att banan står stillanär ett annat instrument tystnar.¶
 ƒ bana(p3•Del)•#

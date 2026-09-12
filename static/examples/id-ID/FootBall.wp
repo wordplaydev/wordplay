@@ -28,11 +28,7 @@ hanyut•#: 0 … ∆ tekan | ∆ lepas …
 
 ¶Sarung tangan tidak digerakkan oleh fisika, jadi ia bisa dikendalikan secara langsung. Ia berhenti di ujung-ujung jangkauannya, jadi ia tidak akan pernah keluar dari gawang.¶
 penjagaY•#m: 0m … ∆ detak2 …
-		((penjagaY + (hanyut × penjagaKecepatan)).maksimal(
-				penjagaJangkauan · -1
-			)).menit(
-			penjagaJangkauan
-		)
+		(penjagaY + (hanyut × penjagaKecepatan)).limit((penjagaJangkauan · -1) penjagaJangkauan)
 
 ¶Sebuah penyelamatan dan sebuah gol. Setiap @Collision melaporkan awal sentuhan dan akhir sentuhan, jadi keduanya dipasangkan dengan sebuah pemeriksaan bahwa ini adalah sebuah awal: tanpa itu, setiap penyelamatan dan setiap gol akan terhitung dua kali.¶
 sarungTanganKena: Tabrakan('bola' 'penjaga')

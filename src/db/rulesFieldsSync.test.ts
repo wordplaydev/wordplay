@@ -4,7 +4,9 @@ import {
     ChatWritableFields,
     GalleryServerOwnedFields,
     HowToFields,
+    KitServerOwnedFields,
 } from './rulesFields';
+import { makeKit } from './kits/Kit';
 
 /**
  * The client's field lists and `firestore.rules` are two statements of one fact,
@@ -91,5 +93,39 @@ describe('the client writes exactly what firestore.rules admits', () => {
         expect(Array.from(fields).toSorted()).toEqual(
             [...GalleryServerOwnedFields].toSorted(),
         );
+    });
+
+    test('the kit rules and KitServerOwnedFields name the same fields', () => {
+        // Both kit guards, because they read differently and each can drift from the
+        // other: `kitServerFieldsUnchanged` compares against what is stored, and
+        // `kitServerFieldsInitial` against literals, since a create has nothing stored.
+        // A field owned on update and free on create is exactly the state #1352 found.
+        for (const guard of [
+            'kitServerFieldsUnchanged',
+            'kitServerFieldsInitial',
+        ]) {
+            const b = block('kits');
+            const start = b.indexOf(`function ${guard}`);
+            const body = b.slice(start, b.indexOf('}', start));
+            const fields = new Set(
+                Array.from(
+                    body.matchAll(/request\.resource\.data\.(\w+)/g),
+                ).map((match) => match[1]),
+            );
+            expect(Array.from(fields).toSorted(), guard).toEqual(
+                [...KitServerOwnedFields].toSorted(),
+            );
+        }
+    });
+
+    test('a new kit arrives at the values its create rule requires', () => {
+        // Naming the fields is not enough: the create guard also says what each must
+        // *be*, and a kit built any other way would simply be refused, silently, forever.
+        const kit = makeKit('id', 'owner', 'owner/colors', '', null);
+        expect(kit.moderation).toBe('unrequested');
+        expect(kit.moderatedAt).toBeNull();
+        expect(Object.values(kit.flags).every((f) => f === null)).toBe(true);
+        expect(kit.words).toEqual([]);
+        expect(kit.aliases).toEqual([]);
     });
 });

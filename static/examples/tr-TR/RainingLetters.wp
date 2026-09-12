@@ -2,6 +2,7 @@
 YağmurHarfleri
 === start/en
 ¶Bu program, fizik kurallarına göre yere düşen bir grup yağmur harfi içerir. Bir harf yere düştüğünde, tekrar düşmeye uygun hâle gelir. Düşen harf sayısı her zaman aynıdır ama mikrofonun genliğine göre bunlardan farklı bir sayıda harf görünür olur.¶
+↓ @wordplay/alphabets 1
 
 ¶En fazla harf sayısı¶
 sayaç: 100
@@ -19,7 +20,7 @@ tık: Zaman()
 ¶Rastgele konumlarda rastgele harflerden oluşan bir liste olarak başlat¶
 harfler2•[harf]: sayaç → [#].tercümeetmek(
 		ƒ(_) harf(
-				'abcdefghijklmnopqrstuvwxyz' → [''].rastgele()
+				latin.rastgele()
 				Rastgele(-boyut2 boyut2)
 				Rastgele(0m boyut2 + 2m)
 				Rastgele(360)

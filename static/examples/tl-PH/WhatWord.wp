@@ -132,11 +132,7 @@ tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Kung gaano karami sa iyong baon ang nagastos, mula 0 na may lahat pang laruin hanggang 1 na wala nang natitira. Walang laman ang lihim bago ang unang round, kaya ang paghahati ay binabantayan sa halip na hayaang hatiin sa zero.¶
 pinakamataasNaBilangNgHula: state.lihim.haba() × 3
-presyon: (pinakamataasNaBilangNgHula = 0) ? 0 (((1 - (state.guessesRemaining ÷ pinakamataasNaBilangNgHula)).pinakamataas(
-					0
-				)).minuto(
-				1
-			))
+presyon: (pinakamataasNaBilangNgHula = 0) ? 0 ((1 - (state.guessesRemaining ÷ pinakamataasNaBilangNgHula)).limit(0 1))
 
 ¶Mapag-isip sa 54 na tibok bawat minuto, madalian sa 120, at bawat hula ay kaunti itong ginagalaw. Ang pagbabago ng tempo ay isinasama sa susunod na tibok sa halip na magsimula ulit, kaya ang loop ay nananatili sa lugar nito at basta yumuyuko pasulong — naroon ang tahimik na tambol para marinig ang yukong iyon, dahil mahirap maramdaman ang pagbabago ng tempo sa ilalim ng mahahabang haba ng tunog.¶
 musikaNgPalaisipan: Musika(

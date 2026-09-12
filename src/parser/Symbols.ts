@@ -148,6 +148,10 @@ export const STAGE_SYMBOL = '🎭';
 export const MUSIC_SYMBOL = '🎼';
 export const TRACK_SYMBOL = '🎶';
 export const PALETTE_SYMBOL = '🎨';
+/** The mark on anything that opens the sharing dialog: the project footer's button, and
+ *  the conflict resolutions that send a creator to it. Not `SHARE_SYMBOL`, which is the
+ *  `↑` a creator writes in code. */
+export const SHARING_DIALOG_SYMBOL = '↗';
 export const DOCUMENTATION_SYMBOL = '📕';
 export const COLLABORATE_SYMBOL = '👥';
 

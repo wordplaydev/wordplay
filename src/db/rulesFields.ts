@@ -48,6 +48,27 @@ export const GalleryServerOwnedFields = [
 ] as const;
 
 /**
+ * The kit fields the server owns (#8), which a client write must never carry.
+ *
+ * `kitServerFieldsUnchanged()` requires each to be absent or identical to what is stored,
+ * and `kitServerFieldsInitial()` states the same list on a create, where there is nothing
+ * stored to compare against. `moderation` and `moderatedAt` are the listing decision and
+ * `words` the search index the `kitEdited` trigger rebuilds; `aliases` is the sharpest of
+ * the four, since a borrow resolves `@name/kit` through aliases as well as through `name`,
+ * so a client that could write its own would make its kit answer to someone else's.
+ *
+ */
+export const KitServerOwnedFields = [
+    'moderation',
+    'moderatedAt',
+    'flags',
+    'words',
+    'aliases',
+    'listed',
+    'listedVersion',
+] as const;
+
+/**
  * The field sets the how-to update rule admits on their own. Owners,
  * collaborators and curators may write anything; everyone else gets these two
  * openings, so a change of just those has to be *sent* as just those —

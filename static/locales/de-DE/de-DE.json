@@ -296,7 +296,8 @@
         "Percent": "$~Prozent",
         "Defect": "$~Beispiel mit erwartetem Fehler",
         "NotANumber": "$~keine Zahl",
-        "Range": "$~Bereich"
+        "Range": "$~Bereich",
+        "External": "$~Kit"
     },
     "node": {
         "Dimension": {
@@ -795,6 +796,31 @@
                     "name": "$~selbstbezügliche Ausleihe",
                     "explanation": "$~Dies hängt von $borrow ab, welches wiederum von dieser @Source abhängt, daher kann das Programm nicht ausgewertet werden.",
                     "resolution": "$~Entfernen Sie diese Kreditlinie, um den Kreislauf zu durchbrechen."
+                },
+                "MissingKitVersion": {
+                    "name": "$~fehlende Version",
+                    "explanation": "$~ein Kit behält jede Version, die es je hatte. Deshalb muss ich wissen, welche Version von $kit du willst",
+                    "resolution": "$~Diese Ausleihe entfernen"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~zwei Versionen eines Kits",
+                    "explanation": "$~Ich kann nur eine Version eines Kits gleichzeitig verwenden, aber dieses @Source fragt nach zwei Versionen von $kit",
+                    "resolution": "$~Diese Ausleihe entfernen"
+                },
+                "UnknownKit": {
+                    "name": "$~unbekanntes Kit",
+                    "explanation": "$~Ich kann $kit nicht finden",
+                    "resolution": "$~Diese Ausleihe entfernen"
+                },
+                "UnavailableKit": {
+                    "name": "$~nicht verfügbares Kit",
+                    "explanation": "$~$kit gibt es, aber es ist nicht mit dir geteilt",
+                    "resolution": "$~Diese Ausleihe entfernen"
+                },
+                "KitCannotBorrow": {
+                    "name": "$~Kit kann nichts ausleihen",
+                    "explanation": "$~diese Quelle wird als Kit veröffentlicht, und ein Kit ist die einzige Datei, die ihre Leser bekommen — kopiere, was du ausleihst, in diese Quelle hinein, statt es woanders zu benutzen",
+                    "resolution": "$~Die Ausleihe entfernen"
                 }
             },
             "exception": {
@@ -1356,6 +1382,23 @@
             "label": {
                 "borrows": "$~leiht",
                 "expression": "$~Block"
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~nicht dokumentiertes geteiltes Element",
+                    "explanation": "$~das hier ist veröffentlicht, also wird es jemand lesen, der es nicht geschrieben hat — schreibe darüber eine /doc/, die erklärt, wofür es ist",
+                    "resolution": "$~Dokumentiere es oben, oder veröffentliche diese Quelle nicht mehr"
+                },
+                "UnexampledShare": {
+                    "name": "$~kein Beispiel",
+                    "explanation": "$~das hier nimmt Eingaben entgegen, also reicht eine Beschreibung nicht aus — füge in die Dokumentation ein Beispiel ein, das eine Verwendung zeigt",
+                    "resolution": "$~Füge der Dokumentation ein Beispiel hinzu, oder veröffentliche diese Quelle nicht mehr"
+                },
+                "UnexampledKit": {
+                    "name": "$~kein Beispiel",
+                    "explanation": "$~nichts in dieser Quelle hat ein Beispiel, also gibt es nichts, das man Leuten zeigen kann, die nach Kits suchen — füge der Dokumentation dieser Quelle eines hinzu",
+                    "resolution": "$~Füge der Dokumentation dieser Quelle ein Beispiel hinzu, oder veröffentliche sie nicht mehr"
+                }
             }
         },
         "PropertyBind": {
@@ -3163,6 +3206,65 @@
                             "names": "$~Zahl"
                         }
                     ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Halte mich zwischen einer niedrigen und einer hohen Zahl: Wenn ich unter der niedrigen liege, bekommst du diese, und wenn ich über der hohen liege, bekommst du stattdessen diese.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~Grenze",
+                    "inputs": [
+                        {
+                            "doc": "$~Die niedrigste Zahl, die ich sein darf.",
+                            "names": "$~niedrig"
+                        },
+                        {
+                            "doc": "$~Die höchste Zahl, die ich sein darf.",
+                            "names": "$~hoch"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Bewege dich ein Stück des Weges von mir zu einer anderen Zahl. Bei 0 % bekommst du mich, bei 100 % bekommst du die andere, und in der Mitte bekommst du die Zahl genau dazwischen.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~gegen",
+                    "inputs": [
+                        {
+                            "doc": "$~Die Zahl, zu der hin bewegt werden soll.",
+                            "names": "$~andere"
+                        },
+                        {
+                            "doc": "$~Wie weit gegangen werden soll, wobei bei 100 % das Ziel erreicht ist.",
+                            "names": "$~Menge"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Finde heraus, wo ich zwischen einem Zahlenpaar liege, und gib dann die Zahl zurück, die genauso zwischen einem anderen Zahlenpaar liegt. Nützlich, um etwas Gemessenes in etwas Darstellbares zu verwandeln.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~neuSkalieren",
+                    "inputs": [
+                        {
+                            "doc": "$~Das untere Ende des Bereichs, in dem ich liege.",
+                            "names": "$~vonNiedrig"
+                        },
+                        {
+                            "doc": "$~Das obere Ende des Bereichs, in dem ich liege.",
+                            "names": "$~vonHoch"
+                        },
+                        {
+                            "doc": "$~Das untere Ende des gewünschten Bereichs.",
+                            "names": "$~zuNiedrig"
+                        },
+                        {
+                            "doc": "$~Das obere Ende des gewünschten Bereichs.",
+                            "names": "$~zuHoch"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -3733,6 +3835,22 @@
                             "names": "$~Wert"
                         }
                     ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Zähle alle meine Zahlen zusammen. Wenn ich leer bin, ist das Ergebnis 0. Wenn meine Zahlen nicht alle in derselben Einheit gemessen sind, sage ich das, statt zu raten.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~Summe",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Zähle alle meine Zahlen zusammen und teile durch ihre Anzahl. Wenn ich leer bin, gibt es nichts zu mitteln, also bekommst du @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~Durchschnitt",
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -4418,7 +4536,7 @@
                 "Alt": ["$~Alternativ", "$~Option"],
                 "Meta": ["$~Meta", "$~Befehl", "$~Windows"],
                 "AltGraph": ["$~AltGraph"],
-                "CapsLock": ["$~Feststelltaste", "$~Feststelltaste"],
+                "CapsLock": ["$~Feststelltaste"],
                 "NumLock": ["$~NumLock", "$~Num-Taste"],
                 "ScrollLock": ["$~ScrollLock", "$~Rollen-Taste"],
                 "Enter": ["$~Eingeben", "$~Zurückkehren"],
@@ -5094,17 +5212,17 @@
                 "bed": ["$~Bett"],
                 "dining table": ["$~Tisch", "$~Esstisch"],
                 "toilet": ["$~Toilette"],
-                "tv": ["$~Fernseher", "$~Fernseher", "$~Fernsehen"],
+                "tv": ["$~Fernseher", "$~Fernsehen"],
                 "laptop": ["$~Laptop", "$~Computer"],
                 "mouse": ["$~Maus"],
-                "remote": ["$~Fernbedienung", "$~Fernbedienung"],
+                "remote": ["$~Fernbedienung"],
                 "keyboard": ["$~Tastatur"],
                 "cell phone": ["$~Telefon", "$~Handy", "$~Mobiltelefon"],
                 "microwave": ["$~Mikrowelle"],
                 "oven": ["$~Ofen"],
                 "toaster": ["$~Toaster"],
                 "sink": ["$~Waschbecken"],
-                "refrigerator": ["$~Kühlschrank", "$~Kühlschrank"],
+                "refrigerator": ["$~Kühlschrank"],
                 "book": ["$~Buch"],
                 "clock": ["$~Uhr"],
                 "vase": ["$~Vase"],
@@ -7756,7 +7874,7 @@
                 "highlightMajor": "$~zeige den Code dieses Fehlers im Editor",
                 "highlightMinor": "$~zeige den Code dieser Warnung im Editor",
                 "highlightStep": "$~zeige den Code dieses Auswertungsschritts im Editor",
-                "elsewhere": "$~Öffne dort, wo dies behoben werden kann"
+                "elsewhere": "$~öffnen, wo das behoben werden kann"
             },
             "nodeDescription": "$~Sie $description.",
             "severity": {
@@ -7963,6 +8081,26 @@
             }
         },
         "docs": {
+            "kits": {
+                "header": "$~Kits",
+                "prompt": "$~Ein Kit ist Code, den jemand veröffentlicht hat, damit andere Menschen damit bauen können. Kopiere die Zeile dafür, füge sie oben in dein Programm ein, und alles, was es teilt, kannst du nutzen.",
+                "empty": "$~Noch hat niemand ein Kit veröffentlicht. Deins könnte das erste sein — teile etwas mit ↑ und veröffentliche es dann über die Freigabe-Einstellungen deines Projekts.",
+                "shares": "$~teilt $names",
+                "missing": "$~Es gibt kein Kit mit diesem Namen. Es wurde vielleicht umbenannt oder nie veröffentlicht.",
+                "missingVersion": "$~Diese Version gibt es hier nicht. Probiere eine andere unten.",
+                "nothing": "$~dieses Kit teilt nichts",
+                "versions": "$~Jede Version dieses Kits",
+                "version": {
+                    "tip": "$~diese Version des Kits ansehen"
+                },
+                "open": "$~die Dokumentation dieses Kits lesen",
+                "none": "$~Hier passt nichts dazu.",
+                "kinds": {
+                    "label": "$~was Kits teilen",
+                    "all": "$~etwas"
+                },
+                "yours": "$~Deine Kits, die nicht gelistet sind"
+            },
             "label": "$~Leitfaden",
             "link": "$~Konzept $name in der Dokumentation anzeigen",
             "nodoc": "$~Wer bin ich? Was bin ich? Was ist mein Ziel?",
@@ -8053,9 +8191,10 @@
             "mode": {
                 "browse": {
                     "label": "$~durchsuchen",
-                    "labels": ["$~Code", "$~Wie man", "$~Glossar"],
+                    "labels": ["$~Code", "$~Kits", "$~Wie man", "$~Glossar"],
                     "tips": [
                         "$~Konzepte der Programmiersprache",
+                        "$~Code, den andere Leute veröffentlicht haben, damit du damit bauen kannst",
                         "$~wiederverwendbare Muster zum Erstellen von Projekten",
                         "$~Definitionen wichtiger Begriffe"
                     ]
@@ -8064,6 +8203,7 @@
                     "label": "$~Zweck",
                     "labels": [
                         "$~Projekt",
+                        "$~Kit",
                         "$~Ausgabe",
                         "$~Eingang",
                         "$~entscheiden",
@@ -8081,6 +8221,7 @@
                     ],
                     "tips": [
                         "$~Konzepte auf Projektebene",
+                        "$~was die Kits, die dieses Projekt ausleiht, verfügbar machen",
                         "$~Phrasen, Gruppen, Phasen, Layouts und mehr",
                         "$~Zeit, Schaltflächen, Tasten, Szenen und mehr",
                         "$~Werte basierend auf anderen Werten auswählen",
@@ -8178,6 +8319,10 @@
                 "Patterns": {
                     "header": "$~Muster",
                     "explanation": "$~Beschreibe die Form eines Textes mit einem Muster, begrenzt durch \\⣿\\ , und prüfe dann, ob der Text in die Form passt ( \\≈\\ ) oder finde alle Stellen, an denen er vorkommt ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Kits",
+                    "explanation": "$~Dinge, die die Kits, die dieses Projekt ausleiht, mit ihm geteilt haben."
                 }
             },
             "note": {
@@ -8229,6 +8374,9 @@
                     "research": {
                         "header": "$~Forschung",
                         "explanation": "$~Manchmal schreiben und sprechen wir über Wordplay — in Forschungsarbeiten, in Vorträgen und wenn wir es Lehrkräften und Familien zeigen. Wenn du das einschaltest, dürfen wir dieses Projekt als Beispiel zeigen, ohne deinen Namen, deinen Benutzernamen oder irgendetwas, das zeigt, dass es dein Konto ist.\n\nDu kannst das jederzeit wieder ausschalten. Wenn du es ausschaltest, nutzen wir dein Projekt in nichts Neuem mehr. Aber wir können nicht zurücknehmen, was wir schon veröffentlicht oder gezeigt haben."
+                    },
+                    "kit": {
+                        "explanation": "$~Ein Kit ist eine Quelle, die du veröffentlicht hast, damit andere Leute damit bauen können. Alles, was du mit ↑ markierst, wird ein Teil davon."
                     }
                 },
                 "field": {
@@ -8279,7 +8427,8 @@
                     }
                 },
                 "options": {
-                    "gallery": "$~Galerieauswahl"
+                    "gallery": "$~Galerieauswahl",
+                    "source": "$~Quelle zum Veröffentlichen"
                 },
                 "remix": {
                     "source": "$~Dieses Projekt ist ein Remix von:",
@@ -8294,18 +8443,71 @@
                         "$~Öffentlich",
                         "$~Vorschau",
                         "$~Privatsphäre",
-                        "$~Remixe"
+                        "$~Remixe",
+                        "$~Kit"
                     ],
                     "tips": [
                         "$~wähle eine Galerie, in der dieses Projekt gezeigt wird",
                         "$~wähle, wer dieses Projekt sehen kann",
                         "$~wähle das Zeichen, das dieses Projekt in Listen darstellt",
                         "$~prüfe die persönlichen Daten in diesem Projekt",
-                        "$~sieh, woraus dieses Projekt remixt wurde und was es remixt hat"
+                        "$~sieh, woraus dieses Projekt remixt wurde und was es remixt hat",
+                        "$~einen Teil dieses Projekts veröffentlichen, damit andere ihn nutzen können"
                     ]
                 },
                 "pii": {
                     "none": "$~Keine persönlichen Informationen gefunden."
+                },
+                "kit": {
+                    "nothing": "$~Hier ist noch nichts geteilt. Setze ↑ vor einen Namen, eine Funktion oder eine Struktur, um sie zu teilen, wie \\↑ sunset/en: 🔴\\, und es kann ein Kit werden.",
+                    "unpublished": "$~Du hast dieses noch nicht veröffentlicht.",
+                    "name": {
+                        "placeholder": "$~Name",
+                        "description": "$~wie dieses Kit heißen soll"
+                    },
+                    "publish": {
+                        "label": "$~veröffentlichen",
+                        "tip": "$~eine neue Version dieses Kits veröffentlichen"
+                    },
+                    "version": "$~Version $version",
+                    "problem": {
+                        "exports": "$~hier ist noch nichts geteilt",
+                        "invalid": "$~das ist kein Name, den ich lesen kann"
+                    },
+                    "undescribed": "$~diese Quelle hat noch keine Dokumentation",
+                    "discovery": "$~Moderatoren können eine veröffentlichte Version aus der Liste nehmen. Alles, was andere sich bereits geliehen haben, funktioniert trotzdem weiter, auch wenn es nicht mehr gelistet ist.",
+                    "moderation": {
+                        "unrequested": "$~nicht zur Auflistung angemeldet",
+                        "pending": "$~wartet darauf, dass ein Moderator es prüft",
+                        "approved": "$~geprüft und gelistet",
+                        "denied": "$~ein Moderator hat um Änderungen gebeten"
+                    },
+                    "derived": "$~Die Beschreibung und die Suchbegriffe deines Kits stammen aus dem ersten Satz der Dokumentation dieser Quelle.",
+                    "heading": {
+                        "name": "$~Name",
+                        "exports": "$~Was dieses Kit teilt",
+                        "versions": "$~Versionen",
+                        "listing": "$~Wer es finden kann"
+                    },
+                    "listing": {
+                        "label": "$~Auflistung",
+                        "labels": ["$~nicht gelistet", "$~gelistet"],
+                        "tips": [
+                            "$~niemand kann dieses Kit im Leitfaden finden, aber alles, was es sich bereits geliehen hat, funktioniert weiter",
+                            "$~jeder kann dieses Kit im Leitfaden finden, sobald ein Moderator es geprüft hat"
+                        ]
+                    },
+                    "remedy": "$~Ändere die Quelle und veröffentliche eine neue Version, dann prüft ein Moderator sie erneut.",
+                    "unreviewed": "$~Ein nicht gelistetes Kit wird von niemandem geprüft. Jeder, dem du die Leihzeile gibst, kann es trotzdem lesen.",
+                    "permanent": "$~Eine Version zu veröffentlichen ist dauerhaft: Programme anderer Leute leihen sie sich über die Nummer, deshalb würde eine Rücknahme sie kaputt machen.",
+                    "confirm": "$~Veröffentlichen",
+                    "withdraw": {
+                        "label": "$~zurückziehen",
+                        "tip": "$~diese Version zurückziehen, was nur möglich ist, solange das Kit nicht gelistet ist"
+                    },
+                    "withdrawable": "$~Dieses Kit wurde noch nie gelistet, also konnte es noch niemand finden — du kannst die neueste Version noch zurückziehen.",
+                    "unpublishable": "$~Dieses Kit kann noch nicht veröffentlicht werden:",
+                    "failed": "$~Ich konnte dein Kit nicht veröffentlichen. Überprüfe, ob du online bist, und versuche es erneut."
                 }
             },
             "settings": {
@@ -8906,7 +9108,8 @@
                 "galleries": "$~Galerien",
                 "characters": "$~Charaktere",
                 "howtos": "$~Anleitungen",
-                "chats": "$~Chats"
+                "chats": "$~Chats",
+                "kits": "$~Kits"
             },
             "status": {
                 "header": "$~Status speichern",
@@ -10573,31 +10776,32 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Galerie-Moderation",
+            "header": "$~Meldungen",
             "description": "$~Was andere dich gebeten haben zu prüfen, älteste zuerst. Eine Entscheidung sagt, welche Regeln verletzt wurden, und die Person, die es gemacht hat, erfährt, was du entschieden hast.",
             "labels": {
-                "message": "$~Nachricht",
-                "action": "$~Moderatormaßnahmen",
-                "reason": "$~welche Regeln verletzt wurden"
+                "action": "$~Was zu tun ist",
+                "reason": "$~Welche Regeln verletzt wurden",
+                "subject": "$~Was gemeldet wurde"
             },
             "view": {
-                "label": "$~Chat anzeigen",
-                "tip": "$~Nachricht im Chat ansehen"
+                "label": "$~ansehen",
+                "tip": "$~das Gemeldete öffnen"
             },
             "remove": {
                 "label": "$~entfernen",
-                "tip": "$~Diese Nachricht verstößt gegen die Richtlinien."
+                "tip": "$~das verstößt gegen die Regeln"
             },
             "keep": {
                 "label": "$~halten",
-                "tip": "$~Diese Nachricht verstößt nicht gegen die Richtlinien."
+                "tip": "$~das verstößt nicht gegen die Regeln"
             },
-            "empty": "$~Keine der Nachrichten muss moderiert werden.",
-            "error": "$~Sie müssen angemeldet sein, um Galerien zu moderieren",
+            "empty": "$~Nichts wartet auf eine Entscheidung.",
+            "error": "$~Du musst angemeldet sein, um Meldungen zu prüfen.",
             "note": {
-                "description": "$~was du der Person sagen willst, die die Nachricht geschrieben hat",
+                "description": "$~Was du der Person sagen willst, die es gemacht hat",
                 "placeholder": "$~sag ihnen etwas dazu (optional)"
-            }
+            },
+            "remaining": "$~$#count[$count Meldung wartet|$count Meldungen warten]"
         },
         "emoji": {
             "noCharacters": "$~Erstelle einen benutzerdefinierten Charakter",
@@ -11060,11 +11264,13 @@
         },
         "done": "$~Sonst nichts zu moderieren!",
         "error": {
-            "notmod": "$~Hier gibt es nichts für dich zu prüfen. Die Moderatorinnen und Moderatoren von Wordplay prüfen öffentliche Inhalte, und die Kuratorinnen und Kuratoren einer Galerie prüfen, was in ihrer Galerie ist. Wenn du gerade erst Moderationsrechte bekommen hast, musst du dich vielleicht neu anmelden."
+            "notmod": "$~Hier gibt es nichts für dich zu prüfen. Die Moderatorinnen und Moderatoren von Wordplay prüfen öffentliche Inhalte, und die Kuratorinnen und Kuratoren einer Galerie prüfen, was in ihrer Galerie ist. Wenn du gerade erst Moderationsrechte bekommen hast, musst du dich vielleicht neu anmelden.",
+            "unreachable": "$~Ich konnte diese Warteschlange nicht lesen. Deshalb weiß ich nicht, ob etwas wartet. Versuche es gleich noch einmal.",
+            "unreadable": "$~Hier warten einige Dinge, aber ich konnte sie nicht lesen. Deshalb werden sie nicht angezeigt."
         },
         "report": {
-            "button": "$~Moderation benachrichtigen",
-            "confirm": "$~Moderation benachrichtigen",
+            "button": "$~eine moderierende Person bitten, das zu prüfen",
+            "confirm": "$~Melden",
             "sent": "$~eine moderierende Person wurde gebeten, sich das anzusehen",
             "announce": "$~eine moderierende Person wurde gebeten, sich $project anzusehen",
             "flagged": "$~Jemand hat dieses Projekt gemeldet, daher steht es ganz vorne in der Reihe."
@@ -11082,10 +11288,11 @@
         },
         "queue": {
             "label": "$~was überprüft werden soll",
-            "labels": ["$~Projekte", "$~Galerien", "$~Nachrichten"],
+            "labels": ["$~Projekte", "$~Galerien", "$~Kits", "$~Nachrichten"],
             "tips": [
                 "$~Projekte prüfen, die andere veröffentlicht haben",
                 "$~Galerien überprüfen, die öffentlich gelistet werden möchten",
+                "$~Kits prüfen, die im Leitfaden gelistet werden möchten",
                 "$~Nachrichten prüfen, die in Galerien gemeldet wurden, die du betreust"
             ]
         },
@@ -11117,6 +11324,30 @@
             "curators": "$~Die Kuratoren dieser Galerie prüfen, was hier geteilt wird, auch den Chat.",
             "both": "$~Die Kuratoren dieser Galerie prüfen, was hier geteilt wird, und das tun auch die Moderatoren von Wordplay, denn jeder kann es sehen.",
             "platform": "$~Die <moderators@://rights> von Wordplay prüfen das, weil es jede und jeder sehen kann."
+        },
+        "kit": {
+            "header": "$~Kits",
+            "explain": "$~Dieses Kit möchte im Leitfaden gelistet werden. Lies, was es zeigt, und entscheide, ob andere Menschen es finden sollen.",
+            "done": "$~Keine Kits warten auf eine Entscheidung. Danke!",
+            "approve": {
+                "label": "$~listen",
+                "tip": "$~dieses Kit im Leitfaden listen"
+            },
+            "deny": {
+                "label": "$~nicht listen",
+                "tip": "$~dieses Kit aus dem Leitfaden heraushalten"
+            },
+            "skip": {
+                "label": "$~überspringen",
+                "tip": "$~dies einem anderen Moderator oder einer anderen Moderatorin zur Entscheidung überlassen"
+            },
+            "pending": "$~Ein Moderator liest gerade dein Kit, um zu entscheiden, ob es im Leitfaden gelistet werden kann. Es ist als gelistet markiert, aber niemand wird es dort finden, bis das entschieden ist.",
+            "approved": "$~Dein Kit ist im <Leitfaden@://guide?section=kits> gelistet! Es kann jederzeit und aus jedem Grund wieder von dieser Liste genommen werden.",
+            "denied": "$~Ein Moderator hat entschieden, dein Kit nicht im Leitfaden zu listen. Du kannst eine neue Version veröffentlichen und noch einmal fragen.",
+            "notification": {
+                "approved": "$~$name ist jetzt im Leitfaden gelistet.",
+                "denied": "$~$name wurde nicht im Leitfaden gelistet."
+            }
         }
     },
     "gallery": {

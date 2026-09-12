@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getHeadingLevel } from '@components/app/headingLevel.js';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { type Snippet } from 'svelte';
@@ -18,24 +19,45 @@
         compact: compact = false,
         wrap = false,
     }: Props = $props();
+
+    // Read once at construction: a section's depth is fixed by where it is rendered.
+    const level = getHeadingLevel();
 </script>
 
-<h2 class:compact class:wrap
+<svelte:element
+    this={`h${level}`}
+    class:compact
+    class:wrap
+    class="subheader"
+    data-level={level}
     >{#if children}{@render children()}{:else if text}<LocalizedText
             path={text}
-        />{/if}</h2
+        />{/if}</svelte:element
 >
 
 <style>
-    h2 {
+    .subheader {
         font-size: min(6vw, 16pt);
         margin-block-start: 1.5em;
         margin-block-end: var(--wordplay-spacing);
         white-space: nowrap;
     }
 
-    h2:first-child {
+    .subheader:first-child {
         margin-block-start: 0;
+    }
+
+    /* A nested section reads as subordinate, not as another peer. Size rather than
+       weight, since these sit among code and prose that are already bold in places. */
+    .subheader[data-level='4'] {
+        font-size: min(5vw, 13pt);
+        margin-block-start: 1em;
+    }
+
+    .subheader[data-level='5'],
+    .subheader[data-level='6'] {
+        font-size: min(4.5vw, 11pt);
+        margin-block-start: 1em;
     }
 
     .compact {

@@ -1,3 +1,4 @@
+import type KitsText from '@components/concepts/KitsText';
 import type { HowToCategories } from '@concepts/HowTo';
 import { Purpose } from '@concepts/Purpose';
 import type { FormattedText, Template } from '@locale/LocaleText';
@@ -8,6 +9,8 @@ import type {
 } from '@locale/UITexts';
 
 type DocumentationText = {
+    /** Published kits, which are a section of the guide rather than a page of their own. */
+    kits: KitsText;
     /** [plain] The ARIA label for the palette section. */
     label: string;
     /** [formatted] A link to a concept in documentation */
@@ -48,13 +51,20 @@ type DocumentationText = {
     };
     /** Modes in the guide */
     mode: {
-        /** Toggle between the code concepts, how-to guides, and glossary sections */
-        browse: ModeText<[string, string, string]>;
-        /** Filter concepts by purpose category (aligned with the order of the
-         *  Purpose enum's keys: project, output, input, decide, name, text,
-         *  pattern, numbers, truth, lists, sets, tables, docs, types, etc.) */
+        /** Toggle between the code concepts, how-to guides, glossary, and published kits */
+        browse: ModeText<[string, string, string, string]>;
+        /** Filter concepts by purpose category. **Aligned by position with the
+         *  order of {@link Purpose}'s keys** — `Documentation` and `Wellspring`
+         *  both index one by the other — so a purpose added in the middle must
+         *  be added here at the same index, and in `getPurposeIcons`.
+         *  `purposeFilters.test.ts` fails when the three disagree, which is how
+         *  `Kit` came to be labelled "output" for a while.
+         *
+         *  project, kit, output, input, decide, name, text, pattern, numbers,
+         *  truth, lists, sets, tables, docs, types, etc. */
         purpose: ModeText<
             [
+                string,
                 string,
                 string,
                 string,

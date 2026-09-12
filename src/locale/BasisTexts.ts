@@ -198,6 +198,14 @@ type BasisTexts = {
             /** [formatted] See `en-US.json` for documentation  */
             log: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
+            /** Keep a number within a low and high bound. */
+            limit: FunctionText<[NameAndDoc, NameAndDoc]>;
+            /** Move a fraction of the way from a number to another. */
+            toward: FunctionText<[NameAndDoc, NameAndDoc]>;
+            /** The matching number in another range, which may carry another unit. */
+            rescale: FunctionText<
+                [NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc]
+            >;
             min: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
             max: FunctionText<[NameAndDoc]>;
@@ -538,6 +546,10 @@ type BasisTexts = {
             replace: FunctionText<[NameAndDoc, NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
             length: FunctionText<EmptyInputs>;
+            /** [formatted] The total of my numbers. See `en-US.json`. */
+            sum: FunctionText<EmptyInputs>;
+            /** [formatted] The mean of my numbers, or nothing if I'm empty. See `en-US.json`. */
+            average: FunctionText<EmptyInputs>;
             /** [formatted] See `en-US.json` for documentation  */
             random: FunctionText<EmptyInputs>;
             /** [formatted] See `en-US.json` for documentation  */

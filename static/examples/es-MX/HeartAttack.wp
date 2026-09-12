@@ -55,11 +55,7 @@ gente: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 ¶Avanza un paso hacia la jugadora: hacia adelante en profundidad mientras se tambalea de un lado a otro para ser más difícil de golpear, cambiando el vaivén en los bordes de una franja alrededor de tu carril, y acercándose suavemente hacia ti entre vaivenes para que esquivar solo dé un momento de ventaja.¶
 ƒ cargarHaciaJugadora(zombi3•zombi cámaraX2•#m velocidadDeCarga•#m) (
 		xTejida: zombi3.x2 + (zombi3.direcciónX · velocidadDeZigzagueo)
-		xDirigida: xTejida + ((cámaraX2 - xTejida).máximo(
-						velocidadHaciaCasa · -1
-					)).mínimo(
-					velocidadHaciaCasa
-				)
+		xDirigida: xTejida + (cámaraX2 - xTejida).limit((velocidadHaciaCasa · -1) velocidadHaciaCasa)
 		enElBorde: (xTejida > (cámaraX2 + anchoDeZigzagueo)) | (xTejida < (cámaraX2 - anchoDeZigzagueo))
 		zombi(
 			xDirigida
@@ -130,15 +126,7 @@ gente: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 
 ¶Mueve tu carril un paso hacia un punto, sin pasar nunca tus límites. El puntero indica el punto del mundo sobre el que está, así que su distancia hasta tu carril es qué tan lejos está a tu izquierda o derecha — moverte hacia él permite que el puntero apunte, y un toque a cualquier lado te mueve hacia allá.¶
 ƒ enfocarHacia(juego3•juego objetivo•#m)
-	juego3.cámaraX:(juego3.cámaraX + ((objetivo - juego3.cámaraX).máximo(
-					pasoLateral · -1
-				)).mínimo(
-				pasoLateral
-			)).máximo(
-		límiteIzquierdo
-	).mínimo(
-		límiteDerecho
-	)
+	juego3.cámaraX:(juego3.cámaraX + (objetivo - juego3.cámaraX).limit((pasoLateral · -1) pasoLateral)).limit(límiteIzquierdo límiteDerecho)
 
 ¶Una pulsación de tecla mientras juegas: moverte a la izquierda o a la derecha, o lanzar un corazón.¶
 ƒ aplicarTeclaPresionada(juego4•juego tecla2•"")

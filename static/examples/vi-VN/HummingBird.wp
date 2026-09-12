@@ -56,14 +56,10 @@ caoĐộ2: Sânbóngđá()
 ngânNga: (chếĐộ = 'hum') & (caoĐộ2 > 50hz)
 
 ƒ caoĐộSangChiềuCao(hz•#hz)
-	(hz < 80hz) ? -4m
-		(hz > 400hz) ? 5m
-			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
 
 ¶Từ từ tiến gần độ cao được ngân nga, từng chút một, để con chim lượn êm thay vì rung giật theo từng dao động nhỏ của cao độ.¶
-caoĐộY•#m: 1m … ∆ caoĐộ2 … ngânNga ? (0.8 × caoĐộY) + (0.2 × caoĐộSangChiềuCao(
-							caoĐộ2
-						)) caoĐộY
+caoĐộY•#m: 1m … ∆ caoĐộ2 … ngânNga ? caoĐộY.toward(caoĐộSangChiềuCao(caoĐộ2) 20%) caoĐộY
 
 ¶Con chim lơ lửng trong lúc đếm ngược, vỗ cánh bay lên hoặc nổi theo cao độ được ngân nga khi đang chơi, và rơi tự do sau khi va chạm.¶
 vịTríChim: Cửđộng(

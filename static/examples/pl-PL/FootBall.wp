@@ -28,11 +28,7 @@ dryf•#: 0 … ∆ naciśnij | ∆ puść …
 
 ¶Rękawicą nie rusza fizyka, więc można nią sterować bezpośrednio. Zatrzymuje się na krańcach swojego zasięgu, więc nigdy nie może zjechać poza bramkę.¶
 bramkarzY•#m: 0m … ∆ tyknięcie …
-		((bramkarzY + (dryf × bramkarzSzybkość)).maks(
-				bramkarzZasięg · -1
-			)).min(
-			bramkarzZasięg
-		)
+		(bramkarzY + (dryf × bramkarzSzybkość)).limit((bramkarzZasięg · -1) bramkarzZasięg)
 
 ¶Obrona i gol. Każde @Collision zgłasza początek dotknięcia i koniec dotknięcia, więc oba są łączone ze sprawdzeniem, że to jest właśnie początek: bez tego każda obrona i każdy gol liczyłyby się podwójnie.¶
 rękawicaTrafienie: Kolizja('piłka' 'bramkarz')

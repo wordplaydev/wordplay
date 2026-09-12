@@ -4,6 +4,7 @@ import type { ActiveHint } from '@components/widgets/Hint.svelte';
 import type { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type { GuideHistory } from '@components/concepts/GuideHistory';
+import type { Dependency } from '@nodes/Borrow';
 import type Conflict from '@conflicts/Conflict';
 import type { ResolvedReference } from '@db/chats/codeReference';
 import type Project from '@db/projects/Project';
@@ -551,6 +552,34 @@ export function getTinkerable(): boolean {
 export function setTinkerable(tinkerable: boolean): void {
     setContext(TinkerableSymbol, tinkerable);
 }
+
+/**
+ * Extra scope for the examples in a block of documentation.
+ *
+ * A kit's docs explain the kit, so a worked example names the kit's own definitions —
+ * which `UnexampledShare` requires of every callable export — while `ExampleUI` builds a
+ * self-contained project from the example alone, so those names resolved to nothing and a
+ * kit's page showed a `FunctionException` on the very example documenting it.
+ *
+ * The fix is the borrow a reader would write anyway, prepended and *shown*, so the example
+ * is both correct and copyable. Unset everywhere else, so an ordinary doc or how-to
+ * example is built as before.
+ */
+export type ExampleScope = {
+    /** Code prepended to the example, and shown with it. */
+    prelude: string;
+    /** Already-resolved kits, keyed as `dependencyKey` does. */
+    dependencies: Map<string, Dependency>;
+};
+/**
+ * Held in a mutable container, not passed directly: `setContext` may only run while a
+ * component initializes, and the documentation that supplies the scope — a kit's version
+ * — has not loaded by then. Same shape as {@link ConceptIndexContext}.
+ */
+export type ExampleScopeContext = { scope: ExampleScope | undefined };
+export const [getExampleScope, setExampleScope] = createOptionalContext<
+    ExampleScopeContext | undefined
+>();
 
 /** The current index of concepts */
 export type ConceptIndexContext = { index: ConceptIndex | undefined };

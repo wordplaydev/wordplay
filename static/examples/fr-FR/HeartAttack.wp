@@ -55,11 +55,7 @@ gens: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 ¶Avancer d'un pas titubant vers le joueur : vers l'avant en profondeur tout en zigzaguant d'un côté à l'autre pour être plus difficile à toucher, en inversant le zigzag aux bords d'une bande autour de ta voie, et en se dirigeant doucement vers toi entre les mouvements, pour qu'esquiver ne gagne qu'un instant.¶
 ƒ foncerVersJoueur(zombie3•zombie caméraX2•#m vitesseCharge•#m) (
 		tisséX: zombie3.x2 + (zombie3.directionX · vitesseZigzag)
-		guidéX: tisséX + ((caméraX2 - tisséX).max(
-						vitesseRetour · -1
-					)).min(
-					vitesseRetour
-				)
+		guidéX: tisséX + (caméraX2 - tisséX).limit((vitesseRetour · -1) vitesseRetour)
 		auBord: (tisséX > (caméraX2 + largeurZigzag)) | (tisséX < (caméraX2 - largeurZigzag))
 		zombie(
 			guidéX
@@ -130,15 +126,7 @@ gens: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 
 ¶Déplacer votre voie d'un pas vers un point, sans jamais dépasser vos limites. Le pointeur indique le point du monde sur lequel il se trouve, donc sa distance par rapport à votre voie montre à quel point il est à votre gauche ou à votre droite — se rapprocher de lui permet au pointeur de viser, et un tapotement de chaque côté vous fait bouger dans cette direction.¶
 ƒ orienterVers(jeu3•jeu cible•#m)
-	jeu3.caméraX:(jeu3.caméraX + ((cible - jeu3.caméraX).max(
-					pasLatéral · -1
-				)).min(
-				pasLatéral
-			)).max(
-		limiteGauche
-	).min(
-		limiteDroite
-	)
+	jeu3.caméraX:(jeu3.caméraX + (cible - jeu3.caméraX).limit((pasLatéral · -1) pasLatéral)).limit(limiteGauche limiteDroite)
 
 ¶Une touche pressée pendant qu'on joue : se déplacer à gauche ou à droite, ou lancer un cœur.¶
 ƒ appliquerTouchePressée(jeu4•jeu clé2•"")

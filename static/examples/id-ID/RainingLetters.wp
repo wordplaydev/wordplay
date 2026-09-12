@@ -2,6 +2,7 @@
 RainingLetters
 === start/en
 ¶Program ini punya sekumpulan huruf hujan yang jatuh ke tanah mengikuti aturan fisika. Setelah menyentuh tanah, huruf itu bisa jatuh lagi.Kita selalu punya jumlah huruf jatuh yang sama, tapi membuat sejumlah huruf berbeda terlihatberdasarkan amplitudo mikrofon.¶
+↓ @wordplay/alphabets 1
 
 ¶Jumlah maksimum huruf¶
 hitungan2: 100
@@ -19,7 +20,7 @@ detak2: Waktu()
 ¶Membuat daftar awal berisi huruf-huruf acak di posisi acak¶
 huruf3•[huruf]: hitungan2 → [#].menerjemahkan(
 		ƒ(_) huruf(
-				'abcdefghijklmnopqrstuvwxyz' → [''].acak()
+				latin.acak()
 				Acak(-ukuran2 ukuran2)
 				Acak(0m ukuran2 + 2m)
 				Acak(360)

@@ -55,11 +55,7 @@ người: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 ¶Lê một bước về phía người chơi: tiến về phía trước theo chiều sâu trong khi lắc qua lại hai bên để khó bị bắn trúng hơn, đổi hướng lắc ở rìa của một dải quanh làn của bạn, và bám nhẹ theo bạn giữa các lần lắc để né tránh chỉ có tác dụng trong chốc lát.¶
 ƒ laoVềPhíaNgườiChơi(thâyMa5•thâyMa cameraX2•#m tốcĐộLaoTới•#m) (
 		đãUốnX: thâyMa5.x2 + (thâyMa5.hướngX · tốcĐộĐanXen)
-		đãHướngVềX: đãUốnX + ((cameraX2 - đãUốnX).tốiđa(
-						tốcĐộVềNhà · -1
-					)).phút(
-					tốcĐộVềNhà
-				)
+		đãHướngVềX: đãUốnX + (cameraX2 - đãUốnX).limit((tốcĐộVềNhà · -1) tốcĐộVềNhà)
 		ởRìa: (đãUốnX > (cameraX2 + độRộngĐanXen)) | (đãUốnX < (cameraX2 - độRộngĐanXen))
 		thâyMa(
 			đãHướngVềX
@@ -130,15 +126,7 @@ người: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 
 ¶Dịch làn đường của bạn một bước về phía một điểm, nhưng không bao giờ vượt quá giới hạn của bạn. Con trỏ báo điểm trong thế giới mà nó đang ở trên, vậy khoảng cách từ làn đường của bạn tới điểm đó cho biết nó ở bên trái hay bên phải bạn bao xa — bước về phía nó giúp con trỏ nhắm, và chạm vào một trong hai bên sẽ khiến bạn di chuyển theo hướng đó.¶
 ƒ hướngTới(tròChơi3•tròChơi mụcTiêu•#m)
-	tròChơi3.cameraX:(tròChơi3.cameraX + ((mụcTiêu - tròChơi3.cameraX).tốiđa(
-					bướcTạtNgang · -1
-				)).phút(
-				bướcTạtNgang
-			)).tốiđa(
-		giớiHạnTrái
-	).phút(
-		giớiHạnPhải
-	)
+	tròChơi3.cameraX:(tròChơi3.cameraX + (mụcTiêu - tròChơi3.cameraX).limit((bướcTạtNgang · -1) bướcTạtNgang)).limit(giớiHạnTrái giớiHạnPhải)
 
 ¶Một lần nhấn phím khi đang chơi: né sang trái hoặc phải, hoặc ném một trái tim.¶
 ƒ ápDụngPhímBấm(tròChơi4•tròChơi chìaKhóa2•"")

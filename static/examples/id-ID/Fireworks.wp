@@ -8,6 +8,7 @@ Tidak ada yang digambar berdasarkan jam. @Beat memberikan @Downbeat setiap kali 
 Setiap ledakan diberi nama sesuai nomor ketukan, sehingga ledakan pada setiap ketukan adalahoutput baru: mereka menampilkan pose masuk saat muncul dan pose keluarsaat ketukan berikutnya menggantikannya. Letusan dan kejatuhan adalah kedua pose itu.
 
 Lagunya adalah /The Star-Spangled Banner/ — melodi karya John Stafford Smith dari sekitartahun 1773, yang sudah lama menjadi milik publik — dimainkan penuh sampai ke baristerakhir. Setiap nada membawa panjangnya sendiri sebagai nilai nada yang ditulis pada angka — \8𝅘𝅥𝅮\ adalah seperdelapan, \13𝅗𝅥\ setengah, \13𝅗𝅥𝅭\ setengah bertitik — sehingga nada pembuka,figur bertitik, dan nada panjang yang ditahan adalah durasi sungguhan, bukan sekadarkotak-kotak ketukan yang sama. Angka biasa berarti satu ketukan. Tanda istirahat tetap perlu @Note,karena \ø\ bukan angka sehingga tidak bisa membawa nilai. Ini menggunakan tangga nadakromatis agar nada keempat yang dinaikkan bisa ditulis: setiap langkah adalah satu setengah nada.¶
+↓ @wordplay/instruments 1
 
 ketukan2: Ketukan()
 hitungan2: ketukan2.hitung
@@ -19,13 +20,7 @@ menembak•[Bagian]: ketukan2.bagian.menyaring(
 
 ¶Setiap alat musik meletus sebagai dirinya sendiri, dan itulah maksudnya: kamu bisa melihatalat musik mana yang baru saja berbunyi.¶
 ƒ wajah2(p2•Bagian)•''
-	(p2.alatMusik.id = 'trumpet') ? '🎺'
-		(p2.alatMusik.id = 'flute') ? '🪈'
-			(p2.alatMusik.id = 'bell') ? '🔔'
-				(p2.alatMusik.id = 'piano') ? '🎹'
-					(p2.alatMusik.id = 'violin') ? '🎻'
-						(p2.alatMusik.id = 'drums') ? '🥁'
-							'🎵'
+	iconFor(p2.alatMusik)
 
 ¶Setiap alat musik memiliki jalurnya sendiri, tersebar di seluruh langit. Menggunakanalat musik itu sendiri, bukan posisinya dalam daftar, membuat jalur tetap adasaat alat musik lain berhenti berbunyi.¶
 ƒ jalur(p3•Bagian)•#

@@ -55,11 +55,7 @@ ludzie: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '
 ¶Zrób jeden krok w stronę gracza: naprzód w głąb, kluczy z boku na bok, by trudniej było go trafić, zmieniając kierunek kluczenia na krawędziach pasa wokół twojej trasy, i delikatnie kierując się w twoją stronę między zwrotami, tak by unik dawał tylko chwilę wytchnienia.¶
 ƒ pędziWStronęGracza(zombie5•zombie kameraX2•#m prędkośćAtaku•#m) (
 		kluczoneX: zombie5.x2 + (zombie5.kierunekX · prędkośćWężykowania)
-		namierzoneX: kluczoneX + ((kameraX2 - kluczoneX).maks(
-						prędkośćPowrotu · -1
-					)).min(
-					prędkośćPowrotu
-				)
+		namierzoneX: kluczoneX + (kameraX2 - kluczoneX).limit((prędkośćPowrotu · -1) prędkośćPowrotu)
 		naKrawędzi: (kluczoneX > (kameraX2 + szerokośćWężykowania)) | (kluczoneX < (kameraX2 - szerokośćWężykowania))
 		zombie(
 			namierzoneX
@@ -130,15 +126,7 @@ ludzie: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '
 
 ¶Przesuń swój pas o jeden krok w stronę wskazanego miejsca, ale nigdy poza swojegranice. Wskaźnik podaje miejsce na świecie, nad którym się znajduje, więc jegoodległość od twojego pasa mówi, jak daleko leży po twojej lewej lub prawej stronie— zbliżanie się do niego pozwala wskaźnikowi celować, a stuknięcie z każdej stronyprzesuwa cię w tę stronę.¶
 ƒ skupNa(gra3•gra cel•#m)
-	gra3.kameraX:(gra3.kameraX + ((cel - gra3.kameraX).maks(
-					krokUniku · -1
-				)).min(
-				krokUniku
-			)).maks(
-		lewaGranica
-	).min(
-		prawaGranica
-	)
+	gra3.kameraX:(gra3.kameraX + (cel - gra3.kameraX).limit((krokUniku · -1) krokUniku)).limit(lewaGranica prawaGranica)
 
 ¶Naciśnięcie klawisza podczas gry: przesunięcie w lewo lub w prawo, albo rzutserca.¶
 ƒ zastosujNaciśnięcieKlawisza(gra4•gra klawisz2•"")

@@ -132,11 +132,7 @@ tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Berapa banyak uang jajanmu yang sudah terpakai, dari 0 saat semuanya masih bisa dimainkan hingga 1 saat tidak ada yang tersisa. Rahasianya kosong sebelum ronde pertama, jadi pembagiannya dijaga agar tidak membagi dengan nol.¶
 jumlahMaksimalTebakan: state.rahasia.panjang() × 3
-tekanan: (jumlahMaksimalTebakan = 0) ? 0 (((1 - (state.guessesRemaining ÷ jumlahMaksimalTebakan)).maksimal(
-					0
-				)).menit(
-				1
-			))
+tekanan: (jumlahMaksimalTebakan = 0) ? 0 ((1 - (state.guessesRemaining ÷ jumlahMaksimalTebakan)).limit(0 1))
 
 ¶Merenung di 54 ketukan per menit, mendesak di 120, dan setiap tebakan menggerakkannya sedikit. Mengubah tempo menyambung di ketukan berikutnya, bukan mulai dari awal, jadi perulangan tetap pada tempatnya dan hanya condong ke depan — drum pelan itu ada agar condongan itu bisa terdengar, karena perubahan tempo di bawah nada panjang sulit dirasakan.¶
 puzzleMusic: Musik(

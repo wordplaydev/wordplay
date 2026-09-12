@@ -20,6 +20,7 @@ import ExceptionValue from '@values/ExceptionValue';
 import ListValue from '@values/ListValue';
 import NoneValue from '@values/NoneValue';
 import NumberValue from '@values/NumberValue';
+import TypeException from '@values/TypeException';
 import SetValue from '@values/SetValue';
 import TextValue from '@values/TextValue';
 import Value from '@values/Value';
@@ -70,6 +71,42 @@ function compareKeys(
         return rank === 2 ? 0 : a.toNumber() - b.toNumber();
     // Unreachable: equal ranks mean both keys are the same kind.
     return 0;
+}
+
+/**
+ * The total of a list's numbers, or the exception that says why it has none.
+ *
+ * The unit check is the point: `NumberValue.add` keeps the receiver's unit and ignores
+ * the operand's, so folding over `[1m 2s]` would quietly answer `3m`. The basis's own `+`
+ * guards the same way rather than trusting that.
+ */
+function totalOf(requestor: Expression, evaluation: Evaluation): Value {
+    const list: Value | Evaluation | undefined = evaluation.getClosure();
+    if (!(list instanceof ListValue))
+        return evaluation.getValueOrTypeException(
+            requestor,
+            ListType.make(),
+            list,
+        );
+    let total: NumberValue | undefined = undefined;
+    for (const value of list.values) {
+        if (!(value instanceof NumberValue))
+            return evaluation.getValueOrTypeException(
+                requestor,
+                NumberType.make(),
+                value,
+            );
+        if (total === undefined) total = value;
+        else if (!total.unit.accepts(value.unit))
+            return new TypeException(
+                evaluation.getDefinition(),
+                evaluation.getEvaluator(),
+                total.getType(),
+                value,
+            );
+        else total = total.add(requestor, value);
+    }
+    return total ?? new NumberValue(requestor, 0);
 }
 
 export default function bootstrapList(locales: Locales) {
@@ -205,6 +242,46 @@ export default function bootstrapList(locales: Locales) {
                                 value,
                             );
                         else return list.append(requestor, value);
+                    },
+                ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.List.function.sum,
+                    undefined,
+                    [],
+                    // A list of metres totals metres. `ListType.concreteUnit` is what
+                    // gives this deriver a unit to read; an empty or mixed list has
+                    // none, and the wildcard it falls back to is right for both.
+                    NumberType.make((unit) => unit),
+                    // An empty list totals the additive identity, and its type is the
+                    // wildcard, so the unitless zero is not a lie.
+                    (requestor, evaluation) => totalOf(requestor, evaluation),
+                ),
+                createBasisFunction(
+                    locales,
+                    (locale) => locale.basis.List.function.average,
+                    undefined,
+                    [],
+                    // Sum ÷ a unitless count keeps the unit, and division by zero is
+                    // already none — so an empty list averages to nothing without
+                    // this having to say so.
+                    UnionType.make(
+                        NumberType.make((unit) => unit),
+                        NoneType.make(),
+                    ),
+                    (requestor, evaluation) => {
+                        const total = totalOf(requestor, evaluation);
+                        if (!(total instanceof NumberValue)) return total;
+                        const list = evaluation.getClosure();
+                        return list instanceof ListValue
+                            ? total.divide(
+                                  requestor,
+                                  new NumberValue(
+                                      requestor,
+                                      list.values.length,
+                                  ),
+                              )
+                            : total;
                     },
                 ),
                 createBasisFunction(

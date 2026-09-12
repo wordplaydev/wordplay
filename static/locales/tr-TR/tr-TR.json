@@ -296,7 +296,8 @@
         "Percent": "$~yüzde",
         "Defect": "$~beklenen kusurlu örnek",
         "NotANumber": "$~sayı değil",
-        "Range": "$~aralık"
+        "Range": "$~aralık",
+        "External": "$~kit"
     },
     "node": {
         "Dimension": {
@@ -795,6 +796,31 @@
                     "name": "$~kendine gönderme yapan ödünç alma",
                     "explanation": "$~Bu, $borrow'e bağlıdır, $borrow de bu @Source'a bağlıdır, bu nedenle program değerlendirilemez.",
                     "resolution": "$~Bu ödünç almayı kaldırarak döngüyü kırın."
+                },
+                "MissingKitVersion": {
+                    "name": "$~sürüm eksik",
+                    "explanation": "$~bir kit, sahip olduğu her sürümü saklar, bu yüzden $kit'in hangi sürümünü istediğini bilmem gerekiyor",
+                    "resolution": "$~Bu ödünç almayı kaldır"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~bir kitin iki sürümü",
+                    "explanation": "$~aynı anda yalnızca bir kit sürümü kullanabilirim, ama bu @Source $kit'ten iki sürüm istiyor",
+                    "resolution": "$~Bu ödünç almayı kaldır"
+                },
+                "UnknownKit": {
+                    "name": "$~bilinmeyen kit",
+                    "explanation": "$~$kit'i bulamıyorum",
+                    "resolution": "$~Bu ödünç almayı kaldır"
+                },
+                "UnavailableKit": {
+                    "name": "$~kullanılamayan kit",
+                    "explanation": "$~$kit var, ama seninle paylaşılmamış",
+                    "resolution": "$~Bu ödünç almayı kaldır"
+                },
+                "KitCannotBorrow": {
+                    "name": "$~kit ödünç alamaz",
+                    "explanation": "$~bu kaynak bir kit olarak yayımlanır, ve bir kit okuyucularının aldığı tek dosyadır — ödünç aldığın şeyi kopyalamak yerine bu kaynağın içine kopyala",
+                    "resolution": "$~Ödünç almayı kaldır"
                 }
             },
             "exception": {
@@ -1368,6 +1394,23 @@
             "label": {
                 "borrows": "$~ödünç alıyor",
                 "expression": "$~engellemek"
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~belgelenmemiş paylaşım",
+                    "explanation": "$~bu yayımlanmış, bu yüzden onu yazmamış biri onu okuyacak — üstüne ne işe yaradığını anlatan bir /doc/ yaz",
+                    "resolution": "$~Üstüne belge yaz, ya da bu kaynağı yayımlamayı durdur"
+                },
+                "UnexampledShare": {
+                    "name": "$~örnek yok",
+                    "explanation": "$~bu girdi alıyor, bu yüzden bir açıklama yeterli değil — belgesine onu kullanmanın bir yolunu gösteren bir örnek koy",
+                    "resolution": "$~Belgesine bir örnek ekle, ya da bu kaynağı yayımlamayı durdur"
+                },
+                "UnexampledKit": {
+                    "name": "$~örnek yok",
+                    "explanation": "$~bu kaynakta hiçbir şeyin örneği yok, bu yüzden kit arayan kişilere gösterecek bir şey yok — bu kaynağın belgesine bir tane ekle",
+                    "resolution": "$~Bu kaynağın belgesine bir örnek ekle, ya da bu kaynağı yayımlamayı durdur"
+                }
             }
         },
         "PropertyBind": {
@@ -3160,6 +3203,65 @@
                             "names": "$~sayı"
                         }
                     ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Beni düşük ve yüksek bir sayı arasında tut: eğer düşük olandan küçüksem, sonucun o olur, eğer yüksek olandan büyüksem, sonucun bu olur.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~sınır",
+                    "inputs": [
+                        {
+                            "doc": "$~Olabileceğim en düşük @value.",
+                            "names": "$~düşük"
+                        },
+                        {
+                            "doc": "$~Olabileceğim en yüksek @value.",
+                            "names": "$~yüksek"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Benden başka bir sayıya doğru yolun bir kısmını git. %0'da beni alırsın, %100'de diğerini alırsın, tam ortada ise ikisinin arasındaki sayıyı alırsın.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~doğru",
+                    "inputs": [
+                        {
+                            "doc": "$~Doğru gidilecek sayı.",
+                            "names": "$~diğer"
+                        },
+                        {
+                            "doc": "$~Ne kadar gidileceği, yüzde 100'de varılan yer.",
+                            "names": "$~miktar"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Bir sayı çiftinin arasında nerede durduğumu bul, sonra başka bir çiftin arasında aynı şekilde duran sayıyı geri ver. Ölçtüğün bir şeyi gösterebileceğin bir şeye çevirmek için işe yarar.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~yenidenÖlçekle",
+                    "inputs": [
+                        {
+                            "doc": "$~İçinde bulunduğum aralığın alt sınırı.",
+                            "names": "$~düşükten"
+                        },
+                        {
+                            "doc": "$~İçinde bulunduğum aralığın üst sınırı.",
+                            "names": "$~yüksekten"
+                        },
+                        {
+                            "doc": "$~İstediğin aralığın alt sınırı.",
+                            "names": "$~düşüğe"
+                        },
+                        {
+                            "doc": "$~İstediğin aralığın üst sınırı.",
+                            "names": "$~yükseğe"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -3731,6 +3833,22 @@
                             "names": "$~değer"
                         }
                     ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Tüm sayılarımı topla. Eğer boşsam, sonuç 0 olur, ve eğer sayılarımın hepsi aynı şeyde ölçülmemişse, tahmin etmek yerine bunu söylerim.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~toplam",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Tüm sayılarımı topla ve kaç tane olduklarına böl. Eğer boşsam ortalama alınacak bir şey yok demektir, bu yüzden @None alırsın.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~ortalama",
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -4416,7 +4534,7 @@
                 "Alt": ["$~Alternatif", "$~Seçenek"],
                 "Meta": ["$~Meta", "$~Emretmek", "$~Windows"],
                 "AltGraph": ["$~AltGraph"],
-                "CapsLock": ["$~Büyük harf kilidi", "$~Büyük harf kilidi"],
+                "CapsLock": ["$~Büyük harf kilidi"],
                 "NumLock": ["$~NumLock", "$~Num Lock"],
                 "ScrollLock": ["$~ScrollLock", "$~Kaydırma Kilidi"],
                 "Enter": ["$~Girmek", "$~Geri dönmek"],
@@ -4428,8 +4546,8 @@
                 "ArrowRight": ["$~Sağ Ok", "$~Sağ"],
                 "Home": ["$~Ev"],
                 "End": ["$~Son"],
-                "PageUp": ["$~Sayfa Yukarı", "$~Sayfa Yukarı"],
-                "PageDown": ["$~Sayfa Aşağı", "$~Sayfa Aşağı"],
+                "PageUp": ["$~Sayfa Yukarı"],
+                "PageDown": ["$~Sayfa Aşağı"],
                 "Backspace": ["$~Geri tuşu"],
                 "Delete": ["$~Silmek", "$~Del"],
                 "Insert": ["$~Sokmak", "$~Sigorta"],
@@ -4782,7 +4900,7 @@
                 "doc": "$~Bu @value değiştiğinde, biriken konuşmayı temizle ve yeniden başla."
             },
             "language": {
-                "names": ["$~dil", "$~dil"],
+                "names": ["$~dil"],
                 "doc": "$~Bir BCP 47 @language kodu (örneğin, 'en-US'). Tarayıcının konuşma tanıması bunu desteklemiyorsa bir hata alırsın. Öntanımlı olarak tercih ettiğin dil kullanılır."
             },
             "limit": {
@@ -5027,13 +5145,13 @@
             ],
             "categories": {
                 "person": ["$~kişi", "$~insanlar", "$~insan", "$~biri"],
-                "bicycle": ["$~bisiklet", "$~bisiklet"],
+                "bicycle": ["$~bisiklet"],
                 "car": ["$~araba", "$~otomobil"],
                 "motorcycle": ["$~motosiklet", "$~motor"],
-                "airplane": ["$~uçak", "$~uçak", "$~uçak"],
+                "airplane": ["$~uçak"],
                 "bus": ["$~otobüs"],
                 "train": ["$~tren"],
-                "truck": ["$~kamyon", "$~kamyon"],
+                "truck": ["$~kamyon"],
                 "boat": ["$~tekne", "$~gemi"],
                 "traffic light": ["$~trafik ışığı", "$~trafik lambası"],
                 "fire hydrant": ["$~yangın musluğu", "$~musluk"],
@@ -5050,13 +5168,13 @@
                 "bear": ["$~ayı"],
                 "zebra": ["$~zebra"],
                 "giraffe": ["$~zürafa"],
-                "backpack": ["$~sırt çantası", "$~sırt çantası"],
+                "backpack": ["$~sırt çantası"],
                 "umbrella": ["$~şemsiye"],
                 "handbag": ["$~el çantası", "$~cüzdan"],
-                "tie": ["$~kravat", "$~kravat"],
+                "tie": ["$~kravat"],
                 "suitcase": ["$~bavul", "$~valiz"],
                 "frisbee": ["$~frizbi"],
-                "skis": ["$~kayak", "$~kayak"],
+                "skis": ["$~kayak"],
                 "snowboard": ["$~kar kayağı"],
                 "sports ball": ["$~top", "$~spor topu"],
                 "kite": ["$~uçurtma"],
@@ -5064,7 +5182,7 @@
                 "baseball glove": ["$~beyzbol eldiveni", "$~eldiven"],
                 "skateboard": ["$~kaykay"],
                 "surfboard": ["$~sörf tahtası"],
-                "tennis racket": ["$~tenis raketi", "$~raket", "$~raket"],
+                "tennis racket": ["$~tenis raketi", "$~raket"],
                 "bottle": ["$~şişe"],
                 "wine glass": ["$~şarap kadehi"],
                 "cup": ["$~bardak", "$~kupa"],
@@ -5080,7 +5198,7 @@
                 "carrot": ["$~havuç"],
                 "hot dog": ["$~sosisli"],
                 "pizza": ["$~pizza"],
-                "donut": ["$~donut", "$~donut"],
+                "donut": ["$~donut"],
                 "cake": ["$~pasta"],
                 "chair": ["$~sandalye"],
                 "couch": ["$~kanepe", "$~koltuk"],
@@ -5088,7 +5206,7 @@
                 "bed": ["$~yatak"],
                 "dining table": ["$~masa", "$~yemek masası"],
                 "toilet": ["$~tuvalet"],
-                "tv": ["$~televizyon", "$~tv", "$~televizyon"],
+                "tv": ["$~televizyon", "$~tv"],
                 "laptop": ["$~dizüstü bilgisayar", "$~bilgisayar"],
                 "mouse": ["$~fare"],
                 "remote": ["$~kumanda", "$~uzaktan kumanda"],
@@ -7771,7 +7889,7 @@
                 "highlightMajor": "$~bu hatanın kodunu düzenleyicide göster",
                 "highlightMinor": "$~bu uyarının kodunu düzenleyicide göster",
                 "highlightStep": "$~bu değerlendirme adımının kodunu düzenleyicide göster",
-                "elsewhere": "$~Bunun düzeltilebileceği yeri aç"
+                "elsewhere": "$~bunun düzeltilebileceği yeri aç"
             },
             "nodeDescription": "$~$description .",
             "severity": {
@@ -7974,6 +8092,26 @@
             }
         },
         "docs": {
+            "kits": {
+                "header": "$~Kitler",
+                "prompt": "$~Bir kit, birinin başkalarının üzerine bir şeyler inşa etmesi için yayımladığı koddur. Onun satırını kopyala, programının en üstüne yapıştır, ve paylaştığı her şey senin kullanımına geçer.",
+                "empty": "$~Henüz kimse bir kit yayımlamadı. İlk kiti sen paylaşabilirsin — ↑ ile bir şey paylaş, sonra projenin paylaşım ayarlarından onu yayımla.",
+                "shares": "$~$names paylaşıyor",
+                "missing": "$~Bu isimde bir kit yok. Adı değiştirilmiş ya da hiç yayımlanmamış olabilir.",
+                "missingVersion": "$~O sürüm burada yok. Aşağıdakilerden birini dene.",
+                "nothing": "$~bu kit hiçbir şey paylaşmıyor",
+                "versions": "$~Bu kitin her sürümü",
+                "version": {
+                    "tip": "$~kitin bu sürümünü gör"
+                },
+                "open": "$~bu kitin dokümantasyonunu oku",
+                "none": "$~Buna uyan bir şey yok.",
+                "kinds": {
+                    "label": "$~kitler ne paylaşıyor",
+                    "all": "$~herhangi bir şey"
+                },
+                "yours": "$~Listelenmemiş kitlerin"
+            },
             "label": "$~rehber",
             "link": "$~$name kavramını dokümantasyonda göster",
             "nodoc": "$~Ben kimim? Ben neyim? Amacım nedir?",
@@ -8064,9 +8202,10 @@
             "mode": {
                 "browse": {
                     "label": "$~göz at",
-                    "labels": ["$~kod", "$~nasıl", "$~sözlük"],
+                    "labels": ["$~kod", "$~kitler", "$~nasıl", "$~sözlük"],
                     "tips": [
                         "$~programlama dili kavramları",
+                        "$~başkalarının, senin üzerine inşa etmen için yayımladığı kod",
                         "$~proje yapmak için tekrar kullanılabilir desenler",
                         "$~anahtar terimlerin tanımları"
                     ]
@@ -8075,6 +8214,7 @@
                     "label": "$~amaç",
                     "labels": [
                         "$~proje",
+                        "$~kit",
                         "$~çıktı",
                         "$~giriş",
                         "$~karar vermek",
@@ -8092,6 +8232,7 @@
                     ],
                     "tips": [
                         "$~proje düzeyindeki kavramlar",
+                        "$~bu projenin ödünç aldığı kitlerin sunduğu şeyler",
                         "$~ifadeler, gruplar, aşamalar, düzenler ve daha fazlası",
                         "$~zaman, düğmeler, tuşlar, sahneler ve daha fazlası",
                         "$~Diğer değerlere göre değerler seçin",
@@ -8189,6 +8330,10 @@
                 "Patterns": {
                     "header": "$~Desenler",
                     "explanation": "$~/Metnin şeklini \\⣿\\ ile sınırlandırılmış bir desenle tanımlayın, ardından metnin şekle uyup uymadığını test edin ( \\≈\\ ) veya metnin göründüğü her yeri bulun ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Kitler",
+                    "explanation": "$~Bu projenin ödünç aldığı kitlerin onunla paylaştığı şeyler."
                 }
             },
             "note": {
@@ -8240,6 +8385,9 @@
                     "research": {
                         "header": "$~Araştırma",
                         "explanation": "$~Bazen Wordplay hakkında yazılar yazıp konuşuyoruz — araştırma yazılarında, konuşmalarda ve öğretmenlere, ailelere gösterdiğimiz şeylerde. Bunu açarsan, bu projeyi bir örnek olarak gösterebiliriz; isminle, kullanıcı adınla ya da hesabının sana ait olduğunu gösteren başka hiçbir bilgiyle değil.\n\nBunu istediğin zaman kapatabilirsin. Kapatmak, projeni yeni hiçbir şeyde kullanmayacağımız anlamına gelir. Ancak daha önce yayımladığımız ya da sunduğumuz bir şeyi geri alamayız."
+                    },
+                    "kit": {
+                        "explanation": "$~Kit, başkalarının üzerine inşa edebilmesi için yayımladığın tek bir kaynaktır. ↑ ile işaretlediğin her şey onun bir parçası olur."
                     }
                 },
                 "field": {
@@ -8293,7 +8441,8 @@
                     }
                 },
                 "options": {
-                    "gallery": "$~galeri seçici"
+                    "gallery": "$~galeri seçici",
+                    "source": "$~yayımlanacak kaynak"
                 },
                 "remix": {
                     "source": "$~Bu proje şunun yeniden düzenlemesidir:",
@@ -8308,18 +8457,71 @@
                         "$~Herkese açık",
                         "$~Önizleme",
                         "$~Gizlilik",
-                        "$~Karışımlar"
+                        "$~Karışımlar",
+                        "$~Kit"
                     ],
                     "tips": [
                         "$~bu projenin gösterileceği bir galeri seç",
                         "$~bu projeyi kimlerin görebileceğini seç",
                         "$~listelerde bu projeyi temsil eden simgeyi seç",
                         "$~bu projede bulunan kişisel bilgileri gözden geçir",
-                        "$~bu projenin neyden karıştırıldığını ve onu neyin karıştırdığını gör"
+                        "$~bu projenin neyden karıştırıldığını ve onu neyin karıştırdığını gör",
+                        "$~bu projenin bir kısmını başkalarının kullanması için yayımla"
                     ]
                 },
                 "pii": {
                     "none": "$~Hiçbir kişisel bilgi bulunamadı."
+                },
+                "kit": {
+                    "nothing": "$~Burada henüz paylaşılan bir şey yok. Bir isim, işlev ya da yapının önüne ↑ koyarak onu paylaşabilirsin, örneğin \\↑ sunset/en: 🔴\\, ve böylece bir kit olabilir.",
+                    "unpublished": "$~Bunu henüz yayımlamadın.",
+                    "name": {
+                        "placeholder": "$~isim",
+                        "description": "$~bu kite ne ad verilecek"
+                    },
+                    "publish": {
+                        "label": "$~yayımla",
+                        "tip": "$~bu kitin yeni bir sürümünü yayımla"
+                    },
+                    "version": "$~sürüm $version",
+                    "problem": {
+                        "exports": "$~burada henüz paylaşılan bir şey yok",
+                        "invalid": "$~bu, okuyabileceğim bir isim değil"
+                    },
+                    "undescribed": "$~bu kaynağın henüz dokümantasyonu yok",
+                    "discovery": "$~Moderatörler yayımlanmış bir sürümü listeden kaldırabilir. Başkalarının ödünç aldığı her şey, listeden kaldırılsa bile çalışmaya devam eder.",
+                    "moderation": {
+                        "unrequested": "$~listeye eklenmesi istenmedi",
+                        "pending": "$~bir moderatörün incelemesi bekleniyor",
+                        "approved": "$~incelendi ve listeye eklendi",
+                        "denied": "$~bir moderatör değişiklik istedi"
+                    },
+                    "derived": "$~Kitinizin açıklaması ve arama terimleri, bu kaynağın dokümantasyonundaki ilk cümleden alınır.",
+                    "heading": {
+                        "name": "$~İsim",
+                        "exports": "$~Bu kitin paylaştığı şey",
+                        "versions": "$~Sürümler",
+                        "listing": "$~Kimler bulabilir"
+                    },
+                    "listing": {
+                        "label": "$~listeleme",
+                        "labels": ["$~listeden kaldırılmış", "$~listelenmiş"],
+                        "tips": [
+                            "$~kimse bu kiti rehberde bulamaz, ama zaten ödünç alınmış her şey çalışmaya devam eder",
+                            "$~bir moderatör onu incelediğinde, herkes bu kiti rehberde bulabilir"
+                        ]
+                    },
+                    "remedy": "$~Kaynağı değiştirip yeni bir sürüm yayımlayın, bir moderatör tekrar bakacaktır.",
+                    "unreviewed": "$~Listeden kaldırılmış bir kiti kimse incelemez. Ödünç alma satırını verdiğiniz herkes onu yine de okuyabilir.",
+                    "permanent": "$~Bir sürümü yayımlamak kalıcıdır: başka insanların programları onu numarasıyla ödünç alır, bu yüzden bir sürümü geri almak onları bozar.",
+                    "confirm": "$~Yayımla",
+                    "withdraw": {
+                        "label": "$~geri çek",
+                        "tip": "$~bu sürümü geri çek, bu yalnızca kit listeden kaldırılmışken mümkündür"
+                    },
+                    "withdrawable": "$~Bu kit hiç listelenmedi. Bu yüzden henüz kimse onu bulamamış olabilir — en yeni sürümü hâlâ geri çekebilirsin.",
+                    "unpublishable": "$~Bu kit henüz yayımlanamaz:",
+                    "failed": "$~Setini yayımlayamadım. Çevrimiçi olduğundan emin ol ve tekrar dene."
                 }
             },
             "settings": {
@@ -9050,7 +9252,8 @@
                 "galleries": "$~Galeriler",
                 "characters": "$~Karakterler",
                 "howtos": "$~Nasıl yapılır",
-                "chats": "$~Sohbetler"
+                "chats": "$~Sohbetler",
+                "kits": "$~Kitler"
             },
             "status": {
                 "header": "$~Kaydetme durumu",
@@ -10567,31 +10770,32 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Galeri Moderasyonu",
+            "header": "$~Şikâyetler",
             "description": "$~İnsanların incelemeni istediği şeyler, en eskiden en yeniye doğru sıralanır. Bir karar, hangi kuralların çiğnendiğini söyler ve şeyi yapan kişiye ne karar verdiğin bildirilir.",
             "labels": {
-                "message": "$~mesaj",
-                "action": "$~moderatör eylemleri",
-                "reason": "$~hangi kuralları çiğnedi"
+                "action": "$~Ne yapılmalı",
+                "reason": "$~Hangi kuralları çiğnedi",
+                "subject": "$~Ne şikâyet edildi"
             },
             "view": {
-                "label": "$~sohbeti görüntüle",
-                "tip": "$~sohbetteki mesajı görüntüle"
+                "label": "$~görüntüle",
+                "tip": "$~şikâyet edileni aç"
             },
             "remove": {
                 "label": "$~kaldırmak",
-                "tip": "$~Bu mesaj yönergeleri ihlal ediyor."
+                "tip": "$~bu, kuralları çiğniyor"
             },
             "keep": {
                 "label": "$~kale",
-                "tip": "$~Bu mesaj yönergeleri ihlal etmiyor."
+                "tip": "$~bu, kuralları çiğnemiyor"
             },
-            "empty": "$~Hiçbir mesaj moderasyon gerektirmez.",
-            "error": "$~Galerileri denetlemek için giriş yapmanız gerekmektedir.",
+            "empty": "$~Karar bekleyen hiçbir şey yok.",
+            "error": "$~Şikâyetleri incelemek için oturum açmış olmalısın.",
             "note": {
-                "description": "$~mesajı yazana ne söyleneceği",
+                "description": "$~Bunu yapana ne söylenmeli",
                 "placeholder": "$~onlara bir şey söyle (isteğe bağlı)"
-            }
+            },
+            "remaining": "$~$#count[$count şikâyet bekliyor|$count şikâyet bekliyor]"
         },
         "emoji": {
             "noCharacters": "$~Özel bir karakter oluşturun",
@@ -11051,11 +11255,13 @@
         },
         "done": "$~Başka ölçülecek bir şey yok!",
         "error": {
-            "notmod": "$~Burada incelemen gereken bir şey yok. Wordplay'in denetçileri herkese açık içerikleri inceler, bir galerinin küratörleri de kendi galerilerindekileri inceler. Yakın zamanda sana denetçi yetkisi verildiyse, yeniden giriş yapman gerekebilir."
+            "notmod": "$~Burada incelemen gereken bir şey yok. Wordplay'in denetçileri herkese açık içerikleri inceler, bir galerinin küratörleri de kendi galerilerindekileri inceler. Yakın zamanda sana denetçi yetkisi verildiyse, yeniden giriş yapman gerekebilir.",
+            "unreachable": "$~Bu kuyruğu okuyamadım, bu yüzden bekleyen bir şey olup olmadığını bilmiyorum. Biraz sonra tekrar dene.",
+            "unreadable": "$~Burada bekleyen bazı şeyler var ama onları okuyamadım, bu yüzden gösterilmiyorlar."
         },
         "report": {
-            "button": "$~Moderatörü uyar",
-            "confirm": "$~Moderatörü uyar",
+            "button": "$~bunu incelemesi için bir moderatörden yardım iste",
+            "confirm": "$~Şikâyet et",
             "sent": "$~bir moderatörden buna bakması istendi",
             "announce": "$~bir moderatörden $project projesine bakması istendi",
             "flagged": "$~Birisi bu projeyi bildirdi, bu yüzden sırada ilk o var."
@@ -11073,10 +11279,11 @@
         },
         "queue": {
             "label": "$~neyi incelemeli",
-            "labels": ["$~projeler", "$~galeriler", "$~mesajlar"],
+            "labels": ["$~projeler", "$~galeriler", "$~kitler", "$~mesajlar"],
             "tips": [
                 "$~insanların herkese açık yaptığı projeleri incele",
                 "$~herkese açık listelenmek isteyen galerileri incele",
+                "$~rehberde listelenmek isteyen kitleri incele",
                 "$~düzenlediğin galerilerde bildirilen mesajları incele"
             ]
         },
@@ -11108,6 +11315,30 @@
             "curators": "$~Bu galerinin küratörleri burada paylaşılanları, sohbet dahil, inceler.",
             "both": "$~Bu galerinin küratörleri burada paylaşılanları inceler, ve Wordplay'in denetçileri de inceler, çünkü bunu herkes görebilir.",
             "platform": "$~Wordplay'in <denetçileri@://rights> bunu inceler, çünkü herkes görebilir."
+        },
+        "kit": {
+            "header": "$~Kitler",
+            "explain": "$~Bu kit rehberde listelenmek istiyor. Neyi paylaştığını oku ve başka kişilerin onu bulup bulmaması gerektiğine karar ver.",
+            "done": "$~Karar bekleyen hiçbir kit yok. Teşekkürler!",
+            "approve": {
+                "label": "$~listele",
+                "tip": "$~bu kiti rehberde listele"
+            },
+            "deny": {
+                "label": "$~listeleme",
+                "tip": "$~bu kiti rehberde tutma"
+            },
+            "skip": {
+                "label": "$~atla",
+                "tip": "$~bu seti başka bir moderatörün karar vermesi için bırak"
+            },
+            "pending": "$~Bir denetmen, kitinin rehberde listelenip listelenemeyeceğine karar vermek için onu inceliyor. Kit listelenmiş olarak işaretli, ama bir denetmen onaylayana kadar kimse onu orada bulamaz.",
+            "approved": "$~Kitin <rehberde@://guide?section=kits> listelendi! Bu listeden istediğin zaman, herhangi bir nedenle çıkarılabilir.",
+            "denied": "$~Bir denetmen, kitini rehberde listelememeye karar verdi. Yeni bir sürüm yayımlayıp tekrar isteyebilirsin.",
+            "notification": {
+                "approved": "$~$name artık rehberde listelendi.",
+                "denied": "$~$name rehberde listelenmedi."
+            }
         }
     },
     "gallery": {

@@ -53,14 +53,10 @@ tonhöjd2: Tonhöjd()
 nynnande: (läge = 'hum') & (tonhöjd2 > 50hz)
 
 ƒ tonhöjdTillHöjd(hz•#hz)
-	(hz < 80hz) ? -4m
-		(hz > 400hz) ? 5m
-			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
 
 ¶Fågeln närmar sig den nynnade höjden lite i taget, så att den glider i stället för att rycka till vid varje litet skiftning i tonhöjden.¶
-tonhöjdY•#m: 1m … ∆ tonhöjd2 … nynnande ? (0.8 × tonhöjdY) + (0.2 × tonhöjdTillHöjd(
-							tonhöjd2
-						)) tonhöjdY
+tonhöjdY•#m: 1m … ∆ tonhöjd2 … nynnande ? tonhöjdY.toward(tonhöjdTillHöjd(tonhöjd2) 20%) tonhöjdY
 
 ¶Fågeln svävar under nedräkningen, flaxar uppåt eller flyter vid den nynnade tonhöjden medan spelet pågår, och faller sedan nedåt av tyngdkraften efter en krock.¶
 fågelPlats: Rörelse(

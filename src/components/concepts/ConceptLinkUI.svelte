@@ -20,7 +20,7 @@
     import GalleryHowConcept from '@concepts/GalleryHowConcept';
     import { locales } from '@db/Database';
     import ConceptRef from '@locale/ConceptRef';
-    import { getConceptNameById } from '@locale/getConceptName';
+    import { localizedConceptName } from '@locale/getConceptName';
     import type TermRef from '@locale/TermRef';
     import ConceptLink, {
         CharacterName,
@@ -266,15 +266,11 @@
      * No symbolic subscript — this is prose, not the guide's reference surface.
      */
     function unindexedName(name: ConceptName): string {
-        for (const locale of $locales.getLocales()) {
-            const localized = getConceptNameById(
-                locale,
-                name.name,
-                name.property,
-            );
-            if (localized !== undefined) return localized;
-        }
-        return name.property ? `${name.name}.${name.property}` : name.name;
+        return localizedConceptName(
+            $locales.getLocales(),
+            name.name,
+            name.property,
+        );
     }
 </script>
 

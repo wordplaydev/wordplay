@@ -28,11 +28,7 @@ dériver2•#: 0 … ∆ appuyer | ∆ relâcher …
 
 ¶Le gant n'est pas déplacé par la physique, donc on peut le diriger directement. Il s'arrête aux limites de sa portée, donc il ne peut jamais s'éloigner du but.¶
 yDuGardien•#m: 0m … ∆ tic …
-		((yDuGardien + (dériver2 × vitesseDuGardien)).max(
-				portéeDuGardien · -1
-			)).min(
-			portéeDuGardien
-		)
+		(yDuGardien + (dériver2 × vitesseDuGardien)).limit((portéeDuGardien · -1) portéeDuGardien)
 
 ¶Un arrêt et un but. Chaque @Collision signale un début de contact et une fin de contact, donc les deux sont associés à une vérification que celui-ci est bien un début : sans elle, chaque arrêt et chaque but compteraient double.¶
 coupDeGant: Collision('ballon' 'gardien')

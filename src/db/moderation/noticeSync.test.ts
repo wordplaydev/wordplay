@@ -1,6 +1,7 @@
 import type {
     DerivedNoticeKind,
     NoticeKind,
+    ReportSubjectKind,
     WrittenNoticeKind,
 } from 'shared-types';
 import { readFileSync } from 'fs';
@@ -10,7 +11,9 @@ import {
     MaxNotices,
     NoticeKinds,
     NoticeSchema,
+    NoticeSubjectKinds,
     WrittenNoticeKinds,
+    toNotices,
 } from './Notice';
 
 /**
@@ -41,10 +44,55 @@ test('every kind is either written or derived, and never both', () => {
         'howto-published',
         'gallery-listed',
         'gallery-denied',
+        'kit-listed',
+        'kit-denied',
         'warning',
     ];
     const all = [...WrittenNoticeKinds, ...derived];
     expect(all.toSorted()).toEqual([...NoticeKinds].toSorted());
+});
+
+/**
+ * Every reportable kind, as a record so a kind added to `ReportSubjectKind` and not
+ * here is a *compile* error. The runtime half is the test below.
+ */
+const EveryReportableKind: Record<ReportSubjectKind, true> = {
+    project: true,
+    gallery: true,
+    chat: true,
+    howto: true,
+    character: true,
+    kit: true,
+};
+
+test('a notice can be about every kind of thing that can be reported', () => {
+    // The gap this closes was silent and total: `NoticeSubjectKinds` had no 'kit', so
+    // `toNotices` dropped every notice about one on read — a decision, an outcome, a
+    // review request — while Firestore held them all. Nobody was ever told anything
+    // about a kit (#8). The kind enum had a sync test; its *subject* enum did not.
+    expect([...NoticeSubjectKinds].sort()).toEqual(
+        Object.keys(EveryReportableKind).sort(),
+    );
+});
+
+test('a notice about each subject kind survives being read back', () => {
+    for (const kind of NoticeSubjectKinds) {
+        const read = toNotices({
+            v: 1,
+            notices: [
+                {
+                    id: `n-${kind}`,
+                    kind: 'decision',
+                    subject: { kind, id: 'x', gallery: null },
+                    title: 'A thing',
+                    time: 1,
+                },
+            ],
+            dismissed: [],
+            readAt: 0,
+        });
+        expect(read?.notices.map((n) => n.id)).toEqual([`n-${kind}`]);
+    }
 });
 
 test('the schema accepts every kind the list declares', () => {

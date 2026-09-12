@@ -11,6 +11,7 @@ chooses who plays the melody.
 
 Every instruction is printed on the stage, so you can learn it without reading
 this.¶
+↓ @wordplay/instruments 1
 
 hand: Hand()
 
@@ -18,10 +19,10 @@ hand: Hand()
 the hand rather than remembered, so they follow it continuously. Each one is
 rounded to a step, so the music only changes when the change is big enough to
 hear, and a hand that trembles doesn't rewrite the score twenty times a second.¶
-lift: ((hand.place.y + 3m) ÷ 6m).min(1).max(0)
+lift: hand.place.y.rescale(-3m 3m 0 1).limit(0 1)
 layers: 1 + ((lift · 7).round())
 
-reach: ((hand.place.x + 5m) ÷ 10m).min(1).max(0)
+reach: hand.place.x.rescale(-5m 5m 0 1).limit(0 1)
 pace: 72 + ((reach · 8).round() · 12)
 
 ¶Who plays the melody. A fist and a hand out of frame both count no fingers, so
@@ -38,11 +39,7 @@ featured: 5 … ∆ hand …
 	🔈.🎺
 
 ƒ icon(count•#)•''
-	(count = 1) ? '🎹'
-	(count = 2) ? '🎻'
-	(count = 3) ? '🪈'
-	(count = 4) ? '⚡'
-	'🎺'
+	iconFor(voice(count))
 
 ¶How loud a part is. Every part stays in the music at all times, so none of
 them ever loses its place — the ones above the hand are just turned all the way

@@ -8,6 +8,7 @@ Hier wird nichts nach einer festen Uhr gezeichnet. @Beat übergibt einen @Downbe
 Jede Explosion trägt die Nummer ihres Schlags als Namen, deshalb sind die Explosionen jedes Schlags neue Ausgaben: Sie zeigen ihre Eingangspose beim Erscheinen und ihre Ausgangspose, wenn der nächste Schlag sie ersetzt. Das Aufblitzen und das Verschwinden sind diese beiden Posen.
 
 Das Lied ist /The Star-Spangled Banner/ — John Stafford Smiths Melodie von etwa 1773, längst gemeinfrei — von Anfang bis Ende, bis zur letzten Zeile. Jede Note trägt ihre eigene Länge als Notenwert, geschrieben auf der Zahl — \8𝅘𝅥𝅮\ ist eine Achtelnote, \13𝅗𝅥\ eine Halbe, \13𝅗𝅥𝅭\ eine punktierte Halbe — so sind die Auftakte, die punktierten Figuren und die lang gehaltenen Noten echte Zeitdauern und kein Raster aus gleichen Schlägen. Eine einfache Zahl ist ein Schlag. Pausen brauchen trotzdem einen @Note, denn \ø\ ist keine Zahl und kann daher keinen Wert tragen. Es nutzt die chromatische Tonleiter, damit die erhöhte Quarte überhaupt geschrieben werden kann: Jeder Schritt ist ein Halbtonschritt.¶
+↓ @wordplay/instruments 1
 
 schlag2: Takt()
 zähler: schlag2.Zählung
@@ -17,13 +18,7 @@ feuert•[Teil]: schlag2.Teile.Filter(ƒ(p•Teil) p.Klingen)
 
 ¶Jedes Instrument explodiert als sich selbst, und genau darum geht es: Man sieht, welches Instrument gerade gespielt hat.¶
 ƒ gesicht2(p2•Teil)•''
-	(p2.Instrument.id = 'trumpet') ? '🎺'
-		(p2.Instrument.id = 'flute') ? '🪈'
-			(p2.Instrument.id = 'bell') ? '🔔'
-				(p2.Instrument.id = 'piano') ? '🎹'
-					(p2.Instrument.id = 'violin') ? '🎻'
-						(p2.Instrument.id = 'drums') ? '🥁'
-							'🎵'
+	iconFor(p2.Instrument)
 
 ¶Jedes Instrument behält seine eigene Spur, verteilt über den ganzen Himmel. Weil das Instrument selbst genutzt wird statt seiner Position in der Liste, bleibt eine Spur stehen, wenn ein anderes Instrument verstummt.¶
 ƒ spur(p3•Teil)•#

@@ -132,11 +132,7 @@ tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Harçlığının ne kadarı harcandı, her şeyin oynanabilir olduğu 0'dan hiçbir şeyin kalmadığı 1'e kadar. Gizli değer ilk turdan önce boş, bu yüzden bölme sıfıra bölmeye bırakılmadan korunuyor.¶
 maksimumTahmin: state.gizli.uzunluk() × 3
-baskı: (maksimumTahmin = 0) ? 0 (((1 - (state.guessesRemaining ÷ maksimumTahmin)).maksimum(
-					0
-				)).dakika(
-				1
-			))
+baskı: (maksimumTahmin = 0) ? 0 ((1 - (state.guessesRemaining ÷ maksimumTahmin)).limit(0 1))
 
 ¶Dakikada 54 vuruşta düşünceli, 120'de aceleci, ve her tahmin onu biraz değiştiriyor. Tempoyu değiştirmek baştan başlamak yerine bir sonraki vuruşa ekleniyor, böylece döngü yerini koruyor ve sadece öne doğru yaslanıyor — sessiz davul bu yaslanmayı duyulur kılmak için var, çünkü uzun tutulan notaların altındaki bir tempo değişimini hissetmek zor.¶
 bulmacaMüziği: Müzik(

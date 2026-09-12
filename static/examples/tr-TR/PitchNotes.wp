@@ -22,10 +22,7 @@ notaOf: ƒ(hz•#hz) hz > 0hz ? notalar2[(((((12 × (hz ÷ 440hz).log(
 							)) % 12) + 12) % 12) + 1] '·'
 yumuşak: ƒ(sinyal•…#hz) (
 			duyulmuş: (←← 8 sinyal).olmadan(0hz)
-			(duyulmuş.birleştirilmiş(
-					0hz
-					ƒ(toplam2•#hz v•#hz) toplam2 + v
-				) ÷ duyulmuş.uzunluk()) ?? 0hz
+			duyulmuş.average() ?? 0hz
 		)
 perde2: Saha()
 Sahne(

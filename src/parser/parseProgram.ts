@@ -29,7 +29,16 @@ export default function parseProgram(tokens: Tokens, doc = false): Program {
 
 export function parseBorrow(tokens: Tokens): Borrow {
     const borrow = tokens.read(Sym.Borrow);
-    const source = tokens.nextIs(Sym.Name) ? parseReference(tokens) : undefined;
+    // A kit reference (`@amy/colors`) is one token, so it takes the source slot's place
+    // rather than being parsed as a name plus a language tag — which is what `amy/colors`
+    // would lex as, and why kit references are `@`-prefixed at all.
+    const external = tokens.nextIs(Sym.External)
+        ? tokens.read(Sym.External)
+        : undefined;
+    const source =
+        external === undefined && tokens.nextIs(Sym.Name)
+            ? parseReference(tokens)
+            : undefined;
     const dot = tokens.readIf(Sym.Access);
     const name =
         dot && tokens.nextIs(Sym.Name) ? parseReference(tokens) : undefined;
@@ -38,5 +47,5 @@ export function parseBorrow(tokens: Tokens): Borrow {
             ? tokens.read(Sym.Number)
             : undefined;
 
-    return new Borrow(borrow, source, dot, name, version);
+    return new Borrow(borrow, source, dot, name, version, external);
 }

@@ -6,14 +6,15 @@ Chef d'orchestre
 Lève la main et l'orchestre se remplit, une partie à la fois, jusqu'à ce que les huit jouent. Baisse-la et elles disparaissent l'une après l'autre, jusqu'à ce que la mélodie reste seule. Glisse à gauche pour ralentir la marche, à droite pour l'accélérer. Le nombre de doigts que tu lèves choisit qui joue la mélodie.
 
 Chaque instruction est affichée sur la scène, alors tu peux l'apprendre sans lire ce texte.¶
+↓ @wordplay/instruments 1
 
 main: Main()
 
 ¶La hauteur indique la quantité d'orchestre, et le mouvement latéral indique la vitesse. Les deux sont lus directement sur la main plutôt que mémorisés, alors ils la suivent en continu. Chacun est arrondi par palier, alors la musique ne change que si le changement est assez grand pour s'entendre, et une main qui tremble ne réécrit pas la partition vingt fois par seconde.¶
-lever: ((main.lieu.et + 3m) ÷ 6m).min(1).max(0)
+lever: main.lieu.et.rescale(-3m 3m 0 1).limit(0 1)
 couches: 1 + ((lever · 7).rond())
 
-portée: ((main.lieu.x + 5m) ÷ 10m).min(1).max(0)
+portée: main.lieu.x.rescale(-5m 5m 0 1).limit(0 1)
 rythme: 72 + ((portée · 8).rond() · 12)
 
 ¶Qui joue la mélodie. Un poing fermé et une main hors du cadre comptent tous les deux pour zéro doigt, alors zéro doigt garde celui qui jouait déjà — sinon, regarder ailleurs changerait l'air joué.¶
@@ -28,11 +29,7 @@ enVedette: 5 … ∆ main …
 					Instrument.trompette
 
 ƒ icône(compte3•#)•''
-	(compte3 = 1) ? '🎹'
-		(compte3 = 2) ? '🎻'
-			(compte3 = 3) ? '🪈'
-				(compte3 = 4) ? '⚡'
-					'🎺'
+	iconFor(voix2(compte3))
 
 ¶Le volume d'une partie. Chaque partie reste dans la musique en permanence, alors aucune ne perd jamais sa place — celles au-dessus de la main sont simplement baissées au minimum.
 

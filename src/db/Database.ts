@@ -34,6 +34,7 @@ import CreatorDatabase, {
 } from '@db/creators/CreatorDatabase';
 import GalleryDatabase from '@db/galleries/GalleryDatabase.svelte';
 import { HowToDatabase } from '@db/howtos/HowToDatabase.svelte';
+import type KitDatabase from '@db/kits/KitDatabase.svelte';
 import LocalesDatabase from '@db/locales/LocalesDatabase';
 import type ProjectsDatabase from '@db/projects/ProjectsDatabase.svelte';
 import { Domain, SyncDomains, type SyncDomain } from '@db/Domains';
@@ -192,6 +193,16 @@ export class Database {
     /** A collection of how-tos loaded from the database */
     readonly HowTos: HowToDatabase;
 
+    /**
+     * The creator's published kits, and the versions any project may borrow (#8).
+     *
+     * Loaded on demand, never eagerly: `Database` is reachable from every page, and a
+     * page that merely lists projects has no business being able to fetch anyone's code.
+     * `importGraph.test.ts` is what holds this — a static import here put the kit
+     * database and its schemas on all five page graphs.
+     */
+    private kits: KitDatabase | undefined = undefined;
+
     /** The status of persisting the projects. `message` is the generic
      *  explanation used by non-project save paths (settings, snapshot load).
      *  `failures` carries per-project detail when `persist()` fails. */
@@ -285,6 +296,34 @@ export class Database {
         this.Chats = new ChatDatabase(this);
         this.Characters = new CharactersDatabase(this);
         this.HowTos = new HowToDatabase(this);
+    }
+
+    /**
+     * Load the kit database once, for the surfaces that actually need it: the publish
+     * dialog, the registry, and resolving a project's borrows.
+     *
+     * The dynamic import is inside the method for the reason `loadProjects` gives — a
+     * module-level await anywhere in this graph reorders WebKit's module evaluation and
+     * crashes hydration.
+     */
+    private readonly loadKitsOnce = retryableLoad(async () => {
+        const { default: KitDatabase } =
+            await import('@db/kits/KitDatabase.svelte');
+        this.kits = new KitDatabase(this);
+        // Loading can happen long after startSync has finished, so the database brings
+        // itself online rather than waiting for a sync pass that already ran.
+        this.syncKits();
+        return this.kits;
+    });
+
+    loadKits(): Promise<KitDatabase> {
+        return this.loadKitsOnce();
+    }
+
+    /** The kit database if it has already loaded, else undefined. For synchronous paths
+     *  that must not force a load — the save-status footer, which renders everywhere. */
+    get MaybeKits(): KitDatabase | undefined {
+        return this.kits;
     }
 
     getUser() {
@@ -1111,6 +1150,39 @@ export class Database {
         if (remove) await this.Chats.clearLocal();
         this.Chats.syncUser();
         void this.Chats.flushUnsaved();
+
+        // Kits are loaded on demand, so most sessions never have one. Reporting the
+        // domain settled anyway is not a white lie — with nothing loaded there is
+        // nothing of the creator's to sync — and it is necessary: the save-status
+        // button spins while ANY domain is still `initializing`, so a domain that
+        // never reports would leave the footer spinning forever on every page.
+        // A kit database that does get loaded syncs itself; see `loadKitsOnce`.
+        if (this.kits === undefined) this.markSynced(Domain.Kits, 0);
+        else {
+            if (remove) await this.kits.clear();
+            this.syncKits();
+        }
+    }
+
+    /** Bring the kit database online, or take it offline on sign-out. */
+    private syncKits() {
+        if (this.kits === undefined) return;
+        const uid = this.getUserID();
+        // Tear the listener down on logout, the rule every other domain's `syncUser`
+        // follows — otherwise it keeps running after auth clears, errors with
+        // permission-denied, and repopulates the caches `clear()` just emptied.
+        if (uid === null) {
+            this.kits.stopSync();
+            this.markSynced(Domain.Kits, 0);
+            return;
+        }
+        this.markSyncing(Domain.Kits);
+        this.kits.startSync(uid);
+        void this.kits.flushUnsaved();
+        // Settled immediately with the count we have, so the save-status footer can never
+        // spin forever on a listener that hasn't delivered; `startSync` reports the real
+        // count when its first snapshot lands.
+        this.markSynced(Domain.Kits, this.kits.getOwnedKits().length);
     }
 
     /** Resolve once the given domain reaches a terminal first-load status
@@ -1388,6 +1460,7 @@ function freshSyncState(): Record<SyncDomain, SyncDomainState> {
         characters: { status: 'initializing', count: 0 },
         howtos: { status: 'initializing', count: 0 },
         chats: { status: 'initializing', count: 0 },
+        kits: { status: 'initializing', count: 0 },
     };
 }
 export const syncState: Writable<Record<SyncDomain, SyncDomainState>> =

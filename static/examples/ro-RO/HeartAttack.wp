@@ -55,11 +55,7 @@ oameni: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '
 ¶Se clatină un pas spre jucător: înainte în adâncime, șerpuind stânga-dreapta pentru a fi mai greu de lovit, schimbând direcția de șerpuire la marginile unei benzi din jurul direcției tale, și urmărindu-te ușor între mișcări, astfel încât o eschivă îți oferă doar o clipă.¶
 ƒ năVaSpreJucător(zombi5•zombi camerax2•#m vitezăatac•#m) (
 		țesutx: zombi5.x2 + (zombi5.direcțiaX · vitezaDeZigzag)
-		orientatx: țesutx + ((camerax2 - țesutx).maxim(
-						vitezaSpreCasă · -1
-					)).min(
-					vitezaSpreCasă
-				)
+		orientatx: țesutx + (camerax2 - țesutx).limit((vitezaSpreCasă · -1) vitezaSpreCasă)
 		lamargine: (țesutx > (camerax2 + lățimeaZigzagului)) | (țesutx < (camerax2 - lățimeaZigzagului))
 		zombi(
 			orientatx
@@ -130,15 +126,7 @@ oameni: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '
 
 ¶Mută-ți culoarul cu un pas către un punct, fără să depășești limitele tale. Cursorul indică punctul din lume peste care se află, deci distanța lui față de culoarul tău arată cât de departe stă la stânga sau la dreapta ta — mișcarea către el permite cursorului să țintească, iar o atingere pe oricare parte te mută în acea direcție.¶
 ƒ focalizeazăSpre(joc3•joc țintă•#m)
-	joc3.camerax:(joc3.camerax + ((țintă - joc3.camerax).maxim(
-					pasulLateral · -1
-				)).min(
-				pasulLateral
-			)).maxim(
-		limitaStângă
-	).min(
-		limitaDreaptă
-	)
+	joc3.camerax:(joc3.camerax + (țintă - joc3.camerax).limit((pasulLateral · -1) pasulLateral)).limit(limitaStângă limitaDreaptă)
 
 ¶O apăsare de tastă în timpul jocului: mișcare laterală stânga sau dreapta, sau aruncarea unei inimi.¶
 ƒ aplicăApăsareTastă(joc4•joc cheie2•"")

@@ -28,11 +28,7 @@ kayma•#: 0 … ∆ bas | ∆ bırak …
 
 ¶Eldiven fizik kurallarıyla hareket etmez, bu yüzden doğrudan yönlendirilebilir. Ulaşabildiği sınırların ucunda durur, böylece asla kaleden dışarı çıkamaz.¶
 kaleciY•#m: 0m … ∆ tık …
-		((kaleciY + (kayma × kaleciHız)).maksimum(
-				kaleciErişim · -1
-			)).dakika(
-			kaleciErişim
-		)
+		(kaleciY + (kayma × kaleciHız)).limit((kaleciErişim · -1) kaleciErişim)
 
 ¶Bir kurtarış ve bir gol. Her @Collision, bir temasın başladığını ve bir temasın bittiğini bildirir. Bu yüzden ikisi de bunun bir başlangıç olduğunu kontrol eden bir denetimle eşleştirilir: bu denetim olmadan her kurtarış ve her gol iki kez sayılırdı.¶
 eldivenVuruşu: Çarpışma('top' 'kaleci')

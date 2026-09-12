@@ -955,6 +955,13 @@
         "e723fd65c8efc": "$~@Shape ustawia się teraz zgodnie z @Stack, @Row lub @Grid, w którym się znajduje, zamiast leżeć tam, gdzie akurat wypadły jego własne rogi. Wszystko wewnątrz @Grid może teraz być bliżej lub dalej. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e8ad9864d7217": "$~Dodaliśmy do <przewodnika@https://wordplay.dev/guide> poradnik „jak” powtarzać rundę gry. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "ec96e627d2d35": "$~Sprawiliśmy, że Frazy z własnymi znakami też można teraz przeciągać, obracać i skalować.",
-        "e0bce9fefa9f6": "$~Dodaliśmy @Spotlight, które mówi, która część @Scene jest teraz pokazywana, ile jest wszystkich części, ile razy wróciło do początku i czy czeka na kogoś. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
+        "e0bce9fefa9f6": "$~Dodaliśmy @Spotlight, które mówi, która część @Scene jest teraz pokazywana, ile jest wszystkich części, ile razy wróciło do początku i czy czeka na kogoś. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e615935a2e384": "$~Możesz teraz znaleźć i wyszukać opublikowane zestawy w <Przewodniku@https://wordplay.dev/guide> oraz dodać jeden do swojego programu, pożyczając go za pomocą ↓. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ed328cd23ff5e": "$~Dodaliśmy zestawy, które pozwalają publikować kod, jakim chcesz się podzielić z innymi ludźmi. Dodaj ↑ przed wartościami lub funkcjami, a potem opublikuj. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ee176f1308f17": "$~Wordplay ma teraz trzy gotowe zestawy, z których możesz korzystać — alfabety, instrumenty i piosenki — dzięki temu nie musisz sam wpisywać liter, wyglądu instrumentów ani melodii. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ede02f98adf41": "$~Trzy zestawy dołączone do Wordplay są napisane w każdym języku, który obsługujemy, więc ich nazwy i treść czytasz w swoim języku. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "e75fc15b8d057": "$~Liczby potrafią teraz zrobić trzy rzeczy, które kiedyś musiałeś napisać ręcznie: \\limit\\ utrzymuje liczbę między dolną a górną granicą, \\toward\\ przesuwa liczbę o kawałek drogi w stronę innej liczby, a \\rescale\\ zamienia liczbę z jednego zakresu na odpowiadającą jej liczbę w innym zakresie.",
+        "e49e28ab01607": "$~Lista liczb może teraz powiedzieć ci swoją \\sum\\ oraz swoją \\average\\, więc nie musisz sam ich sumować.",
+        "e7cae93034509": "$~Nagłówek w panelu z zakładkami, taki jak te w Ustawieniach, teraz znajduje się bliżej części, którą nazywa, zamiast przesuwać się w górę, w stronę sekcji powyżej."
     }
 }

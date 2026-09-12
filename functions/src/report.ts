@@ -202,7 +202,8 @@ function isKind(kind: unknown): kind is ReportSubjectKind {
         kind === 'project' ||
         kind === 'gallery' ||
         kind === 'howto' ||
-        kind === 'chat'
+        kind === 'chat' ||
+        kind === 'kit'
     );
 }
 

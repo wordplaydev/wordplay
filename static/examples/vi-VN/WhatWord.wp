@@ -130,11 +130,7 @@ chủĐề: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Cho biết bạn đã tiêu bao nhiêu tiền tiêu vặt, từ 0 khi còn nguyên để chơi đến 1 khi không còn gì. Giá trị bí mật rỗng trước vòng chơi đầu tiên, nên phép chia được canh chừng cẩn thận thay vì để chia cho không.¶
 sốLầnĐoánTốiĐa: state.bíMật.chiềudài() × 3
-ápLực: (sốLầnĐoánTốiĐa = 0) ? 0 (((1 - (state.guessesRemaining ÷ sốLầnĐoánTốiĐa)).tốiđa(
-					0
-				)).phút(
-				1
-			))
+ápLực: (sốLầnĐoánTốiĐa = 0) ? 0 ((1 - (state.guessesRemaining ÷ sốLầnĐoánTốiĐa)).limit(0 1))
 
 ¶Trầm lắng ở 54 nhịp một phút, gấp gáp ở 120, và mỗi lần đoán đều làm nó thay đổi một chút. Việc đổi nhịp độ được ghép vào ngay ở nhịp tiếp theo thay vì bắt đầu lại từ đầu, nên vòng lặp vẫn giữ đúng vị trí và chỉ đơn giản là nghiêng về phía trước — tiếng trống nhẹ ở đó để làm cho sự nghiêng đó nghe rõ, vì một thay đổi nhịp độ dưới những nốt ngân dài rất khó cảm nhận.¶
 nhạcCâuĐố: ÂmNhạc(

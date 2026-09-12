@@ -6,14 +6,15 @@ Condutor(a)
 Levante a mão e a orquestra entra, uma parte de cada vez, até tocarem todas as oito. Baixe-a e vão desaparecendo até restar só a melodia. Deslize para a esquerda para abrandar a marcha, para a direita para a acelerar. O número de dedos que levanta escolhe quem toca a melodia.
 
 Todas as instruções aparecem escritas no palco, para as poder aprender sem ler isto.¶
+↓ @wordplay/instruments 1
 
 mão: Mão()
 
 ¶A altura indica quanta orquestra toca e o movimento lateral indica a rapidez, ambos lidos diretamente da mão em vez de guardados em memória, pelo que a seguem de forma contínua. Cada valor é arredondado a um degrau, para que a música só mude quando a mudança for grande o suficiente para se ouvir, e uma mão trémula não reescreva a partitura vinte vezes por segundo.¶
-elevar: ((mão.local.y + 3m) ÷ 6m).min(1).máx(0)
+elevar: mão.local.y.rescale(-3m 3m 0 1).limit(0 1)
 camadas: 1 + ((elevar · 7).redondo())
 
-alcance: ((mão.local.x + 5m) ÷ 10m).min(1).máx(0)
+alcance: mão.local.x.rescale(-5m 5m 0 1).limit(0 1)
 ritmo2: 72 + ((alcance · 8).redondo() · 12)
 
 ¶Quem toca a melodia. Um punho fechado e uma mão fora do enquadramento contam ambos como nenhum dedo, por isso nenhum dedo mantém quem estava a tocar — caso contrário, desviar o olhar mudaria a melodia.¶
@@ -28,11 +29,7 @@ destacado: 5 … ∆ mão …
 					Instrumento.trompete
 
 ƒ ícone(contagem3•#)•''
-	(contagem3 = 1) ? '🎹'
-		(contagem3 = 2) ? '🎻'
-			(contagem3 = 3) ? '🪈'
-				(contagem3 = 4) ? '⚡'
-					'🎺'
+	iconFor(voz2(contagem3))
 
 ¶O volume de uma parte. Todas as partes permanecem sempre na música, por isso nenhuma delas perde nunca o seu lugar — as que estão acima da mão ficam apenas com o volume todo no mínimo.
 

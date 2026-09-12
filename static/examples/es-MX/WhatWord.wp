@@ -128,11 +128,7 @@ tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Cuánto de tu mesada se ha gastado, desde 0 con todo por jugar hasta 1 sin nada restante. El secreto está vacío antes de la primera ronda, así que la división está protegida en lugar de dejarse dividir entre cero.¶
 intentosMáximos: state.secreto.longitud() × 3
-presión: (intentosMáximos = 0) ? 0 (((1 - (state.guessesRemaining ÷ intentosMáximos)).máximo(
-					0
-				)).mínimo(
-				1
-			))
+presión: (intentosMáximos = 0) ? 0 ((1 - (state.guessesRemaining ÷ intentosMáximos)).limit(0 1))
 
 ¶Pensativo a 54 tiempos por minuto, urgente a 120, y cada intento lo mueve un poco. Cambiar el tempo se inserta en el siguiente tiempo en lugar de comenzar de nuevo, así que el bucle mantiene su lugar y simplemente se inclina hacia adelante; el tambor suave está ahí para que se escuche esa inclinación, ya que un cambio de tempo bajo notas largas es difícil de sentir.¶
 músicaDelRompecabezas: Música(

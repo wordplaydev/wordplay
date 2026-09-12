@@ -955,6 +955,13 @@
         "e723fd65c8efc": "$~이제 @Shape은 자기 모서리가 어디 있든 상관없이, 그것이 들어 있는 @Stack, @Row, 또는 @Grid에 맞춰 정렬됩니다. 그리고 @Grid 안에 있는 것은 이제 더 가깝거나 더 멀리 있을 수 있습니다. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e8ad9864d7217": "$~게임의 한 판을 반복하는 방법을 담은 어떻게 항목을 <안내서@https://wordplay.dev/guide>에 추가했습니다. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "ec96e627d2d35": "$~사용자 정의 캐릭터가 있는 Phrase도 끌기, 회전, 크기 조절이 되도록 만들었습니다.",
-        "e0bce9fefa9f6": "$~@Spotlight을 추가했습니다. 이것은 @Scene의 어느 부분이 보이고 있는지, 부분이 몇 개인지, 몇 번 돌았는지, 누군가를 기다리고 있는지를 알려줍니다. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
+        "e0bce9fefa9f6": "$~@Spotlight을 추가했습니다. 이것은 @Scene의 어느 부분이 보이고 있는지, 부분이 몇 개인지, 몇 번 돌았는지, 누군가를 기다리고 있는지를 알려줍니다. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e615935a2e384": "$~이제 <Guide@https://wordplay.dev/guide>에서 공개된 키트를 찾고 검색할 수 있고, ↓로 빌려와서 내 프로그램에 추가할 수 있습니다. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ed328cd23ff5e": "$~다른 사람들과 나누고 싶은 코드를 공개할 수 있는 키트를 추가했습니다. 값이나 함수 앞에 ↑를 붙인 다음 공개해 보세요. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ee176f1308f17": "$~이제 Wordplay에는 빌려 쓸 수 있는 키트 세 가지가 함께 제공됩니다 — 알파벳, 악기, 노래 — 그래서 글자나 악기 모양, 곡조를 직접 입력하지 않아도 됩니다. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ede02f98adf41": "$~Wordplay와 함께 제공되는 세 가지 키트는 저희가 지원하는 모든 언어로 쓰여 있어서, 이름과 글자가 여러분의 언어로 보입니다. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "e75fc15b8d057": "$~이제 숫자는 예전에 직접 써야 했던 세 가지 일을 할 수 있습니다: \\limit\\ 는 숫자를 낮은 값과 높은 값 사이에 붙잡아 둡니다, \\toward\\ 는 숫자를 다른 숫자 쪽으로 일부 이동시킵니다, 그리고 \\rescale\\ 는 한 범위 안의 숫자를 다른 범위의 대응하는 숫자로 바꿉니다.",
+        "e49e28ab01607": "$~이제 숫자 목록은 자신의 \\sum\\ 와 자신의 \\average\\ 를 알려줄 수 있어서, 직접 더할 필요가 없습니다.",
+        "e7cae93034509": "$~설정 화면 같은 탭 패널 안의 제목이, 이제 위 구역 쪽으로 떨어져 있지 않고 자기가 설명하는 부분에 더 가까이 붙습니다."
     }
 }

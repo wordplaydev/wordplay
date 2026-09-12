@@ -54,6 +54,7 @@ import Type from '@nodes/Type';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import type TypeSet from '@nodes/TypeSet';
 import TypeToken from '@nodes/TypeToken';
+import { getPublishedShareConflicts } from '@nodes/publishedShare';
 
 export default class Bind extends Expression {
     readonly docs: Docs;
@@ -212,7 +213,14 @@ export default class Bind extends Expression {
             {
                 name: 'names',
                 kind: node(Names),
-                newline: true,
+                // A shared bind's `↑` introduces its names, so breaking here
+                // strands the marker alone on a line — which is what
+                // reformatting one did, since any revision of a `Names` re-spaces
+                // it from the grammar. A bind that isn't shared still starts its
+                // names on a new line.
+                newline: this.share === undefined,
+                // Used only when the newline above is off, i.e. after a `↑`.
+                space: true,
                 label: () => (l) => l.node.Bind.label.names,
             },
             {
@@ -490,6 +498,9 @@ export default class Bind extends Expression {
             )
                 conflicts.push(new UnusedBind(this));
         }
+
+        // What a `↑` owes its readers, once this source is published (#8).
+        conflicts.push(...getPublishedShareConflicts(this, context));
 
         // Shares can only appear in the program's root block OR (with the
         // "static" interpretation) as a direct statement of a structure block.

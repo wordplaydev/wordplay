@@ -7,6 +7,7 @@ import {
     resolveLocales,
     runPool,
     truncate,
+    splitKitPhase,
 } from './batch';
 import { resolveSymbols, stripAnsi } from '@util/verify-locales/Log';
 
@@ -260,5 +261,54 @@ describe('truncate', () => {
     test('a zero or negative width yields nothing', () => {
         expect(truncate('anything', 0)).toBe('');
         expect(truncate('anything', -5)).toBe('');
+    });
+});
+
+describe('splitKitPhase', () => {
+    /*
+     * Kits are a single shared source every locale appends into, so two parallel children
+     * would read the same file and the later write would discard the earlier one's paid
+     * work. These assert the split that prevents it without serializing a whole sweep.
+     */
+    test('a no-flag sweep runs everything but kits in parallel, then kits alone', () => {
+        expect(splitKitPhase([])).toEqual({
+            parallel: ['-kit'],
+            serial: ['+kit'],
+        });
+    });
+
+    test('excludes keep their excludes and still get a kit phase', () => {
+        expect(splitKitPhase(['-tutorial'])).toEqual({
+            parallel: ['-tutorial', '-kit'],
+            serial: ['+kit'],
+        });
+    });
+
+    test('an explicit -kit means no kit phase at all', () => {
+        expect(splitKitPhase(['-kit'])).toEqual({
+            parallel: ['-kit'],
+            serial: undefined,
+        });
+    });
+
+    test('+kit alone skips the parallel phase', () => {
+        expect(splitKitPhase(['+kit'])).toEqual({
+            parallel: undefined,
+            serial: ['+kit'],
+        });
+    });
+
+    test('an include list splits into its kit and non-kit halves', () => {
+        expect(splitKitPhase(['+example', '+kit:tunes'])).toEqual({
+            parallel: ['+example'],
+            serial: ['+kit:tunes'],
+        });
+    });
+
+    test('an include list without kits never starts a kit phase', () => {
+        expect(splitKitPhase(['+example'])).toEqual({
+            parallel: ['+example'],
+            serial: undefined,
+        });
     });
 });

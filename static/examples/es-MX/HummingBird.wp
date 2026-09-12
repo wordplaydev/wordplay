@@ -53,14 +53,10 @@ tono2: Tono()
 zumbido: (modo = 'hum') & (tono2 > 50hz)
 
 ƒ tonoAAltura(hz•#hz)
-	(hz < 80hz) ? -4m
-		(hz > 400hz) ? 5m
-			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
 
 ¶Se acerca poco a poco a la altura tarareada, para que el pajarito se deslice en vez de temblar con cada pequeño cambio de tono.¶
-tonoY•#m: 1m … ∆ tono2 … zumbido ? (0.8 × tonoY) + (0.2 × tonoAAltura(
-							tono2
-						)) tonoY
+tonoY•#m: 1m … ∆ tono2 … zumbido ? tonoY.toward(tonoAAltura(tono2) 20%) tonoY
 
 ¶El pajarito flota durante la cuenta regresiva, aletea hacia arriba o flota según el tono tarareado mientras se juega, y cae por la gravedad después de un choque.¶
 lugarDelPájaro: Movimiento(

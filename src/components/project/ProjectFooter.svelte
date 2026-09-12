@@ -22,6 +22,8 @@
     import Layout from '@components/project/Layout';
     import NonSourceTileToggle from '@components/project/NonSourceTileToggle.svelte';
     import Sharing from '@components/project/Sharing.svelte';
+    import { ShareDialogID } from '@components/widgets/dialogIDs';
+    import { SHARING_DIALOG_SYMBOL } from '@parser/Symbols';
     import Shortcuts from '@components/project/Shortcuts.svelte';
     import SourceTileToggle from '@components/project/SourceTileToggle.svelte';
     import {
@@ -230,7 +232,7 @@
     {#if shareable}
         <span data-uiid="shareDialog">
             <Dialog
-                id="share"
+                id={ShareDialogID}
                 header={(l) => l.ui.dialog.share.header}
                 explanation={(l) => l.ui.dialog.share.explanation}
                 pinned
@@ -239,7 +241,7 @@
                     icon:
                         project.isPublic() && isFlagged(project.getFlags())
                             ? '‼️'
-                            : '↗',
+                            : SHARING_DIALOG_SYMBOL,
                     label: (l) => l.ui.project.button.share.label,
                     background: true,
                 }}

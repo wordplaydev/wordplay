@@ -5,10 +5,10 @@ import {
     flattenHowToViewers,
     galleryContentChanged,
     howToViewersChanged,
-    nextModeration,
     sharesCurator,
     type HowToSource,
 } from './galleryEdited.js';
+import { nextModeration } from './moderationRequest.js';
 
 /**
  * The curated public listing's state machine (#1311).

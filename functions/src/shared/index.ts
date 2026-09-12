@@ -200,7 +200,7 @@ export type ModerateGalleryOutput = {
 // RESPONSIBILITY (#938)
 /** The kinds of thing a report can be about. */
 export type ReportSubjectKind =
-    'project' | 'gallery' | 'chat' | 'howto' | 'character';
+    'project' | 'gallery' | 'chat' | 'howto' | 'character' | 'kit';
 
 /**
  * A moderatable thing's visibility, in the only terms responsibility depends
@@ -344,6 +344,10 @@ export type DerivedNoticeKind =
     | 'chat-message'
     /** A how-to was published in a gallery you are in. */
     | 'howto-published'
+    /** A kit you published was listed in the guide. */
+    | 'kit-listed'
+    /** A kit you published was not listed. */
+    | 'kit-denied'
     /** A gallery you curate was accepted for the public listing. */
     | 'gallery-listed'
     /** A gallery you curate was not accepted. */

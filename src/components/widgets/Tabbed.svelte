@@ -444,4 +444,30 @@
         padding-block-start: var(--wordplay-spacing);
         min-width: 0;
     }
+
+    /* A flex-gap column owns the spacing between its own children, because a `gap` does
+       not collapse margins the way block flow does — it *adds* them. A panel with a
+       heading in it was therefore paying three times over: the paragraph's global 1.5em,
+       the gap, and the heading's own 1.5em, which sums to 64px against an 8px baseline
+       and leaves the heading nearer the section above it than the one it names.
+
+       The child combinator is load-bearing. These reach only what a panel renders
+       itself; a `<p>` inside a MarkupHTMLView's multi-paragraph prose is a grandchild and
+       keeps its margin, or the paragraphs run together. */
+    .panel > :global(h2) {
+        /* Enough above to read as a section break — the gap alone is what separates two
+           ordinary siblings, so a heading needs more than that — while below it keeps
+           `Subheader`'s standard spacing, which the gap adds to. Removing that instead
+           left the words sitting on the top border of the box they name, which reads as
+           a mistake rather than as attachment. */
+        margin-block-start: calc(4 * var(--wordplay-spacing));
+    }
+
+    .panel > :global(h2:first-child) {
+        margin-block-start: 0;
+    }
+
+    .panel > :global(p) {
+        margin-block-end: 0;
+    }
 </style>

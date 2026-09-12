@@ -59,6 +59,21 @@ describe('noticeLink', () => {
             ),
         ).toBe('/gallery/g1/howto?id=h1');
     });
+
+    test('a kit notice opens that kit, not the registry', () => {
+        // A notice carries the kit's id and nothing else, and the kit page takes either
+        // an id or a `username/name` — a name always has a `/`, so they can't collide.
+        // Sending a creator to the registry instead of to the kit a decision was about
+        // is the wrong destination, and for a kit that was just unlisted it is a page
+        // that deliberately no longer shows it.
+        expect(
+            noticeLink(
+                notice({
+                    subject: { kind: 'kit', id: 'k1', gallery: null },
+                }),
+            ),
+        ).toBe('/guide?kit=k1');
+    });
 });
 
 describe('noticeAction', () => {

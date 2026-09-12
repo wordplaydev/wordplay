@@ -7,6 +7,7 @@ import type { Character } from '@db/characters/Character';
 import type { HowToDocument } from '@db/howtos/HowToDatabase.svelte';
 import type { SerializedChat } from '@db/chats/ChatDatabase.svelte';
 import type { SyncDomain } from '@db/Domains';
+import type { SerializedKit, SerializedKitVersion } from '@db/kits/Kit';
 import Dexie, { type Observable, type Table, liveQuery } from 'dexie';
 
 /**
@@ -23,9 +24,10 @@ import Dexie, { type Observable, type Table, liveQuery } from 'dexie';
  * per-domain mirror tables for the local-first architecture (all in one
  * migration so users upgrade once rather than once per domain). v10 adds the
  * `dirty` table tracking items with edits not yet confirmed in the cloud, so
- * unsaved work survives a reload and gets replayed.
+ * unsaved work survives a reload and gets replayed. v11 adds kits (#8) and
+ * their versions.
  */
-const WordplayDBVersion = 10;
+const WordplayDBVersion = 11;
 
 /** A locally-cached item with edits not yet confirmed saved in the cloud.
  *  Keyed by `${domain}:${id}` so one table covers every domain. */
@@ -41,6 +43,18 @@ export class WordplayDexie extends Dexie {
     characters!: Table<Character>;
     howtos!: Table<HowToDocument>;
     chats!: Table<SerializedChat>;
+    kits!: Table<SerializedKit>;
+    /**
+     * Published kit versions, cached **permanently**.
+     *
+     * A version is immutable by construction, so there is nothing to invalidate and
+     * nothing to listen for: once a device has read `amy/colors 3` it never reads it
+     * again. That is what makes a class of thirty students sharing one kit cost thirty
+     * reads ever rather than thirty per session.
+     *
+     * Indexed by `kit` so a kit's version history is one query.
+     */
+    kitversions!: Table<SerializedKitVersion>;
     dirty!: Table<DirtyRow>;
 
     constructor() {
@@ -65,12 +79,25 @@ export class WordplayDexie extends Dexie {
         // v10: add the `dirty` table (items with edits not yet confirmed in the
         // cloud) so unsaved work survives a reload. Indexed by domain for the
         // per-domain replay query.
+        this.version(10).stores({
+            projects: '++id, name, locales, owner, collabators',
+            galleries: 'id',
+            characters: 'id',
+            howtos: 'id',
+            chats: 'project',
+            dirty: 'key, domain',
+        });
+        // v11: add kits and their versions (#8). Kits are indexed by `name` because a
+        // borrow names a kit by `username/name` and has to resolve it locally before
+        // asking the cloud; versions by `kit` so a version history is one query.
         this.version(WordplayDBVersion).stores({
             projects: '++id, name, locales, owner, collabators',
             galleries: 'id',
             characters: 'id',
             howtos: 'id',
             chats: 'project',
+            kits: 'id, name, owner',
+            kitversions: 'id, kit',
             dirty: 'key, domain',
         });
     }
@@ -143,6 +170,39 @@ export class WordplayDexie extends Dexie {
 
     getAllCharacters(): Observable<Character[]> {
         return liveQuery(() => this.characters.toArray());
+    }
+
+    // --- Kits and their published versions (#8) ---
+
+    /** Returns the Dexie promise so callers can await/catch a rejected write. */
+    saveKit(kit: SerializedKit): Promise<unknown> {
+        return this.kits.put(kit);
+    }
+
+    async deleteKit(id: string): Promise<void> {
+        return await this.kits.delete(id);
+    }
+
+    async deleteAllKits(): Promise<void> {
+        await this.kits.clear();
+        await this.kitversions.clear();
+    }
+
+    /** Read once rather than as a live query: a kit changes only when its owner
+     *  publishes, and the cloud listener is what reports that. */
+    async getAllKits(): Promise<SerializedKit[]> {
+        return await this.kits.toArray();
+    }
+
+    saveKitVersion(version: SerializedKitVersion): Promise<unknown> {
+        return this.kitversions.put(version);
+    }
+
+    /** Every cached version. Never invalidated: a published version is immutable, so a
+     *  cached one cannot be stale, which is what makes borrowing a kit free after the
+     *  first read on a device. */
+    async getAllKitVersions(): Promise<SerializedKitVersion[]> {
+        return await this.kitversions.toArray();
     }
 
     // --- Chats (keyed by project/how-to id) ---

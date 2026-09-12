@@ -22,6 +22,7 @@ the dotted figures and the long held notes are real durations rather than a
 grid of equal beats. A plain number is one beat. Rests still need a @Note,
 since \ø\ is not a number and so can't carry a value. It's on the chromatic
 scale so the raised fourth can be written at all: each step is one semitone.¶
+↓ @wordplay/instruments 1
 
 beat: Beat()
 count: beat.count
@@ -34,13 +35,7 @@ firing•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 ¶Each instrument bursts as itself, which is the whole point: you can see
 which one just played.¶
 ƒ face(p•Part)•''
-	(p.instrument.id = 'trumpet') ? '🎺'
-	(p.instrument.id = 'flute') ? '🪈'
-	(p.instrument.id = 'bell') ? '🔔'
-	(p.instrument.id = 'piano') ? '🎹'
-	(p.instrument.id = 'violin') ? '🎻'
-	(p.instrument.id = 'drums') ? '🥁'
-	'🎵'
+	iconFor(p.instrument)
 
 ¶Every instrument keeps its own lane, spread across the whole sky. Using the
 instrument rather than its position in the list keeps a lane still when

@@ -756,3 +756,62 @@ test('preserveTagged still makes exactly one call, in the chosen language', asyn
     expect(out).toContain('bonjour');
     expect(out).toContain('hola');
 });
+
+test("a doc's embedded example reaches the translator with its spaces", async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    // `toWordplay()` drops every space it isn't given, so extracting a doc without the
+    // source's `Spaces` sent `Phrase(a 2m color: b)` as `Phrase(a2mcolor:b)` — the model
+    // translated the prose around code that had been run together, and what came back no
+    // longer parsed. Published kits made this visible, but it reached every doc with an
+    // example in it.
+    const source = new Source(
+        'start',
+        `¶Try it out: \\Phrase('hi' 2m color: Color(60% 80 0°))\\¶\na: 1`,
+    );
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const backend = spy({});
+
+    await translateProjectContent(
+        project,
+        en,
+        es,
+        backend.translate,
+        undefined,
+        false,
+    );
+
+    const sent = backend.asks.flatMap((ask) => ask.texts).join('\n');
+    expect(sent).toContain(`Phrase('hi' 2m color: Color(60% 80 0°))`);
+    expect(sent).not.toContain('2mcolor');
+});
+
+test('add mode leaves a name inside documentation alone', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    // A `\…\` example's own bindings are a quotation of code. Adding an alias to one per
+    // locale tells a reader nothing and wraps a one-line example into a dozen; the name
+    // still reads in the viewer's language, because the editor localizes a use site
+    // through the definition it resolves to.
+    const source = new Source(
+        'start',
+        `¶Like \\[1 2].translate(ƒ(each) each)\\¶\ncat: 1`,
+    );
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const backend = spy({ cat: 'gato', each: 'cada' });
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        backend.translate,
+        undefined,
+        false,
+    );
+
+    const out = result?.getSources()[0].code.toString() ?? '';
+    // The bind outside the doc still gains its translation.
+    expect(out).toContain('gato');
+    // The lambda parameter inside the doc does not.
+    expect(out).not.toContain('cada');
+});

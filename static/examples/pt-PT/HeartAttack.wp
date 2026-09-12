@@ -57,11 +57,7 @@ pessoas: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' 
 ¶Avança um passo lentamente em direção ao(à) jogador(a): para a frente em profundidade enquanto oscila de um lado para o outro para ser mais difícil de acertar, invertendo a oscilação nas margens de uma faixa à volta da sua posição, e seguindo-o(a) suavemente entre oscilações, para que um desvio só ganhe um momento.¶
 ƒ avançarParaJogador(zombie3•zombie câmaraX2•#m velocidadeAvanço•#m) (
 		entrelaçadoX: zombie3.x2 + (zombie3.direçãoX · weaveSpeed)
-		guiadoX: entrelaçadoX + ((câmaraX2 - entrelaçadoX).máx(
-						velocidadeDeRegresso · -1
-					)).min(
-					velocidadeDeRegresso
-				)
+		guiadoX: entrelaçadoX + (câmaraX2 - entrelaçadoX).limit((velocidadeDeRegresso · -1) velocidadeDeRegresso)
 		naBorda: (entrelaçadoX > (câmaraX2 + weaveWidth)) | (entrelaçadoX < (câmaraX2 - weaveWidth))
 		zombie(
 			guiadoX
@@ -132,15 +128,7 @@ pessoas: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' 
 
 ¶Empurra a tua faixa um passo em direção a um ponto, nunca além dos teus limites. O ponteiro indica o ponto do mundo sobre o qual está, por isso a sua distância à tua faixa mostra o quanto está à tua esquerda ou direita — dar um passo em direção a ele permite ao ponteiro apontar, e um toque de um dos lados move-te nessa direção.¶
 ƒ focarEmDireçãoA(jogo3•jogo alvo•#m)
-	jogo3.câmaraX:(jogo3.câmaraX + ((alvo - jogo3.câmaraX).máx(
-					passoLateral · -1
-				)).min(
-				passoLateral
-			)).máx(
-		limiteEsquerdo
-	).min(
-		limiteDireito
-	)
+	jogo3.câmaraX:(jogo3.câmaraX + (alvo - jogo3.câmaraX).limit((passoLateral · -1) passoLateral)).limit(limiteEsquerdo limiteDireito)
 
 ¶Uma tecla pressionada durante o jogo: mover para a esquerda ou direita, ou lançar um coração.¶
 ƒ aplicarTeclaPressionada(jogo4•jogo chave2•"")

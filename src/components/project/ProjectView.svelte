@@ -12,9 +12,8 @@
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import { extractPreview } from '@components/app/extractPreview';
-    import Documentation, {
-        Modes,
-    } from '@components/concepts/Documentation.svelte';
+    import Documentation from '@components/concepts/Documentation.svelte';
+    import { DefaultMode, Modes } from '@components/concepts/GuideHistory';
     import { resolveFeedback } from '@components/editor/commands/feedback';
     import {
         type Command,
@@ -1331,7 +1330,7 @@
 
     // The embedded guide's browsing location, restored from the URL and bound to
     // Documentation so a refresh keeps the section, concept type, and how-to filter.
-    const guideSectionFallback = () => ($blocks ? 'language' : 'howto');
+    const guideSectionFallback = () => DefaultMode;
     // How-to filter default mirrors Documentation's old context rule.
     const guideHowToFallback = () =>
         project.getGallery() == null ? 'gallery' : 'all';

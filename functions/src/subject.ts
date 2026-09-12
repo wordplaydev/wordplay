@@ -6,6 +6,7 @@ const Galleries = 'galleries';
 const HowTos = 'howtos';
 const Chats = 'chats';
 const Characters = 'characters';
+const Kits = 'kits';
 
 /** What a thing amounts to, once its document and its gallery have been read. */
 export type Subject = {
@@ -100,13 +101,17 @@ export default async function describeSubject(
     // A character (#822) needs no branch of its own: it carries `gallery`,
     // `owner`, `public`, `collaborators`, and `name` under exactly the names
     // the project path already reads, and `listed` guards every list it
-    // doesn't have.
+    // doesn't have. A kit (#8) is the same bargain, and its field names were
+    // chosen for it — it simply has no gallery, so `galleryID` is null and its
+    // responsibility is the platform's whenever it is public.
     const collection =
         kind === 'howto'
             ? HowTos
             : kind === 'character'
               ? Characters
-              : Projects;
+              : kind === 'kit'
+                ? Kits
+                : Projects;
     const thing = (await db.collection(collection).doc(id).get()).data();
     if (thing === undefined) return undefined;
 

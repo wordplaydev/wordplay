@@ -144,6 +144,32 @@
         }
     });
 
+    /** A decision about whether a kit this creator published is listed in the guide (#8),
+     *  from the kit document — the same shape the gallery block above has. Pending is
+     *  deliberately not here: it is shown where the creator looks, in the publish panel
+     *  and on the kit's own page, rather than pushed at them. */
+    $effect(() => {
+        const uid = $user?.uid;
+        if (uid === undefined) return;
+        for (const kit of DB.MaybeKits?.getOwnedKits() ?? []) {
+            const state = kit.moderation;
+            if (state !== 'approved' && state !== 'denied') continue;
+            const at = kit.moderatedAt ?? 0;
+            // Keyed by state and time for the gallery block's reason: a second refusal
+            // after a fix has to read as new rather than deduplicate against the first.
+            const id = `kit-${kit.id}-${state}-${at}`;
+            synthesized.set(id, {
+                id,
+                kind: state === 'approved' ? 'kit-listed' : 'kit-denied',
+                // A kit belongs to no gallery, which is the whole of its
+                // responsibility story — see kitVisibility.
+                subject: { kind: 'kit', id: kit.id, gallery: null },
+                title: kit.name,
+                time: at,
+            });
+        }
+    });
+
     /** Unread conversations, and chat messages awaiting review. */
     $effect(() => {
         // Capture the uid up front: the per-chat work below awaits, and on
@@ -239,6 +265,18 @@
                 accessor = (l) =>
                     l.ui.dialog.notifications.notification.moderationHeader;
                 break;
+            case 'kit-listed':
+            case 'kit-denied':
+                // The kit's name rides along, for the reason the gallery one does.
+                return (
+                    docToMarkup(
+                        $locales.getMultilingualText((l) =>
+                            notice.kind === 'kit-listed'
+                                ? l.moderation.kit.notification.approved
+                                : l.moderation.kit.notification.denied,
+                        ),
+                    ).concretize($locales, { name: notice.title }) ?? ''
+                );
             case 'gallery-listed':
             case 'gallery-denied':
                 // The gallery's name rides along, so a decision about a second

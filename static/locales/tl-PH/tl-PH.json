@@ -296,7 +296,8 @@
         "Percent": "$~porsyento",
         "Defect": "$~halimbawa na may inaasahang depekto",
         "NotANumber": "$~hindi numero",
-        "Range": "$~saklaw"
+        "Range": "$~saklaw",
+        "External": "$~kit"
     },
     "node": {
         "Dimension": {
@@ -800,6 +801,31 @@
                     "name": "$~paghiram na tumutukoy sa sarili",
                     "explanation": "$~Nakadepende ito sa $borrow, na nakadepende sa @Source na ito, kaya hindi masusuri ang programa",
                     "resolution": "$~Alisin ang hiram na ito upang masira ang siklo"
+                },
+                "MissingKitVersion": {
+                    "name": "$~nawawalang bersyon",
+                    "explanation": "$~itinatago ng kit ang bawat bersyon na mayroon na ito, kaya kailangan kong malaman kung aling bersyon ng $kit ang gusto mo",
+                    "resolution": "$~Alisin ang paghiram na ito"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~dalawang bersyon ng isang kit",
+                    "explanation": "$~isang bersyon lang ng kit ang magagamit ko sa isang pagkakataon, at hinihiling ng @Source na ito ang dalawang bersyon ng $kit",
+                    "resolution": "$~Alisin ang paghiram na ito"
+                },
+                "UnknownKit": {
+                    "name": "$~hindi kilalang kit",
+                    "explanation": "$~hindi ko mahanap ang $kit",
+                    "resolution": "$~Alisin ang paghiram na ito"
+                },
+                "UnavailableKit": {
+                    "name": "$~hindi magamit na kit",
+                    "explanation": "$~umiiral ang $kit, pero hindi ito ibinahagi sa iyo",
+                    "resolution": "$~Alisin ang paghiram na ito"
+                },
+                "KitCannotBorrow": {
+                    "name": "$~hindi maaaring humiram ang kit",
+                    "explanation": "$~ang pinagmulang ito ay inilathala bilang isang kit, at ang kit ay ang tanging file na makukuha ng mga mambabasa nito — kopyahin ang hiniram mo papunta sa pinagmulang ito sa halip",
+                    "resolution": "$~Alisin ang paghiram"
                 }
             },
             "exception": {
@@ -1367,6 +1393,23 @@
                 "PermissionException": {
                     "description": "$~tinanggihan ang pahintulot",
                     "explanation": "$~Kailangan ko ang iyong $permission para tumakbo, ngunit wala akong pahintulot. I-click ang Subukan muli para subukan muli. Kung hindi iyon makakatulong, payagan ang $permission para sa site na ito sa mga setting ng iyong browser."
+                }
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~walang dokumentasyong pagbabahagi",
+                    "explanation": "$~ito ay inilathala, kaya may magbabasa nito na hindi siyang sumulat — magsulat ng /doc/ sa itaas nito na nagsasabi kung para saan ito",
+                    "resolution": "$~Idokumento ito sa itaas, o itigil ang paglalathala ng pinagmulang ito"
+                },
+                "UnexampledShare": {
+                    "name": "$~walang halimbawa",
+                    "explanation": "$~tumatanggap ito ng mga input, kaya hindi sapat ang isang paglalarawan — maglagay ng halimbawa sa dokumentasyon nito na nagpapakita ng isang paraan ng paggamit dito",
+                    "resolution": "$~Magdagdag ng halimbawa sa dokumentasyon nito, o itigil ang paglalathala ng pinagmulang ito"
+                },
+                "UnexampledKit": {
+                    "name": "$~walang halimbawa",
+                    "explanation": "$~walang halimbawa ang anumang bagay sa pinagmulang ito, kaya walang maipapakita sa mga taong naghahanap ng mga kit — magdagdag ng isa sa dokumentasyon ng pinagmulang ito",
+                    "resolution": "$~Magdagdag ng halimbawa sa dokumentasyon ng pinagmulang ito, o itigil ang paglalathala ng pinagmulang ito"
                 }
             }
         },
@@ -2440,7 +2483,7 @@
                         "\\⊥ & ⊤\\",
                         "\\⊥ & ⊥\\"
                     ],
-                    "names": ["$~at", "$~at"],
+                    "names": ["$~at"],
                     "inputs": [
                         {
                             "doc": "$~Ang isa pang @Boolean na dapat suriin. Kung ang una ay \\⊥\\, hindi mahalaga kung ano ito, ang function ay mag-evaluate sa \\⊥\\.",
@@ -3160,6 +3203,65 @@
                             "names": "$~numero"
                         }
                     ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Panatilihin akong nasa pagitan ng mababang numero at mataas na numero: kung mas mababa ako sa mababang numero, iyon ang makukuha mo, at kung mas mataas ako sa mataas na numero, iyon naman ang makukuha mo.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~hangganan",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang pinakamababang @value na maaari kong maging.",
+                            "names": "$~mababa"
+                        },
+                        {
+                            "doc": "$~Ang pinakamataas na @value na maaari kong maging.",
+                            "names": "$~mataas"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Gumalaw ng bahagi ng daan mula sa akin patungo sa ibang numero. Sa 0% makukuha mo ako, sa 100% makukuha mo ang isa pa, at sa kalagitnaan ay makukuha mo ang numerong nasa gitna.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~patungo",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang numerong gagalawan mo patungo.",
+                            "names": "$~iba"
+                        },
+                        {
+                            "doc": "$~Gaano kalayo ang lalakbayin, kung saan dumarating ang 100%.",
+                            "names": "$~dami"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Hanapin kung saan ako nasa pagitan ng isang pares ng mga numero, pagkatapos ibigay ang numerong nasa parehong posisyon sa ibang pares. Kapaki-pakinabang para gawing maipapakita ang isang bagay na iyong sinukat.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~mulingIskala",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang mababang dulo ng saklaw kung saan ako nasa loob.",
+                            "names": "$~mulaMababa"
+                        },
+                        {
+                            "doc": "$~Ang mataas na dulo ng saklaw kung saan ako nasa loob.",
+                            "names": "$~mulaMataas"
+                        },
+                        {
+                            "doc": "$~Ang mababang dulo ng saklaw na gusto mo.",
+                            "names": "$~paMababa"
+                        },
+                        {
+                            "doc": "$~Ang mataas na dulo ng saklaw na gusto mo.",
+                            "names": "$~paMataas"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -3736,6 +3838,22 @@
                             "names": "$~halaga"
                         }
                     ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Idagdag ang lahat ng aking mga numero nang sama-sama. Kung ako ay walang laman, ang @value ay 0, at kung ang aking mga numero ay hindi lahat sinusukat sa parehong bagay, sasabihin ko iyon sa halip na hulaan.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~kabuuan",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Idagdag ang lahat ng aking mga numero nang sama-sama at hatiin sa bilang ng mga ito. Kung ako ay walang laman, walang mapagkukunang average, kaya ang makukuha mo ay @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~karaniwan",
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -5031,14 +5149,14 @@
                 }
             ],
             "categories": {
-                "person": ["$~tao", "$~mga tao", "$~tao", "$~isang tao"],
-                "bicycle": ["$~bisikleta", "$~bisikleta"],
+                "person": ["$~tao", "$~mga tao", "$~isang tao"],
+                "bicycle": ["$~bisikleta"],
                 "car": ["$~kotse", "$~awto"],
                 "motorcycle": ["$~motorsiklo", "$~motor"],
-                "airplane": ["$~eroplano", "$~eroplano", "$~eroplano"],
+                "airplane": ["$~eroplano"],
                 "bus": ["$~bus"],
                 "train": ["$~tren"],
-                "truck": ["$~trak", "$~trak"],
+                "truck": ["$~trak"],
                 "boat": ["$~bangka", "$~barko"],
                 "traffic light": ["$~ilaw trapiko", "$~ilaw pantigil"],
                 "fire hydrant": ["$~hydrant ng sunog", "$~hydrant"],
@@ -5055,13 +5173,13 @@
                 "bear": ["$~oso"],
                 "zebra": ["$~sebra"],
                 "giraffe": ["$~dyirap"],
-                "backpack": ["$~bakpak", "$~bakpak"],
+                "backpack": ["$~bakpak"],
                 "umbrella": ["$~payong"],
                 "handbag": ["$~bag na hawak-hawak", "$~pitaka"],
-                "tie": ["$~kurbata", "$~kurbata"],
+                "tie": ["$~kurbata"],
                 "suitcase": ["$~maleta", "$~bagahe"],
                 "frisbee": ["$~frisbee"],
-                "skis": ["$~ski", "$~ski"],
+                "skis": ["$~ski"],
                 "snowboard": ["$~snowboard"],
                 "sports ball": ["$~bola", "$~bola sa isport"],
                 "kite": ["$~saranggola"],
@@ -5069,7 +5187,7 @@
                 "baseball glove": ["$~gwantes ng baseball", "$~gwantes"],
                 "skateboard": ["$~skateboard"],
                 "surfboard": ["$~surfboard"],
-                "tennis racket": ["$~raketa ng tennis", "$~raketa", "$~raketa"],
+                "tennis racket": ["$~raketa ng tennis", "$~raketa"],
                 "bottle": ["$~bote"],
                 "wine glass": ["$~basong alak"],
                 "cup": ["$~tasa", "$~mug"],
@@ -5085,10 +5203,10 @@
                 "carrot": ["$~karot"],
                 "hot dog": ["$~hot dog"],
                 "pizza": ["$~pizza"],
-                "donut": ["$~donut", "$~donut"],
+                "donut": ["$~donut"],
                 "cake": ["$~keyk"],
                 "chair": ["$~upuan"],
-                "couch": ["$~sopa", "$~sopa"],
+                "couch": ["$~sopa"],
                 "potted plant": [
                     "$~halamang nasa paso",
                     "$~halamang pambahay",
@@ -7560,31 +7678,32 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Pagmo-moderate ng Gallery",
+            "header": "$~Mga Ulat",
             "description": "$~Ang mga hiniling sa iyo ng ibang tao na suriin, mula sa pinakaluma. Sinasabi ng desisyon kung anong mga alituntunin ang nalabag, at sinasabihan ang gumawa ng bagay kung ano ang naging desisyon mo.",
             "labels": {
-                "message": "$~mensahe",
-                "action": "$~mga aksyon ng moderator",
-                "reason": "$~kung aling mga patakaran ang nilabag nito"
+                "action": "$~Ano ang Gagawin",
+                "reason": "$~Aling mga Alituntunin ang Nilabag",
+                "subject": "$~Ano ang Inireport"
             },
             "view": {
-                "label": "$~tingnan ang chat",
-                "tip": "$~tingnan ang mensahe sa chat"
+                "label": "$~tingnan ito",
+                "tip": "$~buksan ang iniulat"
             },
             "remove": {
                 "label": "$~tanggalin",
-                "tip": "$~nilalabag ng mensaheng ito ang mga alituntunin"
+                "tip": "$~sumusuway ito sa mga panuntunan"
             },
             "keep": {
                 "label": "$~panatilihin",
-                "tip": "$~hindi lumalabag sa mga alituntunin ang mensaheng ito"
+                "tip": "$~hindi ito sumusuway sa mga panuntunan"
             },
-            "empty": "$~Walang mensaheng nangangailangan ng moderasyon",
-            "error": "$~Dapat kang naka-log in sa mga moderate na gallery",
+            "empty": "$~Walang naghihintay ng desisyon.",
+            "error": "$~Kailangan mong mag-sign in para suriin ang mga ulat.",
             "note": {
-                "description": "$~ano ang sasabihin sa sumulat ng mensahe",
+                "description": "$~Ano ang sasabihin sa gumawa nito",
                 "placeholder": "$~magsabi ng kahit ano sa kanila (opsyonal)"
-            }
+            },
+            "remaining": "$~$#count[$count ulat na naghihintay|$count na ulat na naghihintay]"
         },
         "howto": {
             "galleryView": {
@@ -8016,7 +8135,7 @@
                 "highlightMajor": "$~ipakita ang kodigo ng error na ito sa editor",
                 "highlightMinor": "$~ipakita ang kodigo ng babalang ito sa editor",
                 "highlightStep": "$~ipakita ang kodigo ng hakbang ng pagtatasa na ito sa editor",
-                "elsewhere": "$~Buksan kung saan ito maaaring ayusin"
+                "elsewhere": "$~buksan kung saan ito maaayos"
             },
             "severity": {
                 "major": "$~error",
@@ -8218,6 +8337,26 @@
             }
         },
         "docs": {
+            "kits": {
+                "header": "$~Mga Kit",
+                "prompt": "$~Ang kit ay kodigo na inilathala ng isang tao para magamit ng ibang tao sa paggawa. Kopyahin ang linya para dito, idikit ito sa itaas ng iyong programa, at magiging sa iyo na ang lahat ng ibinabahagi nito.",
+                "empty": "$~Wala pang naglalathala ng kit. Maaaring sa iyo ang una — magbahagi gamit ang ↑, pagkatapos ay ilathala ito mula sa mga setting ng pagbabahagi ng iyong proyekto.",
+                "shares": "$~nagbabahagi ng $names",
+                "missing": "$~Walang kit na may ganitong pangalan. Maaaring binago ang pangalan nito, o hindi pa ito nailathala.",
+                "missingVersion": "$~Wala rito ang bersyong iyon. Subukan ang ibang bersyon sa ibaba.",
+                "nothing": "$~walang ibinabahagi ang kit na ito",
+                "versions": "$~Bawat bersyon ng kit na ito",
+                "version": {
+                    "tip": "$~tingnan ang bersyong ito ng kit"
+                },
+                "open": "$~basahin ang dokumentasyon ng kit na ito",
+                "none": "$~Walang tugma rito.",
+                "kinds": {
+                    "label": "$~kung ano ang ibinabahagi ng mga kit",
+                    "all": "$~kahit ano"
+                },
+                "yours": "$~Ang mga kit mong hindi nakalista"
+            },
             "label": "$~gabay",
             "link": "$~ipakita ang \"$name\" sa dokumentasyon",
             "nodoc": "$~Sino ako? Ano ako? Ano ang aking layunin?",
@@ -8282,9 +8421,15 @@
             "mode": {
                 "browse": {
                     "label": "$~seksyon",
-                    "labels": ["$~kodigo", "$~kung paano gawin", "$~glosaryo"],
+                    "labels": [
+                        "$~kodigo",
+                        "$~mga kit",
+                        "$~kung paano gawin",
+                        "$~glosaryo"
+                    ],
                     "tips": [
                         "$~mga konsepto ng wika ng programming",
+                        "$~kodigo na inilathala ng ibang tao para magamit mo sa paggawa",
                         "$~magagamit-muli na mga pattern para sa paggawa ng mga proyekto",
                         "$~mga kahulugan ng mga pangunahing termino"
                     ]
@@ -8293,6 +8438,7 @@
                     "label": "$~kodigo",
                     "labels": [
                         "$~proyekto",
+                        "$~kit",
                         "$~output",
                         "$~input",
                         "$~magdesisyon",
@@ -8310,6 +8456,7 @@
                     ],
                     "tips": [
                         "$~mga konsepto sa antas ng proyekto",
+                        "$~kung ano ang ginagawang magagamit ng mga kit na hiniram ng proyektong ito",
                         "$~mga parirala, grupo, yugto, layout at marami pang iba",
                         "$~oras, mga butones, mga susi, mga eksena, at higit pa",
                         "$~pumili ng mga halaga batay sa iba pang mga halaga",
@@ -8412,6 +8559,10 @@
                 "Patterns": {
                     "header": "$~Mga Pattern",
                     "explanation": "$~/Ilarawan ang hugis ng teksto gamit ang isang padron, na pinaghihiwalay ng \\⣿\\ , pagkatapos ay subukan kung ang teksto ay akma sa hugis ( \\≈\\ ) o hanapin ang bawat lugar kung saan ito lumilitaw ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Mga Kit",
+                    "explanation": "$~Mga bagay na ibinahagi rito ng mga kit na hiniram ng proyektong ito."
                 }
             },
             "how": {
@@ -8484,6 +8635,9 @@
                     "research": {
                         "header": "$~Pananaliksik",
                         "explanation": "$~Minsan sumusulat at nagsasalita kami tungkol sa Wordplay — sa mga papel na pananaliksik, sa mga pagtalakay, at sa mga ipinapakita namin sa mga guro at pamilya. Kapag binuksan mo ito, maaari naming ipakita ang proyektong ito bilang halimbawa, nang walang pangalan mo, username mo, o anumang bagay na nagsasabing sa iyo ang account.\n\nMaaari mong isara ito anumang oras. Ang pagsara nito ay nangangahulugang itigil na naming gamitin ang proyekto mo sa anumang bago, pero hindi na nito mababawi ang isang bagay na nailathala na o naiprisenta na namin."
+                    },
+                    "kit": {
+                        "explanation": "$~Ang kit ay isang pinagmulan na inilathala mo para magamit ng ibang tao sa paggawa. Anumang minarkahan mo ng ↑ ay nagiging bahagi nito."
                     }
                 },
                 "field": {
@@ -8537,7 +8691,8 @@
                     }
                 },
                 "options": {
-                    "gallery": "$~tagapili ng gallery"
+                    "gallery": "$~tagapili ng gallery",
+                    "source": "$~pinagmulan na ilalathala"
                 },
                 "remix": {
                     "source": "$~Ang proyektong ito ay remix ng:",
@@ -8552,18 +8707,71 @@
                         "$~Pampubliko",
                         "$~Silip",
                         "$~Pagkapribado",
-                        "$~Mga Remix"
+                        "$~Mga Remix",
+                        "$~Kit"
                     ],
                     "tips": [
                         "$~pumili ng gallery kung saan ipapakita ang proyektong ito",
                         "$~pumili kung sino ang makakakita ng proyektong ito",
                         "$~pumili ng simbolo na kumakatawan sa proyektong ito sa mga listahan",
                         "$~suriin ang personal na impormasyon na matatagpuan sa proyektong ito",
-                        "$~tingnan kung saan galing ang remix ng proyektong ito, at kung ano ang nag-remix dito"
+                        "$~tingnan kung saan galing ang remix ng proyektong ito, at kung ano ang nag-remix dito",
+                        "$~ilathala ang bahagi ng proyektong ito para magamit ng ibang tao"
                     ]
                 },
                 "pii": {
                     "none": "$~Walang natagpuang personal na impormasyon."
+                },
+                "kit": {
+                    "nothing": "$~Wala pang ibinabahagi rito. Ilagay ang ↑ bago ang pangalan, function, o structure para ibahagi ito, tulad ng \\↑ sunset/en: 🔴\\, at maaari na itong maging kit.",
+                    "unpublished": "$~Hindi mo pa nailalathala ito.",
+                    "name": {
+                        "placeholder": "$~pangalan",
+                        "description": "$~ano ang itatawag sa kit na ito"
+                    },
+                    "publish": {
+                        "label": "$~ilathala",
+                        "tip": "$~ilathala ang bagong bersyon ng kit na ito"
+                    },
+                    "version": "$~bersyon $version",
+                    "problem": {
+                        "exports": "$~wala pang ibinabahagi rito",
+                        "invalid": "$~hindi ito pangalang mabasa ko"
+                    },
+                    "undescribed": "$~wala pang dokumentasyon ang pinagmulang ito",
+                    "discovery": "$~Maaaring itago ng mga moderator ang isang inilathalang bersyon mula sa listahan. Anumang hiniram na ng iba ay gagana pa rin, kahit itinago na sa listahan.",
+                    "moderation": {
+                        "unrequested": "$~hindi hiniling na ilista",
+                        "pending": "$~naghihintay ng pagsusuri ng moderator",
+                        "approved": "$~nasuri na at nakalista na",
+                        "denied": "$~may hiniling na pagbabago ang moderator"
+                    },
+                    "derived": "$~Ang paglalarawan at mga hanapin na salita ng iyong kit ay kinuha mula sa unang pangungusap ng dokumentasyon ng pinagmulang ito.",
+                    "heading": {
+                        "name": "$~Pangalan",
+                        "exports": "$~Ang ibinabahagi ng kit na ito",
+                        "versions": "$~Mga Bersyon",
+                        "listing": "$~Sino ang makakahanap nito"
+                    },
+                    "listing": {
+                        "label": "$~paglilista",
+                        "labels": ["$~hindi nakalista", "$~nakalista"],
+                        "tips": [
+                            "$~walang makakahanap ng kit na ito sa gabay, at patuloy na gagana ang anumang humihiram na rito",
+                            "$~kahit sino ay makakahanap ng kit na ito sa gabay, kapag nasuri na ito ng isang tagapamahala"
+                        ]
+                    },
+                    "remedy": "$~Baguhin ang pinagmulan at maglabas ng bagong bersyon, at susuriin itong muli ng isang tagapamahala.",
+                    "unreviewed": "$~Walang sumusuri sa isang hindi nakalistang kit. Ang sinumang binigyan mo ng linya ng paghiram ay maaari pa ring basahin ito.",
+                    "permanent": "$~Permanente ang paglalabas ng bersyon: humihiram dito ang mga programa ng ibang tao gamit ang numero nito, kaya kung babawiin ito, masisira ang kanilang mga programa.",
+                    "confirm": "$~Ilabas ito",
+                    "withdraw": {
+                        "label": "$~bawiin",
+                        "tip": "$~bawiin ang bersyong ito, na posible lamang habang hindi nakalista ang kit"
+                    },
+                    "withdrawable": "$~Hindi pa kailanman nailista ang kit na ito, kaya wala pang nakakahanap nito — maaari mo pa ring bawiin ang pinakabagong bersyon.",
+                    "unpublishable": "$~Hindi pa maaaring ilabas ang kit na ito:",
+                    "failed": "$~Hindi ko na-publish ang iyong kit. Siguraduhing online ka at subukan ulit."
                 }
             },
             "settings": {
@@ -9294,7 +9502,8 @@
                 "galleries": "$~Mga Galeriya",
                 "characters": "$~Mga Karakter",
                 "howtos": "$~Mga Paano-Gawin",
-                "chats": "$~Mga Chat"
+                "chats": "$~Mga Chat",
+                "kits": "$~Mga Kit"
             },
             "status": {
                 "header": "$~I-save ang katayuan",
@@ -11059,11 +11268,13 @@
             "property": "$~Kung ang proyekto ay may ganitong katangian"
         },
         "error": {
-            "notmod": "$~Walang dito na kailangan mong suriin. Sinusuri ng mga moderator ng Wordplay ang pampublikong nilalaman, at sinusuri ng mga curator ng isang gallery ang nasa kanilang gallery. Kung kamakailan ka lang binigyan ng karapatan bilang moderator, maaaring kailanganin mong mag-log in ulit."
+            "notmod": "$~Walang dito na kailangan mong suriin. Sinusuri ng mga moderator ng Wordplay ang pampublikong nilalaman, at sinusuri ng mga curator ng isang gallery ang nasa kanilang gallery. Kung kamakailan ka lang binigyan ng karapatan bilang moderator, maaaring kailanganin mong mag-log in ulit.",
+            "unreachable": "$~Hindi ko mabasa ang pilang ito, kaya hindi ko alam kung may naghihintay. Subukan ulit sa ilang sandali.",
+            "unreadable": "$~May mga bagay dito na naghihintay pero hindi ko sila mabasa, kaya hindi sila ipinapakita."
         },
         "report": {
-            "button": "$~Alertuhan ang moderator",
-            "confirm": "$~Alertuhan ang moderator",
+            "button": "$~hilingin sa isang tagapamahala na suriin ito",
+            "confirm": "$~Iulat ito",
             "sent": "$~may hiniling na moderator na tingnan ito",
             "announce": "$~may hiniling na moderator na tingnan ang $project",
             "flagged": "$~May nag-ulat ng proyektong ito, kaya ito ang una sa pila."
@@ -11081,10 +11292,16 @@
         },
         "queue": {
             "label": "$~ano ang susuriin",
-            "labels": ["$~mga proyekto", "$~mga gallery", "$~mga mensahe"],
+            "labels": [
+                "$~mga proyekto",
+                "$~mga gallery",
+                "$~mga kit",
+                "$~mga mensahe"
+            ],
             "tips": [
-                "$~suriin ang mga proyektong ginawang pampubliko ng mga tao",
+                "$~suriin ang mga proyektong ginawang publiko ng mga tao",
                 "$~suriin ang mga gallery na humihiling na ilista nang pampubliko",
+                "$~suriin ang mga kit na humihiling na ilista sa gabay",
                 "$~suriin ang mga mensaheng ini-report ng mga tao sa mga gallery na iyong pinangangasiwaan"
             ]
         },
@@ -11116,6 +11333,30 @@
             "curators": "$~Sinusuri ng mga tagapangasiwa ng galeriyang ito ang mga ibinabahagi rito, kasama na ang chat nito.",
             "both": "$~Sinusuri ng mga tagapangasiwa ng galeriyang ito ang mga ibinabahagi rito, at gayundin ang mga tagapagpatupad ng Wordplay, dahil makikita ito ng kahit sino.",
             "platform": "$~Sinusuri ito ng mga <moderators@://rights> ng Wordplay, dahil kahit sino ay makakakita nito."
+        },
+        "kit": {
+            "header": "$~Mga Kit",
+            "explain": "$~Humihiling ang kit na ito na ilista sa gabay. Basahin kung ano ang ibinabahagi nito at magpasya kung dapat itong mahanap ng ibang tao.",
+            "done": "$~Walang kit na naghihintay ng desisyon. Salamat!",
+            "approve": {
+                "label": "$~ilista ito",
+                "tip": "$~ilista ang kit na ito sa gabay"
+            },
+            "deny": {
+                "label": "$~huwag ilista ito",
+                "tip": "$~panatilihing wala sa gabay ang kit na ito"
+            },
+            "skip": {
+                "label": "$~laktawan",
+                "tip": "$~iwan ang kit na ito para sa ibang tagapamahala na magpasya"
+            },
+            "pending": "$~May isang moderator na nagbabasa ng iyong kit para magpasya kung maaari itong ilista sa gabay. Nakamarka itong nakalista, pero walang makakahanap nito roon hangga't hindi pa ito naaprubahan.",
+            "approved": "$~Nakalista ang iyong kit sa <gabay@://guide?section=kits>! Maaari itong alisin sa listahan anumang oras, sa anumang dahilan.",
+            "denied": "$~Nagpasya ang isang moderator na huwag ilista ang iyong kit sa gabay. Maaari kang maglathala ng bagong bersyon at humiling muli.",
+            "notification": {
+                "approved": "$~Nakalista na ngayon ang $name sa gabay.",
+                "denied": "$~Hindi nailista ang $name sa gabay."
+            }
         }
     },
     "gallery": {

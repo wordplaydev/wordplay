@@ -132,11 +132,7 @@ motyw: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Ile z twojego kieszonkowego zostało wydane, od 0, gdy wszystko jest jeszcze do zagrania, do 1, gdy nic nie zostało. Tajemnica jest pusta przed pierwszą rundą, więc dzielenie jest zabezpieczone, a nie pozostawione na dzielenie przez zero.¶
 maksimumPrób: state.tajemnica.długość() × 3
-presja: (maksimumPrób = 0) ? 0 (((1 - (state.guessesRemaining ÷ maksimumPrób)).maks(
-					0
-				)).min(
-				1
-			))
+presja: (maksimumPrób = 0) ? 0 ((1 - (state.guessesRemaining ÷ maksimumPrób)).limit(0 1))
 
 ¶Zamyślone przy 54 uderzeniach na minutę, naglące przy 120 — każda próba przesuwa je odrobinę. Zmiana tempa łączy się przy następnym uderzeniu, a nie zaczyna od nowa, więc pętla zachowuje swoje miejsce i tylko lekko przyspiesza — cichy bęben ma sprawić, by to przyspieszenie było słyszalne, bo zmianę tempa pod długimi, wybrzmiewającymi nutami trudno wyczuć.¶
 muzykaZagadki: Muzyka(

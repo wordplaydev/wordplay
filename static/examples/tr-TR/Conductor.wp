@@ -4,14 +4,15 @@ Yönetici
 ¶Tek elinle bir imparatorluk filosunu yönet. Klavye yok, düğme yok — kamera elini izler ve sekiz kişilik bir orkestra sana cevap verir.
 
 Elini kaldır, orkestra tek tek katılır, ta ki sekizi de çalana kadar. Elini indir, tek tek susarlar, ta ki sadece melodi kalana kadar. Sola kaydır, marş yavaşlasın; sağa kaydır, hızlansın. Kaç parmak kaldırırsan, melodiyi o kadar çalgı çalar.¶
+↓ @wordplay/instruments 1
 
 el: El()
 
 ¶Yükseklik orkestranın ne kadarının çaldığını, yandalık ise ne kadar hızlı çaldığını gösterir. İkisi de hafızada tutulmaz, doğrudan elden okunur, böylece eli sürekli takip ederler. Her biri bir basamağa yuvarlanır, böylece müzik ancak kulakla fark edilecek kadar büyük bir değişiklik olduğunda değişir. Titreyen bir el, notaları saniyede yirmi kez yeniden yazmaz.¶
-kaldırmak2: ((el.yer.ve + 3m) ÷ 6m).dakika(1).maksimum(0)
+kaldırmak2: el.yer.ve.rescale(-3m 3m 0 1).limit(0 1)
 katmanlar: 1 + ((kaldırmak2 · 7).yuvarlak())
 
-erişim: ((el.yer.X + 5m) ÷ 10m).dakika(1).maksimum(0)
+erişim: el.yer.X.rescale(-5m 5m 0 1).limit(0 1)
 tempo2: 72 + ((erişim · 8).yuvarlak() · 12)
 
 ¶Melodiyi kim çalar. Yumruk yapılmış bir el de, kadraj dışındaki bir el de sıfır parmak sayılır. Bu yüzden parmak yoksa, önceden çalan çalmaya devam eder — yoksa başka yöne bakmak bile şarkıyı değiştirirdi.¶
@@ -26,11 +27,7 @@ tempo2: 72 + ((erişim · 8).yuvarlak() · 12)
 					Çalgı.trompet
 
 ƒ simge(sayaç2•#)•''
-	(sayaç2 = 1) ? '🎹'
-		(sayaç2 = 2) ? '🎻'
-			(sayaç2 = 3) ? '🪈'
-				(sayaç2 = 4) ? '⚡'
-					'🎺'
+	iconFor(ses2(sayaç2))
 
 ¶Bir parçanın ne kadar yüksek sesle çaldığı. Her parça her zaman müziğin içinde kalır, hiçbiri asla yerini kaybetmez — elin üstünde kalanlar sadece tamamen kısılmıştır.
 

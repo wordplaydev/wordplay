@@ -210,13 +210,15 @@ export function getEditsAt(
     concepts?: ConceptIndex,
     /** When provided, enables recommending custom characters in markup and formatted text. */
     characters?: string[],
+    /** When provided, enables completing a kit borrow (`↓ @amy/colors 1`). */
+    kits?: { name: string; version: number }[],
 ): Revision[] {
     const source = caret.source;
     const context = project.getContext(source);
 
     // Bundle the values that are constant for this whole invocation, so the
     // helpers below can thread one object instead of many arguments.
-    const edit: EditContext = { context, locales, concepts, characters };
+    const edit: EditContext = { context, locales, concepts, characters, kits };
 
     const isEmptyLine = caret.isEmptyLine();
 
@@ -785,6 +787,27 @@ function getRelativeFieldEdits(
                         new Replace(context, parent, anchorNode, replacement),
                 ),
             ];
+        } else if (anchorNode instanceof Token && parent instanceof Borrow) {
+            // Completing a kit borrow being typed (`↓`, `↓ @am`). The same shape as the
+            // locale-tag branch below and for the same reason: a kit reference is one
+            // token, so no field-driven path can offer one.
+            const borrowParent = parent.getParent(context);
+            if (borrowParent !== undefined)
+                edits = [
+                    ...edits,
+                    ...parent
+                        .getPossibleCompletions(anchorNode, edit)
+                        .filter((replacement) => !replacement.isEqualTo(parent))
+                        .map(
+                            (replacement) =>
+                                new Replace(
+                                    context,
+                                    borrowParent,
+                                    parent,
+                                    replacement,
+                                ),
+                        ),
+                ];
         } else if (anchorNode instanceof Token && parent instanceof Language) {
             // Completing a locale tag being typed (`/`, `/en`, `/en-U`). A tag's
             // parts are tokens rather than nodes, so the field-driven paths

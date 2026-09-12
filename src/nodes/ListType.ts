@@ -8,6 +8,7 @@ import NodeRef from '@locale/NodeRef';
 import Characters from '../lore/BasisCharacters';
 import BasisType from '@nodes/BasisType';
 import type Context from '@nodes/Context';
+import type Unit from '@nodes/Unit';
 import ListLiteral from '@nodes/ListLiteral';
 import { list, node, type Grammar, type Replacement } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
@@ -134,6 +135,19 @@ export default class ListType extends BasisType {
             : this.types.length === 1
               ? this.types[0]
               : UnionType.getPossibleUnion(context, this.types);
+    }
+
+    /**
+     * The unit of what this list holds, so `[1m 2m].sum()` types as `#m`.
+     *
+     * `RangeType` does the same for the same reason: without it a unit deriver on a list
+     * function has no unit to derive from and falls back to the "any unit" wildcard,
+     * which is lenient but says nothing. An empty list and a list of mixed units both
+     * answer `undefined` here — the first has no item type, the second a union — and the
+     * wildcard is the right answer for both.
+     */
+    concreteUnit(context: Context): Unit | undefined {
+        return this.getItemType(context)?.concreteUnit(context);
     }
 
     acceptsAll(types: TypeSet, context: Context): boolean {

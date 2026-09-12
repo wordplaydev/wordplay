@@ -28,11 +28,7 @@ anod2•#: 0 … ∆ pindutin | ∆ bitiwan …
 
 ¶Ang guwantes ay hindi ginagalaw ng pisika, kaya direktang maaaring itulak ito. Humihinto ito sa dulo ng abot nito, kaya hinding-hindi ito makakagala palabas ng layunin.¶
 tagabantayY•#m: 0m … ∆ tik …
-		((tagabantayY + (anod2 × tagabantayBilis)).pinakamataas(
-				tagabantayAbot · -1
-			)).minuto(
-			tagabantayAbot
-		)
+		(tagabantayY + (anod2 × tagabantayBilis)).limit((tagabantayAbot · -1) tagabantayAbot)
 
 ¶Isang save at isang goal. Bawat @Collision ay nag-uulat ng pagsisimula ng paghawak at pagtatapos ng paghawak, kaya pareho itong pinagsama sa isang pagsuri na ito ay isang pagsisimula: kung wala ito, bawat save at bawat goal ay bibilangin nang dalawang beses.¶
 guwantesTama: Pagbangga('bola' 'tagabantay')

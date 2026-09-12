@@ -50,14 +50,10 @@ hauteurDuSon: Pas()
 bourdonnement: (mode = 'hum') & (hauteurDuSon > 50hz)
 
 ƒ hauteurVersHauteurDʼécran(hz•#hz)
-	(hz < 80hz) ? -4m
-		(hz > 400hz) ? 5m
-			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
 
 ¶L'oiseau se rapproche petit à petit de la hauteur fredonnée, pour qu'il glisse au lieu de trembler à chaque petite variation de la note.¶
-hauteurDuSonY•#m: 1m … ∆ hauteurDuSon … bourdonnement ? (0.8 × hauteurDuSonY) + (0.2 × hauteurVersHauteurDʼécran(
-							hauteurDuSon
-						)) hauteurDuSonY
+hauteurDuSonY•#m: 1m … ∆ hauteurDuSon … bourdonnement ? hauteurDuSonY.toward(hauteurVersHauteurDʼécran(hauteurDuSon) 20%) hauteurDuSonY
 
 ¶L'oiseau reste immobile pendant le compte à rebours, bat des ailes vers le haut ou flotte à la hauteur fredonnée pendant le jeu, puis tombe sous l'effet de la gravité après un accident.¶
 placeDeLʼoiseau: Mouvement(

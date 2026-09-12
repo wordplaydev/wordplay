@@ -55,11 +55,7 @@ insanlar: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 ¶Oyuncuya bir adım daha yaklaş: vurulmayı zorlaştırmak için yana kıvırarak ileri hareket et, şeridin çevresindeki bir bandın kenarlarında kıvrılma yönünü değiştir, ve sallanmalar arasında yumuşakça oyuncuyu izle, böylece kaçış sadece kısa bir süre kazandırır.¶
 ƒ oyuncuyaDoğruSaldır(zombi3•zombi kameraX2•#m saldırıHızı•#m) (
 		dokunmuşX: zombi3.x2 + (zombi3.yönX · dokumaHızı)
-		yönlendirilmişX: dokunmuşX + ((kameraX2 - dokunmuşX).maksimum(
-						yuvayaDönüşHızı · -1
-					)).dakika(
-					yuvayaDönüşHızı
-				)
+		yönlendirilmişX: dokunmuşX + (kameraX2 - dokunmuşX).limit((yuvayaDönüşHızı · -1) yuvayaDönüşHızı)
 		kenarda: (dokunmuşX > (kameraX2 + dokumaGenişliği)) | (dokunmuşX < (kameraX2 - dokumaGenişliği))
 		zombi(
 			yönlendirilmişX
@@ -130,15 +126,7 @@ insanlar: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 
 ¶Şeridini bir adım bir noktaya doğru kaydır, ama asla sınırlarını aşma. İşaretçi, üzerinde bulunduğu dünya noktasını bildirir, bu yüzden şeridine olan uzaklığı, senin soluna mı sağına mı düştüğünü gösterir — o noktaya doğru adım atmak işaretçinin hedef almasını sağlar ve herhangi bir tarafa dokunmak seni o yöne hareket ettirir.¶
 ƒ doğruOdaklan(oyun3•oyun hedef2•#m)
-	oyun3.kameraX:(oyun3.kameraX + ((hedef2 - oyun3.kameraX).maksimum(
-					yanAdım · -1
-				)).dakika(
-				yanAdım
-			)).maksimum(
-		solSınır
-	).dakika(
-		sağSınır
-	)
+	oyun3.kameraX:(oyun3.kameraX + (hedef2 - oyun3.kameraX).limit((yanAdım · -1) yanAdım)).limit(solSınır sağSınır)
 
 ¶Oynarken bir tuşa basmak: sola ya da sağa kaymak, ya da bir kalp fırlatmak.¶
 ƒ tuşBasışınıUygula(oyun4•oyun anahtar2•"")

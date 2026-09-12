@@ -130,11 +130,7 @@ temă: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Cât din alocația ta s-a cheltuit, de la 0, când totul este încă posibil, până la1, când nu mai rămâne nimic. Secretul este gol înainte de prima rundă, astfelîncât împărțirea este protejată în loc să fie lăsată să împartă la zero.¶
 încercăriMaxime: state.secret.lungime() × 3
-presiune: (încercăriMaxime = 0) ? 0 (((1 - (state.guessesRemaining ÷ încercăriMaxime)).maxim(
-					0
-				)).min(
-				1
-			))
+presiune: (încercăriMaxime = 0) ? 0 ((1 - (state.guessesRemaining ÷ încercăriMaxime)).limit(0 1))
 
 ¶Gânditoare la 54 de bătăi pe minut, grăbită la 120, și fiecare încercare oschimbă puțin. Schimbarea tempoului se leagă la următoarea bătaie, în loc săînceapă din nou, astfel încât bucla își păstrează locul și doar se apleacăînainte — toba liniștită este acolo ca să facă acea aplecare auzibilă, pentrucă o schimbare de tempo sub note lungi ținute e greu de simțit.¶
 muzicăDePuzzle: Muzică(

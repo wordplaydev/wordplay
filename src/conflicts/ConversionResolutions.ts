@@ -1,13 +1,14 @@
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
-import ConversionDefinition from '@nodes/ConversionDefinition';
-import Convert, { getConversionPath } from '@nodes/Convert';
+import Convert, {
+    getConversionPath,
+    getConversionsInScope,
+} from '@nodes/Convert';
 import Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { Template } from '@locale/LocaleText';
-import Block from '@nodes/Block';
 import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
 import type { Resolution } from '@conflicts/Conflict';
@@ -26,22 +27,9 @@ export function makeConversionResolutions(
     context: Context,
     localeAccessor: (locales: LocaleText) => Template<['expected']>,
 ): Resolution[] {
-    // Gather basis conversions and any ConversionDefinitions defined in enclosing blocks.
-    const scopeConversions = (
-        context
-            .getRoot(givenNode)
-            ?.getAncestors(givenNode)
-            ?.filter((a): a is Block => a instanceof Block) ?? []
-    ).reduce(
-        (list: ConversionDefinition[], block) => [
-            ...list,
-            ...block.statements.filter(
-                (s): s is ConversionDefinition =>
-                    s instanceof ConversionDefinition,
-            ),
-        ],
-        [],
-    );
+    // Gather basis conversions, any defined in enclosing blocks, and any a borrowed kit
+    // shares. Shared with Convert so a repair never offers what the resolver can't find.
+    const scopeConversions = getConversionsInScope(givenNode, context);
 
     const allConversions = [
         ...givenType.getAllConversions(context),

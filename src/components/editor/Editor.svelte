@@ -2220,6 +2220,12 @@
             $locales,
             concepts,
             CharactersDB.getAvailableCharacterNamesForAutocomplete(),
+            // Only what is already loaded: opening the menu must not fetch anyone's code,
+            // and a creator who has never published has nothing to offer anyway.
+            DB.MaybeKits?.getOwnedKits().map((kit) => ({
+                name: kit.name,
+                version: kit.latest,
+            })),
         );
 
         // If in blocks mode, filter edits that would create blocking (structural) conflicts.

@@ -296,7 +296,8 @@
         "Percent": "$~phần trăm",
         "Defect": "$~ví dụ có lỗi được mong đợi",
         "NotANumber": "$~không phải là số",
-        "Range": "$~khoảng"
+        "Range": "$~khoảng",
+        "External": "$~bộ công cụ"
     },
     "node": {
         "Dimension": {
@@ -800,6 +801,31 @@
                     "name": "$~mượn tự tham chiếu",
                     "explanation": "$~Điều này phụ thuộc vào $borrow, mà $borrow lại phụ thuộc vào @Source này, vì vậy chương trình không thể được đánh giá.",
                     "resolution": "$~Hãy loại bỏ khoản vay này để phá vỡ chu kỳ."
+                },
+                "MissingKitVersion": {
+                    "name": "$~thiếu phiên bản",
+                    "explanation": "$~một bộ công cụ giữ lại mọi phiên bản mà nó từng có, nên mình cần biết bạn muốn phiên bản nào của $kit",
+                    "resolution": "$~Gỡ bỏ lượt mượn này"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~hai phiên bản của một bộ công cụ",
+                    "explanation": "$~mình chỉ có thể dùng một phiên bản của một bộ công cụ tại một thời điểm, mà @Source này lại yêu cầu hai phiên bản của $kit",
+                    "resolution": "$~Gỡ bỏ lượt mượn này"
+                },
+                "UnknownKit": {
+                    "name": "$~bộ công cụ không xác định",
+                    "explanation": "$~mình không tìm thấy $kit",
+                    "resolution": "$~Gỡ bỏ lượt mượn này"
+                },
+                "UnavailableKit": {
+                    "name": "$~bộ công cụ không khả dụng",
+                    "explanation": "$~$kit tồn tại, nhưng nó không được chia sẻ với bạn",
+                    "resolution": "$~Gỡ bỏ lượt mượn này"
+                },
+                "KitCannotBorrow": {
+                    "name": "$~bộ công cụ không thể mượn",
+                    "explanation": "$~mã nguồn này được phát hành dưới dạng một bộ công cụ, và một bộ công cụ là tệp duy nhất mà người đọc nhận được — hãy sao chép những gì bạn mượn vào mã nguồn này thay vì tham chiếu ra ngoài",
+                    "resolution": "$~Gỡ bỏ lượt mượn"
                 }
             },
             "exception": {
@@ -1367,6 +1393,23 @@
                 "PermissionException": {
                     "description": "$~quyền truy cập bị từ chối",
                     "explanation": "$~Tôi cần $permission chạy chương trình này, nhưng tôi không có quyền. Hãy nhấp vào Thử lại để thử lại. Nếu vẫn không được, hãy cho $permission chạy trang web này trong cài đặt trình duyệt của bạn."
+                }
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~chia sẻ chưa có tài liệu",
+                    "explanation": "$~cái này đã được xuất bản, nên ai đó không viết ra nó sẽ đọc nó — hãy viết một /doc/ ở phía trên nói rõ nó dùng để làm gì",
+                    "resolution": "$~Viết tài liệu ở phía trên, hoặc ngừng xuất bản nguồn này"
+                },
+                "UnexampledShare": {
+                    "name": "$~không có ví dụ",
+                    "explanation": "$~cái này nhận đối số đầu vào, nên chỉ mô tả thôi là chưa đủ — hãy thêm một ví dụ trong tài liệu của nó cho thấy một cách để dùng nó",
+                    "resolution": "$~Thêm một ví dụ vào tài liệu của nó, hoặc ngừng xuất bản nguồn này"
+                },
+                "UnexampledKit": {
+                    "name": "$~không có ví dụ",
+                    "explanation": "$~không có gì trong nguồn này có ví dụ, nên không có gì để cho những người đang tìm bộ công cụ xem — hãy thêm một ví dụ vào tài liệu của nguồn này",
+                    "resolution": "$~Thêm một ví dụ vào tài liệu của nguồn này, hoặc ngừng xuất bản nguồn này"
                 }
             }
         },
@@ -2626,7 +2669,7 @@
                         "\\'hi ' × -5\\",
                         "Văn bản dài nhất tôi có thể tạo ra là 65.535 ký tự. Nếu bạn cố gắng tạo một văn bản dài hơn, tôi sẽ lặp lại văn bản đó nhiều lần nhất có thể."
                     ],
-                    "names": ["$~lặplại", "$~lặplại"],
+                    "names": ["$~lặplại"],
                     "inputs": [
                         {
                             "doc": "$~Số @iteration lại ý trong văn bản mới.",
@@ -2641,7 +2684,7 @@
                         "Nếu dấu phân cách là một @Text rỗng, tôi sẽ tự chia mình thành các ký tự:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["$~phânđoạn", "$~phânđoạn"],
+                    "names": ["$~phânđoạn"],
                     "inputs": [
                         {
                             "doc": "$~@property @Text được sử dụng làm dấu phân cách.",
@@ -2654,7 +2697,7 @@
                         "$~Đôi khi sẽ hữu ích khi gộp hai @Text thành một. Đưa cho tôi một @Text khác và tôi sẽ tạo ra một văn bản mới nối chúng tôi lại với nhau:",
                         "\\'xin chào ' + 'câu thơ'\\"
                     ],
-                    "names": ["$~kếthợp", "$~kếthợp"],
+                    "names": ["$~kếthợp"],
                     "inputs": [
                         {
                             "doc": "$~@Text cần thêm vào.",
@@ -3160,6 +3203,65 @@
                             "names": "$~số"
                         }
                     ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Giữ tôi ở giữa một số thấp và một số cao: nếu tôi thấp hơn số thấp, bạn sẽ nhận được số thấp đó, và nếu tôi cao hơn số cao, bạn sẽ nhận được số cao đó thay thế.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~giớiHạn",
+                    "inputs": [
+                        {
+                            "doc": "$~@value thấp nhất mà tôi được phép có.",
+                            "names": "$~thấp"
+                        },
+                        {
+                            "doc": "$~@value cao nhất mà tôi được phép có.",
+                            "names": "$~cao"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Di chuyển một phần quãng đường từ tôi đến một số khác. Ở 0% bạn nhận được tôi, ở 100% bạn nhận được số kia, và ở giữa sẽ cho ra số nằm chính giữa.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~hướngTới",
+                    "inputs": [
+                        {
+                            "doc": "$~Số cần di chuyển tới.",
+                            "names": "$~khác"
+                        },
+                        {
+                            "doc": "$~Cần đi bao xa, với 100% là đến nơi.",
+                            "names": "$~lượng"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Tìm xem tôi nằm ở đâu giữa một cặp số, rồi trả về số nằm ở vị trí tương tự giữa một cặp số khác. Hữu ích khi @variable một thứ bạn đã đo được thành thứ bạn có thể hiển thị.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~đổiTỉLệ",
+                    "inputs": [
+                        {
+                            "doc": "$~Đầu thấp của @scope tôi đang ở trong đó.",
+                            "names": "$~từThấp"
+                        },
+                        {
+                            "doc": "$~Đầu cao của @scope tôi đang ở trong đó.",
+                            "names": "$~từCao"
+                        },
+                        {
+                            "doc": "$~Đầu thấp của @scope bạn muốn.",
+                            "names": "$~tớiThấp"
+                        },
+                        {
+                            "doc": "$~Đầu cao của @scope bạn muốn.",
+                            "names": "$~tớiCao"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -3501,7 +3603,7 @@
                         "$~Tôi, nhưng theo chiều ngược lại!",
                         "\\['apple' 'banana' 'mango'].reverse()\\"
                     ],
-                    "names": ["$~đảongược", "$~đảongược"],
+                    "names": ["$~đảongược"],
                     "inputs": []
                 },
                 "equals": {
@@ -3676,7 +3778,7 @@
                         "Điều này rất hữu ích để gộp tất cả các phần tử trong tôi thành một giá trị duy nhất. Ví dụ, hãy tưởng tượng bạn muốn cộng một danh sách các số:",
                         "\\[3 9 2 8 1 4].kếthợp(0 ƒ(tổng•# số•#) tổng + số)\\"
                     ],
-                    "names": ["$~kếthợp", "$~kếthợp"],
+                    "names": ["$~kếthợp"],
                     "inputs": [
                         {
                             "doc": "$~Sự kết hợp ban đầu.",
@@ -3730,6 +3832,22 @@
                             "names": "$~giátrị"
                         }
                     ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Cộng tất cả các số của tôi lại với nhau. Nếu tôi rỗng, kết quả là 0, và nếu các số của tôi không cùng đơn vị đo, tôi sẽ báo cho bạn biết thay vì đoán bừa.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~tổng",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Cộng tất cả các số của tôi lại với nhau rồi chia cho số lượng của chúng. Nếu tôi rỗng thì không có gì để tính trung bình, nên bạn sẽ nhận được @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~trungBình",
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -4208,7 +4326,7 @@
                 },
                 "repeat": {
                     "doc": "$~Tôi tạo ra một đoạn văn bản mới được định dạng theo đúng định dạng của tôi, được lặp lại số lần đã cho. Nếu tôi có nhiều hơn một đoạn văn, các dấu ngắt câu sẽ được giữ nguyên giữa các bản sao.",
-                    "names": ["$~lặplại", "$~lặplại"],
+                    "names": ["$~lặplại"],
                     "inputs": [
                         {
                             "doc": "$~Số lần phải lặp lại lời nói.",
@@ -4218,7 +4336,7 @@
                 },
                 "combine": {
                     "doc": "$~Hãy đưa cho tôi một đoạn văn bản khác đã được định dạng và tôi sẽ ghép chúng lại thành một. Nếu một trong hai bên có nhiều hơn một đoạn văn, các dấu ngắt đoạn sẽ được giữ nguyên.",
-                    "names": ["$~kếthợp", "$~kếthợp"],
+                    "names": ["$~kếthợp"],
                     "inputs": [
                         {
                             "doc": "$~Văn bản được định dạng để thêm vào.",
@@ -4411,7 +4529,7 @@
             },
             "keys": {
                 "Shift": ["$~Sự thay đổi"],
-                "Control": ["$~Điều khiển", "$~Điều khiển"],
+                "Control": ["$~Điều khiển"],
                 "Alt": ["$~Alt", "$~Lựa chọn"],
                 "Meta": ["$~Siêu hình", "$~Yêu cầu", "$~Windows"],
                 "AltGraph": ["$~AltGraph"],
@@ -4427,8 +4545,8 @@
                 "ArrowRight": ["$~Mũi tên phải", "$~Phải"],
                 "Home": ["$~Trang chủ"],
                 "End": ["$~Kết thúc"],
-                "PageUp": ["$~Trang lên", "$~Trang lên"],
-                "PageDown": ["$~Trang xuống", "$~Trang xuống"],
+                "PageUp": ["$~Trang lên"],
+                "PageDown": ["$~Trang xuống"],
                 "Backspace": ["$~Xóa"],
                 "Delete": ["$~Xóa bỏ", "$~Del"],
                 "Insert": ["$~Chèn", "$~Bảo hiểm"],
@@ -5026,13 +5144,13 @@
             ],
             "categories": {
                 "person": ["$~người", "$~mọi người", "$~con người", "$~ai đó"],
-                "bicycle": ["$~xe đạp", "$~xe đạp"],
+                "bicycle": ["$~xe đạp"],
                 "car": ["$~xe hơi", "$~ô tô"],
                 "motorcycle": ["$~xe máy", "$~xe gắn máy"],
-                "airplane": ["$~máy bay", "$~máy bay", "$~phi cơ"],
+                "airplane": ["$~máy bay", "$~phi cơ"],
                 "bus": ["$~xe buýt"],
                 "train": ["$~tàu hỏa"],
-                "truck": ["$~xe tải", "$~xe tải"],
+                "truck": ["$~xe tải"],
                 "boat": ["$~thuyền", "$~tàu thủy"],
                 "traffic light": ["$~đèn giao thông", "$~đèn tín hiệu"],
                 "fire hydrant": ["$~trụ nước cứu hỏa", "$~trụ nước"],
@@ -5049,13 +5167,13 @@
                 "bear": ["$~gấu"],
                 "zebra": ["$~ngựa vằn"],
                 "giraffe": ["$~hươu cao cổ"],
-                "backpack": ["$~ba lô", "$~ba lô"],
+                "backpack": ["$~ba lô"],
                 "umbrella": ["$~ô"],
                 "handbag": ["$~túi xách", "$~ví"],
-                "tie": ["$~cà vạt", "$~cà vạt"],
+                "tie": ["$~cà vạt"],
                 "suitcase": ["$~va li", "$~hành lý"],
                 "frisbee": ["$~đĩa ném"],
-                "skis": ["$~ván trượt tuyết", "$~ván trượt tuyết"],
+                "skis": ["$~ván trượt tuyết"],
                 "snowboard": ["$~ván trượt tuyết"],
                 "sports ball": ["$~quả bóng", "$~bóng thể thao"],
                 "kite": ["$~diều"],
@@ -5063,7 +5181,7 @@
                 "baseball glove": ["$~găng tay bóng chày", "$~găng tay"],
                 "skateboard": ["$~ván trượt"],
                 "surfboard": ["$~ván lướt sóng"],
-                "tennis racket": ["$~vợt quần vợt", "$~vợt", "$~vợt"],
+                "tennis racket": ["$~vợt quần vợt", "$~vợt"],
                 "bottle": ["$~chai"],
                 "wine glass": ["$~ly rượu vang"],
                 "cup": ["$~cốc", "$~cốc có quai"],
@@ -5079,7 +5197,7 @@
                 "carrot": ["$~cà rốt"],
                 "hot dog": ["$~xúc xích"],
                 "pizza": ["$~pizza"],
-                "donut": ["$~bánh vòng", "$~bánh vòng"],
+                "donut": ["$~bánh vòng"],
                 "cake": ["$~bánh ngọt"],
                 "chair": ["$~ghế"],
                 "couch": ["$~ghế dài", "$~ghế sô pha"],
@@ -5091,27 +5209,23 @@
                 "bed": ["$~giường"],
                 "dining table": ["$~bàn", "$~bàn ăn"],
                 "toilet": ["$~bồn cầu"],
-                "tv": ["$~ti vi", "$~tivi", "$~tivi"],
+                "tv": ["$~ti vi", "$~tivi"],
                 "laptop": ["$~máy tính xách tay", "$~máy tính"],
                 "mouse": ["$~chuột"],
-                "remote": ["$~điều khiển từ xa", "$~điều khiển từ xa"],
+                "remote": ["$~điều khiển từ xa"],
                 "keyboard": ["$~bàn phím"],
-                "cell phone": [
-                    "$~điện thoại",
-                    "$~điện thoại di động",
-                    "$~điện thoại di động"
-                ],
+                "cell phone": ["$~điện thoại", "$~điện thoại di động"],
                 "microwave": ["$~lò vi sóng"],
                 "oven": ["$~lò nướng"],
                 "toaster": ["$~máy nướng bánh mì"],
                 "sink": ["$~bồn rửa"],
-                "refrigerator": ["$~tủ lạnh", "$~tủ lạnh"],
+                "refrigerator": ["$~tủ lạnh"],
                 "book": ["$~sách"],
                 "clock": ["$~đồng hồ"],
                 "vase": ["$~lọ hoa"],
                 "scissors": ["$~kéo"],
                 "teddy bear": ["$~gấu bông", "$~thú nhồi bông"],
-                "hair drier": ["$~máy sấy tóc", "$~máy sấy tóc"],
+                "hair drier": ["$~máy sấy tóc"],
                 "toothbrush": ["$~bàn chải đánh răng"]
             }
         },
@@ -7558,31 +7672,32 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Kiểm duyệt thư viện ảnh",
+            "header": "$~Báo cáo",
             "description": "$~Những gì mọi người đã nhờ bạn xem xét, cái cũ nhất trước. Một quyết định cho biết những quy tắc nào đã bị vi phạm, và người tạo ra thứ đó sẽ được biết bạn đã quyết định gì.",
             "labels": {
-                "message": "$~tin nhắn",
-                "action": "$~hành động của người điều hành",
-                "reason": "$~những quy tắc nào đã bị vi phạm"
+                "action": "$~Việc cần làm",
+                "reason": "$~Những quy tắc nào đã bị vi phạm",
+                "subject": "$~Điều gì đã được báo cáo"
             },
             "view": {
-                "label": "$~xem trò chuyện",
-                "tip": "$~xem tin nhắn trong cuộc trò chuyện"
+                "label": "$~xem nó",
+                "tip": "$~mở nội dung đã báo cáo"
             },
             "remove": {
                 "label": "$~di dời",
-                "tip": "$~Thông báo này vi phạm các quy định."
+                "tip": "$~cái này vi phạm quy tắc"
             },
             "keep": {
                 "label": "$~giữ",
-                "tip": "$~Tin nhắn này không vi phạm các nguyên tắc."
+                "tip": "$~cái này không vi phạm quy tắc"
             },
-            "empty": "$~Không có tin nhắn nào cần kiểm duyệt",
-            "error": "$~Bạn phải đăng nhập để quản lý thư viện ảnh.",
+            "empty": "$~Không có gì đang chờ quyết định.",
+            "error": "$~Bạn phải đăng nhập để xem xét các báo cáo.",
             "note": {
-                "description": "$~nói gì với người đã viết tin nhắn",
+                "description": "$~Điều cần nói với người đã tạo ra nó",
                 "placeholder": "$~nói điều gì đó với họ (không bắt buộc)"
-            }
+            },
+            "remaining": "$~$#count[$count báo cáo đang chờ]"
         },
         "howto": {
             "galleryView": {
@@ -8013,7 +8128,7 @@
                 "highlightMajor": "$~hiển thị mã số của lỗi này trong trình soạn thảo",
                 "highlightMinor": "$~hiển thị mã số của cảnh báo này trong trình soạn thảo",
                 "highlightStep": "$~hiển thị mã số của bước chạy này trong trình soạn thảo",
-                "elsewhere": "$~Mở nơi có thể sửa được cái này"
+                "elsewhere": "$~mở nơi có thể sửa cái này"
             },
             "nodeDescription": "$~Họ $description.",
             "severity": {
@@ -8216,6 +8331,26 @@
             }
         },
         "docs": {
+            "kits": {
+                "header": "$~Bộ công cụ",
+                "prompt": "$~Một bộ công cụ là mã số được ai đó công bố để người khác dùng để xây dựng. Sao chép dòng dành cho nó, dán vào đầu chương trình của bạn, và mọi thứ nó chia sẻ sẽ trở thành của bạn để sử dụng.",
+                "empty": "$~Chưa có ai công bố bộ công cụ nào cả. Của bạn có thể là cái đầu tiên — chia sẻ điều gì đó bằng ↑, rồi công bố nó từ phần cài đặt chia sẻ của dự án bạn.",
+                "shares": "$~chia sẻ $names",
+                "missing": "$~Không có bộ công cụ nào mang tên đó. Có thể nó đã bị đổi tên, hoặc chưa từng được công bố.",
+                "missingVersion": "$~Phiên bản đó không có ở đây. Hãy thử một phiên bản khác bên dưới.",
+                "nothing": "$~bộ công cụ này không chia sẻ gì cả",
+                "versions": "$~Mọi phiên bản của bộ công cụ này",
+                "version": {
+                    "tip": "$~xem phiên bản này của bộ công cụ"
+                },
+                "open": "$~đọc tài liệu của bộ công cụ này",
+                "none": "$~Không có gì ở đây khớp với điều đó.",
+                "kinds": {
+                    "label": "$~những gì các bộ công cụ chia sẻ",
+                    "all": "$~bất cứ thứ gì"
+                },
+                "yours": "$~Các bộ công cụ chưa được đăng của bạn"
+            },
             "label": "$~sổ tay hướng dẫn",
             "link": "$~Hiển thị \"$name\" trong tài liệu",
             "nodoc": "$~Tôi là ai? Tôi là gì? Mục đích sống của tôi là gì?",
@@ -8282,11 +8417,13 @@
                     "label": "$~phần",
                     "labels": [
                         "$~mã số",
+                        "$~bộ công cụ",
                         "$~làm cách nào để",
                         "$~bảng thuật ngữ"
                     ],
                     "tips": [
                         "$~các khái niệm ngôn ngữ lập trình",
+                        "$~mã số do người khác công bố để bạn dùng để xây dựng",
                         "$~các mẫu có thể dùng lại để tạo dự án",
                         "$~định nghĩa các thuật ngữ chính"
                     ]
@@ -8295,6 +8432,7 @@
                     "label": "$~mã số",
                     "labels": [
                         "$~dự án",
+                        "$~bộ công cụ",
                         "$~đầu ra",
                         "$~đầu vào",
                         "$~quyết định",
@@ -8312,6 +8450,7 @@
                     ],
                     "tips": [
                         "$~các khái niệm cấp dự án",
+                        "$~những gì các bộ công cụ mà dự án này mượn dùng cung cấp",
                         "$~cụm từ, nhóm, giai đoạn, bố cục và nhiều hơn nữa",
                         "$~thời gian, nút bấm, chìa khóa, cảnh và nhiều hơn nữa",
                         "$~Chọn các giá trị dựa trên các giá trị khác",
@@ -8414,6 +8553,10 @@
                 "Patterns": {
                     "header": "$~Các mẫu",
                     "explanation": "$~/Hãy mô tả hình dạng của văn bản bằng một mẫu, được phân định bởi \\⣿\\ , sau đó kiểm tra xem văn bản có phù hợp với hình dạng đó hay không ( \\≈\\ ) hoặc tìm tất cả các vị trí mà nó xuất hiện ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Bộ công cụ",
+                    "explanation": "$~Những thứ mà các kit dự án này mượn đã chia sẻ với nó."
                 }
             },
             "how": {
@@ -8486,6 +8629,9 @@
                     "research": {
                         "header": "$~Nghiên cứu",
                         "explanation": "$~Đôi khi chúng tôi viết và nói về Wordplay — trong các bài nghiên cứu, các buổi nói chuyện, và những gì chúng tôi cho giáo viên và gia đình xem. Nếu bạn bật tính năng này, chúng tôi có thể cho xem dự án này như một ví dụ, mà không nêu tên bạn, tên tài khoản của bạn, hay bất cứ điều gì cho thấy đây là dự án của bạn.\n\nBạn có thể tắt tính năng này bất cứ lúc nào. Tắt nó nghĩa là chúng tôi ngừng dùng dự án của bạn cho những việc mới, nhưng không thể thu hồi những gì đã công bố hoặc trình bày trước đó."
+                    },
+                    "kit": {
+                        "explanation": "$~Kit là một nguồn mà bạn đã công bố để người khác dùng để xây dựng. Bất cứ thứ gì bạn đánh dấu bằng ↑ sẽ trở thành một phần của nó."
                     }
                 },
                 "field": {
@@ -8536,7 +8682,8 @@
                     }
                 },
                 "options": {
-                    "gallery": "$~người chọn thư viện"
+                    "gallery": "$~người chọn thư viện",
+                    "source": "$~nguồn để công bố"
                 },
                 "remix": {
                     "source": "$~Dự án này là bản phối lại của:",
@@ -8551,18 +8698,71 @@
                         "$~Công khai",
                         "$~Xem trước",
                         "$~Quyền riêng tư",
-                        "$~Bản làm lại"
+                        "$~Bản làm lại",
+                        "$~Kit"
                     ],
                     "tips": [
                         "$~chọn một phòng trưng bày để hiển thị dự án này",
                         "$~chọn ai có thể xem dự án này",
                         "$~chọn ký hiệu đại diện cho dự án này trong các danh sách",
                         "$~xem lại thông tin cá nhân có trong dự án này",
-                        "$~xem dự án này được làm lại từ đâu, và những gì đã làm lại từ nó"
+                        "$~xem dự án này được làm lại từ đâu, và những gì đã làm lại từ nó",
+                        "$~công bố một phần dự án này để người khác sử dụng"
                     ]
                 },
                 "pii": {
                     "none": "$~Không tìm thấy thông tin cá nhân nào."
+                },
+                "kit": {
+                    "nothing": "$~Chưa có gì được chia sẻ ở đây. Đặt ↑ trước một tên, hàm, hoặc cấu trúc để chia sẻ nó, như \\↑ sunset/en: 🔴\\, và nó có thể trở thành một kit.",
+                    "unpublished": "$~Bạn chưa công bố cái này.",
+                    "name": {
+                        "placeholder": "$~tên",
+                        "description": "$~tên gọi cho kit này"
+                    },
+                    "publish": {
+                        "label": "$~công bố",
+                        "tip": "$~công bố một phiên bản mới của kit này"
+                    },
+                    "version": "$~phiên bản $version",
+                    "problem": {
+                        "exports": "$~chưa có gì được chia sẻ ở đây",
+                        "invalid": "$~đó không phải là một tên tôi có thể đọc được"
+                    },
+                    "undescribed": "$~nguồn này chưa có tài liệu",
+                    "discovery": "$~Người kiểm duyệt có thể gỡ niêm yết một phiên bản đã công bố. Bất cứ thứ gì người khác đã mượn vẫn hoạt động, dù đã bị gỡ niêm yết.",
+                    "moderation": {
+                        "unrequested": "$~chưa yêu cầu được niêm yết",
+                        "pending": "$~đang chờ người kiểm duyệt xem xét",
+                        "approved": "$~đã xem xét và được niêm yết",
+                        "denied": "$~người kiểm duyệt đã yêu cầu thay đổi"
+                    },
+                    "derived": "$~Phần mô tả và các từ khóa tìm kiếm của kit bạn được lấy từ câu đầu tiên trong tài liệu của nguồn này.",
+                    "heading": {
+                        "name": "$~Tên",
+                        "exports": "$~Những gì kit này chia sẻ",
+                        "versions": "$~Các phiên bản",
+                        "listing": "$~Ai có thể tìm thấy nó"
+                    },
+                    "listing": {
+                        "label": "$~niêm yết",
+                        "labels": ["$~không niêm yết", "$~đã niêm yết"],
+                        "tips": [
+                            "$~không ai có thể tìm thấy bộ công cụ này trong sổ tay hướng dẫn, và bất cứ thứ gì đang mượn nó vẫn tiếp tục hoạt động",
+                            "$~bất cứ ai cũng có thể tìm thấy bộ công cụ này trong sổ tay hướng dẫn, sau khi người kiểm duyệt đã xem xét nó"
+                        ]
+                    },
+                    "remedy": "$~Hãy thay đổi mã nguồn và xuất bản một phiên bản mới, và một người kiểm duyệt sẽ xem xét nó lần nữa.",
+                    "unreviewed": "$~Không ai kiểm duyệt một bộ công cụ không niêm yết. Bất kỳ ai bạn đưa đường dẫn mượn cũng vẫn có thể đọc nó.",
+                    "permanent": "$~Xuất bản một phiên bản là vĩnh viễn: chương trình của người khác mượn nó theo số phiên bản, vì vậy lấy lại một phiên bản sẽ làm hỏng những chương trình đó.",
+                    "confirm": "$~Xuất bản nó",
+                    "withdraw": {
+                        "label": "$~rút lại",
+                        "tip": "$~rút lại phiên bản này, việc này chỉ có thể thực hiện khi bộ công cụ chưa được niêm yết"
+                    },
+                    "withdrawable": "$~Bộ công cụ này chưa bao giờ được niêm yết, vì vậy chưa ai có thể tìm thấy nó — bạn vẫn có thể rút lại phiên bản mới nhất.",
+                    "unpublishable": "$~Bộ công cụ này chưa thể xuất bản được:",
+                    "failed": "$~Mình không thể xuất bản bộ công cụ của bạn. Hãy kiểm tra kết nối mạng rồi thử lại."
                 }
             },
             "settings": {
@@ -9293,7 +9493,8 @@
                 "galleries": "$~Phòng trưng bày",
                 "characters": "$~Nhân vật",
                 "howtos": "$~Hướng dẫn",
-                "chats": "$~Trò chuyện"
+                "chats": "$~Trò chuyện",
+                "kits": "$~Bộ công cụ"
             },
             "status": {
                 "header": "$~Lưu trạng thái",
@@ -11058,11 +11259,13 @@
             "property": "$~Liệu dự án có thuộc tính này hay không."
         },
         "error": {
-            "notmod": "$~Không có gì ở đây để bạn xem xét cả. Người kiểm duyệt của Wordplay xem xét nội dung công khai, và người quản lý của một phòng trưng bày xem xét những gì trong phòng trưng bày của họ. Nếu bạn vừa mới được cấp quyền kiểm duyệt, bạn có thể cần đăng nhập lại."
+            "notmod": "$~Không có gì ở đây để bạn xem xét cả. Người kiểm duyệt của Wordplay xem xét nội dung công khai, và người quản lý của một phòng trưng bày xem xét những gì trong phòng trưng bày của họ. Nếu bạn vừa mới được cấp quyền kiểm duyệt, bạn có thể cần đăng nhập lại.",
+            "unreachable": "$~Mình không thể đọc hàng đợi này, nên mình không biết có gì đang chờ hay không. Hãy thử lại sau một chút.",
+            "unreadable": "$~Có vài thứ ở đây đang chờ nhưng mình không thể đọc chúng, nên chúng không được hiển thị."
         },
         "report": {
-            "button": "$~Báo cáo cho người kiểm duyệt",
-            "confirm": "$~Báo cáo cho người kiểm duyệt",
+            "button": "$~nhờ một người kiểm duyệt xem xét việc này",
+            "confirm": "$~Báo cáo nó",
             "sent": "$~một người kiểm duyệt đã được yêu cầu xem xét điều này",
             "announce": "$~một người kiểm duyệt đã được yêu cầu xem xét $project",
             "flagged": "$~Có người đã báo cáo dự án này, nên nó được xếp đầu hàng."
@@ -11080,10 +11283,16 @@
         },
         "queue": {
             "label": "$~cần xem xét gì",
-            "labels": ["$~dự án", "$~phòng trưng bày", "$~tin nhắn"],
+            "labels": [
+                "$~dự án",
+                "$~phòng trưng bày",
+                "$~bộ công cụ",
+                "$~tin nhắn"
+            ],
             "tips": [
-                "$~xem lại các dự án mà mọi người đã công khai",
+                "$~xem xét các dự án mà mọi người đã công khai",
                 "$~xem xét các phòng trưng bày xin được liệt kê công khai",
+                "$~xem xét các bộ công cụ đang xin được niêm yết trong sổ tay hướng dẫn",
                 "$~xem lại các tin nhắn mà mọi người đã báo cáo trong các phòng trưng bày bạn quản lý"
             ]
         },
@@ -11115,6 +11324,30 @@
             "curators": "$~Người quản lý phòng trưng bày này kiểm duyệt những gì được chia sẻ ở đây, kể cả phần trò chuyện.",
             "both": "$~Người quản lý phòng trưng bày này kiểm duyệt những gì được chia sẻ ở đây, và người kiểm duyệt của Wordplay cũng vậy, vì ai cũng có thể xem được nó.",
             "platform": "$~<Người kiểm duyệt@://rights> của Wordplay xem xét điều này, vì ai cũng có thể xem được."
+        },
+        "kit": {
+            "header": "$~Bộ công cụ",
+            "explain": "$~Bộ công cụ này đang xin được niêm yết trong sổ tay hướng dẫn. Hãy đọc những gì nó chia sẻ và quyết định xem người khác có nên tìm thấy nó hay không.",
+            "done": "$~Không có bộ công cụ nào đang chờ quyết định. Cảm ơn bạn!",
+            "approve": {
+                "label": "$~niêm yết nó",
+                "tip": "$~niêm yết bộ công cụ này trong sổ tay hướng dẫn"
+            },
+            "deny": {
+                "label": "$~đừng niêm yết nó",
+                "tip": "$~giữ bộ công cụ này không xuất hiện trong sổ tay hướng dẫn"
+            },
+            "skip": {
+                "label": "$~bỏ qua",
+                "tip": "$~để bộ này lại cho người kiểm duyệt khác quyết định"
+            },
+            "pending": "$~Một người kiểm duyệt đang đọc bộ công cụ của bạn để quyết định xem nó có thể được đăng trong sổ tay hướng dẫn hay không. Nó được đánh dấu là đã đăng, nhưng chưa ai tìm thấy nó ở đó cho đến khi họ làm điều đó.",
+            "approved": "$~Bộ công cụ của bạn đã được đăng trong <sổ tay hướng dẫn@://guide?section=kits>! Nó có thể bị gỡ khỏi danh sách đó bất cứ lúc nào, vì bất kỳ lý do gì.",
+            "denied": "$~Một người kiểm duyệt đã quyết định không đăng bộ công cụ của bạn trong sổ tay hướng dẫn. Bạn có thể xuất bản một phiên bản mới và xin đăng lần thứ hai.",
+            "notification": {
+                "approved": "$~$name hiện đã được đăng trong sổ tay hướng dẫn.",
+                "denied": "$~$name đã không được đăng trong sổ tay hướng dẫn."
+            }
         }
     },
     "gallery": {

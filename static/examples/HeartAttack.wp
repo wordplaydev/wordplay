@@ -76,7 +76,7 @@ to be harder to hit, flipping the weave at the edges of a band around your lane,
 and homing gently toward you between swings so a dodge only buys a moment.¶
 ƒ chargeTowardPlayer(zombie•Zombie cameraX•#m chargeSpeed•#m) (
 	weavedX: zombie.x + (zombie.directionX · weaveSpeed)
-	homedX: weavedX + ((cameraX - weavedX).max(homeSpeed · -1)).min(homeSpeed)
+	homedX: weavedX + (cameraX - weavedX).limit((homeSpeed · -1) homeSpeed)
 	atEdge: (weavedX > (cameraX + weaveWidth)) | (weavedX < (cameraX - weaveWidth))
 	Zombie(homedX (zombie.z - chargeSpeed) (atEdge ? (zombie.directionX · -1) zombie.directionX) zombie.directionZ zombie.alive zombie.face)
 )
@@ -111,7 +111,7 @@ reports the world spot it's over, so its distance from your lane is how far it
 sits to your left or right — stepping toward it lets the pointer aim and a tap on
 either side move you that way.¶
 ƒ focusToward(game•Game target•#m)
-	game.cameraX: (game.cameraX + ((target - game.cameraX).max(strafeStep · -1)).min(strafeStep)).max(leftLimit).min(rightLimit)
+	game.cameraX: (game.cameraX + (target - game.cameraX).limit((strafeStep · -1) strafeStep)).limit(leftLimit rightLimit)
 
 ¶A key press while playing: strafe left or right, or throw a heart.¶
 ƒ applyKeyPress(game•Game key•"")

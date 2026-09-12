@@ -19,6 +19,7 @@ export const CONTENT_CATEGORIES = [
     'quick',
     'howto',
     'example',
+    'kit',
     'changelog',
     'emoji',
     'datetimes',
@@ -41,6 +42,8 @@ export type Selection = {
     howtoIds(): string[];
     /** Example names to narrow `example` to (empty = whole category). */
     exampleIds(): string[];
+    /** Kit names to narrow `kit` to (empty = whole category). */
+    kitIds(): string[];
     /** Release versions to narrow `changelog` to (empty = whole category). */
     changelogVersions(): string[];
     /** Whether the category was named with a `+` flag, as opposed to merely
@@ -150,6 +153,7 @@ export function parseCategorySelection(args: string[]): Selection | string {
         quickTargets: () => targetsOf('quick'),
         howtoIds: () => specifiersOf('howto'),
         exampleIds: () => specifiersOf('example'),
+        kitIds: () => specifiersOf('kit'),
         changelogVersions: () => specifiersOf('changelog'),
     };
 }

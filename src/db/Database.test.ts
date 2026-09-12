@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs';
+import { globSync } from 'glob';
 import { FirebaseError } from 'firebase/app';
 import { get } from 'svelte/store';
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
@@ -437,4 +439,43 @@ test('banner is fully suppressed before authAttempted, even when offline', () =>
 
     authAttempted.set(true);
     expect(get(disconnected)).toBe(true);
+});
+
+test('every sync domain is reported synced by something', () => {
+    // The save-status button spins while ANY domain is `initializing`, so a domain that
+    // is declared and never reported leaves the footer spinning forever, on every page,
+    // for every signed-in creator. Kits are the case that made this real: they load on
+    // demand, so most sessions never construct the database that would report them, and
+    // nothing reported that domain at all.
+    //
+    // Source-level because the reporting is spread across the facades — each marks its
+    // own domain — so there is no single runtime path to assert against.
+    // Excluding tests: this file names the very call it searches for, so including it
+    // would make the search match its own prose and never fail.
+    const sources = globSync('src/db/**/*.ts', { ignore: '**/*.test.ts' })
+        .map((file) => readFileSync(file, 'utf8'))
+        .join('\n')
+        .replace(/\s+/g, ' ');
+    // Both spellings: most facades pass `Domain.X`, but the gallery one passes the
+    // string. Which they use is not a fact worth pinning; that they report is.
+    const reported = new Set<string>();
+    for (const [, name] of sources.matchAll(/markSynced\( ?Domain\.(\w+)/g))
+        reported.add(Domain[name as keyof typeof Domain]);
+    for (const [, value] of sources.matchAll(/markSynced\( ?'([a-z]+)'/g))
+        reported.add(value);
+
+    expect(SyncDomains.filter((domain) => !reported.has(domain))).toEqual([]);
+});
+
+test('signing out closes the kit listener', () => {
+    // `syncKits` used to return early when there was no uid, so `stopSync` was
+    // unreachable: the previous user's listener kept delivering into the caches
+    // `clear()` had just emptied, and errored permission-denied once the token dropped.
+    // Every other domain routes through a `syncUser` that handles this; kits is the one
+    // that doesn't, because it loads on demand. Source-level for the reason above.
+    const body = readFileSync('src/db/Database.ts', 'utf8')
+        .split('private syncKits()')[1]
+        ?.split('\n    }')[0];
+    expect(body).toBeDefined();
+    expect(body).toContain('stopSync()');
 });

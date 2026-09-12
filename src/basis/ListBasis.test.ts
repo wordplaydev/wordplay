@@ -169,3 +169,27 @@ test('a list of structures sorts by a text field', () => {
         )?.toString(),
     ).toBe('["Ant" "bee" "cat"]');
 });
+
+// sum and average. As with the Number basis, the printed unit suffix is the unit test.
+test.each([
+    ['[1 2 3].sum()', '6'],
+    ['[1m 2m 3m].sum()', '6m'],
+    // The additive identity, so an empty list totals nothing rather than failing.
+    ['[].sum()', '0'],
+
+    ['[1 2 3].average()', '2'],
+    ['[1m 2m 3m].average()', '2m'],
+    // Sum ÷ count is already none when the count is zero, so this falls out.
+    ['[].average()', 'ø'],
+])('%s = %s', (code, expected) => {
+    expect(evaluateCode(code)?.toString()).toBe(expected);
+});
+
+// `NumberValue.add` keeps the receiver's unit and ignores the operand's, so an
+// unguarded fold over these would quietly answer `3m`.
+test.each([['[1m 2s].sum()'], ['[1m 2s].average()'], ["[1 'two'].sum()"]])(
+    '%s is an exception rather than a wrong answer',
+    (code) => {
+        expect(evaluateCode(code)?.toString()).toContain('Exception');
+    },
+);

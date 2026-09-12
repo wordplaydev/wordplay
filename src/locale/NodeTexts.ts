@@ -407,6 +407,11 @@ type NodeTexts = {
                 version: string;
             };
         } & Conflicts<{
+            /** When a source published as a kit borrows a kit of its own, which v1 doesn't resolve. */
+            KitCannotBorrow: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /** When the borrowed name could not be found */
             UnknownBorrow: ConflictText & {
                 /** [formatted] Action description for the repair this conflict offers */
@@ -414,6 +419,26 @@ type NodeTexts = {
             };
             /** When a borrowed value depends on the source file doing the borrowing. */
             BorrowCycle: ConflictText<['borrow']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
+            /** When a kit is borrowed without saying which version. */
+            MissingKitVersion: ConflictText<['kit']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
+            /** When one kit is borrowed at two different versions in one source. */
+            ConflictingKitVersions: ConflictText<['kit']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
+            /** When a borrowed kit or version does not exist. */
+            UnknownKit: ConflictText<['kit']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
+            /** When a borrowed kit exists but this creator may not read it. */
+            UnavailableKit: ConflictText<['kit']> & {
                 /** [formatted] Action description for the repair this conflict offers */
                 resolution: Template<[]>;
             };
@@ -949,7 +974,27 @@ type NodeTexts = {
             done: FormattedText;
             /** [formatted] What to say when the program has yet to evaluate */
             unevaluated: FormattedText;
-        } & Exceptions<{
+        } & Conflicts<{
+            /**
+             * When a `↑` definition in a published source has no documentation.
+             * Minor: the code runs, it just can't be read by whoever borrows it.
+             */
+            UndocumentedShare: ConflictText & {
+                /** [formatted] What to do about an undocumented export */
+                resolution: Template<[]>;
+            };
+            /** When a callable `↑` definition in a published source has no worked example. */
+            UnexampledShare: ConflictText & {
+                /** [formatted] What to do about an export with no example */
+                resolution: Template<[]>;
+            };
+            /** When a published source has no example anywhere, so its kit has no preview. */
+            UnexampledKit: ConflictText & {
+                /** [formatted] What to do about a kit with no example */
+                resolution: Template<[]>;
+            };
+        }> &
+        Exceptions<{
             /** When a program is blank */
             BlankException: ExceptionText;
             /**

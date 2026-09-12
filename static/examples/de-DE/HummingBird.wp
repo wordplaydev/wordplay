@@ -53,14 +53,10 @@ tonhöhe: Tonhöhe()
 summen: (modus = 'hum') & (tonhöhe > 50hz)
 
 ƒ tonhöheZuHöhe(hz•#hz)
-	(hz < 80hz) ? -4m
-		(hz > 400hz) ? 5m
-			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
 
 ¶Der Vogel nähert sich der gesummten Höhe Stück für Stück, damit er gleitet statt bei jedem Wackeln im Ton zu zittern.¶
-tonhöheY•#m: 1m … ∆ tonhöhe … summen ? (0.8 × tonhöheY) + (0.2 × tonhöheZuHöhe(
-							tonhöhe
-						)) tonhöheY
+tonhöheY•#m: 1m … ∆ tonhöhe … summen ? tonhöheY.toward(tonhöheZuHöhe(tonhöhe) 20%) tonhöheY
 
 ¶Der Vogel schwebt während des Countdowns, flattert nach oben oder hält die gesummte Höhe während des Spiels, und fällt nach einem Absturz durch die Schwerkraft nach unten.¶
 vogelPlatz: Bewegung(

@@ -47,13 +47,23 @@
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import GalleryQueue from './GalleryQueue.svelte';
+    import KitQueue from './KitQueue.svelte';
     import ReportQueue from './ReportQueue.svelte';
     import { Galleries } from '@db/Database';
 
     /** Which queue is showing. Projects first: it's the older and busier one,
      *  and it's the one a platform moderator lands on. Someone who only curates
      *  starts on messages, since the other two aren't theirs. */
-    let queue: 'projects' | 'galleries' | 'messages' = $state('projects');
+    /** The queues, in the order `moderation.queue` labels them. Indexed rather than
+     *  branched on, so a queue added here can't silently relabel the others. */
+    const ModerationQueues = [
+        'projects',
+        'galleries',
+        'kits',
+        'messages',
+    ] as const;
+
+    let queue: (typeof ModerationQueues)[number] = $state('projects');
 
     /** Where reports of public content live. Only moderators can read them. */
     const ReportsCollection = 'reports';
@@ -425,18 +435,8 @@
         <div class="queuechoice">
             <Mode
                 modes={(l) => l.moderation.queue}
-                choice={queue === 'projects'
-                    ? 0
-                    : queue === 'galleries'
-                      ? 1
-                      : 2}
-                select={(choice) =>
-                    (queue =
-                        choice === 0
-                            ? 'projects'
-                            : choice === 1
-                              ? 'galleries'
-                              : 'messages')}
+                choice={ModerationQueues.indexOf(queue)}
+                select={(choice) => (queue = ModerationQueues[choice] ?? queue)}
             />
         </div>
     {/if}
@@ -446,6 +446,8 @@
         {/if}
     {:else if moderator === true && queue === 'galleries'}
         <GalleryQueue />
+    {:else if moderator === true && queue === 'kits'}
+        <KitQueue />
     {:else if moderator === true}
         <div class="moderate">
             <div class="flags">
@@ -610,7 +612,10 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        align-items: normal;
+        /* `start`, not `normal` (= stretch): a stretched checkbox floats in the middle
+           of a rule that wraps. `Checkbox` sets its own `align-self` too, since it is
+           the one place that knows the box's size. */
+        align-items: start;
         font-size: medium;
     }
 

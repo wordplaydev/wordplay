@@ -1,4 +1,5 @@
 import type { Character } from '@db/characters/Character';
+import type { SerializedKit } from '@db/kits/Kit';
 import type Gallery from '@db/galleries/Gallery';
 import type HowTo from '@db/howtos/HowToDatabase.svelte';
 import type Project from '@db/projects/Project';
@@ -36,6 +37,23 @@ export function galleryVisibility(gallery: Gallery): Visibility {
         galleryMembers: [...gallery.getCurators(), ...gallery.getCreators()],
         // A gallery is curated rather than authored.
         owner: null,
+    };
+}
+
+/**
+ * A kit's visibility (#8).
+ *
+ * No gallery: a kit is public or it is the creator's own, so its responsibility is the
+ * platform's whenever it is shared and nobody's when it isn't. If kits ever join
+ * galleries, this is the one place that has to learn about it.
+ */
+export function kitVisibility(kit: SerializedKit): Visibility {
+    return {
+        public: kit.public,
+        gallery: null,
+        galleryPublic: false,
+        galleryMembers: [],
+        owner: kit.owner,
     };
 }
 

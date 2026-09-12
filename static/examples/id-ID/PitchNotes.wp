@@ -22,8 +22,7 @@ nadaDari: ƒ(hz•#hz) hz > 0hz ? nada2[(((((12 × (hz ÷ 440hz).log(
 							)) % 12) + 12) % 12) + 1] '·'
 halus2: ƒ(sinyal•…#hz) (
 			terdengar: (←← 8 sinyal).tanpa(0hz)
-			(terdengar.gabungan(0hz ƒ(total•#hz v•#hz) total + v) ÷ terdengar.panjang(
-					)) ?? 0hz
+			terdengar.average() ?? 0hz
 		)
 tinggiNada: Melempar()
 Panggung(

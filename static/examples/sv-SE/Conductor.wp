@@ -6,14 +6,15 @@ Dirigent
 Höj handen och orkestern fylls på, en stämma i taget, tills alla åtta spelar. Sänk den och de faller bort tills bara melodin är kvar. Skjut handen åt vänster för att sakta ner marschen, åt höger för att driva på den. Antalet fingrar du håller upp bestämmer vem som spelar melodin.
 
 Varje instruktion visas på scenen, så du kan lära dig det utan att läsa detta.¶
+↓ @wordplay/instruments 1
 
 hand2: Hand()
 
 ¶Höjden visar hur mycket orkester som spelar, och sidled visar hur snabbt det går. Båda läses direkt av handen istället för att sparas i minnet, så de följer handen hela tiden. Vardera avrundas till ett steg, så musiken ändras bara när förändringen är stor nog att höra. En hand som skakar skriver alltså inte om notbladet tjugo gånger i sekunden.¶
-lyft: ((hand2.plats.y + 3m) ÷ 6m).min(1).max(0)
+lyft: hand2.plats.y.rescale(-3m 3m 0 1).limit(0 1)
 lager: 1 + ((lyft · 7).runda())
 
-räckvidd: ((hand2.plats.x + 5m) ÷ 10m).min(1).max(0)
+räckvidd: hand2.plats.x.rescale(-5m 5m 0 1).limit(0 1)
 takt2: 72 + ((räckvidd · 8).runda() · 12)
 
 ¶Vem som spelar melodin. En knuten näve och en hand utanför bild räknas båda som noll fingrar, så noll fingrar behåller den som redan spelade — annars skulle det byta melodi bara för att man tittade bort.¶
@@ -28,11 +29,7 @@ utvald: 5 … ∆ hand2 …
 					Instrument.trumpet
 
 ƒ ikon(antal3•#)•''
-	(antal3 = 1) ? '🎹'
-		(antal3 = 2) ? '🎻'
-			(antal3 = 3) ? '🪈'
-				(antal3 = 4) ? '⚡'
-					'🎺'
+	iconFor(röst2(antal3))
 
 ¶Hur högt en stämma spelar. Varje stämma finns med i musiken hela tiden, så ingen av dem tappar sin plats — de som ligger ovanför handen är bara nedvridna helt och hållet.
 

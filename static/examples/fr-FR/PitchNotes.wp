@@ -22,8 +22,7 @@ noteDe: ƒ(hz•#hz) hz > 0hz ? notes2[(((((12 × (hz ÷ 440hz).log(
 							)) % 12) + 12) % 12) + 1] '·'
 lisse2: ƒ(signal•…#hz) (
 			entendu: (←← 8 signal).sansTout(0hz)
-			(entendu.combiné(0hz ƒ(total•#hz v•#hz) total + v) ÷ entendu.longueur(
-					)) ?? 0hz
+			entendu.average() ?? 0hz
 		)
 hauteurDuSon: Pas()
 Scène(

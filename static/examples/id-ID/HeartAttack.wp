@@ -55,11 +55,7 @@ orang: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 ¶Berjalan selangkah menuju pemain: maju dalam kedalaman sambil berkelok ke samping supaya lebih sulit dikenai, membalik arah kelokan di tepi sebuah pita di sekitar jalurmu, dan perlahan mengejar ke arahmu di antara ayunan sehingga menghindar hanya memberi sedikit waktu.¶
 ƒ serbuKeArahPemain(zombie5•zombie kameraX2•#m kecepatanSerbu•#m) (
 		xBerayun: zombie5.x2 + (zombie5.arahX · kecepatanBerkelok)
-		xMengarahPulang: xBerayun + ((kameraX2 - xBerayun).maksimal(
-						kecepatanPulang · -1
-					)).menit(
-					kecepatanPulang
-				)
+		xMengarahPulang: xBerayun + (kameraX2 - xBerayun).limit((kecepatanPulang · -1) kecepatanPulang)
 		diTepi: (xBerayun > (kameraX2 + lebarKelokan)) | (xBerayun < (kameraX2 - lebarKelokan))
 		zombie(
 			xMengarahPulang
@@ -130,15 +126,7 @@ orang: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 
 ¶Geser jalurmu satu langkah ke arah suatu titik, tapi jangan pernah melewatibatasmu. Penunjuk melaporkan titik dunia yang ditunjuknya, jadi jaraknya darijalurmu menunjukkan seberapa jauh titik itu di kiri atau kananmu — melangkahke arahnya membuat penunjuk mengarah, dan mengetuk di salah satu sisimenggerakkanmu ke arah itu.¶
 ƒ fokusMenuju(permainan3•permainan target•#m)
-	permainan3.kameraX:(permainan3.kameraX + ((target - permainan3.kameraX).maksimal(
-					langkahMenyamping · -1
-				)).menit(
-				langkahMenyamping
-			)).maksimal(
-		batasKiri
-	).menit(
-		batasKanan
-	)
+	permainan3.kameraX:(permainan3.kameraX + (target - permainan3.kameraX).limit((langkahMenyamping · -1) langkahMenyamping)).limit(batasKiri batasKanan)
 
 ¶Menekan tombol saat bermain: bergerak ke kiri atau kanan, atau melempar hati.¶
 ƒ terapkanTekanTombol(permainan4•permainan kunci2•"")

@@ -137,6 +137,12 @@ function isFlag(flag: string): flag is Flag {
     return flag in Flags;
 }
 
+/** Every flag name, typed. Lets a view name each checkbox by its own rule rather than
+ *  giving all four the one shared label a screen reader would otherwise read. */
+export function allFlags(): Flag[] {
+    return Object.keys(Flags).filter(isFlag);
+}
+
 export function isFlagged(flags: ModerationState) {
     return Object.values(flags).some((state) => state === true);
 }

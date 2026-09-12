@@ -6,7 +6,7 @@ notes: ['A' 'A♯' 'B' 'C' 'C♯' 'D' 'D♯' 'E' 'F' 'F♯' 'G' 'G♯']
 noteOf: ƒ(hz•#hz) hz > 0hz ? notes[(((((12 × (hz ÷ 440hz).log(2)).round()) % 12) + 12) % 12) + 1] '·'
 smooth: ƒ(signal•…#hz) (
 	heard: (←← 8 signal).sansAll(0hz)
-	(heard.combined(0hz ƒ(total•#hz v•#hz) total + v) ÷ heard.length()) ?? 0hz
+	heard.average() ?? 0hz
 )
 pitch: Pitch()
 Stage([

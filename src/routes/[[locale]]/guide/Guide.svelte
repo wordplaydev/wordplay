@@ -6,9 +6,8 @@
     import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
     import Header from '@components/app/Header.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Documentation, {
-        Modes,
-    } from '@components/concepts/Documentation.svelte';
+    import Documentation from '@components/concepts/Documentation.svelte';
+    import { DefaultMode, Modes } from '@components/concepts/GuideHistory';
     import placeLabel from '@components/concepts/placeLabel';
     import {
         getUser,
@@ -28,16 +27,19 @@
     import {
         getConceptFromURL,
         getEnumFromURL,
+        getKitFromURL,
         getQueryFromURL,
+        kitURL,
         PARAM_PURPOSE,
         PARAM_SECTION,
         setConceptInURL,
         setEnumInURL,
         setQueryInURL,
     } from '@concepts/ConceptParams';
+    import KitView from '@components/concepts/KitView.svelte';
     import { Purpose } from '@concepts/Purpose';
     import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
-    import { blocks, HowTos, Locales, locales } from '@db/Database';
+    import { HowTos, Locales, locales } from '@db/Database';
     import Project from '@db/projects/Project';
     import Source from '@nodes/Source';
     import { onMount } from 'svelte';
@@ -60,7 +62,7 @@
 
     // The browsing location (section + code subsection), restored from the URL
     // and two-way bound to Documentation, so a refresh/share keeps the location.
-    const sectionFallback = () => ($blocks ? 'language' : 'howto');
+    const sectionFallback = () => DefaultMode;
     let guideSection = $state(
         browser
             ? getEnumFromURL(
@@ -102,6 +104,36 @@
         return q.trim().length > 0
             ? [section, { kind: 'search', query: q }]
             : [section];
+    }
+
+    /**
+     * The kit this page is showing, when the URL names one (#8).
+     *
+     * A kit's page lives in the guide rather than beside it, so a kit's documentation is
+     * rendered by exactly the views that render a borrowed kit's — one renderer, so the
+     * two can't drift. It replaces the documentation browser rather than sitting inside
+     * it, because a kit is a whole subject, not a concept within the language.
+     *
+     * Read from the URL rather than latched in state, because a kit is reached by
+     * ordinary link as well as by button: a tile, a version list, a notification. Held
+     * in state it was only ever set on mount and on `popstate`, so following one of
+     * those links while already in the guide left `kit` undefined — and the effect
+     * below, seeing no kit, rewrote the URL from the concept path and stripped the very
+     * param that had just been navigated to.
+     */
+    let kit = $derived(
+        browser ? getKitFromURL(page.url.searchParams) : undefined,
+    );
+
+    /** Show a kit, or leave one (`undefined`) for the browser below. Navigating is the
+     *  whole of it: `kit` follows the URL. */
+    function showKit(
+        name: string | undefined,
+        version: number | undefined = undefined,
+    ) {
+        localeGoto(name === undefined ? '/guide' : kitURL(name, version), {
+            noScroll: true,
+        });
     }
 
     let mounted = $state(false);
@@ -230,26 +262,39 @@
     // concept. At the landing it's the current (non-link) location; once we've drilled
     // in it links back to that section, naming the destination it returns to.
     let extra = $derived.by<Crumb[]>(() => {
+        // A kit replaces the browser entirely, so the trail is Guide (back to the
+        // browser) then the kit's own name.
+        if (kit)
+            return [
+                {
+                    emoji: DOCUMENTATION_SYMBOL,
+                    text: $locales.getPlainText((l) => l.ui.page.guide.header),
+                    action: () => showKit(undefined),
+                },
+                { text: kit.name, current: true },
+            ];
         // Empty only before mount (path starts empty); afterwards the bottom is a section.
         if ($path.length === 0) return [];
         // The bottom of the history is always the section the Guide crumb names (and pops
-        // back to). Language sections add their subsection (purpose), e.g. "code — pattern";
-        // how-to sections have no subsection.
+        // back to). Only the language section has a subsection to add, e.g.
+        // "code — pattern"; how-to, glossary and kits name themselves.
         const section = $path[0];
         const header = $locales.getPlainText((l) => l.ui.page.guide.header);
         let label = header;
         if (section.kind === 'section') {
-            const mode = $locales.getPlainText((l) =>
-                section.mode === 'howto'
-                    ? l.ui.docs.mode.browse.labels[1]
-                    : l.ui.docs.mode.browse.labels[0],
+            // Indexed by the section's own position rather than branched on, so a
+            // section added to `Modes` names itself instead of falling through to
+            // "code" — which is what glossary used to do.
+            const which = Modes.indexOf(section.mode);
+            const mode = $locales.getPlainText(
+                (l) => l.ui.docs.mode.browse.labels[which],
             );
             label =
-                section.mode === 'howto'
-                    ? `${header} — ${mode}`
-                    : `${header} — ${mode} — ${$locales.getPlainText(
+                section.mode === 'language'
+                    ? `${header} — ${mode} — ${$locales.getPlainText(
                           (l) => l.ui.docs.purposes[section.purpose].header,
-                      )}`;
+                      )}`
+                    : `${header} — ${mode}`;
         }
         // At the landing the section is the current page (non-link); once drilled in it
         // becomes a back-link that pops the concept path to the section.
@@ -274,6 +319,9 @@
     // When the concept path or (debounced) search query changes, navigate to the
     // corresponding URL so the guide is shareable and survives a refresh.
     $effect(() => {
+        // A kit's URL is written by `showKit`, and rebuilding one from the concept path
+        // here would strip the very param that put us on this page.
+        if (kit !== undefined) return;
         if (browser && $path && mounted) {
             const newParams = new URLSearchParams();
             setConceptInURL(concept ?? undefined, index, newParams);
@@ -323,14 +371,24 @@
         <MarkupHTMLView markup={(l) => l.ui.page.guide.description} />
     </div>
 
-    <Documentation
-        {project}
-        standalone
-        collapse={false}
-        bind:query={searchQuery}
-        bind:mode={guideSection}
-        bind:purpose={guidePurpose}
-    ></Documentation>
+    {#if kit}
+        <div class="kit">
+            <KitView
+                name={kit.name}
+                version={kit.version}
+                show={(version) => showKit(kit?.name, version)}
+            />
+        </div>
+    {:else}
+        <Documentation
+            {project}
+            standalone
+            collapse={false}
+            bind:query={searchQuery}
+            bind:mode={guideSection}
+            bind:purpose={guidePurpose}
+        ></Documentation>
+    {/if}
 </section>
 
 <style>
@@ -370,5 +428,13 @@
     .header {
         padding: 0 calc(2 * var(--wordplay-spacing))
             calc(2 * var(--wordplay-spacing));
+    }
+
+    .kit {
+        padding: 0 calc(2 * var(--wordplay-spacing))
+            calc(2 * var(--wordplay-spacing));
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
     }
 </style>

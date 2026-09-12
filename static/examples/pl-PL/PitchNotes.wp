@@ -22,8 +22,7 @@ nutaZ: ƒ(hz•#hz) hz > 0hz ? nuty2[(((((12 × (hz ÷ 440hz).log(
 							)) % 12) + 12) % 12) + 1] '·'
 gładki2: ƒ(sygnał•…#hz) (
 			usłyszany: (←← 8 sygnał).bez(0hz)
-			(usłyszany.łączny(0hz ƒ(suma2•#hz v•#hz) suma2 + v) ÷ usłyszany.długość(
-					)) ?? 0hz
+			usłyszany.average() ?? 0hz
 		)
 wysokośćDźwięku: Poziom()
 Scena(

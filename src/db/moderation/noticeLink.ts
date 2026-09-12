@@ -38,6 +38,12 @@ export default function noticeLink(notice: SerializedNotice): string {
             // Its owner lands in it able to edit; anyone else — a moderator
             // reading a decision — sees it read-only.
             return `/character/${id}`;
+        case 'kit':
+            // The kit's own page, by id — which is all a notice carries. Its owner,
+            // who is who a decision notice is for, can read their kit whether or not
+            // a moderator unlisted it; a reporter reading an outcome notice sees that
+            // it is gone, which is the answer they asked for.
+            return `/guide?kit=${encodeURIComponent(id)}`;
     }
 }
 

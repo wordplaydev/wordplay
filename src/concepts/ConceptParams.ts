@@ -11,6 +11,41 @@ export const PARAM_SECTION = 'section';
 export const PARAM_PURPOSE = 'purpose';
 /** The how-to section's filter. */
 export const PARAM_HOWTO = 'howto';
+/**
+ * A kit's page, as its full `username/name` (#8).
+ *
+ * Its own param rather than a `?concept=` value, because `getConceptFromURL` splits that
+ * on `/` into owner and name — so `amy/colors` would be read as the concept `colors`
+ * owned by `amy`, which is a different thing entirely and usually nothing.
+ */
+export const PARAM_KIT = 'kit';
+/** Which version of the kit at {@link PARAM_KIT} to show. The latest when absent. */
+export const PARAM_KIT_VERSION = 'version';
+
+/** The kit and version a URL names, if it names one. */
+export function getKitFromURL(params: URLSearchParams):
+    | {
+          name: string;
+          version: number | undefined;
+      }
+    | undefined {
+    const name = params.get(PARAM_KIT);
+    if (name === null || name.length === 0) return undefined;
+    const version = Number(params.get(PARAM_KIT_VERSION));
+    return {
+        name,
+        // A missing or nonsense version means the latest, rather than nothing: a link
+        // that lost its version should still show the kit.
+        version: Number.isInteger(version) && version > 0 ? version : undefined,
+    };
+}
+
+/** The guide URL that shows one kit, which registry tiles and version lists both link to. */
+export function kitURL(name: string, version?: number | undefined): string {
+    return `/guide?${PARAM_KIT}=${encodeURIComponent(name)}${
+        version === undefined ? '' : `&${PARAM_KIT_VERSION}=${version}`
+    }`;
+}
 
 /** Type guard for membership in a fixed set of strings (avoids an `as` cast). */
 function isMember<T extends string>(

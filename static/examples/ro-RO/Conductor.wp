@@ -6,14 +6,15 @@ Dirijor
 Ridică mâna și orchestra se completează, câte o parte pe rând, până cântă toate opt. Coboar-o și dispar treptat, până rămâne doar melodia singură. Alunecă spre stânga ca să încetinești marșul, spre dreapta ca să-l grăbești. Câte degete ridici alege cine cântă melodia.
 
 Fiecare instrucțiune este afișată pe scenă, ca s-o poți învăța fără să citești asta.¶
+↓ @wordplay/instruments 1
 
 mână: Mână()
 
 ¶Înălțimea arată câtă orchestră cântă, iar mișcarea spre lateral arată cât de repede, ambele citite direct de pe mână, nu memorate, așa că urmăresc mâna neîntrerupt. Fiecare valoare este rotunjită la o treaptă, așa că muzica se schimbă doar când schimbarea e destul de mare ca să se audă, iar o mână care tremură nu rescrie partitura de douăzeci de ori pe secundă.¶
-ridicare: ((mână.loc.y + 3m) ÷ 6m).min(1).maxim(0)
+ridicare: mână.loc.y.rescale(-3m 3m 0 1).limit(0 1)
 straturi: 1 + ((ridicare · 7).rundă())
 
-razăDeAcțiune: ((mână.loc.x + 5m) ÷ 10m).min(1).maxim(0)
+razăDeAcțiune: mână.loc.x.rescale(-5m 5m 0 1).limit(0 1)
 ritm: 72 + ((razăDeAcțiune · 8).rundă() · 12)
 
 ¶Cine cântă melodia. Un pumn strâns și o mână ieșită din cadru contează amândouă drept zero degete, așa că zero degete păstrează pe cine cânta deja — altfel, dacă te uiți în altă parte, ar schimba melodia.¶
@@ -28,11 +29,7 @@ recomandat: 5 … ∆ mână …
 					Instrument.trompetă
 
 ƒ pictogramă(numărare3•#)•''
-	(numărare3 = 1) ? '🎹'
-		(numărare3 = 2) ? '🎻'
-			(numărare3 = 3) ? '🪈'
-				(numărare3 = 4) ? '⚡'
-					'🎺'
+	iconFor(voce2(numărare3))
 
 ¶Cât de tare cântă o parte. Fiecare parte rămâne mereu în muzică, așa că niciuna nu-și pierde locul — cele de deasupra mâinii sunt doar date complet la minimum.
 
