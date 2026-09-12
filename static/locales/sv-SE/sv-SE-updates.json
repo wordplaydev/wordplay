@@ -961,6 +961,7 @@
         "ee176f1308f17": "$~Wordplay har nu tre färdiga kit du kan låna – alfabet, instrument och sånger – så du slipper skriva ut bokstäver, instrumentbilder eller melodier själv. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "ede02f98adf41": "$~De tre kiten som följer med Wordplay är skrivna på alla språk vi stödjer, så namnen och texten i dem visas på ditt eget språk. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Nu kan tal göra tre saker du tidigare fick koda för hand: \\limit\\ håller ett tal mellan ett lägsta och ett högsta värde, \\toward\\ flyttar ett tal en bit på vägen mot ett annat, och \\rescale\\ gör om ett tal från ett intervall till motsvarande tal i ett annat intervall.",
-        "e49e28ab01607": "$~En lista med tal kan nu berätta sitt \\sum\\ och sitt \\average\\, så du slipper räkna ihop dem själv."
+        "e49e28ab01607": "$~En lista med tal kan nu berätta sitt \\sum\\ och sitt \\average\\, så du slipper räkna ihop dem själv.",
+        "e7cae93034509": "$~En rubrik i en flikpanel, som de i Inställningar, sitter nu närmare den del den beskriver, i stället för att sväva upp mot avsnittet ovanför."
     }
 }

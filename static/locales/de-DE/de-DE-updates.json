@@ -961,6 +961,7 @@
         "ee176f1308f17": "$~Wordplay bringt jetzt drei Kits mit, die du dir ausleihen kannst — Alphabete, Instrumente und Lieder — damit du Buchstaben, Instrumentengesichter oder Melodien nicht selbst eintippen musst. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "ede02f98adf41": "$~Die drei Kits, die mit Wordplay mitgeliefert werden, sind in jeder Sprache geschrieben, die wir unterstützen. So kannst du ihre Namen und Texte in deiner eigenen Sprache lesen. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Zahlen können jetzt drei Dinge, die du früher von Hand ausrechnen musstest: \\limit\\ hält eine Zahl zwischen einem niedrigen und einem hohen Wert, \\toward\\ bewegt eine Zahl ein Stück in Richtung einer anderen, und \\rescale\\ wandelt eine Zahl aus einem Bereich in die passende Zahl in einem anderen Bereich um.",
-        "e49e28ab01607": "$~Eine Liste von Zahlen kann dir jetzt ihren \\sum\\ und ihren \\average\\ verraten, damit du sie nicht selbst zusammenrechnen musst."
+        "e49e28ab01607": "$~Eine Liste von Zahlen kann dir jetzt ihren \\sum\\ und ihren \\average\\ verraten, damit du sie nicht selbst zusammenrechnen musst.",
+        "e7cae93034509": "$~Eine Überschrift in einem Register-Bereich, wie zum Beispiel in den Einstellungen, steht jetzt näher bei dem Teil, den sie benennt. Vorher war sie zu nah am Abschnitt darüber."
     }
 }

@@ -8515,7 +8515,7 @@
                     },
                     "withdrawable": "$~Ce kit n'a jamais été listé, donc personne n'a pu encore le trouver — tu peux encore retirer la version la plus récente.",
                     "unpublishable": "$~Ce kit ne peut pas encore être publié :",
-                    "failed": "$?"
+                    "failed": "$~Je n'ai pas pu publier ton kit. Vérifie que tu es en ligne et réessaie."
                 }
             },
             "settings": {
@@ -11269,8 +11269,8 @@
         "done": "$~Rien d'autre à modérer !",
         "error": {
             "notmod": "$~Il n'y a rien ici à vérifier pour toi. Les modérateurs de Wordplay vérifient le contenu public, et les conservateurs d'une galerie vérifient ce qui s'y trouve. Si on vient de te donner des droits de modérateur, il te faudra peut-être te reconnecter.",
-            "unreachable": "$?",
-            "unreadable": "$?"
+            "unreachable": "$~Je n'ai pas pu lire cette file d'attente, donc je ne sais pas si quelque chose attend. Réessaie dans un instant.",
+            "unreadable": "$~Certaines choses ici attendent, mais je n'ai pas pu les lire, donc elles ne sont pas affichées."
         },
         "report": {
             "button": "$~demander à un modérateur d'examiner ceci",

@@ -961,6 +961,7 @@
         "ee176f1308f17": "$~Ngayon, may kasamang tatlong kit ang Wordplay na puwede mong hiramin — mga alpabeto, instrumento, at kanta — kaya hindi mo na kailangang i-type mismo ang mga titik, mukha ng instrumento, o himig. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "ede02f98adf41": "$~Ang tatlong kit na kasama ng Wordplay ay nakasulat sa bawat wikang suportado namin, kaya ang mga pangalan at sulat nila ay nababasa sa sarili mong wika. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Ngayon, may tatlong bagay na kaya nang gawin ng mga numero na dati'y kailangan mong isulat mismo: \\limit\\ pinapanatili ang isang numero sa pagitan ng mababa at mataas na halaga, \\toward\\ ginagalaw ang isang numero papunta sa ibang numero nang bahagya, at \\rescale\\ pinapalitan ang isang numero mula sa isang saklaw patungo sa katumbas na numero sa ibang saklaw.",
-        "e49e28ab01607": "$~Ang isang listahan ng mga numero ay puwede na ngayong sabihin sa iyo ang kanyang \\sum\\ at ang kanyang \\average\\, kaya hindi mo na kailangang idagdag ang mga ito nang mano-mano."
+        "e49e28ab01607": "$~Ang isang listahan ng mga numero ay puwede na ngayong sabihin sa iyo ang kanyang \\sum\\ at ang kanyang \\average\\, kaya hindi mo na kailangang idagdag ang mga ito nang mano-mano.",
+        "e7cae93034509": "$~Ang isang pamagat sa loob ng isang tabbed na panel, tulad ng mga nasa Settings, ay mas malapit na ngayon sa bahaging tinutukoy nito, sa halip na lumapit sa seksyon sa itaas nito."
     }
 }

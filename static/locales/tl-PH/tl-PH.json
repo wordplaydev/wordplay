@@ -8771,7 +8771,7 @@
                     },
                     "withdrawable": "$~Hindi pa kailanman nailista ang kit na ito, kaya wala pang nakakahanap nito — maaari mo pa ring bawiin ang pinakabagong bersyon.",
                     "unpublishable": "$~Hindi pa maaaring ilabas ang kit na ito:",
-                    "failed": "$?"
+                    "failed": "$~Hindi ko na-publish ang iyong kit. Siguraduhing online ka at subukan ulit."
                 }
             },
             "settings": {
@@ -11269,8 +11269,8 @@
         },
         "error": {
             "notmod": "$~Walang dito na kailangan mong suriin. Sinusuri ng mga moderator ng Wordplay ang pampublikong nilalaman, at sinusuri ng mga curator ng isang gallery ang nasa kanilang gallery. Kung kamakailan ka lang binigyan ng karapatan bilang moderator, maaaring kailanganin mong mag-log in ulit.",
-            "unreachable": "$?",
-            "unreadable": "$?"
+            "unreachable": "$~Hindi ko mabasa ang pilang ito, kaya hindi ko alam kung may naghihintay. Subukan ulit sa ilang sandali.",
+            "unreadable": "$~May mga bagay dito na naghihintay pero hindi ko sila mabasa, kaya hindi sila ipinapakita."
         },
         "report": {
             "button": "$~hilingin sa isang tagapamahala na suriin ito",

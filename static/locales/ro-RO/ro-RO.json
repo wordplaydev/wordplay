@@ -8771,7 +8771,7 @@
                     },
                     "withdrawable": "$~Acest kit nu a fost niciodată listat, deci nimeni nu l-a putut găsi încă — poți retrage în continuare cea mai nouă versiune.",
                     "unpublishable": "$~Acest kit nu poate fi publicat încă:",
-                    "failed": "$?"
+                    "failed": "$~Nu am putut publica setul tău. Verifică dacă ești conectat la internet și încearcă din nou."
                 }
             },
             "settings": {
@@ -11257,8 +11257,8 @@
         },
         "error": {
             "notmod": "$~Nu ai nimic de analizat aici. Moderatorii Wordplay analizează conținutul public, iar curatorii unei galerii analizează ce se află în galeria lor. Dacă ai primit recent drepturi de moderator, s-ar putea să trebuiască să te autentifici din nou.",
-            "unreachable": "$?",
-            "unreadable": "$?"
+            "unreachable": "$~Nu am putut citi această coadă, așa că nu știu dacă ceva așteaptă. Încearcă din nou peste puțin timp.",
+            "unreadable": "$~Unele lucruri de aici așteaptă, dar nu am putut să le citesc, așa că nu sunt afișate."
         },
         "report": {
             "button": "$~cere unui moderator să verifice asta",

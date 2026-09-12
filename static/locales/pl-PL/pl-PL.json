@@ -8523,7 +8523,7 @@
                     },
                     "withdrawable": "$~Ten zestaw nigdy nie był wypisany, więc nikt jeszcze nie mógł go znaleźć — nadal możesz wycofać najnowszą wersję.",
                     "unpublishable": "$~Tego zestawu nie można jeszcze opublikować:",
-                    "failed": "$?"
+                    "failed": "$~Nie udało się opublikować twojego zestawu. Sprawdź, czy jesteś online, i spróbuj ponownie."
                 }
             },
             "settings": {
@@ -11261,8 +11261,8 @@
         "done": "$~Nic więcej do moderowania!",
         "error": {
             "notmod": "$~Nie masz tu nic do sprawdzenia. Moderatorzy Wordplay sprawdzają treści publiczne, a kuratorzy galerii sprawdzają to, co znajduje się w ich galerii. Jeśli niedawno otrzymałeś uprawnienia moderatora, może być konieczne ponowne zalogowanie się.",
-            "unreachable": "$?",
-            "unreadable": "$?"
+            "unreachable": "$~Nie udało się odczytać tej kolejki, więc nie wiem, czy coś czeka. Spróbuj ponownie za chwilę.",
+            "unreadable": "$~Niektóre rzeczy tutaj czekają, ale nie udało się ich odczytać, więc nie są pokazane."
         },
         "report": {
             "button": "$~poproś moderatora o sprawdzenie tego",

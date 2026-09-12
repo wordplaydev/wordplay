@@ -8516,7 +8516,7 @@
                     },
                     "withdrawable": "$~Det här kittet har aldrig listats, så ingen kan ha hittat det ännu — du kan fortfarande dra tillbaka den senaste versionen.",
                     "unpublishable": "$~Det här kittet kan inte publiceras än:",
-                    "failed": "$?"
+                    "failed": "$~Jag kunde inte publicera ditt paket. Kontrollera att du är uppkopplad och försök igen."
                 }
             },
             "settings": {
@@ -11244,8 +11244,8 @@
         "done": "$~Inget annat att moderera!",
         "error": {
             "notmod": "$~Det finns inget här för dig att granska. Wordplays moderatorer granskar offentligt innehåll, och ett galleris kuratorer granskar det som finns i deras galleri. Om du nyligen fick moderatorrättigheter kan du behöva logga in igen.",
-            "unreachable": "$?",
-            "unreadable": "$?"
+            "unreachable": "$~Jag kunde inte läsa denna kö, så jag vet inte om något väntar. Försök igen om en stund.",
+            "unreadable": "$~Vissa saker här väntar, men jag kunde inte läsa dem, så de visas inte."
         },
         "report": {
             "button": "$~be en moderator granska det här",

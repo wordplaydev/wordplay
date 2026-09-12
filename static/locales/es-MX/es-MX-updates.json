@@ -961,6 +961,7 @@
         "ee176f1308f17": "$~Wordplay ahora viene con tres kits que puedes tomar prestados — alfabetos, instrumentos y canciones — para que no tengas que escribir tú misma las letras, las caras de los instrumentos ni las melodías. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "ede02f98adf41": "$~Los tres kits que vienen con Wordplay están escritos en todos los idiomas que ofrecemos, así que sus nombres y su escritura se leen en el tuyo. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Ahora los números pueden hacer tres cosas que antes tenías que escribir a mano: \\limit\\ mantiene un número entre uno bajo y uno alto, \\toward\\ mueve un número parte del camino hacia otro, y \\rescale\\ convierte un número de un rango en el número correspondiente de otro rango.",
-        "e49e28ab01607": "$~Ahora una lista de números puede decirte su \\sum\\ y su \\average\\, para que no tengas que sumarlos tú misma."
+        "e49e28ab01607": "$~Ahora una lista de números puede decirte su \\sum\\ y su \\average\\, para que no tengas que sumarlos tú misma.",
+        "e7cae93034509": "$~Un encabezado dentro de un panel con pestañas, como los de Configuración, ahora queda más cerca de la parte que nombra, en lugar de subir hacia la sección de arriba."
     }
 }

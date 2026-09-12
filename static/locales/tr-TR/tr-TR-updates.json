@@ -961,6 +961,7 @@
         "ee176f1308f17": "$~Wordplay artık ödünç alabileceğin üç kitle geliyor: alfabeler, çalgılar ve şarkılar. Böylece harfleri, çalgı yüzlerini veya melodileri kendin yazmak zorunda kalmazsın. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "ede02f98adf41": "$~Wordplay ile birlikte gelen üç kit, desteklediğimiz her dilde yazılmıştır. Böylece isimleri ve yazıları senin dilinde okunur. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Sayılar artık elle yazmak zorunda olduğun üç şeyi kendileri yapabiliyor: \\limit\\ bir sayıyı düşük ve yüksek bir değer arasında tutar, \\toward\\ bir sayıyı başka bir sayıya doğru bir miktar hareket ettirir, ve \\rescale\\ bir aralıktaki sayıyı başka bir aralıktaki eşleşen sayıya çevirir.",
-        "e49e28ab01607": "$~Bir sayı listesi artık sana şunu söyleyebilir: \\sum\\ ve \\average\\, böylece onları kendin toplamak zorunda kalmazsın."
+        "e49e28ab01607": "$~Bir sayı listesi artık sana şunu söyleyebilir: \\sum\\ ve \\average\\, böylece onları kendin toplamak zorunda kalmazsın.",
+        "e7cae93034509": "$~Ayarlar gibi sekmeli bir panelin içindeki bir başlık, artık üstteki bölüme doğru kaymak yerine, ait olduğu kısmın hemen yanında duruyor."
     }
 }

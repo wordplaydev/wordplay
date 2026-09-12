@@ -8762,7 +8762,7 @@
                     },
                     "withdrawable": "$~Bộ công cụ này chưa bao giờ được niêm yết, vì vậy chưa ai có thể tìm thấy nó — bạn vẫn có thể rút lại phiên bản mới nhất.",
                     "unpublishable": "$~Bộ công cụ này chưa thể xuất bản được:",
-                    "failed": "$?"
+                    "failed": "$~Mình không thể xuất bản bộ công cụ của bạn. Hãy kiểm tra kết nối mạng rồi thử lại."
                 }
             },
             "settings": {
@@ -11260,8 +11260,8 @@
         },
         "error": {
             "notmod": "$~Không có gì ở đây để bạn xem xét cả. Người kiểm duyệt của Wordplay xem xét nội dung công khai, và người quản lý của một phòng trưng bày xem xét những gì trong phòng trưng bày của họ. Nếu bạn vừa mới được cấp quyền kiểm duyệt, bạn có thể cần đăng nhập lại.",
-            "unreachable": "$?",
-            "unreadable": "$?"
+            "unreachable": "$~Mình không thể đọc hàng đợi này, nên mình không biết có gì đang chờ hay không. Hãy thử lại sau một chút.",
+            "unreadable": "$~Có vài thứ ở đây đang chờ nhưng mình không thể đọc chúng, nên chúng không được hiển thị."
         },
         "report": {
             "button": "$~nhờ một người kiểm duyệt xem xét việc này",

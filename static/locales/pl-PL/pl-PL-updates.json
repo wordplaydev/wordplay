@@ -961,6 +961,7 @@
         "ee176f1308f17": "$~Wordplay ma teraz trzy gotowe zestawy, z których możesz korzystać — alfabety, instrumenty i piosenki — dzięki temu nie musisz sam wpisywać liter, wyglądu instrumentów ani melodii. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "ede02f98adf41": "$~Trzy zestawy dołączone do Wordplay są napisane w każdym języku, który obsługujemy, więc ich nazwy i treść czytasz w swoim języku. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Liczby potrafią teraz zrobić trzy rzeczy, które kiedyś musiałeś napisać ręcznie: \\limit\\ utrzymuje liczbę między dolną a górną granicą, \\toward\\ przesuwa liczbę o kawałek drogi w stronę innej liczby, a \\rescale\\ zamienia liczbę z jednego zakresu na odpowiadającą jej liczbę w innym zakresie.",
-        "e49e28ab01607": "$~Lista liczb może teraz powiedzieć ci swoją \\sum\\ oraz swoją \\average\\, więc nie musisz sam ich sumować."
+        "e49e28ab01607": "$~Lista liczb może teraz powiedzieć ci swoją \\sum\\ oraz swoją \\average\\, więc nie musisz sam ich sumować.",
+        "e7cae93034509": "$~Nagłówek w panelu z zakładkami, taki jak te w Ustawieniach, teraz znajduje się bliżej części, którą nazywa, zamiast przesuwać się w górę, w stronę sekcji powyżej."
     }
 }

@@ -961,6 +961,7 @@
         "ee176f1308f17": "$~Wordplay kini hadir dengan tiga kit yang bisa kamu pinjam — alfabet, instrumen, dan lagu — jadi kamu tidak perlu mengetik huruf, tampilan instrumen, atau lagu sendiri. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "ede02f98adf41": "$~Tiga kit yang disertakan dalam Wordplay ditulis dalam setiap bahasa yang kami dukung, jadi nama dan tulisannya terbaca dalam bahasamu. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Angka kini bisa melakukan tiga hal yang dulu harus kamu tulis sendiri: \\limit\\ menjaga sebuah angka tetap berada di antara batas bawah dan batas atas, \\toward\\ menggeser sebuah angka sebagian jalan menuju angka lain, dan \\rescale\\ mengubah angka dalam satu rentang menjadi angka yang setara dalam rentang lain.",
-        "e49e28ab01607": "$~Sebuah daftar angka kini bisa memberitahumu \\sum\\ dan \\average\\nya, jadi kamu tidak perlu menjumlahkannya sendiri."
+        "e49e28ab01607": "$~Sebuah daftar angka kini bisa memberitahumu \\sum\\ dan \\average\\nya, jadi kamu tidak perlu menjumlahkannya sendiri.",
+        "e7cae93034509": "$~Sebuah judul di dalam panel bertab, seperti yang ada di Pengaturan, sekarang letaknya lebih dekat dengan bagian yang dijelaskannya, bukan malah bergeser ke atas mendekati bagian sebelumnya."
     }
 }

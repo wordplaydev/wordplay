@@ -8521,7 +8521,7 @@
                     },
                     "withdrawable": "$~Bu kit hiç listelenmedi. Bu yüzden henüz kimse onu bulamamış olabilir — en yeni sürümü hâlâ geri çekebilirsin.",
                     "unpublishable": "$~Bu kit henüz yayımlanamaz:",
-                    "failed": "$?"
+                    "failed": "$~Setini yayımlayamadım. Çevrimiçi olduğundan emin ol ve tekrar dene."
                 }
             },
             "settings": {
@@ -11256,8 +11256,8 @@
         "done": "$~Başka ölçülecek bir şey yok!",
         "error": {
             "notmod": "$~Burada incelemen gereken bir şey yok. Wordplay'in denetçileri herkese açık içerikleri inceler, bir galerinin küratörleri de kendi galerilerindekileri inceler. Yakın zamanda sana denetçi yetkisi verildiyse, yeniden giriş yapman gerekebilir.",
-            "unreachable": "$?",
-            "unreadable": "$?"
+            "unreachable": "$~Bu kuyruğu okuyamadım, bu yüzden bekleyen bir şey olup olmadığını bilmiyorum. Biraz sonra tekrar dene.",
+            "unreadable": "$~Burada bekleyen bazı şeyler var ama onları okuyamadım, bu yüzden gösterilmiyorlar."
         },
         "report": {
             "button": "$~bunu incelemesi için bir moderatörden yardım iste",

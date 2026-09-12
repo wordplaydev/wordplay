@@ -8778,7 +8778,7 @@
                     },
                     "withdrawable": "$~Kit ini belum pernah terdaftar, jadi belum ada yang bisa menemukannya — kamu masih bisa menarik kembali versi terbarunya.",
                     "unpublishable": "$~Kit ini belum bisa diterbitkan:",
-                    "failed": "$?"
+                    "failed": "$~Saya tidak bisa menerbitkan kit kamu. Pastikan kamu terhubung ke internet dan coba lagi."
                 }
             },
             "settings": {
@@ -11264,8 +11264,8 @@
         },
         "error": {
             "notmod": "$~Tidak ada yang perlu kamu periksa di sini. Moderator Wordplay memeriksa konten publik, dan kurator galeri memeriksa apa yang ada di galeri mereka. Jika kamu baru saja diberi hak moderator, kamu mungkin perlu masuk lagi.",
-            "unreachable": "$?",
-            "unreadable": "$?"
+            "unreachable": "$~Saya tidak bisa membaca antrean ini, jadi saya tidak tahu apakah ada yang sedang menunggu. Coba lagi sebentar lagi.",
+            "unreadable": "$~Ada beberapa hal di sini yang sedang menunggu, tetapi saya tidak bisa membacanya, jadi tidak ditampilkan."
         },
         "report": {
             "button": "$~minta seorang moderator untuk memeriksa ini",

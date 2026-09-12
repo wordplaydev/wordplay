@@ -961,6 +961,7 @@
         "ee176f1308f17": "$~Wordplay est maintenant livré avec trois kits que tu peux emprunter — alphabets, instruments et chansons — pour que tu n'aies pas à écrire toi-même les lettres, les visages d'instruments ou les mélodies. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "ede02f98adf41": "$~Les trois kits fournis avec Wordplay sont écrits dans toutes les langues que nous prenons en charge, pour que leurs noms et leur texte se lisent dans la tienne. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Les nombres peuvent maintenant faire trois choses que tu devais écrire toi-même à la main : \\limit\\ garde un nombre entre une valeur basse et une valeur haute, \\toward\\ déplace un nombre en partie vers un autre, et \\rescale\\ transforme un nombre d'un intervalle en le nombre correspondant dans un autre intervalle.",
-        "e49e28ab01607": "$~Une liste de nombres peut maintenant te dire son \\sum\\ et son \\average\\, pour que tu n'aies pas à les additionner toi-même."
+        "e49e28ab01607": "$~Une liste de nombres peut maintenant te dire son \\sum\\ et son \\average\\, pour que tu n'aies pas à les additionner toi-même.",
+        "e7cae93034509": "$~Un titre dans un panneau à onglets, comme ceux des Réglages, se place maintenant plus près de la partie qu'il nomme, au lieu de remonter vers la section du dessus."
     }
 }

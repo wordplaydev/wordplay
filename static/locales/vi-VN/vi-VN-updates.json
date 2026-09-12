@@ -961,6 +961,7 @@
         "ee176f1308f17": "$~Wordplay giờ đây đi kèm ba bộ công cụ bạn có thể mượn dùng — bảng chữ cái, nhạc cụ và bài hát — để bạn không phải tự gõ chữ cái, mặt nhạc cụ hay giai điệu. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "ede02f98adf41": "$~Ba bộ công cụ đi kèm Wordplay được viết bằng mọi ngôn ngữ mà chúng tôi hỗ trợ, nên tên gọi và cách viết của chúng hiện ra bằng ngôn ngữ của bạn. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Giờ đây các số có thể tự làm ba việc mà trước kia bạn phải viết tay: \\limit\\ giữ một số nằm giữa một mức thấp và một mức cao, \\toward\\ đưa một số tiến gần một phần tới một số khác, và \\rescale\\ đổi một số trong một khoảng thành số tương ứng trong một khoảng khác.",
-        "e49e28ab01607": "$~Một danh sách các số giờ đây có thể cho bạn biết \\sum\\ và \\average\\ của nó, để bạn không phải tự cộng chúng lại."
+        "e49e28ab01607": "$~Một danh sách các số giờ đây có thể cho bạn biết \\sum\\ và \\average\\ của nó, để bạn không phải tự cộng chúng lại.",
+        "e7cae93034509": "$~Một tiêu đề bên trong bảng có thẻ, như trong phần Cài đặt, giờ nằm sát hơn với phần mà nó đặt tên, thay vì trôi lên gần phần bên trên."
     }
 }
