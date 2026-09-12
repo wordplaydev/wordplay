@@ -382,21 +382,35 @@ test.describe('pages that are not prose', () => {
         await page.goto(`/${Vertical}/galleries?tab=examples`);
         const surface = page.locator('.writing').first();
         await surface.waitFor({ timeout: 20000 });
-        await surface.locator('.previews').first().waitFor({ timeout: 20000 });
-        const listing = await surface.evaluate((el) => {
-            const grid = el.querySelector('.previews');
-            return {
-                mode: getComputedStyle(el).writingMode,
-                gridWidth:
-                    grid === null
-                        ? null
-                        : Math.round(grid.getBoundingClientRect().width),
-                surfaceWidth: Math.round(el.getBoundingClientRect().width),
-            };
-        });
-        expect(listing.mode).toBe('horizontal-tb');
-        // The grid fills the surface rather than collapsing into one column.
-        expect(listing.gridWidth).toBe(listing.surfaceWidth);
+        // Polled rather than measured once. `surface` is a locator, so every
+        // call re-resolves it, and the page re-renders as auth reports in and
+        // the gallery cache hydrates — so a single `evaluate` can land on a
+        // frame where `.previews` is momentarily absent and report a null width
+        // that says nothing about the writing mode. On WebKit, where that
+        // settling takes longer, that is exactly what happened.
+        //
+        // One string rather than three numbers so the whole claim settles
+        // together, and so a failure still names what it found: the grid must be
+        // horizontal and fill the surface rather than collapsing into one
+        // column.
+        const listing = () =>
+            surface.evaluate((el) => {
+                const grid = el.querySelector('.previews');
+                if (grid === null) return 'no grid yet';
+                const mode = getComputedStyle(el).writingMode;
+                const gridWidth = Math.round(
+                    grid.getBoundingClientRect().width,
+                );
+                const surfaceWidth = Math.round(
+                    el.getBoundingClientRect().width,
+                );
+                return gridWidth === surfaceWidth
+                    ? `${mode} fills`
+                    : `${mode} ${gridWidth} of ${surfaceWidth}`;
+            });
+        await expect
+            .poll(listing, { timeout: 20000 })
+            .toBe('horizontal-tb fills');
     });
 
     test('a prose page does follow the reader', async ({ page }) => {

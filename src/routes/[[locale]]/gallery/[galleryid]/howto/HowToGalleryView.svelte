@@ -19,9 +19,13 @@
 
     let howTos: HowTo[] = $state([]);
     $effect(() => {
-        HowTos.getHowTos(gallery.getHowTos()).then((data) => {
-            if (data) howTos = data;
-        });
+        HowTos.getHowTos(gallery.getHowTos()).then(
+            ({ howTos: found, unreachable }) => {
+                // Keep the count we have rather than reporting zero over a read
+                // that went unanswered.
+                if (!unreachable) howTos = found;
+            },
+        );
     });
 
     let totalHowTos: number = $derived(

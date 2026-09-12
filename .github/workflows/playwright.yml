@@ -85,8 +85,24 @@ jobs:
               run: npm ci --prefix functions
             - name: Build project
               run: npm run build
+            # `--only` leaves the Emulator UI out. `firebase.json` enables it for
+            # local work, where it is genuinely useful; in CI nobody opens it and
+            # it costs an extra Java and Node process per shard — which is worth
+            # avoiding most on the 3-core macOS runner the WebKit nightly uses,
+            # where contention is what the remaining flakes are made of.
+            #
+            # The JSON report is written alongside the `list` output so the step
+            # below can name the failed and flaky tests in the job summary.
             - name: Run end-to-end tests with emulator
-              run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} --shard=${{ matrix.shard }}/3 --workers=${{ inputs.workers }} --reporter=list" --project=demo-wordplay --log-verbosity QUIET
+              env:
+                  PLAYWRIGHT_JSON_OUTPUT_NAME: playwright-report.json
+              run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} --shard=${{ matrix.shard }}/3 --workers=${{ inputs.workers }} --reporter=list,json" --only auth,firestore,functions,hosting --project=demo-wordplay --log-verbosity QUIET
+            # Always: the summary is most wanted precisely when the step above
+            # failed. The script exits 0 even with no report, so it can never
+            # turn a green run red.
+            - name: Summarize failed and flaky tests
+              if: always()
+              run: node scripts/summarize-playwright.mjs playwright-report.json "${{ inputs.browser }} shard ${{ matrix.shard }}/3"
             - uses: actions/upload-artifact@v6
               if: always()
               with:
