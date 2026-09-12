@@ -654,6 +654,14 @@ test('resolving a color needs no basis', () => {
  * of these graphs already carried via `parseLocaleDoc` — so this is under a
  * kilobyte, and only `projects` had no room left in its hundredth.
  *
+ * Retrying a how-to read (#1375) is **+1 file** on every graph: `resolveHowTos.ts`, a
+ * dependency-free helper `HowToDatabase` calls, and `HowToDatabase` is on all five through
+ * `Database`. Three kilobytes, which is real growth on none of these and crosses a rounding
+ * boundary on one — `projects` measured 4.2603MB against a 4.26 ceiling. Folding it into
+ * `HowToDatabase.svelte.ts` instead saves neither the byte nor much else: that module
+ * can't be imported by a unit test on its own ("HowToDatabase is not a constructor"), so
+ * the retry policy would have had no test at the level that can actually reach it.
+ *
  * Cross-project code sharing (#8) is **+11 files** on every graph, all of them conflicts
  * or the one module that raises them. A conflict is constructed synchronously during
  * analysis, so the node that can raise it must import it statically: `Borrow` carries the
@@ -677,11 +685,11 @@ test('resolving a color needs no basis', () => {
 // math functions' documentation are both that, and neither moved a file count. Files
 // creeping is a door opening, and is the number to look at first.
 test.each([
-    ['src/routes/+layout.svelte', 521, 3.89],
-    ['src/components/app/Page.svelte', 544, 4.14],
-    ['src/routes/[[locale]]/+page.svelte', 559, 4.23],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 563, 4.24],
-    ['src/routes/[[locale]]/projects/+page.svelte', 570, 4.26],
+    ['src/routes/+layout.svelte', 522, 3.89],
+    ['src/components/app/Page.svelte', 545, 4.14],
+    ['src/routes/[[locale]]/+page.svelte', 560, 4.23],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 564, 4.24],
+    ['src/routes/[[locale]]/projects/+page.svelte', 571, 4.27],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

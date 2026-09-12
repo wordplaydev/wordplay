@@ -94,12 +94,20 @@
     // true if queried how-to exists and user has access, false if query failed, null if query in progress
     let urlLoaded = $state<null | boolean>(null);
 
+    // Which how-to lookup is current, for the reason `resolution` above exists:
+    // these reads overlap when the gallery resolves more than once, and without
+    // this a slow failing one lands last and empties a list that had arrived.
+    let howToResolution = 0;
+
     // get all of the how-tos for the gallery if the user has gallery access
     // otherwise, see if there was a specific how-to id in the url and if so just get that one
     $effect(() => {
         if (gallery) {
+            const generation = ++howToResolution;
             HowTos.getHowTos(gallery.getHowTos()).then((data) => {
-                if (data) howTos = data;
+                // A lookup that finished after a later one started is stale;
+                // `false` means we couldn't look, which is not an empty space.
+                if (generation === howToResolution && data) howTos = data;
             });
         } else if (urlID) {
             urlLoaded = null;

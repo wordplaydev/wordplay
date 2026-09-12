@@ -35,6 +35,7 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
+import resolveHowTos from './resolveHowTos';
 
 ////////////////////////////////
 // SCHEMAS
@@ -855,6 +856,11 @@ export class HowToDatabase {
         return this.getHowTo(newHowTo.id);
     }
 
+    /**
+     * A how-to by id: `undefined` when it isn't there or isn't ours to see, and
+     * `false` when the read itself failed. The difference is the caller's to act
+     * on — only a failed read is worth asking again (#1375).
+     */
     async getHowTo(howToId: string): Promise<HowTo | undefined | false> {
         // do we have the how-to cached? return it.
         const howTo = this.howtos.get(howToId);
@@ -884,13 +890,21 @@ export class HowToDatabase {
         }
     }
 
-    async getHowTos(howToIds: string[]): Promise<HowTo[]> {
-        const results = await Promise.all(
-            howToIds.map((id) => this.getHowTo(id)),
+    /**
+     * The how-tos of a gallery, or `false` when we couldn't read any of them.
+     *
+     * Retries what it couldn't reach, because a signed-out visitor has no
+     * listener to heal a slow read: every query here is built from a uid, so
+     * their only path is this one, and a single timed-out read used to leave a
+     * public space looking empty (#1375). `false` rather than an empty list for
+     * the same reason — "we couldn't go look" is not "there are none", and every
+     * caller already guards on it before replacing what it is showing.
+     */
+    async getHowTos(howToIds: string[]): Promise<HowTo[] | false> {
+        const { howTos, unreachable } = await resolveHowTos(howToIds, (id) =>
+            this.getHowTo(id),
         );
-        return results.filter(
-            (ht): ht is HowTo => ht !== undefined && ht !== false,
-        );
+        return howTos.length === 0 && unreachable ? false : howTos;
     }
 
     ignore() {
