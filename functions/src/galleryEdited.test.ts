@@ -5,6 +5,7 @@ import {
     flattenHowToViewers,
     galleryContentChanged,
     howToViewersChanged,
+    sameIdList,
     sharesCurator,
     type HowToSource,
 } from './galleryEdited.js';
@@ -123,6 +124,37 @@ describe('galleryContentChanged', () => {
  * rewrite every open report on every gallery write — including this function's
  * own writes, which come back through the same trigger.
  */
+/**
+ * The membership comparison the trigger gates on. It ran as an unexported
+ * `listEq` typed `string[]` and indexed straight into `.length`, so a gallery
+ * document without `curators` or `creators` threw — killing the invocation, and
+ * throwing again on every later edit, because the trigger's own write comes back
+ * through it. `page-preview.spec.ts` writes exactly such a fixture.
+ */
+describe('sameIdList', () => {
+    it('compares lists as sets, ignoring order', () => {
+        expect(sameIdList(['a', 'b'], ['b', 'a'])).toBe(true);
+        expect(sameIdList(['a'], ['a', 'b'])).toBe(false);
+        expect(sameIdList([], [])).toBe(true);
+    });
+
+    it('treats a missing list as empty rather than throwing', () => {
+        expect(sameIdList(undefined, [])).toBe(true);
+        expect(sameIdList([], undefined)).toBe(true);
+        expect(sameIdList(undefined, undefined)).toBe(true);
+        expect(sameIdList(undefined, ['a'])).toBe(false);
+        expect(sameIdList(['a'], undefined)).toBe(false);
+    });
+
+    it('treats a value that is not a list as empty', () => {
+        // A trigger reads whatever is stored, and nothing validates it on the
+        // way in — so a malformed field must not be able to kill the function.
+        expect(sameIdList('a', [])).toBe(true);
+        expect(sameIdList(null, undefined)).toBe(true);
+        expect(sameIdList({ 0: 'a' }, ['a'])).toBe(false);
+    });
+});
+
 describe('curatorsChanged', () => {
     it('is true when a curator is added', () => {
         expect(

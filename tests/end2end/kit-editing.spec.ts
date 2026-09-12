@@ -3,6 +3,32 @@ import { createTestProject } from '../helpers/createProject';
 import { getTestFirestore } from '../helpers/firestore';
 
 /**
+ * Wait until the stored kit satisfies `check`, so a test never races `kitEdited`.
+ *
+ * That trigger owns `words`, `moderation` and the listing decision, and it runs on Admin
+ * SDK writes too — a fixture cannot write its way past it.
+ */
+async function waitForKit(
+    id: string,
+    check: (data: FirebaseFirestore.DocumentData) => boolean,
+    what: string,
+) {
+    await expect
+        .poll(
+            async () => {
+                const stored = await getTestFirestore()
+                    .collection('kits')
+                    .doc(id)
+                    .get();
+                const data = stored.data();
+                return data !== undefined && check(data);
+            },
+            { timeout: 20000, message: `the kit never ${what}` },
+        )
+        .toBe(true);
+}
+
+/**
  * A kit reference has to be *drawn*, not merely parsed.
  *
  * `BorrowView` names each field it renders, so a field it doesn't name is invisible —
@@ -136,7 +162,11 @@ test("a kit's page renders its exports", async ({ page }) => {
             latest: 1,
             versionCount: 1,
             public: true,
-            moderation: 'approved',
+            // A publish is a request, not a decision. `kitEdited` recomputes these on
+            // every create — `claimChanged` is true whenever `before` is undefined — so a
+            // fixture that claims approval here is overwritten and then races the trigger
+            // for whichever the registry's query sees first.
+            moderation: 'pending',
             moderatedAt: null,
             flags: {
                 dehumanization: null,
@@ -144,12 +174,11 @@ test("a kit's page renders its exports", async ({ page }) => {
                 disclosure: null,
                 misinformation: null,
             },
-            words: ['palette', 'warm', 'colours', 'dusk'],
+            words: [],
             exports: ['sunset'],
             kinds: ['Number'],
-            // What the registry filters on, so the tile below has something to list.
-            listed: true,
-            listedVersion: 1,
+            listed: false,
+            listedVersion: null,
             updated: Date.now(),
             originProject: null,
         });
@@ -170,6 +199,28 @@ test("a kit's page renders its exports", async ({ page }) => {
             exports: ['dusk'],
             created: Date.now(),
         });
+
+    // `kitEdited` rebuilds `words`, which is how we know it has seen the create and had
+    // its say about the listing.
+    await waitForKit(
+        id,
+        (kit) => Array.isArray(kit.words) && kit.words.length > 0,
+        'was indexed',
+    );
+
+    // Now approve it, as the moderate callable does. Name, description, exports, kinds and
+    // latest are all unchanged, so `claimChanged` and `versionAdded` are both false and the
+    // trigger leaves the decision alone rather than sending it back to pending.
+    await db.collection('kits').doc(id).update({
+        moderation: 'approved',
+        listed: true,
+        listedVersion: 1,
+    });
+    await waitForKit(
+        id,
+        (kit) => kit.listed === true && kit.moderation === 'approved',
+        'stayed listed',
+    );
 
     await page.goto(`/guide?kit=${encodeURIComponent(name)}`);
 

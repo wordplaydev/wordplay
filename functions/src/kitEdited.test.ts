@@ -144,6 +144,23 @@ describe('what costs a kit its listing', () => {
         expect(unlists(listed, listed)).toBe(false);
     });
 
+    it('cannot arrive already listed, however the document was written', () => {
+        // `claimChanged` is true whenever `before` is undefined, so every create is a
+        // fresh submission. That is what stops a kit listing itself — including one
+        // written straight to Firestore through the Admin SDK, which bypasses the rules
+        // but not this trigger. A test fixture that writes `listed: true` on a create is
+        // not pre-approving a kit, it is racing the trigger that resets it.
+        expect(unlists(undefined, listed)).toBe(true);
+        expect(
+            nextModeration(
+                'approved',
+                true,
+                claimChanged(undefined, listed) ||
+                    versionAdded(undefined, listed),
+            ),
+        ).toBe('pending');
+    });
+
     it('a kit that was never listed has no listing to lose', () => {
         const unlisted = { ...listed, listed: false };
         expect(unlists(unlisted, { ...unlisted, name: 'amy/other' })).toBe(

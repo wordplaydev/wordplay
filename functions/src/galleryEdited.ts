@@ -103,6 +103,25 @@ export function howToViewersChanged(
 }
 
 /**
+ * Compare two id lists as sets, tolerating a value that is missing or is not a
+ * list at all.
+ *
+ * A trigger sees every document in the collection, not only the ones the app
+ * writes through `Gallery` — an older schema version, or a fixture that sets
+ * only the fields it cares about, can be missing one of these entirely. That
+ * matters more than it looks: an unhandled throw here kills the whole
+ * invocation, so the indexing and moderation writes below never run, and the
+ * function's own write re-enters this same trigger, so one malformed document
+ * throws on every subsequent edit to it.
+ */
+export function sameIdList(a: unknown, b: unknown): boolean {
+    const left = Array.isArray(a) ? [...a].sort() : [];
+    const right = Array.isArray(b) ? [...b].sort() : [];
+    if (left.length !== right.length) return false;
+    return left.every((id, index) => id === right[index]);
+}
+
+/**
  * Whether a curator changed anything a decision was about. Deliberately blind
  * to the fields this function itself writes: its own write comes back through
  * the same trigger, and counting that as a change would re-review forever.
@@ -143,6 +162,11 @@ export default async function galleryEdited(
 ): Promise<unknown> {
     const before = event.data?.before.data();
     const after = event.data?.after.data();
+    // The wildcard is what the document actually is; the stored `id` field is a
+    // denormalization of it that a document written outside `Gallery` can be
+    // missing, and passing undefined to `where()` throws rather than matching
+    // nothing.
+    const galleryId = event.params.id;
     const db = getFirestore();
     const galleryStore = db.collection('galleries');
 
@@ -161,17 +185,6 @@ export default async function galleryEdited(
         return Promise.all(promises);
     };
 
-    const listEq = (a: string[], b: string[]): boolean => {
-        if (a.length !== b.length) return false;
-        const aSorted = [...a].sort();
-        const bSorted = [...b].sort();
-
-        for (let i = 0; i < aSorted.length; i++) {
-            if (aSorted[i] !== bSorted[i]) return false;
-        }
-        return true;
-    };
-
     // if the list of creators or curators for the gallery has changed,
     // then we need to look at all other galleries to see if they have this changed gallery
     // in its list of expanded galleries
@@ -182,18 +195,18 @@ export default async function galleryEdited(
         // if deletion, then remove this gallery from all other galleries' lists of expanded galleries and viewers
 
         const galleriesToUpdate = await galleryStore
-            .where('howToExpandedGalleries', 'array-contains', before.id)
+            .where('howToExpandedGalleries', 'array-contains', galleryId)
             .get();
         galleriesToUpdate.forEach((expandedGallery) => {
             const otherGallery = expandedGallery.data();
             const howToExpandedGalleries: string[] =
                 otherGallery.howToExpandedGalleries.filter(
-                    (id: string) => id !== before.id,
+                    (id: string) => id !== galleryId,
                 );
             const howToViewers: Record<string, string[]> = {
                 ...otherGallery.howToViewers,
             };
-            delete howToViewers[before.id];
+            delete howToViewers[galleryId];
 
             updates.push({
                 ref: galleryStore.doc(expandedGallery.id),
@@ -207,8 +220,8 @@ export default async function galleryEdited(
     } else if (
         after &&
         before &&
-        listEq(before.curators, after.curators) &&
-        listEq(before.creators, after.creators)
+        sameIdList(before.curators, after.curators) &&
+        sameIdList(before.creators, after.creators)
     ) {
         // Neither list changed, so there's nothing to propagate. Falls through
         // to the moderation and index work below rather than returning: this
@@ -218,7 +231,7 @@ export default async function galleryEdited(
         // otherwise, update the howToViewers and howToViewersFlat fields of all galleries
 
         const galleriesToUpdate = await galleryStore
-            .where('howToExpandedGalleries', 'array-contains', after.id)
+            .where('howToExpandedGalleries', 'array-contains', galleryId)
             .get();
 
         galleriesToUpdate.forEach((expandedGallery) => {
@@ -236,10 +249,13 @@ export default async function galleryEdited(
             if (
                 sharesCurator(after.curators ?? [], otherGallery.curators ?? [])
             )
-                howToViewers[after.id] = [
-                    ...new Set([...after.curators, ...after.creators]),
+                howToViewers[galleryId] = [
+                    ...new Set([
+                        ...(after.curators ?? []),
+                        ...(after.creators ?? []),
+                    ]),
                 ].sort();
-            else delete howToViewers[after.id];
+            else delete howToViewers[galleryId];
 
             updates.push({
                 ref: galleryStore.doc(expandedGallery.id),
@@ -373,7 +389,7 @@ export default async function galleryEdited(
         }
 
         if (Object.keys(self).length > 0)
-            updates.push({ ref: galleryStore.doc(after.id), data: self });
+            updates.push({ ref: galleryStore.doc(galleryId), data: self });
     }
 
     // Who may review this gallery's open reports (#938). `moderators` is
@@ -390,7 +406,7 @@ export default async function galleryEdited(
         const curators: string[] = after.curators ?? [];
         const open = await db
             .collection('reports')
-            .where('gallery', '==', after.id)
+            .where('gallery', '==', galleryId)
             .where('resolved', '==', false)
             .get();
         for (const report of open.docs)
