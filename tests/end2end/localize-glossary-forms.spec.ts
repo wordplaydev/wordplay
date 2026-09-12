@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import type LocaleText from '../../src/locale/LocaleText';
 import { expect, test } from '../../playwright/fixtures';
+import { editPersisted } from '../helpers/localize';
 
 /**
  * A glossary term's other written forms are that locale's own — the plurals,
@@ -182,6 +183,12 @@ test('an edit made on the guide’s glossary reaches the submission bundle', asy
         .getByRole('button', { name: text(enUS.ui.localize.button.submit) })
         .first()
         .click();
+
+    // This is the only localization spec that navigates straight off a submit
+    // click, so it is the only one that has to wait for the edit to be durable
+    // rather than merely shown: the write is not awaited, and a full navigation
+    // started before it commits drops the edit.
+    await editPersisted(page, 'glossary.abstraction.word');
 
     // The workspace is where every edit is reviewed and submitted, wherever it
     // was made, so this one is queued there under its own locale path.

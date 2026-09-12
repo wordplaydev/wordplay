@@ -17,18 +17,17 @@
     },
     "main": "lib/index.js",
     "dependencies": {
-        "@anthropic-ai/sdk": "^0",
+        "@anthropic-ai/sdk": "^0.125",
         "@supercharge/promise-pool": "^3",
         "firebase-admin": "^14",
         "firebase-functions": "^7",
-        "nodemailer": "^9",
+        "nodemailer": "^10",
         "prettier": "^3",
         "resend": "^6.26.0",
         "shared-types": "file:./src/shared",
         "yjs": "^13"
     },
     "devDependencies": {
-        "@types/nodemailer": "^8",
         "typescript": "^6"
     },
     "private": true,
