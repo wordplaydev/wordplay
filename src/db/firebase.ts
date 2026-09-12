@@ -243,21 +243,18 @@ if (typeof process === 'undefined') {
             // session; cross-reload durability for projects comes from the Dexie
             // cache + the unsaved flag (see ProjectsDatabase / ARCHITECTURE.md).
             //
-            // Auto-detect long polling instead of forcing it. Forcing long
-            // polling cycles many discrete HTTP requests instead of one
-            // streaming WebChannel connection, and under heavy concurrent load
-            // that starves/churns the session — producing "Unknown SID" 400s
-            // and a reconnect storm on large accounts. Auto-detect uses the
-            // efficient streaming transport when the network allows and falls
-            // back to long polling only when an intermediary (school proxy /
-            // anti-virus) requires it. See
-            // https://github.com/firebase/firebase-js-sdk/issues/1674
+            // Auto-detect in production rather than forcing: forcing cycles
+            // many discrete requests instead of one streaming WebChannel, which
+            // under load churns the session ("Unknown SID" 400s) on large
+            // accounts. See firebase-js-sdk#1674.
             //
-            // NOTE: validate on a proxied/filtered (school) network before
-            // relying on this — fall back to experimentalForceLongPolling if
-            // auto-detection misbehaves there.
-            experimentalAutoDetectLongPolling: true,
-            //experimentalForceLongPolling: false,
+            // Forced against the emulator, where that trade doesn't apply and
+            // detection's probe intermittently leaves a WebKit stream that
+            // never delivers: a read stalls past 20s, then takes 2.9s on the
+            // next attempt, with no error — and retries ride the same stuck
+            // connection, so nothing recovers it.
+            experimentalAutoDetectLongPolling: !emulating,
+            experimentalForceLongPolling: emulating,
         });
         // firestore = getFirestore(app);
 
