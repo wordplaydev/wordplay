@@ -23,9 +23,24 @@
  *  enough that a first slow connection is recovered before anyone reloads. */
 export const FirstRetryDelay = 500;
 
-/** Where the doubling stops. A page nobody is touching costs one document read
- *  every half minute, which is the price of recovering without a reload. */
-export const MaxRetryDelay = 30_000;
+/**
+ * Where the doubling stops, and it is deliberately small.
+ *
+ * Back off in proportion to what an attempt costs, not to how many there have
+ * been. A read that cannot reach the backend is rejected by the SDK in
+ * milliseconds — `Failed to get document because the client is offline`, no
+ * network involved — so six failures pass in seventeen seconds and a doubling
+ * delay is already sixteen. The page then sleeps through a network that has
+ * come back, which is the very thing this file exists to prevent.
+ *
+ * Measured against the emulator with Firestore cut for 20s and then restored:
+ * a 30s cap recovered 14.6s after the cloud returned, a 3s cap 4.2s. The
+ * remainder is the Firestore SDK's own reconnect, which we do not control.
+ *
+ * The cost of asking this often is near zero for the same reason the delay can
+ * be short: an offline read never leaves the browser.
+ */
+export const MaxRetryDelay = 3_000;
 
 /**
  * The delay before attempt `attempt + 1`, given `attempt` failed asks so far.
