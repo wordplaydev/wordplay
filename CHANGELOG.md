@@ -19,6 +19,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 🎨 A heading inside a tabbed panel, like the ones in Settings, now sits closer to the part it names instead of drifting up toward the section above it.
 - 🚩 We fixed asking for a character in a gallery to be reviewed, which always failed before. (#1372)
+- 🌐 Translating a program no longer renames a name in one place but not the others, which used to break the program. (#1368)
 
 ## 0.36.0 - 2026-09-09
 
