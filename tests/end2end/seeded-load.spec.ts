@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import { enUS, text } from '../helpers/localize';
 import { cutFirestore, restoreFirestore } from '../helpers/firestoreOffline';
 import { loginNewContext } from '../helpers/loginNewContext';
+import { recordPage } from '../helpers/pageDiagnostics';
 
 /**
  * Load-path safety net (Milestone 1). These exercise the seeded fixtures —
@@ -154,10 +155,19 @@ test('a signed-out visitor reads a public space and cannot take part', async ({
     // No fixture login at all: the public branch of the read rule is the one path
     // that must work with no account. The social pane is the other half — #907's
     // "the entire social pane should be removed" for a passer-by.
+    //
+    // Recorded because this is the nightly's most persistent WebKit failure and
+    // its artifacts are not reachable from every environment; the job log is.
+    const dump = recordPage(page);
     await page.goto('/en-US/gallery/seed-public-gallery-00/howto');
-    await expect(
-        page.getByText('A how-to anyone can read').first(),
-    ).toBeAttached({ timeout: NO_BANNER_TIMEOUT });
+    try {
+        await expect(
+            page.getByText('A how-to anyone can read').first(),
+        ).toBeAttached({ timeout: NO_BANNER_TIMEOUT });
+    } catch (problem) {
+        await dump('signed-out public space never loaded');
+        throw problem;
+    }
     await expect(
         page.getByRole('button', {
             name: text(enUS.ui.howto.bookmarks.canBookmark.label),
@@ -181,6 +191,8 @@ test('a public space that could not be read at first fills in when the cloud com
     // because a cold WebChannel connection on a loaded macOS runner is exactly
     // how a read overruns.
     //
+    const dump = recordPage(page);
+
     // Cut before navigating, so the very first lookup is the one that fails.
     await cutFirestore(page);
     await page.goto('/en-US/gallery/seed-public-gallery-00/howto');
@@ -191,7 +203,12 @@ test('a public space that could not be read at first fills in when the cloud com
     // Hand the cloud back and touch nothing else: the page has to notice on its
     // own. No reload here is the whole assertion.
     await restoreFirestore(page);
-    await expect(
-        page.getByText('A how-to anyone can read').first(),
-    ).toBeAttached({ timeout: NO_BANNER_TIMEOUT });
+    try {
+        await expect(
+            page.getByText('A how-to anyone can read').first(),
+        ).toBeAttached({ timeout: NO_BANNER_TIMEOUT });
+    } catch (problem) {
+        await dump('public space never recovered after the cloud came back');
+        throw problem;
+    }
 });
