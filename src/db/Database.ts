@@ -216,10 +216,11 @@ export class Database {
      *  Concurrent writes share a single check rather than spawning their own. */
     private writeCheckInFlight = false;
     private static WRITE_CHECK_TIMEOUT_MS = 8_000;
-    /** Maximum time a one-time read may take before we give up and treat the
-     *  backend as unreachable. Without it, an unreachable backend makes
-     *  `getDoc`/`getDocs` hang for minutes instead of failing fast. */
-    private static READ_TIMEOUT_MS = 8_000;
+    /** How long a one-time read may take before we treat the backend as
+     *  unreachable. A budget, not a deadline — it abandons rather than cancels,
+     *  so one set too low (8s was) reports a cold read that would have
+     *  succeeded as a failure, and retrying re-races the same budget. */
+    private static READ_TIMEOUT_MS = 20_000;
     /** Maximum time an *awaited* one-off write (delete/teacher edit/moderation/
      *  feedback) may take before we give up. The memory-only cache means a
      *  write to an unreachable backend never resolves *or* rejects — it just

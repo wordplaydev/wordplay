@@ -857,8 +857,8 @@ export class HowToDatabase {
 
     /** The how-to, `undefined` for "there isn't one here for you", or `false`
      *  for "we never got an answer" — only the second is worth asking again
-     *  about. A denied read is `undefined` for the reason `GalleryDatabase.find`
-     *  gives: whether it exists is not ours to reveal. */
+     *  about. A denied read is `undefined`: whether it exists is not ours to
+     *  reveal. */
     async getHowTo(howToId: string): Promise<HowTo | undefined | false> {
         // do we have the how-to cached? return it.
         const howTo = this.howtos.get(howToId);
@@ -890,9 +890,9 @@ export class HowToDatabase {
     }
 
     /** Every how-to the viewer can see, and whether any lookup went unanswered.
-     *  This used to filter both failures away, so a timed-out read was
-     *  indistinguishable from an empty space — and nothing re-runs a signed-out
-     *  visitor's lookups, so that emptiness was permanent. */
+     *  Filtering both failures away made a timed-out read indistinguishable
+     *  from an empty space, and nothing re-runs a signed-out visitor's
+     *  lookups. */
     async getHowTos(
         howToIds: string[],
     ): Promise<{ howTos: HowTo[]; unreachable: boolean }> {
